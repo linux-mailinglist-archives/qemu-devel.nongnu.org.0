@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88E36DC999
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 18:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332086DC9D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 19:11:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plulX-0003rj-RE; Mon, 10 Apr 2023 12:53:15 -0400
+	id 1plv1r-0002S2-Ve; Mon, 10 Apr 2023 13:10:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1plulV-0003rB-Rw
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 12:53:13 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1plv1p-0002Rk-5j
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 13:10:06 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1plulT-0007Io-Ki
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 12:53:13 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-18447b9a633so3924956fac.7
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 09:53:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1plv1g-0002kl-05
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 13:10:01 -0400
+Received: by mail-ej1-x633.google.com with SMTP id ud9so13753960ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 10:09:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681145590;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8S9VXdeC8xdVFGVtSrYNnF6V/UoWhvL4Al8I8wZ8h/E=;
- b=beiqwl4LcSryXdjQpwOh9PCkZcaScvlnf0fMPxFzTFsIEdbO8+CDo/FSVSGdPVZeVv
- Yy/YRQB5wMXLI6pNCxwv7Fq9MUn5ytBh+3BApzcCRBdJWlPN5G0FrlbLYAqTjjIMy3Sr
- GA6NhbHPzfMZ+ALxMVqGzNzQWcaPMwV+teT4ImOH7RqBI9RsS6CuVY/XXn8MG/rvFUUL
- ZdxWacBc3Urlc/CjFEy10NzQ64MYirEFJSxnYg6eqqTXOnu3AS3pxww3SBL5DKP+psie
- qXqkLLnPnimmbcJvyq2o/OO2LRnYQ0iihcJDYm4hbMoxsDq7195pIVEzRXkYeFXzcPkj
- 79dw==
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681146592;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Eaz5N72HFg/qtA+NotSLojm6/y3IY1YBFz0qANOxU4I=;
+ b=LuZqpvoDGeWd40CbiYAyuxEuGc/OVRKq+sNYzlcE6igLtcp8sVIPAXDIzd14LuE3NY
+ hhNCoKpy7Zg2nrXOwTR0+T3YrPiHc8iCpAwtPAp3CdDDCAgd+sU+IENDKK1LO3KHijnH
+ qppvt7vRfGpQ8SOzGtrQCjgMEyLardE/hq4c6twq4AlNKayVGzl0ROhWEz18Yy3nXCMy
+ hswpp19ClbfV+fI8GR3qn1+o/aAnp9UkXxveJrykZssTcd15JinJ0A1Uol1x+AcZQs8t
+ 7wi3GjXx32c3u8Bos6D/D1bXqcdoRFsrLzGmdK8wYPtSrmd8EkvOeo2GBSOUxa92Pbnw
+ 7TsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681145590;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8S9VXdeC8xdVFGVtSrYNnF6V/UoWhvL4Al8I8wZ8h/E=;
- b=t73ctkY9+Kc+r6IdBGW7uN/MrlUlIAfi38VwD3ZCJ2PEmMMX1gDJQQU29NNAE8wVT3
- fGyI+GChuEi967kCPgd8L1GM6eM7PeM8pOJQmJN8xL+oheHnUvP9Wrp+u6gcY3RwqpHO
- 4O/7Huazy34ZThZGxYMdr7fhIxRIvXDmAMbN3MzhiGvMmyqHggzTQ8ZIWLCrA2oG1hI9
- pl7ahHe33X7kWbNQtD9vAEdkdqPNG5UAyJs3PLVKLcdg6FFN4AFYdEpOC8ZUTqHJV+tm
- 1xwQWHk2DVVqCHg25eSWbqgf4HawnqGB+DjYri5Fpl+rUhcL0dsrldh4mYZtzkQbP4Pn
- rlpw==
-X-Gm-Message-State: AAQBX9c47xLZyEqg+oaB1KYDLiauXWltYVFAhCCafHFcsYfENaccU1Or
- 3KamD9mEJZU+wE6Uk/ui3YVLX9IVONmnlvc+Mrw=
-X-Google-Smtp-Source: AKy350aOUpQEWptmcihM4jdTKcKdEFZESR8foSz3hqe71QjvrUCXxVhyPe3uROnNv/i22cSFg+aubg==
-X-Received: by 2002:a05:6870:4191:b0:17e:a87f:1eac with SMTP id
- y17-20020a056870419100b0017ea87f1eacmr9923480oac.21.1681145590703; 
- Mon, 10 Apr 2023 09:53:10 -0700 (PDT)
-Received: from grind.. ([191.255.108.232]) by smtp.gmail.com with ESMTPSA id
- zq36-20020a0568718ea400b0017f647294f5sm4191896oab.16.2023.04.10.09.53.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 09:53:10 -0700 (PDT)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v2 4/4] target/riscv: make generic cpus not static
-Date: Mon, 10 Apr 2023 13:52:51 -0300
-Message-Id: <20230410165251.99107-5-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230410165251.99107-1-dbarboza@ventanamicro.com>
-References: <20230410165251.99107-1-dbarboza@ventanamicro.com>
+ d=1e100.net; s=20210112; t=1681146592;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Eaz5N72HFg/qtA+NotSLojm6/y3IY1YBFz0qANOxU4I=;
+ b=vmqJq5QwlXyx09H4W6Q6mlsyXTogZNCmnd/02sgtyb8xTZL9K0kay82JHRcDbWn4sE
+ qzsSintbdaj5+YnzhoEwD5IzIGgoSZDz65eA5ei8tBGT34iuTGe3FwVfUm0C1nbZU3vo
+ 00vY+/siqV/EVVCY4gxRW10HkYzSiux6jGJZCbfWe/oThLQGYBDtGekx6UmGVNRLPuKL
+ 1HxXQe7GgfqQgv2PD/FwAn9MZw2lqrV1IOWbIk3WRMJXacvcWNMv/3eQE0thCmZfen+t
+ 4rMev+Oguh2WwUt57tX6QyLFF2/yYagAYZMwaoYU56r/nTTAK93xjZSgWNtufCTckZAE
+ llxw==
+X-Gm-Message-State: AAQBX9foPCvK1VtZBfc+akJyfNiZ5RwmOOVmdb2JU7kVD8fJNa2DtM3/
+ oBcrHFYYxwkVX1Hzl8T6NkDdw6xSgYUbKKSCtcHU/A==
+X-Google-Smtp-Source: AKy350ZjoP/OgswU8BEBK3ZOolPjqyXHBfi4fYjrDdb4ImKAjVqyWZr47EvspApAqmQPOh+IGAd6xa2xgmyt/DZ39T8=
+X-Received: by 2002:a17:906:2981:b0:94b:ffe9:37fc with SMTP id
+ x1-20020a170906298100b0094bffe937fcmr814519eje.2.1681146592589; Mon, 10 Apr
+ 2023 10:09:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20230405213612.15942-1-imp@bsdimp.com>
+ <20230405213612.15942-15-imp@bsdimp.com>
+ <ec3175a6-e793-9ad0-3afc-15db35281385@linaro.org>
+ <CANCZdfpoO_bSn6BObQT+Dy=cON_MBFODGQU3OjHyzgu1bggt+w@mail.gmail.com>
+In-Reply-To: <CANCZdfpoO_bSn6BObQT+Dy=cON_MBFODGQU3OjHyzgu1bggt+w@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Mon, 10 Apr 2023 11:09:41 -0600
+Message-ID: <CANCZdfodd=ZkWtUsinswOQjPCxi2Pg7TN16au3rc+JFtBYc+0Q@mail.gmail.com>
+Subject: Re: [PATCH 14/16] bsd-user: Implment core dumps
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, reinoud@netbsd.org, riastradh@netbsd.org, 
+ ryoon@netbsd.org, jrtc27@jrtc27.com, kevans@freebsd.org, 
+ Brad Smith <brad@comstyle.com>, Stacey Son <sson@freebsd.org>,
+ Ed Schouten <ed@nuxi.nl>
+Content-Type: multipart/alternative; boundary="00000000000077911305f8fe7186"
+Received-SPF: none client-ip=2a00:1450:4864:20::633;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,102 +86,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A CPU is declared static or not by changing the class attribute
-'static'. For now the base class is defining every CPU as static via
-riscv_cpu_class_init().
+--00000000000077911305f8fe7186
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To change this setting for generic CPUs we'll need a different class
-init for them. Then we'll ned a macro that allows us to set a different
-.class_init implementation for the CPU. With all that we're now able to
-set 'static' as false for the 'any', 'rv32', 'rv64' and 'x-rv128' CPUs.
-For the riscv64 target:
+On Sat, Apr 8, 2023 at 11:00=E2=80=AFPM Warner Losh <imp@bsdimp.com> wrote:
 
-$ ./build/qemu-system-riscv64 -S -M virt -display none -qmp stdio
-{"QMP": {"version": (...) }
-{"execute": "qmp_capabilities", "arguments": {"enable": ["oob"]}}
-{"return": {}}
-{"execute": "query-cpu-definitions"}
-{"return": [
-{"name": "rv64", "typename": "rv64-riscv-cpu", "static": false, "deprecated": false},
-{"name": "sifive-e51", "typename": "sifive-e51-riscv-cpu", "static": true, "deprecated": false},
-{"name": "any", "typename": "any-riscv-cpu", "static": false, "deprecated": false},
-{"name": "x-rv128", "typename": "x-rv128-riscv-cpu", "static": false, "deprecated": false},
-{"name": "shakti-c", "typename": "shakti-c-riscv-cpu", "static": true, "deprecated": false},
-{"name": "thead-c906", "typename": "thead-c906-riscv-cpu", "static": true, "deprecated": false},
-{"name": "sifive-u54", "typename": "sifive-u54-riscv-cpu", "static": true, "deprecated": false}]
-}
+>
+>
+> On Sat, Apr 8, 2023 at 1:15=E2=80=AFPM Richard Henderson <
+> richard.henderson@linaro.org> wrote:
+>
+>> On 4/5/23 14:36, Warner Losh wrote:
+>> > From: Stacey Son <sson@FreeBSD.org>
+>> >
+>> > Bring in the code that was originally copied from linxu-user/elfload.c
+>> > and moved to elfcore.c. This code then removed the Linux specific bits=
+,
+>> > replacing them with FreeBSD specific bits. The commit history for this
+>> > is not at all what we'd like (it was done in one go by sson in
+>> > 227070562fc in one commit, with very few followup tweaks). Since the
+>> > original commit, this code has been moved, and updated by sson and ed
+>> > slightly. That makes it hard to split into smaller commits.
+>> >
+>> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+>> > Signed-off-by: Ed Schouten <ed@nuxi.nl>
+>> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+>> > ---
+>> >   bsd-user/elfcore.c | 1318 ++++++++++++++++++++++++++++++++++++++++++=
++-
+>> >   1 file changed, 1315 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/bsd-user/elfcore.c b/bsd-user/elfcore.c
+>> > index c49d9280e2d..2905f2b8414 100644
+>> > --- a/bsd-user/elfcore.c
+>> > +++ b/bsd-user/elfcore.c
+>> > @@ -1,10 +1,1322 @@
+>> > -/* Stubbed out version of core dump support, explicitly in public
+>> domain */
+>> > +/*
+>> > + *  ELF loading code
+>> > + *
+>> > + *  Copyright (c) 2015 Stacey D. Son
+>> > + *
+>> > + *  This program is free software; you can redistribute it and/or
+>> modify
+>> > + *  it under the terms of the GNU General Public License as published
+>> by
+>> > + *  the Free Software Foundation; either version 2 of the License, or
+>> > + *  (at your option) any later version.
+>> > + *
+>> > + *  This program is distributed in the hope that it will be useful,
+>> > + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> > + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> > + *  GNU General Public License for more details.
+>> > + *
+>> > + *  You should have received a copy of the GNU General Public License
+>> > + *  along with this program; if not, see <http://www.gnu.org/licenses=
+/
+>> >.
+>> > + */
+>> > +#include "qemu/osdep.h"
+>> >
+>> > -static int elf_core_dump(int signr, CPUArchState *env)
+>> > +#ifdef USE_ELF_CORE_DUMP
+>>
+>> Would this ever be unset?
+>>
+>
+> I was sure that some architectures didn't use this. However, they all hav=
+e
+> them, so I'll
+> remove it.
+>
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- target/riscv/cpu.c | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+I'll remove it as a separate commit since it affects other files as well
+that currently define it.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 30a1e74ea6..cc881ef040 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -340,6 +340,13 @@ static void set_satp_mode_default_map(RISCVCPU *cpu)
- }
- #endif
- 
-+static void riscv_generic_cpu_class_init(ObjectClass *c, void *data)
-+{
-+    RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
-+
-+    mcc->static_model = false;
-+}
-+
- static void riscv_any_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-@@ -1779,6 +1786,14 @@ void riscv_cpu_list(void)
-         .instance_init = initfn            \
-     }
- 
-+#define DEFINE_CPU_WITH_CLASSFN(type_name, initfn, classfn) \
-+    {                                      \
-+        .name = type_name,                 \
-+        .parent = TYPE_RISCV_CPU,          \
-+        .instance_init = initfn,           \
-+        .class_init = classfn              \
-+    }
-+
- static const TypeInfo riscv_cpu_type_infos[] = {
-     {
-         .name = TYPE_RISCV_CPU,
-@@ -1790,23 +1805,27 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-         .class_size = sizeof(RISCVCPUClass),
-         .class_init = riscv_cpu_class_init,
-     },
--    DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
-+    DEFINE_CPU_WITH_CLASSFN(TYPE_RISCV_CPU_ANY, riscv_any_cpu_init,
-+                            riscv_generic_cpu_class_init),
- #if defined(CONFIG_KVM)
-     DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
- #endif
- #if defined(TARGET_RISCV32)
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
-+    DEFINE_CPU_WITH_CLASSFN(TYPE_RISCV_CPU_BASE32, rv32_base_cpu_init,
-+                            riscv_generic_cpu_class_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
- #elif defined(TARGET_RISCV64)
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
-+    DEFINE_CPU_WITH_CLASSFN(TYPE_RISCV_CPU_BASE64, rv64_base_cpu_init,
-+                            riscv_generic_cpu_class_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C906,       rv64_thead_c906_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE128,          rv128_base_cpu_init),
-+    DEFINE_CPU_WITH_CLASSFN(TYPE_RISCV_CPU_BASE128, rv128_base_cpu_init,
-+                            riscv_generic_cpu_class_init),
- #endif
- };
- 
--- 
-2.39.2
+Warner
 
+
+> Typo in subject.
+>>
+>
+> Doh! Yes. Thanks.
+>
+>
+>> I'm not going to review this one line by line, but
+>>
+>> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+>>
+>
+> I've looked at this at a high level, and it seems legit...  But it is a
+> bit daunting... And for a 'debug' feature,
+> I'm OK with 'working and looks OK'... If it were more central, I'd worry
+> more about it, but we still have
+> about 20k lines to upstream and I'd rather more of them be looked at than
+> this if push comes to shove....
+>
+> Warner
+>
+>
+>> r~
+>>
+>
+
+--00000000000077911305f8fe7186
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Apr 8, 2023 at 11:00=E2=80=AF=
+PM Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Sat, Apr 8, 2023 at 1:15=E2=80=AFPM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_=
+blank">richard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">On 4/5/23 14:36, Warner Losh wrote:<br>
+&gt; From: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
+&gt; <br>
+&gt; Bring in the code that was originally copied from linxu-user/elfload.c=
+<br>
+&gt; and moved to elfcore.c. This code then removed the Linux specific bits=
+,<br>
+&gt; replacing them with FreeBSD specific bits. The commit history for this=
+<br>
+&gt; is not at all what we&#39;d like (it was done in one go by sson in<br>
+&gt; 227070562fc in one commit, with very few followup tweaks). Since the<b=
+r>
+&gt; original commit, this code has been moved, and updated by sson and ed<=
+br>
+&gt; slightly. That makes it hard to split into smaller commits.<br>
+&gt; <br>
+&gt; Signed-off-by: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
+&gt; Signed-off-by: Ed Schouten &lt;<a href=3D"mailto:ed@nuxi.nl" target=3D=
+"_blank">ed@nuxi.nl</a>&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0bsd-user/elfcore.c | 1318 ++++++++++++++++++++++++++++++++=
++++++++++++-<br>
+&gt;=C2=A0 =C2=A01 file changed, 1315 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/bsd-user/elfcore.c b/bsd-user/elfcore.c<br>
+&gt; index c49d9280e2d..2905f2b8414 100644<br>
+&gt; --- a/bsd-user/elfcore.c<br>
+&gt; +++ b/bsd-user/elfcore.c<br>
+&gt; @@ -1,10 +1,1322 @@<br>
+&gt; -/* Stubbed out version of core dump support, explicitly in public dom=
+ain */<br>
+&gt; +/*<br>
+&gt; + *=C2=A0 ELF loading code<br>
+&gt; + *<br>
+&gt; + *=C2=A0 Copyright (c) 2015 Stacey D. Son<br>
+&gt; + *<br>
+&gt; + *=C2=A0 This program is free software; you can redistribute it and/o=
+r modify<br>
+&gt; + *=C2=A0 it under the terms of the GNU General Public License as publ=
+ished by<br>
+&gt; + *=C2=A0 the Free Software Foundation; either version 2 of the Licens=
+e, or<br>
+&gt; + *=C2=A0 (at your option) any later version.<br>
+&gt; + *<br>
+&gt; + *=C2=A0 This program is distributed in the hope that it will be usef=
+ul,<br>
+&gt; + *=C2=A0 but WITHOUT ANY WARRANTY; without even the implied warranty =
+of<br>
+&gt; + *=C2=A0 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 S=
+ee the<br>
+&gt; + *=C2=A0 GNU General Public License for more details.<br>
+&gt; + *<br>
+&gt; + *=C2=A0 You should have received a copy of the GNU General Public Li=
+cense<br>
+&gt; + *=C2=A0 along with this program; if not, see &lt;<a href=3D"http://w=
+ww.gnu.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.o=
+rg/licenses/</a>&gt;.<br>
+&gt; + */<br>
+&gt; +#include &quot;qemu/osdep.h&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -static int elf_core_dump(int signr, CPUArchState *env)<br>
+&gt; +#ifdef USE_ELF_CORE_DUMP<br>
+<br>
+Would this ever be unset?<br></blockquote><div><br></div><div>I was sure th=
+at some architectures didn&#39;t use this. However, they all have them, so =
+I&#39;ll</div><div>remove it.</div></div></div></blockquote><div><br></div>=
+<div>I&#39;ll remove it as a separate commit since it affects other files a=
+s well that currently define it.</div><div><br></div><div>Warner</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+Typo in subject.<br></blockquote><div><br></div><div>Doh! Yes. Thanks.<br><=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+I&#39;m not going to review this one line by line, but<br>
+<br>
+Acked-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.=
+org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockquote=
+><div><br></div><div>I&#39;ve looked at this at a high level, and it seems =
+legit...=C2=A0 But it is a bit daunting... And for a &#39;debug&#39; featur=
+e,</div><div>I&#39;m OK with &#39;working and looks OK&#39;... If it were m=
+ore central, I&#39;d worry more about it, but we still have</div><div>about=
+ 20k lines to upstream and I&#39;d rather more of them be looked at than th=
+is if push comes to shove....<br></div><div><br></div><div>Warner <br></div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+r~<br>
+</blockquote></div></div>
+</blockquote></div></div>
+
+--00000000000077911305f8fe7186--
 
