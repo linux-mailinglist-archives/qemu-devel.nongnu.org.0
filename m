@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054566DC475
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 10:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D060F6DC4D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 11:06:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pln4W-0004Jo-Uv; Mon, 10 Apr 2023 04:40:20 -0400
+	id 1plnSU-0001bW-EL; Mon, 10 Apr 2023 05:05:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pln4T-0004JR-Io
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 04:40:18 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1plnSR-0001bJ-HU
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 05:05:04 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pln4S-0005Yr-3B
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 04:40:17 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1plnSP-0005NI-JN
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 05:05:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681116014;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=d7OQZo/Q9WzqODDOwoDOSuG7Uyq5XAD16clVNW9Ga1k=;
- b=EecrMblQE5l/YDFk71gPOIBTAouwPZSSzYzGMe+DH1JdpgKSeTO8FUrQ5uK0Fmf8boIuai
- /r4Bz8j2Rq8+EeTisFU0H8KLndEShjltfnqkDRoRMokH7tPgMp1T789uass+e724kEa27E
- XMLqPPmFf86AEyyJJhEYSdxfuXkb6Yw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1681117499;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5bbMEEXmtu/Hlu7ynFOWFPmkjj+3Tz2gcukQYMHDHU4=;
+ b=ObA/RiuYVYhxIyfmOqW1kwDz/iAm6ekj4omuRZo8dfLqY7I5sGxhsUNy8p2lpVHeEmCYWs
+ hbDZi9H1qzftJ+mRbZVkKTDsdNb1YUYIFCCUr5obWJ9jyhotjPPddfr27A+qSKK7JvCbQ3
+ WRcW0GVA+EQwvhDzlayaycyzu5aqr+o=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-593-Kvt9mJfYMfqVUqsJV5qOvg-1; Mon, 10 Apr 2023 04:40:12 -0400
-X-MC-Unique: Kvt9mJfYMfqVUqsJV5qOvg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- gw11-20020a05600c850b00b003ee8db23ef9so3606370wmb.8
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 01:40:12 -0700 (PDT)
+ us-mta-377-qTmwWSfHMnKmc96mxWO9cg-1; Mon, 10 Apr 2023 05:04:57 -0400
+X-MC-Unique: qTmwWSfHMnKmc96mxWO9cg-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ 67-20020a250146000000b00b714602d43fso5068248ybb.10
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 02:04:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681116011; x=1683708011;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1681117497;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=d7OQZo/Q9WzqODDOwoDOSuG7Uyq5XAD16clVNW9Ga1k=;
- b=ll1/ECgCtIPJBvlKZOYZq21lrtiam6WyLasyXmoBt9PKd6rv/zr8nJRg1tSJ/1Guzy
- /iGFIgdh8P5t6Guz+g/NkEfkve9hA2H404mkqP50mBHSX1OEf5RVbhWDiYwwiEoagRwB
- 1nolHtt1c9SfAWN5xLvnwiQrnRZKQrv12nTxM9QeiFqYPHC0fN3GWoL2YyzCKAZDegxS
- ChjrdpVQP5y5NVPux7KqXKarS4ol2HB9wN6GG4PbWRmzrSKOfY66MRYnNwRFT+T3G6ck
- 0Tos0wITotBl+VWTZdjj2kGTXyqPktgc07U5PHEdtgnG1dd56w7abP1ugzegxOFBiZxa
- Rbzw==
-X-Gm-Message-State: AAQBX9dttV7DXmh9QhYADmS69CR1WLRgzxH/6w7awMGLeqSJEcb0z5HG
- ZqZBDUJh17sI9SrzC/AHjsyuNvXymqzjH/c8mFkev2j2wH5OezQd8PHEhCdciJ9DwQgqabuDog+
- QA+ZMYbI8NWHrH+w=
-X-Received: by 2002:a7b:c40b:0:b0:3ed:c468:ab11 with SMTP id
- k11-20020a7bc40b000000b003edc468ab11mr6534617wmi.28.1681116011382; 
- Mon, 10 Apr 2023 01:40:11 -0700 (PDT)
-X-Google-Smtp-Source: AKy350beohq5x4rVNDbW68CBYh6bnZv7za9Uw/IqpN4kAqqw6pYv1wOZ5IVeHcKm7Za+nl86g1eu6g==
-X-Received: by 2002:a7b:c40b:0:b0:3ed:c468:ab11 with SMTP id
- k11-20020a7bc40b000000b003edc468ab11mr6534605wmi.28.1681116011052; 
- Mon, 10 Apr 2023 01:40:11 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- j1-20020a05600c1c0100b003f0548d00f1sm21281195wms.1.2023.04.10.01.40.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 01:40:10 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] postcopy-ram: do not use qatomic_mb_read
-In-Reply-To: <20230406101612.241872-1-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Thu, 6 Apr 2023 12:16:12 +0200")
-References: <20230406101612.241872-1-pbonzini@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 10 Apr 2023 10:40:09 +0200
-Message-ID: <87ttxonn9y.fsf@secure.mitica>
+ bh=5bbMEEXmtu/Hlu7ynFOWFPmkjj+3Tz2gcukQYMHDHU4=;
+ b=m3nmPhbky3GEev9hCju22HGCw5Dgx064bmYWbHWpK1bBtKwfFHIMQdH8JOBdBsnLxz
+ jzkRWEk63G2C6xz1Au/izdyfaeZAPY6OgsiBrk4aMnZDXbKqyk/58SKXskWat2rhGpNh
+ czKMIv0c7KgjLh5Yo5Z5xZY4GqCjYzsbVsnE0cdNzioWAicrLfSfJJ6w4ONVG7sHoE0Q
+ MMdxFlnJR/NVlWjli7ypN/ZwNGKtxAQJZ03BE/Fka5mAkwBiOMiSR32duxRh1vrgBPVv
+ RcyA25Cwnt6Z0o3GowEyo1V/KJvuZYdyuiF5Ecu8ycELhRLLe59Je6PAmwUo97Jh3SOq
+ DkuA==
+X-Gm-Message-State: AAQBX9dmCYTdlDbLCewObG3yftzIoFCrEXtGaIlmajOBinJpu5mFTunc
+ 4RVQ1lxAfnQwuk74rvIxUSgj4BGOuZAthmfbhJ7X44D9lBuGAiuOKbZkl8ipikhnrvFnGhmPevF
+ bVH+g/uAd96EJtCyR6osLKVJTUZTBDZo=
+X-Received: by 2002:a81:eb09:0:b0:541:7266:3fd7 with SMTP id
+ n9-20020a81eb09000000b0054172663fd7mr5366295ywm.3.1681117496942; 
+ Mon, 10 Apr 2023 02:04:56 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bv4/zzQnctv30Q0kKgwIoTeLt5/qa56FxPd24hEvQJIjRutP1keZm6ljKt6eLum84FVFyioPMsnAymlnf8hvA=
+X-Received: by 2002:a81:eb09:0:b0:541:7266:3fd7 with SMTP id
+ n9-20020a81eb09000000b0054172663fd7mr5366282ywm.3.1681117496719; Mon, 10 Apr
+ 2023 02:04:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+References: <CAJaqyWdV6pKP0SVZciMiu_HN86aJriZh0HBiwHNkO7+yErXnBA@mail.gmail.com>
+ <CACGkMEuPo_hyQayJDN=VjaV_BAX3B9hBcxFquVSXPu8nBP21Aw@mail.gmail.com>
+ <16c48190-bc4d-3001-3460-d7dfa6041919@huawei.com>
+ <CACGkMEsRqsOEVsLeiMxTXBJeN2f+92ZEhTvn6yq+b-V4P_CnSA@mail.gmail.com>
+In-Reply-To: <CACGkMEsRqsOEVsLeiMxTXBJeN2f+92ZEhTvn6yq+b-V4P_CnSA@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 10 Apr 2023 11:04:20 +0200
+Message-ID: <CAJaqyWdB-1+ZLe1S1jqzhtz0S+urvJXp2F-pQpH-iq0=GN9SGQ@mail.gmail.com>
+Subject: Re: Reducing vdpa migration downtime because of memory pin / maps
+To: Jason Wang <jasowang@redhat.com>
+Cc: "Longpeng (Mike,
+ Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>,
+ qemu-level <qemu-devel@nongnu.org>, 
+ Michael Tsirkin <mst@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <elic@nvidia.com>, 
+ Parav Pandit <parav@nvidia.com>, Juan Quintela <quintela@redhat.com>, 
+ David Gilbert <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,40 +99,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Paolo Bonzini <pbonzini@redhat.com> wrote:
-> It does not even pair with a qatomic_mb_set(), so it is clearer to use
-> load-acquire in this case; they are synonyms.
+On Mon, Apr 10, 2023 at 5:22=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
+ote:
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-queued on my tree.
-
-I guess this is for 8.1, right?
-
-Later, Juan.
-
-> ---
->  migration/postcopy-ram.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Mon, Apr 10, 2023 at 11:17=E2=80=AFAM Longpeng (Mike, Cloud Infrastruc=
+ture
+> Service Product Dept.) <longpeng2@huawei.com> wrote:
+> >
+> >
+> >
+> > =E5=9C=A8 2023/4/10 10:14, Jason Wang =E5=86=99=E9=81=93:
+> > > On Wed, Apr 5, 2023 at 7:38=E2=80=AFPM Eugenio Perez Martin <eperezma=
+@redhat.com> wrote:
+> > >>
+> > >> Hi!
+> > >>
+> > >> As mentioned in the last upstream virtio-networking meeting, one of
+> > >> the factors that adds more downtime to migration is the handling of
+> > >> the guest memory (pin, map, etc). At this moment this handling is
+> > >> bound to the virtio life cycle (DRIVER_OK, RESET). In that sense, th=
+e
+> > >> destination device waits until all the guest memory / state is
+> > >> migrated to start pinning all the memory.
+> > >>
+> > >> The proposal is to bind it to the char device life cycle (open vs
+> > >> close), so all the guest memory can be pinned for all the guest / qe=
+mu
+> > >> lifecycle.
+> > >>
+> > >> This has two main problems:
+> > >> * At this moment the reset semantics forces the vdpa device to unmap
+> > >> all the memory. So this change needs a vhost vdpa feature flag.
+> > >
+> > > Is this true? I didn't find any codes to unmap the memory in
+> > > vhost_vdpa_set_status().
+> > >
+> >
+> > It could depend on the vendor driver, for example, the vdpasim would do
+> > something like that.
+> >
+> > vhost_vdpa_set_status->vdpa_reset->vdpasim_reset->vdpasim_do_reset->vho=
+st_iotlb_reset
 >
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index 41c07136501a..23befd5ca8a2 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -1495,7 +1495,7 @@ static PostcopyState incoming_postcopy_state;
->  
->  PostcopyState  postcopy_state_get(void)
->  {
-> -    return qatomic_mb_read(&incoming_postcopy_state);
-> +    return qatomic_load_acquire(&incoming_postcopy_state);
->  }
->  
->  /* Set the state and return the old state */
+> This looks like a bug. Or I wonder if any user space depends on this
+> behaviour, if yes, we really need a new flag then.
+>
+
+My understanding was that we depend on this for cases like qemu
+crashes. We don't do an unmap(-1ULL) or anything like that to make
+sure the device is clean when we bind a second qemu to the same
+device. That's why I think that close() should clean them. Or maybe
+even open().
+
+The only other option I see is to remove the whole vhost-vdpa device
+every time, or am I missing something?
+
+Thanks!
 
 
