@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FF36DC7BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 16:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075066DC7C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 16:21:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plsHf-0001DF-IR; Mon, 10 Apr 2023 10:14:15 -0400
+	id 1plsNe-0007BN-QV; Mon, 10 Apr 2023 10:20:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1plsHe-0001Cn-4I
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 10:14:14 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1plsHc-0000Sx-Aj
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 10:14:13 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- n9-20020a05600c4f8900b003f05f617f3cso9421733wmq.2
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 07:14:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681136051; x=1683728051;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=EDUr0McT6NiQ4OIps3CevtawlpOzEV5YKFfNxKiu6mA=;
- b=liKYzmainc5VEB6a4y6fuf8s4Ghws+Y2nYZqggr6MbdH889z27jRq/poLpoxmj7Cs4
- xKCzEw2iXNVgaqL+ASYw8GuulTvdT0deSrKgGJ41Yx95DcG7CyLovQYEj/4qEQ3AONQb
- aIxTLCIKO1LoK5UA3SKwVWhNZKPLjw+lFtXhG+wnX92HnAAgzY273rpp++yld/JzMknM
- slzp+hmMlcDptIE9nBkJ9/jTdtF/cEvP2WVc3FSpy7kZEi8eP8ojMiM0g+LkIA2Atn/8
- pV7KYnoE6W6MJnchxI09yCsn4H/3TGQpH8aJUYJOpFgJMTfDayEWGLLf6i0pN2THEfAS
- XmRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681136051; x=1683728051;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EDUr0McT6NiQ4OIps3CevtawlpOzEV5YKFfNxKiu6mA=;
- b=Dlfj+Fh9zUE8e2dFmjyXkmH2X2XJJH4C7671dHs80LYmpWeZu15pQZKw7RJBxFEdpg
- Q1XKQ3YyThfyYJCisQlPDH2UPgig9QVbHKxhciLQ7Ln5GoxFbEqsqqYo6eQBcvUqUini
- x/E8+aPY692lmJyrQ7EHIkRc8pk3D4fADlMTYdjUHWBxRmtbmnQmTQYvEj7enRwq0W5t
- MQDnGDxRFMIuZMn/wB5xl+yaLjd+CY5Do3kCc1jBoZB60lTUmPb9vSCfEoPv//Ca3KWL
- HbwHKcHx/zLY7WE81CQvU3y1wovRRIHmToMAZ71N/cuDqeaZnahuxv6LyV0fhGvqn67C
- 7KZg==
-X-Gm-Message-State: AAQBX9ebEsYxPhbtQEznzBC/vzk0CGnpifJtWiPwu5miiocTTmVsXhfH
- MZ/BwimQhg9pC7+k7rTo0DchfG4bizaiMR7waME=
-X-Google-Smtp-Source: AKy350Zt8dWKTfQNp1imKToJViryDPb5Q72uOLg8h95P1UAtLbKtcO+1NgREvoRlsraDqjqcQp0GOQ==
-X-Received: by 2002:a05:600c:2148:b0:3ed:f9d3:f95c with SMTP id
- v8-20020a05600c214800b003edf9d3f95cmr5029210wml.19.1681136050870; 
- Mon, 10 Apr 2023 07:14:10 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- s9-20020a7bc389000000b003ef64affec7sm13793060wmj.22.2023.04.10.07.14.10
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 07:14:10 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] target/arm: Copy guarded bit in combine_cacheattrs
-Date: Mon, 10 Apr 2023 15:14:08 +0100
-Message-Id: <20230410141408.3564269-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230410141408.3564269-1-peter.maydell@linaro.org>
-References: <20230410141408.3564269-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1plsNa-0007An-On; Mon, 10 Apr 2023 10:20:22 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1plsNX-0001lh-Vm; Mon, 10 Apr 2023 10:20:22 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-05 (Coremail) with SMTP id zQCowACXnxcYGzRklAuJEA--.1160S2;
+ Mon, 10 Apr 2023 22:20:09 +0800 (CST)
+Message-ID: <4d88929f-56c6-db02-c9ba-cd5fd5a63bca@iscas.ac.cn>
+Date: Mon, 10 Apr 2023 22:20:08 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Subject: Re: [PATCH 0/2] target/riscv: Separate implicitly-enabled and
+ explicitly-enabled extensions
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20230410033526.31708-1-liweiwei@iscas.ac.cn>
+ <0fd5d633-8aac-4186-a7b8-0e27f416bb3f@ventanamicro.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <0fd5d633-8aac-4186-a7b8-0e27f416bb3f@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: zQCowACXnxcYGzRklAuJEA--.1160S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZFWfZF4fJFyfJr4rtF17Awb_yoW5tFy7pr
+ 18KrWfKr98XryI9F4xJr4UJryUtr4rG3y7Jr1vqa45Xay5Jryavr1vqrW0gFy7XFWrWr12
+ gF1UAry7Zr4jyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+ c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.246,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,32 +80,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
 
-The guarded bit comes from the stage1 walk.
+On 2023/4/10 21:48, Daniel Henrique Barboza wrote:
+> Hi,
+>
+> On 4/10/23 00:35, Weiwei Li wrote:
+>> The patch tries to separate the multi-letter extensions that may 
+>> implicitly-enabled by misa.EXT from the explicitly-enabled cases, so 
+>> that the misa.EXT can truely disabled by write_misa().
+>> With this separation, the implicitly-enabled zve64d/f and zve32f 
+>> extensions will no work if we clear misa.V. And clear misa.V will 
+>> have no effect on the explicitly-enalbed zve64d/f and zve32f extensions.
+>
+> For this particular case of write_misa() I'm not sure if we need all 
+> that. If we want
+> to grant user choice on write_misa(), let's say that the user wants to 
+> enable/disable
+> RVV, we can enable/disable all RVV related Z-extensions by hand. It's 
+> just a matter
+> of writing enable/disable code that write_misa() would use.
+>
+> In the end, write_misa() is also an user choice. If write_misa() wants 
+> to disable RVV,
+> this means that the user wants to disable RVV, so it doesn't matter 
+> whether the user
+> enabled zve32f on the command line or not - we disable zve32f as well. 
+> Same thing for
+> RVC and its related Z-extensions.
+>
+Yeah. It's also a choice. It's a question whether we take C_Zca and C  
+as the same user choice.
 
-Fixes: Coverity CID 1507929
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20230407185149.3253946-3-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/ptw.c | 1 +
- 1 file changed, 1 insertion(+)
+If we consider them as different, then this patch works. And this patch 
+can bypass the priv version problem.
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 58a6de09bc9..6d72950a795 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2576,6 +2576,7 @@ static ARMCacheAttrs combine_cacheattrs(uint64_t hcr,
- 
-     assert(!s1.is_s2_format);
-     ret.is_s2_format = false;
-+    ret.guarded = s1.guarded;
- 
-     if (s1.attrs == 0xf0) {
-         tagged = true;
--- 
-2.34.1
+> The reason why I didn't do this particular code for RVC and RVV is 
+> because we have
+> pending work in the ML that I would like to get it merged first. And 
+> there's a few
+> caveats we need to decide what to do, e.g. what if the user disables F 
+> but V is
+> enabled? Do we refuse write_misa()? Do we disable RVV?
+>
+In section 3.1.1 of privilege spec:
+
+"If an ISA feature x depends on an ISA feature y, then attempting to 
+enable feature x but disable
+
+feature y results in both features being disabled."
+
+Even though there is also another description in the following content 
+of the same section:
+
+"An implementation may impose additional constraints on the collective 
+setting of two or more misa
+fields, in which case they function collectively as a single WARL field. 
+An attempt to write an
+unsupported combination causes those bits to be set to some supported 
+combination."
+
+I think the former description is more explicit.
+
+Regards,
+
+Weiwei Li
+
+>
+> All this said, patch 1 is still a good addition to make it easier to 
+> distinguish
+> the Z-extensions we're enabling due to MISA bits. I believe we should use
+> set_implicit_extensions_from_ext() in the future for all similar 
+> situations.
+>
+>
+>
+> Thanks,
+>
+> Daniel
+>
+>
+>
+>>
+>> Weiwei Li (2):
+>>    target/riscv: Add set_implicit_extensions_from_ext() function
+>>    target/riscv: Add ext_z*_enabled for implicitly enabled extensions
+>>
+>>   target/riscv/cpu.c                      | 73 +++++++++++++++----------
+>>   target/riscv/cpu.h                      |  8 +++
+>>   target/riscv/cpu_helper.c               |  2 +-
+>>   target/riscv/csr.c                      |  2 +-
+>>   target/riscv/insn_trans/trans_rvd.c.inc |  2 +-
+>>   target/riscv/insn_trans/trans_rvf.c.inc |  2 +-
+>>   target/riscv/insn_trans/trans_rvi.c.inc |  5 +-
+>>   target/riscv/insn_trans/trans_rvv.c.inc | 16 +++---
+>>   target/riscv/translate.c                |  4 +-
+>>   9 files changed, 68 insertions(+), 46 deletions(-)
+>>
 
 
