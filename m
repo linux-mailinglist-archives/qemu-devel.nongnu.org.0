@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5CA6DCF88
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 03:53:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373416DCF89
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 03:57:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm3CE-0003vC-5r; Mon, 10 Apr 2023 21:53:22 -0400
+	id 1pm3F7-0004yG-9Q; Mon, 10 Apr 2023 21:56:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pm3C3-0003uH-N0
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 21:53:13 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+ id 1pm3F5-0004xV-0S
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 21:56:19 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pm3C1-0004lX-Rt
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 21:53:11 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-632384298b3so3187070b3a.0
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 18:53:06 -0700 (PDT)
+ id 1pm3F2-0005UL-Js
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 21:56:17 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ 60-20020a17090a09c200b0023fcc8ce113so9314019pjo.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 18:56:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681177985;
+ d=linaro.org; s=google; t=1681178175;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dd45i7UxeHdZFsQWRLgzsaEnolrq61z3ps7V9Tm8oxw=;
- b=XAq6gWJuxtMaUHLps1Zxl9tUm3dPB3irXD0FB3FO5C8pJ/U9F61q0szCttxJVXEbCc
- QcHsRkZ1v2q96zJ+5iQrkPGMuVUAh2y9dnYXWe/N5x2gAODvhnlirDSTAHpVF1kx1E4z
- bgNeXhUutXb26EvJ7/5l1JIGWw3omUedfapc7KH+A7MyqPgUmtmfK9jwbBOWv3REZlDh
- dxhrDzxIN72gmWuBFY2EohItmP7w4Cx4Q21oGNaQvEmYl6RNTCLwhfw7WcGV+qUDywob
- R61BEPGOwSJLnEoruQwLOkplZwgMs+6R8K4AYpKbhfvk4nheGeTw9vwQ1FV2RLgP8kbJ
- MFRA==
+ bh=a40LqqFQ81uejjkElYBRcj562e4Rbwns7ss0XDmJbiU=;
+ b=C0H8z7pVo1/X8IH0gKIPXHfKESZXRXS4lRmTCHP8lngb/A1ZNWh9vipIHpghAxrfaJ
+ FWExAOsOkr+p4oLoxWSeI7+3HyH+MpOHFyDwT8a1JdIQvnrhpxUbvVvkR29cIyhZ/Nxc
+ 04aSJVZAL+7eONEr66oC+CMSXRL+43yhhloSlOnG7APBwSFJw6nE1ua3bXO4Z6071Gz0
+ 7M6qHH332cMptTZdejJz0O/BXHKEyudt70T0pGGxPO3MUsDp6sRe6jUX4/MrvUBHHSFB
+ 55kkRPreVCJ99GYZbVZCnh5/qvV3I8bC3nYlUZ21Zy4ITqP+fmV9KsnWujm2pQCMnabI
+ Njsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681177985;
+ d=1e100.net; s=20210112; t=1681178175;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dd45i7UxeHdZFsQWRLgzsaEnolrq61z3ps7V9Tm8oxw=;
- b=BIiKA0k3hcUqERWP20torrRUqMUSldbh23+SXiMWQ+lkkex+5ACXGidio93yBEy+TO
- SwAoVx5krMkcmlYJ0AMi24qFIBi4/aiLW/2NOG0gL94eusrIge2mfEucIXdESoA3NHY9
- R9Ripun5bi8I/Scxl67EGEr3MCfEbDCYbb1k2w6Q5rxvUfsXmizii1uVbb4RxPiH+WOL
- 64j0/6gBMPTDYEqHma0oGVHjGZ6JRRO4sV106H2JJLWLnF5hcvC6aL+FiCgp4NAz4RIr
- hKkJ6UeGa+AGf4f4Bs/6SVya/MPVpGSs2574pskibXMuoguWrlyRs9qGfNczbkzFyJa/
- nOXQ==
-X-Gm-Message-State: AAQBX9cPF6diuiTMnIF9+kfXT+AAmWZsmuChCFCessfW5BSmhjoGtkWh
- lffpe6Yu/R4ni71XY1Q/4edp8w==
-X-Google-Smtp-Source: AKy350aZJPDTQJHfP5KQmZ2BgdEx+HM5Vm2qL+0LZZ8tWBQ+e6mELSQTPkZiWHDG0FHT6L7xrP7l7A==
-X-Received: by 2002:a05:6a00:244a:b0:63a:4ef:ae31 with SMTP id
- d10-20020a056a00244a00b0063a04efae31mr3366532pfj.3.1681177985649; 
- Mon, 10 Apr 2023 18:53:05 -0700 (PDT)
+ bh=a40LqqFQ81uejjkElYBRcj562e4Rbwns7ss0XDmJbiU=;
+ b=M4WzaOaLBLuKacb5ZsYoTFYU8Huvc4taiY0LxRXsa/Fw6ymu+fBul8xMByMrdFU+w0
+ AkCTdUhnt2hCixmcoLODwdnobGTGFeN4Vmk12XF5gBhE0NOCOqxj1Ilh5XKuARqAHOPh
+ OFYnltTnNOepbkEb4pjv0/SapBpRMFQVzk4PK9xsN76kXsysdUOSM7QXPB9EJzcJ3T51
+ 9hDpWo3yNePAazKxnXWoRIagkEfPJD3nC2cDr/xWJ1x/uxsWEoOIVffjg2s8tS/4qad5
+ 4qfON23/yB/elBYWXPg3HbCVlAEldXDpD+WaeAwDWU7xFaZ/QiVbYDSiWsKEUDQ0AvWI
+ q4Aw==
+X-Gm-Message-State: AAQBX9c4sEItHgiyYTifH67U7Z42YUEciNnEbwA3+OH3uu8WkWST7xn/
+ J8NsuEE6tXBxo9RKf7rWgudLRg==
+X-Google-Smtp-Source: AKy350aDRygf2tULQsfQUF4CcBbXHzRJg38CTw+yS3ngZ9QGa9npA5kURZfblc7DYM8Vn5x3eOzUCQ==
+X-Received: by 2002:a17:902:c945:b0:1a6:51a6:ca76 with SMTP id
+ i5-20020a170902c94500b001a651a6ca76mr2432310pla.11.1681178174892; 
+ Mon, 10 Apr 2023 18:56:14 -0700 (PDT)
 Received: from [10.1.0.142] (h146.238.133.40.static.ip.windstream.net.
  [40.133.238.146]) by smtp.gmail.com with ESMTPSA id
- 13-20020aa7914d000000b00627fafe49f9sm8459042pfi.106.2023.04.10.18.52.58
+ y24-20020a1709027c9800b001a05122b562sm8364960pll.286.2023.04.10.18.56.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Apr 2023 18:53:05 -0700 (PDT)
-Message-ID: <9592dac6-2ba7-533a-1d70-2244ecc59761@linaro.org>
-Date: Mon, 10 Apr 2023 18:52:48 -0700
+ Mon, 10 Apr 2023 18:56:14 -0700 (PDT)
+Message-ID: <fb45b129-2f3f-ac88-5875-ad7e87e1e0c3@linaro.org>
+Date: Mon, 10 Apr 2023 18:56:02 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 3/4] target/riscv: check smstateen fcsr flag
+Subject: Re: [PATCH v2 1/4] target/riscv: add CPU QOM header
 Content-Language: en-US
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, alistair.francis@wdc.com
-Cc: Alistair Francis <alistair23@gmail.com>,
- Daniel Barboza <dbarboza@ventanamicro.com>, liweiwei@iscas.ac.cn
-References: <20230410141316.3317474-1-mchitale@ventanamicro.com>
- <20230410141316.3317474-4-mchitale@ventanamicro.com>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+References: <20230410165251.99107-1-dbarboza@ventanamicro.com>
+ <20230410165251.99107-2-dbarboza@ventanamicro.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230410141316.3317474-4-mchitale@ventanamicro.com>
+In-Reply-To: <20230410165251.99107-2-dbarboza@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
@@ -97,40 +96,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/10/23 07:13, Mayuresh Chitale wrote:
-> +#ifndef CONFIG_USER_ONLY
-> +#define smstateen_fcsr_check(ctx) do { \
-> +    if (!ctx->smstateen_fcsr_ok) { \
-> +        if (ctx->virt_enabled) { \
-> +            generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT); \
-> +        } else { \
-> +            generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST); \
-> +        } \
-> +        return true; \
-> +    } \
-> +} while (0)
-> +#else
-> +#define smstateen_fcsr_check(ctx)
-> +#endif
-> +
-> +#define REQUIRE_ZFINX_OR_F(ctx) do { \
-> +    if (!has_ext(ctx, RVF)) { \
-> +        if (!ctx->cfg_ptr->ext_zfinx) { \
-> +            return false; \
-> +        } \
-> +        smstateen_fcsr_check(ctx); \
->       } \
->   } while (0)
+On 4/10/23 09:52, Daniel Henrique Barboza wrote:
+> QMP CPU commands are usually implemented by a separated file,
+> <arch>-qmp-cmds.c, to allow them to be build only for softmmu targets.
+> This file uses a CPU QOM header with basic QOM declarations for the
+> arch.
+> 
+> We'll introduce query-cpu-definitions for RISC-V CPUs in the next patch,
+> but first we need a cpu-qom.h header with the definitions of
+> TYPE_RISCV_CPU and RISCVCPUClass declarations. These were moved from
+> cpu.h to the new file, and cpu.h now includes "cpu-qom.h".
+> 
+> Signed-off-by: Daniel Henrique Barboza<dbarboza@ventanamicro.com>
+> ---
+>   target/riscv/cpu-qom.h | 70 ++++++++++++++++++++++++++++++++++++++++++
+>   target/riscv/cpu.h     | 46 +--------------------------
+>   2 files changed, 71 insertions(+), 45 deletions(-)
+>   create mode 100644 target/riscv/cpu-qom.h
 
-As a matter of style, I strongly object to a *nested* macro returning from the calling 
-function.  These should all be changed to normal functions of the form
-
-     if (!require_xyz(ctx) || !require_abc(ctx)) {
-         return something;
-     }
-
-etc.  insn_trans/trans_rvv.c.inc is much much cleaner in this respect.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
