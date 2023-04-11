@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE326DD67F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 11:21:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA936DD712
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 11:43:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmABN-0002T9-EE; Tue, 11 Apr 2023 05:20:57 -0400
+	id 1pmAW6-0006CV-0A; Tue, 11 Apr 2023 05:42:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmABL-0002Sm-VV
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:20:56 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ id 1pmAW2-0006Bs-68
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:42:18 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmABK-0000Xg-8k
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:20:55 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id dm2so18725800ejc.8
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 02:20:52 -0700 (PDT)
+ id 1pmAW0-0004W3-Bw
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:42:17 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id sh8so18686466ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 02:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681204851; x=1683796851;
+ d=linaro.org; s=google; t=1681206134; x=1683798134;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0+/oOJmLuSXH7uq6xEHGpuIWkTRoZSb14J2bC3K+4oE=;
- b=zGkNWbGM2kQtss6/AhctX65OtrKMi6oD9c5P66tLlzTeq3vIs65ZOEBX33AIRiCxBj
- KdKbslYgGGq1PexhIKE60gNGKRGDz12+ZRm4qAn+sFYWpDUxwTDYxypsCb2LQZcfdgYL
- ra2YJFAoCza34ef6ePTUq1c0cM6dMGYctayz74B10FPyb4ItSh76dB9jjho3nz1BInYK
- +IeiT3KB8/bQXmdx1wQY42NeK6lTtoV6ultyzAHUZaRBizw52ejf7wMem4f2eSbd0AAa
- vA/oh0YQymrLGnQ4OCTDIGCcPJZg84f9dyyE3LUp5uj36oegl0JUYLhTsdWKTBONIK7i
- n78g==
+ bh=lFsfwQMai3YumHmI00q+pGOFiY1+qqsIQAwngZzTd6A=;
+ b=gwL9EovHcJL7A4vi75KJ+Zi6xBOWNxa0MTt41d3gLX2ZA3LcNYJ52NRryYH2S1oxbA
+ lmUvsQi2e/G+AaQE202Atz1v3YQq5pRMae5zzko2MbHlm+74uleI8GrmWN+2ZG5ntsp1
+ ohZbOrjX5bqksKeZ2jIrm3dyN65KwoDyFDez9ybxYkKWFj3i9a6KweVTtlnFuJUNshng
+ rf+RY3icuaBTJ2W1B2olY6MvON0uQn9wohxehdrB2typUKU7j9rq2or/fnOd9etYOjyi
+ 5YQCdaqVe1I8seo/gzKAy+d3VyrhUfW87Nuq0LdcTQEhRoODfdq0H9UqJ3FayTdQlI59
+ fQXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681204851; x=1683796851;
+ d=1e100.net; s=20210112; t=1681206134; x=1683798134;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=0+/oOJmLuSXH7uq6xEHGpuIWkTRoZSb14J2bC3K+4oE=;
- b=R6lj0zHu/iZ0AURD/IFw4ycTyUZfCzxpS5XMTMsZ+SflwlwGNx+QtI0/wAtOUxbaqM
- cvxsG77/Dv8x+JwIEx5JI71HiTAXbaH71fBCCbWTjMmHchZZBl4uyyOwwgD3nNGyYZ8A
- wjMQXGtdxipYBkW1T3jH7txnN5w7v+s7c5AvoLS40bQZXPAC6MWfhUrT7+yxEisLi38t
- xMWkk+/SC/zinjUnVf6Ewv1qAn9xvHsEWXjrNbvqH/O42OP0SdU640rYjPJAsl0JRxE5
- Gd7mrb2fPP4gUUOsY3UNWUmBVOBvDIX3/GXq3ye7iNtgL84PS4tWqtUOfGSN6WIrc5jP
- ROgw==
-X-Gm-Message-State: AAQBX9dBcBthTnBbO9Ba0o0TK+GPGPWlkJIS4rjJatvLGc8Lc2QT0TcY
- 3HTg+JmKPaMxw1sAIKkuh/7PhUNcM3mPpkr+m/ws9g==
-X-Google-Smtp-Source: AKy350a6QKWMox4QYouV7+wUuhSfJ2SZFNc1pGpdjRlkGs8mBHmupeZmXR3nRuydZ6TZXRMnGs58YPtF1I2RWkx3fHo=
-X-Received: by 2002:a17:907:72d4:b0:94e:3ba:1649 with SMTP id
- du20-20020a17090772d400b0094e03ba1649mr1310536ejc.6.1681204850835; Tue, 11
- Apr 2023 02:20:50 -0700 (PDT)
+ bh=lFsfwQMai3YumHmI00q+pGOFiY1+qqsIQAwngZzTd6A=;
+ b=GCp2Twyb4GsEo7P9t+1VQOwllfOvXMCgXwglRbKNVcscw3F7E68A5QrJgtvymtf2dd
+ MXvvpurI8wZfZAhBAl80hfCNCmqb00dc259co78uYgGGExZh7sv3PwrI3oKj1I9LSBwC
+ CbW7GQa3Gvcqv1gplXZlxlSiGRszaBC6VSSSgBhdgD7C8lZpHgYW73CFNVQLmjbG6uBy
+ gyAIg2dtQ7QzqxQUuFP7c2qQqIrkaibeWBI+/BehV7vtVu1yxFfSxgeijSSEUrZ+wXDZ
+ LJG1FDtH26iEvggaiXM6nK+ixxcg0NYi59vNgVpQO1MYp0V8vXwjSpVvvIMd8nIDVd/3
+ J/Gw==
+X-Gm-Message-State: AAQBX9fVsXtiEvGpdNc1e1whED58RhPef0Ai66MZsWEY37OQA+V1/NNl
+ OoqdMu12R6s97hvTCN1aROkCNnYYsddr/Bf9iL8lhg==
+X-Google-Smtp-Source: AKy350Yhg5QpWQFbsbD+KGx+yp2I454dTnhcdFEAUgbe+4+6+al7tvSmtBzhRu9e8mtdSiAinQDLk2G7io6mI2Yto2I=
+X-Received: by 2002:a17:906:2a48:b0:920:da8c:f7b0 with SMTP id
+ k8-20020a1709062a4800b00920da8cf7b0mr5158735eje.6.1681206134370; Tue, 11 Apr
+ 2023 02:42:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230410153448.787498-1-richard.henderson@linaro.org>
-In-Reply-To: <20230410153448.787498-1-richard.henderson@linaro.org>
+References: <20220215093223.110827-1-pbonzini@redhat.com>
+ <20220215093223.110827-16-pbonzini@redhat.com>
+In-Reply-To: <20220215093223.110827-16-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Apr 2023 10:20:40 +0100
-Message-ID: <CAFEAcA_JXhi_GHknXws0Ak9t__zyvqE47yN=QrJS_7H8wE4y_A@mail.gmail.com>
-Subject: Re: [PULL 0/3] tcg patch queue for 8.0
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 11 Apr 2023 10:42:03 +0100
+Message-ID: <CAFEAcA-4iU0PHR3hqqTYqr730ADVZEvsW8xONjDTEna+YKNNeg@mail.gmail.com>
+Subject: Re: [PULL 15/30] configure, meson: move some default-disabled options
+ to meson_options.txt
+To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,35 +85,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 10 Apr 2023 at 16:34, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 15 Feb 2022 at 09:53, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> The following changes since commit 08dede07030973c1053868bc64de7e10bfa02ad6:
->
->   Merge tag 'pull-ppc-20230409' of https://github.com/legoater/qemu into staging (2023-04-10 11:47:52 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230410
->
-> for you to fetch changes up to 20861f34e0808bd06a0b7d74f8bd29c29e516ca5:
->
->   tcg/ppc: Fix TCG_TARGET_CALL_{ARG,RET}_I128 for ppc32 (2023-04-10 08:29:24 -0700)
->
-> ----------------------------------------------------------------
-> Fix Int128 function call abi for ppc32, mips o32, and _WIN64
->
-> ----------------------------------------------------------------
-> Richard Henderson (3):
->       tcg/i386: Adjust assert in tcg_out_addi_ptr
->       tcg/mips: Fix TCG_TARGET_CALL_RET_I128 for o32 abi
->       tcg/ppc: Fix TCG_TARGET_CALL_{ARG,RET}_I128 for ppc32
+> These do not depend on --with-default-features, so they become
+> booleans in meson too.
 
+Hi; I've just noticed what looks like an unintentional
+change in this commit. The subject says it's dealing
+with "default-disabled options"...
 
-Applied, thanks.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+> diff --git a/configure b/configure
+> index 1a15e2325e..5a4a642846 100755
 
+> @@ -311,13 +309,11 @@ modules="no"
+>  module_upgrades="no"
+>  prefix="/usr/local"
+>  qemu_suffix="qemu"
+> -profiler="no"
+>  softmmu="yes"
+>  linux_user=""
+>  bsd_user=""
+>  pkgversion=""
+>  pie=""
+> -qom_cast_debug="yes"
+
+...but qom_cast_debug is not default-disabled, it's default-enabled...
+
+>  trace_backends="log"
+>  trace_file="trace"
+>  opengl="$default_feature"
+
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 3bfaa77805..781e4d5170 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -242,3 +242,15 @@ option('qed', type: 'feature', value: 'auto',
+>         description: 'qed image format support')
+>  option('parallels', type: 'feature', value: 'auto',
+>         description: 'parallels image format support')
+> +option('block_drv_whitelist_in_tools', type: 'boolean', value: false,
+> +       description: 'use block whitelist also in tools instead of only QEMU')
+> +option('rng_none', type: 'boolean', value: false,
+> +       description: 'dummy RNG, avoid using /dev/(u)random and getrandom()')
+> +option('debug_mutex', type: 'boolean', value: false,
+> +       description: 'mutex debugging support')
+> +option('qom_cast_debug', type: 'boolean', value: false,
+> +       description: 'cast debugging support')
+
+...and so here we've accidentally inverted the default
+so we aren't doing the QOM casting checks any more.
+
+Spotted while looking at https://gitlab.com/qemu-project/qemu/-/issues/1586
+where RedHat downstream found this because they happen to configure
+with the option explicitly enabled.
+
+I think we should fix the default back to what it was, but that
+seems a bit risky for 8.0 at this point.
+
+thanks
 -- PMM
 
