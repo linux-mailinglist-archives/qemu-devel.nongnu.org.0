@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151026DD53F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 10:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123596DD576
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 10:29:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm9HI-0003yL-OT; Tue, 11 Apr 2023 04:23:00 -0400
+	id 1pm9Ma-00051m-Kd; Tue, 11 Apr 2023 04:28:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pm9HG-0003wQ-Rs
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 04:22:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pm9HF-0004uf-7V
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 04:22:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681201376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HG/M8TJ4fBlV2diEhWAzx10PRJEBipKI4CbRHAyaraI=;
- b=hwyd+VRMmAYHJwFa6jl2no9iqoNSXS++eJC+WhovK1Rq+lbSvQXBApmWQe3IYOXCmTz0vM
- lHkZq8FQdJjeY12XFcsYaCmn7CxknyFC8s39l68JK8MINRUXXxL3LypKaj0/RdIKSm3Qh7
- 7rXplH2/JFj7IrHT5psdIecro3gyUhU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-315-KJITnAGNPG2UukT-b4vh0Q-1; Tue, 11 Apr 2023 04:22:54 -0400
-X-MC-Unique: KJITnAGNPG2UukT-b4vh0Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n36-20020a05600c502400b003ee93fac4a9so4753265wmr.2
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 01:22:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pm9MS-00051M-Tp
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 04:28:21 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pm9MQ-0006Ce-Ru
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 04:28:20 -0400
+Received: by mail-wr1-x434.google.com with SMTP id s2so3387516wra.7
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 01:28:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681201697; x=1683793697;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MQ0drIWzBl8+TPE9EFtuKvjJ26MgcK8N50RWv3O5VHo=;
+ b=ldfLULADu6snRA2bB6QD6/b5ZvdowkwKJ9mCRSCCor0CJsRGit0mkSUUgRNbHxI+zW
+ S8oBv3MHt8hnRiHrJ99DyAaUKGIX7y3LM9tGoNu6/LbGOZ6/B5F/IVxaZzN4ZwA0VdlD
+ NhVYVo0cdvq6D4nwF1coVzR5MDIyDeDV1cRwSohYBOpPeQr/OsukVL6jHy2rN8FSKk6U
+ /EQOt7CJYz+bPZXdpu20FGaVVDt8k/ccDfrSS4zcupundRRjGiEfRuSJUTuhC/caH8Fm
+ QCmEMARYZSiUeHq1Y5bbztc9Z4xNxOkk96v5v1+Hrt8EpArblKBOFERxzbQt78pohk0x
+ eTbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681201373;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HG/M8TJ4fBlV2diEhWAzx10PRJEBipKI4CbRHAyaraI=;
- b=d9HH11eaCOaWh7CgkPhMGPy4El95T0Khdz8jtaal+R/DEZ9dBd1rp7E1clYOulZgTi
- 1YzUzODD8XcYERbknfvpVJPAg2cVZSjWpRY0EgUg6MXjnq4RvDkcotawXsh821ePJvDY
- y7aQfWW3pPwaB2VJ/yLw2SpxKiGZK505A9YHmoxgjE89bqx9cb4ThgN28c6jlcZc8A2U
- ttGTOVVHqS2eIWm71rAU28MyQ+wMl2yhitoD3+N4yykgqD8qftshtKoNgFDIg4/jIbSv
- dY4mpTQVBcs4gOkrkTvAt9fR/xOceZhxcXkke3hJFP6UQ45YJkBZzMPzcg3INXJWPaFq
- Potw==
-X-Gm-Message-State: AAQBX9euVvcYlGVjd3DMO0wzFsgrBjPe0Zh11HLvjVS+6QK9z9ynbfvX
- jscLge/wkSPcrfbB08Ib8opLDUYJ+Qnd4vTowC6znkVd0wjskMKo/QmCr0B6xqIb3BhCqs3NH2W
- bDZPXg0dv/QCYc0I=
-X-Received: by 2002:a1c:7917:0:b0:3f0:3a43:aa70 with SMTP id
- l23-20020a1c7917000000b003f03a43aa70mr6280899wme.24.1681201373496; 
- Tue, 11 Apr 2023 01:22:53 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZDa9TdwthKBO24PRrNiBVxM7FJqPw2NSIaQ4Assjx0pfxYMY5HX4mMH8V5FKGv4/+1qGoszg==
-X-Received: by 2002:a1c:7917:0:b0:3f0:3a43:aa70 with SMTP id
- l23-20020a1c7917000000b003f03a43aa70mr6280894wme.24.1681201373220; 
- Tue, 11 Apr 2023 01:22:53 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-153.web.vodafone.de.
- [109.43.179.153]) by smtp.gmail.com with ESMTPSA id
- jb10-20020a05600c54ea00b003ede2c4701dsm19789262wmb.14.2023.04.11.01.22.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 01:22:52 -0700 (PDT)
-Message-ID: <9bc1b9c3-a54c-8a59-5b68-af8d63037142@redhat.com>
-Date: Tue, 11 Apr 2023 10:22:51 +0200
+ d=1e100.net; s=20210112; t=1681201697; x=1683793697;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=MQ0drIWzBl8+TPE9EFtuKvjJ26MgcK8N50RWv3O5VHo=;
+ b=qjGMLVIoFDwtSNDAD7BddAhoFD75s3rnT/CrFggYtK+w8wdQaJDxc/Xbl4ytbCFhbK
+ sacE17RqeCwQuaTgB7UE1VCsIJ5iMGQOhx4bV2KGXd+82jG7/1k9NTozQqyuACm6iD5c
+ q+v43v//SXWr0QnG078uwSUTp1ZHvfEFbnDhwAVsVfXd/WRALHJcnCr+muMKHSx+S+Oa
+ 7iZaoAj8xLmbBweKyy1KjFKz7zj6OdRmpC10mVC7Vz8dS/7VV0SEneyLIuD1rcjwYX1f
+ Yb873Du/gzAnWHm43QpfAOuBZ+ALrUl/ObLEmowtjlOUJAQKzdJn0VK2sB36dqh494I9
+ 6WLQ==
+X-Gm-Message-State: AAQBX9chdhG0KbOcxD49mf0Ksh/CmhAbrzCaGWRV6/n73GolApr9vW/1
+ yx8QYMX+MHdth8O8X5fGP6to+Q==
+X-Google-Smtp-Source: AKy350ZqH49K+BAAmm735ZwwqN+arqWQEaqXtjDVehw3IW1uBc6FBRptmMKZQ89c1AY3FMzFcvegGw==
+X-Received: by 2002:a5d:4204:0:b0:2cf:f04b:fb23 with SMTP id
+ n4-20020a5d4204000000b002cff04bfb23mr9173789wrq.59.1681201695275; 
+ Tue, 11 Apr 2023 01:28:15 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ m13-20020a5d4a0d000000b002efebaf3571sm7327060wrq.64.2023.04.11.01.28.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 01:28:14 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 732391FFB7;
+ Tue, 11 Apr 2023 09:28:14 +0100 (BST)
+References: <20230307112845.452053-1-alex.bennee@linaro.org>
+ <20230307112845.452053-5-alex.bennee@linaro.org>
+ <20230321150220.mfrvgxg3ebju5e6k@orel>
+User-agent: mu4e 1.10.0; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Andrew Jones <andrew.jones@linux.dev>
+Cc: kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, kvmarm@lists.linux.dev, qemu-arm@nongnu.org, Mark
+ Rutland <mark.rutland@arm.com>
+Subject: Re: [kvm-unit-tests PATCH v10 4/7] arm/tlbflush-code: TLB flush
+ during code execution
+Date: Tue, 11 Apr 2023 09:26:56 +0100
+In-reply-to: <20230321150220.mfrvgxg3ebju5e6k@orel>
+Message-ID: <87ile2rffl.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 2/2] Raise crash-test-debian timeout to 90 minutes
-Content-Language: en-US
-To: Camilla Conte <cconte@redhat.com>, qemu-devel@nongnu.org
-References: <20230407145252.32955-1-cconte@redhat.com>
- <20230407145252.32955-2-cconte@redhat.com>
-Cc: Eldon Stegall <eldon-qemu@eldondev.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230407145252.32955-2-cconte@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.246, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,37 +100,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/04/2023 16.52, Camilla Conte wrote:
-> When running on the Kubernetes runner, this CI job is timing out.
-> Raise the limit to give the job enough time to run.
-> 
-> Signed-off-by: Camilla Conte <cconte@redhat.com>
-> ---
->   .gitlab-ci.d/buildtest.yml | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index ba6f551752..893f8c69b4 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -98,6 +98,7 @@ crash-test-debian:
->     needs:
->       - job: build-system-debian
->         artifacts: true
-> +  timeout: 90m
->     variables:
->       IMAGE: debian-amd64
->     script:
 
-Eldon recently discovered that the crash-test-debian jobs takes longer on 
-his runner since it has KVM enabled and the job tests the devices twice - 
-once with TCG and once with KVM. I assume this is the case for the 
-Kubernetes runner, too? ... we should likely add a switch to the 
-device-crash-test script to provide a way to enforce running with one 
-accelerator only, so we can keep the run time in a sane limit.
+Andrew Jones <andrew.jones@linux.dev> writes:
 
-Anyway, for the time being, this patch is of course a fair work-around, thus:
+> On Tue, Mar 07, 2023 at 11:28:42AM +0000, Alex Benn=C3=A9e wrote:
+>> This adds a fairly brain dead torture test for TLB flushes intended
+>> for stressing the MTTCG QEMU build. It takes the usual -smp option for
+>> multiple CPUs.
+>>=20
+<snip>
+>
+> BTW, have you tried running these tests as standalone? Since they're
+> 'nodefault' it'd be good if they work that way.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+It works but I couldn't get it to skip pass the nodefault check
+automaticaly:
 
+  env run_all_tests=3D1 QEMU=3D$HOME/lsrc/qemu.git/builds/arm.all/qemu-syst=
+em-aarch64 ./tests/tcg.computed=20
+  BUILD_HEAD=3Dc9cf6e90
+  Test marked not to be run by default, are you sure (y/N)?
+
+>
+>> +file =3D tlbflush-code.flat
+>> +smp =3D $(($MAX_SMP>4?4:$MAX_SMP))
+>> +groups =3D nodefault mttcg
+>> +
+>> +[tlbflush-code::page_other]
+>> +file =3D tlbflush-code.flat
+>> +smp =3D $(($MAX_SMP>4?4:$MAX_SMP))
+>> +extra_params =3D -append 'page'
+>> +groups =3D nodefault mttcg
+>> +
+>> +[tlbflush-code::all_self]
+>> +file =3D tlbflush-code.flat
+>> +smp =3D $(($MAX_SMP>4?4:$MAX_SMP))
+>> +extra_params =3D -append 'self'
+>> +groups =3D nodefault mttcg
+>> +
+>> +[tlbflush-code::page_self]
+>> +file =3D tlbflush-code.flat
+>> +smp =3D $(($MAX_SMP>4?4:$MAX_SMP))
+>> +extra_params =3D -append 'page self'
+>> +groups =3D nodefault mttcg
+>> +
+>> --=20
+>> 2.39.2
+>>
+>
+> Thanks,
+> drew
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
