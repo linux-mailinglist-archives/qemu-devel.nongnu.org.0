@@ -2,54 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BEFC6DD623
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 11:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5D56DD62B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 11:05:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm9u7-0004Qr-VH; Tue, 11 Apr 2023 05:03:07 -0400
+	id 1pm9vb-0005oG-Jz; Tue, 11 Apr 2023 05:04:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pm9u1-0004QY-Gs; Tue, 11 Apr 2023 05:03:01 -0400
-Received: from bg4.exmail.qq.com ([43.154.221.58])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pm9ty-0005Oj-Sz; Tue, 11 Apr 2023 05:03:01 -0400
-X-QQ-mid: bizesmtp90t1681203743t0ap21fw
-Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 11 Apr 2023 17:02:11 +0800 (CST)
-X-QQ-SSF: 01200000000000D0F000000A0000000
-X-QQ-FEAT: cy+SGFpNa8duaVCl5WNrH/sW0Sn8KWt+x+a4B58qA8ieBl997q2AcKrs3YV+9
- ZqXALJMrxHyOJuOu6FeK7WGf2u/rngm8MQEeeb1Ib1OcRgZbuSutzgwfYg9coI6HHEWUUFy
- gFl0nI+Jyqx5OL3gBS33JlSu9S+Fjw7ExwDuDlUzinqHygonktylmpn3kt4lqshskXkpdB9
- NnnHp7dupGqCvqzBwDSsIa1LOSHip9GwQ7GoK2gbbA6ksb1eJfT6xQToi7u3uQ80J+zT4fT
- q7QxPUXMHvTP/oo4+DGjnGvpq52EBzLRc2PUsafClYSMiNrj9Lih9Z0ET9TBrtylGlhu8k7
- 1jENfE5BiccVWvcrsw=
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 17000592329357289727
-From: Bin Meng <bmeng@tinylab.org>
-To: Alistair Francis <alistair.francis@wdc.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Fei Wu <fei2.wu@intel.com>
-Subject: [PATCH] target/riscv: Restore the predicate() NULL check behavior
-Date: Tue, 11 Apr 2023 17:02:11 +0800
-Message-Id: <20230411090211.3039186-1-bmeng@tinylab.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pm9vU-0005nT-TG
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:04:35 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pm9vR-0005eY-8q
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:04:31 -0400
+Received: by mail-pl1-x634.google.com with SMTP id q2so12101861pll.7
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 02:04:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1681203863; x=1683795863;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YFDT4cPcspUfv4wKnlZ9EcHB1moeKc/kK0cMlD9Mep0=;
+ b=ESodTsMGK2VczGOstPBRA3+1WF1VCRcYRCtI5QRHP1SQReASRVy4WF/m16xnXTJhWU
+ 3yiV8fp49BlVa3sbkJwNF3BTLseLW1HWmBCBPSBlhP/VZt7+QpOJwL3AM22WCa1YMc/T
+ TRlPSPn+tmCsBfJOfVHxg+EMjbkIpXF0QoGMZOfXX8zjIzRWsjR2Qnax3qZPmt4wZyi6
+ mli8H45GBBLKAI82eAYux3sFm2DKWxI7TEztv9gYnekPe+b0Jf+O5O/kUhygJ60wyXLL
+ Z32X0vjICz7YKy6oaKMQeI55OpX5yAHVjwb4H9xA9C1b/a41gTPD3tfXOMFOAe6PhT8c
+ lQ8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681203863; x=1683795863;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YFDT4cPcspUfv4wKnlZ9EcHB1moeKc/kK0cMlD9Mep0=;
+ b=VPtZsznz1tXxr44ywltD/AfWJiDkAIAPZBaM+rw+UTdem+eXmk9ePMA91Wc47KhcYe
+ O6N0iWK0g83isiyeSE74hskiSFzuN1UTb0weVjrHvxmYTiT99WQTebqGHdmA00F5aHmS
+ DQlQ7Wcokmk6IF3HZwbrOE088Y8sMw2vqsLvHFCvi4b+SwLPbgdz372XrxXzDiDiFS+q
+ ZwL/O6Pdpg0ADcMmJ+KQI7jkhkxlHM/lxls1nV6T3GEGoiJluYKmPzwtyCSmCBZiovKw
+ mM9ZhVY8qy46ET8ZpqNjJhdsVMjjOhAp6FllpN3LRbGnOM90PPh7xycFSVNnRzfd8Kvw
+ 46aw==
+X-Gm-Message-State: AAQBX9cjrDNqQDIVfauIYtFTav44YXh3CkLnsd6Hpyj/CMXonIc+XCPh
+ JHdob3Ob3eMP1Tpc9JE+fCqkRGC4FrZMU2s+8FN++Q==
+X-Google-Smtp-Source: AKy350azvl88ofdgmpmwoJ1qPsnZOphQeTNoaPxOxM6oxE7uNUB3R3fhu0i4pR0BxAcxKc0JtpUg+A==
+X-Received: by 2002:a05:6a20:3546:b0:d7:380b:660 with SMTP id
+ f6-20020a056a20354600b000d7380b0660mr11901416pze.3.1681203863058; 
+ Tue, 11 Apr 2023 02:04:23 -0700 (PDT)
+Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ x23-20020aa793b7000000b00638b13ee6a7sm2927700pff.25.2023.04.11.02.04.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 02:04:22 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] pcie: Release references of virtual functions
+Date: Tue, 11 Apr 2023 18:04:08 +0900
+Message-Id: <20230411090408.48366-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:tinylab.org:qybglogicsvrgz:qybglogicsvrgz7a-0
-Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
- helo=bg4.exmail.qq.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::634;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,57 +88,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When reading a non-existent CSR QEMU should raise illegal instruction
-exception, but currently it just exits due to the g_assert() check.
+pci_new() automatically retains a reference to a virtual function when
+registering it so we need to release the reference when unregistering.
 
-This actually reverts commit 0ee342256af9205e7388efdf193a6d8f1ba1a617,
-Some comments are also added to indicate that predicate() must be
-provided for an implemented CSR.
-
-Reported-by: Fei Wu <fei2.wu@intel.com>
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Fixes: 7c0fa8dff8 ("pcie: Add support for Single Root I/O Virtualization (SR/IOV)")
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
+ hw/pci/pcie_sriov.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- target/riscv/csr.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d522efc0b6..736ab64275 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3797,6 +3797,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         return RISCV_EXCP_ILLEGAL_INST;
+diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
+index aa5a757b11..76a3b6917e 100644
+--- a/hw/pci/pcie_sriov.c
++++ b/hw/pci/pcie_sriov.c
+@@ -211,6 +211,7 @@ static void unregister_vfs(PCIDevice *dev)
+             error_free(local_err);
+         }
+         object_unparent(OBJECT(vf));
++        object_unref(OBJECT(vf));
      }
- 
-+    /* ensure CSR is implemented by checking predicate */
-+    if (!csr_ops[csrno].predicate) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-     /* privileged spec version check */
-     if (env->priv_ver < csr_min_priv) {
-         return RISCV_EXCP_ILLEGAL_INST;
-@@ -3814,7 +3819,6 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-      * illegal instruction exception should be triggered instead of virtual
-      * instruction exception. Hence this comes after the read / write check.
-      */
--    g_assert(csr_ops[csrno].predicate != NULL);
-     RISCVException ret = csr_ops[csrno].predicate(env, csrno);
-     if (ret != RISCV_EXCP_NONE) {
-         return ret;
-@@ -3991,7 +3995,10 @@ RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
-     return ret;
- }
- 
--/* Control and Status Register function table */
-+/*
-+ * Control and Status Register function table
-+ * riscv_csr_operations::predicate() must be provided for an implemented CSR
-+ */
- riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     /* User Floating-Point CSRs */
-     [CSR_FFLAGS]   = { "fflags",   fs,     read_fflags,  write_fflags },
+     g_free(dev->exp.sriov_pf.vf);
+     dev->exp.sriov_pf.vf = NULL;
 -- 
-2.25.1
+2.40.0
 
 
