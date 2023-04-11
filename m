@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DEBE6DDAF1
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09AF6DDAFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:37:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmDCg-0007ls-Ap; Tue, 11 Apr 2023 08:34:30 -0400
+	id 1pmDFP-0000zU-UM; Tue, 11 Apr 2023 08:37:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmDCb-0007kU-7F
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:34:26 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmDFK-0000z6-U5
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:37:14 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmDCZ-0000iG-Ih
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:34:24 -0400
-Received: by mail-wr1-x432.google.com with SMTP id s2so4120956wra.7
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 05:34:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmDFJ-0001NO-5c
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:37:14 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ d8-20020a05600c3ac800b003ee6e324b19so4192960wms.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 05:37:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681216461;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=linaro.org; s=google; t=1681216631;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=nkJvNYbaq42pZBefk0CiX+IPTPqIOUA9FYgmszLVwmM=;
- b=bqWkeb2O/AxLktePdrpei2lpOksrMCUlswNUpndL+T4DJV6G33Fa7PstEg+8dV0Iq2
- WLo1ec5sHnVYh1FM1mSuGqz6/ErLHGTmk7wunVCp9tFbsEl/pnIwC0LCvJFPCx0sBwbd
- /8QSIHFbQ927EqQ2HIWpJfkzozzzkdveuvBlECxLuHr5MR8zf64CxcsD3vGzmZSIRguj
- GZZSOrSi6IC1ZMxZjrORTBuCVe8aL8zAX6i1Wdp6rIXZ5qZcCv52tioYZCNbfCrGKDp7
- L75drXSTzsetDK7s8661/tsflxKOrQL01MqyY40t39+8Ich4OILSWDbPdiBKoiNLaT7i
- IX0g==
+ bh=ieRYjbjc0R7VAimsYZbALFqMAhB642YecdfGIwtUfRs=;
+ b=LaPq74TXIbr1ZSUjAAd4AON6evtmQyV1f8W93vlv7WS9S0upkI2iEtC6PwZTYzI4F/
+ KPPz92oZJ8xu77I/Cj4IrawJmuYVjGTtSWcpePlToCthwt7yMIsdK551gbOzr83DxoVE
+ sTeSBZ7aeErqWCI1ahzjRULw4qG4B1xNPwcXd8/NkFmCsL8wbfX0R6ahfpVWUMx2H20M
+ 2WwkQuTnGWft3pNCvZdRhy1zejOCc+RgtUcYXZgv2pdSkrr1p+bfkPZZTdVGrppnkGQo
+ nGntoY6oARhKBYh63BuXGH8WyYT5q52LHUVBFlh1nDAPH3wfJTOBOf0TxgbbpKXfG7tv
+ EJzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681216461;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20210112; t=1681216631;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nkJvNYbaq42pZBefk0CiX+IPTPqIOUA9FYgmszLVwmM=;
- b=xmjm4Qo1Z6F89p9cFbOZQGYx9R2sNeW0qEX0msp1TzbmBj30T01t9aq5U+he4qiTtM
- 2OP9kIYqMFtX/kqP94FMSxY75GJ4/n68861cKSt/QppZH4yDH9mL4KPRXLxu44lm+165
- nxiPdrsQgVxZkuroF6tLFbayPUUVjBYCxD+w7r8uRw/Ou9/5THAX7NBpo4yHfgqVa1i5
- xQuzi+KSSeYh39i4Y3u6foUXy+HgL8zEtlFLTNH9O1JS3Q4gKri+ZBN4Py1mScA0LUg1
- jAd5HlFi5LyJsykTxQN58XmyHijvASzfSImwopqxqZ6VJO4w2iWxqjvfy0PXGhD1xczE
- dJog==
-X-Gm-Message-State: AAQBX9cNWgZWhnVKKc0aCQkES22vtOpd4rClb/ePs6jruHae0MhAzy4w
- BjzClRUNm7GoMj+YsaDl5PgWug==
-X-Google-Smtp-Source: AKy350aBpeunT59VJukZbW23kpKFh8LqZsz3zj9zMmGodx8k5qjW8Qyaoretmm0/aQkRkpyz+GHhLA==
-X-Received: by 2002:a05:6000:1378:b0:2ef:eb5f:862c with SMTP id
- q24-20020a056000137800b002efeb5f862cmr6359518wrz.59.1681216461451; 
- Tue, 11 Apr 2023 05:34:21 -0700 (PDT)
+ bh=ieRYjbjc0R7VAimsYZbALFqMAhB642YecdfGIwtUfRs=;
+ b=fKqLChOgvsdXHKAmXDUVN+jHn4ICYrg5rGJLPOz/uioUMtPQWc9PTRe7fXBOuTAq/Y
+ wzy2mstp4znxhKOcgJOsar3VmPJnYES1JSCzWyfazFlu4Az1twzn0iUSoxBWFsuHHETo
+ bi0AAgaR9c2Y4+h5SXHTJr4Wq+5S6hZ8hXkL3lb5J7X65RuRPVV2ebq7/dmBk3GA7Dbm
+ sRlG3Liq75IOubesJD2lA0mp45xvqBzx8oHtcaHEHzZADWuoU5YbcuFdjB4Xjtupt3J8
+ NxnY0WKbIJ1AZU8oN4Cy0jQHi92gjoryk2tjKOc+DVFw6EausflXPX1vCZ19Pyf9+HC/
+ 8IXg==
+X-Gm-Message-State: AAQBX9cUz0wFc0ZKf1T2RIZxnvMaWc7ZmfWUeYA25vty8tSKbGAolPxY
+ Xpy2lFtOeYA3NPg6y9HKQXpTXw==
+X-Google-Smtp-Source: AKy350Z2orEPeeGfM/LUS3O5QQnLRz9u0q5tyqyPiSC3wbho7N68JRgBNZssSDb3Ucz1zx4rLnPhYQ==
+X-Received: by 2002:a7b:cd0a:0:b0:3ed:5a12:5641 with SMTP id
+ f10-20020a7bcd0a000000b003ed5a125641mr9683627wmj.36.1681216631113; 
+ Tue, 11 Apr 2023 05:37:11 -0700 (PDT)
 Received: from [192.168.1.101] ([176.187.195.239])
  by smtp.gmail.com with ESMTPSA id
- k8-20020adfd848000000b002f0075ccf7bsm7171016wrl.71.2023.04.11.05.34.20
+ j23-20020a05600c1c1700b003ee443bf0c7sm20698789wms.16.2023.04.11.05.37.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 05:34:21 -0700 (PDT)
-Message-ID: <c0b5e268-080a-4262-84f4-e4a5f849bdfb@linaro.org>
-Date: Tue, 11 Apr 2023 14:34:19 +0200
+ Tue, 11 Apr 2023 05:37:10 -0700 (PDT)
+Message-ID: <fe33efe2-71c5-32d6-55cf-5644fbd94355@linaro.org>
+Date: Tue, 11 Apr 2023 14:37:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH 05/12] tcg/mips: Split out tcg_out_movi_one
+Subject: Re: [for-8.0] hw/i2c/allwinner-i2c: Fix subclassing of
+ TYPE_AW_I2C_SUN6I
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230408030359.3368868-1-richard.henderson@linaro.org>
- <20230408030359.3368868-6-richard.henderson@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: qianfan Zhao <qianfanguijin@163.com>, Thomas Huth <thuth@redhat.com>,
+ Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+References: <20230411103106.3992862-1-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230408030359.3368868-6-richard.henderson@linaro.org>
+In-Reply-To: <20230411103106.3992862-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -91,61 +95,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/4/23 05:03, Richard Henderson wrote:
-> Emit all constants that can be loaded in exactly one insn.
+On 11/4/23 12:31, Peter Maydell wrote:
+> In commit 8461bfdca9c we added the TYPE_AW_I2C_SUN6I, which is a
+> minor variant of the TYPE_AW_I2C device.  However, we didn't quite
+> get the class hierarchy right.  We made the new TYPE_AW_I2C_SUN6I a
+> subclass of TYPE_SYS_BUS_DEVICE, which means that you can't validly
+> use a pointer to this object via the AW_I2C() cast macro, which
+> insists on having something that is an instance of TYPE_AW_I2C or
+> some subclass of that type.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> This only causes a problem if QOM cast macro debugging is enabled;
+> that is supposed to be on by default, but a mistake in the meson
+> conversion in commit c55cf6ab03f4c meant that it ended up disabled by
+> default, and we didn't catch this bug.
+> 
+> Fix the problem by arranging the classes in the same way we do for
+> TYPE_PL011 and TYPE_PL011_LUMINARY in hw/char/pl011.c -- make the
+> variant class be a subclass of the "normal" version of the device.
+> 
+> This was reported in
+> https://gitlab.com/qemu-project/qemu/-/issues/1586 but this fix alone
+> isn't sufficient, as there is a separate cast-related issue in the
+> CXL code in pci_expander_bridge.c.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   tcg/mips/tcg-target.c.inc | 26 ++++++++++++++++++++------
->   1 file changed, 20 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-> index c2f8d6550b..f0ae418ba6 100644
-> --- a/tcg/mips/tcg-target.c.inc
-> +++ b/tcg/mips/tcg-target.c.inc
-> @@ -514,20 +514,34 @@ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
->       return true;
->   }
->   
-> +static bool tcg_out_movi_one(TCGContext *s, TCGReg ret, tcg_target_long arg)
-> +{
-> +    if (arg == (int16_t)arg) {
-> +        tcg_out_opc_imm(s, OPC_ADDIU, ret, TCG_REG_ZERO, arg);
-> +        return true;
-> +    }
-> +    if (arg == (uint16_t)arg) {
-> +        tcg_out_opc_imm(s, OPC_ORI, ret, TCG_REG_ZERO, arg);
-> +        return true;
-> +    }
-> +    if (arg == (int32_t)arg && (arg & 0xffff) == 0) {
-> +        tcg_out_opc_imm(s, OPC_LUI, ret, TCG_REG_ZERO, arg >> 16);
-> +        return true;
-> +    }
-> +    return false;
-> +}
-> +
->   static void tcg_out_movi(TCGContext *s, TCGType type,
->                            TCGReg ret, tcg_target_long arg)
->   {
->       if (TCG_TARGET_REG_BITS == 64 && type == TCG_TYPE_I32) {
->           arg = (int32_t)arg;
->       }
-> -    if (arg == (int16_t)arg) {
-> -        tcg_out_opc_imm(s, OPC_ADDIU, ret, TCG_REG_ZERO, arg);
-> -        return;
-> -    }
-> -    if (arg == (uint16_t)arg) {
-> -        tcg_out_opc_imm(s, OPC_ORI, ret, TCG_REG_ZERO, arg);
-> +
-> +    if (tcg_out_movi_one(s, ret, arg)) {
->           return;
->       }
-> +
->       if (TCG_TARGET_REG_BITS == 32 || arg == (int32_t)arg) {
->           tcg_out_opc_imm(s, OPC_LUI, ret, TCG_REG_ZERO, arg >> 16);
+>   hw/i2c/allwinner-i2c.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 
-Shouldn't this block be removed in this patch?
-
->       } else {
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
