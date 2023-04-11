@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12A56DE404
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 20:37:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B008F6DE467
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 20:56:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmIrk-0004vX-3z; Tue, 11 Apr 2023 14:37:23 -0400
+	id 1pmJ9I-0001Yk-9j; Tue, 11 Apr 2023 14:55:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pmIrb-0004h1-LI
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 14:37:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pmJ9G-0001YX-Hg; Tue, 11 Apr 2023 14:55:22 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pmIrZ-000089-Oj
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 14:37:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681238224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MbUP86u5G6X3wJBncw1IyxOBGVvV1RhTqSFdCGeOl24=;
- b=RQwR2xr1aAR8qjQJnqAGBR4aAxSAnTGfZCXfH1TNhf5OBkX2tiKKFIWqmmM8dxwybcakzM
- s6IGFMuhK2RHnJno2c11ODmUc8WXNH7nq214W9QIMRarJf9Q4RXxe6prFa9/Sa/WG/F6go
- y4Upy9X29tuUjZVLO3e63/rZwHZtfs4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-g_IwjO4COlug29rYMlxAyA-1; Tue, 11 Apr 2023 14:37:03 -0400
-X-MC-Unique: g_IwjO4COlug29rYMlxAyA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C95BF280D585;
- Tue, 11 Apr 2023 18:37:02 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 562C440BC797;
- Tue, 11 Apr 2023 18:37:02 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [RFC PATCH] migration: Handle block device inactivation failures
- better
-Date: Tue, 11 Apr 2023 13:36:54 -0500
-Message-Id: <20230411183654.1229293-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pmJ9C-00049t-OM; Tue, 11 Apr 2023 14:55:22 -0400
+Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2cab:0:640:424b:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 214525F1CC;
+ Tue, 11 Apr 2023 21:55:07 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:8023::1:f] (unknown
+ [2a02:6b8:b081:8023::1:f])
+ by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id 4ta6s10OmOs0-osB7kcmy; Tue, 11 Apr 2023 21:55:06 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1681239306; bh=HtyVPRC6lA96+vvP1oMSVi05o5RiulHEl3iOz65BxiQ=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=BneZkajdTkrJ/V+IPO1AmpTk7jyM877vVZJxLezIM0D8H5FlqSrbOROaIJir+0JkE
+ VKAKh/GG3Rva3i9cMwDeFimA2ip4ZhbZda44tojremSvVueYdgpGwB1umnH8ZGmHzm
+ XT7k/0s/wjLFbH2M8E2rL4jDZKtZZ96tLO9u223M=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <8fba1afd-6f41-65ee-597d-54b6ca6ee918@yandex-team.ru>
+Date: Tue, 11 Apr 2023 21:55:04 +0300
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/4] block: Collapse padded I/O vecs exceeding IOV_MAX
+To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>
+References: <20230411173418.19549-1-hreitz@redhat.com>
+ <20230411173418.19549-3-hreitz@redhat.com>
+Content-Language: en-US
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230411173418.19549-3-hreitz@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,115 +75,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Consider what happens when performing a migration between two host
-machines connected to an NFS server serving multiple block devices to
-the guest, when the NFS server becomes unavailable.  The migration
-attempts to inactivate all block devices on the source (a necessary
-step before the destination can take over); but if the NFS server is
-non-responsive, the attempt to inactivate can itself fail.  When that
-happens, the destination fails to get the migrated guest (good,
-because the source wasn't able to flush everything properly):
+On 11.04.23 20:34, Hanna Czenczek wrote:
+> When processing vectored guest requests that are not aligned to the
+> storage request alignment, we pad them by adding head and/or tail
+> buffers for a read-modify-write cycle.
+> 
+> The guest can submit I/O vectors up to IOV_MAX (1024) in length, but
+> with this padding, the vector can exceed that limit.  As of
+> 4c002cef0e9abe7135d7916c51abce47f7fc1ee2 ("util/iov: make
+> qemu_iovec_init_extended() honest"), we refuse to pad vectors beyond the
+> limit, instead returning an error to the guest.
+> 
+> To the guest, this appears as a random I/O error.  We should not return
+> an I/O error to the guest when it issued a perfectly valid request.
+> 
+> Before 4c002cef0e9abe7135d7916c51abce47f7fc1ee2, we just made the vector
+> longer than IOV_MAX, which generally seems to work (because the guest
+> assumes a smaller alignment than we really have, file-posix's
+> raw_co_prw() will generally see bdrv_qiov_is_aligned() return false, and
+> so emulate the request, so that the IOV_MAX does not matter).  However,
+> that does not seem exactly great.
+> 
+> I see two ways to fix this problem:
+> 1. We split such long requests into two requests.
+> 2. We join some elements of the vector into new buffers to make it
+>     shorter.
+> 
+> I am wary of (1), because it seems like it may have unintended side
+> effects.
+> 
+> (2) on the other hand seems relatively simple to implement, with
+> hopefully few side effects, so this patch does that.
+> 
+> To do this, the use of qemu_iovec_init_extended() in bdrv_pad_request()
+> is effectively replaced by the new function bdrv_create_padded_qiov(),
+> which not only wraps the request IOV with padding head/tail, but also
+> ensures that the resulting vector will not have more than IOV_MAX
+> elements.  Putting that functionality into qemu_iovec_init_extended() is
+> infeasible because it requires allocating a bounce buffer; doing so
+> would require many more parameters (buffer alignment, how to initialize
+> the buffer, and out parameters like the buffer, its length, and the
+> original elements), which is not reasonable.
+> 
+> Conversely, it is not difficult to move qemu_iovec_init_extended()'s
+> functionality into bdrv_create_padded_qiov() by using public
+> qemu_iovec_* functions, so that is what this patch does.
+> 
+> Because bdrv_pad_request() was the only "serious" user of
+> qemu_iovec_init_extended(), the next patch will remove the latter
+> function, so the functionality is not implemented twice.
+> 
+> Buglink:https://bugzilla.redhat.com/show_bug.cgi?id=2141964
+> Signed-off-by: Hanna Czenczek<hreitz@redhat.com>
 
-  (qemu) qemu-kvm: load of migration failed: Input/output error
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-at which point, our only hope for the guest is for the source to take
-back control.  With the current code base, the host outputs a message, but then appears to resume:
-
-  (qemu) qemu-kvm: qemu_savevm_state_complete_precopy_non_iterable: bdrv_inactivate_all() failed (-1)
-
-  (src qemu)info status
-   VM status: running
-
-but a second migration attempt now asserts:
-
-  (src qemu) qemu-kvm: ../block.c:6738: int bdrv_inactivate_recurse(BlockDriverState *): Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed.
-
-Whether the guest is recoverable on the source after the first failure
-is debatable, but what we do not want is to have qemu itself fail due
-to an assertion.  It looks like the problem is as follows:
-
-In migration.c:migration_completion(), the source sets 'inactivate' to
-true (since COLO is not enabled), then tries
-savevm.c:qemu_savevm_state_complete_precopy() with a request to
-inactivate block devices.  In turn, this calls
-block.c:bdrv_inactivate_all(), which fails when flushing runs up
-against the non-responsive NFS server.  With savevm failing, we are
-now left in a state where some, but not all, of the block devices have
-been inactivated; the 'fail_invalidate' label of
-migration_completion() then wants to reclaim those disks by calling
-bdrv_activate_all() - but this too can fail, yet nothing takes note of
-that failure.
-
-Thus, we have reached a state where the migration engine has forgotten
-all state about whether a block device is inactive, because we did not
-set s->block_inactive; so migration allows the source to reach
-vm_start() and resume execution, violating the block layer invariant
-that the guest CPUs should not be restarted while a device is
-inactive.  Note that the code in migration.c:migrate_fd_cancel() will
-also try to reactivate all block devices if s->block_inactive was set,
-but because we failed to set that flag after the first failure, the
-source assumes it has reclaimed all devices, even though it still has
-remaining inactivated devices and does not try again.  Normally,
-qmp_cont() will also try to reactivate all disks (or correctly fail if
-the disks are not reclaimable because NFS is not yet back up), but the
-auto-resumption of the source after a migration failure does not go
-through qmp_cont().  And because we have left the block layer in an
-inconsistent state with devices still inactivated, the later migration
-attempt is hitting the assertion failure.
-
-Since it is important to not resume the source with inactive disks,
-this patch tries harder at tracking whether migration attempted to
-inactivate any devices, in order to prevent any vm_start() until it
-has successfully reactivated all devices.
-
-See also https://bugzilla.redhat.com/show_bug.cgi?id=2058982
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
-
----
-
-RFC because it may also be worth teaching vm_prepare_start() to call
-bdrv_activate_all() (instead of or in addition to qmp_cont and
-migration).  But that feels like a bigger sledgehammer compared to
-just tweaking the migration code that got us in the situation in the
-first place, hence I'm trying this patch first.
-
----
- migration/migration.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index ae2025d9d8d..8fb778ca171 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3427,6 +3427,7 @@ static void migration_completion(MigrationState *s)
- {
-     int ret;
-     int current_active_state = s->state;
-+    bool inactivate = false;
-
-     if (s->state == MIGRATION_STATUS_ACTIVE) {
-         qemu_mutex_lock_iothread();
-@@ -3436,7 +3437,7 @@ static void migration_completion(MigrationState *s)
-         ret = global_state_store();
-
-         if (!ret) {
--            bool inactivate = !migrate_colo_enabled();
-+            inactivate = !migrate_colo_enabled();
-             ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
-             trace_migration_completion_vm_stop(ret);
-             if (ret >= 0) {
-@@ -3518,6 +3519,7 @@ fail_invalidate:
-         bdrv_activate_all(&local_err);
-         if (local_err) {
-             error_report_err(local_err);
-+            s->block_inactive = inactivate;
-         } else {
-             s->block_inactive = false;
-         }
-
-base-commit: f1426881a827a6d3f31b65616c4a8db1e9e7c45e
 -- 
-2.39.2
+Best regards,
+Vladimir
 
 
