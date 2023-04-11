@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7E66DD2DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 08:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CA96DD2F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 08:37:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm7Z9-0005F3-8i; Tue, 11 Apr 2023 02:33:20 -0400
+	id 1pm7cq-00078L-9v; Tue, 11 Apr 2023 02:37:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pm7Yt-0005Dj-GY
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 02:33:07 -0400
+ id 1pm7co-000789-2p
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 02:37:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pm7Yr-0000Mt-V0
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 02:33:03 -0400
+ id 1pm7cm-0001Hw-8Y
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 02:37:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681194781;
+ s=mimecast20190719; t=1681195022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wp4/jJBNzm+WTRJZU0xSlcWLHfxOUEEufPpp+1wU2T0=;
- b=Gq7NVpHmxJU58KrVlnH71r/GyZO7JU0u+8WxbED8Y4mnrszzWoFc28r4nEP2lgVImLgg9g
- qkedbMEUJU+nqKeQ4BNhFVN5wA5HwbYjOKUCV03jNUaKjkEz/2cneGGIM3nMWOGB7GLpEL
- I3pQVUPT1+8gW6nkITgDP0iycIY/+FA=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xdOOIdLPVhTg6JcufQ6uxwZ2P+r6EqgyrQxqnHUOpPI=;
+ b=TWMVe9l8RKT7YjOZ5ZnRgsty8XGcnsuslkNE6bQxOlLb3k/fDOl7hpH7Hoa497ZyeOxmGB
+ ZrqKR7dPhiOaLdmWwn9dyxyVkhE/EzHpBlfhDpLEqU5IATsM/TOYdCyOTu6HiBOUszRImH
+ GdKFiRtdNimI+cLTFc2bBC1v9nyDdO4=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-673-W0So25oNPO-IIFJvZ15NXw-1; Tue, 11 Apr 2023 02:32:59 -0400
-X-MC-Unique: W0So25oNPO-IIFJvZ15NXw-1
-Received: by mail-pj1-f72.google.com with SMTP id
- e8-20020a17090a4a0800b002466688af09so2217647pjh.7
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 23:32:59 -0700 (PDT)
+ us-mta-425-QthCAhyPOCO99hfRAkz7Lw-1; Tue, 11 Apr 2023 02:36:59 -0400
+X-MC-Unique: QthCAhyPOCO99hfRAkz7Lw-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ s6-20020a056830124600b006a037b882d8so2065700otp.16
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 23:36:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681194778; x=1683786778;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wp4/jJBNzm+WTRJZU0xSlcWLHfxOUEEufPpp+1wU2T0=;
- b=msWMqCL+nJVaafKRSxu/OSHzrpHQSZw7ZaD4Fi0hdCi3XwtEb7qSHEXK6gV2RCrnQB
- FnClf77R2nNRUkeCSR6TvRqz0kg9yF35b356lO+46GpJr6n8UrIKW2jko+AtANmsmQOp
- YuQLthCffalQY8Z5MVUd2eWHC1ZhePan7tvYjB2jLQM2Ds+HEUXS1MRFrmbfprhbB7hP
- b4sUHF3dEkIn+tUAEUKziDB8P1xA5T7UKC/KdxHV0oUShbkmFR19M/fsGV1byU7Ta/L9
- AMMiON4cuzrBeJW/XqXk5kTvFcVDZPG4ADwvN4eSk5zlLw2iFcRm1/kHLEGlDlInCij4
- PqCQ==
-X-Gm-Message-State: AAQBX9e7Sv7IBUINrUHdmmUHtR7sfFQ1L+GM5CSUrUjAi6ToZ51Hh2va
- OM8R0AzgwGnTOMLvzXFfpwUiqWDRVtHaEtvcmFSaZT67Ruem1/hJ34bUxI+COJDDT3JBMwFg4Zl
- CEcd4KuOT+7ZmAEU=
-X-Received: by 2002:a17:903:4101:b0:1a5:19bc:d70d with SMTP id
- r1-20020a170903410100b001a519bcd70dmr10389784pld.38.1681194778479; 
- Mon, 10 Apr 2023 23:32:58 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bYZw2RgfteHRQ08TxYvWZdjJRAjP5vqAnLeQGSwpVk9bNLQuUAhlnnPhKXWu0mARlqbvW5mA==
-X-Received: by 2002:a17:903:4101:b0:1a5:19bc:d70d with SMTP id
- r1-20020a170903410100b001a519bcd70dmr10389769pld.38.1681194778120; 
- Mon, 10 Apr 2023 23:32:58 -0700 (PDT)
-Received: from [10.72.12.112] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- x5-20020a634a05000000b0051afa49e07asm1893912pga.50.2023.04.10.23.32.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Apr 2023 23:32:57 -0700 (PDT)
-Message-ID: <268c8128-d1cf-3103-b990-e92a2e69465f@redhat.com>
-Date: Tue, 11 Apr 2023 14:32:51 +0800
+ d=1e100.net; s=20210112; t=1681195018; x=1683787018;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xdOOIdLPVhTg6JcufQ6uxwZ2P+r6EqgyrQxqnHUOpPI=;
+ b=DR1uz6vw2e5+ZhZ05nNJA7RVHmp13AE5ujUycWjM/6k74459N0g4eCm27NjcbO5KPr
+ m4GXTF0tEO+UuSravzvQM06OgvRuXh90bxlyUtZcKC85Ptc+tNykFwGzOKbmjO0zgywW
+ 4gQpNRFlgWdZmo0PTintyYKD+iidYXl8e0hHBbXoQJP6VKRaeNkPmV4w7qhzIiQWdyQ3
+ Fa4mX9GKRMyvzpLbx4S79lud6y2WJmor/64W5I4CbXj0V9wjpN7+SRNifQi/+dXMraeB
+ 5L+731yKwONbvrQ1joAtDt+OSlNrNDnRWF8QN/A4aXyxvHk+3CyJroOK4f7JBoYoCjml
+ w4tg==
+X-Gm-Message-State: AAQBX9dFGoep5yQPkVhBOF112XvQA5lPA1k7b07tyIUWjcUvxG1J3Qf9
+ 1VQ+3jwabVCszDsLKDAIHckEHloxarqqE1pRFRgiJ6WWsyhiPWKho8uo7oTfqjL2qn+O6+2rOCS
+ aWwCxuJAD8C9/1BYSPZlKEThWoRsvKCA=
+X-Received: by 2002:a05:6870:4192:b0:17f:1723:fc82 with SMTP id
+ y18-20020a056870419200b0017f1723fc82mr795817oac.9.1681195018371; 
+ Mon, 10 Apr 2023 23:36:58 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zp19lZ+Yr5JuBubuIMd+Kj2p80Q6MEhne9dt/tN7YtIfHSaeaUMAbx8TSenZXgb6733Weafkwj+O922rSq8Qc=
+X-Received: by 2002:a05:6870:4192:b0:17f:1723:fc82 with SMTP id
+ y18-20020a056870419200b0017f1723fc82mr795814oac.9.1681195018161; Mon, 10 Apr
+ 2023 23:36:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH] tap: fix net_init_tap() return code
-Content-Language: en-US
-To: Steven Sistare <steven.sistare@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-References: <1680624004-154390-1-git-send-email-steven.sistare@oracle.com>
- <9da71dfa-52b7-5b65-3160-6f236440add4@linaro.org>
- <4be85e27-0990-7ba9-60a1-45d53d63004e@oracle.com>
+References: <CAJaqyWdV6pKP0SVZciMiu_HN86aJriZh0HBiwHNkO7+yErXnBA@mail.gmail.com>
+ <CACGkMEuPo_hyQayJDN=VjaV_BAX3B9hBcxFquVSXPu8nBP21Aw@mail.gmail.com>
+ <16c48190-bc4d-3001-3460-d7dfa6041919@huawei.com>
+ <CACGkMEsRqsOEVsLeiMxTXBJeN2f+92ZEhTvn6yq+b-V4P_CnSA@mail.gmail.com>
+ <CAJaqyWdB-1+ZLe1S1jqzhtz0S+urvJXp2F-pQpH-iq0=GN9SGQ@mail.gmail.com>
+ <CACGkMEsP_CTz9Mapps9bkUSfU2yMuBQd6jFxpRbLVcvfDh_awA@mail.gmail.com>
+ <CAJaqyWcF6NMBB+MmgmMnnpKovMDYLoUaDAmVharW33FPmebaMQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWcF6NMBB+MmgmMnnpKovMDYLoUaDAmVharW33FPmebaMQ@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <4be85e27-0990-7ba9-60a1-45d53d63004e@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Tue, 11 Apr 2023 14:36:47 +0800
+Message-ID: <CACGkMEtqAJ-pSix0BjR-6mAPNyUrx2g591BSScyDHT7gf+yY2A@mail.gmail.com>
+Subject: Re: Reducing vdpa migration downtime because of memory pin / maps
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: "Longpeng (Mike,
+ Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>,
+ qemu-level <qemu-devel@nongnu.org>, 
+ Michael Tsirkin <mst@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <elic@nvidia.com>, 
+ Parav Pandit <parav@nvidia.com>, Juan Quintela <quintela@redhat.com>, 
+ David Gilbert <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.246, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,84 +105,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-在 2023/4/5 23:38, Steven Sistare 写道:
-> On 4/4/2023 6:00 PM, Philippe Mathieu-Daudé wrote:
->> On 4/4/23 18:00, Steve Sistare wrote:
->>> When net_init_tap() succeeds for a multi-queue device, it returns a
->>> non-zero ret=1 code to its caller, because of this code where ret becomes
->> Indeed g_unix_set_fd_nonblocking() returns TRUE on success.
->>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>
->>> 1 when g_unix_set_fd_nonblocking succeeds.  Luckily, the only current call
->>> site checks for negative, rather than non-zero.
->>>
->>>       ret = g_unix_set_fd_nonblocking(fd, true, NULL);
->>>       if (!ret) {
->>>           ...
->>>           goto free_fail;
->>>
->>> Also, if g_unix_set_fd_nonblocking fails (though unlikely), ret=0 is returned,
->>> and the caller will use a broken interface.
->> We should return -1 from free_fail, not trying to propagate 'ret':
-> Thanks for the review.  I will add your "return -1" changes if Jason agrees.
+On Tue, Apr 11, 2023 at 2:29=E2=80=AFPM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
 >
-> - Steve
+> On Tue, Apr 11, 2023 at 4:26=E2=80=AFAM Jason Wang <jasowang@redhat.com> =
+wrote:
+> >
+> > On Mon, Apr 10, 2023 at 5:05=E2=80=AFPM Eugenio Perez Martin
+> > <eperezma@redhat.com> wrote:
+> > >
+> > > On Mon, Apr 10, 2023 at 5:22=E2=80=AFAM Jason Wang <jasowang@redhat.c=
+om> wrote:
+> > > >
+> > > > On Mon, Apr 10, 2023 at 11:17=E2=80=AFAM Longpeng (Mike, Cloud Infr=
+astructure
+> > > > Service Product Dept.) <longpeng2@huawei.com> wrote:
+> > > > >
+> > > > >
+> > > > >
+> > > > > =E5=9C=A8 2023/4/10 10:14, Jason Wang =E5=86=99=E9=81=93:
+> > > > > > On Wed, Apr 5, 2023 at 7:38=E2=80=AFPM Eugenio Perez Martin <ep=
+erezma@redhat.com> wrote:
+> > > > > >>
+> > > > > >> Hi!
+> > > > > >>
+> > > > > >> As mentioned in the last upstream virtio-networking meeting, o=
+ne of
+> > > > > >> the factors that adds more downtime to migration is the handli=
+ng of
+> > > > > >> the guest memory (pin, map, etc). At this moment this handling=
+ is
+> > > > > >> bound to the virtio life cycle (DRIVER_OK, RESET). In that sen=
+se, the
+> > > > > >> destination device waits until all the guest memory / state is
+> > > > > >> migrated to start pinning all the memory.
+> > > > > >>
+> > > > > >> The proposal is to bind it to the char device life cycle (open=
+ vs
+> > > > > >> close), so all the guest memory can be pinned for all the gues=
+t / qemu
+> > > > > >> lifecycle.
+> > > > > >>
+> > > > > >> This has two main problems:
+> > > > > >> * At this moment the reset semantics forces the vdpa device to=
+ unmap
+> > > > > >> all the memory. So this change needs a vhost vdpa feature flag=
+.
+> > > > > >
+> > > > > > Is this true? I didn't find any codes to unmap the memory in
+> > > > > > vhost_vdpa_set_status().
+> > > > > >
+> > > > >
+> > > > > It could depend on the vendor driver, for example, the vdpasim wo=
+uld do
+> > > > > something like that.
+> > > > >
+> > > > > vhost_vdpa_set_status->vdpa_reset->vdpasim_reset->vdpasim_do_rese=
+t->vhost_iotlb_reset
+> > > >
+> > > > This looks like a bug. Or I wonder if any user space depends on thi=
+s
+> > > > behaviour, if yes, we really need a new flag then.
+> > > >
+> > >
+> > > My understanding was that we depend on this for cases like qemu
+> > > crashes. We don't do an unmap(-1ULL) or anything like that to make
+> > > sure the device is clean when we bind a second qemu to the same
+> > > device. That's why I think that close() should clean them.
+> >
+> > In vhost_vdpa_release() we do:
+> >
+> > vhost_vdpa_release()
+> >     vhost_vdpa_cleanup()
+> >         for_each_as()
+> >             vhost_vdpa_remove_as()
+> >                 vhost_vdpa_iotlb_unmap(0ULL, 0ULL - 1)
+> >         vhost_vdpa_free_domain()
+> >
+> > Anything wrong here?
+> >
+>
+> No, I think we just trusted in different pre-existing cleanup points
+> "semantics".
+>
+> > Conceptually, the address mapping is not a part of the abstraction for
+> > a virtio device now. So resetting the memory mapping during virtio
+> > device reset seems wrong.
+> >
+>
+> I agree. So then no change in the kernel should be needed but to
+> revert this cleanup on device reset.
 
+I think you meant simulator, then yes.
 
-Note that the "free_fail" label is kind of ambiguous. It is used even if 
-we succeed if I was not wrong.
+> I guess we should document it
+> ops->reset just in case?
+
+Probably.
 
 Thanks
 
-
->> -- >8 --
->> diff --git a/net/tap.c b/net/tap.c
->> index 1bf085d422..e59238bda0 100644
->> --- a/net/tap.c
->> +++ b/net/tap.c
->> @@ -821,3 +821,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>       char ifname[128];
->> -    int ret = 0;
->>
->> @@ -896,3 +895,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>                              "the number of vhostfds passed");
->> -                ret = -1;
->>                   goto free_fail;
->> @@ -904,3 +902,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>               if (fd == -1) {
->> -                ret = -1;
->>                   goto free_fail;
->> @@ -908,4 +905,3 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>
->> -            ret = g_unix_set_fd_nonblocking(fd, true, NULL);
->> -            if (!ret) {
->> +            if (!g_unix_set_fd_nonblocking(fd, true, NULL)) {
->>                   error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
->> @@ -918,3 +914,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>                   if (vnet_hdr < 0) {
->> -                    ret = -1;
->>                       goto free_fail;
->> @@ -924,3 +919,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>                              "vnet_hdr not consistent across given tap fds");
->> -                ret = -1;
->>                   goto free_fail;
->> @@ -934,3 +928,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>                   error_propagate(errp, err);
->> -                ret = -1;
->>                   goto free_fail;
->> @@ -948,3 +941,3 @@ free_fail:
->>           g_free(vhost_fds);
->> -        return ret;
->> +        return -1;
->>       } else if (tap->helper) {
->> ---
->>
->>> Fixes: a8208626ba89.. ("net: replace qemu_set_nonblock()")
->>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->>> ---
->>>    net/tap.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> Thanks!
+>
 
 
