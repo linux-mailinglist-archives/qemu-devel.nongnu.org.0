@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802086DDA0B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 13:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C1E6DDA1D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 13:53:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmCUz-0006gM-O1; Tue, 11 Apr 2023 07:49:21 -0400
+	id 1pmCYF-0007nt-3X; Tue, 11 Apr 2023 07:52:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1pmCUs-0006bm-9b; Tue, 11 Apr 2023 07:49:15 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1pmCUq-0007xr-AA; Tue, 11 Apr 2023 07:49:13 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id
- 39-20020a9d04aa000000b006a1370e214aso1969907otm.11; 
- Tue, 11 Apr 2023 04:49:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681213750; x=1683805750;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IsQyc95o8bd+OcnbSy5PFUoAsdLax7/Na5qep9DeBzA=;
- b=fjKFjpqk2JIn23C9/CQ01lfb6BSSjZWOAM5eVdNlCnv+q2P9Q9NEbKWoPfYmgtIsEp
- 6D3wk+j36ZdREzwbBRLPZbg+CdjB8Hxooymy/oiPzkocZemazghFWRcpmd5oXalsYFmi
- x1mBZkJ1kG/eD+oxFcNKYKggEP58eOH+9GO+3AN9w6GbADxGtOAFJ56wQMtDFfMJ9p+I
- 6msx0ciACRQmoC7iZoxD/uLW/FwEudPxbJHi46xCZrtkHVrzw1SHXxdR5Zu0B9mBK452
- e1jv4QquJIuWg2I/SYd83zu5enFH1GxPqaT+yyxIVBQgqw9HFrr+MSyT4jj26oo+v6ly
- /hqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681213750; x=1683805750;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=IsQyc95o8bd+OcnbSy5PFUoAsdLax7/Na5qep9DeBzA=;
- b=2ox+30ohrKu8djAt8b2GTdKEaPwMQEa7yOmIHCUUCqi6IGaUMh75tEGlKipn7ZXTZE
- 02tUn/CXsn/V0WVKijGCiieoUs7VYpWTRKmuF2bbQhvbL0klQoijbQEtXmW2J6WSiHL5
- 3J6QcdCemKbTixZiSTpxzmdBGx8bbV+a3kFIde6FeBZftRw4do7rqf76dBbKMKumsnlW
- QI6BSRrFijLm9Pq9BoC5QJcdUw0WSe8SFjZkYzP8ucWxgGwd6WUaloyfPQPA3+JSXpFJ
- i+WjsSdB6GByEbcvO5SNVLYV8pgX79DmYTO2E4Pdb9O/wgGn5r+2l1ePna75zFweYGo2
- D26A==
-X-Gm-Message-State: AAQBX9ePYD4RW4BkVY1YgppGE4vu/mLLoLyZTt12ASR4h5P7I9M1IrFO
- QIX2bf2kyyuznULidiPyTg==
-X-Google-Smtp-Source: AKy350bWMy9pk2CnijUx8Yb5eCCV7A3v/w+BjtMkBs5WYZ5b2isv/A3CSJRgQksmZ8YdA65BhvKi/A==
-X-Received: by 2002:a05:6830:12c8:b0:6a1:37f1:9863 with SMTP id
- a8-20020a05683012c800b006a137f19863mr5698389otq.11.1681213750376; 
- Tue, 11 Apr 2023 04:49:10 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.185.84])
- by smtp.gmail.com with ESMTPSA id
- b14-20020a056830104e00b0069457b86060sm5407387otp.47.2023.04.11.04.49.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 04:49:09 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:b8e9:4170:b6dc:61ca])
- by serve.minyard.net (Postfix) with ESMTPSA id 8F32A1800BB;
- Tue, 11 Apr 2023 11:49:08 +0000 (UTC)
-Date: Tue, 11 Apr 2023 06:49:07 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- qianfan Zhao <qianfanguijin@163.com>, Thomas Huth <thuth@redhat.com>,
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: Re: [for-8.0] hw/i2c/allwinner-i2c: Fix subclassing of
- TYPE_AW_I2C_SUN6I
-Message-ID: <ZDVJM2q/rim1lsBU@minyard.net>
-References: <20230411103106.3992862-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmCYC-0007nP-S5
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 07:52:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmCYA-0000TI-Rj
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 07:52:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681213957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J9Bm2jwk9d9GHyYHp6XY3NuZZCCH/3JNdgihD/ap4PQ=;
+ b=dQibtyPS7wMwNGGTvABuH1EBwye8t5iPCSoGa7QHpZMrmu/gfsD9VzTYydrr7qge6UKO0U
+ yLdziJHS7pAhXw1T13T+WDOenQLLgIOgbn82Hm4KbCeQKlD40pWvqfXeJcZP/LhoyaGsmP
+ dIb9xGWA9YMb1Xx3+oT6udTsQSwQEVU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-XExYBRaYMROZz6hj_ipmcg-1; Tue, 11 Apr 2023 07:52:36 -0400
+X-MC-Unique: XExYBRaYMROZz6hj_ipmcg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6257D185A791;
+ Tue, 11 Apr 2023 11:52:36 +0000 (UTC)
+Received: from merkur.fritz.box (unknown [10.39.193.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC83A40C83A9;
+ Tue, 11 Apr 2023 11:52:35 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com,
+	lukts330@gmail.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-8.0] iotests: Regression test for vhdx log corruption
+Date: Tue, 11 Apr 2023 13:52:31 +0200
+Message-Id: <20230411115231.90398-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230411103106.3992862-1-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=tcminyard@gmail.com; helo=mail-ot1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,61 +71,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 11, 2023 at 11:31:06AM +0100, Peter Maydell wrote:
-> In commit 8461bfdca9c we added the TYPE_AW_I2C_SUN6I, which is a
-> minor variant of the TYPE_AW_I2C device.  However, we didn't quite
-> get the class hierarchy right.  We made the new TYPE_AW_I2C_SUN6I a
-> subclass of TYPE_SYS_BUS_DEVICE, which means that you can't validly
-> use a pointer to this object via the AW_I2C() cast macro, which
-> insists on having something that is an instance of TYPE_AW_I2C or
-> some subclass of that type.
-> 
-> This only causes a problem if QOM cast macro debugging is enabled;
-> that is supposed to be on by default, but a mistake in the meson
-> conversion in commit c55cf6ab03f4c meant that it ended up disabled by
-> default, and we didn't catch this bug.
-> 
-> Fix the problem by arranging the classes in the same way we do for
-> TYPE_PL011 and TYPE_PL011_LUMINARY in hw/char/pl011.c -- make the
-> variant class be a subclass of the "normal" version of the device.
-> 
-> This was reported in
-> https://gitlab.com/qemu-project/qemu/-/issues/1586 but this fix alone
-> isn't sufficient, as there is a separate cast-related issue in the
-> CXL code in pci_expander_bridge.c.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+The corruption fixed by Lukas is actually trivial reproduce, so let's
+add this test case for it along with the fix for 8.0.
 
-Looks correct ot me.
+ tests/qemu-iotests/tests/regression-vhdx-log  | 62 +++++++++++++++++++
+ .../tests/regression-vhdx-log.out             | 14 +++++
+ 2 files changed, 76 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/regression-vhdx-log
+ create mode 100644 tests/qemu-iotests/tests/regression-vhdx-log.out
 
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
+diff --git a/tests/qemu-iotests/tests/regression-vhdx-log b/tests/qemu-iotests/tests/regression-vhdx-log
+new file mode 100755
+index 0000000000..ca264e93d6
+--- /dev/null
++++ b/tests/qemu-iotests/tests/regression-vhdx-log
+@@ -0,0 +1,62 @@
++#!/usr/bin/env bash
++# group: rw auto quick
++#
++# vhdx regression test: Updating the first entry of a BAT sector corrupted the
++# following entries.
++#
++# Copyright (C) 2023 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=kwolf@redhat.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1 # failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++cd ..
++. ./common.rc
++. ./common.filter
++
++_supported_fmt generic
++_supported_proto generic
++_unsupported_imgopts "subformat=streamOptimized"
++
++size=64M
++_make_test_img $size
++
++echo
++echo "creating pattern"
++$QEMU_IO -c "write -P 1 32M 4k" "$TEST_IMG" | _filter_qemu_io
++$QEMU_IO -c "write -P 2 0 4k" "$TEST_IMG" | _filter_qemu_io
++$QEMU_IO -c "read -P 1 32M 4k" "$TEST_IMG" | _filter_qemu_io
++
++echo
++echo "checking image for errors"
++_check_test_img
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/tests/regression-vhdx-log.out b/tests/qemu-iotests/tests/regression-vhdx-log.out
+new file mode 100644
+index 0000000000..350c257354
+--- /dev/null
++++ b/tests/qemu-iotests/tests/regression-vhdx-log.out
+@@ -0,0 +1,14 @@
++QA output created by regression-vhdx-log
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++
++creating pattern
++wrote 4096/4096 bytes at offset 33554432
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 33554432
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++checking image for errors
++No errors were found on the image.
++*** done
+-- 
+2.39.2
 
-> ---
->  hw/i2c/allwinner-i2c.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
-> index f24c3ac6f0c..9e8efa1d63f 100644
-> --- a/hw/i2c/allwinner-i2c.c
-> +++ b/hw/i2c/allwinner-i2c.c
-> @@ -466,10 +466,8 @@ static void allwinner_i2c_sun6i_init(Object *obj)
->  
->  static const TypeInfo allwinner_i2c_sun6i_type_info = {
->      .name = TYPE_AW_I2C_SUN6I,
-> -    .parent = TYPE_SYS_BUS_DEVICE,
-> -    .instance_size = sizeof(AWI2CState),
-> +    .parent = TYPE_AW_I2C,
->      .instance_init = allwinner_i2c_sun6i_init,
-> -    .class_init = allwinner_i2c_class_init,
->  };
->  
->  static void allwinner_i2c_register_types(void)
-> -- 
-> 2.34.1
-> 
-> 
 
