@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D97F6DD723
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 11:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD326DD736
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 11:52:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmAca-0007zE-VV; Tue, 11 Apr 2023 05:49:04 -0400
+	id 1pmAfZ-0000UJ-2R; Tue, 11 Apr 2023 05:52:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmAcY-0007z6-Ji
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:49:02 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmAcW-0005q7-W9
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:49:02 -0400
-Received: by mail-wr1-x433.google.com with SMTP id e2so6842719wrc.10
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 02:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681206539;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ypi65HmbtUw6Rc3C5DKGfuuP/LZr0db6xs3RwLKNdjE=;
- b=J28YmDKGQE5q8liZ+9Ba+guMNtDEs3gm48A93+FzGmbTiJuMh8W/TgJMIWAj47D4Nr
- cVfi1kCf+5BGW5NV38VM5GV1NCiwEQvM5MCi/gdvGl5VUrXde46CLNzpAqxDjcm6I/ye
- w9nebJSnmnrCbxWu2pK6Svop65wfhtj+CbaIhIByliY1tESZNSNyTfv4IEKBAthlZ09Z
- FGRBE/2+iKJV+ikRbr2JlfrEWjITN2oPYmogMpTnn2OCB78UGQVM7kG51NKEiOb8N1bP
- YqihiIFUbwH9tnobiQTqS//kbM7VWGU0aHg4SMhdiD9Fj/nLoh6Ts+2M4wFj82M/s6hH
- dI2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681206539;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ypi65HmbtUw6Rc3C5DKGfuuP/LZr0db6xs3RwLKNdjE=;
- b=Ze28mYw8hvSh69BZxii0wXuguT1gt4Cbthj0N54qy+elrc+Nr833jxqGnWJ8NX3EB4
- j7sk6MpKqC8huMR1PvIlX/yq0evmXBBVaePvRMSr2RyRYhOBQ0AOD20SluPUH5R++dyh
- qecEKrhy9iegYXNzUVZaCimX7fqjwoMmY6CPng7qhYfifxwpGnAiy6chkKNKozWkXv0L
- cjWHDhOGiitpzhRdREsGKMjYyrq/XRXXWIcHBbK5WzW1WFCNN2deuCL6FHut585Ozddt
- b9sJaKUPkLA+UXt7z2/8EqF9avHZ1/vGYSmtHJ02gGuVeU5IjhV/qnN9WibsvryVpbrr
- U2Gg==
-X-Gm-Message-State: AAQBX9e5/ytwEq6sjg7Cyq3byQ27mFaxzBA+yXEpSCmAFTKpAvYaY6u6
- 6YwcUTXx9e1EW8uzacy1arYbSw==
-X-Google-Smtp-Source: AKy350Y2tRxCWB1onmVxuF2FsSdSIsvIOl+9wiZ0imSydUAnJJJ2oBtynlmlKYyKbqFDR6i8gswkng==
-X-Received: by 2002:a5d:4311:0:b0:2ce:9fb8:b560 with SMTP id
- h17-20020a5d4311000000b002ce9fb8b560mr8129832wrq.8.1681206539102; 
- Tue, 11 Apr 2023 02:48:59 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.195.239])
- by smtp.gmail.com with ESMTPSA id
- w9-20020adfec49000000b002cde25fba30sm14251776wrn.1.2023.04.11.02.48.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 02:48:58 -0700 (PDT)
-Message-ID: <5b2f1194-086a-deb7-acd6-a1425f00716c@linaro.org>
-Date: Tue, 11 Apr 2023 11:48:57 +0200
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pmAfU-0000Tn-Ks
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:52:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pmAfS-0006cu-GX
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:52:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681206720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6LsJK+u0hjzinlzbrwNlSWlqKsmlNGFYYF5ZqNMTv9U=;
+ b=g5CdAErlu3JseZL2MUwxT4e0tbHcrvHOKq2jIa/lEJMElNHeRfIg2GVq3iS4Ru68cvrZ6/
+ Mwbg6wG+LHiIao0JMonPJhaohHpr+tmYuLO3P2TDb1wSkHLtojJvxA7B376TyyEj/Cw/Xh
+ iNqvgmNy1/5mUPgQyKTuBVDNr/nOx9c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-563-6kKZwIk7OlO5kXccpLY-Sg-1; Tue, 11 Apr 2023 05:51:58 -0400
+X-MC-Unique: 6kKZwIk7OlO5kXccpLY-Sg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 204A3811E7C
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 09:51:58 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C2A3440D8;
+ Tue, 11 Apr 2023 09:51:57 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH v2] test: Fix test-crypto-secret when compiling without
+ keyring support
+Date: Tue, 11 Apr 2023 11:51:56 +0200
+Message-Id: <20230411095156.6500-1-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH for-8.0] tcg/mips: Fix TCG_TARGET_CALL_RET_I128 for o32 abi
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230408044204.3484337-1-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230408044204.3484337-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.246,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,21 +76,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/4/23 06:42, Richard Henderson wrote:
-> The return is by reference, not in 4 integer registers.
-> 
-> This error resulted in
-> 
->    qemu-system-i386: tcg/mips/tcg-target.c.inc:140: \
->      tcg_target_call_oarg_reg: Assertion `slot >= 0 && slot <= 1' failed.
-> 
-> Fixes: 5427a9a7604 ("tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128")
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/mips/tcg-target.h | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+Linux keyring support is protected by CONFIG_KEYUTILS.
+We also need CONFIG_SECRET_KEYRING.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 
+---
+
+- Previous version of this patch changed the meson build rules.
+  Daniel told me that the proper fix was to change the #ifdef test.
+
+- Change rule again.  We need both defines.
+- Now it passes the test with and without CONFIG_SECRET_KEYRING defined
+
+---
+ tests/unit/test-crypto-secret.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/tests/unit/test-crypto-secret.c b/tests/unit/test-crypto-secret.c
+index 34a4aecc12..d31d97f36a 100644
+--- a/tests/unit/test-crypto-secret.c
++++ b/tests/unit/test-crypto-secret.c
+@@ -24,7 +24,7 @@
+ #include "crypto/secret.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+-#ifdef CONFIG_KEYUTILS
++#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
+ #include "crypto/secret_keyring.h"
+ #include <keyutils.h>
+ #endif
+@@ -128,7 +128,7 @@ static void test_secret_indirect_emptyfile(void)
+     g_free(fname);
+ }
+ 
+-#ifdef CONFIG_KEYUTILS
++#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
+ 
+ #define DESCRIPTION "qemu_test_secret"
+ #define PAYLOAD "Test Payload"
+@@ -268,7 +268,7 @@ static void test_secret_keyring_bad_key_access_right(void)
+     keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
+ }
+ 
+-#endif /* CONFIG_KEYUTILS */
++#endif /* CONFIG_KEYUTILS && CONFIG_SECRET_KEYRING */
+ 
+ static void test_secret_noconv_base64_good(void)
+ {
+@@ -571,7 +571,7 @@ int main(int argc, char **argv)
+     g_test_add_func("/crypto/secret/indirect/emptyfile",
+                     test_secret_indirect_emptyfile);
+ 
+-#ifdef CONFIG_KEYUTILS
++#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
+     g_test_add_func("/crypto/secret/keyring/good",
+                     test_secret_keyring_good);
+     g_test_add_func("/crypto/secret/keyring/revoked_key",
+@@ -582,7 +582,7 @@ int main(int argc, char **argv)
+                     test_secret_keyring_bad_serial_key);
+     g_test_add_func("/crypto/secret/keyring/bad_key_access_right",
+                     test_secret_keyring_bad_key_access_right);
+-#endif /* CONFIG_KEYUTILS */
++#endif /* CONFIG_SECRET_KEYRING */
+ 
+     g_test_add_func("/crypto/secret/noconv/base64/good",
+                     test_secret_noconv_base64_good);
+-- 
+2.39.2
 
 
