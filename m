@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECAE46DE809
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 01:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0307B6DE850
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 01:49:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmNRA-0001kt-Un; Tue, 11 Apr 2023 19:30:09 -0400
+	id 1pmNif-0004UQ-PK; Tue, 11 Apr 2023 19:48:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pmNR3-0001kO-HE
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 19:30:03 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
+ id 1pmNie-0004U4-2l
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 19:48:12 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pmNR0-0005o2-D4
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 19:30:01 -0400
-Received: by mail-oi1-x231.google.com with SMTP id f14so24981585oiw.10
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 16:29:57 -0700 (PDT)
+ id 1pmNic-0000h2-7v
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 19:48:11 -0400
+Received: by mail-ot1-x335.google.com with SMTP id
+ bu14-20020a0568300d0e00b0069fab3f4cafso4674048otb.9
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 16:48:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681255797;
+ d=ventanamicro.com; s=google; t=1681256888;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=JQ1Y6uZOjeIxwEgIwEBvY5MW6SoPg89AU7hXt4cl2pU=;
- b=JAIiLFvFYftw+RRAh2YS+6ORKDogfm57bzS6Ko+t9JgOZJAzJgVveYaqbYo3tweVrV
- oT9e5Tb8XGpOCwULMxiTBIlgy+jeEF9Z7emvygNadf2tXA7H2RDKJ5oljNyRmgK+4QLf
- SzWAd+zwIS+ISJ0Ef8yox75K49W0tSFqn4SjCkeNd7xMNaIhim7RElsAaz/We9w4WYq4
- l34bNLilJyN3Mo4w1h+3HnlEX+DlaK/BkdF6v4n7OU5pIXBsiVE6D6b+IOyKyqYfFr1R
- Y/rJt+CiMgMGxAEeQ9MLAx7Z2NdjTrItlVnEW6V1inlyoulYRjfDm6Og2QvekRjr2Dgu
- zZYw==
+ bh=N/5m5QNTni5SJH+I/LlHR9r7yAjGLSHKPRDMhLRsCRU=;
+ b=eeTvXdxJX8cDKpQN8dEdAEniQGnJgw3Lph9TjAgB4EWHLxT224Lor38R90T0P74iPI
+ saR18JvDRpomkeWLalwCJwDM0gx6dhSFo5ijXW0IVUFraeQYk/2n3y3mWSunYk4NYeNt
+ ULD/jfd4w/A2tVwmpHKnonCooPK9+fwwaBZ0JFU36DlR0KaFeJg/evb4MQsE+DXnNH80
+ 6jVnnbvhA4yDTjgdojiY7gZevEeEeid0AqEK/J3RyPCdzDaampsgBNEkHDveTleq6ss+
+ B+Zg7ImvKW8/dik2o+E54+BCJqTWMiRc2SftEnfWrGrqA9o0KhNesAy11zZalXB7CINs
+ Q3hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681255797;
+ d=1e100.net; s=20210112; t=1681256888;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JQ1Y6uZOjeIxwEgIwEBvY5MW6SoPg89AU7hXt4cl2pU=;
- b=QqP3d7t5nZLswKx+PSUowalBrCUfd0iiGlCiSxIcbECgJsprTOe6l68aVrwr2D5CzI
- 1SLLACRo8nM94o3a3Ctm6iExDBw8SP9+QbKM0XtAeI6mqZJmmkcydvKIlELXd/HKnpMV
- 3TOoNuEF7mVcfyJaEIOCM7p9kwivDzDiq3SUTXqzb1YCSOE6jNUfVDxI6UpIHqPkmRuG
- x2zhPoeqfvG3Fvi5BFBloHRSRNAdEhqBUM2eqNWgt3h+PVEDc2kvmEfixIY0AwjDesRZ
- UclL1lnemelwmML+BbvMCcq2Mkcos487ewXOILh0SwpUXpByhJzPMgZ2GrQ3q3ygSVu0
- uR4w==
-X-Gm-Message-State: AAQBX9dyk+EOVa9UoRWooqXQW9ZKD8e1H+qjibwmxMWr+TOAzFrmvQZV
- HfhsJXK3LC+L7DVCKvAZeoStDg==
-X-Google-Smtp-Source: AKy350YRyRBZWY8Wa5JWdq4+Mhcjqj2/oSEmx3UuCly7+vS7wJYDKQerrjoMvySmIaRpRStptv5g2Q==
-X-Received: by 2002:aca:180f:0:b0:387:cfb5:98f1 with SMTP id
- h15-20020aca180f000000b00387cfb598f1mr4979813oih.27.1681255796957; 
- Tue, 11 Apr 2023 16:29:56 -0700 (PDT)
+ bh=N/5m5QNTni5SJH+I/LlHR9r7yAjGLSHKPRDMhLRsCRU=;
+ b=C4KoPH6ivltregvfvYa64CIMNN82qQbn4BGrpH5IGeo8+cXoXvGEzJCJXspBQvxUAE
+ IDA2aD43bs2uWlYaxxesFRsZSEEu9qOzS3UF+016hedXwNRLrvJdt/zPw5H3xmUT0vaP
+ oSJbHLqdYT/3LHT3L3OwXMN0pWQX8zLQlpQw7Ex3evry32pKolGVXyTf7YHeNGJW7bYS
+ 5SSJPwdM7t20lrVUX1P4YyxXuTk6eYyyhnFumWTsnzlBc8qV4jl8L4lDED4Lxodi7Vwp
+ RqXBf0ClI4Pvne23ECPrrfjf0i8WXiczTeUD7eADdL5LsTLWFQJKJRkjQgZ5UgB2MvHA
+ kzsg==
+X-Gm-Message-State: AAQBX9foCNZwqOxnF9uMAUDcIxh1d8kdupzLy2U7qOzLl1RaWBa0GRPW
+ xb1k7PBqr2qt+JfLq2UVp5QiNA==
+X-Google-Smtp-Source: AKy350ZCNRxRGHQaHlEmRv3ICAUaKCBmFJ4l4AF6Rhq83UMGMrd3gftLE1O4JKijPhmg4YuDKga6QQ==
+X-Received: by 2002:a9d:6d18:0:b0:6a4:732:7bcf with SMTP id
+ o24-20020a9d6d18000000b006a407327bcfmr2227525otp.16.1681256888427; 
+ Tue, 11 Apr 2023 16:48:08 -0700 (PDT)
 Received: from [192.168.68.107] ([191.255.108.232])
  by smtp.gmail.com with ESMTPSA id
- k18-20020a056808069200b0038afbe9db42sm6091100oig.44.2023.04.11.16.29.53
+ p12-20020a056830130c00b00690c80741e3sm2951024otq.66.2023.04.11.16.48.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 16:29:56 -0700 (PDT)
-Message-ID: <da4e2e80-f1be-4e46-059b-0c11f140efd1@ventanamicro.com>
-Date: Tue, 11 Apr 2023 20:29:51 -0300
+ Tue, 11 Apr 2023 16:48:07 -0700 (PDT)
+Message-ID: <45032919-7642-870c-33d4-f65c38101edf@ventanamicro.com>
+Date: Tue, 11 Apr 2023 20:48:04 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH] target/riscv: Restore the predicate() NULL check behavior
+Subject: Re: [PATCH 0/2] target/riscv: Separate implicitly-enabled and
+ explicitly-enabled extensions
 Content-Language: en-US
-To: Bin Meng <bmeng@tinylab.org>, Alistair Francis
- <alistair.francis@wdc.com>, Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Fei Wu <fei2.wu@intel.com>
-References: <20230411090211.3039186-1-bmeng@tinylab.org>
+To: liweiwei <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230410033526.31708-1-liweiwei@iscas.ac.cn>
+ <0fd5d633-8aac-4186-a7b8-0e27f416bb3f@ventanamicro.com>
+ <3ab19e9b-88a3-17bd-169d-7317dfbf36e5@iscas.ac.cn>
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230411090211.3039186-1-bmeng@tinylab.org>
+In-Reply-To: <3ab19e9b-88a3-17bd-169d-7317dfbf36e5@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x231.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x335.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,58 +101,95 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 4/11/23 06:02, Bin Meng wrote:
-> When reading a non-existent CSR QEMU should raise illegal instruction
-> exception, but currently it just exits due to the g_assert() check.
+On 4/10/23 21:15, liweiwei wrote:
 > 
-> This actually reverts commit 0ee342256af9205e7388efdf193a6d8f1ba1a617,
-> Some comments are also added to indicate that predicate() must be
-> provided for an implemented CSR.
+> On 2023/4/10 21:48, Daniel Henrique Barboza wrote:
+>> Hi,
+>>
+>> On 4/10/23 00:35, Weiwei Li wrote:
+>>> The patch tries to separate the multi-letter extensions that may implicitly-enabled by misa.EXT from the explicitly-enabled cases, so that the misa.EXT can truely disabled by write_misa().
+>>> With this separation, the implicitly-enabled zve64d/f and zve32f extensions will no work if we clear misa.V. And clear misa.V will have no effect on the explicitly-enalbed zve64d/f and zve32f extensions.
+>>
+>> For this particular case of write_misa() I'm not sure if we need all that. If we want
+>> to grant user choice on write_misa(), let's say that the user wants to enable/disable
+>> RVV, we can enable/disable all RVV related Z-extensions by hand. It's just a matter
+>> of writing enable/disable code that write_misa() would use.
+>>
+>> In the end, write_misa() is also an user choice. If write_misa() wants to disable RVV,
+>> this means that the user wants to disable RVV, so it doesn't matter whether the user
+>> enabled zve32f on the command line or not - we disable zve32f as well. Same thing for
+>> RVC and its related Z-extensions.
 > 
-> Reported-by: Fei Wu <fei2.wu@intel.com>
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
-> ---
+> I just find we should also separate the cases here. Zcmp/Zcmt require Zca.
+> 
+> If we disable Zca when misa.C is cleared, whether we need disable Zcmp/Zcmt?
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+IMO write_misa() shouldn't be able to disable Z-extensions that it can't turn it back
+on. E.g. RVV disabling zve64d/f is ok because, if we re-enable RVV, they'll be re-enabled
+back.
+
 
 > 
->   target/riscv/csr.c | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
+> If yes, then we need another new parameter(to indicate they are diabled by
 > 
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d522efc0b6..736ab64275 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -3797,6 +3797,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->           return RISCV_EXCP_ILLEGAL_INST;
->       }
->   
-> +    /* ensure CSR is implemented by checking predicate */
-> +    if (!csr_ops[csrno].predicate) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
->       /* privileged spec version check */
->       if (env->priv_ver < csr_min_priv) {
->           return RISCV_EXCP_ILLEGAL_INST;
-> @@ -3814,7 +3819,6 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->        * illegal instruction exception should be triggered instead of virtual
->        * instruction exception. Hence this comes after the read / write check.
->        */
-> -    g_assert(csr_ops[csrno].predicate != NULL);
->       RISCVException ret = csr_ops[csrno].predicate(env, csrno);
->       if (ret != RISCV_EXCP_NONE) {
->           return ret;
-> @@ -3991,7 +3995,10 @@ RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
->       return ret;
->   }
->   
-> -/* Control and Status Register function table */
-> +/*
-> + * Control and Status Register function table
-> + * riscv_csr_operations::predicate() must be provided for an implemented CSR
-> + */
->   riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->       /* User Floating-Point CSRs */
->       [CSR_FFLAGS]   = { "fflags",   fs,     read_fflags,  write_fflags },
+> clearing misa.C ) to decide whether we should re-enable them when misa.C is set.
+> 
+> If not, we should make clearing misa.C failed in this case.
+
+I'd rather fail the operation. write_misa() should always make reversible operations. If
+a certain CSR write would put us in a state that we can't go back on, we should fail.
+
+For now I think I'll go back to that cleanup I made, rebase it, get one of Weiwei patches
+that fixes the sifive breakage I talked about in the other thread, and see if we can
+get that more simple version of write_misa() merged. We can continue these discussions
+on top of that code.
+
+
+Thanks,
+
+
+Daniel
+
+
+> 
+> Regards,
+> 
+> Weiwei Li
+> 
+>>
+>> The reason why I didn't do this particular code for RVC and RVV is because we have
+>> pending work in the ML that I would like to get it merged first. And there's a few
+>> caveats we need to decide what to do, e.g. what if the user disables F but V is
+>> enabled? Do we refuse write_misa()? Do we disable RVV?
+>>
+>>
+>> All this said, patch 1 is still a good addition to make it easier to distinguish
+>> the Z-extensions we're enabling due to MISA bits. I believe we should use
+>> set_implicit_extensions_from_ext() in the future for all similar situations.
+>>
+>>
+>>
+>> Thanks,
+>>
+>> Daniel
+>>
+>>
+>>
+>>>
+>>> Weiwei Li (2):
+>>>    target/riscv: Add set_implicit_extensions_from_ext() function
+>>>    target/riscv: Add ext_z*_enabled for implicitly enabled extensions
+>>>
+>>>   target/riscv/cpu.c                      | 73 +++++++++++++++----------
+>>>   target/riscv/cpu.h                      |  8 +++
+>>>   target/riscv/cpu_helper.c               |  2 +-
+>>>   target/riscv/csr.c                      |  2 +-
+>>>   target/riscv/insn_trans/trans_rvd.c.inc |  2 +-
+>>>   target/riscv/insn_trans/trans_rvf.c.inc |  2 +-
+>>>   target/riscv/insn_trans/trans_rvi.c.inc |  5 +-
+>>>   target/riscv/insn_trans/trans_rvv.c.inc | 16 +++---
+>>>   target/riscv/translate.c                |  4 +-
+>>>   9 files changed, 68 insertions(+), 46 deletions(-)
+>>>
+> 
 
