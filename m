@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4946DDA6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696916DDA71
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:10:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmCoY-0004Ve-JK; Tue, 11 Apr 2023 08:09:34 -0400
+	id 1pmCod-0004X3-Fw; Tue, 11 Apr 2023 08:09:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmCoP-0004VO-0E
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:09:26 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmCoM-0004Mj-2s
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:09:24 -0400
-Received: by mail-ej1-x631.google.com with SMTP id ga37so20094597ejc.0
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 05:09:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681214960; x=1683806960;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FJtJfAG3FTj0Mp4aU87gbbrxBXFK2d65L0vZtbl5EUU=;
- b=K5WofLcaCaGTlr1uf2G9QXqnXtNccGL+HSEll+dOVN0wLYg5J6CaMs+twT7SygPsh4
- dcoxPOCrcNJ7muR+QYpi1/zqFckaqjidpsyXAhl7q4Ju5LO+/M4dM0ixN0XRAvgLUUlZ
- Z7ThIy7FYw7LNsdopNdDiHxBSaAiIrxeuLgXxFYEzx2M1dxSc38Hx4DXN23BjjrPcbdN
- z4SbZmK7bcaiiDMvlnfG7oKYGtx2xU8//nKxbmcz+LNuvTdn+ojrs1EvFCLxVZmtI12k
- uu08f0Npwcg/tna0Z8ssYYK4mbJ7Hk2aNYTwxwgHbxipV9S3IYpnhYZGbMFGIuLv0XqF
- urSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681214960; x=1683806960;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FJtJfAG3FTj0Mp4aU87gbbrxBXFK2d65L0vZtbl5EUU=;
- b=f+80DY7tvDFDFMpqYfo+VClI8mvevvV8/1IE12fkdBs6LIDvgGoi5QtieMcmS3rKyN
- CzNU7S9DdMA5tojtgw405VtkjlH9i9Zkt2b5u5U+dH8CwkiqcY147XYKSf0prR7APpMC
- zlWuUd/DlOaOJjTIndzqb1KNEBbwdV3ewWN6YefcxFLVhwUK/yvZFE5sXswPctcczKDQ
- +kS8eZ5HTraW3dd+qkr7AGXXrPyw+IBaKSqJSGC6B47CkSoZNhCfPQsdmLl9G0aHzhlr
- UyfBDkC1f1R38kGmUZ62LoaGJs8RLj30YffIj41jh+9MlMXB3D26az7Q4IoN1xLpp283
- PXZA==
-X-Gm-Message-State: AAQBX9chNyNzTPCZX4uIPkntNh/W3yR31Gasg9iDAMZvqwt5LeCJo5Cn
- /RYT7U1JJWqA6ImWh9jNAQNq7AWESRrjjyk2G0fPlA==
-X-Google-Smtp-Source: AKy350bbu/IbL3Wka1f0D6W9Vh6lenMtSIMSjr559wYIhjDOzTsWqACJo6Ttx1C3oP9g9uZtCYk7u+/jsKCz8+F5ntg=
-X-Received: by 2002:a17:906:730b:b0:939:a51a:dc30 with SMTP id
- di11-20020a170906730b00b00939a51adc30mr6103973ejc.2.1681214960402; Tue, 11
- Apr 2023 05:09:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmCoa-0004W9-OC
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:09:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmCoY-0004NP-PT
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:09:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681214973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5IVfwhrEHTxPIKyLpf6NqeW3t3CoaOLvsQwlw+bos94=;
+ b=dPGrtdIKz1AIKLTvVL3+AT21Ck3kEQkA5iNj4ATiTOysP1QaQ3ZZLSwUPcrLxousf2LR76
+ mrqwCMKKTaYSHGmQYgrNIVTeUXkr9ajxGqZ/q7amVb9173FeQPmndXvmJvlZOVYRmXYDlC
+ qd/5j8a19NxZzu8x75lZUOYW7CCbmBw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-153-rCsjhhBWOhicwK3M74TQ6A-1; Tue, 11 Apr 2023 08:09:30 -0400
+X-MC-Unique: rCsjhhBWOhicwK3M74TQ6A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08D3F101A54F;
+ Tue, 11 Apr 2023 12:09:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00925202701E;
+ Tue, 11 Apr 2023 12:09:26 +0000 (UTC)
+Date: Tue, 11 Apr 2023 14:09:25 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Reinoud Zandijk <reinoud@netbsd.org>
+Cc: Michael Tokarev <mjt@tls.msk.ru>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Ryo ONODERA <ryoon@netbsd.org>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>, kvm@vger.kernel.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ armbru@redhat.com
+Subject: Re: [PATCH v2 05/11] qemu-options: finesse the recommendations
+ around -blockdev
+Message-ID: <ZDVN9TlzrCOJHlDR@redhat.com>
+References: <20230403134920.2132362-1-alex.bennee@linaro.org>
+ <20230403134920.2132362-6-alex.bennee@linaro.org>
+ <ZCwsvaxRzx4bzbXo@redhat.com>
+ <cbb3df0a-7714-cbc0-efda-45f1d608e988@msgid.tls.msk.ru>
+ <ZCxNqb9tEO24KaxX@redhat.com>
+ <ZC8qXxB6X8t7RBa+@gorilla.13thmonkey.org>
 MIME-Version: 1.0
-References: <b7796732-6334-c68b-3baa-2354644152f8@msgid.tls.msk.ru>
- <7739b40d-d8ba-ccde-cc6c-5d9f2c93a663@msgid.tls.msk.ru>
-In-Reply-To: <7739b40d-d8ba-ccde-cc6c-5d9f2c93a663@msgid.tls.msk.ru>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Apr 2023 13:09:03 +0100
-Message-ID: <CAFEAcA8DyTixWoeRpt3R7MHmLEwnvX5Y6ciCDaVj1n7K6GnOeQ@mail.gmail.com>
-Subject: Re: xen bits broke x32 build
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: Joao Martins <joao.m.martins@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- David Woodhouse <dwmw@amazon.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZC8qXxB6X8t7RBa+@gorilla.13thmonkey.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,47 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 11 Apr 2023 at 12:57, Michael Tokarev <mjt@tls.msk.ru> wrote:
->
-> 01.04.2023 11:40, Michael Tokarev wrote:
-> > After bringing in xen guest support, qemu fails to build on x32:
-> >
-> > target/i386/kvm/xen-emu.c:876:5: note: in expansion of macro =E2=80=98q=
-emu_build_assert=E2=80=99
-> >    876 |     qemu_build_assert(sizeof(struct vcpu_info) =3D=3D 64);
-> >        |     ^~~~~~~~~~~~~~~~~
-> >
-> > This one should be easy to fix, but I wonder if there are other issues
-> > with x32 exists..
->
-> Ok, I took a look at how to disable this new XEN stuff on x32.
->
-> It is the commit 820c1aba519bd072ac71c754733f6c86d8b4309 "xen: add
-> CONFIG_XEN_BUS and CONFIG_XEN_EMU options for Xen emulation" adding
-> this construct to hw/i386/Kconfig:
->
-> config XEN_EMU
->      bool
->      default y
->      depends on KVM && (I386 || X86_64)
->
-> Since meson does not know about x32, and while ./conifgure does, it
-> is not propagated to meson, and sure not propagated to Kconfig too,
-> there's some more work needed to disable XEN_EMU on x32.
+Am 06.04.2023 um 22:23 hat Reinoud Zandijk geschrieben:
+> On Tue, Apr 04, 2023 at 06:17:45PM +0200, Kevin Wolf wrote:
+> > Am 04.04.2023 um 17:07 hat Michael Tokarev geschrieben:
+> > > 04.04.2023 16:57, Kevin Wolf пишет:
+> > Maybe -snapshot should error out if -blockdev is in use. You'd generally
+> > expect that either -blockdev is used primarily and snapshots are done
+> > externally (if the command line is generated by some management tool),
+> > or that -drive is used consistently (by a human who likes the
+> > convenience). In both cases, we wouldn't hit the error path.
+> > 
+> > There may be some exceptional cases where you have both -drive and
+> > -blockdev (maybe because a human users needs more control for one
+> > specific disk). This is the case where you can get a nasty surprise and
+> > that would error out. If you legitimately want the -drive images
+> > snapshotted, but not the -blockdev ones, you can still use individual
+> > '-drive snapshot=on' options instead of the global '-snapshot' (and the
+> > error message should mention this).
+> 
+> I didn't know that! I normally use the -snapshot as global option. Is there a
+> reason why -blockdev isn't honouring -snapshot?
 
-Frankly I would prefer to just say "we don't support x32".
-It's a weird non-standard configuration that as far as I'm
-aware is very little used. Its stats in the debian
-popularity-contest graphs peaked at 18 users in 2017, and
-have mostly been fluctuating between 1 and 3 for the last
-couple of years:
-https://popcon.debian.org/stat/sub-x32.png
+The philosophy behind -blockdev is that you're explicit about every
+image file (and other block node) you want to use and that QEMU doesn't
+magically insert or change things behind your back.
 
-We're currently planning to deprecate-and-drop 32-bit x86
-hosts, which are much more widely used than this. I see
-no reason why we should care about this oddball failed
-experiment of an ABI...
+For simple use cases that might not seem necessary, but many of the
+newer functions added to the block layer, like the block jobs, are
+operations that can work on any node in the block graph (i.e. any of the
+open images, including backing files etc.). If QEMU changed something
+behind your back, you can easily access the wrong image. Especially for
+management software like libvirt this kind of magic that -drive involves
+was really hard to work with because it always had to second guess what
+the world _really_ looked like on the QEMU side.
 
-thanks
--- PMM
+For example, imagine you open foo.img with -snapshot. Now you want to
+create a backup of your current state, so tell QEMU to backup the block
+node for foo.img because that's what your VM is currently running on,
+right? Except that nobody told you that the active image is actually a
+temporary qcow2 image file that -snapshot created internally. You're
+backing up the wrong image without the changes of your running VM.
+
+So it's better to always be explicit, and then it's unambiguous which
+image file you really mean in operations.
+
+Kevin
+
 
