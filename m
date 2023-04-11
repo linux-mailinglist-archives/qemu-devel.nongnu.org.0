@@ -2,65 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF0B6DDB8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 15:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5141B6DDBB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 15:05:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmDe8-000215-38; Tue, 11 Apr 2023 09:02:53 -0400
+	id 1pmDgM-0003iP-4p; Tue, 11 Apr 2023 09:05:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmDdx-0001zQ-6F
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 09:02:44 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmDg8-0003hy-Ik
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 09:04:57 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmDdv-0007gK-EZ
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 09:02:40 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id jg21so19812244ejc.2
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 06:02:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmDg5-0008Bm-Nh
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 09:04:55 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ j1-20020a05600c1c0100b003f04da00d07so748187wms.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 06:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681218158; x=1683810158;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hXykwCqjiLdlCUU9P9qkJ+OGA5U2MZoBCG6BgzNYwm4=;
- b=Jo4j+DUjc3vO7MvVjYFJqERFsUVq3QausR5Y1slqgpU1yvxiOGtSYyBS3qlV/DPeZt
- ZycS7Cih/SgVrM6FsI4KBegKmdfXUlFl3xTRu7RFyfitujEpBLEjR7gLNnFfa38k97vl
- tt+t0uqwLcmNO+QzmvgyxgTV//tV6CIFMNCZcOSDWo2KB2lQqtg+iUd10xkLig18iU4j
- dIEOytb2di0rqQClhiWEPpjVIjQ6Hmk+b4FrY3Y3DDpbOwVB36LcK6t59Mn4WIOnRtz2
- sGMBljLEWn9D1izm1iMu6sfVFuNqM9LrCccyN7SJqtP/zyRI2r2L6O3UzHPywsTqkFes
- ucTQ==
+ d=linaro.org; s=google; t=1681218292; x=1683810292;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+VsLOycAHyGZoxoPqUjjK9qLhajHi2nxfZLNUeNazbU=;
+ b=gbOmLCmuIScS2z0LOiNoMXkdN/CaFp4IOGreYjmCp5ohvxd0PukiO+daoaxEFYV2T1
+ OfTngPbS1qJFuFJGbm3AdX0FAUT8fxeMh3WXxh/ylVEw61l68O5hnUkHeAIzSgUzpUkL
+ rB49yTD0m1dhutmYCuQrZCsCLlg7oYsFLFcfi9b0cDxXUTMEAKMfq0516UmqA9tTOK1e
+ LMoE7/ro3o5FNhnnvzbWnsuEF5cvJwtflCZb6pTRvoxsBkUXx10hKEWUZgVmxinKFR6H
+ 2nEz+LtiJE/Q8IcREWEXUIBfaYX6WGxlTkRBpv1cCB7C1iGAOtZItjBjOrOncZC/XWhH
+ Qv9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681218158; x=1683810158;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hXykwCqjiLdlCUU9P9qkJ+OGA5U2MZoBCG6BgzNYwm4=;
- b=PdlMPh1Pq7fdsK2u0f0cNSznHo/hfj4FtuuaW2ihpEOt/FitMeSVzQzmzVEy16ZoIC
- sfTxCkFfojoTl7f3rD7E5lQ0vgnP7kSEzdh6DhbRX55i4x9iD/640gTqrEaxn8hywQyb
- TxuxQ7SO6WNxmxQ//gNfECv4enj/Sp5/XGnnifbc82JejfCoAE6h+doBBLFbYyUO8nM8
- xgA0AW4ouuLWTOY3tqpgWgefnbKGMm9Ns/RVt4Rz+nUZvMkH7WtnLojOwRq/I8dZdcFR
- QYG24QIe/KvzMV5ztlDPiMSWJwNTrNTNUOPBjidFEFCZgPsl1fpMntInFvGfMIuC+oSl
- 4/jg==
-X-Gm-Message-State: AAQBX9dEJPBL06loORjGmUkYHl7HT1GwLNkbVf1Cc2H0lx5xVhZQ+dKe
- YG7hGTxr+0DsWQ7vUGCoqCX0H38HqsViVAYJcBCbaQ==
-X-Google-Smtp-Source: AKy350ac/XnagYotaO0RBpcPk/4KdHdYAATUU1Z9gkkm0Yez7bRcM1CiEyV17tLgM/iPV17i3v6F1AMuZXjOWm5Io+8=
-X-Received: by 2002:a17:906:2a48:b0:920:da8c:f7b0 with SMTP id
- k8-20020a1709062a4800b00920da8cf7b0mr5465613eje.6.1681218157913; Tue, 11 Apr
- 2023 06:02:37 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681218292; x=1683810292;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=+VsLOycAHyGZoxoPqUjjK9qLhajHi2nxfZLNUeNazbU=;
+ b=vx+lGVOvRi5meh9tUfJYRlLolGy6GazaA27oCr01v/HxT5QpNQC1jKmcextKL0Dfe+
+ I4vR9mhcGpTHbKe1hJDXJZq6hb2fLuZXuT7J3xo0peJft2oNrIDrcv81dXeCRFJ+as/B
+ WKsYCcw2geI+eiOrMv7N2Zomzyk1JC76okGO/0PE9sTvVQyeTskcUVViFoUupLYJ4wy3
+ L6SYdvmJlSh7QXvHQnOZavUc943Y99KPJYUHA7uuAtdQlly0HuPwkt6YIz559VDQuCCo
+ s+yw1AgevvICapFcrautL2IdQJySiv7B9VRBi3qEUJEy5o9HmZC5K0es1it22VN4D1RJ
+ JFtw==
+X-Gm-Message-State: AAQBX9e3vyU/fHZy1vtYm4/+YLBOR/CZsDOsqsCRvjaH1FO5/jagwZe6
+ f4V67bDnz7ksyNHkkGMiFkxBAQ==
+X-Google-Smtp-Source: AKy350bSzYQKI+JiwlucbWXfDBB89IiLUayKbfhkAVFYgHvUcugimzW1q0J4r7UlrQ2tGjrcMEevpA==
+X-Received: by 2002:a7b:c5c2:0:b0:3ed:c84c:7efe with SMTP id
+ n2-20020a7bc5c2000000b003edc84c7efemr9597516wmk.7.1681218292069; 
+ Tue, 11 Apr 2023 06:04:52 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ w16-20020a05600c475000b003f092f0e0a0sm2037796wmo.3.2023.04.11.06.04.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 06:04:51 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 075CE1FFB7;
+ Tue, 11 Apr 2023 14:04:51 +0100 (BST)
+References: <20230403134920.2132362-1-alex.bennee@linaro.org>
+ <20230403134920.2132362-6-alex.bennee@linaro.org>
+ <ZCwsvaxRzx4bzbXo@redhat.com>
+ <cbb3df0a-7714-cbc0-efda-45f1d608e988@msgid.tls.msk.ru>
+ <ZCxNqb9tEO24KaxX@redhat.com> <ZC8qXxB6X8t7RBa+@gorilla.13thmonkey.org>
+ <ZDVN9TlzrCOJHlDR@redhat.com>
+User-agent: mu4e 1.10.0; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Reinoud Zandijk <reinoud@netbsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Ryo ONODERA
+ <ryoon@netbsd.org>, qemu-block@nongnu.org, Hanna Reitz
+ <hreitz@redhat.com>, Warner Losh <imp@bsdimp.com>, Beraldo Leal
+ <bleal@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Kyle Evans
+ <kevans@freebsd.org>, kvm@vger.kernel.org, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Cleber Rosa <crosa@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, armbru@redhat.com
+Subject: Re: [PATCH v2 05/11] qemu-options: finesse the recommendations
+ around -blockdev
+Date: Tue, 11 Apr 2023 14:03:36 +0100
+In-reply-to: <ZDVN9TlzrCOJHlDR@redhat.com>
+Message-ID: <87o7nupo25.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20230404074506.112615-1-jiangfeng@kylinos.cn>
-In-Reply-To: <20230404074506.112615-1-jiangfeng@kylinos.cn>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Apr 2023 14:02:26 +0100
-Message-ID: <CAFEAcA_VP-Y2x9efKW8atddUL64D03eSE8A7h3hk8N7s9spMhg@mail.gmail.com>
-Subject: Re: [PATCH] exynos: Fix out-of-bounds access in exynos4210_gcomp_find
-To: Feng Jiang <jiangfeng@kylinos.cn>
-Cc: i.mitsyanko@gmail.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,21 +109,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 4 Apr 2023 at 08:45, Feng Jiang <jiangfeng@kylinos.cn> wrote:
+
+Kevin Wolf <kwolf@redhat.com> writes:
+
+> Am 06.04.2023 um 22:23 hat Reinoud Zandijk geschrieben:
+>> On Tue, Apr 04, 2023 at 06:17:45PM +0200, Kevin Wolf wrote:
+>> > Am 04.04.2023 um 17:07 hat Michael Tokarev geschrieben:
+>> > > 04.04.2023 16:57, Kevin Wolf =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> > Maybe -snapshot should error out if -blockdev is in use. You'd general=
+ly
+>> > expect that either -blockdev is used primarily and snapshots are done
+>> > externally (if the command line is generated by some management tool),
+>> > or that -drive is used consistently (by a human who likes the
+>> > convenience). In both cases, we wouldn't hit the error path.
+>> >=20
+>> > There may be some exceptional cases where you have both -drive and
+>> > -blockdev (maybe because a human users needs more control for one
+>> > specific disk). This is the case where you can get a nasty surprise and
+>> > that would error out. If you legitimately want the -drive images
+>> > snapshotted, but not the -blockdev ones, you can still use individual
+>> > '-drive snapshot=3Don' options instead of the global '-snapshot' (and =
+the
+>> > error message should mention this).
+>>=20
+>> I didn't know that! I normally use the -snapshot as global option. Is th=
+ere a
+>> reason why -blockdev isn't honouring -snapshot?
 >
-> When 'res' equals -1, the array 's->g_timer.reg.comp[]' is accessed
-> out of bounds.
+> The philosophy behind -blockdev is that you're explicit about every
+> image file (and other block node) you want to use and that QEMU doesn't
+> magically insert or change things behind your back.
 >
-> Signed-off-by: Feng Jiang <jiangfeng@kylinos.cn>
-> ---
->  hw/timer/exynos4210_mct.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
+> For simple use cases that might not seem necessary, but many of the
+> newer functions added to the block layer, like the block jobs, are
+> operations that can work on any node in the block graph (i.e. any of the
+> open images, including backing files etc.). If QEMU changed something
+> behind your back, you can easily access the wrong image. Especially for
+> management software like libvirt this kind of magic that -drive involves
+> was really hard to work with because it always had to second guess what
+> the world _really_ looked like on the QEMU side.
+>
+> For example, imagine you open foo.img with -snapshot. Now you want to
+> create a backup of your current state, so tell QEMU to backup the block
+> node for foo.img because that's what your VM is currently running on,
+> right? Except that nobody told you that the active image is actually a
+> temporary qcow2 image file that -snapshot created internally. You're
+> backing up the wrong image without the changes of your running VM.
+>
+> So it's better to always be explicit, and then it's unambiguous which
+> image file you really mean in operations.
 
-Only happens if you change the source code to enable the debug
-printfs though, which isn't the default. I'll tweak the
-commit message to make that clearer.
+With that in mind please review:
 
-Applied to target-arm.next for 8.1, thanks.
+  Subject: [PATCH v3] qemu-options: finesse the recommendations around -blo=
+ckdev
+  Date: Thu,  6 Apr 2023 10:53:17 +0100
+  Message-Id: <20230406095317.3321318-1-alex.bennee@linaro.org>
 
--- PMM
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
