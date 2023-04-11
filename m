@@ -2,104 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A666DD0B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 06:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B131C6DD0E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 06:26:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm5Pq-00051V-Pf; Tue, 11 Apr 2023 00:15:34 -0400
+	id 1pm5Zb-0006sg-09; Tue, 11 Apr 2023 00:25:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pm5Pn-000512-K9; Tue, 11 Apr 2023 00:15:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pm5Ph-0000Ra-Rb; Tue, 11 Apr 2023 00:15:27 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33B296k6031794; Tue, 11 Apr 2023 04:15:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=ScJMg4vbpStvHpEjGPpD7sdU2vkv2D2AMnUY+uKgT/U=;
- b=sOB6cCt7Mmzs/xTDkeKDH6KHLhO45rfXXnY3v5ST1o8PH0yYqhUq9Zhveq5/yacXVSgA
- K4UjMyWrzz7gy1ef4A3mVR2DEFxt/w1XI2/9ftU8mErTGIQFGxJZSiQ3NYCghRO6EPMC
- SgjkxtOhks4bL2ugesTzvklCCqMC8Bix29/Tg2woJfyXURIBYFTyL8hMB+G/e/4XxHQ+
- +z6UWHeZt8MWS7NYg8VKo1aQgGISeUe10eG2uDfjTclYkxlDAA7Dv0gTBkQo23mHskNl
- 5AYR0EjjsRscknpKsjCtJX0//xuDlAU8dEGMLB6Qu3fhg9qGf+HngaGkpae/i0xR+XkR vw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3puj1fwj3g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Apr 2023 04:15:14 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33B4F3iS002502;
- Tue, 11 Apr 2023 04:15:13 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3puj1fwj35-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Apr 2023 04:15:13 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33B1Ab7A029810;
- Tue, 11 Apr 2023 04:15:13 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3pu0fqa1wu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Apr 2023 04:15:12 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
- [10.241.53.105])
- by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33B4FB9031130150
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Apr 2023 04:15:11 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 454905805D;
- Tue, 11 Apr 2023 04:15:11 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 03BB558043;
- Tue, 11 Apr 2023 04:15:09 +0000 (GMT)
-Received: from [9.109.242.129] (unknown [9.109.242.129])
- by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 11 Apr 2023 04:15:08 +0000 (GMT)
-Message-ID: <5faab28d-0abb-ed0f-929e-f6f1268d0886@linux.ibm.com>
-Date: Tue, 11 Apr 2023 09:45:07 +0530
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pm5ZY-0006sQ-C6; Tue, 11 Apr 2023 00:25:36 -0400
+Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pm5ZW-0002dQ-LE; Tue, 11 Apr 2023 00:25:36 -0400
+Received: by mail-ua1-x931.google.com with SMTP id t20so17735627uaw.5;
+ Mon, 10 Apr 2023 21:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1681187133; x=1683779133;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OIYWjeHW3XtFQw8dELwy989yPonLy4SdKK+4E6HZr/8=;
+ b=hh8+VTC8hBC9Gc2xUFNv4JFh4OUHZwUGbOh+ZwlZgW+7DtbwDhSCoKYoxFBDln6X/m
+ +XrQZszAp+Z+bsCee3faKD9iheADw/f7CgL4h6lVzPjjR0FYfKERTg+Q/HAPQF182EJz
+ mqeYcCzho9MqoTZvYaB/tT2p9el2coeeWRv2qXS4HuuXVmzk/bnY6JJMiEJKatOQ2riP
+ B12iC8sb6LwSfUfj7krHLNbyCgheqf/xgjcPj44Nzm2YclmPet4x3CQuQSTBzguzoxzE
+ ucdsQd6oG0WGMT0IJBXKFacN/LTIBn5ji7W20zar5kP3830q8WBU6CeTk8Y8CKeBgh8M
+ 2APw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681187133; x=1683779133;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OIYWjeHW3XtFQw8dELwy989yPonLy4SdKK+4E6HZr/8=;
+ b=MvISgy1a6ZG1i0FhUj5bq8d2R2m4fvoKjuSJDi0CCxGGJlwwullRcGMQSHqutgNruJ
+ r3FOmoTwohTOKATcure5TELvd+DdDz7NuoWWmTAljjIDVS41zaUsZFF69BU7q/6BQ/lk
+ DXNuy2kS/kXlW6lKYyBpHSkO5FFOi32ygG9rev+1AFKb98wbRQibMJ/cjWlfgNcwu43f
+ II1ZQLODyxlAtYdm1cLMH1CXLjEqB65n+4Yjb9xCMtDqJIwSKWTUfQxZN8hgP5nlfq91
+ /OVt3o5GtNKmSwRJfxYsfVNKq/0BCU5QlaQKRILQwYHlQV3ijDcfS85/SIZXVaZCNDW9
+ It8A==
+X-Gm-Message-State: AAQBX9d/0/+WLQibYsi9fHhk9VGBF0z528vX+KkW7ACiKPjtjnBDMU+L
+ 5yPGc+GZRiwIJP57ojnEHsnS83+FkzVN/QaUstK462GIJ4s=
+X-Google-Smtp-Source: AKy350bFzw3wGte6WZ+A66IMo+fWrzHa7PBW95dNNZ/9BWiYAbwyHgt4UkfTPygb4EIJnCuFxv1t4p3uE2PzKkIbu4o=
+X-Received: by 2002:ab0:5b8c:0:b0:765:c225:c914 with SMTP id
+ y12-20020ab05b8c000000b00765c225c914mr8047850uae.1.1681187133201; Mon, 10 Apr
+ 2023 21:25:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 0/5] Cleanup [h_enter|spapr_exit]_nested routines
-Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>, Fabiano Rosas <farosas@suse.de>,
- qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20230331065344.112341-1-harshpb@linux.ibm.com>
- <3492b914-4b11-0fe2-2e9e-a67820dac9c5@kaod.org>
- <111fdf2e-32bf-9466-d679-dc84e18c862f@gmail.com>
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <111fdf2e-32bf-9466-d679-dc84e18c862f@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Va-mJpH6meHDj3v2L5RN-yLPdJkSZ0CI
-X-Proofpoint-GUID: I65_YCZF32c7ALx9ACTVzk5M-bl9CzY1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-10_18,2023-04-06_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0
- impostorscore=0 mlxlogscore=478 phishscore=0 clxscore=1011 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304110032
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.246, SPF_HELO_NONE=0.001,
+References: <20230325105429.1142530-1-richard.henderson@linaro.org>
+ <20230325105429.1142530-18-richard.henderson@linaro.org>
+In-Reply-To: <20230325105429.1142530-18-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 11 Apr 2023 14:25:07 +1000
+Message-ID: <CAKmqyKMVHFLGBagf4op2+9dnSTuPhKnhiG961XBcJL7x0oODRw@mail.gmail.com>
+Subject: Re: [PATCH v6 17/25] target/riscv: Check SUM in the correct register
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ palmer@dabbelt.com, zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x931.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,48 +86,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Nick, Fabiano,
+On Sat, Mar 25, 2023 at 10:42=E2=80=AFPM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Table 9.5 "Effect of MPRV..." specifies that MPV=3D1 uses VS-level
+> vsstatus.SUM instead of HS-level sstatus.SUM.
+>
+> For HLV/HSV instructions, the HS-level register does not apply, but
+> the VS-level register presumably does, though this is not mentioned
+> explicitly in the manual.  However, it matches the behavior for MPV.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Any review comments, please?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-regards,
-Harsh
+Alistair
 
-On 3/31/23 16:36, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 3/31/23 07:39, Cédric Le Goater wrote:
->> On 3/31/23 08:53, Harsh Prateek Bora wrote:
->>> This patchset introduces helper routines to enable (and does) cleaning
->>> up of h_enter_nested() and spapr_exit_nested() routines in existing api
->>> for nested virtualization on Power/SPAPR for better code readability /
->>> maintenance. No functional changes intended with this patchset.
->>
->> Adding Nick since he did most of this work.
-> 
-> 
-> And also Fabiano.
-> 
-> 
-> Daniel
-> 
->>
->> C.
->>
->>
->>>
->>> Harsh Prateek Bora (5):
->>>    ppc: spapr: cleanup cr get/store with helper routines.
->>>    ppc: spapr: cleanup h_enter_nested() with helper routines.
->>>    ppc: spapr: assert early rather late in h_enter_nested()
->>>    ppc: spapr: cleanup spapr_exit_nested() with helper routines.
->>>    MAINTAINERS: Adding myself in the list for ppc/spapr
->>>
->>>   MAINTAINERS          |   1 +
->>>   hw/ppc/spapr_hcall.c | 251 ++++++++++++++++++++++++-------------------
->>>   target/ppc/cpu.c     |  17 +++
->>>   target/ppc/cpu.h     |   2 +
->>>   4 files changed, 161 insertions(+), 110 deletions(-)
->>>
->>
+> ---
+>  target/riscv/cpu_helper.c | 12 ++++++++----
+>  target/riscv/op_helper.c  |  6 +++++-
+>  2 files changed, 13 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 6c42f9c6fd..0017ecbf37 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -42,11 +42,16 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifet=
+ch)
+>
+>      /* All priv -> mmu_idx mapping are here */
+>      if (!ifetch) {
+> -        if (mode =3D=3D PRV_M && get_field(env->mstatus, MSTATUS_MPRV)) =
+{
+> +        uint64_t status =3D env->mstatus;
+> +
+> +        if (mode =3D=3D PRV_M && get_field(status, MSTATUS_MPRV)) {
+>              mode =3D get_field(env->mstatus, MSTATUS_MPP);
+>              virt =3D get_field(env->mstatus, MSTATUS_MPV);
+> +            if (virt) {
+> +                status =3D env->vsstatus;
+> +            }
+>          }
+> -        if (mode =3D=3D PRV_S && get_field(env->mstatus, MSTATUS_SUM)) {
+> +        if (mode =3D=3D PRV_S && get_field(status, MSTATUS_SUM)) {
+>              mode =3D MMUIdx_S_SUM;
+>          }
+>      }
+> @@ -838,8 +843,7 @@ static int get_physical_address(CPURISCVState *env, h=
+waddr *physical,
+>          }
+>          widened =3D 2;
+>      }
+> -    /* status.SUM will be ignored if execute on background */
+> -    sum =3D mmuidx_sum(mmu_idx) || use_background || is_debug;
+> +    sum =3D mmuidx_sum(mmu_idx) || is_debug;
+>      switch (vm) {
+>      case VM_1_10_SV32:
+>        levels =3D 2; ptidxbits =3D 10; ptesize =3D 4; break;
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index db7252e09d..93d4ae8b3e 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -437,7 +437,11 @@ static int check_access_hlsv(CPURISCVState *env, boo=
+l x, uintptr_t ra)
+>          riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, ra);
+>      }
+>
+> -    return get_field(env->hstatus, HSTATUS_SPVP) | MMU_2STAGE_BIT;
+> +    int mode =3D get_field(env->hstatus, HSTATUS_SPVP);
+> +    if (!x && mode =3D=3D PRV_S && get_field(env->vsstatus, MSTATUS_SUM)=
+) {
+> +        mode =3D MMUIdx_S_SUM;
+> +    }
+> +    return mode | MMU_2STAGE_BIT;
+>  }
+>
+>  target_ulong helper_hyp_hlv_bu(CPURISCVState *env, target_ulong addr)
+> --
+> 2.34.1
+>
+>
 
