@@ -2,112 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CDA6DDAC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5586DDAD2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:29:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmD6B-0005I7-NY; Tue, 11 Apr 2023 08:27:48 -0400
+	id 1pmD81-00061S-Q0; Tue, 11 Apr 2023 08:29:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pmD66-0005HK-EJ; Tue, 11 Apr 2023 08:27:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pmD62-0007pZ-Ms; Tue, 11 Apr 2023 08:27:41 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33BBU6Zi018652; Tue, 11 Apr 2023 12:27:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=2oohw4nJIGPbvzkxqJVJiGcgYRPadZdI205qESTsDAI=;
- b=lI7wpHu9vOXj8Mp3JVEzl81ZPXXt3WTmG/+lsldLRXf+gbZUpzdRzY/iK2hsOzFjw+h2
- ctmSC2qCoIeoAMDWmKpE2imOUX6B2DG4caG0QWc7ocHLIk1Qht5/jc66Zmi1U2jBbw9H
- 3WJM/E3NGFSaHyEo1zQAfivuZunwj+qaKO2ajRFM6Gvsq/CSDtWjFQ61Vz+7qHnyBofF
- fVHi/BqjQbyjdEsjFniHttMkljdjeWRI60nQgV1eoXaEkHRehQTCOvj23/UhI50KDFSR
- tJmzAwptNQABccPCq/lF6fN2JYYUS67SK6M8Zsz+ufwIIMwaeMsUKpjBStbGLARi0TFh Sg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pw25y23ha-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Apr 2023 12:27:30 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33BARk1W001858;
- Tue, 11 Apr 2023 12:27:30 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pw25y23g6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Apr 2023 12:27:29 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33B40Pik012778;
- Tue, 11 Apr 2023 12:27:27 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3pu0hq1esf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Apr 2023 12:27:27 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33BCRN9455902630
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Apr 2023 12:27:23 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD1C02004B;
- Tue, 11 Apr 2023 12:27:23 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 53DC520040;
- Tue, 11 Apr 2023 12:27:23 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.215.178])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 11 Apr 2023 12:27:23 +0000 (GMT)
-Message-ID: <1bc361f6675ea9d8332131725cb5d778aa32e8bd.camel@linux.ibm.com>
-Subject: Re: [PATCH v19 01/21] s390x/cpu topology: add s390 specifics to CPU
- topology
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, =?ISO-8859-1?Q?C=E9dric?= Le Goater
- <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-Date: Tue, 11 Apr 2023 14:27:23 +0200
-In-Reply-To: <a46e9349-704c-e842-58c0-515ecb7b2d60@linux.ibm.com>
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-2-pmorel@linux.ibm.com>
- <4118bb4e-0505-26d3-3ffe-49245eae5364@kaod.org>
- <bd5cc488-20a7-54d1-7c3e-86136db77f84@linux.ibm.com>
- <55c4e517-dbd0-bbd2-7dde-0e2cab746101@kaod.org>
- <a46e9349-704c-e842-58c0-515ecb7b2d60@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: NW5aK0fgUF4bTluv08zAdyMEzKYMspra
-X-Proofpoint-ORIG-GUID: QOICNrryNgAEYlJIz3mwQIrTk-wd93E5
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmD7z-00061F-R2
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:29:39 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmD7y-000846-65
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:29:39 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id v6so7351126wrv.8
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 05:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681216176;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RtvLxdH/07rIT4Al432kq7O64MHMpn04cfJIlO2OX+c=;
+ b=BVjOq7lbeMXeuJYxq9DhuS7C2wJZc6VFrCzZvW+dzNv96+BUAlm3Zy+7PtvSE7AHBD
+ 9M1Nb4BguIrk+9JJpBiD/uBRq8vUgdkdA8HakbKX50ec6CIo90UW5i/4uJUIV+qL9cmn
+ PHGCVQUKUE1FkXMDN/1HbNbuX/Nfes/guvXbzqFkVQe07Y+2Efl4cHWVqTIsu3OudXgV
+ taRB2KUnGbE0C6sE5xUGUmjRIi1HJ1U4hlwzL2Xsof0lSCqeIIG4UyWPJAY5n+BMw4BL
+ DzO10xKWrfrpDQA6lNKAEz+LO18DKt3NhV3cfJfQCEDo/CxgQ5SeWEo0h5edTNeqp5/R
+ fRyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681216176;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RtvLxdH/07rIT4Al432kq7O64MHMpn04cfJIlO2OX+c=;
+ b=KeboHn1Qrn8TdSdSzYKRmcKWYED00GemTh5EjsHfAwQ/uWRQt1Eg2l9TrqtGNuegNz
+ PaYtCISvdcKjfNLsQgaj5Hv5/ytGNGIDEuBNooa/s7iSeVNaZG7Iz+y3bPOMXNEgJYYu
+ nJjZYPnpDsB3F/dxLawxBDszQxIT9mROcbr2Iv0D+MP6edV3zJBWMtTAhdpxI+bVIVh4
+ n0aqzcqd/TQX5Mj8XYLgwOBlOpqDJddbcTLLYmpmJj7SamaKcr5gEuey+ES4PfyCeoe5
+ Y1OpBFZmyFPgZ34Sa6dH9laCrxIegPmK9jGt1O4ECsI1/mIfnl+A3cU1PGGEzxVJkgeG
+ zBKg==
+X-Gm-Message-State: AAQBX9ciPHMU2kt8HXRVTZImA2JYncyb0AtKjYxgqaTNvUeMQvaO7egi
+ YQCC4CLze+fj1DZ0bRMckoqekZFr/tMlR7MdUAI=
+X-Google-Smtp-Source: AKy350ZIOk+yNR8A2JfzzxvxTovR1BnG2Sg8X1wtvfvHzc/dXkbExzq7laE3afG5KFzD7aKzbEGXZQ==
+X-Received: by 2002:adf:fa50:0:b0:2d6:8d2d:5a7c with SMTP id
+ y16-20020adffa50000000b002d68d2d5a7cmr7012876wrr.57.1681216176674; 
+ Tue, 11 Apr 2023 05:29:36 -0700 (PDT)
+Received: from [192.168.1.101] ([176.187.195.239])
+ by smtp.gmail.com with ESMTPSA id
+ g1-20020adfe401000000b002f3e1122c1asm90833wrm.15.2023.04.11.05.29.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 05:29:36 -0700 (PDT)
+Message-ID: <13bf3cba-cbd1-6aea-72ab-e83c8a16f4d3@linaro.org>
+Date: Tue, 11 Apr 2023 14:29:34 +0200
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-11_08,2023-04-11_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 mlxlogscore=830 impostorscore=0 clxscore=1015
- mlxscore=0 phishscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2304110109
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH 05/12] tcg/mips: Split out tcg_out_movi_one
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230408030359.3368868-1-richard.henderson@linaro.org>
+ <20230408030359.3368868-6-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230408030359.3368868-6-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,77 +91,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-04-04 at 16:04 +0200, Pierre Morel wrote:
-> On 4/4/23 14:35, C=C3=A9dric Le Goater wrote:
-> > > > > @@ -0,0 +1,15 @@
-> > > > > +/*
-> > > > > + * CPU Topology
-> > > > > + *
-> > > > > + * Copyright IBM Corp. 2022
-> > > >=20
-> > > > Shouldn't we have some range : 2022-2023 ?
-> > >=20
-> > > There was a discussion on this in the first spins, I think to=20
-> > > remember that Nina wanted 22 and Thomas 23,
-> > >=20
-> > > now we have a third opinion :) .
-> > >=20
-> > > I must say that all three have their reasons and I take what the=20
-> > > majority wants.
-> >=20
-> > There is an internal IBM document describing the copyright tags. If I=20
-> > recall
-> > well, first date is the first year the code was officially published,=20
-> > second
-> > year is the last year it was modified (so last commit of the year). Or
-> > something like that and it's theory, because we tend to forget.
-> >=20
-> > For an example, see the OPAL FW https://github.com/open-power/skiboot/,
-> > and run :
-> >=20
-> > =C2=A0 "grep Copyright.*IBM" in the OPAL FW
->=20
->=20
-> OK for me, it looks logical, and all three of you are right then.
->=20
-> So I will use
->=20
-> Copyright IBM Corp. 2022-2023
+On 8/4/23 05:03, Richard Henderson wrote:
+> Emit all constants that can be loaded in exactly one insn.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/mips/tcg-target.c.inc | 26 ++++++++++++++++++++------
+>   1 file changed, 20 insertions(+), 6 deletions(-)
 
-You should use a comma instead of a hyphen as per IBM policy.
-I.e. 2022, 2023
-
->=20
-> in the next spin if nobody is against.
->=20
-> Thanks,
->=20
-> Pierre
->=20
->=20
-> > =C2=A0[ ...]
-> >=20
-> > > > > @@ -30,8 +30,19 @@ static char=20
-> > > > > *cpu_hierarchy_to_string(MachineState *ms)
-> > > > > =C2=A0 {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MachineClass *mc =3D MACHINE_GET_C=
-LASS(ms);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GString *s =3D g_string_new(NULL);
-> > > > > +=C2=A0=C2=A0=C2=A0 const char *multiply =3D " * ", *prefix =3D "=
-";
-> > > > > =C2=A0 -=C2=A0=C2=A0=C2=A0 g_string_append_printf(s, "sockets (%u=
-)", ms->smp.sockets);
-> > > > > +=C2=A0=C2=A0=C2=A0 if (mc->smp_props.drawers_supported) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 g_string_append_print=
-f(s, "drawers (%u)", ms->smp.drawers);
-> > > > > +=C2=A0=C2=A0=C2=A0 prefix =3D multiply;
-> > > >=20
-> > > > indent issue.
-> > >=20
-> > > right, seems I forgot to update the patch set after the checkpatch.
-> >=20
-> > nope, you didn't. checkpatch doesn't report it. It's not perfect :/
-> >=20
-> > C.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
