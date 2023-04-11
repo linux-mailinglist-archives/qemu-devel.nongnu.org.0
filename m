@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722DD6DD746
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 11:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7B16DD792
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:12:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmAjC-0001N2-QN; Tue, 11 Apr 2023 05:55:54 -0400
+	id 1pmAyS-0005uW-78; Tue, 11 Apr 2023 06:11:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmAjA-0001Ms-OL
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:55:52 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmAyQ-0005uI-GX
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:11:38 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmAj9-0007Zt-3K
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 05:55:52 -0400
-Received: by mail-wr1-x430.google.com with SMTP id d9so7003045wrb.11
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 02:55:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmAyM-0003Iw-Ox
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:11:37 -0400
+Received: by mail-wr1-x432.google.com with SMTP id e2so6909553wrc.10
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681206947;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=linaro.org; s=google; t=1681207893;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WVlqTSEVYhv9R3aJqiHDuaOnVED8dbeaMKAm672KFy4=;
- b=WM0hrDyRhu2A6PNemcRfHfnXPwbQ1AWRp2rAEG+ot56aNQtL7Qda4xdm/dxA4kXWEx
- wfDx5VeQD77G3TBiLFWPYfDoNm5TPbJW1Tbs2M9aeWiZZ9rjvKQqvPQVt3K4syhG7azN
- mvIl1oqeyjhxJs3zZejt92xm/82+MRDe/KRbnY1p/BfcOrzXV+DTJj9uoNE/Bq0jJp4b
- bz/Mt7wfOnW2OWCgJH5MBezEELry/UDMH5gKZhrhYQAqzLb7cLNXFOk90Ad5yW6Aqy1B
- 25jtxw86eikkWSJ42gCmiD3jQLdlFuALUyheD258ssNxFoVS10kjnR6aE95osN2T2qiI
- RN7w==
+ bh=n8f14UeSl8MXM+kyPbHD83J167n1DYfKqRz1fS0ck9c=;
+ b=ZOnXitJcIPK9xtTkHGSCpeg6ba3sdRfk8QCcjHqK2gwBWvIJpUQ82j1/h/lYdot3Ep
+ n+62tEIyldW+jOD7UMQl1/QZuMmZVqeqNyT6U1pr4ln86pfJM+qsbmhQe/nhH30NoCkU
+ PZtakhgTPxLTXDAFgTo4AKWyU1nrzsp71HBT3vspALySgLkLL3du00rWHrX/T+OKxWv6
+ yYvUhKQ2Z2FnUJ906x5oKP3zMp90OWzMjbfnq9BUn2t2/CzJX4WyjWlX3l6XdQQ2V7qR
+ y76RAail1yRoDezt0D80EdOhb8LwvWSdQdJhgFgUH4v3odL3/aPFDmXnL4i4uAYs6zAZ
+ OQBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681206947;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20210112; t=1681207893;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WVlqTSEVYhv9R3aJqiHDuaOnVED8dbeaMKAm672KFy4=;
- b=t/+wChkSMGCL10sYKixvfili0hwg7IAm/4pJnFQoKi0XaPdp0txmQMqog6fpgQeErH
- ObfIJApv5bV0P1lKmPBxkJdCZ79VGRwTY2Qfc0l+XgFsIxwFN/jdiJOBF9/Qe+DZ26Gu
- bFP2pREnasmXIGftWT5uaZmhZcgyYMOnHPcjObKJOg1MMy4MkXgGBYDexlSl1zw6ZeoH
- 99O0FZ2ptSOWCVnLtsGiigT1znxKgpsPZ2GAcozGzAu71cKfSJGRuCIR5M8zi+5+1hea
- tKKblENK+kjl24G2rgagopDTjO/nYqIu0gkOGfDKWNG5EoZUX1j9K3vlpYIpNnWPp07R
- ho8Q==
-X-Gm-Message-State: AAQBX9cnpbqn+ux4qokOdNdFw6qDWyDqRcUD7FsSKcyvx8n8jP8h+C46
- ojPX/y7/1X/cqzNzM0Z6tnB+ag==
-X-Google-Smtp-Source: AKy350auxwzt+PNsYzg4MMKnQzlD8I6Vmn+HHt7wzET6sRX5vTmY4pezzKi/4ZwBkJ7Iev0YPomgWg==
-X-Received: by 2002:adf:d0d2:0:b0:2f0:2dee:3ed3 with SMTP id
- z18-20020adfd0d2000000b002f02dee3ed3mr1519052wrh.8.1681206947337; 
- Tue, 11 Apr 2023 02:55:47 -0700 (PDT)
+ bh=n8f14UeSl8MXM+kyPbHD83J167n1DYfKqRz1fS0ck9c=;
+ b=fThKAYUwxRldKFMhwL1uh9sa4msX+0Udc10ud66If9gNK5ZR3pzAgBGbcELBGd7106
+ FqKq0mdYmeF5ZQna0EJVVoF1J98QmhVg+Qm7duY8EMWV0GfDRKvQYaOl6vQcgSP2i5gp
+ 1j28yT4HPHJDIQSxOZPZxcoRz8gqPshT2tnVZFz9/6033BCl5FPmOQ2NhPxL3wf4RPxE
+ 8XshT5vQzOIOCp0/387fCTmRQ73AOyFzCQGIJRcbo714n7JoRgzZ0Did1E+BKCl6SWiY
+ LO9NrWyx8yb8NU+eLNMy1SlETMpAD2/kkWFKK+Gsj8Wq2Pvxh/zbIoQEOdeKV2oJxZXL
+ TvQg==
+X-Gm-Message-State: AAQBX9fl3G1KwLp/iP67IswGAoNg7XWQr7EjDW3dw4pc/RIIaqHpNVqI
+ q1N6i7+bGaXmf/2+9xb95m9hVw==
+X-Google-Smtp-Source: AKy350bmQheJiptCgGNXQWtIETRLzBMjwLAfFMKfF0oEA/iOKB1ntYmWo8z1lBc8rXBzEcjvOxromA==
+X-Received: by 2002:adf:f9c5:0:b0:2ef:4c83:b78f with SMTP id
+ w5-20020adff9c5000000b002ef4c83b78fmr10376213wrr.44.1681207892845; 
+ Tue, 11 Apr 2023 03:11:32 -0700 (PDT)
 Received: from [192.168.69.115] ([176.187.195.239])
  by smtp.gmail.com with ESMTPSA id
- a17-20020a056000101100b002f21a96c161sm4476397wrx.70.2023.04.11.02.55.46
+ v18-20020adff692000000b002f006333c89sm6890424wrp.61.2023.04.11.03.11.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 02:55:46 -0700 (PDT)
-Message-ID: <37fc6159-013a-a3fb-0184-c53f2f39e677@linaro.org>
-Date: Tue, 11 Apr 2023 11:55:45 +0200
+ Tue, 11 Apr 2023 03:11:32 -0700 (PDT)
+Message-ID: <44853d32-38cc-eec0-c96f-31c898104e7d@linaro.org>
+Date: Tue, 11 Apr 2023 12:11:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH for-8.0] tcg/i386: Adjust assert in tcg_out_addi_ptr
+Subject: Re: [PATCH] pcie: Release references of virtual functions
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230407190200.3259312-1-richard.henderson@linaro.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20230411090408.48366-1-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230407190200.3259312-1-richard.henderson@linaro.org>
+In-Reply-To: <20230411090408.48366-1-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
@@ -90,19 +93,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/4/23 21:02, Richard Henderson wrote:
-> We can arrive here on _WIN64 because Int128 is passed by reference.
-> Change the assert to check that the immediate is in range,
-> instead of attempting to check the host ABI.
+On 11/4/23 11:04, Akihiko Odaki wrote:
+> pci_new() automatically retains a reference to a virtual function when
+> registering it so we need to release the reference when unregistering.
 > 
-> Fixes: 6a6d772e30d ("tcg: Introduce tcg_out_addi_ptr")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1581
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Fixes: 7c0fa8dff8 ("pcie: Add support for Single Root I/O Virtualization (SR/IOV)")
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->   tcg/i386/tcg-target.c.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   hw/pci/pcie_sriov.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
+> index aa5a757b11..76a3b6917e 100644
+> --- a/hw/pci/pcie_sriov.c
+> +++ b/hw/pci/pcie_sriov.c
+> @@ -211,6 +211,7 @@ static void unregister_vfs(PCIDevice *dev)
+>               error_free(local_err);
+>           }
+>           object_unparent(OBJECT(vf));
+> +        object_unref(OBJECT(vf));
+>       }
+>       g_free(dev->exp.sriov_pf.vf);
+>       dev->exp.sriov_pf.vf = NULL;
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+It feels the issue is at the device creation.
 
+[/me looking at the code]
 
+What about:
+
+-- >8 --
+diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
+index aa5a757b11..fca3bf6e72 100644
+--- a/hw/pci/pcie_sriov.c
++++ b/hw/pci/pcie_sriov.c
+@@ -150,7 +150,7 @@ static PCIDevice *register_vf(PCIDevice *pf, int 
+devfn, const char *name,
+      PCIBus *bus = pci_get_bus(pf);
+      Error *local_err = NULL;
+
+-    qdev_realize(&dev->qdev, &bus->qbus, &local_err);
++    pci_realize_and_unref(dev, bus, &local_err);
+      if (local_err) {
+          error_report_err(local_err);
+          return NULL;
+---
 
