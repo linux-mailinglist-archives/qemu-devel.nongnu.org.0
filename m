@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442D96DE63A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 23:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8C76DE788
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 00:49:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmLG4-0002Rr-Kc; Tue, 11 Apr 2023 17:10:32 -0400
+	id 1pmMmP-0006Un-Ic; Tue, 11 Apr 2023 18:48:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1pmLFr-0002RP-R2
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 17:10:21 -0400
-Received: from mail-dm6nam10on2042.outbound.protection.outlook.com
- ([40.107.93.42] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ id 1pmMmN-0006UU-TJ
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 18:47:59 -0400
+Received: from mail-bn8nam04on20608.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8d::608]
+ helo=NAM04-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1pmLFo-0003kI-PX
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 17:10:19 -0400
+ id 1pmMmK-0006X7-Og
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 18:47:59 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jegRTeJSpZuE5Q3pTyaHRqHQvGxMY6P+irT7jYSVekWN5rAyXxR1So/cwGjL5Z/MnE0/jDfYXl1Aw2mIV+DLEgOhpsS4n66xuv8Rzht9Scr7ACfDjQVBlkMGgC97Bhf+QtA3vDbt/WPC5xcanZ280jYCW82zAxdI3wpqXFvdVO73ROJJbZiGvvWQhmEar6PpXkbsqNDP86EQ8lfgN0GAwa1Rg1MvGv+4Z96tFmELn2OnNVjv+I7lm2S7NyKuaHwKzQxc+nf+YMczgy37zVJhMiqA6gpYFUGO1jTvOW0lns0UDiUn1H+WIwKySbu6KBIFOnwqD2ZB6AxqNBUmzd3C1Q==
+ b=I6Qst0FnUKccO1kawVj0Dr4+p8lN8Hh2C3K9lbNrYo8JaCaCOqWqCCDlzpLJJ+eABmiiVNNaxs4CUkEKVFAJdhet2zyeUcRi35CRZcueTfrIaFH619Nt5D0u5wrrmILjhwbX1jNx96LAzGLDI51X1b1FgYbyeIgA+brj9w9WkzF3v55rKaZm8ZYIv1fehyZkRaiNTpXk319FRfXRkmcOfFFTlCvjm8dBEubQrpJ2Y38EnGQQOSK9qYHvi/YZv0q3urjxvN7Z8+FkMcetYxr0HX09HLvi/zWgE7nQiLBLntcQ1tG3euNsiKEnF0GTsP6RJ4zoVdLPSm5HF6yF1rZ6FQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dyQCgywzSPQJgk3l7gPLyp/Wd2+MwFaNmcvT4lvITlY=;
- b=VTXEPXu8h5R2+ITRNrw9ekN6qqrpfoelBZDfFPTJ0hAAW6a/iI6RDagUQaNhSMdf9ses+zqkHjDdLrwnDIPpfMoLhb0JqlepZLPa9pXrnRKCN/VhmzNvCcSBUjewg7W0a/7m3+5yz00Dd5KphnaVof07SNeLsyXsbecRdKsGlgysZqe/3JV59pg5OHfEqxT7ROI2rP9VjGeTFkVLGCGKxymmB99gUzHBYGqChSNoKgmWw5NM7Nu3z+bYZmkhUmLpsWwPuulDT0zzgp7c/sqgfS2knxKidJhKNxM7bx/NKlBJiq+tbLtqQCGSXWgwp/Rd7zge/yknwNn33GDTIbs/IA==
+ bh=ekDE0eiudwYgbUq+PMKOx/34dRSx7wTAoRnsZ6NgBnA=;
+ b=RZoZntukHShejgj3EW3bAPo1nQJYc+w8FE3wy4vepXElKJ6xyUqOCM43lr4JnAHD6tXv2E0YqfrUj+67h7H1b5nOEScbUqOQFdGQ3QNZavpkqvFWkri+88aiRMItYUBwzdUXNeBqkVg/PSW8F//OxuHLtLo+7HJQRLggoVLVIprCH4m2coAci17Iwjn4slpxL/DXXcH7JskFoWwojWmd0t7jrO5zibkFI/pGciPj2RL95sGDNEz74PgJa77Agsr+SFIpQnPfXU2WLMcNyNMzYZ+GKgQv2nCWmDEw9udTRznfB8vDyqyMvvnnx9RhZLDG+UHWaJDPfEJh7VKUFOb2gQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dyQCgywzSPQJgk3l7gPLyp/Wd2+MwFaNmcvT4lvITlY=;
- b=HIAOrlOoPf1lOufdYmhQtb0i+ul2zvBLxwuklWzGQSL6JdKDRU4mtCJcC4HOM6kZqEok146MDaD30EKcnw2MngI74Kq+jNzxTk51XcACqXWJ3Xz536mXij8irfBlM6W+/9Dzi67z18xq5lDIlMnGuC1o7xrUlpGklhpQBZb3Aj0=
-Received: from MN2PR01CA0042.prod.exchangelabs.com (2603:10b6:208:23f::11) by
- PH8PR12MB7424.namprd12.prod.outlook.com (2603:10b6:510:228::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.33; Tue, 11 Apr
- 2023 21:05:10 +0000
-Received: from BL02EPF000145B9.namprd05.prod.outlook.com
- (2603:10b6:208:23f:cafe::5a) by MN2PR01CA0042.outlook.office365.com
- (2603:10b6:208:23f::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.39 via Frontend
- Transport; Tue, 11 Apr 2023 21:05:09 +0000
+ bh=ekDE0eiudwYgbUq+PMKOx/34dRSx7wTAoRnsZ6NgBnA=;
+ b=hAoInk28qiStAOXZBrt5jGkhwuULYdrRY2iAFjPDOb3di+nwYN0+4Ts58iU4N4v8RDN0PGF7tGqlOeNUhfRr/bwn5aTaeEZg3nOad+oxjoIZHvS++CtEZXUdyiMCbWT6yLBEI8IDTEuhfWGg9UJKK55bd5pnGtqNQGZ5/oPMzcw=
+Received: from DS7PR03CA0166.namprd03.prod.outlook.com (2603:10b6:5:3b2::21)
+ by DM4PR12MB6349.namprd12.prod.outlook.com (2603:10b6:8:a4::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6277.35; Tue, 11 Apr 2023 22:47:51 +0000
+Received: from DS1PEPF0000E650.namprd02.prod.outlook.com
+ (2603:10b6:5:3b2:cafe::7d) by DS7PR03CA0166.outlook.office365.com
+ (2603:10b6:5:3b2::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.40 via Frontend
+ Transport; Tue, 11 Apr 2023 22:47:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -51,61 +51,61 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BL02EPF000145B9.mail.protection.outlook.com (10.167.241.209) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6298.27 via Frontend Transport; Tue, 11 Apr 2023 21:05:09 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ DS1PEPF0000E650.mail.protection.outlook.com (10.167.18.6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6298.27 via Frontend Transport; Tue, 11 Apr 2023 22:47:51 +0000
+Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 11 Apr
- 2023 16:05:08 -0500
+ 2023 17:47:50 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
+ (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 11 Apr
+ 2023 15:47:50 -0700
 Received: from xsjfnuv50.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 11 Apr 2023 16:05:08 -0500
+ Transport; Tue, 11 Apr 2023 17:47:50 -0500
 From: Vikram Garhwal <vikram.garhwal@amd.com>
 To: <qemu-devel@nongnu.org>
 CC: <xen-devel@lists.xenproject.org>, <vikram.garhwal@amd.com>,
- <stefano.stabellini@amd.com>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
- <alex.bennee@linaro.org>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, "Wainer dos Santos
- Moschetta" <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: [QEMU][PATCH] gitlab-ci.d/crossbuilds: Drop the '--disable-tcg'
- configuration for xen
-Date: Tue, 11 Apr 2023 14:04:22 -0700
-Message-ID: <20230411210422.24255-1-vikram.garhwal@amd.com>
+ <stefano.stabellini@amd.com>
+Subject: [QEMU][PATCH v6 00/10] Introduce xenpvh machine for arm architecture
+Date: Tue, 11 Apr 2023 15:47:36 -0700
+Message-ID: <20230411224746.16152-1-vikram.garhwal@amd.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF000145B9:EE_|PH8PR12MB7424:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c46b70e-6ee8-44ab-b23f-08db3ad06f05
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E650:EE_|DM4PR12MB6349:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73f2d8bf-93ae-4be7-dcb6-08db3adec7e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RN1w/NXEhX5pXZwc0HtFOl0/F+RYHwjclG4S+a/RqRG+m2nbAQvVjY0RovoCmHqlNh968194MTBhC8ECFgct7SZeAKkYmXNDYR6Ed+GdrjjpKwAyPqTbZxtufa5NfTsgwHuCuE5ATlLeYv5qrD153ip4g1bZ9u/Sfw+lekGksvzeE+zcQoRI7yGsrZ/zMEX1TkKTi6yF2e82W8s6vMF7v0zC6MEdK+qnam17685sXlJMJA7xNsyTXfiq7fMWmiR+Sja5J5DR+bhJCKcxr4OYpPH1Xke8pIwyrUQM5OIBYy5NXwUWGdikmY0iL852sUnToJNrtwXfopbV1suD7UQPxvYyFo0bO2FdPlB6qQIlGrjnOuZNhg2Z0/E//k0rfyV8WZ6bKqJ9+3lIlpcIkUOCPQaVX/un8OKG4M0I7YFDtZGdnVPAx9JX8pM2ghicaZllNtWLx0iIuiub3FGTdvVepkZMTZv8HuEcstlyxcXap3aIbEcC0isVJSNDc3w98DnExBh7J6Ojg1jcQPeXpfZOZ4xa5F2PIyBlGhbec2MTYNqjFib1b25Vn0vMuoOvro4FouEswSpVTs/t8qcZyDy9sCmzF1/gzD24iG1OcMKpQd6erYBY6CkxaULL5hsd38LltVg2MvYERXYDPe6W6G153+nrbpZZI+p2wXS9pNFt47zy+Iwb5fSjPmqJ+attx+twCbNj8YQM+J6uW6ZG3KoGX/1U/RMKdOCqXt38WG1azuA=
+X-Microsoft-Antispam-Message-Info: MlzEbrGaZYdcCuRU2YlSvmSMwspQVOYTm5smEpGJnCAQNXD5/9xFne8JYmJKqGHD7SWIW1geF2plrQUd2naINYYqGA3eIihXs16TF+GiEjO67txRFAvEWaig5Vo0p3k/flVBhO0dJmY2hIoa8y313lLhaKHnyr4LmLcxMRVyhXEmbUdcAxr/0jz8Mt+JWx+K9oTDBmsLhKIZquFba+zLv4In4dv8uyLdXvFUVTP9jHamz+xMc4y8A+6g3ZprtQIBfRz/w7qrfJu5tf576GWY6P92yPO2rVdOZaNBGNQ7I+i6+M+cW2Im6mxxqnMcB4akOWdxxZZrouX/Nm8NjmRZdgvQd3iv+grtofKuexfh30RhxmBosTFhP6KH82pRE7kIC9RfH6pED6kcBAbyz+7xLCkdVJtxr/p8sAi0Vd2dORQ2LWOxyjkoDe3Gb8hk72x4A3MNqBdCT+BiPDd90xaEnOO0IEWz6cU8AO9RdDiPvwMYLIJF1S/FLFu2anVY2z61xvDBEIpPrj9nbLaUItTu767SxlHr2qY6CiZ/xDQtIDWDTYUmn2OXmfEv/kLVA5eY6t8wSXRM8saSN+dF0fcCf5EjxP1+tfxbI3XiqrNIG/XNJvKF2rVULEKk5IAxP62/HIAZLV7U+bnb+TDpHJvyka4wUjhrUKo05lL5FH8J2Qo7rToG5UTpBv5yFhDcmRHU/7Ij6huJhwVkRAQoOh3KnHglt0jyljqa3x1gsvzMhuM=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(39860400002)(396003)(346002)(136003)(451199021)(40470700004)(46966006)(36840700001)(86362001)(36756003)(40460700003)(40480700001)(26005)(186003)(83380400001)(1076003)(2906002)(966005)(336012)(47076005)(2616005)(6666004)(478600001)(426003)(8676002)(70206006)(4326008)(5660300002)(70586007)(54906003)(6916009)(44832011)(4744005)(8936002)(316002)(41300700001)(82310400005)(36860700001)(81166007)(356005)(82740400003)(36900700001);
+ SFS:(13230028)(4636009)(136003)(396003)(39860400002)(376002)(346002)(451199021)(36840700001)(46966006)(40470700004)(36756003)(86362001)(41300700001)(70586007)(316002)(478600001)(6916009)(4326008)(966005)(70206006)(8676002)(54906003)(40480700001)(36860700001)(5660300002)(82310400005)(44832011)(2906002)(8936002)(81166007)(47076005)(82740400003)(356005)(186003)(6666004)(26005)(1076003)(2616005)(426003)(336012)(83380400001)(40460700003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2023 21:05:09.2841 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c46b70e-6ee8-44ab-b23f-08db3ad06f05
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2023 22:47:51.3091 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73f2d8bf-93ae-4be7-dcb6-08db3adec7e4
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF000145B9.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E650.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7424
-Received-SPF: softfail client-ip=40.107.93.42;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6349
+Received-SPF: softfail client-ip=2a01:111:f400:7e8d::608;
  envelope-from=vikram.garhwal@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
+ helo=NAM04-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,35 +122,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Xen is supported for aarch64 via xenpvh machine. disable-tcg option fails the
-build for aarch64 target.
+Hi,
+Rebased and resending the series with latest QEMU as it's been quite sometime.
+There are no code changes.
 
-Link for xen on arm patch series: https://mail.gnu.org/archive/html/qemu-devel/2023-02/msg03979.html
+Also, this series has dependency on following gitlab-ci
+patch: https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg01641.html.
 
-Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
----
- .gitlab-ci.d/crossbuilds.yml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This series add xenpvh machine for aarch64. Motivation behind creating xenpvh
+machine with IOREQ and TPM was to enable each guest on Xen aarch64 to have it's
+own unique and emulated TPM.
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 61b8ac86ee..6867839248 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -186,7 +186,7 @@ cross-amd64-xen-only:
-   variables:
-     IMAGE: debian-amd64-cross
-     ACCEL: xen
--    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
-+    EXTRA_CONFIGURE_OPTS: --disable-kvm
- 
- cross-arm64-xen-only:
-   extends: .cross_accel_build_job
-@@ -195,4 +195,4 @@ cross-arm64-xen-only:
-   variables:
-     IMAGE: debian-arm64-cross
-     ACCEL: xen
--    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
-+    EXTRA_CONFIGURE_OPTS: --disable-kvm
+This series does following:
+    1. Moved common xen functionalities from hw/i386/xen to hw/xen/ so those can
+       be used for aarch64.
+    2. We added a minimal xenpvh arm machine which creates an IOREQ server and
+       support TPM.
+
+Also, checkpatch.pl fails for 03/12 and 06/12. These fails are due to
+moving old code to new place which was not QEMU code style compatible.
+No new add code was added.
+
+Regards,
+Vikram
+
+ChangeLog:
+    v5->v6:
+    rebased series with latest branch. No code change.
+
+    v4->v5:
+        Fix missing 3 lines of codes in xen_exit_notifier() due to rebase.
+        Fix 07/10 patch subject.
+
+    v3->v4:
+        Removed the out of series 04/12 patch.
+
+    v2->v3:
+        1. Change machine name to xenpvh as per Jurgen's input.
+        2. Add docs/system/xenpvh.rst documentation.
+        3. Removed GUEST_TPM_BASE and added tpm_base_address as property.
+        4. Correct CONFIG_TPM related issues.
+        5. Added xen_register_backend() function call to xen_register_ioreq().
+        6. Added Oleksandr's suggestion i.e. removed extra interface opening and
+           used accel=xen option
+
+    v1 -> v2
+    Merged patch 05 and 06.
+    04/12: xen-hvm-common.c:
+        1. Moved xen_be_init() and xen_be_register_common() from
+            xen_register_ioreq() to xen_register_backend().
+        2. Changed g_malloc to g_new and perror -> error_setg_errno.
+        3. Created a local subroutine function for Xen_IOREQ_register.
+        4. Fixed build issues with inclusion of xenstore.h.
+        5. Fixed minor errors.
+
+Stefano Stabellini (5):
+  hw/i386/xen/xen-hvm: move x86-specific fields out of XenIOState
+  xen-hvm: reorganize xen-hvm and move common function to xen-hvm-common
+  include/hw/xen/xen_common: return error from xen_create_ioreq_server
+  hw/xen/xen-hvm-common: skip ioreq creation on ioreq registration
+    failure
+  meson.build: do not set have_xen_pci_passthrough for aarch64 targets
+
+Vikram Garhwal (5):
+  hw/i386/xen/: move xen-mapcache.c to hw/xen/
+  hw/i386/xen: rearrange xen_hvm_init_pc
+  hw/xen/xen-hvm-common: Use g_new and error_report
+  hw/arm: introduce xenpvh machine
+  meson.build: enable xenpv machine build for ARM
+
+ docs/system/arm/xenpvh.rst       |   34 +
+ docs/system/target-arm.rst       |    1 +
+ hw/arm/meson.build               |    2 +
+ hw/arm/xen_arm.c                 |  181 +++++
+ hw/i386/meson.build              |    1 +
+ hw/i386/xen/meson.build          |    1 -
+ hw/i386/xen/trace-events         |   19 -
+ hw/i386/xen/xen-hvm.c            | 1075 +++---------------------------
+ hw/xen/meson.build               |    7 +
+ hw/xen/trace-events              |   19 +
+ hw/xen/xen-hvm-common.c          |  879 ++++++++++++++++++++++++
+ hw/{i386 => }/xen/xen-mapcache.c |    0
+ include/hw/arm/xen_arch_hvm.h    |    9 +
+ include/hw/i386/xen_arch_hvm.h   |   11 +
+ include/hw/xen/arch_hvm.h        |    5 +
+ include/hw/xen/xen-hvm-common.h  |   99 +++
+ include/hw/xen/xen_native.h      |   13 +-
+ meson.build                      |    4 +-
+ 18 files changed, 1350 insertions(+), 1010 deletions(-)
+ create mode 100644 docs/system/arm/xenpvh.rst
+ create mode 100644 hw/arm/xen_arm.c
+ create mode 100644 hw/xen/xen-hvm-common.c
+ rename hw/{i386 => }/xen/xen-mapcache.c (100%)
+ create mode 100644 include/hw/arm/xen_arch_hvm.h
+ create mode 100644 include/hw/i386/xen_arch_hvm.h
+ create mode 100644 include/hw/xen/arch_hvm.h
+ create mode 100644 include/hw/xen/xen-hvm-common.h
+
 -- 
 2.17.0
 
