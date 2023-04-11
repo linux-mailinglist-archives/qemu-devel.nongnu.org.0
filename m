@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3102B6DE0E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 18:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FF06DE1CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 19:02:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmGjs-0006ly-Kp; Tue, 11 Apr 2023 12:21:00 -0400
+	id 1pmHM9-000190-E3; Tue, 11 Apr 2023 13:00:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=EF9U=AC=zx2c4.com=Jason@kernel.org>)
- id 1pmGjq-0006lb-RJ
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 12:20:58 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pmHM6-00018h-AK
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:00:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=EF9U=AC=zx2c4.com=Jason@kernel.org>)
- id 1pmGjp-0001L5-1d
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 12:20:58 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 477FF62025
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 16:20:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DBB5C433D2
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 16:20:47 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="IY2z5NC7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1681230044;
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pmHM4-00047t-Lo
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:00:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681232427;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IAxftYI0CNigINJXKMAKYXB00rsT6TCRMyTx8yWv1w0=;
- b=IY2z5NC7B1Wo6zfCNXY2wwsJhP10u04HLYu9BUldkzhad6xxaYVpmh8GsFZFVp3pRJGdjO
- VD57HGCdDeLiRcgOH0FeuIugcG/OjSaTbE2be2bhb+NRqAtNQrPsgtdzmDMWMAX4jg9Xo2
- zMZJzIuChjT3JzzEjDW77bE/nyWdlNg=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 526944e7
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Tue, 11 Apr 2023 16:20:43 +0000 (UTC)
-Received: by mail-vs1-f46.google.com with SMTP id y17so7828699vsd.9
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 09:20:43 -0700 (PDT)
-X-Gm-Message-State: AAQBX9f+rgwY6G6ZAZS3ejVsYPvd1oH9JdeMGh8kUfsFnI34k9uOiydn
- 0cV2GNZquTNpia84xoI8wCiYxxfm9gMFJb06+CM=
-X-Google-Smtp-Source: AKy350aBTXO6okhOK5aA+dv32TpPAueTpmmUQJ5TutG6JRxbZvATNUsE5D69XA8+VBJDwvrNGq+8OG6JitmgNmgYwbs=
-X-Received: by 2002:a05:6102:23e5:b0:42c:5816:416a with SMTP id
- p5-20020a05610223e500b0042c5816416amr5567012vsc.5.1681230042122; Tue, 11 Apr
- 2023 09:20:42 -0700 (PDT)
+ bh=p4JMCl6e5YdpcB5sVeb7nwHqCZR//bwKhffy9KNVQKs=;
+ b=UMgqQv6yAvXbJ8fC8sJ7o+sTryCa9WgDEZk1IOpJCaoNciQlOWcY5HjOdD1vRn3PB3NL+O
+ GOLX5g4LA/Vr93oDNBqtE3WcP/JJvhDwabJ/9X/ZgSQOSvlYhud1tebCANKHq+cEs8hFJt
+ UEZP8G/hgVgXkq0M3lCkAOjPNd7IzgY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-654-1LOw3XBwNeig-0Sij1WcVQ-1; Tue, 11 Apr 2023 13:00:22 -0400
+X-MC-Unique: 1LOw3XBwNeig-0Sij1WcVQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-74a904f38f3so75433085a.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 10:00:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681232422; x=1683824422;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p4JMCl6e5YdpcB5sVeb7nwHqCZR//bwKhffy9KNVQKs=;
+ b=zVD9yJDaYDRcZM8CTdSeNdaQuRb0rY/pAP5wpj0Ipg4Q9S5tm6/2ALtQ1MKV04D26/
+ YqoNZ7tFCYhPLCGqfmfVv+Inp2yXd2JBY4F6LIR03NYCJJSOQC53HnO1I6oG73RmGMtZ
+ 6x4Ki8e6KhwGfVVyDGDVpolMsbRTq8VYlrt8BVWQt2n0pLhPf70jksUtJ55xqAsv3s+f
+ A4NbSafIkkC9MFT1nQ/pXnMjE7iep2rkCTyREnh05+KvpaqI2FJ7yNFtAXoLzQjOVBhf
+ Nfb3jEmQSRfDTq1j2dRghSnt4AJq5QxvQ+3fF2LT2qsc5+fFMPUdAy24QBNZ2meQRxGE
+ udbA==
+X-Gm-Message-State: AAQBX9cn3H3yufkFmBpboDqJPv3w8oXNo1aAI/REHYXzL0yLVmUQzJDJ
+ cg1S/bLIHkcClbItCgsJ72xdY9+NAfzSB0rp8+7oDzE1ZAKx981W4N9iejmBdjaW54WOGBVxvWV
+ hSyqeW9sHMZvCzPY=
+X-Received: by 2002:ad4:5f0c:0:b0:5a5:e941:f33d with SMTP id
+ fo12-20020ad45f0c000000b005a5e941f33dmr19389785qvb.3.1681232422001; 
+ Tue, 11 Apr 2023 10:00:22 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zo6/4dRIBM6Bzfc3erQwRoZuK6fLcNl61W6GX85z8eXOllAwRGTu7UKlRzC9U02p2e2yIsSA==
+X-Received: by 2002:ad4:5f0c:0:b0:5a5:e941:f33d with SMTP id
+ fo12-20020ad45f0c000000b005a5e941f33dmr19389679qvb.3.1681232421382; 
+ Tue, 11 Apr 2023 10:00:21 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ d15-20020a37680f000000b0074269db4699sm4091101qkc.46.2023.04.11.10.00.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 10:00:20 -0700 (PDT)
+Date: Tue, 11 Apr 2023 13:00:19 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Eiichi Tsukata <eiichi.tsukata@nutanix.com>
+Cc: pbonzini@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com,
+ thuth@redhat.com, philmd@linaro.org, david@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] physmem: use PR_SET_VMA_ANON_NAME to set ram block name
+Message-ID: <ZDWSI2RYMbwFqoix@x1n>
+References: <20230411041158.66728-1-eiichi.tsukata@nutanix.com>
 MIME-Version: 1.0
-References: <20230403105245.29499-1-bchalios@amazon.es>
- <b6724d973b276a3252e640cf687cad484fe3fbff.camel@infradead.org>
-In-Reply-To: <b6724d973b276a3252e640cf687cad484fe3fbff.camel@infradead.org>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 11 Apr 2023 18:20:31 +0200
-X-Gmail-Original-Message-ID: <CAHmME9ru1tONrB+SV2sXBLBDZey9AuLi1D7R_wzH3y00uUshQg@mail.gmail.com>
-Message-ID: <CAHmME9ru1tONrB+SV2sXBLBDZey9AuLi1D7R_wzH3y00uUshQg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/1] Implement entropy leak reporting for virtio-rng
-To: Amit Shah <amit@infradead.org>
-Cc: Babis Chalios <bchalios@amazon.es>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Amit Shah <amit@kernel.org>,
- qemu-devel@nongnu.org, 
- sgarzare@redhat.com, graf@amazon.de, xmarcalx@amazon.co.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=EF9U=AC=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230411041158.66728-1-eiichi.tsukata@nutanix.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,56 +97,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 11, 2023 at 6:19=E2=80=AFPM Amit Shah <amit@infradead.org> wrot=
-e:
->
-> Hey Babis,
->
-> On Mon, 2023-04-03 at 12:52 +0200, Babis Chalios wrote:
-> > This patchset implements the entropy leak reporting feature proposal [1=
-]
-> > for virtio-rng devices.
-> >
-> > Entropy leaking (as defined in the specification proposal) typically
-> > happens when we take a snapshot of a VM or while we resume a VM from a
-> > snapshot. In these cases, we want to let the guest know so that it can
-> > reset state that needs to be uniqueue, for example.
-> >
-> > This feature is offering functionality similar to what VMGENID does.
-> > However, it allows to build mechanisms on the guest side to notify
-> > user-space applications, like VMGENID for userspace and additionally fo=
-r
-> > kernel.
-> >
-> > The new specification describes two request types that the guest might
-> > place in the queues for the device to perform, a fill-on-leak request
-> > where the device needs to fill with random bytes a buffer and a
-> > copy-on-leak request where the device needs to perform a copy between
-> > two guest-provided buffers. We currently trigger the handling of guest
-> > requests when saving the VM state and when loading a VM from a snapshot
-> > file.
-> >
-> > This is an RFC, since the corresponding specification changes have not
-> > yet been merged. It also aims to allow testing a respective patch-set
-> > implementing the feature in the Linux front-end driver[2].
-> >
-> > However, I would like to ask the community's opinion regarding the
-> > handling of the fill-on-leak requests. Essentially, these requests are
-> > very similar to the normal virtio-rng entropy requests, with the catch
-> > that we should complete these requests before resuming the VM, so that
-> > we avoid race-conditions in notifying the guest about entropy leak
-> > events. This means that we cannot rely on the RngBackend's API, which i=
-s
-> > asynchronous. At the moment, I have handled that using getrandom(), but
-> > I would like a solution which doesn't work only with (relatively new)
-> > Linux hosts. I am inclined to solve that by extending the RngBackend AP=
-I
-> > with a synchronous call to request for random bytes and I'd like to hea=
-r
-> > opinion's on this approach.
->
-> The patch looks OK - I suggest you add a new sync call that also probes
-> for the availability of getrandom().
+On Tue, Apr 11, 2023 at 04:11:58AM +0000, Eiichi Tsukata wrote:
+> Use linux specific PR_SET_VMA_ANON_NAME (introduced in v5.17) to set ram
+> block name in the kernel. This makes each ram block distinguishable and
+> can help debugging and inspection. The names of ram blocks are shown in
+> /proc/pid/maps like this:
+> 
+>   7f00e9400000-7f00f1400000 rw-p 00000000 00:00 0      [anon:pc.ram]
+>   7f0115200000-7f0115201000 rw-p 00000000 00:00 0      [anon:/rom@etc/acpi/rsdp]
+>   7f0115400000-7f0115410000 rw-p 00000000 00:00 0      [anon:/rom@etc/table-loader]
+>   7f0115600000-7f0115800000 rw-p 00000000 00:00 0      [anon:/rom@etc/acpi/tables]
+>   7f0115a00000-7f0115a40000 rw-p 00000000 00:00 0      [anon:e1000.rom]
+>   ...
+> 
+> Signed-off-by: Eiichi Tsukata <eiichi.tsukata@nutanix.com>
 
-qemu_guest_getrandom_nofail?
+Acked-by: Peter Xu <peterx@redhat.com>
+
+-- 
+Peter Xu
+
 
