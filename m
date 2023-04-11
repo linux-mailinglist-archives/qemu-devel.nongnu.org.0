@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7496DDED8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 17:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD26DDEDB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 17:05:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmFYj-0000ny-8Q; Tue, 11 Apr 2023 11:05:25 -0400
+	id 1pmFYl-0000pB-Aq; Tue, 11 Apr 2023 11:05:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmFYh-0000nN-Kf
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 11:05:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmFYi-0000nh-0k
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 11:05:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmFYf-0002wd-Nb
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmFYf-0002xA-W1
  for qemu-devel@nongnu.org; Tue, 11 Apr 2023 11:05:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681225520;
+ s=mimecast20190719; t=1681225521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=93Y1l3vulHUWfyaRvfQ8MyXosjwZ0oRRtzzaqncq/6A=;
- b=HwuMjyj7BicVphTcH6D0d+ciFAivnEEthfhredEcCeZL4Z7Srl2EODdBlg0SfgKxapJKh/
- eYfh6+Avo/JBvrox0AVSLyqqqG9tDc8+oNKphkbJMEBeAsT7XV1fF+WPqWP9hQ4r3FScsV
- qsYaI6egrIi34FMfwh3Qgkv25i/hz1o=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RNMERNpKP16GJwlN4ZArZIHjWRIWKxmMgtbmzxLcbMM=;
+ b=d4+apfOnic8xgaM42ghXGM/lLafbLcSgOJSHFlrgm3/YvlHH4YJKmxG8Up/xESGa5aEvn3
+ RC+NRmLLARTXYft6Xag23EYdqAu2ufOpFevyDMs0DrhO/nua9emIPnaTnhCMHpVUAXvfG2
+ bNFDSEYFBT6bHqHcUdVhTCi1zL1uvs0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-150-IbRhA4JhNWaGTCrKOfS4ow-1; Tue, 11 Apr 2023 11:05:17 -0400
-X-MC-Unique: IbRhA4JhNWaGTCrKOfS4ow-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-343-3r927bc0MdWxAPVtblaI-A-1; Tue, 11 Apr 2023 11:05:19 -0400
+X-MC-Unique: 3r927bc0MdWxAPVtblaI-A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCD4C3C0F23E;
- Tue, 11 Apr 2023 15:05:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D7148996F3;
+ Tue, 11 Apr 2023 15:05:18 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3442740BC797;
- Tue, 11 Apr 2023 15:05:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6A3A40C83A9;
+ Tue, 11 Apr 2023 15:05:17 +0000 (UTC)
 From: Hanna Czenczek <hreitz@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
@@ -48,14 +49,16 @@ Cc: Hanna Czenczek <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH 0/4] vhost-user-fs: Internal migration
-Date: Tue, 11 Apr 2023 17:05:11 +0200
-Message-Id: <20230411150515.14020-1-hreitz@redhat.com>
+Subject: [PATCH 1/4] vhost: Re-enable vrings after setting features
+Date: Tue, 11 Apr 2023 17:05:12 +0200
+Message-Id: <20230411150515.14020-2-hreitz@redhat.com>
+In-Reply-To: <20230411150515.14020-1-hreitz@redhat.com>
+References: <20230411150515.14020-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,89 +82,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RFC:
-https://lists.nongnu.org/archive/html/qemu-devel/2023-03/msg04263.html
+If the back-end supports the VHOST_USER_F_PROTOCOL_FEATURES feature,
+setting the vhost features will set this feature, too.  Doing so
+disables all vrings, which may not be intended.
 
-Hi,
+For example, enabling or disabling logging during migration requires
+setting those features (to set or unset VHOST_F_LOG_ALL), which will
+automatically disable all vrings.  In either case, the VM is running
+(disabling logging is done after a failed or cancelled migration, and
+only once the VM is running again, see comment in
+memory_global_dirty_log_stop()), so the vrings should really be enabled.
+As a result, the back-end seems to hang.
 
-Patch 2 of this series adds new vhost methods (only for vhost-user at
-this point) for transferring the back-end’s internal state to/from qemu
-during migration, so that this state can be stored in the migration
-stream.  (This is what we call “internal migration”, because the state
-is internally available to qemu; this is in contrast to “external
-migration”, which Anton is working on, where the back-end’s state is
-handled by the back-end itself without involving qemu.)
+To fix this, we must remember whether the vrings are supposed to be
+enabled, and, if so, re-enable them after a SET_FEATURES call that set
+VHOST_USER_F_PROTOCOL_FEATURES.
 
-For this, the state is handled as a binary blob by qemu, and it is
-transferred over a pipe that is established via a new vhost method.
+It seems less than ideal that there is a short period in which the VM is
+running but the vrings will be stopped (between SET_FEATURES and
+SET_VRING_ENABLE).  To fix this, we would need to change the protocol,
+e.g. by introducing a new flag or vhost-user protocol feature to disable
+disabling vrings whenever VHOST_USER_F_PROTOCOL_FEATURES is set, or add
+new functions for setting/clearing singular feature bits (so that
+F_LOG_ALL can be set/cleared without touching F_PROTOCOL_FEATURES).
 
-Patch 3 adds two high-level helper functions to (A) fetch any vhost
-back-end’s internal state and store it in a migration stream (a
-`QEMUFile`), and (B) load such state from a migrations stream and send
-it to a vhost back-end.  These build on the low-level interface
-introduced in patch 2.
+Even with such a potential addition to the protocol, we still need this
+fix here, because we cannot expect that back-ends will implement this
+addition.
 
-Patch 4 then uses these functions to implement internal migration for
-vhost-user-fs.  Note that this of course depends on support in the
-back-end (virtiofsd), which is not yet ready.
+Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+---
+ include/hw/virtio/vhost.h | 10 ++++++++++
+ hw/virtio/vhost.c         | 13 +++++++++++++
+ 2 files changed, 23 insertions(+)
 
-Finally, patch 1 fixes a bug around migrating vhost-user devices: To
-enable/disable logging[1], the VHOST_F_LOG_ALL feature must be
-set/cleared, via the SET_FEATURES call.  Another, technically unrelated,
-feature exists, VHOST_USER_F_PROTOCOL_FEATURES, which indicates support
-for vhost-user protocol features.  Naturally, qemu wants to keep that
-other feature enabled, so it will set it (when possible) in every
-SET_FEATURES call.  However, a side effect of setting
-VHOST_USER_F_PROTOCOL_FEATURES is that all vrings are disabled.  This
-causes any enabling (done at the start of migration) or disabling (done
-on the source after a cancelled/failed migration) of logging to make the
-back-end hang.  Without patch 1, therefore, starting a migration will
-have any vhost-user back-end that supports both VHOST_F_LOG_ALL and
-VHOST_USER_F_PROTOCOL_FEATURES immediately hang completely, and unless
-execution is transferred to the destination, it will continue to hang.
-
-
-[1] Logging here means logging writes to guest memory pages in a dirty
-bitmap so that these dirty pages are flushed to the destination.  qemu
-cannot monitor the back-end’s writes to guest memory, so the back-end
-has to do so itself, and log its writes in a dirty bitmap shared with
-qemu.
-
-
-Changes in v1 compared to the RFC:
-- Patch 1 added
-
-- Patch 2: Interface is different, now uses a pipe instead of shared
-  memory (as suggested by Stefan); also, this is now a generic
-  vhost-user interface, and not just for vhost-user-fs
-
-- Patches 3 and 4: Because this is now supposed to be a generic
-  migration method for vhost-user back-ends, most of the migration code
-  has been moved from vhost-user-fs.c to vhost.c so it can be shared
-  between different back-ends.  The vhost-user-fs code is now a rather
-  thin wrapper around the common code.
-  - Note also (as suggested by Anton) that the back-end’s migration
-    state is now in a subsection, and that it is technically optional.
-    “Technically” means that with this series, it is always used (unless
-    the back-end doesn’t support migration, in which case migration is
-    just blocked), but Anton’s series for external migration would make
-    it optional.  (I.e., the subsection would be skipped for external
-    migration, and mandatorily included for internal migration.)
-
-
-Hanna Czenczek (4):
-  vhost: Re-enable vrings after setting features
-  vhost-user: Interface for migration state transfer
-  vhost: Add high-level state save/load functions
-  vhost-user-fs: Implement internal migration
-
- include/hw/virtio/vhost-backend.h |  24 +++
- include/hw/virtio/vhost.h         | 124 +++++++++++++++
- hw/virtio/vhost-user-fs.c         | 101 +++++++++++-
- hw/virtio/vhost-user.c            | 147 ++++++++++++++++++
- hw/virtio/vhost.c                 | 246 ++++++++++++++++++++++++++++++
- 5 files changed, 641 insertions(+), 1 deletion(-)
-
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index a52f273347..2fe02ed5d4 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -90,6 +90,16 @@ struct vhost_dev {
+     int vq_index_end;
+     /* if non-zero, minimum required value for max_queues */
+     int num_queues;
++
++    /*
++     * Whether the virtqueues are supposed to be enabled (via
++     * SET_VRING_ENABLE).  Setting the features (e.g. for
++     * enabling/disabling logging) will disable all virtqueues if
++     * VHOST_USER_F_PROTOCOL_FEATURES is set, so then we need to
++     * re-enable them if this field is set.
++     */
++    bool enable_vqs;
++
+     /**
+      * vhost feature handling requires matching the feature set
+      * offered by a backend which may be a subset of the total
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index a266396576..cbff589efa 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -50,6 +50,8 @@ static unsigned int used_memslots;
+ static QLIST_HEAD(, vhost_dev) vhost_devices =
+     QLIST_HEAD_INITIALIZER(vhost_devices);
+ 
++static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable);
++
+ bool vhost_has_free_slot(void)
+ {
+     unsigned int slots_limit = ~0U;
+@@ -899,6 +901,15 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
+         }
+     }
+ 
++    if (dev->enable_vqs) {
++        /*
++         * Setting VHOST_USER_F_PROTOCOL_FEATURES would have disabled all
++         * virtqueues, even if that was not intended; re-enable them if
++         * necessary.
++         */
++        vhost_dev_set_vring_enable(dev, true);
++    }
++
+ out:
+     return r;
+ }
+@@ -1896,6 +1907,8 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+ 
+ static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable)
+ {
++    hdev->enable_vqs = enable;
++
+     if (!hdev->vhost_ops->vhost_set_vring_enable) {
+         return 0;
+     }
 -- 
 2.39.1
 
