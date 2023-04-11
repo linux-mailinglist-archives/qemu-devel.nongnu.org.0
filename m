@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3837A6DDE83
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 16:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962C56DDEC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 17:02:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmFLV-0007mJ-VM; Tue, 11 Apr 2023 10:51:45 -0400
+	id 1pmFUt-00020n-MU; Tue, 11 Apr 2023 11:01:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pmFLT-0007m6-Jc; Tue, 11 Apr 2023 10:51:43 -0400
-Received: from forwardcorp1a.mail.yandex.net
- ([2a02:6b8:c0e:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmFUr-00020G-OH
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 11:01:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pmFLQ-0007qn-9n; Tue, 11 Apr 2023 10:51:43 -0400
-Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c18:1421:0:640:53a0:0])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id CBF74607D0;
- Tue, 11 Apr 2023 17:51:25 +0300 (MSK)
-Received: from vsementsov-nix.yandex-team.ru (unknown
- [2a02:6b8:b081:223::1:32])
- by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id GpW7600Oh8c0-s2dSHZLf; Tue, 11 Apr 2023 17:51:24 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1681224685; bh=ZxIJko+gq5SOYvE0424N6IhWk/nnEe/g51PSjSZVhso=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=nL34BTvhisJNMNT30g6RzZ4LDUFBPC6Acw1UtxcGigglDrcXnbyG6ZN8a4US7M334
- phFhoEw1BGulhubZJYzIs+iVA1OzJgjgG8n8NollafOvQGdAKLiuDMjbi6HSewQ+JW
- TCdG378DBNCepHLHnzFfSmA14texHwFKxLBXl6WM=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com, jasowang@redhat.com, dgilbert@redhat.com,
- quintela@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
- zhanghailiang@xfusion.com, chen.zhang@intel.com, lizhijian@fujitsu.com,
- wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- den-plotnikov@yandex-team.ru,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH] replication: compile out some staff when replication is not
- configured
-Date: Tue, 11 Apr 2023 17:51:12 +0300
-Message-Id: <20230411145112.497785-1-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmFUp-0001zT-Py
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 11:01:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681225283;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6+dkSPj7UJitOzVMKxUCkXKy4QvnceYMdkJU/ITQPEU=;
+ b=BROPEsJFZbBTVVmezURK2170yNc0RsKuqaQDnu3kenTfBtPdExiIwhaTNh5YsOLGYBlejA
+ X6YmBiCVxnzwreOkAfcVZQ8ai4XTSiPq+9g2hHXrMnsUtqvWzH3C8sAmaFixnowWyPLsEb
+ Cgb3OCLitGznrm108vEzorLQ0TYtgcg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-166-wLBYhWAxOtWDmID1plD95Q-1; Tue, 11 Apr 2023 11:01:19 -0400
+X-MC-Unique: wLBYhWAxOtWDmID1plD95Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C8F5385054D;
+ Tue, 11 Apr 2023 15:01:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9773F14171D5;
+ Tue, 11 Apr 2023 15:01:18 +0000 (UTC)
+Date: Tue, 11 Apr 2023 17:01:17 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, qemu-block@nongnu.org,
+ hreitz@redhat.com
+Subject: Re: [PATCH 8.0 regression 0/8] block: remove bdrv_co_get_geometry
+ coroutines from I/O hot path
+Message-ID: <ZDV2PWaYQRVs4/3B@redhat.com>
+References: <20230407153303.391121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407153303.391121-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,183 +77,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Don't compile-in replication-related files when replication is disabled
-in config.
+Am 07.04.2023 um 17:32 hat Paolo Bonzini geschrieben:
+> The introduction of the graph lock is causing blk_get_geometry, a hot
+> function used in the I/O path, to create a coroutine for the call to
+> bdrv_co_refresh_total_sectors.
+> 
+> In theory the call to bdrv_co_refresh_total_sectors should only matter
+> in the rare case of host CD-ROM devices, whose size changes when a medium
+> is added or removed.  However, the call is actually keyed by a field in
+> BlockDriver, drv->has_variable_length, and the field is true in the common
+> case of the raw driver!  This is because the host CD-ROM is usually
+> layered below the raw driver.
+> 
+> So, this series starts by moving has_variable_length from BlockDriver to
+> BlockLimits.  This is patches 1-4, which also include a fix for a small
+> latent bug (patch 3).
+> 
+> The second half of the series then cleans up the functions to retrieve
+> the BlockDriverState's size (patches 5-7) to limit the amount of duplicated
+> code introduced by the hand-written wrappers of patch 8.  The final result
+> is that blk_get_geometry will not anymore create a coroutine.
+> 
+> This series applies to qemu.git, or to the block-next branch if commit
+> d8fbf9aa85ae ("block/export: Fix graph locking in blk_get_geometry()
+> call", 2023-03-27) is cherry picked.  Commit d8fbf9aa85ae is also where
+> bdrv_co_get_geometry() was introduced and with it the performance
+> regression.  It is quite a recent change, and therefore this is
+> probably a regression in 8.0 that had not been detected yet (except by
+> Stefan who talked to Kevin and me about it yesterday).  I'm not sure how
+> we can avoid the regression, if not by disabling completely the graph lock
+> (!) or applying this large series.
+> 
+> I'm throwing this out before disappearing for a couple days for Easter;
+> I have only tested it with qemu-iotests and "make check-unit".
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
+Thanks, fixed up patch 8 to make the non-coroutine wrappers almost exact
+copies of the coroutine version (including fixing the bug that Eric
+found), and applied to the block branch.
 
-Hi all!
+I'm not sure if the functions actually need to be coroutine_mixed_fn,
+because coroutines should already call blk_co_get_geometry(), but we can
+clean that up later.
 
-I'm unsure, should it be actually separate
---disable-colo / --enable-colo options or it's really used only together
-with replication staff.. So, I decided to start with simpler variant.
-
-
- block/meson.build     |  2 +-
- migration/meson.build |  6 ++++--
- net/meson.build       |  8 ++++----
- qapi/migration.json   |  6 ++++--
- stubs/colo.c          | 46 +++++++++++++++++++++++++++++++++++++++++++
- stubs/meson.build     |  1 +
- 6 files changed, 60 insertions(+), 9 deletions(-)
- create mode 100644 stubs/colo.c
-
-diff --git a/block/meson.build b/block/meson.build
-index 382bec0e7d..b9a72e219b 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -84,7 +84,7 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c')
- block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
- block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
- block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
--if not get_option('replication').disabled()
-+if get_option('replication').allowed()
-   block_ss.add(files('replication.c'))
- endif
- block_ss.add(when: libaio, if_true: files('linux-aio.c'))
-diff --git a/migration/meson.build b/migration/meson.build
-index 0d1bb9f96e..8180eaea7b 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -13,8 +13,6 @@ softmmu_ss.add(files(
-   'block-dirty-bitmap.c',
-   'channel.c',
-   'channel-block.c',
--  'colo-failover.c',
--  'colo.c',
-   'exec.c',
-   'fd.c',
-   'global_state.c',
-@@ -29,6 +27,10 @@ softmmu_ss.add(files(
-   'threadinfo.c',
- ), gnutls)
- 
-+if get_option('replication').allowed()
-+  softmmu_ss.add(files('colo.c', 'colo-failover.c'))
-+endif
-+
- softmmu_ss.add(when: rdma, if_true: files('rdma.c'))
- if get_option('live_block_migration').allowed()
-   softmmu_ss.add(files('block.c'))
-diff --git a/net/meson.build b/net/meson.build
-index 87afca3e93..634ab71cc6 100644
---- a/net/meson.build
-+++ b/net/meson.build
-@@ -1,13 +1,9 @@
- softmmu_ss.add(files(
-   'announce.c',
-   'checksum.c',
--  'colo-compare.c',
--  'colo.c',
-   'dump.c',
-   'eth.c',
-   'filter-buffer.c',
--  'filter-mirror.c',
--  'filter-rewriter.c',
-   'filter.c',
-   'hub.c',
-   'net-hmp-cmds.c',
-@@ -19,6 +15,10 @@ softmmu_ss.add(files(
-   'util.c',
- ))
- 
-+if get_option('replication').allowed()
-+  softmmu_ss.add(files('colo-compare.c', 'colo.c', 'filter-rewriter.c', 'filter-mirror.c'))
-+endif
-+
- softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
- 
- if have_l2tpv3
-diff --git a/qapi/migration.json b/qapi/migration.json
-index c84fa10e86..5b81e09369 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1685,7 +1685,8 @@
- ##
- { 'struct': 'COLOStatus',
-   'data': { 'mode': 'COLOMode', 'last-mode': 'COLOMode',
--            'reason': 'COLOExitReason' } }
-+            'reason': 'COLOExitReason' },
-+  'if': 'CONFIG_REPLICATION' }
- 
- ##
- # @query-colo-status:
-@@ -1702,7 +1703,8 @@
- # Since: 3.1
- ##
- { 'command': 'query-colo-status',
--  'returns': 'COLOStatus' }
-+  'returns': 'COLOStatus',
-+  'if': 'CONFIG_REPLICATION' }
- 
- ##
- # @migrate-recover:
-diff --git a/stubs/colo.c b/stubs/colo.c
-new file mode 100644
-index 0000000000..5a02540baa
---- /dev/null
-+++ b/stubs/colo.c
-@@ -0,0 +1,46 @@
-+#include "qemu/osdep.h"
-+#include "qemu/notify.h"
-+#include "net/colo-compare.h"
-+#include "migration/colo.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-migration.h"
-+
-+void colo_compare_cleanup(void)
-+{
-+    abort();
-+}
-+
-+void colo_shutdown(void)
-+{
-+    abort();
-+}
-+
-+void *colo_process_incoming_thread(void *opaque)
-+{
-+    abort();
-+}
-+
-+void colo_checkpoint_notify(void *opaque)
-+{
-+    abort();
-+}
-+
-+void migrate_start_colo_process(MigrationState *s)
-+{
-+    abort();
-+}
-+
-+bool migration_in_colo_state(void)
-+{
-+    return false;
-+}
-+
-+bool migration_incoming_in_colo_state(void)
-+{
-+    return false;
-+}
-+
-+void qmp_x_colo_lost_heartbeat(Error **errp)
-+{
-+    error_setg(errp, "COLO support is not built in");
-+}
-diff --git a/stubs/meson.build b/stubs/meson.build
-index b2b5956d97..8412cad15f 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -45,6 +45,7 @@ stub_ss.add(files('target-get-monitor-def.c'))
- stub_ss.add(files('target-monitor-defs.c'))
- stub_ss.add(files('trace-control.c'))
- stub_ss.add(files('uuid.c'))
-+stub_ss.add(files('colo.c'))
- stub_ss.add(files('vmstate.c'))
- stub_ss.add(files('vm-stop.c'))
- stub_ss.add(files('win32-kbd-hook.c'))
--- 
-2.34.1
+Kevin
 
 
