@@ -2,76 +2,144 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F396DD0A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 06:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8006DD0B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 06:14:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm5DY-00018Y-TW; Tue, 11 Apr 2023 00:02:55 -0400
+	id 1pm5NL-0004Hw-Id; Tue, 11 Apr 2023 00:12:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pm5DT-00018D-7I; Tue, 11 Apr 2023 00:02:48 -0400
-Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pm5DL-0006BG-JV; Tue, 11 Apr 2023 00:02:46 -0400
-Received: by mail-ua1-x935.google.com with SMTP id a38so4053378uax.12;
- Mon, 10 Apr 2023 21:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681185757; x=1683777757;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IJzxAJkxWF/3m1WWYFGYJIxrPaFnB+bLpPQcm5Nrg/k=;
- b=bD9FFLfK56oHll/IZhvwrVrb3A0sIEYvVbNNT9Bxnf153TfUXaJTkC5NQuzYolkTIo
- 5zu43rBqHrjGmhnHUcbn5PvWVP1rQf9N/7pDzX1FQ/KfSpuNFOPHaVcotZe6TC4fivEC
- oY7jOfLK3xxhsZY3nmmSewJvBHcSOnn9krzJ3b5jGfdzU3WkiyR1B5n24tvxa/vhCewh
- LsglL//x4bLGITJRIJwxnR4ruAuoKG1cQ1grXFkVAjxCZjhNrvkaAYdvQt4DAk7OPyDC
- 52VJagZnfhFRcVbTIZO+55YMn7qbym6iOtGHd6sikWT0PVoF8yE/4kzkG3hoMWJzeBeC
- 8ogQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681185757; x=1683777757;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IJzxAJkxWF/3m1WWYFGYJIxrPaFnB+bLpPQcm5Nrg/k=;
- b=i8mffgOxLRuYBXI+1sLsr86OQfN0Qp+WqXnuBf7A4fSGdDv8gQhoQ7IBZVfLZQEbWl
- xwt0rESkU3Hy4n9p6+J/mZKT3RFNB1tFWUIQVNKbdXTMbeVY451ibWSD8UasyG10K7nx
- V1M6GFcGKJd2Im5hqtPvgVwizMAAkVqe1v0W5faZAoDqLhfUYbs6/FbXEYrn07wlWvVL
- TTMhy3a5Mnhm7zvTaN9IPWf2PK0wezFodtdKp1JqBM1N09qE20F48TQeiMeiSffOCGMy
- 0DqfKJkUrWh+NrtmdqBSDN/dfj/PwHISPLnnkmGzezxrV1bKtg4EWqcUHlkk1oYsnSyV
- TNOw==
-X-Gm-Message-State: AAQBX9dTAYVDoWNBxlnu4E3MGAIPT1CbwU3zFYkKqAto3j2i6bebh6GR
- ubskvSf6iLZO3NwjlQ5hEiUtb2JvyjJe3QgU7cM=
-X-Google-Smtp-Source: AKy350bs8G3hjyxugWemRP9/WbUi83TeaB+DuBRAvDDSEfJd0uVXgpnyI3n4ch9hj5qCB/ouu56AX0BegzuYbGH5ukI=
-X-Received: by 2002:ab0:5b54:0:b0:68b:90f4:1d8c with SMTP id
- v20-20020ab05b54000000b0068b90f41d8cmr701126uae.1.1681185757323; Mon, 10 Apr
- 2023 21:02:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eiichi.tsukata@nutanix.com>)
+ id 1pm5NF-0004HS-K4
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 00:12:53 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eiichi.tsukata@nutanix.com>)
+ id 1pm5NC-0008Mb-AY
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 00:12:52 -0400
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33B3pW0l016159; Mon, 10 Apr 2023 21:12:46 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=proofpoint20171006;
+ bh=1bGP+zW7WN5HizFa2ithhiw9nfR0odeK1hOtwfXH/tA=;
+ b=2qjPsQOGAtDWNYeVaY9fVYC4Gd8OHOpnF7AHdV/grhbM2FIiOd9Ng1hdsiPlRj1A6jgQ
+ CKhbprv5Vb+zUSCsrs6+k7/n+4lThmThYQQSQYVHZQOYrDNXHMfl6Dl4TxAJ4wyaub2N
+ N9fcVp6yjBs/niXAistMTr9QQtXkfagadonmboxIuHrtNUlK9QLC2GYwpxmqJ/rStIDx
+ VfFnWtbVGM/9u/KoH9Adt3Wd3CkbWPQdMymE1URQC96i79Ma9ELoxV5xEQDei2G1HYIX
+ 3GWKOIgh2Wj2KZAZYC4lg5xDHvRIQkS+M6AJX10QNK0MkzD6lKtPu7nLajIeCOnEj4vM aA== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3pu7t3vkre-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Apr 2023 21:12:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y05JBB5/dq5Oa320U7mIXCzOX9Wkfvd5ypoBW4Lb5H7D4W3+qVgnoD2aQpk8a57+PWNkXfohDE0zAwgR6ACHC59kj9XxI+hxBb5DC2+XziBPhLM1DH9PjYEwJ5C/3oGqfHe3aYMdzvUfvHTKPSohdarD9BOln6f1v99lvf6NJ7jzvuF1iXFxvKfKszwk1hJEC00vG1ycZTS6CwWgvN7M7+uVwlBwau4oNZr4W6+uCXqwZA9fRALXjYRee9mUxH3KUnF2ZWnC45Ob0YY5yqgV/FswkS0U9E9rGy1Hux13ybh0ja/aFvI+UtmwtU0XjYPt39I8c3gm0Qa+tQcgt7rVAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1bGP+zW7WN5HizFa2ithhiw9nfR0odeK1hOtwfXH/tA=;
+ b=aoQ2YB7mwK/FuAx5ujaKQ1uchiS3aKbgcKDz8e3A2zjhQNW2pSKIfW7QJSxxXEm2nxzCWY0lFoQmvyoaskfl3w81Ay4DBbOLKVJyXCzpc6VZPFSD/fPEDMUOqov3bDLsqRfdkwpu523b7TfM8bxrakmHcZ5A8kamsHLoa/wkPGd8bCeiTYlOSQKzievL8UOT9UrAgUW4o0HpdVjOc40YFwMXc6V7l/e9qXdY1rMVUxKb39e6W9khOi6sB94valCModtKfLz8spbatk/zCxzWQi/Ope5hwUuBvE7kfzlistwcUeC29wjJKwitHGDGTGRFLnzzygfkTmd6r6fhtvX9lw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1bGP+zW7WN5HizFa2ithhiw9nfR0odeK1hOtwfXH/tA=;
+ b=IG4P9IDDCLFeUPYIUQD68nnTNYrNUpnrusaQoFf6mXYeUx3R0MV1iscHcEcm6zz6E8V6XQyJk9gSKkujhBpKk0D8WUiCG7ZrDI6sTXv6F5Nd2g9bgrrVIbydgUSKUdXKho3xkgiyRNVdRgZjJYMM+rI2ygZzHDuxepke+3keRUoTeyMHqKVtkMEdX9V35PiKYz/nZofP9oB41ngOoLKrqQaT3x9oim3t/8jy02uqyaohNHYfh6pzs7vubT3ebbkpTsBVbJBN/0LzFemzYBWQ8Ke2Y5/7COWY7chYTWubo22/nHsiOuWuDq3C2ffu8hC0ZQhjgLsByGnXnnfjbjheUw==
+Received: from CH0PR02MB8041.namprd02.prod.outlook.com (2603:10b6:610:106::10)
+ by MN2PR02MB6734.namprd02.prod.outlook.com (2603:10b6:208:1d1::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Tue, 11 Apr
+ 2023 04:12:44 +0000
+Received: from CH0PR02MB8041.namprd02.prod.outlook.com
+ ([fe80::805e:f9:d681:309c]) by CH0PR02MB8041.namprd02.prod.outlook.com
+ ([fe80::805e:f9:d681:309c%4]) with mapi id 15.20.6277.036; Tue, 11 Apr 2023
+ 04:12:44 +0000
+From: Eiichi Tsukata <eiichi.tsukata@nutanix.com>
+To: pbonzini@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com,
+ thuth@redhat.com, philmd@linaro.org, peterx@redhat.com,
+ david@redhat.com, qemu-devel@nongnu.org
+Cc: Eiichi Tsukata <eiichi.tsukata@nutanix.com>
+Subject: [PATCH] physmem: use PR_SET_VMA_ANON_NAME to set ram block name
+Date: Tue, 11 Apr 2023 04:11:58 +0000
+Message-Id: <20230411041158.66728-1-eiichi.tsukata@nutanix.com>
+X-Mailer: git-send-email 2.27.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR04CA0011.namprd04.prod.outlook.com
+ (2603:10b6:a03:1d0::21) To CH0PR02MB8041.namprd02.prod.outlook.com
+ (2603:10b6:610:106::10)
 MIME-Version: 1.0
-References: <20230325105429.1142530-1-richard.henderson@linaro.org>
- <20230325105429.1142530-17-richard.henderson@linaro.org>
-In-Reply-To: <20230325105429.1142530-17-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 11 Apr 2023 14:02:11 +1000
-Message-ID: <CAKmqyKPu-VtEx__dWFA7m2OHpgRM_PmqcO+97X2SbpcJaU_Sow@mail.gmail.com>
-Subject: Re: [PATCH v6 16/25] target/riscv: Set MMU_2STAGE_BIT in
- riscv_cpu_mmu_index
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- palmer@dabbelt.com, zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x935.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR02MB8041:EE_|MN2PR02MB6734:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9d99aba-bae4-407f-627d-08db3a43002f
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ytl6YKin534ye6xkv4Hj8zocLPawe+7xFYJJjTB2e/UTsmhqBcPtGb7XjFJA5uHA5Dvz0alyRHrCTYQtbPQ77qswZb9GBcngw90PZQp3IEhU5XwD6uunT4hun0FZDKmg/tVwq0MyeKGOfLFCbwGPrva10EzY/rKfqADFq6xaW/PJrmfhNekmNozEw6iJwmQo/KpPqnoi7WbJwxfjhYVMtLUGEXDP++od775Z+NU+2ivhPm3pvHiXPb8NT3aO6d+quEKfkX8QuSIrSyW4y7zMcx0pBo+ojcU9b3dBmVSQyJYECNFhCnxKmaXNoDymeyAbR4phdEEcxsnWNjSDZ7jFXPW/XBhmv+JxI32VBmAXTCCW/080HD0vByuiWEAZAkMsV9tHAUlIXRRvIPysMOLSHUSZ5NnhdXPRpCv0hoi8zZdGdSo4SdicJl+7CZP2P5vN2/FKONaL/BsTl90KExcHUEsoIyQeMThXFhNHFKqSWl0KV1ACHzYdxHTrjFfEyQUWWg3ovSXv/h5QUgN6jVcnwvFREoVLqWRtHlrz1zeFwYdjvuETqSkj2ONBudBw+cBuGg2r/4I0dYsWUBhotAfd2uSdBEQdykPburTjEsGnJ3qFnKQhR5qQyQP31T2zgfi/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR02MB8041.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(346002)(396003)(136003)(366004)(39860400002)(451199021)(26005)(6506007)(6512007)(1076003)(6666004)(107886003)(5660300002)(44832011)(2616005)(2906002)(83380400001)(186003)(4326008)(36756003)(8936002)(6486002)(52116002)(41300700001)(478600001)(38350700002)(38100700002)(316002)(66476007)(66556008)(86362001)(66946007)(8676002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DfefLlvBDEOHTNAGYBq3KtAkABanhNk7JFa5m02Wd80aPvMGjZxgzOyruXVD?=
+ =?us-ascii?Q?lJxfxeU4Kga61qe3ZahE3iAUe+jCmYnpeGDCJr2hJdHQxMnZrThYuo6GQVvk?=
+ =?us-ascii?Q?gEVvRwIywGr+dhaRCN0SoVpI4pRqHh2bAvccWE4UxaIyn0Pb1ZNZTRYt4aTy?=
+ =?us-ascii?Q?zvCB8Or+K54K1HpOYqBUkySa9CPxjxKF6tKR+i24uc7CZKw6b0d6s3xjvqgO?=
+ =?us-ascii?Q?R29sFqy8JHL200cv/RLcpv98AMX10quD5Gak8CmCLy7xu01IlsczZeZ2aTCW?=
+ =?us-ascii?Q?JyDkMERfHg0LH2KaaFFxXkpoV1qkBQwGCPt4pzll1bmTw0BKi9WwqGrLauWw?=
+ =?us-ascii?Q?B1HyfJK4DsztcgUhyIN5GBwgNjVQp4B75F3s6pBsvKUECLb/XRHXRvfMvZwg?=
+ =?us-ascii?Q?ElazCyqawhHemvtZTPH+LpXbX+9luw4kMsthas5Y7xOrA6+GXkRdFibH/Ear?=
+ =?us-ascii?Q?tKFvzsVkzYIveaN1/Y6ioPFxATSM5DkumtB5RwxnhtvQrTgcdSnKzURJ5Kwr?=
+ =?us-ascii?Q?/y4xAzCIhybVBtIFicKUN+YIBlfya7UBNLVzd6qb7mZOOP+Omuhyi3SC0X42?=
+ =?us-ascii?Q?opyYGRrvc76OxEK4wI5XFX0bq+OvRHB0PHOaBhFvyo82rMgWASxXO/lFgWSD?=
+ =?us-ascii?Q?NxxdRaixoypD3X5OqeLW5lV/GWdD5Y9wC8uG5zw1EQpzV4wYQgkwpI/jr+N7?=
+ =?us-ascii?Q?OEoHRSZo2ifkaQxENqAyV5J5A6WfeYHM2wjMPF84yAgsNG33Zh7JzU1aekpJ?=
+ =?us-ascii?Q?RZT/X3dnYx/CYxIRxStn73zLg2CJk21jAqh3gR0El0kDhj5FSlzQhcHhYyX2?=
+ =?us-ascii?Q?T/6c4XS0RPKXMFCF79FkVXekKsePx6HEFln4X6tyrm3BRDpFyu0aSWr85zeP?=
+ =?us-ascii?Q?CT6K1nS5IpM78mBP48r/RxX92gd/LbNNyZudDwdThzcN4ALQho3lKtMTsS+j?=
+ =?us-ascii?Q?NjhN9MXcUHl2x6b4Nl/AQnuBlWmhL78TE12msj6eRE6YeMd6xFj8XtBcZRW6?=
+ =?us-ascii?Q?cSzVMwL9K6aA9cbgN/vX1nJvg/NUqgXIBFJAsviu0uUor/m6RgiJDbiL/G3C?=
+ =?us-ascii?Q?zjkpH6LoFgpFr9z9kRnXvvHVgyYQXhAp/aNPGU/KO+0B0pextQky/8ijziSE?=
+ =?us-ascii?Q?o4EmwYezyLM3r0h+B4ZwLeWVYNVW9I//LX/sLjjNPoAh/pmHQ48H4z2O7pqv?=
+ =?us-ascii?Q?B0rMz2lTD36YaHdV4/MR27lz4heYdkdww3ED4UIC2021t3qsCVczWxM3xew0?=
+ =?us-ascii?Q?T91HdDVCmY76fkV9JjBzfd/lBBKc+yB9XsILguZXYAPmxjL94YNaymfwKEzM?=
+ =?us-ascii?Q?dAUKtiyIr8StrUAuXeO27MOaeB8q6kwlYxJvmL1r7XdCZg901KDY8CabMMou?=
+ =?us-ascii?Q?9a3tpPe/mA3b6aODgGOb/XoctHUmba1UiSbpxGbxvUZClDH2s/blBqFXiYTj?=
+ =?us-ascii?Q?k/WjGOw6zJPSMGN1tLJ78exWcxpTyiJ9AMlS8PiGYsFl2YDTNe5g4zJWkneu?=
+ =?us-ascii?Q?VwmSRI5QJK7JwUEAHpnncAJ1FqjGqnBIzhW7yV8SAEElPXyWgEwAgrehzGRZ?=
+ =?us-ascii?Q?pY0nw4yyUahJKpMqnh9mkObuvaXZ2IrE/xXu+TxOncJdf5KugvSdBPldiAkC?=
+ =?us-ascii?Q?ng=3D=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9d99aba-bae4-407f-627d-08db3a43002f
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB8041.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2023 04:12:44.4727 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1hN6rq4gmeriNad3Z+kSeX6LRXk4s8S0Koj76rHt1j/FEXru10Bx2h1W0MUCRqTgCvJgEUgx1LR20ReKJqo3qej1tNND07G3g1ncYsw73OU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6734
+X-Proofpoint-GUID: Ol_0gM5TulDXKU40rx7jev3L2M_2oovw
+X-Proofpoint-ORIG-GUID: Ol_0gM5TulDXKU40rx7jev3L2M_2oovw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-11_01,2023-04-06_03,2023-02-09_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=eiichi.tsukata@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,162 +155,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Mar 25, 2023 at 9:58=E2=80=AFPM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Incorporate the virt_enabled and MPV checks into the cpu_mmu_index
-> function, so we don't have to keep doing it within tlb_fill and
-> subroutines.  This also elides a flush on changes to MPV.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Use linux specific PR_SET_VMA_ANON_NAME (introduced in v5.17) to set ram
+block name in the kernel. This makes each ram block distinguishable and
+can help debugging and inspection. The names of ram blocks are shown in
+/proc/pid/maps like this:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+  7f00e9400000-7f00f1400000 rw-p 00000000 00:00 0      [anon:pc.ram]
+  7f0115200000-7f0115201000 rw-p 00000000 00:00 0      [anon:/rom@etc/acpi/rsdp]
+  7f0115400000-7f0115410000 rw-p 00000000 00:00 0      [anon:/rom@etc/table-loader]
+  7f0115600000-7f0115800000 rw-p 00000000 00:00 0      [anon:/rom@etc/acpi/tables]
+  7f0115a00000-7f0115a40000 rw-p 00000000 00:00 0      [anon:e1000.rom]
+  ...
 
-Alistair
+Signed-off-by: Eiichi Tsukata <eiichi.tsukata@nutanix.com>
+---
+ meson.build       | 2 ++
+ softmmu/physmem.c | 9 +++++++++
+ 2 files changed, 11 insertions(+)
 
-> ---
->  target/riscv/cpu_helper.c | 50 +++++++++++++--------------------------
->  target/riscv/csr.c        |  6 +----
->  2 files changed, 18 insertions(+), 38 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 0adfd4a12b..6c42f9c6fd 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -37,19 +37,21 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifet=
-ch)
->  #ifdef CONFIG_USER_ONLY
->      return 0;
->  #else
-> -    if (ifetch) {
-> -        return env->priv;
-> -    }
-> +    bool virt =3D riscv_cpu_virt_enabled(env);
-> +    int mode =3D env->priv;
->
->      /* All priv -> mmu_idx mapping are here */
-> -    int mode =3D env->priv;
-> -    if (mode =3D=3D PRV_M && get_field(env->mstatus, MSTATUS_MPRV)) {
-> -        mode =3D get_field(env->mstatus, MSTATUS_MPP);
-> +    if (!ifetch) {
-> +        if (mode =3D=3D PRV_M && get_field(env->mstatus, MSTATUS_MPRV)) =
-{
-> +            mode =3D get_field(env->mstatus, MSTATUS_MPP);
-> +            virt =3D get_field(env->mstatus, MSTATUS_MPV);
-> +        }
-> +        if (mode =3D=3D PRV_S && get_field(env->mstatus, MSTATUS_SUM)) {
-> +            mode =3D MMUIdx_S_SUM;
-> +        }
->      }
-> -    if (mode =3D=3D PRV_S && get_field(env->mstatus, MSTATUS_SUM)) {
-> -        return MMUIdx_S_SUM;
-> -    }
-> -    return mode;
-> +
-> +    return mode | (virt ? MMU_2STAGE_BIT : 0);
->  #endif
->  }
->
-> @@ -1165,8 +1167,7 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, =
-hwaddr physaddr,
->      }
->
->      env->badaddr =3D addr;
-> -    env->two_stage_lookup =3D riscv_cpu_virt_enabled(env) ||
-> -                            mmuidx_2stage(mmu_idx);
-> +    env->two_stage_lookup =3D mmuidx_2stage(mmu_idx);
->      env->two_stage_indirect_lookup =3D false;
->      cpu_loop_exit_restore(cs, retaddr);
->  }
-> @@ -1191,8 +1192,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, va=
-ddr addr,
->          g_assert_not_reached();
->      }
->      env->badaddr =3D addr;
-> -    env->two_stage_lookup =3D riscv_cpu_virt_enabled(env) ||
-> -                            mmuidx_2stage(mmu_idx);
-> +    env->two_stage_lookup =3D mmuidx_2stage(mmu_idx);
->      env->two_stage_indirect_lookup =3D false;
->      cpu_loop_exit_restore(cs, retaddr);
->  }
-> @@ -1230,7 +1230,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address=
-, int size,
->      int prot, prot2, prot_pmp;
->      bool pmp_violation =3D false;
->      bool first_stage_error =3D true;
-> -    bool two_stage_lookup =3D false;
-> +    bool two_stage_lookup =3D mmuidx_2stage(mmu_idx);
->      bool two_stage_indirect_error =3D false;
->      int ret =3D TRANSLATE_FAIL;
->      int mode =3D mmu_idx;
-> @@ -1242,22 +1242,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr addres=
-s, int size,
->      qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n=
-",
->                    __func__, address, access_type, mmu_idx);
->
-> -    /* MPRV does not affect the virtual-machine load/store
-> -       instructions, HLV, HLVX, and HSV. */
-> -    if (mmuidx_2stage(mmu_idx)) {
-> -        ;
-> -    } else if (mode =3D=3D PRV_M && access_type !=3D MMU_INST_FETCH &&
-> -               get_field(env->mstatus, MSTATUS_MPRV)) {
-> -        mode =3D get_field(env->mstatus, MSTATUS_MPP);
-> -        if (riscv_has_ext(env, RVH) && get_field(env->mstatus, MSTATUS_M=
-PV)) {
-> -            two_stage_lookup =3D true;
-> -        }
-> -    }
-> -
->      pmu_tlb_fill_incr_ctr(cpu, access_type);
-> -    if (riscv_cpu_virt_enabled(env) ||
-> -        ((mmuidx_2stage(mmu_idx) || two_stage_lookup) &&
-> -         access_type !=3D MMU_INST_FETCH)) {
-> +    if (two_stage_lookup) {
->          /* Two stage lookup */
->          ret =3D get_physical_address(env, &pa, &prot, address,
->                                     &env->guest_phys_fault_addr, access_t=
-ype,
-> @@ -1352,9 +1338,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address=
-, int size,
->          return false;
->      } else {
->          raise_mmu_exception(env, address, access_type, pmp_violation,
-> -                            first_stage_error,
-> -                            riscv_cpu_virt_enabled(env) ||
-> -                                mmuidx_2stage(mmu_idx),
-> +                            first_stage_error, two_stage_lookup,
->                              two_stage_indirect_error);
->          cpu_loop_exit_restore(cs, retaddr);
->      }
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index b79758a606..1b635373c6 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1246,7 +1246,7 @@ static RISCVException write_mstatus(CPURISCVState *=
-env, int csrno,
->      RISCVMXL xl =3D riscv_cpu_mxl(env);
->
->      /* flush tlb on mstatus fields that affect VM */
-> -    if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPV)) {
-> +    if ((val ^ mstatus) & MSTATUS_MXR) {
->          tlb_flush(env_cpu(env));
->      }
->      mask =3D MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-> @@ -1294,10 +1294,6 @@ static RISCVException write_mstatush(CPURISCVState=
- *env, int csrno,
->      uint64_t valh =3D (uint64_t)val << 32;
->      uint64_t mask =3D MSTATUS_MPV | MSTATUS_GVA;
->
-> -    if ((valh ^ env->mstatus) & (MSTATUS_MPV)) {
-> -        tlb_flush(env_cpu(env));
-> -    }
-> -
->      env->mstatus =3D (env->mstatus & ~mask) | (valh & mask);
->
->      return RISCV_EXCP_NONE;
-> --
-> 2.34.1
->
->
+diff --git a/meson.build b/meson.build
+index 29f8644d6d..aca889f5f0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2040,6 +2040,8 @@ config_host_data.set('HAVE_OPTRESET',
+                      cc.has_header_symbol('getopt.h', 'optreset'))
+ config_host_data.set('HAVE_IPPROTO_MPTCP',
+                      cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
++config_host_data.set('CONFIG_PRCTL_PR_SET_VMA_ANON_NAME',
++                     cc.has_header_symbol('sys/prctl.h', 'PR_SET_VMA_ANON_NAME'))
+ 
+ # has_member
+ config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index e35061bba4..4fe3e14193 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -80,6 +80,10 @@
+ #include <daxctl/libdaxctl.h>
+ #endif
+ 
++#ifdef CONFIG_PRCTL_PR_SET_VMA_ANON_NAME
++#include <sys/prctl.h>
++#endif
++
+ //#define DEBUG_SUBPAGE
+ 
+ /* ram_list is read under rcu_read_lock()/rcu_read_unlock().  Writes
+@@ -1810,6 +1814,11 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
+                 return;
+             }
+             memory_try_enable_merging(new_block->host, new_block->max_length);
++#ifdef CONFIG_PRCTL_PR_SET_VMA_ANON_NAME
++            prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
++                  (unsigned long) new_block->host, new_block->max_length,
++                  (unsigned long) new_block->mr->name);
++#endif
+         }
+     }
+ 
+-- 
+2.39.2
+
 
