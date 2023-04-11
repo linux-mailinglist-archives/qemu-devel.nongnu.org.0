@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413CE6DD3A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 09:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3E56DD43E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 09:31:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm88F-0002wD-Aa; Tue, 11 Apr 2023 03:09:35 -0400
+	id 1pm8Sb-0007zf-1k; Tue, 11 Apr 2023 03:30:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pm88C-0002ve-LD
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 03:09:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pm88B-0000Nn-3N
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 03:09:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681196970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kcg1wA74fzBkkk/zArviRuyTYOnzYdN7u4PY8XiqYt8=;
- b=b1jmMDaN1IdiND33nB+aRFCFh642CenlSiCZ9g/RtCAryBaHPsjiA0W7k9wleWeT52AO6l
- Aq2IROWa8D5zDRW4gS2xbfq1R0yeomuVkGiftYzdHR8b/w+0q+cGtVDTrllMId90o3sw+O
- NlK8crRUJKDYwXJ9pGGOxzpKDSfE7xE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-184-wg6O2vZ_NSe7w2aWfNUXuQ-1; Tue, 11 Apr 2023 03:09:29 -0400
-X-MC-Unique: wg6O2vZ_NSe7w2aWfNUXuQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h8-20020a05600c314800b003ef649aa8c7so1014484wmo.6
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 00:09:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681196968;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pm8SX-0007zV-46
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 03:30:33 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pm8SV-0004ah-7E
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 03:30:32 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ n19-20020a05600c501300b003f064936c3eso8770454wmr.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 00:30:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681198229; x=1683790229;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kcg1wA74fzBkkk/zArviRuyTYOnzYdN7u4PY8XiqYt8=;
- b=APzS+h+WVxdhdXdtVcXhySsf/oet9gzc8EOHeBptDuqr1WfJuTQbnaNcfQ07Ojktft
- lf1U8dsyMVFy8CD4lXgtUbLhOGT46JPAIIbVkqFzDuuuPSy87B5da6OfLYraQUKnXsof
- KlKEszKCgub0Y1qBcF5hHSXimUyBwOXi1ukv3bCzZz79q9VvMK1V7dOTTQMFUKuBSv5Q
- bb6RempNc0xEl67vp5Rnn1AkWZIcZPnS6A2GMWsUyhKaWT2/yp4sShoZWI/O2/3QelAq
- 7rknZkwPS+sSGyCoejN0P9u2lg34IY2df6IAXtLhbpEXrfGD4ff+Y+jxABLzUhgcUhYI
- dVYA==
-X-Gm-Message-State: AAQBX9eqavr3ILfjRimfgycQf3f0rlidvrctMhb5/MiJVUMBNH6u+sMy
- kGo4lFYplSynGLWOXEMynG9Il+FIxe9NqX0tPt+2RMjvmLo5B9ETvkjU7zfwDlg5jBHpAYfw9RZ
- JBBpGv2IJUdfO9pA=
-X-Received: by 2002:a5d:65cd:0:b0:2f0:2cf9:fed0 with SMTP id
- e13-20020a5d65cd000000b002f02cf9fed0mr3797342wrw.49.1681196968200; 
- Tue, 11 Apr 2023 00:09:28 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZUA8vXglhWzDRAA0GZR2p2fNy9s2UfyyYEvdB4WV1ErzCloYAF9l045w5I7dRzc7HGMc+Fgw==
-X-Received: by 2002:a5d:65cd:0:b0:2f0:2cf9:fed0 with SMTP id
- e13-20020a5d65cd000000b002f02cf9fed0mr3797326wrw.49.1681196967892; 
- Tue, 11 Apr 2023 00:09:27 -0700 (PDT)
-Received: from redhat.com ([2.52.10.80]) by smtp.gmail.com with ESMTPSA id
- r12-20020adfdc8c000000b002d1e49cff35sm13814399wrj.40.2023.04.11.00.09.25
+ bh=fOpoKmC3+3OmcjkQYxNqONVraRTpX5hW2o+6Eu1hwwQ=;
+ b=inM8KFMJoaitO7WggkbbuXi+GX+iMsb65GS0jjXmP2QRV1fJHscW8AgxTdfD16vasw
+ Dz6I7axZcYbDYOZOgE7fc8QRLgT77Hk4Wiu5puzQ2LFRtG7e3J7hnCEUxaHHrZ5IciOY
+ jPyOkSCW4JswmucnfztMbj0/knbVkxJN01xOjNWKqzSZ2ODfYcCn+kZI8bza80mOEC9L
+ QtTgx5Lp34hNtIUiqyx3KGYWRE++wQUZxXJOFS8MfpAAZFivuKtcW7lFPq2gJsTebo2/
+ Xaa7enBOEtSsEGlAuDqU8Ab/TRU1gKo6QJSCHFiHpnAmGkOnKzA+mU2K1jtnGtlg7Sgd
+ v9pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681198229; x=1683790229;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=fOpoKmC3+3OmcjkQYxNqONVraRTpX5hW2o+6Eu1hwwQ=;
+ b=gB0FK9LlISSaplzkfZ9xpx8nb3t+RUfz93RVHSIx0uATdoCJsPU4ilxC+aceW16teK
+ v1ahECT6qQ3FjhwzgdpwciXlD6wK3tYomqU7m0pp+qkhFAvtCUvfeBdVIF/mb9/L8cor
+ xYzyAm5JAJQUo/dOzP4yPOSDGcQ/chsJt7CTW51VYrMye1AMtc8I8PVBzJ5Ncz6jd/Qy
+ C3ctae2RfT3cvnc5oY5zEeB+JJViP20cA26D06ikEsqOEFng53b80iodfjfhFgS8PrDB
+ bE8vSb8t9GCdpQQtHVTHMQ11rtl8jXLjCwQm/uf2Xh1lvBt0IfPpAzkbAorkmAMttYdJ
+ qI4A==
+X-Gm-Message-State: AAQBX9dNghAEj501OBBLiMrVzp+n5Zz/GRNGAE/Hs0Br+yA2PmCu+gtl
+ eywQLSG8VK5f9aPqFVAM1A0Jzw==
+X-Google-Smtp-Source: AKy350Y+ycRYAs4vpcFFJKEtd4tPGAdFeyu8Yddp4EChQaqrsj6Fjzi9V/Z9nI9wCxKo2RxkYXE6Pw==
+X-Received: by 2002:a7b:c3d6:0:b0:3eb:3104:efef with SMTP id
+ t22-20020a7bc3d6000000b003eb3104efefmr6405420wmj.31.1681198228130; 
+ Tue, 11 Apr 2023 00:30:28 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ q8-20020a1ce908000000b003ed2276cd0dsm16022906wmc.38.2023.04.11.00.30.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 00:09:27 -0700 (PDT)
-Date: Tue, 11 Apr 2023 03:09:23 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bui Quang Minh <minhquangbui99@gmail.com>
-Cc: qemu-devel@nongnu.org, David Woodhouse <dwmw2@infradead.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v3 0/5] Support x2APIC mode with TCG accelerator
-Message-ID: <20230411030857-mutt-send-email-mst@kernel.org>
-References: <20230409144022.8111-1-minhquangbui99@gmail.com>
+ Tue, 11 Apr 2023 00:30:27 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5FB111FFB7;
+ Tue, 11 Apr 2023 08:30:27 +0100 (BST)
+References: <20230406022751.757980-1-fei2.wu@intel.com>
+ <20230406022751.757980-2-fei2.wu@intel.com> <87v8i9jviv.fsf@linaro.org>
+ <ce65c074-ff12-1f29-ee64-44fb7ff643c7@linaro.org>
+ <87ttxoc8wq.fsf@linaro.org>
+ <0f237ccb-dcbe-87c7-d9f2-653962d30520@intel.com>
+User-agent: mu4e 1.10.0; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Wu, Fei" <fei2.wu@intel.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, pbonzini@redhat.com,
+ erdnaxe@crans.org, ma.mandourr@gmail.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] accel/tcg/plugin: export host insn size
+Date: Tue, 11 Apr 2023 08:27:14 +0100
+In-reply-to: <0f237ccb-dcbe-87c7-d9f2-653962d30520@intel.com>
+Message-ID: <87v8i2ri3w.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230409144022.8111-1-minhquangbui99@gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,112 +100,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Apr 09, 2023 at 09:40:22PM +0700, Bui Quang Minh wrote:
-> Hi everyone,
-> 
-> This series implements x2APIC mode in userspace local APIC and the
-> RDMSR/WRMSR helper to access x2APIC registers in x2APIC mode. Intel iommu
-> and AMD iommu are adjusted to support x2APIC interrupt remapping. With this
-> series, we can now boot Linux kernel into x2APIC mode with TCG accelerator
-> using either Intel or AMD iommu.
-> 
-> Testing the emulated userspace APIC with kvm-unit-tests, disable test
-> device with this patch
 
+"Wu, Fei" <fei2.wu@intel.com> writes:
 
-Threading's broken with this posting.
+> On 4/10/2023 6:36 PM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> On 4/6/23 00:46, Alex Benn=C3=A9e wrote:
+>>>> If your aim is to examine JIT efficiency what is wrong with the current
+>>>> "info jit" that you can access via the HMP? Also I'm wondering if its
+>>>> time to remove the #ifdefs from CONFIG_PROFILER because I doubt the
+>>>> extra data it collects is that expensive.
+>>>> Richard, what do you think?
+>>>
+>>> What is it that you want from CONFIG_PROFILER that you can't get from p=
+erf?
+>>> I've been tempted to remove CONFIG_PROFILER entirely.
+>>=20
+>> I think perf is pretty good at getting the hot paths in the translator
+>> and pretty much all of the timer related stuff in CONFIG_PROFILER could
+>> be dropped. However some of the additional information about TCG ops
+>> usage and distribution is useful. That said last time I had a tilt at
+>> this on the back of a GSoC project:
+>>=20
+>>   Subject: [PATCH  v9 00/13] TCG code quality tracking and perf integrat=
+ion
+>>   Date: Mon,  7 Oct 2019 16:28:26 +0100
+>>   Message-Id: <20191007152839.30804-1-alex.bennee@linaro.org>
+>>=20
+>> The series ended up moving all the useful bits of CONFIG_PROFILER into
+>> tb stats which was dynamically controlled on a per TB basis. Now that
+>> the perf integration stuff was merged maybe there is a simpler series to
+>> be picked out of the remains?
+>>=20
+>> Fei Wu,
+>>=20
+>> Have you looked at the above series? Is that gathering the sort of
+>> things you need? Is this all in service of examining the translation
+>> quality of hot code?
+>>=20
+> Yes, it does have what I want, I suppose this wiki is for the series:
+>     https://wiki.qemu.org/Features/TCGCodeQuality
 
-> diff --git a/lib/x86/fwcfg.c b/lib/x86/fwcfg.c
-> index 1734afb..f56fe1c 100644
-> --- a/lib/x86/fwcfg.c
-> +++ b/lib/x86/fwcfg.c
-> @@ -27,6 +27,7 @@ static void read_cfg_override(void)
->  
->         if ((str = getenv("TEST_DEVICE")))
->                 no_test_device = !atol(str);
-> +       no_test_device = true;
->  
->         if ((str = getenv("MEMLIMIT")))
->                 fw_override[FW_CFG_MAX_RAM] = atol(str) * 1024 * 1024;
-> 
-> ~ env QEMU=/home/minh/Desktop/oss/qemu/build/qemu-system-x86_64 ACCEL=tcg \
-> ./run_tests.sh -v -g apic 
-> 
-> TESTNAME=apic-split TIMEOUT=90s ACCEL=tcg ./x86/run x86/apic.flat -smp 2
-> -cpu qemu64,+x2apic,+tsc-deadline -machine kernel_irqchip=split FAIL
-> apic-split (54 tests, 8 unexpected failures, 1 skipped)
-> TESTNAME=ioapic-split TIMEOUT=90s ACCEL=tcg ./x86/run x86/ioapic.flat -smp
-> 1 -cpu qemu64 -machine kernel_irqchip=split PASS ioapic-split (19 tests)
-> TESTNAME=x2apic TIMEOUT=30 ACCEL=tcg ./x86/run x86/apic.flat -smp 2 -cpu
-> qemu64,+x2apic,+tsc-deadline FAIL x2apic (54 tests, 8 unexpected failures,
-> 1 skipped) TESTNAME=xapic TIMEOUT=60 ACCEL=tcg ./x86/run x86/apic.flat -smp
-> 2 -cpu qemu64,-x2apic,+tsc-deadline -machine pit=off FAIL xapic (43 tests,
-> 6 unexpected failures, 2 skipped)
-> 
->   FAIL: apic_disable: *0xfee00030: 50014
->   FAIL: apic_disable: *0xfee00080: f0
->   FAIL: apic_disable: *0xfee00030: 50014
->   FAIL: apic_disable: *0xfee00080: f0 
->   FAIL: apicbase: relocate apic
-> 
-> These errors are because we don't disable MMIO region when switching to
-> x2APIC and don't support relocate MMIO region yet. This is a problem
-> because, MMIO region is the same for all CPUs, in order to support these we
-> need to figure out how to allocate and manage different MMIO regions for
-> each CPUs. This can be an improvement in the future.
-> 
->   FAIL: nmi-after-sti
->   FAIL: multiple nmi
-> 
-> These errors are in the way we handle CPU_INTERRUPT_NMI in core TCG.
-> 
->   FAIL: TMCCT should stay at zero
-> 
-> This error is related to APIC timer which should be addressed in separate
-> patch.
-> 
-> Version 3 changes,
-> - Patch 2:
->   + Allow APIC ID > 255 only when x2APIC feature is supported on CPU
->   + Make physical destination mode IPI which has destination id 0xffffffff
->   a broadcast to xAPIC CPUs
->   + Make cluster address 0xf in cluster model of xAPIC logical destination
->   mode a broadcast to all clusters
->   + Create new extended_log_dest to store APIC_LDR information in x2APIC
->   instead of extending log_dest for backward compatibility in vmstate
-> 
-> Version 2 changes,
-> - Add support for APIC ID larger than 255
-> - Adjust AMD iommu for x2APIC suuport
-> - Reorganize and split patch 1,2 into patch 1,2,3 in version 2
-> 
+Yes.
+
+>
+> btw, the archive seems broken and cannot show the whole series:
+>     https://www.mail-archive.com/qemu-devel@nongnu.org/msg650258.html
+
+I have a v10 branch here:
+
+  https://github.com/stsquad/qemu/tree/tcg/tbstats-and-perf-v10
+
+I think the top two patches can be dropped on a re-base as the JIT/perf
+integration is already merged. It might be a tricky re-base though.
+Depends on how much churn there has been in the tree since.
+
+>
 > Thanks,
-> Quang Minh.
-> 
-> Bui Quang Minh (5):
->   i386/tcg: implement x2APIC registers MSR access
->   apic: add support for x2APIC mode
->   apic, i386/tcg: add x2apic transitions
->   intel_iommu: allow Extended Interrupt Mode when using userspace APIC
->   amd_iommu: report x2APIC support to the operating system
-> 
->  hw/i386/acpi-build.c                 |  28 +-
->  hw/i386/amd_iommu.c                  |  21 +-
->  hw/i386/amd_iommu.h                  |  16 +-
->  hw/i386/intel_iommu.c                |  11 -
->  hw/i386/x86.c                        |   8 +-
->  hw/intc/apic.c                       | 395 +++++++++++++++++++++------
->  hw/intc/apic_common.c                |  16 +-
->  hw/intc/trace-events                 |   4 +-
->  include/hw/i386/apic.h               |   6 +-
->  include/hw/i386/apic_internal.h      |   7 +-
->  target/i386/cpu-sysemu.c             |  18 +-
->  target/i386/cpu.c                    |   5 +-
->  target/i386/cpu.h                    |   9 +
->  target/i386/tcg/sysemu/misc_helper.c |  31 +++
->  14 files changed, 436 insertions(+), 139 deletions(-)
-> 
-> -- 
-> 2.25.1
+> Fei.
+>
+>>>
+>>>
+>>> r~
+>>=20
+>>=20
 
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
