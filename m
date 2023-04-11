@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E8E6DD7FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4467D6DD80D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:37:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmBK0-000700-6F; Tue, 11 Apr 2023 06:33:56 -0400
+	id 1pmBMh-0007p8-DE; Tue, 11 Apr 2023 06:36:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBJy-0006zs-Ik
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:33:54 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBJw-00009M-Rk
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:33:54 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- i8-20020a05600c354800b003ee93d2c914so5471078wmq.2
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681209231;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ArkUW7iaAaPej1MYS9ceFThNgs9QN0/hLqFDI2tF4TA=;
- b=KyHsF+QuOjHaTSWv9s+Y/HcVAUxl23iTrVTNGuG8BD7Zc581HcnJPXZu373QkJmsK9
- kPePInOGv6GjtO8XuImznCOgOxNxzYd03Sb3uKN9n4i7vdcMx8jKmMaWPxZBw8wwJGBB
- 9PSI41L1RG19ibIx63GBWksJyhYV5FknxrLcgp0hEx3rIP34lz94eo6BGxxnreIIibR2
- l8GNJsU+osqA6DYflqRvBKfdyHO2IvcI/e9OSt5W7uZhFd5kGEbJ13Ba4bPS78zRA8kf
- vGrFoG6dyliH/B1ThG5mdjrssPPVcnw382SJsPkQW10wOuoAa5mrkk9NTq1g6FoZjJul
- 8/gA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmBMf-0007oI-51
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:36:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmBMd-0000hU-8F
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:36:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681209398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g2avRfZv0y9au9h3KwDHZG3ZwMEqMG52LNoBxtz2/Ss=;
+ b=SQUqIWi2tKQMAOpK2t+X0NPYhYP49WQTZoepcsvW7+hNAaHvXsbSMNZaXaOgPWwL469zHI
+ OVTXYszTUdhtXANHZJ4V3FnrszBxY5uT7gWFayUYb2403QKJqM7Zimmqs5yNpScROIXzdh
+ oXog0o9INjbq5EzX8pqDd/4sO0VJsUg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-94-jUDKwOq5P1WxGD_WFhUiYw-1; Tue, 11 Apr 2023 06:36:36 -0400
+X-MC-Unique: jUDKwOq5P1WxGD_WFhUiYw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d28-20020adfa41c000000b002cea6b2d5a9so1058073wra.14
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:36:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681209231;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ d=1e100.net; s=20210112; t=1681209395;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ArkUW7iaAaPej1MYS9ceFThNgs9QN0/hLqFDI2tF4TA=;
- b=pfvIFI9a0DFeFDIk1welu+QP3p/UUwmN8BsB0sK3tnURq4CyC+B5f7v9nFCzylbZUn
- FvxWq2SJu2/CO5T2W8tOORSk6BT5sNF4Vjcjndy9Sfp8b3X7v9pmnUTP5ysULMZsMRCp
- RvkgP7EwhmKs/vktP/XEL5Vs0LxA6fnU3XXhLA/+54V1/MMnd6FluGxdWBEhQNryPsP/
- nHRgU9S8O9K6tp1tw0G2kTjOcKbMsYZIbQT90b/ZWcOIWazlIsMDgIdnNttajY/1BlbM
- tCijDhGXxMkVp7NDuzAREIf0at/BDGjdkNV4XMNd0fS0L0aPV95XxFlxSaDzpnZMaPCf
- Q4jw==
-X-Gm-Message-State: AAQBX9cShP9kKvlGox58J4GZwpmbvIGjWWy288RvOEBzmFcI2j6aX474
- IaeLnGE7mRMD6Iy2bgr+x2MNzw==
-X-Google-Smtp-Source: AKy350ZomvHggQWEPhSmAiPKw2k9EH5sUHYtlgzRRkpNLV3kNEATsOM+VBtGCIK/lfl8ovIzkw7TAA==
-X-Received: by 2002:a7b:cc07:0:b0:3ee:6d88:774a with SMTP id
- f7-20020a7bcc07000000b003ee6d88774amr7825242wmh.14.1681209231467; 
- Tue, 11 Apr 2023 03:33:51 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.195.239])
- by smtp.gmail.com with ESMTPSA id
- y10-20020a7bcd8a000000b003e203681b26sm16494942wmj.29.2023.04.11.03.33.50
+ bh=g2avRfZv0y9au9h3KwDHZG3ZwMEqMG52LNoBxtz2/Ss=;
+ b=FbXgo7RX2Gd3zvgZRS4esMqEPvGrrQ00Ebpk+XItaE1Oqx/CNpC/aytCt5ZOitC2xy
+ V0elappFtsK/jBbe+1gwD77cqJw5tpuELsQtSCAmgJsAZgCTD5nEmAWDm6M27tIKMnzX
+ Q+a3FqZyI0KHzP9qfpkkGLu21QC/G2KmaOv+8lAkQptsl6L2g23Pk2jNkdGbmLPC1hMn
+ WtVoTHEvbSRKEbqIT11OLD2H2Q5KVHzkRjpbbieQCmrKMFbl/3a+aEdvNtRMeSQoKxQR
+ J1JypIp7PmU3ZMOgTsAwa0UGy9/ygyZYR8CFWEK79fPuayZFYgONR4KbSvu+b8ES/u0p
+ KbPA==
+X-Gm-Message-State: AAQBX9cV5Lb4Si7SeMrC0Sf2n9N0ulfCdy8qmTyXRfaE1J1bbi4rnZfL
+ fmY8sxLOkA6DqEr4C65oSBE5CbVHOUvTZisxW+w1rmK85B9oo5Zd1SV1aypeknqcAKw0aky/q0S
+ Vu56BaEgH6BjpYBU=
+X-Received: by 2002:a05:600c:2309:b0:3ef:6396:d9c8 with SMTP id
+ 9-20020a05600c230900b003ef6396d9c8mr9007508wmo.5.1681209395668; 
+ Tue, 11 Apr 2023 03:36:35 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YaunUufxOjdjwhUU198cG6siw6m4KnB7tKvmW1WHjUxinWFjMRW1HMd7UPpm7IXlXUBhETQg==
+X-Received: by 2002:a05:600c:2309:b0:3ef:6396:d9c8 with SMTP id
+ 9-20020a05600c230900b003ef6396d9c8mr9007500wmo.5.1681209395404; 
+ Tue, 11 Apr 2023 03:36:35 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-153.web.vodafone.de.
+ [109.43.179.153]) by smtp.gmail.com with ESMTPSA id
+ i2-20020a05600011c200b002d7a75a2c20sm14297280wrx.80.2023.04.11.03.36.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 03:33:51 -0700 (PDT)
-Message-ID: <686bb7fb-9939-40d9-cf06-99d910f60ad1@linaro.org>
-Date: Tue, 11 Apr 2023 12:33:49 +0200
+ Tue, 11 Apr 2023 03:36:34 -0700 (PDT)
+Message-ID: <baef8b60-0f73-27ea-97a3-f29ecc2ee1e8@redhat.com>
+Date: Tue, 11 Apr 2023 12:36:33 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH-for-8.0? v1] hw/pvrdma: Protect against buggy or malicious
- guest driver
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [for-8.0] hw/i2c/allwinner-i2c: Fix subclassing of
+ TYPE_AW_I2C_SUN6I
 Content-Language: en-US
-To: Yuval Shaia <yuval.shaia.ml@gmail.com>
-References: <20230301142926.18686-1-yuval.shaia.ml@gmail.com>
-Cc: qemu-devel@nongnu.org, soulchen8650@gmail.com, mcascell@redhat.com,
- marcel.apfelbaum@gmail.com, Paolo Bonzini <pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230301142926.18686-1-yuval.shaia.ml@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: qianfan Zhao <qianfanguijin@163.com>,
+ Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+References: <20230411103106.3992862-1-peter.maydell@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230411103106.3992862-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.246,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.246, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,85 +102,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 15:29, Yuval Shaia wrote:
-> Guest driver allocates and initialize page tables to be used as a ring
-> of descriptors for CQ and async events.
-> The page table that represents the ring, along with the number of pages
-> in the page table is passed to the device.
-> Currently our device supports only one page table for a ring.
+On 11/04/2023 12.31, Peter Maydell wrote:
+> In commit 8461bfdca9c we added the TYPE_AW_I2C_SUN6I, which is a
+> minor variant of the TYPE_AW_I2C device.  However, we didn't quite
+> get the class hierarchy right.  We made the new TYPE_AW_I2C_SUN6I a
+> subclass of TYPE_SYS_BUS_DEVICE, which means that you can't validly
+> use a pointer to this object via the AW_I2C() cast macro, which
+> insists on having something that is an instance of TYPE_AW_I2C or
+> some subclass of that type.
 > 
-> Let's make sure that the number of page table entries the driver
-> reports, do not exceeds the one page table size.
+> This only causes a problem if QOM cast macro debugging is enabled;
+> that is supposed to be on by default, but a mistake in the meson
+> conversion in commit c55cf6ab03f4c meant that it ended up disabled by
+> default, and we didn't catch this bug.
 > 
-
-Fixes: CVE-2023-1544
-
-> Reported-by: Soul Chen <soulchen8650@gmail.com>
-> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+> Fix the problem by arranging the classes in the same way we do for
+> TYPE_PL011 and TYPE_PL011_LUMINARY in hw/char/pl011.c -- make the
+> variant class be a subclass of the "normal" version of the device.
+> 
+> This was reported in
+> https://gitlab.com/qemu-project/qemu/-/issues/1586 but this fix alone
+> isn't sufficient, as there is a separate cast-related issue in the
+> CXL code in pci_expander_bridge.c.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> v0 -> v1:
-> 	* Take ring-state into account
-> 	* Add Reported-by
-> ---
->   hw/rdma/vmw/pvrdma_main.c | 16 +++++++++++++++-
->   1 file changed, 15 insertions(+), 1 deletion(-)
+>   hw/i2c/allwinner-i2c.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-> index 4fc6712025..55b338046e 100644
-> --- a/hw/rdma/vmw/pvrdma_main.c
-> +++ b/hw/rdma/vmw/pvrdma_main.c
-> @@ -91,19 +91,33 @@ static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState **ring_state,
->                            dma_addr_t dir_addr, uint32_t num_pages)
->   {
->       uint64_t *dir, *tbl;
-> -    int rc = 0;
-> +    int max_pages, rc = 0;
+> diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
+> index f24c3ac6f0c..9e8efa1d63f 100644
+> --- a/hw/i2c/allwinner-i2c.c
+> +++ b/hw/i2c/allwinner-i2c.c
+> @@ -466,10 +466,8 @@ static void allwinner_i2c_sun6i_init(Object *obj)
 >   
->       if (!num_pages) {
->           rdma_error_report("Ring pages count must be strictly positive");
->           return -EINVAL;
->       }
+>   static const TypeInfo allwinner_i2c_sun6i_type_info = {
+>       .name = TYPE_AW_I2C_SUN6I,
+> -    .parent = TYPE_SYS_BUS_DEVICE,
+> -    .instance_size = sizeof(AWI2CState),
+> +    .parent = TYPE_AW_I2C,
+>       .instance_init = allwinner_i2c_sun6i_init,
+> -    .class_init = allwinner_i2c_class_init,
+>   };
 >   
-> +    /*
-> +     * Make sure we can satisfy the requested number of pages in a single
-> +     * TARGET_PAGE_SIZE sized page table (taking into account that first entry
-> +     * is reserved for ring-state)
-> +     */
+>   static void allwinner_i2c_register_types(void)
 
-Worth a definition? Or maybe better an enum.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> +    max_pages = TARGET_PAGE_SIZE / sizeof(dma_addr_t) - 1;
-
-Possibly clearer as a #define in pvrdma_dev_ring.h.
-
-> +    if (num_pages > max_pages) {
-> +        rdma_error_report("Maximum pages on a single directory must not exceed %d\n",
-> +                          max_pages);
-> +        return -EINVAL;
-> +    }
-> +
->       dir = rdma_pci_dma_map(pci_dev, dir_addr, TARGET_PAGE_SIZE);
->       if (!dir) {
->           rdma_error_report("Failed to map to page directory (ring %s)", name);
->           rc = -ENOMEM;
->           goto out;
->       }
-> +
-> +    /* We support only one page table for a ring */
->       tbl = rdma_pci_dma_map(pci_dev, dir[0], TARGET_PAGE_SIZE);
->       if (!tbl) {
->           rdma_error_report("Failed to map to page table (ring %s)", name);
-
-Now looking at the following pvrdma_ring_init() call, I see too many
-magic values for my taste, so feel unsafe to review:
-
-     /* RX ring is the second */
-     (*ring_state)++;
-     rc = pvrdma_ring_init(ring, name, pci_dev,
-                           (PvrdmaRingState *)*ring_state,
-                           (num_pages - 1) * TARGET_PAGE_SIZE /
-                           sizeof(struct pvrdma_cqne),
-                           sizeof(struct pvrdma_cqne),
-                           (dma_addr_t *)&tbl[1],
-                           (dma_addr_t)num_pages - 1);
 
