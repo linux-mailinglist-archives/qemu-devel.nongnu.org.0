@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C139E6DE1FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 19:12:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0614D6DE204
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 19:12:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmHW2-0003rv-Ly; Tue, 11 Apr 2023 13:10:46 -0400
+	id 1pmHWR-00044r-Qf; Tue, 11 Apr 2023 13:11:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pmHVs-0003qa-75
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:10:37 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30])
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pmHVu-0003rF-AX
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:10:39 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pmHVp-00068f-53
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:10:35 -0400
-Received: by mail-io1-xd30.google.com with SMTP id x3so15802743iov.3
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 10:10:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pmHVr-00068w-Vw
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:10:38 -0400
+Received: by mail-io1-xd32.google.com with SMTP id b25so6172ioc.7
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 10:10:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681233031;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681233032;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yuaGwqi8yehJHqn9QWm7paJs7txwchU6M9DMK57E1Ps=;
- b=0+GsBIZsYmNWHWWk410dUKkZXzs5nBeMkIRgdykQFxMmV9MVHnkGWIVlE0ZVuzehFM
- TUijoMncMIphLinh4bZlpbp3XFB8PN7nvHgYbz8VhzXA0XlK4m2HYlz8B5QWE18fxpOr
- XZGz9xQspGBlb/TJqWPk+P6UcowREGCMUu28MnxY8ebs2U4D/wMu7BjApczc/L6JuvKE
- Q6LS2WiAx9p3nbxZXIF379ZnQ9odiiT6J78yUsopPmcpKAaIPTijdyKLf/RcGbJoEJ02
- ydls1Ec82VEor2CSERd+5SH+HQCzFHHueHoti82YOIikAfLuDR3yq7gNGEa0IC7w1vcO
- S/Ug==
+ bh=dLPGsKZ9qU3wG8gg3c0pvYiD+HZ1kzhXINDhxubxQNw=;
+ b=Pw1b2G2fP3kaYcAm8o2MR2cB4Wr66O4u5lPRaMqMbNQ6YvpNm+XC/c6KEZTQR9Z1jJ
+ BRzsHJRqWfbPUkUjuoqfhmzsmRvEwIX+gdn46J4/sjJNbkpknxDluBsstiEQ90yM1LKj
+ B79xs84PDcPVVhTtS6keBYI5p1R1NItbO92c8qAKYeU/F55h25dOftpkkGISkQ94pMtv
+ Fv2U1ecYuwqK1F/uXaJ+9zf04qbjcyV6XJY2yRqtLYYB0zrksmFzA+/dlITSQQdl1bgZ
+ /SNlrDkHyGP3gWLz0tdRhHoLCRmziJorSN6OKDQWc3tPbfEvm33+/LPzC8vrdtZfaADk
+ 48eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681233031;
+ d=1e100.net; s=20210112; t=1681233032;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yuaGwqi8yehJHqn9QWm7paJs7txwchU6M9DMK57E1Ps=;
- b=UoPrN2qPWCvtvSDcZQJjhr5dnv5zW2zid1WZktbcaSpUs/x3MtMrI8Djck6MHXO1Ts
- oLHFEMRz4r2u85sIfMN+ZvciJEJs6OAD4voV4vlY0sh2j85Bn/zILihVtB9Tf7jqFPuB
- cBxK0pyIP5aK3p+syNJbPfFq8c/lqTuCJIyrYY3JUKAiIuORk7Y2l+oU99JDk5Eh1oTS
- 18Rv0Z1yM6w8Ka1loHWZXmS5/wTtFvpxMLZgS0d4yCPzjZdd0zBwOuCFIHn4o/BCg/Zg
- Z06dcjwTnfXnsSpGWDuwt8MYGELwFrUMQ6hqbfYAMGbrVlq5Drh6iyP7JgtK6gBgrC6d
- NNQA==
-X-Gm-Message-State: AAQBX9cZq6iu0o9/kbCeOKHiz0eWbb3FneFmMJoIWRiiERvvIh1MtdlY
- YJOs5u/f4O37ekmjY2CI/VjdMJ3o50Cfxb2VQK8=
-X-Google-Smtp-Source: AKy350YohwN5VBOhgFy0W5yZc5eijCi+mJ4Dxx0gTrl685yYThFcaKE/VPr3y1v82vUoaKkgTD1doA==
-X-Received: by 2002:a05:6602:2211:b0:759:1e12:ba32 with SMTP id
- n17-20020a056602221100b007591e12ba32mr6583335ion.4.1681233031505; 
- Tue, 11 Apr 2023 10:10:31 -0700 (PDT)
+ bh=dLPGsKZ9qU3wG8gg3c0pvYiD+HZ1kzhXINDhxubxQNw=;
+ b=ZkTIJ1t05graTbci7cbYYlfUswa2wKckm/56qjKB9uooNej7X+Fcb51Mh26cM6N9j+
+ l93HWdy4q+Y3l73FDVlvwlkX3ZhkfdhrBA2/fmNeyxMXxrvK8zuBV1XsSoIkW98Hltuy
+ gNA8sT9JG2TygbaYYvLd0Ow1lApBd1WV0Zq1siHsZBWO74ueCQRTEVO408BOkhsSDNcS
+ 6DqBbrzWcTJ4rXvUGKKBkoueTq41uzDmFrNv4ID4xsKayxEe+FyJXU4p62klderc4lWi
+ 04BenaT9P6KbpHneQ3Nm2lNT5eLsT+FJ/5QkhUuiA28pQR3AeVuKQmfvV1KG7hxn7DTM
+ DuGg==
+X-Gm-Message-State: AAQBX9fdQIjnHcPPPKsDC41XImONJIIkOXyprRkC9yRB+f4izV3SaliQ
+ cHUpHCMnRRt0gK0jSdsfl3isVRaYC/TUvAUuIEo=
+X-Google-Smtp-Source: AKy350YiWanQyNVBH2FlfyDpLtxv+V4ncYNeQxa51fB0tQVP5gPIjRnH+TyxKONJeJgkqxBQZ6IOzA==
+X-Received: by 2002:a5e:d515:0:b0:760:8476:8717 with SMTP id
+ e21-20020a5ed515000000b0076084768717mr3618430iom.0.1681233032525; 
+ Tue, 11 Apr 2023 10:10:32 -0700 (PDT)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- d36-20020a0285a7000000b0040b11b7ef54sm4140942jai.39.2023.04.11.10.10.30
+ d36-20020a0285a7000000b0040b11b7ef54sm4140942jai.39.2023.04.11.10.10.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 10:10:31 -0700 (PDT)
+ Tue, 11 Apr 2023 10:10:32 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: ryoon@netbsd.org, kevans@freebsd.org,
@@ -64,16 +64,16 @@ Cc: ryoon@netbsd.org, kevans@freebsd.org,
  Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>,
  Stacey Son <sson@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 09/20] bsd-user: h2g_rusage
-Date: Tue, 11 Apr 2023 11:09:44 -0600
-Message-Id: <20230411170955.17358-10-imp@bsdimp.com>
+Subject: [PATCH v3 10/20] bsd-user: Implement do_sysctl_kern_getprocs
+Date: Tue, 11 Apr 2023 11:09:45 -0600
+Message-Id: <20230411170955.17358-11-imp@bsdimp.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230411170955.17358-1-imp@bsdimp.com>
 References: <20230411170955.17358-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d30;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd30.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,121 +97,215 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Stacey Son <sson@FreeBSD.org>
 
-Converts host's rusage to the guest's rusage.
+Implement do_sysctl_kern_getprocs to retrieve proc info from the kernel.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/bsd-proc.c  | 48 ++++++++++++++++++++++++++++++++++++++++++++
- bsd-user/meson.build |  1 +
- bsd-user/qemu-bsd.h  | 30 +++++++++++++++++++++++++++
- 3 files changed, 79 insertions(+)
- create mode 100644 bsd-user/bsd-proc.c
- create mode 100644 bsd-user/qemu-bsd.h
+ bsd-user/freebsd/os-sys.c | 165 +++++++++++++++++++++++++++++++++++++-
+ bsd-user/qemu.h           |   3 +
+ 2 files changed, 167 insertions(+), 1 deletion(-)
 
-diff --git a/bsd-user/bsd-proc.c b/bsd-user/bsd-proc.c
-new file mode 100644
-index 00000000000..e64eb958947
---- /dev/null
-+++ b/bsd-user/bsd-proc.c
-@@ -0,0 +1,48 @@
-+/*
-+ *  BSD process related system call helpers
-+ *
-+ *  Copyright (c) 2013-14 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+#include "qemu/osdep.h"
-+
-+#include "qemu.h"
-+#include "qemu-bsd.h"
-+#include "signal-common.h"
-+
-+void h2g_rusage(const struct rusage *rusage,
-+                struct target_freebsd_rusage *target_rusage)
-+{
-+    __put_user(rusage->ru_utime.tv_sec, &target_rusage->ru_utime.tv_sec);
-+    __put_user(rusage->ru_utime.tv_usec, &target_rusage->ru_utime.tv_usec);
-+
-+    __put_user(rusage->ru_stime.tv_sec, &target_rusage->ru_stime.tv_sec);
-+    __put_user(rusage->ru_stime.tv_usec, &target_rusage->ru_stime.tv_usec);
-+
-+    __put_user(rusage->ru_maxrss, &target_rusage->ru_maxrss);
-+    __put_user(rusage->ru_idrss, &target_rusage->ru_idrss);
-+    __put_user(rusage->ru_idrss, &target_rusage->ru_idrss);
-+    __put_user(rusage->ru_isrss, &target_rusage->ru_isrss);
-+    __put_user(rusage->ru_minflt, &target_rusage->ru_minflt);
-+    __put_user(rusage->ru_majflt, &target_rusage->ru_majflt);
-+    __put_user(rusage->ru_nswap, &target_rusage->ru_nswap);
-+    __put_user(rusage->ru_inblock, &target_rusage->ru_inblock);
-+    __put_user(rusage->ru_oublock, &target_rusage->ru_oublock);
-+    __put_user(rusage->ru_msgsnd, &target_rusage->ru_msgsnd);
-+    __put_user(rusage->ru_msgrcv, &target_rusage->ru_msgrcv);
-+    __put_user(rusage->ru_nsignals, &target_rusage->ru_nsignals);
-+    __put_user(rusage->ru_nvcsw, &target_rusage->ru_nvcsw);
-+    __put_user(rusage->ru_nivcsw, &target_rusage->ru_nivcsw);
-+}
-diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-index 5243122fc56..7d1b4de78b1 100644
---- a/bsd-user/meson.build
-+++ b/bsd-user/meson.build
-@@ -8,6 +8,7 @@ common_user_inc += include_directories('include')
+diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
+index df317065587..d4a6dcc6c2b 100644
+--- a/bsd-user/freebsd/os-sys.c
++++ b/bsd-user/freebsd/os-sys.c
+@@ -19,9 +19,14 @@
  
- bsd_user_ss.add(files(
-   'bsdload.c',
-+  'bsd-proc.c',
-   'elfload.c',
-   'main.c',
-   'mmap.c',
-diff --git a/bsd-user/qemu-bsd.h b/bsd-user/qemu-bsd.h
-new file mode 100644
-index 00000000000..96e7f34b27c
---- /dev/null
-+++ b/bsd-user/qemu-bsd.h
-@@ -0,0 +1,30 @@
-+/*
-+ *  BSD conversion extern declarations
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
+ #include "qemu/osdep.h"
+ #include "qemu.h"
++#include "qemu-bsd.h"
+ #include "target_arch_sysarch.h"
+-
++#include "signal-common.h"
++#include <sys/param.h>
+ #include <sys/sysctl.h>
++#include <sys/user.h>   /* For struct kinfo_* */
 +
-+#ifndef QEMU_BSD_H
-+#define QEMU_BSD_H
++#include "target_os_user.h"
+ 
+ /*
+  * Length for the fixed length types.
+@@ -107,6 +112,164 @@ static abi_ulong h2g_ulong_sat(u_long ul)
+  */
+ #define bsd_get_ncpu() 1
+ 
++static void
++host_to_target_kinfo_proc(struct target_kinfo_proc *tki, struct kinfo_proc *hki)
++{
++    int i;
 +
-+#include <sys/types.h>
-+#include <sys/resource.h>
++    __put_user(sizeof(struct target_kinfo_proc), &tki->ki_structsize);
++    __put_user(hki->ki_layout, &tki->ki_layout);
 +
-+/* bsd-proc.c */
-+void h2g_rusage(const struct rusage *rusage,
-+        struct target_freebsd_rusage *target_rusage);
++    /* Some of these are used as flags (e.g. ki_fd == NULL in procstat). */
++    tki->ki_args = tswapal((abi_ulong)(uintptr_t)hki->ki_args);
++    tki->ki_paddr = tswapal((abi_ulong)(uintptr_t)hki->ki_paddr);
++    tki->ki_addr = tswapal((abi_ulong)(uintptr_t)hki->ki_addr);
++    tki->ki_tracep = tswapal((abi_ulong)(uintptr_t)hki->ki_tracep);
++    tki->ki_textvp = tswapal((abi_ulong)(uintptr_t)hki->ki_textvp);
++    tki->ki_fd = tswapal((abi_ulong)(uintptr_t)hki->ki_fd);
++    tki->ki_vmspace = tswapal((abi_ulong)(uintptr_t)hki->ki_vmspace);
++    tki->ki_wchan = tswapal((abi_ulong)(uintptr_t)hki->ki_wchan);
 +
-+#endif /* QEMU_BSD_H */
++    __put_user(hki->ki_pid, &tki->ki_pid);
++    __put_user(hki->ki_ppid, &tki->ki_ppid);
++    __put_user(hki->ki_pgid, &tki->ki_pgid);
++    __put_user(hki->ki_tpgid, &tki->ki_tpgid);
++    __put_user(hki->ki_sid, &tki->ki_sid);
++    __put_user(hki->ki_tsid, &tki->ki_tsid);
++    __put_user(hki->ki_jobc, &tki->ki_jobc);
++    __put_user(hki->ki_tdev, &tki->ki_tdev);
++
++    host_to_target_sigset(&tki->ki_siglist, &hki->ki_siglist);
++    host_to_target_sigset(&tki->ki_sigmask, &hki->ki_sigmask);
++    host_to_target_sigset(&tki->ki_sigignore, &hki->ki_sigignore);
++    host_to_target_sigset(&tki->ki_sigcatch, &hki->ki_sigcatch);
++
++    __put_user(hki->ki_uid, &tki->ki_uid);
++    __put_user(hki->ki_ruid, &tki->ki_ruid);
++    __put_user(hki->ki_svuid, &tki->ki_svuid);
++    __put_user(hki->ki_rgid, &tki->ki_rgid);
++    __put_user(hki->ki_svgid, &tki->ki_svgid);
++    __put_user(hki->ki_ngroups, &tki->ki_ngroups);
++
++    for (i=0; i < TARGET_KI_NGROUPS; i++)
++        __put_user(hki->ki_groups[i], &tki->ki_groups[i]);
++
++    __put_user(hki->ki_size, &tki->ki_size);
++
++    __put_user(hki->ki_rssize, &tki->ki_rssize);
++    __put_user(hki->ki_swrss, &tki->ki_swrss);
++    __put_user(hki->ki_tsize, &tki->ki_tsize);
++    __put_user(hki->ki_dsize, &tki->ki_dsize);
++    __put_user(hki->ki_ssize, &tki->ki_ssize);
++
++    __put_user(hki->ki_xstat, &tki->ki_xstat);
++    __put_user(hki->ki_acflag, &tki->ki_acflag);
++
++    __put_user(hki->ki_pctcpu, &tki->ki_pctcpu);
++
++    __put_user(hki->ki_estcpu, &tki->ki_estcpu);
++    __put_user(hki->ki_slptime, &tki->ki_slptime);
++    __put_user(hki->ki_swtime, &tki->ki_swtime);
++    __put_user(hki->ki_cow, &tki->ki_cow);
++    __put_user(hki->ki_runtime, &tki->ki_runtime);
++
++    __put_user(hki->ki_start.tv_sec, &tki->ki_start.tv_sec);
++    __put_user(hki->ki_start.tv_usec, &tki->ki_start.tv_usec);
++    __put_user(hki->ki_childtime.tv_sec, &tki->ki_childtime.tv_sec);
++    __put_user(hki->ki_childtime.tv_usec, &tki->ki_childtime.tv_usec);
++
++    __put_user(hki->ki_flag, &tki->ki_flag);
++    __put_user(hki->ki_kiflag, &tki->ki_kiflag);
++
++    __put_user(hki->ki_traceflag, &tki->ki_traceflag);
++    __put_user(hki->ki_stat, &tki->ki_stat);
++    __put_user(hki->ki_nice, &tki->ki_nice);
++    __put_user(hki->ki_lock, &tki->ki_lock);
++    __put_user(hki->ki_rqindex, &tki->ki_rqindex);
++    __put_user(hki->ki_oncpu_old, &tki->ki_oncpu_old);
++    __put_user(hki->ki_lastcpu_old, &tki->ki_lastcpu_old);
++
++    strncpy(tki->ki_tdname, hki->ki_tdname, TARGET_TDNAMLEN+1);
++    strncpy(tki->ki_wmesg, hki->ki_wmesg, TARGET_WMESGLEN+1);
++    strncpy(tki->ki_login, hki->ki_login, TARGET_LOGNAMELEN+1);
++    strncpy(tki->ki_lockname, hki->ki_lockname, TARGET_LOCKNAMELEN+1);
++    strncpy(tki->ki_comm, hki->ki_comm, TARGET_COMMLEN+1);
++    strncpy(tki->ki_emul, hki->ki_emul, TARGET_KI_EMULNAMELEN+1);
++    strncpy(tki->ki_loginclass, hki->ki_loginclass, TARGET_LOGINCLASSLEN+1);
++
++    __put_user(hki->ki_oncpu, &tki->ki_oncpu);
++    __put_user(hki->ki_lastcpu, &tki->ki_lastcpu);
++    __put_user(hki->ki_tracer, &tki->ki_tracer);
++    __put_user(hki->ki_flag2, &tki->ki_flag2);
++    __put_user(hki->ki_fibnum, &tki->ki_fibnum);
++    __put_user(hki->ki_cr_flags, &tki->ki_cr_flags);
++    __put_user(hki->ki_jid, &tki->ki_jid);
++    __put_user(hki->ki_numthreads, &tki->ki_numthreads);
++    __put_user(hki->ki_tid, &tki->ki_tid);
++
++    memcpy(&tki->ki_pri, &hki->ki_pri, sizeof(struct target_priority));
++
++    h2g_rusage(&hki->ki_rusage, &tki->ki_rusage);
++    h2g_rusage(&hki->ki_rusage_ch, &tki->ki_rusage_ch);
++
++    __put_user(((uintptr_t)hki->ki_pcb), &tki->ki_pcb);
++    __put_user(((uintptr_t)hki->ki_kstack), &tki->ki_kstack);
++    __put_user(((uintptr_t)hki->ki_udata), &tki->ki_udata);
++    __put_user(((uintptr_t)hki->ki_tdaddr), &tki->ki_tdaddr);
++
++    __put_user(hki->ki_sflag, &tki->ki_sflag);
++    __put_user(hki->ki_tdflags, &tki->ki_tdflags);
++}
++
++abi_long
++do_sysctl_kern_getprocs(int op, int arg, size_t olen,
++        struct target_kinfo_proc *tki, size_t *tlen)
++{
++    abi_long ret;
++    struct kinfo_proc *kipp;
++    int mib[4], num, i, miblen;
++    size_t len;
++
++    if (tlen == NULL)
++        return -TARGET_EINVAL;
++
++    mib[0] = CTL_KERN;
++    mib[1] = KERN_PROC;
++    mib[2] = op;
++    mib[3] = arg;
++
++    miblen = (op == KERN_PROC_ALL || op == KERN_PROC_PROC) ?  3 : 4;
++
++    len = 0;
++    ret = get_errno(sysctl(mib, miblen, NULL, &len, NULL, 0));
++    if (is_error(ret))
++        return ret;
++
++    num = len / sizeof(*kipp);
++    *tlen = num * sizeof(struct target_kinfo_proc);
++    if (tki == NULL)
++        return ret;
++
++    if (olen < *tlen)
++        return -TARGET_EINVAL;
++
++    kipp = g_malloc(len);
++    if (kipp == NULL)
++        return -TARGET_ENOMEM;
++    ret = get_errno(sysctl(mib, miblen, kipp, &len, NULL, 0));
++    num = len / sizeof(*kipp);
++    *tlen = num * sizeof(struct target_kinfo_proc);
++    if (len % sizeof(*kipp) != 0 || kipp->ki_structsize != sizeof(*kipp)) {
++        ret = -TARGET_EINVAL; /* XXX */
++    } else if (!is_error(ret)) {
++        for(i=0; i < num; i++)
++            host_to_target_kinfo_proc(&tki[i], &kipp[i]);
++    }
++
++    g_free(kipp);
++    return ret;
++}
++
+ /*
+  * This uses the undocumented oidfmt interface to find the kind of a requested
+  * sysctl, see /sys/kern/kern_sysctl.c:sysctl_sysctl_oidfmt() (compare to
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 49468734d44..fcaf794ad6e 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -258,6 +258,9 @@ bool is_error(abi_long ret);
+ int host_to_target_errno(int err);
+ 
+ /* os-sys.c */
++struct target_kinfo_proc;
++abi_long do_sysctl_kern_getprocs(int op, int arg, size_t olen,
++        struct target_kinfo_proc *tki, size_t *tlen);
+ abi_long do_freebsd_sysctl(CPUArchState *env, abi_ulong namep, int32_t namelen,
+         abi_ulong oldp, abi_ulong oldlenp, abi_ulong newp, abi_ulong newlen);
+ abi_long do_freebsd_sysctlbyname(CPUArchState *env, abi_ulong namep,
 -- 
 2.40.0
 
