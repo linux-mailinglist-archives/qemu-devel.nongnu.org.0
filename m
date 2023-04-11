@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638676DD85D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03266DD860
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:54:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmBcx-00045x-Aw; Tue, 11 Apr 2023 06:53:31 -0400
+	id 1pmBdt-0006AT-Lh; Tue, 11 Apr 2023 06:54:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBcv-000452-MA
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:53:29 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pmBds-0006AK-6F
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:54:28 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBct-0003gB-7u
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:53:29 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id v6so7062811wrv.8
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:53:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pmBdq-0003ob-KZ
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:54:27 -0400
+Received: by mail-wr1-x431.google.com with SMTP id i27so7064091wrc.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681210405;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=L3CwoKV5LuALpCo5PXpMcPu39Sbz3HucxkjjMnt5HNo=;
- b=U0E31ric7SxoCG+uQ/U7kWtifhIiaF2pQ3w/hawO2GPXY8/7mFoa0kqwwnOFw+WJgB
- 59KRYC963uiNZFPivip8PExH4XX3BMEHG7SqvcRmM/X0hoAI6wks3sf/FFsSBILE4Ntu
- cpsPxHH5f1H5PIuJVxgClj2PlPY1sYLZmqY1ZE4Xb3riwb0Q7yzZiP6VWDjDCwNi8VqK
- Fm6i7x4Dkg5OW1/p55RElcVXypF2otz/rSaWjJfYqHbGuhoZj4DtrzrDIKrJ75uaFwPq
- BGj53yPnCt/N6YoePIp49Bf+x9WU7jys4gOifFRIgNsck+CZ95bLWUKYqvyTo1GEMbjE
- /FAA==
+ d=linaro.org; s=google; t=1681210465; x=1683802465;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=juWeoxsq2iunUJMeZOTtTiJOJ2lGo37mDUAfeUL69BE=;
+ b=Tk8d4ItcilknI22FXVs07CzqpGdgaCvqcYLXCgzGHPHB41Ad+4wBi0v5s6fs8sWdRv
+ RyPmFNtQUU/QSsdLsm9JBNicm66VJryNVgRQ5TNnUdbnwbffB3nykPMoLcpeN2Vxo/Hx
+ SQJ7m4R9UPfBDvLE1B+fafKxwAsn5UbEjoO1t0teRlY5ujrFqZ0IdHQsclN2ZAHnAi2o
+ ikyqK0zFDW1PAoRUimYEzuN/0sdWvZoG5DYLPxEDQOCwNEht5jlR1wlQq9u49TnC/Uo/
+ JsU9YDsTRk+7UoTdSUZS7P8tRbs3f8DfK8GoPZMagSnYEbv6DK0bG/nO7d+npbNRJMK+
+ fZag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681210405;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=L3CwoKV5LuALpCo5PXpMcPu39Sbz3HucxkjjMnt5HNo=;
- b=dVZiI0c0z43iiGuPCH/ocVkxNLzjIousENpomBHi0SRr6G9ulK0tA5q52JC/bZXDtm
- 4y9QJ0vG31t0V/NxUJBQScCDdttyfA6PrROj+DxNoIVEmObov+6nPLCi3Qwb3bfKiVa3
- A12yZLaSKdG86rqPMH9rdsXteSXZTcN6NBHLEx36ZgFh+R5EfKCgDtjaeS+ZSGlr1JbX
- TmSw2BUx/R1sNI6ZV+46LkZAQFcq8AXuwIZPh70i4Nq9AjKcGhLwgoPRhysl4cq/SC47
- W3wnQKL7hjCdOwiI6Q85eOZs2nDYsQyNY109d/g0jAaCfh9dZUBYc/FR48H53xuBZK5Y
- LX9A==
-X-Gm-Message-State: AAQBX9fiKjwOqhjXWFgeoqhgdu0YmP7ZtYNuTIeYMfPz1papzw8yQNiu
- KlRMP+xTbNBELStP+7F/k+wM7A==
-X-Google-Smtp-Source: AKy350ZxfK1sj9yEoQGi/RTlimFyPEp7fMQWbCqQ5OTt9/rn4/y32KE49lTAAieXgVYlXrTZh3avWw==
-X-Received: by 2002:adf:e2c3:0:b0:2ef:bae0:25a3 with SMTP id
- d3-20020adfe2c3000000b002efbae025a3mr7037166wrj.11.1681210405477; 
- Tue, 11 Apr 2023 03:53:25 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.195.239])
+ d=1e100.net; s=20210112; t=1681210465; x=1683802465;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=juWeoxsq2iunUJMeZOTtTiJOJ2lGo37mDUAfeUL69BE=;
+ b=e34fhKSPyyql3EqnaVFKT/SBaBCw8Bfm2psElHfDTUN71OBLhf7puvzwKP7IQgT6ie
+ 4H59JR8jlCG2SU7ZgLYIiQFdnsY51T9RyHuEMA7WizE7YqoiG69BiW3VPZW5C7sDbNW+
+ L00ixTUmdE1hsjCW6S2gQe3Q5x8oMNsM5A7m7wd/yp2lLNCv+DTHNLNXM7D/7USca3KX
+ w2vstlEt+FquObNjbQ1fHMG4cyzfFQ5WWR3GszLfoU3H7pk94hFBjzltZnpsR4i8RJqv
+ t5MDdwZpiVNQWJjysqKRiWUTW44e15CsZZsGZXNs3NdLEzzfOUJfyUB74RQYRNdQod/h
+ YbYA==
+X-Gm-Message-State: AAQBX9dDZRkBOKdww6pgVeLXuPBF7Y2YhAdJPHRd1agDESfLU5M9Sp7N
+ tUpqVvMLBMvlEiN/mvc0IClmNLazfIU3L3oj9UI=
+X-Google-Smtp-Source: AKy350Y2JUfr1Fjo6R5hNBU5sWnrQZfBlIU5x9D32QxMq461OGG7R4TnaXQ5MXgBZ4EeCkUAu8m/Fw==
+X-Received: by 2002:a5d:4b0e:0:b0:2d3:fba4:e61d with SMTP id
+ v14-20020a5d4b0e000000b002d3fba4e61dmr9898531wrq.12.1681210465301; 
+ Tue, 11 Apr 2023 03:54:25 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- l13-20020adff48d000000b002d45575643esm14172760wro.43.2023.04.11.03.53.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 03:53:25 -0700 (PDT)
-Message-ID: <4d828a37-96ca-8908-cb32-79f2824e7389@linaro.org>
-Date: Tue, 11 Apr 2023 12:53:23 +0200
+ a15-20020a5d4d4f000000b002cfe685bfd6sm14328017wru.108.2023.04.11.03.54.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 03:54:25 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] docs/devel/kconfig.rst: Fix incorrect markup
+Date: Tue, 11 Apr 2023 11:54:24 +0100
+Message-Id: <20230411105424.3994585-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH 02/42] tcg: Replace tcg_abort with g_assert_not_reached
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20230408024314.3357414-1-richard.henderson@linaro.org>
- <20230408024314.3357414-4-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230408024314.3357414-4-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- SUSPICIOUS_RECIPS=2.51 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,24 +87,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/4/23 04:42, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/tcg/tcg.h            |  6 ------
->   target/i386/tcg/translate.c  | 20 ++++++++++----------
->   target/s390x/tcg/translate.c |  4 ++--
->   tcg/optimize.c               | 10 ++++------
->   tcg/tcg.c                    |  8 ++++----
->   tcg/aarch64/tcg-target.c.inc |  4 ++--
->   tcg/arm/tcg-target.c.inc     |  2 +-
->   tcg/i386/tcg-target.c.inc    | 14 +++++++-------
->   tcg/mips/tcg-target.c.inc    | 14 +++++++-------
->   tcg/ppc/tcg-target.c.inc     |  8 ++++----
->   tcg/s390x/tcg-target.c.inc   |  8 ++++----
->   tcg/sparc64/tcg-target.c.inc |  2 +-
->   tcg/tci/tcg-target.c.inc     |  2 +-
->   13 files changed, 47 insertions(+), 55 deletions(-)
+In rST markup syntax, the inline markup (*italics*, **bold** and
+``monospaced``) must be separated from the surrending text by
+non-word characters, otherwise it is not interpreted as markup.
+To force interpretation as markup in the middle of a word,
+you need to use a backslash-escaped space (which will not
+appear as a space in the output).
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fix a missing backslash-space in this file, which meant that the ``
+after "select" was output literally and the monospacing was
+incorrectly extended all the way to the end of the next monospaced
+word.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/devel/kconfig.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+index cc1a456edf0..ac9453eba90 100644
+--- a/docs/devel/kconfig.rst
++++ b/docs/devel/kconfig.rst
+@@ -274,7 +274,7 @@ or commenting out lines in the second group.
+ 
+ It is also possible to run QEMU's configure script with the
+ ``--without-default-devices`` option.  When this is done, everything defaults
+-to ``n`` unless it is ``select``ed or explicitly switched on in the
++to ``n`` unless it is ``select``\ ed or explicitly switched on in the
+ ``.mak`` files.  In other words, ``default`` and ``imply`` directives
+ are disabled.  When QEMU is built with this option, the user will probably
+ want to change some lines in the first group, for example like this::
+-- 
+2.34.1
 
 
