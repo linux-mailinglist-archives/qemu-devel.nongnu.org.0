@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929266DD7F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E8E6DD7FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:34:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmBHS-0005hw-0g; Tue, 11 Apr 2023 06:31:18 -0400
+	id 1pmBK0-000700-6F; Tue, 11 Apr 2023 06:33:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmBHL-0005fz-Ov
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:31:12 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBJy-0006zs-Ik
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:33:54 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmBHK-00083O-1y
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:31:11 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- i8-20020a05600c354800b003ee93d2c914so5466603wmq.2
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:31:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBJw-00009M-Rk
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:33:54 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ i8-20020a05600c354800b003ee93d2c914so5471078wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:33:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681209068; x=1683801068;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jQcPoZYF5V/WfEMLeE1eZP++W4xAxZxyW+eXvaRyFME=;
- b=ETXgwjv29GJ/if1mlpcP7ecsz3bTTJq798Nw3qNpR+TBGEnNBnIZCaH8vrZG8uuqFR
- C/ovYtLLaP0Wrshb12eICozPK+SZBKv9Dmyotg+8IpDc5RZUxF+ZtDqZaBwM4cUUcy3J
- 7WTP69dm61y0JMqqDMJi1CJVMamaEdNdbgPinOWt+xR5sg43XJumz+UAaJUG2RIC9Qly
- 4Y/mW/lpmvzFOwxxuZz3ia9IW9uLfaovzbiNPjGOXOgpFT3C3guPCkR1yygPO6bTbt82
- yCPLDiFJ3h85oP/8Wfe8ZgFg7qcKVssYlYXxMEkoWZeI1+vFnlILrf7JsGsHnRaxR6oa
- B7ZQ==
+ d=linaro.org; s=google; t=1681209231;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ArkUW7iaAaPej1MYS9ceFThNgs9QN0/hLqFDI2tF4TA=;
+ b=KyHsF+QuOjHaTSWv9s+Y/HcVAUxl23iTrVTNGuG8BD7Zc581HcnJPXZu373QkJmsK9
+ kPePInOGv6GjtO8XuImznCOgOxNxzYd03Sb3uKN9n4i7vdcMx8jKmMaWPxZBw8wwJGBB
+ 9PSI41L1RG19ibIx63GBWksJyhYV5FknxrLcgp0hEx3rIP34lz94eo6BGxxnreIIibR2
+ l8GNJsU+osqA6DYflqRvBKfdyHO2IvcI/e9OSt5W7uZhFd5kGEbJ13Ba4bPS78zRA8kf
+ vGrFoG6dyliH/B1ThG5mdjrssPPVcnw382SJsPkQW10wOuoAa5mrkk9NTq1g6FoZjJul
+ 8/gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681209068; x=1683801068;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jQcPoZYF5V/WfEMLeE1eZP++W4xAxZxyW+eXvaRyFME=;
- b=K1QAeldhvWfm18T73eNd7v641/n9FrdL0X4Kvwhvlz2Om8hWZ95otDMLoD2d5aM0sh
- mhoqbzVSkLkp12v5H2dA9iFgmmftD08ptikF9PCG/VUJ5R8ZCENDfhewQevM2HxGpoWQ
- zpHnL9RHyHJm+i7f74i+6Q2W9FexsrUaFP9S+UqvGXidYnVXi0f2Bdh+UCUtGX3VMDzL
- tjWQiXce9BB3Dt8OgY6JW1JdSunoCC73nMm/ImWsnemzW3ItyOv+RDdbMoqRYM3cDQAv
- 3NrjiKWlUxjkPZAqplK+cw5EPJqrFFh9kBdnx+M60gykykI+s0BcQahvNHW/C9dKLx/C
- RUWA==
-X-Gm-Message-State: AAQBX9f/zA10ojQEWuMDYiZ4DzT6VbUPOapzCdq/nPrJCjA37nsvyd5y
- dFxpZykIb4Ac77E9YigmjdpCng==
-X-Google-Smtp-Source: AKy350YM9zC86p1Un0EqZr63hcsEPeRixryXmlEllbUCY3CjmaJw92UN6ue6+NurpHkbzD9XjAgXog==
-X-Received: by 2002:a1c:4b0c:0:b0:3ed:2702:feea with SMTP id
- y12-20020a1c4b0c000000b003ed2702feeamr6411343wma.41.1681209068126; 
- Tue, 11 Apr 2023 03:31:08 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ d=1e100.net; s=20210112; t=1681209231;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ArkUW7iaAaPej1MYS9ceFThNgs9QN0/hLqFDI2tF4TA=;
+ b=pfvIFI9a0DFeFDIk1welu+QP3p/UUwmN8BsB0sK3tnURq4CyC+B5f7v9nFCzylbZUn
+ FvxWq2SJu2/CO5T2W8tOORSk6BT5sNF4Vjcjndy9Sfp8b3X7v9pmnUTP5ysULMZsMRCp
+ RvkgP7EwhmKs/vktP/XEL5Vs0LxA6fnU3XXhLA/+54V1/MMnd6FluGxdWBEhQNryPsP/
+ nHRgU9S8O9K6tp1tw0G2kTjOcKbMsYZIbQT90b/ZWcOIWazlIsMDgIdnNttajY/1BlbM
+ tCijDhGXxMkVp7NDuzAREIf0at/BDGjdkNV4XMNd0fS0L0aPV95XxFlxSaDzpnZMaPCf
+ Q4jw==
+X-Gm-Message-State: AAQBX9cShP9kKvlGox58J4GZwpmbvIGjWWy288RvOEBzmFcI2j6aX474
+ IaeLnGE7mRMD6Iy2bgr+x2MNzw==
+X-Google-Smtp-Source: AKy350ZomvHggQWEPhSmAiPKw2k9EH5sUHYtlgzRRkpNLV3kNEATsOM+VBtGCIK/lfl8ovIzkw7TAA==
+X-Received: by 2002:a7b:cc07:0:b0:3ee:6d88:774a with SMTP id
+ f7-20020a7bcc07000000b003ee6d88774amr7825242wmh.14.1681209231467; 
+ Tue, 11 Apr 2023 03:33:51 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.195.239])
  by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c4fd300b003ef7058ea02sm20568516wmq.29.2023.04.11.03.31.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 03:31:07 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: qianfan Zhao <qianfanguijin@163.com>, Thomas Huth <thuth@redhat.com>,
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: [for-8.0] hw/i2c/allwinner-i2c: Fix subclassing of TYPE_AW_I2C_SUN6I
-Date: Tue, 11 Apr 2023 11:31:06 +0100
-Message-Id: <20230411103106.3992862-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ y10-20020a7bcd8a000000b003e203681b26sm16494942wmj.29.2023.04.11.03.33.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 03:33:51 -0700 (PDT)
+Message-ID: <686bb7fb-9939-40d9-cf06-99d910f60ad1@linaro.org>
+Date: Tue, 11 Apr 2023 12:33:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH-for-8.0? v1] hw/pvrdma: Protect against buggy or malicious
+ guest driver
+Content-Language: en-US
+To: Yuval Shaia <yuval.shaia.ml@gmail.com>
+References: <20230301142926.18686-1-yuval.shaia.ml@gmail.com>
+Cc: qemu-devel@nongnu.org, soulchen8650@gmail.com, mcascell@redhat.com,
+ marcel.apfelbaum@gmail.com, Paolo Bonzini <pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230301142926.18686-1-yuval.shaia.ml@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.246,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,50 +94,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In commit 8461bfdca9c we added the TYPE_AW_I2C_SUN6I, which is a
-minor variant of the TYPE_AW_I2C device.  However, we didn't quite
-get the class hierarchy right.  We made the new TYPE_AW_I2C_SUN6I a
-subclass of TYPE_SYS_BUS_DEVICE, which means that you can't validly
-use a pointer to this object via the AW_I2C() cast macro, which
-insists on having something that is an instance of TYPE_AW_I2C or
-some subclass of that type.
+On 1/3/23 15:29, Yuval Shaia wrote:
+> Guest driver allocates and initialize page tables to be used as a ring
+> of descriptors for CQ and async events.
+> The page table that represents the ring, along with the number of pages
+> in the page table is passed to the device.
+> Currently our device supports only one page table for a ring.
+> 
+> Let's make sure that the number of page table entries the driver
+> reports, do not exceeds the one page table size.
+> 
 
-This only causes a problem if QOM cast macro debugging is enabled;
-that is supposed to be on by default, but a mistake in the meson
-conversion in commit c55cf6ab03f4c meant that it ended up disabled by
-default, and we didn't catch this bug.
+Fixes: CVE-2023-1544
 
-Fix the problem by arranging the classes in the same way we do for
-TYPE_PL011 and TYPE_PL011_LUMINARY in hw/char/pl011.c -- make the
-variant class be a subclass of the "normal" version of the device.
+> Reported-by: Soul Chen <soulchen8650@gmail.com>
+> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+> ---
+> v0 -> v1:
+> 	* Take ring-state into account
+> 	* Add Reported-by
+> ---
+>   hw/rdma/vmw/pvrdma_main.c | 16 +++++++++++++++-
+>   1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> index 4fc6712025..55b338046e 100644
+> --- a/hw/rdma/vmw/pvrdma_main.c
+> +++ b/hw/rdma/vmw/pvrdma_main.c
+> @@ -91,19 +91,33 @@ static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState **ring_state,
+>                            dma_addr_t dir_addr, uint32_t num_pages)
+>   {
+>       uint64_t *dir, *tbl;
+> -    int rc = 0;
+> +    int max_pages, rc = 0;
+>   
+>       if (!num_pages) {
+>           rdma_error_report("Ring pages count must be strictly positive");
+>           return -EINVAL;
+>       }
+>   
+> +    /*
+> +     * Make sure we can satisfy the requested number of pages in a single
+> +     * TARGET_PAGE_SIZE sized page table (taking into account that first entry
+> +     * is reserved for ring-state)
+> +     */
 
-This was reported in
-https://gitlab.com/qemu-project/qemu/-/issues/1586 but this fix alone
-isn't sufficient, as there is a separate cast-related issue in the
-CXL code in pci_expander_bridge.c.
+Worth a definition? Or maybe better an enum.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/i2c/allwinner-i2c.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> +    max_pages = TARGET_PAGE_SIZE / sizeof(dma_addr_t) - 1;
 
-diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
-index f24c3ac6f0c..9e8efa1d63f 100644
---- a/hw/i2c/allwinner-i2c.c
-+++ b/hw/i2c/allwinner-i2c.c
-@@ -466,10 +466,8 @@ static void allwinner_i2c_sun6i_init(Object *obj)
- 
- static const TypeInfo allwinner_i2c_sun6i_type_info = {
-     .name = TYPE_AW_I2C_SUN6I,
--    .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(AWI2CState),
-+    .parent = TYPE_AW_I2C,
-     .instance_init = allwinner_i2c_sun6i_init,
--    .class_init = allwinner_i2c_class_init,
- };
- 
- static void allwinner_i2c_register_types(void)
--- 
-2.34.1
+Possibly clearer as a #define in pvrdma_dev_ring.h.
 
+> +    if (num_pages > max_pages) {
+> +        rdma_error_report("Maximum pages on a single directory must not exceed %d\n",
+> +                          max_pages);
+> +        return -EINVAL;
+> +    }
+> +
+>       dir = rdma_pci_dma_map(pci_dev, dir_addr, TARGET_PAGE_SIZE);
+>       if (!dir) {
+>           rdma_error_report("Failed to map to page directory (ring %s)", name);
+>           rc = -ENOMEM;
+>           goto out;
+>       }
+> +
+> +    /* We support only one page table for a ring */
+>       tbl = rdma_pci_dma_map(pci_dev, dir[0], TARGET_PAGE_SIZE);
+>       if (!tbl) {
+>           rdma_error_report("Failed to map to page table (ring %s)", name);
+
+Now looking at the following pvrdma_ring_init() call, I see too many
+magic values for my taste, so feel unsafe to review:
+
+     /* RX ring is the second */
+     (*ring_state)++;
+     rc = pvrdma_ring_init(ring, name, pci_dev,
+                           (PvrdmaRingState *)*ring_state,
+                           (num_pages - 1) * TARGET_PAGE_SIZE /
+                           sizeof(struct pvrdma_cqne),
+                           sizeof(struct pvrdma_cqne),
+                           (dma_addr_t *)&tbl[1],
+                           (dma_addr_t)num_pages - 1);
 
