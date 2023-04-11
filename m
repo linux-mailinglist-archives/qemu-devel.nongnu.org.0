@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B0C6DDD6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 16:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297006DDDB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 16:25:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmElf-0008O1-VF; Tue, 11 Apr 2023 10:14:43 -0400
+	id 1pmEuT-0002L9-HX; Tue, 11 Apr 2023 10:23:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pmEle-0008Nq-AB
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 10:14:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pmElc-0007ZG-IC
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 10:14:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681222479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=n/0ztKas2XA+85jzBmk4AhmTkv/FOBgjRyUxT9J2a1w=;
- b=FqxWGFSsS1sldDesboWU+vtqfGVedWjWQm6c6/pj9XJIuGCzpCjcpCODAXnsxFSPoBk8rf
- isFGHRYKuCVW96kXHN/YoBTYo4An4bSEeGVv6Oge0/HRK/V6YevMSBp/o9ztL7tfz64mYN
- B7spDBAIC9gembS0DmQKSPSE2JttW20=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-GaZ9DmjFPSyvqhPvlFCUmA-1; Tue, 11 Apr 2023 10:14:37 -0400
-X-MC-Unique: GaZ9DmjFPSyvqhPvlFCUmA-1
-Received: by mail-vs1-f69.google.com with SMTP id
- ada2fe7eead31-42c8d37c298so1771137.1
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 07:14:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pmEuP-0002Gb-0R
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 10:23:45 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pmEuK-0000dW-RP
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 10:23:43 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ y11-20020a17090a600b00b0024693e96b58so7014568pji.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 07:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1681223017;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NI2Vx+lSgdJLBgUoh8kmUEeSSoiXbr7zRbOBeQ1MFTs=;
+ b=D4QzL/jofKqXuoQHruZPyAlB1MQ9QHTh/pgmkdLCDzCA9afThDGd/ji+kZeGjrMKx5
+ YsTtTBIQSQVrjHGWtOENL3mcVvDrrEhkT1HqJiXAQA/wva85HzljAVULoo6/ajXrVLNJ
+ z9BLecYmMrWOd1+Kzc+KKcO3SSjdxza4QWycF0ntFmMNZ/r3Ny79UyHUzIGCpdUanO9l
+ G158x4HqAWiFHxNJXm1lVpUpOxe9F9bAdtp4H+ZX3gwYk5KSXLBPcVjKG+TQnkDqwLO6
+ ZHg5yEFw7T7ZSlphdx1QTkH7X6XRzbqA+Dn9YV8Suk4B/7MEijYEfH6NLSlZTpWeYFya
+ ifUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681222476; x=1683814476;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n/0ztKas2XA+85jzBmk4AhmTkv/FOBgjRyUxT9J2a1w=;
- b=6XO5/VDJnH8pA0HWeCLSgiEgsjpUJzVq2g4Qa27Q/bMeZDvF+h0vn9EHDK7GPfWuH9
- XjduqM983s6vjXHs1a/kthQvc10d+xmObfFcYI17zS5oduRUivaL6wL8vtwAHz+0YNyP
- qFBh2KNfWgNx6nGNFPvHMNQceHrQyqrMSMT1dg99m3G3uBb439HVrH83J4QMRnC4PGPg
- zky17Hn5ybuhLwUXsM2rZP5k6i3IBREGDo/Rzmmxw0G93Fy3436neV1KavpfK34MbCOc
- eCvGrVovzozEeC2v1VB3vbvLrRgg/Pn2b61OlkE2DDKU55/Rz8fVtjJTfahAkaJLifhU
- ozeA==
-X-Gm-Message-State: AAQBX9ed00GmHTS5o2GmbTn1IpjD5s1Pk71o7QOScNZsoA5bzMIl4njn
- 6zcuhUbery5kgzU8cDtdvMJ6HvWDEVRS6zbVaf+Bw6bsIIkQ0D9rbLDx553XLcAMHmEZl/R4ZFN
- 4q1JUln7PX4daplk=
-X-Received: by 2002:a67:43c5:0:b0:42c:6f24:da62 with SMTP id
- q188-20020a6743c5000000b0042c6f24da62mr1714302vsa.1.1681222475633; 
- Tue, 11 Apr 2023 07:14:35 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Zlyc56Ab1qT6lUxXrHklTcatD1CN2IuRUmbairpMbaqQngzPFifkNzQr2Olan3hTMbgTsLAw==
-X-Received: by 2002:a67:43c5:0:b0:42c:6f24:da62 with SMTP id
- q188-20020a6743c5000000b0042c6f24da62mr1714283vsa.1.1681222475379; 
- Tue, 11 Apr 2023 07:14:35 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- q22-20020a374316000000b007422fd3009esm3998734qka.20.2023.04.11.07.14.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 07:14:34 -0700 (PDT)
-Date: Tue, 11 Apr 2023 10:14:33 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, peter.maydell@linaro.org
-Subject: Re: [PATCH for 8.1] intel_iommu: refine iotlb hash calculation
-Message-ID: <ZDVrSVW0FoEuq6+2@x1n>
-References: <20230410033208.54663-1-jasowang@redhat.com>
+ d=1e100.net; s=20210112; t=1681223017;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NI2Vx+lSgdJLBgUoh8kmUEeSSoiXbr7zRbOBeQ1MFTs=;
+ b=P+fTP6q2xrjNnRSIgrJAZikaA+fuZYhnHqL7Vt8I8KPg8DcfIqzekMIcsr7mYu9eOI
+ 480RJP8TtwMyuzlgoKvxKcQuVcPGsNlGOm8EYcMd5IOFdyf6VSXzxdf3RQfVg/xgHB7q
+ wJF4RPnQao4eqlnkewlXYWXvpith8M7Qgs3TeFOI0sIXsdSJq5k+hObmpxWhIuK3R5U3
+ vXTrpV4NDY3QFfF74o48jVXISBG0puehm5hifdF/Hu8HBdb+dquJPIier98iAs+ws1rj
+ hn3HHTtS88HUTHPvcLBJibL0urPOO/yLspkglrDZiJ7TacU7APTDmvXR3IZTMaqRiR5G
+ aHww==
+X-Gm-Message-State: AAQBX9dSURpibGzPFLLWm5VpxFS/FghmP7iepeA5w6HJTKzFDBpNR7bl
+ Hnys4pjaf1W+Xj2IDocSkqQ=
+X-Google-Smtp-Source: AKy350aDzmHBKAftqh2Buuc50q65zt6PPB0463CqLW6qVfXw0EG0vyhmp5SSgHD4XjpuVCgXj7WuFw==
+X-Received: by 2002:a05:6a20:bb2a:b0:e9:5b0a:e7e7 with SMTP id
+ fc42-20020a056a20bb2a00b000e95b0ae7e7mr10917818pzb.15.1681223016664; 
+ Tue, 11 Apr 2023 07:23:36 -0700 (PDT)
+Received: from ?IPV6:2001:ee0:4fb3:2ba0:dcb1:c928:97e1:ce5f?
+ ([2001:ee0:4fb3:2ba0:dcb1:c928:97e1:ce5f])
+ by smtp.gmail.com with ESMTPSA id
+ i22-20020aa79096000000b005e0699464e3sm9850085pfa.206.2023.04.11.07.23.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 07:23:36 -0700 (PDT)
+Message-ID: <15b46132-67b3-83f5-2eaa-efdf8f95ce24@gmail.com>
+Date: Tue, 11 Apr 2023 21:23:30 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230410033208.54663-1-jasowang@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 0/5] Support x2APIC mode with TCG accelerator
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, David Woodhouse <dwmw2@infradead.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20230409144022.8111-1-minhquangbui99@gmail.com>
+ <20230411030857-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Bui Quang Minh <minhquangbui99@gmail.com>
+In-Reply-To: <20230411030857-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,106 +103,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Apr 10, 2023 at 11:32:08AM +0800, Jason Wang wrote:
-> Commit 1b2b12376c8 ("intel-iommu: PASID support") takes PASID into
-> account when calculating iotlb hash like:
+On 4/11/23 14:09, Michael S. Tsirkin wrote:
+> On Sun, Apr 09, 2023 at 09:40:22PM +0700, Bui Quang Minh wrote:
+>> Hi everyone,
+>>
+>> This series implements x2APIC mode in userspace local APIC and the
+>> RDMSR/WRMSR helper to access x2APIC registers in x2APIC mode. Intel iommu
+>> and AMD iommu are adjusted to support x2APIC interrupt remapping. With this
+>> series, we can now boot Linux kernel into x2APIC mode with TCG accelerator
+>> using either Intel or AMD iommu.
+>>
+>> Testing the emulated userspace APIC with kvm-unit-tests, disable test
+>> device with this patch
 > 
-> static guint vtd_iotlb_hash(gconstpointer v)
-> {
->     const struct vtd_iotlb_key *key = v;
 > 
->     return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
->            (key->level) << VTD_IOTLB_LVL_SHIFT |
->            (key->pasid) << VTD_IOTLB_PASID_SHIFT;
-> }
-> 
-> This turns out to be problematic since:
-> 
-> - the shift will lose bits if not converting to uint64_t
-> - level should be off by one in order to fit into 2 bits
-> - VTD_IOTLB_PASID_SHIFT is 30 but PASID is 20 bits which will waste
->   some bits
-> 
-> So this patch fixes them by
-> 
-> - converting the keys into uint64_t before doing the shift
-> - off level by one to make it fit into two bits
-> - change the sid, lvl and pasid shift to 26, 42 and 44 in order to
->   take the full width of uint64_t if possible
-> 
-> Fixes: Coverity CID 1508100
-> Fixes: 1b2b12376c8 ("intel-iommu: PASID support")
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
->  hw/i386/intel_iommu.c          | 8 ++++----
->  hw/i386/intel_iommu_internal.h | 6 +++---
->  2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index a62896759c..d394976e9b 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -64,8 +64,8 @@ struct vtd_as_key {
->  struct vtd_iotlb_key {
->      uint64_t gfn;
->      uint32_t pasid;
-> -    uint32_t level;
->      uint16_t sid;
-> +    uint8_t level;
->  };
->  
->  static void vtd_address_space_refresh_all(IntelIOMMUState *s);
-> @@ -222,9 +222,9 @@ static guint vtd_iotlb_hash(gconstpointer v)
->  {
->      const struct vtd_iotlb_key *key = v;
->  
-> -    return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
-> -           (key->level) << VTD_IOTLB_LVL_SHIFT |
-> -           (key->pasid) << VTD_IOTLB_PASID_SHIFT;
-> +    return key->gfn | ((uint64_t)(key->sid) << VTD_IOTLB_SID_SHIFT) |
-> +        (uint64_t)(key->level - 1) << VTD_IOTLB_LVL_SHIFT |
-> +        (uint64_t)(key->pasid) << VTD_IOTLB_PASID_SHIFT;
->  }
->  
->  static gboolean vtd_as_equal(gconstpointer v1, gconstpointer v2)
-> diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-> index f090e61e11..2e61eec2f5 100644
-> --- a/hw/i386/intel_iommu_internal.h
-> +++ b/hw/i386/intel_iommu_internal.h
-> @@ -114,9 +114,9 @@
->                                       VTD_INTERRUPT_ADDR_FIRST + 1)
->  
->  /* The shift of source_id in the key of IOTLB hash table */
-> -#define VTD_IOTLB_SID_SHIFT         20
-> -#define VTD_IOTLB_LVL_SHIFT         28
-> -#define VTD_IOTLB_PASID_SHIFT       30
-> +#define VTD_IOTLB_SID_SHIFT         26
-> +#define VTD_IOTLB_LVL_SHIFT         42
-> +#define VTD_IOTLB_PASID_SHIFT       44
+> Threading's broken with this posting.
 
-This is for the hash function only, IIUC it means anything over
-sizeof(guint) will be ignored and not contributing anything to the hash
-value being generated due to the uint64->guint conversion.
-
-IOW, I think "level" and "pasid" will just be ignored.
-
-If the whole point of hash function here is to try provide the best
-distribution of hash value generated for keys... perhaps we can cut some of
-the fields, but still we should fit all things into 32bits?
-
-My wild guess is coverity complains mostly because of the shift overflow,
-so that'll be addressed too if we explicit cut things off with uint64_t.
-
-Thanks,
-
->  #define VTD_IOTLB_MAX_SIZE          1024    /* Max size of the hash table */
->  
->  /* IOTLB_REG */
-> -- 
-> 2.25.1
-> 
-
--- 
-Peter Xu
-
+Oh, thank you, I will repost this series with correct threading.
+Quang Minh.
 
