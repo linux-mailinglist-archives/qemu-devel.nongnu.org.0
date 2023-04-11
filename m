@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BD26DCED2
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 03:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1400E6DCEC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 03:10:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm2Sr-0005FA-Es; Mon, 10 Apr 2023 21:06:29 -0400
+	id 1pm2Sr-0005Hl-Qf; Mon, 10 Apr 2023 21:06:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pm2SM-0004ds-0n
+ id 1pm2SN-0004eJ-W3
  for qemu-devel@nongnu.org; Mon, 10 Apr 2023 21:06:00 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pm2SI-0000i9-2s
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 21:05:57 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id e13so5952626plc.12
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 18:05:52 -0700 (PDT)
+ id 1pm2SJ-0000V9-Td
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 21:05:58 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id la3so6096364plb.11
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 18:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681175152;
+ d=linaro.org; s=google; t=1681175154;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=14rBhklhvDo1V9kW+8pac3sP0tDbR7NixB7NEp+EaWQ=;
- b=kT6dkqPJ69/DG8tCZjZ6sf/11MQaZGb80T0k4ItHIHW8XXphwfi2kfvn7eJQtQA1zE
- SDfgixlRmCxjqO8SZ9wYkzBVuNQcpYCBA8JZ34Vt7OtPrJg45P4Gw7uSSHGFFcRMP5H6
- YfEdfaFhwEeu6fWoKS7AXkcXTJ4zYbkAqJ+ZYI5rIMLiBJaXTEdgM3Rfmh9Gth9ffGQR
- GC/+BWeZa+BX7E79Dv54hYhKRX6mgqfa3Hsmn3Ao7EHeT24R21UvEyUT7p8a8CUSdcNm
- ZHKpjW7eSp/NwigZF73PPQ1TKARUyzRj1AWNkvig+WQ2B5thxVqI9R1KKSo+kgEnQS8Q
- lnJg==
+ bh=u5kfPeOZxNEGGOBoG05frDf+J9LPWAmPL1Hbxg7J1Ic=;
+ b=pwXZhKpan0IPi+5Q9W/jlStrSUj+zZ9TCBlwY7LbNs0YF1GZ3cjFcZCFsjqd+OGUTk
+ NGoji/Ov55oIYfoi1MI45Etd0JAE31RP3kV/NAs5qCDacNQ1jm0iL67lGpehWrvtYtHh
+ +kJ9nHlZCYtFcgfsWlp1BgJASPmQA2MtBea/4WO4z1eWrH4v3QvbckJSoFLi23U32CQw
+ 8zGgpiFLY/O2vi/k0Q5VbQkoUVLwritOLH420cjI/ErfVkC28vhvD7uj1ieYiCqyOhfG
+ Wh8KVNGrwxHFdIJ8U9n3HK/atCpYOX6KZcIn2dRNbE0WX9Pu1Fc2CviDsG/Ry9bbqyVd
+ F6cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681175152;
+ d=1e100.net; s=20210112; t=1681175154;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=14rBhklhvDo1V9kW+8pac3sP0tDbR7NixB7NEp+EaWQ=;
- b=g9SXprDXXxYjrw6mGSVD38IXYmzHfrLiSZKuhkX/G1Folvwn/aCCbTHTrn+4ZXLYE7
- WiKZqkFXAwdywo0DYyFMcz5NqoUhkigtd5sTMhSPoQM67D13m4l75DM0yWVFfc/7zvVA
- wo84iheXxL4/33EF7dmWWZuNUHcThGrCNfJbPhvh3qrBO6tPzeuvfpfwg+BsXVE5XsDF
- cjVpt9VJ1BKvk8eEUMAYlnec5i2T8LO+0/UC7L8nqez0M6dKTeZ6FhhJC2R696k6IsL4
- o+eaZ1hnzCEPL8XPBJB2ZcRTziDlk6rZcOviNeFK59gqhXRYK9It8Y/TWo0Sw7It47u1
- Diyw==
-X-Gm-Message-State: AAQBX9dF3Arg2wLTiqoVpQ+Parc1YSjm2WUwP8lkFrsz7K0Bxx2OXpYL
- VEPcyp+UFGTy5SGiXQ9iahdP0N66pmvBDE2/nHnf2A==
-X-Google-Smtp-Source: AKy350YX5o0j6Eliw8eliPNq9mJ7qoDd9NcoDoEHnra2n0u3FbgQNy5CY36YSS+syMwcQFu8gWha2Q==
-X-Received: by 2002:a05:6a20:7a22:b0:da:35d1:c474 with SMTP id
- t34-20020a056a207a2200b000da35d1c474mr8119482pzh.62.1681175151805; 
- Mon, 10 Apr 2023 18:05:51 -0700 (PDT)
+ bh=u5kfPeOZxNEGGOBoG05frDf+J9LPWAmPL1Hbxg7J1Ic=;
+ b=Hb+RoBCf6Wg299JV5pSMKy5MchtMdmtFoJm88O0LPPETwShC64k7fbQRRX5uLOXJxS
+ RLuTmBQz5xRfXY1bOSKpietFGlQ4raqVVVGgdHUQR/QiI6/4OUKXuBEPQ1xrPsyVDMyg
+ JIWapu9xPXN72B4M2IDgBO/oPlkuiHi0hTN+MEwfdS5QM6XitsRaGdMfjrRRlxSBjk1x
+ ROouibgrmQjJUIQPGGXrTevpbOvonMSJ5z0AFYn/dUq4DAuXLjKEwoVnbsb4CM+R/uzf
+ AlB2ETOjbSsYtk4iooNFvWJpsppqwGW/kFrZ0It84htLUg69XGKXHxvs5YRbCcGwcU18
+ uqXA==
+X-Gm-Message-State: AAQBX9d0inkood2cme/TAIkZFNO4HS2c8BOosLelfMHSmq+K4B+wtuKk
+ ZTW2noppRU09I3A8RK3qFK5l1SI74c+hU5VEa/LyGg==
+X-Google-Smtp-Source: AKy350Z9aWkHnIQe1IjMeRs24pay2g1n2X0EuVCXb9V/Jpr3NkkvO87ISMC7ovUl8QdQp9G7jClPNA==
+X-Received: by 2002:a17:902:e392:b0:1a3:d5af:9b73 with SMTP id
+ g18-20020a170902e39200b001a3d5af9b73mr750305ple.58.1681175154474; 
+ Mon, 10 Apr 2023 18:05:54 -0700 (PDT)
 Received: from stoup.WiFi.IPv4InfoBelow
  (h146.238.133.40.static.ip.windstream.net. [40.133.238.146])
  by smtp.gmail.com with ESMTPSA id
- s10-20020a65690a000000b0051b0e564963sm1320291pgq.49.2023.04.10.18.05.47
+ s10-20020a65690a000000b0051b0e564963sm1320291pgq.49.2023.04.10.18.05.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 18:05:51 -0700 (PDT)
+ Mon, 10 Apr 2023 18:05:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
  qemu-ppc@nongnu.org
-Subject: [PATCH v2 13/54] tcg: Split out tcg_out_extu_i32_i64
-Date: Mon, 10 Apr 2023 18:04:31 -0700
-Message-Id: <20230411010512.5375-14-richard.henderson@linaro.org>
+Subject: [PATCH v2 14/54] tcg/i386: Conditionalize tcg_out_extu_i32_i64
+Date: Mon, 10 Apr 2023 18:04:32 -0700
+Message-Id: <20230411010512.5375-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230411010512.5375-1-richard.henderson@linaro.org>
 References: <20230411010512.5375-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -92,369 +92,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We will need a backend interface for type extension with zero.
-Use it in tcg_reg_alloc_op in the meantime.
+Since TCG_TYPE_I32 values are kept zero-extended in registers, via
+omission of the REXW bit, we need not extend if the register matches.
+This is already relied upon by qemu_{ld,st}.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c                        |  4 ++++
- tcg/aarch64/tcg-target.c.inc     | 10 ++++++----
- tcg/arm/tcg-target.c.inc         |  5 +++++
- tcg/i386/tcg-target.c.inc        |  7 ++++++-
- tcg/loongarch64/tcg-target.c.inc | 10 ++++++----
- tcg/mips/tcg-target.c.inc        |  9 ++++++---
- tcg/ppc/tcg-target.c.inc         | 10 ++++++----
- tcg/riscv/tcg-target.c.inc       | 10 ++++++----
- tcg/s390x/tcg-target.c.inc       | 10 ++++++----
- tcg/sparc64/tcg-target.c.inc     |  9 ++++++---
- tcg/tci/tcg-target.c.inc         |  7 ++++++-
- 11 files changed, 63 insertions(+), 28 deletions(-)
+ tcg/i386/tcg-target.c.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index b0498170ea..17bd6d4581 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -112,6 +112,7 @@ static void tcg_out_ext16u(TCGContext *s, TCGReg ret, TCGReg arg);
- static void tcg_out_ext32s(TCGContext *s, TCGReg ret, TCGReg arg);
- static void tcg_out_ext32u(TCGContext *s, TCGReg ret, TCGReg arg);
- static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg ret, TCGReg arg);
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg ret, TCGReg arg);
- static void tcg_out_addi_ptr(TCGContext *s, TCGReg, TCGReg, tcg_target_long);
- static void tcg_out_exit_tb(TCGContext *s, uintptr_t arg);
- static void tcg_out_goto_tb(TCGContext *s, int which);
-@@ -4533,6 +4534,9 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-     case INDEX_op_ext_i32_i64:
-         tcg_out_exts_i32_i64(s, new_args[0], new_args[1]);
-         break;
-+    case INDEX_op_extu_i32_i64:
-+        tcg_out_extu_i32_i64(s, new_args[0], new_args[1]);
-+        break;
-     default:
-         if (def->flags & TCG_OPF_VECTOR) {
-             tcg_out_vec_op(s, op->opc, TCGOP_VECL(op), TCGOP_VECE(op),
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 58596eaa4b..ca8b25865b 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1462,6 +1462,11 @@ static void tcg_out_ext32u(TCGContext *s, TCGReg rd, TCGReg rn)
-     tcg_out_movr(s, TCG_TYPE_I32, rd, rn);
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg rd, TCGReg rn)
-+{
-+    tcg_out_ext32u(s, rd, rn);
-+}
-+
- static void tcg_out_addsubi(TCGContext *s, int ext, TCGReg rd,
-                             TCGReg rn, int64_t aimm)
- {
-@@ -2265,10 +2270,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         }
-         break;
- 
--    case INDEX_op_extu_i32_i64:
--        tcg_out_ext32u(s, a0, a1);
--        break;
--
-     case INDEX_op_deposit_i64:
-     case INDEX_op_deposit_i32:
-         tcg_out_dep(s, ext, a0, REG0(2), args[3], args[4]);
-@@ -2335,6 +2336,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 2ca25a3d81..2135616e12 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -1008,6 +1008,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg rd, TCGReg rn)
-     g_assert_not_reached();
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg rd, TCGReg rn)
-+{
-+    g_assert_not_reached();
-+}
-+
- static void tcg_out_bswap16(TCGContext *s, ARMCond cond,
-                             TCGReg rd, TCGReg rn, int flags)
- {
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index fd4c4e20c8..40d661072b 100644
+index 40d661072b..a156929477 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -1304,6 +1304,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg dest, TCGReg src)
-     tcg_out_ext32s(s, dest, src);
+@@ -1306,7 +1306,9 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg dest, TCGReg src)
+ 
+ static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg dest, TCGReg src)
+ {
+-    tcg_out_ext32u(s, dest, src);
++    if (dest != src) {
++        tcg_out_ext32u(s, dest, src);
++    }
  }
  
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg dest, TCGReg src)
-+{
-+    tcg_out_ext32u(s, dest, src);
-+}
-+
  static inline void tcg_out_bswap64(TCGContext *s, int reg)
- {
-     tcg_out_opc(s, OPC_BSWAP + P_REXW + LOWREGMASK(reg), 0, reg, 0);
-@@ -2758,7 +2763,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_bswap64_i64:
-         tcg_out_bswap64(s, a0);
-         break;
--    case INDEX_op_extu_i32_i64:
-     case INDEX_op_extrl_i64_i32:
-         tcg_out_ext32u(s, a0, a1);
-         break;
-@@ -2841,6 +2845,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index b2146988be..d83bd9de49 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -463,6 +463,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg ret, TCGReg arg)
-     }
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg ret, TCGReg arg)
-+{
-+    tcg_out_ext32u(s, ret, arg);
-+}
-+
- static void tcg_out_clzctz(TCGContext *s, LoongArchInsn opc,
-                            TCGReg a0, TCGReg a1, TCGReg a2,
-                            bool c2, bool is_32bit)
-@@ -1253,10 +1258,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_brcond(s, a2, a0, a1, arg_label(args[3]));
-         break;
- 
--    case INDEX_op_extu_i32_i64:
--        tcg_out_ext32u(s, a0, a1);
--        break;
--
-     case INDEX_op_extrl_i64_i32:
-         tcg_out_ext32s(s, a0, a1);
-         break;
-@@ -1622,6 +1623,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 2bc885e00e..4789b0a40c 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -587,6 +587,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg rd, TCGReg rs)
-     }
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg rd, TCGReg rs)
-+{
-+    tcg_out_ext32u(s, rd, rs);
-+}
-+
- static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
-                              tcg_target_long imm)
- {
-@@ -2304,9 +2309,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_extrl_i64_i32:
-         tcg_out_ext32s(s, a0, a1);
-         break;
--    case INDEX_op_extu_i32_i64:
--        tcg_out_ext32u(s, a0, a1);
--        break;
- 
-     case INDEX_op_sar_i32:
-         i1 = OPC_SRAV, i2 = OPC_SRA;
-@@ -2454,6 +2456,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index e24f897765..bd298c55fd 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -812,6 +812,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg dst, TCGReg src)
-     tcg_out_ext32s(s, dst, src);
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg dst, TCGReg src)
-+{
-+    tcg_out_ext32u(s, dst, src);
-+}
-+
- static inline void tcg_out_shli32(TCGContext *s, TCGReg dst, TCGReg src, int c)
- {
-     tcg_out_rlw(s, RLWINM, dst, src, c, 0, 31 - c);
-@@ -2986,10 +2991,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_qemu_st(s, args, true);
-         break;
- 
--    case INDEX_op_extu_i32_i64:
--        tcg_out_ext32u(s, args[0], args[1]);
--        break;
--
-     case INDEX_op_setcond_i32:
-         tcg_out_setcond(s, TCG_TYPE_I32, args[3], args[0], args[1], args[2],
-                         const_args[2]);
-@@ -3136,6 +3137,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 2b9aab29ec..a6d352976c 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -609,6 +609,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg ret, TCGReg arg)
-     }
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg ret, TCGReg arg)
-+{
-+    tcg_out_ext32u(s, ret, arg);
-+}
-+
- static void tcg_out_ldst(TCGContext *s, RISCVInsn opc, TCGReg data,
-                          TCGReg addr, intptr_t offset)
- {
-@@ -1604,10 +1609,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_qemu_st(s, args, true);
-         break;
- 
--    case INDEX_op_extu_i32_i64:
--        tcg_out_ext32u(s, a0, a1);
--        break;
--
-     case INDEX_op_extrl_i64_i32:
-         tcg_out_ext32s(s, a0, a1);
-         break;
-@@ -1646,6 +1647,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 60deaa9a95..e17d000991 100644
---- a/tcg/s390x/tcg-target.c.inc
-+++ b/tcg/s390x/tcg-target.c.inc
-@@ -1127,6 +1127,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg dest, TCGReg src)
-     tcg_out_ext32s(s, dest, src);
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg dest, TCGReg src)
-+{
-+    tcg_out_ext32u(s, dest, src);
-+}
-+
- static void tgen_andi_risbg(TCGContext *s, TCGReg out, TCGReg in, uint64_t val)
- {
-     int msb, lsb;
-@@ -2529,10 +2534,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         }
-         break;
- 
--    case INDEX_op_extu_i32_i64:
--        tcg_out_ext32u(s, args[0], args[1]);
--        break;
--
-     case INDEX_op_add2_i64:
-         if (const_args[4]) {
-             if ((int64_t)args[4] >= 0) {
-@@ -2630,6 +2631,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
-index 56ffc6ed91..c57a8c8304 100644
---- a/tcg/sparc64/tcg-target.c.inc
-+++ b/tcg/sparc64/tcg-target.c.inc
-@@ -532,6 +532,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg rd, TCGReg rs)
-     tcg_out_ext32s(s, rd, rs);
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg rd, TCGReg rs)
-+{
-+    tcg_out_ext32u(s, rd, rs);
-+}
-+
- static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
-                              tcg_target_long imm)
- {
-@@ -1682,9 +1687,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_divu_i64:
-         c = ARITH_UDIVX;
-         goto gen_arith;
--    case INDEX_op_extu_i32_i64:
--        tcg_out_ext32u(s, a0, a1);
--        break;
-     case INDEX_op_extrl_i64_i32:
-         tcg_out_mov(s, TCG_TYPE_I32, a0, a1);
-         break;
-@@ -1741,6 +1743,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 7886f21bf5..48c9dbd0b4 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -634,6 +634,11 @@ static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg rd, TCGReg rs)
-     tcg_out_ext32s(s, rd, rs);
- }
- 
-+static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg rd, TCGReg rs)
-+{
-+    tcg_out_ext32u(s, rd, rs);
-+}
-+
- static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
-                              tcg_target_long imm)
- {
-@@ -792,7 +797,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
-     CASE_32_64(neg)      /* Optional (TCG_TARGET_HAS_neg_*). */
-     CASE_32_64(not)      /* Optional (TCG_TARGET_HAS_not_*). */
--    CASE_64(extu_i32)
-     CASE_32_64(ctpop)    /* Optional (TCG_TARGET_HAS_ctpop_*). */
-     case INDEX_op_bswap32_i32: /* Optional (TCG_TARGET_HAS_bswap32_i32). */
-     case INDEX_op_bswap64_i64: /* Optional (TCG_TARGET_HAS_bswap64_i64). */
-@@ -876,6 +880,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ext32s_i64:
-     case INDEX_op_ext32u_i64:
-     case INDEX_op_ext_i32_i64:
-+    case INDEX_op_extu_i32_i64:
-     default:
-         g_assert_not_reached();
-     }
 -- 
 2.34.1
 
