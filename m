@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DCD6DE403
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 20:36:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12A56DE404
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 20:37:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmIqV-0000vF-5R; Tue, 11 Apr 2023 14:35:59 -0400
+	id 1pmIrk-0004vX-3z; Tue, 11 Apr 2023 14:37:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pmIq3-0000Ej-QR
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 14:35:36 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pmIq1-0008HQ-TP
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 14:35:31 -0400
-Received: by mail-oi1-x230.google.com with SMTP id bb20so1188781oib.12
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 11:35:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681238127;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qEsTxGvLvsUaZXsQ/JW6z6RCxq/TKEsXbTivyDouRwQ=;
- b=J1zQJTTQhX5oEECV3T0YZI+Hyko57DxUmEUmu7Obd15YA0pO8h0dw+2J5Dt+9Bs4aG
- koGOU8/fRXwr5MLe30j7G1sXY9OkXBgs10NfNoR8RnE1JMEl4hc4XxLqXQNzTGHmUv5b
- QV50s8hU1kteKFqSTazMeXWQ+WNr+jzi070K8QDufsR152MXkCTyBTHPpqO3VGaai2De
- DWCKIFy7ObhrLl7tQLmAfG4HwryglRZT/PpRTqGfv3X6RCT+me4MSuPpF4XuuoUZ9OeJ
- QPHoFP59KquOK46IiwjI6bKWO+Ee+BzCF7akpRCCju/82vy4Htm4mxjpad4gjJZUqM6A
- KTSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681238127;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qEsTxGvLvsUaZXsQ/JW6z6RCxq/TKEsXbTivyDouRwQ=;
- b=OAiD6K76921yTI1XSS8Q1x/eZ/3A1V+5Hoyuci2abKg/JJbXuhNJZnIwaQ9NCVyGZK
- OrB7CDgNKrglO6YB3745HFqz9KE4IUlLM3F7p6EB6AAkLdHwbt2FBNMorANNTP64syAx
- e4pZ5dtxMEBntzi/I0rITVNAtBmxSBtTZbs7iArtNUngYvm5LYAa3wU+N5ZF8K6dlCon
- uoH2Gi63qLgmQXN/F7encHpzHR+eH8/lUR/ceoFEP0cJeeYBK/m94vjlCimnPR3BBpUG
- 5RP0bi9hVRZWFoReb6qbBHhTDv6gS9tlB3Hs9KBYCXbZ5uJLFrO6gzx0cTCxyx4dolrY
- VliA==
-X-Gm-Message-State: AAQBX9eCq2BM21HZ8fUMHHNdWjdshrf7i22o1HaCbchl6on1drbO9jTp
- OQDpOHOfXrzvoEZEsMGUSoJUMWeItyUVrhTFJ1M=
-X-Google-Smtp-Source: AKy350bVRkmc/kqmtqimEBbMaaTgddaN/izUdDY3kuaEXejrV1Pv0MIZM6s7URi5d+wO4p/B4u0T6g==
-X-Received: by 2002:a05:6808:1416:b0:389:7ffe:5059 with SMTP id
- w22-20020a056808141600b003897ffe5059mr1947978oiv.58.1681238127317; 
- Tue, 11 Apr 2023 11:35:27 -0700 (PDT)
-Received: from grind.dc1.ventanamicro.com ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- 4-20020a4a1404000000b005413e617935sm6149983ood.15.2023.04.11.11.35.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 11:35:26 -0700 (PDT)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pmIrb-0004h1-LI
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 14:37:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pmIrZ-000089-Oj
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 14:37:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681238224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MbUP86u5G6X3wJBncw1IyxOBGVvV1RhTqSFdCGeOl24=;
+ b=RQwR2xr1aAR8qjQJnqAGBR4aAxSAnTGfZCXfH1TNhf5OBkX2tiKKFIWqmmM8dxwybcakzM
+ s6IGFMuhK2RHnJno2c11ODmUc8WXNH7nq214W9QIMRarJf9Q4RXxe6prFa9/Sa/WG/F6go
+ y4Upy9X29tuUjZVLO3e63/rZwHZtfs4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-85-g_IwjO4COlug29rYMlxAyA-1; Tue, 11 Apr 2023 14:37:03 -0400
+X-MC-Unique: g_IwjO4COlug29rYMlxAyA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C95BF280D585;
+ Tue, 11 Apr 2023 18:37:02 +0000 (UTC)
+Received: from green.redhat.com (unknown [10.2.16.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 562C440BC797;
+ Tue, 11 Apr 2023 18:37:02 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
- richard.henderson@linaro.org,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v3 3/3] target/riscv: add TYPE_RISCV_DYNAMIC_CPU
-Date: Tue, 11 Apr 2023 15:35:11 -0300
-Message-Id: <20230411183511.189632-4-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230411183511.189632-1-dbarboza@ventanamicro.com>
-References: <20230411183511.189632-1-dbarboza@ventanamicro.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [RFC PATCH] migration: Handle block device inactivation failures
+ better
+Date: Tue, 11 Apr 2023 13:36:54 -0500
+Message-Id: <20230411183654.1229293-1-eblake@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x230.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,127 +76,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This new abstract type will be used to differentiate between static and
-non-static CPUs in query-cpu-definitions.
+Consider what happens when performing a migration between two host
+machines connected to an NFS server serving multiple block devices to
+the guest, when the NFS server becomes unavailable.  The migration
+attempts to inactivate all block devices on the source (a necessary
+step before the destination can take over); but if the NFS server is
+non-responsive, the attempt to inactivate can itself fail.  When that
+happens, the destination fails to get the migrated guest (good,
+because the source wasn't able to flush everything properly):
 
-All generic CPUs were changed to be of this type. Named CPUs are kept as
-TYPE_RISCV_CPU and will still be considered static.
+  (qemu) qemu-kvm: load of migration failed: Input/output error
 
-This is the output of query-cpu-definitions after this change for the
-riscv64 target:
+at which point, our only hope for the guest is for the source to take
+back control.  With the current code base, the host outputs a message, but then appears to resume:
 
-$ ./build/qemu-system-riscv64 -S -M virt -display none -qmp stdio
-{"QMP": {"version": (...)}
-{"execute": "qmp_capabilities", "arguments": {"enable": ["oob"]}}
-{"return": {}}
-{"execute": "query-cpu-definitions"}
-{"return": [
-{"name": "rv64", "typename": "rv64-riscv-cpu", "static": false, "deprecated": false},
-{"name": "sifive-e51", "typename": "sifive-e51-riscv-cpu", "static": true, "deprecated": false},
-{"name": "any", "typename": "any-riscv-cpu", "static": false, "deprecated": false},
-{"name": "x-rv128", "typename": "x-rv128-riscv-cpu", "static": false, "deprecated": false},
-{"name": "shakti-c", "typename": "shakti-c-riscv-cpu", "static": true, "deprecated": false},
-{"name": "thead-c906", "typename": "thead-c906-riscv-cpu", "static": true, "deprecated": false},
-{"name": "sifive-u54", "typename": "sifive-u54-riscv-cpu", "static": true, "deprecated": false}
-]}
+  (qemu) qemu-kvm: qemu_savevm_state_complete_precopy_non_iterable: bdrv_inactivate_all() failed (-1)
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+  (src qemu)info status
+   VM status: running
+
+but a second migration attempt now asserts:
+
+  (src qemu) qemu-kvm: ../block.c:6738: int bdrv_inactivate_recurse(BlockDriverState *): Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed.
+
+Whether the guest is recoverable on the source after the first failure
+is debatable, but what we do not want is to have qemu itself fail due
+to an assertion.  It looks like the problem is as follows:
+
+In migration.c:migration_completion(), the source sets 'inactivate' to
+true (since COLO is not enabled), then tries
+savevm.c:qemu_savevm_state_complete_precopy() with a request to
+inactivate block devices.  In turn, this calls
+block.c:bdrv_inactivate_all(), which fails when flushing runs up
+against the non-responsive NFS server.  With savevm failing, we are
+now left in a state where some, but not all, of the block devices have
+been inactivated; the 'fail_invalidate' label of
+migration_completion() then wants to reclaim those disks by calling
+bdrv_activate_all() - but this too can fail, yet nothing takes note of
+that failure.
+
+Thus, we have reached a state where the migration engine has forgotten
+all state about whether a block device is inactive, because we did not
+set s->block_inactive; so migration allows the source to reach
+vm_start() and resume execution, violating the block layer invariant
+that the guest CPUs should not be restarted while a device is
+inactive.  Note that the code in migration.c:migrate_fd_cancel() will
+also try to reactivate all block devices if s->block_inactive was set,
+but because we failed to set that flag after the first failure, the
+source assumes it has reclaimed all devices, even though it still has
+remaining inactivated devices and does not try again.  Normally,
+qmp_cont() will also try to reactivate all disks (or correctly fail if
+the disks are not reclaimable because NFS is not yet back up), but the
+auto-resumption of the source after a migration failure does not go
+through qmp_cont().  And because we have left the block layer in an
+inconsistent state with devices still inactivated, the later migration
+attempt is hitting the assertion failure.
+
+Since it is important to not resume the source with inactive disks,
+this patch tries harder at tracking whether migration attempted to
+inactivate any devices, in order to prevent any vm_start() until it
+has successfully reactivated all devices.
+
+See also https://bugzilla.redhat.com/show_bug.cgi?id=2058982
+
+Signed-off-by: Eric Blake <eblake@redhat.com>
+
 ---
- target/riscv/cpu-qom.h        |  2 +-
- target/riscv/cpu.c            | 20 ++++++++++++++++----
- target/riscv/riscv-qmp-cmds.c |  4 ++++
- 3 files changed, 21 insertions(+), 5 deletions(-)
 
-diff --git a/target/riscv/cpu-qom.h b/target/riscv/cpu-qom.h
-index b9318e0783..b29090ad86 100644
---- a/target/riscv/cpu-qom.h
-+++ b/target/riscv/cpu-qom.h
-@@ -23,6 +23,7 @@
- #include "qom/object.h"
- 
- #define TYPE_RISCV_CPU "riscv-cpu"
-+#define TYPE_RISCV_DYNAMIC_CPU "riscv-dynamic-cpu"
- 
- #define RISCV_CPU_TYPE_SUFFIX "-" TYPE_RISCV_CPU
- #define RISCV_CPU_TYPE_NAME(name) (name RISCV_CPU_TYPE_SUFFIX)
-@@ -66,5 +67,4 @@ struct RISCVCPUClass {
-     DeviceRealize parent_realize;
-     ResettablePhases parent_phases;
- };
--
- #endif /* RISCV_CPU_QOM_H */
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index fab38859ec..56f2b345cf 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -1788,6 +1788,13 @@ void riscv_cpu_list(void)
-         .instance_init = initfn            \
-     }
- 
-+#define DEFINE_DYNAMIC_CPU(type_name, initfn) \
-+    {                                         \
-+        .name = type_name,                    \
-+        .parent = TYPE_RISCV_DYNAMIC_CPU,     \
-+        .instance_init = initfn               \
-+    }
-+
- static const TypeInfo riscv_cpu_type_infos[] = {
-     {
-         .name = TYPE_RISCV_CPU,
-@@ -1799,23 +1806,28 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-         .class_size = sizeof(RISCVCPUClass),
-         .class_init = riscv_cpu_class_init,
-     },
--    DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
-+    {
-+        .name = TYPE_RISCV_DYNAMIC_CPU,
-+        .parent = TYPE_RISCV_CPU,
-+        .abstract = true,
-+    },
-+    DEFINE_DYNAMIC_CPU(TYPE_RISCV_CPU_ANY,      riscv_any_cpu_init),
- #if defined(CONFIG_KVM)
-     DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
- #endif
- #if defined(TARGET_RISCV32)
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
-+    DEFINE_DYNAMIC_CPU(TYPE_RISCV_CPU_BASE32,   rv32_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
- #elif defined(TARGET_RISCV64)
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
-+    DEFINE_DYNAMIC_CPU(TYPE_RISCV_CPU_BASE64,   rv64_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C906,       rv64_thead_c906_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE128,          rv128_base_cpu_init),
-+    DEFINE_DYNAMIC_CPU(TYPE_RISCV_CPU_BASE128,  rv128_base_cpu_init),
- #endif
- };
- 
-diff --git a/target/riscv/riscv-qmp-cmds.c b/target/riscv/riscv-qmp-cmds.c
-index 128677add9..5ecff1afb3 100644
---- a/target/riscv/riscv-qmp-cmds.c
-+++ b/target/riscv/riscv-qmp-cmds.c
-@@ -33,11 +33,15 @@ static void riscv_cpu_add_definition(gpointer data, gpointer user_data)
-     CpuDefinitionInfoList **cpu_list = user_data;
-     CpuDefinitionInfo *info = g_malloc0(sizeof(*info));
-     const char *typename = object_class_get_name(oc);
-+    ObjectClass *dyn_class;
- 
-     info->name = g_strndup(typename,
-                            strlen(typename) - strlen("-" TYPE_RISCV_CPU));
-     info->q_typename = g_strdup(typename);
- 
-+    dyn_class = object_class_dynamic_cast(oc, TYPE_RISCV_DYNAMIC_CPU);
-+    info->q_static = dyn_class == NULL;
-+
-     QAPI_LIST_PREPEND(*cpu_list, info);
- }
- 
+RFC because it may also be worth teaching vm_prepare_start() to call
+bdrv_activate_all() (instead of or in addition to qmp_cont and
+migration).  But that feels like a bigger sledgehammer compared to
+just tweaking the migration code that got us in the situation in the
+first place, hence I'm trying this patch first.
+
+---
+ migration/migration.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index ae2025d9d8d..8fb778ca171 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3427,6 +3427,7 @@ static void migration_completion(MigrationState *s)
+ {
+     int ret;
+     int current_active_state = s->state;
++    bool inactivate = false;
+
+     if (s->state == MIGRATION_STATUS_ACTIVE) {
+         qemu_mutex_lock_iothread();
+@@ -3436,7 +3437,7 @@ static void migration_completion(MigrationState *s)
+         ret = global_state_store();
+
+         if (!ret) {
+-            bool inactivate = !migrate_colo_enabled();
++            inactivate = !migrate_colo_enabled();
+             ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
+             trace_migration_completion_vm_stop(ret);
+             if (ret >= 0) {
+@@ -3518,6 +3519,7 @@ fail_invalidate:
+         bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
++            s->block_inactive = inactivate;
+         } else {
+             s->block_inactive = false;
+         }
+
+base-commit: f1426881a827a6d3f31b65616c4a8db1e9e7c45e
 -- 
 2.39.2
 
