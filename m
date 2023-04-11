@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1606DE36C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 20:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABF26DE37C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 20:07:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmIKp-0006pn-VL; Tue, 11 Apr 2023 14:03:15 -0400
+	id 1pmIOD-0008FY-5w; Tue, 11 Apr 2023 14:06:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pmIKc-0006kY-FU; Tue, 11 Apr 2023 14:03:02 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ id 1pmIO9-0008Eb-Rc; Tue, 11 Apr 2023 14:06:42 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pmIKa-0001De-G3; Tue, 11 Apr 2023 14:03:02 -0400
-Received: by mail-ej1-x634.google.com with SMTP id jg21so22219081ejc.2;
- Tue, 11 Apr 2023 11:02:59 -0700 (PDT)
+ id 1pmIO7-00023H-Va; Tue, 11 Apr 2023 14:06:41 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id
+ a640c23a62f3a-94a34a0b9e2so169603066b.1; 
+ Tue, 11 Apr 2023 11:06:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681236178;
+ d=gmail.com; s=20210112; t=1681236398; x=1683828398;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XICRZRIGanYsfurzB3Nv0ohm70Zv1XaJD5ddchYVVMg=;
- b=H+5EpAj+u1eSHtXGfXMIBkWbs0oxUVnmIUaIs/e30cSxUi/rItSmbN8QMKPdwg83Bq
- QLiEHP/j9Pi3r4xxo+RHCbZc0igk1BC9NxHmC7DXBtfBHYZnsMKOxrQlZIp5M/W7+SQd
- 00R2yq1cUyo5haVv6VA9teMGDR5t1fbXs19uGaD7c8JX92m+iRgQbLGNg+T0p7TniBcp
- rKCvuPQyyTy63gwr2v6T8uLQ4neHFnSpBp7EfrPPWHjSk2CDJOwRECNHtHi3A8lGn6fC
- SVPykJQo/6LT6hNJhBq9o9raaLmC2lwXntbYNqH/hkyjxrj0Jz05isVukVL/6GbY5YY1
- 7Dww==
+ bh=LyMoeCUKZB0nZXSAN27MuIWV3GVYdJeWwyD+qEGr6Tg=;
+ b=L7oKiIR6Pis0RQU2swo0W6NkGMtCDDtYUrwiC5pTRT0sielUUzHy8OQpcgi8MsCxUz
+ AB3wh63FoVGo0c+wr8dInptu57JRY5nAUOLSCPb9hdkEbQDaMlM2Qs8GUdz5tuqqrM/7
+ i1OiSFJyhQb/0hhG/WGL+EpXxvDFWkZozj+ypQqGdUHXI86QdI+rnr/vAXqrsXK/1yAE
+ MIPtdEsecBL6pGaWdw+QhxQjFXc6daTtT2R6YwVIWIvITC7rWlj/orQ9/oCxfkE2+FXh
+ EvUeN6jUwQe0/aMCwQJTU6dEYMFLkxKKgw+g5NZoWk15XLJnxyYEOhEuOknCofity3f9
+ vVSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681236178;
+ d=1e100.net; s=20210112; t=1681236398; x=1683828398;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XICRZRIGanYsfurzB3Nv0ohm70Zv1XaJD5ddchYVVMg=;
- b=nKwrIZNk7FV5hPr1Pypc2hoieZVsN/C+316U7bRbUqpkMhbjAocHPSI5Z5WzPJpjkg
- DpLanzj4lvbWTCR+AMj5kN5r/oX4zOxOu1u0JLi2ncWXglzDgtmiaKpVDauRvMReSy2Z
- MpZxPC0xl15ZyXuzCoSSQy4lipzHFRoMLmWdLjn4+jSrDK/NEb4ExaeXi9de4lWz8JJG
- IHSPmHaUtc561VbHC6mu5cvmihXnSzD2eRj+LjWoG/CXq3/6W98chq8kyozIih9b/fZR
- 2P/N2PU1c8399MfaCr3pmMyWIvAO1kJSRygeT4Peva0HUY1eGDPNezp60p4qQB7Fl3H7
- NtXA==
-X-Gm-Message-State: AAQBX9f7Xb3fj3D5A1Sqsvwa4bBlh8kkeWqQy/lz6U+7Uo+kLtLrqfz2
- CdwHd0SoLVLno3wSWkxdIgnsb+XOiNza4N05r0E=
-X-Google-Smtp-Source: AKy350a3w87F93JygPjvIH9NJNBwC14w2oHTsPa6ZhssXpRg8FGBhV5pe5lWCszQUMkU7vnmLT9xEae4drDiYYuNV9E=
-X-Received: by 2002:a17:906:3188:b0:931:f9f8:d4ea with SMTP id
- 8-20020a170906318800b00931f9f8d4eamr12249800ejy.53.1681236177701; Tue, 11 Apr
- 2023 11:02:57 -0700 (PDT)
+ bh=LyMoeCUKZB0nZXSAN27MuIWV3GVYdJeWwyD+qEGr6Tg=;
+ b=Boaium1SeJkb1ohzi0lKRz+T4NGKuOQcGCfzC5xcnfrTeiWkZOPFzQPODXNSr3aiU3
+ i/sq+9WTEwZxtU4wF22ykv7lCSDQyzGZfavTLG/aT0DsjoJBaJ+/zvJSK4dt0QhNwAtR
+ vim2vddxEz50XPcjdNrKum06vLoyQK0V25MXI5AM0/J64Sbp/DG3bUnYfVYDP2XTa93I
+ pHJKxeBhMsQBBHvAU2T+GRjdfEceFfBXqvbVdF0YgyQIYvY+dhvUGjrPtWyVoTcmW6oG
+ k2PFjClKJrebIk/Q2RbtHCjHTKdB7sfE8m68qbRHpgNwIC6LHJr+1lySqLmg+TvIfkeO
+ igVA==
+X-Gm-Message-State: AAQBX9caXcOy749+9RebFsE2k0J/yful+lL8X2MuZj0S+VD40QYt9MJg
+ Bcf+j7EUNpRG2obOtLDE9nY0ch+v7jM+YOeLr/k=
+X-Google-Smtp-Source: AKy350Z3zWtixRmA0S5bNWHuJ+8rKaI/WZF1XDqfkANEkwTLCrleVwWPWkLucjC2fenS1+rynjg0IF7QYb2GCEtjjro=
+X-Received: by 2002:a05:6402:32c:b0:501:d43e:d1e3 with SMTP id
+ q12-20020a056402032c00b00501d43ed1e3mr14533635edw.8.1681236397964; Tue, 11
+ Apr 2023 11:06:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230328054654.18620-1-qianfanguijin@163.com>
- <20230328054654.18620-5-qianfanguijin@163.com>
-In-Reply-To: <20230328054654.18620-5-qianfanguijin@163.com>
+ <20230328054654.18620-4-qianfanguijin@163.com>
+In-Reply-To: <20230328054654.18620-4-qianfanguijin@163.com>
 From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Date: Tue, 11 Apr 2023 20:02:46 +0200
-Message-ID: <CABtshVSWvOWJP4SqYiDy0OQ+XRGEuX+=8nM-R_RcTO6x+QEzkQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/12] hw: arm: allwinner-r40: Add i2c0 device
+Date: Tue, 11 Apr 2023 20:06:26 +0200
+Message-ID: <CABtshVRa2Ny7p8Vifv7MtWFCKOvJeVCXmbojvOd0fJjaUa7+VQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/12] hw: allwinner-r40: Complete uart devices
 To: qianfanguijin@163.com
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  Peter Maydell <peter.maydell@linaro.org>,
@@ -64,8 +65,8 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
  Niek Linnenbank <nieklinnenbank@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,100 +93,100 @@ On Tue, Mar 28, 2023 at 7:47=E2=80=AFAM <qianfanguijin@163.com> wrote:
 >
 > From: qianfan Zhao <qianfanguijin@163.com>
 >
-> TWI(i2c) is designed to be used as an interface between CPU host and the
-> serial 2-Wire bus. It can support all standard 2-Wire transfer, can be
-> operated in standard mode(100kbit/s) or fast-mode, supporting data rate
-> up to 400kbit/s.
+> R40 has eight UARTs, support both 16450 and 16550 compatible modes.
 >
 > Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 > ---
->  hw/arm/allwinner-r40.c         | 11 ++++++++++-
->  include/hw/arm/allwinner-r40.h |  3 +++
->  2 files changed, 13 insertions(+), 1 deletion(-)
+>  hw/arm/allwinner-r40.c         | 31 ++++++++++++++++++++++++++++---
+>  include/hw/arm/allwinner-r40.h |  8 ++++++++
+>  2 files changed, 36 insertions(+), 3 deletions(-)
 >
 > diff --git a/hw/arm/allwinner-r40.c b/hw/arm/allwinner-r40.c
-> index 537a90b23d..4bc582630c 100644
+> index 128c0ca470..537a90b23d 100644
 > --- a/hw/arm/allwinner-r40.c
 > +++ b/hw/arm/allwinner-r40.c
-> @@ -52,6 +52,7 @@ const hwaddr allwinner_r40_memmap[] =3D {
->      [AW_R40_DEV_UART5]      =3D 0x01c29400,
->      [AW_R40_DEV_UART6]      =3D 0x01c29800,
->      [AW_R40_DEV_UART7]      =3D 0x01c29c00,
-> +    [AW_R40_DEV_TWI0]       =3D 0x01c2ac00,
+> @@ -45,6 +45,13 @@ const hwaddr allwinner_r40_memmap[] =3D {
+>      [AW_R40_DEV_CCU]        =3D 0x01c20000,
+>      [AW_R40_DEV_PIT]        =3D 0x01c20c00,
+>      [AW_R40_DEV_UART0]      =3D 0x01c28000,
+> +    [AW_R40_DEV_UART1]      =3D 0x01c28400,
+> +    [AW_R40_DEV_UART2]      =3D 0x01c28800,
+> +    [AW_R40_DEV_UART3]      =3D 0x01c28c00,
+> +    [AW_R40_DEV_UART4]      =3D 0x01c29000,
+> +    [AW_R40_DEV_UART5]      =3D 0x01c29400,
+> +    [AW_R40_DEV_UART6]      =3D 0x01c29800,
+> +    [AW_R40_DEV_UART7]      =3D 0x01c29c00,
 >      [AW_R40_DEV_GIC_DIST]   =3D 0x01c81000,
 >      [AW_R40_DEV_GIC_CPU]    =3D 0x01c82000,
 >      [AW_R40_DEV_GIC_HYP]    =3D 0x01c84000,
-> @@ -115,7 +116,6 @@ static struct AwR40Unimplemented r40_unimplemented[] =
-=3D {
->      { "uart7",      0x01c29c00, 1 * KiB },
->      { "ps20",       0x01c2a000, 1 * KiB },
->      { "ps21",       0x01c2a400, 1 * KiB },
-> -    { "twi0",       0x01c2ac00, 1 * KiB },
->      { "twi1",       0x01c2b000, 1 * KiB },
->      { "twi2",       0x01c2b400, 1 * KiB },
->      { "twi3",       0x01c2b800, 1 * KiB },
-> @@ -167,6 +167,7 @@ enum {
+> @@ -160,6 +167,10 @@ enum {
 >      AW_R40_GIC_SPI_UART1     =3D  2,
 >      AW_R40_GIC_SPI_UART2     =3D  3,
 >      AW_R40_GIC_SPI_UART3     =3D  4,
-> +    AW_R40_GIC_SPI_TWI0      =3D  7,
->      AW_R40_GIC_SPI_UART4     =3D 17,
->      AW_R40_GIC_SPI_UART5     =3D 18,
->      AW_R40_GIC_SPI_UART6     =3D 19,
-> @@ -270,6 +271,8 @@ static void allwinner_r40_init(Object *obj)
->          object_initialize_child(obj, mmc_names[i], &s->mmc[i],
->                                  TYPE_AW_SDHOST_SUN5I);
->      }
-> +
-> +    object_initialize_child(obj, "twi0", &s->i2c0, TYPE_AW_I2C_SUN6I);
->  }
->
->  static void allwinner_r40_realize(DeviceState *dev, Error **errp)
-> @@ -416,6 +419,12 @@ static void allwinner_r40_realize(DeviceState *dev, =
+> +    AW_R40_GIC_SPI_UART4     =3D 17,
+> +    AW_R40_GIC_SPI_UART5     =3D 18,
+> +    AW_R40_GIC_SPI_UART6     =3D 19,
+> +    AW_R40_GIC_SPI_UART7     =3D 20,
+>      AW_R40_GIC_SPI_TIMER0    =3D 22,
+>      AW_R40_GIC_SPI_TIMER1    =3D 23,
+>      AW_R40_GIC_SPI_MMC0      =3D 32,
+> @@ -387,9 +398,23 @@ static void allwinner_r40_realize(DeviceState *dev, =
 Error **errp)
->                         115200, serial_hd(i), DEVICE_NATIVE_ENDIAN);
 >      }
 >
-> +    /* I2C */
-> +    sysbus_realize(SYS_BUS_DEVICE(&s->i2c0), &error_fatal);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c0), 0, s->memmap[AW_R40_DEV_TW=
-I0]);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c0), 0,
-> +                       qdev_get_gpio_in(DEVICE(&s->gic), AW_R40_GIC_SPI_=
-TWI0));
+>      /* UART0. For future clocktree API: All UARTS are connected to APB2_=
+CLK. */
+> -    serial_mm_init(get_system_memory(), s->memmap[AW_R40_DEV_UART0], 2,
+> -                   qdev_get_gpio_in(DEVICE(&s->gic), AW_R40_GIC_SPI_UART=
+0),
+> -                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+> +    for (int i =3D 0; i < AW_R40_NUM_UARTS; i++) {
+> +        static const int uart_irqs[AW_R40_NUM_UARTS] =3D {
+> +            AW_R40_GIC_SPI_UART0,
+> +            AW_R40_GIC_SPI_UART1,
+> +            AW_R40_GIC_SPI_UART2,
+> +            AW_R40_GIC_SPI_UART3,
+> +            AW_R40_GIC_SPI_UART4,
+> +            AW_R40_GIC_SPI_UART5,
+> +            AW_R40_GIC_SPI_UART6,
+> +            AW_R40_GIC_SPI_UART7,
+> +        };
+> +        const hwaddr addr =3D s->memmap[AW_R40_DEV_UART0 + i];
 > +
+> +        serial_mm_init(get_system_memory(), addr, 2,
+> +                       qdev_get_gpio_in(DEVICE(&s->gic), uart_irqs[i]),
+> +                       115200, serial_hd(i), DEVICE_NATIVE_ENDIAN);
+> +    }
+>
 >      /* Unimplemented devices */
 >      for (i =3D 0; i < ARRAY_SIZE(r40_unimplemented); i++) {
->          create_unimplemented_device(r40_unimplemented[i].device_name,
 > diff --git a/include/hw/arm/allwinner-r40.h b/include/hw/arm/allwinner-r4=
 0.h
-> index 959b5dc4e0..95366f4eee 100644
+> index 3be9dc962b..959b5dc4e0 100644
 > --- a/include/hw/arm/allwinner-r40.h
 > +++ b/include/hw/arm/allwinner-r40.h
-> @@ -26,6 +26,7 @@
->  #include "hw/intc/arm_gic.h"
->  #include "hw/sd/allwinner-sdhost.h"
->  #include "hw/misc/allwinner-r40-ccu.h"
-> +#include "hw/i2c/allwinner-i2c.h"
->  #include "target/arm/cpu.h"
->  #include "sysemu/block-backend.h"
->
-> @@ -48,6 +49,7 @@ enum {
->      AW_R40_DEV_UART5,
->      AW_R40_DEV_UART6,
->      AW_R40_DEV_UART7,
-> +    AW_R40_DEV_TWI0,
+> @@ -41,6 +41,13 @@ enum {
+>      AW_R40_DEV_CCU,
+>      AW_R40_DEV_PIT,
+>      AW_R40_DEV_UART0,
+> +    AW_R40_DEV_UART1,
+> +    AW_R40_DEV_UART2,
+> +    AW_R40_DEV_UART3,
+> +    AW_R40_DEV_UART4,
+> +    AW_R40_DEV_UART5,
+> +    AW_R40_DEV_UART6,
+> +    AW_R40_DEV_UART7,
 >      AW_R40_DEV_GIC_DIST,
 >      AW_R40_DEV_GIC_CPU,
 >      AW_R40_DEV_GIC_HYP,
-> @@ -89,6 +91,7 @@ struct AwR40State {
->      AwA10PITState timer;
->      AwSdHostState mmc[AW_R40_NUM_MMCS];
->      AwR40ClockCtlState ccu;
-> +    AWI2CState i2c0;
->      GICState gic;
->      MemoryRegion sram_a1;
->      MemoryRegion sram_a2;
+> @@ -70,6 +77,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(AwR40State, AW_R40)
+>   * which are currently emulated by the R40 SoC code.
+>   */
+>  #define AW_R40_NUM_MMCS         4
+> +#define AW_R40_NUM_UARTS        8
+>
+>  struct AwR40State {
+>      /*< private >*/
 > --
 > 2.25.1
 >
