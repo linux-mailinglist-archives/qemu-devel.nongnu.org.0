@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1046DDB1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C7C6DDB90
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 15:03:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmDNA-0003vf-45; Tue, 11 Apr 2023 08:45:20 -0400
+	id 1pmDdj-0001gl-Lx; Tue, 11 Apr 2023 09:02:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmDN6-0003vX-Ew
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:45:16 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmDdI-0001c0-El
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 09:02:03 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmDN4-0003Fl-MJ
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:45:16 -0400
-Received: by mail-wr1-x431.google.com with SMTP id w21so7322663wra.4
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 05:45:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmDd7-0007TH-DS
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 09:01:52 -0400
+Received: by mail-wr1-x435.google.com with SMTP id e22so7379709wra.6
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 06:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681217113;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BmF5Khz2Jm7zj5Sbn0IifMkQLaAGRaUyNlW0rKUN400=;
- b=RTNpsNT6JBrCFtfR1WpRcyhGuhPUqR4QWh257Tzlcj5hX8LZckHMKO4QZ8pqyoZ/6m
- p3g/AeV/V6WBrABYak+li+PIzUaGc6LuuvQzEghNe8cUIgP4KPqZZ5/DqLIIU3WDId5S
- 2akc/C/Nw2ZWqArRg9Od01qW9Z70o9j1rLdAVRzZgT1i6yKDrIYqYFzDoSzbAAn0I5z5
- B0/vdIn5zyBtOQyqvt+YerrtUazX85dLDtK3+DW1arEX7drYxTZpN2X6ZaOmc2H3V+qU
- /yp4jZQL/PfAFZjJOJblOzfu5iV0lS7DAHrAQSnkFAL+oaQjHvkmxi0Ja3RRvt+jj0xf
- GHAQ==
+ d=linaro.org; s=google; t=1681218097; x=1683810097;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NrJ2EqcIcPn4Va+m6vWRZ+bjH+VH9VSbpYhYF9zj+wQ=;
+ b=Gp4AMTiRvup4Yc7DlSPHAukyE/eURwdvrEPBTVgOrxmakmQsOCDp4oul+7ToBX/nsf
+ 7O62hbLZg5ZJCUDKOHoamRc7zXREF6zAs5vBZIu7PzfbP4JUaH1tei558FL4B1LVMxom
+ lx0m924C2+Vl0jpxMakkvOviBq+4qiPGyWW1/3sHxrwWvOXoCJQj7mHbv810U+trHNja
+ kRoorHE4qwhlGHQQsT5itsmiLhAGuA4sIPxP9HrnTbaJxU0P4xpKPARzIlj41iSTiIjW
+ 6VDG5qyrnNy/eILjn37yAt5x1NErlb3bQ0QXIQKcdN1XPEP6XjYceMUfU4UUY4fgVEjv
+ EvhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681217113;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BmF5Khz2Jm7zj5Sbn0IifMkQLaAGRaUyNlW0rKUN400=;
- b=MKY6dtjcCtFUMIjrx8y+3ivMm74VJUO75ARimHqqm9363UnfZeu8Kfcjux5epe84/H
- vWIRiIC7H2IqfJJLkgEaXu4SJMaSRxG7i8zIXe503aS7Krt4XRWdViHSvLkibRuo2kBs
- eslVFY4iUcytCEE/HCdX3EDtrbZYHWfYG2hZ0SVMB58nyq77sxflQkugcy8GLMOESCJT
- WVjtuD1g8bilimXficEeDVIIrxcYvlQdk1Qix5bexKH0kaqXmGwpGsVkt05RFDFxJ0SR
- XFqonsEYMHkp/Qxc/iDimhw8qkEfFBll9+Fi+pLXnRRZGEvmrRvJk/MgCSFmn9/l82Yy
- rXDA==
-X-Gm-Message-State: AAQBX9cDGtiyKOavtv3nDBVfAAsTEzDT1wMlz2qJNnRiOJYQFcCDY8ig
- FWEQjpD+go35dlqqFTwtvOztaOfft9Fg+7noUVM=
-X-Google-Smtp-Source: AKy350afCVVlQtlMGbMfxnSGL2slzNk1hFjWyteLIeTmVZuyowl12TmNzbbwZKkHmaN5HfHo6qjmNQ==
-X-Received: by 2002:a5d:6ad0:0:b0:2f1:ad73:c32d with SMTP id
- u16-20020a5d6ad0000000b002f1ad73c32dmr4506634wrw.30.1681217112847; 
- Tue, 11 Apr 2023 05:45:12 -0700 (PDT)
-Received: from [192.168.1.101] ([176.187.195.239])
+ d=1e100.net; s=20210112; t=1681218097; x=1683810097;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=NrJ2EqcIcPn4Va+m6vWRZ+bjH+VH9VSbpYhYF9zj+wQ=;
+ b=KNqDXoZ4zmGAVs+mTBFODYNZBvUVv157u2W8QYaMyXSzi33yaaFiXCarnlP9IS1wgu
+ VrUZnaNeKrDXfeidJyAPsfB7OLhqZ8atJYAVHf/qGHLAKrOFBL9bzUeoS5CHQtcUx3A7
+ xRVcqbD9iJ5TwDtfUkde3QrauOpTYXJCEmtOOmYYUAV/57WEmutSA2ob0OVojjOaSX4b
+ fe1TBFTqCWw3wi2WruNU+XR/5Xr9ovsSnruA1xBI0+f/e8hSjQTXb59prO4pS4SQhh8r
+ iskbkXPlz4PPMD4r2ko+TuS9VJBuK5Gn9xBOIv+gGft+bxavJel8ZE0XaXLN9EqsFAcw
+ rOnw==
+X-Gm-Message-State: AAQBX9e3Eiw29L6CJcpEjh28Ype6wgwX1xpvp21osn+/u6LQeptvyTho
+ 23ttlTxZb1LbNOaDPnuh4rOtGVHchFGHttNb5i8=
+X-Google-Smtp-Source: AKy350bFcsAdCFmTynFo66fxbC/aKAzT0iN/S02JiLJIQ8OeK6uqrf3D5Jy46QC2TPMMe+iVZ0B1Tg==
+X-Received: by 2002:a5d:564b:0:b0:2db:2678:ffed with SMTP id
+ j11-20020a5d564b000000b002db2678ffedmr2046106wrw.7.1681218096868; 
+ Tue, 11 Apr 2023 06:01:36 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a5d4c90000000b002cf1c435afcsm14533910wrs.11.2023.04.11.05.45.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 05:45:12 -0700 (PDT)
-Message-ID: <c76dcc2a-08e2-7f7a-c3eb-494f28bf2760@linaro.org>
-Date: Tue, 11 Apr 2023 14:45:10 +0200
+ h10-20020a5d688a000000b002f284f0f7a8sm3112730wru.107.2023.04.11.06.01.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 06:01:36 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0065D1FFB7;
+ Tue, 11 Apr 2023 14:01:35 +0100 (BST)
+References: <TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+User-agent: mu4e 1.10.0; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Yohei Kojima <y-koj@outlook.jp>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Subject: Re: [PATCH] qemu-options.hx: Update descriptions of memory options
+ for NUMA node
+Date: Tue, 11 Apr 2023 13:57:34 +0100
+In-reply-to: <TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+Message-ID: <87sfd6po7k.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH] docs/devel/kconfig.rst: Fix incorrect markup
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-References: <20230411105424.3994585-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230411105424.3994585-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,26 +95,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/4/23 12:54, Peter Maydell wrote:
-> In rST markup syntax, the inline markup (*italics*, **bold** and
-> ``monospaced``) must be separated from the surrending text by
-> non-word characters, otherwise it is not interpreted as markup.
-> To force interpretation as markup in the middle of a word,
-> you need to use a backslash-escaped space (which will not
-> appear as a space in the output).
-> 
-> Fix a missing backslash-space in this file, which meant that the ``
-> after "select" was output literally and the monospacing was
-> incorrectly extended all the way to the end of the next monospaced
-> word.
 
-Apparently the single case (git-grep -E '``[^ ]+``[a-z]', other
-are separated with '/').
+Yohei Kojima <y-koj@outlook.jp> writes:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> This commit adds the following description:
+> 1. `memdev` option is recommended over `mem` option (see [1,2])
+> 2. users must specify memory for all NUMA nodes (see [2])
+>
+> This commit also separates descriptions for `mem` and `memdev` into two
+> paragraphs. The old doc describes legacy `mem` option first, and it was
+> a bit confusing.
+>
+> Related documantations:
+> [1] https://wiki.qemu.org/ChangeLog/5.1#Incompatible_changes
+> [2] https://www.qemu.org/docs/master/about/removed-features.html
+>
+> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
 > ---
->   docs/devel/kconfig.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  qemu-options.hx | 25 ++++++++++++++++---------
+>  1 file changed, 16 insertions(+), 9 deletions(-)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 59bdf67a2c..174f0d0c2d 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -405,15 +405,22 @@ SRST
+>          -numa node,nodeid=3D0 -numa node,nodeid=3D1 \
+>          -numa cpu,node-id=3D0,socket-id=3D0 -numa cpu,node-id=3D1,socket=
+-id=3D1
+>=20=20
+> -    Legacy '\ ``mem``\ ' assigns a given RAM amount to a node (not suppo=
+rted
+> -    for 5.1 and newer machine types). '\ ``memdev``\ ' assigns RAM from
+> -    a given memory backend device to a node. If '\ ``mem``\ ' and
+> -    '\ ``memdev``\ ' are omitted in all nodes, RAM is split equally betw=
+een them.
+> -
+> -
+> -    '\ ``mem``\ ' and '\ ``memdev``\ ' are mutually exclusive.
+> -    Furthermore, if one node uses '\ ``memdev``\ ', all of them have to
+> -    use it.
+> +    '\ ``memdev``\ ' option assigns RAM from a given memory backend
+> +    device to a node. It is recommended to use '\ ``memdev``\ ' option
+> +    over legacy '\ ``mem``\ ' option. This is because '\ ``memdev``\ '
+> +    option provides better performance and more control over the
+> +    backend's RAM (e.g. '\ ``prealloc``\ ' parameter of
+> +    '\ ``-memory-backend-ram``\ ' allows memory preallocation).
+> +
+> +    For compatibility reasons, legacy '\ ``mem``\ ' option is
+> +    supported in 5.0 and older machine types. Note that '\ ``mem``\ '
+> +    and '\ ``memdev``\ ' are mutually exclusive. If one node uses
+> +    '\ ``memdev``\ ', the rest nodes have to use '\ ``memdev``\ '
+> +    option, and vice versa.
+> +
+> +    Users must specify memory for all NUMA nodes by '\ ``memdev``\ '
+> +    (or legacy '\ ``mem``\ ' if available). In QEMU 5.2, the support
+> +    for '\ ``-numa node``\ ' without memory specified was removed.
+
+I think this mixes up memdev and mem too much. It would be better to
+make the lead up to the example just talk about memdev (as it is the
+preferred option) and move the discussion about backwards compatibility
+to after the example. You can use the .. note:: annotation to put it in
+a nice little box, something like:
+
+.. note::
+
+    For compatibility reasons, legacy '\ ``mem``\ ' option is
+    supported in 5.0 and older machine types. Note that '\ ``mem``\ '
+    and '\ ``memdev``\ ' are mutually exclusive. If one node uses '\
+    ``memdev``\ ', the rest of the nodes must also use the '\
+    ``memdev``\ ' option, and vice versa.
+
+
+>=20=20
+>      '\ ``initiator``\ ' is an additional option that points to an
+>      initiator NUMA node that has best performance (the lowest latency or
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
