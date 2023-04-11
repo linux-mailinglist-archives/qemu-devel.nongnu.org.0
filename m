@@ -2,76 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553866DCF8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 04:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28BE6DCF92
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 04:04:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pm3M3-0007P5-2U; Mon, 10 Apr 2023 22:03:31 -0400
+	id 1pm3My-0008NN-Vw; Mon, 10 Apr 2023 22:04:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pm3M0-0007N2-9M; Mon, 10 Apr 2023 22:03:28 -0400
-Received: from mail-ua1-x92f.google.com ([2607:f8b0:4864:20::92f])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pm3Ml-00089I-3A
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 22:04:20 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pm3Ly-0006w5-Aw; Mon, 10 Apr 2023 22:03:28 -0400
-Received: by mail-ua1-x92f.google.com with SMTP id z23so4642421uav.8;
- Mon, 10 Apr 2023 19:03:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pm3Mf-00071g-Aa
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 22:04:11 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ e18-20020a17090ac21200b00246952d917fso4933816pjt.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 19:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681178605; x=1683770605;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pKd5M9JLByYl6hyWfJ4f1LV397kr4rD2AQihZjQr6aY=;
- b=Py9W7S95F+LaFRm694z2Zbn/DQQJXh+TBZVkLvuoLuRLyxEtb1MraUIt5SAakrlsSP
- 4FBSGbCAQDkNfQQI6NHC65qXZc0pA1IgMqIDXlKTQfOwaVA+fiT9WNasZrh2EskdOmgI
- 0F5x36N5gk7nQXmFIF4YYHKZRi2/xQzQSMO361JccyPbyvwYEqNrr51DGuwIu3x66CxW
- akmND3i5hYiysJQiqbAXRgLaEeY0VFkLehL7iv9MbGtXIffOiCN3g39FRkT7pDMpp5+4
- vm7gGcnO7A3iRVE429F45Et3b4p05kdglXImsnwEdZyIHoBAzVqsuae8wl2TrkjZklhh
- /z2A==
+ d=linaro.org; s=google; t=1681178648;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=A/rXlUaTOBMfqnsZ4WhTJq2+AC4/ZxhPhGzM5cLA1/M=;
+ b=PJGH0rr1TJWJwS2WbC1ASYw3Yiw1fQr/0sh6Ccf6MSSSikGaCTc/lOZZgywjddtvr3
+ u2uF/hCU1IJLltGv0W0vBLkylaRlA4EYd2KH1PKpTnryRGPunlceBgsYr8GSGXoKDsce
+ /yRJnP8+HGR6Zd8tcHfYXjXvN3K0d4/yjroJougxbX8bjcua+k7NE0bxMJgCkekFySWf
+ KNOgOdHKqiQC89/mal5tp7cvDjcABBBiPs0eDgkCHvBu19A32H/t2QazUB6EyrGzQ8zq
+ MuWxf1K4G8dgQz2cWbMC0vm9/gr0bOWj3jVE1kBdl79saVu8JaT/J74y/hT18eDbN56E
+ 5O1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681178605; x=1683770605;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pKd5M9JLByYl6hyWfJ4f1LV397kr4rD2AQihZjQr6aY=;
- b=bwAWHnlMTZ+G9dPBkcoAoeL3ZP7r7Vq6p+5Fpm78NawWOaCfmVFzhXe8lBGK7OWRtN
- /f2RRmeOjeVDK55xOHc6Hah2ce6Uds/+0Laz34bE/hDpgiSsmy2fZhNQlCzEB7iZuSzE
- oZVmAJReoNeReJGmmUFHRhs3/pfe17nodwcvahbCgRRfwFI1BU4wJ9adOf+li4c0Mwk/
- YAYwnCW5Ewj7Jd981t3tFp0KgrLxj2u1HG58UJc2HClT/nWOBz9l7532DlyFgvLr1JYK
- zZcUVWMHEneDZHVLNHD7hKd5nZ2OTi/SuKTsynurYUUEFluutT5LC92ByH2sVtwyiGOU
- z7ew==
-X-Gm-Message-State: AAQBX9cEN2b2Tbm69iuzM4eRqx29cE9YE6STJmFAU/5j9qUfk23912RZ
- kgH6D7tr0K8d8V9chp3UqCY3Nz9pQRlzU6SKgFw=
-X-Google-Smtp-Source: AKy350apon8c9o0nc56J70b3yhAy6NdU1GlHB7nN0CyFgYAXPVFYLPkhmc8tUIIMwzpH99HopY+oPUSdzad0/+7BvoY=
-X-Received: by 2002:ab0:5b8c:0:b0:765:c225:c914 with SMTP id
- y12-20020ab05b8c000000b00765c225c914mr7869136uae.1.1681178604693; Mon, 10 Apr
- 2023 19:03:24 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681178648;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=A/rXlUaTOBMfqnsZ4WhTJq2+AC4/ZxhPhGzM5cLA1/M=;
+ b=DBhy/F6z+XmkVVfrVPh6MMBP691AaAQppiA+GiLDFpKD5nv1vuQOpUaQj8dq6cff54
+ MYavxvJaO3YlRRz5C/2BHUNQbFmuah1B+lQCBuECxpP4DjObLvF/Vu6LlkEk8EPJdbIk
+ foTwgKbyWKD2oM3gwnp5mJDJqBXbNByo5A++VX0bMUA2YDCsPGEac7+qqSL+ZQxTfXHe
+ cPiiC5yKqurKeZhVlCPGcTdNzPqtHP0ARGIPR4eA1tfUhVMEC1RpJx/UWvHeH8QMrDTY
+ OcwQ6v7h6NK0GDNJ6iEWECsPuqM9yAZqFQ0KKuDrG9zFhwGj7xGC5ASbb7l50Ehc1nVL
+ 9xMA==
+X-Gm-Message-State: AAQBX9epljIMKBk74JdIP1xheFs1u0f6jo6dcOTsPPmCI1db6eH9YqdI
+ jrdiKaRjcmq1XZW5OdwEZ35OxkVpj4ddImGICJ0ORw==
+X-Google-Smtp-Source: AKy350Z8Uqm2JWBXvRCstOtc9m/lab5HqDGhSXiTAk8Ft809wiyaKDGi3C/AznRhuw4bRf8WN3i3zw==
+X-Received: by 2002:a05:6a20:1326:b0:d9:3257:f2b3 with SMTP id
+ g38-20020a056a20132600b000d93257f2b3mr13260120pzh.40.1681178648079; 
+ Mon, 10 Apr 2023 19:04:08 -0700 (PDT)
+Received: from [10.1.0.142] (h146.238.133.40.static.ip.windstream.net.
+ [40.133.238.146]) by smtp.gmail.com with ESMTPSA id
+ f15-20020aa78b0f000000b0063aab52aef4sm669844pfd.152.2023.04.10.19.04.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Apr 2023 19:04:07 -0700 (PDT)
+Message-ID: <7bdf0305-bd5f-68d2-525c-3ec8106f90c5@linaro.org>
+Date: Mon, 10 Apr 2023 19:03:42 -0700
 MIME-Version: 1.0
-References: <20230325105429.1142530-1-richard.henderson@linaro.org>
- <20230325105429.1142530-5-richard.henderson@linaro.org>
-In-Reply-To: <20230325105429.1142530-5-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 11 Apr 2023 12:02:58 +1000
-Message-ID: <CAKmqyKNL4T0K+izrvmwXKwZVdiTrcY3ZqnozwmDPyjRnMuvaJw@mail.gmail.com>
-Subject: Re: [PATCH v6 04/25] target/riscv: Remove mstatus_hs_{fs,
- vs} from tb_flags
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- palmer@dabbelt.com, zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x92f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 3/4] target/riscv: add 'static' attribute of
+ query-cpu-definitions
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+References: <20230410165251.99107-1-dbarboza@ventanamicro.com>
+ <20230410165251.99107-4-dbarboza@ventanamicro.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230410165251.99107-4-dbarboza@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.246,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,209 +97,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Mar 25, 2023 at 10:36=E2=80=AFPM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Merge with mstatus_{fs,vs}.  We might perform a redundant
-> assignment to one or the other field, but it's a trivial
-> and saves 4 bits from TB_FLAGS.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 4/10/23 09:52, Daniel Henrique Barboza wrote:
+> 'static' is defined in the QMP doc as:
+> 
+> "whether a CPU definition is static and will not change depending on
+> QEMU version, machine type, machine options and accelerator options. A
+> static model is always migration-safe."
+> 
+> For RISC-V we'll consider all named CPUs as static since their
+> extensions can't be changed by user input. Generic CPUs will be
+> considered non-static.
+> 
+> We aren't ready to make the change for generic CPUs yet because we're
+> using the same class init for every CPU. We'll deal with it next.
+> 
+> Signed-off-by: Daniel Henrique Barboza<dbarboza@ventanamicro.com>
 > ---
->  target/riscv/cpu.h        | 16 +++++++---------
->  target/riscv/cpu_helper.c | 34 ++++++++++++++++------------------
->  target/riscv/translate.c  | 32 ++++++++++----------------------
->  3 files changed, 33 insertions(+), 49 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index f787145a21..d9e0eaaf9b 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -646,19 +646,17 @@ FIELD(TB_FLAGS, VL_EQ_VLMAX, 13, 1)
->  FIELD(TB_FLAGS, VILL, 14, 1)
->  /* Is a Hypervisor instruction load/store allowed? */
->  FIELD(TB_FLAGS, HLSX, 15, 1)
-> -FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
-> -FIELD(TB_FLAGS, MSTATUS_HS_VS, 18, 2)
->  /* The combination of MXL/SXL/UXL that applies to the current cpu mode. =
-*/
-> -FIELD(TB_FLAGS, XL, 20, 2)
-> +FIELD(TB_FLAGS, XL, 16, 2)
->  /* If PointerMasking should be applied */
-> -FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
-> -FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
-> -FIELD(TB_FLAGS, VTA, 24, 1)
-> -FIELD(TB_FLAGS, VMA, 25, 1)
-> +FIELD(TB_FLAGS, PM_MASK_ENABLED, 18, 1)
-> +FIELD(TB_FLAGS, PM_BASE_ENABLED, 19, 1)
-> +FIELD(TB_FLAGS, VTA, 20, 1)
-> +FIELD(TB_FLAGS, VMA, 21, 1)
->  /* Native debug itrigger */
-> -FIELD(TB_FLAGS, ITRIGGER, 26, 1)
-> +FIELD(TB_FLAGS, ITRIGGER, 22, 1)
->  /* Virtual mode enabled */
-> -FIELD(TB_FLAGS, VIRT_ENABLED, 27, 1)
-> +FIELD(TB_FLAGS, VIRT_ENABLED, 23, 1)
->
->  #ifdef TARGET_RISCV32
->  #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 1e7ee9aa30..4fdd6fe021 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -45,7 +45,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ul=
-ong *pc,
->  {
->      CPUState *cs =3D env_cpu(env);
->      RISCVCPU *cpu =3D RISCV_CPU(cs);
-> -
-> +    RISCVExtStatus fs, vs;
->      uint32_t flags =3D 0;
->
->      *pc =3D env->xl =3D=3D MXL_RV32 ? env->pc & UINT32_MAX : env->pc;
-> @@ -79,18 +79,12 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_=
-ulong *pc,
->      }
->
->  #ifdef CONFIG_USER_ONLY
-> -    flags =3D FIELD_DP32(flags, TB_FLAGS, FS, EXT_STATUS_DIRTY);
-> -    flags =3D FIELD_DP32(flags, TB_FLAGS, VS, EXT_STATUS_DIRTY);
-> +    fs =3D EXT_STATUS_DIRTY;
-> +    vs =3D EXT_STATUS_DIRTY;
->  #else
->      flags |=3D cpu_mmu_index(env, 0);
-> -    if (riscv_cpu_fp_enabled(env)) {
-> -        flags =3D  FIELD_DP32(flags, TB_FLAGS, FS,
-> -                            get_field(env->mstatus,  MSTATUS_FS));
-> -    }
-> -    if (riscv_cpu_vector_enabled(env)) {
-> -        flags =3D  FIELD_DP32(flags, TB_FLAGS, VS,
-> -                            get_field(env->mstatus, MSTATUS_VS));
-> -    }
-> +    fs =3D get_field(env->mstatus, MSTATUS_FS);
-> +    vs =3D get_field(env->mstatus, MSTATUS_VS);
->
->      if (riscv_has_ext(env, RVH)) {
->          if (env->priv =3D=3D PRV_M ||
-> @@ -100,19 +94,23 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target=
-_ulong *pc,
->              flags =3D FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
->          }
->
-> -        flags =3D FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
-> -                           get_field(env->mstatus_hs, MSTATUS_FS));
-> -
-> -        flags =3D FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_VS,
-> -                           get_field(env->mstatus_hs, MSTATUS_VS));
-> -        flags =3D FIELD_DP32(flags, TB_FLAGS, VIRT_ENABLED,
-> -                           get_field(env->virt, VIRT_ONOFF));
-> +        if (riscv_cpu_virt_enabled(env)) {
-> +            flags =3D FIELD_DP32(flags, TB_FLAGS, VIRT_ENABLED, 1);
-> +            /*
-> +             * Merge DISABLED and !DIRTY states using MIN.
-> +             * We will set both fields when dirtying.
-> +             */
-> +            fs =3D MIN(fs, get_field(env->mstatus_hs, MSTATUS_FS));
-> +            vs =3D MIN(vs, get_field(env->mstatus_hs, MSTATUS_VS));
-> +        }
->      }
->      if (cpu->cfg.debug && !icount_enabled()) {
->          flags =3D FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_en=
-abled);
->      }
->  #endif
->
-> +    flags =3D FIELD_DP32(flags, TB_FLAGS, FS, fs);
-> +    flags =3D FIELD_DP32(flags, TB_FLAGS, VS, vs);
->      flags =3D FIELD_DP32(flags, TB_FLAGS, XL, env->xl);
->      if (env->cur_pmmask < (env->xl =3D=3D MXL_RV32 ? UINT32_MAX : UINT64=
-_MAX)) {
->          flags =3D FIELD_DP32(flags, TB_FLAGS, PM_MASK_ENABLED, 1);
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index b897bf6006..74d0b9889d 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -66,8 +66,6 @@ typedef struct DisasContext {
->      uint32_t opcode;
->      RISCVExtStatus mstatus_fs;
->      RISCVExtStatus mstatus_vs;
-> -    RISCVExtStatus mstatus_hs_fs;
-> -    RISCVExtStatus mstatus_hs_vs;
->      uint32_t mem_idx;
->      /* Remember the rounding mode encoded in the previous fp instruction=
-,
->         which we have already installed into env->fp_status.  Or -1 for
-> @@ -618,16 +616,12 @@ static void mark_fs_dirty(DisasContext *ctx)
->          tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
->          tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
->          tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-> -    }
->
-> -    if (ctx->virt_enabled && ctx->mstatus_hs_fs !=3D EXT_STATUS_DIRTY) {
-> -        /* Remember the stage change for the rest of the TB. */
-> -        ctx->mstatus_hs_fs =3D EXT_STATUS_DIRTY;
-> -
-> -        tmp =3D tcg_temp_new();
-> -        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs))=
-;
-> -        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
-> -        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs))=
-;
-> +        if (ctx->virt_enabled) {
-> +            tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_=
-hs));
-> +            tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
-> +            tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_=
-hs));
-> +        }
->      }
->  }
->  #else
-> @@ -651,16 +645,12 @@ static void mark_vs_dirty(DisasContext *ctx)
->          tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
->          tcg_gen_ori_tl(tmp, tmp, MSTATUS_VS);
->          tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-> -    }
->
-> -    if (ctx->virt_enabled && ctx->mstatus_hs_vs !=3D EXT_STATUS_DIRTY) {
-> -        /* Remember the stage change for the rest of the TB. */
-> -        ctx->mstatus_hs_vs =3D EXT_STATUS_DIRTY;
-> -
-> -        tmp =3D tcg_temp_new();
-> -        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs))=
-;
-> -        tcg_gen_ori_tl(tmp, tmp, MSTATUS_VS);
-> -        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs))=
-;
-> +        if (ctx->virt_enabled) {
-> +            tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_=
-hs));
-> +            tcg_gen_ori_tl(tmp, tmp, MSTATUS_VS);
-> +            tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_=
-hs));
-> +        }
->      }
->  }
->  #else
-> @@ -1158,8 +1148,6 @@ static void riscv_tr_init_disas_context(DisasContex=
-tBase *dcbase, CPUState *cs)
->      ctx->misa_ext =3D env->misa_ext;
->      ctx->frm =3D -1;  /* unknown rounding mode */
->      ctx->cfg_ptr =3D &(cpu->cfg);
-> -    ctx->mstatus_hs_fs =3D FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS)=
-;
-> -    ctx->mstatus_hs_vs =3D FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_VS)=
-;
->      ctx->hlsx =3D FIELD_EX32(tb_flags, TB_FLAGS, HLSX);
->      ctx->vill =3D FIELD_EX32(tb_flags, TB_FLAGS, VILL);
->      ctx->sew =3D FIELD_EX32(tb_flags, TB_FLAGS, SEW);
-> --
-> 2.34.1
->
->
+>   target/riscv/cpu-qom.h        | 3 +++
+>   target/riscv/cpu.c            | 6 ++++++
+>   target/riscv/riscv-qmp-cmds.c | 2 ++
+>   3 files changed, 11 insertions(+)
+
+Is 'static = true' really what you want as default?
+Perhaps 'dynamic = false' (considering zero initialization) would be better?
+Do you want an attribute that can be changed at all?
+
+You could plausibly implement this via class inheritance instead.
+E.g.
+
+static const TypeInfo dynamic_cpu_type_info = {
+     .name = TYPE_RISCV_DYN_CPU,
+     .parent = TYPE_RISCV_CPU,
+     .abstract = true,
+     ...
+};
+
+and then the dynamic cpus inherit from that.  Your dynamic attribute becomes 
+object_dynamic_cast(OBJECT(cpu), TYPE_RISCV_DYN_CPU) != NULL.
+
+
+r~
 
