@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA42F6DD83B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:45:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C5E6DD85C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:53:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmBV9-0002bC-AC; Tue, 11 Apr 2023 06:45:27 -0400
+	id 1pmBcK-0003qZ-Fl; Tue, 11 Apr 2023 06:52:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pmBV7-0002aq-HQ
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:45:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pmBV2-0002N9-JU
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:45:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681209919;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DEIb+5SjLKlFj4FBJyCo3I41MRNQwmRvQYKowwm1GqA=;
- b=DE3fTxQQU0c439TB7J+SlYPaAUk1lNfMhUUYOHtleA3fb24FF5WwPdhIH61OLnjhQoqML9
- hXzJIqFnRB5gcVQ3O3PNzXODBNZuLjXZh0ljmKSyxGF9VPUA4VvmMlFhH9HbPA8EvGjL0c
- UnzAPZpqjZxvCkRZSgcMEWfiAroFmiY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-f2siPP8KOhmdPqjGH_N7TA-1; Tue, 11 Apr 2023 06:45:18 -0400
-X-MC-Unique: f2siPP8KOhmdPqjGH_N7TA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bg22-20020a05600c3c9600b003ef6ee937b8so1088983wmb.2
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:45:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBcI-0003pi-I2
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:52:50 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBcG-0003Vu-Re
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:52:50 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ v20-20020a05600c471400b003ed8826253aso713168wmo.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681210367;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FtFD8kN6FO+NAIzupOIHkLMGBKmYVksTR+1coo89Y7Q=;
+ b=jGuSNbAzl708El34fzHQrKn0aK+Vv48Yl0Zt1Gx05xMkK+QzlIVqFa+Q136mRGAw+5
+ 4iEcoZNaRH52ZvDW+dC/Ii2lhMj8yz+KUC7O/FtXLXeoQvSf1QMDfmj09Aqbp+pkCg2t
+ DLagwKGzgTjiEyDYYB6YUetJLvBQv1oLDalH3im/ngKXKemhcdpKCKnBcL45S2g/0uLq
+ YRGmz4pkV11hCRkPqJuMQeVsnG2x2KdfUy2aB3FpUBrfv3iv0fLITwD72HIXURt857+T
+ pddKDCyRSHXAPcJ6A4888JPCGrRk+BdqabjPETiRY2ytosQnpdee7oIZ2B70fEI8PXxd
+ oKsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681209917;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DEIb+5SjLKlFj4FBJyCo3I41MRNQwmRvQYKowwm1GqA=;
- b=K/Xs3eutaOif/FLvkAxQJEP0NydyyeMcUaJVJBtPY/7DdE6EeRfaMiILlmR+y/xwuv
- MmdYRDX+pEw+e5jZW3+zxypRCL/S0MqbXNc1PZd1BzLDfq2YyP6tbofvNdHfPM6KaT0w
- Jb0WdgshZM1kKLp/vWe8ryoFwqmF/dEFAQnHvCnn5oOhTemudcKZIFRd95K/WoeEDT0q
- Jo2ePaN4LMxpTKvUmYtSip72Bl4jLujqwmvAuEgj77p6V9oGAM2xaOXoKfeXPPIwdH39
- C1qM/y7+3QpfBXXpNBUwmWRCbwCPsYTKNtuC8O+PoJoY1m5sBQUJGQK5InF9ohQ3AX+W
- r7qw==
-X-Gm-Message-State: AAQBX9eU5jjdpdQ7jn4rDNVKtHVbXdRyc9qwUTp10epvWlFDc+pRQv68
- 3Un1i9bUem87frrC+mN5VOupgzEyT2EreZclTaWkf5oWC80IGU6/NPaSZRiw2J0EFWBBmwsrXtm
- oCWKnod4DySToNzye/3JnyM8=
-X-Received: by 2002:a1c:7c0b:0:b0:3ed:551b:b78f with SMTP id
- x11-20020a1c7c0b000000b003ed551bb78fmr8758217wmc.4.1681209917076; 
- Tue, 11 Apr 2023 03:45:17 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bhSFXZuyfKCKkapPJ2pDNDSiglSU0JTn9UTN30LAscw1fXnqtfq8bt53mNXhlnHYf1/hgSBg==
-X-Received: by 2002:a1c:7c0b:0:b0:3ed:551b:b78f with SMTP id
- x11-20020a1c7c0b000000b003ed551bb78fmr8758207wmc.4.1681209916779; 
- Tue, 11 Apr 2023 03:45:16 -0700 (PDT)
-Received: from redhat.com ([2.52.10.80]) by smtp.gmail.com with ESMTPSA id
- e17-20020adffc51000000b002ef2e148d59sm13586651wrs.16.2023.04.11.03.45.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 03:45:16 -0700 (PDT)
-Date: Tue, 11 Apr 2023 06:45:12 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yaowei Bai <baiyw2@chinatelecom.cn>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/rtc: fix crash caused by lost_clock >= 0 assertion
-Message-ID: <20230411064451-mutt-send-email-mst@kernel.org>
-References: <1670228615-2684-1-git-send-email-baiyw2@chinatelecom.cn>
+ d=1e100.net; s=20210112; t=1681210367;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FtFD8kN6FO+NAIzupOIHkLMGBKmYVksTR+1coo89Y7Q=;
+ b=qOB9+DjFcQ/QZth7JxVf6ApT8aBLZ8NITTwdmSoG1Ms9B4v/500rXwEJelpfJCrlzi
+ c01au2euG+PbLZ/pya76dyoX/wN9cTaBRBHxgFNU7OLRyhUgbr8k/4OwSlWHPAE3bdFd
+ g6WVPC88yABIoV8zHCBx0t1SWmdOZzu8MgWDZp8WtQbY9Hy0/1gwmTDLGFo+y/i/oLvx
+ +jAQwTlgsAheuyIAOh74YjkK74GibAjTMSFTkEEKvyx/qW0gErwnE3RzoLiw/xUWFblO
+ +rh8R6pZqRUbEmkpMGWHGlccyEbz+sxtroGbICbFu/F9m7SGyh8RZkBRcYAX4gja97GH
+ FKWw==
+X-Gm-Message-State: AAQBX9eIRSOqAp/r1nNPbyfPKJAzHHLeLTRn/soyHXkJwtyibN23zrCU
+ Efw+Lxrpng/QiSiyiNipUor8KA==
+X-Google-Smtp-Source: AKy350aDw65lyg1aenDZGotKExz4Y5Xrhi3E4QvjcbMTPdiDurhMdsCr71ACXeGURZ5mrEJ6vqnksg==
+X-Received: by 2002:a05:600c:2cd8:b0:3ee:9652:932 with SMTP id
+ l24-20020a05600c2cd800b003ee96520932mr8680972wmc.12.1681210367128; 
+ Tue, 11 Apr 2023 03:52:47 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.195.239])
+ by smtp.gmail.com with ESMTPSA id
+ s9-20020a7bc389000000b003ef64affec7sm16561508wmj.22.2023.04.11.03.52.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 03:52:46 -0700 (PDT)
+Message-ID: <8d4f291a-9b16-ce84-4f52-de625f1abe4f@linaro.org>
+Date: Tue, 11 Apr 2023 12:52:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1670228615-2684-1-git-send-email-baiyw2@chinatelecom.cn>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH 01/42] tcg: Replace if + tcg_abort with tcg_debug_assert
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20230408024314.3357414-1-richard.henderson@linaro.org>
+ <20230408024314.3357414-3-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230408024314.3357414-3-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SUSPICIOUS_RECIPS=2.51 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,51 +94,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 05, 2022 at 04:23:35PM +0800, Yaowei Bai wrote:
-> In our production environment a guest crashed with this log:
-> 
->     qemu-kvm: /home/abuild/rpmbuild/BUILD/qemu-5.0.0/hw/rtc/mc146818rtc.c:201: periodic_timer_update: Assertion `lost_clock >= 0' failed.
->     2022-09-26 10:00:28.747+0000: shutting down, reason=crashed
-> 
-> This happened after the host synced time with the NTP server which
-> we had adjusted backward the time because it mistakenly went faster
-> than the real time. Other people also have this problem:
-> 
->     https://bugzilla.redhat.com/show_bug.cgi?id=2054781
-> 
-> After the host adjusted backward the time, the guset reconfigured the
-> period, this makes cur_clock smaller than last_periodic_clock in
-> periodic_timer_update function. However, the code assumes that cur_clock
-> is bigger than last_periodic_clock, which is not true in the situation
-> above. So we need to make it clear by introducing a if statement. With
-> this patch we can handle this crash situation to just reset the
-> next_periodic_time.
-> 
-> Signed-off-by: Yaowei Bai <baiyw2@chinatelecom.cn>
-
-
-Hmm not sure this is a good fix.  Paolo what's your take?
-
+On 8/4/23 04:42, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/rtc/mc146818rtc.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-> index 1ebb412..a397949 100644
-> --- a/hw/rtc/mc146818rtc.c
-> +++ b/hw/rtc/mc146818rtc.c
-> @@ -199,7 +199,9 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period, bo
->          next_periodic_clock = muldiv64(s->next_periodic_time,
->                                  RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
->          last_periodic_clock = next_periodic_clock - old_period;
-> -        lost_clock = cur_clock - last_periodic_clock;
-> +        if (cur_clock > last_periodic_clock) {
-> +            lost_clock = cur_clock - last_periodic_clock;
-> +        }
->          assert(lost_clock >= 0);
->      }
->  
-> -- 
-> 2.7.4
+>   tcg/tcg.c                 | 4 +---
+>   tcg/i386/tcg-target.c.inc | 8 +++-----
+>   2 files changed, 4 insertions(+), 8 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
