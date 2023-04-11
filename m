@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014716DDA24
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 13:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE846DDA41
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:07:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmCc3-0000PI-Ew; Tue, 11 Apr 2023 07:56:39 -0400
+	id 1pmCl9-0003SH-58; Tue, 11 Apr 2023 08:06:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pmCc0-0000Om-LX
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 07:56:36 -0400
-Received: from isrv.corpit.ru ([86.62.121.231])
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pmCl4-0003Rn-Bl
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:05:59 -0400
+Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pmCby-0001VN-Kh
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 07:56:36 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id BD54240107;
- Tue, 11 Apr 2023 14:56:31 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id D886886;
- Tue, 11 Apr 2023 14:56:30 +0300 (MSK)
-Message-ID: <7739b40d-d8ba-ccde-cc6c-5d9f2c93a663@msgid.tls.msk.ru>
-Date: Tue, 11 Apr 2023 14:56:30 +0300
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pmCl1-0003k3-MX
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:05:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=V87R4ubnJJnBH59e58FxMaj0xVFo43ozOG0k4F70aAU=; b=owClqybE89HV3c3zfyJ8YGJbf6
+ OyiqTt8PBG4N9h46qm6H5+P71SEIbhreV0fWbzqXgzQLQME7b/gnJFQ0HT9GUBLgdbkZF1GTvtw23
+ mdL33DXSJs9q8nM3sIRC5h3yw6dDCG+IvlndPqwnq29LavzAm/Ik2YI/wmVmYwNdjchg=;
+Message-ID: <3fc3db98-9b39-7227-3125-f5956c12fabc@rev.ng>
+Date: Tue, 11 Apr 2023 14:05:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: xen bits broke x32 build
+ Thunderbird/102.7.0
+Subject: Re: [PATCH] Hexagon (target/hexagon) Additional instructions handled
+ by idef-parser
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, philmd@linaro.org, ale@rev.ng,
+ bcain@quicinc.com, quic_mathbern@quicinc.com
+References: <20230407205246.395196-1-tsimpson@quicinc.com>
 Content-Language: en-US
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: Joao Martins <joao.m.martins@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>, David Woodhouse <dwmw@amazon.co.uk>
-References: <b7796732-6334-c68b-3baa-2354644152f8@msgid.tls.msk.ru>
-In-Reply-To: <b7796732-6334-c68b-3baa-2354644152f8@msgid.tls.msk.ru>
+Organization: rev.ng
+In-Reply-To: <20230407205246.395196-1-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -90
-X-Spam_score: -9.1
-X-Spam_bar: ---------
-X-Spam_report: (-9.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.17,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,85 +60,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-01.04.2023 11:40, Michael Tokarev wrote:
-> After bringing in xen guest support, qemu fails to build on x32:
-> 
-> target/i386/kvm/xen-emu.c:876:5: note: in expansion of macro ‘qemu_build_assert’
->    876 |     qemu_build_assert(sizeof(struct vcpu_info) == 64);
->        |     ^~~~~~~~~~~~~~~~~
-> 
-> This one should be easy to fix, but I wonder if there are other issues
-> with x32 exists..
 
-Ok, I took a look at how to disable this new XEN stuff on x32.
+On 4/7/23 22:52, Taylor Simpson wrote:
+> Currently, idef-parser skips all floating point instructions.  However,
+> there are some floating point instructions that can be handled.
+>
+> The following instructions are now parsed
+>      F2_sfimm_p
+>      F2_sfimm_n
+>      F2_dfimm_p
+>      F2_dfimm_n
+>      F2_dfmpyll
+>      F2_dfmpylh
+>
+> To make these instructions work, we fix some bugs in parser-helpers.c
+>      gen_rvalue_extend
+>      gen_cast_op
+>
+> Test cases added to tests/tcg/hexagon/fpstuff.c
+>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   target/hexagon/idef-parser/parser-helpers.c | 16 +++---
+>   tests/tcg/hexagon/fpstuff.c                 | 54 +++++++++++++++++++++
+>   target/hexagon/gen_idef_parser_funcs.py     | 10 +++-
+>   3 files changed, 72 insertions(+), 8 deletions(-)
 
-It is the commit 820c1aba519bd072ac71c754733f6c86d8b4309 "xen: add
-CONFIG_XEN_BUS and CONFIG_XEN_EMU options for Xen emulation" adding
-this construct to hw/i386/Kconfig:
+This patch looks good, nice catch on the bugs!
 
-config XEN_EMU
-     bool
-     default y
-     depends on KVM && (I386 || X86_64)
-
-Since meson does not know about x32, and while ./conifgure does, it
-is not propagated to meson, and sure not propagated to Kconfig too,
-there's some more work needed to disable XEN_EMU on x32.
-
-Something like this?
-
-diff --git a/target/i386/Kconfig b/target/i386/Kconfig
-index ce6968906e..75a91f497a 100644
---- a/target/i386/Kconfig
-+++ b/target/i386/Kconfig
-@@ -3,3 +3,6 @@ config I386
-
-  config X86_64
-      bool
-+
-+config X32
-+    bool
-
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index d40802d83f..3ad6b44984 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -140,4 +140,4 @@ config VMMOUSE
-  config XEN_EMU
-      bool
-      default y
--    depends on KVM && (I386 || X86_64)
-+    depends on KVM && (I386 || X86_64) && !X32
-
-
-diff --git a/meson.build b/meson.build
-index c44d05a13f..9e7c83fc6a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -70,6 +70,11 @@ if cpu in ['riscv32', 'riscv64']
-    cpu = 'riscv'
-  endif
-
-+x32 = false
-+if cpu == 'x86_64'
-+  x32 = cc.sizeof('long') == 4
-+endif
-+
-  target_dirs = config_host['TARGET_DIRS'].split()
-  have_linux_user = false
-  have_bsd_user = false
-@@ -2554,7 +2559,8 @@ host_kconfig = \
-    ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
-    (have_pvrdma ? ['CONFIG_PVRDMA=y'] : []) + \
-    (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : []) + \
--  (vfio_user_server_allowed ? ['CONFIG_VFIO_USER_SERVER_ALLOWED=y'] : [])
-+  (vfio_user_server_allowed ? ['CONFIG_VFIO_USER_SERVER_ALLOWED=y'] : []) + \
-+  (x32 ? ['CONFIG_X32=y'] : [])
-
-  ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
-
+Reviewed-by: Anton Johansson <anjo@rev.ng>
+Tested-by: Anton Johansson <anjo@rev.ng>
 
 
