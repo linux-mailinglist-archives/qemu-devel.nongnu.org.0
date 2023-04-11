@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6BB6DE380
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 20:08:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA51E6DE392
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 20:13:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmIPK-0000qu-Po; Tue, 11 Apr 2023 14:07:54 -0400
+	id 1pmIU7-0001to-CZ; Tue, 11 Apr 2023 14:12:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmIPI-0000pG-LI
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 14:07:52 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmIPE-0002IA-8h
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 14:07:52 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id sh8so22517521ejc.10
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 11:07:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <prvs=45877f2e6=pbartell@amazon.com>)
+ id 1pmITy-0001tS-QK; Tue, 11 Apr 2023 14:12:43 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=45877f2e6=pbartell@amazon.com>)
+ id 1pmITw-0003Rx-EP; Tue, 11 Apr 2023 14:12:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681236466; x=1683828466;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=p+ZXlQzojGZSUw8Sbrj54moAbTxBe6kr2mEZxRk868M=;
- b=htQd6MnaVmc6ChTU9ga2AKBuKN/jMCHPNppmEK68X4N53Qb1vdWgV8+ScDciTYIfNf
- yTTv+p+l/7zd7JnjzLpoI0T9rpGVoM3rBovx9O9MYXZOOZAHEGAEofuZXYNMCMm4S2je
- HrVEnuiyo58GeRHtEWg1acuDtaAm6cAXPjFpqpLP5RG7wvqkVgDZy63tt4L/jkH3PrAd
- Sr0luoY0PXQkxG7c620MMgKqeEVWRqOW0XxeVlYVPHJ9+xt8lWSFR5GsDF9XgX9moyki
- BeRspCtNH3VYVNWx8BrwC9LwJQBkchSkeHcXsjk9cpa6LVSFcMgpqK+vqEBZEk7zBBSP
- tJPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681236466; x=1683828466;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=p+ZXlQzojGZSUw8Sbrj54moAbTxBe6kr2mEZxRk868M=;
- b=BgDM7HM9sgy12suDidfvCF7XeBHwRqV8ogeuznVlsKsHzAKnLWrQLeWdhvi0+Z/dYv
- Yb2dX2YOzHfZXxAKKsMMAprAyN9uwcQDNYYLYUiM38ioz3QanVonHhKlaKd/gdIk23kF
- slQDsB6swAg2aZujCbK/kKBqz7apaWv1LtbxEitNmT3mbaB0jcYTpvSARycbCvyMVVER
- iYzd0rqb93F6sFJPId3M4Sc62jAfyxOa2nayAhqq1d4befKOG2fO6Zi2Mu2ETckDOCWU
- j903PrJzJd9zbDxT+oppfFRwDc+flglt84QtYaPV0FGpXn7XFgwZ7jjjrsh4P3Ucg70/
- gh4w==
-X-Gm-Message-State: AAQBX9fUZrKcObMcQmEvHcMbvqUZq4pYaXm4YkdAzluZPaxn78hP13jf
- RDcARnDNpsXvd/od8/DQZ6JkWhjQwRMHbVYF7MZvdw==
-X-Google-Smtp-Source: AKy350aJKxcJXaacrbJSaqSrXddCMNffIuvTCBmwTQDw5caxmJIJZoc5CGUDO73D9H9Mawv/lNkDNQ71sykqnrtiSRU=
-X-Received: by 2002:a17:906:2a48:b0:920:da8c:f7b0 with SMTP id
- k8-20020a1709062a4800b00920da8cf7b0mr5987227eje.6.1681236466538; Tue, 11 Apr
- 2023 11:07:46 -0700 (PDT)
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1681236761; x=1712772761;
+ h=from:to:cc:date:message-id:references:in-reply-to:
+ content-id:content-transfer-encoding:mime-version:subject;
+ bh=hhAtX+MbjVh4BH8ecIcg6aCl9ijHfUxFs7dKj6cy084=;
+ b=UppEGxAj08Yl0ykOyMYjtrEqVoHzTA9/QsJPn584kFleK8WU7D1es0ra
+ bCcbhld6LDM5c1ytXuoeQEOSr/Usk+KYi4wwW/tXeY1J2JpriqI+hceR2
+ l6I+OVwpCcxA2+l5IGoLsdDq+FWnHuW3nJUMJ80JQM/yry9bMGYcUzjTj Q=;
+X-IronPort-AV: E=Sophos;i="5.98,336,1673913600"; d="scan'208";a="319219216"
+Subject: Re: [PATCH] target/arm: Fix debugging of ARMv8M Secure code
+Thread-Topic: [PATCH] target/arm: Fix debugging of ARMv8M Secure code
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-pdx-2a-m6i4x-d40ec5a9.us-west-2.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-6001.iad6.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 18:12:35 +0000
+Received: from EX19D012EUA001.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+ by email-inbound-relay-pdx-2a-m6i4x-d40ec5a9.us-west-2.amazon.com (Postfix)
+ with ESMTPS id 6411640E3B; Tue, 11 Apr 2023 18:12:33 +0000 (UTC)
+Received: from EX19D031EUC002.ant.amazon.com (10.252.61.193) by
+ EX19D012EUA001.ant.amazon.com (10.252.50.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 11 Apr 2023 18:12:32 +0000
+Received: from EX19D031EUC003.ant.amazon.com (10.252.61.172) by
+ EX19D031EUC002.ant.amazon.com (10.252.61.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 11 Apr 2023 18:12:31 +0000
+Received: from EX19D031EUC003.ant.amazon.com ([fe80::dad0:4f18:bddd:d966]) by
+ EX19D031EUC003.ant.amazon.com ([fe80::dad0:4f18:bddd:d966%3]) with
+ mapi id 15.02.1118.026; Tue, 11 Apr 2023 18:12:31 +0000
+From: "Bartell, Paul" <pbartell@amazon.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
+Thread-Index: AQHZaa1L7iNpTV5R00K3KIarsp7cMK8gzriAgANcvgCAAhSNgIAALv+A
+Date: Tue, 11 Apr 2023 18:12:31 +0000
+Message-ID: <F1E57852-8712-4BB0-95B2-E3853B59F0D2@amazon.com>
+References: <20230408000118.50854-1-pbartell@amazon.com>
+ <c56f4f56-6cba-ceaa-9f89-228fafcbc2ac@linaro.org>
+ <E3A05628-86C2-42B7-B17B-64972FE60834@amazon.com>
+ <CAFEAcA8pSvbFwcbstF1q5y3yE8S3R-X4LKgihq-PFY0F02fw7Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA8pSvbFwcbstF1q5y3yE8S3R-X4LKgihq-PFY0F02fw7Q@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.63.8.42]
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2F432843EBA24347A50742341EC7F7D1@amazon.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20230307182707.2298618-1-dwmw2@infradead.org>
- <20230307182707.2298618-23-dwmw2@infradead.org>
-In-Reply-To: <20230307182707.2298618-23-dwmw2@infradead.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 Apr 2023 19:07:35 +0100
-Message-ID: <CAFEAcA-vCihVupZsLBdh6+-xjdNX2-K1Ceo+tgsjA=KCdWTjpg@mail.gmail.com>
-Subject: Re: [PULL 22/27] hw/xen: Add emulated implementation of XenStore
- operations
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>, 
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com, 
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org, 
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Precedence: Bulk
+Received-SPF: pass client-ip=52.95.48.154;
+ envelope-from=prvs=45877f2e6=pbartell@amazon.com; helo=smtp-fw-6001.amazon.com
+X-Spam_score_int: -118
+X-Spam_score: -11.9
+X-Spam_bar: -----------
+X-Spam_report: (-11.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,44 +93,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 7 Mar 2023 at 18:27, David Woodhouse <dwmw2@infradead.org> wrote:
->
-> From: David Woodhouse <dwmw@amazon.co.uk>
->
-> Now that we have an internal implementation of XenStore, we can populate
-> the xenstore_backend_ops to allow PV backends to talk to it.
->
-> Watches can't be processed with immediate callbacks because that would
-> call back into XenBus code recursively. Defer them to a QEMUBH to be run
-> as appropriate from the main loop. We use a QEMUBH per XS handle, and it
-> walks all the watches (there shouldn't be many per handle) to fire any
-> which have pending events. We *could* have done it differently but this
-> allows us to use the same struct watch_event as we have for the guest
-> side, and keeps things relatively simple.
->
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> Reviewed-by: Paul Durrant <paul@xen.org>
 
 
+> On Apr 11, 2023, at 8:24 AM, Peter Maydell <peter.maydell@linaro.org> wro=
+te:
+>=20
+> On Mon, 10 Apr 2023 at 15:38, Bartell, Paul <pbartell@amazon.com> wrote:
+>>=20
+>> You can reproduce the problem by running gdb against an ARMv8M target ru=
+nning secure mode code (the default).
+>>=20
+>> Running qemu with the following arguments : qemu-system-arm -machine mps=
+2-an505 -m 16M -cpu cortex-m33 -nographic -semihosting -monitor null --semi=
+hosting-config enable=3Don,target=3Dnative -d guest_errors -kernel /path/to=
+/binary.elf
+>>=20
+>> With the following .gdbinit file:
+>> target extended-remote :1234
+>> compare-sections
+>>=20
+>> Upon startup, every symbol in the elf file reports the following error:
+>>=20
+>> Section .text, range 0x10000000 -- 0x10009298: MIS-MATCHED!
+>> Section .text.main, range 0x10009298 -- 0x10009300: MIS-MATCHED!
+>> Section .text.prvQueueSendTask, range 0x10009300 -- 0x10009338: MIS-MATC=
+HED!
+>>=20
+>> Attempting to debug results in errors constantly (unable to read or writ=
+e memory at all).
+>>=20
+>> init_data_sections () at /project/Demo/ARM_MPS/startup.c:95
+>> 95      {
+>> (gdb) info locals
+>> pCopyTable =3D <error reading variable pCopyTable (Cannot access memory =
+at address 0x381fffec)>
+>> dataIndex =3D <error reading variable dataIndex (Cannot access memory at=
+ address 0x381fffe8)>
+>>=20
+>> Does that clarify my report sufficiently?
+>=20
+> Could you (a) file a bug and (b) attach a sample test executable
+> that demonstrates the problem, please?
+>=20
+> thanks
+> -- PMM
 
-> +static void xs_be_unwatch(struct qemu_xs_handle *h, struct qemu_xs_watch *w)
-> +{
-> +    xs_impl_unwatch(h->impl, DOMID_QEMU, w->path, NULL, xs_be_watch_cb, w);
+Bug filed at https://gitlab.com/qemu-project/qemu/-/issues/1590 with binary=
+ attached and some additional logs.
 
-Coverity points out that this is the only call to xs_impl_unwatch()
-where we don't check the return value. Is there some useful way
-we can report the error, or is it a "we're closing everything down
-anyway, no way to report anything" situation? (This particular
-Coverity heuristic is quite prone to false positives, so if that's
-the way it is I'll just mark it as a f-p in the coverity UI.)
+Adding the qemu-stable list since semihosting and gdb debugging for all ARM=
+v8M targets is broken in the current stable release (v7.2.1) and previous s=
+table (v7.2.0). v7.1.0 is not affected.
 
-
-> +    h->watches = g_list_remove(h->watches, w);
-> +    g_list_free_full(w->events, (GDestroyNotify)free_watch_event);
-> +    g_free(w->path);
-> +    g_free(w);
-> +}
-
-thanks
--- PMM
 
