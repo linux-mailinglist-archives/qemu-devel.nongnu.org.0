@@ -2,89 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF576DDD2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 16:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21906DDD2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 16:03:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmEZP-0002t0-S3; Tue, 11 Apr 2023 10:02:03 -0400
+	id 1pmEZp-00034S-Ca; Tue, 11 Apr 2023 10:02:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pmEZI-0002sC-0i
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 10:01:58 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pmEZF-0005bu-Fc
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 10:01:55 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- eo6-20020a05600c82c600b003ee5157346cso6094848wmb.1
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 07:01:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681221711; x=1683813711;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u3L4JED/pvroa1KhnhNDyWD6Drfp4kM1Mgt7AB16pmU=;
- b=M9cXu3+eP8PMCdupg+ZZyb5yv+B08Lf1sFc6mvJQEmuWoSKdtil1T0wuEufKdgGq4U
- ZDqe3mI0zdTql2+tAniQFkoL8qLoxvQzsGL1DAdvZXZvq40YmLAV23LEm5LRKlsYhoHp
- 9u+kgxGsFEqMG1pX/jaDI50SG6Kj2x6Ft6IYSE1d9VBzw8liSCgGgfSM9GokLm147je+
- fRp+aCxBg4HKr3E5Q6TFAOeSQaKxuBQ0khDCME1cUA9LZy7WDWcJeQyxlB1bAmJ+ggQZ
- gkBYPiNdoFoq47PX1NMAgEJIzUb7gX64be5v9CdhOS69OSYC1j7QOdpUICUtPzi1DjGv
- OSCQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pmEZn-00034A-PU
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 10:02:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pmEZk-0005f7-PZ
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 10:02:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681221743;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nGdBupXPt6I3rDVFYUcNYveCJphN4VMLHIdxkfP/VRc=;
+ b=A0DGkNQA+4qp7GfSQi13OD7QpP/b4YUHKdE9R6ddFKlBohbel/0iZlN1JQJ6EtCbqY7QyJ
+ 8b2bdzz7B9J3+x6KwTIvM3WrPgNQdpG/cVMTzqOU1v4raT7BA8dumNzQoTFMDy7u2MIKKb
+ 0F8ZVNV8M72j5T5HbSgrCjuzH2d6MwY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-612-fPFJG0cNMTC-lGFLjOhDoA-1; Tue, 11 Apr 2023 10:02:22 -0400
+X-MC-Unique: fPFJG0cNMTC-lGFLjOhDoA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ fy17-20020a1709069f1100b00948fd62a55cso4626619ejc.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 07:02:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681221711; x=1683813711;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=u3L4JED/pvroa1KhnhNDyWD6Drfp4kM1Mgt7AB16pmU=;
- b=PQmAXR53/8ue76vbUleZAhSwqWZHktqQFwaE6O1Iie+U80tlVO0oFhBiq1nwdo+Ej3
- fx8NysqFZfEUCdon6XdUvQOkhebkCQf/sIgKC/PZdYyC2qy1e+bnqSjh7Z6e1Nwc5Oxn
- Bwi+5lJoI5bWGY0NiaKwxlrEdoz3H7RElJiE3k0Yz38bPCfMjoQOl40MIBPXw4ixmbCk
- nlsMyEdCuYhILDfpSd5aj2Z/SoCla0/5kBBvV7cvpvvr6EAzODtSu35nYX+sDYABrKT4
- TPJ4nlln8zaG4GsI5AvRjgU53d68HaON5ZR660FmrP9BAQixx+1I+1nKSbx/frcHMjlS
- BIEQ==
-X-Gm-Message-State: AAQBX9c/xijzgo5VKa0X413WPX1TegT6IIJA9iY1vwtFsThl1yQPwJ9X
- kbcUbBpdtFO4WhjeJK1EgtolMg==
-X-Google-Smtp-Source: AKy350Y5lT2B9hOFiCIZRZ0/GCdJFxr8xKsJvcJjoTCjktSRSvjkaymVsK9SoFIwOhr96Pm8qhCpvg==
-X-Received: by 2002:a05:600c:3787:b0:3ed:29d9:56ae with SMTP id
- o7-20020a05600c378700b003ed29d956aemr9616584wmr.6.1681221711091; 
- Tue, 11 Apr 2023 07:01:51 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- v15-20020a1cf70f000000b003ef5db16176sm17184465wmh.32.2023.04.11.07.01.50
+ d=1e100.net; s=20210112; t=1681221741;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nGdBupXPt6I3rDVFYUcNYveCJphN4VMLHIdxkfP/VRc=;
+ b=n5JAq2PJNi/cC9NITw0X67ybSfZsAhbortsK9zXp3aaxM2WtsBxVfbyiGadZMSQRYz
+ d9W6SAUFmxTKBeyf6y0NhrqwH8WKe5xhAUQgNcfgl9XNdORFiDlmH9SrMLqGI6keJXAd
+ NavD1qy/HpKOqEyLvC5fGMwhA2BaSgxMnVXa4ApBVpmmbfspOLme0etZNJuH2gWnf2gJ
+ uwcESc4TR/1jMlRWi7KAQl8HLvsOGDPwFiEHn4aL1suxMpeaqOBRq7obtm8Mp3i5tuVf
+ DuxfaN3Wne1ddUdPCbZIIczaFcXT63Z+ID8EcMw14juuGZOh9Rh5VkSFGrFsR9y0/ROR
+ PXag==
+X-Gm-Message-State: AAQBX9f9J25qb0nn4PQIg/aQ5ldTerDPae7CqFuAs6tsm6yCg6Y6Sth9
+ CmGCwDRnx6vl3MzdYsIf/FAPwFNVsPkzrSY3kgmzh7vexQVK9/fSIe5S6i5cCSaREuzGsTuo85e
+ peU9qNlekDtE9Lbk=
+X-Received: by 2002:a17:907:7ba9:b0:94a:8f3a:1a77 with SMTP id
+ ne41-20020a1709077ba900b0094a8f3a1a77mr6933888ejc.8.1681221741095; 
+ Tue, 11 Apr 2023 07:02:21 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YMEzWnRzYVxrmYVtM5nHfaSLDutGKQDQxEPA2zrSfyc8LGO3cF8tTNRFICJaZcz9wWZ3z2KA==
+X-Received: by 2002:a17:907:7ba9:b0:94a:8f3a:1a77 with SMTP id
+ ne41-20020a1709077ba900b0094a8f3a1a77mr6933835ejc.8.1681221740516; 
+ Tue, 11 Apr 2023 07:02:20 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ p7-20020a170906838700b009484e17e7f5sm6196169ejx.100.2023.04.11.07.02.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 07:01:50 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5109D1FFB7;
- Tue, 11 Apr 2023 15:01:50 +0100 (BST)
-References: <20230328171426.14258-1-philmd@linaro.org>
-User-agent: mu4e 1.10.0; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>, Beraldo Leal
- <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Radoslaw
- Biernacki <rad@semihalf.com>, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, qemu-arm@nongnu.org, Leif Lindholm
- <quic_llindhol@quicinc.com>, Marcin Juszkiewicz
- <marcin.juszkiewicz@linaro.org>
-Subject: Re: [PATCH v3] tests/avocado: Add set of boot tests on SBSA-ref
-Date: Tue, 11 Apr 2023 14:51:30 +0100
-In-reply-to: <20230328171426.14258-1-philmd@linaro.org>
-Message-ID: <87jzyiplf5.fsf@linaro.org>
+ Tue, 11 Apr 2023 07:02:19 -0700 (PDT)
+Date: Tue, 11 Apr 2023 16:02:19 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jonathan Cameron via
+ <qemu-devel@nongnu.org>, ani@anisinha.ca, berrange@redhat.com, Fan Ni
+ <fan.ni@samsung.com>, Dave Jiang <dave.jiang@intel.com>
+Subject: Re: [RFC PATCH 0/4] hw/i386: Factor out PXB parts of DSDT into an
+ SSDT table
+Message-ID: <20230411160219.64f0aa2f@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230407033509-mutt-send-email-mst@kernel.org>
+References: <20230317165440.24846-1-Jonathan.Cameron@huawei.com>
+ <20230406112529.00006533@huawei.com>
+ <20230407033509-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,276 +104,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, 7 Apr 2023 03:37:00 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+> On Thu, Apr 06, 2023 at 11:25:47AM +0100, Jonathan Cameron wrote:
+> > On Fri, 17 Mar 2023 16:54:36 +0000
+> > Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+> >   
+> > > Michael Tsirkin raised that we have recently had churn in the bios-tables-test
+> > > and perhaps it was worth factoring some parts of DSDT out as SSDT files.
+> > > This is an attempt to do that for the entries from pxb-pcie and pxb-cxl
+> > > PCI root bridges.
+> > > 
+> > > The main PCI root bridge and related elements are left in DSDT as they
+> > > are present in many more tests than PXB.  However things brings some
+> > > complexity as some of the DSDT parts are then dependent on building up
+> > > information whilst creating the PXB entries.  The ordering constraints
+> > > of RSDT entries prevent easily generating the new SSDT table first
+> > > (see patch 3)
+> > > 
+> > > This series works around that by separating that build up of information from
+> > > the build up of the PXB parts of the SSDT.  That allows the tables to be
+> > > build in the standard order, based on knowledge that the SSDT parts will
+> > > definitely be built later.
+> > > 
+> > > Personally, having tried this, I'm not convinced that the advantages of
+> > > simplifying updates to the test data justify the complexity increase needed.
+> > > However I will add that I have a series adding CXL QTG DSM support form Dave
+> > > Jiang in my tree that will only result in updates to SSDT.cxl after this patch
+> > > rather than DSDT.cxl reducing chance of a clash with other changes
+> > > in flight. Hence this is an RFC to find out if people think this is
+> > > a good direction to go in.
+> > > 
+> > > Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> > > https://lore.kernel.org/qemu-devel/20230302055544-mutt-send-email-mst@kernel.  
+> > 
+> > Michael / all, at first glance at least, is sensible to take forwards?
+> > 
+> > Whilst I'm not in a rush on this, I'm carrying a bunch of patches
+> > for next cycle that are on top of this at the moment, so I'm just wondering
+> > whether it makes sense reorder things based on what might land first
+> > / not land at all.
+> > 
+> > Thanks,
+> > 
+> > Jonathan  
+> 
+> Yes, I like this. Igor had some reservations about the split-up. Igor
+> can you comment please?
 
-> This change adds set of boot tests on SBSA-ref machine:
->
-> 1. boot firmware up to the EDK2 banner
-> 2. boot Alpine Linux
->
-> Prebuilt flash volumes are included, built using upstream documentation.
->
-> To unify tests for AArch64/virt and AArch64/sbsa-ref we boot
-> the same Alpine Linux image on both.
->
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Message-Id: <20230323082813.971535-1-marcin.juszkiewicz@linaro.org>
-> ---
-> Since v2:
-> - Use Alpine sha256
-> - Use @skip* decorators
-> - Run black indenter
->
-> $ AVOCADO_TIMEOUT_EXPECTED=3D1 avocado --show=3Dapp run -t machine:sbsa-r=
-ef tests/avocado/machine_aarch64_sbsaref.py
-> JOB ID     : b6682352323bc601f49a2b247cfe388b4b09047f
-> JOB LOG    : /home/philippe.mathieu-daude/avocado/job-results/job-2023-03=
--28T15.29-b668235/job.log
->  (1/4) tests/avocado/machine_aarch64_sbsaref.py:Aarch64SbsarefMachine.tes=
-t_sbsaref_edk2_firmware: PASS (5.85 s)
->  (2/4) tests/avocado/machine_aarch64_sbsaref.py:Aarch64SbsarefMachine.tes=
-t_sbsaref_alpine_linux_cortex_a57: PASS (118.45 s)
->  (3/4) tests/avocado/machine_aarch64_sbsaref.py:Aarch64SbsarefMachine.tes=
-t_sbsaref_alpine_linux_neoverse_n1: PASS (119.22 s)
->  (4/4)
-> tests/avocado/machine_aarch64_sbsaref.py:Aarch64SbsarefMachine.test_sbsar=
-ef_alpine_linux_max:
-> SKIP: requires TF-A update to handle FEAT_FGT
-> RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 1 | WARN 0 | INTERRUPT 0 | =
-CANCEL 0
-> JOB TIME   : 244.32 s
-> ---
->  MAINTAINERS                              |   1 +
->  tests/avocado/machine_aarch64_sbsaref.py | 158 +++++++++++++++++++++++
->  2 files changed, 159 insertions(+)
->  create mode 100644 tests/avocado/machine_aarch64_sbsaref.py
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ef45b5e71e..ee4bd28205 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -928,6 +928,7 @@ L: qemu-arm@nongnu.org
->  S: Maintained
->  F: hw/arm/sbsa-ref.c
->  F: docs/system/arm/sbsa.rst
-> +F: tests/avocado/machine_aarch64_sbsaref.py
->=20=20
->  Sharp SL-5500 (Collie) PDA
->  M: Peter Maydell <peter.maydell@linaro.org>
-> diff --git a/tests/avocado/machine_aarch64_sbsaref.py b/tests/avocado/mac=
-hine_aarch64_sbsaref.py
-> new file mode 100644
-> index 0000000000..0a79fa7ab6
-> --- /dev/null
-> +++ b/tests/avocado/machine_aarch64_sbsaref.py
-> @@ -0,0 +1,158 @@
-> +# Functional test that boots a Linux kernel and checks the console
-> +#
-> +# SPDX-FileCopyrightText: 2023 Linaro Ltd.
-> +# SPDX-FileContributor: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +# SPDX-FileContributor: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.or=
-g>
-> +#
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +import os
-> +
-> +from avocado import skip
-> +from avocado import skipUnless
-> +from avocado.utils import archive
-> +
-> +from avocado_qemu import QemuSystemTest
-> +from avocado_qemu import wait_for_console_pattern
-> +from avocado_qemu import interrupt_interactive_console_until_pattern
-> +
-> +
-> +class Aarch64SbsarefMachine(QemuSystemTest):
-> +    """
-> +    :avocado: tags=3Darch:aarch64
-> +    :avocado: tags=3Dmachine:sbsa-ref
-> +    """
-> +
+Well, as Jonathan said, I'm also not convinced that it does more good
+than getting code worse condition.
+In this case my preference is to keep code simpler vs occasional merge
+conflict/rebasing.
 
-Maybe:
+In virt world SSDTs don't make much sense as tables are build dynamically,
+they just introducing more complexity (incl. less blobs to deal with in tests).
+(that was one of the reasons we got rid of them practically as soon as
+we had switched from patching prebuilt AML blobs to aml_foo() API).
 
-  # Full boot ~35-45s, setting 180 to account for debug builds
-=20=20
-> +    timeout =3D 180
-> +
-> +    def fetch_firmware(self):
-> +        """
-> +        Flash volumes generated using:
-> +
-> +        - Fedora GNU Toolchain version 12.2.1 20220819 (Red Hat Cross 12=
-.2.1-2)
-> +
-> +        - Trusted Firmware-A
-> +          https://github.com/ARM-software/arm-trusted-firmware/tree/5fdb=
-2e54
-> +
-> +        - Tianocore EDK II
-> +          https://github.com/tianocore/edk2/tree/494127613b
-> +          https://github.com/tianocore/edk2-non-osi/tree/41876073
-> +          https://github.com/tianocore/edk2-platforms/tree/8efa4f42
-> +        """
-> +
-> +        # Secure BootRom (TF-A code)
-> +        fs0_xz_url =3D (
-> +            "https://fileserver.linaro.org/s/ATnSmq6k8SoXgbH/"
-> +            "download/SBSA_FLASH0.fd.xz"
-> +        )
-> +        fs0_xz_hash =3D "a210a09692bcbe0a3743ffd0df44e80e0c7ad8ab"
-> +        tar_xz_path =3D self.fetch_asset(fs0_xz_url, asset_hash=3Dfs0_xz=
-_hash)
-> +        archive.extract(tar_xz_path, self.workdir)
-> +        fs0_path =3D os.path.join(self.workdir, "SBSA_FLASH0.fd")
-> +
-> +        # Non-secure rom (UEFI and EFI variables)
-> +        fs1_xz_url =3D (
-> +            "https://fileserver.linaro.org/s/t8foNnMPz74DZZy/"
-> +            "download/SBSA_FLASH1.fd.xz"
-> +        )
-> +        fs1_xz_hash =3D "13a9a262953787c7fc5a9155dfaa26e703631e02"
-> +        tar_xz_path =3D self.fetch_asset(fs1_xz_url, asset_hash=3Dfs1_xz=
-_hash)
-> +        archive.extract(tar_xz_path, self.workdir)
-> +        fs1_path =3D os.path.join(self.workdir, "SBSA_FLASH1.fd")
+PS:
+wrt nvdimm ssdt, it was fairly isolated feature with lot of updates,
+so it made some sense to have a dedicated table just to simplify
+review/reduce merge conflicts.
+(probably it was me who suggested to use separate table).
+But in retrospective it wouldn't make much difference if it were in DSDT.
+Perhaps we should merge nvdimm's SSDT back into DSDT as it is
+more or less stable nowadays.
 
-FYI if you share the directory rather than the individual files you can
-use something like this (from kvm_xen_guest):
+PS2:
+Also, I'm working on expanding PCI slots descriptors to PXBs,
+and more or less that will negate this tables split. 
 
-   def get_asset(self, name, sha1):
-        base_url =3D ('https://fileserver.linaro.org/s/'
-                    'kE4nCFLdQcoBF9t/download?'
-                    'path=3D%2Fkvm-xen-guest&files=3D' )
-        url =3D base_url + name
-        # use explicit name rather than failing to neatly parse the
-        # URL into a unique one
-        return self.fetch_asset(name=3Dname, locations=3D(url), asset_hash=
-=3Dsha1)
+> > > 
+> > > 
+> > > Jonathan Cameron (4):
+> > >   hw/acpi: Make Aml and / or crs_range_set optional in build_crs
+> > >   tests/acpi: Allow changes to DSDT.cxl/viot and SSDT.cxl/viot
+> > >   hw/i386/acpi: Separate PXB related parts of DSDT into an SSDT table.
+> > >   tests/acpi: Updated DSDT and SSDT due to move of PXB info to SSDT
+> > > 
+> > >  hw/acpi/aml-build.c           |  75 +++++-----
+> > >  hw/i386/acpi-build.c          | 249 ++++++++++++++++++++++------------
+> > >  hw/pci-host/gpex-acpi.c       |   5 +-
+> > >  include/hw/acpi/aml-build.h   |   4 +-
+> > >  tests/data/acpi/q35/DSDT.cxl  | Bin 9673 -> 8474 bytes
+> > >  tests/data/acpi/q35/DSDT.viot | Bin 9470 -> 8429 bytes
+> > >  tests/data/acpi/q35/SSDT.cxl  | Bin 0 -> 1235 bytes
+> > >  tests/data/acpi/q35/SSDT.viot | Bin 0 -> 1077 bytes
+> > >  8 files changed, 208 insertions(+), 125 deletions(-)
+> > >  create mode 100644 tests/data/acpi/q35/SSDT.cxl
+> > >  create mode 100644 tests/data/acpi/q35/SSDT.viot
+> > >   
+> 
 
-which more usefully means a link like:
-
-  https://fileserver.linaro.org/s/kE4nCFLdQcoBF9t?path=3D%2Fkvm-xen-guest
-
-Can point to the README.md describing how the images where generated.
-
-> +
-> +        for path in [fs0_path, fs1_path]:
-> +            with open(path, "ab+") as fd:
-> +                fd.truncate(256 << 20)  # Expand volumes to 256MiB
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args(
-> +            "-drive",
-> +            f"if=3Dpflash,file=3D{fs0_path},format=3Draw",
-> +            "-drive",
-> +            f"if=3Dpflash,file=3D{fs1_path},format=3Draw",
-> +            "-smp",
-> +            "1",
-> +            "-machine",
-> +            "sbsa-ref",
-> +        )
-> +
-> +    def test_sbsaref_edk2_firmware(self):
-> +        """
-> +        :avocado: tags=3Dcpu:cortex-a57
-> +        """
-> +
-> +        self.fetch_firmware()
-> +        self.vm.launch()
-> +
-> +        # TF-A boot sequence:
-> +        #
-> +        # https://github.com/ARM-software/arm-trusted-firmware/blob/v2.8=
-.0/\
-> +        #     docs/design/trusted-board-boot.rst#trusted-board-boot-sequ=
-ence
-> +        # https://trustedfirmware-a.readthedocs.io/en/v2.8/\
-> +        #     design/firmware-design.html#cold-boot
-> +
-> +        # AP Trusted ROM
-> +        wait_for_console_pattern(self, "Booting Trusted Firmware")
-> +        wait_for_console_pattern(self, "BL1: v2.8(release):v2.8")
-> +        wait_for_console_pattern(self, "BL1: Booting BL2")
-> +
-> +        # Trusted Boot Firmware
-> +        wait_for_console_pattern(self, "BL2: v2.8(release)")
-> +        wait_for_console_pattern(self, "Booting BL31")
-> +
-> +        # EL3 Runtime Software
-> +        wait_for_console_pattern(self, "BL31: v2.8(release)")
-> +
-> +        # Non-trusted Firmware
-> +        wait_for_console_pattern(self, "UEFI firmware (version 1.0")
-> +        interrupt_interactive_console_until_pattern(self, "QEMU SBSA-REF=
- Machine")
-> +
-> +    # This tests the whole boot chain from EFI to Userspace
-> +    # We only boot a whole OS for the current top level CPU and GIC
-> +    # Other test profiles should use more minimal boots
-> +    def boot_alpine_linux(self, cpu):
-> +        self.fetch_firmware()
-> +
-> +        iso_url =3D (
-> +            "https://dl-cdn.alpinelinux.org/"
-> +            "alpine/v3.17/releases/aarch64/alpine-standard-3.17.2-aarch6=
-4.iso"
-> +        )
-> +
-> +        iso_hash =3D "5a36304ecf039292082d92b48152a9ec21009d3a62f459de62=
-3e19c4bd9dc027"
-> +        iso_path =3D self.fetch_asset(iso_url, algorithm=3D"sha256", ass=
-et_hash=3Diso_hash)
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args(
-> +            "-cpu",
-> +            cpu,
-> +            "-drive",
-> +            f"file=3D{iso_path},format=3Draw",
-> +            "-device",
-> +            "virtio-rng-pci,rng=3Drng0",
-> +            "-object",
-> +            "rng-random,id=3Drng0,filename=3D/dev/urandom",
-> +        )
-> +
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, "Welcome to Alpine Linux 3.17")
-> +
-> +    @skipUnless(os.getenv("AVOCADO_TIMEOUT_EXPECTED"), "Test might
->  timeout")
-
-Are these really valid? It runs fine in <60s with emulation.
-
-> +    def test_sbsaref_alpine_linux_cortex_a57(self):
-> +        """
-> +        :avocado: tags=3Dcpu:cortex-a57
-> +        """
-> +        self.boot_alpine_linux("cortex-a57")
-> +
-> +    @skipUnless(os.getenv("AVOCADO_TIMEOUT_EXPECTED"), "Test might timeo=
-ut")
-> +    def test_sbsaref_alpine_linux_neoverse_n1(self):
-> +        """
-> +        :avocado: tags=3Dcpu:max
-> +        """
-> +        self.boot_alpine_linux("neoverse-n1")
-> +
-
-You could just as easily leave this out until the FGT TFA was available.
-
-> +    @skip("requires TF-A update to handle FEAT_FGT")
-> +    def test_sbsaref_alpine_linux_max(self):
-> +        """
-> +        :avocado: tags=3Dcpu:max
-> +        """
-> +        self.boot_alpine_linux("max,pauth-impdef=3Don")
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
