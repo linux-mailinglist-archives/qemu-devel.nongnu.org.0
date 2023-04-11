@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09AF6DDAFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EABD6DDB19
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:44:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmDFP-0000zU-UM; Tue, 11 Apr 2023 08:37:20 -0400
+	id 1pmDLH-00034y-Ox; Tue, 11 Apr 2023 08:43:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmDFK-0000z6-U5
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:37:14 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmDLC-00034S-1j
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:43:18 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmDFJ-0001NO-5c
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:37:14 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- d8-20020a05600c3ac800b003ee6e324b19so4192960wms.1
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 05:37:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmDLA-0002nJ-6I
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:43:17 -0400
+Received: by mail-wr1-x434.google.com with SMTP id j1so11414399wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 05:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681216631;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ieRYjbjc0R7VAimsYZbALFqMAhB642YecdfGIwtUfRs=;
- b=LaPq74TXIbr1ZSUjAAd4AON6evtmQyV1f8W93vlv7WS9S0upkI2iEtC6PwZTYzI4F/
- KPPz92oZJ8xu77I/Cj4IrawJmuYVjGTtSWcpePlToCthwt7yMIsdK551gbOzr83DxoVE
- sTeSBZ7aeErqWCI1ahzjRULw4qG4B1xNPwcXd8/NkFmCsL8wbfX0R6ahfpVWUMx2H20M
- 2WwkQuTnGWft3pNCvZdRhy1zejOCc+RgtUcYXZgv2pdSkrr1p+bfkPZZTdVGrppnkGQo
- nGntoY6oARhKBYh63BuXGH8WyYT5q52LHUVBFlh1nDAPH3wfJTOBOf0TxgbbpKXfG7tv
- EJzg==
+ d=linaro.org; s=google; t=1681216994; x=1683808994;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nzCFqVL6tz2b7a1AwWb4k7YJdRF/ecySJTqcXWnUTy0=;
+ b=txkFmXv0pt4f5iCjHzesB3CURRGH0Wmu+/Tu+Toc3ytLYKDP3WLaPN0MG8Bp27v02h
+ bO4EsmvM9V/G4DwQv3zoyPvBlo+qGSRnm9K5B1+CTTe6N4cOP8QJ4769QCa8IvgybqGk
+ JZTN0uvlYP0ans0a9p138GoMabPBoEagE6653iHwAM+SJ+qMqU4bU4DTiGbFW46EEQBe
+ o2RfV4X0Lv9czR+RJcAAgPzWOMVqMdei087weNB/q83+gEh4mQ6et7BcoQrXGt96xEWN
+ wVrjSo7iKNEHhi1RSaNahY/aQAOly6q+sxJQf2SxXW0ZT87piE7tQxLBaNwctsBu0mFy
+ dA1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681216631;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ieRYjbjc0R7VAimsYZbALFqMAhB642YecdfGIwtUfRs=;
- b=fKqLChOgvsdXHKAmXDUVN+jHn4ICYrg5rGJLPOz/uioUMtPQWc9PTRe7fXBOuTAq/Y
- wzy2mstp4znxhKOcgJOsar3VmPJnYES1JSCzWyfazFlu4Az1twzn0iUSoxBWFsuHHETo
- bi0AAgaR9c2Y4+h5SXHTJr4Wq+5S6hZ8hXkL3lb5J7X65RuRPVV2ebq7/dmBk3GA7Dbm
- sRlG3Liq75IOubesJD2lA0mp45xvqBzx8oHtcaHEHzZADWuoU5YbcuFdjB4Xjtupt3J8
- NxnY0WKbIJ1AZU8oN4Cy0jQHi92gjoryk2tjKOc+DVFw6EausflXPX1vCZ19Pyf9+HC/
- 8IXg==
-X-Gm-Message-State: AAQBX9cUz0wFc0ZKf1T2RIZxnvMaWc7ZmfWUeYA25vty8tSKbGAolPxY
- Xpy2lFtOeYA3NPg6y9HKQXpTXw==
-X-Google-Smtp-Source: AKy350Z2orEPeeGfM/LUS3O5QQnLRz9u0q5tyqyPiSC3wbho7N68JRgBNZssSDb3Ucz1zx4rLnPhYQ==
-X-Received: by 2002:a7b:cd0a:0:b0:3ed:5a12:5641 with SMTP id
- f10-20020a7bcd0a000000b003ed5a125641mr9683627wmj.36.1681216631113; 
- Tue, 11 Apr 2023 05:37:11 -0700 (PDT)
-Received: from [192.168.1.101] ([176.187.195.239])
+ d=1e100.net; s=20210112; t=1681216994; x=1683808994;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=nzCFqVL6tz2b7a1AwWb4k7YJdRF/ecySJTqcXWnUTy0=;
+ b=lHD7D/4rKOOo09HDG6ZVjnfM8tzLhRdfgzmiXu+yjjiFPFZV7g0/t+J1EWRFdzjqOV
+ q3DJ+hUzzdhCCxjcVDIkJKZjyxdpwXNf1M0XX55hcRDTDwuYNtRl0Q7Lwkx6ZXyFGyUt
+ AdnUjBepV+BAv3kOgzVHsQtGqMJgxEv9lJN3E1s6vlae3KyCG7CuYlxAtjBC1XQHsrj5
+ qBBsMy+O9gUQ/dIBvP7e03zEB43n7pe/ejxyI5Klv+eAy3T3YX4QEdZ6Qh8RTVK40OCx
+ gOXi9j63hB5cO+HOeeCeRG+/DyO3Rc8ib1tj12FKvyX3wMnaclsyqEpw1JK7k+Jui8kF
+ T9Tw==
+X-Gm-Message-State: AAQBX9fk60JlMQSFNoaN0Gs7ISHcv7Yfv+pWuo3FhHFF40K9896fNEV9
+ p2gF7ZApJI+U63f1BhI8DIsldw==
+X-Google-Smtp-Source: AKy350YzhoFl0SmqtVJEs+SsQH00Sml1pqr0SE5cdsagy7Q/m67GuAmfZxZm+4oJ+x8xTHETuCtygw==
+X-Received: by 2002:a5d:58ee:0:b0:2f2:3536:1678 with SMTP id
+ f14-20020a5d58ee000000b002f235361678mr3587554wrd.49.1681216994239; 
+ Tue, 11 Apr 2023 05:43:14 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- j23-20020a05600c1c1700b003ee443bf0c7sm20698789wms.16.2023.04.11.05.37.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 05:37:10 -0700 (PDT)
-Message-ID: <fe33efe2-71c5-32d6-55cf-5644fbd94355@linaro.org>
-Date: Tue, 11 Apr 2023 14:37:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [for-8.0] hw/i2c/allwinner-i2c: Fix subclassing of
- TYPE_AW_I2C_SUN6I
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ w24-20020a05600c099800b003ee74c25f12sm20644058wmp.35.2023.04.11.05.43.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 05:43:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8AA4B1FFB7;
+ Tue, 11 Apr 2023 13:43:13 +0100 (BST)
+References: <20230409201007.1157671-1-sw@weilnetz.de>
+User-agent: mu4e 1.10.0; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Weil <sw@weilnetz.de>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
  qemu-devel@nongnu.org
-Cc: qianfan Zhao <qianfanguijin@163.com>, Thomas Huth <thuth@redhat.com>,
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-References: <20230411103106.3992862-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230411103106.3992862-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+Subject: Re: [PATCH for-8.0] docs: Fix typo (wphx => whpx)
+Date: Tue, 11 Apr 2023 13:43:08 +0100
+In-reply-to: <20230409201007.1157671-1-sw@weilnetz.de>
+Message-ID: <87wn2ipp26.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,34 +96,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/4/23 12:31, Peter Maydell wrote:
-> In commit 8461bfdca9c we added the TYPE_AW_I2C_SUN6I, which is a
-> minor variant of the TYPE_AW_I2C device.  However, we didn't quite
-> get the class hierarchy right.  We made the new TYPE_AW_I2C_SUN6I a
-> subclass of TYPE_SYS_BUS_DEVICE, which means that you can't validly
-> use a pointer to this object via the AW_I2C() cast macro, which
-> insists on having something that is an instance of TYPE_AW_I2C or
-> some subclass of that type.
-> 
-> This only causes a problem if QOM cast macro debugging is enabled;
-> that is supposed to be on by default, but a mistake in the meson
-> conversion in commit c55cf6ab03f4c meant that it ended up disabled by
-> default, and we didn't catch this bug.
-> 
-> Fix the problem by arranging the classes in the same way we do for
-> TYPE_PL011 and TYPE_PL011_LUMINARY in hw/char/pl011.c -- make the
-> variant class be a subclass of the "normal" version of the device.
-> 
-> This was reported in
-> https://gitlab.com/qemu-project/qemu/-/issues/1586 but this fix alone
-> isn't sufficient, as there is a separate cast-related issue in the
-> CXL code in pci_expander_bridge.c.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Stefan Weil via <qemu-devel@nongnu.org> writes:
+
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1529
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->   hw/i2c/allwinner-i2c.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> I suggest to apply the patch for 8.0 because it fixes documentation.
+>
+> Regards
+> Stefan W.
+>
+>  docs/system/introduction.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/docs/system/introduction.rst b/docs/system/introduction.rst
+> index c8a9fe6c1d..3e256f8326 100644
+> --- a/docs/system/introduction.rst
+> +++ b/docs/system/introduction.rst
+> @@ -27,7 +27,7 @@ Tiny Code Generator (TCG) capable of emulating many CPU=
+s.
+>    * - Hypervisor Framework (hvf)
+>      - MacOS
+>      - x86 (64 bit only), Arm (64 bit only)
+> -  * - Windows Hypervisor Platform (wphx)
+> +  * - Windows Hypervisor Platform (whpx)
+>      - Windows
+>      - x86
+>    * - NetBSD Virtual Machine Monitor (nvmm)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
