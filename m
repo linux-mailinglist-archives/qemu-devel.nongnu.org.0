@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3B56DD82D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA42F6DD83B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 12:45:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmBU5-0001xA-I9; Tue, 11 Apr 2023 06:44:21 -0400
+	id 1pmBV9-0002bC-AC; Tue, 11 Apr 2023 06:45:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBU3-0001x0-J3
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:44:19 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmBU2-0001vR-2V
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:44:19 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- gw11-20020a05600c850b00b003f07d305b32so5109675wmb.4
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:44:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681209856;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wqZXfvrwtZOxvuU3SXpKa3bi7BmFnMZB5/gUarJYtX8=;
- b=zqj3XATDsWgqxDx1l+CUUDeiyIDJM38RKj/8tkYU3c5oqZTcQyjUgCw8OSyNSBeqSK
- ZZ03H8jv0gfs6DNj3e8RQu5UrzZUaSesHoanLINpVGu1leTl4ecUw8oe9ZaPwPu9JVd7
- ynLID+HrtSE3PSXTlxPgztwkIe2Sp7hHDbzuI/fIy4XycGU234ZIIJR8o06nMlqUpRvD
- TAWEb+P5GUBmpU3rYXl6dtaKW3zfSlMyhSI35S6xftii9skds1rcdwJ5hpHVhYQIc65P
- CpS/1E6GTC1hHtX2oHxDt9CCcPKyKu3BBaDjGKaJCuGdYflYqramQjHilohUOyEUtljf
- JQ/Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pmBV7-0002aq-HQ
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:45:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pmBV2-0002N9-JU
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 06:45:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681209919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DEIb+5SjLKlFj4FBJyCo3I41MRNQwmRvQYKowwm1GqA=;
+ b=DE3fTxQQU0c439TB7J+SlYPaAUk1lNfMhUUYOHtleA3fb24FF5WwPdhIH61OLnjhQoqML9
+ hXzJIqFnRB5gcVQ3O3PNzXODBNZuLjXZh0ljmKSyxGF9VPUA4VvmMlFhH9HbPA8EvGjL0c
+ UnzAPZpqjZxvCkRZSgcMEWfiAroFmiY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-631-f2siPP8KOhmdPqjGH_N7TA-1; Tue, 11 Apr 2023 06:45:18 -0400
+X-MC-Unique: f2siPP8KOhmdPqjGH_N7TA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bg22-20020a05600c3c9600b003ef6ee937b8so1088983wmb.2
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 03:45:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681209856;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wqZXfvrwtZOxvuU3SXpKa3bi7BmFnMZB5/gUarJYtX8=;
- b=L++bNWLU8vRdNuKDTIFAi9JM6681Rg7UNpPwJRkj4tRs47TlgwALi2vehbHCEqtmKf
- pNSvu5kz837UD0J0dYjXEYqt1bzE/jlWM7qXFNB3AZwrqIUPPcKInY9biSa8WnJFveX1
- sBQ9jxDZqUD81qhH22k+9053SZeW1iz77Z7fk8g83GGLZ2cQLGOhoxGmNGAyC7Mui9qD
- xvwPyYzHDPveh0fG9fGGpsbaoNHOOeEDUYTy5IJo+lc5mU/O/wUfzSm42MQ4EpYM45TL
- TLB+MkPcEi5lbWSt4psGDAVdVvjCY/0JRdgvgsiuFJ0L4AkeDl+AwNSt3sc79WrDko5N
- RkLQ==
-X-Gm-Message-State: AAQBX9cZ/S3NkCNLVYfrjSusYmVHpZgg+rMs4dW9QPSg7wM0PeMIF84y
- oVdf8Xce7TkCE6FFVal7pE3Riw==
-X-Google-Smtp-Source: AKy350Z33WGkR47PX+MEdn4TY75XByNBJJf/YtziCKJUhtXAJbCkrD8kI2M/oFXzC0ODpevNmYBi7g==
-X-Received: by 2002:a05:600c:22c1:b0:3f0:79ea:256d with SMTP id
- 1-20020a05600c22c100b003f079ea256dmr8959712wmg.30.1681209856488; 
- Tue, 11 Apr 2023 03:44:16 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.195.239])
- by smtp.gmail.com with ESMTPSA id
- a11-20020a05600c224b00b003ee1b2ab9a0sm16514598wmm.11.2023.04.11.03.44.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 03:44:16 -0700 (PDT)
-Message-ID: <4ceb989e-0df3-524c-6bd8-50f929369001@linaro.org>
-Date: Tue, 11 Apr 2023 12:44:14 +0200
+ d=1e100.net; s=20210112; t=1681209917;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DEIb+5SjLKlFj4FBJyCo3I41MRNQwmRvQYKowwm1GqA=;
+ b=K/Xs3eutaOif/FLvkAxQJEP0NydyyeMcUaJVJBtPY/7DdE6EeRfaMiILlmR+y/xwuv
+ MmdYRDX+pEw+e5jZW3+zxypRCL/S0MqbXNc1PZd1BzLDfq2YyP6tbofvNdHfPM6KaT0w
+ Jb0WdgshZM1kKLp/vWe8ryoFwqmF/dEFAQnHvCnn5oOhTemudcKZIFRd95K/WoeEDT0q
+ Jo2ePaN4LMxpTKvUmYtSip72Bl4jLujqwmvAuEgj77p6V9oGAM2xaOXoKfeXPPIwdH39
+ C1qM/y7+3QpfBXXpNBUwmWRCbwCPsYTKNtuC8O+PoJoY1m5sBQUJGQK5InF9ohQ3AX+W
+ r7qw==
+X-Gm-Message-State: AAQBX9eU5jjdpdQ7jn4rDNVKtHVbXdRyc9qwUTp10epvWlFDc+pRQv68
+ 3Un1i9bUem87frrC+mN5VOupgzEyT2EreZclTaWkf5oWC80IGU6/NPaSZRiw2J0EFWBBmwsrXtm
+ oCWKnod4DySToNzye/3JnyM8=
+X-Received: by 2002:a1c:7c0b:0:b0:3ed:551b:b78f with SMTP id
+ x11-20020a1c7c0b000000b003ed551bb78fmr8758217wmc.4.1681209917076; 
+ Tue, 11 Apr 2023 03:45:17 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bhSFXZuyfKCKkapPJ2pDNDSiglSU0JTn9UTN30LAscw1fXnqtfq8bt53mNXhlnHYf1/hgSBg==
+X-Received: by 2002:a1c:7c0b:0:b0:3ed:551b:b78f with SMTP id
+ x11-20020a1c7c0b000000b003ed551bb78fmr8758207wmc.4.1681209916779; 
+ Tue, 11 Apr 2023 03:45:16 -0700 (PDT)
+Received: from redhat.com ([2.52.10.80]) by smtp.gmail.com with ESMTPSA id
+ e17-20020adffc51000000b002ef2e148d59sm13586651wrs.16.2023.04.11.03.45.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Apr 2023 03:45:16 -0700 (PDT)
+Date: Tue, 11 Apr 2023 06:45:12 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yaowei Bai <baiyw2@chinatelecom.cn>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/rtc: fix crash caused by lost_clock >= 0 assertion
+Message-ID: <20230411064451-mutt-send-email-mst@kernel.org>
+References: <1670228615-2684-1-git-send-email-baiyw2@chinatelecom.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH] tracetool: use relative paths for '#line' preprocessor
- directives
-Content-Language: en-US
-To: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>,
- qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20230406080045.21696-1-thomas.de_schampheleire@nokia.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230406080045.21696-1-thomas.de_schampheleire@nokia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1670228615-2684-1-git-send-email-baiyw2@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,19 +94,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/4/23 10:00, Thomas De Schampheleire wrote:
-> The event filename is an absolute path. Convert it to a relative path when
-> writing '#line' directives, to preserve reproducibility of the generated
-> output when different base paths are used.
+On Mon, Dec 05, 2022 at 04:23:35PM +0800, Yaowei Bai wrote:
+> In our production environment a guest crashed with this log:
 > 
-> Signed-off-by: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
+>     qemu-kvm: /home/abuild/rpmbuild/BUILD/qemu-5.0.0/hw/rtc/mc146818rtc.c:201: periodic_timer_update: Assertion `lost_clock >= 0' failed.
+>     2022-09-26 10:00:28.747+0000: shutting down, reason=crashed
+> 
+> This happened after the host synced time with the NTP server which
+> we had adjusted backward the time because it mistakenly went faster
+> than the real time. Other people also have this problem:
+> 
+>     https://bugzilla.redhat.com/show_bug.cgi?id=2054781
+> 
+> After the host adjusted backward the time, the guset reconfigured the
+> period, this makes cur_clock smaller than last_periodic_clock in
+> periodic_timer_update function. However, the code assumes that cur_clock
+> is bigger than last_periodic_clock, which is not true in the situation
+> above. So we need to make it clear by introducing a if statement. With
+> this patch we can handle this crash situation to just reset the
+> next_periodic_time.
+> 
+> Signed-off-by: Yaowei Bai <baiyw2@chinatelecom.cn>
+
+
+Hmm not sure this is a good fix.  Paolo what's your take?
+
 > ---
->   scripts/tracetool/backend/ftrace.py | 4 +++-
->   scripts/tracetool/backend/log.py    | 4 +++-
->   scripts/tracetool/backend/syslog.py | 4 +++-
->   3 files changed, 9 insertions(+), 3 deletions(-)
+>  hw/rtc/mc146818rtc.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index 1ebb412..a397949 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -199,7 +199,9 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period, bo
+>          next_periodic_clock = muldiv64(s->next_periodic_time,
+>                                  RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
+>          last_periodic_clock = next_periodic_clock - old_period;
+> -        lost_clock = cur_clock - last_periodic_clock;
+> +        if (cur_clock > last_periodic_clock) {
+> +            lost_clock = cur_clock - last_periodic_clock;
+> +        }
+>          assert(lost_clock >= 0);
+>      }
+>  
+> -- 
+> 2.7.4
 
-Nice.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
