@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE846DDA41
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4946DDA6E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 14:10:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmCl9-0003SH-58; Tue, 11 Apr 2023 08:06:03 -0400
+	id 1pmCoY-0004Ve-JK; Tue, 11 Apr 2023 08:09:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pmCl4-0003Rn-Bl
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:05:59 -0400
-Received: from rev.ng ([5.9.113.41])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pmCl1-0003k3-MX
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:05:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
- Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=V87R4ubnJJnBH59e58FxMaj0xVFo43ozOG0k4F70aAU=; b=owClqybE89HV3c3zfyJ8YGJbf6
- OyiqTt8PBG4N9h46qm6H5+P71SEIbhreV0fWbzqXgzQLQME7b/gnJFQ0HT9GUBLgdbkZF1GTvtw23
- mdL33DXSJs9q8nM3sIRC5h3yw6dDCG+IvlndPqwnq29LavzAm/Ik2YI/wmVmYwNdjchg=;
-Message-ID: <3fc3db98-9b39-7227-3125-f5956c12fabc@rev.ng>
-Date: Tue, 11 Apr 2023 14:05:18 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pmCoP-0004VO-0E
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:09:26 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pmCoM-0004Mj-2s
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 08:09:24 -0400
+Received: by mail-ej1-x631.google.com with SMTP id ga37so20094597ejc.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 05:09:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681214960; x=1683806960;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FJtJfAG3FTj0Mp4aU87gbbrxBXFK2d65L0vZtbl5EUU=;
+ b=K5WofLcaCaGTlr1uf2G9QXqnXtNccGL+HSEll+dOVN0wLYg5J6CaMs+twT7SygPsh4
+ dcoxPOCrcNJ7muR+QYpi1/zqFckaqjidpsyXAhl7q4Ju5LO+/M4dM0ixN0XRAvgLUUlZ
+ Z7ThIy7FYw7LNsdopNdDiHxBSaAiIrxeuLgXxFYEzx2M1dxSc38Hx4DXN23BjjrPcbdN
+ z4SbZmK7bcaiiDMvlnfG7oKYGtx2xU8//nKxbmcz+LNuvTdn+ojrs1EvFCLxVZmtI12k
+ uu08f0Npwcg/tna0Z8ssYYK4mbJ7Hk2aNYTwxwgHbxipV9S3IYpnhYZGbMFGIuLv0XqF
+ urSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681214960; x=1683806960;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FJtJfAG3FTj0Mp4aU87gbbrxBXFK2d65L0vZtbl5EUU=;
+ b=f+80DY7tvDFDFMpqYfo+VClI8mvevvV8/1IE12fkdBs6LIDvgGoi5QtieMcmS3rKyN
+ CzNU7S9DdMA5tojtgw405VtkjlH9i9Zkt2b5u5U+dH8CwkiqcY147XYKSf0prR7APpMC
+ zlWuUd/DlOaOJjTIndzqb1KNEBbwdV3ewWN6YefcxFLVhwUK/yvZFE5sXswPctcczKDQ
+ +kS8eZ5HTraW3dd+qkr7AGXXrPyw+IBaKSqJSGC6B47CkSoZNhCfPQsdmLl9G0aHzhlr
+ UyfBDkC1f1R38kGmUZ62LoaGJs8RLj30YffIj41jh+9MlMXB3D26az7Q4IoN1xLpp283
+ PXZA==
+X-Gm-Message-State: AAQBX9chNyNzTPCZX4uIPkntNh/W3yR31Gasg9iDAMZvqwt5LeCJo5Cn
+ /RYT7U1JJWqA6ImWh9jNAQNq7AWESRrjjyk2G0fPlA==
+X-Google-Smtp-Source: AKy350bbu/IbL3Wka1f0D6W9Vh6lenMtSIMSjr559wYIhjDOzTsWqACJo6Ttx1C3oP9g9uZtCYk7u+/jsKCz8+F5ntg=
+X-Received: by 2002:a17:906:730b:b0:939:a51a:dc30 with SMTP id
+ di11-20020a170906730b00b00939a51adc30mr6103973ejc.2.1681214960402; Tue, 11
+ Apr 2023 05:09:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH] Hexagon (target/hexagon) Additional instructions handled
- by idef-parser
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, philmd@linaro.org, ale@rev.ng,
- bcain@quicinc.com, quic_mathbern@quicinc.com
-References: <20230407205246.395196-1-tsimpson@quicinc.com>
-Content-Language: en-US
-Organization: rev.ng
-In-Reply-To: <20230407205246.395196-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <b7796732-6334-c68b-3baa-2354644152f8@msgid.tls.msk.ru>
+ <7739b40d-d8ba-ccde-cc6c-5d9f2c93a663@msgid.tls.msk.ru>
+In-Reply-To: <7739b40d-d8ba-ccde-cc6c-5d9f2c93a663@msgid.tls.msk.ru>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 Apr 2023 13:09:03 +0100
+Message-ID: <CAFEAcA8DyTixWoeRpt3R7MHmLEwnvX5Y6ciCDaVj1n7K6GnOeQ@mail.gmail.com>
+Subject: Re: xen bits broke x32 build
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: Joao Martins <joao.m.martins@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, 
+ David Woodhouse <dwmw@amazon.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,41 +85,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  anjo@rev.ng
-X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 4/7/23 22:52, Taylor Simpson wrote:
-> Currently, idef-parser skips all floating point instructions.  However,
-> there are some floating point instructions that can be handled.
+On Tue, 11 Apr 2023 at 12:57, Michael Tokarev <mjt@tls.msk.ru> wrote:
 >
-> The following instructions are now parsed
->      F2_sfimm_p
->      F2_sfimm_n
->      F2_dfimm_p
->      F2_dfimm_n
->      F2_dfmpyll
->      F2_dfmpylh
+> 01.04.2023 11:40, Michael Tokarev wrote:
+> > After bringing in xen guest support, qemu fails to build on x32:
+> >
+> > target/i386/kvm/xen-emu.c:876:5: note: in expansion of macro =E2=80=98q=
+emu_build_assert=E2=80=99
+> >    876 |     qemu_build_assert(sizeof(struct vcpu_info) =3D=3D 64);
+> >        |     ^~~~~~~~~~~~~~~~~
+> >
+> > This one should be easy to fix, but I wonder if there are other issues
+> > with x32 exists..
 >
-> To make these instructions work, we fix some bugs in parser-helpers.c
->      gen_rvalue_extend
->      gen_cast_op
+> Ok, I took a look at how to disable this new XEN stuff on x32.
 >
-> Test cases added to tests/tcg/hexagon/fpstuff.c
+> It is the commit 820c1aba519bd072ac71c754733f6c86d8b4309 "xen: add
+> CONFIG_XEN_BUS and CONFIG_XEN_EMU options for Xen emulation" adding
+> this construct to hw/i386/Kconfig:
 >
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->   target/hexagon/idef-parser/parser-helpers.c | 16 +++---
->   tests/tcg/hexagon/fpstuff.c                 | 54 +++++++++++++++++++++
->   target/hexagon/gen_idef_parser_funcs.py     | 10 +++-
->   3 files changed, 72 insertions(+), 8 deletions(-)
+> config XEN_EMU
+>      bool
+>      default y
+>      depends on KVM && (I386 || X86_64)
+>
+> Since meson does not know about x32, and while ./conifgure does, it
+> is not propagated to meson, and sure not propagated to Kconfig too,
+> there's some more work needed to disable XEN_EMU on x32.
 
-This patch looks good, nice catch on the bugs!
+Frankly I would prefer to just say "we don't support x32".
+It's a weird non-standard configuration that as far as I'm
+aware is very little used. Its stats in the debian
+popularity-contest graphs peaked at 18 users in 2017, and
+have mostly been fluctuating between 1 and 3 for the last
+couple of years:
+https://popcon.debian.org/stat/sub-x32.png
 
-Reviewed-by: Anton Johansson <anjo@rev.ng>
-Tested-by: Anton Johansson <anjo@rev.ng>
+We're currently planning to deprecate-and-drop 32-bit x86
+hosts, which are much more widely used than this. I see
+no reason why we should care about this oddball failed
+experiment of an ABI...
 
+thanks
+-- PMM
 
