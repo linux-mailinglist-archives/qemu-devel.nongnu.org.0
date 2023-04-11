@@ -2,62 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C1E6DDA1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 13:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 014716DDA24
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 13:57:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmCYF-0007nt-3X; Tue, 11 Apr 2023 07:52:43 -0400
+	id 1pmCc3-0000PI-Ew; Tue, 11 Apr 2023 07:56:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmCYC-0007nP-S5
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 07:52:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pmCc0-0000Om-LX
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 07:56:36 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmCYA-0000TI-Rj
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 07:52:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681213957;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=J9Bm2jwk9d9GHyYHp6XY3NuZZCCH/3JNdgihD/ap4PQ=;
- b=dQibtyPS7wMwNGGTvABuH1EBwye8t5iPCSoGa7QHpZMrmu/gfsD9VzTYydrr7qge6UKO0U
- yLdziJHS7pAhXw1T13T+WDOenQLLgIOgbn82Hm4KbCeQKlD40pWvqfXeJcZP/LhoyaGsmP
- dIb9xGWA9YMb1Xx3+oT6udTsQSwQEVU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-XExYBRaYMROZz6hj_ipmcg-1; Tue, 11 Apr 2023 07:52:36 -0400
-X-MC-Unique: XExYBRaYMROZz6hj_ipmcg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6257D185A791;
- Tue, 11 Apr 2023 11:52:36 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.193.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC83A40C83A9;
- Tue, 11 Apr 2023 11:52:35 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	lukts330@gmail.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH for-8.0] iotests: Regression test for vhdx log corruption
-Date: Tue, 11 Apr 2023 13:52:31 +0200
-Message-Id: <20230411115231.90398-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pmCby-0001VN-Kh
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 07:56:36 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id BD54240107;
+ Tue, 11 Apr 2023 14:56:31 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id D886886;
+ Tue, 11 Apr 2023 14:56:30 +0300 (MSK)
+Message-ID: <7739b40d-d8ba-ccde-cc6c-5d9f2c93a663@msgid.tls.msk.ru>
+Date: Tue, 11 Apr 2023 14:56:30 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: xen bits broke x32 build
+Content-Language: en-US
+From: Michael Tokarev <mjt@tls.msk.ru>
+To: Joao Martins <joao.m.martins@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, David Woodhouse <dwmw@amazon.co.uk>
+References: <b7796732-6334-c68b-3baa-2354644152f8@msgid.tls.msk.ru>
+In-Reply-To: <b7796732-6334-c68b-3baa-2354644152f8@msgid.tls.msk.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -90
+X-Spam_score: -9.1
+X-Spam_bar: ---------
+X-Spam_report: (-9.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.17,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,106 +59,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
-The corruption fixed by Lukas is actually trivial reproduce, so let's
-add this test case for it along with the fix for 8.0.
+01.04.2023 11:40, Michael Tokarev wrote:
+> After bringing in xen guest support, qemu fails to build on x32:
+> 
+> target/i386/kvm/xen-emu.c:876:5: note: in expansion of macro ‘qemu_build_assert’
+>    876 |     qemu_build_assert(sizeof(struct vcpu_info) == 64);
+>        |     ^~~~~~~~~~~~~~~~~
+> 
+> This one should be easy to fix, but I wonder if there are other issues
+> with x32 exists..
 
- tests/qemu-iotests/tests/regression-vhdx-log  | 62 +++++++++++++++++++
- .../tests/regression-vhdx-log.out             | 14 +++++
- 2 files changed, 76 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/regression-vhdx-log
- create mode 100644 tests/qemu-iotests/tests/regression-vhdx-log.out
+Ok, I took a look at how to disable this new XEN stuff on x32.
 
-diff --git a/tests/qemu-iotests/tests/regression-vhdx-log b/tests/qemu-iotests/tests/regression-vhdx-log
-new file mode 100755
-index 0000000000..ca264e93d6
---- /dev/null
-+++ b/tests/qemu-iotests/tests/regression-vhdx-log
-@@ -0,0 +1,62 @@
-+#!/usr/bin/env bash
-+# group: rw auto quick
-+#
-+# vhdx regression test: Updating the first entry of a BAT sector corrupted the
-+# following entries.
-+#
-+# Copyright (C) 2023 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+It is the commit 820c1aba519bd072ac71c754733f6c86d8b4309 "xen: add
+CONFIG_XEN_BUS and CONFIG_XEN_EMU options for Xen emulation" adding
+this construct to hw/i386/Kconfig:
+
+config XEN_EMU
+     bool
+     default y
+     depends on KVM && (I386 || X86_64)
+
+Since meson does not know about x32, and while ./conifgure does, it
+is not propagated to meson, and sure not propagated to Kconfig too,
+there's some more work needed to disable XEN_EMU on x32.
+
+Something like this?
+
+diff --git a/target/i386/Kconfig b/target/i386/Kconfig
+index ce6968906e..75a91f497a 100644
+--- a/target/i386/Kconfig
++++ b/target/i386/Kconfig
+@@ -3,3 +3,6 @@ config I386
+
+  config X86_64
+      bool
 +
-+# creator
-+owner=kwolf@redhat.com
++config X32
++    bool
+
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index d40802d83f..3ad6b44984 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -140,4 +140,4 @@ config VMMOUSE
+  config XEN_EMU
+      bool
+      default y
+-    depends on KVM && (I386 || X86_64)
++    depends on KVM && (I386 || X86_64) && !X32
+
+
+diff --git a/meson.build b/meson.build
+index c44d05a13f..9e7c83fc6a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -70,6 +70,11 @@ if cpu in ['riscv32', 'riscv64']
+    cpu = 'riscv'
+  endif
+
++x32 = false
++if cpu == 'x86_64'
++  x32 = cc.sizeof('long') == 4
++endif
 +
-+seq=`basename $0`
-+echo "QA output created by $seq"
-+
-+status=1 # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+cd ..
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt generic
-+_supported_proto generic
-+_unsupported_imgopts "subformat=streamOptimized"
-+
-+size=64M
-+_make_test_img $size
-+
-+echo
-+echo "creating pattern"
-+$QEMU_IO -c "write -P 1 32M 4k" "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -P 2 0 4k" "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 1 32M 4k" "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "checking image for errors"
-+_check_test_img
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/tests/regression-vhdx-log.out b/tests/qemu-iotests/tests/regression-vhdx-log.out
-new file mode 100644
-index 0000000000..350c257354
---- /dev/null
-+++ b/tests/qemu-iotests/tests/regression-vhdx-log.out
-@@ -0,0 +1,14 @@
-+QA output created by regression-vhdx-log
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+
-+creating pattern
-+wrote 4096/4096 bytes at offset 33554432
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 33554432
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+checking image for errors
-+No errors were found on the image.
-+*** done
--- 
-2.39.2
+  target_dirs = config_host['TARGET_DIRS'].split()
+  have_linux_user = false
+  have_bsd_user = false
+@@ -2554,7 +2559,8 @@ host_kconfig = \
+    ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
+    (have_pvrdma ? ['CONFIG_PVRDMA=y'] : []) + \
+    (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : []) + \
+-  (vfio_user_server_allowed ? ['CONFIG_VFIO_USER_SERVER_ALLOWED=y'] : [])
++  (vfio_user_server_allowed ? ['CONFIG_VFIO_USER_SERVER_ALLOWED=y'] : []) + \
++  (x32 ? ['CONFIG_X32=y'] : [])
+
+  ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
+
 
 
