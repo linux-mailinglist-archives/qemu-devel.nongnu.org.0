@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11426DE216
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 19:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69316DE21E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Apr 2023 19:13:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmHWR-00044p-0P; Tue, 11 Apr 2023 13:11:11 -0400
+	id 1pmHWN-00040g-8f; Tue, 11 Apr 2023 13:11:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pmHVu-0003rG-Ar
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:10:39 -0400
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133])
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pmHVx-0003rj-Pa
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:10:43 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pmHVr-000695-Vw
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:10:38 -0400
-Received: by mail-il1-x133.google.com with SMTP id k7so14954801ils.3
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 10:10:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pmHVs-00069F-Fc
+ for qemu-devel@nongnu.org; Tue, 11 Apr 2023 13:10:39 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id d20so12563899ioe.4
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 10:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681233033;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681233034;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mO99b13qRlgHCWdPhSoOiqyC95aMtsRkFEpbNDXSAnY=;
- b=XA+nTkNuoJ/IRdvg5+dOAudm0mL0auajydllO+jSw27Yr3Rjsxet1PSgawT7eLSVca
- y3uDYQM/q2rG08tGz/sef1tknO8xzZWoa9/viZjKdxNMqF06kn+QjgQdf0BjktgVz7/+
- Kn+ENtBIqaehk/2RtogZJafm82X0ZT+9m4LvJADmzQxruMSsF6QqTips538p+gdvoC7+
- qvJ/GLTAZkKkIlNPopJmPUQWB5FXxzK91LOMJk6Gz0XHJqZu/Dj8iNTP/OcT1V9u3J2+
- zCJ+MGvSNB+tzk7bH/8BXu55Hb6baB6KCb72JZUo3oZ7UNYuYv3jm4u16Y6A34trmYpc
- hHKg==
+ bh=7NzCz/sF8P038tTGJ2ITOmZzOTs2PdrJIGIXZvdsTJ8=;
+ b=i3gPrcJvA7IHi/BFxDSWOEfGutw4/WjNYleO8F4TmUovwqLbHtgNTVhVHbDcQ4ekyi
+ 2oOl2SdIxwdE2pEpcMuWFOFJvrghTArX4nrYHx+NXzXb1BlASFY4uMtfcEU5JXavRHDr
+ sKF36npaRe3AEjMYE4cbVMUOIZh3axkinCvF/zGOC3pVHXslu0D3D6jWP3LNd7B2+dFT
+ 9Z1mHexFA4NStEmeRRSmBXyQX9cWCn75ux+AE1qk3O6FIwiMcUNagn/qgHKM6jJZT9Ym
+ BRemi/FoQI2gPrOPWUt3MBLSpIbh/wtGwznwrvj3r4hyLKXH+REJZjPDWbyjH5p6pH7e
+ wJfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681233033;
+ d=1e100.net; s=20210112; t=1681233034;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mO99b13qRlgHCWdPhSoOiqyC95aMtsRkFEpbNDXSAnY=;
- b=0F5eFDg0Y/KqwQDrMC3UMqSJe71/gDTKjVEjN9MMLUoNu4nuy2iL0X/2sbb11DZPyg
- ovOJdnjvL8zkbFtBfKjXasGnDep54cynYV7nVNnTpJGnMpugO3pTGTM3kZNqvzF+/3qP
- QzwyVgkAx5hNIV2VCMO3B9OGRxujR6grhtUAT6W0kUq+hTGyOO6D8e/7u8aEtCGw9y+P
- VvVsgjhn/XQr5JmL8go3quh39Ddjf2FON9fkhVDHL3qEpgCRHSRgbxcpMjNdm5eHU2YO
- 2n7CE8zzeIp+vJUecy8ChIXSb6ael/zEUK2SrJZ/9ra98+Nup29Oi1drGsFrBZW6jR5H
- w+Dw==
-X-Gm-Message-State: AAQBX9fc/kXn3RLdWAY02CzNwzW10fl3btm2Jp3VDeonCkfbJbGuwa+l
- Af9lWv6RoGzW0B9+W3IsAwWx/k9j22y8I5pMy14=
-X-Google-Smtp-Source: AKy350bnVLrRazpuCubAMTa2TCAwFWhy1PkmvrDFxju1VPY4JNbAwltY2r/5PtB+BVskYxM+HOfleA==
-X-Received: by 2002:a92:4a10:0:b0:326:53bc:7817 with SMTP id
- m16-20020a924a10000000b0032653bc7817mr8643236ilf.17.1681233033552; 
- Tue, 11 Apr 2023 10:10:33 -0700 (PDT)
+ bh=7NzCz/sF8P038tTGJ2ITOmZzOTs2PdrJIGIXZvdsTJ8=;
+ b=L+HthUskMqtWs9PXjBWTFr6Gd0R2LME4w0N2QMt/1yAiBUkkLaEC1jeX7UEnE/qCSb
+ +vXgGWkrKCoXCKUindqUAHjXXm7keSS6sijggMRzpch5vWsyDzPDxDCJWZH6B9wBW4Gp
+ lyR1w/RI81GFCZnw5VuNAB9AHDuTebinCGpYCH3VKPoGc+IP1yXGdGfLPVlXv3+6foJ1
+ 4WslERje6u8VUsQXcpq5Z6FJn5avQY9x4s1L911FuTI8t4lZ7dPNHTnJgHOcOwnLXTFz
+ uRIhwZs/xb+ic+L6iiuBz2XDaSMOYAGCRzHY2Wf2yeRVY2XjeHCoFVPE2o5kCZDWKIla
+ en3Q==
+X-Gm-Message-State: AAQBX9dXOhtf8tX625ByBLcEVCjYqBaLCE0lQQYS1kmMzmELRHTZ2qVa
+ YffjKlqP5/eP2Wh8pMrH34V+DlwJYsPFgXamKKY=
+X-Google-Smtp-Source: AKy350aygik2amK6Cx4QMHHVSQVtRrX65LXIokH6xlCaY0VAOvLABOC/AdZ6z9gXD9G3YsiO11+mlg==
+X-Received: by 2002:a5e:d80d:0:b0:753:568:358e with SMTP id
+ l13-20020a5ed80d000000b007530568358emr2037400iok.20.1681233034611; 
+ Tue, 11 Apr 2023 10:10:34 -0700 (PDT)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- d36-20020a0285a7000000b0040b11b7ef54sm4140942jai.39.2023.04.11.10.10.32
+ d36-20020a0285a7000000b0040b11b7ef54sm4140942jai.39.2023.04.11.10.10.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 10:10:33 -0700 (PDT)
+ Tue, 11 Apr 2023 10:10:34 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: ryoon@netbsd.org, kevans@freebsd.org,
@@ -64,16 +64,16 @@ Cc: ryoon@netbsd.org, kevans@freebsd.org,
  Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>,
  Stacey Son <sson@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 11/20] bsd-user: Implement do_sysctl_kern_proc_filedesc
-Date: Tue, 11 Apr 2023 11:09:46 -0600
-Message-Id: <20230411170955.17358-12-imp@bsdimp.com>
+Subject: [PATCH v3 12/20] bsd-user: Implement do_sysctl_kern_proc_vmmap
+Date: Tue, 11 Apr 2023 11:09:47 -0600
+Message-Id: <20230411170955.17358-13-imp@bsdimp.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230411170955.17358-1-imp@bsdimp.com>
 References: <20230411170955.17358-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::133;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x133.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,141 +97,63 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Stacey Son <sson@FreeBSD.org>
 
-Implement do_sysctl_kern_proc_filedesc. This pulls kern.proc.filedesc
-out of the host kernel and converts it to the guest's format.
+Implement do_sysctl_kern_proc_vmmap. This pulls kern.proc.vmmap out of
+the host kernel and converts it to the guest's format.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/os-sys.c | 193 ++++++++++++++++++++++++++++++++++++++
+ bsd-user/freebsd/os-sys.c | 115 ++++++++++++++++++++++++++++++++++++++
  bsd-user/qemu.h           |   3 +
- 2 files changed, 196 insertions(+)
+ 2 files changed, 118 insertions(+)
 
 diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
-index d4a6dcc6c2b..00b2dcc9641 100644
+index 00b2dcc9641..418358adc1e 100644
 --- a/bsd-user/freebsd/os-sys.c
 +++ b/bsd-user/freebsd/os-sys.c
-@@ -270,6 +270,199 @@ do_sysctl_kern_getprocs(int op, int arg, size_t olen,
+@@ -463,6 +463,121 @@ do_sysctl_kern_proc_filedesc(int pid, size_t olen,
      return ret;
  }
  
 +static void
-+host_to_target_kinfo_file(struct target_kinfo_file *tkif,
-+        struct kinfo_file *hkif)
++host_to_target_kinfo_vmentry(struct target_kinfo_vmentry *tkve,
++        struct kinfo_vmentry *hkve)
 +{
-+    int type = hkif->kf_type;
 +
-+    __put_user(hkif->kf_structsize, &tkif->kf_structsize);
-+    __put_user(hkif->kf_type, &tkif->kf_type);
-+    __put_user(hkif->kf_fd, &tkif->kf_fd);
-+    __put_user(hkif->kf_ref_count, &tkif->kf_ref_count);
-+    __put_user(hkif->kf_flags, &tkif->kf_flags);
-+    __put_user(hkif->kf_offset, &tkif->kf_offset);
-+    switch (type) {
-+    case TARGET_KF_TYPE_FIFO:
-+    case TARGET_KF_TYPE_SHM:
-+    case TARGET_KF_TYPE_VNODE:
-+        __put_user(hkif->kf_un.kf_file.kf_file_type,
-+                &tkif->kf_un.kf_file.kf_file_type);
-+        __put_user(hkif->kf_un.kf_file.kf_file_fsid,
-+                &tkif->kf_un.kf_file.kf_file_fsid);
-+        __put_user(hkif->kf_un.kf_file.kf_file_rdev,
-+                &tkif->kf_un.kf_file.kf_file_rdev);
-+        __put_user(hkif->kf_un.kf_file.kf_file_fileid,
-+                &tkif->kf_un.kf_file.kf_file_fileid);
-+        __put_user(hkif->kf_un.kf_file.kf_file_size,
-+                &tkif->kf_un.kf_file.kf_file_size);
-+        __put_user(hkif->kf_un.kf_file.kf_file_fsid_freebsd11,
-+                &tkif->kf_un.kf_file.kf_file_fsid_freebsd11);
-+        __put_user(hkif->kf_un.kf_file.kf_file_rdev_freebsd11,
-+                &tkif->kf_un.kf_file.kf_file_rdev_freebsd11);
-+        __put_user(hkif->kf_un.kf_file.kf_file_mode,
-+                &tkif->kf_un.kf_file.kf_file_mode);
-+        break;
-+
-+    case TARGET_KF_TYPE_SOCKET:
-+        __put_user(hkif->kf_un.kf_sock.kf_sock_domain0,
-+                &tkif->kf_un.kf_sock.kf_sock_domain0);
-+        __put_user(hkif->kf_un.kf_sock.kf_sock_type0,
-+                &tkif->kf_un.kf_sock.kf_sock_type0);
-+        __put_user(hkif->kf_un.kf_sock.kf_sock_protocol0,
-+                &tkif->kf_un.kf_sock.kf_sock_protocol0);
-+/*  XXX - Implement copy function for sockaddr_storage
-+        host_to_target_copy_sockaddr_storage(
-+                &hkif->kf_un.kf_file.kf_sa_local,
-+                &kif->kf_un.kf_file.kf_sa_local);
-+        host_to_target_copy_sockaddr_storage(
-+                &hkif->kf_un.kf_file.kf_sa_peer,
-+                &kif->kf_un.kf_file.kf_sa_peer);
-+*/
-+        __put_user(hkif->kf_un.kf_sock.kf_sock_pcb,
-+                &tkif->kf_un.kf_sock.kf_sock_pcb);
-+        __put_user(hkif->kf_un.kf_sock.kf_sock_inpcb,
-+                &tkif->kf_un.kf_sock.kf_sock_inpcb);
-+        __put_user(hkif->kf_un.kf_sock.kf_sock_unpconn,
-+                &tkif->kf_un.kf_sock.kf_sock_unpconn);
-+        __put_user(hkif->kf_un.kf_sock.kf_sock_snd_sb_state,
-+                &tkif->kf_un.kf_sock.kf_sock_snd_sb_state);
-+        __put_user(hkif->kf_un.kf_sock.kf_sock_rcv_sb_state,
-+                &tkif->kf_un.kf_sock.kf_sock_rcv_sb_state);
-+        break;
-+
-+    case TARGET_KF_TYPE_PIPE:
-+        __put_user(hkif->kf_un.kf_pipe.kf_pipe_addr,
-+                &tkif->kf_un.kf_pipe.kf_pipe_addr);
-+        __put_user(hkif->kf_un.kf_pipe.kf_pipe_peer,
-+                &tkif->kf_un.kf_pipe.kf_pipe_peer);
-+        __put_user(hkif->kf_un.kf_pipe.kf_pipe_buffer_cnt,
-+                &tkif->kf_un.kf_pipe.kf_pipe_buffer_cnt);
-+        break;
-+
-+    case TARGET_KF_TYPE_SEM:
-+        __put_user(hkif->kf_un.kf_sem.kf_sem_value,
-+                &tkif->kf_un.kf_sem.kf_sem_value);
-+        __put_user(hkif->kf_un.kf_sem.kf_sem_mode,
-+                &tkif->kf_un.kf_sem.kf_sem_mode);
-+        break;
-+
-+    case TARGET_KF_TYPE_PTS:
-+        __put_user(hkif->kf_un.kf_pts.kf_pts_dev_freebsd11,
-+                &tkif->kf_un.kf_pts.kf_pts_dev_freebsd11);
-+        __put_user(hkif->kf_un.kf_pts.kf_pts_dev,
-+                &tkif->kf_un.kf_pts.kf_pts_dev);
-+        break;
-+
-+    case TARGET_KF_TYPE_PROCDESC:
-+        __put_user(hkif->kf_un.kf_proc.kf_pid,
-+                &tkif->kf_un.kf_proc.kf_pid);
-+        break;
-+
-+
-+    case TARGET_KF_TYPE_CRYPTO:
-+    case TARGET_KF_TYPE_KQUEUE:
-+    case TARGET_KF_TYPE_MQUEUE:
-+    case TARGET_KF_TYPE_NONE:
-+    case TARGET_KF_TYPE_UNKNOWN:
-+    default:
-+        /* Do nothing. */
-+        break;
-+    }
-+    __put_user(hkif->kf_status, &tkif->kf_status);
-+    for (int i = 0; i < (CAP_RIGHTS_VERSION + 2); i++)
-+        __put_user(hkif->kf_cap_rights.cr_rights[i],
-+                &tkif->kf_cap_rights.cr_rights[i]);
-+    strncpy(tkif->kf_path, hkif->kf_path, sizeof(tkif->kf_path));
++    __put_user(hkve->kve_structsize, &tkve->kve_structsize);
++    __put_user(hkve->kve_type, &tkve->kve_type);
++    __put_user(hkve->kve_start, &tkve->kve_start);
++    __put_user(hkve->kve_end, &tkve->kve_end);
++    __put_user(hkve->kve_offset, &tkve->kve_offset);
++    __put_user(hkve->kve_vn_fileid, &tkve->kve_vn_fileid);
++    __put_user(hkve->kve_vn_fsid_freebsd11, &tkve->kve_vn_fsid_freebsd11);
++    __put_user(hkve->kve_vn_fsid, &tkve->kve_vn_fsid);
++    __put_user(hkve->kve_flags, &tkve->kve_flags);
++    __put_user(hkve->kve_resident, &tkve->kve_resident);
++    __put_user(hkve->kve_private_resident, &tkve->kve_private_resident);
++    __put_user(hkve->kve_protection, &tkve->kve_protection);
++    __put_user(hkve->kve_ref_count, &tkve->kve_ref_count);
++    __put_user(hkve->kve_shadow_count, &tkve->kve_shadow_count);
++    __put_user(hkve->kve_vn_type, &tkve->kve_vn_type);
++    __put_user(hkve->kve_vn_size, &tkve->kve_vn_size);
++    __put_user(hkve->kve_vn_rdev_freebsd11, &tkve->kve_vn_rdev_freebsd11);
++    __put_user(hkve->kve_vn_rdev, &tkve->kve_vn_rdev);
++    __put_user(hkve->kve_vn_mode, &tkve->kve_vn_mode);
++    __put_user(hkve->kve_status, &tkve->kve_status);
++    strncpy(tkve->kve_path, hkve->kve_path, sizeof(tkve->kve_path));
 +}
 +
 +abi_long
-+do_sysctl_kern_proc_filedesc(int pid, size_t olen,
-+        struct target_kinfo_file *tkif, size_t *tlen)
++do_sysctl_kern_proc_vmmap(int pid, size_t olen,
++        struct target_kinfo_vmentry *tkve, size_t *tlen)
 +{
 +    abi_long ret;
 +    int mib[4], sz;
 +    size_t len;
 +    char *buf, *bp, *eb, *tp;
-+    struct kinfo_file *kf, kif;
-+    struct target_kinfo_file target_kif;
++    struct kinfo_vmentry *kve, kvme;
++    struct target_kinfo_vmentry target_kvme;
 +
 +    if (tlen == NULL) {
 +        return -TARGET_EINVAL;
@@ -240,14 +162,14 @@ index d4a6dcc6c2b..00b2dcc9641 100644
 +    len = 0;
 +    mib[0] = CTL_KERN;
 +    mib[1] = KERN_PROC;
-+    mib[2] = KERN_PROC_FILEDESC;
++    mib[2] = KERN_PROC_VMMAP;
 +    mib[3] = pid;
 +
 +    ret = get_errno(sysctl(mib, 4, NULL, &len, NULL, 0));
 +    if (is_error(ret)) {
 +        return ret;
 +    }
-+    if (tkif == NULL) {
++    if (tkve == NULL) {
 +        *tlen = len;
 +        return ret;
 +    }
@@ -261,7 +183,7 @@ index d4a6dcc6c2b..00b2dcc9641 100644
 +     * Count the number of records.
 +     *
 +     * Given that the kinfo_file information returned by
-+     * the kernel may be different sizes per record we have
++     * the kernel may be differents sizes per record we have
 +     * to read it in and count the variable length records
 +     * by walking them.
 +     */
@@ -274,8 +196,8 @@ index d4a6dcc6c2b..00b2dcc9641 100644
 +    bp = buf;
 +    eb = buf + len;
 +    while (bp < eb) {
-+        kf = (struct kinfo_file *)(uintptr_t)bp;
-+        bp += kf->kf_structsize;
++        kve = (struct kinfo_vmentry *)(uintptr_t)bp;
++        bp += kve->kve_structsize;
 +    }
 +    if (olen < *tlen) {
 +        g_free(buf);
@@ -288,17 +210,17 @@ index d4a6dcc6c2b..00b2dcc9641 100644
 +     */
 +    bp = buf;
 +    eb = buf + len;
-+    tp = (char *)tkif;
++    tp = (char *)tkve;
 +    while (bp < eb) {
-+        kf = (struct kinfo_file *)(uintptr_t)bp;
-+        sz = kf->kf_structsize;
++        kve = (struct kinfo_vmentry *)(uintptr_t)bp;
++        sz = kve->kve_structsize;
 +        /* Copy/expand into a zeroed buffer */
-+        memset(&kif, 0, sizeof(kif));
-+        memcpy(&kif, kf, sz);
-+        /* Byte swap and copy into a target buffer. */
-+        host_to_target_kinfo_file(&target_kif, &kif);
-+        /* Copy target buffer to user buffer and pack */
-+        memcpy(tp, &target_kif, sz);
++        memset(&kvme, 0, sizeof(kvme));
++        memcpy(&kvme, kve, sz);
++        /* Byte swap and copy into a target aligned buffer. */
++        host_to_target_kinfo_vmentry(&target_kvme, &kvme);
++        /* Copy target buffer to user buffer, packed. */
++        memcpy(tp, &target_kvme, sz);
 +        /* Advance to next packed record. */
 +        bp += sz;
 +        /* Advance to next packed, target record. */
@@ -313,18 +235,20 @@ index d4a6dcc6c2b..00b2dcc9641 100644
   * This uses the undocumented oidfmt interface to find the kind of a requested
   * sysctl, see /sys/kern/kern_sysctl.c:sysctl_sysctl_oidfmt() (compare to
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index fcaf794ad6e..5926bdcc101 100644
+index 5926bdcc101..aed0d481cba 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -259,8 +259,11 @@ int host_to_target_errno(int err);
- 
+@@ -260,10 +260,13 @@ int host_to_target_errno(int err);
  /* os-sys.c */
  struct target_kinfo_proc;
-+struct target_kinfo_file;
+ struct target_kinfo_file;
++struct target_kinfo_vmentry;
  abi_long do_sysctl_kern_getprocs(int op, int arg, size_t olen,
          struct target_kinfo_proc *tki, size_t *tlen);
-+abi_long do_sysctl_kern_proc_filedesc(int pid, size_t olen,
-+        struct target_kinfo_file *tkif, size_t *tlen);
+ abi_long do_sysctl_kern_proc_filedesc(int pid, size_t olen,
+         struct target_kinfo_file *tkif, size_t *tlen);
++abi_long do_sysctl_kern_proc_vmmap(int pid, size_t olen,
++        struct target_kinfo_vmentry *tkve, size_t *tlen);
  abi_long do_freebsd_sysctl(CPUArchState *env, abi_ulong namep, int32_t namelen,
          abi_ulong oldp, abi_ulong oldlenp, abi_ulong newp, abi_ulong newlen);
  abi_long do_freebsd_sysctlbyname(CPUArchState *env, abi_ulong namep,
