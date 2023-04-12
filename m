@@ -2,78 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2996DF164
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAFB6DF17A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:03:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmXGx-0001jz-5p; Wed, 12 Apr 2023 06:00:16 -0400
+	id 1pmXJW-00037P-Kl; Wed, 12 Apr 2023 06:02:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
- id 1pmXGu-0001jj-9s
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:00:12 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pmXJT-00036o-8P; Wed, 12 Apr 2023 06:02:51 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
- id 1pmXGr-0004NG-Tj
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:00:12 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 044AC62D39;
- Wed, 12 Apr 2023 10:00:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00809C4339B;
- Wed, 12 Apr 2023 09:59:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681293606;
- bh=OUD03e+7Iy4QMxz3xJBYzLJlFWfJDEAkzkfLMPair6A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=crNVkqcxHCCYL80wSlDenZejktN87UpM/8LK4etPla1ppaaBuuLGirFySD+9BC8KA
- rok+vJxk0HE5dOvhmCScfvmfwOePw1RpVNIHWcNtjR8/OdKMSLM8epGate+sVgwibT
- 5g+HJMDJAqTuD4tNXDMa0mdfzwpVYJP21+59Ok0BLQ7p83MVc5+U2FahQ/OrlB3E0c
- 3+nXL8j94+wzyND696UMlIfan6ehWljHDgvm/lA3rvxTNr5GvpkPZqTGm9cngV+VsN
- CJD1pJXthpF+iTotF1i6mXyGtz8SKPgaEU1iVG4BxB/UHaVj28tiyTa6p0gZEsOF59
- p48RQwfvtj8oA==
-Date: Wed, 12 Apr 2023 11:59:52 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: kvm@vger.kernel.org, linux-api@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
- ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
- bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
- corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
- hughd@google.com, jlayton@kernel.org, jmattson@google.com,
- joro@8bytes.org, jun.nakajima@intel.com,
- kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
- luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
- michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
- pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
- seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
- tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
- vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
- wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
- mount for memfd_restricted
-Message-ID: <20230412-kurzweilig-unsummen-3c1136f7f437@brauner>
-References: <20230404-engraved-rumble-d871e0403f3b@brauner>
- <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pmXJP-0004vL-Qh; Wed, 12 Apr 2023 06:02:50 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id EC19732009A6;
+ Wed, 12 Apr 2023 06:02:44 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 12 Apr 2023 06:02:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1681293764; x=
+ 1681380164; bh=a1dcv5JDOvXlpfcbVMnDFJXe4RyB7N765Je1/oXPFiQ=; b=J
+ 7sySitmuZqGYa/fs9rN6XKiXDFPTC8hnNoGT2Z7bJcSAcbOUTXjIVsqGG4khkyXj
+ HVfMviTITwR4HUa9qEDUaMM1lz9mUD0ITd5tTWLiTN48ZdBXAcMNonLM/+hpz199
+ h09SOCLJIz/Bd707rZgeSvBAuFafx/0+dgNk8+E96In3cJhI9Ba8I0Ewr8c9aijf
+ NKoFc2FBb1o7rnUqzBz+14ubtM+qSb+DJS5lDA6Y4ERncAyQuC94D6K4eAu2sY+c
+ CQQ/7SrSLv7Oy3Sn5G49Si7Ro0u+Us2YI/KpFIdXwUv8aaGR2QKfPhx4guPmDrXk
+ KsMoeOaMAqKZnspxz8iaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1681293764; x=1681380164; bh=a1dcv5JDOvXlp
+ fcbVMnDFJXe4RyB7N765Je1/oXPFiQ=; b=OmhqiQ5brYxfwIKA2txbGFWtTvhW1
+ JkY4Q3eRiGQqKwKcPlRBr9UMN3t12LBFif2zD9C8Xkbre2X2CYlv5Yb439lX0PZK
+ uG/757IBry+HgwhMqJiQUqvsQZotLm63pCfgHHYiLZq7fW1fIvJOIQCSKNZpVCSQ
+ AJ/PHY6FRXevpw6Reb8aga9xYs0tZyGwk7l0NPpLFCExF5LIGqb9xdJkKU/YRCVp
+ fVC7rUZQb5qCOqf73R0deB8LH10gmBshFnax9NpX1ijJjG78C9frN09eC4JvSuJV
+ 3o9ACtBVFmstCAdMXmeNJISX1SU96hEvXmQ9yHjXvRgRlHqH/EjxS8R3Q==
+X-ME-Sender: <xms:w4E2ZHTw_TTnK9CJ-d6UcUJ-gYVIbs-zQM_og3c73pyzWWDE4oeseQ>
+ <xme:w4E2ZIy1DUFaqHMPrAdRiwO5JLwkPkWMA3JCeCj6jLwvMh_0vRiH4aSkVpuneT6Ks
+ z8H4TJl70sYn0EsAns>
+X-ME-Received: <xmr:w4E2ZM1sYsA5WfxTIZmhidK-wqbxgNrmZZfeed686uyftLC5hBznG97iLrphesANx6jNLNSra0beJ85EH2QGLYzoX_ddKy4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedgvdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:w4E2ZHDth698QrPnSlY_mkTVpbCtcocyoH_wUgfSFiS_d_MnC80LEA>
+ <xmx:w4E2ZAh9thukzW5xTGjJ15lbTbzxczDcHzCHsRPJlgsnVDaojleZNA>
+ <xmx:w4E2ZLoIT3XIKzWGGLCvughK8D8_XKv3P1UkNfYOtPxxZLtYqTJQvA>
+ <xmx:xIE2ZKbjBnQ5CMibc9s2_oYnB__FmysN4gsfB3iZLYo4NJ8_7sc1jA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Apr 2023 06:02:42 -0400 (EDT)
+Date: Wed, 12 Apr 2023 12:02:40 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH 2/2] hw/nvme: fix memory leak in nvme_dsm
+Message-ID: <ZDaBwLivCo9yRx/s@cormorant.local>
+References: <20230411190448.64863-1-its@irrelevant.dk>
+ <20230411190448.64863-3-its@irrelevant.dk>
+ <b05fa5da-436f-7a49-7da0-3d17a13408b1@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pndk831NWyouGJ22"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=brauner@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+In-Reply-To: <b05fa5da-436f-7a49-7da0-3d17a13408b1@linaro.org>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,152 +103,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 05, 2023 at 09:58:44PM +0000, Ackerley Tng wrote:
-> 
-> Thanks again for your review!
-> 
-> Christian Brauner <brauner@kernel.org> writes:
-> > On Tue, Apr 04, 2023 at 03:53:13PM +0200, Christian Brauner wrote:
-> > > On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
-> > > >
-> > > > ...
-> > > >
-> > > > -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> > > > +static int restrictedmem_create(struct vfsmount *mount)
-> > > >  {
-> > > >  	struct file *file, *restricted_file;
-> > > >  	int fd, err;
-> > > >
-> > > > -	if (flags)
-> > > > -		return -EINVAL;
-> > > > -
-> > > >  	fd = get_unused_fd_flags(0);
-> 
-> > > Any reasons the file descriptors aren't O_CLOEXEC by default? I don't
-> > > see any reasons why we should introduce new fdtypes that aren't
-> > > O_CLOEXEC by default. The "don't mix-and-match" train has already left
-> > > the station anyway as we do have seccomp noitifer fds and pidfds both of
-> > > which are O_CLOEXEC by default.
-> 
-> 
-> Thanks for pointing this out. I agree with using O_CLOEXEC, but didn’t
-> notice this before. Let us discuss this under the original series at
-> [1].
-> 
-> > > >  	if (fd < 0)
-> > > >  		return fd;
-> > > >
-> > > > -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> > > > +	if (mount)
-> > > > +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem",
-> > > 0, VM_NORESERVE);
-> > > > +	else
-> > > > +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> > > > +
-> > > >  	if (IS_ERR(file)) {
-> > > >  		err = PTR_ERR(file);
-> > > >  		goto err_fd;
-> > > > @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned
-> > > int, flags)
-> > > >  	return err;
-> > > >  }
-> > > >
-> > > > +static bool is_shmem_mount(struct vfsmount *mnt)
-> > > > +{
-> > > > +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
-> 
-> > > This can just be if (mnt->mnt_sb->s_magic == TMPFS_MAGIC).
-> 
-> 
-> Will simplify this in the next revision.
-> 
-> > > > +}
-> > > > +
-> > > > +static bool is_mount_root(struct file *file)
-> > > > +{
-> > > > +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
-> 
-> > > mount -t tmpfs tmpfs /mnt
-> > > touch /mnt/bla
-> > > touch /mnt/ble
-> > > mount --bind /mnt/bla /mnt/ble
-> > > fd = open("/mnt/ble")
-> > > fd_restricted = memfd_restricted(fd)
-> 
-> > > IOW, this doesn't restrict it to the tmpfs root. It only restricts it to
-> > > paths that refer to the root of any tmpfs mount. To exclude bind-mounts
-> > > that aren't bind-mounts of the whole filesystem you want:
-> 
-> > > path->dentry == path->mnt->mnt_root &&
-> > > path->mnt->mnt_root == path->mnt->mnt_sb->s_root
-> 
-> 
-> Will adopt this in the next revision and add a selftest to check
-> this. Thanks for pointing this out!
-> 
-> > > > +}
-> > > > +
-> > > > +static int restrictedmem_create_on_user_mount(int mount_fd)
-> > > > +{
-> > > > +	int ret;
-> > > > +	struct fd f;
-> > > > +	struct vfsmount *mnt;
-> > > > +
-> > > > +	f = fdget_raw(mount_fd);
-> > > > +	if (!f.file)
-> > > > +		return -EBADF;
-> > > > +
-> > > > +	ret = -EINVAL;
-> > > > +	if (!is_mount_root(f.file))
-> > > > +		goto out;
-> > > > +
-> > > > +	mnt = f.file->f_path.mnt;
-> > > > +	if (!is_shmem_mount(mnt))
-> > > > +		goto out;
-> > > > +
-> > > > +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
-> 
-> > > With the current semantics you're asking whether you have write
-> > > permissions on the /mnt/ble file in order to get answer to the question
-> > > whether you're allowed to create an unlinked restricted memory file.
-> > > That doesn't make much sense afaict.
-> 
-> 
-> That's true. Since mnt_want_write() already checks for write permissions
-> and this syscall creates an unlinked file on the mount, we don't have to
-> check permissions on the file then. Will remove this in the next
-> revision!
-> 
-> > > > +	if (ret)
-> > > > +		goto out;
-> > > > +
-> > > > +	ret = mnt_want_write(mnt);
-> > > > +	if (unlikely(ret))
-> > > > +		goto out;
-> > > > +
-> > > > +	ret = restrictedmem_create(mnt);
-> > > > +
-> > > > +	mnt_drop_write(mnt);
-> > > > +out:
-> > > > +	fdput(f);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
-> > > > +{
-> > > > +	if (flags & ~RMFD_USERMNT)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	if (flags == RMFD_USERMNT) {
-> 
-> > > Why do you even need this flag? It seems that @mount_fd being < 0 is
-> > > sufficient to indicate that a new restricted memory fd is supposed to be
-> > > created in the system instance.
-> 
-> 
-> I'm hoping to have this patch series merged after Chao's patch series
-> introduces the memfd_restricted() syscall [1].
 
-I'm curious, is there an LSFMM session for this?
+--pndk831NWyouGJ22
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Apr 12 11:54, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 11/4/23 21:04, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > The iocb (and the allocated memory to hold LBA ranges) leaks if reading
+> > the LBA ranges fails.
+> >=20
+> > Fix this by adding a free and an unref of the iocb.
+> >=20
+> > Reported-by: Coverity (CID 1508281)
+> > Fixes: d7d1474fd85d ("hw/nvme: reimplement dsm to allow cancellation")
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >   hw/nvme/ctrl.c | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >=20
+> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> > index 8b7be1420912..ac24eeb5ed5a 100644
+> > --- a/hw/nvme/ctrl.c
+> > +++ b/hw/nvme/ctrl.c
+> > @@ -2619,6 +2619,9 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest=
+ *req)
+> >           status =3D nvme_h2c(n, (uint8_t *)iocb->range, sizeof(NvmeDsm=
+Range) * nr,
+> >                             req);
+> >           if (status) {
+> > +            g_free(iocb->range);
+> > +            qemu_aio_unref(iocb);
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>=20
+> I note the qemu_aio_FOO() functions are not documented.
+>=20
+
+As-in, "you are not supposed to use them" or "this should be documented
+at some point"?
+
+Thanks for your reviews Philippe, you're a life-saver :)
+
+--pndk831NWyouGJ22
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmQ2gb8ACgkQTeGvMW1P
+Dek3fgf/cOCu1Pjxyt3eWF4vaJCbum/nVokbg2Hde5t3nAh1VE0fJdqNHaDfojzw
+6hECeJvzMOQxIP2wriAFCgHgZBHzMj6Lz0cmyFU9q7RPNTx3rj1mi7PQ3CJbj72X
+Lse2cTHtO4NQdwM7FmCuweSstd+FTF8N9gg/ThTdS9YyuKAL6ozgRBavexkti/Bi
+SFiKrBaBGpq4rGD0MaKepgustctvhq/FgZfnc274s7B5e4U9zk7g1nVG20mM85+2
+IPdu/08v2a8yOy1VzV9dusYs8iAhtfHEx1L4WNaiSES9cescrKPqxblAnUHDmUUG
+/G8YBRcZCjHSs201QVcBImQ+jWsi+A==
+=CQWm
+-----END PGP SIGNATURE-----
+
+--pndk831NWyouGJ22--
 
