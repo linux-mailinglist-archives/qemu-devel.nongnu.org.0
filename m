@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C228E6DFE13
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 20:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 843D16DFE2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 20:58:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmfcu-0005uR-99; Wed, 12 Apr 2023 14:55:28 -0400
+	id 1pmffF-0006jO-2c; Wed, 12 Apr 2023 14:57:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmfcs-0005u9-OS
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 14:55:26 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
+ id 1pmffD-0006j9-H3
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 14:57:51 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmfcr-0004Ec-33
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 14:55:26 -0400
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-94a34c2bc67so236357666b.2
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 11:55:24 -0700 (PDT)
+ id 1pmffB-0004ho-Hi
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 14:57:51 -0400
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-504ea515d6fso1062381a12.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 11:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681325723; x=1683917723;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V4pWJbzUQpY8EmvUozfn2vkGqj1/INMaAK1x13wucOs=;
- b=toMZkIj6jmJNXgvJM2iCJhd+tD4KlpE79RuzB12bmf2Vf6UYUICXsSC75ScnWgNUlp
- tNF09+6k1wHrTegGkF+f3yr7jQ460DjY/5MoH1XJXhPYVXFBWkltlvFLbpRHOS3TyzEy
- qNV0aH3PtcM/Ao9OvaQ6Lgo5RbfjMqNgHeaqznU2zrfidOotrI8elhxFU891tmc2KMWm
- IbeT3qpoGz+4emMfmcmeYbAj4t+ZGsD76hNBskqsfWYLEaDfiMkLgGmwEd5OsO+TXFF+
- CIhidmHbcloULT6o0kItJmZYi1RglGW+MqFbeYMRkHQkYwjGDoJKusElTRbKQhNnEAZr
- tcpw==
+ d=linaro.org; s=google; t=1681325868; x=1683917868;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mwuMRWTckpmHAxe9wcRRZwJ9PRGYotK6uPdDjaX47Hw=;
+ b=UFvkjSNf07xqd6h81iyqZZVbdIKwVidmZpnv982GZosyT3wl3xhCoALO9/LDw45xnq
+ 0vzZ7KxG3EtKzQgOX3qdBV0FRh+Qoxi+WvK2hFMxIdDaAszhRqaKgcSYYnL50ZjlSM4n
+ gQQkYf0xVtuA+P5lWQTrymgcX2CxMzrqm75TY/dEFCchTk8RsyB5djPO2M0olMCkXTtu
+ NRu5ImExgJ6ZVZi0c5PAOCgjTSJxejwJHKI4ekw4imu8ReQYQfpmqNjfAGEzQNxewuyQ
+ meemcXyNP1InerS5KRghmuEGZE0+/ABLAQA1gcBDnrDwER+q2cZ1eO0IlLQwb1yRLqHC
+ PFHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681325723; x=1683917723;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V4pWJbzUQpY8EmvUozfn2vkGqj1/INMaAK1x13wucOs=;
- b=BtkGs3zM89E1QS/ggdRWtlQHAwrecJfHpg1UI+1JqybvQX7d8A4cj+D0k89xYlrJcJ
- WfmSe5YTlexUrLv2R9rfCBDQh6FlfmNHfvAd+xftkyi75lVEDKEweY/RdevVenYZij5X
- WwcLjkVvMrJKv6WnFfZ12BYFP6+aOqcEY1So4VqdzQftM/nKws2B1An2FnKNDhZ+ihCg
- zCBIqIERbAYJWguEblhtIWkKU8mWLk2INXOLnoA51E21O1qgGOz8AHpY8IYzare7CcE2
- Bbjq3rfO4OFDt1MoUSZQv4pH3eEseuvJV5xoSZStOTQp11kzep9NQ/ox37p3FAqHKQBz
- nWJg==
-X-Gm-Message-State: AAQBX9f26hB0fBkjnDcQvMA2Ct8pmK5qEPBfHW+pVWAmyayOzAiNn9g+
- iIU8h9/EKkAJ4jaK8ofz8zwyByLcEZB0qXjUCGPkNw==
-X-Google-Smtp-Source: AKy350brHiGejy7/I5Am1Uiea2aUHJKtqkhZKfRHYEYkw1NA/RSGTtjpBQnE8UYQsaFjrtq6Yg3S62pCjzMkAKOp+BA=
-X-Received: by 2002:a50:9f65:0:b0:505:521:7880 with SMTP id
- b92-20020a509f65000000b0050505217880mr1384308edf.6.1681325723523; Wed, 12 Apr
- 2023 11:55:23 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681325868; x=1683917868;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mwuMRWTckpmHAxe9wcRRZwJ9PRGYotK6uPdDjaX47Hw=;
+ b=EWEkZKcohnjyTrVvsJfCi1qUuMJGqggW/pBKv17GZQdaxYkM6K6hV5smccIUfHXqmf
+ DiGAhcQL4lmPxUxK6yaLdBRZwXml26PULisJDo4X1YFDLdHaBve8A00jEr3eX+GT9eNq
+ gsURaJB0d1PhMRNErZKbWevZnk3A+sy/6KNobtqIadoL+n8YA7VyCeZqP/rrTzmyvKhg
+ QaM8oUGIKboXEnOy7NeN1eFAmD4iceQIVqzPlMMbhvrgKPe47782bWClwRJ29k9pyDJx
+ KRJfSgcO/L4OmgVc/wYLeswnHtZR4lQvxF0Mw8Exc9T55Kcb8TZnpY6cshqszsmfLS+A
+ Bl7A==
+X-Gm-Message-State: AAQBX9f0vUX9anAZaAxzRhAOam9ZkoqqmM3FVvwGMGg3TSl5Z8PIAVHK
+ kY0L8dWZ0MnmurWzq4lVRZEDj/8hYw9aD1Mlmen5SQ==
+X-Google-Smtp-Source: AKy350b4Tq5Y77eGxUkuJXiU9YL7lKJFcM6uLvpeqBXHaxWzpKfedPmHYoMDes2bLhYp48y7W4tZfu4nqa5bO2ofXBQ=
+X-Received: by 2002:a50:d71e:0:b0:504:9c1f:1c65 with SMTP id
+ t30-20020a50d71e000000b005049c1f1c65mr6052761edi.6.1681325867781; Wed, 12 Apr
+ 2023 11:57:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230412185102.441523-1-dwmw2@infradead.org>
-In-Reply-To: <20230412185102.441523-1-dwmw2@infradead.org>
+ <20230412185102.441523-6-dwmw2@infradead.org>
+In-Reply-To: <20230412185102.441523-6-dwmw2@infradead.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 Apr 2023 19:55:12 +0100
-Message-ID: <CAFEAcA9G0KpkOivD8fBvEQwGcTsUQz53z5W53YcjcHmZGPHkmQ@mail.gmail.com>
-Subject: Re: [PATCH for-8.0 0/5] Xen emulation build/Coverity fixes
+Date: Wed, 12 Apr 2023 19:57:37 +0100
+Message-ID: <CAFEAcA9staAPX2buXO0MWj2yzVU1n22xLx-PEvOa5Aa2xC4YWw@mail.gmail.com>
+Subject: Re: [PATCH 5/5] hw/xen: Fix broken check for invalid state in
+ xs_be_open()
 To: David Woodhouse <dwmw2@infradead.org>
 Cc: qemu-devel@nongnu.org, no Stabellini <sstabellini@kernel.org>, 
  Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
@@ -71,9 +72,8 @@ Cc: qemu-devel@nongnu.org, no Stabellini <sstabellini@kernel.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
  xen-devel@lists.xenproject.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,32 +98,16 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Wed, 12 Apr 2023 at 19:52, David Woodhouse <dwmw2@infradead.org> wrote:
 >
-> Some Coverity fixes and minor cleanups. And most notably, dropping
-> support for Xen libraries older than 4.7.1.
+> From: David Woodhouse <dwmw@amazon.co.uk>
 >
-> I believe there are two issues that remain to be fixed. The x32 build
-> fails, and I've seen patches which attempt to detect x32 and disable
-> the Xen emulation. Along with assertions that we just shouldn't care.
-> I don't have a strong opinion either way but it seems to be in hand.
+> Coverity points out that if (!s && !s->impl) isn't really what we intended
+> to do here. CID 1508131.
 >
-> The other is the question of what Xen *actually* does if you try to
-> unmap an IRQ_MSI_EMU PIRQ. I don't think Linux guests try that, and
-> I'm fairly sure Windows doesn't even use MSI=E2=86=92PIRQ mappings in the
-> first place, and I doubt any other guests care either. I'd like to
-> establish the 'correct' behaviour and implement it, ideally before
-> the 8.0 release, but it's going to take me a few days more.
->
-> David Woodhouse (5):
->       hw/xen: Simplify emulated Xen platform init
->       hw/xen: Fix memory leak in libxenstore_open() for Xen
->       xen: Drop support for Xen versions below 4.7.1
->       hw/xen: Fix double-free in xen_console store_con_info()
->       hw/xen: Fix broken check for invalid state in xs_be_open()
->
+> Fixes: 032475127225 ("hw/xen: Add emulated implementation of XenStore operations")
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
 
-This is highly unlikely to make 8.0 at this point, FYI.
-If there's anything in this you think is super-critical we
-might be able to sneak it in.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
