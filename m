@@ -2,94 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E866DED1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 10:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0A16DEE70
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 10:41:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmVNQ-0007sY-27; Wed, 12 Apr 2023 03:58:48 -0400
+	id 1pmW1d-0005es-Ih; Wed, 12 Apr 2023 04:40:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pmVNN-0007rr-II
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 03:58:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pmVNK-0003hW-Eb
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 03:58:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681286321;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sUoDwNcKpUeqw+JF8Zi1NQ+UdtKG5fKh8tY9iPH4Vr0=;
- b=iz7vbb4KJeuT0eTuDON0/9R0o7WYF4JPleH2duiACnqafm9dmVLaP3lhAq/8XIFFo174Xk
- xD9hxuV+kkRU6rEaSmYnxbhGWEP1hv+USuVfmOVVKd8s42Nm4S23ff6174EB1+PfMRvX6K
- e85hX/zl+3mRTolPSD9W8xCRkWJ8AL4=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-397-FYuqaG4pOMOs9HgpY0v8ow-1; Wed, 12 Apr 2023 03:58:40 -0400
-X-MC-Unique: FYuqaG4pOMOs9HgpY0v8ow-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94a355c9028so156945666b.3
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 00:58:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmW1a-0005ee-86
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 04:40:18 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmW1Y-00050t-3v
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 04:40:17 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ n9-20020a05600c4f8900b003f05f617f3cso12414076wmq.2
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 01:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681288813; x=1683880813;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MfFum8FLEifhXYXGOs4a9LEKaz0A7WO9pe/X0V2mVIQ=;
+ b=rB8ZRKdmn5RqCxa7+9jSNI1Sadmgjj23k/xE3uNzJnjDsEtM+wpzVqSfENjyZO2PM8
+ ySMAq5qd1dLPdqp3le/ANQ5E9aOwfSa2dWnZGnEevL/Q9OoC9cGIpsMaJlgLE4y1QWT2
+ xUhczK/qe8YXBihoLOpqheMRrVqEFDIpDCViPI3kItg0Qp9eQ9sSNiJTLKLuaklEgXiq
+ O5c/+2ahwPyfnFHIdOjbl1L86FzG7OTGlFr8SvZTOd0r00Tpv8lp75RayweZ+vD1N/wD
+ y/41a4VXvV7R8weVC1o7DuPuqEhguIJtV4vNPUXrIoSDfWwmmHc4qvrg09lwTEfNLhba
+ M3Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681286319;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sUoDwNcKpUeqw+JF8Zi1NQ+UdtKG5fKh8tY9iPH4Vr0=;
- b=cbmBaEcd2iwnmNudYCvA/J3/dTVBqb8dVcufwbVqRCM8DG1BvXYBOX+1MxUpFHOZSQ
- dNS78kzlWePwsWOOuLTs1Hfi1NHeRjBVXDuI+BqsE9INm6JwVXgAqznZHxuZbRHKwuwE
- wrPxA5gsrPrBBq8wzLPGT/UogMjcVjTpVK1futpxomHNJwbmCVs2DPI85zlZ8xtHaWIh
- eWKvwdNWiK/95W0TyClMIS1A1KLP1/qO5YkgwE1G0QbzH7U3eqQ0DYjhhN9gnlpfhJur
- /rFzWE+HRpFFP1TAM3eDE951J+hOUUFsXaKaPbcPNPrNN+QTv0+uXab63DaUdpPBCHRZ
- oq9Q==
-X-Gm-Message-State: AAQBX9dn1HKF66IPOLSqU7Ls7vr8WWIAu3Ve6Lerd9BrLAzj3hJeNljx
- dEuE/vouzPYxks4L7AlFKkMZFO/vCI3Tlkz7cXZIMkTMszwoFh20m32vPXVYX1J7xzwIMs1Q2gU
- cand5+FX1Vs9YQJU=
-X-Received: by 2002:a05:6402:134c:b0:504:a192:cd5d with SMTP id
- y12-20020a056402134c00b00504a192cd5dmr8034145edw.5.1681286318870; 
- Wed, 12 Apr 2023 00:58:38 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z0Stu4IBEQWEKxYxL1EC96nuVDlffPE4u7k/8AajKmih0HizT3SMj4Wqy43jTh70VVJUFXXA==
-X-Received: by 2002:a05:6402:134c:b0:504:a192:cd5d with SMTP id
- y12-20020a056402134c00b00504a192cd5dmr8034130edw.5.1681286318572; 
- Wed, 12 Apr 2023 00:58:38 -0700 (PDT)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- d7-20020a50f687000000b00504803f4071sm5050629edn.44.2023.04.12.00.58.37
+ d=1e100.net; s=20210112; t=1681288813; x=1683880813;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=MfFum8FLEifhXYXGOs4a9LEKaz0A7WO9pe/X0V2mVIQ=;
+ b=Gd8PPH8cLOdbKEPCA3tB2EoOjpICXSxyZ/UI5Adboou2btFMES9igtwImggqYlv/hu
+ n3qK8qN7XAoV/EfA6VMzypTriaZq0I79j7gb10HpmEac1QZVBXad4RZm3nKeWnjBXmiW
+ kJhkSsCvn0Fe1B6/j1kNvXULf/P8KkKrtv7Lpb3QLRdr/FdzHhVto9x4UazAWosguPnz
+ U0WZ8dT9YD08pmZv7H8GxwrUaD3aOecxI1KStYombd8jU46JxO1TrrY08gjnL+R++j+Y
+ jBXcqTLfOGsfgi0xXU1Dh7AKMNYOmYjON0tDVMO+IeNF+qQtvTXe+izzTRYlaCzz2nTS
+ psWQ==
+X-Gm-Message-State: AAQBX9dwC0NkXax54fxu2HEfEwFtpT2uCONzH5bGrQDHqyVB0cDyQL9N
+ eQhtVlQU0BVF4yU7sN3d2kB8GQ==
+X-Google-Smtp-Source: AKy350ZAxloM76J0flwAhENkPzRrTtB1KoqMvU01WXUTFbsYBcnaf92xABuEkZ1f0UHTZ7qdA/DVHQ==
+X-Received: by 2002:a7b:c5ca:0:b0:3ed:4685:4618 with SMTP id
+ n10-20020a7bc5ca000000b003ed46854618mr9422990wmk.34.1681288813370; 
+ Wed, 12 Apr 2023 01:40:13 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ o24-20020a05600c379800b003edd1c44b57sm1568143wmr.27.2023.04.12.01.40.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 00:58:37 -0700 (PDT)
-Date: Wed, 12 Apr 2023 09:58:36 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: shannon.zhaosl@gmail.com, mst@redhat.com, ani@anisinha.ca,
- peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
- richard.henderson@linaro.org, eduardo@habkost.net,
- boris.ostrovsky@oracle.com
-Subject: Re: [PATCH 2/2] hw/acpi: i386: bump MADT to revision 5
-Message-ID: <20230412095836.199539a3@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230411180049.7566b9aa@imammedo.users.ipa.redhat.com>
-References: <20230328155926.2277-1-eric.devolder@oracle.com>
- <20230328155926.2277-3-eric.devolder@oracle.com>
- <20230411180049.7566b9aa@imammedo.users.ipa.redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ Wed, 12 Apr 2023 01:40:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AAE7C1FFB7;
+ Wed, 12 Apr 2023 09:40:12 +0100 (BST)
+References: <20230410033208.54663-1-jasowang@redhat.com> <ZDVrSVW0FoEuq6+2@x1n>
+ <CAFEAcA9jbuR72u=o6tUvpiA+SYFiASnoYRocKWVurscvdUJJAg@mail.gmail.com>
+User-agent: mu4e 1.10.0; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ mst@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH for 8.1] intel_iommu: refine iotlb hash calculation
+Date: Wed, 12 Apr 2023 09:22:38 +0100
+In-reply-to: <CAFEAcA9jbuR72u=o6tUvpiA+SYFiASnoYRocKWVurscvdUJJAg@mail.gmail.com>
+Message-ID: <87fs95pk7n.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,101 +97,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 11 Apr 2023 18:00:49 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
 
-> On Tue, 28 Mar 2023 11:59:26 -0400
-> Eric DeVolder <eric.devolder@oracle.com> wrote:
->=20
-> > Currently i386 QEMU generates MADT revision 3, and reports
-> > MADT revision 1. ACPI 6.3 introduces MADT revision 5.
-> >=20
-> > For MADT revision 4, that introduces ARM GIC structures, which do
-> > not apply to i386.
-> >=20
-> > For MADT revision 5, the Local APIC flags introduces the Online
-> > Capable bitfield.
-> >=20
-> > Making MADT generate and report revision 5 will solve problems with
-> > CPU hotplug (the Online Capable flag indicates hotpluggable CPUs). =20
->=20
-> So spec mandates 3 possible states
->   00t - not present and not can't be added later ever
->   01t - present
->   10t - not present but might be added later
-> and outlawed 11t combination
->=20
-> 00t - doesn't make much sense (i.e. why put such entry in MADT in the 1st=
- place)
->=20
-> but looking at kernel commit aa06e20f1be, it looks like
-> ACPI_MADT_ONLINE_CAPABLE was introduced to accommodate
-> firmware/hw folks who would stuff MADT with LAPIC entries
-> for all possible CPU models, and then patch it depending on
-> actually used CPU model instead of dynamically creating LAPIC
-> entries. (insane)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-on second thought, QEMU doesn't need rev 5 MADT with this flag complication=
-s.
-Also I see that kernel side fix ended up in checking ACPI spec version inst=
-ead
-of dealing with MADT revisions mess.
+> On Tue, 11 Apr 2023 at 15:14, Peter Xu <peterx@redhat.com> wrote:
+>>
+>> On Mon, Apr 10, 2023 at 11:32:08AM +0800, Jason Wang wrote:
+>> > @@ -222,9 +222,9 @@ static guint vtd_iotlb_hash(gconstpointer v)
+>> >  {
+>> >      const struct vtd_iotlb_key *key =3D v;
+>> >
+>> > -    return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
+>> > -           (key->level) << VTD_IOTLB_LVL_SHIFT |
+>> > -           (key->pasid) << VTD_IOTLB_PASID_SHIFT;
+>> > +    return key->gfn | ((uint64_t)(key->sid) << VTD_IOTLB_SID_SHIFT) |
+>> > +        (uint64_t)(key->level - 1) << VTD_IOTLB_LVL_SHIFT |
+>> > +        (uint64_t)(key->pasid) << VTD_IOTLB_PASID_SHIFT;
+>> >  }
+>
+>> >  /* The shift of source_id in the key of IOTLB hash table */
+>> > -#define VTD_IOTLB_SID_SHIFT         20
+>> > -#define VTD_IOTLB_LVL_SHIFT         28
+>> > -#define VTD_IOTLB_PASID_SHIFT       30
+>> > +#define VTD_IOTLB_SID_SHIFT         26
+>> > +#define VTD_IOTLB_LVL_SHIFT         42
+>> > +#define VTD_IOTLB_PASID_SHIFT       44
+>>
+>> This is for the hash function only, IIUC it means anything over
+>> sizeof(guint) will be ignored and not contributing anything to the hash
+>> value being generated due to the uint64->guint conversion.
+>>
+>> IOW, I think "level" and "pasid" will just be ignored.
+>
+> Whoops, hadn't noticed that guint type... (glib's
+> g_int64_hash()'s approach to this is to XOR the top
+> 32 bits with the bottom 32 bits to produce the 32-bit
+> hash value.)
 
-So for x86 lets bump revision to 3 or 4 to be in sync with
-what QEMU actually uses.
- =20
->=20
-> =20
-> > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> > ---
-> >  hw/i386/acpi-common.c | 13 ++++++++++---
-> >  1 file changed, 10 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-> > index 52e5c1439a..1e3a13a36c 100644
-> > --- a/hw/i386/acpi-common.c
-> > +++ b/hw/i386/acpi-common.c
-> > @@ -38,8 +38,15 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList =
-*apic_ids,
-> >  {
-> >      uint32_t apic_id =3D apic_ids->cpus[uid].arch_id;
-> >      /* Flags =E2=80=93 Local APIC Flags */
-> > -    uint32_t flags =3D apic_ids->cpus[uid].cpu !=3D NULL || force_enab=
-led ?
-> > -                     1 /* Enabled */ : 0;
-> > +    bool enabled =3D apic_ids->cpus[uid].cpu !=3D NULL || force_enable=
-d ?
-> > +                     true /* Enabled */ : false;
-> > +    /*
-> > +     * ACPI 6.3 5.2.12.2 Local APIC Flags: OnlineCapable must be 0
-> > +     * if Enabled is set.
-> > +     */
-> > +    bool onlinecapable =3D enabled ? false : true; /* Online Capable *=
-/ =20
->=20
-> > +    uint32_t flags =3D onlinecapable ? 0x2 : 0x0 |
-> > +        enabled ? 0x1 : 0x0; =20
-> align the last line with onlinecapable ....'
->=20
-> move /* Enabled */ and /* Online Capable */ comments right to magic values
-> i.e. onlinecapable ? 0x2 : 0x0 | /* Online Capable */ ...
->=20
-> > =20
-> >      /* ACPI spec says that LAPIC entry for non present
-> >       * CPU may be omitted from MADT or it must be marked
-> > @@ -102,7 +109,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker=
- *linker,
-> >      MachineClass *mc =3D MACHINE_GET_CLASS(x86ms);
-> >      const CPUArchIdList *apic_ids =3D mc->possible_cpu_arch_ids(MACHIN=
-E(x86ms));
-> >      AcpiDeviceIfClass *adevc =3D ACPI_DEVICE_IF_GET_CLASS(adev);
-> > -    AcpiTable table =3D { .sig =3D "APIC", .rev =3D 1, .oem_id =3D oem=
-_id,
-> > +    AcpiTable table =3D { .sig =3D "APIC", .rev =3D 5, .oem_id =3D oem=
-_id,
-> >                          .oem_table_id =3D oem_table_id };
-> > =20
-> >      acpi_table_begin(&table, table_data); =20
->=20
+This is less of a hash and more just concatting a bunch of fields. BTW
+if the glib built-in hash isn't suitable we also have the qemu_xxhash()
+functions which claim a good distribution of values and we use in a
+number of places throughout the code.
 
+> Also, does anybody know what the requirements are on
+> consistency between the hash_func and the key_equal_func
+> for a GHashTable ? Is the hash_func supposed to return the
+> same hash for every key that compares equal under key_equal_func ?
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
