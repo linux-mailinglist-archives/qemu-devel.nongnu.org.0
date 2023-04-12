@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8676DF33A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 13:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D85F6DF3DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 13:37:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmYcB-0007Ef-RP; Wed, 12 Apr 2023 07:26:15 -0400
+	id 1pmYlG-0001E1-7f; Wed, 12 Apr 2023 07:35:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pmYcA-0007E0-Cd
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 07:26:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pmYc8-0007Dj-EA
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 07:26:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681298771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OwhGnobvrjVdkWA/CXaD5gsw2LNNIGg6yxAbcsbFs+4=;
- b=G4QOYxRqbDEchBcs/L9PAv3zdb6c8KgKTX2olckz/h5uGebfuiNm1A31bEn9q6Gflmbpc2
- Y8XEMyeULVqEFoDmLFMJAfMVbI3+vDxl6KXBIG5qqkd+NcdTJ7MVTYEuF/o/MOmyFR5sou
- bF0rQ8wcRNqDU7vppIL31ibagi49YlM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-372-moBGngUvMwqUqXnUeWa0TA-1; Wed, 12 Apr 2023 07:26:10 -0400
-X-MC-Unique: moBGngUvMwqUqXnUeWa0TA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q9-20020adfab09000000b002f513905032so96409wrc.2
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 04:26:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681298768; x=1683890768;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OwhGnobvrjVdkWA/CXaD5gsw2LNNIGg6yxAbcsbFs+4=;
- b=qDk2sP+ULHn/1ZaaXyCA5ElEhv+uVJROioOkJEzzbhj2Oobms9+acR2lnSUtGKG6Uh
- t4julK8NtaefXealepZz9eIuFQUkxYzeIIyreiLB4rDTiaia7twgpFfs1cvVQ/EkrQuR
- 9daCpXaoLcB4kPjlBI+/yXEqq6ZN2Do60jxKEHu999gCBOdP5Hw/DHBDfs7oWHikbUt6
- /GqK/oZZ5TQIvNqSq2Ei+0M/iUEDQ7c44vqt4WWxz/NEclCnlewz3pIqSkNOUwRKzjk3
- i2bh63FYt74D/dn7WJ4sbeb0DmH/O9nqKsUlPFoW0KU1j0vRCYbUc6/gBLHmiuEXTCXt
- izxA==
-X-Gm-Message-State: AAQBX9dHZuX5MPhYwTRvrjkd77ApQaJfrlYda8rCmzBPhKe60rDPd8Ty
- 5x070icKnZXKSPvQCcz659vNhrze44LG/yIg8lB4UtZJwixAhb6JC07kAoSOXf48cnL/CHEDLbj
- 39sVOQaAEyxG2FOaTkJFr2cKIUhl6c3UR3AVreIVnqa+nZ4vKgqn55+greFSMIF+D9EKaNSO93s
- Y=
-X-Received: by 2002:adf:de05:0:b0:2ce:a7df:c115 with SMTP id
- b5-20020adfde05000000b002cea7dfc115mr1855054wrm.41.1681298768541; 
- Wed, 12 Apr 2023 04:26:08 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z3Var4a58ZlLyQ0YMa+vwa1MDT92UMKufdBer8otafBqLJqtMW05yCJr6R2dcv9MvSh6VjpA==
-X-Received: by 2002:adf:de05:0:b0:2ce:a7df:c115 with SMTP id
- b5-20020adfde05000000b002cea7dfc115mr1855036wrm.41.1681298768201; 
- Wed, 12 Apr 2023 04:26:08 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- n5-20020a5d4845000000b002e5f6f8fc4fsm16924010wrs.100.2023.04.12.04.26.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 04:26:07 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com,
-	qemu-block@nongnu.org
-Subject: [PATCH 8.0 regression] block/nfs: do not poll within a coroutine
-Date: Wed, 12 Apr 2023 13:26:06 +0200
-Message-Id: <20230412112606.80983-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pmYl6-0001BW-7r; Wed, 12 Apr 2023 07:35:28 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pmYl2-0000l6-B0; Wed, 12 Apr 2023 07:35:27 -0400
+Received: from [192.168.0.120] (unknown [180.165.241.15])
+ by APP-05 (Coremail) with SMTP id zQCowACHjxdylzZkY8h2EQ--.16550S2;
+ Wed, 12 Apr 2023 19:35:14 +0800 (CST)
+Message-ID: <9e1f46dc-088d-eb46-1d5e-90cc8648dd16@iscas.ac.cn>
+Date: Wed, 12 Apr 2023 19:35:13 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v12 02/10] target/riscv: add support for Zca extension
+Content-Language: en-US
+To: Alistair Francis <alistair23@gmail.com>, Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
+ <20230307081403.61950-3-liweiwei@iscas.ac.cn>
+ <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
+ <CAKmqyKP6Omm8HypeRps0xCaZXxw+VXsT0KY2ONtfOZmjR9WnDA@mail.gmail.com>
+ <0f2ebe23-750c-26eb-9d3e-920c80a3c222@iscas.ac.cn>
+ <CAKmqyKNSkGwRC8Ysu0nFDyBq58ZtL=JWpSO=X3sYkat-UzZdzA@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+In-Reply-To: <CAKmqyKNSkGwRC8Ysu0nFDyBq58ZtL=JWpSO=X3sYkat-UzZdzA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: zQCowACHjxdylzZkY8h2EQ--.16550S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKr45Kry7Cry5Gr18tF45GFg_yoW3XF4fpF
+ 47CF12kr4kJryIyryIgr4jqr1Utr4fKryxXrn5Kw1xJrZIyrWYqr1ktr4FkFykZF4kWr1j
+ vF4qyFnxuFyYyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+ c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIda
+ VFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-Originating-IP: [180.165.241.15]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.083,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,62 +84,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since the former nfs_get_allocated_file_size is now a coroutine
-function, it must suspend rather than poll.  Switch BDRV_POLL_WHILE()
-to a qemu_coroutine_yield() loop and schedule nfs_co_generic_bh_cb()
-in place of the call to bdrv_wakeup().
 
-Fixes: 82618d7bc341 ("block: Convert bdrv_get_allocated_file_size() to co_wrapper", 2023-02-01)
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/nfs.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+On 2023/4/12 18:55, Alistair Francis wrote:
+> On Wed, Apr 12, 2023 at 12:55 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>>
+>> On 2023/4/12 10:12, Alistair Francis wrote:
+>>> On Fri, Apr 7, 2023 at 6:23 AM Daniel Henrique Barboza
+>>> <dbarboza@ventanamicro.com> wrote:
+>>>> Hi,
+>>>>
+>>>> This patch is going to break the sifive_u boot if I rebase
+>>>>
+>>>> "[PATCH v6 0/9] target/riscv: rework CPU extensions validation"
+>>>>
+>>>> on top of it, as it is the case today with the current riscv-to-apply.next.
+>>>>
+>>>> The reason is that the priv spec version for Zca is marked as 1_12_0, and
+>>>> the priv spec version for both sifive CPUs is 1_10_0, and both are enabling
+>>>> RVC.
+>>>>
+>>>> This patch from that series above:
+>>>>
+>>>> "[PATCH v6 5/9] target/riscv/cpu.c: add priv_spec validate/disable_exts helpers"
+>>>>
+>>>> Makes the disabling of the extension based on priv version to happen *after* we
+>>>> do all the validations, instead of before as we're doing today. Zca (and Zcd) will
+>>>> be manually enabled just to be disabled shortly after by the priv spec code. And
+>>>> this will happen:
+>>>>
+>>>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000000 because privilege spec version does not match
+>>>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000001 because privilege spec version does not match
+>>>> qemu-system-riscv64: warning: disabling zcd extension for hart 0x0000000000000001 because privilege spec version does not match
+>>>> (--- hangs ---)
+>>>>
+>>>> This means that the assumption made in this patch - that Zca implies RVC - is no
+>>>> longer valid, and all these translations won't work.
+>>> Thanks for catching and reporting this
+>>>
+>>>> Some possible solutions:
+>>>>
+>>>> - Do not use Zca as a synonym for RVC, i.e. drop this patch. We would need to convert
+>>>> all Zca checks to RVC checks in all translation code.
+>>> This to me seems like the best solution
+>> I had also implemented a patch for this solution. I'll sent it later.
+> Thanks!
+>
+>> However, this will introduce additional check. i.e. check both Zca and C
+>> or , both Zcf/d and CF/CD.
+> Is there a large performance penalty for that?
 
-diff --git a/block/nfs.c b/block/nfs.c
-index 351dc6ec8d14..417defc0cfef 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -726,10 +726,8 @@ nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs, void *data,
-     if (task->ret < 0) {
-         error_report("NFS Error: %s", nfs_get_error(nfs));
-     }
--
--    /* Set task->complete before reading bs->wakeup.  */
--    qatomic_mb_set(&task->complete, 1);
--    bdrv_wakeup(task->bs);
-+    replay_bh_schedule_oneshot_event(task->client->aio_context,
-+                                     nfs_co_generic_bh_cb, task);
- }
- 
- static int64_t coroutine_fn nfs_co_get_allocated_file_size(BlockDriverState *bs)
-@@ -743,15 +741,19 @@ static int64_t coroutine_fn nfs_co_get_allocated_file_size(BlockDriverState *bs)
-         return client->st_blocks * 512;
-     }
- 
--    task.bs = bs;
-+    nfs_co_init_task(bs, &task);
-     task.st = &st;
--    if (nfs_fstat_async(client->context, client->fh, nfs_get_allocated_file_size_cb,
--                        &task) != 0) {
--        return -ENOMEM;
--    }
-+    WITH_QEMU_LOCK_GUARD(&client->mutex) {
-+        if (nfs_fstat_async(client->context, client->fh, nfs_get_allocated_file_size_cb,
-+                            &task) != 0) {
-+            return -ENOMEM;
-+        }
- 
--    nfs_set_events(client);
--    BDRV_POLL_WHILE(bs, !task.complete);
-+	nfs_set_events(client);
-+    }
-+    while (!task.complete) {
-+        qemu_coroutine_yield();
-+    }
- 
-     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
- }
--- 
-2.39.2
+May not very large.  Just one or two additional check in instruction 
+translation. You can see the patch at:
+
+https://lore.kernel.org/qemu-devel/20230412030648.80470-1-liweiwei@iscas.ac.cn/
+
+>
+>> I think this is not very necessary. Implcitly-enabled extensions is
+>> often the subsets of existed extension.
+> Yeah, I see what you are saying. It just becomes difficult to manage
+> though. It all worked fine until there are conflicts between the priv
+> specs.
+>
+>> So enabling them will introduce no additional function to the cpus.
+>>
+>> We can just make them invisible to user(mask them in the isa string)
+>> instead of disabling them  to be compatible with lower priv version.
+> I'm open to other options, but masking them like this seems like more
+> work and also seems confusing. The extension will end up enabled in
+> QEMU and potentially visible to external tools, but then just not
+> exposed to the guest. It seems prone to future bugs.
+
+Yeah. they may be visible to external tools if they read cfg directly.
+
+Another way is to introduce another parameter instead of cfg.ext_zca to 
+indicate whether Zca/Zcf/Zcd
+
+instructions are enabled. This is be done by patchset:
+
+https://lore.kernel.org/qemu-devel/20230410033526.31708-1-liweiwei@iscas.ac.cn/
+
+All of the three ways are acceptable to me.
+
+Regards,
+
+Weiwei Li
+
+
+> Alistair
+>
+>> Regards,
+>>
+>> Weiwei Li
+>>
+>>
+>>>> - Do not apply patch 5/9 from that series that moves the disable_ext code to the end
+>>>> of validation. Also a possibility, but we would be sweeping the problem under the rug.
+>>>> Zca still can't be used as a RVC replacement due to priv spec version constraints, but
+>>>> we just won't disable Zca because we'll keep validating exts too early (which is the
+>>>> problem that the patch addresses).
+>>>>
+>>>> - change the priv spec of the sifive CPUs - and everyone that uses RVC -  to 1_12_0. Not
+>>>> sure if this makes sense.
+>>>>
+>>>> - do not disable any extensions due to privilege spec version mismatch. This would make
+>>>> all the priv_version related artifacts to be more "educational" than to be an actual
+>>>> configuration we want to enforce. Not sure if that would do any good in the end, but
+>>>> it's also a possibility.
+>>> This also seems like something we can do. Printing a warning but
+>>> continuing on seems reasonable to me. That allows users to
+>>> enable/disable features even if the versions don't match.
+>>>
+>>> I don't think this is the solution for this problem though
+>>>
+>>> Alistair
+>>>
+>>>> I'll hold the rebase of that series until we sort this out. Thanks,
+>>>>
+>>>>
+>>>> Daniel
+>>>>
+>>>>
+>>>>
+>>>> On 3/7/23 05:13, Weiwei Li wrote:
+>>>>> Modify the check for C extension to Zca (C implies Zca).
+>>>>>
+>>>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>>>> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>>>>> ---
+>>>>>     target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+>>>>>     target/riscv/translate.c                | 8 ++++++--
+>>>>>     2 files changed, 8 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>> index 4ad54e8a49..c70c495fc5 100644
+>>>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>>>>>         tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+>>>>>
+>>>>>         gen_set_pc(ctx, cpu_pc);
+>>>>> -    if (!has_ext(ctx, RVC)) {
+>>>>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>>>>             TCGv t0 = tcg_temp_new();
+>>>>>
+>>>>>             misaligned = gen_new_label();
+>>>>> @@ -169,7 +169,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>>>>>
+>>>>>         gen_set_label(l); /* branch taken */
+>>>>>
+>>>>> -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>>>>> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>>>>>             /* misaligned */
+>>>>>             gen_exception_inst_addr_mis(ctx);
+>>>>>         } else {
+>>>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>>>>> index 0ee8ee147d..d1fdd0c2d7 100644
+>>>>> --- a/target/riscv/translate.c
+>>>>> +++ b/target/riscv/translate.c
+>>>>> @@ -549,7 +549,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>>>>>
+>>>>>         /* check misaligned: */
+>>>>>         next_pc = ctx->base.pc_next + imm;
+>>>>> -    if (!has_ext(ctx, RVC)) {
+>>>>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>>>>             if ((next_pc & 0x3) != 0) {
+>>>>>                 gen_exception_inst_addr_mis(ctx);
+>>>>>                 return;
+>>>>> @@ -1122,7 +1122,11 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>>>>>         if (insn_len(opcode) == 2) {
+>>>>>             ctx->opcode = opcode;
+>>>>>             ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>>>>> -        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
+>>>>> +        /*
+>>>>> +         * The Zca extension is added as way to refer to instructions in the C
+>>>>> +         * extension that do not include the floating-point loads and stores
+>>>>> +         */
+>>>>> +        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
+>>>>>                 return;
+>>>>>             }
+>>>>>         } else {
 
 
