@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15AA6DF674
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 15:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7904F6DF675
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 15:06:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pma90-0003ju-Ql; Wed, 12 Apr 2023 09:04:14 -0400
+	id 1pmaAs-00056A-LT; Wed, 12 Apr 2023 09:06:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pma8x-0003if-7g
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:04:11 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pma8u-00057p-4Y
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:04:10 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PxN9T3m2wz6H84D;
- Wed, 12 Apr 2023 21:00:29 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 12 Apr
- 2023 14:02:51 +0100
-Date: Wed, 12 Apr 2023 14:02:50 +0100
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-CC: Hao Zeng <zenghao@kylinos.cn>, <fan.ni@samsung.com>,
- <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v2 2/2] cxl-cdat:Fix the check on the return value of
- fread()
-Message-ID: <20230412140250.00000d4a@Huawei.com>
-In-Reply-To: <07ab950e-7ee4-2476-9032-4638fe6eed1f@linaro.org>
-References: <20230412071633.2660412-1-zenghao@kylinos.cn>
- <20230412071633.2660412-3-zenghao@kylinos.cn>
- <07ab950e-7ee4-2476-9032-4638fe6eed1f@linaro.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pmaAq-00055O-3t
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:06:08 -0400
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pmaAm-0006OV-Ls
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:06:07 -0400
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-183f4efa98aso19765816fac.2
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 06:06:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1681304763;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QojcOoShkasWZ78LhbWzd5c0qWMAnrJVHNhAIsRVtaM=;
+ b=UJsXWjvmQ2kIJFtuHqTkGveOHG7bY8rwiPrPg18mVcNui/RIjL8zXfUJw7grlPwbVp
+ tIVnhaXresVAZDH8T11K09Wx5K888qvOI1T9c9IZoNjTmL0L9KNFVk0vLpOxFaj3awWr
+ AQdGNFgJs3JF/f+fLmUBQjgxTzBLhbqL1M/qQtzkvcRiMqUSD8UkEi1fLCh8IEoz18R0
+ Y8WbkFwH1DEXBa7OZ8D3SQeRqzPzb4Vzorut9zADnz/GI7vRBp2YpfhvLiKp+fHPhF2N
+ e8YRqr4xGG3kArzqIKTQiUTw+GXUD/q0lTRRjbmfMOdgj49qNjKA+BHzRwuMhqRLyw7U
+ rMiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681304763;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QojcOoShkasWZ78LhbWzd5c0qWMAnrJVHNhAIsRVtaM=;
+ b=rGxhybx00RxulRGAtcfdyhJLhtvwUHy9SvDc9Dkyq9ENhVCo5g+BuNSiLy+0gNAu78
+ Okh1TgmudkHgiSmw54CEj+mJK48cvTeXFZ+ndBPzvr3BF4L5xiha9dQowKFXiMjsiaok
+ iHHTXmaR03g+4Jb8CVqeYA67sHz2IipxjS2sr/FB6ak+YRbfFgLd+n9eFNta5QsqfVos
+ n8FGLngKspQf2aFokJ0kDJhML3oN5GQPjp3Bc0UvVuKGtlFhyFHSndfsVTG4vNEUsD9U
+ 1RzygVgtFFBbAv6CX0nffVsKwpL6dGGKgNTYlXGh3Lf37qasq1m4+6txkCXFm6iCq0Cw
+ /HWg==
+X-Gm-Message-State: AAQBX9eke99GNpFg6xkmHAddI2Z2B+GuVfRAUw5AAJB6BK4B2hm1q4nO
+ 6OQBrNVQW2Q78Uhtz6XrMNBGtA==
+X-Google-Smtp-Source: AKy350bRi2Vzjv+/fwYCbpG9rnDhb5gmY/EhZu8le0NGKlLQnB/Wt0+DgB9UEl+CYIfYm+vUWET6Gw==
+X-Received: by 2002:a05:6870:a7a3:b0:180:1c4b:fce6 with SMTP id
+ x35-20020a056870a7a300b001801c4bfce6mr8008499oao.28.1681304762722; 
+ Wed, 12 Apr 2023 06:06:02 -0700 (PDT)
+Received: from [192.168.68.107] ([191.255.108.232])
+ by smtp.gmail.com with ESMTPSA id
+ tk9-20020a05687189c900b0017ae6741157sm6168351oab.4.2023.04.12.06.05.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 06:06:02 -0700 (PDT)
+Message-ID: <0f9cb0e8-ba52-4c67-0d05-02fe9cbf8108@ventanamicro.com>
+Date: Wed, 12 Apr 2023 10:05:57 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] target/riscv: Mask the implicitly enabled extensions in
+ isa_string based on priv version
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230407033014.40901-1-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230407033014.40901-1-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x30.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.083,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,54 +94,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 12 Apr 2023 12:02:47 +0200
-Philippe Mathieu-Daud=E9 <philmd@linaro.org> wrote:
 
-> On 12/4/23 09:16, Hao Zeng wrote:
-> > The bug in this code (CID 1507822) is that the
-> > check on the return value of fread() is wrong. fread()
-> > returns the number of items read or written, so
-> > checking for =3D=3D 0 only catches "no data read at all",
-> > not "only read half the data".
-> >=20
-> > Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
-> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >   hw/cxl/cxl-cdat.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-> > index ba7ed1aafd..130531a9cd 100644
-> > --- a/hw/cxl/cxl-cdat.c
-> > +++ b/hw/cxl/cxl-cdat.c
-> > @@ -126,7 +126,7 @@ static void ct3_load_cdat(CDATObject *cdat, Error *=
-*errp)
-> >       fseek(fp, 0, SEEK_SET);
-> >       cdat->buf =3D g_malloc0(file_size); =20
->=20
-> Pointless bzero in g_malloc0, however this code would be
-> simplified using g_file_get_contents().
 
-Agreed - switching this whole thing to g_file_get_contents()
-will get rid of this code and be a lot simpler.
-Perhaps just jump directly to that and note the two bugs that existed
-in the code that is replaced?
+On 4/7/23 00:30, Weiwei Li wrote:
+> Using implicitly enabled extensions such as Zca/Zcf/Zcd instead of their
+> super extensions can simplify the extension related check. However, they
+> may have higher priv version than their super extensions. So we should mask
+> them in the isa_string based on priv version to make them invisible to user
+> if the specified priv version is lower than their minimal priv version.
+> 
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
 
-Jonathan
-=20
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
->=20
-> >  =20
-> > -    if (fread(cdat->buf, file_size, 1, fp) =3D=3D 0) {
-> > +    if (fread(cdat->buf, file_size, 1, fp) !=3D file_size) {
-> >           error_setg(errp, "CDAT: File read failed");
-> >           fclose(fp);
-> >           return; =20
->=20
 
+And I'll fold it into the next version of "[PATCH v6 0/9] target/riscv: rework
+CPU extensions validation​" to fix the sifive break I'm experiencing there.
+
+
+
+Thanks,
+
+
+Daniel
+
+>   target/riscv/cpu.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index cb68916fce..1a5099382c 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1709,6 +1709,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str,
+>   
+>       for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+>           if (isa_edata_arr[i].multi_letter &&
+> +            (cpu->env.priv_ver >= isa_edata_arr[i].min_version) &&
+>               isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
+>               new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+>               g_free(old);
 
