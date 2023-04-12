@@ -2,93 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07B16DEB66
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 07:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC116DEB73
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 07:58:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmTCz-0006o8-01; Wed, 12 Apr 2023 01:39:53 -0400
+	id 1pmTTk-0000dD-Q3; Wed, 12 Apr 2023 01:57:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmTCf-0006nc-Q8
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 01:39:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pmTTV-0000cv-IO
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 01:56:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmTCe-00085r-0l
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 01:39:33 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pmTTS-0002tN-V9
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 01:56:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681277970;
+ s=mimecast20190719; t=1681279013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VHCdvDKrd6SHmT5+4IxRxVZw2qNaGEXhrgpsq6j6904=;
- b=eoFBNga4F/5PdNGPAVsNAZeC4YBue/s6g0MWcn1Lj7Rs2BvsPE96FvNP6cKshIUsPbZqs9
- PakWPzkblug7mX9MDD6eUbwtJKWR346Xs8SWCKl1USeAjGU/5PkCYdWRrAHB8FMEOvwPpQ
- YJUfO17fBR1b+WaElrCjyEKhe6klQfQ=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=h0alckr7K0RbE3QI1xwF9qAHVAHS+bQH1ImM0gTvsN4=;
+ b=iyduotmG4RRDVuP5gPxPgm8VwANrNnB72sd9JVDLZ1X0hUeLGkbbBR5ZQIojb/CH8MLbln
+ hqZsvP5d+9AF/ok6CWUeqGJIxK5vKxP4+2SmLchsqWBZE4K9MVqR9UWv0uVJid49iCSKfX
+ oPKi71SsT6ofsDbeVlhP4Fw48EYGWls=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-404-Ccg48VELPey-WjY8Kzqf-w-1; Wed, 12 Apr 2023 01:39:29 -0400
-X-MC-Unique: Ccg48VELPey-WjY8Kzqf-w-1
-Received: by mail-ej1-f72.google.com with SMTP id
- s14-20020a17090699ce00b0093994122eddso3567023ejn.17
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 22:39:29 -0700 (PDT)
+ us-mta-557-jZlG04KSN1ScjUAOVGPQsg-1; Wed, 12 Apr 2023 01:56:51 -0400
+X-MC-Unique: jZlG04KSN1ScjUAOVGPQsg-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ t25-20020a05683014d900b0069f851af0aaso2715272otq.22
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 22:56:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681277968; x=1683869968;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VHCdvDKrd6SHmT5+4IxRxVZw2qNaGEXhrgpsq6j6904=;
- b=oSvpX6ZfTTwls2080bBLwuVyCb2cV9O6hoKOoRWUuQ5uTtsD7gWLcCHL5xxayTRZVu
- vYPo8CVfU6j49ActnefGczoagfYaCvOPLRHaPUfywkYcwgUER3psta/j7iGXkSoamtS4
- Li2HGH/ZJk9ZUEh/YaioOviaKGZtmu5a/ARQtD5JW76JrIXZzc2IW+LOK5eIi8OLr0FT
- 2xgmOdGVg7Qyt9TFdZPXfQM+uFxqe+UD6sMg5ZJrwl3ZRrG1oC88JsYNa0soJMwquuip
- mMkFbLrMuuG4ht+IKSUp4KUd9pNxLlv4EpJftJC9uyi/OLRNmiUzTakPwmDrSXPgtwom
- PM9g==
-X-Gm-Message-State: AAQBX9f/spjw10U8HskO5S0wf5R00YUDBEeNamAY0ocoTTj7IX87A0T5
- dWdoQxAD6ZtKLt2paeCGP7fE0O3qEt+KsUQwQodIhLdgLdHjaRfjZL6vnq1/kw5pp+MC6pbHq6d
- ucW/VJWGLbOdUmtw=
-X-Received: by 2002:a17:906:1401:b0:94e:5224:b21e with SMTP id
- p1-20020a170906140100b0094e5224b21emr1134982ejc.14.1681277968556; 
- Tue, 11 Apr 2023 22:39:28 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aiVhpgQoLUs6/2V6EcX+z/iUJaQs6ANB2YdA1maYchDM3UA/NUeo7RWULN8e+iRtBMgK9+FQ==
-X-Received: by 2002:a17:906:1401:b0:94e:5224:b21e with SMTP id
- p1-20020a170906140100b0094e5224b21emr1134974ejc.14.1681277968264; 
- Tue, 11 Apr 2023 22:39:28 -0700 (PDT)
-Received: from [192.168.8.105] (tmo-096-44.customers.d1-online.com.
- [80.187.96.44]) by smtp.gmail.com with ESMTPSA id
- s21-20020a1709060c1500b0094a85f6074bsm2889674ejf.33.2023.04.11.22.39.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 22:39:27 -0700 (PDT)
-Message-ID: <895bcdd3-350d-38e7-1982-899948072b93@redhat.com>
-Date: Wed, 12 Apr 2023 07:39:23 +0200
+ d=1e100.net; s=20210112; t=1681279011; x=1683871011;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h0alckr7K0RbE3QI1xwF9qAHVAHS+bQH1ImM0gTvsN4=;
+ b=G0jNhiXIa53oLtcBcVZsxc8HHzMuBp0Y/1nIRvSybGYjsifz6RvCuBjajhWtWzbvep
+ HIDm/908f0JdHkam19oLl8gWz6kbBs1OEa3+ip1HmqwE7OWckcDjOe+AsaU125uI6JIT
+ sThQMbBkL0uk09NBFhd969/X8+cZ8p8MlcOP4rKDPYlQLPI7PJoDokOoNaQFF6PMXKCP
+ aZv+REZ2IbLmYp+bo0k4YNBjAtomtU+dW+AlPxMGXdx/+Yq4WjF0UK+7YGv5wIHcE4t2
+ RK1y1QByUWpNAZGn22hoYylpZiDAM9fdzSEtvChLG/1xz9YCmOApi+r/DU23IiCo+RCA
+ /2CA==
+X-Gm-Message-State: AAQBX9fEhKNbbg/o5gle5zzM4VJuJ4TeCGbtrv6/xJ5f4YMSPUM5riOn
+ 8y8igxFRj/sfX0HyMl448vtnkwyV0yu1RZyq62B17VUyknGBxoAPp03KMUDbyt4LaquB23NZbGX
+ XJG7qxjh0bOgxza7TQ3pHmBmdxMyc+HA=
+X-Received: by 2002:a54:470b:0:b0:38b:ef9a:b54d with SMTP id
+ k11-20020a54470b000000b0038bef9ab54dmr281311oik.9.1681279011040; 
+ Tue, 11 Apr 2023 22:56:51 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bYK2L0EXF+AiRs/5Vi0ChdBt88iMiBbAJvxm0+j4ddBzr4WHNSUm+ENxu5GGZIjKOmzeLF6D4YW1oGXJN3WjQ=
+X-Received: by 2002:a54:470b:0:b0:38b:ef9a:b54d with SMTP id
+ k11-20020a54470b000000b0038bef9ab54dmr281296oik.9.1681279010771; Tue, 11 Apr
+ 2023 22:56:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [QEMU][PATCH] gitlab-ci.d/crossbuilds: Drop the '--disable-tcg'
- configuration for xen
-Content-Language: en-US
-To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org
-Cc: xen-devel@lists.xenproject.org, stefano.stabellini@amd.com,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230411210422.24255-1-vikram.garhwal@amd.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230411210422.24255-1-vikram.garhwal@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <CAJaqyWdV6pKP0SVZciMiu_HN86aJriZh0HBiwHNkO7+yErXnBA@mail.gmail.com>
+ <CAJaqyWceWu5EpwAZjEAe5EkJ=SQ4bVYXohCjgqpkFtKiSb+OHQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWceWu5EpwAZjEAe5EkJ=SQ4bVYXohCjgqpkFtKiSb+OHQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 12 Apr 2023 13:56:39 +0800
+Message-ID: <CACGkMEu0PYQ=dS=VcfOCX32153emzB9R++8K3HGXnyt2x8BDpQ@mail.gmail.com>
+Subject: Re: Reducing vdpa migration downtime because of memory pin / maps
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Longpeng <longpeng2@huawei.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <elic@nvidia.com>, 
+ Parav Pandit <parav@nvidia.com>, Juan Quintela <quintela@redhat.com>, 
+ David Gilbert <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.17, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,42 +98,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/04/2023 23.04, Vikram Garhwal wrote:
-> Xen is supported for aarch64 via xenpvh machine. disable-tcg option fails the
-> build for aarch64 target.
-> 
-> Link for xen on arm patch series: https://mail.gnu.org/archive/html/qemu-devel/2023-02/msg03979.html
-> 
-> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
-> ---
->   .gitlab-ci.d/crossbuilds.yml | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-> index 61b8ac86ee..6867839248 100644
-> --- a/.gitlab-ci.d/crossbuilds.yml
-> +++ b/.gitlab-ci.d/crossbuilds.yml
-> @@ -186,7 +186,7 @@ cross-amd64-xen-only:
->     variables:
->       IMAGE: debian-amd64-cross
->       ACCEL: xen
-> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
-> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
->   
->   cross-arm64-xen-only:
->     extends: .cross_accel_build_job
-> @@ -195,4 +195,4 @@ cross-arm64-xen-only:
->     variables:
->       IMAGE: debian-arm64-cross
->       ACCEL: xen
-> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
-> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
+On Tue, Apr 11, 2023 at 8:34=E2=80=AFPM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Wed, Apr 5, 2023 at 1:37=E2=80=AFPM Eugenio Perez Martin <eperezma@red=
+hat.com> wrote:
+> >
+> > Hi!
+> >
+> > As mentioned in the last upstream virtio-networking meeting, one of
+> > the factors that adds more downtime to migration is the handling of
+> > the guest memory (pin, map, etc). At this moment this handling is
+> > bound to the virtio life cycle (DRIVER_OK, RESET). In that sense, the
+> > destination device waits until all the guest memory / state is
+> > migrated to start pinning all the memory.
+> >
+> > The proposal is to bind it to the char device life cycle (open vs
+> > close), so all the guest memory can be pinned for all the guest / qemu
+> > lifecycle.
+> >
+> > This has two main problems:
+> > * At this moment the reset semantics forces the vdpa device to unmap
+> > all the memory. So this change needs a vhost vdpa feature flag.
+> > * This may increase the initialization time. Maybe we can delay it if
+> > qemu is not the destination of a LM. Anyway I think this should be
+> > done as an optimization on top.
+> >
+>
+> Expanding on this we could reduce the pinning even more now that vring
+> supports VA [1] with the emulated CVQ.
 
-This patch looks wrong. I'm pretty sure we wanted to test the build without 
-TCG here. Building with TCG enabled is already done in other jobs. So 
-instead of removing "--disable-tcg" here the question is rather: Why does it 
-not build with this flag anymore? Can those problems be fixed instead?
+Note that VA for hardware means the device needs to support page fault
+through either PRI or vendor specific interface.
 
-  Thomas
+>
+> Something like:
+> - Add VHOST_VRING_GROUP_CAN_USE_VA ioctl to check if a given VQ group
+> capability. Passthrough devices with emulated CVQ would return false
+> for the dataplane and true for the control vq group.
+> - If that is true, qemu does not need to map and translate addresses
+> for CVQ but to directly provide VA for buffers. This avoids pinning,
+> translations, etc in this case.
+
+For CVQ yes, but we only avoid the pinning for CVQ not others.
+
+Thanks
+
+>
+> Thanks!
+>
+> [1] https://lore.kernel.org/virtualization/20230404131326.44403-2-sgarzar=
+e@redhat.com/
+>
 
 
