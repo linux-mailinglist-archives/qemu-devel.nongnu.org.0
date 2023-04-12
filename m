@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E466DE964
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 04:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72DD6DE990
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 04:37:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmQ8Q-0006aW-2y; Tue, 11 Apr 2023 22:22:58 -0400
+	id 1pmQL3-0000Gq-3p; Tue, 11 Apr 2023 22:36:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mikestramba@gmail.com>)
- id 1pmQ8O-0006aK-88
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 22:22:56 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mikestramba@gmail.com>)
- id 1pmQ8L-00060L-Qf
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 22:22:55 -0400
-Received: by mail-pl1-x634.google.com with SMTP id q2so14770239pll.7
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 19:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681266171; x=1683858171;
- h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3K+9IvXB2mtIuJBZPHda5ikU2/0WyEgAuc2+hzc/yC8=;
- b=K+w976FVjz9rGvn/qQt7mk7bGJeSTeIi0nhmzR3i2GdHe9SmYGOmlJpqh2DPUdmNN/
- l24mn5qp9McoaGYxDtbYESDts87mU8eY6mgZx9e/esPRsmtONYjv0A5k1e5iwOaou1dm
- /2C1iLZUKSXslfCzToagBABNpVCMe03vIZnZ4d6+pctYNH3yGs/R+/Z3h1/NGQyXhOiE
- 3wdLyDVTyF9IIul/UeSjnRMbRDqHmV1U17CMgacBcTdr5kPD8g8YddoNTJKGouP8yU5s
- k5gU58ZRCTyMDorTqLD0iHJOzDIiIHxZHrAM3IjAKKzC19cnidUO0YEFLvBZADNDMff+
- VAHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681266171; x=1683858171;
- h=to:subject:message-id:date:from:reply-to:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3K+9IvXB2mtIuJBZPHda5ikU2/0WyEgAuc2+hzc/yC8=;
- b=R0kRETMiNwvfz4016UDCgkCbgUwV5UKhkC6xFQxAFqI6bXcgQAjT6WODB8PqfHU+ad
- 11Pzbvfn3OH9gbWs4r+9nzOTDvJzYBhVBtq30J7rC4BkidTllhVlpeXYZi7H+IhC+LRT
- bumVlDdM6Xkw76CiQUgJwKa1HoDWCjwcKYr8avqa7uEAGfTFKJwEKb2nrJndJqt/feEi
- nJHULYiLMtURvRuWUDQzn6HEZD2uXGrVzKRmTnFshE3/Ts9/xM0dDCYsmL/jmCjyUE8h
- oJm3fyt+Uei/r8RlznfJX8hlPLsmAEex0OvmMYsBSZGmh5XVTwGRMS+PnN0+9UAskmwd
- dtQQ==
-X-Gm-Message-State: AAQBX9dXbv+yzKcKIX2BhVG8bGC+puUahMU9xoF0Is/G0t3PlzLvQNk8
- Gh8iSpYr6IaHJaAgb6GPhf4+JdLwyJ17Y4GLwE3TcQR3ZgKFaQ==
-X-Google-Smtp-Source: AKy350aeEmtQHZ8I2qFQeXVCdziGd+nj0uz8uv+jVvFlnRhTN1fLPVDuWeB6KnKyGr2et8vRA9spOpi7DjAK73nWfuk=
-X-Received: by 2002:a17:90a:c2:b0:240:c13d:1325 with SMTP id
- v2-20020a17090a00c200b00240c13d1325mr178685pjd.5.1681266170965; Tue, 11 Apr
- 2023 19:22:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pmQKz-0000Fu-TW; Tue, 11 Apr 2023 22:35:57 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pmQKx-0008Mj-6F; Tue, 11 Apr 2023 22:35:57 -0400
+Received: from localhost.localdomain (unknown [180.165.241.15])
+ by APP-05 (Coremail) with SMTP id zQCowAC3vDABGTZkp2E_EQ--.55592S2;
+ Wed, 12 Apr 2023 10:35:45 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [RFC 0/5] target/riscv: Add support for BF16 extensions
+Date: Wed, 12 Apr 2023 10:33:15 +0800
+Message-Id: <20230412023320.50706-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Mike Stramba <mikestramba@gmail.com>
-Date: Tue, 11 Apr 2023 22:22:39 -0400
-Message-ID: <CAA5vqSbgTTeF-tiUtK7pCYkyQXJEV3WuZuXEK=4GjigPLf=X7A@mail.gmail.com>
-Subject: How to write a zIPL section in IPL2 record on a raw disk
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000e4bcd205f91a48f2"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=mikestramba@gmail.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAC3vDABGTZkp2E_EQ--.55592S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtryUKr4fuFW3GF4xAr1kKrg_yoWDJwc_Kr
+ W0gr97W34DWay7KFWDAr1UtryUCrZ5GFW7ta17tr4j9Fy7WryUJ3Z7tFy8Ar1UCF4rJ3Z2
+ yr17JFyfKr1UujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbxxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+ xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+ MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+ 0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+ JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoO
+ J5UUUUU
+X-Originating-IP: [180.165.241.15]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,63 +70,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: mikestramba@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000e4bcd205f91a48f2
-Content-Type: text/plain; charset="UTF-8"
+Specification for BF16 extensions can be found in:
+https://github.com/riscv/riscv-bfloat16
 
-I have a CKD file, created with the Hercules dasdinit program.
-It's a  (hercules) 3350 uncompressed file.
-I've put a small "hello world" IPL program on it, and it works fine with
-Hercules
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-bf16-upstream
 
-When I try to run it with qemu-system-s390x I get :
+Weiwei Li (5):
+  target/riscv: Add properties for BF16 extensions
+  target/riscv: Add support for Zfbfmin extension
+  target/riscv: Add support for Zvfbfmin extension
+  target/riscv: Add support for Zvfbfwma extension
+  target/riscv: Expose properties for BF16 extensions
 
-LOADPARM=[        ]
-Using virtio-blk.
-Using guessed DASD geometry.
-Using ECKD scheme (block size  4096), CDL
-No zIPL section in IPL2 record.   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-zIPL load failed.
-Could not find a suitable boot device (none specified)
-Failed to load OS from hard disk
+ target/riscv/cpu.c                         |  20 +++
+ target/riscv/cpu.h                         |   3 +
+ target/riscv/fpu_helper.c                  |  12 ++
+ target/riscv/helper.h                      |  10 ++
+ target/riscv/insn32.decode                 |  12 ++
+ target/riscv/insn_trans/trans_rvbf16.c.inc | 175 +++++++++++++++++++++
+ target/riscv/insn_trans/trans_rvzfh.c.inc  |  13 +-
+ target/riscv/translate.c                   |   1 +
+ target/riscv/vector_helper.c               |  17 ++
+ 9 files changed, 257 insertions(+), 6 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvbf16.c.inc
 
-The qemu script is :
-qemu-system-s390x -m 16 -drive format=raw,file=test-ipl.3350.un,if=virtio
--nographic
+-- 
+2.25.1
 
-I found this link re:  the zipl command.
-https://www.ibm.com/docs/en/linux-on-systems?topic=u-modes-syntax-overview
-
-Where is that command   and  / or its source ?
-
-Mike
-
---000000000000e4bcd205f91a48f2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I have a CKD file, created with the Hercules dasdinit prog=
-ram.<div>It&#39;s a=C2=A0 (hercules) 3350 uncompressed=C2=A0file.<br></div>=
-<div>I&#39;ve put a small &quot;hello world&quot; IPL program on it, and it=
- works fine with Hercules<br></div><div><br></div><div>When I try to run it=
- with=C2=A0qemu-system-s390x I get :</div><div><br></div><div>LOADPARM=3D[ =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0]<br>Using virtio-blk.<br>Using guessed DASD geo=
-metry.<br>Using ECKD scheme (block size =C2=A04096), CDL<br>No zIPL section=
- in IPL2 record.=C2=A0 =C2=A0&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&l=
-t;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&=
-lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>zIPL load failed.<br>Cou=
-ld not find a suitable boot device (none specified)<br>Failed to load OS fr=
-om hard disk<br></div><div><br></div><div>The qemu script is :</div><div>qe=
-mu-system-s390x -m 16 -drive format=3Draw,file=3Dtest-ipl.3350.un,if=3Dvirt=
-io -nographic<br></div><div><br></div><div>I found this link re:=C2=A0 the =
-zipl command.</div><div><a href=3D"https://www.ibm.com/docs/en/linux-on-sys=
-tems?topic=3Du-modes-syntax-overview">https://www.ibm.com/docs/en/linux-on-=
-systems?topic=3Du-modes-syntax-overview</a><br></div><div><br></div><div>Wh=
-ere is that command=C2=A0 =C2=A0and=C2=A0 / or its source ?</div><div><br><=
-/div><div>Mike</div><div><br></div><div><br></div></div>
-
---000000000000e4bcd205f91a48f2--
 
