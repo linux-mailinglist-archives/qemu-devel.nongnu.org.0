@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191706DF4A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 14:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB486DF4A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 14:06:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmZD4-0002Qn-24; Wed, 12 Apr 2023 08:04:26 -0400
+	id 1pmZEX-0003Ga-Jm; Wed, 12 Apr 2023 08:05:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pmZCt-0002Pe-VU
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 08:04:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pmZCr-0006jh-3s
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 08:04:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681301047;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S7ehsGFrJslBuUzlY5pohkUOivVdf5YEVUfMlZgplXk=;
- b=G0iTf7E70eRYxG+7xfKD9mDJ0vhyzjFIuvWhfVzrQM0tm7IX3Eg35W7iWXdF3zPza7FeVr
- pO3pY2orvwaUvVdojuHRXeLvsJIPJBwZPgQAq1M6+CLTWPPoAMTryLcGdujBw62+EfWINc
- CrzSV+130sLR6lScFnvsTOjbEV0KRjE=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-19-cljNlAkwOpCBNoEmfn_EXQ-1; Wed, 12 Apr 2023 08:04:06 -0400
-X-MC-Unique: cljNlAkwOpCBNoEmfn_EXQ-1
-Received: by mail-ua1-f72.google.com with SMTP id
- f18-20020ab01012000000b00771f96000f5so123830uab.19
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 05:04:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1pmZEF-0003C4-Ea
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 08:05:36 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1pmZED-00071W-AW
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 08:05:35 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-94a34d3812cso260558066b.2
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 05:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681301129; x=1683893129;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=ZirTmkRa0ZwPJVM+bn34VszAXhCQHMxnkAcSQjjwRC0=;
+ b=QZpQXmJDjnaVYz3dv3C1y0SwdeZRt10ylS8JQgMsSO94WeLTa6VjUnktmwFS15dp/w
+ U8ps9TTyd+WKTrEWhBiAmhDETanjiT7exRz36o5Wq00e1aOsbYj4eKvNqY5TQFNB29rF
+ tEBzjn/J6hN6HEwKdvH9r2rgvETWgOSr20Iy791p+Iq1Hb8asJCjZ6s07dziVLOlj1o1
+ x/t4mHoHMofQFXRHcxaioNOw4GkUFPmjxT/dZUBnp4Z/Ph5PjMgpFILkRG4hreKUShGf
+ OuNR/qDYdWZZYbMq7dkWt7XAknyO+18W2lP9YmceLikXLRuCFGQHD9ipC9kjvt3qhVEU
+ yZkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681301045; x=1683893045;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=S7ehsGFrJslBuUzlY5pohkUOivVdf5YEVUfMlZgplXk=;
- b=CEKhMR2tGr7VY2Ex5fTKZjU7e/+nTSyfrMMJMEpAmenfGVqmkAzBB9IcZmKPndr5x0
- iz85Fe/4aMYxTS3ToqoSLQY4neRnCC8cK39aKVcoSYVo7V1i7F0HzChU0L19jDhpvzxY
- h32/qOL1mGgQdgPMLics0uRABGRF1u5C7zY2AuvCFfbtLi2V7B2dEcawq1TDljLMrqX9
- EqUfhSL/HHrpA2b69HOAlUtIUzCXLcJuh1mY2MmI8gH/6azWLp1pL2QKIZJAesCo8uHF
- 0tbiekz8UUzCvFnFiqQqKd0KxGqWnkE/Xstvy3rGgRAdqJv+dkiU8YQguamCORhPL5gO
- RQ0Q==
-X-Gm-Message-State: AAQBX9dOwi9/yVM2soxE/fWyw8FdGdvUKMz8rbbLujmye5O5KgaAWWFz
- AqQ/MK40lvRhHjujAQbASEfs5ilX6cVU5CAvlkVN0W9U6YWi74KaIp+8A/NUpbcJTdksoktUHde
- dePhyTyM6XbNv0cFHUp59MytH9Fl5zHCYGLSFAAk=
-X-Received: by 2002:a67:d20f:0:b0:426:392a:92bc with SMTP id
- y15-20020a67d20f000000b00426392a92bcmr4011490vsi.1.1681301045361; 
- Wed, 12 Apr 2023 05:04:05 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bE/3b7WS11mi4y2Cw2RuQ8vgtoDiBVrVuWHoWmUE1YqUT7lVyJi3m9hY6Hz6YZRWzq02iaImc8iLANSf6H57w=
-X-Received: by 2002:a67:d20f:0:b0:426:392a:92bc with SMTP id
- y15-20020a67d20f000000b00426392a92bcmr4011471vsi.1.1681301044992; Wed, 12 Apr
- 2023 05:04:04 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681301129; x=1683893129;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZirTmkRa0ZwPJVM+bn34VszAXhCQHMxnkAcSQjjwRC0=;
+ b=KsAofC93clu+doGDhQag46oepNiVfSvDOHEREFskuwbTZV8EpNAOSmOhs3ZB0nsGTF
+ Keaip/I6AQmKv+Cp2BeCtYrLATvk9UG5d6ZlpMWjXQbIIac3F0C+P5Bt9/MUZZwq1mq5
+ aKnlFgRb6ds38SPk//5y7b5825wRubyviFBAXfY9YQUex4QyIGCnenXbflLFO9xRA0z7
+ 8PvyQ7Ma1C1Dxdqobl6OmG/+s1CHvD+2aL677LbYll8UUaZEmkixWfcna4Fu8ENIIwNL
+ t/Q4K4n1zYwwSac7ygXUr1a75Atlrq3iGZd/cObz+iXZng+19NOQt8/8AIFIV2OYUata
+ IWfQ==
+X-Gm-Message-State: AAQBX9f8SrIhZwvKTeaXRlmHK37jhGGubKJ9W2EPztK8MPnGqAiW5hg5
+ 0Sx/9KoNumohBTWO7aavWqzJR680egn0gMTe9zqhH97JegA=
+X-Google-Smtp-Source: AKy350YvI1urvtfLxRoza50LD6B4KcJnN5fqJ0GCNKV3pitdMRvvdMSVt9WMjIs54deLxYfk2UYj/rI/Vucelig7K3U=
+X-Received: by 2002:a50:9f46:0:b0:4fa:e5e0:9466 with SMTP id
+ b64-20020a509f46000000b004fae5e09466mr1060578edf.7.1681301128536; Wed, 12 Apr
+ 2023 05:05:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230405161752.194727-1-pbonzini@redhat.com>
- <20230405163109.197876-1-pbonzini@redhat.com>
- <29c84ebf-62e6-e90a-b75e-137cb76195de@redhat.com>
-In-Reply-To: <29c84ebf-62e6-e90a-b75e-137cb76195de@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 12 Apr 2023 14:03:52 +0200
-Message-ID: <CABgObfa22ZKG-MfrfpQqGpX07q4kUVmi9dk_=4jqHi69c4LQzQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] block-backend: delay application of request queuing
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, Fiona Ebner <f.ebner@proxmox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Wed, 12 Apr 2023 14:05:14 +0200
+Message-ID: <CABLmASEcJRNWRaFum_BKgwKu7cJ8BDM3W94W-ZZwFLFuEwkh7g@mail.gmail.com>
+Subject: source fails to compile on msys2
+To: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000086e64205f9226c43"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,64 +81,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 12, 2023 at 1:54=E2=80=AFPM Hanna Czenczek <hreitz@redhat.com> =
-wrote:
-> On 05.04.23 18:31, Paolo Bonzini wrote:
-> > +    if (busy || blk->in_flight) {
-> > +        return true;
-> > +    }
-> > +
-> > +    if (qatomic_read(&blk->request_queuing) =3D=3D BLK_QUEUE_READY) {
-> > +        qatomic_set(&blk->request_queuing, BLK_QUEUE_QUIESCENT);
-> > +    }
-> > +    return false;
-> >   }
->
-> This implicitly relies on nobody increasing blk->in_flight (or
-> dev_ops->drained_poll() returning `true` again) while the BB is starting
-> to be drained, because if the function were to be called again after it
-> has returned `false` once per drained section (not sure if that=E2=80=99s
-> possible![1]), then we=E2=80=99d end up in the original situation, with
-> in_flight elevated and queuing enabled.
+--00000000000086e64205f9226c43
+Content-Type: text/plain; charset="UTF-8"
 
-Yes, it does.
+Hello,
 
-> Is that really strictly guaranteed somehow or is it rather a complex
-> conglomerate of many cases that in the end happen to work out
-> individually?  I mean, I could imagine that running
-> BlockDevOps.drained_begin() is supposed to guarantee that, but it can=E2=
-=80=99t,
-> because only NBD seems to implement it.  The commit message talks about
-> IDE being fine (by accident?) because it needs BQL availability to
-> submit new requests.  But that=E2=80=99s very complex and I=E2=80=99d rat=
-her have a
-> strict requirement to guarantee correctness.
+It seems the current source fails to compile with up to date msys2.
 
-It's a conglomerate of three cases each of which is sufficient (BQL,
-aio_disable_external, bdrv_drained_begin---plus just not using
-blk_inc_in_flight could be a fourth, of course). Of these,
-aio_disable_external() is going away in favor of the
-.bdrv_drained_begin callback; and blk_inc_in_flight() is used rarely
-in the first place so I thought it'd be not too hard to have this
-requirement.
+Source is configured with:
+./configure --target-list="ppc-softmmu" --enable-gtk --enable-sdl
+--enable-slirp
 
-> [1] If the blk_root_drained_poll() isn=E2=80=99t called anymore after ret=
-urning
-> `false`, all will be good, but I assume it will be, because we have a
-> quiesce_counter, not a quiesce_bool.  We could kind of emulate this by
-> continuing to return `false` after blk_root_drained_poll() has returned
-> `false` once, until the quiesce_counter becomes 0.
-> We could also have blk_root_drained_poll(), if it sees in_flight > 0 &&
-> request_queuing =3D=3D BLK_QUEUE_QUIESCENT, revert request_queuing to
-> BLK_QUEUE_READY and resume all queued requests.
+FAILED: qga/vss-win32/qga-vss.dll.p/install.cpp.obj
+"c++" "-m64" "-mcx16" "-Iqga/vss-win32/qga-vss.dll.p" "-Iqga/vss-win32"
+"-I../qga/vss-win32" "-I." "-Iqapi" "-Itrace" "-Iui" "-Iui/shader"
+"-IC:/msys64/mingw64/include/glib-2.0"
+"-IC:/msys64/mingw64/lib/glib-2.0/include" "-fdiagnostics-color=auto"
+"-Wall" "-Winvalid-pch" "-Wnon-virtual-dtor" "-Werror" "-std=gnu++11" "-O2"
+"-g" "-iquote" "." "-iquote" "C:/msys64/home/hsp/src/qemu-master-clean"
+"-iquote" "C:/msys64/home/hsp/src/qemu-master-clean/include" "-iquote"
+"C:/msys64/home/hsp/src/qemu-master-clean/tcg/i386" "-D__STDC_LIMIT_MACROS"
+"-D__STDC_CONSTANT_MACROS" "-D__STDC_FORMAT_MACROS" "-U_FORTIFY_SOURCE"
+"-D_FORTIFY_SOURCE=2" "-fno-pie" "-no-pie" "-D_GNU_SOURCE"
+"-D_FILE_OFFSET_BITS=64" "-D_LARGEFILE_SOURCE" "-fno-strict-aliasing"
+"-fno-common" "-fwrapv" "-Wundef" "-Wwrite-strings" "-Wtype-limits"
+"-Wformat-security" "-Wformat-y2k" "-Winit-self" "-Wignored-qualifiers"
+"-Wempty-body" "-Wendif-labels" "-Wexpansion-to-defined"
+"-Wimplicit-fallthrough=2" "-Wmissing-format-attribute"
+"-Wno-missing-include-dirs" "-Wno-shift-negative-value" "-Wno-psabi"
+"-fstack-protector-strong" "-Wno-unknown-pragmas"
+"-Wno-delete-non-virtual-dtor" "-Wno-non-virtual-dtor" -MD -MQ
+qga/vss-win32/qga-vss.dll.p/install.cpp.obj -MF
+"qga/vss-win32/qga-vss.dll.p/install.cpp.obj.d" -o
+qga/vss-win32/qga-vss.dll.p/install.cpp.obj "-c"
+../qga/vss-win32/install.cpp
+In file included from C:/msys64/mingw64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/mingw64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/mingw64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/mingw64/include/glib-2.0/glib.h:32,
+                 from
+C:/msys64/home/hsp/src/qemu-master-clean/include/glib-compat.h:32,
+                 from
+C:/msys64/home/hsp/src/qemu-master-clean/include/qemu/osdep.h:144,
+                 from ../qga/vss-win32/install.cpp:13:
+C:/msys64/mingw64/include/glib-2.0/glib/gmacros.h:1076:21: error: standard
+attributes in middle of decl-specifiers
+ 1076 | # define G_NORETURN [[noreturn]]
+      |                     ^
+C:/msys64/home/hsp/src/qemu-master-clean/include/qemu/osdep.h:240:8: note:
+in expansion of macro 'G_NORETURN'
+  240 | extern G_NORETURN
+      |        ^~~~~~~~~~
+C:/msys64/mingw64/include/glib-2.0/glib/gmacros.h:1076:21: note: standard
+attributes must precede the decl-specifiers to apply to the declaration, or
+follow them to apply to the type
+ 1076 | # define G_NORETURN [[noreturn]]
+      |                     ^
+C:/msys64/home/hsp/src/qemu-master-clean/include/qemu/osdep.h:240:8: note:
+in expansion of macro 'G_NORETURN'
+  240 | extern G_NORETURN
+      |        ^~~~~~~~~~
+C:/msys64/mingw64/include/glib-2.0/glib/gmacros.h:1076:21: error: attribute
+ignored [-Werror=attributes]
+ 1076 | # define G_NORETURN [[noreturn]]
+      |                     ^
+C:/msys64/home/hsp/src/qemu-master-clean/include/qemu/osdep.h:240:8: note:
+in expansion of macro 'G_NORETURN'
+  240 | extern G_NORETURN
+      |        ^~~~~~~~~~
+C:/msys64/mingw64/include/glib-2.0/glib/gmacros.h:1076:21: note: an
+attribute that appertains to a type-specifier is ignored
+ 1076 | # define G_NORETURN [[noreturn]]
+      |                     ^
+C:/msys64/home/hsp/src/qemu-master-clean/include/qemu/osdep.h:240:8: note:
+in expansion of macro 'G_NORETURN'
+  240 | extern G_NORETURN
+      |        ^~~~~~~~~~
+cc1plus.exe: all warnings being treated as errors
 
-The intended long term fix is to remove request queuing and, if a
-request is submitted while BLK_QUEUE_QUIESCENT, give an assertion
-failure.
+Best,
+Howard
 
-But since the hang requires blk_inc_in_flight() in the device, perhaps
-in the short term documenting it in blk_inc_in_flight() may be enough?
+--00000000000086e64205f9226c43
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>It seems the current =
+source fails to compile with up to date msys2.</div><div><br></div><div>Sou=
+rce is configured with:</div><div>./configure --target-list=3D&quot;ppc-sof=
+tmmu&quot; --enable-gtk --enable-sdl --enable-slirp<br></div><div><br></div=
+><div>FAILED: qga/vss-win32/qga-vss.dll.p/install.cpp.obj<br>&quot;c++&quot=
+; &quot;-m64&quot; &quot;-mcx16&quot; &quot;-Iqga/vss-win32/qga-vss.dll.p&q=
+uot; &quot;-Iqga/vss-win32&quot; &quot;-I../qga/vss-win32&quot; &quot;-I.&q=
+uot; &quot;-Iqapi&quot; &quot;-Itrace&quot; &quot;-Iui&quot; &quot;-Iui/sha=
+der&quot; &quot;-IC:/msys64/mingw64/include/glib-2.0&quot; &quot;-IC:/msys6=
+4/mingw64/lib/glib-2.0/include&quot; &quot;-fdiagnostics-color=3Dauto&quot;=
+ &quot;-Wall&quot; &quot;-Winvalid-pch&quot; &quot;-Wnon-virtual-dtor&quot;=
+ &quot;-Werror&quot; &quot;-std=3Dgnu++11&quot; &quot;-O2&quot; &quot;-g&qu=
+ot; &quot;-iquote&quot; &quot;.&quot; &quot;-iquote&quot; &quot;C:/msys64/h=
+ome/hsp/src/qemu-master-clean&quot; &quot;-iquote&quot; &quot;C:/msys64/hom=
+e/hsp/src/qemu-master-clean/include&quot; &quot;-iquote&quot; &quot;C:/msys=
+64/home/hsp/src/qemu-master-clean/tcg/i386&quot; &quot;-D__STDC_LIMIT_MACRO=
+S&quot; &quot;-D__STDC_CONSTANT_MACROS&quot; &quot;-D__STDC_FORMAT_MACROS&q=
+uot; &quot;-U_FORTIFY_SOURCE&quot; &quot;-D_FORTIFY_SOURCE=3D2&quot; &quot;=
+-fno-pie&quot; &quot;-no-pie&quot; &quot;-D_GNU_SOURCE&quot; &quot;-D_FILE_=
+OFFSET_BITS=3D64&quot; &quot;-D_LARGEFILE_SOURCE&quot; &quot;-fno-strict-al=
+iasing&quot; &quot;-fno-common&quot; &quot;-fwrapv&quot; &quot;-Wundef&quot=
+; &quot;-Wwrite-strings&quot; &quot;-Wtype-limits&quot; &quot;-Wformat-secu=
+rity&quot; &quot;-Wformat-y2k&quot; &quot;-Winit-self&quot; &quot;-Wignored=
+-qualifiers&quot; &quot;-Wempty-body&quot; &quot;-Wendif-labels&quot; &quot=
+;-Wexpansion-to-defined&quot; &quot;-Wimplicit-fallthrough=3D2&quot; &quot;=
+-Wmissing-format-attribute&quot; &quot;-Wno-missing-include-dirs&quot; &quo=
+t;-Wno-shift-negative-value&quot; &quot;-Wno-psabi&quot; &quot;-fstack-prot=
+ector-strong&quot; &quot;-Wno-unknown-pragmas&quot; &quot;-Wno-delete-non-v=
+irtual-dtor&quot; &quot;-Wno-non-virtual-dtor&quot; -MD -MQ qga/vss-win32/q=
+ga-vss.dll.p/install.cpp.obj -MF &quot;qga/vss-win32/qga-vss.dll.p/install.=
+cpp.obj.d&quot; -o qga/vss-win32/qga-vss.dll.p/install.cpp.obj &quot;-c&quo=
+t; ../qga/vss-win32/install.cpp<br>In file included from C:/msys64/mingw64/=
+lib/glib-2.0/include/glibconfig.h:9,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0from C:/msys64/mingw64/include/glib-2.0/glib/gty=
+pes.h:34,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+from C:/msys64/mingw64/include/glib-2.0/glib/galloca.h:34,<br>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from C:/msys64/mingw64/inc=
+lude/glib-2.0/glib.h:32,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0from C:/msys64/home/hsp/src/qemu-master-clean/include/glib=
+-compat.h:32,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0from C:/msys64/home/hsp/src/qemu-master-clean/include/qemu/osdep.h:14=
+4,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ..=
+/qga/vss-win32/install.cpp:13:<br>C:/msys64/mingw64/include/glib-2.0/glib/g=
+macros.h:1076:21: error: standard attributes in middle of decl-specifiers<b=
+r>=C2=A01076 | # define G_NORETURN [[noreturn]]<br>=C2=A0 =C2=A0 =C2=A0 | =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>=
+C:/msys64/home/hsp/src/qemu-master-clean/include/qemu/osdep.h:240:8: note: =
+in expansion of macro &#39;G_NORETURN&#39;<br>=C2=A0 240 | extern G_NORETUR=
+N<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~<br>C:/msy=
+s64/mingw64/include/glib-2.0/glib/gmacros.h:1076:21: note: standard attribu=
+tes must precede the decl-specifiers to apply to the declaration, or follow=
+ them to apply to the type<br>=C2=A01076 | # define G_NORETURN [[noreturn]]=
+<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 ^<br>C:/msys64/home/hsp/src/qemu-master-clean/include=
+/qemu/osdep.h:240:8: note: in expansion of macro &#39;G_NORETURN&#39;<br>=
+=C2=A0 240 | extern G_NORETURN<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0^~~~~~~~~~<br>C:/msys64/mingw64/include/glib-2.0/glib/gmacros.h:1=
+076:21: error: attribute ignored [-Werror=3Dattributes]<br>=C2=A01076 | # d=
+efine G_NORETURN [[noreturn]]<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>C:/msys64/home/hs=
+p/src/qemu-master-clean/include/qemu/osdep.h:240:8: note: in expansion of m=
+acro &#39;G_NORETURN&#39;<br>=C2=A0 240 | extern G_NORETURN<br>=C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~<br>C:/msys64/mingw64/inc=
+lude/glib-2.0/glib/gmacros.h:1076:21: note: an attribute that appertains to=
+ a type-specifier is ignored<br>=C2=A01076 | # define G_NORETURN [[noreturn=
+]]<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>C:/msys64/home/hsp/src/qemu-master-clean/incl=
+ude/qemu/osdep.h:240:8: note: in expansion of macro &#39;G_NORETURN&#39;<br=
+>=C2=A0 240 | extern G_NORETURN<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0^~~~~~~~~~<br>cc1plus.exe: all warnings being treated as errors</=
+div><div><br></div><div>Best,</div><div>Howard<br></div></div>
 
+--00000000000086e64205f9226c43--
 
