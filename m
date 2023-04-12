@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8AD6DF1AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962626DF1B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:10:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmXPB-0007N4-H5; Wed, 12 Apr 2023 06:08:45 -0400
+	id 1pmXQV-0008He-1s; Wed, 12 Apr 2023 06:10:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmXP9-0007Mf-4e
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:08:43 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmXQS-0008HS-N8
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:10:04 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmXP7-0006bp-BA
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:08:42 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id e7so225059wrc.12
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 03:08:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmXQQ-0006rT-SN
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:10:04 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id g5so13698342wrb.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 03:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681294119; x=1683886119;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Jwh6tjaX95EY2R1QvZ0DUQ4zm0KmrHEBJYJyQfYQibE=;
- b=Mej3x+PEspNXyW/TFDL8SonT7XWXTpJAdP3gU5eP48on4V3zGprT1P+nklP2XVTq+A
- jAo+nXQpsLFPmb1Iymr/o9FoTI/idgWTEYkq3K3JuJSgs6Zs7kmLPFD4DITT+ompvqw4
- ZK2UbblnzEHzrpqUqMR8dF7Hkr3thQsr80Wa6hcIxYfWTLn8Lx9kLFtRAEnZJ1LcBDJp
- OHBQMTxzj6k/SF4oy15OS4zrvwc3Pwfil6XDhrx5JJAWsaC37Cxcbm3LbfyAvs6+UFMh
- 0HE8aa22lccZ32gn3p5gaNyNg+40706yagE0lns+LTSrVtlBTkv7aOViO24YEBHu4nw0
- S9HQ==
+ d=linaro.org; s=google; t=1681294201; x=1683886201;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bPJ2SFierbyb3Cclh63Wlefmv6JskXMO+atr4mXdl8I=;
+ b=BScgF6Er6TmA9oO9n/EyYK3mPOlQAD+EaBbBo1rH+wjOVZNNffPA5u8mTVh3sa9rAd
+ QHL+9y7eA4QlOM3dyrIeluXkvHuwijSBYc25rAQSnSY41YwmH6MRPHChCzVJ4vm8FZX4
+ 5ebp5hfJis2nUoxbankpexnCPOMMn9n+Fl8A8S52wn/8zWiNcd9wti3k0LgL9iYgsG2H
+ LSxKzu/DesSxMfYHcYjnym0+FpfzyNZUD+IuLQ1UJfJHADUtRUkxAajjpL4xVZUAVupL
+ 6VU9hq/G3upGGHaf8TMUHF5mDs6JMlXa7eqGqeUUOqlnGB9+CYU1PclzWUb7I8YuWA2d
+ v6Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681294119; x=1683886119;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Jwh6tjaX95EY2R1QvZ0DUQ4zm0KmrHEBJYJyQfYQibE=;
- b=zQA/Ve9z6sqnG8DNZCi6hsn1LPJx9oEPAEBUo0lRz0L+1r13aJFkpI5Fw4nX4dbtAQ
- EauA4Fb/sKICHoXQSo1S4R+3qXfkmAgmHlNZIqrw1phkQMqHSG/OV0IRwYP8IPa3EP9f
- CBjUVWY1Une/E7vN//NBtAOg3vwqyP2HTACWI9h+Tl/P0yvNmNkCL6jILQ7Dh+SIAbn6
- 41plTxmpBIfbCmNBCzDJOTjRFYB7K4LLRauOZjEAfojL1LnJDTX7lIapINOi33wZFZXg
- OpT7ZPnQKl2cofvNkEDvOODv5xua9k64Grr3iHrzFLFTLWBqLsX+lVu5IVf7YLdIo2iM
- LkBw==
-X-Gm-Message-State: AAQBX9cmiRvG5RYc+Dd1Ug00rgf7mi89haMKZMaJJK6xsYL/yIuREFKc
- WzKwGSLWlaw6GqbHofWxejFMxg==
-X-Google-Smtp-Source: AKy350YmIvttlWNTicrzj4NhRuMh7muqShdQljEPmwUQgIzcnBCsKL3NJJHMBkEXJQ5A/GYjq6bJXQ==
-X-Received: by 2002:a5d:6451:0:b0:2ef:ac55:1e92 with SMTP id
- d17-20020a5d6451000000b002efac551e92mr4430090wrw.25.1681294119580; 
- Wed, 12 Apr 2023 03:08:39 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.216.226])
+ d=1e100.net; s=20210112; t=1681294201; x=1683886201;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=bPJ2SFierbyb3Cclh63Wlefmv6JskXMO+atr4mXdl8I=;
+ b=FTb7gg9Lc5EXtd1Pep/uDpuwo1p8V73SavHumf16DsIyP86LzhN9YoTI7HicWefL8u
+ Tf6TmmfjSMHt/YtbGxdm7CXYVWPZQmZqCBKrFL8UZCSczUflxt5/h1eSj871h4BZ8qi0
+ uWM7Qa18fR6A+/oB7HEwiN78vwmxx5FhJd1UolhEoLHqdYlWVoKkmb1a/Dgt6mn66pwk
+ cvYAfe9jBiCV3qXAXI778xJZG2AuTSKgaYDywRtIW6i6F/OC3gjWQL1o2bmkcJvitwEz
+ 1bpTKSNQGvUTp/N2TR0/NkhiwNmKBd8QjR2yjMI/19kWayKj00wFUkvv9SstDwBdnpz2
+ nuRA==
+X-Gm-Message-State: AAQBX9cdDpoBjXbXiONVfi9KPkZLzdvKtP1d3b6uKB+jf6ARWHXxHuQB
+ wIgsVKytoihkOoQ7IaclYpS2YA==
+X-Google-Smtp-Source: AKy350aBY3mwROC5VviG3+/nxUD4IH6ZvxN1KXZmddzemSoJH/nDLqqfeanFjDkNN3oVWK6yU/IRoQ==
+X-Received: by 2002:adf:ee0f:0:b0:2d0:354e:dc77 with SMTP id
+ y15-20020adfee0f000000b002d0354edc77mr9024079wrn.66.1681294200833; 
+ Wed, 12 Apr 2023 03:10:00 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a05600c365000b003f049a42689sm1820552wmq.25.2023.04.12.03.08.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 03:08:39 -0700 (PDT)
-Message-ID: <8b6684f0-6ee1-5446-7937-5d466f6baca3@linaro.org>
-Date: Wed, 12 Apr 2023 12:08:37 +0200
+ z16-20020a5d4410000000b002f490a0cd1asm1080829wrq.92.2023.04.12.03.10.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 03:10:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 190F31FFB7;
+ Wed, 12 Apr 2023 11:10:00 +0100 (BST)
+References: <20230411210422.24255-1-vikram.garhwal@amd.com>
+User-agent: mu4e 1.10.0; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org,
+ stefano.stabellini@amd.com, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Wainer dos Santos  Moschetta
+ <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: Re: [QEMU][PATCH] gitlab-ci.d/crossbuilds: Drop the '--disable-tcg'
+ configuration for xen
+Date: Wed, 12 Apr 2023 11:08:50 +0100
+In-reply-to: <20230411210422.24255-1-vikram.garhwal@amd.com>
+Message-ID: <877cuhpg1z.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH] target/riscv: Restore the predicate() NULL check behavior
-Content-Language: en-US
-To: "Wu, Fei" <fei2.wu@intel.com>, Bin Meng <bmeng@tinylab.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Palmer Dabbelt <palmer@dabbelt.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20230411090211.3039186-1-bmeng@tinylab.org>
- <b0d06bc4-d8f1-30ff-9bc1-252c7f15df89@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <b0d06bc4-d8f1-30ff-9bc1-252c7f15df89@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,25 +99,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/4/23 03:04, Wu, Fei wrote:
-> On 4/11/2023 5:02 PM, Bin Meng wrote:
->> When reading a non-existent CSR QEMU should raise illegal instruction
->> exception, but currently it just exits due to the g_assert() check.
->>
-> I verified that 'csrr t3, 0x4' in user space didn't cause qemu exit but
-> raised illegal instruction after applying this patch.
 
-Good candidate to add in tests/tcg/riscv64/ :)
+Vikram Garhwal <vikram.garhwal@amd.com> writes:
 
->> This actually reverts commit 0ee342256af9205e7388efdf193a6d8f1ba1a617,
->> Some comments are also added to indicate that predicate() must be
->> provided for an implemented CSR.
->>
->> Reported-by: Fei Wu <fei2.wu@intel.com>
->> Signed-off-by: Bin Meng <bmeng@tinylab.org>
->> ---
->>
->>   target/riscv/csr.c | 11 +++++++++--
->>   1 file changed, 9 insertions(+), 2 deletions(-)
+> Xen is supported for aarch64 via xenpvh machine. disable-tcg option fails=
+ the
+> build for aarch64 target.
+>
+> Link for xen on arm patch series: https://mail.gnu.org/archive/html/qemu-=
+devel/2023-02/msg03979.html
+>
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> ---
+>  .gitlab-ci.d/crossbuilds.yml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+> index 61b8ac86ee..6867839248 100644
+> --- a/.gitlab-ci.d/crossbuilds.yml
+> +++ b/.gitlab-ci.d/crossbuilds.yml
+> @@ -186,7 +186,7 @@ cross-amd64-xen-only:
+>    variables:
+>      IMAGE: debian-amd64-cross
+>      ACCEL: xen
+> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
 
+x86 should handle --disable-tcg fine.
+
+>=20=20
+>  cross-arm64-xen-only:
+>    extends: .cross_accel_build_job
+> @@ -195,4 +195,4 @@ cross-arm64-xen-only:
+>    variables:
+>      IMAGE: debian-arm64-cross
+>      ACCEL: xen
+> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
+
+Currently this builds qemu-system-i386, but with your changes and the
+work Fabiano is doing:
+
+  Message-Id: <20230313151058.19645-1-farosas@suse.de>
+  Date: Mon, 13 Mar 2023 12:10:48 -0300
+  Subject: [PATCH v9 00/10] target/arm: Allow CONFIG_TCG=3Dn builds
+  From: Fabiano Rosas <farosas@suse.de>
+
+We should be able to have a qemu-system-aarch64 supporting Xen without TCG
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
