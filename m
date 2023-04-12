@@ -2,58 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FA26DF8D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 16:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22A06DF95F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 17:09:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmbdu-0007TN-Mv; Wed, 12 Apr 2023 10:40:14 -0400
+	id 1pmc5A-0005SZ-Mi; Wed, 12 Apr 2023 11:08:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pmbdr-0007SB-LD
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:40:11 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pmc58-0005SG-NS
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 11:08:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pmbdn-0002m3-2Z
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:40:10 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PxQM8728Sz67M3D;
- Wed, 12 Apr 2023 22:39:00 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 12 Apr
- 2023 15:39:58 +0100
-Date: Wed, 12 Apr 2023 15:39:57 +0100
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>,
- "Huai-Cheng Kuo" <hchkuo@avery-design.com.tw>, Chris Browy
- <cbrowy@avery-design.com>, Ben Widawsky <ben.widawsky@intel.com>
-Subject: Re: [PULL v4 23/83] hw/cxl/cdat: CXL CDAT Data Object Exchange
- implementation
-Message-ID: <20230412153957.000056fc@Huawei.com>
-In-Reply-To: <CAFEAcA-g0w4K6KfEP0MmHGRhL_8LmfxPBYiLSMG4KMakKHe=UA@mail.gmail.com>
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-24-mst@redhat.com>
- <CAFEAcA-g0w4K6KfEP0MmHGRhL_8LmfxPBYiLSMG4KMakKHe=UA@mail.gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pmc55-0008NH-SQ
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 11:08:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681312097;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zG0zOxjYxzzsGezP9EmmQAFKlBCbMD3vWLRQpoIZrwk=;
+ b=RzcHX2cFw+lbp3yuGzYaEbkwmNHcVgAfptEG8/ikgxSWsoMhvnzVF3A+3VNsPC5HxOrteO
+ 4FonCWz0hnZAt7gid3nNQK1jn6tKFv0JtLXfht9eOwZaEsk9SzPVwGoptVQYTNgc0ue3hW
+ qedTpIyxx2F4VnyPfPI97S7M3FKBKGg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-488-GX0or3XdNaKOSFAbfs2Ldw-1; Wed, 12 Apr 2023 11:08:12 -0400
+X-MC-Unique: GX0or3XdNaKOSFAbfs2Ldw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B105585A5A3;
+ Wed, 12 Apr 2023 15:08:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CFDEC15BB8;
+ Wed, 12 Apr 2023 15:08:11 +0000 (UTC)
+Date: Wed, 12 Apr 2023 10:08:09 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, qemu-block@nongnu.org
+Subject: Re: [PATCH 8.0 regression] block/nfs: do not poll within a coroutine
+Message-ID: <ba3wwsy6q5fmssh5jhukjaz7ykr4wfpsrkd5x5g2cjxpqvj657@urvpjyvezjur>
+References: <20230412112606.80983-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230412112606.80983-1-pbonzini@redhat.com>
+User-Agent: NeoMutt/20230407
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,184 +73,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 11 Apr 2023 16:52:58 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
+On Wed, Apr 12, 2023 at 01:26:06PM +0200, Paolo Bonzini wrote:
+> Since the former nfs_get_allocated_file_size is now a coroutine
+> function, it must suspend rather than poll.  Switch BDRV_POLL_WHILE()
+> to a qemu_coroutine_yield() loop and schedule nfs_co_generic_bh_cb()
+> in place of the call to bdrv_wakeup().
+> 
+> Fixes: 82618d7bc341 ("block: Convert bdrv_get_allocated_file_size() to co_wrapper", 2023-02-01)
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  block/nfs.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
 
-> On Mon, 7 Nov 2022 at 22:49, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > From: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
-> >
-> > The Data Object Exchange implementation of CXL Coherent Device Attribute
-> > Table (CDAT). This implementation is referring to "Coherent Device
-> > Attribute Table Specification, Rev. 1.03, July. 2022" and "Compute
-> > Express Link Specification, Rev. 3.0, July. 2022"
-> >
-> > This patch adds core support that will be shared by both
-> > end-points and switch port emulation.  
-> 
-> > +static void ct3_load_cdat(CDATObject *cdat, Error **errp)
-> > +{
-> > +    g_autofree CDATEntry *cdat_st = NULL;
-> > +    uint8_t sum = 0;
-> > +    int num_ent;
-> > +    int i = 0, ent = 1, file_size = 0;
-> > +    CDATSubHeader *hdr;
-> > +    FILE *fp = NULL;
-> > +
-> > +    /* Read CDAT file and create its cache */
-> > +    fp = fopen(cdat->filename, "r");
-> > +    if (!fp) {
-> > +        error_setg(errp, "CDAT: Unable to open file");
-> > +        return;
-> > +    }
-> > +
-> > +    fseek(fp, 0, SEEK_END);
-> > +    file_size = ftell(fp);  
-> 
-> Coverity points out that ftell() can fail and return -1...
-> 
-> > +    fseek(fp, 0, SEEK_SET);
-> > +    cdat->buf = g_malloc0(file_size);  
-> 
-> ...which would cause an attempt to allocate a very large
-> amount of memory, since you aren't checking for errors.
-> CID 1508185.
-> 
-> Below, some other issues I saw in a quick scan through the code.
-> 
-> > +
-> > +    if (fread(cdat->buf, file_size, 1, fp) == 0) {
-> > +        error_setg(errp, "CDAT: File read failed");
-> > +        return;
-> > +    }  
-> 
-> (The issues in this bit of code I've mentioned in a
-> different thread.)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-I'll carry a patch locally using g_file_get_contents()
-that gets rid of this mess. My assumption being that similar
-will emerge from other thread and I can drop my patch.
-
-> 
-> > +
-> > +    fclose(fp);
-> > +
-> > +    if (file_size < sizeof(CDATTableHeader)) {
-> > +        error_setg(errp, "CDAT: File too short");
-> > +        return;
-> > +    }  
-> 
-> > +    i = sizeof(CDATTableHeader);
-> > +    num_ent = 1;
-> > +    while (i < file_size) {
-> > +        hdr = (CDATSubHeader *)(cdat->buf + i);  
-> 
-> If the file is not a complete number of records in
-> size, then this can index off the end of the buffer.
-> You should check for that.
-
-> 
-> > +        cdat_len_check(hdr, errp);
-> > +        i += hdr->length;
-> > +        num_ent++;
-> > +    }
-> > +    if (i != file_size) {
-> > +        error_setg(errp, "CDAT: File length missmatch");  
-> 
-> Typo: "mismatch"
-> 
-
-That's fixed in the tree.
-
-> > +        return;
-> > +    }
-> > +
-> > +    cdat_st = g_malloc0(sizeof(*cdat_st) * num_ent);  
-> 
-> To allocate an array of N lots of a structure, use
-> g_new0(), which will take care to avoid possible
-> overflow in the multiply.
-> 
-> > +    if (!cdat_st) {
-> > +        error_setg(errp, "CDAT: Failed to allocate entry array");  
-> 
-> g_malloc0() and g_new0() can never fail, so you don't need
-> to check for a NULL pointer return.
-
-dropped.  I'll remember this one day ;)
-
-> 
-> > +        return;
-> > +    }
-> > +
-> > +    /* Set CDAT header, Entry = 0 */
-> > +    cdat_st[0].base = cdat->buf;
-> > +    cdat_st[0].length = sizeof(CDATTableHeader);
-> > +    i = 0;
-> > +
-> > +    while (i < cdat_st[0].length) {
-> > +        sum += cdat->buf[i++];
-> > +    }
-> > +
-> > +    /* Read CDAT structures */
-> > +    while (i < file_size) {
-> > +        hdr = (CDATSubHeader *)(cdat->buf + i);
-> > +        cdat_len_check(hdr, errp);  
-> 
-> We already did this check the first time through the data...
-dropped
-> 
-> > +
-> > +        cdat_st[ent].base = hdr;
-> > +        cdat_st[ent].length = hdr->length;
-> > +
-> > +        while (cdat->buf + i <
-> > +               (uint8_t *)cdat_st[ent].base + cdat_st[ent].length) {
-> > +            assert(i < file_size);
-> > +            sum += cdat->buf[i++];
-> > +        }
-> > +
-> > +        ent++;
-> > +    }
-> > +
-> > +    if (sum != 0) {
-> > +        warn_report("CDAT: Found checksum mismatch in %s", cdat->filename);
-> > +    }
-> > +    cdat->entry_len = num_ent;
-> > +    cdat->entry = g_steal_pointer(&cdat_st);
-> > +}
-> > +
-> > +void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp)
-> > +{
-> > +    CDATObject *cdat = &cxl_cstate->cdat;
-> > +
-> > +    if (cdat->filename) {
-> > +        ct3_load_cdat(cdat, errp);
-> > +    } else {
-> > +        ct3_build_cdat(cdat, errp);
-> > +    }
-> > +}  
-> 
-> None of the callsites to this function check for it
-> failing. In particular they do not assume "if I call
-> this and it fails then I need to call cxl_doe_cdata_release()
-> to have it clean up". It would probably be less confusing
-> if the init function cleans up after itself, i.e. does not
-> leave allocated memory pointed to by cdat->buf and so on.
-Agreed.  Will make it cleanup and add the error checks at the two
-callers.
-
-Thanks,
-
-Jonathan
-
-> 
-> thanks
-> -- PMM
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
