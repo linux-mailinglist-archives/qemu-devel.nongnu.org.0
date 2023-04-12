@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A483C6DEC22
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 08:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118AD6DEC39
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 09:06:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmUOK-00011l-3N; Wed, 12 Apr 2023 02:55:40 -0400
+	id 1pmUXG-0002it-Tp; Wed, 12 Apr 2023 03:04:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pmUOC-00011F-Kt
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:55:34 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pmUO7-0006G3-IO
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:55:32 -0400
-Received: by mail-wr1-x436.google.com with SMTP id v27so571892wra.13
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 23:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681282519; x=1683874519;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=j1h4vYtnOl3Y6OuMtt26ai1aGGshaexK8uVHRiVmXYo=;
- b=GODFWr2aFniKvbl5gWukdcZWvb/4MNOaqS6pDr6w4SI/0DkQUncPqECBJhdx85kcuw
- FufzgcT8PheG6PU4uNdGLlJ5xbg5OSV0S9jPWG0etFtGoGBVqDS7jQhGxnbshGPo4J5d
- 64QnS6Kir/aUxkCWJklnvf7bRGxyGhwstin0PRZE3EWF/Qbw4IQCcWXqb7hmoobBMH5J
- lfF7/wK7JVf4ryoqdgpxOy57fMnQwDcWqn3xlvtDofzkTuq7Ap5m7FRVZ7IWh66D11In
- C1nIL8pmFehdGGThQcoa34tVUFbsCjj6WjDdWikof6EWal5Or9oSoIK0g0yhWmYG/wWr
- Epaw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmUXD-0002ic-2b
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 03:04:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmUXA-0008Lt-CG
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 03:04:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681283087;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UD0SZyjl6Ky0q7QljOM6f+bxzYppVSpTCTHwBJjyHg8=;
+ b=doEIrpdSiSpkP7jmIw2uqj4i5xxEzTMRS6GV6EiMdYSEJhkxWDxsXY4aVvuv+igyEO9Wxx
+ u6/8x3cbOqZM4zg72lLlbzIFf8Sian8tqgx0PRD5HIXeszi+ZiRnJrFQa46t4M+jtl9Vu9
+ wtUB53uht5esh4bnAHCXsS7PzJp1RXA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-426-1tJd-fvNMc6iTwZ6DCepZw-1; Wed, 12 Apr 2023 03:04:45 -0400
+X-MC-Unique: 1tJd-fvNMc6iTwZ6DCepZw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-50470d68f1eso1986010a12.0
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 00:04:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681282519; x=1683874519;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1681283084; x=1683875084;
+ h=content-transfer-encoding:in-reply-to:subject:from:cc:references:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j1h4vYtnOl3Y6OuMtt26ai1aGGshaexK8uVHRiVmXYo=;
- b=w4efzuzLHYloRPprSCflXOUPqYCs5u+yuOK1icslrdh8mKaxo1qAqt6nqbb8VdhznK
- FGP024+hKveYG6Q1dl+Br+6dN1+BdjAvFyGYTW689J5EAqKBSXlWK1wExCf3rv27l7eL
- w2VOI274iO3K4+1+oz/saFCt2H7wpVIEruQjENfTLf3FtSmmalNdYw89nQt9iTXy/GH5
- HSb8hVA7QZ3fvHEMF0PZ0aDaFwWYkYrHchfQ74dYpbFIveQ0dP4c+bWU6f8J8vBlH2Qj
- vakCrhWsUmC4YczBcgk2FUlhT8Tt+D3LSU/wJB4KInGwv8EiNf70Cns47cUU3JXiQ7I6
- Qmng==
-X-Gm-Message-State: AAQBX9cDLAvrHu58TTpHUl4Nf9NWfFIwspQki+RFAjA4DdtZtER9SfFo
- jtBK+I7v0HWGPihWPIIsXy8lzQ==
-X-Google-Smtp-Source: AKy350YrrHPdIWmxTPqjQAQSVKLvgOqy/mfeua9ghEmEUEfexS5BkUynnE9Q1Oif66/pCPI67jtd4Q==
-X-Received: by 2002:adf:f107:0:b0:2cb:29eb:a35e with SMTP id
- r7-20020adff107000000b002cb29eba35emr1352432wro.11.1681282519089; 
- Tue, 11 Apr 2023 23:55:19 -0700 (PDT)
-Received: from [10.0.2.69] (ip-037-024-010-236.um08.pools.vodafone-ip.de.
- [37.24.10.236]) by smtp.gmail.com with ESMTPSA id
- i3-20020adfdec3000000b002f24db41f50sm6250732wrn.69.2023.04.11.23.55.18
+ bh=UD0SZyjl6Ky0q7QljOM6f+bxzYppVSpTCTHwBJjyHg8=;
+ b=HdBj0NXVW4H9x2fV10CrQpg4D3fK62bV1cgAgGNvSI2MS0SmJ4UvcACcLstUenvdUQ
+ f2vwW3JByr/9H0a7uY7jvdYI2S4zwbrIW7Bz53E2NlfnUyfkIbvcWuqNWPfXuYEwZ6mm
+ ZixiWvHPZG9Bs6933c9lKKO/fkcZEJNAUZrwO/0flZGdaMMFdQw2WVvZHklW8qrKNFbO
+ ByGB3OdRWyYxH8iuOeEvw/QmxVX6192jnhVLTxAZVLTe0fBz6l56UxaT/beNxtQOjWbJ
+ y4eG/yjIwK9ikUM1kHK0iBeYDjxuuqq/MYUbE4sW2vxUHU38HBkbvl57+2XzuJE6fMoO
+ 4pTA==
+X-Gm-Message-State: AAQBX9cYlxY8NrhNHmRxpkKhKTSlZrK40Ds7Ukr9bxiKNGVgMVWSvBBY
+ /8xh6QcMshw90wmOuCIo4BJ0E1hKOuKJS5gHXG1xoc/ED6eqdb6oqYvU6p8yoql3uUdwwcr3FAQ
+ 7IFLday3C8ZDlqqA=
+X-Received: by 2002:a05:6402:1117:b0:502:2494:b8fc with SMTP id
+ u23-20020a056402111700b005022494b8fcmr13758133edv.7.1681283084413; 
+ Wed, 12 Apr 2023 00:04:44 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZgY2hwwrmolt+MJAFAz572uoU/Oh//RG77WW8GOanbUn+Woh73fzRkah8R70if1QOTQX8kow==
+X-Received: by 2002:a05:6402:1117:b0:502:2494:b8fc with SMTP id
+ u23-20020a056402111700b005022494b8fcmr13758124edv.7.1681283084060; 
+ Wed, 12 Apr 2023 00:04:44 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-153.web.vodafone.de.
+ [109.43.179.153]) by smtp.gmail.com with ESMTPSA id
+ d7-20020a50f687000000b00504803f4071sm5009962edn.44.2023.04.12.00.04.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 23:55:18 -0700 (PDT)
-Message-ID: <502311f2-10af-9331-80b4-f3ef56b91f54@linaro.org>
-Date: Wed, 12 Apr 2023 08:55:17 +0200
+ Wed, 12 Apr 2023 00:04:43 -0700 (PDT)
+Message-ID: <533d2093-68f7-4d5d-f1cf-3ff88d0173f1@redhat.com>
+Date: Wed, 12 Apr 2023 09:04:42 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 05/12] tcg/mips: Split out tcg_out_movi_one
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-References: <20230408030359.3368868-1-richard.henderson@linaro.org>
- <20230408030359.3368868-6-richard.henderson@linaro.org>
- <c0b5e268-080a-4262-84f4-e4a5f849bdfb@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <c0b5e268-080a-4262-84f4-e4a5f849bdfb@linaro.org>
+To: mikestramba@gmail.com, qemu-devel@nongnu.org
+References: <CAA5vqSbgTTeF-tiUtK7pCYkyQXJEV3WuZuXEK=4GjigPLf=X7A@mail.gmail.com>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: How to write a zIPL section in IPL2 record on a raw disk
+In-Reply-To: <CAA5vqSbgTTeF-tiUtK7pCYkyQXJEV3WuZuXEK=4GjigPLf=X7A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.17, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,20 +99,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/11/23 14:34, Philippe Mathieu-Daudé wrote:
->> +    if (tcg_out_movi_one(s, ret, arg)) {
->>           return;
->>       }
->> +
->>       if (TCG_TARGET_REG_BITS == 32 || arg == (int32_t)arg) {
->>           tcg_out_opc_imm(s, OPC_LUI, ret, TCG_REG_ZERO, arg >> 16);
+On 12/04/2023 04.22, Mike Stramba wrote:
+> I have a CKD file, created with the Hercules dasdinit program.
+> It's a  (hercules) 3350 uncompressed file.
+> I've put a small "hello world" IPL program on it, and it works fine with 
+> Hercules
 > 
-> Shouldn't this block be removed in this patch?
+> When I try to run it with qemu-system-s390x I get :
+> 
+> LOADPARM=[        ]
+> Using virtio-blk.
+> Using guessed DASD geometry.
+> Using ECKD scheme (block size  4096), CDL
+> No zIPL section in IPL2 record.   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+> zIPL load failed.
+> Could not find a suitable boot device (none specified)
+> Failed to load OS from hard disk
+> 
+> The qemu script is :
+> qemu-system-s390x -m 16 -drive format=raw,file=test-ipl.3350.un,if=virtio 
+> -nographic
 
-No, because it feeds into the lui+ori path.
-It gets cleaned up in the next patch.
+  Hi Mike!
 
+I guess you're the first person who's trying to do this ;-) ...
+QEMU's s390x emulation has been developed with only Linux guests in mind, so 
+the boot "firmware" also only supports disks that have been prepared by the 
+bootloader that is used for loading Linux on s390x - i.e. zipl.
 
-r~
+FWIW, you can find the sources of the "firmware" in the pc-bios/s390-ccw/ 
+folder of the QEMU source tree if you want to have a look.
+
+But if you just want to load a small kernel into QEMU, you're maybe better 
+off by using the "-kernel" option to load an ELF file.
+
+> I found this link re:  the zipl command.
+> https://www.ibm.com/docs/en/linux-on-systems?topic=u-modes-syntax-overview 
+> 
+> Where is that command   and  / or its source ?
+
+zipl is part of the s390-tools that are available here:
+
+  https://github.com/ibm-s390-linux/s390-tools
+
+(there should also be a package for this in each decent s390x Linux distro).
+
+  HTH,
+   Thomas
 
 
