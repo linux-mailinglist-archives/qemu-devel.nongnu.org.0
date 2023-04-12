@@ -2,56 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094CC6DF9B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 17:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D696DFB64
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 18:31:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmcFU-00013N-Vm; Wed, 12 Apr 2023 11:19:05 -0400
+	id 1pmdLr-000477-CL; Wed, 12 Apr 2023 12:29:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmcFR-00012w-5B
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 11:19:01 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pmdLk-00044d-VI
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 12:29:36 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pmcFP-0002Bo-Ls
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 11:19:00 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pmdLi-0005aJ-F3
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 12:29:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681312735;
+ s=mimecast20190719; t=1681316972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0LueBI/qIOF7SrvJibqQQzaqHi8X+jPq1DvsOXWO83U=;
- b=XlZzoUzuDWQxlJrBawkSWyZTpAMYjZyPC64k1yPTxuVGe6LhtGcnXlfppRXT+mjF7oc9lJ
- yRtTryebCQz0ZsPLuIH/44oJ0u2MwOS+PK4v54BZDwcyW6S6ZiQTVJVhtESDBwmdsAcQKP
- HU7HTLwLhFzKCalhkMr+/E4pz1RD8fQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-160-p3tzULcHP1ehQMULl_gYIg-1; Wed, 12 Apr 2023 11:18:53 -0400
-X-MC-Unique: p3tzULcHP1ehQMULl_gYIg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08A4485A5A3;
- Wed, 12 Apr 2023 15:18:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72DB247CD0;
- Wed, 12 Apr 2023 15:18:52 +0000 (UTC)
-Date: Wed, 12 Apr 2023 17:18:51 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH 8.0 regression] block/nfs: do not poll within a coroutine
-Message-ID: <ZDbL2w2O/hCxaCS3@redhat.com>
-References: <20230412112606.80983-1-pbonzini@redhat.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sqiarqHAxLhO5fDv73z0DIYh1RlUXSI6d6Lx/ngaTSY=;
+ b=P4f7jVeiMKbM3Ww6zUng6DbxGID5tTMe25GrFmVmi7B1gyovRCIxZON44LhExxjMmifUoy
+ uiPI7kAhsSDE0hsCJFhgJOH6itqGiGbMqa4heHIunNK7a6oDC+vaYh7rhQkyvENRQzpWCK
+ jLS9NSHQDHwRv5h40+SbI+88/UGU6L4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-192-KgXqFCtJP4qmdPoXf8ZNqA-1; Wed, 12 Apr 2023 12:29:30 -0400
+X-MC-Unique: KgXqFCtJP4qmdPoXf8ZNqA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g6-20020a05600c310600b003ee69edec16so7196247wmo.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 09:29:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681316969; x=1683908969;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sqiarqHAxLhO5fDv73z0DIYh1RlUXSI6d6Lx/ngaTSY=;
+ b=RcGUvxJKjg1wWgj8EUqgvusEPdL22iwx9q8q2BxKk6KyK/pBqN8Xj0pNqS4aIciq5c
+ A8n0NHjxvb5DKlxDYACZ4AmaTEQJgdrim60VSNrm+ct3oc/kft9Vh5u1McGnRnARIf+C
+ tHVT5qv+mqOUY72fVoYRD/2IctDH8CwKwb9NbJQPHzDXNEMUL2MKh365wDNMOVP/YvFq
+ io0NgHFeuZueGX1QvpaQjtEbqPxRLievhCfrpPRPDD+uW2iz9OpmsTxD0iPoVXuRVv+f
+ DeIWnIbm/8uZ99Cfe6HkSa8fFr9XJjib7c05FPmqTRXKHwu8mleHYr8lmPXa3j3xs5GF
+ n6Ew==
+X-Gm-Message-State: AAQBX9co5VOq74na0UjyKXJXvc/FwrSbxN0jTFJ3byWyEh+0aLYoy/dX
+ wVqifCKcbOByDQ95ugeUHtvSYiVl04d0HkSHgxnqonfcB3f8sf9U7lGASCGDhN51JNJBUtZdS23
+ LhHwmHVRwRkcYmx1FIzy1QbVVWGcuRcCeDLtkPybB2D5d5VrgEtw+n/JPCHbcZNSORNPfUWFxhf
+ Y=
+X-Received: by 2002:a1c:770c:0:b0:3ee:3df6:e411 with SMTP id
+ t12-20020a1c770c000000b003ee3df6e411mr12274863wmi.28.1681316969138; 
+ Wed, 12 Apr 2023 09:29:29 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aQI3hqh8Z4xncUeILNrUsC2xFp/tSIHVN5eXDRVdozZY8a7NHDTnbb96A/zN6pLY/uSIRRkA==
+X-Received: by 2002:a1c:770c:0:b0:3ee:3df6:e411 with SMTP id
+ t12-20020a1c770c000000b003ee3df6e411mr12274849wmi.28.1681316968774; 
+ Wed, 12 Apr 2023 09:29:28 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ k7-20020a05600c1c8700b003ee1acdaf95sm3033859wms.36.2023.04.12.09.29.28
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 09:29:28 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL for-8.0 0/1] NFS changes for 2023-04-12
+Date: Wed, 12 Apr 2023 18:29:26 +0200
+Message-Id: <20230412162927.112101-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230412112606.80983-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -59,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,68 +96,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 12.04.2023 um 13:26 hat Paolo Bonzini geschrieben:
-> Since the former nfs_get_allocated_file_size is now a coroutine
-> function, it must suspend rather than poll.  Switch BDRV_POLL_WHILE()
-> to a qemu_coroutine_yield() loop and schedule nfs_co_generic_bh_cb()
-> in place of the call to bdrv_wakeup().
-> 
-> Fixes: 82618d7bc341 ("block: Convert bdrv_get_allocated_file_size() to co_wrapper", 2023-02-01)
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  block/nfs.c | 24 +++++++++++++-----------
->  1 file changed, 13 insertions(+), 11 deletions(-)
-> 
-> diff --git a/block/nfs.c b/block/nfs.c
-> index 351dc6ec8d14..417defc0cfef 100644
-> --- a/block/nfs.c
-> +++ b/block/nfs.c
-> @@ -726,10 +726,8 @@ nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs, void *data,
->      if (task->ret < 0) {
->          error_report("NFS Error: %s", nfs_get_error(nfs));
->      }
-> -
-> -    /* Set task->complete before reading bs->wakeup.  */
-> -    qatomic_mb_set(&task->complete, 1);
-> -    bdrv_wakeup(task->bs);
-> +    replay_bh_schedule_oneshot_event(task->client->aio_context,
-> +                                     nfs_co_generic_bh_cb, task);
->  }
->  
->  static int64_t coroutine_fn nfs_co_get_allocated_file_size(BlockDriverState *bs)
-> @@ -743,15 +741,19 @@ static int64_t coroutine_fn nfs_co_get_allocated_file_size(BlockDriverState *bs)
->          return client->st_blocks * 512;
->      }
->  
-> -    task.bs = bs;
-> +    nfs_co_init_task(bs, &task);
->      task.st = &st;
-> -    if (nfs_fstat_async(client->context, client->fh, nfs_get_allocated_file_size_cb,
-> -                        &task) != 0) {
-> -        return -ENOMEM;
-> -    }
-> +    WITH_QEMU_LOCK_GUARD(&client->mutex) {
-> +        if (nfs_fstat_async(client->context, client->fh, nfs_get_allocated_file_size_cb,
-> +                            &task) != 0) {
-> +            return -ENOMEM;
-> +        }
->  
-> -    nfs_set_events(client);
-> -    BDRV_POLL_WHILE(bs, !task.complete);
-> +	nfs_set_events(client);
+The following changes since commit abb02ce0e76a8e00026699a863ab2d11d88f56d4:
 
-Tab damage in this line.
+  Merge tag 'for-upstream' of https://repo.or.cz/qemu/kevin into staging (2023-04-11 16:19:06 +0100)
 
-> +    }
-> +    while (!task.complete) {
-> +        qemu_coroutine_yield();
-> +    }
->  
->      return (task.ret < 0 ? task.ret : st.st_blocks * 512);
->  }
+are available in the Git repository at:
 
-With the indentation above fixed:
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+for you to fetch changes up to 3fe64abcde55cf6f4ea5883106301baad219a7cc:
+
+  block/nfs: do not poll within a coroutine (2023-04-12 18:26:51 +0200)
+
+----------------------------------------------------------------
+Fix NFS driver issue.
+
+----------------------------------------------------------------
+Paolo Bonzini (1):
+      block/nfs: do not poll within a coroutine
+
+ block/nfs.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+-- 
+2.39.2
 
 
