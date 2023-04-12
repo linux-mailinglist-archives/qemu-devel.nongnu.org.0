@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03F46E0046
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E1B6E0047
 	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 23:01:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmha0-0004On-8i; Wed, 12 Apr 2023 17:00:36 -0400
+	id 1pmha0-0004Oq-F8; Wed, 12 Apr 2023 17:00:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pmhZs-0004N0-0U
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pmhZs-0004Mz-0P
  for qemu-devel@nongnu.org; Wed, 12 Apr 2023 17:00:30 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pmhZn-0006dC-JY
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pmhZn-0006cu-3x
  for qemu-devel@nongnu.org; Wed, 12 Apr 2023 17:00:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681333209;
+ s=mimecast20190719; t=1681333205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iSgrMi+Mi2AOQ4axjkxb0nfFcKvvAKezs24AWJGYdHg=;
- b=jLBjo58dWHrCCeQwC5TLhxnJExt4LMTAeNEmvXGGkn4oD4LhN1MNoUpY1Jj1etDjPw8qUg
- VPnKQiGGmApJEsod5HfcjM+5R4glYN/WYIVEHwF+Lfn99D5P7K8iwA7qsz0Oj1JFilRw4b
- n1C/Ru4HR3wKjgtcQaTQ19WWmrjjA1Y=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-119-3NaJ8M73PqOI5VpHrzYNlw-1; Wed, 12 Apr 2023 17:00:08 -0400
-X-MC-Unique: 3NaJ8M73PqOI5VpHrzYNlw-1
-Received: by mail-pg1-f198.google.com with SMTP id
- g129-20020a636b87000000b005072b17a298so5507525pgc.14
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 14:00:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681333207; x=1683925207;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iSgrMi+Mi2AOQ4axjkxb0nfFcKvvAKezs24AWJGYdHg=;
- b=V0tB98l1caQYswGJG3hqkHpYY8FivrxwN531Mm3HpDLFPGHb1bhWYpIEydU7aDulnq
- z8lJ45aFcTPPXSrSnBFTcICgW2Wr4t0Y4GzuVI7Fhtce9AY+iat4HZBgQmHhv8WX/5ko
- GR+FJ5bj/U9SR2w7bMzsXve3aakzWTE9dgCRjNEBGjbVt+JwpLKKLX85T6GlvVsENRX+
- ewSy65HzLE8+FOa/UnAxl+nrHttHlAaa+UqGLsR0MvaOHeGFPwPdLJvtS9NSuBH6nJAn
- 27Yq1UqYobkt2vPHxJLH1frjc8YA0gUCuFo6d4yvFC5f4HeuvECGv3SoM5l+6DpI3Z/H
- OVMw==
-X-Gm-Message-State: AAQBX9et7qMedVFynyD7+mOPBEm3hesBvrVioaQ+/Wemf8xU43WMSbWP
- 4O3Og3Z1uiV4Wb3f46O6Ew5UR6PtbeQAk8pq62U40hmzOGs4xLQAJslhtpmDe7jx/VzZRNL4ti5
- 26KOTETcmkvKCg2tSz48MX4jwkFQn6HM=
-X-Received: by 2002:a63:2111:0:b0:503:a26e:b4cf with SMTP id
- h17-20020a632111000000b00503a26eb4cfmr5079789pgh.8.1681333207227; 
- Wed, 12 Apr 2023 14:00:07 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aSLEvxp1u+UVLJwP65EXqhBPjcIAasiPOifSLXxnij5I5+olwUIwhF5/hlybEpBYF2rf9GrvuLRqc7P1s8BO0=
-X-Received: by 2002:a63:2111:0:b0:503:a26e:b4cf with SMTP id
- h17-20020a632111000000b00503a26eb4cfmr5079768pgh.8.1681333206854; Wed, 12 Apr
- 2023 14:00:06 -0700 (PDT)
+ bh=ddPXdyykabGaKOAdedsqCVs4MxHGBaFkrvmnIWwFs6M=;
+ b=hOlKdYydLPydzdfAI4DIdBEW39B7INQvOlY4JIZx88FdKrImUVVM0j10RyO73LqIo+cw9B
+ dfqzigOfZ7Pu4seeW8dg51UPJknvHIGNc4EtpzVhAN0HkulGpnBpavESCOshVm64CU1ARA
+ ssYzXU/2mFF2nNTvz2SiFS68GYaqJZQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-609-dcyjcYY3MXmUk2J13oMKQw-1; Wed, 12 Apr 2023 17:00:03 -0400
+X-MC-Unique: dcyjcYY3MXmUk2J13oMKQw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 252BE85A5B1;
+ Wed, 12 Apr 2023 21:00:03 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8806740C6E70;
+ Wed, 12 Apr 2023 21:00:01 +0000 (UTC)
+Date: Wed, 12 Apr 2023 17:00:00 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
+ German Maglione <gmaglione@redhat.com>,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Juan Quintela <quintela@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
+Message-ID: <20230412210000.GB2813183@fedora>
+References: <20230411150515.14020-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20230329124601.822209-1-berrange@redhat.com>
-In-Reply-To: <20230329124601.822209-1-berrange@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 12 Apr 2023 16:59:55 -0400
-Message-ID: <CAFn=p-YU_0YXrZ-TF-QSQak1vCJwtxE7yDNYAHQX_OV75YR=DA@mail.gmail.com>
-Subject: Re: [PATCH] tests/vm: use the default system python for NetBSD
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Warner Losh <imp@bsdimp.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Ryo ONODERA <ryoon@netbsd.org>, Kyle Evans <kevans@freebsd.org>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HkSkVhG+godU9cb7"
+Content-Disposition: inline
+In-Reply-To: <20230411150515.14020-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,67 +83,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 29, 2023 at 8:47=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@r=
-edhat.com> wrote:
->
-> Currently our NetBSD VM recipe requests instal of the python37 package
-> and explicitly tells QEMU to use that version of python. Since the
-> NetBSD base ISO was updated to version 9.3 though, the default system
-> python version is 3.9 which is sufficiently new for QEMU to rely on.
-> Rather than requesting an older python, just test against the default
-> system python which is what most users will have.
 
-Is this the default Python, or does it just happen to be the python
-that one of our other dependencies claims to require? From my notes on
-the mkvenv.py work, I had actually changed this over to requiring
-Python 3.10, because it appeared at the time that NetBSD only shipped
-pip for 3.10.
+--HkSkVhG+godU9cb7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-e.g. https://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/index-all.html
-you can see here we've got "py310-pip" but I don't see "py39-pip". The
-only other pip I see is py27-pip.
+Hi,
+Is there a vhost-user.rst spec patch?
 
-The impression I got was:
+Thanks,
+Stefan
 
-1) There's no such thing as a "default" python for NetBSD,
-2) The best Python to use on this platform is currently 3.10.
+--HkSkVhG+godU9cb7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I'm not very familiar with NetBSD though, so it's definitely possible
-I misunderstood something.
+-----BEGIN PGP SIGNATURE-----
 
---js
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQ3G9AACgkQnKSrs4Gr
+c8jBCwgArem3IQvGYdPxZYnNCsgZKfAuktxpMRhRYdnKuTFGWA99GpzLB4hqxfLT
+vQyviUt0wpUthQhTZkAOrvINGPLcliMRPcTPGnAlTqkcVRbk2qGC2nwDr2hHRISd
+847AOaxycYj1Y6UdkJI1vCZchrLLPRyIsbUjXuEf0tX0lMNDawGBEZQRnth/vAnt
+x86e/S83EFbsd1Pwtdt6KdOU9JidzA5mciS2r6z8fOrOoG6JzqSaeqCc6m8rstD3
+SJaqtkvKByJSnd2S58G6/WcJczTFFeoHNMoNFqsMDNjQPaL42aph91rUJ6Z2Wv58
+7sd0QesqYJUK4rCv54jWcoh7+HmGew==
+=Rw43
+-----END PGP SIGNATURE-----
 
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->  tests/vm/netbsd | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-> index aa54338dfa..0b9536ca17 100755
-> --- a/tests/vm/netbsd
-> +++ b/tests/vm/netbsd
-> @@ -30,7 +30,6 @@ class NetBSDVM(basevm.BaseVM):
->          "git-base",
->          "pkgconf",
->          "xz",
-> -        "python37",
->          "ninja-build",
->
->          # gnu tools
-> @@ -66,7 +65,7 @@ class NetBSDVM(basevm.BaseVM):
->          mkdir src build; cd src;
->          tar -xf /dev/rld1a;
->          cd ../build
-> -        ../src/configure --python=3Dpython3.7 --disable-opengl {configur=
-e_opts};
-> +        ../src/configure --disable-opengl {configure_opts};
->          gmake --output-sync -j{jobs} {target} {verbose};
->      """
->      poweroff =3D "/sbin/poweroff"
-> --
-> 2.39.1
->
->
+--HkSkVhG+godU9cb7--
 
 
