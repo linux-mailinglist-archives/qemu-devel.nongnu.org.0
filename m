@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0546DF737
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 15:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DA66DF75A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 15:37:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmaYP-0007MV-9D; Wed, 12 Apr 2023 09:30:29 -0400
+	id 1pmadj-00016w-Kh; Wed, 12 Apr 2023 09:35:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pmaYN-0007MM-FV
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:30:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pmaYL-0002yc-W9
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:30:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681306222;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zU5nL2Ka2gxdnmwzDmaHbRPRwrkdD1WuVQ+ZTcemt7U=;
- b=UrbtMVL47v6PY0D1LUpuB7VlSdKzUEOhzeATBodn1bnymyp8rKMgDyVQfNjU3bsynznkU0
- 0NmECjfZ/bNTEV5sIahFLQPpLWsncmRu+mSqNFraVJm7mH6zfXqsVbcmlYgnPvzDu+x8yU
- dRjG7MVLFq7bOU5qt5e+fPEpqU8NpLY=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-359-C8T5mxeYMniydTRy7tJd_w-1; Wed, 12 Apr 2023 09:30:21 -0400
-X-MC-Unique: C8T5mxeYMniydTRy7tJd_w-1
-Received: by mail-ua1-f71.google.com with SMTP id
- e1-20020ab01681000000b0077170be9085so3946858uaf.13
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 06:30:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmadh-000168-IV
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:35:57 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmadf-00042B-PX
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:35:57 -0400
+Received: by mail-wm1-x334.google.com with SMTP id q5so6536827wmo.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 06:35:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681306552; x=1683898552;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pp/vZNTH1CdYoakxWMjsbyXkrBnC6lsoL8fgM36jhHA=;
+ b=UdnscHMEvQz45UkLik37L0hEIoYpItpzh0YlKZDl85OiVjf15e/Kusv7Q22Nt/B7Sg
+ 8U4bUJwS+rxvIUcFzhv6pw/xeOvQlhS/4KG0r+++aLXVNeR8BBGBM8ffToibmc7lxJPM
+ vT0qxlkgOwxmtM0U68ttNyjdRl7SBaon2terdXX7UoK/9dJDyAHYxzcqjNVtP3HhnvRR
+ 0Zxw5ugxQcXH7EkWUIh3vkXLSiyyr7m1tYeC8hg2QKx1AMlF0AJ6xwx9E3D0r3f+oiO3
+ Eb5vACUdhbCOiTSA+KErKHtsDc3JfFPxWP9+qCDfbkz7QMp1qcfNJE1TtE3BAOnAVms1
+ MaYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681306220; x=1683898220;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zU5nL2Ka2gxdnmwzDmaHbRPRwrkdD1WuVQ+ZTcemt7U=;
- b=w2R+gTo1mCvlDwc918Mau7O1qIMONaWD3eayxjBWf0udw2QQ/L/1biDfVNSj7dWfD0
- uDWA0jm0lqfwdA5blz14PvhhIfdVkmUXJUXJiYe9bQTM3H0KMv7i0RrFnQzLCqdxV/4E
- yJ4R3/laufeG2pAiFMq65AKt5I1bgMQWbphHlkuFwxtUb24xfQ97Vh7hEnd6ExsbDRT8
- 5RbgoeBcG/RJyiyq0du+A7MnJf6C+/OLw273d9JMExLfLmh2CDYyhxbCxWzVtg2/hFrJ
- Y4d7p88jmnLN27gzpUKvluE2xbvLZrKWccG1Agj0vKnZ6Fod6dAuw1y+K6EWXshsYwW3
- F/xQ==
-X-Gm-Message-State: AAQBX9fTCsOo+B6VlsuobEM+71vDmh44Udid5bGlk9cX4tBSaOqUklmq
- bh4Mam+mhNXeHQX2Ase3tqLLCHsAWGSRW9FpknaueSOWTycypwnE/Yl9x25MwyatpRJ5CZuIA8K
- Gc1oUkt/KHFw1/dkjp5AUtMXWkn07HHnSrHddbVdHXw==
-X-Received: by 2002:a67:c08d:0:b0:42c:96e4:248f with SMTP id
- x13-20020a67c08d000000b0042c96e4248fmr944741vsi.1.1681306220600; 
- Wed, 12 Apr 2023 06:30:20 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YhrxDAAY1c4CUyf/CECfTIKht30XADAAzzUusNGur5z791g+JQI/z594PT42du+N6oqhZ60Zw3FV1RiWU8oqQ=
-X-Received: by 2002:a67:c08d:0:b0:42c:96e4:248f with SMTP id
- x13-20020a67c08d000000b0042c96e4248fmr944729vsi.1.1681306220340; Wed, 12 Apr
- 2023 06:30:20 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681306552; x=1683898552;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=pp/vZNTH1CdYoakxWMjsbyXkrBnC6lsoL8fgM36jhHA=;
+ b=sosBn/B1rCyXl4HrFMczeVkwkXgC7mK4mpZ5txxU0IJ2+7Mzqgm2VkQgV7HG7ZKrC+
+ y/ODTpEh4pL5AxqlxM2YJ1F+s+Cad9a7QvmcokCYjZU8H+Ay4cxJ0ZPUzVpQvmI+LBFd
+ RFHjIsG/HP089HJ0ghzo4wzfmuSiXe+ZInAsNt3hISiFtr1YriLeORSfft9oRVVpeexs
+ Xjunho0+cYIhvjjS+oHndJsssyJNc9CmIwku8Cye+zRD+CQpeSpAl+XhVihicdBBLFOK
+ OdwvVkuIkR3+aO5w+mGOqNPGo+6ZLenHHtAM0BKzONOH9gKmC6qP+WneeJd7/tAgN5ut
+ pPjA==
+X-Gm-Message-State: AAQBX9dBjXpNEgvIlGyUgS3a4agxFPHPASrjybMFT/S5gJ2SCdywOOWS
+ 7/n5kzBTXJMgOLzaP6ZJmH28jg==
+X-Google-Smtp-Source: AKy350ZMvSEee+J206l5ykzqOZYJksxor/SX5VB6FJI2pHRVAyrysQrLIuP9OKazZ7dvbgMZlvebZw==
+X-Received: by 2002:a1c:ed18:0:b0:3ed:5eed:5581 with SMTP id
+ l24-20020a1ced18000000b003ed5eed5581mr2256488wmh.2.1681306552665; 
+ Wed, 12 Apr 2023 06:35:52 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ p4-20020a1c7404000000b003ee44b2effasm2413602wmc.12.2023.04.12.06.35.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 06:35:52 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E78071FFB7;
+ Wed, 12 Apr 2023 14:35:51 +0100 (BST)
+References: <20230411224746.16152-1-vikram.garhwal@amd.com>
+ <20230411224746.16152-11-vikram.garhwal@amd.com> <87fs95ck61.fsf@suse.de>
+User-agent: mu4e 1.10.0; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: xen-devel@lists.xenproject.org, vikram.garhwal@amd.com,
+ stefano.stabellini@amd.com, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [QEMU][PATCH v6 10/10] meson.build: enable xenpv machine build
+ for ARM
+Date: Wed, 12 Apr 2023 14:32:03 +0100
+In-reply-to: <87fs95ck61.fsf@suse.de>
+Message-ID: <87pm89nryg.fsf@linaro.org>
 MIME-Version: 1.0
-References: <CAEQMSUtx73GosLwzMLERTMkJ=eLiU5NbwZY1K0eOmFbJ-M=4Kw@mail.gmail.com>
- <87y1mxnvlo.fsf@linaro.org>
-In-Reply-To: <87y1mxnvlo.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 12 Apr 2023 15:30:08 +0200
-Message-ID: <CABgObfZPZ9+CvpPOfaqgFa+hiqW-mYJZ_5AkJorujy0hMiwo6A@mail.gmail.com>
-Subject: Re: AVX-512 instruction set
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Walid Ghandour <waleedjghandour@gmail.com>, qemu-devel@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,50 +101,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 12, 2023 at 2:17=E2=80=AFPM Alex Benn=C3=A9e <alex.bennee@linar=
-o.org> wrote:
-> I don't think there is currently any active effort to add AVX512
-> support. There have been various GSoC projects to improve the x86 SIMD
-> emulation but I don't think they got merged.
 
-No, there isn't. However, the recent implementation of AVX in QEMU 7.2
-is designed to make AVX512 at least doable.
+Fabiano Rosas <farosas@suse.de> writes:
 
-Adding support for AVX512 would be a very large work (at least 1
-months full time plus time to get it merged), but not impossible. The
-tasks could be something like this:
+> Vikram Garhwal <vikram.garhwal@amd.com> writes:
+>
+>> Add CONFIG_XEN for aarch64 device to support build for ARM targets.
+>>
+>> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+>> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+>> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  meson.build | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meson.build b/meson.build
+>> index 52c3995c9d..eb5bb305ae 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -135,7 +135,7 @@ endif
+>>  if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
+>>    # i386 emulator provides xenpv machine type for multiple architectures
+>>    accelerator_targets +=3D {
+>> -    'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
+>> +    'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu',
+>> 'aarch64-softmmu'],
+>
+> I'm not familiar with Xen, so pardon my ignorance, but would it (ever)
+> make sense to do a 1:1 map of host architecture and qemu target? So we
+> don't have to deal with having a build on x86 pulling aarch64-softmmu
+> and vice-versa.
+>
+> Do we expect both x86_64-softmmu and aarch64-softmmu binaries to be used
+> in the same host?
 
-1. EVEX prefix decoding for AVX and AVX2 instructions
-2. operand broadcast
-3. VEX encoded mask instruction: kmov, kadd, kxnor, etc
-4. other instructions and permutations with mask operands and permutations
-5. opmask support including merging and zeroing
-6. Disp8*N addressing mode
-7. rounding control and exception suppression
+Xen is different from the other accelerators as it isn't really guest
+CPU aware. It is merely io device emulation backend albeit one that
+supports a non-paravirtualised guest on x86. But you are right that
+using qemu-system-i386 as a backend on aarch64 hosts does cause some
+cognitive dissonance for users. For aarch64 hosts we would only support
+the VirtIO guests.
 
-It's important that, at any given step, the new functionality is
-tested comprehensively.
-
-> > 62 f2 7d 48 18 0d fa 0c 00 00 vbroadcastss 0xcfa(%rip),%zmm1
-> >
-> > qemu: uncaught target signal 4 (Illegal instruction) - core dumped
-> >
-> > I like to add support for broadcast and fmadd avx 512 instructions such=
- as the following one:
-> >
-> > 62 e2 7d 48 b8 c9     vfmadd231ps %zmm1,%zmm0,%zmm17
-
-Both of these are using a small subset of AVX512 (step 1 above). Both
-vbroadcastss and vfmadd231ps are already implemented in QEMU, but not
-using ZMM registers.
-
-Unfortunately the base AVX512 functionality is large, and therefore
-the above tasks are all needed to claim support for AVX512. On the
-other hand, for historical reasons AVX512BW and AVX512VL extensions
-are separate but in practice they are easier to just implement at the
-same time as basic AVX512; my expectation is that they would come up
-almost for free with the rest of the work.
-
-Paolo
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
