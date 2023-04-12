@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E11B6DF151
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 11:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2996DF164
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:00:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmXFw-0000ya-Ak; Wed, 12 Apr 2023 05:59:12 -0400
+	id 1pmXGx-0001jz-5p; Wed, 12 Apr 2023 06:00:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmXFq-0000yK-Ef
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:59:07 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmXFn-00042n-Id
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:59:06 -0400
-Received: by mail-wm1-x331.google.com with SMTP id gw13so6157866wmb.3
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 02:59:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681293541; x=1683885541;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=n9UKxoJCalxzWMvporGJZg98a0GKjz2TITXs3eJ/NZ8=;
- b=lMRSJZXHGclA9OSDWhvXODt05hLggqUfm+uDEya+N2YhaXSe3MpJbffiycojYhaTW0
- EnmGMlQOJyS//r0aqtb2WnHQorEIsgyaPa7nxridu7h0arW0w0eHTC15tWtrlrLcOa1i
- 5YEwOAEDBsOS/FEGP8rri3uFPQ1V5g+JOYzzhkgajANYpfvwAGCex3FBEZDRYZAd13vY
- J7Mve5Lvd0qYKmyM6SazXVAwDi8JnDi2Z/c4+cZaMh/BCp6RbagQTeaG7X/aTVu1w6VJ
- AuaWIUsOOLSxC/uqOPvA0y8SDxk8nPI+97dJ8eMWMyvjux5oVaIPvV+1AbhHxYpfDPC6
- AlwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681293541; x=1683885541;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=n9UKxoJCalxzWMvporGJZg98a0GKjz2TITXs3eJ/NZ8=;
- b=ZQLs7nEmHEEA/c4OdQDwb8rKJu056ypeGK59svRmE0fj/5fOqXg06QrA7A/a8+FPGW
- fk9wmCqz7nJfZQ3kfB9r4OEmIrbIH5V74G4KPY9dPpp+GuSC1sE3uHI3GUdPWNnUyaa0
- /R5z4omJzjjtE5LfuTMuQuIm0tHH30pR1f/4K3Up63kO7jAKLGmrxkIKyk7PbSDCU14N
- YR0gj09C5C5moXWxebUAF3I/8KbdYEgeRh2RPjA3toVdavSdDIM6QzX/5mW2DOZXqENF
- PKKumeuI2ZieY4vaXvxaHK10I4MERKn1UNafdMlybhYVzOxTEGa9FFwgX7uhx2DGCk6A
- lkPw==
-X-Gm-Message-State: AAQBX9cHpQvluXFFfFhlg0Riy8xXFAUQXK6MWhn2vzN78rzL1wBi6+8S
- p1I369Vt6IzTjbVWcSK5WuFkHw==
-X-Google-Smtp-Source: AKy350a+lBO2+Dh2gTpj8J9LbHJ0ftV+vb/tEDpCTacCpU0hR8lTQ7/5bzHaU4GrnmqLbC9NWNctMQ==
-X-Received: by 2002:a1c:7502:0:b0:3ef:61f7:7d34 with SMTP id
- o2-20020a1c7502000000b003ef61f77d34mr9109061wmc.1.1681293541631; 
- Wed, 12 Apr 2023 02:59:01 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.216.226])
- by smtp.gmail.com with ESMTPSA id
- o18-20020a05600c511200b003f0472ffc7csm1878566wms.11.2023.04.12.02.59.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 02:59:01 -0700 (PDT)
-Message-ID: <92e890d1-5a93-821f-e256-7df3d91ad4ac@linaro.org>
-Date: Wed, 12 Apr 2023 11:58:59 +0200
+ (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
+ id 1pmXGu-0001jj-9s
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:00:12 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
+ id 1pmXGr-0004NG-Tj
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:00:12 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 044AC62D39;
+ Wed, 12 Apr 2023 10:00:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00809C4339B;
+ Wed, 12 Apr 2023 09:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681293606;
+ bh=OUD03e+7Iy4QMxz3xJBYzLJlFWfJDEAkzkfLMPair6A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=crNVkqcxHCCYL80wSlDenZejktN87UpM/8LK4etPla1ppaaBuuLGirFySD+9BC8KA
+ rok+vJxk0HE5dOvhmCScfvmfwOePw1RpVNIHWcNtjR8/OdKMSLM8epGate+sVgwibT
+ 5g+HJMDJAqTuD4tNXDMa0mdfzwpVYJP21+59Ok0BLQ7p83MVc5+U2FahQ/OrlB3E0c
+ 3+nXL8j94+wzyND696UMlIfan6ehWljHDgvm/lA3rvxTNr5GvpkPZqTGm9cngV+VsN
+ CJD1pJXthpF+iTotF1i6mXyGtz8SKPgaEU1iVG4BxB/UHaVj28tiyTa6p0gZEsOF59
+ p48RQwfvtj8oA==
+Date: Wed, 12 Apr 2023 11:59:52 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: kvm@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
+ ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
+ bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
+ corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
+ hughd@google.com, jlayton@kernel.org, jmattson@google.com,
+ joro@8bytes.org, jun.nakajima@intel.com,
+ kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+ luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+ michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+ pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+ seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+ tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+ vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+ wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
+Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
+Message-ID: <20230412-kurzweilig-unsummen-3c1136f7f437@brauner>
+References: <20230404-engraved-rumble-d871e0403f3b@brauner>
+ <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH v2 1/2] cxl-cdat:Fix open file not closed in ct3_load_cdat
-Content-Language: en-US
-To: Hao Zeng <zenghao@kylinos.cn>, jonathan.cameron@huawei.com,
- fan.ni@samsung.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
-Cc: Xie Ming <xieming@kylinos.cn>
-References: <20230412071633.2660412-1-zenghao@kylinos.cn>
- <20230412071633.2660412-2-zenghao@kylinos.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230412071633.2660412-2-zenghao@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+In-Reply-To: <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=brauner@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,66 +90,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/4/23 09:16, Hao Zeng wrote:
-> opened file processor not closed,May cause file processor leaks
-> Fixes:aba578bdace5303a441f8a37aad781b5cb06f38c
-
-Fixes: aba578bdac ("hw/cxl: CDAT Data Object Exchange implementation")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
-> Suggested-by: Xie Ming <xieming@kylinos.cn>
-> ---
->   hw/cxl/cxl-cdat.c | 1 +
->   1 file changed, 1 insertion(+)
+On Wed, Apr 05, 2023 at 09:58:44PM +0000, Ackerley Tng wrote:
 > 
-> diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-> index 137abd0992..ba7ed1aafd 100644
-> --- a/hw/cxl/cxl-cdat.c
-> +++ b/hw/cxl/cxl-cdat.c
-> @@ -128,6 +128,7 @@ static void ct3_load_cdat(CDATObject *cdat, Error **errp)
->   
->       if (fread(cdat->buf, file_size, 1, fp) == 0) {
->           error_setg(errp, "CDAT: File read failed");
-> +        fclose(fp);
->           return;
->       }
+> Thanks again for your review!
+> 
+> Christian Brauner <brauner@kernel.org> writes:
+> > On Tue, Apr 04, 2023 at 03:53:13PM +0200, Christian Brauner wrote:
+> > > On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
+> > > >
+> > > > ...
+> > > >
+> > > > -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> > > > +static int restrictedmem_create(struct vfsmount *mount)
+> > > >  {
+> > > >  	struct file *file, *restricted_file;
+> > > >  	int fd, err;
+> > > >
+> > > > -	if (flags)
+> > > > -		return -EINVAL;
+> > > > -
+> > > >  	fd = get_unused_fd_flags(0);
+> 
+> > > Any reasons the file descriptors aren't O_CLOEXEC by default? I don't
+> > > see any reasons why we should introduce new fdtypes that aren't
+> > > O_CLOEXEC by default. The "don't mix-and-match" train has already left
+> > > the station anyway as we do have seccomp noitifer fds and pidfds both of
+> > > which are O_CLOEXEC by default.
+> 
+> 
+> Thanks for pointing this out. I agree with using O_CLOEXEC, but didn’t
+> notice this before. Let us discuss this under the original series at
+> [1].
+> 
+> > > >  	if (fd < 0)
+> > > >  		return fd;
+> > > >
+> > > > -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> > > > +	if (mount)
+> > > > +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem",
+> > > 0, VM_NORESERVE);
+> > > > +	else
+> > > > +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> > > > +
+> > > >  	if (IS_ERR(file)) {
+> > > >  		err = PTR_ERR(file);
+> > > >  		goto err_fd;
+> > > > @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned
+> > > int, flags)
+> > > >  	return err;
+> > > >  }
+> > > >
+> > > > +static bool is_shmem_mount(struct vfsmount *mnt)
+> > > > +{
+> > > > +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
+> 
+> > > This can just be if (mnt->mnt_sb->s_magic == TMPFS_MAGIC).
+> 
+> 
+> Will simplify this in the next revision.
+> 
+> > > > +}
+> > > > +
+> > > > +static bool is_mount_root(struct file *file)
+> > > > +{
+> > > > +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
+> 
+> > > mount -t tmpfs tmpfs /mnt
+> > > touch /mnt/bla
+> > > touch /mnt/ble
+> > > mount --bind /mnt/bla /mnt/ble
+> > > fd = open("/mnt/ble")
+> > > fd_restricted = memfd_restricted(fd)
+> 
+> > > IOW, this doesn't restrict it to the tmpfs root. It only restricts it to
+> > > paths that refer to the root of any tmpfs mount. To exclude bind-mounts
+> > > that aren't bind-mounts of the whole filesystem you want:
+> 
+> > > path->dentry == path->mnt->mnt_root &&
+> > > path->mnt->mnt_root == path->mnt->mnt_sb->s_root
+> 
+> 
+> Will adopt this in the next revision and add a selftest to check
+> this. Thanks for pointing this out!
+> 
+> > > > +}
+> > > > +
+> > > > +static int restrictedmem_create_on_user_mount(int mount_fd)
+> > > > +{
+> > > > +	int ret;
+> > > > +	struct fd f;
+> > > > +	struct vfsmount *mnt;
+> > > > +
+> > > > +	f = fdget_raw(mount_fd);
+> > > > +	if (!f.file)
+> > > > +		return -EBADF;
+> > > > +
+> > > > +	ret = -EINVAL;
+> > > > +	if (!is_mount_root(f.file))
+> > > > +		goto out;
+> > > > +
+> > > > +	mnt = f.file->f_path.mnt;
+> > > > +	if (!is_shmem_mount(mnt))
+> > > > +		goto out;
+> > > > +
+> > > > +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
+> 
+> > > With the current semantics you're asking whether you have write
+> > > permissions on the /mnt/ble file in order to get answer to the question
+> > > whether you're allowed to create an unlinked restricted memory file.
+> > > That doesn't make much sense afaict.
+> 
+> 
+> That's true. Since mnt_want_write() already checks for write permissions
+> and this syscall creates an unlinked file on the mount, we don't have to
+> check permissions on the file then. Will remove this in the next
+> revision!
+> 
+> > > > +	if (ret)
+> > > > +		goto out;
+> > > > +
+> > > > +	ret = mnt_want_write(mnt);
+> > > > +	if (unlikely(ret))
+> > > > +		goto out;
+> > > > +
+> > > > +	ret = restrictedmem_create(mnt);
+> > > > +
+> > > > +	mnt_drop_write(mnt);
+> > > > +out:
+> > > > +	fdput(f);
+> > > > +
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > > +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
+> > > > +{
+> > > > +	if (flags & ~RMFD_USERMNT)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	if (flags == RMFD_USERMNT) {
+> 
+> > > Why do you even need this flag? It seems that @mount_fd being < 0 is
+> > > sufficient to indicate that a new restricted memory fd is supposed to be
+> > > created in the system instance.
+> 
+> 
+> I'm hoping to have this patch series merged after Chao's patch series
+> introduces the memfd_restricted() syscall [1].
 
-Alternatively:
-
--- >8 --
-diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-index 137abd0992..e014b51714 100644
---- a/hw/cxl/cxl-cdat.c
-+++ b/hw/cxl/cxl-cdat.c
-@@ -110,7 +110,7 @@ static void ct3_load_cdat(CDATObject *cdat, Error 
-**errp)
-      g_autofree CDATEntry *cdat_st = NULL;
-      uint8_t sum = 0;
-      int num_ent;
--    int i = 0, ent = 1, file_size = 0;
-+    int i, ent = 1, file_size = 0;
-      CDATSubHeader *hdr;
-      FILE *fp = NULL;
-
-@@ -126,13 +126,13 @@ static void ct3_load_cdat(CDATObject *cdat, Error 
-**errp)
-      fseek(fp, 0, SEEK_SET);
-      cdat->buf = g_malloc0(file_size);
-
--    if (fread(cdat->buf, file_size, 1, fp) == 0) {
-+    i = fread(cdat->buf, file_size, 1, fp);
-+    fclose(fp);
-+    if (i == 0) {
-          error_setg(errp, "CDAT: File read failed");
-          return;
-      }
-
--    fclose(fp);
--
-      if (file_size < sizeof(CDATTableHeader)) {
-          error_setg(errp, "CDAT: File too short");
-          return;
----
-
+I'm curious, is there an LSFMM session for this?
 
