@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B2956DFC0C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 18:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD946DFC38
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 19:04:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmdoA-0004zq-KC; Wed, 12 Apr 2023 12:58:58 -0400
+	id 1pmdsf-0006BU-7H; Wed, 12 Apr 2023 13:03:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robin@streamhpc.com>)
- id 1pmdo8-0004zV-NS
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 12:58:56 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pmdsd-00068y-3w
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 13:03:35 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robin@streamhpc.com>)
- id 1pmdo6-0003iX-F3
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 12:58:56 -0400
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-5050491cb04so533339a12.0
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 09:58:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pmdsa-0004es-V4
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 13:03:34 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1842df7cb53so14530031fac.10
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 10:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=streamhpc-com.20210112.gappssmtp.com; s=20210112; t=1681318732; x=1683910732;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=woWjgYVl+QCkvSCOgGex5jlX7Qoim5HG7711ISJajKY=;
- b=FYbegRlD1gB6QzZYoyLyAqHC+8RDmnyIbd67++jI9sCYGqXh6WPJOGjqRtJNfh9IGS
- iMt3kY54Q0KvlPda0mutfqPXBM3LwL/e1Pv6Zruz1eEcD2iTAh7NeMtpCPp+2WsrRpp0
- NqHlrucqqC16xYXV2uDIg92Psq6NMOkO4u2sNKvZIpSrc7juy6ZBpQPlhLkAIKgfMIao
- yC2lLWghKXlqCew4nJKZvEijXbMRQL86AMRcbJn9duA3OUmYRvmeU1o0k1lyjmCarbhF
- d1ZeMw1btf1jyBXHm1lB6Ot21fxp5UnyIs4bWVgzHBU9FW5CXslJ3Tzt4tWctO1v1tNZ
- ulXw==
+ d=ventanamicro.com; s=google; t=1681319011;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5Hnw2ko+VMxIWJz9n48zVlCwGEZGBCRLOKloIfWaNio=;
+ b=AFY63e8qQu41gJppJYhL/AydDJK7UwowjG07VG/Rs66B35Tp/ucTZbQoMQ6pVpnPLu
+ mHyIwBHFR8b5YWM2AVs9vX5CAxx7jyyzwDptgT4dRlgS/3SPe0PKWQm1sNyjM0egx/Gy
+ Cq4KBkx0U2wA/bJZ7PkVMa38rMt6bNuMG7PhUEDvIlWE6nJUSonHoGji7w1fKU+dpzH7
+ TqdNOExUKdzxVbcVr/3Q7Mbw227jB/G68P3DovhRLYguLnkeZBibZcEPqjCgcNa/c1HZ
+ Ym2AEaosZewO77cWtPyvaijOttPbndeFkVzo9YDpY0P4VEzztBZjfJ6UtQOzA2kCqZOO
+ O+6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681318732; x=1683910732;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1681319011;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=woWjgYVl+QCkvSCOgGex5jlX7Qoim5HG7711ISJajKY=;
- b=fsbXvf0WdVS5v+GMmd5cEHewEYq1pXiyu/uqW9xm6lgeTh3D+wuaYHBbfdF90mjoO/
- Mtg9NyYNSV8uXBMbCxbzTRbblLIHbRc7irsQ+Z/8HVcfIV4hCEPYVOIJfeCyr6pn+T3a
- xdVNvdMrj1eweUIAZfpbR5OVW+1JAk6ceIgOdBWn8Y5+jGIHUCRlk+xzB2c5sh9DoxoZ
- rj+IfpF+R+1rTSbPvT8sUnOI4wuPGrDp9ORjwJiBqjRe2RbbAnQJUAV9xbwJhFMl22Y4
- PdoBXNbRaWULk6jxe4DBF32LvYO5n5fYVm2EWEQyCsvSjNElBXrL24pwjmeM4UCKrDHx
- c65Q==
-X-Gm-Message-State: AAQBX9caVWnkd0KQCc0Ab8DVhRfoAA6OHYbxpcNP/yXQHTpjebqWH3pV
- xxY5FMvWzEfn4pX73VGzN8FoEQ==
-X-Google-Smtp-Source: AKy350Yc1iARkkGMDHZaWUHrl+GooRYj10h28zanC4n7bAZLaHDndZFy1fSxMabHjyXb8Gu1t80IeA==
-X-Received: by 2002:aa7:cd6e:0:b0:501:c839:cf91 with SMTP id
- ca14-20020aa7cd6e000000b00501c839cf91mr2697494edb.6.1681318731844; 
- Wed, 12 Apr 2023 09:58:51 -0700 (PDT)
-Received: from [192.168.178.121] (dhcp-077-251-030-138.chello.nl.
- [77.251.30.138]) by smtp.gmail.com with ESMTPSA id
- p13-20020a50cd8d000000b005048c04751fsm4692620edi.33.2023.04.12.09.58.50
+ bh=5Hnw2ko+VMxIWJz9n48zVlCwGEZGBCRLOKloIfWaNio=;
+ b=Fw2obxxUTt/CCvofGHpMi+KctXACT9BFor00x1/uA+kRQbSZ4lvej1PR2aarThLWwi
+ VSHW/EzKDU2ey+eaMBw27q8WKLkWSyiyn6hIOldAQyzROSnjZYbzjwAkvUaGs/XSc/Cc
+ ymSynDuGdJEFimICo9J8J07BaIDv0HicdnuDGaDS5wKyemjo9vSWJu8CYTzRx6B+c/nu
+ Qe7BrjsOsn+c2D+H9coNnuVlD6qn9f5xYj3n50eByjLJCaHK1H10FsgfQw0eMtgsv9nh
+ egIiDsLEhRUpiorjiHImp7ryY29tZn8AtELKuvhHxzVeuLdqVK2+tq1eUiteRjWKxyrW
+ FFaA==
+X-Gm-Message-State: AAQBX9edp5hb4V76Ip92WKG8G2fJLmMVLglMBzcK7oIl9AYIgtwz4UlL
+ rwNa95siPvUNogHxdhSXNCOb/g==
+X-Google-Smtp-Source: AKy350YEy/fglJWmkWoS2V4qE2mg0qhhh+g7hk5p7hUC9962h0MEo8RUrn8s24NNO3KZHY80OqoD6g==
+X-Received: by 2002:a05:6870:2196:b0:178:fe16:4e6c with SMTP id
+ l22-20020a056870219600b00178fe164e6cmr1898590oae.50.1681319011529; 
+ Wed, 12 Apr 2023 10:03:31 -0700 (PDT)
+Received: from [192.168.68.107] ([191.255.108.232])
+ by smtp.gmail.com with ESMTPSA id
+ ug24-20020a0568714d1800b001723f29f6e2sm2057142oab.37.2023.04.12.10.03.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 09:58:51 -0700 (PDT)
-Message-ID: <74c117e4-5a2a-2759-1dfe-5dc63b53eb75@streamhpc.com>
-Date: Wed, 12 Apr 2023 18:58:50 +0200
+ Wed, 12 Apr 2023 10:03:31 -0700 (PDT)
+Message-ID: <c581590c-88e6-0eb2-3e89-d00436091824@ventanamicro.com>
+Date: Wed, 12 Apr 2023 14:03:26 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Robin Voetter <robin@streamhpc.com>
-Subject: Re: PCIe atomics in pcie-root-port
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <b30370f5-0b52-d2de-6e47-8f288a219a43@streamhpc.com>
- <20230406124009.4a5e7307.alex.williamson@redhat.com>
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] target/riscv: Update check for Zca/zcf/zcd
 Content-Language: en-US
-In-Reply-To: <20230406124009.4a5e7307.alex.williamson@redhat.com>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn,
+ lazyparser@gmail.com, Richard Henderson <richard.henderson@linaro.org>
+References: <20230412030648.80470-1-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230412030648.80470-1-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=robin@streamhpc.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x31.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.083, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.083,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,34 +97,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/6/23 20:40, Alex Williamson wrote:
 
-> I think the typical approach for QEMU would be expose options in the
-> downstream ports that would then need to be enabled by the user or
-> management tool, but that's where the complication begins.  At some
-> point we would want management tools to "do the right thing"
-> themselves.  Is support for PCIe atomics pervasive enough to default to
-> enabling support?
 
-Apparently this is supported from Haswell or newer on Intel, and 
-Ryzen/Threadripper/Epyc on AMD hardware. I don't have any official data 
-for this, though.
+On 4/12/23 00:06, Weiwei Li wrote:
+> Even though Zca/Zcf/Zcd can be included by C/F/D, however, their priv
+> version is higher than the priv version of C/F/D. So if we use check
+> for them instead of check for C/F/D totally, it will trigger new
+> problem when we try to disable the extensions based on the configured
+> priv version.
+> 
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
 
-> How do we handle hotplugged endpoints where the
-> interconnects do not expose atomics support, or perhaps when they
-> expose support that doesn't exist?  At some point in the future when we
-> have migration of devices with atomics, do we need to test all endpoint
-> to endpoint paths for equivalent atomic support on the migration target?
-> Are there capabilities on the endpoint that we can virtualize to
-> disable use of atomics if the host and guest topologies are out of sync?
-It seems automatic detection is a lot of added complication for this 
-feature. For the time being, I think its best to allow enabling PCIe 
-atomics using a device property for the pcie-root-port that is disabled 
-by default. If general hardware support is good enough, it can be 
-enabled by default. Compatibility with older QEMU versions can then be 
-added using a newer hw compat in hw/core/machine.c.
+Two things:
 
-Kind regards,
+- the patch fails checkpatch.pl. I fixed it in my tree, but in case the patch
+needs a new version entirely here's the error:
 
-Robin
+v7-0005-target-riscv-Mask-the-implicitly-enabled-extensio.patch has no obvious style problems and is ready for submission.
+
+Checking v7-0006-target-riscv-Update-check-for-Zca-zcf-zcd.patch...
+ERROR: space required before the open parenthesis '('
+#36: FILE: target/riscv/insn_trans/trans_rvd.c.inc:36:
++        if(!has_ext(ctx, RVD) || !has_ext(ctx, RVC)) { \
+
+ERROR: space required before the open parenthesis '('
+#72: FILE: target/riscv/insn_trans/trans_rvf.c.inc:35:
++        if(!has_ext(ctx, RVF) || !has_ext(ctx, RVC)) { \
+
+
+
+- yesterday Richard sent the following review in the patch "[RFC PATCH 3/4]
+target/riscv: check smstateen fcsr flag":
+
+
+====================================
+
+> +#define REQUIRE_ZFINX_OR_F(ctx) do { \
+> +    if (!has_ext(ctx, RVF)) { \
+> +        if (!ctx->cfg_ptr->ext_zfinx) { \
+> +            return false; \
+> +        } \
+> +        smstateen_fcsr_check(ctx); \
+>       } \
+>   } while (0)
+
+As a matter of style, I strongly object to a *nested* macro returning from the calling function.  These should all be changed to normal functions of the form
+
+     if (!require_xyz(ctx) || !require_abc(ctx)) {
+         return something;
+     }
+
+etc.  insn_trans/trans_rvv.c.inc is much much cleaner in this respect.
+
+====================================
+
+I believe his comment is also valid for this patch as well due to how
+REQUIRE_ZCD_OR_DC(ctx) and REQUIRE_ZCF_OR_FC(ctx) is implemented. Before
+re-sending this patch as is it's better to check with him now.
+
+Richard, does this patch use the nested macro style you strongly object?
+
+
+Thanks,
+
+
+Daniel
+
+
+>   target/riscv/insn_trans/trans_rvd.c.inc | 12 +++++++-----
+>   target/riscv/insn_trans/trans_rvf.c.inc | 14 ++++++++------
+>   target/riscv/insn_trans/trans_rvi.c.inc |  5 +++--
+>   target/riscv/translate.c                |  5 +++--
+>   4 files changed, 21 insertions(+), 15 deletions(-)
+> 
+> diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
+> index 2c51e01c40..f8d0ae48c7 100644
+> --- a/target/riscv/insn_trans/trans_rvd.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvd.c.inc
+> @@ -31,9 +31,11 @@
+>       } \
+>   } while (0)
+>   
+> -#define REQUIRE_ZCD(ctx) do { \
+> -    if (!ctx->cfg_ptr->ext_zcd) {  \
+> -        return false;     \
+> +#define REQUIRE_ZCD_OR_DC(ctx) do { \
+> +    if (!ctx->cfg_ptr->ext_zcd) { \
+> +        if(!has_ext(ctx, RVD) || !has_ext(ctx, RVC)) { \
+> +            return false; \
+> +        } \
+>       } \
+>   } while (0)
+>   
+> @@ -67,13 +69,13 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
+>   
+>   static bool trans_c_fld(DisasContext *ctx, arg_fld *a)
+>   {
+> -    REQUIRE_ZCD(ctx);
+> +    REQUIRE_ZCD_OR_DC(ctx);
+>       return trans_fld(ctx, a);
+>   }
+>   
+>   static bool trans_c_fsd(DisasContext *ctx, arg_fsd *a)
+>   {
+> -    REQUIRE_ZCD(ctx);
+> +    REQUIRE_ZCD_OR_DC(ctx);
+>       return trans_fsd(ctx, a);
+>   }
+>   
+> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+> index 9e9fa2087a..58467eb409 100644
+> --- a/target/riscv/insn_trans/trans_rvf.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+> @@ -30,10 +30,12 @@
+>       } \
+>   } while (0)
+>   
+> -#define REQUIRE_ZCF(ctx) do {                  \
+> -    if (!ctx->cfg_ptr->ext_zcf) {              \
+> -        return false;                          \
+> -    }                                          \
+> +#define REQUIRE_ZCF_OR_FC(ctx) do {                    \
+> +    if (!ctx->cfg_ptr->ext_zcf) {                      \
+> +        if(!has_ext(ctx, RVF) || !has_ext(ctx, RVC)) { \
+> +            return false;                              \
+> +        }                                              \
+> +    }                                                  \
+>   } while (0)
+>   
+>   static bool trans_flw(DisasContext *ctx, arg_flw *a)
+> @@ -69,13 +71,13 @@ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
+>   
+>   static bool trans_c_flw(DisasContext *ctx, arg_flw *a)
+>   {
+> -    REQUIRE_ZCF(ctx);
+> +    REQUIRE_ZCF_OR_FC(ctx);
+>       return trans_flw(ctx, a);
+>   }
+>   
+>   static bool trans_c_fsw(DisasContext *ctx, arg_fsw *a)
+>   {
+> -    REQUIRE_ZCF(ctx);
+> +    REQUIRE_ZCF_OR_FC(ctx);
+>       return trans_fsw(ctx, a);
+>   }
+>   
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index c70c495fc5..e33f63bea1 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>       tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+>   
+>       gen_set_pc(ctx, cpu_pc);
+> -    if (!ctx->cfg_ptr->ext_zca) {
+> +    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca) {
+>           TCGv t0 = tcg_temp_new();
+>   
+>           misaligned = gen_new_label();
+> @@ -169,7 +169,8 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>   
+>       gen_set_label(l); /* branch taken */
+>   
+> -    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
+> +    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca &&
+> +        ((ctx->base.pc_next + a->imm) & 0x3)) {
+>           /* misaligned */
+>           gen_exception_inst_addr_mis(ctx);
+>       } else {
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index d0094922b6..661e29ab39 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -551,7 +551,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>   
+>       /* check misaligned: */
+>       next_pc = ctx->base.pc_next + imm;
+> -    if (!ctx->cfg_ptr->ext_zca) {
+> +    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca) {
+>           if ((next_pc & 0x3) != 0) {
+>               gen_exception_inst_addr_mis(ctx);
+>               return;
+> @@ -1137,7 +1137,8 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>            * The Zca extension is added as way to refer to instructions in the C
+>            * extension that do not include the floating-point loads and stores
+>            */
+> -        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
+> +        if ((has_ext(ctx, RVC) || ctx->cfg_ptr->ext_zca) &&
+> +            decode_insn16(ctx, opcode)) {
+>               return;
+>           }
+>       } else {
 
