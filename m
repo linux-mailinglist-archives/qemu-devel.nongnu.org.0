@@ -2,79 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC6C6DF62F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 14:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15AA6DF674
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 15:05:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmZxA-0005mc-P5; Wed, 12 Apr 2023 08:52:00 -0400
+	id 1pma90-0003ju-Ql; Wed, 12 Apr 2023 09:04:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pmZx8-0005ho-KW
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 08:51:58 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pmZx6-0001fT-B1
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 08:51:58 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B5D2421977;
- Wed, 12 Apr 2023 12:51:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1681303914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VoGmIlsqcWdORKcz9FoVFULPzoKHb5NjNQeKmVcafvU=;
- b=JR/bMA+GwKZEzsACqpuP4Wf8MuOlQK+oDSTIhVDIuiCMwiSRpOdRoj5Sx6DmOXsSFPshjm
- Ka2lfN1czFyI8vSpqpdVTYulvpJW3yc/foUuH+tP41J5DoFfxH+VEY3OXw9hI2YPcoYWCr
- veZj6X34Z9SdVYes0e5YJUUf57/hGfs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1681303914;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VoGmIlsqcWdORKcz9FoVFULPzoKHb5NjNQeKmVcafvU=;
- b=BZMyoLWjCvmZ+9aDz5x6X+k9CqX5aypGuZvUHO2ffwsSxItR4TDrJ+aCY8NmZgL3m3mCyv
- 7aO8HjHldCi4V/Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3AA23132C7;
- Wed, 12 Apr 2023 12:51:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SKu3AGqpNmRpYwAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 12 Apr 2023 12:51:54 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Vikram Garhwal
- <vikram.garhwal@amd.com>
-Cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org,
- stefano.stabellini@amd.com, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Wainer dos Santos  Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [QEMU][PATCH] gitlab-ci.d/crossbuilds: Drop the '--disable-tcg'
- configuration for xen
-In-Reply-To: <877cuhpg1z.fsf@linaro.org>
-References: <20230411210422.24255-1-vikram.garhwal@amd.com>
- <877cuhpg1z.fsf@linaro.org>
-Date: Wed, 12 Apr 2023 09:51:51 -0300
-Message-ID: <87ile1clg8.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pma8x-0003if-7g
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:04:11 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pma8u-00057p-4Y
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:04:10 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PxN9T3m2wz6H84D;
+ Wed, 12 Apr 2023 21:00:29 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 12 Apr
+ 2023 14:02:51 +0100
+Date: Wed, 12 Apr 2023 14:02:50 +0100
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: Hao Zeng <zenghao@kylinos.cn>, <fan.ni@samsung.com>,
+ <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 2/2] cxl-cdat:Fix the check on the return value of
+ fread()
+Message-ID: <20230412140250.00000d4a@Huawei.com>
+In-Reply-To: <07ab950e-7ee4-2476-9032-4638fe6eed1f@linaro.org>
+References: <20230412071633.2660412-1-zenghao@kylinos.cn>
+ <20230412071633.2660412-3-zenghao@kylinos.cn>
+ <07ab950e-7ee4-2476-9032-4638fe6eed1f@linaro.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,59 +65,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+On Wed, 12 Apr 2023 12:02:47 +0200
+Philippe Mathieu-Daud=E9 <philmd@linaro.org> wrote:
 
-> Vikram Garhwal <vikram.garhwal@amd.com> writes:
->
->> Xen is supported for aarch64 via xenpvh machine. disable-tcg option fail=
-s the
->> build for aarch64 target.
->>
->> Link for xen on arm patch series: https://mail.gnu.org/archive/html/qemu=
--devel/2023-02/msg03979.html
->>
->> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
->> ---
->>  .gitlab-ci.d/crossbuilds.yml | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
->> index 61b8ac86ee..6867839248 100644
->> --- a/.gitlab-ci.d/crossbuilds.yml
->> +++ b/.gitlab-ci.d/crossbuilds.yml
->> @@ -186,7 +186,7 @@ cross-amd64-xen-only:
->>    variables:
->>      IMAGE: debian-amd64-cross
->>      ACCEL: xen
->> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
->> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
->
-> x86 should handle --disable-tcg fine.
->
->>=20=20
->>  cross-arm64-xen-only:
->>    extends: .cross_accel_build_job
->> @@ -195,4 +195,4 @@ cross-arm64-xen-only:
->>    variables:
->>      IMAGE: debian-arm64-cross
->>      ACCEL: xen
->> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
->> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
->
-> Currently this builds qemu-system-i386, but with your changes and the
-> work Fabiano is doing:
->
->   Message-Id: <20230313151058.19645-1-farosas@suse.de>
->   Date: Mon, 13 Mar 2023 12:10:48 -0300
->   Subject: [PATCH v9 00/10] target/arm: Allow CONFIG_TCG=3Dn builds
->   From: Fabiano Rosas <farosas@suse.de>
->
-> We should be able to have a qemu-system-aarch64 supporting Xen without TCG
+> On 12/4/23 09:16, Hao Zeng wrote:
+> > The bug in this code (CID 1507822) is that the
+> > check on the return value of fread() is wrong. fread()
+> > returns the number of items read or written, so
+> > checking for =3D=3D 0 only catches "no data read at all",
+> > not "only read half the data".
+> >=20
+> > Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
+> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >   hw/cxl/cxl-cdat.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
+> > index ba7ed1aafd..130531a9cd 100644
+> > --- a/hw/cxl/cxl-cdat.c
+> > +++ b/hw/cxl/cxl-cdat.c
+> > @@ -126,7 +126,7 @@ static void ct3_load_cdat(CDATObject *cdat, Error *=
+*errp)
+> >       fseek(fp, 0, SEEK_SET);
+> >       cdat->buf =3D g_malloc0(file_size); =20
+>=20
+> Pointless bzero in g_malloc0, however this code would be
+> simplified using g_file_get_contents().
 
-The build should already be working on current master after Philippe
-fixed the gdbstub issues. My remaining patches fix tests and general
-runtime issues. I just sent v10 to the list.
+Agreed - switching this whole thing to g_file_get_contents()
+will get rid of this code and be a lot simpler.
+Perhaps just jump directly to that and note the two bugs that existed
+in the code that is replaced?
+
+Jonathan
+=20
+
+>=20
+> >  =20
+> > -    if (fread(cdat->buf, file_size, 1, fp) =3D=3D 0) {
+> > +    if (fread(cdat->buf, file_size, 1, fp) !=3D file_size) {
+> >           error_setg(errp, "CDAT: File read failed");
+> >           fclose(fp);
+> >           return; =20
+>=20
+
 
