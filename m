@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE416DF83D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 16:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6AB6DF846
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 16:21:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmbKW-0000i0-RB; Wed, 12 Apr 2023 10:20:12 -0400
+	id 1pmbLd-0002We-83; Wed, 12 Apr 2023 10:21:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pmbKV-0000hJ-5s
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:20:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pmbKT-0006TS-0V
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:20:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681309208;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zHd/Hc2Shq/LhFkYLXvRRxBndKDfCZnW2r2zw+r3qjo=;
- b=Zr/+VW/CGSQMEBPhwTU9J+zThUChbyc7+SADSKZPAeFWOW7QTIEeKQK3soBCEqyC0cwhdK
- AoWx23PEoSftZYbV6wmYerl1mruk3buc1thF/ootXE/kBt7DfSHztyfosPqLISsjVR5+8o
- vYEyBActDtwt9/C7X7DArq24Ihsql5o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-U4sckj56NXaDw_1P7eHV9w-1; Wed, 12 Apr 2023 10:20:06 -0400
-X-MC-Unique: U4sckj56NXaDw_1P7eHV9w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1051A858F09
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 14:20:06 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33E8A1121320;
- Wed, 12 Apr 2023 14:20:05 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 2/2] tests/migration: Only run auto_converge in slow mode
-Date: Wed, 12 Apr 2023 16:20:01 +0200
-Message-Id: <20230412142001.16501-3-quintela@redhat.com>
-In-Reply-To: <20230412142001.16501-1-quintela@redhat.com>
-References: <20230412142001.16501-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pmbLa-0002Pi-Ly
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:21:18 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pmbLY-0006u8-8I
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:21:18 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id qa44so28959102ejc.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 07:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681309274;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vNcEhx53yBGkD4ySOem+7VK+jhrU/Z8Hvr87y0N+7I0=;
+ b=nsUVaFGA6lfRVX1n7VkpWgmWFDH0aA5fbEgb1jvd6pmACGd/AiMZSBvSC3JTTqwAAK
+ J8Bb9ka6OBFako4MHZMJGbhDgrSIxAO6dLs1CVTFBfpUCDaUBfS9X0xzJ1OK70V3Qm9i
+ XbbCyhdANZMwHv5pgCOGlzHx9qpE/N72qjpoYmWYE3J9FXTge1S/RwC+3m2y6dP++m01
+ SazxRwqdGCTmmMtYXGT8/4uR1fM3vBcMAIaC95+hM8p5Op6pymFddf4B/fZPmUSvSoXn
+ AF6s2Ob5C7yWhfVy4E8HQYBEjEaUlf2lAGT04Zn/0ZrNeDuzpko4HgzzRH0d+GLJXGX3
+ COzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681309274;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vNcEhx53yBGkD4ySOem+7VK+jhrU/Z8Hvr87y0N+7I0=;
+ b=H0FQ1aQRLvgTwZWO9XdC3YOp9XurohO4tDKXQ6qeA8I9LsonMd8wG1TFxq6I3DZfnS
+ 3kK0TTrCsIm4UA1XWv/g59ltijtLHUjaM+a/npJcNq+PwHvR6dzCv8RRvHYxsqV+lYmq
+ r93RI7D8jhxMan5kL0vac0vnRnF1SqayleSP+HvxbKzYe7l47C17fX8wDCne3RDlUTTc
+ XBuRdhl54R15rwnSr5NgTj1Ys/AeXQRw8TMQkNOPO4kWkDCGzz6fZUEjpTzqMdyOEJF0
+ WGDIpeaIk1XU8ZLzhaqmytTg9TYp5Gj6PwRTBE/KBgmvAp33TofWXm7OGrjrVxUdwx1G
+ ojvA==
+X-Gm-Message-State: AAQBX9coOzHlaw2a1On/VPH/Bfdi7VfStfiRaJP7uktStadhgo//vMb1
+ kTaiy4Akl5BK7JBk/CT97MCernuA6UYmLtWhqeO9asHoIIPM00ov
+X-Google-Smtp-Source: AKy350YxzoiHpALmIDl45357ztCXISJ0UR3L2vSl7O8FD14+iuBr/JGgtYy+L+DlUPI4CN6hWIOYkJg3mdbeE1Kpv7U=
+X-Received: by 2002:a17:906:3617:b0:94e:4925:3c41 with SMTP id
+ q23-20020a170906361700b0094e49253c41mr1806616ejb.2.1681309274209; Wed, 12 Apr
+ 2023 07:21:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230411170955.17358-1-imp@bsdimp.com>
+ <20230411170955.17358-19-imp@bsdimp.com>
+ <7f006fb2-d88c-61e2-d536-ba6369107972@linaro.org>
+In-Reply-To: <7f006fb2-d88c-61e2-d536-ba6369107972@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 12 Apr 2023 08:21:08 -0600
+Message-ID: <CANCZdfrWPxfQXBUsTqG9qezuN+qvdfamOJo2rLeO9Ass1PCPyQ@mail.gmail.com>
+Subject: Re: [PATCH v3 18/20] bsd-user: Automatically generate syscall_nr.h
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, ryoon@netbsd.org, kevans@freebsd.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, riastradh@netbsd.org, brad@comstyle.com, 
+ reinoud@netbsd.org, jrtc27@jrtc27.com, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000c1a4905f92452a4"
+Received-SPF: none client-ip=2a00:1450:4864:20::62f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,53 +88,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- tests/qtest/migration-test.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+--0000000000000c1a4905f92452a4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 7b05b0b7dd..6317131b50 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -1795,6 +1795,21 @@ static void test_validate_uuid_dst_not_set(void)
-     do_test_validate_uuid(&args, false);
- }
- 
-+/*
-+ * The way auto_converge works, we need to do too many passes to
-+ * run this test.  Auto_converge logic is only run once every
-+ * three iterations, so:
-+ *
-+ * - 3 iterations without auto_converge enabled
-+ * - 3 iterations with pct = 5
-+ * - 3 iterations with pct = 30
-+ * - 3 iterations with pct = 55
-+ * - 3 iterations with pct = 80
-+ * - 3 iterations with pct = 95 (max(95, 80 + 25))
-+ *
-+ * To make things even worse, we need to run the initial stage at
-+ * 3MB/s so we enter autoconverge even when host is (over)loaded.
-+ */
- static void test_migrate_auto_converge(void)
- {
-     g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-@@ -2574,8 +2589,12 @@ int main(int argc, char **argv)
-                    test_validate_uuid_src_not_set);
-     qtest_add_func("/migration/validate_uuid_dst_not_set",
-                    test_validate_uuid_dst_not_set);
--
--    qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
-+    /*
-+     * See explanation why this test is slow on function definition
-+     */
-+    if (g_test_slow()) {
-+        qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
-+    }
-     qtest_add_func("/migration/multifd/tcp/plain/none",
-                    test_multifd_tcp_none);
-     /*
--- 
-2.39.2
+On Wed, Apr 12, 2023 at 4:10=E2=80=AFAM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
+> On 4/11/23 19:09, Warner Losh wrote:
+> > +++ b/bsd-user/syscallhdr.sh
+> > @@ -0,0 +1,7 @@
+> > +#!/bin/sh
+> > +
+> > +in=3D"$1"
+> > +out=3D"$2"
+> > +bsd=3D"$3"
+> > +
+> > +awk -v bsd=3D"$3" '{sub("SYS_", "TARGET_" bsd "_NR_", $0); print;}' < =
+$in
+> > $out
+>
+> If the host/guest syscall numbers always match, there's no point in using
+> TARGET_freebsd_NR_foo at all -- just use the original SYS_foo symbol from
+> <sys/syscall.h>.
+>
+
+long term, this is likely correct. Short term, though, changing to SYS_foo
+would cause quite a bit
+of churn that I'm looking to avoid. bsd-user has two branches, and the
+newest branch has problems
+with threads we've not been able to completely track down, so we can't
+switch to using it just yet.
+So we have to still add new system calls to the old code base, which is
+made harder as the number
+of differences proliferate.
+
+This is the first step, though, towards that goal: not updating the system
+call tables as much, and
+generating more code where possible to reduce the load we have on
+hand-coded stuff.
+
+Warner
+
+--0000000000000c1a4905f92452a4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 12, 2023 at 4:10=E2=80=AF=
+AM Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">ri=
+chard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">On 4/11/23 19:09, Warner Losh wrote:<br>
+&gt; +++ b/bsd-user/syscallhdr.sh<br>
+&gt; @@ -0,0 +1,7 @@<br>
+&gt; +#!/bin/sh<br>
+&gt; +<br>
+&gt; +in=3D&quot;$1&quot;<br>
+&gt; +out=3D&quot;$2&quot;<br>
+&gt; +bsd=3D&quot;$3&quot;<br>
+&gt; +<br>
+&gt; +awk -v bsd=3D&quot;$3&quot; &#39;{sub(&quot;SYS_&quot;, &quot;TARGET_=
+&quot; bsd &quot;_NR_&quot;, $0); print;}&#39; &lt; $in &gt; $out<br>
+<br>
+If the host/guest syscall numbers always match, there&#39;s no point in usi=
+ng <br>
+TARGET_freebsd_NR_foo at all -- just use the original SYS_foo symbol from &=
+lt;sys/syscall.h&gt;.<br></blockquote><div><br></div><div>long term, this i=
+s likely correct. Short term, though, changing to SYS_foo would cause quite=
+ a bit</div><div>of churn that I&#39;m looking to avoid. bsd-user has two b=
+ranches, and the newest branch has problems</div><div>with threads we&#39;v=
+e not been able to completely track down, so we can&#39;t switch to using i=
+t just yet.</div><div>So we have to still add new system calls to the old c=
+ode base, which is made harder as the number</div><div>of differences proli=
+ferate.</div><div><br></div><div>This is the first step, though, towards th=
+at goal: not updating the system call tables as much, and</div><div>generat=
+ing more code where possible to reduce the load we have on hand-coded stuff=
+.<br></div><div><br></div><div>Warner <br></div></div></div>
+
+--0000000000000c1a4905f92452a4--
 
