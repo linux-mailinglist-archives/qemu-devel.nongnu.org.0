@@ -2,71 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E156E011F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 23:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC586E01A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 00:02:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmiHO-0008NZ-Qa; Wed, 12 Apr 2023 17:45:26 -0400
+	id 1pmiXE-0005gc-8i; Wed, 12 Apr 2023 18:01:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pmiHM-0008N0-Ez
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 17:45:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pmiHK-0006dF-W7
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 17:45:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681335922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BPBrb53DmJ8CjbFG14nTeT2QuDHlsQDJHH5J8fjC+I0=;
- b=LDSLdEXCTc1iPQbslbhinNBo4js9dZQf+B91cYjUiuGkjGNJ+ImZiC0Ko2TbUmsm57uPnP
- q/7zUoWmAxPGN86ZLUUAg97EqnTGClw2vYhOdk3r7MeGH9mt0Loh8YJtCGyM3UI4eGND+P
- wdBK81keF2jT6fzQ4OB+JcerPu9Vz/c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-O-ElFES6MF2eXAxLxbhFQA-1; Wed, 12 Apr 2023 17:45:18 -0400
-X-MC-Unique: O-ElFES6MF2eXAxLxbhFQA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58A3A185A791;
- Wed, 12 Apr 2023 21:45:18 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D5451121320;
- Wed, 12 Apr 2023 21:45:16 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>, Juan Quintela <quintela@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Subject: [PULL 5/5] migration: fix ram_state_pending_exact()
-Date: Wed, 12 Apr 2023 23:45:07 +0200
-Message-Id: <20230412214507.19816-6-quintela@redhat.com>
-In-Reply-To: <20230412214507.19816-1-quintela@redhat.com>
-References: <20230412214507.19816-1-quintela@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from
+ <3Rio3ZAYKCp8RD9MIBFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--seanjc.bounces.google.com>)
+ id 1pmiXC-0005fz-6W
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 18:01:46 -0400
+Received: from mail-yw1-x114a.google.com ([2607:f8b0:4864:20::114a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3Rio3ZAYKCp8RD9MIBFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--seanjc.bounces.google.com>)
+ id 1pmiXA-000135-7v
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 18:01:45 -0400
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-54f3e30726cso93104037b3.22
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 15:01:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1681336902; x=1683928902;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=FXF6AhQnwp1n/IhYSnfZVqcASsRtZ9yL6mJXzW8Mi9w=;
+ b=itcYyHsTjH+BWioeMOzHRsDUxYxnEou8ifBndkBXI6TNX5xq/HUkT1AyyhCCB+jlgg
+ 3qhGiIFyP5GPmeAb9F/cGYLL0T6ndH4Anu3KiFTJ2zgUv7rYRpICAgBSTO4SmMWQG2dj
+ 4lYV/RthfLCJMCgdpXeycR2egix1Qp8q862Y6ehJoE8Zrk7VpCCp7zEkzxGBY8nv1lJY
+ RZQCmJ4imt199cSg173cMIapT9cfLep+3yZW0B5b36RF/xqQ9iUnS4egjGE1JSQeu6db
+ gbh/vWlrrOQUF9lx8wSU9AC22JYq+cM0a/46K9zgrM+CGG4alQS9oe5dHDfglVggicdO
+ Y9Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681336902; x=1683928902;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FXF6AhQnwp1n/IhYSnfZVqcASsRtZ9yL6mJXzW8Mi9w=;
+ b=C1uwsRjcVkVUwLFT4ik+cHDV9YUIrw9Tsg3GYmzX7HPVsLtyDUFgm22GCUF06pWNNU
+ AXOf4WI8dqCz7HBPTkwclLTO1eR+XnROIXqp5+Em49otY/HBhijHjkfVqwiMKw7Nc9Uk
+ raB+qwzRQmBCDzPFg1jIVtZYy7bymf1upg6+ehRiut97ffozK3mQ2VaIn9tnbwa/ZfoO
+ PlNr9g6y1FIzLUpgjmJVMychgr/SNP3EP4ONup/pckemgwofBMYFw1r2m+4/qW7oNjRn
+ T+rMmxHKiMmZv3o/JtsE1rZA6PPeZgAeIssE/yD1wrKuLam3sXHzXqlQI72WwgDeuRhP
+ UX0Q==
+X-Gm-Message-State: AAQBX9cOS2SwdukPfRj9XJ5ooP2F8tJZEE+Qa1ZrBbnQ4Fm08+9erlCV
+ bPPiDbnmEmcr0hsKfHZcESGnQlWjQcY=
+X-Google-Smtp-Source: AKy350artxVLouCy5UXXqGRd6vaUaGCzjJlbptUimGvT0630mPFw3RBlFaQsm42qDt42zFcnXgHxxlmRTKU=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:cc07:0:b0:b8b:fe5f:2eaa with SMTP id
+ l7-20020a25cc07000000b00b8bfe5f2eaamr43241ybf.2.1681336902548; Wed, 12 Apr
+ 2023 15:01:42 -0700 (PDT)
+Date: Wed, 12 Apr 2023 15:01:41 -0700
+In-Reply-To: <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
+Mime-Version: 1.0
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com> <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com> <20230119223704.GD2976263@ls.amr.corp.intel.com>
+ <Y880FiYF7YCtsw/i@google.com> <20230213130102.two7q3kkcf254uof@amd.com>
+ <20230221121135.GA1595130@chaop.bj.intel.com>
+ <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
+Message-ID: <ZDcqRY6UMmpyf/so@google.com>
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+From: Sean Christopherson <seanjc@google.com>
+To: Michael Roth <michael.roth@amd.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, 
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>, 
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, tabba@google.com, mhocko@suse.com, 
+ wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
+ envelope-from=3Rio3ZAYKCp8RD9MIBFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--seanjc.bounces.google.com;
+ helo=mail-yw1-x114a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,41 +119,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I removed that bit on commit:
+On Wed, Mar 22, 2023, Michael Roth wrote:
+> On Tue, Feb 21, 2023 at 08:11:35PM +0800, Chao Peng wrote:
+> > >   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
+> > >   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
+> > 
+> > As many kernel APIs treat 'end' as exclusive, I would rather keep using
+> > exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
+> > and notifier callbacks) but fix it internally in the restrictedmem. E.g.
+> > all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
+> > See below for the change.
+> 
+> Yes I did feel like I was fighting the kernel a bit on that; your
+> suggestion seems like it would be a better fit.
 
-commit c8df4a7aeffcb46020f610526eea621fa5b0cd47
-Author: Juan Quintela <quintela@redhat.com>
-Date:   Mon Oct 3 02:00:03 2022 +0200
-
-    migration: Split save_live_pending() into state_pending_*
-
-Fixes: c8df4a7aeffcb46020f610526eea621fa5b0cd47
-Suggested-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/migration/ram.c b/migration/ram.c
-index 9d1817ab7b..79d881f735 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3506,12 +3506,13 @@ static void ram_state_pending_estimate(void *opaque, uint64_t *must_precopy,
- static void ram_state_pending_exact(void *opaque, uint64_t *must_precopy,
-                                     uint64_t *can_postcopy)
- {
-+    MigrationState *s = migrate_get_current();
-     RAMState **temp = opaque;
-     RAMState *rs = *temp;
- 
-     uint64_t remaining_size = rs->migration_dirty_pages * TARGET_PAGE_SIZE;
- 
--    if (!migration_in_postcopy()) {
-+    if (!migration_in_postcopy() && remaining_size < s->threshold_size) {
-         qemu_mutex_lock_iothread();
-         WITH_RCU_READ_LOCK_GUARD() {
-             migration_bitmap_sync_precopy(rs);
--- 
-2.39.2
-
+Comically belated +1, XArray is the odd one here.
 
