@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300036DE9AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 04:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348DC6DE9AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 04:56:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmQeD-0007Ih-La; Tue, 11 Apr 2023 22:55:49 -0400
+	id 1pmQe6-0007IB-DY; Tue, 11 Apr 2023 22:55:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pmQe6-0007IF-Up
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 22:55:43 -0400
-Received: from mailgw.kylinos.cn ([124.126.103.232])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pmQe1-0003xx-6h
- for qemu-devel@nongnu.org; Tue, 11 Apr 2023 22:55:42 -0400
-X-UUID: 7dc5f6916bd847fc83eafa9fe4997a1f-20230412
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:425d2d00-e49d-40a7-8e5b-33a64422cc8b, IP:5,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:-15
-X-CID-INFO: VERSION:1.1.22, REQID:425d2d00-e49d-40a7-8e5b-33a64422cc8b, IP:5,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-15
-X-CID-META: VersionHash:120426c, CLOUDID:beeec183-cd9c-45f5-8134-710979e3df0e,
- B
- ulkID:2304112340222P4FCU5F,BulkQuantity:2,Recheck:0,SF:19|44|24|17|102,TC:
- nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI
- :0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: 7dc5f6916bd847fc83eafa9fe4997a1f-20230412
-X-User: zenghao@kylinos.cn
-Received: from [172.20.12.253] [(116.128.244.169)] by mailgw
- (envelope-from <zenghao@kylinos.cn>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 308790892; Wed, 12 Apr 2023 10:55:18 +0800
-Message-ID: <2a57b2c95d40d090c5122a6774ab9472bf61dcdf.camel@kylinos.cn>
-Subject: Re: [PATCH] Subject:[PATCH] cxl-cdat:Fix open file not closed in
- ct3_load_cdat
-From: Hao Zeng <zenghao@kylinos.cn>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: jonathan.cameron@huawei.com, fan.ni@samsung.com, qemu-devel@nongnu.org, 
- xieming@kylinos.cn
-Date: Wed, 12 Apr 2023 10:54:11 +0800
-In-Reply-To: <CAFEAcA8c7F1WKx6_bpNiat967g2wF-KtWQwSwPVoLt-YCqYaWw@mail.gmail.com>
-References: <20230403084245.54861-1-zenghao@kylinos.cn>
- <CAFEAcA8c7F1WKx6_bpNiat967g2wF-KtWQwSwPVoLt-YCqYaWw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pmQdz-0007HI-Hp; Tue, 11 Apr 2023 22:55:35 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pmQdw-0003xG-8s; Tue, 11 Apr 2023 22:55:35 -0400
+Received: from [192.168.0.120] (unknown [180.165.241.15])
+ by APP-05 (Coremail) with SMTP id zQCowACnrc2WHTZksWVBEQ--.60018S2;
+ Wed, 12 Apr 2023 10:55:19 +0800 (CST)
+Message-ID: <0f2ebe23-750c-26eb-9d3e-920c80a3c222@iscas.ac.cn>
+Date: Wed, 12 Apr 2023 10:55:18 +0800
 MIME-Version: 1.0
-Received-SPF: pass client-ip=124.126.103.232; envelope-from=zenghao@kylinos.cn;
- helo=mailgw.kylinos.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Cc: liweiwei@iscas.ac.cn, richard.henderson@linaro.org, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: Re: [PATCH v12 02/10] target/riscv: add support for Zca extension
+Content-Language: en-US
+To: Alistair Francis <alistair23@gmail.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
+ <20230307081403.61950-3-liweiwei@iscas.ac.cn>
+ <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
+ <CAKmqyKP6Omm8HypeRps0xCaZXxw+VXsT0KY2ONtfOZmjR9WnDA@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+In-Reply-To: <CAKmqyKP6Omm8HypeRps0xCaZXxw+VXsT0KY2ONtfOZmjR9WnDA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowACnrc2WHTZksWVBEQ--.60018S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuw4rWw4rAF1DWrW5KF1DAwb_yoW7Kw1DpF
+ 4xCF12kr4kJrySyFyIgr4jqr1Utr4S9FWxJwn0gw1rArZxJrWYqrWkKrWSgFyDZFs5Wr4j
+ 9F4qyFn3ZayYyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+ 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
+ Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+ x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
+ 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+ JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+ sGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.165.241.15]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.17,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,56 +82,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-04-11 at 16:39 +0100, Peter Maydell wrote:
-Dear Peter
-Thank you for taking the time to reply to my email. I appreciate your
-the valuable information you have provided.
 
-> On Mon, 3 Apr 2023 at 13:51, zenghao <zenghao@kylinos.cn> wrote:
-> >=20
-> > opened file processor not closed,May cause file processor leaks
-> >=20
-> > Fixes:aba578bdace5303a441f8a37aad781b5cb06f38c
-> >=20
-> > Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
-> > Suggested-by: Xie Ming <xieming@kylinos.cn>
-> > ---
-> > =C2=A0hw/cxl/cxl-cdat.c | 1 +
-> > =C2=A01 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-> > index 137abd0992..ba7ed1aafd 100644
-> > --- a/hw/cxl/cxl-cdat.c
-> > +++ b/hw/cxl/cxl-cdat.c
-> > @@ -128,6 +128,7 @@ static void ct3_load_cdat(CDATObject *cdat,
-> > Error **errp)
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0 if (fread(cdat->buf, file_size, 1, fp) =3D=3D =
-0) {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "CDAT=
-: File read failed");
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fclose(fp);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> > =C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
-> Coverity also spotted this, as CID 1508069.
->=20
-> The other bug in this code (CID 1507822) is that the
-> check on the return value of fread() is wrong. fread()
-> returns the number of items read or written, so
-> checking for =3D=3D 0 only catches "no data read at all",
-> not "only read half the data". This check should be
-> =C2=A0if (fread(cdat->buf, file_size, 1, fp) !=3D file_size) {
-> =C2=A0=C2=A0=C2=A0 ...
-> =C2=A0}
-> I think.
-> =20
-> thanks
-> -- PMM
-I couldn't agree more with your thoughts.
-I will fix the bug in a separate commit.(CID 1507822)
+On 2023/4/12 10:12, Alistair Francis wrote:
+> On Fri, Apr 7, 2023 at 6:23 AM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>> Hi,
+>>
+>> This patch is going to break the sifive_u boot if I rebase
+>>
+>> "[PATCH v6 0/9] target/riscv: rework CPU extensions validation"
+>>
+>> on top of it, as it is the case today with the current riscv-to-apply.next.
+>>
+>> The reason is that the priv spec version for Zca is marked as 1_12_0, and
+>> the priv spec version for both sifive CPUs is 1_10_0, and both are enabling
+>> RVC.
+>>
+>> This patch from that series above:
+>>
+>> "[PATCH v6 5/9] target/riscv/cpu.c: add priv_spec validate/disable_exts helpers"
+>>
+>> Makes the disabling of the extension based on priv version to happen *after* we
+>> do all the validations, instead of before as we're doing today. Zca (and Zcd) will
+>> be manually enabled just to be disabled shortly after by the priv spec code. And
+>> this will happen:
+>>
+>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000000 because privilege spec version does not match
+>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000001 because privilege spec version does not match
+>> qemu-system-riscv64: warning: disabling zcd extension for hart 0x0000000000000001 because privilege spec version does not match
+>> (--- hangs ---)
+>>
+>> This means that the assumption made in this patch - that Zca implies RVC - is no
+>> longer valid, and all these translations won't work.
+> Thanks for catching and reporting this
+>
+>>
+>> Some possible solutions:
+>>
+>> - Do not use Zca as a synonym for RVC, i.e. drop this patch. We would need to convert
+>> all Zca checks to RVC checks in all translation code.
+> This to me seems like the best solution
 
-Best regards
-Hao
+I had also implemented a patch for this solution. I'll sent it later.
+
+However, this will introduce additional check. i.e. check both Zca and C 
+or , both Zcf/d and CF/CD.
+
+I think this is not very necessary. Implcitly-enabled extensions is 
+often the subsets of existed extension.
+
+So enabling them will introduce no additional function to the cpus.
+
+We can just make them invisible to user(mask them in the isa string) 
+instead of disabling them  to be compatible with lower priv version.
+
+Regards,
+
+Weiwei Li
+
+
+>
+>> - Do not apply patch 5/9 from that series that moves the disable_ext code to the end
+>> of validation. Also a possibility, but we would be sweeping the problem under the rug.
+>> Zca still can't be used as a RVC replacement due to priv spec version constraints, but
+>> we just won't disable Zca because we'll keep validating exts too early (which is the
+>> problem that the patch addresses).
+>>
+>> - change the priv spec of the sifive CPUs - and everyone that uses RVC -  to 1_12_0. Not
+>> sure if this makes sense.
+>>
+>> - do not disable any extensions due to privilege spec version mismatch. This would make
+>> all the priv_version related artifacts to be more "educational" than to be an actual
+>> configuration we want to enforce. Not sure if that would do any good in the end, but
+>> it's also a possibility.
+> This also seems like something we can do. Printing a warning but
+> continuing on seems reasonable to me. That allows users to
+> enable/disable features even if the versions don't match.
+>
+> I don't think this is the solution for this problem though
+>
+> Alistair
+>
+>>
+>> I'll hold the rebase of that series until we sort this out. Thanks,
+>>
+>>
+>> Daniel
+>>
+>>
+>>
+>> On 3/7/23 05:13, Weiwei Li wrote:
+>>> Modify the check for C extension to Zca (C implies Zca).
+>>>
+>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>>> ---
+>>>    target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+>>>    target/riscv/translate.c                | 8 ++++++--
+>>>    2 files changed, 8 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+>>> index 4ad54e8a49..c70c495fc5 100644
+>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+>>> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>>>        tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+>>>
+>>>        gen_set_pc(ctx, cpu_pc);
+>>> -    if (!has_ext(ctx, RVC)) {
+>>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>>            TCGv t0 = tcg_temp_new();
+>>>
+>>>            misaligned = gen_new_label();
+>>> @@ -169,7 +169,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>>>
+>>>        gen_set_label(l); /* branch taken */
+>>>
+>>> -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>>> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>>>            /* misaligned */
+>>>            gen_exception_inst_addr_mis(ctx);
+>>>        } else {
+>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>>> index 0ee8ee147d..d1fdd0c2d7 100644
+>>> --- a/target/riscv/translate.c
+>>> +++ b/target/riscv/translate.c
+>>> @@ -549,7 +549,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>>>
+>>>        /* check misaligned: */
+>>>        next_pc = ctx->base.pc_next + imm;
+>>> -    if (!has_ext(ctx, RVC)) {
+>>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>>            if ((next_pc & 0x3) != 0) {
+>>>                gen_exception_inst_addr_mis(ctx);
+>>>                return;
+>>> @@ -1122,7 +1122,11 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>>>        if (insn_len(opcode) == 2) {
+>>>            ctx->opcode = opcode;
+>>>            ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>>> -        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
+>>> +        /*
+>>> +         * The Zca extension is added as way to refer to instructions in the C
+>>> +         * extension that do not include the floating-point loads and stores
+>>> +         */
+>>> +        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
+>>>                return;
+>>>            }
+>>>        } else {
 
 
