@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641A16DEC63
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 09:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B796DECA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 09:36:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmUiw-0005G7-NH; Wed, 12 Apr 2023 03:16:58 -0400
+	id 1pmV0m-0002Hg-CF; Wed, 12 Apr 2023 03:35:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pmUiu-0005Fc-0Z
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 03:16:56 -0400
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pmV0k-0002HX-6H
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 03:35:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pmUis-0002eB-1k
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 03:16:55 -0400
-X-UUID: 18e3f834c3d54ce59e137300d1af7e38-20230412
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:1d6addd8-d1fb-4c48-aeef-bf43621b88cd, IP:5,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-10
-X-CID-INFO: VERSION:1.1.22, REQID:1d6addd8-d1fb-4c48-aeef-bf43621b88cd, IP:5,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:-10
-X-CID-META: VersionHash:120426c, CLOUDID:4fee0fa1-8fcb-430b-954a-ba3f00fa94a5,
- B
- ulkID:23041215164874MVKLGL,BulkQuantity:0,Recheck:0,SF:44|38|24|17|19|102,
- TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: 18e3f834c3d54ce59e137300d1af7e38-20230412
-X-User: zenghao@kylinos.cn
-Received: from zdzh5-qitianm428-a376.. [(116.128.244.169)] by mailgw
- (envelope-from <zenghao@kylinos.cn>) (Generic MTA)
- with ESMTP id 42150297; Wed, 12 Apr 2023 15:16:47 +0800
-From: Hao Zeng <zenghao@kylinos.cn>
-To: jonathan.cameron@huawei.com, fan.ni@samsung.com, peter.maydell@linaro.org,
- qemu-devel@nongnu.org
-Cc: Hao Zeng <zenghao@kylinos.cn>
-Subject: [PATCH v2 2/2] cxl-cdat:Fix the check on the return value of fread()
-Date: Wed, 12 Apr 2023 15:16:33 +0800
-Message-Id: <20230412071633.2660412-3-zenghao@kylinos.cn>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230412071633.2660412-1-zenghao@kylinos.cn>
-References: <20230412071633.2660412-1-zenghao@kylinos.cn>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pmV0h-0006oC-Mf
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 03:35:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681284918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=R5ObB3NqUqZtXU35IfuAIc/x+UPoASedLFEr/5Jtw+8=;
+ b=ZUFAXL3V6HP4cx1Upk2A7Ei7Hm25H7Zg1CYY4Hrk2JNiFHkj0Ge6+9n45Q8XE2OGnqDYVL
+ M5iqbaHy/lks2Uoq/sggZYSuZX484Sq0vZSbm/a3UAJohDNUEh/rCtRsYKu8APYWT7vads
+ PGaKTyT5RRgyxRF3tA4eiFbV+WwGGlI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-608-PXWPrNasN82Sqf0GAS8ucg-1; Wed, 12 Apr 2023 03:35:16 -0400
+X-MC-Unique: PXWPrNasN82Sqf0GAS8ucg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CE323C10EC1;
+ Wed, 12 Apr 2023 07:35:16 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-172.pek2.redhat.com
+ [10.72.12.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86D2840C83A9;
+ Wed, 12 Apr 2023 07:35:13 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: mst@redhat.com,
+	peterx@redhat.com,
+	jasowang@redhat.com
+Cc: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PATCH V2] intel_iommu: refine iotlb hash calculation
+Date: Wed, 12 Apr 2023 15:35:10 +0800
+Message-Id: <20230412073510.7158-1-jasowang@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=124.126.103.232; envelope-from=zenghao@kylinos.cn;
- helo=mailgw.kylinos.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,35 +79,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The bug in this code (CID 1507822) is that the
-check on the return value of fread() is wrong. fread()
-returns the number of items read or written, so
-checking for == 0 only catches "no data read at all",
-not "only read half the data".
+Commit 1b2b12376c8 ("intel-iommu: PASID support") takes PASID into
+account when calculating iotlb hash like:
 
-Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+static guint vtd_iotlb_hash(gconstpointer v)
+{
+    const struct vtd_iotlb_key *key = v;
+
+    return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
+           (key->level) << VTD_IOTLB_LVL_SHIFT |
+           (key->pasid) << VTD_IOTLB_PASID_SHIFT;
+}
+
+This turns out to be problematic since:
+
+- the shift will lose bits if not converting to uint64_t
+- level should be off by one in order to fit into 2 bits
+- VTD_IOTLB_PASID_SHIFT is 30 but PASID is 20 bits which will waste
+  some bits
+- the hash result is uint64_t so we will lose bits when converting to
+  guint
+
+So this patch fixes them by
+
+- converting the keys into uint64_t before doing the shift
+- off level by one to make it fit into two bits
+- change the sid, lvl and pasid shift to 26, 42 and 44 in order to
+  take the full width of uint64_t
+- perform an XOR to the top 32bit with the bottom 32bit for the final
+  result to fit guint
+
+Fixes: Coverity CID 1508100
+Fixes: 1b2b12376c8 ("intel-iommu: PASID support")
+Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/cxl/cxl-cdat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since V1:
+- perform XOR to avoid losing bits when converting to gint
+---
+ hw/i386/intel_iommu.c          | 9 +++++----
+ hw/i386/intel_iommu_internal.h | 6 +++---
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-index ba7ed1aafd..130531a9cd 100644
---- a/hw/cxl/cxl-cdat.c
-+++ b/hw/cxl/cxl-cdat.c
-@@ -126,7 +126,7 @@ static void ct3_load_cdat(CDATObject *cdat, Error **errp)
-     fseek(fp, 0, SEEK_SET);
-     cdat->buf = g_malloc0(file_size);
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index a62896759c..94d52f4205 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -64,8 +64,8 @@ struct vtd_as_key {
+ struct vtd_iotlb_key {
+     uint64_t gfn;
+     uint32_t pasid;
+-    uint32_t level;
+     uint16_t sid;
++    uint8_t level;
+ };
  
--    if (fread(cdat->buf, file_size, 1, fp) == 0) {
-+    if (fread(cdat->buf, file_size, 1, fp) != file_size) {
-         error_setg(errp, "CDAT: File read failed");
-         fclose(fp);
-         return;
+ static void vtd_address_space_refresh_all(IntelIOMMUState *s);
+@@ -221,10 +221,11 @@ static gboolean vtd_iotlb_equal(gconstpointer v1, gconstpointer v2)
+ static guint vtd_iotlb_hash(gconstpointer v)
+ {
+     const struct vtd_iotlb_key *key = v;
++    uint64_t hash64 = key->gfn | ((uint64_t)(key->sid) << VTD_IOTLB_SID_SHIFT) |
++        (uint64_t)(key->level - 1) << VTD_IOTLB_LVL_SHIFT |
++        (uint64_t)(key->pasid) << VTD_IOTLB_PASID_SHIFT;
+ 
+-    return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
+-           (key->level) << VTD_IOTLB_LVL_SHIFT |
+-           (key->pasid) << VTD_IOTLB_PASID_SHIFT;
++    return (guint)((hash64 >> 32) ^ (hash64 & 0xffffffffU));
+ }
+ 
+ static gboolean vtd_as_equal(gconstpointer v1, gconstpointer v2)
+diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+index f090e61e11..2e61eec2f5 100644
+--- a/hw/i386/intel_iommu_internal.h
++++ b/hw/i386/intel_iommu_internal.h
+@@ -114,9 +114,9 @@
+                                      VTD_INTERRUPT_ADDR_FIRST + 1)
+ 
+ /* The shift of source_id in the key of IOTLB hash table */
+-#define VTD_IOTLB_SID_SHIFT         20
+-#define VTD_IOTLB_LVL_SHIFT         28
+-#define VTD_IOTLB_PASID_SHIFT       30
++#define VTD_IOTLB_SID_SHIFT         26
++#define VTD_IOTLB_LVL_SHIFT         42
++#define VTD_IOTLB_PASID_SHIFT       44
+ #define VTD_IOTLB_MAX_SIZE          1024    /* Max size of the hash table */
+ 
+ /* IOTLB_REG */
 -- 
-2.37.2
+2.25.1
 
-
-No virus found
-		Checked by Hillstone Network AntiVirus
 
