@@ -2,97 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709AE6DEF77
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 10:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898DF6DF01E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 11:18:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmWB5-0008N2-6a; Wed, 12 Apr 2023 04:50:07 -0400
+	id 1pmWbg-0007Cv-UG; Wed, 12 Apr 2023 05:17:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ldoktor@redhat.com>)
- id 1pmWB1-0008Mp-QQ
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 04:50:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ldoktor@redhat.com>)
- id 1pmWAz-00073x-B6
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 04:50:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681289398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Elx9z45t7waa8y9fEPAwFeoPxraWiy0g43gURBEVxIE=;
- b=UBAXYKXjOKF8I6gUBdjbfNAoZtz4+V4EjF1Gm6kpq1zbKk2z9qIxSW/L1hgJjVXGDicHUq
- jCQTFJlB1JjyVud0nj5b3xcrsvjYl/PBL2VQ0OIYsJ63PqL4h/lufmQ2F/IHGpUvp3VD+J
- e7FnwJKtKktUPTrQpsy2vUh2nqt7c+o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-b0gs6hFSNkK_EfowOn11SA-1; Wed, 12 Apr 2023 04:49:53 -0400
-X-MC-Unique: b0gs6hFSNkK_EfowOn11SA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22EA6101A550;
- Wed, 12 Apr 2023 08:49:53 +0000 (UTC)
-Received: from [10.45.224.44] (unknown [10.45.224.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2DBA1121320;
- Wed, 12 Apr 2023 08:49:51 +0000 (UTC)
-Message-ID: <1833dcd6-45fc-4da0-2e51-82f71d4fc43a@redhat.com>
-Date: Wed, 12 Apr 2023 10:49:51 +0200
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pmWbd-0007CY-So
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:17:33 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pmWbR-0004j8-6B
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:17:33 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ eo6-20020a05600c82c600b003ee5157346cso7591839wmb.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 02:17:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1681291038; x=1683883038; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LGpSnkBJ4zhtllDlsdgv+XdCiU1d9KOkSdJhsZZctEQ=;
+ b=fOs2MMJ6Q7qjToXaPLq5eUZwBzWFpsW4rgN9Vxh224sdufPPCrP53BTbXveVZyI+SO
+ Bfsl4R03y8oMqMFORO9iZerXlUARhHjjZYP/f9MbWnDRjhBQt14/KY5N4LMIUKYmL4Uq
+ AxJ6dc5BCnHCvJJwRKqXtxPmTkZNjRjr7SGmAhrQ5eFFxTkB3xGZeBX10NJjsYmbnTx1
+ ehSD3Neweo8HZAtzydwf8bKCNxJ+HYx9uhDTzh1nyjse/zjL1dR6m8POP82cbl/oUKzE
+ fIFH2Qa7Ngp2ICdDzy4CSZ/jT42Q9S7r/HNv/mJcbfn9UqbHx1fVh+IPNRS5vnd5QF3j
+ cJJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681291038; x=1683883038;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LGpSnkBJ4zhtllDlsdgv+XdCiU1d9KOkSdJhsZZctEQ=;
+ b=EO/VK15UXY/S3Fqohuio7IxZ5ysedcR6aK6+ui9UY4XYi6L9TqmeA24DH6tDyWjRAU
+ V6lpputtPtQByU7J2jLfq+4O+BmfN6OKQk5hE8XH7eVwJF4vOkKubFX60EOmLD1jMSvm
+ JnlgFURsW7Rjb4vI+xVd8OmK7k09UWsyf2bQloAr4W68M30CXWIgj8W3YApdgCmFXKa3
+ szNfN/QW2+9jQk0d2id5TJDv1Bc+8O2i64CYMvZr142iNQQ32ZNFB2gaA6ItvzlPcWUO
+ B0QWB4D0p8sHw5Ly19WNOAspdDLWcqBa2EL6IWkQ1hkqEHkPAzOFvZ3e7d4wU3mV9sBa
+ V3Ww==
+X-Gm-Message-State: AAQBX9e2wvFGgtlvIoeKd6pfhCp63YVfts+C0LoGvvkkC+O38S4jTE9P
+ OyGGbHOWvq4s5ZxY7v4YTNsVGQ==
+X-Google-Smtp-Source: AKy350ZaSHVzlgHTmWDXxlLFU90DnFK09dj58Wf2yIKeQ42MhmQUgGlweo0od2oNn09h4VV29EjBfA==
+X-Received: by 2002:a1c:f609:0:b0:3ed:3d89:1b4b with SMTP id
+ w9-20020a1cf609000000b003ed3d891b4bmr12129585wmc.8.1681291038507; 
+ Wed, 12 Apr 2023 02:17:18 -0700 (PDT)
+Received: from alex-rivos.home
+ (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+ by smtp.gmail.com with ESMTPSA id
+ s5-20020a7bc385000000b003edcc2223c6sm1668271wmj.28.2023.04.12.02.17.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 02:17:18 -0700 (PDT)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
+ Andrea Parri <andrea@rivosinc.com>
+Subject: [PATCH] riscv: Raise an exception if pte reserved bits are not cleared
+Date: Wed, 12 Apr 2023 11:17:16 +0200
+Message-Id: <20230412091716.126601-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Florian Westphal <fw@strlen.de>,
- Kevin Wolf <kwolf@redhat.com>
-References: <3ffec0e7-7a4e-f31f-9a80-43eff755d72b@redhat.com>
- <pnfyjo4jqh2xl2y2n3tk3pk44u7agxmbopd2bm5cf5wuxveyge@ise6yazqzt4l>
-From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
-Autocrypt: addr=ldoktor@redhat.com; keydata=
- xsBNBFcV6vsBCADa8NUYov+a+AmCEEUB3stiiMM0NQc1WwlcxGoMxKHcqqIj/kdPhUDvFS32
- V94V7en1Lx+cpXKRMZP3n+3WG+VZWLwaktJgqrECZ161zE7xF5d1H3CLmwStbe6Cw1oR4LYQ
- HBpuqFEA5znoLuTTsP1uXs9h1cYNzX7hmOTvPCLJfDJ1iv954FsgCGtoVvl4CoxaR3u2VNOs
- hXsTTVyJM6gDTsyqn0uvLOHGWGIGVhDkLV4hv6pSdiKrtQKWIUji3Z8x41MbZybmJxHkpOVz
- Jl3jnNE3CbiEq77Is9LMI4yTF2CESs3V4XMBLfZPLrQBC0gzjeRxwCnbdOZRwY5KI457ABEB
- AAHNK0x1a2FzIERva3RvciAoUmVkIEhhdCkgPGxkb2t0b3JAcmVkaGF0LmNvbT7CwJUEEwEI
- AD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEF
- AmPzIV8FCRCqWrUACgkQJrNi5H/PIsHvywgAiraQGpYPxQvjYAFJzJZcPcp42pdHe2TvJjTS
- lT/w0ZOD76W/Y+b3S7wTzFaOXxxdECG0u9m63hBYL5wvgkWxfmhNfv2+qK21hhqEl8027qIv
- 6zyNIDPm3LiHAv6u9npOC07eEwECqTSzGKBpP0pRon591Tzscq0w3nKHQCWOEO+nv2Y5djM/
- rpUUqaRZiU6c1XbnbwnW9vFMozh5gC/4zma53rv94Jl5I1nhHtellNUgxLzvub4rcDnPC0vS
- UojdUq2GjGafeFq0zMIELmf5u2yi+cDTO6+BynmR0QHpkFhVlgRuckYZrbu/rCrSmNiIaR1b
- B+1morL7YKr/vbn9CM7ATQRXFer7AQgAw8JIK9pZUfZWNZirBIwOevkdZu1aLhgH84EfXw40
- ynMEFa1t/c0baOiuLNcVbdnHLGvUAQJ2oN/+rdGpEWITVSjDxFYf3JOnySZJhLnQgGMG4j3m
- dFZMubPG1GJEuubPAAB0huRfjQTvOvpIK03J2H5cMoug862OHOnT+mfonGruTkSO0PBq3wtf
- P+Z3gLCuEDkmEZSh4IKxs0CoLU4KxWRQHpoTOxcAiHzj8cm5qbu3Cb1KrXz8dEmYhCq2fpFf
- /h+GfEO8gU/ICJD8WQUHYcVK0bbiZskCcSOGtStjwq0QqitZMbcsPEset/2L3z44MLPuVApv
- c9wORs/3iT9BhwARAQABwsB8BBgBCAAmAhsMFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAmPz
- IWoFCRCqWrUACgkQJrNi5H/PIsFuxAf/f05XIXj+CcefmLazMRJ8iGTSlCBDhWjqQbGLUtCs
- xNO/5adp24FpsXYcW2wNDynbu914IhHfRxyRAhMOk2YCu6aRtcuunvNhlYyzn23XoP6m0IMi
- uVpNzyeWtalPVRCPy32FfG3CS0JEOxd0fLuNJoziVdxlALZKugK6SO3J+bzve667Kl2mUwx9
- mXrP37Y79y8UlkNIjVITptktYBFAsTMIl/b+swGwCEy4kwxqZp/HMprQjMdhz5HBYix4eRam
- 50nhAfj1r6ASgGQKKYptjSU/yS9X+8Sgt7Sq9GnXjq4rCEA3wd2OicKzkFTwqLf9hDni6mNs
- 6mnnuy4hp59Pog==
-Subject: Re: qemu-nbd performance regression in bd2cd4a4
-In-Reply-To: <pnfyjo4jqh2xl2y2n3tk3pk44u7agxmbopd2bm5cf5wuxveyge@ise6yazqzt4l>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------6eXu0kg6S3iCZ015WGYn6MKb"
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=ldoktor@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.17, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,292 +92,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------6eXu0kg6S3iCZ015WGYn6MKb
-Content-Type: multipart/mixed; boundary="------------Pz6P7CP00vSlU0astpTFvEL0";
- protected-headers="v1"
-From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Florian Westphal <fw@strlen.de>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <1833dcd6-45fc-4da0-2e51-82f71d4fc43a@redhat.com>
-Subject: Re: qemu-nbd performance regression in bd2cd4a4
-References: <3ffec0e7-7a4e-f31f-9a80-43eff755d72b@redhat.com>
- <pnfyjo4jqh2xl2y2n3tk3pk44u7agxmbopd2bm5cf5wuxveyge@ise6yazqzt4l>
-In-Reply-To: <pnfyjo4jqh2xl2y2n3tk3pk44u7agxmbopd2bm5cf5wuxveyge@ise6yazqzt4l>
+As per the specification, in 64-bit, if any of the pte reserved bits 60-54
+is set, an exception should be triggered (see 4.4.1, "Addressing and Memory
+Protection"), so implement this behaviour in the address translation process.
 
---------------Pz6P7CP00vSlU0astpTFvEL0
-Content-Type: multipart/mixed; boundary="------------sUlLwTHnXcrebzHQOv04FtCX"
+Reported-by: Andrea Parri <andrea@rivosinc.com>
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
+ target/riscv/cpu_bits.h   | 1 +
+ target/riscv/cpu_helper.c | 5 +++++
+ 2 files changed, 6 insertions(+)
 
---------------sUlLwTHnXcrebzHQOv04FtCX
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-I see, let me mark it as "expected" regression and hopefully I'll detect =
-the optimization if they are ever implemented. Thank you for the explanat=
-ion.
-
-Regards,
-Luk=C3=A1=C5=A1
-
-Dne 06. 04. 23 v 17:07 Eric Blake napsal(a):
-> On Thu, Apr 06, 2023 at 12:55:38PM +0200, Luk=C3=A1=C5=A1 Doktor wrote:=
-
->> Hello Florian, folks,
->>
->> my CI caught ~5% regression (in 60s runs, when using 240s it was about=
- 10%) in qemu-nbd performance bisected multiple-times up to bd2cd4a441ded=
-163b62371790876f28a9b834317 in fio when using 4k blocks read. Note that o=
-ther scenarios (reads using 1024k blocks, writes using 4 nor 1024k blocks=
-) were not affected. Is this expected?
->=20
-> Large operations (1024k blocks) are dominated by the transaction
-> itself, and not the network overhead.  Small operations (4k reads)
-> used to benefit from TCP batching (introduces latency, but less
-> network overhead), but we intentionally started corking things
-> (decreases latency, but now the network is prone to send smaller
-> packets which means more network overhead).  So a slight decrease in
-> performance for only small size traffic is not surprising.  I'm not
-> sure if anything can be done about it in the short term, because the
-> benefits in the other direction (magnitude order of improvement for
-> TLS traffic) by being transactional instead of batching outweigh the
-> network overhead of small transactions, and most clients are going to
-> do more than just minimum-size reads.
->=20
-> However, commit bd2cd4a44 does mention a potential future optimization
-> of not uncorking if there is an easy way to detect if another reply in
-> the queue will be sent shortly.  Also, distinct actions for corking
-> and uncorking costs extra system calls; it may be possible to utilize
-> MSG_MORE on the existing data syscall paths instead of having to
-> separately cork/uncork, which in turn could still mark message
-> transaction boundaries with less overhead.
->=20
---------------sUlLwTHnXcrebzHQOv04FtCX
-Content-Type: application/pgp-keys; name="OpenPGP_0x26B362E47FCF22C1.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x26B362E47FCF22C1.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFcV6vsBCADa8NUYov+a+AmCEEUB3stiiMM0NQc1WwlcxGoMxKHcqqIj/kdP
-hUDvFS32V94V7en1Lx+cpXKRMZP3n+3WG+VZWLwaktJgqrECZ161zE7xF5d1H3CL
-mwStbe6Cw1oR4LYQHBpuqFEA5znoLuTTsP1uXs9h1cYNzX7hmOTvPCLJfDJ1iv95
-4FsgCGtoVvl4CoxaR3u2VNOshXsTTVyJM6gDTsyqn0uvLOHGWGIGVhDkLV4hv6pS
-diKrtQKWIUji3Z8x41MbZybmJxHkpOVzJl3jnNE3CbiEq77Is9LMI4yTF2CESs3V
-4XMBLfZPLrQBC0gzjeRxwCnbdOZRwY5KI457ABEBAAHNK0x1a2FzIERva3RvciAo
-UmVkIEhhdCkgPGxkb2t0b3JAcmVkaGF0LmNvbT7CwJUEEwEIAD8CGwMGCwkIBwMC
-BhUIAgkKCwQWAgMBAh4BAheAFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAmAzSoUF
-CQzmojUACgkQJrNi5H/PIsGM4Qf+OmO8PqPg28arBfxGSjdxb4744E1bnLESNudf
-8VY5/UEca0X65KW9L5vd6XUjusy2T4iyUcbZhCxYcHQLqP6y3AIyVfgJz91HEAt2
-thMFPfbjIhqVlyP0xEyvCNLk83M4PLN9IhugvSLce6R6cliETevP/m7RQSiP1o0f
-Ku0uAUrEKWD9DZMF99BaI635YZOPHQwQlkWnFBEKpKLjkuKpn/QSkW34mkaByn6z
-LhF5QeIp/9FQVUZCeOy/zR0Gs8ggfDyr4vJuDU4gI9NGZs6zycTflmFpA46P03Lg
-mdRL/C6U7vbUB6B+v0YddYJoaarLUKpaL4dG8h/m8RdXNA33YMLAfgQTAQIAKAUC
-VxXq+wIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQJrNi5H/P
-IsHTywf+Nw03Y2XAryQ/CbTGa1BhsVtEo8Vwao+3/G4GwfOp93PNB24s7GDbiOZQ
-jtwm7nZ45u0eQtx3AasN5/Z2ZSGRXsHv6AgM6qbcAR8SAiY1lodAdThBL7nVJgMp
-JbVtfBHSTa8q5+ubeEoLLmktXljoME6l2ueAQcZvYDCfrqXbukTvxecVg07Hg+V+
-rRwuGKxeUN+SvOp1NiJTj4HzzAUiFJWXmrsDrhaMqkahopAyhq86zsvmh1UBjNKS
-y3w/aQb9QvTJ/qEWIG2D/iHjgujei/aTXsB5qIOlCk5Tdsj1ZjGHg+zaDaVo+MOc
-KYfDpyQxYGQ4eFW0ijdWgZfbTG8fKcLAlQQTAQIAPwIbAwYLCQgHAwIGFQgCCQoL
-BBYCAwECHgECF4AWIQSkCkxFxANN4Cpa1IMms2Lkf88iwQUCWpWOrQUJB0IKsgAK
-CRAms2Lkf88iwUXVB/4rbeQHmI6+xt7+zBB1r2cllKAqRtcsIXcoJ3CMJjep2d4f
-Oujr3qqixGFaf62ktDoynyyCde4mT3qpqm1e3HRHUKLagcWjTVZ9xItnV/33/Sp1
-YZYmFO3ZM80/oDmuvD/8VmVA5g1Ngb2+ft64sTR6XfZlCn/QcI7tekuK6MRfjx9Z
-2Vo+YM6dqUkSnPMkk27xaccgbZ4tLyUas12c9uTEfJ4RHE+5YMCYeZbJlJoMy0x3
-jRdUp8t+TJjzePP66ry4zE8zOrXXpi8XKCxeok+BYZhff0F1qwSyyv8YAEeqApjn
-h21N0ycVlkVWjCSgJKHYCX9f85KTnCnJhmsRh4o0wsCUBBMBCAA/AhsDBgsJCAcD
-AgYVCAIJCgsEFgIDAQIeAQIXgBYhBKQKTEXEA03gKlrUgyazYuR/zyLBBQJeHGos
-BQkLBW61AAoJECazYuR/zyLBK1gH9jnk79ikqObpIpHUgP4jSLQ16qjIYKzdCWzG
-nW/NlWCighT/jV0MtujUKnCo2iZZr9UOK2A3y78/tYL54q+pfYIOO4PxDwubNlMR
-jpRs/H84B3B53tNjxRFCgjUpUmUyVvAwsBSjeFZDxqrp4Cbw3fYvIAvQf0wdxx+C
-B6/NpgNwZ0N8JpfShyl0aBCVUdeXHepClOeTERtJqulc2J1uVsMsX9GQuvkdrUIM
-8bL8UVT70F0m3Br95FqD4EaOWvCFszAdfeLVlWDWqoTFDymbIAVBhdyXc68IAwQL
-gtepioMjA68x919GWd01x/pkAV7v6ceS/ATM/1gIm5Iz1U3qnsLAlQQTAQgAPwIb
-AwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSkCkxFxANN4Cpa1IMms2Lkf88i
-wQUCY/MhXwUJEKpatQAKCRAms2Lkf88iwe/LCACKtpAalg/FC+NgAUnMllw9ynja
-l0d7ZO8mNNKVP/DRk4Pvpb9j5vdLvBPMVo5fHF0QIbS72breEFgvnC+CRbF+aE1+
-/b6orbWGGoSXzTbuoi/rPI0gM+bcuIcC/q72ek4LTt4TAQKpNLMYoGk/SlGifn3V
-POxyrTDecodAJY4Q76e/Zjl2Mz+ulRSppFmJTpzVdudvCdb28UyjOHmAL/jOZrne
-u/3gmXkjWeEe16WU1SDEvO+5vitwOc8LS9JSiN1SrYaMZp94WrTMwgQuZ/m7bKL5
-wNM7r4HKeZHRAemQWFWWBG5yRhmtu7+sKtKY2IhpHVsH7Waisvtgqv+9uf0IwsCV
-BBMBCAA/AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBKQKTEXEA03gKlrU
-gyazYuR/zyLBBQJiE0vMBQkOx9W1AAoJECazYuR/zyLBLVgH/3bFibdn1FFUe9mN
-wvkGRctI6RhesP0sv2nAjUXkj5FlL4rUGxXbfpo2AnLnI1Ky9AhItA3h27cyy6xy
-6PgB9j9oBDXZ44ef9hOkIrkbTmjoMlF0Nkwl6oF/e6s0EccckmJPVHQZ3QluEKCF
-fX0O/eCYcpXsyOIzY4rU9RsGa+ekC9Brd7uxModjetnYQXB8ZAepCUaoCEvToU/H
-RYzSsm2rFW97pqmfa4KQeyW3FCD0riUQZHJNqRwttXKvd/3bxV1Soon2gKWG9dF+
-AwisY72HRk4Nx94pWLY8cToXQXwhREGUfpThnY70kgZu1I9Zb6vfoVxDwqyD15cF
-Y1IdtLDRzwHO/wEQAAEBAAAAAAAAAAAAAAAA/9j/4AAQSkZJRgABAQAAAQABAAD/
-2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwc
-KDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIy
-MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCACS
-AHsDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QA
-tRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS
-0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZn
-aGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLD
-xMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEB
-AQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEE
-BSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2
-Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOU
-lZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn
-6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD0oqSf8aTBzyeKkJHvTPlB6H9a6DMT
-bzwaChI7UuRuz81PDL6sDSGVmi+bv+AqF4FB3knFXzsPQkVyniTxTBp7vb27LJcj
-gkdE/wDr1E6igrsqMHJ2RqzSwwgl3KqOvtUf9uaTZwFjdwBjk43ivJNV1m4vZCbm
-eRvRNx/yKxTO2/0+hrmdaUtjdUeXdnr8+v6Tc2RQX0e9fujdjmqlpqUIhlRbpWc9
-Ar5rytZn5Klvck4AqDz5A7P5zFh021Go+VHvkVyTDCwzygBp4uMFiTyRXkWi+M7/
-AE5FR5DPCoy0cnOB7HqK9H0PVLXXrNp4t8TrgMjEHHfr3rWLvoZNWKd1Mf7RuD6y
-UkUoDNjr3q9LoDSSs7XZJc5GFFRjQZFfiYbCeTnB/lT9mw5kN8/KjJ5NQGUg4yav
-/wBjx5wJ92PQ1C+kDccK5980vZthzo60jPam+WTyQPyqQ89ARTSoJ6ZNdZiAwByC
-KQsO1LsJ6Cq1/cixsJ7hhny0LY9TSbsrjSu7GH4q8SJpVsbeFx9qcdj9weteT3V8
-HZnL7nY5yT3pmu3091cytJJueRizHPU1Lovhu5vrczSSFS33cjoK86cud80mehTh
-y+6jPEgJOB7lmprTKR8qM/vjiu6sPCNtF/rQZD3LVsJ4dtFAAiX8qj2iNvZM8tCs
-y52H6VXkD7sbGPtzXro8OWp48sY+lMfQbNeBCg+gqlURDos8kaGdYWZEK8elb3g3
-xO+kXChiXtGY+Yp5K5Hb9K7K80OB4GRYwMg9uteaTWr6VrbW8g+STgZ/SrjO+xlO
-lbc980u9tNRg86zmEitzwM4/CrBhZlZYypAPG05rxjStXutBvlubdm8vjzI88Edx
-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
-jonCs5BU8Ki3/YQ54upjbOpp57suIaefT6I=3D
-=3DaBeO
------END PGP PUBLIC KEY BLOCK-----
-
---------------sUlLwTHnXcrebzHQOv04FtCX--
-
---------------Pz6P7CP00vSlU0astpTFvEL0--
-
---------------6eXu0kg6S3iCZ015WGYn6MKb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAmQ2cK8FAwAAAAAACgkQJrNi5H/PIsFJ
-1wf9Fkb+SeUz4hjeslzQ3Y08BeR3pweLTpDoWVQu1Wsc5AotFoe+tpgit2b2GFYQQOwhKEwevWF8
-oWL5gYc/QESjhnuh8pX64UehMd4CDu4i8MXmuvueESq9eF8rtpBRYSh4yv0GBJ79R5/Z/tnVoPe6
-iqOpWa3sr4wJ9X2xg1eRzUKO3Lv+i+TCE8Ebq/c7acLYMHAAH4qqowbtCM5jUAeeYsb2MJ51xGwd
-TVhzsIxg2qVU0MgzIHpF/LaHQL63KaykehOUYjDHoi+C620htEklZhT7IPHBE0xWdf8jz5Ku495C
-98Gef9FryzOJqGzah3oKxxhBQkbNH5a6J5HlD5DRzw==
-=kr0C
------END PGP SIGNATURE-----
-
---------------6eXu0kg6S3iCZ015WGYn6MKb--
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index fca7ef0cef..8d9ba2ce11 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -640,6 +640,7 @@ typedef enum {
+ #define PTE_SOFT            0x300 /* Reserved for Software */
+ #define PTE_PBMT            0x6000000000000000ULL /* Page-based memory types */
+ #define PTE_N               0x8000000000000000ULL /* NAPOT translation */
++#define PTE_RESERVED        0x1FC0000000000000ULL /* Reserved bits */
+ #define PTE_ATTR            (PTE_N | PTE_PBMT) /* All attributes bits */
+ 
+ /* Page table PPN shift amount */
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f88c503cf4..39c323a865 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -936,6 +936,11 @@ restart:
+             return TRANSLATE_FAIL;
+         }
+ 
++        /* PTE reserved bits must be cleared otherwise an exception is raised */
++        if (riscv_cpu_mxl(env) == MXL_RV64 && (pte & PTE_RESERVED)) {
++            return TRANSLATE_FAIL;
++        }
++
+         bool pbmte = env->menvcfg & MENVCFG_PBMTE;
+         bool hade = env->menvcfg & MENVCFG_HADE;
+ 
+-- 
+2.37.2
 
 
