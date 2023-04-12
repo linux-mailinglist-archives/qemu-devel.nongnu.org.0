@@ -2,77 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8DE6DE9CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 05:11:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07B16DEB66
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 07:41:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmQsd-0002Q1-MF; Tue, 11 Apr 2023 23:10:43 -0400
+	id 1pmTCz-0006o8-01; Wed, 12 Apr 2023 01:39:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pmQsa-0002OQ-IQ; Tue, 11 Apr 2023 23:10:40 -0400
-Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pmQsY-0006bm-K1; Tue, 11 Apr 2023 23:10:40 -0400
-Received: by mail-ua1-x930.google.com with SMTP id t20so20024231uaw.5;
- Tue, 11 Apr 2023 20:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681269037; x=1683861037;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=v3Twu/tshg9IMk0DWkRfGeoXgx14siLOjGEMghA+soE=;
- b=llwLuco9vUxKViV4xmLwPfJIxjXPVDog9esfuweCzOkdPaxjM+AEIl2+veTXx1JctS
- bD6CXVBj3oQo4W3rHADute9gPSU6WW9QD6MwFO+o5QdWpd2QAgOmoek24/VoX7Diwryh
- ZmJYrNOoyaJRKjm9VGdfMRRFoVDaS19qnT7ThiGZRzqCI7f5bkg6EUeOhlFF++ahSdlV
- bhpAFcCdrFlUYErgwvxce7Z0PyNWyH5zEyqY+mptpdPl41YiVmS6yEGHwkXefWSVfrNd
- hO7VD33Tp1UWwZlLZV/OzJvNEBA8MMxQYJqU7/N/3ZaL9die8mfuJ+JZK+qH55vYfUcw
- Tfwg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmTCf-0006nc-Q8
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 01:39:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmTCe-00085r-0l
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 01:39:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681277970;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VHCdvDKrd6SHmT5+4IxRxVZw2qNaGEXhrgpsq6j6904=;
+ b=eoFBNga4F/5PdNGPAVsNAZeC4YBue/s6g0MWcn1Lj7Rs2BvsPE96FvNP6cKshIUsPbZqs9
+ PakWPzkblug7mX9MDD6eUbwtJKWR346Xs8SWCKl1USeAjGU/5PkCYdWRrAHB8FMEOvwPpQ
+ YJUfO17fBR1b+WaElrCjyEKhe6klQfQ=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-404-Ccg48VELPey-WjY8Kzqf-w-1; Wed, 12 Apr 2023 01:39:29 -0400
+X-MC-Unique: Ccg48VELPey-WjY8Kzqf-w-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ s14-20020a17090699ce00b0093994122eddso3567023ejn.17
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 22:39:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681269037; x=1683861037;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=v3Twu/tshg9IMk0DWkRfGeoXgx14siLOjGEMghA+soE=;
- b=lTOM2QFj/i8qOGLXi+pocaW9DegRNAVRYcK4YEEAnmiSJangO4Thl61EJuq1+vXMps
- j5UPjzpGRsyx7ZVCB/twNOVNXmbhn2hyQoUoU7zXD8RV4QhmYc0IotbPCrPada6Iv/H7
- IsIyt5cpwqLtcjI6PLu/A280Dffc/FwHz8zqT/W1T+WM1KzOksGDU2CDsu1LGpukb93O
- ZUuiZVHT+E9FPaoUNETAjMxBdIfZo/kRfSIxyY1rBEhDVu8KDdV8vbOYAIWD68m8STvR
- 2u+JFA94dgmVn9WsvQ6FHgzvhcaBMDGpyVZtaNls4xleAnsYM9DLh6/ig/ePdZ/o8D2m
- ifig==
-X-Gm-Message-State: AAQBX9fkvBKuzhnf6+dxHlxYIq6LG4LLgCenhN3GTJCs+jcKX8SiWXG+
- xzsW0fJh2mpc1smQ1+iAIquF6VGdfQpFpMlpqSvtruAoX+Q/Jg==
-X-Google-Smtp-Source: AKy350ZeuEoco25EzwIZmOyEDYX0HkztMXP3Pz9c36u4Dha68pv+v3J5gbSGYn64vHhltzdQnaep2xC68aw04UPgEVM=
-X-Received: by 2002:a1f:2489:0:b0:43b:ff63:e79a with SMTP id
- k131-20020a1f2489000000b0043bff63e79amr2806130vkk.0.1681269036789; Tue, 11
- Apr 2023 20:10:36 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681277968; x=1683869968;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VHCdvDKrd6SHmT5+4IxRxVZw2qNaGEXhrgpsq6j6904=;
+ b=oSvpX6ZfTTwls2080bBLwuVyCb2cV9O6hoKOoRWUuQ5uTtsD7gWLcCHL5xxayTRZVu
+ vYPo8CVfU6j49ActnefGczoagfYaCvOPLRHaPUfywkYcwgUER3psta/j7iGXkSoamtS4
+ Li2HGH/ZJk9ZUEh/YaioOviaKGZtmu5a/ARQtD5JW76JrIXZzc2IW+LOK5eIi8OLr0FT
+ 2xgmOdGVg7Qyt9TFdZPXfQM+uFxqe+UD6sMg5ZJrwl3ZRrG1oC88JsYNa0soJMwquuip
+ mMkFbLrMuuG4ht+IKSUp4KUd9pNxLlv4EpJftJC9uyi/OLRNmiUzTakPwmDrSXPgtwom
+ PM9g==
+X-Gm-Message-State: AAQBX9f/spjw10U8HskO5S0wf5R00YUDBEeNamAY0ocoTTj7IX87A0T5
+ dWdoQxAD6ZtKLt2paeCGP7fE0O3qEt+KsUQwQodIhLdgLdHjaRfjZL6vnq1/kw5pp+MC6pbHq6d
+ ucW/VJWGLbOdUmtw=
+X-Received: by 2002:a17:906:1401:b0:94e:5224:b21e with SMTP id
+ p1-20020a170906140100b0094e5224b21emr1134982ejc.14.1681277968556; 
+ Tue, 11 Apr 2023 22:39:28 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aiVhpgQoLUs6/2V6EcX+z/iUJaQs6ANB2YdA1maYchDM3UA/NUeo7RWULN8e+iRtBMgK9+FQ==
+X-Received: by 2002:a17:906:1401:b0:94e:5224:b21e with SMTP id
+ p1-20020a170906140100b0094e5224b21emr1134974ejc.14.1681277968264; 
+ Tue, 11 Apr 2023 22:39:28 -0700 (PDT)
+Received: from [192.168.8.105] (tmo-096-44.customers.d1-online.com.
+ [80.187.96.44]) by smtp.gmail.com with ESMTPSA id
+ s21-20020a1709060c1500b0094a85f6074bsm2889674ejf.33.2023.04.11.22.39.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 22:39:27 -0700 (PDT)
+Message-ID: <895bcdd3-350d-38e7-1982-899948072b93@redhat.com>
+Date: Wed, 12 Apr 2023 07:39:23 +0200
 MIME-Version: 1.0
-References: <20230406101559.39632-1-chenyi2000@zju.edu.cn>
-In-Reply-To: <20230406101559.39632-1-chenyi2000@zju.edu.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 12 Apr 2023 13:10:10 +1000
-Message-ID: <CAKmqyKMrzSUUPoNaaOcQx=GeZ0k0KL-yQ1FNjH6f40GnVxsYtw@mail.gmail.com>
-Subject: Re: [PATCH v5] target/riscv: fix H extension TVM trap
-To: Yi Chen <chenyi2000@zju.edu.cn>
-Cc: qemu-devel@nongnu.org, Weiwei Li <liweiwei@iscas.ac.cn>, 
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x930.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [QEMU][PATCH] gitlab-ci.d/crossbuilds: Drop the '--disable-tcg'
+ configuration for xen
+Content-Language: en-US
+To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org
+Cc: xen-devel@lists.xenproject.org, stefano.stabellini@amd.com,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230411210422.24255-1-vikram.garhwal@amd.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230411210422.24255-1-vikram.garhwal@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.17, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,184 +104,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 6, 2023 at 8:17=E2=80=AFPM Yi Chen <chenyi2000@zju.edu.cn> wrot=
-e:
->
-> - Trap satp/hgatp accesses from HS-mode when MSTATUS.TVM is enabled.
-> - Trap satp accesses from VS-mode when HSTATUS.VTVM is enabled.
-> - Raise RISCV_EXCP_ILLEGAL_INST when U-mode executes SFENCE.VMA/SINVAL.VM=
-A.
-> - Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
->   SFENCE.VMA/SINVAL.VMA or VS-mode executes SFENCE.VMA/SINVAL.VMA with
->   HSTATUS.VTVM enabled.
-> - Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
->   HFENCE.GVMA/HFENCE.VVMA/HINVAL.GVMA/HINVAL.VVMA.
->
-> Signed-off-by: Yi Chen <chenyi2000@zju.edu.cn>
-> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-
-Thanks!
-
-Applied to riscv-to-apply.next
-
-Alistair
-
+On 11/04/2023 23.04, Vikram Garhwal wrote:
+> Xen is supported for aarch64 via xenpvh machine. disable-tcg option fails the
+> build for aarch64 target.
+> 
+> Link for xen on arm patch series: https://mail.gnu.org/archive/html/qemu-devel/2023-02/msg03979.html
+> 
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 > ---
-> Rebase the patch on https://github.com/alistair23/qemu/tree/riscv-to-appl=
-y.next
-> Add "Reviewed-by: LIU Zhiwei"
->  target/riscv/csr.c       | 56 +++++++++++++++++++++++++---------------
->  target/riscv/op_helper.c | 12 ++++-----
->  2 files changed, 41 insertions(+), 27 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e0b871f6dc..d6669d8524 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -449,6 +449,30 @@ static RISCVException sstc_32(CPURISCVState *env, in=
-t csrno)
->      return sstc(env, csrno);
->  }
->
-> +static RISCVException satp(CPURISCVState *env, int csrno)
-> +{
-> +    if (env->priv =3D=3D PRV_S && !env->virt_enabled &&
-> +        get_field(env->mstatus, MSTATUS_TVM)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +    if (env->priv =3D=3D PRV_S && env->virt_enabled &&
-> +        get_field(env->hstatus, HSTATUS_VTVM)) {
-> +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> +    }
-> +
-> +    return smode(env, csrno);
-> +}
-> +
-> +static RISCVException hgatp(CPURISCVState *env, int csrno)
-> +{
-> +    if (env->priv =3D=3D PRV_S && !env->virt_enabled &&
-> +        get_field(env->mstatus, MSTATUS_TVM)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    return hmode(env, csrno);
-> +}
-> +
->  /* Checks if PointerMasking registers could be accessed */
->  static RISCVException pointer_masking(CPURISCVState *env, int csrno)
->  {
-> @@ -2647,13 +2671,7 @@ static RISCVException read_satp(CPURISCVState *env=
-, int csrno,
->          *val =3D 0;
->          return RISCV_EXCP_NONE;
->      }
-> -
-> -    if (env->priv =3D=3D PRV_S && get_field(env->mstatus, MSTATUS_TVM)) =
-{
-> -        return RISCV_EXCP_ILLEGAL_INST;
-> -    } else {
-> -        *val =3D env->satp;
-> -    }
-> -
-> +    *val =3D env->satp;
->      return RISCV_EXCP_NONE;
->  }
->
-> @@ -2676,18 +2694,14 @@ static RISCVException write_satp(CPURISCVState *e=
-nv, int csrno,
->      }
->
->      if (vm && mask) {
-> -        if (env->priv =3D=3D PRV_S && get_field(env->mstatus, MSTATUS_TV=
-M)) {
-> -            return RISCV_EXCP_ILLEGAL_INST;
-> -        } else {
-> -            /*
-> -             * The ISA defines SATP.MODE=3DBare as "no translation", but=
- we still
-> -             * pass these through QEMU's TLB emulation as it improves
-> -             * performance.  Flushing the TLB on SATP writes with paging
-> -             * enabled avoids leaking those invalid cached mappings.
-> -             */
-> -            tlb_flush(env_cpu(env));
-> -            env->satp =3D val;
-> -        }
-> +        /*
-> +         * The ISA defines SATP.MODE=3DBare as "no translation", but we =
-still
-> +         * pass these through QEMU's TLB emulation as it improves
-> +         * performance.  Flushing the TLB on SATP writes with paging
-> +         * enabled avoids leaking those invalid cached mappings.
-> +         */
-> +        tlb_flush(env_cpu(env));
-> +        env->satp =3D val;
->      }
->      return RISCV_EXCP_NONE;
->  }
-> @@ -4183,7 +4197,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
->                           .min_priv_ver =3D PRIV_VERSION_1_12_0 },
->
->      /* Supervisor Protection and Translation */
-> -    [CSR_SATP]     =3D { "satp",     smode, read_satp,     write_satp   =
-  },
-> +    [CSR_SATP]     =3D { "satp",     satp, read_satp,     write_satp    =
- },
->
->      /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
->      [CSR_SISELECT]   =3D { "siselect",   aia_smode, NULL, NULL, rmw_xise=
-lect },
-> @@ -4220,7 +4234,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
->                            .min_priv_ver =3D PRIV_VERSION_1_12_0         =
-       },
->      [CSR_HGEIP]       =3D { "hgeip",       hmode,   read_hgeip,
->                            .min_priv_ver =3D PRIV_VERSION_1_12_0         =
-       },
-> -    [CSR_HGATP]       =3D { "hgatp",       hmode,   read_hgatp,   write_=
-hgatp,
-> +    [CSR_HGATP]       =3D { "hgatp",       hgatp,   read_hgatp,   write_=
-hgatp,
->                            .min_priv_ver =3D PRIV_VERSION_1_12_0         =
-       },
->      [CSR_HTIMEDELTA]  =3D { "htimedelta",  hmode,   read_htimedelta,
->                            write_htimedelta,
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index ec9a384772..7cbe13db3f 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -380,12 +380,12 @@ void helper_wfi(CPURISCVState *env)
->  void helper_tlb_flush(CPURISCVState *env)
->  {
->      CPUState *cs =3D env_cpu(env);
-> -    if (!(env->priv >=3D PRV_S) ||
-> -        (env->priv =3D=3D PRV_S &&
-> -         get_field(env->mstatus, MSTATUS_TVM))) {
-> +    if (!env->virt_enabled &&
-> +        (env->priv =3D=3D PRV_U ||
-> +         (env->priv =3D=3D PRV_S && get_field(env->mstatus, MSTATUS_TVM)=
-))) {
->          riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> -    } else if (riscv_has_ext(env, RVH) && env->virt_enabled &&
-> -               get_field(env->hstatus, HSTATUS_VTVM)) {
-> +    } else if (env->virt_enabled &&
-> +               (env->priv =3D=3D PRV_U || get_field(env->hstatus, HSTATU=
-S_VTVM))) {
->          riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GE=
-TPC());
->      } else {
->          tlb_flush(cs);
-> @@ -402,7 +402,7 @@ void helper_hyp_tlb_flush(CPURISCVState *env)
->  {
->      CPUState *cs =3D env_cpu(env);
->
-> -    if (env->priv =3D=3D PRV_S && env->virt_enabled) {
-> +    if (env->virt_enabled) {
->          riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GE=
-TPC());
->      }
->
-> --
-> 2.40.0
->
->
+>   .gitlab-ci.d/crossbuilds.yml | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+> index 61b8ac86ee..6867839248 100644
+> --- a/.gitlab-ci.d/crossbuilds.yml
+> +++ b/.gitlab-ci.d/crossbuilds.yml
+> @@ -186,7 +186,7 @@ cross-amd64-xen-only:
+>     variables:
+>       IMAGE: debian-amd64-cross
+>       ACCEL: xen
+> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
+>   
+>   cross-arm64-xen-only:
+>     extends: .cross_accel_build_job
+> @@ -195,4 +195,4 @@ cross-arm64-xen-only:
+>     variables:
+>       IMAGE: debian-arm64-cross
+>       ACCEL: xen
+> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
+
+This patch looks wrong. I'm pretty sure we wanted to test the build without 
+TCG here. Building with TCG enabled is already done in other jobs. So 
+instead of removing "--disable-tcg" here the question is rather: Why does it 
+not build with this flag anymore? Can those problems be fixed instead?
+
+  Thomas
+
 
