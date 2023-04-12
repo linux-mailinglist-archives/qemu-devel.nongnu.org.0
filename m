@@ -2,81 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A10D6DF17C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:03:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4AB6DF192
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:05:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmXJY-00038h-HX; Wed, 12 Apr 2023 06:02:56 -0400
+	id 1pmXLN-0004YN-Di; Wed, 12 Apr 2023 06:04:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmXJW-000384-Qo
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:02:54 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmXJU-0004w5-8F
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:02:54 -0400
-Received: by mail-wm1-x334.google.com with SMTP id he13so11167666wmb.2
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 03:02:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681293769; x=1683885769;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LGhz/nLhs64LvkJVZpBjPfH+lZxEKoOq/JSeXzG1XI8=;
- b=VU8j6jYevPvS7gSYF9yYRtaFtYZu2kxrFb8gTPMuPbsYLYU2X6VVF2Ay9MUbApLdTQ
- F2qlq0xRBFiJpUc0saoNVjVm6vkBh6Fvkp3qN4NjOcmxYEVL9WsGFf958soZSAG07HkZ
- 6Djm39bd9ycw/FQdMoeP7k6gLNQz+PlHt5rXOJSG2nspzKutnApib5J16bPnzwwRhQSF
- J5YzedVthe/a9YQsJVdy0iKXvhGTN03vvdA6XY/bV49dzBuFgqh9IvTDMWhbHNHwNBt1
- tIGOMvsBThPo7lDoPqK8Tgau/VW2tFqlF2kWfYJJ0bMEDVMjY+advUozimmgMOBEnRDh
- XcCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681293769; x=1683885769;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LGhz/nLhs64LvkJVZpBjPfH+lZxEKoOq/JSeXzG1XI8=;
- b=NTluEMd+610dXrOx5Mw4o/T+BPFe9oulM1PKZj5J2tqntXTmD3s+eK+AFxZeUnBGqm
- DTUtZYyY/EkzkfNteHdVb6o+/lzFBiB2yaJj6VrZk2PxitXLKztVGnhWGxUEdzDLkfeH
- 13zB4RZL+QTRwSBm3R8f5INMM50/6h4qjq1fcxh1wZTwbuNDhDm7V6dnNo6T+Zag2EyF
- K6VtTL7n5spo/SGUgXDEISIhpvkZqIPYGCqfrv1OQpMPcRDxh1wcBW674DdMJFLVdYyf
- Ghn+2HuK54pB6cU8xbhhCpLAxRjyB/TVok1cjGumVLFz9CIyRLAJHSetLfzMRnGmWs88
- GRFQ==
-X-Gm-Message-State: AAQBX9dJ7SfD889qh6ttbmg+ogy94FsHtHE7r9ibUDPSCYm3mVg4DeW1
- a5jv8EcwsY6xu6WFgPcg89gaIg==
-X-Google-Smtp-Source: AKy350b78+rKyNQGn90T0rMgYpxkT5tyOX2D+usrDIaibA16SQRjZR8C3lTATtb1PJmuTW30e5v3qA==
-X-Received: by 2002:a1c:4b16:0:b0:3ee:ed5:6115 with SMTP id
- y22-20020a1c4b16000000b003ee0ed56115mr1558670wma.19.1681293769434; 
- Wed, 12 Apr 2023 03:02:49 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.216.226])
- by smtp.gmail.com with ESMTPSA id
- e2-20020a05600c218200b003ede06f3178sm1798005wme.31.2023.04.12.03.02.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 03:02:49 -0700 (PDT)
-Message-ID: <07ab950e-7ee4-2476-9032-4638fe6eed1f@linaro.org>
-Date: Wed, 12 Apr 2023 12:02:47 +0200
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pmXLI-0004WF-Mi; Wed, 12 Apr 2023 06:04:44 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pmXLG-0005Mi-VD; Wed, 12 Apr 2023 06:04:44 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id A5FA632009A4;
+ Wed, 12 Apr 2023 06:04:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 12 Apr 2023 06:04:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:content-type
+ :date:date:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1681293879; x=
+ 1681380279; bh=oykyATCc+ST1R3R9O7qW8i4s8oC4d/stb6/We/AWL/M=; b=R
+ O4wFKcvuP3zT2Kn/oEiz88dlQOEmE7tnxY9SHwsBUCvaBarssrLKF21thZG7zyEJ
+ rZdhOLCeSaiL0m0A9pN4h6jfy06tLjoED+Z+ZRGwC9XNffxWYFlu6q45cIrYA44z
+ n7ScWxMHn0Q81sovYF4fQfeJOfBzlfEpC3meCDBlQ09LTZQA8mFSooz2sS0dB8oc
+ o5Ox7dVJ5ZxVzrV476HZbdnrCC7PQPDaLfi31SqHcZYre2dZCgg2097krO1MBRks
+ oqIt+RjcdcjIO3tnyfLaymWZIudNitCKDdgSjo0igffezYxPkpkbu74++NQ4FYt4
+ yqg73AnoH/pzSxKEdcclA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm3; t=1681293879; x=1681380279; bh=o
+ ykyATCc+ST1R3R9O7qW8i4s8oC4d/stb6/We/AWL/M=; b=LcwgFNNgrFQkh+FUi
+ sE+pv5BGh6d8+HRbs6Fx3kfLaVaajII1kAvtXgVpIrN3x9R2FLkOC3YvjqtPrlok
+ qdD3r+6Qcy2l9modRmRjbrR1CK1kM5PhTMK+wROpnIs2cdaxmpxHog888Z324Z0k
+ fstTymbRLQd5+J+W2ksaeK7GZwMSyn1P7QEKPtrjO5Tfh1XC1Myfq95eRWgM2Uqe
+ TU4bK9NnPxtuCt64GEIRMT7ew5eR2SLrTfJsKz66YDzUQpSu/ca5sVsjvV1SmAG9
+ L8mOvn9RWjgj8MKjuNu5RiXxDYzrxo/EhW5T/3JBgUPVmsyuVRyZmmbWhFTmGK8o
+ By1Uw==
+X-ME-Sender: <xms:N4I2ZJYTOoRfnC2zBp_bYRoF0hlI9g7IKWS3PV9KXrR6iNScHRuVWA>
+ <xme:N4I2ZAY3keRkRn_T07TRQ6vVAt3iffou4ClrYGobEQy9SWmJSqUy5Mx1NqwgrenGO
+ HOKr1PV8GC9scb_-XY>
+X-ME-Received: <xmr:N4I2ZL8pLK5CBp3gxCTqwshnYRlcDFiBXplfTY5aCyQNpILQOIw1uZaw-voE6kgk0RyAg_qIGF2nchxgop1qv-6Sh3fAKYG5Z-Cy3T0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedgvdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeetfeeihefhieejhffhuefghedvfeekhfeuudetuefgjefgheekffdtieejteff
+ feenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdr
+ ughk
+X-ME-Proxy: <xmx:N4I2ZHrMRjm7nAQyR0hPy8tS_pDL_O6VdaLE6IWNbf9JgHFanmML5w>
+ <xmx:N4I2ZEpwlocjSs_DEFOcMF3kWtIIjv549k91VsZThaDsqCGFTPW7NQ>
+ <xmx:N4I2ZNTnDhVAcaT2wmWhoyvTtFcLx0tCbsO4K-y_ISA7kKIkE8sWCw>
+ <xmx:N4I2ZNmcKfo2qporLdUQXNkwB8-Yy8saHQxb7oCHaAz2n3_gPNGS-w>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Apr 2023 06:04:37 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PULL for-8.0 0/2] last minute hw/nvme coverity fixes
+Date: Wed, 12 Apr 2023 12:04:34 +0200
+Message-Id: <20230412100436.94038-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH v2 2/2] cxl-cdat:Fix the check on the return value of
- fread()
-Content-Language: en-US
-To: Hao Zeng <zenghao@kylinos.cn>, jonathan.cameron@huawei.com,
- fan.ni@samsung.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
-References: <20230412071633.2660412-1-zenghao@kylinos.cn>
- <20230412071633.2660412-3-zenghao@kylinos.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230412071633.2660412-3-zenghao@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=901; i=k.jensen@samsung.com;
+ h=from:subject; bh=hDdkExBb8NvE+HTXpQRUvw+sNNOXhLqfYKEN/OIQP28=;
+ b=owJ4nJvAy8zAxej7cL1hrj/vS8bTakkMKWZNxgt/LFuQZiTDeS/tN/81W5s1b/n3dpus3brQN
+ 2+O22XxrCmdjMYsDIxcDLJiiixBGsarSh/debbIPe0AzCBWJpApDFycAjCRY5/Y/0cIGET0GhTu
+ Kroz+fimBrN7O05YCzz1fPfeuv9aWEFtuKliUdqM1deblGuc7/FwTnDf+UGA1Wnzv9kKrhO8emy
+ j9s5eLO67gf92rqHYzPPXqxVyAiL15692bNXj2XXFP6v1GYtJY8LWsxNCKnjjDVmjvb8ISO/OUT
+ TeWGozfXH2E84s/3WZ3PF/btvsOHiLKVPcUOHBajPx5WmPzgWrNYXMNLGsfJFV4z1Fv8nAo4tNS
+ aae5auKncYPHpEfe+UXx3HX33LR0ZR/ayK7afkptkciRe+v+T69riyrvCg6S85ohf9b5dJjR47I
+ 8KduNlobcNf8Q+oPc/lfHR7TY3vz7i55qHT5n9Z80XvdJecA7CKeog==
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
+ fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,35 +112,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/4/23 09:16, Hao Zeng wrote:
-> The bug in this code (CID 1507822) is that the
-> check on the return value of fread() is wrong. fread()
-> returns the number of items read or written, so
-> checking for == 0 only catches "no data read at all",
-> not "only read half the data".
-> 
-> Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/cxl/cxl-cdat.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-> index ba7ed1aafd..130531a9cd 100644
-> --- a/hw/cxl/cxl-cdat.c
-> +++ b/hw/cxl/cxl-cdat.c
-> @@ -126,7 +126,7 @@ static void ct3_load_cdat(CDATObject *cdat, Error **errp)
->       fseek(fp, 0, SEEK_SET);
->       cdat->buf = g_malloc0(file_size);
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Pointless bzero in g_malloc0, however this code would be
-simplified using g_file_get_contents().
+Hi Peter,
 
->   
-> -    if (fread(cdat->buf, file_size, 1, fp) == 0) {
-> +    if (fread(cdat->buf, file_size, 1, fp) != file_size) {
->           error_setg(errp, "CDAT: File read failed");
->           fclose(fp);
->           return;
+The following changes since commit 6c50845a9183610cfd4cfffd48dfc704cd340882:
+
+  hw/i2c/allwinner-i2c: Fix subclassing of TYPE_AW_I2C_SUN6I (2023-04-11 14:13:29 +0100)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/qemu-nvme.git tags/coverity-fixes-pull-request
+
+for you to fetch changes up to 4b32319cdacd99be983e1a74128289ef52c5964e:
+
+  hw/nvme: fix memory leak in nvme_dsm (2023-04-12 12:03:09 +0200)
+
+----------------------------------------------------------------
+hw/nvme coverity fixes
+
+Fix two issues reported by coverity (CID 1451080 and 1451082).
+
+----------------------------------------------------------------
+
+Klaus Jensen (2):
+  hw/nvme: fix memory leak in fdp ruhid parsing
+  hw/nvme: fix memory leak in nvme_dsm
+
+ hw/nvme/ctrl.c | 3 +++
+ hw/nvme/ns.c   | 3 ++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+-- 
+2.39.2
 
 
