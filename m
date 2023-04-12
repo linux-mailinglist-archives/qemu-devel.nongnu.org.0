@@ -2,93 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C01F6DF898
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 16:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FA26DF8D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 16:41:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmbXh-00061q-SY; Wed, 12 Apr 2023 10:33:49 -0400
+	id 1pmbdu-0007TN-Mv; Wed, 12 Apr 2023 10:40:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmbXg-00061O-7A
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:33:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pmbdr-0007SB-LD
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:40:11 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmbXd-0001jd-Bv
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:33:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681310023;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d8zLqI3YpX23Ziz3TEIA7gY9mmIaVQus9hh3taG/zvI=;
- b=GMk0YPFuvx7jVyBQYBTrPETrnQAKbSMr9YqfbD8dHLkOfBer7lIMTkDUuWGE4gWIBnPeE+
- WDIiknQx/Re859BnSDGkz7r6/bipkEFBWrU7dGQeFQQIuyUji/GRYfXoTwTNYISZBhjyym
- ltSnnbhYVbuzSFztTdqAxNDvKVUDOIM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-LcOITYLZMLeVHEAmWDbbfA-1; Wed, 12 Apr 2023 10:33:42 -0400
-X-MC-Unique: LcOITYLZMLeVHEAmWDbbfA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hh16-20020a170906a95000b00948f41a40d3so6140930ejb.8
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 07:33:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681310021; x=1683902021;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d8zLqI3YpX23Ziz3TEIA7gY9mmIaVQus9hh3taG/zvI=;
- b=x5yGeG0NmTfHqByY0lJrjd1E6bELy9EMXWtDi5vOGD1sDjuJZ7am5+beZw5GB3Ljzj
- QPbS0pP7vqAjSPlAGZJMJ3W7PNbioQO8MInlL2w/DvjjvtG9hZRMrugpGi7LiGCfHE7v
- t/suLOGQ+1BuaO4RXmUYRjjmPThiKXaikFFUZIEVyhhHm+19wkvxg7a1mPcg8ai9Sh4y
- 2nZod85ukx6Rt6lz5xueNDvM/L6jpF813pJbgb6DaMf2WuktCGM53RdJe8ooMUj/472B
- 1qy97QgKLOTW05SqGDzw2VSOR2RKddBlYeB5JdI06u/ehun0QrakY1zcirkNoVJ3Tbm9
- 1Ikw==
-X-Gm-Message-State: AAQBX9d2z7HklkkwyWWeO7e6c/GuEeYowjG3h3L15WY0w5NfxhR6zfkE
- +S9CiWtCPk+uofrSvfIRU9kR0MFAQArMsHELynXZCzBHlDhzUDPLRaGqsTs0RQhy7XguCRS2/fc
- rMlmIOk+qARl4HqP5oRDFeK0=
-X-Received: by 2002:a17:906:11d9:b0:94e:43bb:9f5f with SMTP id
- o25-20020a17090611d900b0094e43bb9f5fmr3816443eja.39.1681310020852; 
- Wed, 12 Apr 2023 07:33:40 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YfFyQAjTYvdek5uF0B+zo5CTprwvx5RyJHkvXrStW3vJvT8WU9Z47MPKE3fe8FSOqKvBOrJQ==
-X-Received: by 2002:a17:906:11d9:b0:94e:43bb:9f5f with SMTP id
- o25-20020a17090611d900b0094e43bb9f5fmr3816428eja.39.1681310020570; 
- Wed, 12 Apr 2023 07:33:40 -0700 (PDT)
-Received: from ?IPV6:2003:cf:d735:c67f:6ed9:8c90:7a1d:e97e?
- (p200300cfd735c67f6ed98c907a1de97e.dip0.t-ipconnect.de.
- [2003:cf:d735:c67f:6ed9:8c90:7a1d:e97e])
- by smtp.gmail.com with ESMTPSA id
- ta22-20020a1709078c1600b0094e7bb22860sm280923ejc.50.2023.04.12.07.33.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 07:33:39 -0700 (PDT)
-Message-ID: <adf32d68-a2ed-6b43-629a-b6374e113459@redhat.com>
-Date: Wed, 12 Apr 2023 16:33:38 +0200
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pmbdn-0002m3-2Z
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 10:40:10 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PxQM8728Sz67M3D;
+ Wed, 12 Apr 2023 22:39:00 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 12 Apr
+ 2023 15:39:58 +0100
+Date: Wed, 12 Apr 2023 15:39:57 +0100
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>,
+ "Huai-Cheng Kuo" <hchkuo@avery-design.com.tw>, Chris Browy
+ <cbrowy@avery-design.com>, Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [PULL v4 23/83] hw/cxl/cdat: CXL CDAT Data Object Exchange
+ implementation
+Message-ID: <20230412153957.000056fc@Huawei.com>
+In-Reply-To: <CAFEAcA-g0w4K6KfEP0MmHGRhL_8LmfxPBYiLSMG4KMakKHe=UA@mail.gmail.com>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-24-mst@redhat.com>
+ <CAFEAcA-g0w4K6KfEP0MmHGRhL_8LmfxPBYiLSMG4KMakKHe=UA@mail.gmail.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 3/3] block-backend: delay application of request queuing
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Fiona Ebner <f.ebner@proxmox.com>
-References: <20230405161752.194727-1-pbonzini@redhat.com>
- <20230405163109.197876-1-pbonzini@redhat.com>
- <29c84ebf-62e6-e90a-b75e-137cb76195de@redhat.com>
- <CABgObfa22ZKG-MfrfpQqGpX07q4kUVmi9dk_=4jqHi69c4LQzQ@mail.gmail.com>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <CABgObfa22ZKG-MfrfpQqGpX07q4kUVmi9dk_=4jqHi69c4LQzQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.083, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,81 +66,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12.04.23 14:03, Paolo Bonzini wrote:
-> On Wed, Apr 12, 2023 at 1:54 PM Hanna Czenczek <hreitz@redhat.com> wrote:
->> On 05.04.23 18:31, Paolo Bonzini wrote:
->>> +    if (busy || blk->in_flight) {
->>> +        return true;
->>> +    }
->>> +
->>> +    if (qatomic_read(&blk->request_queuing) == BLK_QUEUE_READY) {
->>> +        qatomic_set(&blk->request_queuing, BLK_QUEUE_QUIESCENT);
->>> +    }
->>> +    return false;
->>>    }
->> This implicitly relies on nobody increasing blk->in_flight (or
->> dev_ops->drained_poll() returning `true` again) while the BB is starting
->> to be drained, because if the function were to be called again after it
->> has returned `false` once per drained section (not sure if that’s
->> possible![1]), then we’d end up in the original situation, with
->> in_flight elevated and queuing enabled.
-> Yes, it does.
->
->> Is that really strictly guaranteed somehow or is it rather a complex
->> conglomerate of many cases that in the end happen to work out
->> individually?  I mean, I could imagine that running
->> BlockDevOps.drained_begin() is supposed to guarantee that, but it can’t,
->> because only NBD seems to implement it.  The commit message talks about
->> IDE being fine (by accident?) because it needs BQL availability to
->> submit new requests.  But that’s very complex and I’d rather have a
->> strict requirement to guarantee correctness.
-> It's a conglomerate of three cases each of which is sufficient (BQL,
-> aio_disable_external, bdrv_drained_begin---plus just not using
-> blk_inc_in_flight could be a fourth, of course). Of these,
-> aio_disable_external() is going away in favor of the
-> .bdrv_drained_begin callback; and blk_inc_in_flight() is used rarely
-> in the first place so I thought it'd be not too hard to have this
-> requirement.
+On Tue, 11 Apr 2023 16:52:58 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Does IDE’s BQL requirement work for nested drains, though, i.e. when you 
-have a drained_begin, followed by another?  The commit message doesn’t 
-say whether it’s impossible for IDE to create a new request in between 
-the two.
+> On Mon, 7 Nov 2022 at 22:49, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > From: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
+> >
+> > The Data Object Exchange implementation of CXL Coherent Device Attribute
+> > Table (CDAT). This implementation is referring to "Coherent Device
+> > Attribute Table Specification, Rev. 1.03, July. 2022" and "Compute
+> > Express Link Specification, Rev. 3.0, July. 2022"
+> >
+> > This patch adds core support that will be shared by both
+> > end-points and switch port emulation.  
+> 
+> > +static void ct3_load_cdat(CDATObject *cdat, Error **errp)
+> > +{
+> > +    g_autofree CDATEntry *cdat_st = NULL;
+> > +    uint8_t sum = 0;
+> > +    int num_ent;
+> > +    int i = 0, ent = 1, file_size = 0;
+> > +    CDATSubHeader *hdr;
+> > +    FILE *fp = NULL;
+> > +
+> > +    /* Read CDAT file and create its cache */
+> > +    fp = fopen(cdat->filename, "r");
+> > +    if (!fp) {
+> > +        error_setg(errp, "CDAT: Unable to open file");
+> > +        return;
+> > +    }
+> > +
+> > +    fseek(fp, 0, SEEK_END);
+> > +    file_size = ftell(fp);  
+> 
+> Coverity points out that ftell() can fail and return -1...
+> 
+> > +    fseek(fp, 0, SEEK_SET);
+> > +    cdat->buf = g_malloc0(file_size);  
+> 
+> ...which would cause an attempt to allocate a very large
+> amount of memory, since you aren't checking for errors.
+> CID 1508185.
+> 
+> Below, some other issues I saw in a quick scan through the code.
+> 
+> > +
+> > +    if (fread(cdat->buf, file_size, 1, fp) == 0) {
+> > +        error_setg(errp, "CDAT: File read failed");
+> > +        return;
+> > +    }  
+> 
+> (The issues in this bit of code I've mentioned in a
+> different thread.)
 
-I’m a bit afraid that these cases are too complicated for me to fully 
-comprehend.
+I'll carry a patch locally using g_file_get_contents()
+that gets rid of this mess. My assumption being that similar
+will emerge from other thread and I can drop my patch.
 
->> [1] If the blk_root_drained_poll() isn’t called anymore after returning
->> `false`, all will be good, but I assume it will be, because we have a
->> quiesce_counter, not a quiesce_bool.  We could kind of emulate this by
->> continuing to return `false` after blk_root_drained_poll() has returned
->> `false` once, until the quiesce_counter becomes 0.
->> We could also have blk_root_drained_poll(), if it sees in_flight > 0 &&
->> request_queuing == BLK_QUEUE_QUIESCENT, revert request_queuing to
->> BLK_QUEUE_READY and resume all queued requests.
-> The intended long term fix is to remove request queuing and, if a
-> request is submitted while BLK_QUEUE_QUIESCENT, give an assertion
-> failure.
+> 
+> > +
+> > +    fclose(fp);
+> > +
+> > +    if (file_size < sizeof(CDATTableHeader)) {
+> > +        error_setg(errp, "CDAT: File too short");
+> > +        return;
+> > +    }  
+> 
+> > +    i = sizeof(CDATTableHeader);
+> > +    num_ent = 1;
+> > +    while (i < file_size) {
+> > +        hdr = (CDATSubHeader *)(cdat->buf + i);  
+> 
+> If the file is not a complete number of records in
+> size, then this can index off the end of the buffer.
+> You should check for that.
 
-Yep, that would be a nice obvious requirement.
+> 
+> > +        cdat_len_check(hdr, errp);
+> > +        i += hdr->length;
+> > +        num_ent++;
+> > +    }
+> > +    if (i != file_size) {
+> > +        error_setg(errp, "CDAT: File length missmatch");  
+> 
+> Typo: "mismatch"
+> 
 
-> But since the hang requires blk_inc_in_flight() in the device, perhaps
-> in the short term documenting it in blk_inc_in_flight() may be enough?
+That's fixed in the tree.
 
-Technically it needs a blk_inc_in_flight() whose blk_dec_in_flight() 
-depends on a different request that can be queued (which is only the 
-case in IDE), so I suppose we could document exactly that in those 
-functions’ interfaces, i.e. that users must take care not to use 
-blk_inc_flight() while the BlockBackend is (being) drained, when the 
-associated blk_dec_in_flight() may depend on an I/O request to the BB.
+> > +        return;
+> > +    }
+> > +
+> > +    cdat_st = g_malloc0(sizeof(*cdat_st) * num_ent);  
+> 
+> To allocate an array of N lots of a structure, use
+> g_new0(), which will take care to avoid possible
+> overflow in the multiply.
+> 
+> > +    if (!cdat_st) {
+> > +        error_setg(errp, "CDAT: Failed to allocate entry array");  
+> 
+> g_malloc0() and g_new0() can never fail, so you don't need
+> to check for a NULL pointer return.
 
-I think that should be enough, yes.  Well, as long as you can guarantee 
-that IDE will indeed fulfill that requirement, because I find it 
-difficult to see/prove...
+dropped.  I'll remember this one day ;)
 
-Hanna
+> 
+> > +        return;
+> > +    }
+> > +
+> > +    /* Set CDAT header, Entry = 0 */
+> > +    cdat_st[0].base = cdat->buf;
+> > +    cdat_st[0].length = sizeof(CDATTableHeader);
+> > +    i = 0;
+> > +
+> > +    while (i < cdat_st[0].length) {
+> > +        sum += cdat->buf[i++];
+> > +    }
+> > +
+> > +    /* Read CDAT structures */
+> > +    while (i < file_size) {
+> > +        hdr = (CDATSubHeader *)(cdat->buf + i);
+> > +        cdat_len_check(hdr, errp);  
+> 
+> We already did this check the first time through the data...
+dropped
+> 
+> > +
+> > +        cdat_st[ent].base = hdr;
+> > +        cdat_st[ent].length = hdr->length;
+> > +
+> > +        while (cdat->buf + i <
+> > +               (uint8_t *)cdat_st[ent].base + cdat_st[ent].length) {
+> > +            assert(i < file_size);
+> > +            sum += cdat->buf[i++];
+> > +        }
+> > +
+> > +        ent++;
+> > +    }
+> > +
+> > +    if (sum != 0) {
+> > +        warn_report("CDAT: Found checksum mismatch in %s", cdat->filename);
+> > +    }
+> > +    cdat->entry_len = num_ent;
+> > +    cdat->entry = g_steal_pointer(&cdat_st);
+> > +}
+> > +
+> > +void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp)
+> > +{
+> > +    CDATObject *cdat = &cxl_cstate->cdat;
+> > +
+> > +    if (cdat->filename) {
+> > +        ct3_load_cdat(cdat, errp);
+> > +    } else {
+> > +        ct3_build_cdat(cdat, errp);
+> > +    }
+> > +}  
+> 
+> None of the callsites to this function check for it
+> failing. In particular they do not assume "if I call
+> this and it fails then I need to call cxl_doe_cdata_release()
+> to have it clean up". It would probably be less confusing
+> if the init function cleans up after itself, i.e. does not
+> leave allocated memory pointed to by cdat->buf and so on.
+Agreed.  Will make it cleanup and add the error checks at the two
+callers.
+
+Thanks,
+
+Jonathan
+
+> 
+> thanks
+> -- PMM
 
 
