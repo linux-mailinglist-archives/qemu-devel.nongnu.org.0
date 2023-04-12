@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78FC6DE98D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 04:37:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BCD6DE9AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 04:53:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmQL3-0000I4-Mc; Tue, 11 Apr 2023 22:36:01 -0400
+	id 1pmQan-0005ho-7p; Tue, 11 Apr 2023 22:52:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pmQL1-0000GQ-CT; Tue, 11 Apr 2023 22:35:59 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pmQKx-0008NI-7m; Tue, 11 Apr 2023 22:35:59 -0400
-Received: from localhost.localdomain (unknown [180.165.241.15])
- by APP-05 (Coremail) with SMTP id zQCowAC3vDABGTZkp2E_EQ--.55592S7;
- Wed, 12 Apr 2023 10:35:49 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [RFC 5/5] target/riscv: Expose properties for BF16 extensions
-Date: Wed, 12 Apr 2023 10:33:20 +0800
-Message-Id: <20230412023320.50706-6-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230412023320.50706-1-liweiwei@iscas.ac.cn>
-References: <20230412023320.50706-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pmQal-0005hK-Mr; Tue, 11 Apr 2023 22:52:15 -0400
+Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pmQaj-00037k-OR; Tue, 11 Apr 2023 22:52:15 -0400
+Received: by mail-vs1-xe33.google.com with SMTP id y17so9140131vsd.9;
+ Tue, 11 Apr 2023 19:52:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681267932; x=1683859932;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m5KFqEsZQgqOGMIvpyY/ThMzzoT8epFpXv5Am5iSVMM=;
+ b=Qad4SPkItBf5RcFuNvAmE6F5fPD4VH7BBuDJa71x724m+Z4YZdLV677CiEHD6U9Vn9
+ 4lRP6yC+KYqdvvLbO76svxRfi8vt2r4TY94fQZjnnbJM6Zs3hCGntIqJtneeLwxsgCgo
+ O0qLf1TGIC99Uhnj82LcCPnIFT5fdSo6bUeSyy3pjC2w4gm0jVD8j7avFKVr8v6JVnmd
+ BJPGNgGfe4xQ6p49/ECZ4KiJXMYD/xysk0YJNrKg0LHPshWO8XIDxsTHHmdyE9iJq3hQ
+ BohL8Li0kyhThkBMfRK3+BZceXRwRFKuSKEc1YbHgvmdRGBxL+sIol34LwIWvA6jt9pk
+ UCzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681267932; x=1683859932;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=m5KFqEsZQgqOGMIvpyY/ThMzzoT8epFpXv5Am5iSVMM=;
+ b=1rKoQ/LdcdoSTiVp/n7M4U4oyOmraP2wq/mS0AFsQvjcVLjxrAF+qNp6aeHtc3onKf
+ jwm40JuGs1B4RJgygoLfFEEL6OLV6a9P3qYyp12xoQgL2aRgUG8e19vAH3PENkf5INyQ
+ BZfAOiColL6NGDEK4v613FY6ducwDt0M3Kaofh3LpYru3jVd5/4tGoUXtLeoGcDE9+bs
+ arNIcOsole2IS3JZ1gs3u0k+sDA/2t77GBfw0ncTffqv7krRCWDlOYxiZBi7fR0y2Vto
+ T1rsIwDAq6lEbqXbWqwArYZA93pV+Qx9POIHMRuGCbpm7H/g6Y69NjRACabUlfH3Cv08
+ 3qLA==
+X-Gm-Message-State: AAQBX9djkKsNXcLj6X3nMOTfsVMTM00IlLJvH5HwBtwlE5DllsE3TFoL
+ lDeUmS+P/afYwYdDVTMpIB7TXEgYaxxao7EE+Lg=
+X-Google-Smtp-Source: AKy350Y7vBB8zU8DHR1UjZ1kLMX2BaKsm+GE5d/8YU85AdHaz2VRGSSs2EIvqdp6DkJy61nY/5IdXErz2ohunkO7BpY=
+X-Received: by 2002:a67:d38e:0:b0:412:2ed6:d79b with SMTP id
+ b14-20020a67d38e000000b004122ed6d79bmr8597718vsj.3.1681267932296; Tue, 11 Apr
+ 2023 19:52:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAC3vDABGTZkp2E_EQ--.55592S7
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1kXFWkZF4kAr45Awb_yoW8uFyUpr
- 4jga4UGr15Jr13Ww13tr4DGa1rAw45Z3s7K3yfCas7XrZ3GrZrJFnrC39rWayUtF4ruw4I
- qr1Y9w1xAr4vqa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
- 1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j
- 6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x
- IIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_
- Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8c
- xan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
- rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
- CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x02
- 67AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
- 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQ
- SdkUUUUU=
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230410033526.31708-1-liweiwei@iscas.ac.cn>
+ <20230410033526.31708-2-liweiwei@iscas.ac.cn>
+In-Reply-To: <20230410033526.31708-2-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 12 Apr 2023 12:51:46 +1000
+Message-ID: <CAKmqyKOYdZp_XrX0EBbKy49wORY-vvvfe1-qA216erCOg1gL1g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/riscv: Add set_implicit_extensions_from_ext()
+ function
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@dabbelt.com, 
+ alistair.francis@wdc.com, bin.meng@windriver.com, dbarboza@ventanamicro.com, 
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe33.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,45 +88,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/cpu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Mon, Apr 10, 2023 at 1:36=E2=80=AFPM Weiwei Li <liweiwei@iscas.ac.cn> wr=
+ote:
+>
+> Move multi-letter extensions that may implicitly enabled from misa.EXT
+> alone to prepare for following separation of implicitly enabled and
+> explicitly enabled extensions.
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index c19bbb41fb..0265fae46f 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -83,6 +83,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-     ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
-     ISA_EXT_DATA_ENTRY(zawrs, true, PRIV_VERSION_1_12_0, ext_zawrs),
-+    ISA_EXT_DATA_ENTRY(zfbfmin, true, PRIV_VERSION_1_12_0, ext_zfbfmin),
-     ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_11_0, ext_zfh),
-     ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
-     ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-@@ -107,6 +108,8 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
-     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-     ISA_EXT_DATA_ENTRY(zve64d, true, PRIV_VERSION_1_12_0, ext_zve64d),
-+    ISA_EXT_DATA_ENTRY(zvfbfmin, true, PRIV_VERSION_1_12_0, ext_zvfbfmin),
-+    ISA_EXT_DATA_ENTRY(zvfbfwma, true, PRIV_VERSION_1_12_0, ext_zvfbfwma),
-     ISA_EXT_DATA_ENTRY(zvfh, true, PRIV_VERSION_1_12_0, ext_zvfh),
-     ISA_EXT_DATA_ENTRY(zvfhmin, true, PRIV_VERSION_1_12_0, ext_zvfhmin),
-     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-@@ -1469,6 +1472,10 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("x-zvfh", RISCVCPU, cfg.ext_zvfh, false),
-     DEFINE_PROP_BOOL("x-zvfhmin", RISCVCPU, cfg.ext_zvfhmin, false),
- 
-+    DEFINE_PROP_BOOL("x-zfbfmin", RISCVCPU, cfg.ext_zfbfmin, false),
-+    DEFINE_PROP_BOOL("x-zvfbfmin", RISCVCPU, cfg.ext_zvfbfmin, false),
-+    DEFINE_PROP_BOOL("x-zvfbfwma", RISCVCPU, cfg.ext_zvfbfwma, false),
-+
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--- 
-2.25.1
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
+
+> ---
+>  target/riscv/cpu.c | 56 +++++++++++++++++++++++++---------------------
+>  1 file changed, 31 insertions(+), 25 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index cb68916fce..abb65d41b1 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -809,6 +809,35 @@ static void riscv_cpu_disas_set_info(CPUState *s, di=
+sassemble_info *info)
+>      }
+>  }
+>
+> +static void set_implicit_extensions_from_ext(RISCVCPU *cpu)
+> +{
+> +
+> +    /* The V vector extension depends on the Zve64d extension */
+> +    if (cpu->cfg.ext_v) {
+> +        cpu->cfg.ext_zve64d =3D true;
+> +    }
+> +
+> +    /* The Zve64d extension depends on the Zve64f extension */
+> +    if (cpu->cfg.ext_zve64d) {
+> +        cpu->cfg.ext_zve64f =3D true;
+> +    }
+> +
+> +    /* The Zve64f extension depends on the Zve32f extension */
+> +    if (cpu->cfg.ext_zve64f) {
+> +        cpu->cfg.ext_zve32f =3D true;
+> +    }
+> +
+> +    if (cpu->cfg.ext_c) {
+> +        cpu->cfg.ext_zca =3D true;
+> +        if (cpu->cfg.ext_f && cpu->env.misa_mxl_max =3D=3D MXL_RV32) {
+> +            cpu->cfg.ext_zcf =3D true;
+> +        }
+> +        if (cpu->cfg.ext_d) {
+> +            cpu->cfg.ext_zcd =3D true;
+> +        }
+> +    }
+> +}
+> +
+>  /*
+>   * Check consistency between chosen extensions while setting
+>   * cpu->cfg accordingly, doing a set_misa() in the end.
+> @@ -833,6 +862,8 @@ static void riscv_cpu_validate_set_extensions(RISCVCP=
+U *cpu, Error **errp)
+>          cpu->cfg.ext_ifencei =3D true;
+>      }
+>
+> +    set_implicit_extensions_from_ext(cpu);
+> +
+>      if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
+>          error_setg(errp,
+>                     "I and E extensions are incompatible");
+> @@ -886,21 +917,6 @@ static void riscv_cpu_validate_set_extensions(RISCVC=
+PU *cpu, Error **errp)
+>          return;
+>      }
+>
+> -    /* The V vector extension depends on the Zve64d extension */
+> -    if (cpu->cfg.ext_v) {
+> -        cpu->cfg.ext_zve64d =3D true;
+> -    }
+> -
+> -    /* The Zve64d extension depends on the Zve64f extension */
+> -    if (cpu->cfg.ext_zve64d) {
+> -        cpu->cfg.ext_zve64f =3D true;
+> -    }
+> -
+> -    /* The Zve64f extension depends on the Zve32f extension */
+> -    if (cpu->cfg.ext_zve64f) {
+> -        cpu->cfg.ext_zve32f =3D true;
+> -    }
+> -
+>      if (cpu->cfg.ext_zve64d && !cpu->cfg.ext_d) {
+>          error_setg(errp, "Zve64d/V extensions require D extension");
+>          return;
+> @@ -956,16 +972,6 @@ static void riscv_cpu_validate_set_extensions(RISCVC=
+PU *cpu, Error **errp)
+>          }
+>      }
+>
+> -    if (cpu->cfg.ext_c) {
+> -        cpu->cfg.ext_zca =3D true;
+> -        if (cpu->cfg.ext_f && env->misa_mxl_max =3D=3D MXL_RV32) {
+> -            cpu->cfg.ext_zcf =3D true;
+> -        }
+> -        if (cpu->cfg.ext_d) {
+> -            cpu->cfg.ext_zcd =3D true;
+> -        }
+> -    }
+> -
+>      if (env->misa_mxl_max !=3D MXL_RV32 && cpu->cfg.ext_zcf) {
+>          error_setg(errp, "Zcf extension is only relevant to RV32");
+>          return;
+> --
+> 2.25.1
+>
+>
 
