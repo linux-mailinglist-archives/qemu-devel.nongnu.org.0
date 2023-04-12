@@ -2,94 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF826DFB8E
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 18:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B4A6DFC0A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 18:59:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmdXb-00082g-Ih; Wed, 12 Apr 2023 12:41:51 -0400
+	id 1pmdn2-0004JL-I4; Wed, 12 Apr 2023 12:57:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1pmdXZ-00081x-I3
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 12:41:49 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.218])
+ (Exim 4.90_1) (envelope-from
+ <BATV+9719990f4703cc1bc73b+7171+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pmdmz-0004J4-BQ
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 12:57:45 -0400
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1pmdXX-0000o8-8J
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 12:41:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1681317691; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=I+t8eRb3J0Wz8iGH4VGrdFKhPdpazQLrOTBWZFLTP9ITkldAA8ZeWRj/n5S8nDoHdB
- fEGMtLHmI1HIWRnTLSO3jbTxwKQV4GFFE8kCPMsas88S6wvrZmXcyTEnHzO8KUdMFapa
- 3gyckNaEZ9ZDmg3MWmQVAtr2ia/I/4Cm0LurKl3c2UMyQXr9+VjJIGtOKpC8+yGoTOMJ
- pGbyIWL/IZbbr7Nk3IPomJlSdDXK8/70DYLk5PIKWCbu6ZrfhJo3z8ttCQPGaFxT0KAJ
- PGw3jc9yRhN7YTGAWcaBE8AubZaZtaJcknr5lDY415qUSmM3Zisix/jK8QNyZ9oyToHK
- hIZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1681317691;
- s=strato-dkim-0002; d=strato.com;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=JT5qExcTM6gL1DYlQsfWt1VJB7UprVZ7ijMUDkPIPck=;
- b=TBeIhViaDoF8JpJvPhRVHA/i9syhjLchfxygzcgLGG4tfPKbHX/42z5HaP5au9DJq6
- oAhvBGwH3VnID9mZyKNwIIpBTizFPascoqbn88LWjyMLhUEOg5ml2zt7gPPU1s7ZRoPl
- Ft0MUjw0EbGagF7UEWrBJhfpfduM2LKFSabqDWIYj1BZbZFY36UC9yeT2XgJxkjxjAOv
- IDAjBr/b1MuYZwOPzNUCTbRqwVsHA+MV9KvxVwtdc/Rhq62AK3MvrVpfGXSk53jTWj1/
- YVf/NL3ZjU2sJ4al8YogxqcOg+1Y/6/O1C2FD37hvVuzeIwbJ8TUl84lvyo2jYeLshbl
- 30Aw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1681317691;
- s=strato-dkim-0002; d=aepfle.de;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=JT5qExcTM6gL1DYlQsfWt1VJB7UprVZ7ijMUDkPIPck=;
- b=ZPOqnlvxK9UT+hr8ZiUYcbOuKLFlIzM0NFaZ2Mlo7ERnB9LXKqCcyKYKuJv5pSqPYl
- gwxz05QLixPEjtg+Y7zNGxLanCEiapYiRAQk7+BjkxHO0MpUy5wnsySqTgJm4g9fooCN
- I1Sool4ZFnRSsHwgjGgBYQ1hJ+/W80fTzDoKzq75evWfBQLBgrLHU7pFBcYEIeFbzrqi
- /a33x+ivNDPYqEvfCx8X6/sjHFMys0+nxav1ys62yltQXui36IoQlC/2YMX4lulFTLUU
- CE0HtN2TcCNxe02pVsX6ozgtwHdijJwgRrouPNtoEM+F6wJsgWWciTAik10Pr2CqxU6X
- Ptcw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1681317691;
- s=strato-dkim-0003; d=aepfle.de;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=JT5qExcTM6gL1DYlQsfWt1VJB7UprVZ7ijMUDkPIPck=;
- b=xFs/mNsD8GSetBU2Hkh21+JYOSdfy+YkSXJDlE7NRpdO2xfleN59vUhlVazJXSeicn
- VHFekQ+YlMY0H9M+U1Dw==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDX3y/OuD5rXVisR5AEWIPBvsPI52f2TnxTwFPmhSWhc+9ByBCFU+BA=="
-Received: from sender by smtp.strato.de (RZmta 49.4.0 AUTH)
- with ESMTPSA id x6987cz3CGfUStO
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 12 Apr 2023 18:41:30 +0200 (CEST)
-Date: Wed, 12 Apr 2023 18:41:18 +0200
-From: Olaf Hering <olaf@aepfle.de>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Alex =?UTF-8?B?QmVubsOpZQ==?=  <alex.bennee@linaro.org>,
+ (Exim 4.90_1) (envelope-from
+ <BATV+9719990f4703cc1bc73b+7171+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pmdmx-0003XV-0o
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 12:57:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=QUZHHwrfVSyITeIplQKpsSVxXufpnHCuzFaCWIkLvaQ=; b=L7S+7Hx8Z0uX/vzBfAEsmXK5sG
+ /KM0eXJLqMzxAL1N8l9e0HFa+ZP2TNJUnbTXXfLXCrrq9pXp9Ry/3CXdq6BzeknUOh9pAbG+3UxQ+
+ 5hNXa/bcRSXU3BwKjpk7UgSvO2AIFJpNevAArZ7+PlI78D61l+qJhbJAvHKcG2wAxIEKCRLaeTXnU
+ HUV0UGtVkRlyK0uZDYS0PtjEP32apTfFQVNmgc84MRmDj8xqEmRfOfkWCce2b1/4vxRuQjU5mZSvj
+ cUIrTDROX78h35n/Y290Wp2E5uAi3BnULUc40dN6Q0JDyokyHYV07MUDHPYIe6eKYtH6gLdQRbkGx
+ CFEwtk1A==;
+Received: from [2001:8b0:10b:5:d4a3:d89c:c03d:e45c]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pmdmo-00734l-O2; Wed, 12 Apr 2023 16:57:34 +0000
+Message-ID: <841857d534d6f46e1cb293cb90ec5bd599f4db54.camel@infradead.org>
+Subject: Re: qemu v8.0-rc3 fails to compile with Xen
+From: David Woodhouse <dwmw2@infradead.org>
+To: Olaf Hering <olaf@aepfle.de>
+Cc: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, 
  qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>, Anthony
  Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Subject: Re: qemu v8.0-rc3 fails to compile with Xen
-Message-ID: <20230412184118.7069e990.olaf@aepfle.de>
-In-Reply-To: <80e7920a8947fe58d94003c7591af6e876edf706.camel@infradead.org>
+Date: Wed, 12 Apr 2023 17:57:33 +0100
+In-Reply-To: <20230412184118.7069e990.olaf@aepfle.de>
 References: <20230412125842.573dc418.olaf@aepfle.de>
- <873555pakr.fsf@linaro.org>
- <20230412142022.4b88df69.olaf@aepfle.de>
+ <873555pakr.fsf@linaro.org> <20230412142022.4b88df69.olaf@aepfle.de>
  <80e7920a8947fe58d94003c7591af6e876edf706.camel@infradead.org>
-X-Mailer: Claws Mail 20220819T065813.516423bc hat ein Softwareproblem,
- kann man nichts machen.
+ <20230412184118.7069e990.olaf@aepfle.de>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-J6QXBsEoaqgEWnSePqBK"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/h6Lf34jrhap.YMvKQ/rAlkh";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=81.169.146.218; envelope-from=olaf@aepfle.de;
- helo=mo4-p00-ob.smtp.rzone.de
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+9719990f4703cc1bc73b+7171+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,169 +79,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/h6Lf34jrhap.YMvKQ/rAlkh
-Content-Type: text/plain; charset=UTF-8
+
+--=-J6QXBsEoaqgEWnSePqBK
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Wed, 12 Apr 2023 15:05:06 +0100 David Woodhouse <dwmw2@infradead.org>:
+On Wed, 2023-04-12 at 18:41 +0200, Olaf Hering wrote:
+> The error with this patch applied looks like this:
 
-> On Wed, 2023-04-12 at 14:20 +0200, Olaf Hering wrote:
-> > Wed, 12 Apr 2023 12:46:23 +0100 Alex Benn=C3=A9e <alex.bennee@linaro.or=
-g>:
-> >=20
-> > > Olaf Hering <olaf@aepfle.de> writes:
-> > > > Qemu v7.2.1 can be compiled with Xen 4.6, but v8.0.0-rc3 needs now =
-at least Xen 4.7.=C2=A0=20
-> > > Was this caused by the addition of the KVM Xen target support or some=
- other churn since?
-> >=20
-> > I did not bisect this failure, just checking if bisect is worth the eff=
-ort.
->=20
-> It'll be something like this. I haven't tested this yet because I can't
-> even get Xen that old to build locally.
+Thanks. So I think I fixed that one but there are others. I'll make
+myself a build environment rather than getting you to help me play
+whack-a-mole.
 
-The error with this patch applied looks like this:
+Thanks.
 
-FAILED: libcommon.fa.p/hw_xen_xen-operations.c.o=20
-/usr/bin/gcc-7 -m64 -mcx16 -Ilibcommon.fa.p -I/usr/include/pixman-1 -I/usr/=
-include/libpng16 -I/usr/include/spice-server -I/usr/include/cacard -I/usr/i=
-nclude/nss3 -I/usr/include/nspr4 -I/usr/include/glib-2.0 -I/usr/lib64/glib-=
-2.0/include -I/usr/include/spice-1 -I/usr/include/p11-kit-1 -I/usr/include/=
-libusb-1.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/gio-=
-unix-2.0 -I/usr/include/ncursesw -fdiagnostics-color=3Dauto -Wall -Winvalid=
--pch -std=3Dgnu11 -O2 -isystem /Qc6f3cbca32/linux-headers -isystem linux-he=
-aders -iquote . -iquote /Qc6f3cbca32 -iquote /Qc6f3cbca32/include -iquote /=
-Qc6f3cbca32/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_GNU_SOURCE -D_FILE_OFFSE=
-T_BITS=3D64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fno-common -fwrapv -W=
-undef -Wwrite-strings -Wmissing-prototypes -Wstrict-prototypes -Wredundant-=
-decls -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat=
--security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnest=
-ed-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2=
- -Wmissing-format-attribute -Wno-missing-include-dirs -Wno-shift-negative-v=
-alue -Wno-psabi -fstack-protector-strong -fmessage-length=3D0 -grecord-gcc-=
-switches -O2 -Wall -D_FORTIFY_SOURCE=3D2 -fstack-protector-strong -funwind-=
-tables -fasynchronous-unwind-tables -fstack-clash-protection -fPIE -DOPENSS=
-L_LOAD_CONF -MD -MQ libcommon.fa.p/hw_xen_xen-operations.c.o -MF libcommon.=
-fa.p/hw_xen_xen-operations.c.o.d -o libcommon.fa.p/hw_xen_xen-operations.c.=
-o -c ../hw/xen/xen-operations.c
-../hw/xen/xen-operations.c:37:19: error: conflicting types for 'xenevtchn_h=
-andle'
- typedef xc_evtchn xenevtchn_handle;
-                   ^~~~~~~~~~~~~~~~
-In file included from ../hw/xen/xen-operations.c:17:0:
-/Qc6f3cbca32/include/hw/xen/xen_backend_ops.h:33:33: note: previous declara=
-tion of 'xenevtchn_handle' was here
- typedef struct xenevtchn_handle xenevtchn_handle;
-                                 ^~~~~~~~~~~~~~~~
-../hw/xen/xen-operations.c:49:19: error: conflicting types for 'xengnttab_h=
-andle'
- typedef xc_gnttab xengnttab_handle;
-                   ^~~~~~~~~~~~~~~~
-In file included from ../hw/xen/xen-operations.c:17:0:
-/Qc6f3cbca32/include/hw/xen/xen_backend_ops.h:136:33: note: previous declar=
-ation of 'xengnttab_handle' was here
- typedef struct xengntdev_handle xengnttab_handle;
-                                 ^~~~~~~~~~~~~~~~
-../hw/xen/xen-operations.c:193:13: warning: initialization from incompatibl=
-e pointer type [-Wincompatible-pointer-types]
-     .open =3D libxenevtchn_backend_open,
-             ^~~~~~~~~~~~~~~~~~~~~~~~~
-../hw/xen/xen-operations.c:193:13: note: (near initialization for 'libxenev=
-tchn_backend_ops.open')
-../hw/xen/xen-operations.c:194:14: error: 'xenevtchn_close' undeclared here=
- (not in a function); did you mean 'xc_evtchn_close'?
-     .close =3D xenevtchn_close,
-              ^~~~~~~~~~~~~~~
-              xc_evtchn_close
-../hw/xen/xen-operations.c:195:25: error: 'xenevtchn_bind_interdomain' unde=
-clared here (not in a function); did you mean 'xc_evtchn_bind_interdomain'?
-     .bind_interdomain =3D xenevtchn_bind_interdomain,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-                         xc_evtchn_bind_interdomain
-../hw/xen/xen-operations.c:196:15: error: 'xenevtchn_unbind' undeclared her=
-e (not in a function); did you mean 'xc_evtchn_unbind'?
-     .unbind =3D xenevtchn_unbind,
-               ^~~~~~~~~~~~~~~~
-               xc_evtchn_unbind
-../hw/xen/xen-operations.c:197:15: error: 'xenevtchn_fd' undeclared here (n=
-ot in a function); did you mean 'xc_evtchn_fd'?
-     .get_fd =3D xenevtchn_fd,
-               ^~~~~~~~~~~~
-               xc_evtchn_fd
-../hw/xen/xen-operations.c:198:15: error: 'xenevtchn_notify' undeclared her=
-e (not in a function); did you mean 'xc_evtchn_notify'?
-     .notify =3D xenevtchn_notify,
-               ^~~~~~~~~~~~~~~~
-               xc_evtchn_notify
-../hw/xen/xen-operations.c:199:15: error: 'xenevtchn_unmask' undeclared her=
-e (not in a function); did you mean 'xc_evtchn_unmask'?
-     .unmask =3D xenevtchn_unmask,
-               ^~~~~~~~~~~~~~~~
-               xc_evtchn_unmask
-../hw/xen/xen-operations.c:200:16: error: 'xenevtchn_pending' undeclared he=
-re (not in a function); did you mean 'xc_evtchn_pending'?
-     .pending =3D xenevtchn_pending,
-                ^~~~~~~~~~~~~~~~~
-                xc_evtchn_pending
-../hw/xen/xen-operations.c:218:13: warning: initialization from incompatibl=
-e pointer type [-Wincompatible-pointer-types]
-     .open =3D libxengnttab_backend_open,
-             ^~~~~~~~~~~~~~~~~~~~~~~~~
-../hw/xen/xen-operations.c:218:13: note: (near initialization for 'libxengn=
-ttab_backend_ops.open')
-../hw/xen/xen-operations.c:219:14: error: 'xengnttab_close' undeclared here=
- (not in a function); did you mean 'xc_gnttab_close'?
-     .close =3D xengnttab_close,
-              ^~~~~~~~~~~~~~~
-              xc_gnttab_close
-../hw/xen/xen-operations.c:220:19: warning: initialization from incompatibl=
-e pointer type [-Wincompatible-pointer-types]
-     .grant_copy =3D libxengnttab_fallback_grant_copy,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../hw/xen/xen-operations.c:220:19: note: (near initialization for 'libxengn=
-ttab_backend_ops.grant_copy')
-../hw/xen/xen-operations.c:221:23: error: 'xengnttab_set_max_grants' undecl=
-ared here (not in a function); did you mean 'xc_gnttab_set_max_grants'?
-     .set_max_grants =3D xengnttab_set_max_grants,
-                       ^~~~~~~~~~~~~~~~~~~~~~~~
-                       xc_gnttab_set_max_grants
-../hw/xen/xen-operations.c:222:17: error: 'xengnttab_map_domain_grant_refs'=
- undeclared here (not in a function); did you mean 'xc_gnttab_map_domain_gr=
-ant_refs'?
-     .map_refs =3D xengnttab_map_domain_grant_refs,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                 xc_gnttab_map_domain_grant_refs
-../hw/xen/xen-operations.c:223:14: warning: initialization from incompatibl=
-e pointer type [-Wincompatible-pointer-types]
-     .unmap =3D libxengnttab_backend_unmap,
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-../hw/xen/xen-operations.c:223:14: note: (near initialization for 'libxengn=
-ttab_backend_ops.unmap')
+--=-J6QXBsEoaqgEWnSePqBK
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwNDEyMTY1NzMzWjAvBgkqhkiG9w0BCQQxIgQgWkKUOXhQ
+awHICEm8tE3tfgmQa82yIps8Shtp/L0t73swgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBZhBPKDVSy7tCB8as4UoUfrRceAAptRdzG
+7JMLt51OvJoJnVLbmWdZnoY7CE3GjXToYRuzolAa4jxSVEPl5aw1jtpKBvURzvVy8imuKGJao/qu
+QbKRLG4uRISLcu/qGmBOinlyACwuf2dIZ8Yu6hLa4oCyG6HTmglam9EvY4MwAj+uD1zCjeL96I1C
+SLWoUPOAoUFxYKihcSumBEFkAXmxUdvtBQsBRl6G8zqaHWd0ZvgbWJ76e4/Mq+WEA0w9HNp33Z0D
+/4bda1UcMYTV3JoiO5T016JMsYuYt8o+JooDINQQpMGb1BrB0rmyov5TroErzfN4u6s4PUt4L9nB
+sidwHyNJWQiPAkHfmLPQwI4va5ImdteDi18+D293L+gLHNG8UzyQvugKQaP+ifhKqk7lo5ZA47E+
+VZEO4mHkZy9E+vlGvqwBC5Y40fuInExhETk65TYcJq7unGKpLgDiQxx/kYGRXZzdwi0ZZRH9QSN4
+FbgrkHqbv8/X8+ofeOB3P8w4PuwUYP3bYdWiEK2C6aHjzLYD9PsuUd8UKkjvZ4NWaHTPlVEZmowE
+Bal43ZHbsqVixxQo4FkNQPjYNcZp1jq26RKx2w0w4dDYRmruwPuYt3bXmMGjrqHg2QG9ZyiGApxE
+2pyUO5e8mxbNe3zO3+T6KLplV3L8BBrM0LQmH1afRgAAAAAAAA==
 
 
-Olaf
-
---Sig_/h6Lf34jrhap.YMvKQ/rAlkh
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmQ23y4ACgkQ86SN7mm1
-DoBlkxAAg8+vKeBiJqJ7efmZojAXqdM70wQFLa0q3jJTpzRqrsrwf4yA2vakdRj+
-yDmkYkTpr0KAcOD8nrXNdOoPwL3zGVwN2nKwpnvuIT7RkuYoVpykbtRlh5uHlMvW
-DtV0XxHMwrvPNpNICDBvl2XfnYI3NZEj3t6D0X3a8ApN5NGGLvi5R7OgBiPosUgy
-SUprZpBVV9F6o+RKmT/7QraP9JTF8+SsUwIWVTs5GP8/0qRgCuKoGlHlrQPgPYmw
-vc/SojVhCrO7M8S/27l6uDc/U1z5DEZHPtqxdaP23PmEWQknFKGdQG7/Hjcgu4WS
-bLHYP9R+5swbJg9uiquugrup6uX1i/wzxQnEGpL/grZIaydQmWNwOVUZN4cutCrp
-O/HWnt5Z0DTxq8L8d0ZSl+VPPWRAac32MV4idu5rVh07AK4FIBwsCENp7YY+KhcL
-NalT1LXb8GQ5Qtc7XVP3CKrONRFx7wfTWbfiaVd72Arh89sVVRrB0ryggd/fdlcK
-mUpeCGdoqCA6/K7bFouTHnvDqX9aIqT9ihAlW/vEiCVVyRMjhLcTqP8ZRiPSkoFp
-KYV14EfEUdBkel2IfXyKQdIdxHHhGq35dEo37J46+J0XLOyi2a1xI18An7bnNIF6
-1eGOvCTHRQgyqlmXCQRDRVF2D+TrG7K6uhjZhbmgCX3oF3+8dJQ=
-=wKyr
------END PGP SIGNATURE-----
-
---Sig_/h6Lf34jrhap.YMvKQ/rAlkh--
+--=-J6QXBsEoaqgEWnSePqBK--
 
