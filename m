@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696EF6DEBB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 08:20:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD416DEC02
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 08:43:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmTp4-0001xY-0Z; Wed, 12 Apr 2023 02:19:14 -0400
+	id 1pmUB2-0006U8-NW; Wed, 12 Apr 2023 02:41:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pmTp1-0001wm-Gn
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:19:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pmToz-0007F8-JF
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:19:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681280348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E9M2fK9qHvAJ/wGWvQU80ss07O4iwQZzTXM7ASOAZsk=;
- b=M7Mo2RjwRmVFZBbp99wJmPWeuvfRWqVPLQu5kFm2r0hxIMLuJ49crvrNq3zYIBn/hL4F2z
- vjM0vzFTm/HVXIFhBZHaxiWqnajAxF8P1E/CVUCOd87NIMjP5VYci+RPRxXM9FgYgYF/Fs
- ACNDlwNjXExy81N/vWycRqxTKNNWGbM=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-93-oU_06JzmPV-mcd5HQ-J6Jw-1; Wed, 12 Apr 2023 02:19:06 -0400
-X-MC-Unique: oU_06JzmPV-mcd5HQ-J6Jw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- q79-20020a374352000000b007484744a472so5349905qka.22
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 23:19:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pmUAu-0006Tk-Fn
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:41:48 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pmUAs-0003Kp-Nv
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:41:48 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l10-20020a05600c1d0a00b003f04bd3691eso16493057wms.5
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 23:41:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681281702; x=1683873702;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2A06oM01/ekGWjCtn7d9VJVTiWFedTFjXJ6yW47nm30=;
+ b=Vr/nysT1v1x6IBps1UCLviDlsc+Nkr2JbSCD6hv59EOoQcIg4+sf0BYstxbDR50he+
+ ta9kG6rUN5e1CY3DsFRjaq2AKnIylAYIP9Ig97WRpVqSOwL9ngqzonHXI5Gu2xOwkbkR
+ KnBxUqIXOz5rMP8s2WXFs8YAB3QkLq207U7RaJq2+rZvL64sQuObm4CoiQX5eMHrkxFM
+ Jsi6SqJEgHrG83eGh2st62cAb2CuYnLZH5UHa33kjRHkdzzw2du5vIV19GHAE5g9kH23
+ iURuk5yFLtDXNnO6514sZS2Rf6fD2NZQsO8OVJIQS0uvCWkQOWE3LX9nVIF8nHFjlZ66
+ bc+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681280346; x=1683872346;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E9M2fK9qHvAJ/wGWvQU80ss07O4iwQZzTXM7ASOAZsk=;
- b=QwSY8tDPXytZ25Yb3darcOO3wDH3nYUKEgCdKKIH+SjfL4mfRhA6TdCGzbDhD1hJex
- aIBSfytMVABk+mq3BGF7DtM8Ro9LKuLxNX4qs0SEvYHs6iPs2p191nzE2XyQaSCUvhg1
- 5gqN2av0kWpC93tYrKHs9fKTR5STJXkOjfWn9olYL0iU+vd3c85VG3T7FcJU66RaM6+L
- sGZzd64BARp7OQqDUBsk6w0XyG96MOPymYFDf6TPUP0Zj4q4lbSttYca1VlAa2Y7RBRW
- hQleU/4W1YVCFSOqhZjgOhDV/aeXEtU/ApBKlctWl9tuOkD/bOyCXTtNcAuKnxUxsz51
- koog==
-X-Gm-Message-State: AAQBX9fjhxQf5Nikgp/iv/I8/NX6U7jAAnBluWkmAlMJoxiwbnJtOOTY
- CkTft3Qb+z3MhW5I3g0MPMFITximTNvO9Z60I1qZCkedkC3JTRCZIZOPz1EtGx1pKI/Am+gosMF
- EBphuKk8LM+J9tTCXxV3ibyqOdAt2gh8=
-X-Received: by 2002:ad4:5913:0:b0:5ef:41e3:3cba with SMTP id
- ez19-20020ad45913000000b005ef41e33cbamr249896qvb.3.1681280346290; 
- Tue, 11 Apr 2023 23:19:06 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bMnxauVPSSSkFoRUvBtc3Yf6uk41RJ/f15Ifo0vdRai9fSts3zZi9KzejHyk1wQxQ+SP/ANDg9GgxgPrqGuHU=
-X-Received: by 2002:ad4:5913:0:b0:5ef:41e3:3cba with SMTP id
- ez19-20020ad45913000000b005ef41e33cbamr249886qvb.3.1681280345988; Tue, 11 Apr
- 2023 23:19:05 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681281702; x=1683873702;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2A06oM01/ekGWjCtn7d9VJVTiWFedTFjXJ6yW47nm30=;
+ b=tWNLT9RMbykZjDwd/558L6GO4NBrPAEIEB1ls/dE0B5MHw7Ua4U4+Oyv2b+/HQWRe5
+ 9E5sTawkkPVLl2sCg+sLGVTPByxlTJDefEnBr03mBmqXOgUE0V7PuJ2aQr5W4PWsXS+y
+ DlvNuUBpwQ9QfbdkuYH9CHvkJb/SEcY6qOJsmObkZwH8MBgZ/NBli2tDhwkYUhBFcwcM
+ ly/ZJ8p+t6Hcn7VuHByDkf/hnnDTISmq3YJdilmnKusXaCjVVL9fPqdkLAoojLCVPrpA
+ b8ABZBwIvqxJ98IlVDNkboxtPpybyT+QbW7i7fLhFjwdl+PAinpn+DjOsRKDkHA3/nQH
+ l+7Q==
+X-Gm-Message-State: AAQBX9foVF80REFronk4WGw5YRzuTvuLG4tfP5itELpvnQ+/DLM7mvv8
+ mr9BgUwqOZLI229vlmSLbBG9Yw==
+X-Google-Smtp-Source: AKy350Z0/dD3gd45FF99AC3R0GMEeMb6v25hoyg+JlBtAScLqBw/HlT8WFv2pwVU4MvtGh+DLr84Cg==
+X-Received: by 2002:a7b:cb18:0:b0:3eb:2de8:b739 with SMTP id
+ u24-20020a7bcb18000000b003eb2de8b739mr960595wmj.37.1681281702542; 
+ Tue, 11 Apr 2023 23:41:42 -0700 (PDT)
+Received: from [10.0.2.69] (ip-037-024-010-236.um08.pools.vodafone-ip.de.
+ [37.24.10.236]) by smtp.gmail.com with ESMTPSA id
+ iv8-20020a05600c548800b003f09e294d5esm903560wmb.6.2023.04.11.23.41.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Apr 2023 23:41:42 -0700 (PDT)
+Message-ID: <115fd30e-71ce-aa80-0391-63fbba7899b9@linaro.org>
+Date: Wed, 12 Apr 2023 08:41:39 +0200
 MIME-Version: 1.0
-References: <CAJaqyWdV6pKP0SVZciMiu_HN86aJriZh0HBiwHNkO7+yErXnBA@mail.gmail.com>
- <CAJaqyWceWu5EpwAZjEAe5EkJ=SQ4bVYXohCjgqpkFtKiSb+OHQ@mail.gmail.com>
- <CACGkMEu0PYQ=dS=VcfOCX32153emzB9R++8K3HGXnyt2x8BDpQ@mail.gmail.com>
-In-Reply-To: <CACGkMEu0PYQ=dS=VcfOCX32153emzB9R++8K3HGXnyt2x8BDpQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 12 Apr 2023 14:18:54 +0800
-Message-ID: <CACGkMEsvgv-nrjpLo67hFUf+5tau7kPgUu9TBh8PU5QruagMVQ@mail.gmail.com>
-Subject: Re: Reducing vdpa migration downtime because of memory pin / maps
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, Longpeng <longpeng2@huawei.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <elic@nvidia.com>, 
- Parav Pandit <parav@nvidia.com>, Juan Quintela <quintela@redhat.com>, 
- David Gilbert <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] Hexagon (target/hexagon) Add overrides for
+ cache/sync/barrier instructions
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "philmd@linaro.org" <philmd@linaro.org>, "ale@rev.ng" <ale@rev.ng>,
+ "anjo@rev.ng" <anjo@rev.ng>, Brian Cain <bcain@quicinc.com>,
+ "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>
+References: <20230410202402.2856852-1-tsimpson@quicinc.com>
+ <0d07641e-f37d-3589-58c9-d992ab70a985@linaro.org>
+ <SN4PR0201MB88080603B7D90240DB17C2C3DE9A9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <SN4PR0201MB88080603B7D90240DB17C2C3DE9A9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,70 +100,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 12, 2023 at 1:56=E2=80=AFPM Jason Wang <jasowang@redhat.com> wr=
-ote:
->
-> On Tue, Apr 11, 2023 at 8:34=E2=80=AFPM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Wed, Apr 5, 2023 at 1:37=E2=80=AFPM Eugenio Perez Martin <eperezma@r=
-edhat.com> wrote:
-> > >
-> > > Hi!
-> > >
-> > > As mentioned in the last upstream virtio-networking meeting, one of
-> > > the factors that adds more downtime to migration is the handling of
-> > > the guest memory (pin, map, etc). At this moment this handling is
-> > > bound to the virtio life cycle (DRIVER_OK, RESET). In that sense, the
-> > > destination device waits until all the guest memory / state is
-> > > migrated to start pinning all the memory.
-> > >
-> > > The proposal is to bind it to the char device life cycle (open vs
-> > > close), so all the guest memory can be pinned for all the guest / qem=
-u
-> > > lifecycle.
-> > >
-> > > This has two main problems:
-> > > * At this moment the reset semantics forces the vdpa device to unmap
-> > > all the memory. So this change needs a vhost vdpa feature flag.
-> > > * This may increase the initialization time. Maybe we can delay it if
-> > > qemu is not the destination of a LM. Anyway I think this should be
-> > > done as an optimization on top.
-> > >
-> >
-> > Expanding on this we could reduce the pinning even more now that vring
-> > supports VA [1] with the emulated CVQ.
->
-> Note that VA for hardware means the device needs to support page fault
-> through either PRI or vendor specific interface.
->
-> >
-> > Something like:
-> > - Add VHOST_VRING_GROUP_CAN_USE_VA ioctl to check if a given VQ group
-> > capability. Passthrough devices with emulated CVQ would return false
-> > for the dataplane and true for the control vq group.
+On 4/11/23 04:29, Taylor Simpson wrote:
+>> These variables could be moved to DisasContext and allocated on demand.
+>> Even recently this was tedious, because of TCG temporary lifetime issues,
+>> but no longer.
+> 
+> I'll work on this.  The obvious advantage is to allow the TCG optimizer more opportunity to fold copies and propagate constants.
+> 
+> Any other advantage?
 
-We don't even need this actually, since the pinning is not visible to
-the userspace. Userspace can only see the IOTLB abstraction actually.
+Once the packet is complete, the value is discarded, rather than written back to env.
 
-We can invent a group->use_va, then when we attach AS to a group that
-can use va, we can avoid the pinning.
 
-Thanks
-
-> > - If that is true, qemu does not need to map and translate addresses
-> > for CVQ but to directly provide VA for buffers. This avoids pinning,
-> > translations, etc in this case.
->
-> For CVQ yes, but we only avoid the pinning for CVQ not others.
->
-> Thanks
->
-> >
-> > Thanks!
-> >
-> > [1] https://lore.kernel.org/virtualization/20230404131326.44403-2-sgarz=
-are@redhat.com/
-> >
-
+r~
 
