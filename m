@@ -2,102 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1AB6DF191
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:05:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A63026DF19F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 12:07:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmXLP-0004Zn-Kl; Wed, 12 Apr 2023 06:04:51 -0400
+	id 1pmXNC-0006eE-5K; Wed, 12 Apr 2023 06:06:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pmXLN-0004Ys-4N; Wed, 12 Apr 2023 06:04:49 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pmXLL-0005O0-F3; Wed, 12 Apr 2023 06:04:48 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 6169D320099C;
- Wed, 12 Apr 2023 06:04:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 12 Apr 2023 06:04:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:content-type
- :date:date:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to;
- s=fm2; t=1681293885; x=1681380285; bh=tphiNIweYkcl0zw7aRQKO+uVS
- BQX157Xly3CeKDLTkI=; b=pStjvbZm8bN6oSHk1w0xcnjJZce7pfcJNQe4MlbPm
- JuqMn/ZBrfvuBtwcHeZtdQXssvViUUC0Hr2DeHhc9uZdrGBBujd0uRVL63I3fIfV
- qaGS69VVOKkHjIzOftTdXIWv2IAQRWPxFujv8zkLvKjlqfuPovZxKvEG95iuxg+d
- TGgEhcgt1+ryohHI7l/fNhIvj8yyLt1B2wvnYb4T5PYTZ0S9vFogi9Y06j1ESU3m
- ZZ8kyMcFmMjW0LQm1u2Xux6H5vBZh3ZoQvLiFtK6KMAalO619Z0B8D8nmUZz96No
- k0n6E4mTnVT8jjHkFBmxo4cXUcp+5yX1wRYw3vxYfDdfg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1681293885; x=1681380285; bh=tphiNIweYkcl0zw7aRQKO+uVSBQX157Xly3
- CeKDLTkI=; b=gy+HKHmF+Bq2vU5895eO0m109Gjnb6cGAYtXY7QIMVIzxZBXRUY
- WHMATxTFOFrFN3ZeuGZzpzELXRIVodrqoaJWRmY7qXbK8JQPjODaB6WuSQA7LiBL
- Kc0vd2wdqm993dRbvy/R5lGUBBOtjlUuCasZh7llG3qRooV3TxRx5lSVBHuAIpo0
- IMZodKdzBL/iC/zdWL76T0RCbXQ/72EJVTVVrm/MJ+HWsXoq+nRnjmH3Joilx5hg
- Vx5Zg7bN+1xNKytEdtmAJwVcDK7bwN0srWawBh7MyV9wB6/VZ5SxX9ElLtnjP9Cr
- BWmv1SFfMfsOO9mceeRv39vMvW7Nuumw5lw==
-X-ME-Sender: <xms:PII2ZJolsrGf_yRDtG35Prr38l2coFWO1OM7VXC4-mcyJKr3RDqFEQ>
- <xme:PII2ZLp6kDR_5ySOx3il3GFko9eowBLEKluxC1VUJ8besInQyxrxmrxpaGdqQmp15
- DTPS6stzCmCnmJPIcA>
-X-ME-Received: <xmr:PII2ZGO1n5b6FrRx4Y4s1X-daNs3fqGPu8l2YRqvJ_ighuuZj0PBpY5Ksk5A9day5ZKSd-Nmk4rZ__xSR7yWFYu9HBcEIurg-_j2cJ4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedgvdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeefvedtueetueduffevgffgtdeftdeuleffhfeigeffkeegfeejfeffteej
- iefhvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:PII2ZE6ZHvVO6W7dv92GX5HMEFt0eX07T_sF41oWtHvdXD2Q_bbcPw>
- <xmx:PII2ZI4e7w-UGr8mWUHf_v5iehKi6U6_WK6GlxooGfL0Y-7pIBNjxA>
- <xmx:PII2ZMgyEm7BPl64Zs90APIPK4_8hQvc1_Sa9POgeLAIxi0C6ou9xg>
- <xmx:PYI2ZCQpElpKOvrlpmidLtk9GSv2sRNE2ovtk1zxxmiFFxDPVsP9bw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Apr 2023 06:04:43 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL for-8.0 2/2] hw/nvme: fix memory leak in nvme_dsm
-Date: Wed, 12 Apr 2023 12:04:36 +0200
-Message-Id: <20230412100436.94038-3-its@irrelevant.dk>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230412100436.94038-1-its@irrelevant.dk>
-References: <20230412100436.94038-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmXN8-0006dj-BG
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:06:39 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmXN6-000605-64
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 06:06:37 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ d8-20020a05600c3ac800b003ee6e324b19so5830425wms.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 03:06:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681293994; x=1683885994;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nodu07HKidxKPxvOg7xbv/1Polhi/238wioQUMdq6YU=;
+ b=Xk3y6DXBeCFFzJr+vithiTz5Beg0CXzofhffIWROJNMLkIZ7q26zdzFL4KJtA4YxyU
+ Il4dRd58xoKO29XLYhdAiWdEM4huVsdPW7tera/P7GyqMzKKr5sQFUsTfalIJ40UoLt5
+ RZNqZzfSgstPdGFJ4R0YX5dBPr8yhN791OWpFaBmqSRZApEh4jrE+bwym33YTPmGkOEI
+ 7gr68QxBAS8wdpi6KH/Bcx+0ZH++esjWqvsINZI9qV3ixkUf50FIyXp6LuCXItCKkmpu
+ w95X1V7K9gFRCUDsJeIqJJ4IrgOgZWYJ5NN9Uve6hEwbGvxbD9cVhTlpHNiW7ruAt4Ob
+ FUaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681293994; x=1683885994;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nodu07HKidxKPxvOg7xbv/1Polhi/238wioQUMdq6YU=;
+ b=eufKfWNkmqzrc598WEKet09MzWeLwaQLqyq9zAoIePmWkh4Z1Bnwr8f5uI+4DPGd8B
+ VM1U5TV35QM3DctaAgGnoP8ID2AOzTUhUBP2zuB//AQO7Bih4HhhgesSbETVDqkIDq5I
+ lg4lR3TA4uM55eN1m86II4ptJoE65A/E9qCYvpvyrb9wzZFgiLl8cbqhrIFXIJrLthLC
+ sL6yB0aq67XymJasxsaSLbPZpc11uRXWczT+8yD1r40+1XA7KphvGNPwzZhS169eCu+6
+ 4KZ3csjFzav2VRXr2z6gHEAUtJQJmbbGfod02D/2NgiCST4WaneMYCVWEvMjss4OP1h1
+ ke2g==
+X-Gm-Message-State: AAQBX9f7Wf+k2d10ruUOMdOSLo0Q67izJeyZm5pHhTF4FeY93za6Dbcu
+ kaAWXE/yxOJAa6OlR13J9MAKcw==
+X-Google-Smtp-Source: AKy350a38QzxrOG40N/FCLtmNOZJ6NWu2hOiFQSQbZsWgPAmb1mo1As6jLt15bkoB1132d1qV+yodA==
+X-Received: by 2002:a05:600c:b56:b0:3ee:7e12:f50 with SMTP id
+ k22-20020a05600c0b5600b003ee7e120f50mr1516825wmr.8.1681293994158; 
+ Wed, 12 Apr 2023 03:06:34 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.216.226])
+ by smtp.gmail.com with ESMTPSA id
+ m2-20020a05600c3b0200b003f0652084b8sm1865060wms.20.2023.04.12.03.06.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 03:06:33 -0700 (PDT)
+Message-ID: <72ee7e72-5ec1-d53b-94fa-e88f68880c2f@linaro.org>
+Date: Wed, 12 Apr 2023 12:06:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=919; i=k.jensen@samsung.com;
- h=from:subject; bh=dg013DH4rtfyR99vmVe1/pFSn0W94O6mRsVtwz4hrB4=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGQ2gjRS/N3diqeTkCG2NeIwS+F48zNIrUeRN
- MVs2QT1JDv6bIkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJkNoI0AAoJEE3hrzFt
- Tw3pKbIH/29GRL5qd3bhOWQs8M5d9bUm42T7pGl7rICO07oATZ1qu08PJKWryvhiWikhV/4keTh
- dZQ8v390BKbhBMyOifUlt85avAVXsivXFRxMkYQM6RuubW7B7x0GdESfjqfDuvvpY7co9sVuTy8
- mQ6Unohb9RlRi7r8LDVW5KxPJr8MmyJkI9i2LG4wy+MutGx33rMXc53lJ2vd56CZ5Q3CAJZHgN8
- 7n8B4R2mtElpgNBF/hqOP5Y9zo9IsEecem6MaKTIvYVvh8j/qhhi/lBtM25F0GI2Myqa84APFI1
- aQJ0gCY7fMXV7E5ZFrCT0VHb+7F5cla/UteDZR7eiCW/nKhmeTPGK6wM
-X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
- fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [QEMU][PATCH] gitlab-ci.d/crossbuilds: Drop the '--disable-tcg'
+ configuration for xen
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Vikram Garhwal <vikram.garhwal@amd.com>,
+ qemu-devel@nongnu.org
+Cc: xen-devel@lists.xenproject.org, stefano.stabellini@amd.com,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230411210422.24255-1-vikram.garhwal@amd.com>
+ <895bcdd3-350d-38e7-1982-899948072b93@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <895bcdd3-350d-38e7-1982-899948072b93@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,36 +98,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 12/4/23 07:39, Thomas Huth wrote:
+> On 11/04/2023 23.04, Vikram Garhwal wrote:
+>> Xen is supported for aarch64 via xenpvh machine. disable-tcg option 
+>> fails the
+>> build for aarch64 target.
+>>
+>> Link for xen on arm patch series: 
+>> https://mail.gnu.org/archive/html/qemu-devel/2023-02/msg03979.html
+>>
+>> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+>> ---
+>>   .gitlab-ci.d/crossbuilds.yml | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+>> index 61b8ac86ee..6867839248 100644
+>> --- a/.gitlab-ci.d/crossbuilds.yml
+>> +++ b/.gitlab-ci.d/crossbuilds.yml
+>> @@ -186,7 +186,7 @@ cross-amd64-xen-only:
+>>     variables:
+>>       IMAGE: debian-amd64-cross
+>>       ACCEL: xen
+>> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+>> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
+>>   cross-arm64-xen-only:
+>>     extends: .cross_accel_build_job
+>> @@ -195,4 +195,4 @@ cross-arm64-xen-only:
+>>     variables:
+>>       IMAGE: debian-arm64-cross
+>>       ACCEL: xen
+>> -    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+>> +    EXTRA_CONFIGURE_OPTS: --disable-kvm
+> 
+> This patch looks wrong. I'm pretty sure we wanted to test the build 
+> without TCG here. Building with TCG enabled is already done in other 
+> jobs. So instead of removing "--disable-tcg" here the question is 
+> rather: Why does it not build with this flag anymore? Can those problems 
+> be fixed instead?
 
-The iocb (and the allocated memory to hold LBA ranges) leaks if reading
-the LBA ranges fails.
-
-Fix this by adding a free and an unref of the iocb.
-
-Reported-by: Coverity (CID 1508281)
-Fixes: d7d1474fd85d ("hw/nvme: reimplement dsm to allow cancellation")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 8b7be1420912..ac24eeb5ed5a 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -2619,6 +2619,9 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
-         status = nvme_h2c(n, (uint8_t *)iocb->range, sizeof(NvmeDsmRange) * nr,
-                           req);
-         if (status) {
-+            g_free(iocb->range);
-+            qemu_aio_unref(iocb);
-+
-             return status;
-         }
- 
--- 
-2.39.2
-
+I concur, this used to work. Did this config bit-rotted?
+The latest /master job succeeded:
+https://gitlab.com/qemu-project/qemu/-/jobs/4094506462
 
