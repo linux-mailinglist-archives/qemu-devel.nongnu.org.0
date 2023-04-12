@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8266DEC20
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 08:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A483C6DEC22
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 08:56:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmUMG-0000Ew-VC; Wed, 12 Apr 2023 02:53:33 -0400
+	id 1pmUOK-00011l-3N; Wed, 12 Apr 2023 02:55:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pmUME-0000EW-Kc
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:53:30 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ id 1pmUOC-00011F-Kt
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:55:34 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pmUMC-0005rC-FD
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:53:30 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id q29so9639280wrc.3
- for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 23:53:28 -0700 (PDT)
+ id 1pmUO7-0006G3-IO
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 02:55:32 -0400
+Received: by mail-wr1-x436.google.com with SMTP id v27so571892wra.13
+ for <qemu-devel@nongnu.org>; Tue, 11 Apr 2023 23:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681282407; x=1683874407;
+ d=linaro.org; s=google; t=1681282519; x=1683874519;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=yZkOrRMcQApjIfT6i8P0ysenfyhCVdwsQYDJxy2VJfw=;
- b=GQA1EwAFUDkhPyhBRwffhk87FfL+bAu+d3+lYkeo57VUQOmkqzgBhYHVfOt5fSXLYF
- Pfey6TF4V52LU/r9j14X4e86ALVTqm5ghZ1Y610RP1WQoLa4rvHy8KGd7Dmn/vlFN2NI
- PVDVtL8V/Slf66qHSH30mOfnFu8Xuf/st+PHMtKsuWUrgFgGM6g0P99u86zI6nc+vExy
- UnhGa6XW3yvqFRDrr9i5070IhKclth3XrKRbVydoqoyUVYP69pNQjOBdTyEzVVz0Lweh
- YDJCnaxpRzAzajVwnmAvVg9Z0ycnRYU1w1LRaARCFm2bvaRxXIVdrTbq5rOKaMcNfk0U
- kWdg==
+ bh=j1h4vYtnOl3Y6OuMtt26ai1aGGshaexK8uVHRiVmXYo=;
+ b=GODFWr2aFniKvbl5gWukdcZWvb/4MNOaqS6pDr6w4SI/0DkQUncPqECBJhdx85kcuw
+ FufzgcT8PheG6PU4uNdGLlJ5xbg5OSV0S9jPWG0etFtGoGBVqDS7jQhGxnbshGPo4J5d
+ 64QnS6Kir/aUxkCWJklnvf7bRGxyGhwstin0PRZE3EWF/Qbw4IQCcWXqb7hmoobBMH5J
+ lfF7/wK7JVf4ryoqdgpxOy57fMnQwDcWqn3xlvtDofzkTuq7Ap5m7FRVZ7IWh66D11In
+ C1nIL8pmFehdGGThQcoa34tVUFbsCjj6WjDdWikof6EWal5Or9oSoIK0g0yhWmYG/wWr
+ Epaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681282407; x=1683874407;
+ d=1e100.net; s=20210112; t=1681282519; x=1683874519;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yZkOrRMcQApjIfT6i8P0ysenfyhCVdwsQYDJxy2VJfw=;
- b=QOADrnNS8YmFBmz7/Gl318FIUWf68FBRWDX+XZN4F/KB8SDCsUux8kcMgtdSKYP9H5
- KR3iHCGNotPcMwp9L0Fw1BzJ7L2tETz/HGHHRU8+LJO8nwBmhD5Z9Wt4B9fxu6+/aItE
- VJ/zoqD7DynCdUWK3zYpYQ10YZxEOI+4jFweCUKYy7DcSLnXkWCKes/mIaeK58b3E2Xc
- QA2E7bdm5glYlxBTw0d23vEugAewlC1CLxyuSH4BMhWcOiDJOnt2fIqQuxfUxj2LOLEC
- HpbCQUe77apMIoE6JfEQBF6AdV/WfO+8rzCl6WqXKiGpNeVJK8SWEm7Lyzciddoj5wE7
- Xm/Q==
-X-Gm-Message-State: AAQBX9fxEY7gK6KO2LW5KYuqqoYJAk3hqSuIyxoWQdc75ArkJTMVb+W6
- 7cKrl8RIq0kNSkgv6CHfYGZxEQ==
-X-Google-Smtp-Source: AKy350Z+HlPvydKYACtRo1+tyMt7LpdN15UR3eHAk/knyPOPHiRlVOpUPVhGAtnVM5uhg+472U/vmg==
-X-Received: by 2002:adf:f2cf:0:b0:2ef:b596:3f71 with SMTP id
- d15-20020adff2cf000000b002efb5963f71mr10122338wrp.51.1681282406684; 
- Tue, 11 Apr 2023 23:53:26 -0700 (PDT)
+ bh=j1h4vYtnOl3Y6OuMtt26ai1aGGshaexK8uVHRiVmXYo=;
+ b=w4efzuzLHYloRPprSCflXOUPqYCs5u+yuOK1icslrdh8mKaxo1qAqt6nqbb8VdhznK
+ FGP024+hKveYG6Q1dl+Br+6dN1+BdjAvFyGYTW689J5EAqKBSXlWK1wExCf3rv27l7eL
+ w2VOI274iO3K4+1+oz/saFCt2H7wpVIEruQjENfTLf3FtSmmalNdYw89nQt9iTXy/GH5
+ HSb8hVA7QZ3fvHEMF0PZ0aDaFwWYkYrHchfQ74dYpbFIveQ0dP4c+bWU6f8J8vBlH2Qj
+ vakCrhWsUmC4YczBcgk2FUlhT8Tt+D3LSU/wJB4KInGwv8EiNf70Cns47cUU3JXiQ7I6
+ Qmng==
+X-Gm-Message-State: AAQBX9cDLAvrHu58TTpHUl4Nf9NWfFIwspQki+RFAjA4DdtZtER9SfFo
+ jtBK+I7v0HWGPihWPIIsXy8lzQ==
+X-Google-Smtp-Source: AKy350YrrHPdIWmxTPqjQAQSVKLvgOqy/mfeua9ghEmEUEfexS5BkUynnE9Q1Oif66/pCPI67jtd4Q==
+X-Received: by 2002:adf:f107:0:b0:2cb:29eb:a35e with SMTP id
+ r7-20020adff107000000b002cb29eba35emr1352432wro.11.1681282519089; 
+ Tue, 11 Apr 2023 23:55:19 -0700 (PDT)
 Received: from [10.0.2.69] (ip-037-024-010-236.um08.pools.vodafone-ip.de.
  [37.24.10.236]) by smtp.gmail.com with ESMTPSA id
- k9-20020a5d4289000000b002d21379bcabsm16314253wrq.110.2023.04.11.23.53.26
+ i3-20020adfdec3000000b002f24db41f50sm6250732wrn.69.2023.04.11.23.55.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Apr 2023 23:53:26 -0700 (PDT)
-Message-ID: <f785b8f3-d7f3-a481-81c3-3603542a0111@linaro.org>
-Date: Wed, 12 Apr 2023 08:53:24 +0200
+ Tue, 11 Apr 2023 23:55:18 -0700 (PDT)
+Message-ID: <502311f2-10af-9331-80b4-f3ef56b91f54@linaro.org>
+Date: Wed, 12 Apr 2023 08:55:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [RFC PATCH v2 38/44] target/loongarch: Implement vbitsel vset
+Subject: Re: [PATCH 05/12] tcg/mips: Split out tcg_out_movi_one
 Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-39-gaosong@loongson.cn>
- <dc51342e-952c-c014-3b60-4dd751646468@linaro.org>
- <ac4562c5-ea37-d57a-b1dd-02b21af72985@loongson.cn>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230408030359.3368868-1-richard.henderson@linaro.org>
+ <20230408030359.3368868-6-richard.henderson@linaro.org>
+ <c0b5e268-080a-4262-84f4-e4a5f849bdfb@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <ac4562c5-ea37-d57a-b1dd-02b21af72985@loongson.cn>
+In-Reply-To: <c0b5e268-080a-4262-84f4-e4a5f849bdfb@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -95,55 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/11/23 13:37, gaosong wrote:
-> static bool trans_vseteqz_v(DisasContext *ctx, arg_cv *a)
-> {
->      TCGv_i64  t1, t2, al, ah, zero;
+On 4/11/23 14:34, Philippe Mathieu-Daudé wrote:
+>> +    if (tcg_out_movi_one(s, ret, arg)) {
+>>           return;
+>>       }
+>> +
+>>       if (TCG_TARGET_REG_BITS == 32 || arg == (int32_t)arg) {
+>>           tcg_out_opc_imm(s, OPC_LUI, ret, TCG_REG_ZERO, arg >> 16);
 > 
->      al = tcg_temp_new_i64();
->      ah = tcg_temp_new_i64();
->      t1 = tcg_temp_new_i64();
->      t2 = tcg_temp_new_i64();
->      zero = tcg_constant_i64(0);
-> 
->      get_vreg64(ah, a->vj, 1);
->      get_vreg64(al, a->vj, 0);
-> 
->      CHECK_SXE;
->      tcg_gen_setcond_i64(TCG_COND_EQ, t1, al, zero);
->      tcg_gen_setcond_i64(TCG_COND_EQ, t2, ah, zero);
->      tcg_gen_and_i64(t1, t1, t2);
+> Shouldn't this block be removed in this patch?
 
-tcg_gen_or_i64(t1, al, ah);
-tcg_gen_setcondi_i64(TCG_COND_EQ, t1, t1, 0
-
-But otherwise correct, yes.
-
->>> +#define SETANYEQZ(NAME, BIT, E)                                     \
->>> +void HELPER(NAME)(CPULoongArchState *env, uint32_t cd, uint32_t vj) \
->>> +{                                                                   \
->>> +    int i;                                                          \
->>> +    bool ret = false;                                               \
->>> +    VReg *Vj = &(env->fpr[vj].vreg);                                \
->>> +                                                                    \
->>> +    for (i = 0; i < LSX_LEN/BIT; i++) {                             \
->>> +        ret |= (Vj->E(i) == 0);                                     \
->>> + } \
->>> +    env->cf[cd & 0x7] = ret;                                        \
->>> +}
->>> +SETANYEQZ(vsetanyeqz_b, 8, B)
->>> +SETANYEQZ(vsetanyeqz_h, 16, H)
->>> +SETANYEQZ(vsetanyeqz_w, 32, W)
->>> +SETANYEQZ(vsetanyeqz_d, 64, D)
->>
->> These could be inlined, though slightly harder.
->> C.f. target/arm/sve_helper.c, do_match2 (your n == 0).
->>
-> Do you mean an inline like trans_vseteqz_v or just an inline helper function?
-
-I meant inline tcg code generation, instead of a call to a helper.
-But even if we keep this in a helper, see do_match2 for avoiding the loop over bytes.
+No, because it feeds into the lui+ori path.
+It gets cleaned up in the next patch.
 
 
 r~
+
 
