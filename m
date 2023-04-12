@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7761A6E0036
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 22:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03F46E0046
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 23:01:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmhRY-0002aO-KV; Wed, 12 Apr 2023 16:51:52 -0400
+	id 1pmha0-0004On-8i; Wed, 12 Apr 2023 17:00:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pmhRW-0002ZC-BV
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 16:51:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pmhZs-0004N0-0U
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 17:00:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pmhRT-0004cl-Q1
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 16:51:50 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pmhZn-0006dC-JY
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 17:00:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681332706;
+ s=mimecast20190719; t=1681333209;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZTGV17AyFUFsPTC6qb7GT4CJBCMBF8Bq7czydddK6yw=;
- b=bWVKfL1ikX+qPgz2pNiRFHR/xuG0ZEYlseEHKMKDlOyvc3aYSYhgm8p570MJUkXLBV9Y7Q
- ZuthINW+2JbhWuKjzIb0WccLCaGZDebGqcClRwxBfQi4ZForvi6Qoab8PQqgpvUpMitfwS
- b4Y4PsdnwKG4t6pPBKxbwQNQexnCLjE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-kDIWkowdOGm9qhirftcsUg-1; Wed, 12 Apr 2023 16:51:41 -0400
-X-MC-Unique: kDIWkowdOGm9qhirftcsUg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FCB2185A78B;
- Wed, 12 Apr 2023 20:51:41 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E00F1415117;
- Wed, 12 Apr 2023 20:51:39 +0000 (UTC)
-Date: Wed, 12 Apr 2023 16:51:38 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
- German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Roman Kagan <rvkagan@yandex-team.ru>,
- Maxime Coquelin <maxime.coquelin@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 1/4] vhost: Re-enable vrings after setting features
-Message-ID: <20230412205138.GA2813183@fedora>
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <20230411150515.14020-2-hreitz@redhat.com>
+ bh=iSgrMi+Mi2AOQ4axjkxb0nfFcKvvAKezs24AWJGYdHg=;
+ b=jLBjo58dWHrCCeQwC5TLhxnJExt4LMTAeNEmvXGGkn4oD4LhN1MNoUpY1Jj1etDjPw8qUg
+ VPnKQiGGmApJEsod5HfcjM+5R4glYN/WYIVEHwF+Lfn99D5P7K8iwA7qsz0Oj1JFilRw4b
+ n1C/Ru4HR3wKjgtcQaTQ19WWmrjjA1Y=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-119-3NaJ8M73PqOI5VpHrzYNlw-1; Wed, 12 Apr 2023 17:00:08 -0400
+X-MC-Unique: 3NaJ8M73PqOI5VpHrzYNlw-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ g129-20020a636b87000000b005072b17a298so5507525pgc.14
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 14:00:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681333207; x=1683925207;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iSgrMi+Mi2AOQ4axjkxb0nfFcKvvAKezs24AWJGYdHg=;
+ b=V0tB98l1caQYswGJG3hqkHpYY8FivrxwN531Mm3HpDLFPGHb1bhWYpIEydU7aDulnq
+ z8lJ45aFcTPPXSrSnBFTcICgW2Wr4t0Y4GzuVI7Fhtce9AY+iat4HZBgQmHhv8WX/5ko
+ GR+FJ5bj/U9SR2w7bMzsXve3aakzWTE9dgCRjNEBGjbVt+JwpLKKLX85T6GlvVsENRX+
+ ewSy65HzLE8+FOa/UnAxl+nrHttHlAaa+UqGLsR0MvaOHeGFPwPdLJvtS9NSuBH6nJAn
+ 27Yq1UqYobkt2vPHxJLH1frjc8YA0gUCuFo6d4yvFC5f4HeuvECGv3SoM5l+6DpI3Z/H
+ OVMw==
+X-Gm-Message-State: AAQBX9et7qMedVFynyD7+mOPBEm3hesBvrVioaQ+/Wemf8xU43WMSbWP
+ 4O3Og3Z1uiV4Wb3f46O6Ew5UR6PtbeQAk8pq62U40hmzOGs4xLQAJslhtpmDe7jx/VzZRNL4ti5
+ 26KOTETcmkvKCg2tSz48MX4jwkFQn6HM=
+X-Received: by 2002:a63:2111:0:b0:503:a26e:b4cf with SMTP id
+ h17-20020a632111000000b00503a26eb4cfmr5079789pgh.8.1681333207227; 
+ Wed, 12 Apr 2023 14:00:07 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aSLEvxp1u+UVLJwP65EXqhBPjcIAasiPOifSLXxnij5I5+olwUIwhF5/hlybEpBYF2rf9GrvuLRqc7P1s8BO0=
+X-Received: by 2002:a63:2111:0:b0:503:a26e:b4cf with SMTP id
+ h17-20020a632111000000b00503a26eb4cfmr5079768pgh.8.1681333206854; Wed, 12 Apr
+ 2023 14:00:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rRJT1mSd1+ho7w0n"
-Content-Disposition: inline
-In-Reply-To: <20230411150515.14020-2-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+References: <20230329124601.822209-1-berrange@redhat.com>
+In-Reply-To: <20230329124601.822209-1-berrange@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 12 Apr 2023 16:59:55 -0400
+Message-ID: <CAFn=p-YU_0YXrZ-TF-QSQak1vCJwtxE7yDNYAHQX_OV75YR=DA@mail.gmail.com>
+Subject: Re: [PATCH] tests/vm: use the default system python for NetBSD
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Warner Losh <imp@bsdimp.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Ryo ONODERA <ryoon@netbsd.org>, Kyle Evans <kevans@freebsd.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,146 +98,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Mar 29, 2023 at 8:47=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@r=
+edhat.com> wrote:
+>
+> Currently our NetBSD VM recipe requests instal of the python37 package
+> and explicitly tells QEMU to use that version of python. Since the
+> NetBSD base ISO was updated to version 9.3 though, the default system
+> python version is 3.9 which is sufficiently new for QEMU to rely on.
+> Rather than requesting an older python, just test against the default
+> system python which is what most users will have.
 
---rRJT1mSd1+ho7w0n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Is this the default Python, or does it just happen to be the python
+that one of our other dependencies claims to require? From my notes on
+the mkvenv.py work, I had actually changed this over to requiring
+Python 3.10, because it appeared at the time that NetBSD only shipped
+pip for 3.10.
 
-On Tue, Apr 11, 2023 at 05:05:12PM +0200, Hanna Czenczek wrote:
-> If the back-end supports the VHOST_USER_F_PROTOCOL_FEATURES feature,
-> setting the vhost features will set this feature, too.  Doing so
-> disables all vrings, which may not be intended.
->=20
-> For example, enabling or disabling logging during migration requires
-> setting those features (to set or unset VHOST_F_LOG_ALL), which will
-> automatically disable all vrings.  In either case, the VM is running
-> (disabling logging is done after a failed or cancelled migration, and
-> only once the VM is running again, see comment in
-> memory_global_dirty_log_stop()), so the vrings should really be enabled.
-> As a result, the back-end seems to hang.
->=20
-> To fix this, we must remember whether the vrings are supposed to be
-> enabled, and, if so, re-enable them after a SET_FEATURES call that set
-> VHOST_USER_F_PROTOCOL_FEATURES.
->=20
-> It seems less than ideal that there is a short period in which the VM is
-> running but the vrings will be stopped (between SET_FEATURES and
-> SET_VRING_ENABLE).  To fix this, we would need to change the protocol,
-> e.g. by introducing a new flag or vhost-user protocol feature to disable
-> disabling vrings whenever VHOST_USER_F_PROTOCOL_FEATURES is set, or add
-> new functions for setting/clearing singular feature bits (so that
-> F_LOG_ALL can be set/cleared without touching F_PROTOCOL_FEATURES).
->=20
-> Even with such a potential addition to the protocol, we still need this
-> fix here, because we cannot expect that back-ends will implement this
-> addition.
->=20
-> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+e.g. https://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/index-all.html
+you can see here we've got "py310-pip" but I don't see "py39-pip". The
+only other pip I see is py27-pip.
+
+The impression I got was:
+
+1) There's no such thing as a "default" python for NetBSD,
+2) The best Python to use on this platform is currently 3.10.
+
+I'm not very familiar with NetBSD though, so it's definitely possible
+I misunderstood something.
+
+--js
+
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  include/hw/virtio/vhost.h | 10 ++++++++++
->  hw/virtio/vhost.c         | 13 +++++++++++++
->  2 files changed, 23 insertions(+)
->=20
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index a52f273347..2fe02ed5d4 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
-> @@ -90,6 +90,16 @@ struct vhost_dev {
->      int vq_index_end;
->      /* if non-zero, minimum required value for max_queues */
->      int num_queues;
-> +
-> +    /*
-> +     * Whether the virtqueues are supposed to be enabled (via
-> +     * SET_VRING_ENABLE).  Setting the features (e.g. for
-> +     * enabling/disabling logging) will disable all virtqueues if
-> +     * VHOST_USER_F_PROTOCOL_FEATURES is set, so then we need to
-> +     * re-enable them if this field is set.
-> +     */
-> +    bool enable_vqs;
-> +
->      /**
->       * vhost feature handling requires matching the feature set
->       * offered by a backend which may be a subset of the total
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index a266396576..cbff589efa 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -50,6 +50,8 @@ static unsigned int used_memslots;
->  static QLIST_HEAD(, vhost_dev) vhost_devices =3D
->      QLIST_HEAD_INITIALIZER(vhost_devices);
-> =20
-> +static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable=
-);
-> +
->  bool vhost_has_free_slot(void)
->  {
->      unsigned int slots_limit =3D ~0U;
-> @@ -899,6 +901,15 @@ static int vhost_dev_set_features(struct vhost_dev *=
-dev,
->          }
->      }
-> =20
-> +    if (dev->enable_vqs) {
-> +        /*
-> +         * Setting VHOST_USER_F_PROTOCOL_FEATURES would have disabled all
-> +         * virtqueues, even if that was not intended; re-enable them if
-> +         * necessary.
-> +         */
-> +        vhost_dev_set_vring_enable(dev, true);
-> +    }
-> +
->  out:
->      return r;
->  }
-> @@ -1896,6 +1907,8 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, u=
-int16_t queue_size,
-> =20
->  static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable)
->  {
-> +    hdev->enable_vqs =3D enable;
-> +
->      if (!hdev->vhost_ops->vhost_set_vring_enable) {
->          return 0;
->      }
-
-The vhost-user spec doesn't say that VHOST_F_LOG_ALL needs to be toggled
-at runtime and I don't think VHOST_USER_SET_PROTOCOL_FEATURES is
-intended to be used like that. This issue shows why doing so is a bad
-idea.
-
-VHOST_F_LOG_ALL does not need to be toggled to control logging. Logging
-is controlled at runtime by the presence of the dirty log
-(VHOST_USER_SET_LOG_BASE) and the per-vring logging flag
-(VHOST_VRING_F_LOG).
-
-I suggest permanently enabling VHOST_F_LOG_ALL upon connection when the
-the backend supports it. No spec changes are required.
-
-libvhost-user looks like it will work. I didn't look at DPDK/SPDK, but
-checking that it works there is important too.
-
-I have CCed people who may be interested in this issue. This is the
-first time I've looked at vhost-user logging, so this idea may not work.
-
-Stefan
-
---rRJT1mSd1+ho7w0n
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQ3GdoACgkQnKSrs4Gr
-c8gRgAf/aLQ0EfT9jbbQjInu5Fc1ww8V3UXzGc3Voqlv5rzjaI/5aTFUZmXUJYAQ
-YQ6QAQY0+VBwBKlYHs9Ru704GuJt/jROiejganu/IoYd1EsJQuMGLYY/gLodx/sW
-10hvSuBorC1afLwYY7A2YCo3Y/rM/9N/v0hO3BEMV5bHyhyBslUDf5BULN/jDhJP
-dpwiuWtgeKFviT1FEuxjDfk2avjGEDYrnzmdmPKu9eqfqbZGyRy+EJsHAgluiZoB
-10SacXeKLNjdm33MFW3xmTvWJw4aX8JlR0bV+woMM7MG1NtNBvQJr76bSWHVtGGL
-wbg9o/5R/UNM43k0dfWPYyCdbZx4QQ==
-=mbed
------END PGP SIGNATURE-----
-
---rRJT1mSd1+ho7w0n--
+>  tests/vm/netbsd | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+> index aa54338dfa..0b9536ca17 100755
+> --- a/tests/vm/netbsd
+> +++ b/tests/vm/netbsd
+> @@ -30,7 +30,6 @@ class NetBSDVM(basevm.BaseVM):
+>          "git-base",
+>          "pkgconf",
+>          "xz",
+> -        "python37",
+>          "ninja-build",
+>
+>          # gnu tools
+> @@ -66,7 +65,7 @@ class NetBSDVM(basevm.BaseVM):
+>          mkdir src build; cd src;
+>          tar -xf /dev/rld1a;
+>          cd ../build
+> -        ../src/configure --python=3Dpython3.7 --disable-opengl {configur=
+e_opts};
+> +        ../src/configure --disable-opengl {configure_opts};
+>          gmake --output-sync -j{jobs} {target} {verbose};
+>      """
+>      poweroff =3D "/sbin/poweroff"
+> --
+> 2.39.1
+>
+>
 
 
