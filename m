@@ -2,84 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876CB6DFFB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 22:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DBF6DFFE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 22:33:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmh1F-0001Yq-CX; Wed, 12 Apr 2023 16:24:41 -0400
+	id 1pmh8C-0003OO-RA; Wed, 12 Apr 2023 16:31:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pmh1A-0001Xb-MT
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 16:24:36 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pmh18-0006bK-Pu
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 16:24:36 -0400
-Received: by mail-oi1-x236.google.com with SMTP id j12so8699401oij.3
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 13:24:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681331073;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XBAVPTUqyPo06+CY0uUh4FBLPCYociblB7tJO7HBKg8=;
- b=pIFIroGXM41CmyMz/+XYF9fmflhR6K2+EnRNBD7EVQUXUSV38LOym5JG81rLHBxDkX
- 0U6oP2/QeioXKAss44VqUIWAcd3ZiKrQXByF3l1eUxc9Iee1kDVDxc/j3o9KYEZLNEHu
- 5HYppwQxQuFmgYBg9WzDe5OJ2kZbtPIQwy7/bJCA6w9KAq/59JNsCpmAFUBKZSw1W/uN
- PAYLAJquLxWv80N4dWhaCk/fpbXBFbaJrnc0uPAlHy6p/HPGLs7GLUOEHVjkMGuZAxBu
- fX7g0AKRQcZ8/4UpMdH/QxmSGEDWgxRUjANg488+4cs0ZLzYAx0tEHlWXnAezOnxfnSf
- XFcQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pmh8A-0003Nn-HM
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 16:31:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pmh87-0008GL-AW
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 16:31:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681331506;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=i8licc1AXZfHM36lEiPckOFInbq0+WXJdsFyDrGIR7c=;
+ b=iZKWFd5st6pkql6RG4D9wIyrDVph3rGUFmx1veDpRSF8VVelxcb2pJ4VhSVNygrMfFo045
+ a0pzE91kkcZz/j9wHT4k4Dq2VBch+rMrsNffBgbV+NItCO+6LOnOZfC09eS+dFrd8VO5T4
+ HGiXsHiRZ4Lptr0+fkM7B6lkbqqBdsY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-25-mtCbcv1WNE6IDnU-j0ICvQ-1; Wed, 12 Apr 2023 16:31:44 -0400
+X-MC-Unique: mtCbcv1WNE6IDnU-j0ICvQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r20-20020a05600c35d400b003edd2023418so7535334wmq.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 13:31:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681331073;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XBAVPTUqyPo06+CY0uUh4FBLPCYociblB7tJO7HBKg8=;
- b=CMwxs7MbLmtGUxFKPLpFjeTDk84gpUCYnMe5W2J8NH9Furb98d5uG20TjtRmri+w/X
- prvW2srLC5dFzUK0fKlK0iuAjAUGbp6USmPBWmOvvsnuBMm4lTFrFFR/mQXSWL7RuIhe
- 9FUcR311Nqxu+DfPLUoa2x7Bu9n7OHbAtVFSTG1SSR2BDSVLvfaTMSUnXZMXWb/4UZob
- wOANt8iguAg1JQ+gZyZRYZaZ+DInTcFloWpGwIT+I6fNFbCh/rrdYkS2oDnn123mDNGn
- T5g0ixMOG72pfV8jPX0pDPSeMwdoxn6z31/UzepqBizSHrX+EhhZ6AV4KeSFtw397mpD
- HHbg==
-X-Gm-Message-State: AAQBX9e6h/p45bx90Jp3ri7uwMcoZs5PYTZqgzFe+p0Rf07m0Mic9Gbp
- 3SPQF4oQJRIMJbqbJTmEJx7O/A==
-X-Google-Smtp-Source: AKy350aCG13yc/bE7OWxNBD4+X31lYaPaIV01FRNh2VgZrEgEWggQDR20rlPjOO+VW9pwmtRW2bUOw==
-X-Received: by 2002:a05:6808:19a9:b0:378:528:d83b with SMTP id
- bj41-20020a05680819a900b003780528d83bmr10215556oib.55.1681331073558; 
- Wed, 12 Apr 2023 13:24:33 -0700 (PDT)
-Received: from [192.168.68.107] ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- o13-20020a056808124d00b00387160bcd46sm6962909oiv.46.2023.04.12.13.24.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Apr 2023 13:24:33 -0700 (PDT)
-Message-ID: <fda80093-00f1-8bf7-dca0-9d680e729dc1@ventanamicro.com>
-Date: Wed, 12 Apr 2023 17:24:28 -0300
+ d=1e100.net; s=20221208; t=1681331503; x=1683923503;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=i8licc1AXZfHM36lEiPckOFInbq0+WXJdsFyDrGIR7c=;
+ b=bXCONyP/5OQULRDWaU+kgz/WCpPbhNX8qzejVnpbCN6EQBZ9kP/Os6vgfohB4A/ryu
+ a1zoTIfaHZdOh+2d7gKEXB2aRuqBl3sRK4QxZWyFHFQRQ/y8KrSIjrU7R2uW9jJlmkpB
+ 7XAmraURBdIdfC5Rq+ITYu26W/ABgbxKtE7C5fl1NtCkYY2uSL9JCf+xCWV5IvoZWmPv
+ k1EpVJY7m+zCLzuMFW7WMY419vet3R1d84TKJRkVVVWAOxefmyhhIPpEj0rva+jQl5Rh
+ IJZ01HcU6EZcT6XhfjBdJMZAm1P/15jPO6tbazAapc83kpfHhBVFDMwYoAqjwUwMamJl
+ zBtw==
+X-Gm-Message-State: AAQBX9dyuLxBt2mkNDAFF57mQIl4DrVF7xFpTF+TzdAsIrvsG2RESty6
+ c+w7M91AkWCz6mBvs3Ikh8J40a2QnahVSjGpv8n56V5QQd6y2h/fWmiZg3GxIn7SEkmoZceVXY0
+ AQ6QBIackEzjWwjQ=
+X-Received: by 2002:adf:fd01:0:b0:2db:bdc2:f8da with SMTP id
+ e1-20020adffd01000000b002dbbdc2f8damr13177797wrr.71.1681331503605; 
+ Wed, 12 Apr 2023 13:31:43 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aWnQupk2960cO5BegzQQSy/0AAjAvASvBLXvZnVX5WuAZCa4a+248w3tpd0fD8CfWHIhQL5A==
+X-Received: by 2002:adf:fd01:0:b0:2db:bdc2:f8da with SMTP id
+ e1-20020adffd01000000b002dbbdc2f8damr13177757wrr.71.1681331503277; 
+ Wed, 12 Apr 2023 13:31:43 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ t6-20020a5d4606000000b002f483a1210asm2375930wrq.98.2023.04.12.13.31.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Apr 2023 13:31:42 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  Stefan Berger
+ <stefanb@linux.vnet.ibm.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,  John Snow <jsnow@redhat.com>,  David
+ Hildenbrand <david@redhat.com>,  Fam Zheng <fam@euphon.net>,  Thomas Huth
+ <thuth@redhat.com>,  "Daniel P . Berrange" <berrange@redhat.com>,  Laurent
+ Vivier <lvivier@redhat.com>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  qemu-s390x@nongnu.org,  Christian
+ Borntraeger <borntraeger@linux.ibm.com>,  =?utf-8?Q?Marc-Andr=C3=A9?=
+ Lureau
+ <marcandre.lureau@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  "Dr. David
+ Alan Gilbert"
+ <dgilbert@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>,  Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eduardo Habkost <eduardo@habkost.net>,  Yanan Wang
+ <wangyanan55@huawei.com>,  Richard Henderson
+ <richard.henderson@linaro.org>,  Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,  Alex Williamson
+ <alex.williamson@redhat.com>,  Eric Blake <eblake@redhat.com>,  Eric
+ Farman <farman@linux.ibm.com>
+Subject: Re: s390x TCG migration failure
+In-Reply-To: <20230324184129.3119575-1-nsg@linux.ibm.com> (Nina
+ Schoetterl-Glausch's message of "Fri, 24 Mar 2023 19:41:29 +0100")
+References: <20230207005650.1810-4-quintela@redhat.com>
+ <20230324184129.3119575-1-nsg@linux.ibm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 12 Apr 2023 22:31:41 +0200
+Message-ID: <87v8i0n8pe.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [RFC 5/5] target/riscv: Expose properties for BF16 extensions
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230412023320.50706-1-liweiwei@iscas.ac.cn>
- <20230412023320.50706-6-liweiwei@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230412023320.50706-6-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x236.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.083,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,51 +115,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Nina Schoetterl-Glausch <nsg@linux.ibm.com> wrote:
+> Hi,
+>
+> We're seeing failures running s390x migration kvm-unit-tests tests with TCG.
+> Some initial findings:
+> What seems to be happening is that after migration a control block header accessed by the test code is all zeros which causes an unexpected exception.
+> I did a bisection which points to c8df4a7aef ("migration: Split save_live_pending() into state_pending_*") as the culprit.
+> The migration issue persists after applying the fix e264705012 ("migration: I messed state_pending_exact/estimate") on top of c8df4a7aef.
+>
+> Applying
+>
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 56ff9cd29d..2dc546cf28 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -3437,7 +3437,7 @@ static void ram_state_pending_exact(void *opaque, uint64_t max_size,
+>  
+>      uint64_t remaining_size = rs->migration_dirty_pages * TARGET_PAGE_SIZE;
+>  
+> -    if (!migration_in_postcopy()) {
+> +    if (!migration_in_postcopy() && remaining_size < max_size) {
+>          qemu_mutex_lock_iothread();
+>          WITH_RCU_READ_LOCK_GUARD() {
+>              migration_bitmap_sync_precopy(rs);
+>
+> on top fixes or hides the issue. (The comparison was removed by c8df4a7aef.)
+> I arrived at this by experimentation, I haven't looked into why this makes a difference.
+>
+> Any thoughts on the matter appreciated.
 
+Ouch, you are right.
+Good catch.
 
-On 4/11/23 23:33, Weiwei Li wrote:
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
+Queued the fix.
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Later, Juan.
 
->   target/riscv/cpu.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index c19bbb41fb..0265fae46f 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -83,6 +83,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
->       ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
->       ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
->       ISA_EXT_DATA_ENTRY(zawrs, true, PRIV_VERSION_1_12_0, ext_zawrs),
-> +    ISA_EXT_DATA_ENTRY(zfbfmin, true, PRIV_VERSION_1_12_0, ext_zfbfmin),
->       ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_11_0, ext_zfh),
->       ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
->       ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-> @@ -107,6 +108,8 @@ static const struct isa_ext_data isa_edata_arr[] = {
->       ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
->       ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
->       ISA_EXT_DATA_ENTRY(zve64d, true, PRIV_VERSION_1_12_0, ext_zve64d),
-> +    ISA_EXT_DATA_ENTRY(zvfbfmin, true, PRIV_VERSION_1_12_0, ext_zvfbfmin),
-> +    ISA_EXT_DATA_ENTRY(zvfbfwma, true, PRIV_VERSION_1_12_0, ext_zvfbfwma),
->       ISA_EXT_DATA_ENTRY(zvfh, true, PRIV_VERSION_1_12_0, ext_zvfh),
->       ISA_EXT_DATA_ENTRY(zvfhmin, true, PRIV_VERSION_1_12_0, ext_zvfhmin),
->       ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-> @@ -1469,6 +1472,10 @@ static Property riscv_cpu_extensions[] = {
->       DEFINE_PROP_BOOL("x-zvfh", RISCVCPU, cfg.ext_zvfh, false),
->       DEFINE_PROP_BOOL("x-zvfhmin", RISCVCPU, cfg.ext_zvfhmin, false),
->   
-> +    DEFINE_PROP_BOOL("x-zfbfmin", RISCVCPU, cfg.ext_zfbfmin, false),
-> +    DEFINE_PROP_BOOL("x-zvfbfmin", RISCVCPU, cfg.ext_zvfbfmin, false),
-> +    DEFINE_PROP_BOOL("x-zvfbfwma", RISCVCPU, cfg.ext_zvfbfwma, false),
-> +
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
 
