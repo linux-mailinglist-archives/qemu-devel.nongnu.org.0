@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC87A6DFE9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 21:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBD16DFEA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 21:19:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmfy0-0008QL-Rz; Wed, 12 Apr 2023 15:17:16 -0400
+	id 1pmfza-0000ew-Cl; Wed, 12 Apr 2023 15:18:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pmfxs-0008Q1-Oj
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 15:17:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pmfzP-0000ei-MH
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 15:18:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pmfxq-0001Gq-Ly
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 15:17:08 -0400
+ id 1pmfzN-0001fT-EG
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 15:18:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681327001;
+ s=mimecast20190719; t=1681327120;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=iwGFxKj5XMyk7+zl8RLUgsL1yITugKhCNhxexeMrWxs=;
- b=F9GcLmlPdtpa7n9UY0to9p+0HUpWSXGJXq9qEzOXvzcAbo4DOUsibj0koyToh5eDKMyPRN
- bsb1aqfgSwx+rf8REaoX4Cu3sBZObVsDA0QjustTiMvrMil2pQYuJ8gWtncnZ89W12+Ddu
- gjUTRLJn5f/SZ4Bmx09a54sIEQGoISU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LBVYMaqsG5ZnbMQIx849fa2We0muJLoORKO06uR3+iM=;
+ b=AlIKlvVWwaxx03lg7rR94zRyg5dtLstUj8Da9P63RBM7ehY/mnU5aZMKaNW8Iza+FRZymK
+ ir3YykVE0az+dVWsOLV2AcazVVXGu8Ym037qdo6e7Di1o8Mafm/rE7NvpIS7EZLmZyPF2G
+ 0P0FMmi3NgWq+iyVEuUg5SRVet1BXpY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-148-11lDJdfRNJWskT9-04ZpFw-1; Wed, 12 Apr 2023 15:16:39 -0400
-X-MC-Unique: 11lDJdfRNJWskT9-04ZpFw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- hg16-20020a05600c539000b003f09d1918aaso1521405wmb.4
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 12:16:39 -0700 (PDT)
+ us-mta-315-LjM7336OMCGU4p-qc3S-oQ-1; Wed, 12 Apr 2023 15:18:39 -0400
+X-MC-Unique: LjM7336OMCGU4p-qc3S-oQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ l4-20020adfc784000000b002f44a791472so804667wrg.17
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 12:18:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681326999; x=1683918999;
+ d=1e100.net; s=20221208; t=1681327117; x=1683919117;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iwGFxKj5XMyk7+zl8RLUgsL1yITugKhCNhxexeMrWxs=;
- b=KaBej5y6qAyNXpM8snmxCtv21x3+bgVGXuAg7llejDCgaj4wc/xVuQCy/xfadtot6k
- 1B5hHO4J9YhLyjT128rO5MwuYf8P20v23+As/xDtBBAuRVrJcLkJ1bhRG9IrvSZpLVgt
- w2MH/ZoyAXMEZddsTGLSgazKhO+7M1D/RDsRQ7r5Sg4W6P8yc0Ad0lGdRMv7UCgugVmk
- e2Ee/olgKPx2/HQJvjgg5bXnPkUTo37UNjhP8/hXRFXqqWLThfZwObcZ2v+V/LK2fsZ2
- ktd17UUcHcFo9KrY0OTYYYGLU7CYkoZu8Hw98jK4W59hWm4xSkrYO7ceLoIW4WbMtA6Q
- 0lLQ==
-X-Gm-Message-State: AAQBX9fqqLthq4ICunjbZFonDcne89CjOnVn5lLYM3ZfNi2NitYx8b6Z
- rPRLw2hYt6m2rLjsbAF1SoasFQRqczSkyfC+Ce7YG9odTApsrPQp2Ws0KdglvD2ZN8u7G514gak
- PV8v9Mel+Smd+14Y=
-X-Received: by 2002:a5d:65c8:0:b0:2ef:ebf3:db20 with SMTP id
- e8-20020a5d65c8000000b002efebf3db20mr5294456wrw.10.1681326998849; 
- Wed, 12 Apr 2023 12:16:38 -0700 (PDT)
-X-Google-Smtp-Source: AKy350akbnYa3QI6Gc0pzZhG5bvk029FUEFJdek58M19pchA8CuStmO3xS02IgNinUvxS/zw4kSFeQ==
-X-Received: by 2002:a5d:65c8:0:b0:2ef:ebf3:db20 with SMTP id
- e8-20020a5d65c8000000b002efebf3db20mr5294441wrw.10.1681326998568; 
- Wed, 12 Apr 2023 12:16:38 -0700 (PDT)
+ bh=LBVYMaqsG5ZnbMQIx849fa2We0muJLoORKO06uR3+iM=;
+ b=i76D+pp//yNLptxaS6NF7+i+xsPp8DGxnvgK5Y5yIYhha+uq3lvoh9IWG23Nt+T3cY
+ +LcfW5RAfYbziSmNEuM0aVIiBSq3MI2kuHGEpY2FIyHUDwL7A+N2qCnWiySrcMCmH00k
+ db5iZEBl+hn9YhhWE6h4cxiytTl39PcOP2fLiV9dXzaPbtMLa393IssGzx5dNWbNKluj
+ a53dhFPi4oIDjbrP5DcxIooNf1vX04fic9xNn/TSOli+QGd5g/G8eTL1+zemic7Zu4yb
+ UrMAoZlTdTwfRx7Vie9M/D2AbR74zcAol9cozCCFXyfDk/osdJewer8MTRZYIFWn0y1X
+ wlSg==
+X-Gm-Message-State: AAQBX9d+j9+UNGwWAhV5FZEDyhsWF88H+JC7ZJJL1GYiW67zYfVBzK1w
+ oqWhW7h/jcQvuYbmM/oNmIo9VcrnCANhV7aEiS9pPz5olywVNJcei5OI2llYwjBgWYQMmHpIrUM
+ iYwfxefLE5eVXNvg=
+X-Received: by 2002:a5d:4942:0:b0:2ef:b137:37fe with SMTP id
+ r2-20020a5d4942000000b002efb13737femr10676102wrs.0.1681327116812; 
+ Wed, 12 Apr 2023 12:18:36 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YTzJ1yFRegMtmwi9sGvf7AZZ6Pqir93Kd8QLyPCKXmoE3q4JADYe/KagHmB2dFF9wqeEKhgg==
+X-Received: by 2002:a5d:4942:0:b0:2ef:b137:37fe with SMTP id
+ r2-20020a5d4942000000b002efb13737femr10676092wrs.0.1681327116513; 
+ Wed, 12 Apr 2023 12:18:36 -0700 (PDT)
 Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
  [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- a15-20020a5d4d4f000000b002cfe685bfd6sm17960924wru.108.2023.04.12.12.16.37
+ h16-20020a5d5490000000b002c8476dde7asm17844727wrv.114.2023.04.12.12.18.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 12:16:38 -0700 (PDT)
+ Wed, 12 Apr 2023 12:18:35 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  Peter Maydell <peter.maydell@linaro.org>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>,  Daniel P .
  =?utf-8?Q?Berrang=C3=A9?=
  <berrange@redhat.com>,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH for-8.0 3/3] migration: Recover behavior of preempt
- channel creation for pre-7.2
-In-Reply-To: <20230326172540.2571110-4-peterx@redhat.com> (Peter Xu's message
- of "Sun, 26 Mar 2023 13:25:40 -0400")
+Subject: Re: [PATCH for-8.0 2/3] migration: Fix potential race on
+ postcopy_qemufile_src
+In-Reply-To: <20230326172540.2571110-3-peterx@redhat.com> (Peter Xu's message
+ of "Sun, 26 Mar 2023 13:25:39 -0400")
 References: <20230326172540.2571110-1-peterx@redhat.com>
- <20230326172540.2571110-4-peterx@redhat.com>
+ <20230326172540.2571110-3-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 12 Apr 2023 21:16:36 +0200
-Message-ID: <87cz48oqqz.fsf@secure.mitica>
+Date: Wed, 12 Apr 2023 21:18:34 +0200
+Message-ID: <878rewoqnp.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,22 +105,67 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> In 8.0 devel window we reworked preempt channel creation, so that there'll
-> be no race condition when the migration channel and preempt channel got
-> established in the wrong order in commit 5655aab079.
+> postcopy_qemufile_src object should be owned by one thread, either the main
+> thread (e.g. when at the beginning, or at the end of migration), or by the
+> return path thread (when during a preempt enabled postcopy migration).  If
+> that's not the case the access to the object might be racy.
 >
-> However no one noticed that the change will also be not compatible with
-> older qemus, majorly 7.1/7.2 versions where preempt mode started to be
-> supported.
+> postcopy_preempt_shutdown_file() can be potentially racy, because it's
+> called at the end phase of migration on the main thread, however during
+> which the return path thread hasn't yet been recycled; the recycle happens
+> in await_return_path_close_on_source() which is after this point.
 >
-> Leverage the same pre-7.2 flag introduced in the previous patch to recover
-> the behavior hopefully before 8.0 releases, so we don't break migration
-> when we migrate from 8.0 to older qemu binaries.
+> It means, logically it's posslbe the main thread and the return path thread
+> are both operating on the same qemufile.  While I don't think qemufile is
+> thread safe at all.
 >
-> Fixes: 5655aab079 ("migration: Postpone postcopy preempt channel to be after main")
+> postcopy_preempt_shutdown_file() used to be needed because that's where we
+> send EOS to dest so that dest can safely shutdown the preempt thread.
+>
+> To avoid the possible race, remove this only place that a race can happen.
+> Instead we figure out another way to safely close the preempt thread on
+> dest.
+>
+> The core idea during postcopy on deciding "when to stop" is that dest will
+> send a postcopy SHUT message to src, telling src that all data is there.
+> Hence to shut the dest preempt thread maybe better to do it directly on
+> dest node.
+>
+> This patch proposed such a way that we change postcopy_prio_thread_created
+> into PreemptThreadStatus, so that we kick the preempt thread on dest qemu
+> by a sequence of:
+>
+>   mis->preempt_thread_status = PREEMPT_THREAD_QUIT;
+>   qemu_file_shutdown(mis->postcopy_qemufile_dst);
+>
+> While here shutdown() is probably so far the easiest way to kick preempt
+> thread from a blocked qemu_get_be64().  Then it reads preempt_thread_status
+> to make sure it's not a network failure but a willingness to quit the
+> thread.
+>
+> We could have avoided that extra status but just rely on migration status.
+> The problem is postcopy_ram_incoming_cleanup() is just called early enough
+> so we're still during POSTCOPY_ACTIVE no matter what.. So just make it
+> simple to have the status introduced.
+>
+> One flag x-preempt-pre-7-2 is added to keep old pre-7.2 behaviors of
+> postcopy preempt.
+>
+> Fixes: 9358982744 ("migration: Send requested page directly in rp-return thread")
 > Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  hw/core/machine.c        |  1 +
+>  migration/migration.c    | 10 ++++++++--
+>  migration/migration.h    | 34 +++++++++++++++++++++++++++++++++-
+>  migration/postcopy-ram.c | 20 +++++++++++++++-----
+>  4 files changed, 57 insertions(+), 8 deletions(-)
+>
+
+As preempt is pretty new I will ....
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+But code is quite subtle.
 queued.
 
 
