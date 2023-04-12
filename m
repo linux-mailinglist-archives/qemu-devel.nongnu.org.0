@@ -2,108 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC586E01A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 00:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6496E0262
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 01:14:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmiXE-0005gc-8i; Wed, 12 Apr 2023 18:01:48 -0400
+	id 1pmjee-0000Eq-3s; Wed, 12 Apr 2023 19:13:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3Rio3ZAYKCp8RD9MIBFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--seanjc.bounces.google.com>)
- id 1pmiXC-0005fz-6W
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 18:01:46 -0400
-Received: from mail-yw1-x114a.google.com ([2607:f8b0:4864:20::114a])
+ (Exim 4.90_1) (envelope-from <komlodi@google.com>)
+ id 1pmjec-0000EL-01
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 19:13:30 -0400
+Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3Rio3ZAYKCp8RD9MIBFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--seanjc.bounces.google.com>)
- id 1pmiXA-000135-7v
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 18:01:45 -0400
-Received: by mail-yw1-x114a.google.com with SMTP id
- 00721157ae682-54f3e30726cso93104037b3.22
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 15:01:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <komlodi@google.com>)
+ id 1pmjeZ-0008Gi-Vy
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 19:13:29 -0400
+Received: by mail-qk1-x734.google.com with SMTP id ay7so11543579qkb.6
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 16:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1681336902; x=1683928902;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=FXF6AhQnwp1n/IhYSnfZVqcASsRtZ9yL6mJXzW8Mi9w=;
- b=itcYyHsTjH+BWioeMOzHRsDUxYxnEou8ifBndkBXI6TNX5xq/HUkT1AyyhCCB+jlgg
- 3qhGiIFyP5GPmeAb9F/cGYLL0T6ndH4Anu3KiFTJ2zgUv7rYRpICAgBSTO4SmMWQG2dj
- 4lYV/RthfLCJMCgdpXeycR2egix1Qp8q862Y6ehJoE8Zrk7VpCCp7zEkzxGBY8nv1lJY
- RZQCmJ4imt199cSg173cMIapT9cfLep+3yZW0B5b36RF/xqQ9iUnS4egjGE1JSQeu6db
- gbh/vWlrrOQUF9lx8wSU9AC22JYq+cM0a/46K9zgrM+CGG4alQS9oe5dHDfglVggicdO
- Y9Wg==
+ d=google.com; s=20221208; t=1681341206; x=1683933206;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Z/NeklWL+shqx2uEqMQYby+2WEoz7O4dguSnRYAkGEE=;
+ b=TjdC1xJeVqiXXUmGo7PZBeayOv/88ijcl6Udv05l/ONjpt3JAOS8NXNiwuUJsSzP8y
+ oB/AVeN4ZzLsv47x5/nXXa/gvXRAebjgpjE+87lMKj6yUjfUwMsJ7V8mqumbfQejWv3o
+ GBvdUfIViY26YYcw/cQXSgkG9t2dMkJ1LtRE76pTLi6Ff7P3EpMw1/2WRmiGCMjV/hVP
+ tdQ7SuO7t2jN3dUhJJoKeY4c/1fLhoBPK8lODNbIDZ/ZVTs2lgko6ThuzdWR/ny0qMwm
+ sirsYIesvvb0wvjqlU0RTpkAM5n7/7co2+A9wtkv1gO8Qp92VJ1/uEvQHABpSqXR2GNr
+ QAWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681336902; x=1683928902;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FXF6AhQnwp1n/IhYSnfZVqcASsRtZ9yL6mJXzW8Mi9w=;
- b=C1uwsRjcVkVUwLFT4ik+cHDV9YUIrw9Tsg3GYmzX7HPVsLtyDUFgm22GCUF06pWNNU
- AXOf4WI8dqCz7HBPTkwclLTO1eR+XnROIXqp5+Em49otY/HBhijHjkfVqwiMKw7Nc9Uk
- raB+qwzRQmBCDzPFg1jIVtZYy7bymf1upg6+ehRiut97ffozK3mQ2VaIn9tnbwa/ZfoO
- PlNr9g6y1FIzLUpgjmJVMychgr/SNP3EP4ONup/pckemgwofBMYFw1r2m+4/qW7oNjRn
- T+rMmxHKiMmZv3o/JtsE1rZA6PPeZgAeIssE/yD1wrKuLam3sXHzXqlQI72WwgDeuRhP
- UX0Q==
-X-Gm-Message-State: AAQBX9cOS2SwdukPfRj9XJ5ooP2F8tJZEE+Qa1ZrBbnQ4Fm08+9erlCV
- bPPiDbnmEmcr0hsKfHZcESGnQlWjQcY=
-X-Google-Smtp-Source: AKy350artxVLouCy5UXXqGRd6vaUaGCzjJlbptUimGvT0630mPFw3RBlFaQsm42qDt42zFcnXgHxxlmRTKU=
-X-Received: from zagreus.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:cc07:0:b0:b8b:fe5f:2eaa with SMTP id
- l7-20020a25cc07000000b00b8bfe5f2eaamr43241ybf.2.1681336902548; Wed, 12 Apr
- 2023 15:01:42 -0700 (PDT)
-Date: Wed, 12 Apr 2023 15:01:41 -0700
-In-Reply-To: <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
-Mime-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com> <20230119111308.GC2976263@ls.amr.corp.intel.com>
- <Y8lg1G2lRIrI/hld@google.com> <20230119223704.GD2976263@ls.amr.corp.intel.com>
- <Y880FiYF7YCtsw/i@google.com> <20230213130102.two7q3kkcf254uof@amd.com>
- <20230221121135.GA1595130@chaop.bj.intel.com>
- <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
-Message-ID: <ZDcqRY6UMmpyf/so@google.com>
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-From: Sean Christopherson <seanjc@google.com>
-To: Michael Roth <michael.roth@amd.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, 
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, 
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>, 
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, tabba@google.com, mhocko@suse.com, 
- wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
- envelope-from=3Rio3ZAYKCp8RD9MIBFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--seanjc.bounces.google.com;
- helo=mail-yw1-x114a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ d=1e100.net; s=20221208; t=1681341206; x=1683933206;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Z/NeklWL+shqx2uEqMQYby+2WEoz7O4dguSnRYAkGEE=;
+ b=i6dCYsRpNF2/H7tX7GVfQPlZNqEUQTkhwkWcDqTFxQ5y8Ip+OoPz9Ifu1m5M8r42Is
+ m053KeeYjPv/enEd+Tyl55/ji4IcEFQ8sWkRGNMwpkki9nC+XrGcrE+Fl9LAyAgIL6Eg
+ hHjLmgKvL5n/Qu4hNud1r4Z856AAcqcK79DhbQsb3iylst8dnuJGVr1p2Cvn6F3FnoJM
+ 0//OL+m8sO1lZRRq4cvQm3tXmKHuS6rpqhdDkkWOEgUDv4aFyKRnxwc+iR7h1hnDHUFC
+ zpMubTbGmryo3btSh6+Tj7Wn67p60x/3pgm7WXACZmTO5ULFPCWNfYxOFf5REZE8C2UT
+ ci8g==
+X-Gm-Message-State: AAQBX9f1Ev8+vCfUNrnHu1bZ0jFjDV7Gz1dEP669tPA7W9IYbk/skcPU
+ wncoNxWXvZhm5vHGQ8cSpcVSejqI0Nvhu0vGUwseUQ==
+X-Google-Smtp-Source: AKy350ajWMFQdUnTl7/2096OEEKjiebKCUhALfWYVDdkSGo+LHxFmUfKhYJXvTGYtb0aH4Iyco3gqzzSKxf4prlkQwQ=
+X-Received: by 2002:a05:620a:15ab:b0:745:6b06:8a0c with SMTP id
+ f11-20020a05620a15ab00b007456b068a0cmr22413qkk.1.1681341206203; Wed, 12 Apr
+ 2023 16:13:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230331010131.1412571-1-komlodi@google.com>
+ <20230331010131.1412571-11-komlodi@google.com>
+ <4f19c8280191fe2ed1f8f7c25288e93de014b45c.camel@codeconstruct.com.au>
+In-Reply-To: <4f19c8280191fe2ed1f8f7c25288e93de014b45c.camel@codeconstruct.com.au>
+From: Joe Komlodi <komlodi@google.com>
+Date: Wed, 12 Apr 2023 16:13:14 -0700
+Message-ID: <CAGDLtxuz_vz7vvynuQE=GuXtpGt3eB_BsJwfW8CiPAtrwg6VzQ@mail.gmail.com>
+Subject: Re: [PATCH 10/16] hw/i3c/aspeed_i3c: Add IBI handling
+To: Jeremy Kerr <jk@codeconstruct.com.au>
+Cc: qemu-devel@nongnu.org, venture@google.com, peter.maydell@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
+ envelope-from=komlodi@google.com; helo=mail-qk1-x734.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,19 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 22, 2023, Michael Roth wrote:
-> On Tue, Feb 21, 2023 at 08:11:35PM +0800, Chao Peng wrote:
-> > >   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
-> > >   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
-> > 
-> > As many kernel APIs treat 'end' as exclusive, I would rather keep using
-> > exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
-> > and notifier callbacks) but fix it internally in the restrictedmem. E.g.
-> > all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
-> > See below for the change.
-> 
-> Yes I did feel like I was fighting the kernel a bit on that; your
-> suggestion seems like it would be a better fit.
+Hi jeremy,
 
-Comically belated +1, XArray is the odd one here.
+On Tue, Apr 11, 2023 at 2:17=E2=80=AFAM Jeremy Kerr <jk@codeconstruct.com.a=
+u> wrote:
+>
+> Hi Joe,
+>
+> > +static int aspeed_i3c_device_ibi_finish(I3CBus *bus)
+> > +{
+> > +    AspeedI3CDevice *s =3D ASPEED_I3C_DEVICE(bus->qbus.parent);
+> > +    bool nack_and_disable_hj =3D ARRAY_FIELD_EX32(s->regs, DEVICE_CTRL=
+,
+> > +                                                HOT_JOIN_ACK_NACK_CTRL=
+);
+> > +    if (nack_and_disable_hj || s->ibi_data.send_direct_disec) {
+> > +        aspeed_i3c_device_send_disec(s);
+> > +    }
+>
+> Shouldn't this be conditional on the ibi being a HJ request? With this,
+> I'm seeing the DISEC happen on *all* IBIs.
+
+Good catch! Yep it should be on HJs only.
+Will fix in v2 as well.
+
+Thanks,
+Joe
+
+>
+> Cheers,
+>
+>
+> Jeremy
+>
 
