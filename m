@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD936DF0AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 11:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E8A6DF0AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 11:42:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmWxm-00030l-GJ; Wed, 12 Apr 2023 05:40:26 -0400
+	id 1pmWzF-0004Tt-1a; Wed, 12 Apr 2023 05:41:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pmWxk-00030X-7f; Wed, 12 Apr 2023 05:40:24 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pmWxi-0000Ae-F0; Wed, 12 Apr 2023 05:40:23 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id F080D320091A;
- Wed, 12 Apr 2023 05:40:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 12 Apr 2023 05:40:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1681292418; x=
- 1681378818; bh=K83+0GEUN9qnzX+MtdBRjE63dhIn48A9gS3ZEIivPYw=; b=m
- 45KcehvQXmIPM5pOCUjb5JoT7PjUXA5NqvmlSqHRkWL2hLhsyfWWeUtoZBR6AdbN
- COFMXM8/GlptkrCzPUxZDP/4kCY0BjWUNRjqnEhalY5pi491s8LehmJsYIWzMs+z
- hAI9txXRQTzaXQh0yQzPjYtqJKS9utAoHfpqUEA+Z/aR/MAh0GvaO1XaBqlxPRoy
- DA/r28l7noY4Qp+UKkaxO9JXVuWic4L2ykmunKXiHvTw5iCv6eZaS343OqEYtzOd
- 4+QwjsVLjSoP52BKLNwK9xvdmZH7GJi/7f9wqH7TqVLumrMBQi4C3rHi+b8ulthK
- 759AOsRQES5WUEnJIENkg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1681292418; x=1681378818; bh=K83+0GEUN9qnz
- X+MtdBRjE63dhIn48A9gS3ZEIivPYw=; b=eWFAudYK6OPke1pp1dVH1ieqt5/gs
- 5p+2UDe1VJMqPgU4t4F68tUdesMv9nW3BJcCqeZxrUNxoOSyjGa/c2roybsqz87j
- X8z+dezmyfvgDMxfhdmKv/l9n7GM0/GwdggE3Ie+PS1ywLj42n0YeKbH8nzSHehI
- uGCfpgdPCn4xkzoXb6GKSR6ePrvcnO+R77Zq7EfaRyDhBPH7ARp+H7wWXIlenrrw
- gJI+m4hN+EuRxpVgvSHW4I2vvt9s4nZmZfHvZkYZsEFU65hvK1yP/xdJygxn18zJ
- 6mnqQ8E6Q00Q2WzIvlygxfEZ2WARjkHaoHPTYLv1FLRdJ2WlAtALpPrZw==
-X-ME-Sender: <xms:gXw2ZNQhfHILeyBKEKpCjzYq4u7ULXVYF2x78fJi6G5lh52ciWFnIQ>
- <xme:gXw2ZGz7pJQHr5HEx9-BygQP-hRrF3i-xqc5sn1n71Fz9iI4h-BZxlJ96PI8IvAlu
- wqjA1lKZjl0pH9hGIw>
-X-ME-Received: <xmr:gXw2ZC1tEutGZf7g2cfIUvj83oHL9qDFE9Gz1ATuqQOdZej1vitKLkkSsNQYW5FWty8q6jV0_W1_Cds-23nbmDo2WxKa28Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedgudelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:gXw2ZFBWTpUkLZq2aztJ4uC3iO4iMDF7IB7BG3UR9zaALD4MCvr_Aw>
- <xmx:gXw2ZGhk6iEidy1OW4Qll05CbzOX99TS-wCDzEqyvUXA7cW9SkeS8g>
- <xmx:gXw2ZJrMyEfVKKbiQOBqwxH-B0IUqKM4hb000Iw6Y_HGQkf-2ImLiQ>
- <xmx:gnw2ZOfkFYkEWUg6S2qLLYA1XwQT_Yw1BvJN6X-cPpX-Dg03EACuSA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Apr 2023 05:40:16 -0400 (EDT)
-Date: Wed, 12 Apr 2023 11:40:14 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH 0/2] hw/nvme: coverity fixes
-Message-ID: <ZDZ8fqM9QVghcfuy@cormorant.local>
-References: <20230411190448.64863-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <waleedjghandour@gmail.com>)
+ id 1pmWzD-0004RR-OV
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:41:55 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <waleedjghandour@gmail.com>)
+ id 1pmWzB-0000V1-Ul
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:41:55 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id e10so1998092ybp.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 02:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681292512; x=1683884512;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=TSNjKkZ1fptYMvI5F83NU2w+7pe+kQkIYcEFoOheEyM=;
+ b=H/nZ6w8I9zbu4vU+xQ3OQcrqKJLvZA9M1HlixUp9DeO6bk8HGJLukU19GBH1sZCbfs
+ MrsKIucuppnBcmPBM4ks/cRZi3eMXMeucLimTWuK6Nvn5pM5yjq/mr3+Ma97DdTChZ+i
+ luFcE9TDgf/pDZE/d+oregIwwTsRUZTTE6jprKZuJQHc3nKHYo50NLuUV2k1ZMTkZ2w6
+ y8p2zEihQeBMYDFkLXU4V0e11Z6nx29913L0F3a4ZT3l/ZMj/oYUW6NbBcBP+xbhdJIN
+ KDw7YyBtXHUJPE31TO56ozWYnqsVVUiuQIzh8v6Balc+3nMUj8SzOGdymowE7Jtf3e9m
+ 6PzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681292512; x=1683884512;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TSNjKkZ1fptYMvI5F83NU2w+7pe+kQkIYcEFoOheEyM=;
+ b=XtwBK0ZiMhv/4Ksgs4+o2P7I6BXjWADQzLBDhrNXaxSA6Fk+OQ4x7OiVvMdShtDli0
+ fin7tSuqYX3m5d9Ynd5/sINAyNN6g7fdkhwiLbqEx7hr0nGc3Uu0+sTLF3oVAdyuwzaV
+ 9jd1vymLBA8ZVZ06ddyPvSQcN1vY/NONXhKoQd2Gbj3Vs+ifx6DH22lW14Ike9xxNTAq
+ gdl3Wah6v7CNxAPiizAVRxh4q6Iw46n3k63etlKxga6e7mgot5OmXu0HGDWD2PVMy0VN
+ /UpqLAS0GDfHsyi2Uh4vIO+eX6Zmyr5NKFoNYWHUim3AFyNrW6mvjQDi/eagwbRMyxq9
+ +xMA==
+X-Gm-Message-State: AAQBX9fbmT68/W7eNl5F5AAxAVCTv85bmFiIydWKak2hybFqT80vyzeg
+ KBsGCg7OrBwh3jbWyj9bt1uyqN7t9op0qgHxvuzFKwU851U=
+X-Google-Smtp-Source: AKy350aV8JqN2XMLbAgFf1lMFQnx4e0Ri8l/7/cYIClF07JJ/Kiw8B2D/pEh6n+hbczz1UyvCCNAwVGc+GtEL6xTpwA=
+X-Received: by 2002:a25:76c6:0:b0:b8b:ee74:c9d4 with SMTP id
+ r189-20020a2576c6000000b00b8bee74c9d4mr11715674ybc.12.1681292511829; Wed, 12
+ Apr 2023 02:41:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="RNNyEbBiDXnXoZoT"
-Content-Disposition: inline
-In-Reply-To: <20230411190448.64863-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+From: Walid Ghandour <waleedjghandour@gmail.com>
+Date: Wed, 12 Apr 2023 11:41:41 +0200
+Message-ID: <CAEQMSUtx73GosLwzMLERTMkJ=eLiU5NbwZY1K0eOmFbJ-M=4Kw@mail.gmail.com>
+Subject: AVX-512 instruction set
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000ee628f05f9206a98"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=waleedjghandour@gmail.com; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,50 +79,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--000000000000ee628f05f9206a98
+Content-Type: text/plain; charset="UTF-8"
 
---RNNyEbBiDXnXoZoT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Hello,
+
+I am interested in adding AVX512 to qemu.
+
+Is anyone currently working on this ?
+
+If yes, when is it expected to be done ?
+
+I was trying to run a C program and failed with the following error at this
+instruction:
+
+
+
+
+*62 f2 7d 48 18 0d fa 0c 00 00 vbroadcastss 0xcfa(%rip),%zmm1qemu: uncaught
+target signal 4 (Illegal instruction) - core dumped*
+I like to add support for broadcast and fmadd avx 512 instructions such as
+the following one:
+
+
+*62 e2 7d 48 b8 c9     vfmadd231ps %zmm1,%zmm0,%zmm17*
+Thanks,
+Walid
+
+--000000000000ee628f05f9206a98
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Apr 11 21:04, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Fix two issues reported by Coverity (CID 1507979 and 1508281).
->=20
-> Klaus Jensen (2):
->   hw/nvme: fix memory leak in fdp ruhid parsing
->   hw/nvme: fix memory leak in nvme_dsm
->=20
->  hw/nvme/ctrl.c | 3 +++
->  hw/nvme/ns.c   | 3 ++-
->  2 files changed, 5 insertions(+), 1 deletion(-)
->=20
+<div dir=3D"ltr">Hello,<br><br>I am interested in adding AVX512 to qemu.<br=
+><br>Is anyone currently working on this ?<br><br>If yes, when is it expect=
+ed to be done ?<br><br>I was trying to run a C program and failed with the =
+following error at this instruction:<br><br><b>62 f2 7d 48 18 0d fa 0c 00 0=
+0 	vbroadcastss 0xcfa(%rip),%zmm1<br><br>qemu: uncaught target signal 4 (Il=
+legal instruction) - core dumped<br></b><br>I like to add support for broad=
+cast and fmadd avx 512 instructions such as the following one: <br><br><b>6=
+2 e2 7d 48 b8 c9 =C2=A0 =C2=A0	vfmadd231ps %zmm1,%zmm0,%zmm17<br></b><br>Th=
+anks,<br>Walid<br></div>
 
-Peter,
-
-Are you willing to merge this for 8.0 without additional reviews?
-
-I'm pretty confident on my fixes.
-
-
-Thanks,
-Klaus
-
---RNNyEbBiDXnXoZoT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmQ2fH4ACgkQTeGvMW1P
-Dem23Af+Llk8I5lH6Nfo34JPQUjjCnk7srat5+7QtPIx1rsSLm9B1VwrkAOgAVlE
-ifmief513vIJa77MHvoVmJSMYtnaBLsE9tQlnZthXkK0nSv3fKpdgnOn0Uk2S5Vt
-Fe1dUAnlifvDPRoSPbPnlUb7Zt6aZUeDjpK0LcKpKmgMrmn3qFdHTMty8het7N4y
-zeTAnwrvMJOHYt/Po+PHLTbO7CDk+SXlKjc0+Y9aN0oXMD5bRNyckGy/B0IiyOcc
-kwMxALOw6cwq9NOFcBOYyea+2LMszbmZf0CEoMj9JbnVsgugLp0nrjJIk50pOmSj
-Z2nj6P5O0FFPSTHm85n7tTu+ovlsQw==
-=KDtm
------END PGP SIGNATURE-----
-
---RNNyEbBiDXnXoZoT--
+--000000000000ee628f05f9206a98--
 
