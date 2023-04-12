@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D7A6DF425
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 13:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914276DF420
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 13:47:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmYtg-00060T-Cc; Wed, 12 Apr 2023 07:44:20 -0400
+	id 1pmYti-0006Lz-Kz; Wed, 12 Apr 2023 07:44:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pmYtD-0004vg-Ee
+ id 1pmYtD-0004vj-U0
  for qemu-devel@nongnu.org; Wed, 12 Apr 2023 07:43:53 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pmYtB-0002OA-4S
+ id 1pmYtC-0002Or-3O
  for qemu-devel@nongnu.org; Wed, 12 Apr 2023 07:43:51 -0400
-Received: by mail-wr1-x431.google.com with SMTP id j1so14578506wrb.0
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 04:43:48 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id e7so494153wrc.12
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 04:43:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681299828; x=1683891828;
+ d=linaro.org; s=google; t=1681299829; x=1683891829;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1b/kBvvVthJX/VbKnXsWeX6FiZxYMKF2JWi4jeCwEjI=;
- b=jfp6IJ9b6SfvDChBPWboAtWgpFxpKJNIvu7lhf0kVA7Eu8IQo2XlTqKRpz0rt/paXg
- 4w6PfgYIt946339LuxW6JFkQxE/OaKO2mhL+B8VSXySbn7HywzBJpf90AU7vxSXfnkTV
- h+hNIxtWLpTcDL5tZLvJZm8e5039skLZYRe1Q49lDVzEXgmapyE3dJh6IuCpU/bswRHr
- HJmr7Y7mi5rHCefuGETh0/fLqzwYFcvR0atM7FqWAZ8WPNAWKSjEorGFD1tI8jLsmh/d
- pFlizOwI5NWUBKjoF/hLYZLnoAB8LGxECo+fRmMOfs+ttNQguj1yignVOd0pawzOa3h4
- jm1w==
+ bh=fc7ZqB0501n3cQfOjNTftlZU8unqltEwwtjDsL6xclU=;
+ b=CnCsJy3yNooYT9AkA2kepFNlR146UK7RsPYjW4Rz720wOJJQHAcHjpBfjtz/3IbP0y
+ Bq5IE097CecxHpxRMiYhyJVHcIz2dzaMfhaCqFg+1XFQXqBD8D6F6OHjGjaNPvLQ7eEN
+ 07WEHo5Wq3e0lrsbQm+A4ysa/17C+klJX2TD7qksLzpn0uM4ustSpSMJV6QwZbeklX4U
+ 7mQhrHl42vugLPgh1YHMDedXSJ/t105dHT+qpnhsYwRGB+9vgPQ665tCQWNFiEGgsa9S
+ UtEA5PznDPPFOmM3xUq8oyKEQQ+wJBJ6PnIjvt775k6r4DayWg1Z/gXLjt9jwFIMwETY
+ Gwww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681299828; x=1683891828;
+ d=1e100.net; s=20210112; t=1681299829; x=1683891829;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1b/kBvvVthJX/VbKnXsWeX6FiZxYMKF2JWi4jeCwEjI=;
- b=Z2+xApHnFaZdfMrfjrZN2ipWh4MlNOcJec8oLTaMW21/tZPKUb3OWoTPL0rWjJxh9I
- 4mlYI3Ex9o7W+ZR/hZ2wvgi4YOismWp3GiZl7term8f/45v9MNBnUUIuK7Ry+UMcCjI0
- JOyrLVpmsVZFWOmt/2+HK3m0kBmBX2DX8OK3JdwOucBW7uPzsC4P+cfPlvPMLsKZP+hh
- 1TRSo8X3K3NFzZ0cyCqA+BkzZfOd19ascAFSC6/QX2s6N9SDA7Ig3rIyXj2SuISAXYWG
- JqM20klOOnkpNWJ25OW/QoYtZq4VH92jHBjgZG5xxFInZDiX3iUSp4/bp54/qHNSTalQ
- duAA==
-X-Gm-Message-State: AAQBX9fEUQCd9ZHF3w/pPoB4EqUZjC0iO0IdHSCLyyqCvf35bJW0uVuN
- Sr21feyk0uqPSfoUBQo9lWR7ygmxvMnHMpZNcSKae+NP
-X-Google-Smtp-Source: AKy350Zklz/sR+JJFQpTGIjMKnrtVHh3IcxpkkuU7U+heZ+X0HG7fk3a48HRreXt5LQJw7RVQy8m6g==
-X-Received: by 2002:a5d:540e:0:b0:2f0:27cc:1e7 with SMTP id
- g14-20020a5d540e000000b002f027cc01e7mr4409096wrv.9.1681299828407; 
- Wed, 12 Apr 2023 04:43:48 -0700 (PDT)
+ bh=fc7ZqB0501n3cQfOjNTftlZU8unqltEwwtjDsL6xclU=;
+ b=SRTfyM3Gjh4Ixu5mjUmrbON/NPFfCKPqHn6ab79ebldAlEAH34BlQ8mg4v0P7mjg5I
+ MgBfln7RdXfOa6b8cCE+Yj8oUWK5oBCqXr+MAGY4GItaO1siR1KCWtM6+e2fiWC5LKfF
+ IlNtxTNIoimJ1RJdD+qAOUzl6nGhJ4IMy55dQZ1HWLVRUNAi6lrjfCD9wKHxTddDThPH
+ Uj2CVp6M6jydvMdicM1d3jBa4a9H3W8n7kISC+AcH8U9rog8EU6Xfdy1eOr53Tqe0/D2
+ aMA0i871LOnSTkVR0ujL0clIYTVZDARzAefhhulq8MtzhJrJrLl2hkqH2kzYZWQHDG5l
+ +iRA==
+X-Gm-Message-State: AAQBX9cH6uKcYi9eAGsrqYwVAL+F5ir4pXPyN2/rtekdInBgGszoLXJX
+ GePnq8VXO/hLSyuticfwAZInoJEx6w8d7YBWQVpTzT17
+X-Google-Smtp-Source: AKy350a/hOvYlcMMPfQkRGJLCbiZ24/CjIak8NMlcbut6+1dF7bHaRN2LAcF2iu9cXqErTAC5eL+bg==
+X-Received: by 2002:a5d:50c1:0:b0:2ef:b5a0:35e8 with SMTP id
+ f1-20020a5d50c1000000b002efb5a035e8mr10364496wrt.20.1681299829356; 
+ Wed, 12 Apr 2023 04:43:49 -0700 (PDT)
 Received: from stoup.hotel.gast (ip-037-024-010-236.um08.pools.vodafone-ip.de.
  [37.24.10.236]) by smtp.gmail.com with ESMTPSA id
- k9-20020a5d4289000000b002d21379bcabsm16980826wrq.110.2023.04.12.04.43.47
+ k9-20020a5d4289000000b002d21379bcabsm16980826wrq.110.2023.04.12.04.43.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Apr 2023 04:43:48 -0700 (PDT)
+ Wed, 12 Apr 2023 04:43:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, qemu-riscv@nongnu.org,
  Alistair Francis <alistair.francis@wdc.com>,
  Weiwei Li <liweiwei@iscas.ac.cn>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v7 15/25] target/riscv: Move hstatus.spvp check to
- check_access_hlsv
-Date: Wed, 12 Apr 2023 13:43:23 +0200
-Message-Id: <20230412114333.118895-16-richard.henderson@linaro.org>
+Subject: [PATCH v7 16/25] target/riscv: Set MMU_2STAGE_BIT in
+ riscv_cpu_mmu_index
+Date: Wed, 12 Apr 2023 13:43:24 +0200
+Message-Id: <20230412114333.118895-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230412114333.118895-1-richard.henderson@linaro.org>
 References: <20230412114333.118895-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,60 +94,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The current cpu_mmu_index value is really irrelevant to
-the HLV/HSV lookup.  Provide the correct priv level directly.
+Incorporate the virt_enabled and MPV checks into the cpu_mmu_index
+function, so we don't have to keep doing it within tlb_fill and
+subroutines.  This also elides a flush on changes to MPV.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Tested-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-Id: <20230325105429.1142530-16-richard.henderson@linaro.org>
+Message-Id: <20230325105429.1142530-17-richard.henderson@linaro.org>
 ---
- target/riscv/cpu_helper.c | 10 +---------
- target/riscv/op_helper.c  |  2 +-
- 2 files changed, 2 insertions(+), 10 deletions(-)
+ target/riscv/cpu_helper.c | 49 ++++++++++++++-------------------------
+ target/riscv/csr.c        |  6 +----
+ 2 files changed, 18 insertions(+), 37 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 9dfd1d739b..ccba3c45e7 100644
+index ccba3c45e7..baa4b3a1d2 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -770,14 +770,6 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         use_background = true;
+@@ -37,19 +37,21 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+ #ifdef CONFIG_USER_ONLY
+     return 0;
+ #else
+-    if (ifetch) {
+-        return env->priv;
+-    }
++    bool virt = env->virt_enabled;
++    int mode = env->priv;
+ 
+     /* All priv -> mmu_idx mapping are here */
+-    int mode = env->priv;
+-    if (mode == PRV_M && get_field(env->mstatus, MSTATUS_MPRV)) {
+-        mode = get_field(env->mstatus, MSTATUS_MPP);
++    if (!ifetch) {
++        if (mode == PRV_M && get_field(env->mstatus, MSTATUS_MPRV)) {
++            mode = get_field(env->mstatus, MSTATUS_MPP);
++            virt = get_field(env->mstatus, MSTATUS_MPV);
++        }
++        if (mode == PRV_S && get_field(env->mstatus, MSTATUS_SUM)) {
++            mode = MMUIdx_S_SUM;
++        }
      }
+-    if (mode == PRV_S && get_field(env->mstatus, MSTATUS_SUM)) {
+-        return MMUIdx_S_SUM;
+-    }
+-    return mode;
++
++    return mode | (virt ? MMU_2STAGE_BIT : 0);
+ #endif
+ }
+ 
+@@ -1162,7 +1164,7 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+     }
+ 
+     env->badaddr = addr;
+-    env->two_stage_lookup = env->virt_enabled || mmuidx_2stage(mmu_idx);
++    env->two_stage_lookup = mmuidx_2stage(mmu_idx);
+     env->two_stage_indirect_lookup = false;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+@@ -1187,7 +1189,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+         g_assert_not_reached();
+     }
+     env->badaddr = addr;
+-    env->two_stage_lookup = env->virt_enabled || mmuidx_2stage(mmu_idx);
++    env->two_stage_lookup = mmuidx_2stage(mmu_idx);
+     env->two_stage_indirect_lookup = false;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+@@ -1225,7 +1227,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     int prot, prot2, prot_pmp;
+     bool pmp_violation = false;
+     bool first_stage_error = true;
+-    bool two_stage_lookup = false;
++    bool two_stage_lookup = mmuidx_2stage(mmu_idx);
+     bool two_stage_indirect_error = false;
+     int ret = TRANSLATE_FAIL;
+     int mode = mmu_idx;
+@@ -1237,24 +1239,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
+                   __func__, address, access_type, mmu_idx);
  
 -    /*
 -     * MPRV does not affect the virtual-machine load/store
 -     * instructions, HLV, HLVX, and HSV.
 -     */
 -    if (mmuidx_2stage(mmu_idx)) {
--        mode = get_field(env->hstatus, HSTATUS_SPVP);
+-        ;
+-    } else if (mode == PRV_M && access_type != MMU_INST_FETCH &&
+-               get_field(env->mstatus, MSTATUS_MPRV)) {
+-        mode = get_field(env->mstatus, MSTATUS_MPP);
+-        if (riscv_has_ext(env, RVH) && get_field(env->mstatus, MSTATUS_MPV)) {
+-            two_stage_lookup = true;
+-        }
 -    }
 -
-     if (first_stage == false) {
-         /*
-          * We are in stage 2 translation, this is similar to stage 1.
-@@ -1250,7 +1242,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-      * instructions, HLV, HLVX, and HSV.
-      */
-     if (mmuidx_2stage(mmu_idx)) {
--        mode = get_field(env->hstatus, HSTATUS_SPVP);
-+        ;
-     } else if (mode == PRV_M && access_type != MMU_INST_FETCH &&
-                get_field(env->mstatus, MSTATUS_MPRV)) {
-         mode = get_field(env->mstatus, MSTATUS_MPP);
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index a5de3daee7..49c19d971d 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -437,7 +437,7 @@ static int check_access_hlsv(CPURISCVState *env, bool x, uintptr_t ra)
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, ra);
+     pmu_tlb_fill_incr_ctr(cpu, access_type);
+-    if (env->virt_enabled ||
+-        ((mmuidx_2stage(mmu_idx) || two_stage_lookup) &&
+-         access_type != MMU_INST_FETCH)) {
++    if (two_stage_lookup) {
+         /* Two stage lookup */
+         ret = get_physical_address(env, &pa, &prot, address,
+                                    &env->guest_phys_fault_addr, access_type,
+@@ -1350,8 +1336,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         return false;
+     } else {
+         raise_mmu_exception(env, address, access_type, pmp_violation,
+-                            first_stage_error,
+-                            env->virt_enabled || mmuidx_2stage(mmu_idx),
++                            first_stage_error, two_stage_lookup,
+                             two_stage_indirect_error);
+         cpu_loop_exit_restore(cs, retaddr);
      }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 124be448dc..211acad5ae 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1270,7 +1270,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+     val = legalize_mpp(env, get_field(mstatus, MSTATUS_MPP), val);
  
--    return cpu_mmu_index(env, x) | MMU_2STAGE_BIT;
-+    return get_field(env->hstatus, HSTATUS_SPVP) | MMU_2STAGE_BIT;
- }
+     /* flush tlb on mstatus fields that affect VM */
+-    if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPV)) {
++    if ((val ^ mstatus) & MSTATUS_MXR) {
+         tlb_flush(env_cpu(env));
+     }
+     mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+@@ -1318,10 +1318,6 @@ static RISCVException write_mstatush(CPURISCVState *env, int csrno,
+     uint64_t valh = (uint64_t)val << 32;
+     uint64_t mask = MSTATUS_MPV | MSTATUS_GVA;
  
- target_ulong helper_hyp_hlv_bu(CPURISCVState *env, target_ulong addr)
+-    if ((valh ^ env->mstatus) & (MSTATUS_MPV)) {
+-        tlb_flush(env_cpu(env));
+-    }
+-
+     env->mstatus = (env->mstatus & ~mask) | (valh & mask);
+ 
+     return RISCV_EXCP_NONE;
 -- 
 2.34.1
 
