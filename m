@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BE66DFD1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 19:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2961D6DFD66
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 20:23:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmegz-0006xe-BC; Wed, 12 Apr 2023 13:55:37 -0400
+	id 1pmf7L-0003BH-Nz; Wed, 12 Apr 2023 14:22:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+9719990f4703cc1bc73b+7171+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pmegs-0006xF-AQ
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 13:55:30 -0400
+ id 1pmf7J-00039S-Nq
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 14:22:49 -0400
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+9719990f4703cc1bc73b+7171+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pmegl-0008RQ-Df
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 13:55:25 -0400
+ id 1pmf7G-0005fu-Qz
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 14:22:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=WjRh/kN33ct/d6raX7BL8tX7A+aKdFY4NdIpYtcNK+c=; b=l5HE5AmcIXWqgRWR9mc3B+64XP
- coB4kNbJJRtR/J3gH0oRN/EtrPp4kCtsfNnhG8odZwobH0l0UgfG7B/M1TQOBFDuW2scPYMvbt6s9
- /SSZLmc0wrGoXn8WeWg8wKxZEKMD5+M0X5giDGmT/Kep0GMBKPLmKVFkdLo/S0UjSf1utSu+daBZw
- P/7kNjsDY/AdEVjWkQ5uGeqBXSC4xkKSwDptJ6bX0o/V2Au/I+9uDLY6QbmCm0wNIA6HbQqPfklVZ
- Lj20NINfGiBOAhkrmBFvoWLc9AgtMdpG5yp/eQFvWbMlnb4qcTWaA9pM/vAotQldzCzuuNM5yeltu
- 0zDEliEA==;
+ bh=FMgErKlvTq/DZ1hsfRQ5x+/8tteMVJxJl1K2G+ztm2E=; b=r+b0LY0NHCggqPQ0RVv0bmzUhf
+ lV8QwoxNrzHT0HCozeE8EeQOq3dxq1tgyS4TuuTsJB00qBw+TyaXuxLysyGRws2vMJ5Pml4SJF/9X
+ 7hnYzlza5TWWbYq5R3n7RM+tAJSpjbsYJgLLZV6XTkZTWvCAWInbdRwhQ3cmM6K9jZPqNVCspxaO9
+ PG08IkKAVKGwmXuzNSLWQBbXTCxOx5Rr6URQHgE/3hWmIFKGw3vHTWxuF6ML5ysUaIvKtkouRJwGt
+ JPx7NuT9VObawsogWqoFn77swrD7y0/nL1jkVhoq7zWiHIFXZWQltNQAUzhZxr1+OAAtgxkCwqfhV
+ EC742khA==;
 Received: from [2001:8b0:10b:5:d4a3:d89c:c03d:e45c]
  (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pmegd-0075Bv-4q; Wed, 12 Apr 2023 17:55:15 +0000
-Message-ID: <5b5b26ed5e0bb65da86eb88364043d4ba039e5f7.camel@infradead.org>
-Subject: Re: qemu v8.0-rc3 fails to compile with Xen
+ id 1pmf7A-0076Pj-Ki; Wed, 12 Apr 2023 18:22:40 +0000
+Message-ID: <92e10c45117dce9c07304a567fd412434ea0ddd3.camel@infradead.org>
+Subject: Re: [PULL 22/27] hw/xen: Add emulated implementation of XenStore
+ operations
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Olaf Hering <olaf@aepfle.de>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org, Stefano Stabellini
- <sstabellini@kernel.org>, Anthony Perard <anthony.perard@citrix.com>, Paul
- Durrant <paul@xen.org>
-Date: Wed, 12 Apr 2023 18:55:13 +0100
-In-Reply-To: <CAFEAcA_67X3mEpfNDuShsBK2i+taGZVb3JYf+r_qr3fY+aY74w@mail.gmail.com>
-References: <20230412125842.573dc418.olaf@aepfle.de>
- <873555pakr.fsf@linaro.org> <20230412142022.4b88df69.olaf@aepfle.de>
- <80e7920a8947fe58d94003c7591af6e876edf706.camel@infradead.org>
- <20230412184118.7069e990.olaf@aepfle.de>
- <841857d534d6f46e1cb293cb90ec5bd599f4db54.camel@infradead.org>
- <CAFEAcA_67X3mEpfNDuShsBK2i+taGZVb3JYf+r_qr3fY+aY74w@mail.gmail.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant
+ <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>, Ankur Arora
+ <ankur.a.arora@oracle.com>, Stefano Stabellini <sstabellini@kernel.org>, 
+ vikram.garhwal@amd.com, Anthony Perard <anthony.perard@citrix.com>, 
+ xen-devel@lists.xenproject.org, Juan Quintela <quintela@redhat.com>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>
+Date: Wed, 12 Apr 2023 19:22:38 +0100
+In-Reply-To: <CAFEAcA-vCihVupZsLBdh6+-xjdNX2-K1Ceo+tgsjA=KCdWTjpg@mail.gmail.com>
+References: <20230307182707.2298618-1-dwmw2@infradead.org>
+ <20230307182707.2298618-23-dwmw2@infradead.org>
+ <CAFEAcA-vCihVupZsLBdh6+-xjdNX2-K1Ceo+tgsjA=KCdWTjpg@mail.gmail.com>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-tgAQCbqAmZ+8wlOc99ER"
+ boundary="=-Xp0bkBS/xd5/DOVDOVjB"
 User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -83,33 +83,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-tgAQCbqAmZ+8wlOc99ER
+--=-Xp0bkBS/xd5/DOVDOVjB
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2023-04-12 at 18:32 +0100, Peter Maydell wrote:
-> On Wed, 12 Apr 2023 at 17:58, David Woodhouse <dwmw2@infradead.org>
-> wrote:
-> >=20
-> > On Wed, 2023-04-12 at 18:41 +0200, Olaf Hering wrote:
-> > > The error with this patch applied looks like this:
-> >=20
-> > Thanks. So I think I fixed that one but there are others. I'll make
-> > myself a build environment rather than getting you to help me play
-> > whack-a-mole.
+On Tue, 2023-04-11 at 19:07 +0100, Peter Maydell wrote:
 >=20
-> Is it worth the effort if this version of Xen
-> is old enough that it's outside our standard supported
-> build platforms policy?
-> https://www.qemu.org/docs/master/about/build-platforms.html
-> You could just remove all the no-longer-needed compat code
-> instead...
+>=20
+> > +static void xs_be_unwatch(struct qemu_xs_handle *h, struct
+> > qemu_xs_watch *w)
+> > +{
+> > +=C2=A0=C2=A0=C2=A0 xs_impl_unwatch(h->impl, DOMID_QEMU, w->path, NULL,
+> > xs_be_watch_cb, w);
+>=20
+> Coverity points out that this is the only call to xs_impl_unwatch()
+> where we don't check the return value. Is there some useful way
+> we can report the error, or is it a "we're closing everything down
+> anyway, no way to report anything" situation? (This particular
+> Coverity heuristic is quite prone to false positives, so if that's
+> the way it is I'll just mark it as a f-p in the coverity UI.)
 
-Indeed. I'll rip out everything before 4.7.1, which is plenty ancient
-enough and the compat support for it is fairly minimal (and builds fine
-here).
+This is because the Xen libxenstore API doesn't return an error, and
+this is the ops function which emulates that same API. I suppose we
+could explicitly cast to void with a comment to that effect, to avoid
+having it linger in Coverity? I think that's sufficient to make
+Coverity shut up, isn't it?
 
---=-tgAQCbqAmZ+8wlOc99ER
+--=-Xp0bkBS/xd5/DOVDOVjB
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -201,25 +201,25 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwNDEyMTc1NTEzWjAvBgkqhkiG9w0BCQQxIgQg1gphmb/Z
-GDhzZr3k7zwduYj0Q5Tiarke9ufZH4S6mZgwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwNDEyMTgyMjM4WjAvBgkqhkiG9w0BCQQxIgQgJ0U7/4DY
+IOLbvjX7/V1CfHz2x4x+x2tqnhDjPo1c5FEwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAONBSWmxQXodAw+31bwJnnhKoqnV7MiXf/
-+ZJm9wanXqOOI0Uo5bjb/JE21ve1sTM4EOWMRoRL3Ecx+CoJZVGKO7hsCBI70jwb/D3yNz3XCKDL
-4deBgTODDg8WfRhQTJNS9NNWApnXX/6CNodbML4vvFgEc9Q8UqgC8Rn3V2SgIICgOoBF+TiY1/xq
-EahnLuJZOW4I/xxOK0k9TJgEdQIoJ2wunwyeFPcAZbv5NfI61obbmvam0yJqmsJw1xRRJbQoGasJ
-6imV01AZAJxzPTelbOOYIPN6oVu63BBvTjrEIAJro6QXscqkkhq+Rxk6ZHE9uIXjINCsNQseJ1KI
-yKoatnAsE0jiUyMgPLdMERt54PwCjZjD+Aopw7BMzIWNI7YN/JevyZju2ej/nuXDwgeL2uXufBy+
-voHNLqBzPPeotkYLXpc8P6Gf2eX/LDLaxUfKYdIFj+AGg/w4VXx9Irk4YIESWxwzjnkFGzIlQi3q
-eTIsY3KLTDpQInIqm/xzx/q7Ko7R3d9zYD1Gbbyfb/gmOyInKN7nd3QqiE7oh1VlEQSWp+T05YLD
-zcv1Bm+X5eMk+mX+/H38GzzhHc4fGSLcbU8Z3/iYMzuFRGqJQgzSiVVoDHCPOJ7lcz0KVi+T4nJS
-VZiFx1EhkkEC1FrbpZYy1I34/per6bO9DZOPlBiImQAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgB/0bmG8i4XLIiZKhZfVQi7Riv5DfIbsBMd
+RwsoOUxPloK9v7nylfD6IsvRGL9vRAs6/mA70i2Gg5Pnm+q4bdRE35V6kVML1jsfb6hP342HLM+H
+k8Npmq6PYbfR8y8K1NmBbpNCO6l7vEwFwDjTrt7Er96Xbuct2UCFReNtDZcPldugsfIsbrUhsK1Q
+s4nVtGGBcBuifXwAV1qIcu/V159h0g/5ardYKvzcnjbOLBU7pt9QXm8GLxhsE4L+SLda0O2wkul2
+Apdj7pRhpMAz7deOWl2huW/HPOdJga2ssuFKFtaw2HYxxNZBS7F4MklC5bxS37D5pLjw7PW3Qf1x
+hsdOjlntErh4C/peVYtRrJsh8FgosaOKgdwI/1PK1XTxy5o48e9fZL248/UGe7GtXjbhkXD8cOhL
+jITcmME68Mev3lgJ3LnoklZFUbF07onGJhH2mPwjwJSTZs5Qu/xTWRl/c+nLHP1leB4FUIkjQ0z1
+2rta7txQGxkNRokt+uFFVVeAoXhAQblm6oTf5tzVYQWvMrVE0MSnr6TqQGPsNXEaSkNT0Mvd1R1x
+eXg4rYC3KzLGfDYJ8Kf6xANVd+dgs9OgIqfZy57x2wDB89m0O1vW2Tmi8bN+bc2G0RMKIOKe+IeT
+6ukYeRro7teUDaVP+Fj9hWIcPPVcGfo52dSc7ochbQAAAAAAAA==
 
 
---=-tgAQCbqAmZ+8wlOc99ER--
+--=-Xp0bkBS/xd5/DOVDOVjB--
 
