@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E8A6DF0AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 11:42:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF0536DF0E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 11:49:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmWzF-0004Tt-1a; Wed, 12 Apr 2023 05:41:57 -0400
+	id 1pmX5C-00068y-Hf; Wed, 12 Apr 2023 05:48:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <waleedjghandour@gmail.com>)
- id 1pmWzD-0004RR-OV
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:41:55 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmX5A-00068N-IY
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:48:04 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <waleedjghandour@gmail.com>)
- id 1pmWzB-0000V1-Ul
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:41:55 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id e10so1998092ybp.4
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 02:41:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pmX58-0001nt-FZ
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 05:48:04 -0400
+Received: by mail-wr1-x435.google.com with SMTP id w24so649507wra.10
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 02:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681292512; x=1683884512;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=TSNjKkZ1fptYMvI5F83NU2w+7pe+kQkIYcEFoOheEyM=;
- b=H/nZ6w8I9zbu4vU+xQ3OQcrqKJLvZA9M1HlixUp9DeO6bk8HGJLukU19GBH1sZCbfs
- MrsKIucuppnBcmPBM4ks/cRZi3eMXMeucLimTWuK6Nvn5pM5yjq/mr3+Ma97DdTChZ+i
- luFcE9TDgf/pDZE/d+oregIwwTsRUZTTE6jprKZuJQHc3nKHYo50NLuUV2k1ZMTkZ2w6
- y8p2zEihQeBMYDFkLXU4V0e11Z6nx29913L0F3a4ZT3l/ZMj/oYUW6NbBcBP+xbhdJIN
- KDw7YyBtXHUJPE31TO56ozWYnqsVVUiuQIzh8v6Balc+3nMUj8SzOGdymowE7Jtf3e9m
- 6PzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681292512; x=1683884512;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ d=linaro.org; s=google; t=1681292880; x=1683884880;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=TSNjKkZ1fptYMvI5F83NU2w+7pe+kQkIYcEFoOheEyM=;
- b=XtwBK0ZiMhv/4Ksgs4+o2P7I6BXjWADQzLBDhrNXaxSA6Fk+OQ4x7OiVvMdShtDli0
- fin7tSuqYX3m5d9Ynd5/sINAyNN6g7fdkhwiLbqEx7hr0nGc3Uu0+sTLF3oVAdyuwzaV
- 9jd1vymLBA8ZVZ06ddyPvSQcN1vY/NONXhKoQd2Gbj3Vs+ifx6DH22lW14Ike9xxNTAq
- gdl3Wah6v7CNxAPiizAVRxh4q6Iw46n3k63etlKxga6e7mgot5OmXu0HGDWD2PVMy0VN
- /UpqLAS0GDfHsyi2Uh4vIO+eX6Zmyr5NKFoNYWHUim3AFyNrW6mvjQDi/eagwbRMyxq9
- +xMA==
-X-Gm-Message-State: AAQBX9fbmT68/W7eNl5F5AAxAVCTv85bmFiIydWKak2hybFqT80vyzeg
- KBsGCg7OrBwh3jbWyj9bt1uyqN7t9op0qgHxvuzFKwU851U=
-X-Google-Smtp-Source: AKy350aV8JqN2XMLbAgFf1lMFQnx4e0Ri8l/7/cYIClF07JJ/Kiw8B2D/pEh6n+hbczz1UyvCCNAwVGc+GtEL6xTpwA=
-X-Received: by 2002:a25:76c6:0:b0:b8b:ee74:c9d4 with SMTP id
- r189-20020a2576c6000000b00b8bee74c9d4mr11715674ybc.12.1681292511829; Wed, 12
- Apr 2023 02:41:51 -0700 (PDT)
+ bh=yfrw79jGmMW2T5MHwxV0Q+298SVlWJpm2gRXeVkgbgs=;
+ b=NNHVldTa5uBjGhfd/o8iJ7wy2S0Wn8YcRNFNwRA+7bupmYUXqFXPMdi9J613xWzf6n
+ H6Ul63b8r/OiYTUj7IiBbs9y+Ho7wuaOADz7HpRMXQMSiOhBfdQeUpwL3KoVlK4VKEC7
+ EdHT345+ecza9gyGxYldVPy69h4L/gZzVeilMUMj5AXH75S01WDdGZARk1EDRT/sw/VL
+ A5uLwaOqX2deOaCAJYmu8h3v5eJh9XJVwxM8EebeIZsZlXwQxtAHOxNf6trx1gGdk+k8
+ kjx7le69VGFeiCtbtdEGcgzfjvYgWrXKhENz89aiffOQ133J4h/yQrER7v/WnWPeCSjL
+ 4R2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681292880; x=1683884880;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yfrw79jGmMW2T5MHwxV0Q+298SVlWJpm2gRXeVkgbgs=;
+ b=gufBwKCl3fYVikKXPBdlHgUxQwHmSoFDa58cEHhETneGeSA88YJ76YMK4Sm+tfbiqc
+ tTe94P3kFTKk4m+nmw2HhgNn8GCHgOnkr4rMQ/1dAo6AE5bLS3sdxRJVkTQQVzZdBhEU
+ e3vYLYhS8g4rfOpmi4Cp6MhyqNG8Mn++O1C8F9Ja5toVocwEUTDDOpAGzl8nJXhx+2JS
+ NZOjFPsdpwuj8YFqAQSYI/jRGotslHXsGCkRduKwx5mlacEgCFniUbW0v881AumbKR8J
+ J/MOAtMxHl/M56PB+LT3zYw/CHF3HNq2IxLk7a3k6+F5dXIXx2Zv8SKAgl/0WY7lsPU5
+ i1gw==
+X-Gm-Message-State: AAQBX9f5stCDccr18nhMk0NthoecMVMWc4VMsfvkEnRn7ZN97K8h6jF2
+ riMLvzg4Am+2Ubbpw2mIWGegmA==
+X-Google-Smtp-Source: AKy350Y5JHUpuh5/JEBj6dd2NH1eiQ7T0OBYnvw71qPTNgjzFDmsaoUrFgsEnOKv7yC68eB280/28Q==
+X-Received: by 2002:a05:6000:1a48:b0:2ef:727c:d357 with SMTP id
+ t8-20020a0560001a4800b002ef727cd357mr9548708wry.14.1681292880009; 
+ Wed, 12 Apr 2023 02:48:00 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.216.226])
+ by smtp.gmail.com with ESMTPSA id
+ f1-20020adfe901000000b002f0442a2d3asm8508344wrm.48.2023.04.12.02.47.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 02:47:59 -0700 (PDT)
+Message-ID: <03c52495-d40e-3e67-c564-6f1a5400e5a4@linaro.org>
+Date: Wed, 12 Apr 2023 11:47:57 +0200
 MIME-Version: 1.0
-From: Walid Ghandour <waleedjghandour@gmail.com>
-Date: Wed, 12 Apr 2023 11:41:41 +0200
-Message-ID: <CAEQMSUtx73GosLwzMLERTMkJ=eLiU5NbwZY1K0eOmFbJ-M=4Kw@mail.gmail.com>
-Subject: AVX-512 instruction set
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000ee628f05f9206a98"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=waleedjghandour@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH 1/2] hw/nvme: fix memory leak in fdp ruhid parsing
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Keith Busch
+ <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
+References: <20230411190448.64863-1-its@irrelevant.dk>
+ <20230411190448.64863-2-its@irrelevant.dk>
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230411190448.64863-2-its@irrelevant.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,46 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000ee628f05f9206a98
-Content-Type: text/plain; charset="UTF-8"
+On 11/4/23 21:04, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Coverity reports a memory leak of memory when parsing ruhids at
+> namespace initialization. Since this is just working memory, not needed
+> beyond the scope of the functions, fix this by adding a g_autofree
+> annotation.
+> 
+> Reported-by: Coverity (CID 1507979)
+> Fixes: 73064edfb864 ("hw/nvme: flexible data placement emulation")
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>   hw/nvme/ns.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
-Hello,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-I am interested in adding AVX512 to qemu.
-
-Is anyone currently working on this ?
-
-If yes, when is it expected to be done ?
-
-I was trying to run a C program and failed with the following error at this
-instruction:
-
-
-
-
-*62 f2 7d 48 18 0d fa 0c 00 00 vbroadcastss 0xcfa(%rip),%zmm1qemu: uncaught
-target signal 4 (Illegal instruction) - core dumped*
-I like to add support for broadcast and fmadd avx 512 instructions such as
-the following one:
-
-
-*62 e2 7d 48 b8 c9     vfmadd231ps %zmm1,%zmm0,%zmm17*
-Thanks,
-Walid
-
---000000000000ee628f05f9206a98
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<br><br>I am interested in adding AVX512 to qemu.<br=
-><br>Is anyone currently working on this ?<br><br>If yes, when is it expect=
-ed to be done ?<br><br>I was trying to run a C program and failed with the =
-following error at this instruction:<br><br><b>62 f2 7d 48 18 0d fa 0c 00 0=
-0 	vbroadcastss 0xcfa(%rip),%zmm1<br><br>qemu: uncaught target signal 4 (Il=
-legal instruction) - core dumped<br></b><br>I like to add support for broad=
-cast and fmadd avx 512 instructions such as the following one: <br><br><b>6=
-2 e2 7d 48 b8 c9 =C2=A0 =C2=A0	vfmadd231ps %zmm1,%zmm0,%zmm17<br></b><br>Th=
-anks,<br>Walid<br></div>
-
---000000000000ee628f05f9206a98--
 
