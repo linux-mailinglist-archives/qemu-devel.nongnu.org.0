@@ -2,75 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E376DF768
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 15:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAE96DF76D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Apr 2023 15:40:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmaga-0002uz-Rj; Wed, 12 Apr 2023 09:38:56 -0400
+	id 1pmahN-0003jD-SA; Wed, 12 Apr 2023 09:39:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmagY-0002uk-1u
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:38:54 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmagW-0004ja-9M
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:38:53 -0400
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-504eb1155d3so3660413a12.1
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 06:38:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681306730; x=1683898730;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dzMlssEei5ipCwGgAf5bATt684NRlZaMeG08WMBJFGw=;
- b=XnrY5Jw9F4EEtbnt5oe7ez8brSVYrMw6v8SHSP+BD2MLv/NuSPxZKKkN2C8w/IJBtu
- X7D0kUBMHbA4IDubRupH9CHTnv0549Yos/eWeqM9Ce1g4xJpBcDzDgmoEoD9sV3ma0q0
- EGYXvt+iGkuOuH8uWegtZzD22ai/qFauVbbhQTQBQCN7nLLuDJp+MQFG/uRoWJKdk+Ck
- ErQypFTrlk37oAKOdVRDKInAzqEz50gzzTt/dBP6ffX0MHq5r1epnhL7g8CRvLTJa+Mq
- 0+TUGr9/dMa5b4OCaOESIFJJFTgGGK43O9CE+H29fQbyQ/zcAUzidYaoI6g5VGcwD6Sp
- Yk/Q==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmahM-0003j2-1C
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:39:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmahJ-0004pl-Ij
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 09:39:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681306780;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uXGQo8nOYtOUNRUBfFQ1TatclODevvN5n0IJAYOTL1I=;
+ b=Pg63I9U+zIuOPwyife4XrNW3LPA3B/qQdhIVHq1pFcab8a17gPBLOJ9kyIHo7u6tuqkf2c
+ bM+Y8y5Dg3K0T9+KKk4mZeUd7QaWIh3dweVXcWXlZLpVnNrp1A2oAUbbuXfCA0zD828X9O
+ CbOjMoDMANNLujB5P6nWtxx5xpQB4dQ=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-549-bGp73n3KOnKL-Ny2hReyFg-1; Wed, 12 Apr 2023 09:39:38 -0400
+X-MC-Unique: bGp73n3KOnKL-Ny2hReyFg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ e3-20020ac84e43000000b003e259c363f9so8910595qtw.22
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 06:39:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681306730; x=1683898730;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dzMlssEei5ipCwGgAf5bATt684NRlZaMeG08WMBJFGw=;
- b=baZNnW8KEnlkke6+LnYRw55vt7cSytL96cSuX/rSoBV/p0Er2Mu7UIF1odCHa2fKy0
- Hdu2KJO5z9ntjVnNtltZfcg6V9tZN+8v7mgmVvuRJaL9NRJiJ8V0d9ZrgeNjC8rSshhZ
- TrjIn6b/E01GLMXJnqqlYOk997eJHw8IGX0L6UKwZsGJPX1rKJ5/ZHjY2kIgA9xMNqt0
- aT8kRULSuEx8ZnawqHXGSRXHKqZRxRZrlMdryRh1T4+6DDAAJDEpYDC+m5sW8n4gJDt6
- cRcaslJf0Q/WegghcppIe1eA61Qa3lw2jlMmLVmXa/6ujb0Eip+OgBJMK6FXH6B9zKi9
- +3ag==
-X-Gm-Message-State: AAQBX9cAfdfd3yY9Gvs9No1rCiTufi0OYwUe8ftiHOOuonOMTlqRmSdN
- Ud6MArvdQsB9rt/ZxXzvJC7B/hdOQw4b0KLL5aZqSg==
-X-Google-Smtp-Source: AKy350adrt7Qjs1K9wCI18dly45wlASszmzS19ap1u0oBotTmekBqHT3aXuPXrZkb6AkIhRJLvLqGrA1QnYRx5mkgj0=
-X-Received: by 2002:a05:6402:3605:b0:504:b6b0:87e3 with SMTP id
- el5-20020a056402360500b00504b6b087e3mr1803398edb.3.1681306730369; Wed, 12 Apr
- 2023 06:38:50 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681306778; x=1683898778;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uXGQo8nOYtOUNRUBfFQ1TatclODevvN5n0IJAYOTL1I=;
+ b=ZtCvj+Ptp7rtVqSA2OIkA3KFWIYbQ2xYdqKgWpYw3/o2fHGLq+n2C8TrHPcwiMmxdV
+ A3Zorh302+CEMRasC4rlLhsxhIBInKrYcKBrnp7DyIW7RGJevp4H2EJ5nRgAf0O2N9xJ
+ p/bFD8j/EyQJUr+uDNLziZUkt9gu+0mtuPXoa695d1nRzK+S63aaquwqv5gphmnP24Jz
+ JnmnlFZqsSBkHQHFQpJ7BNQTFFQYZEgKZ46uCXWdDvy5jU+xhmXnQZuSqnRxiv5XN2Uw
+ xJsxVmiKEIqfHAYcRw5gt9V58zALJ33Ahset8buE7PGZ8mqrIn1FyjqUzSBqL4CXzGX9
+ uq+w==
+X-Gm-Message-State: AAQBX9eZ+GswfH0+NDsXFwO5sDOgCMZY+f660gXluSYlLx2lCs6X06vK
+ effqf/p1dSZ9nabaMpNaTVHJJ2HP4xtdc3f4e/DQDoKTsVKhZl+JeaJcnhOF3THaRFUwTFF1YS2
+ EuSBWYKxCiFjOKRE=
+X-Received: by 2002:a05:6214:daa:b0:56e:9da4:82ff with SMTP id
+ h10-20020a0562140daa00b0056e9da482ffmr24261085qvh.50.1681306777856; 
+ Wed, 12 Apr 2023 06:39:37 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bEGBNDZ/pl/KcO07MVhmlhCk9fwyt71PFucyjXVk/s3HYcIfjCcHvae7yfmb9VTqwoG4Z3rg==
+X-Received: by 2002:a05:6214:daa:b0:56e:9da4:82ff with SMTP id
+ h10-20020a0562140daa00b0056e9da482ffmr24261060qvh.50.1681306777607; 
+ Wed, 12 Apr 2023 06:39:37 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-153.web.vodafone.de.
+ [109.43.179.153]) by smtp.gmail.com with ESMTPSA id
+ ep9-20020a05621418e900b005e14936cb09sm4007938qvb.11.2023.04.12.06.39.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 06:39:36 -0700 (PDT)
+Message-ID: <a2e3f75d-853f-6373-10b4-cf33a4599c75@redhat.com>
+Date: Wed, 12 Apr 2023 15:39:34 +0200
 MIME-Version: 1.0
-References: <CABLmASGEEMLWTwsZN1Yft_B5tV6Cw_2MXv-as_A3CQYhrn-nWA@mail.gmail.com>
- <b3719755-4a28-b493-0a56-0b8d14835586@weilnetz.de>
-In-Reply-To: <b3719755-4a28-b493-0a56-0b8d14835586@weilnetz.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 Apr 2023 14:38:39 +0100
-Message-ID: <CAFEAcA94JVCx1PW4b0wDagfjHwBfcuT_HrU=6FTZBvAW_3zyfg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Subject: Re: source fails to compile on msys2
-To: Stefan Weil <sw@weilnetz.de>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
+Content-Language: en-US
+To: Howard Spoelstra <hsp.cat7@gmail.com>,
  qemu-devel qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CABLmASGEEMLWTwsZN1Yft_B5tV6Cw_2MXv-as_A3CQYhrn-nWA@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CABLmASGEEMLWTwsZN1Yft_B5tV6Cw_2MXv-as_A3CQYhrn-nWA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.083, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,24 +99,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 12 Apr 2023 at 14:21, Stefan Weil via <qemu-devel@nongnu.org> wrote:
->
-> Am 12.04.23 um 15:13 schrieb Howard Spoelstra:
-> > Hello Peter,
-> >
-> > My source was cloned today. I just cloned again and I still see the
-> > tokens reversed:
-> > git clone https://www.gitlab.com/qemu/qemu
-> > <https://www.gitlab.com/qemu/qemu> qemu-master-clean
->
-> The official URL is https://gitlab.com/qemu-project/qemu/.
+On 12/04/2023 15.13, Howard Spoelstra wrote:
+> Hello Peter,
+> 
+> My source was cloned today. I just cloned again and I still see the tokens 
+> reversed:
+> git clone https://www.gitlab.com/qemu/qemu 
 
-Yep. I have no idea who that other gitlab repo is, but it's
-not us, and the repo could contain anything...
+You're using the wrong repository. The official QEMU repo is here:
 
-https://www.qemu.org/download/ is where to start for the
-instructions on how to clone the official QEMU repo.
+  https://gitlab.com/qemu-project/qemu.git
 
-thanks
--- PMM
+  HTH,
+   Thomas
+
 
