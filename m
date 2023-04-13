@@ -2,54 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601956E0C51
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158B76E0C5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:22:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmuxA-0003RL-6e; Thu, 13 Apr 2023 07:17:24 -0400
+	id 1pmv1Y-0005oh-Uq; Thu, 13 Apr 2023 07:21:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pmux7-0003Qu-99
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:17:21 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pmv1X-0005o2-LS
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:21:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pmux4-00052j-H5
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:17:20 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Pxxph1dYBz67GB6;
- Thu, 13 Apr 2023 19:16:12 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 13 Apr
- 2023 12:17:10 +0100
-Date: Thu, 13 Apr 2023 12:17:08 +0100
-To: Hao Zeng <zenghao@kylinos.cn>
-CC: <fan.ni@samsung.com>, <qemu-devel@nongnu.org>, <philmd@linaro.org>, Peter
- Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4] cxl-cdat:Fix open file not closed in ct3_load_cdat
-Message-ID: <20230413121708.00005a43@Huawei.com>
-In-Reply-To: <20230413093328.3689564-1-zenghao@kylinos.cn>
-References: <20230413093328.3689564-1-zenghao@kylinos.cn>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pmv1U-0006i1-Bf
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:21:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681384910;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZzPd5TqTR880GNrspfPIj9UQbcI/qgKnASU77rxoTeY=;
+ b=jTnKQ8KgA3fPHL/Ua9y7kpFhSmJUnzYaao7IIfWgGJEMrVMboK9w34qAjnyeDQ7QYtFLyH
+ DiDkFnUvS7dLKkMUnPo+zzXZEpV0z1PQd6jFuB/mqc3qrWoaCFfK/oi3FuMTREHH6/rH2O
+ 9YinL9gDAe9KPCDanaEEhzPoXds5tqU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-424-v0SVEnJWMAaZRicBbIrtoA-1; Thu, 13 Apr 2023 07:21:49 -0400
+X-MC-Unique: v0SVEnJWMAaZRicBbIrtoA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-94a4a33da90so200368566b.3
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 04:21:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681384908; x=1683976908;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZzPd5TqTR880GNrspfPIj9UQbcI/qgKnASU77rxoTeY=;
+ b=fntD/oe+E8oTFQqewSHqQi+XreqbI3a77VbWRCVOyjQPaFpQqxMMzJCUeyqbwFgial
+ 8SQ4Ap4VbS6xpPQiLrh+9CslHViappPLEgy7gKfN1S49jgBA9uL5VBIg11KFoflbtCWi
+ B74rvIFFIwAsD3asaFWjdEVo+4R4fORAHTQ3wzpF0NYE3YPWQe2ZHatkG/75CnWCcSDh
+ m7jS4i8P7fmOPiIkBDOVHvMgQnh70O3xxPbAD+AEpbiYUHOmWFTJxT3oy4rYWFKaEyGB
+ u4tvQhKJ5+XVHbVdBh72N5zBj6kqL+kVCKZpgCDxzMlj5LB965RyRHLhyEcgkUYObajV
+ EMTw==
+X-Gm-Message-State: AAQBX9c7UgQ0GRSuAez2n4+sEJXjoBrIeR6PgqaPG9x3/0dWwdHN8z8W
+ CMQFaSWKSAtr73Su1+rhyd+qox/f344HmZmvkF8ZsEioE2FxlOh3i0y9yxCwXL86JTunV2K9ta+
+ Bl70z9JbayMYzgH8=
+X-Received: by 2002:aa7:cb50:0:b0:4fd:29e6:701b with SMTP id
+ w16-20020aa7cb50000000b004fd29e6701bmr1839531edt.38.1681384908273; 
+ Thu, 13 Apr 2023 04:21:48 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aEMf4ok/8qATA+5GuSlwMzY7WmLFAJLBnggeDUwMpmPsYxUzfSYXcFHdm54W7M3vpPq/UrXw==
+X-Received: by 2002:aa7:cb50:0:b0:4fd:29e6:701b with SMTP id
+ w16-20020aa7cb50000000b004fd29e6701bmr1839505edt.38.1681384907897; 
+ Thu, 13 Apr 2023 04:21:47 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ a26-20020a170906685a00b0094e09ceafc9sm842684ejs.44.2023.04.13.04.21.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Apr 2023 04:21:47 -0700 (PDT)
+Date: Thu, 13 Apr 2023 13:21:45 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gavin Shan <gshan@redhat.com>, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org, rad@semihalf.com,
+ quic_llindhol@quicinc.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
+ philmd@linaro.org, wangyanan55@huawei.com, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, thuth@redhat.com,
+ lvivier@redhat.com, ajones@ventanamicro.com, berrange@redhat.com,
+ dbarboza@ventanamicro.com, yihyu@redhat.com, shan.gavin@gmail.com
+Subject: Re: [PATCH v4 0/3] NUMA: Apply cluster-NUMA-node boundary for
+ aarch64 and riscv machines
+Message-ID: <20230413132145.6f7ebadf@imammedo.users.ipa.redhat.com>
+In-Reply-To: <e1bb85c9-88f0-f55f-118e-b38afd7da8b0@redhat.com>
+References: <20230317062542.61061-1-gshan@redhat.com>
+ <20230327152651.41f22ac0@imammedo.users.ipa.redhat.com>
+ <3d1d2e5d-0202-ffa8-e07f-1cd7dc2ea3bf@redhat.com>
+ <CAFEAcA8ERPiock5FiwdE021V0S_Bofz5UJtvBuet2EcK2bXfZw@mail.gmail.com>
+ <e1bb85c9-88f0-f55f-118e-b38afd7da8b0@redhat.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,122 +107,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 13 Apr 2023 17:33:28 +0800
-Hao Zeng <zenghao@kylinos.cn> wrote:
+On Thu, 13 Apr 2023 13:50:57 +0800
+Gavin Shan <gshan@redhat.com> wrote:
 
-> opened file processor not closed,May cause file processor leaks
+> On 4/12/23 7:42 PM, Peter Maydell wrote:
+> > On Wed, 12 Apr 2023 at 02:08, Gavin Shan <gshan@redhat.com> wrote:  
+> >> On 3/27/23 9:26 PM, Igor Mammedov wrote:  
+> >>> On Fri, 17 Mar 2023 14:25:39 +0800
+> >>> Gavin Shan <gshan@redhat.com> wrote:
+> >>>  
+> >>>> For arm64 and riscv architecture, the driver (/base/arch_topology.c) is
+> >>>> used to populate the CPU topology in the Linux guest. It's required that
+> >>>> the CPUs in one cluster can't span mutiple NUMA nodes. Otherwise, the Linux
+> >>>> scheduling domain can't be sorted out, as the following warning message
+> >>>> indicates. To avoid the unexpected confusion, this series attempts to
+> >>>> warn about such kind of irregular configurations.
+> >>>>
+> >>>>      -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
+> >>>>      -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
+> >>>>      -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
+> >>>>      -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
+> >>>>
+> >>>>      ------------[ cut here ]------------
+> >>>>      WARNING: CPU: 0 PID: 1 at kernel/sched/topology.c:2271 build_sched_domains+0x284/0x910
+> >>>>      Modules linked in:
+> >>>>      CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.14.0-268.el9.aarch64 #1
+> >>>>      pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> >>>>      pc : build_sched_domains+0x284/0x910
+> >>>>      lr : build_sched_domains+0x184/0x910
+> >>>>      sp : ffff80000804bd50
+> >>>>      x29: ffff80000804bd50 x28: 0000000000000002 x27: 0000000000000000
+> >>>>      x26: ffff800009cf9a80 x25: 0000000000000000 x24: ffff800009cbf840
+> >>>>      x23: ffff000080325000 x22: ffff0000005df800 x21: ffff80000a4ce508
+> >>>>      x20: 0000000000000000 x19: ffff000080324440 x18: 0000000000000014
+> >>>>      x17: 00000000388925c0 x16: 000000005386a066 x15: 000000009c10cc2e
+> >>>>      x14: 00000000000001c0 x13: 0000000000000001 x12: ffff00007fffb1a0
+> >>>>      x11: ffff00007fffb180 x10: ffff80000a4ce508 x9 : 0000000000000041
+> >>>>      x8 : ffff80000a4ce500 x7 : ffff80000a4cf920 x6 : 0000000000000001
+> >>>>      x5 : 0000000000000001 x4 : 0000000000000007 x3 : 0000000000000002
+> >>>>      x2 : 0000000000001000 x1 : ffff80000a4cf928 x0 : 0000000000000001
+> >>>>      Call trace:
+> >>>>       build_sched_domains+0x284/0x910
+> >>>>       sched_init_domains+0xac/0xe0
+> >>>>       sched_init_smp+0x48/0xc8
+> >>>>       kernel_init_freeable+0x140/0x1ac
+> >>>>       kernel_init+0x28/0x140
+> >>>>       ret_from_fork+0x10/0x20
+> >>>>
+> >>>> PATCH[1] Warn about the irregular configuration if required
+> >>>> PATCH[2] Enable the validation for aarch64 machines
+> >>>> PATCH[3] Enable the validation for riscv machines
+> >>>>
+> >>>> v3: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg01226.html
+> >>>> v2: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg01080.html
+> >>>> v1: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg00886.html
+> >>>>
+> >>>> Changelog
+> >>>> =========
+> >>>> v4:
+> >>>>     * Pick r-b and ack-b from Daniel/Philippe                   (Gavin)
+> >>>>     * Replace local variable @len with possible_cpus->len in
+> >>>>       validate_cpu_cluster_to_numa_boundary()                   (Philippe)
+> >>>> v3:
+> >>>>     * Validate cluster-to-NUMA instead of socket-to-NUMA
+> >>>>       boundary                                                  (Gavin)
+> >>>>     * Move the switch from MachineState to MachineClass         (Philippe)
+> >>>>     * Warning instead of rejecting the irregular configuration  (Daniel)
+> >>>>     * Comments to mention cluster-to-NUMA is platform instead
+> >>>>       of architectural choice                                   (Drew)
+> >>>>     * Drop PATCH[v2 1/4] related to qtests/numa-test            (Gavin)
+> >>>> v2:
+> >>>>     * Fix socket-NUMA-node boundary issues in qtests/numa-test  (Gavin)
+> >>>>     * Add helper set_numa_socket_boundary() and validate the
+> >>>>       boundary in the generic path                              (Philippe)
+> >>>>
+> >>>> Gavin Shan (3):
+> >>>>     numa: Validate cluster and NUMA node boundary if required
+> >>>>     hw/arm: Validate cluster and NUMA node boundary
+> >>>>     hw/riscv: Validate cluster and NUMA node boundary
+> >>>>
+> >>>>    hw/arm/sbsa-ref.c   |  2 ++
+> >>>>    hw/arm/virt.c       |  2 ++
+> >>>>    hw/core/machine.c   | 42 ++++++++++++++++++++++++++++++++++++++++++
+> >>>>    hw/riscv/spike.c    |  2 ++
+> >>>>    hw/riscv/virt.c     |  2 ++
+> >>>>    include/hw/boards.h |  1 +
+> >>>>    6 files changed, 51 insertions(+)
+> >>>>  
+> >>>
+> >>> Acked-by: Igor Mammedov <imammedo@redhat.com>
+> >>>  
+> >>
+> >> Not sure if QEMU v8.0 is still available to integrate this series.
+> >> Otherwise, it should be something for QEMU v8.1. By the way, I'm
+> >> also uncertain who needs to be merge this series.  
+> > 
+> > It barely touches arm specific boards, so I'm assuming it will
+> > be reviewed and taken by whoever handles hw/core/machine.c
+> > 
+> > And yes, 8.0 is nearly out the door, this is 8.1 stuff.
+> >   
+> 
+> Indeed. In this case, it needs to be merged via 'Machine core' tree,
+> which is being taken care by Eduardo Habkost or Marcel Apfelbaum.
+> 
+> Eduardo and  Marcel, could you please merge this to QEMU v8.1 when it's
+> ready? Thanks in advance.
 
-Patch description needs to say more on how this is fixed.
-Perhaps something like:
-"Open file descriptor not closed in error paths. Fix by replace
- open coded handling of read of whole file into a buffer with
- g_file_get_contents()"
+Lately it was Paolo who taking care of generic machine queue
 
-Fixes tag is part of the tag block so blank line here
-
-> Fixes: aba578bdac ("hw/cxl: CDAT Data Object Exchange implementation")
->=20
-An no blank line here.
-
-> Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
-> Suggested-by: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
->=20
-> ---
-> ChangeLog:
->     v3-v4:
->         Modify commit information,No code change.
->     v2->v3:
->         Submission of v3 on the basis of v2, based on Philippe Mathieu-Da=
-ud=E9's suggestion
->         "Pointless bzero in g_malloc0, however this code would be
->          simplified using g_file_get_contents()."
->     v1->v2:
->         - Patch 1: No change in patch v1
->         - Patch 2: Fix the check on the return value of fread() in ct3_lo=
-ad_cdat
-> ---
->  hw/cxl/cxl-cdat.c | 30 ++++++++----------------------
->  1 file changed, 8 insertions(+), 22 deletions(-)
->=20
-> diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-> index 137abd0992..42c7c2031c 100644
-> --- a/hw/cxl/cxl-cdat.c
-> +++ b/hw/cxl/cxl-cdat.c
-> @@ -110,29 +110,17 @@ static void ct3_load_cdat(CDATObject *cdat, Error *=
-*errp)
->      g_autofree CDATEntry *cdat_st =3D NULL;
->      uint8_t sum =3D 0;
->      int num_ent;
-> -    int i =3D 0, ent =3D 1, file_size =3D 0;
-> +    int i =3D 0, ent =3D 1;
-> +    gsize file_size =3D 0;
->      CDATSubHeader *hdr;
-> -    FILE *fp =3D NULL;
-> -
-> +    GError *error =3D NULL;
-
-Blank line here.
-
-
->      /* Read CDAT file and create its cache */
-> -    fp =3D fopen(cdat->filename, "r");
-> -    if (!fp) {
-> -        error_setg(errp, "CDAT: Unable to open file");
-> -        return;
-> -    }
-> -
-> -    fseek(fp, 0, SEEK_END);
-> -    file_size =3D ftell(fp);
-> -    fseek(fp, 0, SEEK_SET);
-> -    cdat->buf =3D g_malloc0(file_size);
-> -
-> -    if (fread(cdat->buf, file_size, 1, fp) =3D=3D 0) {
-> -        error_setg(errp, "CDAT: File read failed");
-> +    if (!g_file_get_contents(cdat->filename, (gchar **)&cdat->buf,
-> +        &file_size, &error)) {
-
-Align parameters with start of 'cdat' (just after the opening bracket)
-
-> +        error_setg(errp, "CDAT: File read failed: %s", error->message);
-> +        g_error_free(error);
->          return;
->      }
-> -
-> -    fclose(fp);
-> -
->      if (file_size < sizeof(CDATTableHeader)) {
->          error_setg(errp, "CDAT: File too short");
->          return;
-> @@ -218,7 +206,5 @@ void cxl_doe_cdat_release(CXLComponentState *cxl_csta=
-te)
->          cdat->free_cdat_table(cdat->built_buf, cdat->built_buf_len,
->                                cdat->private);
->      }
-> -    if (cdat->buf) {
-> -        free(cdat->buf);
-> -    }
-> +    g_free(cdat->buf);
-
-Keep the protection if moving to g_free().  Not all paths to this function =
-allocate cdat->buf
-Protection was not needed when the call was free() though.=20
-
-I have a followup patch that will deal with the other issues Peter pointed =
-out. I'll
-send that once yours has been finalized.
-
-Thanks,
-
-Jonathan
-
-
-
->  }
+> 
+> Thanks,
+> Gavin
+> 
 
 
