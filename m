@@ -2,75 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DB16E11A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 18:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FD06E11A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 18:04:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmzPq-0001ny-VT; Thu, 13 Apr 2023 12:03:18 -0400
+	id 1pmzQp-0002Of-Ur; Thu, 13 Apr 2023 12:04:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1pmzPm-0001lQ-Cx
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 12:03:14 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1pmzPh-0008TW-1M
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 12:03:11 -0400
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-504e232fe47so2025826a12.2
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 09:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20221208.gappssmtp.com; s=20221208; t=1681401785; x=1683993785;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9jlVDfhHoysTNDNrwCw51YGNtSFoN2LyI2tRzaXDWWY=;
- b=QFJ2sP2Rni5PiJtvOkO3YpXM0a500EQ6cciUtVkiDWaKTJcQDLBwKAoCFw16cGxygq
- a7Zy1hLauj3OpBOs0TvR7LxwufP+DCw998oJ5dR+UgA2khdgXuYEJ+JwcspAhATSKeSV
- 8vJEY6xJpS9bH/AOzrujMqEqMahrfYxq6HmClXQXme0h4rLaUpVS2ZfFyyG3OcXb7vFP
- DTCTdkV6vXiQG9ttu2t8TWh0DOQY9rcmbpvgwqqL+AuxXbNPniVL1XGciUzi9OAA9FhN
- nN/RECuecEB471mr74RMdhW5G2vSzrVz6KU2ZYLPHsZhj4xhyk2J+pNWHX0+Bnr5Mf3H
- fBsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681401785; x=1683993785;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9jlVDfhHoysTNDNrwCw51YGNtSFoN2LyI2tRzaXDWWY=;
- b=DEDQJmBQawEeVJbsLto4pxvCtNhJZPQy3CpBUD7zADlU2nPgokiu1us6axK52/HuMB
- zK4Joy8b5Nhq2hJiPIuQFy6VYYgvrDOtyudlj/6jfoNYxaG4zsRVs93dCPO7bD83VC0Y
- J4xSPbIAsMi+6D65D1xWJivG3cL7EmxW9Camu2U63ZkqDjeEgTeqxpeHW+Vh5CHElRas
- O0vlJUrhc7L4z3nFfZ32nHaGDkyWCX4L3JmQu8n+4/SUv5jmuZI3rkNrKpZERBCWkqZ5
- AOCf6aYrTFMEW5V1gcdDPN74utGmKMRMYUNbJLSzgrIeTYKv8chnegc/Q/fVJ6ynC3Le
- 2v2A==
-X-Gm-Message-State: AAQBX9edbCzWmdLi0LrRQXdQR4t11YxHgZbwDFvqzsT/tZ4lSUo8GRKu
- RJnPyip2ZfMVyP7sm3v2Oq9sV4+9O/2hV0UyFICjHw==
-X-Google-Smtp-Source: AKy350b/VbzvQAK0KvIKXae+1yleidrMBjVo9A64yzXV51lFtnq17uyloGvrVTyoGt4lnDAgibzv6vy7nvHzh/zOysM=
-X-Received: by 2002:a50:aa9c:0:b0:504:9200:8c88 with SMTP id
- q28-20020a50aa9c000000b0050492008c88mr1551777edc.1.1681401785151; Thu, 13 Apr
- 2023 09:03:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1pmzQn-0002Nt-JF
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 12:04:17 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1pmzQl-0000IV-AO
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 12:04:17 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D8DC95821BE;
+ Thu, 13 Apr 2023 12:04:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 13 Apr 2023 12:04:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1681401852; x=
+ 1681409052; bh=yaqCPjOmT4SPOlCAxznT+4NGON1tEotsmgkNB1VGB30=; b=g
+ StG2nxVku9iBD1WQagIAjbs9eRtIqZQ4YJ7OEYoZjd8lDxrtEdHK9TqLOIeSqwI/
+ aRHxz87Qz45IxYCW54qgzCDISNjcqUTZEpEk1pt3VfmLnVVwuAPniOJ3FRodfKpI
+ DEMHWreitIkO4k4mgbAot366VgZ2vWimK9fKuI1RKhuY+/rU3uUPOowpp+5JdmEA
+ GgTYoBTSrgFdi7qpYlbquOANjGur+Ee0B0x1e9mN71cQweG+Ik8UL5j2jOOOdlxN
+ wytXUgUVh1bYTkhj1s4j/Imizt257d5R/RoBcvHrgEciqzigMyAbV50wz4zIs+/h
+ ZvAAYdSwUpPn20YgAC9eA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1681401852; x=1681409052; bh=yaqCPjOmT4SPO
+ lCAxznT+4NGON1tEotsmgkNB1VGB30=; b=ZhPxOavXVNafxjBvoz0rHGSKV5lrB
+ lBBeFJbThUiGvUr6dkUdUFPZBpFZ459KtreUM8/tmgj+GOIkARrz+/dxN2rCFKeh
+ IpN6sEvHrSODWjpvtdkpXDz1uk3XIMGrQ83IpXODAFKPMkKNE1syCCeenvY3ochU
+ sFkgoLNTQaB5KIJLTO17KkMdHMrJ9E9VdZJo8sSy642MoVNJ5ikM5yQQ28lztjFD
+ TiMX1SDBBjQlQM4qnK05EPhjiIvKgDfGSNZek/aZtbj2uyFA98dRfxTSn3BEVOR9
+ 95NphpJRdnFA0NLiN2ijCyMAXgwwHtzwaDSgo3Z/2Vu+j3IZFBGr1TvRQ==
+X-ME-Sender: <xms:-ic4ZN0HN98HMEwtW8V9mlbqa3gz5isroMmfB9qBPPUsWB8piPSjvA>
+ <xme:-ic4ZEEDMamcIgksjdbPM69xhaMG7daCyWg7mg9Z0r1MEEvqt4e-SesCeEw7fqteb
+ w_a7Jc6p1dt-60d7rk>
+X-ME-Received: <xmr:-ic4ZN4gF2ji4V6weIhkOL3DDxAjJ1Xt75lynoODK2-gh23ltHDhlYoOj9gaEs0WxajnZA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekkedgleejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+ ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+ grmhgvqeenucggtffrrghtthgvrhhnpeetvdehffelffeiveeikeduffetudeuheeiiefg
+ ueduvdevtdejhedvhfffffehfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuve
+ hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
+ sehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:-ic4ZK3e6y7eAfhmn4e66gu0PUt85Z-wcC5DNlSWhilhhk6w4t8EXQ>
+ <xmx:-ic4ZAECPW4s4BS3PWmFxf2t0_QIrnIg3FFBNPFHB4jha8PCamTX0A>
+ <xmx:-ic4ZL9cmfcyroxf89k4ficZUhl3J7t6abTqqTh77eZahq7_J0-qYA>
+ <xmx:_Cc4ZFJhth32jA7Up6aLA2dV58F_PmFV92-rLLWAX260cMRlG903Wg>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Apr 2023 12:04:09 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id B267B10D7C6; Thu, 13 Apr 2023 19:04:05 +0300 (+03)
+Date: Thu, 13 Apr 2023 19:04:05 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Liam Merwick <liam.merwick@oracle.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,	Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>,	Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com,	ddutile@redhat.com,
+ dhildenb@redhat.com,	Quentin Perret <qperret@google.com>,
+ tabba@google.com,	Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230413160405.h6ov2yl6l3i7mvsj@box.shutemov.name>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
+ <Y9B1yiRR8DpANAEo@google.com>
+ <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
+ <ZDdV0Fh7nDEnY/eW@google.com>
 MIME-Version: 1.0
-References: <20230413133432.53771-1-ivan.klokov@syntacore.com>
-In-Reply-To: <20230413133432.53771-1-ivan.klokov@syntacore.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 13 Apr 2023 21:32:54 +0530
-Message-ID: <CAAhSdy1hhz9wYX8EwCkN0z2YF0y70q0OfFCE2T+fXUdGGApu9w@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/riscv_aplic: Zero init APLIC internal state
-To: Ivan Klokov <ivan.klokov@syntacore.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, richard.henderson@linaro.org,
- anup.patel@wdc.com, palmer@dabbelt.com, alistair.francis@wdc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::534;
- envelope-from=anup@brainfault.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZDdV0Fh7nDEnY/eW@google.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=kirill@shutemov.name;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,42 +133,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 13, 2023 at 7:04=E2=80=AFPM Ivan Klokov <ivan.klokov@syntacore.=
-com> wrote:
->
-> Since g_new is used to initialize the RISCVAPLICState->state structure,
-> in some case we get behavior that is not as expected. This patch
-> changes this to g_new0, which allows to initialize the APLIC in the corre=
-ct state.
->
-> Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
+On Wed, Apr 12, 2023 at 06:07:28PM -0700, Sean Christopherson wrote:
+> On Wed, Jan 25, 2023, Kirill A. Shutemov wrote:
+> > On Wed, Jan 25, 2023 at 12:20:26AM +0000, Sean Christopherson wrote:
+> > > On Tue, Jan 24, 2023, Liam Merwick wrote:
+> > > > On 14/01/2023 00:37, Sean Christopherson wrote:
+> > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > > > This patch series implements KVM guest private memory for confidential
+> > > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > > > TDX-protected guest memory, machine check can happen which can further
+> > > > > > crash the running host system, this is terrible for multi-tenant
+> > > > > > configurations. The host accesses include those from KVM userspace like
+> > > > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > > > via a fd-based approach, but it can never access the guest memory
+> > > > > > content.
+> > > > > > 
+> > > > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > > > reviews are always welcome.
+> > > > > >    - 01: mm change, target for mm tree
+> > > > > >    - 02-09: KVM change, target for KVM tree
+> > > > > 
+> > > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > > > > is available here:
+> > > > > 
+> > > > >    git@github.com:sean-jc/linux.git x86/upm_base_support
+> > > > > 
+> > > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > > > > a WIP.
+> > > > > 
+> > > > 
+> > > > When running LTP (https://github.com/linux-test-project/ltp) on the v10
+> > > > bits (and also with Sean's branch above) I encounter the following NULL
+> > > > pointer dereference with testcases/kernel/syscalls/madvise/madvise01
+> > > > (100% reproducible).
+> > > > 
+> > > > It appears that in restrictedmem_error_page()
+> > > > inode->i_mapping->private_data is NULL in the
+> > > > list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) but I
+> > > > don't know why.
+> > > 
+> > > Kirill, can you take a look?  Or pass the buck to someone who can? :-)
+> > 
+> > The patch below should help.
+> > 
+> > diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> > index 15c52301eeb9..39ada985c7c0 100644
+> > --- a/mm/restrictedmem.c
+> > +++ b/mm/restrictedmem.c
+> > @@ -307,14 +307,29 @@ void restrictedmem_error_page(struct page *page, struct address_space *mapping)
+> >  
+> >  	spin_lock(&sb->s_inode_list_lock);
+> >  	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
+> > -		struct restrictedmem *rm = inode->i_mapping->private_data;
+> >  		struct restrictedmem_notifier *notifier;
+> > -		struct file *memfd = rm->memfd;
+> > +		struct restrictedmem *rm;
+> >  		unsigned long index;
+> > +		struct file *memfd;
+> >  
+> > -		if (memfd->f_mapping != mapping)
+> > +		if (atomic_read(&inode->i_count))
+> 
+> Kirill, should this be
+> 
+> 		if (!atomic_read(&inode->i_count))
+> 			continue;
+> 
+> i.e. skip unreferenced inodes, not skip referenced inodes?
 
-Looks good to me.
+Ouch. Yes.
 
-Reviewed-by: Anup Patel <anup@brainfault.org>
+But looking at other instances of s_inodes usage, I think we can drop the
+check altogether. inode cannot be completely free until it is removed from
+s_inodes list.
 
-Regards,
-Anup
+While there, replace list_for_each_entry_safe() with
+list_for_each_entry() as we don't remove anything from the list.
 
-> ---
->  hw/intc/riscv_aplic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/intc/riscv_aplic.c b/hw/intc/riscv_aplic.c
-> index cfd007e629..71591d44bf 100644
-> --- a/hw/intc/riscv_aplic.c
-> +++ b/hw/intc/riscv_aplic.c
-> @@ -803,7 +803,7 @@ static void riscv_aplic_realize(DeviceState *dev, Err=
-or **errp)
->
->      aplic->bitfield_words =3D (aplic->num_irqs + 31) >> 5;
->      aplic->sourcecfg =3D g_new0(uint32_t, aplic->num_irqs);
-> -    aplic->state =3D g_new(uint32_t, aplic->num_irqs);
-> +    aplic->state =3D g_new0(uint32_t, aplic->num_irqs);
->      aplic->target =3D g_new0(uint32_t, aplic->num_irqs);
->      if (!aplic->msimode) {
->          for (i =3D 0; i < aplic->num_irqs; i++) {
-> --
-> 2.34.1
->
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index 55e99e6c09a1..8e8a4420d3d1 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -194,22 +194,19 @@ static int restricted_error_remove_page(struct address_space *mapping,
+ 					struct page *page)
+ {
+ 	struct super_block *sb = restrictedmem_mnt->mnt_sb;
+-	struct inode *inode, *next;
++	struct inode *inode;
+ 	pgoff_t start, end;
+ 
+ 	start = page->index;
+ 	end = start + thp_nr_pages(page);
+ 
+ 	spin_lock(&sb->s_inode_list_lock);
+-	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
++	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
+ 		struct restrictedmem_notifier *notifier;
+ 		struct restrictedmem *rm;
+ 		unsigned long index;
+ 		struct file *memfd;
+ 
+-		if (atomic_read(&inode->i_count))
+-			continue;
+-
+ 		spin_lock(&inode->i_lock);
+ 		if (inode->i_state & (I_NEW | I_FREEING | I_WILL_FREE)) {
+ 			spin_unlock(&inode->i_lock);
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
