@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0649B6E0B98
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 12:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742976E0BDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 12:52:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmuNt-00044D-JO; Thu, 13 Apr 2023 06:40:57 -0400
+	id 1pmuXQ-0006oQ-P5; Thu, 13 Apr 2023 06:50:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pmuNm-00043l-19
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 06:40:50 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pmuXO-0006oA-Q2
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 06:50:46 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pmuNj-0008Pl-Pv
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 06:40:49 -0400
-Received: by mail-wr1-x430.google.com with SMTP id v6so13730000wrv.8
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 03:40:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pmuXM-0002P6-LW
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 06:50:46 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id dm2so36428148ejc.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 03:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681382445; x=1683974445;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Wt8QYWYgXcWDb0H4PzSCSB86AxQEfmL5GXKTxvwufWc=;
- b=vgr124BoHwdFxO+8XR7kdg8rVvjTn0NVgvqh2IRic5l3kYQUOHhoQTaVNENat3MtFT
- m04F+OZzwB9jdXFcnIsy4aWQ3aKr0ztkHTOY6lQZ0EIMXvg5dVLnUFVklSWIiXyUg4so
- TPyVIYoQ1qePdYzwdUatim3ab6+GMl+0NJj8xfSvKLwJQnSK51k2RUJ7jcnHU8E/hRB/
- BKNyh1LoGZg8FGwx9Hl1BU7tjqrmd6G8BpbRurNdgS7Iv9KFU3t9Z9C/31kJSRwapfUb
- Cgvxo+ND0LV1gCZDa3V6SUHKfqXrfdHaqn3DoKaK9742YoxMJDoe4T2PQI3CKdzzH6ru
- 7PvA==
+ d=linaro.org; s=google; t=1681383043; x=1683975043;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=j3GBnE24AC3CUIUnWNtPY3BUyG43HV3u/PTjUzCr+Hk=;
+ b=KYOKPwDz80u0qG8tvfcBow8RrfElqqn6/jfVdcoeDYUophj4jF3Mf/Z/H8oiVTrXiY
+ ytEaRfLk1nwPIKopGYG6GA9rQLccAVEM2PeLLDu08GehLKay8Jd+BHcEfYJ1nnVUw/FG
+ OAYYObeJzEyaRrbHFtnAPBm4V04sJnAV7mDO7VPWn5zWW7nWc/8nxY+IYRC2PMBPBe7y
+ n022GCNoX2a7M3Jt6GmhWrkJID4xYUcsLgNBXm4ZpEl8+pcdd4siweWWYoa0L7N/X390
+ kj/BzpUm+2jH2YlbQY85pEgsNYsBUPUk6jNmQ6kNCFQIGaSQAgtqjtkOwKq2ylESO3FR
+ u8lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681382445; x=1683974445;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Wt8QYWYgXcWDb0H4PzSCSB86AxQEfmL5GXKTxvwufWc=;
- b=kumCyiqRUC+J0AYNPQnMOSaPVZCz6AysqY5saS5tWjihnBYHho5lgOq1zyvg07a/EX
- qtBeDS/wsGEr+qst0NyHkU18uNj92rS5AkMizA5KbXFGyUr7CbDcgTiv8w+5LtAIAu7Y
- x5Wc2NTTQTHGaAxZp5EK0Xxj/kt3NSBgQUm8YHF2D8gH8NKXgFbn6sBSYYYCyoxbEo4m
- p0I/g9Y5a6Gzki1MDnwby9pbZ0tZ6s7klNYkJOIgS5wPAizwfhJkS6nk/w0HIwzJi/Ao
- xDcJoA5u5UbL7SCkmxtk2prSbEFPi3Cw4P7uImGlmFiUB5yBNm4S7XKrW/fnPwTEak6T
- t9bw==
-X-Gm-Message-State: AAQBX9f+cFk7vr9i7o+QOpplAW8waLvR6B3dn+JRKvPagdu8+CDJYsCb
- jcf7sbYFrWf9kGxi27mmYNRSxQ==
-X-Google-Smtp-Source: AKy350ZKTDVRuGJL5YYI5HJoiDXvklp7EVihRfgojTs66okpvLm6QBr1zfRfZkA+Oait71i9Hok2BQ==
-X-Received: by 2002:adf:e352:0:b0:2ef:b1bd:786 with SMTP id
- n18-20020adfe352000000b002efb1bd0786mr1002307wrj.13.1681382444786; 
- Thu, 13 Apr 2023 03:40:44 -0700 (PDT)
-Received: from myrica ([5.69.146.176]) by smtp.gmail.com with ESMTPSA id
- z1-20020a5d4d01000000b002e5f6f8fc4fsm990119wrt.100.2023.04.13.03.40.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Apr 2023 03:40:44 -0700 (PDT)
-Date: Thu, 13 Apr 2023 11:40:41 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Eric Auger <eric.auger@redhat.com>, virtio-dev@lists.oasis-open.org,
- virtualization@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: Re: virtio-iommu hotplug issue
-Message-ID: <20230413104041.GA3295191@myrica>
-References: <15bf1b00-3aa0-973a-3a86-3fa5c4d41d2c@daynix.com>
+ d=1e100.net; s=20221208; t=1681383043; x=1683975043;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=j3GBnE24AC3CUIUnWNtPY3BUyG43HV3u/PTjUzCr+Hk=;
+ b=N5eShmNT8gzKTZL1mBIyBk0y+jCcxCV4KMvx52FTp/ClPYpDCb3a8Wkrntq9tUU+0P
+ CwH+zNyC1/g3IaKUaSdjf0RDN9T3HjJ9DpTiGytZDP4CaG1WJHlw7+Eb4hOajV83ikZz
+ Fw0QpFoyB3Ss+HEjeu2mozv2IIxjYBtT4yw8T/ThumhtATpIu70ArtvkpS77c27wkY2q
+ 3KJPoQtGlWETQCJC86bRndkhJZKMyP67iww56NEw3Ax0P8M/PLgorx9PwcyhyRlh1QEs
+ goCbBkAQixH8s98Fea23aQdVmXeDmLN9I5bugUsdcMkCVJdbXcvru6ZBpvB21K9gDhA3
+ zVYg==
+X-Gm-Message-State: AAQBX9f5dZEkI86kdQOjXFkCJ6xE45lUeSa3aRFU1RQ3L1NaEKAegCq8
+ SOl6iBsVWX8gRFgfB2OxBU/OWEBqQLtg7Eu0IKtawUIwoffCBvnl
+X-Google-Smtp-Source: AKy350a/VTwRlVpBhvA1Za+fmWbmdN6AI/jQI3/5lnA/AcIRZUJoyHKlox794XxUXhQaf/aUSY99C9H0hKMuXV9OsCY=
+X-Received: by 2002:a17:906:b085:b0:94e:3ba:1649 with SMTP id
+ x5-20020a170906b08500b0094e03ba1649mr1004674ejy.6.1681383042654; Thu, 13 Apr
+ 2023 03:50:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15bf1b00-3aa0-973a-3a86-3fa5c4d41d2c@daynix.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x430.google.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Apr 2023 11:50:31 +0100
+Message-ID: <CAFEAcA8gecpvfUj9uz+HBRspskZsxJTdD2Yz3M3uOKcFJbpv-Q@mail.gmail.com>
+Subject: netdev-socket test hang (s390 host, mips64el guest, backtrace)
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,72 +80,214 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+I just found a hung netdev-socket test on our s390 CI runner.
+Looks like a deadlock, no processes using CPU.
+Here's the backtrace; looks like both QEMU processes are sat
+idle but the test process is sat waiting forever for something
+in test_stream_inet_reconnect(). Any ideas?
 
-On Thu, Apr 13, 2023 at 01:49:43PM +0900, Akihiko Odaki wrote:
-> Hi,
-> 
-> Recently I encountered a problem with the combination of Linux's
-> virtio-iommu driver and QEMU when a SR-IOV virtual function gets disabled.
-> I'd like to ask you what kind of solution is appropriate here and implement
-> the solution if possible.
-> 
-> A PCIe device implementing the SR-IOV specification exports a virtual
-> function, and the guest can enable or disable it at runtime by writing to a
-> configuration register. This effectively looks like a PCI device is
-> hotplugged for the guest.
+Process tree:
+netdev-socket(3496843)-+-qemu-system-mip(3496956)
+                       `-qemu-system-mip(3496976)
+===========================================================
+PROCESS: 3496843
+gitlab-+ 3496843 3472329  0 Apr10 ?        00:00:00
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/build/tests/qtest/netdev-socket
+--tap -k
+[New LWP 3496844]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+__libc_recv (fd=fd@entry=3, buf=buf@entry=0x3ffe1cf9f27,
+len=len@entry=1, flags=flags@entry=0) at
+../sysdeps/unix/sysv/linux/recv.c:30
+30      ../sysdeps/unix/sysv/linux/recv.c: No such file or directory.
 
-Just so I understand this better: the guest gets a whole PCIe device PF
-that implements SR-IOV, and so the guest can dynamically create VFs?  Out
-of curiosity, is that a hardware device assigned to the guest with VFIO,
-or a device emulated by QEMU?
+Thread 2 (Thread 0x3ffa457f900 (LWP 3496844)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa22cccbbc in qemu_futex_wait (val=<optimized out>,
+f=<optimized out>) at
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.h:29
+#2  qemu_event_wait (ev=ev@entry=0x2aa22d3c860 <rcu_call_ready_event>)
+at ../util/qemu-thread-posix.c:464
+#3  0x000002aa22cf89a2 in call_rcu_thread (opaque=opaque@entry=0x0) at
+../util/rcu.c:261
+#4  0x000002aa22ccbc22 in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#5  0x000003ffa4807e66 in start_thread (arg=0x3ffa457f900) at
+pthread_create.c:477
+#6  0x000003ffa46fcbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-> In such a case, the kernel assumes the endpoint is
-> detached from the virtio-iommu domain, but QEMU actually does not detach it.
-> 
-> This inconsistent view of the removed device sometimes prevents the VM from
-> correctly performing the following procedure, for example:
-> 1. Enable a VF.
-> 2. Disable the VF.
-> 3. Open a vfio container.
-> 4. Open the group which the PF belongs to.
-> 5. Add the group to the vfio container.
-> 6. Map some memory region.
-> 7. Close the group.
-> 8. Close the vfio container.
-> 9. Repeat 3-8
-> 
-> When the VF gets disabled, the kernel assumes the endpoint is detached from
-> the IOMMU domain, but QEMU actually doesn't detach it. Later, the domain
-> will be reused in step 3-8.
-> 
-> In step 7, the PF will be detached, and the kernel thinks there is no
-> endpoint attached and the mapping the domain holds is cleared, but the VF
-> endpoint is still attached and the mapping is kept intact.
-> 
-> In step 9, the same domain will be reused again, and the kernel requests to
-> create a new mapping, but it will conflict with the existing mapping and
-> result in -EINVAL.
-> 
-> This problem can be fixed by either of:
-> - requesting the detachment of the endpoint from the guest when the PCI
-> device is unplugged (the VF is disabled)
+Thread 1 (Thread 0x3ffa4c72770 (LWP 3496843)):
+#0  __libc_recv (fd=fd@entry=3, buf=buf@entry=0x3ffe1cf9f27,
+len=len@entry=1, flags=flags@entry=0) at
+../sysdeps/unix/sysv/linux/recv.c:30
+#1  0x000002aa22c9d982 in recv (__flags=0, __n=1, __buf=0x3ffe1cf9f27,
+__fd=3) at /usr/include/s390x-linux-gnu/bits/socket2.h:44
+#2  qmp_fd_receive (fd=<optimized out>) at ../tests/qtest/libqmp.c:73
+#3  0x000002aa22c9baee in qtest_qmp_receive_dict (s=0x2aa232a50d0) at
+../tests/qtest/libqtest.c:837
+#4  qtest_qmp_eventwait_ref (event=<optimized out>, s=<optimized out>)
+at ../tests/qtest/libqtest.c:837
+#5  qtest_qmp_eventwait_ref (s=0x2aa232a50d0, event=<optimized out>)
+at ../tests/qtest/libqtest.c:828
+#6  0x000002aa22c9262c in wait_stream_connected (qts=<optimized out>,
+addr=0x3ffe1cfa1b8, id=0x2aa22cfeed6 "st0") at
+../tests/qtest/netdev-socket.c:157
+#7  0x000002aa22c929b6 in test_stream_inet_reconnect () at
+../tests/qtest/netdev-socket.c:229
+#8  0x000003ffa49fe608 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#9  0x000003ffa49fe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#10 0x000003ffa49fe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#11 0x000003ffa49fe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#12 0x000003ffa49fe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#13 0x000003ffa49feada in g_test_run_suite () from
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#14 0x000003ffa49feb10 in g_test_run () from
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#15 0x000002aa22c90678 in main (argc=<optimized out>, argv=<optimized
+out>) at ../tests/qtest/netdev-socket.c:543
+[Inferior 1 (process 3496843) detached]
 
-Yes, I think this is an issue in the virtio-iommu driver, which should be
-sending a DETACH request when the VF is disabled, likely from
-viommu_release_device(). I'll work on a fix unless you would like to do it
+===========================================================
+PROCESS: 3496956
+gitlab-+ 3496956 3496843  0 Apr10 ?        00:00:00
+./qemu-system-mips64el -qtest unix:/tmp/qtest-3496843.sock -qtest-log
+/dev/null -chardev socket,path=/tmp/qtest-3496843.qmp,id=char0 -mon
+chardev=char0,mode=control -display none -nodefaults -M none -netdev
+stream,server=false,id=st0,addr.type=inet,addr.ipv4=on,addr.ipv6=off,reconnect=1,addr.host=127.0.0.1,addr.port=50989
+-accel qtest
+[New LWP 3496965]
+[New LWP 3496967]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+0x000003ff81af1c8c in __ppoll (fds=0x2aa40b08230, nfds=6,
+timeout=<optimized out>, timeout@entry=0x0, sigmask=sigmask@entry=0x0)
+at ../sysdeps/unix/sysv/linux/ppoll.c:44
+44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
 
-> - detecting that the PCI device is gone and automatically detach it on
-> QEMU-side.
-> 
-> It is not completely clear for me which solution is more appropriate as the
-> virtio-iommu specification is written in a way independent of the endpoint
-> mechanism and does not say what should be done when a PCI device is
-> unplugged.
+Thread 3 (Thread 0x3ff71c20900 (LWP 3496967)):
+#0  0x000003ff81af1b32 in __GI___poll (fds=0x3ff64003680, nfds=3,
+timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+#1  0x000003ff842d4386 in  () at /lib/s390x-linux-gnu/libglib-2.0.so.0
+#2  0x000003ff842d4790 in g_main_loop_run () at
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#3  0x000002aa3ea03bbe in iothread_run
+(opaque=opaque@entry=0x2aa4096bf00) at ../iothread.c:70
+#4  0x000002aa3eb534ca in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#5  0x000003ff81c07e66 in start_thread (arg=0x3ff71c20900) at
+pthread_create.c:477
+#6  0x000003ff81afcbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-Yes, I'm not sure it's in scope for the specification, it's more about
-software guidance
+Thread 2 (Thread 0x3ff72d23900 (LWP 3496965)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa3eb54464 in qemu_futex_wait (val=<optimized out>,
+f=<optimized out>) at
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.h:29
+#2  qemu_event_wait (ev=ev@entry=0x2aa3f1e01c8 <rcu_call_ready_event>)
+at ../util/qemu-thread-posix.c:464
+#3  0x000002aa3eb5e212 in call_rcu_thread (opaque=opaque@entry=0x0) at
+../util/rcu.c:261
+#4  0x000002aa3eb534ca in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#5  0x000003ff81c07e66 in start_thread (arg=0x3ff72d23900) at
+pthread_create.c:477
+#6  0x000003ff81afcbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-Thanks,
-Jean
+
+Thread 1 (Thread 0x3ff8547e4a0 (LWP 3496956)):
+#0  0x000003ff81af1c8c in __ppoll (fds=0x2aa40b08230, nfds=6,
+timeout=<optimized out>, timeout@entry=0x0, sigmask=sigmask@entry=0x0)
+at ../sysdeps/unix/sysv/linux/ppoll.c:44
+#1  0x000002aa3eb6a486 in ppoll (__ss=0x0, __timeout=0x0,
+__nfds=<optimized out>, __fds=<optimized out>) at
+/usr/include/s390x-linux-gnu/bits/poll2.h:77
+#2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>,
+timeout=timeout@entry=-1) at ../util/qemu-timer.c:339
+#3  0x000002aa3eb67460 in os_host_main_loop_wait (timeout=-1) at
+../util/main-loop.c:308
+#4  main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:592
+#5  0x000002aa3e77082c in qemu_main_loop () at ../softmmu/runstate.c:731
+#6  0x000002aa3e59d5da in qemu_default_main () at ../softmmu/main.c:37
+#7  0x000003ff81a2440a in __libc_start_main (main=0x2aa3e59b0c0
+<main>, argc=<optimized out>, argv=0x3fffbdfaf68, init=<optimized
+out>, fini=<optimized out>, rtld_fini=0x3ff85490e50 <_dl_fini>,
+stack_end=0x3fffbdfaeb0) at libc-start.c:308
+#8  0x000002aa3e59d504 in _start () at ../softmmu/main.c:48
+[Inferior 1 (process 3496956) detached]
+
+===========================================================
+PROCESS: 3496976
+gitlab-+ 3496976 3496843  0 Apr10 ?        00:00:00
+./qemu-system-mips64el -qtest unix:/tmp/qtest-3496843.sock -qtest-log
+/dev/null -chardev socket,path=/tmp/qtest-3496843.qmp,id=char0 -mon
+chardev=char0,mode=control -display none -nodefaults -M none -netdev
+stream,id=st0,server=true,addr.type=inet,addr.ipv4=on,addr.ipv6=off,addr.host=127.0.0.1,addr.port=50989
+-accel qtest
+[New LWP 3496981]
+[New LWP 3496983]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+0x000003ff88bf1c8c in __ppoll (fds=0x2aa0d0cbe70, nfds=6,
+timeout=<optimized out>, timeout@entry=0x0, sigmask=sigmask@entry=0x0)
+at ../sysdeps/unix/sysv/linux/ppoll.c:44
+44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
+
+Thread 3 (Thread 0x3ff78d20900 (LWP 3496983)):
+#0  0x000003ff88bf1b32 in __GI___poll (fds=0x3ff6c001610, nfds=3,
+timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+#1  0x000003ff8b3d4386 in  () at /lib/s390x-linux-gnu/libglib-2.0.so.0
+#2  0x000003ff8b3d4790 in g_main_loop_run () at
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#3  0x000002aa0bc03bbe in iothread_run
+(opaque=opaque@entry=0x2aa0cf4c700) at ../iothread.c:70
+#4  0x000002aa0bd534ca in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#5  0x000003ff88d07e66 in start_thread (arg=0x3ff78d20900) at
+pthread_create.c:477
+#6  0x000003ff88bfcbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 2 (Thread 0x3ff79e23900 (LWP 3496981)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa0bd54464 in qemu_futex_wait (val=<optimized out>,
+f=<optimized out>) at
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.h:29
+#2  qemu_event_wait (ev=ev@entry=0x2aa0c3e01c8 <rcu_call_ready_event>)
+at ../util/qemu-thread-posix.c:464
+#3  0x000002aa0bd5e212 in call_rcu_thread (opaque=opaque@entry=0x0) at
+../util/rcu.c:261
+#4  0x000002aa0bd534ca in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#5  0x000003ff88d07e66 in start_thread (arg=0x3ff79e23900) at
+pthread_create.c:477
+#6  0x000003ff88bfcbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 1 (Thread 0x3ff8c57e4a0 (LWP 3496976)):
+#0  0x000003ff88bf1c8c in __ppoll (fds=0x2aa0d0cbe70, nfds=6,
+timeout=<optimized out>, timeout@entry=0x0, sigmask=sigmask@entry=0x0)
+at ../sysdeps/unix/sysv/linux/ppoll.c:44
+#1  0x000002aa0bd6a486 in ppoll (__ss=0x0, __timeout=0x0,
+__nfds=<optimized out>, __fds=<optimized out>) at
+/usr/include/s390x-linux-gnu/bits/poll2.h:77
+#2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>,
+timeout=timeout@entry=-1) at ../util/qemu-timer.c:339
+#3  0x000002aa0bd67460 in os_host_main_loop_wait (timeout=-1) at
+../util/main-loop.c:308
+#4  main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:592
+#5  0x000002aa0b97082c in qemu_main_loop () at ../softmmu/runstate.c:731
+#6  0x000002aa0b79d5da in qemu_default_main () at ../softmmu/main.c:37
+#7  0x000003ff88b2440a in __libc_start_main (main=0x2aa0b79b0c0
+<main>, argc=<optimized out>, argv=0x3ffe28fa838, init=<optimized
+out>, fini=<optimized out>, rtld_fini=0x3ff8c590e50 <_dl_fini>,
+stack_end=0x3ffe28fa780) at libc-start.c:308
+#8  0x000002aa0b79d504 in _start () at ../softmmu/main.c:48
+[Inferior 1 (process 3496976) detached]
+
+thanks
+-- PMM
 
