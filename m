@@ -2,35 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5776E6E15E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A6D6E15F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:36:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn3bp-0003e3-2n; Thu, 13 Apr 2023 16:31:57 -0400
+	id 1pn3bz-0003i9-7L; Thu, 13 Apr 2023 16:32:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3bi-0003di-VQ; Thu, 13 Apr 2023 16:31:51 -0400
+ id 1pn3bs-0003fG-FX; Thu, 13 Apr 2023 16:32:00 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3bg-0003h4-Ow; Thu, 13 Apr 2023 16:31:50 -0400
+ id 1pn3bn-0003i1-TR; Thu, 13 Apr 2023 16:32:00 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id F075C40126;
- Thu, 13 Apr 2023 23:31:44 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 7D0C64012D;
+ Thu, 13 Apr 2023 23:31:51 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 7D48F95;
- Thu, 13 Apr 2023 23:31:43 +0300 (MSK)
-Received: (nullmailer pid 2344322 invoked by uid 1000);
- Thu, 13 Apr 2023 20:31:43 -0000
+ by tsrv.corpit.ru (Postfix) with SMTP id 0871895;
+ Thu, 13 Apr 2023 23:31:50 +0300 (MSK)
+Received: (nullmailer pid 2344325 invoked by uid 1000);
+ Thu, 13 Apr 2023 20:31:50 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 00/21] Patch Round-up for stable 7.2.2, freeze on 2023-04-20
-Date: Thu, 13 Apr 2023 23:31:12 +0300
-Message-Id: <20230413203051.2344192-1-mjt@msgid.tls.msk.ru>
+Cc: qemu-stable@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 01/21] qga: Drop dangling reference to
+ QERR_QGA_LOGGING_DISABLED
+Date: Thu, 13 Apr 2023 23:31:13 +0300
+Message-Id: <20230413203143.2344250-1-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230413203051.2344192-1-mjt@tls.msk.ru>
+References: <20230413203051.2344192-1-mjt@tls.msk.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -56,100 +62,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Despite 8.0 release is almost here, I'd love to make another 7.2.x
-release, adding more fixes which has been collected so far.
+From: Markus Armbruster <armbru@redhat.com>
 
-The following new patches are queued for QEMU stable v7.2.2:
+slog()'s function comment advises to use QERR_QGA_LOGGING_DISABLED.
+This macro never existed.  The reference got added in commit
+e3d4d25206a "guest agent: add guest agent RPCs/commands" along with
+QERR_QGA_LOGGING_FAILED, so maybe that one was meant.  However,
+QERR_QGA_LOGGING_FAILED was never actually used, and was removed in
+commit d73f0beadb5 "qerror.h: Remove unused error classes".
 
-  https://gitlab.com/mjt0k/qemu/-/commits/stable-7.2-staging/
+Drop the dangling reference.
 
-Patch freeze is 2023-04-20, and the release is planned for 2023-04-22.
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20230207075115.1525-9-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+(cherry picked from commit c40233593ed5732de1676412527e42431e33e62c)
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+---
+ qga/commands.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Please respond here or CC qemu-stable@nongnu.org on any additional patches
-you think should (or shouldn't) be included in the release.
+diff --git a/qga/commands.c b/qga/commands.c
+index 7ff551d092..6cf978322e 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -32,9 +32,8 @@
+ #define GUEST_FILE_READ_COUNT_MAX (48 * MiB)
+ 
+ /* Note: in some situations, like with the fsfreeze, logging may be
+- * temporarilly disabled. if it is necessary that a command be able
+- * to log for accounting purposes, check ga_logging_enabled() beforehand,
+- * and use the QERR_QGA_LOGGING_DISABLED to generate an error
++ * temporarily disabled. if it is necessary that a command be able
++ * to log for accounting purposes, check ga_logging_enabled() beforehand.
+  */
+ void slog(const gchar *fmt, ...)
+ {
+-- 
+2.30.2
 
-Thanks!
-
-/mjt
-
-----------------------------------------------------------------
-Bernhard Beschow (1):
-      qemu/osdep: Switch position of "extern" and "G_NORETURN"
-
-Cédric Le Goater (1):
-      target/s390x: Fix float_comp_to_cc() prototype
-
-Fiona Ebner (1):
-      hw/net/vmxnet3: allow VMXNET3_MAX_MTU itself as a value
-
-Ilya Leoshkevich (2):
-      target/s390x: Fix EXECUTE of relative long instructions
-      linux-user: Fix unaligned memory access in prlimit64 syscall
-
-Klaus Jensen (1):
-      hw/nvme: fix memory leak in nvme_dsm
-
-Konstantin Kostiuk (1):
-      qga/win32: Remove change action from MSI installer
-
-Lukas Tschoke (1):
-      block/vhdx: fix dynamic VHDX BAT corruption
-
-Marc-André Lureau (1):
-      ui: fix crash on serial reset, during init
-
-Markus Armbruster (2):
-      qga: Drop dangling reference to QERR_QGA_LOGGING_DISABLED
-      hw/arm: do not free machine->fdt in arm_load_dtb()
-
-Mathis Marion (2):
-      linux-user: fix sockaddr_in6 endianness
-      linux-user: fix timerfd read endianness conversion
-
-Nina Schoetterl-Glausch (1):
-      target/s390x: Fix emulation of C(G)HRL
-
-Peter Xu (1):
-      io: tls: Inherit QIO_CHANNEL_FEATURE_SHUTDOWN on server side
-
-Pierrick Bouvier (1):
-      qga/vss-win32: fix warning for clang++-15
-
-Richard Henderson (2):
-      target/s390x: Split out gen_ri2
-      target/arm: Handle m-profile in arm_is_secure
-
-Stefan Hajnoczi (1):
-      aio-posix: fix race between epoll upgrade and aio_set_fd_handler()
-
-Thomas Huth (1):
-      target/s390x/arch_dump: Fix memory corruption in s390x_write_elf64_notes()
-
-Yuval Shaia (1):
-      hw/pvrdma: Protect against buggy or malicious guest driver
-
- block/vhdx-log.c                     |  2 +-
- hw/arm/boot.c                        |  5 ++++-
- hw/net/vmxnet3.c                     |  2 +-
- hw/nvme/ctrl.c                       |  3 +++
- hw/rdma/vmw/pvrdma_cmd.c             |  6 ++++++
- include/qemu/osdep.h                 |  2 +-
- io/channel-tls.c                     |  3 +++
- linux-user/fd-trans.c                | 10 ++++++---
- linux-user/fd-trans.h                |  1 +
- linux-user/generic/target_resource.h |  4 ++--
- linux-user/syscall.c                 | 21 ++++++++++++------
- qga/commands.c                       |  5 ++---
- qga/installer/qemu-ga.wxs            |  1 +
- qga/vss-win32/install.cpp            |  2 +-
- target/arm/cpu.h                     |  3 +++
- target/s390x/arch_dump.c             |  2 +-
- target/s390x/cpu.h                   |  1 +
- target/s390x/s390x-internal.h        |  3 ++-
- target/s390x/tcg/insn-data.h.inc     |  4 ++--
- target/s390x/tcg/mem_helper.c        |  1 +
- target/s390x/tcg/translate.c         | 41 ++++++++++++++++++++++++++++--------
- ui/gtk.c                             |  4 +++-
- util/fdmon-epoll.c                   | 25 ++++++++++++++++------
- 23 files changed, 111 insertions(+), 40 deletions(-)
 
