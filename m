@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BACC56E04EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 04:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89646E0557
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 05:35:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmn5P-0001iX-JO; Wed, 12 Apr 2023 22:53:23 -0400
+	id 1pmniy-0006lm-7Y; Wed, 12 Apr 2023 23:34:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pmn5M-0001gE-J1
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 22:53:20 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pmn5J-0004bI-RZ
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 22:53:20 -0400
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8BxMI+Tbjdk+5gbAA--.42910S3;
- Thu, 13 Apr 2023 10:53:08 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxab2SbjdkV8YhAA--.35723S3; 
- Thu, 13 Apr 2023 10:53:07 +0800 (CST)
-Subject: Re: [RFC PATCH v2 38/44] target/loongarch: Implement vbitsel vset
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-39-gaosong@loongson.cn>
- <dc51342e-952c-c014-3b60-4dd751646468@linaro.org>
- <ac4562c5-ea37-d57a-b1dd-02b21af72985@loongson.cn>
- <f785b8f3-d7f3-a481-81c3-3603542a0111@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <58a22259-8bf0-e3fc-720a-0d8d3872e8d3@loongson.cn>
-Date: Thu, 13 Apr 2023 10:53:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pmniw-0006lc-6J
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 23:34:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pmniu-0004Jq-2L
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 23:34:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681356850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+Qemwlq+5dUezls7aFtg84IPopzEerOuq/DqA8uo82w=;
+ b=USBZ1JWeoL+5sinZx1BQO5wFEtZ9OxmPZaLbKjYzn6nAkmqxNj4pSlk5hUuiZRl7i7oZeE
+ /Fkqe2lzTR8pUvwSNYAR3S9/fKGWi6N1xbauBkd13FIukK9NjihX6UX24qXPwOkqhm3A7o
+ p0jd2sF7Mlsdks4OwD8XpLx0ZkfX+dk=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-487-WNGEX0pqN4G9VvCOrK_SOQ-1; Wed, 12 Apr 2023 23:34:08 -0400
+X-MC-Unique: WNGEX0pqN4G9VvCOrK_SOQ-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ fc10-20020a0568082a8a00b003894ce81c46so1704222oib.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 20:34:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681356847; x=1683948847;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+Qemwlq+5dUezls7aFtg84IPopzEerOuq/DqA8uo82w=;
+ b=kZdFDgBC5v8Uk+8Mp8ucf5mzcUwkMxjza3wqj2cQQ3Qlm/bIJylcOQpPCOJpl+QLMo
+ oUIPS1kOjxq0m0kkwbidjUviKZRqLXM6CN46JXav3Cjoo6eTS/I2S2ZY5yK0ATyrbNV+
+ uEo6XGw/knLj5nsgvvciN4PWIg1YeZ35PjA/HWGYoo2HFT5sBuP2wDd+nQL4ok/zoOpl
+ M5tVngZmd/AuEqTDZ5/ZihUPTSJWIi/kLu5wqZkgnBwCjIR/DZVlmhJDki3jv3icVcKj
+ iu1Q16uhlrLNg3KyMPdBRa4FuSVxJLftKck3bx97hSAM/RJzgOyN6+Cx4VztNuiFb+4y
+ 8JVQ==
+X-Gm-Message-State: AAQBX9dgNEdSWB4Ym/+1wvqVP7EC8Mce5dWSlobz2lF8do+01omv3sLH
+ jp6y5riW5mRmmZDE0yX/ClkQggWqJVP9XwAw3nOoAHM1SWWAx3/G9G8Y0KSBAJfSdwOTXhWVKfP
+ 3tC2eyv7xxDPx4l5/xz8N7tr5Ztyka+8=
+X-Received: by 2002:a05:6830:1119:b0:6a4:2f1f:cc62 with SMTP id
+ w25-20020a056830111900b006a42f1fcc62mr156202otq.2.1681356847536; 
+ Wed, 12 Apr 2023 20:34:07 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a8sSB5tjhJ/58UduPnEgvrQdN2H6M/SvSTXYaTBMZrfHgzfXwROGWpelYDbyRRWUre70l35FbrWEl7eOnaZmg=
+X-Received: by 2002:a05:6830:1119:b0:6a4:2f1f:cc62 with SMTP id
+ w25-20020a056830111900b006a42f1fcc62mr156195otq.2.1681356847246; Wed, 12 Apr
+ 2023 20:34:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f785b8f3-d7f3-a481-81c3-3603542a0111@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------DAF1BBD9140B5A923A0C472A"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Bxab2SbjdkV8YhAA--.35723S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxuF4kWFWkJw4xGw17Zry7ZFb_yoWrAw1xpr
- 18Jr1UJryUJr18Jr1UJr1UJryUJr1UJw1UJr1UJF1UJr1UJr1jqr1UXr1jgr1UJr48Jr1U
- Jr1UJr1UZr1UJrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- DUYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Jr0_
- Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFV
- AK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2
- z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr
- 1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG
- 8wAqjxCEc2xF0cIa020Ex4CE44I27wAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aV
- AFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx8GjcxK6IxK0xII
- j40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_
- JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCT
- nIWIevJa73UjIFyTuYvjxUY_-PUUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-1.083, SPF_HELO_PASS=-0.001,
+References: <20230412073510.7158-1-jasowang@redhat.com>
+ <87bkjtpk2n.fsf@linaro.org>
+In-Reply-To: <87bkjtpk2n.fsf@linaro.org>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 13 Apr 2023 11:33:56 +0800
+Message-ID: <CACGkMEsVswiJAR+2oHBeKXMAZpDFkFEZjBh37YiEVWPfdnT1pQ@mail.gmail.com>
+Subject: Re: [PATCH V2] intel_iommu: refine iotlb hash calculation
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: mst@redhat.com, peterx@redhat.com, peter.maydell@linaro.org, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,213 +95,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------DAF1BBD9140B5A923A0C472A
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-
-在 2023/4/12 下午2:53, Richard Henderson 写道:
+On Wed, Apr 12, 2023 at 4:43=E2=80=AFPM Alex Benn=C3=A9e <alex.bennee@linar=
+o.org> wrote:
 >
->>>> +#define SETANYEQZ(NAME, BIT, E) \
->>>> +void HELPER(NAME)(CPULoongArchState *env, uint32_t cd, uint32_t vj) \
->>>> +{                                                                   \
->>>> +    int i; \
->>>> +    bool ret = false;                                               \
->>>> +    VReg *Vj = &(env->fpr[vj].vreg); \
->>>> +                                                                    \
->>>> +    for (i = 0; i < LSX_LEN/BIT; i++) {                             \
->>>> +        ret |= (Vj->E(i) == 0);                                     \
->>>> + } \
->>>> +    env->cf[cd & 0x7] = ret;                                        \
->>>> +}
->>>> +SETANYEQZ(vsetanyeqz_b, 8, B)
->>>> +SETANYEQZ(vsetanyeqz_h, 16, H)
->>>> +SETANYEQZ(vsetanyeqz_w, 32, W)
->>>> +SETANYEQZ(vsetanyeqz_d, 64, D)
->>>
->>> These could be inlined, though slightly harder.
->>> C.f. target/arm/sve_helper.c, do_match2 (your n == 0).
->>>
->> Do you mean an inline like trans_vseteqz_v or just an inline helper 
->> function?
 >
-> I meant inline tcg code generation, instead of a call to a helper.
-> But even if we keep this in a helper, see do_match2 for avoiding the 
-> loop over bytes. 
-Ok,
-e.g
-#define SETANYEQZ(NAME, MO)                                  \
-void HELPER(NAME)(CPULoongArchState *env, uint32_t cd, uint32_t vj) \
-{                                                                 \
-     int i;                                                                \
-     bool ret = false; \
-     VReg *Vj = &(env->fpr[vj].vreg); \
-\
-     ret = do_match2(0, (uint64_t)Vj->D(0), (uint64_t)Vj->D(1), 
-MO);              \
-     env->cf[cd & 0x7] = ret;      \
-}
-SETANYEQZ(vsetanyeqz_b, MO_8)
-SETANYEQZ(vsetanyeqz_h, MO_16)
-SETANYEQZ(vsetanyeqz_w, MO_32)
-SETANYEQZ(vsetanyeqz_d, MO_64)
+> Jason Wang <jasowang@redhat.com> writes:
+>
+> > Commit 1b2b12376c8 ("intel-iommu: PASID support") takes PASID into
+> > account when calculating iotlb hash like:
+> >
+> > static guint vtd_iotlb_hash(gconstpointer v)
+> > {
+> >     const struct vtd_iotlb_key *key =3D v;
+> >
+> >     return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
+> >            (key->level) << VTD_IOTLB_LVL_SHIFT |
+> >            (key->pasid) << VTD_IOTLB_PASID_SHIFT;
+> > }
+> >
+> > This turns out to be problematic since:
+> >
+> > - the shift will lose bits if not converting to uint64_t
+> > - level should be off by one in order to fit into 2 bits
+> > - VTD_IOTLB_PASID_SHIFT is 30 but PASID is 20 bits which will waste
+> >   some bits
+> > - the hash result is uint64_t so we will lose bits when converting to
+> >   guint
+> >
+> > So this patch fixes them by
+> >
+> > - converting the keys into uint64_t before doing the shift
+> > - off level by one to make it fit into two bits
+> > - change the sid, lvl and pasid shift to 26, 42 and 44 in order to
+> >   take the full width of uint64_t
+> > - perform an XOR to the top 32bit with the bottom 32bit for the final
+> >   result to fit guint
+> >
+> > Fixes: Coverity CID 1508100
+> > Fixes: 1b2b12376c8 ("intel-iommu: PASID support")
+> > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > ---
+> > Changes since V1:
+> > - perform XOR to avoid losing bits when converting to gint
+> > ---
+> >  hw/i386/intel_iommu.c          | 9 +++++----
+> >  hw/i386/intel_iommu_internal.h | 6 +++---
+> >  2 files changed, 8 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > index a62896759c..94d52f4205 100644
+> > --- a/hw/i386/intel_iommu.c
+> > +++ b/hw/i386/intel_iommu.c
+> > @@ -64,8 +64,8 @@ struct vtd_as_key {
+> >  struct vtd_iotlb_key {
+> >      uint64_t gfn;
+> >      uint32_t pasid;
+> > -    uint32_t level;
+> >      uint16_t sid;
+> > +    uint8_t level;
+> >  };
+> >
+> >  static void vtd_address_space_refresh_all(IntelIOMMUState *s);
+> > @@ -221,10 +221,11 @@ static gboolean vtd_iotlb_equal(gconstpointer v1,=
+ gconstpointer v2)
+> >  static guint vtd_iotlb_hash(gconstpointer v)
+> >  {
+> >      const struct vtd_iotlb_key *key =3D v;
+> > +    uint64_t hash64 =3D key->gfn | ((uint64_t)(key->sid) << VTD_IOTLB_=
+SID_SHIFT) |
+> > +        (uint64_t)(key->level - 1) << VTD_IOTLB_LVL_SHIFT |
+> > +        (uint64_t)(key->pasid) << VTD_IOTLB_PASID_SHIFT;
+> >
+> > -    return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
+> > -           (key->level) << VTD_IOTLB_LVL_SHIFT |
+> > -           (key->pasid) << VTD_IOTLB_PASID_SHIFT;
+> > +    return (guint)((hash64 >> 32) ^ (hash64 & 0xffffffffU));
+>
+> Have you measured the distribution this hash gives you? Otherwise
+> consider using the qemu_xxhash() functions to return a well distributed
+> 32 bit hash value.
 
-and
-vsetanyeqz.b    $fcc5  $vr11
-   v11    : {edc0004d576eef5b, ec03ec0fec03ea47}
-------------------
-do_match2
-bits is 8
-m1 is ec03ec0fec03ea47
-m0 is edc0004d576eef5b
-ones is 1010101
-sings is 80808080
-cmp1 is 0
-cmp0 is edc0004d576eef5b
-cmp1 is ec03ec0fec03ea47
-cmp0 is 10000
-cmp1 is 3000100
-ret is 0
+It depends on a lot of factors and so it won't be even because the
+individuals keys are not evenly distributed:
 
-but,  the results is not correct  for vsetanyeqz.b. :-)
+- gfn depends on guest DMA subsystems
+- level depends on when huge pages are used
+- pasid depends on whether PASID is being used
 
-Thanks.
-Song Gao
+I'm ok to switch to use qemu_xxhash() if everyone agree. Or if as
+Peter said, if it has been dealt with glibc, maybe it's not worth to
+bother.
 
---------------DAF1BBD9140B5A923A0C472A
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Thanks
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">在 2023/4/12 下午2:53, Richard Henderson
-      写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:f785b8f3-d7f3-a481-81c3-3603542a0111@linaro.org"><br>
-      <blockquote type="cite" style="color: #000000;">
-        <blockquote type="cite" style="color: #000000;">
-          <blockquote type="cite" style="color: #000000;">+#define
-            SETANYEQZ(NAME, BIT, E)                                    
-            \
-            <br>
-            +void HELPER(NAME)(CPULoongArchState *env, uint32_t cd,
-            uint32_t vj) \
-            <br>
-+{                                                                   \
-            <br>
-            +    int
-            i;                                                         
-            \
-            <br>
-            +    bool ret =
-            false;                                               \
-            <br>
-            +    VReg *Vj =
-            &amp;(env-&gt;fpr[vj].vreg);                               
-            \
-            <br>
-+                                                                    \
-            <br>
-            +    for (i = 0; i &lt; LSX_LEN/BIT; i++)
-            {                             \
-            <br>
-            +        ret |= (Vj-&gt;E(i) ==
-            0);                                     \
-            <br>
-            + } \
-            <br>
-            +    env-&gt;cf[cd &amp; 0x7] =
-            ret;                                        \
-            <br>
-            +}
-            <br>
-            +SETANYEQZ(vsetanyeqz_b, 8, B)
-            <br>
-            +SETANYEQZ(vsetanyeqz_h, 16, H)
-            <br>
-            +SETANYEQZ(vsetanyeqz_w, 32, W)
-            <br>
-            +SETANYEQZ(vsetanyeqz_d, 64, D)
-            <br>
-          </blockquote>
-          <br>
-          These could be inlined, though slightly harder.
-          <br>
-          C.f. target/arm/sve_helper.c, do_match2 (your n == 0).
-          <br>
-          <br>
-        </blockquote>
-        Do you mean an inline like trans_vseteqz_v or just an inline
-        helper function?
-        <br>
-      </blockquote>
-      <br>
-      I meant inline tcg code generation, instead of a call to a helper.
-      <br>
-      But even if we keep this in a helper, see do_match2 for avoiding
-      the loop over bytes.
-    </blockquote>
-    Ok,<br>
-    e.g<br>
-    #define SETANYEQZ(NAME, MO)                                        
-                                     \<br>
-    void HELPER(NAME)(CPULoongArchState *env, uint32_t cd, uint32_t vj)
-    \<br>
-    {                                                                   
-                                                                    \<br>
-        int i;                                                         
-                                                                   \<br>
-        bool ret =
-false;                                                                                                   
-    \<br>
-        VReg *Vj =
-&amp;(env-&gt;fpr[vj].vreg);                                                                        
-    \<br>
-                               
-                                                                                                        
-    \<br>
-        ret = do_match2(0, (uint64_t)Vj-&gt;D(0), (uint64_t)Vj-&gt;D(1),
-    MO);              \<br>
-        env-&gt;cf[cd &amp; 0x7] =
-ret;                                                                                
-         \<br>
-    }<br>
-    SETANYEQZ(vsetanyeqz_b, MO_8)<br>
-    SETANYEQZ(vsetanyeqz_h, MO_16)<br>
-    SETANYEQZ(vsetanyeqz_w, MO_32)<br>
-    SETANYEQZ(vsetanyeqz_d, MO_64)<br>
-    <br>
-    and <br>
-    vsetanyeqz.b    $fcc5  $vr11<br>
-      v11    : {edc0004d576eef5b, ec03ec0fec03ea47}<br>
-    ------------------<br>
-    do_match2 <br>
-    bits is 8<br>
-    m1 is ec03ec0fec03ea47<br>
-    m0 is edc0004d576eef5b<br>
-    ones is 1010101<br>
-    sings is 80808080<br>
-    cmp1 is 0<br>
-    cmp0 is edc0004d576eef5b<br>
-    cmp1 is ec03ec0fec03ea47<br>
-    cmp0 is 10000<br>
-    cmp1 is 3000100<br>
-    ret is 0<br>
-    <p>but,  the results is not correct  for vsetanyeqz.b.  <span
-        class="moz-smiley-s1"><span>:-)</span></span><br>
-    </p>
-    Thanks.<br>
-    Song Gao<br>
-  </body>
-</html>
-
---------------DAF1BBD9140B5A923A0C472A--
+>
+> --
+> Alex Benn=C3=A9e
+> Virtualisation Tech Lead @ Linaro
+>
 
 
