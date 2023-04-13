@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A5B6E141F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 20:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E136E1423
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 20:27:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn1ce-0001GH-M3; Thu, 13 Apr 2023 14:24:40 -0400
+	id 1pn1ew-0002BU-Qv; Thu, 13 Apr 2023 14:27:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pn1cc-0001G7-Jf
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 14:24:38 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pn1cZ-0006Cp-JG
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 14:24:38 -0400
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-94a34a14a54so371470566b.1
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 11:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681410268; x=1684002268;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sTvE/qjyBtaVFsER5jj5KhZ5lrpUMIeo1L0gvpWjfrU=;
- b=bGfOnvhkmfBm/SbA3f6tayRj8s3RcTQiQYAnoxFyO26cm2YMKQkLuNhTOHqL2DCiM4
- UaLmGOKB30H72iFXICGPgH0zYKHlWuwUy18Jrz6VoammfP4NPlCyduvWJc3JMFi8SZ3y
- EI8+VfSzuA+n1v92rDE7sMWhle+wukQPbQybsff3u4sd1PNzPEzfji8O//wtwfb4DlbB
- hMPG+k0wn9XGUCT7rNfaM9R1WMhG1XtoeG6tXimREDFqN92qZFN8mtNj7hK4ZI/qna7O
- OFkurUglg9/x1fdBKaIISRFA/8BfRHm1q0Eu0Vm7jbyrhH9qQOybIEKUiVM/iCbCwNuC
- pvug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681410268; x=1684002268;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sTvE/qjyBtaVFsER5jj5KhZ5lrpUMIeo1L0gvpWjfrU=;
- b=ftKU6qQ/uD4j53DZXShLc9uJb7pMo0+cjNMRwq7QnfMyYqmi2HxnoiazIB1ETa4j5B
- rUp8BMZWe8QlbEvQVWF4WYlHDPg/m6Jg9DsphUZT9Hr6a6ePoeEMWRPFHUDOKw43VgbG
- KCY3eZRx4I/OjWXl9WNyD7RP4As10n/XXF2Yl5Pja3Pj4vRI/iNZJ2i2Rf2Dase3wDGT
- mp1UTabbXXb0UYE5Nhn/UmOfJ5aeBg9srgFtNs3INqEMF7WWK/OPvC7CHtDTot9bq82v
- Mg9yyWzhzGB6i7gZooOwCI5resRt+DxMEltEHiTPjSK/lWiAvt9yRmKFE0vlkKMIcalN
- Q7vA==
-X-Gm-Message-State: AAQBX9dXc5BYvabtiioNw1a844CXXjOjqUMnb1SMIXQLhryWbhxRcTms
- YG5G3zvsiusTaVFifOqteScLQvECKEgx/gVdO92GUA==
-X-Google-Smtp-Source: AKy350YGibS7/2RZMcgj3lyOLdHKVy9wb5WhkPwCtB2HC/p03gZj9ng2bCaRubY+T4wKkXukC6IHlRxaEuXkI9Ppw2g=
-X-Received: by 2002:a50:9e09:0:b0:506:6baa:2d07 with SMTP id
- z9-20020a509e09000000b005066baa2d07mr1719034ede.6.1681410267815; Thu, 13 Apr
- 2023 11:24:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pn1ek-0002B6-Me
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 14:26:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pn1ed-0006hP-F7
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 14:26:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681410401;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=G2a6dMHT+8lfKNfScR6YBS5ZElx21DJviOulLExTHK0=;
+ b=fH9O0fzbkSWqv6lzyTJiG+fxc5UIHcl+nidujbqgbuCfjESaMqtM5Ey7OahHb/ySZdbp5S
+ npJiAIpF97ZMEBz5vchJVBC5cbrky8fMKWLUZdjpKdd8flxtJxaFDAM8YHf34LbY07FCPm
+ Zn5yl8LosV3tZJJ9UtWn4XD6I+VGEZQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-175-DlqVCiPdPA2fVgN_erd3pw-1; Thu, 13 Apr 2023 14:26:40 -0400
+X-MC-Unique: DlqVCiPdPA2fVgN_erd3pw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B264485530D;
+ Thu, 13 Apr 2023 18:26:39 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDDC52027044;
+ Thu, 13 Apr 2023 18:26:38 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] hw/core: Move numa.c into the target independent source set
+Date: Thu, 13 Apr 2023 20:26:36 +0200
+Message-Id: <20230413182636.139356-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20230413171946.2865726-1-stefanha@redhat.com>
-In-Reply-To: <20230413171946.2865726-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Apr 2023 19:24:17 +0100
-Message-ID: <CAFEAcA8J4zWVL=dBAY1KYxU_im392xU1rU=GN=yQKhG6Og=SAQ@mail.gmail.com>
-Subject: Re: [PATCH] rtl8139: fix large_send_mss divide-by-zero
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>, 
- Alexander Bulekov <alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,29 +74,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 13 Apr 2023 at 18:21, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> If the driver sets large_send_mss to 0 then a divide-by-zero occurs.
-> Even if the division wasn't a problem, the for loop that emits MSS-sized
-> packets would never terminate.
->
-> Solve these issues by skipping offloading when large_send_mss=0.
+There is nothing that depends on target specific macros in this
+file, so we can move it to the common source set to avoid that
+we have to compile this file multiple times (one time for each
+target).
 
-> diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-> index 5a5aaf868d..5f1a4d359b 100644
-> --- a/hw/net/rtl8139.c
-> +++ b/hw/net/rtl8139.c
-> @@ -2154,6 +2154,9 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
->
->                  int large_send_mss = (txdw0 >> CP_TC_LGSEN_MSS_SHIFT) &
->                                       CP_TC_LGSEN_MSS_MASK;
-> +                if (large_send_mss == 0) {
-> +                    goto skip_offload;
-> +                }
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/core/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Looks like 0 is the only problematic value for the code, so
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index 7a4d02b6c0..ae977c9396 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -44,6 +44,7 @@ softmmu_ss.add(files(
+   'machine.c',
+   'nmi.c',
+   'null-machine.c',
++  'numa.c',
+   'qdev-fw.c',
+   'qdev-properties-system.c',
+   'sysbus.c',
+@@ -53,5 +54,4 @@ softmmu_ss.add(files(
+ 
+ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
+   'machine-qmp-cmds.c',
+-  'numa.c',
+ ))
+-- 
+2.31.1
 
-thanks
--- PMM
 
