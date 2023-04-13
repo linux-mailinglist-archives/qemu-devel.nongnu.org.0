@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AAF96E15EF
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BC16E15EE
 	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:35:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn3cb-0003zQ-68; Thu, 13 Apr 2023 16:32:45 -0400
+	id 1pn3cT-0003sa-41; Thu, 13 Apr 2023 16:32:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3cP-0003qI-Lb; Thu, 13 Apr 2023 16:32:33 -0400
+ id 1pn3cQ-0003rD-Lb; Thu, 13 Apr 2023 16:32:34 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3cD-0003k6-Lm; Thu, 13 Apr 2023 16:32:32 -0400
+ id 1pn3cE-0003kO-1J; Thu, 13 Apr 2023 16:32:34 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 9E43840137;
+ by isrv.corpit.ru (Postfix) with ESMTP id C0A5840138;
  Thu, 13 Apr 2023 23:31:56 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 278B721E;
+ by tsrv.corpit.ru (Postfix) with SMTP id 4B943223;
  Thu, 13 Apr 2023 23:31:55 +0300 (MSK)
-Received: (nullmailer pid 2344351 invoked by uid 1000);
+Received: (nullmailer pid 2344353 invoked by uid 1000);
  Thu, 13 Apr 2023 20:31:54 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Qing Wang <qinwang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 10/21] aio-posix: fix race between epoll upgrade and
- aio_set_fd_handler()
-Date: Thu, 13 Apr 2023 23:31:22 +0300
-Message-Id: <20230413203143.2344250-10-mjt@msgid.tls.msk.ru>
+Cc: qemu-stable@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 11/21] target/s390x: Fix float_comp_to_cc() prototype
+Date: Thu, 13 Apr 2023 23:31:23 +0300
+Message-Id: <20230413203143.2344250-11-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230413203051.2344192-1-mjt@tls.msk.ru>
 References: <20230413203051.2344192-1-mjt@tls.msk.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
@@ -61,81 +62,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Cédric Le Goater <clg@redhat.com>
 
-If another thread calls aio_set_fd_handler() while the IOThread event
-loop is upgrading from ppoll(2) to epoll(7) then we might miss new
-AioHandlers. The epollfd will not monitor the new AioHandler's fd,
-resulting in hangs.
+GCC13 reports an error :
 
-Take the AioHandler list lock while upgrading to epoll. This prevents
-AioHandlers from changing while epoll is being set up. If we cannot lock
-because we're in a nested event loop, then don't upgrade to epoll (it
-will happen next time we're not in a nested call).
+../target/s390x/tcg/fpu_helper.c:123:5: error: conflicting types for ‘float_comp_to_cc’ due to enum/integer mismatch; have ‘int(CPUS390XState *, FloatRelation)’ {aka ‘int(struct CPUArchState *, FloatRelation)’} [-Werror=enum-int-mismatch]
 
-The downside to taking the lock is that the aio_set_fd_handler() thread
-has to wait until the epoll upgrade is finished, which involves many
-epoll_ctl(2) system calls. However, this scenario is rare and I couldn't
-think of another solution that is still simple.
+  123 | int float_comp_to_cc(CPUS390XState *env, FloatRelation float_compare)
+      |     ^~~~~~~~~~~~~~~~
+In file included from ../target/s390x/tcg/fpu_helper.c:23:
+../target/s390x/s390x-internal.h:302:5: note: previous declaration of ‘float_comp_to_cc’ with type ‘int(CPUS390XState *, int)’ {aka ‘int(struct CPUArchState *, int)’}
+  302 | int float_comp_to_cc(CPUS390XState *env, int float_compare);
+      |     ^~~~~~~~~~~~~~~~
 
-Reported-by: Qing Wang <qinwang@redhat.com>
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2090998
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20230323144859.1338495-1-stefanha@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit e62da98527fa35fe5f532cded01a33edf9fbe7b2)
+Fixes: 71bfd65c5f ("softfloat: Name compare relation enum")
+Signed-off-by: Cédric Le Goater <clg@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230321161609.716474-3-clg@kaod.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+(cherry picked from commit f79283fdb8efca0cd6e818bebad12f367e83f6e6)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- util/fdmon-epoll.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+ target/s390x/s390x-internal.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/util/fdmon-epoll.c b/util/fdmon-epoll.c
-index e11a8a022e..1683aa1105 100644
---- a/util/fdmon-epoll.c
-+++ b/util/fdmon-epoll.c
-@@ -127,6 +127,8 @@ static bool fdmon_epoll_try_enable(AioContext *ctx)
+diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.h
+index 5d4361d35b..825252d728 100644
+--- a/target/s390x/s390x-internal.h
++++ b/target/s390x/s390x-internal.h
+@@ -11,6 +11,7 @@
+ #define S390X_INTERNAL_H
  
- bool fdmon_epoll_try_upgrade(AioContext *ctx, unsigned npfd)
- {
-+    bool ok;
-+
-     if (ctx->epollfd < 0) {
-         return false;
-     }
-@@ -136,14 +138,23 @@ bool fdmon_epoll_try_upgrade(AioContext *ctx, unsigned npfd)
-         return false;
-     }
+ #include "cpu.h"
++#include "fpu/softfloat.h"
  
--    if (npfd >= EPOLL_ENABLE_THRESHOLD) {
--        if (fdmon_epoll_try_enable(ctx)) {
--            return true;
--        } else {
--            fdmon_epoll_disable(ctx);
--        }
-+    if (npfd < EPOLL_ENABLE_THRESHOLD) {
-+        return false;
-+    }
-+
-+    /* The list must not change while we add fds to epoll */
-+    if (!qemu_lockcnt_dec_if_lock(&ctx->list_lock)) {
-+        return false;
-+    }
-+
-+    ok = fdmon_epoll_try_enable(ctx);
-+
-+    qemu_lockcnt_inc_and_unlock(&ctx->list_lock);
-+
-+    if (!ok) {
-+        fdmon_epoll_disable(ctx);
-     }
--    return false;
-+    return ok;
- }
+ #ifndef CONFIG_USER_ONLY
+ typedef struct LowCore {
+@@ -299,7 +300,7 @@ uint32_t set_cc_nz_f128(float128 v);
+ uint8_t s390_softfloat_exc_to_ieee(unsigned int exc);
+ int s390_swap_bfp_rounding_mode(CPUS390XState *env, int m3);
+ void s390_restore_bfp_rounding_mode(CPUS390XState *env, int old_mode);
+-int float_comp_to_cc(CPUS390XState *env, int float_compare);
++int float_comp_to_cc(CPUS390XState *env, FloatRelation float_compare);
  
- void fdmon_epoll_setup(AioContext *ctx)
+ #define DCMASK_ZERO             0x0c00
+ #define DCMASK_NORMAL           0x0300
 -- 
 2.30.2
 
