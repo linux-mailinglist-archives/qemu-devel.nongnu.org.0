@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4F06E15F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAF96E15EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:35:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn3c5-0003ml-Qs; Thu, 13 Apr 2023 16:32:13 -0400
+	id 1pn3cb-0003zQ-68; Thu, 13 Apr 2023 16:32:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3bv-0003ge-UH; Thu, 13 Apr 2023 16:32:05 -0400
+ id 1pn3cP-0003qI-Lb; Thu, 13 Apr 2023 16:32:33 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3bt-0003k5-Ux; Thu, 13 Apr 2023 16:32:03 -0400
+ id 1pn3cD-0003k6-Lm; Thu, 13 Apr 2023 16:32:32 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 79D9940135;
+ by isrv.corpit.ru (Postfix) with ESMTP id 9E43840137;
  Thu, 13 Apr 2023 23:31:56 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 03C8621B;
+ by tsrv.corpit.ru (Postfix) with SMTP id 278B721E;
  Thu, 13 Apr 2023 23:31:55 +0300 (MSK)
-Received: (nullmailer pid 2344349 invoked by uid 1000);
+Received: (nullmailer pid 2344351 invoked by uid 1000);
  Thu, 13 Apr 2023 20:31:54 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
+Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Qing Wang <qinwang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 09/21] hw/arm: do not free machine->fdt in arm_load_dtb()
-Date: Thu, 13 Apr 2023 23:31:21 +0300
-Message-Id: <20230413203143.2344250-9-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 10/21] aio-posix: fix race between epoll upgrade and
+ aio_set_fd_handler()
+Date: Thu, 13 Apr 2023 23:31:22 +0300
+Message-Id: <20230413203143.2344250-10-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230413203051.2344192-1-mjt@tls.msk.ru>
 References: <20230413203051.2344192-1-mjt@tls.msk.ru>
@@ -60,53 +61,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-At this moment, arm_load_dtb() can free machine->fdt when
-binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
-retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
-the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
-machine->fdt. And, in that case, the existing g_free(fdt) at the end of
-arm_load_dtb() will make machine->fdt point to an invalid memory region.
+If another thread calls aio_set_fd_handler() while the IOThread event
+loop is upgrading from ppoll(2) to epoll(7) then we might miss new
+AioHandlers. The epollfd will not monitor the new AioHandler's fd,
+resulting in hangs.
 
-Since monitor command 'dumpdtb' was introduced a couple of releases
-ago, running it with any ARM machine that uses arm_load_dtb() will
-crash QEMU.
+Take the AioHandler list lock while upgrading to epoll. This prevents
+AioHandlers from changing while epoll is being set up. If we cannot lock
+because we're in a nested event loop, then don't upgrade to epoll (it
+will happen next time we're not in a nested call).
 
-Let's enable all arm_load_dtb() callers to use dumpdtb properly. Instead
-of freeing 'fdt', assign it back to ms->fdt.
+The downside to taking the lock is that the aio_set_fd_handler() thread
+has to wait until the epoll upgrade is finished, which involves many
+epoll_ctl(2) system calls. However, this scenario is rare and I couldn't
+think of another solution that is still simple.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
-Fixes: bf353ad55590f ("qmp/hmp, device_tree.c: introduce dumpdtb")
-Reported-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-id: 20230328165935.1512846-1-armbru@redhat.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-(cherry picked from commit 12148d442ec3f4386c8624ffcf44c61a8b344018)
+Reported-by: Qing Wang <qinwang@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2090998
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20230323144859.1338495-1-stefanha@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit e62da98527fa35fe5f532cded01a33edf9fbe7b2)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- hw/arm/boot.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ util/fdmon-epoll.c | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 15c2bf1867..725bab8adc 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -686,7 +686,10 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
-                                        rom_ptr_for_as(as, addr, size));
+diff --git a/util/fdmon-epoll.c b/util/fdmon-epoll.c
+index e11a8a022e..1683aa1105 100644
+--- a/util/fdmon-epoll.c
++++ b/util/fdmon-epoll.c
+@@ -127,6 +127,8 @@ static bool fdmon_epoll_try_enable(AioContext *ctx)
  
--    g_free(fdt);
-+    if (fdt != ms->fdt) {
-+        g_free(ms->fdt);
-+        ms->fdt = fdt;
+ bool fdmon_epoll_try_upgrade(AioContext *ctx, unsigned npfd)
+ {
++    bool ok;
++
+     if (ctx->epollfd < 0) {
+         return false;
+     }
+@@ -136,14 +138,23 @@ bool fdmon_epoll_try_upgrade(AioContext *ctx, unsigned npfd)
+         return false;
+     }
+ 
+-    if (npfd >= EPOLL_ENABLE_THRESHOLD) {
+-        if (fdmon_epoll_try_enable(ctx)) {
+-            return true;
+-        } else {
+-            fdmon_epoll_disable(ctx);
+-        }
++    if (npfd < EPOLL_ENABLE_THRESHOLD) {
++        return false;
 +    }
++
++    /* The list must not change while we add fds to epoll */
++    if (!qemu_lockcnt_dec_if_lock(&ctx->list_lock)) {
++        return false;
++    }
++
++    ok = fdmon_epoll_try_enable(ctx);
++
++    qemu_lockcnt_inc_and_unlock(&ctx->list_lock);
++
++    if (!ok) {
++        fdmon_epoll_disable(ctx);
+     }
+-    return false;
++    return ok;
+ }
  
-     return size;
- 
+ void fdmon_epoll_setup(AioContext *ctx)
 -- 
 2.30.2
 
