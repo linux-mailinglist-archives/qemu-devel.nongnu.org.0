@@ -2,89 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB836E07B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 09:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507356E088D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 10:05:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmrNM-0002n7-85; Thu, 13 Apr 2023 03:28:12 -0400
+	id 1pmrvU-0000pu-M0; Thu, 13 Apr 2023 04:03:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pmrNJ-0002mv-Dr
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 03:28:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1pmrvP-0000p5-Ey; Thu, 13 Apr 2023 04:03:23 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pmrNH-0001dt-MF
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 03:28:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681370886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=skP1USaICaVN+jt99xKLHmTuSO17e2axoUXLLiLGjPw=;
- b=YkyaFM3GojEcUKvpYMXZokqecNviwe6j5YMTIussMSVkFc37Yo9g8BEEQs5/4QtAcY+5dm
- 20wcWqRSBb1EsCcty1nHhHrxF3Gy5AEvps08xglbAPIaEmhbtv4xGLKCmdA6NR+vnB8pmY
- SLpydFSaZ53EfQSEoVv91ZZZnH3EF/Y=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-252-XjGK788qNHqqUIe5kaEpvw-1; Thu, 13 Apr 2023 03:28:05 -0400
-X-MC-Unique: XjGK788qNHqqUIe5kaEpvw-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-54f9df9ebc5so39700047b3.13
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 00:28:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681370885; x=1683962885;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=skP1USaICaVN+jt99xKLHmTuSO17e2axoUXLLiLGjPw=;
- b=DxyrySJ9J9sDmSY87bkk1yNTtJnzJRnn2bfLDViIVrEsG+TH/K/QVNG6O9xQZ/uySq
- vuJ+5rsFLM1mU8c8HVh5ZxGzpD4b2KNk8ufKt14dO6qEyfIrXb2SbsEnoKdtXz0EEM3m
- n9gYUu+pBlHdX7FNj9rvxRJ91noiZgHh9IEBLsE+SjoHPYXfH+f45wwQQHfDH7ogatai
- wc53TMuY8Pyr8XMTbxhEJ2kIaTlnf1E5D3MbcIcYMwOa166Y0xDrITfO5pXTbHfNLVvG
- FNaVXrEowvtcdjVQ0LenxvWmM5WAs3w6XpSDvCVHn3V8cC78/pUfjCjCzw79K1c2Ku9D
- JMgQ==
-X-Gm-Message-State: AAQBX9effbySrpwqoAK3wRoKlCiDDvfTKoKd5OR5spOXR3Zgqwe5HHmL
- XtvFI5VnOBX5rFh5bfVREGmXiowrE3zyfoC+yiNPf262UGRzmLSCnuSRuXg03RKyZ4UXfg9A/sB
- mwWgstToGgtTx4EnSeRQoQksEK1DUzyU=
-X-Received: by 2002:a81:4005:0:b0:540:e744:13ae with SMTP id
- l5-20020a814005000000b00540e74413aemr808131ywn.3.1681370884809; 
- Thu, 13 Apr 2023 00:28:04 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YRrX7jbtvKaHWyeIfydaCcNSisLx0WbBS6lpz8bt+rPjcFQzp/CQCFzo1NQ2TGgSJsml933Fs99pod+e1aa3I=
-X-Received: by 2002:a81:4005:0:b0:540:e744:13ae with SMTP id
- l5-20020a814005000000b00540e74413aemr808118ywn.3.1681370884596; Thu, 13 Apr
- 2023 00:28:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1pmrvM-0002Gh-6C; Thu, 13 Apr 2023 04:03:23 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:47ac:0:640:70fa:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 9B1F85F489;
+ Thu, 13 Apr 2023 11:03:08 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b431::1:d] (unknown
+ [2a02:6b8:b081:b431::1:d])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id 53ST650Ok8c0-Qa1v2W3a; Thu, 13 Apr 2023 11:03:07 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1681372987; bh=YN8gyv/FTxR5djE8I8nbEHCLFxVroT9Y+ayvxcUqXMM=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=OZxWGJRiy6Ngv+01FADRCQSnNPaqrO+G25cDIxp5uVS5vKjfMkqsizzM+M6+k/Jlp
+ xDuH/5S4GV/ofMuRqIpyy8uEHKQyi1RB35pEmpvzib5nT87qic9VDKMtR7H4xnfRXI
+ 0F37+uRsQWJUsKYObrzq0xOs7lq6BDR6Gi5TmtmA=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <d3079b1e-f110-dd0c-9061-16140bc6f6ae@yandex-team.ru>
+Date: Thu, 13 Apr 2023 11:03:05 +0300
 MIME-Version: 1.0
-References: <CAJaqyWdV6pKP0SVZciMiu_HN86aJriZh0HBiwHNkO7+yErXnBA@mail.gmail.com>
- <CAJaqyWceWu5EpwAZjEAe5EkJ=SQ4bVYXohCjgqpkFtKiSb+OHQ@mail.gmail.com>
- <CACGkMEu0PYQ=dS=VcfOCX32153emzB9R++8K3HGXnyt2x8BDpQ@mail.gmail.com>
- <CACGkMEsvgv-nrjpLo67hFUf+5tau7kPgUu9TBh8PU5QruagMVQ@mail.gmail.com>
-In-Reply-To: <CACGkMEsvgv-nrjpLo67hFUf+5tau7kPgUu9TBh8PU5QruagMVQ@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 13 Apr 2023 09:27:30 +0200
-Message-ID: <CAJaqyWeNVVTaLpNeQpuc11xCkV5My=KgPi1OvVfeVTRxSgRc8A@mail.gmail.com>
-Subject: Re: Reducing vdpa migration downtime because of memory pin / maps
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, Longpeng <longpeng2@huawei.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <elic@nvidia.com>, 
- Parav Pandit <parav@nvidia.com>, Juan Quintela <quintela@redhat.com>, 
- David Gilbert <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] replication: compile out some staff when replication is
+ not configured
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, pbonzini@redhat.com, armbru@redhat.com,
+ eblake@redhat.com, jasowang@redhat.com, dgilbert@redhat.com,
+ quintela@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
+ zhanghailiang@xfusion.com, chen.zhang@intel.com, lizhijian@fujitsu.com,
+ wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ den-plotnikov@yandex-team.ru
+References: <20230411145112.497785-1-vsementsov@yandex-team.ru>
+Content-Language: en-US
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+In-Reply-To: <20230411145112.497785-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.083,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,86 +79,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 12, 2023 at 8:19=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
-ote:
->
-> On Wed, Apr 12, 2023 at 1:56=E2=80=AFPM Jason Wang <jasowang@redhat.com> =
-wrote:
-> >
-> > On Tue, Apr 11, 2023 at 8:34=E2=80=AFPM Eugenio Perez Martin
-> > <eperezma@redhat.com> wrote:
-> > >
-> > > On Wed, Apr 5, 2023 at 1:37=E2=80=AFPM Eugenio Perez Martin <eperezma=
-@redhat.com> wrote:
-> > > >
-> > > > Hi!
-> > > >
-> > > > As mentioned in the last upstream virtio-networking meeting, one of
-> > > > the factors that adds more downtime to migration is the handling of
-> > > > the guest memory (pin, map, etc). At this moment this handling is
-> > > > bound to the virtio life cycle (DRIVER_OK, RESET). In that sense, t=
-he
-> > > > destination device waits until all the guest memory / state is
-> > > > migrated to start pinning all the memory.
-> > > >
-> > > > The proposal is to bind it to the char device life cycle (open vs
-> > > > close), so all the guest memory can be pinned for all the guest / q=
-emu
-> > > > lifecycle.
-> > > >
-> > > > This has two main problems:
-> > > > * At this moment the reset semantics forces the vdpa device to unma=
-p
-> > > > all the memory. So this change needs a vhost vdpa feature flag.
-> > > > * This may increase the initialization time. Maybe we can delay it =
-if
-> > > > qemu is not the destination of a LM. Anyway I think this should be
-> > > > done as an optimization on top.
-> > > >
-> > >
-> > > Expanding on this we could reduce the pinning even more now that vrin=
-g
-> > > supports VA [1] with the emulated CVQ.
-> >
-> > Note that VA for hardware means the device needs to support page fault
-> > through either PRI or vendor specific interface.
-> >
-> > >
-> > > Something like:
-> > > - Add VHOST_VRING_GROUP_CAN_USE_VA ioctl to check if a given VQ group
-> > > capability. Passthrough devices with emulated CVQ would return false
-> > > for the dataplane and true for the control vq group.
->
-> We don't even need this actually, since the pinning is not visible to
-> the userspace. Userspace can only see the IOTLB abstraction actually.
->
-> We can invent a group->use_va, then when we attach AS to a group that
-> can use va, we can avoid the pinning.
->
+Just a few minor nits
 
-That would solve one part for sure, but SVQ will keep translating HVA
-to SVQ IOVA, and then the kernel needs to translate it back. With
-VHOST_VRING_GROUP_CAN_USE_VA, the SVQ and the kernel skip all
-translation.
+On 4/11/23 5:51 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Don't compile-in replication-related files when replication is disabled
+> in config.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> ---
+> 
+> Hi all!
+> 
+> I'm unsure, should it be actually separate
+> --disable-colo / --enable-colo options or it's really used only together
+> with replication staff.. So, I decided to start with simpler variant.
 
-Thanks!
+You probably meant 'stuff' and not 'staff' in the commit message and 
+here as well?
 
-> Thanks
->
-> > > - If that is true, qemu does not need to map and translate addresses
-> > > for CVQ but to directly provide VA for buffers. This avoids pinning,
-> > > translations, etc in this case.
-> >
-> > For CVQ yes, but we only avoid the pinning for CVQ not others.
-> >
-> > Thanks
-> >
-> > >
-> > > Thanks!
-> > >
-> > > [1] https://lore.kernel.org/virtualization/20230404131326.44403-2-sga=
-rzare@redhat.com/
-> > >
->
+> 
+>   block/meson.build     |  2 +-
+>   migration/meson.build |  6 ++++--
+>   net/meson.build       |  8 ++++----
+>   qapi/migration.json   |  6 ++++--
+>   stubs/colo.c          | 46 +++++++++++++++++++++++++++++++++++++++++++
+>   stubs/meson.build     |  1 +
+>   6 files changed, 60 insertions(+), 9 deletions(-)
+>   create mode 100644 stubs/colo.c
+> 
+> diff --git a/block/meson.build b/block/meson.build
+> index 382bec0e7d..b9a72e219b 100644
+> --- a/block/meson.build
+> +++ b/block/meson.build
+> @@ -84,7 +84,7 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c')
+>   block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
+>   block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
+>   block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
+> -if not get_option('replication').disabled()
+> +if get_option('replication').allowed()
+>     block_ss.add(files('replication.c'))
+>   endif
+>   block_ss.add(when: libaio, if_true: files('linux-aio.c'))
+> diff --git a/migration/meson.build b/migration/meson.build
+> index 0d1bb9f96e..8180eaea7b 100644
+> --- a/migration/meson.build
+> +++ b/migration/meson.build
+> @@ -13,8 +13,6 @@ softmmu_ss.add(files(
+>     'block-dirty-bitmap.c',
+>     'channel.c',
+>     'channel-block.c',
+> -  'colo-failover.c',
+> -  'colo.c',
+>     'exec.c',
+>     'fd.c',
+>     'global_state.c',
+> @@ -29,6 +27,10 @@ softmmu_ss.add(files(
+>     'threadinfo.c',
+>   ), gnutls)
+>   
+> +if get_option('replication').allowed()
+> +  softmmu_ss.add(files('colo.c', 'colo-failover.c'))
+> +endif
+> +
+>   softmmu_ss.add(when: rdma, if_true: files('rdma.c'))
+>   if get_option('live_block_migration').allowed()
+>     softmmu_ss.add(files('block.c'))
+> diff --git a/net/meson.build b/net/meson.build
+> index 87afca3e93..634ab71cc6 100644
+> --- a/net/meson.build
+> +++ b/net/meson.build
+> @@ -1,13 +1,9 @@
+>   softmmu_ss.add(files(
+>     'announce.c',
+>     'checksum.c',
+> -  'colo-compare.c',
+> -  'colo.c',
+>     'dump.c',
+>     'eth.c',
+>     'filter-buffer.c',
+> -  'filter-mirror.c',
+> -  'filter-rewriter.c',
+>     'filter.c',
+>     'hub.c',
+>     'net-hmp-cmds.c',
+> @@ -19,6 +15,10 @@ softmmu_ss.add(files(
+>     'util.c',
+>   ))
+>   
+> +if get_option('replication').allowed()
+> +  softmmu_ss.add(files('colo-compare.c', 'colo.c', 'filter-rewriter.c', 'filter-mirror.c'))
+> +endif
+> +
+>   softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
+>   
+>   if have_l2tpv3
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index c84fa10e86..5b81e09369 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1685,7 +1685,8 @@
+>   ##
+>   { 'struct': 'COLOStatus',
+>     'data': { 'mode': 'COLOMode', 'last-mode': 'COLOMode',
+> -            'reason': 'COLOExitReason' } }
+> +            'reason': 'COLOExitReason' },
+> +  'if': 'CONFIG_REPLICATION' }
+>   
+>   ##
+>   # @query-colo-status:
+> @@ -1702,7 +1703,8 @@
+>   # Since: 3.1
+>   ##
+>   { 'command': 'query-colo-status',
+> -  'returns': 'COLOStatus' }
+> +  'returns': 'COLOStatus',
+> +  'if': 'CONFIG_REPLICATION' }
+>   
+>   ##
+>   # @migrate-recover:
+> diff --git a/stubs/colo.c b/stubs/colo.c
+> new file mode 100644
+> index 0000000000..5a02540baa
+> --- /dev/null
+> +++ b/stubs/colo.c
+> @@ -0,0 +1,46 @@
+> +#include "qemu/osdep.h"
+> +#include "qemu/notify.h"
+> +#include "net/colo-compare.h"
+> +#include "migration/colo.h"
+> +#include "qapi/error.h"
+> +#include "qapi/qapi-commands-migration.h"
+> +
+> +void colo_compare_cleanup(void)
+> +{
+> +    abort();
+> +}
+> +
+> +void colo_shutdown(void)
+> +{
+> +    abort();
+> +}
+> +
+> +void *colo_process_incoming_thread(void *opaque)
+> +{
+> +    abort();
+> +}
+> +
+> +void colo_checkpoint_notify(void *opaque)
+> +{
+> +    abort();
+> +}
+> +
+> +void migrate_start_colo_process(MigrationState *s)
+> +{
+> +    abort();
+> +}
+> +
+> +bool migration_in_colo_state(void)
+> +{
+> +    return false;
+> +}
+> +
+> +bool migration_incoming_in_colo_state(void)
+> +{
+> +    return false;
+> +}
+> +
+> +void qmp_x_colo_lost_heartbeat(Error **errp)
+> +{
+> +    error_setg(errp, "COLO support is not built in");
 
+Maybe 'built-in' with a dash for consistency with usb-dev-stub?
+
+> +}
+> diff --git a/stubs/meson.build b/stubs/meson.build
+> index b2b5956d97..8412cad15f 100644
+> --- a/stubs/meson.build
+> +++ b/stubs/meson.build
+> @@ -45,6 +45,7 @@ stub_ss.add(files('target-get-monitor-def.c'))
+>   stub_ss.add(files('target-monitor-defs.c'))
+>   stub_ss.add(files('trace-control.c'))
+>   stub_ss.add(files('uuid.c'))
+> +stub_ss.add(files('colo.c'))
+>   stub_ss.add(files('vmstate.c'))
+>   stub_ss.add(files('vm-stop.c'))
+>   stub_ss.add(files('win32-kbd-hook.c'))
 
