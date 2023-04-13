@@ -2,41 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99516E15FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0267E6E15F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:35:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn3by-0003hw-Vg; Thu, 13 Apr 2023 16:32:07 -0400
+	id 1pn3bx-0003f4-KW; Thu, 13 Apr 2023 16:32:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3bs-0003ex-0R; Thu, 13 Apr 2023 16:32:00 -0400
+ id 1pn3bq-0003eh-WA; Thu, 13 Apr 2023 16:31:59 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3bn-0003iH-EO; Thu, 13 Apr 2023 16:31:59 -0400
+ id 1pn3bn-0003iT-S0; Thu, 13 Apr 2023 16:31:58 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id EE3884012F;
- Thu, 13 Apr 2023 23:31:52 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id D8E0B40130;
+ Thu, 13 Apr 2023 23:31:54 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 7CB4595;
- Thu, 13 Apr 2023 23:31:51 +0300 (MSK)
-Received: (nullmailer pid 2344334 invoked by uid 1000);
- Thu, 13 Apr 2023 20:31:51 -0000
+ by tsrv.corpit.ru (Postfix) with SMTP id 6818695;
+ Thu, 13 Apr 2023 23:31:53 +0300 (MSK)
+Received: (nullmailer pid 2344337 invoked by uid 1000);
+ Thu, 13 Apr 2023 20:31:53 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Raven <wxhusst@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+Cc: qemu-stable@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Sebastian Mitterle <smitterl@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 04/21] hw/pvrdma: Protect against buggy or malicious guest
- driver
-Date: Thu, 13 Apr 2023 23:31:16 +0300
-Message-Id: <20230413203143.2344250-4-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 05/21] target/s390x/arch_dump: Fix memory corruption in
+ s390x_write_elf64_notes()
+Date: Thu, 13 Apr 2023 23:31:17 +0300
+Message-Id: <20230413203143.2344250-5-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230413203051.2344192-1-mjt@tls.msk.ru>
 References: <20230413203051.2344192-1-mjt@tls.msk.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
@@ -60,43 +63,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Guest driver might execute HW commands when shared buffers are not yet
-allocated.
-This could happen on purpose (malicious guest) or because of some other
-guest/host address mapping error.
-We need to protect againts such case.
+"note_size" can be smaller than sizeof(note), so unconditionally calling
+memset(notep, 0, sizeof(note)) could cause a memory corruption here in
+case notep has been allocated dynamically, thus let's use note_size as
+length argument for memset() instead.
 
-Fixes: CVE-2022-1050
-
-Reported-by: Raven <wxhusst@gmail.com>
-Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Message-Id: <20220403095234.2210-1-yuval.shaia.ml@gmail.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-(cherry picked from commit 31c4b6fb0293e359f9ef8a61892667e76eea4c99)
+Reported-by: Sebastian Mitterle <smitterl@redhat.com>
+Fixes: 113d8f4e95 ("s390x: pv: Add dump support")
+Message-Id: <20230214141056.680969-1-thuth@redhat.com>
+Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+(cherry picked from commit eb60026120081430d554c9cabaa36c4ac271fce0)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/s390x/arch_dump.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-index da7ddfa548..89db963c46 100644
---- a/hw/rdma/vmw/pvrdma_cmd.c
-+++ b/hw/rdma/vmw/pvrdma_cmd.c
-@@ -796,6 +796,12 @@ int pvrdma_exec_cmd(PVRDMADev *dev)
+diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
+index a2329141e8..a7c44ba49d 100644
+--- a/target/s390x/arch_dump.c
++++ b/target/s390x/arch_dump.c
+@@ -248,7 +248,7 @@ static int s390x_write_elf64_notes(const char *note_name,
+             notep = g_malloc(note_size);
+         }
  
-     dsr_info = &dev->dsr_info;
+-        memset(notep, 0, sizeof(note));
++        memset(notep, 0, note_size);
  
-+    if (!dsr_info->dsr) {
-+            /* Buggy or malicious guest driver */
-+            rdma_error_report("Exec command without dsr, req or rsp buffers");
-+            goto out;
-+    }
-+
-     if (dsr_info->req->hdr.cmd >= sizeof(cmd_handlers) /
-                       sizeof(struct cmd_handler)) {
-         rdma_error_report("Unsupported command");
+         /* Setup note header data */
+         notep->hdr.n_descsz = cpu_to_be32(content_size);
 -- 
 2.30.2
 
