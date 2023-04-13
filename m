@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38396E15EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228446E15F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:37:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn3cW-0003we-Cu; Thu, 13 Apr 2023 16:32:40 -0400
+	id 1pn3cY-0003yM-UD; Thu, 13 Apr 2023 16:32:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3cQ-0003qp-2N; Thu, 13 Apr 2023 16:32:34 -0400
+ id 1pn3cS-0003sk-Ci; Thu, 13 Apr 2023 16:32:36 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3cG-0003l9-Nx; Thu, 13 Apr 2023 16:32:33 -0400
+ id 1pn3cG-0003l8-Pt; Thu, 13 Apr 2023 16:32:35 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 728564013E;
+ by isrv.corpit.ru (Postfix) with ESMTP id 96DB84013F;
  Thu, 13 Apr 2023 23:31:57 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id E10AA21E;
- Thu, 13 Apr 2023 23:31:55 +0300 (MSK)
-Received: (nullmailer pid 2344361 invoked by uid 1000);
+ by tsrv.corpit.ru (Postfix) with SMTP id 1FB9E95;
+ Thu, 13 Apr 2023 23:31:56 +0300 (MSK)
+Received: (nullmailer pid 2344363 invoked by uid 1000);
  Thu, 13 Apr 2023 20:31:54 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Mathis Marion <mathis.marion@silabs.com>,
- Laurent Vivier <laurent@vivier.eu>,
+Cc: qemu-stable@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 15/21] linux-user: fix sockaddr_in6 endianness
-Date: Thu, 13 Apr 2023 23:31:27 +0300
-Message-Id: <20230413203143.2344250-15-mjt@msgid.tls.msk.ru>
+ Laurent Vivier <laurent@vivier.eu>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 16/21] linux-user: Fix unaligned memory access in prlimit64
+ syscall
+Date: Thu, 13 Apr 2023 23:31:28 +0300
+Message-Id: <20230413203143.2344250-16-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230413203051.2344192-1-mjt@tls.msk.ru>
 References: <20230413203051.2344192-1-mjt@tls.msk.ru>
@@ -61,38 +62,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mathis Marion <mathis.marion@silabs.com>
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-The sin6_scope_id field uses the host byte order, so there is a
-conversion to be made when host and target endianness differ.
+target_rlimit64 contains uint64_t fields, so it's 8-byte aligned on
+some hosts, while some guests may align their respective type on a
+4-byte boundary. This may lead to an unaligned access, which is an UB.
 
-Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Fix by defining the fields as abi_ullong. This makes the host alignment
+match that of the guest, and lets the compiler know that it should emit
+code that can deal with the guest alignment.
+
+While at it, also use __get_user() and __put_user() instead of
+tswap64().
+
+Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230307154256.101528-2-Mathis.Marion@silabs.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20230224003907.263914-2-iii@linux.ibm.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-(cherry picked from commit 44cf6731d6b9a48bcd57392e8cd6f0f712aaa677)
+(cherry picked from commit 9c1da8b5ee7f6e80e6b683e7fb73df1029a7cbbe)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- linux-user/syscall.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ linux-user/generic/target_resource.h | 4 ++--
+ linux-user/syscall.c                 | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/linux-user/generic/target_resource.h b/linux-user/generic/target_resource.h
+index 539d8c4677..37d3eb09b3 100644
+--- a/linux-user/generic/target_resource.h
++++ b/linux-user/generic/target_resource.h
+@@ -12,8 +12,8 @@ struct target_rlimit {
+ };
+ 
+ struct target_rlimit64 {
+-    uint64_t rlim_cur;
+-    uint64_t rlim_max;
++    abi_ullong rlim_cur;
++    abi_ullong rlim_max;
+ };
+ 
+ #define TARGET_RLIM_INFINITY    ((abi_ulong)-1)
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 24b25759be..106d5ed05b 100644
+index 106d5ed05b..8f8f8cf1db 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -1755,6 +1755,11 @@ static inline abi_long target_to_host_sockaddr(int fd, struct sockaddr *addr,
- 	lladdr = (struct target_sockaddr_ll *)addr;
- 	lladdr->sll_ifindex = tswap32(lladdr->sll_ifindex);
- 	lladdr->sll_hatype = tswap16(lladdr->sll_hatype);
-+    } else if (sa_family == AF_INET6) {
-+        struct sockaddr_in6 *in6addr;
-+
-+        in6addr = (struct sockaddr_in6 *)addr;
-+        in6addr->sin6_scope_id = tswap32(in6addr->sin6_scope_id);
-     }
-     unlock_user(target_saddr, target_addr, 0);
- 
+@@ -12888,8 +12888,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
+                 return -TARGET_EFAULT;
+             }
+-            rnew.rlim_cur = tswap64(target_rnew->rlim_cur);
+-            rnew.rlim_max = tswap64(target_rnew->rlim_max);
++            __get_user(rnew.rlim_cur, &target_rnew->rlim_cur);
++            __get_user(rnew.rlim_max, &target_rnew->rlim_max);
+             unlock_user_struct(target_rnew, arg3, 0);
+             rnewp = &rnew;
+         }
+@@ -12899,8 +12899,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             if (!lock_user_struct(VERIFY_WRITE, target_rold, arg4, 1)) {
+                 return -TARGET_EFAULT;
+             }
+-            target_rold->rlim_cur = tswap64(rold.rlim_cur);
+-            target_rold->rlim_max = tswap64(rold.rlim_max);
++            __put_user(rold.rlim_cur, &target_rold->rlim_cur);
++            __put_user(rold.rlim_max, &target_rold->rlim_max);
+             unlock_user_struct(target_rold, arg4, 1);
+         }
+         return ret;
 -- 
 2.30.2
 
