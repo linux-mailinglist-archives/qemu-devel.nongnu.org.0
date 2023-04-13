@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924C46E0C11
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7D86E0C29
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:12:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmuo2-0007V1-E4; Thu, 13 Apr 2023 07:07:58 -0400
+	id 1pmuri-0000e3-O2; Thu, 13 Apr 2023 07:11:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pmunz-0007UJ-Vp
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:07:55 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pmuny-0002B5-Hu
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:07:55 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id t16so1987357ybi.13
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 04:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681384073; x=1683976073;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=73UYQ+UOpa+vWsmo5S3WE7zaLxbDHpDjBT6uMvtzgCQ=;
- b=gt8nd+5enA1YjrS7mIRnGqBVonitlcfs5O64gAYyYuj5pJQgw6KrOo5XUsVT59oZRy
- FHsfV5g9x7xnx9dsQsJ9ZQeEKIOr5L9KhJ0wRaSVD9h4ndodpElMvkFJ7IRa7SUsa6oX
- Z86zeg1JEeKo+r2/GGDF8zLe/9GXZn1PvcNm4UX+W63kpDqbed+mbuhatNiIXPhs2FRq
- 3ht1UY2ayRejTPodZKLEqB1rINWrUgdhjr5kPyEy6X6uiePznspDjPj76xQKhTOxzgHY
- kvawpgpF6eZ8+hxkq2/SVW8cv20v/lz+dLcPpBctfPOiz0Fcck96/AOFMzF0/sMhwXe3
- AAFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681384073; x=1683976073;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=73UYQ+UOpa+vWsmo5S3WE7zaLxbDHpDjBT6uMvtzgCQ=;
- b=KttSOHBqlu6qW5otd+PDHSR7lURbn09NIcI1Ou13VQoiOmhL4DtK9DiatQbCRHVtPP
- 2cSFoCd7G5VzcgcnCcU40WINpwhM4r34sAFlD4QD+x7bMTVF2syttuE3NIqApu7UxY83
- EVJlLQMGOHfTt2a1U+87+rv69jtWA5DR1mLnSgA8ch3wPL1RSBX+qk/p3fR142eTQqW7
- oycj9apeqHQO1Eh9YEUqhQMwCUZ303isJBmqv0jxtZQn6e55VYV92LVi2SEhry9jr9wQ
- i16Yd0lypEiCe0gwnAbNINYpAw8URTQwIQQbsTMFsdjU7umntzzOkDTyMhLTlqarxsyk
- v8Lg==
-X-Gm-Message-State: AAQBX9fKImIGxuQOjeiPTp4F3hyXUrEwK3rqoIdACZJoralnExmxeAmp
- 9DzbXrRC1GUx9nY0EpUYj+htARBFT5y5Y0a7spk=
-X-Google-Smtp-Source: AKy350axoW7aU1v2Nc9OAhbCwAemN9LK18kBhyqjh1SkWKTWqlvmkLiiWG/I/uJfYlWOxYi+wM4dcOdna/w/Ss25GOg=
-X-Received: by 2002:a25:d44a:0:b0:b77:676c:773c with SMTP id
- m71-20020a25d44a000000b00b77676c773cmr1218667ybf.2.1681384073486; Thu, 13 Apr
- 2023 04:07:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pmurg-0000c4-36
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:11:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pmurd-0003UG-UU
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:11:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681384300;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=m1dz8tOrksfGC6+Zi85nrKSWSZ1EYa0NeI30AedLYdg=;
+ b=c2xWy0ZdL/LgDa0wt+2lXChBPwzAmnTghuDv8d2snIqD94Fy7TOgMgiJC4pwBu3B3maaaS
+ qtYBa/ss49ABwLSqzUXa8JawC85lWl/vW3f2IJK+Q/fvLVMA63z8+xWtBGRvIROXH1eGM0
+ r57BQtoZsd0QjElX0f/dIMHTl50jTM8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-616-uG4ZfY2eNEW_f1ekz-usIw-1; Thu, 13 Apr 2023 07:11:38 -0400
+X-MC-Unique: uG4ZfY2eNEW_f1ekz-usIw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58780800B35
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 11:11:38 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 24664492C13;
+ Thu, 13 Apr 2023 11:11:38 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id AE34B18000A3; Thu, 13 Apr 2023 13:11:36 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] vnc: increase max display size
+Date: Thu, 13 Apr 2023 13:11:36 +0200
+Message-Id: <20230413111136.437970-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <20230411150515.14020-3-hreitz@redhat.com>
- <20230412210641.GC2813183@fedora>
- <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
-In-Reply-To: <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 13 Apr 2023 07:07:41 -0400
-Message-ID: <CAJSP0QW8fEJKnHMGFk+UFU=-f=5nEvY_zoOM=9f2M5UO4FC=Xw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Hanna Czenczek <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org, 
- virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>, 
- Anton Kuchin <antonkuchin@yandex-team.ru>, Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb34.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,22 +75,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 13 Apr 2023 at 06:15, Eugenio Perez Martin <eperezma@redhat.com> wr=
-ote:
-> On Wed, Apr 12, 2023 at 11:06=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat=
-.com> wrote:
-> > On Tue, Apr 11, 2023 at 05:05:13PM +0200, Hanna Czenczek wrote:
-> > (And I hope vDPA will import the device state vhost-user messages
-> > introduced in this series.)
-> >
->
-> I guess they will be needed for vdpa-fs devices? Is there any emulated
-> virtio-fs in qemu?
+It's 2023.  4k display resolutions are a thing these days.
+Raise width and height limits of the qemu vnc server.
 
-Maybe also virtio-gpu or virtio-crypto, if someone decides to create
-hardware or in-kernel implementations.
+Resolves: #1596
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ ui/vnc.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-virtiofs is not built into QEMU, there are only vhost-user implementations.
+diff --git a/ui/vnc.h b/ui/vnc.h
+index 757fa83044e7..5d9cd85a3c24 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -81,8 +81,8 @@ typedef void VncSendHextileTile(VncState *vs,
+ 
+ /* VNC_MAX_WIDTH must be a multiple of VNC_DIRTY_PIXELS_PER_BIT. */
+ 
+-#define VNC_MAX_WIDTH ROUND_UP(2560, VNC_DIRTY_PIXELS_PER_BIT)
+-#define VNC_MAX_HEIGHT 2048
++#define VNC_MAX_WIDTH ROUND_UP(5120, VNC_DIRTY_PIXELS_PER_BIT)
++#define VNC_MAX_HEIGHT 2160
+ 
+ /* VNC_DIRTY_BITS is the number of bits in the dirty bitmap. */
+ #define VNC_DIRTY_BITS (VNC_MAX_WIDTH / VNC_DIRTY_PIXELS_PER_BIT)
+-- 
+2.39.2
 
-Stefan
 
