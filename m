@@ -2,63 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2606E136A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 19:23:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E076E136B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 19:23:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn0dZ-0003CR-LH; Thu, 13 Apr 2023 13:21:33 -0400
+	id 1pn0eW-0003J7-PT; Thu, 13 Apr 2023 13:22:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pn0dX-0003CI-SL
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 13:21:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pn0d9-0001dZ-R7
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 13:21:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681406466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=WoTR/eqzUD2JElMdId6U3MF9cQSmNXlCOb4CgYSr3Rk=;
- b=VOvWQiOWW0ARNAKZCYoJeJcTB2CQAFfGoWC6xESzRBAzyqyD2wJlRku8wkWRSCl7cB6LKB
- tXXB4DNEtE+WoEcNtkxwFYdnXBMYStG4w2/Hoi2soxiNV4Klous3LA5GDLSqVVB+92GQHi
- VSNOTzNYthWJxXsVUOCkC41wU2vUbHU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-z4O1COBbPyWXwZq4mwwyBA-1; Thu, 13 Apr 2023 13:21:03 -0400
-X-MC-Unique: z4O1COBbPyWXwZq4mwwyBA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46E2585542A;
- Thu, 13 Apr 2023 17:21:01 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF96540C6E70;
- Thu, 13 Apr 2023 17:21:00 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] rtl8139: fix large_send_mss divide-by-zero
-Date: Thu, 13 Apr 2023 13:19:46 -0400
-Message-Id: <20230413171946.2865726-1-stefanha@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from
+ <3RTo4ZAsKCsIiksmztm61voowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--ackerleytng.bounces.google.com>)
+ id 1pn0eT-0003Iv-Gh
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 13:22:29 -0400
+Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3RTo4ZAsKCsIiksmztm61voowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--ackerleytng.bounces.google.com>)
+ id 1pn0eH-0001rU-In
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 13:22:29 -0400
+Received: by mail-pg1-x54a.google.com with SMTP id
+ w184-20020a6382c1000000b0050bed8b0b61so6614502pgd.11
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 10:22:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1681406534; x=1683998534;
+ h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=MUWO1kZAYR92KIzOOxoAG6fgcpTDrbsTBnBgIaXB7SI=;
+ b=k9K7/cx14r1rZ44+YUmMJA/zyDFSnSwd4M/yoOo6MK1lBZbqEHHMPLqbgmJy4VHzWr
+ BHtqD7duSRrul042d0Suw2viax09pK0xMVdFhDXpoxoBfhFfIuBKNDsrnzf3PtlFwTe0
+ xZs14NrJu4rjfC+GuieNJRVga4Qv8eQWhGsY7num3+DbmUoQdqIvovvw7B75AYwZTkKG
+ iKlZHnMH6l41XSupS5sXqcJVcqX0LpFcpp/+2ct//bBU6UJaLCpcjq4ly/wd092FSy5B
+ RAM7fGGTnnv8Bkbvo6qpHrJ0vab0jDHA6Sxzq0hjEQ4MKc/Y3j5NGUn0fKFRnXbWoeyn
+ RO7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681406534; x=1683998534;
+ h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MUWO1kZAYR92KIzOOxoAG6fgcpTDrbsTBnBgIaXB7SI=;
+ b=JBr2sP/wC6pLuhgL1qxcy42+QOvC/9hcf+nQ+HjorG8i4rDPt1zVpQu3ozUunWWf1L
+ 5HwhHVjGTsebZvAU2FjgOivG8FMvWIllaCtiaKg4ejIZuIPAlH5yX+t6PWFnexAKwLmB
+ ymLHEG7ys/tTPfYureX2BmkzV5oRQGviIHsqrKDD5hZQVRwE/qSbgXc6Q97NolWMPX4O
+ Al6A0WPouX6mvClC4tONOk6Pdejce9nIfEhsjmfXbvpys+I0xSfUc3vS7DolucLaGUdF
+ gdiS8RzRv6a9dv8RIkeo/iPVpwIWX5bSm6WfbURfbjF1p6osvuNRNYIHko68pqmhraGH
+ msqw==
+X-Gm-Message-State: AAQBX9fHDISJ+Kg0rr9Xx0KLgVbqUHobuJyPBgazpMqEHdM4qkn0BuCd
+ 7edunfQno7rcv/iMv/uNFpFNMhEkAxJ4p3IbZA==
+X-Google-Smtp-Source: AKy350buit0TKoFObhZndLsv+Oe7SecvOYrJwebJQwpxXJ4Pb+22Ci4SNV5J0w0/4fgc4zy9sZpOZtI2T9SDAix8Kg==
+X-Received: from ackerleytng-cloudtop.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a17:90b:815:b0:246:a1b2:77fe with SMTP
+ id bk21-20020a17090b081500b00246a1b277femr2564960pjb.3.1681406533842; Thu, 13
+ Apr 2023 10:22:13 -0700 (PDT)
+Date: Thu, 13 Apr 2023 17:22:12 +0000
+In-Reply-To: <20221202061347.1070246-2-chao.p.peng@linux.intel.com> (message
+ from Chao Peng on Fri,  2 Dec 2022 14:13:39 +0800)
+Mime-Version: 1.0
+Message-ID: <diqzh6tjofy3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+From: Ackerley Tng <ackerleytng@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ pbonzini@redhat.com, corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com, 
+ wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org, 
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de, 
+ naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com, 
+ hughd@google.com, jlayton@kernel.org, bfields@fieldses.org, 
+ akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org, 
+ steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz, 
+ vannapurve@google.com, yu.c.zhang@linux.intel.com, 
+ chao.p.peng@linux.intel.com, kirill.shutemov@linux.intel.com, luto@kernel.org, 
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
+ dhildenb@redhat.com, qperret@google.com, tabba@google.com, 
+ michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
+ envelope-from=3RTo4ZAsKCsIiksmztm61voowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--ackerleytng.bounces.google.com;
+ helo=mail-pg1-x54a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,65 +104,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If the driver sets large_send_mss to 0 then a divide-by-zero occurs.
-Even if the division wasn't a problem, the for loop that emits MSS-sized
-packets would never terminate.
+Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-Solve these issues by skipping offloading when large_send_mss=0.
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 
-This issue was found by OSS-Fuzz as part of Alexander Bulekov's device
-fuzzing work. The reproducer is:
+> Introduce 'memfd_restricted' system call with the ability to create
+> memory areas that are restricted from userspace access through ordinary
+> MMU operations (e.g. read/write/mmap). The memory content is expected to
+> be used through the new in-kernel interface by a third kernel module.
 
-  $ cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
-  512M,slots=1,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
-  rtl8139,netdev=net0 -netdev user,id=net0 -device \
-  pc-dimm,id=nv1,memdev=mem1,addr=0xb800a64602800000 -object \
-  memory-backend-ram,id=mem1,size=2M  -qtest stdio
-  outl 0xcf8 0x80000814
-  outl 0xcfc 0xe0000000
-  outl 0xcf8 0x80000804
-  outw 0xcfc 0x06
-  write 0xe0000037 0x1 0x04
-  write 0xe00000e0 0x2 0x01
-  write 0x1 0x1 0x04
-  write 0x3 0x1 0x98
-  write 0xa 0x1 0x8c
-  write 0xb 0x1 0x02
-  write 0xc 0x1 0x46
-  write 0xd 0x1 0xa6
-  write 0xf 0x1 0xb8
-  write 0xb800a646028c000c 0x1 0x08
-  write 0xb800a646028c000e 0x1 0x47
-  write 0xb800a646028c0010 0x1 0x02
-  write 0xb800a646028c0017 0x1 0x06
-  write 0xb800a646028c0036 0x1 0x80
-  write 0xe00000d9 0x1 0x40
-  EOF
+> ...
 
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1582
-Fixes: 6d71357a3b65 ("rtl8139: honor large send MSS value")
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/net/rtl8139.c | 3 +++
- 1 file changed, 3 insertions(+)
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> new file mode 100644
+> index 000000000000..56953c204e5c
+> --- /dev/null
+> +++ b/mm/restrictedmem.c
+> @@ -0,0 +1,318 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include "linux/sbitmap.h"
+> +#include <linux/pagemap.h>
+> +#include <linux/pseudo_fs.h>
+> +#include <linux/shmem_fs.h>
+> +#include <linux/syscalls.h>
+> +#include <uapi/linux/falloc.h>
+> +#include <uapi/linux/magic.h>
+> +#include <linux/restrictedmem.h>
+> +
+> +struct restrictedmem_data {
+> +	struct mutex lock;
+> +	struct file *memfd;
 
-diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-index 5a5aaf868d..5f1a4d359b 100644
---- a/hw/net/rtl8139.c
-+++ b/hw/net/rtl8139.c
-@@ -2154,6 +2154,9 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
- 
-                 int large_send_mss = (txdw0 >> CP_TC_LGSEN_MSS_SHIFT) &
-                                      CP_TC_LGSEN_MSS_MASK;
-+                if (large_send_mss == 0) {
-+                    goto skip_offload;
-+                }
- 
-                 DPRINTF("+++ C+ mode offloaded task TSO IP data %d "
-                     "frame data %d specified MSS=%d\n",
--- 
-2.39.2
+Can this be renamed to file, or lower_file (as in stacking filesystems)?
+
+It's a little confusing because this pointer doesn't actually refer to
+an fd.
+
+'memfd' is already used by udmabuf to refer to an actual fd [1], which
+makes this a little misleading.
+
+[1]  
+https://elixir.bootlin.com/linux/v6.2.10/source/tools/testing/selftests/drivers/dma-buf/udmabuf.c#L63
+
+> +	struct list_head notifiers;
+> +};
+> +
+> ...
 
 
