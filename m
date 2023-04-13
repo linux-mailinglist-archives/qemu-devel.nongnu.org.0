@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959716E0790
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 09:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB836E07B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 09:29:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmrDS-0000di-FL; Thu, 13 Apr 2023 03:17:58 -0400
+	id 1pmrNM-0002n7-85; Thu, 13 Apr 2023 03:28:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pmrDH-0000dQ-2J
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 03:17:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pmrNJ-0002mv-Dr
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 03:28:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pmrDE-0007mx-P9
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 03:17:46 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pmrNH-0001dt-MF
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 03:28:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681370262;
+ s=mimecast20190719; t=1681370886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+3fxlYnLZG+HH++RdfgY9Ofj5y9sdQsGEkzklrhBFiw=;
- b=YIYOlP4aNzXuncnT9LCg4MWyipM2dpuPlyZAoXurd+31v8/Dff/k1cnRT3AcC25066wG7X
- uci7otyq/XjxgMiXzL2yGshaeR8fR7EmQAECIg/c72caemvmEzZOjwvryHRhTJloC8neOg
- s0s7+y11msCCQ05ngeaxjWTyRbjT68M=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-jDIomZs9O3a5PXNDkcAkew-1; Thu, 13 Apr 2023 03:17:39 -0400
-X-MC-Unique: jDIomZs9O3a5PXNDkcAkew-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F9CC1C189A3;
- Thu, 13 Apr 2023 07:17:39 +0000 (UTC)
-Received: from [10.39.208.7] (unknown [10.39.208.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A6AEC16028;
- Thu, 13 Apr 2023 07:17:18 +0000 (UTC)
-Message-ID: <74a20bbf-860e-ed5b-03fa-6f25ce865652@redhat.com>
-Date: Thu, 13 Apr 2023 09:17:16 +0200
+ bh=skP1USaICaVN+jt99xKLHmTuSO17e2axoUXLLiLGjPw=;
+ b=YkyaFM3GojEcUKvpYMXZokqecNviwe6j5YMTIussMSVkFc37Yo9g8BEEQs5/4QtAcY+5dm
+ 20wcWqRSBb1EsCcty1nHhHrxF3Gy5AEvps08xglbAPIaEmhbtv4xGLKCmdA6NR+vnB8pmY
+ SLpydFSaZ53EfQSEoVv91ZZZnH3EF/Y=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-252-XjGK788qNHqqUIe5kaEpvw-1; Thu, 13 Apr 2023 03:28:05 -0400
+X-MC-Unique: XjGK788qNHqqUIe5kaEpvw-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-54f9df9ebc5so39700047b3.13
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 00:28:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681370885; x=1683962885;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=skP1USaICaVN+jt99xKLHmTuSO17e2axoUXLLiLGjPw=;
+ b=DxyrySJ9J9sDmSY87bkk1yNTtJnzJRnn2bfLDViIVrEsG+TH/K/QVNG6O9xQZ/uySq
+ vuJ+5rsFLM1mU8c8HVh5ZxGzpD4b2KNk8ufKt14dO6qEyfIrXb2SbsEnoKdtXz0EEM3m
+ n9gYUu+pBlHdX7FNj9rvxRJ91noiZgHh9IEBLsE+SjoHPYXfH+f45wwQQHfDH7ogatai
+ wc53TMuY8Pyr8XMTbxhEJ2kIaTlnf1E5D3MbcIcYMwOa166Y0xDrITfO5pXTbHfNLVvG
+ FNaVXrEowvtcdjVQ0LenxvWmM5WAs3w6XpSDvCVHn3V8cC78/pUfjCjCzw79K1c2Ku9D
+ JMgQ==
+X-Gm-Message-State: AAQBX9effbySrpwqoAK3wRoKlCiDDvfTKoKd5OR5spOXR3Zgqwe5HHmL
+ XtvFI5VnOBX5rFh5bfVREGmXiowrE3zyfoC+yiNPf262UGRzmLSCnuSRuXg03RKyZ4UXfg9A/sB
+ mwWgstToGgtTx4EnSeRQoQksEK1DUzyU=
+X-Received: by 2002:a81:4005:0:b0:540:e744:13ae with SMTP id
+ l5-20020a814005000000b00540e74413aemr808131ywn.3.1681370884809; 
+ Thu, 13 Apr 2023 00:28:04 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YRrX7jbtvKaHWyeIfydaCcNSisLx0WbBS6lpz8bt+rPjcFQzp/CQCFzo1NQ2TGgSJsml933Fs99pod+e1aa3I=
+X-Received: by 2002:a81:4005:0:b0:540:e744:13ae with SMTP id
+ l5-20020a814005000000b00540e74413aemr808118ywn.3.1681370884596; Thu, 13 Apr
+ 2023 00:28:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, Hanna Czenczek <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
- German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Roman Kagan <rvkagan@yandex-team.ru>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <20230411150515.14020-2-hreitz@redhat.com> <20230412205138.GA2813183@fedora>
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
-Subject: Re: [PATCH 1/4] vhost: Re-enable vrings after setting features
-In-Reply-To: <20230412205138.GA2813183@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=maxime.coquelin@redhat.com;
+References: <CAJaqyWdV6pKP0SVZciMiu_HN86aJriZh0HBiwHNkO7+yErXnBA@mail.gmail.com>
+ <CAJaqyWceWu5EpwAZjEAe5EkJ=SQ4bVYXohCjgqpkFtKiSb+OHQ@mail.gmail.com>
+ <CACGkMEu0PYQ=dS=VcfOCX32153emzB9R++8K3HGXnyt2x8BDpQ@mail.gmail.com>
+ <CACGkMEsvgv-nrjpLo67hFUf+5tau7kPgUu9TBh8PU5QruagMVQ@mail.gmail.com>
+In-Reply-To: <CACGkMEsvgv-nrjpLo67hFUf+5tau7kPgUu9TBh8PU5QruagMVQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 13 Apr 2023 09:27:30 +0200
+Message-ID: <CAJaqyWeNVVTaLpNeQpuc11xCkV5My=KgPi1OvVfeVTRxSgRc8A@mail.gmail.com>
+Subject: Re: Reducing vdpa migration downtime because of memory pin / maps
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Longpeng <longpeng2@huawei.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <elic@nvidia.com>, 
+ Parav Pandit <parav@nvidia.com>, Juan Quintela <quintela@redhat.com>, 
+ David Gilbert <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.083, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,133 +100,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Apr 12, 2023 at 8:19=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
+ote:
+>
+> On Wed, Apr 12, 2023 at 1:56=E2=80=AFPM Jason Wang <jasowang@redhat.com> =
+wrote:
+> >
+> > On Tue, Apr 11, 2023 at 8:34=E2=80=AFPM Eugenio Perez Martin
+> > <eperezma@redhat.com> wrote:
+> > >
+> > > On Wed, Apr 5, 2023 at 1:37=E2=80=AFPM Eugenio Perez Martin <eperezma=
+@redhat.com> wrote:
+> > > >
+> > > > Hi!
+> > > >
+> > > > As mentioned in the last upstream virtio-networking meeting, one of
+> > > > the factors that adds more downtime to migration is the handling of
+> > > > the guest memory (pin, map, etc). At this moment this handling is
+> > > > bound to the virtio life cycle (DRIVER_OK, RESET). In that sense, t=
+he
+> > > > destination device waits until all the guest memory / state is
+> > > > migrated to start pinning all the memory.
+> > > >
+> > > > The proposal is to bind it to the char device life cycle (open vs
+> > > > close), so all the guest memory can be pinned for all the guest / q=
+emu
+> > > > lifecycle.
+> > > >
+> > > > This has two main problems:
+> > > > * At this moment the reset semantics forces the vdpa device to unma=
+p
+> > > > all the memory. So this change needs a vhost vdpa feature flag.
+> > > > * This may increase the initialization time. Maybe we can delay it =
+if
+> > > > qemu is not the destination of a LM. Anyway I think this should be
+> > > > done as an optimization on top.
+> > > >
+> > >
+> > > Expanding on this we could reduce the pinning even more now that vrin=
+g
+> > > supports VA [1] with the emulated CVQ.
+> >
+> > Note that VA for hardware means the device needs to support page fault
+> > through either PRI or vendor specific interface.
+> >
+> > >
+> > > Something like:
+> > > - Add VHOST_VRING_GROUP_CAN_USE_VA ioctl to check if a given VQ group
+> > > capability. Passthrough devices with emulated CVQ would return false
+> > > for the dataplane and true for the control vq group.
+>
+> We don't even need this actually, since the pinning is not visible to
+> the userspace. Userspace can only see the IOTLB abstraction actually.
+>
+> We can invent a group->use_va, then when we attach AS to a group that
+> can use va, we can avoid the pinning.
+>
 
+That would solve one part for sure, but SVQ will keep translating HVA
+to SVQ IOVA, and then the kernel needs to translate it back. With
+VHOST_VRING_GROUP_CAN_USE_VA, the SVQ and the kernel skip all
+translation.
 
-On 4/12/23 22:51, Stefan Hajnoczi wrote:
-> On Tue, Apr 11, 2023 at 05:05:12PM +0200, Hanna Czenczek wrote:
->> If the back-end supports the VHOST_USER_F_PROTOCOL_FEATURES feature,
->> setting the vhost features will set this feature, too.  Doing so
->> disables all vrings, which may not be intended.
->>
->> For example, enabling or disabling logging during migration requires
->> setting those features (to set or unset VHOST_F_LOG_ALL), which will
->> automatically disable all vrings.  In either case, the VM is running
->> (disabling logging is done after a failed or cancelled migration, and
->> only once the VM is running again, see comment in
->> memory_global_dirty_log_stop()), so the vrings should really be enabled.
->> As a result, the back-end seems to hang.
->>
->> To fix this, we must remember whether the vrings are supposed to be
->> enabled, and, if so, re-enable them after a SET_FEATURES call that set
->> VHOST_USER_F_PROTOCOL_FEATURES.
->>
->> It seems less than ideal that there is a short period in which the VM is
->> running but the vrings will be stopped (between SET_FEATURES and
->> SET_VRING_ENABLE).  To fix this, we would need to change the protocol,
->> e.g. by introducing a new flag or vhost-user protocol feature to disable
->> disabling vrings whenever VHOST_USER_F_PROTOCOL_FEATURES is set, or add
->> new functions for setting/clearing singular feature bits (so that
->> F_LOG_ALL can be set/cleared without touching F_PROTOCOL_FEATURES).
->>
->> Even with such a potential addition to the protocol, we still need this
->> fix here, because we cannot expect that back-ends will implement this
->> addition.
->>
->> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
->> ---
->>   include/hw/virtio/vhost.h | 10 ++++++++++
->>   hw/virtio/vhost.c         | 13 +++++++++++++
->>   2 files changed, 23 insertions(+)
->>
->> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
->> index a52f273347..2fe02ed5d4 100644
->> --- a/include/hw/virtio/vhost.h
->> +++ b/include/hw/virtio/vhost.h
->> @@ -90,6 +90,16 @@ struct vhost_dev {
->>       int vq_index_end;
->>       /* if non-zero, minimum required value for max_queues */
->>       int num_queues;
->> +
->> +    /*
->> +     * Whether the virtqueues are supposed to be enabled (via
->> +     * SET_VRING_ENABLE).  Setting the features (e.g. for
->> +     * enabling/disabling logging) will disable all virtqueues if
->> +     * VHOST_USER_F_PROTOCOL_FEATURES is set, so then we need to
->> +     * re-enable them if this field is set.
->> +     */
->> +    bool enable_vqs;
->> +
->>       /**
->>        * vhost feature handling requires matching the feature set
->>        * offered by a backend which may be a subset of the total
->> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->> index a266396576..cbff589efa 100644
->> --- a/hw/virtio/vhost.c
->> +++ b/hw/virtio/vhost.c
->> @@ -50,6 +50,8 @@ static unsigned int used_memslots;
->>   static QLIST_HEAD(, vhost_dev) vhost_devices =
->>       QLIST_HEAD_INITIALIZER(vhost_devices);
->>   
->> +static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable);
->> +
->>   bool vhost_has_free_slot(void)
->>   {
->>       unsigned int slots_limit = ~0U;
->> @@ -899,6 +901,15 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
->>           }
->>       }
->>   
->> +    if (dev->enable_vqs) {
->> +        /*
->> +         * Setting VHOST_USER_F_PROTOCOL_FEATURES would have disabled all
->> +         * virtqueues, even if that was not intended; re-enable them if
->> +         * necessary.
->> +         */
->> +        vhost_dev_set_vring_enable(dev, true);
->> +    }
->> +
->>   out:
->>       return r;
->>   }
->> @@ -1896,6 +1907,8 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
->>   
->>   static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable)
->>   {
->> +    hdev->enable_vqs = enable;
->> +
->>       if (!hdev->vhost_ops->vhost_set_vring_enable) {
->>           return 0;
->>       }
-> 
-> The vhost-user spec doesn't say that VHOST_F_LOG_ALL needs to be toggled
-> at runtime and I don't think VHOST_USER_SET_PROTOCOL_FEATURES is
-> intended to be used like that. This issue shows why doing so is a bad
-> idea.
-> 
-> VHOST_F_LOG_ALL does not need to be toggled to control logging. Logging
-> is controlled at runtime by the presence of the dirty log
-> (VHOST_USER_SET_LOG_BASE) and the per-vring logging flag
-> (VHOST_VRING_F_LOG).
-> 
-> I suggest permanently enabling VHOST_F_LOG_ALL upon connection when the
-> the backend supports it. No spec changes are required.
-> 
-> libvhost-user looks like it will work. I didn't look at DPDK/SPDK, but
-> checking that it works there is important too.
-> 
-> I have CCed people who may be interested in this issue. This is the
-> first time I've looked at vhost-user logging, so this idea may not work.
+Thanks!
 
-In the case of DPDK, we rely on VHOST_F_LOG_ALL to be set to know
-whether we should do dirty pages logging or not [0], so setting this
-feature at init time will cause performance degradation. The check on
-whether the log base address has been set is done afterwards.
-
-Regards,
-Maxime
-
-> Stefan
-
-[0]: https://git.dpdk.org/dpdk/tree/lib/vhost/vhost.h#n594
+> Thanks
+>
+> > > - If that is true, qemu does not need to map and translate addresses
+> > > for CVQ but to directly provide VA for buffers. This avoids pinning,
+> > > translations, etc in this case.
+> >
+> > For CVQ yes, but we only avoid the pinning for CVQ not others.
+> >
+> > Thanks
+> >
+> > >
+> > > Thanks!
+> > >
+> > > [1] https://lore.kernel.org/virtualization/20230404131326.44403-2-sga=
+rzare@redhat.com/
+> > >
+>
 
 
