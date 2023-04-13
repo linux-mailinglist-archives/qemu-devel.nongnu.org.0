@@ -2,89 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229E76E0CD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997CA6E0CDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:43:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmvKl-0004Mb-Ka; Thu, 13 Apr 2023 07:41:47 -0400
+	id 1pmvMG-00055T-7t; Thu, 13 Apr 2023 07:43:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmvKa-0004M4-2V
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:41:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pmvMC-00054Z-4u; Thu, 13 Apr 2023 07:43:16 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pmvKX-0003KE-Kc
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:41:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681386091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SauiwSHmWBRlWWR61KVa/PEGaYPE+tkws0PskuLjAi8=;
- b=Le/N/3ThPLtsJQ58ApEyMTg/GJo0rq97ODVyrGMue0QEUdHwl7Zd9bGbA7Tb9xfX2dT9hO
- 4slx/oHTKL8WDO4dH79HpQeL3yVFyuSW4qvx8v+Y5VcS5VioqyLKALNAoNzyOJBVDneM4g
- h1MotsME9nOjWElLGbGVamyRhdn/Z4k=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-177-P-24F2tSMuKRyzrA1IB0VA-1; Thu, 13 Apr 2023 07:41:30 -0400
-X-MC-Unique: P-24F2tSMuKRyzrA1IB0VA-1
-Received: by mail-qv1-f72.google.com with SMTP id
- i8-20020a0cd848000000b005e819d53af0so8477797qvj.20
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 04:41:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681386090; x=1683978090;
- h=content-transfer-encoding:in-reply-to:subject:from:references:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SauiwSHmWBRlWWR61KVa/PEGaYPE+tkws0PskuLjAi8=;
- b=WCtXo8tFFVhMPOtRbDbTODfevstOPDkSGXVRPZ19vcNqaVZYgeWLbFyxWgYiupAye/
- AT5FwEhaA5DQ93q6LMZd62yE/XZtzruIC/gUEN+AhQ1BPs2iuhmiquQ9Q5duadiTpAyp
- RrJD9I1CzBCii9O5/L+y9udHRmaJN5R5TjXZnAPyvb7U/pxFctMnfHBpoDwqhYp7mRal
- SulNuw2+oUJ7w3VQZW8ZVHQLkwGlnS80Pj9tRIzB0WLXfyiab4pXdma3VG/js+HdOv11
- VBkzXNxTClHoebwR4oK+DzcIh8ieaEP8V/4DaVhmr0Gez+WQ8zitfeKbj/ap1k8wu7rJ
- wI2A==
-X-Gm-Message-State: AAQBX9dWGQef6D9cZcCD+0gGGjckGdQqIIiuryRD9tCtjgc5B9Otidnk
- MuDayUSZtx836vzsdS/ypZij5i5HMvTri9RSrh4GKQteZYhMM5gAqDSC7R22k8I5fGns5gHhAhw
- 5XI4fevA5weRqkBzcJKheAbA=
-X-Received: by 2002:ad4:5c44:0:b0:5b0:67f3:d91b with SMTP id
- a4-20020ad45c44000000b005b067f3d91bmr3106026qva.35.1681386089911; 
- Thu, 13 Apr 2023 04:41:29 -0700 (PDT)
-X-Google-Smtp-Source: AKy350arAapierAHZ+9JcGDw5/L9INA3pihdmhbT1GcHayIVSNTj1KZGwgVL1yl7QyeykL+lc03uVg==
-X-Received: by 2002:ad4:5c44:0:b0:5b0:67f3:d91b with SMTP id
- a4-20020ad45c44000000b005b067f3d91bmr3106003qva.35.1681386089644; 
- Thu, 13 Apr 2023 04:41:29 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-153.web.vodafone.de.
- [109.43.179.153]) by smtp.gmail.com with ESMTPSA id
- z22-20020ac87cb6000000b003e394714c07sm434852qtv.10.2023.04.13.04.41.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Apr 2023 04:41:29 -0700 (PDT)
-Message-ID: <5caa18b7-9920-7867-77aa-5d9770cbde14@redhat.com>
-Date: Thu, 13 Apr 2023 13:41:27 +0200
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pmvMA-0003hu-03; Thu, 13 Apr 2023 07:43:15 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33DAQpkF024658; Thu, 13 Apr 2023 11:42:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=L7Cz10jbtzD2Vx4HFgot7v0wAAh0ryfsWhpR2AGcMUA=;
+ b=RPxuR9dZOqbSgSfJb/t9Y87tC83kxkUCOZWJSxEf9QCadntj3PUDgqjyuqH08uJFyrEc
+ cypAobMzxPFM8NiN5WHJiHs/UsiPmFuca3KRzKqmXh2Ql+zhJ3jAuLszp0/CtqHNNdNj
+ MXKFdyORVoADqupmYfuBYu5gbn+Q6/82+wFzo7rhIIN38oUd6AcBHlhf0Oy4TbGorOlA
+ BVU18wCMrBoMtUNbdeEWl+Wxj/76IdJhcWkRHYU4Jb1yniqk5ozNVW0u/7Ojb8D5AQTT
+ epzVvkjF0csNYboC6U1msL2xYgYnq839w+y8OuyWKV82YXuM4S4HkwmXxEsKXwCkXLRE bA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pxg07jrnn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Apr 2023 11:42:58 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33DAThnA004913;
+ Thu, 13 Apr 2023 11:42:57 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pxg07jrm0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Apr 2023 11:42:56 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33D3xECZ026645;
+ Thu, 13 Apr 2023 11:42:54 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3pu0fvtgxg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Apr 2023 11:42:53 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33DBgo7x47251832
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 13 Apr 2023 11:42:50 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1123920043;
+ Thu, 13 Apr 2023 11:42:50 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 50F5E20040;
+ Thu, 13 Apr 2023 11:42:49 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.152.224.238])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 13 Apr 2023 11:42:49 +0000 (GMT)
+Message-ID: <fb6e5977faab9913cf284707396b4dc98c9d0b0b.camel@linux.ibm.com>
+Subject: Re: s390x TCG migration failure
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Stefan Berger
+ <stefanb@linux.vnet.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>, Halil
+ Pasic <pasic@linux.ibm.com>, John Snow <jsnow@redhat.com>, David
+ Hildenbrand <david@redhat.com>, Fam Zheng <fam@euphon.net>, Thomas Huth
+ <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>, Laurent
+ Vivier <lvivier@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, qemu-s390x@nongnu.org, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau
+ <marcandre.lureau@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Coiby Xu <Coiby.Xu@gmail.com>, Ilya
+ Leoshkevich <iii@linux.ibm.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Yanan Wang <wangyanan55@huawei.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Eric Blake <eblake@redhat.com>, Eric Farman
+ <farman@linux.ibm.com>
+Date: Thu, 13 Apr 2023 13:42:49 +0200
+In-Reply-To: <87mt3cn7aw.fsf@secure.mitica>
+References: <20230207005650.1810-4-quintela@redhat.com>
+ <20230324184129.3119575-1-nsg@linux.ibm.com> <87mt3cn7aw.fsf@secure.mitica>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 2UvLNv5fA2M1RF_sUDmHfNyGJkDu84HL
+X-Proofpoint-GUID: oV6XRowDJO-3Dn40mfWvlBIJrQa0fN1f
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-To: Steven Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <bafc456e-34be-f2a4-71fc-e52ed964484e@oracle.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: clean after distclean gobbles source files
-In-Reply-To: <bafc456e-34be-f2a4-71fc-e52ed964484e@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.083, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-13_07,2023-04-13_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 clxscore=1011 impostorscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304130103
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,68 +130,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/04/2023 17.44, Steven Sistare wrote:
-> Run 'make distclean', and GNUmakefile is removed.
-> But, GNUmakefile is where we cd to build/.
-> Run 'make distclean' or 'make clean' again, and Makefile applies
-> the clean actions, such as this one, at the top level of the tree:
-> 
->      find . \( -name '*.so' -o -name '*.dll' -o \
->            -name '*.[oda]' -o -name '*.gcno' \) -type f \
->          ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
->          ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
->          -exec rm {} +
-> 
-> For example, it removes the .d source files in 'meson/test cases/d/*/*.d'.
-> The damage could be worse in the future if more suffixes are cleaned.
-> 
-> I don't have a suggested fix.  Recursion and the GNUmakefile bootstrap
-> make it non-trivial.
+On Wed, 2023-04-12 at 23:01 +0200, Juan Quintela wrote:
+> Nina Schoetterl-Glausch <nsg@linux.ibm.com> wrote:
+> > Hi,
+> >=20
+> > We're seeing failures running s390x migration kvm-unit-tests tests with=
+ TCG.
+>=20
+> As this is tcg, could you tell the exact command that you are running?
+> Does it needs to be in s390x host, rigth?
 
-That's somewhat ugly, indeed.
+I've just tried with a cross compile of kvm-unit-tests and that fails, too.
 
-We could maybe disallow make [dist]clean if running in-tree? Something like that:
+git clone https://gitlab.com/kvm-unit-tests/kvm-unit-tests.git
+cd kvm-unit-tests/
+./configure --cross-prefix=3Ds390x-linux-gnu- --arch=3Ds390x
+make
+for i in {0..30}; do echo $i; QEMU=3D../qemu/build/qemu-system-s390x ACCEL=
+=3Dtcg ./run_tests.sh migration-skey-sequential | grep FAIL && break; done
 
-diff a/Makefile b/Makefile
---- a/Makefile
-+++ b/Makefile
-@@ -26,7 +26,7 @@ quiet-command-run = $(if $(V),,$(if $2,printf "  %-7s %s\n" $2 $3 && ))$1
-  quiet-@ = $(if $(V),,@)
-  quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
-  
--UNCHECKED_GOALS := %clean TAGS cscope ctags dist \
-+UNCHECKED_GOALS := TAGS cscope ctags dist \
-      help check-help print-% \
-      docker docker-% vm-help vm-test vm-build-%
-  
-@@ -201,7 +201,7 @@ recurse-distclean: $(addsuffix /distclean, $(ROMS))
-  
-  ######################################################################
-  
--clean: recurse-clean
-+clean: config-host.mak recurse-clean
-         -$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean || :
-         -$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) clean-ctlist || :
-         find . \( -name '*.so' -o -name '*.dll' -o \
+>=20
+> $ time ./tests/qtest/migration-test
 
+I haven't looked if that test fails at all, we just noticed it with the kvm=
+-unit-tests.
 
-... or if we still want to allow that, maybe just make an exception for the *.d files:
+> # random seed: R02S940c4f22abc48b14868566639d3d6c77
+> # Skipping test: s390x host with KVM is required
+> 1..0
+>=20
+> real	0m0.003s
+> user	0m0.002s
+> sys	0m0.001s
+>=20
+>=20
+> > Some initial findings:
+> > What seems to be happening is that after migration a control block
+> > header accessed by the test code is all zeros which causes an
+> > unexpected exception.
+>=20
+> What exception?
+>=20
+> What do you mean here by control block header?
 
-diff --git a/Makefile b/Makefile
-index e421f8a1f4..0cb2a7aa98 100644
---- a/Makefile
-+++ b/Makefile
-@@ -208,6 +208,7 @@ clean: recurse-clean
-                   -name '*.[oda]' -o -name '*.gcno' \) -type f \
-                 ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
-                 ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
-+               ! -path './meson/test cases/d/*/*.d' \
-                 -exec rm {} +
-         rm -f TAGS cscope.* *~ */*~
-  
+It's all s390x test guest specific stuff, I don't expect it to be too helpf=
+ul.
+The guest gets a specification exception program interrupt while executing =
+a SERVC because
+the SCCB control block is invalid.
 
-What do you think?
+See https://gitlab.com/qemu-project/qemu/-/issues/1565 for a code snippet.
+The guest sets a bunch of fields in the SCCB header, but when TCG emulates =
+the SERVC,
+they are zero which doesn't make sense.
 
-  Thomas
+>=20
+> > I did a bisection which points to c8df4a7aef ("migration: Split save_li=
+ve_pending() into state_pending_*") as the culprit.
+> > The migration issue persists after applying the fix e264705012 ("migrat=
+ion: I messed state_pending_exact/estimate") on top of c8df4a7aef.
+> >=20
+> > Applying
+> >=20
+> > diff --git a/migration/ram.c b/migration/ram.c
+> > index 56ff9cd29d..2dc546cf28 100644
+> > --- a/migration/ram.c
+> > +++ b/migration/ram.c
+> > @@ -3437,7 +3437,7 @@ static void ram_state_pending_exact(void *opaque,=
+ uint64_t max_size,
+> >=20=20
+> >      uint64_t remaining_size =3D rs->migration_dirty_pages * TARGET_PAG=
+E_SIZE;
+> >=20=20
+> > -    if (!migration_in_postcopy()) {
+> > +    if (!migration_in_postcopy() && remaining_size < max_size) {
+>=20
+> If block is all zeros, then remaining_size should be zero, so always
+> smaller than max_size.
+>=20
+> I don't really fully understand what is going here.
+>=20
+> >          qemu_mutex_lock_iothread();
+> >          WITH_RCU_READ_LOCK_GUARD() {
+> >              migration_bitmap_sync_precopy(rs);
+> >=20
+> > on top fixes or hides the issue. (The comparison was removed by c8df4a7=
+aef.)
+> > I arrived at this by experimentation, I haven't looked into why this ma=
+kes a difference.
+> >=20
+> > Any thoughts on the matter appreciated.
+>=20
+> Later, Juan.
+>=20
 
 
