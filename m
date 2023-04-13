@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1BC6E0746
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 08:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2D26E076E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 09:14:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmquF-00046T-Sf; Thu, 13 Apr 2023 02:58:07 -0400
+	id 1pmr8u-0007sr-5T; Thu, 13 Apr 2023 03:13:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pmqu3-00046D-BB
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 02:57:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pmqu1-0003bt-Ov
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 02:57:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681369073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R1aEfiXYt/hILdnAE1yl64SZlsi/fPuujh2bRpq6ZlM=;
- b=dgmc3e5lu2G5eLic73tdvrj8xIDqsiLKMK7wupeJlwcZuUCsvDHYVZEP8DL9ZCD4ZO2oEP
- Qb5yfq3E8ypzl+yjYVFOzD8FBXqunVSAPp1/wwQfQFtyDtLR7TEJFV0d6GxcSUuHa36NBd
- gnh6nFYFKiM88QMEDBJhTSYXUPpEeTI=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-632-S-VY7us1OsSSAqN0q5v7-Q-1; Thu, 13 Apr 2023 02:57:49 -0400
-X-MC-Unique: S-VY7us1OsSSAqN0q5v7-Q-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-18654d56a1eso2201049fac.4
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 23:57:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pmr8n-0007rD-85
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 03:13:09 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pmr8a-0006gY-AI
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 03:12:59 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ eo6-20020a05600c82c600b003ee5157346cso9407370wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 00:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681369974; x=1683961974;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pS7KTwo3EKGYszSCfQOkm9OGM/K03PZYbWWOmcWi/RA=;
+ b=FWHq5cWGA/Sy23YtuM4qEEXSGQoyj5izRZj08Fk4UjiocYvW9JI7+tO5Urbiprp8uq
+ 4Yn08jTwVzNtviKKYuplDwqfMDXNqeMvaH84EatmN8V7IgsmS6GXLund3YR3kLZJWuNF
+ fkwrp/+US12cTT53epHcjkCqjFmSXy8SnnxYT9XGzQ95IEQekl4TmMzgcw9Sb3PCA9It
+ qu2+VW3al1gwVaxMLk5ju2C0x14pvMQG+YzV/0FVpYAoE5JUiFqQFyLvNxVAA9ybzP39
+ FNrAJAxMhogztnsc4mnTRNMRo21p72KLyIQrHqO7E7a4tQTrIRCxdgDzpdW2oHh/f04J
+ r9KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681369069; x=1683961069;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=R1aEfiXYt/hILdnAE1yl64SZlsi/fPuujh2bRpq6ZlM=;
- b=RGPhTnOnQIasymVmudSH4oHdlGv1VaIxPEOtkZYEgtZFXifz6iFxI9LSp9p6XGKArg
- i/ZBZJ+RTX6kPaD5Uou4noQm2/zLgySa5iyMnpOGGp7JAxjIILvVRouu+1l/2J227wII
- l0U5D37ut90vX/EO17Yqhhojjqi0qsuTjLjJFWCI8/74XjlxcW+lA7MrJz9t5kgt29vu
- f8wkJ1Zw8lbybsxNIoNKdwvbJlOpPGSVQqM4253hCQKGhllMHDC1Udaqgt5KIO0O66aP
- AH4z9msfgucNaFKYC1WxLBl4Mf5GB54zCHIvrbqXAZ1m1RESQQr99+1EAvT3XnEFAZxu
- 9SpQ==
-X-Gm-Message-State: AAQBX9d3K46+C4yKqwZ62u1q3TdHFb/tNxbMDgByFKWgd3IjtwwfQFN1
- Z+GDlLDGHHskgGOdaEQnjfx0O4rDSiFAsjHiFAKN3doWwO4qY07wTjwfp6FclUH5Ka47UVwZCWT
- qAcArztIcuXmfrLC6z1Edn9xTuBZnbXE=
-X-Received: by 2002:a05:6830:18da:b0:6a1:4c0e:1268 with SMTP id
- v26-20020a05683018da00b006a14c0e1268mr270914ote.2.1681369068806; 
- Wed, 12 Apr 2023 23:57:48 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b5x8MoGYXYirXfevhg1TbVBa9el1dOn9HGeSlNKtfDwu3BPeHR5hHWFrVu1SJ1ibOWbaaxqOdUWkIW6xhumj4=
-X-Received: by 2002:a05:6830:18da:b0:6a1:4c0e:1268 with SMTP id
- v26-20020a05683018da00b006a14c0e1268mr270906ote.2.1681369068596; Wed, 12 Apr
- 2023 23:57:48 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681369974; x=1683961974;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pS7KTwo3EKGYszSCfQOkm9OGM/K03PZYbWWOmcWi/RA=;
+ b=TuuiBJyRUhV2lJCCGXwWPQcPOQ7OpYAw4/1s/eKZRrYuEoCWvqe4yZ8xnGcJ98Es3y
+ uJs5dhBQ/JcTPOpwuBbl9RjfDhE0YWAniQVyFv5EShzpd3SCOBxmf83kHyKlNms4v98/
+ u6xK3sje6TIcJf2ENiL2v44eqduTtDYOWwK6Xw9RMABWNWS69GrPtiBghq6T1rQVWK37
+ Lb284TKDEchX3DbEr3y6Jy6Ooy6rus4UeoRbxD0d11PcjeMwoZ7y6dFLmPaJgyZfZa8a
+ zpuk0YwXjFJUKsvEScUsVbLjVn0cgmuVm5BKcPyF3Y1BVQ6+h/T5bTBdFN69+D5U1Vcl
+ EV7Q==
+X-Gm-Message-State: AAQBX9fBrlO4THS+L9SIm5Hik2aZ52s4KvfB8xtVnMAtDrzuZbOQw7/q
+ 84kd2tGeiHH/8PqFrHSpw/Ao5g==
+X-Google-Smtp-Source: AKy350YNvQxEjP3hLD5wGPLwhOnb75PZxkE/1JxVQIyBc6Txd0kWAMs49/p3sud5iSCzQJbe/ws9pA==
+X-Received: by 2002:a05:600c:2152:b0:3f0:3d47:2cbe with SMTP id
+ v18-20020a05600c215200b003f03d472cbemr1075522wml.10.1681369974175; 
+ Thu, 13 Apr 2023 00:12:54 -0700 (PDT)
+Received: from [10.0.2.69] (ip-037-024-010-236.um08.pools.vodafone-ip.de.
+ [37.24.10.236]) by smtp.gmail.com with ESMTPSA id
+ r13-20020a05600c35cd00b003ede03e4369sm4643913wmq.33.2023.04.13.00.12.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Apr 2023 00:12:53 -0700 (PDT)
+Message-ID: <ff9cbbc5-d900-bc45-ef15-0da56e53547d@linaro.org>
+Date: Thu, 13 Apr 2023 09:12:51 +0200
 MIME-Version: 1.0
-References: <1680624004-154390-1-git-send-email-steven.sistare@oracle.com>
- <9da71dfa-52b7-5b65-3160-6f236440add4@linaro.org>
- <4be85e27-0990-7ba9-60a1-45d53d63004e@oracle.com>
- <268c8128-d1cf-3103-b990-e92a2e69465f@redhat.com>
- <91cc68cc-e1a6-28f8-fcbb-9a6ddf132fb8@oracle.com>
-In-Reply-To: <91cc68cc-e1a6-28f8-fcbb-9a6ddf132fb8@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 13 Apr 2023 14:57:37 +0800
-Message-ID: <CACGkMEvj+c=gjdivGe6J2vSi4p1ve+7ZxLweaqNp=K2mPxxfDQ@mail.gmail.com>
-Subject: Re: [PATCH] tap: fix net_init_tap() return code
-To: Steven Sistare <steven.sistare@oracle.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 27/54] tcg/riscv: Require TCG_TARGET_REG_BITS == 64
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20230411010512.5375-1-richard.henderson@linaro.org>
+ <20230411010512.5375-28-richard.henderson@linaro.org>
+ <c696a2f2-48fc-88f3-bc30-81d31a0fead8@ventanamicro.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <c696a2f2-48fc-88f3-bc30-81d31a0fead8@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.083,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SUSPICIOUS_RECIPS=2.51 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,109 +97,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 11, 2023 at 9:10=E2=80=AFPM Steven Sistare
-<steven.sistare@oracle.com> wrote:
->
-> On 4/11/2023 2:32 AM, Jason Wang wrote:
-> > =E5=9C=A8 2023/4/5 23:38, Steven Sistare =E5=86=99=E9=81=93:
-> >> On 4/4/2023 6:00 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>> On 4/4/23 18:00, Steve Sistare wrote:
-> >>>> When net_init_tap() succeeds for a multi-queue device, it returns a
-> >>>> non-zero ret=3D1 code to its caller, because of this code where ret =
-becomes
-> >>> Indeed g_unix_set_fd_nonblocking() returns TRUE on success.
-> >>>
-> >>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> >>>
-> >>>> 1 when g_unix_set_fd_nonblocking succeeds.  Luckily, the only curren=
-t call
-> >>>> site checks for negative, rather than non-zero.
-> >>>>
-> >>>>       ret =3D g_unix_set_fd_nonblocking(fd, true, NULL);
-> >>>>       if (!ret) {
-> >>>>           ...
-> >>>>           goto free_fail;
-> >>>>
-> >>>> Also, if g_unix_set_fd_nonblocking fails (though unlikely), ret=3D0 =
-is returned,
-> >>>> and the caller will use a broken interface.
-> >>> We should return -1 from free_fail, not trying to propagate 'ret':
-> >> Thanks for the review.  I will add your "return -1" changes if Jason a=
-grees.
-> >
-> > Note that the "free_fail" label is kind of ambiguous. It is used even i=
-f we succeed if I was not wrong.
->
-> Yes, good catch.  We must return 0 from free_fail on success.
-> I could delete all uses of ret, test errp in free_fail, and return either=
- -1 or 0.
-> Or, you could accept my initial small patch.
->
-> What do you prefer?
+On 4/12/23 22:18, Daniel Henrique Barboza wrote:
+> 
+> 
+> On 4/10/23 22:04, Richard Henderson wrote:
+>> The port currently does not support "oversize" guests, which
+>> means riscv32 can only target 32-bit guests.  We will soon be
+>> building TCG once for all guests.  This implies that we can
+>> only support riscv64.
+>>
+>> Since all Linux distributions target riscv64 not riscv32,
+>> this is not much of a restriction and simplifies the code.
+> 
+> Code looks good but I got confused about the riscv32 implications you cited.
+> 
+> Does this means that if someone happens to have a risc-v 32 bit host, with a
+> special Linux sauce that runs on that 32 bit risc-v host, this person won't be
+> able to build the riscv32 TCG target in that machine?
 
-I've queued your patch for 8.1.
+Correct.
 
-Thanks
+At present, one is able to configure with such a host, and if one uses --target-list=x,y,z 
+such that all of x, y or z are 32-bit guests the build should even succeed, and the result 
+should probably work.
 
->
-> - Steve
->
-> >>> -- >8 --
-> >>> diff --git a/net/tap.c b/net/tap.c
-> >>> index 1bf085d422..e59238bda0 100644
-> >>> --- a/net/tap.c
-> >>> +++ b/net/tap.c
-> >>> @@ -821,3 +821,2 @@ int net_init_tap(const Netdev *netdev, const char=
- *name,
-> >>>       char ifname[128];
-> >>> -    int ret =3D 0;
-> >>>
-> >>> @@ -896,3 +895,2 @@ int net_init_tap(const Netdev *netdev, const char=
- *name,
-> >>>                              "the number of vhostfds passed");
-> >>> -                ret =3D -1;
-> >>>                   goto free_fail;
-> >>> @@ -904,3 +902,2 @@ int net_init_tap(const Netdev *netdev, const char=
- *name,
-> >>>               if (fd =3D=3D -1) {
-> >>> -                ret =3D -1;
-> >>>                   goto free_fail;
-> >>> @@ -908,4 +905,3 @@ int net_init_tap(const Netdev *netdev, const char=
- *name,
-> >>>
-> >>> -            ret =3D g_unix_set_fd_nonblocking(fd, true, NULL);
-> >>> -            if (!ret) {
-> >>> +            if (!g_unix_set_fd_nonblocking(fd, true, NULL)) {
-> >>>                   error_setg_errno(errp, errno, "%s: Can't use file d=
-escriptor %d",
-> >>> @@ -918,3 +914,2 @@ int net_init_tap(const Netdev *netdev, const char=
- *name,
-> >>>                   if (vnet_hdr < 0) {
-> >>> -                    ret =3D -1;
-> >>>                       goto free_fail;
-> >>> @@ -924,3 +919,2 @@ int net_init_tap(const Netdev *netdev, const char=
- *name,
-> >>>                              "vnet_hdr not consistent across given ta=
-p fds");
-> >>> -                ret =3D -1;
-> >>>                   goto free_fail;
-> >>> @@ -934,3 +928,2 @@ int net_init_tap(const Netdev *netdev, const char=
- *name,
-> >>>                   error_propagate(errp, err);
-> >>> -                ret =3D -1;
-> >>>                   goto free_fail;
-> >>> @@ -948,3 +941,3 @@ free_fail:
-> >>>           g_free(vhost_fds);
-> >>> -        return ret;
-> >>> +        return -1;
-> >>>       } else if (tap->helper) {
-> >>> ---
-> >>>
-> >>>> Fixes: a8208626ba89.. ("net: replace qemu_set_nonblock()")
-> >>>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> >>>> ---
-> >>>>    net/tap.c | 4 ++--
-> >>>>    1 file changed, 2 insertions(+), 2 deletions(-)
-> >
+However, if one does not use --target-list in configure, the build will #error out here:
 
+>> @@ -942,9 +913,6 @@ static void * const qemu_st_helpers[MO_SIZE + 1] = {
+>>   #endif
+>>   };
+>> -/* We don't support oversize guests */
+>> -QEMU_BUILD_BUG_ON(TCG_TARGET_REG_BITS < TARGET_LONG_BITS);
+>> -
+
+I am working on a patch set, not yet posted, which builds tcg/*.o twice, once for system 
+mode and once for user-only.  At which point riscv32 cannot build at all.
+
+I brought this patch forward from there in order to reduce churn.
+
+
+r~
 
