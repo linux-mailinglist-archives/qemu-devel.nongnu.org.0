@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382C66E10A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 17:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BBA6E10F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 17:21:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmyXx-000822-QJ; Thu, 13 Apr 2023 11:07:37 -0400
+	id 1pmyk5-00062R-IR; Thu, 13 Apr 2023 11:20:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmyXv-00081O-Gm
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 11:07:35 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmyXr-00054E-TW
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 11:07:35 -0400
-Received: by mail-wr1-x432.google.com with SMTP id j11so18164160wrd.2
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 08:07:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681398448; x=1683990448;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EYoH05xSwr3WP+EI6CHPy/FAEMfj+7UKOwsjq5SbNj8=;
- b=Rwhq9Q/wULbueen7xmOKEawd5ln0ovlIMEVWPKhcWxHR7kECIqurL8zSj4NX+NmgKa
- nR/wNJUsEFsWnOF2XhNlpyl4M4wj3pX43HM5waQ0FkPyQKgtNu7epklzBRAJl9Czi3Fs
- y6SDgRMsZDc+isGJg65juO10iK7ynAZ98y6zMwUws4GgpxMmWbA2em5bmSM/QJ98t2wK
- +G10OaEdjGPnRE4sWMMkc/i9lv8blSjPwkc/4c6w6IMfHYtPJ1SMQrCGN/U3ACNp+Kes
- PAWFR0e8OwHq6WMm/Qgkn2a+ICD+/NGB6LQsjmg+QOY3U4BnsgxUgrXmWJvLJTfiT0gV
- JXCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681398448; x=1683990448;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EYoH05xSwr3WP+EI6CHPy/FAEMfj+7UKOwsjq5SbNj8=;
- b=BSTm0JDMHII5sOowpJjYUu02kYzhNhQco5KDr9lBXaWWyZlC+MbF2Bm0+cCHHm7DIm
- 5mT6V8BeJg38GG6q8j7/wjP58uBXAi8kcZo9mK36ILbm+EPFjM7B+/sbfvvddQQudKR0
- kjrLb2wkEcwRL7CBRFQW5g3fMelX3ryiscg7f4u9Pt2njVvLPODOsng0I4/8q5Pec80k
- r91Lm2oSJAmoKVnGCUv6Obd2NhyYu/E5qArdHh+4dpNxUMNy1J8QcfaE1D1aXAJkcFyx
- HKQqhPKHGcXdLrOQvTd2um/CLqI0w8pvOqjWvb4AfSDCMbzzofq7FfH57mNla34DnW/j
- Hxxw==
-X-Gm-Message-State: AAQBX9cntjS8E8ak299MKBkLwXrxtAyHuzGXN9ZKS6PdT1t+PWfFOSJL
- uGGSfCjqbBUyqHaRJW363bpiacRIylfUksLXTF8=
-X-Google-Smtp-Source: AKy350buL+UpmlHVQSNUfXQthNTcnGvPfTgEmDHe4ahXvWrWk6Ajioo9zeoJnSwBdzH8Rfr7oU9nYw==
-X-Received: by 2002:a5d:6b91:0:b0:2ef:eb11:4618 with SMTP id
- n17-20020a5d6b91000000b002efeb114618mr1834705wrx.8.1681398448320; 
- Thu, 13 Apr 2023 08:07:28 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- t3-20020a5d5343000000b002c55521903bsm1484870wrv.51.2023.04.13.08.07.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Apr 2023 08:07:28 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pmyk2-0005xY-9l
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 11:20:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pmyjz-0007xy-Ri
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 11:20:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681399201;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=T9tJ9VFksQJ411qePkKjbDpFcnajDHb+3P7v1ozolqE=;
+ b=h1V6LPVz6NLJYH5Jw/K7fuViNMYefNS51ltBSyXqJOoZH1J4Rx6WGIZv8Qvv6IyYG82rJB
+ p2YsE2IAoRmQAR5Zf3hgpFZlIjH9A+AsxYEfuRLS+OdM4u81u40c2nLgoijc0gkyFUE4tU
+ n6ptNnxai6mbdeZ0r/t8GUymvmZseLE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-212-malkM9EOMVax_SrTp13IcQ-1; Thu, 13 Apr 2023 11:19:59 -0400
+X-MC-Unique: malkM9EOMVax_SrTp13IcQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9CA9D886463;
+ Thu, 13 Apr 2023 15:19:59 +0000 (UTC)
+Received: from toolbox.redhat.com (unknown [10.33.36.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED784C16028;
+ Thu, 13 Apr 2023 15:19:57 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 2/2] chardev: Allow setting file chardev input file on the
- command line
-Date: Thu, 13 Apr 2023 16:07:24 +0100
-Message-Id: <20230413150724.404304-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230413150724.404304-1-peter.maydell@linaro.org>
-References: <20230413150724.404304-1-peter.maydell@linaro.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Sergio Lopez <slp@redhat.com>
+Subject: [PATCH v3 0/6] Implement virtio-multitouch and enable GTK3 to use it
+Date: Thu, 13 Apr 2023 17:21:14 +0200
+Message-Id: <20230413152120.53967-1-slp@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,111 +77,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Our 'file' chardev backend supports both "output from this chardev
-is written to a file" and "input from this chardev should be read
-from a file" (except on Windows). However, you can only set up
-the input file if you're using the QMP interface -- there is no
-command line syntax to do it.
+This series adds a virtio-multitouch device to the family of devices emulated
+by virtio-input implementing the Multi-touch protocol as descripted here:
 
-Add command line syntax to allow specifying an input file
-as well as an output file, using a new 'input-path' suboption.
+https://www.kernel.org/doc/html/latest/input/multi-touch-protocol.html?highlight=multi+touch
 
-The specific use case I have is that I'd like to be able to
-feed fuzzer reproducer input into qtest without having to use
-'-qtest stdio' and put the input onto stdin. Being able to
-use a file chardev like this:
- -chardev file,id=repro,path=/dev/null,input-path=repro.txt -qtest chardev:repro
-means that stdio is free for use by gdb.
+It also extends the GTK UI backend to be able to receive multi-touch events
+and transpose them to a guest, so the latter can recognize them as gestures
+when appropriate.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-The "not on Windows" ifdeffery is because qmp_chardev_open_file()
-does something similar; it seems likely to produce a nicer
-error message to catch it at parse time rather than open time.
----
- chardev/char-file.c |  8 ++++++++
- chardev/char.c      |  3 +++
- qemu-options.hx     | 10 ++++++++--
- 3 files changed, 19 insertions(+), 2 deletions(-)
+An example of this in action can be seen here:
 
-diff --git a/chardev/char-file.c b/chardev/char-file.c
-index 3a7b9caf6f0..263e6da5636 100644
---- a/chardev/char-file.c
-+++ b/chardev/char-file.c
-@@ -100,6 +100,7 @@ static void qemu_chr_parse_file_out(QemuOpts *opts, ChardevBackend *backend,
-                                     Error **errp)
- {
-     const char *path = qemu_opt_get(opts, "path");
-+    const char *inpath = qemu_opt_get(opts, "input-path");
-     ChardevFile *file;
- 
-     backend->type = CHARDEV_BACKEND_KIND_FILE;
-@@ -107,9 +108,16 @@ static void qemu_chr_parse_file_out(QemuOpts *opts, ChardevBackend *backend,
-         error_setg(errp, "chardev: file: no filename given");
-         return;
-     }
-+#ifdef _WIN32
-+    if (inpath) {
-+        error_setg(errp, "chardev: file: input-path not supported on Windows");
-+        return;
-+    }
-+#endif
-     file = backend->u.file.data = g_new0(ChardevFile, 1);
-     qemu_chr_parse_common(opts, qapi_ChardevFile_base(file));
-     file->out = g_strdup(path);
-+    file->in = g_strdup(inpath);
- 
-     file->has_append = true;
-     file->append = qemu_opt_get_bool(opts, "append", false);
-diff --git a/chardev/char.c b/chardev/char.c
-index e69390601fc..661ad8176a9 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -805,6 +805,9 @@ QemuOptsList qemu_chardev_opts = {
-         },{
-             .name = "path",
-             .type = QEMU_OPT_STRING,
-+        },{
-+            .name = "input-path",
-+            .type = QEMU_OPT_STRING,
-         },{
-             .name = "host",
-             .type = QEMU_OPT_STRING,
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 59bdf67a2c5..31d08c60264 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3360,7 +3360,7 @@ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
-     "-chardev vc,id=id[[,width=width][,height=height]][[,cols=cols][,rows=rows]]\n"
-     "         [,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-     "-chardev ringbuf,id=id[,size=size][,logfile=PATH][,logappend=on|off]\n"
--    "-chardev file,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "-chardev file,id=id,path=path[,input-file=input-file][,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-     "-chardev pipe,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
- #ifdef _WIN32
-     "-chardev console,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-@@ -3563,13 +3563,19 @@ The available backends are:
-     Create a ring buffer with fixed size ``size``. size must be a power
-     of two and defaults to ``64K``.
- 
--``-chardev file,id=id,path=path``
-+``-chardev file,id=id,path=path[,input-path=input-path]``
-     Log all traffic received from the guest to a file.
- 
-     ``path`` specifies the path of the file to be opened. This file will
-     be created if it does not already exist, and overwritten if it does.
-     ``path`` is required.
- 
-+    If ``input-path`` is specified, this is the path of a second file
-+    which will be used for input. If ``input-path`` is not specified,
-+    no input will be available from the chardev.
-+
-+    Note that ``input-path`` is not supported on Windows hosts.
-+
- ``-chardev pipe,id=id,path=path``
-     Create a two-way connection to the guest. The behaviour differs
-     slightly between Windows hosts and other hosts:
+ https://fosstodon.org/@slp/109545849296546767
+
+Since v2:
+- Fix InputMultitouchEvent doc in qapi/ui.json (Marc-André).
+- Use warn_report() instead of fprintf() in gtk.c (Marc-André).
+- Rebase and collect R-b.
+
+Since v1:
+- Split 0002 patch to implement ui, virtio-input-hid and virtio-input-pci
+  changes in different patches (Marc-André).
+- Fix versioning in qapi/ui.json (Marc-André).
+- Print a warning if touch->sequence >= INPUT_EVENT_SLOTS_MAX (Marc-André).
+- Only send SYN_REPORT once, if needed (Marc-André).
+- Rebase and collect R-b.
+
+Sergio Lopez (6):
+  virtio-input: generalize virtio_input_key_config()
+  ui: add the infrastructure to support MT events
+  virtio-input: add a virtio-mulitouch device
+  virtio-input-pci: add virtio-multitouch-pci
+  ui: add helpers for virtio-multitouch events
+  ui/gtk: enable backend to send multi-touch events
+
+ hw/input/virtio-input-hid.c      | 156 +++++++++++++++++++++++++++----
+ hw/virtio/virtio-input-pci.c     |  25 ++++-
+ include/hw/virtio/virtio-input.h |   9 +-
+ include/ui/input.h               |   8 ++
+ qapi/ui.json                     |  46 ++++++++-
+ replay/replay-input.c            |  18 ++++
+ ui/gtk.c                         |  92 ++++++++++++++++++
+ ui/input.c                       |  42 +++++++++
+ ui/trace-events                  |   1 +
+ 9 files changed, 366 insertions(+), 31 deletions(-)
+
 -- 
-2.34.1
+2.38.1
 
 
