@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74116E1238
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 18:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C72B6E123C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 18:27:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmzkU-0000QH-G4; Thu, 13 Apr 2023 12:24:38 -0400
+	id 1pmzm8-0001CX-2w; Thu, 13 Apr 2023 12:26:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmzkR-0000Pk-T4
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 12:24:35 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ id 1pmzm6-0001C2-Cj
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 12:26:18 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmzkQ-0004zQ-5V
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 12:24:35 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-50506111a6eso1576853a12.1
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 09:24:33 -0700 (PDT)
+ id 1pmzm4-0005Tl-Lj
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 12:26:18 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id z9so11824878ejx.11
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 09:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681403072; x=1683995072;
+ d=linaro.org; s=google; t=1681403175; x=1683995175;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OXfwtRzQmEn81PLVCV+MCz51SoBE4egR8SyExfQ4oIs=;
- b=b08e355zHTkvEr8kZNUrmMWWKvUU2Rgky0qYJpf0kbWNZDBIZMYD7T8FXk71ExAfN6
- QqnQnz2Qs2juLyDbhOvYQbwWi4MhjOWiF73328uyJCQWsiuXr9L54sXUdjSVeO3TEUMu
- 6E1Clx+yoKdUUKzrKhs8BrTh08eY0gFoSNwf9aNWalIt43108//79wg+nusZ/jLDyPYM
- AeX3VYKYXZ6DdzmIOKkvbQFDi1klmzdBsEHF4gq8ltMqNJEhKIFStolT6fTeRhuqJnQr
- 2ao+5L8AT08M0rYUBSkbkp7MpefAmlBW/LXd59FUOHitzpHsEoHfQU17VeJ2BS6FU911
- T+Gg==
+ bh=C/NjjnA1zJChYiDScaB4DFYsLTdq/db45fwRpB4Qbyk=;
+ b=bRGVH9vH7O1NKkQXzvds1/WkvzeOcoZDdX9pEP+AfjWa1qUDuJs84GEFHxDQpg2jcL
+ afQ53lfQYkYwM9DouoD1LH+zUsHz6OL5kVoHC/n4Ny7u3KTCd46mbv/LklAHhi/4hPCh
+ IBgGsT7McX+WInhHsC+6lGg8CM9zJaQpEN16jdniP+uep+j3+RjKS0jhuv88YF0NVVln
+ pGBOPVSAL1ET2N0EtwkiHJDuhRp8I+zcxR30DRjIiixM5B1Wn/DVH2hMdYFuJC7fCs9Z
+ qHsjTO55ApUE0DQNs/T/vrS4n98OpMxuSDFn/BgsS1I/LdMCywfEPM2bfZnm/5xtiHqo
+ sMxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681403072; x=1683995072;
+ d=1e100.net; s=20221208; t=1681403175; x=1683995175;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OXfwtRzQmEn81PLVCV+MCz51SoBE4egR8SyExfQ4oIs=;
- b=U9v8zPx7KbP3QTGvJ9iFLYDCbq9nedx5KR9ptD5vv+Kzh72BtJ45sfZyCQo7aiZc9W
- 5UmoARVYMSOGZ782do36hnF09fhonE+Y53zBowtn+z70Oyr2Ga+/qc6D5QqumvgepoZ6
- EstxuHANgMEt+I4p/kdaZT1ar9gQL4Kq6N7vZFB0U3vaR9LIRbEyt4+tWsTRVz1SHjFD
- pHowW3yljxyuP0Zx9nxiAZltqoFyBsQuWdGJ972/+/W9a+LnBifc2UtJchC8yyDbQJ6k
- vXbArmYTe9CfHVmkQlMq/AVvjR0CEBWUlP52P3PjeWhl0yvthUKzpvKHpFrC1s8zvJja
- S9Lg==
-X-Gm-Message-State: AAQBX9f7or0w8y2SPDrhm/kX4q5h7ophf23IUcUuq3Q2ETaDCHtuI17f
- pEf8PZnyfcAgTBS5DCb+isIaNc62hy4t7yth+n+GWg==
-X-Google-Smtp-Source: AKy350Yo1ymoDZLNp8X9AbSlFgksgCjTP/mCM+4AYXq68T+XFwUOKNVzr0t10vvwG451oYx07XlZ2DGQOpL/U7b3T+c=
-X-Received: by 2002:a50:a40a:0:b0:505:4fb:4430 with SMTP id
- u10-20020a50a40a000000b0050504fb4430mr1553312edb.6.1681403072251; Thu, 13 Apr
- 2023 09:24:32 -0700 (PDT)
+ bh=C/NjjnA1zJChYiDScaB4DFYsLTdq/db45fwRpB4Qbyk=;
+ b=Btyx4jPjmIcZe5inZEQk0CD5eP4URhJpUDyCakKC4nxmaEkx+V5s+9mPTNPCLrM6H0
+ 0n4mKl30F6wFQ9RDBSWFiyaMW3QPDVLn8GbrCltb9/ff2e2cOU2HUi+j7oSPwSbqgDqq
+ lVsqrt7GfotO+GWNnpYluZTfVgAZ6Cqni1D8mOk6C8Q1gnt85V8CHyKYwqldFdakl4cq
+ ZhHUdRtdkmLMyiJItemyZCmdRuiFI+CXHhfpfAeRPUYoQvQtyi5qzrGMacZGjtZjgwCb
+ C1t5YUf5W7CGLjvyFjgSb3rt7VHDQt60wR/PBJDWu6nvhBdfOc4eq0946NowQDkBIqfC
+ HaVg==
+X-Gm-Message-State: AAQBX9dCF5CFMO+R7sQZzg1X+9SzsGjrrdJug50l7FlWHBe/cTeWITxw
+ 8qEzDyxFU/l0HRwDJ7MCe3dTriELlR47595pBF1uHQ==
+X-Google-Smtp-Source: AKy350YnwrQNGw1hZ5++zhBFIw/SP62Z+RAtZvDUldC9vjt2SypRhusOe3STkzLSecoS2PNBlOUijJj60bvXgi88vo0=
+X-Received: by 2002:a17:907:1c02:b0:932:4577:6705 with SMTP id
+ nc2-20020a1709071c0200b0093245776705mr1691010ejc.6.1681403175163; Thu, 13 Apr
+ 2023 09:26:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230403144637.2949366-1-peter.maydell@linaro.org>
- <20230403144637.2949366-4-peter.maydell@linaro.org>
- <db294649-0b72-914e-d6eb-328a996912f7@linaro.org>
-In-Reply-To: <db294649-0b72-914e-d6eb-328a996912f7@linaro.org>
+References: <20230330152613.232082-1-thuth@redhat.com>
+ <33e52dd7-32f7-0fa8-b6ee-813b87ead623@msgid.tls.msk.ru>
+In-Reply-To: <33e52dd7-32f7-0fa8-b6ee-813b87ead623@msgid.tls.msk.ru>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Apr 2023 17:24:21 +0100
-Message-ID: <CAFEAcA80ON=OfSucYhfEY8PiYc1xvkb20rWUYJbFYPg8qiywNw@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] tcg: Use one-insn-per-tb accelerator property in
- curr_cflags()
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
- Kyle Evans <kevans@freebsd.org>, 
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
+Date: Thu, 13 Apr 2023 17:26:03 +0100
+Message-ID: <CAFEAcA8g5Uqcns0FPy74mZ+jh-8ZtCxOTR8qL+RGbn+XjNfk0w@mail.gmail.com>
+Subject: Re: [PATCH] hw/mips/malta: Fix the malta machine on big endian hosts
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-stable@nongnu.org, 
+ Aurelien Jarno <aurelien@aurel32.net>, Rob Landley <rob@landley.net>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,37 +87,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 3 Apr 2023 at 19:33, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 13 Apr 2023 at 17:08, Michael Tokarev <mjt@tls.msk.ru> wrote:
 >
-> On 4/3/23 07:46, Peter Maydell wrote:
-> >   uint32_t curr_cflags(CPUState *cpu)
-> >   {
-> >       uint32_t cflags = cpu->tcg_cflags;
-> > +    TCGState *tcgstate = TCG_STATE(current_accel());
+> 30.03.2023 18:26, Thomas Huth wrote:
+> > Booting a Linux kernel with the malta machine is currently broken
+> > on big endian hosts. The cpu_to_gt32 macro wants to byteswap a value
+> > for little endian targets only, but uses the wrong way to do this:
+> > cpu_to_[lb]e32 works the other way round on big endian hosts! Fix
+> > it by using the same ways on both, big and little endian hosts.
+> >
+> > Fixes: 0c8427baf0 ("hw/mips/malta: Use bootloader helper to set BAR registers")
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
 >
-> As mentioned against the cover, this is a very hot path.
->
-> We should try for something less expensive.  Perhaps as simple as
->
->      return cpu->tcg_cflags | tcg_cflags_global;
->
-> where cpu->tcg_cflags is updated with cpu->singlestep_enabled.
+> Has this been forgotten?
 
-I feel like that introduces atomicity issues. If I'm reading
-the code right, curr_cflags() is called without any kind
-of lock held. At the moment we get away with this because
-'singlestep' is an int and is always going to be atomically
-updated. If we make tcg_cflags_global a value which might have
-multiple bits set or not set I'm not entirely sure what the
-right way is to handle the reads and writes of it.
-
-I think we can assume we have the iothread lock at any
-point where we want to change either 'singlestep' or
-the 'nochain' option, at least.
-
-Any suggestions? I'm not very familiar with the
-qemu atomic primitives...
+Looks like it. Too late for 8.0 now (and it wasn't a regression
+since it looks like it was broken in 7.2 as well); will have to
+be fixed in 8.1.
 
 thanks
 -- PMM
