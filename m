@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228446E15F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1188A6E15FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:37:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn3cY-0003yM-UD; Thu, 13 Apr 2023 16:32:43 -0400
+	id 1pn3cv-00042t-Ol; Thu, 13 Apr 2023 16:33:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3cS-0003sk-Ci; Thu, 13 Apr 2023 16:32:36 -0400
+ id 1pn3cg-00041h-5s; Thu, 13 Apr 2023 16:32:50 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3cG-0003l8-Pt; Thu, 13 Apr 2023 16:32:35 -0400
+ id 1pn3cG-0003lA-Ob; Thu, 13 Apr 2023 16:32:47 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 96DB84013F;
+ by isrv.corpit.ru (Postfix) with ESMTP id B9D1640141;
  Thu, 13 Apr 2023 23:31:57 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 1FB9E95;
+ by tsrv.corpit.ru (Postfix) with SMTP id 4474F21B;
  Thu, 13 Apr 2023 23:31:56 +0300 (MSK)
-Received: (nullmailer pid 2344363 invoked by uid 1000);
+Received: (nullmailer pid 2344365 invoked by uid 1000);
  Thu, 13 Apr 2023 20:31:54 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+Cc: qemu-stable@nongnu.org, Mathis Marion <mathis.marion@silabs.com>,
  Laurent Vivier <laurent@vivier.eu>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 16/21] linux-user: Fix unaligned memory access in prlimit64
- syscall
-Date: Thu, 13 Apr 2023 23:31:28 +0300
-Message-Id: <20230413203143.2344250-16-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 17/21] linux-user: fix timerfd read endianness conversion
+Date: Thu, 13 Apr 2023 23:31:29 +0300
+Message-Id: <20230413203143.2344250-17-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230413203051.2344192-1-mjt@tls.msk.ru>
 References: <20230413203051.2344192-1-mjt@tls.msk.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,74 +58,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Mathis Marion <mathis.marion@silabs.com>
 
-target_rlimit64 contains uint64_t fields, so it's 8-byte aligned on
-some hosts, while some guests may align their respective type on a
-4-byte boundary. This may lead to an unaligned access, which is an UB.
+When reading the expiration count from a timerfd, the endianness of the
+64bit value read is the one of the host, just as for eventfds.
 
-Fix by defining the fields as abi_ullong. This makes the host alignment
-match that of the guest, and lets the compiler know that it should emit
-code that can deal with the guest alignment.
-
-While at it, also use __get_user() and __put_user() instead of
-tswap64().
-
-Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
-Reported-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20230224003907.263914-2-iii@linux.ibm.com>
+Message-Id: <20230220085822.626798-2-Mathis.Marion@silabs.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-(cherry picked from commit 9c1da8b5ee7f6e80e6b683e7fb73df1029a7cbbe)
+(cherry picked from commit d759a62b122dcdf76d6ea10c56c5dff1d04d731d)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- linux-user/generic/target_resource.h | 4 ++--
- linux-user/syscall.c                 | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ linux-user/fd-trans.c | 10 +++++++---
+ linux-user/fd-trans.h |  1 +
+ linux-user/syscall.c  |  8 ++++++--
+ 3 files changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/generic/target_resource.h b/linux-user/generic/target_resource.h
-index 539d8c4677..37d3eb09b3 100644
---- a/linux-user/generic/target_resource.h
-+++ b/linux-user/generic/target_resource.h
-@@ -12,8 +12,8 @@ struct target_rlimit {
+diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+index 7b25468d02..146aaaafaa 100644
+--- a/linux-user/fd-trans.c
++++ b/linux-user/fd-trans.c
+@@ -1622,7 +1622,7 @@ TargetFdTrans target_signalfd_trans = {
+     .host_to_target_data = host_to_target_data_signalfd,
  };
  
- struct target_rlimit64 {
--    uint64_t rlim_cur;
--    uint64_t rlim_max;
-+    abi_ullong rlim_cur;
-+    abi_ullong rlim_max;
+-static abi_long swap_data_eventfd(void *buf, size_t len)
++static abi_long swap_data_u64(void *buf, size_t len)
+ {
+     uint64_t *counter = buf;
+     int i;
+@@ -1640,8 +1640,12 @@ static abi_long swap_data_eventfd(void *buf, size_t len)
+ }
+ 
+ TargetFdTrans target_eventfd_trans = {
+-    .host_to_target_data = swap_data_eventfd,
+-    .target_to_host_data = swap_data_eventfd,
++    .host_to_target_data = swap_data_u64,
++    .target_to_host_data = swap_data_u64,
++};
++
++TargetFdTrans target_timerfd_trans = {
++    .host_to_target_data = swap_data_u64,
  };
  
- #define TARGET_RLIM_INFINITY    ((abi_ulong)-1)
+ #if defined(CONFIG_INOTIFY) && (defined(TARGET_NR_inotify_init) || \
+diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
+index 1b9fa2041c..910faaf237 100644
+--- a/linux-user/fd-trans.h
++++ b/linux-user/fd-trans.h
+@@ -130,6 +130,7 @@ extern TargetFdTrans target_netlink_route_trans;
+ extern TargetFdTrans target_netlink_audit_trans;
+ extern TargetFdTrans target_signalfd_trans;
+ extern TargetFdTrans target_eventfd_trans;
++extern TargetFdTrans target_timerfd_trans;
+ #if (defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)) || \
+     (defined(CONFIG_INOTIFY1) && defined(TARGET_NR_inotify_init1) && \
+      defined(__NR_inotify_init1))
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 106d5ed05b..8f8f8cf1db 100644
+index 8f8f8cf1db..9ca30149d4 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -12888,8 +12888,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
-                 return -TARGET_EFAULT;
-             }
--            rnew.rlim_cur = tswap64(target_rnew->rlim_cur);
--            rnew.rlim_max = tswap64(target_rnew->rlim_max);
-+            __get_user(rnew.rlim_cur, &target_rnew->rlim_cur);
-+            __get_user(rnew.rlim_max, &target_rnew->rlim_max);
-             unlock_user_struct(target_rnew, arg3, 0);
-             rnewp = &rnew;
-         }
-@@ -12899,8 +12899,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             if (!lock_user_struct(VERIFY_WRITE, target_rold, arg4, 1)) {
-                 return -TARGET_EFAULT;
-             }
--            target_rold->rlim_cur = tswap64(rold.rlim_cur);
--            target_rold->rlim_max = tswap64(rold.rlim_max);
-+            __put_user(rold.rlim_cur, &target_rold->rlim_cur);
-+            __put_user(rold.rlim_max, &target_rold->rlim_max);
-             unlock_user_struct(target_rold, arg4, 1);
-         }
-         return ret;
+@@ -13120,8 +13120,12 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+ 
+ #if defined(TARGET_NR_timerfd_create) && defined(CONFIG_TIMERFD)
+     case TARGET_NR_timerfd_create:
+-        return get_errno(timerfd_create(arg1,
+-                          target_to_host_bitmask(arg2, fcntl_flags_tbl)));
++        ret = get_errno(timerfd_create(arg1,
++                        target_to_host_bitmask(arg2, fcntl_flags_tbl)));
++        if (ret >= 0) {
++            fd_trans_register(ret, &target_timerfd_trans);
++        }
++        return ret;
+ #endif
+ 
+ #if defined(TARGET_NR_timerfd_gettime) && defined(CONFIG_TIMERFD)
 -- 
 2.30.2
 
