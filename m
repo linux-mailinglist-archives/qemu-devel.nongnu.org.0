@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7026E0A24
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 11:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB3A6E0A26
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 11:25:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmtBh-0003Kz-8P; Thu, 13 Apr 2023 05:24:17 -0400
+	id 1pmtCu-00040Q-F3; Thu, 13 Apr 2023 05:25:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmtBf-0003Kq-Pg
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:24:15 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmtCr-000409-Ls
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:25:29 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmtBd-00076q-5V
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:24:15 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pmtCp-0007X4-Sg
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:25:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681377851;
+ s=mimecast20190719; t=1681377927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gwEWpmD0CZ1FdYScJ2DXz1kEepUWXPuX931qv5Vj9bg=;
- b=g8rEaoUxK+71X3EX1BUVnTTxsDUnakor+EDTPFz0zS3leQ/6kPUxxrsVLewb6HVZPiNvrA
- 33uJHTSUL1I5hfEpG1PVK6HuraphPUKu6JIfPwIUphMqBD4G0QBjiZ69w+szgYcUZBTuY5
- In2hFT2Bi5VdWk91sAI2qKVWIDVzOPc=
+ bh=ZJwcp4sObwm40iHPCIID0wgzpKF0ycU2AlbMmD2Ks4M=;
+ b=QH62/PCxoGRUvqTpYEHq/WVHUZ1tVoPSXJo7/LJNi+7SuCBKCWBz+TG+TIVqMPE7Su7uWW
+ SCRDLuRQ9zTbcITtWssG1lL1CBl7EYAxUkirnbIPfrvrbGd0Th4iZFq/DoRKF/0oszj3MV
+ /RG+C0fTFH1ylWU6D10FJJP6A0RZP0E=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-591-_C1hAzDVMzWzrbtRpT5Oiw-1; Thu, 13 Apr 2023 05:24:08 -0400
-X-MC-Unique: _C1hAzDVMzWzrbtRpT5Oiw-1
+ us-mta-443-fsAja9IHNn6m1E_DrQ9C6A-1; Thu, 13 Apr 2023 05:25:25 -0400
+X-MC-Unique: fsAja9IHNn6m1E_DrQ9C6A-1
 Received: by mail-wm1-f71.google.com with SMTP id
- m7-20020a05600c3b0700b003ee112e6df1so4506948wms.2
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 02:24:08 -0700 (PDT)
+ w16-20020a05600c475000b003f082eecdcaso5252459wmo.6
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 02:25:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681377847; x=1683969847;
+ d=1e100.net; s=20221208; t=1681377924; x=1683969924;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gwEWpmD0CZ1FdYScJ2DXz1kEepUWXPuX931qv5Vj9bg=;
- b=NxQTSVIvjllAngJsI+Qeh8qLrJ95Fo1YxYAD1/aSWS6yrVxKdC6WniwHjs2nfuolNe
- mzHkbbUo6n0mnGiLRp8kNRIK/6KlOSl1V+hhFJ9Hijy+y+6GfTnxYM5oJMmlqKcGoGYo
- oaGb16W5LQajLJ+kap1UQK5Jaj+CenVunqc8kLYAKowGLLWX6Zy6Sh2eO4leOuCNMIvU
- //TcCrIeLAzzVR2AlZLoo1PTLOue/VpuJilyHRX9hTdBZz0EIbNnanX1PTM1/rhR4xog
- 6BEO/41wL5Yer9f98KAeXFk9C26A3SpXZJAHDIKHXvy43m6Q6er0WOny3X0mW6vNOVWH
- S0eg==
-X-Gm-Message-State: AAQBX9eR1gGBWZn08QJ73LA9lWLjntcGzBT0tL4ylTw4m+SSekebC8/A
- VkIsTd48MXVBjzak/++wiqgE6SlwMmMG1ZoWkHmqi3wNAo/5Rrjo66ELqM0S0CBGF3niwyeeDnC
- 2PBCwPRjrlE3HaJA=
-X-Received: by 2002:a7b:cbd3:0:b0:3f0:9a3f:c8b6 with SMTP id
- n19-20020a7bcbd3000000b003f09a3fc8b6mr1365540wmi.2.1681377847114; 
- Thu, 13 Apr 2023 02:24:07 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZaYFQRpn3B5sYNEPIe1mHbVbmPiVJDXKwQ2XaRNd1ynNwtQDl7ZwikSiZxb7Y/RF7AQWMXlg==
-X-Received: by 2002:a7b:cbd3:0:b0:3f0:9a3f:c8b6 with SMTP id
- n19-20020a7bcbd3000000b003f09a3fc8b6mr1365527wmi.2.1681377846793; 
- Thu, 13 Apr 2023 02:24:06 -0700 (PDT)
+ bh=ZJwcp4sObwm40iHPCIID0wgzpKF0ycU2AlbMmD2Ks4M=;
+ b=NMKNNNpD0uwIg+vo3edk32bDKin9Uz7++xZMt7Rpmp3LRn89n1kLfXTnPpu0zIFUVL
+ JzCVSxYwAXYFsHQCIRfKImclgPgdJJGad4LXw2cxKciXYcULOozjK6MgfXyID0mUxSsK
+ ZAUc1AABZdaOijUW/4oSvGS4SYR0l63LaPurRVMtU4ShLfbN0uk2Xb0xPA+R5B0xFVSU
+ xUDjfDmQNqCaYgsB05yaUl1FiFYP9N2wfDFhZ1u1IIwyEyR3Fl40An4RojPghK1D0Kay
+ tZWAEEFrButODtHTNlrneeohEccR/delTGL+o0Fa8oSxXEJcFaJa0cbdxjse+QFuwOwA
+ W8dA==
+X-Gm-Message-State: AAQBX9dpXDpvte2pE2fAsTKEUsvaBU7SLVGMXmAEY1oz8uWb9kr4xag1
+ /j6AVTakRlo+UhqBhnOyaxAIJ0ANkqTvqtG5VeYUZwGoEYeUz4oCxM9yMjY198NBXD0E8txlyo/
+ AyMps3sbt0QZy52Y=
+X-Received: by 2002:a1c:7218:0:b0:3df:ee64:4814 with SMTP id
+ n24-20020a1c7218000000b003dfee644814mr1261764wmc.20.1681377924660; 
+ Thu, 13 Apr 2023 02:25:24 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aqcCx6CmP6WgZoz6dqZX8a2eFDEUWi79X2kJdEQz0uGpH2EOkvbJ/v4sEzuBq9vrogZi4kLg==
+X-Received: by 2002:a1c:7218:0:b0:3df:ee64:4814 with SMTP id
+ n24-20020a1c7218000000b003dfee644814mr1261739wmc.20.1681377924260; 
+ Thu, 13 Apr 2023 02:25:24 -0700 (PDT)
 Received: from ?IPV6:2003:cf:d735:c67f:6ed9:8c90:7a1d:e97e?
  (p200300cfd735c67f6ed98c907a1de97e.dip0.t-ipconnect.de.
  [2003:cf:d735:c67f:6ed9:8c90:7a1d:e97e])
  by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c470900b003edddae1068sm4921301wmo.9.2023.04.13.02.24.05
+ h4-20020a1ccc04000000b003f071466229sm1293886wmb.17.2023.04.13.02.25.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Apr 2023 02:24:06 -0700 (PDT)
-Message-ID: <246691c3-2287-7472-3615-7ec0f074445c@redhat.com>
-Date: Thu, 13 Apr 2023 11:24:05 +0200
+ Thu, 13 Apr 2023 02:25:23 -0700 (PDT)
+Message-ID: <af50a052-0f3e-a03c-598d-dff841720dd6@redhat.com>
+Date: Thu, 13 Apr 2023 11:25:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
 Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
- German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Stefan Hajnoczi <stefanha@redhat.com>, German Maglione
+ <gmaglione@redhat.com>, Anton Kuchin <antonkuchin@yandex-team.ru>,
  Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, =?UTF-8?Q?Eugenio_P=c3=a9rez?=
- <eperezma@redhat.com>
+ Stefano Garzarella <sgarzare@redhat.com>
 References: <20230411150515.14020-1-hreitz@redhat.com>
- <20230411150515.14020-3-hreitz@redhat.com> <20230412210641.GC2813183@fedora>
+ <20230411150515.14020-3-hreitz@redhat.com>
+ <CAJaqyWf8twfendAqcuPopeeZv84JcevPdDm=rKaKiRFvft+30A@mail.gmail.com>
 From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <20230412210641.GC2813183@fedora>
+In-Reply-To: <CAJaqyWf8twfendAqcuPopeeZv84JcevPdDm=rKaKiRFvft+30A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
@@ -107,8 +107,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12.04.23 23:06, Stefan Hajnoczi wrote:
-> On Tue, Apr 11, 2023 at 05:05:13PM +0200, Hanna Czenczek wrote:
+On 13.04.23 10:50, Eugenio Perez Martin wrote:
+> On Tue, Apr 11, 2023 at 5:33 PM Hanna Czenczek <hreitz@redhat.com> wrote:
 >> So-called "internal" virtio-fs migration refers to transporting the
 >> back-end's (virtiofsd's) state through qemu's migration stream.  To do
 >> this, we need to be able to transfer virtiofsd's internal state to and
@@ -160,75 +160,44 @@ On 12.04.23 23:06, Stefan Hajnoczi wrote:
 >>   hw/virtio/vhost-user.c            | 147 ++++++++++++++++++++++++++++++
 >>   hw/virtio/vhost.c                 |  37 ++++++++
 >>   4 files changed, 287 insertions(+)
->>
->> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
->> index ec3fbae58d..5935b32fe3 100644
->> --- a/include/hw/virtio/vhost-backend.h
->> +++ b/include/hw/virtio/vhost-backend.h
->> @@ -26,6 +26,18 @@ typedef enum VhostSetConfigType {
->>       VHOST_SET_CONFIG_TYPE_MIGRATION = 1,
->>   } VhostSetConfigType;
->>   
->> +typedef enum VhostDeviceStateDirection {
->> +    /* Transfer state from back-end (device) to front-end */
->> +    VHOST_TRANSFER_STATE_DIRECTION_SAVE = 0,
->> +    /* Transfer state from front-end to back-end (device) */
->> +    VHOST_TRANSFER_STATE_DIRECTION_LOAD = 1,
->> +} VhostDeviceStateDirection;
->> +
->> +typedef enum VhostDeviceStatePhase {
->> +    /* The device (and all its vrings) is stopped */
->> +    VHOST_TRANSFER_STATE_PHASE_STOPPED = 0,
->> +} VhostDeviceStatePhase;
-> vDPA has:
->
->    /* Suspend a device so it does not process virtqueue requests anymore
->     *
->     * After the return of ioctl the device must preserve all the necessary state
->     * (the virtqueue vring base plus the possible device specific states) that is
->     * required for restoring in the future. The device must not change its
->     * configuration after that point.
->     */
->    #define VHOST_VDPA_SUSPEND      _IO(VHOST_VIRTIO, 0x7D)
->
->    /* Resume a device so it can resume processing virtqueue requests
->     *
->     * After the return of this ioctl the device will have restored all the
->     * necessary states and it is fully operational to continue processing the
->     * virtqueue descriptors.
->     */
->    #define VHOST_VDPA_RESUME       _IO(VHOST_VIRTIO, 0x7E)
->
-> I wonder if it makes sense to import these into vhost-user so that the
-> difference between kernel vhost and vhost-user is minimized. It's okay
-> if one of them is ahead of the other, but it would be nice to avoid
-> overlapping/duplicated functionality.
->
-> (And I hope vDPA will import the device state vhost-user messages
-> introduced in this series.)
 
-I don’t understand your suggestion.  (Like, I very simply don’t 
-understand :))
+[...]
 
-These are vhost messages, right?  What purpose do you have in mind for 
-them in vhost-user for internal migration?  They’re different from the 
-state transfer messages, because they don’t transfer state to/from the 
-front-end.  Also, the state transfer stuff is supposed to be distinct 
-from starting/stopping the device; right now, it just requires the 
-device to be stopped beforehand (or started only afterwards).  And in 
-the future, new VhostDeviceStatePhase values may allow the messages to 
-be used on devices that aren’t stopped.
+>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+>> index 2fe02ed5d4..29449e0fe2 100644
+>> --- a/include/hw/virtio/vhost.h
+>> +++ b/include/hw/virtio/vhost.h
+>> @@ -346,4 +346,83 @@ int vhost_dev_set_inflight(struct vhost_dev *dev,
 
-So they seem to serve very different purposes.  I can imagine using the 
-VDPA_{SUSPEND,RESUME} messages for external migration (what Anton is 
-working on), but they don’t really help with internal migration 
-implemented here.  If I were to add them, they’d just be sent in 
-addition to the new messages added in this patch here, i.e. SUSPEND on 
-the source before SET_DEVICE_STATE_FD, and RESUME on the destination 
-after CHECK_DEVICE_STATE (we could use RESUME in place of 
-CHECK_DEVICE_STATE on the destination, but we can’t do that on the 
-source, so we still need CHECK_DEVICE_STATE).
+[...]
+
+>> +/**
+>> + * vhost_set_device_state_fd(): After transferring state from/to the
+> Nitpick: This function doc is for vhost_check_device_state not
+> vhost_set_device_state_fd.
+>
+> Thanks!
+
+Oops, right, thanks!
 
 Hanna
+
+>> + * back-end via vhost_set_device_state_fd(), i.e. once the sending end
+>> + * has closed the pipe, inquire the back-end to report any potential
+>> + * errors that have occurred on its side.  This allows to sense errors
+>> + * like:
+>> + * - During outgoing migration, when the source side had already started
+>> + *   to produce its state, something went wrong and it failed to finish
+>> + * - During incoming migration, when the received state is somehow
+>> + *   invalid and cannot be processed by the back-end
+>> + *
+>> + * @dev: The vhost device
+>> + * @errp: Potential error description
+>> + *
+>> + * Returns 0 when the back-end reports successful state transfer and
+>> + * processing, and -errno when an error occurred somewhere.
+>> + */
+>> +int vhost_check_device_state(struct vhost_dev *dev, Error **errp);
+>> +
 
 
