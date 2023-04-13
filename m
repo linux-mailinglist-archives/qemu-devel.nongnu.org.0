@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD606E0D8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 14:39:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78D66E0D91
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 14:40:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmwEA-0002gR-FA; Thu, 13 Apr 2023 08:39:03 -0400
+	id 1pmwFI-0003Pr-3P; Thu, 13 Apr 2023 08:40:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pmwE4-0002g3-O4
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 08:38:56 -0400
+ id 1pmwF9-0003OO-3e
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 08:40:05 -0400
 Received: from mailgw.kylinos.cn ([124.126.103.232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pmwDw-0001DB-JX
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 08:38:56 -0400
-X-UUID: ae93474dd77447289325ee7b2e9316a6-20230413
+ id 1pmwF3-0001Ud-PU
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 08:40:02 -0400
+X-UUID: f89c571c33ff4688b5afb7a9a5f2850c-20230413
 X-CID-O-RULE: Release_Ham
 X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:cda5e132-493d-4d6a-8d69-6d24dea6dda8, IP:5,
+X-CID-O-INFO: VERSION:1.1.22, REQID:344e251f-d5ce-4d0a-9448-2b829a9bfc19, IP:5,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION
  :release,TS:-4
-X-CID-INFO: VERSION:1.1.22, REQID:cda5e132-493d-4d6a-8d69-6d24dea6dda8, IP:5,
+X-CID-INFO: VERSION:1.1.22, REQID:344e251f-d5ce-4d0a-9448-2b829a9bfc19, IP:5,
  URL
  :0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
  elease,TS:-4
-X-CID-META: VersionHash:120426c, CLOUDID:fbd9f483-cd9c-45f5-8134-710979e3df0e,
+X-CID-META: VersionHash:120426c, CLOUDID:0bdff483-cd9c-45f5-8134-710979e3df0e,
  B
- ulkID:230413191719XOY917KD,BulkQuantity:2,Recheck:0,SF:19|42|24|17|102,TC:
+ ulkID:230413191719XOY917KD,BulkQuantity:4,Recheck:0,SF:42|24|17|19|102,TC:
  nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI
  :0,OSA:0,AV:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
-X-UUID: ae93474dd77447289325ee7b2e9316a6-20230413
+X-UUID: f89c571c33ff4688b5afb7a9a5f2850c-20230413
 X-User: zenghao@kylinos.cn
 Received: from [172.20.12.253] [(116.128.244.169)] by mailgw
  (envelope-from <zenghao@kylinos.cn>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1446428898; Thu, 13 Apr 2023 20:38:35 +0800
-Message-ID: <2208189d09c8b598f83e71b728c37e805a6c7e05.camel@kylinos.cn>
+ with ESMTP id 1548867657; Thu, 13 Apr 2023 20:39:50 +0800
+Message-ID: <c56e495575c820e68fcfeb54afdfb545bed13554.camel@kylinos.cn>
 Subject: Re: [PATCH v4] cxl-cdat:Fix open file not closed in ct3_load_cdat
 From: Hao Zeng <zenghao@kylinos.cn>
 To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 Cc: fan.ni@samsung.com, qemu-devel@nongnu.org, philmd@linaro.org, Peter
  Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Apr 2023 20:38:34 +0800
+Date: Thu, 13 Apr 2023 20:39:44 +0800
 In-Reply-To: <20230413121708.00005a43@Huawei.com>
 References: <20230413093328.3689564-1-zenghao@kylinos.cn>
  <20230413121708.00005a43@Huawei.com>
