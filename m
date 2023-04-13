@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8EEE6E15E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F656E15E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:34:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn3cT-0003s0-Se; Thu, 13 Apr 2023 16:32:38 -0400
+	id 1pn3cg-000414-Ib; Thu, 13 Apr 2023 16:32:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3cP-0003qQ-ET; Thu, 13 Apr 2023 16:32:33 -0400
+ id 1pn3cQ-0003rF-P1; Thu, 13 Apr 2023 16:32:34 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3cF-0003kM-0T; Thu, 13 Apr 2023 16:32:33 -0400
+ id 1pn3cG-0003l2-L8; Thu, 13 Apr 2023 16:32:34 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id EA00140139;
- Thu, 13 Apr 2023 23:31:56 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 1C20A4013C;
+ Thu, 13 Apr 2023 23:31:57 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 6E24A95;
+ by tsrv.corpit.ru (Postfix) with SMTP id 9717721B;
  Thu, 13 Apr 2023 23:31:55 +0300 (MSK)
-Received: (nullmailer pid 2344355 invoked by uid 1000);
+Received: (nullmailer pid 2344357 invoked by uid 1000);
  Thu, 13 Apr 2023 20:31:54 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Pierrick Bouvier <pierrick.bouvier@linaro.org>,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
+Cc: qemu-stable@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kostiantyn Kostiuk <kostyanf14@live.com>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 12/21] qga/vss-win32: fix warning for clang++-15
-Date: Thu, 13 Apr 2023 23:31:24 +0300
-Message-Id: <20230413203143.2344250-12-mjt@msgid.tls.msk.ru>
+ Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH 13/21] ui: fix crash on serial reset, during init
+Date: Thu, 13 Apr 2023 23:31:25 +0300
+Message-Id: <20230413203143.2344250-13-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230413203051.2344192-1-mjt@tls.msk.ru>
 References: <20230413203051.2344192-1-mjt@tls.msk.ru>
@@ -61,41 +61,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Reported when compiling with clang-windows-arm64.
+For ex, when resetting the xlnx-zcu102 machine:
 
-../qga/vss-win32/install.cpp:537:9: error: variable 'hr' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
-    if (!(ControlService(service, SERVICE_CONTROL_STOP, NULL))) {
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../qga/vss-win32/install.cpp:545:12: note: uninitialized use occurs here
-    return hr;
-           ^~
+(lldb) bt
+* thread #1, queue = 'com.apple.main-thread', stop reason =
+EXC_BAD_ACCESS (code=1, address=0x50)
+   * frame #0: 0x10020a740 gd_vc_send_chars(vc=0x000000000) at
+gtk.c:1759:41 [opt]
+     frame #1: 0x100636264 qemu_chr_fe_accept_input(be=<unavailable>) at
+char-fe.c:159:9 [opt]
+     frame #2: 0x1000608e0 cadence_uart_reset_hold [inlined]
+uart_rx_reset(s=0x10810a960) at cadence_uart.c:158:5 [opt]
+     frame #3: 0x1000608d4 cadence_uart_reset_hold(obj=0x10810a960) at
+cadence_uart.c:530:5 [opt]
+     frame #4: 0x100580ab4 resettable_phase_hold(obj=0x10810a960,
+opaque=0x000000000, type=<unavailable>) at resettable.c:0 [opt]
+     frame #5: 0x10057d1b0 bus_reset_child_foreach(obj=<unavailable>,
+cb=(resettable_phase_hold at resettable.c:162), opaque=0x000000000,
+type=RESET_TYPE_COLD) at bus.c:97:13 [opt]
+     frame #6: 0x1005809f8 resettable_phase_hold [inlined]
+resettable_child_foreach(rc=0x000060000332d2c0, obj=0x0000600002c1c180,
+cb=<unavailable>, opaque=0x000000000, type=RESET_TYPE_COLD) at
+resettable.c:96:9 [opt]
+     frame #7: 0x1005809d8 resettable_phase_hold(obj=0x0000600002c1c180,
+opaque=0x000000000, type=RESET_TYPE_COLD) at resettable.c:173:5 [opt]
+     frame #8: 0x1005803a0
+resettable_assert_reset(obj=0x0000600002c1c180, type=<unavailable>) at
+resettable.c:60:5 [opt]
+     frame #9: 0x10058027c resettable_reset(obj=0x0000600002c1c180,
+type=RESET_TYPE_COLD) at resettable.c:45:5 [opt]
 
-Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-Fixes: 917ebcb170 ("qga-win: Fix QGA VSS Provider service stop failure")
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+While the chardev is created early, the VirtualConsole is associated
+after, during qemu_init_displays().
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Kostiantyn Kostiuk <kostyanf14@live.com>
-(cherry picked from commit 0fcd574b025fccdf14d5140687cafe2bc30b634f)
+Message-Id: <20230220072251.3385878-1-marcandre.lureau@redhat.com>
+(cherry picked from commit 49152ac47003ca21fc6f2a5c3e517f79649e1541)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- qga/vss-win32/install.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ui/gtk.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-index b57508fbe0..b8087e5baa 100644
---- a/qga/vss-win32/install.cpp
-+++ b/qga/vss-win32/install.cpp
-@@ -518,7 +518,7 @@ namespace _com_util
- /* Stop QGA VSS provider service using Winsvc API  */
- STDAPI StopService(void)
- {
--    HRESULT hr;
-+    HRESULT hr = S_OK;
-     SC_HANDLE manager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
-     SC_HANDLE service = NULL;
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 4817623c8f..dfaf6d33c3 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1783,7 +1783,9 @@ static void gd_vc_chr_accept_input(Chardev *chr)
+     VCChardev *vcd = VC_CHARDEV(chr);
+     VirtualConsole *vc = vcd->console;
  
+-    gd_vc_send_chars(vc);
++    if (vc) {
++        gd_vc_send_chars(vc);
++    }
+ }
+ 
+ static void gd_vc_chr_set_echo(Chardev *chr, bool echo)
 -- 
 2.30.2
 
