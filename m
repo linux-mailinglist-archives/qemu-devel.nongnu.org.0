@@ -2,77 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6496E0262
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 01:14:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4446E0380
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 03:09:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmjee-0000Eq-3s; Wed, 12 Apr 2023 19:13:32 -0400
+	id 1pmlR4-0005lU-He; Wed, 12 Apr 2023 21:07:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@google.com>)
- id 1pmjec-0000EL-01
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 19:13:30 -0400
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734])
+ (Exim 4.90_1) (envelope-from
+ <30lU3ZAYKCoMzlhuqjnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--seanjc.bounces.google.com>)
+ id 1pmlR1-0005lL-73
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 21:07:35 -0400
+Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <komlodi@google.com>)
- id 1pmjeZ-0008Gi-Vy
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 19:13:29 -0400
-Received: by mail-qk1-x734.google.com with SMTP id ay7so11543579qkb.6
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 16:13:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <30lU3ZAYKCoMzlhuqjnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--seanjc.bounces.google.com>)
+ id 1pmlQz-00017s-3B
+ for qemu-devel@nongnu.org; Wed, 12 Apr 2023 21:07:34 -0400
+Received: by mail-pl1-x64a.google.com with SMTP id
+ u11-20020a17090341cb00b001a22d27406bso6305777ple.13
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 18:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1681341206; x=1683933206;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Z/NeklWL+shqx2uEqMQYby+2WEoz7O4dguSnRYAkGEE=;
- b=TjdC1xJeVqiXXUmGo7PZBeayOv/88ijcl6Udv05l/ONjpt3JAOS8NXNiwuUJsSzP8y
- oB/AVeN4ZzLsv47x5/nXXa/gvXRAebjgpjE+87lMKj6yUjfUwMsJ7V8mqumbfQejWv3o
- GBvdUfIViY26YYcw/cQXSgkG9t2dMkJ1LtRE76pTLi6Ff7P3EpMw1/2WRmiGCMjV/hVP
- tdQ7SuO7t2jN3dUhJJoKeY4c/1fLhoBPK8lODNbIDZ/ZVTs2lgko6ThuzdWR/ny0qMwm
- sirsYIesvvb0wvjqlU0RTpkAM5n7/7co2+A9wtkv1gO8Qp92VJ1/uEvQHABpSqXR2GNr
- QAWA==
+ d=google.com; s=20221208; t=1681348050; x=1683940050;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=EBLbhNm3fsRbkajEjRmINqzacPrnC3sWkejBQFnfCeY=;
+ b=l81F5p/zxISuNsOTdPBgLBjqThC2vDQDK5Uw+271tLolnlAHCMjlZe8AeG/jf3nOrx
+ ExWxIQK7CKtblDvJ8H3VSzPnmPuqB/YeLXauyGbc5MYvJjSXVvNUPEsSQLuxsR77moKZ
+ UlTepofDb02LxLShDY5FjB4dpGfEQe3unZKqgtyJNvz/0ht5ta0+OYjQykpOh/ft4xiY
+ iCpoKLuH+PMrGysZjyKXtcxmXgl9ury1l15XbUM9kGssTvMz69Uh47nolIPDiQg/ZLYy
+ kWyCbb4PMZcJ8WgWH7QKSQOInzUxQhQDlNJXdkLhsMb661/+oYSUbCYk/vgAZ5pUqK7f
+ uA9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681341206; x=1683933206;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Z/NeklWL+shqx2uEqMQYby+2WEoz7O4dguSnRYAkGEE=;
- b=i6dCYsRpNF2/H7tX7GVfQPlZNqEUQTkhwkWcDqTFxQ5y8Ip+OoPz9Ifu1m5M8r42Is
- m053KeeYjPv/enEd+Tyl55/ji4IcEFQ8sWkRGNMwpkki9nC+XrGcrE+Fl9LAyAgIL6Eg
- hHjLmgKvL5n/Qu4hNud1r4Z856AAcqcK79DhbQsb3iylst8dnuJGVr1p2Cvn6F3FnoJM
- 0//OL+m8sO1lZRRq4cvQm3tXmKHuS6rpqhdDkkWOEgUDv4aFyKRnxwc+iR7h1hnDHUFC
- zpMubTbGmryo3btSh6+Tj7Wn67p60x/3pgm7WXACZmTO5ULFPCWNfYxOFf5REZE8C2UT
- ci8g==
-X-Gm-Message-State: AAQBX9f1Ev8+vCfUNrnHu1bZ0jFjDV7Gz1dEP669tPA7W9IYbk/skcPU
- wncoNxWXvZhm5vHGQ8cSpcVSejqI0Nvhu0vGUwseUQ==
-X-Google-Smtp-Source: AKy350ajWMFQdUnTl7/2096OEEKjiebKCUhALfWYVDdkSGo+LHxFmUfKhYJXvTGYtb0aH4Iyco3gqzzSKxf4prlkQwQ=
-X-Received: by 2002:a05:620a:15ab:b0:745:6b06:8a0c with SMTP id
- f11-20020a05620a15ab00b007456b068a0cmr22413qkk.1.1681341206203; Wed, 12 Apr
- 2023 16:13:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230331010131.1412571-1-komlodi@google.com>
- <20230331010131.1412571-11-komlodi@google.com>
- <4f19c8280191fe2ed1f8f7c25288e93de014b45c.camel@codeconstruct.com.au>
-In-Reply-To: <4f19c8280191fe2ed1f8f7c25288e93de014b45c.camel@codeconstruct.com.au>
-From: Joe Komlodi <komlodi@google.com>
-Date: Wed, 12 Apr 2023 16:13:14 -0700
-Message-ID: <CAGDLtxuz_vz7vvynuQE=GuXtpGt3eB_BsJwfW8CiPAtrwg6VzQ@mail.gmail.com>
-Subject: Re: [PATCH 10/16] hw/i3c/aspeed_i3c: Add IBI handling
-To: Jeremy Kerr <jk@codeconstruct.com.au>
-Cc: qemu-devel@nongnu.org, venture@google.com, peter.maydell@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
- envelope-from=komlodi@google.com; helo=mail-qk1-x734.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ d=1e100.net; s=20221208; t=1681348050; x=1683940050;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EBLbhNm3fsRbkajEjRmINqzacPrnC3sWkejBQFnfCeY=;
+ b=f6ysCBKij0ckb5LBPA4rr8iuiMD3zyj0iZlz4k2HGhwIK0pOvETQrow1imcG7c/UNv
+ ODI07/o4Ej9uM5LFN/5kYynwjJEZd6iISGDIGQ+MQqPffZTQFD3ghT7nY/99BAgfKrs4
+ 1mewjevD2mn2gXvUR5lRg4f3dnnBClgsO+ywPTZq94Oh73AndDc6DxjEH7OrXo9+qvMT
+ bWoDZsgjF6Hu2cR5vOpFgNQZBPZ/x/sg+lhK9ZViQ/HWzU46q2TFQ4P/VZhJjV4vRwZS
+ et8PtnQiZH8llC529IdOfcsnMgo+TD08btzJmA3PPKS/BhdkV+uITKfoAg4lqq1erXxv
+ Wqrg==
+X-Gm-Message-State: AAQBX9f05b2j9tCDxKFL9Vt+LSTbMqg5+fYvFvh/WN+ewaMSumoTWG6/
+ HzVGeaZSgkv/D3nArR/XqeEpv25Jr4s=
+X-Google-Smtp-Source: AKy350Yi++EiqbAHiD3SnOi84M+UlU1LyPdYHPeuc+OePAq+A1CU6oZwmUR77MLD4jcxJ/2tHyPNMvmLNLU=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:d413:b0:19a:7f9c:66e3 with SMTP id
+ b19-20020a170902d41300b0019a7f9c66e3mr13167ple.5.1681348050454; Wed, 12 Apr
+ 2023 18:07:30 -0700 (PDT)
+Date: Wed, 12 Apr 2023 18:07:28 -0700
+In-Reply-To: <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
+Mime-Version: 1.0
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
+ <Y9B1yiRR8DpANAEo@google.com>
+ <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
+Message-ID: <ZDdV0Fh7nDEnY/eW@google.com>
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+From: Sean Christopherson <seanjc@google.com>
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc: Liam Merwick <liam.merwick@oracle.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, 
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>, 
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
+ envelope-from=30lU3ZAYKCoMzlhuqjnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--seanjc.bounces.google.com;
+ helo=mail-pl1-x64a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,37 +118,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi jeremy,
+On Wed, Jan 25, 2023, Kirill A. Shutemov wrote:
+> On Wed, Jan 25, 2023 at 12:20:26AM +0000, Sean Christopherson wrote:
+> > On Tue, Jan 24, 2023, Liam Merwick wrote:
+> > > On 14/01/2023 00:37, Sean Christopherson wrote:
+> > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > > This patch series implements KVM guest private memory for confidential
+> > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > > TDX-protected guest memory, machine check can happen which can further
+> > > > > crash the running host system, this is terrible for multi-tenant
+> > > > > configurations. The host accesses include those from KVM userspace like
+> > > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > > via a fd-based approach, but it can never access the guest memory
+> > > > > content.
+> > > > > 
+> > > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > > reviews are always welcome.
+> > > > >    - 01: mm change, target for mm tree
+> > > > >    - 02-09: KVM change, target for KVM tree
+> > > > 
+> > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > > > is available here:
+> > > > 
+> > > >    git@github.com:sean-jc/linux.git x86/upm_base_support
+> > > > 
+> > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > > > a WIP.
+> > > > 
+> > > 
+> > > When running LTP (https://github.com/linux-test-project/ltp) on the v10
+> > > bits (and also with Sean's branch above) I encounter the following NULL
+> > > pointer dereference with testcases/kernel/syscalls/madvise/madvise01
+> > > (100% reproducible).
+> > > 
+> > > It appears that in restrictedmem_error_page()
+> > > inode->i_mapping->private_data is NULL in the
+> > > list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) but I
+> > > don't know why.
+> > 
+> > Kirill, can you take a look?  Or pass the buck to someone who can? :-)
+> 
+> The patch below should help.
+> 
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index 15c52301eeb9..39ada985c7c0 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -307,14 +307,29 @@ void restrictedmem_error_page(struct page *page, struct address_space *mapping)
+>  
+>  	spin_lock(&sb->s_inode_list_lock);
+>  	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
+> -		struct restrictedmem *rm = inode->i_mapping->private_data;
+>  		struct restrictedmem_notifier *notifier;
+> -		struct file *memfd = rm->memfd;
+> +		struct restrictedmem *rm;
+>  		unsigned long index;
+> +		struct file *memfd;
+>  
+> -		if (memfd->f_mapping != mapping)
+> +		if (atomic_read(&inode->i_count))
 
-On Tue, Apr 11, 2023 at 2:17=E2=80=AFAM Jeremy Kerr <jk@codeconstruct.com.a=
-u> wrote:
->
-> Hi Joe,
->
-> > +static int aspeed_i3c_device_ibi_finish(I3CBus *bus)
-> > +{
-> > +    AspeedI3CDevice *s =3D ASPEED_I3C_DEVICE(bus->qbus.parent);
-> > +    bool nack_and_disable_hj =3D ARRAY_FIELD_EX32(s->regs, DEVICE_CTRL=
-,
-> > +                                                HOT_JOIN_ACK_NACK_CTRL=
-);
-> > +    if (nack_and_disable_hj || s->ibi_data.send_direct_disec) {
-> > +        aspeed_i3c_device_send_disec(s);
-> > +    }
->
-> Shouldn't this be conditional on the ibi being a HJ request? With this,
-> I'm seeing the DISEC happen on *all* IBIs.
+Kirill, should this be
 
-Good catch! Yep it should be on HJs only.
-Will fix in v2 as well.
+		if (!atomic_read(&inode->i_count))
+			continue;
 
-Thanks,
-Joe
-
->
-> Cheers,
->
->
-> Jeremy
->
+i.e. skip unreferenced inodes, not skip referenced inodes?
 
