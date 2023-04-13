@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E076E136B
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 19:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551FD6E1371
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 19:25:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn0eW-0003J7-PT; Thu, 13 Apr 2023 13:22:32 -0400
+	id 1pn0gW-0004lM-Vx; Thu, 13 Apr 2023 13:24:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3RTo4ZAsKCsIiksmztm61voowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--ackerleytng.bounces.google.com>)
- id 1pn0eT-0003Iv-Gh
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 13:22:29 -0400
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3RTo4ZAsKCsIiksmztm61voowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--ackerleytng.bounces.google.com>)
- id 1pn0eH-0001rU-In
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 13:22:29 -0400
-Received: by mail-pg1-x54a.google.com with SMTP id
- w184-20020a6382c1000000b0050bed8b0b61so6614502pgd.11
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 10:22:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1681406534; x=1683998534;
- h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=MUWO1kZAYR92KIzOOxoAG6fgcpTDrbsTBnBgIaXB7SI=;
- b=k9K7/cx14r1rZ44+YUmMJA/zyDFSnSwd4M/yoOo6MK1lBZbqEHHMPLqbgmJy4VHzWr
- BHtqD7duSRrul042d0Suw2viax09pK0xMVdFhDXpoxoBfhFfIuBKNDsrnzf3PtlFwTe0
- xZs14NrJu4rjfC+GuieNJRVga4Qv8eQWhGsY7num3+DbmUoQdqIvovvw7B75AYwZTkKG
- iKlZHnMH6l41XSupS5sXqcJVcqX0LpFcpp/+2ct//bBU6UJaLCpcjq4ly/wd092FSy5B
- RAM7fGGTnnv8Bkbvo6qpHrJ0vab0jDHA6Sxzq0hjEQ4MKc/Y3j5NGUn0fKFRnXbWoeyn
- RO7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681406534; x=1683998534;
- h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MUWO1kZAYR92KIzOOxoAG6fgcpTDrbsTBnBgIaXB7SI=;
- b=JBr2sP/wC6pLuhgL1qxcy42+QOvC/9hcf+nQ+HjorG8i4rDPt1zVpQu3ozUunWWf1L
- 5HwhHVjGTsebZvAU2FjgOivG8FMvWIllaCtiaKg4ejIZuIPAlH5yX+t6PWFnexAKwLmB
- ymLHEG7ys/tTPfYureX2BmkzV5oRQGviIHsqrKDD5hZQVRwE/qSbgXc6Q97NolWMPX4O
- Al6A0WPouX6mvClC4tONOk6Pdejce9nIfEhsjmfXbvpys+I0xSfUc3vS7DolucLaGUdF
- gdiS8RzRv6a9dv8RIkeo/iPVpwIWX5bSm6WfbURfbjF1p6osvuNRNYIHko68pqmhraGH
- msqw==
-X-Gm-Message-State: AAQBX9fHDISJ+Kg0rr9Xx0KLgVbqUHobuJyPBgazpMqEHdM4qkn0BuCd
- 7edunfQno7rcv/iMv/uNFpFNMhEkAxJ4p3IbZA==
-X-Google-Smtp-Source: AKy350buit0TKoFObhZndLsv+Oe7SecvOYrJwebJQwpxXJ4Pb+22Ci4SNV5J0w0/4fgc4zy9sZpOZtI2T9SDAix8Kg==
-X-Received: from ackerleytng-cloudtop.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:90b:815:b0:246:a1b2:77fe with SMTP
- id bk21-20020a17090b081500b00246a1b277femr2564960pjb.3.1681406533842; Thu, 13
- Apr 2023 10:22:13 -0700 (PDT)
-Date: Thu, 13 Apr 2023 17:22:12 +0000
-In-Reply-To: <20221202061347.1070246-2-chao.p.peng@linux.intel.com> (message
- from Chao Peng on Fri,  2 Dec 2022 14:13:39 +0800)
-Mime-Version: 1.0
-Message-ID: <diqzh6tjofy3.fsf@ackerleytng-cloudtop.c.googlers.com>
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-From: Ackerley Tng <ackerleytng@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- pbonzini@redhat.com, corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com, 
- wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org, 
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de, 
- naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com, 
- hughd@google.com, jlayton@kernel.org, bfields@fieldses.org, 
- akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org, 
- steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz, 
- vannapurve@google.com, yu.c.zhang@linux.intel.com, 
- chao.p.peng@linux.intel.com, kirill.shutemov@linux.intel.com, luto@kernel.org, 
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
- dhildenb@redhat.com, qperret@google.com, tabba@google.com, 
- michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3RTo4ZAsKCsIiksmztm61voowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--ackerleytng.bounces.google.com;
- helo=mail-pg1-x54a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pn0gV-0004lD-QD
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 13:24:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pn0gS-0002J6-07
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 13:24:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681406669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/sgd7+4F5uZZwNXsUXpCVaSv3IWT2fHxs8vp8yv0lgQ=;
+ b=VDRMzyX0RVklsGrGq0Jh2QDHyUZ1Cm0NMMjve3OdM+puxAQIHFsKvSUUfuepkVC5xe3btS
+ iRKX7vv56G5UEx5Ry3m9VwkuafV2qmbXwz0C1926CaVTh524PpVJqp2sVu5e7jnNLgCEVf
+ kw+b1Ob/j8uuR8vQSZBvH0QDXQvOAM4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-49-r34hBMT8PkawpmIWlI_ulQ-1; Thu, 13 Apr 2023 13:24:27 -0400
+X-MC-Unique: r34hBMT8PkawpmIWlI_ulQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8506A3C0F1A9;
+ Thu, 13 Apr 2023 17:24:27 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE8082027043;
+ Thu, 13 Apr 2023 17:24:26 +0000 (UTC)
+Date: Thu, 13 Apr 2023 13:24:25 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH for-7.2 v3 3/3] rtl8139: honor large send MSS value
+Message-ID: <20230413172425.GB2864043@fedora>
+References: <20221117165554.1773409-1-stefanha@redhat.com>
+ <20221117165554.1773409-4-stefanha@redhat.com>
+ <CAFEAcA_hkABS_ydCOiDxvZh71s916o0y2Gm5rht-FPDjzVbpLA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="gD0AwCJOFiUYA5aZ"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_hkABS_ydCOiDxvZh71s916o0y2Gm5rht-FPDjzVbpLA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,51 +80,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+--gD0AwCJOFiUYA5aZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Introduce 'memfd_restricted' system call with the ability to create
-> memory areas that are restricted from userspace access through ordinary
-> MMU operations (e.g. read/write/mmap). The memory content is expected to
-> be used through the new in-kernel interface by a third kernel module.
+On Thu, Apr 13, 2023 at 04:38:52PM +0100, Peter Maydell wrote:
+> On Thu, 17 Nov 2022 at 16:58, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > The Large-Send Task Offload Tx Descriptor (9.2.1 Transmit) has a
+> > Large-Send MSS value where the driver specifies the MSS. See the
+> > datasheet here:
+> > http://realtek.info/pdf/rtl8139cp.pdf
+> >
+> > The code ignores this value and uses a hardcoded MSS of 1500 bytes
+> > instead. When the MTU is less than 1500 bytes the hardcoded value
+> > results in IP fragmentation and poor performance.
+> >
+> > Use the Large-Send MSS value to correctly size Large-Send packets.
+> >
+> > Jason Wang <jasowang@redhat.com> noticed that the Large-Send MSS value
+> > mask was incorrect so it is adjusted to match the datasheet and Linux
+> > 8139cp driver.
+>=20
+> Hi Stefan -- in v2 of this patch
+>=20
+> https://lore.kernel.org/qemu-devel/20221116154122.1705399-1-stefanha@redh=
+at.com/
+>=20
+> there was a check for "is the specified large_send_mss value
+> too small?":
+>=20
+> +                /* MSS too small? */
+> +                if (tcp_hlen + hlen >=3D large_send_mss) {
+> +                    goto skip_offload;
+> +                }
+>=20
+> but it isn't present in this final version of the patch which
+> went into git. Was that deliberately dropped?
+>=20
+> I ask because the fuzzers have discovered that if you feed this
+> device a descriptor where the large_send_mss value is 0, then
+> we will now do a division by zero and crash:
+> https://gitlab.com/qemu-project/qemu/-/issues/1582
+>=20
+> (The datasheet, naturally, says nothing at all about what
+> happens if the descriptor contains a bogus MSS value.)
 
-> ...
+Yes, I dropped that deliberately and forgot to add a large_send_mss =3D=3D 0
+check. Sorry!
 
-> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-> new file mode 100644
-> index 000000000000..56953c204e5c
-> --- /dev/null
-> +++ b/mm/restrictedmem.c
-> @@ -0,0 +1,318 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include "linux/sbitmap.h"
-> +#include <linux/pagemap.h>
-> +#include <linux/pseudo_fs.h>
-> +#include <linux/shmem_fs.h>
-> +#include <linux/syscalls.h>
-> +#include <uapi/linux/falloc.h>
-> +#include <uapi/linux/magic.h>
-> +#include <linux/restrictedmem.h>
-> +
-> +struct restrictedmem_data {
-> +	struct mutex lock;
-> +	struct file *memfd;
+I have sent a patch:
+https://patchew.org/QEMU/20230413171946.2865726-1-stefanha@redhat.com/
 
-Can this be renamed to file, or lower_file (as in stacking filesystems)?
+Thanks,
+Stefan
 
-It's a little confusing because this pointer doesn't actually refer to
-an fd.
+--gD0AwCJOFiUYA5aZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-'memfd' is already used by udmabuf to refer to an actual fd [1], which
-makes this a little misleading.
+-----BEGIN PGP SIGNATURE-----
 
-[1]  
-https://elixir.bootlin.com/linux/v6.2.10/source/tools/testing/selftests/drivers/dma-buf/udmabuf.c#L63
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQ4OskACgkQnKSrs4Gr
+c8g+WAgAvLdJ18h4WndqxRN5gwPGjohFDhA/3ItZO1Z4IHHVkATZ4+gTFntdqAp/
+ff78OV7FWvIolXtnW5yj6Vf4RaRA+JCoFLP1ssIXdoiEh3XhXGCNNxQP9fLIsEjB
+KxsxwKEiu6JQct2g571/73/ybjWQ1WoyoOnKHG8pkaSmnDqOGTAlF3rQnlJrXR83
+oK6nD78qOr0fca1My6XtpWmkuNs2sws8u2aqib8XaibNUWYvDUosCz+G7G4ehaAq
+4ZJyeO6LEQRr+Kdz2aE2/5tz5ucymHf1vttjfhBS64ScR2fr2Zcp7jRX3F34yhVA
+qXOkADOoDmUKnS19m5JFpSkWEzKNaA==
+=zo2F
+-----END PGP SIGNATURE-----
 
-> +	struct list_head notifiers;
-> +};
-> +
-> ...
+--gD0AwCJOFiUYA5aZ--
 
 
