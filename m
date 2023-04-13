@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA12D6E0F26
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 15:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46D46E0FBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 16:14:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmxIg-0004zj-Ad; Thu, 13 Apr 2023 09:47:46 -0400
+	id 1pmxgv-0001oQ-Kw; Thu, 13 Apr 2023 10:12:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pmxIe-0004z4-08; Thu, 13 Apr 2023 09:47:44 -0400
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pmxIa-00029C-Pd; Thu, 13 Apr 2023 09:47:43 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:47ac:0:640:70fa:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id A9AF75E785;
- Thu, 13 Apr 2023 16:47:28 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b73e::1:5] (unknown
- [2a02:6b8:b081:b73e::1:5])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id QlX0170OiCg0-1pq9U6Rr; Thu, 13 Apr 2023 16:47:27 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1681393647; bh=CILOWpjr+ZpYWQqpAgZAWj23uAwe8Usi8IXn9qlMZdI=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=ZNLzqG2SkPJtBakkYP5n243ZQaHMwOO5Owo45VJVOkS1D+KZOESj+3T2A9LGL7xZ7
- SLn6zedS21QWxShxq3H3wbmPwms5nSvJTJXP9w4npBeCR5cOEto9HG5qAmd2A8HKVL
- a0FpswN+fQAI0QvSYO+3Isv8utuduHjMQOtpKc1E=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <e7e7e3c6-c4f5-aa9c-c4ee-f3f28555b81b@yandex-team.ru>
-Date: Thu, 13 Apr 2023 16:47:26 +0300
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pmxgr-0001nh-Is; Thu, 13 Apr 2023 10:12:45 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pmxgQ-0008Rr-KM; Thu, 13 Apr 2023 10:12:45 -0400
+Received: from localhost.localdomain (unknown [180.165.241.15])
+ by APP-05 (Coremail) with SMTP id zQCowAAXHzuzDThkpcYMEg--.5698S2;
+ Thu, 13 Apr 2023 22:12:05 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v2] target/riscv: Update check for Zca/Zcf/Zcd
+Date: Thu, 13 Apr 2023 22:11:50 +0800
+Message-Id: <20230413141150.78029-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] replication: compile out some staff when replication is
- not configured
-To: "Zhang, Chen" <chen.zhang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "hreitz@redhat.com" <hreitz@redhat.com>, "kwolf@redhat.com"
- <kwolf@redhat.com>, "Zhang, Hailiang" <zhanghailiang@xfusion.com>,
- "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>,
- "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
- "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
- "den-plotnikov@yandex-team.ru" <den-plotnikov@yandex-team.ru>
-References: <20230411145112.497785-1-vsementsov@yandex-team.ru>
- <MWHPR11MB003181F7E37662CE2F22C17F9B989@MWHPR11MB0031.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <MWHPR11MB003181F7E37662CE2F22C17F9B989@MWHPR11MB0031.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.083,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAXHzuzDThkpcYMEg--.5698S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXFy3GF1ruF4DWrWDXF4fKrg_yoWrZF4xpr
+ yFkFy7GrZ8GryfAayfAF4UtF17tr4Sgr48twn0qwn5Jay3Wr45Zr4DK343KryUXF1kWryY
+ kFWUAas8uw40qa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+ 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHU
+ DUUUUU=
+X-Originating-IP: [180.165.241.15]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,216 +73,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13.04.23 12:52, Zhang, Chen wrote:
-> 
-> 
->> -----Original Message-----
->> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> Sent: Tuesday, April 11, 2023 10:51 PM
->> To: qemu-devel@nongnu.org
->> Cc: qemu-block@nongnu.org; pbonzini@redhat.com; armbru@redhat.com;
->> eblake@redhat.com; jasowang@redhat.com; dgilbert@redhat.com;
->> quintela@redhat.com; hreitz@redhat.com; kwolf@redhat.com; Zhang,
->> Hailiang <zhanghailiang@xfusion.com>; Zhang, Chen
->> <chen.zhang@intel.com>; lizhijian@fujitsu.com;
->> wencongyang2@huawei.com; xiechanglong.d@gmail.com; den-
->> plotnikov@yandex-team.ru; Vladimir Sementsov-Ogievskiy
->> <vsementsov@yandex-team.ru>
->> Subject: [PATCH] replication: compile out some staff when replication is not
->> configured
->>
->> Don't compile-in replication-related files when replication is disabled in
->> config.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> ---
->>
->> Hi all!
->>
->> I'm unsure, should it be actually separate --disable-colo / --enable-colo
->> options or it's really used only together with replication staff.. So, I decided
->> to start with simpler variant.
->>
-> 
-> For replication, I think there's nothing wrong with the idea.
-> But not so for COLO.  COLO project consists of three independent parts: Replication, migration, net-proxy.
-> Each one have ability to run alone for other proposals. For example we can just run filter-mirror/redirector for networking
-> Analysis/debugs. Although the best practice of COLO is to make the three modules work together, in fact, we can also
-> use only some modules of COLO for other usage scenarios. Like COLO migration + net-proxy for shared disk, etc...
-> So I think no need to disable all COLO related modules when replication is not configured.
-> For details:
-> https://wiki.qemu.org/Features/COLO
-> 
+Even though Zca/Zcf/Zcd can be included by C/F/D, however, their priv
+version is higher than the priv version of C/F/D. So if we use check
+for them instead of check for C/F/D totally, it will trigger new
+problem when we try to disable the extensions based on the configured
+priv version.
 
-So, if I want to have an option to disable all COLO modules, do you mean it should be additional --disable-colo option? Or better keep one option --disable-replication (and, maybe just rename to to --disable-colo)?
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+---
+v2:
+* Fix code style errors
 
-> Thanks
-> Chen
-> 
->>
->>   block/meson.build     |  2 +-
->>   migration/meson.build |  6 ++++--
->>   net/meson.build       |  8 ++++----
->>   qapi/migration.json   |  6 ++++--
->>   stubs/colo.c          | 46 +++++++++++++++++++++++++++++++++++++++++++
->>   stubs/meson.build     |  1 +
->>   6 files changed, 60 insertions(+), 9 deletions(-)  create mode 100644
->> stubs/colo.c
->>
->> diff --git a/block/meson.build b/block/meson.build index
->> 382bec0e7d..b9a72e219b 100644
->> --- a/block/meson.build
->> +++ b/block/meson.build
->> @@ -84,7 +84,7 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-
->> win32.c', 'win32-aio.c')
->>   block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
->>   block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
->>   block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c')) -if not
->> get_option('replication').disabled()
->> +if get_option('replication').allowed()
->>     block_ss.add(files('replication.c'))
->>   endif
->>   block_ss.add(when: libaio, if_true: files('linux-aio.c')) diff --git
->> a/migration/meson.build b/migration/meson.build index
->> 0d1bb9f96e..8180eaea7b 100644
->> --- a/migration/meson.build
->> +++ b/migration/meson.build
->> @@ -13,8 +13,6 @@ softmmu_ss.add(files(
->>     'block-dirty-bitmap.c',
->>     'channel.c',
->>     'channel-block.c',
->> -  'colo-failover.c',
->> -  'colo.c',
->>     'exec.c',
->>     'fd.c',
->>     'global_state.c',
->> @@ -29,6 +27,10 @@ softmmu_ss.add(files(
->>     'threadinfo.c',
->>   ), gnutls)
->>
->> +if get_option('replication').allowed()
->> +  softmmu_ss.add(files('colo.c', 'colo-failover.c')) endif
->> +
->>   softmmu_ss.add(when: rdma, if_true: files('rdma.c'))  if
->> get_option('live_block_migration').allowed()
->>     softmmu_ss.add(files('block.c'))
->> diff --git a/net/meson.build b/net/meson.build index
->> 87afca3e93..634ab71cc6 100644
->> --- a/net/meson.build
->> +++ b/net/meson.build
->> @@ -1,13 +1,9 @@
->>   softmmu_ss.add(files(
->>     'announce.c',
->>     'checksum.c',
->> -  'colo-compare.c',
->> -  'colo.c',
->>     'dump.c',
->>     'eth.c',
->>     'filter-buffer.c',
->> -  'filter-mirror.c',
->> -  'filter-rewriter.c',
->>     'filter.c',
->>     'hub.c',
->>     'net-hmp-cmds.c',
->> @@ -19,6 +15,10 @@ softmmu_ss.add(files(
->>     'util.c',
->>   ))
->>
->> +if get_option('replication').allowed()
->> +  softmmu_ss.add(files('colo-compare.c', 'colo.c', 'filter-rewriter.c',
->> +'filter-mirror.c')) endif
->> +
->>   softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
->>
->>   if have_l2tpv3
->> diff --git a/qapi/migration.json b/qapi/migration.json index
->> c84fa10e86..5b81e09369 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -1685,7 +1685,8 @@
->>   ##
->>   { 'struct': 'COLOStatus',
->>     'data': { 'mode': 'COLOMode', 'last-mode': 'COLOMode',
->> -            'reason': 'COLOExitReason' } }
->> +            'reason': 'COLOExitReason' },
->> +  'if': 'CONFIG_REPLICATION' }
->>
->>   ##
->>   # @query-colo-status:
->> @@ -1702,7 +1703,8 @@
->>   # Since: 3.1
->>   ##
->>   { 'command': 'query-colo-status',
->> -  'returns': 'COLOStatus' }
->> +  'returns': 'COLOStatus',
->> +  'if': 'CONFIG_REPLICATION' }
->>
->>   ##
->>   # @migrate-recover:
->> diff --git a/stubs/colo.c b/stubs/colo.c new file mode 100644 index
->> 0000000000..5a02540baa
->> --- /dev/null
->> +++ b/stubs/colo.c
->> @@ -0,0 +1,46 @@
->> +#include "qemu/osdep.h"
->> +#include "qemu/notify.h"
->> +#include "net/colo-compare.h"
->> +#include "migration/colo.h"
->> +#include "qapi/error.h"
->> +#include "qapi/qapi-commands-migration.h"
->> +
->> +void colo_compare_cleanup(void)
->> +{
->> +    abort();
->> +}
->> +
->> +void colo_shutdown(void)
->> +{
->> +    abort();
->> +}
->> +
->> +void *colo_process_incoming_thread(void *opaque) {
->> +    abort();
->> +}
->> +
->> +void colo_checkpoint_notify(void *opaque) {
->> +    abort();
->> +}
->> +
->> +void migrate_start_colo_process(MigrationState *s) {
->> +    abort();
->> +}
->> +
->> +bool migration_in_colo_state(void)
->> +{
->> +    return false;
->> +}
->> +
->> +bool migration_incoming_in_colo_state(void)
->> +{
->> +    return false;
->> +}
->> +
->> +void qmp_x_colo_lost_heartbeat(Error **errp) {
->> +    error_setg(errp, "COLO support is not built in"); }
->> diff --git a/stubs/meson.build b/stubs/meson.build index
->> b2b5956d97..8412cad15f 100644
->> --- a/stubs/meson.build
->> +++ b/stubs/meson.build
->> @@ -45,6 +45,7 @@ stub_ss.add(files('target-get-monitor-def.c'))
->>   stub_ss.add(files('target-monitor-defs.c'))
->>   stub_ss.add(files('trace-control.c'))
->>   stub_ss.add(files('uuid.c'))
->> +stub_ss.add(files('colo.c'))
->>   stub_ss.add(files('vmstate.c'))
->>   stub_ss.add(files('vm-stop.c'))
->>   stub_ss.add(files('win32-kbd-hook.c'))
->> --
->> 2.34.1
-> 
+ target/riscv/insn_trans/trans_rvd.c.inc | 12 +++++++-----
+ target/riscv/insn_trans/trans_rvf.c.inc | 14 ++++++++------
+ target/riscv/insn_trans/trans_rvi.c.inc |  5 +++--
+ target/riscv/translate.c                |  5 +++--
+ 4 files changed, 21 insertions(+), 15 deletions(-)
 
+diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
+index 2c51e01c40..6bdb55ef43 100644
+--- a/target/riscv/insn_trans/trans_rvd.c.inc
++++ b/target/riscv/insn_trans/trans_rvd.c.inc
+@@ -31,9 +31,11 @@
+     } \
+ } while (0)
+ 
+-#define REQUIRE_ZCD(ctx) do { \
+-    if (!ctx->cfg_ptr->ext_zcd) {  \
+-        return false;     \
++#define REQUIRE_ZCD_OR_DC(ctx) do { \
++    if (!ctx->cfg_ptr->ext_zcd) { \
++        if (!has_ext(ctx, RVD) || !has_ext(ctx, RVC)) { \
++            return false; \
++        } \
+     } \
+ } while (0)
+ 
+@@ -67,13 +69,13 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
+ 
+ static bool trans_c_fld(DisasContext *ctx, arg_fld *a)
+ {
+-    REQUIRE_ZCD(ctx);
++    REQUIRE_ZCD_OR_DC(ctx);
+     return trans_fld(ctx, a);
+ }
+ 
+ static bool trans_c_fsd(DisasContext *ctx, arg_fsd *a)
+ {
+-    REQUIRE_ZCD(ctx);
++    REQUIRE_ZCD_OR_DC(ctx);
+     return trans_fsd(ctx, a);
+ }
+ 
+diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+index 9e9fa2087a..593855e73a 100644
+--- a/target/riscv/insn_trans/trans_rvf.c.inc
++++ b/target/riscv/insn_trans/trans_rvf.c.inc
+@@ -30,10 +30,12 @@
+     } \
+ } while (0)
+ 
+-#define REQUIRE_ZCF(ctx) do {                  \
+-    if (!ctx->cfg_ptr->ext_zcf) {              \
+-        return false;                          \
+-    }                                          \
++#define REQUIRE_ZCF_OR_FC(ctx) do {                     \
++    if (!ctx->cfg_ptr->ext_zcf) {                       \
++        if (!has_ext(ctx, RVF) || !has_ext(ctx, RVC)) { \
++            return false;                               \
++        }                                               \
++    }                                                   \
+ } while (0)
+ 
+ static bool trans_flw(DisasContext *ctx, arg_flw *a)
+@@ -69,13 +71,13 @@ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
+ 
+ static bool trans_c_flw(DisasContext *ctx, arg_flw *a)
+ {
+-    REQUIRE_ZCF(ctx);
++    REQUIRE_ZCF_OR_FC(ctx);
+     return trans_flw(ctx, a);
+ }
+ 
+ static bool trans_c_fsw(DisasContext *ctx, arg_fsw *a)
+ {
+-    REQUIRE_ZCF(ctx);
++    REQUIRE_ZCF_OR_FC(ctx);
+     return trans_fsw(ctx, a);
+ }
+ 
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index c70c495fc5..e33f63bea1 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+     tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+ 
+     gen_set_pc(ctx, cpu_pc);
+-    if (!ctx->cfg_ptr->ext_zca) {
++    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca) {
+         TCGv t0 = tcg_temp_new();
+ 
+         misaligned = gen_new_label();
+@@ -169,7 +169,8 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+ 
+     gen_set_label(l); /* branch taken */
+ 
+-    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
++    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca &&
++        ((ctx->base.pc_next + a->imm) & 0x3)) {
+         /* misaligned */
+         gen_exception_inst_addr_mis(ctx);
+     } else {
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index d0094922b6..661e29ab39 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -551,7 +551,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+ 
+     /* check misaligned: */
+     next_pc = ctx->base.pc_next + imm;
+-    if (!ctx->cfg_ptr->ext_zca) {
++    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca) {
+         if ((next_pc & 0x3) != 0) {
+             gen_exception_inst_addr_mis(ctx);
+             return;
+@@ -1137,7 +1137,8 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+          * The Zca extension is added as way to refer to instructions in the C
+          * extension that do not include the floating-point loads and stores
+          */
+-        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
++        if ((has_ext(ctx, RVC) || ctx->cfg_ptr->ext_zca) &&
++            decode_insn16(ctx, opcode)) {
+             return;
+         }
+     } else {
 -- 
-Best regards,
-Vladimir
+2.25.1
 
 
