@@ -2,44 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0267E6E15F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6456E15FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 22:38:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn3bx-0003f4-KW; Thu, 13 Apr 2023 16:32:05 -0400
+	id 1pn3c2-0003ji-8h; Thu, 13 Apr 2023 16:32:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3bq-0003eh-WA; Thu, 13 Apr 2023 16:31:59 -0400
+ id 1pn3bu-0003fn-1o; Thu, 13 Apr 2023 16:32:03 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pn3bn-0003iT-S0; Thu, 13 Apr 2023 16:31:58 -0400
+ id 1pn3bn-0003id-Ou; Thu, 13 Apr 2023 16:32:01 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id D8E0B40130;
- Thu, 13 Apr 2023 23:31:54 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 58F6640131;
+ Thu, 13 Apr 2023 23:31:55 +0300 (MSK)
 Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 6818695;
+ by tsrv.corpit.ru (Postfix) with SMTP id DC87B95;
  Thu, 13 Apr 2023 23:31:53 +0300 (MSK)
-Received: (nullmailer pid 2344337 invoked by uid 1000);
+Received: (nullmailer pid 2344340 invoked by uid 1000);
  Thu, 13 Apr 2023 20:31:53 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
 To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Sebastian Mitterle <smitterl@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+Cc: qemu-stable@nongnu.org, Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 05/21] target/s390x/arch_dump: Fix memory corruption in
- s390x_write_elf64_notes()
-Date: Thu, 13 Apr 2023 23:31:17 +0300
-Message-Id: <20230413203143.2344250-5-mjt@msgid.tls.msk.ru>
+Subject: [PATCH 06/21] target/s390x: Fix emulation of C(G)HRL
+Date: Thu, 13 Apr 2023 23:31:18 +0300
+Message-Id: <20230413203143.2344250-6-mjt@msgid.tls.msk.ru>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230413203051.2344192-1-mjt@tls.msk.ru>
 References: <20230413203051.2344192-1-mjt@tls.msk.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
@@ -47,7 +44,7 @@ X-Spam_score_int: -68
 X-Spam_score: -6.9
 X-Spam_bar: ------
 X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,38 +60,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 
-"note_size" can be smaller than sizeof(note), so unconditionally calling
-memset(notep, 0, sizeof(note)) could cause a memory corruption here in
-case notep has been allocated dynamically, thus let's use note_size as
-length argument for memset() instead.
+The second operand of COMPARE HALFWORD RELATIVE LONG is a signed
+halfword, it does not have the same size as the first operand.
 
-Reported-by: Sebastian Mitterle <smitterl@redhat.com>
-Fixes: 113d8f4e95 ("s390x: pv: Add dump support")
-Message-Id: <20230214141056.680969-1-thuth@redhat.com>
-Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes: a7e836d5eb ("target-s390: Convert COMPARE, COMPARE LOGICAL")
+Signed-off-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20230310114157.3024170-2-nsg@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-(cherry picked from commit eb60026120081430d554c9cabaa36c4ac271fce0)
+(cherry picked from commit 54fce97cfcaf5463ee5f325bc1f1d4adc2772f38)
 Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- target/s390x/arch_dump.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/s390x/tcg/insn-data.h.inc | 4 ++--
+ target/s390x/tcg/translate.c     | 7 +++++++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-index a2329141e8..a7c44ba49d 100644
---- a/target/s390x/arch_dump.c
-+++ b/target/s390x/arch_dump.c
-@@ -248,7 +248,7 @@ static int s390x_write_elf64_notes(const char *note_name,
-             notep = g_malloc(note_size);
-         }
+diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
+index 54d4250c9f..2a5fc99818 100644
+--- a/target/s390x/tcg/insn-data.h.inc
++++ b/target/s390x/tcg/insn-data.h.inc
+@@ -199,8 +199,8 @@
+     C(0xe55c, CHSI,    SIL,   GIE, m1_32s, i2, 0, 0, 0, cmps64)
+     C(0xe558, CGHSI,   SIL,   GIE, m1_64, i2, 0, 0, 0, cmps64)
+ /* COMPARE HALFWORD RELATIVE LONG */
+-    C(0xc605, CHRL,    RIL_b, GIE, r1_o, mri2_32s, 0, 0, 0, cmps32)
+-    C(0xc604, CGHRL,   RIL_b, GIE, r1_o, mri2_64, 0, 0, 0, cmps64)
++    C(0xc605, CHRL,    RIL_b, GIE, r1_o, mri2_16s, 0, 0, 0, cmps32)
++    C(0xc604, CGHRL,   RIL_b, GIE, r1_o, mri2_16s, 0, 0, 0, cmps64)
+ /* COMPARE HIGH */
+     C(0xb9cd, CHHR,    RRE,   HW,  r1_sr32, r2_sr32, 0, 0, 0, cmps32)
+     C(0xb9dd, CHLR,    RRE,   HW,  r1_sr32, r2_o, 0, 0, 0, cmps32)
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 1e599ac259..9c3ee5ed72 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -6050,6 +6050,13 @@ static void in2_m2_64a(DisasContext *s, DisasOps *o)
+ #define SPEC_in2_m2_64a 0
+ #endif
  
--        memset(notep, 0, sizeof(note));
-+        memset(notep, 0, note_size);
- 
-         /* Setup note header data */
-         notep->hdr.n_descsz = cpu_to_be32(content_size);
++static void in2_mri2_16s(DisasContext *s, DisasOps *o)
++{
++    o->in2 = tcg_temp_new_i64();
++    tcg_gen_qemu_ld16s(o->in2, gen_ri2(s), get_mem_index(s));
++}
++#define SPEC_in2_mri2_16s 0
++
+ static void in2_mri2_16u(DisasContext *s, DisasOps *o)
+ {
+     in2_ri2(s, o);
 -- 
 2.30.2
 
