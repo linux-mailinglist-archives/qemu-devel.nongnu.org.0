@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46D46E0FBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 16:14:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C7C6E0FEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 16:26:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmxgv-0001oQ-Kw; Thu, 13 Apr 2023 10:12:49 -0400
+	id 1pmxsf-0005eK-Nz; Thu, 13 Apr 2023 10:24:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pmxgr-0001nh-Is; Thu, 13 Apr 2023 10:12:45 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pmxgQ-0008Rr-KM; Thu, 13 Apr 2023 10:12:45 -0400
-Received: from localhost.localdomain (unknown [180.165.241.15])
- by APP-05 (Coremail) with SMTP id zQCowAAXHzuzDThkpcYMEg--.5698S2;
- Thu, 13 Apr 2023 22:12:05 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v2] target/riscv: Update check for Zca/Zcf/Zcd
-Date: Thu, 13 Apr 2023 22:11:50 +0800
-Message-Id: <20230413141150.78029-1-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pmxsc-0005Ys-Oh
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 10:24:54 -0400
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pmxsZ-0002rE-1I
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 10:24:54 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:47ac:0:640:70fa:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 2F5C560C52;
+ Thu, 13 Apr 2023 17:24:42 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:6510::1:20] (unknown
+ [2a02:6b8:b081:6510::1:20])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id aOYOD70OiW20-Afes9AmC; Thu, 13 Apr 2023 17:24:41 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1681395881; bh=NMqAiToKvo7nZzDyeapLMXWi1ilUs5lo5A6EhxlIADA=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=ltT/1lg11l6K/+vM5R/C7c8uRlpHjpvW5tT6gyYsv1vCJP9AuELcRtIiL86U3NDfe
+ mvpnYJ2JKTvgIgmpFWaG5OzmFnuLjhuc8KeFaI+ORV3wJX0x+dwMtuJYsQEaEFwsZA
+ zC+ghHS0PhaG0/UUhTvkhIzrs8VUv2+c7NgN70mQ=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <da5c06fe-3422-709a-9782-66e338cc7c85@yandex-team.ru>
+Date: Thu, 13 Apr 2023 17:24:36 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/4] vhost: Re-enable vrings after setting features
+Content-Language: en-US, ru-RU
+To: Stefan Hajnoczi <stefanha@gmail.com>, Hanna Czenczek <hreitz@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Roman Kagan <rvkagan@yandex-team.ru>,
+ Maxime Coquelin <maxime.coquelin@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20230411150515.14020-1-hreitz@redhat.com>
+ <20230411150515.14020-2-hreitz@redhat.com> <20230412205138.GA2813183@fedora>
+ <0ca69a92-49ab-223e-b737-9d8655883f38@redhat.com>
+ <CAJSP0QWOu5vW_fWc+UKfemrfhgGvJjNJmifVGCyRaP895AXocg@mail.gmail.com>
+From: Anton Kuchin <antonkuchin@yandex-team.ru>
+In-Reply-To: <CAJSP0QWOu5vW_fWc+UKfemrfhgGvJjNJmifVGCyRaP895AXocg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAXHzuzDThkpcYMEg--.5698S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFy3GF1ruF4DWrWDXF4fKrg_yoWrZF4xpr
- yFkFy7GrZ8GryfAayfAF4UtF17tr4Sgr48twn0qwn5Jay3Wr45Zr4DK343KryUXF1kWryY
- kFWUAas8uw40qa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
- 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHU
- DUUUUU=
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.083,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,143 +84,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Even though Zca/Zcf/Zcd can be included by C/F/D, however, their priv
-version is higher than the priv version of C/F/D. So if we use check
-for them instead of check for C/F/D totally, it will trigger new
-problem when we try to disable the extensions based on the configured
-priv version.
+On 13/04/2023 14:03, Stefan Hajnoczi wrote:
+> On Thu, 13 Apr 2023 at 04:20, Hanna Czenczek <hreitz@redhat.com> wrote:
+>> On 12.04.23 22:51, Stefan Hajnoczi wrote:
+>>> On Tue, Apr 11, 2023 at 05:05:12PM +0200, Hanna Czenczek wrote:
+>>>> If the back-end supports the VHOST_USER_F_PROTOCOL_FEATURES feature,
+>>>> setting the vhost features will set this feature, too.  Doing so
+>>>> disables all vrings, which may not be intended.
+>>>>
+>>>> For example, enabling or disabling logging during migration requires
+>>>> setting those features (to set or unset VHOST_F_LOG_ALL), which will
+>>>> automatically disable all vrings.  In either case, the VM is running
+>>>> (disabling logging is done after a failed or cancelled migration, and
+>>>> only once the VM is running again, see comment in
+>>>> memory_global_dirty_log_stop()), so the vrings should really be enabled.
+>>>> As a result, the back-end seems to hang.
+>>>>
+>>>> To fix this, we must remember whether the vrings are supposed to be
+>>>> enabled, and, if so, re-enable them after a SET_FEATURES call that set
+>>>> VHOST_USER_F_PROTOCOL_FEATURES.
+>>>>
+>>>> It seems less than ideal that there is a short period in which the VM is
+>>>> running but the vrings will be stopped (between SET_FEATURES and
+>>>> SET_VRING_ENABLE).  To fix this, we would need to change the protocol,
+>>>> e.g. by introducing a new flag or vhost-user protocol feature to disable
+>>>> disabling vrings whenever VHOST_USER_F_PROTOCOL_FEATURES is set, or add
+>>>> new functions for setting/clearing singular feature bits (so that
+>>>> F_LOG_ALL can be set/cleared without touching F_PROTOCOL_FEATURES).
+>>>>
+>>>> Even with such a potential addition to the protocol, we still need this
+>>>> fix here, because we cannot expect that back-ends will implement this
+>>>> addition.
+>>>>
+>>>> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+>>>> ---
+>>>>    include/hw/virtio/vhost.h | 10 ++++++++++
+>>>>    hw/virtio/vhost.c         | 13 +++++++++++++
+>>>>    2 files changed, 23 insertions(+)
+>>>>
+>>>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+>>>> index a52f273347..2fe02ed5d4 100644
+>>>> --- a/include/hw/virtio/vhost.h
+>>>> +++ b/include/hw/virtio/vhost.h
+>>>> @@ -90,6 +90,16 @@ struct vhost_dev {
+>>>>        int vq_index_end;
+>>>>        /* if non-zero, minimum required value for max_queues */
+>>>>        int num_queues;
+>>>> +
+>>>> +    /*
+>>>> +     * Whether the virtqueues are supposed to be enabled (via
+>>>> +     * SET_VRING_ENABLE).  Setting the features (e.g. for
+>>>> +     * enabling/disabling logging) will disable all virtqueues if
+>>>> +     * VHOST_USER_F_PROTOCOL_FEATURES is set, so then we need to
+>>>> +     * re-enable them if this field is set.
+>>>> +     */
+>>>> +    bool enable_vqs;
+>>>> +
+>>>>        /**
+>>>>         * vhost feature handling requires matching the feature set
+>>>>         * offered by a backend which may be a subset of the total
+>>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>>>> index a266396576..cbff589efa 100644
+>>>> --- a/hw/virtio/vhost.c
+>>>> +++ b/hw/virtio/vhost.c
+>>>> @@ -50,6 +50,8 @@ static unsigned int used_memslots;
+>>>>    static QLIST_HEAD(, vhost_dev) vhost_devices =
+>>>>        QLIST_HEAD_INITIALIZER(vhost_devices);
+>>>>
+>>>> +static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable);
+>>>> +
+>>>>    bool vhost_has_free_slot(void)
+>>>>    {
+>>>>        unsigned int slots_limit = ~0U;
+>>>> @@ -899,6 +901,15 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
+>>>>            }
+>>>>        }
+>>>>
+>>>> +    if (dev->enable_vqs) {
+>>>> +        /*
+>>>> +         * Setting VHOST_USER_F_PROTOCOL_FEATURES would have disabled all
+>>>> +         * virtqueues, even if that was not intended; re-enable them if
+>>>> +         * necessary.
+>>>> +         */
+>>>> +        vhost_dev_set_vring_enable(dev, true);
+>>>> +    }
+>>>> +
+>>>>    out:
+>>>>        return r;
+>>>>    }
+>>>> @@ -1896,6 +1907,8 @@ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+>>>>
+>>>>    static int vhost_dev_set_vring_enable(struct vhost_dev *hdev, int enable)
+>>>>    {
+>>>> +    hdev->enable_vqs = enable;
+>>>> +
+>>>>        if (!hdev->vhost_ops->vhost_set_vring_enable) {
+>>>>            return 0;
+>>>>        }
+>>> The vhost-user spec doesn't say that VHOST_F_LOG_ALL needs to be toggled
+>>> at runtime and I don't think VHOST_USER_SET_PROTOCOL_FEATURES is
+>>> intended to be used like that. This issue shows why doing so is a bad
+>>> idea.
+>>>
+>>> VHOST_F_LOG_ALL does not need to be toggled to control logging. Logging
+>>> is controlled at runtime by the presence of the dirty log
+>>> (VHOST_USER_SET_LOG_BASE) and the per-vring logging flag
+>>> (VHOST_VRING_F_LOG).
+>> Technically, the spec doesn’t say that SET_LOG_BASE is required.  It says:
+>>
+>> “To start/stop logging of data/used ring writes, the front-end may send
+>> messages VHOST_USER_SET_FEATURES with VHOST_F_LOG_ALL and
+>> VHOST_USER_SET_VRING_ADDR with VHOST_VRING_F_LOG in ring’s flags set to
+>> 1/0, respectively.”
+>>
+>> (So the spec also very much does imply that toggling F_LOG_ALL at
+>> runtime is a valid way to enable/disable logging.  If we were to no
+>> longer do that, we should clarify it there.)
+> I missed that VHOST_VRING_F_LOG only controls logging used ring writes
+> while writes to descriptors are always logged when VHOST_F_LOG_ALL is
+> set. I agree that the spec does require VHOST_F_LOG_ALL to be toggled
+> at runtime.
+>
+> What I suggested won't work.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
-v2:
-* Fix code style errors
+But is there a valid use-case for logging some dirty memory but not all?
+I can't understand if this is a feature or a just flaw in specification.
 
- target/riscv/insn_trans/trans_rvd.c.inc | 12 +++++++-----
- target/riscv/insn_trans/trans_rvf.c.inc | 14 ++++++++------
- target/riscv/insn_trans/trans_rvi.c.inc |  5 +++--
- target/riscv/translate.c                |  5 +++--
- 4 files changed, 21 insertions(+), 15 deletions(-)
-
-diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
-index 2c51e01c40..6bdb55ef43 100644
---- a/target/riscv/insn_trans/trans_rvd.c.inc
-+++ b/target/riscv/insn_trans/trans_rvd.c.inc
-@@ -31,9 +31,11 @@
-     } \
- } while (0)
- 
--#define REQUIRE_ZCD(ctx) do { \
--    if (!ctx->cfg_ptr->ext_zcd) {  \
--        return false;     \
-+#define REQUIRE_ZCD_OR_DC(ctx) do { \
-+    if (!ctx->cfg_ptr->ext_zcd) { \
-+        if (!has_ext(ctx, RVD) || !has_ext(ctx, RVC)) { \
-+            return false; \
-+        } \
-     } \
- } while (0)
- 
-@@ -67,13 +69,13 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
- 
- static bool trans_c_fld(DisasContext *ctx, arg_fld *a)
- {
--    REQUIRE_ZCD(ctx);
-+    REQUIRE_ZCD_OR_DC(ctx);
-     return trans_fld(ctx, a);
- }
- 
- static bool trans_c_fsd(DisasContext *ctx, arg_fsd *a)
- {
--    REQUIRE_ZCD(ctx);
-+    REQUIRE_ZCD_OR_DC(ctx);
-     return trans_fsd(ctx, a);
- }
- 
-diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-index 9e9fa2087a..593855e73a 100644
---- a/target/riscv/insn_trans/trans_rvf.c.inc
-+++ b/target/riscv/insn_trans/trans_rvf.c.inc
-@@ -30,10 +30,12 @@
-     } \
- } while (0)
- 
--#define REQUIRE_ZCF(ctx) do {                  \
--    if (!ctx->cfg_ptr->ext_zcf) {              \
--        return false;                          \
--    }                                          \
-+#define REQUIRE_ZCF_OR_FC(ctx) do {                     \
-+    if (!ctx->cfg_ptr->ext_zcf) {                       \
-+        if (!has_ext(ctx, RVF) || !has_ext(ctx, RVC)) { \
-+            return false;                               \
-+        }                                               \
-+    }                                                   \
- } while (0)
- 
- static bool trans_flw(DisasContext *ctx, arg_flw *a)
-@@ -69,13 +71,13 @@ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
- 
- static bool trans_c_flw(DisasContext *ctx, arg_flw *a)
- {
--    REQUIRE_ZCF(ctx);
-+    REQUIRE_ZCF_OR_FC(ctx);
-     return trans_flw(ctx, a);
- }
- 
- static bool trans_c_fsw(DisasContext *ctx, arg_fsw *a)
- {
--    REQUIRE_ZCF(ctx);
-+    REQUIRE_ZCF_OR_FC(ctx);
-     return trans_fsw(ctx, a);
- }
- 
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index c70c495fc5..e33f63bea1 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
-     tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
- 
-     gen_set_pc(ctx, cpu_pc);
--    if (!ctx->cfg_ptr->ext_zca) {
-+    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca) {
-         TCGv t0 = tcg_temp_new();
- 
-         misaligned = gen_new_label();
-@@ -169,7 +169,8 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
- 
-     gen_set_label(l); /* branch taken */
- 
--    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
-+    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca &&
-+        ((ctx->base.pc_next + a->imm) & 0x3)) {
-         /* misaligned */
-         gen_exception_inst_addr_mis(ctx);
-     } else {
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index d0094922b6..661e29ab39 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -551,7 +551,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
- 
-     /* check misaligned: */
-     next_pc = ctx->base.pc_next + imm;
--    if (!ctx->cfg_ptr->ext_zca) {
-+    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca) {
-         if ((next_pc & 0x3) != 0) {
-             gen_exception_inst_addr_mis(ctx);
-             return;
-@@ -1137,7 +1137,8 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-          * The Zca extension is added as way to refer to instructions in the C
-          * extension that do not include the floating-point loads and stores
-          */
--        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
-+        if ((has_ext(ctx, RVC) || ctx->cfg_ptr->ext_zca) &&
-+            decode_insn16(ctx, opcode)) {
-             return;
-         }
-     } else {
--- 
-2.25.1
-
+>
+>> I mean, naturally, logging without a shared memory area to log in to
+>> isn’t much fun, so we could clarify that SET_LOG_BASE is also a
+>> requirement, but it looks to me as if we can’t use SET_LOG_BASE to
+>> disable logging, because it’s supposed to always pass a valid FD (at
+>> least libvhost-user expects this:
+>> https://gitlab.com/qemu-project/qemu/-/blob/master/subprojects/libvhost-user/libvhost-user.c#L1044).
+> As an aside: I don't understand how logging without an fd is supposed
+> to work in QEMU's code or in the vhost-user spec. QEMU does not
+> support that case even though it's written as if shmfd were optional.
+>
+>> So after a cancelled migration, the dirty bitmap SHM will stay around
+>> indefinitely (which is already not great, but if we were to use the
+>> presence of that bitmap as an indicator as to whether we should log or
+>> not, it would be worse).
+> Yes, continuing to log forever is worse.
+>
+>> So the VRING_F_LOG flag remains.
+>>
+>>> I suggest permanently enabling VHOST_F_LOG_ALL upon connection when the
+>>> the backend supports it. No spec changes are required.
+>>>
+>>> libvhost-user looks like it will work. I didn't look at DPDK/SPDK, but
+>>> checking that it works there is important too.
+>> I can’t find VRING_F_LOG in libvhost-user, so what protocol do you mean
+>> exactly that would work in libvhost-user?  Because SET_LOG_BASE won’t
+>> work, as you can’t use it to disable logging.
+> That's true. There is no way to disable logging.
+>
+>> (For DPDK, I’m not sure.  It looks like it sometimes takes VRING_F_LOG
+>> into account, but I think only when it comes to logging accesses to the
+>> vring specifically, i.e. not DMA to other areas of guest memory?  I
+>> think only places that use vq->log_guest_addr implicitly check it,
+>> others don’t.  So for example,
+>> vhost_log_write_iova()/vhost_log_cache_write_iova() don’t seem to check
+>> VRING_F_LOG, which seem to be the functions generally used for writes to
+>> memory outside of the vrings.  So here, even if VRING_F_LOG is disabled
+>> for all vrings, as long as a log SHM is set, all writes to memory
+>> outside of the immediate vrings seem to cause logging (as long as
+>> F_LOG_ALL is set).)
+>>
+>> Hanna
+>>
+>>> I have CCed people who may be interested in this issue. This is the
+>>> first time I've looked at vhost-user logging, so this idea may not work.
+>>>
+>>> Stefan
+>>
 
