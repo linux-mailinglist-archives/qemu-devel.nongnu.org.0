@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A5D6E0DEC
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F0C6E0DED
 	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 15:03:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmwav-0000vM-6H; Thu, 13 Apr 2023 09:02:33 -0400
+	id 1pmwbJ-00013x-24; Thu, 13 Apr 2023 09:02:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmwaq-0000tz-Lo
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 09:02:29 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pmwbF-00012h-8l
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 09:02:54 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmwao-000842-VJ
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 09:02:28 -0400
-Received: by mail-ej1-x631.google.com with SMTP id ud9so37029215ejc.7
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 06:02:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681390944; x=1683982944;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KhZwMJhXYhz9Fp+tcKUjxVfIUgLd9SVLQid78O49A00=;
- b=dqpVZJIaMBWXOxbx4cUyyU70cRvAJsw8pHKDlHNxzeRx7TUtuOW6s+9kiLVYELzLb3
- bAceoVRTxPM4rOcMtySBXyUsl8Qe29bNYVElbVVj/voMe0q6qOEPQmvjO79olahtd2il
- zH694i4mMXQMXErckUuqG0g5WILQ78nL9GP4ExwRndSCCM9U2gFrXP5evcY5vM0RoCEv
- i21mNR4H5UF44+c71OeAj6aU1kOhKQiDS4h44am6cTsPKoqvCwgh/7t1t5vkCIxPq3+P
- dYAFeHZLat+rTDSOUZ8g/pdcngemXUsMwqdpoeMfP1Q5smLtEwwBYw3QSVI4jjRXVkzY
- fNlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681390944; x=1683982944;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KhZwMJhXYhz9Fp+tcKUjxVfIUgLd9SVLQid78O49A00=;
- b=jPJJG/WJdRlCfIU97l96Ubic1DwVPI4FKZ6NHU7StSRnan+yyT6rvV1kgNJBlzVm4U
- YVFetMOunDTIYnEOGZgzKBF1Do6Am1OXQAKKyPxobcstd46sP5kVj8r9leejCFuyqc7r
- 9Q0kEF4jIi4MHmVfF/Y6HFGV06NctBy2XvSCip3NUs0cjxXHmgec2Jp2P7txcFE5wErk
- 0z+m2oUpP+yneyzqJEH5InbQ65vjWOfr+8M3VK7Oh0e3Cuu2qgQwSmo+AlM976zT0Ivo
- /xstEWbeWfY5oRTMmai6tLleDndLRf1jZ/N8eiNDdkYNEN1+cnkJnvX9SQtgys/kK8wo
- T4RA==
-X-Gm-Message-State: AAQBX9cz1wykZTale1CvkUw4rb9tvUUbK+vCgudM+skYiPC+Xy6XlnIi
- TQFpoAaKE2BKOHe/Fjy1EOEbNVaWpLq6f0ofXpXnig==
-X-Google-Smtp-Source: AKy350Yt8YXof0pndyDFSc//1j56PGbKZEgoAeesPwj4Dqqu3K8LxHEa0sgnDmodntfGwWV1w9ftSn9J4odxWan5dmg=
-X-Received: by 2002:a17:906:d970:b0:94a:972c:c28d with SMTP id
- rp16-20020a170906d97000b0094a972cc28dmr1310959ejb.6.1681390944528; Thu, 13
- Apr 2023 06:02:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pmwbD-00088w-HQ
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 09:02:52 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 050C4218B1;
+ Thu, 13 Apr 2023 13:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1681390970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4esLcQabBpQUnaHnLKcOaJI9uy3afaQ8YTVeAahI0rU=;
+ b=u+sG54T/+DVh3v2rtFGvC3CHkbjxyd2zOtQKP9S9iiJAO8iVzhhy9/IhvZfkHUe0k9Q2rs
+ tkWnauRJ9W75mD6/qJq+qzJr6eIbuHfDdiPm552TJFgcjjMLsNxVbvWI7sljiQIR4Mi8My
+ 06JT3feSoO8dy8BBWe6nDUmtoCVjwHw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1681390970;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4esLcQabBpQUnaHnLKcOaJI9uy3afaQ8YTVeAahI0rU=;
+ b=nULo3bkg/dZt9RY/TSeU8fgXBpbS/LSoi5Fx/TFxYAjWR76YqO5432kPf3q/IgeLrIiKZF
+ 41JojNxISVCZRNCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 814CB1390E;
+ Thu, 13 Apr 2023 13:02:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Q/BBEnn9N2R/EwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 13 Apr 2023 13:02:49 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Hyman Huang
+ <huangy81@chinatelecom.cn>, Peter Xu <peterx@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] softmmu: Move dirtylimit.c into the target independent
+ source set
+In-Reply-To: <20230413054509.54421-1-thuth@redhat.com>
+References: <20230413054509.54421-1-thuth@redhat.com>
+Date: Thu, 13 Apr 2023 10:02:47 -0300
+Message-ID: <87v8i0ylxk.fsf@suse.de>
 MIME-Version: 1.0
-References: <20230412214507.19816-1-quintela@redhat.com>
-In-Reply-To: <20230412214507.19816-1-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Apr 2023 14:02:13 +0100
-Message-ID: <CAFEAcA86Vj7K_9WvgxNzON07a4WdUDiWPtkZwdSeNSfnTEMgCA@mail.gmail.com>
-Subject: Re: [PULL 0/5] Migration 20230412 patches
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,38 +84,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 12 Apr 2023 at 22:46, Juan Quintela <quintela@redhat.com> wrote:
->
-> The following changes since commit abb02ce0e76a8e00026699a863ab2d11d88f56d4:
->
->   Merge tag 'for-upstream' of https://repo.or.cz/qemu/kevin into staging (2023-04-11 16:19:06 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/juan.quintela/qemu.git tags/migration-20230412-pull-request
->
-> for you to fetch changes up to 28ef5339c37f1f78c2fa4df2295bc0cd73a0abfd:
->
->   migration: fix ram_state_pending_exact() (2023-04-12 22:47:50 +0200)
->
-> ----------------------------------------------------------------
-> Migration Pull request for 8.0
->
-> Last patches found:
-> - peter xu preempt channel fixes.
->   needed for backward compatibility with old machine types.
-> - lukas fix to get compress working again.
->
-> - fix ram on s390x.  Get back to the old code, even when it shouldn't
->   be needed, but as it fails on s390x, just revert.
->
-> Later, Juan.
+Thomas Huth <thuth@redhat.com> writes:
 
+> dirtylimit.c just uses one TARGET_PAGE_SIZE macro - change it to
+> qemu_target_page_size() so we can move thefile into the target
+> independent source set. Then we only have to compile this file
+> once during the build instead of multiple times (one time for
+> each target).
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
+Reviewed-by: Fabiano Rosas <farosas@suse.de>
 
