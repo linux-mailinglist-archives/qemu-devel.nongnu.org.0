@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89646E0557
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 05:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5326E0623
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 06:51:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmniy-0006lm-7Y; Wed, 12 Apr 2023 23:34:16 -0400
+	id 1pmou8-0000hf-G4; Thu, 13 Apr 2023 00:49:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pmniw-0006lc-6J
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 23:34:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pmniu-0004Jq-2L
- for qemu-devel@nongnu.org; Wed, 12 Apr 2023 23:34:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681356850;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Qemwlq+5dUezls7aFtg84IPopzEerOuq/DqA8uo82w=;
- b=USBZ1JWeoL+5sinZx1BQO5wFEtZ9OxmPZaLbKjYzn6nAkmqxNj4pSlk5hUuiZRl7i7oZeE
- /Fkqe2lzTR8pUvwSNYAR3S9/fKGWi6N1xbauBkd13FIukK9NjihX6UX24qXPwOkqhm3A7o
- p0jd2sF7Mlsdks4OwD8XpLx0ZkfX+dk=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-487-WNGEX0pqN4G9VvCOrK_SOQ-1; Wed, 12 Apr 2023 23:34:08 -0400
-X-MC-Unique: WNGEX0pqN4G9VvCOrK_SOQ-1
-Received: by mail-oi1-f199.google.com with SMTP id
- fc10-20020a0568082a8a00b003894ce81c46so1704222oib.1
- for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 20:34:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pmou7-0000hX-8i
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 00:49:51 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pmou5-0002hC-2I
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 00:49:50 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id
+ 41be03b00d2f7-51b456b8a56so94926a12.0
+ for <qemu-devel@nongnu.org>; Wed, 12 Apr 2023 21:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681361387; x=1683953387;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HGyiOScylqXAdZpSr8RgAbr7p829gfYVCOhKVD812r4=;
+ b=sPkX6Ou6OJI2CBFPo9AWJLlkPzrm+7ioKjVMZ+4ui3MBsAkNyvHMEzzLQTiXGDp4WW
+ yql3CbfDWYtvYIGYe3kB9hR+SmY9cEXKJP0xZfA3wvvjE0Pvf9ITg0SKSxq9Xfg5yTGe
+ 9SQxe6zVbULOQGxq+3dZsnqqotEt6L0cNT8KsWHkcMk7rvmn1gu7eCQDNW8jbiM9w/0G
+ FOoqIEe5lZlaS98umeqOlkdzeId9pjz3LaH5/VDtPM9EVZwdj7I7L9YToWp0v2cNfweV
+ xC0i6E8XgK/WRiEtuuppdCB+b/3Z0mnl+WItMqnu5VBHrvoM9JPrB5K8B/lxVFLZsalR
+ NgrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681356847; x=1683948847;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+Qemwlq+5dUezls7aFtg84IPopzEerOuq/DqA8uo82w=;
- b=kZdFDgBC5v8Uk+8Mp8ucf5mzcUwkMxjza3wqj2cQQ3Qlm/bIJylcOQpPCOJpl+QLMo
- oUIPS1kOjxq0m0kkwbidjUviKZRqLXM6CN46JXav3Cjoo6eTS/I2S2ZY5yK0ATyrbNV+
- uEo6XGw/knLj5nsgvvciN4PWIg1YeZ35PjA/HWGYoo2HFT5sBuP2wDd+nQL4ok/zoOpl
- M5tVngZmd/AuEqTDZ5/ZihUPTSJWIi/kLu5wqZkgnBwCjIR/DZVlmhJDki3jv3icVcKj
- iu1Q16uhlrLNg3KyMPdBRa4FuSVxJLftKck3bx97hSAM/RJzgOyN6+Cx4VztNuiFb+4y
- 8JVQ==
-X-Gm-Message-State: AAQBX9dgNEdSWB4Ym/+1wvqVP7EC8Mce5dWSlobz2lF8do+01omv3sLH
- jp6y5riW5mRmmZDE0yX/ClkQggWqJVP9XwAw3nOoAHM1SWWAx3/G9G8Y0KSBAJfSdwOTXhWVKfP
- 3tC2eyv7xxDPx4l5/xz8N7tr5Ztyka+8=
-X-Received: by 2002:a05:6830:1119:b0:6a4:2f1f:cc62 with SMTP id
- w25-20020a056830111900b006a42f1fcc62mr156202otq.2.1681356847536; 
- Wed, 12 Apr 2023 20:34:07 -0700 (PDT)
-X-Google-Smtp-Source: AKy350a8sSB5tjhJ/58UduPnEgvrQdN2H6M/SvSTXYaTBMZrfHgzfXwROGWpelYDbyRRWUre70l35FbrWEl7eOnaZmg=
-X-Received: by 2002:a05:6830:1119:b0:6a4:2f1f:cc62 with SMTP id
- w25-20020a056830111900b006a42f1fcc62mr156195otq.2.1681356847246; Wed, 12 Apr
- 2023 20:34:07 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681361387; x=1683953387;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=HGyiOScylqXAdZpSr8RgAbr7p829gfYVCOhKVD812r4=;
+ b=HGf4chmm/8Vs/aOocgwmfkJImVxtpRshgCA/Wn7s29FVSz1+z1vQ4scYyBdrv/QYn4
+ QsQVnm2N0UxPrYX3JI3xkYsn7koNsVfnTyFDyhapRyI948LBk/aNFP4JJ2NZABmez9C2
+ YFoUdZBTh9zteO/MnOAslA8vcwJCRyzLwFEpcu2zAjRL3y5D88jb4cj7m+QeQvij1kvR
+ EG006gFr/TYxarZJVpb5ZT4e6wrqr8LlcB7UQ1cOEEyv4jfVLw3VhYW57LDTe4Cpt00s
+ e05s37qJS3bc4V+5AII71BKZbIinxYuEtMHQgXTWIvb6y3BIhbJGuaQrVCKH/1IwluIQ
+ rOCw==
+X-Gm-Message-State: AAQBX9c+WTzKdduNgwq8VoI7cc1qX9pZe6YK7IMkkwzvTgI3a8cnjiQ/
+ N0ZTepBoy1lxej5KmoL1JxRu5w==
+X-Google-Smtp-Source: AKy350bhe7B+4dvtK2pD4mPR5OiusqFeoFo+uINW+/npzRsV+nnljFUiGebPyjpV5+e1C81/HztRBA==
+X-Received: by 2002:a05:6a00:248d:b0:63b:165c:fb6b with SMTP id
+ c13-20020a056a00248d00b0063b165cfb6bmr1743546pfv.18.1681361386685; 
+ Wed, 12 Apr 2023 21:49:46 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ i16-20020aa78d90000000b005ae02dc5b94sm297857pfr.219.2023.04.12.21.49.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Apr 2023 21:49:46 -0700 (PDT)
+Message-ID: <15bf1b00-3aa0-973a-3a86-3fa5c4d41d2c@daynix.com>
+Date: Thu, 13 Apr 2023 13:49:43 +0900
 MIME-Version: 1.0
-References: <20230412073510.7158-1-jasowang@redhat.com>
- <87bkjtpk2n.fsf@linaro.org>
-In-Reply-To: <87bkjtpk2n.fsf@linaro.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 13 Apr 2023 11:33:56 +0800
-Message-ID: <CACGkMEsVswiJAR+2oHBeKXMAZpDFkFEZjBh37YiEVWPfdnT1pQ@mail.gmail.com>
-Subject: Re: [PATCH V2] intel_iommu: refine iotlb hash calculation
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: mst@redhat.com, peterx@redhat.com, peter.maydell@linaro.org, 
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: virtio-iommu hotplug issue
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Eric Auger <eric.auger@redhat.com>
+Cc: virtio-dev@lists.oasis-open.org,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
  qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,103 +95,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 12, 2023 at 4:43=E2=80=AFPM Alex Benn=C3=A9e <alex.bennee@linar=
-o.org> wrote:
->
->
-> Jason Wang <jasowang@redhat.com> writes:
->
-> > Commit 1b2b12376c8 ("intel-iommu: PASID support") takes PASID into
-> > account when calculating iotlb hash like:
-> >
-> > static guint vtd_iotlb_hash(gconstpointer v)
-> > {
-> >     const struct vtd_iotlb_key *key =3D v;
-> >
-> >     return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
-> >            (key->level) << VTD_IOTLB_LVL_SHIFT |
-> >            (key->pasid) << VTD_IOTLB_PASID_SHIFT;
-> > }
-> >
-> > This turns out to be problematic since:
-> >
-> > - the shift will lose bits if not converting to uint64_t
-> > - level should be off by one in order to fit into 2 bits
-> > - VTD_IOTLB_PASID_SHIFT is 30 but PASID is 20 bits which will waste
-> >   some bits
-> > - the hash result is uint64_t so we will lose bits when converting to
-> >   guint
-> >
-> > So this patch fixes them by
-> >
-> > - converting the keys into uint64_t before doing the shift
-> > - off level by one to make it fit into two bits
-> > - change the sid, lvl and pasid shift to 26, 42 and 44 in order to
-> >   take the full width of uint64_t
-> > - perform an XOR to the top 32bit with the bottom 32bit for the final
-> >   result to fit guint
-> >
-> > Fixes: Coverity CID 1508100
-> > Fixes: 1b2b12376c8 ("intel-iommu: PASID support")
-> > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > ---
-> > Changes since V1:
-> > - perform XOR to avoid losing bits when converting to gint
-> > ---
-> >  hw/i386/intel_iommu.c          | 9 +++++----
-> >  hw/i386/intel_iommu_internal.h | 6 +++---
-> >  2 files changed, 8 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > index a62896759c..94d52f4205 100644
-> > --- a/hw/i386/intel_iommu.c
-> > +++ b/hw/i386/intel_iommu.c
-> > @@ -64,8 +64,8 @@ struct vtd_as_key {
-> >  struct vtd_iotlb_key {
-> >      uint64_t gfn;
-> >      uint32_t pasid;
-> > -    uint32_t level;
-> >      uint16_t sid;
-> > +    uint8_t level;
-> >  };
-> >
-> >  static void vtd_address_space_refresh_all(IntelIOMMUState *s);
-> > @@ -221,10 +221,11 @@ static gboolean vtd_iotlb_equal(gconstpointer v1,=
- gconstpointer v2)
-> >  static guint vtd_iotlb_hash(gconstpointer v)
-> >  {
-> >      const struct vtd_iotlb_key *key =3D v;
-> > +    uint64_t hash64 =3D key->gfn | ((uint64_t)(key->sid) << VTD_IOTLB_=
-SID_SHIFT) |
-> > +        (uint64_t)(key->level - 1) << VTD_IOTLB_LVL_SHIFT |
-> > +        (uint64_t)(key->pasid) << VTD_IOTLB_PASID_SHIFT;
-> >
-> > -    return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
-> > -           (key->level) << VTD_IOTLB_LVL_SHIFT |
-> > -           (key->pasid) << VTD_IOTLB_PASID_SHIFT;
-> > +    return (guint)((hash64 >> 32) ^ (hash64 & 0xffffffffU));
->
-> Have you measured the distribution this hash gives you? Otherwise
-> consider using the qemu_xxhash() functions to return a well distributed
-> 32 bit hash value.
+Hi,
 
-It depends on a lot of factors and so it won't be even because the
-individuals keys are not evenly distributed:
+Recently I encountered a problem with the combination of Linux's 
+virtio-iommu driver and QEMU when a SR-IOV virtual function gets 
+disabled. I'd like to ask you what kind of solution is appropriate here 
+and implement the solution if possible.
 
-- gfn depends on guest DMA subsystems
-- level depends on when huge pages are used
-- pasid depends on whether PASID is being used
+A PCIe device implementing the SR-IOV specification exports a virtual 
+function, and the guest can enable or disable it at runtime by writing 
+to a configuration register. This effectively looks like a PCI device is 
+hotplugged for the guest. In such a case, the kernel assumes the 
+endpoint is detached from the virtio-iommu domain, but QEMU actually 
+does not detach it.
 
-I'm ok to switch to use qemu_xxhash() if everyone agree. Or if as
-Peter said, if it has been dealt with glibc, maybe it's not worth to
-bother.
+This inconsistent view of the removed device sometimes prevents the VM 
+from correctly performing the following procedure, for example:
+1. Enable a VF.
+2. Disable the VF.
+3. Open a vfio container.
+4. Open the group which the PF belongs to.
+5. Add the group to the vfio container.
+6. Map some memory region.
+7. Close the group.
+8. Close the vfio container.
+9. Repeat 3-8
 
-Thanks
+When the VF gets disabled, the kernel assumes the endpoint is detached 
+from the IOMMU domain, but QEMU actually doesn't detach it. Later, the 
+domain will be reused in step 3-8.
 
->
-> --
-> Alex Benn=C3=A9e
-> Virtualisation Tech Lead @ Linaro
->
+In step 7, the PF will be detached, and the kernel thinks there is no 
+endpoint attached and the mapping the domain holds is cleared, but the 
+VF endpoint is still attached and the mapping is kept intact.
 
+In step 9, the same domain will be reused again, and the kernel requests 
+to create a new mapping, but it will conflict with the existing mapping 
+and result in -EINVAL.
+
+This problem can be fixed by either of:
+- requesting the detachment of the endpoint from the guest when the PCI 
+device is unplugged (the VF is disabled)
+- detecting that the PCI device is gone and automatically detach it on 
+QEMU-side.
+
+It is not completely clear for me which solution is more appropriate as 
+the virtio-iommu specification is written in a way independent of the 
+endpoint mechanism and does not say what should be done when a PCI 
+device is unplugged.
+
+Regards,
+Akihiko Odaki
 
