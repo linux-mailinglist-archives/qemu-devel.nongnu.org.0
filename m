@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77A36E10FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 17:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8056E10F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 17:21:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmykA-00064T-8X; Thu, 13 Apr 2023 11:20:14 -0400
+	id 1pmykB-00064d-6Q; Thu, 13 Apr 2023 11:20:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pmyk7-00063c-TG
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 11:20:11 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pmyk8-000641-NC
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 11:20:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pmyk5-0008BY-KB
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 11:20:11 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pmyk7-0008C7-5N
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 11:20:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681399208;
+ s=mimecast20190719; t=1681399210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iQoi4FAGMNJM/MYSx3/7Wc1oKvPf/n3uwnKpfGjVMYs=;
- b=SfAhmjJHxuFBz/jiM58eR12/Hf5b0Krt16gcF3Zrs9EOJe6TarUfw8fZC8CazCZbtVL34g
- dyEzgAvuPrdOT2kGRR5V+93SeFCMhyZOGst1hkwdcwHzYYzcab3cuDhee+dQkt07nqngfS
- BlUbj5Cn1VtSMM44BbJsYCndI3GuwDE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=l1ceSGMmVTCFXDalws1nD4Q50MJp08HLNddO0ApxUlc=;
+ b=CxQ/cw6nPWG4E+VNr7JWjy5PrI43ZLP8IM4K7NglsPFRoiIGdcRBT5+ZftxmBUnVRbEfqV
+ UflDqjK4nqFLIQUZPEYMy9v3Lwxj9YuK+NvUSqY0OsU383H3VmkrT/uWz6z4BpI3LiUUtg
+ Ra9h402z6wgT7Ln0la+Jgu5c46I7v6A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-UQDB4cHvPa6gqBOGr0vzZg-1; Thu, 13 Apr 2023 11:20:05 -0400
-X-MC-Unique: UQDB4cHvPa6gqBOGr0vzZg-1
+ us-mta-182-fV14sljPNxye4HapCIRcww-1; Thu, 13 Apr 2023 11:20:07 -0400
+X-MC-Unique: fV14sljPNxye4HapCIRcww-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC3472A5954D;
- Thu, 13 Apr 2023 15:20:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1E0F857F81;
+ Thu, 13 Apr 2023 15:20:06 +0000 (UTC)
 Received: from toolbox.redhat.com (unknown [10.33.36.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 60D87C16028;
- Thu, 13 Apr 2023 15:20:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27AC3C16028;
+ Thu, 13 Apr 2023 15:20:05 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
@@ -47,9 +47,9 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Eric Blake <eblake@redhat.com>, Sergio Lopez <slp@redhat.com>
-Subject: [PATCH v3 3/6] virtio-input: add a virtio-mulitouch device
-Date: Thu, 13 Apr 2023 17:21:17 +0200
-Message-Id: <20230413152120.53967-4-slp@redhat.com>
+Subject: [PATCH v3 4/6] virtio-input-pci: add virtio-multitouch-pci
+Date: Thu, 13 Apr 2023 17:21:18 +0200
+Message-Id: <20230413152120.53967-5-slp@redhat.com>
 In-Reply-To: <20230413152120.53967-1-slp@redhat.com>
 References: <20230413152120.53967-1-slp@redhat.com>
 MIME-Version: 1.0
@@ -80,213 +80,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a virtio-multitouch device to the family of devices emulated by
-virtio-input implementing the Multi-touch protocol as descripted here:
-
-https://www.kernel.org/doc/html/latest/input/multi-touch-protocol.html?highlight=multi+touch
-
-This patch just add the device itself, without connecting it to any
-backends. The following patches will add a PCI-based multitouch device,
-some helpers in "ui" and will enable the GTK3 backend to transpose
-multi-touch events from the host to the guest.
+Add virtio-multitouch-pci, a Multitouch-capable input device, to the
+list of devices that can be provided by virtio-input-pci.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/input/virtio-input-hid.c      | 118 ++++++++++++++++++++++++++++++-
- include/hw/virtio/virtio-input.h |   9 +--
- 2 files changed, 120 insertions(+), 7 deletions(-)
+ hw/virtio/virtio-input-pci.c | 25 +++++++++++++++++++++----
+ 1 file changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/hw/input/virtio-input-hid.c b/hw/input/virtio-input-hid.c
-index d28dab69ba..742235d3fa 100644
---- a/hw/input/virtio-input-hid.c
-+++ b/hw/input/virtio-input-hid.c
-@@ -16,9 +16,10 @@
- 
- #include "standard-headers/linux/input.h"
- 
--#define VIRTIO_ID_NAME_KEYBOARD "QEMU Virtio Keyboard"
--#define VIRTIO_ID_NAME_MOUSE    "QEMU Virtio Mouse"
--#define VIRTIO_ID_NAME_TABLET   "QEMU Virtio Tablet"
-+#define VIRTIO_ID_NAME_KEYBOARD     "QEMU Virtio Keyboard"
-+#define VIRTIO_ID_NAME_MOUSE        "QEMU Virtio Mouse"
-+#define VIRTIO_ID_NAME_TABLET       "QEMU Virtio Tablet"
-+#define VIRTIO_ID_NAME_MULTITOUCH   "QEMU Virtio Multitouch"
- 
- /* ----------------------------------------------------------------- */
- 
-@@ -30,6 +31,7 @@ static const unsigned short keymap_button[INPUT_BUTTON__MAX] = {
-     [INPUT_BUTTON_WHEEL_DOWN]        = BTN_GEAR_DOWN,
-     [INPUT_BUTTON_SIDE]              = BTN_SIDE,
-     [INPUT_BUTTON_EXTRA]             = BTN_EXTRA,
-+    [INPUT_BUTTON_TOUCH]             = BTN_TOUCH,
+diff --git a/hw/virtio/virtio-input-pci.c b/hw/virtio/virtio-input-pci.c
+index a9d0992389..a53edf46c4 100644
+--- a/hw/virtio/virtio-input-pci.c
++++ b/hw/virtio/virtio-input-pci.c
+@@ -25,10 +25,11 @@ struct VirtIOInputPCI {
+     VirtIOInput vdev;
  };
  
- static const unsigned short axismap_rel[INPUT_AXIS__MAX] = {
-@@ -42,6 +44,11 @@ static const unsigned short axismap_abs[INPUT_AXIS__MAX] = {
-     [INPUT_AXIS_Y]                   = ABS_Y,
- };
+-#define TYPE_VIRTIO_INPUT_HID_PCI "virtio-input-hid-pci"
+-#define TYPE_VIRTIO_KEYBOARD_PCI  "virtio-keyboard-pci"
+-#define TYPE_VIRTIO_MOUSE_PCI     "virtio-mouse-pci"
+-#define TYPE_VIRTIO_TABLET_PCI    "virtio-tablet-pci"
++#define TYPE_VIRTIO_INPUT_HID_PCI  "virtio-input-hid-pci"
++#define TYPE_VIRTIO_KEYBOARD_PCI   "virtio-keyboard-pci"
++#define TYPE_VIRTIO_MOUSE_PCI      "virtio-mouse-pci"
++#define TYPE_VIRTIO_TABLET_PCI     "virtio-tablet-pci"
++#define TYPE_VIRTIO_MULTITOUCH_PCI "virtio-multitouch-pci"
+ OBJECT_DECLARE_SIMPLE_TYPE(VirtIOInputHIDPCI, VIRTIO_INPUT_HID_PCI)
  
-+static const unsigned short axismap_tch[INPUT_AXIS__MAX] = {
-+    [INPUT_AXIS_X]                   = ABS_MT_POSITION_X,
-+    [INPUT_AXIS_Y]                   = ABS_MT_POSITION_Y,
-+};
-+
- /* ----------------------------------------------------------------- */
- 
- static void virtio_input_extend_config(VirtIOInput *vinput,
-@@ -81,6 +88,7 @@ static void virtio_input_handle_event(DeviceState *dev, QemuConsole *src,
-     InputKeyEvent *key;
-     InputMoveEvent *move;
-     InputBtnEvent *btn;
-+    InputMultitouchEvent *mtt;
- 
-     switch (evt->type) {
-     case INPUT_EVENT_KIND_KEY:
-@@ -137,6 +145,24 @@ static void virtio_input_handle_event(DeviceState *dev, QemuConsole *src,
-         event.value = cpu_to_le32(move->value);
-         virtio_input_send(vinput, &event);
-         break;
-+    case INPUT_EVENT_KIND_MTT:
-+        mtt = evt->u.mtt.data;
-+        if (mtt->type == INPUT_MULTITOUCH_TYPE_DATA) {
-+            event.type  = cpu_to_le16(EV_ABS);
-+            event.code  = cpu_to_le16(axismap_tch[mtt->axis]);
-+            event.value = cpu_to_le32(mtt->value);
-+            virtio_input_send(vinput, &event);
-+        } else {
-+            event.type  = cpu_to_le16(EV_ABS);
-+            event.code  = cpu_to_le16(ABS_MT_SLOT);
-+            event.value = cpu_to_le32(mtt->slot);
-+            virtio_input_send(vinput, &event);
-+            event.type  = cpu_to_le16(EV_ABS);
-+            event.code  = cpu_to_le16(ABS_MT_TRACKING_ID);
-+            event.value = cpu_to_le32(mtt->tracking_id);
-+            virtio_input_send(vinput, &event);
-+        }
-+        break;
-     default:
-         /* keep gcc happy */
-         break;
-@@ -515,12 +541,98 @@ static const TypeInfo virtio_tablet_info = {
- 
- /* ----------------------------------------------------------------- */
- 
-+static QemuInputHandler virtio_multitouch_handler = {
-+    .name  = VIRTIO_ID_NAME_MULTITOUCH,
-+    .mask  = INPUT_EVENT_MASK_BTN | INPUT_EVENT_MASK_MTT,
-+    .event = virtio_input_handle_event,
-+    .sync  = virtio_input_handle_sync,
-+};
-+
-+static struct virtio_input_config virtio_multitouch_config[] = {
-+    {
-+        .select    = VIRTIO_INPUT_CFG_ID_NAME,
-+        .size      = sizeof(VIRTIO_ID_NAME_MULTITOUCH),
-+        .u.string  = VIRTIO_ID_NAME_MULTITOUCH,
-+    },{
-+        .select    = VIRTIO_INPUT_CFG_ID_DEVIDS,
-+        .size      = sizeof(struct virtio_input_devids),
-+        .u.ids     = {
-+            .bustype = const_le16(BUS_VIRTUAL),
-+            .vendor  = const_le16(0x0627), /* same we use for usb hid devices */
-+            .product = const_le16(0x0003),
-+            .version = const_le16(0x0001),
-+        },
-+    },{
-+        .select    = VIRTIO_INPUT_CFG_ABS_INFO,
-+        .subsel    = ABS_MT_SLOT,
-+        .size      = sizeof(virtio_input_absinfo),
-+        .u.abs.min = const_le32(INPUT_EVENT_SLOTS_MIN),
-+        .u.abs.max = const_le32(INPUT_EVENT_SLOTS_MAX),
-+    },{
-+        .select    = VIRTIO_INPUT_CFG_ABS_INFO,
-+        .subsel    = ABS_MT_TRACKING_ID,
-+        .size      = sizeof(virtio_input_absinfo),
-+        .u.abs.min = const_le32(INPUT_EVENT_SLOTS_MIN),
-+        .u.abs.max = const_le32(INPUT_EVENT_SLOTS_MAX),
-+    },{
-+        .select    = VIRTIO_INPUT_CFG_ABS_INFO,
-+        .subsel    = ABS_MT_POSITION_X,
-+        .size      = sizeof(virtio_input_absinfo),
-+        .u.abs.min = const_le32(INPUT_EVENT_ABS_MIN),
-+        .u.abs.max = const_le32(INPUT_EVENT_ABS_MAX),
-+    },{
-+        .select    = VIRTIO_INPUT_CFG_ABS_INFO,
-+        .subsel    = ABS_MT_POSITION_Y,
-+        .size      = sizeof(virtio_input_absinfo),
-+        .u.abs.min = const_le32(INPUT_EVENT_ABS_MIN),
-+        .u.abs.max = const_le32(INPUT_EVENT_ABS_MAX),
-+    },
-+    { /* end of list */ },
-+};
-+
-+static void virtio_multitouch_init(Object *obj)
-+{
-+    VirtIOInputHID *vhid = VIRTIO_INPUT_HID(obj);
-+    VirtIOInput *vinput = VIRTIO_INPUT(obj);
-+    unsigned short abs_props[] = {
-+        INPUT_PROP_DIRECT,
-+    };
-+    unsigned short abs_bits[] = {
-+        ABS_MT_SLOT,
-+        ABS_MT_TRACKING_ID,
-+        ABS_MT_POSITION_X,
-+        ABS_MT_POSITION_Y,
-+    };
-+
-+    vhid->handler = &virtio_multitouch_handler;
-+    virtio_input_init_config(vinput, virtio_multitouch_config);
-+    virtio_input_extend_config(vinput, keymap_button,
-+                               ARRAY_SIZE(keymap_button),
-+                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
-+    virtio_input_extend_config(vinput, abs_props,
-+                               ARRAY_SIZE(abs_props),
-+                               VIRTIO_INPUT_CFG_PROP_BITS, 0);
-+    virtio_input_extend_config(vinput, abs_bits,
-+                               ARRAY_SIZE(abs_bits),
-+                               VIRTIO_INPUT_CFG_EV_BITS, EV_ABS);
-+}
-+
-+static const TypeInfo virtio_multitouch_info = {
-+    .name          = TYPE_VIRTIO_MULTITOUCH,
-+    .parent        = TYPE_VIRTIO_INPUT_HID,
-+    .instance_size = sizeof(VirtIOInputHID),
-+    .instance_init = virtio_multitouch_init,
-+};
-+
-+/* ----------------------------------------------------------------- */
-+
- static void virtio_register_types(void)
- {
-     type_register_static(&virtio_input_hid_info);
-     type_register_static(&virtio_keyboard_info);
-     type_register_static(&virtio_mouse_info);
-     type_register_static(&virtio_tablet_info);
-+    type_register_static(&virtio_multitouch_info);
+ struct VirtIOInputHIDPCI {
+@@ -102,6 +103,14 @@ static void virtio_tablet_initfn(Object *obj)
+                                 TYPE_VIRTIO_TABLET);
  }
  
- type_init(virtio_register_types)
-diff --git a/include/hw/virtio/virtio-input.h b/include/hw/virtio/virtio-input.h
-index f2da63d309..08f1591424 100644
---- a/include/hw/virtio/virtio-input.h
-+++ b/include/hw/virtio/virtio-input.h
-@@ -24,10 +24,11 @@ OBJECT_DECLARE_TYPE(VirtIOInput, VirtIOInputClass,
- #define VIRTIO_INPUT_GET_PARENT_CLASS(obj) \
-         OBJECT_GET_PARENT_CLASS(obj, TYPE_VIRTIO_INPUT)
++static void virtio_multitouch_initfn(Object *obj)
++{
++    VirtIOInputHIDPCI *dev = VIRTIO_INPUT_HID_PCI(obj);
++
++    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
++                                TYPE_VIRTIO_MULTITOUCH);
++}
++
+ static const TypeInfo virtio_input_pci_info = {
+     .name          = TYPE_VIRTIO_INPUT_PCI,
+     .parent        = TYPE_VIRTIO_PCI,
+@@ -140,6 +149,13 @@ static const VirtioPCIDeviceTypeInfo virtio_tablet_pci_info = {
+     .instance_init = virtio_tablet_initfn,
+ };
  
--#define TYPE_VIRTIO_INPUT_HID "virtio-input-hid-device"
--#define TYPE_VIRTIO_KEYBOARD  "virtio-keyboard-device"
--#define TYPE_VIRTIO_MOUSE     "virtio-mouse-device"
--#define TYPE_VIRTIO_TABLET    "virtio-tablet-device"
-+#define TYPE_VIRTIO_INPUT_HID  "virtio-input-hid-device"
-+#define TYPE_VIRTIO_KEYBOARD   "virtio-keyboard-device"
-+#define TYPE_VIRTIO_MOUSE      "virtio-mouse-device"
-+#define TYPE_VIRTIO_TABLET     "virtio-tablet-device"
-+#define TYPE_VIRTIO_MULTITOUCH "virtio-multitouch-device"
++static const VirtioPCIDeviceTypeInfo virtio_multitouch_pci_info = {
++    .generic_name  = TYPE_VIRTIO_MULTITOUCH_PCI,
++    .parent        = TYPE_VIRTIO_INPUT_HID_PCI,
++    .instance_size = sizeof(VirtIOInputHIDPCI),
++    .instance_init = virtio_multitouch_initfn,
++};
++
+ static void virtio_pci_input_register(void)
+ {
+     /* Base types: */
+@@ -150,6 +166,7 @@ static void virtio_pci_input_register(void)
+     virtio_pci_types_register(&virtio_keyboard_pci_info);
+     virtio_pci_types_register(&virtio_mouse_pci_info);
+     virtio_pci_types_register(&virtio_tablet_pci_info);
++    virtio_pci_types_register(&virtio_multitouch_pci_info);
+ }
  
- OBJECT_DECLARE_SIMPLE_TYPE(VirtIOInputHID, VIRTIO_INPUT_HID)
- #define VIRTIO_INPUT_HID_GET_PARENT_CLASS(obj) \
+ type_init(virtio_pci_input_register)
 -- 
 2.38.1
 
