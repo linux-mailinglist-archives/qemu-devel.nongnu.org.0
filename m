@@ -2,66 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E826E0D68
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 14:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71596E0D6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 14:27:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmw0E-0006ir-Ma; Thu, 13 Apr 2023 08:24:38 -0400
+	id 1pmw23-0007Y7-Vm; Thu, 13 Apr 2023 08:26:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pmw06-0006id-HQ
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 08:24:30 -0400
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pmw1x-0007Xb-CB
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 08:26:25 -0400
+Received: from mail-sgaapc01olkn2081e.outbound.protection.outlook.com
+ ([2a01:111:f400:feab::81e]
+ helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pmvzu-0006Ad-I8
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 08:24:29 -0400
-X-UUID: 0b53447a554d478b8c3569d7eed5435a-20230413
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:17be5b9d-2167-467c-b7a9-7761d87e67a3, IP:5,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-4
-X-CID-INFO: VERSION:1.1.22, REQID:17be5b9d-2167-467c-b7a9-7761d87e67a3, IP:5,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:-4
-X-CID-META: VersionHash:120426c, CLOUDID:169cf483-cd9c-45f5-8134-710979e3df0e,
- B
- ulkID:230413202403Q01IUCVN,BulkQuantity:0,Recheck:0,SF:42|38|24|17|19|102,
- TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: 0b53447a554d478b8c3569d7eed5435a-20230413
-X-User: zenghao@kylinos.cn
-Received: from zdzh5-qitianm428-a376.. [(116.128.244.169)] by mailgw
- (envelope-from <zenghao@kylinos.cn>) (Generic MTA)
- with ESMTP id 1147400110; Thu, 13 Apr 2023 20:24:00 +0800
-From: Hao Zeng <zenghao@kylinos.cn>
-To: qemu-devel@nongnu.org, jonathan.cameron@huawei.com, fan.ni@samsung.com,
- philmd@linaro.org
-Cc: Hao Zeng <zenghao@kylinos.cn>,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v5] cxl-cdat:Fix open file not closed in ct3_load_cdat
-Date: Thu, 13 Apr 2023 20:23:58 +0800
-Message-Id: <20230413122358.3737557-1-zenghao@kylinos.cn>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pmw1c-0006bB-FN
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 08:26:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ixtn9urvNIDkPK/Of9Nsfli3mN6Hg+LCjuO758UgrGgfXdbyHxfDdEEikbduXCz8XJJziuPFX/5E4yOk8Vi6JhIVmQDCC7FVgFCX4qiYz4YsHhMG8C/Xwuygd36GULrTVzgLxXy1WWjXA1ldQNy6112BPsrAoGbhBtM+tS5wWtxCRqk8ZWPMSDPexRzVJ/JHyf1QM+N2hgJcafLGLZw7CBrvL/Ee3UACfU85HFnguoMH2dSsnSEfudlaPLMpNRTaGe06rGEbbpBKjniA0dxb9DZbrAQ0TtKjbpObOvrlg7SQsZm5lC6AK+onCxTYvnPL0fv/n8ghkAQE+mSQU9OWoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JGTUdVWWLaYQYxHRCrRmE4hePZVLoq1mZXItS6FgbUs=;
+ b=NyOLhtl0R3vsqqj3aI9Acq4UFXK+jrWcSdWoeUdfio2YtrCi6JxKwLMakL4ZPG75pNZKobpBEqdGouHoDDZRtmkLLkCTV6EBLfMpCOuwjnKXNivkmNtCuW19oLDHXjPZitwMvC19hC0m0mhj65ZyADBxZN4oYsAJV1vWfIrk5/WGkFZ4CnGUpZjzHqjAcCVXgAfZhHxO1VMm1UFvs0W8vLSFU9DcRKam8vcClS3yy8JIPhmTyi4INQXpYhgsZ94Jg4uOW1cep/qgbYABuEZz+EZdfUszxGhhQ/UiDlus/iret6LYToep5UaflFsv7yuYcQ3mtBkbSL+WlTK+BKZ6Cw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
+ by SEZPR06MB5544.apcprd06.prod.outlook.com (2603:1096:101:ca::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Thu, 13 Apr
+ 2023 12:25:57 +0000
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::12b0:2e9a:1b1f:2555]) by TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::12b0:2e9a:1b1f:2555%6]) with mapi id 15.20.6298.030; Thu, 13 Apr 2023
+ 12:25:57 +0000
+Message-ID: <TYZPR06MB541802D45E4DDB3A683563069D989@TYZPR06MB5418.apcprd06.prod.outlook.com>
+Date: Thu, 13 Apr 2023 21:25:55 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 0/1] qemu-options.hx: Update descriptions of memory options
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <TYZPR06MB5418DC69BD2E73B51C9584119D989@TYZPR06MB5418.apcprd06.prod.outlook.com>
+From: Yohei Kojima <y-koj@outlook.jp>
+In-Reply-To: <TYZPR06MB5418DC69BD2E73B51C9584119D989@TYZPR06MB5418.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TMN: [E0NCPYvFlMaaxQXFwOADcIGbgqqnNYDiumextyqJ6DII0rrZBuJ5sEKU2JzI2rTSLjFvyw+6Gxk=]
+X-ClientProxiedBy: TYCP286CA0320.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3b7::16) To TYZPR06MB5418.apcprd06.prod.outlook.com
+ (2603:1096:400:202::7)
+X-Microsoft-Original-Message-ID: <eb574b3a-24b2-ea2a-949f-5ff2065e6637@outlook.jp>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
-	boundary="Add_By_Label_Mail_Nextpart_001"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=124.126.103.232; envelope-from=zenghao@kylinos.cn;
- helo=mailgw.kylinos.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, PP_MIME_FAKE_ASCII_TEXT=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_TVD_MIME_NO_HEADERS=0.01,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|SEZPR06MB5544:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77de060a-e07a-4358-df05-08db3c1a3bc1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OdFkbZkaSw3lj7hfVA6bTDnzOhn85J/UkrPiWzpUCpZKGWlYPKOutjM88zyOPxL65qNiURM4Rp2OYJCfWU7kYtxXXOtrMsdyf/DPqXW0ZQ69RAUqRYZv9NByl5WsRsOKXH2nGooYU6PKLIBFk657gDSsDqXHeb23b8e9VolsidU0exoe9Ue4iGpnwZKxWlGVepxuZzU2bial034Jry3EqMeJ286wwfpznuOkzIRX9uEhNJgTYiT/DFTSnqDfmI9Rync2DQg8uT1uANUCVIr5YGFOmCCtjSdoSb0EyOCkPxefrWgh2QfWrCUSb2VSPIzTXutHjbBOP/BmFxj4RX+1TC8znU8QehDBiKYwZUcU1y2CRdB5M90Z8TwyAf026wuCPxmlMgNtM8DX8gjrgP9O3gackWaeDeyZ/YW2y/ueWYyLGhLVQCJYiVz/4L2zMti5qD2LAIO7r29aiQiDqFYI9vm+jqvQ5q6P2fMwHVfAuNqIYOu7e/Ptr9210D3LwsBgQH7tXq23MHUBN6wRR1Yv62e2rqddc3rFXt4/DByDyqzhUU3a3VIsp+FvLrjVHGkGHyvyMg/wZJMSW+FtW5qAMaYODw/uZaKacJgiQSfr2PO+7OG6TfDTZbW8MhOjAjnR
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TW9wN2d2STdrTHRkOXpNOTRUVFNsTE44M0hHSlpMcVZTa2I5K1VEaEt4VGJB?=
+ =?utf-8?B?OUs0dTJGT0x2TzBZZkp5SVV3MUQvR3c4Y2RpbTZlbytPdlJITjZibndFSVdv?=
+ =?utf-8?B?TnBtbkV6ajFCY215OFE0YU9QdDl3T0VtUTJaWFVucWE1YTFPbkp6VlZGS0dT?=
+ =?utf-8?B?NDd6Snp2K2kySHM5clFvTUMvNzcxekJSaGQ5UkpzYTE1dTVjT1hOZXlFbEMy?=
+ =?utf-8?B?aU9mbEpWSVVqRHNwRUY0ZUNQNkJJR2I5ZFVwOXJ4eFI1UWdiNDB5eGs1TEFx?=
+ =?utf-8?B?aWYyVjl6NDZRT3JGaDdPajVOckZscDVoWVMzZll6Z1hVMEdpcS9vYUFNRkNP?=
+ =?utf-8?B?TGcrT1gyZjZVdStpKzRUaXpYMUhoREZwUkRxQ1Q5Wlkva2YzRDZlMUYvdG1h?=
+ =?utf-8?B?aEhMeGRTbVJXdzN2L1RvTHhxNWFhaUExaWNsMUlDby94VmdSRDlCZlRiZHFj?=
+ =?utf-8?B?Z2pvOGZ6ZmRxVFFlcGt3MEt5ZWVBem1pWitRNmtGaXRDSUNKelhwVnpkWTIv?=
+ =?utf-8?B?aTZkVFNHdE9PSUZkVEEydXRnMjg3cmFGMnFqM0pwV3ZETXhuVkxJR0o1OTRs?=
+ =?utf-8?B?OFN5eHNvalZMbDg5TkJ1ZTNRU1lxTUJJeEo5SVkveWRFQTJ1QkFRZG4wNkcx?=
+ =?utf-8?B?dDVVWWpWVjJ5Zjl1bk1WMldmTEpna0NSQS9zYnlXZ0FDa3Y2L3c4RnNDRzZ5?=
+ =?utf-8?B?NXRmYzh5TkVLeEFLblBMck1PU2o3cEhPejJYNmdPVVZ4TUI1MmFjblNhMFIz?=
+ =?utf-8?B?cmhvajdDUWQrNnFLbk9oYlFXRUIvaXVkM3ZiVUpBQi9lK3V6YU5KTkJJMW1J?=
+ =?utf-8?B?VDh3MUxTdUxtNUdQZ3RCcDZiNjNMaGVRZ0tTbFNUN3B0b1lVNGdwL3AydU81?=
+ =?utf-8?B?aG55eUJvR1M1V1hhUzhlbVEzc2ZJT01aNUhFTGhobVJjNUtRRk1IMUFZd1hN?=
+ =?utf-8?B?YXZ6cEx3YVZaN3lzRm5oQmxVb3R4aTdOVWhVSmFQYnBFSW5tWXJ6YnBXYmZh?=
+ =?utf-8?B?ZHV3WWFnSlpZNjVFbmRzMVRwam9zbzBFVzljejd3WWM4cGxOK29lTndMSE1v?=
+ =?utf-8?B?MjB3c1gyRS9peG40YjVpdFVVMnFkbVE3b2JaRlFqWXlPcEEwUjVnNEJNczNL?=
+ =?utf-8?B?bUxHUDdZWnZ2RVJycmNYTVVPN1pDWXNsbUtxbmxsOGNYZG9MZ0k5N2FhaWk4?=
+ =?utf-8?B?bVBoQ1hFZ0tVNENXdUo0aDVQbzhEbFZhRDArZFN1UmY1ZWpnZ0ZlVHpJZVdV?=
+ =?utf-8?B?a3ViRTFxSStMSGRiQ2FuSkZvb0pKUDVWbHl1cS80aWxyWmhVNVY0a2ZOTUFY?=
+ =?utf-8?B?NWQwaStjTzVlcGkzWXFmVGZYamdHWUZuRFVTYjc0ajZPSE1LVEFYR1VNbW1J?=
+ =?utf-8?B?ZmhXRGFmL3cwb2hFdFY4M2p0L0dnWCtKbENJV0YwZjJBeTFyNVB5VHJSTVJx?=
+ =?utf-8?B?WWxoTWgxZVhXeGt5V2pCZ1h5R0hYR1pMV1BkT1NqS2VRNWQ5Ym5tUVN5Q2NP?=
+ =?utf-8?B?NloyVTZ4T1AraXg3WDZqZC9YR1EvZWNabWRackxBd0hjYkl3M1VldGJvN01F?=
+ =?utf-8?B?NFdHMmpPakFnMGpmNnFSSHRHYXB1OUtvc2RCQyt6MzRwSjVMZG82azA1cDJk?=
+ =?utf-8?B?Y0Zub2ZObU5wS2lkNkZJZC92L0dBajQrWkNKSDRHOENoTjlENmZ1SnpCMU9I?=
+ =?utf-8?B?K1d6YWJ4NkYxeDFZL3lEd1o4WmhSMVpPZlc4TFVBOHBLaHFnMjlacVh3PT0=?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77de060a-e07a-4358-df05-08db3c1a3bc1
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2023 12:25:57.5648 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5544
+Received-SPF: pass client-ip=2a01:111:f400:feab::81e;
+ envelope-from=y-koj@outlook.jp;
+ helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
+ FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.083, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,97 +124,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Add_By_Label_Mail_Nextpart_001
-Content-Type: text/plain;
-Content-Transfer-Encoding: 8bit
+I forgot to add v2 prefix to the subject. This is a revised patch from:
+https://patchew.org/QEMU/TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com/
 
-
-Open file descriptor not closed in error paths. Fix by replace
-open coded handling of read of whole file into a buffer with
-g_file_get_contents()
-
-Fixes: aba578bdac ("hw/cxl: CDAT Data Object Exchange implementation")
-Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
-Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Suggested-by: Jonathan Cameron via <qemu-devel@nongnu.org>
-
----
-ChangeLog:
-    v4-v5:
-        fixes some style issues and keep the protection after using g_free()
-    v3-v4:
-        Modify commit information,No code change.
-    v2->v3:
-        Submission of v3 on the basis of v2, based on Philippe Mathieu-Daudé's suggestion
-        "Pointless bzero in g_malloc0, however this code would be
-         simplified using g_file_get_contents()."
-    v1->v2:
-        - Patch 1: No change in patch v1
-        - Patch 2: Fix the check on the return value of fread() in ct3_load_cdat
----
- hw/cxl/cxl-cdat.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
-
-diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-index 137abd0992..dd69366797 100644
---- a/hw/cxl/cxl-cdat.c
-+++ b/hw/cxl/cxl-cdat.c
-@@ -110,29 +110,18 @@ static void ct3_load_cdat(CDATObject *cdat, Error **errp)
-     g_autofree CDATEntry *cdat_st = NULL;
-     uint8_t sum = 0;
-     int num_ent;
--    int i = 0, ent = 1, file_size = 0;
-+    int i = 0, ent = 1;
-+    gsize file_size = 0;
-     CDATSubHeader *hdr;
--    FILE *fp = NULL;
-+    GError *error = NULL;
- 
-     /* Read CDAT file and create its cache */
--    fp = fopen(cdat->filename, "r");
--    if (!fp) {
--        error_setg(errp, "CDAT: Unable to open file");
-+    if (!g_file_get_contents(cdat->filename, (gchar **)&cdat->buf,
-+                             &file_size, &error)) {
-+        error_setg(errp, "CDAT: File read failed: %s", error->message);
-+        g_error_free(error);
-         return;
-     }
--
--    fseek(fp, 0, SEEK_END);
--    file_size = ftell(fp);
--    fseek(fp, 0, SEEK_SET);
--    cdat->buf = g_malloc0(file_size);
--
--    if (fread(cdat->buf, file_size, 1, fp) == 0) {
--        error_setg(errp, "CDAT: File read failed");
--        return;
--    }
--
--    fclose(fp);
--
-     if (file_size < sizeof(CDATTableHeader)) {
-         error_setg(errp, "CDAT: File too short");
-         return;
-@@ -219,6 +208,6 @@ void cxl_doe_cdat_release(CXLComponentState *cxl_cstate)
-                               cdat->private);
-     }
-     if (cdat->buf) {
--        free(cdat->buf);
-+        g_free(cdat->buf);
-     }
- }
--- 
-2.37.2
-
-
---Add_By_Label_Mail_Nextpart_001
-
-Content-type: Text/plain
-
-No virus found
-		Checked by Hillstone Network AntiVirus
-
---Add_By_Label_Mail_Nextpart_001--
+On 2023/04/13 21:15, Yohei Kojima wrote:
+> This patch updates an outdated description in qemu-options.hx.
+> The patch reflects the changes in qemu behavior already described in
+> another documentation, and it also changes paragraph structure for
+> further readability.
+> 
+> ChangeLog:
+> v2:
+>     * Moved the description for the legacy `mem` option below example
+> 
+> Yohei Kojima (1):
+>   qemu-options.hx: Update descriptions of memory options for NUMA node
+> 
+>  qemu-options.hx | 26 +++++++++++++++++---------
+>  1 file changed, 17 insertions(+), 9 deletions(-)
+> 
 
