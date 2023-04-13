@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4276E09A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 11:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94FC6E09A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 11:04:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmsqT-000236-2p; Thu, 13 Apr 2023 05:02:21 -0400
+	id 1pmsrP-0002Ve-96; Thu, 13 Apr 2023 05:03:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pmsqP-0001xG-SP; Thu, 13 Apr 2023 05:02:17 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pmsqM-00028G-P8; Thu, 13 Apr 2023 05:02:17 -0400
-Received: from localhost.localdomain (unknown [180.165.241.15])
- by APP-01 (Coremail) with SMTP id qwCowAAHDp4KxTdkPEVVAw--.16197S8;
- Thu, 13 Apr 2023 17:02:07 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 6/6] accel/tcg: Remain TLB_INVALID_MASK in the address when
- TLB is re-filled
-Date: Thu, 13 Apr 2023 17:01:22 +0800
-Message-Id: <20230413090122.65228-7-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
-References: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmsrN-0002VI-93
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:03:17 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pmsrK-0002PT-OJ
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:03:16 -0400
+Received: by mail-wr1-x432.google.com with SMTP id i3so4154449wrc.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 02:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681376593; x=1683968593;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=E2zGkve97e91x2bkPadRX9CztuBzi4WySCG3mqozErw=;
+ b=QVIEsPlJE73ePjAULqzdoRBQJyJPbvK5dmLt4XpGgp2EO0dY3veR8Ly/FK+KFhpw12
+ aHatMFq6oyFqbbJe9/x/bcR9/xRfj2EPi0ACxW+VWnhAV31T4jlPacWQ0KkGBhQOkDHl
+ Vu/fRHNxntx+UP+uGGFqtq9ReegXOITMq0UI6rmBG+DTlVERTED/KKjSyS7i2ufrqy0g
+ pkpXkYZT0WtW+xFEphJmJLtUiGoO5iFc4h+YthRG7HhojqS8mNg6RCwfaPzMRCyYch8I
+ eOesugDl2Oe/U6s6OcFrtPtMtycaLZc/+vAN6cB/uku0CclPnIJBOZeM7oikR18rmHt4
+ lnqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681376593; x=1683968593;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=E2zGkve97e91x2bkPadRX9CztuBzi4WySCG3mqozErw=;
+ b=IMwu/VoeOWuZslrMH1gWnMyhelMFZZqGfWsitHzoXZX9rW2jpY14yLhEwrEtID681l
+ w0kGbifDQX8MbbM93koeAyEtBDkUfTqxEAW4GCVL/byckbnV/VYvYeIMn4bY8YbF9Bf9
+ wv0qLYma+SQf969sZQ3zSQMtLh97iIcuHUmEpSp/PfusezmIxwa5pog9HliqQub6Dhlk
+ xiqLd7HhKoG8Rbc4UMyFroREKw+BZaAww5a98eY2j3u4fcdigbSaIp3GzcXXIm3iv/xP
+ or0XTpEgX4vegTm+kRew/m8DyalPtW+g9GGNvxwoPHdHrqKcetmjpMSivnu7GOMaQEPw
+ hDog==
+X-Gm-Message-State: AAQBX9dIk0TsXEX/2hnYy//Z0li07GgBnqKtR7dKLgoLKi3fmqSP4BD3
+ wlwP1QU23i6CfAYKjskHt4U+3g==
+X-Google-Smtp-Source: AKy350Y6V8JOQgSwFUFzUMyYhvGbz8HD105BuFxp1RSej08vUVumja+5WCh+hblnS2HwG6y15vty0Q==
+X-Received: by 2002:a5d:4bd2:0:b0:2f5:dad1:41a4 with SMTP id
+ l18-20020a5d4bd2000000b002f5dad141a4mr846173wrt.6.1681376593119; 
+ Thu, 13 Apr 2023 02:03:13 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ s15-20020adfeb0f000000b002c55306f6edsm823880wrn.54.2023.04.13.02.03.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Apr 2023 02:03:12 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 65C731FFB7;
+ Thu, 13 Apr 2023 10:03:12 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [RFC PATCH] softmmu/vl: fix typo for PHASE_MACHINE_INITIALIZED
+Date: Thu, 13 Apr 2023 10:03:10 +0100
+Message-Id: <20230413090310.1197548-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAAHDp4KxTdkPEVVAw--.16197S8
-X-Coremail-Antispam: 1UD129KBjvJXoW7JFyDAw4xGw1Uuw4DJFyfXrb_yoW8Jr43pr
- Z3Wr15KF18GrW2kay2qw17Za15Cr98Aw47Z3yruwn5Zrn3Wwn7AFs3Ga10vFy8JFW09rWY
- yFsFvryDJFyUtaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUP214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
- 1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_
- GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
- x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
- JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
- ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
- 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
- IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E
- 14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
- 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZ
- X7UUUUU==
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,37 +92,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When PMP entry overlap part of the page, we'll set the tlb_size to 1, and
-this will make the address set with TLB_INVALID_MASK to make the page
-un-cached. However, if we clear TLB_INVALID_MASK when TLB is re-filled, then
-the TLB host address will be cached, and the following instructions can use
-this host address directly which may lead to the bypass of PMP related check.
+Otherwise people might get confused grepping for
+MACHINE_PHASE_INITIALIZED and find nothing refers to it.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/cputlb.c | 7 -------
- 1 file changed, 7 deletions(-)
+ softmmu/vl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index e984a98dc4..d0bf996405 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1563,13 +1563,6 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
-             /* TLB resize via tlb_fill may have moved the entry.  */
-             index = tlb_index(env, mmu_idx, addr);
-             entry = tlb_entry(env, mmu_idx, addr);
--
--            /*
--             * With PAGE_WRITE_INV, we set TLB_INVALID_MASK immediately,
--             * to force the next access through tlb_fill.  We've just
--             * called tlb_fill, so we know that this entry *is* valid.
--             */
--            flags &= ~TLB_INVALID_MASK;
-         }
-         tlb_addr = tlb_read_ofs(entry, elt_ofs);
-     }
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ea20b23e4c..1b76fbb656 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2509,7 +2509,7 @@ static void qemu_init_board(void)
+     /* process plugin before CPUs are created, but once -smp has been parsed */
+     qemu_plugin_load_list(&plugin_list, &error_fatal);
+ 
+-    /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
++    /* From here on we enter PHASE_MACHINE_INITIALIZED.  */
+     machine_run_board_init(current_machine, mem_path, &error_fatal);
+ 
+     drive_check_orphaned();
 -- 
-2.25.1
+2.39.2
 
 
