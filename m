@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8AEE6E0C2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9563B6E0C09
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:05:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmusQ-0001OX-V8; Thu, 13 Apr 2023 07:12:30 -0400
+	id 1pmujb-0003u8-AR; Thu, 13 Apr 2023 07:03:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1pmusN-0001O0-VE
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:12:28 -0400
-Received: from mga03.intel.com ([134.134.136.65])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1pmusL-0003d2-1k
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:12:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1681384345; x=1712920345;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=uDRw/5tKMmWlFUbbtkcAmcMIP72IJWNu8FG74PCmeL8=;
- b=ZRUkSz2s2rHIL9Mbsmo9/9bSaQjQdL4SRKhIyzkkNh80NqUed9jcoww1
- AHOvoG9fmpp/5On7IUdTz0W5axzYPnpU16TLxEGCsmzmdGYrF+A2LF6ga
- wnDwvrXnRZoSqGGFpgEi0dXOk447V6anzrooo/SS0/w+eIw35BUcqqOD+
- 4kO/b/lW6gjxFTXqcAd5SKH3CeKGbUPKKDhcwFQ+CcAa4CyceraE28YIU
- KMnpRiBlNoWlWCzdr6Er5aNEYh7Et5tgmmipFSx8Ikoxxl3a2341ZIJbW
- 0dfXm0RPV/GvOpelrjsRSM9jayZrITcLUTiVThVO1dCZaPFeRQq/kpjny A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="346839208"
-X-IronPort-AV: E=Sophos;i="5.99,341,1677571200"; d="scan'208";a="346839208"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2023 04:12:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="800778098"
-X-IronPort-AV: E=Sophos;i="5.99,341,1677571200"; d="scan'208";a="800778098"
-Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.143])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2023 04:11:57 -0700
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, peterx@redhat.com, jasowang@redhat.com,
- marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
- richard.henderson@linaro.org, eduardo@habkost.net, david@redhat.com,
- philmd@linaro.org, peter.maydell@linaro.org
-Subject: [PATCH v3] memory: Optimize replay of guest mapping
-Date: Thu, 13 Apr 2023 19:00:19 +0800
-Message-Id: <20230413110019.48922-1-zhenzhong.duan@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pmuiH-0003rp-CS
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:02:02 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pmuiF-0008SH-8Y
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:02:01 -0400
+Received: by mail-pl1-x631.google.com with SMTP id q2so19437641pll.7
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 04:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681383718; x=1683975718;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=or7wHY2yF8FKhqgQ0JlTfQUwpZSpEvdswbCSilx9uV8=;
+ b=CnLf5BqmAtqo98jQhVbLGZlL5XPVQv0kIbAAOc6+u9Hwsyu64xxcavjq850WQ0EDDm
+ 5XJbuzZPy2LfzGo6gNmCAP0NqIyXHJh/1vfDxdD7LBau+SWtewx+3VSTcBmMcz4O15Qx
+ AhUGgerwPQjcufCCH39GF6N3yUwZsUEfr+Lra22IsDww+M29Wt5ZtpYR0LyNkJEIv00U
+ JzAzyQQSLcvlrMFRzrRMyFhUtpsIMsTek/JXLAOqFnOavXTIGLPq7TL5X0UbjOSPfSDz
+ c8lb+ePOB9Ncq8Qyx13z4T6xFXCVA1jpoSALxINEP8xlFsCqQ8Ai5YQ8PrrU91hOILR+
+ rwAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681383718; x=1683975718;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=or7wHY2yF8FKhqgQ0JlTfQUwpZSpEvdswbCSilx9uV8=;
+ b=VrzV5cKN5veJqYD0+ymzpiXR2TC22scVlmbYe5PfjEX2ZUIddtd5bdq9bt1NrAOs4N
+ cXZnzCRnZhv/evEqe2Yasm657a4eqkmC/BLCK1b+gEgMJBeuqCaRny4Ng+rCjZxr1TAg
+ lbemymATyS+6ektPvkt/7/fXzyumozUoFE3x7Kis8Jx7Ah2uNdG/1+y8YA/HjvutpGdN
+ 7lwgaIdo4ucaK7VRBrXv0Yb0bpOa0hy4WQFQ/zp5wrXvmXHqcg/voomYIqCRQZy0WC/u
+ ySZEUa+uy3ihGVUdBVvMsCmHsFjJKAbNYMT0rXgtQCx3UncHs5VeD8gXHUS4341n/E0C
+ IZ1Q==
+X-Gm-Message-State: AAQBX9dW/1palgtiMWv8BW/UWdS8tDLUUd47+JsOKzyVLVMj6SJ5j3gM
+ k0wVUvWVVNxsOyEnRqnlbM/8TQ==
+X-Google-Smtp-Source: AKy350bETWVt0Dg1mDlAGsdQqS/IKqY3EbnbZLkprpNyZAo1j/klHs8mBY+NPYETOP+ZrGUteY/wKA==
+X-Received: by 2002:a05:6a20:e20:b0:db:f682:65ed with SMTP id
+ ej32-20020a056a200e2000b000dbf68265edmr1745809pzb.61.1681383717723; 
+ Thu, 13 Apr 2023 04:01:57 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ n9-20020a62e509000000b0063b5defe7ebsm12882pff.209.2023.04.13.04.01.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Apr 2023 04:01:57 -0700 (PDT)
+Message-ID: <c6fb5a06-aa7e-91f9-7001-f456b2769595@daynix.com>
+Date: Thu, 13 Apr 2023 20:01:54 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.65;
- envelope-from=zhenzhong.duan@intel.com; helo=mga03.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: virtio-iommu hotplug issue
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: Eric Auger <eric.auger@redhat.com>, virtio-dev@lists.oasis-open.org,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org
+References: <15bf1b00-3aa0-973a-3a86-3fa5c4d41d2c@daynix.com>
+ <20230413104041.GA3295191@myrica>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20230413104041.GA3295191@myrica>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::631;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-1.083, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,72 +96,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On x86, there are two notifiers registered due to vtd-ir memory
-region splitting the entire address space. During replay of the
-address space for each notifier, the whole address space is
-scanned which is unnecessary. We only need to scan the space
-belong to notifier monitored space.
+On 2023/04/13 19:40, Jean-Philippe Brucker wrote:
+> Hello,
+> 
+> On Thu, Apr 13, 2023 at 01:49:43PM +0900, Akihiko Odaki wrote:
+>> Hi,
+>>
+>> Recently I encountered a problem with the combination of Linux's
+>> virtio-iommu driver and QEMU when a SR-IOV virtual function gets disabled.
+>> I'd like to ask you what kind of solution is appropriate here and implement
+>> the solution if possible.
+>>
+>> A PCIe device implementing the SR-IOV specification exports a virtual
+>> function, and the guest can enable or disable it at runtime by writing to a
+>> configuration register. This effectively looks like a PCI device is
+>> hotplugged for the guest.
+> 
+> Just so I understand this better: the guest gets a whole PCIe device PF
+> that implements SR-IOV, and so the guest can dynamically create VFs?  Out
+> of curiosity, is that a hardware device assigned to the guest with VFIO,
+> or a device emulated by QEMU?
 
-While on x86 IOMMU memory region spans over entire address space,
-but on some other platforms(e.g. arm mps3-an547), IOMMU memory
-region is only a window in the whole address space. user could
-register a notifier with arbitrary scope beyond IOMMU memory
-region. Though in current implementation replay is only triggered
-by VFIO and dirty page sync with notifiers derived from memory
-region section, but this isn't guaranteed in the future.
+Yes, that's right. The guest can dynamically create and delete VFs. The 
+device is emulated by QEMU: igb, an Intel NIC recently added to QEMU and 
+projected to be released as part of QEMU 8.0.
 
-So, we replay the intersection part of IOMMU memory region and
-IOMMU notifier in memory_region_iommu_replay().
+> 
+>> In such a case, the kernel assumes the endpoint is
+>> detached from the virtio-iommu domain, but QEMU actually does not detach it.
+>>
+>> This inconsistent view of the removed device sometimes prevents the VM from
+>> correctly performing the following procedure, for example:
+>> 1. Enable a VF.
+>> 2. Disable the VF.
+>> 3. Open a vfio container.
+>> 4. Open the group which the PF belongs to.
+>> 5. Add the group to the vfio container.
+>> 6. Map some memory region.
+>> 7. Close the group.
+>> 8. Close the vfio container.
+>> 9. Repeat 3-8
+>>
+>> When the VF gets disabled, the kernel assumes the endpoint is detached from
+>> the IOMMU domain, but QEMU actually doesn't detach it. Later, the domain
+>> will be reused in step 3-8.
+>>
+>> In step 7, the PF will be detached, and the kernel thinks there is no
+>> endpoint attached and the mapping the domain holds is cleared, but the VF
+>> endpoint is still attached and the mapping is kept intact.
+>>
+>> In step 9, the same domain will be reused again, and the kernel requests to
+>> create a new mapping, but it will conflict with the existing mapping and
+>> result in -EINVAL.
+>>
+>> This problem can be fixed by either of:
+>> - requesting the detachment of the endpoint from the guest when the PCI
+>> device is unplugged (the VF is disabled)
+> 
+> Yes, I think this is an issue in the virtio-iommu driver, which should be
+> sending a DETACH request when the VF is disabled, likely from
+> viommu_release_device(). I'll work on a fix unless you would like to do it
 
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
----
-v3: Fix assert failure on mps3-an547
-v2: Add an assert per Peter
-Tested on x86 with a net card passed to guest(kvm/tcg), ping/ssh pass.
-Also did simple bootup test with mps3-an547
+It will be nice if you prepare a fix. I will test your patch with my 
+workload if you share it with me.
 
- hw/i386/intel_iommu.c | 2 +-
- softmmu/memory.c      | 5 +++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+Regards,
+Akihiko Odaki
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index a62896759c78..faade7def867 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3850,7 +3850,7 @@ static void vtd_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-                 .domain_id = vtd_get_domain_id(s, &ce, vtd_as->pasid),
-             };
- 
--            vtd_page_walk(s, &ce, 0, ~0ULL, &info, vtd_as->pasid);
-+            vtd_page_walk(s, &ce, n->start, n->end, &info, vtd_as->pasid);
-         }
-     } else {
-         trace_vtd_replay_ce_invalid(bus_n, PCI_SLOT(vtd_as->devfn),
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index b1a6cae6f583..f7af691991de 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1925,7 +1925,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
- {
-     MemoryRegion *mr = MEMORY_REGION(iommu_mr);
-     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
--    hwaddr addr, granularity;
-+    hwaddr addr, end, granularity;
-     IOMMUTLBEntry iotlb;
- 
-     /* If the IOMMU has its own replay callback, override */
-@@ -1935,8 +1935,9 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-     }
- 
-     granularity = memory_region_iommu_get_min_page_size(iommu_mr);
-+    end = MIN(n->end, memory_region_size(mr));
- 
--    for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
-+    for (addr = n->start; addr < end; addr += granularity) {
-         iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
-         if (iotlb.perm != IOMMU_NONE) {
-             n->notify(n, &iotlb);
--- 
-2.25.1
-
+> 
+>> - detecting that the PCI device is gone and automatically detach it on
+>> QEMU-side.
+>>
+>> It is not completely clear for me which solution is more appropriate as the
+>> virtio-iommu specification is written in a way independent of the endpoint
+>> mechanism and does not say what should be done when a PCI device is
+>> unplugged.
+> 
+> Yes, I'm not sure it's in scope for the specification, it's more about
+> software guidance
+> 
+> Thanks,
+> Jean
 
