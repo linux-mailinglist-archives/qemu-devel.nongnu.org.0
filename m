@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7B06E09CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 11:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C07A6E0A10
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 11:22:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmsyF-0000B9-Sr; Thu, 13 Apr 2023 05:10:23 -0400
+	id 1pmt8N-0002H8-Rv; Thu, 13 Apr 2023 05:20:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmsyD-0000Ak-F0
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:10:21 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pmsy9-00043v-Pd
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:10:21 -0400
-Received: by mail-ej1-x630.google.com with SMTP id ga37so36050599ejc.0
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 02:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681377016; x=1683969016;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Do4v+4gSZeDj6LuHJ8qdjlM3TTHlOiF+w4OATSLeFHM=;
- b=wGEP9wcTBajPafFO4L3RzrwQHHWrL+ZU6umu2uZGYSrXLPRSkdnGU1d65GUly6zZRq
- eT5qK00lxgi99YdAnBIOcG/PH83oNEnVkA0xsIOQS+EswUmmr2F+lluejQirkr9aF6N4
- 2VDk+Fsz2QFbCWmSmlXB0hYER+MXHNCtOZSolffaY2IJ9owFQPuWjt+cfjsDpAJ6MEmC
- lDlrwyZRtVlkmzOEey5kzjgRgOvUj2wQmWeMy6SyFISVS3qd3YcTRCKgDC79OMf7GZ1T
- S3btuB1ODhmxglf2hpZTVM0MzrYorI2jz7bT8HxaSgYjbXpV79K4SG50b3eyTs1JKthu
- TcQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681377016; x=1683969016;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Do4v+4gSZeDj6LuHJ8qdjlM3TTHlOiF+w4OATSLeFHM=;
- b=SvKuVd0ST9uf/ie+YMSw0ZUK9mCYiZddXAgZgvmChRtcuwBR5reCNUQrbCyWKxzRdF
- fjyalML8btYu8OVXJtuoQphHeQah10ax4MBFUGieEtmJUrFWQn3HH/J9fRjGuB0nzcbB
- 2WYnkVVj6ZALXTq0s90VjUu2u5g8hS/XbWunnM6tJo/Xo6qCW/GBOI9dnm5rfDto62kz
- crJqVR+iPT6jaDy5nwXtFLj7f+EQERkJPRR7n+3hLWahcgkRmtBPdyZNk0yN/i4DMSi7
- jw2XtOhPwwyRAEv7g9BAeNyjkd8055tULbPD8Pp+NpeXiIj1+YewDIjp4Ng0ti3DenmZ
- ofjg==
-X-Gm-Message-State: AAQBX9fQTTmJtWq+xM5S8fjcOdKjFZA+fw1ktEyhFZyBj8sIdtnC+3IX
- GuTqR4kKezSuCTrMlUFI+oGTK4eEGcmoAezrjtYB7Q==
-X-Google-Smtp-Source: AKy350byjrmiwhEHWnHNrUEegIDr5idiF0lEE4xD/k/48btffTUnjrwf7orRfE/QIRyTnbVQIaHIDqnClr3J21bxCL0=
-X-Received: by 2002:a17:906:3c52:b0:94e:5c27:dc5f with SMTP id
- i18-20020a1709063c5200b0094e5c27dc5fmr883617ejg.6.1681377015834; Thu, 13 Apr
- 2023 02:10:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
+ id 1pmt8I-0002Gv-FE
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:20:46 -0400
+Received: from mailgw.kylinos.cn ([124.126.103.232])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
+ id 1pmt8C-0006Sj-59
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 05:20:46 -0400
+X-UUID: 7b9531da4e8e43448e88accc9332deb2-20230413
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:7fe7ef7a-5fa6-4f1f-b68e-57af7a23af34, IP:5,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-4
+X-CID-INFO: VERSION:1.1.22, REQID:7fe7ef7a-5fa6-4f1f-b68e-57af7a23af34, IP:5,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:-4
+X-CID-META: VersionHash:120426c, CLOUDID:12e0d6ea-db6f-41fe-8b83-13fe7ed1ef52,
+ B
+ ulkID:230413172022Z67OJRQ1,BulkQuantity:0,Recheck:0,SF:38|24|17|19|42|102,
+ TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+ ,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: 7b9531da4e8e43448e88accc9332deb2-20230413
+X-User: zenghao@kylinos.cn
+Received: from zdzh5-qitianm428-a376.. [(116.128.244.169)] by mailgw
+ (envelope-from <zenghao@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1821462700; Thu, 13 Apr 2023 17:20:20 +0800
+From: Hao Zeng <zenghao@kylinos.cn>
+To: jonathan.cameron@huawei.com, fan.ni@samsung.com, qemu-devel@nongnu.org,
+ philmd@linaro.org
+Cc: Hao Zeng <zenghao@kylinos.cn>,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v3] cxl-cdat:Fix open file not closed in ct3_load_cdat
+Date: Thu, 13 Apr 2023 17:20:19 +0800
+Message-Id: <20230413092019.3663115-1-zenghao@kylinos.cn>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20230412185102.441523-1-dwmw2@infradead.org>
- <CAFEAcA9G0KpkOivD8fBvEQwGcTsUQz53z5W53YcjcHmZGPHkmQ@mail.gmail.com>
- <ac9417c017a2f1bda399d831b100e9b009f8d4c2.camel@infradead.org>
-In-Reply-To: <ac9417c017a2f1bda399d831b100e9b009f8d4c2.camel@infradead.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Apr 2023 10:10:04 +0100
-Message-ID: <CAFEAcA_UoiM5vFqvyia3tU0Kb9xCMkFUoRiDPrcqX9te33Ot+A@mail.gmail.com>
-Subject: Re: [PATCH for-8.0 0/5] Xen emulation build/Coverity fixes
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: qemu-devel@nongnu.org, no Stabellini <sstabellini@kernel.org>, 
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- xen-devel@lists.xenproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+	boundary="Add_By_Label_Mail_Nextpart_001"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=124.126.103.232; envelope-from=zenghao@kylinos.cn;
+ helo=mailgw.kylinos.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, PP_MIME_FAKE_ASCII_TEXT=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_TVD_MIME_NO_HEADERS=0.01,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,45 +77,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 12 Apr 2023 at 20:01, David Woodhouse <dwmw2@infradead.org> wrote:
->
-> On Wed, 2023-04-12 at 19:55 +0100, Peter Maydell wrote:
-> > On Wed, 12 Apr 2023 at 19:52, David Woodhouse <dwmw2@infradead.org> wro=
-te:
-> > >
-> > > Some Coverity fixes and minor cleanups. And most notably, dropping
-> > > support for Xen libraries older than 4.7.1.
-> > >
-> > > I believe there are two issues that remain to be fixed. The x32 build
-> > > fails, and I've seen patches which attempt to detect x32 and disable
-> > > the Xen emulation. Along with assertions that we just shouldn't care.
-> > > I don't have a strong opinion either way but it seems to be in hand.
-> > >
-> > > The other is the question of what Xen *actually* does if you try to
-> > > unmap an IRQ_MSI_EMU PIRQ. I don't think Linux guests try that, and
-> > > I'm fairly sure Windows doesn't even use MSI=E2=86=92PIRQ mappings in=
- the
-> > > first place, and I doubt any other guests care either. I'd like to
-> > > establish the 'correct' behaviour and implement it, ideally before
-> > > the 8.0 release, but it's going to take me a few days more.
-> > >
-> > > David Woodhouse (5):
-> > >       hw/xen: Simplify emulated Xen platform init
-> > >       hw/xen: Fix memory leak in libxenstore_open() for Xen
-> > >       xen: Drop support for Xen versions below 4.7.1
-> > >       hw/xen: Fix double-free in xen_console store_con_info()
-> > >       hw/xen: Fix broken check for invalid state in xs_be_open()
-> > >
-> >
-> > This is highly unlikely to make 8.0 at this point, FYI.
-> > If there's anything in this you think is super-critical we
-> > might be able to sneak it in.
->
-> Nothing is super-critical except maybe the double-free in
-> store_con_info(). That could lead to a crash on startup if the QEMU Xen
-> console is being used.
+--Add_By_Label_Mail_Nextpart_001
+Content-Type: text/plain;
+Content-Transfer-Encoding: 8bit
 
-I've cherry-picked that double-free patch to apply for 8.0; thanks.
 
--- PMM
+opened file processor not closed,May cause file processor leaks
+Fixes: aba578bdac ("hw/cxl: CDAT Data Object Exchange implementation")
+ChangeLog:
+    v2->v3:
+        Submission of v3 on the basis of v2, based on Philippe Mathieu-Daudé's suggestion
+        "Pointless bzero in g_malloc0, however this code would be
+         simplified using g_file_get_contents()."
+    v1->v2:
+        - Patch 1: No change in patch v1
+        - Patch 2: Fix the check on the return value of fread() in ct3_load_cdat
+
+Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
+Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/cxl/cxl-cdat.c | 30 ++++++++----------------------
+ 1 file changed, 8 insertions(+), 22 deletions(-)
+
+diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
+index 137abd0992..42c7c2031c 100644
+--- a/hw/cxl/cxl-cdat.c
++++ b/hw/cxl/cxl-cdat.c
+@@ -110,29 +110,17 @@ static void ct3_load_cdat(CDATObject *cdat, Error **errp)
+     g_autofree CDATEntry *cdat_st = NULL;
+     uint8_t sum = 0;
+     int num_ent;
+-    int i = 0, ent = 1, file_size = 0;
++    int i = 0, ent = 1;
++    gsize file_size = 0;
+     CDATSubHeader *hdr;
+-    FILE *fp = NULL;
+-
++    GError *error = NULL;
+     /* Read CDAT file and create its cache */
+-    fp = fopen(cdat->filename, "r");
+-    if (!fp) {
+-        error_setg(errp, "CDAT: Unable to open file");
+-        return;
+-    }
+-
+-    fseek(fp, 0, SEEK_END);
+-    file_size = ftell(fp);
+-    fseek(fp, 0, SEEK_SET);
+-    cdat->buf = g_malloc0(file_size);
+-
+-    if (fread(cdat->buf, file_size, 1, fp) == 0) {
+-        error_setg(errp, "CDAT: File read failed");
++    if (!g_file_get_contents(cdat->filename, (gchar **)&cdat->buf,
++        &file_size, &error)) {
++        error_setg(errp, "CDAT: File read failed: %s", error->message);
++        g_error_free(error);
+         return;
+     }
+-
+-    fclose(fp);
+-
+     if (file_size < sizeof(CDATTableHeader)) {
+         error_setg(errp, "CDAT: File too short");
+         return;
+@@ -218,7 +206,5 @@ void cxl_doe_cdat_release(CXLComponentState *cxl_cstate)
+         cdat->free_cdat_table(cdat->built_buf, cdat->built_buf_len,
+                               cdat->private);
+     }
+-    if (cdat->buf) {
+-        free(cdat->buf);
+-    }
++    g_free(cdat->buf);
+ }
+-- 
+2.37.2
+
+
+--Add_By_Label_Mail_Nextpart_001
+
+Content-type: Text/plain
+
+No virus found
+		Checked by Hillstone Network AntiVirus
+
+--Add_By_Label_Mail_Nextpart_001--
 
