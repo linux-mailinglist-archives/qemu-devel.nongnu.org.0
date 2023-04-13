@@ -2,118 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997CA6E0CDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332AC6E0CFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Apr 2023 13:48:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pmvMG-00055T-7t; Thu, 13 Apr 2023 07:43:20 -0400
+	id 1pmvPv-0006LZ-PT; Thu, 13 Apr 2023 07:47:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pmvMC-00054Z-4u; Thu, 13 Apr 2023 07:43:16 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pmvMA-0003hu-03; Thu, 13 Apr 2023 07:43:15 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33DAQpkF024658; Thu, 13 Apr 2023 11:42:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=L7Cz10jbtzD2Vx4HFgot7v0wAAh0ryfsWhpR2AGcMUA=;
- b=RPxuR9dZOqbSgSfJb/t9Y87tC83kxkUCOZWJSxEf9QCadntj3PUDgqjyuqH08uJFyrEc
- cypAobMzxPFM8NiN5WHJiHs/UsiPmFuca3KRzKqmXh2Ql+zhJ3jAuLszp0/CtqHNNdNj
- MXKFdyORVoADqupmYfuBYu5gbn+Q6/82+wFzo7rhIIN38oUd6AcBHlhf0Oy4TbGorOlA
- BVU18wCMrBoMtUNbdeEWl+Wxj/76IdJhcWkRHYU4Jb1yniqk5ozNVW0u/7Ojb8D5AQTT
- epzVvkjF0csNYboC6U1msL2xYgYnq839w+y8OuyWKV82YXuM4S4HkwmXxEsKXwCkXLRE bA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pxg07jrnn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Apr 2023 11:42:58 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33DAThnA004913;
- Thu, 13 Apr 2023 11:42:57 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pxg07jrm0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Apr 2023 11:42:56 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33D3xECZ026645;
- Thu, 13 Apr 2023 11:42:54 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3pu0fvtgxg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Apr 2023 11:42:53 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33DBgo7x47251832
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Apr 2023 11:42:50 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1123920043;
- Thu, 13 Apr 2023 11:42:50 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 50F5E20040;
- Thu, 13 Apr 2023 11:42:49 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.152.224.238])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 13 Apr 2023 11:42:49 +0000 (GMT)
-Message-ID: <fb6e5977faab9913cf284707396b4dc98c9d0b0b.camel@linux.ibm.com>
-Subject: Re: s390x TCG migration failure
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Stefan Berger
- <stefanb@linux.vnet.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>, Halil
- Pasic <pasic@linux.ibm.com>, John Snow <jsnow@redhat.com>, David
- Hildenbrand <david@redhat.com>, Fam Zheng <fam@euphon.net>, Thomas Huth
- <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>, Laurent
- Vivier <lvivier@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>, qemu-s390x@nongnu.org, Christian Borntraeger
- <borntraeger@linux.ibm.com>, =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau
- <marcandre.lureau@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Coiby Xu <Coiby.Xu@gmail.com>, Ilya
- Leoshkevich <iii@linux.ibm.com>, Eduardo Habkost <eduardo@habkost.net>,
- Yanan Wang <wangyanan55@huawei.com>, Richard Henderson
- <richard.henderson@linaro.org>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alex Williamson
- <alex.williamson@redhat.com>, Eric Blake <eblake@redhat.com>, Eric Farman
- <farman@linux.ibm.com>
-Date: Thu, 13 Apr 2023 13:42:49 +0200
-In-Reply-To: <87mt3cn7aw.fsf@secure.mitica>
-References: <20230207005650.1810-4-quintela@redhat.com>
- <20230324184129.3119575-1-nsg@linux.ibm.com> <87mt3cn7aw.fsf@secure.mitica>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 2UvLNv5fA2M1RF_sUDmHfNyGJkDu84HL
-X-Proofpoint-GUID: oV6XRowDJO-3Dn40mfWvlBIJrQa0fN1f
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
+ id 1pmvPs-0006LN-Lc
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:47:05 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
+ id 1pmvPq-0004hu-HX
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 07:47:04 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id j10so4798319ybj.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 04:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681386419; x=1683978419;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5tplwGSMSSzwl4pTxc4pu2mSjQt8ZgyivkeWFfpGRis=;
+ b=paHLMtqs6IlANdj33rKO6A3CkfcQ03EG7Mt5dvzPylyWuUBhV7XZGsg45r8Q//d6r+
+ owFLJ3TsM4FNQw/645c3dJSnYaU88oVMlm3p1iGY5Xgj4z1nEUMLGE16Lzzg74ls8mQ9
+ WmKkTPnMARiCf15hMMF8akgKCtdQEVen2lA/vVWiKD45w/D7k/YxvUZ8NJMRbPbR4s4x
+ KjVARmnRArglVOiuCtkjLU0ytDtmDnCb9QT9irzSZIep2EZYNlDYmCYa2o2KdnDmZc8i
+ afp1/5N2eiy2xOxPaK9mInNHlhz8l/D6H6mWmKrTumgdv05vS58Ep/wzT0JwrzWYHBpq
+ /Wow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681386419; x=1683978419;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5tplwGSMSSzwl4pTxc4pu2mSjQt8ZgyivkeWFfpGRis=;
+ b=hs2xERCUB7tC4Bx93FDaRqrJ1hFqMemBTbn71C7PmSuLhACJZ/Q/lI47Vsa4PkjkCF
+ fDanLKVbUUqiaAl8RyOLVTe3LtQz+o4/zYCR1GJ6ZLn4vcP9Pej0B5uAoQ7YWbv94mGe
+ +61yBdHsb+G2EkDxXxF6FOdtUyd8KCNeLvdhDDqHKz8kzh1j9ZGD6UgDyiJbsfl5U0rh
+ FhtfiREwM0zROszpECUpHTWeI5BtXbhSILdysGNMXLiwIfoUg+DkJdDebfiE4icBWI79
+ e9Z7R0HTYPUxYQhpasxibAcjoqdWoaRcGuwApKRbltAFGrLq6UHfHQnixmf3iFGMsqOU
+ O7Hw==
+X-Gm-Message-State: AAQBX9cwsWaj4SWoHsGVRgqku39q+am9WIwYcSJa8yXQ3CmXBv3x1oHm
+ REEOQzUODv9SPuV44JW6avrnzKye+l7XUrgJbwA=
+X-Google-Smtp-Source: AKy350ZQ2cNptfoFeocZ7KYO4+HPgQjLJZ6IEgNeSt/7IMNPEhzpIQ6qDaHxP4/FT3y0JUBYxDH0sQo1trP7AZbkz6M=
+X-Received: by 2002:a25:7684:0:b0:b8f:59a2:ffed with SMTP id
+ r126-20020a257684000000b00b8f59a2ffedmr1055593ybc.8.1681386419499; Thu, 13
+ Apr 2023 04:46:59 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-13_07,2023-04-13_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 clxscore=1011 impostorscore=0 spamscore=0 bulkscore=0
- suspectscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2304130103
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220610075631.367501-1-mst@redhat.com>
+ <20220610075631.367501-20-mst@redhat.com>
+ <ba6a8777-723d-7e6c-bec7-71819cedb66d@proxmox.com>
+ <20230330102227.39b44b71@imammedo.users.ipa.redhat.com>
+ <0e3f3a98-835f-b26c-649e-a8a35edce660@proxmox.com>
+ <20230412141822.03507c56@imammedo.users.ipa.redhat.com>
+ <ff5ccf7b-158f-262d-3155-305e2d48dc37@proxmox.com>
+In-Reply-To: <ff5ccf7b-158f-262d-3155-305e2d48dc37@proxmox.com>
+From: Mike Maslenkin <mike.maslenkin@gmail.com>
+Date: Thu, 13 Apr 2023 14:46:23 +0300
+Message-ID: <CAL77WPAgTjtpiW++pqEHLfm7LOP7KEKK6eNdwU5fXSXHm9Pj-w@mail.gmail.com>
+Subject: Re: [PULL 19/54] acpi: pc: isa bridge: use AcpiDevAmlIf interface to
+ build ISA device descriptors
+To: Fiona Ebner <f.ebner@proxmox.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=mike.maslenkin@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -130,98 +98,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-04-12 at 23:01 +0200, Juan Quintela wrote:
-> Nina Schoetterl-Glausch <nsg@linux.ibm.com> wrote:
-> > Hi,
-> >=20
-> > We're seeing failures running s390x migration kvm-unit-tests tests with=
- TCG.
->=20
-> As this is tcg, could you tell the exact command that you are running?
-> Does it needs to be in s390x host, rigth?
+Sorry for the noise, but just curious, how did you shutdown Windows?
+Did you use 'shutdown /s' or just press power button?
+Could it be that Windows was actually hibernated.
+So, when you try to boot it on the new (old) QEMU version with changed
+PCI topology, this could make it upset.
+I observed similar behaviour in case of Windows for ARM, but there was
+true GSOD afterwards.
+When windows is starting again its hibernated state dropped and all goes fi=
+ne.
 
-I've just tried with a cross compile of kvm-unit-tests and that fails, too.
+Best Regards,
+Mike
 
-git clone https://gitlab.com/kvm-unit-tests/kvm-unit-tests.git
-cd kvm-unit-tests/
-./configure --cross-prefix=3Ds390x-linux-gnu- --arch=3Ds390x
-make
-for i in {0..30}; do echo $i; QEMU=3D../qemu/build/qemu-system-s390x ACCEL=
-=3Dtcg ./run_tests.sh migration-skey-sequential | grep FAIL && break; done
 
->=20
-> $ time ./tests/qtest/migration-test
-
-I haven't looked if that test fails at all, we just noticed it with the kvm=
--unit-tests.
-
-> # random seed: R02S940c4f22abc48b14868566639d3d6c77
-> # Skipping test: s390x host with KVM is required
-> 1..0
->=20
-> real	0m0.003s
-> user	0m0.002s
-> sys	0m0.001s
->=20
->=20
-> > Some initial findings:
-> > What seems to be happening is that after migration a control block
-> > header accessed by the test code is all zeros which causes an
-> > unexpected exception.
->=20
-> What exception?
->=20
-> What do you mean here by control block header?
-
-It's all s390x test guest specific stuff, I don't expect it to be too helpf=
-ul.
-The guest gets a specification exception program interrupt while executing =
-a SERVC because
-the SCCB control block is invalid.
-
-See https://gitlab.com/qemu-project/qemu/-/issues/1565 for a code snippet.
-The guest sets a bunch of fields in the SCCB header, but when TCG emulates =
-the SERVC,
-they are zero which doesn't make sense.
-
->=20
-> > I did a bisection which points to c8df4a7aef ("migration: Split save_li=
-ve_pending() into state_pending_*") as the culprit.
-> > The migration issue persists after applying the fix e264705012 ("migrat=
-ion: I messed state_pending_exact/estimate") on top of c8df4a7aef.
-> >=20
-> > Applying
-> >=20
-> > diff --git a/migration/ram.c b/migration/ram.c
-> > index 56ff9cd29d..2dc546cf28 100644
-> > --- a/migration/ram.c
-> > +++ b/migration/ram.c
-> > @@ -3437,7 +3437,7 @@ static void ram_state_pending_exact(void *opaque,=
- uint64_t max_size,
-> >=20=20
-> >      uint64_t remaining_size =3D rs->migration_dirty_pages * TARGET_PAG=
-E_SIZE;
-> >=20=20
-> > -    if (!migration_in_postcopy()) {
-> > +    if (!migration_in_postcopy() && remaining_size < max_size) {
->=20
-> If block is all zeros, then remaining_size should be zero, so always
-> smaller than max_size.
->=20
-> I don't really fully understand what is going here.
->=20
-> >          qemu_mutex_lock_iothread();
-> >          WITH_RCU_READ_LOCK_GUARD() {
-> >              migration_bitmap_sync_precopy(rs);
-> >=20
-> > on top fixes or hides the issue. (The comparison was removed by c8df4a7=
-aef.)
-> > I arrived at this by experimentation, I haven't looked into why this ma=
-kes a difference.
-> >=20
-> > Any thoughts on the matter appreciated.
->=20
-> Later, Juan.
->=20
-
+On Thu, Apr 13, 2023 at 1:34=E2=80=AFPM Fiona Ebner <f.ebner@proxmox.com> w=
+rote:
+>
+> Am 12.04.23 um 14:18 schrieb Igor Mammedov:
+> > On Thu, 30 Mar 2023 13:58:22 +0200
+> > Fiona Ebner <f.ebner@proxmox.com> wrote:
+> >
+> >> Am 30.03.23 um 10:22 schrieb Igor Mammedov:
+> >>> On Tue, 28 Mar 2023 14:58:21 +0200
+> >>> Fiona Ebner <f.ebner@proxmox.com> wrote:
+> >>>
+> >>>>
+> >>>> Hi,
+> >>>> while trying to reproduce another issue, I ended up with a Windows 1=
+0
+> >>>> guest that would boot with QEMU 7.0, but get stuck after the Windows
+> >>>> logo/spinning circles with QEMU 7.1 (also with 8.0.0-rc1). Machine t=
+ype
+> >>>> is pc-i440fx-6.2[0]. Bisecting led to this commit.
+> >>>>
+> >>>> It only happens the first time the VM is booted, killing the process=
+ and
+> >>>> re-trying always worked afterwards. So it's not a big deal and might
+> >>>> just be some ACPI-related Windows quirk. But I thought I should ask =
+here
+> >>>> to be sure.
+> >>>>
+> >>>> For bisecting, I restored the disk state after each attempt. While
+> >>>> getting stuck sometimes took 3-4 attempts, I tested about 10 times u=
+ntil
+> >>>> I declared a commit good, and re-tested the commit before this one 1=
+5
+> >>>> times, so I'm pretty sure this is the one where the issue started ap=
+pearing.
+> >>>>
+> >>>> So, anything that could potentially be wrong with the commit or is t=
+his
+> >>>> most likely just some Windows quirk/bug we can't do much about?
+> >>>>
+> >>>> If you need more information, please let me know!
+> >>>
+> >>> Please describe in more detail your setup/steps where it reproduces
+> >>> (incl. Windows version/build, used QEMU CLI) so I could try to reprod=
+uce it locally.
+> >>>
+> >>> (in past there were issues with German version that some where
+> >>> experience but not reproducible on my side, that resolved with
+> >>> upgrading to newer QEMU (if I recall correctly issue was opened
+> >>> on QEMU's gitlab tracker))
+> >>>
+> >>
+> >> Windows 10 Education
+> >> Version 1809
+> >> Build 17763.1
+> >>
+> >> It's not the German ISO, I used default settings (except location
+> >> Austria and German keymap) and I don't think I did anything other than
+> >> shutdown after the install was over.
+> >>
+> >> The command line is below. I did use our patched QEMU builds when I go=
+t
+> >> into the situation, but I don't think they touch anything ACPI-related
+> >> and bisecting was done without our patches on top.
+> >>
+> >> I tried to reproduce the situation again from scratch today, but wasn'=
+t
+> >> able to. I do still have the problematic disk (snapshot) where the iss=
+ue
+> >> occurs as an LVM-Thin volume. If you'd like to have access to that,
+> >> please send me a direct mail and we can discuss the details there.
+> >
+> > I couldn't reproduce the issue on my host either.
+> > If you still have access to 'broken' disk image, you can try to enable
+> > kernel debug mode in guest and try to attach with debugger to it to see
+> > where it is stuck.
+> >
+> > quick instructions how to do it:
+> >  https://gitlab.com/qemu-project/qemu/-/issues/774#note_1270248862
+> > or read more extensive MS docs on topic.
+> >
+>
+> Hmm, I guess I won't be able to enable kernel debug mode without losing
+> the problematic state of the image. The VM only gets stuck during the
+> first boot attempt.
+>
+> Still, I wanted to give it a shot in the hope I can trigger it again
+> when shutting down with QEMU 6.2.0 and booting with QEMU 7.1.0. I made a
+> copy of the VM intending to use it as the debug host, but didn't get the
+> COM port to show up in the guest with
+> -serial unix:/tmp/com1,server,nowait
+> I checked in the Device Manager with "Show hidden devices" enabled.
+>
+> Anyway, when starting the original problematic VM again, it now also got
+> stuck (visually, in the same place) with QEMU 6.2.0! But only until I
+> rebooted my host, which made it working with QEMU 6.2.0 again. So I'd
+> say this commit has nothing to do with the issue after all, just made it
+> more likely to trigger for me. And also seems less likely to be a QEMU
+> issue now :)
+>
+> Best Regards,
+> Fiona
+>
+>
 
