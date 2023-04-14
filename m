@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161436E22AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E646E22B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:55:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnHzQ-0002Dj-JK; Fri, 14 Apr 2023 07:53:16 -0400
+	id 1pnI1F-00032d-0d; Fri, 14 Apr 2023 07:55:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pnHzN-0002DP-T5; Fri, 14 Apr 2023 07:53:14 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pnHzM-0004qQ-8V; Fri, 14 Apr 2023 07:53:13 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7FD001FD97;
- Fri, 14 Apr 2023 11:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1681473190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CFyVXzKMApk5w0AWc1M4DY/FCXoayEskESFpMu6WLhQ=;
- b=QdqLiE8Mu7eSlSiHDF8vIGS627AuMf1MW3WtWaPQNkOhi0wy8noBddIe8lumVddR17O3hC
- 6cJjfFMTBl7KCunXinohvIwbktYG9H5S8VjooMig8FJ0n4j1m/9RwPLixDlXbnokcrCUEX
- bd4zQ82UB/hIBP2duvhVIN2otbzAZQ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1681473190;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CFyVXzKMApk5w0AWc1M4DY/FCXoayEskESFpMu6WLhQ=;
- b=N8ND1BBO8ugW7oH/7OhDS2cip/qoOZfH5rSkB3PTNtYqu2h4NEB79DsgXQJTphLqV4z3en
- jUfD8I0oF8u2eJAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 06FA613498;
- Fri, 14 Apr 2023 11:53:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gSK/L6U+OWTJVAAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 14 Apr 2023 11:53:09 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Harsh Prateek Bora <harshpb@linux.ibm.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, danielhb413@gmail.com
-Subject: Re: [PATCH 2/5] ppc: spapr: cleanup h_enter_nested() with helper
- routines.
-In-Reply-To: <20230331065344.112341-3-harshpb@linux.ibm.com>
-References: <20230331065344.112341-1-harshpb@linux.ibm.com>
- <20230331065344.112341-3-harshpb@linux.ibm.com>
-Date: Fri, 14 Apr 2023 08:53:07 -0300
-Message-ID: <87v8hyist8.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pnI1A-00032O-GK
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:55:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pnI17-0005B0-OK
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:55:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681473300;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=GgyPBdIrghH4TFoHaMLSS4BvsxG9bz5uInwBmEXF8gg=;
+ b=A8k9VVOjXRvH/KpsO2S1U9N52B+H00m9R8TONt2dsJ4AyDNb63Jc/KahWeslSnrdH+YFd5
+ Ex8GFhl7t1Coc3uvi8WZMvklMxegp7uXF0dUcESaEr/rtHR8YQUW3vYM3cXBYXmSYhKj5R
+ RymaLbMDJAN8vlKdES5h7DP6uxeHhzY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-441-M03rrD4XNOGaesZbN_O6Yw-1; Fri, 14 Apr 2023 07:54:59 -0400
+X-MC-Unique: M03rrD4XNOGaesZbN_O6Yw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j18-20020adfa552000000b002f7ab124e2eso155230wrb.13
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:54:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681473298; x=1684065298;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GgyPBdIrghH4TFoHaMLSS4BvsxG9bz5uInwBmEXF8gg=;
+ b=G+Acdj2YIQvfYIfO7Ti/Ush9EI7MY6tLnK+vbl8kBwMQqSzDRAX3NO1yJPeOivC2Al
+ prJT2uuXQho0sNKSx+sOzTMBT5Zut3oJfU+aSL0lPAWSqmQ+usQutslHIcfMXHAKTDqg
+ cskrLBUMcpm5kUxOAKvgfu6ljcKthzJt+DMl32XksSF0Yf/rkOCKwoxm96hLRFpzfFGL
+ 4X8XwhVvXu+/klLmhVN3BYUxZRRE7qU93lGsdNw4TEBbM8Yhp3d9hdg1I+eCiw8N+X2z
+ Q+wha8GK24BaV9EgFpAf/oDQJY9gBooiPKqCZLAg8j1MHErH7i/kE8T78k6/nDlqbY7u
+ 758g==
+X-Gm-Message-State: AAQBX9cxLoQwHcCLADdiXV4pW8w5SHzHkVfOgaH/UiErx0GttVe0MLGb
+ 5b1YyUJd/etIz5PtswEyB58RX9ID7KseKQGYGQE5AAVPs3ud30rBpLrKTBzbGPfC9a2m9+hLZN4
+ Hyts9BaolOCVxJbY=
+X-Received: by 2002:a5d:6148:0:b0:2e4:eebe:aee3 with SMTP id
+ y8-20020a5d6148000000b002e4eebeaee3mr4240094wrt.60.1681473298080; 
+ Fri, 14 Apr 2023 04:54:58 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bdAkSoFIQ6YJrnbL5ATFreXBnnqoRjKJA4IhqfKuQQr3Wri3TIB9XfJti3wabh5ctbuwUAaQ==
+X-Received: by 2002:a5d:6148:0:b0:2e4:eebe:aee3 with SMTP id
+ y8-20020a5d6148000000b002e4eebeaee3mr4240083wrt.60.1681473297755; 
+ Fri, 14 Apr 2023 04:54:57 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ s9-20020a5d6a89000000b002cf1c435afcsm3422579wru.11.2023.04.14.04.54.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Apr 2023 04:54:56 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] migration: mark mixed functions that can suspend
+In-Reply-To: <20230406102808.243438-1-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Thu, 6 Apr 2023 12:28:08 +0200")
+References: <20230406102808.243438-1-pbonzini@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 14 Apr 2023 13:54:55 +0200
+Message-ID: <874jpifzlc.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,98 +95,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Harsh Prateek Bora <harshpb@linux.ibm.com> writes:
-
-> h_enter_nested() currently does a lot of register specific operations
-> which should be abstracted logically to simplify the code for better
-> readability. This patch breaks down relevant blocks into respective
-> helper routines to make use of them for better readability/maintenance.
+Paolo Bonzini <pbonzini@redhat.com> wrote:
+> There should be no paths from a coroutine_fn to aio_poll, however in
+> practice coroutine_mixed_fn will call aio_poll in the !qemu_in_coroutine()
+> path.  By marking mixed functions, we can track accurately the call paths
+> that execute entirely in coroutine context, and find more missing
+> coroutine_fn markers.  This results in more accurate checks that
+> coroutine code does not end up blocking.
 >
-> Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
+> If the marking were extended transitively to all functions that call
+> these ones, static analysis could be done much more efficiently.
+> However, this is a start and makes it possible to use vrc's path-based
+> searches to find potential bugs where coroutine_fns call blocking functions.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  hw/ppc/spapr_hcall.c | 99 +++++++++++++++++++++++++++-----------------
->  1 file changed, 60 insertions(+), 39 deletions(-)
->
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 124cee5e53..a13e5256ab 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1544,6 +1544,62 @@ static target_ulong h_copy_tofrom_guest(PowerPCCPU *cpu,
->      return H_FUNCTION;
->  }
->  
-> +static void restore_hdec_from_hvstate(CPUPPCState *dst,
-> +                                      struct kvmppc_hv_guest_state *hv_state,
-> +                                      target_ulong now)
-> +{
-> +    target_ulong hdec;
+>  include/migration/qemu-file-types.h |  4 ++--
+>  migration/qemu-file.c               | 14 +++++++-------
+>  migration/qemu-file.h               |  6 +++---
+>  3 files changed, 12 insertions(+), 12 deletions(-)
 
-add a blank line here
+Hi Paolo
 
-> +    assert(hv_state);
-> +    hdec = hv_state->hdec_expiry - now;
-> +    cpu_ppc_hdecr_init(dst);
-> +    cpu_ppc_store_hdecr(dst, hdec);
-> +}
-> +
-> +static void restore_lpcr_from_hvstate(PowerPCCPU *cpu,
-> +                                      struct kvmppc_hv_guest_state *hv_state)
-> +{
-> +    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-> +    CPUPPCState *dst = &cpu->env;
-> +    target_ulong lpcr, lpcr_mask;
+I think you are still missing some qemu_get_* functions.
 
-here as well
+Or puting as a question, why this functions don't need the mark?
 
-> +    assert(hv_state);
-> +    lpcr_mask = LPCR_DPFD | LPCR_ILE | LPCR_AIL | LPCR_LD | LPCR_MER;
-> +    lpcr = (dst->spr[SPR_LPCR] & ~lpcr_mask) | (hv_state->lpcr & lpcr_mask);
-> +    lpcr |= LPCR_HR | LPCR_UPRT | LPCR_GTSE | LPCR_HVICE | LPCR_HDICE;
-> +    lpcr &= ~LPCR_LPES0;
-> +    dst->spr[SPR_LPCR] = lpcr & pcc->lpcr_mask;
-> +}
-> +
-> +static void restore_env_from_ptregs_hvstate(CPUPPCState *env,
 
-Take a look at how the kernel does it. It might be better to have ptregs
-and hv regs separate. Also probably better to have some terms specific
-to the domain (l2 state, l1 state, etc).
+qemu_get_ubyte()
+qemu_get_be16()
+qemu_get_be32()
+qemu_get_be64()
 
-> +                                            struct kvmppc_pt_regs *regs,
-> +                                            struct kvmppc_hv_guest_state *hv_state)
-> +{
-> +    assert(env);
-> +    assert(regs);
-> +    assert(hv_state);
-> +    assert(sizeof(env->gpr) == sizeof(regs->gpr));
-> +    memcpy(env->gpr, regs->gpr, sizeof(env->gpr));
-> +    env->nip = regs->nip;
-> +    env->msr = regs->msr;
-> +    env->lr = regs->link;
-> +    env->ctr = regs->ctr;
-> +    cpu_write_xer(env, regs->xer);
-> +    ppc_store_cr(env, regs->ccr);
-> +    /* hv_state->amor is not used in api v1 */
+And the same for the functions that end with an 's.
 
-That's not really an API thing. More of an oversight.
+And to add insult to injury (I know, I know), some functions are marked
+in .c but not in the .h
 
-> +    env->spr[SPR_HFSCR] = hv_state->hfscr;
-> +    /* TCG does not implement DAWR*, CIABR, PURR, SPURR, IC, VTB, HEIR SPRs*/
-> +    env->cfar = hv_state->cfar;
-> +    env->spr[SPR_PCR]      = hv_state->pcr;
-> +    env->spr[SPR_DPDES]     = hv_state->dpdes;
-> +    env->spr[SPR_SRR0]      = hv_state->srr0;
-> +    env->spr[SPR_SRR1]      = hv_state->srr1;
-> +    env->spr[SPR_SPRG0]     = hv_state->sprg[0];
-> +    env->spr[SPR_SPRG1]     = hv_state->sprg[1];
-> +    env->spr[SPR_SPRG2]     = hv_state->sprg[2];
-> +    env->spr[SPR_SPRG3]     = hv_state->sprg[3];
-> +    env->spr[SPR_BOOKS_PID] = hv_state->pidr;
-> +    env->spr[SPR_PPR]       = hv_state->ppr;
+qemu_get_byte() cames to mind.
 
-I would advise against the extra spacing inside functions.
+From my point of view, every function that is qemu_get_* or qemu_peek_*
+in either of the three files should get the annotation.
+
+Or what I am missing here?
+
+Later, Juan.
 
 
