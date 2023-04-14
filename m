@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFE86E1BD7
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAA66E1BD8
 	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 07:43:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnCCd-00037O-NN; Fri, 14 Apr 2023 01:42:31 -0400
+	id 1pnCCt-0003DM-2S; Fri, 14 Apr 2023 01:42:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1pnCCY-00035I-BO
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:42:27 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731])
+ id 1pnCCr-0003Cy-0Z
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:42:45 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1pnCCM-0006Dw-Hs
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:42:26 -0400
-Received: by mail-qk1-x731.google.com with SMTP id ay7so12602503qkb.6
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 22:42:13 -0700 (PDT)
+ id 1pnCCo-0006LW-P5
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:42:44 -0400
+Received: by mail-qt1-x829.google.com with SMTP id l16so5421037qtv.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 22:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681450933; x=1684042933;
+ d=ventanamicro.com; s=google; t=1681450962; x=1684042962;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LDW7Di2LC8150lHsw/Gn+K954BmMUr3DlgUOPUM+ix0=;
- b=P1oniHLmCMDiFsjiN4TMKgvzwnX8dZFwTMj1GIO9eSNcszVoVKvbYXPyujr/P+rnC3
- 4hLcRhOdzA4WUU1VkP/yKfhunmhwTKcx3csG2HT5l707vipzszUlZNcDTgN7vs5fh3RW
- ANBFH1Jbzfd7fegOrYQQTouIM0txzGyJpaSEm/muCF4MNRjn12oHIxoloQephd+kQrm/
- rdXmB5NCWTEnycpueOemvLjX+Aa5/XQV2yVuc256XyyfZRd6iFX/H6d/VSEHXMvkkKtZ
- htQgHO0Tol/WX5g3o165c+Nu6Z0bntTcuxxSQig5QHxBCr3f5r8tVtuM6+9168IsKFKA
- Amkw==
+ bh=IfptujO1LGXVBYlQSYvzLW9qC2T6m4kGNwATCmv4K8o=;
+ b=k4VUUKDVQVYvVYekjhcs0Z/lMzU13TkqtEkc0S123hpUcvGYxB4WJQoM6TTsVORSG5
+ aPN6/Pi1+35Tbobb+NQ+p59Fxrx0dF8iAJdeMRDgXwLxUaN8dW7IQH2evrdeeuxgd+wY
+ W9IwZRkqlZjMPeaU/BZmqSFMLPkhjxOovKzHbbBdnI/MtqXHXqZbW6ofzphB7A+C2iha
+ 45b7TH+BIxC3UyhzcndMqKkEm8RfqfCS3sXpnfLNVJMd7puvvOR7BHSu9LoM/XEX/ekL
+ 0nLLXaqTqFJLJxraXEQInv/F0GfuYBU0e7Wk8viIP9ZQIdTQUWicwHisa4uW8pROb0yJ
+ bRuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681450933; x=1684042933;
+ d=1e100.net; s=20221208; t=1681450962; x=1684042962;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LDW7Di2LC8150lHsw/Gn+K954BmMUr3DlgUOPUM+ix0=;
- b=CT73re4SGaxrjSB4QqEISeWKtg0u3iqPpdjobxsLZU/A0JsU/P4qyvwKGXSkSc2bpi
- Z9NlCqR5lF5uGq25ZKo0ij+GJn3ZDlvEuz1AsfAgJ01o/lZXehV/SLg47oJ0VIoVlZ60
- V0XQlflNrj6taN/QoevrW1gMbqCfVLXygQMY4lGxDicP6mAmTR3FQpAiD/f9q1nwxkRU
- 4gFZvZ10QA23qr9JXiD2kzbdxKXODMRQHE/BDsRBTtHqI4Snld41kS4vMbct/rcHSSZ1
- 11hq7mNNZayE6j2Q9T4meuS5XOo7Tn0SRCzWFWbMex1n/zGDCHjSdypNrGGpohcxn+uE
- LLyw==
-X-Gm-Message-State: AAQBX9c0hMgDAXFCJCBzx4HjZ8GnKXDO9Z1JlLIpcE1+BAhm4LjCN+AM
- ppNFjpA+7Po93NPIKtUINbvmnd7n91e5+bn13uyW3w==
-X-Google-Smtp-Source: AKy350ZWZrnB56x0tCQC7NuByYCEDqaHpPrGkHYI6SXgDhIopwjD2H2S+Pffq1qL0KXnvSMfmV8kuvUJ3Psp/o4MIps=
-X-Received: by 2002:a05:620a:13cd:b0:745:3e2c:3d5a with SMTP id
- g13-20020a05620a13cd00b007453e2c3d5amr875009qkl.12.1681450932685; Thu, 13 Apr
- 2023 22:42:12 -0700 (PDT)
+ bh=IfptujO1LGXVBYlQSYvzLW9qC2T6m4kGNwATCmv4K8o=;
+ b=EAdUGuFobKRaGLPO+sQYEDV59AWPC2lz+WSgogle5XXk/SZkhUdRauvo0W6iWFmDqG
+ K57nBZrTT6MCcgjHa2aFCj1gk5TWH2P2dqefkXPAh6fM3ZSV9OIS1IDoK3TZ4IsXufBJ
+ U5o0dd4bzPN36WlEJB0GJN8MJagieFRweIWTDD1VgI7owDsQduQLNgrAtbScf8k8ZEkx
+ dXeWOyEkOCIPv41Uwk7N0K7tcwVmJQSGB9fsLXx12HeFjSvLPUQo3i/dRLF3oQ7yQZ/z
+ iJtJ/BX6tLQlEIEP4J3Bxh4RVZQCP1XVYWR683/AWkY04m/cD5wYUwRxeb13H9DuRKF3
+ q2vA==
+X-Gm-Message-State: AAQBX9c3udFiSgJJXhh9L1lSdSQArBIvhJcqP9khRe7ENsTQF6409eJz
+ DsZCgYLKZry25oVqA0rxtErJs4jOOiiZX7PwQEnrlA==
+X-Google-Smtp-Source: AKy350Y0ydJ9YG8AXaXNgG2PKqI0O3zh1lHe1qRRLTsOYJdGhSzf40j0gET0bQyWK5HK0XvUgnMxnVZdvZBJtDcY0zE=
+X-Received: by 2002:a05:622a:281:b0:3e0:c4ac:1620 with SMTP id
+ z1-20020a05622a028100b003e0c4ac1620mr1533661qtw.13.1681450961728; Thu, 13 Apr
+ 2023 22:42:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230410141316.3317474-1-mchitale@ventanamicro.com>
- <20230410141316.3317474-2-mchitale@ventanamicro.com>
- <81f02e0c-0615-da98-5d4d-6f08b6131e45@iscas.ac.cn>
-In-Reply-To: <81f02e0c-0615-da98-5d4d-6f08b6131e45@iscas.ac.cn>
+ <20230410141316.3317474-4-mchitale@ventanamicro.com>
+ <8077963d-2c08-35de-06c1-9cef9d361651@iscas.ac.cn>
+In-Reply-To: <8077963d-2c08-35de-06c1-9cef9d361651@iscas.ac.cn>
 From: Mayuresh Chitale <mchitale@ventanamicro.com>
-Date: Fri, 14 Apr 2023 11:11:36 +0530
-Message-ID: <CAN37VV7QPR+i-_EUJCZd9Z-VSf80JwSeZds8r=d0aR_ewCffuw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] target/riscv: smstateen check for fcsr
+Date: Fri, 14 Apr 2023 11:12:05 +0530
+Message-ID: <CAN37VV4vvHKGguUsgceHNpW3s89+OqetwKFKpp-5BGNqZuO2TQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/4] target/riscv: check smstateen fcsr flag
 To: liweiwei <liweiwei@iscas.ac.cn>
 Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
  Alistair Francis <alistair23@gmail.com>,
@@ -66,8 +66,8 @@ Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
  Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=mchitale@ventanamicro.com; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,140 +90,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Apr 10, 2023 at 8:14=E2=80=AFPM liweiwei <liweiwei@iscas.ac.cn> wro=
+On Mon, Apr 10, 2023 at 8:00=E2=80=AFPM liweiwei <liweiwei@iscas.ac.cn> wro=
 te:
 >
 >
 > On 2023/4/10 22:13, Mayuresh Chitale wrote:
-> > If smstateen is implemented and sstateen0.fcsr is clear then the
-> > floating point operations must return illegal instruction exception
-> > or virtual instruction trap, if relevant.
->
-> typo. sstateen0 -> smstateen
-Ok.
->
-> And fcsr bit only work when F is not enabled.
-Will fix it.
->
+> > If misa.F and smstateen_fcsr_ok flag are clear then all the floating
+> > point instructions must generate an appropriate exception.
 > >
 > > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
 > > ---
-> >   target/riscv/cpu.h |  3 +++
-> >   target/riscv/csr.c | 25 ++++++++++++++++++++++++-
-> >   2 files changed, 27 insertions(+), 1 deletion(-)
+> >   target/riscv/insn_trans/trans_rvf.c.inc   | 24 ++++++++++++++++++++--=
+-
+> >   target/riscv/insn_trans/trans_rvzfh.c.inc |  4 ++++
+> >   2 files changed, 25 insertions(+), 3 deletions(-)
 > >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 638e47c75a..132cf06ff2 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -613,6 +613,9 @@ void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *e=
-nv, uint32_t priv,
-> >                                                    target_ulong new_val=
-,
-> >                                                    target_ulong write_m=
-ask),
-> >                                      void *rmw_fn_arg);
-> > +RISCVException smstateen_acc_ok(CPURISCVState *env, int index, uint64_=
-t bit);
-> This have been added in the latest riscv-to-apply.next.
-> > +#else
-> > +#define smstateen_acc_ok(env, index, bit) RISCV_EXCP_NONE
+> > diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/ins=
+n_trans/trans_rvf.c.inc
+> > index 052408f45c..6173dace46 100644
+> > --- a/target/riscv/insn_trans/trans_rvf.c.inc
+> > +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+> > @@ -24,9 +24,27 @@
+> >               return false; \
+> >   } while (0)
+> >
+> > -#define REQUIRE_ZFINX_OR_F(ctx) do {\
+> > -    if (!ctx->cfg_ptr->ext_zfinx) { \
+> > -        REQUIRE_EXT(ctx, RVF); \
+> > +#ifndef CONFIG_USER_ONLY
+> > +#define smstateen_fcsr_check(ctx) do { \
+> > +    if (!ctx->smstateen_fcsr_ok) { \
+> > +        if (ctx->virt_enabled) { \
+> > +            generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT)=
+; \
+> > +        } else { \
+> > +            generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST); \
+> > +        } \
 >
-> This seems unnecessary.  smstateen_acc_ok in this patch works only in
-> system mode.
+> We can setctx->virt_inst_excp =3D ctx->virt_enabledand return false here.
 Ok.
+>
+> Or we need store current opcode to bins before generate_exception.
+>
+> >
+> > +        return true; \
+> > +    } \
+> > +} while (0)
+> > +#else
+> > +#define smstateen_fcsr_check(ctx)
+> > +#endif
+> > +
+> > +#define REQUIRE_ZFINX_OR_F(ctx) do { \
+> > +    if (!has_ext(ctx, RVF)) { \
+> > +        if (!ctx->cfg_ptr->ext_zfinx) { \
+> > +            return false; \
+> > +        } \
+> > +        smstateen_fcsr_check(ctx); \
+> >       } \
+> >   } while (0)
+> >
+> > diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/i=
+nsn_trans/trans_rvzfh.c.inc
+> > index 74dde37ff7..304bee1002 100644
+> > --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
+> > +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
+> > @@ -20,24 +20,28 @@
+> >       if (!ctx->cfg_ptr->ext_zfh) {      \
+> >           return false;         \
+> >       }                         \
+> > +    smstateen_fcsr_check(ctx); \
+> >   } while (0)
+> >
+> >   #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
+> >       if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) { \
+> >           return false;                  \
+> >       }                                  \
+> > +    smstateen_fcsr_check(ctx); \
+>
+> It's better to remain "\" alignment here.
+Ok.
+
+>
+> Similar to following cases.
 >
 > Regards,
 >
 > Weiwei Li
 >
-> >   #endif
-> >   void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv);
+> >   } while (0)
 > >
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index d522efc0b6..4979058434 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -43,7 +43,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operation=
-s *ops)
+> >   #define REQUIRE_ZFHMIN(ctx) do {              \
+> >       if (!ctx->cfg_ptr->ext_zfhmin) {          \
+> >           return false;                         \
+> >       }                                         \
+> > +    smstateen_fcsr_check(ctx); \
+> >   } while (0)
 > >
-> >   /* Predicates */
-> >   #if !defined(CONFIG_USER_ONLY)
-> > -static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
-> > +RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
-> >                                          uint64_t bit)
-> >   {
-> >       bool virt =3D riscv_cpu_virt_enabled(env);
-> > @@ -83,6 +83,10 @@ static RISCVException fs(CPURISCVState *env, int csr=
-no)
-> >           !riscv_cpu_cfg(env)->ext_zfinx) {
-> >           return RISCV_EXCP_ILLEGAL_INST;
-> >       }
-> > +
-> > +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> > +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
-> > +    }
-> >   #endif
-> >       return RISCV_EXCP_NONE;
-> >   }
-> > @@ -2056,6 +2060,9 @@ static RISCVException write_mstateen0(CPURISCVSta=
-te *env, int csrno,
-> >                                         target_ulong new_val)
-> >   {
-> >       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |=3D SMSTATEEN0_FCSR;
-> > +    }
+> >   #define REQUIRE_ZFHMIN_OR_ZHINXMIN(ctx) do {                 \
+> >       if (!(ctx->cfg_ptr->ext_zfhmin || ctx->cfg_ptr->ext_zhinxmin)) { =
+\
+> >           return false;                                        \
+> >       }                                                        \
+> > +    smstateen_fcsr_check(ctx); \
+> >   } while (0)
 > >
-> >       return write_mstateen(env, csrno, wr_mask, new_val);
-> >   }
-> > @@ -2092,6 +2099,10 @@ static RISCVException write_mstateen0h(CPURISCVS=
-tate *env, int csrno,
-> >   {
-> >       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |=3D SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >       return write_mstateenh(env, csrno, wr_mask, new_val);
-> >   }
-> >
-> > @@ -2129,6 +2140,10 @@ static RISCVException write_hstateen0(CPURISCVSt=
-ate *env, int csrno,
-> >   {
-> >       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |=3D SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >       return write_hstateen(env, csrno, wr_mask, new_val);
-> >   }
-> >
-> > @@ -2168,6 +2183,10 @@ static RISCVException write_hstateen0h(CPURISCVS=
-tate *env, int csrno,
-> >   {
-> >       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |=3D SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >       return write_hstateenh(env, csrno, wr_mask, new_val);
-> >   }
-> >
-> > @@ -2215,6 +2234,10 @@ static RISCVException write_sstateen0(CPURISCVSt=
-ate *env, int csrno,
-> >   {
-> >       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |=3D SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >       return write_sstateen(env, csrno, wr_mask, new_val);
-> >   }
-> >
+> >   static bool trans_flh(DisasContext *ctx, arg_flh *a)
 >
 
