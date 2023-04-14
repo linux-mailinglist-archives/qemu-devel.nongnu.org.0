@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2806E1D58
+	by mail.lfdr.de (Postfix) with ESMTPS id 749CF6E1D59
 	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 09:37:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnDyn-0007Gs-30; Fri, 14 Apr 2023 03:36:21 -0400
+	id 1pnDyO-0007FH-73; Fri, 14 Apr 2023 03:35:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <slankes@eonerc.rwth-aachen.de>)
- id 1pnDyT-0007GU-4K; Fri, 14 Apr 2023 03:36:01 -0400
-Received: from mail-out-2a.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:45])
+ id 1pnDyH-0007F0-6I; Fri, 14 Apr 2023 03:35:49 -0400
+Received: from mail-out-4.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:49])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <slankes@eonerc.rwth-aachen.de>)
- id 1pnDyD-0005pJ-8R; Fri, 14 Apr 2023 03:36:00 -0400
-X-IPAS-Result: =?us-ascii?q?A2AHBACIATlk/5gagoZaHQEBAQEJARIBBQUBQIFPiU+xD?=
- =?us-ascii?q?Q8BAQEBAQEBAQEIAUQEAQGFAgIChT4nOBMBAgQBAQEBAwIDAQEBAQEBAwEBB?=
- =?us-ascii?q?gEBAQEBAQYEgR2FL0aGBicPAUY1AiYCXw6DA4JdrxCBMoEBhHKaaoFnCQGBC?=
- =?us-ascii?q?i2JIYJThgiBSUSBS4hEgw6CZwSaTQqBNHSBIA5KcoEEAgkCEUMogRAIaYF5Q?=
+ id 1pnDyD-0005sL-D6; Fri, 14 Apr 2023 03:35:48 -0400
+X-IPAS-Result: =?us-ascii?q?A2DIAgAJAjlk/5gagoZaHAEBAQEBAQcBARIBAQQEAQGCD?=
+ =?us-ascii?q?4R9tV8PAQEBAQEBAQEBCAFEBAEBhQYChTwnOBMBAgQBAQEBAwIDAQEBAQEBA?=
+ =?us-ascii?q?wEBBgEBAQEBAQYEgR2FL0aGBAIBAycLAUYQUVcGDgWCfoJdsA8zgQGEcppqg?=
+ =?us-ascii?q?WcJAYE3i3SFRkKBSUSBS4EGjTMEmk0KgTR0gSAOSnKBBAIJAhFrgRAIaYF5Q?=
  =?us-ascii?q?AINYwsOb4FJgU6BXAQCFEcOEjcDCQMHBSwdQAMLGA0WOhMsNRQfXGwtEhIFA?=
- =?us-ascii?q?wsVKkcECDgGUBECCA8SDyxEDEI3MxMGXAEpCw4RA09CGWwEgQqBAQcmJJ4jI?=
- =?us-ascii?q?0+BDiSBVXCSdrEGgjKBVqBtGjODapMtkiuXdaNKhCwCBAIEBQIWgXqBfjMaC?=
- =?us-ascii?q?BwUgyNRFwIPog2BMAIHAQoBAQMJi0UBAQ?=
-IronPort-Data: A9a23:gvt7UaBKLTxeTxVW/0Liw5YqxClBgxIJ4kV8jS/XYbTApGwj1DwHz
- WYbCG6OO/rbMDSne9F+PYTipkgD68OHy4VnOVdlrnsFo1CmCCbmLYnDch2gb3v6wunrFh8PA
- xA2M4GYRCwMZiaA4E3raNANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtcAbeORXkXc6
- Lsen+WFYAX+g2ItbjpNg06+gEoHUMra6WtwUmMWOKgjUG/2zxE9EJ8ZLKetGHr0KqE88jmSH
- rurIBmRpws1zj91Yj+Xuu+Tnn4iHtY+CTOzZk9+AMBOtDAf/HBogvZjXBYrQRw/Zz2hx7idw
- TjW3HC6YV9B0qbkwIzxX/TEes1zFfUuxVPJHZSwmZKq8nKceEXX+OtJHB5uNIsp5edYLG4bo
- JT0KBhVBvyCr/ip3LK2Wqx334EqatP0IINas30mwTyx4fQOGMufBfyRvZkCgnFp25om8fX2P
- qL1bRJ0aB3GYBBUEloQDp8kl6GymWX/NjRRo1KYo+w77gA/ySQtiui8a4eNK7RmQ+1pg22Hh
- 03mwFikAxRGLv6UimSh0ViF07qncSTTHdh6+KeD3udnhUDWymENBRk+U1y9rv+kzEmkVLp3M
- 0EI9zBoqKEj+EGvSvH5XhuxunnCuQQTM/JJHugnrQiXz4LS5ACWAHVCSSROAOHKr+csWiAq2
- 0/MhIqsDHp1r6GVDHuRsLuZxd+vBRUowaY5TXdsZWM4DxPL+enfUjqnog5fLZOI
-IronPort-HdrOrdr: A9a23:MaXPfK40zzXMV+UwJQPXwUyBI+orL9Y04lQ7vn2ZFiY7TiXIra
- yTdaoguCMc0AxhIk3I6urwRZVoIEm1yXcR2+cs1NiZLW/bUQeTXeJfBM7Zskbd8k7Fh6VgPM
- VbAtFD4bTLZDMR7KbHCUuDYq4dKbG8geWVbIzlvhJQpHRRGsZdBnBCe2Km+yNNNWt77cNTLu
- val4x6jgvlXU5SQtWwB3EDUeSGjcbMjojabRkPAANiwBWSjBuzgYSKWSSw71M7aXdi0L0i+W
- /Kn0jS/aO4qcy2zRfayiv684lWot380dFObfb8x/T9aw+cxjpAVr4RFYFqjwpF4d1HL2xa0O
- Ukli1QcPibLUmhPV1d7yGdmTUImwxel0MKgWXo/kcL5/aJAA7SQvAx+75xY1/X7VEts8p717
- 8O12WFt4BPBReFhyjl4cPUPisa4HZcjEBS5dL7tUYvJrc2eftUt8gS7UlVGJAPEGbz750mCv
- BnCIXZ6OxNeV2XYnjFti03qebcFkgbD1ODWAwPq8aV2z9ZkDRwyFYZ3tUWmjMF+IgmQ5dJ6u
- zYOuBjla1ITMURcaVhbd1xCPefGyjIW1bBIWiSKVPoGOUOPG/MsYf+5PEv6OSjaPUzve4PcV
- T6ISFlXEIJCjHT4Je1rex2Gzj2MRWAYQg=
-X-Talos-CUID: =?us-ascii?q?9a23=3AfsFrrmu6/+CH1JD8s75GL46m6It7S0DilnzuGHS?=
- =?us-ascii?q?mLnY2ELSTeECR145rxp8=3D?=
-X-Talos-MUID: 9a23:b51D6gqJLEI0n7c7f9wezw1/H9hJzISRNB0MlMkcmcLHawhTER7I2Q==
+ =?us-ascii?q?wsVKkcECDgGHDQRAggPEg8sRAxCNzMTBlwBKQsOEQNPQhlsBIEKgQEGASYkn?=
+ =?us-ascii?q?kZPBoEIgmmSdrEGgjKBVqBtGjOXF5Irl3WjSoQsAgQCBAUCFoF6gX4zGggcF?=
+ =?us-ascii?q?IMiUhcCD44sFpNLcz0CBwsBAQMJi0UBAQ?=
+IronPort-Data: A9a23:ZzKjraMUPcqWea3vrR3PlsFynXyQoLVcMsEvi/4bfWQNrUon3zYGy
+ zcbXWnUP/3eYDCgctskb4uw/UkDupaDnNY3HnM5pCpnJ55oRWspJvzEdBuqb3PKRiHnZBg6h
+ ynLQoCYdKjYdleF+lH3dOKJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYx6TSCK17L6
+ IKaT/H3Ygf/gGYoaz5MsspvlTs21BjMkGJA1rABTa0T1LPuvyF9JI4SI6i3M0z5TuF8dgJtb
+ 7+epF0R1jqxEyYFUrtJoJ6iGqE5auK60Ty1t5Zjc/PKbi5q+3ZuiPZrbJLwXm8M49mBt4gZJ
+ NygLvVcQy9xVkHHsLx1vxW1j0iSMIUekIIrL0RTvuSR70PebXH04sl/Um1rJ6oTxfpXDlNBo
+ KlwxDAlNnhvhsqs3667R/kpnZ1mJY/xI58f/3hsiz3UZRokacmYH+OTvocehml2350UdRrdT
+ 5NxhT5HdxDJZR5CIX8aD5QzhuzunGbjc3hRoVmVqKxx72W7IAlZieeyaIqJJ4PVLSlTtmifq
+ FrN83T/PiEhO/eU62eJrWyvr/CayEsXX6pXTtVU7MVCmVCW2ykfBQMbUXO9pv+2jFP4XMhQQ
+ 2QM9zYjt+43/V2nQ935dxm5pneeuVgbQdU4O/Q37RzIw7DRywCeAGcCU3hGctNOiSMtbSY1y
+ l+Ej5byXHlm9qeKVXLY/7vSoT7a1TUpEFLurBQsFWMti+QPaqlp5v4TZr6PyJKIs+A=
+IronPort-HdrOrdr: A9a23:Ta4mSK2LYH5WDQD++YgMVAqjBIMkLtp133Aq2lEZdPRUGvb1qy
+ nIpoV+6faUskd3ZJhOo7690cW7K080sKQFgrX5Xo3SOTUO2lHIEGgK1+KLqAEIWReOlNK1vZ
+ 0QFZSWY+eeMbEVt6vHCF7SKadZ/DD+ysCVbLDlvg5QcT0=
+X-Talos-CUID: 9a23:+LbNx2F8p9owJy91qmJl1EAMBMo9U0HMkluNOWizNnpJR4+aHAo=
+X-Talos-MUID: 9a23:ijtkdAY4IwzJd+BTmTjivDpuJMFU05+hI0svzJlZpcqtKnkl
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.99,195,1677538800"; d="scan'208";a="42893509"
+X-IronPort-AV: E=Sophos;i="5.99,195,1677538800"; d="scan'208";a="177084577"
 Received: from rwthex-s1-a.rwth-ad.de ([134.130.26.152])
- by mail-in-2a.itc.rwth-aachen.de with ESMTP; 14 Apr 2023 09:35:28 +0200
+ by mail-in-4.itc.rwth-aachen.de with ESMTP; 14 Apr 2023 09:35:37 +0200
 Received: from Tartaros.fritz.box (2a0a:a540:ee49:0:4dac:dbd1:97f4:c51) by
  rwthex-s1-a.rwth-ad.de (2a00:8a60:1:e500::26:152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 14 Apr 2023 09:35:27 +0200
+ 15.2.1118.26; Fri, 14 Apr 2023 09:35:35 +0200
 From: Stefan Lankes <slankes@eonerc.rwth-aachen.de>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>, Stefan Lankes
  <slankes@eonerc.rwth-aachen.de>
-Subject: [RFC 0/1] add support of `--initrd` for ELF-ARM kernels
-Date: Fri, 14 Apr 2023 09:34:31 +0200
-Message-ID: <20230414073432.36000-1-slankes@eonerc.rwth-aachen.de>
+Subject: [RFC 1/1] add support of `--initrd` for ELF-ARM kernels
+Date: Fri, 14 Apr 2023 09:34:32 +0200
+Message-ID: <20230414073432.36000-2-slankes@eonerc.rwth-aachen.de>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+In-Reply-To: <20230414073432.36000-1-slankes@eonerc.rwth-aachen.de>
+References: <20230414073432.36000-1-slankes@eonerc.rwth-aachen.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [2a0a:a540:ee49:0:4dac:dbd1:97f4:c51]
 X-ClientProxiedBy: rwthex-w1-a.rwth-ad.de (2a00:8a60:1:e500::26:156) To
  rwthex-s1-a.rwth-ad.de (2a00:8a60:1:e500::26:152)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:45;
+Received-SPF: pass client-ip=2a00:8a60:1:e501::5:49;
  envelope-from=slankes@eonerc.rwth-aachen.de;
- helo=mail-out-2a.itc.rwth-aachen.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ helo=mail-out-4.itc.rwth-aachen.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,20 +87,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are developing an ELF-based kernel for ARM processor and would like
-to use the flag "—initrd". An initial ramdisk simplifies the boot 
-process, but as far as I know, it is currently not support by Qemu for
-ARM processors. The flag is only available for pure Linux kernels.
+Currently, the flag `--initrd` is only support for Linux ARM kernels.
+However, also other ELF kernels could depend on an initial ramdisk.
+This PR loads also the initrd for ELF kernels and announce the
+location by the nodes "/chosen/initrd-start" and
+"/chosen/initrd-end" within the device tree.
 
-This patch enables the flags for ELF kernels and creates a device tree
-entry, which helps the kernel to find the address of the initial ramdisk.
-
-Stefan Lankes (1):
-  add support of `--initrd` for ELF-ARM kernels
-
+Signed-off-by: Stefan Lankes <slankes@eonerc.rwth-aachen.de>
+---
  hw/arm/boot.c | 106 +++++++++++++++++++++++++++++---------------------
  1 file changed, 62 insertions(+), 44 deletions(-)
 
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 54f6a3e0b3..f767a4809e 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -657,20 +657,38 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+     }
+ 
+     if (binfo->initrd_size) {
+-        rc = qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,initrd-start",
++        if (binfo->is_linux) {
++            rc = qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,initrd-start",
+                                           acells, binfo->initrd_start);
+-        if (rc < 0) {
+-            fprintf(stderr, "couldn't set /chosen/linux,initrd-start\n");
+-            goto fail;
+-        }
++            if (rc < 0) {
++                fprintf(stderr, "couldn't set /chosen/linux,initrd-start\n");
++                goto fail;
++            }
+ 
+-        rc = qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,initrd-end",
+-                                          acells,
+-                                          binfo->initrd_start +
+-                                          binfo->initrd_size);
+-        if (rc < 0) {
+-            fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n");
+-            goto fail;
++            rc = qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,initrd-end",
++                                              acells,
++                                              binfo->initrd_start +
++                                              binfo->initrd_size);
++            if (rc < 0) {
++                fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n");
++                goto fail;
++            }
++        } else {
++            rc = qemu_fdt_setprop_sized_cells(fdt, "/chosen", "initrd-start",
++                                          acells, binfo->initrd_start);
++            if (rc < 0) {
++                fprintf(stderr, "couldn't set /chosen/initrd-start\n");
++                goto fail;
++            }
++
++            rc = qemu_fdt_setprop_sized_cells(fdt, "/chosen", "initrd-end",
++                                              acells,
++                                              binfo->initrd_start +
++                                              binfo->initrd_size);
++            if (rc < 0) {
++                fprintf(stderr, "couldn't set /chosen/initrd-end\n");
++                goto fail;
++            }
+         }
+     }
+ 
+@@ -1099,41 +1117,41 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+     }
+     info->initrd_start = TARGET_PAGE_ALIGN(info->initrd_start);
+ 
+-    if (is_linux) {
+-        uint32_t fixupcontext[FIXUP_MAX];
+-
+-        if (info->initrd_filename) {
++    if (info->initrd_filename) {
+ 
+-            if (info->initrd_start >= ram_end) {
+-                error_report("not enough space after kernel to load initrd");
+-                exit(1);
+-            }
++        if (info->initrd_start >= ram_end) {
++            error_report("not enough space after kernel to load initrd");
++            exit(1);
++        }
+ 
+-            initrd_size = load_ramdisk_as(info->initrd_filename,
+-                                          info->initrd_start,
+-                                          ram_end - info->initrd_start, as);
+-            if (initrd_size < 0) {
+-                initrd_size = load_image_targphys_as(info->initrd_filename,
+-                                                     info->initrd_start,
+-                                                     ram_end -
+-                                                     info->initrd_start,
+-                                                     as);
+-            }
+-            if (initrd_size < 0) {
+-                error_report("could not load initrd '%s'",
+-                             info->initrd_filename);
+-                exit(1);
+-            }
+-            if (info->initrd_start + initrd_size > ram_end) {
+-                error_report("could not load initrd '%s': "
+-                             "too big to fit into RAM after the kernel",
+-                             info->initrd_filename);
+-                exit(1);
+-            }
+-        } else {
+-            initrd_size = 0;
++        initrd_size = load_ramdisk_as(info->initrd_filename,
++                                      info->initrd_start,
++                                      ram_end - info->initrd_start, as);
++        if (initrd_size < 0) {
++            initrd_size = load_image_targphys_as(info->initrd_filename,
++                                                 info->initrd_start,
++                                                 ram_end -
++                                                 info->initrd_start,
++                                                 as);
++        }
++        if (initrd_size < 0) {
++            error_report("could not load initrd '%s'",
++                         info->initrd_filename);
++            exit(1);
++        }
++        if (info->initrd_start + initrd_size > ram_end) {
++            error_report("could not load initrd '%s': "
++                         "too big to fit into RAM after the kernel",
++                         info->initrd_filename);
++            exit(1);
+         }
+-        info->initrd_size = initrd_size;
++    } else {
++        initrd_size = 0;
++    }
++    info->initrd_size = initrd_size;
++
++    if (is_linux) {
++        uint32_t fixupcontext[FIXUP_MAX];
+ 
+         fixupcontext[FIXUP_BOARDID] = info->board_id;
+         fixupcontext[FIXUP_BOARD_SETUP] = info->board_setup_addr;
 -- 
 2.39.2 (Apple Git-143)
 
