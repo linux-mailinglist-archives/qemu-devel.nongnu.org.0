@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FF06E22A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5D16E22A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:52:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnHlX-0000JC-NT; Fri, 14 Apr 2023 07:38:55 -0400
+	id 1pnHla-0000Ty-8G; Fri, 14 Apr 2023 07:38:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHlN-00009I-JL
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:38:48 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+ id 1pnHlR-0000Ar-GP
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:38:50 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHlL-0001Lu-FB
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:38:45 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id q2so22894688pll.7
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:38:42 -0700 (PDT)
+ id 1pnHlO-0001MS-SH
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:38:49 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id v9so23392417pjk.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472322; x=1684064322;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472325; x=1684064325;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+Gwx9WkSU4NUBtcfu+yhCLAbnFHjassA0d24XewHGHc=;
- b=q3Xb6QGJyQthrqADVu8y7fkbMNdAaGzrisMtvebX+yFFAwT/CFHLLMgTJFloOIOvnA
- PF1IByRylT2XX6+nLJEBFNKjwavXzmiWLD0d84JDsuEHY+e6AyyL5R0DpKCQomCBAsv2
- wLPEU1D2bdGbkcpdK979nc2O7NeQkWB7EunuobsF8kaHQKyfbZJBeeWz8hUaM0ZN3Wxi
- 7sAaYpNzx0zWuqGqRlguyD7lPZ6JIuMgOtlYLepIql8fREyF8UpNKrcrpna8K0X5p2mj
- VctWyvgEVETDAo44rTNdCGP48mWXanb4KaZ/jubR+v6P/2W5O/uzLuoS6KiqwWjBtPFi
- UUbA==
+ bh=OFxd8pcj4wHW0mO+/pQHN3vlTEm9pQVwouFzSiwk1aY=;
+ b=3s8o664t7O/JDQZdFToSstDZocybEXqTlhZT1ciU02ql+aqAze3N9ucS1JjpLBkRpD
+ WTKTtnfkPwgnBVmS8dPY0YmgRaTD3vBzPUCb4+4LrcW95//1122qy7xV9mhfose/HkT4
+ eXAXDCv/O1IzIJiDjxzLjUt0eo7Ol4gBeZ0niMxxrwuthXTEiW/A7GgbslAU+1MADP4W
+ lfdRDXRplMOJ/CJWdaLtC9rBZK3OqUnLbMQzV7YUEYlox1k6RBfIlvG9e1u/hfgz9ib2
+ F2qZLqQamLLQI+zams9i/icohZ158TxIbLtL8nfqr/q8de3h+ttecFcVwmzqPNgqpg5R
+ W95g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681472322; x=1684064322;
+ d=1e100.net; s=20221208; t=1681472325; x=1684064325;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+Gwx9WkSU4NUBtcfu+yhCLAbnFHjassA0d24XewHGHc=;
- b=dlJYY+NrnwSvzSfm8fuj4xUMF1LzQPrG531qE9EjUpR8AV0nUFyEW+xZ+3SUsW2k2m
- m+Sm+61WMgpIqYvN3dNV5kORRoftVzp55xfzbvDMQKJDKHOSsycto8apimGKrMIyjNmn
- mAzdhLCudsqeRoN6JsnneNOewejOcsH7dAIF2f9sKeHODIjRvgNORCNlZ2FHncl4rsk3
- +BrODJoRRU8FZR4csg8wqBFJNpFUk1S8G3ua0Ot3dLi00iX4euFcnZdRhDGH59mZXPVi
- FJoCI5v0cu3xi0CbC+zoam458LSGKoiL0FCgy+w9sfmAqy8R6LxjGnKuo/2P4MeSZML6
- ccbQ==
-X-Gm-Message-State: AAQBX9cjNl8+g9t8jCX2/YecC7zFPVudSsAxFdl2efuNnIghDJzIxXSa
- mKauaNITBcNaUyXFHSQRt+SFDQ==
-X-Google-Smtp-Source: AKy350aycFTS6zheqnF3NjsJIVkQl8l3w1PUCmS6Ht0KVUHpoka3h9nrmwHT2sd5zqsmwruM0We8Ng==
-X-Received: by 2002:a17:90a:a610:b0:247:2cc7:124e with SMTP id
- c16-20020a17090aa61000b002472cc7124emr3691493pjq.41.1681472322194; 
- Fri, 14 Apr 2023 04:38:42 -0700 (PDT)
+ bh=OFxd8pcj4wHW0mO+/pQHN3vlTEm9pQVwouFzSiwk1aY=;
+ b=ZwwwTiwPN4z9YuYi58ND5qakIw/C7sACkY4LNn8eYfHd+/KtWoAINqKMO2O3Jul9if
+ XrriRplIQ1fYt+TzICETLGW18Gi3xmOgSr6CLX2SGDaFCfTinAUmE84e0Kz70tNDXlbk
+ 9VJwMLgJxNnVW0pG4jTXg641jkfb2KE2z04Ku4X9NRW+3IuHJLy9Pv2ky3PLIj92xu53
+ GYOlbgKAp7Q+gZJUf2Pza1Fp0g40hQOM3gt5ckGVcjIgr6JFa4RA1StumpvIL5R5X6eT
+ OTCJRc5V2x3nORSo9qbPGL/ZJbOZUniiMpYW0vUbeRDkqhlRGbBNh/JLlqr2kMqtWVAH
+ 3BGA==
+X-Gm-Message-State: AAQBX9eCckJGCdTXecCfmA+ze4YB/ak8v/ueadZwlQhCkyx76y8HXDny
+ VdVQCur1RrZgb1S/Jkhca6RoNw==
+X-Google-Smtp-Source: AKy350bSMg6TugLG0xguLOEwZ4EKrxYQXXTpMkn+Y7Ejn36m+A6AZorcGcBddGq0JqCrg8dQxaXmyw==
+X-Received: by 2002:a17:90a:f190:b0:246:b2de:f13f with SMTP id
+ bv16-20020a17090af19000b00246b2def13fmr5332735pjb.24.1681472325458; 
+ Fri, 14 Apr 2023 04:38:45 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.38.39
+ u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.38.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 04:38:41 -0700 (PDT)
+ Fri, 14 Apr 2023 04:38:45 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -68,16 +68,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 08/40] igb: Always copy ethernet header
-Date: Fri, 14 Apr 2023 20:37:05 +0900
-Message-Id: <20230414113737.62803-9-akihiko.odaki@daynix.com>
+Subject: [PATCH 09/40] Fix references to igb Avocado test
+Date: Fri, 14 Apr 2023 20:37:06 +0900
+Message-Id: <20230414113737.62803-10-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62d;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,123 +99,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-igb_receive_internal() used to check the iov length to determine
-copy the iovs to a contiguous buffer, but the check is flawed in two
-ways:
-- It does not ensure that iovcnt > 0.
-- It does not take virtio-net header into consideration.
-
-The size of this copy is just 22 octets, which can be even less than
-the code size required for checks. This (wrong) optimization is probably
-not worth so just remove it. Removing this also allows igb to assume
-aligned accesses for the ethernet header.
-
-Fixes: 3a977deebe ("Intrdocue igb device emulation")
+Fixes: 9f95111474 ("tests/avocado: re-factor igb test to avoid timeouts")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/igb_core.c | 39 +++++++++++++++++++++------------------
- 1 file changed, 21 insertions(+), 18 deletions(-)
+ MAINTAINERS                                        | 2 +-
+ docs/system/devices/igb.rst                        | 2 +-
+ scripts/ci/org.centos/stream/8/x86_64/test-avocado | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 53f60fc3d3..1d188b526c 100644
---- a/hw/net/igb_core.c
-+++ b/hw/net/igb_core.c
-@@ -67,6 +67,11 @@ typedef struct IGBTxPktVmdqCallbackContext {
-     NetClientState *nc;
- } IGBTxPktVmdqCallbackContext;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ef45b5e71e..c31d2279ab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2256,7 +2256,7 @@ R: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+ S: Maintained
+ F: docs/system/devices/igb.rst
+ F: hw/net/igb*
+-F: tests/avocado/igb.py
++F: tests/avocado/netdev-ethtool.py
+ F: tests/qtest/igb-test.c
+ F: tests/qtest/libqos/igb.c
  
-+typedef struct L2Header {
-+    struct eth_header eth;
-+    struct vlan_header vlan[2];
-+} L2Header;
-+
- static ssize_t
- igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-                      bool has_vnet, bool *external_tx);
-@@ -961,15 +966,16 @@ igb_rx_is_oversized(IGBCore *core, uint16_t qn, size_t size)
-     return size > (lpe ? max_ethernet_lpe_size : max_ethernet_vlan_size);
- }
+diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
+index 70edadd574..afe036dad2 100644
+--- a/docs/system/devices/igb.rst
++++ b/docs/system/devices/igb.rst
+@@ -60,7 +60,7 @@ Avocado test and can be ran with the following command:
  
--static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
-+static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
-                                    size_t size, E1000E_RSSInfo *rss_info,
-                                    bool *external_tx)
- {
-     static const int ta_shift[] = { 4, 3, 2, 0 };
-+    const struct eth_header *ehdr = &l2_header->eth;
-     uint32_t f, ra[2], *macp, rctl = core->mac[RCTL];
-     uint16_t queues = 0;
-     uint16_t oversized = 0;
--    uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(ehdr)->h_tci) & VLAN_VID_MASK;
-+    uint16_t vid = be16_to_cpu(l2_header->vlan[0].h_tci) & VLAN_VID_MASK;
-     bool accepted = false;
-     int i;
+ .. code:: shell
  
-@@ -1590,14 +1596,13 @@ static ssize_t
- igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-                      bool has_vnet, bool *external_tx)
- {
--    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 8);
--
-     uint16_t queues = 0;
-     uint32_t n = 0;
--    uint8_t min_buf[ETH_ZLEN];
-+    union {
-+        L2Header l2_header;
-+        uint8_t octets[ETH_ZLEN];
-+    } min_buf;
-     struct iovec min_iov;
--    struct eth_header *ehdr;
--    uint8_t *filter_buf;
-     size_t size, orig_size;
-     size_t iov_ofs = 0;
-     E1000E_RxRing rxr;
-@@ -1623,24 +1628,21 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-         net_rx_pkt_unset_vhdr(core->rx_pkt);
-     }
+-  make check-avocado AVOCADO_TESTS=tests/avocado/igb.py
++  make check-avocado AVOCADO_TESTS=tests/avocado/netdev-ethtool.py
  
--    filter_buf = iov->iov_base + iov_ofs;
-     orig_size = iov_size(iov, iovcnt);
-     size = orig_size - iov_ofs;
- 
-     /* Pad to minimum Ethernet frame length */
-     if (size < sizeof(min_buf)) {
--        iov_to_buf(iov, iovcnt, iov_ofs, min_buf, size);
--        memset(&min_buf[size], 0, sizeof(min_buf) - size);
-+        iov_to_buf(iov, iovcnt, iov_ofs, &min_buf, size);
-+        memset(&min_buf.octets[size], 0, sizeof(min_buf) - size);
-         e1000x_inc_reg_if_not_full(core->mac, RUC);
--        min_iov.iov_base = filter_buf = min_buf;
-+        min_iov.iov_base = &min_buf;
-         min_iov.iov_len = size = sizeof(min_buf);
-         iovcnt = 1;
-         iov = &min_iov;
-         iov_ofs = 0;
--    } else if (iov->iov_len < maximum_ethernet_hdr_len) {
--        /* This is very unlikely, but may happen. */
--        iov_to_buf(iov, iovcnt, iov_ofs, min_buf, maximum_ethernet_hdr_len);
--        filter_buf = min_buf;
-+    } else {
-+        iov_to_buf(iov, iovcnt, iov_ofs, &min_buf, sizeof(min_buf.l2_header));
-     }
- 
-     /* Discard oversized packets if !LPE and !SBP. */
-@@ -1648,11 +1650,12 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-         return orig_size;
-     }
- 
--    ehdr = PKT_GET_ETH_HDR(filter_buf);
--    net_rx_pkt_set_packet_type(core->rx_pkt, get_eth_packet_type(ehdr));
-+    net_rx_pkt_set_packet_type(core->rx_pkt,
-+                               get_eth_packet_type(&min_buf.l2_header.eth));
-     net_rx_pkt_set_protocols(core->rx_pkt, iov, iovcnt, iov_ofs);
- 
--    queues = igb_receive_assign(core, ehdr, size, &rss_info, external_tx);
-+    queues = igb_receive_assign(core, &min_buf.l2_header, size,
-+                                &rss_info, external_tx);
-     if (!queues) {
-         trace_e1000e_rx_flt_dropped();
-         return orig_size;
+ References
+ ==========
+diff --git a/scripts/ci/org.centos/stream/8/x86_64/test-avocado b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
+index d2c0e5fb4c..a1aa601ee3 100755
+--- a/scripts/ci/org.centos/stream/8/x86_64/test-avocado
++++ b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
+@@ -30,7 +30,7 @@ make get-vm-images
+     tests/avocado/cpu_queries.py:QueryCPUModelExpansion.test \
+     tests/avocado/empty_cpu_model.py:EmptyCPUModel.test \
+     tests/avocado/hotplug_cpu.py:HotPlugCPU.test \
+-    tests/avocado/igb.py:IGB.test \
++    tests/avocado/netdev-ethtool.py:NetDevEthtool.test_igb_nomsi \
+     tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd \
+     tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu \
+     tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_pt \
 -- 
 2.40.0
 
