@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57316E2800
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:05:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D38F6E2809
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:07:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnLvP-0007sF-Pe; Fri, 14 Apr 2023 12:05:24 -0400
+	id 1pnLvK-0007V5-7q; Fri, 14 Apr 2023 12:05:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnLul-0006SH-K9
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:47 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1pnLun-0006Sk-KV
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:49 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnLui-0007zc-Ln
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:43 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- k27-20020a05600c1c9b00b003f0a9f022beso2257194wms.1
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 09:04:40 -0700 (PDT)
+ id 1pnLuj-00080K-VP
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:45 -0400
+Received: by mail-wr1-x431.google.com with SMTP id s2so14759625wra.7
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 09:04:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681488279; x=1684080279;
+ d=linaro.org; s=google; t=1681488280; x=1684080280;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8LanDirQaSq5LBuEyiFieoGUbbdGI81Zqz66tepS9FQ=;
- b=U+LgH173VoEnClmk7N0zz0J0Rbd4X7uGJOV6cb1+Vm9EpXFm77MJQJOHdsXWn5tQa6
- RzHZyoSBqWlab3YUwF42OKbMZ/hcISl09QhqYXX8+OOT4TdzQ8y7lFnLeFfU3SXSG07S
- sqxYetcbQknkip75ZkqNrPqtOvFUuhBxn+4PxmAaUOw1nx53VG+QKQN6RfkqLzIHFXDN
- mlRm5NAOoa8fFcM9ttDD0kw2hI/W9+qpw7hNvTM+JCOVjw0iyawvPgAYTqATjS4LvGNB
- x2aJ0o20sJKrycdLO5aMw1PP2PgN+ypmh5D2RAdDudGPHMbBYtvnHBCk0pF3mL4Z0wwB
- 8T+g==
+ bh=4Ryfe6WB+la5kXKs32EYl/Vciz9ABPkj0uG+7/D/vdw=;
+ b=cIlExdGROySEk88B2tfqCGjQ/TsXCmyeL+AI5l+xTV5zYgHcP18HD77bdsFlJws1Z5
+ /1y+oaZGVgHfr0Pob9gIg0yzrYFc4JLbOxfFbNqm2ud9fQui7ldGQMwp20+w+tUojymX
+ n6lrOg21PHSNxQA7SCuHnjBwfewvg4T2wwuiVoTD75TWh5d5jZUXsns2vB92gXcDYEWD
+ E7zeQA7ridQlZcnhcTD1gCLSGYlko6YXVaWVB6YDvcZcbzz0tcrO/CK15BX68qvr/tKK
+ IBQbPE1uV1mELnQlhhmsteGTCV4x9reuALpA3ioVT61EfZa1asPtdQC+zyzp48bAXLOR
+ PIxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681488279; x=1684080279;
+ d=1e100.net; s=20221208; t=1681488280; x=1684080280;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8LanDirQaSq5LBuEyiFieoGUbbdGI81Zqz66tepS9FQ=;
- b=Kh46m9qiJ/ObR6gOyxN5RjU+YakMRimROd1TL3x/ivmOdegI2wMKPf6TJHT5s/aZXk
- nBxsgez3JEjZEzHylnwxbG6SQXVuPHtdJ8eTQRyBrKsEWqxt1oaEaNuH1ooTMZIFCCFu
- bBGbZNmmPMxhAugF33UH87DO7ide/eCOqY9ld8fNfMgUs+V+mFbs92Yzzd3DnSFsAgHX
- iIc55k+CHay+zXWXfncK8WcC6PGvo3cEYY54AkA1BlRVvfS5z8PJUfRnl0rOlbsEX7pO
- /pO8XzrMNfvChueVxwo3+IzE/JvvBgm2vAfn9pM99derQbRofPfEtWsi0LmXt6eM9aUz
- 20mA==
-X-Gm-Message-State: AAQBX9cI2iP1JFi2N4Fs7PrXvEZR6YKjjncNNM5NxgY4rQXKA2GqFl5R
- pkWx4C/flC2rjCvwFWyAOpbOUw==
-X-Google-Smtp-Source: AKy350YCJF+OxYLnFvtHqPriQ7R3H2JXzXlzuDX7L7ecMBRJMlH1V50tdFIyYs6GlGheU9LpeKi7VQ==
-X-Received: by 2002:a1c:4c1a:0:b0:3f0:a9e5:3ae with SMTP id
- z26-20020a1c4c1a000000b003f0a9e503aemr4732344wmf.24.1681488279014; 
- Fri, 14 Apr 2023 09:04:39 -0700 (PDT)
+ bh=4Ryfe6WB+la5kXKs32EYl/Vciz9ABPkj0uG+7/D/vdw=;
+ b=GdlZBWH9T9dmYs0sTlO8ooPMI+KClCtycC93bfG0nt6ExpzKC0ZwD8NsgMoj9NasZr
+ 2tFLCJt88wS33zUHRHOGaieKYwo1TM67YIvB9TmzK+rO+OfBbb5YcNDVljHTeq4ZP7Dz
+ g20w4uwFPX73ZtNHIiYPkU3xLBausUr6V03BW58gPx4D3UawFW3k+0ZZXI3+fsV1lGmu
+ VrAY45oRe6iS5fYiFRMaPM/RNbZNxpvN135U/aXh9KiDZacvkQ0xP8xByNqbbTc1DERo
+ KlSOt1RvujjDPSR6SJN1XVeRf6wOfA6tPYGUNKin3NLlWkVv7RJj+vRcXsjZaIOz/8BJ
+ Pr3A==
+X-Gm-Message-State: AAQBX9eI356LBuvxd1T9HD886EnGwBUNoh3726cIblHS0tdVPeeox+/o
+ THBXsdJgKiW+pNmNB8GDgPubEg==
+X-Google-Smtp-Source: AKy350bjxwU9YgSG3q+/5u4LpwhlbKQDBNKKVQqyppSZnj9+gaYUdjZ0Ym1mbQ6S3c5R8kx1s9JT4g==
+X-Received: by 2002:a05:6000:18cd:b0:2f7:2b68:1fbe with SMTP id
+ w13-20020a05600018cd00b002f72b681fbemr1969217wrq.6.1681488280336; 
+ Fri, 14 Apr 2023 09:04:40 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- x2-20020a05600c21c200b003f149715cb6sm1067151wmj.10.2023.04.14.09.04.35
+ t1-20020a1c7701000000b003ede06f3178sm4579281wmi.31.2023.04.14.09.04.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 09:04:36 -0700 (PDT)
+ Fri, 14 Apr 2023 09:04:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F2B881FFB8;
- Fri, 14 Apr 2023 17:04:34 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1B7011FFC1;
+ Fri, 14 Apr 2023 17:04:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>,
@@ -72,17 +71,18 @@ Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Jason Wang <jasowang@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
  Mathieu Poirier <mathieu.poirier@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 10/12] hw/virtio: add config support to vhost-user-device
-Date: Fri, 14 Apr 2023 17:04:31 +0100
-Message-Id: <20230414160433.2096866-11-alex.bennee@linaro.org>
+Subject: [PATCH 11/12] hw/virtio: derive vhost-user-gpio from
+ vhost-user-device (!BROKEN)
+Date: Fri, 14 Apr 2023 17:04:32 +0100
+Message-Id: <20230414160433.2096866-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230414160433.2096866-1-alex.bennee@linaro.org>
 References: <20230414160433.2096866-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,143 +105,492 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To use the generic device the user will need to provide the config
-region size via the command line. We also add a notifier so the guest
-can be pinged if the remote daemon updates the config.
+Now we can take advantage of our new base class and make
+vhost-user-gpio a much simpler boilerplate wrapper.
 
-With these changes:
-
-  -device vhost-user-device-pci,virtio-id=41,num_vqs=2,config_size=8
-
-is equivalent to:
-
-  -device vhost-user-gpio-pci
+[AJB - and this breaks because of the class init propery hack leading
+to the config getting overriden and firing the assert. I need a clean
+QOM way to do this derived class]
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/virtio/vhost-user-device.h |  1 +
- hw/virtio/vhost-user-device.c         | 58 ++++++++++++++++++++++++++-
- 2 files changed, 58 insertions(+), 1 deletion(-)
+ include/hw/virtio/vhost-user-gpio.h |  23 +-
+ hw/virtio/vhost-user-gpio.c         | 405 ++--------------------------
+ 2 files changed, 17 insertions(+), 411 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-user-device.h b/include/hw/virtio/vhost-user-device.h
-index 8d77f06721..cb98e0dcaa 100644
---- a/include/hw/virtio/vhost-user-device.h
-+++ b/include/hw/virtio/vhost-user-device.h
-@@ -21,6 +21,7 @@ struct VHostUserDevice {
-     CharBackend chardev;
-     uint16_t virtio_id;
-     uint32_t num_vqs;
-+    uint32_t config_size;
-     /* State tracking */
-     VhostUserState vhost_user;
-     struct vhost_virtqueue *vhost_vq;
-diff --git a/hw/virtio/vhost-user-device.c b/hw/virtio/vhost-user-device.c
-index bfbf3b29cb..977cfed247 100644
---- a/hw/virtio/vhost-user-device.c
-+++ b/hw/virtio/vhost-user-device.c
-@@ -117,6 +117,42 @@ static uint64_t vud_get_features(VirtIODevice *vdev,
-     return vud->vhost_dev.features & ~(1ULL << VHOST_USER_F_PROTOCOL_FEATURES);
- }
+diff --git a/include/hw/virtio/vhost-user-gpio.h b/include/hw/virtio/vhost-user-gpio.h
+index a9d3f9b049..82a2e36c21 100644
+--- a/include/hw/virtio/vhost-user-gpio.h
++++ b/include/hw/virtio/vhost-user-gpio.h
+@@ -12,33 +12,14 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/vhost.h"
+ #include "hw/virtio/vhost-user.h"
+-#include "standard-headers/linux/virtio_gpio.h"
+-#include "chardev/char-fe.h"
++#include "hw/virtio/vhost-user-device.h"
  
-+/*
-+ * To handle VirtIO config we need to know the size of the config
-+ * space. We don't cache the config but re-fetch it from the guest
-+ * every time in case something has changed.
-+ */
-+static void vud_get_config(VirtIODevice *vdev, uint8_t *config)
-+{
-+    VHostUserDevice *vud = VHOST_USER_DEVICE(vdev);
-+    Error *local_err = NULL;
-+
-+    /*
-+     * There will have been a warning during vhost_dev_init, but lets
-+     * assert here as nothing will go right now.
-+     */
-+    g_assert(vud->config_size && vud->vhost_user.supports_config == true);
-+
-+    if (vhost_dev_get_config(&vud->vhost_dev, config,
-+                             vud->config_size, &local_err)) {
-+        error_report_err(local_err);
-+    }
-+}
-+
-+/*
-+ * When the daemon signals an update to the config we just need to
-+ * signal the guest as we re-read the config on demand above.
-+ */
-+static int vud_config_notifier(struct vhost_dev *dev)
-+{
-+    virtio_notify_config(dev->vdev);
-+    return 0;
-+}
-+
-+const VhostDevConfigOps vud_config_ops = {
-+    .vhost_dev_config_notifier = vud_config_notifier,
-+};
-+
- static void vud_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
-     /*
-@@ -141,12 +177,21 @@ static int vud_connect(DeviceState *dev)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserDevice *vud = VHOST_USER_DEVICE(vdev);
-+    struct vhost_dev *vhost_dev = &vud->vhost_dev;
+ #define TYPE_VHOST_USER_GPIO "vhost-user-gpio-device"
+ OBJECT_DECLARE_SIMPLE_TYPE(VHostUserGPIO, VHOST_USER_GPIO);
  
-     if (vud->connected) {
-         return 0;
-     }
-     vud->connected = true;
- 
-+    /*
-+     * If we support VHOST_USER_GET_CONFIG we must enable the notifier
-+     * so we can ping the guest when it updates.
-+     */
-+    if (vud->vhost_user.supports_config) {
-+        vhost_dev_set_config_notifier(vhost_dev, &vud_config_ops);
-+    }
-+
-     /* restore vhost state */
-     if (virtio_device_started(vdev, vdev->status)) {
-         vud_start(vdev);
-@@ -214,11 +259,20 @@ static void vud_device_realize(DeviceState *dev, Error **errp)
-         vud->num_vqs = 1; /* reasonable default? */
-     }
- 
-+    /*
-+     * We can't handle config requests unless we know the size of the
-+     * config region, specialisations of the vhost-user-device will be
-+     * able to set this.
-+     */
-+    if (vud->config_size) {
-+        vud->vhost_user.supports_config = true;
-+    }
-+
-     if (!vhost_user_init(&vud->vhost_user, &vud->chardev, errp)) {
-         return;
-     }
- 
--    virtio_init(vdev, vud->virtio_id, 0);
-+    virtio_init(vdev, vud->virtio_id, vud->config_size);
- 
-     /*
-      * Disable guest notifiers, by default all notifications will be via the
-@@ -271,6 +325,7 @@ static Property vud_properties[] = {
-     DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
-     DEFINE_PROP_UINT16("virtio-id", VHostUserDevice, virtio_id, 0),
-     DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
-+    DEFINE_PROP_UINT32("config_size", VHostUserDevice, config_size, 0),
-     DEFINE_PROP_END_OF_LIST(),
+ struct VHostUserGPIO {
+     /*< private >*/
+-    VirtIODevice parent_obj;
+-    CharBackend chardev;
+-    struct virtio_gpio_config config;
+-    struct vhost_virtqueue *vhost_vqs;
+-    struct vhost_dev vhost_dev;
+-    VhostUserState vhost_user;
+-    VirtQueue *command_vq;
+-    VirtQueue *interrupt_vq;
+-    /**
+-     * There are at least two steps of initialization of the
+-     * vhost-user device. The first is a "connect" step and
+-     * second is a "start" step. Make a separation between
+-     * those initialization phases by using two fields.
+-     *
+-     * @connected: see vu_gpio_connect()/vu_gpio_disconnect()
+-     * @started_vu: see vu_gpio_start()/vu_gpio_stop()
+-     */
+-    bool connected;
+-    bool started_vu;
++    VHostUserDevice parent;
+     /*< public >*/
  };
  
-@@ -285,6 +340,7 @@ static void vud_class_init(ObjectClass *klass, void *data)
-     vdc->realize = vud_device_realize;
-     vdc->unrealize = vud_device_unrealize;
-     vdc->get_features = vud_get_features;
-+    vdc->get_config = vud_get_config;
-     vdc->set_status = vud_set_status;
+diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+index 3b013f2d0f..c76af1fc69 100644
+--- a/hw/virtio/vhost-user-gpio.c
++++ b/hw/virtio/vhost-user-gpio.c
+@@ -11,413 +11,38 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/virtio/virtio-bus.h"
+ #include "hw/virtio/vhost-user-gpio.h"
+-#include "qemu/error-report.h"
+ #include "standard-headers/linux/virtio_ids.h"
+-#include "trace.h"
+-
+-#define REALIZE_CONNECTION_RETRIES 3
+-#define VHOST_NVQS 2
+-
+-/* Features required from VirtIO */
+-static const int feature_bits[] = {
+-    VIRTIO_F_VERSION_1,
+-    VIRTIO_F_NOTIFY_ON_EMPTY,
+-    VIRTIO_RING_F_INDIRECT_DESC,
+-    VIRTIO_RING_F_EVENT_IDX,
+-    VIRTIO_GPIO_F_IRQ,
+-    VIRTIO_F_RING_RESET,
+-    VHOST_INVALID_FEATURE_BIT
+-};
+-
+-static void vu_gpio_get_config(VirtIODevice *vdev, uint8_t *config)
+-{
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-
+-    memcpy(config, &gpio->config, sizeof(gpio->config));
+-}
+-
+-static int vu_gpio_config_notifier(struct vhost_dev *dev)
+-{
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(dev->vdev);
+-
+-    memcpy(dev->vdev->config, &gpio->config, sizeof(gpio->config));
+-    virtio_notify_config(dev->vdev);
+-
+-    return 0;
+-}
+-
+-const VhostDevConfigOps gpio_ops = {
+-    .vhost_dev_config_notifier = vu_gpio_config_notifier,
+-};
+-
+-static int vu_gpio_start(VirtIODevice *vdev)
+-{
+-    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+-    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-    struct vhost_dev *vhost_dev = &gpio->vhost_dev;
+-    int ret, i;
+-
+-    if (!k->set_guest_notifiers) {
+-        error_report("binding does not support guest notifiers");
+-        return -ENOSYS;
+-    }
+-
+-    ret = vhost_dev_enable_notifiers(vhost_dev, vdev);
+-    if (ret < 0) {
+-        error_report("Error enabling host notifiers: %d", ret);
+-        return ret;
+-    }
+-
+-    ret = k->set_guest_notifiers(qbus->parent, vhost_dev->nvqs, true);
+-    if (ret < 0) {
+-        error_report("Error binding guest notifier: %d", ret);
+-        goto err_host_notifiers;
+-    }
+-
+-    /*
+-     * Before we start up we need to ensure we have the final feature
+-     * set needed for the vhost configuration. The backend may also
+-     * apply backend_features when the feature set is sent.
+-     */
+-    vhost_ack_features(&gpio->vhost_dev, feature_bits, vdev->guest_features);
+-
+-    ret = vhost_dev_start(&gpio->vhost_dev, vdev, false);
+-    if (ret < 0) {
+-        error_report("Error starting vhost-user-gpio: %d", ret);
+-        goto err_guest_notifiers;
+-    }
+-    gpio->started_vu = true;
+-
+-    /*
+-     * guest_notifier_mask/pending not used yet, so just unmask
+-     * everything here. virtio-pci will do the right thing by
+-     * enabling/disabling irqfd.
+-     */
+-    for (i = 0; i < gpio->vhost_dev.nvqs; i++) {
+-        vhost_virtqueue_mask(&gpio->vhost_dev, vdev, i, false);
+-    }
+-
+-    /*
+-     * As we must have VHOST_USER_F_PROTOCOL_FEATURES (because
+-     * VHOST_USER_GET_CONFIG requires it) we need to explicitly enable
+-     * the vrings.
+-     */
+-    g_assert(vhost_dev->vhost_ops &&
+-             vhost_dev->vhost_ops->vhost_set_vring_enable);
+-    ret = vhost_dev->vhost_ops->vhost_set_vring_enable(vhost_dev, true);
+-    if (ret == 0) {
+-        return 0;
+-    }
+-
+-    error_report("Failed to start vrings for vhost-user-gpio: %d", ret);
+-
+-err_guest_notifiers:
+-    k->set_guest_notifiers(qbus->parent, gpio->vhost_dev.nvqs, false);
+-err_host_notifiers:
+-    vhost_dev_disable_notifiers(&gpio->vhost_dev, vdev);
+-
+-    return ret;
+-}
+-
+-static void vu_gpio_stop(VirtIODevice *vdev)
+-{
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+-    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+-    struct vhost_dev *vhost_dev = &gpio->vhost_dev;
+-    int ret;
+-
+-    if (!gpio->started_vu) {
+-        return;
+-    }
+-    gpio->started_vu = false;
+-
+-    if (!k->set_guest_notifiers) {
+-        return;
+-    }
+-
+-    vhost_dev_stop(vhost_dev, vdev, false);
+-
+-    ret = k->set_guest_notifiers(qbus->parent, vhost_dev->nvqs, false);
+-    if (ret < 0) {
+-        error_report("vhost guest notifier cleanup failed: %d", ret);
+-        return;
+-    }
+-
+-    vhost_dev_disable_notifiers(vhost_dev, vdev);
+-}
+-
+-static void vu_gpio_set_status(VirtIODevice *vdev, uint8_t status)
+-{
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-    bool should_start = virtio_device_should_start(vdev, status);
+-
+-    trace_virtio_gpio_set_status(status);
+-
+-    if (!gpio->connected) {
+-        return;
+-    }
+-
+-    if (vhost_dev_is_started(&gpio->vhost_dev) == should_start) {
+-        return;
+-    }
+-
+-    if (should_start) {
+-        if (vu_gpio_start(vdev)) {
+-            qemu_chr_fe_disconnect(&gpio->chardev);
+-        }
+-    } else {
+-        vu_gpio_stop(vdev);
+-    }
+-}
+-
+-static uint64_t vu_gpio_get_features(VirtIODevice *vdev, uint64_t features,
+-                                     Error **errp)
+-{
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-
+-    return vhost_get_features(&gpio->vhost_dev, feature_bits, features);
+-}
+-
+-static void vu_gpio_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+-{
+-    /*
+-     * Not normally called; it's the daemon that handles the queue;
+-     * however virtio's cleanup path can call this.
+-     */
+-}
+-
+-static void vu_gpio_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+-{
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-
+-    /*
+-     * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
+-     * as the macro of configure interrupt's IDX, If this driver does not
+-     * support, the function will return
+-     */
+-
+-    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+-        return;
+-    }
+-
+-    vhost_virtqueue_mask(&gpio->vhost_dev, vdev, idx, mask);
+-}
+-
+-static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserGPIO *gpio)
+-{
+-    virtio_delete_queue(gpio->command_vq);
+-    virtio_delete_queue(gpio->interrupt_vq);
+-    g_free(gpio->vhost_vqs);
+-    virtio_cleanup(vdev);
+-    vhost_user_cleanup(&gpio->vhost_user);
+-}
+-
+-static int vu_gpio_connect(DeviceState *dev, Error **errp)
+-{
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-    struct vhost_dev *vhost_dev = &gpio->vhost_dev;
+-    int ret;
+-
+-    if (gpio->connected) {
+-        return 0;
+-    }
+-    gpio->connected = true;
+-
+-    vhost_dev_set_config_notifier(vhost_dev, &gpio_ops);
+-    gpio->vhost_user.supports_config = true;
+-
+-    gpio->vhost_dev.nvqs = VHOST_NVQS;
+-    gpio->vhost_dev.vqs = gpio->vhost_vqs;
+-
+-    ret = vhost_dev_init(vhost_dev, &gpio->vhost_user,
+-                         VHOST_BACKEND_TYPE_USER, 0, errp);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    /* restore vhost state */
+-    if (virtio_device_started(vdev, vdev->status)) {
+-        vu_gpio_start(vdev);
+-    }
+-
+-    return 0;
+-}
+-
+-static void vu_gpio_event(void *opaque, QEMUChrEvent event);
+-
+-static void vu_gpio_disconnect(DeviceState *dev)
+-{
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-
+-    if (!gpio->connected) {
+-        return;
+-    }
+-    gpio->connected = false;
+-
+-    vu_gpio_stop(vdev);
+-    vhost_dev_cleanup(&gpio->vhost_dev);
+-
+-    /* Re-instate the event handler for new connections */
+-    qemu_chr_fe_set_handlers(&gpio->chardev,
+-                             NULL, NULL, vu_gpio_event,
+-                             NULL, dev, NULL, true);
+-}
+-
+-static void vu_gpio_event(void *opaque, QEMUChrEvent event)
+-{
+-    DeviceState *dev = opaque;
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-    Error *local_err = NULL;
+-
+-    switch (event) {
+-    case CHR_EVENT_OPENED:
+-        if (vu_gpio_connect(dev, &local_err) < 0) {
+-            qemu_chr_fe_disconnect(&gpio->chardev);
+-            return;
+-        }
+-        break;
+-    case CHR_EVENT_CLOSED:
+-        /* defer close until later to avoid circular close */
+-        vhost_user_async_close(dev, &gpio->chardev, &gpio->vhost_dev,
+-                               vu_gpio_disconnect);
+-        break;
+-    case CHR_EVENT_BREAK:
+-    case CHR_EVENT_MUX_IN:
+-    case CHR_EVENT_MUX_OUT:
+-        /* Ignore */
+-        break;
+-    }
+-}
+-
+-static int vu_gpio_realize_connect(VHostUserGPIO *gpio, Error **errp)
+-{
+-    VirtIODevice *vdev = &gpio->parent_obj;
+-    DeviceState *dev = &vdev->parent_obj;
+-    struct vhost_dev *vhost_dev = &gpio->vhost_dev;
+-    int ret;
+-
+-    ret = qemu_chr_fe_wait_connected(&gpio->chardev, errp);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    /*
+-     * vu_gpio_connect() may have already connected (via the event
+-     * callback) in which case it will just report success.
+-     */
+-    ret = vu_gpio_connect(dev, errp);
+-    if (ret < 0) {
+-        qemu_chr_fe_disconnect(&gpio->chardev);
+-        return ret;
+-    }
+-    g_assert(gpio->connected);
+-
+-    ret = vhost_dev_get_config(vhost_dev, (uint8_t *)&gpio->config,
+-                               sizeof(gpio->config), errp);
+-
+-    if (ret < 0) {
+-        error_report("vhost-user-gpio: get config failed");
+-
+-        qemu_chr_fe_disconnect(&gpio->chardev);
+-        vhost_dev_cleanup(vhost_dev);
+-        return ret;
+-    }
+-
+-    return 0;
+-}
+-
+-static void vu_gpio_device_realize(DeviceState *dev, Error **errp)
+-{
+-    ERRP_GUARD();
+-
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(dev);
+-    int retries, ret;
+-
+-    if (!gpio->chardev.chr) {
+-        error_setg(errp, "vhost-user-gpio: chardev is mandatory");
+-        return;
+-    }
+-
+-    if (!vhost_user_init(&gpio->vhost_user, &gpio->chardev, errp)) {
+-        return;
+-    }
+-
+-    virtio_init(vdev, VIRTIO_ID_GPIO, sizeof(gpio->config));
+-
+-    gpio->command_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
+-    gpio->interrupt_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
+-    gpio->vhost_vqs = g_new0(struct vhost_virtqueue, VHOST_NVQS);
+-
+-    gpio->connected = false;
+-
+-    qemu_chr_fe_set_handlers(&gpio->chardev, NULL, NULL, vu_gpio_event, NULL,
+-                             dev, NULL, true);
+-
+-    retries = REALIZE_CONNECTION_RETRIES;
+-    g_assert(!*errp);
+-    do {
+-        if (*errp) {
+-            error_prepend(errp, "Reconnecting after error: ");
+-            error_report_err(*errp);
+-            *errp = NULL;
+-        }
+-        ret = vu_gpio_realize_connect(gpio, errp);
+-    } while (ret < 0 && retries--);
+-
+-    if (ret < 0) {
+-        do_vhost_user_cleanup(vdev, gpio);
+-    }
+-
+-    return;
+-}
+-
+-static void vu_gpio_device_unrealize(DeviceState *dev)
+-{
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserGPIO *gpio = VHOST_USER_GPIO(dev);
+-
+-    vu_gpio_set_status(vdev, 0);
+-    qemu_chr_fe_set_handlers(&gpio->chardev, NULL, NULL, NULL, NULL, NULL, NULL,
+-                             false);
+-    vhost_dev_cleanup(&gpio->vhost_dev);
+-    do_vhost_user_cleanup(vdev, gpio);
+-}
++#include "standard-headers/linux/virtio_gpio.h"
+ 
+ static const VMStateDescription vu_gpio_vmstate = {
+     .name = "vhost-user-gpio",
+     .unmigratable = 1,
+ };
+ 
+-static Property vu_gpio_properties[] = {
+-    DEFINE_PROP_CHR("chardev", VHostUserGPIO, chardev),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+ static void vu_gpio_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+-    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
++    ObjectProperty *op;
+ 
+-    device_class_set_props(dc, vu_gpio_properties);
+     dc->vmsd = &vu_gpio_vmstate;
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+-    vdc->realize = vu_gpio_device_realize;
+-    vdc->unrealize = vu_gpio_device_unrealize;
+-    vdc->get_features = vu_gpio_get_features;
+-    vdc->get_config = vu_gpio_get_config;
+-    vdc->set_status = vu_gpio_set_status;
+-    vdc->guest_notifier_mask = vu_gpio_guest_notifier_mask;
++
++    op = object_class_property_find(klass, "virtio-id");
++    g_assert(op);
++    object_property_fix_default_uint(op, VIRTIO_ID_GPIO);
++
++    op = object_class_property_find(klass, "num-vqs");
++    g_assert(op);
++    object_property_fix_default_uint(op, 2);
++
++    op = object_class_property_find(klass, "config_size");
++    g_assert(op);
++    object_property_fix_default_uint(op, sizeof(struct virtio_gpio_config));
  }
  
+ static const TypeInfo vu_gpio_info = {
+     .name = TYPE_VHOST_USER_GPIO,
+-    .parent = TYPE_VIRTIO_DEVICE,
++    .parent = TYPE_VHOST_USER_DEVICE,
+     .instance_size = sizeof(VHostUserGPIO),
+     .class_init = vu_gpio_class_init,
+ };
 -- 
 2.39.2
 
