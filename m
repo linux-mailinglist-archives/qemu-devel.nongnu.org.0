@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6304E6E2653
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C14E6E2665
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:03:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnKt9-0005v9-9S; Fri, 14 Apr 2023 10:58:59 -0400
+	id 1pnKxC-0008FU-LA; Fri, 14 Apr 2023 11:03:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnKt6-0005u7-HU
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:58:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnKt5-0001iZ-4n
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:58:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681484334;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=grTVzAluaVkwrO7QXvyzHZ/daRWWGLEpkQVnIpo6k94=;
- b=W+pPuIumqE7GMf13YvFl1qzEUQyAIf3Ielmslib9qm816sTUrEFE4/gIuRi0L2fkkkWQj+
- XETt2L/os4+Z/6Mwe/VLAlCWYp4AzqytHNNjyLKsVPuM7ASVtvRkGuYJTVu+kt4aKw/tT9
- mE8aOH7qTVfJP+tkt8XcPNZiofAp7NA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-547-47D6MkmIPPi-D-ylQ5WQYQ-1; Fri, 14 Apr 2023 10:58:52 -0400
-X-MC-Unique: 47D6MkmIPPi-D-ylQ5WQYQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5903280C8C8;
- Fri, 14 Apr 2023 14:58:52 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FEE0BC88;
- Fri, 14 Apr 2023 14:58:50 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Eldon Stegall <eldon-qemu@eldondev.com>, Camilla Conte <cconte@redhat.com>
-Subject: [PATCH 2/2] scripts/device-crash-test: Add a parameter to run with
- TCG only
-Date: Fri, 14 Apr 2023 16:58:45 +0200
-Message-Id: <20230414145845.456145-3-thuth@redhat.com>
-In-Reply-To: <20230414145845.456145-1-thuth@redhat.com>
-References: <20230414145845.456145-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKx8-0008FL-Kq
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:03:06 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKx6-0002a5-SO
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:03:06 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ o6-20020a05600c4fc600b003ef6e6754c5so8271859wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681484583; x=1684076583;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ukuz6ddoWBVkD1dtwfW2N2AUYoVN9yMiLSBNKHwAekc=;
+ b=j3Oh2QWw2L8fhnioSF8KORiZLHQFzB/DYqKfdtYiNouPz3xbCYsHO4W+yqwQPrQO5F
+ hk+ZPkfgj3k0wiU2fTtUgHHGFmXL9pg6eBmvBXlPt7vO/gvEyVEM2seVfW0xNG1w+iEL
+ C0wUeWRG8xp32gYTOw9Gq+QPMfK3v6IIPWG16jy5sYIlojemhBd/ndpICtD4fpc1+6Cs
+ qLICxLCBnb0mnz5cir2ou4TOlaWqqvDwe30Vb7xVIeVMuewE+8KelpnldnjVXsjFjv+s
+ S7edje9Kbu8kCLcZXfwFi6gvwLi/9L+XuAj3lIJN/oWnVGjPpp1J8FlYcrET0GR4JcuI
+ 6Nsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681484583; x=1684076583;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ukuz6ddoWBVkD1dtwfW2N2AUYoVN9yMiLSBNKHwAekc=;
+ b=kErJ8RgM2yE4woaeWN8rTOn6iUFR1jV5yp0S7rhvG5tlln5FQafSlcAGG1f5X9tDQK
+ IEDFlua+gZEJvyoMCJzcqXFgniKWBEKhMRMK652/xN/3c6y2ARZokkyjS6g198ANYT+2
+ hNwsVY9tE8JVA75tDrPosIUW2kOUQxGOJd0vARFE4XdkzQWQe+f/QHCB0BGZqJET+jiZ
+ 83s974q7GQ33ilJxC59hzAD9bhci5GK59/lBOIdIdrQYUfVxdfY65wSFnvcEclIgFm7z
+ Knj6qMc3LaMJO3ef61B3j5iwCAJEscNMkVTPpq/3WHvfKr44PwnDRgKmFZmOc8E5U3Ii
+ +W4w==
+X-Gm-Message-State: AAQBX9eiCZyBqn4ZAQfLBkOy6HILdslfvKtokrlD85OjIQ+ZoAZhpKZ8
+ UTo8Uz/wz32bH/sew5xfTbQqDQ==
+X-Google-Smtp-Source: AKy350aQZuLDIX3K7AXcrThHMym98V3Rb2n12BJU5IPAQMiu8bXWIzzsDiYWy09cWyot4n8sFvXqZw==
+X-Received: by 2002:a05:600c:2286:b0:3ee:5754:f139 with SMTP id
+ 6-20020a05600c228600b003ee5754f139mr4908126wmf.13.1681484583072; 
+ Fri, 14 Apr 2023 08:03:03 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.204.198])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a1ccc04000000b003f071466229sm4451973wmb.17.2023.04.14.08.03.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Apr 2023 08:03:02 -0700 (PDT)
+Message-ID: <5810a3c4-e8c1-7282-513f-0659475a47e8@linaro.org>
+Date: Fri, 14 Apr 2023 17:03:00 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH 15/40] e1000x: Take CRC into consideration for size check
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
+ <20230414113737.62803-16-akihiko.odaki@daynix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230414113737.62803-16-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.282,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,54 +101,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We're currently facing the problem that the device-crash-test script
-runs twice as long in the CI when a runner supports KVM - which sometimes
-results in a timeout of the CI job. To get a more deterministic runtime
-here, add an option to the script that allows to run it with TCG only.
+On 14/4/23 13:37, Akihiko Odaki wrote:
+> Section 13.7.15 Receive Length Error Count says:
+>>   Packets over 1522 bytes are oversized if LongPacketEnable is 0b
+>> (RCTL.LPE). If LongPacketEnable (LPE) is 1b, then an incoming packet
+>> is considered oversized if it exceeds 16384 bytes.
+> 
+>> These lengths are based on bytes in the received packet from
+>> <Destination Address> through <CRC>, inclusively.
+> 
+> As QEMU processes packets without CRC, the number of bytes for CRC
+> need to be subtracted.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   hw/net/e1000x_common.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
+> index 6cc23138a8..b4dfc74b66 100644
+> --- a/hw/net/e1000x_common.c
+> +++ b/hw/net/e1000x_common.c
+> @@ -142,10 +142,10 @@ bool e1000x_is_oversized(uint32_t *mac, size_t size)
+>   {
+>       /* this is the size past which hardware will
+>          drop packets when setting LPE=0 */
+> -    static const int maximum_ethernet_vlan_size = 1522;
+> +    static const int maximum_ethernet_vlan_size = 1522 - 4;
+>       /* this is the size past which hardware will
+>          drop packets when setting LPE=1 */
+> -    static const int maximum_ethernet_lpe_size = 16 * KiB;
+> +    static const int maximum_ethernet_lpe_size = 16 * KiB - 4;
+>   
+>       if ((size > maximum_ethernet_lpe_size ||
+>           (size > maximum_ethernet_vlan_size
 
-Reported-by: Eldon Stegall <eldon-qemu@eldondev.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.d/buildtest.yml | 2 +-
- scripts/device-crash-test  | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+IMHO this function could be simplified. Something like:
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 333eea9dd3..bb3650a51c 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -103,7 +103,7 @@ crash-test-debian:
-   script:
-     - cd build
-     - make NINJA=":" check-venv
--    - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-i386
-+    - tests/venv/bin/python3 scripts/device-crash-test -q --tcg-only ./qemu-system-i386
- 
- build-system-fedora:
-   extends:
-diff --git a/scripts/device-crash-test b/scripts/device-crash-test
-index 73bcb98693..b74d887331 100755
---- a/scripts/device-crash-test
-+++ b/scripts/device-crash-test
-@@ -397,7 +397,7 @@ def binariesToTest(args, testcase):
- 
- 
- def accelsToTest(args, testcase):
--    if getBinaryInfo(args, testcase['binary']).kvm_available:
-+    if getBinaryInfo(args, testcase['binary']).kvm_available and not args.tcg_only:
-         yield 'kvm'
-     yield 'tcg'
- 
-@@ -510,6 +510,8 @@ def main():
-                         help="Full mode: test cases that are expected to fail")
-     parser.add_argument('--strict', action='store_true', dest='strict',
-                         help="Treat all warnings as fatal")
-+    parser.add_argument('--tcg-only', action='store_true', dest='tcg_only',
-+                        help="Only test with TCG accelerator")
-     parser.add_argument('qemu', nargs='*', metavar='QEMU',
-                         help='QEMU binary to run')
-     args = parser.parse_args()
--- 
-2.31.1
+   bool long_packet_enabled = mac[RCTL] & E1000_RCTL_LPE;
+   size_t oversize = long_packet_enabled ? 16 * KiB : ETH_VLAN_MAXSIZE;
+   size_t crc32_size = sizeof(uint32_t);
 
+   if (mac[RCTL] & E1000_RCTL_SBP) {
+     return false;
+   }
+
+   if (size + crc32_size > oversize ) {
+     ...
+     return true;
+   }
+
+   return false;
+}
 
