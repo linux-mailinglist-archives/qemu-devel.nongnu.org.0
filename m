@@ -2,62 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18576E271E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D086E272D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:43:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnLRA-0002vs-7U; Fri, 14 Apr 2023 11:34:08 -0400
+	id 1pnLYs-0004Mu-PI; Fri, 14 Apr 2023 11:42:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pnLR8-0002vj-Aa
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:34:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnLYq-0004Mg-NC
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:42:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pnLR6-0000BH-CE
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:34:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnLYl-000243-8d
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:42:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681486442;
+ s=mimecast20190719; t=1681486918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ecr8Pl5c5WrYsQe6lfrPk6sil/m2DY+XMoqVtLPzXyk=;
- b=SaqtG5oYRabW0jGQRWVEafGbOnv/xoPdvYPq8U+OqEZL3zqRoxX61bW9hBBmmJOt1F/Qzb
- iwVfPT5vYdeVqoYq/7jca+r8YtsF9zQLsUYQbF3rpVYXlxIF5Sa1fL7VCADJMWrKTgtMaD
- 7d8tFqmQ0LP+J6GttSfg3VuQf2Utplo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-574-AQnC9paRMb6UrCTD3CPgLA-1; Fri, 14 Apr 2023 11:34:01 -0400
-X-MC-Unique: AQnC9paRMb6UrCTD3CPgLA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0958B1C1300E
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 15:34:01 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6BD2BC88;
- Fri, 14 Apr 2023 15:34:00 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: quintela@redhat.com
-Subject: [PATCH v2] migration: Handle block device inactivation failures better
-Date: Fri, 14 Apr 2023 10:33:58 -0500
-Message-Id: <20230414153358.1452040-1-eblake@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yhco7jT/TC1doXoqIvq9KOU04XPgdkASgzA2UOyX+fo=;
+ b=Z2NIG9rOClvgpgxUYQWv0ETau1X9SdlfRcMeIiFzA4ZpOZi85pil2/6KtY06Ynf+LsDYZd
+ RGiaRP/NsoJMDz2xC2jy9ri/MZpfteUxtmAVOSPidECkaNRG8dl7Ft8aE5Lh85Zp1x8BGa
+ OjmOa8LpuQete+Pys3p5fP/yLeAxugE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-37-vv_fRDOkOdCTWmzb_mcRng-1; Fri, 14 Apr 2023 11:41:56 -0400
+X-MC-Unique: vv_fRDOkOdCTWmzb_mcRng-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j34-20020a05600c1c2200b003f0ad53c14eso2004505wms.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:41:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681486915; x=1684078915;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yhco7jT/TC1doXoqIvq9KOU04XPgdkASgzA2UOyX+fo=;
+ b=I7Co7IpMVvySK9bbwxEBEQT0oOPY19kYjb5TAryeM9tXjACkUdKZvT5s0kULKwNUWr
+ MRB6fV8I+O6lVJrbfL6hijYoFf59oIAgLiCHdb9cMarv2/w5sbARUfu3G1h+njrWbIBU
+ vAhslqNVynrVQFZ1F7XL/AyvHk9lABNgb7Fah84w9kWxsU213Q2d7OIILsHvYLqh+sQU
+ OnzsaYk7GnRHEN4kTjfFxI2CrdzJul9F7DSNHmFk9yqjHKPiwtbqUs4osv6lPoNfNgK1
+ MSIKmfkoGijZS6upbA6fxuHVOP/U+aIHvwCeU4fUL56Ykm5A4U0f1z75vHkzjQ1s9eE1
+ AERQ==
+X-Gm-Message-State: AAQBX9elyl0RipVk1DuNg19we4pXddfsw7LZGLIlG96jxZ/XJkcQ64M4
+ k622nqWCRp0vMDeHDBKu+d3ozKegmQZ9nKJ+uJLC0RPny0mxZ58TeIN8QqGCS5L2pEmzlHW/Dro
+ XgOpjJRFwZGB8XaQ=
+X-Received: by 2002:a05:600c:24e:b0:3ef:71d5:41d8 with SMTP id
+ 14-20020a05600c024e00b003ef71d541d8mr4883284wmj.32.1681486915329; 
+ Fri, 14 Apr 2023 08:41:55 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aK0uSxZ3K/aIklRsVJdvLpuPKC+xQ7dJM/ddz2Kvu7hfUvubddWGSPgmX1QBgAD9lygOzpSA==
+X-Received: by 2002:a05:600c:24e:b0:3ef:71d5:41d8 with SMTP id
+ 14-20020a05600c024e00b003ef71d541d8mr4883270wmj.32.1681486914997; 
+ Fri, 14 Apr 2023 08:41:54 -0700 (PDT)
+Received: from [192.168.8.105] (tmo-096-44.customers.d1-online.com.
+ [80.187.96.44]) by smtp.gmail.com with ESMTPSA id
+ u10-20020a7bc04a000000b003f09d7b6e20sm4616394wmc.2.2023.04.14.08.41.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Apr 2023 08:41:54 -0700 (PDT)
+Message-ID: <c48c2c3c-3ddf-d11f-a119-0bc0b22176e9@redhat.com>
+Date: Fri, 14 Apr 2023 17:41:52 +0200
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: clean after distclean gobbles source files
+Content-Language: en-US
+To: Steven Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <bafc456e-34be-f2a4-71fc-e52ed964484e@oracle.com>
+ <5caa18b7-9920-7867-77aa-5d9770cbde14@redhat.com>
+ <bb433891-8f08-626e-21f1-e002f7a842e2@oracle.com>
+Cc: Michael Roth <michael.roth@amd.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <bb433891-8f08-626e-21f1-e002f7a842e2@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.282, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,108 +104,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Consider what happens when performing a migration between two host
-machines connected to an NFS server serving multiple block devices to
-the guest, when the NFS server becomes unavailable.  The migration
-attempts to inactivate all block devices on the source (a necessary
-step before the destination can take over); but if the NFS server is
-non-responsive, the attempt to inactivate can itself fail.  When that
-happens, the destination fails to get the migrated guest (good,
-because the source wasn't able to flush everything properly):
+On 14/04/2023 17.30, Steven Sistare wrote:
+> On 4/13/2023 7:41 AM, Thomas Huth wrote:
+>> On 07/04/2023 17.44, Steven Sistare wrote:
+>>> Run 'make distclean', and GNUmakefile is removed.
+>>> But, GNUmakefile is where we cd to build/.
+>>> Run 'make distclean' or 'make clean' again, and Makefile applies
+>>> the clean actions, such as this one, at the top level of the tree:
+>>>
+>>>       find . \( -name '*.so' -o -name '*.dll' -o \
+>>>             -name '*.[oda]' -o -name '*.gcno' \) -type f \
+>>>           ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
+>>>           ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
+>>>           -exec rm {} +
+>>>
+>>> For example, it removes the .d source files in 'meson/test cases/d/*/*.d'.
+>>> The damage could be worse in the future if more suffixes are cleaned.
+>>>
+>>> I don't have a suggested fix.  Recursion and the GNUmakefile bootstrap
+>>> make it non-trivial.
+>>
+>> That's somewhat ugly, indeed.
+>>
+>> We could maybe disallow make [dist]clean if running in-tree? Something like that:
+>>
+>> diff a/Makefile b/Makefile
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -26,7 +26,7 @@ quiet-command-run = $(if $(V),,$(if $2,printf "  %-7s %s\n" $2 $3 && ))$1
+>>   quiet-@ = $(if $(V),,@)
+>>   quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
+>>   
+>> -UNCHECKED_GOALS := %clean TAGS cscope ctags dist \
+>> +UNCHECKED_GOALS := TAGS cscope ctags dist \
+>>       help check-help print-% \
+>>       docker docker-% vm-help vm-test vm-build-%
+>>   
+>> @@ -201,7 +201,7 @@ recurse-distclean: $(addsuffix /distclean, $(ROMS))
+>>   
+>>   ######################################################################
+>>   
+>> -clean: recurse-clean
+>> +clean: config-host.mak recurse-clean
+>>          -$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean || :
+>>          -$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) clean-ctlist || :
+>>          find . \( -name '*.so' -o -name '*.dll' -o \
+>>
+>>
+>> ... or if we still want to allow that, maybe just make an exception for the *.d files:
+>>
+>> diff --git a/Makefile b/Makefile
+>> index e421f8a1f4..0cb2a7aa98 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -208,6 +208,7 @@ clean: recurse-clean
+>>                    -name '*.[oda]' -o -name '*.gcno' \) -type f \
+>>                  ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
+>>                  ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
+>> +               ! -path './meson/test cases/d/*/*.d' \
+>>                  -exec rm {} +
+>>          rm -f TAGS cscope.* *~ */*~
+>>   
+>>
+>> What do you think?
+> 
+> Actually, all make targets are broken if we do not cd to build first.
 
-  (qemu) qemu-kvm: load of migration failed: Input/output error
+I think some of them work from the source directory, too... e.g. "make help" 
+or "make vm-build-XXX" or "make dist" ... not sure how important this 
+possibility is ... I guess "make dist" is still a thing? Michael?
 
-at which point, our only hope for the guest is for the source to take
-back control.  With the current code base, the host outputs a message, but then appears to resume:
+> This should do the trick.  If you agree, I will submit a patch.
+> 
+> diff --git a/Makefile b/Makefile
+> index a48103c..3d03101 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -4,6 +4,10 @@ ifneq ($(words $(subst :, ,$(CURDIR))), 1)
+>     $(error main directory cannot contain spaces nor colons)
+>   endif
+> 
+> +ifneq ($(notdir $(CURDIR)),build)
+> +$(error To build in tree, run configure first.)
+> +endif
 
-  (qemu) qemu-kvm: qemu_savevm_state_complete_precopy_non_iterable: bdrv_inactivate_all() failed (-1)
+If we decide to go down that road, I think you should remove the existing 
+"Please call configure before running make" UNCHECKED_GOALS logic in that 
+file, too.
 
-  (src qemu)info status
-   VM status: running
-
-but a second migration attempt now asserts:
-
-  (src qemu) qemu-kvm: ../block.c:6738: int bdrv_inactivate_recurse(BlockDriverState *): Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed.
-
-Whether the guest is recoverable on the source after the first failure
-is debatable, but what we do not want is to have qemu itself fail due
-to an assertion.  It looks like the problem is as follows:
-
-In migration.c:migration_completion(), the source sets 'inactivate' to
-true (since COLO is not enabled), then tries
-savevm.c:qemu_savevm_state_complete_precopy() with a request to
-inactivate block devices.  In turn, this calls
-block.c:bdrv_inactivate_all(), which fails when flushing runs up
-against the non-responsive NFS server.  With savevm failing, we are
-now left in a state where some, but not all, of the block devices have
-been inactivated; but migration_completion() then jumps to 'fail'
-rather than 'fail_invalidate' and skips an attempt to reclaim those
-those disks by calling bdrv_activate_all().  Even if we do attempt to
-reclaim disks, we aren't taking note of failure there, either.
-
-Thus, we have reached a state where the migration engine has forgotten
-all state about whether a block device is inactive, because we did not
-set s->block_inactive in enough places; so migration allows the source
-to reach vm_start() and resume execution, violating the block layer
-invariant that the guest CPUs should not be restarted while a device
-is inactive.  Note that the code in migration.c:migrate_fd_cancel()
-will also try to reactivate all block devices if s->block_inactive was
-set, but because we failed to set that flag after the first failure,
-the source assumes it has reclaimed all devices, even though it still
-has remaining inactivated devices and does not try again.  Normally,
-qmp_cont() will also try to reactivate all disks (or correctly fail if
-the disks are not reclaimable because NFS is not yet back up), but the
-auto-resumption of the source after a migration failure does not go
-through qmp_cont().  And because we have left the block layer in an
-inconsistent state with devices still inactivated, the later migration
-attempt is hitting the assertion failure.
-
-Since it is important to not resume the source with inactive disks,
-this patch marks s->block_inactive before attempting inactivation,
-rather than after succeeding, in order to prevent any vm_start() until
-it has successfully reactivated all devices.
-
-See also https://bugzilla.redhat.com/show_bug.cgi?id=2058982
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
-
----
-
-v2: Set s->block_inactive sooner [Juan]
----
- migration/migration.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index bda47891933..cb0d42c0610 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3444,13 +3444,11 @@ static void migration_completion(MigrationState *s)
-                                             MIGRATION_STATUS_DEVICE);
-             }
-             if (ret >= 0) {
-+                s->block_inactive = inactivate;
-                 qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
-                 ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
-                                                          inactivate);
-             }
--            if (inactivate && ret >= 0) {
--                s->block_inactive = true;
--            }
-         }
-         qemu_mutex_unlock_iothread();
-
-@@ -3522,6 +3520,7 @@ fail_invalidate:
-         bdrv_activate_all(&local_err);
-         if (local_err) {
-             error_report_err(local_err);
-+            s->block_inactive = true;
-         } else {
-             s->block_inactive = false;
-         }
-
-base-commit: 7dbd6f8a27e30fe14adb3d5869097cddf24038d6
--- 
-2.39.2
+  Thomas
 
 
