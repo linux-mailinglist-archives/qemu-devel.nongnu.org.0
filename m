@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7D36E26B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D396E26BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:20:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnLBI-0006qh-4V; Fri, 14 Apr 2023 11:17:44 -0400
+	id 1pnLCx-00088R-K2; Fri, 14 Apr 2023 11:19:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pnLBE-0006pQ-SP
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:17:40 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnLCv-00088J-KD
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:19:25 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pnLBD-0005Tp-8h
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:17:40 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- n9-20020a05600c4f8900b003f05f617f3cso16704762wmq.2
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:17:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnLCt-0005o8-5Q
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:19:25 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e7so7807236wrc.12
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681485454; x=1684077454;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LiiGjyqX4o159cvbNlKsXJAHA/ueLUd6Q3sCWwwpz5Y=;
- b=DOaKY7KMiuRzv77phiJcAAJ0NvzAbTEawUceJCq6OubBbrOFy3Y2WowDMWM1MdGYR3
- qnxbuVikIfwiaWU3C/6stDlcrBYUtEJPZC6mXfRzfuRNK1brACCZs8MqXBEc8IqMZheI
- OoWJkk6gu7SDNrsmn4lCNzIOyj6jABoMy3GDDBFa1fJz40ZVsCmKSbFNvSbb1MHdqYlp
- 782o1F334MH2N07jMwV2b4JQVr9ztDdcdcwufcgZ2rq0bOXHMrWvDwQWE1kepwuQKTvG
- iu5v4ZDskKltIMbH1D19AeTWfSDxUKF4ulyKN1T/UUaFGah5Elk+bCXeFQyc7lmYPPJd
- EIbw==
+ d=linaro.org; s=google; t=1681485561; x=1684077561;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=isUy9SRqz3ZTWUBLwfeCalsU/nkvKn/+OYkrD/ijyKw=;
+ b=czXukWlxPjTMIyR3kjtC7zvIkNi1E8ItdeyojCIpaAtOIASHVLhHqpgAGO9t5HSvcw
+ i6kMfkEG0RGzM7tsHWqEChim0jm7Y9CmMWZMbowpTomXyu8vCacbkOsttHaxLqGiZHgi
+ /SuXcqaVNpUFqRKpEwuJROiNREOGBW4YcPauCyoWAdc/OnTv7nTcvb2QCDpfzJU2kc0X
+ C/fdluMfnSMtebfpRUvUiK606/PKpMHqJMmar4dPuETzOGk5MVnWR4ii/8piyDBolG5w
+ SEBht8xbzh/3lsU/G88087hiKsmhPCZOM9oYQvlUSu4gfg+5nYEXMrKCJwmythsG8nil
+ SJEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681485454; x=1684077454;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LiiGjyqX4o159cvbNlKsXJAHA/ueLUd6Q3sCWwwpz5Y=;
- b=iTF6tJ1eo2jFRwLSs1pnXf4kJ1+eOktBaoXoK+rLCmkme7zGvLrqt+of79D2LtlUOB
- EmM/hf9vfwWJ5nugE1+4O/KF6V/5tZxlsuAdr+XDsBTzULPH/XLdXD9mPeFPCsu28oNs
- tKYt8IvSUt5o1diS9U7378Wvf80M+rIcqeGXnOh5vuiv7VQa0eKH3S912XfnwedtfiSX
- xQOH0oxQ6uEpTG44hQQAcYU55PYqwfOa/b+TQ2CArAclBCxkV1poYZ8JLs5/o+Xbg2Vk
- DM4iWfw/n8zb998nm2Kmfea8BpCQ8Bc/7iIuiSuKktkbQQpM4iUa0kOIJiy+XMoqIVKv
- l/tQ==
-X-Gm-Message-State: AAQBX9d4ekIgoOO1azvDp+0JZF9OYgLpYv2J2RteOq7WU4HQzdwwS1St
- pIqoUi0V3uWLO47qz+Re92ue3A==
-X-Google-Smtp-Source: AKy350bQFzW/yiQUVEbMS8iwEGtjIIv6F3QJDvhfsmxOMugGGxPwOpR0bNIgwlJINtCCORADLPrWlg==
-X-Received: by 2002:a05:600c:21cf:b0:3ef:3ce6:7c54 with SMTP id
- x15-20020a05600c21cf00b003ef3ce67c54mr4860044wmj.35.1681485454655; 
- Fri, 14 Apr 2023 08:17:34 -0700 (PDT)
-Received: from myrica (054592b0.skybroadband.com. [5.69.146.176])
+ d=1e100.net; s=20221208; t=1681485561; x=1684077561;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=isUy9SRqz3ZTWUBLwfeCalsU/nkvKn/+OYkrD/ijyKw=;
+ b=go4f7NBMZxU21a/7L5oWMRewJxlvNzR80i0qXh1VCsZXz/qrD48ao3TrEUicml0lMX
+ Kw+Rj5Qav8d6XU7ha8ftYQOLSnyiQmfMwlFLzUbPLcUXT+VPCbDgqsp7pzfyeC0gRmLJ
+ sPb7odvQVCo9AKJHScU0Q6VhUvqez/fWOstMVlYXcFcu+AK/vCI9A3GefRP+PhbwaAWk
+ XBSYhsEQTHBzUzvacE2SGa4t/QQ/Oe1/a+i4RY3sVdN0obl/pEWGuz83dI2PCv7Jgk/n
+ AQLRQf8y7VNwOGQZnINDUNDMKNMacFb3c3z3FtgDFBAEM8VFp0De1jg0vHQ2qEO402Nw
+ APlg==
+X-Gm-Message-State: AAQBX9f4VwONMBZVG8Dn4c5kFGaAxfyHp6ZFBMb3khoFAzGURSuAhWZD
+ w1r1Xj8+zJ4N6vidy8oapSYp1g==
+X-Google-Smtp-Source: AKy350ayGB8/0LVceNNP4TVSxd3W18kdczXPRkfPWQDKg4BVgFGCp/13TpEJc+b9BqT87OD6gFq8UQ==
+X-Received: by 2002:adf:fdc5:0:b0:2db:9c64:f759 with SMTP id
+ i5-20020adffdc5000000b002db9c64f759mr7827729wrs.1.1681485561541; 
+ Fri, 14 Apr 2023 08:19:21 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.204.198])
  by smtp.gmail.com with ESMTPSA id
- 8-20020a05600c228800b003edef091b17sm4508021wmf.37.2023.04.14.08.17.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 08:17:34 -0700 (PDT)
-Date: Fri, 14 Apr 2023 16:17:35 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Eric Auger <eric.auger@redhat.com>, virtio-dev@lists.oasis-open.org,
- virtualization@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: Re: virtio-iommu hotplug issue
-Message-ID: <20230414151735.GA4145625@myrica>
-References: <15bf1b00-3aa0-973a-3a86-3fa5c4d41d2c@daynix.com>
- <20230413104041.GA3295191@myrica>
- <c6fb5a06-aa7e-91f9-7001-f456b2769595@daynix.com>
+ k14-20020a5d66ce000000b002f103ca90cdsm3769976wrw.101.2023.04.14.08.19.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Apr 2023 08:19:21 -0700 (PDT)
+Message-ID: <f337c4f5-4a20-cc29-033c-c5766f9c96f6@linaro.org>
+Date: Fri, 14 Apr 2023 17:19:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c6fb5a06-aa7e-91f9-7001-f456b2769595@daynix.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH] target/i386: Fix exception classes for SSE/AVX
+ instructions.
+Content-Language: en-US
+To: Ricky Zhou <ricky@rzhou.org>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com
+References: <20230212082812.55101-1-ricky@rzhou.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230212082812.55101-1-ricky@rzhou.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.282,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,26 +92,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 13, 2023 at 08:01:54PM +0900, Akihiko Odaki wrote:
-> Yes, that's right. The guest can dynamically create and delete VFs. The
-> device is emulated by QEMU: igb, an Intel NIC recently added to QEMU and
-> projected to be released as part of QEMU 8.0.
+Hi Ricky,
 
-Ah great, that's really useful, I'll add it to my tests
-
-> > Yes, I think this is an issue in the virtio-iommu driver, which should be
-> > sending a DETACH request when the VF is disabled, likely from
-> > viommu_release_device(). I'll work on a fix unless you would like to do it
+On 12/2/23 09:28, Ricky Zhou wrote:
+> Fix the exception classes for some SSE/AVX instructions to match what is
+> documented in the Intel manual.
 > 
-> It will be nice if you prepare a fix. I will test your patch with my
-> workload if you share it with me.
+> Most of these changes have no functional effect on the behavior that
+> qemu implements (primarily >= 16-byte memory alignment checks). For
+> example, since qemu does not implement the AC flag, there is no
+> difference in behavior between Exception Classes 4 and 5 for
+> instructions where the SSE version only takes <16 byte memory operands.
 
-I sent a fix:
-https://lore.kernel.org/linux-iommu/20230414150744.562456-1-jean-philippe@linaro.org/
+Having this patch split in 2 (documentation first, logical change then)
+would ease code review.
 
-Thank you for reporting this, it must have been annoying to debug
+> There is one functional change:
+> 
+> Before this change, MOVNTPS and MOVNTPD were labeled as Exception Class
+> 4 (only requiring alignment for legacy SSE instructions). This changes
+> them to Exception Class 1 (always requiring memory alignment), as
+> documented in the Intel manual.
 
-Thanks,
-Jean
+This could be a 3rd patch.
 
+> Signed-off-by: Ricky Zhou <ricky@rzhou.org>
+> ---
+>   target/i386/tcg/decode-new.c.inc | 79 ++++++++++++++++----------------
+>   1 file changed, 40 insertions(+), 39 deletions(-)
+
+Regards,
+
+Phil.
 
