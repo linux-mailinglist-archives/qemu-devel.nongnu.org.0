@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08836E280C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998F76E27FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:05:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnLv4-0006h4-TM; Fri, 14 Apr 2023 12:05:03 -0400
+	id 1pnLvP-0007sG-QX; Fri, 14 Apr 2023 12:05:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnLul-0006SG-Ah
+ id 1pnLuk-0006S0-79
  for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:47 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnLui-0007zV-L1
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:43 -0400
-Received: by mail-wr1-x435.google.com with SMTP id v6so18017484wrv.8
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 09:04:39 -0700 (PDT)
+ id 1pnLuh-0007zC-In
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:41 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id l18so17963535wrb.9
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 09:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681488279; x=1684080279;
+ d=linaro.org; s=google; t=1681488277; x=1684080277;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qzkS2+7HizjSf39YyqA8Cq2rMvvTCIuBSsfqveXGmXY=;
- b=oQki8JcCOBUDtxvcJydmEBkY0xGHK9Li0fWLu09OdcGLn/8/v105xW8W85N/lzoP7e
- aERWlwhD6ZoSOONni39zElEg3RM8o1w2rB8xzsYSGulSfCwSlJeACwdvvMHZURW6fF29
- qzxcOOyPgNbLR2AELKGqAyDdL39d7FRgV8WBznDT7njOrlBu6vsFkUVPrfoeMp4fnTCk
- 9mij9WAJEFdNjNkV+/gO/ahfI/SSVohQtBZUuUY0kDg1jLxlpiwF57M52OYnY9eAXv40
- Hy0/DbP0tLZ6/vHfilDyGeSEXqmgsn8hEU7mxV+TXVkNxlxO0+rSL35Zrt3NsKHQxgTb
- 0JrQ==
+ bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
+ b=Km+2PWccfqrAl6iXS+0QxP9ByJ0556FYve9PXciZyQzU1CJJ8I8scFfQK8XXBmXy5v
+ kxCP5k0lOtBtlyhcAQ6Ik/03qQ6RmDQ6uS/fJhi6djAoAwMq8iy9MjYzmVFdJPZwQIYs
+ Bj+0/RjbcQyU3webm69fVm/HEFtLNKhM4/Tnrdw3QUNmsG/9SS6iGWE55Aa7SiqLAoqh
+ 90DyjEPjRGMgXevBbAaVDpLPWg2yNa9I2RZRk3nqI6VTAuqjMVHRZqx4TD0ZJXVph8Am
+ Jq1XAUITDjnI/vmRKZJwwha5MCRh7FIWCZ9u/LW5ZdTsL27nmqk208OjB6hTVp15RfWV
+ ZSzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681488279; x=1684080279;
+ d=1e100.net; s=20221208; t=1681488277; x=1684080277;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qzkS2+7HizjSf39YyqA8Cq2rMvvTCIuBSsfqveXGmXY=;
- b=Ihprbsh7NiyHdMIIaFtxWpUyD9eUQyfPGRVdb8T7S/yZBWH/5nhbzKVRXiHS8xp/Xt
- UpSKcUn2rl0JAaRZ9X8l2DY6+i6pGV0j+JttP5lIBxwVc2bX3UYZlCoYfoVJlub4x5W5
- EoOf22aRdN4TJTcZWfVMGIhfj5wH3roOHbQ2zK2agV08NNdiLkut0l646AKuhYiRIsWu
- 2/venQ1A7Y3wgeDt1R71vgj43F0LE7f4p88i4Mbgt34qL48tiGkL9vCvzB2e6Ks8gnfk
- bGb/gH6ac49Et7Q69mq/B15fSij5kwlOyR/cv8uhtS3KF4WX4QKyBZ5jWubgyWfLaF/T
- vl2Q==
-X-Gm-Message-State: AAQBX9dj5Ii/wtw8HVimCQhPAjHGGgw4ME/rECk/JP7f3y8KXYkg/iDs
- 7cFsdjMp9loVkpwWS2E3LT732w==
-X-Google-Smtp-Source: AKy350btELHfse4fJA2g0sJAEKYVihxwFO960wwCSDYwlcSOORMLZo7jYykL/gTAU94MS1glDqjR3g==
-X-Received: by 2002:a05:6000:1818:b0:2f5:4b0b:a323 with SMTP id
- m24-20020a056000181800b002f54b0ba323mr4631230wrh.7.1681488278774; 
- Fri, 14 Apr 2023 09:04:38 -0700 (PDT)
+ bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
+ b=F7nJUW9Q52nuaZjp2tL+/3heWuzYlmRnsm2hi435ExjlC9fTOXnV2FVbOpMtuEx5l6
+ VD4ILVi7kvsGuBhAHN5XuLItNavQT4PGq0urN5bddtlP90uxhUdsR98c7Fv8tK29ni2e
+ L9I+JgFoEf+n5d4rE0FlUJefI+j8hkAwCzuWRz3uXjB9wxH0A4pJW8IsvlDv5WXu4KVU
+ +y0TMw5xwRdoaG0zIIrIGD570Rxbw+ikV1S3bHlDXsUlIbyOnGBlX9XPUfw8PBtzG4jf
+ bG4gUUDsQ7yjYyN0JqP3FQRVqdXbKjGCIDV2t99u48xNX7C59zvokHSlQb990fa4uyM2
+ XopA==
+X-Gm-Message-State: AAQBX9epdK6Is+ZgaCF2Tw/rpjPOQzOd/wKG3zEaSEq245meOlBkESae
+ z0oRt3jFbfFQd6AahxhC6Hd+yw==
+X-Google-Smtp-Source: AKy350Y4JrxIzaH4hEXaTATTcEHOHoCPS/2+I5omQlxT1drifGUdW6/mcGhGj0Gu6/wKfm8NwYaBjQ==
+X-Received: by 2002:adf:e407:0:b0:2f4:cf53:c961 with SMTP id
+ g7-20020adfe407000000b002f4cf53c961mr4436312wrm.54.1681488277718; 
+ Fri, 14 Apr 2023 09:04:37 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- y18-20020adff6d2000000b002daf0b52598sm3865268wrp.18.2023.04.14.09.04.34
+ q13-20020adfcd8d000000b002e51195a3e2sm3832381wrj.79.2023.04.14.09.04.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 14 Apr 2023 09:04:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7DC7E1FFBE;
+ by zen.linaroharston (Postfix) with ESMTP id 94B431FFBF;
  Fri, 14 Apr 2023 17:04:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -71,17 +71,17 @@ Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Jason Wang <jasowang@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
  Mathieu Poirier <mathieu.poirier@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 06/12] virtio: add PCI stub for vhost-user-device
-Date: Fri, 14 Apr 2023 17:04:27 +0100
-Message-Id: <20230414160433.2096866-7-alex.bennee@linaro.org>
+Subject: [PATCH 07/12] include: attempt to document device_class_set_props
+Date: Fri, 14 Apr 2023 17:04:28 +0100
+Message-Id: <20230414160433.2096866-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230414160433.2096866-1-alex.bennee@linaro.org>
 References: <20230414160433.2096866-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,104 +104,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is all pretty much boilerplate.
+I'm still not sure how I achieve by use case of the parent class
+defining the following properties:
+
+  static Property vud_properties[] = {
+      DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
+      DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
+      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
+      DEFINE_PROP_END_OF_LIST(),
+  };
+
+But for the specialisation of the class I want the id to default to
+the actual device id, e.g.:
+
+  static Property vu_rng_properties[] = {
+      DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG),
+      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
+      DEFINE_PROP_END_OF_LIST(),
+  };
+
+And so far the API for doing that isn't super clear.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/virtio/vhost-user-device-pci.c | 71 +++++++++++++++++++++++++++++++
- hw/virtio/meson.build             |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 hw/virtio/vhost-user-device-pci.c
+ include/hw/qdev-core.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/virtio/vhost-user-device-pci.c b/hw/virtio/vhost-user-device-pci.c
-new file mode 100644
-index 0000000000..96bf99d5fd
---- /dev/null
-+++ b/hw/virtio/vhost-user-device-pci.c
-@@ -0,0 +1,71 @@
-+/*
-+ * Vhost-user generic virtio device PCI glue
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index bd50ad5ee1..d4bbc30c92 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
+ char *qdev_get_fw_dev_path(DeviceState *dev);
+ char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
+ 
++/**
++ * device_class_set_props(): add a set of properties to an device
++ * @dc: the parent DeviceClass all devices inherit
++ * @props: an array of properties, terminate by DEFINE_PROP_END_OF_LIST()
 + *
-+ * Copyright (c) 2023 Linaro Ltd
-+ * Author: Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * This will add a set of properties to the object. It will fault if
++ * you attempt to add an existing property defined by a parent class.
++ * To modify an inherited property you need to use????
 + */
-+
-+#include "qemu/osdep.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/virtio/vhost-user-device.h"
-+#include "hw/virtio/virtio-pci.h"
-+
-+struct VHostUserDevicePCI {
-+    VirtIOPCIProxy parent_obj;
-+    VHostUserDevice vdev;
-+};
-+
-+typedef struct VHostUserDevicePCI VHostUserDevicePCI;
-+
-+#define TYPE_VHOST_USER_DEVICE_PCI "vhost-user-device-pci-base"
-+
-+DECLARE_INSTANCE_CHECKER(VHostUserDevicePCI,
-+                         VHOST_USER_DEVICE_PCI,
-+                         TYPE_VHOST_USER_DEVICE_PCI)
-+
-+static void vhost_user_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VHostUserDevicePCI *dev = VHOST_USER_DEVICE_PCI(vpci_dev);
-+    DeviceState *vdev = DEVICE(&dev->vdev);
-+
-+    vpci_dev->nvectors = 1;
-+    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-+}
-+
-+static void vhost_user_device_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+    k->realize = vhost_user_device_pci_realize;
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-+    pcidev_k->device_id = 0; /* Set by virtio-pci based on virtio id */
-+    pcidev_k->revision = 0x00;
-+    pcidev_k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
-+}
-+
-+static void vhost_user_device_pci_instance_init(Object *obj)
-+{
-+    VHostUserDevicePCI *dev = VHOST_USER_DEVICE_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_USER_DEVICE);
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_user_device_pci_info = {
-+    .base_name = TYPE_VHOST_USER_DEVICE_PCI,
-+    .non_transitional_name = "vhost-user-device-pci",
-+    .instance_size = sizeof(VHostUserDevicePCI),
-+    .instance_init = vhost_user_device_pci_instance_init,
-+    .class_init = vhost_user_device_pci_class_init,
-+};
-+
-+static void vhost_user_device_pci_register(void)
-+{
-+    virtio_pci_types_register(&vhost_user_device_pci_info);
-+}
-+
-+type_init(vhost_user_device_pci_register);
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 43e5fa3f7d..c0a86b94ae 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -13,6 +13,7 @@ if have_vhost
-     # fixme - this really should be generic
-     specific_virtio_ss.add(files('vhost-user.c'))
-     softmmu_virtio_ss.add(files('vhost-user-device.c'))
-+    softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_PCI', if_true: files('vhost-user-device-pci.c'))
-   endif
-   if have_vhost_vdpa
-     specific_virtio_ss.add(files('vhost-vdpa.c', 'vhost-shadow-virtqueue.c'))
+ void device_class_set_props(DeviceClass *dc, Property *props);
+ 
+ /**
 -- 
 2.39.2
 
