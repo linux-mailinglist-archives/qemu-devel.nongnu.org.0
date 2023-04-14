@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC866E227F
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316116E22A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:50:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnHpA-0006gH-Fj; Fri, 14 Apr 2023 07:42:42 -0400
+	id 1pnHpx-0007GN-NR; Fri, 14 Apr 2023 07:43:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHnB-0004q7-Eh
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:38 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pnHnH-0005FE-9i
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:41:08 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHn5-0001zE-K6
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:36 -0400
-Received: by mail-pl1-x632.google.com with SMTP id i8so9043620plt.10
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:40:27 -0700 (PDT)
+ id 1pnHn8-00020d-1v
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:40 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ cm18-20020a17090afa1200b0024713adf69dso5816748pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472427; x=1684064427;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472430; x=1684064430;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c3FhXj33fzvrTt7PbSmHYidCpt0dRbkfBLR6oG1d2n0=;
- b=CBLb2qx7DR+YEJKiVwJsPgKnrp30pMUEPtSL2Lw2lhtPbm0rCU1tb49/NuhVUsCoZl
- WxoJXrnBuKfBt56RQysuRKF8nMk7zLdi9rUt6Oc92W4IqjuvY3ejRZVnKnTnpgAeGo8/
- 1p9BbfCsuF6VML+A1jwF1ZNy132GAg5jzqcvJlTl66zk5XDWAMEp4loasURUK5PcxxyJ
- Wr1GxyBcjTGxQIuAlr4/H5QCMaQ/MBI9aXHh2dV6WdzmrJcsiduGfyveOd4WHtnWd0pC
- MDzAdEkex1QfhER5OMDdn/jOREB8ABYlJwbUC/L66w+SQgQnu4YT5M1Aj4/1FDYBGnhE
- xO/Q==
+ bh=ILeEC45O4cCOmKoGJEqXwqlDpUW0IKc6Vq1tRoBknx4=;
+ b=nvRqNeKkuS0kVE2YObKph/t6yRfE1OJ6rUFgdTI7pWfrLxM1/sz596Me876+47zarq
+ 64yN6ZazTyNqbQlq0RkJKEYT/+fC+v8V1WhXyonpVsLLATrUoF7AJxevq+9JhC/GsZ9s
+ 0Nr7twydoPyFps2dAU4WIwE44C6zK9QmM5eEz3df25VZ6a9mn7zHh7fJ2I/8MYrv8YGq
+ CB1A3P1MdSLvNnLeQq+CZucdE+PRlTjPRD7NRKHV8GbLA30kjOaypAk6kiLnwfljjthN
+ Uzcfa5E3OZTO3MpMwgc5tpNs596tHR/N1l97/nFRB0WNb3OwRkPUO+8yW8P1BQtvOUjR
+ dWqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681472427; x=1684064427;
+ d=1e100.net; s=20221208; t=1681472430; x=1684064430;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=c3FhXj33fzvrTt7PbSmHYidCpt0dRbkfBLR6oG1d2n0=;
- b=AXCs+dpDwas3Mx3ocX3/73YZUTNKXT2XLAqsnJnoCfSc3N6WX6Jr03YD6CyuUM1YRH
- eRW9Jd1BBD0El2pB8rJw/UOFu50/7MiQwNmslxBZmyGAflGxU6gLbYMVt0tcix+T8tIj
- Xk99pb55C4wkHeONnqrSlczXMVmUIKFeTSxSi1tZqDXK25CZ7Qdm70FcktEuNWlsoQOq
- zLJ/E0sZWpp2GFcyRre0S5Nn78KJTsG5BRIh2Rb5MqZAIChK2yOdt3E/T0E0TrVZh/YQ
- 9730vxVZhXvNvdioMLEElklV+iWXzWFPCxzMeJELvaHv7vH+Za4VMMZos1j5skyqlmue
- dZjQ==
-X-Gm-Message-State: AAQBX9c+HJ1iMWDS8b1yzUQyfM8W0p+mbk1gnwGO8g9OEDZSaxkZAmtu
- RQY3LHInPY+H8tXKv3lzKfMjZg==
-X-Google-Smtp-Source: AKy350az8pqOsxKOZulmixoZQvvYMpxDSUSVT8Qsi3IobvMfHMdCkVyyFStBSFIMAJvpqReGnvQIPA==
-X-Received: by 2002:a17:902:e5c2:b0:1a5:a1e:6f9e with SMTP id
- u2-20020a170902e5c200b001a50a1e6f9emr3246796plf.15.1681472426953; 
- Fri, 14 Apr 2023 04:40:26 -0700 (PDT)
+ bh=ILeEC45O4cCOmKoGJEqXwqlDpUW0IKc6Vq1tRoBknx4=;
+ b=B8ZAZvwj5yykpJTm384vkjCVcThzOEnifCjucIkVbZSOAzaVtZre+rVdlBX3K5WUEA
+ id4Nf26RZRLmylZIryQg8BxrM3aJvRSUQdhbWPO4Q9YKEovv2B87I20i6RMmS7/ap4sZ
+ lywah/L5xH8ILne3YvfLoLrWWbElSvCqNP1zacnWpBAIK0ZgcuL1/wnE3G6MFoMCUxha
+ k72SB3OD/wc1UMuK4cf3rGiYV/uti1JkIsO51cM/3a1NexCPWlY+kPcKPLQCeqdYJXkk
+ +hbzFSs5a+0QKP97+iBcUQrTKplKLRNBVxxkC5Hi7owpWdj9w8zxwr94VgDV1EOk7TKK
+ HwAw==
+X-Gm-Message-State: AAQBX9f/C+VPVpbRB9TuSZTNYuQ2luF9l0tQC8DdP9EEZhtn7TEQ9IPV
+ NseBzrr4EJZ/LKcIs2sgwYXTaA==
+X-Google-Smtp-Source: AKy350agM3DKZyrcznhnGuSncuQYq0Ff1cUSndVtPGyGGEJQ0eQ6uJPwJx+pjo69zbj3OORcPPEOYA==
+X-Received: by 2002:a17:902:8c8f:b0:1a6:6f42:f5c0 with SMTP id
+ t15-20020a1709028c8f00b001a66f42f5c0mr2300186plo.61.1681472430156; 
+ Fri, 14 Apr 2023 04:40:30 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.40.23
+ u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.40.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 04:40:26 -0700 (PDT)
+ Fri, 14 Apr 2023 04:40:29 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -68,17 +69,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 39/40] MAINTAINERS: Add a reviewer for network packet
- abstractions
-Date: Fri, 14 Apr 2023 20:37:36 +0900
-Message-Id: <20230414113737.62803-40-akihiko.odaki@daynix.com>
+Subject: [PATCH 40/40] docs/system/devices/igb: Note igb is tested for DPDK
+Date: Fri, 14 Apr 2023 20:37:37 +0900
+Message-Id: <20230414113737.62803-41-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::632;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x632.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,26 +100,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I have made significant changes for network packet abstractions so add
-me as a reviewer.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ docs/system/devices/igb.rst | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c31d2279ab..8b2ef5943c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2214,6 +2214,7 @@ F: tests/qtest/fuzz-megasas-test.c
+diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
+index afe036dad2..60c10bf7c7 100644
+--- a/docs/system/devices/igb.rst
++++ b/docs/system/devices/igb.rst
+@@ -14,7 +14,8 @@ Limitations
+ ===========
  
- Network packet abstractions
- M: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-+R: Akihiko Odaki <akihiko.odaki@daynix.com>
- S: Maintained
- F: include/net/eth.h
- F: net/eth.c
+ This igb implementation was tested with Linux Test Project [2]_ and Windows HLK
+-[3]_ during the initial development. The command used when testing with LTP is:
++[3]_ during the initial development. Later it was also tested with DPDK Test
++Suite [4]_. The command used when testing with LTP is:
+ 
+ .. code-block:: shell
+ 
+@@ -22,8 +23,8 @@ This igb implementation was tested with Linux Test Project [2]_ and Windows HLK
+ 
+ Be aware that this implementation lacks many functionalities available with the
+ actual hardware, and you may experience various failures if you try to use it
+-with a different operating system other than Linux and Windows or if you try
+-functionalities not covered by the tests.
++with a different operating system other than DPDK, Linux, and Windows or if you
++try functionalities not covered by the tests.
+ 
+ Using igb
+ =========
+@@ -32,7 +33,7 @@ Using igb should be nothing different from using another network device. See
+ :ref:`pcsys_005fnetwork` in general.
+ 
+ However, you may also need to perform additional steps to activate SR-IOV
+-feature on your guest. For Linux, refer to [4]_.
++feature on your guest. For Linux, refer to [5]_.
+ 
+ Developing igb
+ ==============
+@@ -68,4 +69,5 @@ References
+ .. [1] https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eb-gigabit-ethernet-controller-datasheet.pdf
+ .. [2] https://github.com/linux-test-project/ltp
+ .. [3] https://learn.microsoft.com/en-us/windows-hardware/test/hlk/
+-.. [4] https://docs.kernel.org/PCI/pci-iov-howto.html
++.. [4] https://doc.dpdk.org/dts/gsg/
++.. [5] https://docs.kernel.org/PCI/pci-iov-howto.html
 -- 
 2.40.0
 
