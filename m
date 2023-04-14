@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174706E2611
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F386E2638
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:51:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnKhk-0000bV-TM; Fri, 14 Apr 2023 10:47:12 -0400
+	id 1pnKlA-0003Uu-7g; Fri, 14 Apr 2023 10:50:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKhj-0000bJ-DI
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:47:11 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKhh-0007hf-V6
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:47:11 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- d8-20020a05600c3ac800b003ee6e324b19so9932337wms.1
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681483627; x=1684075627;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mcfvAEVch0dhU7QvSTjbOX4fD7f+NMXlb2Hqe+gZ6s8=;
- b=Bkes/aubqBZxy0Z8orjJ0on6gFXyrmXk6gzF13UsDdVJ76m25AqEBNmnzoUlp1fO20
- 43ZMsmJj2zswC/HoRXVOJANilXmQ/CHbtp684ctvE5orYYXvKUyAI/r9tBpVVZxf8b1Z
- Q7+TzoSAxO2fqB/+FZDfPSnpJBtBsF4Sg+nVq7G2Cn9FXwYRHBzXu/T0/HYEbsQ4Dze0
- nYoefKYwE6ogSrvSpgEIDzGzkGC3fMGHuDZ+KVnhFORUFUWIvAn3avwnrGaonoqlZRiX
- PSqsmaQbvxgHDFy19RchjeYN/2VBnTD0h3oxQtaux1gmory0JomB8Xf+A+nJg6/pVBI5
- OwtA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnKl0-0003UJ-VV
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:50:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnKky-00008K-NK
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:50:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681483829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nZNlS/WXH20/jwwYgBFVxyFtUeltaVB9np0Y6LTcEe8=;
+ b=bB4Jnz7/ER3iDn7iR3rLN1PKrEFVDNvTISbYdiyN9EpcAr/RnGXn0YhGOffoodF+5V6RAk
+ ZaTZU1CmtLgqGwjotzn25WiaAUZcJDKsP69M0cgkQAAP5R5oPuD5pMVS4q0x49SUbzSksL
+ PpHtG4r9U1pGOYkf1N+D7rd/I/KyNHQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-99-BfEkrrlwPxen9GwC2aRTLg-1; Fri, 14 Apr 2023 10:50:25 -0400
+X-MC-Unique: BfEkrrlwPxen9GwC2aRTLg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ w16-20020a05600c475000b003f082eecdcaso7280255wmo.6
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:50:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681483627; x=1684075627;
+ d=1e100.net; s=20221208; t=1681483824; x=1684075824;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mcfvAEVch0dhU7QvSTjbOX4fD7f+NMXlb2Hqe+gZ6s8=;
- b=ec1qZBcjau0UmjGPQzkA19Sx3uSWjJXqHOWma7Sjmv34+asLQNlROeFXz0BZafHVLG
- hczR4RudU930/hmM60+mSFdOrIFn+eFK0qIv/EU1tEhRcdt0LBtowTudQYB/9bSkb1JC
- jZB6JeyoMbmDWEAfiwQI4DjaLKo+/AqDumEcjnbDffm7kQUpztbYc3c1iz+bCPkxxO6Z
- vhrH/W2ikGh7n7usg33Dz5th+MhoJE5Wa1TzpUGXegZZHGF+c4ZRYXAN33Yk+q/rJxoJ
- i5SDVG2t8vsJya7KQuzH4rFDUFdZ3vbmiDeT6dgz+B2Leh4VDD79+ZSPsQVdRbul8s6c
- xZ/g==
-X-Gm-Message-State: AAQBX9frsARKrgmgMtCEdTQA433qbDjllPDAg4MDMGAkAiQC0Eg6c0xO
- v+cWomjN8+k2hI2eQhO1swa0xA==
-X-Google-Smtp-Source: AKy350Y4+465Fd6nBnxie0CMkjCtkvUQTQFn0/Ce+v1HJ5A7UYY83p7XHAPrHwh5BadNN8vjNrvyJw==
-X-Received: by 2002:a05:600c:229a:b0:3ee:9909:acc8 with SMTP id
- 26-20020a05600c229a00b003ee9909acc8mr4800676wmf.32.1681483627423; 
- Fri, 14 Apr 2023 07:47:07 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.204.198])
- by smtp.gmail.com with ESMTPSA id
- q9-20020a1ce909000000b003ee20b4b2dasm4398989wmc.46.2023.04.14.07.47.05
+ bh=nZNlS/WXH20/jwwYgBFVxyFtUeltaVB9np0Y6LTcEe8=;
+ b=imLoMwJ61r2oTz+qPPvyGNsUgV6wi8nToHSvb/tXFDuk5hjRvg7+iZY1oVHQMARVcg
+ kWI8R8udGp7MPvb1bbJPQqXENVA7+4kR6n/Bad+TyTlWrN9WKTp1gbmg998ttSKeSg14
+ 8t21IKi7syXeLjSm9pgM2Qeo0G8PXtgi0h/FDyVztQ2j6N+umxv8t75srD+P7VVlanz7
+ HRybl24NAfZtVM4K3k3KFOgJY0GPzeNadxqxq/q13NKv/ewssoCANwGDt90pDZihHeuU
+ W2zAFbFs3+g4bGSvIqxMRjbgqYtgCR8kFkxIbDZYCRrN6LMVOWQuuqP4lSPY4Q1Sg2b7
+ oyEQ==
+X-Gm-Message-State: AAQBX9fJnLs7HVqbeFfbKRPP4eKfyy8BG8xIVvJAjTv/wde2CkFdqGQw
+ 9IbOiUJp4nQqcuqUxvo4my9++nDBz2XLNMV4WncbRHbexAuuMCuoTBS/TA7hAMGLO2MoMq0hzyk
+ ODNLjvAnB+TE8WFc=
+X-Received: by 2002:a5d:4042:0:b0:2ef:b4ac:8e5 with SMTP id
+ w2-20020a5d4042000000b002efb4ac08e5mr4119162wrp.28.1681483824774; 
+ Fri, 14 Apr 2023 07:50:24 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZzQiNwV+VqNWMr07/uYN4dbPXOXzmE1bp/k1UcOf8tY1cWHU5HsElO6m9i7s8pPH2MHhkzkA==
+X-Received: by 2002:a5d:4042:0:b0:2ef:b4ac:8e5 with SMTP id
+ w2-20020a5d4042000000b002efb4ac08e5mr4119150wrp.28.1681483824420; 
+ Fri, 14 Apr 2023 07:50:24 -0700 (PDT)
+Received: from [192.168.8.105] (tmo-096-44.customers.d1-online.com.
+ [80.187.96.44]) by smtp.gmail.com with ESMTPSA id
+ r4-20020adfda44000000b002f598008d50sm3700417wrl.34.2023.04.14.07.50.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 07:47:07 -0700 (PDT)
-Message-ID: <245ea725-f22a-93ae-bbf8-e894fb7d1e73@linaro.org>
-Date: Fri, 14 Apr 2023 16:47:04 +0200
+ Fri, 14 Apr 2023 07:50:23 -0700 (PDT)
+Message-ID: <bd3a3306-d254-7118-028a-fd84bd84576f@redhat.com>
+Date: Fri, 14 Apr 2023 16:50:22 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH 09/40] Fix references to igb Avocado test
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/2] qtest: Don't assert on "-qtest chardev:myid"
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
- <dmitry.fleytman@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org
-References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
- <20230414113737.62803-10-akihiko.odaki@daynix.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230414113737.62803-10-akihiko.odaki@daynix.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20230413150724.404304-1-peter.maydell@linaro.org>
+ <20230413150724.404304-2-peter.maydell@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230413150724.404304-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.282,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.282, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,17 +102,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/4/23 13:37, Akihiko Odaki wrote:
-> Fixes: 9f95111474 ("tests/avocado: re-factor igb test to avoid timeouts")
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+On 13/04/2023 17.07, Peter Maydell wrote:
+> If the -qtest command line argument is passed a string that says
+> "use this chardev for I/O", then it will assert:
+> 
+> $ ./build/clang/qemu-system-i386 -chardev file,path=/dev/null,id=myid -qtest chardev:myid
+> Unexpected error in qtest_set_chardev() at ../../softmmu/qtest.c:1011:
+> qemu-system-i386: Cannot find character device 'qtest'
+> Aborted (core dumped)
+> 
+> This is because in qtest_server_init() we assume that when we create
+> the chardev with qemu_chr_new() it will always have the name "qtest".
+> This is true if qemu_chr_new() had to create a new chardev, but not
+> true if one already existed and is being referred to with
+> "chardev:myid".
+> 
+> Use the name of the chardev we get back from qemu_chr_new() as the
+> string to set the qtest 'chardev' property to, instead of hardcoding
+> it to "qtest".
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   MAINTAINERS                                        | 2 +-
->   docs/system/devices/igb.rst                        | 2 +-
->   scripts/ci/org.centos/stream/8/x86_64/test-avocado | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
+>   softmmu/qtest.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+> index 34bd2a33a76..26852996b5b 100644
+> --- a/softmmu/qtest.c
+> +++ b/softmmu/qtest.c
+> @@ -867,7 +867,7 @@ void qtest_server_init(const char *qtest_chrdev, const char *qtest_log, Error **
+>       }
+>   
+>       qtest = object_new(TYPE_QTEST);
+> -    object_property_set_str(qtest, "chardev", "qtest", &error_abort);
+> +    object_property_set_str(qtest, "chardev", chr->label, &error_abort);
+>       if (qtest_log) {
+>           object_property_set_str(qtest, "log", qtest_log, &error_abort);
+>       }
 
-Oops.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
