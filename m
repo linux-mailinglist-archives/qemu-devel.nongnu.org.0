@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C0D6E1C11
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 07:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00156E1C0F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 07:56:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnCP2-0007Oe-Hn; Fri, 14 Apr 2023 01:55:20 -0400
+	id 1pnCP6-0007Ph-5F; Fri, 14 Apr 2023 01:55:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pnCOx-0007Mb-OG
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:55:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pnCOy-0007OZ-Ul
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:55:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pnCOi-0000JF-Ff
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:55:15 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pnCOk-0000JB-7F
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:55:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681451699;
+ s=mimecast20190719; t=1681451698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YWbXIR6WGdAP0EgxpzDb1P+wi33ty82hF8pv1+xBob0=;
- b=hpWvE5NK0eOrAqJD6lKpVuwRSbc25epexAZcMygdfN/bXJuCDceq757G1s7Moo/rklWqZo
- 5qQIDTBEx2bGVgL9l3zk4X4eVK1NxIjfBrEW1XSKCLngKFIf6NECUh8NQmuWQGLjzVUc8c
- Y0VvsRMTMANWk8eYVSveA9w3OTdmMp8=
+ bh=U5H8/uHXs7YBOGUYE/CWcIe1725RoVciWQKk9ZWDMi8=;
+ b=LaVxqvZx1MBEa2WREYavc2LGUV5mnLF9YdIvCzZ0TI4MiB3zS3pMpFJPum4N7vlWSFTgjS
+ UAX635b2Lvr6IMSXVWbOFKFJGgPL+uFueBPabuwZXc9/iw1yToO8iXYJT/YZ9Uphbd86QQ
+ +94Ue+5/HK4PG1aZz4pp74OnOCUypls=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-384-w50JMwsIPKa7T080weyDtA-1; Fri, 14 Apr 2023 01:54:54 -0400
-X-MC-Unique: w50JMwsIPKa7T080weyDtA-1
+ us-mta-449-KzR5LbaXMPC3ND56hAyc1g-1; Fri, 14 Apr 2023 01:54:55 -0400
+X-MC-Unique: KzR5LbaXMPC3ND56hAyc1g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10D93185A78F;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1842101A552;
  Fri, 14 Apr 2023 05:54:54 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80587C1602A;
- Fri, 14 Apr 2023 05:54:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FAC0C1602A;
+ Fri, 14 Apr 2023 05:54:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Cleber Rosa <crosa@redhat.com>, Ani Sinha <ani@anisinha.ca>,
@@ -51,23 +51,24 @@ Cc: Cleber Rosa <crosa@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Beraldo Leal <bleal@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [RFC PATCH v2 06/10] mkvenv: generate console entry shims from inside
- the venv
-Date: Fri, 14 Apr 2023 01:54:45 -0400
-Message-Id: <20230414055449.4028284-7-jsnow@redhat.com>
+Subject: [RFC PATCH v2 07/10] mkvenv: work around broken pip installations on
+ Debian 10
+Date: Fri, 14 Apr 2023 01:54:46 -0400
+Message-Id: <20230414055449.4028284-8-jsnow@redhat.com>
 In-Reply-To: <20230414055449.4028284-1-jsnow@redhat.com>
 References: <20230414055449.4028284-1-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,140 +84,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch is meant to ensure that console entry point scripts will
-always generate on Python 3.7 installations where we may not have access
-to importlib.metadata. By running it from a separate process *inside*
-the venv, we can be assured to have access to setuptools and by
-extension pkg_resources as a fallback.
+This is a workaround intended for Debian 10, where the debian-patched
+pip does not function correctly if accessed from within a virtual
+environment.
 
-As a coincidence, it also gives us a pretty good place to do all kinds
-of other "in-venv" setup that we might want to do later; for instance
-meson and sphinx bootstrapping might be good candidates.
+We don't support Debian 10 any longer, but it's possible that this bug
+might appear on other derivative platforms and this workaround may prove
+useful.
+
+RFC, a note from Paolo:
+
+"BTW, another way to repair Debian 10's pip is to create a symbolic link
+to sys.base_prefix + '/share/python-wheels' in sys.prefix +
+'/share/python-wheels'. Since this is much faster, perhaps it can be
+done unconditionally [...] ?"
+
+I was slightly apprehensive about this as it felt "hackier", but it is
+indeed a lot less code and much faster. It's probably low-risk. Should
+we do that instead, or should we just scrap any fix at all under the
+premise that Debian 10 support is dropped anyway?
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/scripts/mkvenv.py | 71 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 57 insertions(+), 14 deletions(-)
+ python/scripts/mkvenv.py | 61 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 44 insertions(+), 17 deletions(-)
 
 diff --git a/python/scripts/mkvenv.py b/python/scripts/mkvenv.py
-index a3284e9ef1..317697a953 100644
+index 317697a953..6e1a979355 100644
 --- a/python/scripts/mkvenv.py
 +++ b/python/scripts/mkvenv.py
-@@ -62,22 +62,33 @@ def __init__(self, *args, **kwargs) -> None:
-         self.script_packages = kwargs.pop('script_packages', ())
-         super().__init__(*args, **kwargs)
+@@ -103,27 +103,25 @@ def need_ensurepip() -> bool:
+     return True
  
--        # The EnvBuilder class is cute and toggles this setting off
--        # before post_setup, but we need it to decide if we want to
--        # generate shims or not.
--        self._system_site_packages = self.system_site_packages
-+        # Make the context available post-creation:
-+        self._context: Optional[SimpleNamespace] = None
-+
-+    def ensure_directories(self, env_dir: DirType) -> SimpleNamespace:
-+        logger.debug("ensure_directories(env_dir=%s)", env_dir)
-+        self._context = super().ensure_directories(env_dir)
-+        return self._context
-+
-+    def create(self, env_dir: DirType) -> None:
-+        logger.debug("create(env_dir=%s)", env_dir)
-+        super().create(env_dir)
-+        self.post_post_setup(self._context)
  
-     def post_setup(self, context: SimpleNamespace) -> None:
-         logger.debug("post_setup(...)")
+-def check_ensurepip(with_pip: bool) -> None:
++def check_ensurepip(prefix: str = '', suggest_remedy: bool = False) -> None:
+     """
+     Check that we have ensurepip.
+ 
+     Raise a fatal exception with a helpful hint if it isn't available.
+     """
+-    if not with_pip:
+-        return
 -
--        # Generate console_script entry points for system packages:
--        if self._system_site_packages:
--            generate_console_scripts(
--                context.env_exe, context.bin_path, self.script_packages)
+     if not find_spec("ensurepip"):
+         msg = ("Python's ensurepip module is not found.\n"
+ 
+                "It's normally part of the Python standard library, "
+                "maybe your distribution packages it separately?\n"
+ 
+-               "Either install ensurepip, or alleviate the need for it in the "
+-               "first place by installing pip and setuptools for "
+-               f"'{sys.executable}'.\n"
 -
-         # print the python executable to stdout for configure.
-         print(context.env_exe)
+-               "(Hint: Debian puts ensurepip in its python3-venv package.)")
+-        raise Ouch(msg)
++               "(Debian puts ensurepip in its python3-venv package.)\n")
++        if suggest_remedy:
++            msg += (
++                "Either install ensurepip, or alleviate the need for it in the "
++                "first place by installing pip and setuptools for "
++                f"'{sys.executable}'.\n")
++        raise Ouch(prefix + msg)
  
-+    def post_post_setup(self, context: SimpleNamespace) -> None:
-+        # The final, final hook; enter the venv and run any
-+        # last steps we want to occur *inside* the venv.
-+        args = [context.env_exe, __file__, 'post_init',
-+                '--binpath', context.bin_path]
-+        if self.system_site_packages:
-+            args += ['--gen', ",".join(self.script_packages)]
-+        subprocess.run(args, check=True)
-+
+     # ensurepip uses pyexpat, which can also go missing on us:
+     if not find_spec("pyexpat"):
+@@ -132,12 +130,13 @@ def check_ensurepip(with_pip: bool) -> None:
+                "It's normally part of the Python standard library, "
+                "maybe your distribution packages it separately?\n"
  
- def need_ensurepip() -> bool:
-     """
-@@ -301,6 +312,10 @@ def generate_console_scripts(python_path: str, bin_path: str,
-     """
-     Generate script shims for console_script entry points in @packages.
-     """
-+    logger.debug(
-+        "generate_console_scripts(python_path=%s, bin_path=%s, packages=%s)",
-+        python_path, bin_path, packages)
-+
-     if not packages:
-         return
+-               "Either install pyexpat, or alleviate the need for it in the "
+-               "first place by installing pip and setuptools for "
+-               f"'{sys.executable}'.\n\n"
+-
+-               "(Hint: NetBSD's pkgsrc debundles this to e.g. 'py310-expat'.)")
+-        raise Ouch(msg)
++               "(NetBSD's pkgsrc debundles this to e.g. 'py310-expat'.)\n")
++        if suggest_remedy:
++            msg += (
++                "Either install pyexpat, or alleviate the need for it in the "
++                "first place by installing pip and setuptools for "
++                f"'{sys.executable}'.\n")
++        raise Ouch(prefix + msg)
  
-@@ -334,6 +349,16 @@ def _get_entry_points() -> Iterator[Dict[str, str]]:
+ 
+ def make_venv(  # pylint: disable=too-many-arguments
+@@ -169,7 +168,8 @@ def make_venv(  # pylint: disable=too-many-arguments
+         with_pip = True if not system_site_packages else need_ensurepip()
+         logger.debug("with_pip unset, choosing %s", with_pip)
+ 
+-    check_ensurepip(with_pip)
++    if with_pip:
++        check_ensurepip(suggest_remedy=True)
+ 
+     if symlinks is None:
+         # Default behavior of standard venv CLI
+@@ -349,6 +349,31 @@ def _get_entry_points() -> Iterator[Dict[str, str]]:
          logger.debug("wrote '%s'", script_path)
  
  
-+def post_venv_setup(bin_path: str, packages: Sequence[str] = ()) -> None:
++def checkpip():
 +    """
-+    This is intended to be run *inside the venv* after it is created.
++    Debian10 has a pip that's broken when used inside of a virtual environment.
++
++    We try to detect and correct that case here.
 +    """
-+    python_path = sys.executable
-+    logger.debug("post_venv_setup(bin_path=%s, packages=%s)",
-+                 bin_path, packages)
-+    generate_console_scripts(python_path, bin_path, packages)
++    try:
++        import pip._internal
++        logger.debug("pip appears to be working correctly.")
++        return
++    except ModuleNotFoundError as exc:
++        if exc.name == 'pip._internal':
++            # Uh, fair enough. They did say "internal".
++            # Let's just assume it's fine.
++            return
++        logger.warning("pip appears to be malfunctioning: %s", str(exc))
++
++    check_ensurepip("pip appears to be non-functional, and ")
++
++    logging.debug("Attempting to repair pip ...")
++    subprocess.run((sys.executable, '-m', 'ensurepip'),
++                   stdout=subprocess.DEVNULL, check=True)
++    logging.debug("Pip is now (hopefully) repaired!")
 +
 +
+ def post_venv_setup(bin_path: str, packages: Sequence[str] = ()) -> None:
+     """
+     This is intended to be run *inside the venv* after it is created.
+@@ -358,6 +383,8 @@ def post_venv_setup(bin_path: str, packages: Sequence[str] = ()) -> None:
+                  bin_path, packages)
+     generate_console_scripts(python_path, bin_path, packages)
+ 
++    # Test for a broken pip (Debian 10 or derivative?) and fix it if needed
++    checkpip()
+ 
  def main() -> int:
      """CLI interface to make_qemu_venv. See module docstring."""
-     if os.environ.get('DEBUG') or os.environ.get('GITLAB_CI'):
-@@ -366,12 +391,28 @@ def main() -> int:
-         help="Target directory to install virtual environment into.",
-     )
- 
-+    subparser = subparsers.add_parser(
-+        'post_init', help='post-venv initialization')
-+    subparser.add_argument(
-+        '--gen',
-+        type=str,
-+        action='append',
-+        help="Regenerate console_scripts for given packages, if found.",
-+    )
-+    subparser.add_argument(
-+        '--binpath',
-+        type=str,
-+        action='store',
-+        help="Path where console script shims should be generated",
-+    )
-+
-     args = parser.parse_args()
-+    script_packages = []
-+    for element in args.gen or ():
-+        script_packages.extend(element.split(","))
-+
-     try:
-         if args.command == 'create':
--            script_packages = []
--            for element in args.gen or ():
--                script_packages.extend(element.split(","))
-             make_venv(
-                 args.target,
-                 system_site_packages=True,
-@@ -380,7 +421,9 @@ def main() -> int:
-                 with_pip=None,  # Autodetermine
-                 script_packages=script_packages,
-             )
--            logger.debug("mkvenv.py create - exiting")
-+        if args.command == 'post_init':
-+            post_venv_setup(args.binpath, script_packages)
-+        logger.debug("mkvenv.py %s: exiting", args.command)
-     except Ouch as exc:
-         print("\n*** Ouch! ***\n", file=sys.stderr)
-         print(str(exc), "\n\n", file=sys.stderr)
 -- 
 2.39.2
 
