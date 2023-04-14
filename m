@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFABE6E25D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9A76E25E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:36:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnKTh-0005LP-FC; Fri, 14 Apr 2023 10:32:41 -0400
+	id 1pnKWh-0006TX-Ku; Fri, 14 Apr 2023 10:35:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKTd-0005L0-25
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:32:37 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKWf-0006TB-0R
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:35:45 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKTb-0004I9-GG
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:32:36 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- he11-20020a05600c540b00b003ef6d684102so8380540wmb.3
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:32:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKWW-0005GD-6L
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:35:44 -0400
+Received: by mail-wr1-x432.google.com with SMTP id j12so1477696wrd.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:35:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681482753; x=1684074753;
+ d=linaro.org; s=google; t=1681482933; x=1684074933;
  h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EIZ/mCtgm6aE5FkGCfyoNObg0lzUCvxKBnbR7Q8AVD0=;
- b=IMFRMVkHv+P4KzM1gFZyszQJqjz+hkzFD2+aJeE3AG5w5yV2507GqikiyhnYCUydqV
- ED5Cu0iJ22jP94nexLNhwizN9GqkPDTzOrN307uF+9u2I1DOWzBbrLJBDruB34CiWtl9
- 4oae0LMT0I2RIL5J/fP1FS4Gg45Uwk1chv9ryfKi0bXfK1BzWdVes58WzCORnU0bWG9u
- 6cZqbou7Wb7cM2iqCLMpBdZtESnOWrvwxoI9lEgxWFbAuaQneYBC+JptBhAU/zNrZXrC
- 9O0ELnbFuAjGh1NwazqN38MGESjDcv1sjhmJ2pxG/B3OSBVPaypSnmd9NByNGsyRb8Md
- tjKA==
+ bh=kctvUTDXmxKUDKK7yIYxW2/otmcFLLtRhuWJHJYZlGw=;
+ b=SOjJ+JVcYn3in51Qp/3WptvwQCPvGvKfKNlPARHeG0yVlb3cWCOxqE+ItxcjmBlkeq
+ /4IhvqgK5YWhjowUMZqOPsi320VcsQIvSOsGowGUYHzzUpQBLgBMmeF1FtPGKb/1h0H+
+ ZVoB6mOPiI6ZygnlqMGxHKWq/GKc08dFQsY5A9BMcRXQ9iunshspx3SDKZcHNH5sC+R2
+ Y17hXRTMbeM3r8JjdQV626N0bP0xmsBwCkx+9Az/318xzUgTR65R4sqc8RFIsRr8wir7
+ gN6piF3jAKroiOHto6AWgIrZmOZgniiJPoX/ber5bCGJH9kc3qKgajXUJt+p2I+6Ei0l
+ Wm6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681482753; x=1684074753;
+ d=1e100.net; s=20221208; t=1681482933; x=1684074933;
  h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EIZ/mCtgm6aE5FkGCfyoNObg0lzUCvxKBnbR7Q8AVD0=;
- b=WmNdmU07Mf+rfs4WZvZIJGUgSNlrIx53f0gu8sPqYJzC59VMCDGdLZ3m47v6sj2HDF
- RtDM5sQm+UrgXKjwT4WfjgmuSyxJwAoQ1MHxnl/GD9eT0aOXkqlXVXqlP8bsA49OFL+X
- CtlneWhPIzNOu+XUB0Ju1Du11igKDfxsgIRYFK6vsApdoeJvuLwMOIRhwG7aOfIVqR8s
- dIg1t+2Axlb1BxkAR10oNJ/XVHQ4pC7cQ9Lwz4PThEJbFq3KjJ0mIP/rTuRAodbt1gRT
- LcZcDq1B42AvYaBPBqZmjtYbsBWsYDvuybcEGHKrHMBr5oYg1x3/c0jyDa2ScQ40Z7RP
- BwyQ==
-X-Gm-Message-State: AAQBX9dVFKuh+dQK9Iss3nsgdz/IMexrAo16TaA3yBCCNuZrv+X9Yyaf
- 7XGTTGWVUfo+ynW8YQKoWyQSFQ==
-X-Google-Smtp-Source: AKy350ZXFIG6i1jz58z80nmrS5XsKhoAkjBfY50yUx1H8N8Tva5GrEZC/JQ4YvCIhjiTJ6rCLTAhvA==
-X-Received: by 2002:a05:600c:3646:b0:3ed:bc83:3745 with SMTP id
- y6-20020a05600c364600b003edbc833745mr4715034wmq.25.1681482753410; 
- Fri, 14 Apr 2023 07:32:33 -0700 (PDT)
+ bh=kctvUTDXmxKUDKK7yIYxW2/otmcFLLtRhuWJHJYZlGw=;
+ b=LYR7/r38N+tujQaCQpe4C1InkALX6+/E1HT0FpU9sqpGB5E3daUT7yk4qXuXPVOzm8
+ GU+NqC2eajhHMwWJmhHdwAtN5ZFyklfZ2cO4w8Bhw/ukV2AmxUlp7+FnRgJdrcyFdYCk
+ ChImGWrRx0kiJAptnsmMwa9SOl3buWJAhhwbWKDZwbIA/3eBpPQSP6hiTHMmbLvyRN2w
+ oD9cpeoIcUBUrWSH0Y16qKrWJL68A66CY5bRH4UxLqRWJ6/B6JwVjOjr/Db0KWwbeBUr
+ s31w+KsokaD862+7FfD5hHt/7m+no0FS1MPARFvyvIspQS4PFGb2YabGYFuWFL3EElVP
+ bcDQ==
+X-Gm-Message-State: AAQBX9cdFAf2+Luv9yVr/fjqfoJGBxre5FDi/90dRG/DiLWIIC+5ss4n
+ glD99i+q8aFyix4K1D4iyfbBPg==
+X-Google-Smtp-Source: AKy350aKeF6Uz7vYgKTImUHeLbHWjf/H9p8u5NibEY0+CjjvXscDHLW3R+38/p8uXKnUIA/wIHIW0A==
+X-Received: by 2002:adf:dfcb:0:b0:2ee:cd5e:903f with SMTP id
+ q11-20020adfdfcb000000b002eecd5e903fmr4902469wrn.50.1681482933372; 
+ Fri, 14 Apr 2023 07:35:33 -0700 (PDT)
 Received: from [192.168.69.115] ([176.187.204.198])
  by smtp.gmail.com with ESMTPSA id
- m2-20020a05600c3b0200b003f0652084b8sm8116681wms.20.2023.04.14.07.32.31
+ o5-20020a5d58c5000000b002f47ae62fe0sm3695679wrf.115.2023.04.14.07.35.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 07:32:33 -0700 (PDT)
-Message-ID: <d5f19502-624d-1271-c043-0546a3b8b229@linaro.org>
-Date: Fri, 14 Apr 2023 16:32:30 +0200
+ Fri, 14 Apr 2023 07:35:32 -0700 (PDT)
+Message-ID: <bd50a829-689d-716b-c04e-e0c636df1045@linaro.org>
+Date: Fri, 14 Apr 2023 16:35:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.1
@@ -75,17 +74,18 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
  <20230414113737.62803-5-akihiko.odaki@daynix.com>
  <08449e5d-4ccc-6eaa-f4d8-d21d0bc23786@linaro.org>
-In-Reply-To: <08449e5d-4ccc-6eaa-f4d8-d21d0bc23786@linaro.org>
+ <d5f19502-624d-1271-c043-0546a3b8b229@linaro.org>
+In-Reply-To: <d5f19502-624d-1271-c043-0546a3b8b229@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.282,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,34 +102,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/4/23 16:28, Philippe Mathieu-Daudé wrote:
-> On 14/4/23 13:37, Akihiko Odaki wrote:
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->> ---
->>   hw/net/igb_core.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+On 14/4/23 16:32, Philippe Mathieu-Daudé wrote:
+> On 14/4/23 16:28, Philippe Mathieu-Daudé wrote:
+>> On 14/4/23 13:37, Akihiko Odaki wrote:
+>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>>> ---
+>>>   hw/net/igb_core.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+>>> index 55de212447..f725ab97ae 100644
+>>> --- a/hw/net/igb_core.c
+>>> +++ b/hw/net/igb_core.c
+>>> @@ -1590,7 +1590,7 @@ static ssize_t
+>>>   igb_receive_internal(IGBCore *core, const struct iovec *iov, int 
+>>> iovcnt,
+>>>                        bool has_vnet, bool *external_tx)
+>>>   {
+>>> -    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 4);
+>>> +    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 8);
 >>
->> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
->> index 55de212447..f725ab97ae 100644
->> --- a/hw/net/igb_core.c
->> +++ b/hw/net/igb_core.c
->> @@ -1590,7 +1590,7 @@ static ssize_t
->>   igb_receive_internal(IGBCore *core, const struct iovec *iov, int 
->> iovcnt,
->>                        bool has_vnet, bool *external_tx)
->>   {
->> -    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 4);
->> +    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 8);
+>> Aren't VLAN tags 16-bit wide? Could you convert this magic value
+>> to some verbose-but-obvious definitions?
 > 
-> Aren't VLAN tags 16-bit wide? Could you convert this magic value
-> to some verbose-but-obvious definitions?
+> Digging a bit more, is this struct vlan_header?
 
-Digging a bit more, is this struct vlan_header?
+And now I see in patch #08 "igb: Always copy ethernet header":
 
-> Is it worth adding a vlan_tag_t typedef in include/net/eth.h?
-> 
->>       uint16_t queues = 0;
->>       uint32_t n = 0;
-> 
+   +typedef struct L2Header {
+   +    struct eth_header eth;
+   +    struct vlan_header vlan[2];
+   +} L2Header;
 
+Maybe add it first, and use sizeof(L2Header) here directly?
 
