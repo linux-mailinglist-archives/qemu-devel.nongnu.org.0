@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABD16E2287
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BB56E22A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:52:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnHor-0006Ly-TV; Fri, 14 Apr 2023 07:42:22 -0400
+	id 1pnHrd-0000I0-QB; Fri, 14 Apr 2023 07:45:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pnHnJ-0005Fy-FU; Fri, 14 Apr 2023 07:40:50 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pnHnG-00022I-M2; Fri, 14 Apr 2023 07:40:44 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pnHpY-0007hk-Kd
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:43:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pnHpV-0002Yk-Ii
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:43:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681472579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Tjvk5sP18ATLj9lGUb7nhT53ou40e+Y3XvgleUKuv20=;
+ b=UDYKuJwL1zkrJ9tRXK9TVh89DNLbXn7RToVLR6baTRbfXSpc3C7S62sZiQVoOtjOf5wbB/
+ aTQHtgwA6oLk4SXmeHIN52u4O5X6nLsMZazwHrLQIJFA2PzNITQ9A4yv1Eg1cS0MXG0rvI
+ HYVz8/Jdakg/WVpePP1o2B2ddxvF9fg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-495-ufp7A7DGPYOffBDbIqM1Sg-1; Fri, 14 Apr 2023 07:42:57 -0400
+X-MC-Unique: ufp7A7DGPYOffBDbIqM1Sg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4E508219DA;
- Fri, 14 Apr 2023 11:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1681472440; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5D/S8wUPYSaJyV+E530H2/P265W9H79yMNpZZWRSbS0=;
- b=t1nTX4kCO+pgt+qT37FF6G1QQ2bNi8BAdxPYcMapMhk4fuuBwcq4h3QFM76I+THCiMKeAT
- /isqsHkttUJ6dPQzKVxD/kNT2TtgePuLPhUGl/cTt9mWRtsoUgI+2wwUovWf6XmHa0gffc
- 5+7s9mxePGF6SIeRy1IZLP2eAsP9hEs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1681472440;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5D/S8wUPYSaJyV+E530H2/P265W9H79yMNpZZWRSbS0=;
- b=X/yAHIm/7FtjUPSoyRvrC/cKh2DDj+BtF1ord2PaUJiMrTdJlMJ9nl/zmAIkzFNP7lKII+
- 9CiQ2l1xLPlCqTCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CC18A13498;
- Fri, 14 Apr 2023 11:40:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id r6OYJLc7OWQ/TgAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 14 Apr 2023 11:40:39 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Harsh Prateek Bora <harshpb@linux.ibm.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, danielhb413@gmail.com
-Subject: Re: [PATCH 1/5] ppc: spapr: cleanup cr get/store with helper routines.
-In-Reply-To: <20230331065344.112341-2-harshpb@linux.ibm.com>
-References: <20230331065344.112341-1-harshpb@linux.ibm.com>
- <20230331065344.112341-2-harshpb@linux.ibm.com>
-Date: Fri, 14 Apr 2023 08:40:37 -0300
-Message-ID: <87y1muite2.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B14438123B8
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 11:42:57 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93C091415117;
+ Fri, 14 Apr 2023 11:42:56 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH v3] test: Fix test-crypto-secret when compiling without
+ keyring support
+Date: Fri, 14 Apr 2023 13:42:52 +0200
+Message-Id: <20230414114252.1136-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,17 +76,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Harsh Prateek Bora <harshpb@linux.ibm.com> writes:
+Linux keyring support is protected by CONFIG_KEYUTILS.
+We also need CONFIG_SECRET_KEYRING.
 
-A bit vague on the subject line. I would expect to see some mention to
-nested at least.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-> The bits in cr reg are grouped into eight 4-bit fields represented
-> by env->crf[8] and the related calculations should be abstracted to
-> keep the calling routines simpler to read. This is a step towards
-> cleaning up the [h_enter|spapr_exit]_nested calls for better readability.
->
-> Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
+---
 
-Reviewed-by: Fabiano Rosas <farosas@suse.de>
+- Previous version of this patch changed the meson build rules.
+  Daniel told me that the proper fix was to change the #ifdef test.
+
+- Change rule again.  We need both defines.
+- Put both defines in #endif (thomas)
+---
+ tests/unit/test-crypto-secret.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/tests/unit/test-crypto-secret.c b/tests/unit/test-crypto-secret.c
+index 34a4aecc12..147b4af828 100644
+--- a/tests/unit/test-crypto-secret.c
++++ b/tests/unit/test-crypto-secret.c
+@@ -24,7 +24,7 @@
+ #include "crypto/secret.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+-#ifdef CONFIG_KEYUTILS
++#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
+ #include "crypto/secret_keyring.h"
+ #include <keyutils.h>
+ #endif
+@@ -128,7 +128,7 @@ static void test_secret_indirect_emptyfile(void)
+     g_free(fname);
+ }
+ 
+-#ifdef CONFIG_KEYUTILS
++#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
+ 
+ #define DESCRIPTION "qemu_test_secret"
+ #define PAYLOAD "Test Payload"
+@@ -268,7 +268,7 @@ static void test_secret_keyring_bad_key_access_right(void)
+     keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
+ }
+ 
+-#endif /* CONFIG_KEYUTILS */
++#endif /* CONFIG_KEYUTILS && CONFIG_SECRET_KEYRING */
+ 
+ static void test_secret_noconv_base64_good(void)
+ {
+@@ -571,7 +571,7 @@ int main(int argc, char **argv)
+     g_test_add_func("/crypto/secret/indirect/emptyfile",
+                     test_secret_indirect_emptyfile);
+ 
+-#ifdef CONFIG_KEYUTILS
++#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
+     g_test_add_func("/crypto/secret/keyring/good",
+                     test_secret_keyring_good);
+     g_test_add_func("/crypto/secret/keyring/revoked_key",
+@@ -582,7 +582,7 @@ int main(int argc, char **argv)
+                     test_secret_keyring_bad_serial_key);
+     g_test_add_func("/crypto/secret/keyring/bad_key_access_right",
+                     test_secret_keyring_bad_key_access_right);
+-#endif /* CONFIG_KEYUTILS */
++#endif /* CONFIG_KEYUTILS && CONFIG_SECRET_KEYRING */
+ 
+     g_test_add_func("/crypto/secret/noconv/base64/good",
+                     test_secret_noconv_base64_good);
+-- 
+2.39.2
+
 
