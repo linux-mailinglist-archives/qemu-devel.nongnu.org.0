@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B846E2680
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300E66E2684
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:11:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnL3w-0003nJ-Ht; Fri, 14 Apr 2023 11:10:08 -0400
+	id 1pnL4f-0004TG-47; Fri, 14 Apr 2023 11:10:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnL3q-0003mx-GG
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:10:02 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnL4b-0004St-FA
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:10:50 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnL3o-0003vA-KN
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:10:01 -0400
-Received: by mail-wm1-x330.google.com with SMTP id q5so10520379wmo.4
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:09:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnL4a-0004IV-0T
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:10:49 -0400
+Received: by mail-wr1-x429.google.com with SMTP id j12so1600574wrd.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681484998; x=1684076998;
+ d=linaro.org; s=google; t=1681485046; x=1684077046;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=GHSeTOEctIME3nc7oYkB74kDBk5G6JGnpPhpIjgKqtk=;
- b=ZdT7xidQeh0kgYoJ2BXqLeVGs/2YVR7B/LhZ1vT3jzdRsobJyGHKvkBIZL9y48oWUU
- nNbDrJZoImMcA4yUI2ry3880Fxtz6WfHhM4nvwb39sdu4d8ypbdpeFJp7ebrIbxFo4Kn
- 6Nth5JKeTiL8DLI5NM4f4vgB9kEZhP5193YS2a4G0xCZJ4a7Fbg0w5nfnSb2Qg5B6fzh
- AISFy5gHSF3Ny4/tVIxDmoB1z7RD6N6LUrjAKFk50D9s/oM5HH9JTvQMYCnYXPnLc0mW
- msn2h8uhCZN8VIbBAn2qryddjayVlZUEgB7E1Lbg3d9zS3WD16ofaoRTm+e38vfnrcHG
- vhjw==
+ bh=WSlwMoJ91FiH+UzHickGxicl7hyvQvfXxMZdoYjzx1U=;
+ b=qnUgfj4NM34alsXO55r0/+fDcVptweJts2uJW4k1qYI5n6INacD0ycx+PpvMTVBEXU
+ 9Zg8fmRFoT9a4ylDXQMx+rYomeL2or+OhDZDWVrOnGHRFe/2BhkE0krcyCYSmwG5wS6U
+ lb3NvRbao5Z+TYk1naFS7hMvwEZUzisk57vpd51y9CjG7lZ51G6dOOmuNxIX0fxwQRw3
+ oinVb7dLuNTttxuj43wX/T1UIfYuoy7wsfJXMmTscw2y/UfCN8Ie4kYIgyYlcnNdZBaw
+ FJ4K6Er+8nETKpo9QrNRa/OO4yuuPZrsnjPHXslZwrjTny5aYhm+8Aqfvui2kQcdqiFx
+ GTIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681484998; x=1684076998;
+ d=1e100.net; s=20221208; t=1681485046; x=1684077046;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GHSeTOEctIME3nc7oYkB74kDBk5G6JGnpPhpIjgKqtk=;
- b=RH3zJFhRpib4rDNfs9VftykugdvLDIv1blAX0bXgkVMasT3+ZYgWcIfHmATrJojvQP
- YH4ql0GyjOWSeOANQBxbKjynsf+MkhGy1Hzj4bNyn+kT4BhiMUN3OUi6PPzH6zqk2k5W
- rNs2ra/+SJ4/Q8lkQulw9O+XRZj3PyCFNm62s1hkxo8vC0ZORFOC/Lmx79qoBvhG8SEh
- Bs1oZsfpedrs/Ux3CUHXfoqk/XHIovh32smgIGMR1S2oOBuQMaKeqJ66Hvjn7lC2YQ0x
- UyY4k2HtXag8TADoa7vjNSiuC6HV6CWvFuZ358rFiSzdiVMyYHiJhlK9mfGVfNTbjtWI
- OH2g==
-X-Gm-Message-State: AAQBX9eBGMc2tR/o0Tq+yUkPqwglTIGZbICCbYt6PntERz7IUuPeVPpI
- bO3MpB/PJz0KzJY/N0ZsK46khQ==
-X-Google-Smtp-Source: AKy350bmjQ6Zs0SV62Vf5uqRCvW+wcgnudR27NYoaYgxh1b8OXSm+8SOw5leIp0ns1TaMDn1p6pN0g==
-X-Received: by 2002:a7b:ca57:0:b0:3ed:4685:4618 with SMTP id
- m23-20020a7bca57000000b003ed46854618mr4778489wml.34.1681484998513; 
- Fri, 14 Apr 2023 08:09:58 -0700 (PDT)
+ bh=WSlwMoJ91FiH+UzHickGxicl7hyvQvfXxMZdoYjzx1U=;
+ b=TARnP+bud5sTRUGCzOLSbzMOJV6O67XJ8fDyvXxQMM1VCLfb0LMKRbd7nl+hDua2LT
+ oPwHR7zuqX+i3qALFEni6TrI0PTvQIIWL9RemaRNWTLcbFD0vvwM9f0bB3Vg3KhtzL1z
+ uK0D3DBCOGnWvWMcsOFgNKmmyiMoxHzXEink55T5lYdFG+FNB0yBe37JEAqGXijVTR9Y
+ xyaNeiL3orOmIOdhYWbpmd2JnwAH4XhyR4rWWeU1/yV8DPQkbhiomJzuV/oFcCfXOecl
+ Xj9MlsgO9wTsOjqLPbEsZw1eGU/0Ue1Yks05jhbwI947Ovym3FPe+r+RpnkRaROFOvYo
+ Hjaw==
+X-Gm-Message-State: AAQBX9fFbYOzTMS9JecjbFzwQ3mS3RJFxc1Uw6P+P5bCGtliY1TLF6+e
+ hDv/VFWgdbBp2GErielnAX4iAA==
+X-Google-Smtp-Source: AKy350ZtzXVz3b6By5VWxI6SeOMVhrYKHhhACWIfS7Z+jPmDOCX3PcJijRIgXwn2hrWunxkX6sGNoQ==
+X-Received: by 2002:adf:f247:0:b0:2f4:d07c:3cff with SMTP id
+ b7-20020adff247000000b002f4d07c3cffmr4623174wrp.59.1681485046482; 
+ Fri, 14 Apr 2023 08:10:46 -0700 (PDT)
 Received: from [192.168.69.115] ([176.187.204.198])
  by smtp.gmail.com with ESMTPSA id
- e11-20020a056000120b00b002e45f6ffe63sm3745728wrx.26.2023.04.14.08.09.56
+ y11-20020a056000108b00b002f013fb708fsm3793130wrw.4.2023.04.14.08.10.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 08:09:58 -0700 (PDT)
-Message-ID: <7557f2d4-655a-7712-a7d3-ee661d50e838@linaro.org>
-Date: Fri, 14 Apr 2023 17:09:55 +0200
+ Fri, 14 Apr 2023 08:10:45 -0700 (PDT)
+Message-ID: <c6867654-4a75-b9cb-315a-01e979cc480c@linaro.org>
+Date: Fri, 14 Apr 2023 17:10:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH 24/40] igb: Fix igb_mac_reg_init alignment
+Subject: Re: [PATCH 25/40] net/eth: Use void pointers
 Content-Language: en-US
 To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -71,13 +71,13 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
- <20230414113737.62803-25-akihiko.odaki@daynix.com>
+ <20230414113737.62803-26-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230414113737.62803-25-akihiko.odaki@daynix.com>
+In-Reply-To: <20230414113737.62803-26-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -101,13 +101,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 14/4/23 13:37, Akihiko Odaki wrote:
+> The uses of uint8_t pointers were misleading as they are never accessed
+> as an array of octets and it even require more strict alignment to
+> access as struct eth_header.
+> 
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->   hw/net/igb_core.c | 96 +++++++++++++++++++++++------------------------
->   1 file changed, 48 insertions(+), 48 deletions(-)
-
-"Fix igb_mac_reg_init() coding style alignment" to clarify
-this isn't about data alignment.
+>   include/net/eth.h | 4 ++--
+>   net/eth.c         | 6 +++---
+>   2 files changed, 5 insertions(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
