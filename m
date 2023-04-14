@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3ED6E18D6
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA496E18D5
 	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 02:13:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn72t-0007go-Vr; Thu, 13 Apr 2023 20:12:08 -0400
+	id 1pn72w-0007ha-An; Thu, 13 Apr 2023 20:12:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3UJo4ZAsKCo8tv3xA4xHC6zz77z4x.v759x5D-wxEx4676z6D.7Az@flex--ackerleytng.bounces.google.com>)
- id 1pn72q-0007gY-KC
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 20:12:04 -0400
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a])
+ <3Upo4ZAsKCpEvx5zC6zJE8119916z.x97Bz7F-yzGz689818F.9C1@flex--ackerleytng.bounces.google.com>)
+ id 1pn72t-0007hC-Kc
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 20:12:07 -0400
+Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3UJo4ZAsKCo8tv3xA4xHC6zz77z4x.v759x5D-wxEx4676z6D.7Az@flex--ackerleytng.bounces.google.com>)
- id 1pn72o-00038E-Ml
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 20:12:04 -0400
-Received: by mail-pg1-x54a.google.com with SMTP id
- h64-20020a638343000000b0050760997f4dso6818602pge.6
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 17:12:01 -0700 (PDT)
+ <3Upo4ZAsKCpEvx5zC6zJE8119916z.x97Bz7F-yzGz689818F.9C1@flex--ackerleytng.bounces.google.com>)
+ id 1pn72q-00038Z-OS
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 20:12:06 -0400
+Received: by mail-pl1-x64a.google.com with SMTP id
+ u11-20020a17090341cb00b001a22d27406bso7766063ple.13
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 17:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1681431120; x=1684023120;
+ d=google.com; s=20221208; t=1681431122; x=1684023122;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=LGz+M9nFtzHbGGbLaqDB42+XLCRk5tnoOBaeHE6w0dg=;
- b=S5LluL5NFzRfMffvrC48pA8vM9jBztEWtYOdVu6RC2ufBdtUUSqD+XyBpvK1yq+IN2
- IHnZhiT1W0yssxQ4r7Y9clMkV6zvB2ogiOPODlbRwrRyDr07/qDDpZBBDVLk/N65uZzy
- CN1ozoAyt0GCn/Q/UB/ZvGZUO3F2PMmedv6i9jH6jJ0uY0cAH01PJa7G0h1cPoPbYq3f
- IdXBPJH4a6Ro/C6Sct1ltwBhbcLCAMsdz4Y30Y2jgpBNq+x1h2YwjODMyjFmoi8MJRCf
- dDhFwUgzHhEfG/8I1Qg7KrBG7Crz9lPVWk5qe+WYi0MTtv3ZN9nLmsTMDMwmdbsD2L57
- OQPA==
+ bh=BkEj6q2IVKaYOP6wiiRLnj5ts2mBBZa+OIxL/GSTf98=;
+ b=hEKe7KJhnbtB7HOx0Et2GGRR4tPoUqzTdWnfUxGGsyi9EoTWrZhVqGnrZvvHuOndFb
+ TZMGSQ8vslsUBzDoxn9iNYO9LNL12Zs3VwW97btbxF/u5m0XCRPh93bGl4sbvEzqxT6/
+ vZR2E4QR8bsqooC9JFGEbUD4GNGVdkQWEnhHWe0gty7hNJfMUG+x6qUJrqOv1s31GKD5
+ /0uqMrvUHdk6drQi8pnb3EXthHB7+IGInrY92tJ9ElhNKYIt+IMYZonjXRQ9OCvmz8n+
+ DadYc4CMCAJvwcgOviymbXY411dscM1zCutEA5OdbSJuHP8nTNCFxIaU7gllAACoSnWm
+ TMoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681431120; x=1684023120;
+ d=1e100.net; s=20221208; t=1681431122; x=1684023122;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LGz+M9nFtzHbGGbLaqDB42+XLCRk5tnoOBaeHE6w0dg=;
- b=HVoy6hIpE5iFT6y/TSWmZ4YcZnlv7OKY3b5zoLzvxq8YDfytXo/ZtXY1NbNRVKRVbU
- 2NYfeKr7uHPyaBvkEr/741X31ZwoWD4Jlf0ScPRpI77rHTGsR3lnANsdcyjuZgm9+bEq
- WAA+BnbpAcUgik5ffFlD1mslnqlDkpd3H5Yuvjyvr7lOd+nfUdFZxkZmsT4BbroZsiAp
- n/+9U+/ciwC1dpLz7Z8N7EnKcRLVXMO7qsBRKp1cvE5pEWcC5NhnrkX3zAqOIlG6CT8T
- KbWT8At5ARH+ZsUlOYs3EJvlWUJ42LFDb/YiLuu00UtVzEO5Y8kK3tJfj8RvtR+s4303
- +X0w==
-X-Gm-Message-State: AAQBX9cRdfD0S6bF3r17ONqxcfXwCaVP96b5bpCYhI9U0f0wJVoHyBzd
- lKD0L4VmLc6k7AzqCsXuyjD9dpHjJcN23J8MFg==
-X-Google-Smtp-Source: AKy350YIYIzzkTKMTgAPyGCMhA2HHi565MHAj4RU3xofJGGDi/ggUb7Aj3J6+1abX8zL+AMGXGGHN+6shLHAP2f2mA==
+ bh=BkEj6q2IVKaYOP6wiiRLnj5ts2mBBZa+OIxL/GSTf98=;
+ b=lOizDRSux9CVTDJe/9lFyeaZ4mpVFIvujxrjqNn9XH0vquUabG/IUYK6nyh0SYKHcI
+ pXinClihazKrQJ3bN4cCRi7JMBd0DBYzuzdhpFE3LDvqZyYqn42juhXansVzpKckv0MP
+ lXU5MpiIIvR75vtV0EAgGy6gc91cjIyq6S4G0TKjlCn4Uk6j9PjEoOpDnFewbkVfM+OW
+ Og8pDRcA3R2iy1OtRM1pjLoPtf55xLAehwgiTSDKxcFfkVVEHrb3YUhuo8owfiSp9eGu
+ Tc7qs0HBzIXUVIdrQEsEroRVRpMXxLNhIrnGBjeUJeVa5i8sfUutW27iiEhd/kfzhVaV
+ nSig==
+X-Gm-Message-State: AAQBX9fAN14NyTmDoqk3mcMmtgZq1wpSW74+OmX5ZhBMhcGUKq1/Ec3+
+ Q97Jkofz1xNHn2EGHIYuRUQvRuKgu7QOVAtgsw==
+X-Google-Smtp-Source: AKy350avtllPlWwvIfTF15qlG1lqqPqwu/NAHA4tctgmwlguwviMhGUhrJ6084VLBRdQnA8mKuN5Lp3jk9IuHlWLyQ==
 X-Received: from ackerleytng-cloudtop.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:902:bd90:b0:19a:f9d9:28d4 with
- SMTP id q16-20020a170902bd9000b0019af9d928d4mr282396pls.3.1681431120479; Thu,
- 13 Apr 2023 17:12:00 -0700 (PDT)
-Date: Fri, 14 Apr 2023 00:11:50 +0000
+ (user=ackerleytng job=sendgmr) by 2002:a63:1c09:0:b0:507:3e33:43e3 with SMTP
+ id c9-20020a631c09000000b005073e3343e3mr240709pgc.7.1681431122125; Thu, 13
+ Apr 2023 17:12:02 -0700 (PDT)
+Date: Fri, 14 Apr 2023 00:11:51 +0000
 In-Reply-To: <cover.1681430907.git.ackerleytng@google.com>
 Mime-Version: 1.0
 References: <cover.1681430907.git.ackerleytng@google.com>
 X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
-Message-ID: <476aa5a107994d293dcdfc5a620cc52f625768c2.1681430907.git.ackerleytng@google.com>
-Subject: [RFC PATCH 1/6] mm: shmem: Refactor out shmem_shared_policy() function
+Message-ID: <cf43d4daa5e8dba22d2416cf46f586afcff0a33e.1681430907.git.ackerleytng@google.com>
+Subject: [RFC PATCH 2/6] mm: mempolicy: Refactor out mpol_init_from_nodemask
 From: Ackerley Tng <ackerleytng@google.com>
 To: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
@@ -80,9 +80,9 @@ Cc: aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
  brgerst@gmail.com, rdunlap@infradead.org, masahiroy@kernel.org, 
  mailhol.vincent@wanadoo.fr, Ackerley Tng <ackerleytng@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3UJo4ZAsKCo8tv3xA4xHC6zz77z4x.v759x5D-wxEx4676z6D.7Az@flex--ackerleytng.bounces.google.com;
- helo=mail-pg1-x54a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
+ envelope-from=3Upo4ZAsKCpEvx5zC6zJE8119916z.x97Bz7F-yzGz689818F.9C1@flex--ackerleytng.bounces.google.com;
+ helo=mail-pl1-x64a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -105,63 +105,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Refactor out shmem_shared_policy() to allow reading of a file's shared
-mempolicy
+Refactor out mpol_init_from_nodemask() to simplify logic in do_mbind().
+
+mpol_init_from_nodemask() will be used to perform similar
+functionality in do_memfd_restricted_bind() in a later patch.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- include/linux/shmem_fs.h |  7 +++++++
- mm/shmem.c               | 10 ++++++----
- 2 files changed, 13 insertions(+), 4 deletions(-)
+ mm/mempolicy.c | 32 +++++++++++++++++++++-----------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index d9e57485a686..bc1eeb4b4bd9 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -134,6 +134,13 @@ static inline bool shmem_file(struct file *file)
- 	return shmem_mapping(file->f_mapping);
- }
- 
-+static inline struct shared_policy *shmem_shared_policy(struct file *file)
-+{
-+	struct inode *inode = file_inode(file);
-+
-+	return &SHMEM_I(inode)->policy;
-+}
-+
- /*
-  * If fallocate(FALLOC_FL_KEEP_SIZE) has been used, there may be pages
-  * beyond i_size's notion of EOF, which fallocate has committed to reserving:
-diff --git a/mm/shmem.c b/mm/shmem.c
-index b053cd1f12da..4f801f398454 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -2248,20 +2248,22 @@ unsigned long shmem_get_unmapped_area(struct file *file,
- }
- 
- #ifdef CONFIG_NUMA
-+
- static int shmem_set_policy(struct vm_area_struct *vma, struct mempolicy *mpol)
- {
--	struct inode *inode = file_inode(vma->vm_file);
--	return mpol_set_shared_policy(&SHMEM_I(inode)->policy, vma, mpol);
-+	struct shared_policy *info;
-+
-+	info = shmem_shared_policy(vma->vm_file);
-+	return mpol_set_shared_policy(info, vma, mpol);
- }
- 
- static struct mempolicy *shmem_get_policy(struct vm_area_struct *vma,
- 					  unsigned long addr)
- {
--	struct inode *inode = file_inode(vma->vm_file);
- 	pgoff_t index;
- 
- 	index = ((addr - vma->vm_start) >> PAGE_SHIFT) + vma->vm_pgoff;
--	return mpol_shared_policy_lookup(&SHMEM_I(inode)->policy, index);
-+	return mpol_shared_policy_lookup(shmem_shared_policy(vma->vm_file), index);
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index a256a241fd1d..a2655b626731 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -1254,6 +1254,25 @@ static struct page *new_page(struct page *page, unsigned long start)
  }
  #endif
+ 
++static long mpol_init_from_nodemask(struct mempolicy *mpol, const nodemask_t *nmask,
++				    bool always_unlock)
++{
++	long err;
++	NODEMASK_SCRATCH(scratch);
++
++	if (!scratch)
++		return -ENOMEM;
++
++	/* Cannot take lock before allocating in NODEMASK_SCRATCH */
++	mmap_write_lock(current->mm);
++	err = mpol_set_nodemask(mpol, nmask, scratch);
++	if (always_unlock || err)
++		mmap_write_unlock(current->mm);
++
++	NODEMASK_SCRATCH_FREE(scratch);
++	return err;
++}
++
+ static long do_mbind(unsigned long start, unsigned long len,
+ 		     unsigned short mode, unsigned short mode_flags,
+ 		     nodemask_t *nmask, unsigned long flags)
+@@ -1306,17 +1325,8 @@ static long do_mbind(unsigned long start, unsigned long len,
+ 
+ 		lru_cache_disable();
+ 	}
+-	{
+-		NODEMASK_SCRATCH(scratch);
+-		if (scratch) {
+-			mmap_write_lock(mm);
+-			err = mpol_set_nodemask(new, nmask, scratch);
+-			if (err)
+-				mmap_write_unlock(mm);
+-		} else
+-			err = -ENOMEM;
+-		NODEMASK_SCRATCH_FREE(scratch);
+-	}
++
++	err = mpol_init_from_nodemask(new, nmask, false);
+ 	if (err)
+ 		goto mpol_out;
  
 -- 
 2.40.0.634.g4ca3ef3211-goog
