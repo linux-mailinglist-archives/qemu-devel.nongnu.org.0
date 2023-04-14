@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7256E2286
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387B86E229A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:49:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnHpB-0006gN-6N; Fri, 14 Apr 2023 07:42:42 -0400
+	id 1pnHrA-000803-NK; Fri, 14 Apr 2023 07:44:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHme-0004TG-LC
+ id 1pnHmm-0004gO-Gs
  for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:28 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHmb-0001VX-O5
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:04 -0400
-Received: by mail-pl1-x633.google.com with SMTP id y6so16936337plp.2
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:40:01 -0700 (PDT)
+ id 1pnHme-0001UJ-W8
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:07 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ c10-20020a17090abf0a00b0023d1bbd9f9eso21365923pjs.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472401; x=1684064401;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472404; x=1684064404;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TAtKFxybpPPsuBAtIpwRmB3OrmxCztjX4zH5DcY2+A0=;
- b=ctba5npujhu5LwLtxXZdtX10UUq1aN/16moYUFIK+8wNuxVxSG6bvQJEx0Gzm5ND7m
- un6P79F+u/Bfw+ONGu5+uR8RyFxgQSihBG6a61VCttS0UVPOthKrLlti+euenAa9djUm
- VYeOZdXafD2j8QiR4dcw7g2wApBvWq5tgL16DTBzEDT20wQ5cT6yl4/TsiSIQ9z2CLQ3
- n5tcDUYolqyFQwhx6XzQHnzd3Xq43zty52UFmmd/fskyz4xcXUOAsnWXLOZNKNPzvY/V
- Y/pThkRXN4DJZLK+kRgMU55Pzdaaw2SXl1ppRj8XxQWWpYEBK2igTJu741MiNqCYEz6B
- UCLw==
+ bh=nuh6jx9SvlyMfDnkhGkcDIOqlth9vahNAAHNqR8jiuY=;
+ b=X4AN353G/LKaLmi27AQOdMegGZbmj6PX2kPnwPEw9c5B/BLn6/RWCCu5sL7elntyFv
+ rLTrhuz1x2Y+FoZ2lnS8TigZbgGlDDXFF72GGk8QxnVeWFYrCx1tPxi9dRPZ3/853mtJ
+ RP1dA4BtfkF3aQAN02avII4Uzj5srNLRGExEaeh8RGiu0u0iV/aMGxUK6GpL33mEvNEh
+ vIwfpx0HoYurUPSKr24GtNI5andpHwzHPh7hM2Us0aXITXsqyK22eVvojs9thkZqza6k
+ CrQ27wHPzzON/2mkxKYseuORo9fiNgjMtXm7ZuJ/0IY3O5p40/tyySFgxAciKeLp7/Z4
+ flyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681472401; x=1684064401;
+ d=1e100.net; s=20221208; t=1681472404; x=1684064404;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TAtKFxybpPPsuBAtIpwRmB3OrmxCztjX4zH5DcY2+A0=;
- b=PT4lb7M4gnfe+hYMtQLpff/UWHmM5ST6k6MOitRdlytwTKW7FqipOOVw+zIxW/twdp
- lsDsM1TlhIpYY2VUzsCAR8r7UiGbO9HxvtbhvAftNscqGl6Pj6Wtj50iYPiPqVt54i9d
- eLhFWvRkyM4GX8nm8FjSXXxSb60rG1oE9RaKBo8GBbPkDbH9oDJr6vThVscFS8VR+7Ht
- mhvGGdnkUdW3iJpOZj9Ey7L2l3zE8chSYqsYDX4+PDC4c65KQCicRSRG5ZPRleeX7Grr
- K1XI95Ytcs1FXJRgrepGdNMHRy5dmDaLSjnGyV6zt0zqC8CaJAlGV8kEX/f7uYeDDtQb
- /fzg==
-X-Gm-Message-State: AAQBX9fluOz2UArwWuMq1Tgxoum98fLmahOUV5NiU9C3NBvkb5ULZ+6W
- cDkUjShwwHFNaa9GHupVPxfr7w==
-X-Google-Smtp-Source: AKy350YeLZ7ZF9CjXf3BHJjGWERggxV7VFmbxbek8tP1VS2LbF4oVvV3y02DyCcH7gN+a9W+Os5Y9Q==
-X-Received: by 2002:a17:903:41ce:b0:1a5:1842:f7da with SMTP id
- u14-20020a17090341ce00b001a51842f7damr2284028ple.6.1681472400999; 
- Fri, 14 Apr 2023 04:40:00 -0700 (PDT)
+ bh=nuh6jx9SvlyMfDnkhGkcDIOqlth9vahNAAHNqR8jiuY=;
+ b=U0uVa+/2a81PP66hwL4j+tiZlRNlD+glkqxEyUhZyvZRrziSv5VGhFttoWgLUD6wDR
+ gb856mqfR1iOG89s3bBRrOiG7rqGGiteGKuhLiv1+V8j9b3GsxRcC2GxXP1Pt+zheXe0
+ 1Usbe4PO9Kg5HOis/ec0681k4oOa2Lf1wBkmtcjyGSvEVwh+hiGxWuCD+SmHRqsVgQiF
+ KA84hr4ZhJJt9yiuTbBI2q1B3i2U75vqXaLGEEeV9jZ2+cyjFNnvX7AKzIHqVE+Y6iIB
+ 6OWSx2Jkf9+dUNV/ZrvsaYykLuIo7GULpQTaYrJuK71CrmBTuYTzjlFc9clm11mM5r6h
+ cDgQ==
+X-Gm-Message-State: AAQBX9cmLQ2dygDAXI2miH6vujYCxDa7yKdC9p0yFz08zqUPfULcvFZz
+ PulMrLgjfQqXraVWLikS70i6UA==
+X-Google-Smtp-Source: AKy350ZynWg1wEpr08QBPQ1+F/y411j0Wo5GAMInrLH301s9m+xe8ft8CXNBrmmkXNipKd0pbH+9vg==
+X-Received: by 2002:a17:902:c408:b0:1a5:68c:4006 with SMTP id
+ k8-20020a170902c40800b001a5068c4006mr3628257plk.13.1681472404256; 
+ Fri, 14 Apr 2023 04:40:04 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.39.57
+ u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.40.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 04:40:00 -0700 (PDT)
+ Fri, 14 Apr 2023 04:40:04 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -68,16 +69,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 31/40] igb: Use UDP for RSS hash
-Date: Fri, 14 Apr 2023 20:37:28 +0900
-Message-Id: <20230414113737.62803-32-akihiko.odaki@daynix.com>
+Subject: [PATCH 32/40] igb: Implement Rx SCTP CSO
+Date: Fri, 14 Apr 2023 20:37:29 +0900
+Message-Id: <20230414113737.62803-33-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::633;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x633.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,69 +100,234 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-e1000e does not support using UDP for RSS hash, but igb does.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/igb_core.c | 16 ++++++++++++++++
- hw/net/igb_regs.h |  3 +++
- 2 files changed, 19 insertions(+)
+ hw/net/e1000e_core.c  |  5 ++++
+ hw/net/igb_core.c     | 15 +++++++++-
+ hw/net/net_rx_pkt.c   | 64 +++++++++++++++++++++++++++++++++++--------
+ include/net/eth.h     |  4 ++-
+ include/qemu/crc32c.h |  1 +
+ net/eth.c             |  4 +++
+ util/crc32c.c         |  8 ++++++
+ 7 files changed, 88 insertions(+), 13 deletions(-)
 
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 33ffc36c67..9dc8b718c0 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -1114,6 +1114,11 @@ e1000e_verify_csum_in_sw(E1000ECore *core,
+         return;
+     }
+ 
++    if (l4hdr_proto != ETH_L4_HDR_PROTO_TCP &&
++        l4hdr_proto != ETH_L4_HDR_PROTO_UDP) {
++        return;
++    }
++
+     if (!net_rx_pkt_validate_l4_csum(pkt, &csum_valid)) {
+         trace_e1000e_rx_metadata_l4_csum_validation_failed();
+         return;
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 569897fb99..3ad81b15d0 100644
+index 3ad81b15d0..0e1b681613 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -279,6 +279,11 @@ igb_rss_get_hash_type(IGBCore *core, struct NetRxPkt *pkt)
-             return E1000_MRQ_RSS_TYPE_IPV4TCP;
-         }
+@@ -1230,7 +1230,7 @@ igb_build_rx_metadata(IGBCore *core,
+                       uint16_t *vlan_tag)
+ {
+     struct virtio_net_hdr *vhdr;
+-    bool hasip4, hasip6;
++    bool hasip4, hasip6, csum_valid;
+     EthL4HdrProto l4hdr_proto;
  
-+        if (l4hdr_proto == ETH_L4_HDR_PROTO_UDP &&
-+            (core->mac[MRQC] & E1000_MRQC_RSS_FIELD_IPV4_UDP)) {
-+            return E1000_MRQ_RSS_TYPE_IPV4UDP;
-+        }
+     *status_flags = E1000_RXD_STAT_DD;
+@@ -1290,6 +1290,10 @@ igb_build_rx_metadata(IGBCore *core,
+             *pkt_info |= BIT(9);
+             break;
+ 
++        case ETH_L4_HDR_PROTO_SCTP:
++            *pkt_info |= BIT(10);
++            break;
 +
-         if (E1000_MRQC_EN_IPV4(core->mac[MRQC])) {
-             return E1000_MRQ_RSS_TYPE_IPV4;
+         default:
+             break;
          }
-@@ -314,6 +319,11 @@ igb_rss_get_hash_type(IGBCore *core, struct NetRxPkt *pkt)
-                 return E1000_MRQ_RSS_TYPE_IPV6TCP;
-             }
+@@ -1322,6 +1326,15 @@ igb_build_rx_metadata(IGBCore *core,
  
-+            if (l4hdr_proto == ETH_L4_HDR_PROTO_UDP &&
-+                (core->mac[MRQC] & E1000_MRQC_RSS_FIELD_IPV6_UDP)) {
-+                return E1000_MRQ_RSS_TYPE_IPV6UDP;
+     if (igb_rx_l4_cso_enabled(core)) {
+         switch (l4hdr_proto) {
++        case ETH_L4_HDR_PROTO_SCTP:
++            if (!net_rx_pkt_validate_l4_csum(pkt, &csum_valid)) {
++                trace_e1000e_rx_metadata_l4_csum_validation_failed();
++                goto func_exit;
 +            }
++            if (!csum_valid) {
++                *status_flags |= E1000_RXDEXT_STATERR_TCPE;
++            }
++            /* fall through */
+         case ETH_L4_HDR_PROTO_TCP:
+             *status_flags |= E1000_RXD_STAT_TCPCS;
+             break;
+diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
+index 1de42b4f51..3575c8b9f9 100644
+--- a/hw/net/net_rx_pkt.c
++++ b/hw/net/net_rx_pkt.c
+@@ -16,6 +16,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/crc32c.h"
+ #include "trace.h"
+ #include "net_rx_pkt.h"
+ #include "net/checksum.h"
+@@ -554,32 +555,73 @@ _net_rx_pkt_calc_l4_csum(struct NetRxPkt *pkt)
+     return csum;
+ }
+ 
+-bool net_rx_pkt_validate_l4_csum(struct NetRxPkt *pkt, bool *csum_valid)
++static bool
++_net_rx_pkt_validate_sctp_sum(struct NetRxPkt *pkt)
+ {
+-    uint16_t csum;
++    size_t csum_off;
++    size_t off = pkt->l4hdr_off;
++    size_t vec_len = pkt->vec_len;
++    struct iovec *vec;
++    uint32_t calculated = 0;
++    uint32_t original;
++    bool valid;
+ 
+-    trace_net_rx_pkt_l4_csum_validate_entry();
++    for (vec = pkt->vec; vec->iov_len < off; vec++) {
++        off -= vec->iov_len;
++        vec_len--;
++    }
+ 
+-    if (pkt->l4hdr_info.proto != ETH_L4_HDR_PROTO_TCP &&
+-        pkt->l4hdr_info.proto != ETH_L4_HDR_PROTO_UDP) {
+-        trace_net_rx_pkt_l4_csum_validate_not_xxp();
++    csum_off = off + 8;
 +
-             if (E1000_MRQC_EN_IPV6EX(core->mac[MRQC])) {
-                 return E1000_MRQ_RSS_TYPE_IPV6EX;
-             }
-@@ -352,6 +362,12 @@ igb_rss_calc_hash(IGBCore *core, struct NetRxPkt *pkt, E1000E_RSSInfo *info)
-     case E1000_MRQ_RSS_TYPE_IPV6EX:
-         type = NetPktRssIpV6Ex;
++    if (!iov_to_buf(vec, vec_len, csum_off, &original, sizeof(original))) {
+         return false;
+     }
+ 
+-    if (pkt->l4hdr_info.proto == ETH_L4_HDR_PROTO_UDP &&
+-        pkt->l4hdr_info.hdr.udp.uh_sum == 0) {
+-        trace_net_rx_pkt_l4_csum_validate_udp_with_no_checksum();
++    if (!iov_from_buf(vec, vec_len, csum_off,
++                      &calculated, sizeof(calculated))) {
+         return false;
+     }
+ 
++    calculated = crc32c(0xffffffff,
++                        (uint8_t *)vec->iov_base + off, vec->iov_len - off);
++    calculated = iov_crc32c(calculated ^ 0xffffffff, vec + 1, vec_len - 1);
++    valid = calculated == le32_to_cpu(original);
++    iov_from_buf(vec, vec_len, csum_off, &original, sizeof(original));
++
++    return valid;
++}
++
++bool net_rx_pkt_validate_l4_csum(struct NetRxPkt *pkt, bool *csum_valid)
++{
++    uint32_t csum;
++
++    trace_net_rx_pkt_l4_csum_validate_entry();
++
+     if (pkt->hasip4 && pkt->ip4hdr_info.fragment) {
+         trace_net_rx_pkt_l4_csum_validate_ip4_fragment();
+         return false;
+     }
+ 
+-    csum = _net_rx_pkt_calc_l4_csum(pkt);
++    switch (pkt->l4hdr_info.proto) {
++    case ETH_L4_HDR_PROTO_UDP:
++        if (pkt->l4hdr_info.hdr.udp.uh_sum == 0) {
++            trace_net_rx_pkt_l4_csum_validate_udp_with_no_checksum();
++            return false;
++        }
++        /* fall through */
++    case ETH_L4_HDR_PROTO_TCP:
++        csum = _net_rx_pkt_calc_l4_csum(pkt);
++        *csum_valid = ((csum == 0) || (csum == 0xFFFF));
++        break;
++
++    case ETH_L4_HDR_PROTO_SCTP:
++        *csum_valid = _net_rx_pkt_validate_sctp_sum(pkt);
++        break;
+ 
+-    *csum_valid = ((csum == 0) || (csum == 0xFFFF));
++    default:
++        trace_net_rx_pkt_l4_csum_validate_not_xxp();
++        return false;
++    }
+ 
+     trace_net_rx_pkt_l4_csum_validate_csum(*csum_valid);
+ 
+diff --git a/include/net/eth.h b/include/net/eth.h
+index 2bbd04ec3b..6d65b7e2cb 100644
+--- a/include/net/eth.h
++++ b/include/net/eth.h
+@@ -222,6 +222,7 @@ struct tcp_hdr {
+ #define IP_HEADER_VERSION_6       (6)
+ #define IP_PROTO_TCP              (6)
+ #define IP_PROTO_UDP              (17)
++#define IP_PROTO_SCTP             (132)
+ #define IPTOS_ECN_MASK            0x03
+ #define IPTOS_ECN(x)              ((x) & IPTOS_ECN_MASK)
+ #define IPTOS_ECN_CE              0x03
+@@ -377,7 +378,8 @@ typedef struct eth_ip4_hdr_info_st {
+ typedef enum EthL4HdrProto {
+     ETH_L4_HDR_PROTO_INVALID,
+     ETH_L4_HDR_PROTO_TCP,
+-    ETH_L4_HDR_PROTO_UDP
++    ETH_L4_HDR_PROTO_UDP,
++    ETH_L4_HDR_PROTO_SCTP
+ } EthL4HdrProto;
+ 
+ typedef struct eth_l4_hdr_info_st {
+diff --git a/include/qemu/crc32c.h b/include/qemu/crc32c.h
+index 5b78884c38..88b4d2b3b3 100644
+--- a/include/qemu/crc32c.h
++++ b/include/qemu/crc32c.h
+@@ -30,5 +30,6 @@
+ 
+ 
+ uint32_t crc32c(uint32_t crc, const uint8_t *data, unsigned int length);
++uint32_t iov_crc32c(uint32_t crc, const struct iovec *iov, size_t iov_cnt);
+ 
+ #endif
+diff --git a/net/eth.c b/net/eth.c
+index 5307978486..7f02aea010 100644
+--- a/net/eth.c
++++ b/net/eth.c
+@@ -211,6 +211,10 @@ void eth_get_protocols(const struct iovec *iov, size_t iovcnt, size_t iovoff,
+             *l5hdr_off = *l4hdr_off + sizeof(l4hdr_info->hdr.udp);
+         }
          break;
-+    case E1000_MRQ_RSS_TYPE_IPV4UDP:
-+        type = NetPktRssIpV4Udp;
-+        break;
-+    case E1000_MRQ_RSS_TYPE_IPV6UDP:
-+        type = NetPktRssIpV6Udp;
-+        break;
-     default:
-         assert(false);
-         return 0;
-diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
-index 22ce909173..03486edb2e 100644
---- a/hw/net/igb_regs.h
-+++ b/hw/net/igb_regs.h
-@@ -659,6 +659,9 @@ union e1000_adv_rx_desc {
- 
- #define E1000_RSS_QUEUE(reta, hash) (E1000_RETA_VAL(reta, hash) & 0x0F)
- 
-+#define E1000_MRQ_RSS_TYPE_IPV4UDP 7
-+#define E1000_MRQ_RSS_TYPE_IPV6UDP 8
 +
- #define E1000_STATUS_IOV_MODE 0x00040000
++    case IP_PROTO_SCTP:
++        l4hdr_info->proto = ETH_L4_HDR_PROTO_SCTP;
++        break;
+     }
+ }
  
- #define E1000_STATUS_NUM_VFS_SHIFT 14
+diff --git a/util/crc32c.c b/util/crc32c.c
+index 762657d853..ea7f345de8 100644
+--- a/util/crc32c.c
++++ b/util/crc32c.c
+@@ -113,3 +113,11 @@ uint32_t crc32c(uint32_t crc, const uint8_t *data, unsigned int length)
+     return crc^0xffffffff;
+ }
+ 
++uint32_t iov_crc32c(uint32_t crc, const struct iovec *iov, size_t iov_cnt)
++{
++    while (iov_cnt--) {
++        crc = crc32c(crc, iov->iov_base, iov->iov_len) ^ 0xffffffff;
++        iov++;
++    }
++    return crc ^ 0xffffffff;
++}
 -- 
 2.40.0
 
