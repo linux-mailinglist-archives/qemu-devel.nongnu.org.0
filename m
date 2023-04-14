@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A94D6E24D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 15:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A416E251E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:05:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnJt5-00075C-H1; Fri, 14 Apr 2023 09:54:51 -0400
+	id 1pnK1v-0002Xu-4O; Fri, 14 Apr 2023 10:03:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnJt3-00074p-QT
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 09:54:49 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnK1t-0002WN-Gu
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:03:57 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnJt1-00022k-R5
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 09:54:49 -0400
-Received: by mail-wr1-x430.google.com with SMTP id s2so14322159wra.7
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 06:54:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnK1r-0005AF-Q5
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:03:57 -0400
+Received: by mail-wr1-x433.google.com with SMTP id q6so6155438wrc.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:03:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681480486; x=1684072486;
+ d=linaro.org; s=google; t=1681481034; x=1684073034;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=F1q5WDooVuTeiTWtZrBLMUqnLUQfECNu3kxMS7bx8qc=;
- b=FvIiMTOJubpliD+Ssndm0fhlvWYSGAz5ngyz+mCY1GWagz7Ze5S0thWU5X9qZkG/ZC
- TC76GdoxQDDsGZV1jWku/TAzf8caW083vaJb0raggL3iX5RglOMU92oOt06hFyK4hPJ6
- 55HMrJoqdz+fieLOVA9t4wat69s4TP+iq+ccVwynC38StztJ2CNocE9hjVGnRQBtsdi9
- i1uC3tNwBtdPxLCqgRvKw4amS80rmvNvjs57aINPiYJTR94NUre59dfAdBjnp0mSs5iD
- FZT5odziMOD10Fl0AZnGuKRkqK13/rVjX0zfHLqrjHq3EtPy1iaR+hM1/AnuAAe7iLHc
- CkeQ==
+ bh=n+AOBMd6/yHeweb/dMzkHyRaS5dnWynDk06BU5cIo/c=;
+ b=ig1jveC69jLtcv154Cnrm3FT2qy9ya/PE3BiUIJ/C9etNxumULBFD6LOa9BTHOba3D
+ tbD0TWaYZRP9bYupRyYVXfU8I4GxmBs5HVCYPtHUjwJV3UyqbWCmL1w7NY6O+Ugia6om
+ rC3QMOW3H68ryFgjy57zMNsnvJmK+/SMpAoAPhRh4sOA9qdb2pTHFG+Po5n/aONxQvvM
+ fWWIv8Az8GI4T6HLmMBvnByJwWmXoHSwNDwpMg07CBWqtxACWSCppTmZ/bnwy2It8Sfr
+ lr9NJ1hhJdBdzimD0xJP6kxubNj4Z3uZIlGbrk8yU2UyJN7Q+PTMEDkV/ufKMzhoBJmW
+ OwvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681480486; x=1684072486;
+ d=1e100.net; s=20221208; t=1681481034; x=1684073034;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F1q5WDooVuTeiTWtZrBLMUqnLUQfECNu3kxMS7bx8qc=;
- b=hbUSh0XhfvbRULCm8Bp8Gvpe3/F7nz1Up/v67emNv5U+FJUKsD+mp2W/3/rQr1+XPB
- uFojSVJeuip94dm9VpnE0sLnJ2CsRh0bClho778HQyNA6aMzaMy9NkFaH4LVOUeDk+Oh
- Yw9K+pjwqmB1GW2BuY24LKfhAXmz6Iza7ECY3Mw5oUy8obyUpLETcGCWgxyt4lbKavYT
- ACEjKFSI6qGjkW0qgCK+hjyXNZ/5HdL8ImmMPy4zCeXUnOupLRZP15X8Z05KgIaaNgYu
- TPRPRH483e7c1FqUxPLM0fSrdL527hBWfCqFtHj4tTt4V4CQ3tnPMj/nW8HdZb1dhVxC
- LSZA==
-X-Gm-Message-State: AAQBX9cFlYHvR1lStgyWkMPNt2zsnRVJzWw5Xi2rSy8vwMEnBrahnh23
- lOvSYDPoQmD2mI7ZyW7kYL292KgwRLEiEn/yuUk=
-X-Google-Smtp-Source: AKy350Y/BVC7uFC/rjCr2h7z+OuAj+kybmrVjTF0eRhCWC4syFNwHKNRTzW25uxo/1DEsca+E5mEcQ==
-X-Received: by 2002:a5d:5246:0:b0:2ee:f77f:3d02 with SMTP id
- k6-20020a5d5246000000b002eef77f3d02mr4641053wrc.0.1681480486203; 
- Fri, 14 Apr 2023 06:54:46 -0700 (PDT)
+ bh=n+AOBMd6/yHeweb/dMzkHyRaS5dnWynDk06BU5cIo/c=;
+ b=Vg5xIQAJyyM2hZ+z1jN46kfmJ1fT08kuK75UBCKrjTFNGbTNjVKxIr1zdGHaszkeBq
+ XckPpZxe9tmyJHeFVHT55P5l89i/hANHZuAfR9ZZKIymzTYJgrM5dJIN0RdJhRX3F7Fu
+ M11XhQsUNY6GVE/5rPqkPDd+ByotlmSWFyUhQPQ4wNFdMzl14Q8PE4PvrNtUSMUHn8WR
+ 7Hjdtdtp3Ra9RXDfT9M+f0EjOUelNBGVsOhK8QwiWNOymun8FXBsEBw/x0EPWtULgdC9
+ oXFnwWcu0pnW70+VygtswwA92ldyT+rTdC1LpffCUPD/uqQ5QbdUCNyxhGn8AvvDLe6N
+ wnOA==
+X-Gm-Message-State: AAQBX9cEaIzHs3XzO77mavV+HlQ+DxoiEi4S4rJE9K04LeAoEDzS9izl
+ RF4+zh2vZ6Xe41RGwAorFXZrOA==
+X-Google-Smtp-Source: AKy350b3jxAU91G8S6SCHrRi/6HegRlxliSTqMuMbqOKy2pff2KxEV61JG1nk2Nxyzzb1VRnLMRtdA==
+X-Received: by 2002:adf:da4c:0:b0:2f4:4e1a:bea2 with SMTP id
+ r12-20020adfda4c000000b002f44e1abea2mr4334466wrl.59.1681481033783; 
+ Fri, 14 Apr 2023 07:03:53 -0700 (PDT)
 Received: from [192.168.69.115] ([176.187.204.198])
  by smtp.gmail.com with ESMTPSA id
- y12-20020a5d470c000000b002c70ce264bfsm3619114wrq.76.2023.04.14.06.54.45
+ y11-20020a056000108b00b002f013fb708fsm3674344wrw.4.2023.04.14.07.03.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 06:54:45 -0700 (PDT)
-Message-ID: <9949b687-f94d-20cb-59f9-be543c87a574@linaro.org>
-Date: Fri, 14 Apr 2023 15:54:44 +0200
+ Fri, 14 Apr 2023 07:03:53 -0700 (PDT)
+Message-ID: <6e38f2c5-5dd6-3fd6-39e6-d51d975fc582@linaro.org>
+Date: Fri, 14 Apr 2023 16:03:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH] rtl8139: fix large_send_mss divide-by-zero
+Subject: Re: [PATCH 2/2] chardev: Allow setting file chardev input file on the
+ command line
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230413171946.2865726-1-stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20230413150724.404304-1-peter.maydell@linaro.org>
+ <20230413150724.404304-3-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230413171946.2865726-1-stefanha@redhat.com>
+In-Reply-To: <20230413150724.404304-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -92,51 +95,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/4/23 19:19, Stefan Hajnoczi wrote:
-> If the driver sets large_send_mss to 0 then a divide-by-zero occurs.
-> Even if the division wasn't a problem, the for loop that emits MSS-sized
-> packets would never terminate.
+On 13/4/23 17:07, Peter Maydell wrote:
+> Our 'file' chardev backend supports both "output from this chardev
+> is written to a file" and "input from this chardev should be read
+> from a file" (except on Windows). However, you can only set up
+> the input file if you're using the QMP interface -- there is no
+> command line syntax to do it.
 > 
-> Solve these issues by skipping offloading when large_send_mss=0.
+> Add command line syntax to allow specifying an input file
+> as well as an output file, using a new 'input-path' suboption.
 > 
-> This issue was found by OSS-Fuzz as part of Alexander Bulekov's device
-> fuzzing work. The reproducer is:
+> The specific use case I have is that I'd like to be able to
+> feed fuzzer reproducer input into qtest without having to use
+> '-qtest stdio' and put the input onto stdin. Being able to
+> use a file chardev like this:
+>   -chardev file,id=repro,path=/dev/null,input-path=repro.txt -qtest chardev:repro
+> means that stdio is free for use by gdb.
 > 
->    $ cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
->    512M,slots=1,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
->    rtl8139,netdev=net0 -netdev user,id=net0 -device \
->    pc-dimm,id=nv1,memdev=mem1,addr=0xb800a64602800000 -object \
->    memory-backend-ram,id=mem1,size=2M  -qtest stdio
->    outl 0xcf8 0x80000814
->    outl 0xcfc 0xe0000000
->    outl 0xcf8 0x80000804
->    outw 0xcfc 0x06
->    write 0xe0000037 0x1 0x04
->    write 0xe00000e0 0x2 0x01
->    write 0x1 0x1 0x04
->    write 0x3 0x1 0x98
->    write 0xa 0x1 0x8c
->    write 0xb 0x1 0x02
->    write 0xc 0x1 0x46
->    write 0xd 0x1 0xa6
->    write 0xf 0x1 0xb8
->    write 0xb800a646028c000c 0x1 0x08
->    write 0xb800a646028c000e 0x1 0x47
->    write 0xb800a646028c0010 0x1 0x02
->    write 0xb800a646028c0017 0x1 0x06
->    write 0xb800a646028c0036 0x1 0x80
->    write 0xe00000d9 0x1 0x40
->    EOF
-> 
-> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1582
-> Fixes: 6d71357a3b65 ("rtl8139: honor large send MSS value")
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/net/rtl8139.c | 3 +++
->   1 file changed, 3 insertions(+)
+> The "not on Windows" ifdeffery is because qmp_chardev_open_file()
+> does something similar; it seems likely to produce a nicer
+> error message to catch it at parse time rather than open time.
+> ---
+>   chardev/char-file.c |  8 ++++++++
+>   chardev/char.c      |  3 +++
+>   qemu-options.hx     | 10 ++++++++--
+>   3 files changed, 19 insertions(+), 2 deletions(-)
+> 
+> diff --git a/chardev/char-file.c b/chardev/char-file.c
+> index 3a7b9caf6f0..263e6da5636 100644
+> --- a/chardev/char-file.c
+> +++ b/chardev/char-file.c
+> @@ -100,6 +100,7 @@ static void qemu_chr_parse_file_out(QemuOpts *opts, ChardevBackend *backend,
+>                                       Error **errp)
+>   {
+>       const char *path = qemu_opt_get(opts, "path");
+> +    const char *inpath = qemu_opt_get(opts, "input-path");
 
+
+>       file->out = g_strdup(path);
+> +    file->in = g_strdup(inpath);
+
+
+> diff --git a/chardev/char.c b/chardev/char.c
+> index e69390601fc..661ad8176a9 100644
+> --- a/chardev/char.c
+> +++ b/chardev/char.c
+> @@ -805,6 +805,9 @@ QemuOptsList qemu_chardev_opts = {
+>           },{
+>               .name = "path",
+>               .type = QEMU_OPT_STRING,
+> +        },{
+> +            .name = "input-path",
+> +            .type = QEMU_OPT_STRING,
+>           },{
+
+
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 59bdf67a2c5..31d08c60264 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+
+
+> -``-chardev file,id=id,path=path``
+> +``-chardev file,id=id,path=path[,input-path=input-path]``
+>       Log all traffic received from the guest to a file.
+>   
+>       ``path`` specifies the path of the file to be opened. This file will
+>       be created if it does not already exist, and overwritten if it does.
+>       ``path`` is required.
+
+I find "path" vs. "input-path" confusing and would rather rename it as
+"output-path" for consistency; or at least add an alias.
+Possibly deprecating the "path" alias. Maybe matter of taste...
+
+Can be done as follow-up, so:
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+> +    If ``input-path`` is specified, this is the path of a second file
+> +    which will be used for input. If ``input-path`` is not specified,
+> +    no input will be available from the chardev.
+> +
+> +    Note that ``input-path`` is not supported on Windows hosts.
+
 
 
