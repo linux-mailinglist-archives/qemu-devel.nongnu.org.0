@@ -2,89 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640076E18A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 02:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774146E18DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 02:13:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn6yg-0006lR-UJ; Thu, 13 Apr 2023 20:07:46 -0400
+	id 1pn72s-0007gh-Kt; Thu, 13 Apr 2023 20:12:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
- id 1pn6yb-0006l5-5l
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 20:07:44 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f])
+ (Exim 4.90_1) (envelope-from
+ <3T5o4ZAsKCo4su2w93wGB5yy66y3w.u648w4C-vwDw3565y5C.69y@flex--ackerleytng.bounces.google.com>)
+ id 1pn72q-0007gQ-48
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 20:12:04 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
- id 1pn6yZ-0001ph-IZ
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 20:07:40 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id t16so4375627ybi.13
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 17:07:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <3T5o4ZAsKCo4su2w93wGB5yy66y3w.u648w4C-vwDw3565y5C.69y@flex--ackerleytng.bounces.google.com>)
+ id 1pn72o-00037s-3S
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 20:12:03 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ y10-20020a25320a000000b00b8f6ab06288so1317736yby.22
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 17:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681430858; x=1684022858;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7iAuwCNqcWbiZppRkev6g1+lElMBn1x2a/mgJTpbxys=;
- b=mksDgxqCnauR2JpwtnWF8195Z57lY3ziiRfWvrngA+u6WvHU7HoB6PZg7p2mlYlBsS
- EtVKI2O8DSmsjvcFR7Gh1n3AwXEtb2KlggfmrTbrRjTAaHKKjGdnUutX0mP3vLKNEzL4
- 82GD1psW8tVvtVUIVwm9hRNu2N6DOUrTK+3YJPapE0HDdeEXwbMsQvfFdbZ2JLJp7xyB
- qb3MY/Mgj8FSoqgKzO9/FfYOUZeNFE6TREQtH8tb1/wdrCaK+2j34GqsbuQcoBB5KGV/
- bO85ygTGyOuu9NvuvpYeXuMyqJZAKij5B/jcauebuOR5NbN8DCYhasvWZO0NpQzWBjOW
- HJng==
+ d=google.com; s=20221208; t=1681431119; x=1684023119;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=i+pweVgTeWv08z0ELDTsB0Ltp1Ye2bcZK0KHo4GqVbw=;
+ b=SxumLiXBZqVvPSsO4nE95gXtUUxXVcRm2giZRY9/5ORZ+OjADqAAbFJkobyKcqmfCt
+ ePUsZvwKG04KkaahIzuPRZeniJUEzn01e6frQqq0jAgCaSwlASsR29xtCtNlSjb+T5pj
+ VEWY0EVxAPptAmO48HG5tvNAJPPxntiFot3tECFeEreHjLrDdGnAKPlTKHy30+MbbqI8
+ 64DeVDk4CEwT4IFGcaTIdQJJ7t2C3BZm2t+9Gp59h71CPchlPnK0jhl4w3WF/G3NQ2HG
+ SBMasteYkoK5+FJ8YkRnsN77u+ShB1rljGgMoVKQvjdG4NVzxFbFqiD01CFCoQkbIqFa
+ aeNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681430858; x=1684022858;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7iAuwCNqcWbiZppRkev6g1+lElMBn1x2a/mgJTpbxys=;
- b=UQC6tMXDzIE8p4RTevF4Eg3/gHNZgyizuCAV8FCxLgUCApaKg5midXtIhuBbnaOey/
- pJx68+B5CE+4mba4jCg8OSNaPlZMYzg+ogKU+61EyHjynsPEevckBLKz793dttH/h+Tx
- qnchFOmRylYkL5f79gS0mml/ye+l8N8V1rsZhA4H/kHWQNQVoZfPZfW4DN2WjBmXBdLG
- aVitKjwBE5UIkFn5dtMMnhpltS0CjJxEr3dOFP6a5uQbdEBGzVNtKvc3b2pflCQAJI5g
- 9nVIugprvgw87LnAFTxh4bk16AZQHOFdRn2GAkgisxArnRucSVAVtIDTstDTHjMRu1Ya
- tYng==
-X-Gm-Message-State: AAQBX9elXE9dKA1wrmZb7XEHq1ewCIRA+CtRkQ/CpUb2GdTHume+f+Fz
- QrR2AAyACavwrodfj33OEBhg8gwOBaQWjp+jTG4=
-X-Google-Smtp-Source: AKy350aAhufM2h+sB6Mkvvgrw02KjJjNg5MmOpcXiZ0rzm1rEjaeAZVg4TEp80lZtObCq8hKSMbf1Dh6qHm9NaX/E4Y=
-X-Received: by 2002:a25:748c:0:b0:b8e:f726:d198 with SMTP id
- p134-20020a25748c000000b00b8ef726d198mr2155685ybc.8.1681430858017; Thu, 13
- Apr 2023 17:07:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220610075631.367501-1-mst@redhat.com>
- <20220610075631.367501-20-mst@redhat.com>
- <ba6a8777-723d-7e6c-bec7-71819cedb66d@proxmox.com>
- <20230330102227.39b44b71@imammedo.users.ipa.redhat.com>
- <0e3f3a98-835f-b26c-649e-a8a35edce660@proxmox.com>
- <20230412141822.03507c56@imammedo.users.ipa.redhat.com>
- <ff5ccf7b-158f-262d-3155-305e2d48dc37@proxmox.com>
- <CAL77WPAgTjtpiW++pqEHLfm7LOP7KEKK6eNdwU5fXSXHm9Pj-w@mail.gmail.com>
- <1f9afc12-b0b2-501d-7bf9-9f6d2f5b9829@proxmox.com>
-In-Reply-To: <1f9afc12-b0b2-501d-7bf9-9f6d2f5b9829@proxmox.com>
-From: Mike Maslenkin <mike.maslenkin@gmail.com>
-Date: Fri, 14 Apr 2023 03:07:01 +0300
-Message-ID: <CAL77WPAmRW1taC+k_gqcPmDoR=u1_6ms-bUrgVHYY6D4Tr8hoA@mail.gmail.com>
-Subject: Re: [PULL 19/54] acpi: pc: isa bridge: use AcpiDevAmlIf interface to
- build ISA device descriptors
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>, 
- Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+ d=1e100.net; s=20221208; t=1681431119; x=1684023119;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=i+pweVgTeWv08z0ELDTsB0Ltp1Ye2bcZK0KHo4GqVbw=;
+ b=INMFiu1GwwDTKCdG8R+uMYqHtqDS3pbcuoIE9J1DP/MJFF/49jz7AJAwB5JHQOPOI6
+ sHclVCOh+Pnz0RjVCwAe5vVbtRsuylHvhMrCOR/j9JJtAiT2KEjUFbDwaESEvmNkMMik
+ 6uyIa4aZsmzixQ5TnL2WN4i11kOhdhSM+yQQyhz56sPcml3vRHDRS0CmR5arjHGoW61n
+ mHeJcdOMLe4VI+3aX0321fnpETcaWoCt+sU809SJHSp81TUQeX1G7IkGCkaOMin4yOWL
+ gNX4F4vT6dszAcr7/8G8o7Paftrzlr4w/oKnpaF82i1Fhk4+H5pbWiBqw14uVw9E7N5W
+ dZIA==
+X-Gm-Message-State: AAQBX9cYgFU/hqpP4ObFHgNZVR4IsJa/49XUJ0XCUTqNz4UxGu9mKNC7
+ +f0fArfUg9uRgi0f/FAMGnN+vibStCzUBBIQew==
+X-Google-Smtp-Source: AKy350aFyMPBdyqRFopcQD1OOk7RIztiWHN973sMgROTFTwCsBiX6bTJGMx6PuL8Cu3fjd47w7zygKuC4QNdUU7X4w==
+X-Received: from ackerleytng-cloudtop.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a25:72d6:0:b0:b8f:55f6:e50f with SMTP
+ id n205-20020a2572d6000000b00b8f55f6e50fmr2609596ybc.1.1681431119162; Thu, 13
+ Apr 2023 17:11:59 -0700 (PDT)
+Date: Fri, 14 Apr 2023 00:11:49 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
+Message-ID: <cover.1681430907.git.ackerleytng@google.com>
+Subject: [RFC PATCH 0/6] Setting memory policy for restrictedmem file
+From: Ackerley Tng <ackerleytng@google.com>
+To: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, qemu-devel@nongnu.org
+Cc: aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org, 
+ arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, 
+ chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com, 
+ david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com, 
+ hughd@google.com, jlayton@kernel.org, jmattson@google.com, joro@8bytes.org, 
+ jun.nakajima@intel.com, kirill.shutemov@linux.intel.com, linmiaohe@huawei.com, 
+ luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com, 
+ michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com, 
+ pbonzini@redhat.com, qperret@google.com, rppt@kernel.org, seanjc@google.com, 
+ shuah@kernel.org, steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
+ vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com, 
+ wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org, 
+ yu.c.zhang@linux.intel.com, muchun.song@linux.dev, feng.tang@intel.com, 
+ brgerst@gmail.com, rdunlap@infradead.org, masahiroy@kernel.org, 
+ mailhol.vincent@wanadoo.fr, Ackerley Tng <ackerleytng@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=mike.maslenkin@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3T5o4ZAsKCo4su2w93wGB5yy66y3w.u648w4C-vwDw3565y5C.69y@flex--ackerleytng.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,41 +105,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hibernate is disabled by default, that is why "shutdown /h" fails.
-It can be enabled by 'powercfg.exe /h /size 100; powercfg.exe /h on'
+Hello,
 
-anyway, my hypotheses can be checked easily: just run the VM with
-changed RAM size (=C2=B11). This should have to drop hibernate state.
+This patchset builds upon the memfd_restricted() system call that was
+discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
+series [1].
 
-BTW I couldn't reproduce problem as well.
+The tree can be found at:
+https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-set-memory-=
+policy
 
-On Thu, Apr 13, 2023 at 3:10=E2=80=AFPM Fiona Ebner <f.ebner@proxmox.com> w=
-rote:
->
-> Am 13.04.23 um 13:46 schrieb Mike Maslenkin:
-> > Sorry for the noise, but just curious, how did you shutdown Windows?
-> > Did you use 'shutdown /s' or just press power button?
-> > Could it be that Windows was actually hibernated.
-> > So, when you try to boot it on the new (old) QEMU version with changed
-> > PCI topology, this could make it upset.
-> > I observed similar behaviour in case of Windows for ARM, but there was
-> > true GSOD afterwards.
-> > When windows is starting again its hibernated state dropped and all goe=
-s fine.
-> >
-> > Best Regards,
-> > Mike
->
-> I think I either pressed the shutdown button in our UI, which sends
-> system_powerdown via QMP or via "Shut down" in the Windows start menu.
-> Hibernation is surely something I need to consider (next time), so thank
-> you for the hint, but if it were that, I'd be surprised at why it got
-> stuck even with QEMU 6.2.0 today.
->
-> If I try "shutdown /h" explicitly, I get "The request is not
-> supported.(50)".
->
-> Best Regards,
-> Fiona
->
+In this patchset, a new syscall is introduced, which allows userspace
+to set the memory policy (e.g. NUMA bindings) for a restrictedmem
+file, to the granularity of offsets within the file.
+
+The offset/length tuple is termed a file_range which is passed to the
+kernel via a pointer to get around the limit of 6 arguments for a
+syscall.
+
+The following other approaches were also considered:
+
+1. Pre-configuring a mount with a memory policy and providing that
+   mount to memfd_restricted() as proposed at [2].
+    + Pro: It allows choice of a specific backing mount with custom
+      memory policy configurations
+    + Con: Will need to create an entire new mount just to set memory
+      policy for a restrictedmem file; files on the same mount cannot
+      have different memory policies.
+
+2. Passing memory policy to the memfd_restricted() syscall at creation time=
+.
+    + Pro: Only need to make a single syscall to create a file with a
+      given memory policy
+    + Con: At creation time, the kernel doesn=E2=80=99t know the size of th=
+e
+      restrictedmem file. Given that memory policy is stored in the
+      inode based on ranges (start, end), it is awkward for the kernel
+      to store the memory policy and then add hooks to set the memory
+      policy when allocation is done.
+
+3. A more generic fbind(): it seems like this new functionality is
+   really only needed for restrictedmem files, hence a separate,
+   specific syscall was proposed to avoid complexities with handling
+   conflicting policies that may be specified via other syscalls like
+   mbind()
+
+TODOs
+
++ Return -EINVAL if file_range is not within the size of the file and
+  tests for this
+
+Dependencies:
+
++ Chao=E2=80=99s work on UPM [3]
+
+[1] https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux=
+.intel.com/T/
+[2] https://lore.kernel.org/lkml/cover.1681176340.git.ackerleytng@google.co=
+m/T/
+[3] https://github.com/chao-p/linux/commits/privmem-v11.5
+
+---
+
+Ackerley Tng (6):
+  mm: shmem: Refactor out shmem_shared_policy() function
+  mm: mempolicy: Refactor out mpol_init_from_nodemask
+  mm: mempolicy: Refactor out __mpol_set_shared_policy()
+  mm: mempolicy: Add and expose mpol_create
+  mm: restrictedmem: Add memfd_restricted_bind() syscall
+  selftests: mm: Add selftest for memfd_restricted_bind()
+
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ include/linux/mempolicy.h                     |   4 +
+ include/linux/shmem_fs.h                      |   7 +
+ include/linux/syscalls.h                      |   5 +
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ include/uapi/linux/mempolicy.h                |   7 +-
+ kernel/sys_ni.c                               |   1 +
+ mm/mempolicy.c                                | 100 ++++++++++---
+ mm/restrictedmem.c                            |  75 ++++++++++
+ mm/shmem.c                                    |  10 +-
+ scripts/checksyscalls.sh                      |   1 +
+ tools/testing/selftests/mm/.gitignore         |   1 +
+ tools/testing/selftests/mm/Makefile           |   8 +
+ .../selftests/mm/memfd_restricted_bind.c      | 139 ++++++++++++++++++
+ .../mm/restrictedmem_testmod/Makefile         |  21 +++
+ .../restrictedmem_testmod.c                   |  89 +++++++++++
+ tools/testing/selftests/mm/run_vmtests.sh     |   6 +
+ 18 files changed, 454 insertions(+), 27 deletions(-)
+ create mode 100644 tools/testing/selftests/mm/memfd_restricted_bind.c
+ create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/Makefi=
+le
+ create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/restri=
+ctedmem_testmod.c
+
+--
+2.40.0.634.g4ca3ef3211-goog
 
