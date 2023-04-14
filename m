@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F44E6E258D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E606E25BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:29:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnKKj-0003HT-Ly; Fri, 14 Apr 2023 10:23:25 -0400
+	id 1pnKPz-0004GS-6v; Fri, 14 Apr 2023 10:28:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKKf-0003H4-RO
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:23:22 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKPv-0004GE-52
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:28:47 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKKe-0002CW-CD
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:23:21 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id q5so10422837wmo.4
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:23:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKPp-0003Tu-IZ
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:28:46 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ he11-20020a05600c540b00b003ef6d684102so8372483wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:28:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681482198; x=1684074198;
+ d=linaro.org; s=google; t=1681482519; x=1684074519;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WH3tVq8skDUMRd4kmype3XGges4f+AMUggocLuzgE2M=;
- b=jv0QTiFpAhbh5DJ0MD5fPgkmJ2DpZN8p4usqgIEqZw4j1rFjMxC3V9JOuwnCpn+RmC
- Rd8rH/HezhTRNleTE9enL2bQ838q8rNCxo0TiROWAbKq177u1cOPtBjDXZb9gDBb6QGP
- UpIeeiqSqafR6vHPkul54JbtUHy3rtSAwLH9DFsJ7MUJ3W20C5znM/V2978ssYRImt2a
- zZyH4bPuh4MvpFs5rPx/ddHcNkfmhVL4bSMiYYs4Fh3J7Sto8W0ZHGKAb4m7qeiCZCmG
- NPXJEHA72B1WGi3nFo6nh9TkcyM98ZlccJtayiGIJTrghsq4ETKxGrj7rczhje2d2/5Y
- lThg==
+ bh=3JIPET52U7d8hZzdNKjCOOqebEMYvt7zIqgrNR+vAys=;
+ b=mZ+U0hyGaqpTosIqsKrGv6VmL481mF2f9vsWMPq9j93hhkpKNhlbywTW4eSS95A96l
+ Fs1inftg6CVRPVA/B76QpdUWqFZyxifZej7a6sy0WFD1SltiQQSbMDRFJ9WS4/XxoHSo
+ nXpDD9PZjMkpL/419H6oiNBcUBpZTo/YIZAGIbD2g7GrJWE0BWs78sSJ0MSRLDQQhZ7M
+ BJL7mx6P2g2n/hqqmYqDC6i6lIG5gOUx/avZNrt2IBJre2oOIn/JNi5hgwd5s3Aeos+H
+ T5OusYZOnxKYeF0d1XzpQeP8pUZViJfQXEKiQsG4XQRDm7y4Ml3hO2R3N+0+iZOfXn//
+ xWog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681482198; x=1684074198;
+ d=1e100.net; s=20221208; t=1681482519; x=1684074519;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WH3tVq8skDUMRd4kmype3XGges4f+AMUggocLuzgE2M=;
- b=GebB3yfFEFbZQ5ZCuja0iqrQfydPguADLyC38DHxnrn37Ne1q8z8MK2xKYHd3g1DbX
- dNkHtIq+gFXmZVbwoeLGA1X2z7Diba7cb5RddLGShQoCxBvMd54jpG+u33n2UeGGRN5E
- WM5Kna/fCS3ynuPIbJkkJff+qPTI/AyTHFYN42Ds1gzMEqMZiriyBACD8jKiSxPQ6Lpn
- Mr3obwhEbFQNlWSc3bcH+g64T/gd/aF6ug/exsHKQO3yCjjPKzjQuM7/bCXxtW8ZNMSu
- UhhezOe4BXiNiilsgwD9wSuk+2Hae8s0YPO15yYHaPW9cwS8E3B8oxPiMsQVAquv8cnu
- xpgw==
-X-Gm-Message-State: AAQBX9c/x9Uj5R4sHAqzt8LtZiFNn1C3XdSYom2Rf58chg2D1+i8yoN3
- VZl1FVqSTdJ3Y/G1tZiqAf/1hw==
-X-Google-Smtp-Source: AKy350ZTSMmPPXxAApGX7LcF1VQdDXkD+VDOF/NyG1zCur3Xhu8fkLX3RAQZOUcqaqOXktOFWlrbng==
-X-Received: by 2002:a05:600c:3642:b0:3ed:f5b5:37fc with SMTP id
- y2-20020a05600c364200b003edf5b537fcmr4433608wmq.1.1681482198139; 
- Fri, 14 Apr 2023 07:23:18 -0700 (PDT)
+ bh=3JIPET52U7d8hZzdNKjCOOqebEMYvt7zIqgrNR+vAys=;
+ b=JMRGhn7uyZShPC1Eqxt0HauBCqJv9x/aGN9Cd5hoFxJNNF3XruIgZKj9zURNUDCQd5
+ OGQLkmyuSRyuKwN1Yl/jXoqQ/eBapTWWGzgpO1iRukLAkOCtViLpTN6k+Ze2bg9KNkG2
+ zxU5R/UMNZhVSdLH40VIFSCLwEaAPSUOUb1lAnpZa/Ua7BARLWIUDug4TFJWRlfmW/1Q
+ qNvX3WCG69IzbDy07g2YxLBYkTS3kmEfGk8nLUYBwPjk1BlzkTiq701H04y+bZ9XEJg9
+ HJiMZUDbP0wMw1sTHOdtMng5eO80nz5cyTqZ89nSDOXpRPLBcktfzats9B7ASEOjH9NQ
+ Rt9A==
+X-Gm-Message-State: AAQBX9fJt/bVL7DcdnYNMyCK6CpyoUqIDoS37ResWaTz+ixRtF7qcXX7
+ FOI4hOlmCIIK3kX+14GCv0cR0w==
+X-Google-Smtp-Source: AKy350a+slmFHjoou1arMGvE0ZBm/JawKbi0i47q95WEZUquCjYUlyIHmzMR9LeFR6Xv6scbSV/J4A==
+X-Received: by 2002:a1c:7506:0:b0:3ee:3e07:5d26 with SMTP id
+ o6-20020a1c7506000000b003ee3e075d26mr5032085wmc.24.1681482519498; 
+ Fri, 14 Apr 2023 07:28:39 -0700 (PDT)
 Received: from [192.168.69.115] ([176.187.204.198])
  by smtp.gmail.com with ESMTPSA id
- n19-20020a1c7213000000b003ee58e8c971sm4423471wmc.14.2023.04.14.07.23.16
+ z8-20020a7bc7c8000000b003f07f0405b5sm4380237wmk.43.2023.04.14.07.28.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 07:23:17 -0700 (PDT)
-Message-ID: <787e1e38-6dfa-ca31-d740-a59d1cf32f66@linaro.org>
-Date: Fri, 14 Apr 2023 16:23:15 +0200
+ Fri, 14 Apr 2023 07:28:39 -0700 (PDT)
+Message-ID: <08449e5d-4ccc-6eaa-f4d8-d21d0bc23786@linaro.org>
+Date: Fri, 14 Apr 2023 16:28:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH 01/40] hw/net/net_tx_pkt: Decouple from PCI
+Subject: Re: [PATCH 04/40] igb: Include the second VLAN tag in the buffer
 Content-Language: en-US
 To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -71,20 +72,20 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
- <20230414113737.62803-2-akihiko.odaki@daynix.com>
+ <20230414113737.62803-5-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230414113737.62803-2-akihiko.odaki@daynix.com>
+In-Reply-To: <20230414113737.62803-5-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.282,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,27 +101,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/4/23 13:36, Akihiko Odaki wrote:
-> This also fixes the leak of memory mapping when the specified memory is
-> partially mapped.
-> 
-> Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
+On 14/4/23 13:37, Akihiko Odaki wrote:
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->   hw/net/net_tx_pkt.c  | 65 +++++++++++++++++++++++---------------------
->   hw/net/net_tx_pkt.h  | 38 +++++++++++++++++++-------
+>   hw/net/igb_core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index 55de212447..f725ab97ae 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -1590,7 +1590,7 @@ static ssize_t
+>   igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
+>                        bool has_vnet, bool *external_tx)
+>   {
+> -    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 4);
+> +    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 8);
 
-Preferably split the patch in at least 2, first the back-end,
-then the front-ends.
+Aren't VLAN tags 16-bit wide? Could you convert this magic value
+to some verbose-but-obvious definitions?
 
-Also consider installing scripts/git.orderfile when posting
-API changes, as this eases email review workflow (no need to
-scroll up/down frenetically to follow).
+Is it worth adding a vlan_tag_t typedef in include/net/eth.h?
 
->   hw/net/e1000e_core.c | 13 +++++----
->   hw/net/igb_core.c    | 13 ++++-----
-
->   hw/net/vmxnet3.c     | 14 +++++-----
->   5 files changed, 83 insertions(+), 60 deletions(-)
+>       uint16_t queues = 0;
+>       uint32_t n = 0;
 
 
