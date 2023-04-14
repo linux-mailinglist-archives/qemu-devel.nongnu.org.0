@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451446E1BE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 07:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490746E1C13
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 07:57:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnCHV-0005SV-TU; Fri, 14 Apr 2023 01:47:33 -0400
+	id 1pnCP5-0007Pu-Pr; Fri, 14 Apr 2023 01:55:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1pnCHQ-0005Rk-Fs
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:47:28 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1pnCHO-00078V-Du
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:47:28 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id a23so13474875qtj.8
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 22:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681451244; x=1684043244;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gp4IEfmtgOUZmewdFeuGXbSFVBcCBbDalI9UfnJAhRQ=;
- b=k1VaFeiiBehvt0b4fiGRD/b1QvYDyv3ujiM1zR3Y4a+/N2RTTh2Wvuz5dBJLmZZqtG
- /s9vmBI5oew/hjsf+LWJuz9rCl9ShsTx2MZ5HjzaUChsdBcgZ1IOkFv/qdMwCfcTn8DG
- qZsvTyBgwSYZ4Pr9+qTeOVEzayO3eMg+Lj+R42uh0ep1X1Gj6iqD5Rl8cm9TCYjgRft5
- DA15DhBvu8G4rnoqS7QbrztWVc5Qyt0tFpI9fLP7U8oZq+bS2vRqgktn7x+J354S2hBE
- KGWlWQeYTETw4nxQxzxsr/BPkrSmZTlYDk4gy8IHRTC1AJ0BOl9kXz+nnHpkpEJGvKZP
- FJFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681451244; x=1684043244;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gp4IEfmtgOUZmewdFeuGXbSFVBcCBbDalI9UfnJAhRQ=;
- b=TUCcyYfYrmclArjoPu8SE76kwU5pkWLybUFQ2Hi1V/7h0BPcIdNxBuxZk87XYdsT3i
- Zgz3gVblxyTnTL+MoxMhmB8dB2laseai/CNPnba4QRz4f8PkxXBi9ohk7uhLorDCxGhC
- kaBj2Dl+znDgLewe2CHU04RQ/seVe2oeh386s2BoVXWn/7JAcHkjs2hEM4dgE7X3sVVi
- uRqc6fkUPN+uuO9wAmplsA3/EHDcGbVfon4bOmU3hwkHo0CmN75mfie8z7kAfHf7m1Ym
- Y9yQiUyNzJyg9N4YghHrd72+4dCB9yecJ7nDNco79E5mGNeEkDbh5iiEKYwCRK5y8OXc
- LzgA==
-X-Gm-Message-State: AAQBX9dAaElH0xMP2yGCfwtLr7gLQOXp0eQAiuR0dtvSBNehD+ja3dUJ
- L/I7zzfI63OovahC+E8GeekhicUV95G8IaferGco8g==
-X-Google-Smtp-Source: AKy350biwafv/sIatgignLGelmelwU/Fo7w2f4Mr6xkvXMURRDIpBMklbnekOQiKe9nzrszVtLPQwRg1WrM0taarH6c=
-X-Received: by 2002:a05:622a:1055:b0:3e3:8172:ff23 with SMTP id
- f21-20020a05622a105500b003e38172ff23mr1374971qte.13.1681451244659; Thu, 13
- Apr 2023 22:47:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pnCOx-0007MZ-MJ
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:55:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pnCOk-0000Ii-6p
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:55:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681451694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=r7EXu/SpUHafSFNowobPa+R1hJQJ5a/ZkPgJMNtgO/8=;
+ b=U3r3+D0035U8U4BgyFCOPOoUVgoYnTPmFTKvH9gtQN8rppjfwLPU04J7MSsqgeuk0OonHk
+ UZZP9G3Ajlg9TuycbPdRI+BBjTUMfZcPHoQ8dJM44/8bRGWMQOlHXJMMRoxgvWnpuXOEfG
+ T7YiEJlHr+f3p+7fW5zh0AlzswWsO0w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-4wOsT7tOM3G5PiLcj2dXbA-1; Fri, 14 Apr 2023 01:54:50 -0400
+X-MC-Unique: 4wOsT7tOM3G5PiLcj2dXbA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 731CF855300;
+ Fri, 14 Apr 2023 05:54:50 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BAC50C1602A;
+ Fri, 14 Apr 2023 05:54:49 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Warner Losh <imp@bsdimp.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Ryo ONODERA <ryoon@netbsd.org>, Kyle Evans <kevans@freebsd.org>,
+ Beraldo Leal <bleal@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [RFC PATCH v2 00/10] configure: create a python venv and install meson
+Date: Fri, 14 Apr 2023 01:54:39 -0400
+Message-Id: <20230414055449.4028284-1-jsnow@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230410141316.3317474-1-mchitale@ventanamicro.com>
- <20230410141316.3317474-3-mchitale@ventanamicro.com>
- <58021b23-dc58-bf3f-b83e-ddaa5be90e14@linaro.org>
-In-Reply-To: <58021b23-dc58-bf3f-b83e-ddaa5be90e14@linaro.org>
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-Date: Fri, 14 Apr 2023 11:16:48 +0530
-Message-ID: <CAN37VV4QqDJjMjaDt9GjeZweXTXQHGcTLG6VhkfWtoWkfV7h6g@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/4] target/riscv: Add fcsr field in tb->flags
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Alistair Francis <alistair23@gmail.com>,
- Daniel Barboza <dbarboza@ventanamicro.com>, liweiwei@iscas.ac.cn
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=mchitale@ventanamicro.com; helo=mail-qt1-x82e.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,28 +81,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 11, 2023 at 7:17=E2=80=AFAM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 4/10/23 07:13, Mayuresh Chitale wrote:
-> > The state of smstateen0.FCSR bit impacts the execution of floating poin=
-t
-> > instructions when misa.F=3D=3D0. Add a field in the tb->flags which sto=
-res
-> > the current state of smstateen0.fcsr and will be used by floating point
-> > translation routines.
->
-> Are you certain that you require a new bit?
->
-> Could the same effect be achieved by forcing one or more of the existing
-> TB_FLAGS.{FS,HS_FS} fields to 0 within cpu_get_tb_cpu_state?  I.e. for th=
-e purposes of
-> translation, pretend the FS state is DISABLED?
-Yes, that is correct.
->
-> These bits are scarce, are we are nearly out.
->
->
-> r~
->
+GitLab CI: https://gitlab.com/jsnow/qemu/-/pipelines/836855908=0D
+           (All green. phew.)=0D
+=0D
+(This is a quick V2 RFC to freshen the patches on the list and=0D
+consolidate some fixes made so far. See changes below.)=0D
+=0D
+This patch series creates a mandatory venv during configure time and=0D
+uses it to install meson.=0D
+=0D
+The eventual goal of all of this is to ensure that the Python used to=0D
+run meson is the same Python used to run Sphinx, tests, and any=0D
+build-time scripting we have. As it stands, meson and sphinx (and their=0D
+extensions) may run in a different Python environment than the one=0D
+configured and chosen by the user at configure/build time.=0D
+=0D
+We can ensure that everything uses the same Python and has the same=0D
+packages available with a bit of up-front work. See=0D
+https://www.qemu.org/2023/03/24/python/ for more information.=0D
+=0D
+Changes in V2:=0D
+=0D
+- Each workaround in mkvenv is added in a separate patch now to better=0D
+  isolate parts of the design and what they were added to address.=0D
+- Introduction into configure is split into two parts, the first of=0D
+  which is quite a bit cleaner and introduces a lot less logic into the=0D
+  configure file.=0D
+- Avocado tests now use the configure-time venv.=0D
+- Python 3.7 now works unconditionally without new dependencies, though=0D
+  we might drop it in favor of 3.8 soon. "Just in case", I suppose.=0D
+- msys2 CI jobs now pass - there was a bug in the os.chmod call under=0D
+  windows.=0D
+- NetBSD now works; mkvenv.py has better diagnostics for detecting=0D
+  NetBSD edge cases.=0D
+=0D
+Changes yet to come for further revisions to this series:=0D
+=0D
+- Need to add Sphinx support.=0D
+- Need to add nested venv support.=0D
+- PyPI support? (To drop meson git submodule?)=0D
+- Installing meson from vendored .whl files for tarballs?=0D
+  (To drop --no-use-pep517 hack?)=0D
+=0D
+John Snow (10):=0D
+  python: add mkvenv.py=0D
+  tests: add python3-venv dependency=0D
+  mkvenv: Add better error message for missing pyexapt module=0D
+  tests/vm: Configure netbsd to use Python 3.10=0D
+  tests/vm: add py310-expat to NetBSD=0D
+  mkvenv: generate console entry shims from inside the venv=0D
+  mkvenv: work around broken pip installations on Debian 10=0D
+  configure: create a python venv unconditionally=0D
+  configure: remove --meson=3D; install meson to the pyvenv=0D
+  tests: Use configure-provided pyvenv for tests=0D
+=0D
+ docs/devel/acpi-bits.rst                      |   6 +-=0D
+ docs/devel/testing.rst                        |  14 +-=0D
+ configure                                     | 138 ++++--=0D
+ .gitlab-ci.d/buildtest-template.yml           |   4 +-=0D
+ .gitlab-ci.d/buildtest.yml                    |   6 +-=0D
+ python/scripts/mkvenv.py                      | 466 ++++++++++++++++++=0D
+ .../org.centos/stream/8/x86_64/test-avocado   |   4 +-=0D
+ scripts/device-crash-test                     |   2 +-=0D
+ tests/Makefile.include                        |  10 +-=0D
+ .../dockerfiles/debian-all-test-cross.docker  |   3 +-=0D
+ .../dockerfiles/debian-hexagon-cross.docker   |   3 +-=0D
+ .../dockerfiles/debian-riscv64-cross.docker   |   3 +-=0D
+ .../dockerfiles/debian-tricore-cross.docker   |   3 +-=0D
+ tests/requirements.txt                        |   7 +-=0D
+ tests/vm/netbsd                               |   2 +=0D
+ 15 files changed, 590 insertions(+), 81 deletions(-)=0D
+ create mode 100644 python/scripts/mkvenv.py=0D
+=0D
+-- =0D
+2.39.2=0D
+=0D
+
 
