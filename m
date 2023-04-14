@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F386E2638
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:51:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4290D6E263A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:52:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnKlA-0003Uu-7g; Fri, 14 Apr 2023 10:50:44 -0400
+	id 1pnKmt-0004MB-6t; Fri, 14 Apr 2023 10:52:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnKl0-0003UJ-VV
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:50:36 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnKmq-0004LX-Tv
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:52:28 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnKky-00008K-NK
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:50:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnKmp-0000Qr-Fy
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:52:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681483829;
+ s=mimecast20190719; t=1681483946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nZNlS/WXH20/jwwYgBFVxyFtUeltaVB9np0Y6LTcEe8=;
- b=bB4Jnz7/ER3iDn7iR3rLN1PKrEFVDNvTISbYdiyN9EpcAr/RnGXn0YhGOffoodF+5V6RAk
- ZaTZU1CmtLgqGwjotzn25WiaAUZcJDKsP69M0cgkQAAP5R5oPuD5pMVS4q0x49SUbzSksL
- PpHtG4r9U1pGOYkf1N+D7rd/I/KyNHQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Wh2NeXq3CgPCnajmRszvJaiXuEm/H3oVpo9bdGlKdcM=;
+ b=g5cM1SZxpEQySJGNrRBjF/shfzwHwLT1G/6vIQTqDj43qcVNNERckWyEAMoR6YCNkqdHZ3
+ YWTHFbpkLC1H4D9wIfrA/Lybt43Mc4hsl8M2g1idPz1w1dgQsdjfSDmItjcW8vAttuh6To
+ Yhj8phfSGhCwvGFf4ON8FP7wR3hELiM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-99-BfEkrrlwPxen9GwC2aRTLg-1; Fri, 14 Apr 2023 10:50:25 -0400
-X-MC-Unique: BfEkrrlwPxen9GwC2aRTLg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- w16-20020a05600c475000b003f082eecdcaso7280255wmo.6
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:50:25 -0700 (PDT)
+ us-mta-471-0AcDs9_QPCSNYVxBTPG9SQ-1; Fri, 14 Apr 2023 10:52:25 -0400
+X-MC-Unique: 0AcDs9_QPCSNYVxBTPG9SQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d21-20020adfa415000000b002f68de99106so1038493wra.19
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:52:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681483824; x=1684075824;
+ d=1e100.net; s=20221208; t=1681483944; x=1684075944;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nZNlS/WXH20/jwwYgBFVxyFtUeltaVB9np0Y6LTcEe8=;
- b=imLoMwJ61r2oTz+qPPvyGNsUgV6wi8nToHSvb/tXFDuk5hjRvg7+iZY1oVHQMARVcg
- kWI8R8udGp7MPvb1bbJPQqXENVA7+4kR6n/Bad+TyTlWrN9WKTp1gbmg998ttSKeSg14
- 8t21IKi7syXeLjSm9pgM2Qeo0G8PXtgi0h/FDyVztQ2j6N+umxv8t75srD+P7VVlanz7
- HRybl24NAfZtVM4K3k3KFOgJY0GPzeNadxqxq/q13NKv/ewssoCANwGDt90pDZihHeuU
- W2zAFbFs3+g4bGSvIqxMRjbgqYtgCR8kFkxIbDZYCRrN6LMVOWQuuqP4lSPY4Q1Sg2b7
- oyEQ==
-X-Gm-Message-State: AAQBX9fJnLs7HVqbeFfbKRPP4eKfyy8BG8xIVvJAjTv/wde2CkFdqGQw
- 9IbOiUJp4nQqcuqUxvo4my9++nDBz2XLNMV4WncbRHbexAuuMCuoTBS/TA7hAMGLO2MoMq0hzyk
- ODNLjvAnB+TE8WFc=
-X-Received: by 2002:a5d:4042:0:b0:2ef:b4ac:8e5 with SMTP id
- w2-20020a5d4042000000b002efb4ac08e5mr4119162wrp.28.1681483824774; 
- Fri, 14 Apr 2023 07:50:24 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZzQiNwV+VqNWMr07/uYN4dbPXOXzmE1bp/k1UcOf8tY1cWHU5HsElO6m9i7s8pPH2MHhkzkA==
-X-Received: by 2002:a5d:4042:0:b0:2ef:b4ac:8e5 with SMTP id
- w2-20020a5d4042000000b002efb4ac08e5mr4119150wrp.28.1681483824420; 
- Fri, 14 Apr 2023 07:50:24 -0700 (PDT)
+ bh=Wh2NeXq3CgPCnajmRszvJaiXuEm/H3oVpo9bdGlKdcM=;
+ b=ZaBf8MgDm6h0kgOrv3gIIU49OzvQB+XNAz1tBCvRz7Wxv+5gQM+4COBSUrKnpLYzIt
+ rqZROeZJachTO9hzc+x5cMtAWCoQHLtmCR/4LfF7IHlkAHfJkqlmELZcvAIvhZBforRo
+ gdlGBy8erWGOl2W9h42d6A8g1kZWiKqgNuuzRIuLM43yv7ECpjR/5S3GoqUTAmPEiv8/
+ bMorEBQp+eQb67rJESpHqSr4AL782QFxOe2y3z43103zNhL9jYwkHBrFbDkfh9wKnPVR
+ jtQhWmNnQUL3GVvQD1oA0/+sQsDAkEF9dTiGGd87vRar+b6nfwcvWWvYOwNeHSznK2Fg
+ flvA==
+X-Gm-Message-State: AAQBX9f2Krm8kNhAI4X234lu30W11yVfkGuQP9jYyWmCox9mXUFOVK2Y
+ mWMexKnqgaco9aYGeQoW+UVRszMiYRQODbdtV8VzzHrqod2pnc0dvI2CGPQv2bxqbouGcq1aqsE
+ pBUaWm0/PqSHsNR8=
+X-Received: by 2002:a5d:51c7:0:b0:2f6:efcb:5867 with SMTP id
+ n7-20020a5d51c7000000b002f6efcb5867mr2116731wrv.41.1681483944170; 
+ Fri, 14 Apr 2023 07:52:24 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZqR+pma+dgHJcLc9ildHwwxMZjVN0fzGLmArGZD8QLp+kw69QsSGmu1nzbuFOzhPxlowuAwQ==
+X-Received: by 2002:a5d:51c7:0:b0:2f6:efcb:5867 with SMTP id
+ n7-20020a5d51c7000000b002f6efcb5867mr2116719wrv.41.1681483943905; 
+ Fri, 14 Apr 2023 07:52:23 -0700 (PDT)
 Received: from [192.168.8.105] (tmo-096-44.customers.d1-online.com.
  [80.187.96.44]) by smtp.gmail.com with ESMTPSA id
- r4-20020adfda44000000b002f598008d50sm3700417wrl.34.2023.04.14.07.50.23
+ z14-20020adff1ce000000b002f28de9f73bsm3692642wro.55.2023.04.14.07.52.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 07:50:23 -0700 (PDT)
-Message-ID: <bd3a3306-d254-7118-028a-fd84bd84576f@redhat.com>
-Date: Fri, 14 Apr 2023 16:50:22 +0200
+ Fri, 14 Apr 2023 07:52:23 -0700 (PDT)
+Message-ID: <c9233c89-4027-fac5-6155-a72e16ae118c@redhat.com>
+Date: Fri, 14 Apr 2023 16:52:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 1/2] qtest: Don't assert on "-qtest chardev:myid"
+Subject: Re: [PATCH 2/2] chardev: Allow setting file chardev input file on the
+ command line
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 References: <20230413150724.404304-1-peter.maydell@linaro.org>
- <20230413150724.404304-2-peter.maydell@linaro.org>
+ <20230413150724.404304-3-peter.maydell@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230413150724.404304-2-peter.maydell@linaro.org>
+In-Reply-To: <20230413150724.404304-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -103,43 +104,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 13/04/2023 17.07, Peter Maydell wrote:
-> If the -qtest command line argument is passed a string that says
-> "use this chardev for I/O", then it will assert:
+> Our 'file' chardev backend supports both "output from this chardev
+> is written to a file" and "input from this chardev should be read
+> from a file" (except on Windows). However, you can only set up
+> the input file if you're using the QMP interface -- there is no
+> command line syntax to do it.
 > 
-> $ ./build/clang/qemu-system-i386 -chardev file,path=/dev/null,id=myid -qtest chardev:myid
-> Unexpected error in qtest_set_chardev() at ../../softmmu/qtest.c:1011:
-> qemu-system-i386: Cannot find character device 'qtest'
-> Aborted (core dumped)
+> Add command line syntax to allow specifying an input file
+> as well as an output file, using a new 'input-path' suboption.
 > 
-> This is because in qtest_server_init() we assume that when we create
-> the chardev with qemu_chr_new() it will always have the name "qtest".
-> This is true if qemu_chr_new() had to create a new chardev, but not
-> true if one already existed and is being referred to with
-> "chardev:myid".
-> 
-> Use the name of the chardev we get back from qemu_chr_new() as the
-> string to set the qtest 'chardev' property to, instead of hardcoding
-> it to "qtest".
+> The specific use case I have is that I'd like to be able to
+> feed fuzzer reproducer input into qtest without having to use
+> '-qtest stdio' and put the input onto stdin. Being able to
+> use a file chardev like this:
+>   -chardev file,id=repro,path=/dev/null,input-path=repro.txt -qtest chardev:repro
+> means that stdio is free for use by gdb.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   softmmu/qtest.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-> index 34bd2a33a76..26852996b5b 100644
-> --- a/softmmu/qtest.c
-> +++ b/softmmu/qtest.c
-> @@ -867,7 +867,7 @@ void qtest_server_init(const char *qtest_chrdev, const char *qtest_log, Error **
->       }
->   
->       qtest = object_new(TYPE_QTEST);
-> -    object_property_set_str(qtest, "chardev", "qtest", &error_abort);
-> +    object_property_set_str(qtest, "chardev", chr->label, &error_abort);
->       if (qtest_log) {
->           object_property_set_str(qtest, "log", qtest_log, &error_abort);
->       }
+...
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 59bdf67a2c5..31d08c60264 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -3360,7 +3360,7 @@ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
+>       "-chardev vc,id=id[[,width=width][,height=height]][[,cols=cols][,rows=rows]]\n"
+>       "         [,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>       "-chardev ringbuf,id=id[,size=size][,logfile=PATH][,logappend=on|off]\n"
+> -    "-chardev file,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+> +    "-chardev file,id=id,path=path[,input-file=input-file][,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+s/input-file=/input-path=/
+
+  Thomas
 
 
