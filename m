@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF48C6E1C14
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 07:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175A76E1C84
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 08:19:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnCPA-0007RF-4M; Fri, 14 Apr 2023 01:55:28 -0400
+	id 1pnCkj-0001Ot-7l; Fri, 14 Apr 2023 02:17:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pnCP3-0007Px-Pk
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:55:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pnCOj-0000Jl-4q
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 01:55:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681451700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B+10s9fHZ2Rv7aCFmhbMY0RNnrVjbvpFyStf3lJffaU=;
- b=g/vRgrS41jaiEdiGVA0liA/G0cAMJ72MkYbTJskFq2YD7s9ZusJjnpij+snbyGz6WKTjwW
- 2zqXLmkT3zfx92pcYFO7MYtMkR3DuJGqZ56BIc+AnWMuSJWs7H+yYLHnvvsvZQiYRUZtDu
- 6x6QOr+RZzDGN1QHuXncuxM2XQAmgvc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-xYrR37V9PW6_S5Vt1Q2EVg-1; Fri, 14 Apr 2023 01:54:56 -0400
-X-MC-Unique: xYrR37V9PW6_S5Vt1Q2EVg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D2A285A5A3;
- Fri, 14 Apr 2023 05:54:56 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.16.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0132C1602A;
- Fri, 14 Apr 2023 05:54:55 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Cleber Rosa <crosa@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Warner Losh <imp@bsdimp.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Reinoud Zandijk <reinoud@netbsd.org>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Ryo ONODERA <ryoon@netbsd.org>, Kyle Evans <kevans@freebsd.org>,
- Beraldo Leal <bleal@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [RFC PATCH v2 10/10] tests: Use configure-provided pyvenv for tests
-Date: Fri, 14 Apr 2023 01:54:49 -0400
-Message-Id: <20230414055449.4028284-11-jsnow@redhat.com>
-In-Reply-To: <20230414055449.4028284-1-jsnow@redhat.com>
-References: <20230414055449.4028284-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pnCkU-0001Ja-56
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 02:17:31 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pnCkS-0005VV-4e
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 02:17:29 -0400
+Received: by mail-wr1-x432.google.com with SMTP id i3so7051772wrc.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 23:17:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681453042; x=1684045042;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=INsvIld9m+fkPYFY3L4leu7Xox8qKMW5Jd2RJCsSqDk=;
+ b=LrqFW/xq8oB52xAGa2Q46H96bSYIKCPcdCkHau9DdyrjCuTADxcCy1ZG3phHcP4jS9
+ n5PfK3kIJy0+A4mxAmtPxiToF8x400EWUUkUlvs8V2OIBw8+Yp9Z7BkPBlL9b60rMG8a
+ NM1UuIFbDZNyicH51Wx5l3W8bQUPgFWU5A4ApbqKL/sfqyQynXIm3PxrqzZ26Q7iJ/0y
+ PB+Vk3Id7OPi0KNkQ02d/lhaLv54sSAZCDJLITBtlY2D9bZG+acOlhIWKMKJYpeOhFLT
+ 4527QPKuXy6v1dQUme6+D3K/0Ll/Pbzl0EZ4QW3EDD6RiYCtHIIuUhOilN9kIWXzgZVB
+ rhWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681453042; x=1684045042;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=INsvIld9m+fkPYFY3L4leu7Xox8qKMW5Jd2RJCsSqDk=;
+ b=f8sCFWCTwpYbeg4/LmClJetxbuiITpMZd4SsB/bOEJ+4H1ovpnEpIz7Ovw4ZoYchYk
+ qSJqqwr5EaWZiqu+nCi8a5qiBXHQd/R8OUaIky/qq0e7yGzDN06eOdHFwDYjL7tzT5HH
+ 17gJvp4f+0+AnXKY1K/dLPQhRf2EcOJWypNp5g7Siss9wp6oCI2gGhNkUgKQclHzpQLy
+ +ZvxAnu4fdd/WzCG9uFjIsU9EwPVhgTCzkjXqrxHqIHVrcjU2W/oCKcOE6DLzRA+P30S
+ hLIERCNq8YrXd2MG1EylI9WUlTKMrGCWwMxwKsKzFxtVAmqD96gVfQxYe55Rz9sXCvQz
+ 4ssg==
+X-Gm-Message-State: AAQBX9d5B24bSs/PvZeJFIWyRhGqH/wopzB6Xx5VAwzRLjMCTEz8ADqR
+ pvFAz386cilVfNPaBEERHwDShQ==
+X-Google-Smtp-Source: AKy350YKMKz5M2sMJrloQdqPE6jzTeyVLl0BPQ5wHSMyh3weNw7yfZfV1fFRQVIzsRBIvjXLGdE+nA==
+X-Received: by 2002:a5d:45c7:0:b0:2e5:1da2:2a06 with SMTP id
+ b7-20020a5d45c7000000b002e51da22a06mr3144561wrs.5.1681453042372; 
+ Thu, 13 Apr 2023 23:17:22 -0700 (PDT)
+Received: from [10.1.0.53] ([62.72.67.132]) by smtp.gmail.com with ESMTPSA id
+ m13-20020adffe4d000000b002efb139ce72sm2786029wrs.36.2023.04.13.23.17.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Apr 2023 23:17:22 -0700 (PDT)
+Message-ID: <14177a5a-9af7-7d34-dc15-fe9204de710b@linaro.org>
+Date: Fri, 14 Apr 2023 08:17:14 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 03/10] tcg: Use one-insn-per-tb accelerator property in
+ curr_cflags()
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
+ Kyle Evans <kevans@freebsd.org>, libvir-list@redhat.com,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
+References: <20230403144637.2949366-1-peter.maydell@linaro.org>
+ <20230403144637.2949366-4-peter.maydell@linaro.org>
+ <db294649-0b72-914e-d6eb-328a996912f7@linaro.org>
+ <CAFEAcA80ON=OfSucYhfEY8PiYc1xvkb20rWUYJbFYPg8qiywNw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA80ON=OfSucYhfEY8PiYc1xvkb20rWUYJbFYPg8qiywNw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.083,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,227 +100,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch changes how the avocado tests are provided, ever so
-slightly. Instead of creating a new testing venv, use instead the
-configure-provided 'pyvenv' and install optional packages into that.
+On 4/13/23 18:24, Peter Maydell wrote:
+> On Mon, 3 Apr 2023 at 19:33, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 4/3/23 07:46, Peter Maydell wrote:
+>>>    uint32_t curr_cflags(CPUState *cpu)
+>>>    {
+>>>        uint32_t cflags = cpu->tcg_cflags;
+>>> +    TCGState *tcgstate = TCG_STATE(current_accel());
+>>
+>> As mentioned against the cover, this is a very hot path.
+>>
+>> We should try for something less expensive.  Perhaps as simple as
+>>
+>>       return cpu->tcg_cflags | tcg_cflags_global;
+>>
+>> where cpu->tcg_cflags is updated with cpu->singlestep_enabled.
+> 
+> I feel like that introduces atomicity issues. If I'm reading
+> the code right, curr_cflags() is called without any kind
+> of lock held. At the moment we get away with this because
+> 'singlestep' is an int and is always going to be atomically
+> updated. If we make tcg_cflags_global a value which might have
+> multiple bits set or not set I'm not entirely sure what the
+> right way is to handle the reads and writes of it.
 
-Note: At the time of writing, avocado tests require avocado-framework <
-90 whereas the qemu.qmp self-tests rely on avocado-framework >= 90. This
-collision is avoided for now because the qemu.git/python/qemu/ code does
-not need avocado at *runtime*; it does not install avocado-framework as
-a necessary dependency and is skipped in this circumstance.
+qatomic_read() here, will dtrt for no tearing on the read.
+(Not that we should have expected one anyway, for uint32_t.)
 
-Nevertheless, we do want to address that discrepancy in the future so
-that it will be possible to re-use the same venv for
-qemu.git/python/qemu self-tests to introduce them to make check as "make
-check-python".
+> I think we can assume we have the iothread lock at any
+> point where we want to change either 'singlestep' or
+> the 'nochain' option, at least.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- docs/devel/acpi-bits.rst                           |  6 +++---
- docs/devel/testing.rst                             | 14 +++++++-------
- .gitlab-ci.d/buildtest.yml                         |  6 +++---
- scripts/ci/org.centos/stream/8/x86_64/test-avocado |  4 ++--
- scripts/device-crash-test                          |  2 +-
- tests/Makefile.include                             | 10 +++++-----
- tests/requirements.txt                             |  7 +++++--
- 7 files changed, 26 insertions(+), 23 deletions(-)
+Indeed, it can only be changed by the monitor, under user control, so even without a lock 
+there's no real race there.
 
-diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-index 9eb4b9e666..0c40359109 100644
---- a/docs/devel/acpi-bits.rst
-+++ b/docs/devel/acpi-bits.rst
-@@ -61,19 +61,19 @@ Under ``tests/avocado/`` as the root we have:
-    ::
- 
-      $ make check-venv (needed only the first time to create the venv)
--     $ ./tests/venv/bin/avocado run -t acpi tests/avocado
-+     $ ./pyvenv/bin/avocado run -t acpi tests/avocado
- 
-    The above will run all acpi avocado tests including this one.
-    In order to run the individual tests, perform the following:
-    ::
- 
--     $ ./tests/venv/bin/avocado run tests/avocado/acpi-bits.py --tap -
-+     $ ./pyvenv/bin/avocado run tests/avocado/acpi-bits.py --tap -
- 
-    The above will produce output in tap format. You can omit "--tap -" in the
-    end and it will produce output like the following:
-    ::
- 
--      $ ./tests/venv/bin/avocado run tests/avocado/acpi-bits.py
-+      $ ./pyvenv/bin/avocado run tests/avocado/acpi-bits.py
-       Fetching asset from tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
-       JOB ID     : eab225724da7b64c012c65705dc2fa14ab1defef
-       JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-10T17.58-eab2257/job.log
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 4071e72710..50664d9eb9 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -882,9 +882,9 @@ You can run the avocado tests simply by executing:
- 
-   make check-avocado
- 
--This involves the automatic creation of Python virtual environment
--within the build tree (at ``tests/venv``) which will have all the
--right dependencies, and will save tests results also within the
-+This involves the automatic installation, from PyPI, of all the
-+necessary avocado-framework dependencies into the QEMU venv within the
-+build tree (at ``./pyvenv``). Test results are also saved within the
- build tree (at ``tests/results``).
- 
- Note: the build environment must be using a Python 3 stack, and have
-@@ -941,7 +941,7 @@ may be invoked by running:
- 
-  .. code::
- 
--  tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/avocado/
-+  pyvenv/bin/avocado run $OPTION1 $OPTION2 tests/avocado/
- 
- Note that if ``make check-avocado`` was not executed before, it is
- possible to create the Python virtual environment with the dependencies
-@@ -956,20 +956,20 @@ a test file. To run tests from a single file within the build tree, use:
- 
-  .. code::
- 
--  tests/venv/bin/avocado run tests/avocado/$TESTFILE
-+  pyvenv/bin/avocado run tests/avocado/$TESTFILE
- 
- To run a single test within a test file, use:
- 
-  .. code::
- 
--  tests/venv/bin/avocado run tests/avocado/$TESTFILE:$TESTCLASS.$TESTNAME
-+  pyvenv/bin/avocado run tests/avocado/$TESTFILE:$TESTCLASS.$TESTNAME
- 
- Valid test names are visible in the output from any previous execution
- of Avocado or ``make check-avocado``, and can also be queried using:
- 
-  .. code::
- 
--  tests/venv/bin/avocado list tests/avocado
-+  pyvenv/bin/avocado list tests/avocado
- 
- Manual Installation
- ~~~~~~~~~~~~~~~~~~~
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index ba6f551752..53de9f23c4 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -103,7 +103,7 @@ crash-test-debian:
-   script:
-     - cd build
-     - make check-venv
--    - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-i386
-+    - pyvenv/bin/python3 scripts/device-crash-test -q ./qemu-system-i386
- 
- build-system-fedora:
-   extends:
-@@ -146,8 +146,8 @@ crash-test-fedora:
-   script:
-     - cd build
-     - make check-venv
--    - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-ppc
--    - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-riscv32
-+    - pyvenv/bin/python3 scripts/device-crash-test -q ./qemu-system-ppc
-+    - pyvenv/bin/python3 scripts/device-crash-test -q ./qemu-system-riscv32
- 
- build-system-centos:
-   extends:
-diff --git a/scripts/ci/org.centos/stream/8/x86_64/test-avocado b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-index d2c0e5fb4c..7bb5b317b6 100755
---- a/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-+++ b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-@@ -4,7 +4,7 @@
- # KVM and x86_64, or tests that are generic enough to be valid for all
- # targets. Such a test list can be generated with:
- #
--# ./tests/venv/bin/avocado list --filter-by-tags-include-empty \
-+# ./pyvenv/bin/avocado list --filter-by-tags-include-empty \
- #   --filter-by-tags-include-empty-key -t accel:kvm,arch:x86_64 \
- #   tests/avocado/
- #
-@@ -22,7 +22,7 @@
- #   - tests/avocado/virtio_check_params.py:VirtioMaxSegSettingsCheck.test_machine_types
- #
- make get-vm-images
--./tests/venv/bin/avocado run \
-+./pyvenv/bin/avocado run \
-     --job-results-dir=tests/results/ \
-     tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_i440fx_kvm \
-     tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_q35_kvm \
-diff --git a/scripts/device-crash-test b/scripts/device-crash-test
-index 73bcb98693..ef6ac262fa 100755
---- a/scripts/device-crash-test
-+++ b/scripts/device-crash-test
-@@ -43,7 +43,7 @@ except ModuleNotFoundError as exc:
-     print(f"Module '{exc.name}' not found.")
-     print("  Try 'make check-venv' from your build directory,")
-     print("  and then one way to run this script is like so:")
--    print(f'  > $builddir/tests/venv/bin/python3 "{path}"')
-+    print(f'  > $builddir/pyvenv/bin/python3 "{path}"')
-     sys.exit(1)
- 
- logger = logging.getLogger('device-crash-test')
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9422ddaece..3f39c607cc 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -89,7 +89,8 @@ distclean-tcg: $(DISTCLEAN_TCG_TARGET_RULES)
- # Build up our target list from the filtered list of ninja targets
- TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
- 
--TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
-+TESTS_VENV_DIR=$(BUILD_DIR)/pyvenv
-+TESTS_VENV_TOKEN=$(BUILD_DIR)/pyvenv/tests.group
- TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
- TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
- TESTS_PYTHON=$(TESTS_VENV_DIR)/bin/python3
-@@ -111,8 +112,7 @@ quiet-venv-pip = $(quiet-@)$(call quiet-command-run, \
-     $(TESTS_PYTHON) -m pip -q --disable-pip-version-check $1, \
-     "VENVPIP","$1")
- 
--$(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
--	$(call quiet-command, $(PYTHON) -m venv $@, VENV, $@)
-+$(TESTS_VENV_TOKEN): $(TESTS_VENV_REQ)
- 	$(call quiet-venv-pip,install -e "$(SRC_PATH)/python/")
- 	$(call quiet-venv-pip,install -r $(TESTS_VENV_REQ))
- 	$(call quiet-command, touch $@)
-@@ -121,7 +121,7 @@ $(TESTS_RESULTS_DIR):
- 	$(call quiet-command, mkdir -p $@, \
-             MKDIR, $@)
- 
--check-venv: $(TESTS_VENV_DIR)
-+check-venv: $(TESTS_VENV_TOKEN)
- 
- FEDORA_31_ARCHES_TARGETS=$(patsubst %-softmmu,%, $(filter %-softmmu,$(TARGETS)))
- FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(FEDORA_31_ARCHES_TARGETS))
-@@ -163,7 +163,7 @@ check:
- check-build: run-ninja
- 
- check-clean:
--	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
-+	rm -rf $(TESTS_RESULTS_DIR)
- 
- clean: check-clean clean-tcg
- distclean: distclean-tcg
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index 0ba561b6bd..07e713ef5a 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -1,6 +1,9 @@
- # Add Python module requirements, one per line, to be installed
--# in the tests/venv Python virtual environment. For more info,
-+# in the qemu build_dir/pyvenv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
--# Note that qemu.git/python/ is always implicitly installed.
-+#
-+# Note that qemu.git/python/ is implicitly installed to this venv when
-+# 'make check-venv' is run, and will persist until configure is run
-+# again.
- avocado-framework==88.1
- pycdlib==1.11.0
--- 
-2.39.2
+Using qatomic_set(&global, new_value) is sufficient to match the qatomic_read() for no 
+tearing.  Concurrent threads will see the old value or the new value, but not garbage, 
+which is just fine.
 
+We probably need to kick all cpus, so that they come out of long-running TB chains to see 
+the new value and re-translate.
+
+
+r~
 
