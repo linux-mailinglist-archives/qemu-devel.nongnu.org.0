@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A686E1D17
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 09:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BE06E1AA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 05:15:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnDnD-0003mH-4f; Fri, 14 Apr 2023 03:24:24 -0400
+	id 1pn9sx-0007l7-7b; Thu, 13 Apr 2023 23:14:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ray90514@gmail.com>)
- id 1pn9hm-0006uk-Po
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 23:02:30 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ray90514@gmail.com>)
- id 1pn9ha-0003Cr-Jt
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 23:02:30 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- y11-20020a17090a600b00b0024693e96b58so16306813pji.1
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 20:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681441335; x=1684033335;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=suUFGIu333J5BhRBdzQmYtbFluGOeO0x0BxGNl1j7lE=;
- b=br4gsEQQdQnTmkcyaFPHeWvDVJMibHuls7/DsEdeOW9LtGD+YgFJuFb2N6i3N53x8z
- yLr+94WKTQhHM5XFw1GDtgfO2GXcBf8H0y/Crfm90C4VSIs414i7kdwX/QgtFzmjYObp
- vTugqmtruPM3h4BZGwoUX+or/H/hiCT7Ga4+yeUA9urQgjEbk/Nw/3DSThpk+/RCi14i
- x8zqvEvyZs6glMn0nXc/MZLNpbrDC2g6frV/+Tg8LgSiFSCJ80hEPgykyEagROkw/AoH
- 77rQ9m6W9InJDTijSQNojrNSoVQV/GgFTyW/uYRK2LzmD34I6raTC2aZSedxRfxi3FEf
- w1zw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pn9sv-0007ks-NI
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 23:14:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pn9ss-0006KM-8h
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 23:14:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681442035;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8BnvEXJZeyUWxz5hpYxMJ5mCgKw8goEumDwK1Pa3XQQ=;
+ b=Mlp35WtFZR/aQmRwDdSaZ6JHH86E+U1yYPg/YyottoC72cZRspx79ZalhgKr+BHVXvG3T9
+ T0IGiZ5dyyagCrw/S1GOsX1Wh3OOu1Xa4JQhcA0kSKnq1a9BtsCLgDQGSRMocjkqmz8M5Q
+ vxScxBrqWDVRzIBB8UeBeXHaBPHEY5w=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-7-7xs2Df97Pwuf2daxt0nFGg-1; Thu, 13 Apr 2023 23:13:53 -0400
+X-MC-Unique: 7xs2Df97Pwuf2daxt0nFGg-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-187aef83ec8so404273fac.18
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 20:13:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681441335; x=1684033335;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=suUFGIu333J5BhRBdzQmYtbFluGOeO0x0BxGNl1j7lE=;
- b=jq1jox080k5WHjBFlcYrKI5jilzrJ4bBEKDP6wDjKubo9MnhyWh2zoad2U16TQno2k
- BfikdUatd9Lk4BLwpCjZjsvQltgu1hmsMsZpShtSr1cogBPBwVar5zT2lu5Ran3WLKNI
- sz2ia5h0MgC4Lws6rX9e28RpzakUxLtkFIEJk+15uJRNmo35ur9KsIjgjDvHb4SfgS/m
- hcxlWFpQX43oI9K5qcxCh7uiZegE1hCeLQThyLIuN1KigUhbphx0WhsodQwintnMlJP3
- /y3y8HWno3dlpzHx9sqWfeXeQuDVyN/NVkJSvFgSzT1nMJEnUvnUKff//weonEmc7x04
- HTgQ==
-X-Gm-Message-State: AAQBX9dyq5NHXc32QPQ1c8F76A43eNZezOXXvEjWR9PvQLdzzYJ8REls
- dytJ0kknQL/mKAxGWC1dXS0=
-X-Google-Smtp-Source: AKy350YLAGC8HvvkW3yEH5kxEU3FJFHlUMHg80fxlXhyxp8YFtNCUj++aFsOH/ayyDryVaeZ7L8XeA==
-X-Received: by 2002:a17:902:e782:b0:1a0:75fe:cd66 with SMTP id
- cp2-20020a170902e78200b001a075fecd66mr913381plb.50.1681441334670; 
- Thu, 13 Apr 2023 20:02:14 -0700 (PDT)
-Received: from localhost.localdomain
- (2001-b011-e009-bcc6-4af2-3e75-b56c-0988.dynamic-ip6.hinet.net.
- [2001:b011:e009:bcc6:4af2:3e75:b56c:988])
- by smtp.gmail.com with ESMTPSA id
- q12-20020a170902788c00b0019e60c645b1sm2101277pll.305.2023.04.13.20.02.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Apr 2023 20:02:14 -0700 (PDT)
-From: Shao-Chien Chiang <ray90514@gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Shao-Chien Chiang <ray90514@gmail.com>,
-	qemu-devel@nongnu.org
-Subject: [RFC PATCH] vhost-vdpa: cache Virtio states
-Date: Fri, 14 Apr 2023 10:57:20 +0800
-Message-Id: <20230414025721.10219-1-ray90514@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ d=1e100.net; s=20221208; t=1681442032; x=1684034032;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8BnvEXJZeyUWxz5hpYxMJ5mCgKw8goEumDwK1Pa3XQQ=;
+ b=PcvBg831hJM4avMJGfda+4kgW8R4ctkXNRGh9bD5vA3/uGsBljUU1P2LnOqGSDrx9W
+ mpDHw2s8HNzqmjJppV1LE+zCLYMrO/oZB/muLoCFAU7Ne07ZWSdX8AGDaa/fAy0Ht9RJ
+ iJA4I88bw2Rx9gFeFpsx69zJaHO756t4J1CfZ15I1gHeEwtTLURt6nILVdVfpsMwCFTe
+ s8kbUZl2TSi2PngoEL9LemiWO+SDtO7WYsb9PDttbPvn5NfNdXOgjUDtNjsVC6HsWszC
+ PoYKuVdgizy0eWnAJseUi60JE4ufbmo3TqDybG2hql8tZd3DcWJLYaP5otCuiEJv0NY2
+ isVg==
+X-Gm-Message-State: AAQBX9eITS0SamVqMil3NpXQSMBdTqS/My1iG1Y34V+q/xiz2tigf5GE
+ hvVYrWSWAaYTqm/vnuq00k8ZQn9vp+K4U6H1puWcKyBZhQdXP/fCqyWewqh0LAs4opp3yF4Sbnn
+ oVexLibFELCaRgn3bbBUwg0Z5PLw41Zs=
+X-Received: by 2002:a05:6808:2129:b0:37f:a2ad:6718 with SMTP id
+ r41-20020a056808212900b0037fa2ad6718mr3152651oiw.3.1681442032315; 
+ Thu, 13 Apr 2023 20:13:52 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bgJZXA/j9XvHP3ab1s5x6xe2wUgIJE4q+NVPm2HC4zlWMLK3+/6FZsIKp+tg4nm8nQU2EdRevP14U7VDcWIn8=
+X-Received: by 2002:a05:6808:2129:b0:37f:a2ad:6718 with SMTP id
+ r41-20020a056808212900b0037fa2ad6718mr3152645oiw.3.1681442032077; Thu, 13 Apr
+ 2023 20:13:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=ray90514@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230413171946.2865726-1-stefanha@redhat.com>
+ <CAFEAcA8J4zWVL=dBAY1KYxU_im392xU1rU=GN=yQKhG6Og=SAQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8J4zWVL=dBAY1KYxU_im392xU1rU=GN=yQKhG6Og=SAQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 14 Apr 2023 11:13:41 +0800
+Message-ID: <CACGkMEtgurBiv7wZdF183VrCXSts2uB6SQE3mSjj9g_8byd1+g@mail.gmail.com>
+Subject: Re: [PATCH] rtl8139: fix large_send_mss divide-by-zero
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org, 
+ Alexander Bulekov <alxndr@bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 14 Apr 2023 03:24:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,168 +95,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Repetitive ioctls makes vdpa devices initialization and startup slow.
-This patch is to cache Virtio status, features, and config.
-Testing with vdpa-sim-net as my vdpa device, the numbers of ioctl is 
-reduced from 47 to 37.
+On Fri, Apr 14, 2023 at 2:24=E2=80=AFAM Peter Maydell <peter.maydell@linaro=
+.org> wrote:
+>
+> On Thu, 13 Apr 2023 at 18:21, Stefan Hajnoczi <stefanha@redhat.com> wrote=
+:
+> >
+> > If the driver sets large_send_mss to 0 then a divide-by-zero occurs.
+> > Even if the division wasn't a problem, the for loop that emits MSS-size=
+d
+> > packets would never terminate.
+> >
+> > Solve these issues by skipping offloading when large_send_mss=3D0.
+>
+> > diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
+> > index 5a5aaf868d..5f1a4d359b 100644
+> > --- a/hw/net/rtl8139.c
+> > +++ b/hw/net/rtl8139.c
+> > @@ -2154,6 +2154,9 @@ static int rtl8139_cplus_transmit_one(RTL8139Stat=
+e *s)
+> >
+> >                  int large_send_mss =3D (txdw0 >> CP_TC_LGSEN_MSS_SHIFT=
+) &
+> >                                       CP_TC_LGSEN_MSS_MASK;
+> > +                if (large_send_mss =3D=3D 0) {
+> > +                    goto skip_offload;
+> > +                }
+>
+> Looks like 0 is the only problematic value for the code, so
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1579
+I think it's not worth 8.0. So I've queued this.
 
-Signed-off-by: Shao-Chien Chiang <ray90514@gmail.com>
----
- hw/virtio/vhost-vdpa.c         | 44 +++++++++++++++++++++++-----------
- include/hw/virtio/vhost-vdpa.h |  3 +++
- 2 files changed, 33 insertions(+), 14 deletions(-)
+If anyone think it is, Peter may queue this directly with
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index bc6bad23d5..1fccd151cf 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -343,21 +343,17 @@ static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
-     int ret;
- 
-     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
--
-     ret = ioctl(fd, request, arg);
-     return ret < 0 ? -errno : ret;
- }
- 
- static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
- {
--    uint8_t s;
-+    struct vhost_vdpa *v = dev->opaque;
-+    uint8_t s = v->status;
-     int ret;
- 
-     trace_vhost_vdpa_add_status(dev, status);
--    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
--    if (ret < 0) {
--        return ret;
--    }
- 
-     s |= status;
- 
-@@ -374,6 +370,7 @@ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
-     if (!(s & status)) {
-         return -EIO;
-     }
-+    v->status = s;
- 
-     return 0;
- }
-@@ -436,8 +433,15 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
-     dev->opaque =  opaque ;
-     v->listener = vhost_vdpa_memory_listener;
-     v->msg_type = VHOST_IOTLB_MSG_V2;
-+    v->config = NULL;
-+    v->features = dev->features;
-     vhost_vdpa_init_svq(dev, v);
- 
-+    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &v->status);
-+    if (ret) {
-+        return ret;
-+    }
-+
-     error_propagate(&dev->migration_blocker, v->migration_blocker);
-     if (!vhost_vdpa_first_dev(dev)) {
-         return 0;
-@@ -456,6 +460,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
-             return ret;
-         }
-         vhost_svq_valid_features(features, &dev->migration_blocker);
-+        v->features = features;
-     }
- 
-     /*
-@@ -602,6 +607,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
-     vhost_vdpa_svq_cleanup(dev);
- 
-     dev->opaque = NULL;
-+    g_free(v->config);
- 
-     return 0;
- }
-@@ -718,6 +724,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
-     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-     trace_vhost_vdpa_reset_device(dev, status);
-     v->suspended = false;
-+    v->status = 0;
-     return ret;
- }
- 
-@@ -767,6 +774,7 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
-                                    uint32_t offset, uint32_t size,
-                                    uint32_t flags)
- {
-+    struct vhost_vdpa *v = dev->opaque;
-     struct vhost_vdpa_config *config;
-     int ret;
-     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
-@@ -776,6 +784,10 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
-     config->off = offset;
-     config->len = size;
-     memcpy(config->buf, data, size);
-+    if (v->config != NULL) {
-+        assert(size + offset <= v->config->len);
-+        memcpy(v->config->buf + offset, data, size);
-+    }
-     if (trace_event_get_state_backends(TRACE_VHOST_VDPA_SET_CONFIG) &&
-         trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
-         vhost_vdpa_dump_config(dev, data, size);
-@@ -788,17 +800,19 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
- static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
-                                    uint32_t config_len, Error **errp)
- {
--    struct vhost_vdpa_config *v_config;
-+    struct vhost_vdpa *v = dev->opaque;
-     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
-     int ret;
- 
-     trace_vhost_vdpa_get_config(dev, config, config_len);
--    v_config = g_malloc(config_len + config_size);
--    v_config->len = config_len;
--    v_config->off = 0;
--    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
--    memcpy(config, v_config->buf, config_len);
--    g_free(v_config);
-+    if (v->config == NULL) {
-+        v->config = g_malloc(config_len + config_size);
-+        v->config->len = config_len;
-+        v->config->off = 0;
-+        ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v->config);
-+    }
-+    assert(config_len <= v->config->len);
-+    memcpy(config, v->config->buf, config_len);
-     if (trace_event_get_state_backends(TRACE_VHOST_VDPA_GET_CONFIG) &&
-         trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
-         vhost_vdpa_dump_config(dev, config, config_len);
-@@ -1294,8 +1308,10 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
- static int vhost_vdpa_get_features(struct vhost_dev *dev,
-                                      uint64_t *features)
- {
--    int ret = vhost_vdpa_get_dev_features(dev, features);
-+    struct vhost_vdpa *v = dev->opaque;
-+    int ret = 0;
- 
-+    *features = v->features;
-     if (ret == 0) {
-         /* Add SVQ logging capabilities */
-         *features |= BIT_ULL(VHOST_F_LOG_ALL);
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index c278a2a8de..c1505a21ec 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -39,6 +39,9 @@ typedef struct vhost_vdpa {
-     MemoryListener listener;
-     struct vhost_vdpa_iova_range iova_range;
-     uint64_t acked_features;
-+    uint64_t features;
-+    uint8_t status;
-+    struct vhost_vdpa_config *config;
-     bool shadow_vqs_enabled;
-     /* Vdpa must send shadow addresses as IOTLB key for data queues, not GPA */
-     bool shadow_data;
--- 
-2.25.1
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+Thanks
+
+>
+> thanks
+> -- PMM
+>
 
 
