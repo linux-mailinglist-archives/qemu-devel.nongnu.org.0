@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F596E2807
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 393EC6E2804
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:06:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnLvC-0006qo-Mt; Fri, 14 Apr 2023 12:05:10 -0400
+	id 1pnLvK-0007V6-7g; Fri, 14 Apr 2023 12:05:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnLuk-0006S3-Q2
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:47 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1pnLun-0006SM-Dw
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:49 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnLui-0007z7-Du
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:42 -0400
-Received: by mail-wr1-x431.google.com with SMTP id r20so2227606wra.5
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 09:04:38 -0700 (PDT)
+ id 1pnLuj-0007zd-2W
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:45 -0400
+Received: by mail-wr1-x429.google.com with SMTP id j12so1775896wrd.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 09:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681488277; x=1684080277;
+ d=linaro.org; s=google; t=1681488279; x=1684080279;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=87Eys71a5bFDwpsmcqiXjalsGOMTQZkXpUaxljHCLjI=;
- b=Lkv7hQWdIlA2sElrxSUtHPNg4UUF+/pMmmAB5iBfBiSP6hz/+L1/iAytdkjdaALLr8
- F1GVjHMQ99qOBDE23t2pXSpoFe0kUvHQBbNg7jPSYR/BVBtOo3hRjuhRfNcd88/luB9N
- rBpCIzB1Y9tY+p72b+QRHqRtXGJC+4USvPU9TqNQZbbwJEfMPD0ivv8p/sNwonnMdH76
- 2IrAaCqe7w7YVX8cHy543Q2idXIgyZZDDDlg6pxvpUQMMzbCmVhfle3Clmw7mYNcKfE5
- ANOQFG9xHDCz5+tkO6hd9ozTrgmcX9boEez6MwSvCZt4YwKcXBMe3PgChfnO+LdSdwG/
- YmMw==
+ bh=ksXUcYDNEGnzuSF+MT7+XzXqFq6Xy1BiJwdlLWdbrp4=;
+ b=t6YSyIEz8GhdIInpixE+F4RTmVYvtpLeHol0HJKKor/T4fR7NwHddwuhUsq8OhCVHu
+ ZkrFHt4EQKXCRtMqeT5/tBSrwGyI5CZzq094NwOQHMokVtnxNQFaCwxFnmuMMTKJgpk3
+ A7tYghPUwjWOWFWkp8N723ys7rMJuWyDJiQX35rOrnEdvQTyC+WHES6/IZa159zcqnmr
+ JYy0mE4HyjSEgqqMrjipe46gVp4qW/BVQzpsV+jSkHsbyKNwevcJEp0EsbF6OEuDwJxs
+ BTVyy3T8U3FJzx7t8pK0eq7NOHfGFLtQbU7nFcOeyaQTK8v4iU6LD/eMnVbmJA7asAmc
+ Jqlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681488277; x=1684080277;
+ d=1e100.net; s=20221208; t=1681488279; x=1684080279;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=87Eys71a5bFDwpsmcqiXjalsGOMTQZkXpUaxljHCLjI=;
- b=jpuUgpW3ZUSxFT5vC180nYckjg9G47WAOOQpsBsHvmGsyyP7Kndge6PXYLTkuO/nTC
- ZNQzULQww3/v7H3rghuz7AUUmYaSXXUOspcxj5A3ndI/Ld5A8G9JmsucMm7uygsa1sin
- HOyFXJbWejy7qa2IZP85FXjNAGM5V+6x6z/l1H/AzINLlByL6lnqAZI/xwaOCw2vH6f2
- 3jPqrXyg449rNVABSO6pxYi4JV9EzCXD6q4l8hVb2fSy3T+nCtZ7vgt5s52HmhpbExyf
- o7MQ+dGxfJhqJtdKhiqcxlJmVAq8WxLT7tX+RrVELSKviYG1kMAJQFYGiTqy/pHuUw2Z
- dfZA==
-X-Gm-Message-State: AAQBX9dSzAIMR/YfsiBCRWJ+K5JWkKxHth9Ytvm4NVWyU9PQsDKbOX0+
- xqafG9bx+ayVgq+ALl65GVH9vA==
-X-Google-Smtp-Source: AKy350byxJ+PBV33IFiDvwwjeVrv5fTjj5ozDL9nB8qISHiD/79Sw9Bq3ynjrrvleZee23Mbd//GTQ==
-X-Received: by 2002:a5d:6587:0:b0:2ce:a6f6:edca with SMTP id
- q7-20020a5d6587000000b002cea6f6edcamr4865810wru.55.1681488277527; 
- Fri, 14 Apr 2023 09:04:37 -0700 (PDT)
+ bh=ksXUcYDNEGnzuSF+MT7+XzXqFq6Xy1BiJwdlLWdbrp4=;
+ b=XUwxFw5qR7PFDW2SsDntmiXU/uw2RLtIZCB8WkQ2ykoSY/kJ7GNZl0r57Vic2WJIYF
+ u1O5j+cLpwrJ6jLUGyrQ8F9S7l27wxY+Hhd6bITN81gMsZ5Jj9SeALk5RQwWDhgubQhv
+ M3mQiN3Fmi8GkRjSZ4Mmi3EbiWEKyk7iMKFpHTkB1jKk8/xl86zfKG5MfRNJKdIvrLp0
+ f7eORg3pvND6LRsqZuvIIZ+0QYJyjuYJK0OK49coTOAlwvIcDOp+W69r2ILJfgBwfbPI
+ rO1HD5zTcuWv6rm7FZlOTxHsoBPcMhGqIbn/tdK0FlQpgGqYFp8luwJJiZ+z5wmIhhFN
+ IOmw==
+X-Gm-Message-State: AAQBX9dGTQ3cuVE02W7RGNGIbgp/mFnt6PQaaNjKbnrlPzxAWRX4gScB
+ cT9C3EQc2SQ1E2+gEGf0ahJJ7g==
+X-Google-Smtp-Source: AKy350YYMeV173fk9AD1hDj9XDRdxZhVB8dtReS3Vl4WurZxUlvgwzlt9Xn6L909nvWjfVyKB/s0OA==
+X-Received: by 2002:a5d:5908:0:b0:2f2:ad19:bddd with SMTP id
+ v8-20020a5d5908000000b002f2ad19bdddmr4235792wrd.20.1681488279234; 
+ Fri, 14 Apr 2023 09:04:39 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- g4-20020a5d5404000000b002efb121b75fsm3830886wrv.58.2023.04.14.09.04.35
+ r17-20020a5d4e51000000b002f01e181c4asm3886389wrt.5.2023.04.14.09.04.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 14 Apr 2023 09:04:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BBB191FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id D7E941FFC0;
  Fri, 14 Apr 2023 17:04:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -71,17 +71,17 @@ Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Jason Wang <jasowang@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
  Mathieu Poirier <mathieu.poirier@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 08/12] qom: allow for properties to become "fixed"
-Date: Fri, 14 Apr 2023 17:04:29 +0100
-Message-Id: <20230414160433.2096866-9-alex.bennee@linaro.org>
+Subject: [PATCH 09/12] hw/virtio: derive vhost-user-rng from vhost-user-device
+Date: Fri, 14 Apr 2023 17:04:30 +0100
+Message-Id: <20230414160433.2096866-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230414160433.2096866-1-alex.bennee@linaro.org>
 References: <20230414160433.2096866-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,170 +104,343 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When specialising general purpose objects it is sometimes useful to
-"fix" some of the properties that were configurable by the base
-classes. We will use this facility when specialising
-vhost-user-device.
+Now we can take advantage of our new base class and make
+vhost-user-rng a much simpler boilerplate wrapper.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- qapi/qom.json           |  2 ++
- include/qom/object.h    | 16 +++++++++++++++-
- qom/object.c            | 14 ++++++++++++++
- qom/object_interfaces.c |  9 ++++++---
- qom/qom-qmp-cmds.c      |  1 +
- softmmu/qdev-monitor.c  |  1 +
- 6 files changed, 39 insertions(+), 4 deletions(-)
+ include/hw/virtio/vhost-user-rng.h |  11 +-
+ hw/virtio/vhost-user-rng.c         | 264 +----------------------------
+ 2 files changed, 8 insertions(+), 267 deletions(-)
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index a877b879b9..4cda191f00 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -33,12 +33,14 @@
- # @description: if specified, the description of the property.
- #
- # @default-value: the default value, if any (since 5.0)
-+# @fixed: if specified if value has been fixed (since 8.1)
- #
- # Since: 1.2
- ##
- { 'struct': 'ObjectPropertyInfo',
-   'data': { 'name': 'str',
-             'type': 'str',
-+            'fixed': 'bool',
-             '*description': 'str',
-             '*default-value': 'any' } }
+diff --git a/include/hw/virtio/vhost-user-rng.h b/include/hw/virtio/vhost-user-rng.h
+index ddd9f01eea..5be2999498 100644
+--- a/include/hw/virtio/vhost-user-rng.h
++++ b/include/hw/virtio/vhost-user-rng.h
+@@ -12,21 +12,14 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/vhost.h"
+ #include "hw/virtio/vhost-user.h"
+-#include "chardev/char-fe.h"
++#include "hw/virtio/vhost-user-device.h"
  
-diff --git a/include/qom/object.h b/include/qom/object.h
-index ef7258a5e1..f18d1a8254 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -97,6 +97,8 @@ struct ObjectProperty
-     ObjectPropertyInit *init;
-     void *opaque;
-     QObject *defval;
-+    /** @fixed: if the property has been fixed at its default */
-+    bool fixed;
+ #define TYPE_VHOST_USER_RNG "vhost-user-rng"
+ OBJECT_DECLARE_SIMPLE_TYPE(VHostUserRNG, VHOST_USER_RNG)
+ 
+ struct VHostUserRNG {
+     /*< private >*/
+-    VirtIODevice parent;
+-    CharBackend chardev;
+-    struct vhost_virtqueue *vhost_vq;
+-    struct vhost_dev vhost_dev;
+-    VhostUserState vhost_user;
+-    VirtQueue *req_vq;
+-    bool connected;
+-
++    VHostUserDevice parent;
+     /*< public >*/
  };
  
- /**
-@@ -1111,6 +1113,17 @@ void object_property_set_default_int(ObjectProperty *prop, int64_t value);
-  */
- void object_property_set_default_uint(ObjectProperty *prop, uint64_t value);
- 
-+/**
-+ * object_property_fix_default_uint:
-+ * @prop: the property to be fixed
-+ * @value: the fixed value to be written to the property
-+ *
-+ * When specialising an object it may make send to fix some values and
-+ * not allow them to be changed. This can only be applied to
-+ * properties that previously had a default and now cannot be changed.
-+ */
-+void object_property_fix_default_uint(ObjectProperty *prop, uint64_t value);
-+
- /**
-  * object_property_find:
-  * @obj: the object
-@@ -1961,13 +1974,14 @@ size_t object_type_get_instance_size(const char *typename);
-  * object_property_help:
-  * @name: the name of the property
-  * @type: the type of the property
-+ * @fixed: has the value been fixed
-  * @defval: the default value
-  * @description: description of the property
+diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+index efc54cd3fb..1f23442b81 100644
+--- a/hw/virtio/vhost-user-rng.c
++++ b/hw/virtio/vhost-user-rng.c
+@@ -3,7 +3,7 @@
   *
-  * Returns: a user-friendly formatted string describing the property
-  * for help purposes.
+  * Copyright (c) 2021 Mathieu Poirier <mathieu.poirier@linaro.org>
+  *
+- * Implementation seriously tailored on vhost-user-i2c.c
++ * Simple wrapper of the generic vhost-user-device.
+  *
+  * SPDX-License-Identifier: GPL-2.0-or-later
   */
--char *object_property_help(const char *name, const char *type,
-+char *object_property_help(const char *name, const char *type, bool fixed,
-                            QObject *defval, const char *description);
+@@ -13,281 +13,29 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/virtio/virtio-bus.h"
+ #include "hw/virtio/vhost-user-rng.h"
+-#include "qemu/error-report.h"
+ #include "standard-headers/linux/virtio_ids.h"
  
- G_DEFINE_AUTOPTR_CLEANUP_FUNC(Object, object_unref)
-diff --git a/qom/object.c b/qom/object.c
-index e25f1e96db..b5aba3ffc8 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1584,6 +1584,20 @@ void object_property_set_default_uint(ObjectProperty *prop, uint64_t value)
-     object_property_set_default(prop, QOBJECT(qnum_from_uint(value)));
+-static const int feature_bits[] = {
+-    VIRTIO_F_RING_RESET,
+-    VHOST_INVALID_FEATURE_BIT
+-};
+-
+-static void vu_rng_start(VirtIODevice *vdev)
+-{
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+-    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+-    int ret;
+-    int i;
+-
+-    if (!k->set_guest_notifiers) {
+-        error_report("binding does not support guest notifiers");
+-        return;
+-    }
+-
+-    ret = vhost_dev_enable_notifiers(&rng->vhost_dev, vdev);
+-    if (ret < 0) {
+-        error_report("Error enabling host notifiers: %d", -ret);
+-        return;
+-    }
+-
+-    ret = k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, true);
+-    if (ret < 0) {
+-        error_report("Error binding guest notifier: %d", -ret);
+-        goto err_host_notifiers;
+-    }
+-
+-    rng->vhost_dev.acked_features = vdev->guest_features;
+-    ret = vhost_dev_start(&rng->vhost_dev, vdev, true);
+-    if (ret < 0) {
+-        error_report("Error starting vhost-user-rng: %d", -ret);
+-        goto err_guest_notifiers;
+-    }
+-
+-    /*
+-     * guest_notifier_mask/pending not used yet, so just unmask
+-     * everything here. virtio-pci will do the right thing by
+-     * enabling/disabling irqfd.
+-     */
+-    for (i = 0; i < rng->vhost_dev.nvqs; i++) {
+-        vhost_virtqueue_mask(&rng->vhost_dev, vdev, i, false);
+-    }
+-
+-    return;
+-
+-err_guest_notifiers:
+-    k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, false);
+-err_host_notifiers:
+-    vhost_dev_disable_notifiers(&rng->vhost_dev, vdev);
+-}
+-
+-static void vu_rng_stop(VirtIODevice *vdev)
+-{
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+-    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+-    int ret;
+-
+-    if (!k->set_guest_notifiers) {
+-        return;
+-    }
+-
+-    vhost_dev_stop(&rng->vhost_dev, vdev, true);
+-
+-    ret = k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, false);
+-    if (ret < 0) {
+-        error_report("vhost guest notifier cleanup failed: %d", ret);
+-        return;
+-    }
+-
+-    vhost_dev_disable_notifiers(&rng->vhost_dev, vdev);
+-}
+-
+-static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
+-{
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-    bool should_start = virtio_device_should_start(vdev, status);
+-
+-    if (vhost_dev_is_started(&rng->vhost_dev) == should_start) {
+-        return;
+-    }
+-
+-    if (should_start) {
+-        vu_rng_start(vdev);
+-    } else {
+-        vu_rng_stop(vdev);
+-    }
+-}
+-
+-static uint64_t vu_rng_get_features(VirtIODevice *vdev,
+-                                    uint64_t requested_features, Error **errp)
+-{
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-
+-    return vhost_get_features(&rng->vhost_dev, feature_bits,
+-                              requested_features);
+-}
+-
+-static void vu_rng_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+-{
+-    /*
+-     * Not normally called; it's the daemon that handles the queue;
+-     * however virtio's cleanup path can call this.
+-     */
+-}
+-
+-static void vu_rng_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+-{
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-
+-    vhost_virtqueue_mask(&rng->vhost_dev, vdev, idx, mask);
+-}
+-
+-static bool vu_rng_guest_notifier_pending(VirtIODevice *vdev, int idx)
+-{
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-
+-    return vhost_virtqueue_pending(&rng->vhost_dev, idx);
+-}
+-
+-static void vu_rng_connect(DeviceState *dev)
+-{
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-
+-    if (rng->connected) {
+-        return;
+-    }
+-
+-    rng->connected = true;
+-
+-    /* restore vhost state */
+-    if (virtio_device_started(vdev, vdev->status)) {
+-        vu_rng_start(vdev);
+-    }
+-}
+-
+-static void vu_rng_disconnect(DeviceState *dev)
+-{
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-
+-    if (!rng->connected) {
+-        return;
+-    }
+-
+-    rng->connected = false;
+-
+-    if (vhost_dev_is_started(&rng->vhost_dev)) {
+-        vu_rng_stop(vdev);
+-    }
+-}
+-
+-static void vu_rng_event(void *opaque, QEMUChrEvent event)
+-{
+-    DeviceState *dev = opaque;
+-
+-    switch (event) {
+-    case CHR_EVENT_OPENED:
+-        vu_rng_connect(dev);
+-        break;
+-    case CHR_EVENT_CLOSED:
+-        vu_rng_disconnect(dev);
+-        break;
+-    case CHR_EVENT_BREAK:
+-    case CHR_EVENT_MUX_IN:
+-    case CHR_EVENT_MUX_OUT:
+-        /* Ignore */
+-        break;
+-    }
+-}
+-
+-static void vu_rng_device_realize(DeviceState *dev, Error **errp)
+-{
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserRNG *rng = VHOST_USER_RNG(dev);
+-    int ret;
+-
+-    if (!rng->chardev.chr) {
+-        error_setg(errp, "missing chardev");
+-        return;
+-    }
+-
+-    if (!vhost_user_init(&rng->vhost_user, &rng->chardev, errp)) {
+-        return;
+-    }
+-
+-    virtio_init(vdev, VIRTIO_ID_RNG, 0);
+-
+-    rng->req_vq = virtio_add_queue(vdev, 4, vu_rng_handle_output);
+-    if (!rng->req_vq) {
+-        error_setg_errno(errp, -1, "virtio_add_queue() failed");
+-        goto virtio_add_queue_failed;
+-    }
+-
+-    rng->vhost_dev.nvqs = 1;
+-    rng->vhost_dev.vqs = g_new0(struct vhost_virtqueue, rng->vhost_dev.nvqs);
+-    ret = vhost_dev_init(&rng->vhost_dev, &rng->vhost_user,
+-                         VHOST_BACKEND_TYPE_USER, 0, errp);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "vhost_dev_init() failed");
+-        goto vhost_dev_init_failed;
+-    }
+-
+-    qemu_chr_fe_set_handlers(&rng->chardev, NULL, NULL, vu_rng_event, NULL,
+-                             dev, NULL, true);
+-
+-    return;
+-
+-vhost_dev_init_failed:
+-    g_free(rng->vhost_dev.vqs);
+-    virtio_delete_queue(rng->req_vq);
+-virtio_add_queue_failed:
+-    virtio_cleanup(vdev);
+-    vhost_user_cleanup(&rng->vhost_user);
+-}
+-
+-static void vu_rng_device_unrealize(DeviceState *dev)
+-{
+-    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+-    VHostUserRNG *rng = VHOST_USER_RNG(dev);
+-    struct vhost_virtqueue *vhost_vqs = rng->vhost_dev.vqs;
+-
+-    vu_rng_set_status(vdev, 0);
+-
+-    vhost_dev_cleanup(&rng->vhost_dev);
+-    g_free(vhost_vqs);
+-    virtio_delete_queue(rng->req_vq);
+-    virtio_cleanup(vdev);
+-    vhost_user_cleanup(&rng->vhost_user);
+-}
+-
+-static struct vhost_dev *vu_rng_get_vhost(VirtIODevice *vdev)
+-{
+-    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-    return &rng->vhost_dev;
+-}
+-
+ static const VMStateDescription vu_rng_vmstate = {
+     .name = "vhost-user-rng",
+     .unmigratable = 1,
+ };
+ 
+-static Property vu_rng_properties[] = {
+-    DEFINE_PROP_CHR("chardev", VHostUserRNG, chardev),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+ static void vu_rng_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+-    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
++    ObjectProperty *op;
+ 
+-    device_class_set_props(dc, vu_rng_properties);
+     dc->vmsd = &vu_rng_vmstate;
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+ 
+-    vdc->realize = vu_rng_device_realize;
+-    vdc->unrealize = vu_rng_device_unrealize;
+-    vdc->get_features = vu_rng_get_features;
+-    vdc->set_status = vu_rng_set_status;
+-    vdc->guest_notifier_mask = vu_rng_guest_notifier_mask;
+-    vdc->guest_notifier_pending = vu_rng_guest_notifier_pending;
+-    vdc->get_vhost = vu_rng_get_vhost;
++    op = object_class_property_find(klass, "virtio-id");
++    g_assert(op);
++    object_property_fix_default_uint(op, VIRTIO_ID_RNG);
  }
  
-+static void object_property_fix_default(ObjectProperty *prop, QObject *defval)
-+{
-+    g_assert(prop->init == object_property_init_defval);
-+    g_assert(!prop->fixed);
-+
-+    prop->defval = defval;
-+    prop->fixed = true;
-+}
-+
-+void object_property_fix_default_uint(ObjectProperty *prop, uint64_t value)
-+{
-+    object_property_fix_default(prop, QOBJECT(qnum_from_uint(value)));
-+}
-+
- bool object_property_set_uint(Object *obj, const char *name,
-                               uint64_t value, Error **errp)
- {
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 7d31589b04..e351938f8f 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -161,7 +161,7 @@ void user_creatable_add_qapi(ObjectOptions *options, Error **errp)
-     visit_free(v);
- }
- 
--char *object_property_help(const char *name, const char *type,
-+char *object_property_help(const char *name, const char *type, bool fixed,
-                            QObject *defval, const char *description)
- {
-     GString *str = g_string_new(NULL);
-@@ -179,7 +179,9 @@ char *object_property_help(const char *name, const char *type,
-     if (defval) {
-         g_autofree char *def_json = g_string_free(qobject_to_json(defval),
-                                                   false);
--        g_string_append_printf(str, " (default: %s)", def_json);
-+        g_string_append_printf(str, " (%s: %s)",
-+                               fixed ? "fixed" : "default",
-+                               def_json);
-     }
- 
-     return g_string_free(str, false);
-@@ -220,7 +222,8 @@ bool type_print_class_properties(const char *type)
- 
-         g_ptr_array_add(array,
-                         object_property_help(prop->name, prop->type,
--                                             prop->defval, prop->description));
-+                                             prop->fixed, prop->defval,
-+                                             prop->description));
-     }
-     g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
-     if (array->len > 0) {
-diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-index 7c087299de..f4cdf4ddde 100644
---- a/qom/qom-qmp-cmds.c
-+++ b/qom/qom-qmp-cmds.c
-@@ -55,6 +55,7 @@ ObjectPropertyInfoList *qmp_qom_list(const char *path, Error **errp)
- 
-         value->name = g_strdup(prop->name);
-         value->type = g_strdup(prop->type);
-+        value->fixed = prop->fixed;
-     }
- 
-     return props;
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index b8d2c4dadd..b56b2af2f2 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -315,6 +315,7 @@ int qdev_device_help(QemuOpts *opts)
-         g_ptr_array_add(array,
-                         object_property_help(prop->value->name,
-                                              prop->value->type,
-+                                             prop->value->fixed,
-                                              prop->value->default_value,
-                                              prop->value->description));
-     }
+ static const TypeInfo vu_rng_info = {
+     .name = TYPE_VHOST_USER_RNG,
+-    .parent = TYPE_VIRTIO_DEVICE,
++    .parent = TYPE_VHOST_USER_DEVICE,
+     .instance_size = sizeof(VHostUserRNG),
+     .class_init = vu_rng_class_init,
+ };
 -- 
 2.39.2
 
