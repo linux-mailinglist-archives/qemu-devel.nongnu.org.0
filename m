@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F99F6E2284
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FEC6E2297
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:49:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnHpB-0006dA-6K; Fri, 14 Apr 2023 07:42:42 -0400
+	id 1pnHrA-00080O-Vs; Fri, 14 Apr 2023 07:44:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHnH-0005FD-9v
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:48 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1pnHnC-0004qd-1O
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:38 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHn8-0001ta-2K
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:38 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- pm7-20020a17090b3c4700b00246f00dace2so10423011pjb.2
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:40:21 -0700 (PDT)
+ id 1pnHn7-0001VX-KO
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:40:37 -0400
+Received: by mail-pl1-x633.google.com with SMTP id y6so16937250plp.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472420; x=1684064420;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472423; x=1684064423;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qdSW6mRO8YWgMZEMpu/HXCWDuVvbxmy3W0iClpo2dEQ=;
- b=HXCmMDlofhCrPSjvOhCvJdaZs6UWLy9znCcMscrdiMwtGZQOezy8LCLL8H+HBiQEDQ
- oEbffdUeQyWz2d+58PguwblCvqHLt0ujd2/RxVUXUpxHRTPdaJrBJ5jOYk0oIHkkULJC
- WF11YklrnBJ6SqB0TlRRxje0nNoIIcfuKKDQsCUaiowz8sr4+0PMP+AUIphmmXYPfJ9A
- bXkQkomrslfq9b0nGo5LVKLos/lNPV+W+9LIc4j0iQXu2Z6/tMs2wr2poKtB770gtToo
- Mt3//WsBb9rVu6bB6LsEjkqcJDjxZvBOkA3Ujem9QPllbwEYnP1oVdbEdHM4K1eoh8WF
- AQYg==
+ bh=YZ08B+b77Dmf0jC7a6piyaX/K9D8vaMH+u4MIA0lWW0=;
+ b=Vw22plojv6nzTnWOZ7p8zev04+shoPMBv3T/+MdbyADxnC36Z897A5HWT9aWHxzPPT
+ /T8pjYfFkRrcaDLEnKAF79jaPavtMs744MGs0NxJer6LaZT1849w/jzGdjPUVYQn+6c1
+ g7sPlYBWHLde5guz55sR0gdsM0wHjiPfiDFaUKtGenSM11V6ApVnrVxb8H1Bz9zkRe7W
+ zxHjY71wZTaXFc1liFAwPDQsjMjjyPtXApmtaDMsP395D6TN9k83V2iXLDICxBn3rCBR
+ 2qCNQxGOkJjlPdkcmSFVIp9Fq1b3mlhzdmpY+bZXocLreucByGA7nkaT3exREXnqK4vJ
+ H6WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681472420; x=1684064420;
+ d=1e100.net; s=20221208; t=1681472423; x=1684064423;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qdSW6mRO8YWgMZEMpu/HXCWDuVvbxmy3W0iClpo2dEQ=;
- b=Ewhg1XIzhOKNPiffUs9DFphoNBkhY0RqFIUihesOPUJoP3pJCz6P6fV2w2RJ6yL2zD
- Ffu4dIwwaCvu2aH24ShOEwu4CIX8vC/7qXo2xhfB5291qHDgUpndOujpuRWbdY1wKdgV
- k7tR97SBtlImMbWf7Bd0iOn5XissBWHRZ9CAPVJzimodrMM6ViNyJ19xX2x2GxNhkdEk
- daCCFu5siIDsHI9vECtJzJNUSHwAWB9dLKGotYuv9AYQcYLE8+dcYYh4XyzH2bu4nGXk
- MnjHFpR3BM0DnNlOrzcK2XFU6jtmGcFDnKAkfPgQIluCZ2Dhl3AsewY8tcnO2iX1wwjU
- GLug==
-X-Gm-Message-State: AAQBX9dzLmTJxxMruS0eNeCqs3FgRuJd5iBWDJuIrHag2TTLXIiM74Dd
- XRl+EFp36HuLzSLa92rukuXtbA==
-X-Google-Smtp-Source: AKy350ZOpe1VjWDEu98pyjs2J8To2vmX0cRlSLrKfo4zixBZ8fKuIb9f4wIYIvUjfokD/VnlcGVI3g==
-X-Received: by 2002:a17:90b:3807:b0:23d:31c3:c9a4 with SMTP id
- mq7-20020a17090b380700b0023d31c3c9a4mr5078973pjb.26.1681472420412; 
- Fri, 14 Apr 2023 04:40:20 -0700 (PDT)
+ bh=YZ08B+b77Dmf0jC7a6piyaX/K9D8vaMH+u4MIA0lWW0=;
+ b=c45Gz1h8J90HEG1iJEBtJ6KNBTU1bhyQLxeo17Vg9/vDJkVAaYWvub5V8SLDjiTEEg
+ TTSfWxEEHkOCLwQa+iB2sc25+hMJqGw2JV1pN/qXT1s3TWgtwH0s4eAQXw211wJ2VgXy
+ 19Fj1Q8MH1Sl3TjMuOTZyubI0VP0loLyDFicED3s+GeLx1EpzhZI3fRKh0FRqk49SYf2
+ GUMCFwwGqIj9zg4ehwTej42BRFfWeFw3VVHUqHmLv4qWd5/NDuSIKSQmk5nW/kyaexyK
+ ET7eWRn9FE/uKzPLncdrIkHboxqQo8EpA91+F6qcaiTAdbIv52Q3HnHIG/CFIap7SVI7
+ RrEw==
+X-Gm-Message-State: AAQBX9eB85E+0qLHSKijTkE93UclPl+Y/lrdsQ2DUTA4zug4xQSLqhj0
+ Mb/+/FhbB8G8MdMHt86weB9IsA==
+X-Google-Smtp-Source: AKy350YqiWgxfBP7ytNawEKr3BgrajhW6btIWO7ozK31MlFsmh2ca9Vw2ud1HC4KFylcumUsRow+LQ==
+X-Received: by 2002:a17:90b:4d81:b0:240:7f0d:9232 with SMTP id
+ oj1-20020a17090b4d8100b002407f0d9232mr5470573pjb.3.1681472423675; 
+ Fri, 14 Apr 2023 04:40:23 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.40.17
+ u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.40.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 04:40:20 -0700 (PDT)
+ Fri, 14 Apr 2023 04:40:23 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -69,16 +68,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 37/40] igb: Implement Tx timestamp
-Date: Fri, 14 Apr 2023 20:37:34 +0900
-Message-Id: <20230414113737.62803-38-akihiko.odaki@daynix.com>
+Subject: [PATCH 38/40] vmxnet3: Do not depend on PC
+Date: Fri, 14 Apr 2023 20:37:35 +0900
+Message-Id: <20230414113737.62803-39-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1033.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::633;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,44 +99,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+vmxnet3 has no dependency on PC, and VMware Fusion actually makes it
+available on Apple Silicon according to:
+https://kb.vmware.com/s/article/90364
+
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/igb_core.c | 7 +++++++
- hw/net/igb_regs.h | 3 +++
- 2 files changed, 10 insertions(+)
+ hw/net/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index c716f400fd..38b53676d4 100644
---- a/hw/net/igb_core.c
-+++ b/hw/net/igb_core.c
-@@ -614,6 +614,13 @@ igb_process_tx_desc(IGBCore *core,
-                 tx->first_olinfo_status = le32_to_cpu(tx_desc->read.olinfo_status);
-                 tx->first = false;
-             }
-+
-+            if ((cmd_type_len & E1000_ADVTXD_MAC_TSTAMP) &&
-+                (core->mac[TSYNCTXCTL] & E1000_TSYNCTXCTL_ENABLED) &&
-+                !(core->mac[TSYNCTXCTL] & E1000_TSYNCTXCTL_VALID)) {
-+                core->mac[TSYNCTXCTL] |= E1000_TSYNCTXCTL_VALID;
-+                e1000x_timestamp(core->mac, core->timadj, TXSTMPL, TXSTMPH);
-+            }
-         } else if ((cmd_type_len & E1000_ADVTXD_DTYP_CTXT) ==
-                    E1000_ADVTXD_DTYP_CTXT) {
-             /* advanced transmit context descriptor */
-diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
-index b88dc9f1f1..808b587a36 100644
---- a/hw/net/igb_regs.h
-+++ b/hw/net/igb_regs.h
-@@ -322,6 +322,9 @@ union e1000_adv_rx_desc {
- /* E1000_EITR_CNT_IGNR is only for 82576 and newer */
- #define E1000_EITR_CNT_IGNR     0x80000000 /* Don't reset counters on write */
+diff --git a/hw/net/Kconfig b/hw/net/Kconfig
+index 18c7851efe..98e00be4f9 100644
+--- a/hw/net/Kconfig
++++ b/hw/net/Kconfig
+@@ -56,7 +56,7 @@ config RTL8139_PCI
  
-+#define E1000_TSYNCTXCTL_VALID    0x00000001 /* tx timestamp valid */
-+#define E1000_TSYNCTXCTL_ENABLED  0x00000010 /* enable tx timestampping */
-+
- /* PCI Express Control */
- #define E1000_GCR_CMPL_TMOUT_MASK       0x0000F000
- #define E1000_GCR_CMPL_TMOUT_10ms       0x00001000
+ config VMXNET3_PCI
+     bool
+-    default y if PCI_DEVICES && PC_PCI
++    default y if PCI_DEVICES
+     depends on PCI
+ 
+ config SMC91C111
 -- 
 2.40.0
 
