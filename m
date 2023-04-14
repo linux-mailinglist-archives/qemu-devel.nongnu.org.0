@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3536E2587
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F44E6E258D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:23:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnKJE-0002Mv-TM; Fri, 14 Apr 2023 10:21:52 -0400
+	id 1pnKKj-0003HT-Ly; Fri, 14 Apr 2023 10:23:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pnKJC-0002Ld-LL
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:21:50 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKKf-0003H4-RO
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:23:22 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pnKJ9-0001qI-1x
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:21:49 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id
- 4fb4d7f45d1cf-504efe702d5so2190629a12.3
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:21:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnKKe-0002CW-CD
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 10:23:21 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id q5so10422837wmo.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 07:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681482105; x=1684074105;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q1H8IYKFkqTLeNxtC7ByfKI3UpfuZhTmDGbA9y/uvBE=;
- b=Oo024dB7VqpL6RTdKhC/K/U6445KoM5mUUyRX2HxwC1z/qf9m90Ho2iyTjAlE/XeVB
- Pz3MUKb86SOxHANR2+uVLNrfnpaY1/c20hfaXM+Dzx5Sk3d1iX1VTtZmUFqoIV6DM0cb
- xaM7Y/5TuNwpllLedlc271d9V40i5OjAmawVSFZHG+hC5YP0GgQw2v003T50x0vaB0im
- /dHjr/nd/3DfVHQTXss+c3Rekkwf7LrAsof2d4fWilePSE4Dq+A8WskA65G3WTg60MUy
- GiOZ5MGNr2tTefCbMW2nVUFs3iZRBezr3dbDHxwUBYge8fQoY6p/byuvduy843ZDuvmN
- IynQ==
+ d=linaro.org; s=google; t=1681482198; x=1684074198;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WH3tVq8skDUMRd4kmype3XGges4f+AMUggocLuzgE2M=;
+ b=jv0QTiFpAhbh5DJ0MD5fPgkmJ2DpZN8p4usqgIEqZw4j1rFjMxC3V9JOuwnCpn+RmC
+ Rd8rH/HezhTRNleTE9enL2bQ838q8rNCxo0TiROWAbKq177u1cOPtBjDXZb9gDBb6QGP
+ UpIeeiqSqafR6vHPkul54JbtUHy3rtSAwLH9DFsJ7MUJ3W20C5znM/V2978ssYRImt2a
+ zZyH4bPuh4MvpFs5rPx/ddHcNkfmhVL4bSMiYYs4Fh3J7Sto8W0ZHGKAb4m7qeiCZCmG
+ NPXJEHA72B1WGi3nFo6nh9TkcyM98ZlccJtayiGIJTrghsq4ETKxGrj7rczhje2d2/5Y
+ lThg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681482105; x=1684074105;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=q1H8IYKFkqTLeNxtC7ByfKI3UpfuZhTmDGbA9y/uvBE=;
- b=McserS/OvHM+cSUF7i0wLT48CGE6egkZXWEIjClwqwl9jPJfUM73cjtv8KaQkGiPjl
- 6SBB5XvXP4qf8GLqA6RSKEZxSLvJ6LXG29NV7f60AjHk1eAx9KZ67rNjjEhP1t6UJgST
- +J0iNAfTC7ni+R+0jpCW7XBU+JL0qQow4SUCLLtYMu6Pa2MG+kPN6ow1R0/FgmIUzORQ
- Fe7fnfboD4p8oZcSZq4BkvIX/3pG2aD1AnZeKCuhA3klp0Az5kokB/KJyN2++ESPEnWc
- r8I77ltmRH9BXrlsjJI0HB6EeclByxPrQcySCM9mPVrgAmPGJPpd2TdAbKnTD8BsP5GY
- AUyw==
-X-Gm-Message-State: AAQBX9c9LQFPJ4tkzEi1rzacDmuuaDfh5PvxY7k51lQ5qlrVwITBnEy7
- rqux/FuubbDMNoxTvYXZtVU+YIvnUN8KhLM0Is9BQw==
-X-Google-Smtp-Source: AKy350Ywo046G2k6nOcvEPKGQzOZ5A1qsx14EvZNbZvj4mCV1Ynh20OrB9wyr2S2K4A7xF145NmFd5e6bn4zhR9BPeU=
-X-Received: by 2002:a50:d783:0:b0:506:6ca5:3128 with SMTP id
- w3-20020a50d783000000b005066ca53128mr3175387edi.6.1681482105168; Fri, 14 Apr
- 2023 07:21:45 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681482198; x=1684074198;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WH3tVq8skDUMRd4kmype3XGges4f+AMUggocLuzgE2M=;
+ b=GebB3yfFEFbZQ5ZCuja0iqrQfydPguADLyC38DHxnrn37Ne1q8z8MK2xKYHd3g1DbX
+ dNkHtIq+gFXmZVbwoeLGA1X2z7Diba7cb5RddLGShQoCxBvMd54jpG+u33n2UeGGRN5E
+ WM5Kna/fCS3ynuPIbJkkJff+qPTI/AyTHFYN42Ds1gzMEqMZiriyBACD8jKiSxPQ6Lpn
+ Mr3obwhEbFQNlWSc3bcH+g64T/gd/aF6ug/exsHKQO3yCjjPKzjQuM7/bCXxtW8ZNMSu
+ UhhezOe4BXiNiilsgwD9wSuk+2Hae8s0YPO15yYHaPW9cwS8E3B8oxPiMsQVAquv8cnu
+ xpgw==
+X-Gm-Message-State: AAQBX9c/x9Uj5R4sHAqzt8LtZiFNn1C3XdSYom2Rf58chg2D1+i8yoN3
+ VZl1FVqSTdJ3Y/G1tZiqAf/1hw==
+X-Google-Smtp-Source: AKy350ZTSMmPPXxAApGX7LcF1VQdDXkD+VDOF/NyG1zCur3Xhu8fkLX3RAQZOUcqaqOXktOFWlrbng==
+X-Received: by 2002:a05:600c:3642:b0:3ed:f5b5:37fc with SMTP id
+ y2-20020a05600c364200b003edf5b537fcmr4433608wmq.1.1681482198139; 
+ Fri, 14 Apr 2023 07:23:18 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.204.198])
+ by smtp.gmail.com with ESMTPSA id
+ n19-20020a1c7213000000b003ee58e8c971sm4423471wmc.14.2023.04.14.07.23.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Apr 2023 07:23:17 -0700 (PDT)
+Message-ID: <787e1e38-6dfa-ca31-d740-a59d1cf32f66@linaro.org>
+Date: Fri, 14 Apr 2023 16:23:15 +0200
 MIME-Version: 1.0
-References: <20230413150724.404304-1-peter.maydell@linaro.org>
- <20230413150724.404304-3-peter.maydell@linaro.org>
- <6e38f2c5-5dd6-3fd6-39e6-d51d975fc582@linaro.org>
-In-Reply-To: <6e38f2c5-5dd6-3fd6-39e6-d51d975fc582@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Apr 2023 15:21:34 +0100
-Message-ID: <CAFEAcA9S5q-uKEks4t7pWshu1DzdP2Wjyiu68tMZz7pR-BLjRQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] chardev: Allow setting file chardev input file on the
- command line
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH 01/40] hw/net/net_tx_pkt: Decouple from PCI
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
+ <20230414113737.62803-2-akihiko.odaki@daynix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230414113737.62803-2-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.282,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,32 +100,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 14 Apr 2023 at 15:03, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> On 13/4/23 17:07, Peter Maydell wrote:
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
->
->
-> > -``-chardev file,id=3Did,path=3Dpath``
-> > +``-chardev file,id=3Did,path=3Dpath[,input-path=3Dinput-path]``
-> >       Log all traffic received from the guest to a file.
-> >
-> >       ``path`` specifies the path of the file to be opened. This file w=
-ill
-> >       be created if it does not already exist, and overwritten if it do=
-es.
-> >       ``path`` is required.
->
-> I find "path" vs. "input-path" confusing and would rather rename it as
-> "output-path" for consistency; or at least add an alias.
-> Possibly deprecating the "path" alias. Maybe matter of taste...
+On 14/4/23 13:36, Akihiko Odaki wrote:
+> This also fixes the leak of memory mapping when the specified memory is
+> partially mapped.
+> 
+> Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   hw/net/net_tx_pkt.c  | 65 +++++++++++++++++++++++---------------------
+>   hw/net/net_tx_pkt.h  | 38 +++++++++++++++++++-------
 
-The much more common use is the preexisting one of "write the
-output to the file". I don't particularly want to break all
-the uses of that just because we added this option.
+Preferably split the patch in at least 2, first the back-end,
+then the front-ends.
 
-thanks
--- PMM
+Also consider installing scripts/git.orderfile when posting
+API changes, as this eases email review workflow (no need to
+scroll up/down frenetically to follow).
+
+>   hw/net/e1000e_core.c | 13 +++++----
+>   hw/net/igb_core.c    | 13 ++++-----
+
+>   hw/net/vmxnet3.c     | 14 +++++-----
+>   5 files changed, 83 insertions(+), 60 deletions(-)
+
 
