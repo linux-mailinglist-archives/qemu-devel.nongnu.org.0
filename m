@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25446E2695
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4676E2699
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:14:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnL7E-0005Il-Ca; Fri, 14 Apr 2023 11:13:32 -0400
+	id 1pnL7b-0005Yk-P4; Fri, 14 Apr 2023 11:13:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnL7B-0005IH-Ff
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:13:29 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnL7Z-0005Wf-2C
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:13:53 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnL77-0004jX-Iq
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:13:28 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- bi22-20020a05600c3d9600b003f0ad935166so2623796wmb.4
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:13:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pnL7N-0004ks-Fa
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:13:52 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id he13so15546718wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:13:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681485203; x=1684077203;
+ d=linaro.org; s=google; t=1681485220; x=1684077220;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Wk6J9D5UydACCN0yMds0epqED88PI1qIb0uFJHIIPI0=;
- b=XBdMSFtw5szw6aJJNOGoZuFH0cPTaWqY89Xa5izJJX9+5JJfN8T0zOVAv2G6feg5tx
- VkKOUkcoLyEomDkuVs29z8WQ1ln5btTbcviWR94LGUSrA10KV7inRIlUgFuhD4j0I7uN
- Fsit4PgJ79mEwWNZyMZAR3x5ugkp1BVL0uB+AjF5o2a4P2FyOZOFiaWct9A+ziCsDhIf
- pZCpuTr+fIbDrtzC8zk3tj6bTFlmqbo0dd9iOF12ahlEPX9A43fguIqzXbzTFxRocxfd
- AERAQqXPXGKOm+4A53mPuMA0iIv2jspfrxcuUGcuVJ4xCWWXFfCk9JvVBUbKVW0VsO4+
- 7Qig==
+ bh=jfXm9LdQ+FoJvJK7BhW3RzpzOU9fmEU5TPyXFZhahlk=;
+ b=EfviCkEoXdTUwGkDeZlt5f7IQ+7Qy5dDA2GxhT/J7TLy+pnNyoEBF8gsCtte4I12iZ
+ zcsMMoXcxaVOoH2lb58ElEE5o3EXg+nkCIL9QbiBMCu/DXJ7Rane7akrKJLABvkvWvVz
+ ogeL7it6kgkN5bf05SqAhj0k1UZ6A9kSLyvKI3RwTsw5zKfAql8q03/IeSwegNU4E9L5
+ lxgEbGW22iJZ1gYTbmHKBU+66z7O601XrI5iIV47BXPFPxvoQMupvMsAU5R3bZbS5BSb
+ /ipcfCQ9UbjXwGU7T+DGyogqBlDuH9MmTGXoIL5NWnCxTemx/yS4j2LiqXFyyJuriSTQ
+ 9BOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681485203; x=1684077203;
+ d=1e100.net; s=20221208; t=1681485220; x=1684077220;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Wk6J9D5UydACCN0yMds0epqED88PI1qIb0uFJHIIPI0=;
- b=OuwT5XKOZ0aPJVIfG3HL3UUc+AtOkkhpWPtdBMpP54eMPE9ckNefdMIqjycnjQG9xr
- NNUZP8NXPhMIY1tJYUKuCOgZ+jFT8mxck1FtvVyMIrOx3O0dPiRt5ffcBZr6z23HIy2G
- x5cx+CooSqtB79GJ+XTVBBpnVgrsV/zu8XmJu6eF6ussA6TA/qTG7i4PyUg2CFrIqFrn
- uYHD7gSG1XjtPCKwFF7YPoI6NNS9ayBVZG35M8tNLEb6QbngUg9UsBK6pUPKzNm/NLM3
- HLEljirHBIQ5EeBGIHWu6BKnaFru15Rri8bsSJx2d3KWo+uSlPwqc7yTPPnX1YSsk1PQ
- b0tA==
-X-Gm-Message-State: AAQBX9fG5ym14gcSgCsgqqaSQMtEC5cWfKvFW5peYnS7BrClCxG625v3
- StFXQfzjnbF/BK4czDAPn5ffNA==
-X-Google-Smtp-Source: AKy350a3BlYyX+9TSjNpFzyn6wWpWWoPwEVbde48ufviNvcmI0fYJ9r5EUZEp6G2tBaUZyDGflkrQw==
-X-Received: by 2002:a7b:c4cd:0:b0:3f0:5074:efa7 with SMTP id
- g13-20020a7bc4cd000000b003f05074efa7mr4896506wmk.14.1681485203689; 
- Fri, 14 Apr 2023 08:13:23 -0700 (PDT)
+ bh=jfXm9LdQ+FoJvJK7BhW3RzpzOU9fmEU5TPyXFZhahlk=;
+ b=c95447/yaB2pbcYSAiOPRQUZVkXwzflitJ2Bvhwnc/yINFMDzTkIBGgUJuFVIgxYOv
+ kIFG8wDRCRj3IxEfVfCAWex1iczGUqDyWct6p75BQ6/194ItBnKxCyJ2qWD1NXzQ1EEE
+ YJ5bT1m9Yz2zr6lmrWHYMsL8sFASiZiCNz29RVVyKodAUlaZdo4zvefW+XkOBKxg0kvJ
+ wqEmFa8+pexEZt2vQTrWpLw+2L4rLfW8Ryqkch0n+p6+SSegIQa50JfUSININ3lv1v8F
+ HsbT2NAV7Czjux+ASsLG9rX0JG1MQSaaUKVpeV0w5/3irGiMN7+sFwf6UYh0Hhdrv4PN
+ j8Gw==
+X-Gm-Message-State: AAQBX9c6ApNj15wazHHTq+wZ2PHb1rxrWPShsWWlIMut3M3KflS47q6G
+ 2r8USvuTdu9xA/Wlx4CG7fCJPA==
+X-Google-Smtp-Source: AKy350Zyd/OqH14sVAfqjgkMm57MYpEhnWBLThZ+kTpERUGHQM20Y9SfqVo2kQZ7jNS/X+imbqnfpw==
+X-Received: by 2002:a7b:cb88:0:b0:3ed:8c60:c512 with SMTP id
+ m8-20020a7bcb88000000b003ed8c60c512mr4365617wmi.17.1681485219895; 
+ Fri, 14 Apr 2023 08:13:39 -0700 (PDT)
 Received: from [192.168.69.115] ([176.187.204.198])
  by smtp.gmail.com with ESMTPSA id
- o18-20020a05600c511200b003f0472ffc7csm8302514wms.11.2023.04.14.08.13.21
+ h13-20020a05600c2cad00b003ede2c4701dsm8082380wmc.14.2023.04.14.08.13.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 08:13:23 -0700 (PDT)
-Message-ID: <aa7d0694-6af2-6474-cc35-8ddfc1afd36d@linaro.org>
-Date: Fri, 14 Apr 2023 17:13:21 +0200
+ Fri, 14 Apr 2023 08:13:39 -0700 (PDT)
+Message-ID: <fcbbf122-ac5c-7648-f125-896cbe20efbb@linaro.org>
+Date: Fri, 14 Apr 2023 17:13:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH 38/40] vmxnet3: Do not depend on PC
+Subject: Re: [PATCH 39/40] MAINTAINERS: Add a reviewer for network packet
+ abstractions
 Content-Language: en-US
 To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -72,13 +72,13 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
- <20230414113737.62803-39-akihiko.odaki@daynix.com>
+ <20230414113737.62803-40-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230414113737.62803-39-akihiko.odaki@daynix.com>
+In-Reply-To: <20230414113737.62803-40-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -102,14 +102,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 14/4/23 13:37, Akihiko Odaki wrote:
-> vmxnet3 has no dependency on PC, and VMware Fusion actually makes it
-> available on Apple Silicon according to:
-> https://kb.vmware.com/s/article/90364
+> I have made significant changes for network packet abstractions so add
+> me as a reviewer.
 > 
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->   hw/net/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
