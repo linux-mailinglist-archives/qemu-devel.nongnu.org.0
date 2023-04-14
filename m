@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDABC6E2292
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC236E226C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:40:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnHmN-0002t3-NH; Fri, 14 Apr 2023 07:39:47 -0400
+	id 1pnHmP-0003Da-7m; Fri, 14 Apr 2023 07:39:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHm5-0002T3-GX
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:39:31 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1pnHmA-0002ae-TQ
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:39:36 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pnHm4-0001Qi-0C
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:39:29 -0400
-Received: by mail-pl1-x636.google.com with SMTP id w11so18015708plp.13
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:39:27 -0700 (PDT)
+ id 1pnHm8-0001UJ-Ey
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:39:34 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ c10-20020a17090abf0a00b0023d1bbd9f9eso21364711pjs.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472367; x=1684064367;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681472371; x=1684064371;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vyIvtVtEkzRRQ65xTTp3qSNNrOItJcBqvkf4ykjxuok=;
- b=O/lNpwLoLpGrpLDk0MYZSkgAPgfxAYEuIyNefuFLhU1cWfmLNkSFLEYtfbPUZLDAhV
- VLJLx2Do5rjHtKh+6WL980l8dxYHX8ap9hwCpd/hiytMmGD69vlDYXntubdZcs+1fTiC
- cg6L0L7VciC+oZb9TILTTgkykLy+bmhBNS8PSDQAc5hvIv4Kz1bJIHGQYaeRRD+fFcx/
- tsMMXLjVp8b0LT9/c2YnDT00e09CDygGj28ftX01gH3ouVAG0Ijqip1HQQCGuJO/eHfk
- aiBXVg1wtxnwjY3QiT2O/JN3xHMCoI41rKFupFyUzEcfIjyD8NRmEi+0v20LWp393qXS
- 2o1w==
+ bh=KdcxfKN/J65417H793s7q+fei8H0pQ2z9x/1WzA/BTE=;
+ b=wbdKZfHe9PHiKL/cAmiZKVQF9vA4j5EiBf9BO0+TQWTw00nWk6ycglRywA1MVv6B/2
+ LaXZkAJjn/Ke/drtN6IT0m3GsltHlMW5NFSCSdXUuAohgnWvdueoJfIs8wSq1vd8NBgY
+ JwvdOAw9neNk5plWO0aEBlxzlwWIrePnQ1uNyLr9HgY9MFXC1adOw5SrIuYRv/x3VEjF
+ ZJQ7pfnOyHpHX9gYuCjM+L5tj8maje9jGH5X4axNWZ1aeQFHLgGAgDHlKM+kqMfNLtFu
+ rKnIGYtiGVntZsz0fYY9zuUjRxPir4r1fp7SpQ9GZkC6CyPSYEXWCT4de4aJk88cjkYy
+ eETQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681472367; x=1684064367;
+ d=1e100.net; s=20221208; t=1681472371; x=1684064371;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vyIvtVtEkzRRQ65xTTp3qSNNrOItJcBqvkf4ykjxuok=;
- b=I38cCK76lsbwf0veKhCJ3YAh5f1TM3VS4ww22/abn+VzQao4RaE4QVSebPD6Koi07y
- GV4tZPt2Z7wwQccwP+QqrXIVh9y2Fl7MoLAPv5Ei0RVjugkxKwEGV17uHSQiLfLfmVQm
- gOjH7a/i+VpT90Qwmotw2e9I7fXTqbQKZd8dR+PpjRq57hMxk5ChHkRo2J7QsVSbwRHm
- hD+7ZhHGbhyixMNndL3Rlg2szW3vsbdZWewJf9DkCeQVy831hfjPA8DgMEG1S3KKeOVa
- 8yPXPaXQtVD0UdRWLV1jUF1psmsmQbCJtAHvP5imocrPmF/1EOZcI0LKc6phBTyKc/O8
- 0WRA==
-X-Gm-Message-State: AAQBX9d2F4DJCn7+uLWmYNGw3Sz6+b//hsAvVkOXqepQnWYAlu+vkbfX
- Y2hVH39HRxGM2JIS66rjQepU/g==
-X-Google-Smtp-Source: AKy350ahfGU8q2htyWS8V6NCiywOS9NhOGEI8/NIgEG07biNS1d8FIAXnOUmqTc4NMgHt7JqoK8aDQ==
-X-Received: by 2002:a17:90b:1d01:b0:247:3654:74dd with SMTP id
- on1-20020a17090b1d0100b00247365474ddmr2421591pjb.17.1681472367370; 
- Fri, 14 Apr 2023 04:39:27 -0700 (PDT)
+ bh=KdcxfKN/J65417H793s7q+fei8H0pQ2z9x/1WzA/BTE=;
+ b=PlcaNjmo/21+deMFaQEZgvhXD9A0JgVLEDkfSfIoKS1RPgQHreNVE+NUqhyCVKKh0b
+ ECmXhwc+yhU3CuvzKZjX+7RSYdA3oDG5xeWyXm656d4fgJF9UKyvCGXdpvDgjB+wz3uI
+ 2Wr/XKjlwkGlb9pGkgSNBlnRT1mhfAUt46wpyBILIXH+nAwfzGPrrpOHpJN98rmqgHEv
+ PJceC0gcYNHYmklyn40ErV9GKUSBYV//9XvrlvntrI6aj2FIadBiLEseziq7W9y2MueR
+ VTeLNjWazbdGiKyJWUazWILaKYdc0/BVnTV0h64XQLL9Z0yE4mQ4dg5L+4m+3QeEms5e
+ MWsQ==
+X-Gm-Message-State: AAQBX9fAKSoZUa53wyXP0gSzIZRWo0yVpN8esSunUR2ntyvwuXOVdBR8
+ O6/H/YHbCPJraewQJphpEWASmw==
+X-Google-Smtp-Source: AKy350aqnTnCr/DjunN9/W5e9KzDneppjLH3WLRX9XxhQi40UWAFL8xubBdBn/LzYZhK8nq6JbJMQw==
+X-Received: by 2002:a17:902:ac90:b0:19e:675b:a40f with SMTP id
+ h16-20020a170902ac9000b0019e675ba40fmr2375465plr.8.1681472371316; 
+ Fri, 14 Apr 2023 04:39:31 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.39.23
+ u19-20020a170902a61300b001a20b31a23fsm2889249plq.293.2023.04.14.04.39.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 04:39:27 -0700 (PDT)
+ Fri, 14 Apr 2023 04:39:31 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -68,16 +69,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 21/40] vmxnet3: Reset packet state after emptying Tx queue
-Date: Fri, 14 Apr 2023 20:37:18 +0900
-Message-Id: <20230414113737.62803-22-akihiko.odaki@daynix.com>
+Subject: [PATCH 22/40] igb: Add more definitions for Tx descriptor
+Date: Fri, 14 Apr 2023 20:37:19 +0900
+Message-Id: <20230414113737.62803-23-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::636;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x636.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,38 +100,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Keeping Tx packet state after the transmit queue is emptied but this
-behavior is unreliable as the state can be reset anytime the migration
-happens.
-
-Always reset Tx packet state always after the queue is emptied.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/vmxnet3.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/net/igb_core.c |  2 +-
+ hw/net/igb_regs.h | 32 +++++++++++++++++++++++++++-----
+ 2 files changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index 05f41b6dfa..18b9edfdb2 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -681,6 +681,8 @@ static void vmxnet3_process_tx_queue(VMXNET3State *s, int qidx)
-                              net_tx_pkt_unmap_frag_pci, PCI_DEVICE(s));
-         }
-     }
-+
-+    net_tx_pkt_reset(s->tx_pkt, net_tx_pkt_unmap_frag_pci, PCI_DEVICE(s));
- }
- 
- static inline void
-@@ -1159,7 +1161,6 @@ static void vmxnet3_deactivate_device(VMXNET3State *s)
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index e5a7021c0e..350462c40c 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -418,7 +418,7 @@ igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
  {
-     if (s->device_active) {
-         VMW_CBPRN("Deactivating vmxnet3...");
--        net_tx_pkt_reset(s->tx_pkt, net_tx_pkt_unmap_frag_pci, PCI_DEVICE(s));
-         net_tx_pkt_uninit(s->tx_pkt);
-         net_rx_pkt_uninit(s->rx_pkt);
-         s->device_active = false;
+     if (tx->first_cmd_type_len & E1000_ADVTXD_DCMD_TSE) {
+         uint32_t idx = (tx->first_olinfo_status >> 4) & 1;
+-        uint32_t mss = tx->ctx[idx].mss_l4len_idx >> 16;
++        uint32_t mss = tx->ctx[idx].mss_l4len_idx >> E1000_ADVTXD_MSS_SHIFT;
+         if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, mss)) {
+             return false;
+         }
+diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
+index c5c5b3c3b8..22ce909173 100644
+--- a/hw/net/igb_regs.h
++++ b/hw/net/igb_regs.h
+@@ -42,11 +42,6 @@ union e1000_adv_tx_desc {
+     } wb;
+ };
+ 
+-#define E1000_ADVTXD_DTYP_CTXT  0x00200000 /* Advanced Context Descriptor */
+-#define E1000_ADVTXD_DTYP_DATA  0x00300000 /* Advanced Data Descriptor */
+-#define E1000_ADVTXD_DCMD_DEXT  0x20000000 /* Descriptor Extension (1=Adv) */
+-#define E1000_ADVTXD_DCMD_TSE   0x80000000 /* TCP/UDP Segmentation Enable */
+-
+ #define E1000_ADVTXD_POTS_IXSM  0x00000100 /* Insert TCP/UDP Checksum */
+ #define E1000_ADVTXD_POTS_TXSM  0x00000200 /* Insert TCP/UDP Checksum */
+ 
+@@ -151,6 +146,10 @@ union e1000_adv_rx_desc {
+ #define IGB_82576_VF_DEV_ID        0x10CA
+ #define IGB_I350_VF_DEV_ID         0x1520
+ 
++/* VLAN info */
++#define IGB_TX_FLAGS_VLAN_MASK     0xffff0000
++#define IGB_TX_FLAGS_VLAN_SHIFT    16
++
+ /* from igb/e1000_82575.h */
+ 
+ #define E1000_MRQC_ENABLE_RSS_MQ            0x00000002
+@@ -160,6 +159,29 @@ union e1000_adv_rx_desc {
+ #define E1000_MRQC_RSS_FIELD_IPV6_UDP       0x00800000
+ #define E1000_MRQC_RSS_FIELD_IPV6_UDP_EX    0x01000000
+ 
++/* Adv Transmit Descriptor Config Masks */
++#define E1000_ADVTXD_MAC_TSTAMP   0x00080000 /* IEEE1588 Timestamp packet */
++#define E1000_ADVTXD_DTYP_CTXT    0x00200000 /* Advanced Context Descriptor */
++#define E1000_ADVTXD_DTYP_DATA    0x00300000 /* Advanced Data Descriptor */
++#define E1000_ADVTXD_DCMD_EOP     0x01000000 /* End of Packet */
++#define E1000_ADVTXD_DCMD_IFCS    0x02000000 /* Insert FCS (Ethernet CRC) */
++#define E1000_ADVTXD_DCMD_RS      0x08000000 /* Report Status */
++#define E1000_ADVTXD_DCMD_DEXT    0x20000000 /* Descriptor extension (1=Adv) */
++#define E1000_ADVTXD_DCMD_VLE     0x40000000 /* VLAN pkt enable */
++#define E1000_ADVTXD_DCMD_TSE     0x80000000 /* TCP Seg enable */
++#define E1000_ADVTXD_PAYLEN_SHIFT    14 /* Adv desc PAYLEN shift */
++
++#define E1000_ADVTXD_MACLEN_SHIFT    9  /* Adv ctxt desc mac len shift */
++#define E1000_ADVTXD_TUCMD_L4T_UDP 0x00000000  /* L4 Packet TYPE of UDP */
++#define E1000_ADVTXD_TUCMD_IPV4    0x00000400  /* IP Packet Type: 1=IPv4 */
++#define E1000_ADVTXD_TUCMD_L4T_TCP 0x00000800  /* L4 Packet TYPE of TCP */
++#define E1000_ADVTXD_TUCMD_L4T_SCTP 0x00001000 /* L4 packet TYPE of SCTP */
++/* IPSec Encrypt Enable for ESP */
++#define E1000_ADVTXD_L4LEN_SHIFT     8  /* Adv ctxt L4LEN shift */
++#define E1000_ADVTXD_MSS_SHIFT      16  /* Adv ctxt MSS shift */
++/* Adv ctxt IPSec SA IDX mask */
++/* Adv ctxt IPSec ESP len mask */
++
+ /* Additional Transmit Descriptor Control definitions */
+ #define E1000_TXDCTL_QUEUE_ENABLE  0x02000000 /* Enable specific Tx Queue */
+ 
 -- 
 2.40.0
 
