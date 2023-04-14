@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA5D6E27FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792846E27F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:04:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnLux-0006JX-Gu; Fri, 14 Apr 2023 12:04:55 -0400
+	id 1pnLua-0006IZ-5J; Fri, 14 Apr 2023 12:04:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pnLuT-0006Bq-2C
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:25 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pnLuU-0006Gn-5V
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:26 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pnLuN-0007u6-FC
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:24 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- eo6-20020a05600c82c600b003ee5157346cso12206234wmb.1
+ id 1pnLuN-0007uA-Fr
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:25 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ l10-20020a05600c1d0a00b003f04bd3691eso21024842wms.5
  for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 09:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1681488255; x=1684080255;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=CVppDgiSC0bLO0JkaFk7PJdJ9Tl0xT2sLkX+JcFhZxw=;
- b=LD5f1+iQfWiLt/GJQny3vjp71qcf0SMPr2kMxir5ThTOM9d+PSXulCkWB8eQm0oudk
- QqEV7M2kPxZddb6L4zW4NIZ1dmfzkq1THEv7TncZe0RSZQN8amXVld0r1xgKJLv+uhI9
- JDyUmNadY6YP8hbxFBDqJQEbeK4XbCPetvXq0sKCyPY5hRyj6ZjXRHk74nTz0xC85IL/
- MX6LrGJIG/gn9ALf5Yv0ZqFCyTbRTAMssFGKelLQ7sUKyc8YF0xCFW5xEieXFsfIh+7G
- rS04cjzQQZaAE8MTZ8J1YzAhdHUfyyk2yiTznXabxgOucakGcijN9LA1QRA5PaEPAXXP
- 5I2A==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jUHq0yTT6mZpyW8ymPG55BvWQqRfjylp1jFh1uUnshs=;
+ b=Z86cmet/oFJLig9vLG0ILm1/FNhYYRfu7A35GrX/shAqhvqcdzEqz52CrVEekTAwIL
+ S7vqSxDS293h99upQmb/0f0z6oJfVc/L2jmw7XvlnkJnVpL9w2xY5SdzsJU7oHtBbQ/f
+ 0ZmHvFaV/D3jn0wRqc1KzHMbywPywnVPFpPM2PauCtRe2tO/TfLoMMEGI8jsOVfXGw16
+ lFkYf6rCmx2ERV9/xNB33KmSoSoxio1GY1SD+s0S6ceGCEVAcrKdgq0WyRW0+DMWUu6l
+ bkYVsLJrMyVNAJDomEXoHZ0z4matpM6MIIVth4qaVD8kCwVQDDdJGgPIXmYG9QknG3fs
+ ABKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1681488255; x=1684080255;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CVppDgiSC0bLO0JkaFk7PJdJ9Tl0xT2sLkX+JcFhZxw=;
- b=KwtB2hegYtzDdtyT+sqs2eZXmMAkzWI9CPsKjdw3tQIa5p3qxgcR/3nvTZSRosRJUF
- 5hH7+dt+mAKww/xJYsESqIMZxpLtkUKbGGzge8UnkGKJutmY93BkPaybDlZAb+olYF4v
- rxjTmr7gRc6nMiLURQpolopKE80QqsJhwkX9oCdhlpS1g3fmUIozzt04kPDsvGw/DXZ5
- PGdXIlCSYemQeK46Ss9Qeqk0Wih9JImUyMFiAzJHXAwaFAnUKC7aHDmJXh0Hpd40w2lS
- MEAJTZYMbCJYIOYXpOEA9wl68kXrypjOPWk6+w0kWUrb+oFjVHB0hrCWNf0rRZrUgzGp
- EMSA==
-X-Gm-Message-State: AAQBX9eWJ0PVQNnF/Rg8QPzW5xKQihZQfZcMNmzNycZIbvJtmcWUOXPT
- AkmJaE+aMejK5kcfmQu9RFutXQ==
-X-Google-Smtp-Source: AKy350YKJVlYbJtwaQKqzyNwpqDqC97hSvc9KPbEzQx7BvC3u/RoyzcNp6j+OmYBxt86qEQ8INKIdA==
-X-Received: by 2002:a7b:c4d6:0:b0:3f0:3c2:3fa4 with SMTP id
- g22-20020a7bc4d6000000b003f003c23fa4mr4710566wmk.12.1681488255114; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jUHq0yTT6mZpyW8ymPG55BvWQqRfjylp1jFh1uUnshs=;
+ b=LENF2SLkge35pyvyn27lxBrxHk4GXvQc2vKzqVnKsC7YeDhVAE4v1InXPI1FFK/HgY
+ DbPYcu8sGLufLH8UyDFy2zz74FwQnIAaTjdIdJ3pV3kJdX0O1OU9WzuS6XU1hkdywyfV
+ QuYWowjZlFO00DXun6Ts8EVKpXUUTeKxLTLykIy8wzyjv3KKGyNjA3V1iIdEN2wy5Z5A
+ fZSZwYok6fqduEuu4a2kW6d1dsd1/2VIsNILHP+xcn33q6tljYVb7WOdki3Qfq7CeXry
+ 90rSX4wnlJO1EBzw8iManQRUZOkPs3MBobUJdPjB/UItlILzBZ0jhYeDwp9rYETwE6XE
+ lGBA==
+X-Gm-Message-State: AAQBX9d2fsueOUoWN9iPyl/JvZxxvFcOj0QWAR0kGQf203n8bO7cA5De
+ aYWHaeSeTrf9sHrOgfCJAKPB2w==
+X-Google-Smtp-Source: AKy350YETcn+yNaYy3urhJGZcD9eUjvqxBohnD8pITojghUBs73GleaAY5brqOTF4d5ub0v7kHbWQA==
+X-Received: by 2002:a05:600c:2289:b0:3ee:6161:7d98 with SMTP id
+ 9-20020a05600c228900b003ee61617d98mr4732437wmf.16.1681488255598; 
  Fri, 14 Apr 2023 09:04:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- 8-20020a05600c22c800b003ef71d541cbsm4673752wmg.1.2023.04.14.09.04.14
+ 8-20020a05600c22c800b003ef71d541cbsm4673752wmg.1.2023.04.14.09.04.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 09:04:14 -0700 (PDT)
+ Fri, 14 Apr 2023 09:04:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 0/3] target/arm: Fix handling of VSTCR_EL2.SW and VTCR_EL2.NSW
-Date: Fri, 14 Apr 2023 17:04:10 +0100
-Message-Id: <20230414160413.549801-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/3] target/arm: Don't allow stage 2 page table walks to
+ downgrade to NS
+Date: Fri, 14 Apr 2023 17:04:11 +0100
+Message-Id: <20230414160413.549801-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230414160413.549801-1-peter.maydell@linaro.org>
+References: <20230414160413.549801-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,48 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When FEAT_SEL2 (secure EL2) is implemented, the bits
-VSTCR_EL2.SW and VTCR_EL2.NSW allow the guest to set things up
-so that the stage 2 walk for an IPA is done to the other
-address space, eg
- * a stage 2 walk for an NS IPA done to secure physical memory
-   (where the translation table base address and other parameters
-   for the walk come from the NS control registers VTTBR_EL2
-   and VTCR_EL2)
- * a stage 2 walk for an S IPA done to non-secure physical memory
-   (where the parameters from the walk come from the S control
-   registers VSTTBR_EL2 and VSTCR_EL2)
+Bit 63 in a Table descriptor is only the NSTable bit for stage 1
+translations; in stage 2 it is RES0.  We were incorrectly looking at
+it all the time.
 
-We tried to implement this, but didn't get it right -- in
-get_phys_addr_twostage() we identify whether we need to do
-the s2 walk in Secure or NonSecure, but then we fail to pay
-attention to whether we were doing the walk for an NS or S IPA.
-The fix for this is simple -- set ptw->in_mmu_idx and ptw->in_secure
-based on ipa_secure, with only ptw->in_ptw_idx depending on
-s2walk_secure. However to make this work we first need to fix
-a couple of places in the ptw code that were incorrectly looking
-at ptw->in_secure when they either should not be or should
-be doing something based on ptw->in_ptw_idx.
+This causes problems if:
+ * the stage 2 table descriptor was incorrectly setting the RES0 bit
+ * we are doing a stage 2 translation in Secure address space for
+   a NonSecure stage 1 regime -- in this case we would incorrectly
+   do an immediate downgrade to NonSecure
 
-This fixes https://gitlab.com/qemu-project/qemu/-/issues/1600 .
-NB: I have tested that this fixes the test case in the bug, and
-that it doesn't break 'make check-avocado', but I don't have a
-huge supply of EL2-using guests to hand so the patchset hasn't
-received exhaustive testing. Plus this area of the architecture
-and this bit of QEMU's codebase are pretty hairy -- so careful
-review would be a good idea :-)
+A bug elsewhere in the code currently prevents us from getting
+to the second situation, but when we fix that it will be possible.
 
-thanks
--- PMM
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/ptw.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Peter Maydell (3):
-  target/arm: Don't allow stage 2 page table walks to downgrade to NS
-  target/arm: Set ptw->out_secure correctly for stage 2 translations
-  target/arm: handle ipa_secure vs s2walk_secure correctly
-
- target/arm/ptw.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
-
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 6d72950a795..06865227642 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -1403,17 +1403,18 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+     descaddrmask &= ~indexmask_grainsize;
+ 
+     /*
+-     * Secure accesses start with the page table in secure memory and
++     * Secure stage 1 accesses start with the page table in secure memory and
+      * can be downgraded to non-secure at any step. Non-secure accesses
+      * remain non-secure. We implement this by just ORing in the NSTable/NS
+      * bits at each step.
++     * Stage 2 never gets this kind of downgrade.
+      */
+     tableattrs = is_secure ? 0 : (1 << 4);
+ 
+  next_level:
+     descaddr |= (address >> (stride * (4 - level))) & indexmask;
+     descaddr &= ~7ULL;
+-    nstable = extract32(tableattrs, 4, 1);
++    nstable = !regime_is_stage2(mmu_idx) && extract32(tableattrs, 4, 1);
+     if (nstable) {
+         /*
+          * Stage2_S -> Stage2 or Phys_S -> Phys_NS
 -- 
 2.34.1
 
