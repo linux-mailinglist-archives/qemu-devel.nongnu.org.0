@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998F76E27FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F596E2807
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 18:06:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnLvP-0007sG-QX; Fri, 14 Apr 2023 12:05:24 -0400
+	id 1pnLvC-0006qo-Mt; Fri, 14 Apr 2023 12:05:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnLuk-0006S0-79
+ id 1pnLuk-0006S3-Q2
  for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:47 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnLuh-0007zC-In
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:41 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id l18so17963535wrb.9
+ id 1pnLui-0007z7-Du
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 12:04:42 -0400
+Received: by mail-wr1-x431.google.com with SMTP id r20so2227606wra.5
  for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 09:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1681488277; x=1684080277;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
- b=Km+2PWccfqrAl6iXS+0QxP9ByJ0556FYve9PXciZyQzU1CJJ8I8scFfQK8XXBmXy5v
- kxCP5k0lOtBtlyhcAQ6Ik/03qQ6RmDQ6uS/fJhi6djAoAwMq8iy9MjYzmVFdJPZwQIYs
- Bj+0/RjbcQyU3webm69fVm/HEFtLNKhM4/Tnrdw3QUNmsG/9SS6iGWE55Aa7SiqLAoqh
- 90DyjEPjRGMgXevBbAaVDpLPWg2yNa9I2RZRk3nqI6VTAuqjMVHRZqx4TD0ZJXVph8Am
- Jq1XAUITDjnI/vmRKZJwwha5MCRh7FIWCZ9u/LW5ZdTsL27nmqk208OjB6hTVp15RfWV
- ZSzw==
+ bh=87Eys71a5bFDwpsmcqiXjalsGOMTQZkXpUaxljHCLjI=;
+ b=Lkv7hQWdIlA2sElrxSUtHPNg4UUF+/pMmmAB5iBfBiSP6hz/+L1/iAytdkjdaALLr8
+ F1GVjHMQ99qOBDE23t2pXSpoFe0kUvHQBbNg7jPSYR/BVBtOo3hRjuhRfNcd88/luB9N
+ rBpCIzB1Y9tY+p72b+QRHqRtXGJC+4USvPU9TqNQZbbwJEfMPD0ivv8p/sNwonnMdH76
+ 2IrAaCqe7w7YVX8cHy543Q2idXIgyZZDDDlg6pxvpUQMMzbCmVhfle3Clmw7mYNcKfE5
+ ANOQFG9xHDCz5+tkO6hd9ozTrgmcX9boEez6MwSvCZt4YwKcXBMe3PgChfnO+LdSdwG/
+ YmMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1681488277; x=1684080277;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
- b=F7nJUW9Q52nuaZjp2tL+/3heWuzYlmRnsm2hi435ExjlC9fTOXnV2FVbOpMtuEx5l6
- VD4ILVi7kvsGuBhAHN5XuLItNavQT4PGq0urN5bddtlP90uxhUdsR98c7Fv8tK29ni2e
- L9I+JgFoEf+n5d4rE0FlUJefI+j8hkAwCzuWRz3uXjB9wxH0A4pJW8IsvlDv5WXu4KVU
- +y0TMw5xwRdoaG0zIIrIGD570Rxbw+ikV1S3bHlDXsUlIbyOnGBlX9XPUfw8PBtzG4jf
- bG4gUUDsQ7yjYyN0JqP3FQRVqdXbKjGCIDV2t99u48xNX7C59zvokHSlQb990fa4uyM2
- XopA==
-X-Gm-Message-State: AAQBX9epdK6Is+ZgaCF2Tw/rpjPOQzOd/wKG3zEaSEq245meOlBkESae
- z0oRt3jFbfFQd6AahxhC6Hd+yw==
-X-Google-Smtp-Source: AKy350Y4JrxIzaH4hEXaTATTcEHOHoCPS/2+I5omQlxT1drifGUdW6/mcGhGj0Gu6/wKfm8NwYaBjQ==
-X-Received: by 2002:adf:e407:0:b0:2f4:cf53:c961 with SMTP id
- g7-20020adfe407000000b002f4cf53c961mr4436312wrm.54.1681488277718; 
+ bh=87Eys71a5bFDwpsmcqiXjalsGOMTQZkXpUaxljHCLjI=;
+ b=jpuUgpW3ZUSxFT5vC180nYckjg9G47WAOOQpsBsHvmGsyyP7Kndge6PXYLTkuO/nTC
+ ZNQzULQww3/v7H3rghuz7AUUmYaSXXUOspcxj5A3ndI/Ld5A8G9JmsucMm7uygsa1sin
+ HOyFXJbWejy7qa2IZP85FXjNAGM5V+6x6z/l1H/AzINLlByL6lnqAZI/xwaOCw2vH6f2
+ 3jPqrXyg449rNVABSO6pxYi4JV9EzCXD6q4l8hVb2fSy3T+nCtZ7vgt5s52HmhpbExyf
+ o7MQ+dGxfJhqJtdKhiqcxlJmVAq8WxLT7tX+RrVELSKviYG1kMAJQFYGiTqy/pHuUw2Z
+ dfZA==
+X-Gm-Message-State: AAQBX9dSzAIMR/YfsiBCRWJ+K5JWkKxHth9Ytvm4NVWyU9PQsDKbOX0+
+ xqafG9bx+ayVgq+ALl65GVH9vA==
+X-Google-Smtp-Source: AKy350byxJ+PBV33IFiDvwwjeVrv5fTjj5ozDL9nB8qISHiD/79Sw9Bq3ynjrrvleZee23Mbd//GTQ==
+X-Received: by 2002:a5d:6587:0:b0:2ce:a6f6:edca with SMTP id
+ q7-20020a5d6587000000b002cea6f6edcamr4865810wru.55.1681488277527; 
  Fri, 14 Apr 2023 09:04:37 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- q13-20020adfcd8d000000b002e51195a3e2sm3832381wrj.79.2023.04.14.09.04.35
+ g4-20020a5d5404000000b002efb121b75fsm3830886wrv.58.2023.04.14.09.04.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 14 Apr 2023 09:04:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 94B431FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id BBB191FFB7;
  Fri, 14 Apr 2023 17:04:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -71,17 +71,17 @@ Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Jason Wang <jasowang@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
  Mathieu Poirier <mathieu.poirier@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 07/12] include: attempt to document device_class_set_props
-Date: Fri, 14 Apr 2023 17:04:28 +0100
-Message-Id: <20230414160433.2096866-8-alex.bennee@linaro.org>
+Subject: [PATCH 08/12] qom: allow for properties to become "fixed"
+Date: Fri, 14 Apr 2023 17:04:29 +0100
+Message-Id: <20230414160433.2096866-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230414160433.2096866-1-alex.bennee@linaro.org>
 References: <20230414160433.2096866-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,52 +104,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I'm still not sure how I achieve by use case of the parent class
-defining the following properties:
-
-  static Property vud_properties[] = {
-      DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
-      DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
-      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
-      DEFINE_PROP_END_OF_LIST(),
-  };
-
-But for the specialisation of the class I want the id to default to
-the actual device id, e.g.:
-
-  static Property vu_rng_properties[] = {
-      DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG),
-      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
-      DEFINE_PROP_END_OF_LIST(),
-  };
-
-And so far the API for doing that isn't super clear.
+When specialising general purpose objects it is sometimes useful to
+"fix" some of the properties that were configurable by the base
+classes. We will use this facility when specialising
+vhost-user-device.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/qdev-core.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ qapi/qom.json           |  2 ++
+ include/qom/object.h    | 16 +++++++++++++++-
+ qom/object.c            | 14 ++++++++++++++
+ qom/object_interfaces.c |  9 ++++++---
+ qom/qom-qmp-cmds.c      |  1 +
+ softmmu/qdev-monitor.c  |  1 +
+ 6 files changed, 39 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index bd50ad5ee1..d4bbc30c92 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
- char *qdev_get_fw_dev_path(DeviceState *dev);
- char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
+diff --git a/qapi/qom.json b/qapi/qom.json
+index a877b879b9..4cda191f00 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -33,12 +33,14 @@
+ # @description: if specified, the description of the property.
+ #
+ # @default-value: the default value, if any (since 5.0)
++# @fixed: if specified if value has been fixed (since 8.1)
+ #
+ # Since: 1.2
+ ##
+ { 'struct': 'ObjectPropertyInfo',
+   'data': { 'name': 'str',
+             'type': 'str',
++            'fixed': 'bool',
+             '*description': 'str',
+             '*default-value': 'any' } }
  
-+/**
-+ * device_class_set_props(): add a set of properties to an device
-+ * @dc: the parent DeviceClass all devices inherit
-+ * @props: an array of properties, terminate by DEFINE_PROP_END_OF_LIST()
-+ *
-+ * This will add a set of properties to the object. It will fault if
-+ * you attempt to add an existing property defined by a parent class.
-+ * To modify an inherited property you need to use????
-+ */
- void device_class_set_props(DeviceClass *dc, Property *props);
+diff --git a/include/qom/object.h b/include/qom/object.h
+index ef7258a5e1..f18d1a8254 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -97,6 +97,8 @@ struct ObjectProperty
+     ObjectPropertyInit *init;
+     void *opaque;
+     QObject *defval;
++    /** @fixed: if the property has been fixed at its default */
++    bool fixed;
+ };
  
  /**
+@@ -1111,6 +1113,17 @@ void object_property_set_default_int(ObjectProperty *prop, int64_t value);
+  */
+ void object_property_set_default_uint(ObjectProperty *prop, uint64_t value);
+ 
++/**
++ * object_property_fix_default_uint:
++ * @prop: the property to be fixed
++ * @value: the fixed value to be written to the property
++ *
++ * When specialising an object it may make send to fix some values and
++ * not allow them to be changed. This can only be applied to
++ * properties that previously had a default and now cannot be changed.
++ */
++void object_property_fix_default_uint(ObjectProperty *prop, uint64_t value);
++
+ /**
+  * object_property_find:
+  * @obj: the object
+@@ -1961,13 +1974,14 @@ size_t object_type_get_instance_size(const char *typename);
+  * object_property_help:
+  * @name: the name of the property
+  * @type: the type of the property
++ * @fixed: has the value been fixed
+  * @defval: the default value
+  * @description: description of the property
+  *
+  * Returns: a user-friendly formatted string describing the property
+  * for help purposes.
+  */
+-char *object_property_help(const char *name, const char *type,
++char *object_property_help(const char *name, const char *type, bool fixed,
+                            QObject *defval, const char *description);
+ 
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(Object, object_unref)
+diff --git a/qom/object.c b/qom/object.c
+index e25f1e96db..b5aba3ffc8 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1584,6 +1584,20 @@ void object_property_set_default_uint(ObjectProperty *prop, uint64_t value)
+     object_property_set_default(prop, QOBJECT(qnum_from_uint(value)));
+ }
+ 
++static void object_property_fix_default(ObjectProperty *prop, QObject *defval)
++{
++    g_assert(prop->init == object_property_init_defval);
++    g_assert(!prop->fixed);
++
++    prop->defval = defval;
++    prop->fixed = true;
++}
++
++void object_property_fix_default_uint(ObjectProperty *prop, uint64_t value)
++{
++    object_property_fix_default(prop, QOBJECT(qnum_from_uint(value)));
++}
++
+ bool object_property_set_uint(Object *obj, const char *name,
+                               uint64_t value, Error **errp)
+ {
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index 7d31589b04..e351938f8f 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -161,7 +161,7 @@ void user_creatable_add_qapi(ObjectOptions *options, Error **errp)
+     visit_free(v);
+ }
+ 
+-char *object_property_help(const char *name, const char *type,
++char *object_property_help(const char *name, const char *type, bool fixed,
+                            QObject *defval, const char *description)
+ {
+     GString *str = g_string_new(NULL);
+@@ -179,7 +179,9 @@ char *object_property_help(const char *name, const char *type,
+     if (defval) {
+         g_autofree char *def_json = g_string_free(qobject_to_json(defval),
+                                                   false);
+-        g_string_append_printf(str, " (default: %s)", def_json);
++        g_string_append_printf(str, " (%s: %s)",
++                               fixed ? "fixed" : "default",
++                               def_json);
+     }
+ 
+     return g_string_free(str, false);
+@@ -220,7 +222,8 @@ bool type_print_class_properties(const char *type)
+ 
+         g_ptr_array_add(array,
+                         object_property_help(prop->name, prop->type,
+-                                             prop->defval, prop->description));
++                                             prop->fixed, prop->defval,
++                                             prop->description));
+     }
+     g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
+     if (array->len > 0) {
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index 7c087299de..f4cdf4ddde 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -55,6 +55,7 @@ ObjectPropertyInfoList *qmp_qom_list(const char *path, Error **errp)
+ 
+         value->name = g_strdup(prop->name);
+         value->type = g_strdup(prop->type);
++        value->fixed = prop->fixed;
+     }
+ 
+     return props;
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index b8d2c4dadd..b56b2af2f2 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -315,6 +315,7 @@ int qdev_device_help(QemuOpts *opts)
+         g_ptr_array_add(array,
+                         object_property_help(prop->value->name,
+                                              prop->value->type,
++                                             prop->value->fixed,
+                                              prop->value->default_value,
+                                              prop->value->description));
+     }
 -- 
 2.39.2
 
