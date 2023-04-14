@@ -2,89 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE28B6E1A8B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 04:53:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A686E1D17
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 09:26:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pn9XF-0004q2-5R; Thu, 13 Apr 2023 22:51:37 -0400
+	id 1pnDnD-0003mH-4f; Fri, 14 Apr 2023 03:24:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pn9XC-0004po-Ta
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 22:51:34 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ (Exim 4.90_1) (envelope-from <ray90514@gmail.com>)
+ id 1pn9hm-0006uk-Po
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 23:02:30 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pn9XA-0000y5-KO
- for qemu-devel@nongnu.org; Thu, 13 Apr 2023 22:51:34 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- b2-20020a17090a6e0200b002470b249e59so6309283pjk.4
- for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 19:51:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ray90514@gmail.com>)
+ id 1pn9ha-0003Cr-Jt
+ for qemu-devel@nongnu.org; Thu, 13 Apr 2023 23:02:30 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ y11-20020a17090a600b00b0024693e96b58so16306813pji.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Apr 2023 20:02:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681440691; x=1684032691;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=52dTXDeasU3qeAPixz48OWdPDQAgiBEqkhzYoyavubA=;
- b=ztmp0d0ENV/7cH9KnXyHx5Ng3dqjGSytavxqAGT5jFzqqKceLfNaAr60SAqxj3MQTV
- zixFfp92J5qEQ66MBxP7rUvGquIZGyx9O9qYOZthZkAiqr1NqX8Uk0X/BMUTM+pXaH1z
- DHOUJzUeWzCwmO80uuMDtRMdqXR1OgsMlElVjlt+Pw6S87uxL8+HUoNmaPx1NTvwxSmI
- 9qXvjDrYZpp3NZ+2XZq8bAsrsdAhpQuAHfYScWefEm7h4xcobedu9Ac1Cn/UUOfqCCpU
- cOzrQ7PUh3Qn/IuDWu+ndlKTbtqL1ihta0PYQl0pl/yxdSWdOorgfzuaaK6WhWC1/zcO
- eTcQ==
+ d=gmail.com; s=20221208; t=1681441335; x=1684033335;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=suUFGIu333J5BhRBdzQmYtbFluGOeO0x0BxGNl1j7lE=;
+ b=br4gsEQQdQnTmkcyaFPHeWvDVJMibHuls7/DsEdeOW9LtGD+YgFJuFb2N6i3N53x8z
+ yLr+94WKTQhHM5XFw1GDtgfO2GXcBf8H0y/Crfm90C4VSIs414i7kdwX/QgtFzmjYObp
+ vTugqmtruPM3h4BZGwoUX+or/H/hiCT7Ga4+yeUA9urQgjEbk/Nw/3DSThpk+/RCi14i
+ x8zqvEvyZs6glMn0nXc/MZLNpbrDC2g6frV/+Tg8LgSiFSCJ80hEPgykyEagROkw/AoH
+ 77rQ9m6W9InJDTijSQNojrNSoVQV/GgFTyW/uYRK2LzmD34I6raTC2aZSedxRfxi3FEf
+ w1zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681440691; x=1684032691;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=52dTXDeasU3qeAPixz48OWdPDQAgiBEqkhzYoyavubA=;
- b=CIa1CE4uvK4mIYwqTTrwx072vyIcwyLfsaYkA7Q0YcKDlJOT6dq5uWnqcwOg1wrNP6
- rHU5/eD9iEMqyWaERQNkhGQ8kK76KuLf6fagzzogKmKCh9rQkw9E+nzXFxJUNk8x7n4G
- 1ROZoAxE5L780SKM1C1u0cFA0kja2ub10B/YRWQBhXiIxNCdO2UWEDbLg8ro/Jyk5wy/
- bkA94N8Eh19pGf7Z3lLY8fu155B9sNSniu5rIIZa9ek6PeHruqEuIiZAa+MfGaQR0Ix7
- xbU6pzVNm76K3Tfnvcs9tETN8U6/TG3tR1ywxwEQvU2PV/9z6Vqa5inFDxJ6mAEEMDEQ
- jbyA==
-X-Gm-Message-State: AAQBX9dFcMTJLXOtK2Xu31UxQNagHOCVLN3FTzfTGgt2V4C61L751UIa
- YE5A7f0V2jblA4fC6XiUjBCh3A==
-X-Google-Smtp-Source: AKy350ai1GwoaP7hcrIv3V8SdFcLeiYB/1L3j7Pjabe9qVevpRPDt5e20MLhKX8LOT1eoDXFt4XVGQ==
-X-Received: by 2002:a17:902:cad1:b0:1a6:6fe3:df8d with SMTP id
- y17-20020a170902cad100b001a66fe3df8dmr982543pld.8.1681440690708; 
- Thu, 13 Apr 2023 19:51:30 -0700 (PDT)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ d=1e100.net; s=20221208; t=1681441335; x=1684033335;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=suUFGIu333J5BhRBdzQmYtbFluGOeO0x0BxGNl1j7lE=;
+ b=jq1jox080k5WHjBFlcYrKI5jilzrJ4bBEKDP6wDjKubo9MnhyWh2zoad2U16TQno2k
+ BfikdUatd9Lk4BLwpCjZjsvQltgu1hmsMsZpShtSr1cogBPBwVar5zT2lu5Ran3WLKNI
+ sz2ia5h0MgC4Lws6rX9e28RpzakUxLtkFIEJk+15uJRNmo35ur9KsIjgjDvHb4SfgS/m
+ hcxlWFpQX43oI9K5qcxCh7uiZegE1hCeLQThyLIuN1KigUhbphx0WhsodQwintnMlJP3
+ /y3y8HWno3dlpzHx9sqWfeXeQuDVyN/NVkJSvFgSzT1nMJEnUvnUKff//weonEmc7x04
+ HTgQ==
+X-Gm-Message-State: AAQBX9dyq5NHXc32QPQ1c8F76A43eNZezOXXvEjWR9PvQLdzzYJ8REls
+ dytJ0kknQL/mKAxGWC1dXS0=
+X-Google-Smtp-Source: AKy350YLAGC8HvvkW3yEH5kxEU3FJFHlUMHg80fxlXhyxp8YFtNCUj++aFsOH/ayyDryVaeZ7L8XeA==
+X-Received: by 2002:a17:902:e782:b0:1a0:75fe:cd66 with SMTP id
+ cp2-20020a170902e78200b001a075fecd66mr913381plb.50.1681441334670; 
+ Thu, 13 Apr 2023 20:02:14 -0700 (PDT)
+Received: from localhost.localdomain
+ (2001-b011-e009-bcc6-4af2-3e75-b56c-0988.dynamic-ip6.hinet.net.
+ [2001:b011:e009:bcc6:4af2:3e75:b56c:988])
  by smtp.gmail.com with ESMTPSA id
- g7-20020a1709026b4700b001a1ed2fce9asm2102285plt.235.2023.04.13.19.51.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Apr 2023 19:51:30 -0700 (PDT)
-Message-ID: <0d3f78ba-edff-5e64-2a3a-b2d7ec9b609a@daynix.com>
-Date: Fri, 14 Apr 2023 11:51:27 +0900
+ q12-20020a170902788c00b0019e60c645b1sm2101277pll.305.2023.04.13.20.02.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Apr 2023 20:02:14 -0700 (PDT)
+From: Shao-Chien Chiang <ray90514@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Shao-Chien Chiang <ray90514@gmail.com>,
+	qemu-devel@nongnu.org
+Subject: [RFC PATCH] vhost-vdpa: cache Virtio states
+Date: Fri, 14 Apr 2023 10:57:20 +0800
+Message-Id: <20230414025721.10219-1-ray90514@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: virtio-iommu hotplug issue
-To: eric.auger@redhat.com, Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: virtio-dev@lists.oasis-open.org,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org
-References: <15bf1b00-3aa0-973a-3a86-3fa5c4d41d2c@daynix.com>
- <20230413104041.GA3295191@myrica>
- <c6fb5a06-aa7e-91f9-7001-f456b2769595@daynix.com>
- <9a765411-00ad-307e-9ca2-f6a7defba9cc@redhat.com>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <9a765411-00ad-307e-9ca2-f6a7defba9cc@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.083, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=ray90514@gmail.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 14 Apr 2023 03:24:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,127 +93,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/04/13 22:39, Eric Auger wrote:
-> Hi,
-> 
-> On 4/13/23 13:01, Akihiko Odaki wrote:
->> On 2023/04/13 19:40, Jean-Philippe Brucker wrote:
->>> Hello,
->>>
->>> On Thu, Apr 13, 2023 at 01:49:43PM +0900, Akihiko Odaki wrote:
->>>> Hi,
->>>>
->>>> Recently I encountered a problem with the combination of Linux's
->>>> virtio-iommu driver and QEMU when a SR-IOV virtual function gets
->>>> disabled.
->>>> I'd like to ask you what kind of solution is appropriate here and
->>>> implement
->>>> the solution if possible.
->>>>
->>>> A PCIe device implementing the SR-IOV specification exports a virtual
->>>> function, and the guest can enable or disable it at runtime by
->>>> writing to a
->>>> configuration register. This effectively looks like a PCI device is
->>>> hotplugged for the guest.
->>>
->>> Just so I understand this better: the guest gets a whole PCIe device PF
->>> that implements SR-IOV, and so the guest can dynamically create VFs?
->>> Out
->>> of curiosity, is that a hardware device assigned to the guest with VFIO,
->>> or a device emulated by QEMU?
->>
->> Yes, that's right. The guest can dynamically create and delete VFs.
->> The device is emulated by QEMU: igb, an Intel NIC recently added to
->> QEMU and projected to be released as part of QEMU 8.0.
->  From below description In understand you then bind this emulated device
-> to VFIO on guest, correct?
+Repetitive ioctls makes vdpa devices initialization and startup slow.
+This patch is to cache Virtio status, features, and config.
+Testing with vdpa-sim-net as my vdpa device, the numbers of ioctl is 
+reduced from 47 to 37.
 
-Yes, that's correct.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1579
 
->>
->>>
->>>> In such a case, the kernel assumes the endpoint is
->>>> detached from the virtio-iommu domain, but QEMU actually does not
->>>> detach it.
-> The QEMU virtio-iommu device executes commands from the virtio-iommu
-> driver and my understanding is the VFIO infra is not in trouble here. As
-> suggested by Jean, a detach command probably is missed.
+Signed-off-by: Shao-Chien Chiang <ray90514@gmail.com>
+---
+ hw/virtio/vhost-vdpa.c         | 44 +++++++++++++++++++++++-----------
+ include/hw/virtio/vhost-vdpa.h |  3 +++
+ 2 files changed, 33 insertions(+), 14 deletions(-)
 
-VFIO just illustrates the problem and the origin of the problem is 
-indeed virtio-iommu.
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index bc6bad23d5..1fccd151cf 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -343,21 +343,17 @@ static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
+     int ret;
+ 
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+-
+     ret = ioctl(fd, request, arg);
+     return ret < 0 ? -errno : ret;
+ }
+ 
+ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+ {
+-    uint8_t s;
++    struct vhost_vdpa *v = dev->opaque;
++    uint8_t s = v->status;
+     int ret;
+ 
+     trace_vhost_vdpa_add_status(dev, status);
+-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
+-    if (ret < 0) {
+-        return ret;
+-    }
+ 
+     s |= status;
+ 
+@@ -374,6 +370,7 @@ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+     if (!(s & status)) {
+         return -EIO;
+     }
++    v->status = s;
+ 
+     return 0;
+ }
+@@ -436,8 +433,15 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+     dev->opaque =  opaque ;
+     v->listener = vhost_vdpa_memory_listener;
+     v->msg_type = VHOST_IOTLB_MSG_V2;
++    v->config = NULL;
++    v->features = dev->features;
+     vhost_vdpa_init_svq(dev, v);
+ 
++    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &v->status);
++    if (ret) {
++        return ret;
++    }
++
+     error_propagate(&dev->migration_blocker, v->migration_blocker);
+     if (!vhost_vdpa_first_dev(dev)) {
+         return 0;
+@@ -456,6 +460,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+             return ret;
+         }
+         vhost_svq_valid_features(features, &dev->migration_blocker);
++        v->features = features;
+     }
+ 
+     /*
+@@ -602,6 +607,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+     vhost_vdpa_svq_cleanup(dev);
+ 
+     dev->opaque = NULL;
++    g_free(v->config);
+ 
+     return 0;
+ }
+@@ -718,6 +724,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+     trace_vhost_vdpa_reset_device(dev, status);
+     v->suspended = false;
++    v->status = 0;
+     return ret;
+ }
+ 
+@@ -767,6 +774,7 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
+                                    uint32_t offset, uint32_t size,
+                                    uint32_t flags)
+ {
++    struct vhost_vdpa *v = dev->opaque;
+     struct vhost_vdpa_config *config;
+     int ret;
+     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
+@@ -776,6 +784,10 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
+     config->off = offset;
+     config->len = size;
+     memcpy(config->buf, data, size);
++    if (v->config != NULL) {
++        assert(size + offset <= v->config->len);
++        memcpy(v->config->buf + offset, data, size);
++    }
+     if (trace_event_get_state_backends(TRACE_VHOST_VDPA_SET_CONFIG) &&
+         trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
+         vhost_vdpa_dump_config(dev, data, size);
+@@ -788,17 +800,19 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
+ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
+                                    uint32_t config_len, Error **errp)
+ {
+-    struct vhost_vdpa_config *v_config;
++    struct vhost_vdpa *v = dev->opaque;
+     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
+     int ret;
+ 
+     trace_vhost_vdpa_get_config(dev, config, config_len);
+-    v_config = g_malloc(config_len + config_size);
+-    v_config->len = config_len;
+-    v_config->off = 0;
+-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
+-    memcpy(config, v_config->buf, config_len);
+-    g_free(v_config);
++    if (v->config == NULL) {
++        v->config = g_malloc(config_len + config_size);
++        v->config->len = config_len;
++        v->config->off = 0;
++        ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v->config);
++    }
++    assert(config_len <= v->config->len);
++    memcpy(config, v->config->buf, config_len);
+     if (trace_event_get_state_backends(TRACE_VHOST_VDPA_GET_CONFIG) &&
+         trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
+         vhost_vdpa_dump_config(dev, config, config_len);
+@@ -1294,8 +1308,10 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
+ static int vhost_vdpa_get_features(struct vhost_dev *dev,
+                                      uint64_t *features)
+ {
+-    int ret = vhost_vdpa_get_dev_features(dev, features);
++    struct vhost_vdpa *v = dev->opaque;
++    int ret = 0;
+ 
++    *features = v->features;
+     if (ret == 0) {
+         /* Add SVQ logging capabilities */
+         *features |= BIT_ULL(VHOST_F_LOG_ALL);
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index c278a2a8de..c1505a21ec 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -39,6 +39,9 @@ typedef struct vhost_vdpa {
+     MemoryListener listener;
+     struct vhost_vdpa_iova_range iova_range;
+     uint64_t acked_features;
++    uint64_t features;
++    uint8_t status;
++    struct vhost_vdpa_config *config;
+     bool shadow_vqs_enabled;
+     /* Vdpa must send shadow addresses as IOTLB key for data queues, not GPA */
+     bool shadow_data;
+-- 
+2.25.1
 
-Regards,
-Akihiko Odaki
-
->>>>
->>>> This inconsistent view of the removed device sometimes prevents the
->>>> VM from
->>>> correctly performing the following procedure, for example:
->>>> 1. Enable a VF.
->>>> 2. Disable the VF.
->>>> 3. Open a vfio container.
->>>> 4. Open the group which the PF belongs to.
->>>> 5. Add the group to the vfio container.
->>>> 6. Map some memory region.
->>>> 7. Close the group.
->>>> 8. Close the vfio container.
->>>> 9. Repeat 3-8
->>>>
->>>> When the VF gets disabled, the kernel assumes the endpoint is
->>>> detached from
->>>> the IOMMU domain, but QEMU actually doesn't detach it. Later, the
->>>> domain
->>>> will be reused in step 3-8.
->>>>
->>>> In step 7, the PF will be detached, and the kernel thinks there is no
->>>> endpoint attached and the mapping the domain holds is cleared, but
->>>> the VF
->>>> endpoint is still attached and the mapping is kept intact.
->>>>
->>>> In step 9, the same domain will be reused again, and the kernel
->>>> requests to
->>>> create a new mapping, but it will conflict with the existing mapping
->>>> and
->>>> result in -EINVAL.
->>>>
->>>> This problem can be fixed by either of:
->>>> - requesting the detachment of the endpoint from the guest when the PCI
->>>> device is unplugged (the VF is disabled)
->>>
->>> Yes, I think this is an issue in the virtio-iommu driver, which
->>> should be
->>> sending a DETACH request when the VF is disabled, likely from
->>> viommu_release_device(). I'll work on a fix unless you would like to
->>> do it
->>
->> It will be nice if you prepare a fix. I will test your patch with my
->> workload if you share it with me.
-> 
-> I can help testing too
-> 
-> Thanks
-> 
-> Eric
->>
->> Regards,
->> Akihiko Odaki
->>
->>>
->>>> - detecting that the PCI device is gone and automatically detach it on
->>>> QEMU-side.
->>>>
->>>> It is not completely clear for me which solution is more appropriate
->>>> as the
->>>> virtio-iommu specification is written in a way independent of the
->>>> endpoint
->>>> mechanism and does not say what should be done when a PCI device is
->>>> unplugged.
->>>
->>> Yes, I'm not sure it's in scope for the specification, it's more about
->>> software guidance
->>>
->>> Thanks,
->>> Jean
->>
-> 
 
