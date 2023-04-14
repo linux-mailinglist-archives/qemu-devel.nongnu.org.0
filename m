@@ -2,57 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0681F6E1DEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 10:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E346E1F16
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 11:16:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnEZh-0007EJ-ND; Fri, 14 Apr 2023 04:14:29 -0400
+	id 1pnFVs-0006hg-70; Fri, 14 Apr 2023 05:14:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pnEZf-0007Dy-I5
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 04:14:27 -0400
-Received: from mailout09.t-online.de ([194.25.134.84])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pnFVo-0006hE-S1
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 05:14:32 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pnEZJ-0006p7-7I
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 04:14:27 -0400
-Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
- by mailout09.t-online.de (Postfix) with SMTP id 2C99420182;
- Fri, 14 Apr 2023 08:53:22 +0200 (CEST)
-Received: from [192.168.211.200] ([79.208.18.128]) by fwd85.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pnDJ8-1RKQ2j0; Fri, 14 Apr 2023 08:53:18 +0200
-Message-ID: <071a249e-2168-0bdf-2088-7faaa4987df8@t-online.de>
-Date: Fri, 14 Apr 2023 08:53:18 +0200
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pnFVh-0003PG-VB
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 05:14:32 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id DE1AA41DF5;
+ Fri, 14 Apr 2023 09:19:28 +0200 (CEST)
+Message-ID: <7eec9506-6697-98a3-bc6a-7e5e27571212@proxmox.com>
+Date: Fri, 14 Apr 2023 09:19:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/3] SDL2 usability fixes
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20230412203425.32566-1-shentey@gmail.com>
- <9e951bfd-a657-5968-5318-0cd276cd5b2d@t-online.de>
- <FF1C15C5-33A9-46FD-A491-3248CFE5167A@gmail.com>
+ Thunderbird/102.9.0
+Subject: Re: [PULL 19/54] acpi: pc: isa bridge: use AcpiDevAmlIf interface to
+ build ISA device descriptors
+To: Mike Maslenkin <mike.maslenkin@gmail.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+References: <20220610075631.367501-1-mst@redhat.com>
+ <20220610075631.367501-20-mst@redhat.com>
+ <ba6a8777-723d-7e6c-bec7-71819cedb66d@proxmox.com>
+ <20230330102227.39b44b71@imammedo.users.ipa.redhat.com>
+ <0e3f3a98-835f-b26c-649e-a8a35edce660@proxmox.com>
+ <20230412141822.03507c56@imammedo.users.ipa.redhat.com>
+ <ff5ccf7b-158f-262d-3155-305e2d48dc37@proxmox.com>
+ <CAL77WPAgTjtpiW++pqEHLfm7LOP7KEKK6eNdwU5fXSXHm9Pj-w@mail.gmail.com>
+ <1f9afc12-b0b2-501d-7bf9-9f6d2f5b9829@proxmox.com>
+ <CAL77WPAmRW1taC+k_gqcPmDoR=u1_6ms-bUrgVHYY6D4Tr8hoA@mail.gmail.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-In-Reply-To: <FF1C15C5-33A9-46FD-A491-3248CFE5167A@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <CAL77WPAmRW1taC+k_gqcPmDoR=u1_6ms-bUrgVHYY6D4Tr8hoA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1681455198-A4FC4C52-174C56CE/0/0 CLEAN NORMAL
-X-TOI-MSGID: c49575f5-1ed4-4793-8bd2-4d31507d1325
-Received-SPF: none client-ip=194.25.134.84; envelope-from=vr_qemu@t-online.de;
- helo=mailout09.t-online.de
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.083, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.083,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,60 +73,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 13.04.23 um 22:43 schrieb Bernhard Beschow:
->
-> Am 13. April 2023 17:54:34 UTC schrieb "Volker Rümelin" <vr_qemu@t-online.de>:
->>> I'm trying to use QEMU on Windows hosts for fun and for profit. While the GTK
->>> GUI doesn't seem to support OpenGL under Windows the SDL2 GUI does. Hence I
->>> used the SDL2 GUI where I ran into several issues of which three are fixed in
->>> this series, which are:
+Am 14.04.23 um 02:07 schrieb Mike Maslenkin:
+> Hibernate is disabled by default, that is why "shutdown /h" fails.
+> It can be enabled by 'powercfg.exe /h /size 100; powercfg.exe /h on'
+> 
+> anyway, my hypotheses can be checked easily: just run the VM with
+> changed RAM size (±1). This should have to drop hibernate state.
+
+You got it! The VM boots when I change the RAM size. I now enabled
+hibernation and tried to reproduce the issue with "shutdown /h", but
+couldn't. And not sure how the VM ended up hibernated when it was
+disabled, maybe somehow as part of the installation/upgrades?
+
+Best Regards,
+Fiona
+
+> 
+> BTW I couldn't reproduce problem as well.
+> 
+> On Thu, Apr 13, 2023 at 3:10 PM Fiona Ebner <f.ebner@proxmox.com> wrote:
+>>
+>> Am 13.04.23 um 13:46 schrieb Mike Maslenkin:
+>>> Sorry for the noise, but just curious, how did you shutdown Windows?
+>>> Did you use 'shutdown /s' or just press power button?
+>>> Could it be that Windows was actually hibernated.
+>>> So, when you try to boot it on the new (old) QEMU version with changed
+>>> PCI topology, this could make it upset.
+>>> I observed similar behaviour in case of Windows for ARM, but there was
+>>> true GSOD afterwards.
+>>> When windows is starting again its hibernated state dropped and all goes fine.
 >>>
->>> * Alt+Tab switches tasks on the host rather than in the guest in fullscreen mode
->>> * Alt+F4 closes QEMU rather than a graphical task in the guest
->>> * AltGr keyboard modifier isn't recognized by a Linux guest
->>>
->>> More information about each issue is provided in the patches.
->>>
->>> Bernhard Beschow (3):
->>>     ui/sdl2: Grab Alt+Tab also in fullscreen mode
->>>     ui/sdl2: Grab Alt+F4 also under Windows
->>>     ui/sdl2-input: Fix AltGr modifier on Windows hosts
->>>
->>>    ui/sdl2-input.c | 13 +++++++++++++
->>>    ui/sdl2.c       |  2 ++
->>>    2 files changed, 15 insertions(+)
->>>
->> Hi Bernhard,
-> Hi Volker,
->
->> I don't think these patches are necessary. The AltGr key and the keyboard grab was fixed in 2020 with commit 830473455f ("ui/sdl2: fix handling of AltGr key on Windows") and a few commits before.
-> Indeed, this patch addresses the AltGr issue. What I noticed in my case is that the AltGr behavior is different, depending on whether the *guest* is in graphics mode or not. Pressing AltGr in graphics mode issues two key modifiers while only one is issued when the guest is in text mode. I'll recheck tomorrow when I have access to a Windows host.
-
-Hi Bernhard,
-
-the AltGr behavior depends on the keyboard grab. The AltGr key works 
-without keyboard grabbed and it doesn't with keyboard grabbed. That's a bug.
-
->
-> What about the other two issues? My other two patches override SDL2 defaults which aren't addressed yet in QEMU AFAICS. The Alt+Tab one isn't even Windows-specific.
->
->> Something broke in the last few weeks. At the moment my Linux guest fails to start on Windows with -display sdl. QEMU locks up a short time after the Linux kernel starts.
-> This doesn't happen for me with 8.0rc4 and latest msys2 environment. I'm running with `-accel whpx -vga none -device virtio-vga-gl -display sdl,gl=on` and I even get decent OpenGL accelleration when the Linux guest is in graphics mode, with wobbly windows etc. Sometimes QEMU aborts when it can't map some OpenGL stuff when the guest enters graphics mode but once that succeeds it runs absolutely stable.
->
->> I'll try to find the commit that caused this regression.
-
-I tested with QEMU 7.1 and sometimes it also locks up. This indicates 
-that the QEMU code doesn't have an issue.
-
-With best regards,
-Volker
-
-> Yes, this would be interesting.
->
-> Best regards,
-> Bernhard
->
->> With best regards,
->> Volker
+>>> Best Regards,
+>>> Mike
+>>
+>> I think I either pressed the shutdown button in our UI, which sends
+>> system_powerdown via QMP or via "Shut down" in the Windows start menu.
+>> Hibernation is surely something I need to consider (next time), so thank
+>> you for the hint, but if it were that, I'd be surprised at why it got
+>> stuck even with QEMU 6.2.0 today.
+>>
+>> If I try "shutdown /h" explicitly, I get "The request is not
+>> supported.(50)".
+>>
+>> Best Regards,
+>> Fiona
+>>
+> 
+> 
 
 
