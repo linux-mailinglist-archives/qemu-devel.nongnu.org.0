@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67416E1EE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 10:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4386E1EEE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 11:03:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnFGY-0001lU-8V; Fri, 14 Apr 2023 04:58:46 -0400
+	id 1pnFKw-0003Wb-PN; Fri, 14 Apr 2023 05:03:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pnFGV-0001kx-T5
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 04:58:43 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ id 1pnFKr-0003WP-TV
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 05:03:14 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pnFGP-00006e-4o
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 04:58:41 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id kt6so5735309ejb.0
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 01:58:36 -0700 (PDT)
+ id 1pnFKn-0001DS-3I
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 05:03:13 -0400
+Received: by mail-ej1-x633.google.com with SMTP id qb20so43519741ejc.6
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 02:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681462715; x=1684054715;
+ d=linaro.org; s=google; t=1681462986; x=1684054986;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pIdy3f4aTAgiTGlWqm2BRv4SV4w8CG2bmwQTnc3YL30=;
- b=NCctQiifkVhkP4cNfSKHrv3k0HTpziuE5pxeIKT66xPGNMd+U5CCUX+wBkrCdKvbKI
- h6tEnd1yrgoUmqzbmiXijnKxrkcDBOVoXLuajpzSb0DZ7hYoK+hCJf+I7gzsPdrq4Vc2
- f80GHDRjpxoC5VwtEhrKE1ltAqR056A3gUN8SZaV3lVDRrhmDBDzT8wKedlZQDYaFNE6
- KRDf5AGWKt6ojVX6KaWqrJPK0ifWLNeJEvKi2mZcmXKZAqZ6O96qDtl37Dmxhwxqiwxb
- cZAx4nA1sD0/3orF8B+LsPs/ahS7B/tQQR2bT0WgMAnruru6AOeLmIVu//3Fzs4EJCcn
- pOhg==
+ bh=pvphCMhe1Lq20Ao5H6BwntU+fb8+1XVXCNXrhrGrf9U=;
+ b=XcgpSdrCJ2nzEINjpflaUYrw0sdFo2ts1iBVUNutsHpfWC44sWCZRWbEQNetZ6zGdB
+ QGBUiKZkBBnG7y3CXrMHbD0HBuqS2vKYclh9PZ7LG3zb107Un871wwhXNxWRmifVHqJx
+ p3QlO6x6gg8rOHB7dxjI74eQSoR/qmMGS9wENfaLsiuopzmGz3IsUbKe35ddZZTYLb4+
+ JwH9SOlw2jOW1qpiEzWYrWq4oIF/Sz94horg5tRL7acC4VOTa8D4KMS9IeiUemB4qCDj
+ 84hvgJYP4/4Nnhkyu1YjMA9Ye1G5/joW/Kt2dS5s1RsG+X4pdp/W28V7ddknmaKh3gb/
+ DhWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681462715; x=1684054715;
+ d=1e100.net; s=20221208; t=1681462986; x=1684054986;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=pIdy3f4aTAgiTGlWqm2BRv4SV4w8CG2bmwQTnc3YL30=;
- b=hRj581IcZZrngIPbRU68E6ZSI2IFiZoqf0pU8Zcq3yaXCBgpfUxcFzRjGzpqFLax3+
- xwMXueqGIJ/gRYsxLLT6wKLlr1OPQ98mZkgg5CagcBCNZm4zKeuOtH9Lk3GW1Vl0aLg2
- VshlHGIXeoS9wtUo2itIV+hOZnGsJElOZN7OflsWnCP2zPYU7NTctDIsIOmCRW/N//3G
- 8bs3KPkySgo7wGZD/YY3f1R/ZVFeQp/K+kOT+ZLwtTJk1jyG9DddWr54gOrQzpEj+5N2
- OGudHfg49zZY/jr5P880V71hPDIgZ7TfGrsE9sjdZO102Q7TsXJ4moFMqbT+301H4S+F
- o1vg==
-X-Gm-Message-State: AAQBX9dQ185gw8XTSzkX6vclmWwMABa7HQVBr4ZJOyOpkNU+Yuon/ZYp
- lw9KAS05UGKizPwN+AqdR+rLppYqlxNTspdGqNQ9Qg==
-X-Google-Smtp-Source: AKy350YaoiYabb/11W8R9Qz0iahehyUySjcip1P8HZlC1+kvNHd3SFMviKQLEwoCxN/5s5DhWLfJRrB5o3ZA+q64WhE=
-X-Received: by 2002:a17:906:edcb:b0:94e:c630:564c with SMTP id
- sb11-20020a170906edcb00b0094ec630564cmr1680631ejb.6.1681462714823; Fri, 14
- Apr 2023 01:58:34 -0700 (PDT)
+ bh=pvphCMhe1Lq20Ao5H6BwntU+fb8+1XVXCNXrhrGrf9U=;
+ b=J0sO/cJkCmRl5agL6SqEbV6ANxxBk2Pq9lvMeM9kcOoy7H30xXEQvs/WQuRxbNLiBP
+ SfDeucBq6UzylgFRvNdqnfwk81sfOZRMXqoAqq8UD+oVLiaBuq3Zu+FMvzmkz0UK3hrH
+ w6BLJXadNQa/iO1QCw6z7gxMqEdzwWtzQ77ZAjpIYWz0wu0qLJ8WAmT76Kp2OqmWMiZE
+ qxqYsaQsiSnwgYNpybvAEVoeHvo+hBqklueEGKgkxFCSgVUEA13Y9Ca1xIF2M2dOIqtM
+ Z9jvM3DP0E/Ixn9D5KsgC+5pdADbhK4qPhbg2+oDSyUMHjuWhxgISDELcBNOyqiUPvQw
+ naow==
+X-Gm-Message-State: AAQBX9f6/3Unh3aoeDvFPFe55e4QzULfcXk/Dw05jPMeSc4eEhrRQ8Fs
+ Tpm9mJx+rL7vkqRe1ERemldyEUNWWpiQ4vKUyl0xHg==
+X-Google-Smtp-Source: AKy350ah8XZl3AyBUHxIeVpUIZ/QU0meCjGMH+CU3LZ0wcWiZoiRNAdTxeLwiflR41j9fvpGNGnhGKHeaPC2eP1XQ1I=
+X-Received: by 2002:a17:906:2749:b0:94e:8d10:86ca with SMTP id
+ a9-20020a170906274900b0094e8d1086camr2691500ejd.6.1681462986237; Fri, 14 Apr
+ 2023 02:03:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230413214327.3971247-1-jsnow@redhat.com>
-In-Reply-To: <20230413214327.3971247-1-jsnow@redhat.com>
+References: <20230414073432.36000-1-slankes@eonerc.rwth-aachen.de>
+ <20230414073432.36000-2-slankes@eonerc.rwth-aachen.de>
+In-Reply-To: <20230414073432.36000-2-slankes@eonerc.rwth-aachen.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Apr 2023 09:58:24 +0100
-Message-ID: <CAFEAcA_gQ=kj4UpxAhWPVsVng-3+i9bOjkXyYk8snCKmrFUMyg@mail.gmail.com>
-Subject: Re: [PATCH] tests/avocado: require netdev 'user' for kvm_xen_guest
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Fri, 14 Apr 2023 10:02:55 +0100
+Message-ID: <CAFEAcA9CnA0Pxxr1Q5S25SFnQTJM4oBwGeXsaHgTpt+TvJuGOA@mail.gmail.com>
+Subject: Re: [RFC 1/1] add support of `--initrd` for ELF-ARM kernels
+To: Stefan Lankes <slankes@eonerc.rwth-aachen.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,32 +84,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 13 Apr 2023 at 22:43, John Snow <jsnow@redhat.com> wrote:
+On Fri, 14 Apr 2023 at 08:35, Stefan Lankes
+<slankes@eonerc.rwth-aachen.de> wrote:
 >
-> The tests will fail mysteriously with EOFError otherwise, because the VM
-> fails to boot and quickly disconnects from the QMP socket. Skip these
-> tests when we didn't compile with slirp.
->
-> Fixes: c8cb603293fd (tests/avocado: Test Xen guest support under KVM)
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/avocado/kvm_xen_guest.py | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tests/avocado/kvm_xen_guest.py b/tests/avocado/kvm_xen_guest.py
-> index 5391283113..171274bc4c 100644
-> --- a/tests/avocado/kvm_xen_guest.py
-> +++ b/tests/avocado/kvm_xen_guest.py
-> @@ -45,6 +45,7 @@ def get_asset(self, name, sha1):
->      def common_vm_setup(self):
->          # We also catch lack of KVM_XEN support if we fail to launch
->          self.require_accelerator("kvm")
-> +        self.require_netdev('user')
->
->          self.vm.set_console()
->
+> Currently, the flag `--initrd` is only support for Linux ARM kernels.
+> However, also other ELF kernels could depend on an initial ramdisk.
+> This PR loads also the initrd for ELF kernels and announce the
+> location by the nodes "/chosen/initrd-start" and
+> "/chosen/initrd-end" within the device tree.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+What are these "other ELF kernels" ? Is there some defined
+specification of bootloader you're trying to implement here?
+
+Currently QEMU for Arm supports two things:
+ (1) I am a Linux kernel, load me like the Linux kernel defines
+ (2) I'm just a bare-metal image (ELF file or raw)
+
+Adding support for some third type of loading would need a
+pretty solid justification, eg that this is a very common kind
+of image to load, that there is a well defined specification,
+that it's supported by lots of other bootloaders, etc.
+The bootloading code is too complicated already and I am
+very reluctant to add more to it.
 
 thanks
 -- PMM
