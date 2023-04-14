@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B796E1EE1
+	by mail.lfdr.de (Postfix) with ESMTPS id D67416E1EE0
 	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 10:59:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnFFi-0001em-NQ; Fri, 14 Apr 2023 04:57:54 -0400
+	id 1pnFGY-0001lU-8V; Fri, 14 Apr 2023 04:58:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnFFg-0001eX-4N
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 04:57:53 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pnFGV-0001kx-T5
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 04:58:43 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pnFFd-0008Tb-7h
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 04:57:51 -0400
-Received: by mail-wr1-x435.google.com with SMTP id s12so8273920wrb.1
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 01:57:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pnFGP-00006e-4o
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 04:58:41 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id kt6so5735309ejb.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 01:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681462666; x=1684054666;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eDD6Wtd9xSL8VMkeMgcMdqY5gqO9FJ6mHihjzupIffE=;
- b=QZ9fpUT5qSKLlIJGH/whe/vwDwnG/G6kj+ieSKHFOOpxExuj9K3yE/BgRzci5Cnwod
- BFqlKOQG3sLFSLQtDnhY/TdxnvetOcRqeR3rjBQwbBjkhr6Nd2OwnfVCnHn9uXbUaRjt
- yrkwjzHADhzz9WARPZiczfgjtRK6u2vnuyCGTCfvevjWFylXi12oYlLl0IZpBtZARo83
- yT0KpA/u3MH+RZdqMVr8W7Ar3ZHzk/AtV1yg5WPuT73e3Ws+IO4ZipxZh12NMtkZ3L4p
- Zr9uE2ExJ+oz0U5dFFyO4faggeZjHw9R78nnD6HP+PEjUnjeT7pLlgVewsK/N1YKK734
- i7rA==
+ d=linaro.org; s=google; t=1681462715; x=1684054715;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pIdy3f4aTAgiTGlWqm2BRv4SV4w8CG2bmwQTnc3YL30=;
+ b=NCctQiifkVhkP4cNfSKHrv3k0HTpziuE5pxeIKT66xPGNMd+U5CCUX+wBkrCdKvbKI
+ h6tEnd1yrgoUmqzbmiXijnKxrkcDBOVoXLuajpzSb0DZ7hYoK+hCJf+I7gzsPdrq4Vc2
+ f80GHDRjpxoC5VwtEhrKE1ltAqR056A3gUN8SZaV3lVDRrhmDBDzT8wKedlZQDYaFNE6
+ KRDf5AGWKt6ojVX6KaWqrJPK0ifWLNeJEvKi2mZcmXKZAqZ6O96qDtl37Dmxhwxqiwxb
+ cZAx4nA1sD0/3orF8B+LsPs/ahS7B/tQQR2bT0WgMAnruru6AOeLmIVu//3Fzs4EJCcn
+ pOhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681462666; x=1684054666;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=eDD6Wtd9xSL8VMkeMgcMdqY5gqO9FJ6mHihjzupIffE=;
- b=Sn4OqnIoVtxeXWfUnlYdQjYmn0B/CaDnjtxX0QKSkxQDyEPxpX9APXZS20N6m6r2fJ
- HV9RqFes5Eih05+yHXrKkMidpRBIGdjjySPbq8RmkFxwGlkZdQKzkU7hR5bGgnZe4HEK
- zPKi+l2pGzGirt7l25iLSE6d4HR9v3qVbSXjbMir6qDgFrq/9FRON4drjaCK2aD0CEzx
- vC06s5Ehspb7oHLM3VuJ65lPHIdxF9GTqOoyXcLVoEgnOghHjAaRELcOtuu680/6LjQ5
- pa1VhEMonbdUn4TBo8RHuNWMi2m7C7h6dB94D8T/WjTddloPoro+jA1aY9+3wrf2Q6ly
- VjYw==
-X-Gm-Message-State: AAQBX9enalpphp89KUHW/D7RC/WuoPdw4ZMmXAt57NDwo3h/82snWQop
- Gqva3T/JiC3d+Hx9CE5wf4u75Q==
-X-Google-Smtp-Source: AKy350ZJ5z5hKOIaTjYFpnI6jc0qM3SgzKNhlqI4bLSGQvMMOxcpUysrvjSARNdthd1Mzbz0eBp45w==
-X-Received: by 2002:adf:edce:0:b0:2f4:a60f:3cd8 with SMTP id
- v14-20020adfedce000000b002f4a60f3cd8mr4098491wro.49.1681462666190; 
- Fri, 14 Apr 2023 01:57:46 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- w13-20020adfec4d000000b002efb6e0c495sm3058052wrn.91.2023.04.14.01.57.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 01:57:45 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6E6E51FFB7;
- Fri, 14 Apr 2023 09:57:45 +0100 (BST)
-References: <20230414073432.36000-1-slankes@eonerc.rwth-aachen.de>
- <20230414073432.36000-2-slankes@eonerc.rwth-aachen.de>
-User-agent: mu4e 1.10.0; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Lankes <slankes@eonerc.rwth-aachen.de>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [RFC 1/1] add support of `--initrd` for ELF-ARM kernels
-Date: Fri, 14 Apr 2023 09:54:50 +0100
-In-reply-to: <20230414073432.36000-2-slankes@eonerc.rwth-aachen.de>
-Message-ID: <87v8hyc03a.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1681462715; x=1684054715;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pIdy3f4aTAgiTGlWqm2BRv4SV4w8CG2bmwQTnc3YL30=;
+ b=hRj581IcZZrngIPbRU68E6ZSI2IFiZoqf0pU8Zcq3yaXCBgpfUxcFzRjGzpqFLax3+
+ xwMXueqGIJ/gRYsxLLT6wKLlr1OPQ98mZkgg5CagcBCNZm4zKeuOtH9Lk3GW1Vl0aLg2
+ VshlHGIXeoS9wtUo2itIV+hOZnGsJElOZN7OflsWnCP2zPYU7NTctDIsIOmCRW/N//3G
+ 8bs3KPkySgo7wGZD/YY3f1R/ZVFeQp/K+kOT+ZLwtTJk1jyG9DddWr54gOrQzpEj+5N2
+ OGudHfg49zZY/jr5P880V71hPDIgZ7TfGrsE9sjdZO102Q7TsXJ4moFMqbT+301H4S+F
+ o1vg==
+X-Gm-Message-State: AAQBX9dQ185gw8XTSzkX6vclmWwMABa7HQVBr4ZJOyOpkNU+Yuon/ZYp
+ lw9KAS05UGKizPwN+AqdR+rLppYqlxNTspdGqNQ9Qg==
+X-Google-Smtp-Source: AKy350YaoiYabb/11W8R9Qz0iahehyUySjcip1P8HZlC1+kvNHd3SFMviKQLEwoCxN/5s5DhWLfJRrB5o3ZA+q64WhE=
+X-Received: by 2002:a17:906:edcb:b0:94e:c630:564c with SMTP id
+ sb11-20020a170906edcb00b0094ec630564cmr1680631ejb.6.1681462714823; Fri, 14
+ Apr 2023 01:58:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+References: <20230413214327.3971247-1-jsnow@redhat.com>
+In-Reply-To: <20230413214327.3971247-1-jsnow@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 14 Apr 2023 09:58:24 +0100
+Message-ID: <CAFEAcA_gQ=kj4UpxAhWPVsVng-3+i9bOjkXyYk8snCKmrFUMyg@mail.gmail.com>
+Subject: Re: [PATCH] tests/avocado: require netdev 'user' for kvm_xen_guest
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,98 +88,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Stefan Lankes <slankes@eonerc.rwth-aachen.de> writes:
-
-> Currently, the flag `--initrd` is only support for Linux ARM kernels.
-> However, also other ELF kernels could depend on an initial ramdisk.
-> This PR loads also the initrd for ELF kernels and announce the
-> location by the nodes "/chosen/initrd-start" and
-> "/chosen/initrd-end" within the device tree.
+On Thu, 13 Apr 2023 at 22:43, John Snow <jsnow@redhat.com> wrote:
 >
-> Signed-off-by: Stefan Lankes <slankes@eonerc.rwth-aachen.de>
+> The tests will fail mysteriously with EOFError otherwise, because the VM
+> fails to boot and quickly disconnects from the QMP socket. Skip these
+> tests when we didn't compile with slirp.
+>
+> Fixes: c8cb603293fd (tests/avocado: Test Xen guest support under KVM)
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  hw/arm/boot.c | 106 +++++++++++++++++++++++++++++---------------------
->  1 file changed, 62 insertions(+), 44 deletions(-)
+>  tests/avocado/kvm_xen_guest.py | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> index 54f6a3e0b3..f767a4809e 100644
-> --- a/hw/arm/boot.c
-> +++ b/hw/arm/boot.c
-> @@ -657,20 +657,38 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot=
-_info *binfo,
->      }
->=20=20
->      if (binfo->initrd_size) {
-> -        rc =3D qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,initr=
-d-start",
-> +        if (binfo->is_linux) {
-> +            rc =3D qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,i=
-nitrd-start",
->                                            acells, binfo->initrd_start);
-> -        if (rc < 0) {
-> -            fprintf(stderr, "couldn't set /chosen/linux,initrd-start\n");
-> -            goto fail;
-> -        }
-> +            if (rc < 0) {
-> +                fprintf(stderr, "couldn't set /chosen/linux,initrd-start=
-\n");
-> +                goto fail;
-> +            }
->=20=20
-> -        rc =3D qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,initr=
-d-end",
-> -                                          acells,
-> -                                          binfo->initrd_start +
-> -                                          binfo->initrd_size);
-> -        if (rc < 0) {
-> -            fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n");
-> -            goto fail;
-> +            rc =3D qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,i=
-nitrd-end",
-> +                                              acells,
-> +                                              binfo->initrd_start +
-> +                                              binfo->initrd_size);
-> +            if (rc < 0) {
-> +                fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n=
-");
-> +                goto fail;
-> +            }
-> +        } else {
-> +            rc =3D qemu_fdt_setprop_sized_cells(fdt, "/chosen", "initrd-=
-start",
-> +                                          acells, binfo->initrd_start);
-> +            if (rc < 0) {
-> +                fprintf(stderr, "couldn't set /chosen/initrd-start\n");
-> +                goto fail;
-> +            }
-> +
-> +            rc =3D qemu_fdt_setprop_sized_cells(fdt, "/chosen", "initrd-=
-end",
-> +                                              acells,
-> +                                              binfo->initrd_start +
-> +                                              binfo->initrd_size);
-> +            if (rc < 0) {
-> +                fprintf(stderr, "couldn't set /chosen/initrd-end\n");
-> +                goto fail;
-> +            }
+> diff --git a/tests/avocado/kvm_xen_guest.py b/tests/avocado/kvm_xen_guest.py
+> index 5391283113..171274bc4c 100644
+> --- a/tests/avocado/kvm_xen_guest.py
+> +++ b/tests/avocado/kvm_xen_guest.py
+> @@ -45,6 +45,7 @@ def get_asset(self, name, sha1):
+>      def common_vm_setup(self):
+>          # We also catch lack of KVM_XEN support if we fail to launch
+>          self.require_accelerator("kvm")
+> +        self.require_netdev('user')
+>
+>          self.vm.set_console()
+>
 
-Where are these DTB nodes documented?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Also could you not achieve the same thing using the guest-loader which
-uses the multiboot spec and sets:
-
-        const char *compat[2] =3D { "multiboot,module", "multiboot,ramdisk"=
- };
-        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
-                                          (char **) &compat,
-                                          ARRAY_SIZE(compat)) < 0) {
-            error_setg(errp, "couldn't set %s/compatible", node);
-            return;
-        }
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+thanks
+-- PMM
 
