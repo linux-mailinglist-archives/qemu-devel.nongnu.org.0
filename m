@@ -2,108 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABD46E206B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 12:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 610E56E20AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 12:25:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnGOQ-0001pT-NM; Fri, 14 Apr 2023 06:10:58 -0400
+	id 1pnGaW-0004AZ-EZ; Fri, 14 Apr 2023 06:23:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pnGOM-0001o6-1w
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 06:10:54 -0400
-Received: from esa4.hc2706-39.iphmx.com ([216.71.146.118])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pnGaT-0004AP-RI
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 06:23:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pnGOI-0007sS-9q
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 06:10:53 -0400
-X-IronPort-RemoteIP: 209.85.222.199
-X-IronPort-MID: 271582007
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:w3Svua8oTtMNc1AtyS7GDrUDOXyTJUtcMsCJ2f8bNWPcYEJGY0x3x
- zBNXTuDa66INmX1fNBzOtvl9R9SsJeDx4NiSQprriAxFiIbosf7XuiUfxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yI6jefQHeCU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
- MiaT/f3YTdJ4BYpdDNFg06/gEk35q+q5GpE5gVWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
- uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
- DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJHgvH5AdpbxmPX9D8
- uc2GgkCfBLEuO3jldpXSsE07igiBMziPYdao3I5iD+AXKdgTpfETKHHo9Rf2V/chOgURaeYN
- 5dfM2A1Kk2RMnWjOX9OYH46tO6sln/zaRVStRSYqbdfD237llMojei3aIKKEjCMbYZYt1imn
- lvDxWneWSEYPt+/1iqHqUv504cjmgu+Aur+DoaQ7/NvnRify3IeDDUQUl20p+T/jVSxM++zM
- GQR8ysq6LExrQmlF4isGRK/p3GAs1gXXN84//AG1TxhA5H8u26xblXohBYfM7TKaOdeqeQW6
- 2K0
-IronPort-HdrOrdr: A9a23:DN46nKohLCYaYwHocoIa72caV5oXeYIsimQD101hICG9E/b1qy
- nKpp9w6faaskdzZJheo6H5BEDtexLhHOdOkO8s1NSZMzUO2lHYTr2KtrGSpwEIcheWnoNgPM
- FbAs1D4bXLfD9HZK3BjjVQfexB/DHUm5rY/Nvj8w==
-X-Talos-CUID: 9a23:pMFKB2MI4+J0FO5DYTBF6UtLQNEZbHDa11niGkCqCyFWR+jA
-X-Talos-MUID: 9a23:cXraLAjNA3x8k63Q1PkYEcMpd8pB/ZqWMUU3nLJdi8uONgxvKzXGtWHi
-Received: from mail-qk1-f199.google.com ([209.85.222.199])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 14 Apr 2023 06:10:22 -0400
-Received: by mail-qk1-f199.google.com with SMTP id
- r22-20020a37a816000000b0074abffe8a68so3886206qke.5
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 03:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bu.edu; s=s1gsbu; t=1681467021; x=1684059021;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=R9KD1rgLB2W+V5kdKAy5zfSbJZ9JU6/SV6jMg8Z6K4s=;
- b=b8Og7401tqNvQZTJEaJyLj9tlH9NdVbGVIX5jyc/q9hWmWX7F62qmGu4VcKbxeWZTA
- m1jw1MrjAeNyTO5hZcg3C1sQEoBUQ2imwtPDzv/PHDTUb1egz0rICc591x/XsN6OyI0m
- 4ZomnxK6KNtROPSOOA/Fn+xvK395pBhZfxSLheuyEpAa1qFoyb2l7NY1B8U2TMIxu/mI
- +NAkM3DSKOOXr019lZupGkg8GQ1VVoeqMQj8LtSDrUTKY0u7QG58GxuZzGPjUfOd/it5
- N5IV9cChdkr7JiHg+md22T2tBzPQJ9rPBAL2MS8y0sXDXrx6n78tm1LgA0/U2FDK5Iz3
- 8Ffw==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pnGaA-0002GW-Ov
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 06:23:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681467785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HRzrGZ2CjxkrcieU0FjCJl7gDlznc/3UnmA41OVjTBk=;
+ b=its7sRYDYxu6hVOcEnKeen+BfmBx4ZHc1jxaRZi5A0MN+GrEai7lRgyTbOjtJ5MgyGGRCz
+ D3zbDNXMq/lSzk+8NAVS0/GyRG095/rd7Q63+3eePfj1DKY0bOgXUkQ+JK/YUBxJtTqWWS
+ hvsTllde3yVjBXL219feocuQqgkg/D0=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-277-CiC6KqqIN_KRL7pdpJzsLg-1; Fri, 14 Apr 2023 06:23:03 -0400
+X-MC-Unique: CiC6KqqIN_KRL7pdpJzsLg-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ c193-20020a25c0ca000000b00b868826cdfeso36837619ybf.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 03:23:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681467021; x=1684059021;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=R9KD1rgLB2W+V5kdKAy5zfSbJZ9JU6/SV6jMg8Z6K4s=;
- b=URIfz3WR21qyloAU0htki7AF+YbbLR8JYjwPbxK964GMu6WccOqwiZHvoLRVPQGiR5
- dEIKv1jMqSYCJn0Q2humQvDJDlWSGWWTHEd18Kc6Y7UFSZkOynQ0nsk/FC/t/255vUdw
- +0iMjb2OKpWVODuOZoK9LQMxTA7QVyE7kEpPi3vLxZAiAsuBo+ks91Ls1CUEPRzJiojg
- LE1tNw2vKvMJcolLBwMaFy1zWz7skeyVcfqE8HVmF5pCnPiBOJXBFxFOHSeKEeNYuYdz
- 6B282scTuvc3aG56OaC5P3juJlVb3jacoX+U5ECYmt21JHWaJXHp9TfEEM+L0bVHBBnw
- CKzA==
-X-Gm-Message-State: AAQBX9dMmaVf8JXdU2AUJwYHPXGI24kM0eanrhzglpiLFDxzZnFx/9rq
- vV2N0oN42K0+X9wcICZidwGft7asUHx8jW6mPV6FbBDqs+aoYLd0wXjtZIJw5qcvAFQ4RN8FJSV
- +qR7H2XlXHt5WGgWKvPVb49/Mtz9SBQ==
-X-Received: by 2002:a05:6214:2403:b0:5ef:5361:6134 with SMTP id
- fv3-20020a056214240300b005ef53616134mr3051241qvb.43.1681467021507; 
- Fri, 14 Apr 2023 03:10:21 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aHD7f5fCbgDsk+1KtU9frxbXfwe5a5DIFVs5efoEgVcmGwOsECfE+C9L9op305WHiKo16rBA==
-X-Received: by 2002:a05:6214:2403:b0:5ef:5361:6134 with SMTP id
- fv3-20020a056214240300b005ef53616134mr3051212qvb.43.1681467021243; 
- Fri, 14 Apr 2023 03:10:21 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- l22-20020ac81496000000b003e4c6b2cc35sm1118234qtj.24.2023.04.14.03.10.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Apr 2023 03:10:21 -0700 (PDT)
-Date: Fri, 14 Apr 2023 06:10:17 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] rtl8139: fix large_send_mss divide-by-zero
-Message-ID: <20230414101017.hobc5vwnrzfy5sfu@mozz.bu.edu>
-References: <20230413171946.2865726-1-stefanha@redhat.com>
+ d=1e100.net; s=20221208; t=1681467783; x=1684059783;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HRzrGZ2CjxkrcieU0FjCJl7gDlznc/3UnmA41OVjTBk=;
+ b=KdgpbWaPXBOcnF25wobWUkcXX+L0ol+1qgM4E4DOCF8xTekM3QWXzS9vUlBPfWn+SM
+ BshTZwy8FdH8XDyHzhbyzbEe/4OQgQ9n0PEkzmYZfjNIX77pgz9rEDfbksKujj+3+Vrk
+ 4aloB7/q5mM03/tmSK6OQx3C28C8R9X+V7MwVFDixbP9kitPgV3q3zkgZtSCrct2QgDM
+ bnJtKasQNF/IRM+yTAEg8CUCd4mWiwjLCIu46pKWpec4rYeasu6gXNkmaKAgtK+Dp7B3
+ FB8ZChbq4cJIsvRwAONk3cXZcme6qCiK4ktWTgLmSr9o+jCUX/U4fXukm52eQJzHYEh6
+ 9ZAw==
+X-Gm-Message-State: AAQBX9fGV9W0DHjeXdUXzk879LpSLFyPCVzWy9KHlupCwSC+C10tF1SA
+ ikjYNsUzZXcfZwefAyDPxKcXwuijUn21nQ7vYONZXGdDY5D0L0y+/JnuoLniKYiYOvgQY1JJMgn
+ qOUhQJ2uGFHbZIWok/tAnT0n/gGf/pew=
+X-Received: by 2002:a81:b722:0:b0:541:7266:3fd7 with SMTP id
+ v34-20020a81b722000000b0054172663fd7mr3280909ywh.3.1681467782841; 
+ Fri, 14 Apr 2023 03:23:02 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bwMx7bA+CFLCQBS5DwWKvxGjWrefjS+9S3SYm9sOdZkP/TKZfr1n7BtvS1d2OwA1dOMBgqFCGbm0fuR9clQ2c=
+X-Received: by 2002:a81:b722:0:b0:541:7266:3fd7 with SMTP id
+ v34-20020a81b722000000b0054172663fd7mr3280899ywh.3.1681467782525; Fri, 14 Apr
+ 2023 03:23:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230413171946.2865726-1-stefanha@redhat.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.146.118; envelope-from=alxndr@bu.edu;
- helo=esa4.hc2706-39.iphmx.com
+References: <20230414025721.10219-1-ray90514@gmail.com>
+In-Reply-To: <20230414025721.10219-1-ray90514@gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 14 Apr 2023 12:22:26 +0200
+Message-ID: <CAJaqyWcQb=QgNo4Y7_-TD_nCqu8vU+ZqXbq_eoyQuBsEGZMQhA@mail.gmail.com>
+Subject: Re: [RFC PATCH] vhost-vdpa: cache Virtio states
+To: Shao-Chien Chiang <ray90514@gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,77 +92,228 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 230413 1319, Stefan Hajnoczi wrote:
-> If the driver sets large_send_mss to 0 then a divide-by-zero occurs.
-> Even if the division wasn't a problem, the for loop that emits MSS-sized
-> packets would never terminate.
-> 
-> Solve these issues by skipping offloading when large_send_mss=0.
-> 
-> This issue was found by OSS-Fuzz as part of Alexander Bulekov's device
-> fuzzing work. The reproducer is:
-> 
->   $ cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
->   512M,slots=1,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
->   rtl8139,netdev=net0 -netdev user,id=net0 -device \
->   pc-dimm,id=nv1,memdev=mem1,addr=0xb800a64602800000 -object \
->   memory-backend-ram,id=mem1,size=2M  -qtest stdio
->   outl 0xcf8 0x80000814
->   outl 0xcfc 0xe0000000
->   outl 0xcf8 0x80000804
->   outw 0xcfc 0x06
->   write 0xe0000037 0x1 0x04
->   write 0xe00000e0 0x2 0x01
->   write 0x1 0x1 0x04
->   write 0x3 0x1 0x98
->   write 0xa 0x1 0x8c
->   write 0xb 0x1 0x02
->   write 0xc 0x1 0x46
->   write 0xd 0x1 0xa6
->   write 0xf 0x1 0xb8
->   write 0xb800a646028c000c 0x1 0x08
->   write 0xb800a646028c000e 0x1 0x47
->   write 0xb800a646028c0010 0x1 0x02
->   write 0xb800a646028c0017 0x1 0x06
->   write 0xb800a646028c0036 0x1 0x80
->   write 0xe00000d9 0x1 0x40
->   EOF
-> 
-> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1582
+On Fri, Apr 14, 2023 at 9:26=E2=80=AFAM Shao-Chien Chiang <ray90514@gmail.c=
+om> wrote:
+>
+> Repetitive ioctls makes vdpa devices initialization and startup slow.
+> This patch is to cache Virtio status, features, and config.
+> Testing with vdpa-sim-net as my vdpa device, the numbers of ioctl is
+> reduced from 47 to 37.
+>
 
-Maybe instead:
-Closes: https://gitlab.com/qemu-project/qemu/-/issues/1582
+Hi Shao-Chien,
 
-so that gitlab will auto-close the issue.
+To know the latency reduction would make it easier to evaluate them. I
+think it would be enough with printing the timestamp from the first
+access to the last one in the initialization.
 
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
+Also, could you split the series in two, one caching the config
+accesses and other one caching the status one? That would ease the
+review process and the evaluation of their inclusion based on the
+profiling.
 
-Thank you
--Alex
+Finally this needs to take into account the configure interrupt. You
+can see qemu commit range
+ee3b8dc6cc496ba7f4e27aed4493275c706a7942..1680542862edd963e6380dd4121a5e85d=
+f55581f
+for more information.
 
-> Fixes: 6d71357a3b65 ("rtl8139: honor large send MSS value")
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+I think we can go two ways:
+* Config interrupt invalidates the cached config, so we set it to NULL here=
+.
+* We don't cache config as long as vdpa config interrupt is enabled.
+
+More minor comments inline.
+
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1579
+>
+> Signed-off-by: Shao-Chien Chiang <ray90514@gmail.com>
 > ---
->  hw/net/rtl8139.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-> index 5a5aaf868d..5f1a4d359b 100644
-> --- a/hw/net/rtl8139.c
-> +++ b/hw/net/rtl8139.c
-> @@ -2154,6 +2154,9 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
->  
->                  int large_send_mss = (txdw0 >> CP_TC_LGSEN_MSS_SHIFT) &
->                                       CP_TC_LGSEN_MSS_MASK;
-> +                if (large_send_mss == 0) {
-> +                    goto skip_offload;
-> +                }
->  
->                  DPRINTF("+++ C+ mode offloaded task TSO IP data %d "
->                      "frame data %d specified MSS=%d\n",
-> -- 
-> 2.39.2
-> 
+>  hw/virtio/vhost-vdpa.c         | 44 +++++++++++++++++++++++-----------
+>  include/hw/virtio/vhost-vdpa.h |  3 +++
+>  2 files changed, 33 insertions(+), 14 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index bc6bad23d5..1fccd151cf 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -343,21 +343,17 @@ static int vhost_vdpa_call(struct vhost_dev *dev, u=
+nsigned long int request,
+>      int ret;
+>
+>      assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDPA);
+> -
+
+Please leave out this line deletion. If you think it is needed we can
+address it in another series.
+
+>      ret =3D ioctl(fd, request, arg);
+>      return ret < 0 ? -errno : ret;
+>  }
+>
+>  static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+>  {
+> -    uint8_t s;
+> +    struct vhost_vdpa *v =3D dev->opaque;
+> +    uint8_t s =3D v->status;
+>      int ret;
+>
+>      trace_vhost_vdpa_add_status(dev, status);
+> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
+> -    if (ret < 0) {
+> -        return ret;
+> -    }
+>
+>      s |=3D status;
+>
+> @@ -374,6 +370,7 @@ static int vhost_vdpa_add_status(struct vhost_dev *de=
+v, uint8_t status)
+>      if (!(s & status)) {
+>          return -EIO;
+>      }
+> +    v->status =3D s;
+>
+>      return 0;
+>  }
+> @@ -436,8 +433,15 @@ static int vhost_vdpa_init(struct vhost_dev *dev, vo=
+id *opaque, Error **errp)
+>      dev->opaque =3D  opaque ;
+>      v->listener =3D vhost_vdpa_memory_listener;
+>      v->msg_type =3D VHOST_IOTLB_MSG_V2;
+> +    v->config =3D NULL;
+> +    v->features =3D dev->features;
+>      vhost_vdpa_init_svq(dev, v);
+>
+> +    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &v->status);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+
+This first GET_STATUS is not needed, we can assume the first one is 0.
+
+>      error_propagate(&dev->migration_blocker, v->migration_blocker);
+>      if (!vhost_vdpa_first_dev(dev)) {
+>          return 0;
+> @@ -456,6 +460,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, voi=
+d *opaque, Error **errp)
+>              return ret;
+>          }
+>          vhost_svq_valid_features(features, &dev->migration_blocker);
+> +        v->features =3D features;
+>      }
+>
+>      /*
+> @@ -602,6 +607,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+>      vhost_vdpa_svq_cleanup(dev);
+>
+>      dev->opaque =3D NULL;
+> +    g_free(v->config);
+>
+>      return 0;
+>  }
+> @@ -718,6 +724,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev *=
+dev)
+>      ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+>      trace_vhost_vdpa_reset_device(dev, status);
+>      v->suspended =3D false;
+> +    v->status =3D 0;
+>      return ret;
+>  }
+>
+> @@ -767,6 +774,7 @@ static int vhost_vdpa_set_config(struct vhost_dev *de=
+v, const uint8_t *data,
+>                                     uint32_t offset, uint32_t size,
+>                                     uint32_t flags)
+>  {
+> +    struct vhost_vdpa *v =3D dev->opaque;
+>      struct vhost_vdpa_config *config;
+>      int ret;
+>      unsigned long config_size =3D offsetof(struct vhost_vdpa_config, buf=
+);
+> @@ -776,6 +784,10 @@ static int vhost_vdpa_set_config(struct vhost_dev *d=
+ev, const uint8_t *data,
+>      config->off =3D offset;
+>      config->len =3D size;
+>      memcpy(config->buf, data, size);
+> +    if (v->config !=3D NULL) {
+> +        assert(size + offset <=3D v->config->len);
+
+I think the guest is able to trigger this assertion, we should replace
+either by the same error returned from the kernel or simply to make
+the call to the kernel and let it solve the issue.
+
+> +        memcpy(v->config->buf + offset, data, size);
+> +    }
+>      if (trace_event_get_state_backends(TRACE_VHOST_VDPA_SET_CONFIG) &&
+>          trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
+>          vhost_vdpa_dump_config(dev, data, size);
+> @@ -788,17 +800,19 @@ static int vhost_vdpa_set_config(struct vhost_dev *=
+dev, const uint8_t *data,
+>  static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
+>                                     uint32_t config_len, Error **errp)
+>  {
+> -    struct vhost_vdpa_config *v_config;
+> +    struct vhost_vdpa *v =3D dev->opaque;
+>      unsigned long config_size =3D offsetof(struct vhost_vdpa_config, buf=
+);
+>      int ret;
+>
+>      trace_vhost_vdpa_get_config(dev, config, config_len);
+> -    v_config =3D g_malloc(config_len + config_size);
+> -    v_config->len =3D config_len;
+> -    v_config->off =3D 0;
+> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
+> -    memcpy(config, v_config->buf, config_len);
+> -    g_free(v_config);
+> +    if (v->config =3D=3D NULL) {
+> +        v->config =3D g_malloc(config_len + config_size);
+> +        v->config->len =3D config_len;
+> +        v->config->off =3D 0;
+> +        ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v->config);
+> +    }
+> +    assert(config_len <=3D v->config->len);
+
+Same here, I think the guest is able to trigger this assertion.
+
+Thanks!
+
+> +    memcpy(config, v->config->buf, config_len);
+>      if (trace_event_get_state_backends(TRACE_VHOST_VDPA_GET_CONFIG) &&
+>          trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
+>          vhost_vdpa_dump_config(dev, config, config_len);
+> @@ -1294,8 +1308,10 @@ static int vhost_vdpa_set_vring_call(struct vhost_=
+dev *dev,
+>  static int vhost_vdpa_get_features(struct vhost_dev *dev,
+>                                       uint64_t *features)
+>  {
+> -    int ret =3D vhost_vdpa_get_dev_features(dev, features);
+> +    struct vhost_vdpa *v =3D dev->opaque;
+> +    int ret =3D 0;
+>
+> +    *features =3D v->features;
+>      if (ret =3D=3D 0) {
+>          /* Add SVQ logging capabilities */
+>          *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
+a.h
+> index c278a2a8de..c1505a21ec 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -39,6 +39,9 @@ typedef struct vhost_vdpa {
+>      MemoryListener listener;
+>      struct vhost_vdpa_iova_range iova_range;
+>      uint64_t acked_features;
+> +    uint64_t features;
+> +    uint8_t status;
+> +    struct vhost_vdpa_config *config;
+>      bool shadow_vqs_enabled;
+>      /* Vdpa must send shadow addresses as IOTLB key for data queues, not=
+ GPA */
+>      bool shadow_data;
+> --
+> 2.25.1
+>
+>
+
 
