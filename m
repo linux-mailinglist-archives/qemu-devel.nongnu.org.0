@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3676E262D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 16:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA146E2252
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 13:36:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnKjF-00021B-Kb; Fri, 14 Apr 2023 10:48:45 -0400
+	id 1pnHhL-00076p-Kx; Fri, 14 Apr 2023 07:34:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_jiles@quicinc.com>)
- id 1pnH1i-0000sl-2i
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 06:51:34 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_jiles@quicinc.com>)
- id 1pnH1X-0008FA-2G
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 06:51:33 -0400
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33EA3LSK032510; Fri, 14 Apr 2023 10:51:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=2NUbSBUsS+EYhJjVNWitJATWfcrLbVKn3jS2Y+nWvPw=;
- b=E9oUhj9YgXM2M/oRLUpcmL0p8ooI9DZ36pxu5ehmZ/Rh9vsAajEixSaOOGrZgqLVoleg
- 7Yyh9+xsIHq/BrcJLqCewD/1WyyEuR15iOUUec3EkON5OxklCX+8iv7DlII6jeb4hB0C
- V/OtBpJXRLaCryKGSmDLo/+oTstAw2y/SuuyZAVvA97MdZ9OglqAflV6RN53e4/zMj1R
- aAHMHTTuNAYiQ3Qm+mBH+tacxyqcazm6HWMmBxOerZLhujUa73RkHR7JjofGrEPGtkfa
- b33siu1sXth/gs1J1m4qpxtgGS4ACK2LfISbMCoiCvWCh4AUGJFh/UXRmt61N0eIs1D1 xg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3py20e0gef-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Apr 2023 10:51:14 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EApESN003036
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Apr 2023 10:51:14 GMT
-Received: from localhost (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 14 Apr
- 2023 03:51:13 -0700
-From: Jamie Iles <quic_jiles@quicinc.com>
-To: <qemu-devel@nongnu.org>
-CC: <richard.henderson@linaro.org>, <pbonzini@redhat.com>
-Subject: [PATCH] accel/tcg/tcg-accel-ops-rr: ensure fairness with icount
-Date: Fri, 14 Apr 2023 11:51:11 +0100
-Message-ID: <20230414105111.30708-1-quic_jiles@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
+ id 1pnHhH-00075Y-Ny
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:34:32 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
+ id 1pnHh5-00009L-5q
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 07:34:31 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-54bfa5e698eso492390677b3.13
+ for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 04:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681472055; x=1684064055;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kyXVpuTojFq3QtTzxoJjcoCcBTZFztvz7v9HOFhVUXU=;
+ b=Ajbyvw2ehiKimuGFONyEQ/rqlJ3rQcXO47blM6SrHEmTHe4DfVeljLLl6BIec+R2ai
+ wY3g3aSZISHyYJrsc25R96hC1LIdMELMcfp0zPNWn+pyqEck4k3hZXC5omiJRN1FAijz
+ 9q+09eHjytX5AOLs5Oq8e8sDU/hTBJYNJ2W5Y67jC4gzKOwkCGUYjNuzvSiG3FeMM5AD
+ sM21D8XjwmPicpYQDbB0d8KdCYc6SHUiqN519109yblc6zoyQBhNVGHdzQwP8/x5VG7g
+ rA0nU/AcKJ1LHQDuznZS3dsGh3P0V9kEb+4DfJpYKsjgN+4e4gtN2bCF650zb0gcKxqf
+ BAoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681472055; x=1684064055;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kyXVpuTojFq3QtTzxoJjcoCcBTZFztvz7v9HOFhVUXU=;
+ b=ZF3l8ubH2Tp0Sj6ADunmDd7lhbrBRanScuifGMq5KaKP3SzFlyQzYCEo+RfTB+kcwC
+ brzkZM+oghU7TP4Sq4Mn/DiRfekoJQZl40xAG2ZkJqHJF6T1Y9SxOQ5ULb/8bGb9vke+
+ 2rNrSlIaJTqbYQHD3yeNcqlMOejvlvpxQuSZyO9oyjVz4jAsjGDHPAS9T5JqRsP497BK
+ vDWqwVipcFG5bNH0V7x8+mOp8t/PubynirEyZVtkNtHA55FmBnrXejZv7s6Axu4xjCMq
+ mHL2F4aZ1qCtVfuL4ABcL9d8+x0YVCn12J6BpSxwB2b+BpH0+7EzprHe3TNm9EJbyRkX
+ 3P5w==
+X-Gm-Message-State: AAQBX9deewojF3ckzGkxKNOTiD6fyiW/m/n9BC2WEzuuL0dNcnXID5kO
+ uN4ZruEURUtaoUD7l26kQuWtxNuInUlOHB3tmls=
+X-Google-Smtp-Source: AKy350YT7OP7GM4jE/B2F0w20WlShAQZO0IJ8oYHev39OogQCK7g8JYtm9XtRdB9FvWGooIZr1GRLdnn+P+srwrV9ks=
+X-Received: by 2002:a81:e443:0:b0:54c:fd7:476e with SMTP id
+ t3-20020a81e443000000b0054c0fd7476emr3549054ywl.3.1681472054615; Fri, 14 Apr
+ 2023 04:34:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: JslXgVlEIj5HXeRGZWaFNPF-zTpgmgCf
-X-Proofpoint-ORIG-GUID: JslXgVlEIj5HXeRGZWaFNPF-zTpgmgCf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-14_04,2023-04-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- phishscore=0 adultscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- priorityscore=1501 clxscore=1011 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304140097
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=quic_jiles@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230406113640.0000277c@Huawei.com>
+ <20230406132839.3357195-1-raghuhack78@gmail.com>
+ <20230413102804.00006cae@Huawei.com>
+In-Reply-To: <20230413102804.00006cae@Huawei.com>
+From: RAGHU H <raghuhack78@gmail.com>
+Date: Fri, 14 Apr 2023 17:04:03 +0530
+Message-ID: <CAGWUp4r9J9RfvvsWsbKw60W3qhdzH8aQWYaFxTxTnOceL3kULQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] Update CXL documentation
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: maverickk1778@gmail.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=raghuhack78@gmail.com; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 14 Apr 2023 10:48:42 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,142 +88,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The round-robin scheduler will iterate over the CPU list with an
-assigned budget until the next timer expiry and may exit early because
-of a TB exit.  This is fine under normal operation but with icount
-enabled and SMP it is possible for a CPU to be starved of run time and
-the system live-locks.
+Thanks Jonathan! I assume it will be merged sometime later with your
+other patches in the 8.x version!
 
-For example, booting a riscv64 platform with '-icount
-shift=0,align=off,sleep=on -smp 2' we observe a livelock once the kernel
-has timers enabled and starts performing TLB shootdowns.  In this case
-we have CPU 0 in M-mode with interrupts disabled sending an IPI to CPU
-1.  As we enter the TCG loop, we assign the icount budget to next timer
-interrupt to CPU 0 and begin executing where the guest is sat in a busy
-loop exhausting all of the budget before we try to execute CPU 1 which
-is the target of the IPI but CPU 1 is left with no budget with which to
-execute and the process repeats.
-
-We try here to add some fairness by splitting the budget across all of
-the CPUs on the thread fairly before entering each one.  The CPU count
-is cached on CPU list generation ID to avoid iterating the list on each
-loop iteration.  With this change it is possible to boot an SMP rv64
-guest with icount enabled and no hangs.
-
-Signed-off-by: Jamie Iles <quic_jiles@quicinc.com>
----
- accel/tcg/tcg-accel-ops-icount.c | 16 ++++++++++++++--
- accel/tcg/tcg-accel-ops-icount.h |  3 ++-
- accel/tcg/tcg-accel-ops-rr.c     | 26 +++++++++++++++++++++++++-
- 3 files changed, 41 insertions(+), 4 deletions(-)
-
-diff --git a/accel/tcg/tcg-accel-ops-icount.c b/accel/tcg/tcg-accel-ops-icount.c
-index 84cc7421be88..a7ffc8a68bad 100644
---- a/accel/tcg/tcg-accel-ops-icount.c
-+++ b/accel/tcg/tcg-accel-ops-icount.c
-@@ -89,7 +89,19 @@ void icount_handle_deadline(void)
-     }
- }
- 
--void icount_prepare_for_run(CPUState *cpu)
-+int64_t icount_cpu_timeslice(int cpu_count)
-+{
-+    int64_t limit = icount_get_limit();
-+    int64_t timeslice = limit / cpu_count;
-+
-+    if (timeslice == 0) {
-+        timeslice = limit;
-+    }
-+
-+    return timeslice;
-+}
-+
-+void icount_prepare_for_run(CPUState *cpu, int64_t timeslice)
- {
-     int insns_left;
- 
-@@ -101,7 +113,7 @@ void icount_prepare_for_run(CPUState *cpu)
-     g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
-     g_assert(cpu->icount_extra == 0);
- 
--    cpu->icount_budget = icount_get_limit();
-+    cpu->icount_budget = MIN(icount_get_limit(), timeslice);
-     insns_left = MIN(0xffff, cpu->icount_budget);
-     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
-     cpu->icount_extra = cpu->icount_budget - insns_left;
-diff --git a/accel/tcg/tcg-accel-ops-icount.h b/accel/tcg/tcg-accel-ops-icount.h
-index 1b6fd9c60751..e8785a0e196d 100644
---- a/accel/tcg/tcg-accel-ops-icount.h
-+++ b/accel/tcg/tcg-accel-ops-icount.h
-@@ -11,7 +11,8 @@
- #define TCG_ACCEL_OPS_ICOUNT_H
- 
- void icount_handle_deadline(void);
--void icount_prepare_for_run(CPUState *cpu);
-+void icount_prepare_for_run(CPUState *cpu, int64_t timeslice);
-+int64_t icount_cpu_timeslice(int cpu_count);
- void icount_process_data(CPUState *cpu);
- 
- void icount_handle_interrupt(CPUState *cpu, int mask);
-diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
-index 290833a37fb2..bccb3670a656 100644
---- a/accel/tcg/tcg-accel-ops-rr.c
-+++ b/accel/tcg/tcg-accel-ops-rr.c
-@@ -139,6 +139,25 @@ static void rr_force_rcu(Notifier *notify, void *data)
-     rr_kick_next_cpu();
- }
- 
-+static int rr_cpu_count(void)
-+{
-+    static unsigned int last_gen_id = ~0;
-+    static int cpu_count;
-+    CPUState *cpu;
-+
-+    cpu_list_lock();
-+    if (cpu_list_generation_id_get() != last_gen_id) {
-+        cpu_count = 0;
-+        CPU_FOREACH(cpu) {
-+            ++cpu_count;
-+        }
-+        last_gen_id = cpu_list_generation_id_get();
-+    }
-+    cpu_list_unlock();
-+
-+    return cpu_count;
-+}
-+
- /*
-  * In the single-threaded case each vCPU is simulated in turn. If
-  * there is more than a single vCPU we create a simple timer to kick
-@@ -185,6 +204,9 @@ static void *rr_cpu_thread_fn(void *arg)
-     cpu->exit_request = 1;
- 
-     while (1) {
-+        int cpu_count = rr_cpu_count();
-+        int64_t icount_timeslice = INT64_MAX;
-+
-         qemu_mutex_unlock_iothread();
-         replay_mutex_lock();
-         qemu_mutex_lock_iothread();
-@@ -197,6 +219,8 @@ static void *rr_cpu_thread_fn(void *arg)
-              * waking up the I/O thread and waiting for completion.
-              */
-             icount_handle_deadline();
-+
-+            icount_timeslice = icount_cpu_timeslice(cpu_count);
-         }
- 
-         replay_mutex_unlock();
-@@ -218,7 +242,7 @@ static void *rr_cpu_thread_fn(void *arg)
- 
-                 qemu_mutex_unlock_iothread();
-                 if (icount_enabled()) {
--                    icount_prepare_for_run(cpu);
-+                    icount_prepare_for_run(cpu, icount_timeslice);
-                 }
-                 r = tcg_cpus_exec(cpu);
-                 if (icount_enabled()) {
--- 
-2.25.1
-
+On Thu, Apr 13, 2023 at 2:58=E2=80=AFPM Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+>
+> On Thu,  6 Apr 2023 18:58:37 +0530
+> Raghu H <raghuhack78@gmail.com> wrote:
+>
+> > Thanks Jonathan for quick review/comments on earlier patch, as suggeste=
+d
+> > splitting into two separate patches
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg952999.html
+> >
+> > Removed the unsupported size option for cxl-type3 device, Qemu reads
+> > the device size directly from the backend memory device config.
+> >
+> > Currently the Qemu CXL emulation for AARCH64 is not available and its
+> > only supported on x86_64 platform emulations. Removing the incorrect
+> > information and populating with supported x86_64 sample command to
+> > emulate cxl devices.
+> >
+> > The document will be updated when the AARCH64 support is mainlined.
+>
+> Both look good to me.  No need to rush these in.
+>
+> I'll queue these up in my local tree (and update gitlab/jic23/qemu
+> sometime later this week) but if anyone wants to pick
+> them directly that's fine too.
+>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>
+> >
+> >
+> > Raghu H (2):
+> >   docs/cxl: Remove incorrect CXL type 3 size parameter
+> >   docs/cxl: Replace unsupported AARCH64 with x86_64
+> >
+> >  docs/system/devices/cxl.rst | 17 ++++++++++-------
+> >  1 file changed, 10 insertions(+), 7 deletions(-)
+> >
+> >
+> > base-commit: 7d0334e49111787ae19fbc8d29ff6e7347f0605e
+>
 
