@@ -2,93 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D086E272D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142466E2777
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Apr 2023 17:53:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnLYs-0004Mu-PI; Fri, 14 Apr 2023 11:42:06 -0400
+	id 1pnLiZ-0006DA-06; Fri, 14 Apr 2023 11:52:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnLYq-0004Mg-NC
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:42:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pnLiS-0006Cb-HO
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:52:00 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pnLYl-000243-8d
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:42:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681486918;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yhco7jT/TC1doXoqIvq9KOU04XPgdkASgzA2UOyX+fo=;
- b=Z2NIG9rOClvgpgxUYQWv0ETau1X9SdlfRcMeIiFzA4ZpOZi85pil2/6KtY06Ynf+LsDYZd
- RGiaRP/NsoJMDz2xC2jy9ri/MZpfteUxtmAVOSPidECkaNRG8dl7Ft8aE5Lh85Zp1x8BGa
- OjmOa8LpuQete+Pys3p5fP/yLeAxugE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-37-vv_fRDOkOdCTWmzb_mcRng-1; Fri, 14 Apr 2023 11:41:56 -0400
-X-MC-Unique: vv_fRDOkOdCTWmzb_mcRng-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j34-20020a05600c1c2200b003f0ad53c14eso2004505wms.5
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 08:41:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681486915; x=1684078915;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yhco7jT/TC1doXoqIvq9KOU04XPgdkASgzA2UOyX+fo=;
- b=I7Co7IpMVvySK9bbwxEBEQT0oOPY19kYjb5TAryeM9tXjACkUdKZvT5s0kULKwNUWr
- MRB6fV8I+O6lVJrbfL6hijYoFf59oIAgLiCHdb9cMarv2/w5sbARUfu3G1h+njrWbIBU
- vAhslqNVynrVQFZ1F7XL/AyvHk9lABNgb7Fah84w9kWxsU213Q2d7OIILsHvYLqh+sQU
- OnzsaYk7GnRHEN4kTjfFxI2CrdzJul9F7DSNHmFk9yqjHKPiwtbqUs4osv6lPoNfNgK1
- MSIKmfkoGijZS6upbA6fxuHVOP/U+aIHvwCeU4fUL56Ykm5A4U0f1z75vHkzjQ1s9eE1
- AERQ==
-X-Gm-Message-State: AAQBX9elyl0RipVk1DuNg19we4pXddfsw7LZGLIlG96jxZ/XJkcQ64M4
- k622nqWCRp0vMDeHDBKu+d3ozKegmQZ9nKJ+uJLC0RPny0mxZ58TeIN8QqGCS5L2pEmzlHW/Dro
- XgOpjJRFwZGB8XaQ=
-X-Received: by 2002:a05:600c:24e:b0:3ef:71d5:41d8 with SMTP id
- 14-20020a05600c024e00b003ef71d541d8mr4883284wmj.32.1681486915329; 
- Fri, 14 Apr 2023 08:41:55 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aK0uSxZ3K/aIklRsVJdvLpuPKC+xQ7dJM/ddz2Kvu7hfUvubddWGSPgmX1QBgAD9lygOzpSA==
-X-Received: by 2002:a05:600c:24e:b0:3ef:71d5:41d8 with SMTP id
- 14-20020a05600c024e00b003ef71d541d8mr4883270wmj.32.1681486914997; 
- Fri, 14 Apr 2023 08:41:54 -0700 (PDT)
-Received: from [192.168.8.105] (tmo-096-44.customers.d1-online.com.
- [80.187.96.44]) by smtp.gmail.com with ESMTPSA id
- u10-20020a7bc04a000000b003f09d7b6e20sm4616394wmc.2.2023.04.14.08.41.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Apr 2023 08:41:54 -0700 (PDT)
-Message-ID: <c48c2c3c-3ddf-d11f-a119-0bc0b22176e9@redhat.com>
-Date: Fri, 14 Apr 2023 17:41:52 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pnLiC-0004JS-N2
+ for qemu-devel@nongnu.org; Fri, 14 Apr 2023 11:52:00 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7B630746369;
+ Fri, 14 Apr 2023 17:50:18 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3D05C746361; Fri, 14 Apr 2023 17:50:18 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 3B33474634B;
+ Fri, 14 Apr 2023 17:50:18 +0200 (CEST)
+Date: Fri, 14 Apr 2023 17:50:18 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: =?ISO-8859-15?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>, 
+ qemu-devel@nongnu.org, Stefan Weil <sw@weilnetz.de>, 
+ =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 0/3] SDL2 usability fixes
+In-Reply-To: <9AEEC7FB-A3DB-44FC-81C2-87C16643756A@gmail.com>
+Message-ID: <d5791efb-9a12-1f1b-da46-c2698f7c20b3@eik.bme.hu>
+References: <20230412203425.32566-1-shentey@gmail.com>
+ <9e951bfd-a657-5968-5318-0cd276cd5b2d@t-online.de>
+ <FF1C15C5-33A9-46FD-A491-3248CFE5167A@gmail.com>
+ <071a249e-2168-0bdf-2088-7faaa4987df8@t-online.de>
+ <9AEEC7FB-A3DB-44FC-81C2-87C16643756A@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: clean after distclean gobbles source files
-Content-Language: en-US
-To: Steven Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <bafc456e-34be-f2a4-71fc-e52ed964484e@oracle.com>
- <5caa18b7-9920-7867-77aa-5d9770cbde14@redhat.com>
- <bb433891-8f08-626e-21f1-e002f7a842e2@oracle.com>
-Cc: Michael Roth <michael.roth@amd.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <bb433891-8f08-626e-21f1-e002f7a842e2@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.282, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1253714670-1681487418=:22688"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,94 +67,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/04/2023 17.30, Steven Sistare wrote:
-> On 4/13/2023 7:41 AM, Thomas Huth wrote:
->> On 07/04/2023 17.44, Steven Sistare wrote:
->>> Run 'make distclean', and GNUmakefile is removed.
->>> But, GNUmakefile is where we cd to build/.
->>> Run 'make distclean' or 'make clean' again, and Makefile applies
->>> the clean actions, such as this one, at the top level of the tree:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-1253714670-1681487418=:22688
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Fri, 14 Apr 2023, Bernhard Beschow wrote:
+> Am 14. April 2023 06:53:18 UTC schrieb "Volker Rümelin" <vr_qemu@t-online.de>:
+>> Am 13.04.23 um 22:43 schrieb Bernhard Beschow:
+>>> Am 13. April 2023 17:54:34 UTC schrieb "Volker Rümelin" <vr_qemu@t-online.de>:
+>>>>> I'm trying to use QEMU on Windows hosts for fun and for profit. While the GTK
+>>>>> GUI doesn't seem to support OpenGL under Windows the SDL2 GUI does. Hence I
+>>>>> used the SDL2 GUI where I ran into several issues of which three are fixed in
+>>>>> this series, which are:
+>>>>>
+>>>>> * Alt+Tab switches tasks on the host rather than in the guest in fullscreen mode
+>>>>> * Alt+F4 closes QEMU rather than a graphical task in the guest
+>>>>> * AltGr keyboard modifier isn't recognized by a Linux guest
+>>>>>
+>>>>> More information about each issue is provided in the patches.
+>>>>>
+>>>>> Bernhard Beschow (3):
+>>>>>     ui/sdl2: Grab Alt+Tab also in fullscreen mode
+>>>>>     ui/sdl2: Grab Alt+F4 also under Windows
+>>>>>     ui/sdl2-input: Fix AltGr modifier on Windows hosts
+>>>>>
+>>>>>    ui/sdl2-input.c | 13 +++++++++++++
+>>>>>    ui/sdl2.c       |  2 ++
+>>>>>    2 files changed, 15 insertions(+)
+>>>>>
+>>>> Hi Bernhard,
+>>> Hi Volker,
 >>>
->>>       find . \( -name '*.so' -o -name '*.dll' -o \
->>>             -name '*.[oda]' -o -name '*.gcno' \) -type f \
->>>           ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
->>>           ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
->>>           -exec rm {} +
->>>
->>> For example, it removes the .d source files in 'meson/test cases/d/*/*.d'.
->>> The damage could be worse in the future if more suffixes are cleaned.
->>>
->>> I don't have a suggested fix.  Recursion and the GNUmakefile bootstrap
->>> make it non-trivial.
+>>>> I don't think these patches are necessary. The AltGr key and the keyboard grab was fixed in 2020 with commit 830473455f ("ui/sdl2: fix handling of AltGr key on Windows") and a few commits before.
+>>> Indeed, this patch addresses the AltGr issue. What I noticed in my case is that the AltGr behavior is different, depending on whether the *guest* is in graphics mode or not. Pressing AltGr in graphics mode issues two key modifiers while only one is issued when the guest is in text mode. I'll recheck tomorrow when I have access to a Windows host.
 >>
->> That's somewhat ugly, indeed.
+>> Hi Bernhard,
+>
+> Hi Volker,
+>
 >>
->> We could maybe disallow make [dist]clean if running in-tree? Something like that:
->>
->> diff a/Makefile b/Makefile
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -26,7 +26,7 @@ quiet-command-run = $(if $(V),,$(if $2,printf "  %-7s %s\n" $2 $3 && ))$1
->>   quiet-@ = $(if $(V),,@)
->>   quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
->>   
->> -UNCHECKED_GOALS := %clean TAGS cscope ctags dist \
->> +UNCHECKED_GOALS := TAGS cscope ctags dist \
->>       help check-help print-% \
->>       docker docker-% vm-help vm-test vm-build-%
->>   
->> @@ -201,7 +201,7 @@ recurse-distclean: $(addsuffix /distclean, $(ROMS))
->>   
->>   ######################################################################
->>   
->> -clean: recurse-clean
->> +clean: config-host.mak recurse-clean
->>          -$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean || :
->>          -$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) clean-ctlist || :
->>          find . \( -name '*.so' -o -name '*.dll' -o \
->>
->>
->> ... or if we still want to allow that, maybe just make an exception for the *.d files:
->>
->> diff --git a/Makefile b/Makefile
->> index e421f8a1f4..0cb2a7aa98 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -208,6 +208,7 @@ clean: recurse-clean
->>                    -name '*.[oda]' -o -name '*.gcno' \) -type f \
->>                  ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
->>                  ! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
->> +               ! -path './meson/test cases/d/*/*.d' \
->>                  -exec rm {} +
->>          rm -f TAGS cscope.* *~ */*~
->>   
->>
->> What do you think?
-> 
-> Actually, all make targets are broken if we do not cd to build first.
+>> the AltGr behavior depends on the keyboard grab. The AltGr key works without keyboard grabbed and it doesn't with keyboard grabbed. That's a bug.
+>
+> Interesting. The keyboard is grabbed automatically for some reason when 
+> the guest enters graphics mode. Together with what you describe this 
+> could explain the difference in behavior I'm seeing.
 
-I think some of them work from the source directory, too... e.g. "make help" 
-or "make vm-build-XXX" or "make dist" ... not sure how important this 
-possibility is ... I guess "make dist" is still a thing? Michael?
+Not sure how it works on Windows but keyboard grab may depend on the 
+drivers or devices in the guest. I think using a usb-tablet may auto-grab 
+mouse while using a mouse needs to click in the window to grab. Also not 
+sure how this relates to keyboard at all so maybe this is not relevant 
+here in which case sorry for the noise. I guess what I wanted to say is 
+also check what command line you use (what input devices you VM has) and 
+what guest side drivers you use that may have an effect (such as some 
+vmware drivers could or maybe some other drivers). In any case first you 
+should sync to make sure you're on the same page and testing the same 
+thing to avoid some confusion. Sorry if this is not really helpful.
 
-> This should do the trick.  If you agree, I will submit a patch.
-> 
-> diff --git a/Makefile b/Makefile
-> index a48103c..3d03101 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -4,6 +4,10 @@ ifneq ($(words $(subst :, ,$(CURDIR))), 1)
->     $(error main directory cannot contain spaces nor colons)
->   endif
-> 
-> +ifneq ($(notdir $(CURDIR)),build)
-> +$(error To build in tree, run configure first.)
-> +endif
-
-If we decide to go down that road, I think you should remove the existing 
-"Please call configure before running make" UNCHECKED_GOALS logic in that 
-file, too.
-
-  Thomas
-
+Regrads,
+BALATON Zoltan
+--3866299591-1253714670-1681487418=:22688--
 
