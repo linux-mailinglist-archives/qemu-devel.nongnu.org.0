@@ -2,98 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F366E2DCA
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Apr 2023 02:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912BC6E2E18
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Apr 2023 03:04:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnTQr-0000nR-99; Fri, 14 Apr 2023 20:06:21 -0400
+	id 1pnUJ9-0008VL-R9; Fri, 14 Apr 2023 21:02:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3b-o5ZAYKClQE0w95y2AA270.yA8C08G-z0H079A929G.AD2@flex--seanjc.bounces.google.com>)
- id 1pnTQk-0000n6-J0
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 20:06:14 -0400
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3b-o5ZAYKClQE0w95y2AA270.yA8C08G-z0H079A929G.AD2@flex--seanjc.bounces.google.com>)
- id 1pnTQh-00081Y-JS
- for qemu-devel@nongnu.org; Fri, 14 Apr 2023 20:06:13 -0400
-Received: by mail-pg1-x54a.google.com with SMTP id
- w184-20020a6382c1000000b0050bed8b0b61so8353011pgd.11
- for <qemu-devel@nongnu.org>; Fri, 14 Apr 2023 17:06:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1681517167; x=1684109167;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=27SavXWsOz2fFOmzF4nHb+ZNB/DHHSIE/WtD2FW1frE=;
- b=B6rYc8U7DGbKYNVYius6Nr1xFvfOgiOlW1pJgKmS1NVqaLzVhoraHcl1dTphDfkPeJ
- VC5xCv4i9COcEmzeOrD7NEAO9JflKku7ibWDLxlUZ7QUcBWfleeW76yKHqP1vsjsIBmS
- xOBlD3he/x1UVQg1EYc85ePh47AslSrznw1re6kKlcbBm07C50pD2jDiYbewN+qZWOeG
- EnLYD2OvDfZ5pDFaBqAkHKIhzuWoraoXAEemxILSM5u/iZ8A2ZqHiRuKc9YACWyOhPPn
- KTvKxPW2ojdNtXyipa/8Ht7nOBbNdsa/g4dO2xbQne+AS2SegO8N4SXpGOfagfMUjir5
- TCzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681517167; x=1684109167;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=27SavXWsOz2fFOmzF4nHb+ZNB/DHHSIE/WtD2FW1frE=;
- b=EQcLbLfFSreWebnjScE7zT1T5CGRLLB08uh6Rytckgcgx2HNJMUhRMSN/wRPP6zOHi
- Jywy7sdBGcS37Oxc4FQ0eKcLcGKuBoOYCQ16D8TLEspn97khDAZ+BmocrUPA/WfIgZjh
- x1CHTYatBYVOsyhdFZj3yqxa8SmLKWGXeo1q22jQYmnqEryyzwI1RaIVD7d3ZZh4AAma
- RTihMrdYWKMMqp23gxs3G+P4ZPhIQ5696ZbwjEtXtOpzDSM5XUv/hTMYyjzqzyUW29O9
- Qo983nKGa7GAXEyAbNEyrOj2roihuG9w3GcQGqmzKBLeyows/eFvLwzXPK3LXl0tbGVL
- MKaw==
-X-Gm-Message-State: AAQBX9dX0JiFPKMdFwFCUPpXhJAQy4RRFNpkIj4vnuMEpIV0rnQqHpqb
- MbowGBTsE25+zM3b8d8laYO/Gdzx/1E=
-X-Google-Smtp-Source: AKy350aWKg8kIKC0roeA72FaEe4HTb/wQtFuJp2chTATT/qvNt2jfzRorHJiQbnz3aOgwdrTNO7tZU5ONkg=
-X-Received: from zagreus.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90a:9c3:b0:246:f8f7:f568 with SMTP id
- 61-20020a17090a09c300b00246f8f7f568mr2063266pjo.0.1681517167336; Fri, 14 Apr
- 2023 17:06:07 -0700 (PDT)
-Date: Fri, 14 Apr 2023 17:06:06 -0700
-In-Reply-To: <ZDnhMQ2aoVYh6Qr2@google.com>
-Mime-Version: 1.0
-References: <ZDiCG/7OgDI0SwMR@google.com>
- <diqzbkjqnl6t.fsf@ackerleytng-cloudtop.c.googlers.com>
- <ZDnhMQ2aoVYh6Qr2@google.com>
-Message-ID: <ZDnqbqykWot4+617@google.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: brauner@kernel.org, kirill.shutemov@linux.intel.com, 
- chao.p.peng@linux.intel.com, hughd@google.com, kvm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- linux-kselftest@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
- vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com, 
- joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
- x86@kernel.org, hpa@zytor.com, jlayton@kernel.org, bfields@fieldses.org, 
- akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org, 
- steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz, 
- vannapurve@google.com, yu.c.zhang@linux.intel.com, luto@kernel.org, 
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
- dhildenb@redhat.com, qperret@google.com, michael.roth@amd.com, 
- mhocko@suse.com, songmuchun@bytedance.com, pankaj.gupta@amd.com, 
- linux-arch@vger.kernel.org, arnd@arndb.de, linmiaohe@huawei.com, 
- naoya.horiguchi@nec.com, tabba@google.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3b-o5ZAYKClQE0w95y2AA270.yA8C08G-z0H079A929G.AD2@flex--seanjc.bounces.google.com;
- helo=mail-pg1-x54a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pnUJ7-0008V3-Ec; Fri, 14 Apr 2023 21:02:25 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pnUJ0-0002xL-J3; Fri, 14 Apr 2023 21:02:25 -0400
+Received: from [192.168.0.120] (unknown [180.165.241.15])
+ by APP-05 (Coremail) with SMTP id zQCowAD3_s6I9zlkwwy_Eg--.6592S2;
+ Sat, 15 Apr 2023 09:02:00 +0800 (CST)
+Message-ID: <3ee55aaa-e8aa-e715-b8c2-2dff938b9553@iscas.ac.cn>
+Date: Sat, 15 Apr 2023 09:01:59 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH v2 1/4] target/riscv: smstateen check for fcsr
+To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Daniel Barboza <dbarboza@ventanamicro.com>, liweiwei@iscas.ac.cn,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230414160202.1298242-1-mchitale@ventanamicro.com>
+ <20230414160202.1298242-2-mchitale@ventanamicro.com>
+Content-Language: en-US
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230414160202.1298242-2-mchitale@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAD3_s6I9zlkwwy_Eg--.6592S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuF47XF18tw45JrWUtr1fJFb_yoW5Gw4xpw
+ 4kA39xG395try2v3ZxGFn8WFs8Ga1kJ3yS93W7Ka10qFsIyrWFkF1kt3sxZr1kXFW7Jr1f
+ ZayjkFyDur47AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+ 6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+ 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.165.241.15]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.282,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,23 +78,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Apr 14, 2023, Sean Christopherson wrote:
-> On Fri, Apr 14, 2023, Ackerley Tng wrote:
-> > Sean Christopherson <seanjc@google.com> writes:
-> > > 	if (WARN_ON_ONCE(file->private_data)) {
-> > > 		err = -EEXIST;
-> > > 		goto err_fd;
-> > > 	}
-> > 
-> > Did you intend this as a check that the backing filesystem isn't using
-> > the private_data field in the mapping?
-> >
-> > I think you meant file->f_mapping->private_data.
-> 
-> Ya, sounds right.  I should have added disclaimers that (a) I wrote this quite
-> quickly and (b) it's compile tested only at this point.
 
-FWIW, here's a very lightly tested version that doesn't explode on a basic selftest.
+On 2023/4/15 00:01, Mayuresh Chitale wrote:
+> If smstateen is implemented and smtateen0.fcsr is clear and misa.F
+> is off then the floating point operations must return illegal
+> instruction exception or virtual instruction trap, if relevant.
+>
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> ---
+>   target/riscv/csr.c | 23 +++++++++++++++++++++++
+>   1 file changed, 23 insertions(+)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index f4d2dcfdc8..8ae9e95f9f 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -82,6 +82,10 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+>           !riscv_cpu_cfg(env)->ext_zfinx) {
+>           return RISCV_EXCP_ILLEGAL_INST;
+>       }
+> +
+> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
+> +    }
+>   #endif
+>       return RISCV_EXCP_NONE;
+>   }
+> @@ -2081,6 +2085,9 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
+>                                         target_ulong new_val)
+>   {
+>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> +    if (!riscv_has_ext(env, RVF)) {
+> +        wr_mask |= SMSTATEEN0_FCSR;
+> +    }
+>   
+>       return write_mstateen(env, csrno, wr_mask, new_val);
+>   }
+> @@ -2117,6 +2124,10 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
+>   {
+>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>   
+> +    if (!riscv_has_ext(env, RVF)) {
+> +        wr_mask |= SMSTATEEN0_FCSR;
+> +    }
+> +
 
-https://github.com/sean-jc/linux/tree/x86/upm_base_support
+FCSR is bit 1 of mstateen0.  So it seems unnecessary to be added to 
+wr_mask for mstateen0h.
+
+Similar to hstateen0h.
+
+Otherwise,  Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+
+Weiwei Li
+>       return write_mstateenh(env, csrno, wr_mask, new_val);
+>   }
+>   
+> @@ -2154,6 +2165,10 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
+>   {
+>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>   
+> +    if (!riscv_has_ext(env, RVF)) {
+> +        wr_mask |= SMSTATEEN0_FCSR;
+> +    }
+> +
+>       return write_hstateen(env, csrno, wr_mask, new_val);
+>   }
+>   
+> @@ -2193,6 +2208,10 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
+>   {
+>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>   
+> +    if (!riscv_has_ext(env, RVF)) {
+> +        wr_mask |= SMSTATEEN0_FCSR;
+> +    }
+> +
+>       return write_hstateenh(env, csrno, wr_mask, new_val);
+>   }
+>   
+> @@ -2240,6 +2259,10 @@ static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
+>   {
+>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>   
+> +    if (!riscv_has_ext(env, RVF)) {
+> +        wr_mask |= SMSTATEEN0_FCSR;
+> +    }
+> +
+>       return write_sstateen(env, csrno, wr_mask, new_val);
+>   }
+>   
+
 
