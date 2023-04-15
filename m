@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D164A6E2E4F
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Apr 2023 03:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C316E2F5F
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Apr 2023 08:46:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnUys-0007pr-4Y; Fri, 14 Apr 2023 21:45:34 -0400
+	id 1pnZfG-0004dM-9f; Sat, 15 Apr 2023 02:45:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pnUyj-0007ot-Hq; Fri, 14 Apr 2023 21:45:25 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pnUyf-0002ez-S3; Fri, 14 Apr 2023 21:45:24 -0400
-Received: from [192.168.0.120] (unknown [180.165.241.15])
- by APP-05 (Coremail) with SMTP id zQCowACnrWWmATpkHMDCEg--.11396S2;
- Sat, 15 Apr 2023 09:45:11 +0800 (CST)
-Message-ID: <130dce28-e116-bfca-cd94-e63c48073818@iscas.ac.cn>
-Date: Sat, 15 Apr 2023 09:45:09 +0800
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1pnZf6-0004WO-Qt
+ for qemu-devel@nongnu.org; Sat, 15 Apr 2023 02:45:30 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1pnZf3-00034k-PQ
+ for qemu-devel@nongnu.org; Sat, 15 Apr 2023 02:45:28 -0400
+Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 2801342F57
+ for <qemu-devel@nongnu.org>; Sat, 15 Apr 2023 06:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1681541115;
+ bh=M4Ut3JmIztYSMAYj6JPGBVrQgr+WCysX28mHQC4sVcY=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=ZUBhWzJMUkeD+5dxB2Ox02IQT5cyft/RHxUpnFhLqEy8zIyXsckSgojIG6L5/ZFim
+ 9EiADoPf8ETPiJ4UbPOl2hnSRrgI3woDkWYWyF/2rI2fiYRYuARoboNKGif7nWLXpw
+ ri4f/vdBTFTvypvxSjmVBulSIPu5mNnKB5bS/EAsRqGHljiPdtzXhGR0UURCSTIfsb
+ f3ApVJhobOvM4SN5Ek7wOXF+cDdKk1YneECsXktoQ00KkczANxwG3h7FQx8Fk95R8+
+ e8y9llpzvUNEF9LtMTfQ7Y3ivVlbuicXaFQhvLctRny473+sZkdZPPjAMzgVGr+s4D
+ gtPdwlyg969Wg==
+Received: from
+ juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
+ (localhost [127.0.0.1])
+ by scripts-1.lp.internal (Postfix) with ESMTP id 751923F587
+ for <qemu-devel@nongnu.org>; Sat, 15 Apr 2023 06:45:14 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH v2 2/4] target/riscv: Reuse TB_FLAGS.MSTATUS_HFS_FS
-Content-Language: en-US
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, alistair.francis@wdc.com
-Cc: Alistair Francis <alistair23@gmail.com>,
- Daniel Barboza <dbarboza@ventanamicro.com>, liweiwei@iscas.ac.cn,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230414160202.1298242-1-mchitale@ventanamicro.com>
- <20230414160202.1298242-3-mchitale@ventanamicro.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230414160202.1298242-3-mchitale@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowACnrWWmATpkHMDCEg--.11396S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAw1xZFWfGr4rAF48KFWUCFg_yoW5Xw47pF
- Z7Gw4SkFZrGFZ7Ja1fKF4YqF48Xr4kCr4Yv3WkCw10qr45XrZ8CF95KFWfGF4DJFy8Wryj
- 9Fs0yryDAr4UZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
- 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
- IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUU
- U==
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.282,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 15 Apr 2023 06:37:15 -0000
+From: =?utf-8?q?Mark_Karpel=C3=A8s?= <1903470@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor jay7x laurent-vivier magicaltux
+ marcandre-lureau
+X-Launchpad-Bug-Reporter: =?utf-8?q?Mark_Karpel=C3=A8s_=28magicaltux=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Mark_Karpel=C3=A8s_=28magicaltux=29?=
+References: <160488704585.18602.6390058369473747228.malonedeb@soybean.canonical.com>
+Message-Id: <168154063581.13921.5814987265770972535.malone@gac.canonical.com>
+Subject: [Bug 1903470] Re: qemu 5.1.0: Add UNIX socket support for netdev
+ socket
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="87e01a184063d9dc53acb2343d6484f5546064fd"; Instance="production"
+X-Launchpad-Hash: 780fd725d3bf3521c92e09764e9e13ffeca01c24
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,86 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1903470 <1903470@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Despite what is said in an earlier comment, qemu(1) has no information
+on -netdev stream or -netdev dgram.
 
-On 2023/4/15 00:02, Mayuresh Chitale wrote:
-> When misa.F is clear, TB_FLAGS.MSTATUS_HS_FS field is unused and can
-> be used to save the current state of smstateen0.FCSR check which is
-> needed by the floating point translation routines.
->
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> ---
->   target/riscv/cpu_helper.c | 12 ++++++++++++
->   target/riscv/translate.c  |  7 +++++++
->   2 files changed, 19 insertions(+)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 433ea529b0..fd1731cc39 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -105,6 +105,18 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->           flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_VS,
->                              get_field(env->mstatus_hs, MSTATUS_VS));
->       }
-> +    /*
-> +     * If misa.F is 0 then the MSTATUS_HS_FS field of the tb->flags
-> +     * can be used to pass the current state of the smstateen.FCSR bit
-> +     * which must be checked for in the floating point translation routines
-> +     */
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        if (smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR) == RISCV_EXCP_NONE) {
-> +            flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS, 1);
-> +        } else {
-> +            flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS, 0);
-> +        }
-> +    }
->       if (cpu->cfg.debug && !icount_enabled()) {
->           flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_enabled);
->       }
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index d0094922b6..e29bbb8b70 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -79,6 +79,7 @@ typedef struct DisasContext {
->       int frm;
->       RISCVMXL ol;
->       bool virt_inst_excp;
-> +    bool smstateen_fcsr_ok;
->       bool virt_enabled;
->       const RISCVCPUConfig *cfg_ptr;
->       bool hlsx;
-> @@ -1202,6 +1203,12 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->       ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
->       ctx->zero = tcg_constant_tl(0);
->       ctx->virt_inst_excp = false;
-> +    if (has_ext(ctx, RVF)) {
-> +        ctx->smstateen_fcsr_ok = 1;
-> +    } else {
-> +        ctx->smstateen_fcsr_ok = FIELD_EX32(tb_flags, TB_FLAGS,
-> +                                             MSTATUS_HS_FS);
+The best help I could find comes from the patch description:
 
-By the way, it may introduce new question when MSTATUS_FS and 
-MSTATUS_HS_FS is merged to save bits in tb_flag
+https://patchew.org/QEMU/20221021090922.170074-1-lvivier@redhat.com/
 
-by Richerd's patchset: 20230412114333.118895-5-richard.henderson@linaro.org
+Example use:
 
-such as: the check "s->mstatus_fs == 0" in require_rvf() will be false 
-if smstateen_fcsr_ok is true.
+-netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dunix,addr.path=3D/tmp/=
+qemu0
 
-However, this should be true in this case to indicate F is diabled.
+Also useful to note that the reconnect argument is only going to be
+available in qemu 8.0.0 (not released yet)
 
-So we may need to set ctx->mstatus_fs = 0 here once merged with 
-Richerd's patchset.
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1903470
 
-Regards,
+Title:
+  qemu 5.1.0: Add UNIX socket support for netdev socket
 
-Weiwei Li
+Status in QEMU:
+  Expired
 
-> +    }
->   }
->   
->   static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+Bug description:
+  Note: this is a feature request.
+
+  qemu has a way to connect instances using a socket:
+
+  -netdev socket,id=3Dstr[,fd=3Dh][,listen=3D[host]:port][,connect=3Dhost:p=
+ort]
+
+  This can also be used to connect a qemu instance to something else
+  using a socket connection, however there is no authentication or
+  security to the connection, so rather than using a port which can be
+  accessed by any user on the machine, having the ability to use or
+  connect to UNIX sockets would be helpful, and adding this option
+  should be fairly trivial.
+
+  UNIX sockets can be found in various parts of qemu (monitor, etc) so I
+  believe having this on network would make sense.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1903470/+subscriptions
 
 
