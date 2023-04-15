@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F4A6E317D
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Apr 2023 15:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8876E317E
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Apr 2023 15:08:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnfcU-0004op-RB; Sat, 15 Apr 2023 09:07:10 -0400
+	id 1pnfcV-0004rE-SQ; Sat, 15 Apr 2023 09:07:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jszhang@kernel.org>)
- id 1pnbZe-0006gZ-Aa; Sat, 15 Apr 2023 04:47:58 -0400
+ id 1pnbZm-0006is-Hi; Sat, 15 Apr 2023 04:48:08 -0400
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jszhang@kernel.org>)
- id 1pnbZZ-000304-Q7; Sat, 15 Apr 2023 04:47:55 -0400
+ id 1pnbZe-00030C-Be; Sat, 15 Apr 2023 04:48:06 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5BB3260A05;
- Sat, 15 Apr 2023 08:47:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05A22C433D2;
- Sat, 15 Apr 2023 08:47:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 69E8F60F6D;
+ Sat, 15 Apr 2023 08:47:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2365AC433EF;
+ Sat, 15 Apr 2023 08:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681548471;
- bh=eWQIR4pDjW5W0LBVxz11mFgQNASZOEMMkzX3EPueH38=;
- h=From:To:Cc:Subject:Date:From;
- b=X6Ng6Xyfxe9z+3CVY16jXKvJeu1oqMz6l/KjkZURnk0oiet3hTVc2aiwcbKqCNgJ+
- kGpqh74URHXFIGW5ZRO1ZXvdFE3GHhOuVMhpAo5n5IiD4kIAKoPREzJovPFQOOpAZF
- Fj3mPqwGA1W9mYHYH3+tdESKjSajMGsTBkb77PvpyBKj54REYWA2bFzGlXHlzTH9mh
- e0qJsxLRV4gLim88iryCi3uU7hsy7Dy1l3B1TXF1RF2614B1JUAQz+PxHDzibFKwAe
- 6uLk3YdGC8kesse/K21h7BCEZJvVfW9Hn39L/THqXj6b0KFMEwLbClUTRRk0Zwmq69
- +OpZEvtPO/N7A==
+ s=k20201202; t=1681548472;
+ bh=U8WABhsAkLpAnlwQZI56b2I0tzK5K4NZdbgTbNP5uPI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=n8aalNEVBvobcbFp9UIDEoxArzaKkd0Sh5wtyGUfa0ZHQnvzeG/CErDnwj2jaalYt
+ pKf5P/zXcISkhSMn6iAruCfiEbQDK/h4B1ea0lQ8EF/wqVxEaj0kxgchKF7wyZz0EU
+ dPvZ6RDVJXdI/Fev/spOyJZMkj8jpCyefFJNJC+I/al26BFmhiRsu+cGmhidsIFAib
+ 4uqAERsKkPC3SGj8xJM1rXsPKGYyXC649kBKDZFL7sffh5lgY+odvq9moOdUK4+vL6
+ yxcWtue0WVb9Ci88y7SBUbDvlfAZhFcMGydb83n/bk054MNGpMDpu+DIZb4gOrzqOo
+ wUzuge9Yr9vKA==
 From: Jisheng Zhang <jszhang@kernel.org>
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Remove CBAR from A55/A76 and add A78
-Date: Sat, 15 Apr 2023 16:36:55 +0800
-Message-Id: <20230415083657.2308-1-jszhang@kernel.org>
+Subject: [PATCH 1/2] target/arm: Remove ARM_FEATURE_CBAR_RO from A55 and A76
+Date: Sat, 15 Apr 2023 16:36:56 +0800
+Message-Id: <20230415083657.2308-2-jszhang@kernel.org>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230415083657.2308-1-jszhang@kernel.org>
+References: <20230415083657.2308-1-jszhang@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2604:1380:4641:c500::1;
@@ -68,18 +70,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-patch1 removes CBAR from A55 and A76
-patch2 adds A78 CPU
+Cortex-A55 and Cortex-A76 doesn't have CBAR, so remove CBAR feature
+from them.
 
-Jisheng Zhang (2):
-  target/arm: Remove ARM_FEATURE_CBAR_RO from A55 and A76
-  target/arm: Add Cortex-A78 CPU
+Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+---
+ target/arm/cpu64.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- docs/system/arm/virt.rst |  1 +
- hw/arm/virt.c            |  1 +
- target/arm/cpu64.c       | 71 ++++++++++++++++++++++++++++++++++++++--
- 3 files changed, 71 insertions(+), 2 deletions(-)
-
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 0fb07cc7b6..85dc9d57ff 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -796,7 +796,6 @@ static void aarch64_a55_initfn(Object *obj)
+     set_feature(&cpu->env, ARM_FEATURE_NEON);
+     set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+     set_feature(&cpu->env, ARM_FEATURE_AARCH64);
+-    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+     set_feature(&cpu->env, ARM_FEATURE_EL2);
+     set_feature(&cpu->env, ARM_FEATURE_EL3);
+     set_feature(&cpu->env, ARM_FEATURE_PMU);
+@@ -919,7 +918,6 @@ static void aarch64_a76_initfn(Object *obj)
+     set_feature(&cpu->env, ARM_FEATURE_NEON);
+     set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+     set_feature(&cpu->env, ARM_FEATURE_AARCH64);
+-    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+     set_feature(&cpu->env, ARM_FEATURE_EL2);
+     set_feature(&cpu->env, ARM_FEATURE_EL3);
+     set_feature(&cpu->env, ARM_FEATURE_PMU);
 -- 
 2.40.0
 
