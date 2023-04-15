@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281346E3179
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Apr 2023 15:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06596E3088
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Apr 2023 12:26:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pnfcW-0004sL-LM; Sat, 15 Apr 2023 09:07:12 -0400
+	id 1pnd5X-0000UQ-EU; Sat, 15 Apr 2023 06:24:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jszhang@kernel.org>)
- id 1pnbZo-0006jL-EM; Sat, 15 Apr 2023 04:48:08 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pnd5V-0000U0-9n; Sat, 15 Apr 2023 06:24:57 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jszhang@kernel.org>)
- id 1pnbZe-00030M-V0; Sat, 15 Apr 2023 04:48:06 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7901C60F95;
- Sat, 15 Apr 2023 08:47:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3809AC433D2;
- Sat, 15 Apr 2023 08:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681548473;
- bh=LNZidgtRoCkEo7HwCkp9NXpfLbvkmSUDAmpAp7fT6aA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CKibD8v/kKgZv8Gdgqmqn30/DYbo+zpdmVtAFg3SsNkSTj7RFU7FWMpR2Uz2VtooW
- C0/8PEIFdd/bfI56YSkBhRVsaEyFB8rD3R+T6OWNhiK/FuEAGA+ebIq0ZJ5AKCvySP
- xR0GMuejfsA8wAM4Z+R67l/5qfCbIUgJRVUI+elMLf0LpFYcSFfBoycPyUJXJnc8qj
- Y+V3a40oAVEyhtalOh6aXtFZYxMWQwGmzW+1y/eQR4fe+SAEIvqDo07oYHFtXJ5W2F
- WUV0NQ0RwUpwXRA6EaqzZN4hlxCjXlW4XTPDlzcha3NQBd32YGZtJKoqMwNxBP5yQT
- /DgDl/fDbb+CA==
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] target/arm: Add Cortex-A78 CPU
-Date: Sat, 15 Apr 2023 16:36:57 +0800
-Message-Id: <20230415083657.2308-3-jszhang@kernel.org>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230415083657.2308-1-jszhang@kernel.org>
-References: <20230415083657.2308-1-jszhang@kernel.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pnd5T-0006xR-8X; Sat, 15 Apr 2023 06:24:57 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id B31AB5F28C;
+ Sat, 15 Apr 2023 13:24:43 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:7219::1:1b] (unknown
+ [2a02:6b8:b081:7219::1:1b])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id fOWEXK0OnSw0-yCgaoD5l; Sat, 15 Apr 2023 13:24:42 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1681554282; bh=r3r6qGV/1htEILk6cEjO4Chh4Y87ItMyYGjn1D3m26E=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=M5sxwar6OPWgkBJRMIHrm8TV6bH6cs6U78QO3y1FKJVkH5Qg59N0tp52/0l0SpUrk
+ p2fScqdRjC8+cMCrrhse5II0RJRRQPfNRQTtiBzqmVO5hVhUPxbexdqzH3mUY02/+B
+ cdUPsnBK6aNkJrvv68sElSFWeNAygla0eeM/QeXY=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <d96081ad-5677-78fb-af42-25e596576f7f@yandex-team.ru>
+Date: Sat, 15 Apr 2023 13:24:41 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=jszhang@kernel.org; helo=dfw.source.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] vhost-user-blk-server: notify client about disk resize
+Content-Language: en-US
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mst@redhat.com, hreitz@redhat.com,
+ kwolf@redhat.com, Coiby.Xu@gmail.com, yc-core@yandex-team.ru
+References: <20230321201323.3695923-1-vsementsov@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230321201323.3695923-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.282,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 15 Apr 2023 09:07:08 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,129 +74,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Enable the Cortex-A78 for virt to use a CPU type on the virt
-board that models a specific real hardware CPU, rather than
-have to use the QEMU-specific "max" CPU type.
+On 21.03.23 23:13, Vladimir Sementsov-Ogievskiy wrote:
+> Currently block_resize qmp command is simply ignored by vhost-user-blk
+> export. So, the block-node is successfully resized, but virtio config
+> is unchanged and guest doesn't see that disk is resized.
+> 
+> Let's handle the resize by modifying the config and notifying the guest
+> appropriately.
+> 
+> After this comment, lsblk in linux guest with attached
+> vhost-user-blk-pci device shows new size immediately after block_resize
+> QMP command on vhost-user exported block node.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
 
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
----
- docs/system/arm/virt.rst |  1 +
- hw/arm/virt.c            |  1 +
- target/arm/cpu64.c       | 69 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 71 insertions(+)
+Ping:) Any interest in that? Or, is there some another way to live-resize vhost-user disks?
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 1cab33f02e..98cb53d977 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -58,6 +58,7 @@ Supported guest CPU types:
- - ``cortex-a57`` (64-bit)
- - ``cortex-a72`` (64-bit)
- - ``cortex-a76`` (64-bit)
-+- ``cortex-a78`` (64-bit)
- - ``a64fx`` (64-bit)
- - ``host`` (with KVM only)
- - ``neoverse-n1`` (64-bit)
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ac626b3bef..4e00b58bdb 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -212,6 +212,7 @@ static const char *valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-     ARM_CPU_TYPE_NAME("cortex-a76"),
-+    ARM_CPU_TYPE_NAME("cortex-a78"),
-     ARM_CPU_TYPE_NAME("a64fx"),
-     ARM_CPU_TYPE_NAME("neoverse-n1"),
-     ARM_CPU_TYPE_NAME("host"),
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 85dc9d57ff..144004b522 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -977,6 +977,74 @@ static void aarch64_a76_initfn(Object *obj)
-     cpu->isar.reset_pmcr_el0 = 0x410b3000;
- }
- 
-+static void aarch64_a78_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a78";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+
-+    /* Ordered by B2.4 AArch64 registers by functional group */
-+    cpu->clidr = 0x82000023;
-+    cpu->ctr = 0x8444C004;
-+    cpu->dcz_blocksize = 4;
-+    cpu->isar.id_aa64dfr0  = 0x0000000010305408ull;
-+    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
-+    cpu->isar.id_aa64isar1 = 0x0000000000100001ull;
-+    cpu->isar.id_aa64mmfr0 = 0x0000000000101122ull;
-+    cpu->isar.id_aa64mmfr1 = 0x0000000010212122ull;
-+    cpu->isar.id_aa64mmfr2 = 0x0000000000001011ull;
-+    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull; /* GIC filled in later */
-+    cpu->isar.id_aa64pfr1  = 0x0000000000000010ull;
-+    cpu->id_afr0       = 0x00000000;
-+    cpu->isar.id_dfr0  = 0x04010088;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00010142;
-+    cpu->isar.id_isar5 = 0x01011121;
-+    cpu->isar.id_isar6 = 0x00000010;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02122211;
-+    cpu->isar.id_mmfr4 = 0x00021110;
-+    cpu->isar.id_pfr0  = 0x10010131;
-+    cpu->isar.id_pfr1  = 0x00010000; /* GIC filled in later */
-+    cpu->isar.id_pfr2  = 0x00000011;
-+    cpu->midr = 0x414fd412;          /* r1p2 */
-+    cpu->revidr = 0;
-+
-+    /* From B2.23 CCSIDR_EL1 */
-+    cpu->ccsidr[0] = 0x701fe01a; /* 64KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe01a; /* 64KB L1 icache */
-+    cpu->ccsidr[2] = 0x707fe03a; /* 512KB L2 cache */
-+
-+    /* From B2.105 SCTLR_EL3 */
-+    cpu->reset_sctlr = 0x30c50838;
-+
-+    /* From B4.23 ICH_VTR_EL2 */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+    cpu->gic_pribits = 5;
-+
-+    /* From B5.1 AdvSIMD AArch64 register summary */
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x13211111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+
-+    /* From D5.1 AArch64 PMU register summary */
-+    cpu->isar.reset_pmcr_el0 = 0x41213000;
-+}
-+
- static void aarch64_a64fx_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -1377,6 +1445,7 @@ static const ARMCPUInfo aarch64_cpus[] = {
-     { .name = "cortex-a55",         .initfn = aarch64_a55_initfn },
-     { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
-     { .name = "cortex-a76",         .initfn = aarch64_a76_initfn },
-+    { .name = "cortex-a78",         .initfn = aarch64_a78_initfn },
-     { .name = "a64fx",              .initfn = aarch64_a64fx_initfn },
-     { .name = "neoverse-n1",        .initfn = aarch64_neoverse_n1_initfn },
-     { .name = "max",                .initfn = aarch64_max_initfn },
 -- 
-2.40.0
+Best regards,
+Vladimir
 
 
