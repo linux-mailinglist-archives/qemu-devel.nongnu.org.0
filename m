@@ -2,82 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B206E3CB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 00:57:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1D66E3D10
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 02:57:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poBHc-00050B-FO; Sun, 16 Apr 2023 18:55:44 -0400
+	id 1poD9n-0002FP-4A; Sun, 16 Apr 2023 20:55:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mateusz.p.albecki@gmail.com>)
- id 1poAsG-0002UX-Fi
- for qemu-devel@nongnu.org; Sun, 16 Apr 2023 18:29:32 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ (Exim 4.90_1) (envelope-from <dfustini@baylibre.com>)
+ id 1poBdq-00008i-7z
+ for qemu-devel@nongnu.org; Sun, 16 Apr 2023 19:18:42 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mateusz.p.albecki@gmail.com>)
- id 1poAsF-0000kQ-0D
- for qemu-devel@nongnu.org; Sun, 16 Apr 2023 18:29:32 -0400
-Received: by mail-ej1-x634.google.com with SMTP id xi5so59489514ejb.13
- for <qemu-devel@nongnu.org>; Sun, 16 Apr 2023 15:29:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dfustini@baylibre.com>)
+ id 1poBdm-0004GT-LN
+ for qemu-devel@nongnu.org; Sun, 16 Apr 2023 19:18:41 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ b2-20020a17090a6e0200b002470b249e59so13333621pjk.4
+ for <qemu-devel@nongnu.org>; Sun, 16 Apr 2023 16:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681684168; x=1684276168;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6Kohpt8IVB+4XJGjqGF4d0L+c/v34ONKM4tNCYPjcUE=;
- b=KIa3kzlPWwLc3UQffHE0NAM/ARCo8cXDalwxjf2XsvzUwsXZMV2ZA1YlBr3bbMrWZv
- Ow24v0u+qrffjGiYTl9jiOHV/54bSqd+LQ8YMKH8Fj+6/ERNQm4h+DbKj8N+x4Fa83mJ
- DSj8iLD1ZkHkxE2gVPdAbGyYm8FL25aHU1OVTQ6uNp/qMDiV8yf10nsxO5DQnA8gvohg
- lElnh8gxnSQMqojrEVTpb6IUdzyLXXW6maTjFGc0n0b1KrqpV4+W9eUGvcEimNow3Tfm
- /MavrIq8nKOzp0GyOLMvrmQKjIojvMp+FFqJbfGLAXPL4kYSrImBvGxnIovpF/PvNuZs
- 0TPQ==
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1681687116; x=1684279116; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wO+rCJ7u3vdZTAwTfavGPwf2QxLk0VLkqeBo7jdqhpk=;
+ b=pN8LU1tqvskBlwX3jB/oTEcdAtGY8F6yX0e3cbaEz/k3LcGunMxXc1d2iZzQ35OVNq
+ ojNiT9uQPXui0+ozKOw4G42QMi5BVJsqVL2lh3jZADRaJtZR28uY5NTkp9aJnzHJRKxI
+ ozVzaCnwmiov6w13lKexqojzcS4wCFaog3bjzzHgYWMrZpz8w4nB7QHl4Za6npocKGSZ
+ MYs5oeBhyctVWE2k1d4uvKNKwSTQ0ijEvJInkCQC9nsuEALehTqEZWqc+BgOPV/p8dM/
+ nnT9sCQsWdeJYsJUM9IQIR+k0wuT5ANlp0qzcnPcM1Icm7ZJVZ55iIaIHX+GsUfiK+0b
+ Ni1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681684168; x=1684276168;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6Kohpt8IVB+4XJGjqGF4d0L+c/v34ONKM4tNCYPjcUE=;
- b=LYTRQhO0ucuL5TdXpalDebo+XhYqJZm5EAo+o6LMCBXeaVoERMH/E0RBuVlCeGzR1E
- tuDQPTKROMgJ3IA2tt5H0pnJqSmPwBxWOImp6unDioJQSEJ3OLB/BDjcZwtWPfUnNneg
- ZcJswCWglw9HkIeJ1TcZ7f6JzGBMFgyHoQ9gRQ4Nj2xzlXP/6k0jfl2YJaXnGp3hssCN
- Db82rj/pI3DPrc0PhxeV7CSZuhyieHr+7/h6vwLIu0C3Xod76I2or/n0kJuwnwU4b4L8
- 97wa1fn7RARvbbksJHcq1dRrNxF6gYXStY1n9LaWCWMCbgnByvqfr9AuqBvY8lcqvG26
- Spjw==
-X-Gm-Message-State: AAQBX9cgWF/8frliS7WjQGDCgbma48NG7AObJuN4tB/ngwyo4huYFMgv
- uIkJJuSJVC2/R8GsvlPlUPixDyDWRB6l1A==
-X-Google-Smtp-Source: AKy350ZAA9qbz294tvYQXx3gAtCPz3qxFiSk6YChD/CUIBXqW3sd7Oj4188l9+F8P7wmJriZC6PUAg==
-X-Received: by 2002:a17:906:c098:b0:94e:5679:d950 with SMTP id
- f24-20020a170906c09800b0094e5679d950mr4657581ejz.72.1681684168607; 
- Sun, 16 Apr 2023 15:29:28 -0700 (PDT)
-Received: from localhost.localdomain (87-205-52-253.adsl.inetia.pl.
- [87.205.52.253]) by smtp.gmail.com with ESMTPSA id
- gl17-20020a170906e0d100b0094f09cd4658sm3119143ejb.71.2023.04.16.15.29.27
+ d=1e100.net; s=20221208; t=1681687116; x=1684279116;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wO+rCJ7u3vdZTAwTfavGPwf2QxLk0VLkqeBo7jdqhpk=;
+ b=N55pzBsQGorjeDvFuWLUkRCuEdeFhcAW3fGA1y6rK2NUUVJ9IMDwtATC29ejRNJsvC
+ 7Obuyphe+koL3zt528d55KFi0sP/LC+v8nko8kBcrgtxZZ+Jkylxc/O9nTw/yLj9nyZ7
+ NvpnSjHGZR23wDtt5OCxlfnCNsqPKgTLc881xZLEyxI4WKVzOG7j8azLde6q1M69mBV+
+ 87rJObhsImiXnY7dzlJrTUSWhq6RCptkGJg1WH7A/cT2LziRCkUgKuLHY3kKrh7xBK7z
+ ZHsEPncTh6Fh09l4hxwzwAoqQ6UJPaPdy48/bQ0Zt7h9viB0ia5eqqq/BeGbWfYyHuTu
+ QSzw==
+X-Gm-Message-State: AAQBX9cq30tj+mIuGBUSKprH7uodQtb8AA8AQKDEZMIRhpPul0AeehTw
+ 2wI/5KAF0AoDuJkZyk368GcFOQ==
+X-Google-Smtp-Source: AKy350bRG7AODP/qO6vVa6C1r4YXkWrnziQIGY58VMKlJicHdRyyUi/390pcnUE7FEtMfnvf5YLCnQ==
+X-Received: by 2002:a17:903:1d1:b0:1a6:c12d:9027 with SMTP id
+ e17-20020a17090301d100b001a6c12d9027mr5180708plh.56.1681687115797; 
+ Sun, 16 Apr 2023 16:18:35 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:1800:f680:20ea:ba1c:5673:16e6])
+ by smtp.gmail.com with ESMTPSA id
+ jl3-20020a170903134300b001a6b02659c0sm3087847plb.159.2023.04.16.16.18.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Apr 2023 15:29:27 -0700 (PDT)
-From: Mateusz Albecki <mateusz.p.albecki@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: jsnow@redhat.com, Mateusz Albecki <mateusz.albecki@outlook.com>,
- Mateusz Albecki <mateusz.p.albecki@gmail.com>
-Subject: [PATCH 1/1] hw/ide/core.c: fix handling of unsupported commands
-Date: Mon, 17 Apr 2023 00:28:38 +0200
-Message-Id: <20230416222838.36642-2-mateusz.p.albecki@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230416222838.36642-1-mateusz.p.albecki@gmail.com>
-References: <20230416222838.36642-1-mateusz.p.albecki@gmail.com>
+ Sun, 16 Apr 2023 16:18:35 -0700 (PDT)
+From: Drew Fustini <dfustini@baylibre.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Nicolas Pitre <npitre@baylibre.com>,
+ Adrien Ricciardi <aricciardi@baylibre.com>,
+ =?UTF-8?q?Kornel=20Dul=C4=99ba?= <mindal@semihalf.com>
+Cc: Drew Fustini <dfustini@baylibre.com>
+Subject: [RFC PATCH 0/8] riscv: implement Ssqosid extension and CBQRI
+ controllers
+Date: Sun, 16 Apr 2023 16:20:42 -0700
+Message-Id: <20230416232050.4094820-1-dfustini@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=mateusz.p.albecki@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=dfustini@baylibre.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 16 Apr 2023 18:55:34 -0400
+X-Mailman-Approved-At: Sun, 16 Apr 2023 20:55:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,32 +98,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mateusz Albecki <mateusz.albecki@outlook.com>
+This RFC series implements the Ssqosid extension and the sqoscfg CSR as
+defined in the RISC-V Capacity and Bandwidth Controller QoS Register
+Interface (CBQRI) specification [1]. Quality of Service (QoS) in this
+context is concerned with shared resources on an SoC such as cache
+capacity and memory bandwidth.
 
-Current code will not call ide_cmd_done when aborting the unsupported
-command which will lead to the command timeout on the driver side instead
-of getting a D2H FIS with ABRT indication. This can lead to problems on the
-driver side as the spec mandates that device should return a D2H FIS with
-ABRT bit set in ERR register(from SATA 3.1 section 16.3.3.8.6)
+These patches are available as a public git branch [2].
 
-Signed-off-by: Mateusz Albecki <mateusz.p.albecki@gmail.com>
----
- hw/ide/core.c | 1 +
- 1 file changed, 1 insertion(+)
+sqoscfg CSR
+-----------
+The sqoscfg CSR provides a mechanism by which a software workload (e.g.
+a process or a set of processes) can be associated with a resource
+control ID (RCID) and a monitoring counter ID (MCID) that accompanies
+each request made by the hart to shared resources like cache.
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 45d14a25e9..d7027bbd4d 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -2146,6 +2146,7 @@ void ide_bus_exec_cmd(IDEBus *bus, uint32_t val)
- 
-     if (!ide_cmd_permitted(s, val)) {
-         ide_abort_command(s);
-+        ide_cmd_done(s);
-         ide_bus_set_irq(s->bus);
-         return;
-     }
+CBQRI defines operations to configure resource usage limits, in the form
+of capacity or bandwidth, for an RCID. CBQRI also defines operations to
+configure counters to track the resource utilization per MCID.
+
+CBQRI controllers
+-----------------
+This series also implements an CBQRI capacity controller and an CBQRI
+bandwidth controller as well as an example SoC that instantiates the
+controllers with a specific configuration:
+
+  - L2 cache controllers
+    - Resource type: Capacity
+    - Number of capacity blocks (NCBLKS): 12
+    	- In the context of a set-associative cache, the number of
+	  capacity blocks can be thought of as the number of ways
+    - Number of access types: 2 (code and data)
+    - Usage monitoring not supported
+    - Capacity allocation operations: CONFIG_LIMIT, READ_LIMIT
+
+  - Last-level cache (LLC) controller
+    - Resource type: Capacity
+    - Number of capacity blocks (NCBLKS): 16
+    - Number of access types: 2 (code and data)
+    - Usage monitoring operations: CONFIG_EVENT, READ_COUNTER
+    - Event IDs supported: None, Occupancy
+    - Capacity allocation ops: CONFIG_LIMIT, READ_LIMIT, FLUSH_RCID
+
+  - Memory controllers
+    - Resource type: Bandwidth
+    - Number of bandwidth blocks (NBWBLKS): 1024
+       - Bandwidth blocks do not have a unit but instead represent a
+         portion of the total bandwidth resource. For NWBLKS of 1024,
+	 each block represents about 0.1% of the bandwidth resource.
+    - Maximum reserved bandwidth blocks (MRBWB): 819 [80% of NBWBLKS]
+    - Number of access types: 1 (no code/data differentiation)
+    - Usage monitoring operations: CONFIG_EVENT, READ_COUNTER
+    - Event IDs supported: None, Total read/write byte count, Total
+                           read byte count, Total write byte count
+    - Bandwidth allocation operations: CONFIG_LIMIT, READ_LIMIT
+
+The memory map for this example SoC:
+
+  Base addr  Size
+  0x4820000  4KB  Cluster 0 L2 cache controller
+  0x4821000  4KB  Cluster 1 L2 cache controller
+  0x4828000  4KB  Memory controller 0
+  0x4829000  4KB  Memory controller 1
+  0x482A000  4KB  Memory controller 2
+  0x482B000  4KB  Shared LLC cache controller
+
+This configuration is meant to provide a "concrete" example for software
+(like Linux) to test against. It represents just one of many possible
+ways for hardware to implement the CBQRI spec.
+
+In addition, please note that this RFC series only implements the
+register interface that CBQRI specifies. It does not attempt to emulate
+the performance impact of configuring limits on shared resources like
+cache and memory bandwidth. Similarly, the code does not attempt to
+emulate cache and memory bandwidth utilization, like what would be
+observed on a real hardware system implementing CBQRI.
+
+Status of CBQRI
+---------------
+The CBQRI spec is still in a draft state and is undergoing review [3].
+It is possible there will be changes to the Ssqosid extension and the
+CBQRI spec. For example, the sqoscfg CSR address is not yet finalized.
+
+The goal of this Qemu patch series, along with complimentary Linux patch
+series, is to satisfy the software proof of concept requirement for
+CBQRI to be frozen.
+
+Note: CBQRI was previously known as CMQRI and the github repo with the
+spec has not yet been renamed [4].
+
+Future work
+-----------
+Currently the configuration of the CBQRI controller parameters is done
+directly in cbqri_example_soc.c but this requires a user to edit the
+code for a different configuration. In the future, the configuration of
+CBQRI controller parameters will be done as command line arguments.
+
+In addition, the device tree generation will be expanded to include
+CBQRI-related properties. Currently, these are added to the dumped dtb
+that Linux consumes for the purposes of testing this RFC.
+
+For those interested in the software using this Qemu implementation,
+I will follow-up with a link to the Linux patches once posted.
+
+[1] https://github.com/riscv-non-isa/riscv-cmqri/blob/main/riscv-cbqri.pdf
+[2] https://gitlab.baylibre.com/baylibre/qemu/-/tree/riscv-cbqri-rfc
+[3] https://lists.riscv.org/g/tech-cmqri/message/38
+[4] https://lists.riscv.org/g/tech-cmqri/message/41
+
+Kornel Dulęba (1):
+  riscv: implement Ssqosid extension and sqoscfg CSR
+
+Nicolas Pitre (7):
+  hw/riscv: define capabilities of CBQRI controllers
+  hw/riscv: implement CBQRI capacity controller
+  hw/riscv: implement CBQRI memory controller
+  hw/riscv: instantiate CBQRI controllers for an example SoC
+  hw/riscv: Kconfig: add CBQRI options
+  hw/riscv: meson: add CBQRI options to the build
+  hw/riscv: virt: initialize the CBQRI example SoC
+
+ disas/riscv.c                |   1 +
+ hw/riscv/Kconfig             |   8 +
+ hw/riscv/cbqri_bandwidth.c   | 511 +++++++++++++++++++++++++++++++++
+ hw/riscv/cbqri_capacity.c    | 532 +++++++++++++++++++++++++++++++++++
+ hw/riscv/cbqri_example_soc.c | 124 ++++++++
+ hw/riscv/meson.build         |   4 +
+ hw/riscv/virt.c              |   3 +
+ include/hw/riscv/cbqri.h     |  81 ++++++
+ target/riscv/cpu.c           |   2 +
+ target/riscv/cpu.h           |   3 +
+ target/riscv/cpu_bits.h      |   5 +
+ target/riscv/csr.c           |  34 +++
+ 12 files changed, 1308 insertions(+)
+ create mode 100644 hw/riscv/cbqri_bandwidth.c
+ create mode 100644 hw/riscv/cbqri_capacity.c
+ create mode 100644 hw/riscv/cbqri_example_soc.c
+ create mode 100644 include/hw/riscv/cbqri.h
+
 -- 
-2.40.0
+2.34.1
 
 
