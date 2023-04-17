@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594B06E50C1
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D736E50C0
 	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 21:22:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poUQS-0000Ly-GF; Mon, 17 Apr 2023 15:22:08 -0400
+	id 1poUQR-0000Fl-EY; Mon, 17 Apr 2023 15:22:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1poUQE-0000Fq-Bi
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 15:21:57 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1poUQC-0000Fb-Qx
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 15:21:52 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1poUQB-0007uy-Df
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 15:21:53 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id fw30so14285144ejc.5
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 12:21:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1poUQB-0007vD-80
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 15:21:52 -0400
+Received: by mail-ej1-x635.google.com with SMTP id ud9so66882334ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 12:21:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681759308; x=1684351308;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZsZ0eocG7j/LGeX4n/+ZlUQKTHBgWZnUgcseicYclso=;
- b=r6znnmUqZbmSQCl0wUha4muKHzW545nkmah0MweaTeTJySHdGFnvN7oqQ+OVf/Ij1g
- 3wiHEiQGeN3GSMT/1Jxm2N57ji9QLpNUdUXfp4YUKwOYCcSSES3szyU8SLaXvvAKVWbU
- pcMNc9d22SxVdfnDiDoc+eOmm41OFYMmGo7NMXxVJ/SxjhQa1sNIDVu7n6Dt4N29Iff5
- UOiyf0a2VwDihe7sC+3I3mo8TahPp1Ah//L+uV0l9rxHfp8ZfwZCjKmM1FpRYgv4Go6l
- LB/qqhryeMjczD5aLzqpkbRJVU8VY/lzDfDKGLnDzt/LdAofmPfHKiJyLICAUY+cfRGt
- sbPg==
+ d=gmail.com; s=20221208; t=1681759309; x=1684351309;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=THKXDGcAzs96r2S6UQiFVZFfNh0FZnvDmU09b9bBVHo=;
+ b=MXS8hN1LfvLJHmy+MpBF2gj4ec4bt9ByJA7FmBh696hff8E4rzPRpq93rN3gt0l9Bz
+ Rcx/ptA6pkrLM+ZChQ8xFmL5vZtheOBvu1DYWjDhelkTDu1iWsGNv+7QwRVvERYlaJze
+ SqL1VHbsWlPWDORai2VP5mdLVtQ3Iakgu3Oy710rQKaDdk8fI4XVudMlzOfuY2lGgtsa
+ tzwnnZXBJkLKQXgCyXWpwXRJyyUDVCAq8E2anc3nieNT+IfXoQ7btkoHbmqbeB1uRCCG
+ hYwYy9hubUH8upgl25lWA4zGSPKH1RjwSIbMwut9UqExNidNqZX4CczviLRGdvdT9gt1
+ kOlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681759308; x=1684351308;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZsZ0eocG7j/LGeX4n/+ZlUQKTHBgWZnUgcseicYclso=;
- b=VcEBnsjRr9uEUHl1CpMDnXZKJNtOrNPSD6gJwXx8yUhAovwCd8cCjNbS3y1zBPRSim
- yJGmJEX4F2itK33vCi2Yd5D5sDslh1+xund5qiMHGUMRXdFL8SK8pF2VW8bNSFgyf8Mu
- gxsUuRJZXBc429zvFyXWKHdly2N/MkxUOzBBG7hZb0lXsvzFMfX67V/+Y3DFmDHN4fO1
- ZL+TQDugQvzS6LneYMQdhcUbybKgCWc+UyG+XvW1NKWi8JOPyF+oYrhM10fe3XHrTXpf
- 4g7PgbzHYRpBB1xSjTcu4UILGJCOL51jIxuQZ2NsMmbuuiPqOgByryqnWOK8zzfWmoGp
- 0Rpw==
-X-Gm-Message-State: AAQBX9dopFks0E9uJHOOtxDWN50QLhOXpeaAOwnz1mHa0qWEAk/c6jFG
- Qo74kFrGBpU8XtqnCSQJFnLHFnGE9ndsrw==
-X-Google-Smtp-Source: AKy350bXhmM/2A9FSiSEPzOKXkxkD/B0kwL/YsCWO+mm6A8bQ+3Tl1zBWTbKQI0K1124yBMZUi0zFA==
-X-Received: by 2002:a17:906:6888:b0:94e:7bde:3108 with SMTP id
- n8-20020a170906688800b0094e7bde3108mr8792782ejr.27.1681759308067; 
- Mon, 17 Apr 2023 12:21:48 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681759309; x=1684351309;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=THKXDGcAzs96r2S6UQiFVZFfNh0FZnvDmU09b9bBVHo=;
+ b=WVIbSW5sFUo8R0rRVohvyHB0VlqTNJRDHIzcd913BFyu25WJOuWBys9pGmQs2m5sc+
+ ukr07AZpAQyESMjD91oRtVBcCtd40JZpsecDtTU17vr85NS1WHgOx4og6t1znU49/XY6
+ 4sxk1rtE6u6H+Vhv37kdlQqzU6/6juiZlp0LSykM0EWoFRLhEiMpOBp/9PuprtAEwKx6
+ tj3ZvzbyIFkOrwdk51VUje1WOkgjUfHFDdHWMbG6akB+EmjoKbK7ElCMsOZ0TeRIaasV
+ pA0GZUgfux+Q/UZGJOOdf7QYnxK+OjxVrQljjqR80t4FgTYl+8Gdw06RdyE7GsEX0oTo
+ C8zg==
+X-Gm-Message-State: AAQBX9dH1Af6A2Z/Mr6O2m3cNdIo50S8m30TqKi3PvyyALwUvo/8+9x1
+ AoQXSw0hI2vMlZnVcrEsFqatZX5N+z1Z4Q==
+X-Google-Smtp-Source: AKy350YcO9eLJJuTBH3gpXUqBGnPMI0RRvYQOYBsW8TeqyZEHSFozrDkg+VbkbCGTcAqy09aGsq+kw==
+X-Received: by 2002:a17:906:1b07:b0:94e:d951:d4e7 with SMTP id
+ o7-20020a1709061b0700b0094ed951d4e7mr8779878ejg.59.1681759309020; 
+ Mon, 17 Apr 2023 12:21:49 -0700 (PDT)
 Received: from Provence.localdomain
  (dynamic-089-012-025-091.89.12.pool.telefonica.de. [89.12.25.91])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a1709066b9300b0094a65f209d7sm6940134ejr.119.2023.04.17.12.21.46
+ l19-20020a1709066b9300b0094a65f209d7sm6940134ejr.119.2023.04.17.12.21.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 12:21:47 -0700 (PDT)
+ Mon, 17 Apr 2023 12:21:48 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
  Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 0/2] SDL2 usability fixes
-Date: Mon, 17 Apr 2023 21:21:37 +0200
-Message-Id: <20230417192139.43263-1-shentey@gmail.com>
+Subject: [PATCH v2 1/2] ui/sdl2: Grab Alt+Tab also in fullscreen mode
+Date: Mon, 17 Apr 2023 21:21:38 +0200
+Message-Id: <20230417192139.43263-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.40.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230417192139.43263-1-shentey@gmail.com>
+References: <20230417192139.43263-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,32 +92,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I'm trying to use QEMU on Windows hosts for fun and for profit. While the G=
-TK=0D
-GUI doesn't seem to support OpenGL under Windows the SDL2 GUI does. Hence I=
-=0D
-used the SDL2 GUI where I ran into several issues of which two are fixed in=
-=0D
-this series, which are:=0D
-=0D
-* Alt+Tab switches tasks on the host rather than in the guest in fullscreen=
- mode=0D
-* Alt+F4 closes QEMU rather than a graphical task in the guest=0D
-=0D
-More information about each issue is provided in the patches.=0D
-=0D
-v2:=0D
-* Omit AltGr patch since Voker is taking care of it=0D
-* Protect Alt+Tab hint with #ifdef (Volker)=0D
-=0D
-Bernhard Beschow (2):=0D
-  ui/sdl2: Grab Alt+Tab also in fullscreen mode=0D
-  ui/sdl2: Grab Alt+F4 also under Windows=0D
-=0D
- ui/sdl2.c | 4 ++++=0D
- 1 file changed, 4 insertions(+)=0D
-=0D
--- =0D
-2.40.0=0D
-=0D
+By default, SDL grabs Alt+Tab only in non-fullscreen mode. This causes Alt+Tab
+to switch tasks on the host rather than in the VM in fullscreen mode while it
+switches tasks in non-fullscreen mode in the VM. Fix this confusing behavior
+by grabbing Alt+Tab in fullscreen mode, always causing tasks to be switched in
+the VM.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ ui/sdl2.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index b12dec4caf..8af8b89f1d 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -856,6 +856,9 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
+     SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
+ #endif
+     SDL_SetHint(SDL_HINT_GRAB_KEYBOARD, "1");
++#ifdef SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED
++    SDL_SetHint(SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED, "0");
++#endif
+     memset(&info, 0, sizeof(info));
+     SDL_VERSION(&info.version);
+ 
+-- 
+2.40.0
+
 
