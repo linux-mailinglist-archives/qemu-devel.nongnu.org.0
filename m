@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0D66E49E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 15:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF7D6E4A36
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 15:44:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poOt6-00027V-3y; Mon, 17 Apr 2023 09:27:20 -0400
+	id 1poP92-00010A-FM; Mon, 17 Apr 2023 09:43:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1poOt0-00027M-5p
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:27:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1poOsy-0001tp-4I
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:27:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681738030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CuufHBPy3Jw1K3TRtLfekJl1WEOorWIduK/sp8Y1uz8=;
- b=fj5Rnq0+71j1LzRNEFGCgnX6VH04qUEcXCBbZUuzJghrp+KOZKad884hhiBQw0rOf2sj+4
- y4u42lz7iQw5R6ki28c49jOVZxDSMygwpeGJe7ilfNI40vjRszj/KsZBMffHQwX/E4a0Vu
- rikWUbXOfqoAvF06QgiO7FR0izcViY8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-16DiK8uWN_Gk6YQF__7p0Q-1; Mon, 17 Apr 2023 09:27:09 -0400
-X-MC-Unique: 16DiK8uWN_Gk6YQF__7p0Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BBC67185A7B3;
- Mon, 17 Apr 2023 13:27:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79D65C15E7F;
- Mon, 17 Apr 2023 13:27:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 74B5321E5A0D; Mon, 17 Apr 2023 15:27:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "you.chen" <you.chen@intel.com>
-Cc: qemu-devel@nongnu.org,  "dennis . wu" <dennis.wu@intel.com>,  Juan
- Quintela <quintela@redhat.com>,  Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 2/2] migration: add support for qatzip compression
- when doing live migration
-References: <20230417083935.415782-1-you.chen@intel.com>
- <20230417083935.415782-3-you.chen@intel.com>
-Date: Mon, 17 Apr 2023 15:27:07 +0200
-In-Reply-To: <20230417083935.415782-3-you.chen@intel.com> (you chen's message
- of "Mon, 17 Apr 2023 16:39:35 +0800")
-Message-ID: <87r0siabbo.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1poP8o-0000wK-FX
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:43:35 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1poP8g-0006MK-9r
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:43:34 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f0aabd1040so41423065e9.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 06:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681739003; x=1684331003;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/AgPMEkJj5uDNj5jnrln7+4tm9L02eo8Q2wwYkrP4dg=;
+ b=nBKvT7OqUIRWbNLUT7LIF5k+FKkNvL1j5A53WcDnX3NAVruUo+P40n8XIep+TGvOiq
+ IVJd/Iu56ocGPGRgJ74FSA83iSOo18TLLuCvitriFrcTk8emKCtnvCv8g+5NCpNF403v
+ ZbCW0H21PGNiyqt3IFfy5MCoGgu5u7H5frKdNIaRnCurs5V4RB3hgm+cuQ1xGkgWR7g1
+ nok5+qaFUs7DlvUYCN6NVUArFqx3+q+apOpSK4Qql9TtYA2bTEKXsVkYZnWejt2xgCDr
+ C2+H9QN5k2ntsl6022jzn0tcaG7hLAJ7Bux2AfXetKGn55g0/EdlpaYUzqYY0SNjFdJ9
+ EUFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681739003; x=1684331003;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/AgPMEkJj5uDNj5jnrln7+4tm9L02eo8Q2wwYkrP4dg=;
+ b=hrI9Ikzx0BWgyhPBPR71vy9WGS0pjbwfrCZxip1H9m7tAGkvJACfMb+UYINc2/36zM
+ 1SN4nb6jjIY2+phSMTpzdKV3U6xtGiH4m3YUdcqkkBh03m7+vK4JqykTjyyVb+wIuLg4
+ 6MhK6r7ZO4BWO2J0GEpubR4bnEipq9swxOvhPcBXD9JqO46KZJCkXZ/zYrPMVxS1PrDB
+ 2X2JFQZDbEQ7J9+Ik73dqntuWT2Wh9FWi1N0jqPecYA6x+1J7G3gPSE8z9hZ5KcfIwgV
+ GvE6F3WrBDEZ9aMaxhYPvjsswix+YWPk5d537L/JeWqeRRZY+GEGKIFqSFlQ9DTUXYSG
+ cdvQ==
+X-Gm-Message-State: AAQBX9cITv9ys/4Uc9ndm0eg2rHEYEF0vyhgn4c06xMfogKcqd25AeG+
+ /JCik57ZQVdT5joFUlzU5P0O9g==
+X-Google-Smtp-Source: AKy350bivPTiNHNJ4uIQQa85RKOc2lP8hRAIMXVFodJMp95MTc1DUuPQlkFZdxDcTHUCQWxQ+6Briw==
+X-Received: by 2002:a5d:6b89:0:b0:2fa:88d3:f8b8 with SMTP id
+ n9-20020a5d6b89000000b002fa88d3f8b8mr2307948wrx.12.1681739003631; 
+ Mon, 17 Apr 2023 06:43:23 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ i4-20020a5d55c4000000b002f74578f494sm8171246wrw.41.2023.04.17.06.43.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Apr 2023 06:43:22 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CDDB81FFB7;
+ Mon, 17 Apr 2023 14:43:21 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Radoslaw Biernacki <rad@semihalf.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Leif Lindholm <quic_llindhol@quicinc.com>, John Snow <jsnow@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org
+Subject: [PATCH v4 0/6] testing/next: avocado, docs, gitlab
+Date: Mon, 17 Apr 2023 14:43:15 +0100
+Message-Id: <20230417134321.3627231-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,117 +103,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"you.chen" <you.chen@intel.com> writes:
+This is the current state of my testing tree. It contains a few
+patches that didn't make it into 8.0 and more testing fixes including
+a bump to the avocado release including Thomas' --max-parallel-tasks
+hack to avoid running the tests in parallel. So far it doesn't look
+like its causing any problems although I am seeing some timeouts on
+the BSDs.
 
-> Add config and logics to use qatzip for page compression, in order to support qatzip compression better, we collect multipe pages together to do qatzip compression for best performance.
-> And we use compile option CONFIG_QATZIP to determine whether should qatzip related code be compiled or not.
->
-> Co-developed-by: dennis.wu <dennis.wu@intel.com>
-> Signed-off-by: you.chen <you.chen@intel.com>
+The following patches need review:
 
-[...]
+tests/avocado: use the new snapshots for testing
+tests/requirements.txt: bump up avocado-framework version to 101.0 (0 acks, 1 sobs, 1 tbs)
 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index c84fa10e86..6459927c7a 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -644,6 +644,8 @@
->  #                  no compression, 1 means the best compression speed, and 9 means best
->  #                  compression ratio which will consume more CPU.
->  #
-> +# @compress-with-qat: compress with qat on and off. (Since 8.1)
-> +#
->  # @compress-threads: Set compression thread count to be used in live migration,
->  #                    the compression thread count is an integer between 1 and 255.
->  #
-> @@ -784,7 +786,7 @@
->  { 'enum': 'MigrationParameter',
->    'data': ['announce-initial', 'announce-max',
->             'announce-rounds', 'announce-step',
-> -           'compress-level', 'compress-threads', 'decompress-threads',
-> +           'compress-level', 'compress-with-qat', 'compress-threads', 'decompress-threads',
->             'compress-wait-thread', 'throttle-trigger-threshold',
->             'cpu-throttle-initial', 'cpu-throttle-increment',
->             'cpu-throttle-tailslow',
-> @@ -815,6 +817,8 @@
->  #
->  # @compress-level: compression level
->  #
-> +# @compress-with-qat: compression with qat (Since 8.1)
-> +#
->  # @compress-threads: compression thread count
->  #
->  # @compress-wait-thread: Controls behavior when all compression threads are
-> @@ -954,6 +958,7 @@
->              '*announce-rounds': 'size',
->              '*announce-step': 'size',
->              '*compress-level': 'uint8',
-> +            '*compress-with-qat': 'bool',
->              '*compress-threads': 'uint8',
->              '*compress-wait-thread': 'bool',
->              '*decompress-threads': 'uint8',
-> @@ -1152,6 +1157,7 @@
->              '*announce-rounds': 'size',
->              '*announce-step': 'size',
->              '*compress-level': 'uint8',
-> +            '*compress-with-qat': 'bool',
->              '*compress-threads': 'uint8',
->              '*compress-wait-thread': 'bool',
->              '*decompress-threads': 'uint8',
+Alex Bennée (2):
+  tests/avocado: use the new snapshots for testing
+  qemu-options: finesse the recommendations around -blockdev
 
-We already have MigrationCapability compress
+Kautuk Consul (1):
+  tests/requirements.txt: bump up avocado-framework version to 101.0
 
-    # @compress: Use multiple compression threads to accelerate live migration.
-    #            This feature can help to reduce the migration traffic, by sending
-    #            compressed pages. Please note that if compress and xbzrle are both
-    #            on, compress only takes effect in the ram bulk stage, after that,
-    #            it will be disabled and only xbzrle takes effect, this can help to
-    #            minimize migration traffic. The feature is disabled by default.
-    #            (since 2.4 )
+Philippe Mathieu-Daudé (1):
+  tests/avocado: Add set of boot tests on SBSA-ref
 
-and xbzrle
+Thomas Huth (2):
+  gitlab-ci: Avoid to re-run "configure" in the device-crash-test jobs
+  scripts/device-crash-test: Add a parameter to run with TCG only
 
-    # @xbzrle: Migration supports xbzrle (Xor Based Zero Run Length Encoding).
-    #          This feature allows us to minimize migration traffic for certain work
-    #          loads, by sending compressed difference of the pages
-    #
+ MAINTAINERS                              |   1 +
+ .gitlab-ci.d/buildtest.yml               |   6 +-
+ qemu-options.hx                          |  24 +++-
+ scripts/device-crash-test                |   4 +-
+ tests/Makefile.include                   |  18 ++-
+ tests/avocado/machine_aarch64_sbsaref.py | 158 +++++++++++++++++++++
+ tests/avocado/tuxrun_baselines.py        | 170 +++++++++++++++++++----
+ tests/requirements.txt                   |   2 +-
+ 8 files changed, 343 insertions(+), 40 deletions(-)
+ create mode 100644 tests/avocado/machine_aarch64_sbsaref.py
 
-and MigrationParameters / MigrateSetParameters multifd-compression
-
-    # @multifd-compression: Which compression method to use.
-    #                       Defaults to none. (Since 5.0)
-    #
-    # @multifd-zlib-level: Set the compression level to be used in live
-    #                      migration, the compression level is an integer between 0
-    #                      and 9, where 0 means no compression, 1 means the best
-    #                      compression speed, and 9 means best compression ratio which
-    #                      will consume more CPU.
-    #                      Defaults to 1. (Since 5.0)
-    #
-    # @multifd-zstd-level: Set the compression level to be used in live
-    #                      migration, the compression level is an integer between 0
-    #                      and 20, where 0 means no compression, 1 means the best
-    #                      compression speed, and 20 means best compression ratio which
-    #                      will consume more CPU.
-    #                      Defaults to 1. (Since 5.0)
-
-where multifd-compression is
-
-    ##
-    # @MultiFDCompression:
-    #
-    # An enumeration of multifd compression methods.
-    #
-    # @none: no compression.
-    # @zlib: use zlib compression method.
-    # @zstd: use zstd compression method.
-    #
-    # Since: 5.0
-    ##
-
-How does this all fit together?  It feels like a bunch of featured piled
-onto each other, then shaken well.  Or am I confused?
-
-I could use an abstract description of compression in migration.
+-- 
+2.39.2
 
 
