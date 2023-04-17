@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBE16E47DC
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD7A6E47DD
 	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 14:35:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poO3X-0001GJ-Rn; Mon, 17 Apr 2023 08:34:03 -0400
+	id 1poO4C-0001k2-0p; Mon, 17 Apr 2023 08:34:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1poO3W-0001FM-9u
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:34:02 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1poO3v-0001dJ-Tg
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:34:28 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1poO3E-0006hI-Lg
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:34:02 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- m39-20020a05600c3b2700b003f170e75bd3so1338752wms.1
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 05:33:42 -0700 (PDT)
+ id 1poO3u-0006sx-Ac
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:34:27 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f1738d0d4cso4533215e9.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 05:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681734820; x=1684326820;
+ d=gmail.com; s=20221208; t=1681734864; x=1684326864;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jwFF4OlAc8WhFMJkqHAMU3vekqaWmw/4QM0BxFjkB48=;
- b=YYiMHYka6VsDJYi2gscWqaahkAinjOFRm6DbLxe3JVigfbf7X8xyh196bUhxXbwGIA
- fbFosGudK5afJc3wrMrjhajrsnrRLbLK2pjN/r3cD0Ij+J8qQsmsVlAkcleKr72sMjGf
- vG/ofoI/fa128DN8xM4UZXfHugGHV3TLODbSj8oO5ArJpWf9mZcmvFc/NPZzxPmklgtr
- MmVsREIV3J4iU1jzKbFE/PjWoiOpE3qfrdcrf/BdwDVsEJ9Blm+iRI9J+jja3VJ6O104
- gMB+5mrzDPo6ZXmKOn+5BKTgDL4/cNnBbYw7xMcL4ZsPdMSknPudzQNuRW+ah/X8n4aa
- AfEA==
+ bh=jQnz3n1AuRPtCJ1RDVocHpGppB0g/9zbL7gA6j6iNsk=;
+ b=jWNACl3Mv8T6RnJ2Tyq1dQTW62FBIGpJNCFkGblaSI2JAcJIVilFP/umFBmbz1w/HH
+ r3Nmyfh9lWQRsSoP+uPNvKi9OFgAt4pviDH/9aYuInFEjFUDPs4xscK54uNmOE9AXi5w
+ 9u/hB0RyE74A/MZBcWu4fP9d8+DYXZHoV8NTHsmSKOVl7QDmMl7s4wrHFkPrl98mUJlB
+ IESEaRiefya3Gtgm95mePAcnbg+X88s8w4Dui87ZvlYm4+Mdh314bGeVGm8OhRs0Gp0b
+ wlgDQP/Kj08xv57wSi2pHaqfOjNq8JH8BZk2hKcMdmJIcH1FfwHAd14uFUdUethfcmRY
+ miyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681734820; x=1684326820;
+ d=1e100.net; s=20221208; t=1681734864; x=1684326864;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jwFF4OlAc8WhFMJkqHAMU3vekqaWmw/4QM0BxFjkB48=;
- b=aa3eWF1Q2Fbe5pJPRgJ1DaRf5LcW3bPryFITgr/AkYq9U0HHVEk1+VXIeVbxk/KCyH
- Ia2y/wRMLPkSTrltMLCPWdreCX6WekVwWEEVUI2R0y/d0Ew+vrKc7S5rcGkl7iCCim2/
- TpPwTCvFO9G88KyBLWPOQ4s/qrjvVDWjb7U6F3HpMU6Li251cMuTuHjIHVZxxyJ2lF2h
- 6pgKKZXi3eukJpZPBjPX5rKdFMh3Z7UGAcbkNUmbnWODieoxfjaz55/d5s5OfARn5sFp
- igkufvBZLrrCKGtdZSdAwYz3aJ41pPLcx0CXzrL1RIMd+oSXKaFvwLu9WflNmq+BrkUo
- f2AA==
-X-Gm-Message-State: AAQBX9cMatBfhOmVGR1mR51ojGFJxALESPQCoyBHRnTh0DIjPvLWVxsr
- QCFtxSXoXqpQuEAtkpNp7SI=
-X-Google-Smtp-Source: AKy350aN1LXr0qrwFoe7EoDFDDVNhV2/qcHWtPrIt1pJ+Qk+uDEMi1hR+uzq10YOMcZsvTQTe0DXYg==
-X-Received: by 2002:a05:600c:2051:b0:3f1:6ec5:bc6e with SMTP id
- p17-20020a05600c205100b003f16ec5bc6emr5634089wmg.3.1681734820491; 
- Mon, 17 Apr 2023 05:33:40 -0700 (PDT)
+ bh=jQnz3n1AuRPtCJ1RDVocHpGppB0g/9zbL7gA6j6iNsk=;
+ b=ZfxfBBSwc3RMjmz70OwBHmJJB+yv2m8Z3W0xzppbr/1fjm6D1RXjP4x2jCJ4QsWsKR
+ O65Aj7Z5y0+069zBuXofovjAiy+l2+qlC575wEhnvNgD0wwjPGrRMGkZrCGeWYaEeMvm
+ VEUgJ+o8nViXJAYDEHNJlS4ZmQ3tjalNK/9KkttlGiXaY87p6hncHQFK6Qx8zX8gfpX4
+ p5EbJg97qPIPLEh/bYllXPFhkCLuZSSfLzjXJIv5H4ulKamNeuxJ/qI1BkBjM267jcJv
+ Bx87FJiJ6LI0DiT7/plauDJDFZvqZaE5YswhmtLbbNP+OtDN8IThIWMXv3WnUQL1o9jO
+ 17CQ==
+X-Gm-Message-State: AAQBX9ee0cLsAtvL5dfD25Ei5gl1ZMeclPgbuRmYE+J2JxdxGKtiuA8l
+ AWbSSltM3xTtIA3rAVFQ1Fs=
+X-Google-Smtp-Source: AKy350ZMoM7ssfA8tZqdPzobXT3XgXokj5MKZKhf3HYCvcgZjxuGt3q+5Ae24ff7S2+r47tuGPVhlg==
+X-Received: by 2002:a5d:5409:0:b0:2f8:5d73:dbf0 with SMTP id
+ g9-20020a5d5409000000b002f85d73dbf0mr5397935wrv.27.1681734864568; 
+ Mon, 17 Apr 2023 05:34:24 -0700 (PDT)
 Received: from [192.168.0.165] (54-240-197-233.amazon.com. [54.240.197.233])
  by smtp.gmail.com with ESMTPSA id
- p6-20020a1c7406000000b003ed2c0a0f37sm11811485wmc.35.2023.04.17.05.33.39
+ h12-20020adffa8c000000b002d322b9a7f5sm10452463wrr.88.2023.04.17.05.34.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 05:33:40 -0700 (PDT)
+ Mon, 17 Apr 2023 05:34:24 -0700 (PDT)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <0b67440a-9c65-6606-5e24-6fb01e8543a3@xen.org>
-Date: Mon, 17 Apr 2023 13:33:38 +0100
+Message-ID: <eea29aa3-b3e7-6579-aef4-74f496e99c66@xen.org>
+Date: Mon, 17 Apr 2023 13:34:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 4/5] hw/xen: Fix double-free in xen_console
- store_con_info()
+Subject: Re: [PATCH 5/5] hw/xen: Fix broken check for invalid state in
+ xs_be_open()
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: no Stabellini <sstabellini@kernel.org>,
@@ -79,13 +79,13 @@ Cc: no Stabellini <sstabellini@kernel.org>,
  Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philmd@linaro.org>, xen-devel@lists.xenproject.org
 References: <20230412185102.441523-1-dwmw2@infradead.org>
- <20230412185102.441523-5-dwmw2@infradead.org>
+ <20230412185102.441523-6-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20230412185102.441523-5-dwmw2@infradead.org>
+In-Reply-To: <20230412185102.441523-6-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -112,17 +112,14 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 12/04/2023 19:51, David Woodhouse wrote:
 > From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Coverity spotted a double-free (CID 1508254); we g_string_free(path) and
-> then for some reason immediately call free(path) too.
+> Coverity points out that if (!s && !s->impl) isn't really what we intended
+> to do here. CID 1508131.
 > 
-> We should just use g_autoptr() for it anyway, which simplifies the code
-> a bit.
-> 
-> Fixes: 7a8a749da7d3 ("hw/xen: Move xenstore_store_pv_console_info to xen_console.c")
+> Fixes: 032475127225 ("hw/xen: Add emulated implementation of XenStore operations")
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   hw/char/xen_console.c | 13 +++----------
->   1 file changed, 3 insertions(+), 10 deletions(-)
+>   hw/i386/kvm/xen_xenstore.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
