@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1401B6E47B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 14:30:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932A76E47C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 14:31:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poNyd-0007mP-Ce; Mon, 17 Apr 2023 08:28:59 -0400
+	id 1poO09-0008TI-JA; Mon, 17 Apr 2023 08:30:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1poNyb-0007mF-Ct
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:28:57 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ id 1poO07-0008T1-0o
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:30:31 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1poNyZ-0005QH-8E
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:28:56 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-2fa47de5b04so732802f8f.1
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 05:28:54 -0700 (PDT)
+ id 1poO05-0005rQ-BG
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:30:30 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ n9-20020a05600c4f8900b003f05f617f3cso19733194wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 05:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681734533; x=1684326533;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:reply-to:user-agent:mime-version:date
+ d=gmail.com; s=20221208; t=1681734627; x=1684326627;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EHlangfw+7m1YCMw8lZV9CNZHwQKHUWeJfkJFI19eOg=;
- b=bYg3qN6rK63/iJpugod5x88LFcz1ySMUUCQvLKN8kkAOJQfnJN+YlMvQnvFOStsAh6
- BjYH7KdED5M8d0IuoHaV/lK/N4fpjAIAylJ9HBBBLx824IF7/Y1MYngc6q0UJByU1Y8r
- Uy2/4QynzcQfW7tPQpQVwhDEstIAVTaN2cwo3HT8I5kxOVpsfGNBfApxzR/rkvqhc/cT
- s5AElOg4n4GJGRPIHK0RdoejuNQOcJUOSEXsE0bvLOrGL/2n82ceKv6+z7keZkcY76WS
- Xeq6yWo1ZJL05Cz8FwzIShenJKvi0sTHeAGK9HozDDLT5QsIgvegW8tNtkFIgcCBCjf7
- V39w==
+ bh=sOoY5WTG+InyofH4KHUoATfgAaPfNyAeXdK/e766al0=;
+ b=f8522ysrl1IfSEB7/siDCOfEDKk/w/Do6Pgobux024FweSGC0QGYT10SBjf1VPso14
+ utEY3jq0+lwGGGGvyw55J5wcn+t/pJu3jNlxravd31EZKNoPv7htBNkOECKCynWT+jHK
+ xYjLRgI9Zx1zpxWbFB1HBwMH5bhPZNchVD3zVA7ADjuDHuxsumT1/czYS0eOktteISoN
+ dl+Pap8Ihk9qzhrQ93ZrFA8NDYnTlGzfM2GAqnrSk6HPkT3NxdmyUGME2LhLbv6DZg9w
+ nhHSrclBAjVRkd7ceyoXfa34gJHoABQ2gQ3EgvIL4UyDDh/NWJDCPg4F3AC6+DzsCN9Y
+ mY/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681734533; x=1684326533;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:reply-to:user-agent:mime-version:date
+ d=1e100.net; s=20221208; t=1681734627; x=1684326627;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EHlangfw+7m1YCMw8lZV9CNZHwQKHUWeJfkJFI19eOg=;
- b=O0RLo8C7e/HLN1gpUouCH7kAgBrijRUtlXps8kaAS8J9GKndnDu0MWuZRA2mYqhtNK
- H5Uh5LLM3RfBknk+0SB0vtHXXqXKEAYdegL+a4mFK7pO36TorjUp5CLZT/XJHY7pvzY8
- HRjSxWkr+8CvV2eRSL2AZsPKRvxymq6k1R34cBVNJKFhLvhjaNenvGQejeU+W67fqVCe
- 1qQvXzLGB5lD7K1lGFd9xnYGTILtqtgH0woI9Ed3zesT30HjA7sBSBaYOYHYHqLCurmX
- evCJpK57pUB+c4VuSyqnDOY5Fl+BuCXlBkE34hMcEMTDForKJpCsbstn18VPTehHazW/
- y00A==
-X-Gm-Message-State: AAQBX9c6rfMAjO3sECsYb7054tN5KddMX1M/FXbjZEqWQCZbgooVgsxw
- qITAcU+p/sX/7fahBgD5a5U=
-X-Google-Smtp-Source: AKy350abVnY/wIAxkqlJo9mt+LIZ2kcEVzwVNhlLPlEpeUu8gGoZ0KZlxQblQ+9TrYZpypLwud6o1Q==
-X-Received: by 2002:a5d:6e01:0:b0:2ef:a57e:bb9a with SMTP id
- h1-20020a5d6e01000000b002efa57ebb9amr5522963wrz.6.1681734533109; 
- Mon, 17 Apr 2023 05:28:53 -0700 (PDT)
+ bh=sOoY5WTG+InyofH4KHUoATfgAaPfNyAeXdK/e766al0=;
+ b=R9nx+r+GNHxq+31URqCrzELsOjPg4fWjFocbZSjCieVm/q7Qbmy9QUPk5H+cDiZ46C
+ lj0mxa4hww6yXGCXcio7F63N24QJoT6/SLRKGS4MO6/wmFTVXLEBv2pu24FqFhaxiEzf
+ Nq0GMJtnval7FwUjBxWqrK6aNhzxfw1JK0lCvUgZKL70oswd8bTL9PyOs/wIW2uwboM4
+ O48aG/UYu5BXSsoHJxrp+aho/PBnKSk/NAHkU3Q5LiAEcf9kyaV5j6TsbsO5s4e4L3wA
+ qEebpH4GGdB+gXR9K9CzJgIDePYs9cASJqhu7H7MB4uBXfrYu3IsThVtnNGPtCP3+i9x
+ m/SQ==
+X-Gm-Message-State: AAQBX9ctklvKTQEusDlWqy7g3vgktfqfYwwxQFsv2BUvNSkFj3Px0DhA
+ eiOF0tfXlD3uKeC6N+PYE4M=
+X-Google-Smtp-Source: AKy350ZCWY+iLGD9Fyd2GzYGRLSxota9WngBMMlDXO/QahTk7nhjmJvBA6V5jWeqLAnMpj4K2y9GTA==
+X-Received: by 2002:a1c:e90d:0:b0:3eb:42fa:39d5 with SMTP id
+ q13-20020a1ce90d000000b003eb42fa39d5mr10451882wmc.29.1681734627479; 
+ Mon, 17 Apr 2023 05:30:27 -0700 (PDT)
 Received: from [192.168.0.165] (54-240-197-233.amazon.com. [54.240.197.233])
  by smtp.gmail.com with ESMTPSA id
- l10-20020a7bc34a000000b003eeb1d6a470sm11782134wmj.13.2023.04.17.05.28.51
+ n6-20020a05600c3b8600b003f173a2b2f6sm2802937wms.12.2023.04.17.05.30.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 05:28:52 -0700 (PDT)
+ Mon, 17 Apr 2023 05:30:26 -0700 (PDT)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <95698d88-85ba-0072-f23e-91e8b686dc52@xen.org>
-Date: Mon, 17 Apr 2023 13:28:50 +0100
+Message-ID: <79aefe17-be48-2be9-7c3e-12056f5f2819@xen.org>
+Date: Mon, 17 Apr 2023 13:30:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 2/5] hw/xen: Fix memory leak in libxenstore_open() for Xen
+Subject: Re: [PATCH 3/5] xen: Drop support for Xen versions below 4.7.1
+Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: no Stabellini <sstabellini@kernel.org>,
  Anthony Perard <anthony.perard@citrix.com>,
@@ -77,14 +78,13 @@ Cc: no Stabellini <sstabellini@kernel.org>,
  Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philmd@linaro.org>, xen-devel@lists.xenproject.org
 References: <20230412185102.441523-1-dwmw2@infradead.org>
- <20230412185102.441523-3-dwmw2@infradead.org>
-Content-Language: en-US
+ <20230412185102.441523-4-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20230412185102.441523-3-dwmw2@infradead.org>
+In-Reply-To: <20230412185102.441523-4-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -108,19 +108,24 @@ Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/04/2023 19:50, David Woodhouse wrote:
+On 12/04/2023 19:51, David Woodhouse wrote:
 > From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> There was a superfluous allocation of the XS handle, leading to it
-> being leaked on both the error path and the success path (where it gets
-> allocated again).
+> In restructuring to allow for internal emulation of Xen functionality,
+> I broke compatibility for Xen 4.6 and earlier. Fix this by explicitly
+> removing support for anything older than 4.7.1, which is also ancient
+> but it does still build, and the compatibility support for it is fairly
+> unintrusive.
 > 
-> Spotted by Coverity (CID 1508098).
-> 
-> Fixes: ba2a92db1ff6 ("hw/xen: Add xenstore operations to allow redirection to internal emulation")
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: 15e283c5b684 ("hw/xen: Add foreignmem operations to allow redirection to internal emulation")
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/xen/xen-operations.c     |  57 +------------------
+>   include/hw/xen/xen_native.h | 107 +-----------------------------------
+>   meson.build                 |   5 +-
+>   scripts/xen-detect.c        |  60 --------------------
+>   4 files changed, 3 insertions(+), 226 deletions(-)
+> 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
 
