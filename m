@@ -2,102 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72186E40BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 09:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FDC6E410A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 09:31:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poJBg-0000Au-8g; Mon, 17 Apr 2023 03:22:08 -0400
+	id 1poJJj-0003Y8-1C; Mon, 17 Apr 2023 03:30:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1poJBb-0008Vd-SR; Mon, 17 Apr 2023 03:22:03 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1poJBY-0006Ht-DJ; Mon, 17 Apr 2023 03:22:03 -0400
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33H763PF010759; Mon, 17 Apr 2023 07:21:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=H/kkEHk4iaFkP3iIuS2NCBBRCjW5ghEvx7o3Xp5zfI0=;
- b=cnU0cGCxRpuSkG6rGmhLU6RJmbhk66alJNWilH17yYWfYRbN0hRyqyTsvUlQkrl7xS+q
- krZjaSdbAhWHlTzkLPm4N8rSogLzKHDBvsgt8z4XscLbHxfjmRmnUF/rnDuqnSs4h5Qd
- nv/6mUxHMpPB8A311FQ+IWIcFMe+kr/H65trvltYeqoz23hRd8B688kzyS38ftfYpqTb
- DXIHnArQsEF+MeWFgok1jz0lKcvckmR8mfy3bHr8hAbHdRPgljL5rp4+0sDzDNdj7JlX
- dIY6lSlAsdvdrle8XyEkgJRPzFESq+Jv2X7MWIWXmRP/bqv8ai0hnNAdsZBLVKSmybv1 Dw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pym2g8f61-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 07:21:58 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33H76EF9011092;
- Mon, 17 Apr 2023 07:21:58 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pym2g8f5s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 07:21:58 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33H5BRnH013985;
- Mon, 17 Apr 2023 07:21:57 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
- by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3pykj6v3w2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 07:21:57 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com
- [10.39.53.232])
- by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33H7Lu4i4653612
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Apr 2023 07:21:56 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E9DDB58059;
- Mon, 17 Apr 2023 07:21:55 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 97DB85805F;
- Mon, 17 Apr 2023 07:21:54 +0000 (GMT)
-Received: from [9.109.242.129] (unknown [9.109.242.129])
- by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 17 Apr 2023 07:21:54 +0000 (GMT)
-Message-ID: <32f9d902-5967-4c43-8522-c1bdc4dda47c@linux.ibm.com>
-Date: Mon, 17 Apr 2023 12:51:53 +0530
+ (Exim 4.90_1) (envelope-from <morbidrsa@gmail.com>)
+ id 1poJJg-0003Xm-ML
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 03:30:24 -0400
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <morbidrsa@gmail.com>)
+ id 1poJJe-0008BX-VM
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 03:30:24 -0400
+Received: by mail-wm1-f49.google.com with SMTP id
+ eo6-20020a05600c82c600b003ee5157346cso14958852wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 00:30:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681716621; x=1684308621;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=YyhdsNP5feGIdL0Y56dxJ/6Gfkx/rDaX9Nej/jQqKdI=;
+ b=kjPTbGbKqQF3OL/qUlsPG2Lz7vTRw+VVJmyDQ0Yf9Giqo7wiT87fcC+lhsxyF4uSyj
+ BMWOqnIz74yIr8Ovr+ShHgILdJOYrIfNOy7ib9wC0T26iGudNUpUqSMaPelCPosjCh6v
+ eC5pGOO1IumPAchmV678U3U+zyZqw5etjPRhxRWsFVrFG7tnIJ7O7Bd2H5N0M9cDXuhC
+ Fj3a8J5OYYYeBqctQ7ZmTBvzlDZpC927fNcNGaTcq/x2gaBNtCD55rUzbNIbaA2tRN1r
+ kOTTzstf/b+usiIJmC1jqQBamumESehUFdLFs9TVB4wghLXznswgdpWjZyW2RFrpb80m
+ 2LnA==
+X-Gm-Message-State: AAQBX9cIA3y/amqNMo0AtZDd8FnTxjPo46SL/HyGG6nMaFxZBPbUHk3a
+ LGzqCFP4jxTdqdSBXULHR+g=
+X-Google-Smtp-Source: AKy350awD5nX757KNmeJTXR4oCM9eGNBqpiZzCimmRsFzSGisxIkVuMM+WjIwTYA0yS58beAL3d7PA==
+X-Received: by 2002:a05:600c:20b:b0:3f1:72dc:8bae with SMTP id
+ 11-20020a05600c020b00b003f172dc8baemr2575929wmi.21.1681716621022; 
+ Mon, 17 Apr 2023 00:30:21 -0700 (PDT)
+Received: from ?IPV6:2001:a62:147d:c501:d19f:8e18:b2cb:95ec?
+ ([2001:a62:147d:c501:d19f:8e18:b2cb:95ec])
+ by smtp.gmail.com with ESMTPSA id
+ p8-20020a7bcc88000000b003f04f0c5a6fsm11088617wma.26.2023.04.17.00.30.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Apr 2023 00:30:19 -0700 (PDT)
+Message-ID: <0bc87d37-49ef-c5e6-823b-c1d922fc4900@kernel.org>
+Date: Mon, 17 Apr 2023 09:30:18 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 5/5] MAINTAINERS: Adding myself in the list for ppc/spapr
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20230331065344.112341-1-harshpb@linux.ibm.com>
- <20230331065344.112341-6-harshpb@linux.ibm.com>
- <a1b5b50a-9a2c-b6f7-6b89-3977643a892f@gmail.com>
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <a1b5b50a-9a2c-b6f7-6b89-3977643a892f@gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH v3 4/4] wdt_z069: Add support for MEN 16z069 Watchdog
+To: Alistair Francis <alistair23@gmail.com>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>,
+ Javier Rodriguez <josejavier.rodriguez@duagon.com>,
+ =?UTF-8?Q?Jorge_Sanjuan_Garc=c3=ada?= <Jorge.SanjuanGarcia@duagon.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>
+References: <20230410174910.4806-1-jth@kernel.org>
+ <20230410174910.4806-5-jth@kernel.org>
+ <CAKmqyKOJoTsq04G-nJB81v9u_K4JmXAPa49O3GqWiFPTtaEfPg@mail.gmail.com>
+From: Johannes Thumshirn <jth@kernel.org>
+In-Reply-To: <CAKmqyKOJoTsq04G-nJB81v9u_K4JmXAPa49O3GqWiFPTtaEfPg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: EdKTbFnQ_bj9ed_nHCmarduRw0eJnyN7
-X-Proofpoint-ORIG-GUID: 6fqKQv-s7WRmlPJSgg_GZp1O2W4WFn3t
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-17_04,2023-04-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 adultscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 phishscore=0
- lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2304170063
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.976, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=209.85.128.49; envelope-from=morbidrsa@gmail.com;
+ helo=mail-wm1-f49.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.976,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,42 +89,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 17.04.23 07:04, Alistair Francis wrote:
+>> +
+>> +/* #define Z069_DEBUG 1 */
+>> +
+>> +#ifdef Z069_DEBUG
+>> +#define z069_debug(fmt, ...)                                        \
+>> +    fprintf(stderr, "wdt_z069: %s: "fmt, __func__, ##__VA_ARGS__)
+>> +#else
+>> +#define z069_debug(fmt, ...)
+>> +#endif
+> Same comment from the previous versions about using traces instead of
+> macro prints
 
+Of cause, you're right. I'm stupid, sorry.
 
-On 4/14/23 17:27, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 3/31/23 03:53, Harsh Prateek Bora wrote:
->> Would like to get notified of changes in this area and review them.
->>
->> Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
->> ---
-> 
-> All reviewers are welcome.
-> 
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> 
-
-Thanks for the warm welcome, Daniel.
-
-regards,
-Harsh
-
-> 
-> 
->>   MAINTAINERS | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 9b56ccdd92..be99e5c4e9 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1406,6 +1406,7 @@ M: Daniel Henrique Barboza <danielhb413@gmail.com>
->>   R: Cédric Le Goater <clg@kaod.org>
->>   R: David Gibson <david@gibson.dropbear.id.au>
->>   R: Greg Kurz <groug@kaod.org>
->> +R: Harsh Prateek Bora <harshpb@linux.ibm.com>
->>   L: qemu-ppc@nongnu.org
->>   S: Odd Fixes
->>   F: hw/*/spapr*
+     Johannes
 
