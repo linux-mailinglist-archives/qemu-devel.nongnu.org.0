@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF1A6E419C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 09:52:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCA26E4260
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 10:18:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poJdz-0001FB-JN; Mon, 17 Apr 2023 03:51:23 -0400
+	id 1poK2Q-0004lJ-7E; Mon, 17 Apr 2023 04:16:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poJdx-0001Ej-3m
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 03:51:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poJdu-0003fA-Um
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 03:51:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681717877;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oKLcBbI096/VepAlNJFkp9r7l0Q66hiPbWYFdDp65HI=;
- b=JtXJrbcrNvIB/cLAhXEyCoEHGHoU21vUv/HI73MltgYrYvDhNMqKBffZMem/bzqsKITQY+
- lMg4DGUH5T7RyA9WTgf14CvlHn702uXKHUQ23qWS866dMDuR7jiHnSYkVGnFoUMR1Pk0sl
- vC6sBFkIbxU4NhpHNFkChFbnjXiGTTY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-427-SmlC90v1NPWMvMcqCtGYAA-1; Mon, 17 Apr 2023 03:51:16 -0400
-X-MC-Unique: SmlC90v1NPWMvMcqCtGYAA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- hg16-20020a05600c539000b003f09d1918aaso7525992wmb.4
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 00:51:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1poK2J-0004l2-Qx
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 04:16:32 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1poK2H-00089k-SP
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 04:16:31 -0400
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-2f62b1385e3so756899f8f.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 01:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681719386; x=1684311386;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ToZCG4TNNrZUJ6c9MT/jIJm2rWpywDIrnmINcq+yCvo=;
+ b=HsVx0Q3fG9bJE0/sTlFALIhuPaxp72zvGzrKNy9HN5D3EuNZHYS0nHrDzAVdBo4mP9
+ XvPKIXL8Y3+rkq3OdNzDpdMa0XNXBBTsdxXWw/Zx7rK/PYS61ei7LbLmWx252jSDrZw5
+ 2ywMy2i3TeuMp4YEyu3fwB8Rh6rH4QItHsvL1o0OnIl4BFg/Akfhx2w0cT/W5DCZ6rDA
+ efrwApsBWWP03I0p619nHthLJLQjbW9hETlpJb2VD6yHVvrXQujoBd6oQqUo5+D8tDpA
+ tw/S4zElzzQtW6Xxubk6eDUDmEES2l0kPgQ1NgWX4Drs99XEWUG6ywrQQ6sXscw/lsnP
+ H9uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681717875; x=1684309875;
+ d=1e100.net; s=20221208; t=1681719386; x=1684311386;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oKLcBbI096/VepAlNJFkp9r7l0Q66hiPbWYFdDp65HI=;
- b=K3EY2FgXc/gOVSDSJjNUJ4fs1Q/DJ6i6ZYVXd1UnMl0gVvftWCOLCgOteQF/guqwwS
- /tQ2SGSuzZA4jezpmWUo85Dt39kooiB20Ct4u5hqYpNArcFGiadGXIJG3bjuAnVxLe4p
- QP1VBJmO7RMDlv2tK2IWp5KGyigGiWqwiPlfKU6onqCn5KFbonxIc0OaAJYyfslQy+aM
- xXPVpVWxYkLBxg59McAVjcnJvhXqN2U69ZnuLwFh3OdQph+U8nCDdn3MJre/sZH3b2i9
- lLJuP0WpbGS0IOsumwCdBVa1FGhdu0VUZSW8Jxp9QdHp/LHFOyddAvgmsV6kbIt8kJO1
- OEiA==
-X-Gm-Message-State: AAQBX9cSe6C5vr5HHze6o1R745ZY8o4vWtmTsOHeyDahZsrRvrJrHB8F
- 7nKacWOgH3sYhPmuiDHiKxVGfG0G8TrtuGgOJ8/7+uMHEPAbbYIJBrJru8yfMX2FDRKs/2WQJ/L
- 6itHjTaqqRDB3GSk=
-X-Received: by 2002:a05:600c:2205:b0:3f0:a094:9264 with SMTP id
- z5-20020a05600c220500b003f0a0949264mr10566561wml.36.1681717875468; 
- Mon, 17 Apr 2023 00:51:15 -0700 (PDT)
-X-Google-Smtp-Source: AKy350apued3aJ+i0P0y1+a1swpPG7co4MxZjsLWyZfJ2jIfPqG9Ks7BCYyyXhUM2e8nfCt8ZMCuVQ==
-X-Received: by 2002:a05:600c:2205:b0:3f0:a094:9264 with SMTP id
- z5-20020a05600c220500b003f0a0949264mr10566549wml.36.1681717875219; 
- Mon, 17 Apr 2023 00:51:15 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-177-194.web.vodafone.de.
- [109.43.177.194]) by smtp.gmail.com with ESMTPSA id
- u30-20020a05600c4d1e00b003f16932fe7dsm5941092wmp.38.2023.04.17.00.51.14
+ bh=ToZCG4TNNrZUJ6c9MT/jIJm2rWpywDIrnmINcq+yCvo=;
+ b=jr26S1diCM8tfJ1EuY7XcCuQ4PdMTfo5HjKvx94PaRsg+c2v5np4jbgQ4+BP9HsYH0
+ +PEvg6sS0NOHTQ/8FLD8XJ63npVmXVGNNK6nn6YADGk8LnFcMpEapKQAs4epnrcG52a0
+ VTFZ5Mdcp532zcaJ9UkUrLTvF6Fv9d2evFHr6vCLBMZsgJt7uXODatIPh+PUJttFVhUP
+ vQIj0xOT3r9zyyYD0PqTtJBw01a61kUNDMIMe4lwaSCKs6vt2s36H/PCe5bAnKUzVpBT
+ iGIp6AmFYoD1uO1wZ87aIoJnHTLaadB6+nnAqtKvGhg7PSX9B7FMz31n7dPBL6DKTfRG
+ EcwA==
+X-Gm-Message-State: AAQBX9c4+CKkj16A34cNXvskvs45wlQ7etZdUik+f0+JxfeVU2sb33Kb
+ uhMS/R5w0qniEWlvw2g5Mkbn0Q==
+X-Google-Smtp-Source: AKy350Z6spo/vTHkzrMF2KJql87K6JP4Dgs3mpM7+FtBmEc9DDxyGN3uDHIc3Pyr+5CcEbRP/2fEEw==
+X-Received: by 2002:a5d:65c7:0:b0:2f4:e0e5:aaf8 with SMTP id
+ e7-20020a5d65c7000000b002f4e0e5aaf8mr4636732wrw.68.1681719386348; 
+ Mon, 17 Apr 2023 01:16:26 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ s15-20020adfeb0f000000b002c55306f6edsm9910249wrn.54.2023.04.17.01.16.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 00:51:14 -0700 (PDT)
-Message-ID: <9ac8a8d1-fd78-e8bc-e4e1-92645738f34d@redhat.com>
-Date: Mon, 17 Apr 2023 09:51:13 +0200
+ Mon, 17 Apr 2023 01:16:25 -0700 (PDT)
+Message-ID: <dd8160f5-5802-8503-2162-69dfe718b7b7@linaro.org>
+Date: Mon, 17 Apr 2023 10:16:24 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 2/2] travis.yml: Add missing 'flex' package to 'GCC
- (user)' job
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH] accel/tcg/tcg-accel-ops-rr: ensure fairness with icount
 Content-Language: en-US
-To: Vaibhav Jain <vaibhav@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230414210645.820204-1-vaibhav@linux.ibm.com>
- <20230414210645.820204-2-vaibhav@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230414210645.820204-2-vaibhav@linux.ibm.com>
+To: Jamie Iles <quic_jiles@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, pbonzini@redhat.com,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230414105111.30708-1-quic_jiles@quicinc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230414105111.30708-1-quic_jiles@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.976, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.976,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,49 +92,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/04/2023 23.06, Vaibhav Jain wrote:
-> Since commit fd8171fe52b5e("target/hexagon: import lexer for idef-parser") the
-> hexagon target uses 'flex' to generate idef-parser. However 'focal' may not have
-> 'flex' pre-installed, consequently following error is seen with travis when
-> trying to execute the 'GCC (user)' job that also tries to build hexagon user
-> binary:
+Hi Jamie,
+
+On 14/4/23 12:51, Jamie Iles wrote:
+> The round-robin scheduler will iterate over the CPU list with an
+> assigned budget until the next timer expiry and may exit early because
+> of a TB exit.  This is fine under normal operation but with icount
+> enabled and SMP it is possible for a CPU to be starved of run time and
+> the system live-locks.
 > 
-> <snip>
-> export CONFIG="--disable-containers --disable-system"
-> <snip>
->   Program flex found: NO
+> For example, booting a riscv64 platform with '-icount
+> shift=0,align=off,sleep=on -smp 2' we observe a livelock once the kernel
+> has timers enabled and starts performing TLB shootdowns.  In this case
+> we have CPU 0 in M-mode with interrupts disabled sending an IPI to CPU
+> 1.  As we enter the TCG loop, we assign the icount budget to next timer
+> interrupt to CPU 0 and begin executing where the guest is sat in a busy
+> loop exhausting all of the budget before we try to execute CPU 1 which
+> is the target of the IPI but CPU 1 is left with no budget with which to
+> execute and the process repeats.
 > 
-> ../target/hexagon/meson.build:179:4: ERROR: Program 'flex' not found or not
-> executable
-> <snip>
-
-This works for me also without adding the package:
-
-  https://app.travis-ci.com/github/huth/qemu/jobs/600292739
-
-Weird. Are you using a different Travis instance than I do?
-
-> Fix this by explicitly add 'flex' to the list of addon apt-packages for the
-> 'GCC (user)' job.
+> We try here to add some fairness by splitting the budget across all of
+> the CPUs on the thread fairly before entering each one.  The CPU count
+> is cached on CPU list generation ID to avoid iterating the list on each
+> loop iteration.  With this change it is possible to boot an SMP rv64
+> guest with icount enabled and no hangs.
 > 
-> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> Signed-off-by: Jamie Iles <quic_jiles@quicinc.com>
 > ---
->   .travis.yml | 1 +
->   1 file changed, 1 insertion(+)
+>   accel/tcg/tcg-accel-ops-icount.c | 16 ++++++++++++++--
+>   accel/tcg/tcg-accel-ops-icount.h |  3 ++-
+>   accel/tcg/tcg-accel-ops-rr.c     | 26 +++++++++++++++++++++++++-
+>   3 files changed, 41 insertions(+), 4 deletions(-)
 > 
-> diff --git a/.travis.yml b/.travis.yml
-> index 11894eb810..8dc71c294d 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -237,6 +237,7 @@ jobs:
->             - libglib2.0-dev
->             - libgnutls28-dev
->             - ninja-build
-> +          - flex
+> diff --git a/accel/tcg/tcg-accel-ops-icount.c b/accel/tcg/tcg-accel-ops-icount.c
+> index 84cc7421be88..a7ffc8a68bad 100644
+> --- a/accel/tcg/tcg-accel-ops-icount.c
+> +++ b/accel/tcg/tcg-accel-ops-icount.c
+> @@ -89,7 +89,19 @@ void icount_handle_deadline(void)
+>       }
+>   }
+>   
+> -void icount_prepare_for_run(CPUState *cpu)
 
-I agree that adding this explicitely makes sense, but I think we should then 
-also add "bison" here as well, since that's used by the hexagon target, too?
+    /* Return icount budget shared fairly across all CPUs */
 
-  Thomas
+Or rename to something more explicit such
+icount_fair_shared_budget_per_cpu()?
+
+> +int64_t icount_cpu_timeslice(int cpu_count)
+> +{
+> +    int64_t limit = icount_get_limit();
+> +    int64_t timeslice = limit / cpu_count;
+> +
+> +    if (timeslice == 0) {
+> +        timeslice = limit;
+> +    }
+> +
+> +    return timeslice;
+> +}
+> +
+> +void icount_prepare_for_run(CPUState *cpu, int64_t timeslice)
+
+Maybe s/timeslice/per_cpu_icount_budget_max/, max_icount_budget_per_cpu
+or a more descriptive variable name? Otherwise OK.
+
+>   {
+>       int insns_left;
+>   
+> @@ -101,7 +113,7 @@ void icount_prepare_for_run(CPUState *cpu)
+>       g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
+>       g_assert(cpu->icount_extra == 0);
+>   
+> -    cpu->icount_budget = icount_get_limit();
+> +    cpu->icount_budget = MIN(icount_get_limit(), timeslice);
+
+Alternatively we could pass timeslice as argument to icount_get_limit().
+
+>       insns_left = MIN(0xffff, cpu->icount_budget);
+>       cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+>       cpu->icount_extra = cpu->icount_budget - insns_left;
+> diff --git a/accel/tcg/tcg-accel-ops-icount.h b/accel/tcg/tcg-accel-ops-icount.h
+> index 1b6fd9c60751..e8785a0e196d 100644
+> --- a/accel/tcg/tcg-accel-ops-icount.h
+> +++ b/accel/tcg/tcg-accel-ops-icount.h
+> @@ -11,7 +11,8 @@
+>   #define TCG_ACCEL_OPS_ICOUNT_H
+>   
+>   void icount_handle_deadline(void);
+> -void icount_prepare_for_run(CPUState *cpu);
+> +void icount_prepare_for_run(CPUState *cpu, int64_t timeslice);
+> +int64_t icount_cpu_timeslice(int cpu_count);
+>   void icount_process_data(CPUState *cpu);
+>   
+>   void icount_handle_interrupt(CPUState *cpu, int mask);
+> diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+> index 290833a37fb2..bccb3670a656 100644
+> --- a/accel/tcg/tcg-accel-ops-rr.c
+> +++ b/accel/tcg/tcg-accel-ops-rr.c
+> @@ -139,6 +139,25 @@ static void rr_force_rcu(Notifier *notify, void *data)
+>       rr_kick_next_cpu();
+>   }
+>   
+
+Maybe worth adding a comment to remember "The CPU count is cached on CPU
+list generation ID to avoid iterating the list on each loop iteration."
+
+> +static int rr_cpu_count(void)
+> +{
+> +    static unsigned int last_gen_id = ~0;
+> +    static int cpu_count;
+> +    CPUState *cpu;
+> +
+> +    cpu_list_lock();
+> +    if (cpu_list_generation_id_get() != last_gen_id) {
+> +        cpu_count = 0;
+> +        CPU_FOREACH(cpu) {
+> +            ++cpu_count;
+> +        }
+> +        last_gen_id = cpu_list_generation_id_get();
+> +    }
+> +    cpu_list_unlock();
+> +
+> +    return cpu_count;
+> +}
+> +
+>   /*
+>    * In the single-threaded case each vCPU is simulated in turn. If
+>    * there is more than a single vCPU we create a simple timer to kick
+> @@ -185,6 +204,9 @@ static void *rr_cpu_thread_fn(void *arg)
+>       cpu->exit_request = 1;
+>   
+>       while (1) {
+> +        int cpu_count = rr_cpu_count();
+> +        int64_t icount_timeslice = INT64_MAX;
+
+s/icount_timeslice/icount_budget/?
+
+
+Modulo the nitpicking comments on "timeslice" naming which I'm not
+familiar with, and documenting a bit the code, LGTM.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
