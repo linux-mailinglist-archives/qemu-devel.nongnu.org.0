@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723CC6E45E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 12:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1586D6E45EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 13:01:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poMXv-0003JW-0B; Mon, 17 Apr 2023 06:57:19 -0400
+	id 1poMbe-0004uV-Ru; Mon, 17 Apr 2023 07:01:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1poMXs-0003JC-KG
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 06:57:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1poMXq-0005my-RV
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 06:57:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681729033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KAMptTdgX40vWr7mI5dgdvpuSMuiLUph1AQTLvqu6do=;
- b=XzW1Idia1qvWfmhgmCdXLIDI9ro8pbGB46veMDl9mMC5HBkf8hS0z7kHtB/e41QwKcZosG
- 7/yIiW/GvYWaNXYG+DtEOAKnXw8rVLkFN9zsBbNJWD/FtNQ+7UNb9PNfojLYrmm2WZm0TC
- 6MaAmB+VGCMjruzTR7WiEgJhpZoVGTY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-7htzl2QBMcuTvFCDjn2jJg-1; Mon, 17 Apr 2023 06:57:10 -0400
-X-MC-Unique: 7htzl2QBMcuTvFCDjn2jJg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 116CD8996E0;
- Mon, 17 Apr 2023 10:57:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCA7BC15BA0;
- Mon, 17 Apr 2023 10:57:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2DA2221E5A0F; Mon, 17 Apr 2023 12:57:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Cc: qemu-devel@nongnu.org,  Gerd Hoffmann <kraxel@redhat.com>,  Pavel
- Dovgalyuk <pavel.dovgaluk@ispras.ru>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,  Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 2/6] ui: add the infrastructure to support MT events
-References: <20230413152120.53967-1-slp@redhat.com>
- <20230413152120.53967-3-slp@redhat.com>
-Date: Mon, 17 Apr 2023 12:57:08 +0200
-In-Reply-To: <20230413152120.53967-3-slp@redhat.com> (Sergio Lopez's message
- of "Thu, 13 Apr 2023 17:21:16 +0200")
-Message-ID: <87sfcybwu3.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1poMbV-0004ty-IL
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 07:01:01 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1poMbT-0006d0-8j
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 07:01:01 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id f4so2283844oiw.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 04:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1681729257; x=1684321257;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zAh+Z24wfaVSPZ3V8SKpsl08wAbCXxRq+DGlGC7eXDY=;
+ b=JGEe++9Zj24iKGT9raIK58pAKlZTtJXxO2BXC4uWeK9NSMo3wE6FnVSpPQUMbDoWWW
+ N7fbb8sOXrJs8T3RhVFxmsaRPVCHtfx3u7qQQiyqClodvNmlBAmYMu4ArO2gEcXWaict
+ /71lvVb8lZ1PgKV/s0545SFKtrzQZMf8HbRCxAPusI75wOvJZ6kx/1Px9YaWTDw00IZD
+ 848OWy5LJy956/jsYIZQwm9rkf/TzZB9jKINaAaswEMq0kxiizYZ6yKh/BjJdBdNmwY3
+ jmvdaRra4xDpXrIMUE27d/r6Cp1/PlV59K4HXG14ppknnQkpIavusmZ31hWQu+AyrRjv
+ cIog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681729257; x=1684321257;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zAh+Z24wfaVSPZ3V8SKpsl08wAbCXxRq+DGlGC7eXDY=;
+ b=g04QptegNioQdtXSqelII5UzRwvZEdJN4woKI9ysIh3PwwuHPjlnijwbHSjRfixBPE
+ DiVQSf6VC5xQZXRXhvU4s+bpgcceXm7Xy31DQyNMUHRMllJ5NEHYkGxcwbsfjsRYyIDm
+ CY41/FvMjIbggGqzwEonCGFpSVqzQ1ALQqes+qyFJl8ZSuF9BU2KskKQI1d34VvfLQnm
+ tI8+mUt30nLkz2g/CXBSjyQ++JfJc/Wt1a4hVFJAbV/oa+qej8Bk1HLIdY+GF/S5qpMQ
+ voGoD3h4Q3FtIh/Pq9CM0W7Xe+/RihPskV3zpjh2dfIQRuvsmfiSS8KnRJlgRdeIe2Fs
+ cHDw==
+X-Gm-Message-State: AAQBX9e2YTO33O9aBYd/Xa1E5mvZwWUgROLlUpuH+MmbyBoXlRA6UWi9
+ pxYxVqvlW4vTvAuGqg8UlDu1pA==
+X-Google-Smtp-Source: AKy350Z1Fuzkssg416EljWJNqUMwtJ0HhGDINfJzj1NckeedaTjvEA2UtvAe3Fxm1kkRHjw73yNwbQ==
+X-Received: by 2002:a05:6808:1142:b0:38d:fa26:3bc4 with SMTP id
+ u2-20020a056808114200b0038dfa263bc4mr1463845oiu.10.1681729257247; 
+ Mon, 17 Apr 2023 04:00:57 -0700 (PDT)
+Received: from [192.168.68.107] ([191.255.108.232])
+ by smtp.gmail.com with ESMTPSA id
+ p67-20020acaf146000000b00386eff32f58sm4489332oih.13.2023.04.17.04.00.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Apr 2023 04:00:56 -0700 (PDT)
+Message-ID: <52b21b6b-1222-91bd-cab1-233232e233ad@ventanamicro.com>
+Date: Mon, 17 Apr 2023 08:00:51 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v12 02/10] target/riscv: add support for Zca extension
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>, richard.henderson@linaro.org,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn,
+ lazyparser@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>
+References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
+ <20230307081403.61950-3-liweiwei@iscas.ac.cn>
+ <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
+ <CAKmqyKP6Omm8HypeRps0xCaZXxw+VXsT0KY2ONtfOZmjR9WnDA@mail.gmail.com>
+ <0f2ebe23-750c-26eb-9d3e-920c80a3c222@iscas.ac.cn>
+ <CAKmqyKNSkGwRC8Ysu0nFDyBq58ZtL=JWpSO=X3sYkat-UzZdzA@mail.gmail.com>
+ <9e1f46dc-088d-eb46-1d5e-90cc8648dd16@iscas.ac.cn>
+ <4214bba1-242c-1cb4-4996-804bc654d9b1@ventanamicro.com>
+ <CAKmqyKOS8JXahHKW_Bymi85q0NFiQzYZjMmHoS=deuPZBONbKA@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAKmqyKOS8JXahHKW_Bymi85q0NFiQzYZjMmHoS=deuPZBONbKA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.284,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,219 +104,238 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Sergio Lopez <slp@redhat.com> writes:
-
-> Add the required infrastructure to support generating multitouch events.
->
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  include/ui/input.h    |  3 +++
->  qapi/ui.json          | 46 ++++++++++++++++++++++++++++++++++++++++---
->  replay/replay-input.c | 18 +++++++++++++++++
->  ui/input.c            |  6 ++++++
->  ui/trace-events       |  1 +
->  5 files changed, 71 insertions(+), 3 deletions(-)
->
-> diff --git a/include/ui/input.h b/include/ui/input.h
-> index c86219a1c1..2a3dffd417 100644
-> --- a/include/ui/input.h
-> +++ b/include/ui/input.h
-> @@ -8,9 +8,12 @@
->  #define INPUT_EVENT_MASK_BTN   (1<<INPUT_EVENT_KIND_BTN)
->  #define INPUT_EVENT_MASK_REL   (1<<INPUT_EVENT_KIND_REL)
->  #define INPUT_EVENT_MASK_ABS   (1<<INPUT_EVENT_KIND_ABS)
-> +#define INPUT_EVENT_MASK_MTT   (1<<INPUT_EVENT_KIND_MTT)
->=20=20
->  #define INPUT_EVENT_ABS_MIN    0x0000
->  #define INPUT_EVENT_ABS_MAX    0x7FFF
-> +#define INPUT_EVENT_SLOTS_MIN  0x0
-> +#define INPUT_EVENT_SLOTS_MAX  0xa
->=20=20
->  typedef struct QemuInputHandler QemuInputHandler;
->  typedef struct QemuInputHandlerState QemuInputHandlerState;
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 98322342f7..83369bdae8 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1014,7 +1014,7 @@
->  ##
->  { 'enum'  : 'InputButton',
->    'data'  : [ 'left', 'middle', 'right', 'wheel-up', 'wheel-down', 'side=
-',
-> -  'extra', 'wheel-left', 'wheel-right' ] }
-> +  'extra', 'wheel-left', 'wheel-right', 'touch' ] }
->=20=20
->  ##
->  # @InputAxis:
-> @@ -1026,6 +1026,17 @@
->  { 'enum'  : 'InputAxis',
->    'data'  : [ 'x', 'y' ] }
->=20=20
-> +##
-> +# @InputMultitouchType:
-
-Suggest InputMultiTouchType, because...
-
-> +#
-> +# Type of a multitouch event.
-
-... the common spelling is multi-touch.
-
-More of the same below.
-
-> +#
-> +# Since: 8.1
-> +##
-> +{ 'enum'  : 'InputMultitouchType',
-> +  'data'  : [ 'begin', 'update', 'end', 'cancel', 'data' ] }
-> +
-> +
->  ##
->  # @InputKeyEvent:
->  #
-> @@ -1069,13 +1080,32 @@
->    'data'  : { 'axis'    : 'InputAxis',
->                'value'   : 'int' } }
->=20=20
-> +##
-> +# @InputMultitouchEvent:
-> +#
-> +# Multitouch input event.
-> +#
-> +# @slot: Which slot has generated the event.
-
-Ignorant question: what's a "slot"?
-
-> +# @tracking-id: ID to correlate this event with previously generated eve=
-nts.
-> +# @axis: Which axis is referenced by @value.
-> +# @value: Contact position.
-> +#
-> +# Since: 8.1
-> +##
-> +{ 'struct'  : 'InputMultitouchEvent',
-> +  'data'  : { 'type'       : 'InputMultitouchType',
-> +              'slot'       : 'int',
-> +              'tracking-id': 'int',
-> +              'axis'       : 'InputAxis',
-> +              'value'      : 'int' } }
-> +
->  ##
->  # @InputEventKind:
->  #
->  # Since: 2.0
->  ##
->  { 'enum': 'InputEventKind',
-> -  'data': [ 'key', 'btn', 'rel', 'abs' ] }
-> +  'data': [ 'key', 'btn', 'rel', 'abs', 'mtt' ] }
-
-While we generally avoid abbreviations in QAPI, local consistency is a
-strong argument for this one.  Okay.
-
->=20=20
->  ##
->  # @InputKeyEventWrapper:
-> @@ -1101,6 +1131,14 @@
->  { 'struct': 'InputMoveEventWrapper',
->    'data': { 'data': 'InputMoveEvent' } }
->=20=20
-> +##
-> +# @InputMultitouchEventWrapper:
-> +#
-> +# Since: 8.1
-> +##
-> +{ 'struct': 'InputMultitouchEventWrapper',
-> +  'data': { 'data': 'InputMultitouchEvent' } }
-
-The only reason for wrapping is consistency with the other branches.
-Okay.
-
-> +
->  ##
->  # @InputEvent:
->  #
-> @@ -1112,6 +1150,7 @@
-   # @type: the input type, one of:
-   #
-   #        - 'key': Input event of Keyboard
->  #        - 'btn': Input event of pointer buttons
->  #        - 'rel': Input event of relative pointer motion
->  #        - 'abs': Input event of absolute pointer motion
-> +#        - 'mtt': Input event of Multitouch
-
-You're imitating the existing "Input event of" pattern, which is fair.
-But the pattern is bad.  The phrasing awkward, and so is the place.  By
-documenting the values of InputEventKind only here, and not in
-InputEventKind's doc comment, the generated documentation for
-InputEventKind looks like this:
-
-    "InputEventKind" (Enum)
-    -----------------------
-
-    Values
-    ~~~~~~
-
-    "key"
-       Not documented
-
-    "btn"
-       Not documented
-
-    "rel"
-       Not documented
-
-    "abs"
-       Not documented
-
-    "mtt"
-       Not documented
 
 
-    Since
-    ~~~~~
+On 4/16/23 23:35, Alistair Francis wrote:
+> On Thu, Apr 13, 2023 at 3:24 AM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>>
+>>
+>>
+>> On 4/12/23 08:35, Weiwei Li wrote:
+>>>
+>>> On 2023/4/12 18:55, Alistair Francis wrote:
+>>>> On Wed, Apr 12, 2023 at 12:55 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>>>>>
+>>>>> On 2023/4/12 10:12, Alistair Francis wrote:
+>>>>>> On Fri, Apr 7, 2023 at 6:23 AM Daniel Henrique Barboza
+>>>>>> <dbarboza@ventanamicro.com> wrote:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> This patch is going to break the sifive_u boot if I rebase
+>>>>>>>
+>>>>>>> "[PATCH v6 0/9] target/riscv: rework CPU extensions validation"
+>>>>>>>
+>>>>>>> on top of it, as it is the case today with the current riscv-to-apply.next.
+>>>>>>>
+>>>>>>> The reason is that the priv spec version for Zca is marked as 1_12_0, and
+>>>>>>> the priv spec version for both sifive CPUs is 1_10_0, and both are enabling
+>>>>>>> RVC.
+>>>>>>>
+>>>>>>> This patch from that series above:
+>>>>>>>
+>>>>>>> "[PATCH v6 5/9] target/riscv/cpu.c: add priv_spec validate/disable_exts helpers"
+>>>>>>>
+>>>>>>> Makes the disabling of the extension based on priv version to happen *after* we
+>>>>>>> do all the validations, instead of before as we're doing today. Zca (and Zcd) will
+>>>>>>> be manually enabled just to be disabled shortly after by the priv spec code. And
+>>>>>>> this will happen:
+>>>>>>>
+>>>>>>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000000 because privilege spec version does not match
+>>>>>>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000001 because privilege spec version does not match
+>>>>>>> qemu-system-riscv64: warning: disabling zcd extension for hart 0x0000000000000001 because privilege spec version does not match
+>>>>>>> (--- hangs ---)
+>>>>>>>
+>>>>>>> This means that the assumption made in this patch - that Zca implies RVC - is no
+>>>>>>> longer valid, and all these translations won't work.
+>>>>>> Thanks for catching and reporting this
+>>>>>>
+>>>>>>> Some possible solutions:
+>>>>>>>
+>>>>>>> - Do not use Zca as a synonym for RVC, i.e. drop this patch. We would need to convert
+>>>>>>> all Zca checks to RVC checks in all translation code.
+>>>>>> This to me seems like the best solution
+>>>>> I had also implemented a patch for this solution. I'll sent it later.
+>>>> Thanks!
+>>>>
+>>>>> However, this will introduce additional check. i.e. check both Zca and C
+>>>>> or , both Zcf/d and CF/CD.
+>>>> Is there a large performance penalty for that?
+>>>
+>>> May not very large.  Just one or two additional check in instruction translation. You can see the patch at:
+>>>
+>>> https://lore.kernel.org/qemu-devel/20230412030648.80470-1-liweiwei@iscas.ac.cn/
+> 
+> This is my prefered way. I think it's pretty simple and explicitly
+> follows the spec.
+> 
+>>>
+>>>>
+>>>>> I think this is not very necessary. Implcitly-enabled extensions is
+>>>>> often the subsets of existed extension.
+>>>> Yeah, I see what you are saying. It just becomes difficult to manage
+>>>> though. It all worked fine until there are conflicts between the priv
+>>>> specs.
+>>>>
+>>>>> So enabling them will introduce no additional function to the cpus.
+>>>>>
+>>>>> We can just make them invisible to user(mask them in the isa string)
+>>>>> instead of disabling them  to be compatible with lower priv version.
+>>>> I'm open to other options, but masking them like this seems like more
+>>>> work and also seems confusing. The extension will end up enabled in
+>>>> QEMU and potentially visible to external tools, but then just not
+>>>> exposed to the guest. It seems prone to future bugs.
+>>>
+>>> Yeah. they may be visible to external tools if they read cfg directly.
+>>>
+>>> Another way is to introduce another parameter instead of cfg.ext_zca to indicate whether Zca/Zcf/Zcd
+>>>
+>>> instructions are enabled. This is be done by patchset:
+>>>
+>>> https://lore.kernel.org/qemu-devel/20230410033526.31708-1-liweiwei@iscas.ac.cn/
+> 
+> I don't prefer this option, but if others feel strongly I'm not
+> completely opposed to it.
+> 
+>>>
+>>> All of the three ways are acceptable to me.
+>>
+>> Earlier today I grabbed two Weiwei Li patches (isa_string changes and Zca/Zcf/Zcd
+>> changes) in the "rework CPU extensions validation" series, but after reading these
+>> last messages I guess I jumped the gun.
+> 
+> My preference would be the "target/riscv: Update check for
+> Zca/zcf/zcd" patch, which I think is what you picked. So that seems
+> like the way to go
 
-    2.0
+Ok! I'll send it over with Weiwei's v2.
 
-We should document them right in InputEventKind's doc comment, roughly
-like this:
 
-   ##
-   # @InputEventKind:
-   #
-   # @key: a keyboard input event
-   # @btn: a pointer button input event
-   # @rel: a relative pointer motion input event
-   # @abs: an absolute pointer motion input event
-   # @mtt: a multi-touch input event
-   #
-   # Since: 2.0
-   ##
+Thanks,
 
-We can then dumb down the documentation of InputEvent member @type to
-just
+Daniel
 
-   # @type: the type of input event
-
-What do you think?
-
-Many more doc comments neglect to document members in this file, and in
-others.  I'm not asking you to fix them all.
-
->  #
->  # Since: 2.0
->  ##
-> @@ -1121,7 +1160,8 @@
->    'data'  : { 'key'     : 'InputKeyEventWrapper',
->                'btn'     : 'InputBtnEventWrapper',
->                'rel'     : 'InputMoveEventWrapper',
-> -              'abs'     : 'InputMoveEventWrapper' } }
-> +              'abs'     : 'InputMoveEventWrapper',
-> +              'mtt'     : 'InputMultitouchEventWrapper' } }
->=20=20
->  ##
->  # @input-send-event:
-
-[...]
-
+> 
+>>
+>> Alistair, I'm considering drop the patch that disables extensions via priv_spec later
+>> during realize() (the one I mentioned in my first message) from that series until we
+>> figure the best way of dealing with priv spec and Z-extensions being used as MISA bits
+>> and so on. We can merge those cleanups and write_misa() changes that are already reviewed
+>> in the meantime. Are you ok with that?
+> 
+> That's also fine
+> 
+> Alistair
+> 
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+>>
+>>
+>>>
+>>> Regards,
+>>>
+>>> Weiwei Li
+>>>
+>>>
+>>>> Alistair
+>>>>
+>>>>> Regards,
+>>>>>
+>>>>> Weiwei Li
+>>>>>
+>>>>>
+>>>>>>> - Do not apply patch 5/9 from that series that moves the disable_ext code to the end
+>>>>>>> of validation. Also a possibility, but we would be sweeping the problem under the rug.
+>>>>>>> Zca still can't be used as a RVC replacement due to priv spec version constraints, but
+>>>>>>> we just won't disable Zca because we'll keep validating exts too early (which is the
+>>>>>>> problem that the patch addresses).
+>>>>>>>
+>>>>>>> - change the priv spec of the sifive CPUs - and everyone that uses RVC -  to 1_12_0. Not
+>>>>>>> sure if this makes sense.
+>>>>>>>
+>>>>>>> - do not disable any extensions due to privilege spec version mismatch. This would make
+>>>>>>> all the priv_version related artifacts to be more "educational" than to be an actual
+>>>>>>> configuration we want to enforce. Not sure if that would do any good in the end, but
+>>>>>>> it's also a possibility.
+>>>>>> This also seems like something we can do. Printing a warning but
+>>>>>> continuing on seems reasonable to me. That allows users to
+>>>>>> enable/disable features even if the versions don't match.
+>>>>>>
+>>>>>> I don't think this is the solution for this problem though
+>>>>>>
+>>>>>> Alistair
+>>>>>>
+>>>>>>> I'll hold the rebase of that series until we sort this out. Thanks,
+>>>>>>>
+>>>>>>>
+>>>>>>> Daniel
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> On 3/7/23 05:13, Weiwei Li wrote:
+>>>>>>>> Modify the check for C extension to Zca (C implies Zca).
+>>>>>>>>
+>>>>>>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>>>>>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>>>>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>>>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>>>>>>> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>>>>>>>> ---
+>>>>>>>>      target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+>>>>>>>>      target/riscv/translate.c                | 8 ++++++--
+>>>>>>>>      2 files changed, 8 insertions(+), 4 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>>>>> index 4ad54e8a49..c70c495fc5 100644
+>>>>>>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>>>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>>>>> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>>>>>>>>          tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+>>>>>>>>
+>>>>>>>>          gen_set_pc(ctx, cpu_pc);
+>>>>>>>> -    if (!has_ext(ctx, RVC)) {
+>>>>>>>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>>>>>>>              TCGv t0 = tcg_temp_new();
+>>>>>>>>
+>>>>>>>>              misaligned = gen_new_label();
+>>>>>>>> @@ -169,7 +169,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>>>>>>>>
+>>>>>>>>          gen_set_label(l); /* branch taken */
+>>>>>>>>
+>>>>>>>> -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>>>>>>>> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>>>>>>>>              /* misaligned */
+>>>>>>>>              gen_exception_inst_addr_mis(ctx);
+>>>>>>>>          } else {
+>>>>>>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>>>>>>>> index 0ee8ee147d..d1fdd0c2d7 100644
+>>>>>>>> --- a/target/riscv/translate.c
+>>>>>>>> +++ b/target/riscv/translate.c
+>>>>>>>> @@ -549,7 +549,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>>>>>>>>
+>>>>>>>>          /* check misaligned: */
+>>>>>>>>          next_pc = ctx->base.pc_next + imm;
+>>>>>>>> -    if (!has_ext(ctx, RVC)) {
+>>>>>>>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>>>>>>>              if ((next_pc & 0x3) != 0) {
+>>>>>>>>                  gen_exception_inst_addr_mis(ctx);
+>>>>>>>>                  return;
+>>>>>>>> @@ -1122,7 +1122,11 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>>>>>>>>          if (insn_len(opcode) == 2) {
+>>>>>>>>              ctx->opcode = opcode;
+>>>>>>>>              ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>>>>>>>> -        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
+>>>>>>>> +        /*
+>>>>>>>> +         * The Zca extension is added as way to refer to instructions in the C
+>>>>>>>> +         * extension that do not include the floating-point loads and stores
+>>>>>>>> +         */
+>>>>>>>> +        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
+>>>>>>>>                  return;
+>>>>>>>>              }
+>>>>>>>>          } else {
+>>>
 
