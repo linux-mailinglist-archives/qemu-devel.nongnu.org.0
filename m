@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C95D6E4E77
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FEC6E4E7A
 	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 18:41:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poRuK-0002IH-IM; Mon, 17 Apr 2023 12:40:48 -0400
+	id 1poRuM-0002JU-Cr; Mon, 17 Apr 2023 12:40:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1poRuI-0002Ho-MM
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:40:46 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1poRuK-0002IQ-CS
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:40:48 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1poRuH-0001LW-0M
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:40:46 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- ay3-20020a05600c1e0300b003f17289710aso2044899wmb.5
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 09:40:44 -0700 (PDT)
+ id 1poRuI-0001Le-21
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:40:48 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ hg25-20020a05600c539900b003f05a99a841so21351703wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 09:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1681749643; x=1684341643;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Qt4yDIRMdcNk8ETy1SHd7WE53TtZeswN17iOp3UOs9A=;
- b=ZlJq2G8bpFmN2l2N28XaF6J9q0qDfbD2aAM3QG7VbTT0H8G2oTMlKnIcKMFfro2Uad
- L7UI+Jz59gUx6XNLGrYozogFIVLeFWGrErDy4F2s6hpstY2lQ2Lk5lRK/Rzy9a0pTK2Q
- VhS/n4jqmleX4Jm0VgB0utZaW7xPiGkeWnl0PPmaNv9UYg6yZjyyZqoYa1YW1Bij/hvQ
- qrwTugumvsYeWVe8nHeZzEPm25WNTd9kU+qar9xPKrocHg1rtuGHV/x6JyHEWg9rJm3A
- hKIMnvUyf5BwrGbZZ7h/u8LGf8RiJKExKgbte0sXr8bkqAaLjrkrasfVdVptZpJslY3A
- 6QVw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=olvshQStKsCnUjtp8KyqUOdEyAZzY1YXfVY0j5oOc5Q=;
+ b=ViRJWPeI2tbuWAFjs1wlwiA//l3ppT+RVxhVQkRAY25JfaMjoCRztNP/UQw5Cep1MO
+ hzwdqXafvHdFwRYF1CJrmwBOBtnIXxI7Jux+s6fJJbfKr5XcLYOheWzdGyhN/eb0fGBY
+ tILGhyPHCvJKKWY3LAQbWL5FVGvNo9Qy5iU9Jv0yuIJwKrkvknR+8Xx+VIwWZfJmUX5U
+ eAdbfGpu9To840DMYlbOceoqbigknBOllov2CrB00fpxIWS1uYA69bdb1kMY7fN+dNHM
+ kesgb8CGMOlIsLr9FC1iSRKdJdpglST3C9p9tpBkb6jPv+odeRQWmKRn9034YJW0wvBy
+ wkxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1681749643; x=1684341643;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Qt4yDIRMdcNk8ETy1SHd7WE53TtZeswN17iOp3UOs9A=;
- b=MUImDqseLL3vlCkvWTLQINHzaReDzVvPXO9Zv7d1TJlzRh0NxLZjQ1TQCNs1C/9f4V
- gn/Cpmu+ZFHnuqva84ZY0dl8ZYL7nItw2DnvsuUn0DH47Cuz/gWdGpLISTUtO/BEzBsg
- 988lmftbj3Yr2hrpraZNiZl+6/puUtbG+CrhioeWmn9A9KPX+3vKTipja8pAEB/4eFtz
- 07JHj62eSp8AkwaBSsHOK6G2qp4VuEcEcqQdWaslmIzx9+kw63rUhrLrAd3DVCOZJ26X
- sXblvrGFGgK27ai68/WMQX6IEan42CwpwJvS8z4HnMGGZYKEGhaYKmMcq6MCPYg+EcQY
- JpKA==
-X-Gm-Message-State: AAQBX9eUNlehkfpiw3WnydK2mnFd/5WoaY5vmRycZU2/T+yzTNF+5M1U
- sV88q8B03DLpG1QRoOAI5MRT9UTmRCbq7MqGjQY=
-X-Google-Smtp-Source: AKy350Z2EkodTBIsR2aP7oWDUAzC3lkXsgCPR1Qi2UDv3flprg2NgklqTik1LyR1H4+ibh4bKxGy7A==
-X-Received: by 2002:a7b:ce14:0:b0:3f1:65de:764 with SMTP id
- m20-20020a7bce14000000b003f165de0764mr6560109wmc.32.1681749642915; 
- Mon, 17 Apr 2023 09:40:42 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=olvshQStKsCnUjtp8KyqUOdEyAZzY1YXfVY0j5oOc5Q=;
+ b=CcN13/RqB1/pKS0mmaOl1bMYuvKrl+oIeF+Equw6/4eGDCCXbgJC4ZEhM3C2Z1GWzP
+ USfhcb3bGLgHF74FQ9+82uKwf1jYPTRBomYG8e1U/IkdUEYF2zRE50TxSrbCKj1D9if0
+ 40Dq5b7O3wESQR//9cxi1tA/sUdZ9+dcRltM09DBC4O/uTfoLqU4MimtcDEFe2PJTisC
+ vwH9WQI/C/gOd3nI3aQNylKG8MbcGFHiMiT61uEUD1axrH04aAliE/OxFkHMNB9l+MYS
+ 2chauAzjRBo5aEHNybRLAWg7+mnrQoBfvQGr7yKE41WWmzIhnwKOmEYV9AsCWZ2+KoW9
+ q7zA==
+X-Gm-Message-State: AAQBX9cexz9KUHwmfC4UDm70LF58imWtqrRG7lsp0Elo4gQz+oHT6EfV
+ 6HMwK8t3rrmr7bGA4Rx9wy4Ocjm5iQnfdEMZsd0=
+X-Google-Smtp-Source: AKy350YDXGom3ChgOcAxt6iFB5mJH9jTOcrXq891A4+3filgrYDNBfv8Ea9uR1/bf5RUez4Nmb7yjQ==
+X-Received: by 2002:a05:600c:ac9:b0:3f1:6f44:ff3a with SMTP id
+ c9-20020a05600c0ac900b003f16f44ff3amr4788135wmr.13.1681749643483; 
+ Mon, 17 Apr 2023 09:40:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q17-20020a5d61d1000000b002faaa9a1721sm2595103wrv.58.2023.04.17.09.40.42
+ q17-20020a5d61d1000000b002faaa9a1721sm2595103wrv.58.2023.04.17.09.40.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 09:40:42 -0700 (PDT)
+ Mon, 17 Apr 2023 09:40:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
  libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v3 00/10] Deprecate/rename singlestep command line option,
- monitor interfaces
-Date: Mon, 17 Apr 2023 17:40:31 +0100
-Message-Id: <20230417164041.684562-1-peter.maydell@linaro.org>
+Subject: [PATCH v3 01/10] make one-insn-per-tb an accel option
+Date: Mon, 17 Apr 2023 17:40:32 +0100
+Message-Id: <20230417164041.684562-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230417164041.684562-1-peter.maydell@linaro.org>
+References: <20230417164041.684562-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,97 +94,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The command line option '-singlestep' and its HMP equivalent
-the 'singlestep' command are very confusingly named, because
-they have nothing to do with single-stepping the guest (either
-via the gdb stub or by emulation of guest CPU architectural
-debug facilities). What they actually do is put TCG into a
-mode where it puts only one guest instruction into each
-translation block. This is useful for some circumstances
-such as when you want the -d debug logging to be easier to
-interpret, or if you have a finicky guest binary that wants
-to see interrupts delivered at something other than the end
-of a basic block.
+This commit adds 'one-insn-per-tb' as a property on the TCG
+accelerator object, so you can enable it with
+   -accel tcg,one-insn-per-tb=on
 
-The confusing name is made worse by the fact that our
-documentation for these is so minimal as to be useless
-for telling users what they really do.
+It has the same behaviour as the existing '-singlestep' command line
+option.  We use a different name because 'singlestep' has always been
+a confusing choice, because it doesn't have anything to do with
+single-stepping the CPU.  What it does do is force TCG emulation to
+put one guest instruction in each TB, which can be useful in some
+situations (such as analysing debug logs).
 
-This series:
- * changes the command line interface: for user-mode
-   emulators, the new option is '-one-insn-per-tb',
-   and for system mode emulators it is a TCG accel
-   property '-accel tcg,one-insn-per-tb=on'
- * updates all the places which currently directly touch
-   the 'singlestep' global variable to instead get the
-   current accelerator and query/set the QOM property
-   (except the one internal to TCG itself in curr_cflags())
- * documents that the old -singlestep option is deprecated
- * adds a new HMP command 'one-insn-per-tb', and deprecates
-   the old 'singlestep' command. (Strictly we don't need to
-   deprecate HMP commands, but I'd already written the code
-   for v1 of this series and it's a minor user convenience.)
- * moves the 'is one-insn-per-tb on?' info from 'info status'
-   to 'info jit'
- * deprecates the 'singlestep' member of the QMP StatusInfo
-   type, with no replacement. (We have a sketch of a design
-   of how we might provide this in QMP if we need to, but
-   I'm pretty sure nobody using QMP is actually using the
-   info in the 'singlestep' field, especially since it's
-   always been wrongly documented and there's no write
-   interface, only a read one.)
+The existing '-singlestep' commandline options are decoupled from the
+global 'singlestep' variable and instead now are syntactic sugar for
+setting the accel property.  (These can then go away after a
+deprecation period.)
 
-Changes v2->v3:
- * curr_cflags() is a hot path, so use a global variable
-   so it doesn't have to fetch the current accelerator object.
-   (NB: I haven't done the tcg_global_cflags thing suggested
-   in review of v2; justification in the below-the-fold part
-   of the patch 3 commit message notes.)
- * put the new line in test-hmp.c in its proper alphabetical
-   order place in patch 8
- * in patch 10 don't provide a replacement field in the
-   QMP StatusInfo type, just deprecate the old one
- * I finally tested that bsd-user compiles, and fixed the
-   missing-close-bracket error in that patch :-)
+The global variable remains for the moment as:
+ * what the TCG code looks at to change its behaviour
+ * what HMP and QMP use to query and set the behaviour
 
-Patches still needing review: 3, 7, 10
+In the following commits we'll clean those up to not directly
+look at the global variable.
 
-thanks
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/tcg-all.c | 21 +++++++++++++++++++++
+ bsd-user/main.c     |  8 ++++++--
+ linux-user/main.c   |  8 ++++++--
+ softmmu/vl.c        | 17 +++++++++++++++--
+ qemu-options.hx     |  7 +++++++
+ 5 files changed, 55 insertions(+), 6 deletions(-)
 
-Peter Maydell (10):
-  make one-insn-per-tb an accel option
-  softmmu: Don't use 'singlestep' global in QMP and HMP commands
-  accel/tcg: Use one_insn_per_tb global instead of old singlestep global
-  linux-user: Add '-one-insn-per-tb' option equivalent to '-singlestep'
-  bsd-user: Add '-one-insn-per-tb' option equivalent to '-singlestep'
-  Document that -singlestep command line option is deprecated
-  accel/tcg: Report one-insn-per-tb in 'info jit', not 'info status'
-  hmp: Add 'one-insn-per-tb' command equivalent to 'singlestep'
-  qapi/run-state.json: Fix missing newline at end of file
-  hmp: Deprecate 'singlestep' member of StatusInfo
-
- docs/about/deprecated.rst   | 39 +++++++++++++++++++++++++++++++++++++
- docs/user/main.rst          | 14 +++++++++++--
- qapi/run-state.json         | 16 +++++++++++----
- accel/tcg/internal.h        |  2 ++
- include/exec/cpu-common.h   |  2 --
- include/monitor/hmp.h       |  2 +-
- accel/tcg/cpu-exec.c        |  2 +-
- accel/tcg/monitor.c         | 14 +++++++++++++
- accel/tcg/tcg-all.c         | 23 ++++++++++++++++++++++
- bsd-user/main.c             | 14 ++++++++-----
- linux-user/main.c           | 18 +++++++++++------
- softmmu/globals.c           |  1 -
- softmmu/runstate-hmp-cmds.c | 25 ++++++++++++++++++------
- softmmu/runstate.c          | 10 +++++++++-
- softmmu/vl.c                | 17 ++++++++++++++--
- tests/qtest/test-hmp.c      |  1 +
- hmp-commands.hx             | 25 ++++++++++++++++++++----
- qemu-options.hx             | 12 ++++++++++--
- tcg/tci/README              |  2 +-
- 19 files changed, 201 insertions(+), 38 deletions(-)
-
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index 5dab1ae9dd3..fcf361c8db6 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -42,6 +42,7 @@ struct TCGState {
+     AccelState parent_obj;
+ 
+     bool mttcg_enabled;
++    bool one_insn_per_tb;
+     int splitwx_enabled;
+     unsigned long tb_size;
+ };
+@@ -208,6 +209,20 @@ static void tcg_set_splitwx(Object *obj, bool value, Error **errp)
+     s->splitwx_enabled = value;
+ }
+ 
++static bool tcg_get_one_insn_per_tb(Object *obj, Error **errp)
++{
++    TCGState *s = TCG_STATE(obj);
++    return s->one_insn_per_tb;
++}
++
++static void tcg_set_one_insn_per_tb(Object *obj, bool value, Error **errp)
++{
++    TCGState *s = TCG_STATE(obj);
++    s->one_insn_per_tb = value;
++    /* For the moment, set the global also: this changes the behaviour */
++    singlestep = value;
++}
++
+ static int tcg_gdbstub_supported_sstep_flags(void)
+ {
+     /*
+@@ -245,6 +260,12 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+         tcg_get_splitwx, tcg_set_splitwx);
+     object_class_property_set_description(oc, "split-wx",
+         "Map jit pages into separate RW and RX regions");
++
++    object_class_property_add_bool(oc, "one-insn-per-tb",
++                                   tcg_get_one_insn_per_tb,
++                                   tcg_set_one_insn_per_tb);
++    object_class_property_set_description(oc, "one-insn-per-tb",
++        "Only put one guest insn in each translation block");
+ }
+ 
+ static const TypeInfo tcg_accel_type = {
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index babc3b009b6..09b84da190c 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -50,6 +50,7 @@
+ #include "target_arch_cpu.h"
+ 
+ int singlestep;
++static bool opt_one_insn_per_tb;
+ uintptr_t guest_base;
+ bool have_guest_base;
+ /*
+@@ -386,7 +387,7 @@ int main(int argc, char **argv)
+         } else if (!strcmp(r, "seed")) {
+             seed_optarg = optarg;
+         } else if (!strcmp(r, "singlestep")) {
+-            singlestep = 1;
++            opt_one_insn_per_tb = true;
+         } else if (!strcmp(r, "strace")) {
+             do_strace = 1;
+         } else if (!strcmp(r, "trace")) {
+@@ -444,9 +445,12 @@ int main(int argc, char **argv)
+ 
+     /* init tcg before creating CPUs and to get qemu_host_page_size */
+     {
+-        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
++        AccelState *accel = current_accel();
++        AccelClass *ac = ACCEL_GET_CLASS(accel);
+ 
+         accel_init_interfaces(ac);
++        object_property_set_bool(OBJECT(accel), "one-insn-per-tb",
++                                 opt_one_insn_per_tb, &error_abort);
+         ac->init_machine(NULL);
+     }
+     cpu = cpu_create(cpu_type);
+diff --git a/linux-user/main.c b/linux-user/main.c
+index fe03293516a..489694ad654 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -69,6 +69,7 @@ char *exec_path;
+ char real_exec_path[PATH_MAX];
+ 
+ int singlestep;
++static bool opt_one_insn_per_tb;
+ static const char *argv0;
+ static const char *gdbstub;
+ static envlist_t *envlist;
+@@ -411,7 +412,7 @@ static void handle_arg_reserved_va(const char *arg)
+ 
+ static void handle_arg_singlestep(const char *arg)
+ {
+-    singlestep = 1;
++    opt_one_insn_per_tb = true;
+ }
+ 
+ static void handle_arg_strace(const char *arg)
+@@ -777,9 +778,12 @@ int main(int argc, char **argv, char **envp)
+ 
+     /* init tcg before creating CPUs and to get qemu_host_page_size */
+     {
+-        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
++        AccelState *accel = current_accel();
++        AccelClass *ac = ACCEL_GET_CLASS(accel);
+ 
+         accel_init_interfaces(ac);
++        object_property_set_bool(OBJECT(accel), "one-insn-per-tb",
++                                 opt_one_insn_per_tb, &error_abort);
+         ac->init_machine(NULL);
+     }
+     cpu = cpu_create(cpu_type);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ea20b23e4c8..492b5fe65e6 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -182,6 +182,7 @@ static const char *log_file;
+ static bool list_data_dirs;
+ static const char *qtest_chrdev;
+ static const char *qtest_log;
++static bool opt_one_insn_per_tb;
+ 
+ static int has_defaults = 1;
+ static int default_serial = 1;
+@@ -2220,7 +2221,19 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+     qemu_opt_foreach(opts, accelerator_set_property,
+                      accel,
+                      &error_fatal);
+-
++    /*
++     * If legacy -singlestep option is set, honour it for TCG and
++     * silently ignore for any other accelerator (which is how this
++     * option has always behaved).
++     */
++    if (opt_one_insn_per_tb) {
++        /*
++         * This will always succeed for TCG, and we want to ignore
++         * the error from trying to set a nonexistent property
++         * on any other accelerator.
++         */
++        object_property_set_bool(OBJECT(accel), "one-insn-per-tb", true, NULL);
++    }
+     ret = accel_init_machine(accel, current_machine);
+     if (ret < 0) {
+         if (!qtest_with_kvm || ret != -ENOENT) {
+@@ -2955,7 +2968,7 @@ void qemu_init(int argc, char **argv)
+                 qdict_put_str(machine_opts_dict, "firmware", optarg);
+                 break;
+             case QEMU_OPTION_singlestep:
+-                singlestep = 1;
++                opt_one_insn_per_tb = true;
+                 break;
+             case QEMU_OPTION_S:
+                 autostart = 0;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 59bdf67a2c5..1dffd36884e 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -182,6 +182,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+     "                igd-passthru=on|off (enable Xen integrated Intel graphics passthrough, default=off)\n"
+     "                kernel-irqchip=on|off|split controls accelerated irqchip support (default=on)\n"
+     "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
++    "                one-insn-per-tb=on|off (one guest instruction per TCG translation block)\n"
+     "                split-wx=on|off (enable TCG split w^x mapping)\n"
+     "                tb-size=n (TCG translation block cache size)\n"
+     "                dirty-ring-size=n (KVM dirty ring GFN count, default 0)\n"
+@@ -210,6 +211,12 @@ SRST
+     ``kvm-shadow-mem=size``
+         Defines the size of the KVM shadow MMU.
+ 
++    ``one-insn-per-tb=on|off``
++        Makes the TCG accelerator put only one guest instruction into
++        each translation block. This slows down emulation a lot, but
++        can be useful in some situations, such as when trying to analyse
++        the logs produced by the ``-d`` option.
++
+     ``split-wx=on|off``
+         Controls the use of split w^x mapping for the TCG code generation
+         buffer. Some operating systems require this to be enabled, and in
 -- 
 2.34.1
 
