@@ -2,95 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBAF6E4055
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 09:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818886E4084
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 09:17:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poIsl-0002rb-2Y; Mon, 17 Apr 2023 03:02:35 -0400
+	id 1poJ5j-00056v-VN; Mon, 17 Apr 2023 03:16:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1poIsV-0002g2-Nr; Mon, 17 Apr 2023 03:02:23 -0400
+ id 1poJ5f-00055y-Ar; Mon, 17 Apr 2023 03:15:56 -0400
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1poIsS-0001bF-1B; Mon, 17 Apr 2023 03:02:19 -0400
+ id 1poJ5c-0005Dg-K9; Mon, 17 Apr 2023 03:15:55 -0400
 Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33H61d3m032472; Mon, 17 Apr 2023 07:02:13 GMT
+ 33H60i0j032477; Mon, 17 Apr 2023 07:15:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=/lVqwzreO9+IqtLXUpBE+82U8YqAAhgyOJxvT76PDbY=;
- b=iLa6s9+W63sTpyPgV31S5OQgdQnDYhzpEvv9ZDHuWjMPt2c9WuSVTIjnkUzWta9tuQQE
- UyS/r/rSQdMMlDhk5D7Z9wDCieRv8VWyAxjDmzKCaMSG7dIpYzmxqNLVxTFjYmK34nmu
- KE+vOCtXiUjNFpbyF03tJ2T6cJ+We7wfCigxnbchZz6vKU3HLaLWjpsUPKC1KZvoT/1r
- d8L2CEDjox9JBiIk83ZrGmqoBw1285wNwctLG81ZXpwGBoOtc/OVuSagAEQsM6Sk0ssH
- g2E8+hmllEMboIJh33v++RLJVXIXExZ++1T+WmdBs2U4J3ZI+zQ8/9s7srBo+GlYglHp wQ== 
+ bh=59f23pkNxju214uep7G1ALCRVvXtZRs2B0+hpx/j7uo=;
+ b=SN6iWjKnxJKPid9dGzUa2ckbBQs79zuVR2XJl/YAGpIo2XE+ywj0lyIP6sZntarLZR9Q
+ in4xAI7/YEWT5qAE9JHambDjJ/JQgDDjBsvIFgXQmwEqQI5jtFei74ROha79SDVDH0P/
+ UxJqsCQ09Bbxr26wys2Ddvq0yD51ioXBaVScG7TNvivy64Jz2vRDr4MLScFnlp78i22z
+ rgFbibVKT4afrR+dZ6yUytJ7uxV2X38Jn0kjJwRnW+lpTIAvXifBT6obpRg12BjY1Gyc
+ w8XxZuc5jZCbfwBxqw4d4w9AOgM0nP1XIlbIuLbow+94GlmKGQOMblaBGKLIbgvoDZn+ sQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q0f3m1487-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q0f3m1exc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 07:02:13 +0000
+ Mon, 17 Apr 2023 07:15:49 +0000
 Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33H6s5lg017265;
- Mon, 17 Apr 2023 07:02:13 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q0f3m147s-1
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33H6NdJo032164;
+ Mon, 17 Apr 2023 07:15:49 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q0f3m1ex5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 07:02:13 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33H5He04013975;
- Mon, 17 Apr 2023 07:02:12 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
- by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3pykj6v0pk-1
+ Mon, 17 Apr 2023 07:15:49 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33H3UPgP024283;
+ Mon, 17 Apr 2023 07:15:48 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
+ by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3pykj79pg9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 07:02:12 +0000
+ Mon, 17 Apr 2023 07:15:48 +0000
 Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com
  [10.39.53.232])
- by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33H72AKn66060628
+ by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33H7FlDp20775498
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Apr 2023 07:02:11 GMT
+ Mon, 17 Apr 2023 07:15:47 GMT
 Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D345458059;
- Mon, 17 Apr 2023 07:02:10 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4C4775805F;
+ Mon, 17 Apr 2023 07:15:47 +0000 (GMT)
 Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B09558043;
- Mon, 17 Apr 2023 07:02:09 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BD30D58053;
+ Mon, 17 Apr 2023 07:15:45 +0000 (GMT)
 Received: from [9.109.242.129] (unknown [9.109.242.129])
  by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 17 Apr 2023 07:02:09 +0000 (GMT)
-Message-ID: <5739c35f-f6ca-ab31-da03-84710df4d4ac@linux.ibm.com>
-Date: Mon, 17 Apr 2023 12:32:08 +0530
+ Mon, 17 Apr 2023 07:15:45 +0000 (GMT)
+Message-ID: <e8fd0543-c87b-1cb0-8d65-4101c98186b2@linux.ibm.com>
+Date: Mon, 17 Apr 2023 12:45:44 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 2/5] ppc: spapr: cleanup h_enter_nested() with helper
- routines.
+Subject: Re: [PATCH 3/5] ppc: spapr: assert early rather late in
+ h_enter_nested()
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-ppc@nongnu.org
 Cc: qemu-devel@nongnu.org, danielhb413@gmail.com
 References: <20230331065344.112341-1-harshpb@linux.ibm.com>
- <20230331065344.112341-3-harshpb@linux.ibm.com> <87v8hyist8.fsf@suse.de>
+ <20230331065344.112341-4-harshpb@linux.ibm.com> <87sfd2ispa.fsf@suse.de>
 From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <87v8hyist8.fsf@suse.de>
+In-Reply-To: <87sfd2ispa.fsf@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: eMpRpWJOlbVboXQ0f8Rc0ROFLUY-ECKQ
-X-Proofpoint-GUID: -LiuNKY1xLe-OVUoG86vD4EGHgDoiq6C
+X-Proofpoint-ORIG-GUID: nv90r2lptFac6MwQxxc5qOCYxqNhACpo
+X-Proofpoint-GUID: c-bJTjhrh3y654ziAosOF-khnnDb8NcP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-17_03,2023-04-14_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  spamscore=0 malwarescore=0
- impostorscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 phishscore=0
+ impostorscore=0 suspectscore=0 mlxscore=0 mlxlogscore=845 phishscore=0
  priorityscore=1501 bulkscore=0 lowpriorityscore=0 clxscore=1015
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304170060
+ engine=8.12.0-2303200000 definitions=main-2304170063
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -29
@@ -117,109 +117,22 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 4/14/23 17:23, Fabiano Rosas wrote:
+On 4/14/23 17:25, Fabiano Rosas wrote:
 > Harsh Prateek Bora <harshpb@linux.ibm.com> writes:
 > 
->> h_enter_nested() currently does a lot of register specific operations
->> which should be abstracted logically to simplify the code for better
->> readability. This patch breaks down relevant blocks into respective
->> helper routines to make use of them for better readability/maintenance.
+>> Currently, it asserts very late in the code flow if lpid is already initialized.
+> 
+> That's not about initializing. It is about making sure the LPIDR is
+> 0. Which has a specific meaning according to the ISA.
+> 
+Yes, I could rephrase the commit log, but I am okay with your below 
+suggestion for now.
+
+>> Ideally, it should assert in the beginning if that is the case. This patch
+>> brings assert check in the beginning alongwith the related initialization.
 >>
->> Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
->> ---
->>   hw/ppc/spapr_hcall.c | 99 +++++++++++++++++++++++++++-----------------
->>   1 file changed, 60 insertions(+), 39 deletions(-)
->>
->> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index 124cee5e53..a13e5256ab 100644
->> --- a/hw/ppc/spapr_hcall.c
->> +++ b/hw/ppc/spapr_hcall.c
->> @@ -1544,6 +1544,62 @@ static target_ulong h_copy_tofrom_guest(PowerPCCPU *cpu,
->>       return H_FUNCTION;
->>   }
->>   
->> +static void restore_hdec_from_hvstate(CPUPPCState *dst,
->> +                                      struct kvmppc_hv_guest_state *hv_state,
->> +                                      target_ulong now)
->> +{
->> +    target_ulong hdec;
 > 
-> add a blank line here
-
-ok
+> Maybe just leave it where it is. There's not much to gain from moving this.
 > 
->> +    assert(hv_state);
->> +    hdec = hv_state->hdec_expiry - now;
->> +    cpu_ppc_hdecr_init(dst);
->> +    cpu_ppc_store_hdecr(dst, hdec);
->> +}
->> +
->> +static void restore_lpcr_from_hvstate(PowerPCCPU *cpu,
->> +                                      struct kvmppc_hv_guest_state *hv_state)
->> +{
->> +    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
->> +    CPUPPCState *dst = &cpu->env;
->> +    target_ulong lpcr, lpcr_mask;
-> 
-> here as well
-
-ok
-> 
->> +    assert(hv_state);
->> +    lpcr_mask = LPCR_DPFD | LPCR_ILE | LPCR_AIL | LPCR_LD | LPCR_MER;
->> +    lpcr = (dst->spr[SPR_LPCR] & ~lpcr_mask) | (hv_state->lpcr & lpcr_mask);
->> +    lpcr |= LPCR_HR | LPCR_UPRT | LPCR_GTSE | LPCR_HVICE | LPCR_HDICE;
->> +    lpcr &= ~LPCR_LPES0;
->> +    dst->spr[SPR_LPCR] = lpcr & pcc->lpcr_mask;
->> +}
->> +
->> +static void restore_env_from_ptregs_hvstate(CPUPPCState *env,
-> 
-> Take a look at how the kernel does it. It might be better to have ptregs
-> and hv regs separate. Also probably better to have some terms specific
-> to the domain (l2 state, l1 state, etc).
-> 
-
-ok, will separate them out and include l2/l1 wherever applicable.
-
->> +                                            struct kvmppc_pt_regs *regs,
->> +                                            struct kvmppc_hv_guest_state *hv_state)
->> +{
->> +    assert(env);
->> +    assert(regs);
->> +    assert(hv_state);
->> +    assert(sizeof(env->gpr) == sizeof(regs->gpr));
->> +    memcpy(env->gpr, regs->gpr, sizeof(env->gpr));
->> +    env->nip = regs->nip;
->> +    env->msr = regs->msr;
->> +    env->lr = regs->link;
->> +    env->ctr = regs->ctr;
->> +    cpu_write_xer(env, regs->xer);
->> +    ppc_store_cr(env, regs->ccr);
->> +    /* hv_state->amor is not used in api v1 */
-> 
-> That's not really an API thing. More of an oversight.
-> 
-yeh, that comment was retained from existing source, will remove.
-
->> +    env->spr[SPR_HFSCR] = hv_state->hfscr;
->> +    /* TCG does not implement DAWR*, CIABR, PURR, SPURR, IC, VTB, HEIR SPRs*/
->> +    env->cfar = hv_state->cfar;
->> +    env->spr[SPR_PCR]      = hv_state->pcr;
->> +    env->spr[SPR_DPDES]     = hv_state->dpdes;
->> +    env->spr[SPR_SRR0]      = hv_state->srr0;
->> +    env->spr[SPR_SRR1]      = hv_state->srr1;
->> +    env->spr[SPR_SPRG0]     = hv_state->sprg[0];
->> +    env->spr[SPR_SPRG1]     = hv_state->sprg[1];
->> +    env->spr[SPR_SPRG2]     = hv_state->sprg[2];
->> +    env->spr[SPR_SPRG3]     = hv_state->sprg[3];
->> +    env->spr[SPR_BOOKS_PID] = hv_state->pidr;
->> +    env->spr[SPR_PPR]       = hv_state->ppr;
-> 
-> I would advise against the extra spacing inside functions.
-> 
-sure, will keep the spacing as-is inside functions.
-
-Thanks
-Harsh
+Will drop this change for now as value-add is relatively lesser.
 
