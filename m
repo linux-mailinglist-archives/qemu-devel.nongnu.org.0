@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFD26E4B51
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 16:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187186E4B8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 16:34:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poPi1-0003qE-D8; Mon, 17 Apr 2023 10:19:57 -0400
+	id 1poPuu-0007Nr-9u; Mon, 17 Apr 2023 10:33:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poPhz-0003q4-AG
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:19:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1poPus-0007Nb-3U
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:33:14 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poPhr-00073O-Kp
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:19:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681741186;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1sVIEU7MrE5g2ycNiwnhc/kQ5Okgxe47LCGDT6CArik=;
- b=iXxvrnuK3+4XjHzQAM/UFq9GzjeEgqLkHN1SnDh+A7wW6Ua7PfMKKkLeiU1xHRjLn1yhED
- 2SoOg+uR2WB2y4kh5JvIYMi8gRiryJbT/YN3frI8VF75d+hSoLFYFObIOhzVgUDg715X8i
- iP6OuLHr3+8c6MHuA70yWWYm7iqGvKs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-230-HCXUM8jSPVm8etbsKzgYaA-1; Mon, 17 Apr 2023 10:19:45 -0400
-X-MC-Unique: HCXUM8jSPVm8etbsKzgYaA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- fl8-20020a05600c0b8800b003f16fe94249so2875059wmb.9
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 07:19:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681741184; x=1684333184;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1sVIEU7MrE5g2ycNiwnhc/kQ5Okgxe47LCGDT6CArik=;
- b=KZZSTg/XIv/PTl2gK287A2JfzomVQkWeWUujtJPJAVtWER8irqVe7T/nOn7Bh2F/IY
- nIxLSSTocQIfu+ZgQPvyrx0qN92jcbSb0Ph+9PzABjPzfCzTzS4V2HNRKuXCTcbM2Be5
- IWzmyJn0ldnmDIhJjtSP5IfuQyn2z+Eri38wyfW6utBeM1LGEekSiZFsB5AvLDnglvHP
- tV5fA31/WdVn7qopEAoEaszSqOTfV+9y1QV4yyEvKWcj3MgXBNEqe96wm3dpcVOp4YMj
- 1Xh7/9Uv37yiLowPRkC8wgFd1E8eTnVOjCM5ufWaYfRVniJElJ6gMitJwpdswJT5oXtK
- USXA==
-X-Gm-Message-State: AAQBX9dwwwGIh/wfO1FvJ+BShJF8kD9ziKJ9dB0QcvEyIphrVdP9mMVT
- 37IqbiuP9TYxT5qIOQr/cQ8i6V7ciBMtFxuyygecxUPPcrT3G9ojW7LoXT7DSAVdRUhtdCJrl9G
- TbxEkaKzyFrnvaZo=
-X-Received: by 2002:a05:600c:2105:b0:3f1:7581:bba3 with SMTP id
- u5-20020a05600c210500b003f17581bba3mr1548419wml.10.1681741184518; 
- Mon, 17 Apr 2023 07:19:44 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aMFP6sj2IXCSf9/vWJhpZKZPvGTSEACo6/Oy+TogjPrzhepWC/VYgiv8BrzY0Gx8WyZyX7lA==
-X-Received: by 2002:a05:600c:2105:b0:3f1:7581:bba3 with SMTP id
- u5-20020a05600c210500b003f17581bba3mr1548401wml.10.1681741184239; 
- Mon, 17 Apr 2023 07:19:44 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-177-194.web.vodafone.de.
- [109.43.177.194]) by smtp.gmail.com with ESMTPSA id
- p22-20020a05600c205600b003f16f362ae7sm6184055wmg.21.2023.04.17.07.19.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 07:19:43 -0700 (PDT)
-Message-ID: <65b4a324-0ce4-3df5-bbb9-15630133cc9d@redhat.com>
-Date: Mon, 17 Apr 2023 16:19:42 +0200
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1poPup-0002JA-R2
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:33:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1681741987; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=lyI2nMeSeKg30F+bchjAPL76K35+C2lYHIj3HduuRL1GXIMeITfrJB30fU/QtGSpX/
+ xSIWoZnzmVcYRz60VKkFFjricAsWkVXXwxdNWEXNq8rEEHewT8soI/GYqMADwx+e8igE
+ lWj1VoSRpsIHcLvYibRAHPsMDwjdpf2yAyOKrNA5U9lhpRd/3G3dzjggQEmp6A+1nlv7
+ wQ/Jvc1fV91Z0yLJSmaDbT5YbSah09BAGHN69IiD0lPT91crCI0aErP7nKk+4AAlrbu/
+ jMTcsaOPXig+4dg7fk3e7YXoRmQdE9B8NyhPYU8dOwOvsIaEOz7i+cR3Y/s9fP3uXDFf
+ E95A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1681741987;
+ s=strato-dkim-0002; d=strato.com;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=B3WfWHs/JYEZWbQB5oewQQjrpsQ60yBAPN3pjZSbEDQ=;
+ b=EsW8Avg99bOa1/FHeDkEZv0uTnrrL4F7oAL+ajhG4qlCo7qX01PQrjRQqUqFK7ifxk
+ iPWObadLuv2UUALAMrfjfTDPAevfWsplN1C6LrdFN/C1TvFgbMRpxBI0GGYSVJmnUJXQ
+ O09tgfwHCh+mKZ6Q1BNAQ3yJvl+Ie/E8PpTRIcZgvt31tEjY+GS+lfB8wpHIKUwJTbMp
+ js2YoJ23iEX3H3wv6JeGYiEv4J3GcuhWSQCBx7AGDyapeEMng+6+qotUnJsq8K3AS99P
+ zz9tnegFOWUO4J1IB02ZHrIqyY9234pfeN50GZH4KV1xaNwyH82eFo2ePAUOf6W2s68j
+ QPRg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1681741987;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=B3WfWHs/JYEZWbQB5oewQQjrpsQ60yBAPN3pjZSbEDQ=;
+ b=ZNxEeccHl5caxhhoXFV+oaToeZMj/3+I1HhtNAlM8g9jV6pS/qwwTVTRJC2XxpQ7hr
+ mn7JgK1FkzvMrGyob1t+lRbbmQ97Goz7yKW5HfZ2uf5HYOJ+lAzV70/uvtkS+HJ3nkwo
+ pdTTX2cVvhTmevroUSdaqHzBmP8ehNYTjcnq6/u9rHDkK1ZDSwlkGjdCPAxydibn9yWi
+ FIQJmyAOVfJ+SVHbnexkr5gdrH3xAgmKsUYe8pL5SstdmMCdTGYj5WcS9IWyvazk90Sr
+ +qjvpzxyxoP80eSO0wXAzfEYdasOX6dVvh8OI5AD7U47d+BV0oe2WTgpCJs1nPvbv9xe
+ q0Lg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1681741987;
+ s=strato-dkim-0003; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=B3WfWHs/JYEZWbQB5oewQQjrpsQ60yBAPN3pjZSbEDQ=;
+ b=nJjFLkXAAI3PFaeGaGfkCgo7vlw3OeJZh7HVVX14xP/9B801C5VW1WaA+SzRLc1X1N
+ 2tns0QaW2fB0URohIjCQ==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDX3y/OuD5rXVisR5BBKIYx7sXVVhU9+brASRK3ZldJTnR7IDHecOJA=="
+Received: from sender by smtp.strato.de (RZmta 49.4.0 AUTH)
+ with ESMTPSA id x6987cz3HEX6jnH
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Mon, 17 Apr 2023 16:33:06 +0200 (CEST)
+Date: Mon, 17 Apr 2023 16:32:58 +0200
+From: Olaf Hering <olaf@aepfle.de>
+To: Peter Krempa <pkrempa@redhat.com>
+Cc: qemu-devel@nongnu.org, Alex =?UTF-8?B?QmVubsOpZQ==?=
+ <alex.bennee@linaro.org>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, Wainer dos Santos
+ Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 2/2] tests: lcitool: Switch to OpenSUSE Leap 15.4
+Message-ID: <20230417163258.65586555.olaf@aepfle.de>
+In-Reply-To: <a408b7f241ac59e5944db6ae2360a792305c36e0.1681735482.git.pkrempa@redhat.com>
+References: <cover.1681735482.git.pkrempa@redhat.com>
+ <a408b7f241ac59e5944db6ae2360a792305c36e0.1681735482.git.pkrempa@redhat.com>
+X-Mailer: Claws Mail 20220819T065813.516423bc hat ein Softwareproblem,
+ kann man nichts machen.
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-To: Vaibhav Jain <vaibhav@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230414210645.820204-1-vaibhav@linux.ibm.com>
- <2be2ca90-15bd-9ac8-5dba-68740386e1b5@redhat.com>
- <87a5z6egyk.fsf@vajain21.in.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/2] travis.yml: Add missing clang-10 package to the
- 'Clang (disable-tcg)' job
-In-Reply-To: <87a5z6egyk.fsf@vajain21.in.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: multipart/signed; boundary="Sig_/0/8Mfi.QH0.oOg60TIx.tr=";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.284, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: none client-ip=81.169.146.167; envelope-from=olaf@aepfle.de;
+ helo=mo4-p01-ob.smtp.rzone.de
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,37 +106,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/04/2023 16.11, Vaibhav Jain wrote:
-> Hi Thomas,
-> Thanks for reviewing this patch. My responses inline below:
-...
-> Travis documentation at [1] mentions clang 7.0.0 to be the default
-> compiler for Ubuntu 20.04 (Focal and Jammy). That is what I see in my travis
-> environment also with Focal.
-> 
-> [1] -
-> https://docs.travis-ci.com/user/reference/focal/#environment-common-to-all-ubuntu-2004-images
-> 
->>
->> So how did you end up with Clang v7.0 in your run?
-> Running this job on an internal Travis CI Enterprise instance.
-> 
-> I see the build info reported by app.travis-ci.com for focal is
-> different from what I am seeing for "focal" distro indicating different
-> builder images being used.
+--Sig_/0/8Mfi.QH0.oOg60TIx.tr=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-OK, thanks for the explanation, that makes sense now. I'll queue your patch 
-for my next pull request.
+Mon, 17 Apr 2023 14:46:54 +0200 Peter Krempa <pkrempa@redhat.com>:
 
->> PS: We should maybe rather update the Travis jobs to Jammy nowadays instead.
-> Yes, that can be another way to address this. However depends on
-> availablity of Jammy image on the Travis Enterprise instance. Right now
-> we dont have support for it in our Travis Enterprise instance.
+> Switch the dockerfile to 15.4.
 
-I gave it a try now in the public Travis instance, too, but it apparently 
-also does not work there yet. So never mind, updating to Jammy is not an 
-option yet.
+Given that Leap 15.5 is essentially done, please skip this meanwhile stale =
+version of Leap.
 
-  Thomas
+Thanks,
+Olaf
 
+--Sig_/0/8Mfi.QH0.oOg60TIx.tr=
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmQ9WJoACgkQ86SN7mm1
+DoAweQ/9GHXVMytIcC08hoQ6ayMPchC9X1je/nfJFuOVSDTnB/iTJ1nb21sGjWJZ
+54M/LQyagNzD6QuyPbG+nbtI4wFhrRb6+UkxV7yCg/K2cgtd0nQjNbNgBXfdEQjM
+ap5MxNFcuywHfxElJIp5Yf219TjS5FgxMd+kyFr0YvIC6ipo+ubx5Ek7BnaOIyUH
+lforWulkAOgzlda92nXMKO7J+X+ij9T232OVh1QN04C8yj9l2GXCYdxFgqc43F28
+Y9x+kuFq9VlfohUp6W203CzrQfFp5Sdfjh1zFIpgN6Q7FQCmBCKzx+5I9iMwbQC7
+r2vxHOodJivXKKu7yLRiUGRHb3iGBwNyKas564+EgoXstd4fOZmzx7eumz9mVJio
+tANHGLEi3AhDa+iJDyCqQCUKa5j5t46w8MmnxhJSLe5+pSr9zuPf5qkRlZm0p4FA
+eNXLMIg6httRhIYFamJT6AD/VcZya3GMv3lMo1trLLjvJ48LZUhwXmQ5XJ2+nFqE
+hvFlNWyifsd2yJs2ceHc8Dlw97QK06mhySv+6TkVTv+j7lgDxFUG76JdPS6LOcAz
+xYC6YvgTbhYvdZBgq1gEptZ4q8QmkrpDP+tty82flZwquJsvetpCCeEeurKBRJ+e
++8OEBCj4Fqs4i1DcbnmjjBX/t9wTSplis4UiDxNEQBYSZhp6EyY=
+=hg3K
+-----END PGP SIGNATURE-----
+
+--Sig_/0/8Mfi.QH0.oOg60TIx.tr=--
 
