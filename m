@@ -2,97 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56796E4A35
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 15:44:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E746E4A79
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 16:00:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poP8z-0000yN-2y; Mon, 17 Apr 2023 09:43:45 -0400
+	id 1poPNb-0001ql-M7; Mon, 17 Apr 2023 09:58:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1poP8p-0000wb-UQ
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:43:36 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1poP8n-0006Rh-NH
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:43:35 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f09b4a1584so10389955e9.2
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 06:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681739012; x=1684331012;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OSKTGeVvxMRFHaTMOhie+UZrwE1FFDQH+ewlD3woTE0=;
- b=AVo8XnOhDxYTKD/J4AYoOcoEduuUCixW25KFn9VpVoHvxgIfp6GgCp5AXB+ZnSa9Q6
- MPraOhNaexi81nM/lxjVPtb6FaoPup+U8LSySkkuvK5L1TTK1Wj4rY/b9rcofvOGU1zV
- FzFDTRmCQSXAldXzOQ/9tMHyhs/9mEDc+1y5eXXG8VqYWCQ8NZdIlQb4iOpFN7xZjfpj
- Fq7U7Qb24BHYqvjL5JC9+0sQ6mN1TFt8iVmmYjQFfFj00/IQtdbGnfLejsRlSGx4kKGm
- QhEeq7Rqm+eIiSyztNT0Ts+0Wu8bkQwDqkexLHbZ1sPxqjogsUBesKGRW6HGC9kvcWhQ
- oNVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681739012; x=1684331012;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OSKTGeVvxMRFHaTMOhie+UZrwE1FFDQH+ewlD3woTE0=;
- b=HEHkdW/PJlN3L7gyd9P+RLHFu9mPN7ujgxAvsiRO80z5h43bFVBbgd1HCNT9OJIude
- 6DT9Cr2uAloyIVVCbBD8AWZGIqMrZVtXa6Co+wv25mO9n4nWNnTCT871bQTBagrNlokw
- yhctZ8BIZXSNMi5Vans3Eaikp2cMHQvhfZOuiqJDGIsBHFYlcFXMpye/J6Xv8i7Kgwdh
- iuQMd/tEg3++nTk8B8HJ1ZXHjdhwKQ6wrfxNrZO1FUpdijNycuRTwLYeVb8i/8TjT1fM
- OYmRO5QuBgWqbh3IKytEuxw8eROufXzuN40FrZdgIrZyisiLX7QXoIH/+IVAT1v1IRch
- ssUA==
-X-Gm-Message-State: AAQBX9dLXx7vqk/JfSHUF9ao2oSm4lPran4rAkaS+UdlSZWGC40SnMbB
- zW2kIXjpkQxU+R9AO7cI1CD5hw==
-X-Google-Smtp-Source: AKy350YYdotjt70nweynTsI2jU2Xi6fD9SW0bT3mWElkdEgOQSAlIkkkMzQvAV4RUsSgcFy4FlsY+A==
-X-Received: by 2002:a5d:564a:0:b0:2cf:efc7:19ad with SMTP id
- j10-20020a5d564a000000b002cfefc719admr6087233wrw.53.1681739012267; 
- Mon, 17 Apr 2023 06:43:32 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- e11-20020a056000120b00b002e45f6ffe63sm10570412wrx.26.2023.04.17.06.43.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 06:43:28 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 719411FFBE;
- Mon, 17 Apr 2023 14:43:22 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1poPNY-0001nt-7Y; Mon, 17 Apr 2023 09:58:48 -0400
+Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1poPNT-0002gH-QS; Mon, 17 Apr 2023 09:58:47 -0400
+Received: from [167.98.27.226] (helo=lawrence-thinkpad.guest.codethink.co.uk)
+ by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
+ id 1poPNM-0034ER-Oc; Mon, 17 Apr 2023 14:58:36 +0100
+From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Radoslaw Biernacki <rad@semihalf.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Leif Lindholm <quic_llindhol@quicinc.com>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH v4 6/6] qemu-options: finesse the recommendations around
- -blockdev
-Date: Mon, 17 Apr 2023 14:43:21 +0100
-Message-Id: <20230417134321.3627231-7-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230417134321.3627231-1-alex.bennee@linaro.org>
-References: <20230417134321.3627231-1-alex.bennee@linaro.org>
+Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
+ qemu-riscv@nongnu.org, Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+Subject: [PATCH v2 00/17] Add RISC-V vector cryptographic instruction set
+ support
+Date: Mon, 17 Apr 2023 14:58:04 +0100
+Message-Id: <20230417135821.609964-1-lawrence.hunter@codethink.co.uk>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=78.40.148.171;
+ envelope-from=lawrence.hunter@codethink.co.uk; helo=imap5.colo.codethink.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,73 +55,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are a bit premature in recommending -blockdev/-device as the best
-way to configure block devices. It seems there are times the more
-human friendly -drive still makes sense especially when -snapshot is
-involved.
+This patchset provides an implementation for Zvbb, Zvbc, Zvkned, Zvknh, Zvksh,
+Zvkg, and Zvksed of the draft RISC-V vector cryptography extensions as per the
+v20230407 version of the specification(1) (3206f07). This is an update to the
+patchset submitted to qemu-devel on Friday, 10 Mar 2023 16:03:01 +0000.
 
-Improve the language to hopefully make things clearer.
+We've included the following refactorings:
 
-Suggested-by: Michael Tokarev <mjt@tls.msk.ru>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20230330101141.30199-5-alex.bennee@linaro.org>
+  - squashed commits into one commit per extension with separate commits for
+    each refactoring
+  - unified trans_rvzvk*.c.inc files into one trans_rvvk.c.inc
+  - style fixes in insn32.decode and other files
+  - added macros for EGS values in translation functions.
 
----
-v3
-  - more re-wording to try and approach consensus
-  - add explicit warning to -snapshot option
----
- qemu-options.hx | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+We've also updated from v20230303 to v20230407 of the spec:
+  - Zvkb has been split into Zvbb and Zvbc
+  - vbrev, vclz, vctz, vcpop and vwsll have been added to Zvbb.
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 59bdf67a2c..4b8855a4f7 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1143,10 +1143,22 @@ have gone through several iterations as the feature set and complexity
- of the block layer have grown. Many online guides to QEMU often
- reference older and deprecated options, which can lead to confusion.
- 
--The recommended modern way to describe disks is to use a combination of
-+The most explicit way to describe disks is to use a combination of
- ``-device`` to specify the hardware device and ``-blockdev`` to
- describe the backend. The device defines what the guest sees and the
--backend describes how QEMU handles the data.
-+backend describes how QEMU handles the data. It is the only guaranteed
-+stable interface for describing block devices and as such is
-+recommended for management tools and scripting.
-+
-+The ``-drive`` option combines the device and backend into a single
-+command line option which is a more human friendly. There is however no
-+interface stability guarantee although some older board models still
-+need updating to work with the modern blockdev forms.
-+
-+Older options like ``-hda`` are essentially macros which expand into
-+``-drive`` options for various drive interfaces. The original forms
-+bake in a lot of assumptions from the days when QEMU was emulating a
-+legacy PC, they are not recommended for modern configurations.
- 
- ERST
- 
-@@ -1639,6 +1651,14 @@ SRST
-     the raw disk image you use is not written back. You can however
-     force the write back by pressing C-a s (see the :ref:`disk images`
-     chapter in the System Emulation Users Guide).
-+
-+    .. warning::
-+       snapshot is incompatible with ``-blockdev`` (instead use qemu-img
-+       to manually create snapshot images to attach to your blockdev).
-+       If you have mixed ``-blockdev`` and ``-drive`` declarations you
-+       can use the 'snapshot' property on your drive declarations
-+       instead of this global option.
-+
- ERST
- 
- DEF("fsdev", HAS_ARG, QEMU_OPTION_fsdev,
+Please note that the Zvkt data-independent execution latency extension (and all
+extensions including it) has not been implemented, and we would recommend not
+using these patches in an environment where timing attacks are an issue.
+
+Work performed by Dickon, Lawrence, Nazar, Kiran, and William from Codethink
+sponsored by SiFive, as well as Max Chou and Frank Chang from SiFive.
+
+For convenience we have created a git repo with our patches on top of a recent
+master. https://github.com/CodethinkLabs/qemu-ct
+
+1. https://github.com/riscv/riscv-crypto/releases
+
+Dickon Hood (3):
+  target/riscv: Refactor translation of vector-widening instruction
+  qemu/bitops.h: Limit rotate amounts
+  target/riscv: Add Zvbb ISA extension support
+
+Kiran Ostrolenk (5):
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Refactor vector-vector translation macro
+  target/riscv: Refactor some of the generic vector functionality
+  qemu/host-utils.h: Add clz and ctz functions for lower-bit integers
+  target/riscv: Add Zvknh ISA extension support
+
+Lawrence Hunter (2):
+  target/riscv: Add Zvbc ISA extension support
+  target/riscv: Add Zvksh ISA extension support
+
+Max Chou (3):
+  crypto: Create sm4_subword
+  crypto: Add SM4 constant parameter CK
+  target/riscv: Add Zvksed ISA extension support
+
+Nazar Kazakov (4):
+  target/riscv: Move vector translation checks
+  target/riscv: Add Zvkned ISA extension support
+  target/riscv: Add Zvkg ISA extension support
+  target/riscv: Expose Zvk* and Zvb[b,c] cpu properties
+
+ accel/tcg/tcg-runtime-gvec.c             |   11 +
+ accel/tcg/tcg-runtime.h                  |    1 +
+ crypto/sm4.c                             |   10 +
+ include/crypto/sm4.h                     |    9 +
+ include/qemu/bitops.h                    |   24 +-
+ include/qemu/host-utils.h                |   54 ++
+ target/arm/tcg/crypto_helper.c           |   10 +-
+ target/riscv/cpu.c                       |   39 +
+ target/riscv/cpu.h                       |    8 +
+ target/riscv/helper.h                    |   95 ++
+ target/riscv/insn32.decode               |   58 ++
+ target/riscv/insn_trans/trans_rvv.c.inc  |  145 ++-
+ target/riscv/insn_trans/trans_rvvk.c.inc |  617 +++++++++++++
+ target/riscv/meson.build                 |    4 +-
+ target/riscv/op_helper.c                 |    6 +
+ target/riscv/translate.c                 |    1 +
+ target/riscv/vcrypto_helper.c            | 1052 ++++++++++++++++++++++
+ target/riscv/vector_helper.c             |  243 +----
+ target/riscv/vector_internals.c          |   81 ++
+ target/riscv/vector_internals.h          |  228 +++++
+ 20 files changed, 2362 insertions(+), 334 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvvk.c.inc
+ create mode 100644 target/riscv/vcrypto_helper.c
+ create mode 100644 target/riscv/vector_internals.c
+ create mode 100644 target/riscv/vector_internals.h
+
 -- 
-2.39.2
+2.40.0
 
 
