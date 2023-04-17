@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A256E4AD3
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 16:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42346E4AD4
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 16:07:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poPPi-0004p3-82; Mon, 17 Apr 2023 10:01:02 -0400
+	id 1poPPj-0004y0-4d; Mon, 17 Apr 2023 10:01:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1poPPM-0004HG-1t
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:00:40 -0400
+ id 1poPPO-0004UJ-H6
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:00:44 -0400
 Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1poPPK-00039p-4I
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:00:39 -0400
+ id 1poPPM-0003Cp-Mj
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:00:42 -0400
 Received: by mail-oo1-xc35.google.com with SMTP id
- bb7-20020a056820160700b00546d9935668so383965oob.8
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 07:00:37 -0700 (PDT)
+ i10-20020a4ad68a000000b0053b8aa32089so3737425oot.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 07:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681740036; x=1684332036;
+ d=ventanamicro.com; s=google; t=1681740039; x=1684332039;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2uGLi6+ovBWUdoc3kQpi9p838CiXRKVkHH6lHuOuZ54=;
- b=GQCTuXhVQ7pxZEOBV6eBUwhfBrOX50FYJmrpANLR1aAAsVvbMwSFxW2H6VfRIbptMg
- Zqfhk62BggHr3Dou/ctv+4IrzV1JkkFmwGbalZEFU+OrqEXJzFoeIsiRjXHbbWqwIeoQ
- pUZasavthx0ieGFjqiyGTsBhao9iNNsTp38K9ISEiSj+uTcBrBtFdcD8aRuxu/sHR6QG
- KFLhr9FtMtzF25j9FKxQcQfXhfkpv6Dyb60CqKDZCatCBxU7533Pz0OhpcVvVAV2bL0A
- Dfimy8FBtPxHWk5BSAgd6MVoJwrA0lTCYzMXI6lzTeA/Aocv+qegfEOj0iNmVmVBX8r5
- rGzg==
+ bh=Sgaf/JnDDYPpAXnnL9XBJVICYBNvpJ0R6zun3ny+PWo=;
+ b=fSAN5XjuaCbd3dP/QGvh+rDQNMK5KR/7jhRlaQvDBMEjnQ/XPYs/JXGJPe/PyBP+Ao
+ 7A3oSdSPVbHD8witOkr15JFPvDKSpe59Ky3UNbZQgewXAVo2xp5HwvZkTf/mCulVbFCZ
+ NugIlaAWuVx4V6qF+58N9b6Bsrz+chWv1/un65kzpuEz74hKg1T/6JAQa8m+imrErvBT
+ xEUj55N48ovp6QnCELuiRwh8opEqP/Z90TEM7kZxRzkQYlblN+83Pm4fpyRwKThMEKkU
+ pbO4z8cxalxWyOb/lUWnKQTDmpVfEFRnIBdw/cVho6Dvq+2xQJuFTyrLL4dludvzRLO9
+ 1Kgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681740036; x=1684332036;
+ d=1e100.net; s=20221208; t=1681740039; x=1684332039;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2uGLi6+ovBWUdoc3kQpi9p838CiXRKVkHH6lHuOuZ54=;
- b=jNmYYSqQpmmJigqK37yFPQGgmttOsdWXExi6eSvhdWVdMB/7KPlAPpqmDuf0X+Z+sU
- 2IHWs24kOcGWAk03bo1zA7Q01gDlYzXKwRT9aixo23gZtc7gnriIezCkbjRm9a/579aa
- dl6NqLQIgwHjGGJPov7Tu0OKjzpnfcYBamrDlVWJIronF2joCIgzfL5mklERoRh31/dF
- D7JANwEVUa3BGnAVpMhmf0zwpkinMG8UTZCcoKqIElbofMWrJQUleFdbZcaM1ZrAfx3w
- pSXhcdr+x6RncePPZUmFChfP6D4dVgZo/uvkwi/MagxiK1YoknLzvFBmAuMr/q9vGiyY
- p9XQ==
-X-Gm-Message-State: AAQBX9eipvWMwQ8yv3TpwlGod4TbGOMyNWB7eNN2yPkQGLNDJO6QyVX7
- oDX4YIFBts8mGAf33koUqJTbPWQNWVCUUnDxDRo=
-X-Google-Smtp-Source: AKy350b+O5+SEuT/yvD8/03rWz2muJ+xLxguYw5a6dt68gmvJOxSxwwAdObGKc4AAFGSyM6TqA9xwg==
-X-Received: by 2002:a4a:2c86:0:b0:546:3872:f394 with SMTP id
- o128-20020a4a2c86000000b005463872f394mr2307816ooo.3.1681740035939; 
- Mon, 17 Apr 2023 07:00:35 -0700 (PDT)
+ bh=Sgaf/JnDDYPpAXnnL9XBJVICYBNvpJ0R6zun3ny+PWo=;
+ b=X7gQejsv7biDDBznPD9mSBZ8jbQxZYflRqJ2kN564CLpWcSYw+lU9s9JS8SJSK93gk
+ XnVdSuxYqVYjB0aYA+ozi1JB7ayQnrPdBvCxf8blz8gnYq1DfN96TXE5+CYbHv9ImjNC
+ NBsmEyeAsYOiIpWb39RhU9RAieRhmAgPy7y3ZXzKQKMfaso8TjkPLcJ9uBpYTpolpJAe
+ BjwXKMXkGafEfXnS4UbkYwLn1bSk9SMZWtEbCAHrNbMBUmSn6HQ4TR71q+1lVf0xtvwF
+ 4AhKSTt/o0wVnvG3ncd7Ld6KHXeCfR8d60WeJfTF6RbAGuh3xtsA9U/EIEpXOu1gKSBH
+ +UWg==
+X-Gm-Message-State: AAQBX9drBvuAZv4NUpHSitTwxzP2PKxbhPHs/xrcpbmqknZqL/cP44UZ
+ Z1ZHo7jwjUbs10q1sUPvM1KynP2f11lXiCeIe74=
+X-Google-Smtp-Source: AKy350Zn+pWXSx99j5wpZbW4W07nhwwzoNCdAY8tz3a3S+8iJYU/JzIvfsnTrkUpzlGQ47NQ3z84bw==
+X-Received: by 2002:a4a:41cd:0:b0:542:5d35:12a0 with SMTP id
+ x196-20020a4a41cd000000b005425d3512a0mr4260497ooa.3.1681740039110; 
+ Mon, 17 Apr 2023 07:00:39 -0700 (PDT)
 Received: from grind.dc1.ventanamicro.com ([191.255.108.232])
  by smtp.gmail.com with ESMTPSA id
- x16-20020a05687031d000b001726cfeea97sm4531868oac.29.2023.04.17.07.00.32
+ x16-20020a05687031d000b001726cfeea97sm4531868oac.29.2023.04.17.07.00.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 07:00:35 -0700 (PDT)
+ Mon, 17 Apr 2023 07:00:38 -0700 (PDT)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v7 04/12] target/riscv: add PRIV_VERSION_LATEST
-Date: Mon, 17 Apr 2023 11:00:05 -0300
-Message-Id: <20230417140013.58893-5-dbarboza@ventanamicro.com>
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v7 05/12] target/riscv: Mask the implicitly enabled extensions
+ in isa_string based on priv version
+Date: Mon, 17 Apr 2023 11:00:06 -0300
+Message-Id: <20230417140013.58893-6-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230417140013.58893-1-dbarboza@ventanamicro.com>
 References: <20230417140013.58893-1-dbarboza@ventanamicro.com>
@@ -94,80 +94,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All these generic CPUs are using the latest priv available, at this
-moment PRIV_VERSION_1_12_0:
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-- riscv_any_cpu_init()
-- rv32_base_cpu_init()
-- rv64_base_cpu_init()
-- rv128_base_cpu_init()
+Using implicitly enabled extensions such as Zca/Zcf/Zcd instead of their
+super extensions can simplify the extension related check. However, they
+may have higher priv version than their super extensions. So we should mask
+them in the isa_string based on priv version to make them invisible to user
+if the specified priv version is lower than their minimal priv version.
 
-Create a new PRIV_VERSION_LATEST enum and use it in those cases. I'll
-make it easier to update everything at once when a new priv version is
-available.
-
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- target/riscv/cpu.c | 8 ++++----
- target/riscv/cpu.h | 2 ++
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ target/riscv/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index bec60fe585..dd35cf378f 100644
+index dd35cf378f..9bb0e6b180 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -345,7 +345,7 @@ static void riscv_any_cpu_init(Object *obj)
-         VM_1_10_SV32 : VM_1_10_SV57);
- #endif
+@@ -1721,7 +1721,8 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str,
+     int i;
  
--    env->priv_ver = PRIV_VERSION_1_12_0;
-+    env->priv_ver = PRIV_VERSION_LATEST;
- }
- 
- #if defined(TARGET_RISCV64)
-@@ -356,7 +356,7 @@ static void rv64_base_cpu_init(Object *obj)
-     set_misa(env, MXL_RV64, 0);
-     riscv_cpu_add_user_properties(obj);
-     /* Set latest version of privileged specification */
--    env->priv_ver = PRIV_VERSION_1_12_0;
-+    env->priv_ver = PRIV_VERSION_LATEST;
- #ifndef CONFIG_USER_ONLY
-     set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV57);
- #endif
-@@ -425,7 +425,7 @@ static void rv128_base_cpu_init(Object *obj)
-     set_misa(env, MXL_RV128, 0);
-     riscv_cpu_add_user_properties(obj);
-     /* Set latest version of privileged specification */
--    env->priv_ver = PRIV_VERSION_1_12_0;
-+    env->priv_ver = PRIV_VERSION_LATEST;
- #ifndef CONFIG_USER_ONLY
-     set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV57);
- #endif
-@@ -438,7 +438,7 @@ static void rv32_base_cpu_init(Object *obj)
-     set_misa(env, MXL_RV32, 0);
-     riscv_cpu_add_user_properties(obj);
-     /* Set latest version of privileged specification */
--    env->priv_ver = PRIV_VERSION_1_12_0;
-+    env->priv_ver = PRIV_VERSION_LATEST;
- #ifndef CONFIG_USER_ONLY
-     set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV32);
- #endif
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index de7e43126a..15423585d0 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -61,6 +61,8 @@ enum {
-     PRIV_VERSION_1_10_0 = 0,
-     PRIV_VERSION_1_11_0,
-     PRIV_VERSION_1_12_0,
-+
-+    PRIV_VERSION_LATEST = PRIV_VERSION_1_12_0,
- };
- 
- #define VEXT_VERSION_1_00_0 0x00010000
+     for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+-        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
++        if (cpu->env.priv_ver >= isa_edata_arr[i].min_version &&
++            isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
+             new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+             g_free(old);
+             old = new;
 -- 
 2.39.2
 
