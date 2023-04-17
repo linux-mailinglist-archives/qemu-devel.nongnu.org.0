@@ -2,80 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9816E3F55
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 08:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742D46E403B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 08:56:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poHwY-0007uQ-I7; Mon, 17 Apr 2023 02:02:26 -0400
+	id 1poIlA-0000Nw-LN; Mon, 17 Apr 2023 02:54:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1poHwV-0007tp-TH
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 02:02:23 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1poHwQ-00043W-Ny
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 02:02:23 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- z11-20020a17090abd8b00b0024721c47ceaso11098083pjr.3
- for <qemu-devel@nongnu.org>; Sun, 16 Apr 2023 23:02:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681711332; x=1684303332;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=syA8DPA0vYxtc4caZ7sv7vitLcN6zFkYLX0pkX40gIk=;
- b=E0d7av+MZOt/I7sZCAjcObhSnXJ/Uau+mtf7Zgdq6sV0w9cwfDgVh4fifB/+nJ/PLp
- yOv9D/CAysBvWnE/SujxhGp++XyT6T+pJ9piDeIZJ+vbBBaPac3pIQT1YyZvY4wnrraS
- kOTQCF7iG1jTPlxaB69oeAF9NdmvofKkCiiVEsbpBv3K5IDYcbE/bYe1EqirMJX1aHYS
- 0WKB2bnaOMK7uzZZOiZlsQT24dTimI0VGeBExITHYY9NnKg/PcJMhVA/zSGZQBx/IxsX
- VJA6+rjTYjMqt3esAEwJlvGpt3GzW8hF5Qu6PAYOvhc+28armrpyWU1ye8wA++wVxE03
- biZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681711332; x=1684303332;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=syA8DPA0vYxtc4caZ7sv7vitLcN6zFkYLX0pkX40gIk=;
- b=IMCxQ811+vTM/M9FvszA2L6mttPg+3ylswJ5kYoG4yeesK/bmqEAhrBC2N3y29tkpE
- JOhG/Zwv/CxwMwEtgxNTD6uu/Tp0WNGMZZhR9GNUcxTE0PPecrZRhLr9woZK4f4pmqWV
- vQR6FxavuWbYuANsuAV9P2Lg+upKiLBXUMN8MyjHwqs6do6MNRRcPoYEXNXCPB3ZKpV0
- 0cCrLr4ZCD/f3uBXjvc5vpJj6ffAyXC8UaSste+/EPVPyQwgaoNOq2wwvxip37X5EIWI
- fhBytO3oYL3KEMnGBSgWatOObJaENRmRoHeHZa4ALtcSpKsUWHBnDO9gngBARDAWkfAy
- VvIQ==
-X-Gm-Message-State: AAQBX9d3lhqgyFwVau1laealXGOTf0Nc+t5YsZjS0LvO9IP+S9QOlIhe
- BiSsZJ2P+PZogK8jxL0eIjPAvxJENaggEbhRojs=
-X-Google-Smtp-Source: AKy350ZLbhFnsFxyGVQ2vlyAm3PWfnejfAuVUQwreY+zRMjiFHG2B1ZbXvo1PzVga9xRMHSriB5d3w==
-X-Received: by 2002:a05:6a20:3953:b0:ef:fd71:304e with SMTP id
- r19-20020a056a20395300b000effd71304emr1655410pzg.11.1681711332076; 
- Sun, 16 Apr 2023 23:02:12 -0700 (PDT)
-Received: from localhost ([122.172.85.8]) by smtp.gmail.com with ESMTPSA id
- b33-20020a630c21000000b004fbd91d9716sm6056079pgl.15.2023.04.16.23.02.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Apr 2023 23:02:11 -0700 (PDT)
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- stratos-dev@op-lists.linaro.org
-Subject: [PATCH] virtio: i2c: Check notifier helpers for VIRTIO_CONFIG_IRQ_IDX
-Date: Mon, 17 Apr 2023 11:32:04 +0530
-Message-Id: <89d47285e882a99a0513411edcc96aa575512f13.1681710993.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1poIku-0000N2-2O; Mon, 17 Apr 2023 02:54:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1poIkr-00084q-ND; Mon, 17 Apr 2023 02:54:27 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33H64uH3026006; Mon, 17 Apr 2023 06:54:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=3ITrsREqLuy5mws+N3kk49Hg0Kps71YCTZIkRXStSIE=;
+ b=PbzQcnrNHHFuCQhOTy253VjLYPPaJ0ke8MRDUP6u6Sldc9n9KQIOSJ/tt90FcxP110kk
+ VfoWCWCZiqxg5dpAexoa5m1ERF4mLFjN2hV0WsOe1Ld9eX2ZypNFVTibL76ZX+QlDs39
+ 3/zqrfisAFNOLDbCRfUF2Bk0DEAhacxHm4U9XHJAeySpOdXoxk5UXH83S33ykixqFslg
+ +2088xeIvELOKWFbJN/4bmS+KdNlLI1pebR2JNmGE03Dd4U5cUhcvz/jx68xqbmhxRGN
+ /Oc2+T6/KaEpIZ93UIq29NMvA4xXlrydWD6htBfPITHfihhhhVQXwGmpo43cLfihtOP0 7g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q0em20fxb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Apr 2023 06:54:21 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33H6HCZq017839;
+ Mon, 17 Apr 2023 06:54:21 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q0em20fwj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Apr 2023 06:54:20 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33H5CKGQ029453;
+ Mon, 17 Apr 2023 06:54:20 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3pykj73xa2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Apr 2023 06:54:20 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com
+ [10.39.53.232])
+ by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33H6sIJE28115552
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 17 Apr 2023 06:54:18 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 941B45805D;
+ Mon, 17 Apr 2023 06:54:18 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0EC1458059;
+ Mon, 17 Apr 2023 06:54:17 +0000 (GMT)
+Received: from [9.109.242.129] (unknown [9.109.242.129])
+ by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 17 Apr 2023 06:54:16 +0000 (GMT)
+Message-ID: <1df96c48-7aba-b3f9-656a-c0cb7c60a916@linux.ibm.com>
+Date: Mon, 17 Apr 2023 12:24:15 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/5] ppc: spapr: cleanup cr get/store with helper routines.
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, danielhb413@gmail.com
+References: <20230331065344.112341-1-harshpb@linux.ibm.com>
+ <20230331065344.112341-2-harshpb@linux.ibm.com> <87y1muite2.fsf@suse.de>
+From: Harsh Prateek Bora <harshpb@linux.ibm.com>
+In-Reply-To: <87y1muite2.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _lSrcF_pAypk4FbuzOgAB0ERdnbiP8Bt
+X-Proofpoint-ORIG-GUID: iclQ3zvwMjkMJKgDgbH46Cz4Xs9WTJeL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-17_03,2023-04-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=827 adultscore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304170060
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.976, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,54 +113,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since the driver doesn't support interrupts, we must return early when
-index is set to VIRTIO_CONFIG_IRQ_IDX.
 
-Fixes: 544f0278afca ("virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX")
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- hw/virtio/vhost-user-i2c.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
 
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index 60eaf0d95be0..45100a24953c 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -128,6 +128,16 @@ static void vu_i2c_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
- {
-     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
- 
-+    /*
-+     * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-+     * as the Marco of configure interrupt's IDX, If this driver does not
-+     * support, the function will return
-+     */
-+
-+    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
-+        return;
-+    }
-+
-     vhost_virtqueue_mask(&i2c->vhost_dev, vdev, idx, mask);
- }
- 
-@@ -135,6 +145,16 @@ static bool vu_i2c_guest_notifier_pending(VirtIODevice *vdev, int idx)
- {
-     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
- 
-+    /*
-+     * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-+     * as the Marco of configure interrupt's IDX, If this driver does not
-+     * support, the function will return
-+     */
-+
-+    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
-+        return false;
-+    }
-+
-     return vhost_virtqueue_pending(&i2c->vhost_dev, idx);
- }
- 
--- 
-2.31.1.272.g89b43f80a514
+On 4/14/23 17:10, Fabiano Rosas wrote:
+> Harsh Prateek Bora <harshpb@linux.ibm.com> writes:
+> 
+> A bit vague on the subject line. I would expect to see some mention to
+> nested at least.
 
+Sure, will update subject line to include mention of 
+[h_enter|spapr_exit]_nested routines.
+
+> 
+>> The bits in cr reg are grouped into eight 4-bit fields represented
+>> by env->crf[8] and the related calculations should be abstracted to
+>> keep the calling routines simpler to read. This is a step towards
+>> cleaning up the [h_enter|spapr_exit]_nested calls for better readability.
+>>
+>> Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
+> 
+> Reviewed-by: Fabiano Rosas <farosas@suse.de>
+
+Thanks!
 
