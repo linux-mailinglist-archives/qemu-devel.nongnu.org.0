@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526096E46D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 13:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CE76E471E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 14:06:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poNNO-0008A2-RD; Mon, 17 Apr 2023 07:50:30 -0400
+	id 1poNbj-0002kA-Bc; Mon, 17 Apr 2023 08:05:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1poNNN-00089r-5b
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 07:50:29 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1poNb3-0002jA-MP
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:04:39 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1poNNL-0003d5-Lr
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 07:50:28 -0400
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-2fbb99cb297so37432f8f.1
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 04:50:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1poNay-0007g9-Ny
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 08:04:37 -0400
+Received: by mail-ej1-x635.google.com with SMTP id c9so24613211ejz.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 05:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681732224; x=1684324224;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1681733070; x=1684325070;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U6D+S8cdJTKrHl9SKH3TvoEODOOhtMlr8HA2vdGCTpE=;
- b=aeRKUi3F5iGF5g0mxEkTfaNHCeKw1McAL7gPimgMcu5gbGLaAx+lv3sZ4gJd3Y2OXU
- gXhMLE96peO9UF1AxkoDvAoGKIoWVMGpTvUQg6MAj4YvuvQNM3S+jvpe5oTDlg7Cl9Tz
- xrjj8CKIZgy5xkEEbcJzvlGUzyKHYkbhtNozXcH7AMndUq2iM4Z1Ql2w+cL3Nx0LKGHc
- 8qycMCFdttrdlNANjyqOFK0hh81uT/pMqnileY2BN+NYJfDqiPOWv3Ve0agi/Pxf7PUo
- gKzWOqPyz/V1tX73eMEvS2T8RnBFYoD9k90sYJ6+kwwbOzNV3LenZRuNch8TxVOLSHya
- BWpg==
+ bh=+D315PiBS/y+y+FzxtjkIREoi/fpBaombpPK2YUGb3Q=;
+ b=xqKrCfJ6qnTmFdSfVRIPIxFvXFhDR7a1uUMWIYa64RXCGq/+0UTB12LhIVd+gFwHRu
+ IudJlwlM6wyYpysH7wd4mpAy3jbyiD6CSfITRHKPxzazZIbsbaDAM01UpmhauY9dEtHu
+ Ik9QNBdgVRGZBvEoXwYDCf1BTIa4C08Mbr7nZIav9MPkuyrRgA+BUUiK0iIiUqurCl7i
+ 9wtOskV+3svtkuGyZZyXRR4jM/LtqjPW8tPLijt6ZAr59IrjTvMnjnCsfJBg5WDY5QK0
+ vd1sF5fV+5PXvwSlMB58xdZaKPIrlvSCIX+RLqBJCp8VmslQST10o23hrNZTw6X4O199
+ K97Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681732224; x=1684324224;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=U6D+S8cdJTKrHl9SKH3TvoEODOOhtMlr8HA2vdGCTpE=;
- b=DJsz60UJm/lnuQaubxBZfftCLz7uVV8se6oNZrRNPeqwegEhpEP7XcX/skdM7Ws554
- 8HK4ml1rVrLEsh/7FhIEjPFzpKlX6dJKSarO60brcxvmlPrfI3tjhPoUJCohrZhl6FIp
- ww1LNnRA6qr4Q2h4iyrUVgBifXnNPiSkButnlL94yxqJtLDw59SBUp2icx5rbDWxiO34
- r2PMZNfququmkqdalNfFpW3/iwQrfX6N1IfdyC2YaT5lZd0DpvBpwsg+ue8HdyY8a9d5
- Z+6XWZtpHCXxr08OCsZmB9uz3xzbbwawf7YTKojzA5prGH5lIEt+7WMXOKCoxIeCXoLU
- 26WA==
-X-Gm-Message-State: AAQBX9eeZ4lU8ax38XR1rXPrHTt6250/uus0anJwrDqB77KamnVO/KcC
- O7KGPoVZrO30BgWDLoJa3x+SCA==
-X-Google-Smtp-Source: AKy350aQFnMM40XXz/S0XqkJS7/szV0VkJ3kS5s2kUMdoJraboz4MR2QJov60nahER/GFBPFRxQeUw==
-X-Received: by 2002:adf:f505:0:b0:2dc:cad4:87b9 with SMTP id
- q5-20020adff505000000b002dccad487b9mr5932428wro.68.1681732224047; 
- Mon, 17 Apr 2023 04:50:24 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- i4-20020a5d55c4000000b002f74578f494sm7959381wrw.41.2023.04.17.04.50.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 04:50:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6771F1FFB7;
- Mon, 17 Apr 2023 12:50:23 +0100 (BST)
-References: <20230414145845.456145-1-thuth@redhat.com>
-User-agent: mu4e 1.11.2; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, Eldon Stegall
- <eldon-qemu@eldondev.com>, Camilla Conte <cconte@redhat.com>
-Subject: Re: [PATCH 0/2] Improvements for the device-crash-test jobs
-Date: Mon, 17 Apr 2023 12:50:16 +0100
-In-reply-to: <20230414145845.456145-1-thuth@redhat.com>
-Message-ID: <874jpe918g.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1681733070; x=1684325070;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+D315PiBS/y+y+FzxtjkIREoi/fpBaombpPK2YUGb3Q=;
+ b=IFjQhfpffKmrEKWZbflm4RPWGg8vA/f0B50iw1vy+YK1rJQQZQl1tquokt/F8A5vff
+ ZNIgFwWIqf2zKAH0jfYnj2f9NpYaQPIT7bJQkPLJrw6vZrwJsTN//nHlg0W/52at9J1v
+ xKOxZj+9m7lHO0yMxfC4kOQghm0jFOzgVaaBponJWdZuqpmAadv84mk2GRmW39kURgb4
+ GNdQCZssglrbgpFTdoTlZbgdMC/5CV4stMTqkWJ5N0Rj5MF5tIihcGwcLF8iMKdYfSCH
+ x8zqBtN80an92ox6f/L6kmRKT03lkbhvXER2BZaG2OornAOgS/9ETxPZUkbyUS5wVyTw
+ clhw==
+X-Gm-Message-State: AAQBX9ecDJEvK+HgIT+A6qePY8+UAOtLHl/CsNoz4+n2WP3j1GAh7yNk
+ NHe6F3JDYOpbu6bITpHPtVHha6tYvD/xYUzQXxb29w==
+X-Google-Smtp-Source: AKy350bQbSZhMZvmOMi/kWwMVHiviRxa5X+s52z2XNkj0SzVz3nWFdZQNAfS697JLdfqi50lfrH5K7hjZatDA0Z6Uzg=
+X-Received: by 2002:a17:906:fad0:b0:94e:e494:13b8 with SMTP id
+ lu16-20020a170906fad000b0094ee49413b8mr3436065ejb.6.1681733070224; Mon, 17
+ Apr 2023 05:04:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230414160433.2096866-1-alex.bennee@linaro.org>
+ <20230414160433.2096866-9-alex.bennee@linaro.org>
+ <87bkjmddxi.fsf@pond.sub.org> <878req9211.fsf@linaro.org>
+In-Reply-To: <878req9211.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Apr 2023 13:04:19 +0100
+Message-ID: <CAFEAcA9k424MwkX9Nhwb-x+oTWYJNUCXeRPvfRePtidckidpvQ@mail.gmail.com>
+Subject: Re: [PATCH 08/12] qom: allow for properties to become "fixed"
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, virtio-fs@redhat.com, 
+ Erik Schilling <erik.schilling@linaro.org>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Eric Blake <eblake@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,16 +96,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, 17 Apr 2023 at 12:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> The use-case is this whole series. Basically I want to have a generic
+> device (vhost-user-device) which has a bunch of control knobs the user
+> can fiddle with (e.g. virtio id, num_vqs and the like). However for the
+> specialised versions of this device (e.g. vhost-user-gpio) some of these
+> values (e.g. virtio id) need to be fixed.
 
-Thomas Huth <thuth@redhat.com> writes:
+> Mark suggested maybe just duplicating the properties in a similar way to
+> DEFINE_AUDIO_PROPERTIES but that doesn't really address the problem
+> wanting to "fix" some of the values for the subclasses and preventing
+> the user from changing things.
 
-> Improve the runtime of the device-crash-test jobs by avoiding
-> to run "configure" again and by forcing to test with TCG only
-> (instead of testing twice, with TCG and KVM).
+This shouldn't be something visible to the user of the object,
+though, surely? An object which doesn't have a configurable
+virtio-id property because the specific subclass has a fixed
+value should look exactly like an object which doesn't have
+a configurable virtio-id property because that property just
+doesn't exist.
 
-Queued to testing/next, thanks.
+If we add a facility for "constant properties" (which is pretty
+much what this would be) then we should do it because it's
+useful for users of QOM objects (and especially for users of
+QOM objects via the QMP interface) to be able to introspect
+them and say "ah, this is a property of the object but it's
+a constant value".
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+thanks
+-- PMM
 
