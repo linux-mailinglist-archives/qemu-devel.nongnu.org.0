@@ -2,83 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E928A6E4E7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 18:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C816E4E9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 18:52:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poRuT-0002Mk-0n; Mon, 17 Apr 2023 12:40:57 -0400
+	id 1poS3j-0002Ri-9Q; Mon, 17 Apr 2023 12:50:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1poRuQ-0002M4-Ng
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:40:54 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1poRuM-0001NZ-1e
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:40:54 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f0a80b683fso17869095e9.3
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 09:40:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681749648; x=1684341648;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4B6l8UECJ90CPUbM7Klpck4y118EN0eBNxzC139Z/3k=;
- b=If2UGM2x/eZvTfTZMAiUpd0v+VkHctVYZhUMg4zEVeAqPMUpYWyER+VwwkgBiiJMwz
- roEGzJQXJsk2557IWJB2rp/jjzEx1ekQ+3+v0j97iKazGB1NprvhDWGVMLW/wwJZNKTF
- ZNE0WPyvzeGiBtEsorI57XJXymXeautCtZ+tY1lt2oicw4WNz1HGEWsb/JmkBrTspbXN
- YZVM5//IRSif/H/hl2cIeAD/Dw+acDrggMlxjSDvAUyj/YF4S2vfe4fZVDDpxBoKZEpG
- S+/SvqRlnQlZFbCVB/Gc8AiJ6wpyubknirdROkYxzVlb325I9PkIQK+iXkyuS/ffQiH0
- k2sQ==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1poS3f-0002P7-8D
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:50:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1poS3c-0002s2-5d
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:50:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681750220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qZYb6wB5wi2bPpLSTO7isOkM0GXEXq1uxyXyPygDCBs=;
+ b=gqlINlo4pQKcpjg0dTRyHnvT9eRR0cEJ6fgMzNF7Dmtvbe1kHizBghWfKcG+YdJjsXSU3i
+ Nz5CAYanswNdxf0Kb4mDG0XNC7FLl24XdIa2/bXdX+5DSg2gHxpt6Dl92nltQQ2fDSgxZ0
+ 17DK7uuIMqUTJDLIbFudya9rrFpJQQY=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-642-m1w7QglQNg-0thLD8cysGg-1; Mon, 17 Apr 2023 12:50:19 -0400
+X-MC-Unique: m1w7QglQNg-0thLD8cysGg-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ 19-20020a630113000000b0051b61a0035bso4896438pgb.10
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 09:50:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681749648; x=1684341648;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1681750218; x=1684342218;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4B6l8UECJ90CPUbM7Klpck4y118EN0eBNxzC139Z/3k=;
- b=fmfQUZh4Rv2q+7kgxkiM3jI52BWA5IV+Eyn8di3lHukYV0eGqAPi+49SeANeu7ygMO
- 84Js+TYV//EboZB/Alh0MP/sTF3oMO07qiM/6v4Q3TEPa8COZhbl58K9Y9bzj/mUEhyL
- 3tY0xqbCvA9RTr0MDMk6D4fRZaBL8TM6/axVmOF2AVyTiXea55qvbOiCe3JYUxT/dTbk
- scCuwhgLfaMkKan8APKSt4CVVdlXP/TdMkivFckA8pDigiTKMa3CLJeCk7KM25g6oE9E
- TVZ4Fx0VKxO/71VodS08zbORoXHXj8/6vCsvISSi4s4Y0H8G1mo+izMldLFbDydpsrsW
- BEJA==
-X-Gm-Message-State: AAQBX9eDwzgo73Goug0DIiZlRsgnETycSptD4Wk+299kdAR9FmXKyz1l
- jkn/1divLdORctIlywSmSKohskYF31t056ShpOc=
-X-Google-Smtp-Source: AKy350Y37xr+bENfG9mOJznO1VgNCOjSvPo81D7ySH5JUZ1yLVtZYYOQPqeNic6Qh4lbPgIEhCt7OQ==
-X-Received: by 2002:adf:f4cb:0:b0:2f5:aadb:4642 with SMTP id
- h11-20020adff4cb000000b002f5aadb4642mr6412555wrp.41.1681749648681; 
- Mon, 17 Apr 2023 09:40:48 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- q17-20020a5d61d1000000b002faaa9a1721sm2595103wrv.58.2023.04.17.09.40.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 09:40:48 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v3 10/10] hmp: Deprecate 'singlestep' member of StatusInfo
-Date: Mon, 17 Apr 2023 17:40:41 +0100
-Message-Id: <20230417164041.684562-11-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230417164041.684562-1-peter.maydell@linaro.org>
-References: <20230417164041.684562-1-peter.maydell@linaro.org>
+ bh=qZYb6wB5wi2bPpLSTO7isOkM0GXEXq1uxyXyPygDCBs=;
+ b=ZJwuyh6l0gLUJT+fgklEqT2Wh5YZhgAkKTPfa4ZHuBy+0FiRzzv9F4pkBNfluCnSjT
+ HyEmMEAzCNPXpInasgghbumaPDDHlWJ/T6qzI3Akq2IS84/WxHoLsl/QOmQ/zuPPyxvV
+ o+flZiPwYJxxt6jwkKaSOd34XRslDGJ3XkcDaqEft1z27KV2DW9a15mynJkR3ynhyRzA
+ kf/sIMcJ6a3q47xOiJmwQOBIfrN25PPtuhtwTrn6M2zcVknrMf6cVAa3X6m9txltutJ4
+ kRqPgdENuMf0loIHoLF7/CrGPwoqWNvO6igU2C3fJ9bQPpt5XkQpIWUAZx44AMgAn0Ev
+ fT/g==
+X-Gm-Message-State: AAQBX9fdhwt+fIYx4gkrFmL4Eh++M0rnLrG5N2dhggLZUYN995QW0oHz
+ sL/KAonzcov63PJ0YAuR+exD9oPvFZAk0EGPmA53yfniPOGbElsXx65hXgEIAz+8Cjl0UyrxXG7
+ X0TCNImDA4YCpaz7/ZoccrVbu3DMcHzY=
+X-Received: by 2002:a17:90a:cc0e:b0:247:9d19:311f with SMTP id
+ b14-20020a17090acc0e00b002479d19311fmr3301254pju.30.1681750217810; 
+ Mon, 17 Apr 2023 09:50:17 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bXsXOd66SSO7UCsdiycA5DqJEHTf678Pxr5jsjWN17JBKovUOkZSwge7dWs55i3ERifu65qNoeltnMyjKMtF0=
+X-Received: by 2002:a17:90a:cc0e:b0:247:9d19:311f with SMTP id
+ b14-20020a17090acc0e00b002479d19311fmr3301217pju.30.1681750217432; Mon, 17
+ Apr 2023 09:50:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+References: <20230417134321.3627231-1-alex.bennee@linaro.org>
+ <20230417134321.3627231-2-alex.bennee@linaro.org>
+In-Reply-To: <20230417134321.3627231-2-alex.bennee@linaro.org>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 17 Apr 2023 12:50:06 -0400
+Message-ID: <CAFn=p-bqK-RsMo8wVy2zCxU=iAkXG1t9xVuoqLSN0UbTYKPgwQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] tests/requirements.txt: bump up avocado-framework
+ version to 101.0
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, Jan Richter <jarichte@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, 
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Markus Armbruster <armbru@redhat.com>, 
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Leif Lindholm <quic_llindhol@quicinc.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org, 
+ Kautuk Consul <kconsul@linux.vnet.ibm.com>, 
+ Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,94 +108,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The 'singlestep' member of StatusInfo has never done what the QMP
-documentation claims it does.  What it actually reports is whether
-TCG is working in "one guest instruction per translation block" mode.
+On Mon, Apr 17, 2023 at 9:43=E2=80=AFAM Alex Benn=C3=A9e <alex.bennee@linar=
+o.org> wrote:
+>
+> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+>
+> Avocado version 101.0 has a fix to re-compute the checksum
+> of an asset file if the algorithm used in the *-CHECKSUM
+> file isn't the same as the one being passed to it by the
+> avocado user (i.e. the avocado_qemu python module).
+> In the earlier avocado versions this fix wasn't there due
+> to which if the checksum wouldn't match the earlier
+> checksum (calculated by a different algorithm), the avocado
+> code would start downloading a fresh image from the internet
+> URL thus making the test-cases take longer to execute.
+>
+> Bump up the avocado-framework version to 101.0.
+>
+> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
+> Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
+>
+> ---
+> v2
+>   - limit --max-parallel-tasks $(JOBS_OPTION:-j%=3D%)
+> ---
+>  tests/Makefile.include | 18 +++++++++++-------
+>  tests/requirements.txt |  2 +-
+>  2 files changed, 12 insertions(+), 8 deletions(-)
+>
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 9422ddaece..a4de0ad5a2 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv
+>  # download all vm images, according to defined targets
+>  get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDOR=
+A_31_DOWNLOAD))
+>
+> +JOBS_OPTION=3D$(lastword -j1 $(filter-out -j, $(filter -j%,$(MAKEFLAGS))=
+))
+> +
+>  check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+> -       $(call quiet-command, \
+> -            $(TESTS_PYTHON) -m avocado \
+> -            --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_RES=
+ULTS_DIR) \
+> -            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
+> -                       --filter-by-tags-include-empty-key) \
+> -            $(AVOCADO_CMDLINE_TAGS) \
+> -            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
+> +       $(call quiet-command,                                            =
+       \
+> +            $(TESTS_PYTHON) -m avocado                                  =
+               \
+> +            --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_RES=
+ULTS_DIR)  \
+> +            $(if $(AVOCADO_TAGS),,                                      =
+       \
+> +                       --filter-by-tags-include-empty                   =
+       \
+> +                       --filter-by-tags-include-empty-key)              =
+       \
+> +               --max-parallel-tasks $(JOBS_OPTION:-j%=3D%)              =
+         \
+> +            $(AVOCADO_CMDLINE_TAGS)                                     =
+       \
+> +            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS),            =
+       \
+>              "AVOCADO", "tests/avocado")
+>
+>  check-acceptance-deprecated-warning:
+> diff --git a/tests/requirements.txt b/tests/requirements.txt
+> index 0ba561b6bd..a6f73da681 100644
+> --- a/tests/requirements.txt
+> +++ b/tests/requirements.txt
+> @@ -2,5 +2,5 @@
+>  # in the tests/venv Python virtual environment. For more info,
+>  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+>  # Note that qemu.git/python/ is always implicitly installed.
+> -avocado-framework=3D=3D88.1
+> +avocado-framework=3D=3D101.0
+>  pycdlib=3D=3D1.11.0
+> --
+> 2.39.2
+>
 
-We no longer need this field for the HMP 'info status' command, as
-we've moved that information to 'info jit'.  It seems unlikely that
-anybody is monitoring the state of this obscure TCG setting via QMP,
-especially since QMP provides no means for changing the setting.  So
-simply deprecate the field, without providing any replacement.
-
-Until we do eventually delete the member, correct the misstatements
-in the QAPI documentation about it.
-
-If we do find that there are users for this, then the most likely way
-we would provide replacement access to the information would be to
-put the accelerator QOM object at a well-known path such as
-/machine/accel, which could then be used with the existing qom-set
-and qom-get commands.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-For v3: because we're only deprecating the existing member,
-not trying to provide a replacement with a new name, we don't
-need to update the iotests that use the command. (We will when
-we eventually drop the deprecated member.)
----
- docs/about/deprecated.rst | 14 ++++++++++++++
- qapi/run-state.json       | 14 +++++++++++---
- 2 files changed, 25 insertions(+), 3 deletions(-)
-
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 6f5e689aa45..d5eda0f566c 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -199,6 +199,20 @@ accepted incorrect commands will return an error. Users should make sure that
- all arguments passed to ``device_add`` are consistent with the documented
- property types.
- 
-+``StatusInfo`` member ``singlestep`` (since 8.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The ``singlestep`` member of the ``StatusInfo`` returned from the
-+``query-status`` command is deprecated. This member has a confusing
-+name and it never did what the documentation claimed or what its name
-+suggests. We do not believe that anybody is actually using the
-+information provided in this member.
-+
-+The information it reports is whether the TCG JIT is in "one
-+instruction per translated block" mode (which can be set on the
-+command line or via the HMP, but not via QMP). The information remains
-+available via the HMP 'info jit' command.
-+
- Human Monitor Protocol (HMP) commands
- -------------------------------------
- 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 9d34afa39e0..daf03a6fe9c 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -104,16 +104,24 @@
- #
- # @running: true if all VCPUs are runnable, false if not runnable
- #
--# @singlestep: true if VCPUs are in single-step mode
-+# @singlestep: true if using TCG with one guest instruction
-+#              per translation block
- #
- # @status: the virtual machine @RunState
- #
-+# Features:
-+# @deprecated: Member 'singlestep' is deprecated (with no replacement).
-+#
- # Since: 0.14
- #
--# Notes: @singlestep is enabled through the GDB stub
-+# Notes: @singlestep is enabled on the command line with
-+#        '-accel tcg,one-insn-per-tb=on', or with the HMP
-+#        'one-insn-per-tb' command.
- ##
- { 'struct': 'StatusInfo',
--  'data': {'running': 'bool', 'singlestep': 'bool', 'status': 'RunState'} }
-+  'data': {'running': 'bool',
-+           'singlestep': { 'type': 'bool', 'features': [ 'deprecated' ]},
-+           'status': 'RunState'} }
- 
- ##
- # @query-status:
--- 
-2.34.1
+I thought there were test failures that prohibited us from bumping the
+Avocado-Framework version. Did those get rectified recently?
 
 
