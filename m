@@ -2,106 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9F66E4E41
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 18:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05B36E4E44
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 18:26:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poReQ-0002yh-HE; Mon, 17 Apr 2023 12:24:22 -0400
+	id 1poRfx-0004gh-H8; Mon, 17 Apr 2023 12:25:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1poReM-0002yK-GM
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:24:18 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1poReG-0006B4-2E
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:24:18 -0400
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33HG3TwK010225; Mon, 17 Apr 2023 16:24:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=xCPzj7o65hXHG5NNmt0oHO3NGC8jAKUKfDctZ8CZdBc=;
- b=T9bCKObNq0r9NxE3MpsB12KKXf75tVlKxzjPzMyLohVX3reElRSMWyXsR0v+4OOAyvC5
- Kg/Jk49Ua0VX0PngIoi10VZiNOXC2D91M9UuUvKhe9xKDxOFGLOUvRfs5PZuFEDOCmJp
- iCekUpiO6/5V8Emj1dKy8c87XGiMP9jQmLZ7rugw8EYbjfM9sJvqKaTMzRCbL22iUTT6
- kD9EtAu4IVebDFXAuoCsh2ebmBbaNUvxMpJ/IH5x8+AewxqmuHe0fhr3gGQy2u0doS7/
- 7M7+5Yj7P1QgCLcJrCLfKIg0ihKnhV3PTAGGEvfP21nPE9v0R8TiWywMEm6IZDJfDLIz GA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q199vgrq0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 16:24:06 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33HGMUfP009637;
- Mon, 17 Apr 2023 16:24:06 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q199vgrny-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 16:24:06 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33H2fP0o008218;
- Mon, 17 Apr 2023 16:24:04 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3pyk6fhf8r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 16:24:04 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33HGO2rq38535828
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Apr 2023 16:24:02 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F387620049;
- Mon, 17 Apr 2023 16:24:01 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EF1722004D;
- Mon, 17 Apr 2023 16:23:58 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.43.20.139])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with SMTP;
- Mon, 17 Apr 2023 16:23:58 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
- Mon, 17 Apr 2023 21:53:57 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v2] travis.yml: Add missing 'flex',
- 'bison' packages to 'GCC (user)' job
-Date: Mon, 17 Apr 2023 21:53:54 +0530
-Message-Id: <20230417162354.186678-1-vaibhav@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -ZdocBdYS7IOgoohXpjIRUvgzC2VZG-C
-X-Proofpoint-GUID: RIc7lLq-0ntuAtmqA8mEikOiHEcN3RIQ
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1poRfr-0004eg-UR
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:25:52 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1poRfl-0006no-98
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 12:25:46 -0400
+Received: by mail-oi1-x233.google.com with SMTP id f4so3015469oiw.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 09:25:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1681748744; x=1684340744;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tbrk/rcmXHDC2DCUwpMDvvq/0IVos/imWukQX+WgPzs=;
+ b=RtnjtNIIVrqT1NxcBx1Irnd7ajJ/2zWmlYHTyE6jM7BZSGbvOtNoidiSPLNauZTnqL
+ K49ktM/eCMorX7uF21VTtDEBG+kIVnpQO29nYVrLD5GG+BI3uFncVXYvLmdBXt5grnt6
+ XzailczfDqd41+CoZlLDWv4zOUlMBHfcwnDHaEJ5KQP1IAdc1p7HTf4h3i9mq0TK4Kch
+ AVMnnKookZcsQlzWxO4PTPfaRiS5D1Xu6aZN61//3aIp1vl/OZIo6lbfJRMUXq+XqF9q
+ qiax9cdwnAD6KIjsKrRSKgcyVq0LRjYs6cBOkWPqSYFjQszCMNInuXISWmHqwLGzLewG
+ MEZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681748744; x=1684340744;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tbrk/rcmXHDC2DCUwpMDvvq/0IVos/imWukQX+WgPzs=;
+ b=Pux0TI518xc+Urm0vBFUAioXzZqhd2/HIHtbkWSoFMWpOJ8Flx/6NgplbeavTXQgGU
+ RxsfGGWPtQhMRmnEpSj4UQNANl3vzUvzZ783MlaxaWxUjztzuIzxQ3/laYNzB+qJkavG
+ TKU0i8kPr5DAz5F/PF3C33nSjYyIfsrLsWJZBxuJluXZnyJYEXce9ZrFTXcWMcpJhdw+
+ r3nfwzmkNKXWq81+FhkU3nUbSMzgoPz+8csdJPjhTMNNMgADH0sy7pC5S7s5lifFeroj
+ ce8ZNzh8fiJp3qlmoHAy5q1vQ7Ohjrg2uv7Ry2fbp0ldDj6jAE+PEi2rceH7UfFQrR7P
+ JOuA==
+X-Gm-Message-State: AAQBX9eh36EOpxKXZr3vuc1VQtyf4EyQnVk3CIaRjQr4AQAFCS1l/OLL
+ 1TsQzjhBhsWs43/ktkgEdR7Y7A==
+X-Google-Smtp-Source: AKy350YJl0BEobHA945/cbrQWRwCgCuDYoLDRNy4IxWSC8Q1dXD9ROjkomtzTPuzOxv78LsjOzOb3w==
+X-Received: by 2002:a05:6808:1797:b0:38c:66d3:67bf with SMTP id
+ bg23-20020a056808179700b0038c66d367bfmr4014107oib.4.1681748744032; 
+ Mon, 17 Apr 2023 09:25:44 -0700 (PDT)
+Received: from [192.168.68.107] ([191.255.108.232])
+ by smtp.gmail.com with ESMTPSA id
+ i205-20020acaead6000000b00383ce81c186sm520896oih.32.2023.04.17.09.25.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Apr 2023 09:25:43 -0700 (PDT)
+Message-ID: <a256a5fd-e408-74a3-5476-694d216e08d8@ventanamicro.com>
+Date: Mon, 17 Apr 2023 13:25:38 -0300
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-17_10,2023-04-17_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0
- mlxlogscore=999 mlxscore=0 adultscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304170145
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=vaibhav@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 6/6] accel/tcg: Remain TLB_INVALID_MASK in the address
+ when TLB is re-filled
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, richard.henderson@linaro.org,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
+ <20230413090122.65228-7-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230413090122.65228-7-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x233.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.284,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,51 +98,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since commit fd8171fe52b5e("target/hexagon: import lexer for idef-parser") the
-hexagon target uses 'flex', 'bison' to generate idef-parser. However default
-travis builder image for 'focal' may not have these pre-installed, consequently
-following error is seen with travis when trying to execute the 'GCC (user)' job
-that also tries to build hexagon user binary:
 
-<snip>
-export CONFIG="--disable-containers --disable-system"
-<snip>
- Program flex found: NO
 
-../target/hexagon/meson.build:179:4: ERROR: Program 'flex' not found or not
-executable
-<snip>
+On 4/13/23 06:01, Weiwei Li wrote:
+> When PMP entry overlap part of the page, we'll set the tlb_size to 1, and
+> this will make the address set with TLB_INVALID_MASK to make the page
+> un-cached. However, if we clear TLB_INVALID_MASK when TLB is re-filled, then
+> the TLB host address will be cached, and the following instructions can use
+> this host address directly which may lead to the bypass of PMP related check.
+> 
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
 
-Fix this by explicitly add 'flex' and 'bison' to the list of addon apt-packages
-for the 'GCC (user)' job.
+For this commit I believe it's worth mentioning that it's partially reverting
+commit c3c8bf579b431b6b ("accel/tcg: Suppress auto-invalidate in
+probe_access_internal") that was made to handle a particularity/quirk that was
+present in s390x code.
 
-Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
----
-Changelog:
+At first glance this patch seems benign but we must make sure that no other
+assumptions were made with this particular change in probe_access_internal().
 
-Since v1:
-Link: https://lore.kernel.org/qemu-devel/20230414210645.820204-2-vaibhav@linux.ibm.com/
 
-- Added 'bison' also to the addon package list (Thomas)
-- Updated the patch description
----
- .travis.yml | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks,
 
-diff --git a/.travis.yml b/.travis.yml
-index 11894eb810..b958eca5de 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -237,6 +237,8 @@ jobs:
-           - libglib2.0-dev
-           - libgnutls28-dev
-           - ninja-build
-+          - flex
-+          - bison
-       env:
-         - CONFIG="--disable-containers --disable-system"
- 
--- 
-2.39.2
+Daniel
 
+>   accel/tcg/cputlb.c | 7 -------
+>   1 file changed, 7 deletions(-)
+> 
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index e984a98dc4..d0bf996405 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1563,13 +1563,6 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>               /* TLB resize via tlb_fill may have moved the entry.  */
+>               index = tlb_index(env, mmu_idx, addr);
+>               entry = tlb_entry(env, mmu_idx, addr);
+> -
+> -            /*
+> -             * With PAGE_WRITE_INV, we set TLB_INVALID_MASK immediately,
+> -             * to force the next access through tlb_fill.  We've just
+> -             * called tlb_fill, so we know that this entry *is* valid.
+> -             */
+> -            flags &= ~TLB_INVALID_MASK;
+>           }
+>           tlb_addr = tlb_read_ofs(entry, elt_ofs);
+>       }
 
