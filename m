@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E446E4A33
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A266E4A34
 	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 15:44:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poP8z-0000y9-2y; Mon, 17 Apr 2023 09:43:45 -0400
+	id 1poP95-000111-Ac; Mon, 17 Apr 2023 09:43:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1poP8k-0000tZ-Uh
+ id 1poP8m-0000uu-Qs
  for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:43:32 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1poP8i-0006NM-QO
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:43:30 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-2fa0ce30ac2so781990f8f.3
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 06:43:27 -0700 (PDT)
+ id 1poP8j-0006Nx-4V
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:43:31 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ n43-20020a05600c502b00b003f17466a9c1so1222415wmr.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 06:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681739006; x=1684331006;
+ d=linaro.org; s=google; t=1681739007; x=1684331007;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=P9n1yCkab3nqvFJeat8PsO+uayv0uqVeYCdXKnT6Q+k=;
- b=NCUZEv2FuMvvKC5FvkHpWFoWTBaQPxihC8LuWNODAiZo8bMc2MJ/5qjMTbvbu8hCxc
- sg8MMoChZP7bxT8NYaeyaygv1TXe8LOVZJnYW4980TrCpwTX+hRl5UTAe6fmMR5txKFq
- DBak+lzhSjNVizYcqdPTY18VhXMPdc4PwT+qY5YS6SI3sZGc8y3mdiWxGHuMjkhfrgJe
- rWQQIG8qFpqPGxV6bA3NBwqxmc3fuh/dhbiwc0enXxPCuTyiRjsxAZZPNhRWaAidCA2o
- +EXCquay3HEgs/oI9bP3IBetguAg1tw49A4s6mJGubAIclS2M92moQqoTqcF6HAmh89L
- mtQQ==
+ bh=blXnV5I8slYMdOD9wjky+sTVJVxiXjflhfvbDxIY+qc=;
+ b=GYY4pUdbl9vXOsbzXupMhjiRRa7KfhsBmZKvQMmkH2R44Ln7LW0Elq73WXBQ8fVhTi
+ o6nJvmZe8xQtecfhCeQsiQc2M4yl1zT6Idw5iHjitKNmThe8VZSZ/FthpY3EcEHqIzHW
+ 7NNxbe0l+O7nYcLxCc3Ikv3kjCq5vULgQoAj+St/MzBQdEIO5PST7nNPQqH/XOk2vqc1
+ WMtVfx49xT/pXInXZVT6Z6xkOywk+IZQDiXsLz9T9wWBeth1X0WLEI+0pR98zkgsbfQn
+ dnb6iLvTLW8RX9/XEA3hEKHnDGVPxiIcnxSQqNhQeueIoU0E+l1DbGByxCV8J5mv5BJo
+ mtzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681739006; x=1684331006;
+ d=1e100.net; s=20221208; t=1681739007; x=1684331007;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=P9n1yCkab3nqvFJeat8PsO+uayv0uqVeYCdXKnT6Q+k=;
- b=jXlJ38dBGWf5nJtl7XMfDWQlnlUklxtycy0MyzLAfScW69cPmDdbz+6DwILJugOucW
- 7TEby0JfXyCoNzSFAJgDtaGpKDdIxfsjyr+M9nTJJ9LAJl4qhmom4IPv92qnYcw9aSo9
- 8yZfQxKN1AI1bzBJ+ia0XexC/HsY64abNtGdrmk1qMyJ2FVAnL6RbTM5yTc5/srw3Efo
- QG7VmmYn+IR+QJKAp87KAxsP8jW2b6SsceauUn1OsPhwakKvSLpYt1Fpdf2IQOqOh3SK
- ENZtjrjo4SAj6pAMWUjTIvW51LJcmQTGhra4FDNw5f364af4A2G7Q7JmfE6uX7yuercA
- ugPg==
-X-Gm-Message-State: AAQBX9fu1WUlgtHuxv/4uC2+EnysZe2cbnP+u0U1nXJQUY84SiG3uSoT
- q5AiAGQsFonaX5dWSTHl4WSpFQ==
-X-Google-Smtp-Source: AKy350bzobH/fwC/F5hiP3NCoZuvZ+Q9l8g1L0cQQ+762WwJ8ccw4QS2br6+qOX9/YSTXiBiwr5Xag==
-X-Received: by 2002:a5d:45c8:0:b0:2f6:620f:92ca with SMTP id
- b8-20020a5d45c8000000b002f6620f92camr5268382wrs.23.1681739006125; 
- Mon, 17 Apr 2023 06:43:26 -0700 (PDT)
+ bh=blXnV5I8slYMdOD9wjky+sTVJVxiXjflhfvbDxIY+qc=;
+ b=agwrAi5sDlE2t7ow8u3hrNWkXHomWazjLRT1WKrJI6XSTCKYcvVqvT1mwTMH0ISiJU
+ aeasYKtiDFVogwAJ3Sz++Xr0by0ZYg7nxvQI1gnfs/B8h1QSFScRvlIfj3ezlARzMSki
+ h9sRApTCcvcuuc+Iiak2sziraQtjNsP+HlBploJ061uNACT5K0dGshGm62wcGGigw+Lu
+ 0bfpQv6e2tYdJoo1LyPN4+ijuusGFdTnqROofFeIWyDd2/7FDgP27j7HSwmPUCdeU1Yb
+ 3YjS+HdBn6TrgXuITz8w6mP62LVZ5LQtblv6V1WhaXos0Rhcfcnt2kJjKT3ewdtHlhV/
+ 4iww==
+X-Gm-Message-State: AAQBX9cO9DOuuiMWNve1c1yKXAFszJfVtp/CosB65jRDqZkKzyEefeNR
+ q9p+ETTrluoD/Oow5fHJ9uowRoLxA6E9QTBh1yk=
+X-Google-Smtp-Source: AKy350bk7UMDcVGRTLpy35WmdWDHPkdhVWj6xOnVK45LDTFM5BvKrqrRM7DAZFh12M5vEQpIbLuepw==
+X-Received: by 2002:a7b:ce07:0:b0:3f0:373d:c32b with SMTP id
+ m7-20020a7bce07000000b003f0373dc32bmr11105718wmc.30.1681739007131; 
+ Mon, 17 Apr 2023 06:43:27 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z4-20020adfe544000000b002f6dafef040sm8820388wrm.12.2023.04.17.06.43.22
+ s9-20020a05600c45c900b003f09d51a4edsm15903127wmo.48.2023.04.17.06.43.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 06:43:22 -0700 (PDT)
+ Mon, 17 Apr 2023 06:43:23 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E8C411FFB8;
- Mon, 17 Apr 2023 14:43:21 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0ED501FFBA;
+ Mon, 17 Apr 2023 14:43:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -72,20 +72,18 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Leif Lindholm <quic_llindhol@quicinc.com>, John Snow <jsnow@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-Subject: [PATCH v4 1/6] tests/requirements.txt: bump up avocado-framework
- version to 101.0
-Date: Mon, 17 Apr 2023 14:43:16 +0100
-Message-Id: <20230417134321.3627231-2-alex.bennee@linaro.org>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org
+Subject: [PATCH v4 2/6] tests/avocado: use the new snapshots for testing
+Date: Mon, 17 Apr 2023 14:43:17 +0100
+Message-Id: <20230417134321.3627231-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230417134321.3627231-1-alex.bennee@linaro.org>
 References: <20230417134321.3627231-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,74 +106,351 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+The tuxboot images now have a stable snapshot URL so we can enable the
+checksums and remove the avocado warnings. We will have to update as
+old snapshots retire but that won't be too frequent.
 
-Avocado version 101.0 has a fix to re-compute the checksum
-of an asset file if the algorithm used in the *-CHECKSUM
-file isn't the same as the one being passed to it by the
-avocado user (i.e. the avocado_qemu python module).
-In the earlier avocado versions this fix wasn't there due
-to which if the checksum wouldn't match the earlier
-checksum (calculated by a different algorithm), the avocado
-code would start downloading a fresh image from the internet
-URL thus making the test-cases take longer to execute.
-
-Bump up the avocado-framework version to 101.0.
-
-Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
-Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
-
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
-v2
-  - limit --max-parallel-tasks $(JOBS_OPTION:-j%=%)
----
- tests/Makefile.include | 18 +++++++++++-------
- tests/requirements.txt |  2 +-
- 2 files changed, 12 insertions(+), 8 deletions(-)
+ tests/avocado/tuxrun_baselines.py | 170 +++++++++++++++++++++++++-----
+ 1 file changed, 144 insertions(+), 26 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9422ddaece..a4de0ad5a2 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv
- # download all vm images, according to defined targets
- get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
+diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
+index d343376faa..e8749717e9 100644
+--- a/tests/avocado/tuxrun_baselines.py
++++ b/tests/avocado/tuxrun_baselines.py
+@@ -77,20 +77,33 @@ def wait_for_console_pattern(self, success_message, vm=None):
+                                  failure_message='Kernel panic - not syncing',
+                                  vm=vm)
  
-+JOBS_OPTION=$(lastword -j1 $(filter-out -j, $(filter -j%,$(MAKEFLAGS))))
+-    def fetch_tuxrun_assets(self, dt=None):
++    def fetch_tuxrun_assets(self, csums=None, dt=None):
+         """
+         Fetch the TuxBoot assets. They are stored in a standard way so we
+         use the per-test tags to fetch details.
+         """
+-        base_url = f"https://storage.tuxboot.com/{self.tuxboot}/"
+-        kernel_image =  self.fetch_asset(base_url + self.image)
+-        disk_image_zst = self.fetch_asset(base_url + "rootfs.ext4.zst")
++        base_url = f"https://storage.tuxboot.com/20230331/{self.tuxboot}/"
 +
- check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
--	$(call quiet-command, \
--            $(TESTS_PYTHON) -m avocado \
--            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
--            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
--			--filter-by-tags-include-empty-key) \
--            $(AVOCADO_CMDLINE_TAGS) \
--            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
-+	$(call quiet-command, 							\
-+            $(TESTS_PYTHON) -m avocado 						\
-+            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) 	\
-+            $(if $(AVOCADO_TAGS),, 						\
-+			--filter-by-tags-include-empty 				\
-+			--filter-by-tags-include-empty-key) 			\
-+		--max-parallel-tasks $(JOBS_OPTION:-j%=%) 			\
-+            $(AVOCADO_CMDLINE_TAGS) 						\
-+            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), 			\
-             "AVOCADO", "tests/avocado")
++        # empty hash if we weren't passed one
++        csums = {} if csums is None else csums
++        ksum = csums.get(self.image, None)
++        isum = csums.get("rootfs.ext4.zst", None)
++
++        kernel_image =  self.fetch_asset(base_url + self.image,
++                                         asset_hash = ksum,
++                                         algorithm = "sha256")
++        disk_image_zst = self.fetch_asset(base_url + "rootfs.ext4.zst",
++                                         asset_hash = isum,
++                                         algorithm = "sha256")
  
- check-acceptance-deprecated-warning:
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index 0ba561b6bd..a6f73da681 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -2,5 +2,5 @@
- # in the tests/venv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
- # Note that qemu.git/python/ is always implicitly installed.
--avocado-framework==88.1
-+avocado-framework==101.0
- pycdlib==1.11.0
+         cmd = f"{self.zstd} -d {disk_image_zst} -o {self.workdir}/rootfs.ext4"
+         process.run(cmd)
+ 
+         if dt:
+-            dtb = self.fetch_asset(base_url + dt)
++            dsum = csums.get(dt, None)
++            dtb = self.fetch_asset(base_url + dt,
++                                   asset_hash = dsum,
++                                   algorithm = "sha256")
+         else:
+             dtb = None
+ 
+@@ -149,7 +162,9 @@ def run_tuxtest_tests(self, haltmsg):
+         else:
+             self.vm.wait()
+ 
+-    def common_tuxrun(self, dt=None,
++    def common_tuxrun(self,
++                      csums=None,
++                      dt=None,
+                       drive="virtio-blk-device",
+                       haltmsg="reboot: System halted",
+                       console_index=0):
+@@ -158,7 +173,7 @@ def common_tuxrun(self, dt=None,
+         special with the command line we can process most things using
+         the tag metadata.
+         """
+-        (kernel, disk, dtb) = self.fetch_tuxrun_assets(dt)
++        (kernel, disk, dtb) = self.fetch_tuxrun_assets(csums, dt)
+ 
+         self.prepare_run(kernel, disk, drive, dtb, console_index)
+         self.vm.launch()
+@@ -182,7 +197,11 @@ def test_arm64(self):
+         :avocado: tags=console:ttyAMA0
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun()
++        sums = {"Image" :
++                "ce95a7101a5fecebe0fe630deee6bd97b32ba41bc8754090e9ad8961ea8674c7",
++                "rootfs.ext4.zst" :
++                "bbd5ed4b9c7d3f4ca19ba71a323a843c6b585e880115df3b7765769dbd9dd061"}
++        self.common_tuxrun(csums=sums)
+ 
+     def test_arm64be(self):
+         """
+@@ -194,7 +213,11 @@ def test_arm64be(self):
+         :avocado: tags=console:ttyAMA0
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun()
++        sums = { "Image" :
++                 "e0df4425eb2cd9ea9a283e808037f805641c65d8fcecc8f6407d8f4f339561b4",
++                 "rootfs.ext4.zst" :
++                 "e6ffd8813c8a335bc15728f2835f90539c84be7f8f5f691a8b01451b47fb4bd7"}
++        self.common_tuxrun(csums=sums)
+ 
+     def test_armv5(self):
+         """
+@@ -206,7 +229,15 @@ def test_armv5(self):
+         :avocado: tags=console:ttyAMA0
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="virtio-blk-pci",
++        sums = { "rootfs.ext4.zst" :
++                 "17177afa74e7294da0642861f08c88ca3c836764299a54bf6d1ce276cb9712a5",
++                 "versatile-pb.dtb" :
++                 "0bc0c0b0858cefd3c32b385c0d66d97142ded29472a496f4f490e42fc7615b25",
++                 "zImage" :
++                 "c95af2f27647c12265d75e9df44c22ff5228c59855f54aaa70f41ec2842e3a4d" }
++
++        self.common_tuxrun(csums=sums,
++                           drive="virtio-blk-pci",
+                            dt="versatile-pb.dtb")
+ 
+     def test_armv7(self):
+@@ -219,7 +250,12 @@ def test_armv7(self):
+         :avocado: tags=console:ttyAMA0
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun()
++        sums = { "rootfs.ext4.zst" :
++                 "ab1fbbeaddda1ffdd45c9405a28cd5370c20f23a7cbc809cc90dc9f243a8eb5a",
++                 "zImage" :
++                 "4c7a22e9f15875bec06bd2a29d822496571eb297d4f22694099ffcdb19077572" }
++
++        self.common_tuxrun(csums=sums)
+ 
+     def test_armv7be(self):
+         """
+@@ -232,7 +268,12 @@ def test_armv7be(self):
+         :avocado: tags=console:ttyAMA0
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun()
++        sums = {"rootfs.ext4.zst" :
++                "42ed46dd2d59986206c5b1f6cf35eab58fe3fd20c96b41aaa16b32f3f90a9835",
++                "zImage" :
++                "7facc62082b57af12015b08f7fdbaf2f123ba07a478367853ae12b219afc9f2f" }
++
++        self.common_tuxrun(csums=sums)
+ 
+     def test_i386(self):
+         """
+@@ -243,7 +284,12 @@ def test_i386(self):
+         :avocado: tags=image:bzImage
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="virtio-blk-pci")
++        sums = {"bzImage" :
++                "a3e5b32a354729e65910f5a1ffcda7c14a6c12a55e8213fb86e277f1b76ed956",
++                "rootfs.ext4.zst" :
++                "f15e66b2bf673a210ec2a4b2e744a80530b36289e04f5388aab812b97f69754a" }
++
++        self.common_tuxrun(csums=sums, drive="virtio-blk-pci")
+ 
+     def test_mips32(self):
+         """
+@@ -256,7 +302,12 @@ def test_mips32(self):
+         :avocado: tags=root:sda
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
++        sums = { "rootfs.ext4.zst" :
++                 "fc3da0b4c2f38d74c6d705123bb0f633c76ed953128f9d0859378c328a6d11a0",
++                 "vmlinux" :
++                 "bfd2172f8b17fb32970ca0c8c58f59c5a4ca38aa5855d920be3a69b5d16e52f0" }
++
++        self.common_tuxrun(csums=sums, drive="driver=ide-hd,bus=ide.0,unit=0")
+ 
+     def test_mips32el(self):
+         """
+@@ -268,7 +319,12 @@ def test_mips32el(self):
+         :avocado: tags=root:sda
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
++        sums = { "rootfs.ext4.zst" :
++                 "e799768e289fd69209c21f4dacffa11baea7543d5db101e8ce27e3bc2c41d90e",
++                 "vmlinux" :
++                 "8573867c68a8443db8de6d08bb33fb291c189ca2ca671471d3973a3e712096a3" }
++
++        self.common_tuxrun(csums=sums, drive="driver=ide-hd,bus=ide.0,unit=0")
+ 
+     def test_mips64(self):
+         """
+@@ -280,7 +336,12 @@ def test_mips64(self):
+         :avocado: tags=root:sda
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
++        sums = { "rootfs.ext4.zst" :
++                 "69d91eeb04df3d8d172922c6993bb37d4deeb6496def75d8580f6f9de3e431da",
++                 "vmlinux" :
++                 "09010e51e4b8bcbbd2494786ffb48eca78f228e96e5c5438344b0eac4029dc61" }
++
++        self.common_tuxrun(csums=sums, drive="driver=ide-hd,bus=ide.0,unit=0")
+ 
+     def test_mips64el(self):
+         """
+@@ -291,7 +352,12 @@ def test_mips64el(self):
+         :avocado: tags=root:sda
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
++        sums = { "rootfs.ext4.zst" :
++                 "fba585368f5915b1498ed081863474b2d7ec4e97cdd46d21bdcb2f9698f83de4",
++                 "vmlinux" :
++                 "d4e08965e2155c4cccce7c5f34d18fe34c636cda2f2c9844387d614950155266" }
++
++        self.common_tuxrun(csums=sums, drive="driver=ide-hd,bus=ide.0,unit=0")
+ 
+     def test_ppc32(self):
+         """
+@@ -302,7 +368,12 @@ def test_ppc32(self):
+         :avocado: tags=image:uImage
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="virtio-blk-pci")
++        sums = { "rootfs.ext4.zst" :
++                 "8885b9d999cc24d679542a02e9b6aaf48f718f2050ece6b8347074b6ee41dd09",
++                 "uImage" :
++                 "1a68f74b860fda022fb12e03c5efece8c2b8b590d96cca37a8481a3ae0b3f81f" }
++
++        self.common_tuxrun(csums=sums, drive="virtio-blk-pci")
+ 
+     def test_ppc64(self):
+         """
+@@ -316,7 +387,12 @@ def test_ppc64(self):
+         :avocado: tags=extradev:driver=spapr-vscsi
+         :avocado: tags=root:sda
+         """
+-        self.common_tuxrun(drive="scsi-hd")
++        sums = { "rootfs.ext4.zst" :
++                 "1d953e81a4379e537fc8e41e05a0a59d9b453eef97aa03d47866c6c45b00bdff",
++                 "vmlinux" :
++                 "f22a9b9e924174a4c199f4c7e5d91a2339fcfe51c6eafd0907dc3e09b64ab728" }
++
++        self.common_tuxrun(csums=sums, drive="scsi-hd")
+ 
+     def test_ppc64le(self):
+         """
+@@ -329,7 +405,12 @@ def test_ppc64le(self):
+         :avocado: tags=extradev:driver=spapr-vscsi
+         :avocado: tags=root:sda
+         """
+-        self.common_tuxrun(drive="scsi-hd")
++        sums = { "rootfs.ext4.zst" :
++                 "b442678c93fb8abe1f7d3bfa20556488de6b475c22c8fed363f42cf81a0a3906",
++                 "vmlinux" :
++                 "979eb61b445a010fb13e2b927126991f8ceef9c590fa2be0996c00e293e80cf2" }
++
++        self.common_tuxrun(csums=sums, drive="scsi-hd")
+ 
+     def test_riscv32(self):
+         """
+@@ -337,7 +418,14 @@ def test_riscv32(self):
+         :avocado: tags=machine:virt
+         :avocado: tags=tuxboot:riscv32
+         """
+-        self.common_tuxrun()
++        sums = { "Image" :
++                 "89599407d7334de629a40e7ad6503c73670359eb5f5ae9d686353a3d6deccbd5",
++                 "fw_jump.elf" :
++                 "f2ef28a0b77826f79d085d3e4aa686f1159b315eff9099a37046b18936676985",
++                 "rootfs.ext4.zst" :
++                 "7168d296d0283238ea73cd5a775b3dd608e55e04c7b92b76ecce31bb13108cba" }
++
++        self.common_tuxrun(csums=sums)
+ 
+     def test_riscv64(self):
+         """
+@@ -345,7 +433,14 @@ def test_riscv64(self):
+         :avocado: tags=machine:virt
+         :avocado: tags=tuxboot:riscv64
+         """
+-        self.common_tuxrun()
++        sums = { "Image" :
++                 "cd634badc65e52fb63465ec99e309c0de0369f0841b7d9486f9729e119bac25e",
++                 "fw_jump.elf" :
++                 "6e3373abcab4305fe151b564a4c71110d833c21f2c0a1753b7935459e36aedcf",
++                 "rootfs.ext4.zst" :
++                 "b18e3a3bdf27be03da0b285e84cb71bf09eca071c3a087b42884b6982ed679eb" }
++
++        self.common_tuxrun(csums=sums)
+ 
+     def test_s390(self):
+         """
+@@ -355,7 +450,13 @@ def test_s390(self):
+         :avocado: tags=image:bzImage
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="virtio-blk-ccw",
++        sums = { "bzImage" :
++                 "0414e98dd1c3dafff8496c9cd9c28a5f8d04553bb5ba37e906a812b48d442ef0",
++                 "rootfs.ext4.zst" :
++                 "88c37c32276677f873a25ab9ec6247895b8e3e6f8259134de2a616080b8ab3fc" }
++
++        self.common_tuxrun(csums=sums,
++                           drive="virtio-blk-ccw",
+                            haltmsg="Requesting system halt")
+ 
+     # Note: some segfaults caused by unaligned userspace access
+@@ -370,9 +471,14 @@ def test_sh4(self):
+         :avocado: tags=root:sda
+         :avocado: tags=console:ttySC1
+         """
++        sums = { "rootfs.ext4.zst" :
++                 "3592a7a3d5a641e8b9821449e77bc43c9904a56c30d45da0694349cfd86743fd",
++                 "zImage" :
++                 "29d9b2aba604a0f53a5dc3b5d0f2b8e35d497de1129f8ee5139eb6fdf0db692f" }
++
+         # The test is currently too unstable to do much in userspace
+         # so we skip common_tuxrun and do a minimal boot and shutdown.
+-        (kernel, disk, dtb) = self.fetch_tuxrun_assets()
++        (kernel, disk, dtb) = self.fetch_tuxrun_assets(csums=sums)
+ 
+         # the console comes on the second serial port
+         self.prepare_run(kernel, disk,
+@@ -395,7 +501,13 @@ def test_sparc64(self):
+         :avocado: tags=root:sda
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
++
++        sums = { "rootfs.ext4.zst" :
++                 "ad2f1dc436ab51583543d25d2c210cab478645d47078d30d129a66ab0e281d76",
++                 "vmlinux" :
++                 "e34313e4325ff21deaa3d38a502aa09a373ef62b9bd4d7f8f29388b688225c55" }
++
++        self.common_tuxrun(csums=sums, drive="driver=ide-hd,bus=ide.0,unit=0")
+ 
+     def test_x86_64(self):
+         """
+@@ -407,4 +519,10 @@ def test_x86_64(self):
+         :avocado: tags=root:sda
+         :avocado: tags=shutdown:nowait
+         """
+-        self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
++        sums = { "bzImage" :
++                 "2bc7480a669ee9b6b82500a236aba0c54233debe98cb968268fa230f52f03461",
++                 "rootfs.ext4.zst" :
++                 "b72ac729769b8f51c6dffb221113c9a063c774dbe1d66af30eb593c4e9999b4b" }
++
++        self.common_tuxrun(csums=sums,
++                           drive="driver=ide-hd,bus=ide.0,unit=0")
 -- 
 2.39.2
 
