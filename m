@@ -2,92 +2,163 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1586D6E45EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 13:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AE96E461F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 13:13:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poMbe-0004uV-Ru; Mon, 17 Apr 2023 07:01:10 -0400
+	id 1poMmG-0008Kp-MF; Mon, 17 Apr 2023 07:12:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1poMbV-0004ty-IL
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 07:01:01 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1poMbT-0006d0-8j
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 07:01:01 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id f4so2283844oiw.0
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 04:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681729257; x=1684321257;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zAh+Z24wfaVSPZ3V8SKpsl08wAbCXxRq+DGlGC7eXDY=;
- b=JGEe++9Zj24iKGT9raIK58pAKlZTtJXxO2BXC4uWeK9NSMo3wE6FnVSpPQUMbDoWWW
- N7fbb8sOXrJs8T3RhVFxmsaRPVCHtfx3u7qQQiyqClodvNmlBAmYMu4ArO2gEcXWaict
- /71lvVb8lZ1PgKV/s0545SFKtrzQZMf8HbRCxAPusI75wOvJZ6kx/1Px9YaWTDw00IZD
- 848OWy5LJy956/jsYIZQwm9rkf/TzZB9jKINaAaswEMq0kxiizYZ6yKh/BjJdBdNmwY3
- jmvdaRra4xDpXrIMUE27d/r6Cp1/PlV59K4HXG14ppknnQkpIavusmZ31hWQu+AyrRjv
- cIog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681729257; x=1684321257;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zAh+Z24wfaVSPZ3V8SKpsl08wAbCXxRq+DGlGC7eXDY=;
- b=g04QptegNioQdtXSqelII5UzRwvZEdJN4woKI9ysIh3PwwuHPjlnijwbHSjRfixBPE
- DiVQSf6VC5xQZXRXhvU4s+bpgcceXm7Xy31DQyNMUHRMllJ5NEHYkGxcwbsfjsRYyIDm
- CY41/FvMjIbggGqzwEonCGFpSVqzQ1ALQqes+qyFJl8ZSuF9BU2KskKQI1d34VvfLQnm
- tI8+mUt30nLkz2g/CXBSjyQ++JfJc/Wt1a4hVFJAbV/oa+qej8Bk1HLIdY+GF/S5qpMQ
- voGoD3h4Q3FtIh/Pq9CM0W7Xe+/RihPskV3zpjh2dfIQRuvsmfiSS8KnRJlgRdeIe2Fs
- cHDw==
-X-Gm-Message-State: AAQBX9e2YTO33O9aBYd/Xa1E5mvZwWUgROLlUpuH+MmbyBoXlRA6UWi9
- pxYxVqvlW4vTvAuGqg8UlDu1pA==
-X-Google-Smtp-Source: AKy350Z1Fuzkssg416EljWJNqUMwtJ0HhGDINfJzj1NckeedaTjvEA2UtvAe3Fxm1kkRHjw73yNwbQ==
-X-Received: by 2002:a05:6808:1142:b0:38d:fa26:3bc4 with SMTP id
- u2-20020a056808114200b0038dfa263bc4mr1463845oiu.10.1681729257247; 
- Mon, 17 Apr 2023 04:00:57 -0700 (PDT)
-Received: from [192.168.68.107] ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- p67-20020acaf146000000b00386eff32f58sm4489332oih.13.2023.04.17.04.00.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 04:00:56 -0700 (PDT)
-Message-ID: <52b21b6b-1222-91bd-cab1-233232e233ad@ventanamicro.com>
-Date: Mon, 17 Apr 2023 08:00:51 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1poMmB-0008KU-2s
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 07:12:03 -0400
+Received: from mga09.intel.com ([134.134.136.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1poMm3-0000zT-B7
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 07:11:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681729915; x=1713265915;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=vnUIhBReMN4PydYDHpon/UQKr6ya3ceDHm2GkZrvHoY=;
+ b=MXPlEL8b9fVTnHzytWrKRdN+vxR7TgiVFQHhtP7kgfnZo6vvUtSWQaxb
+ 8syUsGXjka9JyaZaENL6HV94g626iuGETvauvWbychX4g747rvFIioekX
+ xiw7ohi34CnaLYlv8Ut1s3k47ZVc45Dehcd4On8XSpDKj0I5je4nSKWT6
+ Dqj4A0rw++/uJg8E8ozrg4ilBJkv1q/pKB1nL9GsZvTtFxRkGT2ltt8XE
+ eU4jMEo3R8HPtHidY/zFc3aZZ6EZwtVo5KYt9wGRrIsc5FJc5bx6pSta0
+ 0PA3DCqE8mLhHiI9QJcYHhTBc8D2W/HSGL5/LZy4l6cCPi98177twb889 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="346710224"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="346710224"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2023 04:11:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="936786517"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; d="scan'208";a="936786517"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga006.fm.intel.com with ESMTP; 17 Apr 2023 04:11:45 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 17 Apr 2023 04:11:45 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Mon, 17 Apr 2023 04:11:45 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.48) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 17 Apr 2023 04:11:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GEhZaZeZ2zgPSkTa1ch9gTc8qYlp9i9GAL7hQU1Y/uIUWQbNnJ18m/JAW8mqfJ5U2o0E5m2KZxXC9uGs8QvptGcqgBaQC4vVGejbIrkcPv/RX4HJWhIKXg5C0Su7lCVpk7yuOLeaciylBlpO/3y6GtW/tL/b+kX49eZPk5+Vbo1SVQkYgmGMwvxkJgSQmP4K7qfcw/h8DjZ4StYillUtZPgGrmwsDiCSKDvEJo3CJfhkXUhl2NUoXgqtxkT5dAUIyxXZ2XhQIqIXPCFkJ9Quyn1lFefg/yBv9qRRDwLDv2sEj7+Yx2QvV4Gw/GBMvH0R2mmeg+srfvLsG2yVGlrdrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Lh2P/B1jm5EWFEzQBwbRoAYLAv9ezDItZY/2AF8asmA=;
+ b=Ze6Sf/1eZyja4BtDQmHNmGq2KPA23x8oqUASsCQ8wztjwzrsBS4RsG+JmORnea2DLJDzXCuYRPQ6RZR7M72WYIj6DONtnfYj/9O+tn8irlZW95J8SwOqU9N8K6ADnasnCb/AmVpG0pQcvgr3uMDmOfPFMDMLbPIKc+sVEuGHVRNZyBe7GB+VY/yC49xfJaWj1S4GduWChOx414gZHLqaGthGkuIgHgyfb/6+DWeLw4QdzEdpi3zJyF2G321H/jOS7zcTnGi4CR4vwVuhweRBrcVAMgAcFVHzcUykO1BZohovO4O+CY/WrLeMIzdfwfG+/Exx0bwgdhRha17y8d4Q2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4500.namprd11.prod.outlook.com (2603:10b6:a03:1c3::24)
+ by SJ2PR11MB7501.namprd11.prod.outlook.com (2603:10b6:a03:4d2::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Mon, 17 Apr
+ 2023 11:11:44 +0000
+Received: from BY5PR11MB4500.namprd11.prod.outlook.com
+ ([fe80::cf58:e1db:41d4:ee3f]) by BY5PR11MB4500.namprd11.prod.outlook.com
+ ([fe80::cf58:e1db:41d4:ee3f%6]) with mapi id 15.20.6298.045; Mon, 17 Apr 2023
+ 11:11:44 +0000
+Message-ID: <6ac7805f-8fc5-f598-258c-b0b55a1a35d6@intel.com>
+Date: Mon, 17 Apr 2023 19:11:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v12 02/10] target/riscv: add support for Zca extension
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>, richard.henderson@linaro.org,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>
-References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
- <20230307081403.61950-3-liweiwei@iscas.ac.cn>
- <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
- <CAKmqyKP6Omm8HypeRps0xCaZXxw+VXsT0KY2ONtfOZmjR9WnDA@mail.gmail.com>
- <0f2ebe23-750c-26eb-9d3e-920c80a3c222@iscas.ac.cn>
- <CAKmqyKNSkGwRC8Ysu0nFDyBq58ZtL=JWpSO=X3sYkat-UzZdzA@mail.gmail.com>
- <9e1f46dc-088d-eb46-1d5e-90cc8648dd16@iscas.ac.cn>
- <4214bba1-242c-1cb4-4996-804bc654d9b1@ventanamicro.com>
- <CAKmqyKOS8JXahHKW_Bymi85q0NFiQzYZjMmHoS=deuPZBONbKA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] accel/tcg/plugin: export host insn size
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+CC: Richard Henderson <richard.henderson@linaro.org>, <pbonzini@redhat.com>,
+ <erdnaxe@crans.org>, <ma.mandourr@gmail.com>, <qemu-devel@nongnu.org>
+References: <20230406022751.757980-1-fei2.wu@intel.com>
+ <20230406022751.757980-2-fei2.wu@intel.com> <87v8i9jviv.fsf@linaro.org>
+ <ce65c074-ff12-1f29-ee64-44fb7ff643c7@linaro.org> <87ttxoc8wq.fsf@linaro.org>
+ <0f237ccb-dcbe-87c7-d9f2-653962d30520@intel.com> <87v8i2ri3w.fsf@linaro.org>
 Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAKmqyKOS8JXahHKW_Bymi85q0NFiQzYZjMmHoS=deuPZBONbKA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: "Wu, Fei" <fei2.wu@intel.com>
+In-Reply-To: <87v8i2ri3w.fsf@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22e.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.284,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-ClientProxiedBy: SG2PR02CA0034.apcprd02.prod.outlook.com
+ (2603:1096:3:18::22) To BY5PR11MB4500.namprd11.prod.outlook.com
+ (2603:10b6:a03:1c3::24)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4500:EE_|SJ2PR11MB7501:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e23cfdb-2390-4b2d-74d2-08db3f348687
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +/TOug7fioRrtyMHo8AC+JonNb45+AbYDGkE2cPOlF2VDQSyOA22H5698GSGPz6MYYsBZETJaJQNGldM6LdcEsM3mXUQHPbZjkOCh3tdK1t6RdiXREi2L0qRYxG86RQCsKg+dD4ahn11nizawB3iRfD1MU4S5Q6SwEQHvVWghkMjVVl7WE1ctO8xfm5LMLumhGxdcQUwBRRWXiOgAMhTSZH9V1lKOAcwh+QlG4rt96S8ch559sF1v46z0+t9fsD0PsggKAQtLZtWlJZyFTXGuXnu+CdL26ACZtQocJ8t6Ef8NOq2OXtonwCVrXmeEIemZRqKxvhGVYrHZxbZdNkqzelH1hRHDQ4zOpZvak/J9zjKfGUsuz0HfcMphEZ3wjhpEOYc9oxFNQG/rclrN0tlvqAE1o+nEG5EKX1foF7CPV1/GQp+DcKJjnXaGHsCszkg8TzYFAOqkHbtPr5LZM/pkxmKKb7S+fEM9ieLNn0UeydlPBs7A6fxSOc4lqniyRvyJk5Do6RfQy2nAHFCXPaAhJjyL4lbkrkHYZVsII85/nNF1Slcz6qv0YJ46tjJyhoRbomV0nuOfCWFpDAHWli2LB98fZlCNR0f4pQlbi8yORVujw4z4u5LxSbSYziRfrlo+7SoIy5wU1/dvoXzKrJjW4wqv1TuURU7atw7p8cBLdpQgX/u9XVAH8dw/3rvvUmb
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4500.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(346002)(396003)(376002)(39860400002)(366004)(136003)(451199021)(8936002)(31696002)(6666004)(5660300002)(41300700001)(966005)(86362001)(478600001)(316002)(6486002)(36756003)(4326008)(66556008)(66476007)(8676002)(66946007)(6916009)(83380400001)(66574015)(186003)(2906002)(82960400001)(2616005)(6512007)(31686004)(6506007)(26005)(53546011)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vm1pMTlvZUxwaER0RGROaXE2eVlxckJYcHJ6cUhQc1hGbUREUlNmUUxPRzRy?=
+ =?utf-8?B?QUxoUFNrVzJid3dNdGJBbmt2V21WejJOd1JleVk2Rjg2TGxPUG5PcGcrRDhy?=
+ =?utf-8?B?ckV3RVpxRENIbEJRU296Z3ZleHU4NkpEdUhuZW9CTjdxL2NlSFQ2Vmxvbnh0?=
+ =?utf-8?B?QjN6ZC91eldrUHZIb04vWUIzZ0hFeFlzelZYSFBKVU41SlNnejZqTDM4ZmRw?=
+ =?utf-8?B?REZNY0ZYRlErUy92ZElYelZVQzRFR1o0QmJkNUl3QzFaTEVZbFg3YjRZanI1?=
+ =?utf-8?B?Szhva3o2d1NrRVdvakhqcWRhUng3Rnlxa3RQVHZYS090anBUSmx5RkVmWU4w?=
+ =?utf-8?B?cnpITTRMcW83ZWFENHVTVVJBTGk2eC9yV0lJWjBPNVFFNnAwM0RHWFdNZ1U3?=
+ =?utf-8?B?T3J4ZHNuSWNGVXFYeUc1N3dlZlh3K0lDQnNwQ2RMRkgxMEh3bzdlZWNyU0hr?=
+ =?utf-8?B?OEdVN0wxQlp0ZmtBRTRZZ1I5T3dxR2J0RzByV0RlSTFYZERtbkNLU3FBTTZ5?=
+ =?utf-8?B?MGM0eHArTDdxd1M3WmpYaGZiU1QwcU5VdCtyMFIzdDRPSmNYQklKUmVnbEsv?=
+ =?utf-8?B?d2lySXJTcllCR2xvbDVFWnppSWRFM1lZV3dWcG5JUyswTDFxaWVWc0RSV1dw?=
+ =?utf-8?B?UWlyTWU3MmptbkxKaU53ZUpOVCtmMlpqb09TOVIxMkNrZ010L3RPN2E0bG0z?=
+ =?utf-8?B?enZjUGVYZ01oaVVDc0N3WEJiZHhjMEVHdVFCOFdwSHBTQ0FuSmpTeVFFM2NS?=
+ =?utf-8?B?cEVrcmNTUGpDaGxuVUQ2SDNuR1ZiYkpoSlM0T0t3UzJvbEo2SWlCZnQwMHdW?=
+ =?utf-8?B?UkpHbmZzaWszUVRoYUxhUkIvaXhMU3RIVWdlU2ZDRzI0U3dUekJ2d0pwMURQ?=
+ =?utf-8?B?ZUZJeDZjUFJxV0JOUFA3TnNrWVZsejByMFVyK3VBTndDOUphTUpzYWtoVnRk?=
+ =?utf-8?B?ZGVpSGphdTBXTEJGRXdmbXNMRkVweVlHaDdvVHdVaUEwTVRnSGo2SXQ4RHVt?=
+ =?utf-8?B?Vzd6dzBTN1dzaEQ5YzBiTE9IMmlucGxJK2ZJOE0yNS8rTUpTL2djd2pjRjdr?=
+ =?utf-8?B?aUxlZHd3QXZWZVpLOUE5c3l1eXJhRWRjczl0djRJdWlGRFRzNVJHMi9MZUJG?=
+ =?utf-8?B?dGR5b2F4WHBOQTBJNjd0OUNoTFpZUHhTY2Fwc3pvM1RIazYzUFZzUVdjL2kz?=
+ =?utf-8?B?bmp1WnVTd2pBQ0FJT0ZJbVV3V2Z3dWxldHYwYWt3akFFTU9TakJKdnQxdnBI?=
+ =?utf-8?B?SlJPSTRoUG84d3Y3TWVWUjhMbjFObEU0Z3Z5aEx5SmdmMXY5aGtLTGozNEd5?=
+ =?utf-8?B?cmE5MkFCNFhxZ3ZOYnJZN1BFWlpWb1JKeUwyLzdFTWJ4dm1kd3UraE5sem53?=
+ =?utf-8?B?cXpCTExUaWdNdDZMNEYrM2dsa01lV1N0RTRnZzE2L2N3SFpGOVZxYzFlU2ti?=
+ =?utf-8?B?TTVtZW5FdVluZmJVbVRqNU5xb0JYR2I2VkVtUVNMWnBpNnl3eG1IbUpoeHJD?=
+ =?utf-8?B?dVdDMjlzMTNWckl4TUJscTQvZUZpbkU2VlpFWnR1TXArMkd4a29MWVpNNjZQ?=
+ =?utf-8?B?ZU03TVlONEptekxBdHhqbkw3YTNRQVNPbGE4ejBaOWtTUVFUSlBha1pYRVBD?=
+ =?utf-8?B?VTBhVld5ZWp0MVBSL3dQdjRsaDNZN3RCODhtSHJSVy8veDZqUnQyMFF1ODRK?=
+ =?utf-8?B?ZXg4VVpERHVCMndXVGpqaGJlRUs5WnFxNGgzdDY4YlZ0QmpDcGpKc2NYWjJ2?=
+ =?utf-8?B?SDBBelgwZHJxK0tWeVFlQUFZUjZTWFpsNVc3WjBYV0lVSmpSR2VDU24vTlgx?=
+ =?utf-8?B?UUszdjRXVndpNStaQUlTcFYxRzU2R3JBemg5Z3VjZCsxZkZjRFBnN05KR0dw?=
+ =?utf-8?B?YWFReDNSdVpnOWJ4ejJmVDFnb1B4TE9QUTdjMXIxMHdWLzZGSitrMURHWUt6?=
+ =?utf-8?B?bWw5bzVIa2tIbjEzYld3b1hrOGVyM0FQTXg5eDVCZU9EdXVrTVhvVnFhaTdz?=
+ =?utf-8?B?ZFZGS2lOekdyZWQvV2VkUXpIc21EVXhMMHFzU1lQc3N5R3ZoQkhFQVlqcHRs?=
+ =?utf-8?B?T0VIdVFyVE5RREFzSDJmSGxMQmJQVXZBbm1KeWxuelZ0Y2xiS1RTTkNDSWpy?=
+ =?utf-8?Q?CXFftyxJ8jAAby/nZs9ErMCCd?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e23cfdb-2390-4b2d-74d2-08db3f348687
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4500.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2023 11:11:43.4764 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7pxU5/aEdIC8tGvsxCOo+/GHpm0REUFtVZoBbDoiXIObixSO34zm6JpHBAeeaASaAhcI0aU3dXzvevThI5ZSiQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7501
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=fei2.wu@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.284, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,238 +175,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 4/16/23 23:35, Alistair Francis wrote:
-> On Thu, Apr 13, 2023 at 3:24 AM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
->>
->>
->>
->> On 4/12/23 08:35, Weiwei Li wrote:
+On 4/11/2023 3:27 PM, Alex Bennée wrote:
+> 
+> "Wu, Fei" <fei2.wu@intel.com> writes:
+> 
+>> On 4/10/2023 6:36 PM, Alex Bennée wrote:
 >>>
->>> On 2023/4/12 18:55, Alistair Francis wrote:
->>>> On Wed, Apr 12, 2023 at 12:55 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->>>>>
->>>>> On 2023/4/12 10:12, Alistair Francis wrote:
->>>>>> On Fri, Apr 7, 2023 at 6:23 AM Daniel Henrique Barboza
->>>>>> <dbarboza@ventanamicro.com> wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> This patch is going to break the sifive_u boot if I rebase
->>>>>>>
->>>>>>> "[PATCH v6 0/9] target/riscv: rework CPU extensions validation"
->>>>>>>
->>>>>>> on top of it, as it is the case today with the current riscv-to-apply.next.
->>>>>>>
->>>>>>> The reason is that the priv spec version for Zca is marked as 1_12_0, and
->>>>>>> the priv spec version for both sifive CPUs is 1_10_0, and both are enabling
->>>>>>> RVC.
->>>>>>>
->>>>>>> This patch from that series above:
->>>>>>>
->>>>>>> "[PATCH v6 5/9] target/riscv/cpu.c: add priv_spec validate/disable_exts helpers"
->>>>>>>
->>>>>>> Makes the disabling of the extension based on priv version to happen *after* we
->>>>>>> do all the validations, instead of before as we're doing today. Zca (and Zcd) will
->>>>>>> be manually enabled just to be disabled shortly after by the priv spec code. And
->>>>>>> this will happen:
->>>>>>>
->>>>>>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000000 because privilege spec version does not match
->>>>>>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000001 because privilege spec version does not match
->>>>>>> qemu-system-riscv64: warning: disabling zcd extension for hart 0x0000000000000001 because privilege spec version does not match
->>>>>>> (--- hangs ---)
->>>>>>>
->>>>>>> This means that the assumption made in this patch - that Zca implies RVC - is no
->>>>>>> longer valid, and all these translations won't work.
->>>>>> Thanks for catching and reporting this
->>>>>>
->>>>>>> Some possible solutions:
->>>>>>>
->>>>>>> - Do not use Zca as a synonym for RVC, i.e. drop this patch. We would need to convert
->>>>>>> all Zca checks to RVC checks in all translation code.
->>>>>> This to me seems like the best solution
->>>>> I had also implemented a patch for this solution. I'll sent it later.
->>>> Thanks!
+>>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>>
+>>>> On 4/6/23 00:46, Alex Bennée wrote:
+>>>>> If your aim is to examine JIT efficiency what is wrong with the current
+>>>>> "info jit" that you can access via the HMP? Also I'm wondering if its
+>>>>> time to remove the #ifdefs from CONFIG_PROFILER because I doubt the
+>>>>> extra data it collects is that expensive.
+>>>>> Richard, what do you think?
 >>>>
->>>>> However, this will introduce additional check. i.e. check both Zca and C
->>>>> or , both Zcf/d and CF/CD.
->>>> Is there a large performance penalty for that?
+>>>> What is it that you want from CONFIG_PROFILER that you can't get from perf?
+>>>> I've been tempted to remove CONFIG_PROFILER entirely.
 >>>
->>> May not very large.  Just one or two additional check in instruction translation. You can see the patch at:
+>>> I think perf is pretty good at getting the hot paths in the translator
+>>> and pretty much all of the timer related stuff in CONFIG_PROFILER could
+>>> be dropped. However some of the additional information about TCG ops
+>>> usage and distribution is useful. That said last time I had a tilt at
+>>> this on the back of a GSoC project:
 >>>
->>> https://lore.kernel.org/qemu-devel/20230412030648.80470-1-liweiwei@iscas.ac.cn/
+>>>   Subject: [PATCH  v9 00/13] TCG code quality tracking and perf integration
+>>>   Date: Mon,  7 Oct 2019 16:28:26 +0100
+>>>   Message-Id: <20191007152839.30804-1-alex.bennee@linaro.org>
+>>>
+>>> The series ended up moving all the useful bits of CONFIG_PROFILER into
+>>> tb stats which was dynamically controlled on a per TB basis. Now that
+>>> the perf integration stuff was merged maybe there is a simpler series to
+>>> be picked out of the remains?
+>>>
+>>> Fei Wu,
+>>>
+>>> Have you looked at the above series? Is that gathering the sort of
+>>> things you need? Is this all in service of examining the translation
+>>> quality of hot code?
+>>>
+>> Yes, it does have what I want, I suppose this wiki is for the series:
+>>     https://wiki.qemu.org/Features/TCGCodeQuality
 > 
-> This is my prefered way. I think it's pretty simple and explicitly
-> follows the spec.
+> Yes.
 > 
->>>
->>>>
->>>>> I think this is not very necessary. Implcitly-enabled extensions is
->>>>> often the subsets of existed extension.
->>>> Yeah, I see what you are saying. It just becomes difficult to manage
->>>> though. It all worked fine until there are conflicts between the priv
->>>> specs.
->>>>
->>>>> So enabling them will introduce no additional function to the cpus.
->>>>>
->>>>> We can just make them invisible to user(mask them in the isa string)
->>>>> instead of disabling them  to be compatible with lower priv version.
->>>> I'm open to other options, but masking them like this seems like more
->>>> work and also seems confusing. The extension will end up enabled in
->>>> QEMU and potentially visible to external tools, but then just not
->>>> exposed to the guest. It seems prone to future bugs.
->>>
->>> Yeah. they may be visible to external tools if they read cfg directly.
->>>
->>> Another way is to introduce another parameter instead of cfg.ext_zca to indicate whether Zca/Zcf/Zcd
->>>
->>> instructions are enabled. This is be done by patchset:
->>>
->>> https://lore.kernel.org/qemu-devel/20230410033526.31708-1-liweiwei@iscas.ac.cn/
-> 
-> I don't prefer this option, but if others feel strongly I'm not
-> completely opposed to it.
-> 
->>>
->>> All of the three ways are acceptable to me.
 >>
->> Earlier today I grabbed two Weiwei Li patches (isa_string changes and Zca/Zcf/Zcd
->> changes) in the "rework CPU extensions validation" series, but after reading these
->> last messages I guess I jumped the gun.
+>> btw, the archive seems broken and cannot show the whole series:
+>>     https://www.mail-archive.com/qemu-devel@nongnu.org/msg650258.html
 > 
-> My preference would be the "target/riscv: Update check for
-> Zca/zcf/zcd" patch, which I think is what you picked. So that seems
-> like the way to go
+> I have a v10 branch here:
+> 
+>   https://github.com/stsquad/qemu/tree/tcg/tbstats-and-perf-v10
+> 
+> I think the top two patches can be dropped on a re-base as the JIT/perf
+> integration is already merged. It might be a tricky re-base though.
+> Depends on how much churn there has been in the tree since.
+> 
+I have rebased the patches to upstream here:
+    https://github.com/atwufei/qemu/tree/tbstats
 
-Ok! I'll send it over with Weiwei's v2.
+I try to keep the patches as possible as they are, but there are lots of
+changes since then, so changes are inevitable, e.g. CF_NOCACHE has been
+removed from upstream, I just removed its usage in the corresponding
+patch, which might not be preferred.
 
+I did some basic tests and they worked (the output of info goes to qemu
+console, instead of telnet terminal), including:
+    * tb_stats start
+    * info tb-list
+    * info tb 10
+
+Alex, would you please take a look?
 
 Thanks,
+Fei.
 
-Daniel
-
-> 
->>
->> Alistair, I'm considering drop the patch that disables extensions via priv_spec later
->> during realize() (the one I mentioned in my first message) from that series until we
->> figure the best way of dealing with priv spec and Z-extensions being used as MISA bits
->> and so on. We can merge those cleanups and write_misa() changes that are already reviewed
->> in the meantime. Are you ok with that?
-> 
-> That's also fine
-> 
-> Alistair
-> 
->>
->>
->> Thanks,
->>
->>
->> Daniel
->>
->>
->>>
->>> Regards,
->>>
->>> Weiwei Li
->>>
->>>
->>>> Alistair
->>>>
->>>>> Regards,
->>>>>
->>>>> Weiwei Li
->>>>>
->>>>>
->>>>>>> - Do not apply patch 5/9 from that series that moves the disable_ext code to the end
->>>>>>> of validation. Also a possibility, but we would be sweeping the problem under the rug.
->>>>>>> Zca still can't be used as a RVC replacement due to priv spec version constraints, but
->>>>>>> we just won't disable Zca because we'll keep validating exts too early (which is the
->>>>>>> problem that the patch addresses).
->>>>>>>
->>>>>>> - change the priv spec of the sifive CPUs - and everyone that uses RVC -  to 1_12_0. Not
->>>>>>> sure if this makes sense.
->>>>>>>
->>>>>>> - do not disable any extensions due to privilege spec version mismatch. This would make
->>>>>>> all the priv_version related artifacts to be more "educational" than to be an actual
->>>>>>> configuration we want to enforce. Not sure if that would do any good in the end, but
->>>>>>> it's also a possibility.
->>>>>> This also seems like something we can do. Printing a warning but
->>>>>> continuing on seems reasonable to me. That allows users to
->>>>>> enable/disable features even if the versions don't match.
->>>>>>
->>>>>> I don't think this is the solution for this problem though
->>>>>>
->>>>>> Alistair
->>>>>>
->>>>>>> I'll hold the rebase of that series until we sort this out. Thanks,
->>>>>>>
->>>>>>>
->>>>>>> Daniel
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> On 3/7/23 05:13, Weiwei Li wrote:
->>>>>>>> Modify the check for C extension to Zca (C implies Zca).
->>>>>>>>
->>>>>>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->>>>>>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->>>>>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>>>>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>>>>>>> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
->>>>>>>> ---
->>>>>>>>      target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
->>>>>>>>      target/riscv/translate.c                | 8 ++++++--
->>>>>>>>      2 files changed, 8 insertions(+), 4 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
->>>>>>>> index 4ad54e8a49..c70c495fc5 100644
->>>>>>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
->>>>>>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
->>>>>>>> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
->>>>>>>>          tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
->>>>>>>>
->>>>>>>>          gen_set_pc(ctx, cpu_pc);
->>>>>>>> -    if (!has_ext(ctx, RVC)) {
->>>>>>>> +    if (!ctx->cfg_ptr->ext_zca) {
->>>>>>>>              TCGv t0 = tcg_temp_new();
->>>>>>>>
->>>>>>>>              misaligned = gen_new_label();
->>>>>>>> @@ -169,7 +169,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
->>>>>>>>
->>>>>>>>          gen_set_label(l); /* branch taken */
->>>>>>>>
->>>>>>>> -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
->>>>>>>> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
->>>>>>>>              /* misaligned */
->>>>>>>>              gen_exception_inst_addr_mis(ctx);
->>>>>>>>          } else {
->>>>>>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->>>>>>>> index 0ee8ee147d..d1fdd0c2d7 100644
->>>>>>>> --- a/target/riscv/translate.c
->>>>>>>> +++ b/target/riscv/translate.c
->>>>>>>> @@ -549,7 +549,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
->>>>>>>>
->>>>>>>>          /* check misaligned: */
->>>>>>>>          next_pc = ctx->base.pc_next + imm;
->>>>>>>> -    if (!has_ext(ctx, RVC)) {
->>>>>>>> +    if (!ctx->cfg_ptr->ext_zca) {
->>>>>>>>              if ((next_pc & 0x3) != 0) {
->>>>>>>>                  gen_exception_inst_addr_mis(ctx);
->>>>>>>>                  return;
->>>>>>>> @@ -1122,7 +1122,11 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->>>>>>>>          if (insn_len(opcode) == 2) {
->>>>>>>>              ctx->opcode = opcode;
->>>>>>>>              ctx->pc_succ_insn = ctx->base.pc_next + 2;
->>>>>>>> -        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
->>>>>>>> +        /*
->>>>>>>> +         * The Zca extension is added as way to refer to instructions in the C
->>>>>>>> +         * extension that do not include the floating-point loads and stores
->>>>>>>> +         */
->>>>>>>> +        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
->>>>>>>>                  return;
->>>>>>>>              }
->>>>>>>>          } else {
->>>
 
