@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428E66E4B09
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 16:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC7D6E4B3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 16:17:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poPaV-0008D2-Gp; Mon, 17 Apr 2023 10:12:11 -0400
+	id 1poPdn-0001t6-6l; Mon, 17 Apr 2023 10:15:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1poPaR-0008CP-EK
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:12:07 -0400
+ id 1poPdk-0001s4-VJ
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:15:32 -0400
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1poPaN-0005TY-QS
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:12:06 -0400
+ id 1poPdj-0006A6-54
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 10:15:32 -0400
 Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33HCqknY010414; Mon, 17 Apr 2023 14:11:59 GMT
+ 33HCqkDc010348; Mon, 17 Apr 2023 14:15:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=H3Asrtl6qJgG4YKTtrGsn0roOjnkJ8VNROLxN4nxob4=;
- b=mNcBSYULsDsIq282dZHhzZKT01TUBtmFYFTyKdhFdYqEbxhTVLCYbFA4KrUZsHLpdMx5
- 2ZWh58cgu0UbmAmZZnay6iOs6EXl6XbXYaaiM7nByESz1mgQGEzduXGAW1eDbQDXWTwr
- Zy2LaMEvwfkHg33eMo9U8PdPKz8v/rKxSjTiVaZEm4lGkuenxCXm1ezUBy+0I4/EHclK
- r2vhugvBsDcQlAhAY2IM6xg5V6nAhz/ziRbUb8foJzxAoU+zKBPHYLAItNbyDPm1TY3Z
- lY77q/6nLlXaFqPSvyypiWYqH5peJ1diPdls4ajOFHC3n/jSgFAnIupy84Cgp5BXDFmF 4g== 
+ mime-version; s=pp1; bh=B7YURjsOq5sxzZa8qlduZVuPFrMG3tNPWSh6riiF0v8=;
+ b=gt0ESlhCDnQFzjGG1qQfCLOs09Q0moFozJwz84tszOIOn+dThDOHvjcd4TZcDhIXMJmn
+ K4qMMZKG0dch/DgKEN/JIGpE34vs63QUUaoR4+Sw2KW1DDOMJNVH/1MM4ABCJPDR6M9z
+ n+H5xA1XCAc/xBh4Q9l2YWkk2i7JZIO3IT4TBfskhmdG0LZT556cZbDcrNPyGQS0y/3C
+ dsW8g7hW8ZvnQ4qG+J/4bedOjh7TfW2HxKNDJDw0RmVrtRiii3bzFn7rTHzkCfqjFiz+
+ u8Bb8FC0uoG6Sb33DMTmC2MBkaB6TQXaLzRplpCR9cgwbwYB1o6T9ArIv4Agx1JUKnV5 WQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q166uau4p-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q166uaxeg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 14:11:58 +0000
+ Mon, 17 Apr 2023 14:15:27 +0000
 Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33HCqxNg011956;
- Mon, 17 Apr 2023 14:11:58 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q166uau3d-1
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33HCqkZv010327;
+ Mon, 17 Apr 2023 14:15:27 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q166uaxd0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 14:11:58 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33H2c5vh016542;
- Mon, 17 Apr 2023 14:11:55 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3pykj6h4sa-1
+ Mon, 17 Apr 2023 14:15:27 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33H2DbL4019632;
+ Mon, 17 Apr 2023 14:15:24 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3pyk6fh55m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Apr 2023 14:11:55 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33HEBqB828443202
+ Mon, 17 Apr 2023 14:15:23 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33HEFL9t30409314
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Apr 2023 14:11:52 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 06B3220049;
- Mon, 17 Apr 2023 14:11:52 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39FCB20040;
- Mon, 17 Apr 2023 14:11:49 +0000 (GMT)
+ Mon, 17 Apr 2023 14:15:21 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E81E520040;
+ Mon, 17 Apr 2023 14:15:20 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 24A3D20043;
+ Mon, 17 Apr 2023 14:15:18 +0000 (GMT)
 Received: from vajain21.in.ibm.com (unknown [9.43.20.139])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with SMTP;
- Mon, 17 Apr 2023 14:11:48 +0000 (GMT)
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with SMTP;
+ Mon, 17 Apr 2023 14:15:17 +0000 (GMT)
 Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
- Mon, 17 Apr 2023 19:41:47 +0530
+ Mon, 17 Apr 2023 19:45:16 +0530
 From: Vaibhav Jain <vaibhav@linux.ibm.com>
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Philippe
  =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH 1/2] travis.yml: Add missing clang-10 package to the
- 'Clang (disable-tcg)' job
-In-Reply-To: <2be2ca90-15bd-9ac8-5dba-68740386e1b5@redhat.com>
+Subject: Re: [PATCH 2/2] travis.yml: Add missing 'flex' package to 'GCC
+ (user)' job
+In-Reply-To: <9ac8a8d1-fd78-e8bc-e4e1-92645738f34d@redhat.com>
 References: <20230414210645.820204-1-vaibhav@linux.ibm.com>
- <2be2ca90-15bd-9ac8-5dba-68740386e1b5@redhat.com>
-Date: Mon, 17 Apr 2023 19:41:47 +0530
-Message-ID: <87a5z6egyk.fsf@vajain21.in.ibm.com>
+ <20230414210645.820204-2-vaibhav@linux.ibm.com>
+ <9ac8a8d1-fd78-e8bc-e4e1-92645738f34d@redhat.com>
+Date: Mon, 17 Apr 2023 19:45:16 +0530
+Message-ID: <877cuaegsr.fsf@vajain21.in.ibm.com>
 Content-Type: text/plain
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: q_2zMfXetEQoMQaXzoT8oKrQHAnxHoBU
-X-Proofpoint-ORIG-GUID: gddj-yVXErEtpFCOtKturdFroLgBTZL7
+X-Proofpoint-GUID: KWDIlvhp5CDnle6WX74UXFvk32BBaLSd
+X-Proofpoint-ORIG-GUID: iJ4BqIARbwYIw_ZJb7sANWXZc9_LRvlM
 X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -118,126 +119,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Hi Thomas,
-Thanks for reviewing this patch. My responses inline below:
 
+Thanks for looking into this patch. My responses inline below:
 
 Thomas Huth <thuth@redhat.com> writes:
 
 > On 14/04/2023 23.06, Vaibhav Jain wrote:
->> Since commit 74a1b256d775("configure: Bump minimum Clang version to 10.0") qemu
->> needs Clang version 10.0 as the minimum version to build qemu with
->> Clang. However 'focal' ships by default with Clang version 7.0.0 which causes an
->> error while executing the 'Clang (disable-tcg)' travis job of the form below:
+>> Since commit fd8171fe52b5e("target/hexagon: import lexer for idef-parser") the
+>> hexagon target uses 'flex' to generate idef-parser. However 'focal' may not have
+>> 'flex' pre-installed, consequently following error is seen with travis when
+>> trying to execute the 'GCC (user)' job that also tries to build hexagon user
+>> binary:
 >> 
 >> <snip>
->> $clang --version
->> 
->> clang version 7.0.0 (tags/RELEASE_700/final)
->> 
+>> export CONFIG="--disable-containers --disable-system"
 >> <snip>
->>   ERROR: You need at least GCC v7.4 or Clang v10.0 (or XCode Clang v12.0)
+>>   Program flex found: NO
 >> 
->>   # QEMU configure log Fri 14 Apr 2023 03:48:22 PM UTC
->> 
->>   # Configured with: '../configure' '--disable-docs' '--disable-tools'
->>   '--disable-containers' '--disable-tcg' '--enable-kvm' '--disable-tools'
->>   '--enable-fdt=system' '--host-cc=clang' '--cxx=clang++'
->> 
->> Fix this by adding 'clang-10' to the 'apt_packages' section of the "[s390x]
->> Clang (disable-tcg)" job and updating the compiler to 'clang-10'.
+>> ../target/hexagon/meson.build:179:4: ERROR: Program 'flex' not found or not
+>> executable
+>> <snip>
+>
+> This works for me also without adding the package:
+>
+>   https://app.travis-ci.com/github/huth/qemu/jobs/600292739
+>
+> Weird. Are you using a different Travis instance than I do?
+>
+Yes, I am using a Enterprise Travis Instance with 'focal' distro which
+apparantly has a different focal image not containing Flex available by
+default.
+
+>> Fix this by explicitly add 'flex' to the list of addon apt-packages for the
+>> 'GCC (user)' job.
 >> 
 >> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
 >> ---
->>   .travis.yml | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>   .travis.yml | 1 +
+>>   1 file changed, 1 insertion(+)
 >> 
 >> diff --git a/.travis.yml b/.travis.yml
->> index cf088ba4cf..11894eb810 100644
+>> index 11894eb810..8dc71c294d 100644
 >> --- a/.travis.yml
 >> +++ b/.travis.yml
->> @@ -243,7 +243,7 @@ jobs:
->>       - name: "[s390x] Clang (disable-tcg)"
->>         arch: s390x
->>         dist: focal
->> -      compiler: clang
->> +      compiler: clang-10
->>         addons:
->>           apt_packages:
->>             - libaio-dev
->> @@ -269,6 +269,7 @@ jobs:
->>             - libvdeplug-dev
->>             - libvte-2.91-dev
+>> @@ -237,6 +237,7 @@ jobs:
+>>             - libglib2.0-dev
+>>             - libgnutls28-dev
 >>             - ninja-build
->> +          - clang-10
+>> +          - flex
 >
-> Are you sure about this one? It works for me:
->
->   https://app.travis-ci.com/github/huth/qemu/jobs/600292740
->
-> Also, Clang v10 seems to be the default version in Focal:
->
->   https://packages.ubuntu.com/focal/clang
+> I agree that adding this explicitely makes sense, but I think we should then 
+> also add "bison" here as well, since that's used by the hexagon target, too?
+Yes, agree. Will spinoff another version which explicitly adds this dep.
 
-Travis documentation at [1] mentions clang 7.0.0 to be the default
-compiler for Ubuntu 20.04 (Focal and Jammy). That is what I see in my travis
-environment also with Focal.
-
-[1] -
-https://docs.travis-ci.com/user/reference/focal/#environment-common-to-all-ubuntu-2004-images
-
->
-> So how did you end up with Clang v7.0 in your run?
-Running this job on an internal Travis CI Enterprise instance.
-
-I see the build info reported by app.travis-ci.com for focal is
-different from what I am seeing for "focal" distro indicating different
-builder images being used.
-
-app.travis-ci.com
-=================
-Build system information
-Build language: c
-Build dist: focal
-<snip>
-Runtime kernel version: 5.4.0-139-generic
-travis-build version: cb95e04b
-Thu Nov 24 13:57:30 UTC 2022
-
-Operating System Details
-Distributor ID:	Ubuntu
-Description:	Ubuntu 20.04.5 LTS
-Release:	20.04
-Codename:	focal
-
-
-Travis Enterprise 
-==================
-Build system information
-Build language: c
-Build group: stable
-Build dist: focal
-<snip>
-Runtime kernel version: 4.19.86
-Build image provisioning date and time
-Tue 14 Feb 2023 01:48:02 PM UTC
-
-Operating System Details
-Distributor ID:	Ubuntu
-Description:	Ubuntu 20.04.5 LTS
-Release:	20.04
-Codename:	focal
-
->
 >   Thomas
 >
 >
-> PS: We should maybe rather update the Travis jobs to Jammy nowadays instead.
-Yes, that can be another way to address this. However depends on
-availablity of Jammy image on the Travis Enterprise instance. Right now
-we dont have support for it in our Travis Enterprise instance.
-
-IMHO if workaround exists for 'Focal' then it should be used
-unless it becomes too much of an effort to keep using 'Focal'.
 
 -- 
 Cheers
