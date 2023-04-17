@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328D96E499E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 15:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0D66E49E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 15:28:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poOgI-0007y1-Jy; Mon, 17 Apr 2023 09:14:06 -0400
+	id 1poOt6-00027V-3y; Mon, 17 Apr 2023 09:27:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1poOfz-0007uA-SJ
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:13:47 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1poOfy-0007Wt-6R
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:13:47 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-94f6c285d92so68446366b.3
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 06:13:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681737224; x=1684329224;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dgsZ7aFsbSlke3ByoJnweY/9ylVMudlzWGIoB2zV8tc=;
- b=mIKMJ3dpaFgK4Ul1ugyPSk3JS3QvE0TJefBL0VpXowD4j1aBEOQEzbUoFM5NH9oJEy
- IrdvzKpk5QqienlC/aXTDHiYCEJeIzW+YXV95H/YT7LR+BbODhI+AfibTXAFG0aLXYpA
- Zvgmg2pyaFCWqtEf8wr2EuB9KNL/+ylNwRB3BYftUuhqqZCcLzuouB98BupGjIqA7caw
- DaDaccqPSOpsC0Kte9a8D+6LiA+XW32uJ1HWLdWao/KxA41PmmN3Svm77gxpEj8JJ7eR
- S6aeMcCUVhDxMLqwJ8/07ltwah7hsdR08mXmJSfj+/1r0o5I0bAy5qxY6Pr89qRxADQ3
- DOew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681737224; x=1684329224;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dgsZ7aFsbSlke3ByoJnweY/9ylVMudlzWGIoB2zV8tc=;
- b=fyRqvs2i2gTd8y/KE86HXEbVyA2WZgPgwaF8VyCtoovAMSemwuf3GBO19KVnB0Maxn
- Uw0IJNI5BqRfdwhwb9zIQsIgZtMyU3qt9fPU9brcBoLqu+3jHdnRqyFYOZiikiEpYzJw
- Dt+LiK2HRB+S3EjFaflv+rg22bBvy/JxPuZKVdX3rfjPRw5eux4Oz0EKeexga+vQNkBQ
- rKpIdkf0BOPG7i7yQof4f7vWrACawot5ulh8MbThoO6xLZozF8B4y2DSp/I5GkUDqrMF
- j8lEe/UB2DVetBiRNgtb8sGNXoP/jTzOhXBIulCPDnrduW+pWIJRZrNgQO2goFHLGFuL
- 8MOQ==
-X-Gm-Message-State: AAQBX9fSWlhCLE9sXa6LkZcldHYYOqvut2wE13JsCYcWmVyhbrugDA3U
- B7Lsuwy4PSu6467xSrCBUWrkPlP76t1h8CinAJ1Ecw==
-X-Google-Smtp-Source: AKy350YR7QI/eRZ56IViIek3BomT+GHOpq6i9j7DaU6htSfP+lks4Dfurg1edcNATTO70Fbp3jWBlI7duV46DyZc3os=
-X-Received: by 2002:a50:d75b:0:b0:506:8d91:89c4 with SMTP id
- i27-20020a50d75b000000b005068d9189c4mr4158286edj.6.1681737224077; Mon, 17 Apr
- 2023 06:13:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1poOt0-00027M-5p
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:27:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1poOsy-0001tp-4I
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:27:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681738030;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CuufHBPy3Jw1K3TRtLfekJl1WEOorWIduK/sp8Y1uz8=;
+ b=fj5Rnq0+71j1LzRNEFGCgnX6VH04qUEcXCBbZUuzJghrp+KOZKad884hhiBQw0rOf2sj+4
+ y4u42lz7iQw5R6ki28c49jOVZxDSMygwpeGJe7ilfNI40vjRszj/KsZBMffHQwX/E4a0Vu
+ rikWUbXOfqoAvF06QgiO7FR0izcViY8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-396-16DiK8uWN_Gk6YQF__7p0Q-1; Mon, 17 Apr 2023 09:27:09 -0400
+X-MC-Unique: 16DiK8uWN_Gk6YQF__7p0Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BBC67185A7B3;
+ Mon, 17 Apr 2023 13:27:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79D65C15E7F;
+ Mon, 17 Apr 2023 13:27:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 74B5321E5A0D; Mon, 17 Apr 2023 15:27:07 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "you.chen" <you.chen@intel.com>
+Cc: qemu-devel@nongnu.org,  "dennis . wu" <dennis.wu@intel.com>,  Juan
+ Quintela <quintela@redhat.com>,  Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 2/2] migration: add support for qatzip compression
+ when doing live migration
+References: <20230417083935.415782-1-you.chen@intel.com>
+ <20230417083935.415782-3-you.chen@intel.com>
+Date: Mon, 17 Apr 2023 15:27:07 +0200
+In-Reply-To: <20230417083935.415782-3-you.chen@intel.com> (you chen's message
+ of "Mon, 17 Apr 2023 16:39:35 +0800")
+Message-ID: <87r0siabbo.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230417130037.236747-1-thuth@redhat.com>
- <20230417130037.236747-3-thuth@redhat.com>
-In-Reply-To: <20230417130037.236747-3-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 17 Apr 2023 14:13:32 +0100
-Message-ID: <CAFEAcA_0SMOsHtLxO84OA==B9EH5LcAAPcYFO_jKU7G0DnYDBw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] meson_options.txt: Enable qom-cast-debug by default
- again
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, Fan Ni <fan.ni@samsung.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,21 +81,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 17 Apr 2023 at 14:00, Thomas Huth <thuth@redhat.com> wrote:
->
-> This switch had been disabled by default by accident in commit
-> c55cf6ab03f. But we should enable it by default instead to avoid
-> regressions in the QOM device hierarchy.
->
-> Fixes: c55cf6ab03 ("configure, meson: move some default-disabled options to meson_options.txt")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  meson_options.txt             | 2 +-
->  scripts/meson-buildoptions.sh | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+"you.chen" <you.chen@intel.com> writes:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Add config and logics to use qatzip for page compression, in order to support qatzip compression better, we collect multipe pages together to do qatzip compression for best performance.
+> And we use compile option CONFIG_QATZIP to determine whether should qatzip related code be compiled or not.
+>
+> Co-developed-by: dennis.wu <dennis.wu@intel.com>
+> Signed-off-by: you.chen <you.chen@intel.com>
 
-thanks
--- PMM
+[...]
+
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index c84fa10e86..6459927c7a 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -644,6 +644,8 @@
+>  #                  no compression, 1 means the best compression speed, and 9 means best
+>  #                  compression ratio which will consume more CPU.
+>  #
+> +# @compress-with-qat: compress with qat on and off. (Since 8.1)
+> +#
+>  # @compress-threads: Set compression thread count to be used in live migration,
+>  #                    the compression thread count is an integer between 1 and 255.
+>  #
+> @@ -784,7 +786,7 @@
+>  { 'enum': 'MigrationParameter',
+>    'data': ['announce-initial', 'announce-max',
+>             'announce-rounds', 'announce-step',
+> -           'compress-level', 'compress-threads', 'decompress-threads',
+> +           'compress-level', 'compress-with-qat', 'compress-threads', 'decompress-threads',
+>             'compress-wait-thread', 'throttle-trigger-threshold',
+>             'cpu-throttle-initial', 'cpu-throttle-increment',
+>             'cpu-throttle-tailslow',
+> @@ -815,6 +817,8 @@
+>  #
+>  # @compress-level: compression level
+>  #
+> +# @compress-with-qat: compression with qat (Since 8.1)
+> +#
+>  # @compress-threads: compression thread count
+>  #
+>  # @compress-wait-thread: Controls behavior when all compression threads are
+> @@ -954,6 +958,7 @@
+>              '*announce-rounds': 'size',
+>              '*announce-step': 'size',
+>              '*compress-level': 'uint8',
+> +            '*compress-with-qat': 'bool',
+>              '*compress-threads': 'uint8',
+>              '*compress-wait-thread': 'bool',
+>              '*decompress-threads': 'uint8',
+> @@ -1152,6 +1157,7 @@
+>              '*announce-rounds': 'size',
+>              '*announce-step': 'size',
+>              '*compress-level': 'uint8',
+> +            '*compress-with-qat': 'bool',
+>              '*compress-threads': 'uint8',
+>              '*compress-wait-thread': 'bool',
+>              '*decompress-threads': 'uint8',
+
+We already have MigrationCapability compress
+
+    # @compress: Use multiple compression threads to accelerate live migration.
+    #            This feature can help to reduce the migration traffic, by sending
+    #            compressed pages. Please note that if compress and xbzrle are both
+    #            on, compress only takes effect in the ram bulk stage, after that,
+    #            it will be disabled and only xbzrle takes effect, this can help to
+    #            minimize migration traffic. The feature is disabled by default.
+    #            (since 2.4 )
+
+and xbzrle
+
+    # @xbzrle: Migration supports xbzrle (Xor Based Zero Run Length Encoding).
+    #          This feature allows us to minimize migration traffic for certain work
+    #          loads, by sending compressed difference of the pages
+    #
+
+and MigrationParameters / MigrateSetParameters multifd-compression
+
+    # @multifd-compression: Which compression method to use.
+    #                       Defaults to none. (Since 5.0)
+    #
+    # @multifd-zlib-level: Set the compression level to be used in live
+    #                      migration, the compression level is an integer between 0
+    #                      and 9, where 0 means no compression, 1 means the best
+    #                      compression speed, and 9 means best compression ratio which
+    #                      will consume more CPU.
+    #                      Defaults to 1. (Since 5.0)
+    #
+    # @multifd-zstd-level: Set the compression level to be used in live
+    #                      migration, the compression level is an integer between 0
+    #                      and 20, where 0 means no compression, 1 means the best
+    #                      compression speed, and 20 means best compression ratio which
+    #                      will consume more CPU.
+    #                      Defaults to 1. (Since 5.0)
+
+where multifd-compression is
+
+    ##
+    # @MultiFDCompression:
+    #
+    # An enumeration of multifd compression methods.
+    #
+    # @none: no compression.
+    # @zlib: use zlib compression method.
+    # @zstd: use zstd compression method.
+    #
+    # Since: 5.0
+    ##
+
+How does this all fit together?  It feels like a bunch of featured piled
+onto each other, then shaken well.  Or am I confused?
+
+I could use an abstract description of compression in migration.
+
 
