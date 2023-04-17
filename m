@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365D46E4927
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 15:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2096E4949
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 15:05:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poOVR-0004N7-U0; Mon, 17 Apr 2023 09:02:54 -0400
+	id 1poOXN-0005cb-Vx; Mon, 17 Apr 2023 09:04:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1poOVO-0004Do-CP
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:02:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poOXJ-0005c2-AD
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:04:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1poOVL-0005dC-NS
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:02:50 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poOXH-0005uf-3Z
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 09:04:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681736566;
+ s=mimecast20190719; t=1681736685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XnkDtLXKDfY2IBAGWL6Z6RuZFKa709Dkg4gNWM+4GYA=;
- b=RqV8qYiRcxt0sYU0RIwW1F9lMgqwyEkY+G/YTkEhas5bECYT0FaNh9EuuM27jj2dzSLFno
- 8qbR+0eB01OZx3oH6XSD5RXG1LzWS+zirc3qK07EhLiSChEO6JYjtH88kM1peYQvxy4LF1
- KM7yNiVuIZ9uyrJ/a6t3LfQV2wHqt9o=
+ bh=YuuzdsHrTL7qHxLNBK6JBf4R+oAi3RLDVgN/ipnTuBI=;
+ b=isYL3GXNFvLdNRpwM0fVZ9hlpLsxqrDiyh7R4Xb+slIf8lF9JltEn0a9ABH0Rd6yE6LqML
+ 6W9QqSqVFRre+86s1KsrWkIFvydUK0Rv06Y0eouJiI0gLAwSHfkhNZv268i2ZccSA1L4IH
+ TysN5iTrMBtaX1J7Isz7w5vNXL78x3M=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-J9Wu-SgTNU6Woxgqqs0Abw-1; Mon, 17 Apr 2023 09:02:43 -0400
-X-MC-Unique: J9Wu-SgTNU6Woxgqqs0Abw-1
+ us-mta-164-3oOMCi0CM5SfmIbbvOmBuA-1; Mon, 17 Apr 2023 09:04:44 -0400
+X-MC-Unique: 3oOMCi0CM5SfmIbbvOmBuA-1
 Received: by mail-wm1-f70.google.com with SMTP id
- q19-20020a05600c46d300b003ef69894934so11581759wmo.6
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 06:02:43 -0700 (PDT)
+ p34-20020a05600c1da200b003f175d06dfcso441933wms.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 06:04:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681736562; x=1684328562;
+ d=1e100.net; s=20221208; t=1681736683; x=1684328683;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XnkDtLXKDfY2IBAGWL6Z6RuZFKa709Dkg4gNWM+4GYA=;
- b=HvUMnNP5nzZjzdfWhhwmeB7VfLF9183Ouf3FKRTUwGWmQJupcpl8qIlQO2MdbhXNiP
- pPruUuMS5eU1B01GBUXvcOI9jRnOqVMFFFxhNoidRSU1YDspXmfrfuyR7sAA/tyk651e
- V/lJJPzMyNfv3a3j2ZgoNapMe1JzLnt4fnUTo/QhnbbPtJkSxilAYXbH1GrCvWoD7lk8
- toAZ9Beb/yqCIMHClgfZhpwkmsnadwaGxJqVpptOW4znTyidDONdMzr62Yvph8W50Z2k
- XfEi79xs3fkd09toA9S+xuA0kqV6xZ2WefXFIaszvTBc9Wqa0Uy7tYcLATlbhA0FqB5W
- o1bg==
-X-Gm-Message-State: AAQBX9fRr1lpagBGEGY4trUn2uOcMwFjBdUpof+bOaWM5bErfKHLXqcS
- AU1983wuNIQBZGDznisVK1IxCxxC4RColbftRe1Qt9rwv22dCxrnJFHjnM0eeJ+ZaP2B7ayd/3k
- zgStKF0suUjpv8wE=
-X-Received: by 2002:a1c:4b04:0:b0:3ee:282d:1016 with SMTP id
- y4-20020a1c4b04000000b003ee282d1016mr10746087wma.25.1681736562143; 
- Mon, 17 Apr 2023 06:02:42 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bJp/NlPkMVRsoUorN7dvKC2EoQcXlVl17bA6g0kI4ariGYAYEiiP0dk1WGGdkDiM0aL+cRYA==
-X-Received: by 2002:a1c:4b04:0:b0:3ee:282d:1016 with SMTP id
- y4-20020a1c4b04000000b003ee282d1016mr10746071wma.25.1681736561829; 
- Mon, 17 Apr 2023 06:02:41 -0700 (PDT)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- j15-20020a05600c1c0f00b003f173be2ccfsm3157407wms.2.2023.04.17.06.02.41
+ bh=YuuzdsHrTL7qHxLNBK6JBf4R+oAi3RLDVgN/ipnTuBI=;
+ b=FqrIV+ZMvG8UDxAimGQv8JX/mkjQG+618Y8pcAUOI+cZsZQ1maC+27/c+bJVQuRkW0
+ 34/JL3kUnKlAMySATfYxP+2rGde0x8Mq0/R/SYl8y1O7rY5eoKVjyJ3pKsVuCnTUb4wP
+ QQoPRu+NHkSKgfkqPSSovKB0aSkpa0FPvmmBuEP937NV2j0dXLTmu8Z8i3zH1YCKz0ZY
+ Zz0oWboxPf85nELdK9+OHeHmxH822TCNezMOrJgydsxSO+KLtLJj/9NKzRd6Y4Am8XOa
+ P350YxyDrjoqfy9mGo+DebhWr/DHiU03aWPflBsfTnGHyqYabNIecjjJXypRJBdhXjwL
+ KYiw==
+X-Gm-Message-State: AAQBX9eZ1LT7tOIEGxJffqAvzx16NNwEPtAvS/1jL7cdFdg1eGsVfkYb
+ 2UWWh6bBMkGAshyK+4kzmwti+KPABljihzHM3FSwbj/JuDGWd0pRq9/mj5DALFplhQrf3IGZ8VK
+ fvHyT98P6dpn9BuQ=
+X-Received: by 2002:a7b:cb49:0:b0:3f0:8fb3:24ea with SMTP id
+ v9-20020a7bcb49000000b003f08fb324eamr10676437wmj.9.1681736683293; 
+ Mon, 17 Apr 2023 06:04:43 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YB8FrIHMum++PNVcGyI1V4F5lv4Mbq8gekLLuRMtpsxwvdNpzRnsQ4Ng9JwS4xXAZnUHYxCA==
+X-Received: by 2002:a7b:cb49:0:b0:3f0:8fb3:24ea with SMTP id
+ v9-20020a7bcb49000000b003f08fb324eamr10676420wmj.9.1681736682947; 
+ Mon, 17 Apr 2023 06:04:42 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-177-194.web.vodafone.de.
+ [109.43.177.194]) by smtp.gmail.com with ESMTPSA id
+ x2-20020a05600c21c200b003f1739a0116sm2920088wmj.33.2023.04.17.06.04.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 06:02:41 -0700 (PDT)
-Message-ID: <5cebae8d-480b-cbed-9b5d-bf3ffaddf404@redhat.com>
-Date: Mon, 17 Apr 2023 15:02:40 +0200
+ Mon, 17 Apr 2023 06:04:42 -0700 (PDT)
+Message-ID: <e07fc160-c147-6c00-41ca-bc106dd6220c@redhat.com>
+Date: Mon, 17 Apr 2023 15:04:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: netdev-socket test hang (s390 host, mips64el guest, backtrace)
+ Thunderbird/102.9.0
+Subject: Re: [PULL 70/73] hw/pxb-cxl: Support passthrough HDM Decoders unless
+ overridden
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <CAFEAcA8gecpvfUj9uz+HBRspskZsxJTdD2Yz3M3uOKcFJbpv-Q@mail.gmail.com>
- <CAFEAcA-PMX4M9BkaDp9Kd2N_3ffMAW8iM8Ub2e9EtkVteth1hQ@mail.gmail.com>
- <dda6039e-2826-c32f-b0ec-d5988808a1a1@redhat.com> <87cz4295j1.fsf@linaro.org>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <87cz4295j1.fsf@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Fan Ni <fan.ni@samsung.com>, Ben Widawsky <ben.widawsky@intel.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <cover.1678237635.git.mst@redhat.com>
+ <154070eaf6597c47f64c3ea917bcba62427ae61f.1678237635.git.mst@redhat.com>
+ <CAFEAcA-+de+eeLCE4YsAw1O-Qyd_4W1Ra05mGDsU_-3a6d92qw@mail.gmail.com>
+ <d98c9298-dd1c-e5d0-bc8c-4a9b6e61db36@redhat.com>
+ <20230417072927-mutt-send-email-mst@kernel.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230417072927-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -104,55 +108,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/17/23 12:16, Alex Bennée wrote:
-> 
-> Laurent Vivier <lvivier@redhat.com> writes:
-> 
->> Hi Peter,
->>
->> On 4/13/23 14:05, Peter Maydell wrote:
->>> On Thu, 13 Apr 2023 at 11:50, Peter Maydell <peter.maydell@linaro.org> wrote:
+On 17/04/2023 13.29, Michael S. Tsirkin wrote:
+> On Mon, Apr 17, 2023 at 01:22:51PM +0200, Thomas Huth wrote:
+>> On 11/04/2023 12.26, Peter Maydell wrote:
+>>> On Wed, 8 Mar 2023 at 01:14, Michael S. Tsirkin <mst@redhat.com> wrote:
 >>>>
->>>> I just found a hung netdev-socket test on our s390 CI runner.
->>>> Looks like a deadlock, no processes using CPU.
->>>> Here's the backtrace; looks like both QEMU processes are sat
->>>> idle but the test process is sat waiting forever for something
->>>> in test_stream_inet_reconnect(). Any ideas?
->>> May well not be related, but I think there's a race condition
->>> in this test's inet_get_free_port() code. The code tries
->>> to find a free port number by creating a socket, looking
->>> at what port it is bound to, and then closing the socket.
->>> If there are several copies of this test running at once
->>> (as is plausible in a 'make -j8' setup), then you can
->>> get an interleaving:
->>>    test 1                       test 2
->>>      find a port number
->>>      close the socket
->>>                                 find a port number
->>>                                 (get the same number as test 1)
->>>                                 close the socket
->>>      use port number for test
->>>                                 use port number for test
->>>                                 (fail because of test 1)
+>>>> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>>>
+>>>> The CXL r3.0 specification allows for there to be no HDM decoders on CXL
+>>>> Host Bridges if they have only a single root port. Instead, all accesses
+>>>> directed to the host bridge (as specified in CXL Fixed Memory Windows)
+>>>> are assumed to be routed to the single root port.
 >>>
+>>> Hi; in issue https://gitlab.com/qemu-project/qemu/-/issues/1586
+>>> it's been pointed out that this commit causes an assertion
+>>> failure during 'make check' if you configure with
+>>> --enable-qom-cast-debug. You can repro by doing that and running:
+>>>
+>>>    qemu-system-i386 -display none -machine q35,cxl=on -device pxb-cxl,bus=pcie.0
+...
+>>> The problem is here:
+>>>
+>>>> -static void pxb_dev_reset(DeviceState *dev)
+>>>> +static void pxb_cxl_dev_reset(DeviceState *dev)
+>>>
+>>> This function is called from  pxb_cxl_dev_realize(),
+>>> which is the realize function for TYPE_PXB_CXL_DEVICE.
+>>> That type's parent is TYPE_PCI_DEVICE.
+>>>
+>>>>    {
+>>>>        CXLHost *cxl = PXB_CXL_DEV(dev)->cxl.cxl_host_bridge;
+>>>>        CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
+>>>> +    PCIHostState *hb = PCI_HOST_BRIDGE(cxl);
+>>>>        uint32_t *reg_state = cxl_cstate->crb.cache_mem_registers;
+>>>>        uint32_t *write_msk = cxl_cstate->crb.cache_mem_regs_write_mask;
+>>>> +    int dsp_count = 0;
+>>>>
+>>>>        cxl_component_register_init_common(reg_state, write_msk, CXL2_ROOT_PORT);
+>>>> -    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 8);
+>>>> +    /*
+>>>> +     * The CXL specification allows for host bridges with no HDM decoders
+>>>> +     * if they only have a single root port.
+>>>> +     */
+>>>> +    if (!PXB_DEV(dev)->hdm_for_passthrough) {
+>>>
+>>> However, here we try to cast the device pointer to PXB_DEV.
+>>> That is not permitted because dev is not of type TYPE_PXB_DEVICE
+>>> (either directly or as a parent class). So if you have the QOM
+>>> debugging enabled then the attempt to cast causes an assertion
+>>> failure.
+>>>
+>>>> +        dsp_count = pcie_count_ds_ports(hb->bus);
+>>>> +    }
+>>>> +    /* Initial reset will have 0 dsp so wait until > 0 */
+>>>> +    if (dsp_count == 1) {
+>>>> +        cxl->passthrough = true;
+>>>> +        /* Set Capability ID in header to NONE */
+>>>> +        ARRAY_FIELD_DP32(reg_state, CXL_HDM_CAPABILITY_HEADER, ID, 0);
+>>>> +    } else {
+>>>> +        ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT,
+>>>> +                         8);
+>>>> +    }
+>>>>    }
+>>>
+>>> What was the intention here with the type hierarchy?
+>>> Should TYPE_PXB_CXL_DEVICE be a subclass of TYPE_PXB_DEVICE,
+>>> or should the cxl-related functions not be trying to treat
+>>> it as a PXB device ?
 >>
->> I don't see an easy way to avoid to race, but perhaps we can change
->> the test to use unix socket rather than inet one? In this case we can
->> use an unique name.
+>> Maybe we should simply revert the commit for the time being (once the 8.1
+>> cycle begins), 'til this has properly been solved, so we can enable
+>> qom-debug by default again?
 > 
-> We could use a lock file that would stop the test clashing with itself
-> (although another process on the machine could still race for the
-> socket). The unix socket would be easier but wouldn't we loose test
-> coverage or do we not care about the exact details for this test?
+> Can you post a revert?
 
-According to the backtrace, the problem happens with the reconnect test because we launch 
-twice the server side to test the client reconnection. I think this test can be moved to 
-an unix socket without any issue. For the other inet tests, there can be a race but the 
-window is much more shorter, and we want to test inet, not unix. Even with a lock file, 
-the port can be taken by another process.
+Sure, done here now:
+https://lore.kernel.org/qemu-devel/20230417130037.236747-2-thuth@redhat.com/
 
-Thanks,
-Laurent
-
+  Thomas
 
 
