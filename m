@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3C96E4330
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 11:06:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076A76E4341
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Apr 2023 11:07:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poKmz-0004ij-Ql; Mon, 17 Apr 2023 05:04:45 -0400
+	id 1poKow-0005gP-26; Mon, 17 Apr 2023 05:06:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poKmv-0004iT-Tm
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 05:04:42 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1poKos-0005g6-VE
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 05:06:42 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poKmt-0007gb-WE
- for qemu-devel@nongnu.org; Mon, 17 Apr 2023 05:04:41 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1poKor-000884-3g
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 05:06:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681722278;
+ s=mimecast20190719; t=1681722399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dNuxJ6psyQmJsqgOeQpFbqf4bE/thKthiaGrTODBa9s=;
- b=ecPpS9iG8tRkX9jWPmHTXExVyMEmY5Mc9mf2m07lf0ELS2U3VsBZ5wHHqo6Mv86sHFLrIe
- kim9pe4F+CaNRzUKiSNjXLLXxH+IyrumZybfM8qAsHtXn71iiwyHIhzoZdYggIdU7B97Ri
- RKjkzs1Ek6mUa+5RRfjtFd2IgFeco+c=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XwGozr6hacIqT46ZsBvIKi2/F6Fy0+iFr5Oz6Awc+RU=;
+ b=OBUxLXBho36ZuqsgUHS1X+n0A3k+BUCk3vMFmUUdA/BORinpBT08WQ/q808opuCqfdERZZ
+ V1yMNvSQ6XyBZDwkZQWDOm8vMPtcb7JjXFa5rh/E8t6VmV3Q9fnEnkpO4Qcx3l1GSG6Xhs
+ DUrZ2tWjyAKW/bOJgCeGfi/iPv9AGVY=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-352-SaRM-EZdOA6OI5xf33HaBg-1; Mon, 17 Apr 2023 05:04:36 -0400
-X-MC-Unique: SaRM-EZdOA6OI5xf33HaBg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p12-20020a05600c468c00b003f0ae59f2e1so2953249wmo.9
- for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 02:04:36 -0700 (PDT)
+ us-mta-204-_6E2dY_nO5qHRRZizRXORw-1; Mon, 17 Apr 2023 05:06:38 -0400
+X-MC-Unique: _6E2dY_nO5qHRRZizRXORw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ 127-20020a370485000000b0074ac40d9171so5855827qke.14
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 02:06:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681722275; x=1684314275;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1681722397; x=1684314397;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dNuxJ6psyQmJsqgOeQpFbqf4bE/thKthiaGrTODBa9s=;
- b=BemCABcQGNLEAe5dGa5GB27DGL0oy28pUROMpyeCgnMaDK26lCNvlaJsJURohoOr/+
- Y/7m3RWAb+WvgA3AmhseRshyS34iMKO0mYPLAWdvfeR3nBG1cNfrfbn2ezYAdEYIsH+R
- G1GdjIetU7ubHMpjChHA65t0cU8aYYEXJEPPHB7ZuPID//gbL+hxthe31zrV07DjUHca
- i3cFKerTAvpo8JKfdZhPHD5D/NLQiW8qCDLXcrnHoNbYds5z4qecrZW+1B3vYnz4f66O
- qhS5MaPR6YqUXI6PZ8fI7XQ2I/0cKX0RFkzzBzplycIKcfs0li9/n4WC9jxkqdarqssK
- ZkUQ==
-X-Gm-Message-State: AAQBX9cC8kpRgwiLgkJRY5sxwdYpwwMwslDuu2p/sekmjSNWQZ/hNhaL
- M0RbyWqWjGvRcxntjIZ5FXDXQQpHBMsZnZ4uCSuO0uoUfDxkXC9KwQe+5s7FkO1uvLvzQi6OeUH
- VHcwk5TTl08IK3g0=
-X-Received: by 2002:a7b:c4d0:0:b0:3f1:74bd:bc22 with SMTP id
- g16-20020a7bc4d0000000b003f174bdbc22mr1008842wmk.6.1681722275834; 
- Mon, 17 Apr 2023 02:04:35 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aagQWB10ujNHlMkwetAFTFCzNBAIqOzgtgeB/fmEPY+0+A4fs5e5VjNvT5EbSkQaScYwu0rg==
-X-Received: by 2002:a7b:c4d0:0:b0:3f1:74bd:bc22 with SMTP id
- g16-20020a7bc4d0000000b003f174bdbc22mr1008827wmk.6.1681722275519; 
- Mon, 17 Apr 2023 02:04:35 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-177-194.web.vodafone.de.
- [109.43.177.194]) by smtp.gmail.com with ESMTPSA id
- u7-20020a7bcb07000000b003ee70225ed2sm11420564wmj.15.2023.04.17.02.04.34
+ bh=XwGozr6hacIqT46ZsBvIKi2/F6Fy0+iFr5Oz6Awc+RU=;
+ b=LN5oY2VziIyXNB8RrnI6Ipc3hJuM+dJ7uYNXSfAk2t0ctnDXlEVX1RfwgDOesJcDUW
+ y9D29TWVUSTyvrmnsmLYoyPDFGQZ+lxZYxci0yAp/FltILhJEl236v9ttv3cpf1fgnzU
+ Vc64VuOhG16huYdp/k4mDI0kc12OprwJ+7+FXYl3YTWrClDAyYzm8n1IrQxkQdjyyEvm
+ 3RiN2zDUUODHLUMcddZ2wOb7dJNQITx4Ew1WyBkP2pZO2ULAWbT3PFqxPaLlmPAlE0lW
+ ruat3M5lbwOFyK2CAiqvDRYRuRPFqxFEwTalaj5SJMvScCs0vbYuzkdNwftDA3k2fzrq
+ PWVg==
+X-Gm-Message-State: AAQBX9cciWBR4+gJHijHhxXBbGHAeNJC7xx2fPJ0LDHCTp16mtHJV1EN
+ vMX+InevuWgR8l2kXWjtRQ4O1VvAfO+lW3AAnJXBHKS3QXkMKmp/qC3qu0CIJLPNWNyIelcjSGz
+ mOtPslRaRLrWIe8mag+tXNQE=
+X-Received: by 2002:a05:622a:15d0:b0:3eb:9b03:b5ba with SMTP id
+ d16-20020a05622a15d000b003eb9b03b5bamr13747624qty.37.1681722397155; 
+ Mon, 17 Apr 2023 02:06:37 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZKeu6bX0ltIIs3iHxcGVg7dQoXrB7YvePg6fd6WWui2MTZ++g+NFJpQtX7zlI5NtHmY4xKew==
+X-Received: by 2002:a05:622a:15d0:b0:3eb:9b03:b5ba with SMTP id
+ d16-20020a05622a15d000b003eb9b03b5bamr13747606qty.37.1681722396856; 
+ Mon, 17 Apr 2023 02:06:36 -0700 (PDT)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ jr1-20020a05622a800100b003eeff94e2f8sm1031712qtb.0.2023.04.17.02.06.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 02:04:35 -0700 (PDT)
-Message-ID: <3f10f20c-00b9-aae2-1759-346196826699@redhat.com>
-Date: Mon, 17 Apr 2023 11:04:33 +0200
+ Mon, 17 Apr 2023 02:06:36 -0700 (PDT)
+Message-ID: <dda6039e-2826-c32f-b0ec-d5988808a1a1@redhat.com>
+Date: Mon, 17 Apr 2023 11:06:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
+ Thunderbird/102.10.0
+Subject: Re: netdev-socket test hang (s390 host, mips64el guest, backtrace)
 Content-Language: en-US
-To: "you.chen" <you.chen@intel.com>, qemu-devel@nongnu.org
-Cc: "dennis . wu" <dennis.wu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230417083935.415782-1-you.chen@intel.com>
- <20230417083935.415782-2-you.chen@intel.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 1/2] migration: add build option to support qemu build
- with qatzip
-In-Reply-To: <20230417083935.415782-2-you.chen@intel.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA8gecpvfUj9uz+HBRspskZsxJTdD2Yz3M3uOKcFJbpv-Q@mail.gmail.com>
+ <CAFEAcA-PMX4M9BkaDp9Kd2N_3ffMAW8iM8Ub2e9EtkVteth1hQ@mail.gmail.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <CAFEAcA-PMX4M9BkaDp9Kd2N_3ffMAW8iM8Ub2e9EtkVteth1hQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -105,123 +103,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/04/2023 10.39, you.chen wrote:
-> In this patch, we added qatzip build option in the meson_options.txt and meson-buildoptons.sh to support qemu build with qatzip.
-> If you installed qatzip and would like to use it for live migration, you could use "--enable-qatzip" during configure, it will check qatzip availablility from the pkg-config list (Please make sure you correctly set PKG_CONFIG_PATH to include qatzip.pc).
-> If you simply use "configure" or use "configure --disable-qatzip", qatzip will not be enabled.
+Hi Peter,
 
-When neither specifying --disable-qatzip nor --enable-qatzip, the default 
-should be auto-detection, not disablement ... or is this too instable to be 
-enabled by default?
-
-> Co-developed-by: dennis.wu <dennis.wu@intel.com>
+On 4/13/23 14:05, Peter Maydell wrote:
+> On Thu, 13 Apr 2023 at 11:50, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> I just found a hung netdev-socket test on our s390 CI runner.
+>> Looks like a deadlock, no processes using CPU.
+>> Here's the backtrace; looks like both QEMU processes are sat
+>> idle but the test process is sat waiting forever for something
+>> in test_stream_inet_reconnect(). Any ideas?
 > 
-> Signed-off-by: you.chen <you.chen@intel.com>
-> ---
->   meson.build                   | 11 ++++++++++-
->   meson_options.txt             |  2 ++
->   scripts/meson-buildoptions.sh |  3 +++
->   3 files changed, 15 insertions(+), 1 deletion(-)
+> May well not be related, but I think there's a race condition
+> in this test's inet_get_free_port() code. The code tries
+> to find a free port number by creating a socket, looking
+> at what port it is bound to, and then closing the socket.
+> If there are several copies of this test running at once
+> (as is plausible in a 'make -j8' setup), then you can
+> get an interleaving:
 > 
-> diff --git a/meson.build b/meson.build
-> index 29f8644d6d..aa7445e29e 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -553,6 +553,13 @@ if have_system or have_tools
->   endif
->   zlib = dependency('zlib', required: true, kwargs: static_kwargs)
->   
-> +qatzip = not_found
-> +if not get_option('qatzip').auto()
+>   test 1                       test 2
+>     find a port number
+>     close the socket
+>                                find a port number
+>                                (get the same number as test 1)
+>                                close the socket
+>     use port number for test
+>                                use port number for test
+>                                (fail because of test 1)
+> 
 
-This looks weird - why ignoring the library when the option should be 
-auto-detected? I think you likely want something like this instead:
+I don't see an easy way to avoid to race, but perhaps we can change the test to use unix 
+socket rather than inet one? In this case we can use an unique name.
 
-  if not get_option('qatzip').auto() or have_system
-
-... so that the feature gets enabled automatically when system emulator 
-binaries are built and the library is available.
-
-> +  qatzip = dependency('qatzip', required: get_option('qatzip'),
-> +                         method: 'pkg-config',
-> +                         static: enable_static)
-> +endif
-> +
->   libaio = not_found
->   if not get_option('linux_aio').auto() or have_block
->     libaio = cc.find_library('aio', has_headers: ['libaio.h'],
-> @@ -1863,6 +1870,7 @@ config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
->   config_host_data.set('CONFIG_LIBNFS', libnfs.found())
->   config_host_data.set('CONFIG_LIBSSH', libssh.found())
->   config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
-> +config_host_data.set('CONFIG_QATZIP', qatzip.found())
->   config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
->   config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
->   config_host_data.set('CONFIG_NUMA', numa.found())
-> @@ -3339,7 +3347,7 @@ libmigration = static_library('migration', sources: migration_files + genh,
->                                 name_suffix: 'fa',
->                                 build_by_default: false)
->   migration = declare_dependency(link_with: libmigration,
-> -                               dependencies: [zlib, qom, io])
-> +                               dependencies: [qatzip, zlib, qom, io])
-
-Not sure whether this is the right place to add this ... can't you add the 
-dependency in the migration/meson.build file instead?
-
->   softmmu_ss.add(migration)
->   
->   block_ss = block_ss.apply(config_host, strict: false)
-> @@ -3986,6 +3994,7 @@ summary_info += {'vde support':       vde}
->   summary_info += {'netmap support':    have_netmap}
->   summary_info += {'l2tpv3 support':    have_l2tpv3}
->   summary_info += {'Linux AIO support': libaio}
-> +summary_info += {'qatzip compress support': qatzip}
-
-Could you please keep this closer to the other compression options in the 
-summary instead? (lzo, bzip2, zstd, ...)
-
->   summary_info += {'Linux io_uring support': linux_io_uring}
->   summary_info += {'ATTR/XATTR support': libattr}
->   summary_info += {'RDMA support':      rdma}
-> diff --git a/meson_options.txt b/meson_options.txt
-> index fc9447d267..ef6d639876 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -191,6 +191,8 @@ option('smartcard', type : 'feature', value : 'auto',
->          description: 'CA smartcard emulation support')
->   option('snappy', type : 'feature', value : 'auto',
->          description: 'snappy compression support')
-> +option('qatzip', type : 'feature', value : 'auto',
-> +       description: 'qatzip compress support')
->   option('spice', type : 'feature', value : 'auto',
->          description: 'Spice server support')
->   option('spice_protocol', type : 'feature', value : 'auto',
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> index 009fab1515..84d110197d 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -152,6 +152,7 @@ meson_options_help() {
->     printf "%s\n" '  slirp-smbd      use smbd (at path --smbd=*) in slirp networking'
->     printf "%s\n" '  smartcard       CA smartcard emulation support'
->     printf "%s\n" '  snappy          snappy compression support'
-> +  printf "%s\n" '  qatzip          qatzip compression support'
->     printf "%s\n" '  sndio           sndio sound support'
->     printf "%s\n" '  sparse          sparse checker'
->     printf "%s\n" '  spice           Spice server support'
-> @@ -332,6 +333,8 @@ _meson_option_parse() {
->       --disable-libvduse) printf "%s" -Dlibvduse=disabled ;;
->       --enable-linux-aio) printf "%s" -Dlinux_aio=enabled ;;
->       --disable-linux-aio) printf "%s" -Dlinux_aio=disabled ;;
-> +    --enable-qatzip) printf "%s" -Dqatzip=enabled ;;
-> +    --disable-qatzip) printf "%s" -Dqatzip=disabled ;;
-
-The placement here looks rather random ... Could you please run 
-scripts/meson-buildoptions.py to create this file instead?
-
->       --enable-linux-io-uring) printf "%s" -Dlinux_io_uring=enabled ;;
->       --disable-linux-io-uring) printf "%s" -Dlinux_io_uring=disabled ;;
->       --enable-live-block-migration) printf "%s" -Dlive_block_migration=enabled ;;
-
-  Thomas
+Thanks,
+Laurent
 
 
