@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D04A6E5B9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E016E5BA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:09:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pogMS-0002cg-I2; Tue, 18 Apr 2023 04:06:48 -0400
+	id 1pogO7-0003eP-Ei; Tue, 18 Apr 2023 04:08:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pogMQ-0002cK-R9
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:06:46 -0400
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
+ id 1pogO5-0003eF-4g
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:08:29 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pogMO-0002ws-0k
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:06:45 -0400
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-54c12009c30so554408027b3.9
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 01:06:43 -0700 (PDT)
+ id 1pogO3-0003JM-JS
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:08:28 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-54fbb713301so205258457b3.11
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 01:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681805202; x=1684397202;
+ d=linaro.org; s=google; t=1681805306; x=1684397306;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=T206S/j2mJ6iFJ9ddZvDIQ94QkdXmRAObXTcMPLF5Xs=;
- b=Y/2sfocYkqZXyjCXedsqShr0DvpjzhSVuSo2Q2jumtkwVnHH/fyZDIBGVc8bnHvCuw
- wMK+wCHpBcDS9bgtGox1EtFRouby21ktRbczXPXuf3U5oJ/8qdN+gwVKqK9Dkzo8xpqy
- 4BFcOPZGmvfE1rdSsyKLQziV3IuSpq5xOS3Ai7yI+897FTnQet+z6HNRI1Z1vQV1LEtN
- npq/lbhGQFvh4n5iwgz0ekqds2f6N8KktLARowVDmqVaQyiUJ6Iv03XD/7UENCDn9aeZ
- hZdV3p2z5dQKkGc226mewublZLOh/vivbY5lhcB/Kqxc63xPlUi9wy/4R6Om4zMrVXe8
- YqUg==
+ bh=IBiozO4+1oaM53M2twtjbCkrneFV8uPkQRVuWlqJo+o=;
+ b=Vt09ksF1mLCHJTfQeBeUiHXjDlX6j8PEPbiEY1YWzUZ20k6X5ccJONLELNJbpz79MF
+ CsZZcHh59aqkE4iUcLhh/Gf7uOLkcqNBYgLxFaT/CBj5gcpQX5cCgpGf5CoDkrAx8uZc
+ 233yeRTfvBksG9qzDhgshi0/k3Y2mQCvq6bXFQRB34j/Mf0S8lqvM4s/rpQGB/4oxRCB
+ 4nH0SBf3oFsrcm/BTFucdIYrCJ+DDrM05naJcrddAQK3dTlkWrctu1QbVtV/LvBGzjmO
+ murxPFsE8Q8i/YN4PmbbhMcxnZgLXytydtk4097gaGAjmPor4bquhO0Ywdwce/MllFFS
+ 43Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681805202; x=1684397202;
+ d=1e100.net; s=20221208; t=1681805306; x=1684397306;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T206S/j2mJ6iFJ9ddZvDIQ94QkdXmRAObXTcMPLF5Xs=;
- b=Yzy9GZUmIc4Y4r6Nq7nDM+57X155Puc2SOSnDGjBhGvkRnhRKIYFh3ojH+J7aikzis
- k3S9gEJOd2TYlfiL7XGZMKu4NPeWWvvbBJ9orlkVWq3WPAyHvra0YEfXeveF4S137YBi
- KbhczJyBLtcRbMNEtnK0WVko+Xg9Yg5ib1nNqMi6AqfyMwcZJSwNNvisAII3dCU6vfBS
- wUKzS0p/LMEvCP//90PlcplOpg6VfyPGJQx3p06AXNpILN2Wq/E+wmIKoPRr4DJLzhgk
- mmrGpO2H611wDxUE3pAPeISDHaKW3d1EHiD/BKJTcCn/SCW/uDp3p4XmwEo6QYfsmTzX
- mLlQ==
-X-Gm-Message-State: AAQBX9eMFoBk54sIKS1Zaq/YeHgXdCP9ZdhwOcJi8ZVF7E5gZoATj1zC
- lFNMXT+UoKrEvqKqKHZWhavYqQ==
-X-Google-Smtp-Source: AKy350YnaengKP5ZaysPQfgJLFMDJA6L2QDnZPYmBLDdJDiHBsb4nsEvtkf03szS2+ifk/oTI/4ngg==
-X-Received: by 2002:a81:6fc3:0:b0:54f:244:807d with SMTP id
- k186-20020a816fc3000000b0054f0244807dmr17343190ywc.11.1681805202267; 
- Tue, 18 Apr 2023 01:06:42 -0700 (PDT)
+ bh=IBiozO4+1oaM53M2twtjbCkrneFV8uPkQRVuWlqJo+o=;
+ b=BiyYBprhhNJkP84w5bX/P5BNkgVqXijLI5vTsbEQyd7qK5NEJYbSrZJsNACTOL1JoM
+ Jk5cMX/S5uACVBZ+8vLvk7ymYiyV5sBqnuDxaU2mFtQ8QioEDJH3Fr+YCBHOIUhLyUc2
+ 7jmVz+eRPv0o/yXeHWHvjOj3PSz5YyQpfaX6P3XV+eGddt9bOHpWU9QWaHPoaeQp79/j
+ xEEH6UvwrX3I8GT4T2r/x3flOAjFTgB0tr3+GIEVvHcGg7RjNpb5gD3+y5KXeVfkCu8G
+ ykSk4J52ySukIV7c+PkLFrZKtWGM+TjCqrIMin2EKkFSGaOF15ixs78mJJVM03lNhLpF
+ /EoQ==
+X-Gm-Message-State: AAQBX9eoVnkO3HUkyyMNgRgeYvrpR9w3dOwvkERZkTxH2TSFd/aE6+Cj
+ lZmCifImty7qLVcs79kpaUwkBA==
+X-Google-Smtp-Source: AKy350Y2koNR00+IKPXKsZ+GYjvbHXhmUzKTW92pgQbo8t+Ho3vnA9C9ylc35jGHwQojreD/OvEYWQ==
+X-Received: by 2002:a0d:e205:0:b0:54f:ba16:eee with SMTP id
+ l5-20020a0de205000000b0054fba160eeemr15724099ywe.32.1681805306647; 
+ Tue, 18 Apr 2023 01:08:26 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:8079:8dd6:3f0f:2ab3:5c15:47fa?
  ([2605:ef80:8079:8dd6:3f0f:2ab3:5c15:47fa])
  by smtp.gmail.com with ESMTPSA id
- 135-20020a81148d000000b0054fadeb9899sm3686043ywu.35.2023.04.18.01.06.37
+ bf21-20020a05690c029500b0054f8a3624dbsm3610409ywb.145.2023.04.18.01.08.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 01:06:41 -0700 (PDT)
-Message-ID: <bcd87bea-110a-81aa-70a8-b65fc19b3aab@linaro.org>
-Date: Tue, 18 Apr 2023 10:06:33 +0200
+ Tue, 18 Apr 2023 01:08:26 -0700 (PDT)
+Message-ID: <f0695d77-537a-05b9-3f78-053ab8efd502@linaro.org>
+Date: Tue, 18 Apr 2023 10:08:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 07/10] accel/tcg: Report one-insn-per-tb in 'info jit', 
- not 'info status'
+Subject: Re: [PATCH v3 10/10] hmp: Deprecate 'singlestep' member of StatusInfo
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
  libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
 References: <20230417164041.684562-1-peter.maydell@linaro.org>
- <20230417164041.684562-8-peter.maydell@linaro.org>
+ <20230417164041.684562-11-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230417164041.684562-8-peter.maydell@linaro.org>
+In-Reply-To: <20230417164041.684562-11-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=richard.henderson@linaro.org; helo=mail-yw1-x1135.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-yw1-x112f.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -100,25 +99,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/17/23 18:40, Peter Maydell wrote:
-> Currently we report whether the TCG accelerator is in
-> 'one-insn-per-tb' mode in the 'info status' output.  This is a pretty
-> minor piece of TCG specific information, and we want to deprecate the
-> 'singlestep' field of the associated QMP command.  Move the
-> 'one-insn-per-tb' reporting to 'info jit'.
+> The 'singlestep' member of StatusInfo has never done what the QMP
+> documentation claims it does.  What it actually reports is whether
+> TCG is working in "one guest instruction per translation block" mode.
 > 
-> We don't need a deprecate-and-drop period for this because the
-> HMP interface has no stability guarantees.
+> We no longer need this field for the HMP 'info status' command, as
+> we've moved that information to 'info jit'.  It seems unlikely that
+> anybody is monitoring the state of this obscure TCG setting via QMP,
+> especially since QMP provides no means for changing the setting.  So
+> simply deprecate the field, without providing any replacement.
+> 
+> Until we do eventually delete the member, correct the misstatements
+> in the QAPI documentation about it.
+> 
+> If we do find that there are users for this, then the most likely way
+> we would provide replacement access to the information would be to
+> put the accelerator QOM object at a well-known path such as
+> /machine/accel, which could then be used with the existing qom-set
+> and qom-get commands.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> The new 'accelerator settings' subsection of the output
-> currently only has one item, but it would be a place to put
-> other stuff, eg if we wanted to mention whether split-wx is
-> enabled.
+> For v3: because we're only deprecating the existing member,
+> not trying to provide a replacement with a new name, we don't
+> need to update the iotests that use the command. (We will when
+> we eventually drop the deprecated member.)
 > ---
->   accel/tcg/monitor.c         | 14 ++++++++++++++
->   softmmu/runstate-hmp-cmds.c |  5 ++---
->   2 files changed, 16 insertions(+), 3 deletions(-)
+>   docs/about/deprecated.rst | 14 ++++++++++++++
+>   qapi/run-state.json       | 14 +++++++++++---
+>   2 files changed, 25 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
