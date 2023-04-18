@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D607D6E5B5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5526E5B6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:03:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pogHS-0000La-Ju; Tue, 18 Apr 2023 04:01:39 -0400
+	id 1pogIm-0001HX-Qu; Tue, 18 Apr 2023 04:03:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pogHM-0000KG-TH; Tue, 18 Apr 2023 04:01:32 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pogHH-0001zL-5Q; Tue, 18 Apr 2023 04:01:32 -0400
-Received: from [192.168.0.120] (unknown [180.165.241.15])
- by APP-01 (Coremail) with SMTP id qwCowABHKYJLTj5k2IPVBQ--.41085S2;
- Tue, 18 Apr 2023 16:01:15 +0800 (CST)
-Message-ID: <a7416578-bc77-4fc5-73e6-6d20b9d1348a@iscas.ac.cn>
-Date: Tue, 18 Apr 2023 16:01:14 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pogIf-0001Fl-6M
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:02:54 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pogIc-00029X-Qr
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:02:52 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id o11so9410820ybk.11
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 01:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681804969; x=1684396969;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7orP+Dehk9SpC4m2sfUMHGJ+U5eE1vPd1wsl86ksqYE=;
+ b=LyvJf0/ShQqs/ntjJD3uV9F4DFX4IoPh55hSLQtiO5Y3lmBP75l1+warTpBCGQffwO
+ zAZt0xBYEWggyzKb9BwFB5X7cvWH613BC8OD9bculoPOGF32aSQrQ0box49gUKSugbqn
+ Ch6DL7LtJ813lTwsL3K7pPNV3A+V4GuQEBfKeqDNnQNb7xJYlUgvPfL7lnOAsVuUD6GM
+ qwfML1oC03omFe24f8mX9h0EqNOdymB4ZWHs/xgZID5JkMnesCVJPYIEajGU2rgcq8et
+ AuVW4Jyj0R6Nz+/Hrcnb/7heqHarej7cPmDDVEYXtW0apw9k7gMoYbglBM8F6yZARZ83
+ tczQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681804969; x=1684396969;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7orP+Dehk9SpC4m2sfUMHGJ+U5eE1vPd1wsl86ksqYE=;
+ b=dYqBaV0L188TyyDMTi8UrzUsCZrS5L7ZMHI5+a2Ts0j82mvUnHPFwmSJ17CqVrOXDd
+ B2QRUdd1VvkhZIZx3RAWl8cm+UDLXJbatRxrK1vonkAJD8Q68QVYm5+Y/7dK39HrAN70
+ RWRscJwNKrFqEbdnKy1GjAx9SbM0AroR18ocMNBoJCQgXOUzNqcVl7Jp5bBg+9MdNjGI
+ 5ar27JDLkzxHK+HHYJbKITUIlyUJ8Zhb5wVSgC87dxlMB/AUdSUcf4SGU5YZP6sxeXZB
+ Oo3fsTE2zR1h2Vx80/oUWMxMeIouK9+zYM9g3ftP7KSmwoi2TRgn6LUO5ng8l0lnjC55
+ iXKw==
+X-Gm-Message-State: AAQBX9cxIlMDGFEaEKToOzNao5bKNWC9VjpiqQ0UWXzEwbXlDyVDnnbG
+ KfixZXoQFi16FEG2TFCMbl88cg==
+X-Google-Smtp-Source: AKy350YuoVD7b2VpfCm8UmPrwT36NQ8Hmo8L0lUhjrivDPioKPA1ECxi7B2Trw+aLfznCtZRv37Q4Q==
+X-Received: by 2002:a25:aba9:0:b0:b65:89bd:3c85 with SMTP id
+ v38-20020a25aba9000000b00b6589bd3c85mr16396381ybi.4.1681804969677; 
+ Tue, 18 Apr 2023 01:02:49 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:8079:8dd6:3f0f:2ab3:5c15:47fa?
+ ([2605:ef80:8079:8dd6:3f0f:2ab3:5c15:47fa])
+ by smtp.gmail.com with ESMTPSA id
+ f185-20020a2551c2000000b00b8f517ecdc5sm3520128ybb.35.2023.04.18.01.02.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 01:02:49 -0700 (PDT)
+Message-ID: <eb9e2777-ccd9-0d23-118e-9925690766de@linaro.org>
+Date: Tue, 18 Apr 2023 10:02:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Cc: liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, richard.henderson@linaro.org,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH 1/6] target/riscv: Update pmp_get_tlb_size()
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Alistair Francis <alistair23@gmail.com>
-References: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
- <20230413090122.65228-2-liweiwei@iscas.ac.cn>
- <CAKmqyKO4zAf18FPAzkKF9j1CV+RBaLc6-e45ZpBkJoKf8Y-dvg@mail.gmail.com>
- <2cf1870a-b668-13e5-7452-32e20c3cd0c8@iscas.ac.cn>
- <6653f84e-85a9-f6a0-9cb2-699c07eac654@linux.alibaba.com>
- <142d0596-e10f-d04b-cd04-b641f7926361@iscas.ac.cn>
- <730f1284-882a-2cd2-8162-7e55796e8b4a@linux.alibaba.com>
+Subject: Re: [PATCH v3 03/10] accel/tcg: Use one_insn_per_tb global instead of
+ old singlestep global
 Content-Language: en-US
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-In-Reply-To: <730f1284-882a-2cd2-8162-7e55796e8b4a@linux.alibaba.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
+References: <20230417164041.684562-1-peter.maydell@linaro.org>
+ <20230417164041.684562-4-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230417164041.684562-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowABHKYJLTj5k2IPVBQ--.41085S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3XFWfJFy7tF1kuw1DWw1xXwb_yoW3Kw4kpr
- W8JFyUJrWUGryrJw17tr1UXFyYyr1Utw1UXr18GF1UAwsrtryY9r1DZr1jgr18Jrs5Gr1j
- yr1UAFnrur15XF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
- c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
- C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=richard.henderson@linaro.org; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.284,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.284,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,234 +98,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/17/23 18:40, Peter Maydell wrote:
+> The only place left that looks at the old 'singlestep' global
+> variable is the TCG curr_cflags() function.  Replace the old global
+> with a new 'one_insn_per_tb' which is defined in tcg-all.c and
+> declared in accel/tcg/internal.h.  This keeps it restricted to the
+> TCG code, unlike 'singlestep' which was available to every file in
+> the system and defined in multiple different places for softmmu vs
+> linux-user vs bsd-user.
+> 
+> While we're making this change, use qatomic_read() and qatomic_set()
+> on the accesses to the new global, because TCG will read it without
+> holding a lock.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+> In discussion on v2, we talked about combining this with the
+> 'nochain' flag so as to have a single 'tcg_cflags_global' that
+> held the flags for the current (one_insn_per_tb, nochain) state.
+> I have not attempted that here, because it's a little tricky:
+>   * util/log.c is built into some binaries that don't have an
+>     accelerator at all (the tools), so it can't simply call
+>     current_accel() to get the TCG accelerator
 
-On 2023/4/18 15:08, LIU Zhiwei wrote:
->
-> On 2023/4/18 14:09, Weiwei Li wrote:
->>
->> On 2023/4/18 13:18, LIU Zhiwei wrote:
->>>
->>> On 2023/4/18 11:05, Weiwei Li wrote:
->>>>
->>>> On 2023/4/18 10:53, Alistair Francis wrote:
->>>>> On Thu, Apr 13, 2023 at 7:04 PM Weiwei Li <liweiwei@iscas.ac.cn> 
->>>>> wrote:
->>>>>> Not only the matched PMP entry, Any PMP entry that overlap with 
->>>>>> partial of
->>>>>> the tlb page may make the regions in that page have different 
->>>>>> permission
->>>>>> rights. So all of them should be taken into consideration.
->>>>>>
->>>>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->>>>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->>>>>> ---
->>>>>>   target/riscv/cpu_helper.c |  7 ++-----
->>>>>>   target/riscv/pmp.c        | 34 +++++++++++++++++++++-------------
->>>>>>   target/riscv/pmp.h        |  3 +--
->>>>>>   3 files changed, 24 insertions(+), 20 deletions(-)
->>>>>>
->>>>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>>>>> index 433ea529b0..075fc0538a 100644
->>>>>> --- a/target/riscv/cpu_helper.c
->>>>>> +++ b/target/riscv/cpu_helper.c
->>>>>> @@ -703,11 +703,8 @@ static int 
->>>>>> get_physical_address_pmp(CPURISCVState *env, int *prot,
->>>>>>       }
->>>>>>
->>>>>>       *prot = pmp_priv_to_page_prot(pmp_priv);
->>>>>> -    if ((tlb_size != NULL) && pmp_index != MAX_RISCV_PMPS) {
->>>>>> -        target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
->>>>>> -        target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
->>>>>> -
->>>>>> -        *tlb_size = pmp_get_tlb_size(env, pmp_index, tlb_sa, 
->>>>>> tlb_ea);
->>>>>> +    if (tlb_size != NULL) {
->>>>>> +        *tlb_size = pmp_get_tlb_size(env, addr);
->>>>>>       }
->>>>>>
->>>>>>       return TRANSLATE_SUCCESS;
->>>>>> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
->>>>>> index 1f5aca42e8..4f9389e73c 100644
->>>>>> --- a/target/riscv/pmp.c
->>>>>> +++ b/target/riscv/pmp.c
->>>>>> @@ -601,28 +601,36 @@ target_ulong mseccfg_csr_read(CPURISCVState 
->>>>>> *env)
->>>>>>   }
->>>>>>
->>>>>>   /*
->>>>>> - * Calculate the TLB size if the start address or the end 
->>>>>> address of
->>>>>> + * Calculate the TLB size if any start address or the end 
->>>>>> address of
->>>>>>    * PMP entry is presented in the TLB page.
->>>>>>    */
->>>>>> -target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
->>>>>> -                              target_ulong tlb_sa, target_ulong 
->>>>>> tlb_ea)
->>>>>> +target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong 
->>>>>> addr)
->>>>>>   {
->>>>>> -    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
->>>>>> -    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
->>>>>> +    target_ulong pmp_sa;
->>>>>> +    target_ulong pmp_ea;
->>>>>> +    target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
->>>>>> +    target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
->>>>>> +    int i;
->>>>>> +
->>>>>> +    for (i = 0; i < MAX_RISCV_PMPS; i++) {
->>>>>> +        pmp_sa = env->pmp_state.addr[i].sa;
->>>>>> +        pmp_ea = env->pmp_state.addr[i].ea;
->>>>>>
->>>>>> -    if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
->>>>>> -        return TARGET_PAGE_SIZE;
->>>>>> -    } else {
->>>>>>           /*
->>>>>> -         * At this point we have a tlb_size that is the smallest 
->>>>>> possible size
->>>>>> -         * That fits within a TARGET_PAGE_SIZE and the PMP region.
->>>>> This comment points out that we should have the smallest region, so
->>>>> I'm not clear why we need this change. Can you update the commit
->>>>> description to be clear on why this change is needed and what it
->>>>> fixes?
->>>>
->>>> This function return tlb_size to 1 to make the tlb uncached. 
->>>> However, In previous implementation,
->>>>
->>>> only the matched PMP entry of current access address is taken into 
->>>> consideration. Then, if other PMP entry
->>>>
->>>> that match other address in the same page, we  may also cannot 
->>>> cache the tlb, since different address
->>>>
->>>> in that page may have different permission rights.
->>>
->>> It doesn't matter. As the tlb size < page size, this tlb will have a 
->>> TLB_INVALID_MASK flag and never match.
->>
->> This is what I want. However,  tlb size will be page size without 
->> this patch in some cases.
->>
->> Assuming:
->>
->> PMP0:   sa: 0x80000008  ea: 0x8000000f, rights: R
->>
->> PMP1: sa: 0, ea: 0xffffffff, rights: RWX
->>
->> If we try to write data to 0x80000000,  PMP1 will be matched, In 
->> previous implementation,
->>
->> tlb_size will be PMP1 TARGET_PAGE_SIZE and this will be cached, since 
->> only matched PMP is checked ,
->>
->> and PMP1 covers the whole page. Then when we try to write data to 
->> 0x80000008, the tlb will be hit,
->>
->> and this access bypass the PMP check of PMP0.
->
-> I see. You are fixing the priority of PMP check rule.
-Yeah. You can see it as a priority problem.
->
-> You can still pass the matched index to pmp_get_tlb_size.  And only 
-> check first match index PMP rules.
+Ah ha, yes, tricky.
 
-Yeah. only the PMP rules before the matched PMP need be checked.
+>   * the initial value of the logging flags is set before the
+>     TCG accelerator is even created
+> So I leave that to somebody else to have a go at if they like.
+> ---
+>   accel/tcg/internal.h      | 2 ++
+>   include/exec/cpu-common.h | 2 --
+>   accel/tcg/cpu-exec.c      | 2 +-
+>   accel/tcg/tcg-all.c       | 6 ++++--
+>   bsd-user/main.c           | 1 -
+>   linux-user/main.c         | 1 -
+>   softmmu/globals.c         | 1 -
+>   7 files changed, 7 insertions(+), 8 deletions(-)
 
-However, I  prefers separate the matched index from pmp_get_tlb_size, 
-then we can separate
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-this function from  get_physical_address_pmp (not all pmp check needs 
-caculate the tlb size).
 
-Maybe we can improve the check to following code:
-
-if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
-       return TARGET_PAGE_SIZE;
-}  else if ((pmp_sa >= tlb_sa && pmp_sa <= tlb_ea) ||   (pmp_ea >= 
-tlb_sa && pmp_ea <= tlb_ea)) {
-             return 1;
-
-  }
-
-then the checked index will not be larger than matched index(the matched 
-case will match one of the above conditions).
-
-Regards,
-
-Weiwei Li
-
->
->>
->> Regards,
->>
->> Weiwei Li
->>
->>>
->>> For this page, every access will  repeat the MMU check and TLB fill.
->>>
->>> It is not fast, but with no error.
->>>
->>> Zhiwei
->>>
->>>>
->>>> Regards,
->>>>
->>>> Weiwei Li
->>>>
->>>>> Alistair
->>>>>
->>>>>> -         *
->>>>>> -         * If the size is less then TARGET_PAGE_SIZE we drop the 
->>>>>> size to 1.
->>>>>> +         * If any start address or the end address of PMP entry 
->>>>>> is presented
->>>>>> +         * in the TLB page and cannot override the whole TLB 
->>>>>> page we drop the
->>>>>> +         * size to 1.
->>>>>>            * This means the result isn't cached in the TLB and is 
->>>>>> only used for
->>>>>>            * a single translation.
->>>>>>            */
->>>>>> -        return 1;
->>>>>> +        if (((pmp_sa >= tlb_sa && pmp_sa <= tlb_ea) ||
->>>>>> +             (pmp_ea >= tlb_sa && pmp_ea <= tlb_ea)) &&
->>>>>> +            !(pmp_sa == tlb_sa && pmp_ea == tlb_ea)) {
->>>>>> +            return 1;
->>>>>> +        }
->>>>>>       }
->>>>>> +
->>>>>> +    return TARGET_PAGE_SIZE;
->>>>>>   }
->>>>>>
->>>>>>   /*
->>>>>> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
->>>>>> index b296ea1fc6..0a7e24750b 100644
->>>>>> --- a/target/riscv/pmp.h
->>>>>> +++ b/target/riscv/pmp.h
->>>>>> @@ -76,8 +76,7 @@ int pmp_hart_has_privs(CPURISCVState *env, 
->>>>>> target_ulong addr,
->>>>>>                          target_ulong size, pmp_priv_t privs,
->>>>>>                          pmp_priv_t *allowed_privs,
->>>>>>                          target_ulong mode);
->>>>>> -target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
->>>>>> -                              target_ulong tlb_sa, target_ulong 
->>>>>> tlb_ea);
->>>>>> +target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong 
->>>>>> addr);
->
-> In this way, you need not to change the declaration of pmp_get_tlb_size.
->
-> Otherwise,
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->
-> Zhiwei
->
->>>>>>   void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
->>>>>>   void pmp_update_rule_nums(CPURISCVState *env);
->>>>>>   uint32_t pmp_get_num_rules(CPURISCVState *env);
->>>>>> -- 
->>>>>> 2.25.1
->>>>>>
->>>>>>
-
+r~
 
