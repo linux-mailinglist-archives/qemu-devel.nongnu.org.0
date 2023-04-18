@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EF06E6B32
+	by mail.lfdr.de (Postfix) with ESMTPS id B8BD56E6B33
 	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 19:38:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1popGA-0002cO-7d; Tue, 18 Apr 2023 13:36:54 -0400
+	id 1popGA-0002bu-1E; Tue, 18 Apr 2023 13:36:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <morbidrsa@gmail.com>)
- id 1popG7-0002aS-Vs
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 13:36:51 -0400
-Received: from mail-ej1-f49.google.com ([209.85.218.49])
+ id 1popG8-0002ax-Fs
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 13:36:52 -0400
+Received: from mail-ej1-f48.google.com ([209.85.218.48])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <morbidrsa@gmail.com>)
- id 1popG6-0007Gx-Fz
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 13:36:51 -0400
-Received: by mail-ej1-f49.google.com with SMTP id a5so18709345ejb.6
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 10:36:48 -0700 (PDT)
+ id 1popG6-0007H2-Aw
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 13:36:52 -0400
+Received: by mail-ej1-f48.google.com with SMTP id kt6so37076784ejb.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 10:36:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681839407; x=1684431407;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S7E95Yukh3r55CeGcd0k2YgXT1hgJKut7e/zVlKR2sY=;
- b=HTbmLvPlXPk6ONoQsN+3tJQAxOYc7MP4TVdWSrQ/NTphZthiQriEyQ8DRVlgOwnmlk
- nbTjHRv9b5OPXXBH5Y3T5CiNMyuj7yfd4Tj33GsywbToBuUA5YUPRoROor19ZFa3CMy1
- XiM10p6/X2jwO6FGFA76lOWzeStftOlPmGL9zY2BjdiMCJazj4GGUhJuJxmMjlN1D62b
- 3dUfOr4HXGcoq31c4ZS9ZGohUgcBncuf9E0raKwSnKRDCXzuxqCDzvTHDiFpvxhB6u38
- dZ7x+UVj0ZOEESLxaGw+f+GFLOc6XKMOyJQxqOhfC5MUht0uEULH/erLTWd3sd8wAgf1
- xn8Q==
-X-Gm-Message-State: AAQBX9fNBKsvk9hxa8V5ZHPyvHSVZ42CAifZBGac50w0AgBLxdIvwczu
- PdQMDnDSU9n99RTWniRMxBlDvo+/u/6kCEPx
-X-Google-Smtp-Source: AKy350bNNSGWI0cUVQ6Rauw5WLiXLvTQWOvO4pbNJkNdtePoIm0D/zSAgR2jWKqY5s11K+gISBerNQ==
-X-Received: by 2002:a17:906:b817:b0:94d:e2ef:1618 with SMTP id
- dv23-20020a170906b81700b0094de2ef1618mr11225242ejb.7.1681839407162; 
- Tue, 18 Apr 2023 10:36:47 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681839408; x=1684431408;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EUU7B4ro8hVQAhlzUCnr6ec8NcXXiXdrOdFLWYCeCiE=;
+ b=M/cv1lUiPzMSiK7ydZFSUv0AzE39fG2+YPeLVUI2ccX41BlRsqMAtkYVvQ5ajJQfkk
+ /mZWzHMa361APXieEZ5F6N5heRJy51eNqtn8Q4KhZSwE5gqF5UHsdE4Gqn5Qh+Y29b2t
+ SnvIUuK3Skg2o2sUWtvY6W4KAggG2wwsMQcr+tCVy4PgkGBAKZKmfcdTmJ1/JYKfGtiT
+ aJgYOdkwEPsM6v+hmsXoISFRmNtZ5hsBg6N8yhllvyz6Ex30n8BvR4Q6Qr+Sc1Lpulvl
+ GwsYQWIpHWFxOKrkI674Cppu3RBjyAjPg6Jr71PUc2VtrpFWtu/hIWCob+sboSh2HHPO
+ mCiQ==
+X-Gm-Message-State: AAQBX9dO4Jq8rZSE3CkQnWhUstGMORlXZiT4BZ7BQ/r3l91UF6bGusWK
+ CMXTrYm4AkQMP7QHZP/f+m5u3Z2Gu14PDDjR
+X-Google-Smtp-Source: AKy350Z46cGIQVz3LIA8OYtZ+9iiDnKW4iSs63MrOFEB1R4EACUOtdxSukfuXOaGRpINhJTRokkJCA==
+X-Received: by 2002:a17:907:1245:b0:94e:6294:9d23 with SMTP id
+ wc5-20020a170907124500b0094e62949d23mr9451545ejb.26.1681839408047; 
+ Tue, 18 Apr 2023 10:36:48 -0700 (PDT)
 Received: from localhost.localdomain
  (aftr-62-216-205-204.dynamic.mnet-online.de. [62.216.205.204])
  by smtp.googlemail.com with ESMTPSA id
- j23-20020a1709066c1700b0095342bfb701sm73738ejr.16.2023.04.18.10.36.46
+ j23-20020a1709066c1700b0095342bfb701sm73738ejr.16.2023.04.18.10.36.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 10:36:46 -0700 (PDT)
+ Tue, 18 Apr 2023 10:36:47 -0700 (PDT)
 From: Johannes Thumshirn <jth@kernel.org>
 To: qemu-devel@nongnu.org
 Cc: Alistair Francis <alistair@alistair23.me>,
@@ -51,23 +51,26 @@ Cc: Alistair Francis <alistair@alistair23.me>,
  =?UTF-8?q?Jorge=20Sanjuan=20Garc=C3=ADa?= <Jorge.SanjuanGarcia@duagon.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Johannes Thumshirn <jth@kernel.org>
-Subject: [PATCH v4 0/4] Add emulation of MEN Chameleon Hardware
-Date: Tue, 18 Apr 2023 19:35:52 +0200
-Message-Id: <20230418173556.177985-1-jth@kernel.org>
+ Johannes Thumshirn <jth@kernel.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v4 1/4] Add MEN Chameleon Bus emulation
+Date: Tue, 18 Apr 2023 19:35:53 +0200
+Message-Id: <20230418173556.177985-2-jth@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230418173556.177985-1-jth@kernel.org>
+References: <20230418173556.177985-1-jth@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.49; envelope-from=morbidrsa@gmail.com;
- helo=mail-ej1-f49.google.com
+Received-SPF: pass client-ip=209.85.218.48; envelope-from=morbidrsa@gmail.com;
+ helo=mail-ej1-f48.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
 X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
  FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,58 +86,379 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add emulation of MEN Chameleon Hardware to Qemu.
-This emulation is specifically designed to test the upstream Linux kernel
-drivers when one has no access to the hardware.
+The MEN Chameleon Bus (MCB) is an on-chip bus system exposing IP Cores of an
+FPGA to a outside bus system like PCIe.
 
-The emulation consists of the bus itself, a PCI hardware target creating the
-bus, MEN Micro Electronic's 8250 based UART via MCB and a watchdog timer.
-
-Changes since v2:
-- Converted DPRINTF() to tracing infrastructure again (Alistair)
-
-Changes since v2:
-- Adjusted license to GPL 2 or later (Peter)
-
-Changes since v1:
-- Converted DPRINTF() to tracing infrastructure (Alistair)
-- Fixed style issues (Alistair)
-
-Johannes Thumshirn (4):
-  Add MEN Chameleon Bus emulation
-  Add MEN Chameleon Bus via PCI carrier
-  serial-mcb: Add serial via MEN chameleon bus
-  wdt_z069: Add support for MEN 16z069 Watchdog
-
- MAINTAINERS              |   6 +
- hw/Kconfig               |   1 +
- hw/char/Kconfig          |   6 +
- hw/char/meson.build      |   1 +
- hw/char/serial-mcb.c     | 115 +++++++++++++++
- hw/mcb/Kconfig           |   8 ++
- hw/mcb/mcb-pci.c         | 298 +++++++++++++++++++++++++++++++++++++++
- hw/mcb/mcb.c             | 180 +++++++++++++++++++++++
- hw/mcb/meson.build       |   2 +
- hw/mcb/trace-events      |   4 +
- hw/mcb/trace.h           |   1 +
- hw/meson.build           |   1 +
- hw/watchdog/Kconfig      |   5 +
- hw/watchdog/meson.build  |   1 +
- hw/watchdog/trace-events |   6 +
- hw/watchdog/wdt_z069.c   | 207 +++++++++++++++++++++++++++
- include/hw/mcb/mcb.h     | 106 ++++++++++++++
- meson.build              |   1 +
- 18 files changed, 949 insertions(+)
- create mode 100644 hw/char/serial-mcb.c
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Johannes Thumshirn <jth@kernel.org>
+---
+ MAINTAINERS          |   6 ++
+ hw/Kconfig           |   1 +
+ hw/mcb/Kconfig       |   2 +
+ hw/mcb/mcb.c         | 180 +++++++++++++++++++++++++++++++++++++++++++
+ hw/mcb/meson.build   |   1 +
+ hw/meson.build       |   1 +
+ include/hw/mcb/mcb.h | 106 +++++++++++++++++++++++++
+ 7 files changed, 297 insertions(+)
  create mode 100644 hw/mcb/Kconfig
- create mode 100644 hw/mcb/mcb-pci.c
  create mode 100644 hw/mcb/mcb.c
  create mode 100644 hw/mcb/meson.build
- create mode 100644 hw/mcb/trace-events
- create mode 100644 hw/mcb/trace.h
- create mode 100644 hw/watchdog/wdt_z069.c
  create mode 100644 include/hw/mcb/mcb.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2c2068ea5c..1fa5909a97 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1962,6 +1962,12 @@ R: Paolo Bonzini <pbonzini@redhat.com>
+ S: Odd Fixes
+ F: hw/char/
+ 
++MEN Chameleon Bus
++M: Johannes Thumshirn <jth@kernel.org>
++S: Maintained
++F: hw/mcb/
++F: include/hw/mcb/
++
+ Network devices
+ M: Jason Wang <jasowang@redhat.com>
+ S: Odd Fixes
+diff --git a/hw/Kconfig b/hw/Kconfig
+index ba62ff6417..f5ef84b10b 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -18,6 +18,7 @@ source intc/Kconfig
+ source ipack/Kconfig
+ source ipmi/Kconfig
+ source isa/Kconfig
++source mcb/Kconfig
+ source mem/Kconfig
+ source misc/Kconfig
+ source net/Kconfig
+diff --git a/hw/mcb/Kconfig b/hw/mcb/Kconfig
+new file mode 100644
+index 0000000000..36a7a583a8
+--- /dev/null
++++ b/hw/mcb/Kconfig
+@@ -0,0 +1,2 @@
++config MCB
++    bool
+diff --git a/hw/mcb/mcb.c b/hw/mcb/mcb.c
+new file mode 100644
+index 0000000000..1c4f693a73
+--- /dev/null
++++ b/hw/mcb/mcb.c
+@@ -0,0 +1,180 @@
++/*
++ * QEMU MEN Chameleon Bus emulation
++ *
++ * Copyright (C) 2023 Johannes Thumshirn <jth@kernel.org>
++ *
++ * This code is licensed under the GPL version 2 or later. See the
++ * COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/module.h"
++#include "hw/mcb/mcb.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "migration/vmstate.h"
++
++ChameleonDeviceDescriptor *mcb_new_chameleon_descriptor(MCBus *bus, uint8_t id,
++                                                        uint8_t rev,
++                                                        uint8_t var,
++                                                        uint32_t size)
++{
++    BusChild *kid;
++    ChameleonDeviceDescriptor *gdd;
++    uint32_t reg1 = 0;
++    uint32_t end = 0x200;
++
++    gdd =  g_new0(ChameleonDeviceDescriptor, 1);
++    if (!gdd) {
++        return NULL;
++    }
++
++    reg1 |= GDD_DEV(id);
++    reg1 |= GDD_DTY(CHAMELEON_DTYPE_GENERAL);
++    reg1 |= GDD_REV(rev);
++    reg1 |= GDD_VAR(var);
++    gdd->reg1 = cpu_to_le32(reg1);
++
++    QTAILQ_FOREACH(kid, &BUS(bus)->children, sibling) {
++        DeviceState *qdev = kid->child;
++        MCBDevice *mdev = MCB_DEVICE(qdev);
++
++        if (mdev->gdd) {
++            end += mdev->gdd->size;
++        }
++    }
++
++    gdd->offset = end;
++    gdd->size = size;
++
++    return gdd;
++}
++
++static void mcb_irq_handler(void *opaque, int irq_num, int level)
++{
++    MCBDevice *dev = opaque;
++    MCBus *bus = MCB_BUS(qdev_get_parent_bus(DEVICE(dev)));
++
++    if (bus->set_irq) {
++        bus->set_irq(dev, irq_num, level);
++    }
++}
++
++qemu_irq mcb_allocate_irq(MCBDevice *dev)
++{
++    int irq = 0;
++    return qemu_allocate_irq(mcb_irq_handler, dev, irq);
++}
++
++MCBDevice *mcb_device_find(MCBus *bus, hwaddr addr)
++{
++    BusChild *kid;
++    uint32_t start;
++    uint32_t end;
++
++    QTAILQ_FOREACH(kid, &BUS(bus)->children, sibling) {
++        DeviceState *qdev = kid->child;
++        MCBDevice *mdev = MCB_DEVICE(qdev);
++
++        start = mdev->gdd->offset;
++        end = start + mdev->gdd->size;
++
++        if (addr >= start && addr <= end) {
++            return mdev;
++        }
++    }
++    return NULL;
++}
++
++void mcb_bus_init(MCBus *bus, size_t bus_size,
++                  DeviceState *parent,
++                  uint8_t n_slots,
++                  qemu_irq_handler handler)
++{
++    qbus_init(bus, bus_size, TYPE_MCB_BUS, parent, NULL);
++    bus->n_slots = n_slots;
++    bus->set_irq = handler;
++}
++
++static void mcb_device_realize(DeviceState *dev, Error **errp)
++{
++    MCBDevice *mdev = MCB_DEVICE(dev);
++    MCBus *bus = MCB_BUS(qdev_get_parent_bus(dev));
++    MCBDeviceClass *k = MCB_DEVICE_GET_CLASS(dev);
++
++    if (mdev->slot < 0) {
++        mdev->slot = bus->free_slot;
++    }
++
++    if (mdev->slot >= bus->n_slots) {
++        error_setg(errp, "Only %" PRIu8 " slots available.", bus->n_slots);
++        return;
++    }
++    bus->free_slot = mdev->slot + 1;
++
++    mdev->irq = qemu_allocate_irqs(bus->set_irq, mdev, 1);
++
++    k->realize(dev, errp);
++}
++
++static void mcb_device_unrealize(DeviceState *dev)
++{
++    MCBDevice *mdev = MCB_DEVICE(dev);
++    MCBDeviceClass *k = MCB_DEVICE_GET_CLASS(dev);
++
++    if (k->unrealize) {
++        k->unrealize(dev);
++        return;
++    }
++
++    qemu_free_irqs(mdev->irq, 1);
++}
++
++static Property mcb_device_props[] = {
++    DEFINE_PROP_INT32("slot", MCBDevice, slot, -1),
++    DEFINE_PROP_END_OF_LIST()
++};
++
++static void mcb_device_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *k = DEVICE_CLASS(klass);
++
++    set_bit(DEVICE_CATEGORY_INPUT, k->categories);
++    k->bus_type = TYPE_MCB_BUS;
++    k->realize = mcb_device_realize;
++    k->unrealize = mcb_device_unrealize;
++    device_class_set_props(k, mcb_device_props);
++}
++
++const VMStateDescription vmstate_mcb_device = {
++    .name = "mcb_device",
++    .version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_INT32(slot, MCBDevice),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const TypeInfo mcb_device_info = {
++    .name = TYPE_MCB_DEVICE,
++    .parent = TYPE_DEVICE,
++    .instance_size = sizeof(MCBDevice),
++    .class_size = sizeof(MCBDeviceClass),
++    .class_init = mcb_device_class_init,
++    .abstract = true,
++};
++
++static const TypeInfo mcb_bus_info = {
++    .name = TYPE_MCB_BUS,
++    .parent = TYPE_BUS,
++    .instance_size = sizeof(MCBus),
++};
++
++static void mcb_register_types(void)
++{
++    type_register_static(&mcb_device_info);
++    type_register_static(&mcb_bus_info);
++}
++
++type_init(mcb_register_types);
+diff --git a/hw/mcb/meson.build b/hw/mcb/meson.build
+new file mode 100644
+index 0000000000..a385edc07c
+--- /dev/null
++++ b/hw/mcb/meson.build
+@@ -0,0 +1 @@
++softmmu_ss.add(when: 'CONFIG_MCB', if_true: files('mcb.c'))
+diff --git a/hw/meson.build b/hw/meson.build
+index c7ac7d3d75..3d1462ad8b 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -18,6 +18,7 @@ subdir('intc')
+ subdir('ipack')
+ subdir('ipmi')
+ subdir('isa')
++subdir('mcb')
+ subdir('mem')
+ subdir('misc')
+ subdir('net')
+diff --git a/include/hw/mcb/mcb.h b/include/hw/mcb/mcb.h
+new file mode 100644
+index 0000000000..03d7e12ad2
+--- /dev/null
++++ b/include/hw/mcb/mcb.h
+@@ -0,0 +1,106 @@
++/*
++ * QEMU MEN Chameleon Bus emulation
++ *
++ * Copyright (C) 2023 Johannes Thumshirn <jth@kernel.org>
++ *
++ * This code is licensed under the GPL version 2 or later. See the
++ * COPYING file in the top-level directory.
++ */
++
++#ifndef QEMU_MCB_H
++#define QEMU_MCB_H
++
++#include "hw/qdev-core.h"
++#include "qom/object.h"
++#include "exec/memory.h"
++
++#define CHAMELEON_DTYPE_GENERAL  0x0
++#define CHAMELEON_DTYPE_END 0xf
++
++typedef struct {
++    uint32_t reg1;
++    uint32_t reg2;
++    uint32_t offset;
++    uint32_t size;
++} ChameleonDeviceDescriptor;
++
++#define GDD_DEV(x) (((x) & 0x3ff) << 18)
++#define GDD_DTY(x) (((x) & 0xf) << 28)
++#define GDD_REV(x) (((x) & 0x3f) << 5)
++#define GDD_VAR(x) (((x) & 0x3f) << 11)
++
++/* GDD Register 1 fields */
++#define GDD_IRQ(x) ((x) & 0x1f)
++
++/* GDD Register 2 fields */
++#define GDD_BAR(x) ((x) & 0x7)
++#define GDD_INS(x) (((x) >> 3) & 0x3f)
++#define GDD_GRP(x) (((x) >> 9) & 0x3f)
++
++typedef struct MCBus MCBus;
++
++#define TYPE_MCB_BUS "MEN Chameleon Bus"
++OBJECT_DECLARE_SIMPLE_TYPE(MCBus, MCB_BUS)
++
++struct MCBus {
++    /*< private >*/
++    BusState parent_obj;
++
++    uint8_t n_slots;
++    uint8_t free_slot;
++    qemu_irq_handler set_irq;
++    MemoryRegion mmio_region;
++};
++
++typedef struct MCBDevice MCBDevice;
++typedef struct MCBDeviceClass MCBDeviceClass;
++
++#define TYPE_MCB_DEVICE "mcb-device"
++#define MCB_DEVICE(obj) \
++    OBJECT_CHECK(MCBDevice, (obj), TYPE_MCB_DEVICE)
++#define MCB_DEVICE_CLASS(klass) \
++    OBJECT_CLASS_CHECK(MCBDeviceClass, (klass), TYPE_MCB_DEVICE)
++#define MCB_DEVICE_GET_CLASS(obj) \
++     OBJECT_GET_CLASS(MCBDeviceClass, (obj), TYPE_MCB_DEVICE)
++
++struct MCBDeviceClass {
++    /*< private >*/
++    DeviceClass parent_class;
++    /*< public >*/
++
++
++    DeviceRealize realize;
++    DeviceUnrealize unrealize;
++};
++
++struct MCBDevice {
++    /*< private >*/
++    DeviceState parent_obj;
++    /*< public >*/
++
++    qemu_irq *irq;
++    ChameleonDeviceDescriptor *gdd;
++    int slot;
++
++    uint8_t rev;
++    uint8_t var;
++};
++
++extern const VMStateDescription vmstate_mcb_device;
++
++ChameleonDeviceDescriptor *mcb_new_chameleon_descriptor(MCBus *bus, uint8_t id,
++                                                        uint8_t rev,
++                                                        uint8_t var,
++                                                        uint32_t size);
++
++#define VMSTATE_MCB_DEVICE(_field, _state)      \
++    VMSTATE_STRUCT(_field, _state, 1, vmstate_mcb_device, MCBDevice)
++
++MCBDevice *mcb_device_find(MCBus *bus, hwaddr addr);
++void mcb_bus_init(MCBus *bus, size_t bus_size,
++                  DeviceState *parent,
++                  uint8_t n_slots,
++                  qemu_irq_handler handler);
++
++qemu_irq mcb_allocate_irq(MCBDevice *dev);
++#endif
 -- 
 2.39.2
 
