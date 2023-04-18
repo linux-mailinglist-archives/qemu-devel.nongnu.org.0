@@ -2,107 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F606E5C98
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4776E5CA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:56:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poh5k-0001uK-DC; Tue, 18 Apr 2023 04:53:36 -0400
+	id 1poh7u-0002kL-Jv; Tue, 18 Apr 2023 04:55:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1poh5g-0001tq-Ea; Tue, 18 Apr 2023 04:53:32 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1poh7s-0002jC-BX
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:55:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1poh5c-0003cB-5F; Tue, 18 Apr 2023 04:53:30 -0400
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33I7vmFq007878; Tue, 18 Apr 2023 08:53:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=QRuowwPnc0tWLI3bWvznj0z6pdogpau2wkHhoNCOmQQ=;
- b=iwxMumS+rPMiZoTGFJcxhCmxf5aA+tDjdMZG/fGus/DLpCHlffytU4p9dKWtU060CPd2
- YmZWXMh0hHPyWOaPImiXio+jOPXy2A5KQwq1cK88otDgifb/lAKIIVFqKpcGcURhiuwm
- IQz25LNKNNe7f4YKolAgPLVhWGelVGZ6DOs7kuGgIimrM4entoGdXbwCJ/Ltb9lrXK94
- EibJtQSvnJU0U1PMEqP94uBamWQZTitYlmhRoMmwNnSaXdoqgNh7shkeN20X5y2RXx2k
- ScmlD6HXMMx1KJNngePzqXsK6rcYL3R4ndLHrSyieth+2cfm48Evxzu9878nGNDId75s Hg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1n9rngs6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 08:53:15 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33I89fX5013432;
- Tue, 18 Apr 2023 08:53:15 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1n9rngrc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 08:53:15 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33HNg0nE028116;
- Tue, 18 Apr 2023 08:53:12 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3pykj69vny-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 08:53:12 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33I8r9NS28443328
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Apr 2023 08:53:09 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2A6EB2004B;
- Tue, 18 Apr 2023 08:53:09 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B15C420043;
- Tue, 18 Apr 2023 08:53:08 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.195.217])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 18 Apr 2023 08:53:08 +0000 (GMT)
-Message-ID: <e96e60dade206cb970b55bfc9d2a77643bd14d98.camel@linux.ibm.com>
-Subject: Re: [PATCH v19 01/21] s390x/cpu topology: add s390 specifics to CPU
- topology
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Tue, 18 Apr 2023 10:53:08 +0200
-In-Reply-To: <20230403162905.17703-2-pmorel@linux.ibm.com>
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-2-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1poh7q-0003xk-Mi
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:55:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681808144;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Fax/XzDKkCw9nqBNDOZ0a6KOQzd1j5upHyzEU4KFFlw=;
+ b=gG38PsI2Bv+pwoIwOGMa3bvs2pt9ZgQsIkkvftwazz2PPqBKmI8h7uNr1rVfV7H4fdpkGE
+ 7sa8PNw5cbtsvzuPp4/GCxKR5qXur4BtZZfYQdGNQP5o3EuTtNRgvi5QU9vEoiUYYYMRfD
+ 0pvzI/M1oQhQ/yFo2+w8mMHXZq4l74A=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-222-7ejcou7CMGCLUGqLtRP1ig-1; Tue, 18 Apr 2023 04:55:37 -0400
+X-MC-Unique: 7ejcou7CMGCLUGqLtRP1ig-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C01EE280D583;
+ Tue, 18 Apr 2023 08:55:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 254C340C6E6F;
+ Tue, 18 Apr 2023 08:55:35 +0000 (UTC)
+Date: Tue, 18 Apr 2023 09:55:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Bin Meng <bmeng@tinylab.org>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Zhangjin Wu <falcon@tinylab.org>
+Subject: Re: [PATCH] net: tap: Drop the close of fds for child process
+Message-ID: <ZD5bBp4Liv4YZcnb@redhat.com>
+References: <20230406112041.798585-1-bmeng@tinylab.org>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: op5CJ2HuMaL_2hZ5TvoBm9lHl8RgFOqL
-X-Proofpoint-GUID: J4mgjdMVKBLHmjAPru5_8sO8x76_OQBG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-18_04,2023-04-17_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 adultscore=0 suspectscore=0
- phishscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304180074
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230406112041.798585-1-bmeng@tinylab.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,116 +76,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
-> S390 adds two new SMP levels, drawers and books to the CPU
-> topology.
-> The S390 CPU have specific topology features like dedication
-> and entitlement to give to the guest indications on the host
-> vCPUs scheduling and help the guest take the best decisions
-> on the scheduling of threads on the vCPUs.
->=20
-> Let us provide the SMP properties with books and drawers levels
-> and S390 CPU with dedication and entitlement,
->=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+On Thu, Apr 06, 2023 at 07:20:41PM +0800, Bin Meng wrote:
+> Current codes using a brute-force traversal of all file descriptors
+> do not scale on a system where the maximum number of file descriptors
+> are set to a very large value (e.g.: in a Docker container of Manjaro
+> distribution it is set to 1073741816). QEMU just looks freezed during
+> start-up.
+> 
+> The close-on-exec flag was introduced since a faily old Linux kernel
+> (2.6.23). With recent newer kernels that QEMU supports, we don't need
+> to manually close the fds for child process as the proper O_CLOEXEC
+> flag should have been set properly on files that we don't want child
+> process to see.
+
+Even though O_CLOEXEC has existed for a long time, there is plenty
+of code that doesn't use it reliably. While QEMU can control its
+own code, we use a huge number of 3rd party libraries and we don't
+trust them to reliably be using O_CLOEXEC on everything they open.
+
+> Reported-by: Zhangjin Wu <falcon@tinylab.org>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
 > ---
->  MAINTAINERS                     |  5 ++++
->  qapi/machine-common.json        | 22 ++++++++++++++
->  qapi/machine-target.json        | 12 ++++++++
->  qapi/machine.json               | 17 +++++++++--
->  include/hw/boards.h             | 10 ++++++-
->  include/hw/s390x/cpu-topology.h | 15 ++++++++++
+> 
+>  net/tap.c | 14 --------------
+>  1 file changed, 14 deletions(-)
+> 
+> diff --git a/net/tap.c b/net/tap.c
+> index 1bf085d422..49e1915484 100644
+> --- a/net/tap.c
+> +++ b/net/tap.c
+> @@ -446,13 +446,6 @@ static void launch_script(const char *setup_script, const char *ifname,
+>          return;
+>      }
+>      if (pid == 0) {
+> -        int open_max = sysconf(_SC_OPEN_MAX), i;
+> -
+> -        for (i = 3; i < open_max; i++) {
+> -            if (i != fd) {
+> -                close(i);
+> -            }
+> -        }
+>          parg = args;
+>          *parg++ = (char *)setup_script;
+>          *parg++ = (char *)ifname;
+> @@ -536,17 +529,10 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
+>          return -1;
+>      }
+>      if (pid == 0) {
+> -        int open_max = sysconf(_SC_OPEN_MAX), i;
+>          char *fd_buf = NULL;
+>          char *br_buf = NULL;
+>          char *helper_cmd = NULL;
+>  
+> -        for (i = 3; i < open_max; i++) {
+> -            if (i != sv[1]) {
+> -                close(i);
+> -            }
+> -        }
 
-Is hw/s390x the right path for cpu-topology?
-I haven't understood the difference between hw/s390x and target/s390x
-but target/s390x feels more correct, I could be mistaken though.
+BSD has closefrom(3) we could use here, while modern Linux has
+close_range(3, open_max)
 
->  target/s390x/cpu.h              |  5 ++++
->  hw/core/machine-smp.c           | 53 ++++++++++++++++++++++++++++-----
->  hw/core/machine.c               |  4 +++
->  hw/s390x/s390-virtio-ccw.c      |  2 ++
->  softmmu/vl.c                    |  6 ++++
->  target/s390x/cpu.c              |  7 +++++
->  qapi/meson.build                |  1 +
->  qemu-options.hx                 |  7 +++--
->  14 files changed, 152 insertions(+), 14 deletions(-)
->  create mode 100644 qapi/machine-common.json
->  create mode 100644 include/hw/s390x/cpu-topology.h
->=20
-[...]
+We should probe for those two funtions and use them preferentially,
+only falling back to the current manual loop where they don't exist.
 
-> diff --git a/qapi/machine-common.json b/qapi/machine-common.json
-> new file mode 100644
-> index 0000000000..73ea38d976
-> --- /dev/null
-> +++ b/qapi/machine-common.json
-> @@ -0,0 +1,22 @@
-> +# -*- Mode: Python -*-
-> +# vim: filetype=3Dpython
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
-> +# See the COPYING file in the top-level directory.
-> +
-> +##
-> +# =3D Machines S390 data types
-> +##
-> +
-> +##
-> +# @CpuS390Entitlement:
-> +#
-> +# An enumeration of cpu entitlements that can be assumed by a virtual
-> +# S390 CPU
-> +#
-> +# Since: 8.1
-> +##
-> +{ 'enum': 'CpuS390Entitlement',
-> +  'prefix': 'S390_CPU_ENTITLEMENT',
-> +  'data': [ 'horizontal', 'low', 'medium', 'high' ] }
 
-You can get rid of the horizontal value now that the entitlement is ignored=
- if the
-polarization is vertical.
+> -
+>          fd_buf = g_strdup_printf("%s%d", "--fd=", sv[1]);
+>  
+>          if (strrchr(helper, ' ') || strrchr(helper, '\t')) {
+> -- 
+> 2.34.1
+> 
+> 
 
-[...]
-
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index b10a8541ff..57165fa3a0 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -37,6 +37,7 @@
->  #ifndef CONFIG_USER_ONLY
->  #include "sysemu/reset.h"
->  #endif
-> +#include "hw/s390x/cpu-topology.h"
-> =20
->  #define CR0_RESET       0xE0UL
->  #define CR14_RESET      0xC2000000UL;
-> @@ -259,6 +260,12 @@ static gchar *s390_gdb_arch_name(CPUState *cs)
->  static Property s390x_cpu_properties[] =3D {
->  #if !defined(CONFIG_USER_ONLY)
->      DEFINE_PROP_UINT32("core-id", S390CPU, env.core_id, 0),
-> +    DEFINE_PROP_INT32("socket-id", S390CPU, env.socket_id, -1),
-> +    DEFINE_PROP_INT32("book-id", S390CPU, env.book_id, -1),
-> +    DEFINE_PROP_INT32("drawer-id", S390CPU, env.drawer_id, -1),
-> +    DEFINE_PROP_BOOL("dedicated", S390CPU, env.dedicated, false),
-> +    DEFINE_PROP_UINT8("entitlement", S390CPU, env.entitlement,
-> +                      S390_CPU_ENTITLEMENT__MAX),
-
-I would define an entitlement PropertyInfo in qdev-properties-system.[ch],
-then one can use e.g.
-
--device z14-s390x-cpu,core-id=3D11,entitlement=3Dhigh
-
-on the command line and cpu hotplug.
-
-I think setting the default entitlement to medium here should be fine.
-
-[...]
-
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
