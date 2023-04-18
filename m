@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202236E6FBC
+	by mail.lfdr.de (Postfix) with ESMTPS id 849D66E6FBE
 	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 00:59:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pouGx-0001Jt-6s; Tue, 18 Apr 2023 18:58:03 -0400
+	id 1pouGx-0001Ju-6Y; Tue, 18 Apr 2023 18:58:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGs-0001JI-4Z
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:57:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGu-0001JZ-0W
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:58:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGp-0007CC-QZ
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:57:57 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGr-0007Cd-HZ
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:57:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681858674;
+ s=mimecast20190719; t=1681858675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=fEMzRWtQSjciFJ4klUH7jQpBgI4U8tSmfxJCaavwlvM=;
- b=aA4VGW53MpTrV/8Pp57IkgcjkjYFROip4ra4oAyvZ7Dr6OXUVp9blwybZZHPhGvPf/Iy4C
- BerChG2j9yk5AFu66CwsPxnUZ+hzY8DFHApVH+33F5M7Cug896ZTCR7oZiWYLaIDXqyZhJ
- kDfdFCJAE4hFEWdFmux+g4jq2qNdFOg=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x4L+QjbUgvxpJ4DIJDYUyZ6+HndeQMO+nRb8rfrhMnE=;
+ b=OWJZZ+/o/L7+W3B7mcpg5RxI3DI1NbQTM1KILJI6rE4sV7kq+RmFshWiMkPToSyvj/Bfn9
+ 12Lt/aMgsu9ykTxSNPeEuqD5cc6Lz4Gy2Mmntz6iWIzMAko9uDz0da8WTQW6TvQsg0pz1L
+ q3PF99cQt2RW8PcU/qO2YXrZi1G98A8=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-wTn_LO3LPBq0n-IDqffbjQ-1; Tue, 18 Apr 2023 18:57:52 -0400
-X-MC-Unique: wTn_LO3LPBq0n-IDqffbjQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-5ef67855124so7027176d6.1
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:57:52 -0700 (PDT)
+ us-mta-262-jUM82trFN225Y8W0EuUxng-1; Tue, 18 Apr 2023 18:57:54 -0400
+X-MC-Unique: jUM82trFN225Y8W0EuUxng-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-5ef4d54d84cso4323846d6.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:57:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681858671; x=1684450671;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fEMzRWtQSjciFJ4klUH7jQpBgI4U8tSmfxJCaavwlvM=;
- b=XkeqME2w60eXyNfiEEJeGKZ0Jsmj645TJuznhLjRausXiIfMReSwEaxyJb+kjR7T4Q
- wxEvd103l75TeO7oiQGYLL7I8hNrbtlwOlvWI1bPHEhQcuquKI/XSa0rVtIe3gkZ/tX1
- rZG3nRh3eLXRduC3Y9ChKj9aHmGHiuxzGpqaNp2IAuLQgzkfBahpefHuhNJLcT1kRslv
- jYDkcKco7CM5283LfUQekbGh7hxpATQ0dcCB2I+8yAqQaHe0VN3R8eolg1uM1KDBNYxb
- ckUkkP6UDg//PcBS3UplF3zUfhLysuQ4/0pmxDjBDlpBP+Q2LF303nWM6FoTif2AC0kW
- Vmkg==
-X-Gm-Message-State: AAQBX9c9KhJwxztGrSp0CuhqIA+EcY2Mb/AoyI2w1/lKwd0jm1MRhreO
- t+Jhf1yPiOu+zuZRDJLK1vDQ0WekiQu/kH0MmEArnl79cS/abrsNOA2V3l20/QWqOsX9g9Ds2MW
- fMTnvA96kgam5w1FXR9cy58QN0VsNOGn/g4lUNbZWqrfqaitr6brBGeuc6AgQfm8afxReFZtE
-X-Received: by 2002:a05:6214:3018:b0:5da:b965:1efe with SMTP id
- ke24-20020a056214301800b005dab9651efemr23311620qvb.4.1681858671635; 
- Tue, 18 Apr 2023 15:57:51 -0700 (PDT)
-X-Google-Smtp-Source: AKy350arRtQ2s7IKS2WFujNPF4El4FCqD1roYfJJwWSQubNYr12j0ne3UTZssjH7/r1cGzcgtf1zbw==
-X-Received: by 2002:a05:6214:3018:b0:5da:b965:1efe with SMTP id
- ke24-20020a056214301800b005dab9651efemr23311592qvb.4.1681858671182; 
- Tue, 18 Apr 2023 15:57:51 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681858673; x=1684450673;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=x4L+QjbUgvxpJ4DIJDYUyZ6+HndeQMO+nRb8rfrhMnE=;
+ b=VLgL8R+N95zF+iAGO1k4HY/NvvFrCVVzQglBWL5EiH9Gj2ID8Pr+k1/4tb8+yxfxP1
+ l9dSYxKp8Tjqb9JoR4W2l6Us26yIA5sWI+G2TKy/uQgPirm6h9whT1ixKzwLG9ZXMzdA
+ iuUSYwrq/M9ahos+cXFYOdwgO30/6zxwDIdv+pQziO9kVt1m+6dz/IP8TuRTD4Ri2s8v
+ LACZHC0kcE2k2qPKEGHaSFtLWSabC5bsNWNf8RfUjl+Jjb+MbM4MuYYwXqfE/y1OgArE
+ WLdpxPg64PK0gjk1NklFJ6aljnEW5LIttrnw1rybWqxXwZyQEe7PhQDGYVkilhDPzPbA
+ en/A==
+X-Gm-Message-State: AAQBX9cM30xgvcpy9L+lvZzaxe612LM45Mz7dn2SN6Qcrg+MC4U1EqVL
+ SewLLdD4eKC9Q4UCgplvifhwR5mMXdw6/IImgW4UkWkyw443DZzQqtOiyj/xqfFHkAv6LyJWRiX
+ pIrYNay3syACIemuzgz2QaR18wCy+CWVhSmFXI7EpYRHEFKVUEViPNQjBV6sLziZLahEPB+JO
+X-Received: by 2002:a05:6214:400e:b0:5ef:4436:b92e with SMTP id
+ kd14-20020a056214400e00b005ef4436b92emr23260682qvb.5.1681858673514; 
+ Tue, 18 Apr 2023 15:57:53 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a2hXbPYqmGmzNmfrdkTGXs5BS0yd3kukch2d1tymdkgmaM9kkLJL8J9+X6Zly96XjBoIiMag==
+X-Received: by 2002:a05:6214:400e:b0:5ef:4436:b92e with SMTP id
+ kd14-20020a056214400e00b005ef4436b92emr23260658qvb.5.1681858673129; 
+ Tue, 18 Apr 2023 15:57:53 -0700 (PDT)
 Received: from x1n.redhat.com
  (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca. [70.52.229.124])
  by smtp.gmail.com with ESMTPSA id
- i3-20020ad45383000000b005e3c45c5cbdsm2937330qvv.96.2023.04.18.15.57.50
+ i3-20020ad45383000000b005e3c45c5cbdsm2937330qvv.96.2023.04.18.15.57.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 15:57:50 -0700 (PDT)
+ Tue, 18 Apr 2023 15:57:51 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com
-Subject: [PATCH 0/3] migration/hostmem: Allow to fail early for postcopy on
- specific fs type
-Date: Tue, 18 Apr 2023 18:57:46 -0400
-Message-Id: <20230418225749.1049185-1-peterx@redhat.com>
+Subject: [PATCH 1/3] hostmem: Detect and cache fs type for file hostmem
+Date: Tue, 18 Apr 2023 18:57:47 -0400
+Message-Id: <20230418225749.1049185-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.39.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230418225749.1049185-1-peterx@redhat.com>
+References: <20230418225749.1049185-1-peterx@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,43 +99,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Postcopy can fail in a weird way when guest mem is put onto a random file:
+Detect the file system for a memory-backend-file object and cache it within
+the object if possible when CONFIG_LINUX (using statfs).
 
-https://bugzilla.redhat.com/show_bug.cgi?id=2057267
+Only support the two important types of memory (tmpfs, hugetlbfs) and keep
+the rest as "unknown" for now.
 
-It's because we only check userfault privilege on dest QEMU but don't check
-memory types.  We do so only until the UFFDIO_REGISTER right after we
-switch to postcopy live migration from precopy but it could be too late.
-
-This series tries to make it fail early by checking ramblock fs type if
-backed by a memory-backend-file.
-
-Now when it happens it'll fail the dest QEMU from the start:
-
-./qemu-system-x86_64 \
-        -global migration.x-postcopy-ram=on \
-        -incoming defer \
-        -object memory-backend-file,id=mem,size=128M,mem-path=$memfile \
-        -machine memory-backend=mem
-
-qemu-system-x86_64: Host backend files need to be TMPFS or HUGETLBFS only
-qemu-system-x86_64: Postcopy is not supported
-
-It will also fail e.g. QMP migrate-set-capabilities properly.
-
-Please have a look, thanks.
-
-Peter Xu (3):
-  hostmem: Detect and cache fs type for file hostmem
-  vl.c: Create late backends before migration object
-  migration/postcopy: Detect file system on dest host
-
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
  backends/hostmem-file.c  | 37 ++++++++++++++++++++++++++++++++++++-
  include/sysemu/hostmem.h |  1 +
- migration/postcopy-ram.c | 28 ++++++++++++++++++++++++----
- softmmu/vl.c             |  9 +++++++--
- 4 files changed, 68 insertions(+), 7 deletions(-)
+ 2 files changed, 37 insertions(+), 1 deletion(-)
 
+diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
+index 25141283c4..2484e45a11 100644
+--- a/backends/hostmem-file.c
++++ b/backends/hostmem-file.c
+@@ -18,13 +18,17 @@
+ #include "sysemu/hostmem.h"
+ #include "qom/object_interfaces.h"
+ #include "qom/object.h"
++#ifdef CONFIG_LINUX
++#include <sys/vfs.h>
++#include <linux/magic.h>
++#endif
+ 
+ OBJECT_DECLARE_SIMPLE_TYPE(HostMemoryBackendFile, MEMORY_BACKEND_FILE)
+ 
+ 
+ struct HostMemoryBackendFile {
+     HostMemoryBackend parent_obj;
+-
++    __fsword_t fs_type;
+     char *mem_path;
+     uint64_t align;
+     bool discard_data;
+@@ -52,6 +56,15 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+         return;
+     }
+ 
++#ifdef CONFIG_LINUX
++    struct statfs fs;
++    if (!statfs(fb->mem_path, &fs)) {
++        fb->fs_type = fs.f_type;
++    } else {
++        fb->fs_type = 0;
++    }
++#endif
++
+     name = host_memory_backend_get_name(backend);
+     ram_flags = backend->share ? RAM_SHARED : 0;
+     ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
+@@ -181,6 +194,28 @@ static void file_backend_unparent(Object *obj)
+     }
+ }
+ 
++const char *file_memory_backend_get_fs_type(Object *obj)
++{
++#ifdef CONFIG_LINUX
++    HostMemoryBackendFile *fb = (HostMemoryBackendFile *)
++        object_dynamic_cast(obj, TYPE_MEMORY_BACKEND_FILE);
++
++    if (!fb) {
++        goto out;
++    }
++
++    switch (fb->fs_type) {
++    case TMPFS_MAGIC:
++        return "tmpfs";
++    case HUGETLBFS_MAGIC:
++        return "hugetlbfs";
++    }
++
++out:
++#endif
++    return "unknown";
++}
++
+ static void
+ file_backend_class_init(ObjectClass *oc, void *data)
+ {
+diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
+index 39326f1d4f..0354cffa6b 100644
+--- a/include/sysemu/hostmem.h
++++ b/include/sysemu/hostmem.h
+@@ -81,5 +81,6 @@ void host_memory_backend_set_mapped(HostMemoryBackend *backend, bool mapped);
+ bool host_memory_backend_is_mapped(HostMemoryBackend *backend);
+ size_t host_memory_backend_pagesize(HostMemoryBackend *memdev);
+ char *host_memory_backend_get_name(HostMemoryBackend *backend);
++const char *file_memory_backend_get_fs_type(Object *obj);
+ 
+ #endif
 -- 
 2.39.1
 
