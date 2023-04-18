@@ -2,93 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A656E611C
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFC06E611D
 	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 14:21:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pokK5-0001rZ-Fd; Tue, 18 Apr 2023 08:20:37 -0400
+	id 1pokKc-0001z6-8O; Tue, 18 Apr 2023 08:21:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pokK3-0001rF-Ka
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:20:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pokK1-0002Ln-4U
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:20:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681820431;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5VhJGTUO0n0vhHS+BQlH1pFbBJ4LcEF10jKMxEJdA10=;
- b=YA4JDNCugCqmborIs8L4G2y+ThXuIfQO7d7hSbjWJI4LkZGQmRkg9wFCJNts8HxCbzsUtO
- tQH/F75e2Kjy+539HfkW+u2yISBp1o0UOPL0YBxSxm1HwV1RHgdXLru+rxgKikL59LXBIm
- hDgfMv07wbyLF+HXdD2FU6e635KH63w=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-61-EFY4_3qOOjS4at2k8kt7rg-1; Tue, 18 Apr 2023 08:20:30 -0400
-X-MC-Unique: EFY4_3qOOjS4at2k8kt7rg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bg10-20020a05600c3c8a00b003ef7b61e2fdso6269240wmb.4
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 05:20:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681820429; x=1684412429;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5VhJGTUO0n0vhHS+BQlH1pFbBJ4LcEF10jKMxEJdA10=;
- b=ZdYqow3AsdiMdIAfr9TYbdcSQC494pDbVqqDihGZxuB8/Ej4e3ElI4efIasot96/ht
- Q1ZrA8kVE03qo01HgRdVNrCZf/edd+7fr6Gd33Rsc4L5LdhBCZFEpjNocd0yfUy2ll3R
- Mb0FUQ4tyrTwq0E7qL+sTY5dmOZ1fyPZLxVyo95Wh5gZHDLf9KZ0L3czVAc2+8oyp/vT
- ikSPM9cVsKZgPbjOhhCD34s7SINkfd8YbI0q1jNchkq0Cs+FKa8x+GBkbGzN2Dxec1mY
- Cnd9lYSVsXup0U3paAlEDprfHZQdo+T+jWkz4R7mICPi/x2vC4XZu8ZerLb5viRPFJzR
- bBkQ==
-X-Gm-Message-State: AAQBX9eGrd7r5HYX3Vu5Ol9zPjTgvWsvLI0yaSj5jKoXqg5biIbNQIjE
- QwLkoc/jClpIcm6N2tmHrl9LZ9UTF7tc4xPv6NZvNREyzJCgQvPbVmgneN5TTJGQ6pVeX96JDpH
- S8qZIOmY97jne2+c=
-X-Received: by 2002:a05:600c:3647:b0:3f1:727d:77a4 with SMTP id
- y7-20020a05600c364700b003f1727d77a4mr5492089wmq.39.1681820429383; 
- Tue, 18 Apr 2023 05:20:29 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ayUWsTu3sEXp+W65t0298LbtAxyPTp4hFVGlZNJBkPDibbJz4X8pP+MB66goeLDtjhXUUpPw==
-X-Received: by 2002:a05:600c:3647:b0:3f1:727d:77a4 with SMTP id
- y7-20020a05600c364700b003f1727d77a4mr5492076wmq.39.1681820429091; 
- Tue, 18 Apr 2023 05:20:29 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- s15-20020adfeb0f000000b002c55306f6edsm12994609wrn.54.2023.04.18.05.20.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 05:20:28 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/2] tests/migration: Make precopy fast
-In-Reply-To: <ZD6E0E6q/tKDl0k0@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 18 Apr 2023 12:53:52 +0100")
-References: <20230412142001.16501-1-quintela@redhat.com>
- <20230412142001.16501-2-quintela@redhat.com>
- <ZD6E0E6q/tKDl0k0@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Tue, 18 Apr 2023 14:20:27 +0200
-Message-ID: <87v8ht1iwk.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1pokKZ-0001yj-Rg
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:21:07 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1pokKS-0002Np-6q
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:21:04 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxUU8eiz5k028eAA--.35714S3;
+ Tue, 18 Apr 2023 20:20:46 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxab0diz5kdPUsAA--.51486S2; 
+ Tue, 18 Apr 2023 20:20:45 +0800 (CST)
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ f4bug@amsat.org, philmd@linaro.org
+Subject: [PATCH] target/loongarch: Add CSR_CPUID reg in cpu_env
+Date: Tue, 18 Apr 2023 20:20:45 +0800
+Message-Id: <20230418122045.2808212-1-zhaotianrui@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bxab0diz5kdPUsAA--.51486S2
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uw4rCr4UAw4rGF45Zr1kXwb_yoW8uFyfpr
+ ZrurWktr48JFZ3A3Z3Aas0gr1DXw4xKw4Iva1fK3sYva13Xr10qFW0v3sF9Fy7Ja45ArW0
+ 93WFyr1UXF4xX3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,94 +70,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> On Wed, Apr 12, 2023 at 04:20:00PM +0200, Juan Quintela wrote:
->> Otherwise we do the 1st migration iteration at a too slow speed.
->>=20
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  tests/qtest/migration-test.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>=20
->> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
->> index 3b615b0da9..7b05b0b7dd 100644
->> --- a/tests/qtest/migration-test.c
->> +++ b/tests/qtest/migration-test.c
->> @@ -1348,6 +1348,7 @@ static void test_precopy_common(MigrateCommon *arg=
-s)
->>          migrate_qmp(from, args->connect_uri, "{}");
->>      }
->>=20=20
->> +    migrate_ensure_converge(from);
->
-> This isn't right - it defeats the point of having the call to
-> migrate_ensure_non_converge() a few lines earlier.
+Add CSR_CPUID register in cpu_env to save the cpu_index
+value.
 
-Depends on what is the definiton or "right" O:-)
+Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+---
+ target/loongarch/cpu.c                             | 1 +
+ target/loongarch/cpu.h                             | 1 +
+ target/loongarch/insn_trans/trans_privileged.c.inc | 8 +-------
+ 3 files changed, 3 insertions(+), 7 deletions(-)
 
->>      if (args->result !=3D MIG_TEST_SUCCEED) {
->>          bool allow_active =3D args->result =3D=3D MIG_TEST_FAIL;
->> @@ -1365,8 +1366,6 @@ static void test_precopy_common(MigrateCommon *arg=
-s)
->>              wait_for_migration_pass(from);
->>          }
->>=20=20
->> -        migrate_ensure_converge(from);
->> -
->
-> The reason why we had it here was to ensure that we test more than
-> 1 iteration of migration. With this change, migrate will succeed
-> on the first pass IIUC, and so we won't be exercising the more
-> complex code path of repeated iterations.
-
-Aha.
-
-If that is the definition of "right", then I agree that my changes are
-wrong.
-
-But then I think we should change how we do the test.  We should split
-this function (then same for postcopy, multifd, etc) to have to
-versions, one that want to have multiple rounds, and another that can
-finish as fast as possible.
-
-This way we need to setup the 3MB/s only for the tests that we want to
-loop, and for the others put something faster.
-
-
->
-> I do agree with the overall idea though. We have many many migration
-> test scenarios and we don't need all of them to be testing multiple
-> iterations - a couple would be sufficient.
->
-> In fact we don't even need to be testing live migration for most
-> of the cases. All the TLS test cases could be run with guest CPUs
-> paused entirely removing any dirtying, since they're only interested
-> in the initial network handshake/setup process testnig.
->
-> I had some patches I was finishing off just before I went on vacation
-> a few weeks ago which do this kind of optimization, which I can send
-> out shortly.
-
-I will wait for your patches before I sent anything different.
-
-I have local patches for doing something different, changing
-
-      "-serial file:%s/src_serial "
-
-and other friends to:
-
-      "-serial file:%s/src_serial%pid "
-
-So we are sure that two tests never "reuse" the socket, as it can create
-problems for example when doing the cancel and relaunching the
-destination.
-
-But as said, will wait until you send your series to send anything.
-
-Later, Juan.
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 97e6579f6a..bee5949ed2 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -486,6 +486,7 @@ static void loongarch_cpu_reset_hold(Object *obj)
+ 
+     env->CSR_ESTAT = env->CSR_ESTAT & (~MAKE_64BIT_MASK(0, 2));
+     env->CSR_RVACFG = FIELD_DP64(env->CSR_RVACFG, CSR_RVACFG, RBITS, 0);
++    env->CSR_CPUID = cs->cpu_index;
+     env->CSR_TCFG = FIELD_DP64(env->CSR_TCFG, CSR_TCFG, EN, 0);
+     env->CSR_LLBCTL = FIELD_DP64(env->CSR_LLBCTL, CSR_LLBCTL, KLO, 0);
+     env->CSR_TLBRERA = FIELD_DP64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR, 0);
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index e11c875188..1d9a4009b9 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -288,6 +288,7 @@ typedef struct CPUArchState {
+     uint64_t CSR_PWCH;
+     uint64_t CSR_STLBPS;
+     uint64_t CSR_RVACFG;
++    uint64_t CSR_CPUID;
+     uint64_t CSR_PRCFG1;
+     uint64_t CSR_PRCFG2;
+     uint64_t CSR_PRCFG3;
+diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
+index 5a04352b01..d1d98c6e9e 100644
+--- a/target/loongarch/insn_trans/trans_privileged.c.inc
++++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+@@ -99,13 +99,7 @@ static const CSRInfo csr_info[] = {
+     CSR_OFF(PWCH),
+     CSR_OFF(STLBPS),
+     CSR_OFF(RVACFG),
+-    [LOONGARCH_CSR_CPUID] = {
+-        .offset = (int)offsetof(CPUState, cpu_index)
+-                  - (int)offsetof(LoongArchCPU, env),
+-        .flags = CSRFL_READONLY,
+-        .readfn = NULL,
+-        .writefn = NULL
+-    },
++    CSR_OFF_FLAGS(CPUID, CSRFL_READONLY),
+     CSR_OFF_FLAGS(PRCFG1, CSRFL_READONLY),
+     CSR_OFF_FLAGS(PRCFG2, CSRFL_READONLY),
+     CSR_OFF_FLAGS(PRCFG3, CSRFL_READONLY),
+-- 
+2.31.1
 
 
