@@ -2,99 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948226E5E6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 12:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459C36E5F12
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 12:42:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poiNG-0006rM-Bf; Tue, 18 Apr 2023 06:15:46 -0400
+	id 1poilL-0002QJ-Ud; Tue, 18 Apr 2023 06:40:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poiNE-0006qf-RE
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 06:15:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poiNC-0001WO-4b
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 06:15:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681812940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yzOfbIO5bOqjfu9Ib99/kh3hbnxQwZKu2ebFntng39Q=;
- b=R7PysgfvuBsQhkqKeJLZGpdkyiRZaXT9Srxbuu4QxHBUGRPS9rVZVXLTGdhA8+akennPQW
- lNbW6C5lEhoom4Io+Sz4nTfY2lbbRTmYXITf55BaA3aFqrjDHgHxcWPc5gkRTQ/NNkPWED
- +ZESt65O7lGNi6ld02ZQMle7aNFez3s=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-522-180aaZtkNey4hJLgMwZvwA-1; Tue, 18 Apr 2023 06:15:39 -0400
-X-MC-Unique: 180aaZtkNey4hJLgMwZvwA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f080f53c49so12157925e9.0
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 03:15:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu-daude@linaro.org>)
+ id 1poilH-0002Pz-Qi
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 06:40:36 -0400
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu-daude@linaro.org>)
+ id 1poilG-00073O-5N
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 06:40:35 -0400
+Received: by mail-qv1-xf2f.google.com with SMTP id l17so7692733qvq.10
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 03:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681814432; x=1684406432;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1RICzLqGpFj+6kc7Hxj72J4OAx4rtz4rv6vLbjoi2tI=;
+ b=jJPlRB/Wj4evgVW0EOh7MAoCNYa6HYfquSX/tqp0drBaj5ss/3QIzEicL5xTImNmmW
+ Hx60uylsvg4FG15AuQHX8ZQAAM7yZg3t884U4V3UWAG6mEVUFu2qGRQm2j4RMijfll8z
+ LgXWnOqWcuIK6yqdZy8yzwNNvZKLI161X18mwnsRiz3dEE7GXESscm1W4ponU6ltUlvp
+ e487QO0PMCsnR27pp4e6nDsvdJUR4vm0fqJiCpjM4V2M2KRN0+vqVPYJDl7lZbU6+d1A
+ V/dkGNc7WmyeSsXxP3NRS4Nhw3qgh9Ed76IQ4K+gIDvQa5lz/a7c6IJ5/Qc3ysxfDw6n
+ av0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681812938; x=1684404938;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yzOfbIO5bOqjfu9Ib99/kh3hbnxQwZKu2ebFntng39Q=;
- b=A9t0wROJ812TuB9zG+8an293VrxH3lqxaBp/Yv9vZs56s3XZc3R2YkBdUhbShyxq1w
- OwFraxvT9tvXsNXs1+99wlYTbzT6eYT5c5sc1JA96rOiXuQjNVuOgW5ivr8UpYDCUwk4
- 6zvUt+wH1hHF3UBUhQqJ1bEEYO2dtoGzGuzZ1Khc1RigsYVP7C8kpb3BoZB/LgoumGQB
- ovK1AI51KQkaT2Vh2Bwe0dz93vE/YP7La7OD/4GBo2O5o8/ghOP57qR+/Jw3cIpcAlmh
- l1AwhZ4Hjn3knpemtbkVM9GeK1GonwFw9xNJdWgdyoVbnvuJovXjL2TsdO8R8OcGTfl+
- gatA==
-X-Gm-Message-State: AAQBX9fM10/qo1srYWDA/7gsVtXxq6+69SSl7b+9EYYuJobBsuzrXdSJ
- I2V1dLfINCWFwUd45MWVj/GmyxjbX7E9Ul06mLLEdOOpEnlliFmDbe02szT6RB4qxVXuP7Dgzw9
- WRa10PCXTNBu/76o=
-X-Received: by 2002:adf:eb91:0:b0:2fc:b3be:7436 with SMTP id
- t17-20020adfeb91000000b002fcb3be7436mr1443474wrn.25.1681812938551; 
- Tue, 18 Apr 2023 03:15:38 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZJEyY6xoKQeFhLWcqB9Jp1d7Fo8Yyu1vap0e108ePZWOzD5VVWtvbm8h8dxiw3fa78qvUVlw==
-X-Received: by 2002:adf:eb91:0:b0:2fc:b3be:7436 with SMTP id
- t17-20020adfeb91000000b002fcb3be7436mr1443445wrn.25.1681812938278; 
- Tue, 18 Apr 2023 03:15:38 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-176-59.web.vodafone.de.
- [109.43.176.59]) by smtp.gmail.com with ESMTPSA id
- d2-20020adffbc2000000b002fddcb73162sm909475wrs.71.2023.04.18.03.15.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 03:15:37 -0700 (PDT)
-Message-ID: <80fce082-b468-2c9b-b370-a9de349d0860@redhat.com>
-Date: Tue, 18 Apr 2023 12:15:36 +0200
+ d=1e100.net; s=20221208; t=1681814432; x=1684406432;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1RICzLqGpFj+6kc7Hxj72J4OAx4rtz4rv6vLbjoi2tI=;
+ b=VfHzkzY0uy+6YznxSv63jD3lwjYpqy4Px1BgfNNLUzYkxU5IrWJf+RNYak2vgdDzLM
+ i/5nAdP5FdEfrXCxDyJwQNes4UfAXPJiXA/qVzZ0V2G6HsgbOiG6xq7U86h4Y9HV2SrU
+ KGo/zOV8XorgXyCkzS5FYnb1wqGPy4R6Fzxd7iGV3O8SAER3nDEYwgghmnyK2uN6+8Nj
+ LqXsRPVgL+jayKPzG23i+CIE+wwRICQu2JS07+2e9U4kEzKNnYLGiM7aouqHeZS1G4qN
+ VZfgGUvVY2idH078LkLuUKXRPFY6v93la08Js1F52cTFmrftzi3Dl0KpEU9VoAxXQtZh
+ /9/g==
+X-Gm-Message-State: AAQBX9fbxQIv7M2Pr0Opb4tzrPg53uh73NSXJY7zxnw2tiNvCWbtjQHj
+ zxZqTvNAWaiURj5O/lMiUyf7bmD5rJuB83P7s4Y7Jw==
+X-Google-Smtp-Source: AKy350Z73E+UVOLSdcaZlZlGNZI85j5ghx52Ap7R83DyZk/Ctn8YFeYbh2x0TjQBhuqq7VxDhN6/mcJy0H4004Y91EM=
+X-Received: by 2002:ad4:5ca2:0:b0:5ef:8b6e:5841 with SMTP id
+ q2-20020ad45ca2000000b005ef8b6e5841mr6481997qvh.23.1681814432641; Tue, 18 Apr
+ 2023 03:40:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v19 01/21] s390x/cpu topology: add s390 specifics to CPU
- topology
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>,
- Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-2-pmorel@linux.ibm.com>
- <e96e60dade206cb970b55bfc9d2a77643bd14d98.camel@linux.ibm.com>
- <d7a0263f-4b27-387d-bf6c-fde71df3feb4@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <d7a0263f-4b27-387d-bf6c-fde71df3feb4@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.284, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <calendar-8e6a5123-9421-4146-9451-985bdc6a55b9@google.com>
+ <87r0sn8pul.fsf@secure.mitica>
+In-Reply-To: <87r0sn8pul.fsf@secure.mitica>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Date: Tue, 18 Apr 2023 12:40:21 +0200
+Message-ID: <CAPMQPELUHZOT5sAZVFcNrMaCvyQit+q1cCFpHYc33+qZWPp9TA@mail.gmail.com>
+Subject: Re: QEMU developers fortnightly conference call for agenda for
+ 2023-04-18
+To: quintela@redhat.com
+Cc: afaerber@suse.de, juan.quintela@gmail.com, ale@rev.ng, anjo@rev.ng, 
+ bazulay@redhat.com, bbauman@redhat.com, chao.p.peng@linux.intel.com, 
+ cjia@nvidia.com, cw@f00f.org, david.edmondson@oracle.com, 
+ Eric Northup <digitaleric@google.com>, dustin.kirkland@canonical.com,
+ eblake@redhat.com, 
+ edgar.iglesias@gmail.com, elena.ufimtseva@oracle.com, eric.auger@redhat.com, 
+ f4bug@amsat.org, Felipe Franciosi <felipe.franciosi@nutanix.com>, 
+ "iggy@theiggy.com" <iggy@kws1.com>, Warner Losh <wlosh@bsdimp.com>,
+ jan.kiszka@web.de, jgg@nvidia.com, 
+ jidong.xiao@gmail.com, jjherne@linux.vnet.ibm.com, joao.m.martins@oracle.com, 
+ konrad.wilk@oracle.com, kvm@vger.kernel.org, mburton@qti.qualcomm.com, 
+ mdean@redhat.com, mimu@linux.vnet.ibm.com, peter.maydell@linaro.org, 
+ qemu-devel@nongnu.org, richard.henderson@linaro.org, 
+ shameerali.kolothum.thodi@huawei.com, stefanha@gmail.com, 
+ wei.w.wang@intel.com, z.huo@139.com, zwu.kernel@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=philippe.mathieu-daude@linaro.org; helo=mail-qv1-xf2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,48 +99,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/04/2023 12.01, Pierre Morel wrote:
-> 
-> On 4/18/23 10:53, Nina Schoetterl-Glausch wrote:
->> On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
->>> S390 adds two new SMP levels, drawers and books to the CPU
->>> topology.
->>> The S390 CPU have specific topology features like dedication
->>> and entitlement to give to the guest indications on the host
->>> vCPUs scheduling and help the guest take the best decisions
->>> on the scheduling of threads on the vCPUs.
->>>
->>> Let us provide the SMP properties with books and drawers levels
->>> and S390 CPU with dedication and entitlement,
->>>
->>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   MAINTAINERS                     |  5 ++++
->>>   qapi/machine-common.json        | 22 ++++++++++++++
->>>   qapi/machine-target.json        | 12 ++++++++
->>>   qapi/machine.json               | 17 +++++++++--
->>>   include/hw/boards.h             | 10 ++++++-
->>>   include/hw/s390x/cpu-topology.h | 15 ++++++++++
->> Is hw/s390x the right path for cpu-topology?
->> I haven't understood the difference between hw/s390x and target/s390x
->> but target/s390x feels more correct, I could be mistaken though.
-> 
-> AFAIK target/s390 is for CPU emulation code while hw/s390 is for other 
-> emulation.
-> 
-> So it depends how we classify the CPU topology, it is related to CPU but it 
-> is no emulation.
+Hi Juan,
 
-Normally I'd say target/ is for everything what happens within a CPU chip, 
-and hw/ is for everything that happens outside of a CPU chip, i.e. machine 
-definitions and other devices.
-Now CPU topology is borderline - drawers and books are rather a concept of 
-the machine and not of the CPU, but things like dies and threads rather 
-happen within a CPU chip.
-So I don't mind too much either way, but I think it's certainly ok to keep 
-it in hw/s390x/ if you prefer that.
+Sorry for the late reply, I won't be able to attend this afternoon's meeting.
 
-  Thomas
+Regards,
 
+Phil.
+
+On Thu, 13 Apr 2023 at 22:55, Juan Quintela <quintela@redhat.com> wrote:
+>
+>
+> Hi
+>
+> Please, send any topic that you are interested in covering.
+>
+> [google calendar is very, very bad to compose messages, but getting
+> everybody cc'd is very complicated otherwise]
+>
+>
+> At the end of Monday I will send an email with the agenda or the
+> cancellation of the call, so hurry up.
+>
+> After discussions on the QEMU Summit, we are going to have always open a
+> QEMU call where you can add topics.
+>
+>  Call details:
+>
+> By popular demand, a google calendar public entry with it
+>
+>   https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NWR0NWppODdqNXFyYzAwbzYza3RxN2dob3VfMjAyMjEwMThUMTMwMDAwWiBlZ2VkN2NraTA1bG11MXRuZ3ZrbDN0aGlkc0Bn&tmsrc=eged7cki05lmu1tngvkl3thids%40group.calendar.google.com&scp=ALL
+>
+> (Let me know if you have any problems with the calendar entry.  I just
+> gave up about getting right at the same time CEST, CET, EDT and DST).
+>
+> If you want to be added to the invite, let me know.
+>
+> Thanks, Juan.
+>
+>
 
