@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECB26E6892
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 17:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4962D6E68AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 17:51:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ponYY-0001Sv-D1; Tue, 18 Apr 2023 11:47:46 -0400
+	id 1ponb9-0002Mr-V8; Tue, 18 Apr 2023 11:50:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ponYW-0001SY-7K
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:47:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ponYU-0002tM-Oy
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:47:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681832862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cgA7SCYbUqXy8bE9BJTIVUWFevlWjgQgtmRrXQEPNZ8=;
- b=bYn8aO3QAXO2eGZvaQhrG2jsWFlMBxTm5Mgn5KnoWbmpdEWL3A3JvfyxQe+jJ1YsQRM2iH
- +La08MWATw0FT4yw7CMfnfJUMD33b0mgL/wXY78jXk6v5KqdegqdZsK71zlraxI9mIl9/K
- wMR5eHWXpkCrWDBLOX4Q539qp5Thy0Q=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-qikr25qYNjCb_pgH1G9olw-1; Tue, 18 Apr 2023 11:47:38 -0400
-X-MC-Unique: qikr25qYNjCb_pgH1G9olw-1
-Received: by mail-yb1-f198.google.com with SMTP id
- d10-20020a25cd0a000000b00b956d4a5a04so1719743ybf.22
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 08:47:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ponb8-0002MV-9m
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:50:26 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ponb6-0003Ns-HH
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:50:26 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ he11-20020a05600c540b00b003ef6d684102so69459wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 08:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681833023; x=1684425023;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8C3vLM04Twc5WXaQKRwbB5ilTeiUPhYRpvTnl8gjkb0=;
+ b=m5iQQDnvaLVs59uYTlSwCFXs8rNpQSjtOcbHkqir3T7arLQ2JacGejC1qnPkTspn4k
+ 0R2jVnTJD4I6p7T2ok0zutCRsAla2aETZ9m6txeGPQuqID1FaVE5iQ65e6OwHxDgZb3P
+ 2TXFZ+A+RGyS7SaiY820hndbDbbNXzU1CnrTWX+lv/9pvAHJTeskDMCqmsZLBst1xanw
+ 4iK9LERgEQJZacS1jSpYyHvKs80pg2T3ZnH/Pft0MOR8OTlYmNqGLuy7ercc0Bt9c7+7
+ LvYKFmDiSGEwJ4G/fvpY92PsHrq/1l5oL2Dl/99Ac3VMaapdqgW75/mqZ4587V+whhRu
+ nMfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681832858; x=1684424858;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cgA7SCYbUqXy8bE9BJTIVUWFevlWjgQgtmRrXQEPNZ8=;
- b=WgPGD3DmqaV2VKUDfoGqNxBQSZXfFEIeBvpOzddkP2dg3OYGGr9f9WiDadsYP4hxuy
- haG1ySpJrdu2HB2KEXM4rUF+PnbmgAZdeo+diAWh2XfcfKodtKI1w8iP3WXFyUcqPXG4
- 5fQtp0wHcDwKl2J+vQIH8rJEG8ppHRGebTvzyFGEvNqunwJ3hdfVmdYswtzbQEPKPms1
- 2Gtei6W5pagXmVzunJ3MfvsPz07ooviHdMgsBo6AgwrWFFQ/+lvFRVPMU3Rd76LCMV7x
- 2hEVbPSpX33+8vp80jSgnyNPZQw6JCFhpIgsppxiAsS7PuGrTSKUlfn/nm5MV9628Z7D
- Im0g==
-X-Gm-Message-State: AAQBX9cNuzIPDlCjjVqnnRai7GU1IRC+bWnE7FRU0iK7eXTNxQ75jSFQ
- OvgspkU75TU4z0dje561eDNPdBAdDUiF+gjZty0iqCU5x3iJSMcvhr0ABhXlcBmIq9Ad4SF0O1J
- oA0zrhie9HV5whGi27Z1rQwdkYA/wmUE=
-X-Received: by 2002:a81:8452:0:b0:54f:179:cef2 with SMTP id
- u79-20020a818452000000b0054f0179cef2mr308530ywf.19.1681832858017; 
- Tue, 18 Apr 2023 08:47:38 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZJodWHHbRcppaGKbIpFd8GNdB2m1ahU2eaiNdCAIRtj8Hd3OfY4z3OJHBIMw5Zf8dNuNzqXFmIVhrOnHxPeqM=
-X-Received: by 2002:a81:8452:0:b0:54f:179:cef2 with SMTP id
- u79-20020a818452000000b0054f0179cef2mr308515ywf.19.1681832857792; Tue, 18 Apr
- 2023 08:47:37 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681833023; x=1684425023;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8C3vLM04Twc5WXaQKRwbB5ilTeiUPhYRpvTnl8gjkb0=;
+ b=j0wEZtK1dT1N2TNTWNRGSPNsEs7zRZ7ByMHVqMu+68bJahQNrkfw1EZpW+vwyAGjb3
+ fhXT+wxtZ8k7J4p/t8mH57UeHj+IV8b/57xj6P4GJbcvHj2PMr5YPT6NzJ03YYlh+qk0
+ VMhHFrXBOw/gIg1fR5/NmI52w+Up0FP/2r5kcLK/3VzW3qbVFgN59eqTa/XnEoHCepBT
+ GVxyKlywBbRxzi1okLpjoMVDbBu2/PXDrTpUdg2vkEe+wUq8sjOvdo2lcQosVj9+Jjkf
+ nNt/3eRouzb2vCeh7heGC2orSZDzBPiiC8hmQ3M/7gar3TSeFOWQ1BJDII4a+wMpkhNg
+ gn1Q==
+X-Gm-Message-State: AAQBX9dxyqdx0jH9Hvi6U2kBiiBgmfLMAvY3f+I1cRKDWmuEHunaNGJm
+ 9QVvgD+DutBfMD8q21epfp7iOA==
+X-Google-Smtp-Source: AKy350ZqYwXmZ7I5MFmxMpuxysJTFH9ub3MiFLMr8MIe/9ZBKljJWP+nfOubcYgWx9vIVibvx75JHw==
+X-Received: by 2002:a7b:cb07:0:b0:3ed:514d:e07f with SMTP id
+ u7-20020a7bcb07000000b003ed514de07fmr15069747wmj.3.1681833022825; 
+ Tue, 18 Apr 2023 08:50:22 -0700 (PDT)
+Received: from [192.168.58.227] (103.red-83-56-31.staticip.rima-tde.net.
+ [83.56.31.103]) by smtp.gmail.com with ESMTPSA id
+ d16-20020a5d6dd0000000b002d6f285c0a2sm13411965wrz.42.2023.04.18.08.50.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 08:50:22 -0700 (PDT)
+Message-ID: <84d01381-45b6-c237-4973-cfa898398305@linaro.org>
+Date: Tue, 18 Apr 2023 17:50:20 +0200
 MIME-Version: 1.0
-References: <20230418151811.GA4048149@fedora>
-In-Reply-To: <20230418151811.GA4048149@fedora>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 18 Apr 2023 17:47:01 +0200
-Message-ID: <CAJaqyWfFoba+pijeO__iXYjV3Z3SRORgTVFR7aNWEA_28gp3Xw@mail.gmail.com>
-Subject: Re: Move vhost-user SET_STATUS 0 after get vring base?
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Cindy Lu <lulu@redhat.com>, Yajun Wu <yajunw@nvidia.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/3] target/arm: Set ptw->out_secure correctly for stage 2
+ translations
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230414160413.549801-1-peter.maydell@linaro.org>
+ <20230414160413.549801-3-peter.maydell@linaro.org>
+ <836a4c35-9e1d-c067-cb2f-76ea93ccd53a@linaro.org>
+ <CAFEAcA8EOrEs=ivv+skKy+e40BiiD9qDP-KFakfgk1E=y89NVA@mail.gmail.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8EOrEs=ivv+skKy+e40BiiD9qDP-KFakfgk1E=y89NVA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,48 +98,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 5:18=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat.co=
-m> wrote:
->
-> Hi,
-> Cindy's commit ca71db438bdc ("vhost: implement vhost_dev_start method")
-> added SET_STATUS calls to vhost_dev_start() and vhost_dev_stop() for all
-> vhost backends.
->
-> Eugenio's commit c3716f260bff ("vdpa: move vhost reset after get vring
-> base") deferred the SET_STATUS 0 call in vhost_dev_stop() until after
-> GET_VRING_BASE for vDPA only. In that commit Eugenio said, "A patch to
-> make vhost_user_dev_start more similar to vdpa is desirable, but it can
-> be added on top".
->
-> I agree and think it's a good idea to keep the vhost backends in sync
-> where possible.
->
-> vhost-user still has the old behavior where QEMU sends SET_STATUS 0
-> before GET_VRING_BASE. Most existing vhost-user backends don't implement
-> the SET_STATUS message, so I think no one has tripped over this yet.
->
+On 4/18/23 13:30, Peter Maydell wrote:
+> On Tue, 18 Apr 2023 at 12:01, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 4/14/23 18:04, Peter Maydell wrote:
+>>> +        /* Check if page table walk is to secure or non-secure PA space. */
+>>> +        ptw->out_secure = (is_secure
+>>> +                           && !(pte_secure
+>>> +                                ? env->cp15.vstcr_el2 & VSTCR_SW
+>>> +                                : env->cp15.vtcr_el2 & VTCR_NSW));
+>>> +    } else {
+>>> +        /* Regime is physical */
+>>> +        ptw->out_secure = pte_secure;
+>>
+>> Is that last comment really correct?  I think it could still be stage1 of 2.
+> 
+> I borrowed the comment from earlier in the function, in the ptw->in_debug
+> branch of the code, which has the same
+> 
+>     if (regime_is_stage2(s2_mmu_idx)) {
+>        ...stuff...
+>     } else {
+>        /* Regime is physical */
+>     }
+> 
+> structure as this one does after this patch. If s2_mmu_idx isn't
+> a stage 2 index and it's not one of the Phys indexes, what is it ?
 
-My bet is that those backends simply do not migrate so they don't hit
-it. But maybe those backends return -1 for GET_VRING_BASE and use
-split vq, so it can be fetched from guest's used idx?
+Oh, right.  Nevermind.
 
-> Any thoughts on making vhost-user behave like vDPA here?
->
-
-I guess the first step should be to gather a list of backends that use
-SET_STATUS and are interested in migration. But in my opinion the
-current behavior can be considered a bug and it is unlikely that it is
-implemented properly there.
-
-* If they ignore the set_status, we can totally reorder the order and
-it will be the same.
-* If they always return an error for GET_VRING_BASE then they will
-keep it returning, so no harm here either.
-* If they use more complicated logic like "return -1 for
-GET_VRING_BASE as long as the device is not DRIVER_OK". Improving the
-situation in this case.
-
-Thanks!
+r~
 
 
