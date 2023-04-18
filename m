@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275EC6E6FBD
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 00:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4C66E6FBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 00:59:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pouGz-0001L1-GZ; Tue, 18 Apr 2023 18:58:05 -0400
+	id 1pouH1-0001Lk-19; Tue, 18 Apr 2023 18:58:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGx-0001Kn-IA
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:58:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGz-0001LP-Qa
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:58:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGt-0007D4-Oy
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:58:00 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGx-0007Fa-Fm
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:58:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681858678;
+ s=mimecast20190719; t=1681858681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fgVm4ot3oncYZxZF5RHIGcFRboA9mEQIrrDpxafvVz0=;
- b=BVnvwSmtMovaD9Cnuvbsv2aQYPFHcRrefL8w3w3xddVHsfjtkHEjTl0F3IGqq3LrkpoBLG
- kDTCyjvTYF1aiNX6FAaauKjZmP+/4kdDxXCA2II20fgTjd7dbfLMftULFDYpTi6b1poSzL
- jMDGXCX8ELE19Ymz+T3uJppOl4MYITQ=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tfe7wWvJEqhWrw/5dRu9ujTZ7gYvhKG5iAivwThgjSw=;
+ b=XBO//NrxUQBBaXDfBI4i+rNK6J5lit7kccIx4g8LzbjNRLWQBISW57ebXX4ks/Jk0GG6VP
+ 6Ef9hG9CbqAw8mZajb+PkmXIuqq9fIBBzqh+fujQZLFkw1oe64gE8e3WQAKHpk+PyoLc40
+ T7Fv2FmcnIz1hAJCd5ub33F3Jy7fZ/k=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-222-R6gU-5kEOYimXzL2UihADQ-1; Tue, 18 Apr 2023 18:57:57 -0400
-X-MC-Unique: R6gU-5kEOYimXzL2UihADQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-74d96c33de9so67622985a.1
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:57:57 -0700 (PDT)
+ us-mta-367-UxbQrX1QNw6mxHvCDHLYRw-1; Tue, 18 Apr 2023 18:58:00 -0400
+X-MC-Unique: UxbQrX1QNw6mxHvCDHLYRw-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-3ecc0c4b867so10996321cf.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:58:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681858676; x=1684450676;
+ d=1e100.net; s=20221208; t=1681858679; x=1684450679;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fgVm4ot3oncYZxZF5RHIGcFRboA9mEQIrrDpxafvVz0=;
- b=JSnClTabpeJu8lFyrOESTq+xRm10kOVNctzsfXyXgvdgnupDTKBjR8P6laILHXAlqg
- YMm2+TKNGl3EUvP2JAVITEFEjxXLLgQ4cHgctflKHQzb3MNr/x/Et5UpFDqcWvKgUPkj
- RyTx79UEoV6FkWrmH7z6X37oopO1xl8+K1yLf9jF2WmJrCp2OIYulGd6ejgNPr0UNBcd
- E5vV6p4ges+FN8UCwJEw3Ggmz4me/zVAFzhz3IxOOWEqWas56ow8XjKZf85+QyhRiIQN
- oRNLx3MbYJMQXNuKmM5iTuQmGCVpowfDIZAnVusTfK/vMfY8rO2nHtwZHG5Z74b8Xvp1
- cckw==
-X-Gm-Message-State: AAQBX9f9al/gyZkwP+PDaQI+1OSwFx1Ixd2ecRVhW1uZPDtr2M+ewmLX
- uOrkoGW5v2sLMs11ZyUWaZlvE7OLzzipF8lOYySkhJPFDmU3/5+Tp0XbJdkDrdzj/hPOrU4E8Dy
- Bvlh6unls7OxMXOYXLGH/76QAIp8t3XkQu7TaA3+vD6uTAWgXWpNl6APFDtu/+EWVm+XYd7My
-X-Received: by 2002:ad4:5ba7:0:b0:5f1:31eb:1f0e with SMTP id
- 7-20020ad45ba7000000b005f131eb1f0emr5582350qvq.4.1681858676399; 
- Tue, 18 Apr 2023 15:57:56 -0700 (PDT)
-X-Google-Smtp-Source: AKy350auUMFdrAi5+6gfwcvPdZGSD3TlaosH9IapNsxk2moQGdaRYGk5acR/OzdU/3PzZ/Yzyt4ysw==
-X-Received: by 2002:ad4:5ba7:0:b0:5f1:31eb:1f0e with SMTP id
- 7-20020ad45ba7000000b005f131eb1f0emr5582324qvq.4.1681858676139; 
- Tue, 18 Apr 2023 15:57:56 -0700 (PDT)
+ bh=tfe7wWvJEqhWrw/5dRu9ujTZ7gYvhKG5iAivwThgjSw=;
+ b=TCQYvCpuuhTe4whqhUeJUKF+jjdGUSdNGaIVcgIbzvzhv+cVGOKBtxgvqaFKm+/Icw
+ ax5w6yYnH4mMLbNkD3XmmsI4dw6Tb7Uue9/y20EfpJUAqNXtlqI58MsMon31NfFYYfkD
+ P0+Te7WICI8riUVykFN0MS7HE/r9SkA78jNIe7BDMe6r+KNJouE+4zvPh5F6oJZPRwWz
+ WWDlRzuUnCgRm/0LMRjsMx4W38nXLQ9izW4bOcH6maOdH+JOZqJalL6DiPVLua0qSi81
+ yQw/0F4tEPpjrFPo6uFApfafjSV9kqrLuEbmxcbqeXW/S1rzObOEOAFn3mNVuQ6J9Urt
+ V9aQ==
+X-Gm-Message-State: AAQBX9cBXgAS1fYWQdUSHNX6g6RfQx6eOu35kgb+nvE3zAJYryHW8MH/
+ MXAd5mloUqi/+PLGQyJpppWKHY+axPfJkOrJGZoBgpygMxaFKU0aJ9ypcW56zChcoWcgbiAn6nO
+ L4pRCs82vmBS/mNNuzTD74WNCyT2qWf/g2KNgnjJo7bkisSPQFwg969yCRInLYMO06oo9sdRp
+X-Received: by 2002:a05:6214:4109:b0:5ac:325c:a28f with SMTP id
+ kc9-20020a056214410900b005ac325ca28fmr24495318qvb.0.1681858678874; 
+ Tue, 18 Apr 2023 15:57:58 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YbmefXg08bW7IlGKeN6+wqj0iqJYaBModnTRW4SR6IGgYBYK1+7TcLdhQcBOoU3zLzRMaFKQ==
+X-Received: by 2002:a05:6214:4109:b0:5ac:325c:a28f with SMTP id
+ kc9-20020a056214410900b005ac325ca28fmr24495291qvb.0.1681858678508; 
+ Tue, 18 Apr 2023 15:57:58 -0700 (PDT)
 Received: from x1n.redhat.com
  (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca. [70.52.229.124])
  by smtp.gmail.com with ESMTPSA id
- i3-20020ad45383000000b005e3c45c5cbdsm2937330qvv.96.2023.04.18.15.57.53
+ i3-20020ad45383000000b005e3c45c5cbdsm2937330qvv.96.2023.04.18.15.57.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 15:57:53 -0700 (PDT)
+ Tue, 18 Apr 2023 15:57:58 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com
-Subject: [PATCH 2/3] vl.c: Create late backends before migration object
-Date: Tue, 18 Apr 2023 18:57:48 -0400
-Message-Id: <20230418225749.1049185-3-peterx@redhat.com>
+Subject: [PATCH 3/3] migration/postcopy: Detect file system on dest host
+Date: Tue, 18 Apr 2023 18:57:49 -0400
+Message-Id: <20230418225749.1049185-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230418225749.1049185-1-peterx@redhat.com>
 References: <20230418225749.1049185-1-peterx@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,40 +99,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The migration object may want to check against different types of memory
-when initialized.  Delay the creation to be after late backends.
+Postcopy requires the memory support userfaultfd to work.  Right now we
+check it but it's a bit too late (when switching to postcopy migration).
+
+Do that early right at enabling of postcopy.
+
+Note that this is still only a best effort because ramblocks can be
+dynamically created.  We can add check in hostmem creations and fail if
+postcopy enabled, but maybe that's too aggressive.
+
+Still, we have chance to fail the most obvious where we know there's an
+existing unsupported ramblock.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- softmmu/vl.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ migration/postcopy-ram.c | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ea20b23e4c..ad394b402f 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3583,14 +3583,19 @@ void qemu_init(int argc, char **argv)
-                      machine_class->name, machine_class->deprecation_reason);
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 93f39f8e06..560530b758 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -336,11 +336,12 @@ static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis)
+ 
+ /* Callback from postcopy_ram_supported_by_host block iterator.
+  */
+-static int test_ramblock_postcopiable(RAMBlock *rb, void *opaque)
++static int test_ramblock_postcopiable(RAMBlock *rb)
+ {
+     const char *block_name = qemu_ram_get_idstr(rb);
+     ram_addr_t length = qemu_ram_get_used_length(rb);
+     size_t pagesize = qemu_ram_pagesize(rb);
++    const char *fs;
+ 
+     if (length % pagesize) {
+         error_report("Postcopy requires RAM blocks to be a page size multiple,"
+@@ -348,6 +349,15 @@ static int test_ramblock_postcopiable(RAMBlock *rb, void *opaque)
+                      "page size of 0x%zx", block_name, length, pagesize);
+         return 1;
+     }
++
++    if (rb->fd >= 0) {
++        fs = file_memory_backend_get_fs_type(rb->mr->owner);
++        if (strcmp(fs, "tmpfs") && strcmp(fs, "hugetlbfs")) {
++            error_report("Host backend files need to be TMPFS or HUGETLBFS only");
++            return 1;
++        }
++    }
++
+     return 0;
+ }
+ 
+@@ -366,6 +376,7 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
+     struct uffdio_range range_struct;
+     uint64_t feature_mask;
+     Error *local_err = NULL;
++    RAMBlock *block;
+ 
+     if (qemu_target_page_size() > pagesize) {
+         error_report("Target page size bigger than host page size");
+@@ -390,9 +401,18 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
+         goto out;
      }
  
+-    /* We don't support postcopy with shared RAM yet */
+-    if (foreach_not_ignored_block(test_ramblock_postcopiable, NULL)) {
+-        goto out;
 +    /*
-+     * Create backends before creating migration objects, so that it can
-+     * check against compatibilities on the backend memories (e.g. postcopy
-+     * over memory-backend-file objects).
++     * We don't support postcopy with some type of ramblocks.
++     *
++     * NOTE: we explicitly ignored ramblock_is_ignored() instead we checked
++     * all possible ramblocks.  This is because this function can be called
++     * when creating the migration object, during the phase RAM_MIGRATABLE
++     * is not even properly set for all the ramblocks.
 +     */
-+    qemu_create_late_backends();
-+
-     /*
-      * Note: creates a QOM object, must run only after global and
-      * compat properties have been set up.
-      */
-     migration_object_init();
++    RAMBLOCK_FOREACH(block) {
++        if (test_ramblock_postcopiable(block)) {
++            goto out;
++        }
+     }
  
--    qemu_create_late_backends();
--
-     /* parse features once if machine provides default cpu_type */
-     current_machine->cpu_type = machine_class->default_cpu_type;
-     if (cpu_option) {
+     /*
 -- 
 2.39.1
 
