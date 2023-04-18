@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1E76E5F3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 13:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683056E5F43
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 13:02:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poj3u-0007zB-Of; Tue, 18 Apr 2023 06:59:50 -0400
+	id 1poj6D-0000Z3-1h; Tue, 18 Apr 2023 07:02:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poj3t-0007yu-Om
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 06:59:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poj3s-0001zK-1C
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 06:59:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681815586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ss0v4o3o4URqv8/1lfIm1k+QjT2KHPLUGdNubVkez9s=;
- b=IVRcrKUmNhM/5RyqsFIHlvVGTwpyaa/eRWtwcvP6HQuxyBmBGVcnqmxYAXu0fGPVCNM5QV
- EF/n4WA79+aV7UpOQTi85MXr7aMR7M7ddyEeRa/lH+XBT2xryQ6/qqRHlXqyUkDB9QAOl/
- QnpO+csQ94zuI/Ca5SczPiEDabobBj4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-372-fAQuuxR3PaOFo-NewycreA-1; Tue, 18 Apr 2023 06:59:45 -0400
-X-MC-Unique: fAQuuxR3PaOFo-NewycreA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- hg16-20020a05600c539000b003f09d1918aaso8916367wmb.4
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 03:59:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1poj63-0000Y9-OJ
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:02:03 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1poj5y-0002fL-8D
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:02:03 -0400
+Received: by mail-lj1-x233.google.com with SMTP id r9so16063777ljp.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 04:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681815715; x=1684407715;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=a2ezIgF7ksNqAWL/aBEaTHLMSzS6GAqNKwd1/w3H0RE=;
+ b=Ta62o3feXsbTyM1MTt3vEsDz7/rnK6tgSphbvwQQHUAkIYKWTg8ddDxJqtNJm/WSJf
+ dVOxBPgAmILC/q4RczOIUbsbjB9nLkRRyzYReipF/6soPeHjImw/I2c/SyIa4kY3xwSF
+ /1O32aR4Bc27xrj4QXkOvBTTNanvG6nK/UhShKa/XNGOvWPApvhGHmZ4GPSuz9KdqgIP
+ AqedeITpA/Hqz4r3Se/Mzl+VbyZDPgnYA21BSfeH4NITzwhuldF4z+y+fy2v+bOohLJj
+ 32gSX4Qn9bTJIvT1Bumpn1UsKgZvuGN4pwEuzT8MACakaQDcS+AghkOg6ORD5K09GIdS
+ RB/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681815584; x=1684407584;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1681815715; x=1684407715;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ss0v4o3o4URqv8/1lfIm1k+QjT2KHPLUGdNubVkez9s=;
- b=Joe6IrTIbMP6l+toQnwi/mXfrVwChosg0w1P5NXR3/dQybNcRbheGSeoPdiVjTPERR
- Glrs92wjtG9GfKmyzwJvb1hjzmlzhrWhk/g6Zg3U1+lKQ0yBZ3fGpw8UJ3Vp0hoGdpXu
- lpol2oCwDkZ7s9C6wIPLJaojYPd1tkbNC2DfKn9e5AiRmE3+U8wvGiaIAuhw7vQoKPt3
- uVeIdTVQLHaxZNh5kI0y04fMKlQj7RVHU4ouMIKr3rrPAaNM2w7K0LNkAmuJliBtJ/iV
- j+KKM8IyzdlDjOSZqoRT6uQMDo1O9PsL5VU6udXLPlXpKP3xFFmMWPqr1Geq8KEukThd
- d6EA==
-X-Gm-Message-State: AAQBX9f4+L2hpazQQWzA0isIP9z8oTvdmoovgakMaGVoIBT29XCmbFWy
- 5qYah8or86pPAZXTF0pSKLl5D9Nw1awRyYQd1NSMrty7SDy+1cQpH87IfgDFUO96qAit8Z7nR4D
- 8xiMPjFbew8nrVWQ=
-X-Received: by 2002:a1c:770c:0:b0:3ed:307f:1663 with SMTP id
- t12-20020a1c770c000000b003ed307f1663mr14308569wmi.15.1681815584232; 
- Tue, 18 Apr 2023 03:59:44 -0700 (PDT)
-X-Google-Smtp-Source: AKy350byn1htOghwbaVgPYSvBYTlZ0K0JMYBUYZb6KU+X0swdAaVEtmnvIW/c6Vl6MRvCNzRiyXRZg==
-X-Received: by 2002:a1c:770c:0:b0:3ed:307f:1663 with SMTP id
- t12-20020a1c770c000000b003ed307f1663mr14308558wmi.15.1681815583948; 
- Tue, 18 Apr 2023 03:59:43 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-176-59.web.vodafone.de.
- [109.43.176.59]) by smtp.gmail.com with ESMTPSA id
- v3-20020a1cf703000000b003f04646838esm14703305wmh.39.2023.04.18.03.59.43
+ bh=a2ezIgF7ksNqAWL/aBEaTHLMSzS6GAqNKwd1/w3H0RE=;
+ b=jeQ3+UKCBljILNHa1GDgZzTU62pQZQ3CTPFE2ylm39/2NoaihrpGuniPsHvOmnQ9B+
+ CNfwZG/5qpA+dQma5pHogfBY1/+zt72xjgZO6CmvYa9v+Qd8Nt+2oYLiLO2FLprx6Dg4
+ F+Yu+xw0MxYfOdc1G6dyFNCSyJyGzjNOzPg2T2VcxR8HDghx5x+77Rymv7a9SJ/dwu6s
+ pnd+JKgNBgqqJijHbebrrPz9ma4BAA334r/19+1nUvCxIjGoUf47SCYxqbJoDzwljSWC
+ v3aoOP1bLPFehhR5HXdS6rpfxsvvso277pphPHxIlQfrjTMGThvkQcJpCOKyp8VlV+Wn
+ NtGQ==
+X-Gm-Message-State: AAQBX9eRlnTh/chrfefKINGtTfPVnVV3Dj9YVXetjq2hFRugK+8MHOMo
+ EHb8xmcADVHElmsDxniGYaL86Q==
+X-Google-Smtp-Source: AKy350aSg8OZYbMKrKuH/e66WSyp/sEC/umVV1iVuE4Nj29P/tv8u3Vdgry9m2BN/5PKTQZY+WNquQ==
+X-Received: by 2002:a2e:8ec9:0:b0:2a8:a65a:7313 with SMTP id
+ e9-20020a2e8ec9000000b002a8a65a7313mr619831ljl.31.1681815714956; 
+ Tue, 18 Apr 2023 04:01:54 -0700 (PDT)
+Received: from [192.168.58.227] ([91.209.212.60])
+ by smtp.gmail.com with ESMTPSA id
+ l20-20020a2e7014000000b002a8bb52d994sm1352190ljc.25.2023.04.18.04.01.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 03:59:43 -0700 (PDT)
-Message-ID: <3a601ee8-15f0-39ec-3436-69ecc5b25886@redhat.com>
-Date: Tue, 18 Apr 2023 12:59:42 +0200
+ Tue, 18 Apr 2023 04:01:54 -0700 (PDT)
+Message-ID: <836a4c35-9e1d-c067-cb2f-76ea93ccd53a@linaro.org>
+Date: Tue, 18 Apr 2023 13:01:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 0/2] tests/migration: Fix migration-test slowdown
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/3] target/arm: Set ptw->out_secure correctly for stage 2
+ translations
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-References: <20230412142001.16501-1-quintela@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230412142001.16501-1-quintela@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230414160413.549801-1-peter.maydell@linaro.org>
+ <20230414160413.549801-3-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230414160413.549801-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=richard.henderson@linaro.org; helo=mail-lj1-x233.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.284, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-2.284, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,32 +95,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/04/2023 16.19, Juan Quintela wrote:
-> Since commit:
-> 
-> commit 1bfc8dde505f1e6a92697c52aa9b09e81b54c78f
-> Author: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Date:   Mon Mar 6 15:26:12 2023 +0000
-> 
->      tests/migration: Tweek auto converge limits check
-> 
->      Thomas found an autoconverge test failure where the
->      migration completed before the autoconverge had kicked in.
->      [...]
-> 
-> migration-test has become very slow.
-> On my laptop, before that commit migration-test takes 2min10seconds
-> After that commit, it takes around 11minutes
-> 
-> We can't revert it because it fixes a real problem when the host
-> machine is overloaded.  See the comment on test_migrate_auto_converge().
+On 4/14/23 18:04, Peter Maydell wrote:
+> +        /* Check if page table walk is to secure or non-secure PA space. */
+> +        ptw->out_secure = (is_secure
+> +                           && !(pte_secure
+> +                                ? env->cp15.vstcr_el2 & VSTCR_SW
+> +                                : env->cp15.vtcr_el2 & VTCR_NSW));
+> +    } else {
+> +        /* Regime is physical */
+> +        ptw->out_secure = pte_secure;
 
-Thanks, your patches decrease the time to run the migration-test from 16 
-minutes down to 5 minutes on my system, that's a great improvement, indeed!
+Is that last comment really correct?  I think it could still be stage1 of 2.
+That said, the actual code looks correct.
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-(though 5 minutes are still quite a lot for qtests ... maybe some other 
-parts could be moved to only run with g_test_slow() ?)
 
+r~
 
