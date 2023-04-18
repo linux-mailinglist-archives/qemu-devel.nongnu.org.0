@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1FA6E66B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 16:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25A66E675D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 16:44:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1polzM-0008Vc-Vv; Tue, 18 Apr 2023 10:07:21 -0400
+	id 1pomXc-0004zf-Cf; Tue, 18 Apr 2023 10:42:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1polyv-0008GI-HX; Tue, 18 Apr 2023 10:06:53 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1polyp-0008VR-GD; Tue, 18 Apr 2023 10:06:52 -0400
-Received: from localhost.localdomain (unknown [180.165.241.15])
- by APP-05 (Coremail) with SMTP id zQCowADX32froz5kHH+IFA--.38119S10;
- Tue, 18 Apr 2023 22:06:42 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v2 8/8] target/riscv: Separate pmp_update_rule() in
- pmpcfg_csr_write Use pmp_update_rule_addr() and pmp_update_rule_nums()
- separately to update rule nums only once for each pmpcfg_csr_write. Then we
- can also move tlb_flush and tb_flush into pmp_update_rule_nums().
-Date: Tue, 18 Apr 2023 22:06:32 +0800
-Message-Id: <20230418140632.53166-9-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230418140632.53166-1-liweiwei@iscas.ac.cn>
-References: <20230418140632.53166-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1pomXW-0004ye-0X; Tue, 18 Apr 2023 10:42:38 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1pomXR-0006qu-AN; Tue, 18 Apr 2023 10:42:35 -0400
+Received: by mail-pl1-x633.google.com with SMTP id p17so16783792pla.3;
+ Tue, 18 Apr 2023 07:42:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681828951; x=1684420951;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6gZlrvCOZuxtUgy42BvdprVfeY/UDtXoIaArs8m5OEA=;
+ b=fh8TZm8pqpxbbkfTwZcikly6LaH1DfL+BwNtRnDOH2p+ZL78Z9m/N8iaaN1NuqkWF4
+ EvCofnPS4xXjoHFBUMOcjdXeTCE/oT2nIxTRNkrj3unvd4sWa4RKA5lj9wzaP5kzs4si
+ YBjRKvYK2gYJ3zpxU9DOD9FB/3dhdogZIAq52PEHcOXNDczKireGofzKnoqr3AtWhhS0
+ CM5avC8QZtiGFTv1Fh92FEWk0HKHrTn+2zhgOaX8/CiwMYWDsCZq8aFAp2hNFYMWy0Gl
+ yTrL0Ek5fLyvZfLjX2o5pameIGLt+CJh4j0l4HsObYX/Ezx5qXkY+XveTzFOqOaNg1Zw
+ nnqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681828951; x=1684420951;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6gZlrvCOZuxtUgy42BvdprVfeY/UDtXoIaArs8m5OEA=;
+ b=T0WhhNAhXgvswh1W//f4w5JjZuueWQD3OsW3I78g4TBOJZq7Ydu7Qr5FFO7wbSTl6F
+ RD0rSI9dvmccHndd3dJm7epgXUGBYiAOLYnvGV0ytnxvuJ1FMZ3DfvHPTvbZq9UJ0zh4
+ SEeDS+ahceKFsWA9iwdC3A6dc3tE71yo541NsYV0KRavWt+rxZQ7Vh/NoJ3h7MB90tPm
+ 5/sicv00JphD+tssL2OQxW7tjuDw6Y/KSrwGTU398o7HjtMop5bzOPZVkUSPTnA+aZbB
+ PYAdJxK15P7rUyBab8xgLSJBjluEznkeiX1PwsOksMnME6XN5coIaec+b+TUzkBeNQ4L
+ f3oQ==
+X-Gm-Message-State: AAQBX9fH0KyASnauln63AZwrEpRGD20v59+bpnK1P49JCsbXh9J7UKGS
+ avE9SPmi39HJ+i1xPxNCjcM=
+X-Google-Smtp-Source: AKy350aHL0PqzmoFEMq0/6wFGmLCOxVNCSjsFmrtwVVWU08vdioQ1lUu8KO/0/2AjpeHv8xymLW1Vg==
+X-Received: by 2002:a05:6a20:430c:b0:f0:65fb:6cec with SMTP id
+ h12-20020a056a20430c00b000f065fb6cecmr63518pzk.8.1681828950858; 
+ Tue, 18 Apr 2023 07:42:30 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ s22-20020a63dc16000000b00502f4c62fd3sm8860807pgg.33.2023.04.18.07.42.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 07:42:30 -0700 (PDT)
+Message-ID: <c24f50af-1dbb-6a1b-ca21-414039c10602@roeck-us.net>
+Date: Tue, 18 Apr 2023 07:42:28 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADX32froz5kHH+IFA--.38119S10
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF43Xw1kCrW8Cr17ZFb_yoW8Xw1xpr
- WxCrWIgrW5t34qg34fJF1UWrs8Ca15KFn7ta1vvF1FkFWfua1rCF1qq3sF9F4UXayxZrWY
- 9a4UZr1UZF4jvFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
- 4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
- 3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
- x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8
- JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
- ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
- 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
- IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E
- 14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr
- 0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU6
- OJrUUUUU=
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230315145248.1639364-1-linux@roeck-us.net>
+ <CAFEAcA-ZpQCS33L4MaQaR1S9MN24GgK+cH0vcuiz_7m+6dO4cw@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 0/5] Support both Ethernet interfaces on i.MX6UL and i.MX7
+In-Reply-To: <CAFEAcA-ZpQCS33L4MaQaR1S9MN24GgK+cH0vcuiz_7m+6dO4cw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=groeck7@gmail.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.597,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,55 +97,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/pmp.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On 4/18/23 05:10, Peter Maydell wrote:
+> On Wed, 15 Mar 2023 at 14:52, Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> The SOC on i.MX6UL and i.MX7 has 2 Ethernet interfaces. The PHY on each may
+>> be connected to separate MDIO busses, or both may be connected on the same
+>> MDIO bus using different PHY addresses. Commit 461c51ad4275 ("Add a phy-num
+>> property to the i.MX FEC emulator") added support for specifying PHY
+>> addresses, but it did not provide support for linking the second PHY on
+>> a given MDIO bus to the other Ethernet interface.
+>>
+>> To be able to support two PHY instances on a single MDIO bus, two properties
+>> are needed: First, there needs to be a flag indicating if the MDIO bus on
+>> a given Ethernet interface is connected. If not, attempts to read from this
+>> bus must always return 0xffff. Implement this property as phy-connected.
+>> Second, if the MDIO bus on an interface is active, it needs a link to the
+>> consumer interface to be able to provide PHY access for it. Implement this
+>> property as phy-consumer.
+> 
+> So I was having a look at this to see if it was reasonably easy to
+> split out the PHY into its own device object, and I'm a bit confused.
+> I know basically 0 about MDIO, but wikipedia says that MDIO buses
+> have one master (the ethernet MAC) and potentially multiple PHYs.
+> However it looks like this patchset has configurations where
+> multiple MACs talk to the same MDIO bus. Am I confused about the
+> patchset, about the hardware, or about what MDIO supports?
+> 
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 67347c5887..1cce3f0ce4 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -122,7 +122,7 @@ static bool pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
-             qemu_log_mask(LOG_GUEST_ERROR, "ignoring pmpcfg write - locked\n");
-         } else if (env->pmp_state.pmp[pmp_index].cfg_reg != val) {
-             env->pmp_state.pmp[pmp_index].cfg_reg = val;
--            pmp_update_rule(env, pmp_index);
-+            pmp_update_rule_addr(env, pmp_index);
-             return true;
-         }
-     } else {
-@@ -208,6 +208,9 @@ void pmp_update_rule_nums(CPURISCVState *env)
-             env->pmp_state.num_rules++;
-         }
-     }
-+
-+    tlb_flush(env_cpu(env));
-+    tb_flush(env_cpu(env));
- }
- 
- /*
-@@ -487,8 +490,7 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
- 
-     /* If PMP permission of any addr has been changed, flush TLB pages. */
-     if (modified) {
--        tlb_flush(env_cpu(env));
--        tb_flush(env_cpu(env));
-+        pmp_update_rule_nums(env);
-     }
- }
- 
-@@ -541,8 +543,6 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
-             if (env->pmp_state.pmp[addr_index].addr_reg != val) {
-                 env->pmp_state.pmp[addr_index].addr_reg = val;
-                 pmp_update_rule(env, addr_index);
--                tlb_flush(env_cpu(env));
--                tb_flush(env_cpu(env));
-             }
-         } else {
-             qemu_log_mask(LOG_GUEST_ERROR,
--- 
-2.25.1
+It is quite similar to I2C, a serial interface with one master/controller
+and a number of devices (PHYs) connected to it. There is a nice graphic
+example at https://prodigytechno.com/mdio-management-data-input-output/.
+Not sure I understand what is confusing about it. Can you explain ?
+
+Thanks,
+Guenter
 
 
