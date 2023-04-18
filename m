@@ -2,69 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8A16E6600
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 15:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A8D6E666A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 15:54:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1polQf-0004Tb-Lk; Tue, 18 Apr 2023 09:31:35 -0400
+	id 1pollU-000203-PV; Tue, 18 Apr 2023 09:53:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1polQM-0004PO-Ea
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 09:31:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pollI-0001zP-Cl; Tue, 18 Apr 2023 09:52:48 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1polQK-0000uH-Rg
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 09:31:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681824666;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oILfNF6JpbWDS/bd7J5ZggBnMQShfldM7P82jsiPaRg=;
- b=W00lJ+NSxVtrkPnWyqWnx+5meNW9mWLci0SHruzOZyTZvtg+D0X+/acdgfJX4jqGheFKWh
- //8c2VC2Sli/XTIwYrGmaEJMgAuoBLBt6q2D8UP0J36INcsjv/JGTGwo5SpYFnqVNNnGte
- 09Nm0nC3/4eTKj/MRauvRuZ85RuAjOQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-6iPLCKYpMxG2TEmmRbFpVg-1; Tue, 18 Apr 2023 09:31:05 -0400
-X-MC-Unique: 6iPLCKYpMxG2TEmmRbFpVg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA9A8385054E
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 13:31:04 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.42.28.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1ED8E40C6E21;
- Tue, 18 Apr 2023 13:31:04 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 2/2] tests/qtest: make more migration pre-copy scenarios run
- non-live
-Date: Tue, 18 Apr 2023 14:31:00 +0100
-Message-Id: <20230418133100.48799-3-berrange@redhat.com>
-In-Reply-To: <20230418133100.48799-1-berrange@redhat.com>
-References: <20230418133100.48799-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pollF-0005Oq-BR; Tue, 18 Apr 2023 09:52:48 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33ICosjY013954; Tue, 18 Apr 2023 13:52:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=N/k4/nmWtVZqHK6G6a4vZtV2dFqAUdfOGBqNIv6a97A=;
+ b=W8WHPGZjLu+z+o+jWNV2PI7BbctLwM8xkx6X6YOdFPirjizkYNm2ORTRxaF4B6TjbikF
+ Wt9yuLKN7oSTY3VYXoyJoJkJxwhW9dBRep1tBXxFVE/bgfJDzeSSaVaAuwo6b5TiN9dL
+ zebVdXGcZnU85iFM3vHJO8JCCT6Tag+sIuCoWA5B3VCb1ZAtVNIcmg3M8eSid8k3qUmj
+ brutMaxtQYlcNBgMzf0BzeaHdJJQ6zW2QhhSm/PBBdX6M2qmwBuXrmHUYE+XO53ehcj9
+ XY2C41OiKBQAiaTl2s8v2m5LZLv8orAQUgy1dPU9qdVWsFZLhqV4D/pGogWZ7IlxYwOf 1w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1psxk82v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Apr 2023 13:52:39 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33ICVFhO003949;
+ Tue, 18 Apr 2023 13:52:37 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1psxk81t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Apr 2023 13:52:37 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33HNbr4p001751;
+ Tue, 18 Apr 2023 13:52:34 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3pykj6hqgd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Apr 2023 13:52:34 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33IDqUa123790166
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Apr 2023 13:52:31 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1AB62004D;
+ Tue, 18 Apr 2023 13:52:30 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7C6052004B;
+ Tue, 18 Apr 2023 13:52:29 +0000 (GMT)
+Received: from [9.171.38.31] (unknown [9.171.38.31])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue, 18 Apr 2023 13:52:29 +0000 (GMT)
+Message-ID: <9874d48f-dd04-6636-fd36-96a62ad01551@linux.ibm.com>
+Date: Tue, 18 Apr 2023 15:52:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v19 01/21] s390x/cpu topology: add s390 specifics to CPU
+ topology
+Content-Language: en-US
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-2-pmorel@linux.ibm.com>
+ <e96e60dade206cb970b55bfc9d2a77643bd14d98.camel@linux.ibm.com>
+ <d7a0263f-4b27-387d-bf6c-fde71df3feb4@linux.ibm.com>
+ <872b2cba2d76b2c635c65a1d2b301dab80866e30.camel@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <872b2cba2d76b2c635c65a1d2b301dab80866e30.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: v4OCVy16VLVmNjtBiSvhcFP4y8hi1Tiq
+X-Proofpoint-ORIG-GUID: XaEhpN5k-2lryqwZBIp9hwuuRBmacGuP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-18_09,2023-04-18_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 impostorscore=0
+ adultscore=0 mlxscore=0 priorityscore=1501 clxscore=1015 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304180118
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,133 +122,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There are 27 pre-copy live migration scenarios being tested. In all of
-these we force non-convergance and run for one iteration, then let it
-converge and wait for completion during the second (or following)
-iterations. At 3 mbps bandwidth limit the first iteration takes a very
-long time (~30 seconds).
 
-While it is important to test the migration passes and convergance
-logic, it is overkill to do this for all 27 pre-copy scenarios. The
-TLS migration scenarios in particular are merely exercising different
-code paths during connection establishment.
+On 4/18/23 14:38, Nina Schoetterl-Glausch wrote:
+> On Tue, 2023-04-18 at 12:01 +0200, Pierre Morel wrote:
+>> On 4/18/23 10:53, Nina Schoetterl-Glausch wrote:
+>>> On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
+>>>> S390 adds two new SMP levels, drawers and books to the CPU
+>>>> topology.
+>>>> The S390 CPU have specific topology features like dedication
+>>>> and entitlement to give to the guest indications on the host
+>>>> vCPUs scheduling and help the guest take the best decisions
+>>>> on the scheduling of threads on the vCPUs.
+>>>>
+>>>> Let us provide the SMP properties with books and drawers levels
+>>>> and S390 CPU with dedication and entitlement,
+>>>>
+>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>>> ---
+> [...]
+>>>> diff --git a/qapi/machine-common.json b/qapi/machine-common.json
+>>>> new file mode 100644
+>>>> index 0000000000..73ea38d976
+>>>> --- /dev/null
+>>>> +++ b/qapi/machine-common.json
+>>>> @@ -0,0 +1,22 @@
+>>>> +# -*- Mode: Python -*-
+>>>> +# vim: filetype=python
+>>>> +#
+>>>> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
+>>>> +# See the COPYING file in the top-level directory.
+>>>> +
+>>>> +##
+>>>> +# = Machines S390 data types
+>>>> +##
+>>>> +
+>>>> +##
+>>>> +# @CpuS390Entitlement:
+>>>> +#
+>>>> +# An enumeration of cpu entitlements that can be assumed by a virtual
+>>>> +# S390 CPU
+>>>> +#
+>>>> +# Since: 8.1
+>>>> +##
+>>>> +{ 'enum': 'CpuS390Entitlement',
+>>>> +  'prefix': 'S390_CPU_ENTITLEMENT',
+>>>> +  'data': [ 'horizontal', 'low', 'medium', 'high' ] }
+>>> You can get rid of the horizontal value now that the entitlement is ignored if the
+>>> polarization is vertical.
+>>
+>> Right, horizontal is not used, but what would you like?
+>>
+>> - replace horizontal with 'none' ?
+>>
+>> - add or substract 1 when we do the conversion between enum string and
+>> value ?
+> Yeah, I would completely drop it because it is a meaningless value
+> and adjust the conversion to the cpu value accordingly.
+>> frankly I prefer to keep horizontal here which is exactly what is given
+>> in the documentation for entitlement = 0
+> Not sure what you mean with this.
 
-To optimize time taken, switch most of the test scenarios to run
-non-live (ie guest CPUs paused) with no bandwidth limits. This gives
-a massive speed up for most of the test scenarios.
+I mean: Extract from the PoP:
 
-For test coverage the following scenarios are unchanged
+----
 
- * Precopy with UNIX sockets
- * Precopy with UNIX sockets and dirty ring tracking
- * Precopy with XBZRLE
- * Precopy with multifd
+The following values are used:
+PP Meaning
+0 The one or more CPUs represented by the TLE are
+horizontally polarized.
+1 The one or more CPUs represented by the TLE are
+vertically polarized. Entitlement is low.
+2 The one or more CPUs represented by the TLE are
+vertically polarized. Entitlement is medium.
+3 The one or more CPUs represented by the TLE are
+vertically polarized. Entitlement is high.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/qtest/migration-test.c | 34 +++++++++++++++++++++++++++-------
- 1 file changed, 27 insertions(+), 7 deletions(-)
+----
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 3b615b0da9..cdc9635f0b 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -574,6 +574,9 @@ typedef struct {
-     /* Optional: set number of migration passes to wait for */
-     unsigned int iterations;
- 
-+    /* Whether the guest CPUs should be running during migration */
-+    bool live;
-+
-     /* Postcopy specific fields */
-     void *postcopy_data;
-     bool postcopy_preempt;
-@@ -1329,7 +1332,11 @@ static void test_precopy_common(MigrateCommon *args)
-         return;
-     }
- 
--    migrate_ensure_non_converge(from);
-+    if (args->live) {
-+        migrate_ensure_non_converge(from);
-+    } else {
-+        migrate_ensure_converge(from);
-+    }
- 
-     if (args->start_hook) {
-         data_hook = args->start_hook(from, to);
-@@ -1357,16 +1364,20 @@ static void test_precopy_common(MigrateCommon *args)
-             qtest_set_expected_status(to, EXIT_FAILURE);
-         }
-     } else {
--        if (args->iterations) {
--            while (args->iterations--) {
-+        if (args->live) {
-+            if (args->iterations) {
-+                while (args->iterations--) {
-+                    wait_for_migration_pass(from);
-+                }
-+            } else {
-                 wait_for_migration_pass(from);
-             }
-+
-+            migrate_ensure_converge(from);
-         } else {
--            wait_for_migration_pass(from);
-+            qtest_qmp_discard_response(from, "{ 'execute' : 'stop'}");
-         }
- 
--        migrate_ensure_converge(from);
--
-         /* We do this first, as it has a timeout to stop us
-          * hanging forever if migration didn't converge */
-         wait_for_migration_complete(from);
-@@ -1375,7 +1386,12 @@ static void test_precopy_common(MigrateCommon *args)
-             qtest_qmp_eventwait(from, "STOP");
-         }
- 
--        qtest_qmp_eventwait(to, "RESUME");
-+        if (!args->live) {
-+            qtest_qmp_discard_response(to, "{ 'execute' : 'cont'}");
-+        }
-+        if (!got_resume) {
-+            qtest_qmp_eventwait(to, "RESUME");
-+        }
- 
-         wait_for_serial("dest_serial");
-     }
-@@ -1393,6 +1409,7 @@ static void test_precopy_unix_plain(void)
-     MigrateCommon args = {
-         .listen_uri = uri,
-         .connect_uri = uri,
-+        .live = true,
-     };
- 
-     test_precopy_common(&args);
-@@ -1408,6 +1425,7 @@ static void test_precopy_unix_dirty_ring(void)
-         },
-         .listen_uri = uri,
-         .connect_uri = uri,
-+        .live = true,
-     };
- 
-     test_precopy_common(&args);
-@@ -1519,6 +1537,7 @@ static void test_precopy_unix_xbzrle(void)
-         .start_hook = test_migrate_xbzrle_start,
- 
-         .iterations = 2,
-+        .live = true,
-     };
- 
-     test_precopy_common(&args);
-@@ -1919,6 +1938,7 @@ static void test_multifd_tcp_none(void)
-     MigrateCommon args = {
-         .listen_uri = "defer",
-         .start_hook = test_migrate_precopy_tcp_multifd_start,
-+        .live = true,
-     };
-     test_precopy_common(&args);
- }
--- 
-2.40.0
+Also I find that using an enum to systematically add/subtract a value is 
+for me weird.
+
+so I really prefer to keep "horizontal", "low", "medium", "high" event 
+"horizontal" will never appear.
+
+A mater of taste, it does not change anything to the functionality or 
+the API.
+
+
+>>
+>>
+>>> [...]
+>>>
+>>>> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+>>>> index b10a8541ff..57165fa3a0 100644
+>>>> --- a/target/s390x/cpu.c
+>>>> +++ b/target/s390x/cpu.c
+>>>> @@ -37,6 +37,7 @@
+>>>>    #ifndef CONFIG_USER_ONLY
+>>>>    #include "sysemu/reset.h"
+>>>>    #endif
+>>>> +#include "hw/s390x/cpu-topology.h"
+>>>>    
+>>>>    #define CR0_RESET       0xE0UL
+>>>>    #define CR14_RESET      0xC2000000UL;
+>>>> @@ -259,6 +260,12 @@ static gchar *s390_gdb_arch_name(CPUState *cs)
+>>>>    static Property s390x_cpu_properties[] = {
+>>>>    #if !defined(CONFIG_USER_ONLY)
+>>>>        DEFINE_PROP_UINT32("core-id", S390CPU, env.core_id, 0),
+>>>> +    DEFINE_PROP_INT32("socket-id", S390CPU, env.socket_id, -1),
+>>>> +    DEFINE_PROP_INT32("book-id", S390CPU, env.book_id, -1),
+>>>> +    DEFINE_PROP_INT32("drawer-id", S390CPU, env.drawer_id, -1),
+>>>> +    DEFINE_PROP_BOOL("dedicated", S390CPU, env.dedicated, false),
+>>>> +    DEFINE_PROP_UINT8("entitlement", S390CPU, env.entitlement,
+>>>> +                      S390_CPU_ENTITLEMENT__MAX),
+>>> I would define an entitlement PropertyInfo in qdev-properties-system.[ch],
+>>> then one can use e.g.
+>>>
+>>> -device z14-s390x-cpu,core-id=11,entitlement=high
+>>
+>> Don't you think it is an enhancement we can do later?
+> It's a user visible change, so no.
+
+
+We could have kept both string and integer.
+
+
+> But it's not complicated, should be just:
+>
+> const PropertyInfo qdev_prop_cpus390entitlement = {
+>      .name = "CpuS390Entitlement",
+>      .enum_table = &CpuS390Entitlement_lookup,
+>      .get   = qdev_propinfo_get_enum,
+>      .set   = qdev_propinfo_set_enum,
+>      .set_default_value = qdev_propinfo_set_default_value_enum,
+> };
+>
+> Plus a comment & build bug in qdev-properties-system.c
+>
+> and
+>
+> extern const PropertyInfo qdev_prop_cpus390entitlement;
+> #define DEFINE_PROP_CPUS390ENTITLEMENT(_n, _s, _f, _d) \
+>      DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_cpus390entitlement, \
+>                         CpuS390Entitlement)
+>
+> in qdev-properties-system.h
+>
+> You need to change the type of env.entitlement and set the default to 1 for medium
+> and that should be it.
+
+
+OK, it does not change anything to the functionality but is a little bit 
+more pretty.
+
+
+>>
+>>> on the command line and cpu hotplug.
+>>>
+>>> I think setting the default entitlement to medium here should be fine.
+>>>
+>>> [...]
+>> right, I had medium before and should not have change it.
+>>
+>> Anyway what ever the default is, it must be changed later depending on
+>> dedication.
+> No, you can just set it to medium and get rid of the adjustment code.
+> s390_topology_check will reject invalid changes and the default above
+> is fine since dedication is false.
+
+
+I do not want a default specification for the entitlement to depend on 
+the polarization.
+
+If we do as you propose, by horizontal polarization a default 
+entitlement with dedication will be accepted but will be refused after 
+the guest switched for vertical polarization.
+
+So we need adjustment before the check in both cases.
+
+I find it easier and more logical if there is no default value than to 
+have a default we need to overwrite.
+
+
+
 
 
