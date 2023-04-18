@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A556D6E5BCD
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5556E5BDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:18:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pogTf-0005Od-Ic; Tue, 18 Apr 2023 04:14:15 -0400
+	id 1pogWo-0006xE-GX; Tue, 18 Apr 2023 04:17:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pogTb-0005Nq-Ka; Tue, 18 Apr 2023 04:14:11 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pogTV-0004Wl-Pc; Tue, 18 Apr 2023 04:14:10 -0400
-Received: from [192.168.0.120] (unknown [180.165.241.15])
- by APP-01 (Coremail) with SMTP id qwCowADn759CUT5kwgrXBQ--.56754S2;
- Tue, 18 Apr 2023 16:13:54 +0800 (CST)
-Message-ID: <e0583278-5bc2-ac4a-1bfe-85bed1014954@iscas.ac.cn>
-Date: Tue, 18 Apr 2023 16:13:53 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pogWn-0006wz-2a
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:17:29 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pogWl-0005DQ-8s
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:17:28 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-54fbb713301so205482207b3.11
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 01:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681805846; x=1684397846;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZZS9txSmhZNZIb+aSAgPzICIN4/6Tb7j49J+eB7HPBo=;
+ b=NT6Pd7FUSoJGX7uSSOlVdrV5KJj5/SfxaSvQZ0+vxVzBpbblezzjzqsvQcpXZDHJBx
+ Lqsr4I/9qc6OhOjvFGTydwADkntCS9jqFdbzn5yGouKijhS9j/pUDAA8XjB9yA6OtMxp
+ 3aNm13jy1RCwSIPQzm6kqwS7/6Cw9n6mvR74FyZMD2YGHtFSsldXYLT21dKuYHtoJ2Pa
+ KqPfTlAzlrK8jUNKAl4WJ2yuKniI8D4dWX7lDR10hnCm8K9sgGzLy5ZdoStN4Lvlu67J
+ eV9tduu4jxtFmhRH7TB3LGiqlZMIja27T0g/MObhxsASP+SdzkShJMKAQenDI/ym1mQB
+ fRbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681805846; x=1684397846;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZZS9txSmhZNZIb+aSAgPzICIN4/6Tb7j49J+eB7HPBo=;
+ b=NJ1o46M64HM7JKufhG+hG4R+1QoyYIgQXuNR7047TpjolkD0onrZC1Yx1AE+5uI+IK
+ vOSNnvDeY20QSpPDIWUA7smOUXoSxuvcqNylUIfpraLagLfD8BMFb692hOczvkyoiQ/p
+ ZUoiXeQOvJtN8+zgGWQvWAFXdZpc6zaFtiBuQ0E/6XKWRg4dEmW2/7dzKTUWV8vobJuE
+ /fKgnHI9qb1jBTJ3XBgsR5c7fZioCytdodoL3LZ8X2akzTPenOGa7AhJ6Cg7C6eDJXFV
+ LKtxyfsydrXmG2q+QdT+LpdIZfHsIaOpecdkgOtBqmuoodZ6dXbUQJbBL0/5B8rP0jXF
+ 1/tA==
+X-Gm-Message-State: AAQBX9fWRpRzpp2UA1azT9bH8iNSARPrgmdFx0zMpL5WXCRETeiNnfjt
+ 3w5zzHEMJogUtIz+2wAyg2ozeA==
+X-Google-Smtp-Source: AKy350ZaI1KzL6tYz+MoOv6CmK41eGTirgrWh7Txf5OXD5bWFPwMVDM/yO2CC5awOxRaXD0p64nyoA==
+X-Received: by 2002:a81:a157:0:b0:543:439f:3b27 with SMTP id
+ y84-20020a81a157000000b00543439f3b27mr17365423ywg.8.1681805846094; 
+ Tue, 18 Apr 2023 01:17:26 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:8079:8dd6:3f0f:2ab3:5c15:47fa?
+ ([2605:ef80:8079:8dd6:3f0f:2ab3:5c15:47fa])
+ by smtp.gmail.com with ESMTPSA id
+ b3-20020a81bd03000000b00545a08184fesm3589508ywi.142.2023.04.18.01.17.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 01:17:25 -0700 (PDT)
+Message-ID: <3e2bf588-98cd-1c63-9dbc-ddd97e7ac8ed@linaro.org>
+Date: Tue, 18 Apr 2023 10:16:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, dbarboza@ventanamicro.com,
- richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH 3/6] target/riscv: flush tlb when pmpaddr is updated
+Subject: Re: [PATCH v2 04/17] target/riscv: Move vector translation checks
 Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
- <20230413090122.65228-4-liweiwei@iscas.ac.cn>
- <de40eeea-6ddf-264c-2cfb-94b5d55093d8@linux.alibaba.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-In-Reply-To: <de40eeea-6ddf-264c-2cfb-94b5d55093d8@linux.alibaba.com>
+To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>, qemu-devel@nongnu.org
+Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, pbonzini@redhat.com,
+ philipp.tomsich@vrull.eu, kvm@vger.kernel.org, qemu-riscv@nongnu.org
+References: <20230417135821.609964-1-lawrence.hunter@codethink.co.uk>
+ <20230417135821.609964-5-lawrence.hunter@codethink.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230417135821.609964-5-lawrence.hunter@codethink.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADn759CUT5kwgrXBQ--.56754S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tF43WF4rGF13AF1rtF4UXFb_yoW8Jw1xpr
- 10kFy8GrW5GrykWa1UJF1UXryUJr15G3Wvq3y2yF1UCF45Xr1jvr1DXryjgr1UXF4fJr1j
- kFyUZr1UZF18XFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x0JUZa9-UUUUU=
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=richard.henderson@linaro.org; helo=mail-yw1-x1134.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.284,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.284,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,44 +99,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/17/23 15:58, Lawrence Hunter wrote:
+> From: Nazar Kazakov<nazar.kazakov@codethink.co.uk>
+> 
+> Move the checks out of `do_opiv{v,x,i}_gvec{,_shift}` functions
+> and into the corresponding macros. This enables the functions to be
+> reused in proceeding commits without check duplication.
+> 
+> Signed-off-by: Nazar Kazakov<nazar.kazakov@codethink.co.uk>
+> ---
+>   target/riscv/insn_trans/trans_rvv.c.inc | 28 +++++++++++--------------
+>   1 file changed, 12 insertions(+), 16 deletions(-)
 
-On 2023/4/18 15:11, LIU Zhiwei wrote:
->
-> On 2023/4/13 17:01, Weiwei Li wrote:
->> TLB should be flushed not only for pmpcfg csr changes, but also for
->> pmpaddr csr changes.
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> ---
->>   target/riscv/pmp.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
->> index 4f9389e73c..6d4813806b 100644
->> --- a/target/riscv/pmp.c
->> +++ b/target/riscv/pmp.c
->> @@ -537,6 +537,7 @@ void pmpaddr_csr_write(CPURISCVState *env, 
->> uint32_t addr_index,
->>           if (!pmp_is_locked(env, addr_index)) {
->>               env->pmp_state.pmp[addr_index].addr_reg = val;
->>               pmp_update_rule(env, addr_index);
->> +            tlb_flush(env_cpu(env));
->
-> Can we always flush tlb in pmp_update_rule?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I considered this way, However  this may lead to tlb being flushed 
-several times when we update pmpcfg csrs.
-
-Regards,
-
-Weiwei Li
-
->
-> Zhiwei
->
->>           } else {
->>               qemu_log_mask(LOG_GUEST_ERROR,
->>                             "ignoring pmpaddr write - locked\n");
-
+r~
 
