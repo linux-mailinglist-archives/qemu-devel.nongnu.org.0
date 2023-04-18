@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86FF6E5DB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 11:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC45C6E5DCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 11:45:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pohpQ-0007Ww-Nz; Tue, 18 Apr 2023 05:40:48 -0400
+	id 1pohtj-0000Id-B1; Tue, 18 Apr 2023 05:45:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pohpK-0007Wf-CB
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 05:40:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pohpC-0003dg-NI
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 05:40:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681810833;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=2fMh88+y+HqfaRHe45i7Nes5KvRhOCGrjpPu2/aTgfI=;
- b=N/HmhqZqr/z0qd40IokG/bzieVq2myLJSqSrGytuht2E2ifW5vYBzm77V1Vu8vJmkh3vCF
- vHGwathDfrAgRTpBieasrfAtr8nn1QjtiU/aHtpTF2zUNCCCkIw8reF3xKi9b38iM4U5+j
- 5vZ+/L5/k/ZapgMWqBJnnItirXOrH3I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-Y8EI6RXnOrGBak9clQqGEw-1; Tue, 18 Apr 2023 05:40:30 -0400
-X-MC-Unique: Y8EI6RXnOrGBak9clQqGEw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0762101A54F;
- Tue, 18 Apr 2023 09:40:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ACFE3C15BB8;
- Tue, 18 Apr 2023 09:40:28 +0000 (UTC)
-Date: Tue, 18 Apr 2023 10:40:26 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Olaf Hering <olaf@aepfle.de>
-Cc: Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 2/2] tests: lcitool: Switch to OpenSUSE Leap 15.4
-Message-ID: <ZD5livcyA/DONFVb@redhat.com>
-References: <cover.1681735482.git.pkrempa@redhat.com>
- <a408b7f241ac59e5944db6ae2360a792305c36e0.1681735482.git.pkrempa@redhat.com>
- <20230417163258.65586555.olaf@aepfle.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pohth-0000Hz-1g
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 05:45:13 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pohta-0004Rc-Hv
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 05:45:07 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id
+ 4fb4d7f45d1cf-5051abd03a7so4022723a12.2
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 02:45:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681811105; x=1684403105;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=eqWOPMCPtsSKuGhNXBr1LrLqRLc3xZy090dmB+kEUvg=;
+ b=P7VxUd0plnsw4TWA4Zzf+3iNgRO2MUGpFsBfd8TqT2axT+HGWnkuzIjCh0z/ewn889
+ pFokazCF4p4iLT3ja6RYepobQeQuiRpL5RtrEkRz1WoKvV9WQNWeOQdehSpZQ3DV/pXI
+ DqPkRUIR/SieC7CeEymh7AcF7GSZ0QG7+r6iakrjG79w2y4zI2Gog9F7TszE+qOdhCJV
+ qUxaZzK6QlAVITXH2+DxmwMGrUnjS92M1hMFPnswgCs5FtFYElur5Vzto2A3ga8W6Y54
+ wwPXEccEQcdpFqfGd4aevBZHi2RSBHdb7LBOHo1NsfZFADPeihZs9Nd7aRI4rod3/VGQ
+ b2Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681811105; x=1684403105;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eqWOPMCPtsSKuGhNXBr1LrLqRLc3xZy090dmB+kEUvg=;
+ b=Glly38oJ8MFtCxQGxZsdhpXjs3ikGtex/RzuRHIqssr46mZAFmIyv8lM5mO3YW2Meh
+ GXQCwllPYRATsJ8+Td/HzxO7d4Wuk3Raq+/ARTojQ2z0pzlPP3u23FqRRrAMMSixehU6
+ 87rajg8Il/FNujViqrL9y9pG3esybp5pNBTjSUr4j6mG51NMqWjaeldoxxMZSoUfaTAQ
+ UBjuJMsANJQn+++NqKcp9iN/2WoxXKWDMpfMxPuxgr3QevIcGhg8fOq4NzwD35VxY+m2
+ qKnSWpMzkVUX3t/Ty4p0Y63Zamzm20WjO9aCarX98ZaN6qcVvx3ueGUCoZlHUdcjIKK4
+ 7cGw==
+X-Gm-Message-State: AAQBX9e7U0msesOse3wEu0n6Olo5fZoE1/3s+vovtsqgtR8fhkU/7Sqi
+ W2YhxwIUEZp/elfJTwhg+ctYdy8vk4vw537JFtFo8g==
+X-Google-Smtp-Source: AKy350bBLhxGtu9OJokGU98o5IJzswnmIrZSXMmbaCYxzNUklLaT1+Dw6GjxScT0eSE7P+fFma2JxWENlEQavvlK47Y=
+X-Received: by 2002:a50:8e19:0:b0:506:6ca5:3128 with SMTP id
+ 25-20020a508e19000000b005066ca53128mr914936edw.6.1681811104703; Tue, 18 Apr
+ 2023 02:45:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230417163258.65586555.olaf@aepfle.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230417164041.684562-1-peter.maydell@linaro.org>
+ <20230417164041.684562-4-peter.maydell@linaro.org>
+ <add60763-a53a-e037-1690-d9c2da375dcd@linaro.org>
+In-Reply-To: <add60763-a53a-e037-1690-d9c2da375dcd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 Apr 2023 10:44:53 +0100
+Message-ID: <CAFEAcA_3SEsPDfmsmPiGQ9X9u_5MGebDs9KZvFp4vSPNPcQn-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 03/10] accel/tcg: Use one_insn_per_tb global instead of
+ old singlestep global
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
+ Kyle Evans <kevans@freebsd.org>, 
+ libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>, 
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,36 +87,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Apr 17, 2023 at 04:32:58PM +0200, Olaf Hering wrote:
-> Mon, 17 Apr 2023 14:46:54 +0200 Peter Krempa <pkrempa@redhat.com>:
-> 
-> > Switch the dockerfile to 15.4.
-> 
-> Given that Leap 15.5 is essentially done, please skip this meanwhile stale version of Leap.
+On Tue, 18 Apr 2023 at 09:05, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 4/17/23 18:40, Peter Maydell wrote:
+> > @@ -219,8 +221,8 @@ static void tcg_set_one_insn_per_tb(Object *obj, bool value, Error **errp)
+> >   {
+> >       TCGState *s = TCG_STATE(obj);
+> >       s->one_insn_per_tb = value;
+> > -    /* For the moment, set the global also: this changes the behaviour */
+> > -    singlestep = value;
+> > +    /* Set the global also: this changes the behaviour */
+> > +    qatomic_set(&one_insn_per_tb, value);
+> >   }
+>
+> Oh, one question: is it worth having the TCGState member at all?
+> Seems like these accessors could work just fine with only the global.
 
-15.4 is still the active release and doesn't have EOL until Dec this
-year IIUC from:
+True at the moment, but if we do ever want to do that refactoring
+to use a tcg_global_cflags, then we will need the TCGState field,
+because you can't go from a tcg_global_cflags value back to
+"what are the one_insn_per_tb and nochain settings currently?".
 
-  https://en.wikipedia.org/wiki/OpenSUSE
-
-meanwhile 15.5 isn't out yet, and even when released, it is still valid
-to be testing 15.4 as that's likely to remain more widely deployed for
-a while after.
-
-Ideally we would test both 15.4 and 15.5 but with limited CI resources
-I think it is more valuable to test the older version, to ensure that
-we don't accidentally introduce use of new features that break on the
-older version.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
