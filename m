@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46ADA6E6767
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 16:47:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701D96E6799
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 16:55:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pombe-0006Re-A1; Tue, 18 Apr 2023 10:46:54 -0400
+	id 1pomie-0000EF-3q; Tue, 18 Apr 2023 10:54:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pombc-0006RN-RH
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 10:46:52 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pombZ-0007Xi-SH
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 10:46:52 -0400
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-94f109b1808so239550166b.1
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 07:46:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681829208; x=1684421208;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xGSnephk7yGNx+eOoVYchkNcgUbIw9bj/YqG7sC0utE=;
- b=L7WIg9ElBozqmcZB8JVTzq5cKfIgqQ1MgaxS9Um+nbqyKHSnG6WG64epjxvxbybXvB
- Pb9eaCnAp0w8lCvFJdxC7Gv/4cdzYAACR2D1e/Y+XTEy3SCt947A7N+UN/OqHkm0EdOh
- dd0xeEyrfBOgXjrWjxe7JgJdSdUKHgVe+ziyRg4CIfAYioydKBEBmX9jqMgGvWIr/L/3
- Td7fZK6uU2Gaj/ZHzM3IaitXa+4fOG/OUGbjXxQyqvI2VUphUq3ppieasBZ7kIhTOnn0
- hgWuDINiPlCUOBco9rqEIdw7jt4I6RVxVisDtIqZKd8301ZNwo0fqvztFGFyp4QkpC5L
- JoQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681829208; x=1684421208;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xGSnephk7yGNx+eOoVYchkNcgUbIw9bj/YqG7sC0utE=;
- b=OcXAHwqz3/Oar/LJ3uqWAWZJmS+289n1DfJP1+exfmwjLnTUeZZ6Ev3SAcdGrMuhJK
- nbuprla+BlAOCkrG2iOdBBDP9aLhEfq3dk3AwraLw3QaWr5uthMjgSAXnfom7H2ukQjA
- z1+ithIMFj9cLs77PsFD84bbQD0Bl5dJqqqxsjOeR5HqnTT8OWwLmg5UFoN83/y45uPt
- ja2SeTCpLkDXKmI3C7kTZsyIIShYHnuqiQ1Ui0w728yxQGpyTnhLWaFbdNPX98CEwlQw
- mrZ6G0qTfRknnvkR25uqoUVKlvcllHBVa6H+z5OM0cZDrTHH4csKBIXWAQs/1e9GDjKO
- MdJA==
-X-Gm-Message-State: AAQBX9etcNX0WzCDiMVlBfKrGsv2AhW2QS79tCbUKcjZ71LCHNb6tCO6
- X7kKb1vVy+JrtMPWB7SqS67mODUcDrhqyYjZDyaZug==
-X-Google-Smtp-Source: AKy350ZPu/Ef9Q/cJdYcgeQXTBO9w563a/RoZ5BbEHrmEzzyGJa+bDe2+YK2jAgCQd9r1CocRYoLtCP53BmhUBGOyVg=
-X-Received: by 2002:a50:9fc7:0:b0:506:8d91:89c4 with SMTP id
- c65-20020a509fc7000000b005068d9189c4mr1277922edf.6.1681829208192; Tue, 18 Apr
- 2023 07:46:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pomic-0000Ds-Fg
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 10:54:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pomia-0000K2-DV
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 10:54:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681829643;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Te7ZL7RB9or60F5B4sreUzdGxKVT7SqQFuXvARgHbt0=;
+ b=cil0oKGjs1BqENF/UCFXwzbmx66Lk6xPKWuwPoQ//JMF67Zr09uBdCzLVP73b8IaqsvHkl
+ BVhO2Vd8wtH0audzmcbvjVCn9t7ORgquD/zs/TIBhmuMOcNtP+Qq/TvD1b51v7TrKXq8Xv
+ 6PFBTyjN7/NpL8aNwRVUWAy8pQPFKSs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-191-a_s3VSiKM92isgsOEdvGFA-1; Tue, 18 Apr 2023 10:54:01 -0400
+X-MC-Unique: a_s3VSiKM92isgsOEdvGFA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90993858297
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 14:54:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1B142166B26;
+ Tue, 18 Apr 2023 14:54:00 +0000 (UTC)
+Date: Tue, 18 Apr 2023 15:53:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 0/2] tests/migration: Fix migration-test slowdown
+Message-ID: <ZD6vBs8Ua+uC6EEN@redhat.com>
+References: <20230412142001.16501-1-quintela@redhat.com>
+ <3a601ee8-15f0-39ec-3436-69ecc5b25886@redhat.com>
+ <874jpd2z7s.fsf@secure.mitica>
+ <44abaed4-465b-38c7-8d98-ed774b1dc478@redhat.com>
+ <87r0sh1g62.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230315145248.1639364-1-linux@roeck-us.net>
- <CAFEAcA-ZpQCS33L4MaQaR1S9MN24GgK+cH0vcuiz_7m+6dO4cw@mail.gmail.com>
- <c24f50af-1dbb-6a1b-ca21-414039c10602@roeck-us.net>
-In-Reply-To: <c24f50af-1dbb-6a1b-ca21-414039c10602@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Apr 2023 15:46:37 +0100
-Message-ID: <CAFEAcA9VQHa=Eenyon-kaiabayM5YY7FHEJsEWOzjzj3rXaSaA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] Support both Ethernet interfaces on i.MX6UL and i.MX7
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87r0sh1g62.fsf@secure.mitica>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,41 +80,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 18 Apr 2023 at 15:42, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 4/18/23 05:10, Peter Maydell wrote:
-> > On Wed, 15 Mar 2023 at 14:52, Guenter Roeck <linux@roeck-us.net> wrote:
-> > So I was having a look at this to see if it was reasonably easy to
-> > split out the PHY into its own device object, and I'm a bit confused.
-> > I know basically 0 about MDIO, but wikipedia says that MDIO buses
-> > have one master (the ethernet MAC) and potentially multiple PHYs.
-> > However it looks like this patchset has configurations where
-> > multiple MACs talk to the same MDIO bus. Am I confused about the
-> > patchset, about the hardware, or about what MDIO supports?
+On Tue, Apr 18, 2023 at 03:19:33PM +0200, Juan Quintela wrote:
+> Thomas Huth <thuth@redhat.com> wrote:
+> > On 18/04/2023 13.42, Juan Quintela wrote:
+> >> Thomas Huth <thuth@redhat.com> wrote:
+> >>> On 12/04/2023 16.19, Juan Quintela wrote:
+> >>>> Since commit:
+> >>>> commit 1bfc8dde505f1e6a92697c52aa9b09e81b54c78f
+> >>>> Author: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >>>> Date:   Mon Mar 6 15:26:12 2023 +0000
+> >>>>       tests/migration: Tweek auto converge limits check
+> >>>>       Thomas found an autoconverge test failure where the
+> >>>>       migration completed before the autoconverge had kicked in.
+> >>>>       [...]
+> >>>> migration-test has become very slow.
+> >>>> On my laptop, before that commit migration-test takes 2min10seconds
+> >>>> After that commit, it takes around 11minutes
+> >>>> We can't revert it because it fixes a real problem when the host
+> >>>> machine is overloaded.  See the comment on test_migrate_auto_converge().
+> >>>
+> >>> Thanks, your patches decrease the time to run the migration-test from
+> >>> 16 minutes down to 5 minutes on my system, that's a great improvement,
+> >>> indeed!
+> >>>
+> >>> Tested-by: Thomas Huth <thuth@redhat.com>
+> >> Thanks
+> >> 
+> >>> (though 5 minutes are still quite a lot for qtests ... maybe some
+> >>> other parts could be moved to only run with g_test_slow() ?)
+> >> Hi
+> >> Could you gime the output of:
+> >> time for i in $(./tests/qtest/migration-test -l | grep "^/"); do
+> >> echo $i; time ./tests/qtest/migration-test -p $i; done
+> >> To see what tests are taking so long on your system?
+> >> On my system (i9900K processor, i.e. not the latest) and
+> >> auto_converge
+> >> moved to slow the total of the tests take a bit more than 1 minute.
 > >
->
-> It is quite similar to I2C, a serial interface with one master/controller
-> and a number of devices (PHYs) connected to it. There is a nice graphic
-> example at https://prodigytechno.com/mdio-management-data-input-output/.
-> Not sure I understand what is confusing about it. Can you explain ?
+> > This is with both of your patches applied:
+> 
+> 
+> > /x86_64/migration/postcopy/plain
+> > /x86_64/migration/postcopy/plain: OK
+> >
+> > real	0m35,446s
+> > user	0m47,208s
+> > sys	0m11,828s
+> 
+> This is quite slower than on mine, basically almost all the code that
+> does migration.
 
-I guess I don't understand what the topology is for these specific
-SoCs, then. If there's only one master that might be connected
-to multiple PHYs, why does one ethernet device in QEMU need to
-know about the other one? Are the PHYs connected to just that
-first ethernet device, or to both? This bit in your cover letter
-makes it sound like "both ethernet interfaces connect to the same
-MDIO bus which has both PHYs on it":
+This is expected AFAIK.  The migrate_postcopy_prepare method
+waits for 1 complete pre-copy pass to run at 3mbps, before
+switching to pre-copy mode.
 
->> The SOC on i.MX6UL and i.MX7 has 2 Ethernet interfaces. The PHY on each may
->> be connected to separate MDIO busses, or both may be connected on the same
->> MDIO bus using different PHY addresses.
+> 
+> $ time ./tests/qtest/migration-test -p /x86_64/migration/postcopy/plain
+> # random seed: R02S42809b71f513e8524bd24df5facd5768
+> # Start of x86_64 tests
+> # Start of migration tests
+> # Start of postcopy tests
+> # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-246853.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-246853.qmp,id=char0 -mon chardev=char0,mode=control -display none -accel kvm -accel tcg -name source,debug-threads=on -m 150M -serial file:/tmp/migration-test-1MGL31/src_serial -drive file=/tmp/migration-test-1MGL31/bootsect,format=raw    -accel qtest
+> # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-246853.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-246853.qmp,id=char0 -mon chardev=char0,mode=control -display none -accel kvm -accel tcg -name target,debug-threads=on -m 150M -serial file:/tmp/migration-test-1MGL31/dest_serial -incoming unix:/tmp/migration-test-1MGL31/migsocket -drive file=/tmp/migration-test-1MGL31/bootsect,format=raw    -accel qtest
+> ok 1 /x86_64/migration/postcopy/plain
+> # End of postcopy tests
+> # End of migration tests
+> # End of x86_64 tests
+> 1..1
+> 
+> real	0m1.104s
+> user	0m0.697s
+> sys	0m0.414s
 
-but maybe I'm misreading it.
+That is surprisingly fast - it is like it is not doing the pre-copy
+pass at all.
 
-thanks
--- PMM
+
+> > real	5m32,733s
+> > user	7m24,380s
+> > sys	1m50,801s
+> 
+> Ouch.
+> 
+> Can I ask:
+> - what is your machine?  It is specially slow?
+>   Otherwise I want to know why it is happening.
+
+This matches what I see in my laptop - any test which runs a full
+pre-copy pass gets 30 seconds time added for this phase
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
