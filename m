@@ -2,66 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7326E6E67E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 17:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203916E67E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 17:19:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pon66-0007Ve-O7; Tue, 18 Apr 2023 11:18:22 -0400
+	id 1pon6V-0007mH-SK; Tue, 18 Apr 2023 11:18:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pon64-0007VW-M3
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:18:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pon63-0005M6-80
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:18:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681831098;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=yFIdCCY1J9iXUJqyCxzx24H0lMPLRFL6u6K0GpP+pEo=;
- b=HNTFcokCDGEkKnoeF1TKcDdJVHfAxb7kqV6DiJXsJVIpsbF+2D8MJc0DvoOJpsimUxf6VP
- ttd9Y2NKtsQ9PAiZCIjCKlXtFNavPVMaW0zQGlnQ3DbOI2WTE3hzPgPMBce15jyDZc434I
- BBN1oQg+dBxGLhYNM2TbSnu/doqALW8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-470-oG-xeKEWNJmMKBpnNIgRWA-1; Tue, 18 Apr 2023 11:18:13 -0400
-X-MC-Unique: oG-xeKEWNJmMKBpnNIgRWA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 621B3858F09;
- Tue, 18 Apr 2023 15:18:13 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D60E3492B01;
- Tue, 18 Apr 2023 15:18:12 +0000 (UTC)
-Date: Tue, 18 Apr 2023 11:18:11 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Cindy Lu <lulu@redhat.com>,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- Yajun Wu <yajunw@nvidia.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Move vhost-user SET_STATUS 0 after get vring base?
-Message-ID: <20230418151811.GA4048149@fedora>
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1pon6T-0007iw-C9; Tue, 18 Apr 2023 11:18:45 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1pon6Q-0005OY-Qw; Tue, 18 Apr 2023 11:18:45 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ 98e67ed59e1d1-244a5ccf13eso1825583a91.2; 
+ Tue, 18 Apr 2023 08:18:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681831120; x=1684423120;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RG47nneokY2awkxBg61etIe9N4zykVOuVzDXJHnMNqo=;
+ b=JS4c5RD448iXplEsqUrGidEwISBx7onLeIHO/i/g9M7qdU+Ves141RSl2FPsViaOWa
+ mpdTLcegUYJ8PT3cab2bvTddgvo/xn1c1JBfX6XxIOnQzHJbPzatTlcZXGB7Qn5E/D+u
+ mpgAie0T6pzU3h5KTJ2OdgINxtmFDgve7h3L+sXj6TLmolW2sOcv2tQOQHRpJX6nshO3
+ CDJlQVMRaNlPp/+U7tZrfJFSCPP2LvmYob3UamYHsiG9/bAsZ220rNQjT3JK/j6ncYN/
+ CaHLGEKzzM/p3tBFM9EwCQgYH3RpyYJuONjOlDJjaOwGbBPoGfzeSGAQpqH3U4nf0jJM
+ kKcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681831120; x=1684423120;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:sender
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RG47nneokY2awkxBg61etIe9N4zykVOuVzDXJHnMNqo=;
+ b=Sst0PGr3K9fQiEB8LsM3NEj4AzIifSdkU+pGKdTkqMlCEkOil5YtGIv1qgHLpv9zvV
+ Tmp1cWZnkko9y1hu24bAgbrUbiAU3yByoxoBqCBAJbePkuGj4A+cPgcK7sUG1fiGhiMY
+ xXoWXJjd4Th+8kL6f5DqdMfiTSZTS7plcXTd/wD7SHU0toB1ZTPDxbpYMNQR6JqpTNyH
+ uzPchCNWZU5cbfoVnTk9bURMFYdsW3M3jTG/Bsug25cbhqN6a8Q4GS9UDzLE7qxW7299
+ RhXr6KYIYCmjHFvUJNyHgLYLXdM2vmmeP2sXTE4jly58wltq8VqCt7iOwDPM/wgASSS4
+ iTHA==
+X-Gm-Message-State: AAQBX9ccN1DKqBwyG43Jueph3wg3t1Frx6W+votj8Q/cd1IvXJXlsWCp
+ mDHxwsPb/L/uiDGFqEqg/S8=
+X-Google-Smtp-Source: AKy350a+w62efKojNtSnahet/mMMM19tgpwGPnULRZBUrPENEG4Msmegqa2ff/o239SKUGXkHb9J9g==
+X-Received: by 2002:a17:902:c410:b0:1a1:f0ad:8657 with SMTP id
+ k16-20020a170902c41000b001a1f0ad8657mr3355630plk.37.1681831119867; 
+ Tue, 18 Apr 2023 08:18:39 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ x14-20020a170902820e00b001a240f053aasm9665224pln.180.2023.04.18.08.18.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 08:18:39 -0700 (PDT)
+Message-ID: <79e67479-6785-c064-6aae-edd1ba2327cd@roeck-us.net>
+Date: Tue, 18 Apr 2023 08:18:37 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GylLp4DoEyz7va0G"
-Content-Disposition: inline
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230315145248.1639364-1-linux@roeck-us.net>
+ <CAFEAcA-ZpQCS33L4MaQaR1S9MN24GgK+cH0vcuiz_7m+6dO4cw@mail.gmail.com>
+ <c24f50af-1dbb-6a1b-ca21-414039c10602@roeck-us.net>
+ <CAFEAcA9VQHa=Eenyon-kaiabayM5YY7FHEJsEWOzjzj3rXaSaA@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 0/5] Support both Ethernet interfaces on i.MX6UL and i.MX7
+In-Reply-To: <CAFEAcA9VQHa=Eenyon-kaiabayM5YY7FHEJsEWOzjzj3rXaSaA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=groeck7@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.597,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,48 +100,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/18/23 07:46, Peter Maydell wrote:
+> On Tue, 18 Apr 2023 at 15:42, Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On 4/18/23 05:10, Peter Maydell wrote:
+>>> On Wed, 15 Mar 2023 at 14:52, Guenter Roeck <linux@roeck-us.net> wrote:
+>>> So I was having a look at this to see if it was reasonably easy to
+>>> split out the PHY into its own device object, and I'm a bit confused.
+>>> I know basically 0 about MDIO, but wikipedia says that MDIO buses
+>>> have one master (the ethernet MAC) and potentially multiple PHYs.
+>>> However it looks like this patchset has configurations where
+>>> multiple MACs talk to the same MDIO bus. Am I confused about the
+>>> patchset, about the hardware, or about what MDIO supports?
+>>>
+>>
+>> It is quite similar to I2C, a serial interface with one master/controller
+>> and a number of devices (PHYs) connected to it. There is a nice graphic
+>> example at https://prodigytechno.com/mdio-management-data-input-output/.
+>> Not sure I understand what is confusing about it. Can you explain ?
+> 
+> I guess I don't understand what the topology is for these specific
+> SoCs, then. If there's only one master that might be connected
+> to multiple PHYs, why does one ethernet device in QEMU need to
+> know about the other one? Are the PHYs connected to just that
+> first ethernet device, or to both? This bit in your cover letter
+> makes it sound like "both ethernet interfaces connect to the same
+> MDIO bus which has both PHYs on it":
+> 
 
---GylLp4DoEyz7va0G
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yes, that is exactly how it is, similar to the configuration in the picture
+at prodigytechno.com. I don't recall what I wrote in the cover letter, but
+"Both Ethernet PHYs connect to the same MDIO bus which is connected to one
+of the Ethernet MACs" would be the most accurate description I can think of.
 
-Hi,
-Cindy's commit ca71db438bdc ("vhost: implement vhost_dev_start method")
-added SET_STATUS calls to vhost_dev_start() and vhost_dev_stop() for all
-vhost backends.
+>>> The SOC on i.MX6UL and i.MX7 has 2 Ethernet interfaces. The PHY on each may
+>>> be connected to separate MDIO busses, or both may be connected on the same
+>>> MDIO bus using different PHY addresses.
+> 
 
-Eugenio's commit c3716f260bff ("vdpa: move vhost reset after get vring
-base") deferred the SET_STATUS 0 call in vhost_dev_stop() until after
-GET_VRING_BASE for vDPA only. In that commit Eugenio said, "A patch to
-make vhost_user_dev_start more similar to vdpa is desirable, but it can
-be added on top".
+Each MAC (Ethernet interface, instance of TYPE_IMX_FEC in qemu) has its own
+MDIO bus. Currently QEMU assumes that each PHY is connected to the MDIO bus
+on its associated MAC interface. That is not the case on the emulated boards,
+where all PHYs are connected to a single MDIO bus.
 
-I agree and think it's a good idea to keep the vhost backends in sync
-where possible.
+Userspace, when talking to the Ethernet controllers, knows that the PHY
+of the second Ethernet controller is connected to the MDIO bus on the first
+Ethernet controller. QEMU has to be told about that and otherwise misses that
+MDIO commands sent to the second PHY (on the first Ethernet controller)
+influence the second MAC interface.
 
-vhost-user still has the old behavior where QEMU sends SET_STATUS 0
-before GET_VRING_BASE. Most existing vhost-user backends don't implement
-the SET_STATUS message, so I think no one has tripped over this yet.
+ From this exchange I can only assume that my implementation is unacceptable.
+All I can say is that it works.
 
-Any thoughts on making vhost-user behave like vDPA here?
-
-Stefan
-
---GylLp4DoEyz7va0G
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQ+tLIACgkQnKSrs4Gr
-c8g4swf/cbo2STCSxmsaEGzFP+RLA/AW85yLUHw2X+U6fMCIRCmAc3F0sFvF6R+k
-jYVLJSg+5UgFDqo+PyrkX0keYugLNNae0Lz/pFaVyoAtjIljp+9shd44dW0aiAHx
-qXYzhCTrpe/aBQE+VKn+fYRaCyBdVqcotVPl+UEHDTQ6Hl57KiLb/G+Om77b3VY0
-aZwM/N6QZLkQkn5RpNeXU3eAsmyKzDHLeKIP35IC6lBO2YExJunmlYqpasiBtGBM
-2n/OqjA3kdY7NZd6cXc1uy03je+nRHd52pO0jHWKannwNbKsuNFsOjQRE0hQh4Cr
-bBOY3CqX7zp93Aao2eYMxhopnwEJMQ==
-=hvEE
------END PGP SIGNATURE-----
-
---GylLp4DoEyz7va0G--
+Thanks,
+Guenter
 
 
