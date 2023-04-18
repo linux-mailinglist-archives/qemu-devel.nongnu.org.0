@@ -2,82 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC226E707D
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 02:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202236E6FBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 00:59:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1povrY-0000ed-3W; Tue, 18 Apr 2023 20:39:56 -0400
+	id 1pouGx-0001Jt-6s; Tue, 18 Apr 2023 18:58:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peili.dev@gmail.com>)
- id 1pouFi-0001AQ-HG
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:56:46 -0400
-Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peili.dev@gmail.com>)
- id 1pouFg-0006sW-P1
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:56:46 -0400
-Received: by mail-qv1-xf35.google.com with SMTP id l17so10357486qvq.10
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681858599; x=1684450599;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FiycUZJ0nXkvvRNvHas9yRNRXmm9AKIGo6at3LAejXU=;
- b=jKZ29ICHvQdVinMG9D2x4mD4Wb+Fbtp12cVBNUQHON9KOLbEYdndMfFVfzpV5htg1e
- dnKct4vWF78E3HbVpKt7F6rDwzJNuuZ8UZeThaMKhivCWkHXbHPaorSFQWaICzYeTzfm
- Xqof1njemQ6+/HB/97jCBPoe03vzKV9hsnrwR4GdcS+DDRW31qGCISW3+/+4LGRChiC1
- Ye+QW9Y+89TQ+RbPq2XgjU/GDI3EI3n9xYfDSozyWLVTFramPlWzDLdWhcLhAlWlfjp+
- bShL8dKnox0jBZMO1uvbtNeAnTJdQ9nTILR30+1/j8qTahBwKYswBmPxZwRhvHBMt35x
- +Lgw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGs-0001JI-4Z
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:57:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGp-0007CC-QZ
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:57:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681858674;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fEMzRWtQSjciFJ4klUH7jQpBgI4U8tSmfxJCaavwlvM=;
+ b=aA4VGW53MpTrV/8Pp57IkgcjkjYFROip4ra4oAyvZ7Dr6OXUVp9blwybZZHPhGvPf/Iy4C
+ BerChG2j9yk5AFu66CwsPxnUZ+hzY8DFHApVH+33F5M7Cug896ZTCR7oZiWYLaIDXqyZhJ
+ kDfdFCJAE4hFEWdFmux+g4jq2qNdFOg=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-wTn_LO3LPBq0n-IDqffbjQ-1; Tue, 18 Apr 2023 18:57:52 -0400
+X-MC-Unique: wTn_LO3LPBq0n-IDqffbjQ-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-5ef67855124so7027176d6.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:57:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681858599; x=1684450599;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FiycUZJ0nXkvvRNvHas9yRNRXmm9AKIGo6at3LAejXU=;
- b=CDCBlVlXytRoCg8liY4yS8XrNO5Yf5BgKl4lrBZpADm2XLhSCw8bcD18i+Yxm9bu8S
- 6gb84z5vQXLjQqX+C6cciiWjvfoE538xik6NaBcAxS9NRgnob45MyRa2OyXcB2JZnS2z
- 155iJusLqZWDNF4sEtTkfTI+D4qITmA96xxyvGtQdJJ7AEFWDwFy8S4F5LT0g2fGHHbO
- XKCe1uLwz1tYC1zsxI3WjDHRfomSoS9KpfovSE2Z63nrreRQxl7YSneWvFYOIP/3i76v
- t0RDOwRuAZMM3a/k7nG28L3EmGGLPi4q9OYPLEDoJiEG7wRKIdjiPRzrT9IVQKpAq/GQ
- UdEQ==
-X-Gm-Message-State: AAQBX9ccZHdsE+q3qdp+IgkE7mVVVCCa+Yp2pbIAR/T4newkgpJlL9VO
- 2ZGwK8WGOtUDrJI2bqmi9KBzZZ9rLVg=
-X-Google-Smtp-Source: AKy350aDLR+IuTGXOnZnk2KNGb/51/PivzZTC8wZhFVVRBiU/NbMVqXlkT09FJN5rWdqtOe5VX9XeA==
-X-Received: by 2002:a05:6214:501b:b0:56e:bfda:a138 with SMTP id
- jo27-20020a056214501b00b0056ebfdaa138mr28667006qvb.10.1681858599536; 
- Tue, 18 Apr 2023 15:56:39 -0700 (PDT)
-Received: from entropy.pdl.local.cmu.edu (NAT1.PDL.CMU.EDU. [128.2.147.192])
+ d=1e100.net; s=20221208; t=1681858671; x=1684450671;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fEMzRWtQSjciFJ4klUH7jQpBgI4U8tSmfxJCaavwlvM=;
+ b=XkeqME2w60eXyNfiEEJeGKZ0Jsmj645TJuznhLjRausXiIfMReSwEaxyJb+kjR7T4Q
+ wxEvd103l75TeO7oiQGYLL7I8hNrbtlwOlvWI1bPHEhQcuquKI/XSa0rVtIe3gkZ/tX1
+ rZG3nRh3eLXRduC3Y9ChKj9aHmGHiuxzGpqaNp2IAuLQgzkfBahpefHuhNJLcT1kRslv
+ jYDkcKco7CM5283LfUQekbGh7hxpATQ0dcCB2I+8yAqQaHe0VN3R8eolg1uM1KDBNYxb
+ ckUkkP6UDg//PcBS3UplF3zUfhLysuQ4/0pmxDjBDlpBP+Q2LF303nWM6FoTif2AC0kW
+ Vmkg==
+X-Gm-Message-State: AAQBX9c9KhJwxztGrSp0CuhqIA+EcY2Mb/AoyI2w1/lKwd0jm1MRhreO
+ t+Jhf1yPiOu+zuZRDJLK1vDQ0WekiQu/kH0MmEArnl79cS/abrsNOA2V3l20/QWqOsX9g9Ds2MW
+ fMTnvA96kgam5w1FXR9cy58QN0VsNOGn/g4lUNbZWqrfqaitr6brBGeuc6AgQfm8afxReFZtE
+X-Received: by 2002:a05:6214:3018:b0:5da:b965:1efe with SMTP id
+ ke24-20020a056214301800b005dab9651efemr23311620qvb.4.1681858671635; 
+ Tue, 18 Apr 2023 15:57:51 -0700 (PDT)
+X-Google-Smtp-Source: AKy350arRtQ2s7IKS2WFujNPF4El4FCqD1roYfJJwWSQubNYr12j0ne3UTZssjH7/r1cGzcgtf1zbw==
+X-Received: by 2002:a05:6214:3018:b0:5da:b965:1efe with SMTP id
+ ke24-20020a056214301800b005dab9651efemr23311592qvb.4.1681858671182; 
+ Tue, 18 Apr 2023 15:57:51 -0700 (PDT)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca. [70.52.229.124])
  by smtp.gmail.com with ESMTPSA id
- r2-20020a0cf802000000b005ef5b1006c5sm3163243qvn.38.2023.04.18.15.56.39
+ i3-20020ad45383000000b005e3c45c5cbdsm2937330qvv.96.2023.04.18.15.57.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 15:56:39 -0700 (PDT)
-From: peili.dev@gmail.com
+ Tue, 18 Apr 2023 15:57:50 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: eperezma@redhat.com,
-	Pei Li <peili.dev@gmail.com>
-Subject: [PATCH 2/2] Reduce vdpa initialization / startup overhead
-Date: Tue, 18 Apr 2023 18:56:38 -0400
-Message-Id: <20230418225638.1467969-2-peili.dev@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230418225638.1467969-1-peili.dev@gmail.com>
-References: <20230418225638.1467969-1-peili.dev@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com
+Subject: [PATCH 0/3] migration/hostmem: Allow to fail early for postcopy on
+ specific fs type
+Date: Tue, 18 Apr 2023 18:57:46 -0400
+Message-Id: <20230418225749.1049185-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.39.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
- envelope-from=peili.dev@gmail.com; helo=mail-qv1-xf35.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 18 Apr 2023 20:39:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,135 +98,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Pei Li <peili.dev@gmail.com>
+Postcopy can fail in a weird way when guest mem is put onto a random file:
 
-Currently, part of the vdpa initialization / startup process
-needs to trigger many ioctls per vq, which is very inefficient
-and causing unnecessary context switch between user mode and
-kernel mode.
+https://bugzilla.redhat.com/show_bug.cgi?id=2057267
 
-This patch creates an additional ioctl() command, namely
-VHOST_VDPA_SET_VRING_ENABLE_BATCH, that will batching
-commands of VHOST_VDPA_SET_VRING_ENABLE_BATCH into a single
-ioctl() call.
+It's because we only check userfault privilege on dest QEMU but don't check
+memory types.  We do so only until the UFFDIO_REGISTER right after we
+switch to postcopy live migration from precopy but it could be too late.
 
-Signed-off-by: Pei Li <peili.dev@gmail.com>
----
- linux-headers/linux/vhost.h | 10 ++++++
- net/vhost-vdpa.c            | 70 +++++++++++++++++++++++++++++++------
- 2 files changed, 70 insertions(+), 10 deletions(-)
+This series tries to make it fail early by checking ramblock fs type if
+backed by a memory-backend-file.
 
-diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
-index 4c9ddd0a0e..f7cfa324c4 100644
---- a/linux-headers/linux/vhost.h
-+++ b/linux-headers/linux/vhost.h
-@@ -187,4 +187,14 @@
- #define VHOST_VDPA_SET_VRING_ENABLE_BATCH	_IOW(VHOST_VIRTIO, 0x7F, \
- 					     struct vhost_vring_state)
- 
-+/* Batch version of VHOST_VDPA_GET_VRING_GROUP
-+ *
-+ * Get the group for a virtqueue: read index, write group in num,
-+ * The virtqueue index is stored in the index field of
-+ * vhost_vring_state. The group for this specific virtqueue is
-+ * returned via num field of vhost_vring_state while batching commands.
-+ */
-+#define VHOST_VDPA_GET_VRING_GROUP_BATCH	_IOWR(VHOST_VIRTIO, 0x82, \
-+					      struct vhost_vring_state)
-+
- #endif
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 99904a0da7..ed4f2d5c49 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -377,6 +377,47 @@ static int64_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
-     return state.num;
- }
- 
-+static int64_t vhost_vdpa_get_vring_group_batch(int device_fd, unsigned vq_index)
-+{
-+    int r;
-+    struct vhost_vring_state states[vq_index + 1];
-+    int64_t cvq_group;
-+
-+    states[0].num = vq_index;
-+
-+    for (int i = 1; i <= vq_index; ++i) {
-+        states[i].index = i - 1;
-+    }
-+
-+    r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP_BATCH, &states[0]);
-+
-+    if (unlikely(r < 0)) {
-+        error_report("Cannot get VQ %d group: %s", vq_index - 1,
-+                     g_strerror(errno));
-+        return r;
-+    }
-+
-+    cvq_group = states[vq_index].num;
-+
-+    if (unlikely(cvq_group < 0)) {
-+        return cvq_group;
-+    }
-+
-+    for (int i = 1; i < vq_index; ++i) {
-+        int64_t group = states[i].num;
-+
-+        if (unlikely(group < 0)) {
-+            return group;
-+        }
-+
-+        if (group == cvq_group) {
-+            return 0;
-+        }
-+    }
-+
-+    return vq_index;
-+}
-+
- static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
-                                            unsigned vq_group,
-                                            unsigned asid_num)
-@@ -512,19 +553,28 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
-      * than the last vq. VQ group of last group passed in cvq_group.
-      */
-     cvq_index = v->dev->vq_index_end - 1;
--    cvq_group = vhost_vdpa_get_vring_group(v->device_fd, cvq_index);
--    if (unlikely(cvq_group < 0)) {
--        return cvq_group;
--    }
--    for (int i = 0; i < cvq_index; ++i) {
--        int64_t group = vhost_vdpa_get_vring_group(v->device_fd, i);
- 
--        if (unlikely(group < 0)) {
--            return group;
-+    if (! (backend_features & BIT_ULL(VHOST_BACKEND_F_IOCTL_BATCH))) {
-+        cvq_group = vhost_vdpa_get_vring_group(v->device_fd, cvq_index);
-+        if (unlikely(cvq_group < 0)) {
-+            return cvq_group;
-         }
-+        for (int i = 0; i < cvq_index; ++i) {
-+            int64_t group = vhost_vdpa_get_vring_group(v->device_fd, i);
- 
--        if (group == cvq_group) {
--            return 0;
-+            if (unlikely(group < 0)) {
-+                return group;
-+            }
-+
-+            if (group == cvq_group) {
-+                return 0;
-+            }
-+        }
-+    } else {
-+        cvq_group = vhost_vdpa_get_vring_group_batch(v->device_fd, cvq_index + 1);
-+
-+        if (unlikely(cvq_group <= 0)) {
-+            return cvq_group;
-         }
-     }
- 
+Now when it happens it'll fail the dest QEMU from the start:
+
+./qemu-system-x86_64 \
+        -global migration.x-postcopy-ram=on \
+        -incoming defer \
+        -object memory-backend-file,id=mem,size=128M,mem-path=$memfile \
+        -machine memory-backend=mem
+
+qemu-system-x86_64: Host backend files need to be TMPFS or HUGETLBFS only
+qemu-system-x86_64: Postcopy is not supported
+
+It will also fail e.g. QMP migrate-set-capabilities properly.
+
+Please have a look, thanks.
+
+Peter Xu (3):
+  hostmem: Detect and cache fs type for file hostmem
+  vl.c: Create late backends before migration object
+  migration/postcopy: Detect file system on dest host
+
+ backends/hostmem-file.c  | 37 ++++++++++++++++++++++++++++++++++++-
+ include/sysemu/hostmem.h |  1 +
+ migration/postcopy-ram.c | 28 ++++++++++++++++++++++++----
+ softmmu/vl.c             |  9 +++++++--
+ 4 files changed, 68 insertions(+), 7 deletions(-)
+
 -- 
-2.25.1
+2.39.1
 
 
