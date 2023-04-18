@@ -2,75 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4357B6E60C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 14:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A656E611C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 14:21:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pokAB-0007O6-Sc; Tue, 18 Apr 2023 08:10:23 -0400
+	id 1pokK5-0001rZ-Fd; Tue, 18 Apr 2023 08:20:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pokA9-0007Lf-8J
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:10:21 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pokA5-0007vP-0f
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:10:21 -0400
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-504eb1155d3so23926337a12.1
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 05:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681819813; x=1684411813;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yDtHyI1vdDXmzca8rziKF/Nl5eBqsY+fp7mj7ylUhP8=;
- b=A4XcKZBEEAsqX2cbgqyv6N2z0sBgSzWYhcI8V+y1YMyUXUv8NV6lqI2R+N/EA4Ka+5
- T7cOcKs9hJVO/FaSznoq7lE7Pp+rIAsyECpabkaNmWhGnQ+tZu2orWl8U4idj7IiT/Kh
- qSf6YP/dvXrpcsB8FLZjdSjSc9ZrZyVVUQEFR5TldIO+KgHtYgDOrEPgtVpT3iekupG2
- ONBqqxxBV5RWh512kEJeYNNFn1ZRZXPtF8gmmt0CuxsOP7tAaz+4Kj3N4Ugcr27KFxtK
- hGOxj1UQVOaSGW06soTSp8sAPe7fP3a3rAhnv0MbYnYBikFdIAHLg0Q3KT/dZ0R6n8CR
- uH8w==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pokK3-0001rF-Ka
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:20:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pokK1-0002Ln-4U
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:20:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681820431;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5VhJGTUO0n0vhHS+BQlH1pFbBJ4LcEF10jKMxEJdA10=;
+ b=YA4JDNCugCqmborIs8L4G2y+ThXuIfQO7d7hSbjWJI4LkZGQmRkg9wFCJNts8HxCbzsUtO
+ tQH/F75e2Kjy+539HfkW+u2yISBp1o0UOPL0YBxSxm1HwV1RHgdXLru+rxgKikL59LXBIm
+ hDgfMv07wbyLF+HXdD2FU6e635KH63w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-61-EFY4_3qOOjS4at2k8kt7rg-1; Tue, 18 Apr 2023 08:20:30 -0400
+X-MC-Unique: EFY4_3qOOjS4at2k8kt7rg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg10-20020a05600c3c8a00b003ef7b61e2fdso6269240wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 05:20:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681819813; x=1684411813;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yDtHyI1vdDXmzca8rziKF/Nl5eBqsY+fp7mj7ylUhP8=;
- b=Uj6os+Gh1qEYZt8/0uNOikgpogaW1DE5h0admtuWFB7D83RATHFNMqIFE7+JTr9V40
- D9ZNrFk0kNfaJb6vcF+hzgnQUdmmQ+LHDHDjIfvsLTonYQizJ+rhACp6wedEX0C/hE3f
- aVi4j2Oue9TdGwTqhZhIMdUjI9zXLSWworjBBTu2APHOpH2AFir7oem6L/HPNLpcMeIk
- 3LaoAGSt8+sGFpcVdACmyDvbdOTon6Ii/F4V7XeDpQxVdKcy9G6pIcD/yIxvo4uf53M2
- DjB8v1IF1yxnQBEWs7QxvEAiFaRgXizQ+Cy/2YF9IEOk3uiWItaSkMDgbUULX9A72SCQ
- gA/Q==
-X-Gm-Message-State: AAQBX9fKnUhPw9qOTHRptyHeKOCFSaK+NHC8srxN40LYEMG++CNoXBcr
- HweKWAyBzZxq98YYiX54BWpg7wtZjuh4/tAaDp6IkQ==
-X-Google-Smtp-Source: AKy350Yr/TNQfRj1mihJ6gVsu/cXnwrnnpZHrGoXffpl0oZHqDNym0yyeuTM6snNKsZqxxgPkDbiskOFYBT2w+F3u2M=
-X-Received: by 2002:a05:6402:1e96:b0:506:bdbc:e59f with SMTP id
- f22-20020a0564021e9600b00506bdbce59fmr1075943edf.3.1681819813149; Tue, 18 Apr
- 2023 05:10:13 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681820429; x=1684412429;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5VhJGTUO0n0vhHS+BQlH1pFbBJ4LcEF10jKMxEJdA10=;
+ b=ZdYqow3AsdiMdIAfr9TYbdcSQC494pDbVqqDihGZxuB8/Ej4e3ElI4efIasot96/ht
+ Q1ZrA8kVE03qo01HgRdVNrCZf/edd+7fr6Gd33Rsc4L5LdhBCZFEpjNocd0yfUy2ll3R
+ Mb0FUQ4tyrTwq0E7qL+sTY5dmOZ1fyPZLxVyo95Wh5gZHDLf9KZ0L3czVAc2+8oyp/vT
+ ikSPM9cVsKZgPbjOhhCD34s7SINkfd8YbI0q1jNchkq0Cs+FKa8x+GBkbGzN2Dxec1mY
+ Cnd9lYSVsXup0U3paAlEDprfHZQdo+T+jWkz4R7mICPi/x2vC4XZu8ZerLb5viRPFJzR
+ bBkQ==
+X-Gm-Message-State: AAQBX9eGrd7r5HYX3Vu5Ol9zPjTgvWsvLI0yaSj5jKoXqg5biIbNQIjE
+ QwLkoc/jClpIcm6N2tmHrl9LZ9UTF7tc4xPv6NZvNREyzJCgQvPbVmgneN5TTJGQ6pVeX96JDpH
+ S8qZIOmY97jne2+c=
+X-Received: by 2002:a05:600c:3647:b0:3f1:727d:77a4 with SMTP id
+ y7-20020a05600c364700b003f1727d77a4mr5492089wmq.39.1681820429383; 
+ Tue, 18 Apr 2023 05:20:29 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ayUWsTu3sEXp+W65t0298LbtAxyPTp4hFVGlZNJBkPDibbJz4X8pP+MB66goeLDtjhXUUpPw==
+X-Received: by 2002:a05:600c:3647:b0:3f1:727d:77a4 with SMTP id
+ y7-20020a05600c364700b003f1727d77a4mr5492076wmq.39.1681820429091; 
+ Tue, 18 Apr 2023 05:20:29 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ s15-20020adfeb0f000000b002c55306f6edsm12994609wrn.54.2023.04.18.05.20.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 05:20:28 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
+ Vivier <lvivier@redhat.com>,  Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/2] tests/migration: Make precopy fast
+In-Reply-To: <ZD6E0E6q/tKDl0k0@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 18 Apr 2023 12:53:52 +0100")
+References: <20230412142001.16501-1-quintela@redhat.com>
+ <20230412142001.16501-2-quintela@redhat.com>
+ <ZD6E0E6q/tKDl0k0@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 18 Apr 2023 14:20:27 +0200
+Message-ID: <87v8ht1iwk.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230315145248.1639364-1-linux@roeck-us.net>
-In-Reply-To: <20230315145248.1639364-1-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Apr 2023 13:10:02 +0100
-Message-ID: <CAFEAcA-ZpQCS33L4MaQaR1S9MN24GgK+cH0vcuiz_7m+6dO4cw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] Support both Ethernet interfaces on i.MX6UL and i.MX7
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,34 +102,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 15 Mar 2023 at 14:52, Guenter Roeck <linux@roeck-us.net> wrote:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> On Wed, Apr 12, 2023 at 04:20:00PM +0200, Juan Quintela wrote:
+>> Otherwise we do the 1st migration iteration at a too slow speed.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  tests/qtest/migration-test.c | 3 +--
+>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>=20
+>> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+>> index 3b615b0da9..7b05b0b7dd 100644
+>> --- a/tests/qtest/migration-test.c
+>> +++ b/tests/qtest/migration-test.c
+>> @@ -1348,6 +1348,7 @@ static void test_precopy_common(MigrateCommon *arg=
+s)
+>>          migrate_qmp(from, args->connect_uri, "{}");
+>>      }
+>>=20=20
+>> +    migrate_ensure_converge(from);
 >
-> The SOC on i.MX6UL and i.MX7 has 2 Ethernet interfaces. The PHY on each may
-> be connected to separate MDIO busses, or both may be connected on the same
-> MDIO bus using different PHY addresses. Commit 461c51ad4275 ("Add a phy-num
-> property to the i.MX FEC emulator") added support for specifying PHY
-> addresses, but it did not provide support for linking the second PHY on
-> a given MDIO bus to the other Ethernet interface.
+> This isn't right - it defeats the point of having the call to
+> migrate_ensure_non_converge() a few lines earlier.
+
+Depends on what is the definiton or "right" O:-)
+
+>>      if (args->result !=3D MIG_TEST_SUCCEED) {
+>>          bool allow_active =3D args->result =3D=3D MIG_TEST_FAIL;
+>> @@ -1365,8 +1366,6 @@ static void test_precopy_common(MigrateCommon *arg=
+s)
+>>              wait_for_migration_pass(from);
+>>          }
+>>=20=20
+>> -        migrate_ensure_converge(from);
+>> -
 >
-> To be able to support two PHY instances on a single MDIO bus, two properties
-> are needed: First, there needs to be a flag indicating if the MDIO bus on
-> a given Ethernet interface is connected. If not, attempts to read from this
-> bus must always return 0xffff. Implement this property as phy-connected.
-> Second, if the MDIO bus on an interface is active, it needs a link to the
-> consumer interface to be able to provide PHY access for it. Implement this
-> property as phy-consumer.
+> The reason why we had it here was to ensure that we test more than
+> 1 iteration of migration. With this change, migrate will succeed
+> on the first pass IIUC, and so we won't be exercising the more
+> complex code path of repeated iterations.
 
-So I was having a look at this to see if it was reasonably easy to
-split out the PHY into its own device object, and I'm a bit confused.
-I know basically 0 about MDIO, but wikipedia says that MDIO buses
-have one master (the ethernet MAC) and potentially multiple PHYs.
-However it looks like this patchset has configurations where
-multiple MACs talk to the same MDIO bus. Am I confused about the
-patchset, about the hardware, or about what MDIO supports?
+Aha.
 
-thanks
--- PMM
+If that is the definition of "right", then I agree that my changes are
+wrong.
+
+But then I think we should change how we do the test.  We should split
+this function (then same for postcopy, multifd, etc) to have to
+versions, one that want to have multiple rounds, and another that can
+finish as fast as possible.
+
+This way we need to setup the 3MB/s only for the tests that we want to
+loop, and for the others put something faster.
+
+
+>
+> I do agree with the overall idea though. We have many many migration
+> test scenarios and we don't need all of them to be testing multiple
+> iterations - a couple would be sufficient.
+>
+> In fact we don't even need to be testing live migration for most
+> of the cases. All the TLS test cases could be run with guest CPUs
+> paused entirely removing any dirtying, since they're only interested
+> in the initial network handshake/setup process testnig.
+>
+> I had some patches I was finishing off just before I went on vacation
+> a few weeks ago which do this kind of optimization, which I can send
+> out shortly.
+
+I will wait for your patches before I sent anything different.
+
+I have local patches for doing something different, changing
+
+      "-serial file:%s/src_serial "
+
+and other friends to:
+
+      "-serial file:%s/src_serial%pid "
+
+So we are sure that two tests never "reuse" the socket, as it can create
+problems for example when doing the cancel and relaunching the
+destination.
+
+But as said, will wait until you send your series to send anything.
+
+Later, Juan.
+
 
