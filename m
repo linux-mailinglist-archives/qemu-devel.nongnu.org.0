@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC306E692D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 18:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE516E6957
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 18:22:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poo00-0003k4-Vj; Tue, 18 Apr 2023 12:16:09 -0400
+	id 1poo5S-0006ks-DW; Tue, 18 Apr 2023 12:21:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ponzr-0003jj-Hn
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:15:59 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1poo5Q-0006jl-FG
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:21:44 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ponzp-0008Oz-OU
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:15:59 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- l31-20020a05600c1d1f00b003f1718d89b2so158429wms.0
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 09:15:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1poo5O-00019l-It
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:21:44 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ a8-20020a05600c348800b003f17ddb04e3so78190wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 09:21:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681834556; x=1684426556;
+ d=linaro.org; s=google; t=1681834901; x=1684426901;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=D2i/77SyWywQtTadSgpIdECFj7PI/OrhsehXPVGUOts=;
- b=e1aBjFrEWWN8lJhoVEDnUDazdZHNh29Zsy+2IhjJBEmfnqlr5yWJgMMKEhgfV++gMS
- 3ziVYc2ZCd3QRtVg8gF1vXnrEDbDTLOrao4gKbfaApWy1CHUvQZrIpVcgjC6BuB7kafj
- B8Z/WsPRWVmj/1aXhxRtjdyON8/TW5bVEjD2wRBh2W1Z7IfHcdPXjbIHLRujLn1uWngn
- g4kMxcwNX5e6kbmI/HXcKsBL1hidBy61c1Jb5qNukwGgGuaOqHajU65Ab6/y6jOTIQ0U
- 90/skWxB+rJKzeKTt6KjChlX/2f3dTyh4sqTN79u8vfz3Rt6Iai6Ja7+lupH3hgBrQR5
- Zl9A==
+ bh=5lUakfgj7bHmml2pB9qRm9X+2uzhwj9Z43jrFiMKuUs=;
+ b=sNwN5GM215cHic7A4Xs+MSOgmAjeHBJqnN4WsRNV6Z/nyjF5zDcSY9YqRy+vo/hubt
+ GjiaK5aHQS8WYAbSLUSChebbGmImafadNYrajmfigwiEv1F9L94+5seDUqBqxrmeA382
+ 9822+z+rC5kWflHOsPG8G1AV23RPZjfsxuzAgfhU07CyN05scD0eLD4tbjqShCwwXbOH
+ Lwt0/+nH2ynIQzlbrX82UlpXlru1qmLabISEX1sBVore2D/VJXJ3qcRyIXZJDf53OQxk
+ kCYJ9asTIaE58iy+0VLSRcKpooRqh/xxX7rg3kTYiDAtgcBeV0NSQ30bq1LJnBekV5ln
+ IwkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681834556; x=1684426556;
+ d=1e100.net; s=20221208; t=1681834901; x=1684426901;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=D2i/77SyWywQtTadSgpIdECFj7PI/OrhsehXPVGUOts=;
- b=VJWRPPEOL5UK+Znedmiykr/D5LVrL2ffbBv3MB3VS30S/C8E4B0QHhVVsiD+PF/M2q
- Kg75iZiQitbsgDM6eGHeE2bkC+qMabo15VHJ7ZvHGkqx4IUzxIigtBATqdR8WMAzhJEp
- G3RG8oczmZWjxT3eBqR0hc5ijdo3ZG7HcMYgAInBPQxqOtSjOOSzEyxPx4+mSL2z5cIB
- vCWJay1KQWY8IRSI+tLUQ7bAf0jw5isGvCuJdtznk4WOxRoQlyNSwrPEIkXF2LxS6SXG
- luxgU2r5cBSDXPNVAck6aTqV7QsXhrN5GpufS7S5MRlBvAnZONhGCY51eIDX8+eeqH/M
- q95w==
-X-Gm-Message-State: AAQBX9fxlAd4N8t/D9/tzR4CJPFf3FwuoF4fyN6Tjqrg/tUxlatU9Hrf
- q9psS7ZqSXzvnU/0Mu018zsVlFPQpFSl5fjkNk0=
-X-Google-Smtp-Source: AKy350YPzdEobkZmyf5k2LmWUvFmbvdde6tKkCC5ADrKKsBIKTaBDAVw1DiUW1Q0ZKELg4Xj9438JA==
-X-Received: by 2002:a7b:cc88:0:b0:3ee:5c8:c3d8 with SMTP id
- p8-20020a7bcc88000000b003ee05c8c3d8mr14459785wma.34.1681834555929; 
- Tue, 18 Apr 2023 09:15:55 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=5lUakfgj7bHmml2pB9qRm9X+2uzhwj9Z43jrFiMKuUs=;
+ b=NIP/fsC80DBgf8N9+NOlcY5K41TPWZ+uKHE5QFhW7tiVrSoD81II7lXqVT/6FlWKDP
+ cxsCRDgeIK8kTbDYkZyQNV19HpujPqB8hXELMFbrM17fNGrCJATdx8iREWAtBzy5l2Fc
+ lS7UaRPdmrPjmvXhYGkvQpUVqmbkcUw9UZGutbiDo5EVk/G3ayooRB8VQNb6QOvClsxx
+ pjR+S4201B2DhG9MBfAwcu1YIowkPTe17BdCgMCteS3fQt1p2BNlmABOCwYhMxF955N/
+ 4aYtKmNkceS8H8JtouFaOahpixbuTFye0iQbw4wotfnTNSLm/DEqpT4br4DdOpcZljyQ
+ Zg8Q==
+X-Gm-Message-State: AAQBX9dG5nmj/qif9H0VgHq2O5J2JeAHVhg0g0AAASLqQta5AH+AIxUw
+ y0H9bEQeFW1cy+XG3vNuxaE9Yw==
+X-Google-Smtp-Source: AKy350aozYqGUHxK9FLQwu0pE5q2SYyclKqiEeFGAnMFc2N7FQHJhzcJlDzXN5No4gSeWPPolrRIqA==
+X-Received: by 2002:a05:600c:2048:b0:3ef:6819:b2ad with SMTP id
+ p8-20020a05600c204800b003ef6819b2admr13778559wmg.37.1681834901137; 
+ Tue, 18 Apr 2023 09:21:41 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- v3-20020a1cf703000000b003f04646838esm15512797wmh.39.2023.04.18.09.15.55
+ d17-20020a056000115100b002fa6929eb83sm5713826wrx.21.2023.04.18.09.21.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 09:15:55 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ Tue, 18 Apr 2023 09:21:40 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 27F081FFB7;
+ Tue, 18 Apr 2023 17:21:40 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH] configure: Honour cross-prefix when finding ObjC compiler
-Date: Tue, 18 Apr 2023 17:15:54 +0100
-Message-Id: <20230418161554.744834-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Erik Schilling <erik.schilling@linaro.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, virtio-fs@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
+Subject: [PATCH v2 00/13] virtio: add vhost-user-generic and reduce copy and
+ paste
+Date: Tue, 18 Apr 2023 17:21:27 +0100
+Message-Id: <20230418162140.373219-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,88 +106,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently when configure picks an ObjectiveC compiler it doesn't pay
-attention to the cross-prefix.  This isn't a big deal in practice,
-because we only use ObjC on macos and you can't cross-compile to
-macos.  But it's a bit inconsistent.
+A lot of our vhost-user stubs are large chunks of boilerplate that do
+(mostly) the same thing. This series attempts to fix that by defining
+a new base class (vhost-user-base) which is used by a generic
+vhost-user-device implementation. Then the rng, gpio and i2c
+vhost-user devices become simple specialisations of the common base
+defining the ID, number of queues and potentially the config handling.
 
-Rearrange the handling of objcc in configure so that we do the
-same thing that we do with cc and cxx. This means that the logic
-for picking the ObjC compiler goes from:
- if --objcc is specified, use that
- otherwise if clang is available, use that
- otherwise use $cc
-to:
- if --objcc is specified, use that
- otherwise if --cross-prefix is specified, use ${cross_prefix}clang
- otherwise if clang is available, use that
- otherwise use $cc
+In theory we could convert the rest of the vhost-user stubs but there
+are complications caused by the config being split between the daemon
+and QEMU. For example:
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1185
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- configure | 26 ++++++++++++++++++--------
- 1 file changed, 18 insertions(+), 8 deletions(-)
+ -device vhost-user-device-pci,chardev=vus,virtio-id=8,num_vqs=3,config_size=36
 
-diff --git a/configure b/configure
-index 800b5850f40..646048db706 100755
---- a/configure
-+++ b/configure
-@@ -316,6 +316,8 @@ for opt do
-   ;;
-   --cxx=*) CXX="$optarg"
-   ;;
-+  --objcc=*) objcc="$optarg"
-+  ;;
-   --cpu=*) cpu="$optarg"
-   ;;
-   --extra-cflags=*)
-@@ -361,6 +363,21 @@ else
-   cxx="${CXX-${cross_prefix}g++}"
- fi
- 
-+# Preferred ObjC compiler:
-+# $objcc (if set, i.e. via --objcc option)
-+# ${cross_prefix}clang (if cross-prefix specified)
-+# clang (if available)
-+# $cc
-+if test -z "${objcc}${cross_prefix}"; then
-+  if has clang; then
-+    objcc=clang
-+  else
-+    objcc="$cc"
-+  fi
-+else
-+  objcc="${objcc-${cross_prefix}clang}"
-+fi
-+
- ar="${AR-${cross_prefix}ar}"
- as="${AS-${cross_prefix}as}"
- ccas="${CCAS-$cc}"
-@@ -647,13 +664,6 @@ do
-     fi
- done
- 
--# Default objcc to clang if available, otherwise use CC
--if has clang; then
--  objcc=clang
--else
--  objcc="$cc"
--fi
--
- if test "$mingw32" = "yes" ; then
-   EXESUF=".exe"
-   # MinGW needs -mthreads for TLS and macro _MT.
-@@ -713,7 +723,7 @@ for opt do
-   ;;
-   --cxx=*)
-   ;;
--  --objcc=*) objcc="$optarg"
-+  --objcc=*)
-   ;;
-   --make=*) make="$optarg"
-   ;;
+works with the WIP vhost-user-scsi backend:
+
+  https://github.com/rust-vmm/vhost-device/pull/301
+
+but the concrete vhost-user-scsi-pci device fails because it expects
+to handle config via the command line. You will see the report:
+
+  qemu-system-aarch64: -device vhost-user-scsi-pci,chardev=vus:
+  warning: vhost-user backend supports VHOST_USER_PROTOCOL_F_CONFIG
+  but QEMU does not.
+
+if you try. We could make the device a bit smarter but then we would
+need to untangle the vhost_scsi_common_() logic which is shared with
+the pure in kernel vhost implementation. The vhost-user-vsock stub
+might be another one worth re-factoring although that has a similar
+split architecture.
+
+The overall diffstat shows a net deletion of code as well as
+introducing some more documentation and moving the stubs into the
+common build, further reducing redundancy.
+
+Next Steps
+----------
+
+From Stefan's last email to the v1 posting we need:
+
+vhost-user needs:
+- A GET_DEVICE_ID message.
+- A GET_CONFIG_SIZE message. Today it is assumed that the vhost-user
+  frontend already knows the configuration space size.
+- A protocol feature bit indicating that the device is a full VIRTIO
+  device. These devices also need to implement the SET_STATUS message,
+  which is rarely implemented today.
+
+and implementing the VHOST_USER_GET_QUEUE_NUM and SET_STATUS messages
+to make the generic device "self configuring".
+
+Alex.
+
+Alex Bennée (13):
+  include: attempt to document device_class_set_props
+  include/hw: document the device_class_set_parent_* fns
+  hw/virtio: fix typo in VIRTIO_CONFIG_IRQ_IDX comments
+  include/hw/virtio: document virtio_notify_config
+  include/hw/virtio: add kerneldoc for virtio_init
+  include/hw/virtio: document some more usage of notifiers
+  virtio: add vhost-user-base and a generic vhost-user-device
+  virtio: add PCI stub for vhost-user-device
+  hw/virtio: derive vhost-user-rng from vhost-user-device
+  hw/virtio: add config support to vhost-user-device
+  hw/virtio: derive vhost-user-gpio from vhost-user-device
+  hw/virtio: derive vhost-user-i2c from vhost-user-base
+  docs/system: add a basic enumeration of vhost-user devices
+
+ docs/system/devices/vhost-user-rng.rst |   2 +
+ docs/system/devices/vhost-user.rst     |  41 +++
+ include/hw/qdev-core.h                 |  36 +++
+ include/hw/virtio/vhost-user-device.h  |  46 +++
+ include/hw/virtio/vhost-user-gpio.h    |  23 +-
+ include/hw/virtio/vhost-user-i2c.h     |  18 +-
+ include/hw/virtio/vhost-user-rng.h     |  11 +-
+ include/hw/virtio/virtio.h             |  21 ++
+ hw/display/vhost-user-gpu.c            |   4 +-
+ hw/net/virtio-net.c                    |   4 +-
+ hw/virtio/vhost-user-device-pci.c      |  71 +++++
+ hw/virtio/vhost-user-device.c          | 380 +++++++++++++++++++++++
+ hw/virtio/vhost-user-fs.c              |   4 +-
+ hw/virtio/vhost-user-gpio.c            | 400 ++-----------------------
+ hw/virtio/vhost-user-i2c.c             | 255 +---------------
+ hw/virtio/vhost-user-rng.c             | 277 ++---------------
+ hw/virtio/vhost-vsock-common.c         |   4 +-
+ hw/virtio/virtio-crypto.c              |   4 +-
+ hw/virtio/meson.build                  |  20 +-
+ 19 files changed, 686 insertions(+), 935 deletions(-)
+ create mode 100644 include/hw/virtio/vhost-user-device.h
+ create mode 100644 hw/virtio/vhost-user-device-pci.c
+ create mode 100644 hw/virtio/vhost-user-device.c
+
 -- 
-2.34.1
+2.39.2
 
 
