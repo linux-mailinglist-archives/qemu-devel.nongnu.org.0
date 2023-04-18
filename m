@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFAA6E6075
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 13:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4357B6E60C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 14:11:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pojuL-0008Ms-EQ; Tue, 18 Apr 2023 07:54:01 -0400
+	id 1pokAB-0007O6-Sc; Tue, 18 Apr 2023 08:10:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pojuJ-0008Me-Cd
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:53:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pojuH-0004X3-PS
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:53:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681818837;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=f1UDzOa8Miqp1ttvF+ikWN3q1qrjzAHYFKsKMEPQzto=;
- b=e5LKI5MDaJB0rW6HoJQYaCC/p1qoI1uWnZDLUQ7GI/PzBsCIVz0kMx/MWvCXyC4xug9/LY
- 2NhLgadO2Bc0V79BVVJ1uOzgouCy5LFIqFvDCT6CKC1OMYVdq2+yHjyCeSpstVPzbclba9
- R8nPdIoTKEkcG7KZeLCV2FEjF7PAjpg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-158-FnPaAE15OSOiHCIPp6cBBQ-1; Tue, 18 Apr 2023 07:53:55 -0400
-X-MC-Unique: FnPaAE15OSOiHCIPp6cBBQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4CFCE801779
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 11:53:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89E4420239E0;
- Tue, 18 Apr 2023 11:53:54 +0000 (UTC)
-Date: Tue, 18 Apr 2023 12:53:52 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/2] tests/migration: Make precopy fast
-Message-ID: <ZD6E0E6q/tKDl0k0@redhat.com>
-References: <20230412142001.16501-1-quintela@redhat.com>
- <20230412142001.16501-2-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pokA9-0007Lf-8J
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:10:21 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pokA5-0007vP-0f
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 08:10:21 -0400
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-504eb1155d3so23926337a12.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 05:10:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681819813; x=1684411813;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yDtHyI1vdDXmzca8rziKF/Nl5eBqsY+fp7mj7ylUhP8=;
+ b=A4XcKZBEEAsqX2cbgqyv6N2z0sBgSzWYhcI8V+y1YMyUXUv8NV6lqI2R+N/EA4Ka+5
+ T7cOcKs9hJVO/FaSznoq7lE7Pp+rIAsyECpabkaNmWhGnQ+tZu2orWl8U4idj7IiT/Kh
+ qSf6YP/dvXrpcsB8FLZjdSjSc9ZrZyVVUQEFR5TldIO+KgHtYgDOrEPgtVpT3iekupG2
+ ONBqqxxBV5RWh512kEJeYNNFn1ZRZXPtF8gmmt0CuxsOP7tAaz+4Kj3N4Ugcr27KFxtK
+ hGOxj1UQVOaSGW06soTSp8sAPe7fP3a3rAhnv0MbYnYBikFdIAHLg0Q3KT/dZ0R6n8CR
+ uH8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681819813; x=1684411813;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yDtHyI1vdDXmzca8rziKF/Nl5eBqsY+fp7mj7ylUhP8=;
+ b=Uj6os+Gh1qEYZt8/0uNOikgpogaW1DE5h0admtuWFB7D83RATHFNMqIFE7+JTr9V40
+ D9ZNrFk0kNfaJb6vcF+hzgnQUdmmQ+LHDHDjIfvsLTonYQizJ+rhACp6wedEX0C/hE3f
+ aVi4j2Oue9TdGwTqhZhIMdUjI9zXLSWworjBBTu2APHOpH2AFir7oem6L/HPNLpcMeIk
+ 3LaoAGSt8+sGFpcVdACmyDvbdOTon6Ii/F4V7XeDpQxVdKcy9G6pIcD/yIxvo4uf53M2
+ DjB8v1IF1yxnQBEWs7QxvEAiFaRgXizQ+Cy/2YF9IEOk3uiWItaSkMDgbUULX9A72SCQ
+ gA/Q==
+X-Gm-Message-State: AAQBX9fKnUhPw9qOTHRptyHeKOCFSaK+NHC8srxN40LYEMG++CNoXBcr
+ HweKWAyBzZxq98YYiX54BWpg7wtZjuh4/tAaDp6IkQ==
+X-Google-Smtp-Source: AKy350Yr/TNQfRj1mihJ6gVsu/cXnwrnnpZHrGoXffpl0oZHqDNym0yyeuTM6snNKsZqxxgPkDbiskOFYBT2w+F3u2M=
+X-Received: by 2002:a05:6402:1e96:b0:506:bdbc:e59f with SMTP id
+ f22-20020a0564021e9600b00506bdbce59fmr1075943edf.3.1681819813149; Tue, 18 Apr
+ 2023 05:10:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230412142001.16501-2-quintela@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230315145248.1639364-1-linux@roeck-us.net>
+In-Reply-To: <20230315145248.1639364-1-linux@roeck-us.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 Apr 2023 13:10:02 +0100
+Message-ID: <CAFEAcA-ZpQCS33L4MaQaR1S9MN24GgK+cH0vcuiz_7m+6dO4cw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Support both Ethernet interfaces on i.MX6UL and i.MX7
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,69 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 12, 2023 at 04:20:00PM +0200, Juan Quintela wrote:
-> Otherwise we do the 1st migration iteration at a too slow speed.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  tests/qtest/migration-test.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 3b615b0da9..7b05b0b7dd 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1348,6 +1348,7 @@ static void test_precopy_common(MigrateCommon *args)
->          migrate_qmp(from, args->connect_uri, "{}");
->      }
->  
-> +    migrate_ensure_converge(from);
+On Wed, 15 Mar 2023 at 14:52, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> The SOC on i.MX6UL and i.MX7 has 2 Ethernet interfaces. The PHY on each may
+> be connected to separate MDIO busses, or both may be connected on the same
+> MDIO bus using different PHY addresses. Commit 461c51ad4275 ("Add a phy-num
+> property to the i.MX FEC emulator") added support for specifying PHY
+> addresses, but it did not provide support for linking the second PHY on
+> a given MDIO bus to the other Ethernet interface.
+>
+> To be able to support two PHY instances on a single MDIO bus, two properties
+> are needed: First, there needs to be a flag indicating if the MDIO bus on
+> a given Ethernet interface is connected. If not, attempts to read from this
+> bus must always return 0xffff. Implement this property as phy-connected.
+> Second, if the MDIO bus on an interface is active, it needs a link to the
+> consumer interface to be able to provide PHY access for it. Implement this
+> property as phy-consumer.
 
-This isn't right - it defeats the point of having the call to
-migrate_ensure_non_converge() a few lines earlier.
+So I was having a look at this to see if it was reasonably easy to
+split out the PHY into its own device object, and I'm a bit confused.
+I know basically 0 about MDIO, but wikipedia says that MDIO buses
+have one master (the ethernet MAC) and potentially multiple PHYs.
+However it looks like this patchset has configurations where
+multiple MACs talk to the same MDIO bus. Am I confused about the
+patchset, about the hardware, or about what MDIO supports?
 
->      if (args->result != MIG_TEST_SUCCEED) {
->          bool allow_active = args->result == MIG_TEST_FAIL;
-> @@ -1365,8 +1366,6 @@ static void test_precopy_common(MigrateCommon *args)
->              wait_for_migration_pass(from);
->          }
->  
-> -        migrate_ensure_converge(from);
-> -
-
-The reason why we had it here was to ensure that we test more than
-1 iteration of migration. With this change, migrate will succeed
-on the first pass IIUC, and so we won't be exercising the more
-complex code path of repeated iterations.
-
-
-I do agree with the overall idea though. We have many many migration
-test scenarios and we don't need all of them to be testing multiple
-iterations - a couple would be sufficient.
-
-In fact we don't even need to be testing live migration for most
-of the cases. All the TLS test cases could be run with guest CPUs
-paused entirely removing any dirtying, since they're only interested
-in the initial network handshake/setup process testnig.
-
-I had some patches I was finishing off just before I went on vacation
-a few weeks ago which do this kind of optimization, which I can send
-out shortly.
-
->          /* We do this first, as it has a timeout to stop us
->           * hanging forever if migration didn't converge */
->          wait_for_migration_complete(from);
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
