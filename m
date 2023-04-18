@@ -2,55 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26666E5CF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 11:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912526E5CF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 11:06:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pohGx-0007lJ-Kw; Tue, 18 Apr 2023 05:05:11 -0400
+	id 1pohHd-0008Or-EN; Tue, 18 Apr 2023 05:05:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pohGm-0007ku-9O
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 05:05:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pohHb-0008OL-8O
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 05:05:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pohGk-0005cT-NF
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 05:05:00 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-ifZO15vxN8Cxq3jlJg26iQ-1; Tue, 18 Apr 2023 05:04:52 -0400
-X-MC-Unique: ifZO15vxN8Cxq3jlJg26iQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 36E668996E8
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 09:04:52 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq2.redhat.com
- (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40DAD492B0D;
- Tue, 18 Apr 2023 09:04:51 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: kchamart@redhat.com, Gerd Hoffmann <kraxel@redhat.com>, mst@redhat.com,
- anisinha@redhat.com, jusual@redhat.com
-Subject: [PATCH v4] acpi: pcihp: allow repeating hot-unplug requests
-Date: Tue, 18 Apr 2023 11:04:49 +0200
-Message-Id: <20230418090449.2155757-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pohHZ-00063M-L8
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 05:05:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681808748;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N9WJOmCq/LQBr63uPHRTkZoCSZeLbrUGpPEmumqICoo=;
+ b=Ry3GfGeRiWsfeLEgA282Hvd6ph4UEolMwXrugmOojvOJ+czGc2M30dEz9kNT6I9iQDSufK
+ 01z/klhCrpPi50CU11oASBUq9ykBJzSOuIK5PlL7VFHxJeW+DXAJSt2shgHQItDuRpidvP
+ P4L2RSSMQUvC9j7SRCjbp0CfqSTrE+w=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-125-Zi50vU6zMFeXg4zLSBVhiQ-1; Tue, 18 Apr 2023 05:05:46 -0400
+X-MC-Unique: Zi50vU6zMFeXg4zLSBVhiQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ k24-20020a508ad8000000b005068d942d3fso5178057edk.2
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 02:05:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681808746; x=1684400746;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N9WJOmCq/LQBr63uPHRTkZoCSZeLbrUGpPEmumqICoo=;
+ b=JPLXympd6iNGcps+C/WnSQYihkXridMJIAFzNUlboUwaUM4h5ottmQWeHJMjdzNo3w
+ nI7xQ2CoCGByiSnCxd2fBbMMjZe0WINs4fq/reVX839tECruR0K63zjSLvhNctjTiQag
+ kYS2w+bauBL9xi7zkD1aWxUCxOR6CklE6cZQ/cavxRbMbkGVObDQS23VRkadmiMzvtVZ
+ O5ofgzlCnd6bJRRERZUFWKlRep7/nlnYCHXQKukVHbmrqjzouqDNpS3sBBloSpedHRLP
+ Z2veSsY80hUMcKgMevaweWuHYU4rcqXMk1xNdXNgJmBdbe1UTCglsSwTSv8nIQU+IEsi
+ 6/mg==
+X-Gm-Message-State: AAQBX9ePcd2DNDPZRA/H3x/uvqCpjKaRrkTay4oV1FblfRMMqcVSRmjG
+ X7sl0qfz2sTBVeqqA8ruFzhZSzMiQSs/FJ/owFJWNiOOBbx2z14va56GzplWztFxs1Vo7w720UO
+ ywmXgvtUzahO4EUM=
+X-Received: by 2002:a17:906:3a93:b0:94e:c142:dfb1 with SMTP id
+ y19-20020a1709063a9300b0094ec142dfb1mr9431505ejd.61.1681808745917; 
+ Tue, 18 Apr 2023 02:05:45 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a7u8xurI0qBYaHyQq41mpVot/wAjXJIRHeO+7CvmYerMFtPo+hr+Sngadxsv4G/J++6Sf1zA==
+X-Received: by 2002:a17:906:3a93:b0:94e:c142:dfb1 with SMTP id
+ y19-20020a1709063a9300b0094ec142dfb1mr9431481ejd.61.1681808745593; 
+ Tue, 18 Apr 2023 02:05:45 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ r12-20020a170906c28c00b0094f2f0c9ed9sm4371210ejz.167.2023.04.18.02.05.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 02:05:45 -0700 (PDT)
+Message-ID: <da66fcea-3166-a147-58d1-ce58f3c061f0@redhat.com>
+Date: Tue, 18 Apr 2023 11:05:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/2] tests: lcitool: Switch to OpenSUSE Leap 15.4
+Content-Language: en-US
+To: Olaf Hering <olaf@aepfle.de>, Peter Krempa <pkrempa@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <cover.1681735482.git.pkrempa@redhat.com>
+ <a408b7f241ac59e5944db6ae2360a792305c36e0.1681735482.git.pkrempa@redhat.com>
+ <20230417163258.65586555.olaf@aepfle.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20230417163258.65586555.olaf@aepfle.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.284, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,72 +109,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-with Q35 using ACPI PCI hotplug by default, user's request to unplug
-device is ignored when it's issued before guest OS has been booted.
-And any additional attempt to request device hot-unplug afterwards
-results in following error:
+On 4/17/23 16:32, Olaf Hering wrote:
+> Mon, 17 Apr 2023 14:46:54 +0200 Peter Krempa<pkrempa@redhat.com>:
+> 
+>> Switch the dockerfile to 15.4.
+>
+> Given that Leap 15.5 is essentially done, please skip this meanwhile
+> stale version of Leap.
 
-  "Device XYZ is already in the process of unplug"
+The reason to do this update is to be able to update libvirt-ci, if 
+needed for other reasons.  Even though 15.4 is already almost-obsolete, 
+it doesn't hurt to switch CI to it.
 
-arguably it can be considered as a regression introduced by [2],
-before which it was possible to issue unplug request multiple
-times.
-
-Accept new uplug requests after timeout (1ms). This brings ACPI PCI
-hotplug on par with native PCIe unplug behavior [1] and allows user
-to repeat unplug requests at propper times.
-Set expire timeout to arbitrary 1msec so user won't be able to
-flood guest with SCI interrupts by calling device_del in tight loop.
-
-PS:
-ACPI spec doesn't mandate what OSPM can do with GPEx.status
-bits set before it's booted => it's impl. depended.
-Status bits may be retained (I tested with one Windows version)
-or cleared (Linux since 2.6 kernel times) during guest's ACPI
-subsystem initialization.
-Clearing status bits (though not wrong per se) hides the unplug
-event from guest, and it's upto user to repeat device_del later
-when guest is able to handle unplug requests.
-
-1) 18416c62e3 ("pcie: expire pending delete")
-2)
-Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-CC: mst@redhat.com
-CC: anisinha@redhat.com
-CC: jusual@redhat.com
-CC: kraxel@redhat.com
----
-v4:
- * massage commit message some more (Kashyap Chamarthy <kchamart@redhat.com>)
- * pickup Gerd's ACK
----
- hw/acpi/pcihp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index dcfb779a7a..cdd6f775a1 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -357,6 +357,16 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-      * acpi_pcihp_eject_slot() when the operation is completed.
-      */
-     pdev->qdev.pending_deleted_event = true;
-+    /* if unplug was requested before OSPM is initialized,
-+     * linux kernel will clear GPE0.sts[] bits during boot, which effectively
-+     * hides unplug event. And than followup qmp_device_del() calls remain
-+     * blocked by above flag permanently.
-+     * Unblock qmp_device_del() by setting expire limit, so user can
-+     * repeat unplug request later when OSPM has been booted.
-+     */
-+    pdev->qdev.pending_deleted_expires_ms =
-+        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL); /* 1 msec */
-+
-     s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
-     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
- }
--- 
-2.39.1
+Paolo
 
 
