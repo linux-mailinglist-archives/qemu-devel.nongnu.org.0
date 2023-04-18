@@ -2,89 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3666E6E5A94
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 09:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50ED6E5AF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 09:51:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poftI-0002NZ-HE; Tue, 18 Apr 2023 03:36:40 -0400
+	id 1pog5w-0005eN-5d; Tue, 18 Apr 2023 03:49:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1poftH-0002NC-5H
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 03:36:39 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1poftF-0005Rj-Cy
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 03:36:38 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id fw30so17968050ejc.5
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 00:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681803395; x=1684395395;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6yxyqwjPqfgzOj8BEoy/R9Kl5mJhfXmO92/e6f1UPrU=;
- b=sVuUJ+9V+YQnPyIcswoKVLCj8mIFg/1VIuL5xSbnSd2NFJYlcJsWO9wSFwxmc6h4vO
- J0gi2bz1fXZKbLzmhCDejxq1yfmAiSvu+Xnfo5mQPsCbgPNoT5IrHaZIgqrZ1xJAhIOr
- jax9HDMex8CNmJmIokpzKmITSEoGgdXuQlLfyv4OIeVXzYTC0kRUuFwfnuXKUe6dFQCo
- brctBRznTwcY/JPoumLJMcBVUEZu4ZB91X4yN+/j7BOdpDhJR0iWsdsgmw+zRdr6ms3W
- 99/sJgaEgFA2xu9AcQH7jr76ZS8dDBK1grqvpARuDq/T9J7tqpT/+wJKN9IrViNVAnJh
- Zg6w==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pog5t-0005eE-RW
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 03:49:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pog5r-0007nB-Rk
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 03:49:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681804177;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=N5tuD7Wrl9gS2DaDRQFHLfbB7UBp9oJl1mQeg/v6gHo=;
+ b=hEqQ5fv0Rg0E3QiDGVbAxdsPFampGq0VGtFVcogmrrY0uC58hWjO27GlVuUlO6IpNI4Lkf
+ T1xoljzPU8ZPsOMahrZdH/nQVia+UMiZv3dq4xwfp51FAXRop53YkiFkH8nEJJmMFFHg8W
+ DqosqeFZaFw3DaeVgbeMUXfqwsg7U+4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-55-lP9PF780OqWTjQcY5Zc7-A-1; Tue, 18 Apr 2023 03:49:36 -0400
+X-MC-Unique: lP9PF780OqWTjQcY5Zc7-A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f1745d08b5so4923955e9.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 00:49:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681803395; x=1684395395;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6yxyqwjPqfgzOj8BEoy/R9Kl5mJhfXmO92/e6f1UPrU=;
- b=WLIZeAeSfVHBexFxqz9QuSdfl03Ljw+VXQJHAShYMlrfRTIz4ZiJGa4jNMbt8g1/Ny
- UavPBPSOflmo8zi+F6ijQ1K5qwEnkX17R3Ey3t25gBXGE+3jUe+icxNRvqgjGcJJwCF7
- CMaWvJzyIrG/GCViDQN/5MlYltosIZ0SxP5cFmBX4nWk+aw3ff11zdcupEpcbZkI+oGf
- UsAUzBffqHKOnAR1ZgpRb1NWWDIly7k7tjW8PrHJxFdiMUxir/QpS4tUuSFIiy4lkMby
- vAHmtBzqiApmeVhYRkb8lY53Vvm6pFWz4WoQGXixk4fYDWgGZShF4rFHg8cKh2CAYCPJ
- 99bg==
-X-Gm-Message-State: AAQBX9dYrdy39r1RUa7F2avy3tUCudKFz1jWfFu4cz6TZliOuGQOeX5J
- eRycsT79w1K7sjWDHz+asNQzng==
-X-Google-Smtp-Source: AKy350b+TXz0EuvD8aeZbpysOT+cje+AR4Q98DVTLe22b3zOMIaLyQoiNPWVUaYernjZJoGgqXRBnQ==
-X-Received: by 2002:a17:906:64ca:b0:94f:4d4d:23 with SMTP id
- p10-20020a17090664ca00b0094f4d4d0023mr7460102ejn.68.1681803395636; 
- Tue, 18 Apr 2023 00:36:35 -0700 (PDT)
-Received: from [192.168.58.227] ([91.223.100.53])
- by smtp.gmail.com with ESMTPSA id
- p3-20020a17090635c300b0094ed14a5b75sm6625273ejb.51.2023.04.18.00.36.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 00:36:35 -0700 (PDT)
-Message-ID: <e6fea4f5-4750-30df-4ce4-e2d36f5e4664@linaro.org>
-Date: Tue, 18 Apr 2023 09:36:29 +0200
+ d=1e100.net; s=20221208; t=1681804175; x=1684396175;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=N5tuD7Wrl9gS2DaDRQFHLfbB7UBp9oJl1mQeg/v6gHo=;
+ b=VH0xd46grBUaUUCyy+5W/8lpUYwUmhqf0pvCWS0JSw0KI3kUXH+fy+N+UQJFFlB7le
+ 4f8dVFlSYXJC5t1Tx0gsivgWsERFmW/eJg8VfIQockESSYNX9W1iBLqWinbfUtiwEJ7n
+ Cor3be3j3HvZ4+cIc934ncUC4II2ZRpd2TtMTawthGhcoeD+WdkikFmRfQieVMcfg6a7
+ jHIYOv1xj3tnxd0TGVwp4RRZKArHEpWvuBsqEFM10Y81bnMGRjqBmPblO2bcTDjBmzTt
+ peCkc4nPX6Fi17/uavFCNZ91Ep+EhO4kx451rh71AkGuZ9pd+zkpA7sqSi1gH8++L0yu
+ Xb8A==
+X-Gm-Message-State: AAQBX9eUgRESyWzVhTzqAD2djTlEpCoJtFI22HbVyMBGgFCijtwex/74
+ w2L6kVhyN3RHkoMzX2DTic9bxcGPo5plsiaUqeJeriuH1UUtSOEf+a19rR3zNOSa2/2KOrSZJJG
+ eVa9ICWkIkZVOPKs=
+X-Received: by 2002:adf:cc8e:0:b0:2f9:9222:4a93 with SMTP id
+ p14-20020adfcc8e000000b002f992224a93mr1102721wrj.38.1681804175056; 
+ Tue, 18 Apr 2023 00:49:35 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z7/6yr4/nn94t21ML11p5t7uoDarISAuOl8k8ZIrwDL5VMKwwBrSfY7u97XEwLmmfrWkueFg==
+X-Received: by 2002:adf:cc8e:0:b0:2f9:9222:4a93 with SMTP id
+ p14-20020adfcc8e000000b002f992224a93mr1102703wrj.38.1681804174693; 
+ Tue, 18 Apr 2023 00:49:34 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ b11-20020a5d4d8b000000b002c7066a6f77sm12348237wru.31.2023.04.18.00.49.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 00:49:33 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: "you.chen" <you.chen@intel.com>
+Cc: qemu-devel@nongnu.org,  "dennis . wu" <dennis.wu@intel.com>,  "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>,  Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 2/2] migration: add support for qatzip compression
+ when doing live migration
+In-Reply-To: <20230417083935.415782-3-you.chen@intel.com> (you chen's message
+ of "Mon, 17 Apr 2023 16:39:35 +0800")
+References: <20230417083935.415782-1-you.chen@intel.com>
+ <20230417083935.415782-3-you.chen@intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 18 Apr 2023 09:49:32 +0200
+Message-ID: <87a5z53a0j.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 6/6] accel/tcg: Remain TLB_INVALID_MASK in the address
- when TLB is re-filled
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
- <20230413090122.65228-7-liweiwei@iscas.ac.cn>
- <a256a5fd-e408-74a3-5476-694d216e08d8@ventanamicro.com>
- <e2288c5f-b4a1-9105-6c2e-60e51decd91d@linaro.org>
-In-Reply-To: <e2288c5f-b4a1-9105-6c2e-60e51decd91d@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.284,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,50 +99,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/18/23 09:18, Richard Henderson wrote:
->>> -            /*
->>> -             * With PAGE_WRITE_INV, we set TLB_INVALID_MASK immediately,
->>> -             * to force the next access through tlb_fill.  We've just
->>> -             * called tlb_fill, so we know that this entry *is* valid.
->>> -             */
->>> -            flags &= ~TLB_INVALID_MASK;
-> 
-> 
-> I missed the original patch, but this is definitely wrong.
-> 
-> Clearing this bit locally (!) is correct because we want to inform the caller of 
-> probe_access_* that the access is valid.  We know that it is valid because we have just 
-> queried tlb_fill (and thus for riscv, PMP).
-> 
-> Clearing the bit locally does *not* cause the tlb entry to be cached -- the INVALID bit is 
-> still set within the tlb entry.  The next access will again go through tlb_fill.
-> 
-> What is the original problem you are seeing?  The commit message does not say.
+"you.chen" <you.chen@intel.com> wrote:
+> Add config and logics to use qatzip for page compression, in order to
+> support qatzip compression better, we collect multipe pages together
+> to do qatzip compression for best performance.
+> And we use compile option CONFIG_QATZIP to determine whether should qatzip related code be compiled or not.
+>
+> Co-developed-by: dennis.wu <dennis.wu@intel.com>
+> Signed-off-by: you.chen <you.chen@intel.com>
 
- From https://lore.kernel.org/qemu-devel/3ace9e9e-91cf-36e6-a18f-494fd44dffab@iscas.ac.cn/
-I see that it is a problem with execution.
-
-By eye, it appears that get_page_addr_code_hostp needs adjustment, e.g.
-
-     (void)probe_access_internal(env, addr, 1, MMU_INST_FETCH,
-                                 cpu_mmu_index(env, true), false, &p, &full, 0);
-     if (p == NULL) {
-         return -1;
-     }
-+   if (full->lg_page_size < TARGET_PAGE_BITS) {
-+       return -1;
-+   }
-     if (hostp) {
-         *hostp = p;
-     }
-
-It seems like we could do slightly better than this, perhaps by single-stepping through 
-such a page, but surely this edge case is so uncommon as to not make it worthwhile to 
-consider.
+two questions:
+a - why are you using this?  I guess that because it is faster, but you
+    are not telling.
+b - why are you using it with compression thread instead of multifd
+    compression?  probably just another method.
 
 
-r~
+[...]
+
+>      MigrationState *s;
+> @@ -4451,6 +4470,8 @@ static Property migration_properties[] = {
+>      DEFINE_PROP_UINT8("x-compress-threads", MigrationState,
+>                        parameters.compress_threads,
+>                        DEFAULT_MIGRATE_COMPRESS_THREAD_COUNT),
+> +    DEFINE_PROP_BOOL("x-compress-with-qat", MigrationState,
+> +                      parameters.compress_with_qat, false),
+>      DEFINE_PROP_BOOL("x-compress-wait-thread", MigrationState,
+>                        parameters.compress_wait_thread, true),
+>      DEFINE_PROP_UINT8("x-decompress-threads", MigrationState,
+> @@ -4580,6 +4601,7 @@ static void migration_instance_init(Object *obj)
+>      params->has_compress_level = true;
+>      params->has_compress_threads = true;
+>      params->has_compress_wait_thread = true;
+> +    params->has_compress_with_qat = true;
+>      params->has_decompress_threads = true;
+>      params->has_throttle_trigger_threshold = true;
+>      params->has_cpu_throttle_initial = true;
+
+If you use it as a parameter, this bits are ok, but I still think that
+it will work better with a multifd compression method.
+
+> -#define IO_BUF_SIZE 32768
+> +#ifdef CONFIG_QATZIP
+> +#define IO_BUF_SIZE (512 * KiB)
+> +#else
+> +#define IO_BUF_SIZE (32 * KiB)
+> +#endif
+
+1st part that it is already weird O:-)
+I mean, we are supposed to not have bigger buffers.
+
+> +uint8_t *qemu_get_pos(QEMUFile *f)
+> +{
+> +    return f->buf + f->buf_index;
+> +}
+> +
+
+I know I shouldn't ask, but why do you need this.
+/me looks later in the patch.
+
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -117,6 +117,20 @@ static void __attribute__((constructor)) init_cpu_flag(void)
+>  
+>  XBZRLECacheStats xbzrle_counters;
+>  
+> +/* define the max page number to compress together */
+> +#define MULTI_PAGE_NUM 64
+
+You get 64 pages to compress with just using multifd, nothing else needed.
+
+> +#define COMP_BUF_SIZE (TARGET_PAGE_SIZE *  MULTI_PAGE_NUM * 2)
+> +#define DECOMP_BUF_SIZE (TARGET_PAGE_SIZE *  MULTI_PAGE_NUM)
+> +
+> +typedef struct MultiPageAddr {
+> +    /* real pages that will compress together */
+> +    uint64_t pages;
+> +    /* the last index of the addr*/
+> +    uint64_t last_idx;
+> +    /* each address might contain contineous pages*/
+> +    uint64_t addr[MULTI_PAGE_NUM];
+> +} MultiPageAddr;
+> +
+>  /* used by the search for pages to send */
+>  struct PageSearchStatus {
+>      /* The migration channel used for a specific host page */
+> @@ -127,6 +141,12 @@ struct PageSearchStatus {
+>      RAMBlock    *block;
+>      /* Current page to search from */
+>      unsigned long page;
+> +    /*
+> +     * multi page search from current page
+> +     * for compress together with qatzip
+> +     * stream APIs
+> +     */
+> +    MultiPageAddr mpa;
+>      /* Set once we wrap around */
+>      bool         complete_round;
+>      /* Whether we're sending a host page */
+> @@ -506,6 +526,15 @@ struct CompressParam {
+>      /* internally used fields */
+>      z_stream stream;
+>      uint8_t *originbuf;
+> +
+> +#ifdef CONFIG_QATZIP
+> +    /*multi page address for compression*/
+> +    MultiPageAddr mpa;
+> +    QzSession_T qzsess;
+> +    uint8_t *decompbuf;
+> +    uint8_t *compbuf;
+> +    /* QzStream_T qzstream; */
+> +#endif
+>  };
+>  typedef struct CompressParam CompressParam;
+>  
+> @@ -518,6 +547,15 @@ struct DecompressParam {
+>      uint8_t *compbuf;
+>      int len;
+>      z_stream stream;
+> +    RAMBlock *block;
+> +
+> +#ifdef CONFIG_QATZIP
+
+Aside.  I would expect to detect at configure time if QATZIP is available.
+
+> +    /* decompress multi pages with qzlib*/
+> +    QzSession_T qzsess;
+> +    /* QzStream_T qzstream; */
+> +    uint8_t *decompbuf; /* buffer after decompress */
+
+The comment is wrong. You uses this variable on do_compress_ram_page,
+that has nothing to do with decompression.
+
+> +    MultiPageAddr mpa;   /* destination */
+> +#endif
+>  };
+
+I am not going looking after this.  We already have a mechanism to look
+for several pages.
+
+See multifd_queue_page().
+
+We have to options here:
+- multifd_queue_page() is better, you need to generalize it and wrote
+  this on top of that.
+- yours is better.  Then you need to write multifd one on top of that.
+
+What I don't want is two different mechanisms to collect the next 64
+dirty pages. I will even consider good that you _always_ search for
+multiple pages, let say 64 that are the ones that we have now in both
+multifd and your approach and you do a for loop in case that it is
+normal precopy.
+
+Another note, I am not a big far of:
+
+#ifdef CONFIG_QATZIP
+            if (migrate_compress_with_qat()) {
+                do_compress_ram_page_multiple(param->file, &param->qzsess,
+                    param->decompbuf, param->compbuf, block, &param->mpa);
+            } else {
+#endif
+                zero_page = do_compress_ram_page(param->file,
+                    &param->stream, block, offset, param->originbuf);
+                param->zero_page = zero_page;
+#ifdef CONFIG_QATZIP
+            }
+#endif
+
+Two ifdefs and an if mixed, ouch.
+
+Suggestions:
+- Just create a function that calls one or another.
+- You add another function call to migration_ops, and you add the proper
+  function there during initialization.
+
+Another nitbit:
+- You are dropping the zero page optimization, you are just compressing
+  it.
+- See how it is done on my zero pages on multifd on the list.
+  a - we only sent the page address for a zero page (hard to win sending
+      zero bytes for a page)
+  b - I don't know how QzSession_T works, but I guess that it is going
+      to be a loosy equivalent of how zlib works.  Notice that
+      compression code does:
+
+do_compress_ram_page() -> qemu_put_compression_data() -> ...
+
+static int qemu_compress_data(z_stream *stream, uint8_t *dest, size_t dest_len,
+                              const uint8_t *source, size_t source_len)
+{
+    int err;
+
+    err = deflateReset(stream);
+    if (err != Z_OK) {
+        return -1;
+    }
+
+    stream->avail_in = source_len;
+    stream->next_in = (uint8_t *)source;
+    stream->avail_out = dest_len;
+    stream->next_out = dest;
+
+    err = deflate(stream, Z_FINISH);
+    if (err != Z_STREAM_END) {
+        return -1;
+    }
+
+    return stream->next_out - dest;
+}
+
+I can't see the equivalent of deflateReset on your code (remember that I
+don't understand qat).  Rememeber that the number of threads for
+compression and decompression can be different, so it is not necessary
+that you have the same dicctionaries on destination on the thread that
+you are using.  That is one of the reasons why multifd-zlib is much,
+much better at compression that compression threads.
+a- it uses 64pages at a time
+b- as recv thread is paired with the same send thread, we don't need to
+   reset the dictionaries, and that makes things much, much better.
+   I thought it was a bug the 1st time that I saw that it compressed 64
+   pages to less than 64bytes O:-)
+
+Later, Juan.
+
 
