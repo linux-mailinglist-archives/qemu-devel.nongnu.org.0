@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A076E66AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 16:08:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098856E66AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 16:08:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1polyv-0008Ex-6R; Tue, 18 Apr 2023 10:06:53 -0400
+	id 1polyv-0008Em-5A; Tue, 18 Apr 2023 10:06:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1polys-0008EE-4c; Tue, 18 Apr 2023 10:06:50 -0400
+ id 1polys-0008ED-2F; Tue, 18 Apr 2023 10:06:50 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1polyp-0008Uf-5k; Tue, 18 Apr 2023 10:06:49 -0400
+ id 1polyp-0008Ue-58; Tue, 18 Apr 2023 10:06:49 -0400
 Received: from localhost.localdomain (unknown [180.165.241.15])
- by APP-05 (Coremail) with SMTP id zQCowADX32froz5kHH+IFA--.38119S2;
- Tue, 18 Apr 2023 22:06:37 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowADX32froz5kHH+IFA--.38119S3;
+ Tue, 18 Apr 2023 22:06:38 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,29 +26,32 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
  lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v2 0/8] target/riscv: Fix PMP related problem
-Date: Tue, 18 Apr 2023 22:06:24 +0800
-Message-Id: <20230418140632.53166-1-liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 1/8] target/riscv: Update pmp_get_tlb_size()
+Date: Tue, 18 Apr 2023 22:06:25 +0800
+Message-Id: <20230418140632.53166-2-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230418140632.53166-1-liweiwei@iscas.ac.cn>
+References: <20230418140632.53166-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADX32froz5kHH+IFA--.38119S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw18Gr1rtr4UCFW8Gw1kuFg_yoW5JF4fpF
- Z3C343tr4DJrW7Xr1ftr47ur15Ars5WF4UJ3ZIyw1rZ3Wa934rCryvkw409FyUJF95WrW3
- KF4jyr97WF4UZw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
- 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU5s
- jjDUUUU
+X-CM-TRANSID: zQCowADX32froz5kHH+IFA--.38119S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGw1UJFy5JryxKr4fCFWxZwb_yoWrWr18pr
+ W7CrWxGrWkK39xJ3WftFWDJF15Cw4SkF4UCa1xGFZY9a15G3yrAr1qkw43ur18Ga98urWj
+ kFWDAF1UCr4UXaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBE14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+ x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+ ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+ vE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+ r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
+ v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_
+ Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x
+ 0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8
+ JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIx
+ AIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUnmi_UUUUU
+ =
 X-Originating-IP: [180.165.241.15]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -74,45 +77,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patchset tries to fix the PMP bypass problem issue https://gitlab.com/qemu-project/qemu/-/issues/1542:
+PMP entries before the matched PMP entry(including the matched PMP entry)
+may overlap partial of the tlb page, which may make different regions in
+that page have different permission rights, such as for
+PMP0(0x80000008~0x8000000F, R) and PMP1(0x80001000~0x80001FFF, RWX))
+write access to 0x80000000 will match PMP1. However we cannot cache the tlb
+for it since this will make the write access to 0x80000008 bypass the check
+of PMP0. So we should check all of them and set the tlb size to 1 in this
+case.
 
-- TLB will be cached if the matched PMP entry cover the whole page.  However PMP entries with higher priority may cover part of the page (but not match the access address), which means different regions in this page may have different permission rights. So the TLB also cannot be cached in this case (patch 1).
-- Writing to pmpaddr didn't trigger tlb flush (patch 3). 
-- The tb isn't flushed when PMP permission changes, so It also may hit  the tb and bypass the changed PMP check for instruction fetch (patch 5). 
-- We set the tlb_size to 1 to make the TLB_INVALID_MASK set, and and the next access will again go through tlb_fill. However, this way will not work in tb_gen_code() => get_page_addr_code_hostp(): the TLB host address will be cached, and the following instructions can use this host address directly which may lead to the bypass of PMP related check (patch 6).
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+---
+ target/riscv/cpu_helper.c |  7 ++-----
+ target/riscv/pmp.c        | 35 ++++++++++++++++++++++-------------
+ target/riscv/pmp.h        |  3 +--
+ 3 files changed, 25 insertions(+), 20 deletions(-)
 
-The port is available here:
-https://github.com/plctlab/plct-qemu/tree/plct-pmp-fix-v2
-
-v2:
-
-- Update commit message for patch 1
-- Add default tlb_size when pmp is diabled or there is no rules and only get the tlb size when translation success in patch 2
-- Update get_page_addr_code_hostp instead of probe_access_internal to fix the cached host address for instruction fetch in patch 6
-- Add patch 7 to make the short up really work in pmp_hart_has_privs
-- Add patch 8 to use pmp_update_rule_addr() and pmp_update_rule_nums() separately
-
-Weiwei Li (8):
-  target/riscv: Update pmp_get_tlb_size()
-  target/riscv: Move pmp_get_tlb_size apart from
-    get_physical_address_pmp
-  target/riscv: flush tlb when pmpaddr is updated
-  target/riscv: Flush TLB only when pmpcfg/pmpaddr really changes
-  target/riscv: flush tb when PMP entry changes
-  accel/tcg: Uncache the host address for instruction fetch when tlb
-    size < 1
-  target/riscv: Make the short cut really work in pmp_hart_has_privs
-  target/riscv: Separate pmp_update_rule() in pmpcfg_csr_write Use
-    pmp_update_rule_addr() and pmp_update_rule_nums() separately to
-    update rule nums only once for each pmpcfg_csr_write. Then we can
-    also move tlb_flush and tb_flush into pmp_update_rule_nums().
-
- accel/tcg/cputlb.c        |   5 +
- target/riscv/cpu_helper.c |  24 +--
- target/riscv/pmp.c        | 316 ++++++++++++++++++++------------------
- target/riscv/pmp.h        |   3 +-
- 4 files changed, 181 insertions(+), 167 deletions(-)
-
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 433ea529b0..075fc0538a 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -703,11 +703,8 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+     }
+ 
+     *prot = pmp_priv_to_page_prot(pmp_priv);
+-    if ((tlb_size != NULL) && pmp_index != MAX_RISCV_PMPS) {
+-        target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
+-        target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
+-
+-        *tlb_size = pmp_get_tlb_size(env, pmp_index, tlb_sa, tlb_ea);
++    if (tlb_size != NULL) {
++        *tlb_size = pmp_get_tlb_size(env, addr);
+     }
+ 
+     return TRANSLATE_SUCCESS;
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 1f5aca42e8..78bcd969ec 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -601,28 +601,37 @@ target_ulong mseccfg_csr_read(CPURISCVState *env)
+ }
+ 
+ /*
+- * Calculate the TLB size if the start address or the end address of
++ * Calculate the TLB size if any start address or the end address of
+  * PMP entry is presented in the TLB page.
+  */
+-target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+-                              target_ulong tlb_sa, target_ulong tlb_ea)
++target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr)
+ {
+-    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
+-    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
++    target_ulong pmp_sa;
++    target_ulong pmp_ea;
++    target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
++    target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
++    int i;
++
++    for (i = 0; i < MAX_RISCV_PMPS; i++) {
++        pmp_sa = env->pmp_state.addr[i].sa;
++        pmp_ea = env->pmp_state.addr[i].ea;
+ 
+-    if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
+-        return TARGET_PAGE_SIZE;
+-    } else {
+         /*
+-         * At this point we have a tlb_size that is the smallest possible size
+-         * That fits within a TARGET_PAGE_SIZE and the PMP region.
+-         *
+-         * If the size is less then TARGET_PAGE_SIZE we drop the size to 1.
++         * If any start address or the end address of PMP entry is presented
++         * in the TLB page and cannot override the whole TLB page we drop the
++         * size to 1.
+          * This means the result isn't cached in the TLB and is only used for
+          * a single translation.
+          */
+-        return 1;
++        if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
++            return TARGET_PAGE_SIZE;
++        } else if ((pmp_sa >= tlb_sa && pmp_sa <= tlb_ea) ||
++                   (pmp_ea >= tlb_sa && pmp_ea <= tlb_ea)) {
++            return 1;
++        }
+     }
++
++    return TARGET_PAGE_SIZE;
+ }
+ 
+ /*
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index b296ea1fc6..0a7e24750b 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -76,8 +76,7 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+                        target_ulong size, pmp_priv_t privs,
+                        pmp_priv_t *allowed_privs,
+                        target_ulong mode);
+-target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+-                              target_ulong tlb_sa, target_ulong tlb_ea);
++target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr);
+ void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
+ void pmp_update_rule_nums(CPURISCVState *env);
+ uint32_t pmp_get_num_rules(CPURISCVState *env);
 -- 
 2.25.1
 
