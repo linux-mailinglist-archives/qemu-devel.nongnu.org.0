@@ -2,98 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7F26E6987
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 18:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5426E6966
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 18:24:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pooCt-0008D8-VZ; Tue, 18 Apr 2023 12:29:27 -0400
+	id 1poo8I-0005Tm-DE; Tue, 18 Apr 2023 12:24:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pooCq-0008Cz-Je
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:29:24 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pooCo-0002jo-MF
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:29:24 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- ay3-20020a05600c1e0300b003f17289710aso143776wmb.5
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 09:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681835360; x=1684427360;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QuJZaLubT8BhFuE9ylcD4Gy9hPKTq8TPugnpWu/KBiw=;
- b=t3HCEI064XFBRsR+tvVoJjytqVHXY8E+Nut66xpWqyIdLmbKR9S8pt8L1SFUjT+mPJ
- 3a5FjtnWl0y7ilDrcPUhfSa/4jIctYVL/GGYLdkAi/zWxb57VkBphyc8IzLt3QGYFInz
- NdRy9drlJF+0E7pNxveRiUsUr0NBlbBGF9D/E2n73mepPZvF86mN9Q+OrmOicQPVND72
- 4lWs+C87PwoNPKz3TShgfK1zRu7LiuZaRzAZRUIfBQ+prohi0R1gRLTT3T0JKEbKdUqp
- HKDBK1NlL8ZtRu6kdKrcqdBJz7wKFcHmAoxrHS/z+VGRwUbJxliSNzUj03ApLuh5Fu59
- hY3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681835360; x=1684427360;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QuJZaLubT8BhFuE9ylcD4Gy9hPKTq8TPugnpWu/KBiw=;
- b=LMehk8iT+fkxg6aplnWrn2jsf8vXcpuGJaqDNUuxMlMqMKBctMQXnf7wDQvEHOMC1b
- 7IBpRFnYdiU5NPet3GHYlf0Z0A4xCMT3io7hCb3oU8Uz4DIauCIO1KDd9fLaS/acvmL/
- 8jf4lwSfZ9TiUpXhTiT+soJF4YTu+wc5/JSXRBC5Dp16cO++FUrrAgRQXtAq1rz5LHL+
- H+UdeEi1fLO6AUAt/KDdb54OeAI0Z3Qfgzi+ZMt92tfYPDxskfax69G/4NZcMVoJeP/0
- A+5cOjst0Anr67jRp2J1FqeWczTcDdusaQZa83+3cC7TO0tnDfWf0RdV7binYgjU8cuw
- Bjkw==
-X-Gm-Message-State: AAQBX9fsfrZ6h2odnfu7aWImATrY/SzA5T2HHI6HjraXvGUYWXMrO3r/
- 2O8S0wnrtqJp+OCNHlg6++3AlQ==
-X-Google-Smtp-Source: AKy350YNQudDN1NTLOM25n8TgBgWHR9vzbn3Rjecdg9LkJw6UYFwVelNmSewsm3wkCCCeAaX2jg1yg==
-X-Received: by 2002:a7b:c01a:0:b0:3ed:b56c:9496 with SMTP id
- c26-20020a7bc01a000000b003edb56c9496mr13031205wmb.31.1681835360679; 
- Tue, 18 Apr 2023 09:29:20 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- g15-20020a05600c4ecf00b003edc4788fa0sm19486588wmq.2.2023.04.18.09.29.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 09:29:20 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A65D31FFC3;
- Tue, 18 Apr 2023 17:21:41 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Markus Armbruster <armbru@redhat.com>,
- Erik Schilling <erik.schilling@linaro.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, virtio-fs@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2 13/13] docs/system: add a basic enumeration of vhost-user
- devices
-Date: Tue, 18 Apr 2023 17:21:40 +0100
-Message-Id: <20230418162140.373219-14-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230418162140.373219-1-alex.bennee@linaro.org>
-References: <20230418162140.373219-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1poo7y-0005MP-3t
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:24:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1poo7w-0001gq-2z
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:24:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681835058;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GXF4ZHRBqWtDevUZ09iZJBLJQ1tS9q9iI00AJYygjVU=;
+ b=O7muUmLEtfK1YocAkaDySvKh2ZzlmdkZPSa+E/pWTj23TQERS9Kecman3jZVlEeJ0OzXCO
+ cF/XJyVEoOYUmfLrGj1/pOoMgBC423RnQddYEs6X/+9Se6WfyTaRP1u+gzhNhA6Bi4cl9Q
+ rpq+MMZ/r0UDTrOi7jBjRdHeVFkjLA4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-28-5Um8PlI5NtimQdRTkNVKUQ-1; Tue, 18 Apr 2023 12:24:17 -0400
+X-MC-Unique: 5Um8PlI5NtimQdRTkNVKUQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D9F3410504B0
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 16:24:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F5B7492C3F;
+ Tue, 18 Apr 2023 16:24:16 +0000 (UTC)
+Date: Tue, 18 Apr 2023 17:24:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3] test: Fix test-crypto-secret when compiling without
+ keyring support
+Message-ID: <ZD7ELuuL6VGl1Rqe@redhat.com>
+References: <20230414114252.1136-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+In-Reply-To: <20230414114252.1136-1-quintela@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,84 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Make it clear the vhost-user-device is intended for expert use only.
+On Fri, Apr 14, 2023 at 01:42:52PM +0200, Juan Quintela wrote:
+> Linux keyring support is protected by CONFIG_KEYUTILS.
+> We also need CONFIG_SECRET_KEYRING.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> 
+> ---
+> 
+> - Previous version of this patch changed the meson build rules.
+>   Daniel told me that the proper fix was to change the #ifdef test.
+> 
+> - Change rule again.  We need both defines.
+> - Put both defines in #endif (thomas)
+> ---
+>  tests/unit/test-crypto-secret.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
----
-v2
-  - make clear vhost-user-device for expert use
----
- docs/system/devices/vhost-user-rng.rst |  2 ++
- docs/system/devices/vhost-user.rst     | 41 ++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
 
-diff --git a/docs/system/devices/vhost-user-rng.rst b/docs/system/devices/vhost-user-rng.rst
-index a145d4105c..ead1405326 100644
---- a/docs/system/devices/vhost-user-rng.rst
-+++ b/docs/system/devices/vhost-user-rng.rst
-@@ -1,3 +1,5 @@
-+.. _vhost_user_rng:
-+
- QEMU vhost-user-rng - RNG emulation
- ===================================
- 
-diff --git a/docs/system/devices/vhost-user.rst b/docs/system/devices/vhost-user.rst
-index 86128114fa..7038cece3e 100644
---- a/docs/system/devices/vhost-user.rst
-+++ b/docs/system/devices/vhost-user.rst
-@@ -15,6 +15,47 @@ to the guest. The code is mostly boilerplate although each device has
- a ``chardev`` option which specifies the ID of the ``--chardev``
- device that connects via a socket to the vhost-user *daemon*.
- 
-+Each device will have an virtio-mmio and virtio-pci variant. See your
-+platform details for what sort of virtio bus to use.
-+
-+.. list-table:: vhost-user devices
-+  :widths: 20 20 60
-+  :header-rows: 1
-+
-+  * - Device
-+    - Type
-+    - Notes
-+  * - vhost-user-device
-+    - Generic Development Device
-+    - You must manually specify ``virtio-id`` and the correct ``num_vqs``. Intended for expert use.
-+  * - vhost-user-blk
-+    - Block storage
-+    -
-+  * - vhost-user-fs
-+    - File based storage driver
-+    - See https://gitlab.com/virtio-fs/virtiofsd
-+  * - vhost-user-scsi
-+    - SCSI based storage
-+    - See contrib/vhost-user/scsi
-+  * - vhost-user-gpio
-+    - Proxy gpio pins to host
-+    - See https://github.com/rust-vmm/vhost-device
-+  * - vhost-user-i2c
-+    - Proxy i2c devices to host
-+    - See https://github.com/rust-vmm/vhost-device
-+  * - vhost-user-input
-+    - Generic input driver
-+    - See contrib/vhost-user-input
-+  * - vhost-user-rng
-+    - Entropy driver
-+    - :ref:`vhost_user_rng`
-+  * - vhost-user-gpu
-+    - GPU driver
-+    -
-+  * - vhost-user-vsock
-+    - Socket based communication
-+    - See https://github.com/rust-vmm/vhost-device
-+
- vhost-user daemon
- =================
- 
+With regards,
+Daniel
 -- 
-2.39.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
