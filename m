@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363856E6856
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 17:34:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBC66E6858
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 17:35:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ponJy-0004pq-Nw; Tue, 18 Apr 2023 11:32:42 -0400
+	id 1ponM5-0005vc-UL; Tue, 18 Apr 2023 11:34:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ponJx-0004pZ-J8
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:32:41 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ponJv-0008Fp-Qq
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:32:41 -0400
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-94f6c285d22so154021966b.2
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 08:32:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681831958; x=1684423958;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=49TO8ItszAtZ89NZrK9wB8OA85khJVMD+b8dlN5lUak=;
- b=RV8gbOsFNPawulyJMToS9FTgnwtlaTzo3RHREEPdN7ICh2pJxZafE4lDqIJah/zQwi
- 2d3K+jG1KCmuDv3zRjkQ10UMsmXUmZNB9Tj8hOAJxxJuM5rduhTOG/COSAUhx6hmYQQL
- 19QmKt/3xdj64Du8IDYUO5YWVwmr7ohXNqB3we5J6v59ojAi3ShHghvxWXIC++9TYhvF
- qSUnxiV99Xm6qRckzMKD3b51c1k+XMIxXXWNNqWZEaxqka9ZYpeJsMT72dD7SOdoYiEV
- swc3Sc7g8vjJ8oyRmlV+O+lUmcrOT6yxj/xz8ZMlCZ+xvZzaEfJvO8IS4omSq7ifChRc
- bScA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ponM3-0005vS-T3
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:34:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ponM2-0008U9-5O
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:34:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681832088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nEXLdzyHwiUoFcHBVuxy1lO+mLhaOIf3rig/+aSr5GY=;
+ b=IDcAOh/ObpixJBaxJB1gR9r4zUATTzh2DnlLwxWw8G196ZNvEF2mdgQCVn6KEWpkftgrqp
+ ziNx9IEIjAYvqnvq+n3GIEKK++Hb1mwRDt5iQfDDLwmie3bS/ahrvZGaSf9+/NTJxsiZyj
+ p2MF8gYNwGW2F+FC85ce9OoQAWeW2sg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-203-pOOJXHobNF2fFSgPvg4-zQ-1; Tue, 18 Apr 2023 11:34:47 -0400
+X-MC-Unique: pOOJXHobNF2fFSgPvg4-zQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ az39-20020a05600c602700b003f172e1d5bbso3058830wmb.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 08:34:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681831958; x=1684423958;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=49TO8ItszAtZ89NZrK9wB8OA85khJVMD+b8dlN5lUak=;
- b=N5+Dt/BY+aenKXNm7H4f6Wcvy/+GbsPo21mO9j7034tmgf9l1SSso/KIwJM4BjlHTv
- g6zNyPrfvnAu4ubRbuf5Ek6MCufZ32/JO00OWLBde67glXvs6IS0Nfb+kS4CxmoMyjMA
- 5jeg9mncEJpetbK0hBKy6j7233wx6CDN2ejuED8htqO57kqOhPE81JlbWDF/+ywc72Wx
- Aq63Eukxsib1hPSofOw3NjQQnYNgCcKKYcbSx4cL2iu5aUtFWcu0CaTB7U6of8VPZSyq
- hKQ558EdhCUn/Mo5ko/C9udpuEeHCaFbOSHc/QhVjJYtoVxPMHoUjTuUNv1NXN60Fbzi
- 99xA==
-X-Gm-Message-State: AAQBX9f5OQZf1zahl6VV1z50gvZzmfCZBdvEFH5hI3glAaE1uHxw4aav
- RgIyK7LyrbWxubkiFywxuC5z+ae+e7uPZavDSrAIpA==
-X-Google-Smtp-Source: AKy350ZMrnEhxaFfuord6fZdqpUIgFnEx4t0YxFmqVsFmnnBrFg1OQLIeyiKQHSz12a14fs61it7iUqf+iy8BNazzZU=
-X-Received: by 2002:a50:d0c9:0:b0:4fc:fc86:5f76 with SMTP id
- g9-20020a50d0c9000000b004fcfc865f76mr1395747edf.6.1681831958026; Tue, 18 Apr
- 2023 08:32:38 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681832085; x=1684424085;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nEXLdzyHwiUoFcHBVuxy1lO+mLhaOIf3rig/+aSr5GY=;
+ b=SFlkf82P6Bq07ie8V72cRiNw50aY6JID0T+gCfshnaicMGzoRSPv3kB5EyLIJ9mqWd
+ 4j7Dxfc7PV1mSka/Js1U7PugVdRKyAi6M/Rt+VuierjeNNaGZwBYaCzWU9GvGONjAKAt
+ Upp1KQ2QT1Gd+fPJ+NwkmeljnBkMpm0isIEk5+AcEGRt+39db8x6I7PAkpyKxZaPR87/
+ AKC1oCLUBoJUg7SuHzBej9wVitEFmSalYGO9KXXvKs9SoDM/FQupLmrR4jXX8RC5BeT1
+ jJTzgxMkgaMzfhgD1DmpL5bAlqscVDvMT2pt4Ch/6CrfXkIYGmUQMWHHEbM2esAR8hy7
+ jWgA==
+X-Gm-Message-State: AAQBX9dZtC6TOkYc0TswaLEb+pXbjbbSp1PLaV71CcT8oIlCAwcUqMa4
+ 3VK7PTg43DW+gC1p2fbTbqC+mM0d/R4pKR5IliUfeNuI/uhdBpVejCND342pY/HxRR1myJzIFOb
+ xnn3KMq3FlKMxm1x/+P/AGDk=
+X-Received: by 2002:a1c:750a:0:b0:3f1:70d5:1be8 with SMTP id
+ o10-20020a1c750a000000b003f170d51be8mr7506522wmc.15.1681832085514; 
+ Tue, 18 Apr 2023 08:34:45 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aIjnJH8bXVhdB7sUEWZGmA/dnZ2HUNV4g0yq/UY5J4A0gGDBdA6CkePxxUCU+uwUXgTi8L1w==
+X-Received: by 2002:a1c:750a:0:b0:3f1:70d5:1be8 with SMTP id
+ o10-20020a1c750a000000b003f170d51be8mr7506508wmc.15.1681832085200; 
+ Tue, 18 Apr 2023 08:34:45 -0700 (PDT)
+Received: from redhat.com ([2.52.4.37]) by smtp.gmail.com with ESMTPSA id
+ p5-20020a05600c358500b003f09fd301ddsm18253933wmq.1.2023.04.18.08.34.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 08:34:44 -0700 (PDT)
+Date: Tue, 18 Apr 2023 11:34:41 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Cindy Lu <lulu@redhat.com>,
+ Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+ Yajun Wu <yajunw@nvidia.com>, qemu-devel@nongnu.org
+Subject: Re: Move vhost-user SET_STATUS 0 after get vring base?
+Message-ID: <20230418113320-mutt-send-email-mst@kernel.org>
+References: <20230418151811.GA4048149@fedora>
 MIME-Version: 1.0
-References: <20230315145248.1639364-1-linux@roeck-us.net>
- <CAFEAcA-ZpQCS33L4MaQaR1S9MN24GgK+cH0vcuiz_7m+6dO4cw@mail.gmail.com>
- <c24f50af-1dbb-6a1b-ca21-414039c10602@roeck-us.net>
- <CAFEAcA9VQHa=Eenyon-kaiabayM5YY7FHEJsEWOzjzj3rXaSaA@mail.gmail.com>
- <79e67479-6785-c064-6aae-edd1ba2327cd@roeck-us.net>
-In-Reply-To: <79e67479-6785-c064-6aae-edd1ba2327cd@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Apr 2023 16:32:27 +0100
-Message-ID: <CAFEAcA-tOt520nfNdHyGV+0PUvGdw2o+yfpv95cQDHPDJnq0aA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] Support both Ethernet interfaces on i.MX6UL and i.MX7
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230418151811.GA4048149@fedora>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,47 +96,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 18 Apr 2023 at 16:18, Guenter Roeck <linux@roeck-us.net> wrote:
-> On 4/18/23 07:46, Peter Maydell wrote:
-> > I guess I don't understand what the topology is for these specific
-> > SoCs, then. If there's only one master that might be connected
-> > to multiple PHYs, why does one ethernet device in QEMU need to
-> > know about the other one? Are the PHYs connected to just that
-> > first ethernet device, or to both? This bit in your cover letter
-> > makes it sound like "both ethernet interfaces connect to the same
-> > MDIO bus which has both PHYs on it":
-> >
->
-> Yes, that is exactly how it is, similar to the configuration in the picture
-> at prodigytechno.com. I don't recall what I wrote in the cover letter, but
-> "Both Ethernet PHYs connect to the same MDIO bus which is connected to one
-> of the Ethernet MACs" would be the most accurate description I can think of.
+On Tue, Apr 18, 2023 at 11:18:11AM -0400, Stefan Hajnoczi wrote:
+> Hi,
+> Cindy's commit ca71db438bdc ("vhost: implement vhost_dev_start method")
+> added SET_STATUS calls to vhost_dev_start() and vhost_dev_stop() for all
+> vhost backends.
+> 
+> Eugenio's commit c3716f260bff ("vdpa: move vhost reset after get vring
+> base") deferred the SET_STATUS 0 call in vhost_dev_stop() until after
+> GET_VRING_BASE for vDPA only. In that commit Eugenio said, "A patch to
+> make vhost_user_dev_start more similar to vdpa is desirable, but it can
+> be added on top".
+> 
+> I agree and think it's a good idea to keep the vhost backends in sync
+> where possible.
+> 
+> vhost-user still has the old behavior where QEMU sends SET_STATUS 0
+> before GET_VRING_BASE. Most existing vhost-user backends don't implement
+> the SET_STATUS message, so I think no one has tripped over this yet.
+> 
+> Any thoughts on making vhost-user behave like vDPA here?
+> 
+> Stefan
 
-> Each MAC (Ethernet interface, instance of TYPE_IMX_FEC in qemu) has its own
-> MDIO bus. Currently QEMU assumes that each PHY is connected to the MDIO bus
-> on its associated MAC interface. That is not the case on the emulated boards,
-> where all PHYs are connected to a single MDIO bus.
+Wow. Well  SET_STATUS 0 resets the device so yes, I think doing that
+before GET_VRING_BASE will lose a state. Donnu how it does not trip
+up people, indeed the only idea is if people ignore SET_STATUS.
 
-So looking again at that diagram on that website, I think I understand
-now: for data transfer to/from the outside world, MAC1 talks only through
-PHY1 and MAC2 only through PHY2 (over the links marked "MII/GMII/XGMII"),
-but the "control" connection is via MDIO, and on these boards you have to
-configure PHY2 by doing the MDIO reads and writes via MAC1, even though
-MAC1 has nothing otherwise to do with PHY2 ? (And MAC2 has no devices on
-its MDIO bus at all.)
 
-> Userspace, when talking to the Ethernet controllers, knows that the PHY
-> of the second Ethernet controller is connected to the MDIO bus on the first
-> Ethernet controller. QEMU has to be told about that and otherwise misses that
-> MDIO commands sent to the second PHY (on the first Ethernet controller)
-> influence the second MAC interface.
->
->  From this exchange I can only assume that my implementation is unacceptable.
+-- 
+MST
 
-Not at all -- I'm just trying to understand what the hardware we're
-modelling is doing, so I can figure out what we "ought" in theory
-to be doing and whether that's too much pain to do right now...
-
-thanks
--- PMM
 
