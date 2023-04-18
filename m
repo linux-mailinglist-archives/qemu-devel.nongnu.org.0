@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB136E5F4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 13:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16536E5FC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 13:24:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poj8V-0002NE-DB; Tue, 18 Apr 2023 07:04:35 -0400
+	id 1pojOQ-0006TP-6P; Tue, 18 Apr 2023 07:21:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <digit@google.com>) id 1poj8T-0002Mf-6J
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:04:33 -0400
-Received: from mail-ua1-x933.google.com ([2607:f8b0:4864:20::933])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <digit@google.com>) id 1poj8R-00031r-D2
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:04:32 -0400
-Received: by mail-ua1-x933.google.com with SMTP id w19so10321131uad.7
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 04:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1681815869; x=1684407869;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=z/gExevU4hCCmJHYzYobyRyejm2PtTdy1VvBVBLG3iI=;
- b=WZ7dWX8wLmKi8HtitM2KSy6weE1CAMrlg/0cuC0ZHHHfsUdUPxtmkptGRr0JQ8+Idk
- gCfSlfMagzDFOFrh+6RjauNHAhK4N0+jYVIY/06JFSfO7+SiQZ1m8GdabOIJU9NoHexi
- 0FQCQeIzg4LE3HxnfGbvWPNgo5G8EF4ZhxJ3jwqBTu1pW28xeH2oXlBprpCNPsCyhelj
- HdO+7j7tdES2YFElpBAx4u2KGY+skMT5oJSykDwe/mKNRo2MAkLmkIG5uEa88bzN7lnc
- 3rmakZBVXZ5NEOzg5qV1wjlHFLAARSs9MdHNGlyvuQLuQWfHi0hNq51FCXMXmxOS+7OM
- Xcuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681815869; x=1684407869;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z/gExevU4hCCmJHYzYobyRyejm2PtTdy1VvBVBLG3iI=;
- b=gAEsiVJ6ts35edWF0vG5mGjiIRfnyVq3mol0F7VoamaYfQhSNJDZEN5IXs0UYIHlVq
- JVpURqVFb/y5IeZ/50FFGzqDZFGlL/fFmt50oo+jV+W1jdoehdFFYjUbwB5ccyRglxPa
- O1c+rTNux+J7ECGE5Xyg/PQZP+SjrmLeEhS8wO+0KgY6KFGkeaRAT4LyCKbOMEFonjXM
- 98vHru92lXacWgh4ATCz3+ayMsTueHB/0J3IpQ8LiC+dI6t5zmjWX37f8cOrI9EXWtVa
- mdrBL2oKogqWI0LTnWbzZP5SdmqC108pi5UDWRt/33efymJQavKHv3z4It3B9nyBi/tl
- BQuw==
-X-Gm-Message-State: AAQBX9fgpOymOhbtiEc3KVe5eRxhlO9OD8Pb728LAwRgsA5Qn/zIYkHs
- or8tKQUeta/+QNDLfC1AbobgpVFtZ7imd3bjhgEsHA==
-X-Google-Smtp-Source: AKy350Z8sj7OYsPDnlQl9QTc7OKejpYgaHsikR+gbO7n2p0qB1sLT46A7rpIGoapOifq05gtrX/jMCVJYIKqk6d9dB8=
-X-Received: by 2002:ab0:5ad5:0:b0:68b:90f4:1d8c with SMTP id
- x21-20020ab05ad5000000b0068b90f41d8cmr1397999uae.1.1681815869354; Tue, 18 Apr
- 2023 04:04:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
+ id 1pojON-0006Pz-5N; Tue, 18 Apr 2023 07:20:59 -0400
+Received: from m12.mail.163.com ([220.181.12.199])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <qianfanguijin@163.com>)
+ id 1pojOH-0006il-UV; Tue, 18 Apr 2023 07:20:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ihQbS
+ mm0NdLP0HgtDLwYNjpeodSOuBNqEPGWs4wJIN4=; b=YrlRnmDY0YKfqNoDxanPl
+ Tx0wPdj5a8/dVKD77xhHrtXCHdc0EjUOR6TSi7xy60enTa/jxbogcXprNKZmqP8r
+ 7rKy6kQopuNmK1NfDDAI/DxNsAzxN1PTYsDevajZJt/9rKo/ORx90rU+TpBNIRIW
+ 7EHAM+dg9MimRAoaRNa21o=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
+ by zwqz-smtp-mta-g4-0 (Coremail) with SMTP id _____wDXy2EIfT5k6AUwBw--.24225S2;
+ Tue, 18 Apr 2023 19:20:41 +0800 (CST)
+From: qianfanguijin@163.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v3 00/11] *** Add allwinner-r40 support ***
+Date: Tue, 18 Apr 2023 19:20:29 +0800
+Message-Id: <20230418112040.12460-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230405172109.3081788-1-digit@google.com>
- <20230405172109.3081788-2-digit@google.com>
- <20230407035709-mutt-send-email-mst@kernel.org>
- <CACnJMqpF9FPwtZz3Uj_amCbrRtQo7WWPm0bY_qy=80+ihb8Uhw@mail.gmail.com>
- <CACnJMqoS3L6=zTCL4__EwOk8pR0kR4P2Kbrv5U_xB8Lm2e=vXQ@mail.gmail.com>
- <ZD5ZN4qKxMEcJ3Z6@redhat.com>
-In-Reply-To: <ZD5ZN4qKxMEcJ3Z6@redhat.com>
-From: David Turner <digit@google.com>
-Date: Tue, 18 Apr 2023 13:04:18 +0200
-Message-ID: <CACnJMqpfejE2ZVg3NseGqdc24qDzXbdc4rWi63n853sm8g2deQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] Fix libvhost-user.c compilation.
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000078f44505f99a45c0"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::933;
- envelope-from=digit@google.com; helo=mail-ua1-x933.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDXy2EIfT5k6AUwBw--.24225S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCr4DZFWDKF4Utr4kAryUGFg_yoW5CFWkpa
+ n8K343Kr1rta43JFWaqFnrJFyrJa4kGr4Utrn7ZryxAryaka1Yvr1UK3WfKrWfGFW2qa17
+ ZFZIqF13Wws0qaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_RRiiUUUUU=
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbBzgpV7WI0Y4y0dgAAsH
+Received-SPF: pass client-ip=220.181.12.199;
+ envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,112 +71,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000078f44505f99a45c0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: qianfan Zhao <qianfanguijin@163.com>
 
-On Tue, Apr 18, 2023 at 10:47=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@=
-redhat.com>
-wrote:
+*** history ***
 
-> On Fri, Apr 07, 2023 at 11:25:14AM +0200, David Turner wrote:
-> > I meant glibc-2.17, I am using a sysroot to ensure the generated binari=
-es
-> > run on older Linux distributions.
->
-> I think that would be considered an unsupported buld configuration
-> from QEMU's POV. Our platform policy is declared here:
->
->   https://www.qemu.org/docs/master/about/build-platforms.html
->
-> and from this policy we decide the minimum versions of libraries
-> we intend to build against.
->
-> Our two oldest build targets are Debian 10 / RHEL 8, both of
-> which ship with GLibC 2.28.
->
-> IOW, trying to build with a sysroot contanining ancient glibc
-> 2.17 is well outside what QEMU intends to support. 2.17 is
-> from circa 2012.
->
-> Thank you for the clarification. My use of 2.17 is purely accidental at
-that point (just reusing this Android prebuilt sysroot
-<https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/host/x86=
-_64-linux-glibc2.17-4.8/>
-which is quite dated).
-I will try with a Debian 10 based sysroot first and will let you know.
-Maybe these patches are not needed after all.
+# v1: 2023-03-21
 
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
+The first version which add allwinner-r40 support, supported features:
 
---00000000000078f44505f99a45c0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
++ ccu
++ dram controller
++ uart
++ i2c and pmic(axp221)
++ sdcard
++ emac/gmac
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Apr 18, 2023 at 10:47=E2=80=
-=AFAM Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">be=
-rrange@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On Fri, Apr 07, 2023 at 11:25:14AM +0200, David Turner wro=
-te:<br>
-&gt; I meant glibc-2.17, I am using a sysroot to ensure the generated binar=
-ies<br>
-&gt; run on older Linux distributions.<br>
-<br>
-I think that would be considered an unsupported buld configuration<br>
-from QEMU&#39;s POV. Our platform policy is declared here:<br>
-<br>
-=C2=A0 <a href=3D"https://www.qemu.org/docs/master/about/build-platforms.ht=
-ml" rel=3D"noreferrer" target=3D"_blank">https://www.qemu.org/docs/master/a=
-bout/build-platforms.html</a><br>
-<br>
-and from this policy we decide the minimum versions of libraries<br>
-we intend to build against.<br>
-<br>
-Our two oldest build targets are Debian 10 / RHEL 8, both of<br>
-which ship with GLibC 2.28.<br>
-<br>
-IOW, trying to build with a sysroot contanining ancient glibc<br>
-2.17 is well outside what QEMU intends to support. 2.17 is<br>
-from circa 2012.<br>
-<br></blockquote><div>Thank you for the clarification. My use of 2.17 is pu=
-rely accidental at that point (just reusing this=C2=A0<a href=3D"https://an=
-droid.googlesource.com/platform/prebuilts/gcc/linux-x86/host/x86_64-linux-g=
-libc2.17-4.8/">Android prebuilt sysroot</a> which is quite dated).<br>I wil=
-l try with a Debian 10 based sysroot first=C2=A0and will let you know. Mayb=
-e these patches are not needed after all.</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div>
+Also provide a test case under avocado, running quickly test:
 
---00000000000078f44505f99a45c0--
+$ AVOCADO_ALLOW_LARGE_STORAGE=yes tests/venv/bin/avocado \
+    --verbose --show=app,console run -t machine:bpim2u \
+    ../tests/avocado/boot_linux_console.py
+
+# v2: 2023-03-28
+
+1. Fix the waring and error reported by checkpatch.pl
+2. Remove the other i2c controllers except that i2c0
+3. Use an array to register mmc and uart devices
+4. Rename axp209 to axp22x and add axp221 support
+5. Add a basic SRAM controller
+
+# v3: 2023-04-18
+
+1. Update some commit messages
+2. Squash those two commit about sdcard
+   hw: sd: allwinner-sdhost: Add sun50i-a64 SoC support
+   hw: arm: allwinner-r40: Fix the mmc controller's type
+
+qianfan Zhao (11):
+  hw: arm: Add bananapi M2-Ultra and allwinner-r40 support
+  hw/arm/allwinner-r40: add Clock Control Unit
+  hw: allwinner-r40: Complete uart devices
+  hw: arm: allwinner-r40: Add i2c0 device
+  hw/misc: Rename axp209 to axp22x and add support AXP221 PMU
+  hw/arm/allwinner-r40: add SDRAM controller device
+  hw: sd: allwinner-sdhost: Add sun50i-a64 SoC support
+  hw: arm: allwinner-r40: Add emac and gmac support
+  hw: arm: allwinner-sramc: Add SRAM Controller support for R40
+  tests: avocado: boot_linux_console: Add test case for bpim2u
+  docs: system: arm: Introduce bananapi_m2u
+
+ configs/devices/arm-softmmu/default.mak |   1 +
+ docs/system/arm/bananapi_m2u.rst        | 138 +++++++
+ hw/arm/Kconfig                          |  13 +-
+ hw/arm/allwinner-r40.c                  | 526 ++++++++++++++++++++++++
+ hw/arm/bananapi_m2u.c                   | 145 +++++++
+ hw/arm/meson.build                      |   1 +
+ hw/misc/Kconfig                         |   5 +-
+ hw/misc/allwinner-r40-ccu.c             | 209 ++++++++++
+ hw/misc/allwinner-r40-dramc.c           | 513 +++++++++++++++++++++++
+ hw/misc/allwinner-sramc.c               | 184 +++++++++
+ hw/misc/axp209.c                        | 238 -----------
+ hw/misc/axp2xx.c                        | 283 +++++++++++++
+ hw/misc/meson.build                     |   5 +-
+ hw/misc/trace-events                    |  26 +-
+ hw/sd/allwinner-sdhost.c                |  70 +++-
+ include/hw/arm/allwinner-r40.h          | 143 +++++++
+ include/hw/misc/allwinner-r40-ccu.h     |  65 +++
+ include/hw/misc/allwinner-r40-dramc.h   | 108 +++++
+ include/hw/misc/allwinner-sramc.h       |  69 ++++
+ include/hw/sd/allwinner-sdhost.h        |   9 +
+ tests/avocado/boot_linux_console.py     | 176 ++++++++
+ 21 files changed, 2679 insertions(+), 248 deletions(-)
+ create mode 100644 docs/system/arm/bananapi_m2u.rst
+ create mode 100644 hw/arm/allwinner-r40.c
+ create mode 100644 hw/arm/bananapi_m2u.c
+ create mode 100644 hw/misc/allwinner-r40-ccu.c
+ create mode 100644 hw/misc/allwinner-r40-dramc.c
+ create mode 100644 hw/misc/allwinner-sramc.c
+ delete mode 100644 hw/misc/axp209.c
+ create mode 100644 hw/misc/axp2xx.c
+ create mode 100644 include/hw/arm/allwinner-r40.h
+ create mode 100644 include/hw/misc/allwinner-r40-ccu.h
+ create mode 100644 include/hw/misc/allwinner-r40-dramc.h
+ create mode 100644 include/hw/misc/allwinner-sramc.h
+
+-- 
+2.25.1
+
 
