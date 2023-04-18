@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0366E57DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 05:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BC76E57EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 05:56:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poc9Y-0005Oa-2M; Mon, 17 Apr 2023 23:37:12 -0400
+	id 1pocQq-00087c-7V; Mon, 17 Apr 2023 23:55:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1poc9U-0005OG-Pd; Mon, 17 Apr 2023 23:37:09 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1poc9R-000221-Qh; Mon, 17 Apr 2023 23:37:08 -0400
-Received: from [192.168.0.120] (unknown [180.165.241.15])
- by APP-05 (Coremail) with SMTP id zQCowAD3_s5VED5kRDVFFA--.26116S2;
- Tue, 18 Apr 2023 11:36:53 +0800 (CST)
-Message-ID: <3ace9e9e-91cf-36e6-a18f-494fd44dffab@iscas.ac.cn>
-Date: Tue, 18 Apr 2023 11:36:52 +0800
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1pocQo-00087U-KR
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 23:55:02 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1pocQm-0005lH-2g
+ for qemu-devel@nongnu.org; Mon, 17 Apr 2023 23:55:02 -0400
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1a686260adcso17792865ad.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Apr 2023 20:54:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681790098; x=1684382098;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=73TAvFemhExGcbTj6jdsDQa4LqtYapZ73Q5pdWYKImY=;
+ b=GzP7o51x3TeEXp0aKESZb5f7kq8gRrGhnRGYSguU/u/T+804rQcb8S4cW0UmxbPLcz
+ RkWAbyXeCKPERmuhME5lj9vPVQ6Ui5nDqy+Y4UemyzQjFN0iJRnfzEQAkycRm27Lu/Ny
+ BocZivTAxsyPqSrTFCsZbcCe2lOg2hNBiNIJYbl9AWzV/f2R5l+hFTcOy3qS16CMbRWi
+ FfW3C7kw0op2AF/fUaUzJlFtnlMYsvkMzMnAOwxodFnJktjzI2j61jAwe9MHL2erLH+H
+ UgKVDaZ9LIPygFFJXf2i1Qvxjow21vH7gaSCo+5WZoIxL+onw5t2Rgd7kCU7sPzstfDg
+ dNcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681790098; x=1684382098;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=73TAvFemhExGcbTj6jdsDQa4LqtYapZ73Q5pdWYKImY=;
+ b=EjUGxtR3XZjduUkRioljNNfBVwpVosg6DCSmt1NS/XcJLKYS9DDpJoZsUpQijQS0vN
+ 7jQBQLpzL+ku5JDWoWE97d3hW9t2IYXPTP48z5SKYv0NDbnGRHVTLID15eSeJGg0kq3D
+ eCgGpUQynZl7vzr6jWHACeaR9W+mRe+ldr07Zz5jrCMGzM4KO8dOCnj1KLQ456+Lb6yL
+ g/FtSViB6AghrvxZ28kyQ4R8Y4145qYxzp+uHjLjTvKLWjEiem24DK/kps+fDrWB+gMr
+ kf5bIjn0HqpzQF29iJRZID/lS1ah3a/UNAjjwMCYwIHGw28qgtXgOI8bX/ObZ0g+c1lX
+ uniw==
+X-Gm-Message-State: AAQBX9d5wPtpkB7o2ZC9t/7fIPq1OReBgAbS8SGsQ/pIDzJ5pbxs/3uy
+ 5M1YedLmTC6Gtgg1ITZ2NHUTf7efacP/7+t8+sg=
+X-Google-Smtp-Source: AKy350aY1h6HUnKOW1uJ30vVnlEJs1TiTSuryB/q+QEAueCc35N2JO6U5UObRCG1f5vx+gFf+Xjp6g==
+X-Received: by 2002:a17:903:410c:b0:1a6:7f14:707e with SMTP id
+ r12-20020a170903410c00b001a67f14707emr710344pld.9.1681790098033; 
+ Mon, 17 Apr 2023 20:54:58 -0700 (PDT)
+Received: from localhost ([122.172.85.8]) by smtp.gmail.com with ESMTPSA id
+ h14-20020a170902f7ce00b00192aa53a7d5sm6482844plw.8.2023.04.17.20.54.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Apr 2023 20:54:57 -0700 (PDT)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ stratos-dev@op-lists.linaro.org
+Subject: [PATCH V2] virtio: i2c: Check notifier helpers for
+ VIRTIO_CONFIG_IRQ_IDX
+Date: Tue, 18 Apr 2023 09:24:54 +0530
+Message-Id: <d53ec8bc002001eafac597f6bd9a8812df989257.1681790067.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/6] target/riscv: Fix PMP related problem
-Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, richard.henderson@linaro.org,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
- <3038155a-6190-5aa5-7425-ad0d957fd7a6@linux.alibaba.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-In-Reply-To: <3038155a-6190-5aa5-7425-ad0d957fd7a6@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAD3_s5VED5kRDVFFA--.26116S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF1xJw1fAry3uw18tr4Dtwb_yoW8tr15pF
- Z3CrW3JrZ8CrZagr4fKF4DXFy5Xr4kG3W5Jr1xtF1rZanxAryYvrsYgw4FkF9rJFZ5Cr4Y
- kF1jyrn29FyUAw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
- JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.284,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,69 +92,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Since the driver doesn't support interrupts, we must return early when
+index is set to VIRTIO_CONFIG_IRQ_IDX.
 
-On 2023/4/18 11:07, LIU Zhiwei wrote:
->
-> On 2023/4/13 17:01, Weiwei Li wrote:
->> This patchset tries to fix the PMP bypass problem issue 
->> https://gitlab.com/qemu-project/qemu/-/issues/1542
->
-> Please add your analysis of this issue here.
->
-> By the way, I think this problem is introduced by
->
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg939331.html
+Fixes: 544f0278afca ("virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX")
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+V2: Simplify and fix comments.
 
-It seems have no relationship with this commit.
+ hw/virtio/vhost-user-i2c.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-I think there are several problems for this issue:
-
-1. TLB will not be cached only when the access address have matched PMP 
-entry.  So the other address access  may hit the TLB(if first access of 
-the page didn't hit the PMP entry)
-
-and bypass the pmp check. This is fixed by patch 1.
-
-2. Writing to pmpaddr  didn't trigger tlb flush. This is fixed by patch 3.
-
-3. The tb isn't flushed when PMP permission changes, so It also may hit 
-the tb and bypass the changed PMP check for instruction fetch. This is 
-fixed by patch 5.
-
-4. We set the tlb_size to 1 to make the TLB_INVALID_MASK set. However 
-this flag will be cleared after fill_tlb, and this will make the host 
-address be cached, and let the following instruction fetch in the same 
-tb bypass the PMP check. This is fixed by patch 6.
-
-Regards,
-
-Weiwei Li
-
->
-> I have commented on how to correct this patch. But by accident, it has 
-> been merged.
->
-> Zhiwei
->
->>
->> The port is available here:
->> https://github.com/plctlab/plct-qemu/tree/plct-pmp-fix
->>
->> Weiwei Li (6):
->>    target/riscv: Update pmp_get_tlb_size()
->>    target/riscv: Move pmp_get_tlb_size apart from
->>      get_physical_address_pmp
->>    target/riscv: flush tlb when pmpaddr is updated
->>    target/riscv: Flush TLB only when pmpcfg/pmpaddr really changes
->>    target/riscv: flush tb when PMP entry changes
->>    accel/tcg: Remain TLB_INVALID_MASK in the address when TLB is
->>      re-filled
->>
->>   accel/tcg/cputlb.c        |  7 -----
->>   target/riscv/cpu_helper.c | 19 ++++---------
->>   target/riscv/pmp.c        | 60 ++++++++++++++++++++++++++-------------
->>   target/riscv/pmp.h        |  3 +-
->>   4 files changed, 47 insertions(+), 42 deletions(-)
->>
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index 60eaf0d95be0..4eef3f063376 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -128,6 +128,14 @@ static void vu_i2c_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+ {
+     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
+ 
++    /*
++     * We don't support interrupts, return early if index is set to
++     * VIRTIO_CONFIG_IRQ_IDX.
++     */
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return;
++    }
++
+     vhost_virtqueue_mask(&i2c->vhost_dev, vdev, idx, mask);
+ }
+ 
+@@ -135,6 +143,14 @@ static bool vu_i2c_guest_notifier_pending(VirtIODevice *vdev, int idx)
+ {
+     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
+ 
++    /*
++     * We don't support interrupts, return early if index is set to
++     * VIRTIO_CONFIG_IRQ_IDX.
++     */
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return false;
++    }
++
+     return vhost_virtqueue_pending(&i2c->vhost_dev, idx);
+ }
+ 
+-- 
+2.31.1.272.g89b43f80a514
 
 
