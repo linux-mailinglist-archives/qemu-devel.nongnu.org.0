@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764A26E55D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 02:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245806E55D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 02:27:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poZBB-0005Pc-Ki; Mon, 17 Apr 2023 20:26:41 -0400
+	id 1poZBC-0005QY-TK; Mon, 17 Apr 2023 20:26:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1poZB5-0005Oo-LQ; Mon, 17 Apr 2023 20:26:35 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ id 1poZB9-0005PV-6K; Mon, 17 Apr 2023 20:26:39 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1poZB4-0005ps-8J; Mon, 17 Apr 2023 20:26:35 -0400
-Received: by mail-pf1-x435.google.com with SMTP id
- d2e1a72fcca58-63b64a32fd2so1434336b3a.2; 
- Mon, 17 Apr 2023 17:26:32 -0700 (PDT)
+ id 1poZB7-0005qR-O2; Mon, 17 Apr 2023 20:26:38 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id v9so32889258pjk.0;
+ Mon, 17 Apr 2023 17:26:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681777591; x=1684369591;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=r+x/xa7lvEVaub6vFrNHCWKmAJlLghtfnSoqICQcnfc=;
- b=FRzeji8hQHSu05Ip483i5XVRbsgbfVMC8wp7l6zWOK3EKEs2tJxn9qRhoWEVojCe2G
- pEU7TgxW7+kZL4XtTQ91PnnpZEfT3I+n043A8aF1MOnK0xK+TJ1JzknF/sbkUmYG+fAC
- WG1rR1URZR2Tg3vy3qhvTdLjHcFqhuZVq2yaw5/zB3gdiuZS2+JUdQZgzJOm04OCIgDC
- G0EpqfOrYKf+FP8lvPIW+Un+xy+1CKXxmr4IZsXraU+d6GWu5XdZEgI1RaBbvOmq3NH4
- rr7cDohcifAStYiIxKTglqocuSgHk1qbnoICDSLL9Ph/X7NGevlprWX6TBRRN2/X/YZZ
- 1OXg==
+ d=gmail.com; s=20221208; t=1681777595; x=1684369595;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ApHWDnln+rC1oZ9Ru+DP86rOdbSBetB5KFuIbKmKTFc=;
+ b=SXEt2H6XwwNtOJDv42z87YjDts/qwSrzw7a9ZNaXRBdMOLtLiA7ULmVi60tqKXb1xN
+ C9C8oyU5gdMZVPRN/VwzVSAtnBcU3ZSIK8bzP1c+R4tPnZVHfWn4HmVVX7D1fGQti5RX
+ Xv7PspJxhtSVBq6xOldZ6BkDbZbf8MLCic3VKLS6krSmz2OL8CexcrtzFBbND1ZzeCJO
+ mKW3cWlNggeGM6RW8zf6dnEXVZi8CRQy7CPjSovPxzQ8S6Uk8yqECG0MgthxWm4dGa6w
+ kiLgYodV15JCwbN/yNhu7oEnr0XjR2VpJz5Ad6jr7fD/q3+oo8qklfWbNxnw7+NR/n2v
+ qZUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681777591; x=1684369591;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=r+x/xa7lvEVaub6vFrNHCWKmAJlLghtfnSoqICQcnfc=;
- b=l+rQ/wVg6zDRTkxDWM6Bvg0PFPne2vHjprjel+A7Mp11sXS4FtqUuyFXIUHm0w2wYX
- tB7MRgb7wZ71gall1AP5U6Q0e0tXEdjTGHYg5tvjAm+ffVEqIPfKnL5MX1rVFXvBmLem
- 3veZB76A9R4mqhDS1Eb8Jjc42o81jZXPcayx69EOK7dyA34QurkZ9ZEOBMzObC3R1aVI
- yGkODfra/QaRmoSG2ehl+MSbF+rAA0uSQSX4czzxN58lj5Zwzet5wQlpvyDWSkjqFupr
- zhqWAf9TAKdo3Zeu9fOuGSS0gpICuF8t3JZDIEakUpC2TDZzNQov/klJU/da+gd4jAco
- v0Tg==
-X-Gm-Message-State: AAQBX9fl+NcoMHIlDme9cP0d6wslqkG4rQMI6Q6jr8j6EXZSql1LtvNI
- WqadeJBSJGIBNq/svAKTWBpHqFuVQRM=
-X-Google-Smtp-Source: AKy350aASyg/0hcsjHmczpj56Cpiih4QeDS/32wn+0/4PVRd3BsbdspY73xrHNrSApRDhSxv4IFM1A==
-X-Received: by 2002:a05:6a00:1821:b0:63c:6485:d5fd with SMTP id
- y33-20020a056a00182100b0063c6485d5fdmr7056233pfa.2.1681777591444; 
- Mon, 17 Apr 2023 17:26:31 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681777595; x=1684369595;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ApHWDnln+rC1oZ9Ru+DP86rOdbSBetB5KFuIbKmKTFc=;
+ b=UKdvCQwijxsl5LT5nzPX9+jLTfSvQMniP0DtJvlMS56tr2D3a57rSQUGz6N7Ta4eai
+ wO6CQ7UxEyI9vTrI+DP8lkCRrV5WF6rKSi5axRoCDWrJyo0s2Q9VhN2ELmRTrysd84uy
+ 1LSrkN3s88Ly9qTWcHNpvIiirN5Ji6PlycNJeMsFDZdY9oTakHwlSm7XVTuZzinLGAQg
+ ZQcwV5fh6Sq2L9AgmyaXr2JJLsRFlw2sPbI23T7aTQgdU9lBjn1U59wqA2ErIFoDFoAo
+ /eKIGlMsGHR92RVnUfR2yh6mUHbnZIvdikHv5Rjkif0aA5O5G6oS76qqKfHglz/BA5Z2
+ 7ONA==
+X-Gm-Message-State: AAQBX9f5TrAz1mw+wKPLT6TFEbryps5+mQm9GRYfL/tOm1g1ZVaJ4I/n
+ rQfDxjCfnrFRFCVgZYycsW+4K+/outM=
+X-Google-Smtp-Source: AKy350a+wFPUf8J3b1dR6+2t/62i1FVUYNC4piQ2QOVagmil1ajSksvWzZ1CcOGU4iUpAdO4ZYIHHA==
+X-Received: by 2002:a05:6a20:7d94:b0:f0:69db:ebea with SMTP id
+ v20-20020a056a207d9400b000f069dbebeamr2433166pzj.30.1681777595637; 
+ Mon, 17 Apr 2023 17:26:35 -0700 (PDT)
 Received: from localhost ([1.230.133.98]) by smtp.gmail.com with ESMTPSA id
- d8-20020aa78e48000000b006352a6d56ebsm8122694pfr.119.2023.04.17.17.26.30
+ k5-20020a63d105000000b005033e653a17sm7606829pgg.85.2023.04.17.17.26.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Apr 2023 17:26:31 -0700 (PDT)
+ Mon, 17 Apr 2023 17:26:35 -0700 (PDT)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: [PATCH RESEND 0/2] hw/nvme: COPY fixes
-Date: Tue, 18 Apr 2023 09:26:20 +0900
-Message-Id: <20230418002622.29819-1-minwoo.im.dev@gmail.com>
+ Minwoo Im <minwoo.im@samsung.com>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH RESEND 1/2] hw/nvme: consider COPY command in nvme_aio_err
+Date: Tue, 18 Apr 2023 09:26:21 +0900
+Message-Id: <20230418002622.29819-2-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230418002622.29819-1-minwoo.im.dev@gmail.com>
+References: <20230418002622.29819-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,16 +89,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix status code overwritten issue in the COPY command and a trivial
-patch to check the Maximum Copy Length (MCL) for COPY command.
+From: Minwoo Im <minwoo.im@samsung.com>
 
-Minwoo Im (2):
-  hw/nvme: consider COPY command in nvme_aio_err
-  hw/nvme: check maximum copy length (MCL) for COPY
+If we don't have NVME_CMD_COPY consideration in the switch statement in
+nvme_aio_err(), it will go to have NVME_INTERNAL_DEV_ERROR and
+`req->status` will be ovewritten to it.  During the aio context, it
+might set the NVMe status field like NVME_CMD_SIZE_LIMIT, but it's
+overwritten in the nvme_aio_err().
 
- hw/nvme/ctrl.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Add consideration for the NVME_CMD_COPY not to overwrite the status at
+the end of the function.
 
+Signed-off-by: Minwoo Im <minwoo.im@samsung.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 8b7be14209..754f91e220 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -1748,6 +1748,7 @@ static void nvme_aio_err(NvmeRequest *req, int ret)
+     case NVME_CMD_WRITE:
+     case NVME_CMD_WRITE_ZEROES:
+     case NVME_CMD_ZONE_APPEND:
++    case NVME_CMD_COPY:
+         status = NVME_WRITE_FAULT;
+         break;
+     default:
 -- 
 2.34.1
 
