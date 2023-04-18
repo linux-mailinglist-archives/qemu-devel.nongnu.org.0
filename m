@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C93D6E6D9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 22:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151036E6F51
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 00:22:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pos7t-0005oL-Hy; Tue, 18 Apr 2023 16:40:33 -0400
+	id 1pothy-0002s8-9i; Tue, 18 Apr 2023 18:21:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pos7q-0005mR-Od
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 16:40:30 -0400
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pos7n-0005OV-U7
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 16:40:30 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-552ae3e2cbeso102273657b3.13
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 13:40:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681850426; x=1684442426;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KvkvuzaJt9OOxJHdmTgp0E8UaPpTItbiElJerMv19pE=;
- b=OiZCn2OkiVk8lbOW58CrEN8S8D+oCufJShwnc72o7QUILp+lNlsOBoPMimtR8dSXy5
- oOy5o4180qle5bE9HkWN3B3Wsv7x7KyK7XqFQj+ECg0okIX0TA6o5t/thhOPFSqUD88m
- E23NtvNDK1dpi7X195/5jO5W84aKxZUKPLZaB8TIdlHZFx/zslJ7LvhTi3PadpFwqBe+
- 23c4fBSnFQbLbpQoq2fXAaidPx9FgITgUF5M4P3faaH+aZsgwDyg3B6JSYHWBtn3UzxQ
- xXQQjgTZZJCILjZq/RYhX/jjeSzNqfLvtKwmfmegsz6HAN7SpcYFavYpNa2JLaE1E5eG
- EaDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681850426; x=1684442426;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KvkvuzaJt9OOxJHdmTgp0E8UaPpTItbiElJerMv19pE=;
- b=ldjMAEQ86d7RH1j/wHl1gwFanvrIKHSPWm3RQw/lygdEVOnUT3sja5ZWp03qGmgbSg
- PF0LHmvLBnzjfkKkZ/z4qbMHihChtodMxb30aLmxAhIu4wmMSgWU5+6dSF6J2Ltp0fsH
- Z/omp5VzNCHTledxgP6AlYa+sFHOZBQOzIVi0HW0/IYxNsBTyO5aq3OXiD43BJL7Obcg
- Pd1bzc8pT8eRW9pJ7DiAv7eSqK+3Tunu5OvOM50So0ldO1CIvoRYhOYFS7zZWysO2pwp
- 8P0rdKtVPkutTR1h9dPdUuhczFSTE3MmYSEysBII4M0Oi3D/TC3SVoOovtIIeHx1OF+d
- TWNA==
-X-Gm-Message-State: AAQBX9epLepYS1PmHGX0h9v/b/HpUpbuycys3jZ4KNdseJtXesLbFNJ0
- xMmrQ9umL6S7kQP7kiTy/g4BZP4a6LdrBYB2lQxTrigG7fg=
-X-Google-Smtp-Source: AKy350YsMWLE3k/Vuha5u1Y/XUBjxWuEiTrwgG7FVyiZ/KCNHAGV0ZKaytay6vYxaPSP/28ZzwRPkGAEgg5tZxiEpvI=
-X-Received: by 2002:a81:6d0d:0:b0:54f:aa40:d9df with SMTP id
- i13-20020a816d0d000000b0054faa40d9dfmr1212737ywc.21.1681850425772; Tue, 18
- Apr 2023 13:40:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dave.jiang@intel.com>)
+ id 1poths-0002rj-It
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:21:48 -0400
+Received: from mga02.intel.com ([134.134.136.20])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dave.jiang@intel.com>)
+ id 1pothp-0004CB-GI
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:21:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681856505; x=1713392505;
+ h=subject:from:to:cc:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ysBI7kOvKS7xf/PoeVzIoLlxBzw+TZ1pvzUzNcJiqD0=;
+ b=d1nJuMHdJILYDw/m+a606Csue69cUTWgieS0p3hytjQubAQp1OKkzaof
+ BU0zDSkbIL48BeJURKqzc1JCqqtSxjY2P7EnBDW4PCjlQ+2E8NqBQpyRo
+ qFsmzAyY0EP7LQiRKYn4j5VqwRiTfd3GHK+QlVIThRZAio0twu8NWDApB
+ anVv7kLNPbgLcVG2UXgUNd/vK2XzLLkr/i7ApSyr3S9fUgJPx4mhiF5/z
+ aeDl+i9XE9ZR+mCYhbQm4uOqWfN+WuOGx8a/siR1KVpecyF9TaapjX2G9
+ kom/0wovcEwZK3D9Uswjiqe4QEURQU8S6IeS27u5mfUSOC9sHce7v3cy2 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="334103999"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="334103999"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 15:21:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="684766917"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; d="scan'208";a="684766917"
+Received: from psherpa-mobl.amr.corp.intel.com (HELO [192.168.1.177])
+ ([10.212.29.141])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2023 15:21:37 -0700
+Subject: [RFC PATCH 0/3] QEMU ACPI generic port support
+From: Dave Jiang <dave.jiang@intel.com>
+To: qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, Jonathan.Cameron@huawei.com, ira.weiny@intel.com,
+ mst@redhat.com, bwidawsk@kernel.org
+Date: Tue, 18 Apr 2023 15:21:36 -0700
+Message-ID: <168185633821.899932.322047053764766056.stgit@djiang5-mobl3>
+User-Agent: StGit/1.5
 MIME-Version: 1.0
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <20230411150515.14020-3-hreitz@redhat.com>
- <20230412210641.GC2813183@fedora>
- <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
- <20230417153810.GE3852722@fedora>
- <CAJaqyWePM_a7AafP9qS40hmYXKHDyMsvn5g24zk=cH8L6s-kUw@mail.gmail.com>
- <CAJSP0QWUfxzad3EmT3r1hhaWmXDQt9Nj1LRPhPs_w79S9GAb1A@mail.gmail.com>
- <CAJaqyWfaDVZDJtMvPUhdRE283e80rB3WFd3RF9i=buaBYG=PKA@mail.gmail.com>
- <20230418175924.GB4041499@fedora>
- <CAJaqyWd9Ec7hpfv_NUDxOuwK4weyRTm-cVNOuv8VTiGVzyYjHQ@mail.gmail.com>
-In-Reply-To: <CAJaqyWd9Ec7hpfv_NUDxOuwK4weyRTm-cVNOuv8VTiGVzyYjHQ@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 18 Apr 2023 16:40:13 -0400
-Message-ID: <CAJSP0QWx_9TJa_0QRfhNg6JQemAWCc0ZagvkSxj15bbM5tGD4w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Hanna Czenczek <hreitz@redhat.com>,
- qemu-devel@nongnu.org, 
- virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>, 
- Anton Kuchin <antonkuchin@yandex-team.ru>, Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=dave.jiang@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,275 +78,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 18 Apr 2023 at 14:31, Eugenio Perez Martin <eperezma@redhat.com> wr=
-ote:
->
-> On Tue, Apr 18, 2023 at 7:59=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat.=
-com> wrote:
-> >
-> > On Tue, Apr 18, 2023 at 10:09:30AM +0200, Eugenio Perez Martin wrote:
-> > > On Mon, Apr 17, 2023 at 9:33=E2=80=AFPM Stefan Hajnoczi <stefanha@gma=
-il.com> wrote:
-> > > >
-> > > > On Mon, 17 Apr 2023 at 15:10, Eugenio Perez Martin <eperezma@redhat=
-.com> wrote:
-> > > > >
-> > > > > On Mon, Apr 17, 2023 at 5:38=E2=80=AFPM Stefan Hajnoczi <stefanha=
-@redhat.com> wrote:
-> > > > > >
-> > > > > > On Thu, Apr 13, 2023 at 12:14:24PM +0200, Eugenio Perez Martin =
-wrote:
-> > > > > > > On Wed, Apr 12, 2023 at 11:06=E2=80=AFPM Stefan Hajnoczi <ste=
-fanha@redhat.com> wrote:
-> > > > > > > >
-> > > > > > > > On Tue, Apr 11, 2023 at 05:05:13PM +0200, Hanna Czenczek wr=
-ote:
-> > > > > > > > > So-called "internal" virtio-fs migration refers to transp=
-orting the
-> > > > > > > > > back-end's (virtiofsd's) state through qemu's migration s=
-tream.  To do
-> > > > > > > > > this, we need to be able to transfer virtiofsd's internal=
- state to and
-> > > > > > > > > from virtiofsd.
-> > > > > > > > >
-> > > > > > > > > Because virtiofsd's internal state will not be too large,=
- we believe it
-> > > > > > > > > is best to transfer it as a single binary blob after the =
-streaming
-> > > > > > > > > phase.  Because this method should be useful to other vho=
-st-user
-> > > > > > > > > implementations, too, it is introduced as a general-purpo=
-se addition to
-> > > > > > > > > the protocol, not limited to vhost-user-fs.
-> > > > > > > > >
-> > > > > > > > > These are the additions to the protocol:
-> > > > > > > > > - New vhost-user protocol feature VHOST_USER_PROTOCOL_F_M=
-IGRATORY_STATE:
-> > > > > > > > >   This feature signals support for transferring state, an=
-d is added so
-> > > > > > > > >   that migration can fail early when the back-end has no =
-support.
-> > > > > > > > >
-> > > > > > > > > - SET_DEVICE_STATE_FD function: Front-end and back-end ne=
-gotiate a pipe
-> > > > > > > > >   over which to transfer the state.  The front-end sends =
-an FD to the
-> > > > > > > > >   back-end into/from which it can write/read its state, a=
-nd the back-end
-> > > > > > > > >   can decide to either use it, or reply with a different =
-FD for the
-> > > > > > > > >   front-end to override the front-end's choice.
-> > > > > > > > >   The front-end creates a simple pipe to transfer the sta=
-te, but maybe
-> > > > > > > > >   the back-end already has an FD into/from which it has t=
-o write/read
-> > > > > > > > >   its state, in which case it will want to override the s=
-imple pipe.
-> > > > > > > > >   Conversely, maybe in the future we find a way to have t=
-he front-end
-> > > > > > > > >   get an immediate FD for the migration stream (in some c=
-ases), in which
-> > > > > > > > >   case we will want to send this to the back-end instead =
-of creating a
-> > > > > > > > >   pipe.
-> > > > > > > > >   Hence the negotiation: If one side has a better idea th=
-an a plain
-> > > > > > > > >   pipe, we will want to use that.
-> > > > > > > > >
-> > > > > > > > > - CHECK_DEVICE_STATE: After the state has been transferre=
-d through the
-> > > > > > > > >   pipe (the end indicated by EOF), the front-end invokes =
-this function
-> > > > > > > > >   to verify success.  There is no in-band way (through th=
-e pipe) to
-> > > > > > > > >   indicate failure, so we need to check explicitly.
-> > > > > > > > >
-> > > > > > > > > Once the transfer pipe has been established via SET_DEVIC=
-E_STATE_FD
-> > > > > > > > > (which includes establishing the direction of transfer an=
-d migration
-> > > > > > > > > phase), the sending side writes its data into the pipe, a=
-nd the reading
-> > > > > > > > > side reads it until it sees an EOF.  Then, the front-end =
-will check for
-> > > > > > > > > success via CHECK_DEVICE_STATE, which on the destination =
-side includes
-> > > > > > > > > checking for integrity (i.e. errors during deserializatio=
-n).
-> > > > > > > > >
-> > > > > > > > > Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > > > > > > Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
-> > > > > > > > > ---
-> > > > > > > > >  include/hw/virtio/vhost-backend.h |  24 +++++
-> > > > > > > > >  include/hw/virtio/vhost.h         |  79 ++++++++++++++++
-> > > > > > > > >  hw/virtio/vhost-user.c            | 147 ++++++++++++++++=
-++++++++++++++
-> > > > > > > > >  hw/virtio/vhost.c                 |  37 ++++++++
-> > > > > > > > >  4 files changed, 287 insertions(+)
-> > > > > > > > >
-> > > > > > > > > diff --git a/include/hw/virtio/vhost-backend.h b/include/=
-hw/virtio/vhost-backend.h
-> > > > > > > > > index ec3fbae58d..5935b32fe3 100644
-> > > > > > > > > --- a/include/hw/virtio/vhost-backend.h
-> > > > > > > > > +++ b/include/hw/virtio/vhost-backend.h
-> > > > > > > > > @@ -26,6 +26,18 @@ typedef enum VhostSetConfigType {
-> > > > > > > > >      VHOST_SET_CONFIG_TYPE_MIGRATION =3D 1,
-> > > > > > > > >  } VhostSetConfigType;
-> > > > > > > > >
-> > > > > > > > > +typedef enum VhostDeviceStateDirection {
-> > > > > > > > > +    /* Transfer state from back-end (device) to front-en=
-d */
-> > > > > > > > > +    VHOST_TRANSFER_STATE_DIRECTION_SAVE =3D 0,
-> > > > > > > > > +    /* Transfer state from front-end to back-end (device=
-) */
-> > > > > > > > > +    VHOST_TRANSFER_STATE_DIRECTION_LOAD =3D 1,
-> > > > > > > > > +} VhostDeviceStateDirection;
-> > > > > > > > > +
-> > > > > > > > > +typedef enum VhostDeviceStatePhase {
-> > > > > > > > > +    /* The device (and all its vrings) is stopped */
-> > > > > > > > > +    VHOST_TRANSFER_STATE_PHASE_STOPPED =3D 0,
-> > > > > > > > > +} VhostDeviceStatePhase;
-> > > > > > > >
-> > > > > > > > vDPA has:
-> > > > > > > >
-> > > > > > > >   /* Suspend a device so it does not process virtqueue requ=
-ests anymore
-> > > > > > > >    *
-> > > > > > > >    * After the return of ioctl the device must preserve all=
- the necessary state
-> > > > > > > >    * (the virtqueue vring base plus the possible device spe=
-cific states) that is
-> > > > > > > >    * required for restoring in the future. The device must =
-not change its
-> > > > > > > >    * configuration after that point.
-> > > > > > > >    */
-> > > > > > > >   #define VHOST_VDPA_SUSPEND      _IO(VHOST_VIRTIO, 0x7D)
-> > > > > > > >
-> > > > > > > >   /* Resume a device so it can resume processing virtqueue =
-requests
-> > > > > > > >    *
-> > > > > > > >    * After the return of this ioctl the device will have re=
-stored all the
-> > > > > > > >    * necessary states and it is fully operational to contin=
-ue processing the
-> > > > > > > >    * virtqueue descriptors.
-> > > > > > > >    */
-> > > > > > > >   #define VHOST_VDPA_RESUME       _IO(VHOST_VIRTIO, 0x7E)
-> > > > > > > >
-> > > > > > > > I wonder if it makes sense to import these into vhost-user =
-so that the
-> > > > > > > > difference between kernel vhost and vhost-user is minimized=
-. It's okay
-> > > > > > > > if one of them is ahead of the other, but it would be nice =
-to avoid
-> > > > > > > > overlapping/duplicated functionality.
-> > > > > > > >
-> > > > > > >
-> > > > > > > That's what I had in mind in the first versions. I proposed V=
-HOST_STOP
-> > > > > > > instead of VHOST_VDPA_STOP for this very reason. Later it did=
- change
-> > > > > > > to SUSPEND.
-> > > > > >
-> > > > > > I noticed QEMU only calls ioctl(VHOST_VDPA_SUSPEND) and not
-> > > > > > ioctl(VHOST_VDPA_RESUME).
-> > > > > >
-> > > > > > The doc comments in <linux/vdpa.h> don't explain how the device=
- can
-> > > > > > leave the suspended state. Can you clarify this?
-> > > > > >
-> > > > >
-> > > > > Do you mean in what situations or regarding the semantics of _RES=
-UME?
-> > > > >
-> > > > > To me resume is an operation mainly to resume the device in the e=
-vent
-> > > > > of a VM suspension, not a migration. It can be used as a fallback=
- code
-> > > > > in some cases of migration failure though, but it is not currentl=
-y
-> > > > > used in qemu.
-> > > >
-> > > > Is a "VM suspension" the QEMU HMP 'stop' command?
-> > > >
-> > > > I guess the reason why QEMU doesn't call RESUME anywhere is that it
-> > > > resets the device in vhost_dev_stop()?
-> > > >
-> > >
-> > > The actual reason for not using RESUME is that the ioctl was added
-> > > after the SUSPEND design in qemu. Same as this proposal, it is was no=
-t
-> > > needed at the time.
-> > >
-> > > In the case of vhost-vdpa net, the only usage of suspend is to fetch
-> > > the vq indexes, and in case of error vhost already fetches them from
-> > > guest's used ring way before vDPA, so it has little usage.
-> > >
-> > > > Does it make sense to combine SUSPEND and RESUME with Hanna's
-> > > > SET_DEVICE_STATE_FD? For example, non-iterative migration works lik=
-e
-> > > > this:
-> > > > - Saving the device's state is done by SUSPEND followed by
-> > > > SET_DEVICE_STATE_FD. If the guest needs to continue executing (e.g.
-> > > > savevm command or migration failed), then RESUME is called to
-> > > > continue.
-> > >
-> > > I think the previous steps make sense at vhost_dev_stop, not virtio
-> > > savevm handlers. To start spreading this logic to more places of qemu
-> > > can bring confusion.
-> >
-> > I don't think there is a way around extending the QEMU vhost's code
-> > model. The current model in QEMU's vhost code is that the backend is
-> > reset when the VM stops. This model worked fine for stateless devices
-> > but it doesn't work for stateful devices.
-> >
-> > Imagine a vdpa-gpu device: you cannot reset the device in
-> > vhost_dev_stop() and expect the GPU to continue working when
-> > vhost_dev_start() is called again because all its state has been lost.
-> > The guest driver will send requests that references a virtio-gpu
-> > resources that no longer exist.
-> >
-> > One solution is to save the device's state in vhost_dev_stop(). I think
-> > this is what you're suggesting. It requires keeping a copy of the state
-> > and then loading the state again in vhost_dev_start(). I don't think
-> > this approach should be used because it requires all stateful devices t=
-o
-> > support live migration (otherwise they break across HMP 'stop'/'cont').
-> > Also, the device state for some devices may be large and it would also
-> > become more complicated when iterative migration is added.
-> >
-> > Instead, I think the QEMU vhost code needs to be structured so that
-> > struct vhost_dev has a suspended state:
-> >
-> >         ,---------.
-> >         v         |
-> >   started ------> stopped
-> >     \   ^
-> >      \  |
-> >       -> suspended
-> >
-> > The device doesn't lose state when it enters the suspended state. It ca=
-n
-> > be resumed again.
-> >
-> > This is why I think SUSPEND/RESUME need to be part of the solution.
->
-> I agree with all of this, especially after realizing vhost_dev_stop is
-> called before the last request of the state in the iterative
-> migration.
->
-> However I think we can move faster with the virtiofsd migration code,
-> as long as we agree on the vhost-user messages it will receive. This
-> is because we already agree that the state will be sent in one shot
-> and not iteratively, so it will be small.
->
-> I understand this may change in the future, that's why I proposed to
-> start using iterative right now. However it may make little sense if
-> it is not used in the vhost-user device. I also understand that other
-> devices may have a bigger state so it will be needed for them.
+s small RFC patch series is really a hack on what I need from qemu rather
+than a proper implementation. I'm hoping to get some guidance from the list on
+how to implement this correctly for qemu upstream. Thank you!
 
-Can you summarize how you'd like save to work today? I'm not sure what
-you have in mind.
+The patch series provides support for the ACPI Generic Port support that's
+defined by ACPI spec 6.5 5.2.16.7 (Generic Port Affinity Structure). The
+series also adds a genport object that allows locality data to be injected via
+qemu commandline to the HMAT tables. The generic port support is to allow a hot
+plugged CXL memory device to calculate the locality data from the CPU to
+the CXL device. The generic port related data provides the locality data from
+the CPU to the CXL host bridge (latency and bandwidth). These data in
+addition to the PCIe link data, CDAT from device, and CXL switch CDAT if switch
+exist, provides the locality data for the entire path.
 
-Stefan
+Patch1: Adds Generic Port Affinity Structure sub-tables to the SRAT. For
+each CXL Host Bridge (HB) a GPAS entry is created with a unique proximity
+domain. For example, if the system is created with 4 proximity domains (PXM) for
+system memory, then the next GPAS will get PXM 4 and so on.
+
+Patch2: Add the json support for generic port. Split out because
+clang-format really clobbers the json files.
+
+Patch3: Add a generic port object. The intention here is to allow setup of
+numa nodes, add hmat-lb data and node distance for the generic targets. I had to
+add a hack in qemu_create_cli_devices() to realize the genport objects. I need
+guidance on where and how to do this properly so the genport objects
+realize at the correct place and time.
+
+Example of genport setup:
+-object genport,id=$X -numa node,genport=genport$X,nodeid=$Y,initiator=$Z
+-numa hmat-lb,initiator=$Z,target=$X,hierarchy=memory,data-type=access-latency,latency=$latency
+-numa hmat-lb,initiator=$Z,target=$X,hierarchy=memory,data-type=access-bandwidth,bandwidth=$bandwidthM
+for ((i = 0; i < total_nodes; i++)); do
+        for ((j = 0; j < cxl_hbs; j++ )); do        # 2 CXL HBs
+                -numa dist,src=$i,dst=$X,val=$dist
+        done
+done
+Linux kernel support:
+https://lore.kernel.org/linux-cxl/168088732996.1441063.10107817505475386072.stgit@djiang5-mobl3/T/#t
+
+---
+
+Dave Jiang (3):
+      hw/acpi: Add support for Generic Port Affinity Structure to SRAT
+      genport: Add json support for generic port
+      acpi: add generic port device object
+
+
+ hw/acpi/aml-build.c         | 21 +++++++++++++
+ hw/acpi/genport.c           | 61 +++++++++++++++++++++++++++++++++++++
+ hw/acpi/meson.build         |  1 +
+ hw/i386/acpi-build.c        | 45 +++++++++++++++++++++++++++
+ include/hw/acpi/aml-build.h | 27 ++++++++++++++++
+ qapi/machine.json           |  3 +-
+ qapi/qom.json               | 12 ++++++++
+ softmmu/vl.c                | 26 ++++++++++++++++
+ 8 files changed, 195 insertions(+), 1 deletion(-)
+ create mode 100644 hw/acpi/genport.c
+
+--
+
 
