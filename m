@@ -2,88 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4A66E6670
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 15:57:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF79D6E6676
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 15:59:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1polou-0003Xe-Tq; Tue, 18 Apr 2023 09:56:32 -0400
+	id 1polr3-0004ZV-6D; Tue, 18 Apr 2023 09:58:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1polot-0003Vx-5a
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 09:56:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1polor-0006LW-77
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 09:56:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681826187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Menwzf6faERAImrdgFPlClcIfIee86LpEAUgYDco4AU=;
- b=bY6evv8TYAX9c6YNXrg7+zlpC8AryGYRxU2p4Qv8AJjvpp7bH3dDRVF7lhbZB+35ZQdXrE
- mQxQZ2KIbDhsi8TgCRdp/cZ88TOLNIKQvVu6KTsss3011MYjcH3lZf7UdOious2FyY2QZc
- 3ETUS12zKxK7sJtkR7uFRxap66LXdbg=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558--y1QnTvTOLeFx5YUmkq2zA-1; Tue, 18 Apr 2023 09:56:26 -0400
-X-MC-Unique: -y1QnTvTOLeFx5YUmkq2zA-1
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-5ef5fbe2cfaso7193316d6.0
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 06:56:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681826184; x=1684418184;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1polqw-0004YQ-Ac
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 09:58:38 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1polqu-0006fm-LG
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 09:58:38 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f177cb2c6cso6182595e9.2
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 06:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681826315; x=1684418315;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Menwzf6faERAImrdgFPlClcIfIee86LpEAUgYDco4AU=;
- b=aoKPFmykk/iR2Yu7fZyNltXsKFVqmjwnpIwq2uvEk0vBT9jjHSLJ5NmJEDfzlcVlzN
- aW+6hu+otD7+P1MFbJzuO+5QZ3zAQY3FwbKYk1w7KRNmZPwq/w4ZmaubdAEAMkL131LW
- 7FxzunhwGEWSkO1uzBMC6lC485VAnuI4Vnk/ePy8Sx70wPkuUTUIxuyeCo2Dr4f9cPk2
- qDSCE1hc8406FYsROuxpExuiXcwPKpUg0cO3olKaRGq3j8+WADkDkAfxiOd3NOnnLmpe
- 36DSMRbeL4WRaYrqrEP9j+sunIeoz76c3WU9lDh6Lu8NIL+RTQjcxIOCr9BKG5fYrdto
- FxHg==
-X-Gm-Message-State: AAQBX9cExgwdx5tJsWilY9BWzDrMI9DgcU6M+vsQdq3anxK4El4N/K7h
- 3UoSblMcwqAtskYFqrUCOIQcZiggeSb6Xw1urrNQ0lj4lzFE0RFV5BdC7IWWPaZVGmT3TMlU7Eb
- VDsMf8rEGqAwnVng=
-X-Received: by 2002:a05:6214:4114:b0:5a9:ab44:5fdf with SMTP id
- kc20-20020a056214411400b005a9ab445fdfmr20852842qvb.0.1681826184291; 
- Tue, 18 Apr 2023 06:56:24 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Yy2vD22M8k/J6sTMXP/+o49VjWFmAUmldRNOGTDr8xMzFa7s6uranfJWel9jTemcXSIJ+rJA==
-X-Received: by 2002:a05:6214:4114:b0:5a9:ab44:5fdf with SMTP id
- kc20-20020a056214411400b005a9ab445fdfmr20852811qvb.0.1681826183973; 
- Tue, 18 Apr 2023 06:56:23 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- m1-20020ad44a01000000b005ef61084fddsm2507647qvz.131.2023.04.18.06.56.22
+ bh=vGySRZrs/b8njlSGrjtzjuPbx1JL14da6i8ba99Is3E=;
+ b=uk+TxpZt6Ud9SwLze7/gzjXKw05Yu1KtKb35B0tsS7PBU94thWt40bsBQnk2eF3LsF
+ VGSF2UHy7yiyV5v6l/Gxgwj0jlGWNW9Te+lqm4FvHAnXUpgRaF2V8+DTK1OjIAL056cF
+ N4O8xbZEp5M498yKXJH7206ctyhRYvPnxffgyqwrjQTmo8+IYkw+QXK5e5H19mmPYd5H
+ IBOO4vmjkGlDCbsUv4ZTgdQLOftAPmdBfGF9lttDBsoJkk/Iczz+ZZDoYZsqu9/vGqBJ
+ hvdgbi+wMT3v/louhp5fKk6IZQWPLw42nGZlTIsgV5WzDz6K8C3dCJoaIcDXfMS4+kUy
+ oK/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681826315; x=1684418315;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=vGySRZrs/b8njlSGrjtzjuPbx1JL14da6i8ba99Is3E=;
+ b=Kp42DUBDjhT/91uQIlqzZWwlkxHsKhPJikqbgon+WSYh70EAGULxmPtNmfv0PStpvF
+ VpnVCCSWpffaO8jIl4HfAxxxGQONaI5DI2qXEXVsSqoDi0M1TYO4WpEW/W7o0dMkVBpA
+ lFxNmqvUpXbGjHyYRoHJcUREiFAr0TX+1I4O2I9hNbSnhPwy2hQGCvSKGx31SzJzCWe6
+ Zu2bYK/Kjx2JPeLPo3vAL1w2GQS9OiO+DPHuI5GOgj7NrwkOLGlwgHyWTeOCVhAmxud5
+ ESra/SXlcaNop2305zvxZDCCnrzVpegS/tgur/aZa8SY1Pddr9EQluFOxYSlIsMvMjPn
+ qkfw==
+X-Gm-Message-State: AAQBX9fr8utHZ1ztc/L6LZg7MRqc4PoyBUm+yEmA/zgsFVN8uVYtMs8j
+ 3ebI+EChc1OCWHyqE9+4rTPX7A==
+X-Google-Smtp-Source: AKy350azYH1QyIZJteWYhrBdTdgAMIOcRSwIxrUCxuU8o70MwNtV3fnTEbrIsFDkwL4jPZWFqPVqlQ==
+X-Received: by 2002:a5d:6a06:0:b0:2f0:2dfe:e903 with SMTP id
+ m6-20020a5d6a06000000b002f02dfee903mr2236438wru.69.1681826314647; 
+ Tue, 18 Apr 2023 06:58:34 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ b7-20020adfde07000000b002f3fcb1869csm13179900wrm.64.2023.04.18.06.58.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 06:56:23 -0700 (PDT)
-Date: Tue, 18 Apr 2023 09:56:22 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-devel@nongnu.org,
- mst@redhat.com, jasowang@redhat.com, marcel.apfelbaum@gmail.com,
- pbonzini@redhat.com, richard.henderson@linaro.org,
- eduardo@habkost.net, david@redhat.com, philmd@linaro.org
-Subject: Re: [PATCH v3] memory: Optimize replay of guest mapping
-Message-ID: <ZD6hhnUNVoHhIdgi@x1n>
-References: <20230413110019.48922-1-zhenzhong.duan@intel.com>
- <CAFEAcA9VsB7+yXG6XiyRAJ4TaUJVFAu4h-rT9ZN=+o5fu0S2cw@mail.gmail.com>
+ Tue, 18 Apr 2023 06:58:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C9FA01FFB7;
+ Tue, 18 Apr 2023 14:58:33 +0100 (BST)
+References: <calendar-8e6a5123-9421-4146-9451-985bdc6a55b9@google.com>
+ <87r0sn8pul.fsf@secure.mitica>
+User-agent: mu4e 1.11.2; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: quintela@redhat.com
+Cc: afaerber@suse.de, juan.quintela@gmail.com, ale@rev.ng, anjo@rev.ng,
+ bazulay@redhat.com, bbauman@redhat.com, chao.p.peng@linux.intel.com,
+ cjia@nvidia.com, cw@f00f.org, david.edmondson@oracle.com, Eric Northup
+ <digitaleric@google.com>, dustin.kirkland@canonical.com,
+ eblake@redhat.com, edgar.iglesias@gmail.com, elena.ufimtseva@oracle.com,
+ eric.auger@redhat.com, f4bug@amsat.org, Felipe Franciosi
+ <felipe.franciosi@nutanix.com>, "iggy@theiggy.com" <iggy@kws1.com>, Warner
+ Losh <wlosh@bsdimp.com>, jan.kiszka@web.de, jgg@nvidia.com,
+ jidong.xiao@gmail.com, jjherne@linux.vnet.ibm.com,
+ joao.m.martins@oracle.com, konrad.wilk@oracle.com, kvm@vger.kernel.org,
+ mburton@qti.qualcomm.com, mdean@redhat.com, mimu@linux.vnet.ibm.com,
+ peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ richard.henderson@linaro.org, shameerali.kolothum.thodi@huawei.com,
+ stefanha@gmail.com, wei.w.wang@intel.com, z.huo@139.com,
+ zwu.kernel@gmail.com
+Subject: Re: QEMU developers fortnightly conference call for agenda for
+ 2023-04-18
+Date: Tue, 18 Apr 2023 14:57:53 +0100
+In-reply-to: <87r0sn8pul.fsf@secure.mitica>
+Message-ID: <87leipe1h2.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9VsB7+yXG6XiyRAJ4TaUJVFAu4h-rT9ZN=+o5fu0S2cw@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,102 +111,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 11:13:57AM +0100, Peter Maydell wrote:
-> On Thu, 13 Apr 2023 at 12:12, Zhenzhong Duan <zhenzhong.duan@intel.com> wrote:
-> >
-> > On x86, there are two notifiers registered due to vtd-ir memory
-> > region splitting the entire address space. During replay of the
-> > address space for each notifier, the whole address space is
-> > scanned which is unnecessary. We only need to scan the space
-> > belong to notifier monitored space.
-> >
-> > While on x86 IOMMU memory region spans over entire address space,
-> > but on some other platforms(e.g. arm mps3-an547), IOMMU memory
-> > region is only a window in the whole address space. user could
-> > register a notifier with arbitrary scope beyond IOMMU memory
-> > region. Though in current implementation replay is only triggered
-> > by VFIO and dirty page sync with notifiers derived from memory
-> > region section, but this isn't guaranteed in the future.
-> >
-> > So, we replay the intersection part of IOMMU memory region and
-> > IOMMU notifier in memory_region_iommu_replay().
-> >
-> > Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
-> > ---
-> > v3: Fix assert failure on mps3-an547
-> > v2: Add an assert per Peter
-> > Tested on x86 with a net card passed to guest(kvm/tcg), ping/ssh pass.
-> > Also did simple bootup test with mps3-an547
-> >
-> >  hw/i386/intel_iommu.c | 2 +-
-> >  softmmu/memory.c      | 5 +++--
-> >  2 files changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > index a62896759c78..faade7def867 100644
-> > --- a/hw/i386/intel_iommu.c
-> > +++ b/hw/i386/intel_iommu.c
-> > @@ -3850,7 +3850,7 @@ static void vtd_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-> >                  .domain_id = vtd_get_domain_id(s, &ce, vtd_as->pasid),
-> >              };
-> >
-> > -            vtd_page_walk(s, &ce, 0, ~0ULL, &info, vtd_as->pasid);
-> > +            vtd_page_walk(s, &ce, n->start, n->end, &info, vtd_as->pasid);
-> >          }
-> >      } else {
-> >          trace_vtd_replay_ce_invalid(bus_n, PCI_SLOT(vtd_as->devfn),
-> > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > index b1a6cae6f583..f7af691991de 100644
-> > --- a/softmmu/memory.c
-> > +++ b/softmmu/memory.c
-> > @@ -1925,7 +1925,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-> >  {
-> >      MemoryRegion *mr = MEMORY_REGION(iommu_mr);
-> >      IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
-> > -    hwaddr addr, granularity;
-> > +    hwaddr addr, end, granularity;
-> >      IOMMUTLBEntry iotlb;
-> >
-> >      /* If the IOMMU has its own replay callback, override */
-> > @@ -1935,8 +1935,9 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-> >      }
-> >
-> >      granularity = memory_region_iommu_get_min_page_size(iommu_mr);
-> > +    end = MIN(n->end, memory_region_size(mr));
-> >
-> > -    for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
-> > +    for (addr = n->start; addr < end; addr += granularity) {
-> >          iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
-> >          if (iotlb.perm != IOMMU_NONE) {
-> >              n->notify(n, &iotlb);
-> 
-> 
-> The documentation for the replay method of IOMMUMemoryRegionClass
-> says:
->      * The default implementation of memory_region_iommu_replay() is to
->      * call the IOMMU translate method for every page in the address space
->      * with flag == IOMMU_NONE and then call the notifier if translate
->      * returns a valid mapping. If this method is implemented then it
->      * overrides the default behaviour, and must provide the full semantics
->      * of memory_region_iommu_replay(), by calling @notifier for every
->      * translation present in the IOMMU.
-> 
-> This commit changes the default implementation so it's no longer
-> doing this for every page in the address space. If the change is
-> correct, we should update the doc comment too.
-> 
-> Oddly, the doc comment for memory_region_iommu_replay() itself
-> doesn't very clearly state what its semantics are; it could
-> probably be improved.
-> 
-> Anyway, this change is OK for the TCG use of iommu notifiers,
-> because that doesn't care about replay.
 
-Since the notifier contains the range information I'd say the change
-shouldn't affect any caller but only a pure performance difference.  Indeed
-it'll be nicer the documentation can be updated too.  Thanks,
+Juan Quintela <quintela@redhat.com> writes:
 
--- 
-Peter Xu
+> Hi
+>
+> Please, send any topic that you are interested in covering.
+>
+<snip>
+>
+>  Call details:
 
+Please find the recording at:
+
+  https://fileserver.linaro.org/s/nJTSCLyQBfo6GLJ
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
