@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C76B6E59B2
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D4E6E59B3
 	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 08:52:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pofBp-00063f-V3; Tue, 18 Apr 2023 02:51:45 -0400
+	id 1pofC1-00065g-3L; Tue, 18 Apr 2023 02:51:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pofBm-00063R-QS; Tue, 18 Apr 2023 02:51:42 -0400
+ id 1pofBy-00064r-D6; Tue, 18 Apr 2023 02:51:54 -0400
 Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pofBi-0005oY-41; Tue, 18 Apr 2023 02:51:42 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 203C55C0079;
- Tue, 18 Apr 2023 02:51:35 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 18 Apr 2023 02:51:35 -0400
+ id 1pofBw-0005pj-R1; Tue, 18 Apr 2023 02:51:54 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0EB1C5C01C4;
+ Tue, 18 Apr 2023 02:51:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 18 Apr 2023 02:51:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1681800695; x=
- 1681887095; bh=GQATokZxCQMENbOrFc6bac2aPHAdok84LG107OhOWzY=; b=v
- lVQxZPskqjTbxGKmaEem5+Mus/bj1RxaYlNrKGaPG6zkVTi2TkFwmGeqgWpGBLOm
- D9MCsbh8gTc0FvV5y1Lf6GBuVZj2ebwah4fPgK+DGQWYrRH7J2PCdIOY4T0U9dbw
- U0fKqcHIpkll+wIlhXxFGNtQFWtdFYXucdxYItThPzlXEPnuJ5fUc5J8yNTntVCp
- /0WlKMjML0JTnoOlbW6NOwt2ow6OJ3uA5Tawf9kQIGAJfAlSTiQGhkPZjDET79oH
- sHzmN02SYO3BiPs2cFT4DO0Gcec1Sq+EYhxwHc6Ey0O2R04Bo9L6/5/vzdu6Bo6h
- zVwpL6dJO01hQERiOKv8g==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1681800711; x=
+ 1681887111; bh=gSQ/FjJ0MeZChCSw+3oF594fKT/JQPa8T7zF7EJQrkE=; b=j
+ TjIZ4JWsI3+s3bhc0CAehrq5f0iOVH+wPYLeEy9eKd43J8Vb1ALXKpgHKeaJVOMa
+ EF+f6ZT3KU6tg/J791syO6OdqlWyaqk1VUVvYaZ3HC9qqfOZS2x9OOp2mfMWDnMe
+ pYuxAgwZxRDzBzzRRMLA/ec1Lq19Z5F1W6hkaENuQjkYSyXrwNRN6v0BeD61nyL6
+ b1zFX/TwYwxSnhCOz/7pocAkYMiK65b+QhIC3L3Uzcm8yz924/c0k2MDPRWlPooN
+ wsw62XZdNTzBqwZW+77Mqr5x80PB66CVew3Oc4bUhDlP3TZgZnkHoSP1uF6NVQXJ
+ 1f54zLZCvcHpq5BCTDJOg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:content-type:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1681800695; x=1681887095; bh=GQATokZxCQMEN
- bOrFc6bac2aPHAdok84LG107OhOWzY=; b=DRK0svYkhRSoyPdXpmNdI4ln1cdAZ
- ahfpBtDcKEbnrjmKnKEkG2q4ikRUXkiN+bR6XSGqUPfVgD9YbDCCzKc+LiUx24AI
- X4/AAqEicI9kct8JQ1+xnXsZm8h6TeOuHrLdkMihqNT7pvvmEWCBADZPiViloQpr
- vOTKbmPQOS9MxAMiAJFYTkgGWz3+YjMMIWlHCBmwIH/Up0sZy2qPx3qzcaZdOvG/
- RW28h95zjz2P4RxKHOkpuYKm+xXqgVdqQOgIM0r28jq/3iM7/38BsG01wfFw7M9i
- KQsRz3X+21krFNIGW6fFRw6t9eMjWake3HopyMqsgW8/CNz0TAcw6zQ7g==
-X-ME-Sender: <xms:9j0-ZDKOs7gz1HlqLS1tigpxzzQT785i8mcsBwHx1sYfrSV_AZ9q3Q>
- <xme:9j0-ZHKTQrA25_yZ7dRr0OhqD_lep2pCDuVlBawdlZUYcLowVjb5oMQiqVlTwCMaI
- V1uwRkZWAxehe6TVzk>
-X-ME-Received: <xmr:9j0-ZLuLSZ0xhLpgGJ-9USusH4mnBtPD-EHfML4M1lD3c3ZN4mnU6gAixCjmKu6AnnQqAcuqYX5vEGtmAfJSFry4OZJr9Dw>
+ :x-sasl-enc; s=fm3; t=1681800711; x=1681887111; bh=gSQ/FjJ0MeZCh
+ CSw+3oF594fKT/JQPa8T7zF7EJQrkE=; b=HAe6O+MC77+Z95ka5UgGyAcohxbBs
+ N061jTU75Ug1eMrZkYuTVcyAHvF9+1zZ2E69Y78pjpeZU4Y0SWbU5o/2kWHc8ntS
+ dZ7o7t8G9D/801t4PBOHjp5lpnfdX9k9JpUyi7NQfimlQ9P/DVB7PATyD5rw9uaO
+ gnhXh63GMUgMhgA0vEHyN0dELDgHeDwJ/1J0XB1Uo4p7b0d1MHEQVmbcsMViUg9K
+ NkZZs3UD1kPZXZDaK3GEyiGMnohErS/RRVKl61hkoA8z56xLYA35F8QCzbd+QmOv
+ jbMRl1GVEmArlHV5sFmk66hbt678gIT8GVZirbgeARDz+rrc0ce8Q8bbw==
+X-ME-Sender: <xms:Bj4-ZBS7cIuibvFkQ12n0JwjQTI2Yj9AcJBQw-52Pe9e_TDtQrtkqQ>
+ <xme:Bj4-ZKy7eb3b5jmbuVZfAdtdKqfxZlQmX5svT_DxWvQRtlRZwJbpia77qNfOnwusX
+ OkOQV5XamstEHUusrk>
+X-ME-Received: <xmr:Bj4-ZG3IYS3QGs_dI77760hQO3oifNifcvn-jrcVjrKyuXjx058GShzClyXphxN1xRz43n0E9rJB9bN97PXL3PZ5y4UQz1U>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeljedgudduhecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -56,27 +56,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeljedgudduhecutefuodetgg
  htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
  ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:9j0-ZMbsIUuDbyRXxUen0O7m6etoSxYIKHTQ3KDcUew-GoeR4OVuSQ>
- <xmx:9j0-ZKZ4964LsvnXMAEIWU7QGpII69Vj9jwlRIHm121kbIab4rpyKg>
- <xmx:9j0-ZAAfsoO-mFv0hsSGiuNxedXT8N99sN3GC9GIGhnQWd_a9kdHdQ>
- <xmx:9z0-ZByjxgbjR2rpL3sU-RkpSbJkzAE0P2QDppvNY2CHblAFSszz5w>
+X-ME-Proxy: <xmx:Bj4-ZJCwE7zZ_TsxRCxo3vT2D8mEy3gIt9Ry54RVDP1RrfPRyaAY9w>
+ <xmx:Bj4-ZKhRB6Zkzy7F1RR9JFEMJhmMfZj_ztkuD8EcaYXQi054932VRQ>
+ <xmx:Bj4-ZNpQQbzAleD3v5MhSS_eUVxVRprxbTfBbJqtD3EQHZI1Q-JFOQ>
+ <xmx:Bz4-ZLs3zdBnMjvqf4yZXudWriiB69CXPWlKCzFdlwoKTqjWJYj0TQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Apr 2023 02:51:32 -0400 (EDT)
-Date: Tue, 18 Apr 2023 08:51:31 +0200
+ 18 Apr 2023 02:51:49 -0400 (EDT)
+Date: Tue, 18 Apr 2023 08:51:48 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: Minwoo Im <minwoo.im.dev@gmail.com>
 Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Minwoo Im <minwoo.im@samsung.com>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH] hw/nvme: add comment for nvme-ns properties
-Message-ID: <ZD49850d0lgN6PuG@cormorant.local>
-References: <20230418002025.29232-1-minwoo.im.dev@gmail.com>
+ Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH RESEND 0/2] hw/nvme: COPY fixes
+Message-ID: <ZD4+BFK8BeQ7I19y@cormorant.local>
+References: <20230418002622.29819-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zWTtYKCpx1WlpPGf"
+ protocol="application/pgp-signature"; boundary="bLXppULvL9N1bNCJ"
 Content-Disposition: inline
-In-Reply-To: <20230418002025.29232-1-minwoo.im.dev@gmail.com>
+In-Reply-To: <20230418002622.29819-1-minwoo.im.dev@gmail.com>
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
  helo=out4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -103,44 +102,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---zWTtYKCpx1WlpPGf
+--bLXppULvL9N1bNCJ
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Apr 18 09:20, Minwoo Im wrote:
-> From: Minwoo Im <minwoo.im@samsung.com>
+On Apr 18 09:26, Minwoo Im wrote:
+> Fix status code overwritten issue in the COPY command and a trivial
+> patch to check the Maximum Copy Length (MCL) for COPY command.
 >=20
-> Add more comments of existing properties for nvme-ns device.
+> Minwoo Im (2):
+>   hw/nvme: consider COPY command in nvme_aio_err
+>   hw/nvme: check maximum copy length (MCL) for COPY
 >=20
-> Signed-off-by: Minwoo Im <minwoo.im@samsung.com>
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/nvme/ctrl.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  hw/nvme/ctrl.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 >=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 8b7be14209..87c07f5dbb 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -43,7 +43,14 @@
->   *              subsys=3D<subsys_id>
->   *      -device nvme-ns,drive=3D<drive_id>,bus=3D<bus_name>,nsid=3D<nsid=
->,\
->   *              zoned=3D<true|false[optional]>, \
-> - *              subsys=3D<subsys_id>,detached=3D<true|false[optional]>
-> + *              subsys=3D<subsys_id>,shared=3D<true|false[optional]>, \
-> + *              detached=3D<true|false[optional]>, \
-> + *              zoned.zone_size=3D<N[optional]>, \
-> + *              zoned.zone_capacity=3D<N[optional]>, \
-> + *              zoned.descr_ext_size=3D<N[optional]>, \
-> + *              zoned.max_active=3D<N[optional]>, \
-> + *              zoned.max_open=3D<N[optional]>, \
-> + *              zoned.cross_read=3D<true|false[optional]>
->   *
->   * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
->   * offset 0 in BAR2 and supports only WDS, RDS and SQS for now. By defau=
-lt, the
 > --=20
 > 2.34.1
 >=20
@@ -149,20 +126,20 @@ Thanks,
 
 Applied to nvme-next!
 
---zWTtYKCpx1WlpPGf
+--bLXppULvL9N1bNCJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmQ+PfIACgkQTeGvMW1P
-DelOZQf/Q7OKbFN453Y8pakb6ljitAr6zIQzlBzP0GmyP75JdR+07KZg6bWAn7wD
-nT6fxKdzDpNEOoCftu+GtZBhpsEZMCC/tDi7n7Nxjv/EPgXe56wkqLexmenmYQSg
-5gVKIng1FFdnNHEtIP4IK6TF0b+GnSb43QosTsiUemD1RiPHDPhk6N0pLSq/SvOR
-fb8NyAqU/i8LqjXrktujl9kiMVw9K3yjicllSnsSOD5cTG4HjOoQO+sipEt+LuYE
-fAymC87xtOMeIOsDL8hRNDoPPIu/TSUE8WCmwZMNQZ0QBqnsBa8TmMi97tqWccSX
-L3C3+c9CBSTHWZlTKCRLnq7Ac5gdXg==
-=sxYl
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmQ+PgQACgkQTeGvMW1P
+Dek6kQf/V0QF6cM31csirzCQYyAeiNw9RcWt3Ub/qEUDRNsDvJrQAbCawDnsZQPI
+5yWUQQqXvCrmpMvmI6Pp00wCnAE4/1zWNX3v666IVzkuJk2wJTnhDBXlAnK00Dx7
+fM6nECEl1GQwZADcYHzxP//epWP8KRH4FyjnArdiVZzh6phGiC4YKqeIyXFX29kr
+JGTAgoeUWvT8JlAeWLIcf/pEheNrzcAFfn36rNdAsk20Qneq3Iz+6mfJ3BWmbFHU
+IfEMcNeM6xKUAZWhDo0OJ5Y/EP7ZmTJwbrFBgxSBQXRWFWPLM24/d+pox4Vj62Rx
+9t8cg7qv2OPSNC+4LqgQ4MI8L+ZzCQ==
+=YOct
 -----END PGP SIGNATURE-----
 
---zWTtYKCpx1WlpPGf--
+--bLXppULvL9N1bNCJ--
 
