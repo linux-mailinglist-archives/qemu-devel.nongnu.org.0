@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D786E6A40
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 18:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52626E6A41
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 18:56:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poobk-0008EJ-If; Tue, 18 Apr 2023 12:55:08 -0400
+	id 1poocX-0000Xz-QA; Tue, 18 Apr 2023 12:55:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hshan@google.com>) id 1poobf-0008EA-P4
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:55:03 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1poocW-0000XP-0F; Tue, 18 Apr 2023 12:55:56 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hshan@google.com>) id 1poobe-0007VE-4a
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:55:03 -0400
-Received: by mail-pf1-x432.google.com with SMTP id
- d2e1a72fcca58-63b5465fc13so1753536b3a.3
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 09:55:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1poocU-0007lF-2Q; Tue, 18 Apr 2023 12:55:55 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id
+ d2e1a72fcca58-63b64a32fd2so2343361b3a.2; 
+ Tue, 18 Apr 2023 09:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1681836900; x=1684428900;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kjxyy4RaGEC2WfRTXjfaQhWzDl507YlIkxr9MkVVYwc=;
- b=MUAsxiMLXMYtIJFcgEP2bO2xMTu1PqgbvZWGx7RfRy9gYsJlD868eCzk9Qy116j1TC
- cXfkeNJD7v/Tv7kidpfvR/DIQrZ2o46ik4bXTaqyKVrQgvKav6AAmo/lNoOHJRHJXR42
- PCl701VpI56NZ22+4HBaU8/b/utZdkwjPcc+tQnEfD4jtZY0bI99xqqQEvRbM54rTSAa
- 0JMjhgDxevj34ymnlC8O5BGKq2H2JD2ieI2DqAMk5TlKMi7zFW9pL/rH4vXML9Q66588
- ha8kHn3qd5xP3QLmFGQVQcinV0eHhZniWfhlzaSB18LggZscc72SI1Vj16c4mWZVk/Kd
- wg9Q==
+ d=gmail.com; s=20221208; t=1681836952; x=1684428952;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=PGiicJ5YsJn5mRLF0Tdsoe/uexqkskXow86/+mkxsSg=;
+ b=gPtiwtOjUoGMVUgYNVNyEoPxsFgtnA8m4umCHALVFfYpMFBBgRTNiJHMnUN/89PX6Y
+ quz9Q81FLMIEvn/SdSB0jhdB1q6TsiuYd/rn1vcuwmGXeSAcjhlZhqGf4LkmKzxPPdpC
+ VnEoa5fMsSy2At+QnDZiVUBGclmax6XVTq3l9Jg13mxXUtqzEJTXeLXBMlOx3DbiQvfp
+ qiVXUGh030frWHAH5yFznNjFcqlHx1+vPyo3klQd1EjBRTL67DaQEnevD5xMFB6sNav1
+ saNowv0e1MhmgxYNNsFKlGvbc0bmGMn9kjgmjXtK07ivd5SW2h6g4fVb+C01dsc8Zbaz
+ UtQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681836900; x=1684428900;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kjxyy4RaGEC2WfRTXjfaQhWzDl507YlIkxr9MkVVYwc=;
- b=ZYChFRsb6QUPK2xolQsnZFFOi8f16VzKOn2CJR8dpq2IpHFdI8pAYo8YO8mAKYpS6I
- NLiY4CC/n8AcYWm6YOnmdxFY9Ad1jjxk5xOO2VmUvsi9otXdYGQNIPk0cdGEVUkL/88O
- Q6ri4la/naixRauOOobg7bKF1ndqxbxG9Hz4H64hRp8Y/aEImMbV3RMD2CTttDbyitp8
- inTiluAmmNkg1nGeoWeSF452eLW3ouADw6IXhzH6B+cd8bOsY/dq92Q7gxpacjDryDg0
- TwW3140AYova7JT9mgz6CTMI3v09Isgfx9IVBbEmyTgoZl0fh9CQiYwyuCPK2Ejgb3Za
- O8Lw==
-X-Gm-Message-State: AAQBX9fUXRdfbIa+UfOxmXV8+vzhqrOxhvX+JqrtbLh9HYc+yaPV1sT7
- OQs2FK8+TeWvYPg36mdWBwlufT9QJvY6dQoaeZpKlQ==
-X-Google-Smtp-Source: AKy350aVu3gFfhT4BBFRoUErFFbTXvHB5DO2RVFoaYXUl0qPmkmvFokCDQpGMHz1M7+6ftFNOKSxHWNXMFQtGDqSb84=
-X-Received: by 2002:a17:902:e890:b0:1a8:16d2:a86b with SMTP id
- w16-20020a170902e89000b001a816d2a86bmr29020plg.8.1681836899725; Tue, 18 Apr
- 2023 09:54:59 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681836952; x=1684428952;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PGiicJ5YsJn5mRLF0Tdsoe/uexqkskXow86/+mkxsSg=;
+ b=eWmIN0cQK/I5aJ2vWiFaGm90Vhuzpo0rKXxpCoOzjspVS3idxv6OwIL5boH86ni8Ug
+ A9beVIatt9E9FrLK2P2wHaCL2q2pjhIn29N9HvwSLEnNX5cTKDlN3Y1E/xXTOyVGMuYj
+ NhRzmfwmaYW/t1eFqV+vuo9FDs2d6o4xqUMW05BgOATiwS2+Jc55oZP+gC2QvWdjDR3l
+ vBA/rUQLAKE5Y2lLbWOJBxImmf7GLebNFt/ygtvRxO2X+eolJukipoebKAe5CPR1BTnT
+ ZF3zgcVyx9ZUtOc2M99C3pctcZJWfNpmoOPGFOwIhVBQm4l6z49Uya9SgwbABGUYuCYJ
+ raUQ==
+X-Gm-Message-State: AAQBX9dKeSop9HPr9co+OfzYYfQynd9fE+fDCuB2yVzp/PbaRrMV8isL
+ HeZ9iiiTEqhgDJFflG6nFb8=
+X-Google-Smtp-Source: AKy350YjCetQnkeXyMvRbO4rMDcGh4UYcwMwz/EfbsoeUiMkwoRRPZBwDbZmvQ66y+rl38p5j5csxA==
+X-Received: by 2002:a05:6a00:10c7:b0:63b:854c:e0f6 with SMTP id
+ d7-20020a056a0010c700b0063b854ce0f6mr433710pfu.21.1681836951978; 
+ Tue, 18 Apr 2023 09:55:51 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ r5-20020a635145000000b005186e562db0sm8936883pgl.82.2023.04.18.09.55.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 09:55:51 -0700 (PDT)
+Message-ID: <b438fd63-85ec-b765-435c-80512da49e2b@roeck-us.net>
+Date: Tue, 18 Apr 2023 09:55:49 -0700
 MIME-Version: 1.0
-References: <CAGD3tSzW1QoAsn+uGjoAkBegLt1iZ=9YWDFcvqbcHMr0S_5kVw@mail.gmail.com>
- <ZAHNEtV0N+9JyZTk@redhat.com>
- <CAGD3tSzZAa+zRv0xEetB-WW+zmnGNJUAzLj0CyGCek9YYDNq9g@mail.gmail.com>
- <ZAIqclU7BbH2vog7@redhat.com>
- <CAGD3tSw_OdDV3gZo7mxeKP0da-NrdikRGySKtFC9rhn4Dn_G1g@mail.gmail.com>
- <817fc488-6058-69b3-280b-611f9a77bcf0@redhat.com>
-In-Reply-To: <817fc488-6058-69b3-280b-611f9a77bcf0@redhat.com>
-From: Haitao Shan <hshan@google.com>
-Date: Tue, 18 Apr 2023 09:54:48 -0700
-Message-ID: <CAGD3tSxmsJmfvpCA2tODTakVFO0oE4Ezd78Qc85wNPCf2bkJ2g@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Adding the Android Emulator hypervisor driver
- accelerator
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=hshan@google.com; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 0/5] Support both Ethernet interfaces on i.MX6UL and i.MX7
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230315145248.1639364-1-linux@roeck-us.net>
+ <CAFEAcA-ZpQCS33L4MaQaR1S9MN24GgK+cH0vcuiz_7m+6dO4cw@mail.gmail.com>
+ <c24f50af-1dbb-6a1b-ca21-414039c10602@roeck-us.net>
+ <CAFEAcA9VQHa=Eenyon-kaiabayM5YY7FHEJsEWOzjzj3rXaSaA@mail.gmail.com>
+ <79e67479-6785-c064-6aae-edd1ba2327cd@roeck-us.net>
+ <CAFEAcA-tOt520nfNdHyGV+0PUvGdw2o+yfpv95cQDHPDJnq0aA@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAFEAcA-tOt520nfNdHyGV+0PUvGdw2o+yfpv95cQDHPDJnq0aA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=groeck7@gmail.com; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.597,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,73 +103,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 4, 2023 at 4:55=E2=80=AFAM Paolo Bonzini <pbonzini@redhat.com> =
-wrote:
->
-> On 3/3/23 18:39, Haitao Shan wrote:
-> >> No, we're always open to new proposals. It merely means that it
-> >> might be harder to justify why the new hypervisor is a net benefit
-> >> for QEMU, when there is a competing solution supported by the OS
-> >> vendor.
-> >
-> > Thanks for the clarification. It is great that the door is not shut com=
-pletely.
->
-> Hi,
->
-> sorry for not answering before.
-Thanks for your reply. I was taking a long vacation and did not see
-your reply earlier.
+On 4/18/23 08:32, Peter Maydell wrote:
+> On Tue, 18 Apr 2023 at 16:18, Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 4/18/23 07:46, Peter Maydell wrote:
+>>> I guess I don't understand what the topology is for these specific
+>>> SoCs, then. If there's only one master that might be connected
+>>> to multiple PHYs, why does one ethernet device in QEMU need to
+>>> know about the other one? Are the PHYs connected to just that
+>>> first ethernet device, or to both? This bit in your cover letter
+>>> makes it sound like "both ethernet interfaces connect to the same
+>>> MDIO bus which has both PHYs on it":
+>>>
+>>
+>> Yes, that is exactly how it is, similar to the configuration in the picture
+>> at prodigytechno.com. I don't recall what I wrote in the cover letter, but
+>> "Both Ethernet PHYs connect to the same MDIO bus which is connected to one
+>> of the Ethernet MACs" would be the most accurate description I can think of.
+> 
+>> Each MAC (Ethernet interface, instance of TYPE_IMX_FEC in qemu) has its own
+>> MDIO bus. Currently QEMU assumes that each PHY is connected to the MDIO bus
+>> on its associated MAC interface. That is not the case on the emulated boards,
+>> where all PHYs are connected to a single MDIO bus.
+> 
+> So looking again at that diagram on that website, I think I understand
+> now: for data transfer to/from the outside world, MAC1 talks only through
+> PHY1 and MAC2 only through PHY2 (over the links marked "MII/GMII/XGMII"),
+> but the "control" connection is via MDIO, and on these boards you have to
+> configure PHY2 by doing the MDIO reads and writes via MAC1, even though
+> MAC1 has nothing otherwise to do with PHY2 ? (And MAC2 has no devices on
+> its MDIO bus at all.)
+> 
 
->
-> I think in general QEMU should be open to merging work from the Android
-> Emulator.  If AEHD is useful to the Android emulator, I would consider
-> it interesting for QEMU as well.
-Thanks for being open to us. For patchset V1, the most important
-feedback we can have is that our work can be useful to the community
-(not just the android emulator).
+Correct.
 
->
-> However, I would rather have it as an extension to KVM if possible
-> rather than a completely new emulator.  One possibility is to introduce
-> a new file that encapsulates all KVM ioctls, with a struct that
-> encapsulates the Unix file descriptor/Windows HANDLE.  For example
->
-> int kvm_ioctl_get_supported_cpuid(KVMState *s, struct kvm_cpuid *cpuid,
->                                    int max)
-> {
->      cpuid->nent =3D max;
-> #ifdef CONFIG_POSIX
->      return ioctl(s, KVM_GET_SUPPORTED_VCPUID, cpuid);
-> #else
->      size_t size =3D sizeof(*cpuid) + max * sizeof(*cpuid->entries);
->      return aehd_ioctl(s, AEHD_GET_SUPPORTED_CPUID, cpuid, size, cpuid,
-> size);
-> #endif
-> }
->
-> int kvm_ioctl_create_vcpu(KVMState *s, int vcpu_id, CPUState *out)
-> {
-> #ifdef CONFIG_POSIX
->      out.kvm_fd =3D kvm_vm_ioctl(KVM_CREATE_VCPU, vcpu_id);
->      return out.kvm_fd;
-> #else
->      return aehd_vm_ioctl(s, AEHD_CREATE_VCPU, &vcpu_id, sizeof(vcpu_id),
->                           &out.kvm_fd, sizeof(out.kvm_fd));
-> #endif
-> }
->
-> etc.
->
-> These are just general examples, the actual level of abstraction is up
-> to you.
-I will work on the new patchset. And most likely it will take some time.
+Thanks,
+Guenter
 
->
-> Paolo
->
-
-
---=20
-Haitao @Google
 
