@@ -2,111 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BD76E67AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 16:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0846E67E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 17:17:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pommt-0001ey-4W; Tue, 18 Apr 2023 10:58:31 -0400
+	id 1pon3i-0006Mx-3s; Tue, 18 Apr 2023 11:15:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pommq-0001dD-7r; Tue, 18 Apr 2023 10:58:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pon3f-0006MQ-RM
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:15:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pommn-0001BI-I1; Tue, 18 Apr 2023 10:58:27 -0400
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33IDntSN028422; Tue, 18 Apr 2023 14:58:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=v7QTnITa0/AgbHvGJF+PH1OdcwcVOTzymizEsRAOQjA=;
- b=FQnpq41v1CFbjQWTi1fx2pr2895M6SH7kGYqf59P+Lve1H81QDw1BAt6NUW+Ahaqs6v4
- 4Ll0CaYB4z7hnU1TYr+sKa3nqEMMCNxN8YJt+6S4Oi4raEpUuL0pOSs2pdwAEiuPK3xf
- /o3GVvwpGxan//bui99kpCPsE/E70VsiGMKG96mHBi4T0XvdupTbcCNqfe3mq8KbMfsq
- YBAyTKlXf4Ar/By46zK+HNJIEVlCjgcLthWZ+Sg3TGJBT1lm0hT9PUeNDoIqLELBRCIR
- zg1a+OV0V6u2+hlwbxilguwBfQjgO8VWQnhiGdAuwh7EXm5HgfDBvIqsRD7UQfdOFpxH vQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1pkwdfdh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 14:58:14 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33IEii1u005866;
- Tue, 18 Apr 2023 14:58:14 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1pkwdfcb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 14:58:13 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33I1HZjX011187;
- Tue, 18 Apr 2023 14:58:11 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3pyk6fj4bf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 14:58:11 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33IEw7dA10093146
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Apr 2023 14:58:07 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1AE3A20049;
- Tue, 18 Apr 2023 14:58:07 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 96B0620043;
- Tue, 18 Apr 2023 14:58:06 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.197.137])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 18 Apr 2023 14:58:06 +0000 (GMT)
-Message-ID: <2868ef0d75fd8472c128bd15d0aa53c16cfabf3c.camel@linux.ibm.com>
-Subject: Re: [PATCH v19 01/21] s390x/cpu topology: add s390 specifics to CPU
- topology
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Tue, 18 Apr 2023 16:58:06 +0200
-In-Reply-To: <9874d48f-dd04-6636-fd36-96a62ad01551@linux.ibm.com>
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-2-pmorel@linux.ibm.com>
- <e96e60dade206cb970b55bfc9d2a77643bd14d98.camel@linux.ibm.com>
- <d7a0263f-4b27-387d-bf6c-fde71df3feb4@linux.ibm.com>
- <872b2cba2d76b2c635c65a1d2b301dab80866e30.camel@linux.ibm.com>
- <9874d48f-dd04-6636-fd36-96a62ad01551@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pon3d-0004sh-2D
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 11:15:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681830947;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hvrtdzA5j2vix4v2SZPYeQRu/2GXgLGffRPfh2Hv2GI=;
+ b=PQv95quioElQqSBfFhhx7Crr0VkZNeGQEqHhQHzk5kC+Dwio091lHz2S+pX3sQyENxPU4W
+ 7s50F7fglx3H42pKNuU4lwqAoNVcaie0kjThYKsUrDT4MVwVEZqciIeK9kdgolThUvSLaQ
+ xMFv1iIXxxJOgfoLoELpv21ix1IA2II=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-401-homKRfseMQyd_idKdD6pLg-1; Tue, 18 Apr 2023 11:15:45 -0400
+X-MC-Unique: homKRfseMQyd_idKdD6pLg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7DFE210504A0
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:15:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F74240C20FA;
+ Tue, 18 Apr 2023 15:15:44 +0000 (UTC)
+Date: Tue, 18 Apr 2023 16:15:42 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] coverity: unify Fedora dockerfiles
+Message-ID: <ZD60HofB6D9LkCjT@redhat.com>
+References: <20230331174844.376300-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: P95Wml1SYdVuS3L_lFbdTfE6X_Zsdjnj
-X-Proofpoint-ORIG-GUID: hZOch3Vwy9JzKvIDmSL3CJqkhNOfvXpU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-18_11,2023-04-18_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 bulkscore=0 mlxscore=0 spamscore=0
- impostorscore=0 malwarescore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304180126
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230331174844.376300-1-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,273 +75,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> On 4/18/23 14:38, Nina Schoetterl-Glausch wrote:
-> > On Tue, 2023-04-18 at 12:01 +0200, Pierre Morel wrote:
-> > > On 4/18/23 10:53, Nina Schoetterl-Glausch wrote:
-> > > > On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
-> > > > > S390 adds two new SMP levels, drawers and books to the CPU
-> > > > > topology.
-> > > > > The S390 CPU have specific topology features like dedication
-> > > > > and entitlement to give to the guest indications on the host
-> > > > > vCPUs scheduling and help the guest take the best decisions
-> > > > > on the scheduling of threads on the vCPUs.
-> > > > >=20
-> > > > > Let us provide the SMP properties with books and drawers levels
-> > > > > and S390 CPU with dedication and entitlement,
-> > > > >=20
-> > > > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> > > > > Reviewed-by: Thomas Huth <thuth@redhat.com>
-> > > > > ---
-> > [...]
-> > > > > diff --git a/qapi/machine-common.json b/qapi/machine-common.json
-> > > > > new file mode 100644
-> > > > > index 0000000000..73ea38d976
-> > > > > --- /dev/null
-> > > > > +++ b/qapi/machine-common.json
-> > > > > @@ -0,0 +1,22 @@
-> > > > > +# -*- Mode: Python -*-
-> > > > > +# vim: filetype=3Dpython
-> > > > > +#
-> > > > > +# This work is licensed under the terms of the GNU GPL, version =
-2 or later.
-> > > > > +# See the COPYING file in the top-level directory.
-> > > > > +
-> > > > > +##
-> > > > > +# =3D Machines S390 data types
-> > > > > +##
-> > > > > +
-> > > > > +##
-> > > > > +# @CpuS390Entitlement:
-> > > > > +#
-> > > > > +# An enumeration of cpu entitlements that can be assumed by a vi=
-rtual
-> > > > > +# S390 CPU
-> > > > > +#
-> > > > > +# Since: 8.1
-> > > > > +##
-> > > > > +{ 'enum': 'CpuS390Entitlement',
-> > > > > +  'prefix': 'S390_CPU_ENTITLEMENT',
-> > > > > +  'data': [ 'horizontal', 'low', 'medium', 'high' ] }
-> > > > You can get rid of the horizontal value now that the entitlement is=
- ignored if the
-> > > > polarization is vertical.
-> > >=20
-> > > Right, horizontal is not used, but what would you like?
-> > >=20
-> > > - replace horizontal with 'none' ?
-> > >=20
-> > > - add or substract 1 when we do the conversion between enum string an=
-d
-> > > value ?
-> > Yeah, I would completely drop it because it is a meaningless value
-> > and adjust the conversion to the cpu value accordingly.
-> > > frankly I prefer to keep horizontal here which is exactly what is giv=
-en
-> > > in the documentation for entitlement =3D 0
-> > Not sure what you mean with this.
->=20
-> I mean: Extract from the PoP:
->=20
-> ----
->=20
-> The following values are used:
-> PP Meaning
-> 0 The one or more CPUs represented by the TLE are
-> horizontally polarized.
-> 1 The one or more CPUs represented by the TLE are
-> vertically polarized. Entitlement is low.
-> 2 The one or more CPUs represented by the TLE are
-> vertically polarized. Entitlement is medium.
-> 3 The one or more CPUs represented by the TLE are
-> vertically polarized. Entitlement is high.
->=20
-> ----
->=20
-> Also I find that using an enum to systematically add/subtract a value is=
-=20
-> for me weird.
+On Fri, Mar 31, 2023 at 01:48:44PM -0400, Paolo Bonzini wrote:
+> The Fedora CI and coverity runs are using a slightly different set of
+> packages.  Copy most of the content over from tests/docker while
+> keeping the commands at the end that unpack the tools.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  scripts/coverity-scan/coverity-scan.docker | 250 ++++++++++++---------
+>  1 file changed, 145 insertions(+), 105 deletions(-)
+> 
+> diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+> index 6f60a52d23..a349578526 100644
+> --- a/scripts/coverity-scan/coverity-scan.docker
+> +++ b/scripts/coverity-scan/coverity-scan.docker
+> @@ -15,112 +15,152 @@
+>  # The work of actually doing the build is handled by the
+>  # run-coverity-scan script.
 
-It is, I'd do:
+snip
 
-+static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
-+{
-+    struct S390CcwMachineState *s390ms =3D S390_CCW_MACHINE(current_machin=
-e);
-+    s390_topology_id topology_id =3D {0};
-+
-+    topology_id.drawer =3D cpu->env.drawer_id;
-+    topology_id.book =3D cpu->env.book_id;
-+    topology_id.socket =3D cpu->env.socket_id;
-+    topology_id.origin =3D cpu->env.core_id / 64;
-+    topology_id.type =3D S390_TOPOLOGY_CPU_IFL;
-+    topology_id.dedicated =3D cpu->env.dedicated;
-+
-+    if (s390ms->vertical_polarization) {
-+        uint8_t to_polarization[] =3D {
-+            [S390_CPU_ENTITLEMENT_LOW] =3D 1,
-+            [S390_CPU_ENTITLEMENT_MEDIUM] =3D 2,
-+            [S390_CPU_ENTITLEMENT_HIGH] =3D 3,
-+        };
-+        topology_id.entitlement =3D to_polarization[cpu->env.entitlement];
-+    }
-+
-+    return topology_id;
-+}
+> +               zstd && \
+> +    nosync dnf autoremove -y && \
+> +    nosync dnf clean all -y && \
+> +    rpm -qa | sort > /packages.txt && \
+> +    mkdir -p /usr/libexec/ccache-wrappers && \
+> +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
+> +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
+> +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
+> +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
+> +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+> +
+> +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
+> +ENV LANG "en_US.UTF-8"
+> +ENV MAKE "/usr/bin/make"
+> +ENV NINJA "/usr/bin/ninja"
+> +ENV PYTHON "/usr/bin/python3"
+> +ENV QEMU_CONFIGURE_OPTS --meson=internal
+> +
+> +RUN dnf install -y curl wget
 
-You can also use a switch of course.
-I'd also rename s390_topology_id.entitlement to polarization.
+Note this leaves the dnf cache since it doesn't remove 'clean all',
+and thus bloats the container layer.
 
->=20
-> so I really prefer to keep "horizontal", "low", "medium", "high" event=
-=20
-> "horizontal" will never appear.
->=20
-> A mater of taste, it does not change anything to the functionality or=20
-> the API.
+>  ENV COVERITY_TOOL_BASE=/coverity-tools
+>  COPY coverity_tool.tgz coverity_tool.tgz
+>  RUN mkdir -p /coverity-tools/coverity_tool && cd /coverity-tools/coverity_tool && tar xf /coverity_tool.tgz
 
-Well, it does change the API a bit, namely which values mean what,
-currently there is a value 0 that you're not supposed to use, that would go=
- away.
-It also shows up in some meta command to print qapi interfaces.
-And dropping it simplifies the implementation IMO --- you don't need
-to think about and prevent usage of a nonexistent state.
->=20
->=20
-> > >=20
-> > >=20
-> > > > [...]
-> > > >=20
-> > > > > diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> > > > > index b10a8541ff..57165fa3a0 100644
-> > > > > --- a/target/s390x/cpu.c
-> > > > > +++ b/target/s390x/cpu.c
-> > > > > @@ -37,6 +37,7 @@
-> > > > >    #ifndef CONFIG_USER_ONLY
-> > > > >    #include "sysemu/reset.h"
-> > > > >    #endif
-> > > > > +#include "hw/s390x/cpu-topology.h"
-> > > > >   =20
-> > > > >    #define CR0_RESET       0xE0UL
-> > > > >    #define CR14_RESET      0xC2000000UL;
-> > > > > @@ -259,6 +260,12 @@ static gchar *s390_gdb_arch_name(CPUState *c=
-s)
-> > > > >    static Property s390x_cpu_properties[] =3D {
-> > > > >    #if !defined(CONFIG_USER_ONLY)
-> > > > >        DEFINE_PROP_UINT32("core-id", S390CPU, env.core_id, 0),
-> > > > > +    DEFINE_PROP_INT32("socket-id", S390CPU, env.socket_id, -1),
-> > > > > +    DEFINE_PROP_INT32("book-id", S390CPU, env.book_id, -1),
-> > > > > +    DEFINE_PROP_INT32("drawer-id", S390CPU, env.drawer_id, -1),
-> > > > > +    DEFINE_PROP_BOOL("dedicated", S390CPU, env.dedicated, false)=
-,
-> > > > > +    DEFINE_PROP_UINT8("entitlement", S390CPU, env.entitlement,
-> > > > > +                      S390_CPU_ENTITLEMENT__MAX),
-> > > > I would define an entitlement PropertyInfo in qdev-properties-syste=
-m.[ch],
-> > > > then one can use e.g.
-> > > >=20
-> > > > -device z14-s390x-cpu,core-id=3D11,entitlement=3Dhigh
-> > >=20
-> > > Don't you think it is an enhancement we can do later?
-> > It's a user visible change, so no.
->=20
->=20
-> We could have kept both string and integer.
+We could actually make this entire thing be generated by the
+tests/lcitool/refresh script
 
-That sounds harder to do, I guess you'd have to reimplement the PropertyInf=
-o
-getters and setters to do that.
+Create  tests/lcitool/projects/coverity.yml with
 
->=20
->=20
-> > But it's not complicated, should be just:
-> >=20
-> > const PropertyInfo qdev_prop_cpus390entitlement =3D {
-> >      .name =3D "CpuS390Entitlement",
-> >      .enum_table =3D &CpuS390Entitlement_lookup,
-> >      .get   =3D qdev_propinfo_get_enum,
-> >      .set   =3D qdev_propinfo_set_enum,
-> >      .set_default_value =3D qdev_propinfo_set_default_value_enum,
-> > };
-> >=20
-> > Plus a comment & build bug in qdev-properties-system.c
-> >=20
-> > and
-> >=20
-> > extern const PropertyInfo qdev_prop_cpus390entitlement;
-> > #define DEFINE_PROP_CPUS390ENTITLEMENT(_n, _s, _f, _d) \
-> >      DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_cpus390entitlement, \
-> >                         CpuS390Entitlement)
-> >=20
-> > in qdev-properties-system.h
-> >=20
-> > You need to change the type of env.entitlement and set the default to 1=
- for medium
-> > and that should be it.
->=20
->=20
-> OK, it does not change anything to the functionality but is a little bit=
-=20
-> more pretty.
->=20
->=20
-> > >=20
-> > > > on the command line and cpu hotplug.
-> > > >=20
-> > > > I think setting the default entitlement to medium here should be fi=
-ne.
-> > > >=20
-> > > > [...]
-> > > right, I had medium before and should not have change it.
-> > >=20
-> > > Anyway what ever the default is, it must be changed later depending o=
-n
-> > > dedication.
-> > No, you can just set it to medium and get rid of the adjustment code.
-> > s390_topology_check will reject invalid changes and the default above
-> > is fine since dedication is false.
->=20
->=20
-> I do not want a default specification for the entitlement to depend on=
-=20
-> the polarization.
+--
+packages:
+  - curl
+  - wget
 
-I don't see why we cannot just set it to medium.
->=20
-> If we do as you propose, by horizontal polarization a default=20
-> entitlement with dedication will be accepted but will be refused after=
-=20
-> the guest switched for vertical polarization.
+And then pass *both*  'qemu' and 'coverity' as project names when
+generating the container, so it'll create a dockerfile that installs
+both sets of packages in one command.
 
-No, your check function doesn't look the polarization at all (and shouldn't=
-):
+The ENV/COPY/RUN commands can be put in the refersh script
 
-+static void s390_topology_check(uint16_t socket_id, uint16_t book_id,
-+                                uint16_t drawer_id, uint16_t entitlement,
-+                                bool dedicated, Error **errp)
-+{
 
-[...]
+coverity_extras = [
+ "ENV COVERITY_TOOL_BASE=/coverity-tools"
+ "COPY coverity_tool.tgz coverity_tool.tgz"
+ "RUN mkdir -p /coverity-tools/coverity_tool && cd /coverity-tools/coverity_tool && tar xf /coverity_tool.tgz"
+]
 
-+    if (dedicated && (entitlement =3D=3D S390_CPU_ENTITLEMENT_LOW ||
-+                      entitlement =3D=3D S390_CPU_ENTITLEMENT_MEDIUM)) {
-+        error_setg(errp, "A dedicated cpu implies high entitlement");
-+        return;
-+    }
-+}
->=20
-> So we need adjustment before the check in both cases.
+and adding  trailer="".join(coverity_extras)
 
-I don't see why, just always reject it.
->=20
-> I find it easier and more logical if there is no default value than to=
-=20
-> have a default we need to overwrite.
->=20
->=20
->=20
->=20
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
