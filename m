@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52E76E5F3B
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AB76E5F3A
 	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 12:58:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poj1W-0005hO-BH; Tue, 18 Apr 2023 06:57:22 -0400
+	id 1poj1n-0005kA-8t; Tue, 18 Apr 2023 06:57:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1poj1S-0005gV-MG; Tue, 18 Apr 2023 06:57:18 -0400
-Received: from m12.mail.163.com ([220.181.12.216])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qianfanguijin@163.com>)
- id 1poj1G-0001bY-Q4; Tue, 18 Apr 2023 06:57:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
- Content-Type; bh=InfjB9iOWo/v3KyhBZ2XxdEOVb5O0uNfEoQ96UeV5Do=;
- b=Z2S8QO6YJNQW2f2HNThsTQqKFlumFKYRsIirsdn6epVSr7ZaFWoIRQsCTNjsbR
- 4bX+8l3JB+OJya/lxk65fBGomMlShwEW5SM87mN16CSGFJv7Huw2YLKTynKI8SCu
- v4pfgl/C1dlq1P+PU3ftzLzIlB/wj8P3MihAaPPmXu/aU=
-Received: from [172.21.25.67] (unknown [218.201.129.19])
- by zwqz-smtp-mta-g5-3 (Coremail) with SMTP id _____wBnnXVudz5kdxJKBw--.47676S2;
- Tue, 18 Apr 2023 18:56:46 +0800 (CST)
-Message-ID: <0f6e9f22-cc16-065f-976e-657359297928@163.com>
-Date: Tue, 18 Apr 2023 18:56:46 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1poj1f-0005ih-CX
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 06:57:35 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1poj1d-0001gI-QC
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 06:57:31 -0400
+Received: by mail-lj1-x235.google.com with SMTP id a10so13122777ljr.5
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 03:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681815448; x=1684407448;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7K3VNSdk3z/8ZaLIajeUfu9u36LUEVZPb6wx1oh29EU=;
+ b=Ifj+7palNxJqPkPaP8nRgR45GU9wRPYAPRRVj3rDzCyJlQx6+XJQcZ+R9F2drf6O0Q
+ 8DGIlJecxWwzNaeshPL2ramI2NVnVt+1UUCOo+OzMDPE+M7xsiK0VhHSi8ucMzD8fnA3
+ kusg6dSeZhU3ZIZ1rZFYxshohtfK3wuDfuziK23GMk2iZJqdhNrEDxXrv5oUKzquMA+V
+ QSmGiP7dMp3qgO+Ffz4l5wnDG8F6B19nxfbrPt85lHniQFOdNLWC5ruJe9rBUE4ZgR+a
+ fa/Yr8yUkRQ3ENRkDYXOzuRxeEKQA9oUc14a8qJEF606IWkx9w499JiMvf2t7D9kIpKZ
+ FoKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681815448; x=1684407448;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7K3VNSdk3z/8ZaLIajeUfu9u36LUEVZPb6wx1oh29EU=;
+ b=cjcFebtgv2UtaXSIU8Y2u+6gLL45X6m0ivKFBl26kXzeiWutT4P5Ijr11gPpTSGNGc
+ OPrf3yyzvagZ/fXJhcV2l5du9PiGLmd7GoeSGWtIv2fXZuNaaWKD2GwQNE0osyhS1Kfb
+ XpIK9PA9KyhlDXMX0zB2j/qFCpy1O1e3Aogu4D5Pq0xQMXvJojY7C28Q/I+aaSdeOxhV
+ uNfzJyUQaMr6h/ywONoSfDWfBp/cPA85MrO6zJPkRdThAJsedGw6XXF+cQCaVoLSvmQW
+ AvafpGaN2jyI6uYuMr9SkiVQ0mvlAkvLRy7/xbOliBZ4djOY8p/hOfzVLQHBEiI3JS5T
+ t/9A==
+X-Gm-Message-State: AAQBX9fqXjcE5/whtGyh1gNCGP+UrB26NE5oA4oAoAOAzXQnBtbO2RfZ
+ eYlKuWVZjkKk1JU8ZdH8bd3eBQ==
+X-Google-Smtp-Source: AKy350ZpS2M1DvrlnoGROGU2VtLeI8z2vqzDBcFuOiKAZTrDajmxaRs8QURZPCDOmH5W9WXZV+bamQ==
+X-Received: by 2002:a2e:9986:0:b0:2a7:a719:5936 with SMTP id
+ w6-20020a2e9986000000b002a7a7195936mr632057lji.19.1681815447968; 
+ Tue, 18 Apr 2023 03:57:27 -0700 (PDT)
+Received: from [192.168.58.227] ([91.209.212.60])
+ by smtp.gmail.com with ESMTPSA id
+ v8-20020a2e9608000000b002a8a5afb87csm2293163ljh.20.2023.04.18.03.57.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Apr 2023 03:57:27 -0700 (PDT)
+Message-ID: <42916240-ca56-9028-da9b-1fe5c729fc12@linaro.org>
+Date: Tue, 18 Apr 2023 12:57:08 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 08/12] hw: arm: allwinner-r40: Fix the mmc controller's
- type
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230328054654.18620-1-qianfanguijin@163.com>
- <20230328054654.18620-9-qianfanguijin@163.com>
- <CAPan3WrcM_tyfsVQNkZxtpj3pse6O58Nvkcwg7X=XHYt+seGgQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] target/arm: Don't allow stage 2 page table walks to
+ downgrade to NS
 Content-Language: en-US
-From: qianfan <qianfanguijin@163.com>
-In-Reply-To: <CAPan3WrcM_tyfsVQNkZxtpj3pse6O58Nvkcwg7X=XHYt+seGgQ@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230414160413.549801-1-peter.maydell@linaro.org>
+ <20230414160413.549801-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230414160413.549801-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBnnXVudz5kdxJKBw--.47676S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WrW8Zw1xCr1ktF43XF1DWrg_yoW8JF4xpF
- 9xCay3KFZ0gay5AF12grn7Za48WayDWr40kanY9r9rXFyDGwnaqrW8tw45CFWkGr45Ca1S
- vwsagF40qFn8ZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07URE_iUUUUU=
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXRJV7VWBpR1G8AAAst
-Received-SPF: pass client-ip=220.181.12.216;
- envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=richard.henderson@linaro.org; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-2.284, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.284,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,56 +95,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/14/23 18:04, Peter Maydell wrote:
+> Bit 63 in a Table descriptor is only the NSTable bit for stage 1
+> translations; in stage 2 it is RES0.  We were incorrectly looking at
+> it all the time.
+> 
+> This causes problems if:
+>   * the stage 2 table descriptor was incorrectly setting the RES0 bit
+>   * we are doing a stage 2 translation in Secure address space for
+>     a NonSecure stage 1 regime -- in this case we would incorrectly
+>     do an immediate downgrade to NonSecure
+> 
+> A bug elsewhere in the code currently prevents us from getting
+> to the second situation, but when we fix that it will be possible.
+> 
+> Cc:qemu-stable@nongnu.org
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/ptw.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-在 2023/4/7 3:22, Niek Linnenbank 写道:
-> Hi Qianfan Zhao,
->
-> Is this change really needed as a separate patch?
-> Looks like it would make sense just to squash it with the original 
-> patch 01?
-The class type of TYPE_AW_SDHOST_SUN50I_A64 was introduced when patch-07.
-Add patch-01 doesn't has that class.
-
-So this is following the previous patch.
->
-> Regards,
-> Niek
->
-> On Tue, Mar 28, 2023 at 7:47 AM <qianfanguijin@163.com> wrote:
->
->     From: qianfan Zhao <qianfanguijin@163.com>
->
->     R40 has SAMP_DL_REG register and mmc2 controller has only 8K dma
->     buffer.
->     Fix it's compatible string.
->
->     Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
->     ---
->      hw/arm/allwinner-r40.c | 2 +-
->      1 file changed, 1 insertion(+), 1 deletion(-)
->
->     diff --git a/hw/arm/allwinner-r40.c b/hw/arm/allwinner-r40.c
->     index 0e4542d35f..b148c56449 100644
->     --- a/hw/arm/allwinner-r40.c
->     +++ b/hw/arm/allwinner-r40.c
->     @@ -271,7 +271,7 @@ static void allwinner_r40_init(Object *obj)
->
->          for (int i = 0; i < AW_R40_NUM_MMCS; i++) {
->              object_initialize_child(obj, mmc_names[i], &s->mmc[i],
->     -                                TYPE_AW_SDHOST_SUN5I);
->     +                                TYPE_AW_SDHOST_SUN50I_A64);
->          }
->
->          object_initialize_child(obj, "twi0", &s->i2c0,
->     TYPE_AW_I2C_SUN6I);
->     -- 
->     2.25.1
->
->
->
-> -- 
-> Niek Linnenbank
->
-
+r~
 
