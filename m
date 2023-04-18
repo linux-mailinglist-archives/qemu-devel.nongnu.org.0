@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849D66E6FBE
+	by mail.lfdr.de (Postfix) with ESMTPS id 275EC6E6FBD
 	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 00:59:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pouGx-0001Ju-6Y; Tue, 18 Apr 2023 18:58:03 -0400
+	id 1pouGz-0001L1-GZ; Tue, 18 Apr 2023 18:58:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGu-0001JZ-0W
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:58:00 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGx-0001Kn-IA
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:58:03 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGr-0007Cd-HZ
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:57:59 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pouGt-0007D4-Oy
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 18:58:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681858675;
+ s=mimecast20190719; t=1681858678;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x4L+QjbUgvxpJ4DIJDYUyZ6+HndeQMO+nRb8rfrhMnE=;
- b=OWJZZ+/o/L7+W3B7mcpg5RxI3DI1NbQTM1KILJI6rE4sV7kq+RmFshWiMkPToSyvj/Bfn9
- 12Lt/aMgsu9ykTxSNPeEuqD5cc6Lz4Gy2Mmntz6iWIzMAko9uDz0da8WTQW6TvQsg0pz1L
- q3PF99cQt2RW8PcU/qO2YXrZi1G98A8=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fgVm4ot3oncYZxZF5RHIGcFRboA9mEQIrrDpxafvVz0=;
+ b=BVnvwSmtMovaD9Cnuvbsv2aQYPFHcRrefL8w3w3xddVHsfjtkHEjTl0F3IGqq3LrkpoBLG
+ kDTCyjvTYF1aiNX6FAaauKjZmP+/4kdDxXCA2II20fgTjd7dbfLMftULFDYpTi6b1poSzL
+ jMDGXCX8ELE19Ymz+T3uJppOl4MYITQ=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-262-jUM82trFN225Y8W0EuUxng-1; Tue, 18 Apr 2023 18:57:54 -0400
-X-MC-Unique: jUM82trFN225Y8W0EuUxng-1
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-5ef4d54d84cso4323846d6.0
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:57:54 -0700 (PDT)
+ us-mta-222-R6gU-5kEOYimXzL2UihADQ-1; Tue, 18 Apr 2023 18:57:57 -0400
+X-MC-Unique: R6gU-5kEOYimXzL2UihADQ-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-74d96c33de9so67622985a.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 15:57:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681858673; x=1684450673;
+ d=1e100.net; s=20221208; t=1681858676; x=1684450676;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=x4L+QjbUgvxpJ4DIJDYUyZ6+HndeQMO+nRb8rfrhMnE=;
- b=VLgL8R+N95zF+iAGO1k4HY/NvvFrCVVzQglBWL5EiH9Gj2ID8Pr+k1/4tb8+yxfxP1
- l9dSYxKp8Tjqb9JoR4W2l6Us26yIA5sWI+G2TKy/uQgPirm6h9whT1ixKzwLG9ZXMzdA
- iuUSYwrq/M9ahos+cXFYOdwgO30/6zxwDIdv+pQziO9kVt1m+6dz/IP8TuRTD4Ri2s8v
- LACZHC0kcE2k2qPKEGHaSFtLWSabC5bsNWNf8RfUjl+Jjb+MbM4MuYYwXqfE/y1OgArE
- WLdpxPg64PK0gjk1NklFJ6aljnEW5LIttrnw1rybWqxXwZyQEe7PhQDGYVkilhDPzPbA
- en/A==
-X-Gm-Message-State: AAQBX9cM30xgvcpy9L+lvZzaxe612LM45Mz7dn2SN6Qcrg+MC4U1EqVL
- SewLLdD4eKC9Q4UCgplvifhwR5mMXdw6/IImgW4UkWkyw443DZzQqtOiyj/xqfFHkAv6LyJWRiX
- pIrYNay3syACIemuzgz2QaR18wCy+CWVhSmFXI7EpYRHEFKVUEViPNQjBV6sLziZLahEPB+JO
-X-Received: by 2002:a05:6214:400e:b0:5ef:4436:b92e with SMTP id
- kd14-20020a056214400e00b005ef4436b92emr23260682qvb.5.1681858673514; 
- Tue, 18 Apr 2023 15:57:53 -0700 (PDT)
-X-Google-Smtp-Source: AKy350a2hXbPYqmGmzNmfrdkTGXs5BS0yd3kukch2d1tymdkgmaM9kkLJL8J9+X6Zly96XjBoIiMag==
-X-Received: by 2002:a05:6214:400e:b0:5ef:4436:b92e with SMTP id
- kd14-20020a056214400e00b005ef4436b92emr23260658qvb.5.1681858673129; 
- Tue, 18 Apr 2023 15:57:53 -0700 (PDT)
+ bh=fgVm4ot3oncYZxZF5RHIGcFRboA9mEQIrrDpxafvVz0=;
+ b=JSnClTabpeJu8lFyrOESTq+xRm10kOVNctzsfXyXgvdgnupDTKBjR8P6laILHXAlqg
+ YMm2+TKNGl3EUvP2JAVITEFEjxXLLgQ4cHgctflKHQzb3MNr/x/Et5UpFDqcWvKgUPkj
+ RyTx79UEoV6FkWrmH7z6X37oopO1xl8+K1yLf9jF2WmJrCp2OIYulGd6ejgNPr0UNBcd
+ E5vV6p4ges+FN8UCwJEw3Ggmz4me/zVAFzhz3IxOOWEqWas56ow8XjKZf85+QyhRiIQN
+ oRNLx3MbYJMQXNuKmM5iTuQmGCVpowfDIZAnVusTfK/vMfY8rO2nHtwZHG5Z74b8Xvp1
+ cckw==
+X-Gm-Message-State: AAQBX9f9al/gyZkwP+PDaQI+1OSwFx1Ixd2ecRVhW1uZPDtr2M+ewmLX
+ uOrkoGW5v2sLMs11ZyUWaZlvE7OLzzipF8lOYySkhJPFDmU3/5+Tp0XbJdkDrdzj/hPOrU4E8Dy
+ Bvlh6unls7OxMXOYXLGH/76QAIp8t3XkQu7TaA3+vD6uTAWgXWpNl6APFDtu/+EWVm+XYd7My
+X-Received: by 2002:ad4:5ba7:0:b0:5f1:31eb:1f0e with SMTP id
+ 7-20020ad45ba7000000b005f131eb1f0emr5582350qvq.4.1681858676399; 
+ Tue, 18 Apr 2023 15:57:56 -0700 (PDT)
+X-Google-Smtp-Source: AKy350auUMFdrAi5+6gfwcvPdZGSD3TlaosH9IapNsxk2moQGdaRYGk5acR/OzdU/3PzZ/Yzyt4ysw==
+X-Received: by 2002:ad4:5ba7:0:b0:5f1:31eb:1f0e with SMTP id
+ 7-20020ad45ba7000000b005f131eb1f0emr5582324qvq.4.1681858676139; 
+ Tue, 18 Apr 2023 15:57:56 -0700 (PDT)
 Received: from x1n.redhat.com
  (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca. [70.52.229.124])
  by smtp.gmail.com with ESMTPSA id
- i3-20020ad45383000000b005e3c45c5cbdsm2937330qvv.96.2023.04.18.15.57.51
+ i3-20020ad45383000000b005e3c45c5cbdsm2937330qvv.96.2023.04.18.15.57.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 15:57:51 -0700 (PDT)
+ Tue, 18 Apr 2023 15:57:53 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com
-Subject: [PATCH 1/3] hostmem: Detect and cache fs type for file hostmem
-Date: Tue, 18 Apr 2023 18:57:47 -0400
-Message-Id: <20230418225749.1049185-2-peterx@redhat.com>
+Subject: [PATCH 2/3] vl.c: Create late backends before migration object
+Date: Tue, 18 Apr 2023 18:57:48 -0400
+Message-Id: <20230418225749.1049185-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230418225749.1049185-1-peterx@redhat.com>
 References: <20230418225749.1049185-1-peterx@redhat.com>
@@ -99,97 +99,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Detect the file system for a memory-backend-file object and cache it within
-the object if possible when CONFIG_LINUX (using statfs).
-
-Only support the two important types of memory (tmpfs, hugetlbfs) and keep
-the rest as "unknown" for now.
+The migration object may want to check against different types of memory
+when initialized.  Delay the creation to be after late backends.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- backends/hostmem-file.c  | 37 ++++++++++++++++++++++++++++++++++++-
- include/sysemu/hostmem.h |  1 +
- 2 files changed, 37 insertions(+), 1 deletion(-)
+ softmmu/vl.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index 25141283c4..2484e45a11 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -18,13 +18,17 @@
- #include "sysemu/hostmem.h"
- #include "qom/object_interfaces.h"
- #include "qom/object.h"
-+#ifdef CONFIG_LINUX
-+#include <sys/vfs.h>
-+#include <linux/magic.h>
-+#endif
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ea20b23e4c..ad394b402f 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3583,14 +3583,19 @@ void qemu_init(int argc, char **argv)
+                      machine_class->name, machine_class->deprecation_reason);
+     }
  
- OBJECT_DECLARE_SIMPLE_TYPE(HostMemoryBackendFile, MEMORY_BACKEND_FILE)
++    /*
++     * Create backends before creating migration objects, so that it can
++     * check against compatibilities on the backend memories (e.g. postcopy
++     * over memory-backend-file objects).
++     */
++    qemu_create_late_backends();
++
+     /*
+      * Note: creates a QOM object, must run only after global and
+      * compat properties have been set up.
+      */
+     migration_object_init();
  
- 
- struct HostMemoryBackendFile {
-     HostMemoryBackend parent_obj;
+-    qemu_create_late_backends();
 -
-+    __fsword_t fs_type;
-     char *mem_path;
-     uint64_t align;
-     bool discard_data;
-@@ -52,6 +56,15 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-         return;
-     }
- 
-+#ifdef CONFIG_LINUX
-+    struct statfs fs;
-+    if (!statfs(fb->mem_path, &fs)) {
-+        fb->fs_type = fs.f_type;
-+    } else {
-+        fb->fs_type = 0;
-+    }
-+#endif
-+
-     name = host_memory_backend_get_name(backend);
-     ram_flags = backend->share ? RAM_SHARED : 0;
-     ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
-@@ -181,6 +194,28 @@ static void file_backend_unparent(Object *obj)
-     }
- }
- 
-+const char *file_memory_backend_get_fs_type(Object *obj)
-+{
-+#ifdef CONFIG_LINUX
-+    HostMemoryBackendFile *fb = (HostMemoryBackendFile *)
-+        object_dynamic_cast(obj, TYPE_MEMORY_BACKEND_FILE);
-+
-+    if (!fb) {
-+        goto out;
-+    }
-+
-+    switch (fb->fs_type) {
-+    case TMPFS_MAGIC:
-+        return "tmpfs";
-+    case HUGETLBFS_MAGIC:
-+        return "hugetlbfs";
-+    }
-+
-+out:
-+#endif
-+    return "unknown";
-+}
-+
- static void
- file_backend_class_init(ObjectClass *oc, void *data)
- {
-diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
-index 39326f1d4f..0354cffa6b 100644
---- a/include/sysemu/hostmem.h
-+++ b/include/sysemu/hostmem.h
-@@ -81,5 +81,6 @@ void host_memory_backend_set_mapped(HostMemoryBackend *backend, bool mapped);
- bool host_memory_backend_is_mapped(HostMemoryBackend *backend);
- size_t host_memory_backend_pagesize(HostMemoryBackend *memdev);
- char *host_memory_backend_get_name(HostMemoryBackend *backend);
-+const char *file_memory_backend_get_fs_type(Object *obj);
- 
- #endif
+     /* parse features once if machine provides default cpu_type */
+     current_machine->cpu_type = machine_class->default_cpu_type;
+     if (cpu_option) {
 -- 
 2.39.1
 
