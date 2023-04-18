@@ -2,92 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30C96E5A93
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 09:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3666E6E5A94
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 09:37:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poftA-0002Ms-Tp; Tue, 18 Apr 2023 03:36:32 -0400
+	id 1poftI-0002NZ-HE; Tue, 18 Apr 2023 03:36:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poft9-0002MK-2B
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 03:36:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1poft7-0005Qt-Fo
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 03:36:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681803387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pNSUXHold44cPQDbSUjvZtk72tNgGZtN97+TYgx/yoY=;
- b=LWrQfs+NhwwiRuA6Er8TgPhUR53fc/7FDYMbS6NjrCVqPaw7gTfpFWAxpag1MwwK0WLipE
- 28PLQaSMnQw5r7ry1W6Mx8gqLKHo85ydj3Dae+OBdPABojPGmyx3n/rLmv1TClSbvX0wRD
- bTHc2su6j0BPplWX8Lz/tpZEhH73NcI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-27-2hhVTqkENSCcS2DvoxgB9g-1; Tue, 18 Apr 2023 03:36:26 -0400
-X-MC-Unique: 2hhVTqkENSCcS2DvoxgB9g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l20-20020a05600c4f1400b003f0a04fe9b9so6075502wmq.7
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 00:36:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1poftH-0002NC-5H
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 03:36:39 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1poftF-0005Rj-Cy
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 03:36:38 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id fw30so17968050ejc.5
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 00:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681803395; x=1684395395;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6yxyqwjPqfgzOj8BEoy/R9Kl5mJhfXmO92/e6f1UPrU=;
+ b=sVuUJ+9V+YQnPyIcswoKVLCj8mIFg/1VIuL5xSbnSd2NFJYlcJsWO9wSFwxmc6h4vO
+ J0gi2bz1fXZKbLzmhCDejxq1yfmAiSvu+Xnfo5mQPsCbgPNoT5IrHaZIgqrZ1xJAhIOr
+ jax9HDMex8CNmJmIokpzKmITSEoGgdXuQlLfyv4OIeVXzYTC0kRUuFwfnuXKUe6dFQCo
+ brctBRznTwcY/JPoumLJMcBVUEZu4ZB91X4yN+/j7BOdpDhJR0iWsdsgmw+zRdr6ms3W
+ 99/sJgaEgFA2xu9AcQH7jr76ZS8dDBK1grqvpARuDq/T9J7tqpT/+wJKN9IrViNVAnJh
+ Zg6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681803385; x=1684395385;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1681803395; x=1684395395;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pNSUXHold44cPQDbSUjvZtk72tNgGZtN97+TYgx/yoY=;
- b=he5L8X1srV2Hx+dnp0PB/QgiN1o6sU4WvyH+tgxLENQskZQeX9G5LJ51T8ocZ5GTJo
- q9irHQCTQma91KsbeWKYtmz+o8lCqCmeYHm52MtTkzm4eH5pHlhqPLhULjaEZbRPYXUy
- JhOLZvxYgt7v6PLD03ty5dO4Y1PNE0qbN+4VNzpITV7g8ANl525SqlM5zXzA1BbFjgSL
- NTDnlfIfudCKclxjK3WpSxn9wZHpt9Zx/bApjnii/9WIwXLCHzekUBSxhE7H276DRd2w
- DzSxcNjM53aDEQg/Am8VZb7x89pZTtYwJsigNMwTuaX72wn7C+PmQTyT9u9dLjipHNq6
- Ir+g==
-X-Gm-Message-State: AAQBX9ch1xgWP3MNEiufoG8pL0vVDt4spLyjxWa++zXsOKHjxp2wCBLy
- Ow0AwVRk57+/7Dcr05lYYAYguQdUmQfOEIWKKX4xCVj9dKe1EBoJ7zamCHSG0tz6VKW01O3LUoU
- V7EKVBtK11GMcGXE=
-X-Received: by 2002:a1c:7c15:0:b0:3ee:1acd:b039 with SMTP id
- x21-20020a1c7c15000000b003ee1acdb039mr12615455wmc.34.1681803385018; 
- Tue, 18 Apr 2023 00:36:25 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZeJu8XoYij+fw4de2mOdjk7PGaK33XugC6Pj8YTvlUAlIeX/Py84dydvdlql/Koe6AEcgeQQ==
-X-Received: by 2002:a1c:7c15:0:b0:3ee:1acd:b039 with SMTP id
- x21-20020a1c7c15000000b003ee1acdb039mr12615437wmc.34.1681803384715; 
- Tue, 18 Apr 2023 00:36:24 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-176-59.web.vodafone.de.
- [109.43.176.59]) by smtp.gmail.com with ESMTPSA id
- q4-20020adff944000000b002fda1b12a0bsm718909wrr.2.2023.04.18.00.36.22
+ bh=6yxyqwjPqfgzOj8BEoy/R9Kl5mJhfXmO92/e6f1UPrU=;
+ b=WLIZeAeSfVHBexFxqz9QuSdfl03Ljw+VXQJHAShYMlrfRTIz4ZiJGa4jNMbt8g1/Ny
+ UavPBPSOflmo8zi+F6ijQ1K5qwEnkX17R3Ey3t25gBXGE+3jUe+icxNRvqgjGcJJwCF7
+ CMaWvJzyIrG/GCViDQN/5MlYltosIZ0SxP5cFmBX4nWk+aw3ff11zdcupEpcbZkI+oGf
+ UsAUzBffqHKOnAR1ZgpRb1NWWDIly7k7tjW8PrHJxFdiMUxir/QpS4tUuSFIiy4lkMby
+ vAHmtBzqiApmeVhYRkb8lY53Vvm6pFWz4WoQGXixk4fYDWgGZShF4rFHg8cKh2CAYCPJ
+ 99bg==
+X-Gm-Message-State: AAQBX9dYrdy39r1RUa7F2avy3tUCudKFz1jWfFu4cz6TZliOuGQOeX5J
+ eRycsT79w1K7sjWDHz+asNQzng==
+X-Google-Smtp-Source: AKy350b+TXz0EuvD8aeZbpysOT+cje+AR4Q98DVTLe22b3zOMIaLyQoiNPWVUaYernjZJoGgqXRBnQ==
+X-Received: by 2002:a17:906:64ca:b0:94f:4d4d:23 with SMTP id
+ p10-20020a17090664ca00b0094f4d4d0023mr7460102ejn.68.1681803395636; 
+ Tue, 18 Apr 2023 00:36:35 -0700 (PDT)
+Received: from [192.168.58.227] ([91.223.100.53])
+ by smtp.gmail.com with ESMTPSA id
+ p3-20020a17090635c300b0094ed14a5b75sm6625273ejb.51.2023.04.18.00.36.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 00:36:24 -0700 (PDT)
-Message-ID: <e6969ec3-d2f7-8cb8-478b-9c7a15becb57@redhat.com>
-Date: Tue, 18 Apr 2023 09:36:22 +0200
+ Tue, 18 Apr 2023 00:36:35 -0700 (PDT)
+Message-ID: <e6fea4f5-4750-30df-4ce4-e2d36f5e4664@linaro.org>
+Date: Tue, 18 Apr 2023 09:36:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] ui/sdl2: disable SDL_HINT_GRAB_KEYBOARD on Windows
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 6/6] accel/tcg: Remain TLB_INVALID_MASK in the address
+ when TLB is re-filled
 Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- Stefan Weil <sw@weilnetz.de>
-References: <72f7af6f-d22f-c347-db88-b8d9a769d6a3@t-online.de>
- <20230418062823.5683-1-vr_qemu@t-online.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230418062823.5683-1-vr_qemu@t-online.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
+ <20230413090122.65228-7-liweiwei@iscas.ac.cn>
+ <a256a5fd-e408-74a3-5476-694d216e08d8@ventanamicro.com>
+ <e2288c5f-b4a1-9105-6c2e-60e51decd91d@linaro.org>
+In-Reply-To: <e2288c5f-b4a1-9105-6c2e-60e51decd91d@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.284, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.284,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,44 +100,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/04/2023 08.28, Volker Rümelin wrote:
-> Windows sends an extra left control key up/down input event for
-> every right alt key up/down input event for keyboards with
-> international layout. Since commit 830473455f ("ui/sdl2: fix
-> handling of AltGr key on Windows") QEMU uses a Windows low level
-> keyboard hook procedure to reliably filter out the special left
-> control key and to grab the keyboard on Windows.
+On 4/18/23 09:18, Richard Henderson wrote:
+>>> -            /*
+>>> -             * With PAGE_WRITE_INV, we set TLB_INVALID_MASK immediately,
+>>> -             * to force the next access through tlb_fill.  We've just
+>>> -             * called tlb_fill, so we know that this entry *is* valid.
+>>> -             */
+>>> -            flags &= ~TLB_INVALID_MASK;
 > 
-> The SDL2 version 2.0.16 introduced its own Windows low level
-> keyboard hook procedure to grab the keyboard. Windows calls this
-> callback before the QEMU keyboard hook procedure. This disables
-> the special left control key filter when the keyboard is grabbed.
 > 
-> To fix the problem, disable the SDL2 Windows low level keyboard
-> hook procedure.
+> I missed the original patch, but this is definitely wrong.
 > 
-> Reported-by: Bernhard Beschow <shentey@gmail.com>
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> ---
->   ui/sdl2.c | 3 +++
->   1 file changed, 3 insertions(+)
+> Clearing this bit locally (!) is correct because we want to inform the caller of 
+> probe_access_* that the access is valid.  We know that it is valid because we have just 
+> queried tlb_fill (and thus for riscv, PMP).
 > 
-> diff --git a/ui/sdl2.c b/ui/sdl2.c
-> index 00aadfae37..9d703200bf 100644
-> --- a/ui/sdl2.c
-> +++ b/ui/sdl2.c
-> @@ -855,7 +855,10 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
->   #ifdef SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR /* only available since SDL 2.0.8 */
->       SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
->   #endif
-> +#ifndef CONFIG_WIN32
-> +    /* QEMU uses its own low level keyboard hook procecure on Windows */
->       SDL_SetHint(SDL_HINT_GRAB_KEYBOARD, "1");
-> +#endif
->   #ifdef SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED
->       SDL_SetHint(SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED, "0");
->   #endif
+> Clearing the bit locally does *not* cause the tlb entry to be cached -- the INVALID bit is 
+> still set within the tlb entry.  The next access will again go through tlb_fill.
+> 
+> What is the original problem you are seeing?  The commit message does not say.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+ From https://lore.kernel.org/qemu-devel/3ace9e9e-91cf-36e6-a18f-494fd44dffab@iscas.ac.cn/
+I see that it is a problem with execution.
 
+By eye, it appears that get_page_addr_code_hostp needs adjustment, e.g.
+
+     (void)probe_access_internal(env, addr, 1, MMU_INST_FETCH,
+                                 cpu_mmu_index(env, true), false, &p, &full, 0);
+     if (p == NULL) {
+         return -1;
+     }
++   if (full->lg_page_size < TARGET_PAGE_BITS) {
++       return -1;
++   }
+     if (hostp) {
+         *hostp = p;
+     }
+
+It seems like we could do slightly better than this, perhaps by single-stepping through 
+such a page, but surely this edge case is so uncommon as to not make it worthwhile to 
+consider.
+
+
+r~
 
