@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257FC6E6BD2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 20:12:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0056E6BE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 20:17:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1popml-0006gR-M3; Tue, 18 Apr 2023 14:10:35 -0400
+	id 1popsO-0008OG-30; Tue, 18 Apr 2023 14:16:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1popmi-0006fy-IE
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 14:10:32 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1popsB-0008Nx-4O
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 14:16:11 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1popmg-0005YZ-Cx
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 14:10:32 -0400
-Received: by mail-ej1-x634.google.com with SMTP id b16so208587ejz.3
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 11:10:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pops8-0006st-VQ
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 14:16:10 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id dx24so31506167ejb.11
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 11:16:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681841427; x=1684433427;
+ d=gmail.com; s=20221208; t=1681841767; x=1684433767;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5WtlRNnNqU5WYL0Ne5EUXDA7D3Mh4l6OW5WAeQsdOK4=;
- b=fU0+DZhfCS5f7KkSEXYLFSXO7bh+5iYUui+8QPjPrBdTa+gEhHXwuRAuJl5xxFTeHs
- d6rSxaKEBH51cFNz3IyUS6Et2Q6R4YmGmprZSpat2267Ngo+3g4UPM26tvZWdsibEyHP
- SZtGy3+w4AHaKNj72Ya4s6scZIZAYFvDdDbvytc1y7bt8ybhgQIFf+nSphph1oWmMaP2
- lkAmzOFhgcKDmF/2TUu5qfe3cLPBeeVWnmtnOkmyyriIaw1YFTH2SwfnBDD2nGzcASot
- V9HQ+AQaeBFfd9qB2rB/oJrB2ZVCF7gQvM4mkOrV7K8va6nrOPumxxZt14XOYAWHl8ln
- E83Q==
+ bh=DAVXvHR/ES7Vw55lHSaBTlkSJVsKBzrR4HdICzILZmg=;
+ b=ASe2C3ZkcLoLuf5XKLlcXRPPc+IPwl8ahmU2nFXmcl2KDsLxHHeEfbLmvYwX0xKlzN
+ nPfZBqhsB/W3JRBOtL+Vahr6I+8S1TVL3ELDuLFWFxVaXEzRaGo+RQKnaaPb9PxYNUmv
+ I5NRlvgAWz+ZRIrw7BAXdFz2j4dQYvdZ7AzuKplOkhV3W6/C8J2bEt8TkNd1P/h/kVgK
+ xaSl75Uli9p3Gd9zWAQyP5zqSW91sHRZHvjk/o5jroYcd31pC+jBcWUe4soKOuChc8is
+ Pn7bQqdO60WxQT65rMbJhfJ4LBnz735AHSuAVlvQAF1f+VsLfd7BQ/8Z4mai+wBVxj9C
+ iRYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681841427; x=1684433427;
+ d=1e100.net; s=20221208; t=1681841767; x=1684433767;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5WtlRNnNqU5WYL0Ne5EUXDA7D3Mh4l6OW5WAeQsdOK4=;
- b=SSyszBmsE5llBEd78w2Rmkmu/Kxc7K0Y+6d3rT9U/sn8wIz1ynp+1Q2rSK9t2KQzgi
- h8Ted9ottaogxNH2Iepj/BkVhgWXld5h1HY4VHS1/MEtEDc8y93LbU3zzBOOfaIYEraw
- To3tJRtT6YYFBjX5/nAbwiUnOvuTUGOgFadZ6LNRK8ftU1g/1gOhKHylni6GzU0o9a5/
- JUts0Xpxb+cojsnyQC7iImxdbbkfkf92UCtHvuzFGzga2ZUPgnWq90UetDz7chzN+Ugn
- DL6ta1G1eX+bklGXI/VqYCReca/rdkoVtyPzgPGz+nXG0fUiu0RheHe/t2R1EKaO5Du4
- IAwQ==
-X-Gm-Message-State: AAQBX9dfeeMadrnaZtGOetDPE7adIaY0GjEnRyJQLXI3G5a2pBXJrKBq
- z7wunwq2dN9jYeHqO6hP4ig=
-X-Google-Smtp-Source: AKy350ZQfizL+lJp/SCnjxK1lfz/x0BjDbgowPIjwHdIT9X5l7dy1010LyyXOZNm/vrh2BdVaRmgaQ==
-X-Received: by 2002:a17:906:c7c3:b0:931:c2f0:9437 with SMTP id
- dc3-20020a170906c7c300b00931c2f09437mr10966144ejb.8.1681841427151; 
- Tue, 18 Apr 2023 11:10:27 -0700 (PDT)
+ bh=DAVXvHR/ES7Vw55lHSaBTlkSJVsKBzrR4HdICzILZmg=;
+ b=Xn+fknZGDgYSB/sE7tNQeFhc/5iTiDtdqqI+fi6X9/Rh0Q8IGnrsJXFcxP3W3Z1+4E
+ eOSHOz7fkq2/+T339mo/vUb2QOVLgxMN50ylZZbOtThQL1y/LGLnpN9eZUWjxZzRyjw2
+ /jIE8bpQTDDqaXLdpyw676dpJR5290uRCvXOt2aAWzjkAUy6+H1b+4D8dV5BvnnIJeC3
+ pqKYEQAqeSpJBhh2P08mm3l7wt1V6c8NGoYLeFO/kbD493Uk0yBwk4VDe9OswobYGb3q
+ XsD6SbMNxb3BxQ01lE5SkTRPNnj0Fj+V9oT9ZJ6z2JnD/tFeaMVtAjIsxqYNLNBaOQf4
+ egAQ==
+X-Gm-Message-State: AAQBX9dGBqXGIqYFbE4jgnUoesKodkppioDn6mOH3sB+ENF+Gebu4cpm
+ HBDNEiLzVKcJ3c++RzKd72c=
+X-Google-Smtp-Source: AKy350Z1VsCIGc1LFOWmeNIdcwlmZZ0kV4wCA5YCT9cZyR5Rsd7pV1x3F93gP5gOySfhk9gxLKuDYA==
+X-Received: by 2002:a17:907:a0c7:b0:953:42bf:9917 with SMTP id
+ hw7-20020a170907a0c700b0095342bf9917mr359974ejc.70.1681841766924; 
+ Tue, 18 Apr 2023 11:16:06 -0700 (PDT)
 Received: from [127.0.0.1] ([62.214.191.67]) by smtp.gmail.com with ESMTPSA id
- q21-20020aa7cc15000000b004fbf6b35a56sm7236003edt.76.2023.04.18.11.10.26
+ wy5-20020a170906fe0500b0094f1d0bad81sm5327971ejb.139.2023.04.18.11.16.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 11:10:26 -0700 (PDT)
-Date: Tue, 18 Apr 2023 18:09:39 +0000
+ Tue, 18 Apr 2023 11:16:06 -0700 (PDT)
+Date: Tue, 18 Apr 2023 18:14:58 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: =?ISO-8859-1?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>,
  =?ISO-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>
 CC: qemu-devel@nongnu.org, Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH] ui/sdl2: disable SDL_HINT_GRAB_KEYBOARD on Windows
-In-Reply-To: <20230418062823.5683-1-vr_qemu@t-online.de>
-References: <72f7af6f-d22f-c347-db88-b8d9a769d6a3@t-online.de>
- <20230418062823.5683-1-vr_qemu@t-online.de>
-Message-ID: <71CB1BDE-27E2-4101-910C-A58DAB6539CC@gmail.com>
+Subject: Re: [PATCH v2 1/1] ui/sdl2: disable SDL_HINT_GRAB_KEYBOARD on Windows
+In-Reply-To: <20230418065652.7152-1-vr_qemu@t-online.de>
+References: <59ffc014-ec48-64a4-3403-7e64c5594053@t-online.de>
+ <20230418065652.7152-1-vr_qemu@t-online.de>
+Message-ID: <B538687F-5D53-4463-A620-574855BBA103@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,7 +93,7 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 18=2E April 2023 06:28:23 UTC schrieb "Volker R=C3=BCmelin" <vr_qemu@t-=
+Am 18=2E April 2023 06:56:52 UTC schrieb "Volker R=C3=BCmelin" <vr_qemu@t-=
 online=2Ede>:
 >Windows sends an extra left control key up/down input event for
 >every right alt key up/down input event for keyboards with
@@ -112,6 +112,8 @@ online=2Ede>:
 >
 >Reported-by: Bernhard Beschow <shentey@gmail=2Ecom>
 >Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online=2Ede>
+
+FWIW:
 
 Tested-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
