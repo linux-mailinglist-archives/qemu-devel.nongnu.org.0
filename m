@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156C96E65BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 15:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760B16E5C00
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 10:30:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1polH7-0006yT-Ke; Tue, 18 Apr 2023 09:21:37 -0400
+	id 1pogiO-0003bA-GJ; Tue, 18 Apr 2023 04:29:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erik.schilling@linaro.org>)
- id 1poghx-0003YG-Oc
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:29:02 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pogiM-0003ap-51
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:29:26 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <erik.schilling@linaro.org>)
- id 1poghw-0007Lv-7C
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:29:01 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-2f3fe12de15so1367926f8f.3
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 01:28:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pogiK-0007Of-FS
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 04:29:25 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id u13so28558126ybu.5
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 01:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681806538; x=1684398538;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1681806563; x=1684398563;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6LvL0HsH/Rp4XNBniooL+fT0q3eCcuW4TJf74hsB+UU=;
- b=tpvHp4P3i1pNUlJOM+WWz8eSl1PGnh64bSGuafTYqIe5fCaoVel09SiviDC3EsvNAF
- U269F/12iiR7a7hmdOsrP8TVNc33A7gAhczSGTdYvRRDJfNL3VhY8VQrQnLqzxJE7p4f
- 8SWU+zCJPrkfmCkiV3qJWrDWprXoSzKdzGLRbkcs70cKjGbPRouH098Xan7r1uxngq0Q
- kPKu9F2r5NnjQy9EzY61/ItudGo9w28vjZdm65PC8i7ZWPNdx16O8uupg6y9ArIIlaD3
- 1uUmB1jQit2LpZjOE7QCQt6NDNUV2falvY/eNyxSg8UKj+5gFdSiLN9hjOKdsy1tvyTL
- TQ4A==
+ bh=7mX+Bj0jEr5PxvBnFl7R7rdC3vWOEW5rSv9fIGu4QTw=;
+ b=Azmnl59q4fGlJi40PQlw4+Lk9GzAb6nL7rFONCkqttsCwA/S4OQsCjD6FTB2cmrPc6
+ BuBvjgACDQJOFf3n0p3a9qQx65Z7ZNFJKYnyPrvBzr4nDCP7NF7Hn44V9IovAArxNek3
+ RqHJs4KYBselLyjNiXHzFOvlxKy5GBeRxsDJUg7R/TL8qlFXBCrsY5akv4pteUFxOFS5
+ 4lkyL7aaUR0pLqryfBLjVJL0hcDuusNt2sE3i5bVj6Ns+vukkwto8v1/VdPoA9KLoXZ7
+ hgbQwz6mRMGAexO5lom4QtUnTdATsE9ZNnUUQXxGWwge/UEtZx9SWm+tanMCUQA4fbMA
+ lvSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681806538; x=1684398538;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1681806563; x=1684398563;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6LvL0HsH/Rp4XNBniooL+fT0q3eCcuW4TJf74hsB+UU=;
- b=SSaBOnccfbEEUAiaTRuMFF5C+LWXxaZC62yMSOE0ikt6Wi/hYRCU499P9nbQBKPX65
- 3ihKucNxXLaDE5pzgZtv1TobcQDc7Z+Xq/pk7NKdY7668aCdKJNOy4Qo2PlcYxuhMTQn
- IkB8llsaJF+I/0p8/mDxJjcg9YkIM9P0WPhKXJxKXaNqIhfeu1PX/WfEc7+B4LlewXB5
- j3EEgN7WPS/+ugHk8n4/e4NC+UCWx5qz0HIaMqdIRU+N9k/e6ZXgSJJDh9RsQSb0A1Aw
- Y4/0mn5JiA3DLdcWp1V8wDgpQ3aWUL7EnKa3T1XQyUted4f/iD118LK0HPMfmTjXD+Uv
- 32+A==
-X-Gm-Message-State: AAQBX9dOXfPwZPuKzVm4DCJjy8LfH0RIy4OdmEfNkYx66xnROW1WhDOE
- JoWF2+iFeOjGI2KEoLo4dVyS9g==
-X-Google-Smtp-Source: AKy350ZdQOSgZETO4PhrVbw8ciDbo+yYNOWEvC/xaybEnhIDIua3mnNn3Wr8LgkgHrwSNERkgsqBzw==
-X-Received: by 2002:a5d:5741:0:b0:2f5:5fa1:d816 with SMTP id
- q1-20020a5d5741000000b002f55fa1d816mr1186038wrw.50.1681806538158; 
- Tue, 18 Apr 2023 01:28:58 -0700 (PDT)
-Received: from [192.168.1.149] (i5C741FCE.versanet.de. [92.116.31.206])
+ bh=7mX+Bj0jEr5PxvBnFl7R7rdC3vWOEW5rSv9fIGu4QTw=;
+ b=jRS8gyZfRn2XFkSE0y+L01IWTxsBsPm+qhlDgDDzP3dLT/lfC7AN7sbB1eDHRDDTdx
+ r3h37WW9ZakuWSrIc/wIQ31Bimy1ietdV1RTqRZM/8iteZ0Zz4Rq1J4isPbqvWSYXalN
+ Xjp7KmEnr5rFj+QdAbDaTL9T3uM9wNWahBm5zfbxZc+N/LHqar3wLGTchknKt0aWdjB3
+ FmdI7NzKn8XSvtoHa29gopE5Tz7QfXX41Ebe0oR9z1hBQHsEJcqmHo1Nh3c4YP/oYHd8
+ BDIPid7PWNxIvFyYBLQ9+l07ED96ssDpeXVLxf1DYahozUTgxVuGcDQfS4Z4g6jv+pUP
+ 2Wdw==
+X-Gm-Message-State: AAQBX9dzKCEzReG2Q/PlQxd4Pe60GAlF6BB98/26Z+PIhOZcOQNYp5f+
+ CqxTseqItKJ81n1bzsy+VL4lpQ==
+X-Google-Smtp-Source: AKy350Zebgq93TLX0XQfVLljkqUahVOlLxnE9RM5CTTMuQ+jTKwWr+v2wV9nHWXaAWRQOa1YwxQ01g==
+X-Received: by 2002:a25:6741:0:b0:b8f:5639:cb8a with SMTP id
+ b62-20020a256741000000b00b8f5639cb8amr16931435ybc.9.1681806563318; 
+ Tue, 18 Apr 2023 01:29:23 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:8079:8dd6:3f0f:2ab3:5c15:47fa?
+ ([2605:ef80:8079:8dd6:3f0f:2ab3:5c15:47fa])
  by smtp.gmail.com with ESMTPSA id
- c1-20020a056000104100b002cea9d931e6sm12466036wrx.78.2023.04.18.01.28.57
+ 189-20020a8117c6000000b00545a08184b1sm3632502ywx.65.2023.04.18.01.29.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 01:28:57 -0700 (PDT)
-Message-ID: <650bf2ae-20b9-a5fa-3342-c069f680ddd7@linaro.org>
-Date: Tue, 18 Apr 2023 10:28:56 +0200
+ Tue, 18 Apr 2023 01:29:22 -0700 (PDT)
+Message-ID: <2f3af482-1dce-ff3b-47d3-db3142f4cc29@linaro.org>
+Date: Tue, 18 Apr 2023 10:29:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 06/12] virtio: add PCI stub for vhost-user-device
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- virtio-fs@redhat.com, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20230414160433.2096866-1-alex.bennee@linaro.org>
- <20230414160433.2096866-7-alex.bennee@linaro.org>
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 09/17] target/riscv: Add Zvbb ISA extension support
 Content-Language: en-US
-From: Erik Schilling <erik.schilling@linaro.org>
-In-Reply-To: <20230414160433.2096866-7-alex.bennee@linaro.org>
+To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>, qemu-devel@nongnu.org
+Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, pbonzini@redhat.com,
+ philipp.tomsich@vrull.eu, kvm@vger.kernel.org, qemu-riscv@nongnu.org,
+ William Salmon <will.salmon@codethink.co.uk>
+References: <20230417135821.609964-1-lawrence.hunter@codethink.co.uk>
+ <20230417135821.609964-10-lawrence.hunter@codethink.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230417135821.609964-10-lawrence.hunter@codethink.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=erik.schilling@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=richard.henderson@linaro.org; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -90,7 +85,6 @@ X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 18 Apr 2023 09:21:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,18 +99,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/17/23 15:58, Lawrence Hunter wrote:
+> diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
+> index ac7d28c251e..322dcc0687f 100644
+> --- a/accel/tcg/tcg-runtime-gvec.c
+> +++ b/accel/tcg/tcg-runtime-gvec.c
+> @@ -550,6 +550,17 @@ void HELPER(gvec_ands)(void *d, void *a, uint64_t b, uint32_t desc)
+>       clear_high(d, oprsz, desc);
+>   }
+>   
+> +void HELPER(gvec_andsc)(void *d, void *a, uint64_t b, uint32_t desc)
+> +{
+> +    intptr_t oprsz = simd_oprsz(desc);
+> +    intptr_t i;
+> +
+> +    for (i = 0; i < oprsz; i += sizeof(uint64_t)) {
+> +        *(uint64_t *)(d + i) = *(uint64_t *)(a + i) & ~b;
+> +    }
+> +    clear_high(d, oprsz, desc);
+> +}
+> +
+>   void HELPER(gvec_xors)(void *d, void *a, uint64_t b, uint32_t desc)
+>   {
+>       intptr_t oprsz = simd_oprsz(desc);
+> diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
+> index e141a6ab242..d0862004831 100644
+> --- a/accel/tcg/tcg-runtime.h
+> +++ b/accel/tcg/tcg-runtime.h
+> @@ -217,6 +217,7 @@ DEF_HELPER_FLAGS_4(gvec_nor, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+>   DEF_HELPER_FLAGS_4(gvec_eqv, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+>   
+>   DEF_HELPER_FLAGS_4(gvec_ands, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+> +DEF_HELPER_FLAGS_4(gvec_andsc, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+
+The accel/tcg/ patch must be separate.
+And I think "andcs" is the proper name.
+
+> +static void tcg_gen_gvec_andsc(unsigned vece, uint32_t dofs, uint32_t aofs,
+> +                               TCGv_i64 c, uint32_t oprsz, uint32_t maxsz)
+> +{
+> +    static GVecGen2s g = {
+> +        .fni8 = tcg_gen_andc_i64,
+> +        .fniv = tcg_gen_andc_vec,
+> +        .fno = gen_helper_gvec_andsc,
+> +        .prefer_i64 = TCG_TARGET_REG_BITS == 64,
+> +    };
+> +
+> +    g.vece = vece;
+> +
+> +    tcg_gen_dup_i64(vece, c, c);
+> +    tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, c, &g);
+> +}
+
+This belongs in tcg-op-gvec.c.
+The .vece member should be constant as MO_64.
+See tcg_gen_gvec_ands from whence you copied this.
+
+> +static void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
+> +                               TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
+> +{
+> +    TCGv_i32 tmp = tcg_temp_new_i32();
+> +    tcg_gen_sub_i32(tmp, tcg_constant_i32(1 << (vece + 3)), shift);
+> +    tcg_gen_gvec_rotls(vece, dofs, aofs, tmp, oprsz, maxsz);
+> +}
+
+This could plausibly go into tcg-op-gvec.c as well.
+To be followed up by proper backend support (which was omitted before because there were 
+no users).
 
 
-On 4/14/23 18:04, Alex Bennée wrote:
-> This is all pretty much boilerplate.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Erik Schilling <erik.schilling@linaro.org>
+r~
 
-Tested with d6f9fb0 of a rust-vmm SCSI device [1] and -device 
-vhost-user-device-pci,virtio-id=8,num_vqs=3,config_size=36,chardev=vus
-
-[1] https://github.com/rust-vmm/vhost-device/pull/301
-
-- Erik
 
