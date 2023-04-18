@@ -2,99 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF79D6E6676
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 15:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A076E66AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 16:08:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1polr3-0004ZV-6D; Tue, 18 Apr 2023 09:58:45 -0400
+	id 1polyv-0008Ex-6R; Tue, 18 Apr 2023 10:06:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1polqw-0004YQ-Ac
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 09:58:38 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1polqu-0006fm-LG
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 09:58:38 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f177cb2c6cso6182595e9.2
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 06:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681826315; x=1684418315;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vGySRZrs/b8njlSGrjtzjuPbx1JL14da6i8ba99Is3E=;
- b=uk+TxpZt6Ud9SwLze7/gzjXKw05Yu1KtKb35B0tsS7PBU94thWt40bsBQnk2eF3LsF
- VGSF2UHy7yiyV5v6l/Gxgwj0jlGWNW9Te+lqm4FvHAnXUpgRaF2V8+DTK1OjIAL056cF
- N4O8xbZEp5M498yKXJH7206ctyhRYvPnxffgyqwrjQTmo8+IYkw+QXK5e5H19mmPYd5H
- IBOO4vmjkGlDCbsUv4ZTgdQLOftAPmdBfGF9lttDBsoJkk/Iczz+ZZDoYZsqu9/vGqBJ
- hvdgbi+wMT3v/louhp5fKk6IZQWPLw42nGZlTIsgV5WzDz6K8C3dCJoaIcDXfMS4+kUy
- oK/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681826315; x=1684418315;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=vGySRZrs/b8njlSGrjtzjuPbx1JL14da6i8ba99Is3E=;
- b=Kp42DUBDjhT/91uQIlqzZWwlkxHsKhPJikqbgon+WSYh70EAGULxmPtNmfv0PStpvF
- VpnVCCSWpffaO8jIl4HfAxxxGQONaI5DI2qXEXVsSqoDi0M1TYO4WpEW/W7o0dMkVBpA
- lFxNmqvUpXbGjHyYRoHJcUREiFAr0TX+1I4O2I9hNbSnhPwy2hQGCvSKGx31SzJzCWe6
- Zu2bYK/Kjx2JPeLPo3vAL1w2GQS9OiO+DPHuI5GOgj7NrwkOLGlwgHyWTeOCVhAmxud5
- ESra/SXlcaNop2305zvxZDCCnrzVpegS/tgur/aZa8SY1Pddr9EQluFOxYSlIsMvMjPn
- qkfw==
-X-Gm-Message-State: AAQBX9fr8utHZ1ztc/L6LZg7MRqc4PoyBUm+yEmA/zgsFVN8uVYtMs8j
- 3ebI+EChc1OCWHyqE9+4rTPX7A==
-X-Google-Smtp-Source: AKy350azYH1QyIZJteWYhrBdTdgAMIOcRSwIxrUCxuU8o70MwNtV3fnTEbrIsFDkwL4jPZWFqPVqlQ==
-X-Received: by 2002:a5d:6a06:0:b0:2f0:2dfe:e903 with SMTP id
- m6-20020a5d6a06000000b002f02dfee903mr2236438wru.69.1681826314647; 
- Tue, 18 Apr 2023 06:58:34 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- b7-20020adfde07000000b002f3fcb1869csm13179900wrm.64.2023.04.18.06.58.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Apr 2023 06:58:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C9FA01FFB7;
- Tue, 18 Apr 2023 14:58:33 +0100 (BST)
-References: <calendar-8e6a5123-9421-4146-9451-985bdc6a55b9@google.com>
- <87r0sn8pul.fsf@secure.mitica>
-User-agent: mu4e 1.11.2; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: quintela@redhat.com
-Cc: afaerber@suse.de, juan.quintela@gmail.com, ale@rev.ng, anjo@rev.ng,
- bazulay@redhat.com, bbauman@redhat.com, chao.p.peng@linux.intel.com,
- cjia@nvidia.com, cw@f00f.org, david.edmondson@oracle.com, Eric Northup
- <digitaleric@google.com>, dustin.kirkland@canonical.com,
- eblake@redhat.com, edgar.iglesias@gmail.com, elena.ufimtseva@oracle.com,
- eric.auger@redhat.com, f4bug@amsat.org, Felipe Franciosi
- <felipe.franciosi@nutanix.com>, "iggy@theiggy.com" <iggy@kws1.com>, Warner
- Losh <wlosh@bsdimp.com>, jan.kiszka@web.de, jgg@nvidia.com,
- jidong.xiao@gmail.com, jjherne@linux.vnet.ibm.com,
- joao.m.martins@oracle.com, konrad.wilk@oracle.com, kvm@vger.kernel.org,
- mburton@qti.qualcomm.com, mdean@redhat.com, mimu@linux.vnet.ibm.com,
- peter.maydell@linaro.org, qemu-devel@nongnu.org,
- richard.henderson@linaro.org, shameerali.kolothum.thodi@huawei.com,
- stefanha@gmail.com, wei.w.wang@intel.com, z.huo@139.com,
- zwu.kernel@gmail.com
-Subject: Re: QEMU developers fortnightly conference call for agenda for
- 2023-04-18
-Date: Tue, 18 Apr 2023 14:57:53 +0100
-In-reply-to: <87r0sn8pul.fsf@secure.mitica>
-Message-ID: <87leipe1h2.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1polys-0008EE-4c; Tue, 18 Apr 2023 10:06:50 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1polyp-0008Uf-5k; Tue, 18 Apr 2023 10:06:49 -0400
+Received: from localhost.localdomain (unknown [180.165.241.15])
+ by APP-05 (Coremail) with SMTP id zQCowADX32froz5kHH+IFA--.38119S2;
+ Tue, 18 Apr 2023 22:06:37 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
+ lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 0/8] target/riscv: Fix PMP related problem
+Date: Tue, 18 Apr 2023 22:06:24 +0800
+Message-Id: <20230418140632.53166-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowADX32froz5kHH+IFA--.38119S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw18Gr1rtr4UCFW8Gw1kuFg_yoW5JF4fpF
+ Z3C343tr4DJrW7Xr1ftr47ur15Ars5WF4UJ3ZIyw1rZ3Wa934rCryvkw409FyUJF95WrW3
+ KF4jyr97WF4UZw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+ 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU5s
+ jjDUUUU
+X-Originating-IP: [180.165.241.15]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,22 +74,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This patchset tries to fix the PMP bypass problem issue https://gitlab.com/qemu-project/qemu/-/issues/1542:
 
-Juan Quintela <quintela@redhat.com> writes:
+- TLB will be cached if the matched PMP entry cover the whole page.  However PMP entries with higher priority may cover part of the page (but not match the access address), which means different regions in this page may have different permission rights. So the TLB also cannot be cached in this case (patch 1).
+- Writing to pmpaddr didn't trigger tlb flush (patch 3). 
+- The tb isn't flushed when PMP permission changes, so It also may hit  the tb and bypass the changed PMP check for instruction fetch (patch 5). 
+- We set the tlb_size to 1 to make the TLB_INVALID_MASK set, and and the next access will again go through tlb_fill. However, this way will not work in tb_gen_code() => get_page_addr_code_hostp(): the TLB host address will be cached, and the following instructions can use this host address directly which may lead to the bypass of PMP related check (patch 6).
 
-> Hi
->
-> Please, send any topic that you are interested in covering.
->
-<snip>
->
->  Call details:
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-pmp-fix-v2
 
-Please find the recording at:
+v2:
 
-  https://fileserver.linaro.org/s/nJTSCLyQBfo6GLJ
+- Update commit message for patch 1
+- Add default tlb_size when pmp is diabled or there is no rules and only get the tlb size when translation success in patch 2
+- Update get_page_addr_code_hostp instead of probe_access_internal to fix the cached host address for instruction fetch in patch 6
+- Add patch 7 to make the short up really work in pmp_hart_has_privs
+- Add patch 8 to use pmp_update_rule_addr() and pmp_update_rule_nums() separately
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Weiwei Li (8):
+  target/riscv: Update pmp_get_tlb_size()
+  target/riscv: Move pmp_get_tlb_size apart from
+    get_physical_address_pmp
+  target/riscv: flush tlb when pmpaddr is updated
+  target/riscv: Flush TLB only when pmpcfg/pmpaddr really changes
+  target/riscv: flush tb when PMP entry changes
+  accel/tcg: Uncache the host address for instruction fetch when tlb
+    size < 1
+  target/riscv: Make the short cut really work in pmp_hart_has_privs
+  target/riscv: Separate pmp_update_rule() in pmpcfg_csr_write Use
+    pmp_update_rule_addr() and pmp_update_rule_nums() separately to
+    update rule nums only once for each pmpcfg_csr_write. Then we can
+    also move tlb_flush and tb_flush into pmp_update_rule_nums().
+
+ accel/tcg/cputlb.c        |   5 +
+ target/riscv/cpu_helper.c |  24 +--
+ target/riscv/pmp.c        | 316 ++++++++++++++++++++------------------
+ target/riscv/pmp.h        |   3 +-
+ 4 files changed, 181 insertions(+), 167 deletions(-)
+
+-- 
+2.25.1
+
 
