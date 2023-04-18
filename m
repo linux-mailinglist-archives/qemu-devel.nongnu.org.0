@@ -2,103 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441CB6E58CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 07:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBC16E5927
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 08:11:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poeIB-0007tq-0j; Tue, 18 Apr 2023 01:54:15 -0400
+	id 1poeXc-0002aO-53; Tue, 18 Apr 2023 02:10:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
- id 1poeHs-0007ra-3g
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 01:53:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
- id 1poeHk-00026K-TR
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 01:53:55 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33I5flrt025910; Tue, 18 Apr 2023 05:53:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=qK1xvsaONMfA6cEXLD2KPCb8R8s8KCHVFWy0ssUDKxQ=;
- b=FEF9JBQ9Pym2lcWKKS1NOAbrx4agQ+HsMJc+oXVs3jcQdj0NfPbgXsmEvJLtWqmnzikO
- HldGqYW6E4zGSkS1xyyfu7qhwwRhqwQEHJp8nGYBGFlVUrde0nqOYpi00B1UyNCQlUmi
- ku6inBZwFqI9/qXS+NqJ6V/HqSLj3DKXSkiwiVBmV1m9DyUdTaSy6PGu53YiTEdHhi4b
- eeLbZKuGUM2xQNbXgQ8lInxleMN+v2N6FfBymUqVLxMpsmTL5gCS35WZIG0yNL+whhTJ
- XQeKcD4pR4NeZlaaNsANrrCP1EtTLaymISTlZN76Y+5Fyq6/grroUI2GzH61wSblzNKI +Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1n9j8893-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 05:53:43 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33I5rgdq024892;
- Tue, 18 Apr 2023 05:53:43 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1n9j8883-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 05:53:42 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33I0iC36021962;
- Tue, 18 Apr 2023 05:53:40 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3pykj6hfde-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Apr 2023 05:53:40 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33I5rc5U22085952
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Apr 2023 05:53:38 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0574920043;
- Tue, 18 Apr 2023 05:53:38 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A4C1B20040;
- Tue, 18 Apr 2023 05:53:36 +0000 (GMT)
-Received: from melvil.aus.stglabs.ibm.com (unknown [9.40.193.168])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 18 Apr 2023 05:53:36 +0000 (GMT)
-From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Cc: qemu-devel@nongnu.org, Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Subject: [PATCH] tests/avocado/tuxrun_baselines.py: improve code coverage for
- ppc64
-Date: Tue, 18 Apr 2023 00:53:33 -0500
-Message-Id: <20230418055333.126623-1-kconsul@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.25.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: oDEpChhsfxSTfz605OnfBA1vr-UZNDYa
-X-Proofpoint-ORIG-GUID: iv5kfPgivuFxg4HB6Oy21oePupaZfksS
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1poeXU-0002YG-Bp; Tue, 18 Apr 2023 02:10:04 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1poeXK-000577-SL; Tue, 18 Apr 2023 02:10:01 -0400
+Received: from [192.168.0.120] (unknown [180.165.241.15])
+ by APP-01 (Coremail) with SMTP id qwCowADHzXklND5kxobJBQ--.39913S2;
+ Tue, 18 Apr 2023 14:09:42 +0800 (CST)
+Message-ID: <142d0596-e10f-d04b-cd04-b641f7926361@iscas.ac.cn>
+Date: Tue, 18 Apr 2023 14:09:41 +0800
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-18_02,2023-04-17_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 phishscore=0 spamscore=0 impostorscore=0 clxscore=1015
- priorityscore=1501 mlxlogscore=999 bulkscore=0 suspectscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304180051
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=kconsul@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Cc: liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, richard.henderson@linaro.org,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Subject: Re: [PATCH 1/6] target/riscv: Update pmp_get_tlb_size()
+Content-Language: en-US
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Alistair Francis <alistair23@gmail.com>
+References: <20230413090122.65228-1-liweiwei@iscas.ac.cn>
+ <20230413090122.65228-2-liweiwei@iscas.ac.cn>
+ <CAKmqyKO4zAf18FPAzkKF9j1CV+RBaLc6-e45ZpBkJoKf8Y-dvg@mail.gmail.com>
+ <2cf1870a-b668-13e5-7452-32e20c3cd0c8@iscas.ac.cn>
+ <6653f84e-85a9-f6a0-9cb2-699c07eac654@linux.alibaba.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+In-Reply-To: <6653f84e-85a9-f6a0-9cb2-699c07eac654@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADHzXklND5kxobJBQ--.39913S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtr1fKw1UGFyxKrW3JF43Wrg_yoWxZw1xpr
+ WkJFWUJrW5Gr95Jw17tr1UXFyYyr1UKw1UJr1xXFW5ZwsxJ34Y9r1DXrsFgr18Jrs5Wr1j
+ yr1UAFnrur15XF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+ 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+ zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+ 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+ CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.165.241.15]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.284,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,170 +83,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
-boot_linux.py test-case due to which the code coverage for ppc
-decreased by around 2%. As per the discussion on
-https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
-was mentioned that the baseline test for ppc64 could be modified
-to make up this 2% code coverage. This patch attempts to achieve
-this 2% code coverage by adding various device command line
-arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
-test-case.
 
-The code coverage report with boot_linux.py, without it and finally
-with these tuxrun_baselines.py changes is as follows:
+On 2023/4/18 13:18, LIU Zhiwei wrote:
+>
+> On 2023/4/18 11:05, Weiwei Li wrote:
+>>
+>> On 2023/4/18 10:53, Alistair Francis wrote:
+>>> On Thu, Apr 13, 2023 at 7:04 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>>>> Not only the matched PMP entry, Any PMP entry that overlap with 
+>>>> partial of
+>>>> the tlb page may make the regions in that page have different 
+>>>> permission
+>>>> rights. So all of them should be taken into consideration.
+>>>>
+>>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>>> ---
+>>>>   target/riscv/cpu_helper.c |  7 ++-----
+>>>>   target/riscv/pmp.c        | 34 +++++++++++++++++++++-------------
+>>>>   target/riscv/pmp.h        |  3 +--
+>>>>   3 files changed, 24 insertions(+), 20 deletions(-)
+>>>>
+>>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>>>> index 433ea529b0..075fc0538a 100644
+>>>> --- a/target/riscv/cpu_helper.c
+>>>> +++ b/target/riscv/cpu_helper.c
+>>>> @@ -703,11 +703,8 @@ static int 
+>>>> get_physical_address_pmp(CPURISCVState *env, int *prot,
+>>>>       }
+>>>>
+>>>>       *prot = pmp_priv_to_page_prot(pmp_priv);
+>>>> -    if ((tlb_size != NULL) && pmp_index != MAX_RISCV_PMPS) {
+>>>> -        target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
+>>>> -        target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
+>>>> -
+>>>> -        *tlb_size = pmp_get_tlb_size(env, pmp_index, tlb_sa, tlb_ea);
+>>>> +    if (tlb_size != NULL) {
+>>>> +        *tlb_size = pmp_get_tlb_size(env, addr);
+>>>>       }
+>>>>
+>>>>       return TRANSLATE_SUCCESS;
+>>>> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+>>>> index 1f5aca42e8..4f9389e73c 100644
+>>>> --- a/target/riscv/pmp.c
+>>>> +++ b/target/riscv/pmp.c
+>>>> @@ -601,28 +601,36 @@ target_ulong mseccfg_csr_read(CPURISCVState 
+>>>> *env)
+>>>>   }
+>>>>
+>>>>   /*
+>>>> - * Calculate the TLB size if the start address or the end address of
+>>>> + * Calculate the TLB size if any start address or the end address of
+>>>>    * PMP entry is presented in the TLB page.
+>>>>    */
+>>>> -target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+>>>> -                              target_ulong tlb_sa, target_ulong 
+>>>> tlb_ea)
+>>>> +target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr)
+>>>>   {
+>>>> -    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
+>>>> -    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
+>>>> +    target_ulong pmp_sa;
+>>>> +    target_ulong pmp_ea;
+>>>> +    target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
+>>>> +    target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
+>>>> +    int i;
+>>>> +
+>>>> +    for (i = 0; i < MAX_RISCV_PMPS; i++) {
+>>>> +        pmp_sa = env->pmp_state.addr[i].sa;
+>>>> +        pmp_ea = env->pmp_state.addr[i].ea;
+>>>>
+>>>> -    if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
+>>>> -        return TARGET_PAGE_SIZE;
+>>>> -    } else {
+>>>>           /*
+>>>> -         * At this point we have a tlb_size that is the smallest 
+>>>> possible size
+>>>> -         * That fits within a TARGET_PAGE_SIZE and the PMP region.
+>>> This comment points out that we should have the smallest region, so
+>>> I'm not clear why we need this change. Can you update the commit
+>>> description to be clear on why this change is needed and what it
+>>> fixes?
+>>
+>> This function return tlb_size to 1 to make the tlb uncached. However, 
+>> In previous implementation,
+>>
+>> only the matched PMP entry of current access address is taken into 
+>> consideration. Then, if other PMP entry
+>>
+>> that match other address in the same page, we  may also cannot cache 
+>> the tlb, since different address
+>>
+>> in that page may have different permission rights.
+>
+> It doesn't matter. As the tlb size < page size, this tlb will have a 
+> TLB_INVALID_MASK flag and never match.
 
-With boot_linux.py
-------------------
-  lines......: 13.8% (58006 of 420997 lines)
-  functions..: 20.7% (7675 of 36993 functions)
-  branches...: 9.2% (22146 of 240611 branches)
-Without boot_linux.py (without this patch changes)
---------------------------------------------------
-  lines......: 11.9% (50174 of 420997 lines)
-  functions..: 18.8% (6947 of 36993 functions)
-  branches...: 7.4% (17580 of 239017 branches)
-Without boot_linux.py (with this patch changes)
------------------------------------------------
-  lines......: 13.8% (58287 of 420997 lines)
-  functions..: 20.7% (7640 of 36993 functions)
-  branches...: 8.4% (20223 of 240611 branches)
+This is what I want. However,  tlb size will be page size without this 
+patch in some cases.
 
-Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/avocado/tuxrun_baselines.py | 98 ++++++++++++++++++++++++++++++-
- 1 file changed, 96 insertions(+), 2 deletions(-)
+Assuming:
 
-diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
-index d343376faa..cb17602c94 100644
---- a/tests/avocado/tuxrun_baselines.py
-+++ b/tests/avocado/tuxrun_baselines.py
-@@ -308,7 +308,7 @@ def test_ppc64(self):
-         """
-         :avocado: tags=arch:ppc64
-         :avocado: tags=machine:pseries
--        :avocado: tags=cpu:POWER8
-+        :avocado: tags=cpu:POWER10
-         :avocado: tags=endian:big
-         :avocado: tags=console:hvc0
-         :avocado: tags=tuxboot:ppc64
-@@ -316,19 +316,113 @@ def test_ppc64(self):
-         :avocado: tags=extradev:driver=spapr-vscsi
-         :avocado: tags=root:sda
-         """
-+        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-+                         '-device', 'virtio-net,netdev=vnet')
-+        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
-+                         '-device', '{"driver":"virtio-net-pci","netdev":'
-+                         '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
-+                         '"bus":"pci.0","addr":"0x9"}')
-+        self.vm.add_args('-device', '{"driver":"qemu-xhci","p2":15,"p3":15,'
-+                         '"id":"usb","bus":"pci.0","addr":"0x2"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-scsi-pci","id":"scsi0"''
-+                         ,"bus":"pci.0","addr":"0x3"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-serial-pci","id":'
-+                         '"virtio-serial0","bus":"pci.0","addr":"0x4"}')
-+        self.vm.add_args('-device', '{"driver":"scsi-cd","bus":"scsi0.0"'
-+                         ',"channel":0,"scsi-id":0,"lun":0,"device_id":''
-+                         "drive-scsi0-0-0-0","id":"scsi0-0-0-0"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-balloon-pci",'
-+                         '"id":"balloon0","bus":"pci.0","addr":"0x6"}')
-+        self.vm.add_args('-audiodev', '{"id":"audio1","driver":"none"}')
-+        self.vm.add_args('-device', '{"driver":"usb-tablet","id":"input0"'
-+                         ',"bus":"usb.0","port":"1"}')
-+        self.vm.add_args('-device', '{"driver":"usb-kbd","id":"input1"'
-+                         ',"bus":"usb.0","port":"2"}')
-+        self.vm.add_args('-device', '{"driver":"VGA","id":"video0",'
-+                         '"vgamem_mb":16,"bus":"pci.0","addr":"0x7"}')
-+        self.vm.add_args('-object', '{"qom-type":"rng-random","id":"objrng0"'
-+                         ',"filename":"/dev/urandom"}',
-+                         '-device', '{"driver":"virtio-rng-pci","rng":"objrng0"'
-+                         ',"id":"rng0","bus":"pci.0","addr":"0x8"}')
-+        self.vm.add_args('-object', '{"qom-type":"cryptodev-backend-builtin",'
-+                         '"id":"objcrypto0","queues":1}',
-+                         '-device', '{"driver":"virtio-crypto-pci",'
-+                         '"cryptodev":"objcrypto0","id":"crypto0","bus"'
-+                         ':"pci.0","addr":"0xa"}')
-+        self.vm.add_args('-device', '{"driver":"spapr-pci-host-bridge"'
-+                         ',"index":1,"id":"pci.1"}')
-+        self.vm.add_args('-device', '{"driver":"spapr-vscsi","id":"scsi1"'
-+                         ',"reg":12288}')
-+        self.vm.add_args('-m', '2G,slots=32,maxmem=4G',
-+                         '-object', 'memory-backend-ram,id=ram1,size=1G',
-+                         '-device', 'pc-dimm,id=dimm1,memdev=ram1')
-+        process.run('./qemu-img create -f qcow2'
-+                    '/tmp/tuxrun_baselines_ppc64.qcow2 1G')
-+        self.vm.add_args('-drive', 'file=/tmp/tuxrun_baselines_ppc64.qcow2'
-+                         ',format=qcow2,if=none,id=drive-virtio-disk1',
-+                         '-device', 'virtio-blk-pci,scsi=off,bus=pci.0,'
-+                         'addr=0xb,drive=drive-virtio-disk1,id=virtio-disk1'
-+                         ',bootindex=2')
-         self.common_tuxrun(drive="scsi-hd")
- 
-     def test_ppc64le(self):
-         """
-         :avocado: tags=arch:ppc64
-         :avocado: tags=machine:pseries
--        :avocado: tags=cpu:POWER8
-+        :avocado: tags=cpu:POWER10
-         :avocado: tags=console:hvc0
-         :avocado: tags=tuxboot:ppc64le
-         :avocado: tags=image:vmlinux
-         :avocado: tags=extradev:driver=spapr-vscsi
-         :avocado: tags=root:sda
-         """
-+        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-+                         '-device', 'virtio-net,netdev=vnet')
-+        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
-+                         '-device', '{"driver":"virtio-net-pci","netdev":'
-+                         '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
-+                         '"bus":"pci.0","addr":"0x9"}')
-+        self.vm.add_args('-device', '{"driver":"qemu-xhci","p2":15,"p3":15,'
-+                         '"id":"usb","bus":"pci.0","addr":"0x2"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-scsi-pci","id":"scsi0"''
-+                         ,"bus":"pci.0","addr":"0x3"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-serial-pci","id":'
-+                         '"virtio-serial0","bus":"pci.0","addr":"0x4"}')
-+        self.vm.add_args('-device', '{"driver":"scsi-cd","bus":"scsi0.0"'
-+                         ',"channel":0,"scsi-id":0,"lun":0,"device_id":''
-+                         "drive-scsi0-0-0-0","id":"scsi0-0-0-0"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-balloon-pci",'
-+                         '"id":"balloon0","bus":"pci.0","addr":"0x6"}')
-+        self.vm.add_args('-audiodev', '{"id":"audio1","driver":"none"}')
-+        self.vm.add_args('-device', '{"driver":"usb-tablet","id":"input0"'
-+                         ',"bus":"usb.0","port":"1"}')
-+        self.vm.add_args('-device', '{"driver":"usb-kbd","id":"input1"'
-+                         ',"bus":"usb.0","port":"2"}')
-+        self.vm.add_args('-device', '{"driver":"VGA","id":"video0",'
-+                         '"vgamem_mb":16,"bus":"pci.0","addr":"0x7"}')
-+        self.vm.add_args('-object', '{"qom-type":"rng-random","id":"objrng0"'
-+                         ',"filename":"/dev/urandom"}',
-+                         '-device', '{"driver":"virtio-rng-pci","rng":"objrng0"'
-+                         ',"id":"rng0","bus":"pci.0","addr":"0x8"}')
-+        self.vm.add_args('-object', '{"qom-type":"cryptodev-backend-builtin",'
-+                         '"id":"objcrypto0","queues":1}',
-+                         '-device', '{"driver":"virtio-crypto-pci",'
-+                         '"cryptodev":"objcrypto0","id":"crypto0","bus"'
-+                         ':"pci.0","addr":"0xa"}')
-+        self.vm.add_args('-device', '{"driver":"spapr-pci-host-bridge"'
-+                         ',"index":1,"id":"pci.1"}')
-+        self.vm.add_args('-device', '{"driver":"spapr-vscsi","id":"scsi1"'
-+                         ',"reg":12288}')
-+        self.vm.add_args('-m', '2G,slots=32,maxmem=4G',
-+                         '-object', 'memory-backend-ram,id=ram1,size=1G',
-+                         '-device', 'pc-dimm,id=dimm1,memdev=ram1')
-+        process.run('./qemu-img create -f qcow2'
-+                    '/tmp/tuxrun_baselines_ppc64le.qcow2 1G')
-+        self.vm.add_args('-drive', 'file=/tmp/tuxrun_baselines_ppc64le.qcow2'
-+                         ',format=qcow2,if=none,id=drive-virtio-disk1',
-+                         '-device', 'virtio-blk-pci,scsi=off,bus=pci.0,'
-+                         'addr=0xb,drive=drive-virtio-disk1,id=virtio-disk1'
-+                         ',bootindex=2')
-         self.common_tuxrun(drive="scsi-hd")
- 
-     def test_riscv32(self):
--- 
-2.25.1
+PMP0:   sa: 0x80000008  ea: 0x8000000f, rights: R
+
+PMP1: sa: 0, ea: 0xffffffff, rights: RWX
+
+If we try to write data to 0x80000000,  PMP1 will be matched, In 
+previous implementation,
+
+tlb_size will be PMP1 TARGET_PAGE_SIZE and this will be cached, since 
+only matched PMP is checked ,
+
+and PMP1 covers the whole page. Then when we try to write data to 
+0x80000008, the tlb will be hit,
+
+and this access bypass the PMP check of PMP0.
+
+Regards,
+
+Weiwei Li
+
+>
+> For this page, every access will  repeat the MMU check and TLB fill.
+>
+> It is not fast, but with no error.
+>
+> Zhiwei
+>
+>>
+>> Regards,
+>>
+>> Weiwei Li
+>>
+>>> Alistair
+>>>
+>>>> -         *
+>>>> -         * If the size is less then TARGET_PAGE_SIZE we drop the 
+>>>> size to 1.
+>>>> +         * If any start address or the end address of PMP entry is 
+>>>> presented
+>>>> +         * in the TLB page and cannot override the whole TLB page 
+>>>> we drop the
+>>>> +         * size to 1.
+>>>>            * This means the result isn't cached in the TLB and is 
+>>>> only used for
+>>>>            * a single translation.
+>>>>            */
+>>>> -        return 1;
+>>>> +        if (((pmp_sa >= tlb_sa && pmp_sa <= tlb_ea) ||
+>>>> +             (pmp_ea >= tlb_sa && pmp_ea <= tlb_ea)) &&
+>>>> +            !(pmp_sa == tlb_sa && pmp_ea == tlb_ea)) {
+>>>> +            return 1;
+>>>> +        }
+>>>>       }
+>>>> +
+>>>> +    return TARGET_PAGE_SIZE;
+>>>>   }
+>>>>
+>>>>   /*
+>>>> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+>>>> index b296ea1fc6..0a7e24750b 100644
+>>>> --- a/target/riscv/pmp.h
+>>>> +++ b/target/riscv/pmp.h
+>>>> @@ -76,8 +76,7 @@ int pmp_hart_has_privs(CPURISCVState *env, 
+>>>> target_ulong addr,
+>>>>                          target_ulong size, pmp_priv_t privs,
+>>>>                          pmp_priv_t *allowed_privs,
+>>>>                          target_ulong mode);
+>>>> -target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+>>>> -                              target_ulong tlb_sa, target_ulong 
+>>>> tlb_ea);
+>>>> +target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr);
+>>>>   void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
+>>>>   void pmp_update_rule_nums(CPURISCVState *env);
+>>>>   uint32_t pmp_get_num_rules(CPURISCVState *env);
+>>>> -- 
+>>>> 2.25.1
+>>>>
+>>>>
 
 
