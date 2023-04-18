@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE516E6957
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3A86E6956
 	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 18:22:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poo5S-0006ks-DW; Tue, 18 Apr 2023 12:21:46 -0400
+	id 1poo5R-0006kE-R7; Tue, 18 Apr 2023 12:21:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1poo5Q-0006jl-FG
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:21:44 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1poo5P-0006jd-TS
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:21:43 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1poo5O-00019l-It
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:21:44 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- a8-20020a05600c348800b003f17ddb04e3so78190wmq.2
+ id 1poo5O-00019i-EB
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 12:21:43 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id q5so15808824wmo.4
  for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 09:21:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1681834901; x=1684426901;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5lUakfgj7bHmml2pB9qRm9X+2uzhwj9Z43jrFiMKuUs=;
- b=sNwN5GM215cHic7A4Xs+MSOgmAjeHBJqnN4WsRNV6Z/nyjF5zDcSY9YqRy+vo/hubt
- GjiaK5aHQS8WYAbSLUSChebbGmImafadNYrajmfigwiEv1F9L94+5seDUqBqxrmeA382
- 9822+z+rC5kWflHOsPG8G1AV23RPZjfsxuzAgfhU07CyN05scD0eLD4tbjqShCwwXbOH
- Lwt0/+nH2ynIQzlbrX82UlpXlru1qmLabISEX1sBVore2D/VJXJ3qcRyIXZJDf53OQxk
- kCYJ9asTIaE58iy+0VLSRcKpooRqh/xxX7rg3kTYiDAtgcBeV0NSQ30bq1LJnBekV5ln
- IwkQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
+ b=lh3DoEscXnSGZYVJilsLz7CrDv9jETtkrvXu+/jcvnYRChkSlFa0gMBrojRPrqfezm
+ zcULKjJGS8RaT8aZhvGHhlkLwhnBEgfqiccMtVwvOrVhOM8VUDce9BEqe817a3fV++AF
+ b8Fzoasw4jnYQEpCZZQA9Whf7zjpTx8k1hoMSuYQLXpB5O6aW94aX+BsxZcaWgcCtWFj
+ GwHTSAjzwlWw0WxXnQ3Epi7KoMVB7gmS06TJ8BAcwtRpChb0T6/HFiPc7icqh5IbhDwx
+ 7PWEGuQupe02XWKsNW52Us+WswQre3G1SkNN+/T+GlTiENr8BfRHfqOR7a+nTr1QLoOg
+ vyUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1681834901; x=1684426901;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5lUakfgj7bHmml2pB9qRm9X+2uzhwj9Z43jrFiMKuUs=;
- b=NIP/fsC80DBgf8N9+NOlcY5K41TPWZ+uKHE5QFhW7tiVrSoD81II7lXqVT/6FlWKDP
- cxsCRDgeIK8kTbDYkZyQNV19HpujPqB8hXELMFbrM17fNGrCJATdx8iREWAtBzy5l2Fc
- lS7UaRPdmrPjmvXhYGkvQpUVqmbkcUw9UZGutbiDo5EVk/G3ayooRB8VQNb6QOvClsxx
- pjR+S4201B2DhG9MBfAwcu1YIowkPTe17BdCgMCteS3fQt1p2BNlmABOCwYhMxF955N/
- 4aYtKmNkceS8H8JtouFaOahpixbuTFye0iQbw4wotfnTNSLm/DEqpT4br4DdOpcZljyQ
- Zg8Q==
-X-Gm-Message-State: AAQBX9dG5nmj/qif9H0VgHq2O5J2JeAHVhg0g0AAASLqQta5AH+AIxUw
- y0H9bEQeFW1cy+XG3vNuxaE9Yw==
-X-Google-Smtp-Source: AKy350aozYqGUHxK9FLQwu0pE5q2SYyclKqiEeFGAnMFc2N7FQHJhzcJlDzXN5No4gSeWPPolrRIqA==
-X-Received: by 2002:a05:600c:2048:b0:3ef:6819:b2ad with SMTP id
- p8-20020a05600c204800b003ef6819b2admr13778559wmg.37.1681834901137; 
- Tue, 18 Apr 2023 09:21:41 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
+ b=FsWOXap0Z83qNrAiaKBL3jHS9tTYli2qP5pmS7ecG5FSKZXFAqM6wDHDWqMuTGdNVV
+ YalLdpRi++uD/32+PCZmPd0syKmXyxfACuVh4f+m3JIVuQ7s3FF9ZKOo2r+1RcdGNcnO
+ jqkry/n0K2/g+Z8h1YbLPpkuRJezvkwx3pzcI2gIn0vIssFOBy0EyYgxSRcIMWUoNIt+
+ YCy9FBNe/Uk+tXk4Plg+Cq3ml7TDJqR7W95TUCllP3UQ3Ej2FR4HBP+KHNSMnuq92eTS
+ jspaJL4DWI4jRbJnzvgzp8D/IGwuJiu6tHWlYUr1SK9Lidzf39jeE1rLmEgtKkJE9acB
+ 6rKQ==
+X-Gm-Message-State: AAQBX9fBuG34QdinNWrjmhrY8YpZbyzfEBGS/THtO6pQmnxdYccQmWem
+ M+h/YIyGx9g1kGmTXJ9P5Nky9A==
+X-Google-Smtp-Source: AKy350ZcQ56yJ0x/zonSWGEhuBget+lCP6JrVToqoYGc/8XdNZEzwdisSW77ddxh0cMQaxaSl5wJIg==
+X-Received: by 2002:a7b:cd8c:0:b0:3f1:7440:f21d with SMTP id
+ y12-20020a7bcd8c000000b003f17440f21dmr5088103wmj.33.1681834900875; 
+ Tue, 18 Apr 2023 09:21:40 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- d17-20020a056000115100b002fa6929eb83sm5713826wrx.21.2023.04.18.09.21.40
+ l6-20020adfe586000000b002fe065da369sm1371456wrm.69.2023.04.18.09.21.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 18 Apr 2023 09:21:40 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 27F081FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 3FA401FFB8;
  Tue, 18 Apr 2023 17:21:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -74,16 +74,17 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2 00/13] virtio: add vhost-user-generic and reduce copy and
- paste
-Date: Tue, 18 Apr 2023 17:21:27 +0100
-Message-Id: <20230418162140.373219-1-alex.bennee@linaro.org>
+Subject: [PATCH v2 01/13] include: attempt to document device_class_set_props
+Date: Tue, 18 Apr 2023 17:21:28 +0100
+Message-Id: <20230418162140.373219-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230418162140.373219-1-alex.bennee@linaro.org>
+References: <20230418162140.373219-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,97 +107,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A lot of our vhost-user stubs are large chunks of boilerplate that do
-(mostly) the same thing. This series attempts to fix that by defining
-a new base class (vhost-user-base) which is used by a generic
-vhost-user-device implementation. Then the rng, gpio and i2c
-vhost-user devices become simple specialisations of the common base
-defining the ID, number of queues and potentially the config handling.
+I'm still not sure how I achieve by use case of the parent class
+defining the following properties:
 
-In theory we could convert the rest of the vhost-user stubs but there
-are complications caused by the config being split between the daemon
-and QEMU. For example:
+  static Property vud_properties[] = {
+      DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
+      DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
+      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
+      DEFINE_PROP_END_OF_LIST(),
+  };
 
- -device vhost-user-device-pci,chardev=vus,virtio-id=8,num_vqs=3,config_size=36
+But for the specialisation of the class I want the id to default to
+the actual device id, e.g.:
 
-works with the WIP vhost-user-scsi backend:
+  static Property vu_rng_properties[] = {
+      DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG),
+      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
+      DEFINE_PROP_END_OF_LIST(),
+  };
 
-  https://github.com/rust-vmm/vhost-device/pull/301
+And so far the API for doing that isn't super clear.
 
-but the concrete vhost-user-scsi-pci device fails because it expects
-to handle config via the command line. You will see the report:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/hw/qdev-core.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-  qemu-system-aarch64: -device vhost-user-scsi-pci,chardev=vus:
-  warning: vhost-user backend supports VHOST_USER_PROTOCOL_F_CONFIG
-  but QEMU does not.
-
-if you try. We could make the device a bit smarter but then we would
-need to untangle the vhost_scsi_common_() logic which is shared with
-the pure in kernel vhost implementation. The vhost-user-vsock stub
-might be another one worth re-factoring although that has a similar
-split architecture.
-
-The overall diffstat shows a net deletion of code as well as
-introducing some more documentation and moving the stubs into the
-common build, further reducing redundancy.
-
-Next Steps
-----------
-
-From Stefan's last email to the v1 posting we need:
-
-vhost-user needs:
-- A GET_DEVICE_ID message.
-- A GET_CONFIG_SIZE message. Today it is assumed that the vhost-user
-  frontend already knows the configuration space size.
-- A protocol feature bit indicating that the device is a full VIRTIO
-  device. These devices also need to implement the SET_STATUS message,
-  which is rarely implemented today.
-
-and implementing the VHOST_USER_GET_QUEUE_NUM and SET_STATUS messages
-to make the generic device "self configuring".
-
-Alex.
-
-Alex Bennée (13):
-  include: attempt to document device_class_set_props
-  include/hw: document the device_class_set_parent_* fns
-  hw/virtio: fix typo in VIRTIO_CONFIG_IRQ_IDX comments
-  include/hw/virtio: document virtio_notify_config
-  include/hw/virtio: add kerneldoc for virtio_init
-  include/hw/virtio: document some more usage of notifiers
-  virtio: add vhost-user-base and a generic vhost-user-device
-  virtio: add PCI stub for vhost-user-device
-  hw/virtio: derive vhost-user-rng from vhost-user-device
-  hw/virtio: add config support to vhost-user-device
-  hw/virtio: derive vhost-user-gpio from vhost-user-device
-  hw/virtio: derive vhost-user-i2c from vhost-user-base
-  docs/system: add a basic enumeration of vhost-user devices
-
- docs/system/devices/vhost-user-rng.rst |   2 +
- docs/system/devices/vhost-user.rst     |  41 +++
- include/hw/qdev-core.h                 |  36 +++
- include/hw/virtio/vhost-user-device.h  |  46 +++
- include/hw/virtio/vhost-user-gpio.h    |  23 +-
- include/hw/virtio/vhost-user-i2c.h     |  18 +-
- include/hw/virtio/vhost-user-rng.h     |  11 +-
- include/hw/virtio/virtio.h             |  21 ++
- hw/display/vhost-user-gpu.c            |   4 +-
- hw/net/virtio-net.c                    |   4 +-
- hw/virtio/vhost-user-device-pci.c      |  71 +++++
- hw/virtio/vhost-user-device.c          | 380 +++++++++++++++++++++++
- hw/virtio/vhost-user-fs.c              |   4 +-
- hw/virtio/vhost-user-gpio.c            | 400 ++-----------------------
- hw/virtio/vhost-user-i2c.c             | 255 +---------------
- hw/virtio/vhost-user-rng.c             | 277 ++---------------
- hw/virtio/vhost-vsock-common.c         |   4 +-
- hw/virtio/virtio-crypto.c              |   4 +-
- hw/virtio/meson.build                  |  20 +-
- 19 files changed, 686 insertions(+), 935 deletions(-)
- create mode 100644 include/hw/virtio/vhost-user-device.h
- create mode 100644 hw/virtio/vhost-user-device-pci.c
- create mode 100644 hw/virtio/vhost-user-device.c
-
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index bd50ad5ee1..d4bbc30c92 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
+ char *qdev_get_fw_dev_path(DeviceState *dev);
+ char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
+ 
++/**
++ * device_class_set_props(): add a set of properties to an device
++ * @dc: the parent DeviceClass all devices inherit
++ * @props: an array of properties, terminate by DEFINE_PROP_END_OF_LIST()
++ *
++ * This will add a set of properties to the object. It will fault if
++ * you attempt to add an existing property defined by a parent class.
++ * To modify an inherited property you need to use????
++ */
+ void device_class_set_props(DeviceClass *dc, Property *props);
+ 
+ /**
 -- 
 2.39.2
 
