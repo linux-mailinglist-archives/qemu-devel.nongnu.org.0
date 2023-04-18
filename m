@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF95C6E5FDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 13:31:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 956D56E5FEA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Apr 2023 13:35:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pojXj-0000CY-6a; Tue, 18 Apr 2023 07:30:39 -0400
+	id 1pojb7-0002RE-VW; Tue, 18 Apr 2023 07:34:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pojXg-0000Ap-De
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:30:36 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pojXe-0000Jk-SE
- for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:30:36 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-94ed7e49541so258753866b.1
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 04:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681817433; x=1684409433;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XchKrNC7MDnASk5zAguAUjVvYixzm90kzpWHwgue84o=;
- b=iCHYYDnuS7NOqctB5QKdVNAtEjPpbzk7GnC1/7hMiSlBCLtj6Depq1hAuCT4TlCRi5
- 15j+t1QLMZroQOWI9F9gffhR015W+/RwxNOHea9uPBRcXXFGEWYuGmtiNZo7DZ/T4M8A
- bAeO7MYevr6lFOM2ToD4J3GTt+0NzrjSB9s7hv5jA41GLfGz1+D9v9esiKpd6rFuQNi2
- 8fHMuTp0E6e4xo0cAOPZuapzE+4aPkTeT6Y2LiIZqr7raUouSDRkYtCCBGI8LpmzW1Zo
- gGRXv0tuimWDlr5ExBcVXmuUUTh3PqvPPvisL83QwJA4r+VKnXRN7te7/lB8u+R1uQl+
- /3Dw==
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1pojav-0002PQ-SW
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:33:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1pojau-0000qt-1Z
+ for qemu-devel@nongnu.org; Tue, 18 Apr 2023 07:33:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681817634;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ab8zvJnsTpBbpPUEwqL1m/47JdsDBwLNPmgh3GBq2e8=;
+ b=C7SHE7u9En8VBv9YQNe6AmdhuNyDhm0ez3+bQHZU/w7T+xvzTlciglzOa3eqRuW7qL2SbD
+ PkJHmRLGn87vL9qg6gpV7nIJAWDJ6pEXUcHzyrZ25swglOp53nr8pv1IVJ34C/jvzC8cji
+ snA7+TfyaZDGOgOCmXNatfrzpZDgwfI=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-121-38qP7sPSNDKlUTQuhjodXA-1; Tue, 18 Apr 2023 07:33:52 -0400
+X-MC-Unique: 38qP7sPSNDKlUTQuhjodXA-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-1a681ad22c8so8645125ad.2
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 04:33:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681817433; x=1684409433;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XchKrNC7MDnASk5zAguAUjVvYixzm90kzpWHwgue84o=;
- b=N6089d/K0ca2WLdZggG07UfrNR8WgfLSs8VzdbwvZ4pF3oEtSEs/biinwvF2BQnPeR
- qby2GA0IqIRyvZSoyCRAFMiJXrYS/Bo7Oo2PzgRSbZsqtd6lhiuugGg0d3sA1eACFv1a
- nA+1BACscq92OPzntrG2vUkmRPGZsOFxcbwnR+beZ7WS2et2Qnzv4kfqwYgMW2ZPCwoW
- MynKTu96E/tQKoE3Pemv+NvLR8z1r21Z7dnF0FNIlypqb3qYe1gYE+Z11TieaKxkwX2b
- a+1yEYLZgrqaq6tnojpVDsNo1YroKuAOli08WM3lCupGfVxKCsZ9pgovQZoKZfNCCKS7
- OKGA==
-X-Gm-Message-State: AAQBX9eHNIF0dDzXeJzs42yR8Z6eSkxAIf3+ZJoRLl+/oy2A0ePXyXP7
- UTf86dwslb+o4auhnbFc+BQl814LW258NQs5zQ2Ong==
-X-Google-Smtp-Source: AKy350bh4G1FiUbfan/6ttkvNimyHHfd9YIG+mJPdwf+9GAfkpEqQhlc4rBQGWqRIVfP+cJ0WCJ0PaQ1fr0kaS4Twhs=
-X-Received: by 2002:a50:9e4d:0:b0:506:7dbc:39a0 with SMTP id
- z71-20020a509e4d000000b005067dbc39a0mr1035132ede.6.1681817433204; Tue, 18 Apr
- 2023 04:30:33 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681817632; x=1684409632;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ab8zvJnsTpBbpPUEwqL1m/47JdsDBwLNPmgh3GBq2e8=;
+ b=HdxjVrVrR8Pi0r1UNjRbxCMHOw4qn6uGzhh4VZiUQnLdgJV5p6jCat051pW3UF1uhK
+ ZLovZum9wpXbiZIQ7pBo6GL5QbMyBBNJk1n4usEYkefwHiLadSOJoJsUlvDpawqKUmFI
+ 4MqnaviEBTaLa4gYxPJ0i4dAzm2n4KpMMpRZpwaCOrWou7d/kqcvwNImFDjuHCb8/L81
+ 6Wnsa/EE/ehQNdpJVqOdYq34aY7X8QsPafkCrsE1MYbAYjuJCgFt+hCohiGfwwhn34Bf
+ z8DFNB/pp3+IVhq1Xy32NHVyTb/TyEHfOu5pdVx/LByUMBt/M73dQbrKqbapfaoncUO3
+ Zsvw==
+X-Gm-Message-State: AAQBX9flMye/aHNdJHQftaPk/VUUWhRar51LhonQ56OMui/Q85+Z3CkW
+ wA7VUIVXFjw0EiuxrsbilU8s1WjJi5ogu12oO1lbKqMg6khbQ3vlKaoAxfZUs4anjsNvz+D/fz9
+ n0PhCGDYLd7e3d8Q=
+X-Received: by 2002:a17:902:f693:b0:1a2:8924:224a with SMTP id
+ l19-20020a170902f69300b001a28924224amr2483030plg.25.1681817631823; 
+ Tue, 18 Apr 2023 04:33:51 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YFIYADAlGPdlT5jn6MffVUVTb54t/V07qsNNnk/iiRcTZ4ZU4awT407exKcUIo0ic9q5SuLg==
+X-Received: by 2002:a17:902:f693:b0:1a2:8924:224a with SMTP id
+ l19-20020a170902f69300b001a28924224amr2483008plg.25.1681817631489; 
+ Tue, 18 Apr 2023 04:33:51 -0700 (PDT)
+Received: from fc37-ani ([115.96.78.53]) by smtp.googlemail.com with ESMTPSA id
+ jb21-20020a170903259500b001a67efce4dbsm6685057plb.12.2023.04.18.04.33.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 04:33:51 -0700 (PDT)
+Date: Tue, 18 Apr 2023 17:03:45 +0530 (IST)
+From: Ani Sinha <anisinha@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+cc: qemu-devel@nongnu.org, kchamart@redhat.com, 
+ Gerd Hoffmann <kraxel@redhat.com>, mst@redhat.com, jusual@redhat.com
+Subject: Re: [PATCH v4] acpi: pcihp: allow repeating hot-unplug requests
+In-Reply-To: <20230418090449.2155757-1-imammedo@redhat.com>
+Message-ID: <2650767a-16e2-a622-3606-1033e8e85d16@redhat.com>
+References: <20230418090449.2155757-1-imammedo@redhat.com>
 MIME-Version: 1.0
-References: <20230414160413.549801-1-peter.maydell@linaro.org>
- <20230414160413.549801-3-peter.maydell@linaro.org>
- <836a4c35-9e1d-c067-cb2f-76ea93ccd53a@linaro.org>
-In-Reply-To: <836a4c35-9e1d-c067-cb2f-76ea93ccd53a@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Apr 2023 12:30:22 +0100
-Message-ID: <CAFEAcA8EOrEs=ivv+skKy+e40BiiD9qDP-KFakfgk1E=y89NVA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] target/arm: Set ptw->out_secure correctly for stage 2
- translations
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,32 +95,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 18 Apr 2023 at 12:01, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+
+
+On Tue, 18 Apr 2023, Igor Mammedov wrote:
+
+> with Q35 using ACPI PCI hotplug by default, user's request to unplug
+> device is ignored when it's issued before guest OS has been booted.
+> And any additional attempt to request device hot-unplug afterwards
+> results in following error:
 >
-> On 4/14/23 18:04, Peter Maydell wrote:
-> > +        /* Check if page table walk is to secure or non-secure PA space. */
-> > +        ptw->out_secure = (is_secure
-> > +                           && !(pte_secure
-> > +                                ? env->cp15.vstcr_el2 & VSTCR_SW
-> > +                                : env->cp15.vtcr_el2 & VTCR_NSW));
-> > +    } else {
-> > +        /* Regime is physical */
-> > +        ptw->out_secure = pte_secure;
+>   "Device XYZ is already in the process of unplug"
 >
-> Is that last comment really correct?  I think it could still be stage1 of 2.
+> arguably it can be considered as a regression introduced by [2],
+> before which it was possible to issue unplug request multiple
+> times.
+>
+> Accept new uplug requests after timeout (1ms). This brings ACPI PCI
+> hotplug on par with native PCIe unplug behavior [1] and allows user
+> to repeat unplug requests at propper times.
+> Set expire timeout to arbitrary 1msec so user won't be able to
+> flood guest with SCI interrupts by calling device_del in tight loop.
+>
+> PS:
+> ACPI spec doesn't mandate what OSPM can do with GPEx.status
+> bits set before it's booted => it's impl. depended.
+> Status bits may be retained (I tested with one Windows version)
+> or cleared (Linux since 2.6 kernel times) during guest's ACPI
+> subsystem initialization.
+> Clearing status bits (though not wrong per se) hides the unplug
+> event from guest, and it's upto user to repeat device_del later
+> when guest is able to handle unplug requests.
+>
+> 1) 18416c62e3 ("pcie: expire pending delete")
+> 2)
+> Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-I borrowed the comment from earlier in the function, in the ptw->in_debug
-branch of the code, which has the same
+Reviewed-by: Ani Sinha <anisinha@redhat.com>
 
-   if (regime_is_stage2(s2_mmu_idx)) {
-      ...stuff...
-   } else {
-      /* Regime is physical */
-   }
+> CC: mst@redhat.com
+> CC: anisinha@redhat.com
+> CC: jusual@redhat.com
+> CC: kraxel@redhat.com
+> ---
+> v4:
+>  * massage commit message some more (Kashyap Chamarthy <kchamart@redhat.com>)
+>  * pickup Gerd's ACK
+> ---
+>  hw/acpi/pcihp.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> index dcfb779a7a..cdd6f775a1 100644
+> --- a/hw/acpi/pcihp.c
+> +++ b/hw/acpi/pcihp.c
+> @@ -357,6 +357,16 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+>       * acpi_pcihp_eject_slot() when the operation is completed.
+>       */
+>      pdev->qdev.pending_deleted_event = true;
+> +    /* if unplug was requested before OSPM is initialized,
+> +     * linux kernel will clear GPE0.sts[] bits during boot, which effectively
+> +     * hides unplug event. And than followup qmp_device_del() calls remain
+> +     * blocked by above flag permanently.
+> +     * Unblock qmp_device_del() by setting expire limit, so user can
+> +     * repeat unplug request later when OSPM has been booted.
+> +     */
+> +    pdev->qdev.pending_deleted_expires_ms =
+> +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL); /* 1 msec */
+> +
+>      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
+>      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
+>  }
+> --
+> 2.39.1
+>
+>
 
-structure as this one does after this patch. If s2_mmu_idx isn't
-a stage 2 index and it's not one of the Phys indexes, what is it ?
-
--- PMM
 
