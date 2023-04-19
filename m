@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584996E761A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 11:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861046E761B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 11:20:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp3xq-0001FJ-Ap; Wed, 19 Apr 2023 05:18:58 -0400
+	id 1pp3yu-0001eC-Cc; Wed, 19 Apr 2023 05:20:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pp3xn-0001FB-ME
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 05:18:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pp3xk-00059V-Qe
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 05:18:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681895930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=LUB7Ub8nFM8YZ9bCAqH15BS9bL/cT9ptVb5X18xw6pw=;
- b=BYlm4te7xhS9sKu7CoJnIB4RYJLlG1b9AJSzqoq7raEMN+YPB8D6hOjn7CNbAzai7zFw07
- 7OITOzpjIYpAt10/RD2UpvANw2jVbiAKeENdmq4+T+IJ7WpkG5J/5IHveg4ApYRku8vgl/
- 78gzrU8bUfLJKRb0qHFDv7bx+b2cf/0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-475-LrwVtnGTOvywFmglIU-a0g-1; Wed, 19 Apr 2023 05:18:44 -0400
-X-MC-Unique: LrwVtnGTOvywFmglIU-a0g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47FF885A5A3;
- Wed, 19 Apr 2023 09:18:44 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63DAE2026D16;
- Wed, 19 Apr 2023 09:18:42 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- kraxel@redhat.com
-Subject: [PATCH] tests/vm/freebsd: Update to FreeBSD 13.2
-Date: Wed, 19 Apr 2023 11:18:40 +0200
-Message-Id: <20230419091840.603503-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1pp3yn-0001V5-Oe
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 05:19:58 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1pp3yh-0005Lr-UP
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 05:19:55 -0400
+Received: from loongson.cn (unknown [10.20.42.120])
+ by gateway (Coremail) with SMTP id _____8Cxjdoysj9k_t4eAA--.36858S3;
+ Wed, 19 Apr 2023 17:19:46 +0800 (CST)
+Received: from [10.20.42.120] (unknown [10.20.42.120])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxHuQxsj9kVNsuAA--.24894S3; 
+ Wed, 19 Apr 2023 17:19:45 +0800 (CST)
+Subject: Re: [PATCH] target/loongarch: Add CSR_CPUID reg in cpu_env
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230418122045.2808212-1-zhaotianrui@loongson.cn>
+ <4656ba70-7ad0-a01f-2bd9-e4623ee5355e@loongson.cn>
+ <a6f44b8e-59fc-f187-8ea4-1041548f0ebf@loongson.cn>
+Cc: richard.henderson@linaro.org, maobibo@loongson.cn, f4bug@amsat.org,
+ philmd@linaro.org
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+Message-ID: <39c95a6a-0fc2-f5de-20f4-5b10e745207f@loongson.cn>
+Date: Wed, 19 Apr 2023 17:19:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
+In-Reply-To: <a6f44b8e-59fc-f187-8ea4-1041548f0ebf@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf8BxHuQxsj9kVNsuAA--.24894S3
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxAFWkKw1xuFWxAFy7GF4rZrb_yoW5ZFy5pr
+ n7CFWqkr4UtFWkA34xZ3Z0g3WDXw17Kw4Iva15GFyvvF4UWr1kXFW0kwnF9FyDAw45ArW0
+ vF1Yyr15XF4fZFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU2ID7UUUUU
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.597,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,193 +81,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to QEMU's support policy, we stop supporting the previous
-major release two years after the the new major release has been
-published. So we can stop testing FreeBSD 12 now and should switch
-our FreeBSD VM to version 13 instead.
 
-Some changes are needed for this update: The downloadable .ISO images
-do not use the serial port as console by default anymore, so they
-are not usable in the same way as with FreeBSD 12. Fortunately, the
-FreeBSD project now also offers some pre-installed CI images that
-have the serial console enabled, so we can use those now, with the
-benefit that we can skip almost all parts of the previous installation
-process.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/vm/freebsd | 101 ++++++++++++-----------------------------------
- 1 file changed, 25 insertions(+), 76 deletions(-)
+在 2023年04月18日 20:45, Tianrui Zhao 写道:
+>
+>
+> 在 2023年04月18日 20:40, Song Gao 写道:
+>> Hi,  Tianrui
+>>
+>> 在 2023/4/18 下午8:20, Tianrui Zhao 写道:
+>>> Add CSR_CPUID register in cpu_env to save the cpu_index
+>>> value.
+>> Why do we need to do this?
+>>
+>> For tcg mode, it is enough to use cpu_index. You need to explain the 
+>> reason.
+>>
+>> Thank.
+>> Song Gao
+> We prepare to add kvm for loongarch, so we want to add CSR_CPUID reg 
+> for get/put_registers ioctl.
+>
+> Thanks
+> Tianrui Zhao
+We want to use the CSR_CPUID in get/put_register kvm ioctl, like this:
+kvm_loongarch_put_csr(cpustate *cs)
+{
+KVM_PUT_ONEREG(cs,  &env->CSR_CRMD); //put CSR_CRMD val into kvm
+KVM_PUT_ONEREG(cs,  &env->CSR_PRMD); // put CSR_PRMD val into kvm
+...
+KVM_PUT_ONEREG(cs,  &env->CSR_CPUID); // put CSR_CPUID val into kvm
+...
+}
 
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index ba2ba23d24..9435e9aa2e 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -28,15 +28,15 @@ class FreeBSDVM(basevm.BaseVM):
-     name = "freebsd"
-     arch = "x86_64"
- 
--    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.4/FreeBSD-12.4-RELEASE-amd64-disc1.iso.xz"
--    csum = "1dcf6446e31bf3f81b582e9aba3319a258c29a937a2af6138ee4b181ed719a87"
-+    link = "https://download.freebsd.org/ftp/releases/CI-IMAGES/13.2-RELEASE/amd64/Latest/FreeBSD-13.2-RELEASE-amd64-BASIC-CI.raw.xz"
-+    csum = "a4fb3b6c7b75dd4d58fb0d75e4caf72844bffe0ca00e66459c028b198ffb3c0e"
-     size = "20G"
-     pkgs = [
-         # build tools
-         "git",
-         "pkgconf",
-         "bzip2",
--        "python37",
-+        "python39",
-         "ninja",
- 
-         # gnu tools
-@@ -78,72 +78,42 @@ class FreeBSDVM(basevm.BaseVM):
-         mkdir src build; cd src;
-         tar -xf /dev/vtbd1;
-         cd ../build
--        ../src/configure --python=python3.7 {configure_opts};
-+        ../src/configure --python=python3.9 {configure_opts};
-         gmake --output-sync -j{jobs} {target} {verbose};
-     """
- 
--    def console_boot_serial(self):
--        self.console_wait_send("Autoboot", "3")
--        self.console_wait_send("OK", "set console=comconsole\n")
--        self.console_wait_send("OK", "boot\n")
--
-     def build_image(self, img):
--        self.print_step("Downloading install iso")
-+        self.print_step("Downloading disk image")
-         cimg = self._download_with_cache(self.link, sha256sum=self.csum)
--        img_tmp = img + ".tmp"
--        iso = img + ".install.iso"
--        iso_xz = iso + ".xz"
--
--        self.print_step("Preparing iso and disk image")
--        subprocess.check_call(["cp", "-f", cimg, iso_xz])
--        subprocess.check_call(["xz", "-dvf", iso_xz])
--        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
--
--        self.print_step("Booting installer")
-+        tmp_raw = img + ".tmp.raw"
-+        tmp_raw_xz = tmp_raw + ".xz"
-+        img_tmp = img + ".tmp.qcow2"
-+
-+        self.print_step("Preparing disk image")
-+        subprocess.check_call(["cp", "-f", cimg, tmp_raw_xz])
-+        subprocess.check_call(["xz", "-dvf", tmp_raw_xz])
-+        self.exec_qemu_img("convert", "-O", "qcow2", tmp_raw, img_tmp)
-+        self.exec_qemu_img("resize", img_tmp, self.size)
-+        os.remove(tmp_raw)
-+
-+        self.print_step("Preparing disk image")
-         self.boot(img_tmp, extra_args = [
-             "-machine", "graphics=off",
--            "-device", "VGA",
--            "-cdrom", iso
-+            "-vga", "none"
-         ])
-         self.console_init()
--        self.console_boot_serial()
--        self.console_wait_send("Console type",          "xterm\n")
--
--        # pre-install configuration
--        self.console_wait_send("Welcome",               "\n")
--        self.console_wait_send("Keymap Selection",      "\n")
--        self.console_wait_send("Set Hostname",          "freebsd\n")
--        self.console_wait_send("Distribution Select",   "\n")
--        self.console_wait_send("Partitioning",          "\n")
--        self.console_wait_send("Partition",             "\n")
--        self.console_wait_send("Scheme",                "\n")
--        self.console_wait_send("Editor",                "f")
--        self.console_wait_send("Confirmation",          "c")
--
--        self.print_step("Installation started now, this will take a while")
--
--        # post-install configuration
-+        self.console_wait_send("login:", "root\n")
-+        self.console_wait_send("~ #", "service growfs onestart\n")
-+
-+        # root user
-+        self.console_wait_send("~ #", "passwd\n")
-         self.console_wait("New Password:")
-         self.console_send("%s\n" % self._config["root_pass"])
-         self.console_wait("Retype New Password:")
-         self.console_send("%s\n" % self._config["root_pass"])
- 
--        self.console_wait_send("Network Configuration", "\n")
--        self.console_wait_send("IPv4",                  "y")
--        self.console_wait_send("DHCP",                  "y")
--        self.console_wait_send("IPv6",                  "n")
--        self.console_wait_send("Resolver",              "\n")
--
--        self.console_wait_send("Time Zone Selector",    "0\n")
--        self.console_wait_send("Confirmation",          "y")
--        self.console_wait_send("Time & Date",           "\n")
--        self.console_wait_send("Time & Date",           "\n")
--
--        self.console_wait_send("System Configuration",  "\n")
--        self.console_wait_send("System Hardening",      "\n")
--
-         # qemu user
--        self.console_wait_send("Add User Accounts", "y")
-+        self.console_wait_send("~ #", "adduser\n")
-         self.console_wait("Username")
-         self.console_send("%s\n" % self._config["guest_user"])
-         self.console_wait("Full name")
-@@ -165,13 +135,7 @@ class FreeBSDVM(basevm.BaseVM):
-         self.console_wait_send("Lock out",              "\n")
-         self.console_wait_send("OK",                    "yes\n")
-         self.console_wait_send("Add another user",      "no\n")
--
--        self.console_wait_send("Final Configuration",   "\n")
--        self.console_wait_send("Manual Configuration",  "\n")
--        self.console_wait_send("Complete",              "\n")
--
--        self.print_step("Installation finished, rebooting")
--        self.console_boot_serial()
-+        self.console_wait_send("~ #", "exit\n")
- 
-         # setup qemu user
-         prompt = "$"
-@@ -183,35 +147,20 @@ class FreeBSDVM(basevm.BaseVM):
-         self.console_ssh_init(prompt, "root", self._config["root_pass"])
-         self.console_sshd_config(prompt)
- 
--        # setup serial console
--        self.console_wait(prompt)
--        self.console_send("echo 'console=comconsole' >> /boot/loader.conf\n")
--
--        # setup boot delay
--        self.console_wait(prompt)
--        self.console_send("echo 'autoboot_delay=1' >> /boot/loader.conf\n")
--
-         # setup virtio-blk #1 (tarfile)
-         self.console_wait(prompt)
-         self.console_send("echo 'chmod 666 /dev/vtbd1' >> /etc/rc.local\n")
- 
--        self.print_step("Configuration finished, rebooting")
--        self.console_wait_send(prompt, "reboot\n")
--        self.console_wait("login:")
--        self.wait_ssh()
--
-         self.print_step("Installing packages")
-         self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
- 
-         # shutdown
-         self.ssh_root(self.poweroff)
--        self.console_wait("Uptime:")
-         self.wait()
- 
-         if os.path.exists(img):
-             os.remove(img)
-         os.rename(img_tmp, img)
--        os.remove(iso)
-         self.print_step("All done")
- 
- if __name__ == "__main__":
--- 
-2.31.1
+And use the CSR_CPUID reg could keep the consistent format with other 
+regs in the put_registers function.
+
+Thanks
+Tianrui Zhao
+>
+>>> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+>>> ---
+>>>   target/loongarch/cpu.c                             | 1 +
+>>>   target/loongarch/cpu.h                             | 1 +
+>>>   target/loongarch/insn_trans/trans_privileged.c.inc | 8 +-------
+>>>   3 files changed, 3 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+>>> index 97e6579f6a..bee5949ed2 100644
+>>> --- a/target/loongarch/cpu.c
+>>> +++ b/target/loongarch/cpu.c
+>>> @@ -486,6 +486,7 @@ static void loongarch_cpu_reset_hold(Object *obj)
+>>>         env->CSR_ESTAT = env->CSR_ESTAT & (~MAKE_64BIT_MASK(0, 2));
+>>>       env->CSR_RVACFG = FIELD_DP64(env->CSR_RVACFG, CSR_RVACFG, 
+>>> RBITS, 0);
+>>> +    env->CSR_CPUID = cs->cpu_index;
+>>>       env->CSR_TCFG = FIELD_DP64(env->CSR_TCFG, CSR_TCFG, EN, 0);
+>>>       env->CSR_LLBCTL = FIELD_DP64(env->CSR_LLBCTL, CSR_LLBCTL, KLO, 
+>>> 0);
+>>>       env->CSR_TLBRERA = FIELD_DP64(env->CSR_TLBRERA, CSR_TLBRERA, 
+>>> ISTLBR, 0);
+>>> diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+>>> index e11c875188..1d9a4009b9 100644
+>>> --- a/target/loongarch/cpu.h
+>>> +++ b/target/loongarch/cpu.h
+>>> @@ -288,6 +288,7 @@ typedef struct CPUArchState {
+>>>       uint64_t CSR_PWCH;
+>>>       uint64_t CSR_STLBPS;
+>>>       uint64_t CSR_RVACFG;
+>>> +    uint64_t CSR_CPUID;
+>>>       uint64_t CSR_PRCFG1;
+>>>       uint64_t CSR_PRCFG2;
+>>>       uint64_t CSR_PRCFG3;
+>>> diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc 
+>>> b/target/loongarch/insn_trans/trans_privileged.c.inc
+>>> index 5a04352b01..d1d98c6e9e 100644
+>>> --- a/target/loongarch/insn_trans/trans_privileged.c.inc
+>>> +++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+>>> @@ -99,13 +99,7 @@ static const CSRInfo csr_info[] = {
+>>>       CSR_OFF(PWCH),
+>>>       CSR_OFF(STLBPS),
+>>>       CSR_OFF(RVACFG),
+>>> -    [LOONGARCH_CSR_CPUID] = {
+>>> -        .offset = (int)offsetof(CPUState, cpu_index)
+>>> -                  - (int)offsetof(LoongArchCPU, env),
+>>> -        .flags = CSRFL_READONLY,
+>>> -        .readfn = NULL,
+>>> -        .writefn = NULL
+>>> -    },
+>>> +    CSR_OFF_FLAGS(CPUID, CSRFL_READONLY),
+>>>       CSR_OFF_FLAGS(PRCFG1, CSRFL_READONLY),
+>>>       CSR_OFF_FLAGS(PRCFG2, CSRFL_READONLY),
+>>>       CSR_OFF_FLAGS(PRCFG3, CSRFL_READONLY),
+>
 
 
