@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABF66E7199
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EF16E7196
 	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 05:29:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poyU3-0007RF-1f; Tue, 18 Apr 2023 23:27:51 -0400
+	id 1poyU1-0007QT-9n; Tue, 18 Apr 2023 23:27:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1poyTx-0007NE-3p; Tue, 18 Apr 2023 23:27:45 -0400
+ id 1poyTx-0007NK-8Z; Tue, 18 Apr 2023 23:27:45 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1poyTt-00011E-8n; Tue, 18 Apr 2023 23:27:44 -0400
+ id 1poyTt-00011H-8Q; Tue, 18 Apr 2023 23:27:45 -0400
 Received: from localhost.localdomain (unknown [180.165.241.15])
- by APP-05 (Coremail) with SMTP id zQCowACnrxegXz9kyEroFA--.60284S5;
- Wed, 19 Apr 2023 11:27:31 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACnrxegXz9kyEroFA--.60284S6;
+ Wed, 19 Apr 2023 11:27:32 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,32 +26,33 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
  lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v3 3/7] target/riscv: Flush TLB when pmpaddr is updated
-Date: Wed, 19 Apr 2023 11:27:21 +0800
-Message-Id: <20230419032725.29721-4-liweiwei@iscas.ac.cn>
+Subject: [PATCH v3 4/7] target/riscv: Flush TLB only when pmpcfg/pmpaddr
+ really changes
+Date: Wed, 19 Apr 2023 11:27:22 +0800
+Message-Id: <20230419032725.29721-5-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230419032725.29721-1-liweiwei@iscas.ac.cn>
 References: <20230419032725.29721-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACnrxegXz9kyEroFA--.60284S5
-X-Coremail-Antispam: 1UD129KBjvdXoW7WryUKFy7XF4UtFy3ZFWUJwb_yoW3twb_GF
- Z7XF4kWryUWa4F9a48AFn5J3WIkrykGFsIganrJrs3CFy5Kr4fXwn0qa48JryYkFW3Wr97
- ZwnrJr43CrsxWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbDkFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
- 0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
- 8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxd
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
- v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
- F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
- IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
- wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
- 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
- xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
- 1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbJ73DUU
- UUU==
+X-CM-TRANSID: zQCowACnrxegXz9kyEroFA--.60284S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxGFWUCF1fWw1rKF1Dur45KFg_yoW5AFyrpr
+ WfKF92grW5tasFga9xJF1UXF15Cw1rKrWxKrZrCF1F9F43uF48CF1qg3sFkr1DGayxZrWY
+ kayDZryUXF42vFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+ kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+ z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+ 4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4U
+ JVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7V
+ C0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j
+ 6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x0262
+ 8vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+ F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+ ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+ xVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
+ WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
+ OBTYUUUUU
 X-Originating-IP: [180.165.241.15]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -77,25 +78,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-TLB should be flushed not only for pmpcfg csr changes, but also for
-pmpaddr csr changes.
+TLB needn't be flushed when pmpcfg/pmpaddr don't changes.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/pmp.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/pmp.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index d1ef9457ea..bcd190d3a3 100644
+index bcd190d3a3..7feaddd7eb 100644
 --- a/target/riscv/pmp.c
 +++ b/target/riscv/pmp.c
-@@ -537,6 +537,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+@@ -26,7 +26,7 @@
+ #include "trace.h"
+ #include "exec/exec-all.h"
+ 
+-static void pmp_write_cfg(CPURISCVState *env, uint32_t addr_index,
++static bool pmp_write_cfg(CPURISCVState *env, uint32_t addr_index,
+                           uint8_t val);
+ static uint8_t pmp_read_cfg(CPURISCVState *env, uint32_t addr_index);
+ static void pmp_update_rule(CPURISCVState *env, uint32_t pmp_index);
+@@ -83,7 +83,7 @@ static inline uint8_t pmp_read_cfg(CPURISCVState *env, uint32_t pmp_index)
+  * Accessor to set the cfg reg for a specific PMP/HART
+  * Bounds checks and relevant lock bit.
+  */
+-static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
++static bool pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
+ {
+     if (pmp_index < MAX_RISCV_PMPS) {
+         bool locked = true;
+@@ -119,14 +119,17 @@ static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
+ 
+         if (locked) {
+             qemu_log_mask(LOG_GUEST_ERROR, "ignoring pmpcfg write - locked\n");
+-        } else {
++        } else if (env->pmp_state.pmp[pmp_index].cfg_reg != val) {
+             env->pmp_state.pmp[pmp_index].cfg_reg = val;
+             pmp_update_rule(env, pmp_index);
++            return true;
+         }
+     } else {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "ignoring pmpcfg write - out of bounds\n");
+     }
++
++    return false;
+ }
+ 
+ static void pmp_decode_napot(target_ulong a, target_ulong *sa,
+@@ -477,16 +480,19 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
+     int i;
+     uint8_t cfg_val;
+     int pmpcfg_nums = 2 << riscv_cpu_mxl(env);
++    bool modified = false;
+ 
+     trace_pmpcfg_csr_write(env->mhartid, reg_index, val);
+ 
+     for (i = 0; i < pmpcfg_nums; i++) {
+         cfg_val = (val >> 8 * i)  & 0xff;
+-        pmp_write_cfg(env, (reg_index * 4) + i, cfg_val);
++        modified |= pmp_write_cfg(env, (reg_index * 4) + i, cfg_val);
+     }
+ 
+     /* If PMP permission of any addr has been changed, flush TLB pages. */
+-    tlb_flush(env_cpu(env));
++    if (modified) {
++        tlb_flush(env_cpu(env));
++    }
+ }
+ 
+ 
+@@ -535,9 +541,11 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+         }
+ 
          if (!pmp_is_locked(env, addr_index)) {
-             env->pmp_state.pmp[addr_index].addr_reg = val;
-             pmp_update_rule(env, addr_index);
-+            tlb_flush(env_cpu(env));
+-            env->pmp_state.pmp[addr_index].addr_reg = val;
+-            pmp_update_rule(env, addr_index);
+-            tlb_flush(env_cpu(env));
++            if (env->pmp_state.pmp[addr_index].addr_reg != val) {
++                env->pmp_state.pmp[addr_index].addr_reg = val;
++                pmp_update_rule(env, addr_index);
++                tlb_flush(env_cpu(env));
++            }
          } else {
              qemu_log_mask(LOG_GUEST_ERROR,
                            "ignoring pmpaddr write - locked\n");
