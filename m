@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C46C6E7194
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 05:29:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FF26E7267
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 06:48:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poyTz-0007PG-PB; Tue, 18 Apr 2023 23:27:47 -0400
+	id 1poziT-0003oZ-3g; Wed, 19 Apr 2023 00:46:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1poyTv-0007Mp-O0; Tue, 18 Apr 2023 23:27:43 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ (Exim 4.90_1) (envelope-from <geoff@aeryn.lan.ktmba>)
+ id 1poziR-0003oM-H4
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 00:46:47 -0400
+Received: from mail1.hostfission.com ([118.127.8.195])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1poyTt-00011y-5F; Tue, 18 Apr 2023 23:27:43 -0400
-Received: from localhost.localdomain (unknown [180.165.241.15])
- by APP-05 (Coremail) with SMTP id zQCowACnrxegXz9kyEroFA--.60284S9;
- Wed, 19 Apr 2023 11:27:34 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v3 7/7] target/riscv: Separate pmp_update_rule() in
- pmpcfg_csr_write
-Date: Wed, 19 Apr 2023 11:27:25 +0800
-Message-Id: <20230419032725.29721-8-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230419032725.29721-1-liweiwei@iscas.ac.cn>
-References: <20230419032725.29721-1-liweiwei@iscas.ac.cn>
+ (envelope-from <geoff@aeryn.lan.ktmba>) id 1poziN-0005DW-EI
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 00:46:47 -0400
+Received: from aeryn.lan.ktmba (office.hostfission.com [220.233.29.71])
+ by mail1.hostfission.com (Postfix) with ESMTPS id DA1C01F0C17;
+ Wed, 19 Apr 2023 14:39:50 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
+ s=mail; t=1681879190;
+ bh=PVVb1n898uEVCc+DSEsNRmKY3aU/upXnZrNrZ90NaiU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=E0/JVGvmd0+hnIgmxJgh3eImA8a4sDLGcpItSWYXv2MOqVfoLlkJ7hWhrP7beWEIT
+ uJrmDHCgZutLr8UcIgt6MY7dEtzWrlGqP/D73LIRjo/0Yygu0srZYk6KMnF0A9b5Rm
+ s6tJ+tiR14QnrB3lG9oQfjM8UxIqRoK5pITe4/cw=
+Received: by aeryn.lan.ktmba (Postfix, from userid 1000)
+ id 63BAE2E0CE0; Wed, 19 Apr 2023 14:39:50 +1000 (AEST)
+From: Geoffrey McRae <geoff@hostfission.com>
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Geoffrey McRae <geoff@hostfission.com>
+Subject: [PATCH] hw/misc/ivshmem: Use 32-bit addressing for the memory BAR
+Date: Wed, 19 Apr 2023 14:39:31 +1000
+Message-Id: <20230419043931.36764-1-geoff@hostfission.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACnrxegXz9kyEroFA--.60284S9
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr1fWw45KF1DZF48Aw18Zrb_yoW8WFWUpr
- WIkFWIgr45ta4qg34fJF1UWrs8Ca1rKFn2q3yvkF1F9a1rua4rCF1qg3s29F45GayfZrWY
- 9a4UZr4UZF40vFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
- 4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4U
- JVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7V
- C0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j
- 6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x0262
- 8vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
- ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
- WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
- OBTYUUUUU
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=118.127.8.195; envelope-from=geoff@aeryn.lan.ktmba;
+ helo=mail1.hostfission.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,56 +62,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use pmp_update_rule_addr() and pmp_update_rule_nums() separately to
-update rule nums only once for each pmpcfg_csr_write. Then we can also
-move tlb_flush into pmp_update_rule_nums().
+Since OVMF 202211 the bios maps BAR2 to an upper address which has the
+undesirable effect of making it impossible to map the memory under Linux
+due to it exceeding the maximum permissible range for hotplug memory
+(see `mhp_get_pluggable_range` in `mm/memory_hotplug.c`). This patch
+resolves this by configuring the BAR as 32-bit.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
 ---
- target/riscv/pmp.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/misc/ivshmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 755ed2b963..7d825c1746 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -121,7 +121,7 @@ static bool pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
-             qemu_log_mask(LOG_GUEST_ERROR, "ignoring pmpcfg write - locked\n");
-         } else if (env->pmp_state.pmp[pmp_index].cfg_reg != val) {
-             env->pmp_state.pmp[pmp_index].cfg_reg = val;
--            pmp_update_rule(env, pmp_index);
-+            pmp_update_rule_addr(env, pmp_index);
-             return true;
-         }
-     } else {
-@@ -207,6 +207,8 @@ void pmp_update_rule_nums(CPURISCVState *env)
-             env->pmp_state.num_rules++;
-         }
-     }
-+
-+    tlb_flush(env_cpu(env));
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index d66d912172..2f8f7e2030 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -913,7 +913,7 @@ static void ivshmem_common_realize(PCIDevice *dev, Error **errp)
+     pci_register_bar(PCI_DEVICE(s), 2,
+                      PCI_BASE_ADDRESS_SPACE_MEMORY |
+                      PCI_BASE_ADDRESS_MEM_PREFETCH |
+-                     PCI_BASE_ADDRESS_MEM_TYPE_64,
++                     PCI_BASE_ADDRESS_MEM_TYPE_32,
+                      s->ivshmem_bar2);
  }
  
- /*
-@@ -486,7 +488,7 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
- 
-     /* If PMP permission of any addr has been changed, flush TLB pages. */
-     if (modified) {
--        tlb_flush(env_cpu(env));
-+        pmp_update_rule_nums(env);
-     }
- }
- 
-@@ -539,7 +541,6 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
-             if (env->pmp_state.pmp[addr_index].addr_reg != val) {
-                 env->pmp_state.pmp[addr_index].addr_reg = val;
-                 pmp_update_rule(env, addr_index);
--                tlb_flush(env_cpu(env));
-             }
-         } else {
-             qemu_log_mask(LOG_GUEST_ERROR,
 -- 
-2.25.1
+2.39.2
 
 
