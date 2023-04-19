@@ -2,57 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A166E7D5D
+	by mail.lfdr.de (Postfix) with ESMTPS id 638456E7D5E
 	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 16:47:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp94Q-0002ry-OO; Wed, 19 Apr 2023 10:46:06 -0400
+	id 1pp954-00030u-Ln; Wed, 19 Apr 2023 10:46:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pp94N-0002rU-Rj
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 10:46:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pp952-00030L-Jw
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 10:46:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pp94L-0007tv-M0
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 10:46:03 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pp950-00085V-Rm
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 10:46:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681915560;
+ s=mimecast20190719; t=1681915602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Qpo9YV47f1jXyA+pJR6dl+KYqtJQfk2Wc9Mx/2ppWa4=;
- b=UKY+gLxJiPIBGt97PmLyAmALQtC/raslXrNFtbxdYtPDPUuVpy+ppJVB71JzAVZZE5z9oR
- usPfU714JIBH53ZcNEdCyiMnEMRLzVRdKN6oNcKJeQtUAymTLa2cAZ5JVvhKl5WuLhu0Lf
- HJMJJvw0HM4eFNMUvFr8pZo73xo64s4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-36-jQm1lRpVN-6fXADB-ZI79g-1; Wed, 19 Apr 2023 10:45:57 -0400
-X-MC-Unique: jQm1lRpVN-6fXADB-ZI79g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F0AC858289;
- Wed, 19 Apr 2023 14:45:56 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F845C16027;
- Wed, 19 Apr 2023 14:45:54 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- kraxel@redhat.com
-Subject: [PATCH v2] tests/vm/freebsd: Update to FreeBSD 13.2
-Date: Wed, 19 Apr 2023 16:45:53 +0200
-Message-Id: <20230419144553.719749-1-thuth@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EU4rXKi03l6AzX0HQukdgmKqcrNnA5DIgG8JfTSsI1w=;
+ b=KxN+CzQHhq2xoNhY3rg0DzEbnkL46BhB3GI2HoetzljwFXPHkMPgyIkrojeCKygrvHxpyT
+ n4QBpQXzDTajDjr0Alfl8C//BI31CP4wdqI36JxoEHJo77Eii9Z8Sy8FSCwQZx5HjjS7kk
+ Ko6m+C/5cW9L/8Zn7GFSEC3+SmiLEqM=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-267-36viH6fgNF2StK53VKlWmA-1; Wed, 19 Apr 2023 10:46:40 -0400
+X-MC-Unique: 36viH6fgNF2StK53VKlWmA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-74cf009f476so1310585a.0
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 07:46:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681915599; x=1684507599;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EU4rXKi03l6AzX0HQukdgmKqcrNnA5DIgG8JfTSsI1w=;
+ b=gg2evo6DAR9SPfmj/5Qqet+rVi+ftihNgvAFNDa12UIqqplo/2Pf3PGmcPFE1xrdCF
+ X4mLPG052hEGgGvLWBB8Vg1wRhyHN3YEL8V7J9Drl6TVwuI5HVWHDTIGW79lfhLZxkgy
+ mtAq2DwHeFynWjwqo9NGuJWvafs3CHtmTMShKRjQSel5+OuHp1sZr9foVJvdKC401KRn
+ HuYdSjYMQhwVz0QaJo1UEkIVmEV/QA6N2FSkWCUYHO6GdtPgiywX6qxSIOF9b4c6059T
+ vitk6pr1bVv6BUb2oYqnpE82qg5yVXWX2OArYQSuSC9ncf8473Ad1oEqHulsEgJx8nv9
+ QXkA==
+X-Gm-Message-State: AAQBX9cKzWaKYK+R0HLRnjgzZCVhO0UMX+1RqRAi2t7pBRI9+MFK0ny9
+ hrq/Wqy3gWtFyl/FXLRl+mEMx7Xv8JPbjF+8NDb1RBANK/J8ElRNWL4i187MFVY5w+s1U8j/EFk
+ m3DMni8e/CcXx0TI=
+X-Received: by 2002:ad4:5ba7:0:b0:5f1:31eb:1f0e with SMTP id
+ 7-20020ad45ba7000000b005f131eb1f0emr9436494qvq.4.1681915599745; 
+ Wed, 19 Apr 2023 07:46:39 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZpDCdcIhHl1x9pVe3kb1EjXqKazoX2yYAUv6oc5MwZOqe2V66W6MaVQXbENKLICiNID81PXA==
+X-Received: by 2002:ad4:5ba7:0:b0:5f1:31eb:1f0e with SMTP id
+ 7-20020ad45ba7000000b005f131eb1f0emr9436477qvq.4.1681915599515; 
+ Wed, 19 Apr 2023 07:46:39 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ r2-20020a0cf802000000b005ef5b1006c5sm3568575qvn.38.2023.04.19.07.46.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Apr 2023 07:46:38 -0700 (PDT)
+Date: Wed, 19 Apr 2023 10:46:38 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Subject: Re: [PATCH 1/3] hostmem: Detect and cache fs type for file hostmem
+Message-ID: <ZD/+zlPnZWCA7Crn@x1n>
+References: <20230418225749.1049185-1-peterx@redhat.com>
+ <20230418225749.1049185-2-peterx@redhat.com>
+ <cdec800a-80ab-18f7-2667-9bc7a8917f09@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cdec800a-80ab-18f7-2667-9bc7a8917f09@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,196 +99,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to QEMU's support policy, we stop supporting the previous
-major release two years after the the new major release has been
-published. So we can stop testing FreeBSD 12 now and should switch
-our FreeBSD VM to version 13 instead.
+On Wed, Apr 19, 2023 at 09:28:21AM +0200, David Hildenbrand wrote:
+> On 19.04.23 00:57, Peter Xu wrote:
+> > Detect the file system for a memory-backend-file object and cache it within
+> > the object if possible when CONFIG_LINUX (using statfs).
+> > 
+> > Only support the two important types of memory (tmpfs, hugetlbfs) and keep
+> > the rest as "unknown" for now.
+> > 
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >   backends/hostmem-file.c  | 37 ++++++++++++++++++++++++++++++++++++-
+> >   include/sysemu/hostmem.h |  1 +
+> >   2 files changed, 37 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
+> > index 25141283c4..2484e45a11 100644
+> > --- a/backends/hostmem-file.c
+> > +++ b/backends/hostmem-file.c
+> > @@ -18,13 +18,17 @@
+> >   #include "sysemu/hostmem.h"
+> >   #include "qom/object_interfaces.h"
+> >   #include "qom/object.h"
+> > +#ifdef CONFIG_LINUX
+> > +#include <sys/vfs.h>
+> > +#include <linux/magic.h>
+> > +#endif
+> >   OBJECT_DECLARE_SIMPLE_TYPE(HostMemoryBackendFile, MEMORY_BACKEND_FILE)
+> >   struct HostMemoryBackendFile {
+> >       HostMemoryBackend parent_obj;
+> > -
+> > +    __fsword_t fs_type;
+> >       char *mem_path;
+> >       uint64_t align;
+> >       bool discard_data;
+> > @@ -52,6 +56,15 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+> >           return;
+> >       }
+> > +#ifdef CONFIG_LINUX
+> > +    struct statfs fs;
+> > +    if (!statfs(fb->mem_path, &fs)) {
+> > +        fb->fs_type = fs.f_type;
+> > +    } else {
+> > +        fb->fs_type = 0;
+> > +    }
+> > +#endif
+> > +
+> 
+> 
+> Instead of using statfs, why not implement something like
+> qemu_fd_getpagesize(), that also relies on HUGETLBFS_MAGIC already, meaning
+> 
+> 	size_t qemu_fd_type(int fd)
+> 
+> which uses fstatfs() instead? As an abstraction, as Daniel suggests, use a
+> new enum to return the type -- "0" meaning "unknown".
+> 
+> Then you can even avoid the caching in hostmem code and simply call it
+> directly from uffd code.
 
-Some changes are needed for this update: The downloadable .ISO images
-do not use the serial port as console by default anymore, so they
-are not usable in the same way as with FreeBSD 12. Fortunately, the
-FreeBSD project now also offers some pre-installed CI images that
-have the serial console enabled, so we can use those now, with the
-benefit that we can skip almost all parts of the previous installation
-process.
+Yeah, can do.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Removed the "ftp/" folder from the URL - it's not necessary anymore
-     (thanks to Li-Wen for the hint!)
+I think it depends on whether this can also be useful for other users of a
+file memory backend object where the fd may not be on hand.  So far this's
+indeed the only one that needs it, though, so I can switch.
 
- tests/vm/freebsd | 101 ++++++++++++-----------------------------------
- 1 file changed, 25 insertions(+), 76 deletions(-)
+Thanks,
 
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index ba2ba23d24..11de6473f4 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -28,15 +28,15 @@ class FreeBSDVM(basevm.BaseVM):
-     name = "freebsd"
-     arch = "x86_64"
- 
--    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.4/FreeBSD-12.4-RELEASE-amd64-disc1.iso.xz"
--    csum = "1dcf6446e31bf3f81b582e9aba3319a258c29a937a2af6138ee4b181ed719a87"
-+    link = "https://download.freebsd.org/releases/CI-IMAGES/13.2-RELEASE/amd64/Latest/FreeBSD-13.2-RELEASE-amd64-BASIC-CI.raw.xz"
-+    csum = "a4fb3b6c7b75dd4d58fb0d75e4caf72844bffe0ca00e66459c028b198ffb3c0e"
-     size = "20G"
-     pkgs = [
-         # build tools
-         "git",
-         "pkgconf",
-         "bzip2",
--        "python37",
-+        "python39",
-         "ninja",
- 
-         # gnu tools
-@@ -78,72 +78,42 @@ class FreeBSDVM(basevm.BaseVM):
-         mkdir src build; cd src;
-         tar -xf /dev/vtbd1;
-         cd ../build
--        ../src/configure --python=python3.7 {configure_opts};
-+        ../src/configure --python=python3.9 {configure_opts};
-         gmake --output-sync -j{jobs} {target} {verbose};
-     """
- 
--    def console_boot_serial(self):
--        self.console_wait_send("Autoboot", "3")
--        self.console_wait_send("OK", "set console=comconsole\n")
--        self.console_wait_send("OK", "boot\n")
--
-     def build_image(self, img):
--        self.print_step("Downloading install iso")
-+        self.print_step("Downloading disk image")
-         cimg = self._download_with_cache(self.link, sha256sum=self.csum)
--        img_tmp = img + ".tmp"
--        iso = img + ".install.iso"
--        iso_xz = iso + ".xz"
--
--        self.print_step("Preparing iso and disk image")
--        subprocess.check_call(["cp", "-f", cimg, iso_xz])
--        subprocess.check_call(["xz", "-dvf", iso_xz])
--        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
--
--        self.print_step("Booting installer")
-+        tmp_raw = img + ".tmp.raw"
-+        tmp_raw_xz = tmp_raw + ".xz"
-+        img_tmp = img + ".tmp.qcow2"
-+
-+        self.print_step("Preparing disk image")
-+        subprocess.check_call(["cp", "-f", cimg, tmp_raw_xz])
-+        subprocess.check_call(["xz", "-dvf", tmp_raw_xz])
-+        self.exec_qemu_img("convert", "-O", "qcow2", tmp_raw, img_tmp)
-+        self.exec_qemu_img("resize", img_tmp, self.size)
-+        os.remove(tmp_raw)
-+
-+        self.print_step("Preparing disk image")
-         self.boot(img_tmp, extra_args = [
-             "-machine", "graphics=off",
--            "-device", "VGA",
--            "-cdrom", iso
-+            "-vga", "none"
-         ])
-         self.console_init()
--        self.console_boot_serial()
--        self.console_wait_send("Console type",          "xterm\n")
--
--        # pre-install configuration
--        self.console_wait_send("Welcome",               "\n")
--        self.console_wait_send("Keymap Selection",      "\n")
--        self.console_wait_send("Set Hostname",          "freebsd\n")
--        self.console_wait_send("Distribution Select",   "\n")
--        self.console_wait_send("Partitioning",          "\n")
--        self.console_wait_send("Partition",             "\n")
--        self.console_wait_send("Scheme",                "\n")
--        self.console_wait_send("Editor",                "f")
--        self.console_wait_send("Confirmation",          "c")
--
--        self.print_step("Installation started now, this will take a while")
--
--        # post-install configuration
-+        self.console_wait_send("login:", "root\n")
-+        self.console_wait_send("~ #", "service growfs onestart\n")
-+
-+        # root user
-+        self.console_wait_send("~ #", "passwd\n")
-         self.console_wait("New Password:")
-         self.console_send("%s\n" % self._config["root_pass"])
-         self.console_wait("Retype New Password:")
-         self.console_send("%s\n" % self._config["root_pass"])
- 
--        self.console_wait_send("Network Configuration", "\n")
--        self.console_wait_send("IPv4",                  "y")
--        self.console_wait_send("DHCP",                  "y")
--        self.console_wait_send("IPv6",                  "n")
--        self.console_wait_send("Resolver",              "\n")
--
--        self.console_wait_send("Time Zone Selector",    "0\n")
--        self.console_wait_send("Confirmation",          "y")
--        self.console_wait_send("Time & Date",           "\n")
--        self.console_wait_send("Time & Date",           "\n")
--
--        self.console_wait_send("System Configuration",  "\n")
--        self.console_wait_send("System Hardening",      "\n")
--
-         # qemu user
--        self.console_wait_send("Add User Accounts", "y")
-+        self.console_wait_send("~ #", "adduser\n")
-         self.console_wait("Username")
-         self.console_send("%s\n" % self._config["guest_user"])
-         self.console_wait("Full name")
-@@ -165,13 +135,7 @@ class FreeBSDVM(basevm.BaseVM):
-         self.console_wait_send("Lock out",              "\n")
-         self.console_wait_send("OK",                    "yes\n")
-         self.console_wait_send("Add another user",      "no\n")
--
--        self.console_wait_send("Final Configuration",   "\n")
--        self.console_wait_send("Manual Configuration",  "\n")
--        self.console_wait_send("Complete",              "\n")
--
--        self.print_step("Installation finished, rebooting")
--        self.console_boot_serial()
-+        self.console_wait_send("~ #", "exit\n")
- 
-         # setup qemu user
-         prompt = "$"
-@@ -183,35 +147,20 @@ class FreeBSDVM(basevm.BaseVM):
-         self.console_ssh_init(prompt, "root", self._config["root_pass"])
-         self.console_sshd_config(prompt)
- 
--        # setup serial console
--        self.console_wait(prompt)
--        self.console_send("echo 'console=comconsole' >> /boot/loader.conf\n")
--
--        # setup boot delay
--        self.console_wait(prompt)
--        self.console_send("echo 'autoboot_delay=1' >> /boot/loader.conf\n")
--
-         # setup virtio-blk #1 (tarfile)
-         self.console_wait(prompt)
-         self.console_send("echo 'chmod 666 /dev/vtbd1' >> /etc/rc.local\n")
- 
--        self.print_step("Configuration finished, rebooting")
--        self.console_wait_send(prompt, "reboot\n")
--        self.console_wait("login:")
--        self.wait_ssh()
--
-         self.print_step("Installing packages")
-         self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
- 
-         # shutdown
-         self.ssh_root(self.poweroff)
--        self.console_wait("Uptime:")
-         self.wait()
- 
-         if os.path.exists(img):
-             os.remove(img)
-         os.rename(img_tmp, img)
--        os.remove(iso)
-         self.print_step("All done")
- 
- if __name__ == "__main__":
 -- 
-2.31.1
+Peter Xu
 
 
