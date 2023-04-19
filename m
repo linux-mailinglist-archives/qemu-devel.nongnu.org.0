@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9E36E801D
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 19:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460346E8028
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 19:13:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppBGh-0004eB-PA; Wed, 19 Apr 2023 13:06:55 -0400
+	id 1ppBM1-0006Sz-DG; Wed, 19 Apr 2023 13:12:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ppBGf-0004dg-ID
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:06:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ppBLy-0006SN-55
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:12:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ppBGc-0001Jx-QZ
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:06:52 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ppBLr-0005QS-3p
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:12:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681924009;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1681924332;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4W3VY4hp6sIMZV/wws6xG5JAK0A28phgs4wvcRBtlEw=;
- b=XO0opHYD8cuyhbATwUB+xIpznFxFLfpjZRzEpOu0/OUaXsn0yVVVW+YgWmL+PNmRK+LfxT
- fcbMSVC1r+QslVgvkDxesLLsekjHc3IMwBcuepaLsYdtaYdCxElk4v7ThDBh76EOD0/e+S
- PHfeBY8Hb7HvolmMmQQHmFTq9r5FAhM=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-aloK7NGTMxawNJcN_k4h4Q-1; Wed, 19 Apr 2023 13:06:48 -0400
-X-MC-Unique: aloK7NGTMxawNJcN_k4h4Q-1
-Received: by mail-yb1-f198.google.com with SMTP id
- v200-20020a252fd1000000b00b8f548a72bbso174215ybv.9
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 10:06:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681924007; x=1684516007;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4W3VY4hp6sIMZV/wws6xG5JAK0A28phgs4wvcRBtlEw=;
- b=lFYnsOdsgJBgSzEaQsG9A9aeQEHAaSDDIkGH1nq4o6VIhGdqBjIeajfm7A6C6FpFfp
- jNOA9ix6sUb15aGvi15/BKzah0yQuVm38d5F7VO3ndwv35n0zTnZ2mV65PqD6YTB/KPT
- KB8BMtg/Fd912ptJOr7/3F9uM7ruYyCKcv3jMYdSjnf0IMk6eOP6n5qQfMRNu/cEibfm
- bjJx7RV1RVjh+xUkaQvRFtKqariW7FmhLYJrhmyBcSN3TgZeLO3TTZT7qRGHOfq0gGQC
- BnJmiCNbpD+iJAkuCsLGma9UfzO5uCKwkyAG39W49ztB7tCeSGoMBicgylIktD72utT0
- IAkg==
-X-Gm-Message-State: AAQBX9dhnqinnhpJf4StyxGsqCdLyLNc277LzlO64RsN3JIWgwqWFo+A
- fBpGlnmaCy4/YT+jT4im0SgoPHE4AtoKJuJDBCCBsaA5U5DfaBAvIz4fwPHdGdc0xX3jTwZ2qxF
- S02JsDl1cXS0fwOx1jOaOgnqeZ5NkaDncYozN+7ahTg==
-X-Received: by 2002:a05:6902:114b:b0:b96:c255:acf3 with SMTP id
- p11-20020a056902114b00b00b96c255acf3mr525165ybu.11.1681924007245; 
- Wed, 19 Apr 2023 10:06:47 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b6zSUpkCr09enbcr6KSLF7q/D5+TfpCYD+EWEPLGyER9OsyWFkbwtGD4tbZcW81xgruuqaOiZeG5eA7R72sSk=
-X-Received: by 2002:a05:6902:114b:b0:b96:c255:acf3 with SMTP id
- p11-20020a056902114b00b00b96c255acf3mr525135ybu.11.1681924006976; Wed, 19 Apr
- 2023 10:06:46 -0700 (PDT)
+ bh=BrzVtPxUEWHlUzxtqyGW7xWvwnL0zlMXYMEjg2ImQ6Q=;
+ b=Rti29eVkn6+upwPE2CZTYxQ8UP67tbyANUSLEBr/7L+/sIxhn7qAimryJqqZYO4TJLDHEk
+ 7O/SCzVkFrOcO/tsJjlqB55Qkk1TTQ76NEDvWdggG6tNZ6GhMg11fd0kjDT7Gx3F/tpo7W
+ QcLK5kkzs0BdiEUrpuoSzNwq39ldtoQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-TmG6rTXvMTWmNc3Z2kP95w-1; Wed, 19 Apr 2023 13:12:08 -0400
+X-MC-Unique: TmG6rTXvMTWmNc3Z2kP95w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6843D85A5A3;
+ Wed, 19 Apr 2023 17:12:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DB7B2166B33;
+ Wed, 19 Apr 2023 17:12:07 +0000 (UTC)
+Date: Wed, 19 Apr 2023 18:12:05 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com,
+ dfaggioli@suse.com, dgilbert@redhat.com,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with
+ multifd and fixed-ram
+Message-ID: <ZEAg5QJS44jzAV/v@redhat.com>
+References: <20230330180336.2791-1-farosas@suse.de> <ZCYCE0llX9WANK18@x1n>
+ <87edp5oukh.fsf@suse.de> <ZCbzmZXz3JG/jElA@x1n>
+ <878rfdos4a.fsf@suse.de> <ZCcCV8PIsuvab1lO@x1n>
+ <ZCcF6I0qb+1xlPhJ@redhat.com> <ZCcKBDM9sLomGOQE@x1n>
+ <ZD7MRGQ+4QsDBtKR@redhat.com> <ZD7u9YHTor4edGWw@x1n>
 MIME-Version: 1.0
-References: <cover.1681819697.git.ray90514@gmail.com>
- <5c10e79c26b8dda38ebeba6bcafb8bc650f6a588.1681819697.git.ray90514@gmail.com>
-In-Reply-To: <5c10e79c26b8dda38ebeba6bcafb8bc650f6a588.1681819697.git.ray90514@gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 19 Apr 2023 19:06:10 +0200
-Message-ID: <CAJaqyWdJBbrBwj1NyeU6z_j8mo+UV9tiM6yM7QtJ92w9bBh1aA@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 2/2] vhost-vdpa: cache device config
-To: Shao-Chien Chiang <ray90514@gmail.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZD7u9YHTor4edGWw@x1n>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,7 +73,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,165 +87,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 3:22=E2=80=AFPM Shao-Chien Chiang <ray90514@gmail.c=
-om> wrote:
->
-> The config caching is disabled when starting config interruption.
-> If we could know whether there is a config interruption, I think we can
-> invalidate the cache at that time instead of disabling the caching
-> mechanism.
-> After caching the device config, the latency is reduced by 0.066 sec.
->
-> Signed-off-by: Shao-Chien Chiang <ray90514@gmail.com>
-> ---
->  hw/virtio/vhost-vdpa.c         | 44 +++++++++++++++++++++++++++-------
->  include/hw/virtio/vhost-vdpa.h |  2 ++
->  2 files changed, 38 insertions(+), 8 deletions(-)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index ccde4c7040..92bb09ef4d 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -436,6 +436,8 @@ static int vhost_vdpa_init(struct vhost_dev *dev, voi=
-d *opaque, Error **errp)
->      v->msg_type =3D VHOST_IOTLB_MSG_V2;
->      v->status =3D 0;
->      v->features =3D dev->features;
-> +    v->config =3D NULL;
-> +    v->config_cache_enabled =3D true;
->      vhost_vdpa_init_svq(dev, v);
->
->      error_propagate(&dev->migration_blocker, v->migration_blocker);
-> @@ -748,8 +750,16 @@ static int vhost_vdpa_set_vring_ready(struct vhost_d=
-ev *dev)
->  static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
->                                         int fd)
->  {
-> +    struct vhost_vdpa *v =3D dev->opaque;
-> +    int ret;
-> +
->      trace_vhost_vdpa_set_config_call(dev, fd);
-> -    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
-> +    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
-> +    if (ret =3D=3D 0) {
-> +        v->config_cache_enabled =3D false;
+On Tue, Apr 18, 2023 at 03:26:45PM -0400, Peter Xu wrote:
+> On Tue, Apr 18, 2023 at 05:58:44PM +0100, Daniel P. Berrangé wrote:
+> > Libvirt has multiple APIs where it currently uses its migrate-to-file
+> > approach
+> > 
+> >   * virDomainManagedSave()
+> > 
+> >     This saves VM state to an libvirt managed file, stops the VM, and the
+> >     file state is auto-restored on next request to start the VM, and the
+> >     file deleted. The VM CPUs are stopped during both save + restore
+> >     phase
+> > 
+> >   * virDomainSave/virDomainRestore
+> > 
+> >     The former saves VM state to a file specified by the mgmt app/user.
+> >     A later call to virDomaniRestore starts the VM using that saved
+> >     state. The mgmt app / user can delete the file state, or re-use
+> >     it many times as they desire. The VM CPUs are stopped during both
+> >     save + restore phase
+> > 
+> >   * virDomainSnapshotXXX
+> > 
+> >     This family of APIs takes snapshots of the VM disks, optionally
+> >     also including the full VM state to a separate file. The snapshots
+> >     can later be restored. The VM CPUs remain running during the
+> >     save phase, but are stopped during restore phase
+> 
+> For this one IMHO it'll be good if Libvirt can consider leveraging the new
+> background-snapshot capability (QEMU 6.0+, so not very new..).  Or is there
+> perhaps any reason why a generic migrate:fd approach is better?
 
-The lifecycle of the vhost_vdpa device is:
-init -> start -> stop -> start -> .... -> cleanup.
+I'm not sure I fully understand the implications of 'background-snapshot' ?
 
-In other words, it is initialized only once at qemu startup but it can
-be started & stopped many times. You can check if the device is
-stopping if the fd is -1. Other values indicate the device is starting
-or that the notifier is being masked, we must disable the cache in
-both cases.
+Based on what the QAPI comment says, it sounds potentially interesting,
+as conceptually it would be nicer to have the memory / state snapshot
+represent the VM at the point where we started the snapshot operation,
+rather than where we finished the snapshot operation.
 
-You can force this cycle if you rmmod the virtio_net module in the
-guest and then modprobe it again. However, maybe it only accesses the
-config once in this situation. If that is the case, I think it is
-worth keeping this code and putting a comment explaining it.
+It would not solve the performance problems that the work in this thread
+was intended to address though.  With large VMs (100's of GB of RAM),
+saving all the RAM state to disk takes a very long time, regardless of
+whether the VM vCPUs are paused or running.
 
-Thanks!
+Currently when doing this libvirt has a "libvirt_iohelper" process
+that we use so that we can do writes with O_DIRECT set. This avoids
+thrashing the host OS's  I/O buffers/cache, and thus negatively
+impacting performance of anything else on the host doing I/O. This
+can't take advantage of multifd though, and even if extended todo
+so, it still imposes extra data copies during the save/restore paths.
 
-> +    }
-> +
-> +    return ret;
->  }
->
->  static void vhost_vdpa_dump_config(struct vhost_dev *dev, const uint8_t =
-*config,
-> @@ -769,6 +779,7 @@ static int vhost_vdpa_set_config(struct vhost_dev *de=
-v, const uint8_t *data,
->                                     uint32_t offset, uint32_t size,
->                                     uint32_t flags)
->  {
-> +    struct vhost_vdpa *v =3D dev->opaque;
->      struct vhost_vdpa_config *config;
->      int ret;
->      unsigned long config_size =3D offsetof(struct vhost_vdpa_config, buf=
-);
-> @@ -783,6 +794,11 @@ static int vhost_vdpa_set_config(struct vhost_dev *d=
-ev, const uint8_t *data,
->          vhost_vdpa_dump_config(dev, data, size);
->      }
->      ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG, config);
-> +    if (v->config_cache_enabled && v->config !=3D NULL) {
-> +        if (ret =3D=3D 0) {
-> +            memcpy(v->config->buf + offset, data, size);
-> +        }
-> +    }
->      g_free(config);
->      return ret;
->  }
-> @@ -790,17 +806,29 @@ static int vhost_vdpa_set_config(struct vhost_dev *=
-dev, const uint8_t *data,
->  static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
->                                     uint32_t config_len, Error **errp)
->  {
-> -    struct vhost_vdpa_config *v_config;
-> +    struct vhost_vdpa *v =3D dev->opaque;
->      unsigned long config_size =3D offsetof(struct vhost_vdpa_config, buf=
-);
->      int ret;
->
->      trace_vhost_vdpa_get_config(dev, config, config_len);
-> -    v_config =3D g_malloc(config_len + config_size);
-> -    v_config->len =3D config_len;
-> -    v_config->off =3D 0;
-> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
-> -    memcpy(config, v_config->buf, config_len);
-> -    g_free(v_config);
-> +    if (v->config_cache_enabled && v->config !=3D NULL) {
-> +        if (config_len <=3D v->config->len) {
-> +            memcpy(config, v->config->buf, config_len);
-> +            ret =3D 0;
-> +        } else {
-> +            ret =3D -EINVAL;
-> +        }
-> +    } else {
-> +        v->config =3D g_malloc(config_len + config_size);
 
-This may not be the whole size of the config. The size is
-sizeof(struct virtio_net_config), and it should be set to 0 with
-g_malloc0.
+So to speed up the above 3 libvirt APIs, we want QEMU to be able to
+directly save/restore mem/vmstate to files, with parallization and
+O_DIRECT.
 
-> +        v->config->len =3D config_len;
-> +        v->config->off =3D 0;
-> +        ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v->config);
-> +        memcpy(config, v->config->buf, config_len);
-> +        if (!v->config_cache_enabled) {
-> +            g_free(v->config);
-> +            v->config =3D NULL;
 
-Maybe it is worth freeing it at vhost_vdpa_set_config_call?
+> > All these APIs end up calling the same code inside libvirt that uses
+> > the libvirt-iohelper, together with QEMU migrate:fd driver.
+> > 
+> > IIUC, Suse's original motivation for the performance improvements was
+> > wrt to the first case of virDomainManagedSave. From the POV of actually
+> > supporting this in libvirt though, we need to cover all the scenarios
+> > there. Thus we need this to work both when CPUs are running and stopped,
+> > and if we didn't use migrate in this case, then we basically just end
+> > up re-inventing migrate again which IMHO is undesirable both from
+> > libvirt's POV and QEMU's POV.
+> 
+> Just to make sure we're on the same page - I always think it fine to use
+> the QMP "migrate" command to do this.
+> 
+> Meanwhile, we can also reuse the migration framework if we think that's
+> still the good way to go (even if I am not 100% sure on this... I still
+> think _lots_ of the live migration framework as plenty of logics trying to
+> take care of a "live" VM, IOW, those logics will become pure overheads if
+> we reuse the live migration framework for vm suspend).
+> 
+> However could you help elaborate more on why it must support live mode for
+> a virDomainManagedSave() request?  As I assume this is the core of the goal.
 
-Thanks!
+No, we've no need for live mode for virDomainManagedSave. Live mode is
+needed for virDomainSnapshot* APIs.
 
-> +        }
-> +    }
->      if (trace_event_get_state_backends(TRACE_VHOST_VDPA_GET_CONFIG) &&
->          trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
->          vhost_vdpa_dump_config(dev, config, config_len);
-> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
-a.h
-> index d563630cc9..60374785fd 100644
-> --- a/include/hw/virtio/vhost-vdpa.h
-> +++ b/include/hw/virtio/vhost-vdpa.h
-> @@ -41,6 +41,8 @@ typedef struct vhost_vdpa {
->      uint64_t acked_features;
->      uint64_t features;
->      uint8_t status;
-> +    struct vhost_vdpa_config *config;
-> +    bool config_cache_enabled;
->      bool shadow_vqs_enabled;
->      /* Vdpa must send shadow addresses as IOTLB key for data queues, not=
- GPA */
->      bool shadow_data;
-> --
-> 2.25.1
->
->
+The point I'm making is that all three of the above libvirt APIs run exactly
+the same migration code in libvirt. The only difference in the APIs is how
+the operation gets striggered and whether the CPUs are running or not.
+
+We wwant the improved performance of having parallel save/restore-to-disk
+and use of O_DIRECT to be available to all 3 APIs. To me it doesn't make
+sense to provide different impls for these APIs when they all have the
+same end goal - it would be extra work on QEMU side and libvirt side alike
+to use different solutions for each. 
+
+> IMHO virDomainManagedSave() is a good interface design, because it contains
+> the target goal of what it wants to do (according to above).  To ask in
+> another way, I'm curious whether virDomainManagedSave() will stop the VM
+> before triggering the QMP "migrate" to fd: If it doesn't, why not?  If it
+> does, then why we can't have that assumption also for QEMU?
+> 
+> That assumption is IMHO important for QEMU because non-live VM migration
+> can avoid tons of overhead that a live migration will need.  I've mentioned
+> this in the other reply, even if we keep using the migration framework, we
+> can still optimize other things like dirty tracking.  We probably don't
+> even need any bitmap at all because we simply scan over all ramblocks.
+> 
+> OTOH, if QEMU supports live mode for a "vm suspend" in the initial design,
+> not only it doesn't sound right at all from interface level, it means QEMU
+> will need to keep doing so forever because we need to be compatible with
+> the old interfaces even on new binaries.  That's why I keep suggesting we
+> should take "VM turned off" part of the cmd if that's what we're looking
+> for.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
