@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49F46E7F9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 18:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372BD6E7F89
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 18:25:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppAbk-0000c1-1v; Wed, 19 Apr 2023 12:24:36 -0400
+	id 1ppAbg-0000Yw-O3; Wed, 19 Apr 2023 12:24:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppAbb-0000Xa-Lk
+ id 1ppAbc-0000Xk-9z
  for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:24:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppAbZ-0008EC-MU
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:24:27 -0400
+ id 1ppAba-0008EQ-Ou
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:24:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681921465;
+ s=mimecast20190719; t=1681921466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+pYz+EwP9YUqkmlP8WWjx29w1PcvxjnUd6BPUOal8Ho=;
- b=Iv5kuSZutAfjSVLJJ1TExZtfqP+uAEoRq6YUsBtaWngIsiveBH4Y7yexSxsubEuPXD8sbr
- nBmLM5Y3iLaihe6Q5bBm45JmMWBZQ/VV1EzcH9M+aGrngQOi/S4m9yQNfzKLbflys/k2ac
- fQuYXY4WPefoeV4Q0iH/GWO9JbBYbog=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4Rnz0JrKgh4/xM54GZNiJjPVjtOZSS1ncPXEcKD5Tuw=;
+ b=UPyM8QbpGNt0H6Z7DcfJb5CpMb2af6uZEJGXyQ/U2Totz3TQC0BlCkFPvk4qhD+bLOXeRJ
+ qH9MB5FZ+H35N5/xuO+FWLytxYr7A9Ifh3p6xhQ+JSJsOdq73s6V0N2BKQ3fIFaHUY/r0+
+ N/Sr3iSn+3rQrE1PcUNNUrZKBwPBuaM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-439-VIT20bCtNcywgVmjJwF0fw-1; Wed, 19 Apr 2023 12:24:23 -0400
-X-MC-Unique: VIT20bCtNcywgVmjJwF0fw-1
+ us-mta-558-CvMGMWDKOWezmEhBnOYOBQ-1; Wed, 19 Apr 2023 12:24:24 -0400
+X-MC-Unique: CvMGMWDKOWezmEhBnOYOBQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E53B381D4C8
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 16:24:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7241684AECA
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 16:24:24 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89880112131B;
- Wed, 19 Apr 2023 16:24:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5B341121314;
+ Wed, 19 Apr 2023 16:24:23 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH v3 05/12] migration: Make precopy_bytes atomic
-Date: Wed, 19 Apr 2023 18:24:08 +0200
-Message-Id: <20230419162415.16260-6-quintela@redhat.com>
+Subject: [PATCH v3 06/12] migration: Make downtime_bytes atomic
+Date: Wed, 19 Apr 2023 18:24:09 +0200
+Message-Id: <20230419162415.16260-7-quintela@redhat.com>
 In-Reply-To: <20230419162415.16260-1-quintela@redhat.com>
 References: <20230419162415.16260-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,44 +86,44 @@ Signed-off-by: Juan Quintela <quintela@redhat.com>
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/migration/ram.h b/migration/ram.h
-index 2170c55e67..a766b895fa 100644
+index a766b895fa..bb52632424 100644
 --- a/migration/ram.h
 +++ b/migration/ram.h
-@@ -50,7 +50,7 @@ typedef struct {
+@@ -44,7 +44,7 @@ typedef struct {
+     int64_t dirty_pages_rate;
+     int64_t dirty_sync_count;
+     Stat64 dirty_sync_missed_zero_copy;
+-    uint64_t downtime_bytes;
++    Stat64 downtime_bytes;
+     Stat64 duplicate;
+     Stat64 multifd_bytes;
      Stat64 normal;
-     Stat64 postcopy_bytes;
-     int64_t postcopy_requests;
--    uint64_t precopy_bytes;
-+    Stat64 precopy_bytes;
-     int64_t remaining;
-     Stat64 transferred;
- } RAMStats;
 diff --git a/migration/migration.c b/migration/migration.c
-index 66e5197b77..cbd6f6f235 100644
+index cbd6f6f235..4ca2173d85 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -1155,7 +1155,7 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
-     info->ram->page_size = page_size;
+@@ -1156,7 +1156,7 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
      info->ram->multifd_bytes = stat64_get(&ram_counters.multifd_bytes);
      info->ram->pages_per_second = s->pages_per_second;
--    info->ram->precopy_bytes = ram_counters.precopy_bytes;
-+    info->ram->precopy_bytes = stat64_get(&ram_counters.precopy_bytes);
-     info->ram->downtime_bytes = ram_counters.downtime_bytes;
+     info->ram->precopy_bytes = stat64_get(&ram_counters.precopy_bytes);
+-    info->ram->downtime_bytes = ram_counters.downtime_bytes;
++    info->ram->downtime_bytes = stat64_get(&ram_counters.downtime_bytes);
      info->ram->postcopy_bytes = stat64_get(&ram_counters.postcopy_bytes);
  
+     if (migrate_use_xbzrle()) {
 diff --git a/migration/ram.c b/migration/ram.c
-index 72e3d78589..14529fe928 100644
+index 14529fe928..35abbcda02 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -463,7 +463,7 @@ RAMStats ram_counters;
- void ram_transferred_add(uint64_t bytes)
- {
-     if (runstate_is_running()) {
--        ram_counters.precopy_bytes += bytes;
-+        stat64_add(&ram_counters.precopy_bytes, bytes);
+@@ -467,7 +467,7 @@ void ram_transferred_add(uint64_t bytes)
      } else if (migration_in_postcopy()) {
          stat64_add(&ram_counters.postcopy_bytes, bytes);
      } else {
+-        ram_counters.downtime_bytes += bytes;
++        stat64_add(&ram_counters.downtime_bytes, bytes);
+     }
+     stat64_add(&ram_counters.transferred, bytes);
+ }
 -- 
 2.39.2
 
