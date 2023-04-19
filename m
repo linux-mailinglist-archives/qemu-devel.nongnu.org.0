@@ -2,109 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1171F6E802D
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 19:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB90E6E8030
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 19:17:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppBPO-00083M-P3; Wed, 19 Apr 2023 13:15:54 -0400
+	id 1ppBQY-0000LQ-SY; Wed, 19 Apr 2023 13:17:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1ppBPM-000835-JK; Wed, 19 Apr 2023 13:15:52 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ppBQX-0000L9-2K
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:17:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1ppBPI-0006VG-EQ; Wed, 19 Apr 2023 13:15:52 -0400
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33JH50T7019706; Wed, 19 Apr 2023 17:15:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=4gV0GoQLrJl2ZFnnMEFd9bbiphossF2Dno9N80IH9ew=;
- b=Z9wNeR8J4d6yyJeliPq2VEUrhlBACE4B+PTvZHzVXoHAhSLChQUki9Fc2OWdix6lvf6I
- ZZI8iQ2HqVmapAGcgOPHApZDT9Bi9UdDzxYjgjHJjE0Jg8XXEli8Uj/FMuZsU7MaDiaf
- IWdFuhSJr8vRfcHGldIhhB5zs/fWG93fXSHm77/gVOXEU4J0Ny6HG3IiEWmoZle5FJtl
- Forthr+9zWpYKqOabQhRPPIPnLi/HZHsQl2bGfbC8rPzLxPreqG94y5bL/CQ53Kmr88x
- TzlvNRkQxnzPiXToTrbsl37rF71/ByM8zkw9FGO8rueIlOrY4rNI7rWXF+rrJa1ZGfKp ng== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1pkxq6hd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Apr 2023 17:15:36 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33JH17BG029592;
- Wed, 19 Apr 2023 17:15:35 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q1pkxq6fu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Apr 2023 17:15:35 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33J5wYPD009299;
- Wed, 19 Apr 2023 17:15:32 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pykj6jvn9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Apr 2023 17:15:32 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33JHFR2f64356828
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Apr 2023 17:15:27 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 08DC220043;
- Wed, 19 Apr 2023 17:15:27 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A18D520040;
- Wed, 19 Apr 2023 17:15:26 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.152.224.238])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 19 Apr 2023 17:15:26 +0000 (GMT)
-Message-ID: <bf769e0a6dfec2869b03d81ad10070fb4d5b3946.camel@linux.ibm.com>
-Subject: Re: [PATCH v19 02/21] s390x/cpu topology: add topology entries on
- CPU hotplug
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, Pierre Morel
- <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-Date: Wed, 19 Apr 2023 19:15:26 +0200
-In-Reply-To: <7affffef-8d04-ac9f-0920-f765d362d60d@kaod.org>
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-3-pmorel@linux.ibm.com>
- <7affffef-8d04-ac9f-0920-f765d362d60d@kaod.org>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ppBQT-0006ln-MQ
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:17:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681924620;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/rD164R9Mu2b4O0uW8m+A+aULJGF7OvXfKXOCFHRpws=;
+ b=dU3pZL7cavg23+MBlkUo5cHBMadfDYdYP16pxeHGwOcCMoft436vPnMfcCkm+peyVvjMoW
+ PrdWXxzx11yPyGkkqNRL8elPQGtnu18anPI25SFUkJKJDubRQ28fsc6tf2Po1FRq/EyAxi
+ cIk+6mYEjOzdvj2o22ddF6NCfoVNrS4=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-515-NvtRmd9eNtGrzAdVnuhdtA-1; Wed, 19 Apr 2023 13:16:59 -0400
+X-MC-Unique: NvtRmd9eNtGrzAdVnuhdtA-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-54f97aac3d0so3670627b3.15
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 10:16:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681924618; x=1684516618;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/rD164R9Mu2b4O0uW8m+A+aULJGF7OvXfKXOCFHRpws=;
+ b=cgd2vDzDg9MFo9X6mUp07pGZK0BTXIMt8l1PuycH9XW0z5SZ/GEBopsP+MY9+S5FX0
+ M6Kf6lEl1vVRN3h2Zx8p/ISzUQFv1e7LZ7IgBXbWKTO+y6vYb3XNPQejr1WP2ry505To
+ GkfhsF6SSN2/Oy/rVYtmlT9lXberRATH6fEq7JMz27StNN0HxmhCzVilVI4vHuHS7oSP
+ ZMmYS0pM6i9SvXnHl9be5hDJ761LodHIgow0hv4wPcWcu/SDgTCAhXEoB5WFOwxQXzi9
+ JgeWGTNRGqIJPeE0IeCrbxenSFeruENgjuDkkSygj5/SwMwI0ZGNHwJ3hftbDo67tZeU
+ JrSw==
+X-Gm-Message-State: AAQBX9f70dAKSnCRgrB3MvzakxcqCil68xCGtRqfCbeu3+SdVUbpY67m
+ 8oqmTGwrj2+2Y33Z2fl3mC6fYEJcQSwUlOcvsFfWgFZgSxHF9WSNOoqxeEXkiYBdrQJnCLX8lHR
+ 4uCt7Y+SN+ZoDloBrmwudpHP62psHh9g=
+X-Received: by 2002:a25:5052:0:b0:b92:259a:efa3 with SMTP id
+ e79-20020a255052000000b00b92259aefa3mr87197ybb.32.1681924618452; 
+ Wed, 19 Apr 2023 10:16:58 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZChr7R+LSGq/7SKJKTKZAFBPqACwidoH9de+lkCvOXKo9aOuzLhtiIfri6Q3iiuWCMg7KPxUfwdhTxYxVye4A=
+X-Received: by 2002:a25:5052:0:b0:b92:259a:efa3 with SMTP id
+ e79-20020a255052000000b00b92259aefa3mr87169ybb.32.1681924617970; Wed, 19 Apr
+ 2023 10:16:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1681732982.git.yin31149@gmail.com>
+In-Reply-To: <cover.1681732982.git.yin31149@gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 19 Apr 2023 19:16:21 +0200
+Message-ID: <CAJaqyWcmb=LuH4eaJkkGxcAnPrJ+er=Ysp7Yi6RneFGdTNycCA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Send all the SVQ control commands in parallel
+To: Hawkins Jiawei <yin31149@gmail.com>
+Cc: jasowang@redhat.com, 18801353760@163.com, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: V1iij10uQf0Ty6gOu3ekbOZpGx3h1T7E
-X-Proofpoint-ORIG-GUID: OiPKC7Sfvd6BZaUboEAG_Ml6z92ojTeT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-19_11,2023-04-18_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 bulkscore=0 mlxscore=0 spamscore=0
- impostorscore=0 malwarescore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304190153
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,146 +93,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-04-04 at 09:31 +0200, C=C3=A9dric Le Goater wrote:
-> On 4/3/23 18:28, Pierre Morel wrote:
-> > The topology information are attributes of the CPU and are
-> > specified during the CPU device creation.
-> >=20
-> > On hot plug we:
-> > - calculate the default values for the topology for drawers,
-> >    books and sockets in the case they are not specified.
-> > - verify the CPU attributes
-> > - check that we have still room on the desired socket
-> >=20
-> > The possibility to insert a CPU in a mask is dependent on the
-> > number of cores allowed in a socket, a book or a drawer, the
-> > checking is done during the hot plug of the CPU to have an
-> > immediate answer.
-> >=20
-> > If the complete topology is not specified, the core is added
-> > in the physical topology based on its core ID and it gets
-> > defaults values for the modifier attributes.
-> >=20
-> > This way, starting QEMU without specifying the topology can
-> > still get some advantage of the CPU topology.
-> >=20
-> > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> > ---
-> >   MAINTAINERS                        |   1 +
-> >   include/hw/s390x/cpu-topology.h    |  44 +++++
-> >   include/hw/s390x/s390-virtio-ccw.h |   1 +
-> >   hw/s390x/cpu-topology.c            | 282 ++++++++++++++++++++++++++++=
-+
-> >   hw/s390x/s390-virtio-ccw.c         |  22 ++-
-> >   hw/s390x/meson.build               |   1 +
-> >   6 files changed, 349 insertions(+), 2 deletions(-)
-> >   create mode 100644 hw/s390x/cpu-topology.c
+On Wed, Apr 19, 2023 at 1:50=E2=80=AFPM Hawkins Jiawei <yin31149@gmail.com>=
+ wrote:
+>
+> This patchset allows QEMU to poll and check the device used buffer
+> after sending all SVQ control commands, instead of polling and checking
+> immediately after sending each SVQ control command, so that QEMU can
+> send all the SVQ control commands in parallel, which have better
+> performance improvement.
+>
+> I use vdpa_sim_net to simulate vdpa device, refactor
+> vhost_vdpa_net_load() to call vhost_vdpa_net_load_mac() 30 times,
+> refactor `net_vhost_vdpa_cvq_info.load` to call vhost_vdpa_net_load()
+> 1000 times,
 
-[...]
+Maybe a little bit too high for real scenarios but it gives us a hint
+for sure :). Maybe it is more realistic to send ~10 or ~100 commands?
 
-> > +
-> > +/**
-> > + * s390_socket_nb:
-> > + * @cpu: s390x CPU
-> > + *
-> > + * Returns the socket number used inside the cores_per_socket array
-> > + * for a cpu.
-> > + */
-> > +int s390_socket_nb(S390CPU *cpu)
->=20
-> s390_socket_nb() doesn't seem to be used anywhere else than in
-> hw/s390x/cpu-topology.c. It should be static.
->=20
->=20
-> > +{
-> > +    return (cpu->env.drawer_id * s390_topology.smp->books + cpu->env.b=
-ook_id) *
-> > +           s390_topology.smp->sockets + cpu->env.socket_id;
-> > +}
+>  to build a test environment for sending
+> multiple SVQ control commands. Time in monotonic to
+> finish `net_vhost_vdpa_cvq_info.load`:
+>
+>     QEMU                            monotonic time
+> --------------------------------------------------
+> not patched                              89202
+> --------------------------------------------------
+> patched                                  80455
+>
 
-[...]
+Is time expressed in seconds or milliseconds? I'm going to assume ms.
 
-> > +/**
-> > + * s390_topology_add_core_to_socket:
-> > + * @cpu: the new S390CPU to insert in the topology structure
-> > + * @drawer_id: new drawer_id
-> > + * @book_id: new book_id
-> > + * @socket_id: new socket_id
-> > + * @creation: if is true the CPU is a new CPU and there is no old sock=
-et
-> > + *            to handle.
-> > + *            if is false, this is a moving the CPU and old socket cou=
-nt
-> > + *            must be decremented.
-> > + * @errp: the error pointer
-> > + *
-> > + */
-> > +static void s390_topology_add_core_to_socket(S390CPU *cpu, int drawer_=
-id,
-> > +                                             int book_id, int socket_i=
-d,
-> > +                                             bool creation, Error **er=
-rp)
-> > +{
->=20
-> Since this routine is called twice, in s390_topology_setup_cpu() for
-> creation, and in s390_change_topology() for socket migration, we could
-> duplicate the code in two distinct routines.
->=20
-> I think this would simplify a bit each code path and avoid the 'creation'
-> parameter which is confusing.
->=20
->=20
-> > +    int old_socket_entry =3D s390_socket_nb(cpu);
-> > +    int new_socket_entry;
-> > +
-> > +    if (creation) {
-> > +        new_socket_entry =3D old_socket_entry;
-> > +    } else {
-> > +        new_socket_entry =3D (drawer_id * s390_topology.smp->books + b=
-ook_id) *
-> > +                            s390_topology.smp->sockets + socket_id;
->=20
-> A helper common routine that s390_socket_nb() could use also would be a p=
-lus.
+So let's say all the time was spent in the context switch between qemu
+and kernel, this is a save of (89202 - 80455)/30000 =3D 0.3 ms per
+command?
 
-An alternative to consider would be to define a
+Thanks!
 
-struct topology_pos {
-    int socket;
-    int book;
-    int drawer;
-};
-
-or similar so you can do
-
-old_socket_entry =3D s390_socket_nb(cpu->env.topology_pos, smp);
-
-struct topology_pos topology_pos =3D { socket_id, book_id, drawer_id };
-new_socket_entry =3D s390_socket_nb(topology_pos, smp);
-
-It might also make sense to pass a topology_pos around instead of three ids=
-,
-since that is quite common.
-
->=20
-> > +    }
-> > +
-> > +    /* Check for space on new socket */
-> > +    if ((new_socket_entry !=3D old_socket_entry) &&
-> > +        (s390_topology.cores_per_socket[new_socket_entry] >=3D
-> > +         s390_topology.smp->cores)) {
-> > +        error_setg(errp, "No more space on this socket");
-> > +        return;
-> > +    }
-> > +
-> > +    /* Update the count of cores in sockets */
-> > +    s390_topology.cores_per_socket[new_socket_entry] +=3D 1;
-> > +    if (!creation) {
-> > +        s390_topology.cores_per_socket[old_socket_entry] -=3D 1;
-> > +    }
-> > +}
-
-[...]
+> This patchset resolves the GitLab issue at
+> https://gitlab.com/qemu-project/qemu/-/issues/1578.
+>
+> Hawkins Jiawei (2):
+>   vdpa: rename vhost_vdpa_net_cvq_add()
+>   vdpa: send CVQ state load commands in parallel
+>
+>  net/vhost-vdpa.c | 150 +++++++++++++++++++++++++++++++++++------------
+>  1 file changed, 112 insertions(+), 38 deletions(-)
+>
+> --
+> 2.25.1
+>
 
 
