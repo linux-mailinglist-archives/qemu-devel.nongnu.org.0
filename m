@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6AF6E7F35
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 18:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB85E6E7F39
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 18:11:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppAMZ-00010p-4T; Wed, 19 Apr 2023 12:08:55 -0400
+	id 1ppAO4-0001z1-VY; Wed, 19 Apr 2023 12:10:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ppAMX-00010g-2i
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:08:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ppAMV-0000yK-Fj
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:08:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681920530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L+xzgfEZmjLN9IGCqlrm2xCBg6EGQ1IXuCIdIy/ElL0=;
- b=SREsse8ZqP0qV3z0OMJpAFvZCP8jAZuXNudakFY6IwlARNM0q1rzU/vUZ1Re8z97EwnwyD
- JMCt38qqoRw7d580k5Q92e3hsGcYiIfZw8w7qRaVj7t2Tq7bktC5nyjpsR39U9pZsaTRVQ
- XSRhhN6FvGwuXhC90XSLH/rQDmMRpjc=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-Zc44r3hJPC2j3BhGDOEJew-1; Wed, 19 Apr 2023 12:08:49 -0400
-X-MC-Unique: Zc44r3hJPC2j3BhGDOEJew-1
-Received: by mail-yb1-f197.google.com with SMTP id
- 8-20020a250f08000000b00b880000325bso92582ybp.3
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 09:08:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ppAO1-0001yM-NG
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:10:25 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ppANz-0001SC-Ds
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:10:25 -0400
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-94a34d3812cso759449966b.2
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 09:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681920621; x=1684512621;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=hn0HPwIm+d3/JKoFjaf/cXpINr29WqpsXSXDjDugMHY=;
+ b=Yghu9QO9epJsmTHbzPDrLR13qy89WBlGG5Yk9dsjnvAru0B2YnzVOHxEEBOBx0KoX5
+ Df1Gep65Higf/pSUYgrRMTQoTyJamA9YFwIbiV06M0aDz/YG20B4Ky/4qs2H1GcbbMAZ
+ meV682NROVrc7vAsyfwAjXJPzAFhXOOfV1mdGmrDgGIEqyyAhoPH6/5lIx6AlU/wzalw
+ P6niC+uWx8uIuAqlDq6pFQMBmxJVH9qJCXdHJ+f2DW/k8wIysD7CQttTlf93nb0vh5IT
+ ZlqyEstKSLR5pGPOnTqD5s0RbeFtDBuWlquu3R6uyVyeg9YwfV3AEkJG2Cr4pQxz8uSg
+ umJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681920528; x=1684512528;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L+xzgfEZmjLN9IGCqlrm2xCBg6EGQ1IXuCIdIy/ElL0=;
- b=l9HLV3m1WtJQfgiKPPLQy9q2GfUmQX5irQTjH5VA/qp7WZ0/LFAYv5aG0QO4K92p6u
- 6DgASUxjQsezTC+Cy5Ny1fzhAQYfsfMMio8QmnKNtonPMv3djiGnmnYyaNiCjm+FOA10
- fGTlXTxYrT2uVITWsk795/uEKUlQuMXiE3OH8PaNtPlKmN7jQROMtiCgpUzniyOGrxzy
- 1UMCJUKzZ9PDgGLlHbIPheBoQq/ul379W7pD0fk0EoVV0QM24LYS2NM0MJAWE0cVKz96
- e5lNimsGy9PAPYqOI/mNXOnCL95V+v/xdUALUF9TgBIGIzG7GoXqabP2eA3lj6gX2Gxd
- dboQ==
-X-Gm-Message-State: AAQBX9fQJP7DWi/SAQQe3JU8y/lZEOnUyeB9DWc96nGkEHCfhVJ9rsz5
- IIvD60WrPLJzBvsdLnnq+yO2g9SGFHl2dpnsNOD7Rqjz9APC3w8zhSoWEe82a/ZUnOZcuU/FF25
- mb5a7Kni8Ifky3I8YfSv5cp2HnCh4Xxo=
-X-Received: by 2002:a0d:e895:0:b0:552:9fae:d0b with SMTP id
- r143-20020a0de895000000b005529fae0d0bmr3817950ywe.16.1681920528387; 
- Wed, 19 Apr 2023 09:08:48 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bWYvZYQVVQwGCfPyziBTcf9PtLY2IM8CIkWaOqgZp5tDPuT1/zpaPsHXHJwOwfYXO6Gu6Y35X7sR68l+O2fpA=
-X-Received: by 2002:a0d:e895:0:b0:552:9fae:d0b with SMTP id
- r143-20020a0de895000000b005529fae0d0bmr3817931ywe.16.1681920528135; Wed, 19
- Apr 2023 09:08:48 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681920621; x=1684512621;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hn0HPwIm+d3/JKoFjaf/cXpINr29WqpsXSXDjDugMHY=;
+ b=f0NWo9+BkQmwj0hEU437KB4A/ljgvsFr2pioAQgnza1/ZNmDhqQIK0tz+55qHnRtoA
+ JIjKwXo193OBj2qn/Wllmcu75ng+KTjrUH1xCSmMM8INsq2BKfQQZn8o5f+DCSXwVfF0
+ fFcsk+nqOu0cByQQJrVtA1lkH38ICVOZzOE4F9ZS4LLtm0herzlfEHF5jrt0md+2hbC+
+ W0xq6b84KyX89m1VQjxaq82xRrOq68+i9P2SABa15dei24qgCe2koJpizOhGm/+8VLpk
+ A0K5RWYN3bJ1jxlHzvn1VLZYFQOkjfsDqYflHI9u8K/tbKZRusBCjLj2z5g3evOGwFMr
+ DOTA==
+X-Gm-Message-State: AAQBX9cWkgXdy2vS51T26n4LShbKaoUYtwHJBfDyt9Aj/ujrzhrI3J9Y
+ hhHosGHP8hY3bZcEHYYIZ14rgI3X8t9FbNIwA2Hy9w==
+X-Google-Smtp-Source: AKy350ZFUmulbu7AwMV2sGq6mKBvnNvbgiv5kcpcso3dD6K/z71J2uZh8XlEulNsPcFGlsO7CZkS3U/XJsfcxLZTeek=
+X-Received: by 2002:a50:d0c9:0:b0:505:4fb:4430 with SMTP id
+ g9-20020a50d0c9000000b0050504fb4430mr3120839edf.6.1681920621316; Wed, 19 Apr
+ 2023 09:10:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1681819697.git.ray90514@gmail.com>
- <b9a88776ff1f7bc94ff0df9dd99b799ebd1e6d54.1681819697.git.ray90514@gmail.com>
-In-Reply-To: <b9a88776ff1f7bc94ff0df9dd99b799ebd1e6d54.1681819697.git.ray90514@gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 19 Apr 2023 18:08:12 +0200
-Message-ID: <CAJaqyWf1=6u6YTvgAk923nhOz1G7b=ipzH9+Ty2szy-0=_yBRQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 1/2] vhost-vdpa: cache device status and features
-To: Shao-Chien Chiang <ray90514@gmail.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20230419102940.185968-1-zhenzhong.duan@intel.com>
+In-Reply-To: <20230419102940.185968-1-zhenzhong.duan@intel.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 19 Apr 2023 17:10:09 +0100
+Message-ID: <CAFEAcA_62h5U2jCOJq76pryCjVf3eV-Ovh6Cpwv8rXzNWd1H-w@mail.gmail.com>
+Subject: Re: [PATCH v4] memory: Optimize replay of guest mapping
+To: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, peterx@redhat.com, 
+ jasowang@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com, 
+ richard.henderson@linaro.org, eduardo@habkost.net, david@redhat.com, 
+ philmd@linaro.org, chao.p.peng@intel.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,119 +87,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 3:22=E2=80=AFPM Shao-Chien Chiang <ray90514@gmail.c=
-om> wrote:
+On Wed, 19 Apr 2023 at 11:41, Zhenzhong Duan <zhenzhong.duan@intel.com> wrote:
 >
-> After caching the device status and features, the latency is reduced by 0=
-.059 sec.
+> On x86, there are two notifiers registered due to vtd-ir memory
+> region splitting the entire address space. During replay of the
+> address space for each notifier, the whole address space is
+> scanned which is unnecessary. We only need to scan the space
+> belong to notifier monitored space.
+>
+> While on x86 IOMMU memory region spans over entire address space,
+> but on some other platforms(e.g. arm mps3-an547), IOMMU memory
+> region is only a window in the entire address space. User could
+> register a notifier with arbitrary scope beyond IOMMU memory
+> region. Though in current implementation replay is only triggered
+> by VFIO and dirty page sync with notifiers derived from memory
+> region section, but this isn't guaranteed in the future.
+>
+> So, we replay the intersection part of IOMMU memory region and
+> notifier's scope in memory_region_iommu_replay(). Update doc
+> comment to match this change.
 
-Can you add more details? Like:
-* Initial and final time.
-* Times that you repeated the experiment to reach for valid means etc.
+Hi; I have a couple of minor wording tweaks, and one question
+about the docs:
 
-And I think it is worth splitting this patch in two, one with status
-and other with features. If we find a regression it may help to track
-it down.
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 15ade918baa4..61da32d8a428 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -425,12 +425,13 @@ struct IOMMUMemoryRegionClass {
+>       * Called to handle memory_region_iommu_replay().
+>       *
+>       * The default implementation of memory_region_iommu_replay() is to
+> -     * call the IOMMU translate method for every page in the address space
+> +     * call the IOMMU translate method for every page falling in the
+> +     * intersection part of IOMMU memory region and notifier's scope
 
-Thanks!
+"falling in the intersection of the IOMMU MemoryRegion and the
+MemoryRegion which the notifier was registered for"
 
->
-> Signed-off-by: Shao-Chien Chiang <ray90514@gmail.com>
-> ---
->  hw/virtio/vhost-vdpa.c         | 16 ++++++++++------
->  include/hw/virtio/vhost-vdpa.h |  2 ++
->  2 files changed, 12 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index bc6bad23d5..ccde4c7040 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -350,14 +350,11 @@ static int vhost_vdpa_call(struct vhost_dev *dev, u=
-nsigned long int request,
->
->  static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->  {
-> -    uint8_t s;
-> +    struct vhost_vdpa *v =3D dev->opaque;
-> +    uint8_t s =3D v->status;
->      int ret;
->
->      trace_vhost_vdpa_add_status(dev, status);
-> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
-> -    if (ret < 0) {
-> -        return ret;
-> -    }
->
->      s |=3D status;
->
-> @@ -374,6 +371,7 @@ static int vhost_vdpa_add_status(struct vhost_dev *de=
-v, uint8_t status)
->      if (!(s & status)) {
->          return -EIO;
->      }
-> +    v->status =3D s;
->
->      return 0;
->  }
-> @@ -436,6 +434,8 @@ static int vhost_vdpa_init(struct vhost_dev *dev, voi=
-d *opaque, Error **errp)
->      dev->opaque =3D  opaque ;
->      v->listener =3D vhost_vdpa_memory_listener;
->      v->msg_type =3D VHOST_IOTLB_MSG_V2;
-> +    v->status =3D 0;
-> +    v->features =3D dev->features;
->      vhost_vdpa_init_svq(dev, v);
->
->      error_propagate(&dev->migration_blocker, v->migration_blocker);
-> @@ -456,6 +456,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, voi=
-d *opaque, Error **errp)
->              return ret;
->          }
->          vhost_svq_valid_features(features, &dev->migration_blocker);
-> +        v->features =3D features;
->      }
->
->      /*
-> @@ -718,6 +719,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev *=
-dev)
->      ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
->      trace_vhost_vdpa_reset_device(dev, status);
->      v->suspended =3D false;
-> +    v->status =3D 0;
->      return ret;
->  }
->
-> @@ -1294,8 +1296,10 @@ static int vhost_vdpa_set_vring_call(struct vhost_=
-dev *dev,
->  static int vhost_vdpa_get_features(struct vhost_dev *dev,
->                                       uint64_t *features)
->  {
-> -    int ret =3D vhost_vdpa_get_dev_features(dev, features);
-> +    struct vhost_vdpa *v =3D dev->opaque;
-> +    int ret =3D 0;
->
-> +    *features =3D v->features;
->      if (ret =3D=3D 0) {
->          /* Add SVQ logging capabilities */
->          *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
-> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
-a.h
-> index c278a2a8de..d563630cc9 100644
-> --- a/include/hw/virtio/vhost-vdpa.h
-> +++ b/include/hw/virtio/vhost-vdpa.h
-> @@ -39,6 +39,8 @@ typedef struct vhost_vdpa {
->      MemoryListener listener;
->      struct vhost_vdpa_iova_range iova_range;
->      uint64_t acked_features;
-> +    uint64_t features;
-> +    uint8_t status;
->      bool shadow_vqs_enabled;
->      /* Vdpa must send shadow addresses as IOTLB key for data queues, not=
- GPA */
->      bool shadow_data;
-> --
-> 2.25.1
->
->
+>       * with flag == IOMMU_NONE and then call the notifier if translate
+>       * returns a valid mapping. If this method is implemented then it
+>       * overrides the default behaviour, and must provide the full semantics
+>       * of memory_region_iommu_replay(), by calling @notifier for every
+> -     * translation present in the IOMMU.
+> +     * translation present in the intersection part.
 
+"present in the IOMMU that is within the MemoryRegion the
+notifier was registered for."
+
+Question: is it OK for an implementation of this method to call
+the notifier for translations that are in the IOMMU and which
+are not in the scope of the notifier (ie which are outside
+the intersection) ? Or must it specifically restrict itself
+to only calling the notifier for translations which are
+inside the notifier's range ?
+
+If the latter, we need to check all 4 existing implementations
+of this method to ensure that they are not sending notifications
+they should not; if the former, we should document that
+implementations have that leeway.
+
+thanks
+-- PMM
 
