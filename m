@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4B26E7FAC
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 18:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295426E7FAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 18:32:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppAiL-0002ct-Nj; Wed, 19 Apr 2023 12:31:25 -0400
+	id 1ppAim-0002jB-Dm; Wed, 19 Apr 2023 12:31:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ppAiJ-0002b2-Ux
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:31:23 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ppAik-0002iU-Df
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:31:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ppAiI-0002c4-4Q
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:31:23 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ppAij-0002eo-0s
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:31:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681921881;
+ s=mimecast20190719; t=1681921907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gh0Uo+MPPrAnsc17EhJE3bDf423/ID9/gQUG6YxNt3c=;
- b=OrZukaE8Y5bQJhxlby3YJWSD1yF4VzH5UiT0Irjod01783Jximj5kztyDqzPbWTPNFLSKT
- ucyijoYcSmvrFe3/tPgPbsWpd20tSHrDVPfefYIzGVD20vaVSrkHu0kI01vFLVlsAsoJW8
- G8ly+fI8WsJv6ZRdZx446Dmy2w8P3p0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4f6a7Bs8gPBzB4KiLNW4r3UW+sfcsAE6UpOMt2QyegU=;
+ b=ceap9SFKNJGC4QP0lpr0MUmmmbrXRsDYsJ+kc+OtD6TYm+yq0kTjU/PURw+YxCO54DY9DB
+ 7m6J0iemUBlw2C6/guwpuZ/zgEJXV6XY7vN1oC8c40P9Wmg433HLodqwQvp4SvYwr8LbAH
+ deoqx1LZqCFE3IE+oUZGpK1X2vI+dcQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-66-FiAFGrltNiqbpQYjhSZyJA-1; Wed, 19 Apr 2023 12:31:20 -0400
-X-MC-Unique: FiAFGrltNiqbpQYjhSZyJA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg10-20020a05600c3c8a00b003ef7b61e2fdso1023357wmb.4
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 09:31:20 -0700 (PDT)
+ us-mta-86-0pfvNLLxNPGR_oP3aPUqpw-1; Wed, 19 Apr 2023 12:31:45 -0400
+X-MC-Unique: 0pfvNLLxNPGR_oP3aPUqpw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ ay3-20020a05600c1e0300b003f1728ce786so1238817wmb.7
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 09:31:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681921879; x=1684513879;
+ d=1e100.net; s=20221208; t=1681921904; x=1684513904;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=gh0Uo+MPPrAnsc17EhJE3bDf423/ID9/gQUG6YxNt3c=;
- b=VIlj+Biajud80gAtqT3HxNvYPMXgcu/BDS8eY8HbotAhmWJESaO96BCHwqDMAd5rml
- WUjZJZ7rPttCxbzfnpTajGENJZQmaVn4SQVw66QhjQi4Kq9PzAeqTfAsAIdro9qGTuXy
- WUqMyhG1NNF9cLjIZdD442+19iBl4Gp+bqVcck2k+07PZWKV7u20rzrOsSaOcoi8bjYK
- fOGTOch3g7BN4pEUvDZ/1OqItsupHipwJ4/82opW63BSzDf3jQ8BMwQ0dWeLP1WHxBUY
- CATkRloTmj6rpK5vHIFsDOD5HlTC0mxeGajmjn6kx7vWYln8+dYxHt2h3aOm8h+3aImW
- wZmA==
-X-Gm-Message-State: AAQBX9dEFX5tTLYNbj32t+/X+4n3EALLy5qb2n6Abhz3SEUwABlXiw0b
- M5Hv6ONZ1GC8H2z5xlDFRMPnTlqW68FQbDv3cuPvsr93tQGu1UCm4I+FKWP+TrU+/hzEhKb5UK0
- 1FTQLHLXL3V+tSEI=
-X-Received: by 2002:a1c:7207:0:b0:3f1:72fb:461a with SMTP id
- n7-20020a1c7207000000b003f172fb461amr9596296wmc.2.1681921879212; 
- Wed, 19 Apr 2023 09:31:19 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YQvcibjB8flhjj7Kg2Kt8n0TJ1JrQ0zzrzQM0suG1nZgSqfaq0R05IqAwxGvRDU2MFf4yoBw==
-X-Received: by 2002:a1c:7207:0:b0:3f1:72fb:461a with SMTP id
- n7-20020a1c7207000000b003f172fb461amr9596277wmc.2.1681921878854; 
- Wed, 19 Apr 2023 09:31:18 -0700 (PDT)
+ bh=4f6a7Bs8gPBzB4KiLNW4r3UW+sfcsAE6UpOMt2QyegU=;
+ b=Epa1R7Jfbbe0zKDPYbVxUzmkBoN2o9J+YsO0TB153/8BCSpy8eNm8UcF5KPMtDyBIH
+ WYALHnudouDb7UERulQq+PNKoiQO6Iy+8z+ALomWY/yuD+BpseGkJSb8lQFEeeExBvb0
+ 2LfNzxQBFtwPrhj52jlCQW6R3OH65F9dp/399JqNniSKvutaEt23gJEaFEmV/NAwp0Sm
+ 10nE5Ke9QzyFEvDkk7sdkFYuxGVMWuLSq+X6J3o7WxwTGRB6JzlM0Ge2xev1197kImjK
+ lpE3TW6omNIw4kcQOcr0l2UvSGR8qbUJTYvZDF6Mg26YSbpNeuZtCx7dLw154ytF3n7O
+ BJsA==
+X-Gm-Message-State: AAQBX9dMmLx6eRbz5bD7mRDBcuMMKOun9x7k97pPehksI36I1e/Qmk9w
+ t3drnMpQkBjuNkd4WNH/mnmLR0NkTcNO0X+ndg0DJSR+vS+L+sqNn2dxrKbMXGB+Sp1TA/0DR1x
+ G/e+aS/1j1A+B7H33/Sy35gA=
+X-Received: by 2002:a05:600c:2103:b0:3f1:6474:c144 with SMTP id
+ u3-20020a05600c210300b003f16474c144mr12507539wml.24.1681921904603; 
+ Wed, 19 Apr 2023 09:31:44 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YBiAF/SV9U7hRw3Jx7CYurqdzvFj9SWS/y2cAAa0hiAIsWsafFZiWOkUR8i1dxcOu7pNCOCw==
+X-Received: by 2002:a05:600c:2103:b0:3f1:6474:c144 with SMTP id
+ u3-20020a05600c210300b003f16474c144mr12507518wml.24.1681921904269; 
+ Wed, 19 Apr 2023 09:31:44 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c70b:7b00:7c52:a5fa:8004:96fd?
  (p200300cbc70b7b007c52a5fa800496fd.dip0.t-ipconnect.de.
  [2003:cb:c70b:7b00:7c52:a5fa:8004:96fd])
  by smtp.gmail.com with ESMTPSA id
- n20-20020a7bc5d4000000b003f17b96793dsm2632820wmk.37.2023.04.19.09.31.17
+ p8-20020a05600c358800b003f1738d0d13sm4072542wmq.1.2023.04.19.09.31.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Apr 2023 09:31:18 -0700 (PDT)
-Message-ID: <56d70da4-c3ae-1abc-3004-94787039b004@redhat.com>
-Date: Wed, 19 Apr 2023 18:31:17 +0200
+ Wed, 19 Apr 2023 09:31:43 -0700 (PDT)
+Message-ID: <2fa3ede8-6ab8-29e4-2297-004c4a2c9b7b@redhat.com>
+Date: Wed, 19 Apr 2023 18:31:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 1/4] util/mmap-alloc: qemu_fd_getfs()
+Subject: Re: [PATCH v2 2/4] vl.c: Create late backends before migration object
 Content-Language: en-US
 To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -77,10 +77,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 References: <20230419161739.1129988-1-peterx@redhat.com>
- <20230419161739.1129988-2-peterx@redhat.com>
+ <20230419161739.1129988-3-peterx@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20230419161739.1129988-2-peterx@redhat.com>
+In-Reply-To: <20230419161739.1129988-3-peterx@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
@@ -109,86 +109,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 19.04.23 18:17, Peter Xu wrote:
-> This new helper fetches file system type for a fd.  Only Linux is
-> implemented so far.  Currently only tmpfs and hugetlbfs is defined, but it
-> can grow per need.
+> The migration object may want to check against different types of memory
+> when initialized.  Delay the creation to be after late backends.
 > 
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->   include/qemu/mmap-alloc.h |  7 +++++++
->   util/mmap-alloc.c         | 28 ++++++++++++++++++++++++++++
->   2 files changed, 35 insertions(+)
+>   softmmu/vl.c | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
-> index 2825e231a7..8344daaa03 100644
-> --- a/include/qemu/mmap-alloc.h
-> +++ b/include/qemu/mmap-alloc.h
-> @@ -1,8 +1,15 @@
->   #ifndef QEMU_MMAP_ALLOC_H
->   #define QEMU_MMAP_ALLOC_H
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ea20b23e4c..ad394b402f 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -3583,14 +3583,19 @@ void qemu_init(int argc, char **argv)
+>                        machine_class->name, machine_class->deprecation_reason);
+>       }
 >   
-> +typedef enum {
-> +    QEMU_FS_TYPE_UNKNOWN = 0,
-> +    QEMU_FS_TYPE_TMPFS,
-> +    QEMU_FS_TYPE_HUGETLBFS,
-> +    QEMU_FS_TYPE_NUM,
-> +} QemuFsType;
->   
->   size_t qemu_fd_getpagesize(int fd);
-> +QemuFsType qemu_fd_getfs(int fd);
->   
->   /**
->    * qemu_ram_mmap: mmap anonymous memory, the specified file or device.
-> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-> index 5ed7d29183..ed14f9c64d 100644
-> --- a/util/mmap-alloc.c
-> +++ b/util/mmap-alloc.c
-> @@ -27,8 +27,36 @@
->   
->   #ifdef CONFIG_LINUX
->   #include <sys/vfs.h>
-> +#include <linux/magic.h>
->   #endif
->   
-> +QemuFsType qemu_fd_getfs(int fd)
-> +{
-> +#ifdef CONFIG_LINUX
-> +    struct statfs fs;
-> +    int ret;
+> +    /*
+> +     * Create backends before creating migration objects, so that it can
+> +     * check against compatibilities on the backend memories (e.g. postcopy
+> +     * over memory-backend-file objects).
+> +     */
+> +    qemu_create_late_backends();
 > +
-> +    if (fd < 0) {
-> +        return QEMU_FS_TYPE_UNKNOWN;
-> +    }
-> +
-> +    do {
-> +        ret = fstatfs(fd, &fs);
-> +    } while (ret != 0 && errno == EINTR);
-> +
-> +    switch (fs.f_type) {
-> +    case TMPFS_MAGIC:
-> +        return QEMU_FS_TYPE_TMPFS;
-> +    case HUGETLBFS_MAGIC:
-> +        return QEMU_FS_TYPE_HUGETLBFS;
-> +    default:
-> +        return QEMU_FS_TYPE_UNKNOWN;
-> +    }
-> +#else
-> +    return QEMU_FS_TYPE_UNKNOWN;
-> +#endif
-> +}
-
-I guess you could do
-
-#ifdef CONFIG_LINUX
-...
-     default:
-         break
-     }
-#endif
-     return QEMU_FS_TYPE_UNKNOWN;
-
-To avoid duplicating the default handling. Whatever you prefer:
-
+>       /*
+>        * Note: creates a QOM object, must run only after global and
+>        * compat properties have been set up.
+>        */
+>       migration_object_init();
+>   
+> -    qemu_create_late_backends();
+> -
+>       /* parse features once if machine provides default cpu_type */
+>       current_machine->cpu_type = machine_class->default_cpu_type;
+>       if (cpu_option) {
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
