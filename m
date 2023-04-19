@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2505E6E753C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 10:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B5E6E75CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 10:58:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp3Cw-0000ab-RI; Wed, 19 Apr 2023 04:30:30 -0400
+	id 1pp3c9-0005ew-RI; Wed, 19 Apr 2023 04:56:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
- id 1pp3Ct-0000Yq-CN
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 04:30:28 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1pp3c5-0005ZC-IR
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 04:56:29 -0400
+Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
- id 1pp3Cp-0005iE-7a
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 04:30:26 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 183B4635EE;
- Wed, 19 Apr 2023 08:30:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91AF2C433EF;
- Wed, 19 Apr 2023 08:30:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1681893013;
- bh=jcrD/MAqpsfteSxcrKJQtY6pksCSFUz4k6hypV9cW7I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GUlfmzAac1xNbniOW+9sTcn+D51raTUKPS47ZwRVE0bQSvC6ZMhwZyI4seWoAszOs
- dI8qjMwileJSg0S3nHgT7At7aZ2exrs23CjAt26gaSKvr6lK+7UyJ4DYH+cTStdCdv
- l+LJ2u8v//8RTDDiirAHC7MRuX7HNTijYtoxdRQ1UGU1utqpVcDw5PIHxqsDdqHIlC
- zFoDv1hARCjt0NHV+1a8aPm1ch7VvJq+rJfqvWmW5BYgK3OGJpuE++V+o3oeQemMcx
- dTkykrgRGHk1v8rIbaO0egj/zk3jR9uCB8kTaYySO+xQzHlO+iyVziqx7juWEimRjL
- 9Jrf+qrir6/Ag==
-Date: Wed, 19 Apr 2023 10:29:59 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Ackerley Tng <ackerleytng@google.com>,
- Chao Peng <chao.p.peng@linux.intel.com>,
- Hugh Dickins <hughd@google.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,
- Pankaj Gupta <pankaj.gupta@amd.com>, linux-arch@vger.kernel.org,
- arnd@arndb.de, linmiaohe@huawei.com, naoya.horiguchi@nec.com,
- tabba@google.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20230418-anfallen-irdisch-6993a61be10b@brauner>
-References: <20220818132421.6xmjqduempmxnnu2@box>
- <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <20230413-anlegen-ergibt-cbefffe0b3de@brauner>
- <ZDiCG/7OgDI0SwMR@google.com>
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1pp3c3-0000a6-4u
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 04:56:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Rp17YwaJfT5dcoD8tiplul+Ecv0DL86m3ZyGvU1CRxs=; b=C4gtPk+27DIBkQlaoxsDu9xArd
+ 2JIXmuG+gGJWy55vrytjs0oTWXLV3D7pCxPJ3zF/2q2BhPQts4++YCzlvTKTnvAOUQDkDq9uUQzno
+ AtFuSpk/aJNAcVAkwF11QUSaj1CKOGcn5t4T4EffulkOqBuWo2utpwXurdsUqaot5M10=;
+Date: Wed, 19 Apr 2023 10:56:11 +0200
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: Anton Johansson via <qemu-devel@nongnu.org>
+Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com, 
+ eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com, 
+ tsimpson@quicinc.com, gaosong@loongson.cn, yangxiaojuan@loongson.cn, 
+ edgar.iglesias@gmail.com, philmd@linaro.org, shorne@gmail.com,
+ palmer@dabbelt.com, 
+ alistair.francis@wdc.com, bin.meng@windriver.com, ysato@users.sourceforge.jp, 
+ mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com
+Subject: Re: [PATCH v3 13/27] target/tricore: Replace `tb_pc()` with `tb->pc`
+Message-ID: <oss2bubx2fofds4llsg4qntnij42u2vq45glg44sxcvl5udb7w@phzn6ypc37k2>
+References: <20230227135202.9710-1-anjo@rev.ng>
+ <20230227135202.9710-14-anjo@rev.ng>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ZDiCG/7OgDI0SwMR@google.com>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=brauner@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230227135202.9710-14-anjo@rev.ng>
+X-IMT-Source: Extern
+X-IMT-Spam-Score: 0.0 ()
+X-IMT-rspamd-score: 19
+X-IMT-rspamd-bar: +
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2023.4.19.84816, AntiVirus-Engine: 5.96.0,
+ AntiVirus-Data: 2023.1.24.5960001
+X-Sophos-SenderHistory: ip=84.184.52.177, fs=481016, da=169503638, mc=2, sc=0,
+ hc=2, sp=0, fso=481016, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::17;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=zuban.uni-paderborn.de
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,216 +80,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 13, 2023 at 03:28:43PM -0700, Sean Christopherson wrote:
-> On Thu, Apr 13, 2023, Christian Brauner wrote:
-> > On Thu, Aug 18, 2022 at 04:24:21PM +0300, Kirill A . Shutemov wrote:
-> > > On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
-> > > > Here's what I would prefer, and imagine much easier for you to maintain;
-> > > > but I'm no system designer, and may be misunderstanding throughout.
-> > > > 
-> > > > QEMU gets fd from opening /dev/kvm_something, uses ioctls (or perhaps
-> > > > the fallocate syscall interface itself) to allocate and free the memory,
-> > > > ioctl for initializing some of it too.  KVM in control of whether that
-> > > > fd can be read or written or mmap'ed or whatever, no need to prevent it
-> > > > in shmem.c, no need for flags, seals, notifications to and fro because
-> > > > KVM is already in control and knows the history.  If shmem actually has
-> > > > value, call into it underneath - somewhat like SysV SHM, and /dev/zero
-> > > > mmap, and i915/gem make use of it underneath.  If shmem has nothing to
-> > > > add, just allocate and free kernel memory directly, recorded in your
-> > > > own xarray.
-> > > 
-> > > I guess shim layer on top of shmem *can* work. I don't see immediately why
-> > > it would not. But I'm not sure it is right direction. We risk creating yet
-> > > another parallel VM with own rules/locking/accounting that opaque to
-> > > core-mm.
-> > 
-> > Sorry for necrobumping this thread but I've been reviewing the
-> 
-> No worries, I'm just stoked someone who actually knows what they're doing is
-> chiming in :-)
+On Mon, Feb 27, 2023 at 02:51:48PM +0100, Anton Johansson via wrote:
+> Signed-off-by: Anton Johansson <anjo@rev.ng>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>  target/tricore/cpu.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-It's a dangerous business, going out of your subsystem. You step into
-code, and if you don't watch your hands, there is no knowing where you
-might be swept off to.
+Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-That saying goes for me here specifically...
-
-> 
-> > memfd_restricted() extension that Ackerley is currently working on. I
-> > was pointed to this thread as this is what the extension is building
-> > on but I'll reply to both threads here.
-> > 
-> > From a glance at v10, memfd_restricted() is currently implemented as an
-> > in-kernel stacking filesystem. A call to memfd_restricted() creates a
-> > new restricted memfd file and a new unlinked tmpfs file and stashes the
-> > tmpfs file into the memfd file's private data member. It then uses the
-> > tmpfs file's f_ops and i_ops to perform the relevant file and inode
-> > operations. So it has the same callstack as a general stacking
-> > filesystem like overlayfs in some cases:
-> > 
-> >         memfd_restricted->getattr()
-> >         -> tmpfs->getattr()
-> 
-> ...
-> 
-> > Since you're effectively acting like a stacking filesystem you should
-> > really use the device number of your memfd restricted filesystem. IOW,
-> > sm like:
-> > 
-> >         stat->dev = memfd_restricted_dentry->d_sb->s_dev;
-> > 
-> > But then you run into trouble if you want to go forward with Ackerley's
-> > extension that allows to explicitly pass in tmpfs fds to
-> > memfd_restricted(). Afaict, two tmpfs instances might allocate the same
-> > inode number. So now the inode and device number pair isn't unique
-> > anymore.
-> > 
-> > So you might best be served by allocating and reporting your own inode
-> > numbers as well.
-> > 
-> > But if you want to preserve the inode number and device number of the
-> > relevant tmpfs instance but still report memfd restricted as your
-> > filesystem type
-> 
-> Unless I missed something along the way, reporting memfd_restricted as a distinct
-> filesystem is very much a non-goal.  AFAIK it's purely a side effect of the
-> proposed implementation.
-
-In the current implementation you would have to put in effort to fake
-this. For example, you would need to also implement ->statfs
-super_operation where you'd need to fill in the details of the tmpfs
-instance. At that point all that memfd_restricted fs code that you've
-written is nothing but deadweight, I would reckon.
-
-> 
-> > then I think it's reasonable to ask whether a stacking implementation really
-> > makes sense here.
-> > 
-> > If you extend memfd_restricted() or even consider extending it in the
-> > future to take tmpfs file descriptors as arguments to identify the tmpfs
-> > instance in which to allocate the underlying tmpfs file for the new
-> > restricted memfd file you should really consider a tmpfs based
-> > implementation.
-> > 
-> > Because at that point it just feels like a pointless wrapper to get
-> > custom f_ops and i_ops. Plus it's wasteful because you allocate dentries
-> > and inodes that you don't really care about at all.
-> > 
-> > Just off the top of my hat you might be better served:
-> > * by a new ioctl() on tmpfs instances that
-> >   yield regular tmpfs file descriptors with restricted f_ops and i_ops.
-> >   That's not that different from btrfs subvolumes which effectively are
-> >   directories but are created through an ioctl().
-> 
-> I think this is more or less what we want to do, except via a dedicated syscall
-> instead of an ioctl() so that the primary interface isn't strictly tied to tmpfs,
-> e.g. so that it can be extended to other backing types in the future.
-
-Ok. But just to point this out, this would make memfd_restricted()
-a multiplexer on types of memory. And my wild guess is that not all
-memory types you might reasonably want to use will have a filesystem
-like interface such. So in the future you might end up with multiple
-ways of specifying the type of memory:
-
-// use tmpfs backing
-memfd_restricted(fd_tmpfs, 0);
-
-// use hugetlbfs backing
-memfd_restricted(fd_hugetlbfs, 0);
-
-// use non-fs type memory backing
-memfd_restricted(-EBADF, MEMFD_SUPER_FANCY_MEMORY_TYPE);
-
-interface wise I find an unpleasant design. But that multi-memory-open
-goal also makes it a bit hard to come up with a clean design (On
-possibility would be to use an extensible struct - versioned by size -
-similar to openat2() and clone3() such that you can specify all types of
-options on the memory in the future.).
-
-> 
-> > * by a mount option to tmpfs that makes it act
-> >   in this restricted manner then you don't need an ioctl() and can get
-> >   away with regular open calls. Such a tmpfs instance would only create
-> >   regular, restricted memfds.
-> 
-> I'd prefer to not go this route, becuase IIUC, it would require relatively invasive
-> changes to shmem code, and IIUC would require similar changes to other support
-> backings in the future, e.g. hugetlbfs?  And as above, I don't think any of the
-> potential use cases need restrictedmem to be a uniquely identifiable mount.
-
-Ok, see my comment above then.
-
-> 
-> One of the goals (hopefully not a pipe dream) is to design restrictmem in such a
-> way that extending it to support other backing types isn't terribly difficult.
-
-Not necessarily difficult, just difficult to do tastefully imho. But
-it's not that has traditionally held people back. ;)
-
-> In case it's not obvious, most of us working on this stuff aren't filesystems
-> experts, and many of us aren't mm experts either.  The more we (KVM folks for the
-> most part) can leverage existing code to do the heavy lifting, the better.
-
-Well, hopefully we can complement each other's knowledge here.
-
-> 
-> After giving myself a bit of a crash course in file systems, would something like
-> the below have any chance of (a) working, (b) getting merged, and (c) being
-> maintainable?
-> 
-> The idea is similar to a stacking filesystem, but instead of stacking, restrictedmem
-> hijacks a f_ops and a_ops to create a lightweight shim around tmpfs.  There are
-> undoubtedly issues and edge cases, I'm just looking for a quick "yes, this might
-> be doable" or a "no, that's absolutely bonkers, don't try it".
-
-Maybe, but I think it's weird. _Replacing_ f_ops isn't something that's
-unprecedented. It happens everytime a character device is opened (see
-fs/char_dev.c:chrdev_open()). And debugfs does a similar (much more
-involved) thing where it replaces it's proxy f_ops with the relevant
-subsystem's f_ops. The difference is that in both cases the replace
-happens at ->open() time; and the replace is done once. Afterwards only
-the newly added f_ops are relevant.
-
-In your case you'd be keeping two sets of {f,a}_ops; one usable by
-userspace and another only usable by in-kernel consumers. And there are
-some concerns (non-exhaustive list), I think:
-
-* {f,a}_ops weren't designed for this. IOW, one set of {f,a}_ops is
-  authoritative per @file and it is left to the individual subsystems to
-  maintain driver specific ops (see the sunrpc stuff or sockets).
-* lifetime management for the two sets of {f,a}_ops: If the ops belong
-  to a module then you need to make sure that the module can't get
-  unloaded while you're using the fops. Might not be a concern in this
-  case.
-* brittleness: Not all f_ops for example deal with userspace
-  functionality some deal with cleanup when the file is closed like
-  ->release(). So it's delicate to override that functionality with
-  custom f_ops. Restricted memfds could easily forget to cleanup
-  resources.
-* Potential for confusion why there's two sets of {f,a}_ops.
-* f_ops specifically are generic across a vast amount of consumers and
-  are subject to change. If memfd_restricted() has specific requirements
-  because of this weird double-use they won't be taken into account.
-
-I find this hard to navigate tbh and it feels like taking a shortcut to
-avoid building a proper api. If you only care about a specific set of
-operations specific to memfd restricte that needs to be available to
-in-kernel consumers, I wonder if you shouldn't just go one step further
-then your proposal below and build a dedicated minimal ops api. Idk,
-sketching like a madman on a drawning board here with no claim to
-feasibility from a mm perspective whatsoever:
-
-struct restrictedmem_ops {
-	// only contains very limited stuff you need or special stuff
-	// you nee, similar to struct proto_ops (sockets) and so on
-};
-
-struct restrictedmem {
-	const struct restrictedmem_ops ops;
-};
-
-This would avoid fuzzing with two different set of {f,a}_ops in this
-brittle way. It would force you to clarify the semantics that you need
-and the operations that you need or don't need implemented. And it would
-get rid of the ambiguity inherent to using two sets of {f,a}_ops.
+Cheers,
+Bastian
 
