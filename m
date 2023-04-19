@@ -2,51 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4FF26E7267
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 06:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B8A6E72A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 07:32:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1poziT-0003oZ-3g; Wed, 19 Apr 2023 00:46:49 -0400
+	id 1pp0PT-0001Hj-0e; Wed, 19 Apr 2023 01:31:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geoff@aeryn.lan.ktmba>)
- id 1poziR-0003oM-H4
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 00:46:47 -0400
-Received: from mail1.hostfission.com ([118.127.8.195])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@aeryn.lan.ktmba>) id 1poziN-0005DW-EI
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 00:46:47 -0400
-Received: from aeryn.lan.ktmba (office.hostfission.com [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTPS id DA1C01F0C17;
- Wed, 19 Apr 2023 14:39:50 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1681879190;
- bh=PVVb1n898uEVCc+DSEsNRmKY3aU/upXnZrNrZ90NaiU=;
- h=From:To:Cc:Subject:Date:From;
- b=E0/JVGvmd0+hnIgmxJgh3eImA8a4sDLGcpItSWYXv2MOqVfoLlkJ7hWhrP7beWEIT
- uJrmDHCgZutLr8UcIgt6MY7dEtzWrlGqP/D73LIRjo/0Yygu0srZYk6KMnF0A9b5Rm
- s6tJ+tiR14QnrB3lG9oQfjM8UxIqRoK5pITe4/cw=
-Received: by aeryn.lan.ktmba (Postfix, from userid 1000)
- id 63BAE2E0CE0; Wed, 19 Apr 2023 14:39:50 +1000 (AEST)
-From: Geoffrey McRae <geoff@hostfission.com>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Geoffrey McRae <geoff@hostfission.com>
-Subject: [PATCH] hw/misc/ivshmem: Use 32-bit addressing for the memory BAR
-Date: Wed, 19 Apr 2023 14:39:31 +1000
-Message-Id: <20230419043931.36764-1-geoff@hostfission.com>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pp0PP-0001HN-VC
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 01:31:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pp0PN-0000xB-VB
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 01:31:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681882267;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X7P20zMft03/QtI4a2h8bHRgl8d+BbRt0aljLaAsMJI=;
+ b=UlL6RBC90OxiDD5JpE+fK6srlbGicJuwciIx2plJD2bjENify6EFX2iFdPZASwmH0Mh9cG
+ iniQuCVwerOAgdXqgX+RFuJafkOTNoi44heLLP+DmU6k+h5eRFysJDafVmFWMSkHdlofmB
+ yLhGQBob0AaofZX+QKznTj6eFg3MaY0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-277-wcs2Ty-zMMSEJYpkZq6zVw-1; Wed, 19 Apr 2023 01:31:04 -0400
+X-MC-Unique: wcs2Ty-zMMSEJYpkZq6zVw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f0b0c85c4fso49223505e9.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 22:31:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681882263; x=1684474263;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X7P20zMft03/QtI4a2h8bHRgl8d+BbRt0aljLaAsMJI=;
+ b=RWM96y7jUbT0I3BCzmItlS8Efs7AIctdTS/QM/YJdbQIreAgBdYvg9lowAJQC/alxM
+ w4DjfD2PRDMqW4224zrwlbDY2kk2mTvy2QJGInMWiAwDybgrCjbxNKuAphf74uw6XgGh
+ 5n3/gjNLgAaUXQLdhIasK+H961oY6pYmb7xtw7Ou9C5iZktE5Uo80scYNtcvLlwUYUiV
+ LSp0G19YabKuetqve44vhOcOKjyrPPFDmoE5AlBLL6OLtPaCPDIXWynU4/VFaq+Mfpw4
+ ffhN5qoLAUotdApapNbUdA/RtpL2WgtuP4OLld94SpfW/Hn0qufCtMkd6JvK1jr5yTO4
+ 0c4g==
+X-Gm-Message-State: AAQBX9dsC7LGf9MYkh0y0Znx/kbm7m024mhRk/wjDeooeRI6nRfVDnw+
+ f082TKuqyJ56obRIxXZH17kZ9t0oyudcFv+1HduE6hp2hTFT7qtD5gYRle+MyrObwApHyQq7sEz
+ Btzj57kvbMsuEPSc=
+X-Received: by 2002:a05:6000:12cf:b0:2ef:b257:b46c with SMTP id
+ l15-20020a05600012cf00b002efb257b46cmr843271wrx.29.1681882263314; 
+ Tue, 18 Apr 2023 22:31:03 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZPu72QoxURQUhCtJ4oQMWWpVkrAn7sBiubuAlcZBjtqmzCQyuCKqmqlUhJviIBh9tawt1cpA==
+X-Received: by 2002:a05:6000:12cf:b0:2ef:b257:b46c with SMTP id
+ l15-20020a05600012cf00b002efb257b46cmr843251wrx.29.1681882263020; 
+ Tue, 18 Apr 2023 22:31:03 -0700 (PDT)
+Received: from redhat.com ([2a02:14f:1fc:3571:9b25:3dfd:20fa:b195])
+ by smtp.gmail.com with ESMTPSA id
+ u19-20020a05600c211300b003f17a00c214sm952379wml.16.2023.04.18.22.30.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Apr 2023 22:31:02 -0700 (PDT)
+Date: Wed, 19 Apr 2023 01:30:15 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: shannon.zhaosl@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com, richard.henderson@linaro.org,
+ eduardo@habkost.net, boris.ostrovsky@oracle.com
+Subject: Re: [PATCH v2 2/4] hw/acpi: arm: bump MADT to revision 5
+Message-ID: <20230419012905-mutt-send-email-mst@kernel.org>
+References: <20230418165219.2036-1-eric.devolder@oracle.com>
+ <20230418165219.2036-3-eric.devolder@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=118.127.8.195; envelope-from=geoff@aeryn.lan.ktmba;
- helo=mail1.hostfission.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230418165219.2036-3-eric.devolder@oracle.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,31 +101,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since OVMF 202211 the bios maps BAR2 to an upper address which has the
-undesirable effect of making it impossible to map the memory under Linux
-due to it exceeding the maximum permissible range for hotplug memory
-(see `mhp_get_pluggable_range` in `mm/memory_hotplug.c`). This patch
-resolves this by configuring the BAR as 32-bit.
+On Tue, Apr 18, 2023 at 12:52:17PM -0400, Eric DeVolder wrote:
+> Currently ARM QEMU generates, and reports, MADT revision 4. ACPI 6.3
+> introduces MADT revision 5.
+> 
+> For MADT revision 5, the GICC structure adds an SPE Overflow Interrupt
+> field. This new 2-byte field is created from the existing 3-byte
+> Reserved field. The spec indicates if the SPE overflow interrupt is
+> not supported, to zero the field.
+> 
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 
-Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
----
- hw/misc/ivshmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So why do we bother changing this? I'd rather defer until
+we actually intend to fill this field.
 
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index d66d912172..2f8f7e2030 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -913,7 +913,7 @@ static void ivshmem_common_realize(PCIDevice *dev, Error **errp)
-     pci_register_bar(PCI_DEVICE(s), 2,
-                      PCI_BASE_ADDRESS_SPACE_MEMORY |
-                      PCI_BASE_ADDRESS_MEM_PREFETCH |
--                     PCI_BASE_ADDRESS_MEM_TYPE_64,
-+                     PCI_BASE_ADDRESS_MEM_TYPE_32,
-                      s->ivshmem_bar2);
- }
- 
--- 
-2.39.2
+> ---
+>  hw/arm/virt-acpi-build.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 4156111d49..23268dd981 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -705,7 +705,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>      int i;
+>      VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
+>      const MemMapEntry *memmap = vms->memmap;
+> -    AcpiTable table = { .sig = "APIC", .rev = 4, .oem_id = vms->oem_id,
+> +    AcpiTable table = { .sig = "APIC", .rev = 5, .oem_id = vms->oem_id,
+>                          .oem_table_id = vms->oem_table_id };
+>  
+>      acpi_table_begin(&table, table_data);
+> @@ -763,7 +763,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>          /* Processor Power Efficiency Class */
+>          build_append_int_noprefix(table_data, 0, 1);
+>          /* Reserved */
+> -        build_append_int_noprefix(table_data, 0, 3);
+> +        build_append_int_noprefix(table_data, 0, 1);
+> +        /* SPE overflow Interrupt */
+> +        build_append_int_noprefix(table_data, 0, 2);
+>      }
+>  
+>      if (vms->gic_version != VIRT_GIC_VERSION_2) {
+> -- 
+> 2.31.1
 
 
