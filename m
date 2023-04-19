@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB186E8552
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 00:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7F06E85EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 01:31:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppGgG-0003IN-LM; Wed, 19 Apr 2023 18:53:40 -0400
+	id 1ppHF0-0002vx-RN; Wed, 19 Apr 2023 19:29:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppGgC-0003Gk-46; Wed, 19 Apr 2023 18:53:36 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppGg8-0000Wn-CJ; Wed, 19 Apr 2023 18:53:35 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id DDC0560730;
- Thu, 20 Apr 2023 01:53:10 +0300 (MSK)
-Received: from vsementsov-nix.yandex.net (unknown [2a02:6b8:b081:b583::1:16])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (smtpcorp/Yandex) with ESMTPSA id YqmhHB1OqSw0-o2pVyVbY; 
- Thu, 20 Apr 2023 01:53:10 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1681944790; bh=oqisxFBeF9FaJ15anyP33//Lgz7jyDHpwXuXFg8+nwA=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=pPqMxRlWsaoT/MzjtTxQXOilFOGfIpaB0ZDgZ6zPFA5rS2cMojoYr5GEHsyTxSpFZ
- 4SSdPE4tm2itaeykmBRw8jivpwTqC1vMlCvbUoRVBmgBODMELZmkBtli2JQ4OWxnfl
- 3TVAdqgVTRagYRnaLG6+mikqffAxwyn138+Ywf30=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, michael.roth@amd.com, armbru@redhat.com,
- eblake@redhat.com, jasowang@redhat.com, quintela@redhat.com,
- zhanghailiang@xfusion.com, philmd@linaro.org, thuth@redhat.com,
- berrange@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- dave@treblig.org, hreitz@redhat.com, kwolf@redhat.com,
- chen.zhang@intel.com, lizhijian@fujitsu.com,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH v2 4/4] configure: add --disable-colo-filters option
-Date: Thu, 20 Apr 2023 01:52:32 +0300
-Message-Id: <20230419225232.508121-5-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230419225232.508121-1-vsementsov@yandex-team.ru>
-References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ppHEv-0002vC-2K; Wed, 19 Apr 2023 19:29:29 -0400
+Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ppHEs-0005Z3-1g; Wed, 19 Apr 2023 19:29:27 -0400
+Received: by mail-ua1-x930.google.com with SMTP id w19so1020830uad.7;
+ Wed, 19 Apr 2023 16:29:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681946964; x=1684538964;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oQiXGxViv+1rfgIZ8R1oCcPfb+qrE8FoCKN/hMXjztg=;
+ b=Hz6lQoNs2hkMBGiGpNnyldCGwo5AI52mE2rPjWtkXlVl+ELkdtaRkWEdh95ZhTr9Lz
+ Ctb1bSQbrgnIBOiFiFSBleBIIuR5inXBN0nDzeni12cZ6HgLecrFWxOm9IJtrXPidjwF
+ h7PuapI1M1U2deJkQnt2rmTh7b721dR3xnx94Ha8WvJrPh1BohwSiIMpTQXUq+t6sako
+ TE25+CgbuoEWPAyn1Zsn4MA7JOn4mLoT7nlojPr0MAmZg902FgviOLL8L3jGz2DyWr3Z
+ 8qMFYZVJM3uq0EizH26xWNOH2IRMBjGs6cqaqBUspD/UOgDXV9+ccvM3q3L7jmaKRbj9
+ IOhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681946964; x=1684538964;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oQiXGxViv+1rfgIZ8R1oCcPfb+qrE8FoCKN/hMXjztg=;
+ b=X4OFiLX1PMQTtelE8iOK7W26p7IMuRRSzt8eIvhV7uEzT8h1I/iVPoByRBjtlWJNEa
+ LtcQh3Ed+tcowM2GTWQPbWH0KxI7ctKry7WbOMGRg2GoIUeRZQHA3NFvjNYhAyLeajGp
+ 3x0RD/+nLgcSVkUUAMmHRzGdWZ+SR22W1F90akpRS5PU8fSO8QJpENJOFAiVkPAxzu61
+ uJfRzS5xGEze790N2So/0Zy0yWUVuc/t1uIGfT3wgeaWk3F7SAg7pbJpq6mGNvu3Km4a
+ 1WiCnf/6Hn4tlMxSwfriPcY2eQnf9jMXpORRwViZPGHXsYMtDgySx/CsKVN4KpDMtlOA
+ l0uA==
+X-Gm-Message-State: AAQBX9eEb/RsmB0nC54lCUn6+tgdiZVcVA08BeaEXfeGP/MkzWr8k4Lu
+ rxD2hYKpzQHPmowjpovtU/USuTjH0Vjwj09CM8i2g4u6iVs=
+X-Google-Smtp-Source: AKy350bWtejExaXW1TR/97QnOJeCmcxpfapIsgNzyeHKYp3/OTvv3ZWZ4lq2aLgPSmBHfZPx/k12ptuIJga54Quq7Io=
+X-Received: by 2002:a1f:c1ca:0:b0:440:19fe:1790 with SMTP id
+ r193-20020a1fc1ca000000b0044019fe1790mr763409vkf.1.1681946962494; Wed, 19 Apr
+ 2023 16:29:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20230419104756.71455-1-alexghiti@rivosinc.com>
+In-Reply-To: <20230419104756.71455-1-alexghiti@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 20 Apr 2023 09:28:56 +1000
+Message-ID: <CAKmqyKMQ2Z3GXDiXcXEL-R2AAqxVZKL+8+yHdPk8SCZQz+AT1g@mail.gmail.com>
+Subject: Re: [PATCH v2] riscv: Make sure an exception is raised if a pte is
+ malformed
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrea Parri <andrea@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x930.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,95 +88,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add option to not build COLO Proxy subsystem if it is not needed.
+On Wed, Apr 19, 2023 at 8:48=E2=80=AFPM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
+>
+> As per the privileged specification, in 64-bit, if any of the pte reserve=
+d
+> bits 60-54 is set an exception should be triggered, and the same applies =
+to
+> napot/pbmt bits if those extensions are not enabled
+> (see 4.4.1, "Addressing and Memory Protection").
+>
+> Reported-by: Andrea Parri <andrea@rivosinc.com>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- meson.build                   |  1 +
- meson_options.txt             |  2 ++
- net/meson.build               | 11 ++++++++---
- scripts/meson-buildoptions.sh |  3 +++
- 4 files changed, 14 insertions(+), 3 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/meson.build b/meson.build
-index c44d05a13f..5b2fdfbd3a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1962,6 +1962,7 @@ config_host_data.set('CONFIG_GPROF', get_option('gprof'))
- config_host_data.set('CONFIG_LIVE_BLOCK_MIGRATION', get_option('live_block_migration').allowed())
- config_host_data.set('CONFIG_QOM_CAST_DEBUG', get_option('qom_cast_debug'))
- config_host_data.set('CONFIG_REPLICATION', get_option('replication').allowed())
-+config_host_data.set('CONFIG_COLO_FILTERS', get_option('colo_filters').allowed())
- 
- # has_header
- config_host_data.set('CONFIG_EPOLL', cc.has_header('sys/epoll.h'))
-diff --git a/meson_options.txt b/meson_options.txt
-index fc9447d267..ffe81317cb 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -289,6 +289,8 @@ option('live_block_migration', type: 'feature', value: 'auto',
-        description: 'block migration in the main migration stream')
- option('replication', type: 'feature', value: 'auto',
-        description: 'replication support')
-+option('colo_filters', type: 'feature', value: 'auto',
-+       description: 'colo_filters support')
- option('bochs', type: 'feature', value: 'auto',
-        description: 'bochs image format support')
- option('cloop', type: 'feature', value: 'auto',
-diff --git a/net/meson.build b/net/meson.build
-index 38d50b8c96..7e54744aea 100644
---- a/net/meson.build
-+++ b/net/meson.build
-@@ -1,12 +1,9 @@
- softmmu_ss.add(files(
-   'announce.c',
-   'checksum.c',
--  'colo.c',
-   'dump.c',
-   'eth.c',
-   'filter-buffer.c',
--  'filter-mirror.c',
--  'filter-rewriter.c',
-   'filter.c',
-   'hub.c',
-   'net-hmp-cmds.c',
-@@ -22,6 +19,14 @@ if get_option('replication').allowed()
-   softmmu_ss.add(files('colo-compare.c'))
- endif
- 
-+if get_option('replication').allowed() or get_option('colo_filters').allowed()
-+  softmmu_ss.add(files('colo.c'))
-+endif
-+
-+if get_option('colo_filters').allowed()
-+  softmmu_ss.add(files('filter-mirror.c', 'filter-rewriter.c'))
-+endif
-+
- softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
- 
- if have_l2tpv3
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 009fab1515..cf9d23369f 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -83,6 +83,7 @@ meson_options_help() {
-   printf "%s\n" '  capstone        Whether and how to find the capstone library'
-   printf "%s\n" '  cloop           cloop image format support'
-   printf "%s\n" '  cocoa           Cocoa user interface (macOS only)'
-+  printf "%s\n" '  colo-filters    colo_filters support'
-   printf "%s\n" '  coreaudio       CoreAudio sound support'
-   printf "%s\n" '  crypto-afalg    Linux AF_ALG crypto backend driver'
-   printf "%s\n" '  curl            CURL block device driver'
-@@ -236,6 +237,8 @@ _meson_option_parse() {
-     --disable-cloop) printf "%s" -Dcloop=disabled ;;
-     --enable-cocoa) printf "%s" -Dcocoa=enabled ;;
-     --disable-cocoa) printf "%s" -Dcocoa=disabled ;;
-+    --enable-colo-filters) printf "%s" -Dcolo_filters=enabled ;;
-+    --disable-colo-filters) printf "%s" -Dcolo_filters=disabled ;;
-     --enable-coreaudio) printf "%s" -Dcoreaudio=enabled ;;
-     --disable-coreaudio) printf "%s" -Dcoreaudio=disabled ;;
-     --enable-coroutine-pool) printf "%s" -Dcoroutine_pool=true ;;
--- 
-2.34.1
+Alistair
 
+> ---
+>  target/riscv/cpu_bits.h   |  1 +
+>  target/riscv/cpu_helper.c | 15 +++++++++++----
+>  2 files changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index fca7ef0cef..8d9ba2ce11 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -640,6 +640,7 @@ typedef enum {
+>  #define PTE_SOFT            0x300 /* Reserved for Software */
+>  #define PTE_PBMT            0x6000000000000000ULL /* Page-based memory t=
+ypes */
+>  #define PTE_N               0x8000000000000000ULL /* NAPOT translation *=
+/
+> +#define PTE_RESERVED        0x1FC0000000000000ULL /* Reserved bits */
+>  #define PTE_ATTR            (PTE_N | PTE_PBMT) /* All attributes bits */
+>
+>  /* Page table PPN shift amount */
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index f88c503cf4..8dc832d1bb 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -946,13 +946,20 @@ restart:
+>
+>          if (riscv_cpu_sxl(env) =3D=3D MXL_RV32) {
+>              ppn =3D pte >> PTE_PPN_SHIFT;
+> -        } else if (pbmte || cpu->cfg.ext_svnapot) {
+> -            ppn =3D (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+>          } else {
+> -            ppn =3D pte >> PTE_PPN_SHIFT;
+> -            if ((pte & ~(target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
+> +            if (pte & PTE_RESERVED) {
+> +                return TRANSLATE_FAIL;
+> +            }
+> +
+> +            if (!pbmte && (pte & PTE_PBMT)) {
+>                  return TRANSLATE_FAIL;
+>              }
+> +
+> +            if (!cpu->cfg.ext_svnapot && (pte & PTE_N)) {
+> +                return TRANSLATE_FAIL;
+> +            }
+> +
+> +            ppn =3D (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+>          }
+>
+>          if (!(pte & PTE_V)) {
+> --
+> 2.37.2
+>
+>
 
