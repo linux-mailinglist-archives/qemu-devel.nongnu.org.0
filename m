@@ -2,46 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522B26E7BF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 16:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CDE6E7CB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 16:32:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp8Ws-0001FB-29; Wed, 19 Apr 2023 10:11:26 -0400
+	id 1pp8pm-0006xN-6e; Wed, 19 Apr 2023 10:30:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pp8Wd-0001EB-Nt; Wed, 19 Apr 2023 10:11:11 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pp8pa-0006ww-A4
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 10:30:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pp8WM-000691-2D; Wed, 19 Apr 2023 10:11:10 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 4D32645A43;
- Wed, 19 Apr 2023 16:10:40 +0200 (CEST)
-Message-ID: <2a61b581-5a21-c945-bb98-b6863cac0c1f@proxmox.com>
-Date: Wed, 19 Apr 2023 16:09:43 +0200
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pp8pY-00052f-Ma
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 10:30:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681914642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dqxieNDQIsdSjpib1Mh/2bZlo6iqykgLpteKVWbQzGk=;
+ b=Sv5wa8xGGZs09b3NxQEYeZpwCQ2PV3SemfH30h6iOF1S8uajvp4d+KM8ZcvN8p4moDNua/
+ Kc3jswYjD3wEvGoS4PONfgIjDuabM+v7CHYPyB/uJO8Wcm+696cTUY7krNJSrMQDRm3mDV
+ MWTMOJkaV+7r5C8k4G8rfLH2I/fRpp4=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-306-xrEdYpT8PsaSRuWecfw_IQ-1; Wed, 19 Apr 2023 10:30:41 -0400
+X-MC-Unique: xrEdYpT8PsaSRuWecfw_IQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-5ef4d54d84cso5227216d6.0
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 07:30:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681914641; x=1684506641;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dqxieNDQIsdSjpib1Mh/2bZlo6iqykgLpteKVWbQzGk=;
+ b=Bb4JA0col0Pe8f+f3pvykpI13F7hEpPUkJM/UlqRH/TWEE5L2NojGAFIA1iJLe3WgQ
+ AYpoqFfFTCM2AHjyX175dw+R/pTGHhq03f2CHGveUUOYEm9ht6dSVhJAAky8itAcsNtb
+ Fozdu28/A9rmlguVB0AUGg2Bu+cw4QBqi18LumMJEQtB2w9h7YIWADM3yz3feFeFOBFW
+ u0L10qDgvnaP1ghnyMdRoNoVr57uKQleDabPzZnYwpaW2EP8LDHlTbMWokVJLy2KQUBC
+ 3Um7ZkFX9/ea9l1ubc4JglXJCaogTpJReHFrqm3fAr1LM/HlEWbrxwwcAfcavUihmLQq
+ KYaQ==
+X-Gm-Message-State: AAQBX9dY0UT2fluX8WcVFuHIWrdOvlgE0N3cxqDne/JK3v+eZmTc7Q+L
+ 8t1cperIM7RZnRnNYMGvJfYPTctX2qxL6w+fKZJh0ciyUuapFjBZfAj4Z9hd25eB885U6tFkhPO
+ IoP3Z3qyCN3Hyqms=
+X-Received: by 2002:a05:6214:5298:b0:5df:55b5:b1a with SMTP id
+ kj24-20020a056214529800b005df55b50b1amr27043830qvb.4.1681914640669; 
+ Wed, 19 Apr 2023 07:30:40 -0700 (PDT)
+X-Google-Smtp-Source: AKy350apnbJNWda20zuKQxN8ppH9l8Us685dlH84vFwFOk9FETy6WVQS+GypjPz+NtIKA2Olz1rYhA==
+X-Received: by 2002:a05:6214:5298:b0:5df:55b5:b1a with SMTP id
+ kj24-20020a056214529800b005df55b50b1amr27043793qvb.4.1681914640215; 
+ Wed, 19 Apr 2023 07:30:40 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ d1-20020a0cf6c1000000b005ef593385e3sm3655632qvo.1.2023.04.19.07.30.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Apr 2023 07:30:39 -0700 (PDT)
+Date: Wed, 19 Apr 2023 10:30:38 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
+ marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
+ richard.henderson@linaro.org, eduardo@habkost.net, david@redhat.com,
+ philmd@linaro.org, peter.maydell@linaro.org, chao.p.peng@intel.com
+Subject: Re: [PATCH v4] memory: Optimize replay of guest mapping
+Message-ID: <ZD/7DhgmVwb9/T5+@x1n>
+References: <20230419102940.185968-1-zhenzhong.duan@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-From: Fiona Ebner <f.ebner@proxmox.com>
-Subject: QMP (without OOB) function running in thread different from the main
- thread as part of aio_poll
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- michael.roth@amd.com, Markus Armbruster <armbru@redhat.com>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230419102940.185968-1-zhenzhong.duan@intel.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,55 +98,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-while debugging a completely different issue, I was surprised to see
-do_qmp_dispatch_bh being run in a vCPU thread. I was under the
-impression that QMP functions are supposed to be executed in the main
-thread. Is that wrong?
+On Wed, Apr 19, 2023 at 06:29:40PM +0800, Zhenzhong Duan wrote:
+> On x86, there are two notifiers registered due to vtd-ir memory
+> region splitting the entire address space. During replay of the
+> address space for each notifier, the whole address space is
+> scanned which is unnecessary. We only need to scan the space
+> belong to notifier monitored space.
+> 
+> While on x86 IOMMU memory region spans over entire address space,
+> but on some other platforms(e.g. arm mps3-an547), IOMMU memory
+> region is only a window in the entire address space. User could
+> register a notifier with arbitrary scope beyond IOMMU memory
+> region. Though in current implementation replay is only triggered
+> by VFIO and dirty page sync with notifiers derived from memory
+> region section, but this isn't guaranteed in the future.
+> 
+> So, we replay the intersection part of IOMMU memory region and
+> notifier's scope in memory_region_iommu_replay(). Update doc
+> comment to match this change.
+> 
+> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
 
-I managed to reproduced the scenario with a build of upstream QEMU
-v8.0.0-rc4 once more (again with GDB open), but it's not a simple
-reproducer and racy. The backtrace is below[0].
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-My attempt at explaining the situation is:
-1. In qapi/qmp-dispatch.c, the main thread schedules do_qmp_dispatch_bh,
-because the coroutine context doesn't match.
-2. The host OS switches to the vCPU thread.
-3. Something in the vCPU thread triggers aio_poll with the main thread's
-AioContext (in my case, a write to a pflash drive).
-4. do_qmp_dispatch_bh is executed in the vCPU thread.
-
-Could this be an artifact of running with a debugger?
-
-I CC'ed the maintainers of util/aio-posix.c and qapi/qmp-dispatch.c
-hoping that is not too far off.
-
-Best Regards,
-Fiona
-
-[0]:
-> Thread 5 "CPU 0/KVM" hit Breakpoint 2, do_qmp_dispatch_bh (opaque=0x7ffff2e96e30) at ../qapi/qmp-dispatch.c:124
-> 124	    QmpDispatchBH *data = opaque;
-> #0  do_qmp_dispatch_bh (opaque=0x7ffff2e96e30) at ../qapi/qmp-dispatch.c:124
-> #1  0x000055555604f50a in aio_bh_call (bh=0x7fffe4005430) at ../util/async.c:155
-> #2  0x000055555604f615 in aio_bh_poll (ctx=0x555556b3e730) at ../util/async.c:184
-> #3  0x00005555560337b8 in aio_poll (ctx=0x555556b3e730, blocking=true) at ../util/aio-posix.c:721
-> #4  0x0000555555e8cf1c in bdrv_poll_co (s=0x7ffff1a45eb0) at /home/febner/repos/qemu/block/block-gen.h:43
-> #5  0x0000555555e8fc3a in blk_pwrite (blk=0x555556daf840, offset=159232, bytes=512, buf=0x7ffee3226e00, flags=0) at block/block-gen.c:1650
-> #6  0x0000555555908078 in pflash_update (pfl=0x555556d92300, offset=159232, size=1) at ../hw/block/pflash_cfi01.c:394
-> #7  0x0000555555908749 in pflash_write (pfl=0x555556d92300, offset=159706, value=127, width=1, be=0) at ../hw/block/pflash_cfi01.c:522
-> #8  0x0000555555908cda in pflash_mem_write_with_attrs (opaque=0x555556d92300, addr=159706, value=127, len=1, attrs=...) at ../hw/block/pflash_cfi01.c:681
-> #9  0x0000555555d8936a in memory_region_write_with_attrs_accessor (mr=0x555556d926c0, addr=159706, value=0x7ffff1a460c8, size=1, shift=0, mask=255, attrs=...) at ../softmmu/memory.c:514
-> #10 0x0000555555d894a9 in access_with_adjusted_size (addr=159706, value=0x7ffff1a460c8, size=1, access_size_min=1, access_size_max=4, access_fn=0x555555d89270 <memory_region_write_with_attrs_accessor>, mr=0x555556d926c0, attrs=...) at ../softmmu/memory.c:555
-> #11 0x0000555555d8c5de in memory_region_dispatch_write (mr=0x555556d926c0, addr=159706, data=127, op=MO_8, attrs=...) at ../softmmu/memory.c:1522
-> #12 0x0000555555d996f4 in flatview_write_continue (fv=0x7fffe843cc60, addr=4290932698, attrs=..., ptr=0x7ffff7fc5028, len=1, addr1=159706, l=1, mr=0x555556d926c0) at ../softmmu/physmem.c:2641
-> #13 0x0000555555d99857 in flatview_write (fv=0x7fffe843cc60, addr=4290932698, attrs=..., buf=0x7ffff7fc5028, len=1) at ../softmmu/physmem.c:2683
-> #14 0x0000555555d99c07 in address_space_write (as=0x555556a01b20 <address_space_memory>, addr=4290932698, attrs=..., buf=0x7ffff7fc5028, len=1) at ../softmmu/physmem.c:2779
-> #15 0x0000555555d99c74 in address_space_rw (as=0x555556a01b20 <address_space_memory>, addr=4290932698, attrs=..., buf=0x7ffff7fc5028, len=1, is_write=true) at ../softmmu/physmem.c:2789
-> #16 0x0000555555e2da88 in kvm_cpu_exec (cpu=0x555556ea10d0) at ../accel/kvm/kvm-all.c:2989
-> #17 0x0000555555e3079a in kvm_vcpu_thread_fn (arg=0x555556ea10d0) at ../accel/kvm/kvm-accel-ops.c:51
-> #18 0x000055555603825f in qemu_thread_start (args=0x555556b3c3b0) at ../util/qemu-thread-posix.c:541
-> #19 0x00007ffff7125ea7 in start_thread (arg=<optimized out>) at pthread_create.c:477
-> #20 0x00007ffff62c4a2f in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+-- 
+Peter Xu
 
 
