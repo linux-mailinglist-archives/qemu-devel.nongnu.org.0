@@ -2,92 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C986E77AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 12:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024636E77B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 12:48:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp5Ja-0001tN-HK; Wed, 19 Apr 2023 06:45:30 -0400
+	id 1pp5Li-0002eP-Fj; Wed, 19 Apr 2023 06:47:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pp5JY-0001tD-Pu
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 06:45:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pp5Lf-0002dq-Nn
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 06:47:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pp5JX-0002oE-65
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 06:45:28 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pp5Le-0003JB-8P
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 06:47:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681901123;
+ s=mimecast20190719; t=1681901257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EXwxlbEOdJy43W45D5Y/9ObwykEH7RvI3L4R4FHZKUM=;
- b=AEStOfSPeQGdhecURCxC21vMSPdLLUtUKSx3910Hk53RplhFl3hwHyVzCaf37L03a4SZrB
- 1snNftprhZ/YnNLkqRwwDpsKNi0frRgTLY5y9QuvkwLUzAmKCwpQGAmhS36ESKTN9uL+86
- 0gndDzXm8ZeKqsWX0At9LnDfjlxzFGY=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/Shff5UHGpCJtk9CwhMXtvFCR6d+rBXmVr8+KsLhO9g=;
+ b=db1ipojKXfobdD5COuBvB26N9Q/50bh0FdJpB4QTgFEr7qk0jCi4PQb2P6WgVHdldGgHWn
+ gSR4D5cQ/BXuLgVFSd5szbP6fQKsQcutntC1+xtPcr5i+IcIVsxB45F224jGvURRtTq+2e
+ Uh+OZGRAzKMUBbT0Hd7a1dREMbvxZcQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-267-Vqp1wDzwPbS5CCdO1ghq-Q-1; Wed, 19 Apr 2023 06:45:22 -0400
-X-MC-Unique: Vqp1wDzwPbS5CCdO1ghq-Q-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-94ee1fc1233so185962766b.1
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 03:45:22 -0700 (PDT)
+ us-mta-184-7dsF-2BDOvSI8StWeqqy0Q-1; Wed, 19 Apr 2023 06:47:35 -0400
+X-MC-Unique: 7dsF-2BDOvSI8StWeqqy0Q-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ d2-20020a50f682000000b0050503f2097aso11473953edn.14
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 03:47:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681901121; x=1684493121;
+ d=1e100.net; s=20221208; t=1681901254; x=1684493254;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EXwxlbEOdJy43W45D5Y/9ObwykEH7RvI3L4R4FHZKUM=;
- b=dflLtEAHnTbNLKR8rz8OW5FJYEjvyOav93NJjZ859VjQxcwt0AioK3jwssdW9rzEUt
- pMKyQwa5Pt++YD4nyCJ5kn+jyocyoTlLbBnJ7fW/BN6/DvTXqrl54+9gacznHGLEiwkD
- ubIhn+z8iMMlT7KH0o4sFDpf+pS8QEbJ+pJwZ7YLCk6nsDrb+/FQE8G3YrKpY+adhAss
- kBiNgNdBy0mtM9ci++xkBqj5GLLKqLGDeGRxTBkQFAzfQA2M7ZGNRD4V5gG6LWIra40l
- NSIGSZrV1RU18uHYWE6pXCmQf1iAm5sbikD3LBXEzEIaJFSIPfllY48FSaodOh8R8Psx
- oqKA==
-X-Gm-Message-State: AAQBX9c3L/j7zzdCkma58pQyICBbq+NzTuRcBhhcFFIJBTfE17JvIcId
- jYb9HZ1CqExd5SAC+4P2r5UrbIUVTq/ap9nBFScOSmmcM9QOdKwqDd0Uvb37C7/xTWCHduNS2x3
- VNCveqQMmQX5vlJI=
-X-Received: by 2002:aa7:cf05:0:b0:506:af22:1271 with SMTP id
- a5-20020aa7cf05000000b00506af221271mr5194715edy.0.1681901121575; 
- Wed, 19 Apr 2023 03:45:21 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ajohFHaQ0OTvM3DEmnNJb7sTdfyvlQZgh9v9KUkW6gXu2Yj6CPmd5QvHwkRx1anKE4ZifuYw==
-X-Received: by 2002:aa7:cf05:0:b0:506:af22:1271 with SMTP id
- a5-20020aa7cf05000000b00506af221271mr5194701edy.0.1681901121249; 
- Wed, 19 Apr 2023 03:45:21 -0700 (PDT)
+ bh=/Shff5UHGpCJtk9CwhMXtvFCR6d+rBXmVr8+KsLhO9g=;
+ b=XqYfNFOCbr3TBGRsgZSTRXnxpnAe9zamw7xWnaERcoljrte7OgevuR2IhO1pYOUMNK
+ uPKKOE0BqrMnd74eisAbZKa7L7IRq/b/oSRDgwUeTBcMBhkmp9AHQGr9dZiPlloqrnQ/
+ 7cI85TV5I/eMdZjG1oHrBOBIvVaZ9rhzjGalyC1hhdawodDbKDluE2ATUO7Sy2DcMUzZ
+ D/uBCFhaeY6PCEi8nZg9tDVVLeqEfS43YNkTGZMs65bT87LX+BQOtZ4/HUAK9MJPyQC0
+ 3pBCisUEfRzT9dERZyRIkgSKQrz3iCmyvSQnRSWHrtb1b0TXCTfTSJd09i2fxCzPgs8F
+ K5JQ==
+X-Gm-Message-State: AAQBX9fakJpzPCCN4q5UzhKmm+65J5WMVfn0wmZt5Z1RObbC10N3CnhF
+ M90jRsLRdWUTklKhQ01lrmagH9JHVyzlMBHGWz9iSWyIXPAcOB3ol0m3Fw5XwdWnhuw8MvBBu7L
+ 46ss7bSBEcDg2aiY=
+X-Received: by 2002:a17:907:d01:b0:94f:1ce7:1864 with SMTP id
+ gn1-20020a1709070d0100b0094f1ce71864mr15347160ejc.38.1681901254547; 
+ Wed, 19 Apr 2023 03:47:34 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z21UzsckTqq095K46EG8crMw8ho+UwmiOlX66PH0RLTxHj8mLmYeClPOtcMaVNcZQz3xO9AA==
+X-Received: by 2002:a17:907:d01:b0:94f:1ce7:1864 with SMTP id
+ gn1-20020a1709070d0100b0094f1ce71864mr15347140ejc.38.1681901254296; 
+ Wed, 19 Apr 2023 03:47:34 -0700 (PDT)
 Received: from ?IPV6:2003:cf:d71b:cc43:1955:48c6:4ddb:556c?
  (p200300cfd71bcc43195548c64ddb556c.dip0.t-ipconnect.de.
  [2003:cf:d71b:cc43:1955:48c6:4ddb:556c])
  by smtp.gmail.com with ESMTPSA id
- v25-20020a170906381900b0094f3f222d34sm5296134ejc.56.2023.04.19.03.45.19
+ mm14-20020a170906cc4e00b0094f507aa0e9sm5115305ejb.19.2023.04.19.03.47.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Apr 2023 03:45:20 -0700 (PDT)
-Message-ID: <e4cc0882-c6e0-a830-45d6-e3aab398ab98@redhat.com>
-Date: Wed, 19 Apr 2023 12:45:19 +0200
+ Wed, 19 Apr 2023 03:47:33 -0700 (PDT)
+Message-ID: <fb311ad4-ba1e-afc8-801d-0eff00c7fa7f@redhat.com>
+Date: Wed, 19 Apr 2023 12:47:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
 Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
 Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Eugenio Perez Martin <eperezma@redhat.com>, qemu-devel@nongnu.org,
  virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>,
  Anton Kuchin <antonkuchin@yandex-team.ru>,
  Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
 References: <20230411150515.14020-1-hreitz@redhat.com>
  <20230411150515.14020-3-hreitz@redhat.com> <20230412210641.GC2813183@fedora>
- <246691c3-2287-7472-3615-7ec0f074445c@redhat.com>
- <CAJSP0QU-iDTT+xtkZ_xRf4vX+hM0WY+H1SXSuyS+cjiogz3A_A@mail.gmail.com>
- <b0cd4f54-94ed-09a4-cec2-e81f36da4008@redhat.com>
- <CAJaqyWegMfuc8s6bKdxdM4uVixmhy-F3xUUyOCYS1yGDXoiVZA@mail.gmail.com>
+ <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
+ <d9d67f07-3d4c-9bdb-052b-28e21fa27dd6@redhat.com>
+ <20230417151250.GC3852722@fedora>
 From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <CAJaqyWegMfuc8s6bKdxdM4uVixmhy-F3xUUyOCYS1yGDXoiVZA@mail.gmail.com>
+In-Reply-To: <20230417151250.GC3852722@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
@@ -112,38 +110,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14.04.23 17:17, Eugenio Perez Martin wrote:
-> On Thu, Apr 13, 2023 at 7:55 PM Hanna Czenczek <hreitz@redhat.com> wrote:
+On 17.04.23 17:12, Stefan Hajnoczi wrote:
 
 [...]
 
->> Basically, what I’m hearing is that I need to implement a different
->> feature that has no practical impact right now, and also fix bugs around
->> it along the way...
->>
-> To fix this properly requires iterative device migration in qemu as
-> far as I know, instead of using VMStates [1]. This way the state is
-> requested to virtiofsd before the device reset.
+> This brings to mind how iterative migration will work. The interface for
+> iterative migration is basically the same as non-iterative migration
+> plus a method to query the number of bytes remaining. When the number of
+> bytes falls below a threshold, the vCPUs are stopped and the remainder
+> of the data is read.
 >
-> What does virtiofsd do when the state is totally sent? Does it keep
-> processing requests and generating new state or is only a one shot
-> that will suspend the daemon? If it is the second I think it still can
-> be done in one shot at the end, always indicating "no more state" at
-> save_live_pending and sending all the state at
-> save_live_complete_precopy.
+> Some details from VFIO migration:
+> - The VMM must explicitly change the state when transitioning from
+>    iterative and non-iterative migration, but the data transfer fd
+>    remains the same.
+> - The state of the device (running, stopped, resuming, etc) doesn't
+>    change asynchronously, it's always driven by the VMM. However, setting
+>    the state can fail and then the new state may be an error state.
+>
+> Mapping this to SET_DEVICE_STATE_FD:
+> - VhostDeviceStatePhase is extended with
+>    VHOST_TRANSFER_STATE_PHASE_RUNNING = 1 for iterative migration. The
+>    frontend sends SET_DEVICE_STATE_FD again with
+>    VHOST_TRANSFER_STATE_PHASE_STOPPED when entering non-iterative
+>    migration and the frontend sends the iterative fd from the previous
+>    SET_DEVICE_STATE_FD call to the backend. The backend may reply with
+>    another fd, if necessary. If the backend changes the fd, then the
+>    contents of the previous fd must be fully read and transferred before
+>    the contents of the new fd are migrated. (Maybe this is too complex
+>    and we should forbid changing the fd when going from RUNNING ->
+>    STOPPED.)
+> - CHECK_DEVICE_STATE can be extended to report the number of bytes
+>    remaining. The semantics change so that CHECK_DEVICE_STATE can be
+>    called while the VMM is still reading from the fd. It becomes:
+>
+>      enum CheckDeviceStateResult {
+>          Saving(bytes_remaining : usize),
+> 	Failed(error_code : u64),
+>      }
 
-This sounds to me as if we should reset all devices during migration, 
-and I don’t understand that.  virtiofsd will not immediately process 
-requests when the state is sent, because the device is still stopped, 
-but when it is re-enabled (e.g. because of a failed migration), it will 
-have retained its state and continue processing requests as if nothing 
-happened.  A reset would break this and other stateful back-ends, as I 
-think Stefan has mentioned somewhere else.
+Sounds good.  Personally, I’d forbid changing the FD when just changing 
+state, which raises the question of whether there should then be a 
+separate command for just changing the state (like VFIO_DEVICE_FEATURE 
+..._MIG_DEVICE_STATE?), but that would be a question for then.
 
-It seems to me as if there are devices that need a reset, and so need 
-suspend+resume around it, but I also think there are back-ends that 
-don’t, where this would only unnecessarily complicate the back-end 
-implementation.
+Changing the CHECK_DEVICE_STATE interface sounds good to me.
 
 Hanna
 
