@@ -2,59 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B5E6E75CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 10:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17346E75EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 11:02:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp3c9-0005ew-RI; Wed, 19 Apr 2023 04:56:33 -0400
+	id 1pp3gy-00070u-Tg; Wed, 19 Apr 2023 05:01:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pp3c5-0005ZC-IR
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 04:56:29 -0400
+ id 1pp3gq-0006vN-Un
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 05:01:27 -0400
 Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pp3c3-0000a6-4u
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 04:56:29 -0400
+ id 1pp3go-0005VC-Bw
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 05:01:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Rp17YwaJfT5dcoD8tiplul+Ecv0DL86m3ZyGvU1CRxs=; b=C4gtPk+27DIBkQlaoxsDu9xArd
- 2JIXmuG+gGJWy55vrytjs0oTWXLV3D7pCxPJ3zF/2q2BhPQts4++YCzlvTKTnvAOUQDkDq9uUQzno
- AtFuSpk/aJNAcVAkwF11QUSaj1CKOGcn5t4T4EffulkOqBuWo2utpwXurdsUqaot5M10=;
-Date: Wed, 19 Apr 2023 10:56:11 +0200
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=F0ScWjnr5xIu3gm2snohdqq+idSOC+YHKHCcwLdnb7c=; b=DLD2yyFUQxKjdGRzc8GieLee6G
+ IoePcez1UUgpPslCNw8fM4e9GpGtdblS2AGORIF/o4YCF4cnsgxdVsrWjnCYq7bw+y9WhzFypUAPQ
+ h+GOFySsssil2nVHbGcswfYD0JKIzqEwDStMd+XMlFBXYM8NkE7Gra95eDWs6pBElJNY=;
+Date: Wed, 19 Apr 2023 11:01:14 +0200
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: Anton Johansson via <qemu-devel@nongnu.org>
-Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com, 
- eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com, 
- tsimpson@quicinc.com, gaosong@loongson.cn, yangxiaojuan@loongson.cn, 
- edgar.iglesias@gmail.com, philmd@linaro.org, shorne@gmail.com,
- palmer@dabbelt.com, 
- alistair.francis@wdc.com, bin.meng@windriver.com, ysato@users.sourceforge.jp, 
- mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com
-Subject: Re: [PATCH v3 13/27] target/tricore: Replace `tb_pc()` with `tb->pc`
-Message-ID: <oss2bubx2fofds4llsg4qntnij42u2vq45glg44sxcvl5udb7w@phzn6ypc37k2>
-References: <20230227135202.9710-1-anjo@rev.ng>
- <20230227135202.9710-14-anjo@rev.ng>
+To: _ * <billow.fun@gmail.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [Capstone] TriCore support in Capstone
+Message-ID: <xvth67djad5y33d7yh2knjqq54ep6p5vhtogsckaumiyq6j4cp@uokkglljkbge>
+References: <CAPLqH_6R_mtZr1aWT9PqfBAMesxkNuPYEZMR_RcXKQ0G_S0zag@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230227135202.9710-14-anjo@rev.ng>
+In-Reply-To: <CAPLqH_6R_mtZr1aWT9PqfBAMesxkNuPYEZMR_RcXKQ0G_S0zag@mail.gmail.com>
 X-IMT-Source: Extern
 X-IMT-Spam-Score: 0.0 ()
-X-IMT-rspamd-score: 19
-X-IMT-rspamd-bar: +
+X-IMT-rspamd-score: 24
+X-IMT-rspamd-bar: ++
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2023.4.19.84816, AntiVirus-Engine: 5.96.0,
- AntiVirus-Data: 2023.1.24.5960001
-X-Sophos-SenderHistory: ip=84.184.52.177, fs=481016, da=169503638, mc=2, sc=0,
- hc=2, sp=0, fso=481016, re=0, sd=0, hd=0
+ Antispam-Data: 2023.4.19.85117, AntiVirus-Engine: 5.98.0,
+ AntiVirus-Data: 2023.4.6.5980001
+X-Sophos-SenderHistory: ip=84.184.52.177, fs=481318, da=169503940, mc=3, sc=0,
+ hc=3, sp=0, fso=481318, re=0, sd=0, hd=0
 X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
 Received-SPF: pass client-ip=2001:638:502:c003::17;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=zuban.uni-paderborn.de
@@ -80,14 +72,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 02:51:48PM +0100, Anton Johansson via wrote:
-> Signed-off-by: Anton Johansson <anjo@rev.ng>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->  target/tricore/cpu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+Hi billow,
 
-Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+On Mon, Mar 13, 2023 at 02:02:10PM +0800, _ * wrote:
+> Hi!
+> 
+> My name is billow, I currently work on TriCore support in Capstone.
+> Maybe later on it could be used in QEMU
+> as a disassembly engine for that architecture?
+> 
+> It's in an early stage, but some feedback would be welcome.
+> Any suggestions or improvements would be greatly appreciated!
+> 
+> The draft PR: https://github.com/capstone-engine/capstone/pull/1973
+
+Looks really impressive. Thanks, for doing the work. I'd be happy to use it in QEMU.
 
 Cheers,
 Bastian
