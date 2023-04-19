@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEEC6E7FFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 19:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9E36E801D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 19:08:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppBAa-0002IV-AJ; Wed, 19 Apr 2023 13:00:36 -0400
+	id 1ppBGh-0004eB-PA; Wed, 19 Apr 2023 13:06:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppBAH-0002Hn-ES
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:00:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ppBGf-0004dg-ID
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:06:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppBAG-0008Ec-1Q
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:00:17 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ppBGc-0001Jx-QZ
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:06:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681923612;
+ s=mimecast20190719; t=1681924009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=83B/gbYSh4nEH9mITxLK12kwX0u+TqxmJjFHM4klNWw=;
- b=XwVkDjFsog+Jp+CcwzlD3iHcofORLSq2uzVB2AvWEAlyeMZrQKuiRbeUacgSnXQOlS0iRG
- y5PsLw35bLgA48oQBXBYvMfy1RxYmT/DULW3vkrXe99HQTR0OfuVmkcCAVLJDpgUgK0p94
- cS3ZLZIG38COc3gBGK4Ind0+TDDceMk=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4W3VY4hp6sIMZV/wws6xG5JAK0A28phgs4wvcRBtlEw=;
+ b=XO0opHYD8cuyhbATwUB+xIpznFxFLfpjZRzEpOu0/OUaXsn0yVVVW+YgWmL+PNmRK+LfxT
+ fcbMSVC1r+QslVgvkDxesLLsekjHc3IMwBcuepaLsYdtaYdCxElk4v7ThDBh76EOD0/e+S
+ PHfeBY8Hb7HvolmMmQQHmFTq9r5FAhM=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-563-kTs4_bXfPMqj5PX4m10UGg-1; Wed, 19 Apr 2023 13:00:05 -0400
-X-MC-Unique: kTs4_bXfPMqj5PX4m10UGg-1
-Received: by mail-vs1-f70.google.com with SMTP id
- d28-20020a67e11c000000b0042e3d044b8bso102234vsl.5
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 10:00:02 -0700 (PDT)
+ us-mta-554-aloK7NGTMxawNJcN_k4h4Q-1; Wed, 19 Apr 2023 13:06:48 -0400
+X-MC-Unique: aloK7NGTMxawNJcN_k4h4Q-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ v200-20020a252fd1000000b00b8f548a72bbso174215ybv.9
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 10:06:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681923601; x=1684515601;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=83B/gbYSh4nEH9mITxLK12kwX0u+TqxmJjFHM4klNWw=;
- b=DgJ7CkfY/hON21Ov8VWs01ljlavmQLhiZWFbs2LtsILwUiK8tXaQtf7RsIvDniHwL0
- GPf+OB/glKzFYIj3SsC+hvWJKsKz5CKj6GIGgBeqheWg+PEqvYaQK9yRNfuTHzxJf8Gw
- PFlxNcXhWEGgwURnKUMQ8/E6gF3FIQkK2xVAL8PxAlPpAHbMBtZus4XB5RdDhzPKRr6X
- tyd0UlpPsMMJXKBMkZmCP3KKlU2u0Z3OTmSbER4HaXTYP/aHd8EKNbRPXosUeW6CCujf
- /VRwYSx1KUeXHGdR3uAkR20u1HcVgZxJAp7RDzF+29POD/k5YE15oWdWn276exrqc4mg
- GK3A==
-X-Gm-Message-State: AAQBX9eLk5bq5606ZE+nJJAd3BRnBvsa/5BlpqjM9E3q2flh5cA+XD7t
- XZg0SwZ06opKV35ql1OLKGFsYllo10+JQfsOmk/Prdqski80Ep0zXd8sDSUwmQ0aEipUfbZe0EU
- zcAnHGMKm9hEtlGb7WgzIAo2JFFKXCsI=
-X-Received: by 2002:ab0:16d4:0:b0:772:730d:3302 with SMTP id
- g20-20020ab016d4000000b00772730d3302mr109253uaf.0.1681923601232; 
- Wed, 19 Apr 2023 10:00:01 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bp3M/o878ZGnStSiKpRIkoFb0DQAbdpIdkVuKjIXhYszgHXJ2EjiD1kNYV85clL8RthSh2AxH5QKxKXtoQVpQ=
-X-Received: by 2002:ab0:16d4:0:b0:772:730d:3302 with SMTP id
- g20-20020ab016d4000000b00772730d3302mr109249uaf.0.1681923601005; Wed, 19 Apr
- 2023 10:00:01 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681924007; x=1684516007;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4W3VY4hp6sIMZV/wws6xG5JAK0A28phgs4wvcRBtlEw=;
+ b=lFYnsOdsgJBgSzEaQsG9A9aeQEHAaSDDIkGH1nq4o6VIhGdqBjIeajfm7A6C6FpFfp
+ jNOA9ix6sUb15aGvi15/BKzah0yQuVm38d5F7VO3ndwv35n0zTnZ2mV65PqD6YTB/KPT
+ KB8BMtg/Fd912ptJOr7/3F9uM7ruYyCKcv3jMYdSjnf0IMk6eOP6n5qQfMRNu/cEibfm
+ bjJx7RV1RVjh+xUkaQvRFtKqariW7FmhLYJrhmyBcSN3TgZeLO3TTZT7qRGHOfq0gGQC
+ BnJmiCNbpD+iJAkuCsLGma9UfzO5uCKwkyAG39W49ztB7tCeSGoMBicgylIktD72utT0
+ IAkg==
+X-Gm-Message-State: AAQBX9dhnqinnhpJf4StyxGsqCdLyLNc277LzlO64RsN3JIWgwqWFo+A
+ fBpGlnmaCy4/YT+jT4im0SgoPHE4AtoKJuJDBCCBsaA5U5DfaBAvIz4fwPHdGdc0xX3jTwZ2qxF
+ S02JsDl1cXS0fwOx1jOaOgnqeZ5NkaDncYozN+7ahTg==
+X-Received: by 2002:a05:6902:114b:b0:b96:c255:acf3 with SMTP id
+ p11-20020a056902114b00b00b96c255acf3mr525165ybu.11.1681924007245; 
+ Wed, 19 Apr 2023 10:06:47 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b6zSUpkCr09enbcr6KSLF7q/D5+TfpCYD+EWEPLGyER9OsyWFkbwtGD4tbZcW81xgruuqaOiZeG5eA7R72sSk=
+X-Received: by 2002:a05:6902:114b:b0:b96:c255:acf3 with SMTP id
+ p11-20020a056902114b00b00b96c255acf3mr525135ybu.11.1681924006976; Wed, 19 Apr
+ 2023 10:06:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <2a61b581-5a21-c945-bb98-b6863cac0c1f@proxmox.com>
-In-Reply-To: <2a61b581-5a21-c945-bb98-b6863cac0c1f@proxmox.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 19 Apr 2023 18:59:49 +0200
-Message-ID: <CABgObfYOEPbOLvs=AQshA65y8bDw0PMycG1z-yZ+AjuzYtkd2w@mail.gmail.com>
-Subject: Re: QMP (without OOB) function running in thread different from the
- main thread as part of aio_poll
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, 
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Michael Roth <michael.roth@amd.com>, 
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
-Content-Type: multipart/alternative; boundary="000000000000c7152c05f9b35afc"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+References: <cover.1681819697.git.ray90514@gmail.com>
+ <5c10e79c26b8dda38ebeba6bcafb8bc650f6a588.1681819697.git.ray90514@gmail.com>
+In-Reply-To: <5c10e79c26b8dda38ebeba6bcafb8bc650f6a588.1681819697.git.ray90514@gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 19 Apr 2023 19:06:10 +0200
+Message-ID: <CAJaqyWdJBbrBwj1NyeU6z_j8mo+UV9tiM6yM7QtJ92w9bBh1aA@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 2/2] vhost-vdpa: cache device config
+To: Shao-Chien Chiang <ray90514@gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,55 +94,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000c7152c05f9b35afc
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Apr 18, 2023 at 3:22=E2=80=AFPM Shao-Chien Chiang <ray90514@gmail.c=
+om> wrote:
+>
+> The config caching is disabled when starting config interruption.
+> If we could know whether there is a config interruption, I think we can
+> invalidate the cache at that time instead of disabling the caching
+> mechanism.
+> After caching the device config, the latency is reduced by 0.066 sec.
+>
+> Signed-off-by: Shao-Chien Chiang <ray90514@gmail.com>
+> ---
+>  hw/virtio/vhost-vdpa.c         | 44 +++++++++++++++++++++++++++-------
+>  include/hw/virtio/vhost-vdpa.h |  2 ++
+>  2 files changed, 38 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index ccde4c7040..92bb09ef4d 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -436,6 +436,8 @@ static int vhost_vdpa_init(struct vhost_dev *dev, voi=
+d *opaque, Error **errp)
+>      v->msg_type =3D VHOST_IOTLB_MSG_V2;
+>      v->status =3D 0;
+>      v->features =3D dev->features;
+> +    v->config =3D NULL;
+> +    v->config_cache_enabled =3D true;
+>      vhost_vdpa_init_svq(dev, v);
+>
+>      error_propagate(&dev->migration_blocker, v->migration_blocker);
+> @@ -748,8 +750,16 @@ static int vhost_vdpa_set_vring_ready(struct vhost_d=
+ev *dev)
+>  static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
+>                                         int fd)
+>  {
+> +    struct vhost_vdpa *v =3D dev->opaque;
+> +    int ret;
+> +
+>      trace_vhost_vdpa_set_config_call(dev, fd);
+> -    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
+> +    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
+> +    if (ret =3D=3D 0) {
+> +        v->config_cache_enabled =3D false;
 
-Il mer 19 apr 2023, 16:11 Fiona Ebner <f.ebner@proxmox.com> ha scritto:
+The lifecycle of the vhost_vdpa device is:
+init -> start -> stop -> start -> .... -> cleanup.
 
-Hi,
-while debugging a completely different issue, I was surprised to see
-do_qmp_dispatch_bh being run in a vCPU thread. I was under the
-impression that QMP functions are supposed to be executed in the main
-thread. Is that wrong
+In other words, it is initialized only once at qemu startup but it can
+be started & stopped many times. You can check if the device is
+stopping if the fd is -1. Other values indicate the device is starting
+or that the notifier is being masked, we must disable the cache in
+both cases.
 
+You can force this cycle if you rmmod the virtio_net module in the
+guest and then modprobe it again. However, maybe it only accesses the
+config once in this situation. If that is the case, I think it is
+worth keeping this code and putting a comment explaining it.
 
+Thanks!
 
-While monitor commands in general start only in the main thread, bottom
-halves can also run (via aio_poll) in the vCPU threads, always under the
-BQL.
+> +    }
+> +
+> +    return ret;
+>  }
+>
+>  static void vhost_vdpa_dump_config(struct vhost_dev *dev, const uint8_t =
+*config,
+> @@ -769,6 +779,7 @@ static int vhost_vdpa_set_config(struct vhost_dev *de=
+v, const uint8_t *data,
+>                                     uint32_t offset, uint32_t size,
+>                                     uint32_t flags)
+>  {
+> +    struct vhost_vdpa *v =3D dev->opaque;
+>      struct vhost_vdpa_config *config;
+>      int ret;
+>      unsigned long config_size =3D offsetof(struct vhost_vdpa_config, buf=
+);
+> @@ -783,6 +794,11 @@ static int vhost_vdpa_set_config(struct vhost_dev *d=
+ev, const uint8_t *data,
+>          vhost_vdpa_dump_config(dev, data, size);
+>      }
+>      ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG, config);
+> +    if (v->config_cache_enabled && v->config !=3D NULL) {
+> +        if (ret =3D=3D 0) {
+> +            memcpy(v->config->buf + offset, data, size);
+> +        }
+> +    }
+>      g_free(config);
+>      return ret;
+>  }
+> @@ -790,17 +806,29 @@ static int vhost_vdpa_set_config(struct vhost_dev *=
+dev, const uint8_t *data,
+>  static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
+>                                     uint32_t config_len, Error **errp)
+>  {
+> -    struct vhost_vdpa_config *v_config;
+> +    struct vhost_vdpa *v =3D dev->opaque;
+>      unsigned long config_size =3D offsetof(struct vhost_vdpa_config, buf=
+);
+>      int ret;
+>
+>      trace_vhost_vdpa_get_config(dev, config, config_len);
+> -    v_config =3D g_malloc(config_len + config_size);
+> -    v_config->len =3D config_len;
+> -    v_config->off =3D 0;
+> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
+> -    memcpy(config, v_config->buf, config_len);
+> -    g_free(v_config);
+> +    if (v->config_cache_enabled && v->config !=3D NULL) {
+> +        if (config_len <=3D v->config->len) {
+> +            memcpy(config, v->config->buf, config_len);
+> +            ret =3D 0;
+> +        } else {
+> +            ret =3D -EINVAL;
+> +        }
+> +    } else {
+> +        v->config =3D g_malloc(config_len + config_size);
 
-If that's not valid, perhaps you can schedule the monitor's bottom half in
-iohandler_get_aio_context() instead?
+This may not be the whole size of the config. The size is
+sizeof(struct virtio_net_config), and it should be set to 0 with
+g_malloc0.
 
-Paolo
+> +        v->config->len =3D config_len;
+> +        v->config->off =3D 0;
+> +        ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v->config);
+> +        memcpy(config, v->config->buf, config_len);
+> +        if (!v->config_cache_enabled) {
+> +            g_free(v->config);
+> +            v->config =3D NULL;
 
+Maybe it is worth freeing it at vhost_vdpa_set_config_call?
 
+Thanks!
+
+> +        }
+> +    }
+>      if (trace_event_get_state_backends(TRACE_VHOST_VDPA_GET_CONFIG) &&
+>          trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
+>          vhost_vdpa_dump_config(dev, config, config_len);
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
+a.h
+> index d563630cc9..60374785fd 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -41,6 +41,8 @@ typedef struct vhost_vdpa {
+>      uint64_t acked_features;
+>      uint64_t features;
+>      uint8_t status;
+> +    struct vhost_vdpa_config *config;
+> +    bool config_cache_enabled;
+>      bool shadow_vqs_enabled;
+>      /* Vdpa must send shadow addresses as IOTLB key for data queues, not=
+ GPA */
+>      bool shadow_data;
+> --
+> 2.25.1
 >
 >
-
---000000000000c7152c05f9b35afc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div dir=3D"auto"><div dir=3D"ltr">Il mer 19 apr 2023, 16=
-:11 Fiona Ebner &lt;<a href=3D"mailto:f.ebner@proxmox.com">f.ebner@proxmox.=
-com</a>&gt; ha scritto:<br></div><blockquote style=3D"min-width:150px;margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Hi,<br>while debugging a completely different issue, I was surprised to s=
-ee<br>do_qmp_dispatch_bh being run in a vCPU thread. I was under the<br>imp=
-ression that QMP functions are supposed to be executed in the main<br>threa=
-d. Is that wrong</blockquote><blockquote style=3D"min-width:150px;margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><b=
-r></blockquote></div><div dir=3D"auto"><br></div>While monitor commands in =
-general start only in the main thread, bottom halves can also run (via aio_=
-poll) in the vCPU threads, always under the BQL.<div dir=3D"auto"><br></div=
-><div dir=3D"auto">If that&#39;s not valid, perhaps you can schedule the mo=
-nitor&#39;s bottom half=C2=A0in iohandler_get_aio_context() instead?</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto">Paolo<br><br><div class=3D"gma=
-il_quote" dir=3D"auto"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br><br></blockquote>=
-</div></div></div>
-
---000000000000c7152c05f9b35afc--
 
 
