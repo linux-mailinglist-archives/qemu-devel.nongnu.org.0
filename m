@@ -2,91 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735526E7330
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 08:25:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CE66E7334
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 08:27:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp1E7-0003m7-Ji; Wed, 19 Apr 2023 02:23:35 -0400
+	id 1pp1HZ-0004Zc-2w; Wed, 19 Apr 2023 02:27:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pp1E4-0003ld-VX
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 02:23:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
+ id 1pp1HW-0004ZS-NJ
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 02:27:06 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pp1E2-00062A-JA
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 02:23:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681885408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8EHZb7undBtJFI04OxVRLhrjHZ623x1IfNB27b3/z/Q=;
- b=YmFhPCj+q2P1X0462Wv1jR25cCg+/hQUzEWdQRW3FEauVbaf7ZdZLDZW8qHb7x1TP5y+xz
- qe+aGN77QSHw3HIcJHyS0pQRD1U/KLJ+URc5PoEirI8XfouGKKdvLplfs+inCTZ+W4vH/A
- asj7EKoUUNf2EGDw0BzfqsJalRYAtQs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-374-ZfoReUE9NfmEtj3D5Uz41Q-1; Wed, 19 Apr 2023 02:23:27 -0400
-X-MC-Unique: ZfoReUE9NfmEtj3D5Uz41Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg10-20020a05600c3c8a00b003ef7b61e2fdso603598wmb.4
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 23:23:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681885406; x=1684477406;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8EHZb7undBtJFI04OxVRLhrjHZ623x1IfNB27b3/z/Q=;
- b=W7mD7aSwMFxZkPCX71guKVWM8BVJ/k+lj6/1kZYpnTZ/k66BF771cT8/PGQPhKaRWv
- gIe6xoORXwiutKJuxmkJlnkZT9liB7PfIZ6Ve5zQVMsHCGWunzSaXZlN5Xu/WHudyMux
- bm9nuao2KRWB7StUALkKU/hmK6QVbrKJOe82pkqICMzOCPywHmkIYi4KUA+1ZCqLKyja
- vmK+TvFrfcBO1TQEJPCveFom3qUPKrJuDKVaKOTnKDuxwCmMxJYBPjlaMz/rYIb2t9wG
- MMAI5oefwUmVekZVmeUbyt4vjB4pG3FbG4vwFyDXnEjaqmdr5WY7DM+BkEvcJDHgyo/c
- R6JQ==
-X-Gm-Message-State: AAQBX9c8QQ/7j+cfr4h9gef5lRQdw+QfcR+KPCRHvP16qXuv4SJ8+HGj
- fxt/QzOcxA68/0dkeWHqHS7II/6t1Nv7rWH7fpxAwqSG3+Xe7H3bJEqPaPJE6oiDpbHXMklbCKd
- /eriZdL+5WpPU8/I=
-X-Received: by 2002:a05:600c:2148:b0:3f1:69cc:475b with SMTP id
- v8-20020a05600c214800b003f169cc475bmr11443935wml.36.1681885406428; 
- Tue, 18 Apr 2023 23:23:26 -0700 (PDT)
-X-Google-Smtp-Source: AKy350a/TZDuNmJp9V5vgmY/MOEoMdLAZNP8d/gr/Md1F9diwLVgO4yf0EiV2QOsV7XHZE6pnylJFQ==
-X-Received: by 2002:a05:600c:2148:b0:3f1:69cc:475b with SMTP id
- v8-20020a05600c214800b003f169cc475bmr11443913wml.36.1681885406127; 
- Tue, 18 Apr 2023 23:23:26 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-178-78.web.vodafone.de.
- [109.43.178.78]) by smtp.gmail.com with ESMTPSA id
- k1-20020a056000004100b002f5925c7cabsm14822460wrx.75.2023.04.18.23.23.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 23:23:25 -0700 (PDT)
-Message-ID: <4b9d16e8-a2cb-1c78-7d4a-cdb10adcd522@redhat.com>
-Date: Wed, 19 Apr 2023 08:23:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] .gitlab-ci.d/cirrus: Drop the CI job for compiling with
- FreeBSD 12
-To: Warner Losh <imp@bsdimp.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Kyle Evans <kevans@freebsd.org>
-References: <20230418160225.529172-1-thuth@redhat.com>
- <CANCZdfpzw10B_cyV0mmbkE94GKTBVJg6BVZ2csjcMCur07nseg@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CANCZdfpzw10B_cyV0mmbkE94GKTBVJg6BVZ2csjcMCur07nseg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
+ id 1pp1HU-0008A7-Ic
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 02:27:06 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33J630wM014584; Wed, 19 Apr 2023 06:27:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=CNX4TZ8+aYm/o/csIqoVFC5hYXXdEgCUAWRsZUpnYGQ=;
+ b=tNMJbkjNzk3hFU2mqdnyKmOdIUDWdYbHFJB9MdRMS712mi2QUeiESd8gN45DSL32KVAP
+ EEb6XTvzkL+/9Zkl7C198tPx7rIKQVh2TYQ2Qi2rhFvzgF7XlTwY2y3tE+Kv/JzgBgxm
+ pcNnlBNFpxm+7Og6OXSDlfNLjyXQK876pWfdND4gLCQDTaCmwOwLV0IAUsDQHEtXAPoI
+ DLRTMRxToTMu7r32bHR+LO8yHVTiu0b0oM682eQzEK9uMeSNFUouuoD4IYtafvAjD6c4
+ H/N5X7KxBiK5VJ5Uzt2+r6tfNFbZvPHrYiiAEkeTfzjVFpTTyISZAaF8Pr9rzitrpP5Z LQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q2apmgkss-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Apr 2023 06:27:00 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33J6GrpC028991;
+ Wed, 19 Apr 2023 06:27:00 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q2apmgks4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Apr 2023 06:27:00 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33J5wY0e009299;
+ Wed, 19 Apr 2023 06:26:57 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pykj6jgnw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Apr 2023 06:26:57 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33J6QthX9831150
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Apr 2023 06:26:55 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6EAAD20043;
+ Wed, 19 Apr 2023 06:26:55 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D6BCB2004B;
+ Wed, 19 Apr 2023 06:26:52 +0000 (GMT)
+Received: from li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com (unknown
+ [9.43.42.198]) by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Wed, 19 Apr 2023 06:26:52 +0000 (GMT)
+Date: Wed, 19 Apr 2023 11:56:48 +0530
+From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] tests/avocado/tuxrun_baselines.py: improve code coverage
+ for ppc64
+Message-ID: <ZD+JqOg5q6MGytcB@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+References: <20230418055333.126623-1-kconsul@linux.vnet.ibm.com>
+ <78ed2ee0-8e80-c73c-1d4d-81215d8c3e6a@redhat.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <78ed2ee0-8e80-c73c-1d4d-81215d8c3e6a@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: QqQkhhvbQe0hmPn53AGB5xeYRcio3X1a
+X-Proofpoint-GUID: eSFOhRF3LmDUAGu7c4EccK5WatKupRjE
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.597, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-19_02,2023-04-18_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0
+ suspectscore=0 priorityscore=1501 mlxlogscore=833 adultscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 bulkscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304190055
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=kconsul@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,47 +119,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/04/2023 21.46, Warner Losh wrote:
+On 2023-04-18 09:07:53, Thomas Huth wrote:
+> On 18/04/2023 07.53, Kautuk Consul wrote:
+> > Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
+> > boot_linux.py test-case due to which the code coverage for ppc
+> > decreased by around 2%. As per the discussion on
+> > https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
+> > was mentioned that the baseline test for ppc64 could be modified
+> > to make up this 2% code coverage. This patch attempts to achieve
+> > this 2% code coverage by adding various device command line
+> > arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
+> > test-case.
+> > 
+> > The code coverage report with boot_linux.py, without it and finally
+> > with these tuxrun_baselines.py changes is as follows:
+> > 
+> > With boot_linux.py
+> > ------------------
+> >    lines......: 13.8% (58006 of 420997 lines)
+> >    functions..: 20.7% (7675 of 36993 functions)
+> >    branches...: 9.2% (22146 of 240611 branches)
+> > Without boot_linux.py (without this patch changes)
+> > --------------------------------------------------
+> >    lines......: 11.9% (50174 of 420997 lines)
+> >    functions..: 18.8% (6947 of 36993 functions)
+> >    branches...: 7.4% (17580 of 239017 branches)
+> > Without boot_linux.py (with this patch changes)
+> > -----------------------------------------------
+> >    lines......: 13.8% (58287 of 420997 lines)
+> >    functions..: 20.7% (7640 of 36993 functions)
+> >    branches...: 8.4% (20223 of 240611 branches)
+> > 
+> > Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+> > Reported-by: Alex Benn�e <alex.bennee@linaro.org>
+> > ---
+> >   tests/avocado/tuxrun_baselines.py | 98 ++++++++++++++++++++++++++++++-
+> >   1 file changed, 96 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
+> > index d343376faa..cb17602c94 100644
+> > --- a/tests/avocado/tuxrun_baselines.py
+> > +++ b/tests/avocado/tuxrun_baselines.py
+> > @@ -308,7 +308,7 @@ def test_ppc64(self):
+> >           """
+> >           :avocado: tags=arch:ppc64
+> >           :avocado: tags=machine:pseries
+> > -        :avocado: tags=cpu:POWER8
+> > +        :avocado: tags=cpu:POWER10
+> >           :avocado: tags=endian:big
+> >           :avocado: tags=console:hvc0
+> >           :avocado: tags=tuxboot:ppc64
+> > @@ -316,19 +316,113 @@ def test_ppc64(self):
+> >           :avocado: tags=extradev:driver=spapr-vscsi
+> >           :avocado: tags=root:sda
+> >           """
+> > +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
+> > +                         '-device', 'virtio-net,netdev=vnet')
+> > +        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
+> > +                         '-device', '{"driver":"virtio-net-pci","netdev":'
+> > +                         '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
 > 
+> The patch looks already fine to me as it is, but in case you'd want to
+> increase test coverage even a little bit more, you could add some lines that
+> reads out the MAC address again from the /sys fs in the guest to check that
+> it matches the one that has been specified here. See
+> tests/avocado/machine_s390_ccw_virtio.py as an example, we're doing it for
+> the s390x machine there already.
+The goal was to achieve the same level of code coverage as what we had
+before skipping the boot_linux.py. So I'll let this be for now. Of
+course we can improve the code coverage further if required later.
 > 
-> On Tue, Apr 18, 2023 at 10:02 AM Thomas Huth <thuth@redhat.com 
-> <mailto:thuth@redhat.com>> wrote:
+> > +        process.run('./qemu-img create -f qcow2'
+> > +                    '/tmp/tuxrun_baselines_ppc64le.qcow2 1G')
 > 
->     FreeBSD 13.0 has been released in April 2021:
-> 
->     https://www.freebsd.org/releases/13.0R/announce/
->     <https://www.freebsd.org/releases/13.0R/announce/>
-> 
->     According to QEMU's support policy, we stop supporting the previous
->     major release two years after the the new major release has been
->     published. So we can stop testing FreeBSD 12 in our CI now.
-> 
-> 
-> 13.2 was just released this week, and the FreeBSD project will be
-> dropping support for 12 by the end of the year. 14.0 is up in late
-> string / early summer.
-> 
->     Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com>>
-> 
-> 
-> Reviewed-by: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
-> 
->     ---
->       We should likely also update tests/vm/freebsd ... however, FreeBSD 13
->       seems not to use the serial console by default anymore, so I've got
->       no clue how we could use their images now... Does anybody have any
->       suggestions?
-> 
-> 
-> I should look at this... It should still be using serial console by default...
+> Please clean up temporary files after the test has finished.
+> Also it might be necessary to randomize the file name to make it possible
+> that multiple instances of the test can be run in parallel.
+Will make these changes and post a v2.
 
-I did some more tests ... looks like both 
-FreeBSD-13.2-RELEASE-amd64-disc1.iso and FreeBSD-13.2-RELEASE-amd64.qcow2 
-have serial (and ssh) disabled by default - but there is a 
-FreeBSD-13.2-RELEASE-amd64-BASIC-CI.raw image now that has the serial 
-console (and ssh) enabled by default, so I think we could use that one for 
-our CI tests.
-
-  Thomas
-
+Thanks!
+> 
+>  Thomas
+> 
 
