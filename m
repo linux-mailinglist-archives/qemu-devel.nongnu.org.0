@@ -2,44 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688F16E7411
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 09:34:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899CF6E7484
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 09:57:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp2Iw-0006IR-HD; Wed, 19 Apr 2023 03:32:40 -0400
+	id 1pp2fd-00023c-51; Wed, 19 Apr 2023 03:56:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pp2Im-0006I0-EE
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 03:32:28 -0400
-Received: from isrv.corpit.ru ([86.62.121.231])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pp2fa-00023T-Gd
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 03:56:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pp2IY-0008Sp-Em
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 03:32:28 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id A15C540126;
- Wed, 19 Apr 2023 10:32:00 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 3728C219;
- Wed, 19 Apr 2023 10:32:00 +0300 (MSK)
-Message-ID: <7f96ff38-2268-07d3-23a3-d46bf036b711@msgid.tls.msk.ru>
-Date: Wed, 19 Apr 2023 10:32:00 +0300
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pp2fX-00056O-UF
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 03:56:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681890958;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=SrDd8kW+w0DCaJKCEOAWSxq/P7lG0SjBmMooUk9r3Dc=;
+ b=ORXRdGX/aouuTXF4QepFMoNTYkRQTDsJ9yGVHFwL5iE7Tus/NkKPh0aGwiVskB6t86XKwC
+ Tb5OC6FrExU8LF6HJGR/bOXpruTosi/bDh9GG/ySicZsRgeyCpU900mJRXQi0tngIKlQcv
+ +WkHMNyjEXX6fmnmAbI6hj36qZ+tUo8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-155-0SbXoY3sOcq5bHn6zcwUUg-1; Wed, 19 Apr 2023 03:55:56 -0400
+X-MC-Unique: 0SbXoY3sOcq5bHn6zcwUUg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i13-20020a05600c354d00b003f17a4914a2so666879wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 00:55:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681890955; x=1684482955;
+ h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SrDd8kW+w0DCaJKCEOAWSxq/P7lG0SjBmMooUk9r3Dc=;
+ b=Q6annSejlHcWhtTTCkFmtIVtWLNGFAsryu5J4in7Sb+U7cwwy75ny8m/UjCudjiDg/
+ 5U7mNL//h/sGQe50M0runiiGTgQYD57TiJNOY8MB2B4kUgk32odcXTbCgK0JBJotz/kJ
+ nQ5begqvqi/WlwLU9O4x+y3LCiSRJ0k6SvYocXdgjW09BZIukKhBrfYFVAgRDPzw6qIM
+ 9zWpqMl8NSuLMC+H9Kk4jBAIPXuraFLyJBYzhTp9zTuLwFsahvchRhEh1DJ8eyYt5KDq
+ RNkAaz3gYnWRabUzTGK0/A0OXbu1gKxW4PJUlOmU2BXx0k0EXzgg5AIeaJpkh4NqiGFz
+ LAjg==
+X-Gm-Message-State: AAQBX9cud9DY2w8NDbJLaIAkAgL5pgtZejcXya8pHhVad/bqZzSKn9Ql
+ McMPLR4a2iDmHTJ8XG91fN8L2ozoiRencE+DU1XpstxJ5oleq5gNqIFQExGuPn6VX9hMPnMzAD8
+ 84vJ2xl/HbXeu1sA=
+X-Received: by 2002:a7b:c7c9:0:b0:3f1:6ecf:537 with SMTP id
+ z9-20020a7bc7c9000000b003f16ecf0537mr9924955wmk.33.1681890955059; 
+ Wed, 19 Apr 2023 00:55:55 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aYaRM8bZF69Wg31uI9cc56cZlQSgc5rNzXbZToFP+FrglvkH5WSr9/erQTEd2v9V0PZCD/aQ==
+X-Received: by 2002:a7b:c7c9:0:b0:3f1:6ecf:537 with SMTP id
+ z9-20020a7bc7c9000000b003f16ecf0537mr9924940wmk.33.1681890954760; 
+ Wed, 19 Apr 2023 00:55:54 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ g9-20020a05600c000900b003f0aa490336sm1309023wmc.26.2023.04.19.00.55.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Apr 2023 00:55:54 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM call minutes for 2023-04-18
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 19 Apr 2023 09:55:53 +0200
+Message-ID: <87mt341f1y.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Subject: get_relocated_path: the configured paths are not looked for?
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,72 +89,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello!
 
-Today I discovered an interesting issue here: I copied a system-installed
-binary into another directory, in order to debug an unrelated issue. Just
-to discover it does not work, being unable to find any modules or data
-files.
+Hi
 
-Here's how the strace of typical qemu-system-i386 run looks like (the
-relevant parts only):
+We started testing with recording the call, will 
 
-access("/tmp/qemu-bundle", R_OK) = -1 ENOENT (No such file or directory)
-access("/tmp/b/../lib/x86_64-linux-gnu/qemu/accel-tcg-i386.so", F_OK) = -1 ENOENT (No such file or directory)
-access("/var/run/qemu/Debian_1_8.0~rc4+dfsg-3/accel-tcg-i386.so", F_OK) = -1 ENOENT (No such file or directory)
 
-(the executable in this case is in /tmp, obviously).  And it fails with
-error "fatal: could not load module for type 'tcg-accel-ops'".
+Update on icount
 
-This is despite the fact that qemu has been configured with proper --libdir
-and other --foodir to point to actual dirs such as /usr/lib /usr/share etc.
+Enable icount to be "enabled" independently of tcg.
 
-Looking at the code I see this, in cutil.c:get_relocated_path() (simplified):
+icount + ttcg breaks, so there needs to be done some changes here.
 
-char *get_relocated_path(const char *dir)
-{
-     const char *bindir = CONFIG_BINDIR;
-     const char *exec_dir = qemu_get_exec_dir();
+The plugin allows to plug into the timer subsystem, so all the times are available.
 
-     result = concat(exec_dir, "/qemu-bundle");
-     if (access(result, R_OK) == 0) {  <== should be X_OK and should be dir, too!
-         g_string_append(result, dir);
-     } else if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
-         g_string_assign(result, dir);
-     } else {
-         g_string_assign(result, exec_dir);
-         .. search in  execdir and its parents ..
-     }
+Having multithread ttcg makes things complicated.
 
-This seems to be questionable.  And btw, even when running qemu from
-the installed /usr/bin/ location, it does something weird:
+We don't want three versions of icount:
+- deterministic
+- multithread
+- ....
 
-access("/usr/bin/qemu-bundle", R_OK)    = -1 ENOENT (No such file or directory)
-access("/usr/bin/../lib/x86_64-linux-gnu/qemu/accel-tcg-x86_64.so", F_OK) = 0
-openat(AT_FDCWD, "/usr/bin/../lib/x86_64-linux-gnu/qemu/accel-tcg-x86_64.so", O_RDONLY|O_CLOEXEC) = 14
+The plugin only allows some primitives to handle the times, not the
+full power of TCG.
 
-so it is not obvious why it skips the full path in this case (the 2nd
-choice) and falls into the 3rd variant (search in execdir and parents).
+We will try to break out the icount generation without disturbing
+determinism.
 
-Why it *ever* wants to search in parent dirs relative to executable
-path? And why these !starts_with_prefix()?
+The plugin will be able to calculate the time, and everything else
+will read it from there.
 
-BTW, the second starts_with_prefix(bindir) condition is just stupid, -
-bindir is CONFIG_BINDIR (static), and start_with_prefix() checks for
-CONFIG_PREFIX which is also static.
+The current code will continue to be as it is, and will not work with
+multithread ttcg.
 
-The whole this logic smells.. strange at best :)
 
-How about this: if qemu-bundle exists, use qemu-bundle/dir, instead
-use dir directly?  Why do we need all other conditions? Why do we
-do different things depending on the place the executable is located?
+We got a recording of the call here:
 
-In the past, qemu tried to look in pc-bios/ and other similar places, -
-when run from the build dir.  But since it does not do this anymore,
-we can just skip whole thing, no?
+https://fileserver.linaro.org/s/nJTSCLyQBfo6GLJ
 
-/mjt
+Thanks to Alex for storing it.
+
+Later, Juan.
+
 
