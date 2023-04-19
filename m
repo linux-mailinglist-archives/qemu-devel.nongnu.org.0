@@ -2,92 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8F56E72A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 07:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6E36E72B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 07:51:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp0a6-00037d-KZ; Wed, 19 Apr 2023 01:42:14 -0400
+	id 1pp0ii-0005Ff-2X; Wed, 19 Apr 2023 01:51:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pp0Zx-00037N-1E
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 01:42:05 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pp0Zv-0005SW-4m
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 01:42:04 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f18123da10so655145e9.1
- for <qemu-devel@nongnu.org>; Tue, 18 Apr 2023 22:42:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681882920; x=1684474920;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=csLUvFkt2vrtm4GGPAxkC4u0kZAPXWdY2HFAG+g4HCg=;
- b=lyAs45kMx+Fhm77Uier1wYcX290FpF8A+z5E0LQNGUshDOVcrkNrHgphFerOtL7fAe
- XsfwZKvg9pCk41hkHotLMCguIxT0nOQL5IJHsprkBgZWRAbuSxXv93bOCwwS75iA8hTY
- P8NgVJ1GiPSguW4GVdKf9lVePn4HjqZusTHHfO5aX6OjTphf7JB93UEgGddG9SU0i5Qj
- Zui7gIPqDl4NPT/LIbUqhvEvRDfz+HdhZBb0xlA9a2X90HVvO3bbydhKz0k4iR5soJdK
- lpad3wgImMnqnVns5YezQxiA4/2YUI7uA6S+jnIv0x9EOkoT4IQundimoOc0aUS7vimA
- ci9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681882920; x=1684474920;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=csLUvFkt2vrtm4GGPAxkC4u0kZAPXWdY2HFAG+g4HCg=;
- b=e2blv+p612ZXTwRTtyl1kGKVl+n9VdRCQeKNYX3w5HlUrdM1j/MpLfyamb3t1X4ut8
- 0g2HvdW7CsU1ZBNlyJAZmpjQGiEmg6MNoD3W+zIDAX9nlhLVfq5FAe2wEIoAU1/jHSfq
- F6v69zvJGiZsQygd9bUUpbL7aGoDPVLA/Hpau5GVLed79H9PCPJe//b+5V5WMrnzRZHd
- 3NbI/bAorb9d7WHIlJgikJjjVelvRgr7kF290cJzjpK7VKIKIryFhSpGa7mRO4aOJIqR
- pioeFgpwrk6AXeun9Dufz/1gEdy3i5PtgD7GSyDcQZ8EK7TNfdu+FzSNA8KVY5ZO/LPE
- GkEw==
-X-Gm-Message-State: AAQBX9fJNsDvilh+CQNl3w4FNIMxQQcDp7WxYebH9CdsPN29Uc3FISVM
- YzmfwgW3p/CA5098bSuBOVLcsQ==
-X-Google-Smtp-Source: AKy350YFNfO8gTmrGZ3S8diMlWOTB91Ii6tn2CqRNBgXmjOTFBMs18z2uBi257V5896IrInNEdzbtg==
-X-Received: by 2002:a5d:51d2:0:b0:2fa:f8c2:45f4 with SMTP id
- n18-20020a5d51d2000000b002faf8c245f4mr4135973wrv.0.1681882919896; 
- Tue, 18 Apr 2023 22:41:59 -0700 (PDT)
-Received: from [192.168.58.227] (103.red-83-56-31.staticip.rima-tde.net.
- [83.56.31.103]) by smtp.gmail.com with ESMTPSA id
- 4-20020a05600c228400b003f17e79d74asm1012272wmf.7.2023.04.18.22.41.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Apr 2023 22:41:59 -0700 (PDT)
-Message-ID: <dd0a4aa6-e9cb-77ad-7a94-2cacf2e740b1@linaro.org>
-Date: Wed, 19 Apr 2023 07:41:57 +0200
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1pp0iZ-0005E9-O0
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 01:51:00 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1pp0iT-0005En-Ha
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 01:50:56 -0400
+Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 8ABA141176
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 05:50:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1681883439;
+ bh=EoysgeBbW/988lFQbylURrT3ztfDEeW9aeWk3BrW7qc=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=qN7ST6S7NifRQbNj4z/hLZn4vo0b4+wtR9gEQ8Pu90ekwkAj8z1RQG/EcRQln6A1Q
+ AXfu2YDrayskSGuAh6J3HZ/zmT5Oxbd6kqrvreHeHovIDRnjZJAE/eCRn0sB8UnURW
+ xyB5wFpDvywnUyNziD37HM9Lkmn+q8VYBVo/s9fkxrBwz2l/K1OkX0pCz6tMW2/tCm
+ YGcHhghX7OdmdM9G52C1I6h3T9XmHN4qnBYDF4kdTK93UU1s2ButG9SjI2AQu56QNs
+ Q2EB4JjSugqPJd2JR32YtgTAhY2wT0RQKyjYHOpB+AEu1v06AxFhVb0xA9lW3Dv8n7
+ oN+2OH5H/e2EQ==
+Received: from
+ juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
+ (localhost [127.0.0.1])
+ by scripts-1.lp.internal (Postfix) with ESMTP id EA80B41C14
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 05:50:33 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 6/8] accel/tcg: Uncache the host address for
- instruction fetch when tlb size < 1
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230418140632.53166-1-liweiwei@iscas.ac.cn>
- <20230418140632.53166-7-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230418140632.53166-7-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 Apr 2023 05:43:58 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1769053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=libvirt; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=libvirt; component=main;
+ status=Fix Released; importance=High; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug bionic
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange daxtens ddstreet dgilbert-h
+ ehabkost-redhat-bugs kraxel-redhat paelzer paelzer-redhat-bugs
+ raistlin-redhat-bugs sirswa-redhat-bugs
+X-Launchpad-Bug-Reporter: Daniel Axtens (daxtens)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer=29?=
+References: <152541524728.557.4600864098110042577.malonedeb@gac.canonical.com>
+Message-Id: <168188303899.2938881.18058613319214082044.malone@juju-98d295-prod-launchpad-4>
+Subject: [Bug 1769053] Re: Ability to control phys-bits through libvirt
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="473868c1cc6b58a9bc722c23840374c93a7a274b"; Instance="production"
+X-Launchpad-Hash: 68b7457137ea4fd1a9ccc713b2a0c33f4f2810e4
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,24 +92,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1769053 <1769053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/18/23 16:06, Weiwei Li wrote:
-> When PMP entry overlap part of the page, we'll set the tlb_size to 1, which
-> will make the address in tlb entry set with TLB_INVALID_MASK, and the next
-> access will again go through tlb_fill.However, this way will not work in
-> tb_gen_code() => get_page_addr_code_hostp(): the TLB host address will be
-> cached, and the following instructions can use this host address directly
-> which may lead to the bypass of PMP related check.
-> 
-> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
-> ---
->   accel/tcg/cputlb.c | 5 +++++
->   1 file changed, 5 insertions(+)
+While the bugzilla case wasn't updated this landed in v8.7.0 via a series a=
+round
+https://gitlab.com/libvirt/libvirt/-/commit/e6c29f09e5b75d7a8d79ae670407060=
+446282c78
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+v9.0.0 of libvirt is in Ubuntu Lunar, due to that - from now on - one
+can control the physical bit settings in a defined way through libvirt.
 
-r~
+See maxphysaddr in [1] for how to use that.
+
+Mid term Ubuntu will consider no more adding further variants of the
+workaround, that was providing machine types with the -hpb suffix to
+allow larger guests.
+
+[1]: https://libvirt.org/formatdomain.html#cpu-model-and-topology
+
+** Changed in: libvirt (Ubuntu)
+       Status: Triaged =3D> Fix Released
+
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1769053
+
+Title:
+  Ability to control phys-bits through libvirt
+
+Status in libvirt:
+  Confirmed
+Status in QEMU:
+  Invalid
+Status in libvirt package in Ubuntu:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Invalid
+
+Bug description:
+  Attempting to start a KVM guest with more than 1TB of RAM fails.
+
+  It looks like we might need some extra patches:
+  https://lists.gnu.org/archive/html/qemu-discuss/2017-12/msg00005.html
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 18.04
+  Package: qemu-system-x86 1:2.11+dfsg-1ubuntu7
+  ProcVersionSignature: Ubuntu 4.15.0-20.21-generic 4.15.17
+  Uname: Linux 4.15.0-20-generic x86_64
+  ApportVersion: 2.20.9-0ubuntu7
+  Architecture: amd64
+  CurrentDesktop: Unity:Unity7:ubuntu
+  Date: Fri May  4 16:21:14 2018
+  InstallationDate: Installed on 2017-04-05 (393 days ago)
+  InstallationMedia: Ubuntu 16.10 "Yakkety Yak" - Release amd64 (20161012.2)
+  MachineType: Dell Inc. XPS 13 9360
+  ProcKernelCmdLine: BOOT_IMAGE=3D/vmlinuz-4.15.0-20-generic root=3D/dev/ma=
+pper/ubuntu--vg-root ro quiet splash transparent_hugepage=3Dmadvise vt.hand=
+off=3D1
+  SourcePackage: qemu
+  UpgradeStatus: Upgraded to bionic on 2018-04-30 (3 days ago)
+  dmi.bios.date: 02/26/2018
+  dmi.bios.vendor: Dell Inc.
+  dmi.bios.version: 2.6.2
+  dmi.board.name: 0PF86Y
+  dmi.board.vendor: Dell Inc.
+  dmi.board.version: A00
+  dmi.chassis.type: 9
+  dmi.chassis.vendor: Dell Inc.
+  dmi.modalias: dmi:bvnDellInc.:bvr2.6.2:bd02/26/2018:svnDellInc.:pnXPS1393=
+60:pvr:rvnDellInc.:rn0PF86Y:rvrA00:cvnDellInc.:ct9:cvr:
+  dmi.product.family: XPS
+  dmi.product.name: XPS 13 9360
+  dmi.sys.vendor: Dell Inc.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/libvirt/+bug/1769053/+subscriptions
+
 
