@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460346E8028
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 19:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79646E802A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 19:15:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppBM1-0006Sz-DG; Wed, 19 Apr 2023 13:12:25 -0400
+	id 1ppBOQ-0007IL-BL; Wed, 19 Apr 2023 13:14:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ppBLy-0006SN-55
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:12:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1ppBOO-0007I6-Fz
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:14:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ppBLr-0005QS-3p
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:12:21 -0400
+ id 1ppBOM-00064u-Ib
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 13:14:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681924332;
+ s=mimecast20190719; t=1681924489;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BrzVtPxUEWHlUzxtqyGW7xWvwnL0zlMXYMEjg2ImQ6Q=;
- b=Rti29eVkn6+upwPE2CZTYxQ8UP67tbyANUSLEBr/7L+/sIxhn7qAimryJqqZYO4TJLDHEk
- 7O/SCzVkFrOcO/tsJjlqB55Qkk1TTQ76NEDvWdggG6tNZ6GhMg11fd0kjDT7Gx3F/tpo7W
- QcLK5kkzs0BdiEUrpuoSzNwq39ldtoQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LHpAE5/54z24MEsjUi6G/6d5sBpleCqZWqu2BGUGRwo=;
+ b=a2vOcTZ9gpIi9Qcwp5X5LDMcqJp1xC47xF6UYObIRs0i++cTKOKMnB2+hNPIXBkduzVxfW
+ aKOzMOvaeTLLgqyyngM511DX+tj63PaDCx7lkOwTjI2a6ANIkJkAxVbcfFW2YFt7JDzDzo
+ LiECeEMCnqD3+8heWIGnwwSPcxWkAcM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-TmG6rTXvMTWmNc3Z2kP95w-1; Wed, 19 Apr 2023 13:12:08 -0400
-X-MC-Unique: TmG6rTXvMTWmNc3Z2kP95w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-120-35786d6uM2CItmEV3fw6pQ-1; Wed, 19 Apr 2023 13:14:46 -0400
+X-MC-Unique: 35786d6uM2CItmEV3fw6pQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6843D85A5A3;
- Wed, 19 Apr 2023 17:12:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0936D1C09510;
+ Wed, 19 Apr 2023 17:14:46 +0000 (UTC)
 Received: from redhat.com (unknown [10.42.28.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DB7B2166B33;
- Wed, 19 Apr 2023 17:12:07 +0000 (UTC)
-Date: Wed, 19 Apr 2023 18:12:05 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 39E07492B05;
+ Wed, 19 Apr 2023 17:14:45 +0000 (UTC)
+Date: Wed, 19 Apr 2023 18:14:43 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com,
- dfaggioli@suse.com, dgilbert@redhat.com,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with
- multifd and fixed-ram
-Message-ID: <ZEAg5QJS44jzAV/v@redhat.com>
-References: <20230330180336.2791-1-farosas@suse.de> <ZCYCE0llX9WANK18@x1n>
- <87edp5oukh.fsf@suse.de> <ZCbzmZXz3JG/jElA@x1n>
- <878rfdos4a.fsf@suse.de> <ZCcCV8PIsuvab1lO@x1n>
- <ZCcF6I0qb+1xlPhJ@redhat.com> <ZCcKBDM9sLomGOQE@x1n>
- <ZD7MRGQ+4QsDBtKR@redhat.com> <ZD7u9YHTor4edGWw@x1n>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 2/2] tests/qtest: make more migration pre-copy scenarios
+ run non-live
+Message-ID: <ZEAhg43rQZ9+otf0@redhat.com>
+References: <20230418133100.48799-1-berrange@redhat.com>
+ <20230418133100.48799-3-berrange@redhat.com>
+ <87cz41ynlr.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZD7u9YHTor4edGWw@x1n>
+In-Reply-To: <87cz41ynlr.fsf@suse.de>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -73,8 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,116 +87,68 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 03:26:45PM -0400, Peter Xu wrote:
-> On Tue, Apr 18, 2023 at 05:58:44PM +0100, Daniel P. Berrangé wrote:
-> > Libvirt has multiple APIs where it currently uses its migrate-to-file
-> > approach
-> > 
-> >   * virDomainManagedSave()
-> > 
-> >     This saves VM state to an libvirt managed file, stops the VM, and the
-> >     file state is auto-restored on next request to start the VM, and the
-> >     file deleted. The VM CPUs are stopped during both save + restore
-> >     phase
-> > 
-> >   * virDomainSave/virDomainRestore
-> > 
-> >     The former saves VM state to a file specified by the mgmt app/user.
-> >     A later call to virDomaniRestore starts the VM using that saved
-> >     state. The mgmt app / user can delete the file state, or re-use
-> >     it many times as they desire. The VM CPUs are stopped during both
-> >     save + restore phase
-> > 
-> >   * virDomainSnapshotXXX
-> > 
-> >     This family of APIs takes snapshots of the VM disks, optionally
-> >     also including the full VM state to a separate file. The snapshots
-> >     can later be restored. The VM CPUs remain running during the
-> >     save phase, but are stopped during restore phase
+On Tue, Apr 18, 2023 at 04:52:32PM -0300, Fabiano Rosas wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> For this one IMHO it'll be good if Libvirt can consider leveraging the new
-> background-snapshot capability (QEMU 6.0+, so not very new..).  Or is there
-> perhaps any reason why a generic migrate:fd approach is better?
-
-I'm not sure I fully understand the implications of 'background-snapshot' ?
-
-Based on what the QAPI comment says, it sounds potentially interesting,
-as conceptually it would be nicer to have the memory / state snapshot
-represent the VM at the point where we started the snapshot operation,
-rather than where we finished the snapshot operation.
-
-It would not solve the performance problems that the work in this thread
-was intended to address though.  With large VMs (100's of GB of RAM),
-saving all the RAM state to disk takes a very long time, regardless of
-whether the VM vCPUs are paused or running.
-
-Currently when doing this libvirt has a "libvirt_iohelper" process
-that we use so that we can do writes with O_DIRECT set. This avoids
-thrashing the host OS's  I/O buffers/cache, and thus negatively
-impacting performance of anything else on the host doing I/O. This
-can't take advantage of multifd though, and even if extended todo
-so, it still imposes extra data copies during the save/restore paths.
-
-
-So to speed up the above 3 libvirt APIs, we want QEMU to be able to
-directly save/restore mem/vmstate to files, with parallization and
-O_DIRECT.
-
-
-> > All these APIs end up calling the same code inside libvirt that uses
-> > the libvirt-iohelper, together with QEMU migrate:fd driver.
-> > 
-> > IIUC, Suse's original motivation for the performance improvements was
-> > wrt to the first case of virDomainManagedSave. From the POV of actually
-> > supporting this in libvirt though, we need to cover all the scenarios
-> > there. Thus we need this to work both when CPUs are running and stopped,
-> > and if we didn't use migrate in this case, then we basically just end
-> > up re-inventing migrate again which IMHO is undesirable both from
-> > libvirt's POV and QEMU's POV.
+> > There are 27 pre-copy live migration scenarios being tested. In all of
+> > these we force non-convergance and run for one iteration, then let it
+> > converge and wait for completion during the second (or following)
+> > iterations. At 3 mbps bandwidth limit the first iteration takes a very
+> > long time (~30 seconds).
+> >
+> > While it is important to test the migration passes and convergance
+> > logic, it is overkill to do this for all 27 pre-copy scenarios. The
+> > TLS migration scenarios in particular are merely exercising different
+> > code paths during connection establishment.
+> >
+> > To optimize time taken, switch most of the test scenarios to run
+> > non-live (ie guest CPUs paused) with no bandwidth limits. This gives
+> > a massive speed up for most of the test scenarios.
+> >
+> > For test coverage the following scenarios are unchanged
+> >
+> >  * Precopy with UNIX sockets
+> >  * Precopy with UNIX sockets and dirty ring tracking
+> >  * Precopy with XBZRLE
+> >  * Precopy with multifd
+> >
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > 
-> Just to make sure we're on the same page - I always think it fine to use
-> the QMP "migrate" command to do this.
+> ...
 > 
-> Meanwhile, we can also reuse the migration framework if we think that's
-> still the good way to go (even if I am not 100% sure on this... I still
-> think _lots_ of the live migration framework as plenty of logics trying to
-> take care of a "live" VM, IOW, those logics will become pure overheads if
-> we reuse the live migration framework for vm suspend).
+> > -        qtest_qmp_eventwait(to, "RESUME");
+> > +        if (!args->live) {
+> > +            qtest_qmp_discard_response(to, "{ 'execute' : 'cont'}");
+> > +        }
+> > +        if (!got_resume) {
+> > +            qtest_qmp_eventwait(to, "RESUME");
+> > +        }
 > 
-> However could you help elaborate more on why it must support live mode for
-> a virDomainManagedSave() request?  As I assume this is the core of the goal.
-
-No, we've no need for live mode for virDomainManagedSave. Live mode is
-needed for virDomainSnapshot* APIs.
-
-The point I'm making is that all three of the above libvirt APIs run exactly
-the same migration code in libvirt. The only difference in the APIs is how
-the operation gets striggered and whether the CPUs are running or not.
-
-We wwant the improved performance of having parallel save/restore-to-disk
-and use of O_DIRECT to be available to all 3 APIs. To me it doesn't make
-sense to provide different impls for these APIs when they all have the
-same end goal - it would be extra work on QEMU side and libvirt side alike
-to use different solutions for each. 
-
-> IMHO virDomainManagedSave() is a good interface design, because it contains
-> the target goal of what it wants to do (according to above).  To ask in
-> another way, I'm curious whether virDomainManagedSave() will stop the VM
-> before triggering the QMP "migrate" to fd: If it doesn't, why not?  If it
-> does, then why we can't have that assumption also for QEMU?
+> Hi Daniel,
 > 
-> That assumption is IMHO important for QEMU because non-live VM migration
-> can avoid tons of overhead that a live migration will need.  I've mentioned
-> this in the other reply, even if we keep using the migration framework, we
-> can still optimize other things like dirty tracking.  We probably don't
-> even need any bitmap at all because we simply scan over all ramblocks.
+> On an aarch64 host I'm sometimes (~30%) seeing a hang here on a TLS test:
 > 
-> OTOH, if QEMU supports live mode for a "vm suspend" in the initial design,
-> not only it doesn't sound right at all from interface level, it means QEMU
-> will need to keep doing so forever because we need to be compatible with
-> the old interfaces even on new binaries.  That's why I keep suggesting we
-> should take "VM turned off" part of the cmd if that's what we're looking
-> for.
+> ../configure --target-list=aarch64-softmmu --enable-gnutls
+> 
+> ... ./tests/qtest/migration-test --tap -k -p /aarch64/migration/precopy/tcp/tls/psk/match
+> 
+> (gdb) bt
+> #0  0x0000fffff7b33f8c in recv () from /lib64/libpthread.so.0
+> #1  0x0000aaaaaaac8bf4 in recv (__flags=0, __n=1, __buf=0xffffffffe477, __fd=5) at /usr/include/bits/socket2.h:44
+> #2  qmp_fd_receive (fd=5) at ../tests/qtest/libqmp.c:73
+> #3  0x0000aaaaaaac6dbc in qtest_qmp_receive_dict (s=0xaaaaaaca7d10) at ../tests/qtest/libqtest.c:713
+> #4  qtest_qmp_eventwait_ref (s=0xaaaaaaca7d10, event=0xaaaaaab26ce8 "RESUME") at ../tests/qtest/libqtest.c:837
+> #5  0x0000aaaaaaac6e34 in qtest_qmp_eventwait (s=<optimized out>, event=<optimized out>) at ../tests/qtest/libqtest.c:850
+> #6  0x0000aaaaaaabbd90 in test_precopy_common (args=0xffffffffe590, args@entry=0xffffffffe5a0) at ../tests/qtest/migration-test.c:1393
+> #7  0x0000aaaaaaabc804 in test_precopy_tcp_tls_psk_match () at ../tests/qtest/migration-test.c:1564
+> #8  0x0000fffff7c89630 in ?? () from //usr/lib64/libglib-2.0.so.0
+> ...
+> #15 0x0000fffff7c89a70 in g_test_run_suite () from //usr/lib64/libglib-2.0.so.0
+> #16 0x0000fffff7c89ae4 in g_test_run () from //usr/lib64/libglib-2.0.so.0
+> #17 0x0000aaaaaaab7fdc in main (argc=<optimized out>, argv=<optimized out>) at ../tests/qtest/migration-test.c:2642
+
+Urgh, ok, there must be an unexpected race condition wrt events in my
+change. Thanks for the stack trace, i'll investigate.
 
 With regards,
 Daniel
