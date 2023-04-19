@@ -2,76 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EEDA6E765E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 11:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2746E76AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 11:48:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp4CX-0005fk-U3; Wed, 19 Apr 2023 05:34:09 -0400
+	id 1pp4PP-0007Vq-GS; Wed, 19 Apr 2023 05:47:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pp4CR-0005fI-Vd
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 05:34:04 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pp4CO-0007UT-LK
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 05:34:03 -0400
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-94f7a0818aeso182117766b.2
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 02:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20221208.gappssmtp.com; s=20221208; t=1681896838; x=1684488838;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QfHgSiR/CsxChE6M5DctIryHmM7eI0Ww2WmugepwD7E=;
- b=f0r+V13YGi47u/JvUSE/+AsKmM2lyqut+27kgljnWXB+ImlblC4E8QY3lmzWJTaMYf
- axYbtUAIQ/mwbGCIMoKbL0++OPrzXXCBBtoaVDF6sHbr4jlU254e/gASipxCiwiBY+91
- Zk9b9fHK5cukRv9AuiGQDNGQQA7v82S7AHWSCcQry/k2pRpoo6g+kXH1xZ8qqquCUetG
- tt78OgOV6G+Be0db/1XWCIzF+LCASX8GaYIwNhv3dPmAeWl1yi178s2nK3G/CveCO0DQ
- Mhs9CqeZNleJkwu3tuHJPMLLDur2W/vU3ypy7OMYB3+Ragv1dkk198PzZOpwZ7fy1Vhh
- 8upQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681896838; x=1684488838;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QfHgSiR/CsxChE6M5DctIryHmM7eI0Ww2WmugepwD7E=;
- b=VCE8FvDLMG2aI2OPC2rMn7i7QvAktNstUe0l57m61T5UOf4CoK5NMjXh9wdlbTO2xy
- A1cV0swVWP9VotQq+EdsEUBYcGa2xoHBimLYlUjfVJ42PkUsmIwpuSybZ6B6Brv9V7ae
- PObjjuyhfuIv0b3PdxHHso2zY7Ov3cEfrqGkSciJRsUd0dwJNoePIdAXGKsu16lUdBrF
- YGE44v5UUYD7vRRiwSej/XXxB10vrNeWAiWi4dNtP/lB7uTItACih+opxOFM4n/grcQc
- +aNp59PIGqeeMPz2fiCKx00v+TVuYnaGfw17vDwlxcWzn1SpaW7lwfiWFtQ6QcPixGIf
- Lcvw==
-X-Gm-Message-State: AAQBX9dgbIFrZ2xQzAZ25DIPQLS1TD9EJNiyMwmlM8OPHr/5VshEQpM3
- 04bheXoPl/mJ+ovTB2oH2v4jI0Vj51d70+zXCp+vQQ==
-X-Google-Smtp-Source: AKy350Y0UkHnvwf91i0FLOyAnkEPFtUI+WCBS4tpWKPBD7q0VNjjcn/MKr7gG+HhFkRKJMnwM4b5CTlUKSVSfEHZvbQ=
-X-Received: by 2002:aa7:d153:0:b0:506:a44c:47e3 with SMTP id
- r19-20020aa7d153000000b00506a44c47e3mr5146704edo.16.1681896838203; Wed, 19
- Apr 2023 02:33:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pp4PI-0007VB-14; Wed, 19 Apr 2023 05:47:21 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pp4PE-0006Zy-Ka; Wed, 19 Apr 2023 05:47:19 -0400
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33J8nwlc003102; Wed, 19 Apr 2023 09:47:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=RP2lDcaD428ljz65dkcYl2KlrQZcaxT4Re8ARQ3vcaI=;
+ b=IkHZBmWfVK4yYHx0FHaSxZn9TJopOrilfGLet3IXt7AW3Lm9PH8nCiUGLmoLC1si2LAJ
+ PfdWmQAqEdl/+axYTEE2/GsC03LCkKVpSD2x4t4I7t5jihFZI3uo8cG61h8yvJ+JPJbH
+ 64pjwPSaaGEBDoB19fhu0E1SkGAsmFggTJaU612YNaGBSHEb+iLbOQSozzKLg5+yjegB
+ uoUF2FnqIck2a9PGwWip/fLYV7YdXyIyMloi5yeezmp47Wl2qkDCN5jf2gBHlV2xeB99
+ L1ealYtSNiKV6x9xLdAvLZAEerCeza9U267/92v8vgwqh0X+urU8AXMTLgP1fkoygVx2 Gg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q20emdbt8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Apr 2023 09:47:10 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33J8Hx93002966;
+ Wed, 19 Apr 2023 09:47:09 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q20emdbrv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Apr 2023 09:47:09 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33J7bMQh006465;
+ Wed, 19 Apr 2023 09:47:07 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3pykj6am3e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Apr 2023 09:47:07 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33J9l1iW13697612
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Apr 2023 09:47:01 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8066220043;
+ Wed, 19 Apr 2023 09:47:01 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 247BD20040;
+ Wed, 19 Apr 2023 09:47:00 +0000 (GMT)
+Received: from [9.171.77.152] (unknown [9.171.77.152])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Wed, 19 Apr 2023 09:47:00 +0000 (GMT)
+Message-ID: <268273e6-f94b-d033-fb8b-ab2acdd923b8@linux.ibm.com>
+Date: Wed, 19 Apr 2023 11:46:59 +0200
 MIME-Version: 1.0
-References: <20230418160225.529172-1-thuth@redhat.com>
- <CANCZdfpzw10B_cyV0mmbkE94GKTBVJg6BVZ2csjcMCur07nseg@mail.gmail.com>
- <4b9d16e8-a2cb-1c78-7d4a-cdb10adcd522@redhat.com>
-In-Reply-To: <4b9d16e8-a2cb-1c78-7d4a-cdb10adcd522@redhat.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 19 Apr 2023 03:33:47 -0600
-Message-ID: <CANCZdfoL7ksbOsNJJujf_=ZXbzLdSXviFqhNdcZ3DrYhkN6trg@mail.gmail.com>
-Subject: Re: [PATCH] .gitlab-ci.d/cirrus: Drop the CI job for compiling with
- FreeBSD 12
-To: Thomas Huth <thuth@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="000000000000971d8405f9ad1f5e"
-Received-SPF: none client-ip=2a00:1450:4864:20::631;
- envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v19 01/21] s390x/cpu topology: add s390 specifics to CPU
+ topology
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-2-pmorel@linux.ibm.com>
+ <4118bb4e-0505-26d3-3ffe-49245eae5364@kaod.org>
+ <bd5cc488-20a7-54d1-7c3e-86136db77f84@linux.ibm.com>
+ <ZD690MgTNAxcfkKp@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <ZD690MgTNAxcfkKp@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Hwg1ghZbUX2Erx9CSEV9xMgaE5Thngi1
+X-Proofpoint-ORIG-GUID: dpI9WRVrQ2kpNl9FroxG1XqXZgLX9iDW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-19_05,2023-04-18_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 mlxscore=0 lowpriorityscore=0 spamscore=0 phishscore=0
+ mlxlogscore=806 adultscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304190085
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,149 +123,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000971d8405f9ad1f5e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 19, 2023, 12:23 AM Thomas Huth <thuth@redhat.com> wrote:
-
-> On 18/04/2023 21.46, Warner Losh wrote:
-> >
-> >
-> > On Tue, Apr 18, 2023 at 10:02=E2=80=AFAM Thomas Huth <thuth@redhat.com
-> > <mailto:thuth@redhat.com>> wrote:
-> >
-> >     FreeBSD 13.0 has been released in April 2021:
-> >
-> >     https://www.freebsd.org/releases/13.0R/announce/
-> >     <https://www.freebsd.org/releases/13.0R/announce/>
-> >
-> >     According to QEMU's support policy, we stop supporting the previous
-> >     major release two years after the the new major release has been
-> >     published. So we can stop testing FreeBSD 12 in our CI now.
-> >
-> >
-> > 13.2 was just released this week, and the FreeBSD project will be
-> > dropping support for 12 by the end of the year. 14.0 is up in late
-> > string / early summer.
-> >
-> >     Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:
-> thuth@redhat.com>>
-> >
-> >
-> > Reviewed-by: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
-> >
-> >     ---
-> >       We should likely also update tests/vm/freebsd ... however, FreeBS=
-D
-> 13
-> >       seems not to use the serial console by default anymore, so I've g=
-ot
-> >       no clue how we could use their images now... Does anybody have an=
-y
-> >       suggestions?
-> >
-> >
-> > I should look at this... It should still be using serial console by
-> default...
+On 4/18/23 17:57, Daniel P. Berrangé wrote:
+> On Tue, Apr 04, 2023 at 02:26:05PM +0200, Pierre Morel wrote:
+>> On 4/4/23 09:03, Cédric Le Goater wrote:
+>>> On 4/3/23 18:28, Pierre Morel wrote:
+>>>> diff --git a/include/hw/s390x/cpu-topology.h
+>>>> b/include/hw/s390x/cpu-topology.h
+>>>> new file mode 100644
+>>>> index 0000000000..83f31604cc
+>>>> --- /dev/null
+>>>> +++ b/include/hw/s390x/cpu-topology.h
+>>>> @@ -0,0 +1,15 @@
+>>>> +/*
+>>>> + * CPU Topology
+>>>> + *
+>>>> + * Copyright IBM Corp. 2022
+>>> Shouldn't we have some range : 2022-2023 ?
+>> There was a discussion on this in the first spins, I think to remember that
+>> Nina wanted 22 and Thomas 23,
+>>
+>> now we have a third opinion :) .
+>>
+>> I must say that all three have their reasons and I take what the majority
+>> wants.
+>>
+>> A vote?
+> Whether or not to include a single year, or range of years in
+> the copyright statement is ultimately a policy decision for the
+> copyright holder to take (IBM in this case I presume), and not
+> subject to community vote/preferences.
 >
-> I did some more tests ... looks like both
-> FreeBSD-13.2-RELEASE-amd64-disc1.iso and FreeBSD-13.2-RELEASE-amd64.qcow2
-> have serial (and ssh) disabled by default - but there is a
-> FreeBSD-13.2-RELEASE-amd64-BASIC-CI.raw image now that has the serial
-> console (and ssh) enabled by default, so I think we could use that one fo=
-r
-> our CI tests.
+> I will note that some (possibly even many) organizations consider
+> the year to be largely redundant and devoid of legal benefit, so
+> are happy with basically any usage of dates (first year, most recent
+> year, a range of years, or none at all). With this in mind, QEMU is
+> willing to accept any usage wrt dates in the copyright statement.
 >
-
-I'm surprised a little by this state and will see why and see if that can't
-be fixed for 14.0.
-
-Warner
-
-  Thomas
+> It is possible that IBM have a specific policy their employees are
+> expected to follow. If so, follow that.
 >
->
+> With regards,
+> Daniel
 
---000000000000971d8405f9ad1f5e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Apr 19, 2023, 12:23 AM Thomas Huth &lt;<a href=
-=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">On 18/04/2023 21.46, Warner Losh wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Tue, Apr 18, 2023 at 10:02=E2=80=AFAM Thomas Huth &lt;<a href=3D"ma=
-ilto:thuth@redhat.com" target=3D"_blank" rel=3D"noreferrer">thuth@redhat.co=
-m</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:thuth@redhat.com" target=3D"_blank" rel=
-=3D"noreferrer">thuth@redhat.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0FreeBSD 13.0 has been released in April 2021:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://www.freebsd.org/releases/13.0R/a=
-nnounce/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.freeb=
-sd.org/releases/13.0R/announce/</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://www.freebsd.org/releases/13.=
-0R/announce/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.f=
-reebsd.org/releases/13.0R/announce/</a>&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0According to QEMU&#39;s support policy, we stop sup=
-porting the previous<br>
-&gt;=C2=A0 =C2=A0 =C2=A0major release two years after the the new major rel=
-ease has been<br>
-&gt;=C2=A0 =C2=A0 =C2=A0published. So we can stop testing FreeBSD 12 in our=
- CI now.<br>
-&gt; <br>
-&gt; <br>
-&gt; 13.2 was just released=C2=A0this week, and the FreeBSD project will be=
-<br>
-&gt; dropping support for 12 by the end of the year. 14.0 is up in late<br>
-&gt; string / early summer.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:th=
-uth@redhat.com" target=3D"_blank" rel=3D"noreferrer">thuth@redhat.com</a> &=
-lt;mailto:<a href=3D"mailto:thuth@redhat.com" target=3D"_blank" rel=3D"nore=
-ferrer">thuth@redhat.com</a>&gt;&gt;<br>
-&gt; <br>
-&gt; <br>
-&gt; Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=
-=3D"_blank" rel=3D"noreferrer">imp@bsdimp.com</a> &lt;mailto:<a href=3D"mai=
-lto:imp@bsdimp.com" target=3D"_blank" rel=3D"noreferrer">imp@bsdimp.com</a>=
-&gt;&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0We should likely also update tests/vm/freebs=
-d ... however, FreeBSD 13<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0seems not to use the serial console by defau=
-lt anymore, so I&#39;ve got<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0no clue how we could use their images now...=
- Does anybody have any<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0suggestions?<br>
-&gt; <br>
-&gt; <br>
-&gt; I should look at this... It should still be using serial console by de=
-fault...<br>
-<br>
-I did some more tests ... looks like both <br>
-FreeBSD-13.2-RELEASE-amd64-disc1.iso and FreeBSD-13.2-RELEASE-amd64.qcow2 <=
-br>
-have serial (and ssh) disabled by default - but there is a <br>
-FreeBSD-13.2-RELEASE-amd64-BASIC-CI.raw image now that has the serial <br>
-console (and ssh) enabled by default, so I think we could use that one for =
-<br>
-our CI tests.<br></blockquote></div></div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">I&#39;m surprised a little by this state and will see why and =
-see if that can&#39;t be fixed for 14.0.</div><div dir=3D"auto"><br></div><=
-div dir=3D"auto">Warner=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"=
-auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-=C2=A0 Thomas<br>
-<br>
-</blockquote></div></div></div>
+OK, thanks,
 
---000000000000971d8405f9ad1f5e--
+Regards,
+
+Pierre
+
 
