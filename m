@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB85E6E7F39
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 18:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E616E7F4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 18:13:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppAO4-0001z1-VY; Wed, 19 Apr 2023 12:10:29 -0400
+	id 1ppAQD-0002yD-SY; Wed, 19 Apr 2023 12:12:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppAO1-0001yM-NG
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:10:25 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppAQB-0002y5-Ve
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:12:39 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppANz-0001SC-Ds
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:10:25 -0400
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-94a34d3812cso759449966b.2
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 09:10:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppAQ9-0003r1-TV
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 12:12:39 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f09b9ac51dso96672465e9.0
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 09:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681920621; x=1684512621;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hn0HPwIm+d3/JKoFjaf/cXpINr29WqpsXSXDjDugMHY=;
- b=Yghu9QO9epJsmTHbzPDrLR13qy89WBlGG5Yk9dsjnvAru0B2YnzVOHxEEBOBx0KoX5
- Df1Gep65Higf/pSUYgrRMTQoTyJamA9YFwIbiV06M0aDz/YG20B4Ky/4qs2H1GcbbMAZ
- meV682NROVrc7vAsyfwAjXJPzAFhXOOfV1mdGmrDgGIEqyyAhoPH6/5lIx6AlU/wzalw
- P6niC+uWx8uIuAqlDq6pFQMBmxJVH9qJCXdHJ+f2DW/k8wIysD7CQttTlf93nb0vh5IT
- ZlqyEstKSLR5pGPOnTqD5s0RbeFtDBuWlquu3R6uyVyeg9YwfV3AEkJG2Cr4pQxz8uSg
- umJw==
+ d=linaro.org; s=google; t=1681920755; x=1684512755;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=95gIRfQheSzev9hTdNusJJwuJeNjLs5oUsBvw6dLQVw=;
+ b=kRJWnhfr41HjaeD1uOe9NU5jICDWbap61+PaoPL8g3nHmjnvo2A6QO8qJOyp3vd+A9
+ BdBDwcr96h9WVW//Rn4lDclE56K6z5PCZkTxeedAZlXc0I2peqL2G9epYr9TBIT9Z/aG
+ Vy+8LH3HQL/HfF8z+jKVlbwstOIgBVtqC6t4m3ZBdRMau8y9ALiU8jicJdVn+tYOGurC
+ YNFglpwiJM5NIg6l8mqWPx8zaXUl8vGsgnHohYh2rktuR3IaC68vO/AwU8TbEO54TjwQ
+ g2k0hoZrtF7ttBfqeB6k83EV9DtexrNSGLpWqi0gCtVNfG04Tl7qxukZg2hYAI7DMt77
+ 68Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681920621; x=1684512621;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1681920755; x=1684512755;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=hn0HPwIm+d3/JKoFjaf/cXpINr29WqpsXSXDjDugMHY=;
- b=f0NWo9+BkQmwj0hEU437KB4A/ljgvsFr2pioAQgnza1/ZNmDhqQIK0tz+55qHnRtoA
- JIjKwXo193OBj2qn/Wllmcu75ng+KTjrUH1xCSmMM8INsq2BKfQQZn8o5f+DCSXwVfF0
- fFcsk+nqOu0cByQQJrVtA1lkH38ICVOZzOE4F9ZS4LLtm0herzlfEHF5jrt0md+2hbC+
- W0xq6b84KyX89m1VQjxaq82xRrOq68+i9P2SABa15dei24qgCe2koJpizOhGm/+8VLpk
- A0K5RWYN3bJ1jxlHzvn1VLZYFQOkjfsDqYflHI9u8K/tbKZRusBCjLj2z5g3evOGwFMr
- DOTA==
-X-Gm-Message-State: AAQBX9cWkgXdy2vS51T26n4LShbKaoUYtwHJBfDyt9Aj/ujrzhrI3J9Y
- hhHosGHP8hY3bZcEHYYIZ14rgI3X8t9FbNIwA2Hy9w==
-X-Google-Smtp-Source: AKy350ZFUmulbu7AwMV2sGq6mKBvnNvbgiv5kcpcso3dD6K/z71J2uZh8XlEulNsPcFGlsO7CZkS3U/XJsfcxLZTeek=
-X-Received: by 2002:a50:d0c9:0:b0:505:4fb:4430 with SMTP id
- g9-20020a50d0c9000000b0050504fb4430mr3120839edf.6.1681920621316; Wed, 19 Apr
- 2023 09:10:21 -0700 (PDT)
+ bh=95gIRfQheSzev9hTdNusJJwuJeNjLs5oUsBvw6dLQVw=;
+ b=fcwXl9EfYX+jqsZAI+6CBirqUKiI9uyvNa2W7/+9FY9Ps9oVEU+jBD2QrJld7OSv4s
+ 5/r8sGCCPXOJTXTw8Nt9fNeojsk1D5YfhhFjdVzhmVkGoS3EwhOaXeOY7zdpVML2UCGs
+ InHQZ8uJ5MN3hJqijUU+OY4D3J9q5Nws4tj6BiitrD0etr9gY2cBr98t9hmwwzu0LspX
+ 8vsMaHjlW/sW3nquXfIHDLjAWfmHtnabhLSU/DNZBE3bVNEFVrZI2Lnr0MZ0XOHh7l1I
+ XrBbWPNg7PlluW+0eHI8tLqpRZeE8w/hPlAoriwJatUaCB8+TdFxVsvXYxm6Lw2OXKTd
+ ZtRQ==
+X-Gm-Message-State: AAQBX9dfql3muuKhoxKn3Kf8qVEaf7poy1RTDx1a5kyHfew46wc9GloE
+ c9TFF/HZThP2xfM+k3etjUYQxw==
+X-Google-Smtp-Source: AKy350YhG39XR3J8GH5x3ThPQdvZ8r+ZRKFqPKt1HsChjLifjuQV9HFN4mMyfMjcfqD+Zr5Cyvf4Aw==
+X-Received: by 2002:adf:e8cc:0:b0:2f9:805f:eecb with SMTP id
+ k12-20020adfe8cc000000b002f9805feecbmr2459657wrn.3.1681920755557; 
+ Wed, 19 Apr 2023 09:12:35 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020a5d538e000000b002f81b4227cesm12250011wrv.19.2023.04.19.09.12.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Apr 2023 09:12:35 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CC0FA1FFB7;
+ Wed, 19 Apr 2023 17:12:34 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Robert Henry <robhenry@microsoft.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org (open list:ARM TCG CPUs)
+Subject: [RFC PATCH] plugins: force slow path when plugins instrument memory
+ ops
+Date: Wed, 19 Apr 2023 17:12:26 +0100
+Message-Id: <20230419161226.1012884-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230419102940.185968-1-zhenzhong.duan@intel.com>
-In-Reply-To: <20230419102940.185968-1-zhenzhong.duan@intel.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 19 Apr 2023 17:10:09 +0100
-Message-ID: <CAFEAcA_62h5U2jCOJq76pryCjVf3eV-Ovh6Cpwv8rXzNWd1H-w@mail.gmail.com>
-Subject: Re: [PATCH v4] memory: Optimize replay of guest mapping
-To: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, peterx@redhat.com, 
- jasowang@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com, 
- richard.henderson@linaro.org, eduardo@habkost.net, david@redhat.com, 
- philmd@linaro.org, chao.p.peng@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,66 +103,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 19 Apr 2023 at 11:41, Zhenzhong Duan <zhenzhong.duan@intel.com> wrote:
->
-> On x86, there are two notifiers registered due to vtd-ir memory
-> region splitting the entire address space. During replay of the
-> address space for each notifier, the whole address space is
-> scanned which is unnecessary. We only need to scan the space
-> belong to notifier monitored space.
->
-> While on x86 IOMMU memory region spans over entire address space,
-> but on some other platforms(e.g. arm mps3-an547), IOMMU memory
-> region is only a window in the entire address space. User could
-> register a notifier with arbitrary scope beyond IOMMU memory
-> region. Though in current implementation replay is only triggered
-> by VFIO and dirty page sync with notifiers derived from memory
-> region section, but this isn't guaranteed in the future.
->
-> So, we replay the intersection part of IOMMU memory region and
-> notifier's scope in memory_region_iommu_replay(). Update doc
-> comment to match this change.
+The lack of SVE memory instrumentation has been an omission in plugin
+handling since it was introduced. Fortunately we can utilise the
+probe_* functions to force all all memory access to follow the slow
+path. We do this by checking the access type and presence of plugin
+memory callbacks and if set return the TLB_MMIO flag.
 
-Hi; I have a couple of minor wording tweaks, and one question
-about the docs:
+We have to jump through a few hoops in user mode to re-use the flag
+but it was the desired effect:
 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 15ade918baa4..61da32d8a428 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -425,12 +425,13 @@ struct IOMMUMemoryRegionClass {
->       * Called to handle memory_region_iommu_replay().
->       *
->       * The default implementation of memory_region_iommu_replay() is to
-> -     * call the IOMMU translate method for every page in the address space
-> +     * call the IOMMU translate method for every page falling in the
-> +     * intersection part of IOMMU memory region and notifier's scope
+ ./qemu-system-aarch64 -display none -serial mon:stdio \
+   -M virt -cpu max -semihosting-config enable=on \
+   -kernel ./tests/tcg/aarch64-softmmu/memory-sve \
+   -plugin ./contrib/plugins/libexeclog.so,ifilter=st1w,afilter=0x40001808 -d plugin
 
-"falling in the intersection of the IOMMU MemoryRegion and the
-MemoryRegion which the notifier was registered for"
+gives (disas doesn't currently understand st1w):
 
->       * with flag == IOMMU_NONE and then call the notifier if translate
->       * returns a valid mapping. If this method is implemented then it
->       * overrides the default behaviour, and must provide the full semantics
->       * of memory_region_iommu_replay(), by calling @notifier for every
-> -     * translation present in the IOMMU.
-> +     * translation present in the intersection part.
+  0, 0x40001808, 0xe54342a0, ".byte 0xa0, 0x42, 0x43, 0xe5", store, 0x40213010, RAM, store, 0x40213014, RAM, store, 0x40213018, RAM
 
-"present in the IOMMU that is within the MemoryRegion the
-notifier was registered for."
+And for user-mode:
 
-Question: is it OK for an implementation of this method to call
-the notifier for translations that are in the IOMMU and which
-are not in the scope of the notifier (ie which are outside
-the intersection) ? Or must it specifically restrict itself
-to only calling the notifier for translations which are
-inside the notifier's range ?
+  ./qemu-aarch64 \
+    -plugin contrib/plugins/libexeclog.so,afilter=0x4007c0 \
+    -d plugin \
+    ./tests/tcg/aarch64-linux-user/sha512-sve
 
-If the latter, we need to check all 4 existing implementations
-of this method to ensure that they are not sending notifications
-they should not; if the former, we should document that
-implementations have that leeway.
+gives:
 
-thanks
--- PMM
+  1..10
+  ok 1 - do_test(&tests[i])
+  0, 0x4007c0, 0xa4004b80, ".byte 0x80, 0x4b, 0x00, 0xa4", load, 0x5500800370, load, 0x5500800371, load, 0x5500800372, load, 0x5500800373, load, 0x5500800374, load, 0x5500800375, load, 0x5500800376, load, 0x5500800377, load, 0x5500800378, load, 0x5500800379, load, 0x550080037a, load, 0x550080037b, load, 0x550080037c, load, 0x550080037d, load, 0x550080037e, load, 0x550080037f, load, 0x5500800380, load, 0x5500800381, load, 0x5500800382, load, 0x5500800383, load, 0x5500800384, load, 0x5500800385, load, 0x5500800386, lo
+  ad, 0x5500800387, load, 0x5500800388, load, 0x5500800389, load, 0x550080038a, load, 0x550080038b, load, 0x550080038c, load, 0x550080038d, load, 0x550080038e, load, 0x550080038f, load, 0x5500800390, load, 0x5500800391, load, 0x5500800392, load, 0x5500800393, load, 0x5500800394, load, 0x5500800395, load, 0x5500800396, load, 0x5500800397, load, 0x5500800398, load, 0x5500800399, load, 0x550080039a, load, 0x550080039b, load, 0x550080039c, load, 0x550080039d, load, 0x550080039e, load, 0x550080039f, load, 0x55008003a0, load, 0x55008003a1, load, 0x55008003a2, load, 0x55008003a3, load, 0x55008003a4, load, 0x55008003a5, load, 0x55008003a6, load, 0x55008003a7, load, 0x55008003a8, load, 0x55008003a9, load, 0x55008003aa, load, 0x55008003ab, load, 0x55008003ac, load, 0x55008003ad, load, 0x55008003ae, load, 0x55008003af
+
+(4007c0 is the ld1b in the sha512-sve)
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Robert Henry <robhenry@microsoft.com>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
+---
+ include/exec/cpu-all.h            |  2 +-
+ include/hw/core/cpu.h             | 17 +++++++++++++++++
+ accel/tcg/cputlb.c                |  6 +++++-
+ accel/tcg/user-exec.c             |  6 +++++-
+ target/arm/tcg/sve_helper.c       |  4 ----
+ tests/tcg/aarch64/Makefile.target |  8 ++++++++
+ 6 files changed, 36 insertions(+), 7 deletions(-)
+
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index 090922e4a8..1064cb05b5 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -366,7 +366,7 @@ CPUArchState *cpu_copy(CPUArchState *env);
+  * be signaled by probe_access_flags().
+  */
+ #define TLB_INVALID_MASK    (1 << (TARGET_PAGE_BITS_MIN - 1))
+-#define TLB_MMIO            0
++#define TLB_MMIO            (1 << (TARGET_PAGE_BITS_MIN - 2))
+ #define TLB_WATCHPOINT      0
+ 
+ #else
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 397fd3ac68..2901b33013 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -979,6 +979,23 @@ void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint);
+ void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
+ #endif
+ 
++/**
++ * cpu_plugin_mem_cbs_enabled() - are plugin memory callbacks enabled?
++ * @cs: CPUState pointer
++ *
++ * The memory callbacks are installed if a plugin has instrumented an
++ * instruction for memory. This can be useful to know if you want to
++ * force a slow path for a series of memory accesses.
++ */
++static inline bool cpu_plugin_mem_cbs_enabled(const CPUState *cpu)
++{
++#ifdef CONFIG_PLUGIN
++    return !!cpu->plugin_mem_cbs;
++#else
++    return false;
++#endif
++}
++
+ /**
+  * cpu_get_address_space:
+  * @cpu: CPU to get address space from
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index e984a98dc4..0260587806 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1530,6 +1530,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     target_ulong tlb_addr, page_addr;
+     size_t elt_ofs;
+     int flags;
++    bool not_fetch = true;
+ 
+     switch (access_type) {
+     case MMU_DATA_LOAD:
+@@ -1540,6 +1541,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+         break;
+     case MMU_INST_FETCH:
+         elt_ofs = offsetof(CPUTLBEntry, addr_code);
++        not_fetch = false;
+         break;
+     default:
+         g_assert_not_reached();
+@@ -1578,7 +1580,9 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     *pfull = &env_tlb(env)->d[mmu_idx].fulltlb[index];
+ 
+     /* Fold all "mmio-like" bits into TLB_MMIO.  This is not RAM.  */
+-    if (unlikely(flags & ~(TLB_WATCHPOINT | TLB_NOTDIRTY))) {
++    if (unlikely(flags & ~(TLB_WATCHPOINT | TLB_NOTDIRTY))
++        ||
++        (not_fetch && cpu_plugin_mem_cbs_enabled(env_cpu(env)))) {
+         *phost = NULL;
+         return TLB_MMIO;
+     }
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index a7e0c3e2f4..148d525810 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -745,6 +745,10 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     if (guest_addr_valid_untagged(addr)) {
+         int page_flags = page_get_flags(addr);
+         if (page_flags & acc_flag) {
++            if ((acc_flag == PAGE_READ || acc_flag == PAGE_WRITE)
++                && cpu_plugin_mem_cbs_enabled(env_cpu(env))) {
++                return TLB_MMIO;
++            }
+             return 0; /* success */
+         }
+         maperr = !(page_flags & PAGE_VALID);
+@@ -767,7 +771,7 @@ int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
+ 
+     g_assert(-(addr | TARGET_PAGE_MASK) >= size);
+     flags = probe_access_internal(env, addr, size, access_type, nonfault, ra);
+-    *phost = flags ? NULL : g2h(env_cpu(env), addr);
++    *phost = (flags & TLB_INVALID_MASK) ? NULL : g2h(env_cpu(env), addr);
+     return flags;
+ }
+ 
+diff --git a/target/arm/tcg/sve_helper.c b/target/arm/tcg/sve_helper.c
+index ccf5e5beca..eb4ebee1e4 100644
+--- a/target/arm/tcg/sve_helper.c
++++ b/target/arm/tcg/sve_helper.c
+@@ -5688,9 +5688,6 @@ void sve_ldN_r(CPUARMState *env, uint64_t *vg, const target_ulong addr,
+ 
+     flags = info.page[0].flags | info.page[1].flags;
+     if (unlikely(flags != 0)) {
+-#ifdef CONFIG_USER_ONLY
+-        g_assert_not_reached();
+-#else
+         /*
+          * At least one page includes MMIO.
+          * Any bus operation can fail with cpu_transaction_failed,
+@@ -5727,7 +5724,6 @@ void sve_ldN_r(CPUARMState *env, uint64_t *vg, const target_ulong addr,
+             memcpy(&env->vfp.zregs[(rd + i) & 31], &scratch[i], reg_max);
+         }
+         return;
+-#endif
+     }
+ 
+     /* The entire operation is in RAM, on valid pages. */
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 9e91a20b0d..35d3d2348e 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -81,6 +81,14 @@ sha512-vector: sha512.c
+ 
+ TESTS += sha512-vector
+ 
++ifneq ($(CROSS_CC_HAS_SVE),)
++sha512-sve: CFLAGS=-O3 -march=armv8.1-a+sve
++sha512-sve: sha512.c
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++
++TESTS += sha512-sve
++endif
++
+ ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+ 
+-- 
+2.39.2
+
 
