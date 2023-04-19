@@ -2,99 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024636E77B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 12:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCB76E77B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Apr 2023 12:48:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pp5Li-0002eP-Fj; Wed, 19 Apr 2023 06:47:42 -0400
+	id 1pp5MA-0002vE-Lm; Wed, 19 Apr 2023 06:48:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pp5Lf-0002dq-Nn
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 06:47:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pp5Le-0003JB-8P
- for qemu-devel@nongnu.org; Wed, 19 Apr 2023 06:47:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681901257;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/Shff5UHGpCJtk9CwhMXtvFCR6d+rBXmVr8+KsLhO9g=;
- b=db1ipojKXfobdD5COuBvB26N9Q/50bh0FdJpB4QTgFEr7qk0jCi4PQb2P6WgVHdldGgHWn
- gSR4D5cQ/BXuLgVFSd5szbP6fQKsQcutntC1+xtPcr5i+IcIVsxB45F224jGvURRtTq+2e
- Uh+OZGRAzKMUBbT0Hd7a1dREMbvxZcQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-184-7dsF-2BDOvSI8StWeqqy0Q-1; Wed, 19 Apr 2023 06:47:35 -0400
-X-MC-Unique: 7dsF-2BDOvSI8StWeqqy0Q-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d2-20020a50f682000000b0050503f2097aso11473953edn.14
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 03:47:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pp5M4-0002uZ-J4
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 06:48:04 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pp5M2-0003Ol-KE
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 06:48:04 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f173af665fso15564695e9.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 03:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1681901280; x=1684493280; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QmnI1qpcmOsHukdKm6+8l9XbPtBsO5L2TyiwKT4Ffwc=;
+ b=18Y0b4KqdiVF+q6Fx37+TMHWsS/u3vgCgB7M/UHv0kXrRI+z5PimxHj/X9FXilPgLd
+ avCM+WmrAV+aPai9KQ7mFx7k+SiqKOIkmZ70H9w4VQGGO0W0YRywj4eI7Puf1x2Dovzn
+ gEPfDxF4gbC9HPEjcac0yskpubPDXF2PUkoy/83iuJlSjMKfY1f5cePHn8Mqj/TlnL8s
+ Qn+y9lmM62wVLEy3p2UlMBr5VQFWo9rr0wYcro1TR9IiUcxw0Nlg4dVJYjqstpj4qj3p
+ jjZj8sC2oknkN8DyL3YxcYtdghHV+FJj8klVrKYUJDuJ6cL6YvCu1UrIyoUA1UMAyDEy
+ 6/6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681901254; x=1684493254;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/Shff5UHGpCJtk9CwhMXtvFCR6d+rBXmVr8+KsLhO9g=;
- b=XqYfNFOCbr3TBGRsgZSTRXnxpnAe9zamw7xWnaERcoljrte7OgevuR2IhO1pYOUMNK
- uPKKOE0BqrMnd74eisAbZKa7L7IRq/b/oSRDgwUeTBcMBhkmp9AHQGr9dZiPlloqrnQ/
- 7cI85TV5I/eMdZjG1oHrBOBIvVaZ9rhzjGalyC1hhdawodDbKDluE2ATUO7Sy2DcMUzZ
- D/uBCFhaeY6PCEi8nZg9tDVVLeqEfS43YNkTGZMs65bT87LX+BQOtZ4/HUAK9MJPyQC0
- 3pBCisUEfRzT9dERZyRIkgSKQrz3iCmyvSQnRSWHrtb1b0TXCTfTSJd09i2fxCzPgs8F
- K5JQ==
-X-Gm-Message-State: AAQBX9fakJpzPCCN4q5UzhKmm+65J5WMVfn0wmZt5Z1RObbC10N3CnhF
- M90jRsLRdWUTklKhQ01lrmagH9JHVyzlMBHGWz9iSWyIXPAcOB3ol0m3Fw5XwdWnhuw8MvBBu7L
- 46ss7bSBEcDg2aiY=
-X-Received: by 2002:a17:907:d01:b0:94f:1ce7:1864 with SMTP id
- gn1-20020a1709070d0100b0094f1ce71864mr15347160ejc.38.1681901254547; 
- Wed, 19 Apr 2023 03:47:34 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z21UzsckTqq095K46EG8crMw8ho+UwmiOlX66PH0RLTxHj8mLmYeClPOtcMaVNcZQz3xO9AA==
-X-Received: by 2002:a17:907:d01:b0:94f:1ce7:1864 with SMTP id
- gn1-20020a1709070d0100b0094f1ce71864mr15347140ejc.38.1681901254296; 
- Wed, 19 Apr 2023 03:47:34 -0700 (PDT)
-Received: from ?IPV6:2003:cf:d71b:cc43:1955:48c6:4ddb:556c?
- (p200300cfd71bcc43195548c64ddb556c.dip0.t-ipconnect.de.
- [2003:cf:d71b:cc43:1955:48c6:4ddb:556c])
+ d=1e100.net; s=20221208; t=1681901280; x=1684493280;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QmnI1qpcmOsHukdKm6+8l9XbPtBsO5L2TyiwKT4Ffwc=;
+ b=gDMn3NZVkvQnfxqH75Jd0KK8gZGER3+WXkRV7taSetezX49nvMQS9NlpD2woRr83Wg
+ O897lkWSJ5XuBVIeiBfavaoy5jdG01sOu2xjCb3toybtNdPLCEpJAMZbwNlOOcRnaPf9
+ hqTeu22mNVPy/uMQCw9QTpJN/CqrX3OeLNo8OhVJ4FofY00PcZLQMDqjkcewDKTh9ywL
+ +Yj7s0WDOYQoNnPKDmow/svJZKPpEYWna8gpRuJi+g1BFdG0uqUo7p5Rq1dFxFcL0KCx
+ MOhLTp7pQER31vhG+kiKNdlWvmxDUBfzlEQmXLNMRVPtgFhZC0/7sxfcZbthlT1tzgwY
+ IQ3g==
+X-Gm-Message-State: AAQBX9d04gMHTKFDKz3cE4Z9uBInBIVuILnHFQtXCpGSPmKzJ/FaGvjq
+ KvW1wuDshrMjhRpsp43SqVGmtA==
+X-Google-Smtp-Source: AKy350abQgyGkeH7tO4yqZGiADw0M3aelpmwahccZESTjjERJE68zaCdj0B0FjBMR3b3dS3cobch9Q==
+X-Received: by 2002:adf:e645:0:b0:2ef:b8d1:9560 with SMTP id
+ b5-20020adfe645000000b002efb8d19560mr4179852wrn.30.1681901280716; 
+ Wed, 19 Apr 2023 03:48:00 -0700 (PDT)
+Received: from alex-rivos.home
+ (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
  by smtp.gmail.com with ESMTPSA id
- mm14-20020a170906cc4e00b0094f507aa0e9sm5115305ejb.19.2023.04.19.03.47.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Apr 2023 03:47:33 -0700 (PDT)
-Message-ID: <fb311ad4-ba1e-afc8-801d-0eff00c7fa7f@redhat.com>
-Date: Wed, 19 Apr 2023 12:47:32 +0200
+ l6-20020adfe586000000b002fe065da369sm3401636wrm.69.2023.04.19.03.47.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Apr 2023 03:47:58 -0700 (PDT)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
+ Andrea Parri <andrea@rivosinc.com>
+Subject: [PATCH v2] riscv: Make sure an exception is raised if a pte is
+ malformed
+Date: Wed, 19 Apr 2023 12:47:56 +0200
+Message-Id: <20230419104756.71455-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <20230411150515.14020-3-hreitz@redhat.com> <20230412210641.GC2813183@fedora>
- <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
- <d9d67f07-3d4c-9bdb-052b-28e21fa27dd6@redhat.com>
- <20230417151250.GC3852722@fedora>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <20230417151250.GC3852722@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.597, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,52 +93,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17.04.23 17:12, Stefan Hajnoczi wrote:
+As per the privileged specification, in 64-bit, if any of the pte reserved
+bits 60-54 is set an exception should be triggered, and the same applies to
+napot/pbmt bits if those extensions are not enabled
+(see 4.4.1, "Addressing and Memory Protection").
 
-[...]
+Reported-by: Andrea Parri <andrea@rivosinc.com>
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
+ target/riscv/cpu_bits.h   |  1 +
+ target/riscv/cpu_helper.c | 15 +++++++++++----
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-> This brings to mind how iterative migration will work. The interface for
-> iterative migration is basically the same as non-iterative migration
-> plus a method to query the number of bytes remaining. When the number of
-> bytes falls below a threshold, the vCPUs are stopped and the remainder
-> of the data is read.
->
-> Some details from VFIO migration:
-> - The VMM must explicitly change the state when transitioning from
->    iterative and non-iterative migration, but the data transfer fd
->    remains the same.
-> - The state of the device (running, stopped, resuming, etc) doesn't
->    change asynchronously, it's always driven by the VMM. However, setting
->    the state can fail and then the new state may be an error state.
->
-> Mapping this to SET_DEVICE_STATE_FD:
-> - VhostDeviceStatePhase is extended with
->    VHOST_TRANSFER_STATE_PHASE_RUNNING = 1 for iterative migration. The
->    frontend sends SET_DEVICE_STATE_FD again with
->    VHOST_TRANSFER_STATE_PHASE_STOPPED when entering non-iterative
->    migration and the frontend sends the iterative fd from the previous
->    SET_DEVICE_STATE_FD call to the backend. The backend may reply with
->    another fd, if necessary. If the backend changes the fd, then the
->    contents of the previous fd must be fully read and transferred before
->    the contents of the new fd are migrated. (Maybe this is too complex
->    and we should forbid changing the fd when going from RUNNING ->
->    STOPPED.)
-> - CHECK_DEVICE_STATE can be extended to report the number of bytes
->    remaining. The semantics change so that CHECK_DEVICE_STATE can be
->    called while the VMM is still reading from the fd. It becomes:
->
->      enum CheckDeviceStateResult {
->          Saving(bytes_remaining : usize),
-> 	Failed(error_code : u64),
->      }
-
-Sounds good.  Personally, I’d forbid changing the FD when just changing 
-state, which raises the question of whether there should then be a 
-separate command for just changing the state (like VFIO_DEVICE_FEATURE 
-..._MIG_DEVICE_STATE?), but that would be a question for then.
-
-Changing the CHECK_DEVICE_STATE interface sounds good to me.
-
-Hanna
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index fca7ef0cef..8d9ba2ce11 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -640,6 +640,7 @@ typedef enum {
+ #define PTE_SOFT            0x300 /* Reserved for Software */
+ #define PTE_PBMT            0x6000000000000000ULL /* Page-based memory types */
+ #define PTE_N               0x8000000000000000ULL /* NAPOT translation */
++#define PTE_RESERVED        0x1FC0000000000000ULL /* Reserved bits */
+ #define PTE_ATTR            (PTE_N | PTE_PBMT) /* All attributes bits */
+ 
+ /* Page table PPN shift amount */
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f88c503cf4..8dc832d1bb 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -946,13 +946,20 @@ restart:
+ 
+         if (riscv_cpu_sxl(env) == MXL_RV32) {
+             ppn = pte >> PTE_PPN_SHIFT;
+-        } else if (pbmte || cpu->cfg.ext_svnapot) {
+-            ppn = (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+         } else {
+-            ppn = pte >> PTE_PPN_SHIFT;
+-            if ((pte & ~(target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
++            if (pte & PTE_RESERVED) {
++                return TRANSLATE_FAIL;
++            }
++
++            if (!pbmte && (pte & PTE_PBMT)) {
+                 return TRANSLATE_FAIL;
+             }
++
++            if (!cpu->cfg.ext_svnapot && (pte & PTE_N)) {
++                return TRANSLATE_FAIL;
++            }
++
++            ppn = (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+         }
+ 
+         if (!(pte & PTE_V)) {
+-- 
+2.37.2
 
 
