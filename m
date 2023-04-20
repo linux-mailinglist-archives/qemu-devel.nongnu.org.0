@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7A96E9F8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 01:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1A06EA0A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 02:30:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppdHJ-0002sE-LY; Thu, 20 Apr 2023 19:01:25 -0400
+	id 1ppeei-0004fK-Iv; Thu, 20 Apr 2023 20:29:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ppdHI-0002oI-72; Thu, 20 Apr 2023 19:01:24 -0400
-Received: from mail-vk1-xa33.google.com ([2607:f8b0:4864:20::a33])
+ (Exim 4.90_1) (envelope-from <zainotelucasmachado@gmail.com>)
+ id 1ppdy2-0008MD-IC
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 19:45:34 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ppdHG-0004CM-Le; Thu, 20 Apr 2023 19:01:23 -0400
-Received: by mail-vk1-xa33.google.com with SMTP id
- 71dfb90a1353d-44066390652so324812e0c.1; 
- Thu, 20 Apr 2023 16:01:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zainotelucasmachado@gmail.com>)
+ id 1ppdy0-0005QK-T4
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 19:45:34 -0400
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4edbd6cc46bso1018563e87.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 16:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682031679; x=1684623679;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Rhk1YC1qUZfsi1ec8+Aj0S5fbwOkgvmWaduabBepsRU=;
- b=b/roN69pbAeco24GbYmppTuqEak2+ZoRkOfufMnJumYs8BVOsSMmnTN744LPQwqtAF
- /yA91lyOksevQI6byeVlE+kSgsrdyzKhoJFBw8mVNcWZZRkT9OXe7F/1TLwBPU/V7iAS
- lPH6yaHpZq7JwMFx+Bf8d3s/5kAHGdsnb7eutlA7s1cVOnjznYXlFyGTgbWBLj8fP9GA
- fKs4Xgoim/ls4eOrUX/3KtOx/ZQih8F01UD5NiL3fMvQu7017XvAjEMYpvg8c6DSlIfW
- zMgaGZZLg9C8v3ENPoJLu7n4dyC6W7UM1Um9GTVcTTSIHWQl4yayCqnPsWUmcP/TPN+l
- Cddg==
+ d=gmail.com; s=20221208; t=1682034330; x=1684626330;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=4JTIV1vvo5MZqgzqXaSDFFgPZPkNRhw92zhobKlJoTI=;
+ b=mK/kYcccO9TRdl3ROs6Eeh9bh2M6ZTS00VBoq0kd32WBGt03z1Mib7VZUz/cDEQuJs
+ EPEzRLvT+EnKRBruY8i1VWWQ+J/nCKW7ReJ+0NFaAVm+U5thslN96sRljC7Wt5xlWWhw
+ f0C1ENPotWeCmqIeyH/6ebuQnBTzmh5NqnVgyDuyV0TAfgl5zMQLA0OhFC1L1cnqtaJJ
+ aYxTvFANS0ruK2IOLLObju/kaIyuLy0ThFGVJWs90jUlEYIgBzJDlcipNFRN6MwvECuR
+ V9MzaRR07XQC7Av2XSibBQxm1d6VTKfZBeZIViI1EUV7yJ9GWSMGNvP8JUvQHzmSpqIP
+ skCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682031679; x=1684623679;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Rhk1YC1qUZfsi1ec8+Aj0S5fbwOkgvmWaduabBepsRU=;
- b=FddCMLg5FknMLknP1dGlnUmXdQ7q9Ggvp0TVQMr+3pU7LBU2GE4J7h+8zOZvQJnqzr
- OKt7p9HGw41kmfwUnUXp8Bn+y9V4r20p7TNCPlzF5fGg/xusOYADgk6V99zwlDwDrhF/
- MqLqBfLU/5Uzw2yCyEjSfdVT0cboKYA1Z0+a4oahrwxDS4WT8fJpomsxSuUtT9VtfBEG
- sNe4qeJuAB1PbtbSwK50QsVxDDOo/IZd8y7FbGc/9jO+soJw9fsGvRCcKDSjTS5is1sF
- AUZ6na6cknF9+eVMZqRe2FxH1OKdVD5h4DjNlhkVv4IFB/4loQVuR/c9zpC4zBJDY1jA
- WMrw==
-X-Gm-Message-State: AAQBX9dE+Aqlkb89/gc7yfFxjmbIlgdxt2dOENakFtX9yj8J77VYchkD
- 9pZz93XG+7u3QDM6WWkRDZbRpn30Lkctl87EU30=
-X-Google-Smtp-Source: AKy350awR3OnAwJqZqWosmO/ufwDmfmi5tJmnrRUw9IyHqT6wnSnag6aFpt1z91tphn77wZPAapHTqi1dJZngaE1Q4E=
-X-Received: by 2002:a1f:4f83:0:b0:43f:bcdf:b60e with SMTP id
- d125-20020a1f4f83000000b0043fbcdfb60emr165668vkb.0.1682031678759; Thu, 20 Apr
- 2023 16:01:18 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682034330; x=1684626330;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4JTIV1vvo5MZqgzqXaSDFFgPZPkNRhw92zhobKlJoTI=;
+ b=NdkoLbV307j68/lpKilohjpFXnFWdAxOzUGEkVuK/zVxmXfje498252jb8cyDp9GCO
+ e86QASxydYBH4ofy+cXs9DcaXxdQK0Ic6VFmhMJqe/gcJkPaInO10gohzWBVK+CMIeuO
+ OyLkJGUnQx6wj5V5b+asjsdWzcCJAQGv6hrNsAlLkwll5fIQg1CtwKtsvlSV8hcjlA18
+ MD1RPVezpAmCSkH2S1rhCRcDnnnnhzBSGCKN9IMclftXolvoeCL/+GMuiCCCCY9KuCub
+ JxgVmDXo9MAsY9gNZU1k5a1Cxe7mdZQ6VkSgCHidKZyQkHUJPVC58YKP2sn1dWXfGyMX
+ kKIQ==
+X-Gm-Message-State: AAQBX9dDEmC89K9Jhmiocn5Ef4KgiaEXJSELZB37aA59rVw4BkNNaZLt
+ yNDwJflrvbu3Pc6EHtLLGlKgarOoi2R3h2bknWG1AYCSYYY=
+X-Google-Smtp-Source: AKy350a0eHoZOoFrMTjOAH3uJ7nFyoeeZAyMaW8XCAAiWXFOvJa7+2b9X9T4mW9+CiUDfVVw/6WTjqWNphD/RVh2NjI=
+X-Received: by 2002:ac2:494f:0:b0:4db:d97:224d with SMTP id
+ o15-20020ac2494f000000b004db0d97224dmr744596lfi.19.1682034329968; Thu, 20 Apr
+ 2023 16:45:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230420092100.177464-1-dbarboza@ventanamicro.com>
- <20230420092100.177464-6-dbarboza@ventanamicro.com>
-In-Reply-To: <20230420092100.177464-6-dbarboza@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 21 Apr 2023 09:00:52 +1000
-Message-ID: <CAKmqyKORdoVtSP72qbOcCAge_YGQFx31gqDL84UZL44Fdw7yvQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND v7 05/12] target/riscv: Mask the implicitly enabled
- extensions in isa_string based on priv version
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
- palmer@rivosinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a33;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa33.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+From: Lucas Machado Zainote <zainotelucasmachado@gmail.com>
+Date: Thu, 20 Apr 2023 20:44:38 -0300
+Message-ID: <CA+kL3adW366NEoUujxRTOoC=KFp9BuXq_aMcODHLkQQvFWGDpw@mail.gmail.com>
+Subject: I've made a qemu appimage
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000bce45105f9cd2248"
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=zainotelucasmachado@gmail.com; helo=mail-lf1-x132.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 20 Apr 2023 20:29:38 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,48 +81,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 20, 2023 at 7:23=E2=80=AFPM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> From: Weiwei Li <liweiwei@iscas.ac.cn>
->
-> Using implicitly enabled extensions such as Zca/Zcf/Zcd instead of their
-> super extensions can simplify the extension related check. However, they
-> may have higher priv version than their super extensions. So we should ma=
-sk
-> them in the isa_string based on priv version to make them invisible to us=
-er
-> if the specified priv version is lower than their minimal priv version.
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+--000000000000bce45105f9cd2248
+Content-Type: text/plain; charset="UTF-8"
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+hi there!? I have made a qemu appimage that works in the most linux
+distros, if you have interest you can use mine as an example to ship your
+software for the most linux distros.
+all in a single file working perfectly.
+in my github you may find commands to use this appimage.
 
-Alistair
+https://github.com/lucasmz1
 
-> ---
->  target/riscv/cpu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index dd35cf378f..9bb0e6b180 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1721,7 +1721,8 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, cha=
-r **isa_str,
->      int i;
->
->      for (i =3D 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> -        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-> +        if (cpu->env.priv_ver >=3D isa_edata_arr[i].min_version &&
-> +            isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
->              new =3D g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
->              g_free(old);
->              old =3D new;
-> --
-> 2.40.0
->
->
+And of course I want to ask your permission to redistribute this
+application in github page.
+
+Thanks for the great application you've developed.
+
+Thank you!
+
+--000000000000bce45105f9cd2248
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>hi there!? I have made a qemu appimage that works in =
+the most linux distros, if you have interest you can use mine as an example=
+ to ship your software for the most linux distros.</div><div>all in a singl=
+e file working perfectly.</div><div>in my github you may find commands to u=
+se this appimage.</div><div><br></div><div><a href=3D"https://github.com/lu=
+casmz1">https://github.com/lucasmz1</a></div><div><br></div><div>And of cou=
+rse I want to ask your permission to redistribute this application in githu=
+b page.</div><div><br></div><div>Thanks for the great application you&#39;v=
+e developed.</div><div><br></div><div>Thank you!<br></div></div>
+
+--000000000000bce45105f9cd2248--
 
