@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DFB6E9646
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65CE6E965A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:53:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUfC-0008EJ-JJ; Thu, 20 Apr 2023 09:49:30 -0400
+	id 1ppUhK-0007zK-DS; Thu, 20 Apr 2023 09:51:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppUeO-0007xP-CX
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:48:42 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppUgs-0007kF-Ko
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:51:17 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppUdQ-0001Zg-9r
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:47:43 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3f09b4a1584so4907025e9.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:47:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppUgo-0002yo-Oa
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:51:14 -0400
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-2febac9cacdso395312f8f.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681998458; x=1684590458;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gmJK00+5JGCewd6EQIb1eFH56Ltq2AIyULDxuK9x8rc=;
- b=kYLGQ4DCULlsdSYkD/ZpdHXUjSg68OK03Dk6olYUJH7V8Uxqt4py4EgEhv5GOPRANk
- hOAK2Y1e0F0bpMwhzDWi/ZiAbxn4eNJUFXMK6OHrBv1ai3UQqpKd0MeZRjN+pyedV51p
- AkMrCfO6RBLSsEk3XD78C9Yg/Pn5TH3K9TjBfxjDahtcSBYbl1SFQxFBOZzH0z6SQqsF
- QZlCzHu+M+RtKQGurOyCigQLFInPIJMunbKwSuhmb1L5oVqQtFp1bdQFskPu4hgnhDSt
- eTpSD7BIwGUf7AvNE/HFCa48JAt0yHhmuKVw8apFBBTlg309PqXx971WXOhng4gA4kQd
- wN1Q==
+ d=linaro.org; s=google; t=1681998669; x=1684590669;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Evzts5ZonpaPNTIA9iL2Y101SL8VZFLC27cYG9G3MHE=;
+ b=RbMP7hI3nXJXGgvUt4sSbTvktCyyiRzNObLyIRddhpTty2Sc2NEAORo3ZiyRwsHRjq
+ BQkxkfoifgDvLr3nMmhUqxh5KS8PHaHdD1Aads/ixhLw/UGw+HaVf329IgoSSsbz7X0R
+ viICaUDP8sJo0uz/UmucfXzpPDF8bOpj3LUgblpB9yFiOXnGlhLnPH1iYZQ9MajYuNpo
+ uuC4yqI7J4na0EqXA8rKvD7plucBs4UDbSlsz0ELuzZuGj8ZCRHQRttzcOcvNwgs7NiV
+ CYBQYuHdU9dL6Zoob5KbgTilyUzi+E7CGPggFAvABtXaVNs6qa2teVPyTxivdbIj+KZU
+ w17A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681998458; x=1684590458;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gmJK00+5JGCewd6EQIb1eFH56Ltq2AIyULDxuK9x8rc=;
- b=WPEoEYe0hpKkvMK1yJS/lWhhvP20xemvowx+7SqkClsGQ8O4XfefAnGz5MkSq17mmQ
- wUIIq/gUHmMTi4nWw+5ZtYRSs125VM5Y+wW2mqou+Z/2OqvlKmV7iLfgFiFKbQ17idYT
- UOCxHyaJVUMmrGvvixWiWReDuFn4HMhDjZliGKZW945oLxUVuL2VfOByebAMUGrhIM9c
- WfFLIQmpBr1Apn9tLU/P0Ez7KsO3501lwyZWFCLQ60m6IO2UuY1gzb62MnTePm7oyteR
- iFqDNjDOscUKwHug/siUyiyiY9ksaORnaBDazriwVIp0EcJbt92K1ZXDPSOqFFntKU4Q
- fttg==
-X-Gm-Message-State: AAQBX9d4+dmsXvZ8lf85pjupK4NXYUa6RwMsoySkVRLeV7WN4FPfW7st
- s6Iyf5pYURBpSpH60L4P0P90iw==
-X-Google-Smtp-Source: AKy350ZDN+1tzv65p3faLVUrg/4y4fQBAZUSvVTYER0BANYDVwizYVCb6HRpO2Bp7FvRpB3vi1Ollg==
-X-Received: by 2002:adf:ed0e:0:b0:301:2452:e49 with SMTP id
- a14-20020adfed0e000000b0030124520e49mr1302129wro.65.1681998458017; 
- Thu, 20 Apr 2023 06:47:38 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- u9-20020adfdd49000000b002fe33e42c85sm2001949wrm.72.2023.04.20.06.47.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 06:47:37 -0700 (PDT)
-Message-ID: <5b38aad3-73f8-3cbe-fe78-0bcfdd1f2d6b@linaro.org>
-Date: Thu, 20 Apr 2023 15:47:35 +0200
+ d=1e100.net; s=20221208; t=1681998669; x=1684590669;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Evzts5ZonpaPNTIA9iL2Y101SL8VZFLC27cYG9G3MHE=;
+ b=imzQnEWgCFJ4y+v67132oHvsO2Cnw4Uq59xRM+whrUGvCFPYhRudgGFjV6SmRENwc3
+ 2O0tNz8tD+WUBkkGD2aoDF2l3ktnZMZJ9vvLtlqh3AzdOqkdg8mvIhgD7eiAC1IYHMh+
+ Ock2Xpg+MPdDFRyo11F5LsVK7GqYL0PO6uHu0dVweKG/PAlPHMyTV1O7lz4evEE1Mh9I
+ oY4QUcyBGIQeWHlc6ckjCUmIHZkB7vfTl1NItLk0Sv1Igi9IlghO2oKz5xyahnT47/8J
+ sHAgOctce+UGL7hzxLwR9pu2XRsPEq9MY9hZcC7/O3bOXtWKwYGgxbCmJSwRNBXV8STh
+ Tadg==
+X-Gm-Message-State: AAQBX9dlNILl/URWqKCXg6bcnEHKc5QivHza/7BY9IlyZ8P4fOQOsy/b
+ bmzYG3bktEEyUFL3ASldXkvR9A==
+X-Google-Smtp-Source: AKy350Zibz9pT4+ktd8450odIrCffvQeaRRjTdXTa6UOPLo7najm422YnAzlaYRfskdSiVjJpIg5PA==
+X-Received: by 2002:a05:6000:118e:b0:2ff:4b8a:6453 with SMTP id
+ g14-20020a056000118e00b002ff4b8a6453mr1326611wrx.5.1681998668949; 
+ Thu, 20 Apr 2023 06:51:08 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ y4-20020a5d6204000000b002f900cfc262sm1990515wru.66.2023.04.20.06.51.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 06:51:08 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2CA2F1FFB7;
+ Thu, 20 Apr 2023 14:51:08 +0100 (BST)
+References: <cover.1681993775.git.quic_mathbern@quicinc.com>
+ <6414ff4730fb53bd210cce947c201ca011135831.1681993775.git.quic_mathbern@quicinc.com>
+User-agent: mu4e 1.11.2; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+Cc: qemu-devel@nongnu.org, bcain@quicinc.com, f4bug@amsat.org,
+ peter.maydell@linaro.org, tsimpson@quicinc.com, Philippe =?utf-8?Q?Mathie?=
+ =?utf-8?Q?u-Daud=C3=A9?=
+ <philmd@linaro.org>, Eduardo  Habkost <eduardo@habkost.net>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>, Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH v2 RESEND 3/7] gdbstub: add support for the
+ qRegisterInfo query
+Date: Thu, 20 Apr 2023 14:49:58 +0100
+In-reply-to: <6414ff4730fb53bd210cce947c201ca011135831.1681993775.git.quic_mathbern@quicinc.com>
+Message-ID: <87o7nid5mb.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v2 1/4] block/meson.build: prefer positive condition for
- replication
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, michael.roth@amd.com, armbru@redhat.com,
- eblake@redhat.com, jasowang@redhat.com, quintela@redhat.com,
- zhanghailiang@xfusion.com, thuth@redhat.com, berrange@redhat.com,
- marcandre.lureau@redhat.com, pbonzini@redhat.com, dave@treblig.org,
- hreitz@redhat.com, kwolf@redhat.com, chen.zhang@intel.com,
- lizhijian@fujitsu.com
-References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
- <20230419225232.508121-2-vsementsov@yandex-team.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230419225232.508121-2-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,12 +101,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/4/23 00:52, Vladimir Sementsov-Ogievskiy wrote:
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+Matheus Tavares Bernardino <quic_mathbern@quicinc.com> writes:
+
+> From: Brian Cain <bcain@quicinc.com>
+>
+> Signed-off-by: Brian Cain <bcain@quicinc.com>
+> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 > ---
->   block/meson.build | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/hw/core/cpu.h |  4 ++++
+>  gdbstub/gdbstub.c     | 27 +++++++++++++++++++++++++++
+>  2 files changed, 31 insertions(+)
+>
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 397fd3ac68..cfdf5514d9 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -124,6 +124,8 @@ struct SysemuCPUOps;
+>   *       its Harvard architecture split code and data.
+>   * @gdb_num_core_regs: Number of core registers accessible to GDB.
+>   * @gdb_core_xml_file: File name for core registers GDB XML description.
+> + * @gdb_qreg_info_lines: Array of lines of registers qRegisterInfo descr=
+iption.
+> + * @gdb_qreg_info_line_count: Count of lines for @gdb_qreg_info_lines.
+>   * @gdb_stop_before_watchpoint: Indicates whether GDB expects the CPU to=
+ stop
+>   *           before the insn which triggers a watchpoint rather than aft=
+er it.
+>   * @gdb_arch_name: Optional callback that returns the architecture name =
+known
+> @@ -159,6 +161,8 @@ struct CPUClass {
+>      vaddr (*gdb_adjust_breakpoint)(CPUState *cpu, vaddr addr);
+>=20=20
+>      const char *gdb_core_xml_file;
+> +    const char **gdb_qreg_info_lines;
+> +    int gdb_qreg_info_line_count;
+>      gchar * (*gdb_arch_name)(CPUState *cpu);
+>      const char * (*gdb_get_dynamic_xml)(CPUState *cpu, const char *xmlna=
+me);
+>=20=20
+> diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+> index be18568d0a..f19f8c58c3 100644
+> --- a/gdbstub/gdbstub.c
+> +++ b/gdbstub/gdbstub.c
+> @@ -1409,6 +1409,27 @@ static void handle_query_curr_tid(GArray *params, =
+void *user_ctx)
+>      gdb_put_strbuf();
+>  }
+>=20=20
+> +static void handle_query_regs(GArray *params, void *user_ctx)
+> +{
+> +    if (!params->len) {
+> +        return;
+> +    }
+> +
+> +    CPUClass *cc =3D CPU_GET_CLASS(gdbserver_state.g_cpu);
+> +    if (!cc->gdb_qreg_info_lines) {
+> +        gdb_put_packet("");
+> +        return;
+> +    }
+> +
+> +    int reg_num =3D get_param(params, 0)->val_ul;
+> +    if (reg_num >=3D cc->gdb_qreg_info_line_count) {
+> +        gdb_put_packet("");
+> +        return;
+> +    }
+> +
+> +    gdb_put_packet(cc->gdb_qreg_info_lines[reg_num]);
+> +}
+> +
+>  static void handle_query_threads(GArray *params, void *user_ctx)
+>  {
+>      if (!gdbserver_state.query_cpu) {
+> @@ -1578,6 +1599,12 @@ static const GdbCmdParseEntry gdb_gen_query_table[=
+] =3D {
+>          .handler =3D handle_query_curr_tid,
+>          .cmd =3D "C",
+>      },
+> +    {
+> +        .handler =3D handle_query_regs,
+> +        .cmd =3D "RegisterInfo",
+> +        .cmd_startswith =3D 1,
+> +        .schema =3D "l0"
+> +    },
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Where is this defined in the protocol spec, I can't see it in:
 
+  https://sourceware.org/gdb/onlinedocs/gdb/General-Query-Packets.html#Gene=
+ral-Query-Packets
+
+and it seems to be information that is handled by the xml register
+description. Is there a reason that isn't used for Hexagon?
+
+>      {
+>          .handler =3D handle_query_threads,
+>          .cmd =3D "sThreadInfo",
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
