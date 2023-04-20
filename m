@@ -2,92 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78636E949E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D186E948A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:35:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppTUB-0007nM-0t; Thu, 20 Apr 2023 08:34:04 -0400
+	id 1ppTUx-0008Ms-AD; Thu, 20 Apr 2023 08:34:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ppTTF-0007Wd-Oz
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:33:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ id 1ppTTd-0007pl-Qv
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:33:38 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ppTTC-0003ht-Ek
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:33:05 -0400
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+ id 1ppTTR-00045S-0D
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:33:28 -0400
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33KCNIVp028463; Thu, 20 Apr 2023 12:32:57 GMT
+ 33KC2cww016326; Thu, 20 Apr 2023 12:33:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=ETd2xNTrovP6Lyt0BGTNiBupPgESfEIR3XRmYy9gVzw=;
- b=SEpdX8hr4m7bIfHU8jTpnTPEvagGfiIzvjpF/Uc0GNJ02KC/faceRcd8OOaKnUasuZ2l
- wUxOMcj3pObZ+w9Jq1NFV0r9xs5eUsHMtSnyQCgUOJ+ztmKmtlgyHFHvNh4xQKKXTYM3
- uGLiqlyk6bXwZaUlJbRuxGNKFBh79QCRmKoptkSgzVbub8U+5oPu6fxlt6tgqWjmblKa
- 0OzDMUe/RNWBKhQAqhDLFERqy+f7n+V7OoAWjwgiES9uR83IKs5g47iSDoeIxZQAd4JQ
- PCH+opu3TZCDfNSUPq6kpLb4S4NQQ1W5DehJm29uleQoVvvgYe2Ov/6kET1+IChOPWBZ jw== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q35bvgc83-1
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=4/3joxuoS/ZLk9rMUyYHyINu41PcgrkcUR4a94gN92c=;
+ b=eowVFLm8nS5D+ye6ycm1XFmtL42Pm1C63GljB4uTF5HaEYoWYoejGaGQXYs7acALQciY
+ VF6XGVRp0cDHdU5ORw9gkRcTyNDjWJlXx8SIuw+4MoRYOVf1DQdt6o64sGceny+cCjFL
+ ZgPj4CdomqjkouXXf5WVhCjyTz6KWf+3z9s6ZtJikt0yONXNAiA8ZecyRpCtLlMMhpiX
+ VLLRweYF2NM6pff1l6PiKIbdDU6x95g+o9aU0ZSJDErKTCc298UMAws7SLE5CP0FZms7
+ WOhtKaObZKIJ0AXNDgKVCiJIEfNrt1PdJ4sall5Hkc0yYhUWOPLalsO/ERDaWSRMquj1 sg== 
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q35271ajp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 12:32:56 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33KACxcr003740;
- Thu, 20 Apr 2023 12:32:56 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3pykj8b49j-1
+ Thu, 20 Apr 2023 12:33:03 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33K9W4Ha015421;
+ Thu, 20 Apr 2023 12:33:01 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
+ by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3pykj7m6t3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 12:32:56 +0000
+ Thu, 20 Apr 2023 12:33:01 +0000
 Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
  [10.39.53.229])
- by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33KCWssc6423156
+ by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33KCWxjo42467826
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Apr 2023 12:32:54 GMT
+ Thu, 20 Apr 2023 12:33:00 GMT
 Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 362BD5805B;
- Thu, 20 Apr 2023 12:32:54 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id D106558068;
+ Thu, 20 Apr 2023 12:32:59 +0000 (GMT)
 Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BD4385805C;
- Thu, 20 Apr 2023 12:32:53 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2AF2F5805B;
+ Thu, 20 Apr 2023 12:32:59 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 20 Apr 2023 12:32:53 +0000 (GMT)
+ Thu, 20 Apr 2023 12:32:59 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PULL 0/7] Merge tpm 2023/04/20 v1
-Date: Thu, 20 Apr 2023 08:32:40 -0400
-Message-Id: <20230420123247.226312-1-stefanb@linux.ibm.com>
+Cc: peter.maydell@linaro.org, Ninad Palsule <ninad@linux.ibm.com>,
+ Stefan Berger <stefanb@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
+Subject: [PULL 1/7] docs: Add support for TPM devices over I2C bus
+Date: Thu, 20 Apr 2023 08:32:41 -0400
+Message-Id: <20230420123247.226312-2-stefanb@linux.ibm.com>
 X-Mailer: git-send-email 2.39.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _oBy9i03C6ALxWW9FA4-TtqZLWIKibIZ
-X-Proofpoint-ORIG-GUID: _oBy9i03C6ALxWW9FA4-TtqZLWIKibIZ
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20230420123247.226312-1-stefanb@linux.ibm.com>
+References: <20230420123247.226312-1-stefanb@linux.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ndNaBqDhqsRI0zAsoDeD1n77DBVOS3NX
+X-Proofpoint-ORIG-GUID: ndNaBqDhqsRI0zAsoDeD1n77DBVOS3NX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-20_08,2023-04-20_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- adultscore=0 mlxlogscore=634 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 mlxscore=0 spamscore=0 bulkscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304200097
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ spamscore=0 suspectscore=0
+ impostorscore=0 malwarescore=0 phishscore=0 priorityscore=1501
+ mlxlogscore=999 lowpriorityscore=0 adultscore=0 clxscore=1011 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304200102
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,70 +108,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello!
+From: Ninad Palsule <ninad@linux.ibm.com>
 
-  This series provides TPM I2C device model support along with test cases.
+This is a documentation change for I2C TPM device support.
 
-Regards,
-   Stefan
+Qemu already supports devices attached to ISA and sysbus.
+This drop adds support for the I2C bus attached TPM devices.
 
-The following changes since commit 2d82c32b2ceaca3dc3da5e36e10976f34bfcb598:
+Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-id: 20230414220754.1191476-2-ninadpalsule@us.ibm.com
+---
+ docs/specs/tpm.rst | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-  Open 8.1 development tree (2023-04-20 10:05:25 +0100)
-
-are available in the Git repository at:
-
-  https://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2023-04-20-1
-
-for you to fetch changes up to 9d81aa3c0fe7480d722517f69e1bcb4aeaaf859c:
-
-  qtest: Add a test case for TPM TIS I2C connected to Aspeed I2C controller (2023-04-20 08:17:15 -0400)
-
-
-Joel Stanley (1):
-  tests/avocado/aspeed: Add TPM TIS I2C test
-
-Ninad Palsule (3):
-  docs: Add support for TPM devices over I2C bus
-  tpm: Extend common APIs to support TPM TIS I2C
-  tpm: Add support for TPM device over I2C bus
-
-Stefan Berger (3):
-  qtest: Add functions for accessing devices on Aspeed I2C controller
-  qtest: Move tpm_util_tis_transmit() into tpm-tis-utils.c and rename it
-  qtest: Add a test case for TPM TIS I2C connected to Aspeed I2C
-    controller
-
- docs/specs/tpm.rst                      |  21 +
- hw/arm/Kconfig                          |   1 +
- hw/tpm/Kconfig                          |   7 +
- hw/tpm/meson.build                      |   1 +
- hw/tpm/tpm_tis.h                        |   3 +
- hw/tpm/tpm_tis_common.c                 |  36 +-
- hw/tpm/tpm_tis_i2c.c                    | 571 ++++++++++++++++++++
- hw/tpm/trace-events                     |   6 +
- include/hw/acpi/tpm.h                   |  41 ++
- include/hw/i2c/aspeed_i2c.h             |   7 +
- include/sysemu/tpm.h                    |   3 +
- tests/avocado/machine_aspeed.py         |  42 +-
- tests/qtest/meson.build                 |   3 +
- tests/qtest/qtest_aspeed.c              | 117 +++++
- tests/qtest/qtest_aspeed.h              |  41 ++
- tests/qtest/tpm-crb-swtpm-test.c        |   3 -
- tests/qtest/tpm-crb-test.c              |   3 -
- tests/qtest/tpm-tis-device-swtpm-test.c |   5 +-
- tests/qtest/tpm-tis-i2c-test.c          | 663 ++++++++++++++++++++++++
- tests/qtest/tpm-tis-swtpm-test.c        |   5 +-
- tests/qtest/tpm-tis-util.c              |  47 +-
- tests/qtest/tpm-tis-util.h              |   4 +
- tests/qtest/tpm-util.c                  |  45 --
- tests/qtest/tpm-util.h                  |   3 -
- 24 files changed, 1609 insertions(+), 69 deletions(-)
- create mode 100644 hw/tpm/tpm_tis_i2c.c
- create mode 100644 tests/qtest/qtest_aspeed.c
- create mode 100644 tests/qtest/qtest_aspeed.h
- create mode 100644 tests/qtest/tpm-tis-i2c-test.c
-
+diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+index 535912a92b..efe124a148 100644
+--- a/docs/specs/tpm.rst
++++ b/docs/specs/tpm.rst
+@@ -21,12 +21,16 @@ QEMU files related to TPM TIS interface:
+  - ``hw/tpm/tpm_tis_common.c``
+  - ``hw/tpm/tpm_tis_isa.c``
+  - ``hw/tpm/tpm_tis_sysbus.c``
++ - ``hw/tpm/tpm_tis_i2c.c``
+  - ``hw/tpm/tpm_tis.h``
+ 
+ Both an ISA device and a sysbus device are available. The former is
+ used with pc/q35 machine while the latter can be instantiated in the
+ Arm virt machine.
+ 
++An I2C device support is also provided which can be instantiated in the Arm
++based emulation machines. This device only supports the TPM 2 protocol.
++
+ CRB interface
+ -------------
+ 
+@@ -348,6 +352,23 @@ In case an Arm virt machine is emulated, use the following command line:
+     -drive if=pflash,format=raw,file=flash0.img,readonly=on \
+     -drive if=pflash,format=raw,file=flash1.img
+ 
++In case a ast2600-evb bmc machine is emulated and you want to use a TPM device
++attached to I2C bus, use the following command line:
++
++.. code-block:: console
++
++  qemu-system-arm -M ast2600-evb -nographic \
++    -kernel arch/arm/boot/zImage \
++    -dtb arch/arm/boot/dts/aspeed-ast2600-evb.dtb \
++    -initrd rootfs.cpio \
++    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
++    -tpmdev emulator,id=tpm0,chardev=chrtpm \
++    -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
++
++  For testing, use this command to load the driver to the correct address
++
++  echo tpm_tis_i2c 0x2e > /sys/bus/i2c/devices/i2c-12/new_device
++
+ In case SeaBIOS is used as firmware, it should show the TPM menu item
+ after entering the menu with 'ESC'.
+ 
 -- 
 2.39.1
 
