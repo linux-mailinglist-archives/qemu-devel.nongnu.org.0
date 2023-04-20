@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B80B6E8EC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA536E8EC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:00:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppR5G-0005Kr-1r; Thu, 20 Apr 2023 06:00:10 -0400
+	id 1ppR5V-0005Lf-EJ; Thu, 20 Apr 2023 06:00:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppR5E-0005KN-0L
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:00:08 -0400
-Received: from mout.web.de ([212.227.17.11])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppR5B-00020S-Os
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:00:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681984800; i=lukasstraub2@web.de;
- bh=BVMIw9f2vEQVx3bM1fGGYzyeAeVl7JmqJxoQqPQyLQ8=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=B+zWA8wUSSJ8QkgnpSfWpSZ0WTXVVsm5xOVP7kg0FFxcIdn4FCdKl4cDlin7nYeOk
- WFCLAFvn1FFGFD3ymIvOXCAGZFdyPE3wvWzkk3RJiBsX474WT9nL91LkuyjrQjjdyL
- TCAiZVFrzfvRrwArpIl+3daVIcldylQHNf1ydcbVtqmQWz6x+yMn3R3Y1biyq4MEhj
- +qXf58z/cpdTiOqgI8Bv7fElJ9ej5HbnMKn/fkxlrGvomc3o1WYm2pzbMxJLaMQbOI
- FNRk9g4MoxoXGRGd9xI5mS4QZNrSM6e4Qm7MFIq42nsnVG8qTPWWQ2M/iI3Lm58KJc
- hFKfe/ECnG/8Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.123]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M28SB-1prLpJ18KP-002Ftu; Thu, 20
- Apr 2023 12:00:00 +0200
-Date: Thu, 20 Apr 2023 11:59:50 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 14/13] migration: Initialize and cleanup decompression in
- migration.c
-Message-ID: <20230420095950.057fe69b@gecko.fritz.box>
-In-Reply-To: <cover.1681983401.git.lukasstraub2@web.de>
-References: <cover.1681983401.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppR5R-0005LP-M3
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:00:22 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppR5D-00024Q-If
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:00:21 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3f17b967bfbso14691105e9.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681984806; x=1684576806;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yBAhlFTL1lrIG28vRQkGMKES1YJTi+dPx+8I3leXqUc=;
+ b=EAj+c/nWVBe+vVG1OFbAUOVuYiruq5FN1IapVG4c7mukQjxpKO00ereqYUDG6Ii6sc
+ 5nvDdzKEF3cj+JsSmmj4aYJxNLdvfE87Dji8V0f2TG/kcyloDySZlHCa3hFZqtnhBivQ
+ jRPwTQDOELJQL3bjeStJrIMT9Pf1FdKu1677eXhTD4A8z04zP84d6WbaCkui75cRMkoL
+ 80qGZC7sb4PJTfx9FpH4ErytQeCu12hE8p3IpSMr8jt+9Wj22Vh+TPwVbG9HJCKfYKhK
+ SW9v+V3O6WQxDSCA90IulZiRYVILz23a6Z9HZRB3KbedYtgTUaHzKVMwrx+wp3xyZ9z4
+ LLaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681984806; x=1684576806;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yBAhlFTL1lrIG28vRQkGMKES1YJTi+dPx+8I3leXqUc=;
+ b=J08ILGP6XSERIYTVwllk9Eftn3lDCGsOZvWONoVPRZCiniREdr2YBs0L5SseR9O5XA
+ 1Kq7dt174GZCWe6hD1J/aZpxuvkOrDYIKGES7y5ze7YwDZwbYNznPkEngJ2i/zmD27qR
+ rQzqbFz2hD5ZiacWDG9koRF9CAW5mUxZDSdw4/T1LMgKOAmd1RlSUkxTFdTzhZeqYYFn
+ TotBzBgJSZOos7Yt354vvkErNCJNN+W1Bslaik/WNQReC3wLSWk0a3Q1VBdSETiELm7/
+ lS6MelxHwp5LCFUSe6BeC37uPSzYo14GDY+hucseJX2ZAjSn53zrXYoiyL6TlZ4VJo+8
+ 2TBA==
+X-Gm-Message-State: AAQBX9fUNIEZ3GQi/ylcZn/14OGUC8u0Zo1sZ1iMom/T7mJheYb3t+8r
+ YRxZEt2ArXuFEwJP24L4sXGWTA==
+X-Google-Smtp-Source: AKy350bEZYWD6DVX3P6g8MyM/q4UdKvVB8e52UoHDz5C0Fvd8fuhxKuVhfOFXyKP0hpfnZYA2zyM1A==
+X-Received: by 2002:adf:f092:0:b0:2fe:c8b5:b5da with SMTP id
+ n18-20020adff092000000b002fec8b5b5damr940920wro.13.1681984805711; 
+ Thu, 20 Apr 2023 03:00:05 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ a10-20020adfdd0a000000b002febc543c40sm1501157wrm.82.2023.04.20.03.00.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 03:00:05 -0700 (PDT)
+Message-ID: <bbc4bf1b-9855-db6f-05d4-aa3baac96ee2@linaro.org>
+Date: Thu, 20 Apr 2023 12:00:04 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/g9sAJUQMVyim7aEjGTneSAK";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:jw6QGYHn938aAmgOQhFjuOjrGU1XVCqJuYXTw9i49+6sFWnLVtT
- Lowl+ayFxROyzPlf6c0jWVamyvFSH2Ej7yAxqjs67OOEjb/icPUnGyAtjT3ezi+HKaO4FoJ
- gvodZdRVIBPZQ8IkbDG59ygHT9I/NyX0E6f1JjxEcYnXel1zBrPBh8CplvZN+GyBcOR5xKq
- AnIPw1k691vkcZnCTm1Yw==
-UI-OutboundReport: notjunk:1;M01:P0:sQ28WGfYoOk=;uLIKtIzhAubnz8KxgpIBW+1EdMB
- aCQMtaf8kWPpmJ289i4OrxEr1YkRJfwpYjQVbhCU6Jyn3OTLLe+z/jSXAXektm6ge0nhmL0As
- Ixl7fM8iWeZ9/9RQoWN+FXaoU5PEwlcoBFliYuvW5U00Xbnlq/0GE1VcpdA/1bFlnnDpVbhNy
- NNu6r4wtZlYzAxOAObc8hN+UU6TxHFi/xLh6q64UpeJ0OxWyR0ecDfPpr2c1BakKookNFBz6i
- vq3dNO9Djqvpkk0JIb+h5tLyUTp3EpGxNwPNgv3kvcBRbJLvwV4YIbwJ2RiSfUE4itXa7Hhqt
- 5WR9VIIoI3msD6is1AnuE1korYdXBx8kLjA/nlX8pHTSf3HrPbMJ5Bb7HhzTSDb8iJMSnzthd
- L7RGsHJiOQpLEkTxoSg664oNKprYdmQwo9Eb83ToNWQxY1fTVT3fH0pI2XFDjTcPdYMG0j2CX
- iYzw0kn3tDQ5bA/Y6Hn/t9k1gb+5Loi553pJM7mvqYxEryvVPTm8SFOp7JchKr6Q38yLi7rmC
- 7fnEZFwuFLppM0hi1+Phm+XWgsV4vPSu/cJ9UsLbBU7GCW4dNXkcm/cgjMgLi3YD+SgHN3tbn
- SUfEf2xp+Dpc72w7n6Sd6PI1oOfRdL6rOtst/sqtPNPTQun3Y5nl4/LqtneJzDLzPoHSJRF3r
- QB2PEhQ1YrpupxY6HvPJR1HzQWhfhDFAAamqN52/S1uwolV5hhtBWdu0YeXnIV0WgtApqY8DS
- 9XLyrDHjlEhxdQHMTHiYDhnhzePZJLzqdR6pGsBOo7z3Gz5xQLycOLHEcLju7S2lG0fxa32Ob
- VedMfzX0kh0eU8eX/qZH7e6E1e/gcOqQ7PfB54pp5y2x+cjSJy2qpOjstadhWOPGYi1Ln0l9U
- D493mkAqLAj8BDoEqids+yBMrSc7cjSvXgVKcPVOH7DaVp6QHOqZJh2pOJ7xrMDwKsViVRc81
- cq3r1g==
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH RFC v1 07/10] target/loongarch: Implement
+ kvm_arch_handle_exit
+Content-Language: en-US
+To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, gaosong@loongson.cn
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck
+ <cohuck@redhat.com>, maobibo@loongson.cn
+References: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
+ <20230420093606.3366969-8-zhaotianrui@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230420093606.3366969-8-zhaotianrui@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,109 +95,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/g9sAJUQMVyim7aEjGTneSAK
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 20/4/23 11:36, Tianrui Zhao wrote:
+> Implement kvm_arch_handle_exit for loongarch. In this
+> function, the KVM_EXIT_LOONGARCH_IOCSR is handled,
+> we read or write the iocsr address space by the addr,
+> length and is_write argument in kvm_run.
+> 
+> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+> ---
+>   target/loongarch/kvm.c | 24 +++++++++++++++++++++++-
+>   1 file changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/loongarch/kvm.c b/target/loongarch/kvm.c
+> index f8772bbb27..4ce343d276 100644
+> --- a/target/loongarch/kvm.c
+> +++ b/target/loongarch/kvm.c
+> @@ -499,7 +499,29 @@ bool kvm_arch_cpu_check_are_resettable(void)
+>   
+>   int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>   {
+> -    return 0;
+> +    int ret = 0;
+> +    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
+> +    CPULoongArchState *env = &cpu->env;
+> +    MemTxAttrs attrs = {};
+> +
+> +    attrs.requester_id = env_cpu(env)->cpu_index;
+> +
+> +    DPRINTF("%s\n", __func__);
 
-This fixes compress with colo.
+Please use trace events instead of DPRINTF(), as we are trying to remove
+these.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
+> +    switch (run->exit_reason) {
+> +    case KVM_EXIT_LOONGARCH_IOCSR:
+> +        address_space_rw(&env->address_space_iocsr,
+> +                         run->iocsr_io.phys_addr,
+> +                         attrs,
+> +                         run->iocsr_io.data,
+> +                         run->iocsr_io.len,
+> +                         run->iocsr_io.is_write);
+> +        break;
+> +    default:
+> +        ret = -1;
+> +        fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
 
-Oops, this one slipped trough
+Would warn_report() be more appropriate here?
 
- migration/migration.c | 9 +++++++++
- migration/ram.c       | 5 -----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+> +        break;
+> +    }
+> +    return ret;
+>   }
+>   
+>   void kvm_arch_accel_class_init(ObjectClass *oc)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index bda4789193..e7d082a208 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -26,6 +26,7 @@
- #include "sysemu/cpu-throttle.h"
- #include "rdma.h"
- #include "ram.h"
-+#include "ram-compress.h"
- #include "migration/global_state.h"
- #include "migration/misc.h"
- #include "migration.h"
-@@ -316,6 +317,7 @@ void migration_incoming_state_destroy(void)
-     struct MigrationIncomingState *mis =3D migration_incoming_get_current(=
-);
-=20
-     multifd_load_cleanup();
-+    compress_threads_load_cleanup();
-=20
-     if (mis->to_src_file) {
-         /* Tell source that we are done */
-@@ -598,6 +600,12 @@ process_incoming_migration_co(void *opaque)
-     Error *local_err =3D NULL;
-=20
-     assert(mis->from_src_file);
-+
-+    if (compress_threads_load_setup(mis->from_src_file)) {
-+        error_report("Failed to setup decompress threads");
-+        goto fail;
-+    }
-+
-     mis->migration_incoming_co =3D qemu_coroutine_self();
-     mis->largest_page_size =3D qemu_ram_pagesize_largest();
-     postcopy_state_set(POSTCOPY_INCOMING_NONE);
-@@ -663,6 +671,7 @@ fail:
-     qemu_fclose(mis->from_src_file);
-=20
-     multifd_load_cleanup();
-+    compress_threads_load_cleanup();
-=20
-     exit(EXIT_FAILURE);
- }
-diff --git a/migration/ram.c b/migration/ram.c
-index ccfedf4fb5..344f326065 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3560,10 +3560,6 @@ void colo_release_ram_cache(void)
-  */
- static int ram_load_setup(QEMUFile *f, void *opaque)
- {
--    if (compress_threads_load_setup(f)) {
--        return -1;
--    }
--
-     xbzrle_load_setup();
-     ramblock_recv_map_init();
-=20
-@@ -3579,7 +3575,6 @@ static int ram_load_cleanup(void *opaque)
-     }
-=20
-     xbzrle_load_cleanup();
--    compress_threads_load_cleanup();
-=20
-     RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
-         g_free(rb->receivedmap);
---=20
-2.40.0
-
---Sig_/g9sAJUQMVyim7aEjGTneSAK
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRBDRYACgkQNasLKJxd
-sljC2Q/8CqOt2SRBtzQFLfmbQDPy000NZDusQhc4lp3+aS9mkfu8hr3ftcidM4fy
-zxwA1zei6qksdjK3lfq3lk5s6nkmOX7nK4/DCH5QZAINK8M4GlHt6OmZMp48334v
-FjlDI09CPhlvJhvX/OCh0LCQyxHFAxZhfbDGaONbeknPMeTei+ywo1TgYJNinEL7
-O7PdmQC/MJMkRoA8+Ko+uyDe3fIg8uDoIku+c9bfqoTjQy/Cl8jWaaZs4UxP+rCZ
-n6SA3rcEzan0H6L1QA/jd6Bh2FH+a3Pk/3wUfcRzWdA2qhDBI1N5tLlNu8aIC4pE
-fPUkBeMsowvXTUh0k3BKxn6ua+J422zByek58nHkuw0h2EV6mKo8jrOsPGefJJhp
-hQaGQQeSVDE7gWq57laYQI100XcnW7DYzPdZ+iLsJp93gqVNaddQwNNeOsKSKAnR
-j7LaDtSlqauYI4XQOoYOpXmHgmMvraVqzYpJVXDdgNJoJMl2dOtJOPJkn13/YOcY
-8sZdKwJU95yqWDlja6sSUA+0FLqvweZU04QQtDGEw/gmhdx6JWv3ZxXQ6yDr6SYf
-yFjstAZSfJGJ/DrUGHF5ELwTMgjp2UiFBqrXC4wfAkZg02pH9+Cv8yBsYaEldz2N
-1KNflE74CUs6YctzG5CHbzhTecAv071uZDIwfTbFgAQIOPkoNQY=
-=t18t
------END PGP SIGNATURE-----
-
---Sig_/g9sAJUQMVyim7aEjGTneSAK--
 
