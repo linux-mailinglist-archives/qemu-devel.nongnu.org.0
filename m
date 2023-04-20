@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9366E9DE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 23:30:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD9A6E9DEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 23:33:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppbqB-0007Fd-Do; Thu, 20 Apr 2023 17:29:19 -0400
+	id 1ppbqA-0007Dy-C0; Thu, 20 Apr 2023 17:29:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbq7-0007Dg-P0
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:29:15 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbq6-0007DX-O8
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:29:14 -0400
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbpz-0005Xf-HJ
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:29:13 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbq0-0005Xj-Aq
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:29:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=JaMqOIDBxUZZ4xlz4lUt4FHeGiVroktmd/O4lfGAwpc=; b=XKkJbpRvMzIoyoBtAAUMnQpdYH
- L8Rl2BevH7gdHAzM/pZ/SrBXG6Nvu8GTROiq3M9YocJqLMa2gNySVAtvP8ySBzb+JXbbeQOng8WlM
- FlOf9PH3J6K17Ot1X3lpiiZ2tLx2zU/DbqThc3elhZ3gyq2sp63ea23WTKGnuaItvkwY=;
+ bh=1Ofbhae5USYz7JDbREDTGl+I+j+25oEILY4L1i7Z5B0=; b=DczVUFxvmXcbNxoOFV40BIWzbP
+ zICuo1WLenFMBIg4JmCPvzZRWAIDOmAkVG2R+DonVZZcQI4td2JdMnCkl3XPV9qgHh8mq3EaC1HKf
+ U430Fk9ZeCdEoEJ9KJ29cU1Y/MJ37powRmYCwFlvZdvrfq9HN+BKOw5WhHnBRU5UE8JI=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com
-Subject: [PATCH 2/8] accel: Replace target_ulong with vaddr in probe_*()
-Date: Thu, 20 Apr 2023 23:28:44 +0200
-Message-Id: <20230420212850.20400-3-anjo@rev.ng>
+Subject: [PATCH 3/8] accel/tcg: Replace target_ulong with vaddr in
+ *_mmu_lookup()
+Date: Thu, 20 Apr 2023 23:28:45 +0200
+Message-Id: <20230420212850.20400-4-anjo@rev.ng>
 In-Reply-To: <20230420212850.20400-1-anjo@rev.ng>
 References: <20230420212850.20400-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -60,197 +61,59 @@ From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Functions for probing memory accesses (and functions that call these)
-are updated to take a vaddr for guest virtual addresses over
-target_ulong.
+Update atomic_mmu_lookup() and cpu_mmu_lookup() to take the guest
+virtual address as a vaddr instead of a target_ulong.
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- accel/stubs/tcg-stub.c  |  4 ++--
- accel/tcg/cputlb.c      | 12 ++++++------
- accel/tcg/user-exec.c   |  8 ++++----
- include/exec/exec-all.h | 14 +++++++-------
- 4 files changed, 19 insertions(+), 19 deletions(-)
+ accel/tcg/cputlb.c    | 4 ++--
+ accel/tcg/user-exec.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 0998e601ad..a9e7a2d5b4 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -26,14 +26,14 @@ void tcg_flush_jmp_cache(CPUState *cpu)
- {
- }
- 
--int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
-+int probe_access_flags(CPUArchState *env, vaddr addr, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool nonfault, void **phost, uintptr_t retaddr)
- {
-      g_assert_not_reached();
- }
- 
--void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+void *probe_access(CPUArchState *env, vaddr addr, int size,
-                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
- {
-      /* Handled by hardware accelerator. */
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 7400b860aa..f35da2fc3b 100644
+index f35da2fc3b..bf4858c116 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -1516,7 +1516,7 @@ static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
-     }
- }
- 
--static int probe_access_internal(CPUArchState *env, target_ulong addr,
-+static int probe_access_internal(CPUArchState *env, vaddr addr,
-                                  int fault_size, MMUAccessType access_type,
-                                  int mmu_idx, bool nonfault,
-                                  void **phost, CPUTLBEntryFull **pfull,
-@@ -1524,7 +1524,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
- {
-     uintptr_t index = tlb_index(env, mmu_idx, addr);
-     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
--    target_ulong tlb_addr, page_addr;
-+    vaddr tlb_addr, page_addr;
-     size_t elt_ofs;
-     int flags;
- 
-@@ -1585,7 +1585,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
-     return flags;
- }
- 
--int probe_access_full(CPUArchState *env, target_ulong addr, int size,
-+int probe_access_full(CPUArchState *env, vaddr addr, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool nonfault, void **phost, CPUTLBEntryFull **pfull,
-                       uintptr_t retaddr)
-@@ -1602,7 +1602,7 @@ int probe_access_full(CPUArchState *env, target_ulong addr, int size,
-     return flags;
- }
- 
--int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
-+int probe_access_flags(CPUArchState *env, vaddr addr, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool nonfault, void **phost, uintptr_t retaddr)
- {
-@@ -1623,7 +1623,7 @@ int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
-     return flags;
- }
- 
--void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+void *probe_access(CPUArchState *env, vaddr addr, int size,
-                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
- {
-     CPUTLBEntryFull *full;
-@@ -1682,7 +1682,7 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-  * NOTE: This function will trigger an exception if the page is
-  * not executable.
+@@ -1753,7 +1753,7 @@ bool tlb_plugin_lookup(CPUState *cpu, vaddr addr, int mmu_idx,
+  *
+  * @prot may be PAGE_READ, PAGE_WRITE, or PAGE_READ|PAGE_WRITE.
   */
--tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-+tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, vaddr addr,
-                                         void **hostp)
+-static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
++static void *atomic_mmu_lookup(CPUArchState *env, vaddr addr,
+                                MemOpIdx oi, int size, int prot,
+                                uintptr_t retaddr)
  {
+@@ -1762,7 +1762,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+     int a_bits = get_alignment_bits(mop);
+     uintptr_t index;
+     CPUTLBEntry *tlbe;
+-    target_ulong tlb_addr;
++    vaddr tlb_addr;
+     void *hostaddr;
      CPUTLBEntryFull *full;
+ 
 diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index a7e0c3e2f4..9d49fe95e4 100644
+index 9d49fe95e4..7ec49933fb 100644
 --- a/accel/tcg/user-exec.c
 +++ b/accel/tcg/user-exec.c
-@@ -721,7 +721,7 @@ int page_unprotect(target_ulong address, uintptr_t pc)
-     return current_tb_invalidated ? 2 : 1;
+@@ -914,7 +914,7 @@ void helper_unaligned_st(CPUArchState *env, target_ulong addr)
+     cpu_loop_exit_sigbus(env_cpu(env), addr, MMU_DATA_STORE, GETPC());
  }
  
--static int probe_access_internal(CPUArchState *env, target_ulong addr,
-+static int probe_access_internal(CPUArchState *env, vaddr addr,
-                                  int fault_size, MMUAccessType access_type,
-                                  bool nonfault, uintptr_t ra)
+-static void *cpu_mmu_lookup(CPUArchState *env, target_ulong addr,
++static void *cpu_mmu_lookup(CPUArchState *env, vaddr addr,
+                             MemOpIdx oi, uintptr_t ra, MMUAccessType type)
  {
-@@ -759,7 +759,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
-     cpu_loop_exit_sigsegv(env_cpu(env), addr, access_type, maperr, ra);
- }
- 
--int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
-+int probe_access_flags(CPUArchState *env, vaddr addr, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool nonfault, void **phost, uintptr_t ra)
- {
-@@ -771,7 +771,7 @@ int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
-     return flags;
- }
- 
--void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+void *probe_access(CPUArchState *env, vaddr addr, int size,
-                    MMUAccessType access_type, int mmu_idx, uintptr_t ra)
- {
-     int flags;
-@@ -783,7 +783,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
-     return size ? g2h(env_cpu(env), addr) : NULL;
- }
- 
--tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-+tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, vaddr addr,
-                                         void **hostp)
- {
-     int flags;
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 47c5154718..c6cb3fcb8a 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -428,16 +428,16 @@ static inline void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState *cpu,
-  * Finally, return the host address for a page that is backed by RAM,
-  * or NULL if the page requires I/O.
-  */
--void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+void *probe_access(CPUArchState *env, vaddr addr, int size,
-                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr);
- 
--static inline void *probe_write(CPUArchState *env, target_ulong addr, int size,
-+static inline void *probe_write(CPUArchState *env, vaddr addr, int size,
-                                 int mmu_idx, uintptr_t retaddr)
- {
-     return probe_access(env, addr, size, MMU_DATA_STORE, mmu_idx, retaddr);
- }
- 
--static inline void *probe_read(CPUArchState *env, target_ulong addr, int size,
-+static inline void *probe_read(CPUArchState *env, vaddr addr, int size,
-                                int mmu_idx, uintptr_t retaddr)
- {
-     return probe_access(env, addr, size, MMU_DATA_LOAD, mmu_idx, retaddr);
-@@ -462,7 +462,7 @@ static inline void *probe_read(CPUArchState *env, target_ulong addr, int size,
-  * Do handle clean pages, so exclude TLB_NOTDIRY from the returned flags.
-  * For simplicity, all "mmio-like" flags are folded to TLB_MMIO.
-  */
--int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
-+int probe_access_flags(CPUArchState *env, vaddr addr, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool nonfault, void **phost, uintptr_t retaddr);
- 
-@@ -475,7 +475,7 @@ int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
-  * and must be consumed or copied immediately, before any further
-  * access or changes to TLB @mmu_idx.
-  */
--int probe_access_full(CPUArchState *env, target_ulong addr, int size,
-+int probe_access_full(CPUArchState *env, vaddr addr, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool nonfault, void **phost,
-                       CPUTLBEntryFull **pfull, uintptr_t retaddr);
-@@ -728,7 +728,7 @@ struct MemoryRegionSection *iotlb_to_section(CPUState *cpu,
+     MemOp mop = get_memop(oi);
+@@ -1226,7 +1226,7 @@ uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr ptr)
   *
-  * Note: this function can trigger an exception.
+  * @prot may be PAGE_READ, PAGE_WRITE, or PAGE_READ|PAGE_WRITE.
   */
--tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-+tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, vaddr addr,
-                                         void **hostp);
- 
- /**
-@@ -743,7 +743,7 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-  * Note: this function can trigger an exception.
-  */
- static inline tb_page_addr_t get_page_addr_code(CPUArchState *env,
--                                                target_ulong addr)
-+                                                vaddr addr)
+-static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
++static void *atomic_mmu_lookup(CPUArchState *env, vaddr addr,
+                                MemOpIdx oi, int size, int prot,
+                                uintptr_t retaddr)
  {
-     return get_page_addr_code_hostp(env, addr, NULL);
- }
 -- 
 2.39.1
 
