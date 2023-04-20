@@ -2,95 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C842E6E95FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630286E9625
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:44:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUW9-0003li-S8; Thu, 20 Apr 2023 09:40:09 -0400
+	id 1ppUYr-0000fK-4v; Thu, 20 Apr 2023 09:42:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppUW5-0003lK-GI
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:40:05 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppUW3-0005QJ-Ps
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:40:05 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- iw7-20020a05600c54c700b003f16fce55b5so1170749wmb.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681998002; x=1684590002;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/GiG+Nst/1MJjUfnBePcObQL8ovvkVXUYIAzxiDMAvw=;
- b=N01w+0tV15vawofusJhYNrRm5ORcEtfZ0ry9sdj4Pw02eBe4DdzvXjAumMEc7D5hjm
- QqpBF8AqT8NOA/bBR5G2chpRptcvD5tVJwSx9knt1hfLTAnB5ZwaIPYaP0gpyMW3Xy39
- Hq2hhmqtMcpvrwvcB7hTE/UpaMVLoewWn5MfNo5TMHOe6KvpQ25ag1IM3mgjwHqYwvSu
- ZaAXHVihzqQmg8jo8Q5kBnro8pwpCrADL2rc2uu87XQgafSiWUH5VtIs6fZiy4h1HGLM
- gGzVSp1Sk85w/LxzSWSPmfNrtDn2H+KvmA6KfH10aDrTLyek3Nq0f9GGVDTnXeNbsl0X
- TT3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681998002; x=1684590002;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/GiG+Nst/1MJjUfnBePcObQL8ovvkVXUYIAzxiDMAvw=;
- b=JnKWk4ACKq0eDFF1SHrXHfDNpaRFWj/NOK14+hbk/qJ6hfhcPjOpq1mwbtrGRVIsP9
- 6IIksMO6XTKyewl8ergucxQXwmcSS5qGy40uaVCGa33tEfS8fvQjvQzEzLkqTiC0ujqe
- g5NakCR2BlrnzNDu8LxpHcFYbwfW4IN2IRSW5zP2L1duPDa2xpoHS/FgPLiQWzteDB+U
- y7/tzaZ0QMHTBzgurUPg/6U3RBEDFazs3wL+yvXQv9zOBo+tggR+2utd9ssFzvcv845i
- 0L2891NikkVG7jklVnLmx4xB9v4VpQSePSJAlqHT2K65BAnapgJ4XZPwgWPvBxy9yHG6
- quGQ==
-X-Gm-Message-State: AAQBX9d5r/FQ0YudHetXLMKqkoVqd0jApIuRuK0SjT5bJ8o1kYWbTgGa
- nZKxnE4YICWhhcHRzFQ71Bj9mA==
-X-Google-Smtp-Source: AKy350bCAvGEny4oQbcK6hW+EriPXZ9h1014EIUuUtSNCjgSOgE+vXvCzTLS1YG+SVNb9B5PGSUOYQ==
-X-Received: by 2002:a7b:c8c9:0:b0:3f1:7b8d:38ec with SMTP id
- f9-20020a7bc8c9000000b003f17b8d38ecmr1157488wml.35.1681998002127; 
- Thu, 20 Apr 2023 06:40:02 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l2-20020a05600c4f0200b003ee74c25f12sm5547824wmq.35.2023.04.20.06.40.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 06:40:01 -0700 (PDT)
-Message-ID: <1e1f3a54-7113-7929-38a1-23d97bfa4d45@linaro.org>
-Date: Thu, 20 Apr 2023 15:39:59 +0200
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppUYA-0007j0-Gb
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:42:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppUY8-0006NY-Fq
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:42:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681998131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FnBemTGpJBwq3+eccXAvoL56joreF+/xlYaUeKbvlkc=;
+ b=i4FtdKB6HhxUS7lXRC1+bqyqUrrgPFmZ/Qz6/cKz4izv1MEZc9fZHO4D9KnudGmhKhbmC4
+ /Su1MdP8G2WxlG/VG4EYunDC+YEefseAPw6lCmw3nFYCzxtmrSp0EAptCABKzEMqS3VEwu
+ p78K94OD3S//aZgL7M+/7P654UZ+2eo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-434-FWetV6zXOySjjABgLOFhtA-1; Thu, 20 Apr 2023 09:42:07 -0400
+X-MC-Unique: FWetV6zXOySjjABgLOFhtA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09EC4811E7B;
+ Thu, 20 Apr 2023 13:42:07 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 384F04020BED;
+ Thu, 20 Apr 2023 13:42:04 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Leonardo Bras <leobras@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Subject: [PATCH v2 41/43] migration: Create migrate_tls_hostname() function
+Date: Thu, 20 Apr 2023 15:40:00 +0200
+Message-Id: <20230420134002.29531-42-quintela@redhat.com>
+In-Reply-To: <20230420134002.29531-1-quintela@redhat.com>
+References: <20230420134002.29531-1-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v3 00/20] block: remove aio_disable_external() API
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Lieven <pl@kamp.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Xie Yongji <xieyongji@bytedance.com>, Juan Quintela <quintela@redhat.com>,
- qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Woodhouse <dwmw2@infradead.org>, Stefan Weil <sw@weilnetz.de>,
- Fam Zheng <fam@euphon.net>, Julia Suvorova <jusual@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, xen-devel@lists.xenproject.org,
- Hanna Reitz <hreitz@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, eesposit@redhat.com, Kevin Wolf <kwolf@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Anthony Perard <anthony.perard@citrix.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <20230420113732.336620-1-stefanha@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230420113732.336620-1-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,59 +87,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Stefan,
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/options.c | 7 +++++++
+ migration/options.h | 1 +
+ migration/tls.c     | 6 ++++--
+ 3 files changed, 12 insertions(+), 2 deletions(-)
 
-On 20/4/23 13:37, Stefan Hajnoczi wrote:
-> v3:
-> - Resend full patch series. v2 was sent in the middle of a git rebase and was
->    missing patches. [Eric]
-> - Apply Reviewed-by tags.
+diff --git a/migration/options.c b/migration/options.c
+index 303a493388..8f0bf1ece6 100644
+--- a/migration/options.c
++++ b/migration/options.c
+@@ -595,6 +595,13 @@ char *migrate_tls_creds(void)
+     return s->parameters.tls_creds;
+ }
+ 
++char *migrate_tls_hostname(void)
++{
++    MigrationState *s = migrate_get_current();
++
++    return s->parameters.tls_hostname;
++}
++
+ uint64_t migrate_xbzrle_cache_size(void)
+ {
+     MigrationState *s = migrate_get_current();
+diff --git a/migration/options.h b/migration/options.h
+index 72b0f3cf62..2f21837094 100644
+--- a/migration/options.h
++++ b/migration/options.h
+@@ -82,6 +82,7 @@ int migrate_multifd_zstd_level(void);
+ uint8_t migrate_throttle_trigger_threshold(void);
+ char *migrate_tls_authz(void);
+ char *migrate_tls_creds(void);
++char *migrate_tls_hostname(void);
+ uint64_t migrate_xbzrle_cache_size(void);
+ 
+ /* parameters setters */
+diff --git a/migration/tls.c b/migration/tls.c
+index 4c229326fd..3cae1a06e7 100644
+--- a/migration/tls.c
++++ b/migration/tls.c
+@@ -123,6 +123,7 @@ QIOChannelTLS *migration_tls_client_create(MigrationState *s,
+                                            Error **errp)
+ {
+     QCryptoTLSCreds *creds;
++    char *tls_hostname;
+ 
+     creds = migration_tls_get_creds(
+         s, QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT, errp);
+@@ -130,8 +131,9 @@ QIOChannelTLS *migration_tls_client_create(MigrationState *s,
+         return NULL;
+     }
+ 
+-    if (s->parameters.tls_hostname && *s->parameters.tls_hostname) {
+-        hostname = s->parameters.tls_hostname;
++    tls_hostname = migrate_tls_hostname();
++    if (tls_hostname && *tls_hostname) {
++        hostname = tls_hostname;
+     }
+ 
+     return qio_channel_tls_new_client(ioc, creds, hostname, errp);
+-- 
+2.39.2
 
-> Based-on: 087bc644b7634436ca9d52fe58ba9234e2bef026 (kevin/block-next)
-
-It seems kevin/block-next got rebased and doesn't contain 087bc644b76.
-
-Based on 3d1ba50c4b ("vmdk: make vmdk_is_cid_valid a coroutine_fn")
-I get:
-
-Applying: hw/qdev: introduce qdev_is_realized() helper
-Applying: virtio-scsi: avoid race between unplug and transport event
-Applying: virtio-scsi: stop using aio_disable_external() during unplug
-Applying: block/export: only acquire AioContext once for 
-vhost_user_server_stop()
-error: patch failed: util/vhost-user-server.c:346
-error: util/vhost-user-server.c: patch does not apply
-Patch failed at 0004 block/export: only acquire AioContext once for 
-vhost_user_server_stop()
-
-Hmm patch #4 is already merged as commit 2957dc40a2, let's skip it:
-
-$ git am --skip
-Applying: util/vhost-user-server: rename refcount to in_flight counter
-Applying: block/export: wait for vhost-user-blk requests when draining
-Applying: block/export: stop using is_external in vhost-user-blk server
-Applying: hw/xen: do not use aio_set_fd_handler(is_external=true) in 
-xen_xenstore
-Applying: block: add blk_in_drain() API
-Applying: block: drain from main loop thread in bdrv_co_yield_to_drain()
-Applying: xen-block: implement BlockDevOps->drained_begin()
-Applying: hw/xen: do not set is_external=true on evtchn fds
-Applying: block/export: rewrite vduse-blk drain code
-Applying: block/export: don't require AioContext lock around 
-blk_exp_ref/unref()
-Applying: block/fuse: do not set is_external=true on FUSE fd
-Applying: virtio: make it possible to detach host notifier from any thread
-Applying: virtio-blk: implement BlockDevOps->drained_begin()
-Applying: virtio-scsi: implement BlockDevOps->drained_begin()
-Applying: virtio: do not set is_external=true on host notifiers
-Applying: aio: remove aio_disable_external() API
-error: patch failed: util/fdmon-epoll.c:131
-error: util/fdmon-epoll.c: patch does not apply
-Patch failed at 0020 aio: remove aio_disable_external() API
-
-Now this clashes with commit e62da98527 ("aio-posix: fix race between 
-epoll upgrade and aio_set_fd_handler()").
-
-Indeed reverting both e62da98527 / 2957dc40a2, I can apply your
-series.
 
