@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6C26E95E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21646E95E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:33:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUMF-0002cB-Oe; Thu, 20 Apr 2023 09:29:55 -0400
+	id 1ppUOh-0004PL-38; Thu, 20 Apr 2023 09:32:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ppUMD-0002Zn-Al
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:29:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppUOb-0004NH-Mk
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:32:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ppUM9-000265-Qs
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:29:53 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppUOZ-0002qz-8m
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:32:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681997389;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FhCN8vNfrhbAa0hWsXPMvfbt3TYDFWLw6QfEDlXxDa4=;
- b=QqiM6YYn9BJSH+BzwdzUkzyZmseHt/mDMS17f188hYFEZRdFN5PqPNWvCOKDWxcr30/aZp
- v+riZ41evUXPfDyo7L5ZN4p7eEXZT95eWxPbIhJ61gBjrCxtX/aB66wCgUJmBMuzOcrWoA
- orpLkWCRCphCc08ZNVP7MFPiO/7jCvM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1681997537;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=zhPweI+2TUkuSMHZg7b5r2+kgwXimM2BCj0g4xPXGLE=;
+ b=cMpN+RkP7aLsCfLOQbvn3+HvGHjJso888dzoITx/FfsJ8/jgCA2Z9qWsCYOSOpnEZDi/e0
+ Ae3ZZQZ04CbZhyIwUh2ePF5A+NpMtLyiooXrRSRuASxH59vSo6JaE80RP3FrkD+ruCYHMT
+ NB+2YkeCWIYTjHfF1p6FgEMIJ0BZHtc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-562-WA5RRNPAPrWBiJ8a7vG9jQ-1; Thu, 20 Apr 2023 09:29:47 -0400
-X-MC-Unique: WA5RRNPAPrWBiJ8a7vG9jQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f1793d6363so2243115e9.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:29:47 -0700 (PDT)
+ us-mta-197-WvZfOqLyNfG6tejBO-2jRg-1; Thu, 20 Apr 2023 09:32:16 -0400
+X-MC-Unique: WvZfOqLyNfG6tejBO-2jRg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bg10-20020a05600c3c8a00b003ef7b61e2fdso601578wmb.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:32:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681997386; x=1684589386;
- h=content-transfer-encoding:mime-version:references:in-reply-to:date
- :cc:to:from:subject:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=FhCN8vNfrhbAa0hWsXPMvfbt3TYDFWLw6QfEDlXxDa4=;
- b=Ho06WCz5/m1CAgXBi1rhW155NRci1UsY3qsTeE0t6yyG0KxuoEJPTDuD861f4iqRU5
- /p3qe7uO06NlBRPTGVaXNnsH/iGqazckXGcHpQ17dUJzJUxViDBHi1jG9vfChJuTpbzd
- +fhlyW/V/cAfWDAC5mYdWhhZ75gEAxec999MPGNNnnNbIa2p71ICMuk04g0c4ueA+Kmc
- PtTgdyTC73JroIkv6JdOruIKeFKM9g84Fp0nCtb2J6w0bopCyWwxTDxfj905UxSVZRBv
- 0bUcog8cqpb5mc8yCCUvIBWYklBTDlxkT90YJ47gKQ0PMHmUQ/pkqB/kv9nyA8eJpcfd
- EGBA==
-X-Gm-Message-State: AAQBX9fUzUTDVDEA+0Rqe2hFVUh9MGuUw1qdYmD3GMW/YcRpjrLoy6Fa
- 1wnzi07SHZJk6pzCwnZS41DTmUWEfu+hQ5Tr4k5+peurlSkCBzPbTsb7IE8LSVpKg5yYao54RFw
- qclO7ET+EJ4uZ6OU=
-X-Received: by 2002:a5d:5511:0:b0:2f9:fc06:9fcc with SMTP id
- b17-20020a5d5511000000b002f9fc069fccmr1284508wrv.44.1681997386593; 
- Thu, 20 Apr 2023 06:29:46 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZEW7lemiVQ3VCEB7mhxOA+JkT6Y1pkKgeI4zAqfcqq3FOkJ/rXW/i8CkC5tiZwTEiq+2xtYA==
-X-Received: by 2002:a5d:5511:0:b0:2f9:fc06:9fcc with SMTP id
- b17-20020a5d5511000000b002f9fc069fccmr1284489wrv.44.1681997386187; 
- Thu, 20 Apr 2023 06:29:46 -0700 (PDT)
-Received: from eperezma.remote.csb ([79.116.3.213])
- by smtp.gmail.com with ESMTPSA id
- f4-20020a0560001b0400b002ffbf2213d4sm1957323wrz.75.2023.04.20.06.29.45
+ d=1e100.net; s=20221208; t=1681997535; x=1684589535;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zhPweI+2TUkuSMHZg7b5r2+kgwXimM2BCj0g4xPXGLE=;
+ b=bBYU6cxUfqwAMHEFjanvfpfsD2JxmUezmLaX0zYCIVgoCB3Sf/RaHi+RUVadsFG89w
+ 6I30lkMWT3gH3rWF04YLBdNEFvCEU1yt9fIhrhklLvZL14bz4EiuEYXda6TNR7fta7Ez
+ yvC5NgTgjYyMdXw1gtkHxkIVo7UtkcRccV/cGIuv0pSeQFCIVAA0jFe2QlaHUHxuOzkC
+ exH7fdSQJbwZnTvAwLAT3KF1am9LMo8ndaLLpOrlMR9HMyE79nb7tJF1PjyRgPGja2Hh
+ WtWLAL6tBxAPHfhy45Sw6Q/iQHu2OjcOwoqaNvlsWvFyu6Y2QLL96ArkUQe/0pVXtuTF
+ HoTg==
+X-Gm-Message-State: AAQBX9f6YvBxSCaV1szA+UQ4rzr4ioFHM5E8NO7M/fiOnVjTP62Wtzd9
+ EvVQDc6pLhMRUwZRP45raz3XVQIceZdQFevZfdh2ut/EWB8NEs2kYmeNEKnxUtC3T8cpPlg+45+
+ Z+mz6bYE6dAed6UQ=
+X-Received: by 2002:a1c:7706:0:b0:3f1:70d5:1bee with SMTP id
+ t6-20020a1c7706000000b003f170d51beemr1352093wmi.29.1681997534957; 
+ Thu, 20 Apr 2023 06:32:14 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aXQ6NtdLXWIUG1653E/J6f14cXQvBKdiS6D5Gb8TZf9LJUb7bqrAHw6De+ovSdQ/AIpTuiFw==
+X-Received: by 2002:a1c:7706:0:b0:3f1:70d5:1bee with SMTP id
+ t6-20020a1c7706000000b003f170d51beemr1352074wmi.29.1681997534652; 
+ Thu, 20 Apr 2023 06:32:14 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ hn3-20020a05600ca38300b003f0ad8d1c69sm5301368wmb.25.2023.04.20.06.32.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 06:29:45 -0700 (PDT)
-Message-ID: <eec2061d62958f3e7872d43b9cb802dfaebbdde4.camel@redhat.com>
-Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
-From: Eugenio =?ISO-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>, Hanna Czenczek <hreitz@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org, 
- virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>, Anton Kuchin
- <antonkuchin@yandex-team.ru>, Juan Quintela <quintela@redhat.com>, "Michael
- S . Tsirkin" <mst@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
-Date: Thu, 20 Apr 2023 15:29:44 +0200
-In-Reply-To: <CAJSP0QWbGQ9BaXDGMgasfk=qWt1DKHxcE=rK9BeuotQvQUuomw@mail.gmail.com>
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <20230411150515.14020-3-hreitz@redhat.com>
- <20230412210641.GC2813183@fedora>
- <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
- <20230417171405.GA3890522@fedora>
- <CAJaqyWePywgd11mA5D=SqSyGOjzdhj1kjNHVkjG1iWv9Ox0ytg@mail.gmail.com>
- <CAJSP0QUriW5D9QNX+=YHYepXVAzOKjL6Dc93zSYihTTZhif0ig@mail.gmail.com>
- <CAJaqyWc_59dhPcXOQDYh3vpMfV_4uZooYpQnRrcCkBBu1QO8tw@mail.gmail.com>
- <5620d5c8-a9fb-a65b-74ab-16a1ae12c8e3@redhat.com>
- <CAJSP0QWbGQ9BaXDGMgasfk=qWt1DKHxcE=rK9BeuotQvQUuomw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ Thu, 20 Apr 2023 06:32:14 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  David Hildenbrand <david@redhat.com>,  John Snow
+ <jsnow@redhat.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org,  Hailiang Zhang <zhanghailiang@xfusion.com>,  Fam
+ Zheng <fam@euphon.net>,  "Michael S. Tsirkin" <mst@redhat.com>,  "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,  Eric Blake
+ <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 06/43] migration: Move migrate_use_compression() to
+ options.c
+In-Reply-To: <4fc019c2-98c1-929a-a0c1-dcf441fda0c1@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 20 Apr 2023 15:58:26 +0300")
+References: <20230302163410.11399-1-quintela@redhat.com>
+ <20230302163410.11399-7-quintela@redhat.com>
+ <4fc019c2-98c1-929a-a0c1-dcf441fda0c1@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 20 Apr 2023 15:32:13 +0200
+Message-ID: <87jzy6wug2.fsf@secure.mitica>
+MIME-Version: 1.0
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,7 +90,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,363 +104,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-04-19 at 07:21 -0400, Stefan Hajnoczi wrote:
-> On Wed, 19 Apr 2023 at 07:10, Hanna Czenczek <hreitz@redhat.com> wrote:
-> > On 18.04.23 09:54, Eugenio Perez Martin wrote:
-> > > On Mon, Apr 17, 2023 at 9:21 PM Stefan Hajnoczi <stefanha@gmail.com>
-> > > wrote:
-> > > > On Mon, 17 Apr 2023 at 15:08, Eugenio Perez Martin <eperezma@redhat.com>
-> > > > wrote:
-> > > > > On Mon, Apr 17, 2023 at 7:14 PM Stefan Hajnoczi <stefanha@redhat.com>
-> > > > > wrote:
-> > > > > > On Thu, Apr 13, 2023 at 12:14:24PM +0200, Eugenio Perez Martin
-> > > > > > wrote:
-> > > > > > > On Wed, Apr 12, 2023 at 11:06 PM Stefan Hajnoczi <
-> > > > > > > stefanha@redhat.com> wrote:
-> > > > > > > > On Tue, Apr 11, 2023 at 05:05:13PM +0200, Hanna Czenczek wrote:
-> > > > > > > > > So-called "internal" virtio-fs migration refers to
-> > > > > > > > > transporting the
-> > > > > > > > > back-end's (virtiofsd's) state through qemu's migration
-> > > > > > > > > stream.  To do
-> > > > > > > > > this, we need to be able to transfer virtiofsd's internal
-> > > > > > > > > state to and
-> > > > > > > > > from virtiofsd.
-> > > > > > > > > 
-> > > > > > > > > Because virtiofsd's internal state will not be too large, we
-> > > > > > > > > believe it
-> > > > > > > > > is best to transfer it as a single binary blob after the
-> > > > > > > > > streaming
-> > > > > > > > > phase.  Because this method should be useful to other vhost-
-> > > > > > > > > user
-> > > > > > > > > implementations, too, it is introduced as a general-purpose
-> > > > > > > > > addition to
-> > > > > > > > > the protocol, not limited to vhost-user-fs.
-> > > > > > > > > 
-> > > > > > > > > These are the additions to the protocol:
-> > > > > > > > > - New vhost-user protocol feature
-> > > > > > > > > VHOST_USER_PROTOCOL_F_MIGRATORY_STATE:
-> > > > > > > > >    This feature signals support for transferring state, and is
-> > > > > > > > > added so
-> > > > > > > > >    that migration can fail early when the back-end has no
-> > > > > > > > > support.
-> > > > > > > > > 
-> > > > > > > > > - SET_DEVICE_STATE_FD function: Front-end and back-end
-> > > > > > > > > negotiate a pipe
-> > > > > > > > >    over which to transfer the state.  The front-end sends an
-> > > > > > > > > FD to the
-> > > > > > > > >    back-end into/from which it can write/read its state, and
-> > > > > > > > > the back-end
-> > > > > > > > >    can decide to either use it, or reply with a different FD
-> > > > > > > > > for the
-> > > > > > > > >    front-end to override the front-end's choice.
-> > > > > > > > >    The front-end creates a simple pipe to transfer the state,
-> > > > > > > > > but maybe
-> > > > > > > > >    the back-end already has an FD into/from which it has to
-> > > > > > > > > write/read
-> > > > > > > > >    its state, in which case it will want to override the
-> > > > > > > > > simple pipe.
-> > > > > > > > >    Conversely, maybe in the future we find a way to have the
-> > > > > > > > > front-end
-> > > > > > > > >    get an immediate FD for the migration stream (in some
-> > > > > > > > > cases), in which
-> > > > > > > > >    case we will want to send this to the back-end instead of
-> > > > > > > > > creating a
-> > > > > > > > >    pipe.
-> > > > > > > > >    Hence the negotiation: If one side has a better idea than a
-> > > > > > > > > plain
-> > > > > > > > >    pipe, we will want to use that.
-> > > > > > > > > 
-> > > > > > > > > - CHECK_DEVICE_STATE: After the state has been transferred
-> > > > > > > > > through the
-> > > > > > > > >    pipe (the end indicated by EOF), the front-end invokes this
-> > > > > > > > > function
-> > > > > > > > >    to verify success.  There is no in-band way (through the
-> > > > > > > > > pipe) to
-> > > > > > > > >    indicate failure, so we need to check explicitly.
-> > > > > > > > > 
-> > > > > > > > > Once the transfer pipe has been established via
-> > > > > > > > > SET_DEVICE_STATE_FD
-> > > > > > > > > (which includes establishing the direction of transfer and
-> > > > > > > > > migration
-> > > > > > > > > phase), the sending side writes its data into the pipe, and
-> > > > > > > > > the reading
-> > > > > > > > > side reads it until it sees an EOF.  Then, the front-end will
-> > > > > > > > > check for
-> > > > > > > > > success via CHECK_DEVICE_STATE, which on the destination side
-> > > > > > > > > includes
-> > > > > > > > > checking for integrity (i.e. errors during deserialization).
-> > > > > > > > > 
-> > > > > > > > > Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > > > > > > Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
-> > > > > > > > > ---
-> > > > > > > > >   include/hw/virtio/vhost-backend.h |  24 +++++
-> > > > > > > > >   include/hw/virtio/vhost.h         |  79 ++++++++++++++++
-> > > > > > > > >   hw/virtio/vhost-user.c            | 147
-> > > > > > > > > ++++++++++++++++++++++++++++++
-> > > > > > > > >   hw/virtio/vhost.c                 |  37 ++++++++
-> > > > > > > > >   4 files changed, 287 insertions(+)
-> > > > > > > > > 
-> > > > > > > > > diff --git a/include/hw/virtio/vhost-backend.h
-> > > > > > > > > b/include/hw/virtio/vhost-backend.h
-> > > > > > > > > index ec3fbae58d..5935b32fe3 100644
-> > > > > > > > > --- a/include/hw/virtio/vhost-backend.h
-> > > > > > > > > +++ b/include/hw/virtio/vhost-backend.h
-> > > > > > > > > @@ -26,6 +26,18 @@ typedef enum VhostSetConfigType {
-> > > > > > > > >       VHOST_SET_CONFIG_TYPE_MIGRATION = 1,
-> > > > > > > > >   } VhostSetConfigType;
-> > > > > > > > > 
-> > > > > > > > > +typedef enum VhostDeviceStateDirection {
-> > > > > > > > > +    /* Transfer state from back-end (device) to front-end */
-> > > > > > > > > +    VHOST_TRANSFER_STATE_DIRECTION_SAVE = 0,
-> > > > > > > > > +    /* Transfer state from front-end to back-end (device) */
-> > > > > > > > > +    VHOST_TRANSFER_STATE_DIRECTION_LOAD = 1,
-> > > > > > > > > +} VhostDeviceStateDirection;
-> > > > > > > > > +
-> > > > > > > > > +typedef enum VhostDeviceStatePhase {
-> > > > > > > > > +    /* The device (and all its vrings) is stopped */
-> > > > > > > > > +    VHOST_TRANSFER_STATE_PHASE_STOPPED = 0,
-> > > > > > > > > +} VhostDeviceStatePhase;
-> > > > > > > > vDPA has:
-> > > > > > > > 
-> > > > > > > >    /* Suspend a device so it does not process virtqueue requests
-> > > > > > > > anymore
-> > > > > > > >     *
-> > > > > > > >     * After the return of ioctl the device must preserve all the
-> > > > > > > > necessary state
-> > > > > > > >     * (the virtqueue vring base plus the possible device
-> > > > > > > > specific states) that is
-> > > > > > > >     * required for restoring in the future. The device must not
-> > > > > > > > change its
-> > > > > > > >     * configuration after that point.
-> > > > > > > >     */
-> > > > > > > >    #define VHOST_VDPA_SUSPEND      _IO(VHOST_VIRTIO, 0x7D)
-> > > > > > > > 
-> > > > > > > >    /* Resume a device so it can resume processing virtqueue
-> > > > > > > > requests
-> > > > > > > >     *
-> > > > > > > >     * After the return of this ioctl the device will have
-> > > > > > > > restored all the
-> > > > > > > >     * necessary states and it is fully operational to continue
-> > > > > > > > processing the
-> > > > > > > >     * virtqueue descriptors.
-> > > > > > > >     */
-> > > > > > > >    #define VHOST_VDPA_RESUME       _IO(VHOST_VIRTIO, 0x7E)
-> > > > > > > > 
-> > > > > > > > I wonder if it makes sense to import these into vhost-user so
-> > > > > > > > that the
-> > > > > > > > difference between kernel vhost and vhost-user is minimized.
-> > > > > > > > It's okay
-> > > > > > > > if one of them is ahead of the other, but it would be nice to
-> > > > > > > > avoid
-> > > > > > > > overlapping/duplicated functionality.
-> > > > > > > > 
-> > > > > > > That's what I had in mind in the first versions. I proposed
-> > > > > > > VHOST_STOP
-> > > > > > > instead of VHOST_VDPA_STOP for this very reason. Later it did
-> > > > > > > change
-> > > > > > > to SUSPEND.
-> > > > > > > 
-> > > > > > > Generally it is better if we make the interface less parametrized
-> > > > > > > and
-> > > > > > > we trust in the messages and its semantics in my opinion. In other
-> > > > > > > words, instead of
-> > > > > > > vhost_set_device_state_fd_op(VHOST_TRANSFER_STATE_PHASE_STOPPED),
-> > > > > > > send
-> > > > > > > individually the equivalent of VHOST_VDPA_SUSPEND vhost-user
-> > > > > > > command.
-> > > > > > > 
-> > > > > > > Another way to apply this is with the "direction" parameter. Maybe
-> > > > > > > it
-> > > > > > > is better to split it into "set_state_fd" and "get_state_fd"?
-> > > > > > > 
-> > > > > > > In that case, reusing the ioctls as vhost-user messages would be
-> > > > > > > ok.
-> > > > > > > But that puts this proposal further from the VFIO code, which uses
-> > > > > > > "migration_set_state(state)", and maybe it is better when the
-> > > > > > > number
-> > > > > > > of states is high.
-> > > > > > Hi Eugenio,
-> > > > > > Another question about vDPA suspend/resume:
-> > > > > > 
-> > > > > >    /* Host notifiers must be enabled at this point. */
-> > > > > >    void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev,
-> > > > > > bool vrings)
-> > > > > >    {
-> > > > > >        int i;
-> > > > > > 
-> > > > > >        /* should only be called after backend is connected */
-> > > > > >        assert(hdev->vhost_ops);
-> > > > > >        event_notifier_test_and_clear(
-> > > > > >            &hdev-
-> > > > > > >vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier);
-> > > > > >        event_notifier_test_and_clear(&vdev->config_notifier);
-> > > > > > 
-> > > > > >        trace_vhost_dev_stop(hdev, vdev->name, vrings);
-> > > > > > 
-> > > > > >        if (hdev->vhost_ops->vhost_dev_start) {
-> > > > > >            hdev->vhost_ops->vhost_dev_start(hdev, false);
-> > > > > >            ^^^ SUSPEND ^^^
-> > > > > >        }
-> > > > > >        if (vrings) {
-> > > > > >            vhost_dev_set_vring_enable(hdev, false);
-> > > > > >        }
-> > > > > >        for (i = 0; i < hdev->nvqs; ++i) {
-> > > > > >            vhost_virtqueue_stop(hdev,
-> > > > > >                                 vdev,
-> > > > > >                                 hdev->vqs + i,
-> > > > > >                                 hdev->vq_index + i);
-> > > > > >          ^^^ fetch virtqueue state from kernel ^^^
-> > > > > >        }
-> > > > > >        if (hdev->vhost_ops->vhost_reset_status) {
-> > > > > >            hdev->vhost_ops->vhost_reset_status(hdev);
-> > > > > >            ^^^ reset device^^^
-> > > > > > 
-> > > > > > I noticed the QEMU vDPA code resets the device in vhost_dev_stop()
-> > > > > > ->
-> > > > > > vhost_reset_status(). The device's migration code runs after
-> > > > > > vhost_dev_stop() and the state will have been lost.
-> > > > > > 
-> > > > > vhost_virtqueue_stop saves the vq state (indexes, vring base) in the
-> > > > > qemu VirtIONet device model. This is for all vhost backends.
-> > > > > 
-> > > > > Regarding the state like mac or mq configuration, SVQ runs for all the
-> > > > > VM run in the CVQ. So it can track all of that status in the device
-> > > > > model too.
-> > > > > 
-> > > > > When a migration effectively occurs, all the frontend state is
-> > > > > migrated as a regular emulated device. To route all of the state in a
-> > > > > normalized way for qemu is what leaves open the possibility to do
-> > > > > cross-backends migrations, etc.
-> > > > > 
-> > > > > Does that answer your question?
-> > > > I think you're confirming that changes would be necessary in order for
-> > > > vDPA to support the save/load operation that Hanna is introducing.
-> > > > 
-> > > Yes, this first iteration was centered on net, with an eye on block,
-> > > where state can be routed through classical emulated devices. This is
-> > > how vhost-kernel and vhost-user do classically. And it allows
-> > > cross-backend, to not modify qemu migration state, etc.
-> > > 
-> > > To introduce this opaque state to qemu, that must be fetched after the
-> > > suspend and not before, requires changes in vhost protocol, as
-> > > discussed previously.
-> > > 
-> > > > > > It looks like vDPA changes are necessary in order to support
-> > > > > > stateful
-> > > > > > devices even though QEMU already uses SUSPEND. Is my understanding
-> > > > > > correct?
-> > > > > > 
-> > > > > Changes are required elsewhere, as the code to restore the state
-> > > > > properly in the destination has not been merged.
-> > > > I'm not sure what you mean by elsewhere?
-> > > > 
-> > > I meant for vdpa *net* devices the changes are not required in vdpa
-> > > ioctls, but mostly in qemu.
-> > > 
-> > > If you meant stateful as "it must have a state blob that it must be
-> > > opaque to qemu", then I think the straightforward action is to fetch
-> > > state blob about the same time as vq indexes. But yes, changes (at
-> > > least a new ioctl) is needed for that.
-> > > 
-> > > > I'm asking about vDPA ioctls. Right now the sequence is SUSPEND and
-> > > > then VHOST_VDPA_SET_STATUS 0.
-> > > > 
-> > > > In order to save device state from the vDPA device in the future, it
-> > > > will be necessary to defer the VHOST_VDPA_SET_STATUS 0 call so that
-> > > > the device state can be saved before the device is reset.
-> > > > 
-> > > > Does that sound right?
-> > > > 
-> > > The split between suspend and reset was added recently for that very
-> > > reason. In all the virtio devices, the frontend is initialized before
-> > > the backend, so I don't think it is a good idea to defer the backend
-> > > cleanup. Especially if we have already set the state is small enough
-> > > to not needing iterative migration from virtiofsd point of view.
-> > > 
-> > > If fetching that state at the same time as vq indexes is not valid,
-> > > could it follow the same model as the "in-flight descriptors"?
-> > > vhost-user follows them by using a shared memory region where their
-> > > state is tracked [1]. This allows qemu to survive vhost-user SW
-> > > backend crashes, and does not forbid the cross-backends live migration
-> > > as all the information is there to recover them.
-> > > 
-> > > For hw devices this is not convenient as it occupies PCI bandwidth. So
-> > > a possibility is to synchronize this memory region after a
-> > > synchronization point, being the SUSPEND call or GET_VRING_BASE. HW
-> > > devices are not going to crash in the software sense, so all use cases
-> > > remain the same to qemu. And that shared memory information is
-> > > recoverable after vhost_dev_stop.
-> > > 
-> > > Does that sound reasonable to virtiofsd? To offer a shared memory
-> > > region where it dumps the state, maybe only after the
-> > > set_state(STATE_PHASE_STOPPED)?
-> > 
-> > I don’t think we need the set_state() call, necessarily, if SUSPEND is
-> > mandatory anyway.
-> > 
-> > As for the shared memory, the RFC before this series used shared memory,
-> > so it’s possible, yes.  But “shared memory region” can mean a lot of
-> > things – it sounds like you’re saying the back-end (virtiofsd) should
-> > provide it to the front-end, is that right?  That could work like this:
-> > 
-> > On the source side:
-> > 
-> > S1. SUSPEND goes to virtiofsd
-> > S2. virtiofsd maybe double-checks that the device is stopped, then
-> > serializes its state into a newly allocated shared memory area[1]
-> > S3. virtiofsd responds to SUSPEND
-> > S4. front-end requests shared memory, virtiofsd responds with a handle,
-> > maybe already closes its reference
-> > S5. front-end saves state, closes its handle, freeing the SHM
-> > 
-> > [1] Maybe virtiofsd can correctly size the serialized state’s size, then
-> > it can immediately allocate this area and serialize directly into it;
-> > maybe it can’t, then we’ll need a bounce buffer.  Not really a
-> > fundamental problem, but there are limitations around what you can do
-> > with serde implementations in Rust…
-> > 
-> > On the destination side:
-> > 
-> > D1. Optional SUSPEND goes to virtiofsd that hasn’t yet done much;
-> > virtiofsd would serialize its empty state into an SHM area, and respond
-> > to SUSPEND
-> > D2. front-end reads state from migration stream into an SHM it has allocated
-> > D3. front-end supplies this SHM to virtiofsd, which discards its
-> > previous area, and now uses this one
-> > D4. RESUME goes to virtiofsd, which deserializes the state from the SHM
-> > 
-> > Couple of questions:
-> > 
-> > A. Stefan suggested D1, but it does seem wasteful now.  But if SUSPEND
-> > would imply to deserialize a state, and the state is to be transferred
-> > through SHM, this is what would need to be done.  So maybe we should
-> > skip SUSPEND on the destination?
-> > B. You described that the back-end should supply the SHM, which works
-> > well on the source.  On the destination, only the front-end knows how
-> > big the state is, so I’ve decided above that it should allocate the SHM
-> > (D2) and provide it to the back-end.  Is that feasible or is it
-> > important (e.g. for real hardware) that the back-end supplies the SHM?
-> > (In which case the front-end would need to tell the back-end how big the
-> > state SHM needs to be.)
-> 
-> How does this work for iterative live migration?
-> 
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> On 02.03.23 19:33, Juan Quintela wrote:
+>> Once that we are there, we rename the function to migrate_compress()
+>> to be consistent with all other capabilities.
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>
+>> ---
+>>   migration/migration.h |  1 -
+>>   migration/options.h   |  1 +
+>>   migration/migration.c | 11 +----------
+>>   migration/options.c   |  9 +++++++++
+>
+> [..]
+>
+>> --- a/migration/options.c
+>> +++ b/migration/options.c
+>> @@ -41,6 +41,15 @@ bool migrate_colo(void)
+>>       return s->capabilities[MIGRATION_CAPABILITY_X_COLO];
+>>   }
+>>   +bool migrate_compress(void)
+>> +{
+>> +    MigrationState *s;
+>> +
+>> +    s = migrate_get_current();
+>> +
+>> +    return s->capabilities[MIGRATION_CAPABILITY_COMPRESS];
+>> +}
+>
+> Probably, we could generate these functions automatically, or at least
+> have a helper, so that all such functions are one-line wrappers on
+> that helper.
 
-A pipe will always fit better for iterative from qemu POV, that's for sure. 
-Especially if we want to keep that opaqueness.
+Markus, or any other qapi guru, I would be happy if this could be
+managed automagically O:-)
 
-But  we will need to communicate with the HW device using shared memory sooner
-or later for big states.  If we don't transform it in qemu, we will need to do
-it in the kernel.  Also, the pipe will not support daemon crashes.
-
-Again I'm just putting this on the table, just in case it fits better or it is
-convenient.  I missed the previous patch where SHM was proposed too, so maybe I
-missed some feedback useful here.  I think the pipe is a better solution in the
-long run because of the iterative part.
-
-Thanks!
+Later, Juan.
 
 
