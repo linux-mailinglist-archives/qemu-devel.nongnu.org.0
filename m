@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6D86E9DB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 23:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DED56E9DB4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 23:13:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppbZc-000395-KG; Thu, 20 Apr 2023 17:12:12 -0400
+	id 1ppbaj-0003t6-Ml; Thu, 20 Apr 2023 17:13:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppbZa-00038m-Sq
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:12:11 -0400
+ id 1ppbah-0003so-Da
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:13:19 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppbZY-0001yg-U3
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:12:10 -0400
+ id 1ppbaf-0002DT-KS
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:13:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682025127;
+ s=mimecast20190719; t=1682025197;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=S6AiNjwfg8N6uN5Ia6SjOvao//KPjVxiy0lsSKULWxo=;
- b=JImaKoINLb3GnsjxsdPMjqF7YIlMt6zXqyrFZp/q17hAMixM96rHQBN01/cDTfHSd/VJQ0
- nGRTms/xERQQKbvorTdlK3JoBeo7hWuUsR01JiF1a3Va2C3oTyWCUrYqtTj5KcfOCW2goK
- vkWbS4beZawj61p0YLRGfjida+uDp+U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yfdsGPzbmqxMKHT++y2B3RRTwSfAe6yZVvhX1Jz26Gg=;
+ b=UUqNy2mbLY85dTNj8N5Y+C0x60XJRgiuUKX0ocxtA1tyqIy9SPYRgFvlsBaJkC8gGypt1V
+ cSVFB0OskUye1z3j2nAFyM4ThaJrIab18nplzBoxN1RiWmnbRniCY5YG5iAFw8ldbG3ufq
+ dmGr754sDIcLze2+4nfKv3dAfkZZRuU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-470-raLDkKx_PTm59ROZ--NZZQ-1; Thu, 20 Apr 2023 17:12:06 -0400
-X-MC-Unique: raLDkKx_PTm59ROZ--NZZQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f1763fac8bso6597295e9.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 14:12:05 -0700 (PDT)
+ us-mta-578-vJ9mhBm7PUi8xhW9CfFN-g-1; Thu, 20 Apr 2023 17:13:15 -0400
+X-MC-Unique: vJ9mhBm7PUi8xhW9CfFN-g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f0b0fbd4beso3886575e9.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 14:13:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682025124; x=1684617124;
+ d=1e100.net; s=20221208; t=1682025194; x=1684617194;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=S6AiNjwfg8N6uN5Ia6SjOvao//KPjVxiy0lsSKULWxo=;
- b=Sc6LWbqsOTADPmsqMRJUrJs/pQqNXRZ0U3FsQDd42BZTzIw9znmGO9Uc9w2wAWI1nk
- 6hUuUO5NWNXs4T28bZd3AKUAGaCYft3VeZYz+n3/BtCTWohXAHADRPa1vv1q9VMl5bBi
- KFMSNyKVzbR/J3ExUeILRYpDZfxLRCg58qAQDi+1tB1tm6wl4I+C26cwwzW3oyPIatVo
- xfM0ycEqiLmXUSGdb7B1UT11LvU8kyfm0G+Y3oo8omdKDd5vHLPABBmfcePuVQqu/xkf
- kxYn9xxi6mJkkZGPWz1hJEmRnyGPl/ADD2ZVl9DDKH/djrM05GrQfOSE+2iS1rVOAVlk
- svsQ==
-X-Gm-Message-State: AAQBX9cHlH6i8dfYhrUGR4k5KaKzlROuFEZrexOTIfua8YikPiV1VACd
- 6xQu5yYMeqRzZ+PT80KfdaWIGEokwR/HfqLLGxlw4mDWAdiNOX3hW2ErxH2gpbMfTY7rfvgeSD1
- 441xCXKt9+2dwboRXtO0B9B0BYRuE
-X-Received: by 2002:a1c:7902:0:b0:3ed:fc8c:f197 with SMTP id
- l2-20020a1c7902000000b003edfc8cf197mr181588wme.29.1682025123750; 
- Thu, 20 Apr 2023 14:12:03 -0700 (PDT)
-X-Google-Smtp-Source: AKy350a8K79VfCc19ibi3HVe5CFxUqBZgQ82Sf2fKD1tSjebymX7H5TUiCEUuqTN70vDzmYO/7gaAQ==
-X-Received: by 2002:a1c:7902:0:b0:3ed:fc8c:f197 with SMTP id
- l2-20020a1c7902000000b003edfc8cf197mr181579wme.29.1682025123462; 
- Thu, 20 Apr 2023 14:12:03 -0700 (PDT)
+ bh=yfdsGPzbmqxMKHT++y2B3RRTwSfAe6yZVvhX1Jz26Gg=;
+ b=ZsRhp2IZRn/RfL61P2mBxS5CGxc+I63RYs5qKqeRHPxZ2U1DzapYCiiuqhkvPPJ5hv
+ ekrtcG1tU4+dFktOSRtVKVA01tzHqoRwlX7L5aAiAe+mh7MQqKN0DHT4LcOfpOCKAbWi
+ ImgUASwB9qPDYkT1aq1fEhVMeIxavr1ePciDlQZcllNVMytnxe/Og/iu1TyYoIgzk5Vo
+ JGfGns7CKNh+MqrUQx83y8dmvHdysauQsU5FkrViG80qzP+JP3Y6/BSFlrahf90OBNk+
+ Xe5ZGNMXA7LNgVeeX35ulDV82O/D/jC0ado0oLptFLDR6UIzZ5/caVaM6zqN2DnOTyK1
+ P2LA==
+X-Gm-Message-State: AAQBX9dAn/cQ1q25ooYVTsUkep106bPFyMS3CXxK5PXKVaUDAfkmIQNe
+ gqx/fBeUco8RfzDRjvO6ZHbzOLe8/GqWqqc0o0Qfo76Jr5A1v84pMaWn5cC33qBGRncXIhW0UBx
+ fdvxKcrx2l2souU4=
+X-Received: by 2002:adf:dd0b:0:b0:2ef:b994:f559 with SMTP id
+ a11-20020adfdd0b000000b002efb994f559mr2428204wrm.48.1682025194153; 
+ Thu, 20 Apr 2023 14:13:14 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YQO/JS65QFgavK/CW/BvHMT103rV8tORCLADeOLJYr4NuqBLoyMfF7A/xOuzpUU57JWQnfKw==
+X-Received: by 2002:adf:dd0b:0:b0:2ef:b994:f559 with SMTP id
+ a11-20020adfdd0b000000b002efb994f559mr2428193wrm.48.1682025193825; 
+ Thu, 20 Apr 2023 14:13:13 -0700 (PDT)
 Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
  [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- v17-20020a5d43d1000000b002fdf0f6b07csm2856894wrr.67.2023.04.20.14.12.02
+ s9-20020adfdb09000000b00301a351a8d6sm2352441wri.84.2023.04.20.14.13.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 14:12:02 -0700 (PDT)
+ Thu, 20 Apr 2023 14:13:13 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Lukas Straub <lukasstraub2@web.de>
 Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,
  Thomas Huth <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 01/13] qtest/migration-test.c: Add postcopy tests
- with compress enabled
-In-Reply-To: <20230420103756.2aada33a@gecko.fritz.box> (Lukas Straub's message
- of "Thu, 20 Apr 2023 12:37:56 +0200")
+Subject: Re: [PATCH v2 02/13] ram.c: Let the compress threads return a
+ CompressResult enum
+In-Reply-To: <41cb2e3c0065b2c99948703a5a4f4bfe600ee64b.1681983401.git.lukasstraub2@web.de>
+ (Lukas Straub's message of "Thu, 20 Apr 2023 11:47:56 +0200")
 References: <cover.1681983401.git.lukasstraub2@web.de>
- <01a063686e62ce97e7d0bc9fa935389f074ecb4b.1681983401.git.lukasstraub2@web.de>
- <87cz3yzwgm.fsf@secure.mitica>
- <20230420103756.2aada33a@gecko.fritz.box>
+ <41cb2e3c0065b2c99948703a5a4f4bfe600ee64b.1681983401.git.lukasstraub2@web.de>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 20 Apr 2023 23:12:02 +0200
-Message-ID: <875y9quul9.fsf@secure.mitica>
+Date: Thu, 20 Apr 2023 23:13:12 +0200
+Message-ID: <871qkeuujb.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -106,82 +104,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Lukas Straub <lukasstraub2@web.de> wrote:
-> On Thu, 20 Apr 2023 12:20:25 +0200
-> Juan Quintela <quintela@redhat.com> wrote:
+> This will be used in the next commits to move save_page_header()
+> out of compress code.
 >
->> Lukas Straub <lukasstraub2@web.de> wrote:
->> > Add postcopy tests with compress enabled to ensure nothing breaks
->> > with the refactoring in the next commits.
->> >
->> > preempt+compress is blocked, so no test needed for that case.
->> >
->> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>  
->> 
->> Reviewed-by: Juan Quintela <quintela@redhat.com>
->> 
->> And I wanted to removed the old compression code and it gets new users.  Sniff.
->
-> Who know how many compress threads users are out there...
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 
-Not too much.
-We broke it during development and nobody found it.
-
-And the reason that I wrote the multifd-zlib compression code was
-because I was not able to get a migration-test working with compression,
-so ....
-
-> By the way, I'm not against deprecating compress threads in the long
-> run. I'm already working on (cleanly :)) adding colo support with
-> multifd.
-
-Ok, then I will still put the deprecate comment there.
-
-
->> > ---
->> >  tests/qtest/migration-test.c | 83 +++++++++++++++++++++++-------------
->> >  1 file changed, 53 insertions(+), 30 deletions(-)
->> >
->> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
->> > index 1f2a019ce0..930cb4f29d 100644
->> > --- a/tests/qtest/migration-test.c
->> > +++ b/tests/qtest/migration-test.c
->> > @@ -1127,6 +1127,36 @@ test_migrate_tls_x509_finish(QTestState *from,
->> >  #endif /* CONFIG_TASN1 */
->> >  #endif /* CONFIG_GNUTLS */
->> >
->> > +static void *
->> > +test_migrate_compress_start(QTestState *from,
->> > +                            QTestState *to)
->> > +{
->> > +    migrate_set_parameter_int(from, "compress-level", 1);
->> > +    migrate_set_parameter_int(from, "compress-threads", 4);
->> > +    migrate_set_parameter_bool(from, "compress-wait-thread", true);
->> > +    migrate_set_parameter_int(to, "decompress-threads", 4);
->> > +
->> > +    migrate_set_capability(from, "compress", true);
->> > +    migrate_set_capability(to, "compress", true);
->> > +
->> > +    return NULL;
->> > +}  
->> 
->> Independently of this patch, we need to change this test to use 4
->> compression tests and 3 decompression or anything that is not the same
->> number in both sides.
->> 
->> I was complaining about this and when I arrived to the end of the path
->> found that this was code movement.
->> 
->> Later, Juan.
->> 
->
-> Oops, forgot to mention, the test is based on this patch
-> https://lore.kernel.org/qemu-devel/2f4abb67cf5f3e1591b2666676462a93bdd20bbc.1680618040.git.lukasstraub2@web.de/
->
-> Will probably carry the patch with this series then. So you mean 4
-> compress _threads_ and 3 decompress _threads_?
-
-Yeap.
-
-Later, Juan.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
