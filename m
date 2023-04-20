@@ -2,84 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9E56E8D5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556586E8D63
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:00:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQ6E-0001Xx-B4; Thu, 20 Apr 2023 04:57:06 -0400
+	id 1ppQ8s-0002KG-V2; Thu, 20 Apr 2023 04:59:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQ6C-0001Xb-I8
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:57:04 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQ6A-0007YN-SQ
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:57:04 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f18dacd392so812935e9.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 01:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681981020; x=1684573020;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KpuIcmkmN2dpilpi9+bamzXYHTWcmDmXcL4m3FGDS8U=;
- b=w1N5ERTYBOtWru/Y8XXlgVkPYfuWOt+CKcSD3R6RLKHpqc1Mpv87xEWhz5oj4vbQQE
- meiNK6xLqfNGoq/A4q3fnWQst/+6eQdj8M7GdvbO1P2BJJCaxwk4ijy9pDbMqMhQeppY
- dyZquXCRabwjHpOEflbdDeMbRhSrjFPKt51qUguezqexCD/KGrC6L6dr85BNAs0tI7LG
- rd3743lV10pfF8QrY1ZiC15XOTAnMWNnrAdF2+6wKbmbMacTzqkmy1PxUf/fwKvr6kdJ
- Mhq2PWXZm3BFBJxVYgWCH8pjb380i9IMJ7sMZn2/VjQh7PWu4HgafGqkvkvvSlO3nbCI
- ZQRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681981020; x=1684573020;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KpuIcmkmN2dpilpi9+bamzXYHTWcmDmXcL4m3FGDS8U=;
- b=DZARxhZBxb4Ip3epvPZ9aRdaS6dQkTJwYACuv8TWjnDRpThidYwvyG52x2jWth+MeS
- wh4e36JPOQN0X3oJvBIF8GnZ+wMYOCfnNHm0uAKTMJ+/kWxFiB+sIhz7XsZ6+iW9wtri
- VKAQKg7yBLdbFM+QJv6P60tKYXIeQSplk0MA2e13tV2swuVqVyWkPsOC2IJGH0o5O5FG
- LlLLNaqrVA19rJbRIeb+MRHEE7UgJRwY20iv1NCEVgi9jCi4UQeRn+TXBkjMEs+3GhI2
- /ubMXP0AvcVGp8ukDPUVl/ZmDjXt8I4g72C6cvD4e+3aXXgLx2JY/Kyvg3UAFQ4r1Cfi
- 7pKA==
-X-Gm-Message-State: AAQBX9cJblH0oVwd68wgh9NtHxndkscomDmqrAVAHy09qt50uVxJd9si
- 5LZTWQH5h/dpXFG9PNX5Sy8/kQ==
-X-Google-Smtp-Source: AKy350aGmmIfSZatpQJfQXxTEAdufWdfrJw0XorxlcxuYS8lCzbuhoNVKsuKU7LBDC40zYwgXOwvvA==
-X-Received: by 2002:adf:fad0:0:b0:2fe:e435:4a17 with SMTP id
- a16-20020adffad0000000b002fee4354a17mr692177wrs.65.1681981020546; 
- Thu, 20 Apr 2023 01:57:00 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o4-20020a056000010400b002fa67f77c16sm1368053wrx.57.2023.04.20.01.56.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 01:57:00 -0700 (PDT)
-Message-ID: <5d687f01-ff41-e677-a943-4bccc5c4900f@linaro.org>
-Date: Thu, 20 Apr 2023 10:56:58 +0200
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1ppQ8p-0002Jn-EO; Thu, 20 Apr 2023 04:59:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1ppQ8n-0000RM-6t; Thu, 20 Apr 2023 04:59:47 -0400
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33K8dmEA008907; Thu, 20 Apr 2023 08:59:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=C9uPDkS3qLXWdRPc0ywPWUWphUcD+k6Ch6zxE42+GV0=;
+ b=NcysluuvV2sDixU3pUXThAHwgrG0CL/jAX083sIPB1ZqXUVQDnqn+ja/ckLxf+HvuKf7
+ 6kJaf01TrQOoBXVl6+70oM7/Pql+ZEEWt7x2ei/obQ76IaqjlRmBsZtwux1T5Nz/a/q3
+ aiHhgAJPYFslvtmvCWa0lUblNRpGMF1X9E6GUvESumoOx2jsNwNhzGL9sujVG5pju4XL
+ K4wnoLvxpA7Q8rR0NMqRSgqwedJ6wsnyK8hPmoozFxLkFoZpo3mlGjdn2JUIVsN8Tlr1
+ 0gbtAHvlEUZgo4CHtIE7jGtLjNy9jnh0TEFIBSBhpvjEoAR7VNhG8CGbG7bty22+OERj Aw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q322wrnh5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 08:59:35 +0000
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33K8eUKx010907;
+ Thu, 20 Apr 2023 08:59:35 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q322wrnf8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 08:59:35 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33K807tM005597;
+ Thu, 20 Apr 2023 08:59:32 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3pyk6fk96q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 08:59:32 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33K8xQcX28312152
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 20 Apr 2023 08:59:26 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C600F20043;
+ Thu, 20 Apr 2023 08:59:26 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4E77A20040;
+ Thu, 20 Apr 2023 08:59:26 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.175.78]) by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 20 Apr 2023 08:59:26 +0000 (GMT)
+Message-ID: <66d9ba0e9904f035326aca609a767976b94547cf.camel@linux.ibm.com>
+Subject: Re: [PATCH v19 02/21] s390x/cpu topology: add topology entries on
+ CPU hotplug
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Thu, 20 Apr 2023 10:59:26 +0200
+In-Reply-To: <20230403162905.17703-3-pmorel@linux.ibm.com>
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-3-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v3 06/10] Document that -singlestep command line option is
- deprecated
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
-References: <20230417164041.684562-1-peter.maydell@linaro.org>
- <20230417164041.684562-7-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230417164041.684562-7-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: WhTnQtoCc89E71UnRkdBg0Bcr09WE2AE
+X-Proofpoint-GUID: amg6WlS4piykc8JxT8D43IiGEUCiQJa5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-20_05,2023-04-18_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0
+ impostorscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0
+ adultscore=0 spamscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304200064
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,21 +118,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/4/23 18:40, Peter Maydell wrote:
-> Document that the -singlestep command line option is now
-> deprecated, as it is replaced by either the TCG accelerator
-> property 'one-insn-per-tb' for system emulation or the new
-> '-one-insn-per-tb' option for usermode emulation, and remove
-> the only use of the deprecated syntax from a README.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
+> The topology information are attributes of the CPU and are
+> specified during the CPU device creation.
+>=20
+> On hot plug we:
+> - calculate the default values for the topology for drawers,
+>   books and sockets in the case they are not specified.
+> - verify the CPU attributes
+> - check that we have still room on the desired socket
+>=20
+> The possibility to insert a CPU in a mask is dependent on the
+> number of cores allowed in a socket, a book or a drawer, the
+> checking is done during the hot plug of the CPU to have an
+> immediate answer.
+>=20
+> If the complete topology is not specified, the core is added
+> in the physical topology based on its core ID and it gets
+> defaults values for the modifier attributes.
+>=20
+> This way, starting QEMU without specifying the topology can
+> still get some advantage of the CPU topology.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->   docs/about/deprecated.rst | 16 ++++++++++++++++
->   qemu-options.hx           |  5 +++--
->   tcg/tci/README            |  2 +-
->   3 files changed, 20 insertions(+), 3 deletions(-)
+>  MAINTAINERS                        |   1 +
+>  include/hw/s390x/cpu-topology.h    |  44 +++++
+>  include/hw/s390x/s390-virtio-ccw.h |   1 +
+>  hw/s390x/cpu-topology.c            | 282 +++++++++++++++++++++++++++++
+>  hw/s390x/s390-virtio-ccw.c         |  22 ++-
+>  hw/s390x/meson.build               |   1 +
+>  6 files changed, 349 insertions(+), 2 deletions(-)
+>  create mode 100644 hw/s390x/cpu-topology.c
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+[...]
 
+>  #endif
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-v=
+irtio-ccw.h
+> index 9bba21a916..ea10a6c6e1 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
+>      bool dea_key_wrap;
+>      bool pv;
+>      uint8_t loadparm[8];
+> +    bool vertical_polarization;
+
+Why is this here and not in s390_topology?
+This splits up the topology state somewhat.
+I don't quite recall, did you use to have s390_topology in S390CcwMachineSt=
+ate at some point?
+I think putting everything in S390CcwMachineState might make sense too.
+
+>  };
+> =20
+>  struct S390CcwMachineClass {
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> new file mode 100644
+> index 0000000000..96da67bd7e
+> --- /dev/null
+> +++ b/hw/s390x/cpu-topology.c
+
+[...]
+
+> +/**
+> + * s390_topology_cpu_default:
+> + * @cpu: pointer to a S390CPU
+> + * @errp: Error pointer
+> + *
+> + * Setup the default topology if no attributes are already set.
+> + * Passing a CPU with some, but not all, attributes set is considered
+> + * an error.
+> + *
+> + * The function calculates the (drawer_id, book_id, socket_id)
+> + * topology by filling the cores starting from the first socket
+> + * (0, 0, 0) up to the last (smp->drawers, smp->books, smp->sockets).
+> + *
+> + * CPU type and dedication have defaults values set in the
+> + * s390x_cpu_properties, entitlement must be adjust depending on the
+> + * dedication.
+> + */
+> +static void s390_topology_cpu_default(S390CPU *cpu, Error **errp)
+> +{
+> +    CpuTopology *smp =3D s390_topology.smp;
+> +    CPUS390XState *env =3D &cpu->env;
+> +
+> +    /* All geometry topology attributes must be set or all unset */
+> +    if ((env->socket_id < 0 || env->book_id < 0 || env->drawer_id < 0) &=
+&
+> +        (env->socket_id >=3D 0 || env->book_id >=3D 0 || env->drawer_id =
+>=3D 0)) {
+> +        error_setg(errp,
+> +                   "Please define all or none of the topology geometry a=
+ttributes");
+> +        return;
+> +    }
+> +
+> +    /* Check if one of the geometry topology is unset */
+> +    if (env->socket_id < 0) {
+> +        /* Calculate default geometry topology attributes */
+> +        env->socket_id =3D s390_std_socket(env->core_id, smp);
+> +        env->book_id =3D s390_std_book(env->core_id, smp);
+> +        env->drawer_id =3D s390_std_drawer(env->core_id, smp);
+> +    }
+> +
+> +    /*
+> +     * Even the user can specify the entitlement as horizontal on the
+> +     * command line, qemu will only use env->entitlement during vertical
+> +     * polarization.
+> +     * Medium entitlement is chosen as the default entitlement when the =
+CPU
+> +     * is not dedicated.
+> +     * A dedicated CPU always receives a high entitlement.
+> +     */
+> +    if (env->entitlement >=3D S390_CPU_ENTITLEMENT__MAX ||
+> +        env->entitlement =3D=3D S390_CPU_ENTITLEMENT_HORIZONTAL) {
+> +        if (env->dedicated) {
+> +            env->entitlement =3D S390_CPU_ENTITLEMENT_HIGH;
+> +        } else {
+> +            env->entitlement =3D S390_CPU_ENTITLEMENT_MEDIUM;
+> +        }
+> +    }
+
+As you know, in my opinion there should be not possibility for the user
+to set the entitlement to horizontal and dedicated && !=3D HIGH should be
+rejected as an error.
+If you do this, you can delete this.
+
+> +}
+> +
+> +/**
+> + * s390_topology_check:
+> + * @socket_id: socket to check
+> + * @book_id: book to check
+> + * @drawer_id: drawer to check
+> + * @entitlement: entitlement to check
+> + * @dedicated: dedication to check
+> + * @errp: Error pointer
+> + *
+> + * The function checks if the topology
+> + * attributes fits inside the system topology.
+
+fitS
+
+The function checks the validity of the provided topology arguments,
+namely that they're in bounds and non contradictory.
+
+> + */
+> +static void s390_topology_check(uint16_t socket_id, uint16_t book_id,
+
+I'd prefer if you stick to one id type. There defined as int32_t in env,
+here you use uint16_t and below int.
+
+In env, you want a signed type with sufficient range, int16_t should suffic=
+e there,
+but bigger is also fine.
+You don't want the user to pass a negative id, so by using an unsigned type=
+ you
+can avoid this without extra code.
+But IMO there should be one point where a type conversion occurs.
+
+> +                                uint16_t drawer_id, uint16_t entitlement=
+,
+> +                                bool dedicated, Error **errp)
+> +{
+> +    CpuTopology *smp =3D s390_topology.smp;
+> +    ERRP_GUARD();
+> +
+> +    if (socket_id >=3D smp->sockets) {
+> +        error_setg(errp, "Unavailable socket: %d", socket_id);
+> +        return;
+> +    }
+> +    if (book_id >=3D smp->books) {
+> +        error_setg(errp, "Unavailable book: %d", book_id);
+> +        return;
+> +    }
+> +    if (drawer_id >=3D smp->drawers) {
+> +        error_setg(errp, "Unavailable drawer: %d", drawer_id);
+> +        return;
+> +    }
+> +    if (entitlement >=3D S390_CPU_ENTITLEMENT__MAX) {
+> +        error_setg(errp, "Unknown entitlement: %d", entitlement);
+> +        return;
+> +    }
+
+I think you can delete this, too, there is no way that entitlement is > MAX=
+.
+
+> +    if (dedicated && (entitlement =3D=3D S390_CPU_ENTITLEMENT_LOW ||
+> +                      entitlement =3D=3D S390_CPU_ENTITLEMENT_MEDIUM)) {
+
+Without HORIZONTAL you can do !=3D HIGH and save one line, but that is
+cosmetic only.
+
+> +        error_setg(errp, "A dedicated cpu implies high entitlement");
+> +        return;
+> +    }
+> +}
+
+[...]
 
