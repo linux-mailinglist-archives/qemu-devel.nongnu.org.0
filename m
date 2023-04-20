@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDC36E9235
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 13:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE9D6E9280
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 13:27:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppSE6-0007UB-93; Thu, 20 Apr 2023 07:13:22 -0400
+	id 1ppSQR-0001rd-L4; Thu, 20 Apr 2023 07:26:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1ppSDv-0007Tw-4t
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:13:12 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1ppSDr-0001Il-Pc
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:13:10 -0400
-Received: from loongson.cn (unknown [10.20.42.120])
- by gateway (Coremail) with SMTP id _____8BxYU8+HkFkuHsfAA--.49496S3;
- Thu, 20 Apr 2023 19:13:03 +0800 (CST)
-Received: from [10.20.42.120] (unknown [10.20.42.120])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxfbM9HkFkXQ0xAA--.909S3; 
- Thu, 20 Apr 2023 19:13:01 +0800 (CST)
-Subject: Re: [PATCH RFC v1 09/10] target/loongarch: Add kvm-stub.c
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, gaosong@loongson.cn
-References: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
- <20230420093606.3366969-10-zhaotianrui@loongson.cn>
- <a315b56d-a331-5e85-ff55-4dca96088bb9@linaro.org>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck
- <cohuck@redhat.com>, maobibo@loongson.cn
-From: Tianrui Zhao <zhaotianrui@loongson.cn>
-Message-ID: <e1869f8c-0aaa-1125-31b3-21fe43009fb3@loongson.cn>
-Date: Thu, 20 Apr 2023 19:13:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppSQP-0001rC-Mz; Thu, 20 Apr 2023 07:26:05 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppSQK-0005rS-DZ; Thu, 20 Apr 2023 07:26:05 -0400
+Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 3E02B5EAEF;
+ Thu, 20 Apr 2023 14:25:48 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b58f::1:1d] (unknown
+ [2a02:6b8:b081:b58f::1:1d])
+ by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id kPccEH1OlCg0-tLfqFz72; Thu, 20 Apr 2023 14:25:47 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1681989947; bh=RXLzGNgIq16vQEG6kpfBsbCFrDMHw19RTiBhRloCR7c=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=qyi6Jeu1oogrwVkA1X0MbN/HfRXdp+T35n2GNWKNGogvroas3Y9+CcVCDLx8gSJZT
+ mCBCVY9k0rXOxypRoOQU4Fc6wTnMRmTytSCAwpVu52RdlN1xd/pkYmyiwFKpKRvdA2
+ dhNh+kkObQBbtGz05X1ABM5ocQJRNsuDn5BKoBRs=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <3c5aa49f-ca2a-5c73-befc-81377cc331b0@yandex-team.ru>
+Date: Thu, 20 Apr 2023 14:25:46 +0300
 MIME-Version: 1.0
-In-Reply-To: <a315b56d-a331-5e85-ff55-4dca96088bb9@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxfbM9HkFkXQ0xAA--.909S3
-X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7urWxKF4kCw47XFyrJw48Xrb_yoW8ur45pF
- Z7uFs8Kr4xJrZrJ3WrZ3y5XF1DZrWSgr12va4aq34xCr4UXr18Xryvg39xWFW5C348Gr10
- vryFkw1YqF18J37anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bDAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AF
- wI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
- Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE
- 14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
- AE67vIY487MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
- c4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
- Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY
- 6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
- AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIE
- c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jOeOJUUUUU=
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.597,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 4/4] configure: add --disable-colo-filters option
+Content-Language: en-US
+To: "Zhang, Chen" <chen.zhang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "michael.roth@amd.com" <michael.roth@amd.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "Zhang, Hailiang" <zhanghailiang@xfusion.com>,
+ "philmd@linaro.org" <philmd@linaro.org>, "thuth@redhat.com"
+ <thuth@redhat.com>, "berrange@redhat.com" <berrange@redhat.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "dave@treblig.org" <dave@treblig.org>, "hreitz@redhat.com"
+ <hreitz@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
+References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+ <20230419225232.508121-5-vsementsov@yandex-team.ru>
+ <MWHPR11MB0031567319A3C4CE499F3CF99B639@MWHPR11MB0031.namprd11.prod.outlook.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <MWHPR11MB0031567319A3C4CE499F3CF99B639@MWHPR11MB0031.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,76 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-在 2023年04月20日 18:04, Philippe Mathieu-Daudé 写道:
-> On 20/4/23 11:36, Tianrui Zhao wrote:
->> Add kvm-stub.c for loongarch, there are two stub functions:
->> kvm_loongarch_reset_vcpu and kvm_loongarch_set_interrupt.
+On 20.04.23 12:09, Zhang, Chen wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> Sent: Thursday, April 20, 2023 6:53 AM
+>> To: qemu-devel@nongnu.org
+>> Cc: qemu-block@nongnu.org; michael.roth@amd.com; armbru@redhat.com;
+>> eblake@redhat.com; jasowang@redhat.com; quintela@redhat.com; Zhang,
+>> Hailiang <zhanghailiang@xfusion.com>; philmd@linaro.org;
+>> thuth@redhat.com; berrange@redhat.com; marcandre.lureau@redhat.com;
+>> pbonzini@redhat.com; dave@treblig.org; hreitz@redhat.com;
+>> kwolf@redhat.com; Zhang, Chen <chen.zhang@intel.com>;
+>> lizhijian@fujitsu.com; Vladimir Sementsov-Ogievskiy <vsementsov@yandex-
+>> team.ru>
+>> Subject: [PATCH v2 4/4] configure: add --disable-colo-filters option
 >>
->> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
->> ---
->>   target/loongarch/kvm-stub.c      | 17 +++++++++++++++++
->>   target/loongarch/kvm_loongarch.h |  1 +
->>   2 files changed, 18 insertions(+)
->>   create mode 100644 target/loongarch/kvm-stub.c
->>
->> diff --git a/target/loongarch/kvm-stub.c b/target/loongarch/kvm-stub.c
->> new file mode 100644
->> index 0000000000..e28827ee07
->> --- /dev/null
->> +++ b/target/loongarch/kvm-stub.c
->> @@ -0,0 +1,17 @@
->> +/*
->> + * QEMU KVM LoongArch specific function stubs
->> + *
->> + * Copyright (c) 2023 Loongson Technology Corporation Limited
->> + */
->> +#include "qemu/osdep.h"
->> +#include "cpu.h"
->> +
->> +void kvm_loongarch_reset_vcpu(LoongArchCPU *cpu)
->
-> Where is kvm_loongarch_reset_vcpu() called?
-Thanks and nowhere called this function, I will remove it.
+>> Add option to not build COLO Proxy subsystem if it is not needed.
+> 
+> I think no need to add the --disable-colo-filter option.
+> Net-filters just general infrastructure. Another example is COLO also
+> use the -chardev socket to connect each filters. No need to add the --disable-colo-chardev....
+> Please drop this patch.
 
-Thanks
-Tianrui Zhao
->
->> +{
->> +    abort();
->> +}
->> +
->> +void kvm_loongarch_set_interrupt(LoongArchCPU *cpu, int irq, int level)
->> +{
->> +    abort();
->
-> Please use g_assert_not_reached() which display more useful informations.
-Thanks, I will use the g_assert_not_reached() to replace it.
+I don't follow your reasoning. Of course, we don't need any option like this, and can simply include to build all the components we don't use. So "no need" is correct for any --disable-* option.
+Still, I think, it's good, when you can exclude from build the subsystems that you don't need / don't want to maintain or ship to your end users.
 
-Thanks
-Tianrui Zhao
->
->> +}
->
-> Add this stub in the previous patch "Implement set vcpu intr for kvm".
-Thanks, I will move this stub function into previous patch "Implement 
-set vcpu intr for kvm".
+In MAINTAINERS these two filters are in "COLO Proxy" susbsystem. Is it correct? What's wrong with adding an option to not build this subsystem? I can rename it to --disable-colo-proxy.
 
-Thanks
-Tianrui Zhao
->
->> diff --git a/target/loongarch/kvm_loongarch.h 
->> b/target/loongarch/kvm_loongarch.h
->> index cdef980eec..c03f4bef0f 100644
->> --- a/target/loongarch/kvm_loongarch.h
->> +++ b/target/loongarch/kvm_loongarch.h
->> @@ -8,6 +8,7 @@
->>   #ifndef QEMU_KVM_LOONGARCH_H
->>   #define QEMU_KVM_LOONGARCH_H
->>   +void kvm_loongarch_reset_vcpu(LoongArchCPU *cpu);
->>   int  kvm_loongarch_set_interrupt(LoongArchCPU *cpu, int irq, int 
->> level);
->>     #endif
+> But for COLO network part, still something need to do:
+> You can add --disable-colo-proxy not to build the net/colo-compare.c  if it is not needed.
+> This file just for COLO and not belong to network filters.
+
+net/colo-compare.c is used only only for COLO, which in turn used only with CONFIG_REPLICATION enabled, see patch 3. So, no reason to add separate option for it, it should be disabled with --disable-replication.
+
+-- 
+Best regards,
+Vladimir
 
 
