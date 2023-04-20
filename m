@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D506E8E21
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:34:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8616E8E36
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:37:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQg4-0000dZ-3W; Thu, 20 Apr 2023 05:34:08 -0400
+	id 1ppQiF-00025s-6J; Thu, 20 Apr 2023 05:36:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQfz-0000cg-S1
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:34:03 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQfy-0002rN-A6
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:34:03 -0400
-Received: by mail-wm1-x335.google.com with SMTP id n31so334833wms.3
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681983240; x=1684575240;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dsFbdoeoUjaqGngsW7Gz+bwcV48TuDbxM49TKqXoUKI=;
- b=kTfU4rBmq68Ou9EgPSYVKU2uD4iD+r4hFZVwxgKq9Avk8ee4V04ibk2tR1xgaxSiM5
- cRL6ARlt/yJMhmPBc6M4QgbGt5tAEdK4l1CtElLFctLdr3v+qxxKpvDQYsVlsdi8D51K
- wqmWJMjqVlHE6JqmI2ZUuDsVRGrFUbBEq8fhdaJvTemaQR+2UTpm6R7Lou6SPCQHWXCX
- 5xYGCOt2EmaBGfCAep6yp/BcH7M6HutejbqXTpAZWYvquxom04qp0NddoiyIKF13ks/a
- i/BEPDywTaM8GiAgIw+U6h5yULCVTY6SV9RHEpWLSeTnWVSyMeuz4i3qosveMJCWQ5hR
- ZPMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681983240; x=1684575240;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dsFbdoeoUjaqGngsW7Gz+bwcV48TuDbxM49TKqXoUKI=;
- b=FVFQpO+4aMm/sH4GO5SH73C1AubdMlEjgmrl03d0Qr05vTeFEjYVaJ20D5ayLZjEJw
- naMphey7/a60ZNKETVgxuKxmh22aNesqNBe4r1Adh5MQFoqRueKCY9tgXt9bzFC9XD3I
- dVDZcb8hQkgPi4NMVBTkIDs4xoQgHYGLvr6PNvOeqmet7zBoQkMgIKAg36ENANybYa30
- H01eMsEuUmg40TAKV+AzwvspsuKS/5YQ2SiJWZ4DTPtXltYq8oFPulcY35/CY0WSYONl
- /AZL/sZdJzo09etbn5Tqr5xg47hZrmNkjMFrRCASZTC+Y0g6MZ02s/6OqV9mcFgQ9IX7
- eDGQ==
-X-Gm-Message-State: AAQBX9eTOwQ3iWkuHM2NBhtKe0MZ05gYmlgCdftmNfCAu2sR8P5cDGJ7
- Poz2kInhY66LO7J3Akt8oYh+7A==
-X-Google-Smtp-Source: AKy350YEkOt25EJFuLCBLvzdDAQi0dS9JFZjHnCMQbm00u/kgityEkOkAf7Bdhxd+BKQTu/eyGF1QQ==
-X-Received: by 2002:a1c:4b1a:0:b0:3f1:8167:dc30 with SMTP id
- y26-20020a1c4b1a000000b003f18167dc30mr876837wma.2.1681983240377; 
- Thu, 20 Apr 2023 02:34:00 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n20-20020a7bc5d4000000b003f17b96793dsm4760001wmk.37.2023.04.20.02.33.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 02:34:00 -0700 (PDT)
-Message-ID: <4bcb801d-7a16-765d-730a-ba2bc882fbeb@linaro.org>
-Date: Thu, 20 Apr 2023 11:33:58 +0200
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1ppQi9-0001wb-FT
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:36:17 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1ppQi6-0003Pc-Pn
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:36:17 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxrtqHB0Fkr3EfAA--.37261S3;
+ Thu, 20 Apr 2023 17:36:07 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxwOSGB0FkUfEwAA--.29752S2; 
+ Thu, 20 Apr 2023 17:36:06 +0800 (CST)
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+To: qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, gaosong@loongson.cn
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ maobibo@loongson.cn, zhaotianrui@loongson.cn
+Subject: [PATCH RFC v1 00/10] Add loongarch kvm accel support
+Date: Thu, 20 Apr 2023 17:35:56 +0800
+Message-Id: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v4 2/2] hvf: implement guest debugging on Apple Silicon
- hosts
-Content-Language: en-US
-To: francesco.cagnin@gmail.com, qemu-devel@nongnu.org
-Cc: mads@ynddal.dk, dirty@apple.com, peter.maydell@linaro.org,
- qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com,
- alex.bennee@linaro.org, Francesco Cagnin <fcagnin@quarkslab.com>
-References: <20230403191600.43487-1-fcagnin@quarkslab.com>
- <20230403191600.43487-3-fcagnin@quarkslab.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230403191600.43487-3-fcagnin@quarkslab.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxwOSGB0FkUfEwAA--.29752S2
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxXF4DZFykKFWxCF43uw45Wrg_yoW5WFy7pF
+ W7uFn8Kr4rJ397Jws5Xas8Xr45Xr4xGr9Fv3WftryxCrZrArykZFyvk39IgFW7Aa4UJFy0
+ qFy8Aw1UW3WUX3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0xFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+ 0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xAC
+ xx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx2
+ 6rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,60 +74,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Francesco,
+This series add loongarch kvm support, mainly implement
+some interfaces used by kvm such as kvm_arch_get/set_regs,
+kvm_arch_handle_exit, kvm_loongarch_set_interrupt, etc.
 
-On 3/4/23 21:16, francesco.cagnin@gmail.com wrote:
-> From: Francesco Cagnin <fcagnin@quarkslab.com>
-> 
-> Support is added for single-stepping, software breakpoints, hardware
-> breakpoints and watchpoints. The code has been structured like the KVM
-> counterpart (and many parts are basically identical).
-> 
-> Guests can be debugged through the gdbstub.
-> 
-> While guest debugging is enabled, the guest can still read and write the
-> DBG*_EL1 registers but they don't have any effect.
-> 
-> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
-> ---
->   accel/hvf/hvf-accel-ops.c | 115 +++++++
->   accel/hvf/hvf-all.c       |  23 ++
->   include/sysemu/hvf.h      |  34 ++
->   include/sysemu/hvf_int.h  |   1 +
->   target/arm/hvf/hvf.c      | 709 +++++++++++++++++++++++++++++++++++++-
->   target/i386/hvf/hvf.c     |  33 ++
->   6 files changed, 913 insertions(+), 2 deletions(-)
+Currently, we are able to boot LoongArch KVM Linux Guests.
+In loongarch VM, mmio devices and iocsr devices are emulated
+in user space such as APIC, IPI, pci devices, etc, other
+hardwares such as MMU, timer and csr are emulated in kernel.
 
-Huge patch (hard to digest).
+It is based on temporarily unaccepted linux kvm:
+https://github.com/loongson/linux-loongarch-kvm
+And We will remove the RFC flag until the linux kvm patches
+are merged.
 
->   static void hvf_accel_ops_class_init(ObjectClass *oc, void *data)
->   {
->       AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-> @@ -473,6 +582,12 @@ static void hvf_accel_ops_class_init(ObjectClass *oc, void *data)
->       ops->synchronize_post_init = hvf_cpu_synchronize_post_init;
->       ops->synchronize_state = hvf_cpu_synchronize_state;
->       ops->synchronize_pre_loadvm = hvf_cpu_synchronize_pre_loadvm;
+The running environment of LoongArch virt machine:
+1. Get the linux source by the above mentioned link.
+   git checkout kvm-loongarch
+   make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu- loongson3_defconfig
+   make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu-
+2. Get the qemu source: https://github.com/loongson/qemu
+   git checkout kvm-loongarch
+   ./configure --target-list="loongarch64-softmmu"  --enable-kvm
+   make
+3. Get uefi bios of LoongArch virt machine:
+   Link: https://github.com/tianocore/edk2-platforms/tree/master/Platform/Loongson/LoongArchQemuPkg#readme
+4. Also you can access the binary files we have already build:
+   https://github.com/yangxiaojuan-loongson/qemu-binary
 
-Consider splitting in 3;
+The command to boot loongarch virt machine:
+   $ qemu-system-loongarch64 -machine virt -m 4G -cpu la464 \
+   -smp 1 -bios QEMU_EFI.fd -kernel vmlinuz.efi -initrd ramdisk \
+   -serial stdio   -monitor telnet:localhost:4495,server,nowait \
+   -append "root=/dev/ram rdinit=/sbin/init console=ttyS0,115200" \
+   --nographic
 
-1: add registers,
+Tianrui Zhao (10):
+  linux-headers: Add KVM headers for loongarch
+  target/loongarch: Define some kvm_arch interfaces
+  target/loongarch: Supplement vcpu env initial when vcpu reset
+  target/loongarch: Implement kvm get/set registers
+  target/loongarch: Implement kvm_arch_init function
+  target/loongarch: Implement kvm_arch_init_vcpu
+  target/loongarch: Implement kvm_arch_handle_exit
+  target/loongarch: Implement set vcpu intr for kvm
+  target/loongarch: Add kvm-stub.c
+  target/loongarch: Add kvm file into meson build
 
-> +    ops->insert_breakpoint = hvf_insert_breakpoint;
-> +    ops->remove_breakpoint = hvf_remove_breakpoint;
-> +    ops->remove_all_breakpoints = hvf_remove_all_breakpoints;
+ linux-headers/asm-loongarch/kvm.h |  99 ++++++
+ linux-headers/linux/kvm.h         |   9 +
+ meson.build                       |   2 +
+ target/loongarch/cpu.c            |  21 +-
+ target/loongarch/cpu.h            |   3 +
+ target/loongarch/kvm-stub.c       |  17 +
+ target/loongarch/kvm.c            | 545 ++++++++++++++++++++++++++++++
+ target/loongarch/kvm_loongarch.h  |  14 +
+ target/loongarch/meson.build      |   1 +
+ 9 files changed, 706 insertions(+), 5 deletions(-)
+ create mode 100644 linux-headers/asm-loongarch/kvm.h
+ create mode 100644 target/loongarch/kvm-stub.c
+ create mode 100644 target/loongarch/kvm.c
+ create mode 100644 target/loongarch/kvm_loongarch.h
 
-2: breakpoint handlers (and stubs)
+-- 
+2.31.1
 
-> +    ops->update_guest_debug = hvf_update_guest_debug;
-> +    ops->supports_guest_debug = hvf_arch_supports_guest_debug;
-
-3: guest_debug handlers (and stubs).
-
->   };
->   static const TypeInfo hvf_accel_ops_type = {
->       .name = ACCEL_OPS_NAME("hvf"),
-
-Regards,
-
-Phil.
 
