@@ -2,96 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DCC6E937A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 13:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3236E9388
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 13:59:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppStZ-0004DA-HT; Thu, 20 Apr 2023 07:56:14 -0400
+	id 1ppSwC-0005Wa-3J; Thu, 20 Apr 2023 07:58:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppStX-0004Ck-LF
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:56:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ppSw8-0005WN-UL; Thu, 20 Apr 2023 07:58:52 -0400
+Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppStR-0007ZI-Ca
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:56:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681991764;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=zAvDgzGJBTvVS23qhc+A5W0Y6N09b5q8Lf9B1WGA4DU=;
- b=UzEV0jm2Q+gaS6Oece152y3tFuu3lvUS1FrZWbYehKQJxXYdPhKVRfCIhSknO52Ced1xue
- P5JM1pn/hfuZWB3jreRG4vAeetaphSVF2/s+cd3dv/jigz5pSlwc/ruqud59Dtvzav/O3T
- ipbhqFi6lOP3M6Z9hdZiNk7nvY0klAc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-527-7wTtX8feMoiz6gMjXiJ9Vw-1; Thu, 20 Apr 2023 07:56:03 -0400
-X-MC-Unique: 7wTtX8feMoiz6gMjXiJ9Vw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p3-20020a05600c358300b003f175c338d6so552877wmq.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 04:56:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681991762; x=1684583762;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zAvDgzGJBTvVS23qhc+A5W0Y6N09b5q8Lf9B1WGA4DU=;
- b=W1vi1qugFqiCBzkBGs1jm1+MAY+qeJLkzxbNXIVHuXU+8qNrBZ/M5NvysAwJ9g2y0g
- aDuMaLg1SzdjJT4+ykmd9s2J7MnfBrvhXZCpAUtMMNWXw18ZnKlQe91GRBJwXdXCGHRP
- rS1LAhJfUU48SpMFbEf6gvhzWM9KGWVZzZ5zuNNk5dhdhzuZ1Gs7G7WWc7+jeAc3vJZH
- iQLf0n9vNZrSAUje8aPYSOPpk2Jnd3cSP/hapl5ch1L+DF701ohzebZPF9RZm8J4PK2Q
- CCFGHcmrmZKIfy7GALG5hoXbFVAS+Dbw8/JCXBzoCxsdILPtCuC5zkH+b4/s8LgKhrki
- ZKgQ==
-X-Gm-Message-State: AAQBX9eBOA18n028tV7NPVG5igKjgWufqpL9lh0Bg4FMrwOuBDaRlJ9r
- kRdPw64ln8tclrgQOjKnnMd/qbY7ed2Kb5+6e7GwWB7Qkqlex2dE1QUchxpZsQawKJ30cjcFkuz
- m4EpriasBIjkzxns=
-X-Received: by 2002:a1c:e90f:0:b0:3f1:75b0:dc47 with SMTP id
- q15-20020a1ce90f000000b003f175b0dc47mr1103097wmc.15.1681991762239; 
- Thu, 20 Apr 2023 04:56:02 -0700 (PDT)
-X-Google-Smtp-Source: AKy350buWRJUVr9X4KLL31Dk+dYeypj7ul+h6CcMV719oRdOop14hLRPToJYypffvB0d5RCZBMUBwA==
-X-Received: by 2002:a1c:e90f:0:b0:3f1:75b0:dc47 with SMTP id
- q15-20020a1ce90f000000b003f175b0dc47mr1103066wmc.15.1681991761869; 
- Thu, 20 Apr 2023 04:56:01 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- p10-20020a1c544a000000b003f03d483966sm5129931wmi.44.2023.04.20.04.56.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 04:56:01 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  michael.roth@amd.com,
- armbru@redhat.com,  eblake@redhat.com,  jasowang@redhat.com,
- zhanghailiang@xfusion.com,  philmd@linaro.org,  thuth@redhat.com,
- berrange@redhat.com,  marcandre.lureau@redhat.com,  pbonzini@redhat.com,
- dave@treblig.org,  hreitz@redhat.com,  kwolf@redhat.com,
- chen.zhang@intel.com,  lizhijian@fujitsu.com, Daniel Berrange
- <berrange@redhat.com>
-Subject: Re: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
-In-Reply-To: <9be9bb57-a5c0-377d-3f51-6155357d0405@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 20 Apr 2023 14:40:36 +0300")
-References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
- <20230419225232.508121-4-vsementsov@yandex-team.ru>
- <87h6tazx8v.fsf@secure.mitica>
- <9be9bb57-a5c0-377d-3f51-6155357d0405@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 20 Apr 2023 13:56:00 +0200
-Message-ID: <87r0seydgv.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ppSw6-000074-7e; Thu, 20 Apr 2023 07:58:52 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VgYtGa7_1681991915; 
+Received: from 30.221.100.213(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VgYtGa7_1681991915) by smtp.aliyun-inc.com;
+ Thu, 20 Apr 2023 19:58:36 +0800
+Message-ID: <eb169df2-84c5-30fe-4638-b01e736463a7@linux.alibaba.com>
+Date: Thu, 20 Apr 2023 19:58:30 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 1/7] target/riscv: Update pmp_get_tlb_size()
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, richard.henderson@linaro.org,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230419032725.29721-1-liweiwei@iscas.ac.cn>
+ <20230419032725.29721-2-liweiwei@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230419032725.29721-2-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.101;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-101.freemail.mail.aliyun.com
+X-Spam_score_int: -115
+X-Spam_score: -11.6
+X-Spam_bar: -----------
+X-Spam_report: (-11.6 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,50 +64,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> On 20.04.23 13:03, Juan Quintela wrote:
->> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
->>> We don't allow to use x-colo capability when replication is not
->>> configured. So, no reason to build COLO when replication is disabled,
->>> it's unusable in this case.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> 
->>> +bool migrate_colo_enabled(void)
->>> +{
->>> +    MigrationState *s = migrate_get_current();
->>> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_X_COLO];
->>> +}
 
->> Aha, It is for this that you changed the black magic on the previous
->> patch. Looks ok from my ignorance.  As said before, I would not remove
->> the capability, left it the way it was.
->> You have less code (less #ifdefs that you just had to add), and
->> enabling/disabling checking capabilities don't need anything from replication.
+On 2023/4/19 11:27, Weiwei Li wrote:
+> PMP entries before the matched PMP entry(including the matched PMP entry)
+> may overlap partial of the tlb page, which may make different regions in
+> that page have different permission rights, such as for
+> PMP0(0x80000008~0x8000000F, R) and PMP1(0x80001000~0x80001FFF, RWX))
+> write access to 0x80000000 will match PMP1. However we cannot cache the tlb
+> for it since this will make the write access to 0x80000008 bypass the check
+> of PMP0. So we should check all of them and set the tlb size to 1 in this
+> case.
 >
-> Yes, I had a sense of doubt while adding these #ifdefs.
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
+>   target/riscv/cpu_helper.c |  7 ++-----
+>   target/riscv/pmp.c        | 39 ++++++++++++++++++++++++++-------------
+>   target/riscv/pmp.h        |  3 +--
+>   3 files changed, 29 insertions(+), 20 deletions(-)
 >
-> Still, on the other hand I feel that it's strange to have public interface which only can say "I'm not built in" :)
->
-> Actually with my way, we have just two #ifdefs instead of one. Seems,
-> not too many. And instead of "I'm not supported" error we just not
-> include the public interface for unsupported feature. It seems to be
-> better user experience. What do you think?
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 433ea529b0..075fc0538a 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -703,11 +703,8 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+>       }
+>   
+>       *prot = pmp_priv_to_page_prot(pmp_priv);
+> -    if ((tlb_size != NULL) && pmp_index != MAX_RISCV_PMPS) {
+> -        target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
+> -        target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
+> -
+> -        *tlb_size = pmp_get_tlb_size(env, pmp_index, tlb_sa, tlb_ea);
+> +    if (tlb_size != NULL) {
+> +        *tlb_size = pmp_get_tlb_size(env, addr);
+>       }
+>   
+>       return TRANSLATE_SUCCESS;
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 1f5aca42e8..22f3b3f217 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -601,28 +601,41 @@ target_ulong mseccfg_csr_read(CPURISCVState *env)
+>   }
+>   
+>   /*
+> - * Calculate the TLB size if the start address or the end address of
+> + * Calculate the TLB size if any start address or the end address of
+>    * PMP entry is presented in the TLB page.
+>    */
 
-I preffer the regularity that all capabilities are the same, and the
-only place to look if something is disabled is a single place.
+  If we don't pass the start address or the end address parameter, we 
+can comment this function:
 
-But on the other hand, the main user is libvirt, so
+Calculate the TLB size according to the PMP rule with the highest priority.
 
-Daniel, what does libvirt preffers?
+> -target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+> -                              target_ulong tlb_sa, target_ulong tlb_ea)
+> +target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr)
+>   {
+> -    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
+> -    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
+> +    target_ulong pmp_sa;
+> +    target_ulong pmp_ea;
+> +    target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
+> +    target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
+> +    int i;
+> +
+> +    for (i = 0; i < MAX_RISCV_PMPS; i++) {
+> +        if (pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg) == PMP_AMATCH_OFF) {
+> +            continue;
+> +        }
+> +
+> +        pmp_sa = env->pmp_state.addr[i].sa;
+> +        pmp_ea = env->pmp_state.addr[i].ea;
+>   
+> -    if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
+> -        return TARGET_PAGE_SIZE;
+> -    } else {
+>           /*
+> -         * At this point we have a tlb_size that is the smallest possible size
+> -         * That fits within a TARGET_PAGE_SIZE and the PMP region.
+> -         *
+> -         * If the size is less then TARGET_PAGE_SIZE we drop the size to 1.
+> +         * If any start address or the end address of PMP entry is presented
+> +         * in the TLB page and cannot override the whole TLB page we drop the
+> +         * size to 1.
+>            * This means the result isn't cached in the TLB and is only used for
+>            * a single translation.
+>            */
+> -        return 1;
+> +        if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
+> +            return TARGET_PAGE_SIZE;
+> +        } else if ((pmp_sa >= tlb_sa && pmp_sa <= tlb_ea) ||
+> +                   (pmp_ea >= tlb_sa && pmp_ea <= tlb_ea)) {
+> +            return 1;
+> +        }
+>       }
+> +
+> +    return TARGET_PAGE_SIZE;
 
-/me guess that they have to do both anyways to detect old versions, but
-who knows.
+This implicitly require a success return from the 
+get_physical_address_pmp call. If we want this function to be a 
+independent one, we should return 0 to indicate no tlb size can return.
 
-Later, Juan.
+Zhiwei
 
+>   }
+>   
+>   /*
+> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+> index b296ea1fc6..0a7e24750b 100644
+> --- a/target/riscv/pmp.h
+> +++ b/target/riscv/pmp.h
+> @@ -76,8 +76,7 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>                          target_ulong size, pmp_priv_t privs,
+>                          pmp_priv_t *allowed_privs,
+>                          target_ulong mode);
+> -target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+> -                              target_ulong tlb_sa, target_ulong tlb_ea);
+> +target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr);
+>   void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
+>   void pmp_update_rule_nums(CPURISCVState *env);
+>   uint32_t pmp_get_num_rules(CPURISCVState *env);
 
