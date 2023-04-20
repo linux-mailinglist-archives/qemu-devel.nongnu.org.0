@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6826E95B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7083C6E95B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:21:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUBE-0001rK-Qw; Thu, 20 Apr 2023 09:18:33 -0400
+	id 1ppUCG-0003u3-Mf; Thu, 20 Apr 2023 09:19:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUB3-0001b2-Mz
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:18:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ppUCD-0003mh-Fg; Thu, 20 Apr 2023 09:19:33 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUB1-0005jo-Tg
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:18:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681996698;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3/qIwzwOLz11lHNsRHqRlaNtXndhl96MSsfSLJn65YM=;
- b=UpbU0J49eRjdUDtUaAtXXbHgNyHFc/0EhfNQsbDf/ws5K1n1CmaDNeRlre9cUnL2KGjZVe
- JLQQmxeGvlSgMMob6tWXfyWNjZUS+sLTLGkmPPDy140A7AW1AixL+EYqnN3D4jQhtpP8DS
- uiLDqdARvokNj8C2zn6ddZEBEdkNFt0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-267-5zMSJf4rPCqlIX6dm4yJ3A-1; Thu, 20 Apr 2023 09:18:17 -0400
-X-MC-Unique: 5zMSJf4rPCqlIX6dm4yJ3A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB94D101A552;
- Thu, 20 Apr 2023 13:18:16 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5FD3C16024;
- Thu, 20 Apr 2023 13:18:15 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PULL 20/20] migration: Pass migrate_caps_check() the old and new caps
-Date: Thu, 20 Apr 2023 15:17:51 +0200
-Message-Id: <20230420131751.28534-21-quintela@redhat.com>
-In-Reply-To: <20230420131751.28534-1-quintela@redhat.com>
-References: <20230420131751.28534-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ppUC4-00061w-Ml; Thu, 20 Apr 2023 09:19:33 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R721e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VgZ4jyS_1681996753; 
+Received: from 30.221.100.213(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VgZ4jyS_1681996753) by smtp.aliyun-inc.com;
+ Thu, 20 Apr 2023 21:19:14 +0800
+Message-ID: <c1f22f14-f7ee-3355-152e-eefff10915ee@linux.alibaba.com>
+Date: Thu, 20 Apr 2023 21:19:08 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 2/7] target/riscv: Move pmp_get_tlb_size apart from
+ get_physical_address_pmp
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, richard.henderson@linaro.org,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230419032725.29721-1-liweiwei@iscas.ac.cn>
+ <20230419032725.29721-3-liweiwei@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230419032725.29721-3-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.133;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-133.freemail.mail.aliyun.com
+X-Spam_score_int: -115
+X-Spam_score: -11.6
+X-Spam_bar: -----------
+X-Spam_report: (-11.6 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,211 +68,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We used to pass the old capabilities array and the new
-capabilities as a list.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- migration/migration.c | 80 +++++++++++++++++--------------------------
- 1 file changed, 31 insertions(+), 49 deletions(-)
+On 2023/4/19 11:27, Weiwei Li wrote:
+> pmp_get_tlb_size can be separated from get_physical_address_pmp and is only
+> needed when ret == TRANSLATE_SUCCESS.
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
+>   target/riscv/cpu_helper.c | 21 +++++++--------------
+>   target/riscv/pmp.c        |  4 ++++
+>   2 files changed, 11 insertions(+), 14 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 075fc0538a..ea08ca9fbb 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -676,14 +676,11 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+>    *
+>    * @env: CPURISCVState
+>    * @prot: The returned protection attributes
+> - * @tlb_size: TLB page size containing addr. It could be modified after PMP
+> - *            permission checking. NULL if not set TLB page for addr.
+>    * @addr: The physical address to be checked permission
+>    * @access_type: The type of MMU access
+>    * @mode: Indicates current privilege level.
+>    */
+> -static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+> -                                    target_ulong *tlb_size, hwaddr addr,
+> +static int get_physical_address_pmp(CPURISCVState *env, int *prot, hwaddr addr,
+>                                       int size, MMUAccessType access_type,
+>                                       int mode)
+>   {
+> @@ -703,9 +700,6 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+>       }
+>   
+>       *prot = pmp_priv_to_page_prot(pmp_priv);
+> -    if (tlb_size != NULL) {
+> -        *tlb_size = pmp_get_tlb_size(env, addr);
+> -    }
+>   
+>       return TRANSLATE_SUCCESS;
+>   }
+> @@ -905,7 +899,7 @@ restart:
+>           }
+>   
+>           int pmp_prot;
+> -        int pmp_ret = get_physical_address_pmp(env, &pmp_prot, NULL, pte_addr,
+> +        int pmp_ret = get_physical_address_pmp(env, &pmp_prot, pte_addr,
+>                                                  sizeof(target_ulong),
+>                                                  MMU_DATA_LOAD, PRV_S);
+>           if (pmp_ret != TRANSLATE_SUCCESS) {
+> @@ -1300,13 +1294,12 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>               prot &= prot2;
+>   
+>               if (ret == TRANSLATE_SUCCESS) {
+> -                ret = get_physical_address_pmp(env, &prot_pmp, &tlb_size, pa,
+> +                ret = get_physical_address_pmp(env, &prot_pmp, pa,
+>                                                  size, access_type, mode);
+>   
+>                   qemu_log_mask(CPU_LOG_MMU,
+>                                 "%s PMP address=" HWADDR_FMT_plx " ret %d prot"
+> -                              " %d tlb_size " TARGET_FMT_lu "\n",
+> -                              __func__, pa, ret, prot_pmp, tlb_size);
+We discard the tlb_size message here，which is not good.
+If we really want to discard it, we should give a reason and remove it 
+in a separated patch.
+> +                              " %d\n", __func__, pa, ret, prot_pmp);
+>   
+>                   prot &= prot_pmp;
+>               }
+> @@ -1333,13 +1326,12 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                         __func__, address, ret, pa, prot);
+>   
+>           if (ret == TRANSLATE_SUCCESS) {
+> -            ret = get_physical_address_pmp(env, &prot_pmp, &tlb_size, pa,
+> +            ret = get_physical_address_pmp(env, &prot_pmp, pa,
+>                                              size, access_type, mode);
+>   
+>               qemu_log_mask(CPU_LOG_MMU,
+>                             "%s PMP address=" HWADDR_FMT_plx " ret %d prot"
+> -                          " %d tlb_size " TARGET_FMT_lu "\n",
+> -                          __func__, pa, ret, prot_pmp, tlb_size);
+> +                          " %d\n", __func__, pa, ret, prot_pmp);
+>   
+>               prot &= prot_pmp;
+>           }
+> @@ -1350,6 +1342,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>       }
+>   
+>       if (ret == TRANSLATE_SUCCESS) {
+> +        tlb_size = pmp_get_tlb_size(env, pa);
+>           tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
+>                        prot, mmu_idx, tlb_size);
+>           return true;
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 22f3b3f217..d1ef9457ea 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -612,6 +612,10 @@ target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr)
+>       target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
+>       int i;
+>   
+> +    if (!riscv_cpu_cfg(env)->pmp || !pmp_get_num_rules(env)) {
+> +        return TARGET_PAGE_SIZE;
+> +    }
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 0c2376bc7e..7b0d4a9d8f 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1300,30 +1300,20 @@ WriteTrackingSupport migrate_query_write_tracking(void)
- }
- 
- /**
-- * @migration_caps_check - check capability validity
-+ * @migration_caps_check - check capability compatibility
-  *
-- * @cap_list: old capability list, array of bool
-- * @params: new capabilities to be applied soon
-+ * @old_caps: old capability list
-+ * @new_caps: new capability list
-  * @errp: set *errp if the check failed, with reason
-  *
-  * Returns true if check passed, otherwise false.
-  */
--static bool migrate_caps_check(bool *cap_list,
--                               MigrationCapabilityStatusList *params,
--                               Error **errp)
-+static bool migrate_caps_check(bool *old_caps, bool *new_caps, Error **errp)
- {
--    MigrationCapabilityStatusList *cap;
--    bool old_postcopy_cap;
-     MigrationIncomingState *mis = migration_incoming_get_current();
- 
--    old_postcopy_cap = cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM];
--
--    for (cap = params; cap; cap = cap->next) {
--        cap_list[cap->value->capability] = cap->value->state;
--    }
--
- #ifndef CONFIG_LIVE_BLOCK_MIGRATION
--    if (cap_list[MIGRATION_CAPABILITY_BLOCK]) {
-+    if (new_caps[MIGRATION_CAPABILITY_BLOCK]) {
-         error_setg(errp, "QEMU compiled without old-style (blk/-b, inc/-i) "
-                    "block migration");
-         error_append_hint(errp, "Use drive_mirror+NBD instead.\n");
-@@ -1332,7 +1322,7 @@ static bool migrate_caps_check(bool *cap_list,
- #endif
- 
- #ifndef CONFIG_REPLICATION
--    if (cap_list[MIGRATION_CAPABILITY_X_COLO]) {
-+    if (new_caps[MIGRATION_CAPABILITY_X_COLO]) {
-         error_setg(errp, "QEMU compiled without replication module"
-                    " can't enable COLO");
-         error_append_hint(errp, "Please enable replication before COLO.\n");
-@@ -1340,12 +1330,13 @@ static bool migrate_caps_check(bool *cap_list,
-     }
- #endif
- 
--    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
-+    if (new_caps[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
-         /* This check is reasonably expensive, so only when it's being
-          * set the first time, also it's only the destination that needs
-          * special support.
-          */
--        if (!old_postcopy_cap && runstate_check(RUN_STATE_INMIGRATE) &&
-+        if (!old_caps[MIGRATION_CAPABILITY_POSTCOPY_RAM] &&
-+            runstate_check(RUN_STATE_INMIGRATE) &&
-             !postcopy_ram_supported_by_host(mis)) {
-             /* postcopy_ram_supported_by_host will have emitted a more
-              * detailed message
-@@ -1354,13 +1345,13 @@ static bool migrate_caps_check(bool *cap_list,
-             return false;
-         }
- 
--        if (cap_list[MIGRATION_CAPABILITY_X_IGNORE_SHARED]) {
-+        if (new_caps[MIGRATION_CAPABILITY_X_IGNORE_SHARED]) {
-             error_setg(errp, "Postcopy is not compatible with ignore-shared");
-             return false;
-         }
-     }
- 
--    if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
-+    if (new_caps[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
-         WriteTrackingSupport wt_support;
-         int idx;
-         /*
-@@ -1384,7 +1375,7 @@ static bool migrate_caps_check(bool *cap_list,
-          */
-         for (idx = 0; idx < check_caps_background_snapshot.size; idx++) {
-             int incomp_cap = check_caps_background_snapshot.caps[idx];
--            if (cap_list[incomp_cap]) {
-+            if (new_caps[incomp_cap]) {
-                 error_setg(errp,
-                         "Background-snapshot is not compatible with %s",
-                         MigrationCapability_str(incomp_cap));
-@@ -1394,10 +1385,10 @@ static bool migrate_caps_check(bool *cap_list,
-     }
- 
- #ifdef CONFIG_LINUX
--    if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND] &&
--        (!cap_list[MIGRATION_CAPABILITY_MULTIFD] ||
--         cap_list[MIGRATION_CAPABILITY_COMPRESS] ||
--         cap_list[MIGRATION_CAPABILITY_XBZRLE] ||
-+    if (new_caps[MIGRATION_CAPABILITY_ZERO_COPY_SEND] &&
-+        (!new_caps[MIGRATION_CAPABILITY_MULTIFD] ||
-+         new_caps[MIGRATION_CAPABILITY_COMPRESS] ||
-+         new_caps[MIGRATION_CAPABILITY_XBZRLE] ||
-          migrate_multifd_compression() ||
-          migrate_use_tls())) {
-         error_setg(errp,
-@@ -1405,15 +1396,15 @@ static bool migrate_caps_check(bool *cap_list,
-         return false;
-     }
- #else
--    if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND]) {
-+    if (new_caps[MIGRATION_CAPABILITY_ZERO_COPY_SEND]) {
-         error_setg(errp,
-                    "Zero copy currently only available on Linux");
-         return false;
-     }
- #endif
- 
--    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
--        if (!cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
-+    if (new_caps[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
-+        if (!new_caps[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
-             error_setg(errp, "Postcopy preempt requires postcopy-ram");
-             return false;
-         }
-@@ -1424,14 +1415,14 @@ static bool migrate_caps_check(bool *cap_list,
-          * different compression channels, which is not compatible with the
-          * preempt assumptions on channel assignments.
-          */
--        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
-+        if (new_caps[MIGRATION_CAPABILITY_COMPRESS]) {
-             error_setg(errp, "Postcopy preempt not compatible with compress");
-             return false;
-         }
-     }
- 
--    if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
--        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
-+    if (new_caps[MIGRATION_CAPABILITY_MULTIFD]) {
-+        if (new_caps[MIGRATION_CAPABILITY_COMPRESS]) {
-             error_setg(errp, "Multifd is not compatible with compress");
-             return false;
-         }
-@@ -1487,15 +1478,19 @@ void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
- {
-     MigrationState *s = migrate_get_current();
-     MigrationCapabilityStatusList *cap;
--    bool cap_list[MIGRATION_CAPABILITY__MAX];
-+    bool new_caps[MIGRATION_CAPABILITY__MAX];
- 
-     if (migration_is_running(s->state)) {
-         error_setg(errp, QERR_MIGRATION_ACTIVE);
-         return;
-     }
- 
--    memcpy(cap_list, s->capabilities, sizeof(cap_list));
--    if (!migrate_caps_check(cap_list, params, errp)) {
-+    memcpy(new_caps, s->capabilities, sizeof(new_caps));
-+    for (cap = params; cap; cap = cap->next) {
-+        new_caps[cap->value->capability] = cap->value->state;
-+    }
-+
-+    if (!migrate_caps_check(s->capabilities, new_caps, errp)) {
-         return;
-     }
- 
-@@ -4635,27 +4630,14 @@ static void migration_instance_init(Object *obj)
-  */
- static bool migration_object_check(MigrationState *ms, Error **errp)
- {
--    MigrationCapabilityStatusList *head = NULL;
-     /* Assuming all off */
--    bool cap_list[MIGRATION_CAPABILITY__MAX] = { 0 }, ret;
--    int i;
-+    bool old_caps[MIGRATION_CAPABILITY__MAX] = { 0 };
- 
-     if (!migrate_params_check(&ms->parameters, errp)) {
-         return false;
-     }
- 
--    for (i = 0; i < MIGRATION_CAPABILITY__MAX; i++) {
--        if (ms->capabilities[i]) {
--            QAPI_LIST_PREPEND(head, migrate_cap_add(i, true));
--        }
--    }
--
--    ret = migrate_caps_check(cap_list, head, errp);
--
--    /* It works with head == NULL */
--    qapi_free_MigrationCapabilityStatusList(head);
--
--    return ret;
-+    return migrate_caps_check(old_caps, ms->capabilities, errp);
- }
- 
- static const TypeInfo migration_type = {
--- 
-2.39.2
+Can we move this to the first patch? So that we have a right 
+implementation when  change of the prototype of  this function。
 
+Zhiwei
+
+> +
+>       for (i = 0; i < MAX_RISCV_PMPS; i++) {
+>           if (pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg) == PMP_AMATCH_OFF) {
+>               continue;
 
