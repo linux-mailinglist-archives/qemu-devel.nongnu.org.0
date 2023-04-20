@@ -2,96 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21646E95E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCCB6E95E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:33:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUOh-0004PL-38; Thu, 20 Apr 2023 09:32:27 -0400
+	id 1ppUPi-0005oa-Sv; Thu, 20 Apr 2023 09:33:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUOb-0004NH-Mk
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:32:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ppUPa-0005n7-AW; Thu, 20 Apr 2023 09:33:23 -0400
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUOZ-0002qz-8m
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:32:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681997537;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=zhPweI+2TUkuSMHZg7b5r2+kgwXimM2BCj0g4xPXGLE=;
- b=cMpN+RkP7aLsCfLOQbvn3+HvGHjJso888dzoITx/FfsJ8/jgCA2Z9qWsCYOSOpnEZDi/e0
- Ae3ZZQZ04CbZhyIwUh2ePF5A+NpMtLyiooXrRSRuASxH59vSo6JaE80RP3FrkD+ruCYHMT
- NB+2YkeCWIYTjHfF1p6FgEMIJ0BZHtc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-197-WvZfOqLyNfG6tejBO-2jRg-1; Thu, 20 Apr 2023 09:32:16 -0400
-X-MC-Unique: WvZfOqLyNfG6tejBO-2jRg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg10-20020a05600c3c8a00b003ef7b61e2fdso601578wmb.4
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:32:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681997535; x=1684589535;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zhPweI+2TUkuSMHZg7b5r2+kgwXimM2BCj0g4xPXGLE=;
- b=bBYU6cxUfqwAMHEFjanvfpfsD2JxmUezmLaX0zYCIVgoCB3Sf/RaHi+RUVadsFG89w
- 6I30lkMWT3gH3rWF04YLBdNEFvCEU1yt9fIhrhklLvZL14bz4EiuEYXda6TNR7fta7Ez
- yvC5NgTgjYyMdXw1gtkHxkIVo7UtkcRccV/cGIuv0pSeQFCIVAA0jFe2QlaHUHxuOzkC
- exH7fdSQJbwZnTvAwLAT3KF1am9LMo8ndaLLpOrlMR9HMyE79nb7tJF1PjyRgPGja2Hh
- WtWLAL6tBxAPHfhy45Sw6Q/iQHu2OjcOwoqaNvlsWvFyu6Y2QLL96ArkUQe/0pVXtuTF
- HoTg==
-X-Gm-Message-State: AAQBX9f6YvBxSCaV1szA+UQ4rzr4ioFHM5E8NO7M/fiOnVjTP62Wtzd9
- EvVQDc6pLhMRUwZRP45raz3XVQIceZdQFevZfdh2ut/EWB8NEs2kYmeNEKnxUtC3T8cpPlg+45+
- Z+mz6bYE6dAed6UQ=
-X-Received: by 2002:a1c:7706:0:b0:3f1:70d5:1bee with SMTP id
- t6-20020a1c7706000000b003f170d51beemr1352093wmi.29.1681997534957; 
- Thu, 20 Apr 2023 06:32:14 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aXQ6NtdLXWIUG1653E/J6f14cXQvBKdiS6D5Gb8TZf9LJUb7bqrAHw6De+ovSdQ/AIpTuiFw==
-X-Received: by 2002:a1c:7706:0:b0:3f1:70d5:1bee with SMTP id
- t6-20020a1c7706000000b003f170d51beemr1352074wmi.29.1681997534652; 
- Thu, 20 Apr 2023 06:32:14 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- hn3-20020a05600ca38300b003f0ad8d1c69sm5301368wmb.25.2023.04.20.06.32.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 06:32:14 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  David Hildenbrand <david@redhat.com>,  John Snow
- <jsnow@redhat.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org,  Hailiang Zhang <zhanghailiang@xfusion.com>,  Fam
- Zheng <fam@euphon.net>,  "Michael S. Tsirkin" <mst@redhat.com>,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Eric Blake
- <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 06/43] migration: Move migrate_use_compression() to
- options.c
-In-Reply-To: <4fc019c2-98c1-929a-a0c1-dcf441fda0c1@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 20 Apr 2023 15:58:26 +0300")
-References: <20230302163410.11399-1-quintela@redhat.com>
- <20230302163410.11399-7-quintela@redhat.com>
- <4fc019c2-98c1-929a-a0c1-dcf441fda0c1@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 20 Apr 2023 15:32:13 +0200
-Message-ID: <87jzy6wug2.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ppUPS-00031M-LL; Thu, 20 Apr 2023 09:33:21 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R211e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VgZ9ALh_1681997585; 
+Received: from 30.221.100.213(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VgZ9ALh_1681997585) by smtp.aliyun-inc.com;
+ Thu, 20 Apr 2023 21:33:06 +0800
+Message-ID: <7d197a70-5e19-9dc7-11f2-d4656dd9e03f@linux.alibaba.com>
+Date: Thu, 20 Apr 2023 21:33:00 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 6/7] target/riscv: Make the short cut really work in
+ pmp_hart_has_privs
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, richard.henderson@linaro.org,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230419032725.29721-1-liweiwei@iscas.ac.cn>
+ <20230419032725.29721-7-liweiwei@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230419032725.29721-7-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.124.30.132;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-132.freemail.mail.aliyun.com
+X-Spam_score_int: -115
+X-Spam_score: -11.6
+X-Spam_bar: -----------
+X-Spam_report: (-11.6 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,47 +65,303 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> On 02.03.23 19:33, Juan Quintela wrote:
->> Once that we are there, we rename the function to migrate_compress()
->> to be consistent with all other capabilities.
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->
->> ---
->>   migration/migration.h |  1 -
->>   migration/options.h   |  1 +
->>   migration/migration.c | 11 +----------
->>   migration/options.c   |  9 +++++++++
->
-> [..]
->
->> --- a/migration/options.c
->> +++ b/migration/options.c
->> @@ -41,6 +41,15 @@ bool migrate_colo(void)
->>       return s->capabilities[MIGRATION_CAPABILITY_X_COLO];
->>   }
->>   +bool migrate_compress(void)
->> +{
->> +    MigrationState *s;
->> +
->> +    s = migrate_get_current();
->> +
->> +    return s->capabilities[MIGRATION_CAPABILITY_COMPRESS];
->> +}
->
-> Probably, we could generate these functions automatically, or at least
-> have a helper, so that all such functions are one-line wrappers on
-> that helper.
 
-Markus, or any other qapi guru, I would be happy if this could be
-managed automagically O:-)
+On 2023/4/19 11:27, Weiwei Li wrote:
+> We needn't check the PMP entries if there is no PMP rules.
+This commit doesn't give much information. If you are fixing a bug, you 
+should point it out why the original implementation is wrong.
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
+>   target/riscv/pmp.c | 251 ++++++++++++++++++++++-----------------------
 
-Later, Juan.
+Have we changed all the logic of this function? It's really a lot of 
+code change. I am not sure if there is a git option to reduce the code 
+move in the patch.
 
+Zhiwei
+
+>   1 file changed, 123 insertions(+), 128 deletions(-)
+>
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 7feaddd7eb..755ed2b963 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -314,149 +314,144 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>       target_ulong e = 0;
+>   
+>       /* Short cut if no rules */
+> -    if (0 == pmp_get_num_rules(env)) {
+> -        if (pmp_hart_has_privs_default(env, addr, size, privs,
+> -                                       allowed_privs, mode)) {
+> -            ret = MAX_RISCV_PMPS;
+> -        }
+> -    }
+> -
+> -    if (size == 0) {
+> -        if (riscv_cpu_cfg(env)->mmu) {
+> -            /*
+> -             * If size is unknown (0), assume that all bytes
+> -             * from addr to the end of the page will be accessed.
+> -             */
+> -            pmp_size = -(addr | TARGET_PAGE_MASK);
+> +    if (pmp_get_num_rules(env) != 0) {
+> +        if (size == 0) {
+> +            if (riscv_cpu_cfg(env)->mmu) {
+> +                /*
+> +                 * If size is unknown (0), assume that all bytes
+> +                 * from addr to the end of the page will be accessed.
+> +                 */
+> +                pmp_size = -(addr | TARGET_PAGE_MASK);
+> +            } else {
+> +                pmp_size = sizeof(target_ulong);
+> +            }
+>           } else {
+> -            pmp_size = sizeof(target_ulong);
+> -        }
+> -    } else {
+> -        pmp_size = size;
+> -    }
+> -
+> -    /*
+> -     * 1.10 draft priv spec states there is an implicit order
+> -     * from low to high
+> -     */
+> -    for (i = 0; i < MAX_RISCV_PMPS; i++) {
+> -        s = pmp_is_in_range(env, i, addr);
+> -        e = pmp_is_in_range(env, i, addr + pmp_size - 1);
+> -
+> -        /* partially inside */
+> -        if ((s + e) == 1) {
+> -            qemu_log_mask(LOG_GUEST_ERROR,
+> -                          "pmp violation - access is partially inside\n");
+> -            ret = -1;
+> -            break;
+> +            pmp_size = size;
+>           }
+>   
+> -        /* fully inside */
+> -        const uint8_t a_field =
+> -            pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg);
+> -
+>           /*
+> -         * Convert the PMP permissions to match the truth table in the
+> -         * ePMP spec.
+> +         * 1.10 draft priv spec states there is an implicit order
+> +         * from low to high
+>            */
+> -        const uint8_t epmp_operation =
+> -            ((env->pmp_state.pmp[i].cfg_reg & PMP_LOCK) >> 4) |
+> -            ((env->pmp_state.pmp[i].cfg_reg & PMP_READ) << 2) |
+> -            (env->pmp_state.pmp[i].cfg_reg & PMP_WRITE) |
+> -            ((env->pmp_state.pmp[i].cfg_reg & PMP_EXEC) >> 2);
+> +        for (i = 0; i < MAX_RISCV_PMPS; i++) {
+> +            s = pmp_is_in_range(env, i, addr);
+> +            e = pmp_is_in_range(env, i, addr + pmp_size - 1);
+> +
+> +            /* partially inside */
+> +            if ((s + e) == 1) {
+> +                qemu_log_mask(LOG_GUEST_ERROR,
+> +                              "pmp violation - access is partially inside\n");
+> +                ret = -1;
+> +                break;
+> +            }
+> +
+> +            /* fully inside */
+> +            const uint8_t a_field =
+> +                pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg);
+>   
+> -        if (((s + e) == 2) && (PMP_AMATCH_OFF != a_field)) {
+>               /*
+> -             * If the PMP entry is not off and the address is in range,
+> -             * do the priv check
+> +             * Convert the PMP permissions to match the truth table in the
+> +             * ePMP spec.
+>                */
+> -            if (!MSECCFG_MML_ISSET(env)) {
+> -                /*
+> -                 * If mseccfg.MML Bit is not set, do pmp priv check
+> -                 * This will always apply to regular PMP.
+> -                 */
+> -                *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+> -                if ((mode != PRV_M) || pmp_is_locked(env, i)) {
+> -                    *allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
+> -                }
+> -            } else {
+> +            const uint8_t epmp_operation =
+> +                ((env->pmp_state.pmp[i].cfg_reg & PMP_LOCK) >> 4) |
+> +                ((env->pmp_state.pmp[i].cfg_reg & PMP_READ) << 2) |
+> +                (env->pmp_state.pmp[i].cfg_reg & PMP_WRITE) |
+> +                ((env->pmp_state.pmp[i].cfg_reg & PMP_EXEC) >> 2);
+> +
+> +            if (((s + e) == 2) && (PMP_AMATCH_OFF != a_field)) {
+>                   /*
+> -                 * If mseccfg.MML Bit set, do the enhanced pmp priv check
+> +                 * If the PMP entry is not off and the address is in range,
+> +                 * do the priv check
+>                    */
+> -                if (mode == PRV_M) {
+> -                    switch (epmp_operation) {
+> -                    case 0:
+> -                    case 1:
+> -                    case 4:
+> -                    case 5:
+> -                    case 6:
+> -                    case 7:
+> -                    case 8:
+> -                        *allowed_privs = 0;
+> -                        break;
+> -                    case 2:
+> -                    case 3:
+> -                    case 14:
+> -                        *allowed_privs = PMP_READ | PMP_WRITE;
+> -                        break;
+> -                    case 9:
+> -                    case 10:
+> -                        *allowed_privs = PMP_EXEC;
+> -                        break;
+> -                    case 11:
+> -                    case 13:
+> -                        *allowed_privs = PMP_READ | PMP_EXEC;
+> -                        break;
+> -                    case 12:
+> -                    case 15:
+> -                        *allowed_privs = PMP_READ;
+> -                        break;
+> -                    default:
+> -                        g_assert_not_reached();
+> +                if (!MSECCFG_MML_ISSET(env)) {
+> +                    /*
+> +                     * If mseccfg.MML Bit is not set, do pmp priv check
+> +                     * This will always apply to regular PMP.
+> +                     */
+> +                    *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+> +                    if ((mode != PRV_M) || pmp_is_locked(env, i)) {
+> +                        *allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
+>                       }
+>                   } else {
+> -                    switch (epmp_operation) {
+> -                    case 0:
+> -                    case 8:
+> -                    case 9:
+> -                    case 12:
+> -                    case 13:
+> -                    case 14:
+> -                        *allowed_privs = 0;
+> -                        break;
+> -                    case 1:
+> -                    case 10:
+> -                    case 11:
+> -                        *allowed_privs = PMP_EXEC;
+> -                        break;
+> -                    case 2:
+> -                    case 4:
+> -                    case 15:
+> -                        *allowed_privs = PMP_READ;
+> -                        break;
+> -                    case 3:
+> -                    case 6:
+> -                        *allowed_privs = PMP_READ | PMP_WRITE;
+> -                        break;
+> -                    case 5:
+> -                        *allowed_privs = PMP_READ | PMP_EXEC;
+> -                        break;
+> -                    case 7:
+> -                        *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+> -                        break;
+> -                    default:
+> -                        g_assert_not_reached();
+> +                    /*
+> +                     * If mseccfg.MML Bit set, do the enhanced pmp priv check
+> +                     */
+> +                    if (mode == PRV_M) {
+> +                        switch (epmp_operation) {
+> +                        case 0:
+> +                        case 1:
+> +                        case 4:
+> +                        case 5:
+> +                        case 6:
+> +                        case 7:
+> +                        case 8:
+> +                            *allowed_privs = 0;
+> +                            break;
+> +                        case 2:
+> +                        case 3:
+> +                        case 14:
+> +                            *allowed_privs = PMP_READ | PMP_WRITE;
+> +                            break;
+> +                        case 9:
+> +                        case 10:
+> +                            *allowed_privs = PMP_EXEC;
+> +                            break;
+> +                        case 11:
+> +                        case 13:
+> +                            *allowed_privs = PMP_READ | PMP_EXEC;
+> +                            break;
+> +                        case 12:
+> +                        case 15:
+> +                            *allowed_privs = PMP_READ;
+> +                            break;
+> +                        default:
+> +                            g_assert_not_reached();
+> +                        }
+> +                    } else {
+> +                        switch (epmp_operation) {
+> +                        case 0:
+> +                        case 8:
+> +                        case 9:
+> +                        case 12:
+> +                        case 13:
+> +                        case 14:
+> +                            *allowed_privs = 0;
+> +                            break;
+> +                        case 1:
+> +                        case 10:
+> +                        case 11:
+> +                            *allowed_privs = PMP_EXEC;
+> +                            break;
+> +                        case 2:
+> +                        case 4:
+> +                        case 15:
+> +                            *allowed_privs = PMP_READ;
+> +                            break;
+> +                        case 3:
+> +                        case 6:
+> +                            *allowed_privs = PMP_READ | PMP_WRITE;
+> +                            break;
+> +                        case 5:
+> +                            *allowed_privs = PMP_READ | PMP_EXEC;
+> +                            break;
+> +                        case 7:
+> +                            *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+> +                            break;
+> +                        default:
+> +                            g_assert_not_reached();
+> +                        }
+>                       }
+>                   }
+> -            }
+>   
+> -            /*
+> -             * If matching address range was found, the protection bits
+> -             * defined with PMP must be used. We shouldn't fallback on
+> -             * finding default privileges.
+> -             */
+> -            ret = i;
+> -            break;
+> +                /*
+> +                 * If matching address range was found, the protection bits
+> +                 * defined with PMP must be used. We shouldn't fallback on
+> +                 * finding default privileges.
+> +                 */
+> +                ret = i;
+> +                break;
+> +            }
+>           }
+>       }
+>   
 
