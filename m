@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F776E9806
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CFB6E983C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:24:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppVs0-00089T-14; Thu, 20 Apr 2023 11:06:48 -0400
+	id 1ppW7j-0003jZ-T4; Thu, 20 Apr 2023 11:23:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppVrw-00085k-Qf
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:06:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppVrq-0006M7-El
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:06:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682003195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4kf5YrcOdulZR73o+6uslTLdkf/zkeTFkuP/CZIinTA=;
- b=iiHX6u6OfbYbgmZiZNzwRH94t5h6OCpPwe8i1y7zmc5Taav76ksZbIVlhZMyeydFcsLYLE
- b2lxKPu6ceq1nhbFE+XWWcJgsP8+9dcKtQg1Uy908ccfIfAmxNNm7BvGZ1+Ibjpxn/Hfxy
- 3uqogKI1VHRq+ClpfudiiPjpjTyG42Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-286-fnDZiay5PPqkk5f5CbprZw-1; Thu, 20 Apr 2023 11:06:33 -0400
-X-MC-Unique: fnDZiay5PPqkk5f5CbprZw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D435886C66;
- Thu, 20 Apr 2023 15:06:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3958C40C2064;
- Thu, 20 Apr 2023 15:06:33 +0000 (UTC)
-Date: Thu, 20 Apr 2023 10:06:31 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH] nbd: a BlockExport always has a BlockBackend
-Message-ID: <uisrm3fdw3sdojagmlcijcojsuhiukn5xfkoxhew3fkvlaejj6@wnhq7uo3d3td>
-References: <20230405101634.10537-1-pbonzini@redhat.com>
- <kw3mfjwhrp67nyofmigyryc7uj5tpfpaxbc3zzpqkksm46rt6k@vtchtohggi73>
+ (Exim 4.90_1) (envelope-from <yin31149@gmail.com>)
+ id 1ppW7h-0003iy-HW
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:23:01 -0400
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yin31149@gmail.com>)
+ id 1ppW7g-0005xM-0P
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:23:01 -0400
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2a8aea2a654so5871041fa.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 08:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682004177; x=1684596177;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IvSDnip6oAlr5K0Ik63CQ/cIumCCLHVvLu2UzTZiqSU=;
+ b=HUM9EUP9EEIC4W6bt+ftz/4coCDwfqi5bbXpA239rIB1ums6UQmCuW1K77gyHWZ4W6
+ wYxhi1fjw2vdpv6Fo350qhNBDsz/euc5/RPfQfUJUzgQoVn6uaf6F5gdq9UHN5KLrqCi
+ jTnzUyqRSc3z4crlNz+i+g8ZNUzu6TnFfKLFqtQ+BlWtf3YHOc6HPFqb8wBaPJI+1hiy
+ 19w1b722XcvpLiz1CnPbg1MhoJcvxJ8R3OatWhqtxLuc1HCVkYbct59SWBhYFlWUuA/6
+ c+y8GJ/YphgvOr8vCA3K8kRG3k3t8Mnthxbb2UESnIIhQkFG3JhbcupjjCyqWPgtYTSw
+ tM3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682004177; x=1684596177;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IvSDnip6oAlr5K0Ik63CQ/cIumCCLHVvLu2UzTZiqSU=;
+ b=grXPqMmJ3ITxO8XhdObcaKyGLc3547eN4NUYkX5pqWaM6wl84t/aH0Qy7n8AVi+Wlp
+ U2iyKmMa2AzGP8RUiYRzTXiShdJJ41i99hZOe2HGh/jZMDBPGZO9/x8Zc+HS1op1eZGQ
+ mLdIkwKz//pb14hiyCCPxiuv2nRvDKaIXzeYWDA1cJbzK0bLXjVYrsV5qZWNWajqE1Pd
+ CSbPqnNCKwX0weXZTglxtzASzWXzz8go8CUGOEtr7xZiRowWLZvFg2c1GjjjPW8o6S0G
+ i8nmNR2BU3C64HOcl5SkRKr511yp/inQFrjLmsLqZgaNxEeqRpupguQtdYtxW29c/1Tz
+ DI3Q==
+X-Gm-Message-State: AAQBX9fO+BG5GZuW3VNGVfpgoXazWYWnrA3oevkRUe2yWrDaQOrjUR1v
+ UC26UjmeRBQvuKTQ94yVtqyW5PRRrpsjS1MjL6g=
+X-Google-Smtp-Source: AKy350aBzw9altVQ/QfBSt04+fXIZo/iXn3Tr+WwGX3tdIKGmyad/IHq8glyg3STvFlh5TNcSP+lVXV4+1QuG6FkQiI=
+X-Received: by 2002:ac2:5495:0:b0:4ed:300d:79ab with SMTP id
+ t21-20020ac25495000000b004ed300d79abmr516774lfk.7.1682004177213; Thu, 20 Apr
+ 2023 08:22:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <kw3mfjwhrp67nyofmigyryc7uj5tpfpaxbc3zzpqkksm46rt6k@vtchtohggi73>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <cover.1681732982.git.yin31149@gmail.com>
+ <3bd9b7f8a7dc2c9b68679139623308e184a6de85.1681732982.git.yin31149@gmail.com>
+ <CAJaqyWeTrx7cPALh_jweh9r0Yi5TU9oqpuvZk-BmtHUyYq1xJg@mail.gmail.com>
+ <CAKrof1OoPecP-8A_UXtEeyOsinciuceTuBFm_GLoV-wo1OQLOA@mail.gmail.com>
+In-Reply-To: <CAKrof1OoPecP-8A_UXtEeyOsinciuceTuBFm_GLoV-wo1OQLOA@mail.gmail.com>
+From: Hawkins Jiawei <yin31149@gmail.com>
+Date: Thu, 20 Apr 2023 23:22:42 +0800
+Message-ID: <CAKrof1OSxO1Y41T5-OWpncPnBzkQ6PBpSN8SNR_pkZF4ueBnpw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] vdpa: send CVQ state load commands in parallel
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: jasowang@redhat.com, 18801353760@163.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=yin31149@gmail.com; helo=mail-lj1-x229.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,32 +90,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 05, 2023 at 07:54:50AM -0500, Eric Blake wrote:
-> On Wed, Apr 05, 2023 at 12:16:34PM +0200, Paolo Bonzini wrote:
-> > exp->common.blk cannot be NULL, nbd_export_delete() is only called from
-> > blk_exp_unref() and in turn that can only happen after blk_exp_add()
-> > has asserted exp->blk != NULL.
-> 
-> Commit message is a bit imprecise (maybe due to refactoring in the
-> meantime?): drv->delete is only called from blk_exp_delete_bh(), but
-> that in turn is indeed only called from blk_exp_unref(), so the logic
-> is sound.
-> 
-> > 
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  nbd/server.c | 14 ++++++--------
-> >  1 file changed, 6 insertions(+), 8 deletions(-)
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> 
-> As this is only removal of a useless conditional, it can wait for 8.1.
+On Thu, 20 Apr 2023 at 19:38, Hawkins Jiawei <yin31149@gmail.com> wrote:
+>
+> On Thu, 20 Apr 2023 at 01:43, Eugenio Perez Martin <eperezma@redhat.com> =
+wrote:
+> >
+> > On Wed, Apr 19, 2023 at 1:50=E2=80=AFPM Hawkins Jiawei <yin31149@gmail.=
+com> wrote:
+> > >
+> > > +         ++status) {
+> > > +        if (*status !=3D VIRTIO_NET_OK) {
+> > > +            ++r;
+> > > +        }
+> > > +    }
+> > > +
+> > > +    return r;
+> >
+> > Although the caller is fine with >=3D0, I think we should keep the 0 =
+=3D=3D
+> > success. The number of commands delivered does not make a lot of sense
+> > for the callers, just if the call succeeded or not.
+>
+> Thanks for the explanation, I will refactor the patch as you suggested.
 
-Thanks; queued on my NBD tree for a pull request this week.
+I still have some questions about the check on device used buffers.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+My initial thought was to return the number of commands whose
+`in buffer` value is not VIRTIO_NET_OK.
 
+If we are not supposed to return value > 0, what should we return
+if some commands' `in buffer` value  is not VIRTIO_NET_OK.
+
+Should we return an error code, such as EINVAL(Invalid argument),
+indicating that QEMU can not successfully send all SVQ commands
+in the current state. Or should we just do not check the device used buffer=
+s,
+and return 0 when QEMU finishes polling?
+
+Thanks!
+
+>
+> >
+> > Thanks!
+> >
+> > >  }
+> > >
+> > >  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
+> > > --
+> > > 2.25.1
+> > >
+> >
 
