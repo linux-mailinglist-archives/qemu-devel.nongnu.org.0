@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B666E8D01
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFAC6E8D04
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:43:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppPrV-0003n0-RK; Thu, 20 Apr 2023 04:41:53 -0400
+	id 1ppPsN-0004h2-Mx; Thu, 20 Apr 2023 04:42:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppPrU-0003mq-MU
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:41:52 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppPsM-0004gl-73
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:42:46 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppPrS-0003DI-Qc
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:41:52 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- eo4-20020a05600c82c400b003f05a99a841so723845wmb.3
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 01:41:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppPsK-0003HX-NZ
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:42:45 -0400
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-2f58125b957so360860f8f.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 01:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681980109; x=1684572109;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=linaro.org; s=google; t=1681980163; x=1684572163;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=MLJTOimefXT549nLNIaSAAp82gvunElyUIc+U97TVCw=;
- b=mEQMxRIsECDxWNxTSC8uPWiiAPrtKdGzJoQtovDDNXLCNM+JPQRw9PXnUVZWx+seoC
- Sn2wXEm4njpCn+QiZhiloXhZ2/XkHd+MBScZUq9zbYpHef8sLsPHh4CUynmRc8PDH/Fi
- oI9mKyXwDlJnqJzZcqy6kVkJob3Qdp81kGkvfxO4ShI5Moj/O+rarQSMAiuKG/uw2D5K
- N0w6YssUOL+NoqgAOIi+hqKqgOrC6REBGZC0dDr6A+o+w/isyW7XpVEsTCVsVANzBYWY
- 3/SSXBETgBQ6+azdvhg2zkZPUByu0OEZUIt6ujTb1/Jheti0TI/G6IlJaH76UDbap7Lr
- 1KLw==
+ bh=QOq17SJpO0dezW32yH4ryi1U0v1B+3eKi102UjcKc4Y=;
+ b=G4lHfzrnH+2K9wsKjD6qpVR/BDoPh8ux3J7tI66Vi4lS66sgVsL3A4egzEIDWbV+53
+ Wr0eGl/chFIn91OULa6oYrPEwyYrhkkeJIy1KY+Krn/YTfJeJb/kwIW+/QRMOM6mBEbP
+ 1U3UIbkeLiikddztPIVx5v/WI0t+5nMB13t1TbiWkYVHyYJvnCGjTdkVVBHOh0ZYiklg
+ /Q3qD0cc9S13LD7QdxNcyw8U59btBuTtoWWSqVgIDA0bRMkd1x30D7Gb1V4lsguAPO8P
+ P8y9YITY2i+TiXhwp5jYfH9weuS2CSEAAXXWSgg9HnOmD7QDlvcEvltdsQiev+eq+Py2
+ V3/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681980109; x=1684572109;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20221208; t=1681980163; x=1684572163;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MLJTOimefXT549nLNIaSAAp82gvunElyUIc+U97TVCw=;
- b=BuDl43EErmqUlyvCpvdh0nShHhHRNeMv74LafokH0dNu6cFnvHCl677wCVe11CJjqO
- hME+Bs4ywm+QpJBlTDgPJhb2xh+0YVCuit2O/sScwdmcpY39+z0tGBrf3nHF7/N1nv+h
- 7SUBlaNLZfcJgURkXQnZrru8x6vCWESmhqXx+I6sBkbC5VPJkZJiDg/8SDd+RGBlBF2M
- raXtB/iPk+KyWGrARgu+TDWhxlqxFRNB3tXL3+W4f5WG2U3RxkLFpidK3maqPFV/z9Cd
- oeqmk/R3cs/FjBlrTiddlCLRrPmxVFqGk9bYPg5zOgWcZy4gWuo9W9On4x/Cjzq4q9/j
- 5x6g==
-X-Gm-Message-State: AAQBX9eu4AU4BMU/NTAPHrlivD1IJ4BDuigrY8vk9nHcP1AsjgmYnY5M
- jrMBNFQ4xutAnrh9foJozASTLA==
-X-Google-Smtp-Source: AKy350bpVRWYbnCRIPAIF8kOxXvF66a+y/ORhP5FTBjVWr9+fItbzTqTbp7prZuDb3z/lijquqZqTA==
-X-Received: by 2002:a05:600c:3507:b0:3f1:72d8:a1b1 with SMTP id
- h7-20020a05600c350700b003f172d8a1b1mr4437039wmq.7.1681980109076; 
- Thu, 20 Apr 2023 01:41:49 -0700 (PDT)
+ bh=QOq17SJpO0dezW32yH4ryi1U0v1B+3eKi102UjcKc4Y=;
+ b=LzLWdEuGqsJ1fDVxKaxDNiflaumSXNl3wHWeF0ZnSsBW3R4HQiVg95yty/2416Esuh
+ T3qiKsc8r3dahxfBAWNAgDFfWXi5b4I1HPWN/1EFLxJp4NX72C9Y8xc8ZrlvMlf2v14J
+ a/MxpHxj53xljFaVrsR1uiK+89vMXvbSBZbwXMe8ekh56CdvucDb8NHfQ1B2rK4nwZLe
+ RswAY/4H2tR4i9fPRIIrbkV7oRuhTpnlqLDsvInkPuWOHw/Owb0tuElCJSfKaRfhcqW+
+ 8y13NJ16EXg4v+oXxzEY+pkKLwBhCywoD34xomPyxL5RdSw0OLffKVkRDBpQNVMqywcb
+ /plA==
+X-Gm-Message-State: AAQBX9fcR2Qnknk50f/W7QF7rysoesFiQsJ3zsWt28xyg7oH3sYLiryp
+ x4Z/3KOr0cvpk1A4s/NBSV38kA==
+X-Google-Smtp-Source: AKy350Zvhb0Cf3y+dCa27l1xKdqkcoJcstICR5l+Cfpr8otjK2ZemzrQsp25NU7CZdxEDjEOZOXWcg==
+X-Received: by 2002:a5d:494e:0:b0:2f7:85e0:de75 with SMTP id
+ r14-20020a5d494e000000b002f785e0de75mr756119wrs.19.1681980163137; 
+ Thu, 20 Apr 2023 01:42:43 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- p8-20020a05600c358800b003f1738d0d13sm6614366wmq.1.2023.04.20.01.41.48
+ j3-20020a5d5643000000b002e4cd2ec5c7sm1327311wrw.86.2023.04.20.01.42.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 01:41:48 -0700 (PDT)
-Message-ID: <6c9b3360-e632-b41a-b890-288863f2c910@linaro.org>
-Date: Thu, 20 Apr 2023 10:41:47 +0200
+ Thu, 20 Apr 2023 01:42:42 -0700 (PDT)
+Message-ID: <8566fbca-deb5-f65d-c624-166381479958@linaro.org>
+Date: Thu, 20 Apr 2023 10:42:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 2/3] softmmu/ioport.c: QOMify MemoryRegionPortioList
+Subject: Re: [PATCH] cpu: Remove parameter of list_cpus()
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
- qemu-devel@nongnu.org
-References: <20230419151652.362717-1-mark.cave-ayland@ilande.co.uk>
- <20230419151652.362717-3-mark.cave-ayland@ilande.co.uk>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: qemu-trivial@nongnu.org, Yanan Wang <wangyanan55@huawei.com>
+References: <20230419124831.678079-1-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230419151652.362717-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20230419124831.678079-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -92,41 +93,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/4/23 17:16, Mark Cave-Ayland wrote:
-> The aim of QOMification is so that the lifetime of the MemoryRegionPortioList
-> structure can be managed using QOM's in-built refcounting instead of having to
-> handle this manually.
+On 19/4/23 14:48, Thomas Huth wrote:
+> The "optarg" parameter is completely unused, so let's drop it.
 > 
-> Due to the use of an opaque pointer it isn't possible to model the new
-> TYPE_MEMORY_REGION_PORTIO_LIST directly using QOM properties, however since
-> use of the new object is restricted to the portio API we can simply set the
-> opaque pointer (and the heap-allocated port list) internally.
-
-In all uses this opaque pointer is a Object*. Almost all cases are
-a DeviceState* and one is a BusState* (IDEBus).
-
-Could this opaque become 'Object *owner' (simplifying the next patch)?
-
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   softmmu/ioport.c | 25 ++++++++++++++++++++++---
->   1 file changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/softmmu/ioport.c b/softmmu/ioport.c
-> index d0d5b0bcaa..238625a36f 100644
-> --- a/softmmu/ioport.c
-> +++ b/softmmu/ioport.c
-> @@ -32,11 +32,16 @@
->   #include "exec/address-spaces.h"
->   #include "trace.h"
->   
-> -typedef struct MemoryRegionPortioList {
-> +struct MemoryRegionPortioList {
-> +    Object obj;
-> +
->       MemoryRegion mr;
->       void *portio_opaque;
->       MemoryRegionPortio *ports;
-> -} MemoryRegionPortioList;
-> +};
+>   include/exec/cpu-common.h | 2 +-
+>   cpu.c                     | 2 +-
+>   softmmu/vl.c              | 2 +-
+>   3 files changed, 3 insertions(+), 3 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
