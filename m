@@ -2,54 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266BD6E9712
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:29:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696B96E970E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:28:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppVHf-0002vk-Pz; Thu, 20 Apr 2023 10:29:15 -0400
+	id 1ppVGh-0001U5-Ld; Thu, 20 Apr 2023 10:28:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ppVHJ-0002lu-Nn
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:28:57 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ppVGg-0001Tc-AO
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:28:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ppVHG-0008Ao-OD
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:28:52 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2KkM3hQmz67Xxc;
- Thu, 20 Apr 2023 22:27:39 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 20 Apr 2023 15:28:48 +0100
-To: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-CC: "Michael S . Tsirkin" <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>,
- <linuxarm@huawei.com>
-Subject: [PATCH 2/2] hw/pci-bridge: Make PCIe and CXL PXB Devices inherit from
- TYPE_PXB_DEV
-Date: Thu, 20 Apr 2023 15:27:50 +0100
-Message-ID: <20230420142750.6950-3-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230420142750.6950-1-Jonathan.Cameron@huawei.com>
-References: <20230420142750.6950-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ppVGe-0007wL-P0
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:28:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682000891;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zA7AXhEtagTkZkpFoPx2UbK4fknnVD5KFxoiQEkDJ1w=;
+ b=aUQ9AfWSapwJ5mke6SCgWZlqRfkdk9l8sKahchgChQw1Bh/zgIcl+C7Oit6LjVgD+vcmC9
+ eKqAUaS07NCyxIALvyZL9PBcyn3ak0YCKPTAX2E2lmP1SWULEsTBTjYMenshgbMXGLBwcb
+ b+9NEPKjicBh8N5iT+4qjZjbVgZpZyU=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-574-PzG0VWeROa65t6k5QYAf5Q-1; Thu, 20 Apr 2023 10:28:10 -0400
+X-MC-Unique: PzG0VWeROa65t6k5QYAf5Q-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-5ef6c09fa0dso4329356d6.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 07:28:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682000890; x=1684592890;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zA7AXhEtagTkZkpFoPx2UbK4fknnVD5KFxoiQEkDJ1w=;
+ b=cZNttxv/IjQtvDuPxaUpDJEHyw9xmBMo79ehh4TIPymcfKpFN+YG8/4pumSgoXgqiL
+ DerdGXAGDVgJJHaLPzmJXkb2se70ZZqNxuT+pYps7EwN5yax9qf/9bYfRZXFguIJ4CF0
+ pECylCP4NUD/Wg6CnrgCwUtseuwwekf7dktJrV000TNjKbCnfJxN1tQ+lEnclb4j9yG6
+ 5ZpXfg6snq5FpqmN2p8RYaUUbJLrS878ezz3ZFRbr0GS2LhbE3Na8ZjQr2PgQMPstobC
+ wPsJgKyuYWk1YhNbtJqHa97+Cobv41aOa5L3Hk4ZNBb2OUdOL8qLclcfZsEfbN7x3r4z
+ LABg==
+X-Gm-Message-State: AAQBX9fY0S7qB5dC3ElzKf5K36nXd0inWDxoMWyWE6PKV12+i8x5DgCs
+ NKJpEKkjbqquLYdKTvuIC6CCYRjuFp/hp2HcrY1LEW9yX0mWNnZKgy2dlpDoHJWEgOBOdWFzbQJ
+ v5G2RNUoT9TRhZDo=
+X-Received: by 2002:a05:6214:27c2:b0:5ad:2a05:ddd1 with SMTP id
+ ge2-20020a05621427c200b005ad2a05ddd1mr2089390qvb.34.1682000890080; 
+ Thu, 20 Apr 2023 07:28:10 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YmnUk4Qz5XBPA1ey0P+QXhbFiRhQ2P8WZZCSvsyrbk5a75MHTvo71NO3ojFv7jUIECPqUmLQ==
+X-Received: by 2002:a05:6214:27c2:b0:5ad:2a05:ddd1 with SMTP id
+ ge2-20020a05621427c200b005ad2a05ddd1mr2089373qvb.34.1682000889867; 
+ Thu, 20 Apr 2023 07:28:09 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id
+ r11-20020ac8520b000000b003e69d6792f6sm524024qtn.45.2023.04.20.07.28.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 07:28:09 -0700 (PDT)
+Date: Thu, 20 Apr 2023 16:28:05 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, "Dr . David Alan Gilbert"
+ <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 0/3] vhost: memslot handling improvements
+Message-ID: <20230420162805.6781701b@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230316153658.214487-1-david@redhat.com>
+References: <20230316153658.214487-1-david@redhat.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,328 +98,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Previously, PXB_CXL_DEVICE, PXB_PCIE_DEVICE and PXB_DEVICE all
-have PCI_DEVICE as their direct parent but share a common state
-struct PXBDev. convert_to_pxb() is used to get the PXBDev
-instance from which ever of these types it is called on.
+On Thu, 16 Mar 2023 16:36:55 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-This patch switches to an explicit heirarchy based on shared
-functionality.  To allow use of OBJECT_DECLARE_SIMPLE_TYPE()
-whilst minimizing code changes, all types are renamed to have
-the postfix _DEV rather than _DEVICE.  The new heirarchy
-has PXB_CXL_DEV with parent PXB_PCIE_DEV which in turn
-has parent PXB_DEV which continues to have parent PCI_DEVICE.
+> Following up on my previous work to make virtio-mem consume multiple
+> memslots dynamically [1] that requires precise accounting between used vs.
+> reserved memslots, I realized that vhost makes this extra hard by
+> filtering out some memory region sections (so they don't consume a
+> memslot) in the vhost-user case, which messes up the whole memslot
+> accounting.
+> 
+> This series fixes what I found to be broken and prepares for more work on
+> [1]. Further, it cleanes up the merge checks that I consider unnecessary.
 
-This allows simple use of PXB_DEV() etc rather than a custom function
-+ removal of duplicated properties and moving the CXL specific
-elements out of struct PXBDev.
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/acpi/cxl.c                       | 11 +++---
- hw/cxl/cxl-host.c                   |  4 +-
- hw/pci-bridge/pci_expander_bridge.c | 59 ++++++++++-------------------
- include/hw/cxl/cxl.h                |  4 +-
- include/hw/pci/pci_bridge.h         | 28 ++++++++++----
- 5 files changed, 49 insertions(+), 57 deletions(-)
-
-diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
-index 2bf8c07993..92b46bc932 100644
---- a/hw/acpi/cxl.c
-+++ b/hw/acpi/cxl.c
-@@ -30,9 +30,10 @@
- #include "qapi/error.h"
- #include "qemu/uuid.h"
- 
--static void cedt_build_chbs(GArray *table_data, PXBDev *cxl)
-+static void cedt_build_chbs(GArray *table_data, PXBCXLDev *cxl)
- {
--    SysBusDevice *sbd = SYS_BUS_DEVICE(cxl->cxl.cxl_host_bridge);
-+    PXBDev *pxb = PXB_DEV(cxl);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(cxl->cxl_host_bridge);
-     struct MemoryRegion *mr = sbd->mmio[0].memory;
- 
-     /* Type */
-@@ -45,7 +46,7 @@ static void cedt_build_chbs(GArray *table_data, PXBDev *cxl)
-     build_append_int_noprefix(table_data, 32, 2);
- 
-     /* UID - currently equal to bus number */
--    build_append_int_noprefix(table_data, cxl->bus_nr, 4);
-+    build_append_int_noprefix(table_data, pxb->bus_nr, 4);
- 
-     /* Version */
-     build_append_int_noprefix(table_data, 1, 4);
-@@ -112,7 +113,7 @@ static void cedt_build_cfmws(GArray *table_data, CXLState *cxls)
-         /* Host Bridge List (list of UIDs - currently bus_nr) */
-         for (i = 0; i < fw->num_targets; i++) {
-             g_assert(fw->target_hbs[i]);
--            build_append_int_noprefix(table_data, fw->target_hbs[i]->bus_nr, 4);
-+            build_append_int_noprefix(table_data, PXB_DEV(fw->target_hbs[i])->bus_nr, 4);
-         }
-     }
- }
-@@ -121,7 +122,7 @@ static int cxl_foreach_pxb_hb(Object *obj, void *opaque)
- {
-     Aml *cedt = opaque;
- 
--    if (object_dynamic_cast(obj, TYPE_PXB_CXL_DEVICE)) {
-+    if (object_dynamic_cast(obj, TYPE_PXB_CXL_DEV)) {
-         cedt_build_chbs(cedt->buf, PXB_CXL_DEV(obj));
-     }
- 
-diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-index 6e923ceeaf..034c7805b3 100644
---- a/hw/cxl/cxl-host.c
-+++ b/hw/cxl/cxl-host.c
-@@ -84,7 +84,7 @@ void cxl_fmws_link_targets(CXLState *cxl_state, Error **errp)
-                 bool ambig;
- 
-                 o = object_resolve_path_type(fw->targets[i],
--                                             TYPE_PXB_CXL_DEVICE,
-+                                             TYPE_PXB_CXL_DEV,
-                                              &ambig);
-                 if (!o) {
-                     error_setg(errp, "Could not resolve CXLFM target %s",
-@@ -141,7 +141,7 @@ static PCIDevice *cxl_cfmws_find_device(CXLFixedWindow *fw, hwaddr addr)
-     addr += fw->base;
- 
-     rb_index = (addr / cxl_decode_ig(fw->enc_int_gran)) % fw->num_targets;
--    hb = PCI_HOST_BRIDGE(fw->target_hbs[rb_index]->cxl.cxl_host_bridge);
-+    hb = PCI_HOST_BRIDGE(fw->target_hbs[rb_index]->cxl_host_bridge);
-     if (!hb || !hb->bus || !pci_bus_is_cxl(hb->bus)) {
-         return NULL;
-     }
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index a78327b5f2..613857b601 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -50,24 +50,8 @@ struct PXBBus {
-     char bus_path[8];
- };
- 
--#define TYPE_PXB_DEVICE "pxb"
--DECLARE_INSTANCE_CHECKER(PXBDev, PXB_DEV,
--                         TYPE_PXB_DEVICE)
--
--#define TYPE_PXB_PCIE_DEVICE "pxb-pcie"
--DECLARE_INSTANCE_CHECKER(PXBDev, PXB_PCIE_DEV,
--                         TYPE_PXB_PCIE_DEVICE)
--
--static PXBDev *convert_to_pxb(PCIDevice *dev)
--{
--    /* A CXL PXB's parent bus is PCIe, so the normal check won't work */
--    if (object_dynamic_cast(OBJECT(dev), TYPE_PXB_CXL_DEVICE)) {
--        return PXB_CXL_DEV(dev);
--    }
--
--    return pci_bus_is_express(pci_get_bus(dev))
--        ? PXB_PCIE_DEV(dev) : PXB_DEV(dev);
--}
-+#define TYPE_PXB_PCIE_DEV "pxb-pcie"
-+OBJECT_DECLARE_SIMPLE_TYPE(PXBPCIEDev, PXB_PCIE_DEV)
- 
- static GList *pxb_dev_list;
- 
-@@ -89,14 +73,14 @@ bool cxl_get_hb_passthrough(PCIHostState *hb)
- 
- static int pxb_bus_num(PCIBus *bus)
- {
--    PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-+    PXBDev *pxb = PXB_DEV(bus->parent_dev);
- 
-     return pxb->bus_nr;
- }
- 
- static uint16_t pxb_bus_numa_node(PCIBus *bus)
- {
--    PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-+    PXBDev *pxb = PXB_DEV(bus->parent_dev);
- 
-     return pxb->numa_node;
- }
-@@ -154,7 +138,7 @@ static char *pxb_host_ofw_unit_address(const SysBusDevice *dev)
- 
-     pxb_host = PCI_HOST_BRIDGE(dev);
-     pxb_bus = pxb_host->bus;
--    pxb_dev = convert_to_pxb(pxb_bus->parent_dev);
-+    pxb_dev = PXB_DEV(pxb_bus->parent_dev);
-     position = g_list_index(pxb_dev_list, pxb_dev);
-     assert(position >= 0);
- 
-@@ -212,8 +196,8 @@ static void pxb_cxl_realize(DeviceState *dev, Error **errp)
-  */
- void pxb_cxl_hook_up_registers(CXLState *cxl_state, PCIBus *bus, Error **errp)
- {
--    PXBDev *pxb =  PXB_CXL_DEV(pci_bridge_get_device(bus));
--    CXLHost *cxl = pxb->cxl.cxl_host_bridge;
-+    PXBCXLDev *pxb =  PXB_CXL_DEV(pci_bridge_get_device(bus));
-+    CXLHost *cxl = pxb->cxl_host_bridge;
-     CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-     struct MemoryRegion *mr = &cxl_cstate->crb.component_registers;
-     hwaddr offset;
-@@ -299,7 +283,7 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pin)
- 
- static void pxb_cxl_dev_reset(DeviceState *dev)
- {
--    CXLHost *cxl = PXB_CXL_DEV(dev)->cxl.cxl_host_bridge;
-+    CXLHost *cxl = PXB_CXL_DEV(dev)->cxl_host_bridge;
-     CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-     PCIHostState *hb = PCI_HOST_BRIDGE(cxl);
-     uint32_t *reg_state = cxl_cstate->crb.cache_mem_registers;
-@@ -337,7 +321,7 @@ static gint pxb_compare(gconstpointer a, gconstpointer b)
- static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-                                    Error **errp)
- {
--    PXBDev *pxb = convert_to_pxb(dev);
-+    PXBDev *pxb = PXB_DEV(dev);
-     DeviceState *ds, *bds = NULL;
-     PCIBus *bus;
-     const char *dev_name = NULL;
-@@ -365,7 +349,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-     } else if (type == CXL) {
-         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_CXL_BUS);
-         bus->flags |= PCI_BUS_CXL;
--        PXB_CXL_DEV(dev)->cxl.cxl_host_bridge = PXB_CXL_HOST(ds);
-+        PXB_CXL_DEV(dev)->cxl_host_bridge = PXB_CXL_HOST(ds);
-     } else {
-         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
-         bds = qdev_new("pci-bridge");
-@@ -418,7 +402,7 @@ static void pxb_dev_realize(PCIDevice *dev, Error **errp)
- 
- static void pxb_dev_exitfn(PCIDevice *pci_dev)
- {
--    PXBDev *pxb = convert_to_pxb(pci_dev);
-+    PXBDev *pxb = PXB_DEV(pci_dev);
- 
-     pxb_dev_list = g_list_remove(pxb_dev_list, pxb);
- }
-@@ -449,7 +433,7 @@ static void pxb_dev_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo pxb_dev_info = {
--    .name          = TYPE_PXB_DEVICE,
-+    .name          = TYPE_PXB_DEV,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(PXBDev),
-     .class_init    = pxb_dev_class_init,
-@@ -481,15 +465,14 @@ static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_BRIDGE_HOST;
- 
-     dc->desc = "PCI Express Expander Bridge";
--    device_class_set_props(dc, pxb_dev_properties);
-     dc->hotpluggable = false;
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
- }
- 
- static const TypeInfo pxb_pcie_dev_info = {
--    .name          = TYPE_PXB_PCIE_DEVICE,
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PXBDev),
-+    .name          = TYPE_PXB_PCIE_DEV,
-+    .parent        = TYPE_PXB_DEV,
-+    .instance_size = sizeof(PXBPCIEDev),
-     .class_init    = pxb_pcie_dev_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-@@ -510,11 +493,7 @@ static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
- }
- 
- static Property pxb_cxl_dev_properties[] = {
--    /* Note: 0 is not a legal PXB bus number. */
--    DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
--    DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
--    DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
--    DEFINE_PROP_BOOL("hdm_for_passthrough", PXBDev, hdm_for_passthrough, false),
-+    DEFINE_PROP_BOOL("hdm_for_passthrough", PXBCXLDev, hdm_for_passthrough, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -540,9 +519,9 @@ static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo pxb_cxl_dev_info = {
--    .name          = TYPE_PXB_CXL_DEVICE,
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PXBDev),
-+    .name          = TYPE_PXB_CXL_DEV,
-+    .parent        = TYPE_PXB_PCIE_DEV,
-+    .instance_size = sizeof(PXBCXLDev),
-     .class_init    = pxb_cxl_dev_class_init,
-     .interfaces =
-         (InterfaceInfo[]){
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index b2cffbb364..c453983e83 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -23,12 +23,12 @@
- 
- #define CXL_WINDOW_MAX 10
- 
--typedef struct PXBDev PXBDev;
-+typedef struct PXBCXLDev PXBCXLDev;
- 
- typedef struct CXLFixedWindow {
-     uint64_t size;
-     char **targets;
--    PXBDev *target_hbs[8];
-+    PXBCXLDev *target_hbs[8];
-     uint8_t num_targets;
-     uint8_t enc_int_ways;
-     uint8_t enc_int_gran;
-diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-index 1677176b2a..01670e9e65 100644
---- a/include/hw/pci/pci_bridge.h
-+++ b/include/hw/pci/pci_bridge.h
-@@ -84,7 +84,7 @@ struct PCIBridge {
- #define PCI_BRIDGE_DEV_PROP_SHPC       "shpc"
- typedef struct CXLHost CXLHost;
- 
--struct PXBDev {
-+typedef struct PXBDev {
-     /*< private >*/
-     PCIDevice parent_obj;
-     /*< public >*/
-@@ -92,15 +92,27 @@ struct PXBDev {
-     uint8_t bus_nr;
-     uint16_t numa_node;
-     bool bypass_iommu;
-+} PXBDev;
-+
-+typedef struct PXBPCIEDev {
-+    /*< private >*/
-+    PXBDev parent_obj;
-+} PXBPCIEDev;
-+
-+#define TYPE_PXB_DEV "pxb"
-+OBJECT_DECLARE_SIMPLE_TYPE(PXBDev, PXB_DEV)
-+
-+typedef struct PXBCXLDev {
-+    /*< private >*/
-+    PXBPCIEDev parent_obj;
-+    /*< public >*/
-+
-     bool hdm_for_passthrough;
--    struct cxl_dev {
--        CXLHost *cxl_host_bridge; /* Pointer to a CXLHost */
--    } cxl;
--};
-+    CXLHost *cxl_host_bridge; /* Pointer to a CXLHost */
-+} PXBCXLDev;
- 
--#define TYPE_PXB_CXL_DEVICE "pxb-cxl"
--DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
--                         TYPE_PXB_CXL_DEVICE)
-+#define TYPE_PXB_CXL_DEV "pxb-cxl"
-+OBJECT_DECLARE_SIMPLE_TYPE(PXBCXLDev, PXB_CXL_DEV)
- 
- int pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
-                           uint16_t svid, uint16_t ssid,
--- 
-2.37.2
+> 
+> [1] https://lkml.kernel.org/r/20211027124531.57561-8-david@redhat.com
+> 
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> 
+> v1 -> v2:
+> - "vhost: Rework memslot filtering and fix "used_memslot" tracking"
+> -- New approach: keep filtering, but make filtering less generic and
+>    track separately. This should keep any existing setups working.
+> - "softmmu/physmem: Fixup qemu_ram_block_from_host() documentation"
+> -- As requested by Igor
+> 
+> David Hildenbrand (3):
+>   vhost: Rework memslot filtering and fix "used_memslot" tracking
+>   vhost: Remove vhost_backend_can_merge() callback
+>   softmmu/physmem: Fixup qemu_ram_block_from_host() documentation
+> 
+>  hw/virtio/vhost-user.c            | 21 ++---------
+>  hw/virtio/vhost-vdpa.c            |  1 -
+>  hw/virtio/vhost.c                 | 62 ++++++++++++++++++++++++-------
+>  include/exec/cpu-common.h         | 15 ++++++++
+>  include/hw/virtio/vhost-backend.h |  9 +----
+>  softmmu/physmem.c                 | 17 ---------
+>  6 files changed, 68 insertions(+), 57 deletions(-)
+> 
 
 
