@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984EC6E8CD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18486E8CDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:34:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppPj8-0005T6-C7; Thu, 20 Apr 2023 04:33:14 -0400
+	id 1ppPjR-0005sC-VE; Thu, 20 Apr 2023 04:33:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yin31149@gmail.com>)
- id 1ppPj5-0005SG-NM
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:33:11 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yin31149@gmail.com>)
- id 1ppPj3-0001cu-Or
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:33:11 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-4ec816d64afso1826938e87.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 01:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681979588; x=1684571588;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ilpmsBdRTNwFZpvyqW7BGQHY9wNDDoR0weBjjUMv9bc=;
- b=VMrWceJBRQXCnNbwDPsDvUd/wdF5rpTEHPSfn8Vg00cliNQZe/IWz3vu85uVayHZ21
- lIRki3py3JMFGyrGV1Ix07ITbjudxY8LUNqh4IA+s2RFqAGQ5EKmJG+gTpcGDg0mLkIp
- pbOmvoSJllJHYj/cPQ9dlBBBXUxDlvfIOxgfiGhOhNDC4LWJraHQUxYEUMVwyCXdlJQf
- mUhI03zo0tIJrPeiUjMYEK6EOpL3D1Z90va6BXDrgGCvMZmco5B1udOht3pxsShEzrJf
- 5TnFzq/Dak8LDMYM+l/C38jy2nhWlsJtm9fARV7n1+CyUfYzIZgZ96sV4TTNWwjqqhPw
- TgLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681979588; x=1684571588;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ilpmsBdRTNwFZpvyqW7BGQHY9wNDDoR0weBjjUMv9bc=;
- b=cc2gPhu9DmpF5LVhX83kzLdUGRn5C2gcSoCOjnn0vqGE37zzpJgSx9YKXXpgF6j8BW
- sPYhJ+wbJceGj9gt95sgFAZSHPzr074x1f7oT0/L2KcWuVxhemtS5EhlOD1CDNd+4Bv5
- Zo8+saCL2T3U65qm4mAcULhmStWJ3KJAaTQc+clQxkZ7Hl408yMDxqYhUYTfpaxIXnmq
- ut2RgkH3TiFL5+meJ39aNkanE3P2RInhNI2v4/LnvFdd4kHZc4m6jscVSSbpgkWU772r
- YIZ2w2lT2p22H3IRV/+1FCLD8EH5h6FbTgoLcKAyQ0/5MJ8BIRce4JR4qCTnPHKyos0z
- iAeg==
-X-Gm-Message-State: AAQBX9cKZG4tDW6FrrXoboYvt1FiG05tHFRGgU+OIMFretQp5eJCcvwE
- MQ+8QdsQrVxzfR8RMBau2PSALbT/PNELWSo90/w=
-X-Google-Smtp-Source: AKy350YA+42MUAt2RyibcS8rs7B6m4VgWfzY2SNMmXfgTPlnHrwLVTa4AMGRUcad1pqFb8b2/d7GQsVkYkgpj/JBPmU=
-X-Received: by 2002:ac2:5446:0:b0:4ee:e0c7:435d with SMTP id
- d6-20020ac25446000000b004eee0c7435dmr13711lfn.0.1681979587194; Thu, 20 Apr
- 2023 01:33:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1ppPjP-0005rd-Vi; Thu, 20 Apr 2023 04:33:31 -0400
+Received: from mout.web.de ([212.227.17.12])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1ppPjO-0001et-8w; Thu, 20 Apr 2023 04:33:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1681979587; i=lukasstraub2@web.de;
+ bh=FLbaevEDbuogEO66jv3AWhSND3d5lDJumyMNRGAJ2qw=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=bvkSDZBkYQY+C2gtImEQNH6amwWNtrfOCBARgQl54llmyDzgoMU5t2eSxH9jzrJDN
+ 1UBmNlxzLLaor5AFYaP51dVjQPY0iX6kOKBH+a1EzojYuz1sBRR0SLCKIfW6Cw+fp0
+ tlbDvCYH1LsS/aKInNcyhLzctynVl5PYQa/GtUdCtVA6HwvDlQ8fYe2q1EIGbBRrRW
+ SkM+FuwZWMZNuGtjj0GYEa/HqUTtRr0AR0eHiEfxUI+ulboDsqjzQYpSmh8qR60RYn
+ cuUI9QO88Wh5ugEon9HISwUrA0Nqkw+2R53HH6DTvAFoVHoAvZgboplEQRzDtSDeIK
+ cLATJ5F6dhr2g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gecko.fritz.box ([82.207.254.123]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MqZMQ-1qbcah0Mt6-00mvbV; Thu, 20
+ Apr 2023 10:33:07 +0200
+Date: Thu, 20 Apr 2023 10:33:04 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, michael.roth@amd.com,
+ armbru@redhat.com, eblake@redhat.com, jasowang@redhat.com,
+ quintela@redhat.com, zhanghailiang@xfusion.com, philmd@linaro.org,
+ thuth@redhat.com, berrange@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, dave@treblig.org, hreitz@redhat.com, kwolf@redhat.com,
+ chen.zhang@intel.com, lizhijian@fujitsu.com
+Subject: Re: [PATCH v2 0/4] COLO: improve build options
+Message-ID: <20230420083304.24d7ecd4@gecko.fritz.box>
+In-Reply-To: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
-References: <cover.1681732982.git.yin31149@gmail.com>
- <CAJaqyWcmb=LuH4eaJkkGxcAnPrJ+er=Ysp7Yi6RneFGdTNycCA@mail.gmail.com>
-In-Reply-To: <CAJaqyWcmb=LuH4eaJkkGxcAnPrJ+er=Ysp7Yi6RneFGdTNycCA@mail.gmail.com>
-From: Hawkins Jiawei <yin31149@gmail.com>
-Date: Thu, 20 Apr 2023 16:32:54 +0800
-Message-ID: <CAKrof1NLQTozSiZXZESFP-bDwEnu++P_wA53QZTaCvy7r2WWXw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Send all the SVQ control commands in parallel
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: jasowang@redhat.com, 18801353760@163.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=yin31149@gmail.com; helo=mail-lf1-x12f.google.com
+Content-Type: multipart/signed; boundary="Sig_/h3OfPYY8cLGZDBdcj+=Th75";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:RAdkkJ5sCdamr3suE5SuTHoRxZGdn3vx2MiOZTLuhQd2f5yLStH
+ kjWcuLv/BNOnBq7T1t1baEE74ezxM+aRGJYsYlFcuAUdoKOd/c1q9KeVShBLu8fB2pOoAJp
+ QGkrRWxUrmIjZMJBjKGVO/aT45RECVzmQRqRAc0Pi3dvu/A9XaWJVNmjGI7rodgmwfOjYTW
+ uoReYemC/fFWxYqKZsiHA==
+UI-OutboundReport: notjunk:1;M01:P0:L2IJZa66jtk=;ymVXwI7dxpMqv+1EdwY6eS4cD1T
+ NIk4H6oPalQp1bRh8dRk6xlCvS69AF3Qa7R8JcJgsRic9Zkss9ZkifXhCBmSUYijlxgNBRJ/l
+ EFBiH+4N1R8X3BJSszHLEVEAOUtkl4lqJgiqe7oJklF6iCHl/31xtjJSAM6cwxheCYYqx5/j8
+ Pnr577xCKW7OJdk68FHULfwBDCyL+kD/PIkfK5YHyZcmjykHKq0yr5mF9bdl480LLB0vb0eL0
+ lVd6JZceCyrv4yjFSFJfeniu7W5G5CW8Qi6DNtVq6uZ7d0ZwE9cklOmUs3zR3cTtPwerx1Fh+
+ CzHuLOO1rNf6zoG9gvHec30L5PqAnvb43GGB2gFm00nR82rLdJZt19TMk1C/YdlU/SGVoza99
+ hSNyvbhLKM8MliD/xGQou1CRs0N9FEEzhHoLphwCQZWalKNCVv+sK/regEhXZdoSg1/NPrN4+
+ yVcXPycg2fdGlJl/7z1IQyiO+dW2zcB2vtR3U/2vvxUegEEPZj2/JosNLrEa8BLCLU2B7+HI4
+ jv2NKDzm9wjkSlST+aVa9hI8KVqPuEQGk/86+jz4DNbooYvVvQEoTgCx0mdIyVPUWE9DYWO0B
+ eHodqXyBAiOM91JleSMHjixbvftCHS18MfP2WMMnW/H/7VTN4Ztkaq4OW2wocnglWkjhclWIJ
+ aQQa7eHKnKYRL300VQlRACaZ47KyVqx7Os/Tz2WmC5OnrUGp6UyYkW7Ib5F/jOg3n+pG5QA7J
+ cXO1Z+nRLiMifzmN8/7o+q6qQnARhDcw5HyF2AG+2Ay7zHYKwdQ60YflbFdBtY7Gj1tJnza5X
+ BzleF1JqgNniWnlI0la/fFTBCW2kLJIO+73C7AQMAUdxUxlQJTKDF9srbCkBvwC7YX+rU8b50
+ n7XRR6996CiIgESmoqiauzK1MitLZ4CVPJGKGPqiIXHBenLRZym9gt7xL1YBMICAeGTtG3JGu
+ GKy/EMEfoiDsKSEkbEoR512/0co=
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,78 +90,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 20 Apr 2023 at 01:17, Eugenio Perez Martin <eperezma@redhat.com> wr=
-ote:
->
-> On Wed, Apr 19, 2023 at 1:50=E2=80=AFPM Hawkins Jiawei <yin31149@gmail.co=
-m> wrote:
-> >
-> > This patchset allows QEMU to poll and check the device used buffer
-> > after sending all SVQ control commands, instead of polling and checking
-> > immediately after sending each SVQ control command, so that QEMU can
-> > send all the SVQ control commands in parallel, which have better
-> > performance improvement.
-> >
-> > I use vdpa_sim_net to simulate vdpa device, refactor
-> > vhost_vdpa_net_load() to call vhost_vdpa_net_load_mac() 30 times,
-> > refactor `net_vhost_vdpa_cvq_info.load` to call vhost_vdpa_net_load()
-> > 1000 times,
->
-> Maybe a little bit too high for real scenarios but it gives us a hint
-> for sure :). Maybe it is more realistic to send ~10 or ~100 commands?
+--Sig_/h3OfPYY8cLGZDBdcj+=Th75
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Yes, it is absolutely too high for real scenarios to call vhost_vdpa_net_lo=
-ad()
-1000 times. But considering that the time to execute vhost_vdpa_net_load_ma=
-c()
-30 times is very short, the result time may be highly unstable and
-fluctuate greatly,
- so I call vhost_vdpa_net_load() 1000 times, hoping to get a more stable re=
-sult.
+On Thu, 20 Apr 2023 01:52:28 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
 
->
-> >  to build a test environment for sending
-> > multiple SVQ control commands. Time in monotonic to
-> > finish `net_vhost_vdpa_cvq_info.load`:
-> >
-> >     QEMU                            monotonic time
-> > --------------------------------------------------
-> > not patched                              89202
-> > --------------------------------------------------
-> > patched                                  80455
-> >
->
-> Is time expressed in seconds or milliseconds? I'm going to assume ms.
+> Hi all!
+>=20
+> COLO substem seems to be useless when CONFIG_REPLICATION is unset, as we
+> simply don't allow to set x-colo capability in this case. So, let's not
+> compile in unreachable code and interface we cannot use when
+> CONFIG_REPLICATION is unset.
+>=20
+> Also, provide personal configure option for COLO Proxy subsystem.
+>=20
+> v1 was=20
+> [PATCH] replication: compile out some staff when replication is not confi=
+gured
+> Supersedes: <20230411145112.497785-1-vsementsov@yandex-team.ru>
 
-I got this by calling g_get_monotonic_time(), it should be microseconds
-according to [1].
+Hey,
+This series is a good idea, and looks fine to me. Maybe you can remove
+the #ifdef CONFIG_REPLICATION/#ifndef CONFIG_REPLICATION from
+migration/colo.c too while you are at it.
 
-[1]. https://docs.gtk.org/glib/func.get_monotonic_time.html
+Regards,
+Lukas Straub
 
->
-> So let's say all the time was spent in the context switch between qemu
-> and kernel, this is a save of (89202 - 80455)/30000 =3D 0.3 ms per
-> command?
+> Vladimir Sementsov-Ogievskiy (4):
+>   block/meson.build: prefer positive condition for replication
+>   scripts/qapi: allow optional experimental enum values
+>   build: move COLO under CONFIG_REPLICATION
+>   configure: add --disable-colo-filters option
+>=20
+>  block/meson.build              |  2 +-
+>  hmp-commands.hx                |  2 ++
+>  meson.build                    |  1 +
+>  meson_options.txt              |  2 ++
+>  migration/colo.c               |  6 +++++
+>  migration/meson.build          |  6 +++--
+>  migration/migration-hmp-cmds.c |  2 ++
+>  migration/migration.c          | 19 +++-----------
+>  net/meson.build                | 16 +++++++++---
+>  qapi/migration.json            | 12 ++++++---
+>  scripts/meson-buildoptions.sh  |  3 +++
+>  scripts/qapi/types.py          |  2 ++
+>  stubs/colo.c                   | 47 ++++++++++++++++++++++++++++++++++
+>  stubs/meson.build              |  1 +
+>  14 files changed, 95 insertions(+), 26 deletions(-)
+>  create mode 100644 stubs/colo.c
+>=20
 
-Yes, I think it is a save of 0.3 microseconds per command.
 
-Thanks!
 
->
-> Thanks!
->
-> > This patchset resolves the GitLab issue at
-> > https://gitlab.com/qemu-project/qemu/-/issues/1578.
-> >
-> > Hawkins Jiawei (2):
-> >   vdpa: rename vhost_vdpa_net_cvq_add()
-> >   vdpa: send CVQ state load commands in parallel
-> >
-> >  net/vhost-vdpa.c | 150 +++++++++++++++++++++++++++++++++++------------
-> >  1 file changed, 112 insertions(+), 38 deletions(-)
-> >
-> > --
-> > 2.25.1
-> >
->
+--=20
+
+
+--Sig_/h3OfPYY8cLGZDBdcj+=Th75
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRA+MAACgkQNasLKJxd
+sljyNA//XmnI2Ye0wdlV99C+qzHJNjiqlzoyihm4KMZvvAOq3dBb1p8AOppdc2TP
+8GBcVStwZFDSoN8w30v/JUWiCtSIaHHp80VIaiVnFc+YuVRB5XE7yWuVC/U8nHLf
+nfMh940Hg/i9mqHjg5hHrZU7pXZAoAhSXCNGdnQGrDTBO13FREKeGIIw32sFzQb9
+79yLhQy7gcii6mk3Tp9ZHOdViQ6ltVxBvhdlTXEw6HhMjfLIuqZu0e6SEZHcaKk2
+FKQ9/2l1lDF9+xEj0SRvGyJjjmmWrFAv/0Q84kCpadNTkjuUdGb2B+2R1ClnDNF7
+ioeEPRTxLmO1zdHjIHo1+I+NOnIxqthsoWRGiCzwoo3BKhretON6vW9Vf7oxvixa
+y8zKcKxI7Uk/27aZkp2CHqykYJ3YakYhAg5ymEeyiF37vtD5dkji81VDMRhvRccM
+I9RyNIJ+bAGB0n0TOeRiU6iXFLpJxwp2rxji82W1HOqNRDwZrOpAfAVtFOlTL6gT
+qTLGNtSHrPr4NwpnaOIbwwiNV3w0YoMsJ2esJfQ1imHLXnB5fZQlvgrs3iZVcDWn
+tCuc3WKEOZJdGjLqFohLyTeOI2JSSoSdnxGR3HnTG5fqiMcm5TOr6rLqvPHS53b1
+9gb+d+sYuvAKb+coZmu74lkeorKKr/k58Npf6nsJOVOoITd5els=
+=Jwo4
+-----END PGP SIGNATURE-----
+
+--Sig_/h3OfPYY8cLGZDBdcj+=Th75--
 
