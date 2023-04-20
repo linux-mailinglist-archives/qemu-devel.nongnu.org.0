@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C464F6E8FCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5D76E8FD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:17:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRHk-0000xB-3q; Thu, 20 Apr 2023 06:13:04 -0400
+	id 1ppRHd-0000up-Ga; Thu, 20 Apr 2023 06:12:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHY-0000nT-Vi
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHa-0000s1-Do
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHN-00081i-8v
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHQ-00081m-Eh
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681985559;
+ s=mimecast20190719; t=1681985560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VHyvDQ2n8xkc8mJD5DMSGoHwNjJvguv6QaQ5mv0AIdA=;
- b=W2tmJzdsXgGU3xffkFJI3mR1ib8aVy+lRqQdAvRwQH5a0jfgJK3t8jTcFB/vXJMzhsM27I
- YOIS8IEFJf1ze+Siz3ZOdEn/Ug/wvjOsooYO8E3aUeoxMMqif0e7w+IIQhZBdCED5tOvmO
- JtVRvr4UEnTKX1dwlxm1bdTWooglbic=
+ bh=7zqYsAAjJkBvnw8VZ4dP3cNY4TpO86L21BDYSPlT74A=;
+ b=DCN/Xyb7yKSNA0BYOBzU3h/gEv3MKpo+zjAqfKGVB7XofopnmNudWBSz/Yqb/9coo8IRga
+ qdJCrZqnP7Ve69CUfHXTAUU7M15W8GfibqIr3C2AWffMjT3eGGFzTmfL03GlXI4hbfjyg/
+ JviEmK6YcSdGG3bqWV/T00MmW1QFK6U=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-68-Ci8ayvIkNBulRs0pR6Nz4g-1; Thu, 20 Apr 2023 06:12:37 -0400
-X-MC-Unique: Ci8ayvIkNBulRs0pR6Nz4g-1
+ us-mta-171-1HK2ilxVMzijWTgtJEhGmQ-1; Thu, 20 Apr 2023 06:12:38 -0400
+X-MC-Unique: 1HK2ilxVMzijWTgtJEhGmQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E74F92823815;
- Thu, 20 Apr 2023 10:12:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17BA33C14859;
+ Thu, 20 Apr 2023 10:12:38 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 11CB25AB7A;
- Thu, 20 Apr 2023 10:12:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 367FE5AB7A;
+ Thu, 20 Apr 2023 10:12:37 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 13/23] include/exec: Provide the tswap() functions for target
- independent code, too
-Date: Thu, 20 Apr 2023 12:12:06 +0200
-Message-Id: <20230420101216.786304-14-thuth@redhat.com>
+Subject: [PULL 14/23] softmmu: Make qtest.c target independent
+Date: Thu, 20 Apr 2023 12:12:07 +0200
+Message-Id: <20230420101216.786304-15-thuth@redhat.com>
 In-Reply-To: <20230420101216.786304-1-thuth@redhat.com>
 References: <20230420101216.786304-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,183 +78,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In some cases of target independent code, it would be useful to have access
-to the functions that swap endianess in case it differs between guest and
-host. Thus re-implement the tswapXX() functions in a new header that can be
-included separately. The check whether the swapping is needed continues to
-be done at compile-time for target specific code, while it is done at
-run-time in target-independent code.
+The code in this file is not performance critical, so we can use
+the target independent endianess functions to only compile this
+file once for all targets.
 
-Message-Id: <20230411183418.1640500-3-thuth@redhat.com>
+Message-Id: <20230411183418.1640500-4-thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/exec/cpu-all.h | 64 +------------------------------------
- include/exec/tswap.h   | 72 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 73 insertions(+), 63 deletions(-)
- create mode 100644 include/exec/tswap.h
+ softmmu/qtest.c     | 12 ++++++------
+ softmmu/meson.build |  2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 090922e4a8..ad824fee52 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -21,6 +21,7 @@
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index 09126df38a..f8d764b719 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -13,12 +13,12 @@
  
- #include "exec/cpu-common.h"
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "cpu.h"
+ #include "sysemu/qtest.h"
+ #include "sysemu/runstate.h"
+ #include "chardev/char-fe.h"
+ #include "exec/ioport.h"
  #include "exec/memory.h"
 +#include "exec/tswap.h"
- #include "qemu/thread.h"
- #include "hw/core/cpu.h"
- #include "qemu/rcu.h"
-@@ -44,69 +45,6 @@
- #define BSWAP_NEEDED
- #endif
- 
--#ifdef BSWAP_NEEDED
--
--static inline uint16_t tswap16(uint16_t s)
--{
--    return bswap16(s);
--}
--
--static inline uint32_t tswap32(uint32_t s)
--{
--    return bswap32(s);
--}
--
--static inline uint64_t tswap64(uint64_t s)
--{
--    return bswap64(s);
--}
--
--static inline void tswap16s(uint16_t *s)
--{
--    *s = bswap16(*s);
--}
--
--static inline void tswap32s(uint32_t *s)
--{
--    *s = bswap32(*s);
--}
--
--static inline void tswap64s(uint64_t *s)
--{
--    *s = bswap64(*s);
--}
--
+ #include "hw/qdev-core.h"
+ #include "hw/irq.h"
+ #include "qemu/accel.h"
+@@ -717,11 +717,11 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         qtest_send(chr, "OK\n");
+     } else if (strcmp(words[0], "endianness") == 0) {
+         qtest_send_prefix(chr);
+-#if TARGET_BIG_ENDIAN
+-        qtest_sendf(chr, "OK big\n");
 -#else
--
--static inline uint16_t tswap16(uint16_t s)
--{
--    return s;
--}
--
--static inline uint32_t tswap32(uint32_t s)
--{
--    return s;
--}
--
--static inline uint64_t tswap64(uint64_t s)
--{
--    return s;
--}
--
--static inline void tswap16s(uint16_t *s)
--{
--}
--
--static inline void tswap32s(uint32_t *s)
--{
--}
--
--static inline void tswap64s(uint64_t *s)
--{
--}
--
+-        qtest_sendf(chr, "OK little\n");
 -#endif
--
- #if TARGET_LONG_SIZE == 4
- #define tswapl(s) tswap32(s)
- #define tswapls(s) tswap32s((uint32_t *)(s))
-diff --git a/include/exec/tswap.h b/include/exec/tswap.h
-new file mode 100644
-index 0000000000..68944a880b
---- /dev/null
-+++ b/include/exec/tswap.h
-@@ -0,0 +1,72 @@
-+/*
-+ * Macros for swapping a value if the endianness is different
-+ * between the target and the host.
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1-or-later
-+ */
-+
-+#ifndef TSWAP_H
-+#define TSWAP_H
-+
-+#include "hw/core/cpu.h"
-+#include "qemu/bswap.h"
-+
-+/*
-+ * If we're in target-specific code, we can hard-code the swapping
-+ * condition, otherwise we have to do (slower) run-time checks.
-+ */
-+#ifdef NEED_CPU_H
-+#define target_needs_bswap()  (HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN)
-+#else
-+#define target_needs_bswap()  (target_words_bigendian() != HOST_BIG_ENDIAN)
-+#endif
-+
-+static inline uint16_t tswap16(uint16_t s)
-+{
-+    if (target_needs_bswap()) {
-+        return bswap16(s);
-+    } else {
-+        return s;
-+    }
-+}
-+
-+static inline uint32_t tswap32(uint32_t s)
-+{
-+    if (target_needs_bswap()) {
-+        return bswap32(s);
-+    } else {
-+        return s;
-+    }
-+}
-+
-+static inline uint64_t tswap64(uint64_t s)
-+{
-+    if (target_needs_bswap()) {
-+        return bswap64(s);
-+    } else {
-+        return s;
-+    }
-+}
-+
-+static inline void tswap16s(uint16_t *s)
-+{
-+    if (target_needs_bswap()) {
-+        *s = bswap16(*s);
-+    }
-+}
-+
-+static inline void tswap32s(uint32_t *s)
-+{
-+    if (target_needs_bswap()) {
-+        *s = bswap32(*s);
-+    }
-+}
-+
-+static inline void tswap64s(uint64_t *s)
-+{
-+    if (target_needs_bswap()) {
-+        *s = bswap64(*s);
-+    }
-+}
-+
-+#endif  /* TSWAP_H */
++        if (target_words_bigendian()) {
++            qtest_sendf(chr, "OK big\n");
++        } else {
++            qtest_sendf(chr, "OK little\n");
++        }
+     } else if (qtest_enabled() && strcmp(words[0], "clock_step") == 0) {
+         int64_t ns;
+ 
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index 1a7c7ac089..b392f0bd35 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -3,7 +3,6 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
+   'ioport.c',
+   'memory.c',
+   'physmem.c',
+-  'qtest.c',
+   'dirtylimit.c',
+   'watchpoint.c',
+ )])
+@@ -23,6 +22,7 @@ softmmu_ss.add(files(
+   'globals.c',
+   'memory_mapping.c',
+   'qdev-monitor.c',
++  'qtest.c',
+   'rtc.c',
+   'runstate-action.c',
+   'runstate-hmp-cmds.c',
 -- 
 2.31.1
 
