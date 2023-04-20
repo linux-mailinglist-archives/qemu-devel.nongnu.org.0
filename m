@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92606E8E4A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:37:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1936A6E8E32
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:36:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQiK-0002Pp-Uw; Thu, 20 Apr 2023 05:36:28 -0400
+	id 1ppQiF-00028z-Tw; Thu, 20 Apr 2023 05:36:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1ppQiA-00022l-N5
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:36:19 -0400
+ id 1ppQiA-0001wh-1c
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:36:18 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1ppQi7-0003QH-G6
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:36:18 -0400
+ (envelope-from <zhaotianrui@loongson.cn>) id 1ppQi7-0003QO-2N
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:36:17 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxJYyKB0FkzHEfAA--.48780S3;
+ by gateway (Coremail) with SMTP id _____8AxJ_CKB0Fkz3EfAA--.49213S3;
  Thu, 20 Apr 2023 17:36:10 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxwOSGB0FkUfEwAA--.29752S11; 
+ AQAAf8DxwOSGB0FkUfEwAA--.29752S12; 
  Thu, 20 Apr 2023 17:36:10 +0800 (CST)
 From: Tianrui Zhao <zhaotianrui@loongson.cn>
 To: qemu-devel@nongnu.org, kvm@vger.kernel.org,
  Paolo Bonzini <pbonzini@redhat.com>, gaosong@loongson.cn
 Cc: "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  maobibo@loongson.cn, zhaotianrui@loongson.cn
-Subject: [PATCH RFC v1 09/10] target/loongarch: Add kvm-stub.c
-Date: Thu, 20 Apr 2023 17:36:05 +0800
-Message-Id: <20230420093606.3366969-10-zhaotianrui@loongson.cn>
+Subject: [PATCH RFC v1 10/10] target/loongarch: Add kvm file into meson build
+Date: Thu, 20 Apr 2023 17:36:06 +0800
+Message-Id: <20230420093606.3366969-11-zhaotianrui@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
 References: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxwOSGB0FkUfEwAA--.29752S11
+X-CM-TRANSID: AQAAf8DxwOSGB0FkUfEwAA--.29752S12
 X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7trWfJrW3Kr1fKF13CF15Jwb_yoW8GrWkpr
- W7urn8Kr4xJrZrJwn5Xay5Wr1DXrWfur42vaySg3y8Cr4UJr1UXFyvgrZrWFW5G348Xr10
- qr1rCw1YqF18Xw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uw4kWF4xAr1fGryrAw1kXwb_yoW8GrWDp3
+ s7C3W8KF4kJFWkJ3s8C3s3XrZxtw13Gw12qay7K34fAwsxJ3y7XFZ3t3sxXF42q3W0kF1S
+ 9rn3C3W5WF4UJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b0kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
  7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
  0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCF
@@ -51,9 +51,9 @@ X-Coremail-Antispam: 1Uk129KBjvJXoW7trWfJrW3Kr1fKF13CF15Jwb_yoW8GrWkpr
  v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
  8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
  xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
- 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
- 67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+ jxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04
+ k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
 X-Spam_score_int: -18
@@ -76,51 +76,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add kvm-stub.c for loongarch, there are two stub functions:
-kvm_loongarch_reset_vcpu and kvm_loongarch_set_interrupt.
+Add kvm.c and kvm-stub.c into meson.build to compile
+it when kvm is configed. Meanwhile in meson.build,
+we set the kvm_targets to loongarch64-softmmu when
+the cpu is loongarch.
 
 Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
 ---
- target/loongarch/kvm-stub.c      | 17 +++++++++++++++++
- target/loongarch/kvm_loongarch.h |  1 +
- 2 files changed, 18 insertions(+)
- create mode 100644 target/loongarch/kvm-stub.c
+ meson.build                  | 2 ++
+ target/loongarch/meson.build | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/target/loongarch/kvm-stub.c b/target/loongarch/kvm-stub.c
-new file mode 100644
-index 0000000000..e28827ee07
---- /dev/null
-+++ b/target/loongarch/kvm-stub.c
-@@ -0,0 +1,17 @@
-+/*
-+ * QEMU KVM LoongArch specific function stubs
-+ *
-+ * Copyright (c) 2023 Loongson Technology Corporation Limited
-+ */
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+
-+void kvm_loongarch_reset_vcpu(LoongArchCPU *cpu)
-+{
-+    abort();
-+}
-+
-+void kvm_loongarch_set_interrupt(LoongArchCPU *cpu, int irq, int level)
-+{
-+    abort();
-+}
-diff --git a/target/loongarch/kvm_loongarch.h b/target/loongarch/kvm_loongarch.h
-index cdef980eec..c03f4bef0f 100644
---- a/target/loongarch/kvm_loongarch.h
-+++ b/target/loongarch/kvm_loongarch.h
-@@ -8,6 +8,7 @@
- #ifndef QEMU_KVM_LOONGARCH_H
- #define QEMU_KVM_LOONGARCH_H
+diff --git a/meson.build b/meson.build
+index 29f8644d6d..9a4bce4add 100644
+--- a/meson.build
++++ b/meson.build
+@@ -114,6 +114,8 @@ elif cpu in ['mips', 'mips64']
+   kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
+ elif cpu in ['riscv']
+   kvm_targets = ['riscv32-softmmu', 'riscv64-softmmu']
++elif cpu in ['loongarch64']
++  kvm_targets = ['loongarch64-softmmu']
+ else
+   kvm_targets = []
+ endif
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 9293a8ab78..0c6cec81e4 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -26,6 +26,7 @@ loongarch_softmmu_ss.add(files(
  
-+void kvm_loongarch_reset_vcpu(LoongArchCPU *cpu);
- int  kvm_loongarch_set_interrupt(LoongArchCPU *cpu, int irq, int level);
+ common_ss.add(when: 'CONFIG_LOONGARCH_DIS', if_true: [files('disas.c'), gen])
  
- #endif
++loongarch_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
+ loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
+ 
+ target_arch += {'loongarch': loongarch_ss}
 -- 
 2.31.1
 
