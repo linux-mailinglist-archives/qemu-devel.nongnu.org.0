@@ -2,82 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696B96E970E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:28:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317346E9751
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:37:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppVGh-0001U5-Ld; Thu, 20 Apr 2023 10:28:15 -0400
+	id 1ppVOH-0001M5-Jb; Thu, 20 Apr 2023 10:36:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ppVGg-0001Tc-AO
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:28:14 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppVOE-0001Ld-B9
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:36:02 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ppVGe-0007wL-P0
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:28:14 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppVOC-0003Ge-AO
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:36:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682000891;
+ s=mimecast20190719; t=1682001357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zA7AXhEtagTkZkpFoPx2UbK4fknnVD5KFxoiQEkDJ1w=;
- b=aUQ9AfWSapwJ5mke6SCgWZlqRfkdk9l8sKahchgChQw1Bh/zgIcl+C7Oit6LjVgD+vcmC9
- eKqAUaS07NCyxIALvyZL9PBcyn3ak0YCKPTAX2E2lmP1SWULEsTBTjYMenshgbMXGLBwcb
- b+9NEPKjicBh8N5iT+4qjZjbVgZpZyU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-574-PzG0VWeROa65t6k5QYAf5Q-1; Thu, 20 Apr 2023 10:28:10 -0400
-X-MC-Unique: PzG0VWeROa65t6k5QYAf5Q-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-5ef6c09fa0dso4329356d6.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 07:28:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682000890; x=1684592890;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zA7AXhEtagTkZkpFoPx2UbK4fknnVD5KFxoiQEkDJ1w=;
- b=cZNttxv/IjQtvDuPxaUpDJEHyw9xmBMo79ehh4TIPymcfKpFN+YG8/4pumSgoXgqiL
- DerdGXAGDVgJJHaLPzmJXkb2se70ZZqNxuT+pYps7EwN5yax9qf/9bYfRZXFguIJ4CF0
- pECylCP4NUD/Wg6CnrgCwUtseuwwekf7dktJrV000TNjKbCnfJxN1tQ+lEnclb4j9yG6
- 5ZpXfg6snq5FpqmN2p8RYaUUbJLrS878ezz3ZFRbr0GS2LhbE3Na8ZjQr2PgQMPstobC
- wPsJgKyuYWk1YhNbtJqHa97+Cobv41aOa5L3Hk4ZNBb2OUdOL8qLclcfZsEfbN7x3r4z
- LABg==
-X-Gm-Message-State: AAQBX9fY0S7qB5dC3ElzKf5K36nXd0inWDxoMWyWE6PKV12+i8x5DgCs
- NKJpEKkjbqquLYdKTvuIC6CCYRjuFp/hp2HcrY1LEW9yX0mWNnZKgy2dlpDoHJWEgOBOdWFzbQJ
- v5G2RNUoT9TRhZDo=
-X-Received: by 2002:a05:6214:27c2:b0:5ad:2a05:ddd1 with SMTP id
- ge2-20020a05621427c200b005ad2a05ddd1mr2089390qvb.34.1682000890080; 
- Thu, 20 Apr 2023 07:28:10 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YmnUk4Qz5XBPA1ey0P+QXhbFiRhQ2P8WZZCSvsyrbk5a75MHTvo71NO3ojFv7jUIECPqUmLQ==
-X-Received: by 2002:a05:6214:27c2:b0:5ad:2a05:ddd1 with SMTP id
- ge2-20020a05621427c200b005ad2a05ddd1mr2089373qvb.34.1682000889867; 
- Thu, 20 Apr 2023 07:28:09 -0700 (PDT)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- r11-20020ac8520b000000b003e69d6792f6sm524024qtn.45.2023.04.20.07.28.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 07:28:09 -0700 (PDT)
-Date: Thu, 20 Apr 2023 16:28:05 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Stefan
- Hajnoczi <stefanha@redhat.com>, "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 0/3] vhost: memslot handling improvements
-Message-ID: <20230420162805.6781701b@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230316153658.214487-1-david@redhat.com>
-References: <20230316153658.214487-1-david@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kw2+wmY8PsZERaMHjdUA9tsfMYHQUV7TrQ+rUU0d+ZA=;
+ b=UDtd9loT7AdEbcETfRRU+mO+gz0epaDIJUPn/uRjQ78Pe+SRKvjtUznwf3qCLbZN9cfkcf
+ peiBbYKrNau5scxYORfdeJK3M33vo4HONTOR0gb5Co2nSC4khdKGyujO6aKPUDhBqP/b1R
+ xpHfPYTABBZhVN1zjsucmnDaiiVaeos=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-fgEK4cWTNOqI7T2k8v_f7g-1; Thu, 20 Apr 2023 10:35:56 -0400
+X-MC-Unique: fgEK4cWTNOqI7T2k8v_f7g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1111C857FB3
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 14:35:56 +0000 (UTC)
+Received: from green.redhat.com (unknown [10.2.16.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C19ED40BC798;
+ Thu, 20 Apr 2023 14:35:55 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>
+Subject: [PATCH] migration: Minor control flow simplification
+Date: Thu, 20 Apr 2023 09:35:51 -0500
+Message-Id: <20230420143551.419229-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,48 +73,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Mar 2023 16:36:55 +0100
-David Hildenbrand <david@redhat.com> wrote:
+No need to declare a temporary variable.
 
-> Following up on my previous work to make virtio-mem consume multiple
-> memslots dynamically [1] that requires precise accounting between used vs.
-> reserved memslots, I realized that vhost makes this extra hard by
-> filtering out some memory region sections (so they don't consume a
-> memslot) in the vhost-user case, which messes up the whole memslot
-> accounting.
-> 
-> This series fixes what I found to be broken and prepares for more work on
-> [1]. Further, it cleanes up the merge checks that I consider unnecessary.
+Suggested-by: Juan Quintela <quintela@redhat.com>
+Fixes: 1df36e8c6289 ("migration: Handle block device inactivation failures better")
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+If Juan's pull request
+https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg03138.html
+needs a v2, then this can be squashed as a fixup to 15/20 of that
+request; otherwise, this can go on top whenever convenient.
 
-> 
-> [1] https://lkml.kernel.org/r/20211027124531.57561-8-david@redhat.com
-> 
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> 
-> v1 -> v2:
-> - "vhost: Rework memslot filtering and fix "used_memslot" tracking"
-> -- New approach: keep filtering, but make filtering less generic and
->    track separately. This should keep any existing setups working.
-> - "softmmu/physmem: Fixup qemu_ram_block_from_host() documentation"
-> -- As requested by Igor
-> 
-> David Hildenbrand (3):
->   vhost: Rework memslot filtering and fix "used_memslot" tracking
->   vhost: Remove vhost_backend_can_merge() callback
->   softmmu/physmem: Fixup qemu_ram_block_from_host() documentation
-> 
->  hw/virtio/vhost-user.c            | 21 ++---------
->  hw/virtio/vhost-vdpa.c            |  1 -
->  hw/virtio/vhost.c                 | 62 ++++++++++++++++++++++++-------
->  include/exec/cpu-common.h         | 15 ++++++++
->  include/hw/virtio/vhost-backend.h |  9 +----
->  softmmu/physmem.c                 | 17 ---------
->  6 files changed, 68 insertions(+), 57 deletions(-)
-> 
+ migration/migration.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index 7b0d4a9d8f2..59b6bcac958 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3432,7 +3432,6 @@ static void migration_completion(MigrationState *s)
+         ret = global_state_store();
+
+         if (!ret) {
+-            bool inactivate = !migrate_colo_enabled();
+             ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
+             trace_migration_completion_vm_stop(ret);
+             if (ret >= 0) {
+@@ -3440,10 +3439,10 @@ static void migration_completion(MigrationState *s)
+                                             MIGRATION_STATUS_DEVICE);
+             }
+             if (ret >= 0) {
+-                s->block_inactive = inactivate;
++                s->block_inactive = !migrate_colo_enabled();
+                 qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
+                 ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
+-                                                         inactivate);
++                                                         s->block_inactive);
+             }
+         }
+         qemu_mutex_unlock_iothread();
+
+base-commit: cdf07846e6fe07a2e20c93eed5902114dc1d3dcf
+-- 
+2.40.0
 
 
