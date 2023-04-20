@@ -2,44 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EBC6E9451
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA736E945E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:32:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppTQU-0005YD-SW; Thu, 20 Apr 2023 08:30:15 -0400
+	id 1ppTSH-0006Yn-0f; Thu, 20 Apr 2023 08:32:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ppTQC-0005Wr-B5
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:29:56 -0400
-Received: from isrv.corpit.ru ([86.62.121.231])
+ (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
+ id 1ppTSE-0006Wb-Hd
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:32:02 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ppTQ4-0002Dm-QK
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:29:53 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 8AA734019D
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 15:29:35 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id B0BD9215
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 15:29:34 +0300 (MSK)
-Message-ID: <d30fbe88-b9ee-81f3-0447-5cb9f2a8cdea@msgid.tls.msk.ru>
-Date: Thu, 20 Apr 2023 15:29:34 +0300
+ (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
+ id 1ppTSB-0002pZ-NY
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:32:02 -0400
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33KApZIh009074; Thu, 20 Apr 2023 12:31:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=CUNJmq0hA3+qeGUHIE7BngJonahWHDH2CrP1xo7sZls=;
+ b=fOexkTcXqc17KNIHHmFSdv17vLjM/IHSw9Y67ptqESYqyL4Mn9Qhca1lTXzt+srylGu4
+ zQlTYcCimfmyuzLcstVR0s/7Ynj/MD63N+YRXOR1pIoHb2MlhQmZKAQfHSuEeVgbRzYs
+ PGPpSiwoOoIKONafWzwxM/3TWXFiylP0zS2mk0RsU/NuYPzpgai/0ie50kRiDUydS/vx
+ s5du6gVRoKZ1d7oZDBtLkwbxt8VRq7plSTX6+VjBr3lG8w3nojivvzMYBVG1P6QOUhyN
+ CWUWwSsrnEwcefUOGZTJa0It56BVQ9IcKw6XIHWaLwmZdUcLHc9o/HpiYwXjAZhmWl5f nQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q2nn822n2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 12:31:45 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33KCVj2I029160
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 12:31:45 GMT
+Received: from NASANPPMTA03.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Thu, 20 Apr 2023 05:31:42 -0700
+From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+To: <qemu-devel@nongnu.org>
+CC: <alex.bennee@linaro.org>, <bcain@quicinc.com>, <f4bug@amsat.org>,
+ <peter.maydell@linaro.org>, <tsimpson@quicinc.com>
+Subject: [PATCH v2 RESEND 0/7] Hexagon: add lldb support
+Date: Thu, 20 Apr 2023 09:31:21 -0300
+Message-ID: <cover.1681993775.git.quic_mathbern@quicinc.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-To: QEMU Developers <qemu-devel@nongnu.org>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Subject: --disable-system --enable-$some_system_feature: fail?
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: npXfXmNIHoP3YL8cthi25DprpmYqSmlT
+X-Proofpoint-GUID: npXfXmNIHoP3YL8cthi25DprpmYqSmlT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-20_08,2023-04-20_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 clxscore=1015 phishscore=0 mlxlogscore=466
+ bulkscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304200102
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=quic_mathbern@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,63 +97,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi!
+This series allows hexagon programs to be debugged under qemu user-mode
+through LLDB and qemu's gdbstub. LLDB implements the GDB remote serial
+protocol, so most of the necessary changes are in the Hexagon part itself.
+However, one fix is needed at the arch-independent side too.
 
-We've an interesting effect out of our --enable-foo stuff.
-For example,
+Changes in v2:
+- Rebased on current master
+- Added Taylor's Reviewed-by at patch 5
 
-   ./configure --disable-system --enable-gtk
+v1: https://lore.kernel.org/qemu-devel/cover.1680808943.git.quic_mathbern@quicinc.com/
 
-this will fail during build time, this way:
+Brian Cain (3):
+  gdbstub: add support for the qRegisterInfo query
+  Hexagon: support qRegisterInfo at gdbstub
+  Hexagon (gdbstub): fix p3:0 read and write via stub
 
-  In file included from ui/x_keymap.c:15:
-  ui/trace.h:1:10: fatal error: trace/trace-ui.h: No such file or directory
+Matheus Tavares Bernardino (2):
+  gdbstub: only send stop-reply packets when allowed to
+  gdbstub: add test for untimely stop-reply packets
 
-This is because in meson.build, we first have
+Taylor Simpson (2):
+  Hexagon (gdbstub): add HVX support
+  Hexagon (linux-user/hexagon): handle breakpoints
 
-if have_system
-   trace_events_subdirs += [
-     'ui',
-   ]
-endif
+ gdbstub/internals.h                           |   5 +
+ include/hw/core/cpu.h                         |   4 +
+ target/hexagon/gdb_qreginfo.h                 | 124 ++++++++++++++++++
+ gdbstub/gdbstub.c                             |  64 +++++++--
+ gdbstub/softmmu.c                             |  13 +-
+ gdbstub/user.c                                |  17 ++-
+ linux-user/hexagon/cpu_loop.c                 |  10 ++
+ target/hexagon/cpu.c                          |   3 +
+ target/hexagon/gdbstub.c                      |  76 +++++++++++
+ tests/guest-debug/run-test.py                 |  16 ++-
+ .../multiarch/system/Makefile.softmmu-target  |  16 ++-
+ 11 files changed, 326 insertions(+), 22 deletions(-)
+ create mode 100644 target/hexagon/gdb_qreginfo.h
 
-and later we have
+-- 
+2.39.1
 
-subdir('ui')
-
-which, in ui/meson.build, in turn has
-
-if gtk.found()
-   gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
-   ui_modules += {'gtk' : gtk_ss}
-endif
-
-So we end up building ui/gtk.c (which includes trace-ui.h)
-but not building trace-ui.h.
-
-It is interesting that ui/meson.build does not check for
-have_system at all, ditto for inclusion of subdir('ui'),
-but rely solely on gtk.found().
-
-Arguable it is a bug in ./configure options, since one
-can't enable gtk without enabling system as well.
-
-This is a widespread thing: many other similar options
-behave in a similar way.
-
-Can we fix this somehow to be at least consistent?
-
-Maybe we can guard some subdir('foo') with if have_system
-or have_user?  Note there are things like, say, sdlaudio,
-which is not in ui/ but will fail in the same way unless
-also guarded in audio/meson.build (or whole audio/ should
-be omitted without have_system just like ui/).
-
-BTW, can't we always generate trace stuff? I mean, why that
-one is guarded with have_{system,user}, while actual subdir
-inclusion is not? Maybe we can fix just this inconsistency?
-
-Thanks,
-
-/mjt
 
