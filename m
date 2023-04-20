@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8416E8DBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5442E6E8DBB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:13:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQLG-0002PX-K1; Thu, 20 Apr 2023 05:12:38 -0400
+	id 1ppQMH-0003id-4k; Thu, 20 Apr 2023 05:13:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ppQLE-0002Or-9G
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:12:36 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQMC-0003hy-9k
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:13:36 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ppQL7-0004j6-0M
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:12:34 -0400
-Received: by mail-ot1-x333.google.com with SMTP id
- 46e09a7af769-6a5f765d595so544384a34.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:12:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQM9-0004wC-D0
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:13:35 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id he13so898457wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681981946; x=1684573946;
+ d=linaro.org; s=google; t=1681982011; x=1684574011;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=XRKqaseZ4z8KyP01EJdIqjScDmpJOeyIVE1Yi7HH/zw=;
- b=M9cvvNTX7uuTJ4+TGggbzTfqTGiSx5wW6eLpxgRx83/d+GZh9Fl69UsqzqtNmYxv6L
- Dj8qW9LvMHez9CF1yWuP4qY+pqNtUsi3sV4SDfqp+eOPOpD9owpWA7NaGGJSSvX6go2r
- nreqQMdxHDXUQBP68URx9JMuPfWQ2K22fo7BvCEwi+ZuIaDXeK+kL01eQYAzT55G6uMV
- r0wHutKRAU80ZPsxP8WF6BnvyOUYHxAftJ/4QPu34jObRxir0cnefnSTmfSjv4fFn5Di
- +m0Pab3/mQGG3rHFeYPbmQ5oqqWGXYTJ0MbF1dgJYaIVHq6sb3EuJmWBtcUFKK9DUPTz
- DMxA==
+ bh=W1zTJLARu1+I1MmrRrdXSfhEXdt+FxgpmIAdCOWmpW8=;
+ b=VfVjZIrHPNsqlqSTbrvwCyI8pHXibHgaYaLzuIxncS3UUnfyADBUB8N9KcwtvL/D4/
+ exNOjwVm2suBwm5rsO8LVSD56ovNxCQ4xVePsDw9Fzx+fB5J39qY+OUuXDj1/PVF52Cx
+ LN/oWyywt8LZyRP1Z/hywCfAmOmYCsroJRNPT4EOfB+hMQzBvrboRCKLeXiHW8Gf+kmD
+ E+1TOYxiisOWObRDx36h1692t0QYT0AO+03Sr7NRcC1znHajqVi7tWIQB/GBOzJh6z4s
+ NyK+q4jGwIGuLbZ9q9HhaHGJh4Zb4fuNC2xtmxyDox3tbQV/HwSNO5iTWtZNhse3aALI
+ Ly1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681981946; x=1684573946;
+ d=1e100.net; s=20221208; t=1681982011; x=1684574011;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XRKqaseZ4z8KyP01EJdIqjScDmpJOeyIVE1Yi7HH/zw=;
- b=Q6UGM6eyPL9T1XRnfRUwnsOrGZfNJuZKQD/GgiFj/NIxjihK+Z/c1UbXTxwMLZP3zu
- BIiatc/sfKYlGq+ud/ihZ9HNgQ8j8PfY4xoVN2dMR1esgr5oF8BYds39fGhw2jvDOebH
- 9qqOgjwfHOUFYtQDYMu08+Az0KkGsx0yqVauSvdvjZ3mcYpfSIWQXx0z1OfXdQJahyqV
- e8MxD5TtLw5ozxsZ1C3EL/bYYFReOd6tk8KcOuMgxW/GetZmOHXXmefQ2YKKb3JSlJqJ
- IAAvKL2Lh8/S355vtirMISCZ5twEesCoHvwW7DCtSRQWTc35qhEEUWgmOHOLAbDNzwrC
- dZcQ==
-X-Gm-Message-State: AAQBX9eej5eJI0Uwe4iJYz5xm4iDdLxtcCtsnMpPQiI7wZmoyn+rTCBM
- bWLgpLqzR1NI70bM/MZHuQzr8Q==
-X-Google-Smtp-Source: AKy350YgCMO2i4kRcpj6peIIe7YLCLweNarSpWlXr+4NubgKqFNmAILP1mpswLLTF4cLtvmMofiQ+Q==
-X-Received: by 2002:a05:6830:1bc5:b0:6a5:de68:4529 with SMTP id
- v5-20020a0568301bc500b006a5de684529mr259072ota.21.1681981946019; 
- Thu, 20 Apr 2023 02:12:26 -0700 (PDT)
-Received: from [192.168.68.107] ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- z18-20020a05683010d200b006a5dd4ba6f2sm523406oto.21.2023.04.20.02.12.23
+ bh=W1zTJLARu1+I1MmrRrdXSfhEXdt+FxgpmIAdCOWmpW8=;
+ b=TVJncoJ7shLpR9RiP9/PL2Kt43wNqR4sj5pz+Iw0rBuQZyOoJ9aozosM9bnEyCEDVF
+ Z+taM8KLJN5wNhnwHBpyeUPJrUv7LvlhVAud0TG+5QjovZFPljZfhoc9PBDJ3Ste09YX
+ gmkKmtFD8q8CY1VzCaBhT7Lk6xX5EvHNX17X2toK9aBm6/LOW5RAccv7ivR0KChrk5HQ
+ TKIHW6vyEzha3s++mGdbbQqxoQnp5wX7bjaQpqhjClhjje+t+yshM4LJl4uBRJYcLEQV
+ R9Hw0ldH8PdG2rFc90cAVMsMSVdU1xLMkTOnpHfLJKNwiwdLpu0Mvg+g4+lJZkraQeq1
+ N2hw==
+X-Gm-Message-State: AAQBX9eskfdcs1w1tFohzRFKZJYG3/wUOOuT43jG4xTeT78FZvL2izSg
+ VkSzvOW9seLgOF4aI+R4CqCMeQ==
+X-Google-Smtp-Source: AKy350Y68uE6y6JdnXrT3XCUiABZICga0Lz74tF0kgekernuUz2+qGdnVWS+y3DF1e0GdUJCBWU/rA==
+X-Received: by 2002:a7b:c7d7:0:b0:3f1:71b2:9445 with SMTP id
+ z23-20020a7bc7d7000000b003f171b29445mr773243wmk.15.1681982011229; 
+ Thu, 20 Apr 2023 02:13:31 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ k3-20020a7bc403000000b003f1745c7df3sm1433737wmi.23.2023.04.20.02.13.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 02:12:25 -0700 (PDT)
-Message-ID: <18d8a9f1-8f2d-2240-112b-defa44e6dd70@ventanamicro.com>
-Date: Thu, 20 Apr 2023 06:12:21 -0300
+ Thu, 20 Apr 2023 02:13:30 -0700 (PDT)
+Message-ID: <eae62bb6-7c94-21be-f69e-8dc90c254297@linaro.org>
+Date: Thu, 20 Apr 2023 11:13:29 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v7 02/12] target/riscv/cpu.c: remove set_vext_version()
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v3 04/10] linux-user: Add '-one-insn-per-tb' option
+ equivalent to '-singlestep'
 Content-Language: en-US
-To: Alistair Francis <alistair23@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- palmer@rivosinc.com
-References: <20230417140013.58893-1-dbarboza@ventanamicro.com>
- <20230417140013.58893-3-dbarboza@ventanamicro.com>
- <CAKmqyKOq+SWD6fVZsiRBLBqhkcuGD9Z4cbtksrsQBLc5RsZ5EA@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAKmqyKOq+SWD6fVZsiRBLBqhkcuGD9Z4cbtksrsQBLc5RsZ5EA@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
+References: <20230417164041.684562-1-peter.maydell@linaro.org>
+ <20230417164041.684562-5-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230417164041.684562-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -98,63 +95,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 4/19/23 20:37, Alistair Francis wrote:
-> On Tue, Apr 18, 2023 at 12:08 AM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
->>
->> This setter is doing nothing else but setting env->vext_ver. Assign the
->> value directly.
->>
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+On 17/4/23 18:40, Peter Maydell wrote:
+> The '-singlestep' option is confusing, because it doesn't actually
+> have anything to do with single-stepping the CPU. What it does do
+> is force TCG emulation to put one guest instruction in each TB,
+> which can be useful in some situations.
 > 
-> I think you dropped my previous reviews
-
-Ops! My bad!
-
-
-I'll re-send with your acks.
-
-
-Daniel
-
+> Create a new command line argument -one-insn-per-tb, so we can
+> document that -singlestep is just a deprecated synonym for it,
+> and eventually perhaps drop it.
 > 
-> Alistair
-> 
->> ---
->>   target/riscv/cpu.c | 7 +------
->>   1 file changed, 1 insertion(+), 6 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index feca13aefb..fed7b467e4 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -252,11 +252,6 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
->>       env->priv_ver = priv_ver;
->>   }
->>
->> -static void set_vext_version(CPURISCVState *env, int vext_ver)
->> -{
->> -    env->vext_ver = vext_ver;
->> -}
->> -
->>   #ifndef CONFIG_USER_ONLY
->>   static uint8_t satp_mode_from_str(const char *satp_mode_str)
->>   {
->> @@ -834,7 +829,7 @@ static void riscv_cpu_validate_v(CPURISCVState *env, RISCVCPUConfig *cfg,
->>           qemu_log("vector version is not specified, "
->>                    "use the default value v1.0\n");
->>       }
->> -    set_vext_version(env, vext_version);
->> +    env->vext_ver = vext_version;
->>   }
->>
->>   /*
->> --
->> 2.39.2
->>
->>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Warner Losh <imp@bsdimp.com>
+> ---
+>   docs/user/main.rst | 7 ++++++-
+>   linux-user/main.c  | 9 ++++++---
+>   2 files changed, 12 insertions(+), 4 deletions(-)
+
+
+> @@ -500,8 +500,11 @@ static const struct qemu_argument arg_table[] = {
+>        "logfile",     "write logs to 'logfile' (default stderr)"},
+>       {"p",          "QEMU_PAGESIZE",    true,  handle_arg_pagesize,
+>        "pagesize",   "set the host page size to 'pagesize'"},
+> -    {"singlestep", "QEMU_SINGLESTEP",  false, handle_arg_singlestep,
+> -     "",           "run in singlestep mode"},
+> +    {"one-insn-per-tb",
+> +                   "QEMU_ONE_INSN_PER_TB",  false, handle_arg_one_insn_per_tb,
+> +     "",           "run with one guest instruction per emulated TB"},
+> +    {"singlestep", "QEMU_SINGLESTEP",  false, handle_arg_one_insn_per_tb,
+> +     "",           "deprecated synonym for -one-insn-per-tb"},
+
+Maybe worth mentioning QEMU_ONE_INSN_PER_TB too here:
+
+   "deprecated synonyms for -one-insn-per-tb and QEMU_ONE_INSN_PER_TB"
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+>       {"strace",     "QEMU_STRACE",      false, handle_arg_strace,
+>        "",           "log system calls"},
+>       {"seed",       "QEMU_RAND_SEED",   true,  handle_arg_seed,
+
 
