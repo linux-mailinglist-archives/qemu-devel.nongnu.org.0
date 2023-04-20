@@ -2,95 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF5F6E8EB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1023A6E8F91
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:10:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppR1I-0003sW-72; Thu, 20 Apr 2023 05:56:04 -0400
+	id 1ppREh-0006XC-Ln; Thu, 20 Apr 2023 06:09:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppR1G-0003rp-Uk
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:56:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1ppREe-0006W7-RU
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:09:53 -0400
+Received: from mga14.intel.com ([192.55.52.115])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppR1F-0001OE-Ke
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:56:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681984561;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=fEj1bMF2urdmmAPppsr/439Odr9qyKc856nlfczHOCM=;
- b=hnqTygMYUt/KdS4o8ZVrAzx+w/L+M6KnoGOXF2Os6L5WL1X8ZBK06RbYyik5yzgL86G1ci
- OyUoIwclY7lekEKH9zqz05I6/mD/sAHCgEFb/eBW3PIQSV5SZ0a/zcyBtWmnANnfFrpyMs
- T5T4Nt4U3BYfih073VBy2Jx9mI23kCM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-314-AombxQdtN46kzHCuZNLmIw-1; Thu, 20 Apr 2023 05:55:59 -0400
-X-MC-Unique: AombxQdtN46kzHCuZNLmIw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-2ffa43cd733so279584f8f.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:55:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681984558; x=1684576558;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fEj1bMF2urdmmAPppsr/439Odr9qyKc856nlfczHOCM=;
- b=QEC4jKKd/zbUo1ttm+xfvp/j1+RPB011BLFisAl39WcQhOjv1O2CulXzJaKTCZ2ro1
- dpfiduLj50qLrb5LZObyV0k0JEglavFM0kyB66QSPQlvg+Fc1Vqnj2PKZLgcnozf5+yx
- z6CGI2mQceGOJLHiuirDUABYGPtbxSTJC88xcFqZ1j9dVspPtKf5x2/c4u5SRfX/d5EQ
- FGn1/Psn9XZ0kiYGMS1sGjCOcXVBFQRXCuSN36MJtnDSj0g19/ydeePGR3Y9lqLqPuu3
- euHolp+LSn0D+R7Z6G5elLTuJBY89G26tIGeiy+eOeeMUZF7KLt3U66c6TYT5TTW/SHc
- xTzA==
-X-Gm-Message-State: AAQBX9eocJJ7Dz1oSmjvAr8U2BeFFsKFdSXRrNi/KYmym176PNCTwXEE
- SqFze2gNGMfj6cOtg+Nw/En1ITbal9C9ui+CmYQMx0/VFHWRX8rEPJmt/jZZWSeIDVjG/iE4aqp
- c/FbgyFAkUFZn0uk=
-X-Received: by 2002:a5d:4012:0:b0:2f8:81c1:ea75 with SMTP id
- n18-20020a5d4012000000b002f881c1ea75mr792062wrp.20.1681984558386; 
- Thu, 20 Apr 2023 02:55:58 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZHfeChm8YNwiF73HSsK6BKSTd8x+8CbhCF6PQXFyDrGj1Dzy8vWoCvu3vnlLc5wns2aga0gw==
-X-Received: by 2002:a5d:4012:0:b0:2f8:81c1:ea75 with SMTP id
- n18-20020a5d4012000000b002f881c1ea75mr792039wrp.20.1681984558129; 
- Thu, 20 Apr 2023 02:55:58 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- e5-20020a5d5305000000b002cf1c435afcsm1560877wrv.11.2023.04.20.02.55.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 02:55:57 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  michael.roth@amd.com,
- armbru@redhat.com,  eblake@redhat.com,  jasowang@redhat.com,
- zhanghailiang@xfusion.com,  philmd@linaro.org,  thuth@redhat.com,
- berrange@redhat.com,  marcandre.lureau@redhat.com,  pbonzini@redhat.com,
- dave@treblig.org,  hreitz@redhat.com,  kwolf@redhat.com,
- chen.zhang@intel.com,  lizhijian@fujitsu.com
-Subject: Re: [PATCH v2 2/4] scripts/qapi: allow optional experimental enum
- values
-In-Reply-To: <20230419225232.508121-3-vsementsov@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 20 Apr 2023 01:52:30 +0300")
-References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
- <20230419225232.508121-3-vsementsov@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 20 Apr 2023 11:55:56 +0200
-Message-ID: <87leimzxlf.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1ppREc-0007FH-2W
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:09:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1681985390; x=1713521390;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Nypxwo0ygCFLbPjPSfR8SGsevNrMWdb6/kB0fBNWzcU=;
+ b=SZyyNkeWwuDMNZ1nNnOPO9aRwJw9YgMz/4qbs/kzkg1ITRtuCyQE2l7r
+ u6JzEuZKJ1jT3R8LS97vdHbYxfiLx2RVVHfrUvs+InJP05cZzrbScnykv
+ hmpzj5mmqx8F54cgNt2PLecvIZX7UuHQ19Uhy9P5fklr9MX6tIQFiD9xR
+ UE4yNB1un5NHdMQhl7AGsY3Gs53Tln/2IaUgzuy58G7C8BlZ6eHZ9PbE/
+ VIVshMurzuKZ8SFambPXSKcuaztcNGLV+YpJnx8FuYKPrt8wNdym7BYLA
+ /C3WR/wAhhEtF0bfCWcilLEpBe51EKkg4Kzc6CgSFAkZ5OnU2rcTdGoBD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="345698973"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; d="scan'208";a="345698973"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2023 03:09:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="722321221"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; d="scan'208";a="722321221"
+Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.143])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2023 03:09:44 -0700
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, peterx@redhat.com, jasowang@redhat.com,
+ marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
+ richard.henderson@linaro.org, eduardo@habkost.net, david@redhat.com,
+ philmd@linaro.org, peter.maydell@linaro.org, chao.p.peng@intel.com
+Subject: [PATCH v5] memory: Optimize replay of guest mapping
+Date: Thu, 20 Apr 2023 17:57:31 +0800
+Message-Id: <20230420095731.255895-1-zhenzhong.duan@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=zhenzhong.duan@intel.com; helo=mga14.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,17 +74,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> To be used in the next commit.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+On x86, there are two notifiers registered due to vtd-ir memory
+region splitting the entire address space. During replay of the
+address space for each notifier, the whole address space is
+scanned which is unnecessary. We only need to scan the space
+belong to notifier monitored space.
 
-I am cc'd, but this is black magic to me.
+While on x86 IOMMU memory region spans over entire address space,
+but on some other platforms(e.g. arm mps3-an547), IOMMU memory
+region is only a window in the entire address space. User could
+register a notifier with arbitrary scope beyond IOMMU memory
+region. Though in current implementation replay is only triggered
+by VFIO and dirty page sync with notifiers derived from memory
+region section, but this isn't guaranteed in the future.
 
-Later, Juan.
+So, we replay the intersection part of IOMMU memory region and
+notifier's scope in memory_region_iommu_replay(). Update doc
+comment to match this change.
+
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+---
+v5: minor wording tweaks per Perter Maydell, add Peter Xu's RB
+v4: Update doc comment per Perter Maydell
+v3: Fix assert failure on mps3-an547, fix typos in log per Michael
+v2: Add an assert per Peter Xu
+Tested on x86 with a net card passed to guest(kvm/tcg), ping/ssh pass.
+Also did simple bootup test with mps3-an547
+
+ hw/i386/intel_iommu.c |  2 +-
+ include/exec/memory.h | 22 ++++++++++++----------
+ softmmu/memory.c      |  5 +++--
+ 3 files changed, 16 insertions(+), 13 deletions(-)
+
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index a62896759c78..faade7def867 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3850,7 +3850,7 @@ static void vtd_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+                 .domain_id = vtd_get_domain_id(s, &ce, vtd_as->pasid),
+             };
+ 
+-            vtd_page_walk(s, &ce, 0, ~0ULL, &info, vtd_as->pasid);
++            vtd_page_walk(s, &ce, n->start, n->end, &info, vtd_as->pasid);
+         }
+     } else {
+         trace_vtd_replay_ce_invalid(bus_n, PCI_SLOT(vtd_as->devfn),
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 15ade918baa4..c0aedcd903c3 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -425,12 +425,14 @@ struct IOMMUMemoryRegionClass {
+      * Called to handle memory_region_iommu_replay().
+      *
+      * The default implementation of memory_region_iommu_replay() is to
+-     * call the IOMMU translate method for every page in the address space
+-     * with flag == IOMMU_NONE and then call the notifier if translate
+-     * returns a valid mapping. If this method is implemented then it
+-     * overrides the default behaviour, and must provide the full semantics
+-     * of memory_region_iommu_replay(), by calling @notifier for every
+-     * translation present in the IOMMU.
++     * call the IOMMU translate method for every page falling in the
++     * intersection of the IOMMU MemoryRegion and the MemoryRegion which
++     * the notifier was registered for with flag == IOMMU_NONE and then
++     * call the notifier if translate returns a valid mapping. If this
++     * method is implemented then it overrides the default behavior,
++     * and must provide the full semantics of memory_region_iommu_replay(),
++     * by calling @notifier for every translation present in the IOMMU
++     * that is within the MemoryRegion the notifier was registered for.
+      *
+      * Optional method -- an IOMMU only needs to provide this method
+      * if the default is inefficient or produces undesirable side effects.
+@@ -1760,9 +1762,10 @@ int memory_region_register_iommu_notifier(MemoryRegion *mr,
+                                           IOMMUNotifier *n, Error **errp);
+ 
+ /**
+- * memory_region_iommu_replay: replay existing IOMMU translations to
++ * memory_region_iommu_replay: replay existing IOMMU translations in
++ * intersection part of IOMMU memory region and notifier's scope to
+  * a notifier with the minimum page granularity returned by
+- * mr->iommu_ops->get_page_size().
++ * memory_region_iommu_get_min_page_size().
+  *
+  * Note: this is not related to record-and-replay functionality.
+  *
+@@ -1775,8 +1778,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n);
+  * memory_region_unregister_iommu_notifier: unregister a notifier for
+  * changes to IOMMU translation entries.
+  *
+- * @mr: the memory region which was observed and for which notity_stopped()
+- *      needs to be called
++ * @mr: the memory region which was observed.
+  * @n: the notifier to be removed.
+  */
+ void memory_region_unregister_iommu_notifier(MemoryRegion *mr,
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index b1a6cae6f583..f7af691991de 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1925,7 +1925,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+ {
+     MemoryRegion *mr = MEMORY_REGION(iommu_mr);
+     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
+-    hwaddr addr, granularity;
++    hwaddr addr, end, granularity;
+     IOMMUTLBEntry iotlb;
+ 
+     /* If the IOMMU has its own replay callback, override */
+@@ -1935,8 +1935,9 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+     }
+ 
+     granularity = memory_region_iommu_get_min_page_size(iommu_mr);
++    end = MIN(n->end, memory_region_size(mr));
+ 
+-    for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
++    for (addr = n->start; addr < end; addr += granularity) {
+         iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
+         if (iotlb.perm != IOMMU_NONE) {
+             n->notify(n, &iotlb);
+-- 
+2.25.1
 
 
