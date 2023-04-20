@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197D36E8C3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5838E6E8C55
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:12:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppPK8-0003hd-6Q; Thu, 20 Apr 2023 04:07:24 -0400
+	id 1ppPK7-0003dP-N8; Thu, 20 Apr 2023 04:07:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1ppPK6-0003ec-4z
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:07:22 -0400
+ id 1ppPK4-0003bk-Kk
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:07:20 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1ppPK2-00080R-C5
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:07:21 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1ppPK2-00080Y-36
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:07:20 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxE0yy8kBkP2UfAA--.49464S3;
+ by gateway (Coremail) with SMTP id _____8AxJFyy8kBkQmUfAA--.48885S3;
  Thu, 20 Apr 2023 16:07:14 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxur2u8kBkdNUwAA--.59556S4; 
+ AQAAf8Cxur2u8kBkdNUwAA--.59556S5; 
  Thu, 20 Apr 2023 16:07:14 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	gaosong@loongson.cn
-Subject: [RFC PATCH v3 02/44] target/loongarch: meson.build support build LSX
-Date: Thu, 20 Apr 2023 16:06:27 +0800
-Message-Id: <20230420080709.3352575-3-gaosong@loongson.cn>
+Subject: [RFC PATCH v3 03/44] target/loongarch: Add CHECK_SXE maccro for check
+ LSX enable
+Date: Thu, 20 Apr 2023 16:06:28 +0800
+Message-Id: <20230420080709.3352575-4-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230420080709.3352575-1-gaosong@loongson.cn>
 References: <20230420080709.3352575-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxur2u8kBkdNUwAA--.59556S4
+X-CM-TRANSID: AQAAf8Cxur2u8kBkdNUwAA--.59556S5
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7WFWDtr1kJry3ur4xCF4xtFb_yoW8trykpr
- 17ur18KF48JrZ3A3Z2gayYqry5Xa1UGw42qayIq3s3ArsrXryxZF4kt3sFgFW7J3WUury0
- qF1Fkw1UWF48XaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uryktrWkKF15Gry8Jw1DJrb_yoW5JFy7pF
+ Z2kry7KF4rGFZ2y34fXan8Grn8Xr15Cw4xta1Sg3s5GFsxXr1Fqa1vq39FgFW3Gayrury2
+ vF1fAw13WF47WaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  b08Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
@@ -50,7 +51,7 @@ X-Coremail-Antispam: 1Uk129KBjvJXoW7WFWDtr1kJry3ur4xCF4xtFb_yoW8trykpr
  WUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx2
  6rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
  xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0
- cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
  AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
  14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -75,64 +76,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/insn_trans/trans_lsx.c.inc | 5 +++++
- target/loongarch/lsx_helper.c               | 6 ++++++
- target/loongarch/meson.build                | 1 +
- target/loongarch/translate.c                | 1 +
- 4 files changed, 13 insertions(+)
- create mode 100644 target/loongarch/insn_trans/trans_lsx.c.inc
- create mode 100644 target/loongarch/lsx_helper.c
+ target/loongarch/cpu.c                      |  2 ++
+ target/loongarch/cpu.h                      |  2 ++
+ target/loongarch/insn_trans/trans_lsx.c.inc | 11 +++++++++++
+ 3 files changed, 15 insertions(+)
 
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 18b41221a6..55d7f9255e 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -52,6 +52,7 @@ static const char * const excp_names[] = {
+     [EXCCODE_FPE] = "Floating Point Exception",
+     [EXCCODE_DBP] = "Debug breakpoint",
+     [EXCCODE_BCE] = "Bound Check Exception",
++    [EXCCODE_SXD] = "128 bit vector instructions Disable exception",
+ };
+ 
+ const char *loongarch_exception_name(int32_t exception)
+@@ -187,6 +188,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+     case EXCCODE_FPD:
+     case EXCCODE_FPE:
+     case EXCCODE_BCE:
++    case EXCCODE_SXD:
+         env->CSR_BADV = env->pc;
+         QEMU_FALLTHROUGH;
+     case EXCCODE_ADEM:
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index fd0f61936d..6755b1f0c7 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -419,6 +419,7 @@ static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
+ #define HW_FLAGS_PLV_MASK   R_CSR_CRMD_PLV_MASK  /* 0x03 */
+ #define HW_FLAGS_CRMD_PG    R_CSR_CRMD_PG_MASK   /* 0x10 */
+ #define HW_FLAGS_EUEN_FPE   0x04
++#define HW_FLAGS_EUEN_SXE   0x08
+ 
+ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+                                         target_ulong *pc,
+@@ -429,6 +430,7 @@ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+     *cs_base = 0;
+     *flags = env->CSR_CRMD & (R_CSR_CRMD_PLV_MASK | R_CSR_CRMD_PG_MASK);
+     *flags |= FIELD_EX64(env->CSR_EUEN, CSR_EUEN, FPE) * HW_FLAGS_EUEN_FPE;
++    *flags |= FIELD_EX64(env->CSR_EUEN, CSR_EUEN, SXE) * HW_FLAGS_EUEN_SXE;
+ }
+ 
+ void loongarch_cpu_list(void);
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-new file mode 100644
-index 0000000000..1cf3ab34a9
---- /dev/null
+index 1cf3ab34a9..5dedb044d7 100644
+--- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -0,0 +1,5 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * LSX translate functions
-+ * Copyright (c) 2022-2023 Loongson Technology Corporation Limited
-+ */
-diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-new file mode 100644
-index 0000000000..9332163aff
---- /dev/null
-+++ b/target/loongarch/lsx_helper.c
-@@ -0,0 +1,6 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU LoongArch LSX helper functions.
-+ *
-+ * Copyright (c) 2022-2023 Loongson Technology Corporation Limited
-+ */
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 9293a8ab78..1117a51c52 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -11,6 +11,7 @@ loongarch_tcg_ss.add(files(
-   'op_helper.c',
-   'translate.c',
-   'gdbstub.c',
-+  'lsx_helper.c',
- ))
- loongarch_tcg_ss.add(zlib)
- 
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index f443b5822f..104d4f2fbd 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -171,6 +171,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
- #include "insn_trans/trans_fmemory.c.inc"
- #include "insn_trans/trans_branch.c.inc"
- #include "insn_trans/trans_privileged.c.inc"
-+#include "insn_trans/trans_lsx.c.inc"
- 
- static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
- {
+@@ -3,3 +3,14 @@
+  * LSX translate functions
+  * Copyright (c) 2022-2023 Loongson Technology Corporation Limited
+  */
++
++#ifndef CONFIG_USER_ONLY
++#define CHECK_SXE do { \
++    if ((ctx->base.tb->flags & HW_FLAGS_EUEN_SXE) == 0) { \
++        generate_exception(ctx, EXCCODE_SXD); \
++        return true; \
++    } \
++} while (0)
++#else
++#define CHECK_SXE
++#endif
 -- 
 2.31.1
 
