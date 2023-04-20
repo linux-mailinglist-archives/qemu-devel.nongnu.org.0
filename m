@@ -2,68 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639C66E943C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EBC6E9451
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:30:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppTOM-0004ch-Nw; Thu, 20 Apr 2023 08:28:02 -0400
+	id 1ppTQU-0005YD-SW; Thu, 20 Apr 2023 08:30:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ppTOG-0004aY-MU; Thu, 20 Apr 2023 08:27:56 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ppTO7-0001cr-9j; Thu, 20 Apr 2023 08:27:56 -0400
-Received: from [192.168.0.120] (unknown [180.165.241.15])
- by APP-01 (Coremail) with SMTP id qwCowACnrnq0L0FkYOpxBw--.3846S2;
- Thu, 20 Apr 2023 20:27:33 +0800 (CST)
-Message-ID: <9eb5c95d-6cdc-f3f7-ba27-c271be39afe6@iscas.ac.cn>
-Date: Thu, 20 Apr 2023 20:27:31 +0800
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ppTQC-0005Wr-B5
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:29:56 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ppTQ4-0002Dm-QK
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:29:53 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 8AA734019D
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 15:29:35 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id B0BD9215
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 15:29:34 +0300 (MSK)
+Message-ID: <d30fbe88-b9ee-81f3-0447-5cb9f2a8cdea@msgid.tls.msk.ru>
+Date: Thu, 20 Apr 2023 15:29:34 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, dbarboza@ventanamicro.com,
- richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH v3 1/7] target/riscv: Update pmp_get_tlb_size()
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230419032725.29721-1-liweiwei@iscas.ac.cn>
- <20230419032725.29721-2-liweiwei@iscas.ac.cn>
- <eb169df2-84c5-30fe-4638-b01e736463a7@linux.alibaba.com>
+ Thunderbird/102.9.0
 Content-Language: en-US
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-In-Reply-To: <eb169df2-84c5-30fe-4638-b01e736463a7@linux.alibaba.com>
+To: QEMU Developers <qemu-devel@nongnu.org>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Subject: --disable-system --enable-$some_system_feature: fail?
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACnrnq0L0FkYOpxBw--.3846S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtrW5uF4ftFyUKr48Gr18AFb_yoWxAr4Dpr
- 48JrWUGrWUGrykJw13JryUJFy5Ar17K3WUJr1xWFW5Aw43J34Y9r1DWrnFgr1UJrW8Wr1j
- yr1UArsruF1UXF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
- c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
- C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.669,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,159 +56,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi!
 
-On 2023/4/20 19:58, LIU Zhiwei wrote:
->
-> On 2023/4/19 11:27, Weiwei Li wrote:
->> PMP entries before the matched PMP entry(including the matched PMP 
->> entry)
->> may overlap partial of the tlb page, which may make different regions in
->> that page have different permission rights, such as for
->> PMP0(0x80000008~0x8000000F, R) and PMP1(0x80001000~0x80001FFF, RWX))
->> write access to 0x80000000 will match PMP1. However we cannot cache 
->> the tlb
->> for it since this will make the write access to 0x80000008 bypass the 
->> check
->> of PMP0. So we should check all of them and set the tlb size to 1 in 
->> this
->> case.
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> ---
->>   target/riscv/cpu_helper.c |  7 ++-----
->>   target/riscv/pmp.c        | 39 ++++++++++++++++++++++++++-------------
->>   target/riscv/pmp.h        |  3 +--
->>   3 files changed, 29 insertions(+), 20 deletions(-)
->>
->> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->> index 433ea529b0..075fc0538a 100644
->> --- a/target/riscv/cpu_helper.c
->> +++ b/target/riscv/cpu_helper.c
->> @@ -703,11 +703,8 @@ static int 
->> get_physical_address_pmp(CPURISCVState *env, int *prot,
->>       }
->>         *prot = pmp_priv_to_page_prot(pmp_priv);
->> -    if ((tlb_size != NULL) && pmp_index != MAX_RISCV_PMPS) {
->> -        target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
->> -        target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
->> -
->> -        *tlb_size = pmp_get_tlb_size(env, pmp_index, tlb_sa, tlb_ea);
->> +    if (tlb_size != NULL) {
->> +        *tlb_size = pmp_get_tlb_size(env, addr);
->>       }
->>         return TRANSLATE_SUCCESS;
->> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
->> index 1f5aca42e8..22f3b3f217 100644
->> --- a/target/riscv/pmp.c
->> +++ b/target/riscv/pmp.c
->> @@ -601,28 +601,41 @@ target_ulong mseccfg_csr_read(CPURISCVState *env)
->>   }
->>     /*
->> - * Calculate the TLB size if the start address or the end address of
->> + * Calculate the TLB size if any start address or the end address of
->>    * PMP entry is presented in the TLB page.
->>    */
->
->  If we don't pass the start address or the end address parameter, we 
-> can comment this function:
->
-> Calculate the TLB size according to the PMP rule with the highest 
-> priority.
+We've an interesting effect out of our --enable-foo stuff.
+For example,
 
-This seems  also not accurate. It's the first(highest priority) PMP 
-entry that overlap with the tlb page really matters.
+   ./configure --disable-system --enable-gtk
 
-Maybe we can modify it to:
+this will fail during build time, this way:
 
-"Calculate the TLB size. Return 1 if the first PMP entry that overlaps 
-with the TLB page doesn't cover the whole page . Return TARGET_PAGE_SIZE 
-otherwise."
+  In file included from ui/x_keymap.c:15:
+  ui/trace.h:1:10: fatal error: trace/trace-ui.h: No such file or directory
 
->
->> -target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
->> -                              target_ulong tlb_sa, target_ulong tlb_ea)
->> +target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr)
->>   {
->> -    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
->> -    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
->> +    target_ulong pmp_sa;
->> +    target_ulong pmp_ea;
->> +    target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
->> +    target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
->> +    int i;
->> +
->> +    for (i = 0; i < MAX_RISCV_PMPS; i++) {
->> +        if (pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg) == 
->> PMP_AMATCH_OFF) {
->> +            continue;
->> +        }
->> +
->> +        pmp_sa = env->pmp_state.addr[i].sa;
->> +        pmp_ea = env->pmp_state.addr[i].ea;
->>   -    if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
->> -        return TARGET_PAGE_SIZE;
->> -    } else {
->>           /*
->> -         * At this point we have a tlb_size that is the smallest 
->> possible size
->> -         * That fits within a TARGET_PAGE_SIZE and the PMP region.
->> -         *
->> -         * If the size is less then TARGET_PAGE_SIZE we drop the 
->> size to 1.
->> +         * If any start address or the end address of PMP entry is 
->> presented
->> +         * in the TLB page and cannot override the whole TLB page we 
->> drop the
->> +         * size to 1.
->>            * This means the result isn't cached in the TLB and is 
->> only used for
->>            * a single translation.
->>            */
->> -        return 1;
->> +        if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
->> +            return TARGET_PAGE_SIZE;
->> +        } else if ((pmp_sa >= tlb_sa && pmp_sa <= tlb_ea) ||
->> +                   (pmp_ea >= tlb_sa && pmp_ea <= tlb_ea)) {
->> +            return 1;
->> +        }
->>       }
->> +
->> +    return TARGET_PAGE_SIZE;
->
-> This implicitly require a success return from the 
-> get_physical_address_pmp call. If we want this function to be a 
-> independent one, we should return 0 to indicate no tlb size can return.
+This is because in meson.build, we first have
 
-Yeah. I think the default should be TARGET_PAGE_SIZE if no PMP entry 
-overlap with the tlb page, since in this case, tlb_size should be 
-TARGET_PAGE_SIZE if the translation(inlcuding PMP check) successes while 
-tlb_size will be ignored if the translation fails.
+if have_system
+   trace_events_subdirs += [
+     'ui',
+   ]
+endif
 
-Regards,
+and later we have
 
-Weiwei Li
+subdir('ui')
 
->
-> Zhiwei
->
->>   }
->>     /*
->> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
->> index b296ea1fc6..0a7e24750b 100644
->> --- a/target/riscv/pmp.h
->> +++ b/target/riscv/pmp.h
->> @@ -76,8 +76,7 @@ int pmp_hart_has_privs(CPURISCVState *env, 
->> target_ulong addr,
->>                          target_ulong size, pmp_priv_t privs,
->>                          pmp_priv_t *allowed_privs,
->>                          target_ulong mode);
->> -target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
->> -                              target_ulong tlb_sa, target_ulong 
->> tlb_ea);
->> +target_ulong pmp_get_tlb_size(CPURISCVState *env, target_ulong addr);
->>   void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
->>   void pmp_update_rule_nums(CPURISCVState *env);
->>   uint32_t pmp_get_num_rules(CPURISCVState *env);
+which, in ui/meson.build, in turn has
 
+if gtk.found()
+   gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
+   ui_modules += {'gtk' : gtk_ss}
+endif
+
+So we end up building ui/gtk.c (which includes trace-ui.h)
+but not building trace-ui.h.
+
+It is interesting that ui/meson.build does not check for
+have_system at all, ditto for inclusion of subdir('ui'),
+but rely solely on gtk.found().
+
+Arguable it is a bug in ./configure options, since one
+can't enable gtk without enabling system as well.
+
+This is a widespread thing: many other similar options
+behave in a similar way.
+
+Can we fix this somehow to be at least consistent?
+
+Maybe we can guard some subdir('foo') with if have_system
+or have_user?  Note there are things like, say, sdlaudio,
+which is not in ui/ but will fail in the same way unless
+also guarded in audio/meson.build (or whole audio/ should
+be omitted without have_system just like ui/).
+
+BTW, can't we always generate trace stuff? I mean, why that
+one is guarded with have_{system,user}, while actual subdir
+inclusion is not? Maybe we can fix just this inconsistency?
+
+Thanks,
+
+/mjt
 
