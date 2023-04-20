@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F69D6E8C29
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2757D6E8C2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:07:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppPJ2-0003Ah-M0; Thu, 20 Apr 2023 04:06:17 -0400
+	id 1ppPK8-0003jH-KK; Thu, 20 Apr 2023 04:07:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ppPJ0-0003AE-L6
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:06:14 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ppPIy-0007oJ-2E
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:06:13 -0400
-Received: by mail-wm1-x335.google.com with SMTP id he13so807393wmb.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 01:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20221208.gappssmtp.com; s=20221208; t=1681977970; x=1684569970; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CKOxyyL7AZDnCvvz/47DzqTsQzjXr1KI0sjQMLGyFPM=;
- b=CxSQrP5jya5slh9FsYs/6Sou+yduTsad6fuRzV6FsxhHN0Gqp2Sn3aTutsd4Q6MuEW
- wk8tfNfyhOqYiUBY7xF8MNLjgLGoobnzKBS8Lp/BFFBbkwzkRfyOPR7WSlWgVZHsnLXS
- e+QTomYo8Gh0MezXjgnJ22xCzou8huZZ8xyYqdmMQ/wLNZmVaEXj2NSewhuq6lOU1TSg
- 8YknAeyiXld9stY3KJjLlGl3Mv8GLbrNRxyaeCNT3Es83x8tDn6F4ZB6bfvAIC2ZzTf2
- ZQfQpQmbD4xAP1K/BWCq0DH0hSvH3G93SSvNfXZvJQnttx0gJE2Irrd4huqPhIq7JMzV
- B1/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681977970; x=1684569970;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CKOxyyL7AZDnCvvz/47DzqTsQzjXr1KI0sjQMLGyFPM=;
- b=JbTbfTztHaqvJu9N4KOVDeHDFyMbDdHu6vkg8AS9bAj9Cjv3IuhPMo45ZXfeMR/J5b
- rl/Wd379QkZIqmnAf9mJGNX/DfvrtQGv1LQ384yjtk1f50fvnhYgmHCL22zVIoziHzc6
- vExvvJSVRVwmJRCYjn/rR9pkFw1hipjVOcps8ms+b3jCxTOLACr7Csu9O/A6SkD0FoKM
- /65Npl9NqPAhtk6HCnU0qdRwlf+gYUi+rny5Rf0KtYil29gn7k0o+XAUmcBYf4XXv9SZ
- obk8eM/cxHOSlJ9LcEmbSovw50IRA7HSN36LZit9DQcK9g1Ar86cj/0l1y4mqSU/7YV6
- k8vQ==
-X-Gm-Message-State: AAQBX9cs/9gQrqq4Dkb1NWJQx9QWdh77PQk+nRD7iypi9mdNYE7ABEBV
- +m5eIXbsBWRqi+UHt3j49W4c/CyIQJr1VTTeETpuHA==
-X-Google-Smtp-Source: AKy350ar6hj9x+K/bGFc93hkMfsPUfGsXgGs50ZAGLvIeS551hZC35kHd7l6SOxASZh1rL1ONynYMquzfsdEi3K6eWQ=
-X-Received: by 2002:a05:600c:2182:b0:3f1:6527:df05 with SMTP id
- e2-20020a05600c218200b003f16527df05mr606024wme.22.1681977969831; Thu, 20 Apr
- 2023 01:06:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1ppPK4-0003br-Vp
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:07:20 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1ppPK2-00080I-4J
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:07:20 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8BxYU+w8kBkPGUfAA--.49339S3;
+ Thu, 20 Apr 2023 16:07:12 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxur2u8kBkdNUwAA--.59556S2; 
+ Thu, 20 Apr 2023 16:07:10 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	gaosong@loongson.cn
+Subject: [RFC PATCH v3 00/44] Add LoongArch LSX instructions
+Date: Thu, 20 Apr 2023 16:06:25 +0800
+Message-Id: <20230420080709.3352575-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20230418165219.2036-1-eric.devolder@oracle.com>
- <20230418165219.2036-4-eric.devolder@oracle.com>
-In-Reply-To: <20230418165219.2036-4-eric.devolder@oracle.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 20 Apr 2023 13:35:58 +0530
-Message-ID: <CAARzgwwVAptvsR1_8ttUKroLuqKdLc1dHWtNe7S0S3N-Nq4otw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] hw/acpi: i386: bump MADT to revision 5
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: shannon.zhaosl@gmail.com, mst@redhat.com, imammedo@redhat.com, 
- peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- marcel.apfelbaum@gmail.com, pbonzini@redhat.com, richard.henderson@linaro.org, 
- eduardo@habkost.net, boris.ostrovsky@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::335;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x335.google.com
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cxur2u8kBkdNUwAA--.59556S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxWFWUZFWrtrWkuw43tFykGrg_yoWrXw1rpr
+ W7ZrnrtFW8XrZ7XF1kXa9xZrn0qr18G3y2v3Z3t348uw43AryxZF1kt39FgFyUXayUGry2
+ qFy0kwn8XF45X37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b08Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+ 0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xAC
+ xx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx2
+ 6rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,77 +73,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 10:22=E2=80=AFPM Eric DeVolder <eric.devolder@oracl=
-e.com> wrote:
->
-> Currently i386 QEMU generates MADT revision 3, and reports
-> MADT revision 1. ACPI 6.3 introduces MADT revision 5.
->
-> For MADT revision 4, that introduces ARM GIC structures, which do
-> not apply to i386.
->
-> For MADT revision 5, the Local APIC flags introduces the Online
-> Capable bitfield.
->
-> Making MADT generate and report revision 5 will solve problems with
-> CPU hotplug (the Online Capable flag indicates hotpluggable CPUs).
->
-> Link: https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devol=
-der@oracle.com/T/#t
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> ---
->  hw/i386/acpi-common.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-> index 52e5c1439a..286c1c5c32 100644
-> --- a/hw/i386/acpi-common.c
-> +++ b/hw/i386/acpi-common.c
-> @@ -38,8 +38,15 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList *a=
-pic_ids,
->  {
->      uint32_t apic_id =3D apic_ids->cpus[uid].arch_id;
->      /* Flags =E2=80=93 Local APIC Flags */
-> -    uint32_t flags =3D apic_ids->cpus[uid].cpu !=3D NULL || force_enable=
-d ?
-> -                     1 /* Enabled */ : 0;
-> +    bool enabled =3D apic_ids->cpus[uid].cpu !=3D NULL || force_enabled =
-?
-> +                     true : false;
+Hi,
 
-how about "processor_enabled" instead of just "enabled" as the variable nam=
-e.
+This series adds LoongArch LSX instructions, Since the LoongArch
+Vol2 is not open, So we use 'RFC' title.
 
-> +    /*
-> +     * ACPI 6.3 5.2.12.2 Local APIC Flags: OnlineCapable must be 0
-> +     * if Enabled is set.
-> +     */
-> +    bool onlinecapable =3D enabled ? false : true;
+About test:
+V2 we use RISU test the LoongArch LSX instructions.
 
-ugh, how about uint32 onlinecapable =3D enabled? 0x0 : 0x2 ?
+QEMU:
+    https://github.com/loongson/qemu/tree/tcg-old-abi-support-lsx
+RISU:
+    https://github.com/loongson/risu/tree/loongarch-suport-lsx
 
-> +    uint32_t flags =3D onlinecapable ? 0x2 : 0x0 | /* Online Capable */
-> +                     enabled ? 0x1 : 0x0; /* Enabled */
+Build test:
+make docker-test-build@fedora-i386-cross
 
-then here, flags =3D onlinecapable | processor_enabled? 0x1 : 0x0;
+V3:
+  - R-b;
+  - Add unsigned data type in vreg;
+  - Add ctx->vl;
+  - Use tcg_constant_vec_matching instead of dupi;
+  - Use __typeof(Vd->E(0)) instead of the output type;
+  - Tcg integer expansion;
+  - Use tcg_gen_qemu_ld/st_i128 to implement vld/vst;
+  - Fix some typos;
+  - Optimize code based on Richard's comments.
 
->
->      /* ACPI spec says that LAPIC entry for non present
->       * CPU may be omitted from MADT or it must be marked
-> @@ -102,7 +109,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *=
-linker,
->      MachineClass *mc =3D MACHINE_GET_CLASS(x86ms);
->      const CPUArchIdList *apic_ids =3D mc->possible_cpu_arch_ids(MACHINE(=
-x86ms));
->      AcpiDeviceIfClass *adevc =3D ACPI_DEVICE_IF_GET_CLASS(adev);
-> -    AcpiTable table =3D { .sig =3D "APIC", .rev =3D 1, .oem_id =3D oem_i=
-d,
-> +    AcpiTable table =3D { .sig =3D "APIC", .rev =3D 5, .oem_id =3D oem_i=
-d,
->                          .oem_table_id =3D oem_table_id };
->
->      acpi_table_begin(&table, table_data);
-> --
-> 2.31.1
->
+V2:
+  - Use gvec;
+  - Fix instructions bugs;
+  - Add set_fpr()/get_fpr() replace to cpu_fpr.
+
+Song Gao (44):
+  target/loongarch: Add LSX data type VReg
+  target/loongarch: meson.build support build LSX
+  target/loongarch: Add CHECK_SXE maccro for check LSX enable
+  target/loongarch: Implement vadd/vsub
+  target/loongarch: Implement vaddi/vsubi
+  target/loongarch: Implement vneg
+  target/loongarch: Implement vsadd/vssub
+  target/loongarch: Implement vhaddw/vhsubw
+  target/loongarch: Implement vaddw/vsubw
+  target/loongarch: Implement vavg/vavgr
+  target/loongarch: Implement vabsd
+  target/loongarch: Implement vadda
+  target/loongarch: Implement vmax/vmin
+  target/loongarch: Implement vmul/vmuh/vmulw{ev/od}
+  target/loongarch: Implement vmadd/vmsub/vmaddw{ev/od}
+  target/loongarch: Implement vdiv/vmod
+  target/loongarch: Implement vsat
+  target/loongarch: Implement vexth
+  target/loongarch: Implement vsigncov
+  target/loongarch: Implement vmskltz/vmskgez/vmsknz
+  target/loongarch: Implement LSX logic instructions
+  target/loongarch: Implement vsll vsrl vsra vrotr
+  target/loongarch: Implement vsllwil vextl
+  target/loongarch: Implement vsrlr vsrar
+  target/loongarch: Implement vsrln vsran
+  target/loongarch: Implement vsrlrn vsrarn
+  target/loongarch: Implement vssrln vssran
+  target/loongarch: Implement vssrlrn vssrarn
+  target/loongarch: Implement vclo vclz
+  target/loongarch: Implement vpcnt
+  target/loongarch: Implement vbitclr vbitset vbitrev
+  target/loongarch: Implement vfrstp
+  target/loongarch: Implement LSX fpu arith instructions
+  target/loongarch: Implement LSX fpu fcvt instructions
+  target/loongarch: Implement vseq vsle vslt
+  target/loongarch: Implement vfcmp
+  target/loongarch: Implement vbitsel vset
+  target/loongarch: Implement vinsgr2vr vpickve2gr vreplgr2vr
+  target/loongarch: Implement vreplve vpack vpick
+  target/loongarch: Implement vilvl vilvh vextrins vshuf
+  target/loongarch: Implement vld vst
+  target/loongarch: Implement vldi
+  target/loongarch: Use {set/get}_gpr replace to cpu_fpr
+  target/loongarch: CPUCFG support LSX
+
+ include/tcg/tcg-op.h                          |    4 +
+ linux-user/loongarch64/signal.c               |    4 +-
+ target/loongarch/cpu.c                        |    5 +-
+ target/loongarch/cpu.h                        |   27 +-
+ target/loongarch/disas.c                      |  911 ++++
+ target/loongarch/fpu_helper.c                 |    2 +-
+ target/loongarch/gdbstub.c                    |    4 +-
+ target/loongarch/helper.h                     |  566 +++
+ .../loongarch/insn_trans/trans_farith.c.inc   |   72 +-
+ target/loongarch/insn_trans/trans_fcmp.c.inc  |   12 +-
+ .../loongarch/insn_trans/trans_fmemory.c.inc  |   37 +-
+ target/loongarch/insn_trans/trans_fmov.c.inc  |   31 +-
+ target/loongarch/insn_trans/trans_lsx.c.inc   | 4390 +++++++++++++++++
+ target/loongarch/insns.decode                 |  811 +++
+ target/loongarch/internals.h                  |   23 +
+ target/loongarch/lsx_helper.c                 | 3012 +++++++++++
+ target/loongarch/machine.c                    |  115 +-
+ target/loongarch/meson.build                  |    1 +
+ target/loongarch/translate.c                  |   55 +-
+ target/loongarch/translate.h                  |    1 +
+ tcg/tcg-op.c                                  |   43 +
+ 21 files changed, 10071 insertions(+), 55 deletions(-)
+ create mode 100644 target/loongarch/insn_trans/trans_lsx.c.inc
+ create mode 100644 target/loongarch/lsx_helper.c
+
+-- 
+2.31.1
+
 
