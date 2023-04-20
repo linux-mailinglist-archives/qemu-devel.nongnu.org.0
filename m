@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35C66E9C73
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 21:26:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B9F6E9C7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 21:31:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppZuz-0006eC-Bk; Thu, 20 Apr 2023 15:26:09 -0400
+	id 1ppZzP-0002jy-I1; Thu, 20 Apr 2023 15:30:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1ppZuv-0006dI-Oh; Thu, 20 Apr 2023 15:26:05 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1ppZzK-0002jJ-LT; Thu, 20 Apr 2023 15:30:38 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1ppZup-0006Gz-Oy; Thu, 20 Apr 2023 15:26:05 -0400
+ id 1ppZzJ-0007m0-GX; Thu, 20 Apr 2023 15:30:38 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2243E218E2;
- Thu, 20 Apr 2023 19:25:58 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3D79B218E2;
+ Thu, 20 Apr 2023 19:30:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682018758; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1682019033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
  bh=lshavpPj6CI+A68cfJ+I6+HHidNvjLWPEbQu6ALmPz8=;
- b=068iUcxv4aEQLgML5W1hYKAtVpSRcqxxOUmFuy08K3MYrkgYkcIU3mQO6pPo7DAh1r3kjk
- L237JzXEZayYxeUWeoBqAY3KGxnWHHH08pedZsWC304JZti0KDpl+9aoUjQVH5utPrbkfJ
- zGsUHHwD4QWc9qeReidnZZCuK3xo3L4=
+ b=rvUz7Xzq+OVka/jFk7I7SZZPje4EzCiJ7o/WKrsKgoroah46FRzB5TbXYjTfbsrUPJ0HFC
+ uX0r+YvK2fNG8paUCytdUddL4Domsj5w5rc01B4MQLtNRr0UuwOEtSzZ9K3li0tcOXFsAQ
+ UE3PDs2gbNbAW8UoRCZDQrH/U/fYk4I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682018758;
+ s=susede2_ed25519; t=1682019033;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
  bh=lshavpPj6CI+A68cfJ+I6+HHidNvjLWPEbQu6ALmPz8=;
- b=BWmdIEmFbWXY94qU1VRLcmw67d3/141EyBLgOAkgCs3ALrZT0N1v2Mh5hjxPtFaBjCTu99
- QF8eyp0kDhwCXSDQ==
+ b=qTrg1C5oKnzsctNX/ebFqiyUoaCucuXrZgBsd6q0A6vdXEmOv52YJWdCyzLHQOBYObRCgP
+ A5oekUjnPLV69QAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9F13C1333C;
- Thu, 20 Apr 2023 19:25:57 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BD7FC1333C;
+ Thu, 20 Apr 2023 19:30:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yK/YGcWRQWQKTQAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 20 Apr 2023 19:25:57 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id ZOA2IdiSQWQATwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 20 Apr 2023 19:30:32 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
@@ -58,15 +58,16 @@ Cc: Peter Xu <peterx@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
  <leobras@redhat.com>, Markus Armbruster <armbru@redhat.com>, Stefan
  Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>, Eric
  Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 29/43] migration: Move migrate_postcopy() to options.c
-In-Reply-To: <20230420134002.29531-30-quintela@redhat.com>
+Subject: Re: [PATCH v2 30/43] migration: Create migrate_max_bandwidth()
+ function
+In-Reply-To: <20230420134002.29531-31-quintela@redhat.com>
 References: <20230420134002.29531-1-quintela@redhat.com>
- <20230420134002.29531-30-quintela@redhat.com>
-Date: Thu, 20 Apr 2023 16:25:55 -0300
-Message-ID: <87sfcu73uk.fsf@suse.de>
+ <20230420134002.29531-31-quintela@redhat.com>
+Date: Thu, 20 Apr 2023 16:30:30 -0300
+Message-ID: <87pm7y73mx.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
