@@ -2,86 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9066E9656
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1AC6E964C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:50:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUZ4-00034K-QG; Thu, 20 Apr 2023 09:43:11 -0400
+	id 1ppUaX-0000i2-VL; Thu, 20 Apr 2023 09:44:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppUZ2-0002rR-Kz
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:43:08 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppUa5-0000eU-7V
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:44:13 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppUZ0-0006g2-9v
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:43:08 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- n43-20020a05600c502b00b003f17466a9c1so3094856wmr.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:43:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppUa3-0007A7-37
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:44:12 -0400
+Received: by mail-wm1-x331.google.com with SMTP id v10so1245232wmn.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:44:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681998184; x=1684590184;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oRlH/iBoeQJWAnVTNJLlZLabXcxjsP4ynzrx2OKk73Q=;
- b=k8NcmdVVGZYhodLNx84GTsUkDMsVCjPH96onrw10UbhTdrEpTHrZ7iLB03P4g6ap4y
- zRRDvupxYWbL/Vb6pXnfnUHqC5wL4d1Ek5DU18CZTlYYBwAw6vlEiErzFXiinXh7sbSg
- OY2ZErR5PTJNycBsOl57XARnHNpZc8ZEFsDk4naNFbPL0u31AVSbJh1wCzDThkcNq4j9
- LjKLhjoEp0B2aiJradZW3N0P5NSlw3XMNfS73qqovTqqM5GS1jIrEWG5luo5NGhP5I8K
- powhoHmvZok2lsoX5sgnmstnCFDiViJRTFIKJV3VJqB86WIAhLz8KU9fcoKJx8TH0psB
- 4iPg==
+ d=linaro.org; s=google; t=1681998249; x=1684590249;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+LSn1h+77W6+OZnHZu4E525LVI4dAj+WkAvi+DNuqyE=;
+ b=iDFxq6eqjhE1XWK9UcrB/+SZtqwGYurx9DHYMWprhSoXu45S5ZlBXfjx23UdcwFgcR
+ Rf2Vu7nQa7bIdWWZeqn0YZBoxOkWUsMPeHvJfQMs8ZGzbubr0rREVxnqZ2+Q3RdRoKQ8
+ 7wy+Ak8UxyRO1kedfDjejEfRYz6MvppST4csFyhSC+HrXaOA56WUaXKz7SwJ86144TmZ
+ KNlKfU384iDAGrNgMyMeS3O+nX8z1zYlirjfNlS/ZTuMY7qrEnFGFnhA3Wjv/+7ZWmib
+ UVGYdWt7/uGuwFgNgHH/jQvs4qlfp22uZcgEUuOUO9jIaebdOM/cy6UNdbyYpK0/pnGy
+ fY/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681998184; x=1684590184;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=oRlH/iBoeQJWAnVTNJLlZLabXcxjsP4ynzrx2OKk73Q=;
- b=fnX21sVcWFXtkXzbaywEsbsxbavhL7dw2VElq7vK9Jz1e7RzE+cNogbRlkcq0HcuAC
- SmSc+SAhNh1aSLES3ebOAkQzMpeOdwC1PjXLbYGfcIwQ49TVgtn151Kdr7Vzv5aYFp3p
- NoDxgRBu9LBvf/QkQk9srzZtPTlTKACtSPk+9P0Jke8O/kE2L6MrcPIda/jlqmOU3ruk
- isH8/4hxW51f1KKCjiEFIr3MTdzdCaWOXPq8mYcmvXZpDF5YTBC2pFSOhW6hQnJ96Mh4
- Zmoc0LBo7+2wreHROWiOWMS7q2NbILvFKYbq8mMUNOWmgUmSp049sHpjkm8jqvtqK+tg
- ua8w==
-X-Gm-Message-State: AAQBX9f7Pzh+NwotcyTM2FN5kfqRG3mcwLasWqIn8re5GANwitIK/dy3
- tpLPHe6ik7PAbPws1MR3j8ES3g==
-X-Google-Smtp-Source: AKy350YbWEFXnhkqt9rnym+aaNsj6SMhUMSp+9k4ij1crcBnsPcwrSBz6B8Bwvf10VscTtq8xEUxWA==
-X-Received: by 2002:a1c:ed0b:0:b0:3ee:93d2:c915 with SMTP id
- l11-20020a1ced0b000000b003ee93d2c915mr4780965wmh.6.1681998184314; 
- Thu, 20 Apr 2023 06:43:04 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- l7-20020a5d4bc7000000b002fefe2edb72sm2038422wrt.17.2023.04.20.06.43.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 06:43:04 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6579A1FFB7;
- Thu, 20 Apr 2023 14:43:03 +0100 (BST)
-References: <cover.1681993775.git.quic_mathbern@quicinc.com>
- <ec04a0d3cb1c1072703f776624e503ad6257dccd.1681993775.git.quic_mathbern@quicinc.com>
-User-agent: mu4e 1.11.2; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-Cc: qemu-devel@nongnu.org, bcain@quicinc.com, f4bug@amsat.org,
- peter.maydell@linaro.org, tsimpson@quicinc.com, Philippe =?utf-8?Q?Mathie?=
- =?utf-8?Q?u-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v2 RESEND 1/7] gdbstub: only send stop-reply packets
- when allowed to
-Date: Thu, 20 Apr 2023 14:41:08 +0100
-In-reply-to: <ec04a0d3cb1c1072703f776624e503ad6257dccd.1681993775.git.quic_mathbern@quicinc.com>
-Message-ID: <87wn26d5zs.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1681998249; x=1684590249;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+LSn1h+77W6+OZnHZu4E525LVI4dAj+WkAvi+DNuqyE=;
+ b=GRhESJk8O7sLkhD3W7U0cXf5lxjnpc1CFaX1Ftp0+AaWUndAOv7MPzduhEbQkSpgNR
+ CCqAJCg78PaL6J0L449+XD6DrAxZa1ZEQD0caU7rBYeTcKcd5yXM/VimDVGU5z14la6a
+ g40WlIFVtxLq4NONHDmEVm8HEGQC3TFSllWiMuEyPJe3x47HzTV1ceaQGyKm3F/ljYTD
+ LBvMZc0RL/2y1G6DpayU35a6dT1myQmEOz1pPrYGdzHDilt65y7aMSst7wTIn0BwSQg2
+ vC8QjeCPFT1I+KTJmMmlOwp5SoAMnwf3wCLVXceZ3DfRTL7uQ4QkGK1uPnelkWlBj5hc
+ dwbA==
+X-Gm-Message-State: AAQBX9eLokJveQt8S0dbvYtd2BL2ZiJzF9PVWt6CHkoPyMMHv8xX9zGR
+ MsBetbneHcwO7LMA2C0FygUsBg==
+X-Google-Smtp-Source: AKy350ZgSUF5d1AFXHG6+3IeU9w8lo38tMgINImldFbcXq1hqE8YiduWy58P4owV8AtE8lb/zPy7wQ==
+X-Received: by 2002:a05:600c:2055:b0:3f0:9ff5:79fb with SMTP id
+ p21-20020a05600c205500b003f09ff579fbmr1214996wmg.39.1681998249527; 
+ Thu, 20 Apr 2023 06:44:09 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ 14-20020a05600c028e00b003f18b942338sm1754424wmk.3.2023.04.20.06.44.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 06:44:08 -0700 (PDT)
+Message-ID: <f7b20c96-be06-2299-5589-11dbf23251f8@linaro.org>
+Date: Thu, 20 Apr 2023 15:44:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v3 20/20] aio: remove aio_disable_external() API
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Lieven <pl@kamp.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Xie Yongji <xieyongji@bytedance.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Woodhouse <dwmw2@infradead.org>, Stefan Weil <sw@weilnetz.de>,
+ Fam Zheng <fam@euphon.net>, Julia Suvorova <jusual@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, xen-devel@lists.xenproject.org,
+ Hanna Reitz <hreitz@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, eesposit@redhat.com, Kevin Wolf <kwolf@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Anthony Perard <anthony.perard@citrix.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
+References: <20230420113732.336620-1-stefanha@redhat.com>
+ <20230420113732.336620-21-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230420113732.336620-21-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,131 +106,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Matheus Tavares Bernardino <quic_mathbern@quicinc.com> writes:
-
-> GDB's remote serial protocol allows stop-reply messages to be sent by
-> the stub either as a notification packet or as a reply to a GDB command
-> (provided that the cmd accepts such a response). QEMU currently does not
-> implement notification packets, so it should only send stop-replies
-> synchronously and when requested. Nevertheless, it still issues
-> unsolicited stop messages through gdb_vm_state_change().
->
-> Although this behavior doesn't seem to cause problems with GDB itself
-> (the messages are just ignored), it can impact other debuggers that
-> implement the GDB remote serial protocol, like hexagon-lldb. Let's
-> change the gdbstub to send stop messages only as a response to a
-> previous GDB command that accepts such a reply.
->
-> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+On 20/4/23 13:37, Stefan Hajnoczi wrote:
+> All callers now pass is_external=false to aio_set_fd_handler() and
+> aio_set_event_notifier(). The aio_disable_external() API that
+> temporarily disables fd handlers that were registered is_external=true
+> is therefore dead code.
+> 
+> Remove aio_disable_external(), aio_enable_external(), and the
+> is_external arguments to aio_set_fd_handler() and
+> aio_set_event_notifier().
+> 
+> The entire test-fdmon-epoll test is removed because its sole purpose was
+> testing aio_disable_external().
+> 
+> Parts of this patch were generated using the following coccinelle
+> (https://coccinelle.lip6.fr/) semantic patch:
+> 
+>    @@
+>    expression ctx, fd, is_external, io_read, io_write, io_poll, io_poll_ready, opaque;
+>    @@
+>    - aio_set_fd_handler(ctx, fd, is_external, io_read, io_write, io_poll, io_poll_ready, opaque)
+>    + aio_set_fd_handler(ctx, fd, io_read, io_write, io_poll, io_poll_ready, opaque)
+> 
+>    @@
+>    expression ctx, notifier, is_external, io_read, io_poll, io_poll_ready;
+>    @@
+>    - aio_set_event_notifier(ctx, notifier, is_external, io_read, io_poll, io_poll_ready)
+>    + aio_set_event_notifier(ctx, notifier, io_read, io_poll, io_poll_ready)
+> 
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  gdbstub/internals.h |  5 +++++
->  gdbstub/gdbstub.c   | 37 ++++++++++++++++++++++++++++---------
->  gdbstub/softmmu.c   | 13 +++++++++++--
->  gdbstub/user.c      | 17 +++++++++++------
->  4 files changed, 55 insertions(+), 17 deletions(-)
->
-> diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-> index 94ddff4495..33d21d6488 100644
-> --- a/gdbstub/internals.h
-> +++ b/gdbstub/internals.h
-> @@ -65,6 +65,11 @@ typedef struct GDBState {
->      GByteArray *mem_buf;
->      int sstep_flags;
->      int supported_sstep_flags;
-> +    /*
-> +     * Whether we are allowed to send a stop reply packet at this moment.
-> +     * Must be set off after sending the stop reply itself.
-> +     */
-> +    bool allow_stop_reply;
->  } GDBState;
->=20=20
->  /* lives in main gdbstub.c */
-> diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-> index 0760d78685..be18568d0a 100644
-<snip>
->  /*
-> @@ -139,6 +140,10 @@ static void gdb_vm_state_change(void *opaque, bool r=
-unning, RunState state)
->          return;
->      }
->=20=20
-> +    if (!gdbserver_state.allow_stop_reply) {
-> +        return;
-> +    }
-> +
->      gdb_append_thread_id(cpu, tid);
->=20=20
->      switch (state) {
-> @@ -205,6 +210,7 @@ static void gdb_vm_state_change(void *opaque, bool ru=
-nning, RunState state)
->=20=20
->  send_packet:
->      gdb_put_packet(buf->str);
-> +    gdbserver_state.allow_stop_reply =3D false;
->=20=20
->      /* disable single step if it was enabled */
->      cpu_single_step(cpu, 0);
-> @@ -422,8 +428,11 @@ void gdb_exit(int code)
->=20=20
->      trace_gdbstub_op_exiting((uint8_t)code);
->=20=20
-> -    snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
-> -    gdb_put_packet(buf);
-> +    if (gdbserver_state.allow_stop_reply) {
-> +        snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
-> +        gdb_put_packet(buf);
-> +        gdbserver_state.allow_stop_reply =3D false;
-> +    }
->=20=20
->      qemu_chr_fe_deinit(&gdbserver_system_state.chr, true);
->  }
-> diff --git a/gdbstub/user.c b/gdbstub/user.c
-> index 80488b6bb9..bb03622c83 100644
-> --- a/gdbstub/user.c
-> +++ b/gdbstub/user.c
-> @@ -127,11 +127,14 @@ int gdb_handlesig(CPUState *cpu, int sig)
->=20=20
->      if (sig !=3D 0) {
->          gdb_set_stop_cpu(cpu);
-> -        g_string_printf(gdbserver_state.str_buf,
-> -                        "T%02xthread:", gdb_target_signal_to_gdb(sig));
-> -        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
-> -        g_string_append_c(gdbserver_state.str_buf, ';');
-> -        gdb_put_strbuf();
-> +        if (gdbserver_state.allow_stop_reply) {
-> +            g_string_printf(gdbserver_state.str_buf,
-> +                            "T%02xthread:", gdb_target_signal_to_gdb(sig=
-));
-> +            gdb_append_thread_id(cpu, gdbserver_state.str_buf);
-> +            g_string_append_c(gdbserver_state.str_buf, ';');
-> +            gdb_put_strbuf();
-> +            gdbserver_state.allow_stop_reply =3D false;
-> +        }
->      }
->      /*
->       * gdb_put_packet() might have detected that the peer terminated the
-> @@ -174,12 +177,14 @@ void gdb_signalled(CPUArchState *env, int sig)
->  {
->      char buf[4];
->=20=20
-> -    if (!gdbserver_state.init || gdbserver_user_state.fd < 0) {
-> +    if (!gdbserver_state.init || gdbserver_user_state.fd < 0 ||
-> +        !gdbserver_state.allow_stop_reply) {
->          return;
->      }
->=20=20
->      snprintf(buf, sizeof(buf), "X%02x", gdb_target_signal_to_gdb(sig));
->      gdb_put_packet(buf);
-> +    gdbserver_state.allow_stop_reply =3D false;
+>   include/block/aio.h           | 55 --------------------------
+>   util/aio-posix.h              |  1 -
+>   block.c                       |  7 ----
+>   block/blkio.c                 | 15 +++----
+>   block/curl.c                  | 10 ++---
+>   block/export/fuse.c           |  8 ++--
+>   block/export/vduse-blk.c      | 10 ++---
+>   block/io.c                    |  2 -
+>   block/io_uring.c              |  4 +-
+>   block/iscsi.c                 |  3 +-
+>   block/linux-aio.c             |  4 +-
+>   block/nfs.c                   |  5 +--
+>   block/nvme.c                  |  8 ++--
+>   block/ssh.c                   |  4 +-
+>   block/win32-aio.c             |  6 +--
+>   hw/i386/kvm/xen_xenstore.c    |  2 +-
+>   hw/virtio/virtio.c            |  6 +--
+>   hw/xen/xen-bus.c              |  8 ++--
+>   io/channel-command.c          |  6 +--
+>   io/channel-file.c             |  3 +-
+>   io/channel-socket.c           |  3 +-
+>   migration/rdma.c              | 16 ++++----
+>   tests/unit/test-aio.c         | 27 +------------
+>   tests/unit/test-fdmon-epoll.c | 73 -----------------------------------
+>   util/aio-posix.c              | 20 +++-------
+>   util/aio-win32.c              |  8 +---
+>   util/async.c                  |  3 +-
+>   util/fdmon-epoll.c            | 10 -----
+>   util/fdmon-io_uring.c         |  8 +---
+>   util/fdmon-poll.c             |  3 +-
+>   util/main-loop.c              |  7 ++--
+>   util/qemu-coroutine-io.c      |  7 ++--
+>   util/vhost-user-server.c      | 11 +++---
+>   tests/unit/meson.build        |  3 --
+>   34 files changed, 76 insertions(+), 290 deletions(-)
+>   delete mode 100644 tests/unit/test-fdmon-epoll.c
 
-Did I miss an equivalent for softmmu mode here?
 
-Anyway:
+> -/**
+> - * aio_disable_external:
+> - * @ctx: the aio context
+> - *
+> - * Disable the further processing of external clients.
+> - */
+> -static inline void aio_disable_external(AioContext *ctx)
+> -{
+> -    qatomic_inc(&ctx->external_disable_cnt);
+> -}
+> -
+> -/**
+> - * aio_enable_external:
+> - * @ctx: the aio context
+> - *
+> - * Enable the processing of external clients.
+> - */
+> -static inline void aio_enable_external(AioContext *ctx)
+> -{
+> -    int old;
+> -
+> -    old = qatomic_fetch_dec(&ctx->external_disable_cnt);
+> -    assert(old > 0);
+> -    if (old == 1) {
+> -        /* Kick event loop so it re-arms file descriptors */
+> -        aio_notify(ctx);
+> -    }
+> -}
+> -
+> -/**
+> - * aio_external_disabled:
+> - * @ctx: the aio context
+> - *
+> - * Return true if the external clients are disabled.
+> - */
+> -static inline bool aio_external_disabled(AioContext *ctx)
+> -{
+> -    return qatomic_read(&ctx->external_disable_cnt);
+> -}
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Missing:
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+-- >8 --
+diff --git a/include/block/aio.h b/include/block/aio.h
+index d4ce01ea08..266be26f8e 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -224,6 +224,4 @@ struct AioContext {
+      QEMUTimerListGroup tlg;
+
+-    int external_disable_cnt;
+-
+      /* Number of AioHandlers without .io_poll() */
+      int poll_disable_cnt;
+diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+index d9d3807062..5c89169e46 100644
+--- a/tests/unit/test-bdrv-drain.c
++++ b/tests/unit/test-bdrv-drain.c
+@@ -436,5 +436,4 @@ static void test_graph_change_drain_all(void)
+      g_assert_cmpint(bs_b->quiesce_counter, ==, 0);
+      g_assert_cmpint(b_s->drain_count, ==, 0);
+-    g_assert_cmpint(qemu_get_aio_context()->external_disable_cnt, ==, 0);
+
+      bdrv_unref(bs_b);
+---
+
+Once cleaned:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
