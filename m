@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9906E8EE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6A46E8F3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:08:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRAM-0000l5-0U; Thu, 20 Apr 2023 06:05:26 -0400
+	id 1ppRAH-0000f1-MD; Thu, 20 Apr 2023 06:05:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRAC-0000bC-En
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:16 -0400
+ id 1ppRAD-0000c2-13
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:17 -0400
 Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRA6-0003sK-Cf
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:15 -0400
+ id 1ppRA6-0003ss-VJ
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:16 -0400
 Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-2f833bda191so284017f8f.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:05:08 -0700 (PDT)
+ ffacd0b85a97d-2eed43bfa4bso413779f8f.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1681985108; x=1684577108;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=QXIl1fa++9Ow0aVWNLQPOb6RkM7apUVyviw4bR4/41c=;
- b=cySqbOwsypi2Hry+secQVtW/l/aadWE0Zn1uuGHURn166gCllnUKyAJORBsN1SSFSe
- QCfo1nOWr67c/sEY25b+0Tm2xXffpRlgjzHi06gEjrFoHznHzktkdxWM/DLkqoLPQvG+
- nffCLphGQnrE2wkMUE0b14M+ZG/LZXpCMu9bvYbkSHoMrhsvivJJOeCeOmR9CCqDOF1o
- 3oMc5GugQLLkOebNUvXUWhcdlWx3WHiOD0vJCt/84aJ3+Rfdh1/20IQAZa5Dmth1dZAQ
- P8YJakp/N3jmE+uXZqW+BamyZzC4MGno9qGgthvh1LaR6zj2GcGIzGUaAE+wRZJymWJO
- yihw==
+ :reply-to; bh=q8LtUQbrNbIcb7AmK/HYZ5o0bALmmnEK3mbIWEsTZ58=;
+ b=yDCp9XmGgFs0/vv77YflBnI5uYEBYXaazrbCqQDaxJAgCvn1fQYiudiC/S2hGEXVgW
+ abSlxhBUWGhLjo0cn0etGdIZX25SQwbI/S7bTESvXxNXX8Nwvg1kDY9n1npWwTwqteu5
+ P5FjdEg2AUbR4S5AnETxgG9HB/Hf5aoQVI56oRzFn6UW44bD5nGhZ/IiPZ4rSUVexZv5
+ qgiW/0QtM2RSPVhttb9Gu6qWn9Jq7rlfR4fWybwYiS9ST3+lYa+z/J3nUKQrNdHrBco3
+ lwAOdrY9Sg2+uMlzGptmAmo8ov0+Ct2xdQ8ZpLyO9AC9bwbj8lrYFsNWUsrzrfcN95b0
+ pCXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1681985108; x=1684577108;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QXIl1fa++9Ow0aVWNLQPOb6RkM7apUVyviw4bR4/41c=;
- b=SGYRhJopSs3SOo6XLvDoibzh0DZcJhMx87NR0zlzz9WorXOyDVaCfjFja6jCdXsqJ4
- bLFmOpwQPiyH+XmnNPPMigLuZYSyXXlUCDbT3Ry3UxpjVrhPApS9B5T6wbhgHEsCS65y
- yzobUsLbqhQZeF5scZSlTJgZpB8fQBVXPwE9I2Q4+RDaVD2hXE05k90dv+QRQQ3bypV8
- 9hhAbDYSjhZjCf5yEVHYQ7mveOsPTbrNRZvDRfGMFUo4K9euRsDggmKRI4VsoxYvwNSb
- 936G5csiiJac2we6JQYkQOHGD73iVBaSMY44kn6kdzuKOBXBPaZWgMFShY+vupp575Lf
- fJ/w==
-X-Gm-Message-State: AAQBX9dTYEZtmygGW44pi1/9bt4amuhoAtd0CNfgD8M1QuXe9MJmPbsY
- 0CxGWykIZnL6mp6qSqlAYJ1lEEG0EjqpL2MpkPE=
-X-Google-Smtp-Source: AKy350ZcFDxiHpw6FaZS+Y65PbKz6a17iOUPrDjqqsNAOclFSGGfOLZ/EKmyHlqqMurXR/GR3k17ZQ==
-X-Received: by 2002:a05:6000:12:b0:2f8:5d92:aa12 with SMTP id
- h18-20020a056000001200b002f85d92aa12mr916730wrx.66.1681985107918; 
- Thu, 20 Apr 2023 03:05:07 -0700 (PDT)
+ bh=q8LtUQbrNbIcb7AmK/HYZ5o0bALmmnEK3mbIWEsTZ58=;
+ b=bF6Ooi6H9wUfP+oXhpX0zgB1AQZJmn7Ndxw7OM60HCjp4t9/axwSrzEmegMnm+jVE6
+ RciM/JTfRa3vnLouJwBXRUsQsVuGwhHIkjEXYucYE9Sa6IivAAn3PKY2Yhiy76oHLwBe
+ 88oEmWd7WnjAJBZvM5fRrhH852O1J+1E+tCUoYf6dGuyCaiYWxXT4lFKuL4rdVR3Rane
+ jtVJ7SrpXPtud5gUa8xZNsjEMgQk8i+h+g0efRbTt63Qe5M0ShX5gA3tYlh9xGzaRofW
+ Dg6fQw8KNpiXDGGRZavNPVNlv5h6eyDfFQm7saEphoy85mNDDdgor2etf14c/qmsssOg
+ Zfgw==
+X-Gm-Message-State: AAQBX9ecXpdNc3CpUeVUxIU0AQHW47IpN8GpyKcJYlIDJoQctHNKAvB2
+ ePZJR+IT6E9rc64eRVhodr2iWP75WHQ+3yQqxiI=
+X-Google-Smtp-Source: AKy350YSF92wrRmJS+nQORAL+qUgJnCe/fmAPXPkCjdOPCnmo+/5pyAg+75sfJybrDnTdYzzQKeKbw==
+X-Received: by 2002:adf:f988:0:b0:2f4:eb13:4091 with SMTP id
+ f8-20020adff988000000b002f4eb134091mr885751wrr.45.1681985108346; 
+ Thu, 20 Apr 2023 03:05:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  o2-20020a5d58c2000000b002fe522117fdsm1556388wrf.36.2023.04.20.03.05.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 03:05:07 -0700 (PDT)
+ Thu, 20 Apr 2023 03:05:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/21] target/arm: Report pauth information to gdb as 'pauth_v2'
-Date: Thu, 20 Apr 2023 11:04:51 +0100
-Message-Id: <20230420100456.944969-17-peter.maydell@linaro.org>
+Subject: [PULL 17/21] hw/net/imx_fec: Support two Ethernet interfaces
+ connected to single MDIO bus
+Date: Thu, 20 Apr 2023 11:04:52 +0100
+Message-Id: <20230420100456.944969-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230420100456.944969-1-peter.maydell@linaro.org>
 References: <20230420100456.944969-1-peter.maydell@linaro.org>
@@ -90,63 +91,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-So that we can avoid the "older gdb crashes" problem described in
-commit 5787d17a42f7af4 and which caused us to disable reporting pauth
-information via the gdbstub, newer gdb is going to implement support
-for recognizing the pauth information via a new feature name:
- org.gnu.gdb.aarch64.pauth_v2
+From: Guenter Roeck <linux@roeck-us.net>
 
-Older gdb won't recognize this feature name, so we can re-enable the
-pauth support under the new name without risking them crashing.
+The SOC on i.MX6UL and i.MX7 has 2 Ethernet interfaces. The PHY on each may
+be connected to separate MDIO busses, or both may be connected on the same
+MDIO bus using different PHY addresses. Commit 461c51ad4275 ("Add a phy-num
+property to the i.MX FEC emulator") added support for specifying PHY
+addresses, but it did not provide support for linking the second PHY on
+a given MDIO bus to the other Ethernet interface.
 
+To be able to support two PHY instances on a single MDIO bus, two properties
+are needed: First, there needs to be a flag indicating if the MDIO bus on
+a given Ethernet interface is connected. If not, attempts to read from this
+bus must always return 0xffff. Implement this property as phy-connected.
+Second, if the MDIO bus on an interface is active, it needs a link to the
+consumer interface to be able to provide PHY access for it. Implement this
+property as phy-consumer.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Message-id: 20230315145248.1639364-2-linux@roeck-us.net
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230406150827.3322670-1-peter.maydell@linaro.org
 ---
- target/arm/gdbstub.c      | 9 ++++-----
- gdb-xml/aarch64-pauth.xml | 2 +-
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ include/hw/net/imx_fec.h |  2 ++
+ hw/net/imx_fec.c         | 27 +++++++++++++++++++++++----
+ 2 files changed, 25 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 13fbe9b0d7e..03b17c814f6 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -521,18 +521,17 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-                                      aarch64_gdb_set_fpu_reg,
-                                      34, "aarch64-fpu.xml", 0);
-         }
--#if 0
-         /*
--         * GDB versions 9 through 12 have a bug which means they will
--         * crash if they see this XML from QEMU; disable it for the 8.0
--         * release, pending a better solution.
-+         * Note that we report pauth information via the feature name
-+         * org.gnu.gdb.aarch64.pauth_v2, not org.gnu.gdb.aarch64.pauth.
-+         * GDB versions 9 through 12 have a bug where they will crash
-+         * if they see the latter XML from QEMU.
-          */
-         if (isar_feature_aa64_pauth(&cpu->isar)) {
-             gdb_register_coprocessor(cs, aarch64_gdb_get_pauth_reg,
-                                      aarch64_gdb_set_pauth_reg,
-                                      4, "aarch64-pauth.xml", 0);
-         }
--#endif
- #endif
-     } else {
-         if (arm_feature(env, ARM_FEATURE_NEON)) {
-diff --git a/gdb-xml/aarch64-pauth.xml b/gdb-xml/aarch64-pauth.xml
-index 24af5f903c1..0a5c566d668 100644
---- a/gdb-xml/aarch64-pauth.xml
-+++ b/gdb-xml/aarch64-pauth.xml
-@@ -6,7 +6,7 @@
-      notice and this notice are preserved.  -->
+diff --git a/include/hw/net/imx_fec.h b/include/hw/net/imx_fec.h
+index e3a8755db92..2d13290c787 100644
+--- a/include/hw/net/imx_fec.h
++++ b/include/hw/net/imx_fec.h
+@@ -270,6 +270,8 @@ struct IMXFECState {
+     uint32_t phy_int;
+     uint32_t phy_int_mask;
+     uint32_t phy_num;
++    bool phy_connected;
++    struct IMXFECState *phy_consumer;
  
- <!DOCTYPE feature SYSTEM "gdb-target.dtd">
--<feature name="org.gnu.gdb.aarch64.pauth">
-+<feature name="org.gnu.gdb.aarch64.pauth_v2">
-   <reg name="pauth_dmask" bitsize="64"/>
-   <reg name="pauth_cmask" bitsize="64"/>
-   <reg name="pauth_dmask_high" bitsize="64"/>
+     bool is_fec;
+ 
+diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+index c862d965930..5d1f1f104cc 100644
+--- a/hw/net/imx_fec.c
++++ b/hw/net/imx_fec.c
+@@ -282,11 +282,19 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
+     uint32_t val;
+     uint32_t phy = reg / 32;
+ 
+-    if (phy != s->phy_num) {
+-        trace_imx_phy_read_num(phy, s->phy_num);
++    if (!s->phy_connected) {
+         return 0xffff;
+     }
+ 
++    if (phy != s->phy_num) {
++        if (s->phy_consumer && phy == s->phy_consumer->phy_num) {
++            s = s->phy_consumer;
++        } else {
++            trace_imx_phy_read_num(phy, s->phy_num);
++            return 0xffff;
++        }
++    }
++
+     reg %= 32;
+ 
+     switch (reg) {
+@@ -343,11 +351,19 @@ static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
+ {
+     uint32_t phy = reg / 32;
+ 
+-    if (phy != s->phy_num) {
+-        trace_imx_phy_write_num(phy, s->phy_num);
++    if (!s->phy_connected) {
+         return;
+     }
+ 
++    if (phy != s->phy_num) {
++        if (s->phy_consumer && phy == s->phy_consumer->phy_num) {
++            s = s->phy_consumer;
++        } else {
++            trace_imx_phy_write_num(phy, s->phy_num);
++            return;
++        }
++    }
++
+     reg %= 32;
+ 
+     trace_imx_phy_write(val, phy, reg);
+@@ -1327,6 +1343,9 @@ static Property imx_eth_properties[] = {
+     DEFINE_NIC_PROPERTIES(IMXFECState, conf),
+     DEFINE_PROP_UINT32("tx-ring-num", IMXFECState, tx_ring_num, 1),
+     DEFINE_PROP_UINT32("phy-num", IMXFECState, phy_num, 0),
++    DEFINE_PROP_BOOL("phy-connected", IMXFECState, phy_connected, true),
++    DEFINE_PROP_LINK("phy-consumer", IMXFECState, phy_consumer, TYPE_IMX_FEC,
++                     IMXFECState *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.34.1
 
