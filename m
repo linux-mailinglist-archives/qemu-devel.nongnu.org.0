@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDA36E8DD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AA76E8DD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:20:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQRY-0006Q9-5y; Thu, 20 Apr 2023 05:19:08 -0400
+	id 1ppQRj-0006V4-QM; Thu, 20 Apr 2023 05:19:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQRV-0006PD-Rv
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:19:05 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ppQRh-0006TZ-NN
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:19:17 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQRT-0006Dn-Sl
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:19:05 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- o9-20020a05600c510900b003f17012276fso2717971wms.4
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:19:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ppQRg-0006FO-15
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:19:17 -0400
+Received: by mail-ej1-x631.google.com with SMTP id kt6so5047842ejb.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681982342; x=1684574342;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=36y8Q4O8F/j5BGJBVRxBjoQzTY5Un2PWUo5VblEeBto=;
- b=wIia/i7BRopG0lN7urUbbi+XyLnvfiNZHnnkDK1d20CSImamy9E2RwMSspElv9S9D0
- 7tvHtsFYjv56iYpC/lByE6qPFgt8YnWbjMJUogUX7POUMn4K4DKeU6UPSgeT8HXjDC8f
- 8pU29cIkBeMjBhvcgtraeDv9H65hpR62OFPNIbFAiyRSy/fNgYngFVmMLs1//sAXPCYu
- VqYyMq7gWSgP1yAhusrmMG30HUS4Vsj5MiWQl9amMg6DVUkUOb8lzySLV9oRzkIoJ8eW
- mjmWq/n9shuKiBueqA1VbQyUs0Vez+bQs/CfGRiH46eUzJQ6M3PI7z7worwb0LBaTd61
- 9ofg==
+ d=linaro.org; s=google; t=1681982354; x=1684574354;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RYM4RVcFKPlxn/tACnJdYH+I7CL3Z+D4adHtjgUL9Ow=;
+ b=NOXglNxphp1j23naeOlr0T20fGSkq9h90P/bHCWb0RHBY/tNt1Sbnlmqj6SDLTnE9z
+ K+vXozk6A+ZuEDZbYB8MsvXH5AVfnSQ25OFvkGegrF2emnR4uJcmTtY0D4x3e8eM8MbN
+ Mx9Mpw/oi8RZMfdHiiEbCkZjZUhCL53hSwDbLUi3iqshF62excvNMcPxHcFYaWTSoAvR
+ yWQG3A1ILshzfOOjZzrj1jXt9KkObd6gt/UndqfMm+/vOFfzwcENZmEEt7z22Qbg1or8
+ veeCHK3nPcmlV+PV+7+Y6e7DmwAlU5tAz+QN7MO51ZMM+qCUfhiPzNAed5Uq566Hs9oX
+ mDRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681982342; x=1684574342;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=36y8Q4O8F/j5BGJBVRxBjoQzTY5Un2PWUo5VblEeBto=;
- b=jatkTlsWzsDMmJhz1gLEZFwKStZx6q1jWQeufm9rHi1THraWhws+tba+a99P3YHRPO
- PBnufp+ZjJLFmI6FzsG5yQPBOIwkuqAxi9b9k8ktZ241wc3ftKXtfpZbEYta0ilEc+Iw
- xuG1EmdIapGKY/tF43iLsykVbSA75OwyfQqcX9QpFBfuk2VqW0Dg69gC2fZ06pUil/yb
- ooTE0dnWV5E4heV1JW8xBNecDYFralP0hjbuhYMrXu41bxU6Ofvv5e1OzM5eVl5AncXo
- SUhkBingE7sCsxw+ECK/694hh67XxUyh9fPnn4kD3c4RfJGfGqE2plXU92mDhZ4LCzTs
- BfBg==
-X-Gm-Message-State: AAQBX9e8UJfJrbT3gFZtrNWyUHHFuCnxKvxjH8Hv1/NMGgDGyKKn8XRP
- EZr00VJ3s4B1+evML/kON0JYgw==
-X-Google-Smtp-Source: AKy350alKRPqeXMQmUsZlj41ZvgLTOQa+3dT/NIx/r4CXwoF2ELIpQ8yPEeGegvEqTVxhqdZ1yakTQ==
-X-Received: by 2002:a1c:7712:0:b0:3f1:70d5:1be8 with SMTP id
- t18-20020a1c7712000000b003f170d51be8mr805026wmi.15.1681982341691; 
- Thu, 20 Apr 2023 02:19:01 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- z3-20020adff1c3000000b002fb9e73d5e5sm1418290wro.60.2023.04.20.02.18.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 02:19:01 -0700 (PDT)
-Message-ID: <74be23e6-015b-cb1d-967e-65fc32347553@linaro.org>
-Date: Thu, 20 Apr 2023 11:18:59 +0200
+ d=1e100.net; s=20221208; t=1681982354; x=1684574354;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RYM4RVcFKPlxn/tACnJdYH+I7CL3Z+D4adHtjgUL9Ow=;
+ b=XaQOe9XVkLMnNVoUnxmsI1hYkzq0psuKQJTr2o0tvOm8b4DGqKqjFtWY7veTYDrluI
+ qis0I794+6uzaTVOQL0vffGx+7OiTBoVmCys373D2MksxqDGOrduyy/0wuksKOE4JGf8
+ T4R5JXZz3uxnXn7Zl0Oh7JDjn/3Z8KHnRp4Xw+gBGYyRgTNJfugnqcbByLGRFLcPbrOM
+ VfZSohSSfZxZkw+xRAVrq1KeyVXhDGy74Z4hehuLvNeGqTFpDIuxjMZXiBYBXSqWVP8g
+ zEb9netQuY46sMHbjOQ4yoratWPCWAu8H2pqzktsBMs76oVVaoVWFLXNYRKJo7uSeNfw
+ fZ2A==
+X-Gm-Message-State: AAQBX9eQfV5sdC5/dhBAxIa0WXdU1xKJyYlWfoe0cpO9IK8oIbdTeYRP
+ F3MM0hsEGWGPdXjz7zBXLeo5pBHAk7UVH/A2Ue181w==
+X-Google-Smtp-Source: AKy350ZK3Ko1HTW+bF7nluU24FVPHCwY1kjqkyd9enQO7OWVIVGr73xTDc4zDoquhAwe2kwWzNLAPbShXvfhaRx2knM=
+X-Received: by 2002:a17:906:c216:b0:94e:e494:13b8 with SMTP id
+ d22-20020a170906c21600b0094ee49413b8mr384324ejz.6.1681982354365; Thu, 20 Apr
+ 2023 02:19:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v4 1/6] tests/requirements.txt: bump up avocado-framework
- version to 101.0
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>
-Cc: Cleber Rosa <crosa@redhat.com>, Jan Richter <jarichte@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Radoslaw Biernacki <rad@semihalf.com>,
- Leif Lindholm <quic_llindhol@quicinc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-References: <20230417134321.3627231-1-alex.bennee@linaro.org>
- <20230417134321.3627231-2-alex.bennee@linaro.org>
- <CAFn=p-bqK-RsMo8wVy2zCxU=iAkXG1t9xVuoqLSN0UbTYKPgwQ@mail.gmail.com>
- <87pm82e74d.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87pm82e74d.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
+References: <20230417164041.684562-1-peter.maydell@linaro.org>
+ <20230417164041.684562-5-peter.maydell@linaro.org>
+ <eae62bb6-7c94-21be-f69e-8dc90c254297@linaro.org>
+In-Reply-To: <eae62bb6-7c94-21be-f69e-8dc90c254297@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 Apr 2023 10:19:03 +0100
+Message-ID: <CAFEAcA_Xq1ZS05UL6O+VEMC_P+TF+_-aPmwy-cHVR93mmVndqA@mail.gmail.com>
+Subject: Re: [PATCH v3 04/10] linux-user: Add '-one-insn-per-tb' option
+ equivalent to '-singlestep'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ libvir-list@redhat.com, 
+ Markus Armbruster <armbru@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -108,91 +92,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/4/23 19:44, Alex Bennée wrote:
-> 
-> John Snow <jsnow@redhat.com> writes:
-> 
->> On Mon, Apr 17, 2023 at 9:43 AM Alex Bennée <alex.bennee@linaro.org> wrote:
->>>
->>> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
->>>
->>> Avocado version 101.0 has a fix to re-compute the checksum
->>> of an asset file if the algorithm used in the *-CHECKSUM
->>> file isn't the same as the one being passed to it by the
->>> avocado user (i.e. the avocado_qemu python module).
->>> In the earlier avocado versions this fix wasn't there due
->>> to which if the checksum wouldn't match the earlier
->>> checksum (calculated by a different algorithm), the avocado
->>> code would start downloading a fresh image from the internet
->>> URL thus making the test-cases take longer to execute.
->>>
->>> Bump up the avocado-framework version to 101.0.
->>>
->>> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
->>> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
->>> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
->>> Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
->>>
->>> ---
->>> v2
->>>    - limit --max-parallel-tasks $(JOBS_OPTION:-j%=%)
->>> ---
->>>   tests/Makefile.include | 18 +++++++++++-------
->>>   tests/requirements.txt |  2 +-
->>>   2 files changed, 12 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/tests/Makefile.include b/tests/Makefile.include
->>> index 9422ddaece..a4de0ad5a2 100644
->>> --- a/tests/Makefile.include
->>> +++ b/tests/Makefile.include
->>> @@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv
->>>   # download all vm images, according to defined targets
->>>   get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
->>>
->>> +JOBS_OPTION=$(lastword -j1 $(filter-out -j, $(filter -j%,$(MAKEFLAGS))))
->>> +
->>>   check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
->>> -       $(call quiet-command, \
->>> -            $(TESTS_PYTHON) -m avocado \
->>> -            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
->>> -            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
->>> -                       --filter-by-tags-include-empty-key) \
->>> -            $(AVOCADO_CMDLINE_TAGS) \
->>> -            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
->>> +       $(call quiet-command,                                                   \
->>> +            $(TESTS_PYTHON) -m avocado                                                 \
->>> +            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR)  \
->>> +            $(if $(AVOCADO_TAGS),,                                             \
->>> +                       --filter-by-tags-include-empty                          \
->>> +                       --filter-by-tags-include-empty-key)                     \
->>> +               --max-parallel-tasks $(JOBS_OPTION:-j%=%)                       \
->>> +            $(AVOCADO_CMDLINE_TAGS)                                            \
->>> +            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS),                   \
->>>               "AVOCADO", "tests/avocado")
->>>
->>>   check-acceptance-deprecated-warning:
->>> diff --git a/tests/requirements.txt b/tests/requirements.txt
->>> index 0ba561b6bd..a6f73da681 100644
->>> --- a/tests/requirements.txt
->>> +++ b/tests/requirements.txt
->>> @@ -2,5 +2,5 @@
->>>   # in the tests/venv Python virtual environment. For more info,
->>>   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
->>>   # Note that qemu.git/python/ is always implicitly installed.
->>> -avocado-framework==88.1
->>> +avocado-framework==101.0
->>>   pycdlib==1.11.0
->>> --
->>> 2.39.2
->>>
->>
->> I thought there were test failures that prohibited us from bumping the
->> Avocado-Framework version. Did those get rectified recently?
+On Thu, 20 Apr 2023 at 10:13, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> On 17/4/23 18:40, Peter Maydell wrote:
+> > The '-singlestep' option is confusing, because it doesn't actually
+> > have anything to do with single-stepping the CPU. What it does do
+> > is force TCG emulation to put one guest instruction in each TB,
+> > which can be useful in some situations.
+> >
+> > Create a new command line argument -one-insn-per-tb, so we can
+> > document that -singlestep is just a deprecated synonym for it,
+> > and eventually perhaps drop it.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > Reviewed-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >   docs/user/main.rst | 7 ++++++-
+> >   linux-user/main.c  | 9 ++++++---
+> >   2 files changed, 12 insertions(+), 4 deletions(-)
+>
+>
+> > @@ -500,8 +500,11 @@ static const struct qemu_argument arg_table[] =3D =
+{
+> >        "logfile",     "write logs to 'logfile' (default stderr)"},
+> >       {"p",          "QEMU_PAGESIZE",    true,  handle_arg_pagesize,
+> >        "pagesize",   "set the host page size to 'pagesize'"},
+> > -    {"singlestep", "QEMU_SINGLESTEP",  false, handle_arg_singlestep,
+> > -     "",           "run in singlestep mode"},
+> > +    {"one-insn-per-tb",
+> > +                   "QEMU_ONE_INSN_PER_TB",  false, handle_arg_one_insn=
+_per_tb,
+> > +     "",           "run with one guest instruction per emulated TB"},
+> > +    {"singlestep", "QEMU_SINGLESTEP",  false, handle_arg_one_insn_per_=
+tb,
+> > +     "",           "deprecated synonym for -one-insn-per-tb"},
+>
+> Maybe worth mentioning QEMU_ONE_INSN_PER_TB too here:
+>
+>    "deprecated synonyms for -one-insn-per-tb and QEMU_ONE_INSN_PER_TB"
 
-No, still not working on Darwin. At this point I'm thinking at sending
-a patch clarifying testing QEMU with Avocado is not supported on Darwin.
+There's not a lot of space in the -help output, and I think in
+context it's clear enough without.
 
-> I'm not seeing any with your patch applied.
-
-Are you using running the Cirrus-CI jobs?
+thanks
+-- PMM
 
