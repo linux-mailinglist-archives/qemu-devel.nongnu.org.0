@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18486E8CDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C496E8CEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:36:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppPjR-0005sC-VE; Thu, 20 Apr 2023 04:33:33 -0400
+	id 1ppPlj-0000ZP-Db; Thu, 20 Apr 2023 04:35:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppPjP-0005rd-Vi; Thu, 20 Apr 2023 04:33:31 -0400
-Received: from mout.web.de ([212.227.17.12])
+ (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
+ id 1ppPlh-0000Z2-9a
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:35:53 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppPjO-0001et-8w; Thu, 20 Apr 2023 04:33:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681979587; i=lukasstraub2@web.de;
- bh=FLbaevEDbuogEO66jv3AWhSND3d5lDJumyMNRGAJ2qw=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=bvkSDZBkYQY+C2gtImEQNH6amwWNtrfOCBARgQl54llmyDzgoMU5t2eSxH9jzrJDN
- 1UBmNlxzLLaor5AFYaP51dVjQPY0iX6kOKBH+a1EzojYuz1sBRR0SLCKIfW6Cw+fp0
- tlbDvCYH1LsS/aKInNcyhLzctynVl5PYQa/GtUdCtVA6HwvDlQ8fYe2q1EIGbBRrRW
- SkM+FuwZWMZNuGtjj0GYEa/HqUTtRr0AR0eHiEfxUI+ulboDsqjzQYpSmh8qR60RYn
- cuUI9QO88Wh5ugEon9HISwUrA0Nqkw+2R53HH6DTvAFoVHoAvZgboplEQRzDtSDeIK
- cLATJ5F6dhr2g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.123]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MqZMQ-1qbcah0Mt6-00mvbV; Thu, 20
- Apr 2023 10:33:07 +0200
-Date: Thu, 20 Apr 2023 10:33:04 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, michael.roth@amd.com,
- armbru@redhat.com, eblake@redhat.com, jasowang@redhat.com,
- quintela@redhat.com, zhanghailiang@xfusion.com, philmd@linaro.org,
- thuth@redhat.com, berrange@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, dave@treblig.org, hreitz@redhat.com, kwolf@redhat.com,
- chen.zhang@intel.com, lizhijian@fujitsu.com
-Subject: Re: [PATCH v2 0/4] COLO: improve build options
-Message-ID: <20230420083304.24d7ecd4@gecko.fritz.box>
-In-Reply-To: <20230419225232.508121-1-vsementsov@yandex-team.ru>
-References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
+ id 1ppPlf-00027k-23
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:35:53 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6B5F66124F;
+ Thu, 20 Apr 2023 08:35:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96937C433EF;
+ Thu, 20 Apr 2023 08:35:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1681979742;
+ bh=Y4j7IF7cCoXO6FT5Vh2T3yfPGAaX4YyQhrHeBzavQfw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gxWPeaPaDMkESOpb8oRfhVEN1mZzLuWTOBMIoSqOoPuoagxBkqU4sviyrWfny1L+U
+ 5Sn6+T8C1LjvrxnSyyxDRBBLKTuVUwCIhD/fgeSY5dicJjwgeyTTmrZT9yNfQBpd8c
+ VJ7LttX9T7jmDRT87FMwSH0XsghxAD/ECAjK71s7s3W+Mo/jUEs4zSpvqB9NgyJu9R
+ tQCVsEBKUEUNWbVU1labculVhGIAjhoo7rvBVhQkKq0qAk85pw6czrgsmBOfjvi8fD
+ 2O5uLgG4LwMD5JoNCYXWQojRmv9SIsLgC41ldSkgo2NMEaQcBB5UCOeZ54fRCko9Sf
+ K6/TUvU9G7JXQ==
+Date: Thu, 20 Apr 2023 10:35:28 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Ackerley Tng <ackerleytng@google.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>,
+ Hugh Dickins <hughd@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,
+ Pankaj Gupta <pankaj.gupta@amd.com>, linux-arch@vger.kernel.org,
+ arnd@arndb.de, linmiaohe@huawei.com, naoya.horiguchi@nec.com,
+ tabba@google.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20230420-lahmlegen-schule-586f6c19cf8f@brauner>
+References: <20220818132421.6xmjqduempmxnnu2@box>
+ <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <20230413-anlegen-ergibt-cbefffe0b3de@brauner>
+ <ZDiCG/7OgDI0SwMR@google.com>
+ <20230418-anfallen-irdisch-6993a61be10b@brauner>
+ <ZECMM9bjgGRdyXRy@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/h3OfPYY8cLGZDBdcj+=Th75";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:RAdkkJ5sCdamr3suE5SuTHoRxZGdn3vx2MiOZTLuhQd2f5yLStH
- kjWcuLv/BNOnBq7T1t1baEE74ezxM+aRGJYsYlFcuAUdoKOd/c1q9KeVShBLu8fB2pOoAJp
- QGkrRWxUrmIjZMJBjKGVO/aT45RECVzmQRqRAc0Pi3dvu/A9XaWJVNmjGI7rodgmwfOjYTW
- uoReYemC/fFWxYqKZsiHA==
-UI-OutboundReport: notjunk:1;M01:P0:L2IJZa66jtk=;ymVXwI7dxpMqv+1EdwY6eS4cD1T
- NIk4H6oPalQp1bRh8dRk6xlCvS69AF3Qa7R8JcJgsRic9Zkss9ZkifXhCBmSUYijlxgNBRJ/l
- EFBiH+4N1R8X3BJSszHLEVEAOUtkl4lqJgiqe7oJklF6iCHl/31xtjJSAM6cwxheCYYqx5/j8
- Pnr577xCKW7OJdk68FHULfwBDCyL+kD/PIkfK5YHyZcmjykHKq0yr5mF9bdl480LLB0vb0eL0
- lVd6JZceCyrv4yjFSFJfeniu7W5G5CW8Qi6DNtVq6uZ7d0ZwE9cklOmUs3zR3cTtPwerx1Fh+
- CzHuLOO1rNf6zoG9gvHec30L5PqAnvb43GGB2gFm00nR82rLdJZt19TMk1C/YdlU/SGVoza99
- hSNyvbhLKM8MliD/xGQou1CRs0N9FEEzhHoLphwCQZWalKNCVv+sK/regEhXZdoSg1/NPrN4+
- yVcXPycg2fdGlJl/7z1IQyiO+dW2zcB2vtR3U/2vvxUegEEPZj2/JosNLrEa8BLCLU2B7+HI4
- jv2NKDzm9wjkSlST+aVa9hI8KVqPuEQGk/86+jz4DNbooYvVvQEoTgCx0mdIyVPUWE9DYWO0B
- eHodqXyBAiOM91JleSMHjixbvftCHS18MfP2WMMnW/H/7VTN4Ztkaq4OW2wocnglWkjhclWIJ
- aQQa7eHKnKYRL300VQlRACaZ47KyVqx7Os/Tz2WmC5OnrUGp6UyYkW7Ib5F/jOg3n+pG5QA7J
- cXO1Z+nRLiMifzmN8/7o+q6qQnARhDcw5HyF2AG+2Ay7zHYKwdQ60YflbFdBtY7Gj1tJnza5X
- BzleF1JqgNniWnlI0la/fFTBCW2kLJIO+73C7AQMAUdxUxlQJTKDF9srbCkBvwC7YX+rU8b50
- n7XRR6996CiIgESmoqiauzK1MitLZ4CVPJGKGPqiIXHBenLRZym9gt7xL1YBMICAeGTtG3JGu
- GKy/EMEfoiDsKSEkbEoR512/0co=
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZECMM9bjgGRdyXRy@google.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=brauner@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,84 +106,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/h3OfPYY8cLGZDBdcj+=Th75
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 19, 2023 at 05:49:55PM -0700, Sean Christopherson wrote:
+> On Wed, Apr 19, 2023, Christian Brauner wrote:
+> > On Thu, Apr 13, 2023 at 03:28:43PM -0700, Sean Christopherson wrote:
+> > > > But if you want to preserve the inode number and device number of the
+> > > > relevant tmpfs instance but still report memfd restricted as your
+> > > > filesystem type
+> > > 
+> > > Unless I missed something along the way, reporting memfd_restricted as a distinct
+> > > filesystem is very much a non-goal.  AFAIK it's purely a side effect of the
+> > > proposed implementation.
+> > 
+> > In the current implementation you would have to put in effort to fake
+> > this. For example, you would need to also implement ->statfs
+> > super_operation where you'd need to fill in the details of the tmpfs
+> > instance. At that point all that memfd_restricted fs code that you've
+> > written is nothing but deadweight, I would reckon.
+> 
+> After digging a bit, I suspect the main reason Kirill implemented an overlay to
+> inode_operations was to prevent modifying the file size via ->setattr().  Relying
+> on shmem_setattr() to unmap entries in KVM's MMU wouldn't work because, by design,
+> the memory can't be mmap()'d into host userspace. 
+> 
+> 	if (attr->ia_valid & ATTR_SIZE) {
+> 		if (memfd->f_inode->i_size)
+> 			return -EPERM;
+> 
+> 		if (!PAGE_ALIGNED(attr->ia_size))
+> 			return -EINVAL;	
+> 	}
+> 
+> But I think we can solve this particular problem by using F_SEAL_{GROW,SHRINK} or
+> SHMEM_LONGPIN.  For a variety of reasons, I'm leaning more and more toward making
+> this a KVM ioctl() instead of a dedicated syscall, at which point we can be both
+> more flexible and more draconian, e.g. let userspace provide the file size at the
+> time of creation, but make the size immutable, at least by default.
+> 
+> > > After giving myself a bit of a crash course in file systems, would something like
+> > > the below have any chance of (a) working, (b) getting merged, and (c) being
+> > > maintainable?
+> > > 
+> > > The idea is similar to a stacking filesystem, but instead of stacking, restrictedmem
+> > > hijacks a f_ops and a_ops to create a lightweight shim around tmpfs.  There are
+> > > undoubtedly issues and edge cases, I'm just looking for a quick "yes, this might
+> > > be doable" or a "no, that's absolutely bonkers, don't try it".
+> > 
+> > Maybe, but I think it's weird.
+> 
+> Yeah, agreed.
+> 
+> > _Replacing_ f_ops isn't something that's unprecedented. It happens everytime
+> > a character device is opened (see fs/char_dev.c:chrdev_open()). And debugfs
+> > does a similar (much more involved) thing where it replaces it's proxy f_ops
+> > with the relevant subsystem's f_ops. The difference is that in both cases the
+> > replace happens at ->open() time; and the replace is done once. Afterwards
+> > only the newly added f_ops are relevant.
+> > 
+> > In your case you'd be keeping two sets of {f,a}_ops; one usable by
+> > userspace and another only usable by in-kernel consumers. And there are
+> > some concerns (non-exhaustive list), I think:
+> > 
+> > * {f,a}_ops weren't designed for this. IOW, one set of {f,a}_ops is
+> >   authoritative per @file and it is left to the individual subsystems to
+> >   maintain driver specific ops (see the sunrpc stuff or sockets).
+> > * lifetime management for the two sets of {f,a}_ops: If the ops belong
+> >   to a module then you need to make sure that the module can't get
+> >   unloaded while you're using the fops. Might not be a concern in this
+> >   case.
+> 
+> Ah, whereas I assume the owner of inode_operations is pinned by ??? (dentry?)
+> holding a reference to the inode?
 
-On Thu, 20 Apr 2023 01:52:28 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+I don't think it would be possible to safely replace inode_operations
+after the inode's been made visible in caches.
 
-> Hi all!
->=20
-> COLO substem seems to be useless when CONFIG_REPLICATION is unset, as we
-> simply don't allow to set x-colo capability in this case. So, let's not
-> compile in unreachable code and interface we cannot use when
-> CONFIG_REPLICATION is unset.
->=20
-> Also, provide personal configure option for COLO Proxy subsystem.
->=20
-> v1 was=20
-> [PATCH] replication: compile out some staff when replication is not confi=
-gured
-> Supersedes: <20230411145112.497785-1-vsementsov@yandex-team.ru>
+It works with file_operations because when a file is opened a new struct
+file is allocated which isn't reachable anywhere before fd_install() is
+called. So it is possible to replace f_ops in the default
+f->f_op->open() method (which is what devices do as the inode is located
+on e.g., ext4/xfs/tmpfs but the functionality of the device usually
+provided by some driver/module through its file_operations). The default
+f_ops are taken from i_fop of the inode.
 
-Hey,
-This series is a good idea, and looks fine to me. Maybe you can remove
-the #ifdef CONFIG_REPLICATION/#ifndef CONFIG_REPLICATION from
-migration/colo.c too while you are at it.
+The lifetime of the file_/inode_operations will be aligned with the
+lifetime of the module they're originating from. If only
+file_/inode_operations are used from within the same module then there
+should never be any lifetime concerns.
 
-Regards,
-Lukas Straub
+So an inode doesn't explictly pin file_/inode_operations because there's
+usually no need to do that and it be weird if each new inode would take
+a reference on the f_ops/i_ops on the off-chance that someone _might_
+open the file. Let alone the overhead of calling try_module_get()
+everytime a new inode is added to the cache. There are various fs
+objects - the superblock which is pinning the filesystem/module - that
+exceed the lifetime of inodes and dentries. Both also may be dropped
+from their respective caches and readded later.
 
-> Vladimir Sementsov-Ogievskiy (4):
->   block/meson.build: prefer positive condition for replication
->   scripts/qapi: allow optional experimental enum values
->   build: move COLO under CONFIG_REPLICATION
->   configure: add --disable-colo-filters option
->=20
->  block/meson.build              |  2 +-
->  hmp-commands.hx                |  2 ++
->  meson.build                    |  1 +
->  meson_options.txt              |  2 ++
->  migration/colo.c               |  6 +++++
->  migration/meson.build          |  6 +++--
->  migration/migration-hmp-cmds.c |  2 ++
->  migration/migration.c          | 19 +++-----------
->  net/meson.build                | 16 +++++++++---
->  qapi/migration.json            | 12 ++++++---
->  scripts/meson-buildoptions.sh  |  3 +++
->  scripts/qapi/types.py          |  2 ++
->  stubs/colo.c                   | 47 ++++++++++++++++++++++++++++++++++
->  stubs/meson.build              |  1 +
->  14 files changed, 95 insertions(+), 26 deletions(-)
->  create mode 100644 stubs/colo.c
->=20
+Pinning of the module for f_ops is done because it is possible that some
+filesystem/driver might want to use the file_operations of some other
+filesystem/driver by default and they are in separate modules. So the
+fops_get() in do_dentry_open is there because it's not guaranteed that
+file_/inode_operations originate from the same module as the inode
+that's opened. If the module is still alive during the open then a
+reference to its f_ops is taken if not then the open will fail with
+ENODEV.
 
+That's to the best of my knowledge.
 
+> 
+> > * brittleness: Not all f_ops for example deal with userspace
+> >   functionality some deal with cleanup when the file is closed like
+> >   ->release(). So it's delicate to override that functionality with
+> >   custom f_ops. Restricted memfds could easily forget to cleanup
+> >   resources.
+> > * Potential for confusion why there's two sets of {f,a}_ops.
+> > * f_ops specifically are generic across a vast amount of consumers and
+> >   are subject to change. If memfd_restricted() has specific requirements
+> >   because of this weird double-use they won't be taken into account.
+> > 
+> > I find this hard to navigate tbh and it feels like taking a shortcut to
+> > avoid building a proper api.
+> 
+> Agreed.  At the very least, it would be better to take an explicit dependency on
+> whatever APIs are being used instead of somewhat blindly bouncing through ->fallocate().
+> I think that gives us a clearer path to getting something merged too, as we'll
+> need Acks on making specific functions visible, i.e. will give MM maintainers
+> something concrete to react too.
+> 
+> > If you only care about a specific set of operations specific to memfd
+> > restricte that needs to be available to in-kernel consumers, I wonder if you
+> > shouldn't just go one step further then your proposal below and build a
+> > dedicated minimal ops api.
+> 
+> This is actually very doable for shmem.  Unless I'm missing something, because
+> our use case doesn't allow mmap(), swap, or migration, a good chunk of
+> shmem_fallocate() is simply irrelevant.  The result is only ~100 lines of code,
+> and quite straightforward.
+> 
+> My biggest concern, outside of missing a detail in shmem, is adding support for
+> HugeTLBFS, which is likely going to be requested/needed sooner than later.  At a
+> glance, hugetlbfs_fallocate() is quite a bit more complex, i.e. not something I'm
+> keen to duplicate.  But that's also a future problem to some extent, as it's
+> purely kernel internals; the uAPI side of things doesn't seem like it'll be messy
+> at all.
+> 
+> Thanks again!
 
---=20
-
-
---Sig_/h3OfPYY8cLGZDBdcj+=Th75
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRA+MAACgkQNasLKJxd
-sljyNA//XmnI2Ye0wdlV99C+qzHJNjiqlzoyihm4KMZvvAOq3dBb1p8AOppdc2TP
-8GBcVStwZFDSoN8w30v/JUWiCtSIaHHp80VIaiVnFc+YuVRB5XE7yWuVC/U8nHLf
-nfMh940Hg/i9mqHjg5hHrZU7pXZAoAhSXCNGdnQGrDTBO13FREKeGIIw32sFzQb9
-79yLhQy7gcii6mk3Tp9ZHOdViQ6ltVxBvhdlTXEw6HhMjfLIuqZu0e6SEZHcaKk2
-FKQ9/2l1lDF9+xEj0SRvGyJjjmmWrFAv/0Q84kCpadNTkjuUdGb2B+2R1ClnDNF7
-ioeEPRTxLmO1zdHjIHo1+I+NOnIxqthsoWRGiCzwoo3BKhretON6vW9Vf7oxvixa
-y8zKcKxI7Uk/27aZkp2CHqykYJ3YakYhAg5ymEeyiF37vtD5dkji81VDMRhvRccM
-I9RyNIJ+bAGB0n0TOeRiU6iXFLpJxwp2rxji82W1HOqNRDwZrOpAfAVtFOlTL6gT
-qTLGNtSHrPr4NwpnaOIbwwiNV3w0YoMsJ2esJfQ1imHLXnB5fZQlvgrs3iZVcDWn
-tCuc3WKEOZJdGjLqFohLyTeOI2JSSoSdnxGR3HnTG5fqiMcm5TOr6rLqvPHS53b1
-9gb+d+sYuvAKb+coZmu74lkeorKKr/k58Npf6nsJOVOoITd5els=
-=Jwo4
------END PGP SIGNATURE-----
-
---Sig_/h3OfPYY8cLGZDBdcj+=Th75--
+Sure thing.
 
