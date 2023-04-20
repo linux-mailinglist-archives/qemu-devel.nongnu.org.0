@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A166F6E9D7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 22:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E1A6E9D7E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 22:55:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppbI2-0006FA-Lx; Thu, 20 Apr 2023 16:54:02 -0400
+	id 1ppbJI-00078Z-Oh; Thu, 20 Apr 2023 16:55:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppbI1-0006En-AX
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:54:01 -0400
+ id 1ppbJD-00078I-14
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:55:15 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppbHz-000542-Sz
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:54:01 -0400
+ id 1ppbJB-0005V9-Cm
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:55:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682024039;
+ s=mimecast20190719; t=1682024112;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XquwRGhzRg0qs7QyTjUAd1T0tITLZ9T50pfpPcbJCF4=;
- b=dxN+sdmNEUIUdQKkaBi0E4Guxqo69MHEqLWVwzvfGXKug8Dh2EuBEEBiMvDwcAQ0QxPAh8
- qnbdE8+XJxSiEx1tu9hkQy2vutMv/GHSgMHjkyvjQpk14uBPVaFH2jm1tFMIz36JupUavt
- YL+Emfmq6AXlb87o7j+bttViTbgL+G8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MtP5OQ73KFQelsrdnOFD+HyKiuSQs/AtcLiIzo+PL/w=;
+ b=UpxhULgSBVaocCTChFO5b+UqSCOT4wUOrJ0JO2IKos0/OJJPFRw+f1FaEu1LA2KiMg70pb
+ 4Ig7YqHg0UY+/DOP9/ELf4/dMv7jiEvPqNBk90AcNLjg/LDvaJDlmadQ+DnrVMNNILub+Q
+ mjjE6dmfaEYhOzcziYzn+ACeZZp60Jg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-119-bRY1MaXRNRSVvZL9Ef6b6Q-1; Thu, 20 Apr 2023 16:53:57 -0400
-X-MC-Unique: bRY1MaXRNRSVvZL9Ef6b6Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f080f53d62so3858605e9.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 13:53:57 -0700 (PDT)
+ us-mta-253-7JscIlS1MwKk7MRyjFJZsQ-1; Thu, 20 Apr 2023 16:55:11 -0400
+X-MC-Unique: 7JscIlS1MwKk7MRyjFJZsQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f17b8d2520so6067005e9.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 13:55:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682024036; x=1684616036;
+ d=1e100.net; s=20221208; t=1682024110; x=1684616110;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XquwRGhzRg0qs7QyTjUAd1T0tITLZ9T50pfpPcbJCF4=;
- b=lFGNfujHJnMMR5llQGmP5cowfT7b8tn3DzEl705CDp4yNdBSq1Z564HAp1w45Ige/M
- gH/RHEPEvZtWe20k1KH+nGqU5imaWVyhH0V17SEbHviyKOX27PIPIii14FCXpl3Jr84+
- bc3QwinzL6ztIBg1coeVLUmMAL/5R6lczVx8ziODM36UHqSla2AXw4+I/QqCCsPWtjR8
- isVzRyZWa2g38iIxu9wK2dQKGShfdJEpSklj5FJI7XsgvkXqM47L9EtVX9/l0OEyAC36
- b8c6V+S7MLZck6FAB1tLJVn7veLnG/GIpbDa+wenaS+/jaZXVsdejbcTygb85ZuMOQZW
- oaBg==
-X-Gm-Message-State: AAQBX9fkN0/wU00rTjptHTh36RjNzSqpF03TxA0F35eurMQfBFanU38P
- hGMjskcUGcdYaXnySKeZhQR3An8+IQ5enVIIgpC1A5xO0UFmvoFVSvnkJ789NitNYFgzaAxtxn9
- +aO1aj7yv7xtet7A=
-X-Received: by 2002:adf:cd85:0:b0:2fb:283a:1754 with SMTP id
- q5-20020adfcd85000000b002fb283a1754mr2618693wrj.32.1682024036279; 
- Thu, 20 Apr 2023 13:53:56 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZEDfqBcB+nMU2t3tZARW6bOQ1cYHLuk2SWiL7qwvvF7aPYqwbK8y59+mjcVHzG8HyVVcepdQ==
-X-Received: by 2002:adf:cd85:0:b0:2fb:283a:1754 with SMTP id
- q5-20020adfcd85000000b002fb283a1754mr2618677wrj.32.1682024035950; 
- Thu, 20 Apr 2023 13:53:55 -0700 (PDT)
+ bh=MtP5OQ73KFQelsrdnOFD+HyKiuSQs/AtcLiIzo+PL/w=;
+ b=PXt16H5ESF5lZRVDUfMCC80Yf1mFdtuK8TsKl9F9O7xW247w8+DLOUapCnX3+nSgiP
+ +aeW+25e0nfxcoRtK7aX8FXusbdoeh7XYSlDqqnKIv6wTl6FBrZeFPjklLH8sJ22LaDm
+ fqwOSWz+rV3kzkkPGsETVR7j5Y7TQ3sNRwILgD9oO+fI9rjfrst2eOEgaXUmKjuXQTrK
+ wF7GLSJBHQJN00JRS9RwGORp/j2Ff/c6pKISHZnLZ/X/dGTpB9jiwvO8lY7ODrmBKaIK
+ CHSsjiWs6g6s+G4eyvkxTi4fKLcB66mOW36EyM4+/r9buAW4n6pv4NuSDo36UrKn7ELu
+ sM2A==
+X-Gm-Message-State: AAQBX9daxt/pxufq0uTMuncG/mf66b/0UJMsIrgOV0YT+aoi1DRpJLh7
+ Gg0bM/40XeIpa9+gBPMBuzqy8EaEcFXfIhgiHyVZEPJvxoaKUph/jRmEaklS6eP94AJh2ThfmPl
+ 7fovoUOuXppMPKSs=
+X-Received: by 2002:adf:f741:0:b0:2f8:1ed9:f0f8 with SMTP id
+ z1-20020adff741000000b002f81ed9f0f8mr2015729wrp.61.1682024110172; 
+ Thu, 20 Apr 2023 13:55:10 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YDycL+6wQnY2gq8VDibc+3Xobg/aAP33unxFHjEidnNZ/guqHT/QjzGJCCTUdgQwREohdxvA==
+X-Received: by 2002:adf:f741:0:b0:2f8:1ed9:f0f8 with SMTP id
+ z1-20020adff741000000b002f81ed9f0f8mr2015710wrp.61.1682024109861; 
+ Thu, 20 Apr 2023 13:55:09 -0700 (PDT)
 Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
  [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- z18-20020adfd0d2000000b002fae7408544sm2776793wrh.108.2023.04.20.13.53.49
+ m6-20020adfdc46000000b002d45575643esm2851048wrj.43.2023.04.20.13.55.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 13:53:51 -0700 (PDT)
+ Thu, 20 Apr 2023 13:55:09 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org,  Elena Ufimtseva <elena.ufimtseva@oracle.com>,
@@ -74,15 +74,17 @@ Cc: qemu-devel@nongnu.org,  Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  <armbru@redhat.com>,  Alexandre Iooss <erdnaxe@crans.org>,  John G Johnson
  <john.g.johnson@oracle.com>,  Jagannathan Raman <jag.raman@oracle.com>,
  Eduardo Habkost <eduardo@habkost.net>,  Richard Henderson
- <richard.henderson@linaro.org>,  Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 1/9] docs/devel/kconfig.rst: Fix incorrect markup
-In-Reply-To: <20230420155723.1711048-2-alex.bennee@linaro.org> ("Alex
- =?utf-8?Q?Benn=C3=A9e=22's?= message of "Thu, 20 Apr 2023 16:57:15 +0100")
+ <richard.henderson@linaro.org>,  Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Yohei Kojima <y-koj@outlook.jp>
+Subject: Re: [PATCH 2/9] qemu-options.hx: Update descriptions of memory
+ options for NUMA node
+In-Reply-To: <20230420155723.1711048-3-alex.bennee@linaro.org> ("Alex
+ =?utf-8?Q?Benn=C3=A9e=22's?= message of "Thu, 20 Apr 2023 16:57:16 +0100")
 References: <20230420155723.1711048-1-alex.bennee@linaro.org>
- <20230420155723.1711048-2-alex.bennee@linaro.org>
+ <20230420155723.1711048-3-alex.bennee@linaro.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 20 Apr 2023 22:53:49 +0200
-Message-ID: <87zg72uvfm.fsf@secure.mitica>
+Date: Thu, 20 Apr 2023 22:55:08 +0200
+Message-ID: <87v8hquvdf.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -112,22 +114,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
-> From: Peter Maydell <peter.maydell@linaro.org>
+> From: Yohei Kojima <y-koj@outlook.jp>
 >
-> In rST markup syntax, the inline markup (*italics*, **bold** and
-> ``monospaced``) must be separated from the surrending text by
-> non-word characters, otherwise it is not interpreted as markup.
-> To force interpretation as markup in the middle of a word,
-> you need to use a backslash-escaped space (which will not
-> appear as a space in the output).
+> This commit adds the following description:
+> 1. `memdev` option is recommended over `mem` option (see [1,2])
+> 2. users must specify memory for all NUMA nodes (see [2])
 >
-> Fix a missing backslash-space in this file, which meant that the ``
-> after "select" was output literally and the monospacing was
-> incorrectly extended all the way to the end of the next monospaced
-> word.
+> This commit also separates descriptions for `mem` and `memdev` into two
+> paragraphs. The old doc describes legacy `mem` option first, and it was
+> a bit confusing.
 >
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Message-Id: <20230411105424.3994585-1-peter.maydell@linaro.org>
+> Related documantations:
+> [1] https://wiki.qemu.org/ChangeLog/5.1#Incompatible_changes
+> [2] https://www.qemu.org/docs/master/about/removed-features.html
+>
+> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
+> Message-Id: <TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd0=
+6.prod.outlook.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
