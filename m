@@ -2,51 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A924F6E97D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65036E97DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:02:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppVl8-0003E1-5J; Thu, 20 Apr 2023 10:59:42 -0400
+	id 1ppVls-0003l7-0q; Thu, 20 Apr 2023 11:00:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ppVl5-0003Cm-FU
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:59:39 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ppVl2-0003kF-Tw
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:59:39 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2LKh6pWSz67gJd;
- Thu, 20 Apr 2023 22:54:48 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 20 Apr 2023 15:59:33 +0100
-To: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-CC: Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin"
- <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>, <linuxarm@huawei.com>
-Subject: [PATCH] hw/pci-bridge: Fix release ordering by embedding
- PCIBridgeWindows within PCIBridge
-Date: Thu, 20 Apr 2023 15:59:37 +0100
-Message-ID: <20230420145937.17152-1-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppVlh-0003af-FV
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:00:17 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppVle-00045f-EP
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:00:17 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f182d74658so5451805e9.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 08:00:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682002811; x=1684594811;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XBP9GX+3g7jnpQbho/wZSE31+XgbvM3Wes9mTCAwjIY=;
+ b=LqloKtWzQxAA+SsGG55ds85QfkySzl6s1RT6Tj01LRqxfUUi+2iJyrL2h59a0/T3fB
+ HcIhN/R9JsAeXon0P3aqGsq/IDl6PiRiN6MfOURfXSS8aQJtDP0EFGXMaGHJ2cAqbEjW
+ EJw/h4fPaQlw/ljqoHen9q8xHszO73sLIvbkvcfHl8rLXBIkuEuZDNWlF8ZeC614njT0
+ Y3nhVPbIdXT4H2/ddOxx/z8DIaEpovVPnYYUrAxCsvZLBn2AQ21j5YtC/l/nGAwmu6qV
+ nogeHeWYnOtb880tDhf3H6040lv0OFYx4i/d1t3+hs0REdnNCJ5uRrxGW3+cx0exR71j
+ 4zXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682002811; x=1684594811;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XBP9GX+3g7jnpQbho/wZSE31+XgbvM3Wes9mTCAwjIY=;
+ b=EQFeiFu0/URrlYeu2VLD/yOxnmrFDZ9wfiSHtMNa6o4LRL0uHG1roKLJmkxfPEa/5N
+ t0R48Rc+tbnOW6GguMQupiARdBQOeb+1QDJCylpybztGDN2pQCCt/b9PMEL8nq29NCHP
+ L08WSyTZvAZ0YVmqEzVlWuYNUMClpXqyfygQDDEakvROayYbQfxabAtSi/VWVY5WL+wl
+ qqrP68gIGRr8uJvEiNKtjZKbm495dEQz7mvKaVawgEcsYtgALwY/PuKjr2E61PoBd76P
+ tmTKJ1bosDPOfIjx9khIWdpcdlrar18rCY2RNFKCFkze6xDucDbRt3yjjII9nQ4Rttt8
+ GJHw==
+X-Gm-Message-State: AAQBX9dmqsJjzAU7HwFeDmXE8nnx52bblnCckodplYCyhfCxFhPj99tb
+ mS0TDk4fmRGmZpTJE0a8qa0+ng==
+X-Google-Smtp-Source: AKy350ZdmL5U2dwK/64gQONGDDDdO2bx3axX4HLMdjZ3+BSbj9sdnExmaJG24mnJMRoCa6lnOs5plA==
+X-Received: by 2002:adf:ffc9:0:b0:2f2:4db4:1f5b with SMTP id
+ x9-20020adfffc9000000b002f24db41f5bmr1730423wrs.29.1682002810812; 
+ Thu, 20 Apr 2023 08:00:10 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ p6-20020adfe606000000b002ff1751ec79sm2146026wrm.65.2023.04.20.08.00.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 08:00:10 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E43151FFB7;
+ Thu, 20 Apr 2023 16:00:09 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Greg Kurz <groug@kaod.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 00/10] tracing: remove dynamic vcpu state
+Date: Thu, 20 Apr 2023 15:59:59 +0100
+Message-Id: <20230420150009.1675181-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,138 +100,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The lifetime of the PCIBridgeWindows instance accessed via the windows pointer
-in struct PCIBridge is managed separately from the PCIBridge itself.
+The references dynamic vcpu tracing support was removed when the
+original TCG trace points where removed. However there was still a
+legacy of dynamic trace state to track this in cpu.h and extra hash
+variables to track TBs. While the removed vcpu tracepoints are not in
+generated code (or helpers) they still bring in a bunch of machinery
+to manage the state so I've pulled them out. We could just replace
+them with static trace points which dump vcpu->index as one of their
+arguments because they don't happen that often.
 
-Triggered by ./qemu-system-x86_64 -M x-remote -display none -monitor stdio
-QEMU monitor: device_add cxl-downstream
+While most of the changes are excising bits of the tracing code I've
+also cleaned up the xxhash function use and simplified the core
+function to qemu_xxhash6.
 
-In some error handling paths (such as the above due to attaching a cxl-downstream
-port anything other than a cxl-upstream port) the g_free() of the PCIBridge
-windows in pci_bridge_region_cleanup() is called before the final call of
-flatview_uref() in address_space_set_flatview() ultimately from
-drain_call_rcu()
+Please review.
 
-At one stage this resulted in a crash, currently can still be observed using
-valgrind which records a use after free.
+Alex Bennée (10):
+  *-user: remove the guest_user_syscall tracepoints
+  trace-events: remove the remaining vcpu trace events
+  trace: remove vcpu_id from the TraceEvent structure
+  scripts/qapi: document the tool that generated the file
+  qapi: make the vcpu parameters deprecated for 8.1
+  trace: remove code that depends on setting vcpu
+  trace: remove control-vcpu.h
+  tcg: remove the final vestiges of dstate
+  hw/9pfs: use qemu_xxhash4
+  xxhash: remove qemu_xxhash7
 
-When present, only one instance is allocated. pci_bridge_update_mappings()
-can operate directly on an instance rather than creating a new one and
-swapping it in.  Thus there appears to be no reason to not directly
-couple the lifetimes of the two structures by embedding the PCIBridgeWindows
-within the PCIBridge removing the need for the problematic separate free.
+ qapi/trace.json               |  22 +++----
+ accel/tcg/tb-hash.h           |   6 +-
+ include/exec/exec-all.h       |   3 -
+ include/hw/core/cpu.h         |   5 --
+ include/qemu/xxhash.h         |  17 ++----
+ include/user/syscall-trace.h  |   4 --
+ trace/control-internal.h      |  10 ---
+ trace/control-vcpu.h          |  63 -------------------
+ trace/control.h               |  48 ---------------
+ trace/event-internal.h        |   2 -
+ accel/tcg/cpu-exec.c          |   7 +--
+ accel/tcg/tb-maint.c          |   5 +-
+ accel/tcg/translate-all.c     |   6 --
+ bsd-user/freebsd/os-syscall.c |   2 -
+ hw/9pfs/9p.c                  |   4 +-
+ hw/core/cpu-common.c          |   4 --
+ stubs/trace-control.c         |  13 ----
+ trace/control-target.c        | 111 +++-------------------------------
+ trace/control.c               |  28 ---------
+ trace/qmp.c                   |  76 +++--------------------
+ trace/trace-hmp-cmds.c        |  17 +-----
+ scripts/qapi/gen.py           |   4 +-
+ scripts/tracetool/format/c.py |   6 --
+ scripts/tracetool/format/h.py |  16 +----
+ trace-events                  |  50 ---------------
+ 25 files changed, 43 insertions(+), 486 deletions(-)
+ delete mode 100644 trace/control-vcpu.h
 
-Patch is same as was posted deep in the discussion.
-https://lore.kernel.org/qemu-devel/20230403171232.000020bb@huawei.com/
-
-Posted as an RFC as only lightly tested and I'm not sure what the reasoning
-behind the separation of lifetimes originally was. As such perhaps this is
-not the best route to fixing the issue.
-
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/pci/pci_bridge.c         | 20 ++++++++------------
- include/hw/pci/pci_bridge.h |  3 ++-
- 2 files changed, 10 insertions(+), 13 deletions(-)
-
-diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index dd5af508f9..698fd01ae6 100644
---- a/hw/pci/pci_bridge.c
-+++ b/hw/pci/pci_bridge.c
-@@ -184,11 +184,11 @@ static void pci_bridge_init_vga_aliases(PCIBridge *br, PCIBus *parent,
-     }
- }
- 
--static PCIBridgeWindows *pci_bridge_region_init(PCIBridge *br)
-+static void pci_bridge_region_init(PCIBridge *br)
- {
-     PCIDevice *pd = PCI_DEVICE(br);
-     PCIBus *parent = pci_get_bus(pd);
--    PCIBridgeWindows *w = g_new(PCIBridgeWindows, 1);
-+    PCIBridgeWindows *w = &br->windows;
-     uint16_t cmd = pci_get_word(pd->config + PCI_COMMAND);
- 
-     pci_bridge_init_alias(br, &w->alias_pref_mem,
-@@ -211,8 +211,6 @@ static PCIBridgeWindows *pci_bridge_region_init(PCIBridge *br)
-                           cmd & PCI_COMMAND_IO);
- 
-     pci_bridge_init_vga_aliases(br, parent, w->alias_vga);
--
--    return w;
- }
- 
- static void pci_bridge_region_del(PCIBridge *br, PCIBridgeWindows *w)
-@@ -234,19 +232,17 @@ static void pci_bridge_region_cleanup(PCIBridge *br, PCIBridgeWindows *w)
-     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_IO_LO]));
-     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_IO_HI]));
-     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_MEM]));
--    g_free(w);
- }
- 
- void pci_bridge_update_mappings(PCIBridge *br)
- {
--    PCIBridgeWindows *w = br->windows;
--
-+    PCIBridgeWindows *w = &br->windows;
-     /* Make updates atomic to: handle the case of one VCPU updating the bridge
-      * while another accesses an unaffected region. */
-     memory_region_transaction_begin();
--    pci_bridge_region_del(br, br->windows);
-+    pci_bridge_region_del(br, w);
-     pci_bridge_region_cleanup(br, w);
--    br->windows = pci_bridge_region_init(br);
-+    pci_bridge_region_init(br);
-     memory_region_transaction_commit();
- }
- 
-@@ -385,7 +381,7 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
-     sec_bus->address_space_io = &br->address_space_io;
-     memory_region_init(&br->address_space_io, OBJECT(br), "pci_bridge_io",
-                        4 * GiB);
--    br->windows = pci_bridge_region_init(br);
-+    pci_bridge_region_init(br);
-     QLIST_INIT(&sec_bus->child);
-     QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
- }
-@@ -396,8 +392,8 @@ void pci_bridge_exitfn(PCIDevice *pci_dev)
-     PCIBridge *s = PCI_BRIDGE(pci_dev);
-     assert(QLIST_EMPTY(&s->sec_bus.child));
-     QLIST_REMOVE(&s->sec_bus, sibling);
--    pci_bridge_region_del(s, s->windows);
--    pci_bridge_region_cleanup(s, s->windows);
-+    pci_bridge_region_del(s, &s->windows);
-+    pci_bridge_region_cleanup(s, &s->windows);
-     /* object_unparent() is called automatically during device deletion */
- }
- 
-diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-index 01670e9e65..ac75ec0c1b 100644
---- a/include/hw/pci/pci_bridge.h
-+++ b/include/hw/pci/pci_bridge.h
-@@ -30,6 +30,7 @@
- #include "hw/pci/pci_bus.h"
- #include "hw/cxl/cxl.h"
- #include "qom/object.h"
-+#include "qemu/rcu.h"
- 
- typedef struct PCIBridgeWindows PCIBridgeWindows;
- 
-@@ -73,7 +74,7 @@ struct PCIBridge {
-     MemoryRegion address_space_mem;
-     MemoryRegion address_space_io;
- 
--    PCIBridgeWindows *windows;
-+    PCIBridgeWindows windows;
- 
-     pci_map_irq_fn map_irq;
-     const char *bus_name;
 -- 
-2.37.2
+2.39.2
 
 
