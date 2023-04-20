@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79B26E8EEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AABC6E8F2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:07:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRAN-0000lm-Gx; Thu, 20 Apr 2023 06:05:27 -0400
+	id 1ppRAG-0000eR-9h; Thu, 20 Apr 2023 06:05:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRAE-0000ch-4y
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:18 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1ppRAD-0000cO-F9
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:17 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRA8-0003tR-Bd
+ id 1ppRA8-0003tr-Bi
  for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:17 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f189819513so4515115e9.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:05:10 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-3003b97fa12so281592f8f.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1681985110; x=1684577110;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=SsIzI92Bnfubvao4eevVsX6zp783WFWOJizGT2tAtrE=;
- b=TYsZtb4nKZA4ZhCXq0JdEfS5P29/b4zYT3Mi5uDVXGlR3YvfsqgQrXBMWvdkBz+9qv
- LD7GSUBEr4d5gliIIjlWycNJfoFtClbYEo4IlgaH5VjjAVFk8k+q4iACvrlYISR2MWCf
- btbAO4Jgt9jVBmdtxczLo8rXu/s/uvCVlZmk+CMCFZCjLR7zFW48KZ6OcVx787oy1ZN7
- hqwpCfMgEKKCFRCztH9A8zigCgWp0K0exxC9Cnf1Ek7tkldyBiL7uy8qw8NJRbzOe1GR
- DzDaIZA4bO5KzFb7vTt6L7ohjlxSwm4xu0DqM2YLb5OUAhiDY/UxXamUyxYwWo5lbGot
- /uRw==
+ :reply-to; bh=IXETFNmGs9QvQq2m1ZAi/6SAVGC9Nw/XwN7n3Zh6D20=;
+ b=Hq5RX4Yd7BDCyCKZARmgO8XYfCTT9s9OnXtkE32Op0BVnVvYzHkcGwuZL+VRRgVKnY
+ hQ4XHWFbuaL1PUNvNFQhsPVyZnS/i3IKnTzj0CKQU2L/JxB74o9g2EB+fpL3E40EJLWk
+ 3Tt57h03TjOpD2OnV5XkNEhU8fWS8l/gmTiwU9damo/SUKnUcFKH40l7ZuccZF0XYHZO
+ d1yHp8c01wjyskmrljPdB9oY5jFF+2KxIWRqzwRd11PXfLRZPyouyJKwhuhd12kDa7Qw
+ 6D9uqPEbcp/SMHQarxoPfKSBKnCgXi44HjBRXCsIP+qEfJ6Mj7BxknjSJlzuapUvHou1
+ ifGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1681985110; x=1684577110;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SsIzI92Bnfubvao4eevVsX6zp783WFWOJizGT2tAtrE=;
- b=iaT7VeB4O8RssILmHTSNbNxbrzQHtVDBE3J+WDjp9x+6SEgfo8uB7OM1grkNRgmC7q
- SHNLPldpgPXnP3uhMbAg3ec81DMudPGG+Zn9S2glAcFiVkjH9T7k29UcGm13B2Lo5E3Q
- N66nrbClZ2tU1jEDphNVNjk1LEwbciV+ECo81cSgvGjzDLKF/O/8nv3srUhT0J6O93zl
- mR6ZetF4yh3GcPFP8gxClPq67F7CqyehW6umdPXbCMKv6obm5PMQOoQnpa5alI67OYSk
- eMGipwjlWM8TkoRW05EyD2OvPHRYnLde9Nnn3sX7rY37S0UcPq37e2539570zdCCsdbH
- qmjA==
-X-Gm-Message-State: AAQBX9cueDjqgHEITg+MctvaXFXVXJ/0YVDg7Z3563g955XA7fBJe2ak
- cTpnkaY5t+ZYEXT+L64jnXy05k6cYIP967oucVQ=
-X-Google-Smtp-Source: AKy350YUjnHYNV5yr5udnS3IzQhQ364Lyu4MHnHW8kMgxhChcTg1SxCVLxwMkyO3KrxCfoOOd6xMjg==
-X-Received: by 2002:adf:ee86:0:b0:2ff:2c39:d06b with SMTP id
- b6-20020adfee86000000b002ff2c39d06bmr1046172wro.46.1681985109678; 
- Thu, 20 Apr 2023 03:05:09 -0700 (PDT)
+ bh=IXETFNmGs9QvQq2m1ZAi/6SAVGC9Nw/XwN7n3Zh6D20=;
+ b=BZtZ2bp5A0QNAU6G80LF3AvOc9bvr1r2EqMJUO49ha+n/+pH2gN7mNl8rG6cI90vTj
+ iD7ajC5C3rsU9SimGsSeJ61h2LVu7XtWHJ5L2D2Lt6T6Jws06Mi2fjOFiS2+oubJZpNF
+ Xt5IVGuH0u5EkS+G7HF2yP4r60YW+ekKl/PKfWJCXcWtoyPeVNESS6C7ZEDJmsShTn+i
+ 2T14vNC8E/o20f9HC7CW2BM9rzWululzxiPeW0TJKz6k3CFqhrRAlcZjsJ/TNhetOYQi
+ l8BUQyFV1BMFFLnjYm5aSUqL1B/1FJzLkBGxjpRAsmZs0ElpZeyucaitJ5wXrt1yJPdT
+ bcKg==
+X-Gm-Message-State: AAQBX9cjJtXypwD0toaiNbDI/J7T3/zJzhn6fg+QTtQkSK3R7vlmLRHF
+ oqW4ukIN6Cs7Imu9f5RSgA9s6gIo08wjK+pVS0o=
+X-Google-Smtp-Source: AKy350Y4ba0jDnMcZtY2VCgQkYmt1Sg6KUEPNP3GWoLGLEMOgTl3/WiB20/1ZjFnjd380v0HAckbgw==
+X-Received: by 2002:adf:fd81:0:b0:2fa:ac8:a30c with SMTP id
+ d1-20020adffd81000000b002fa0ac8a30cmr931025wrr.48.1681985110213; 
+ Thu, 20 Apr 2023 03:05:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  o2-20020a5d58c2000000b002fe522117fdsm1556388wrf.36.2023.04.20.03.05.09
@@ -58,16 +58,17 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Thu, 20 Apr 2023 03:05:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/21] fsl-imx7: Add fec[12]-phy-connected properties
-Date: Thu, 20 Apr 2023 11:04:55 +0100
-Message-Id: <20230420100456.944969-21-peter.maydell@linaro.org>
+Subject: [PULL 21/21] arm/mcimx7d-sabre: Set fec2-phy-connected property to
+ false
+Date: Thu, 20 Apr 2023 11:04:56 +0100
+Message-Id: <20230420100456.944969-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230420100456.944969-1-peter.maydell@linaro.org>
 References: <20230420100456.944969-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,69 +93,30 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-Add fec[12]-phy-connected properties and use it to set phy-connected
-and phy-consumer properties for imx_fec.
+On mcimx7d-sabre, the MDIO bus is connected to the first Ethernet
+interface. Set fec2-phy-connected to false to reflect this.
 
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Message-id: 20230315145248.1639364-5-linux@roeck-us.net
+Message-id: 20230315145248.1639364-6-linux@roeck-us.net
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx7.h |  1 +
- hw/arm/fsl-imx7.c         | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+)
+ hw/arm/mcimx7d-sabre.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 355bd8ea838..54ea2f0890a 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -82,6 +82,7 @@ struct FslIMX7State {
-     ChipideaState      usb[FSL_IMX7_NUM_USBS];
-     DesignwarePCIEHost pcie;
-     uint32_t           phy_num[FSL_IMX7_NUM_ETHS];
-+    bool               phy_connected[FSL_IMX7_NUM_ETHS];
- };
+diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
+index 6182b15f190..d1778122b64 100644
+--- a/hw/arm/mcimx7d-sabre.c
++++ b/hw/arm/mcimx7d-sabre.c
+@@ -41,6 +41,8 @@ static void mcimx7d_sabre_init(MachineState *machine)
  
- enum FslIMX7MemoryMap {
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index afc74807990..9e41d4b6772 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -395,7 +395,23 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+     s = FSL_IMX7(object_new(TYPE_FSL_IMX7));
+     object_property_add_child(OBJECT(machine), "soc", OBJECT(s));
++    object_property_set_bool(OBJECT(s), "fec2-phy-connected", false,
++                             &error_fatal);
+     qdev_realize(DEVICE(s), NULL, &error_fatal);
  
-     /*
-      * Ethernet
-+     *
-+     * We must use two loops since phy_connected affects the other interface
-+     * and we have to set all properties before calling sysbus_realize().
-      */
-+    for (i = 0; i < FSL_IMX7_NUM_ETHS; i++) {
-+        object_property_set_bool(OBJECT(&s->eth[i]), "phy-connected",
-+                                 s->phy_connected[i], &error_abort);
-+        /*
-+         * If the MDIO bus on this controller is not connected, assume the
-+         * other controller provides support for it.
-+         */
-+        if (!s->phy_connected[i]) {
-+            object_property_set_link(OBJECT(&s->eth[1 - i]), "phy-consumer",
-+                                     OBJECT(&s->eth[i]), &error_abort);
-+        }
-+    }
-+
-     for (i = 0; i < FSL_IMX7_NUM_ETHS; i++) {
-         static const hwaddr FSL_IMX7_ENETn_ADDR[FSL_IMX7_NUM_ETHS] = {
-             FSL_IMX7_ENET1_ADDR,
-@@ -601,6 +617,10 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
- static Property fsl_imx7_properties[] = {
-     DEFINE_PROP_UINT32("fec1-phy-num", FslIMX7State, phy_num[0], 0),
-     DEFINE_PROP_UINT32("fec2-phy-num", FslIMX7State, phy_num[1], 1),
-+    DEFINE_PROP_BOOL("fec1-phy-connected", FslIMX7State, phy_connected[0],
-+                     true),
-+    DEFINE_PROP_BOOL("fec2-phy-connected", FslIMX7State, phy_connected[1],
-+                     true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+     memory_region_add_subregion(get_system_memory(), FSL_IMX7_MMDC_ADDR,
 -- 
 2.34.1
 
