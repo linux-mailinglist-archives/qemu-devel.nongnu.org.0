@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCEB6E8FC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:14:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAEC6E8FC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:15:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRHc-0000sT-O2; Thu, 20 Apr 2023 06:12:56 -0400
+	id 1ppRHp-00014s-85; Thu, 20 Apr 2023 06:13:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHY-0000nZ-V2
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHg-0000y6-2s
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:13:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHP-000819-Ch
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:48 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHP-00081W-Dn
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681985555;
+ s=mimecast20190719; t=1681985557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LuPTiH8XQ+uWhBtqq2JgtOSr0Leg0bZWYhJfNobOaCw=;
- b=R81RII7/vdm/XGfkhu5pc1Tfzol2g+Vo6uNK8Zht788N2CjvK5CC/VSQcsRHoonwQHnBHe
- ZF6jWfUphRI4scFhYG8WonXHFdVWNBeenjvYOSKAPH8MDlglD9MaBuTlovP9zWkLzwCmT6
- uS/c9ZRKBbELrZmmNGyiUeGx5BNXtZw=
+ bh=/mDYeirVnfV1EXlxgyOKnRy1QGAWwWz4FikxLz8O7/E=;
+ b=Ow/FvKdgjTuzyN8GrpIeAuoM0jaNb4zN/m2ynXX2jD77gp0lQseLbpzImDn0bgj7h9ybnt
+ wthVMt5uJ0RcBF26hI5MmWryiZwNeAZVlg26raR228N2xnIOUCRE0dw/+4pkeQtjZHc+eF
+ CmD1rmcDPTRcmFd3PLcqwC3nG3TP1v0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-oTWxzm_FObuTf5M6aJiBxw-1; Thu, 20 Apr 2023 06:12:34 -0400
-X-MC-Unique: oTWxzm_FObuTf5M6aJiBxw-1
+ us-mta-9-pKxamR2WPPGYBqMWaOPN5w-1; Thu, 20 Apr 2023 06:12:35 -0400
+X-MC-Unique: pKxamR2WPPGYBqMWaOPN5w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9BDE3185A790;
- Thu, 20 Apr 2023 10:12:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A289B886461;
+ Thu, 20 Apr 2023 10:12:34 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5DA85AB7A;
- Thu, 20 Apr 2023 10:12:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF060637A3;
+ Thu, 20 Apr 2023 10:12:33 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 10/23] target/i386: Set family/model/stepping of the "max" CPU
- according to LM bit
-Date: Thu, 20 Apr 2023 12:12:03 +0200
-Message-Id: <20230420101216.786304-11-thuth@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 11/23] hw/char: Move two more files from specific_ss to
+ softmmu_ss
+Date: Thu, 20 Apr 2023 12:12:04 +0200
+Message-Id: <20230420101216.786304-12-thuth@redhat.com>
 In-Reply-To: <20230420101216.786304-1-thuth@redhat.com>
 References: <20230420101216.786304-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
 X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,89 +76,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We want to get rid of the "#ifdef TARGET_X86_64" compile-time switch
-in the long run, so we can drop the separate compilation of the
-"qemu-system-i386" binary one day - but we then still need a way to
-run a guest with max. CPU settings in 32-bit mode. So the "max" CPU
-should determine its family/model/stepping settings according to the
-"large mode" (LM) CPU feature bit during runtime, so that it is
-possible to run "qemu-system-x86_64 -cpu max,lm=off" and still get
-a sane family/model/stepping setting for the guest CPU.
+The code for these two devices seems to be independent from any
+target specific macros. "riscv_htif.c" is used for both, riscv32 and
+riscv64, so by moving this to the common code source set, we can
+avoid to compile it twice every time.
+"goldfish_tty.c" is only used for one target at the moment, but
+since it is a paravirtualized device, it could get useful for other
+targets one day, so let's move it now, too.
 
-To be able to check the LM bit, we have to move the code that sets
-up these properties to a "realize" function, since the LM setting is
-not available yet when the "instance_init" function is being called.
-
-Message-Id: <20230306154311.476458-1-thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20230411173206.1511621-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/i386/cpu.c | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+ hw/char/meson.build | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6576287e5b..95c0dcd493 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -45,6 +45,8 @@
- #include "disas/capstone.h"
- #include "cpu-internal.h"
+diff --git a/hw/char/meson.build b/hw/char/meson.build
+index e02c60dd54..0807e00ae4 100644
+--- a/hw/char/meson.build
++++ b/hw/char/meson.build
+@@ -32,10 +32,9 @@ softmmu_ss.add(when: 'CONFIG_SIFIVE_UART', if_true: files('sifive_uart.c'))
+ softmmu_ss.add(when: 'CONFIG_SH_SCI', if_true: files('sh_serial.c'))
+ softmmu_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
+ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_MMUART', if_true: files('mchp_pfsoc_mmuart.c'))
++softmmu_ss.add(when: 'CONFIG_HTIF', if_true: files('riscv_htif.c'))
++softmmu_ss.add(when: 'CONFIG_GOLDFISH_TTY', if_true: files('goldfish_tty.c'))
  
-+static void x86_cpu_realizefn(DeviceState *dev, Error **errp);
-+
- /* Helpers for building CPUID[2] descriptors: */
- 
- struct CPUID2CacheDescriptorInfo {
-@@ -4316,6 +4318,25 @@ static Property max_x86_cpu_properties[] = {
-     DEFINE_PROP_END_OF_LIST()
- };
- 
-+static void max_x86_cpu_realize(DeviceState *dev, Error **errp)
-+{
-+    Object *obj = OBJECT(dev);
-+
-+    if (!object_property_get_int(obj, "family", &error_abort)) {
-+        if (X86_CPU(obj)->env.features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
-+            object_property_set_int(obj, "family", 15, &error_abort);
-+            object_property_set_int(obj, "model", 107, &error_abort);
-+            object_property_set_int(obj, "stepping", 1, &error_abort);
-+        } else {
-+            object_property_set_int(obj, "family", 6, &error_abort);
-+            object_property_set_int(obj, "model", 6, &error_abort);
-+            object_property_set_int(obj, "stepping", 3, &error_abort);
-+        }
-+    }
-+
-+    x86_cpu_realizefn(dev, errp);
-+}
-+
- static void max_x86_cpu_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -4327,6 +4348,7 @@ static void max_x86_cpu_class_init(ObjectClass *oc, void *data)
-         "Enables all features supported by the accelerator in the current host";
- 
-     device_class_set_props(dc, max_x86_cpu_properties);
-+    dc->realize = max_x86_cpu_realize;
- }
- 
- static void max_x86_cpu_initfn(Object *obj)
-@@ -4345,15 +4367,6 @@ static void max_x86_cpu_initfn(Object *obj)
-      */
-     object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
-                             &error_abort);
--#ifdef TARGET_X86_64
--    object_property_set_int(OBJECT(cpu), "family", 15, &error_abort);
--    object_property_set_int(OBJECT(cpu), "model", 107, &error_abort);
--    object_property_set_int(OBJECT(cpu), "stepping", 1, &error_abort);
--#else
--    object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
--    object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
--    object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
--#endif
-     object_property_set_str(OBJECT(cpu), "model-id",
-                             "QEMU TCG CPU version " QEMU_HW_VERSION,
-                             &error_abort);
+-specific_ss.add(when: 'CONFIG_HTIF', if_true: files('riscv_htif.c'))
+ specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
+ specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
+ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
+-
+-specific_ss.add(when: 'CONFIG_GOLDFISH_TTY', if_true: files('goldfish_tty.c'))
 -- 
 2.31.1
 
