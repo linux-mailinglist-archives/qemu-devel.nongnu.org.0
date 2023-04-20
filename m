@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B1E6E8A36
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 08:13:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DA06E8AAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 08:57:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppNW6-000371-IT; Thu, 20 Apr 2023 02:11:38 -0400
+	id 1ppOCe-0003kC-Ti; Thu, 20 Apr 2023 02:55:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ppNW4-00036l-54
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 02:11:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ppOCX-0003jm-O9
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 02:55:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ppNW0-0001hp-TQ
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 02:11:35 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ppOCV-0008UG-KW
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 02:55:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681971088;
+ s=mimecast20190719; t=1681973720;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ia9txNBJ56c0uSjGzq3B3KUTv71BpZiY36HxYiMQric=;
- b=TSMdnzd1BpkGyNPWfWUGb4x/gtRUjb7f+7fepMTbEI0xclc2//ZYQHr1lQ0uOMTU3QypXd
- bsYorZMFJ0sCnBZ5gOpsjMxzw/I6nAPmMrhh/2DVtHFP14N9wnEyriUdqoLC8VLv3GNLdn
- tnDxNCyzg4JYMiqGml/uWuQSSMsbezE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-tGE7jBXLPf6j4G41CD2utg-1; Thu, 20 Apr 2023 02:11:25 -0400
-X-MC-Unique: tGE7jBXLPf6j4G41CD2utg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C43F788B7A0;
- Thu, 20 Apr 2023 06:11:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 550402166B35;
- Thu, 20 Apr 2023 06:11:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4CF9021E675B; Thu, 20 Apr 2023 08:11:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,  <qemu-block@nongnu.org>,
- michael.roth@amd.com,  Fam Zheng <fam@euphon.net>,  Stefan Hajnoczi
- <stefanha@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Thomas
- Lamprecht <t.lamprecht@proxmox.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Xu <peterx@redhat.com>
+ bh=bkKVWVbyemvd8yYPEdyT3Yd792HDtU+z0swSrxXjx0g=;
+ b=H9++6AON+s4stGjEEEBUrDGvdOENqBmx0GgsWe0z0rNxkvtwwF0zlrhiEsaZhrRkraCIdH
+ yA4tbcT5bvJeHW1qGqY8bpl7TuCdrjGvFXu0s/1KVa8jqb0S3DZ+8bShScUk6a2Ay1wq3Y
+ aCHnX1PvHgdkEAoV389Q5tMDniwkM6k=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-561-6Dd_rFfjNyqXYK5-ZOYk4w-1; Thu, 20 Apr 2023 02:55:18 -0400
+X-MC-Unique: 6Dd_rFfjNyqXYK5-ZOYk4w-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ 71dfb90a1353d-4408d2d0959so255811e0c.1
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 23:55:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681973717; x=1684565717;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bkKVWVbyemvd8yYPEdyT3Yd792HDtU+z0swSrxXjx0g=;
+ b=h/VgL1swoSS/yMTNQMbnf6Xr36DT3hoof/gtzB0JnBNwz7CoxUVaZomlu6TvUB28S7
+ d6lRk8bNeRoXWuGhthp5wRvkY1xDWmSLa6NlDybhi8MKrzaC6OUUWHHA6Mum2hNqrf6r
+ LeI2aK0lCnUmzyTfVAkvcJOazUf7eny+IeNgew8NJ+WG9mD21EeKXnMKSRVdcDU0IQIB
+ A2hrDt79R2bgJu0UABoyfARdcXZNbJSaGKWKeuaFdC1LTMWbC9RlmdnRqFJ2gP9IFKd8
+ DkOI+RWwaZyTXlOo+Fq4GE2SU2K80SnBBOPrquhhCNNohQ4Pemc6aWDfXXELg4yZMseI
+ 7fxw==
+X-Gm-Message-State: AAQBX9cVB0FINgtebr0uJEwZOnl/NUmF5gsCM4Vg9iDxu1LNaaK+hiDt
+ 9cxtaQAOq9SFdFoOddxCq3QAovu7UYJA2RVXqp8vskNRlYv0YvaE5TwtleLM0NA5/VD+ywxSHng
+ bp0uli1T4gJtLK9VI956xGd7Nd8DAe+c=
+X-Received: by 2002:a67:c10e:0:b0:42e:3b77:b77 with SMTP id
+ d14-20020a67c10e000000b0042e3b770b77mr446595vsj.1.1681973717772; 
+ Wed, 19 Apr 2023 23:55:17 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a0w47o9GQCalcSmf1cvS2eL/jaP6iyww/0HrJhPA+Vi3ORzkB0b/v3BhGqKqHFBh7/xQP68H/gzsW97kfRs2w=
+X-Received: by 2002:a67:c10e:0:b0:42e:3b77:b77 with SMTP id
+ d14-20020a67c10e000000b0042e3b770b77mr446585vsj.1.1681973717517; Wed, 19 Apr
+ 2023 23:55:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <2a61b581-5a21-c945-bb98-b6863cac0c1f@proxmox.com>
+ <877cu7gk1g.fsf@pond.sub.org>
+In-Reply-To: <877cu7gk1g.fsf@pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 20 Apr 2023 08:55:06 +0200
+Message-ID: <CABgObfapoyrFhY9kna_=D7PJ4yAssTgzY3jxSZD=6v0zCGDcSA@mail.gmail.com>
 Subject: Re: QMP (without OOB) function running in thread different from the
  main thread as part of aio_poll
-References: <2a61b581-5a21-c945-bb98-b6863cac0c1f@proxmox.com>
-Date: Thu, 20 Apr 2023 08:11:23 +0200
-In-Reply-To: <2a61b581-5a21-c945-bb98-b6863cac0c1f@proxmox.com> (Fiona Ebner's
- message of "Wed, 19 Apr 2023 16:09:43 +0200")
-Message-ID: <877cu7gk1g.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Fiona Ebner <f.ebner@proxmox.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Michael Roth <michael.roth@amd.com>, Fam Zheng <fam@euphon.net>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Peter Xu <peterx@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f4649005f9bf05b2"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,115 +99,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fiona Ebner <f.ebner@proxmox.com> writes:
+--000000000000f4649005f9bf05b2
+Content-Type: text/plain; charset="UTF-8"
 
-> Hi,
-> while debugging a completely different issue, I was surprised to see
-> do_qmp_dispatch_bh being run in a vCPU thread. I was under the
-> impression that QMP functions are supposed to be executed in the main
-> thread. Is that wrong?
+Il gio 20 apr 2023, 08:11 Markus Armbruster <armbru@redhat.com> ha scritto:
+
+> So, splicing in a bottom half unmoored monitor commands from the main
+> loop.  We weren't aware of that, as our commit messages show.
 >
-> I managed to reproduced the scenario with a build of upstream QEMU
-> v8.0.0-rc4 once more (again with GDB open), but it's not a simple
-> reproducer and racy. The backtrace is below[0].
+> I guess the commands themselves don't care; all they need is the BQL.
 >
-> My attempt at explaining the situation is:
-> 1. In qapi/qmp-dispatch.c, the main thread schedules do_qmp_dispatch_bh,
-> because the coroutine context doesn't match.
-> 2. The host OS switches to the vCPU thread.
-> 3. Something in the vCPU thread triggers aio_poll with the main thread's
-> AioContext (in my case, a write to a pflash drive).
-> 4. do_qmp_dispatch_bh is executed in the vCPU thread.
+> However, did we unwittingly change what can get blocked?  Before,
+> monitor commands could block only the main thread.  Now they can also
+> block vCPU threads.  Impact?
 >
-> Could this be an artifact of running with a debugger?
+
+Monitor commands could always block vCPU threads through the BQL(*).
+However, aio_poll() only runs in the vCPU threads in very special cases;
+typically associated to resetting a device which causes a blk_drain() on
+the device's BlockBackend. So it is not a performance issue.
+
+However, liberal reuse of the main block layer AioContext could indeed be a
+*correctness* issue. I need to re-read Fiona's report instead of stopping
+at the first three lines because it's the evening. :)
+
+Paolo
+
+(*) Some of you may remember that when migration ran under the BQL it was
+also a very effective way to ensure that vCPU threads were slowed down, so
+it helped migration converge. Once that hurdle was removed, we had to add
+manual sleeping in the vCPU threads!
+
+
+
 >
-> I CC'ed the maintainers of util/aio-posix.c and qapi/qmp-dispatch.c
-> hoping that is not too far off.
 
-Fiona, thanks for reporting this!
+--000000000000f4649005f9bf05b2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The monitor core has become awfully complex.
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il gio 20 apr 2023, 08:11 Markus Armbruster &lt;<a hre=
+f=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; ha scritto:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">So, splicing in a bottom half unmoored mo=
+nitor commands from the main<br>
+loop.=C2=A0 We weren&#39;t aware of that, as our commit messages show.<br>
+<br>
+I guess the commands themselves don&#39;t care; all they need is the BQL.<b=
+r>
+<br>
+However, did we unwittingly change what can get blocked?=C2=A0 Before,<br>
+monitor commands could block only the main thread.=C2=A0 Now they can also<=
+br>
+block vCPU threads.=C2=A0 Impact?<br></blockquote></div></div><div dir=3D"a=
+uto"><br></div><div dir=3D"auto">Monitor commands could always block vCPU t=
+hreads through the BQL(*). However, aio_poll() only runs in the vCPU thread=
+s in very special cases; typically associated to resetting a device which c=
+auses a blk_drain() on the device&#39;s BlockBackend. So it is not a perfor=
+mance issue.</div><div dir=3D"auto"><br></div><div dir=3D"auto">However, li=
+beral reuse of the main block layer AioContext could indeed be a *correctne=
+ss* issue. I need to re-read Fiona&#39;s report instead of stopping at the =
+first three lines because it&#39;s the evening. :)</div><div dir=3D"auto"><=
+br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">(*) Some of you may remember that when migration ran under the BQ=
+L it was also a very effective way to ensure that vCPU threads were slowed =
+down, so it helped migration converge. Once that hurdle was removed, we had=
+ to add manual sleeping in the vCPU threads!</div><div dir=3D"auto"><br></d=
+iv><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">
+<br>
+</blockquote></div></div></div>
 
-Instead of trying to explain everything at once, let me recount its
-history.  If you're familiar with the monitor, you might want to skip
-ahead to "Paolo wrote".
-
-In the beginning, there was just one monitor, and it ran entirely in the
-main loop (callback when input is available).  To keep the main loop
-going, monitor commands better complete quickly.
-
-Then we got multiple monitors.  Same story, just multiple input streams,
-each with a callback.
-
-We also got additional threads.  When I say "main loop", I mean the main
-thread's main loop.
-
-"Must complete quickly" means no blocking I/O and such.  Writing code
-that way is somewhere between hard and impractical.  Much code called by
-monitor commands wasn't written that way.
-
-"Doctor, doctor, running code in the main loop hurts".  Sadly, the
-doctor's recommended remedy "don't do that then" is really hard to
-apply: a lot of code has been written assuming "running in the main
-loop, with the big QEMU lock held".
-
-The first small step towards it was taken to enable the "out-of-band"
-feature.  We moved the QMP monitor proper out of the main loop into a
-monitor I/O thread.  The monitor commands get funneled to the main loop.
-Instead of the main loop calling the monitor when a file descriptor has
-input, it now calls the command dispatcher when a funnel queue has a
-command.  This is implemented with a bottom half (merge commit
-4bdc24fa018, March 2018).
-
-Why bother?  Because now we can execute special "out-of-band" commands
-right away, in the I/O thread, regardless of the main loop's state.
-Peter Xu wanted this badly enough for postcopy recovery to code it up.
-It was hard.  It's not generally useful, as the restriction on what OOB
-commands can do are severe.
-
-The next step was the coroutine feature.  Quite a few of the problematic
-monitor commands are actually running coroutine-capable code: when
-running in coroutine context, the code yields instead of blocking.
-Running such commands in monitor context improves things from "blocks
-the main loop" to "blocks all monitor commands".
-
-Sadly, code exists that falls apart in coroutine context.  So we had to
-make running in coroutine context opt-in.  Right now only two commands
-opt in: block_resize and screendump.  Hopefully, we can get to the point
-where most or all do.
-
-Until all do, the dispatcher needs to run some commands coroutine
-context, and others outside coroutine context.  How?
-
-The QMP command dispatcher runs in a coroutine in the main loop (HMP
-works differently, but let's ignore it here).
-
-If the command can be executed in coroutine context, the dispatcher
-calls its handler as before.  Right now, we take this path just for
-block_resize and screendump.
-
-Else, we create a bottom half that calls the handler, and schedule it to
-run in the main loop.  Right now, we take this path for all the other
-commands.
-
-This if / else is in qmp_dispatch().  The else is the only way to get
-do_qmp_dispatch_bh() to run.  Merge commit b7092cda1b3, October 2020.
-
-Paolo wrote:
-
-    While monitor commands in general start only in the main thread,
-    bottom halves can also run (via aio_poll) in the vCPU threads,
-    always under the BQL.
-
-Today I learned...
-
-So, splicing in a bottom half unmoored monitor commands from the main
-loop.  We weren't aware of that, as our commit messages show.
-
-I guess the commands themselves don't care; all they need is the BQL.
-
-However, did we unwittingly change what can get blocked?  Before,
-monitor commands could block only the main thread.  Now they can also
-block vCPU threads.  Impact?
+--000000000000f4649005f9bf05b2--
 
 
