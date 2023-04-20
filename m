@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BCE6E9BA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 20:32:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96096E9BD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 20:44:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppZ4J-0007z8-Uw; Thu, 20 Apr 2023 14:31:43 -0400
+	id 1ppZEt-0002WW-M8; Thu, 20 Apr 2023 14:42:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppZ4G-0007uH-Bt; Thu, 20 Apr 2023 14:31:40 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppZEh-0002U6-CD
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 14:42:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppZ4E-00048X-PM; Thu, 20 Apr 2023 14:31:40 -0400
-Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:2cab:0:640:424b:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 161D35FD3D;
- Thu, 20 Apr 2023 21:31:31 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b58f::1:1d] (unknown
- [2a02:6b8:b081:b58f::1:1d])
- by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id UVjLr015JCg0-CNGqfoOD; Thu, 20 Apr 2023 21:31:30 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682015490; bh=5wlkH2FVXCRXAdnvyTxzreAtf1QFrTyyQVeL6fIQda0=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=dsGc8lKNcCMaxGPKjbnoaMs2Rd7y6NFFXw3EzTojcuhfAy0/7Orn1WtoZZxgAUh3W
- nr/76lJuTND11kGULiey+Mj+gQjxPI7GC15IjxsNvkc6su4GqdfbKcfLNiRDWeVlYp
- 0EYt+xuB09WbUGcLAjlEiqpDoytbuLsIOYYsDEA0=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <829064fe-ad23-8d11-c471-f136316d082c@yandex-team.ru>
-Date: Thu, 20 Apr 2023 21:31:30 +0300
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppZEe-0000WR-8z
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 14:42:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682016142;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0k9LIK9fWvvrWeId5ukFc8EBaRuA/8KOyHUiyNL8ogw=;
+ b=ENCvXWuzPl1bFE/YjUwr9OX4oXbb18GmztH89c53k9IOgY1aVHLfVknirxMjfs15J4M/Km
+ XjuTwrxGTeBLg/L6r9bIsJbanrD8VTmwe5TxogFgqQwLULVgjfk8OuX13OkYSHDBghDLE1
+ WA91/7vmENGv/eziTtxRlTe4awymSn8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-624-mEz9N04QOlShFYNgUI4iEg-1; Thu, 20 Apr 2023 14:42:21 -0400
+X-MC-Unique: mEz9N04QOlShFYNgUI4iEg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8B05185A79C;
+ Thu, 20 Apr 2023 18:42:20 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 841C02026D16;
+ Thu, 20 Apr 2023 18:42:20 +0000 (UTC)
+Date: Thu, 20 Apr 2023 13:42:18 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 1/2] docs/interop: Convert qmp-spec.txt to rST
+Message-ID: <a3wgpgu4hmbelttpvyj7ssqe7uluosfarqdejm7xct5vsvphy7@3pgifycirzaq>
+References: <20230420150352.1039408-1-peter.maydell@linaro.org>
+ <20230420150352.1039408-2-peter.maydell@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 20/43] migration: Move migrate_use_block_incremental()
- to option.c
-Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
- Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Leonardo Bras <leobras@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20230420134002.29531-1-quintela@redhat.com>
- <20230420134002.29531-21-quintela@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230420134002.29531-21-quintela@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230420150352.1039408-2-peter.maydell@linaro.org>
+User-Agent: NeoMutt/20230407
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,15 +77,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20.04.23 16:39, Juan Quintela wrote:
-> To be consistent with every other parameter, rename to migrate_block_incremental().
+On Thu, Apr 20, 2023 at 04:03:51PM +0100, Peter Maydell wrote:
+> Convert the qmp-spec.txt document to restructuredText.
+> Notable points about the conversion:
+>  * numbers at the start of section headings are removed, to match
+>    the style of the rest of the manual
+>  * cross-references to other sections or documents are hyperlinked
+>  * various formatting tweaks (notably the examples, which need the
+>    -> and <- prefixed so the QMP code-block lexer will accept them)
 > 
-> Signed-off-by: Juan Quintela<quintela@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> +Server Greeting
+> +---------------
+> +
+>  Right when connected the Server will issue a greeting message, which signals
+>  that the connection has been successfully established and that the Server is
+>  ready for capabilities negotiation (for more information refer to section
+> -'4. Capabilities Negotiation').
+> +`Capabilities Negotiation`_).
+>  
+>  The greeting message format is:
+>  
+> -{ "QMP": { "version": json-object, "capabilities": json-array } }
+> +.. code-block::
+>  
+> - Where,
+> +  { "QMP": { "version": json-object, "capabilities": json-array } }
+>  
+> -- The "version" member contains the Server's version information (the format
+> +Where:
+> +
+> +- The ``version`` member contains the Server's version information (the format
+>    is the same of the query-version command)
+
+As long as we're touching this, I think s/the same of the/the same as
+for the/ sounds better.
+> +Issuing Commands
+> +----------------
+
+> +Where:
+> +
+> +- The ``execute`` or ``exec-oob`` member identifies the command to be
+>    executed by the server.  The latter requests out-of-band execution.
+
+Ends in '.'
+
+> -- The "arguments" member is used to pass any arguments required for the
+> +- The ``arguments`` member is used to pass any arguments required for the
+>    execution of the command, it is optional when no arguments are
+>    required. Each command documents what contents will be considered
+>    valid when handling the json-argument
+
+does not end in '.' (pre-existing)
+
+> -- The "id" member is a transaction identification associated with the
+> +- The ``id`` member is a transaction identification associated with the
+>    command execution, it is optional and will be part of the response
+> -  if provided.  The "id" member can be any json-value.  A json-number
+> +  if provided.  The ``id`` member can be any json-value.  A json-number
+>    incremented for each successive command works fine.
+
+ends in '.'.  While here, it might be nice to consistently end in '.'
+
+> +Asynchronous events
+> +-------------------
+>  
+>  As a result of state changes, the Server may send messages unilaterally
+>  to the Client at any time, when not in the middle of any other
+> @@ -198,44 +208,45 @@ response. They are called "asynchronous events".
+>  
+>  The format of asynchronous events is:
+>  
+> -{ "event": json-string, "data": json-object,
+> -  "timestamp": { "seconds": json-number, "microseconds": json-number } }
+> +.. code-block::
+>  
+> - Where,
+> +  { "event": json-string, "data": json-object,
+> +    "timestamp": { "seconds": json-number, "microseconds": json-number } }
+>  
+> -- The "event" member contains the event's name
+> -- The "data" member contains event specific data, which is defined in a
+> -  per-event basis, it is optional
+> -- The "timestamp" member contains the exact time of when the event
+> +Where:
+> +
+> +- The ``event`` member contains the event's name
+> +- The ``data`` member contains event specific data, which is defined in a
+> +  per-event basis. It is optional
+
+Pre-patch this was one sentence, not ending in '.'. Post-patch it is
+two sentences, but the second still lacks '.';
+
+> +- The ``timestamp`` member contains the exact time of when the event
+>    occurred in the Server. It is a fixed json-object with time in
+>    seconds and microseconds relative to the Unix Epoch (1 Jan 1970); if
+>    there is a failure to retrieve host time, both members of the
+>    timestamp will be set to -1.
+
+while this one ends in '.'. Another place where consistency would be nice.
+
+> +Forcing the JSON parser into known-good state
+> +---------------------------------------------
+>  
+>  Incomplete or invalid input can leave the server's JSON parser in a
+>  state where it can't parse additional commands.  To get it back into
+>  known-good state, the client should provoke a lexical error.
+>  
+>  The cleanest way to do that is sending an ASCII control character
+> -other than '\t' (horizontal tab), '\r' (carriage return), or '\n' (new
+> -line).
+> +other than ``\t`` (horizontal tab), ``\r`` (carriage return), or
+> +``\n`` (new line).
+>  
+>  Sadly, older versions of QEMU can fail to flag this as an error.  If a
+>  client needs to deal with them, it should send a 0xFF byte.
+
+Do we still care about these older versions of QEMU, or has it been
+long enough that we can start trimming this text?  (But that would be
+a separate patch).
+
+Overall, this is a nice patch; it looked fairly mechanical (and
+produced a hard-to-read diff, but that's not your fault).  Separating
+mechanics from content change is good, so I'm fine with:
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
-Best regards,
-Vladimir
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
