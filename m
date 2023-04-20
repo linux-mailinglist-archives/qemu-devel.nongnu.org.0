@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D2F6E8D66
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:01:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E53F6E8D6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:03:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQ9m-00033X-P7; Thu, 20 Apr 2023 05:00:46 -0400
+	id 1ppQBr-00047C-6P; Thu, 20 Apr 2023 05:02:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ppQ9e-0002xk-AJ
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:00:38 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ppQBp-000474-LZ
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:02:53 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ppQ9c-0000pE-9Q
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:00:38 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ppQBn-00017d-Mr
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:02:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681981235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1681981370;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1rFVBM8Gvu01aSIwjLuHMvsaMqoZb0KmRTgX5GiBgf8=;
- b=Tt9VuqE4mEyoDA7sV+Alii5UWn0IoEvk/qGNmQekd1MOQBlsgu7RLVlajOWz4t1qDhrQ9U
- kQhmaUhFjjRQRLtbEehMh7JVlZvoBAhUIpfkU/5J5xQCe+PLtYQBnfnVPfKH32XNLC6jmE
- wOytRu3SvI5EkepgAGBUuEOXcmaPf/c=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-168-HIl9hNxOMey6IRF0tSQ0tQ-1; Thu, 20 Apr 2023 05:00:34 -0400
-X-MC-Unique: HIl9hNxOMey6IRF0tSQ0tQ-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-54f8b46f399so17687117b3.10
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:00:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681981233; x=1684573233;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1rFVBM8Gvu01aSIwjLuHMvsaMqoZb0KmRTgX5GiBgf8=;
- b=UMKRPaJnJMSOxpTKK9dqoW9QMvCnFhzWugGx7rhZ47RqSaTsIWvjCpDgn4q5iKr7dg
- bJ6HoWATouT6yqnaAOEnTXenBOs+kdweQ7oysarsiSz3D+jEp0XLgz9ZIaL63PnNF9/W
- mN1BIg9GCC/yqxU37429ehNhj8OTesND1KhnraNhXOYvUr0CsayUQSSP3cDeVkN4I9hR
- z+lCtc4FpnBW5owZcuE/1TI3Vf2bpwpuJfX+ICPYO3eDbiY4CS+cr6ID+rMQ5OsNxBds
- T4pbRJuTwBSY61CpryU3I/fm9bmGj07Riwl8rDwH+ii5MepajLvjZDz4jelGhXROAQjF
- zt/A==
-X-Gm-Message-State: AAQBX9eazlwH7aFeVwuakhH4bAjw7ciijUKJzmOmtWCQJbLXM5hTGA2m
- LCEwpvjY0Am1UDbBopZ6PKrwUCYsTTmqhYaPHbyfvjVKIZn6uwYhr1/5sjk4dhSCh6YmsnVFQYh
- cyT/LtH3u9ETyB3ZDWDr4RV92Xp6zgVM=
-X-Received: by 2002:a0d:c643:0:b0:539:1b13:3d64 with SMTP id
- i64-20020a0dc643000000b005391b133d64mr258240ywd.48.1681981233611; 
- Thu, 20 Apr 2023 02:00:33 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y1J/GTXEPWYdTKitqZTeV2QS+QtCSZTx2G6E10V5QvYZ+E+MJkEgd2Jr2ypW+tx2qogjZ6m1gBEkLIXkxQwFo=
-X-Received: by 2002:a0d:c643:0:b0:539:1b13:3d64 with SMTP id
- i64-20020a0dc643000000b005391b133d64mr258220ywd.48.1681981233163; Thu, 20 Apr
- 2023 02:00:33 -0700 (PDT)
+ bh=7mn9ZCUhmKFRuihvEjaCFYzL20BPQlY9UBa+QHDTAC0=;
+ b=fK+x2+G+10xUSYC7Hm+LC6XGKPznh1R+ggHKJ2ZrmKpvJjEsqIh9PVI/2j6i5Pqp5q1qwg
+ zmAq2RYUWARaVdG8E5wYIN804mpQvaypRgpawK4YTqBKGxElqzqbMYR3W7gLVrXEa2sgRY
+ UMg6cGJDEe1UaF1loId2SP3mRx2MngM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-646-izYcvisBMaWHxTXGLHcpvQ-1; Thu, 20 Apr 2023 05:02:47 -0400
+X-MC-Unique: izYcvisBMaWHxTXGLHcpvQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E33393815F71;
+ Thu, 20 Apr 2023 09:02:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD8BC404CD82;
+ Thu, 20 Apr 2023 09:02:45 +0000 (UTC)
+Date: Thu, 20 Apr 2023 10:02:43 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com,
+ dfaggioli@suse.com, dgilbert@redhat.com,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with
+ multifd and fixed-ram
+Message-ID: <ZED/s1zB0NWnqs6P@redhat.com>
+References: <87edp5oukh.fsf@suse.de> <ZCbzmZXz3JG/jElA@x1n>
+ <878rfdos4a.fsf@suse.de> <ZCcCV8PIsuvab1lO@x1n>
+ <ZCcF6I0qb+1xlPhJ@redhat.com> <ZCcKBDM9sLomGOQE@x1n>
+ <ZD7MRGQ+4QsDBtKR@redhat.com> <ZD7u9YHTor4edGWw@x1n>
+ <ZEAg5QJS44jzAV/v@redhat.com> <ZEA759BSs75ldW6Y@x1n>
 MIME-Version: 1.0
-References: <20230418225638.1467969-1-peili.dev@gmail.com>
- <CAJaqyWebSowMMWh+HCjj7tmbA3Ey6C69T=SPA4k+6fd_-GjfoA@mail.gmail.com>
- <CACGkMEu0d0y82wo1p2g-ovbUTYJcVon0-t8fvgFQLokZmd7hDQ@mail.gmail.com>
- <CACCFcFr8rYbM3OF8Hk=WnS7mAUv49aTsYHWnMwkMVg8SWRhp+Q@mail.gmail.com>
-In-Reply-To: <CACCFcFr8rYbM3OF8Hk=WnS7mAUv49aTsYHWnMwkMVg8SWRhp+Q@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 20 Apr 2023 10:59:56 +0200
-Message-ID: <CAJaqyWeOuUDKyXd7QAOUhMb-6G+P_q_X4Nz7K+QSJwqdE8UO2Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Reduce vdpa initialization / startup overhead
-To: Pei Li <peili@andrew.cmu.edu>
-Cc: Jason Wang <jasowang@redhat.com>, peili.dev@gmail.com,
- qemu-devel@nongnu.org, 
- Michael Tsirkin <mst@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZEA759BSs75ldW6Y@x1n>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,217 +86,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 20, 2023 at 7:25=E2=80=AFAM Pei Li <peili@andrew.cmu.edu> wrote=
-:
->
-> Hi all,
->
-> My bad, I just submitted the kernel patch. If we are passing some generic=
- command, still we have to add an additional field in the structure to indi=
-cate what is the unbatched version of this command, and the struct vhost_io=
-ctls would be some command specific structure. In summary, the structure wo=
-uld be something like
-> struct vhost_cmd_batch {
->     int ncmds;
->     int cmd;
+On Wed, Apr 19, 2023 at 03:07:19PM -0400, Peter Xu wrote:
+> On Wed, Apr 19, 2023 at 06:12:05PM +0100, Daniel P. Berrangé wrote:
+> > On Tue, Apr 18, 2023 at 03:26:45PM -0400, Peter Xu wrote:
+> > > On Tue, Apr 18, 2023 at 05:58:44PM +0100, Daniel P. Berrangé wrote:
+> > > > Libvirt has multiple APIs where it currently uses its migrate-to-file
+> > > > approach
+> > > > 
+> > > >   * virDomainManagedSave()
+> > > > 
+> > > >     This saves VM state to an libvirt managed file, stops the VM, and the
+> > > >     file state is auto-restored on next request to start the VM, and the
+> > > >     file deleted. The VM CPUs are stopped during both save + restore
+> > > >     phase
+> > > > 
+> > > >   * virDomainSave/virDomainRestore
+> > > > 
+> > > >     The former saves VM state to a file specified by the mgmt app/user.
+> > > >     A later call to virDomaniRestore starts the VM using that saved
+> > > >     state. The mgmt app / user can delete the file state, or re-use
+> > > >     it many times as they desire. The VM CPUs are stopped during both
+> > > >     save + restore phase
+> > > > 
+> > > >   * virDomainSnapshotXXX
+> > > > 
+> > > >     This family of APIs takes snapshots of the VM disks, optionally
+> > > >     also including the full VM state to a separate file. The snapshots
+> > > >     can later be restored. The VM CPUs remain running during the
+> > > >     save phase, but are stopped during restore phase
+> > > 
+> > > For this one IMHO it'll be good if Libvirt can consider leveraging the new
+> > > background-snapshot capability (QEMU 6.0+, so not very new..).  Or is there
+> > > perhaps any reason why a generic migrate:fd approach is better?
+> > 
+> > I'm not sure I fully understand the implications of 'background-snapshot' ?
+> > 
+> > Based on what the QAPI comment says, it sounds potentially interesting,
+> > as conceptually it would be nicer to have the memory / state snapshot
+> > represent the VM at the point where we started the snapshot operation,
+> > rather than where we finished the snapshot operation.
+> > 
+> > It would not solve the performance problems that the work in this thread
+> > was intended to address though.  With large VMs (100's of GB of RAM),
+> > saving all the RAM state to disk takes a very long time, regardless of
+> > whether the VM vCPUs are paused or running.
+> 
+> I think it solves the performance problem by only copy each of the guest
+> page once, even if the guest is running.
 
-The unbatched version should go in each vhost_ioctls. That allows us
-to send many different commands in one ioctl instead of having to
-resort to many ioctls, each one for a different task.
+I think we're talking about different performance problems.
 
-The problem with that is the size of that struct vhost_ioctl, so we
-can build an array. I think it should be enough with the biggest of
-them (vhost_vring_addr ?) for a long time, but I would like to know if
-anybody finds a drawback here. We could always resort to pointers if
-we find we need more space, or start with them from the beginning.
+What you describe here is about ensuring the snapshot is of finite size
+and completes in linear time, by ensuring each page is written only
+once.
 
-CCing Si-Wei here too, as he is also interested in reducing the startup tim=
-e.
+What I'm talking about is being able to parallelize the writing of all
+RAM, so if a single thread can saturate the storage, using multiple
+threads will make the overal process faster, even when we're only
+writing each page once.
 
-Thanks!
+> Different from mostly all the rest of "migrate" use cases, background
+> snapshot does not use the generic dirty tracking at all (for KVM that's
+> get-dirty-log), instead it uses userfaultfd wr-protects, so that when
+> taking the snapshot all the guest pages will be protected once.
 
->     struct vhost_ioctls[];
-> };
->
-> This is doable. Also, this is my first time submitting patches to open so=
-urce, sorry about the mess in advance. That being said, feel free to throw =
-questions / comments!
->
-> Thanks and best regards,
-> Pei
->
-> On Wed, Apr 19, 2023 at 9:19=E2=80=AFPM Jason Wang <jasowang@redhat.com> =
-wrote:
->>
->> On Wed, Apr 19, 2023 at 11:33=E2=80=AFPM Eugenio Perez Martin
->> <eperezma@redhat.com> wrote:
->> >
->> > On Wed, Apr 19, 2023 at 12:56=E2=80=AFAM <peili.dev@gmail.com> wrote:
->> > >
->> > > From: Pei Li <peili.dev@gmail.com>
->> > >
->> > > Currently, part of the vdpa initialization / startup process
->> > > needs to trigger many ioctls per vq, which is very inefficient
->> > > and causing unnecessary context switch between user mode and
->> > > kernel mode.
->> > >
->> > > This patch creates an additional ioctl() command, namely
->> > > VHOST_VDPA_GET_VRING_GROUP_BATCH, that will batching
->> > > commands of VHOST_VDPA_GET_VRING_GROUP into a single
->> > > ioctl() call.
->>
->> I'd expect there's a kernel patch but I didn't see that?
->>
->> If we want to go this way. Why simply have a more generic way, that is
->> introducing something like:
->>
->> VHOST_CMD_BATCH which did something like
->>
->> struct vhost_cmd_batch {
->>     int ncmds;
->>     struct vhost_ioctls[];
->> };
->>
->> Then you can batch other ioctls other than GET_VRING_GROUP?
->>
->> Thanks
->>
->> > >
->> >
->> > It seems to me you forgot to send the 0/2 cover letter :).
->> >
->> > Please include the time we save thanks to avoiding the repetitive
->> > ioctls in each patch.
->> >
->> > CCing Jason and Michael.
->> >
->> > > Signed-off-by: Pei Li <peili.dev@gmail.com>
->> > > ---
->> > >  hw/virtio/vhost-vdpa.c                       | 31 +++++++++++++++--=
----
->> > >  include/standard-headers/linux/vhost_types.h |  3 ++
->> > >  linux-headers/linux/vhost.h                  |  7 +++++
->> > >  3 files changed, 33 insertions(+), 8 deletions(-)
->> > >
->> > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->> > > index bc6bad23d5..6d45ff8539 100644
->> > > --- a/hw/virtio/vhost-vdpa.c
->> > > +++ b/hw/virtio/vhost-vdpa.c
->> > > @@ -679,7 +679,8 @@ static int vhost_vdpa_set_backend_cap(struct vho=
-st_dev *dev)
->> > >      uint64_t f =3D 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
->> > >          0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
->> > >          0x1ULL << VHOST_BACKEND_F_IOTLB_ASID |
->> > > -        0x1ULL << VHOST_BACKEND_F_SUSPEND;
->> > > +        0x1ULL << VHOST_BACKEND_F_SUSPEND |
->> > > +        0x1ULL << VHOST_BACKEND_F_IOCTL_BATCH;
->> > >      int r;
->> > >
->> > >      if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)=
-) {
->> > > @@ -731,14 +732,28 @@ static int vhost_vdpa_get_vq_index(struct vhos=
-t_dev *dev, int idx)
->> > >
->> > >  static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
->> > >  {
->> > > -    int i;
->> > > +    int i, nvqs =3D dev->nvqs;
->> > > +    uint64_t backend_features =3D dev->backend_cap;
->> > > +
->> > >      trace_vhost_vdpa_set_vring_ready(dev);
->> > > -    for (i =3D 0; i < dev->nvqs; ++i) {
->> > > -        struct vhost_vring_state state =3D {
->> > > -            .index =3D dev->vq_index + i,
->> > > -            .num =3D 1,
->> > > -        };
->> > > -        vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
->> > > +
->> > > +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOCTL_BATCH)))=
- {
->> > > +        for (i =3D 0; i < nvqs; ++i) {
->> > > +            struct vhost_vring_state state =3D {
->> > > +                .index =3D dev->vq_index + i,
->> > > +                .num =3D 1,
->> > > +            };
->> > > +            vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &stat=
-e);
->> > > +        }
->> > > +    } else {
->> > > +        struct vhost_vring_state states[nvqs + 1];
->> > > +        states[0].num =3D nvqs;
->> > > +        for (i =3D 1; i <=3D nvqs; ++i) {
->> > > +            states[i].index =3D dev->vq_index + i - 1;
->> > > +            states[i].num =3D 1;
->> > > +        }
->> > > +
->> >
->> > I think it's more clear to share the array of vhost_vring_state
->> > states[nvqs + 1], and then fill it either in one shot with
->> > VHOST_VDPA_SET_VRING_ENABLE_BATCH or individually with
->> > VHOST_VDPA_SET_VRING_ENABLE.
->> >
->> > The same feedback goes for VHOST_VDPA_GET_VRING_GROUP_BATCH in the nex=
-t patch.
->> >
->> > > +        vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE_BATCH, &st=
-ates[0]);
->> > >      }
->> > >      return 0;
->> >
->> > This comment is previous to your patch but I just realized we don't
->> > check the return value of vhost_vdpa_call. Maybe it is worth
->> > considering addressing that in this series too.
->> >
->> > >  }
->> > > diff --git a/include/standard-headers/linux/vhost_types.h b/include/=
-standard-headers/linux/vhost_types.h
->> > > index c41a73fe36..068d0e1ceb 100644
->> > > --- a/include/standard-headers/linux/vhost_types.h
->> > > +++ b/include/standard-headers/linux/vhost_types.h
->> > > @@ -164,4 +164,7 @@ struct vhost_vdpa_iova_range {
->> > >  /* Device can be suspended */
->> > >  #define VHOST_BACKEND_F_SUSPEND  0x4
->> > >
->> > > +/* IOCTL requests can be batched */
->> > > +#define VHOST_BACKEND_F_IOCTL_BATCH 0x6
->> > > +
->> > >  #endif
->> > > diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost=
-.h
->> > > index f9f115a7c7..4c9ddd0a0e 100644
->> > > --- a/linux-headers/linux/vhost.h
->> > > +++ b/linux-headers/linux/vhost.h
->> > > @@ -180,4 +180,11 @@
->> > >   */
->> > >  #define VHOST_VDPA_SUSPEND             _IO(VHOST_VIRTIO, 0x7D)
->> > >
->> > > +/* Batch version of VHOST_VDPA_SET_VRING_ENABLE
->> > > + *
->> > > + * Enable/disable the ring while batching the commands.
->> > > + */
->> > > +#define VHOST_VDPA_SET_VRING_ENABLE_BATCH      _IOW(VHOST_VIRTIO, 0=
-x7F, \
->> > > +                                            struct vhost_vring_stat=
-e)
->> > > +
->> >
->> > These headers should be updated with update-linux-headers.sh. To be
->> > done that way we need the changes merged in the kernel before.
->> >
->> > We can signal that the series is not ready for inclusion with the
->> > subject [RFC. PATCH], like [1], and note it in the commit message.
->> > That way, you can keep updating the header manually for demonstration
->> > purposes.
->> >
->> > Thanks!
->> >
->> > [1] https://lore.kernel.org/qemu-devel/20220413163206.1958254-23-epere=
-zma@redhat.com/
->> >
->>
->>
+Oh, so that means this 'background-snapshot' feature only works on
+Linux, and only when permissions allow it. The migration parameter
+probably should be marked with 'CONFIG_LINUX' in the QAPI schema
+to make it clear this is a non-portable feature.
+
+> It guarantees the best efficiency of creating a snapshot with VM running,
+> afaict.  I sincerely think Libvirt should have someone investigating and
+> see whether virDomainSnapshotXXX() can be implemented by this cap rather
+> than the default migration.
+
+Since the background-snapshot feature is not universally available,
+it will only ever be possible to use it as an optional enhancement
+with virDomainSnapshotXXX, we'll need the portable impl to be the
+default / fallback.
+
+> > Currently when doing this libvirt has a "libvirt_iohelper" process
+> > that we use so that we can do writes with O_DIRECT set. This avoids
+> > thrashing the host OS's  I/O buffers/cache, and thus negatively
+> > impacting performance of anything else on the host doing I/O. This
+> > can't take advantage of multifd though, and even if extended todo
+> > so, it still imposes extra data copies during the save/restore paths.
+> > 
+> > So to speed up the above 3 libvirt APIs, we want QEMU to be able to
+> > directly save/restore mem/vmstate to files, with parallization and
+> > O_DIRECT.
+> 
+> Here IIUC above question can be really important on whether existing
+> virDomainSnapshotXXX() can (and should) use "background-snapshot" to
+> implement, because that's the only one that will need to support migration
+> live (out of 3 use cases).
+> 
+> If virDomainSnapshotXXX() can be implemented differently, I think it'll be
+> much easier to have both virDomainManagedSave() and virDomainSave() trigger
+> a migration command that will stop the VM first by whatever way.
+> 
+> It's probably fine if we still want to have CAP_FIXED_RAM as a new
+> capability describing the file property (so that libvirt will know iohelper
+> is not needed anymore), it can support live migrating even if it shouldn't
+> really use it.  But then we could probably have another CAP_SUSPEND which
+> gives QEMU a hint so QEMU can be smart on this non-live migration.
+> 
+> It's just that AFAIU CAP_FIXED_RAM should just always be set with
+> CAP_SUSPEND, because it must be a SUSPEND to fixed ram or one should just
+> use virDomainSnapshotXXX() (or say, live snapshot).
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
