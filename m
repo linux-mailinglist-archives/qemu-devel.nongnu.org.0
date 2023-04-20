@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AAA6E8FC0
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE3D6E8FAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:13:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRHj-0000xC-KS; Thu, 20 Apr 2023 06:13:04 -0400
+	id 1ppRHu-00017y-43; Thu, 20 Apr 2023 06:13:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHY-0000nD-SO
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:52 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHa-0000s2-GJ
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHN-00081z-Td
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHX-00082r-34
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681985560;
+ s=mimecast20190719; t=1681985565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FOZ5XsOr49/tDLOmoi7A41Es69oOH3X46tq3iTo9rHg=;
- b=OBcvN3UkVSt7ZIVIgHyReLvuBDRvomRGVZfjCX/bAa8tdWu9287qtrSbtoPm4rmjjzxlxp
- EkNQv+Rpmw89BnXxWLVsLOjSoKyD+ZsvRo9kcF6d5TkLFhYj6tftHKYJUhvU6WHM0okaIX
- Xkizs1+QfBUpbLGvUTgmEY6VAP8oNJQ=
+ bh=hlBzko9FXmn7QtwtUiWHVSb6eTDUrwytKEB1Y0G8TRY=;
+ b=WFr4ActqI8Jd4hFZwL9jdCQy/olsEtsbVslEy85h6KGpp1KFHQpQ7+jYImHc5zZTJnWEG/
+ ECJJmAJtEJP9R+U5OZ9cfT4D7HtA+t2tOLwIdVAacwByqFczw9pPPgroACIuT5zs+rRJBe
+ 2LbPJvCWlIfKlY7hrX8gcsHT1h8Tq14=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-fMC2lw3CNvO6W_fB0iqphg-1; Thu, 20 Apr 2023 06:12:39 -0400
-X-MC-Unique: fMC2lw3CNvO6W_fB0iqphg-1
+ us-mta-580-0nt2VtM3OfC4_9jxNUtpbA-1; Thu, 20 Apr 2023 06:12:40 -0400
+X-MC-Unique: 0nt2VtM3OfC4_9jxNUtpbA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37D4F3C14851;
- Thu, 20 Apr 2023 10:12:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 608821C17428;
+ Thu, 20 Apr 2023 10:12:40 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58971440BC;
- Thu, 20 Apr 2023 10:12:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D329440BC;
+ Thu, 20 Apr 2023 10:12:39 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Fabiano Rosas <farosas@suse.de>
-Subject: [PULL 15/23] hw/display: Compile vga.c as target-independent code
-Date: Thu, 20 Apr 2023 12:12:08 +0200
-Message-Id: <20230420101216.786304-16-thuth@redhat.com>
+Subject: [PULL 16/23] softmmu: Move dirtylimit.c into the target independent
+ source set
+Date: Thu, 20 Apr 2023 12:12:09 +0200
+Message-Id: <20230420101216.786304-17-thuth@redhat.com>
 In-Reply-To: <20230420101216.786304-1-thuth@redhat.com>
 References: <20230420101216.786304-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -77,100 +78,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The target checks here are only during the initialization, so they
-are not performance critical. We can switch these to runtime checks
-to avoid that we have to compile this file multiple times during
-the build, and make the code ready for an universal build one day.
+dirtylimit.c just uses one TARGET_PAGE_SIZE macro - change it to
+qemu_target_page_size() so we can move thefile into the target
+independent source set. Then we only have to compile this file
+once during the build instead of multiple times (one time for
+each target).
 
-Message-Id: <20230412163501.36770-1-thuth@redhat.com>
+Message-Id: <20230413054509.54421-1-thuth@redhat.com>
 Reviewed-by: Fabiano Rosas <farosas@suse.de>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/display/vga.c       | 31 ++++++++++++++++++++++---------
- hw/display/meson.build |  2 +-
- 2 files changed, 23 insertions(+), 10 deletions(-)
+ softmmu/dirtylimit.c | 3 ++-
+ softmmu/meson.build  | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/display/vga.c b/hw/display/vga.c
-index 7a5fdff649..37557c3442 100644
---- a/hw/display/vga.c
-+++ b/hw/display/vga.c
-@@ -26,7 +26,9 @@
- #include "qemu/units.h"
- #include "sysemu/reset.h"
- #include "qapi/error.h"
-+#include "hw/core/cpu.h"
- #include "hw/display/vga.h"
-+#include "hw/i386/x86.h"
- #include "hw/pci/pci.h"
- #include "vga_int.h"
- #include "vga_regs.h"
-@@ -2244,11 +2246,8 @@ bool vga_common_init(VGACommonState *s, Object *obj, Error **errp)
-      * into a device attribute set by the machine/platform to remove
-      * all target endian dependencies from this file.
-      */
--#if TARGET_BIG_ENDIAN
--    s->default_endian_fb = true;
--#else
--    s->default_endian_fb = false;
--#endif
-+    s->default_endian_fb = target_words_bigendian();
-+
-     vga_dirty_log_start(s);
+diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+index c56f0f58c8..82986c1499 100644
+--- a/softmmu/dirtylimit.c
++++ b/softmmu/dirtylimit.c
+@@ -20,6 +20,7 @@
+ #include "monitor/hmp.h"
+ #include "monitor/monitor.h"
+ #include "exec/memory.h"
++#include "exec/target_page.h"
+ #include "hw/boards.h"
+ #include "sysemu/kvm.h"
+ #include "trace.h"
+@@ -236,7 +237,7 @@ static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
+     static uint64_t max_dirtyrate;
+     uint32_t dirty_ring_size = kvm_dirty_ring_size();
+     uint64_t dirty_ring_size_meory_MB =
+-        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
++        dirty_ring_size * qemu_target_page_size() >> 20;
  
-     return true;
-@@ -2263,11 +2262,15 @@ static const MemoryRegionPortio vga_portio_list[] = {
-     PORTIO_END_OF_LIST(),
- };
+     if (max_dirtyrate < dirtyrate) {
+         max_dirtyrate = dirtyrate;
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index b392f0bd35..974732b0f3 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -3,7 +3,6 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
+   'ioport.c',
+   'memory.c',
+   'physmem.c',
+-  'dirtylimit.c',
+   'watchpoint.c',
+ )])
  
--static const MemoryRegionPortio vbe_portio_list[] = {
-+static const MemoryRegionPortio vbe_portio_list_x86[] = {
-     { 0, 1, 2, .read = vbe_ioport_read_index, .write = vbe_ioport_write_index },
--# ifdef TARGET_I386
-     { 1, 1, 2, .read = vbe_ioport_read_data, .write = vbe_ioport_write_data },
--# endif
-+    { 2, 1, 2, .read = vbe_ioport_read_data, .write = vbe_ioport_write_data },
-+    PORTIO_END_OF_LIST(),
-+};
-+
-+static const MemoryRegionPortio vbe_portio_list_no_x86[] = {
-+    { 0, 1, 2, .read = vbe_ioport_read_index, .write = vbe_ioport_write_index },
-     { 2, 1, 2, .read = vbe_ioport_read_data, .write = vbe_ioport_write_data },
-     PORTIO_END_OF_LIST(),
- };
-@@ -2278,9 +2281,19 @@ MemoryRegion *vga_init_io(VGACommonState *s, Object *obj,
-                           const MemoryRegionPortio **vbe_ports)
- {
-     MemoryRegion *vga_mem;
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+
-+    /*
-+     * We unfortunately need two VBE lists since non-x86 machines might
-+     * not be able to do 16-bit accesses at unaligned addresses (0x1cf)
-+     */
-+    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
-+        *vbe_ports = vbe_portio_list_x86;
-+    } else {
-+        *vbe_ports = vbe_portio_list_no_x86;
-+    }
- 
-     *vga_ports = vga_portio_list;
--    *vbe_ports = vbe_portio_list;
- 
-     vga_mem = g_malloc(sizeof(*vga_mem));
-     memory_region_init_io(vga_mem, obj, &vga_mem_ops, s,
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index 4191694380..17165bd536 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -36,7 +36,7 @@ softmmu_ss.add(when: 'CONFIG_CG3', if_true: files('cg3.c'))
- softmmu_ss.add(when: 'CONFIG_MACFB', if_true: files('macfb.c'))
- softmmu_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-fb.c'))
- 
--specific_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
-+softmmu_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
- 
- if (config_all_devices.has_key('CONFIG_VGA_CIRRUS') or
-     config_all_devices.has_key('CONFIG_VGA_PCI') or
+@@ -18,6 +17,7 @@ softmmu_ss.add(files(
+   'cpu-throttle.c',
+   'cpu-timers.c',
+   'datadir.c',
++  'dirtylimit.c',
+   'dma-helpers.c',
+   'globals.c',
+   'memory_mapping.c',
 -- 
 2.31.1
 
