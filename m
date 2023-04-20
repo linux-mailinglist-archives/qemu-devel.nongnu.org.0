@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58EA26E8B94
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 09:42:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5BA6E8BB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 09:49:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppOux-0003s7-4U; Thu, 20 Apr 2023 03:41:24 -0400
+	id 1ppP1n-0005Y5-5O; Thu, 20 Apr 2023 03:48:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yin31149@gmail.com>)
- id 1ppOuj-0003ro-M4; Thu, 20 Apr 2023 03:41:09 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yin31149@gmail.com>)
- id 1ppOuh-00014R-Tg; Thu, 20 Apr 2023 03:41:09 -0400
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1a6c5acf6ccso6597695ad.3; 
- Thu, 20 Apr 2023 00:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681976466; x=1684568466;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sQcJww+tK3jo1g57lln2zj62XytskH9OTRJmBKZntj8=;
- b=rsUpnSYBduirYt3+UL2iY7xc6fWK2Ed2XPpI4nSc1X+dvTxw6VmecnPfe+KYoSTvXO
- of8hd0u+bgAVhAmBo2auy4B1qjTidcjqyXdGcWN73zbjpRTtgTfNPu0KsgnxIEeAIQfH
- 77i5BNhCqqUK+obNTk2l9IdKf9kn6se39uyO0cutvQnmNHph8KauKOsvelIMphKFYUBl
- zzYvJ+wTEVv4MI8snZenkQd+s9W151OfAHQv0FVhjnEnpepEXHgsnUsVzv8p9WOXxSOL
- oEOy4QcKK2b4vHCKsjJ3tXzlRtzMznzYIbmlpN4faJI0p0U7LKiNKEr7elnOGWExraWj
- 9RyQ==
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1ppP1k-0005WO-MO
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 03:48:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1ppP1j-0003iN-5W
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 03:48:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681976901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VZrvzXT8Z2wIxNcT+Fv8rMIke6hFw66XFARMiYIjh7s=;
+ b=Mxvq8nhCbWuXywlMvVsP53gxO6ReASHHpeM2QjXlhr1zzW0uChUxr9PTzUsioZEOotMRat
+ qxNzIRiRpSyxFHNz62zeU83/rlFC8BlPt6d+Xn8DiEJLe3+DqK76+9HKCBv5GmrW+uFC/V
+ hO4sNagYTPZr6doZMFd2Aq0+Zv+xin0=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-26-t5EkkaMkNSaZ7NybL3Lk4Q-1; Thu, 20 Apr 2023 03:48:19 -0400
+X-MC-Unique: t5EkkaMkNSaZ7NybL3Lk4Q-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-63d3b5c334eso522651b3a.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 00:48:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681976466; x=1684568466;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sQcJww+tK3jo1g57lln2zj62XytskH9OTRJmBKZntj8=;
- b=DPhkdy1uIu2L+aw04QUdsM7EZA5ZdXKnlgJDPU7KQVHgnmfWlcSL/TM4ze1IuV3ea2
- BSU0TzQSmONSy9vE+PQqoYVxkWh0X72lYfSBsi7blb1B870TRRUmggEQGGGNVzgGn1/C
- aXKDxiaJ4H9mmhvIgPdIfw68h8xzdManmOSAq9JsQ7j9ix5g7OcbUBw1EJ4v4Qeb6EGE
- nc79SUWE+GKKIWXYlEN9IB8CpV1qDwbh2rAeumwixrOvmI1R0YffzMnv2aByEYEZ+jdJ
- +rjvobutfPiEJ9gLdCZKwYntaaYTazePdTJ7RACqzYxoH+YklwRPQssiI+9Wv4dn0hKh
- hbtQ==
-X-Gm-Message-State: AAQBX9dVvea9wUiSWGw3/mtQh8wDMT0Opw+UpWDyLlDitc6Nv06d/c2v
- 0zXqDLOUYIxo4FF/Rq5a82g=
-X-Google-Smtp-Source: AKy350ZUgPW6vAw9bulzt4gMe0T90uC+XCEeed/xw2xzyLj81exlLKDERcBrPMB1H3wqs7XmFzeJDA==
-X-Received: by 2002:a17:902:c408:b0:1a8:ac3:47b4 with SMTP id
- k8-20020a170902c40800b001a80ac347b4mr812611plk.20.1681976465661; 
- Thu, 20 Apr 2023 00:41:05 -0700 (PDT)
-Received: from localhost ([159.226.94.115]) by smtp.gmail.com with ESMTPSA id
- c2-20020a170902d90200b001a6dc4a98f9sm586835plz.195.2023.04.20.00.41.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 00:41:05 -0700 (PDT)
-From: Hawkins Jiawei <yin31149@gmail.com>
-To: eperezma@redhat.com,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Cc: yin31149@gmail.com, 18801353760@163.com, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
-Subject: [PATCH] vhost: fix possible wrap in SVQ descriptor ring
-Date: Thu, 20 Apr 2023 15:41:02 +0800
-Message-Id: <20230420074102.2317-1-yin31149@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=yin31149@gmail.com; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ d=1e100.net; s=20221208; t=1681976898; x=1684568898;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VZrvzXT8Z2wIxNcT+Fv8rMIke6hFw66XFARMiYIjh7s=;
+ b=MX+8AAkhlsuNyQ5TO3/9y1WpXrSq9Ht+ydC61HgPPMNoPLDcEIC3e0xdRHpo7VFtTn
+ Xp5qoo3XPAkfG1qX5lXnN6mh1CqYz2mOWypenzfLuqGVNDNOJb0CuJbQ/fPSodHYau0B
+ P2ObIQmy8dn+diUnmjiGm3XbpKVslXP4j0K4DmktnwB1ArnSZANpFTXwByK1csmxqFAe
+ gjc+8XGiwDPZnRsQToLmWiig/uH8N33CPRUEgbWTGqyaFxC2WOMl1lPODM3XMEaYLQ14
+ ya+aNhotmh/NNcndlkEmtnWjVjxj/+Hnm08Foc36++tM0LZJivyqPx/339xEnMZiqApn
+ utAw==
+X-Gm-Message-State: AAQBX9c+V4CaRIy4onKrc0HTmkbtMFJ3wXsOIkWUkK+ZdF9gO8nR5OHL
+ cfl2s6RhYXa84bA77JxO9om3f5gSnNl4YE+niMzC2dF0K2j+8w51hoSwKFU2YcVLyfgpe6Av4U5
+ XGWJgyYdgTPmP40k=
+X-Received: by 2002:a05:6a00:1acd:b0:63d:2aac:7b88 with SMTP id
+ f13-20020a056a001acd00b0063d2aac7b88mr428999pfv.25.1681976898519; 
+ Thu, 20 Apr 2023 00:48:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b7vLQN9hKpjXe3wyA9eIh8NvoBC0dCj+UOHEu2LoeNAATzm0++CbV0zae1TtWh9U+DIu04iQ==
+X-Received: by 2002:a05:6a00:1acd:b0:63d:2aac:7b88 with SMTP id
+ f13-20020a056a001acd00b0063d2aac7b88mr428965pfv.25.1681976898195; 
+ Thu, 20 Apr 2023 00:48:18 -0700 (PDT)
+Received: from smtpclient.apple ([203.212.242.145])
+ by smtp.gmail.com with ESMTPSA id
+ e16-20020a056a001a9000b0063b87f47062sm625116pfv.127.2023.04.20.00.48.16
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Apr 2023 00:48:17 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
+Subject: Re: [PATCH] Add my old and new work email mapping and use work email
+ to support biosbits
+From: Ani Sinha <anisinha@redhat.com>
+In-Reply-To: <20230320114233.90638-1-anisinha@redhat.com>
+Date: Thu, 20 Apr 2023 13:18:12 +0530
+Cc: Ani Sinha <ani@anisinha.ca>,
+ qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CB13DA97-D042-49B0-8F19-A7710208F3D3@redhat.com>
+References: <20230320114233.90638-1-anisinha@redhat.com>
+To: Ani Sinha <anisinha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.3)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=anisinha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,98 +103,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QEMU invokes vhost_svq_add() when adding a guest's element into SVQ.
-In vhost_svq_add(), it uses vhost_svq_available_slots() to check
-whether QEMU can add the element into the SVQ. If there is
-enough space, then QEMU combines some out descriptors and
-some in descriptors into one descriptor chain, and add it into
-svq->vring.desc by vhost_svq_vring_write_descs().
 
-Yet the problem is that, `svq->shadow_avail_idx - svq->shadow_used_idx`
-in vhost_svq_available_slots() return the number of occupied elements,
-or the number of descriptor chains, instead of the number of occupied
-descriptors, which may cause wrapping in SVQ descriptor ring.
 
-Here is an example. In vhost_handle_guest_kick(), QEMU forwards
-as many available buffers to device by virtqueue_pop() and
-vhost_svq_add_element(). virtqueue_pop() return a guest's element,
-and use vhost_svq_add_elemnt(), a wrapper to vhost_svq_add(), to
-add this element into SVQ. If QEMU invokes virtqueue_pop() and
-vhost_svq_add_element() `svq->vring.num` times, vhost_svq_available_slots()
-thinks QEMU just ran out of slots and everything should work fine.
-But in fact, virtqueue_pop() return `svq-vring.num` elements or
-descriptor chains, more than `svq->vring.num` descriptors, due to
-guest memory fragmentation, and this cause wrapping in SVQ descriptor ring.
+> On 20-Mar-2023, at 5:12 PM, Ani Sinha <anisinha@redhat.com> wrote:
+>=20
+> From: Ani Sinha <ani@anisinha.ca>
+>=20
+> Update mailmap to indicate ani@anisinha.ca and anisinha@redhat.com are =
+one and
+> the same person. Additionally update MAINTAINERS and bits =
+documentation to use
+> my work (redhat) email.
+>=20
+> Signed-off-by: Ani Sinha <anisinha@redhat.com>
 
-Therefore, this patch adds `num_free` field in VhostShadowVirtqueue
-structure, updates this field in vhost_svq_add() and
-vhost_svq_get_buf(), to record the number of free descriptors.
-Then we can avoid wrap in SVQ descriptor ring by refactoring
-vhost_svq_available_slots().
+Now that v8.0.0 has been released, reminder to add this in the next PR.
 
-Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
-Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
----
- hw/virtio/vhost-shadow-virtqueue.c | 9 ++++++++-
- hw/virtio/vhost-shadow-virtqueue.h | 3 +++
- 2 files changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 8361e70d1b..e1c6952b10 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -68,7 +68,7 @@ bool vhost_svq_valid_features(uint64_t features, Error **errp)
-  */
- static uint16_t vhost_svq_available_slots(const VhostShadowVirtqueue *svq)
- {
--    return svq->vring.num - (svq->shadow_avail_idx - svq->shadow_used_idx);
-+    return svq->num_free;
- }
- 
- /**
-@@ -263,6 +263,9 @@ int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
-         return -EINVAL;
-     }
- 
-+    /* Update the size of SVQ vring free descriptors */
-+    svq->num_free -= ndescs;
-+
-     svq->desc_state[qemu_head].elem = elem;
-     svq->desc_state[qemu_head].ndescs = ndescs;
-     vhost_svq_kick(svq);
-@@ -450,6 +453,9 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
-     svq->desc_next[last_used_chain] = svq->free_head;
-     svq->free_head = used_elem.id;
- 
-+    /* Update the size of SVQ vring free descriptors */
-+    svq->num_free += num;
-+
-     *len = used_elem.len;
-     return g_steal_pointer(&svq->desc_state[used_elem.id].elem);
- }
-@@ -659,6 +665,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
-     svq->iova_tree = iova_tree;
- 
-     svq->vring.num = virtio_queue_get_num(vdev, virtio_get_queue_index(vq));
-+    svq->num_free = svq->vring.num;
-     driver_size = vhost_svq_driver_area_size(svq);
-     device_size = vhost_svq_device_area_size(svq);
-     svq->vring.desc = qemu_memalign(qemu_real_host_page_size(), driver_size);
-diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index 926a4897b1..6efe051a70 100644
---- a/hw/virtio/vhost-shadow-virtqueue.h
-+++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -107,6 +107,9 @@ typedef struct VhostShadowVirtqueue {
- 
-     /* Next head to consume from the device */
-     uint16_t last_used_idx;
-+
-+    /* Size of SVQ vring free descriptors */
-+    uint16_t num_free;
- } VhostShadowVirtqueue;
- 
- bool vhost_svq_valid_features(uint64_t features, Error **errp);
--- 
-2.25.1
+> ---
+> .mailmap                 | 1 +
+> MAINTAINERS              | 2 +-
+> docs/devel/acpi-bits.rst | 2 +-
+> 3 files changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/.mailmap b/.mailmap
+> index fad2aff5aa..460aac992f 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -54,6 +54,7 @@ Aleksandar Markovic =
+<aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+> Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> =
+<arikalo@wavecomp.com>
+> Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> =
+<aleksandar.rikalo@rt-rk.com>
+> Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+> +Ani Sinha <anisinha@redhat.com> <ani@anisinha.ca>
+> Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori =
+<aliguori@us.ibm.com>
+> Christian Borntraeger <borntraeger@linux.ibm.com> =
+<borntraeger@de.ibm.com>
+> Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 011fd85a09..1e31cfad32 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1899,7 +1899,7 @@ F: hw/acpi/viot.c
+> F: hw/acpi/viot.h
+>=20
+> ACPI/AVOCADO/BIOSBITS
+> -M: Ani Sinha <ani@anisinha.ca>
+> +M: Ani Sinha <anisinha@redhat.com>
+> M: Michael S. Tsirkin <mst@redhat.com>
+> S: Supported
+> F: tests/avocado/acpi-bits/*
+> diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
+> index 9eb4b9e666..22e2580200 100644
+> --- a/docs/devel/acpi-bits.rst
+> +++ b/docs/devel/acpi-bits.rst
+> @@ -135,7 +135,7 @@ Under ``tests/avocado/`` as the root we have:
+>    (c) They need not be loaded by avocado framework when running =
+tests.
+>=20
+>=20
+> -Author: Ani Sinha <ani@anisinha.ca>
+> +Author: Ani Sinha <anisinha@redhat.com>
+>=20
+> References:
+> -----------
+> --=20
+> 2.39.2
+>=20
 
 
