@@ -2,95 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F287B6E9891
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:42:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE966E98CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:54:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppWPb-0003c6-Gi; Thu, 20 Apr 2023 11:41:31 -0400
+	id 1ppWaP-0002Nw-VV; Thu, 20 Apr 2023 11:52:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppWPQ-0003bF-Kh
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:41:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1ppWaN-0002NK-9Z; Thu, 20 Apr 2023 11:52:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppWPJ-0003GN-An
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:41:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682005269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ycgnZNMo0y9+7jKfY0qpnqPMEgXx0sKwhQrX+xeSraA=;
- b=b5E32zs/OeH6sioHjUp069yz9cPZ0w584UXAvdHuhgraSdbUj7L4ilpy7O1+KQuuJEk/sl
- S/DvS/l15UczURQkX5uN2a+j8uzX+ir/70lBp7D9vsI1uBu2fRIAUQ3iNAQ5zNj81Ol1mm
- SxhKD4VeBhWgbE6J5yE0Uojn+2jzZXo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-516-3ocQmwUbM1CJ8unxU_SU-A-1; Thu, 20 Apr 2023 11:41:05 -0400
-X-MC-Unique: 3ocQmwUbM1CJ8unxU_SU-A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- a19-20020a05600c349300b003f17146a8deso2160346wmq.3
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 08:41:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682005264; x=1684597264;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ycgnZNMo0y9+7jKfY0qpnqPMEgXx0sKwhQrX+xeSraA=;
- b=jnNiqN+5Acto0Rv7nkua40tB76Z5Fg9nvzqI1VkHnWrGDFf9j3Bs4lEiNcA9P5AJxo
- nh/D6ZziJfyoTwGNiZoU1MGev0p733Ok9PXlEW5R3ludYI16P6OoPwgE0pfM+vWSyZCM
- Pj2o5JM6woSrog/zBY+qW+vlg1FJMb+Z94ONYDujkI6hFJQKuuninyIx/2xHqgr8dx+K
- ER8xMMK9wolc4tEWtNBYfGf5Hu2Oc/wIhGFm5IX7GXKOQaO9ldM7QSYHXxXp2YEeORHT
- iE1szScg7qouSyBN0DY+2IMDh3/LzXpjz7o1xReIheoxem60BLd2469LgOfTmTiyUEri
- OgBg==
-X-Gm-Message-State: AAQBX9c0YgGal2pCqgDscyIxQfIgOxqdowrcGjdbjBiov9Qa5zx5h10f
- f/2OJm/vKPn3VEUa4jyllnCYQ4Dt8wZdtlF3PT5IRiOUDBCwAt9w7CD8hd4KO/Y+uo32LH9Pm0i
- f/4meN1J1JQ/t0Qs=
-X-Received: by 2002:a7b:c38a:0:b0:3ee:775:c573 with SMTP id
- s10-20020a7bc38a000000b003ee0775c573mr1366188wmj.20.1682005264583; 
- Thu, 20 Apr 2023 08:41:04 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YqaNiwaKWsP9SQ0lWBhOyfrHJCZLDt02vk7vc6nXRUcff2zG32gotd+U9pg8BHoU9oPwt9Cg==
-X-Received: by 2002:a7b:c38a:0:b0:3ee:775:c573 with SMTP id
- s10-20020a7bc38a000000b003ee0775c573mr1366172wmj.20.1682005264190; 
- Thu, 20 Apr 2023 08:41:04 -0700 (PDT)
-Received: from [192.168.8.105] (tmo-127-44.customers.d1-online.com.
- [80.187.127.44]) by smtp.gmail.com with ESMTPSA id
- p19-20020a05600c205300b003f173a00304sm5632159wmg.17.2023.04.20.08.41.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 08:41:03 -0700 (PDT)
-Message-ID: <343646f8-4fac-a54b-8c57-e1f9ec4dd6ab@redhat.com>
-Date: Thu, 20 Apr 2023 17:41:00 +0200
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1ppWaK-0006Rr-Nx; Thu, 20 Apr 2023 11:52:39 -0400
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33KFcx65010267; Thu, 20 Apr 2023 15:52:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=QLA3OcMa4VKAYsgjg5iJ1WPEo2bnqb722Ar+tw+funY=;
+ b=kM24uKlHm2sTPjexFGQfpi5wpu3+JSCpeSvQSLeKJat4UQ+qIRbmYMd89kFiaMbOb+wx
+ 0XOiv6XBJ499u9xH0Aslo7cR2Hk+YXH6IALsqnIAfCRad61TmDcqaQh5a/LijAqB6KcB
+ 8ljTpXlq1Edcy9+wWOrcn5uylYTdre6DppMKqD6mcs1MFN2zZTrWc1LFZ1NTgqLkIxCy
+ Vzj1+HOAul+YzdWRcheHFwksK0MwhN0lOUSxOrzlCDOhGssIg4vnbhsChab1uHOxXRxy
+ MbcEX9FTcR9g/5bxoMarTeIFzxgAcjxWhPH/oxwjWvEAosT+J3wJ5a2jajn5aEN8s554 /A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q37x1h4b4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 15:52:23 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33KFdI3f012214;
+ Thu, 20 Apr 2023 15:52:22 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q37x1h4aj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 15:52:22 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33KDbKA9029086;
+ Thu, 20 Apr 2023 15:52:21 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3pykj7v2u9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 15:52:21 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com
+ [10.39.53.233])
+ by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33KFqK8H3605242
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 20 Apr 2023 15:52:20 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 108E958055;
+ Thu, 20 Apr 2023 15:52:20 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B65805803F;
+ Thu, 20 Apr 2023 15:52:14 +0000 (GMT)
+Received: from [9.43.106.147] (unknown [9.43.106.147])
+ by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 20 Apr 2023 15:52:14 +0000 (GMT)
+Message-ID: <8b68fb2e-3ff9-8e8d-88e0-9fe8af547036@linux.ibm.com>
+Date: Thu, 20 Apr 2023 21:22:13 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2] s390x/gdb: Split s390-virt.xml
+Subject: Re: [PATCH] target: ppc: Correctly initialize HILE in HID-0 for
+ book3s processors
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-References: <20230314101813.174874-1-iii@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230314101813.174874-1-iii@linux.ibm.com>
+To: Narayana Murty N <nnmlinux@linux.ibm.com>, danielhb413@gmail.com,
+ clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, npiggin@linux.ibm.com,
+ vajain21@linux.ibm.com, sbhat@linux.ibm.com
+References: <20230420145055.10196-1-nnmlinux@linux.ibm.com>
+From: Harsh Prateek Bora <harshpb@linux.ibm.com>
+In-Reply-To: <20230420145055.10196-1-nnmlinux@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9ukLA-lkZvbRP-rhZ3oHQklZTyLqed2S
+X-Proofpoint-ORIG-GUID: 1tOtWCxJFOQD64m-p56KhuHOfONDj-84
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-20_11,2023-04-20_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxscore=0 malwarescore=0 mlxlogscore=968
+ priorityscore=1501 clxscore=1011 bulkscore=0 suspectscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304200128
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,197 +117,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/03/2023 11.18, Ilya Leoshkevich wrote:
-> Both TCG and KVM emulate ckc, cputm, last_break and prefix, and it's
-> quite useful to have them during debugging. Right now they are grouped
-> together with KVM-only pp, pfault_token, pfault_select and
-> pfault_compare in s390-virt.xml, and are not available when debugging
-> TCG-emulated code.
+Hi Narayana,
+
+Minor comments inline below.
+
+On 4/20/23 20:20, Narayana Murty N wrote:
+> On PPC64 the HILE(Hypervisor Interrupt Little Endian) bit in HID-0
+> register needs to be initialized as per isa 3.0b[1] section
+> 2.10. This bit gets copied to the MSR_LE when handling interrupts that
+> are handled in HV mode to establish the Endianess mode of the interrupt
+> handler.
 > 
-> Move KVM-only registers into the new s390-virt-kvm.xml file. Advertise
-> s390-virt.xml always, and the new s390-virt-kvm.xml only for KVM.
+> Qemu's ppc_interrupts_little_endian() depends on HILE to determine Host
+> endianness which is then used to determine the endianess of the guest dump.
 > 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> Message-Id: <20230313211614.98739-1-iii@linux.ibm.com>
+> Currently the HILE bit is never set in the HID0 register even if the
+> qemu is running in Little-Endian mode. This causes the guest dumps to be
+> always taken in Big-Endian byte ordering. A guest memory dump of a
+> Little-Endian guest running on Little-Endian qemu guest fails with the
+> crash tool as illustrated below:
+> 
+> Log :
+> $ virsh dump DOMAIN --memory-only dump.file
+> 
+> Domain 'DOMAIN' dumped to dump.file
+> 
+> $ crash vmlinux dump.file
+> 
+> <snip>
+> crash 8.0.2-1.el9
+> 
+> WARNING: endian mismatch:
+>           crash utility: little-endian
+>           dump.file: big-endian
+> 
+> WARNING: machine type mismatch:
+>           crash utility: PPC64
+>           dump.file: (unknown)
+> 
+> crash: dump.file: not a supported file format
+> <snip>
+> 
+> The patch fixes the issue by Setting HILE on little-endian host. HILE bit values
+> are documented at [1] for POWER7, POWER8 and [2] for POWER9 onwards.
+> 
+> For power9 and power10:
+> 	The new helper function "set_spr_default_value" added to change the default value
+> 	as per host endianness in init_proc_POWER9, init_proc_POWER10
+> 
+> For power7 and power8 :
+> 	correcting "spr_register_hv" function parameter for initial value to
+> 	HID0_ISA206_INIT_VAL in register_book3s_ids_sprs()
+> 
+> References:
+> 1. ISA 2.06, section 2.9 for POWER7,POWER8
+> 2. ISA 3.0b, section 2.10 for POWER9 onwards - https://openpowerfoundation.org/specifications/isa/
+> 
+
+ISA ver and section information can be included in code comments below 
+where respective macros are being introduced.
+
+> Signed-off-by: Narayana Murty N <nnmlinux@linux.ibm.com>
 > ---
+>   target/ppc/cpu.h         |  9 +++++++++
+>   target/ppc/cpu_init.c    | 18 +++++++++++++++++-
+>   target/ppc/helper_regs.c | 18 ++++++++++++++++++
+>   target/ppc/spr_common.h  |  3 +++
+>   4 files changed, 47 insertions(+), 1 deletion(-)
 > 
-> v1: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04307.html
-> v1 -> v2: Improve the naming and the commit message (Christian).
-> 
->   configs/targets/s390x-linux-user.mak |  2 +-
->   configs/targets/s390x-softmmu.mak    |  2 +-
->   gdb-xml/s390-virt-kvm.xml            | 14 ++++++
->   gdb-xml/s390-virt.xml                |  4 --
->   target/s390x/gdbstub.c               | 65 +++++++++++++++++++---------
->   5 files changed, 61 insertions(+), 26 deletions(-)
->   create mode 100644 gdb-xml/s390-virt-kvm.xml
-> 
-> diff --git a/configs/targets/s390x-linux-user.mak b/configs/targets/s390x-linux-user.mak
-> index e2978248ede..24c04c85894 100644
-> --- a/configs/targets/s390x-linux-user.mak
-> +++ b/configs/targets/s390x-linux-user.mak
-> @@ -2,4 +2,4 @@ TARGET_ARCH=s390x
->   TARGET_SYSTBL_ABI=common,64
->   TARGET_SYSTBL=syscall.tbl
->   TARGET_BIG_ENDIAN=y
-> -TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
-> +TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-virt-kvm.xml gdb-xml/s390-gs.xml
-> diff --git a/configs/targets/s390x-softmmu.mak b/configs/targets/s390x-softmmu.mak
-> index 258b4cf3582..70d2f9f0ba0 100644
-> --- a/configs/targets/s390x-softmmu.mak
-> +++ b/configs/targets/s390x-softmmu.mak
-> @@ -1,4 +1,4 @@
->   TARGET_ARCH=s390x
->   TARGET_BIG_ENDIAN=y
->   TARGET_SUPPORTS_MTTCG=y
-> -TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
-> +TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-virt-kvm.xml gdb-xml/s390-gs.xml
-> diff --git a/gdb-xml/s390-virt-kvm.xml b/gdb-xml/s390-virt-kvm.xml
-> new file mode 100644
-> index 00000000000..a256eddaf57
-> --- /dev/null
-> +++ b/gdb-xml/s390-virt-kvm.xml
-> @@ -0,0 +1,14 @@
-> +<?xml version="1.0"?>
-> +<!-- Copyright 2023 IBM Corp.
-> +
-> +     This work is licensed under the terms of the GNU GPL, version 2 or
-> +     (at your option) any later version. See the COPYING file in the
-> +     top-level directory. -->
-> +
-> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-> +<feature name="org.gnu.gdb.s390.virt.kvm">
-> +  <reg name="pp" bitsize="64" type="uint64" group="system"/>
-> +  <reg name="pfault_token" bitsize="64" type="uint64" group="system"/>
-> +  <reg name="pfault_select" bitsize="64" type="uint64" group="system"/>
-> +  <reg name="pfault_compare" bitsize="64" type="uint64" group="system"/>
-> +</feature>
-> diff --git a/gdb-xml/s390-virt.xml b/gdb-xml/s390-virt.xml
-> index e2e9a7ad3cc..438eb68aabe 100644
-> --- a/gdb-xml/s390-virt.xml
-> +++ b/gdb-xml/s390-virt.xml
-> @@ -11,8 +11,4 @@
->     <reg name="cputm" bitsize="64" type="uint64" group="system"/>
->     <reg name="last_break" bitsize="64" type="code_ptr" group="system"/>
->     <reg name="prefix" bitsize="64" type="data_ptr" group="system"/>
-> -  <reg name="pp" bitsize="64" type="uint64" group="system"/>
-> -  <reg name="pfault_token" bitsize="64" type="uint64" group="system"/>
-> -  <reg name="pfault_select" bitsize="64" type="uint64" group="system"/>
-> -  <reg name="pfault_compare" bitsize="64" type="uint64" group="system"/>
->   </feature>
-> diff --git a/target/s390x/gdbstub.c b/target/s390x/gdbstub.c
-> index a5d69d0e0bc..e1153f5dc4a 100644
-> --- a/target/s390x/gdbstub.c
-> +++ b/target/s390x/gdbstub.c
-> @@ -205,12 +205,8 @@ static int cpu_write_c_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
->   #define S390_VIRT_CPUTM_REGNUM  1
->   #define S390_VIRT_BEA_REGNUM    2
->   #define S390_VIRT_PREFIX_REGNUM 3
-> -#define S390_VIRT_PP_REGNUM     4
-> -#define S390_VIRT_PFT_REGNUM    5
-> -#define S390_VIRT_PFS_REGNUM    6
-> -#define S390_VIRT_PFC_REGNUM    7
->   /* total number of registers in s390-virt.xml */
-> -#define S390_NUM_VIRT_REGS 8
-> +#define S390_NUM_VIRT_REGS 4
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 557d736dab..8c15e9cde7 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -2113,6 +2113,15 @@ void ppc_compat_add_property(Object *obj, const char *name,
+>   #define HID0_HILE           PPC_BIT(19) /* POWER8 */
+>   #define HID0_POWER9_HILE    PPC_BIT(4)
 >   
->   static int cpu_read_virt_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
->   {
-> @@ -223,14 +219,6 @@ static int cpu_read_virt_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
->           return gdb_get_regl(mem_buf, env->gbea);
->       case S390_VIRT_PREFIX_REGNUM:
->           return gdb_get_regl(mem_buf, env->psa);
-> -    case S390_VIRT_PP_REGNUM:
-> -        return gdb_get_regl(mem_buf, env->pp);
-> -    case S390_VIRT_PFT_REGNUM:
-> -        return gdb_get_regl(mem_buf, env->pfault_token);
-> -    case S390_VIRT_PFS_REGNUM:
-> -        return gdb_get_regl(mem_buf, env->pfault_select);
-> -    case S390_VIRT_PFC_REGNUM:
-> -        return gdb_get_regl(mem_buf, env->pfault_compare);
->       default:
->           return 0;
->       }
-> @@ -255,19 +243,51 @@ static int cpu_write_virt_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
->           env->psa = ldtul_p(mem_buf);
->           cpu_synchronize_post_init(env_cpu(env));
->           return 8;
-> -    case S390_VIRT_PP_REGNUM:
-> +    default:
-> +        return 0;
-> +    }
-> +}
+> +/* HID0 register initial value for POWER9 */
+> +#if HOST_BIG_ENDIAN
+> +#define HID0_ISA206_INIT_VAL    0x00000000        /* POWER7 Onwards */
+> +#define HID0_ISA300_INIT_VAL    0x00000000        /* POWER9 Onwards */
+> +#else
+> +#define HID0_ISA206_INIT_VAL    HID0_HILE         /* POWER7 Onwards */
+> +#define HID0_ISA300_INIT_VAL    HID0_POWER9_HILE  /* POWER9 Onwards */
+> +#endif
 > +
-> +/* the values represent the positions in s390-virt-kvm.xml */
-> +#define S390_VIRT_KVM_PP_REGNUM     0
-> +#define S390_VIRT_KVM_PFT_REGNUM    1
-> +#define S390_VIRT_KVM_PFS_REGNUM    2
-> +#define S390_VIRT_KVM_PFC_REGNUM    3
-> +/* total number of registers in s390-virt-kvm.xml */
-> +#define S390_NUM_VIRT_KVM_REGS 4
-> +
-> +static int cpu_read_virt_kvm_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
-> +{
-> +    switch (n) {
-> +    case S390_VIRT_KVM_PP_REGNUM:
-> +        return gdb_get_regl(mem_buf, env->pp);
-> +    case S390_VIRT_KVM_PFT_REGNUM:
-> +        return gdb_get_regl(mem_buf, env->pfault_token);
-> +    case S390_VIRT_KVM_PFS_REGNUM:
-> +        return gdb_get_regl(mem_buf, env->pfault_select);
-> +    case S390_VIRT_KVM_PFC_REGNUM:
-> +        return gdb_get_regl(mem_buf, env->pfault_compare);
-> +    default:
-> +        return 0;
-> +    }
-> +}
-> +
-> +static int cpu_write_virt_kvm_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
-> +{
-> +    switch (n) {
-> +    case S390_VIRT_KVM_PP_REGNUM:
->           env->pp = ldtul_p(mem_buf);
->           cpu_synchronize_post_init(env_cpu(env));
->           return 8;
-> -    case S390_VIRT_PFT_REGNUM:
-> +    case S390_VIRT_KVM_PFT_REGNUM:
->           env->pfault_token = ldtul_p(mem_buf);
->           cpu_synchronize_post_init(env_cpu(env));
->           return 8;
-> -    case S390_VIRT_PFS_REGNUM:
-> +    case S390_VIRT_KVM_PFS_REGNUM:
->           env->pfault_select = ldtul_p(mem_buf);
->           cpu_synchronize_post_init(env_cpu(env));
->           return 8;
-> -    case S390_VIRT_PFC_REGNUM:
-> +    case S390_VIRT_KVM_PFC_REGNUM:
->           env->pfault_compare = ldtul_p(mem_buf);
->           cpu_synchronize_post_init(env_cpu(env));
->           return 8;
-> @@ -320,10 +340,15 @@ void s390_cpu_gdb_init(CPUState *cs)
->                                cpu_write_c_reg,
->                                S390_NUM_C_REGS, "s390-cr.xml", 0);
->   
-> +    gdb_register_coprocessor(cs, cpu_read_virt_reg,
-> +                             cpu_write_virt_reg,
-> +                             S390_NUM_VIRT_REGS, "s390-virt.xml", 0);
-> +
->       if (kvm_enabled()) {
-> -        gdb_register_coprocessor(cs, cpu_read_virt_reg,
-> -                                 cpu_write_virt_reg,
-> -                                 S390_NUM_VIRT_REGS, "s390-virt.xml", 0);
-> +        gdb_register_coprocessor(cs, cpu_read_virt_kvm_reg,
-> +                                 cpu_write_virt_kvm_reg,
-> +                                 S390_NUM_VIRT_KVM_REGS, "s390-virt-kvm.xml",
-> +                                 0);
->       }
+>   /*****************************************************************************/
+>   /* PowerPC Instructions types definitions                                    */
+>   enum {
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index 0ce2e3c91d..5b481dc5c3 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -5372,7 +5372,7 @@ static void register_book3s_ids_sprs(CPUPPCState *env)
+>                    SPR_NOACCESS, SPR_NOACCESS,
+>                    SPR_NOACCESS, SPR_NOACCESS,
+>                    &spr_read_generic, &spr_write_generic,
+> -                 0x00000000);
+> +                 HID0_ISA206_INIT_VAL);
+>       spr_register_hv(env, SPR_TSCR, "TSCR",
+>                    SPR_NOACCESS, SPR_NOACCESS,
+>                    SPR_NOACCESS, SPR_NOACCESS,
+> @@ -5699,6 +5699,15 @@ static void register_power9_mmu_sprs(CPUPPCState *env)
 >   #endif
 >   }
+>   
+> +static void set_power9_default_value_sprs(CPUPPCState *env)
+> +{
 
-The patch looks reasonable to me, but I'm not that much familiar with the 
-gdb stuff ... Richard, David, Alex, Christian, any objections? If not, I 
-could queue this for my next pull request if nobody else wants to take it.
+Naming it as set_power9_sprs_default_value (like the internal helper) 
+may be more appropriate.
 
-  Thomas
+> +    /*
+> +     * ISA 3.00, book3s ids HID0 register, HILE bit position
+> +     * changed to bit HID0_POWER9_HILE
+> +     */
+> +    set_spr_default_value(env, SPR_HID0, HID0_ISA300_INIT_VAL);
+> +}
+> +
+>   static void register_power10_hash_sprs(CPUPPCState *env)
+>   {
+>       /*
+> @@ -6250,6 +6259,9 @@ static void init_proc_POWER9(CPUPPCState *env)
+>       register_power8_rpr_sprs(env);
+>       register_power9_mmu_sprs(env);
+>   
+> +    /* POWER9 Host Specific register initialization */
+> +    set_power9_default_value_sprs(env);
+> +
+>       /* POWER9 Specific registers */
+>       spr_register_kvm(env, SPR_TIDR, "TIDR", NULL, NULL,
+>                        spr_read_generic, spr_write_generic,
+> @@ -6424,6 +6436,10 @@ static void init_proc_POWER10(CPUPPCState *env)
+>       register_power8_book4_sprs(env);
+>       register_power8_rpr_sprs(env);
+>       register_power9_mmu_sprs(env);
+> +
+> +    /* POWER10 Host Specific register initialization */
+> +    set_power9_default_value_sprs(env);
+> +
+>       register_power10_hash_sprs(env);
+>       register_power10_dexcr_sprs(env);
+>   
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 779e7db513..f17e9e78c2 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -351,6 +351,24 @@ void _spr_register(CPUPPCState *env, int num, const char *name,
+>   #endif
+>   }
+>   
+> +/**
+> + * set_spr_default_value
+> + *
+> + * sets the spr register with default value overide.
+> + */
+> +void set_spr_default_value(CPUPPCState *env, int num,
+> +                   target_ulong default_value)
 
+Indentation should match the starting of first arg type above.
+
+> +{
+> +    assert(num < ARRAY_SIZE(env->spr_cb));
+> +    ppc_spr_t *spr = &env->spr_cb[num];
+> +
+> +    /* Verify the spr registered already. */
+> +    assert(spr->name != NULL);
+> +
+> +    spr->default_value = default_value;
+> +    env->spr[num] = default_value;
+> +}
+> +
+>   /* Generic PowerPC SPRs */
+>   void register_generic_sprs(PowerPCCPU *cpu)
+>   {
+> diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
+> index 8437eb0340..b1d27f0138 100644
+> --- a/target/ppc/spr_common.h
+> +++ b/target/ppc/spr_common.h
+> @@ -77,6 +77,9 @@ void _spr_register(CPUPPCState *env, int num, const char *name,
+>       spr_register_kvm(env, num, name, uea_read, uea_write,                    \
+>                        oea_read, oea_write, 0, ival)
+>   
+> +void set_spr_default_value(CPUPPCState *env, int num,
+> +                   target_ulong default_value);
+
+Ditto.
+
+Otherwise, looks good to me.
+
+Reviewed-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
+
+> +
+>   /* prototypes for readers and writers for SPRs */
+>   void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
+>   void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
 
