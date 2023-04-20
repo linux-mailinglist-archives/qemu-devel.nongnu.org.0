@@ -2,59 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9C16E9702
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B246E9706
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:28:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppVEa-0007Wn-8n; Thu, 20 Apr 2023 10:26:04 -0400
+	id 1ppVG0-0000Wj-5v; Thu, 20 Apr 2023 10:27:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppVEX-0007Wa-5W
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:26:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ppVFw-0000WM-Ss
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:27:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppVEV-0007Ub-FJ
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:26:00 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ppVFu-0007ju-Lm
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:27:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682000758;
+ s=mimecast20190719; t=1682000845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fcIcRlZ+OBsceIGKawz4rhhm07qxvN/3ghiO047LBIw=;
- b=PAdDP2qazqzJ5WI8IerJGFf1plaCA1JSCN0yzC096umnz55IUWlVC21ydNPNfGEhPe/iGN
- 5GcoSTMzF9Ec+yZKCkrICxm8wRsFlnBk1uyrAT0EWWmekHIji3UZJfCYL62wFGlMDO4RMy
- GjqE9CrB4i4+CDg3zcMR31K7Q6/NJPc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-5-Fk6Eb6M2OKIfBHOgpOUA-1; Thu, 20 Apr 2023 10:25:57 -0400
-X-MC-Unique: 5-Fk6Eb6M2OKIfBHOgpOUA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9AE5800047
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 14:25:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84687C16024;
- Thu, 20 Apr 2023 14:25:56 +0000 (UTC)
-Date: Thu, 20 Apr 2023 09:25:54 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] migration: Handle block device inactivation failures
- better
-Message-ID: <j3mm2jnmanpe6e5v3bvwgiv7av3pno2usmfc4mqnfvhi3gpvoo@zltviuih6b22>
-References: <20230414153358.1452040-1-eblake@redhat.com>
- <878remzvhm.fsf@secure.mitica>
+ bh=lQMPmbYd73mDGx3stex95x0CVUcJbGX+pSikMsaudyM=;
+ b=JBtGfvYltS4pTSSI+qHOwhpCca1UmYEI411b6mspeFUrQxafl24tU2TWL2YNDs8sFTL6ba
+ /BW+VqSVERO5qJeRXLvSv8T0AEb2XCvfatNo/HxTNSySHxHmx36xR54nYP+wYQeL99BtWX
+ S8Rulfv9F5DmcmXFw1JAIJLTv607PEA=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-365-H9ZfeJFkPUGiU1Dfd2CL-g-1; Thu, 20 Apr 2023 10:27:24 -0400
+X-MC-Unique: H9ZfeJFkPUGiU1Dfd2CL-g-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-3ef25aaeb5bso4760171cf.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 07:27:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682000843; x=1684592843;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lQMPmbYd73mDGx3stex95x0CVUcJbGX+pSikMsaudyM=;
+ b=MyF/O3ZPaADchKrlR0TaYD7hmbjDTep4pm+BYCJQUn61DAjluTv/hg6hK0sQJXNOK5
+ vSqIuJilo49qvQC7kNUr0KxPEbOUm1IuCkdAEeBUU2eYvGoRG2R/8EIwuzOS3MiwSmcp
+ 8zDe/T8VcajsloFsVu11WVVlfbfNxFJUwGUp1WFvIxuASSZ3JXYm4VAWFFOuwb6rhz2G
+ cHAdCET8jw/IC3h4KPyo2VGeni7o8836BKuiy0chtWwVgl2i3yWgWNyVaVW6l/ilaxhU
+ bjL5eNbaVuY4/CUIMsflcJZeb/8V9guc5nv9Ja6UcpHLgaavvMXGf67i0o1Lya4sQQch
+ kB3g==
+X-Gm-Message-State: AAQBX9dsO2KBX4c+Ck51LwxvADVo2Bt/US6yjW+2J0t2Bz7BhG/qrXsM
+ /cAZeIcLkEwyW3JLq1YVBcN5N8LRZbxdW/vyECE2jp0OFOigxrTgBqJBzLh4ezVmow5azLJ7nRu
+ nQFiNWeAfWwpYmC0=
+X-Received: by 2002:ac8:5c4a:0:b0:3e8:dc66:fedb with SMTP id
+ j10-20020ac85c4a000000b003e8dc66fedbmr2551448qtj.56.1682000843479; 
+ Thu, 20 Apr 2023 07:27:23 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Y61LUtcQzgv4naumZ2ZFhEFKvmzYGVxaRKxp5gPKkTmbowUfLRT6ItpnjGvSit3gUAQR2HcQ==
+X-Received: by 2002:ac8:5c4a:0:b0:3e8:dc66:fedb with SMTP id
+ j10-20020ac85c4a000000b003e8dc66fedbmr2551414qtj.56.1682000843219; 
+ Thu, 20 Apr 2023 07:27:23 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id
+ dp1-20020a05620a2b4100b0074ded6ad058sm448528qkb.129.2023.04.20.07.27.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 07:27:22 -0700 (PDT)
+Date: Thu, 20 Apr 2023 16:27:18 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, "Dr . David Alan Gilbert"
+ <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 3/3] softmmu/physmem: Fixup
+ qemu_ram_block_from_host() documentation
+Message-ID: <20230420162718.1fb0ecde@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230316153658.214487-4-david@redhat.com>
+References: <20230316153658.214487-1-david@redhat.com>
+ <20230316153658.214487-4-david@redhat.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878remzvhm.fsf@secure.mitica>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,91 +103,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 20, 2023 at 12:41:25PM +0200, Juan Quintela wrote:
-> Eric Blake <eblake@redhat.com> wrote:
+On Thu, 16 Mar 2023 16:36:58 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-...lots of lines...
+> Let's fixup the documentation (e.g., removing traces of the ram_addr_t
+                                                               ^^^^^^^^^
+_t typo?
 
-> > ---
-> >  migration/migration.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-
-...describing a tiny change ;)
-
-> >
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index bda47891933..cb0d42c0610 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -3444,13 +3444,11 @@ static void migration_completion(MigrationState *s)
-> >                                              MIGRATION_STATUS_DEVICE);
-> >              }
-> >              if (ret >= 0) {
-> > +                s->block_inactive = inactivate;
-> >                  qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
-> >                  ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
-> >                                                           inactivate);
-> >              }
-> > -            if (inactivate && ret >= 0) {
-> > -                s->block_inactive = true;
-> > -            }
-> >          }
-> >          qemu_mutex_unlock_iothread();
+> parameter that no longer exists) and move it to the header file while at
+> it.
 > 
-> And I still have to look at the file to understand this "simple" patch.
-> (simple in size, not in what it means).
-
-Indeed - hence the long commit message!
-
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  include/exec/cpu-common.h | 15 +++++++++++++++
+>  softmmu/physmem.c         | 17 -----------------
+>  2 files changed, 15 insertions(+), 17 deletions(-)
 > 
-> I will add this to my queue, but if you are in the "mood", I would like
-> to remove the declaration of inactivate and change this to something like:
-> 
->              if (ret >= 0) {
->                  /* Colo don't stop disks in normal operation */
->                  s->block_inactive = !migrate_colo_enabled();
->                  qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
->                  ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
->                                                           s->block_inactive);
->              }
-> 
-> Or something around that lines?
-
-Yes, that looks like a trivial refactoring that preserves the same
-semantics.
-
-> 
-> > @@ -3522,6 +3520,7 @@ fail_invalidate:
-> >          bdrv_activate_all(&local_err);
-> >          if (local_err) {
-> >              error_report_err(local_err);
-> > +            s->block_inactive = true;
-> >          } else {
-> >              s->block_inactive = false;
-> >          }
-> > base-commit: 7dbd6f8a27e30fe14adb3d5869097cddf24038d6
-> 
-> Just wondering, what git magic creates this line?
-
-git send-email --base=COMMIT_ID
-
-or even 'git config format.useAutoBase whenAble' to try and automate
-the use of this.  (If my own git habits were cleaner, of always
-sticking patches in fresh branches, --base=auto is handy; but in
-practice, I tend to send one-off patches like this in the middle of
-'git rebase' of a larger series, at which point I'm not on a clean
-branch where --base=auto works, so I end up having to manually specify
-one at the command line.  Either way, including the base-commit: info
-can be very informative for applying a patch at the branch point then
-rebasing it locally, when attempting to apply the patch sent through
-email hits merge conflicts when applying it directly to changes on
-master in the meantime; I believe 'git am -3' is even able to exploit
-the comment when present to make smarter decisions about which parent
-commit it tries for doing 3-way patch resolution)
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+> index 6feaa40ca7..edef5bee21 100644
+> --- a/include/exec/cpu-common.h
+> +++ b/include/exec/cpu-common.h
+> @@ -75,6 +75,21 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length);
+>  ram_addr_t qemu_ram_addr_from_host(void *ptr);
+>  ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr);
+>  RAMBlock *qemu_ram_block_by_name(const char *name);
+> +
+> +/*
+> + * Translates a host ptr back to a RAMBlock and an offset in that RAMBlock.
+> + *
+> + * @ptr: The host pointer to transalte.
+> + * @round_offset: Whether to round the result offset down to a target page
+> + * @offset: Will be set to the offset within the returned RAMBlock.
+> + *
+> + * Returns: RAMBlock (or NULL if not found)
+> + *
+> + * By the time this function returns, the returned pointer is not protected
+> + * by RCU anymore.  If the caller is not within an RCU critical section and
+> + * does not hold the iothread lock, it must have other means of protecting the
+> + * pointer, such as a reference to the memory region that owns the RAMBlock.
+> + */
+>  RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
+>                                     ram_addr_t *offset);
+>  ram_addr_t qemu_ram_block_host_offset(RAMBlock *rb, void *host);
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index fb412a56e1..36b33786fd 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -2169,23 +2169,6 @@ ram_addr_t qemu_ram_block_host_offset(RAMBlock *rb, void *host)
+>      return res;
+>  }
+>  
+> -/*
+> - * Translates a host ptr back to a RAMBlock, a ram_addr and an offset
+> - * in that RAMBlock.
+> - *
+> - * ptr: Host pointer to look up
+> - * round_offset: If true round the result offset down to a page boundary
+> - * *ram_addr: set to result ram_addr
+> - * *offset: set to result offset within the RAMBlock
+> - *
+> - * Returns: RAMBlock (or NULL if not found)
+> - *
+> - * By the time this function returns, the returned pointer is not protected
+> - * by RCU anymore.  If the caller is not within an RCU critical section and
+> - * does not hold the iothread lock, it must have other means of protecting the
+> - * pointer, such as a reference to the region that includes the incoming
+> - * ram_addr_t.
+> - */
+>  RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
+>                                     ram_addr_t *offset)
+>  {
 
 
