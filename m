@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600BB6E8E83
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D276E8E8E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:49:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQtp-0006oQ-Vc; Thu, 20 Apr 2023 05:48:23 -0400
+	id 1ppQts-0007DA-84; Thu, 20 Apr 2023 05:48:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppQtV-0006YJ-M6
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:48:03 -0400
+ id 1ppQtj-0006oR-Vw
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:48:18 -0400
 Received: from mout.web.de ([212.227.15.14])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppQtT-0007zM-QC
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:48:01 -0400
+ id 1ppQtY-0007zm-7S
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:48:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681984074; i=lukasstraub2@web.de;
- bh=II/xCy85IPZ6uuS206CqWBiCl1Yvzra5TBTN4pjRMqA=;
+ t=1681984077; i=lukasstraub2@web.de;
+ bh=wrG1Hvb8UOtdOBIp/5UhtsTLxnaSXeUp/H7vp3+H4GU=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=pmVGesYP1rTBRPHmKF+D2byZyDFHz5sdj0+qDiRKvaq9CDzuk4efABDDemWWBRK+y
- 7/yr3lmBlS1DG79G7i4cBk5rg03xZg88NFg8xMzw/IQRUxpudST0OjTpJAT5wPquSG
- vy6fw/hNycAdIJfIOKzJxVjS6Jk1dEgMwnAKsoY6RlLaQ8stWmOqhD53crR5nGlj5i
- SC2B6MqRtAisV7dGwE9lPZHJBB/cH74DCAF3xOx4Yzw1RguxEmNUtiwAkTo5SppDMN
- Qgtlg1Y8oA3VyiTaQOILRkSHhyySDWGY+HVduO+vWh5eh+w0LJ7pqulLj7pjy/pKAY
- urtG/dS9KgG3A==
+ b=vWOvzvKNDlOIahHUqC/YqPOvYFA1kNdgjlA6w2+QMSHY0iIwvUYd8kEFf0El1Lb7G
+ EX9qXTH5t9GI7Ubaez5qKNTzNbmCdINRZXwHhbcGjGQS2zZIuaJwq4BPVzi/f21mzZ
+ pdTdIgucdlM6gNppyjw0idz7qB7XePt4T6gFYPFuAyQ8NzwJCpAJk4FrnhZnTc6dhc
+ bRHXTVEFLS6ywS/9FUSitCVJrDoW7/Sh/XeSHBmyPaGFK8DJfITDa5vhYUeq2eHIbI
+ XNyTyd9D+H65ryUtUekkicoIauc/9bWKa9wV4OUZrTgzknYezJz2E4Bzx89TTVtoQJ
+ wFsa84TQ1agoQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from gecko.fritz.box ([82.207.254.123]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MKMA7-1pbTJF0z1T-00Lkkx; Thu, 20
- Apr 2023 11:47:54 +0200
-Date: Thu, 20 Apr 2023 11:47:53 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N7xeZ-1qKlMk3AzT-014zvl; Thu, 20
+ Apr 2023 11:47:57 +0200
+Date: Thu, 20 Apr 2023 11:47:56 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo
  Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 01/13] qtest/migration-test.c: Add postcopy tests with
- compress enabled
-Message-ID: <01a063686e62ce97e7d0bc9fa935389f074ecb4b.1681983401.git.lukasstraub2@web.de>
+Subject: [PATCH v2 02/13] ram.c: Let the compress threads return a
+ CompressResult enum
+Message-ID: <41cb2e3c0065b2c99948703a5a4f4bfe600ee64b.1681983401.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1681983401.git.lukasstraub2@web.de>
 References: <cover.1681983401.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/C.O15HesEp.0vYR6xcN7KlK";
+Content-Type: multipart/signed; boundary="Sig_/9Z/1Tf9XhI..LO8Dbi1_WpC";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:sHxw0g7syKrEFsr/t1xYnH/s80ce3X6m/Dd31EXOwbvA1yuSrqS
- fdnkaClmwzZZD6niQO4iy3QKq85IL1IiUmhIsM7ByGnUFtFXfJpAogreNy0ZryyN2frxwdy
- ZtFCiXb0CRyj/HfVHVVz4AS1mYUTTNviAUFDbFrQAb2d7sADAs+J4p8t6i2fuHPMXZTGJwp
- uOf4yzkFsufQW4UFqyzjg==
-UI-OutboundReport: notjunk:1;M01:P0:Wf8xBOkFknI=;dHvYNYbp6VI4YZPLrWh2nF/1ajf
- txUAhe7c9SI+CIYqSgjVCeU+yQNwtl4Pu19qJGZHPf9c1t1dDU/XrCQw6ozyxsOg0Ikk9FrrD
- KlpNzwPRW2ticAEOo17Es/1JPnRgYyiigaPOhyU4uUTp55k4b7y6n9AajVz291XvHkcMUbXJ6
- t+wMK663vQQOuDSfFP04RGKxiI9Jlvjr44MyrmjJewTXYt5k3RDws3y1ha+8mqfFdq/LJ/WHe
- Uu/x/g3WBIX5y9vfQhJUwrtoxvQOJuctyjhBNbxdLbVv3TEKi9X1115ARrWs2OvvT5T9PTZyq
- wV7aQVEi5oRrzp+4Tb3RmRWSCwQlCG/VxYeZPTay8Qnf0ah7CHvEACZflODNdSeGoZ8tDMMes
- OZhhpEKmxjbyi2h5rRiszGSNsebk2QizRpTyS6LLRigWK48FFDf8CfT4wVzW+gLJ7OSwiQtz7
- vQOqfv91WBWFoL1Pb0rORTMUytANMWExJyqfVDOu1/w3sk6Ei42Oi/6YrhdGc8oXTkn83CjLU
- YWrHTnxuE0gSCfUn0zLC4jvjxl+4bK68Mafxy9r6KEDXdEUUcmM+cYf9P3IgxahjCTjyWKPSO
- JDPLwdPxM88N0//rgMPYvedDF5rRn1PR7KtJ2Ik3Ayvf96/oJp7qt+R6SoFi5sv7unJCAha0u
- z3SQSMdWqAXZtWXWyfBTmWhTAZbkqtqwmJVwm7VbhdmrjCiVXv2k4FdSyCUIyjFXLfCPttNGZ
- 6Na/vGMU7zxIESe/03MzXRBVODPs+8j8GDwTSQHq44OFgRF8bB/Iok+3EiqC3Lch590nZ+nNZ
- Fp82ACluz2lNHqiXhWa2V9WRsKueQHaBEWK0Vp+0a06+VzG6PR/FVKoBIV3Ya7nrmXpVF6sb7
- lTz9P5qGY9f+GpIl5w4XKOHxSIbjH9dtYPDvsRL+/T6nQ+8d1shIXrX+2l5ZnJceztjxqBgvG
- JiuHcW9+nlHRzFxrwhdd/OAsjFY=
+X-Provags-ID: V03:K1:0jncPqQGgxGYRqStLYFcGBCxGTHdQ/mCg/FR9NK2xxST215GGd9
+ Jshm/o6Px7sbgzX+HQSBsOBeCxkksCJRNrouQuyAdaMdBuUkKquJN2p5RB9DMooaB+Xy3Di
+ VP4eOXFdL0i6dULo6KFjDzdvO3w+GVORIM+cGAQQlQTuk1wjasi0EG/JA2yR6D5h+ZPrh6e
+ FNWOtoy1BDa+/4D/2NORA==
+UI-OutboundReport: notjunk:1;M01:P0:YudwZjfx/+o=;2lXwudv7jaQ8XICLhRdzlc3XSOT
+ slAviGjfy67AlRrvHJ/xQijGxphMG7/JFEpCwmFxyDaE11VsHz5zXNsjKwfwMG39xPcTvTw5V
+ 2fSh/6caUJgT3kr4DpmmyqY1MheF+Md2g1YtCPj4/cQrGPGYsjI8DrYD9SprJaEtg0LVBBE+k
+ TkrIKVXw0yE5iio300o/soSS9kZr3Mt+nTieWaBPewVkCu53tdEUl8n1Q8qn0788lhAhqJZyH
+ grwMNynpRa2jxM74acUnD0yBUDt4Hbj9HsNWR9bhcmiBdyM+wriyPurs5xFzNR7I1mSuZpExP
+ jze17ZyFMkL1+8Q/N0qaWFczowIaMOqZNbRfNH712EyH5+jTH2ipWs07/d4ecFeHe5ZUkyxWA
+ Gqp11Zo3Q7jqs4w5p5+p6RwRL0A+MVoqUVzpI1s5x684Bbqz1+N8bWsQmAhHvoyyCu2Zsz/yi
+ Vs2gEknXsOuGqIJQH8e92lirbIHTtBYBd8KtfbKf1gfo3BuBtTcFhDXbP7DQeTOKrliN09gqL
+ KuLw+5gc74HNpIUqvY7kI+zy9NGaKkEhYuOToxIf4VVQW2f+qR3Rah1BnYpSNWSgkiQFV6Vlx
+ vF+EYXXHQUIFRDBt+B9F0KAPdkWrPEZbKdLWIzZ/IjJgmUzDLXwfPwvd9D24gUNDKh0473/ER
+ CIDIOOYjoPeticcE4fqta2fF5qVhkzgIVk+optgoS/JtvjmtnHlsBhYNa9lLKweAyF/gvayT5
+ mr1jzLLRTF7Ez06NGlVv1IL80m3mZWkDpRNP61Exj6jJ0byjdysdjAOdSyEEbDN9NBFSkOY/d
+ mu3c8qBNaM3WB/vn+C1DNbC9hbU/7SVxv0DtD3r8qM0leIcCdU+aIogmylVX9BaVa+/SboQfb
+ sDzS/IPnoNXxaXcUqkgZoPKdwzHzHX8j6afoHuLsy4e0qMWXdiV3DIQk9Avy4Xa1f+TrhMk32
+ FFwvnvWEQG1SBffSHM6jjOGfsrE=
 Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,183 +89,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/C.O15HesEp.0vYR6xcN7KlK
+--Sig_/9Z/1Tf9XhI..LO8Dbi1_WpC
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Add postcopy tests with compress enabled to ensure nothing breaks
-with the refactoring in the next commits.
-
-preempt+compress is blocked, so no test needed for that case.
+This will be used in the next commits to move save_page_header()
+out of compress code.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- tests/qtest/migration-test.c | 83 +++++++++++++++++++++++-------------
- 1 file changed, 53 insertions(+), 30 deletions(-)
+ migration/ram.c | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 1f2a019ce0..930cb4f29d 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -1127,6 +1127,36 @@ test_migrate_tls_x509_finish(QTestState *from,
- #endif /* CONFIG_TASN1 */
- #endif /* CONFIG_GNUTLS */
+diff --git a/migration/ram.c b/migration/ram.c
+index 79d881f735..ade6638a96 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -493,10 +493,17 @@ MigrationOps *migration_ops;
 
-+static void *
-+test_migrate_compress_start(QTestState *from,
-+                            QTestState *to)
-+{
-+    migrate_set_parameter_int(from, "compress-level", 1);
-+    migrate_set_parameter_int(from, "compress-threads", 4);
-+    migrate_set_parameter_bool(from, "compress-wait-thread", true);
-+    migrate_set_parameter_int(to, "decompress-threads", 4);
+ CompressionStats compression_counters;
+
++enum CompressResult {
++    RES_NONE =3D 0,
++    RES_ZEROPAGE =3D 1,
++    RES_COMPRESS =3D 2
++};
++typedef enum CompressResult CompressResult;
 +
-+    migrate_set_capability(from, "compress", true);
-+    migrate_set_capability(to, "compress", true);
-+
-+    return NULL;
-+}
-+
-+static void *
-+test_migrate_compress_nowait_start(QTestState *from,
-+                                   QTestState *to)
-+{
-+    migrate_set_parameter_int(from, "compress-level", 9);
-+    migrate_set_parameter_int(from, "compress-threads", 1);
-+    migrate_set_parameter_bool(from, "compress-wait-thread", false);
-+    migrate_set_parameter_int(to, "decompress-threads", 1);
-+
-+    migrate_set_capability(from, "compress", true);
-+    migrate_set_capability(to, "compress", true);
-+
-+    return NULL;
-+}
-+
- static int migrate_postcopy_prepare(QTestState **from_ptr,
-                                     QTestState **to_ptr,
-                                     MigrateCommon *args)
-@@ -1204,6 +1234,15 @@ static void test_postcopy(void)
-     test_postcopy_common(&args);
+ struct CompressParam {
+     bool done;
+     bool quit;
+-    bool zero_page;
++    CompressResult result;
+     QEMUFile *file;
+     QemuMutex mutex;
+     QemuCond cond;
+@@ -538,8 +545,9 @@ static QemuCond decomp_done_cond;
+
+ static int ram_save_host_page_urgent(PageSearchStatus *pss);
+
+-static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *=
+block,
+-                                 ram_addr_t offset, uint8_t *source_buf);
++static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
++                                           RAMBlock *block, ram_addr_t off=
+set,
++                                           uint8_t *source_buf);
+
+ /* NOTE: page is the PFN not real ram_addr_t. */
+ static void pss_init(PageSearchStatus *pss, RAMBlock *rb, ram_addr_t page)
+@@ -564,7 +572,7 @@ static void *do_data_compress(void *opaque)
+     CompressParam *param =3D opaque;
+     RAMBlock *block;
+     ram_addr_t offset;
+-    bool zero_page;
++    CompressResult result;
+
+     qemu_mutex_lock(&param->mutex);
+     while (!param->quit) {
+@@ -574,12 +582,12 @@ static void *do_data_compress(void *opaque)
+             param->block =3D NULL;
+             qemu_mutex_unlock(&param->mutex);
+
+-            zero_page =3D do_compress_ram_page(param->file, &param->stream,
+-                                             block, offset, param->originb=
+uf);
++            result =3D do_compress_ram_page(param->file, &param->stream,
++                                          block, offset, param->originbuf);
+
+             qemu_mutex_lock(&comp_done_lock);
+             param->done =3D true;
+-            param->zero_page =3D zero_page;
++            param->result =3D result;
+             qemu_cond_signal(&comp_done_cond);
+             qemu_mutex_unlock(&comp_done_lock);
+
+@@ -1463,8 +1471,9 @@ static int ram_save_multifd_page(QEMUFile *file, RAMB=
+lock *block,
+     return 1;
  }
 
-+static void test_postcopy_compress(void)
-+{
-+    MigrateCommon args =3D {
-+        .start_hook =3D test_migrate_compress_start
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
- static void test_postcopy_preempt(void)
+-static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *=
+block,
+-                                 ram_addr_t offset, uint8_t *source_buf)
++static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
++                                           RAMBlock *block, ram_addr_t off=
+set,
++                                           uint8_t *source_buf)
  {
-     MigrateCommon args =3D {
-@@ -1305,6 +1344,15 @@ static void test_postcopy_recovery(void)
-     test_postcopy_recovery_common(&args);
+     RAMState *rs =3D ram_state;
+     PageSearchStatus *pss =3D &rs->pss[RAM_CHANNEL_PRECOPY];
+@@ -1472,7 +1481,7 @@ static bool do_compress_ram_page(QEMUFile *f, z_strea=
+m *stream, RAMBlock *block,
+     int ret;
+
+     if (save_zero_page_to_file(pss, f, block, offset)) {
+-        return true;
++        return RES_ZEROPAGE;
+     }
+
+     save_page_header(pss, f, block, offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
+@@ -1487,8 +1496,9 @@ static bool do_compress_ram_page(QEMUFile *f, z_strea=
+m *stream, RAMBlock *block,
+     if (ret < 0) {
+         qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+         error_report("compressed data failed!");
++        return RES_NONE;
+     }
+-    return false;
++    return RES_COMPRESS;
  }
 
-+static void test_postcopy_recovery_compress(void)
-+{
-+    MigrateCommon args =3D {
-+        .start_hook =3D test_migrate_compress_start
-+    };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
- #ifdef CONFIG_GNUTLS
- static void test_postcopy_recovery_tls_psk(void)
+ static void
+@@ -1496,7 +1506,7 @@ update_compress_thread_counts(const CompressParam *pa=
+ram, int bytes_xmit)
  {
-@@ -1338,6 +1386,7 @@ static void test_postcopy_preempt_all(void)
+     ram_transferred_add(bytes_xmit);
 
-     test_postcopy_recovery_common(&args);
- }
-+
- #endif
-
- static void test_baddest(void)
-@@ -1559,21 +1608,6 @@ static void test_precopy_unix_xbzrle(void)
-     test_precopy_common(&args);
- }
-
--static void *
--test_migrate_compress_start(QTestState *from,
--                            QTestState *to)
--{
--    migrate_set_parameter_int(from, "compress-level", 1);
--    migrate_set_parameter_int(from, "compress-threads", 4);
--    migrate_set_parameter_bool(from, "compress-wait-thread", true);
--    migrate_set_parameter_int(to, "decompress-threads", 4);
--
--    migrate_set_capability(from, "compress", true);
--    migrate_set_capability(to, "compress", true);
--
--    return NULL;
--}
--
- static void test_precopy_unix_compress(void)
- {
-     g_autofree char *uri =3D g_strdup_printf("unix:%s/migsocket", tmpfs);
-@@ -1591,21 +1625,6 @@ static void test_precopy_unix_compress(void)
-     test_precopy_common(&args);
- }
-
--static void *
--test_migrate_compress_nowait_start(QTestState *from,
--                                   QTestState *to)
--{
--    migrate_set_parameter_int(from, "compress-level", 9);
--    migrate_set_parameter_int(from, "compress-threads", 1);
--    migrate_set_parameter_bool(from, "compress-wait-thread", false);
--    migrate_set_parameter_int(to, "decompress-threads", 1);
--
--    migrate_set_capability(from, "compress", true);
--    migrate_set_capability(to, "compress", true);
--
--    return NULL;
--}
--
- static void test_precopy_unix_compress_nowait(void)
- {
-     g_autofree char *uri =3D g_strdup_printf("unix:%s/migsocket", tmpfs);
-@@ -2604,8 +2623,12 @@ int main(int argc, char **argv)
-
-     if (has_uffd) {
-         qtest_add_func("/migration/postcopy/plain", test_postcopy);
-+        qtest_add_func("/migration/postcopy/compress/plain",
-+                       test_postcopy_compress);
-         qtest_add_func("/migration/postcopy/recovery/plain",
-                        test_postcopy_recovery);
-+        qtest_add_func("/migration/postcopy/recovery/compress/plain",
-+                       test_postcopy_recovery_compress);
-         qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_=
-preempt);
-         qtest_add_func("/migration/postcopy/preempt/recovery/plain",
-                        test_postcopy_preempt_recovery);
+-    if (param->zero_page) {
++    if (param->result =3D=3D RES_ZEROPAGE) {
+         stat64_add(&ram_atomic_counters.duplicate, 1);
+         return;
+     }
 --
 2.40.0
 
 
---Sig_/C.O15HesEp.0vYR6xcN7KlK
+--Sig_/9Z/1Tf9XhI..LO8Dbi1_WpC
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRBCkkACgkQNasLKJxd
-slj5mBAAskRbYqhjN4lRlBOKwCMckuZbREJtJ+eCxHBudZ1PSIOe8uZh0QcsimSq
-1K7c6ipOtiYOvt0yKLFsfTnL8vyJH0Cum9hs361lTkqAdR0wccfAhpFMRsBmsG8x
-uq4+95IAzXBh2h5TlSikATFAcjCXPO+MCtV6kf0qLcokjyFIWDRd1G4KpadzZJrz
-ErnssIPcDtW+MIWmSl/YqRkhXTRDtumb9NLmR2NPwfs+kXninMVAraB1OMNrZTU8
-JIJf4sr1svJ11EOg2C2D2PcHQICciFlZLvlHSYHiI3sR7A6khH4b7jBGC8Jl3Yu4
-26ltrDsJh/TxR4tlv0oWONJvAa+DLzCQ7Aq2hvrZqZOtyngiYFhGXuoigkmS1fz+
-CGlEkFosagFGLxA8Ifur4dJOk0sLD5ktZC0VwbJfRbbO3Vxf29IIUipohI5Am/5I
-WBI2ENmeRpAj/pTPLGW/vGZ8o82bdCveGE7jbfR4Alj4d4AsOUe7IMUQB4R7Y6dr
-7GqRSGcZm8J+jtKCxvMByY4xxnB1MQvTXb4FxnU30FK5/4WxhG05EzigNXLalU3k
-YZAUbID8t7g5LxvGujnKiU2mSFEYh/BZaeKjRtv5iTm91Q6QODqEvv0IUlnQMzdA
-hYw8bJ4HFvNA6k+A6+oLPjocQKbGZat/s67Wi0LoDpHbQFvsVh8=
-=TDkF
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRBCkwACgkQNasLKJxd
+sljXdw//b/hH1wupaYc/vOxhGJU612vq3jPNbBtLiANCXGK0IFxgWpA1aXrzSLnD
+9pfGZsN1RxS6r/tQEWYehJinsnG1/QbPjNabKFjVVGjlVICQYqcwMrvWEzNRM/Q0
+qvS+BHOh3/u1PhrlkqCG9Qa9/M2oo2vWa/cX3UJvNcazZCfrDrQbSAg1cPHMyJQx
+uqVEIivZ69RjxzVXJ9grF3Fmhx25LdAA5krVk5+1X2p1i+CH02Frz9gmnx5ocO/Z
+5G1Wj2NYNoatEwF3qmpTTNTzsDFhayj68jFlrmHEisKJ9lH5xhZ72RE2DL0ORCzy
+C3QgU88kEVfAw4aX9RrLXDcHsPqEzLDS4qE6sDdfTt9Fq3RaGOC6sXPXX2LkR4aJ
+lFApO0qmNFbwvk942o84c19sQrQLdsB8Y/I7N2OP9PiDv2yRa/B5sApJlx3vOqk+
+XiM+sXI62fKbvQLtI2zi+Xc3YjdlLYdF+zFujAJhqtObaC46r92xUaOxNqKeBXsu
+DgkxaL/eqFdZu8AOjjGZh05aQs1FXvITMudtx2ndiG5QjUvy+B60Fux1HjqTkZ5T
+wcZvLR0p9x4vvsp7eqdjUh2uWGYRz40SqKpfZQLDYowevMB6UxcVqNxSqJkCrDGh
+hGq8glCu8mmTqOuYxmBtwxV5nwitZDRfnTsspRPwqIZoYSBRFc4=
+=9Ain
 -----END PGP SIGNATURE-----
 
---Sig_/C.O15HesEp.0vYR6xcN7KlK--
+--Sig_/9Z/1Tf9XhI..LO8Dbi1_WpC--
 
