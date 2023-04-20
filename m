@@ -2,76 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE366E8600
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 01:38:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604A16E86FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 02:51:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppHNY-0006hE-Uo; Wed, 19 Apr 2023 19:38:24 -0400
+	id 1ppIUw-0006EV-4E; Wed, 19 Apr 2023 20:50:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ppHNV-0006go-E1; Wed, 19 Apr 2023 19:38:21 -0400
-Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930])
+ (Exim 4.90_1) (envelope-from
+ <3NYxAZAYKCngoaWjfYckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--seanjc.bounces.google.com>)
+ id 1ppIUt-0006E7-HE
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 20:50:03 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ppHNT-0000gd-T9; Wed, 19 Apr 2023 19:38:21 -0400
-Received: by mail-ua1-x930.google.com with SMTP id l13so1014758uan.10;
- Wed, 19 Apr 2023 16:38:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <3NYxAZAYKCngoaWjfYckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--seanjc.bounces.google.com>)
+ id 1ppIUr-00077I-IU
+ for qemu-devel@nongnu.org; Wed, 19 Apr 2023 20:50:03 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id
+ k63-20020a252442000000b00b958b7414abso920408ybk.21
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 17:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681947498; x=1684539498;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aNYSQ2itnZx1T+TA2cQgQ4Td9fr74yXDe08hrzCiLxI=;
- b=IJO7LdA08M/b7PJxtSfrlu4zAd7Of3A1aBsg39Ho7UeEkY0URSpR/JASaKOr8qykF0
- 2jopCC8WdQKJlx1gzlT6zsiLuJ+RG7fZuIenfkMN/xbN0UGzY8EwpcSDTBscPJXpuhKy
- 6c1FZXGafte1C3VDfeGoZTh7bq67qF3Ykiv69v/kKJgsaz9SkEpkt8Xck2b1eOQ6XuYn
- 6Jl/f8SQySIHrqoSrDpdY46AzWmalAEvww22O+at9BqXBuG9Qqx5WmacB4NQsHqtD8SD
- hS67YcuoB/l1gm1z1h4JZwWkmW7v9c9w9TOua3kNErZuO5LdCXrwW8TFi805WegPhFkU
- OnQA==
+ d=google.com; s=20221208; t=1681951797; x=1684543797;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WElRL1S1A/l6yYWkPjKb60TbLP43vB7Va3vAhnMHy4o=;
+ b=0KQvDXHLR89BVxU2oI9O1ZusFid2YKHOcipULiVP6+PSDHwriZYqd2A06zVvzb+5zg
+ +1pAM1zXlSNPZvINL7u8jaguPJCIxfMpOP+rF/bo3e7YipW5A5h9Z1uQ5Ne2aQDNcW6c
+ EcQXFII0XVCoUfr19ADWbM/w1kzMojqRNFL4dpL0bA9tYUhTVMdjBXnH0ldjTdoS4rfS
+ B4qULmS58/9Ub/zlvy0EPJx+IEG/RXiTWy5ry2WStJSaH5TR16lXIzvnkE2V+5Qqr+ic
+ KCotEARF8eci5Ax95+I+ZNzK3NrfAcOPUHTnTLXEbEOQev6PRHk+rxhdkpcXFMAn0sKn
+ YqLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681947498; x=1684539498;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aNYSQ2itnZx1T+TA2cQgQ4Td9fr74yXDe08hrzCiLxI=;
- b=i7+gQpgehbR+BkHP5EL4gZp9P7t23ebfM+VIaQ+RFvQpUqjsTFYcwL2LCpziu/5AYU
- c5PmJMJAp6Q9wNGZNs1o4N3wMTDPkU8QsPw3Cbk9UjOqLSugKoUGsrQrXSFt1TnsIDhd
- lSwdeVxRvw0TANSdhRR+03Nr9zFBRaEiP7CS9BZ6EEzSo3e6diSHAsItA7LyzBUO8JA8
- 5T2V8TEA4raX0mnoPXET1P1+sOVX6/vxknP0ncpw/NvR7kEAXXF7xv/JFC+jrqGyLw3B
- kMDnG6ZGLpBiJ8xa6yYiWc5GbxUayzVDsuaNk3F07J1ktYdWMAXpT7Cxt95l3KXT/G2c
- OPQA==
-X-Gm-Message-State: AAQBX9ewQj3YcUOhEEe4he0ymImDemAQtkPhjUuSgq0K1DIgDvay24B2
- o8qbmc0d5kOS2QhPuTJr1/eKpSnvOIJA/k/mLKg=
-X-Google-Smtp-Source: AKy350apOQUEXyChj3cZctlU33o2ac2CzxgUFtSrvFaYC/I3ZxTKCUl+TYpWwpRVagAy/bahTzzIJeVVqqpebeY9qsc=
-X-Received: by 2002:a1f:e7c1:0:b0:43b:ef4d:f6c0 with SMTP id
- e184-20020a1fe7c1000000b0043bef4df6c0mr786217vkh.0.1681947498009; Wed, 19 Apr
- 2023 16:38:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230417140013.58893-1-dbarboza@ventanamicro.com>
- <20230417140013.58893-3-dbarboza@ventanamicro.com>
-In-Reply-To: <20230417140013.58893-3-dbarboza@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 20 Apr 2023 09:37:51 +1000
-Message-ID: <CAKmqyKOq+SWD6fVZsiRBLBqhkcuGD9Z4cbtksrsQBLc5RsZ5EA@mail.gmail.com>
-Subject: Re: [PATCH v7 02/12] target/riscv/cpu.c: remove set_vext_version()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
- palmer@rivosinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x930.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ d=1e100.net; s=20221208; t=1681951797; x=1684543797;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WElRL1S1A/l6yYWkPjKb60TbLP43vB7Va3vAhnMHy4o=;
+ b=GXy8AGt3TRgtCXhhdvk4UIvng/2M4SKW8XWOeXzSoR65P029Pa//OKl8wl3EW3SrcX
+ kdIUnk9zIKLnTTLEQIl+fuAgFUnwHFXbEMg/IKU9t6cA67uT/AQkHknyjXbOYeo9530B
+ iRrnS/Mu+vjXrWCEUjb+6ozOGuJO4dCJwdInRIFrbqZZ4FGI/bGs9H3YJ+dqWGuhasY7
+ UapyNXrk69q3C46BA96zHJabV2zFOUIoKrOIngLJkvtP6D9PtXneNFqKJdT4s0RCUAJw
+ a1EH8PtKjwd/MCgrhYGP0znb7NKafR9vNmMKYHjsInR4BJx2r3GITceJHYS++Kky6GUX
+ zumQ==
+X-Gm-Message-State: AAQBX9eySQaICqGBemjPmW1/sNqxhGFKQ8dkTNpnk7FU3nG9x//kjiXI
+ 5XjYGQUsM/SJWKM41c3Crv4rrvmmBO0=
+X-Google-Smtp-Source: AKy350ZW3QSDcu1b4uay718+0UKdCoR5698g0B4gA8e9kbzHBPJ0H7w91zco9M9KgDo6hSqXOcwRuk93omk=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:d24c:0:b0:b95:460c:1776 with SMTP id
+ j73-20020a25d24c000000b00b95460c1776mr766347ybg.13.1681951797267; Wed, 19 Apr
+ 2023 17:49:57 -0700 (PDT)
+Date: Wed, 19 Apr 2023 17:49:55 -0700
+In-Reply-To: <20230418-anfallen-irdisch-6993a61be10b@brauner>
+Mime-Version: 1.0
+References: <20220818132421.6xmjqduempmxnnu2@box>
+ <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <20230413-anlegen-ergibt-cbefffe0b3de@brauner>
+ <ZDiCG/7OgDI0SwMR@google.com> <20230418-anfallen-irdisch-6993a61be10b@brauner>
+Message-ID: <ZECMM9bjgGRdyXRy@google.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+From: Sean Christopherson <seanjc@google.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Ackerley Tng <ackerleytng@google.com>, 
+ Chao Peng <chao.p.peng@linux.intel.com>, Hugh Dickins <hughd@google.com>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H . Peter Anvin" <hpa@zytor.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ luto@kernel.org, 
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, Pankaj Gupta <pankaj.gupta@amd.com>, 
+ linux-arch@vger.kernel.org, arnd@arndb.de, linmiaohe@huawei.com, 
+ naoya.horiguchi@nec.com, tabba@google.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3NYxAZAYKCngoaWjfYckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--seanjc.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,53 +121,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 12:08=E2=80=AFAM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> This setter is doing nothing else but setting env->vext_ver. Assign the
-> value directly.
->
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+On Wed, Apr 19, 2023, Christian Brauner wrote:
+> On Thu, Apr 13, 2023 at 03:28:43PM -0700, Sean Christopherson wrote:
+> > > But if you want to preserve the inode number and device number of the
+> > > relevant tmpfs instance but still report memfd restricted as your
+> > > filesystem type
+> > 
+> > Unless I missed something along the way, reporting memfd_restricted as a distinct
+> > filesystem is very much a non-goal.  AFAIK it's purely a side effect of the
+> > proposed implementation.
+> 
+> In the current implementation you would have to put in effort to fake
+> this. For example, you would need to also implement ->statfs
+> super_operation where you'd need to fill in the details of the tmpfs
+> instance. At that point all that memfd_restricted fs code that you've
+> written is nothing but deadweight, I would reckon.
 
-I think you dropped my previous reviews
+After digging a bit, I suspect the main reason Kirill implemented an overlay to
+inode_operations was to prevent modifying the file size via ->setattr().  Relying
+on shmem_setattr() to unmap entries in KVM's MMU wouldn't work because, by design,
+the memory can't be mmap()'d into host userspace. 
 
-Alistair
+	if (attr->ia_valid & ATTR_SIZE) {
+		if (memfd->f_inode->i_size)
+			return -EPERM;
 
-> ---
->  target/riscv/cpu.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index feca13aefb..fed7b467e4 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -252,11 +252,6 @@ static void set_priv_version(CPURISCVState *env, int=
- priv_ver)
->      env->priv_ver =3D priv_ver;
->  }
->
-> -static void set_vext_version(CPURISCVState *env, int vext_ver)
-> -{
-> -    env->vext_ver =3D vext_ver;
-> -}
-> -
->  #ifndef CONFIG_USER_ONLY
->  static uint8_t satp_mode_from_str(const char *satp_mode_str)
->  {
-> @@ -834,7 +829,7 @@ static void riscv_cpu_validate_v(CPURISCVState *env, =
-RISCVCPUConfig *cfg,
->          qemu_log("vector version is not specified, "
->                   "use the default value v1.0\n");
->      }
-> -    set_vext_version(env, vext_version);
-> +    env->vext_ver =3D vext_version;
->  }
->
->  /*
-> --
-> 2.39.2
->
->
+		if (!PAGE_ALIGNED(attr->ia_size))
+			return -EINVAL;	
+	}
+
+But I think we can solve this particular problem by using F_SEAL_{GROW,SHRINK} or
+SHMEM_LONGPIN.  For a variety of reasons, I'm leaning more and more toward making
+this a KVM ioctl() instead of a dedicated syscall, at which point we can be both
+more flexible and more draconian, e.g. let userspace provide the file size at the
+time of creation, but make the size immutable, at least by default.
+
+> > After giving myself a bit of a crash course in file systems, would something like
+> > the below have any chance of (a) working, (b) getting merged, and (c) being
+> > maintainable?
+> > 
+> > The idea is similar to a stacking filesystem, but instead of stacking, restrictedmem
+> > hijacks a f_ops and a_ops to create a lightweight shim around tmpfs.  There are
+> > undoubtedly issues and edge cases, I'm just looking for a quick "yes, this might
+> > be doable" or a "no, that's absolutely bonkers, don't try it".
+> 
+> Maybe, but I think it's weird.
+
+Yeah, agreed.
+
+> _Replacing_ f_ops isn't something that's unprecedented. It happens everytime
+> a character device is opened (see fs/char_dev.c:chrdev_open()). And debugfs
+> does a similar (much more involved) thing where it replaces it's proxy f_ops
+> with the relevant subsystem's f_ops. The difference is that in both cases the
+> replace happens at ->open() time; and the replace is done once. Afterwards
+> only the newly added f_ops are relevant.
+> 
+> In your case you'd be keeping two sets of {f,a}_ops; one usable by
+> userspace and another only usable by in-kernel consumers. And there are
+> some concerns (non-exhaustive list), I think:
+> 
+> * {f,a}_ops weren't designed for this. IOW, one set of {f,a}_ops is
+>   authoritative per @file and it is left to the individual subsystems to
+>   maintain driver specific ops (see the sunrpc stuff or sockets).
+> * lifetime management for the two sets of {f,a}_ops: If the ops belong
+>   to a module then you need to make sure that the module can't get
+>   unloaded while you're using the fops. Might not be a concern in this
+>   case.
+
+Ah, whereas I assume the owner of inode_operations is pinned by ??? (dentry?)
+holding a reference to the inode?
+
+> * brittleness: Not all f_ops for example deal with userspace
+>   functionality some deal with cleanup when the file is closed like
+>   ->release(). So it's delicate to override that functionality with
+>   custom f_ops. Restricted memfds could easily forget to cleanup
+>   resources.
+> * Potential for confusion why there's two sets of {f,a}_ops.
+> * f_ops specifically are generic across a vast amount of consumers and
+>   are subject to change. If memfd_restricted() has specific requirements
+>   because of this weird double-use they won't be taken into account.
+> 
+> I find this hard to navigate tbh and it feels like taking a shortcut to
+> avoid building a proper api.
+
+Agreed.  At the very least, it would be better to take an explicit dependency on
+whatever APIs are being used instead of somewhat blindly bouncing through ->fallocate().
+I think that gives us a clearer path to getting something merged too, as we'll
+need Acks on making specific functions visible, i.e. will give MM maintainers
+something concrete to react too.
+
+> If you only care about a specific set of operations specific to memfd
+> restricte that needs to be available to in-kernel consumers, I wonder if you
+> shouldn't just go one step further then your proposal below and build a
+> dedicated minimal ops api.
+
+This is actually very doable for shmem.  Unless I'm missing something, because
+our use case doesn't allow mmap(), swap, or migration, a good chunk of
+shmem_fallocate() is simply irrelevant.  The result is only ~100 lines of code,
+and quite straightforward.
+
+My biggest concern, outside of missing a detail in shmem, is adding support for
+HugeTLBFS, which is likely going to be requested/needed sooner than later.  At a
+glance, hugetlbfs_fallocate() is quite a bit more complex, i.e. not something I'm
+keen to duplicate.  But that's also a future problem to some extent, as it's
+purely kernel internals; the uAPI side of things doesn't seem like it'll be messy
+at all.
+
+Thanks again!
 
