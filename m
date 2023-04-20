@@ -2,88 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D226E9DAB
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E97F6E9DAD
 	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 23:09:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppbVP-00004u-Lz; Thu, 20 Apr 2023 17:07:51 -0400
+	id 1ppbW2-0000Cu-0d; Thu, 20 Apr 2023 17:08:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ppbVN-0008WS-II
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:07:49 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ppbVL-0000qy-DF
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:07:48 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- 46e09a7af769-6a5d9853d97so566096a34.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 14:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682024865; x=1684616865;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/LRoAAglM5ULHMNGaZv7PVM8tE/5EL93ZZeuN9cZADs=;
- b=CN+gbunFh6l4vfGNx9NLDZUGNTpqgPTV4BklVKdKDwYGStIgrdedNWzZnyh20UZmNS
- vGgvl38unlQ9BpZabw14xT8MP3O2unW01JzwqSIjpg09UgCF/UBYLvKm3GSHxgvZnQNh
- QDfMpBIsA9/5vs8A+NJKTEForUs3kk2GeXY7KFOjDqrorN8NRMWov8qag4zb7psVewfV
- 1ymyp7CNBwaUyJDQs5gLpoS1M/ohQetPxsfQhDx9thu8J841BJIiTtYn6PCPnZpTx5IK
- 6njs3i4uNrTwydvSP3UVHcTlje6s6esoQssCUdne9Mu1Putlwm/v5OtxAlY1UaquzB9U
- jk1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682024865; x=1684616865;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/LRoAAglM5ULHMNGaZv7PVM8tE/5EL93ZZeuN9cZADs=;
- b=EL7/WhTZFNYMDZT7hBe8J/VGWFB8PWI8jfvhEr4p4vfHZPZ5MWaLitKgzfMQVt571R
- U3alIsbAUuyndrB/Pbk2AQEa8fNWto332zlPyxNZwT4vK7jLC/ht9zjDE9LrsI1S3dlw
- 7Hk5eaoXAAw2AU5EB/wRCe4G+m0sGUouUjiS2FTEBM61XOx+frV+TSQr9B0BIAEgykDV
- nbPPQVoPryDPF4aLLqHlKIoIIzS2IonAbK/Dms/haCd0X9l3t5zsjUf7XhYecdVpzBj9
- ZuCcdUO3Jl9xVUvfVHjL3W6yutXvQIApSR8ynBvtdQiC8NPl5mrSOTt/Ag+QvnjOW7td
- r0hg==
-X-Gm-Message-State: AAQBX9e1GJBofFVlmk8zxJe0ydmwFJe8enhOSxOuHkGWSnLalNIt7bck
- o/Q/9J0e8emMqcsXsTIMBCE=
-X-Google-Smtp-Source: AKy350YmuBaKralkfncCmVQ5MGbxsowRddE8E0HVAsoAAkW7xNVAoJR+w5hGppo8skdIC4LWjOgGAA==
-X-Received: by 2002:a05:6870:f292:b0:187:fee8:bb0e with SMTP id
- u18-20020a056870f29200b00187fee8bb0emr1898185oap.57.1682024865736; 
- Thu, 20 Apr 2023 14:07:45 -0700 (PDT)
-Received: from [192.168.68.107] ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- z6-20020a056870e14600b0018b182ce317sm1135997oaa.55.2023.04.20.14.07.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 14:07:45 -0700 (PDT)
-Message-ID: <8595e336-85ae-592e-8447-f1429719a8a7@gmail.com>
-Date: Thu, 20 Apr 2023 18:07:41 -0300
+ (Exim 4.90_1) (envelope-from <dg@treblig.org>)
+ id 1ppbVz-0000Ay-2I; Thu, 20 Apr 2023 17:08:27 -0400
+Received: from mx.treblig.org ([46.235.229.95])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dg@treblig.org>)
+ id 1ppbVw-0001CR-KU; Thu, 20 Apr 2023 17:08:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID
+ :Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID
+ :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+ Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+ :List-Post:List-Owner:List-Archive;
+ bh=4NT4L2rjOEdkbvsvpF1n1tLPTUA4gi/JCV1yDGUghvw=; b=FRUvy4AUeHbaTDwbY7oB+6ltrS
+ LrvcGdwiLsSL0P6f6mu0H7QLDC5pUHvhEBBA4TbVY8Ggb7gRUxg9T89Jf44CHdL8XbP8+YGT78fKv
+ rRPS/9yTOKpROwP6jVsL3XVHQO+pRSfACSD2COu7dm/gf6JQNYAcM6laj7nZjCmxWNcbmMe037DpB
+ 4htXTPcb3aawRpxwvVOI/6Z2D38mPXZ0Ep09ccErkNWU3N3yg1X69qLBP1xZVGGvMgLuHFQMgswDL
+ /AduUPR7BdX26fwX2g2PG2n7yuX3Ty9er5WVOPrd1R9uTSHeZolB84k685cLYkVZ9ggLNwyA6qhFb
+ gd7RR/NA==;
+Received: from dg by mx.treblig.org with local (Exim 4.94.2)
+ (envelope-from <dg@treblig.org>)
+ id 1ppbVm-005Lma-RJ; Thu, 20 Apr 2023 21:08:14 +0000
+Date: Thu, 20 Apr 2023 21:08:14 +0000
+From: "Dr. David Alan Gilbert" <dave@treblig.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, michael.roth@amd.com,
+ armbru@redhat.com, eblake@redhat.com, jasowang@redhat.com,
+ quintela@redhat.com, zhanghailiang@xfusion.com, philmd@linaro.org,
+ thuth@redhat.com, berrange@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
+ chen.zhang@intel.com, lizhijian@fujitsu.com
+Subject: Re: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
+Message-ID: <ZEGpvqVgGDexmexI@gallifrey>
+References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+ <20230419225232.508121-4-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] async: Suppress GCC13 false positive in aio_bh_poll()
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20230420202939.1982044-1-clg@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20230420202939.1982044-1-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x331.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.669,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20230419225232.508121-4-vsementsov@yandex-team.ru>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/5.10.0-21-amd64 (x86_64)
+X-Uptime: 21:01:47 up 32 days, 7:36, 1 user, load average: 0.03, 0.02, 0.00
+User-Agent: Mutt/2.0.5 (2021-01-21)
+Received-SPF: pass client-ip=46.235.229.95; envelope-from=dg@treblig.org;
+ helo=mx.treblig.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,85 +76,306 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 4/20/23 17:29, Cédric Le Goater wrote:
-> From: Cédric Le Goater <clg@redhat.com>
+* Vladimir Sementsov-Ogievskiy (vsementsov@yandex-team.ru) wrote:
+> We don't allow to use x-colo capability when replication is not
+> configured. So, no reason to build COLO when replication is disabled,
+> it's unusable in this case.
 > 
-> GCC13 reports an error :
-> 
-> ../util/async.c: In function ‘aio_bh_poll’:
-> include/qemu/queue.h:303:22: error: storing the address of local variable ‘slice’ in ‘*ctx.bh_slice_list.sqh_last’ [-Werror=dangling-pointer=]
->    303 |     (head)->sqh_last = &(elm)->field.sqe_next;                          \
->        |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-> ../util/async.c:169:5: note: in expansion of macro ‘QSIMPLEQ_INSERT_TAIL’
->    169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
->        |     ^~~~~~~~~~~~~~~~~~~~
-> ../util/async.c:161:17: note: ‘slice’ declared here
->    161 |     BHListSlice slice;
->        |                 ^~~~~
-> ../util/async.c:161:17: note: ‘ctx’ declared here
-> 
-> But the local variable 'slice' is removed from the global context list
-> in following loop of the same routine. Add a pragma to silent GCC.
-> 
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Cédric Le Goater <clg@redhat.com>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 > ---
-
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
-If no one opposes I'll queue this patch, and the following 2 already reviewed
-patches, in ppc-next:
-
-[PATCH for-8.0 v2 3/3] target/ppc: Fix helper_pminsn() prototype
-[PATCH for-8.0 v2 2/3] target/s390x: Fix float_comp_to_cc() prototype
-
-
-The reason is that I updated to Fedora 38 too soon and became aggravated by
-these GCC13 false positives.
-
-
-
-Thanks,
-
-
-Daniel
-
-
-
->   util/async.c | 14 ++++++++++++++
->   1 file changed, 14 insertions(+)
+>  hmp-commands.hx                |  2 ++
+>  migration/colo.c               |  6 +++++
+>  migration/meson.build          |  6 +++--
+>  migration/migration-hmp-cmds.c |  2 ++
+>  migration/migration.c          | 19 +++-----------
+>  net/meson.build                |  5 +++-
+>  qapi/migration.json            | 12 ++++++---
+>  stubs/colo.c                   | 47 ++++++++++++++++++++++++++++++++++
+>  stubs/meson.build              |  1 +
+>  9 files changed, 78 insertions(+), 22 deletions(-)
+>  create mode 100644 stubs/colo.c
 > 
-> diff --git a/util/async.c b/util/async.c
-> index 21016a1ac7..856e1a8a33 100644
-> --- a/util/async.c
-> +++ b/util/async.c
-> @@ -164,7 +164,21 @@ int aio_bh_poll(AioContext *ctx)
->   
->       /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue().  */
->       QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index bb85ee1d26..fbd0932232 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1035,6 +1035,7 @@ SRST
+>    migration (or once already in postcopy).
+>  ERST
+>  
+> +#ifdef CONFIG_REPLICATION
+>      {
+>          .name       = "x_colo_lost_heartbeat",
+>          .args_type  = "",
+> @@ -1043,6 +1044,7 @@ ERST
+>                        "a failover or takeover is needed.",
+>          .cmd = hmp_x_colo_lost_heartbeat,
+>      },
+> +#endif
+
+We seem to be inconsistent about whether the ifdef includes the
+SRST/ERST doc section; some ifdef do and some don't; and thus
+it depends whether or not you want the command documented
+even though it's compiled out.
+
+I think it's probably OK, but maybe worth reconsidering:
+
+Acked-by: Dr. David Alan Gilbert <dave@treblig.org>
+
+>  SRST
+>  ``x_colo_lost_heartbeat``
+> diff --git a/migration/colo.c b/migration/colo.c
+> index 0716e64689..089c491d70 100644
+> --- a/migration/colo.c
+> +++ b/migration/colo.c
+> @@ -196,6 +196,12 @@ COLOMode get_colo_mode(void)
+>      }
+>  }
+>  
+> +bool migrate_colo_enabled(void)
+> +{
+> +    MigrationState *s = migrate_get_current();
+> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_X_COLO];
+> +}
 > +
-> +    /*
-> +     * GCC13 [-Werror=dangling-pointer=] complains that the local variable
-> +     * 'slice' is being stored in the global 'ctx->bh_slice_list' but the
-> +     * list is emptied before this function returns.
-> +     */
-> +#if !defined(__clang__)
-> +#pragma GCC diagnostic push
-> +#pragma GCC diagnostic ignored "-Wpragmas"
-> +#pragma GCC diagnostic ignored "-Wdangling-pointer="
+>  void colo_do_failover(void)
+>  {
+>      /* Make sure VM stopped while failover happened. */
+> diff --git a/migration/meson.build b/migration/meson.build
+> index 0d1bb9f96e..3fccf79f12 100644
+> --- a/migration/meson.build
+> +++ b/migration/meson.build
+> @@ -13,8 +13,6 @@ softmmu_ss.add(files(
+>    'block-dirty-bitmap.c',
+>    'channel.c',
+>    'channel-block.c',
+> -  'colo-failover.c',
+> -  'colo.c',
+>    'exec.c',
+>    'fd.c',
+>    'global_state.c',
+> @@ -29,6 +27,10 @@ softmmu_ss.add(files(
+>    'threadinfo.c',
+>  ), gnutls)
+>  
+> +if get_option('replication').allowed()
+> +  softmmu_ss.add(files('colo-failover.c', 'colo.c'))
+> +endif
+> +
+>  softmmu_ss.add(when: rdma, if_true: files('rdma.c'))
+>  if get_option('live_block_migration').allowed()
+>    softmmu_ss.add(files('block.c'))
+> diff --git a/migration/migration-hmp-cmds.c b/migration/migration-hmp-cmds.c
+> index 72519ea99f..4601c48f41 100644
+> --- a/migration/migration-hmp-cmds.c
+> +++ b/migration/migration-hmp-cmds.c
+> @@ -640,6 +640,7 @@ void hmp_migrate_start_postcopy(Monitor *mon, const QDict *qdict)
+>      hmp_handle_error(mon, err);
+>  }
+>  
+> +#ifdef CONFIG_REPLICATION
+>  void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict)
+>  {
+>      Error *err = NULL;
+> @@ -647,6 +648,7 @@ void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict)
+>      qmp_x_colo_lost_heartbeat(&err);
+>      hmp_handle_error(mon, err);
+>  }
 > +#endif
->       QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
-> +#if !defined(__clang__)
-> +#pragma GCC diagnostic pop
+>  
+>  typedef struct HMPMigrationStatus {
+>      QEMUTimer *timer;
+> diff --git a/migration/migration.c b/migration/migration.c
+> index bda4789193..2382958364 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -165,7 +165,9 @@ INITIALIZE_MIGRATE_CAPS_SET(check_caps_background_snapshot,
+>      MIGRATION_CAPABILITY_RDMA_PIN_ALL,
+>      MIGRATION_CAPABILITY_COMPRESS,
+>      MIGRATION_CAPABILITY_XBZRLE,
+> +#ifdef CONFIG_REPLICATION
+>      MIGRATION_CAPABILITY_X_COLO,
 > +#endif
->   
->       while ((s = QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
->           QEMUBH *bh;
+>      MIGRATION_CAPABILITY_VALIDATE_UUID,
+>      MIGRATION_CAPABILITY_ZERO_COPY_SEND);
+>  
+> @@ -1329,15 +1331,6 @@ static bool migrate_caps_check(bool *cap_list,
+>      }
+>  #endif
+>  
+> -#ifndef CONFIG_REPLICATION
+> -    if (cap_list[MIGRATION_CAPABILITY_X_COLO]) {
+> -        error_setg(errp, "QEMU compiled without replication module"
+> -                   " can't enable COLO");
+> -        error_append_hint(errp, "Please enable replication before COLO.\n");
+> -        return false;
+> -    }
+> -#endif
+> -
+>      if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
+>          /* This check is reasonably expensive, so only when it's being
+>           * set the first time, also it's only the destination that needs
+> @@ -3577,12 +3570,6 @@ fail:
+>                        MIGRATION_STATUS_FAILED);
+>  }
+>  
+> -bool migrate_colo_enabled(void)
+> -{
+> -    MigrationState *s = migrate_get_current();
+> -    return s->enabled_capabilities[MIGRATION_CAPABILITY_X_COLO];
+> -}
+> -
+>  typedef enum MigThrError {
+>      /* No error detected */
+>      MIG_THR_ERR_NONE = 0,
+> @@ -4537,7 +4524,9 @@ static Property migration_properties[] = {
+>      DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
+>      DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
+>                          MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
+> +#ifdef CONFIG_REPLICATION
+>      DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
+> +#endif
+>      DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
+>      DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
+>      DEFINE_PROP_MIG_CAP("x-return-path", MIGRATION_CAPABILITY_RETURN_PATH),
+> diff --git a/net/meson.build b/net/meson.build
+> index 87afca3e93..38d50b8c96 100644
+> --- a/net/meson.build
+> +++ b/net/meson.build
+> @@ -1,7 +1,6 @@
+>  softmmu_ss.add(files(
+>    'announce.c',
+>    'checksum.c',
+> -  'colo-compare.c',
+>    'colo.c',
+>    'dump.c',
+>    'eth.c',
+> @@ -19,6 +18,10 @@ softmmu_ss.add(files(
+>    'util.c',
+>  ))
+>  
+> +if get_option('replication').allowed()
+> +  softmmu_ss.add(files('colo-compare.c'))
+> +endif
+> +
+>  softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
+>  
+>  if have_l2tpv3
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index c84fa10e86..93863fa88c 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -486,7 +486,8 @@
+>  { 'enum': 'MigrationCapability',
+>    'data': ['xbzrle', 'rdma-pin-all', 'auto-converge', 'zero-blocks',
+>             'compress', 'events', 'postcopy-ram',
+> -           { 'name': 'x-colo', 'features': [ 'unstable' ] },
+> +           { 'name': 'x-colo', 'features': [ 'unstable' ],
+> +             'if': 'CONFIG_REPLICATION' },
+>             'release-ram',
+>             'block', 'return-path', 'pause-before-switchover', 'multifd',
+>             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+> @@ -1409,7 +1410,8 @@
+>  #
+>  ##
+>  { 'command': 'x-colo-lost-heartbeat',
+> -  'features': [ 'unstable' ] }
+> +  'features': [ 'unstable' ],
+> +  'if': 'CONFIG_REPLICATION' }
+>  
+>  ##
+>  # @migrate_cancel:
+> @@ -1685,7 +1687,8 @@
+>  ##
+>  { 'struct': 'COLOStatus',
+>    'data': { 'mode': 'COLOMode', 'last-mode': 'COLOMode',
+> -            'reason': 'COLOExitReason' } }
+> +            'reason': 'COLOExitReason' },
+> +  'if': 'CONFIG_REPLICATION' }
+>  
+>  ##
+>  # @query-colo-status:
+> @@ -1702,7 +1705,8 @@
+>  # Since: 3.1
+>  ##
+>  { 'command': 'query-colo-status',
+> -  'returns': 'COLOStatus' }
+> +  'returns': 'COLOStatus',
+> +  'if': 'CONFIG_REPLICATION' }
+>  
+>  ##
+>  # @migrate-recover:
+> diff --git a/stubs/colo.c b/stubs/colo.c
+> new file mode 100644
+> index 0000000000..45c8ac0cc6
+> --- /dev/null
+> +++ b/stubs/colo.c
+> @@ -0,0 +1,47 @@
+> +#include "qemu/osdep.h"
+> +#include "qemu/notify.h"
+> +#include "net/colo-compare.h"
+> +#include "migration/colo.h"
+> +#include "migration/migration.h"
+> +#include "qapi/error.h"
+> +#include "qapi/qapi-commands-migration.h"
+> +
+> +void colo_compare_cleanup(void)
+> +{
+> +    abort();
+> +}
+> +
+> +void colo_shutdown(void)
+> +{
+> +    abort();
+> +}
+> +
+> +void *colo_process_incoming_thread(void *opaque)
+> +{
+> +    abort();
+> +}
+> +
+> +void colo_checkpoint_notify(void *opaque)
+> +{
+> +    abort();
+> +}
+> +
+> +void migrate_start_colo_process(MigrationState *s)
+> +{
+> +    abort();
+> +}
+> +
+> +bool migration_in_colo_state(void)
+> +{
+> +    return false;
+> +}
+> +
+> +bool migration_incoming_in_colo_state(void)
+> +{
+> +    return false;
+> +}
+> +
+> +bool migrate_colo_enabled(void)
+> +{
+> +    return false;
+> +}
+> diff --git a/stubs/meson.build b/stubs/meson.build
+> index b2b5956d97..8412cad15f 100644
+> --- a/stubs/meson.build
+> +++ b/stubs/meson.build
+> @@ -45,6 +45,7 @@ stub_ss.add(files('target-get-monitor-def.c'))
+>  stub_ss.add(files('target-monitor-defs.c'))
+>  stub_ss.add(files('trace-control.c'))
+>  stub_ss.add(files('uuid.c'))
+> +stub_ss.add(files('colo.c'))
+>  stub_ss.add(files('vmstate.c'))
+>  stub_ss.add(files('vm-stop.c'))
+>  stub_ss.add(files('win32-kbd-hook.c'))
+> -- 
+> 2.34.1
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
 
