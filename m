@@ -2,75 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009F16E9628
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9066E9656
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:51:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUZ3-0002ly-0d; Thu, 20 Apr 2023 09:43:09 -0400
+	id 1ppUZ4-00034K-QG; Thu, 20 Apr 2023 09:43:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUYF-0007pc-Sa
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:42:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUYB-0006Oj-32
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:42:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681998134;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1nrxJ+SNMJG+o1wNbBqZC4jEyoS+h0IGx/EZZrxyrp8=;
- b=HO3C1KKmianWYPJlE1qbHnCDCI2EkgUY8w7WeQO4/Q+VVV4MmfWgu9g5D8gqSFly/a4Bw7
- frKMhsXRxkPUFw4aaS9u22GpVtv4Xn1CHugbVv4Yz4DuVUmGne9PQzHyB8NQZD/Xz5iEa4
- P+rv84IxpPIj2ZkMGgziiUj6puwNGUE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-LGr5q34QNEK96vysUaKWUg-1; Thu, 20 Apr 2023 09:42:13 -0400
-X-MC-Unique: LGr5q34QNEK96vysUaKWUg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E62E81C0897D;
- Thu, 20 Apr 2023 13:42:12 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 378514020BEE;
- Thu, 20 Apr 2023 13:42:10 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
- Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Leonardo Bras <leobras@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2 43/43] migration: Move migration_properties to options.c
-Date: Thu, 20 Apr 2023 15:40:02 +0200
-Message-Id: <20230420134002.29531-44-quintela@redhat.com>
-In-Reply-To: <20230420134002.29531-1-quintela@redhat.com>
-References: <20230420134002.29531-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppUZ2-0002rR-Kz
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:43:08 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppUZ0-0006g2-9v
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:43:08 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ n43-20020a05600c502b00b003f17466a9c1so3094856wmr.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681998184; x=1684590184;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oRlH/iBoeQJWAnVTNJLlZLabXcxjsP4ynzrx2OKk73Q=;
+ b=k8NcmdVVGZYhodLNx84GTsUkDMsVCjPH96onrw10UbhTdrEpTHrZ7iLB03P4g6ap4y
+ zRRDvupxYWbL/Vb6pXnfnUHqC5wL4d1Ek5DU18CZTlYYBwAw6vlEiErzFXiinXh7sbSg
+ OY2ZErR5PTJNycBsOl57XARnHNpZc8ZEFsDk4naNFbPL0u31AVSbJh1wCzDThkcNq4j9
+ LjKLhjoEp0B2aiJradZW3N0P5NSlw3XMNfS73qqovTqqM5GS1jIrEWG5luo5NGhP5I8K
+ powhoHmvZok2lsoX5sgnmstnCFDiViJRTFIKJV3VJqB86WIAhLz8KU9fcoKJx8TH0psB
+ 4iPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681998184; x=1684590184;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=oRlH/iBoeQJWAnVTNJLlZLabXcxjsP4ynzrx2OKk73Q=;
+ b=fnX21sVcWFXtkXzbaywEsbsxbavhL7dw2VElq7vK9Jz1e7RzE+cNogbRlkcq0HcuAC
+ SmSc+SAhNh1aSLES3ebOAkQzMpeOdwC1PjXLbYGfcIwQ49TVgtn151Kdr7Vzv5aYFp3p
+ NoDxgRBu9LBvf/QkQk9srzZtPTlTKACtSPk+9P0Jke8O/kE2L6MrcPIda/jlqmOU3ruk
+ isH8/4hxW51f1KKCjiEFIr3MTdzdCaWOXPq8mYcmvXZpDF5YTBC2pFSOhW6hQnJ96Mh4
+ Zmoc0LBo7+2wreHROWiOWMS7q2NbILvFKYbq8mMUNOWmgUmSp049sHpjkm8jqvtqK+tg
+ ua8w==
+X-Gm-Message-State: AAQBX9f7Pzh+NwotcyTM2FN5kfqRG3mcwLasWqIn8re5GANwitIK/dy3
+ tpLPHe6ik7PAbPws1MR3j8ES3g==
+X-Google-Smtp-Source: AKy350YbWEFXnhkqt9rnym+aaNsj6SMhUMSp+9k4ij1crcBnsPcwrSBz6B8Bwvf10VscTtq8xEUxWA==
+X-Received: by 2002:a1c:ed0b:0:b0:3ee:93d2:c915 with SMTP id
+ l11-20020a1ced0b000000b003ee93d2c915mr4780965wmh.6.1681998184314; 
+ Thu, 20 Apr 2023 06:43:04 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ l7-20020a5d4bc7000000b002fefe2edb72sm2038422wrt.17.2023.04.20.06.43.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 06:43:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6579A1FFB7;
+ Thu, 20 Apr 2023 14:43:03 +0100 (BST)
+References: <cover.1681993775.git.quic_mathbern@quicinc.com>
+ <ec04a0d3cb1c1072703f776624e503ad6257dccd.1681993775.git.quic_mathbern@quicinc.com>
+User-agent: mu4e 1.11.2; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+Cc: qemu-devel@nongnu.org, bcain@quicinc.com, f4bug@amsat.org,
+ peter.maydell@linaro.org, tsimpson@quicinc.com, Philippe =?utf-8?Q?Mathie?=
+ =?utf-8?Q?u-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v2 RESEND 1/7] gdbstub: only send stop-reply packets
+ when allowed to
+Date: Thu, 20 Apr 2023 14:41:08 +0100
+In-reply-to: <ec04a0d3cb1c1072703f776624e503ad6257dccd.1681993775.git.quic_mathbern@quicinc.com>
+Message-ID: <87wn26d5zs.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,387 +99,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/migration.c | 157 ------------------------------------------
- migration/options.c   | 155 +++++++++++++++++++++++++++++++++++++++++
- migration/options.h   |   7 ++
- 3 files changed, 162 insertions(+), 157 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 4742f14686..23414fc901 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -52,8 +52,6 @@
- #include "io/channel-tls.h"
- #include "migration/colo.h"
- #include "hw/boards.h"
--#include "hw/qdev-properties.h"
--#include "hw/qdev-properties-system.h"
- #include "monitor/monitor.h"
- #include "net/announce.h"
- #include "qemu/queue.h"
-@@ -65,51 +63,6 @@
- #include "sysemu/qtest.h"
- #include "options.h"
- 
--#define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
--
--/* Time in milliseconds we are allowed to stop the source,
-- * for sending the last part */
--#define DEFAULT_MIGRATE_SET_DOWNTIME 300
--
--/* Default compression thread count */
--#define DEFAULT_MIGRATE_COMPRESS_THREAD_COUNT 8
--/* Default decompression thread count, usually decompression is at
-- * least 4 times as fast as compression.*/
--#define DEFAULT_MIGRATE_DECOMPRESS_THREAD_COUNT 2
--/*0: means nocompress, 1: best speed, ... 9: best compress ratio */
--#define DEFAULT_MIGRATE_COMPRESS_LEVEL 1
--/* Define default autoconverge cpu throttle migration parameters */
--#define DEFAULT_MIGRATE_THROTTLE_TRIGGER_THRESHOLD 50
--#define DEFAULT_MIGRATE_CPU_THROTTLE_INITIAL 20
--#define DEFAULT_MIGRATE_CPU_THROTTLE_INCREMENT 10
--#define DEFAULT_MIGRATE_MAX_CPU_THROTTLE 99
--
--/* Migration XBZRLE default cache size */
--#define DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE (64 * 1024 * 1024)
--
--/* The delay time (in ms) between two COLO checkpoints */
--#define DEFAULT_MIGRATE_X_CHECKPOINT_DELAY (200 * 100)
--#define DEFAULT_MIGRATE_MULTIFD_CHANNELS 2
--#define DEFAULT_MIGRATE_MULTIFD_COMPRESSION MULTIFD_COMPRESSION_NONE
--/* 0: means nocompress, 1: best speed, ... 9: best compress ratio */
--#define DEFAULT_MIGRATE_MULTIFD_ZLIB_LEVEL 1
--/* 0: means nocompress, 1: best speed, ... 20: best compress ratio */
--#define DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL 1
--
--/* Background transfer rate for postcopy, 0 means unlimited, note
-- * that page requests can still exceed this limit.
-- */
--#define DEFAULT_MIGRATE_MAX_POSTCOPY_BANDWIDTH 0
--
--/*
-- * Parameters for self_announce_delay giving a stream of RARP/ARP
-- * packets after migration.
-- */
--#define DEFAULT_MIGRATE_ANNOUNCE_INITIAL  50
--#define DEFAULT_MIGRATE_ANNOUNCE_MAX     550
--#define DEFAULT_MIGRATE_ANNOUNCE_ROUNDS    5
--#define DEFAULT_MIGRATE_ANNOUNCE_STEP    100
--
- static NotifierList migration_state_notifiers =
-     NOTIFIER_LIST_INITIALIZER(migration_state_notifiers);
- 
-@@ -3322,116 +3275,6 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
-     s->migration_thread_running = true;
- }
- 
--#define DEFINE_PROP_MIG_CAP(name, x)             \
--    DEFINE_PROP_BOOL(name, MigrationState, capabilities[x], false)
--
--static Property migration_properties[] = {
--    DEFINE_PROP_BOOL("store-global-state", MigrationState,
--                     store_global_state, true),
--    DEFINE_PROP_BOOL("send-configuration", MigrationState,
--                     send_configuration, true),
--    DEFINE_PROP_BOOL("send-section-footer", MigrationState,
--                     send_section_footer, true),
--    DEFINE_PROP_BOOL("decompress-error-check", MigrationState,
--                      decompress_error_check, true),
--    DEFINE_PROP_UINT8("x-clear-bitmap-shift", MigrationState,
--                      clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
--    DEFINE_PROP_BOOL("x-preempt-pre-7-2", MigrationState,
--                     preempt_pre_7_2, false),
--
--    /* Migration parameters */
--    DEFINE_PROP_UINT8("x-compress-level", MigrationState,
--                      parameters.compress_level,
--                      DEFAULT_MIGRATE_COMPRESS_LEVEL),
--    DEFINE_PROP_UINT8("x-compress-threads", MigrationState,
--                      parameters.compress_threads,
--                      DEFAULT_MIGRATE_COMPRESS_THREAD_COUNT),
--    DEFINE_PROP_BOOL("x-compress-wait-thread", MigrationState,
--                      parameters.compress_wait_thread, true),
--    DEFINE_PROP_UINT8("x-decompress-threads", MigrationState,
--                      parameters.decompress_threads,
--                      DEFAULT_MIGRATE_DECOMPRESS_THREAD_COUNT),
--    DEFINE_PROP_UINT8("x-throttle-trigger-threshold", MigrationState,
--                      parameters.throttle_trigger_threshold,
--                      DEFAULT_MIGRATE_THROTTLE_TRIGGER_THRESHOLD),
--    DEFINE_PROP_UINT8("x-cpu-throttle-initial", MigrationState,
--                      parameters.cpu_throttle_initial,
--                      DEFAULT_MIGRATE_CPU_THROTTLE_INITIAL),
--    DEFINE_PROP_UINT8("x-cpu-throttle-increment", MigrationState,
--                      parameters.cpu_throttle_increment,
--                      DEFAULT_MIGRATE_CPU_THROTTLE_INCREMENT),
--    DEFINE_PROP_BOOL("x-cpu-throttle-tailslow", MigrationState,
--                      parameters.cpu_throttle_tailslow, false),
--    DEFINE_PROP_SIZE("x-max-bandwidth", MigrationState,
--                      parameters.max_bandwidth, MAX_THROTTLE),
--    DEFINE_PROP_UINT64("x-downtime-limit", MigrationState,
--                      parameters.downtime_limit,
--                      DEFAULT_MIGRATE_SET_DOWNTIME),
--    DEFINE_PROP_UINT32("x-checkpoint-delay", MigrationState,
--                      parameters.x_checkpoint_delay,
--                      DEFAULT_MIGRATE_X_CHECKPOINT_DELAY),
--    DEFINE_PROP_UINT8("multifd-channels", MigrationState,
--                      parameters.multifd_channels,
--                      DEFAULT_MIGRATE_MULTIFD_CHANNELS),
--    DEFINE_PROP_MULTIFD_COMPRESSION("multifd-compression", MigrationState,
--                      parameters.multifd_compression,
--                      DEFAULT_MIGRATE_MULTIFD_COMPRESSION),
--    DEFINE_PROP_UINT8("multifd-zlib-level", MigrationState,
--                      parameters.multifd_zlib_level,
--                      DEFAULT_MIGRATE_MULTIFD_ZLIB_LEVEL),
--    DEFINE_PROP_UINT8("multifd-zstd-level", MigrationState,
--                      parameters.multifd_zstd_level,
--                      DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL),
--    DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
--                      parameters.xbzrle_cache_size,
--                      DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
--    DEFINE_PROP_SIZE("max-postcopy-bandwidth", MigrationState,
--                      parameters.max_postcopy_bandwidth,
--                      DEFAULT_MIGRATE_MAX_POSTCOPY_BANDWIDTH),
--    DEFINE_PROP_UINT8("max-cpu-throttle", MigrationState,
--                      parameters.max_cpu_throttle,
--                      DEFAULT_MIGRATE_MAX_CPU_THROTTLE),
--    DEFINE_PROP_SIZE("announce-initial", MigrationState,
--                      parameters.announce_initial,
--                      DEFAULT_MIGRATE_ANNOUNCE_INITIAL),
--    DEFINE_PROP_SIZE("announce-max", MigrationState,
--                      parameters.announce_max,
--                      DEFAULT_MIGRATE_ANNOUNCE_MAX),
--    DEFINE_PROP_SIZE("announce-rounds", MigrationState,
--                      parameters.announce_rounds,
--                      DEFAULT_MIGRATE_ANNOUNCE_ROUNDS),
--    DEFINE_PROP_SIZE("announce-step", MigrationState,
--                      parameters.announce_step,
--                      DEFAULT_MIGRATE_ANNOUNCE_STEP),
--    DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
--    DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
--    DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
--
--    /* Migration capabilities */
--    DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
--    DEFINE_PROP_MIG_CAP("x-rdma-pin-all", MIGRATION_CAPABILITY_RDMA_PIN_ALL),
--    DEFINE_PROP_MIG_CAP("x-auto-converge", MIGRATION_CAPABILITY_AUTO_CONVERGE),
--    DEFINE_PROP_MIG_CAP("x-zero-blocks", MIGRATION_CAPABILITY_ZERO_BLOCKS),
--    DEFINE_PROP_MIG_CAP("x-compress", MIGRATION_CAPABILITY_COMPRESS),
--    DEFINE_PROP_MIG_CAP("x-events", MIGRATION_CAPABILITY_EVENTS),
--    DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
--    DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
--                        MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
--    DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
--    DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
--    DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
--    DEFINE_PROP_MIG_CAP("x-return-path", MIGRATION_CAPABILITY_RETURN_PATH),
--    DEFINE_PROP_MIG_CAP("x-multifd", MIGRATION_CAPABILITY_MULTIFD),
--    DEFINE_PROP_MIG_CAP("x-background-snapshot",
--            MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT),
--#ifdef CONFIG_LINUX
--    DEFINE_PROP_MIG_CAP("x-zero-copy-send",
--            MIGRATION_CAPABILITY_ZERO_COPY_SEND),
--#endif
--
--    DEFINE_PROP_END_OF_LIST(),
--};
--
- static void migration_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-diff --git a/migration/options.c b/migration/options.c
-index 7a8fb4578a..fada60a00e 100644
---- a/migration/options.c
-+++ b/migration/options.c
-@@ -31,6 +31,161 @@
- #define MAX_MIGRATE_DOWNTIME_SECONDS 2000
- #define MAX_MIGRATE_DOWNTIME (MAX_MIGRATE_DOWNTIME_SECONDS * 1000)
- 
-+#define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
-+
-+/* Time in milliseconds we are allowed to stop the source,
-+ * for sending the last part */
-+#define DEFAULT_MIGRATE_SET_DOWNTIME 300
-+
-+/* Default compression thread count */
-+#define DEFAULT_MIGRATE_COMPRESS_THREAD_COUNT 8
-+/* Default decompression thread count, usually decompression is at
-+ * least 4 times as fast as compression.*/
-+#define DEFAULT_MIGRATE_DECOMPRESS_THREAD_COUNT 2
-+/*0: means nocompress, 1: best speed, ... 9: best compress ratio */
-+#define DEFAULT_MIGRATE_COMPRESS_LEVEL 1
-+/* Define default autoconverge cpu throttle migration parameters */
-+#define DEFAULT_MIGRATE_THROTTLE_TRIGGER_THRESHOLD 50
-+#define DEFAULT_MIGRATE_CPU_THROTTLE_INITIAL 20
-+#define DEFAULT_MIGRATE_CPU_THROTTLE_INCREMENT 10
-+#define DEFAULT_MIGRATE_MAX_CPU_THROTTLE 99
-+
-+/* Migration XBZRLE default cache size */
-+#define DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE (64 * 1024 * 1024)
-+
-+/* The delay time (in ms) between two COLO checkpoints */
-+#define DEFAULT_MIGRATE_X_CHECKPOINT_DELAY (200 * 100)
-+#define DEFAULT_MIGRATE_MULTIFD_CHANNELS 2
-+#define DEFAULT_MIGRATE_MULTIFD_COMPRESSION MULTIFD_COMPRESSION_NONE
-+/* 0: means nocompress, 1: best speed, ... 9: best compress ratio */
-+#define DEFAULT_MIGRATE_MULTIFD_ZLIB_LEVEL 1
-+/* 0: means nocompress, 1: best speed, ... 20: best compress ratio */
-+#define DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL 1
-+
-+/* Background transfer rate for postcopy, 0 means unlimited, note
-+ * that page requests can still exceed this limit.
-+ */
-+#define DEFAULT_MIGRATE_MAX_POSTCOPY_BANDWIDTH 0
-+
-+/*
-+ * Parameters for self_announce_delay giving a stream of RARP/ARP
-+ * packets after migration.
-+ */
-+#define DEFAULT_MIGRATE_ANNOUNCE_INITIAL  50
-+#define DEFAULT_MIGRATE_ANNOUNCE_MAX     550
-+#define DEFAULT_MIGRATE_ANNOUNCE_ROUNDS    5
-+#define DEFAULT_MIGRATE_ANNOUNCE_STEP    100
-+
-+#define DEFINE_PROP_MIG_CAP(name, x)             \
-+    DEFINE_PROP_BOOL(name, MigrationState, capabilities[x], false)
-+
-+Property migration_properties[] = {
-+    DEFINE_PROP_BOOL("store-global-state", MigrationState,
-+                     store_global_state, true),
-+    DEFINE_PROP_BOOL("send-configuration", MigrationState,
-+                     send_configuration, true),
-+    DEFINE_PROP_BOOL("send-section-footer", MigrationState,
-+                     send_section_footer, true),
-+    DEFINE_PROP_BOOL("decompress-error-check", MigrationState,
-+                      decompress_error_check, true),
-+    DEFINE_PROP_UINT8("x-clear-bitmap-shift", MigrationState,
-+                      clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
-+    DEFINE_PROP_BOOL("x-preempt-pre-7-2", MigrationState,
-+                     preempt_pre_7_2, false),
-+
-+    /* Migration parameters */
-+    DEFINE_PROP_UINT8("x-compress-level", MigrationState,
-+                      parameters.compress_level,
-+                      DEFAULT_MIGRATE_COMPRESS_LEVEL),
-+    DEFINE_PROP_UINT8("x-compress-threads", MigrationState,
-+                      parameters.compress_threads,
-+                      DEFAULT_MIGRATE_COMPRESS_THREAD_COUNT),
-+    DEFINE_PROP_BOOL("x-compress-wait-thread", MigrationState,
-+                      parameters.compress_wait_thread, true),
-+    DEFINE_PROP_UINT8("x-decompress-threads", MigrationState,
-+                      parameters.decompress_threads,
-+                      DEFAULT_MIGRATE_DECOMPRESS_THREAD_COUNT),
-+    DEFINE_PROP_UINT8("x-throttle-trigger-threshold", MigrationState,
-+                      parameters.throttle_trigger_threshold,
-+                      DEFAULT_MIGRATE_THROTTLE_TRIGGER_THRESHOLD),
-+    DEFINE_PROP_UINT8("x-cpu-throttle-initial", MigrationState,
-+                      parameters.cpu_throttle_initial,
-+                      DEFAULT_MIGRATE_CPU_THROTTLE_INITIAL),
-+    DEFINE_PROP_UINT8("x-cpu-throttle-increment", MigrationState,
-+                      parameters.cpu_throttle_increment,
-+                      DEFAULT_MIGRATE_CPU_THROTTLE_INCREMENT),
-+    DEFINE_PROP_BOOL("x-cpu-throttle-tailslow", MigrationState,
-+                      parameters.cpu_throttle_tailslow, false),
-+    DEFINE_PROP_SIZE("x-max-bandwidth", MigrationState,
-+                      parameters.max_bandwidth, MAX_THROTTLE),
-+    DEFINE_PROP_UINT64("x-downtime-limit", MigrationState,
-+                      parameters.downtime_limit,
-+                      DEFAULT_MIGRATE_SET_DOWNTIME),
-+    DEFINE_PROP_UINT32("x-checkpoint-delay", MigrationState,
-+                      parameters.x_checkpoint_delay,
-+                      DEFAULT_MIGRATE_X_CHECKPOINT_DELAY),
-+    DEFINE_PROP_UINT8("multifd-channels", MigrationState,
-+                      parameters.multifd_channels,
-+                      DEFAULT_MIGRATE_MULTIFD_CHANNELS),
-+    DEFINE_PROP_MULTIFD_COMPRESSION("multifd-compression", MigrationState,
-+                      parameters.multifd_compression,
-+                      DEFAULT_MIGRATE_MULTIFD_COMPRESSION),
-+    DEFINE_PROP_UINT8("multifd-zlib-level", MigrationState,
-+                      parameters.multifd_zlib_level,
-+                      DEFAULT_MIGRATE_MULTIFD_ZLIB_LEVEL),
-+    DEFINE_PROP_UINT8("multifd-zstd-level", MigrationState,
-+                      parameters.multifd_zstd_level,
-+                      DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL),
-+    DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
-+                      parameters.xbzrle_cache_size,
-+                      DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
-+    DEFINE_PROP_SIZE("max-postcopy-bandwidth", MigrationState,
-+                      parameters.max_postcopy_bandwidth,
-+                      DEFAULT_MIGRATE_MAX_POSTCOPY_BANDWIDTH),
-+    DEFINE_PROP_UINT8("max-cpu-throttle", MigrationState,
-+                      parameters.max_cpu_throttle,
-+                      DEFAULT_MIGRATE_MAX_CPU_THROTTLE),
-+    DEFINE_PROP_SIZE("announce-initial", MigrationState,
-+                      parameters.announce_initial,
-+                      DEFAULT_MIGRATE_ANNOUNCE_INITIAL),
-+    DEFINE_PROP_SIZE("announce-max", MigrationState,
-+                      parameters.announce_max,
-+                      DEFAULT_MIGRATE_ANNOUNCE_MAX),
-+    DEFINE_PROP_SIZE("announce-rounds", MigrationState,
-+                      parameters.announce_rounds,
-+                      DEFAULT_MIGRATE_ANNOUNCE_ROUNDS),
-+    DEFINE_PROP_SIZE("announce-step", MigrationState,
-+                      parameters.announce_step,
-+                      DEFAULT_MIGRATE_ANNOUNCE_STEP),
-+    DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
-+    DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
-+    DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
-+
-+    /* Migration capabilities */
-+    DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
-+    DEFINE_PROP_MIG_CAP("x-rdma-pin-all", MIGRATION_CAPABILITY_RDMA_PIN_ALL),
-+    DEFINE_PROP_MIG_CAP("x-auto-converge", MIGRATION_CAPABILITY_AUTO_CONVERGE),
-+    DEFINE_PROP_MIG_CAP("x-zero-blocks", MIGRATION_CAPABILITY_ZERO_BLOCKS),
-+    DEFINE_PROP_MIG_CAP("x-compress", MIGRATION_CAPABILITY_COMPRESS),
-+    DEFINE_PROP_MIG_CAP("x-events", MIGRATION_CAPABILITY_EVENTS),
-+    DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
-+    DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
-+                        MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
-+    DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
-+    DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
-+    DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
-+    DEFINE_PROP_MIG_CAP("x-return-path", MIGRATION_CAPABILITY_RETURN_PATH),
-+    DEFINE_PROP_MIG_CAP("x-multifd", MIGRATION_CAPABILITY_MULTIFD),
-+    DEFINE_PROP_MIG_CAP("x-background-snapshot",
-+            MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT),
-+#ifdef CONFIG_LINUX
-+    DEFINE_PROP_MIG_CAP("x-zero-copy-send",
-+            MIGRATION_CAPABILITY_ZERO_COPY_SEND),
-+#endif
-+
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- bool migrate_auto_converge(void)
- {
-     MigrationState *s = migrate_get_current();
-diff --git a/migration/options.h b/migration/options.h
-index 6b9ad7bae4..c58cd46495 100644
---- a/migration/options.h
-+++ b/migration/options.h
-@@ -14,6 +14,9 @@
- #ifndef QEMU_MIGRATION_OPTIONS_H
- #define QEMU_MIGRATION_OPTIONS_H
- 
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+
- /* constants */
- 
- /* Amount of time to allocate to each "chunk" of bandwidth-throttled
-@@ -21,6 +24,10 @@
- #define BUFFER_DELAY     100
- #define XFER_LIMIT_RATIO (1000 / BUFFER_DELAY)
- 
-+/* migration properties */
-+
-+extern Property migration_properties[];
-+
- /* capabilities */
- 
- bool migrate_auto_converge(void);
--- 
-2.39.2
+Matheus Tavares Bernardino <quic_mathbern@quicinc.com> writes:
 
+> GDB's remote serial protocol allows stop-reply messages to be sent by
+> the stub either as a notification packet or as a reply to a GDB command
+> (provided that the cmd accepts such a response). QEMU currently does not
+> implement notification packets, so it should only send stop-replies
+> synchronously and when requested. Nevertheless, it still issues
+> unsolicited stop messages through gdb_vm_state_change().
+>
+> Although this behavior doesn't seem to cause problems with GDB itself
+> (the messages are just ignored), it can impact other debuggers that
+> implement the GDB remote serial protocol, like hexagon-lldb. Let's
+> change the gdbstub to send stop messages only as a response to a
+> previous GDB command that accepts such a reply.
+>
+> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+> ---
+>  gdbstub/internals.h |  5 +++++
+>  gdbstub/gdbstub.c   | 37 ++++++++++++++++++++++++++++---------
+>  gdbstub/softmmu.c   | 13 +++++++++++--
+>  gdbstub/user.c      | 17 +++++++++++------
+>  4 files changed, 55 insertions(+), 17 deletions(-)
+>
+> diff --git a/gdbstub/internals.h b/gdbstub/internals.h
+> index 94ddff4495..33d21d6488 100644
+> --- a/gdbstub/internals.h
+> +++ b/gdbstub/internals.h
+> @@ -65,6 +65,11 @@ typedef struct GDBState {
+>      GByteArray *mem_buf;
+>      int sstep_flags;
+>      int supported_sstep_flags;
+> +    /*
+> +     * Whether we are allowed to send a stop reply packet at this moment.
+> +     * Must be set off after sending the stop reply itself.
+> +     */
+> +    bool allow_stop_reply;
+>  } GDBState;
+>=20=20
+>  /* lives in main gdbstub.c */
+> diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+> index 0760d78685..be18568d0a 100644
+<snip>
+>  /*
+> @@ -139,6 +140,10 @@ static void gdb_vm_state_change(void *opaque, bool r=
+unning, RunState state)
+>          return;
+>      }
+>=20=20
+> +    if (!gdbserver_state.allow_stop_reply) {
+> +        return;
+> +    }
+> +
+>      gdb_append_thread_id(cpu, tid);
+>=20=20
+>      switch (state) {
+> @@ -205,6 +210,7 @@ static void gdb_vm_state_change(void *opaque, bool ru=
+nning, RunState state)
+>=20=20
+>  send_packet:
+>      gdb_put_packet(buf->str);
+> +    gdbserver_state.allow_stop_reply =3D false;
+>=20=20
+>      /* disable single step if it was enabled */
+>      cpu_single_step(cpu, 0);
+> @@ -422,8 +428,11 @@ void gdb_exit(int code)
+>=20=20
+>      trace_gdbstub_op_exiting((uint8_t)code);
+>=20=20
+> -    snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
+> -    gdb_put_packet(buf);
+> +    if (gdbserver_state.allow_stop_reply) {
+> +        snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
+> +        gdb_put_packet(buf);
+> +        gdbserver_state.allow_stop_reply =3D false;
+> +    }
+>=20=20
+>      qemu_chr_fe_deinit(&gdbserver_system_state.chr, true);
+>  }
+> diff --git a/gdbstub/user.c b/gdbstub/user.c
+> index 80488b6bb9..bb03622c83 100644
+> --- a/gdbstub/user.c
+> +++ b/gdbstub/user.c
+> @@ -127,11 +127,14 @@ int gdb_handlesig(CPUState *cpu, int sig)
+>=20=20
+>      if (sig !=3D 0) {
+>          gdb_set_stop_cpu(cpu);
+> -        g_string_printf(gdbserver_state.str_buf,
+> -                        "T%02xthread:", gdb_target_signal_to_gdb(sig));
+> -        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+> -        g_string_append_c(gdbserver_state.str_buf, ';');
+> -        gdb_put_strbuf();
+> +        if (gdbserver_state.allow_stop_reply) {
+> +            g_string_printf(gdbserver_state.str_buf,
+> +                            "T%02xthread:", gdb_target_signal_to_gdb(sig=
+));
+> +            gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+> +            g_string_append_c(gdbserver_state.str_buf, ';');
+> +            gdb_put_strbuf();
+> +            gdbserver_state.allow_stop_reply =3D false;
+> +        }
+>      }
+>      /*
+>       * gdb_put_packet() might have detected that the peer terminated the
+> @@ -174,12 +177,14 @@ void gdb_signalled(CPUArchState *env, int sig)
+>  {
+>      char buf[4];
+>=20=20
+> -    if (!gdbserver_state.init || gdbserver_user_state.fd < 0) {
+> +    if (!gdbserver_state.init || gdbserver_user_state.fd < 0 ||
+> +        !gdbserver_state.allow_stop_reply) {
+>          return;
+>      }
+>=20=20
+>      snprintf(buf, sizeof(buf), "X%02x", gdb_target_signal_to_gdb(sig));
+>      gdb_put_packet(buf);
+> +    gdbserver_state.allow_stop_reply =3D false;
+
+Did I miss an equivalent for softmmu mode here?
+
+Anyway:
+
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
