@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677976E9D50
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 22:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8FB6E9D71
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 22:52:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppb1I-0005MN-CU; Thu, 20 Apr 2023 16:36:44 -0400
+	id 1ppbFA-0001Qh-9B; Thu, 20 Apr 2023 16:51:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ppb1G-0005ME-I9
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:36:42 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppbF7-0001Pm-Ua
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:51:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ppb1E-0000Hc-QR
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:36:42 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.235])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BEB892116A;
- Thu, 20 Apr 2023 20:36:34 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 20 Apr
- 2023 22:36:33 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005767b6fae-98bd-4c80-b211-75c08c24dcba,
- 91FBEC0C449219CB8F2B4F52376FDFE733FDDD1D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <853710e0-d727-315f-f2bd-454577b60420@kaod.org>
-Date: Thu, 20 Apr 2023 22:36:31 +0200
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppbF0-0004NM-Oa
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:51:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682023853;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=W3j7UY/mOwFwCHRwi0/8Z8ADEtfTFdfGJk/FdJY2fXw=;
+ b=ZYjXApKoi5xBiAPt5TDxGofTN0muvodPnMRZgoeJjLo8chzGpVl57/RW3ndJ3WAW9kI5G+
+ bbs783KeXgn2yNFlUdiAFRB2C+dRpXK3CcW4u8ILsqG39WzDmUUkh8IgJ80ysEFeDxoAhI
+ cXLrT8fKuTbkgogj74bM31tR97ZCiGk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-581-gIqeLUb7MW6y0AKfdVkUDQ-1; Thu, 20 Apr 2023 16:50:51 -0400
+X-MC-Unique: gIqeLUb7MW6y0AKfdVkUDQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-2fb600e570aso319550f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 13:50:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682023850; x=1684615850;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W3j7UY/mOwFwCHRwi0/8Z8ADEtfTFdfGJk/FdJY2fXw=;
+ b=Md3M9IwuxGilnK9fh/MjB5Sw/MXhh917Y+g/m5FLGYjv8mbFInzjgveB8fTMq5MhCu
+ 2Ef1PFgl1BrJSqCalhd83brjLHgflzJX1y4fUPu+BuHidgrjzPtrSdNVthJODwx6zWGT
+ gRpkG9PiDylXiQw1gHweykyVPlGGMSv5bJ2ODqA4RqWpuPL4vZM9BKWcGJyB415HlJhy
+ zYMfVzREc0IOHL6cL4pa+5iI6mwNaaeVcCYKNvyC4ML42PtxowPvPWlvBXVrI6FzLA9R
+ 1x/vWXiwRzkwgg+HeRqPqnapM3pmkXfS1oKXwBQ7BC9VAZhHEgEiGDtYYoCKoiPSSi0m
+ HDdA==
+X-Gm-Message-State: AAQBX9c+Kx9XlTk7L/1mbjWOFdD72s1DxDpbpMWjV0z7/BMQRPQs/I2n
+ 6ZLq1FTfXChGUMnt5R87IvqMHhLDq1xKcZQCL+CjvDgTsw0+1cd03Nyu5a5d+iClySfCGvcaF/q
+ FYaJcATDOaHXsz5E=
+X-Received: by 2002:adf:f98f:0:b0:2fd:c43a:b713 with SMTP id
+ f15-20020adff98f000000b002fdc43ab713mr270778wrr.7.1682023850798; 
+ Thu, 20 Apr 2023 13:50:50 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aNdSyK5SCxsNLM34GqeFqB3JQgfjMvIUacKopJixfFQibAqwcYK5Tr6N4rVvaH1ft9aHolSg==
+X-Received: by 2002:adf:f98f:0:b0:2fd:c43a:b713 with SMTP id
+ f15-20020adff98f000000b002fdc43ab713mr270768wrr.7.1682023850516; 
+ Thu, 20 Apr 2023 13:50:50 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ s13-20020adfeb0d000000b002fb6a79dea0sm2876354wrn.7.2023.04.20.13.50.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 13:50:49 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] migration: Minor control flow simplification
+In-Reply-To: <20230420143551.419229-1-eblake@redhat.com> (Eric Blake's message
+ of "Thu, 20 Apr 2023 09:35:51 -0500")
+References: <20230420143551.419229-1-eblake@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 20 Apr 2023 22:50:48 +0200
+Message-ID: <875y9qwa53.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] async: Suppress GCC13 false positive in aio_bh_poll()
-Content-Language: en-US
-To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230420202939.1982044-1-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230420202939.1982044-1-clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 569fa21e-0cc9-46d3-bee5-c703acc419e6
-X-Ovh-Tracer-Id: 11696411183464156082
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfedtvddgudeglecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhmrghrtggrnhgurhgvrdhluhhrvggruhesrhgvughhrghtrdgtohhmpdgtlhhgsehrvgguhhgrthdrtghomhdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtg
- homhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpphhhihhlmhgusehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.669,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,64 +95,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-+ Φλ
-
-On 4/20/23 22:29, Cédric Le Goater wrote:
-> From: Cédric Le Goater <clg@redhat.com>
-> 
-> GCC13 reports an error :
-> 
-> ../util/async.c: In function ‘aio_bh_poll’:
-> include/qemu/queue.h:303:22: error: storing the address of local variable ‘slice’ in ‘*ctx.bh_slice_list.sqh_last’ [-Werror=dangling-pointer=]
->    303 |     (head)->sqh_last = &(elm)->field.sqe_next;                          \
->        |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-> ../util/async.c:169:5: note: in expansion of macro ‘QSIMPLEQ_INSERT_TAIL’
->    169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
->        |     ^~~~~~~~~~~~~~~~~~~~
-> ../util/async.c:161:17: note: ‘slice’ declared here
->    161 |     BHListSlice slice;
->        |                 ^~~~~
-> ../util/async.c:161:17: note: ‘ctx’ declared here
-> 
-> But the local variable 'slice' is removed from the global context list
-> in following loop of the same routine. Add a pragma to silent GCC.
-> 
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Cédric Le Goater <clg@redhat.com>
+Eric Blake <eblake@redhat.com> wrote:
+> No need to declare a temporary variable.
+>
+> Suggested-by: Juan Quintela <quintela@redhat.com>
+> Fixes: 1df36e8c6289 ("migration: Handle block device inactivation failures better")
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
->   util/async.c | 14 ++++++++++++++
->   1 file changed, 14 insertions(+)
-> 
-> diff --git a/util/async.c b/util/async.c
-> index 21016a1ac7..856e1a8a33 100644
-> --- a/util/async.c
-> +++ b/util/async.c
-> @@ -164,7 +164,21 @@ int aio_bh_poll(AioContext *ctx)
->   
->       /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue().  */
->       QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
-> +
-> +    /*
-> +     * GCC13 [-Werror=dangling-pointer=] complains that the local variable
-> +     * 'slice' is being stored in the global 'ctx->bh_slice_list' but the
-> +     * list is emptied before this function returns.
-> +     */
-> +#if !defined(__clang__)
-> +#pragma GCC diagnostic push
-> +#pragma GCC diagnostic ignored "-Wpragmas"
-> +#pragma GCC diagnostic ignored "-Wdangling-pointer="
-> +#endif
->       QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
-> +#if !defined(__clang__)
-> +#pragma GCC diagnostic pop
-> +#endif
->   
->       while ((s = QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
->           QEMUBH *bh;
+
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+Queued one way or another.
 
 
