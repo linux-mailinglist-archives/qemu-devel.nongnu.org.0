@@ -2,97 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1EE6E9A0B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 18:56:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5426E9A81
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 19:18:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppXYj-0006Ut-V7; Thu, 20 Apr 2023 12:55:02 -0400
+	id 1ppXv1-00039Y-43; Thu, 20 Apr 2023 13:18:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ppXYc-0006UV-Su
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 12:54:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ppXuu-00038Q-2R
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 13:17:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ppXYY-00054P-B0
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 12:54:53 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ppXue-0005MH-2v
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 13:17:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682009682;
+ s=mimecast20190719; t=1682011057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1Mt7hNeizwniavCNQpnxrcNDkMWiOCKLmcw3DXQnItw=;
- b=RhGIn3dnIJaVZdmsnHb+WnxtHg3PPURzlL0BagAsmmGb422cIZvsIZT+xf/6UkF114ytts
- 2BJFYup30lqLQA5rV2NTuedl11rt1YNenxgiOkNIbGRG426rsQ2ya0TxHeUu88/d5RaL/U
- fA1SEr/gZdkmXWTI8gzPt1nbuwbNNpE=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pb7bcY5HWCx6ijysXaMotbIfXfGXNoGqiAOJYZWvCsw=;
+ b=W8omq3dZ+SPGCUw54zMv7TuG6zK88ueDmIo82+GMvYKx3X4KIMsfsbe2L/L6uqMWpdvKYr
+ 6diL9jfR+a9b0ftKrgcC4woyoQ3n7sQvJ+8+GfvhAYtNAwTa9mZFIi31S1ZqV/XHC84ael
+ scEpLQePpvl/CXXExG9kmkKPwWp8b44=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-68-pxunA3ieMu-Un003tYAQoQ-1; Thu, 20 Apr 2023 12:54:38 -0400
-X-MC-Unique: pxunA3ieMu-Un003tYAQoQ-1
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-5187bd3d365so1082981a12.3
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 09:54:38 -0700 (PDT)
+ us-mta-561-UW4jtHH9NIGdnHWVcns1GQ-1; Thu, 20 Apr 2023 13:17:35 -0400
+X-MC-Unique: UW4jtHH9NIGdnHWVcns1GQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f0b0fbd4beso3221755e9.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 10:17:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682009678; x=1684601678;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1682011054; x=1684603054;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=1Mt7hNeizwniavCNQpnxrcNDkMWiOCKLmcw3DXQnItw=;
- b=I073t+f0Sbd+yfbpCns6J8xXzoiuDE26R+XxttLhupSvpPBeaEAgXMaZwwUZVnnLLY
- cyIp0XCwCLrEjK06YzBrF5Wh5SsQfT9TiBU0plMUKt87Q6VoG9FT2DpVkqHpphjPcXPd
- yO1yNUMOBXJDSlW/dmc41bU0MCICBN4q7MeluFFHeRSM9/DSzpIyTLy4XwczCBwtu3Ns
- LpPJOtQPPb/lUsems8tXCGo5zVCIvzEO+R7OCzBXKoCgahXH385txxcWDPLt8dpVxvMa
- gtKTnFl6fru7tQyXFaovXSzWHrLbRYZIkTlUFlpqU+TOh1TGzzBexbc6PlOL1s0PztOB
- LDag==
-X-Gm-Message-State: AAQBX9ev4NQeiTy4QEQt/TjZ61Ac9V8/SSXTvbTS/lkxcxSr/crCxxFF
- RYVdZIl7iC2eFtMcaDdMrxinyurEicUbvse+Q/BCdcjkErg7NIxiInsCwmMrKA6rJkNaGvSKU6d
- PxSmoBWDMKcovcbhOKMKlUCayU7xKVaY=
-X-Received: by 2002:a05:6a21:6d84:b0:ee:84a2:4ad0 with SMTP id
- wl4-20020a056a216d8400b000ee84a24ad0mr3317304pzb.22.1682009677671; 
- Thu, 20 Apr 2023 09:54:37 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y7SyTAOV+E5UNWTlAd9im0v9n5xrGWmU6JHYs+uCzZQllPNLmuYOWrogcgOP4z+4CAO/o4f4iIwsYBoEaSNLQ=
-X-Received: by 2002:a05:6a21:6d84:b0:ee:84a2:4ad0 with SMTP id
- wl4-20020a056a216d8400b000ee84a24ad0mr3317279pzb.22.1682009677386; Thu, 20
- Apr 2023 09:54:37 -0700 (PDT)
+ bh=pb7bcY5HWCx6ijysXaMotbIfXfGXNoGqiAOJYZWvCsw=;
+ b=kUipm1nr71X2dZFyxpFT1vLkWlv1uSz/ULDO7pNb3T10Hsd57siJ7VTOrQeqRiYRjf
+ R9D2Y2ilsO/KAyl8oSOof7as4q35138v9oKjgtKvKjdqloj6+usvlMctRT+OmxGEDPrO
+ +2jhGAVMDcY6CjBiiT9FPhUfkNPt+RdUWMlj/BEdcFBf624Xx3i82Fq/HCRosi+iKN4M
+ xGkmwzWj41QWjSIEFrtdy0gFKE+gANQS+Bcw/RXVWEV/Y+nIWbnR2VHWLS5+F5ytPM0S
+ VSnXCmx6z9Ux0t3jpcLxnaffPXvcs5SBYtHrpQDhfz0wVIsU+2BXENr22CAATRs9FBnO
+ dPpg==
+X-Gm-Message-State: AAQBX9e+2bh9nokGstXghN8GVxEhm9v975kgwg8LGVL2TreZdhV1IRmS
+ R3uwqUACn/AfK3hIeiS9PKSB96EDAyxlbWcRuL4pkZuMnAFI77aWX80w06UztWzaLRImia0HQfx
+ luDLeVlRT8q2JA3c=
+X-Received: by 2002:adf:f741:0:b0:2fa:f8c2:45f4 with SMTP id
+ z1-20020adff741000000b002faf8c245f4mr1699415wrp.0.1682011054531; 
+ Thu, 20 Apr 2023 10:17:34 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YYKlUFmxkFWIxpJlRJDdYQCa1H+YZL5+CKqjV2yS8G8AC6nN1yC/9Id0KnrWB1pHRungwaHg==
+X-Received: by 2002:adf:f741:0:b0:2fa:f8c2:45f4 with SMTP id
+ z1-20020adff741000000b002faf8c245f4mr1699402wrp.0.1682011054125; 
+ Thu, 20 Apr 2023 10:17:34 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c712:8100:8ea7:9fc9:e956:89?
+ (p200300cbc71281008ea79fc9e9560089.dip0.t-ipconnect.de.
+ [2003:cb:c712:8100:8ea7:9fc9:e956:89])
+ by smtp.gmail.com with ESMTPSA id
+ h1-20020a5d6e01000000b002fa834e1c69sm2426251wrz.52.2023.04.20.10.17.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 10:17:33 -0700 (PDT)
+Message-ID: <76939004-0e34-9615-ccf1-2e83a4db1b49@redhat.com>
+Date: Thu, 20 Apr 2023 19:17:31 +0200
 MIME-Version: 1.0
-References: <20230417134321.3627231-1-alex.bennee@linaro.org>
- <20230417134321.3627231-2-alex.bennee@linaro.org>
- <CAFn=p-bqK-RsMo8wVy2zCxU=iAkXG1t9xVuoqLSN0UbTYKPgwQ@mail.gmail.com>
- <87pm82e74d.fsf@linaro.org> <74be23e6-015b-cb1d-967e-65fc32347553@linaro.org>
-In-Reply-To: <74be23e6-015b-cb1d-967e-65fc32347553@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 20 Apr 2023 12:54:26 -0400
-Message-ID: <CAFn=p-boa4C1P0mJob=spZGMi4ECA-D5yNovHxC6-VTwkKJoHg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] tests/requirements.txt: bump up avocado-framework
- version to 101.0
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Cleber Rosa <crosa@redhat.com>, Jan Richter <jarichte@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, 
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Markus Armbruster <armbru@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Radoslaw Biernacki <rad@semihalf.com>,
- Leif Lindholm <quic_llindhol@quicinc.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- qemu-arm <qemu-arm@nongnu.org>, Kautuk Consul <kconsul@linux.vnet.ibm.com>, 
- Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-Content-Type: multipart/alternative; boundary="00000000000054679405f9c76538"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2] s390x/gdb: Split s390-virt.xml
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Laurent Vivier <laurent@vivier.eu>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+References: <20230314101813.174874-1-iii@linux.ibm.com>
+ <343646f8-4fac-a54b-8c57-e1f9ec4dd6ab@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <343646f8-4fac-a54b-8c57-e1f9ec4dd6ab@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.669, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,314 +109,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000054679405f9c76538
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 20.04.23 17:41, Thomas Huth wrote:
+> On 14/03/2023 11.18, Ilya Leoshkevich wrote:
+>> Both TCG and KVM emulate ckc, cputm, last_break and prefix, and it's
+>> quite useful to have them during debugging. Right now they are grouped
+>> together with KVM-only pp, pfault_token, pfault_select and
+>> pfault_compare in s390-virt.xml, and are not available when debugging
+>> TCG-emulated code.
+>>
+>> Move KVM-only registers into the new s390-virt-kvm.xml file. Advertise
+>> s390-virt.xml always, and the new s390-virt-kvm.xml only for KVM.
+>>
+>> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+>> Message-Id: <20230313211614.98739-1-iii@linux.ibm.com>
+>> ---
+>>
+>> v1: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04307.html
+>> v1 -> v2: Improve the naming and the commit message (Christian).
+>>
+>>    configs/targets/s390x-linux-user.mak |  2 +-
+>>    configs/targets/s390x-softmmu.mak    |  2 +-
+>>    gdb-xml/s390-virt-kvm.xml            | 14 ++++++
+>>    gdb-xml/s390-virt.xml                |  4 --
+>>    target/s390x/gdbstub.c               | 65 +++++++++++++++++++---------
+>>    5 files changed, 61 insertions(+), 26 deletions(-)
+>>    create mode 100644 gdb-xml/s390-virt-kvm.xml
+>>
+>> diff --git a/configs/targets/s390x-linux-user.mak b/configs/targets/s390x-linux-user.mak
+>> index e2978248ede..24c04c85894 100644
+>> --- a/configs/targets/s390x-linux-user.mak
+>> +++ b/configs/targets/s390x-linux-user.mak
+>> @@ -2,4 +2,4 @@ TARGET_ARCH=s390x
+>>    TARGET_SYSTBL_ABI=common,64
+>>    TARGET_SYSTBL=syscall.tbl
+>>    TARGET_BIG_ENDIAN=y
+>> -TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
+>> +TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-virt-kvm.xml gdb-xml/s390-gs.xml
+>> diff --git a/configs/targets/s390x-softmmu.mak b/configs/targets/s390x-softmmu.mak
+>> index 258b4cf3582..70d2f9f0ba0 100644
+>> --- a/configs/targets/s390x-softmmu.mak
+>> +++ b/configs/targets/s390x-softmmu.mak
+>> @@ -1,4 +1,4 @@
+>>    TARGET_ARCH=s390x
+>>    TARGET_BIG_ENDIAN=y
+>>    TARGET_SUPPORTS_MTTCG=y
+>> -TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
+>> +TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-virt-kvm.xml gdb-xml/s390-gs.xml
+>> diff --git a/gdb-xml/s390-virt-kvm.xml b/gdb-xml/s390-virt-kvm.xml
+>> new file mode 100644
+>> index 00000000000..a256eddaf57
+>> --- /dev/null
+>> +++ b/gdb-xml/s390-virt-kvm.xml
+>> @@ -0,0 +1,14 @@
+>> +<?xml version="1.0"?>
+>> +<!-- Copyright 2023 IBM Corp.
+>> +
+>> +     This work is licensed under the terms of the GNU GPL, version 2 or
+>> +     (at your option) any later version. See the COPYING file in the
+>> +     top-level directory. -->
+>> +
+>> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>> +<feature name="org.gnu.gdb.s390.virt.kvm">
+>> +  <reg name="pp" bitsize="64" type="uint64" group="system"/>
+>> +  <reg name="pfault_token" bitsize="64" type="uint64" group="system"/>
+>> +  <reg name="pfault_select" bitsize="64" type="uint64" group="system"/>
+>> +  <reg name="pfault_compare" bitsize="64" type="uint64" group="system"/>
+>> +</feature>
+>> diff --git a/gdb-xml/s390-virt.xml b/gdb-xml/s390-virt.xml
+>> index e2e9a7ad3cc..438eb68aabe 100644
+>> --- a/gdb-xml/s390-virt.xml
+>> +++ b/gdb-xml/s390-virt.xml
+>> @@ -11,8 +11,4 @@
+>>      <reg name="cputm" bitsize="64" type="uint64" group="system"/>
+>>      <reg name="last_break" bitsize="64" type="code_ptr" group="system"/>
+>>      <reg name="prefix" bitsize="64" type="data_ptr" group="system"/>
+>> -  <reg name="pp" bitsize="64" type="uint64" group="system"/>
+>> -  <reg name="pfault_token" bitsize="64" type="uint64" group="system"/>
+>> -  <reg name="pfault_select" bitsize="64" type="uint64" group="system"/>
+>> -  <reg name="pfault_compare" bitsize="64" type="uint64" group="system"/>
+>>    </feature>
+>> diff --git a/target/s390x/gdbstub.c b/target/s390x/gdbstub.c
+>> index a5d69d0e0bc..e1153f5dc4a 100644
+>> --- a/target/s390x/gdbstub.c
+>> +++ b/target/s390x/gdbstub.c
+>> @@ -205,12 +205,8 @@ static int cpu_write_c_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
+>>    #define S390_VIRT_CPUTM_REGNUM  1
+>>    #define S390_VIRT_BEA_REGNUM    2
+>>    #define S390_VIRT_PREFIX_REGNUM 3
+>> -#define S390_VIRT_PP_REGNUM     4
+>> -#define S390_VIRT_PFT_REGNUM    5
+>> -#define S390_VIRT_PFS_REGNUM    6
+>> -#define S390_VIRT_PFC_REGNUM    7
+>>    /* total number of registers in s390-virt.xml */
+>> -#define S390_NUM_VIRT_REGS 8
+>> +#define S390_NUM_VIRT_REGS 4
+>>    
+>>    static int cpu_read_virt_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
+>>    {
+>> @@ -223,14 +219,6 @@ static int cpu_read_virt_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
+>>            return gdb_get_regl(mem_buf, env->gbea);
+>>        case S390_VIRT_PREFIX_REGNUM:
+>>            return gdb_get_regl(mem_buf, env->psa);
+>> -    case S390_VIRT_PP_REGNUM:
+>> -        return gdb_get_regl(mem_buf, env->pp);
+>> -    case S390_VIRT_PFT_REGNUM:
+>> -        return gdb_get_regl(mem_buf, env->pfault_token);
+>> -    case S390_VIRT_PFS_REGNUM:
+>> -        return gdb_get_regl(mem_buf, env->pfault_select);
+>> -    case S390_VIRT_PFC_REGNUM:
+>> -        return gdb_get_regl(mem_buf, env->pfault_compare);
+>>        default:
+>>            return 0;
+>>        }
+>> @@ -255,19 +243,51 @@ static int cpu_write_virt_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
+>>            env->psa = ldtul_p(mem_buf);
+>>            cpu_synchronize_post_init(env_cpu(env));
+>>            return 8;
+>> -    case S390_VIRT_PP_REGNUM:
+>> +    default:
+>> +        return 0;
+>> +    }
+>> +}
+>> +
+>> +/* the values represent the positions in s390-virt-kvm.xml */
+>> +#define S390_VIRT_KVM_PP_REGNUM     0
+>> +#define S390_VIRT_KVM_PFT_REGNUM    1
+>> +#define S390_VIRT_KVM_PFS_REGNUM    2
+>> +#define S390_VIRT_KVM_PFC_REGNUM    3
+>> +/* total number of registers in s390-virt-kvm.xml */
+>> +#define S390_NUM_VIRT_KVM_REGS 4
+>> +
+>> +static int cpu_read_virt_kvm_reg(CPUS390XState *env, GByteArray *mem_buf, int n)
+>> +{
+>> +    switch (n) {
+>> +    case S390_VIRT_KVM_PP_REGNUM:
+>> +        return gdb_get_regl(mem_buf, env->pp);
+>> +    case S390_VIRT_KVM_PFT_REGNUM:
+>> +        return gdb_get_regl(mem_buf, env->pfault_token);
+>> +    case S390_VIRT_KVM_PFS_REGNUM:
+>> +        return gdb_get_regl(mem_buf, env->pfault_select);
+>> +    case S390_VIRT_KVM_PFC_REGNUM:
+>> +        return gdb_get_regl(mem_buf, env->pfault_compare);
+>> +    default:
+>> +        return 0;
+>> +    }
+>> +}
+>> +
+>> +static int cpu_write_virt_kvm_reg(CPUS390XState *env, uint8_t *mem_buf, int n)
+>> +{
+>> +    switch (n) {
+>> +    case S390_VIRT_KVM_PP_REGNUM:
+>>            env->pp = ldtul_p(mem_buf);
+>>            cpu_synchronize_post_init(env_cpu(env));
+>>            return 8;
+>> -    case S390_VIRT_PFT_REGNUM:
+>> +    case S390_VIRT_KVM_PFT_REGNUM:
+>>            env->pfault_token = ldtul_p(mem_buf);
+>>            cpu_synchronize_post_init(env_cpu(env));
+>>            return 8;
+>> -    case S390_VIRT_PFS_REGNUM:
+>> +    case S390_VIRT_KVM_PFS_REGNUM:
+>>            env->pfault_select = ldtul_p(mem_buf);
+>>            cpu_synchronize_post_init(env_cpu(env));
+>>            return 8;
+>> -    case S390_VIRT_PFC_REGNUM:
+>> +    case S390_VIRT_KVM_PFC_REGNUM:
+>>            env->pfault_compare = ldtul_p(mem_buf);
+>>            cpu_synchronize_post_init(env_cpu(env));
+>>            return 8;
+>> @@ -320,10 +340,15 @@ void s390_cpu_gdb_init(CPUState *cs)
+>>                                 cpu_write_c_reg,
+>>                                 S390_NUM_C_REGS, "s390-cr.xml", 0);
+>>    
+>> +    gdb_register_coprocessor(cs, cpu_read_virt_reg,
+>> +                             cpu_write_virt_reg,
+>> +                             S390_NUM_VIRT_REGS, "s390-virt.xml", 0);
+>> +
+>>        if (kvm_enabled()) {
+>> -        gdb_register_coprocessor(cs, cpu_read_virt_reg,
+>> -                                 cpu_write_virt_reg,
+>> -                                 S390_NUM_VIRT_REGS, "s390-virt.xml", 0);
+>> +        gdb_register_coprocessor(cs, cpu_read_virt_kvm_reg,
+>> +                                 cpu_write_virt_kvm_reg,
+>> +                                 S390_NUM_VIRT_KVM_REGS, "s390-virt-kvm.xml",
+>> +                                 0);
+>>        }
+>>    #endif
+>>    }
+> 
+> The patch looks reasonable to me, but I'm not that much familiar with the
+> gdb stuff ... Richard, David, Alex, Christian, any objections? If not, I
+> could queue this for my next pull request if nobody else wants to take it.
 
-On Thu, Apr 20, 2023, 5:19 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g>
-wrote:
+No objection from my side. Don't have time to try it out, though
 
-> On 17/4/23 19:44, Alex Benn=C3=A9e wrote:
-> >
-> > John Snow <jsnow@redhat.com> writes:
-> >
-> >> On Mon, Apr 17, 2023 at 9:43=E2=80=AFAM Alex Benn=C3=A9e <alex.bennee@=
-linaro.org>
-> wrote:
-> >>>
-> >>> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-> >>>
-> >>> Avocado version 101.0 has a fix to re-compute the checksum
-> >>> of an asset file if the algorithm used in the *-CHECKSUM
-> >>> file isn't the same as the one being passed to it by the
-> >>> avocado user (i.e. the avocado_qemu python module).
-> >>> In the earlier avocado versions this fix wasn't there due
-> >>> to which if the checksum wouldn't match the earlier
-> >>> checksum (calculated by a different algorithm), the avocado
-> >>> code would start downloading a fresh image from the internet
-> >>> URL thus making the test-cases take longer to execute.
-> >>>
-> >>> Bump up the avocado-framework version to 101.0.
-> >>>
-> >>> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-> >>> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-> >>> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
-> >>> Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
-> >>>
-> >>> ---
-> >>> v2
-> >>>    - limit --max-parallel-tasks $(JOBS_OPTION:-j%=3D%)
-> >>> ---
-> >>>   tests/Makefile.include | 18 +++++++++++-------
-> >>>   tests/requirements.txt |  2 +-
-> >>>   2 files changed, 12 insertions(+), 8 deletions(-)
-> >>>
-> >>> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> >>> index 9422ddaece..a4de0ad5a2 100644
-> >>> --- a/tests/Makefile.include
-> >>> +++ b/tests/Makefile.include
-> >>> @@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv
-> >>>   # download all vm images, according to defined targets
-> >>>   get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%,
-> $(FEDORA_31_DOWNLOAD))
-> >>>
-> >>> +JOBS_OPTION=3D$(lastword -j1 $(filter-out -j, $(filter
-> -j%,$(MAKEFLAGS))))
-> >>> +
-> >>>   check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
-> >>> -       $(call quiet-command, \
-> >>> -            $(TESTS_PYTHON) -m avocado \
-> >>> -            --show=3D$(AVOCADO_SHOW) run
-> --job-results-dir=3D$(TESTS_RESULTS_DIR) \
-> >>> -            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
-> >>> -                       --filter-by-tags-include-empty-key) \
-> >>> -            $(AVOCADO_CMDLINE_TAGS) \
-> >>> -            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
-> >>> +       $(call quiet-command,
->          \
-> >>> +            $(TESTS_PYTHON) -m avocado
->                  \
-> >>> +            --show=3D$(AVOCADO_SHOW) run
-> --job-results-dir=3D$(TESTS_RESULTS_DIR)  \
-> >>> +            $(if $(AVOCADO_TAGS),,
->          \
-> >>> +                       --filter-by-tags-include-empty
->           \
-> >>> +                       --filter-by-tags-include-empty-key)
->          \
-> >>> +               --max-parallel-tasks $(JOBS_OPTION:-j%=3D%)
->          \
-> >>> +            $(AVOCADO_CMDLINE_TAGS)
->           \
-> >>> +            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS),
->          \
-> >>>               "AVOCADO", "tests/avocado")
-> >>>
-> >>>   check-acceptance-deprecated-warning:
-> >>> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> >>> index 0ba561b6bd..a6f73da681 100644
-> >>> --- a/tests/requirements.txt
-> >>> +++ b/tests/requirements.txt
-> >>> @@ -2,5 +2,5 @@
-> >>>   # in the tests/venv Python virtual environment. For more info,
-> >>>   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
-> >>>   # Note that qemu.git/python/ is always implicitly installed.
-> >>> -avocado-framework=3D=3D88.1
-> >>> +avocado-framework=3D=3D101.0
-> >>>   pycdlib=3D=3D1.11.0
-> >>> --
-> >>> 2.39.2
-> >>>
-> >>
-> >> I thought there were test failures that prohibited us from bumping the
-> >> Avocado-Framework version. Did those get rectified recently?
->
-> No, still not working on Darwin. At this point I'm thinking at sending
-> a patch clarifying testing QEMU with Avocado is not supported on Darwin.
->
+Acked-by: David Hildenbrand <david@redhat.com>
 
-What's broken on Darwin?
+-- 
+Thanks,
 
-Is it broken with avocado-framework=3D=3D88.1 too? (Is this a regression?)
-
-We might need to consider entirely separate issues:
-
-(1) We need to upgrade avocado-framework to a supported LTS version >=3D v9=
-0
-for dependency harmony with qemu.git/python testing
-
-(2) We need to upgrade avocado-framework to >=3D v101.0 to fix the stated
-checksum issue in this patch
-
-(3) We would like avocado tests to work on Darwin. (Have they ever worked?
-When did they break? etc.)
-
-My understanding is that this patch helps with 1 and 2 but not 3, but if
-Darwin support isn't a regression, this is still a step forward.
-
-
-> > I'm not seeing any with your patch applied.
->
-> Are you using running the Cirrus-CI jobs?
->
->
-
---00000000000054679405f9c76538
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Apr 20, 2023, 5:19 AM Philippe Mathieu-Daud=C3=
-=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@linaro.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">On 17/4/23 19:44, Alex Benn=C3=
-=A9e wrote:<br>
-&gt; <br>
-&gt; John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank" re=
-l=3D"noreferrer">jsnow@redhat.com</a>&gt; writes:<br>
-&gt; <br>
-&gt;&gt; On Mon, Apr 17, 2023 at 9:43=E2=80=AFAM Alex Benn=C3=A9e &lt;<a hr=
-ef=3D"mailto:alex.bennee@linaro.org" target=3D"_blank" rel=3D"noreferrer">a=
-lex.bennee@linaro.org</a>&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; From: Kautuk Consul &lt;<a href=3D"mailto:kconsul@linux.vnet.i=
-bm.com" target=3D"_blank" rel=3D"noreferrer">kconsul@linux.vnet.ibm.com</a>=
-&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Avocado version 101.0 has a fix to re-compute the checksum<br>
-&gt;&gt;&gt; of an asset file if the algorithm used in the *-CHECKSUM<br>
-&gt;&gt;&gt; file isn&#39;t the same as the one being passed to it by the<b=
-r>
-&gt;&gt;&gt; avocado user (i.e. the avocado_qemu python module).<br>
-&gt;&gt;&gt; In the earlier avocado versions this fix wasn&#39;t there due<=
-br>
-&gt;&gt;&gt; to which if the checksum wouldn&#39;t match the earlier<br>
-&gt;&gt;&gt; checksum (calculated by a different algorithm), the avocado<br=
->
-&gt;&gt;&gt; code would start downloading a fresh image from the internet<b=
-r>
-&gt;&gt;&gt; URL thus making the test-cases take longer to execute.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Bump up the avocado-framework version to 101.0.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Signed-off-by: Kautuk Consul &lt;<a href=3D"mailto:kconsul@lin=
-ux.vnet.ibm.com" target=3D"_blank" rel=3D"noreferrer">kconsul@linux.vnet.ib=
-m.com</a>&gt;<br>
-&gt;&gt;&gt; Tested-by: Hariharan T S &lt;<a href=3D"mailto:hariharan.ts@li=
-nux.vnet.ibm.com" target=3D"_blank" rel=3D"noreferrer">hariharan.ts@linux.v=
-net.ibm.com</a>&gt;<br>
-&gt;&gt;&gt; Message-Id: &lt;<a href=3D"mailto:20230327115030.3418323-2-kco=
-nsul@linux.vnet.ibm.com" target=3D"_blank" rel=3D"noreferrer">2023032711503=
-0.3418323-2-kconsul@linux.vnet.ibm.com</a>&gt;<br>
-&gt;&gt;&gt; Message-Id: &lt;<a href=3D"mailto:20230330101141.30199-10-alex=
-.bennee@linaro.org" target=3D"_blank" rel=3D"noreferrer">20230330101141.301=
-99-10-alex.bennee@linaro.org</a>&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt; v2<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 - limit --max-parallel-tasks $(JOBS_OPTION:-j%=3D=
-%)<br>
-&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0tests/Makefile.include | 18 +++++++++++-------<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0tests/requirements.txt |=C2=A0 2 +-<br>
-&gt;&gt;&gt;=C2=A0 =C2=A02 files changed, 12 insertions(+), 8 deletions(-)<=
-br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; diff --git a/tests/Makefile.include b/tests/Makefile.include<b=
-r>
-&gt;&gt;&gt; index 9422ddaece..a4de0ad5a2 100644<br>
-&gt;&gt;&gt; --- a/tests/Makefile.include<br>
-&gt;&gt;&gt; +++ b/tests/Makefile.include<br>
-&gt;&gt;&gt; @@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0# download all vm images, according to defined tar=
-gets<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0get-vm-images: check-venv $(patsubst %,get-vm-imag=
-e-fedora-31-%, $(FEDORA_31_DOWNLOAD))<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; +JOBS_OPTION=3D$(lastword -j1 $(filter-out -j, $(filter -j%,$(=
-MAKEFLAGS))))<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0check-avocado: check-venv $(TESTS_RESULTS_DIR) get=
--vm-images<br>
-&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0$(call quiet-command, \<br>
-&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(TESTS_PYTHON) -m =
-avocado \<br>
-&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --show=3D$(AVOCADO_=
-SHOW) run --job-results-dir=3D$(TESTS_RESULTS_DIR) \<br>
-&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(if $(AVOCADO_TAGS=
-),, --filter-by-tags-include-empty \<br>
-&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0--filter-by-tags-include-empty-key) \<br>
-&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(AVOCADO_CMDLINE_T=
-AGS) \<br>
-&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(if $(GITLAB_CI),,=
---failfast) $(AVOCADO_TESTS), \<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(call quiet-command,=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(TESTS_PYTHON) -m =
-avocado=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --show=3D$(AVOCADO_=
-SHOW) run --job-results-dir=3D$(TESTS_RESULTS_DIR)=C2=A0 \<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(if $(AVOCADO_TAGS=
-),,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0--filter-by-tags-include-empty=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0--filter-by-tags-include-empty-key)=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--max-=
-parallel-tasks $(JOBS_OPTION:-j%=3D%)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(AVOCADO_CMDLINE_T=
-AGS)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 \<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(if $(GITLAB_CI),,=
---failfast) $(AVOCADO_TESTS),=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;AV=
-OCADO&quot;, &quot;tests/avocado&quot;)<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0check-acceptance-deprecated-warning:<br>
-&gt;&gt;&gt; diff --git a/tests/requirements.txt b/tests/requirements.txt<b=
-r>
-&gt;&gt;&gt; index 0ba561b6bd..a6f73da681 100644<br>
-&gt;&gt;&gt; --- a/tests/requirements.txt<br>
-&gt;&gt;&gt; +++ b/tests/requirements.txt<br>
-&gt;&gt;&gt; @@ -2,5 +2,5 @@<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0# in the tests/venv Python virtual environment. Fo=
-r more info,<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0# refer to: <a href=3D"https://pip.pypa.io/en/stab=
-le/user_guide/#id1" rel=3D"noreferrer noreferrer" target=3D"_blank">https:/=
-/pip.pypa.io/en/stable/user_guide/#id1</a><br>
-&gt;&gt;&gt;=C2=A0 =C2=A0# Note that qemu.git/python/ is always implicitly =
-installed.<br>
-&gt;&gt;&gt; -avocado-framework=3D=3D88.1<br>
-&gt;&gt;&gt; +avocado-framework=3D=3D101.0<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0pycdlib=3D=3D1.11.0<br>
-&gt;&gt;&gt; --<br>
-&gt;&gt;&gt; 2.39.2<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; I thought there were test failures that prohibited us from bumping=
- the<br>
-&gt;&gt; Avocado-Framework version. Did those get rectified recently?<br>
-<br>
-No, still not working on Darwin. At this point I&#39;m thinking at sending<=
-br>
-a patch clarifying testing QEMU with Avocado is not supported on Darwin.<br=
-></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Wha=
-t&#39;s broken on Darwin?=C2=A0</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Is it broken with avocado-framework=3D=3D88.1 too? (Is this a reg=
-ression?)</div><div dir=3D"auto"><br></div><div dir=3D"auto">We might need =
-to consider entirely separate issues:</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">(1) We need to upgrade avocado-framework to a supported LTS v=
-ersion &gt;=3D v90 for dependency harmony with qemu.git/python testing</div=
-><div dir=3D"auto"><br></div><div dir=3D"auto">(2) We need to upgrade avoca=
-do-framework to &gt;=3D v101.0 to fix the stated checksum issue in this pat=
-ch</div><div dir=3D"auto"><br></div><div dir=3D"auto">(3) We would like avo=
-cado tests to work on Darwin. (Have they ever worked? When did they break? =
-etc.)</div><div dir=3D"auto"><br></div><div dir=3D"auto">My understanding i=
-s that this patch helps with 1 and 2 but not 3, but if Darwin support isn&#=
-39;t a regression, this is still a step forward.</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-<br>
-&gt; I&#39;m not seeing any with your patch applied.<br>
-<br>
-Are you using running the Cirrus-CI jobs?<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000054679405f9c76538--
+David / dhildenb
 
 
