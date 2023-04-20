@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790866E89C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 07:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218876E89B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 07:49:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppNAr-0001XW-8u; Thu, 20 Apr 2023 01:49:41 -0400
+	id 1ppNAt-0001qR-RK; Thu, 20 Apr 2023 01:49:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ppNAa-0001Fd-BP
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:49:25 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1ppNAm-0001VN-Kb
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:49:37 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ppNAY-0001Rg-Ml
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:49:24 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- 98e67ed59e1d1-24781e23c27so508615a91.0
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 22:49:22 -0700 (PDT)
+ id 1ppNAc-0001SP-RW
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:49:28 -0400
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1a5197f00e9so6782895ad.1
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 22:49:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681969761; x=1684561761;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681969765; x=1684561765;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EkFnOWz8k65GM78Vyn6pXiVzR9tMO/XJPCs+OY+XiaI=;
- b=Mp4j0c2kuhf2ZlEuma9sk80kSAWTE2MkAvRTv4AE1d8FB6Biz747jB65m5LRnwvh7w
- ae5J9H/d8E81Hr1Mhv2odznz+An+92keMUXNBAb9ZlrG8A9WRkJCHUkvP8G6yRm7Q0/Q
- H2x64uBguon/t7nPufkRWxMlmNDm0vOcDSC3IV0egd3Smq70kS2lAi5xra0GrwGhcr8K
- taqcUWw7nZM92sBnjiIPUNxUXTajX5Sxe+WzNKsyanE9HHe/sUl+HGmOm5IzEnE4J6jw
- mej1f2atOneeXf3HfK4iMYigr6pwq6fMnxr02Vv+K5UHwJgP62p++sEJhbteY9e92nUZ
- xk5Q==
+ bh=FpLAmFhaGGWzHy8uwTYLfcxMLDVGf3X74q8OXPUW5Xg=;
+ b=chMZfarAFrXYMrwltz7tLPs/pXcION/Sf437LUpeY5JjrPajE+n+ZaMEcNS3iheS8R
+ 3In2b0zWKRzPxhnqH8piDUMGb9tcV8OgywgGmf66YKmJgjEbwTPwK+ay6TDvvRxmlhbJ
+ d7xblFBNCelLX+OxbSIZRMFyq5qkw2dp1j1e9gAhJdr3uLqGoOtLSztGMZQ0WXLfWC/k
+ tbQMWh4fAMR97SVvhAzcPcjxF8AUW8W2EZ39T003viS4BW/em9Ogz+M+ml/U4i6IxFMy
+ 97qhgiw2Vo/jn5aONrUFna8km1mbWuIylqQtcVdRZ1yOsrkHR3jXrOrA8TL7ldq9P00g
+ uRgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681969761; x=1684561761;
+ d=1e100.net; s=20221208; t=1681969765; x=1684561765;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EkFnOWz8k65GM78Vyn6pXiVzR9tMO/XJPCs+OY+XiaI=;
- b=dVAHEZd8ufcePNANtL1aX2nnyl70XtxVPeElQxA5ywCD9OMregTr0cnXooLFmVrFMd
- 4GvQfSjRghIkC3RBjvgNhKRLplE3HPGcXyceeqMxpczUAUatL6HUipasvr4JP/WfhPDS
- pLKBk/P1dGDj3wsuSdXuc3S2KykJz/X+IvmGOoqDgoXJViP8c6iQSD8/3Xne7F6UHguD
- GJVCh4hQQx45sSCrnumZvbgTWdaqmDHVOgGrjmrOdZiQtqCVZV6mwn+2KyhwJfi/V3pp
- 040iqEYraC9OE4+F2DXFhJonKzBni4/4Y6gU2fEPWHgTqDbfdqB8DEQRtE1mOoXhKWs0
- +zvg==
-X-Gm-Message-State: AAQBX9c8je5ajjDdmKBMCMvzZahfLaPRedAUz+/sAlbCRDw0VWeOs84e
- /phVxUSB8HkE6VUD1ZwbZX2gWChnFpj+hpFe8hk=
-X-Google-Smtp-Source: AKy350aLOK852XIVGlNoSX8qW95WsJwyDxZC+kjNJ5xhGOlKX7eSZ/KiOVkDA+Ss95z7Gu4nWPwF2g==
-X-Received: by 2002:a17:90a:3181:b0:247:8b61:a41 with SMTP id
- j1-20020a17090a318100b002478b610a41mr475328pjb.25.1681969761579; 
- Wed, 19 Apr 2023 22:49:21 -0700 (PDT)
+ bh=FpLAmFhaGGWzHy8uwTYLfcxMLDVGf3X74q8OXPUW5Xg=;
+ b=V3fw9TwoUYutc1KvWtluSp/SSCXJFBmyJCbXgYmW8xVWDBO4tbFNDaRpoMN1qq7p86
+ uuITnXlZVnPZlAx3rw15aMBT3jtcBX6c4KfxU4fnrYJrV+FtH31kIJVvzQsilWK8SEH5
+ 2x9hjL6/S26M464qhVyr4qEKq0iKYX6b6UTc3M7aBSu75TbAikEERq01HPrnX7rAeNmO
+ /d+cO+Z9mblQAvLNKIu28PZvQ4tN48kmkdnSVJmRKwLtEp+kTlibB0WoFjVIfHQVXLDZ
+ K/65thBQBbUDYYdUKsp0Y9DNy8Jjw9qAmRvjwx5hl8nMgO0Nb1zKKOHGx6ku0vCv2CMg
+ fp6g==
+X-Gm-Message-State: AAQBX9djk3LakUcPI8UR/inR4OG/ZvyJNOfcm7mfevvzoYHnwWmASI1b
+ lsbUbNR3Nt0mSDp9DiV2hT9d1A==
+X-Google-Smtp-Source: AKy350aClLECq8MRP9EmMXz+f+TdmRyiL+CjubvZV0jvLeEd4fiCGocGPw6moA05q2ywLV9hAztmtg==
+X-Received: by 2002:a17:903:495:b0:1a6:7fb1:8de7 with SMTP id
+ jj21-20020a170903049500b001a67fb18de7mr465337plb.24.1681969764945; 
+ Wed, 19 Apr 2023 22:49:24 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a17090a46cf00b00247164c1947sm2769255pjg.0.2023.04.19.22.49.18
+ x15-20020a17090a46cf00b00247164c1947sm2769255pjg.0.2023.04.19.22.49.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Apr 2023 22:49:21 -0700 (PDT)
+ Wed, 19 Apr 2023 22:49:24 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,16 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 30/41] igb: Implement MSI-X single vector mode
-Date: Thu, 20 Apr 2023 14:46:46 +0900
-Message-Id: <20230420054657.50367-31-akihiko.odaki@daynix.com>
+Subject: [PATCH v2 31/41] igb: Use UDP for RSS hash
+Date: Thu, 20 Apr 2023 14:46:47 +0900
+Message-Id: <20230420054657.50367-32-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230420054657.50367-1-akihiko.odaki@daynix.com>
 References: <20230420054657.50367-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::629;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,39 +101,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
----
- hw/net/igb_core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+e1000e does not support using UDP for RSS hash, but igb does.
 
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ hw/net/igb_regs.h |  3 +++
+ hw/net/igb_core.c | 16 ++++++++++++++++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
+index eb995d8b2e..e6ac26dc0e 100644
+--- a/hw/net/igb_regs.h
++++ b/hw/net/igb_regs.h
+@@ -659,6 +659,9 @@ union e1000_adv_rx_desc {
+ 
+ #define E1000_RSS_QUEUE(reta, hash) (E1000_RETA_VAL(reta, hash) & 0x0F)
+ 
++#define E1000_MRQ_RSS_TYPE_IPV4UDP 7
++#define E1000_MRQ_RSS_TYPE_IPV6UDP 8
++
+ #define E1000_STATUS_IOV_MODE 0x00040000
+ 
+ #define E1000_STATUS_NUM_VFS_SHIFT 14
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index c24c522244..2c287688c7 100644
+index 2c287688c7..4dc8e3ae7b 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -1870,7 +1870,7 @@ igb_update_interrupt_state(IGBCore *core)
+@@ -279,6 +279,11 @@ igb_rss_get_hash_type(IGBCore *core, struct NetRxPkt *pkt)
+             return E1000_MRQ_RSS_TYPE_IPV4TCP;
+         }
  
-     icr = core->mac[ICR] & core->mac[IMS];
- 
--    if (msix_enabled(core->owner)) {
-+    if (core->mac[GPIE] & E1000_GPIE_MSIX_MODE) {
-         if (icr) {
-             causes = 0;
-             if (icr & E1000_ICR_DRSTA) {
-@@ -1905,7 +1905,12 @@ igb_update_interrupt_state(IGBCore *core)
-         trace_e1000e_irq_pending_interrupts(core->mac[ICR] & core->mac[IMS],
-                                             core->mac[ICR], core->mac[IMS]);
- 
--        if (msi_enabled(core->owner)) {
-+        if (msix_enabled(core->owner)) {
-+            if (icr) {
-+                trace_e1000e_irq_msix_notify_vec(0);
-+                msix_notify(core->owner, 0);
-+            }
-+        } else if (msi_enabled(core->owner)) {
-             if (icr) {
-                 msi_notify(core->owner, 0);
++        if (l4hdr_proto == ETH_L4_HDR_PROTO_UDP &&
++            (core->mac[MRQC] & E1000_MRQC_RSS_FIELD_IPV4_UDP)) {
++            return E1000_MRQ_RSS_TYPE_IPV4UDP;
++        }
++
+         if (E1000_MRQC_EN_IPV4(core->mac[MRQC])) {
+             return E1000_MRQ_RSS_TYPE_IPV4;
+         }
+@@ -314,6 +319,11 @@ igb_rss_get_hash_type(IGBCore *core, struct NetRxPkt *pkt)
+                 return E1000_MRQ_RSS_TYPE_IPV6TCPEX;
              }
+ 
++            if (l4hdr_proto == ETH_L4_HDR_PROTO_UDP &&
++                (core->mac[MRQC] & E1000_MRQC_RSS_FIELD_IPV6_UDP)) {
++                return E1000_MRQ_RSS_TYPE_IPV6UDP;
++            }
++
+             if (E1000_MRQC_EN_IPV6EX(core->mac[MRQC])) {
+                 return E1000_MRQ_RSS_TYPE_IPV6EX;
+             }
+@@ -352,6 +362,12 @@ igb_rss_calc_hash(IGBCore *core, struct NetRxPkt *pkt, E1000E_RSSInfo *info)
+     case E1000_MRQ_RSS_TYPE_IPV6EX:
+         type = NetPktRssIpV6Ex;
+         break;
++    case E1000_MRQ_RSS_TYPE_IPV4UDP:
++        type = NetPktRssIpV4Udp;
++        break;
++    case E1000_MRQ_RSS_TYPE_IPV6UDP:
++        type = NetPktRssIpV6Udp;
++        break;
+     default:
+         assert(false);
+         return 0;
 -- 
 2.40.0
 
