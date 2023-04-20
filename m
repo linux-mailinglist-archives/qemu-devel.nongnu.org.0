@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490426E8E20
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D506E8E21
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:34:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQeG-0007VO-KG; Thu, 20 Apr 2023 05:32:16 -0400
+	id 1ppQg4-0000dZ-3W; Thu, 20 Apr 2023 05:34:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppQeE-0007RC-Hd
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:32:14 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppQeD-0002IR-1r
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:32:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=qnUAxBfDwZjwdHH8OBqbLXj9cU97J1p3ec7utv51Llk=; b=b+Iurvh2P5voLr+j8C4J1aD1Ky
- gLzYlgIjSaY4ANbrX3m8Wn/AfdCb260D2+hc+34xWsdx7ii31L+jY6DiKKF7064D4DoQ9OV2WQZBg
- cCIr3Xy0Juu8WJqH3vWoduXhMyLP6r7Qk7AnqMgE2PU/dqf7VTfHZt1wGycmMQF4DX6beG67NqpwK
- HsVGYDueiUtwX/l/4SrZOGIbKQ3aNV6HCbiIFWhpUhEEUsmoJhzagCYD2RjSKAywh1K4e983fiX+j
- 11YDLUzvNR4FK0gZ370r7fEtldjVedHgPlN/jooV56gnXtIQfxF4J4RFM9LPvPrEMPD14SfDNHUgV
- HHIjmC32uozML5trAE7TldbOtG3RZyLuoCjhDFcHvuh1n+7ryNovL0v2sNMk2iYAdRHEqmIPtfsYD
- kXvSipXQhOWygHKzASo8xFrf5+hUdMrfA8hvBdm52Usxt1GPs9BS2l1FbP0ycBIJNTlM4E5q+JsGO
- KadX1VlFRaN29d6g9ZhpCxYJl1BlWy9VA5Hku2tEzJ7T+bOIE1YhIqv//M4bp+fRxXc05D1YIh1ds
- oNGNCALZLsWiFPDJZjtW9tlz6526oyVhMsJ94DMa3d+DesqsphuJSdDFNarWRFJNykYxXb8sX4AU4
- +71Np4gDdommcONkAEAErcAS6SoubFG7p5z8J/zhI=;
-Received: from host81-151-114-25.range81-151.btcentralplus.com
- ([81.151.114.25] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppQdH-0009vP-8A; Thu, 20 Apr 2023 10:31:19 +0100
-Message-ID: <0f77841f-c40a-8bad-4955-75aada8cd13e@ilande.co.uk>
-Date: Thu, 20 Apr 2023 10:32:04 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQfz-0000cg-S1
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:34:03 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQfy-0002rN-A6
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:34:03 -0400
+Received: by mail-wm1-x335.google.com with SMTP id n31so334833wms.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:34:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681983240; x=1684575240;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dsFbdoeoUjaqGngsW7Gz+bwcV48TuDbxM49TKqXoUKI=;
+ b=kTfU4rBmq68Ou9EgPSYVKU2uD4iD+r4hFZVwxgKq9Avk8ee4V04ibk2tR1xgaxSiM5
+ cRL6ARlt/yJMhmPBc6M4QgbGt5tAEdK4l1CtElLFctLdr3v+qxxKpvDQYsVlsdi8D51K
+ wqmWJMjqVlHE6JqmI2ZUuDsVRGrFUbBEq8fhdaJvTemaQR+2UTpm6R7Lou6SPCQHWXCX
+ 5xYGCOt2EmaBGfCAep6yp/BcH7M6HutejbqXTpAZWYvquxom04qp0NddoiyIKF13ks/a
+ i/BEPDywTaM8GiAgIw+U6h5yULCVTY6SV9RHEpWLSeTnWVSyMeuz4i3qosveMJCWQ5hR
+ ZPMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681983240; x=1684575240;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dsFbdoeoUjaqGngsW7Gz+bwcV48TuDbxM49TKqXoUKI=;
+ b=FVFQpO+4aMm/sH4GO5SH73C1AubdMlEjgmrl03d0Qr05vTeFEjYVaJ20D5ayLZjEJw
+ naMphey7/a60ZNKETVgxuKxmh22aNesqNBe4r1Adh5MQFoqRueKCY9tgXt9bzFC9XD3I
+ dVDZcb8hQkgPi4NMVBTkIDs4xoQgHYGLvr6PNvOeqmet7zBoQkMgIKAg36ENANybYa30
+ H01eMsEuUmg40TAKV+AzwvspsuKS/5YQ2SiJWZ4DTPtXltYq8oFPulcY35/CY0WSYONl
+ /AZL/sZdJzo09etbn5Tqr5xg47hZrmNkjMFrRCASZTC+Y0g6MZ02s/6OqV9mcFgQ9IX7
+ eDGQ==
+X-Gm-Message-State: AAQBX9eTOwQ3iWkuHM2NBhtKe0MZ05gYmlgCdftmNfCAu2sR8P5cDGJ7
+ Poz2kInhY66LO7J3Akt8oYh+7A==
+X-Google-Smtp-Source: AKy350YEkOt25EJFuLCBLvzdDAQi0dS9JFZjHnCMQbm00u/kgityEkOkAf7Bdhxd+BKQTu/eyGF1QQ==
+X-Received: by 2002:a1c:4b1a:0:b0:3f1:8167:dc30 with SMTP id
+ y26-20020a1c4b1a000000b003f18167dc30mr876837wma.2.1681983240377; 
+ Thu, 20 Apr 2023 02:34:00 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n20-20020a7bc5d4000000b003f17b96793dsm4760001wmk.37.2023.04.20.02.33.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 02:34:00 -0700 (PDT)
+Message-ID: <4bcb801d-7a16-765d-730a-ba2bc882fbeb@linaro.org>
+Date: Thu, 20 Apr 2023 11:33:58 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v4 2/2] hvf: implement guest debugging on Apple Silicon
+ hosts
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Viresh Kumar
- <viresh.kumar@linaro.org>, Mathieu Poirier <mathieu.poirier@linaro.org>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Markus Armbruster <armbru@redhat.com>,
- Erik Schilling <erik.schilling@linaro.org>, Jason Wang
- <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- virtio-fs@redhat.com, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20230418162140.373219-1-alex.bennee@linaro.org>
- <20230418162140.373219-7-alex.bennee@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230418162140.373219-7-alex.bennee@linaro.org>
+To: francesco.cagnin@gmail.com, qemu-devel@nongnu.org
+Cc: mads@ynddal.dk, dirty@apple.com, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com,
+ alex.bennee@linaro.org, Francesco Cagnin <fcagnin@quarkslab.com>
+References: <20230403191600.43487-1-fcagnin@quarkslab.com>
+ <20230403191600.43487-3-fcagnin@quarkslab.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230403191600.43487-3-fcagnin@quarkslab.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 81.151.114.25
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 06/13] include/hw/virtio: document some more usage of
- notifiers
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
 X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,48 +94,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/04/2023 17:21, Alex Bennée wrote:
+Hi Francesco,
 
-> Lets document some more of the core VirtIODevice structure.
+On 3/4/23 21:16, francesco.cagnin@gmail.com wrote:
+> From: Francesco Cagnin <fcagnin@quarkslab.com>
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Support is added for single-stepping, software breakpoints, hardware
+> breakpoints and watchpoints. The code has been structured like the KVM
+> counterpart (and many parts are basically identical).
+> 
+> Guests can be debugged through the gdbstub.
+> 
+> While guest debugging is enabled, the guest can still read and write the
+> DBG*_EL1 registers but they don't have any effect.
+> 
+> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
 > ---
->   include/hw/virtio/virtio.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 1ba7a9dd74..ef77e9ef0e 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -150,10 +150,18 @@ struct VirtIODevice
->       VMChangeStateEntry *vmstate;
->       char *bus_name;
->       uint8_t device_endian;
-> +    /**
-> +     * @user_guest_notifier_mask: gate usage of ->guest_notifier_mask() callback.
+>   accel/hvf/hvf-accel-ops.c | 115 +++++++
+>   accel/hvf/hvf-all.c       |  23 ++
+>   include/sysemu/hvf.h      |  34 ++
+>   include/sysemu/hvf_int.h  |   1 +
+>   target/arm/hvf/hvf.c      | 709 +++++++++++++++++++++++++++++++++++++-
+>   target/i386/hvf/hvf.c     |  33 ++
+>   6 files changed, 913 insertions(+), 2 deletions(-)
 
-Typo: @use_guest_notifier_mask
+Huge patch (hard to digest).
 
-> +     * This is used to suppress the masking of guest updates for
-> +     * vhost-user devices which are asynchronous by design.
-> +     */
->       bool use_guest_notifier_mask;
->       AddressSpace *dma_as;
->       QLIST_HEAD(, VirtQueue) *vector_queues;
->       QTAILQ_ENTRY(VirtIODevice) next;
-> +    /**
-> +     * @config_notifier: the event notifier that handles config events
-> +     */
->       EventNotifier config_notifier;e 
+>   static void hvf_accel_ops_class_init(ObjectClass *oc, void *data)
+>   {
+>       AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
+> @@ -473,6 +582,12 @@ static void hvf_accel_ops_class_init(ObjectClass *oc, void *data)
+>       ops->synchronize_post_init = hvf_cpu_synchronize_post_init;
+>       ops->synchronize_state = hvf_cpu_synchronize_state;
+>       ops->synchronize_pre_loadvm = hvf_cpu_synchronize_pre_loadvm;
+
+Consider splitting in 3;
+
+1: add registers,
+
+> +    ops->insert_breakpoint = hvf_insert_breakpoint;
+> +    ops->remove_breakpoint = hvf_remove_breakpoint;
+> +    ops->remove_all_breakpoints = hvf_remove_all_breakpoints;
+
+2: breakpoint handlers (and stubs)
+
+> +    ops->update_guest_debug = hvf_update_guest_debug;
+> +    ops->supports_guest_debug = hvf_arch_supports_guest_debug;
+
+3: guest_debug handlers (and stubs).
+
 >   };
+>   static const TypeInfo hvf_accel_ops_type = {
+>       .name = ACCEL_OPS_NAME("hvf"),
 
-As before, I'm not overly familiar with the virtio code but the description makes 
-sense to me so:
+Regards,
 
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-
-ATB,
-
-Mark.
+Phil.
 
