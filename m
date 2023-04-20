@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74596E962F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3C76E9624
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:44:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUYr-0000jB-P9; Thu, 20 Apr 2023 09:42:57 -0400
+	id 1ppUYt-0001Eq-RN; Thu, 20 Apr 2023 09:42:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUXt-0006jB-Be
+ id 1ppUXu-0006jh-Gh
  for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:41:59 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUXo-0006Fw-UN
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:41:57 -0400
+ id 1ppUXr-0006Gm-T0
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:41:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681998111;
+ s=mimecast20190719; t=1681998114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DO5R4xhLv1+Gf5TaJH4kMoqRzkW8dvUf0kl0sYpt580=;
- b=Ixn50oHw8+EhZMe/Wf+Kc+KMGcQ6qur1OxWNr5puW4ELlPeK8wIDb7abl5MQuJq9h4daGo
- Pqt+EsNZ6A6ZVxvqzPYhQWzrgYuKHLdQTcJbltydJBahq++zKPtybKyagT8EU2Szn7NMPl
- 8yPMLVjv0ZhSdaxJ66QyFo3ObU4A9C0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Aq4s9Xs/Xg89Uwz3e6sUuOv6yjWjazRx1cUCRByivvo=;
+ b=Lks+rlIGum+AKnJTEsTCHzhFKja14tv2yvvi97Z4DaqjXrlXa/pQOv+iR92jB6bd7FntU9
+ ibFgrm6HtrXBZHMKHxzAlCxs0Yzeyr0tnUg4z/UPBu896q8kDTn+0SAUFjDHnhIBt8NMua
+ 2v+gY4ZX5xSmqNVliOcpgmj+Gbu9+as=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-pjN3h71SPlmd9N5txk-VoQ-1; Thu, 20 Apr 2023 09:41:50 -0400
-X-MC-Unique: pjN3h71SPlmd9N5txk-VoQ-1
+ us-mta-388-FvcgbWJeOu2mg4WILM1KRQ-1; Thu, 20 Apr 2023 09:41:53 -0400
+X-MC-Unique: FvcgbWJeOu2mg4WILM1KRQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F9B7280AA28;
- Thu, 20 Apr 2023 13:41:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71AD5101A54F;
+ Thu, 20 Apr 2023 13:41:52 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E9E24020BED;
- Thu, 20 Apr 2023 13:41:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D396B4020BF1;
+ Thu, 20 Apr 2023 13:41:49 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>,
@@ -54,9 +54,10 @@ Cc: Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2 35/43] migration: Create migrate_downtime_limit() function
-Date: Thu, 20 Apr 2023 15:39:54 +0200
-Message-Id: <20230420134002.29531-36-quintela@redhat.com>
+Subject: [PATCH v2 36/43] migration: Move migrate_set_block_incremental() to
+ options.c
+Date: Thu, 20 Apr 2023 15:39:55 +0200
+Message-Id: <20230420134002.29531-37-quintela@redhat.com>
 In-Reply-To: <20230420134002.29531-1-quintela@redhat.com>
 References: <20230420134002.29531-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -86,65 +87,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Once there, make it more regular and remove th eneed for
+MigrationState parameter.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.c | 4 ++--
- migration/options.c   | 7 +++++++
- migration/options.h   | 1 +
- 3 files changed, 10 insertions(+), 2 deletions(-)
+ migration/migration.c | 9 ++-------
+ migration/options.c   | 9 +++++++++
+ migration/options.h   | 4 ++++
+ 3 files changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index b87aebee9b..3054874743 100644
+index 3054874743..d31e987d1a 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2739,7 +2739,7 @@ static void migration_update_counters(MigrationState *s,
-     transferred = current_bytes - s->iteration_initial_bytes;
-     time_spent = current_time - s->iteration_start_time;
-     bandwidth = (double)transferred / time_spent;
--    s->threshold_size = bandwidth * s->parameters.downtime_limit;
-+    s->threshold_size = bandwidth * migrate_downtime_limit();
- 
-     s->mbps = (((double) transferred * 8.0) /
-                ((double) time_spent / 1000.0)) / 1000.0 / 1000.0;
-@@ -3249,7 +3249,7 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
-      */
-     migrate_error_free(s);
- 
--    s->expected_downtime = s->parameters.downtime_limit;
-+    s->expected_downtime = migrate_downtime_limit();
-     if (resume) {
-         assert(s->cleanup_bh);
-     } else {
-diff --git a/migration/options.c b/migration/options.c
-index fa99e397d0..6c7c85ef2f 100644
---- a/migration/options.c
-+++ b/migration/options.c
-@@ -517,6 +517,13 @@ int migrate_decompress_threads(void)
-     return s->parameters.decompress_threads;
+@@ -1165,17 +1165,12 @@ void migrate_set_state(int *state, int old_state, int new_state)
+     }
  }
  
-+uint64_t migrate_downtime_limit(void)
+-static void migrate_set_block_incremental(MigrationState *s, bool value)
+-{
+-    s->parameters.block_incremental = value;
+-}
+-
+ static void block_cleanup_parameters(MigrationState *s)
+ {
+     if (s->must_remove_block_options) {
+         /* setting to false can never fail */
+         migrate_cap_set(MIGRATION_CAPABILITY_BLOCK, false, &error_abort);
+-        migrate_set_block_incremental(s, false);
++        migrate_set_block_incremental(false);
+         s->must_remove_block_options = false;
+     }
+ }
+@@ -1669,7 +1664,7 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+     }
+ 
+     if (blk_inc) {
+-        migrate_set_block_incremental(s, true);
++        migrate_set_block_incremental(true);
+     }
+ 
+     migrate_init(s);
+diff --git a/migration/options.c b/migration/options.c
+index 6c7c85ef2f..0ca2ad4fab 100644
+--- a/migration/options.c
++++ b/migration/options.c
+@@ -588,6 +588,15 @@ uint64_t migrate_xbzrle_cache_size(void)
+     return s->parameters.xbzrle_cache_size;
+ }
+ 
++/* parameter setters */
++
++void migrate_set_block_incremental(bool value)
 +{
 +    MigrationState *s = migrate_get_current();
 +
-+    return s->parameters.downtime_limit;
++    s->parameters.block_incremental = value;
 +}
 +
- uint8_t migrate_max_cpu_throttle(void)
- {
-     MigrationState *s = migrate_get_current();
+ /* parameters helpers */
+ 
+ AnnounceParameters *migrate_announce_params(void)
 diff --git a/migration/options.h b/migration/options.h
-index 9f50348d3c..6dc9cea195 100644
+index 6dc9cea195..61b559ff3f 100644
 --- a/migration/options.h
 +++ b/migration/options.h
-@@ -71,6 +71,7 @@ uint8_t migrate_cpu_throttle_increment(void);
- uint8_t migrate_cpu_throttle_initial(void);
- bool migrate_cpu_throttle_tailslow(void);
- int migrate_decompress_threads(void);
-+uint64_t migrate_downtime_limit(void);
- uint8_t migrate_max_cpu_throttle(void);
- uint64_t migrate_max_bandwidth(void);
- int64_t migrate_max_postcopy_bandwidth(void);
+@@ -82,6 +82,10 @@ int migrate_multifd_zstd_level(void);
+ uint8_t migrate_throttle_trigger_threshold(void);
+ uint64_t migrate_xbzrle_cache_size(void);
+ 
++/* parameters setters */
++
++void migrate_set_block_incremental(bool value);
++
+ /* parameters helpers */
+ 
+ bool migrate_params_check(MigrationParameters *params, Error **errp);
 -- 
 2.39.2
 
