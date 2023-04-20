@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E432A6E955F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313D26E9560
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:07:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppTza-0006tF-MT; Thu, 20 Apr 2023 09:06:30 -0400
+	id 1ppU0N-0007Qs-Hy; Thu, 20 Apr 2023 09:07:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppTzX-0006sX-Ao; Thu, 20 Apr 2023 09:06:27 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ppU0J-0007N4-8v
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:07:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppTzT-0008U5-PD; Thu, 20 Apr 2023 09:06:27 -0400
-Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:2cab:0:640:424b:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id D09DA607E8;
- Thu, 20 Apr 2023 16:06:13 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b58f::1:1d] (unknown
- [2a02:6b8:b081:b58f::1:1d])
- by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id C6esbv05RGk0-amLgJV2z; Thu, 20 Apr 2023 16:06:13 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1681995973; bh=4LwVTglswQiCN7opsx7aCXZkXPGM4Nsh4g/MMX21oc0=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=gQZH/3PAIJEzV0779VsrTttKG5+FxgRKP/E1Rx7UhttLR44+nyKz7ybKmtUdditIg
- 4w/mEGfAttt4DMWSryApn4+7pRttYv5w7sCbrRVrRfN1CUO8HPxY2eoxxvtaYWvHYh
- rsHM62SiunZsbnOcw6Li+ZdB6Rn3+aHOATgZRlLw=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <59bb09cf-0311-fe65-0cfe-17a8074ca449@yandex-team.ru>
-Date: Thu, 20 Apr 2023 16:06:12 +0300
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ppU0G-0000Qw-Ba
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:07:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681996030;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5wiVbdRlt+56no6bXVhuJBjqTPukz2YeJ7px0yVUNDo=;
+ b=ULZg0guUHVXG/licVtuV9MnikScPNh6ht+Tby4HWkCRXnwqWcyGQyyWF6Jln4wFh3bqQJD
+ OdcyQseVwKBsboR9a7C+Ahi0fzIQyPplEzwPXskha8Wap7suGyE8WEyk2IW7Nb3VXV5fYC
+ 5HcPcW2GyZ+4QlzjD4Guz5tI3KPGjT8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-494-lOQfiRdvMt-e9eXYq-ElNA-1; Thu, 20 Apr 2023 09:07:08 -0400
+X-MC-Unique: lOQfiRdvMt-e9eXYq-ElNA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1288D811E7B
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 13:07:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 911A7440BC;
+ Thu, 20 Apr 2023 13:07:07 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>
+Subject: [PATCH] vhost-user: send SET_STATUS 0 after GET_VRING_BASE
+Date: Thu, 20 Apr 2023 09:07:06 -0400
+Message-Id: <20230420130706.541219-1-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 09/43] migration: Move migrate_use_zero_copy_send() to
- options.c
-Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Hailiang Zhang <zhanghailiang@xfusion.com>, Fam Zheng <fam@euphon.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>
-References: <20230302163410.11399-1-quintela@redhat.com>
- <20230302163410.11399-10-quintela@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230302163410.11399-10-quintela@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,19 +76,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02.03.23 19:33, Juan Quintela wrote:
-> Once that we are there, we rename the function to
-> migrate_zero_copy_send() to be consistent with all other capabilities.
-> 
-> We can remove the CONFIG_LINUX guard.  We already check that we can't
-> setup this capability in migrate_caps_check().
-> 
-> Signed-off-by: Juan Quintela<quintela@redhat.com>
+Setting the VIRTIO Device Status Field to 0 resets the device. The
+device's state is lost, including the vring configuration.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+vhost-user.c currently sends SET_STATUS 0 before GET_VRING_BASE. This
+risks confusion about the lifetime of the vhost-user state (e.g. vring
+last_avail_idx) across VIRTIO device reset.
 
+Eugenio Pérez <eperezma@redhat.com> adjusted the order for vhost-vdpa.c
+in commit c3716f260bff ("vdpa: move vhost reset after get vring base")
+and in that commit description suggested doing the same for vhost-user
+in the future.
+
+Go ahead and adjust vhost-user.c now. I ran various online code searches
+to identify vhost-user backends implementing SET_STATUS. It seems only
+DPDK implements SET_STATUS and Yajun Wu <yajunw@nvidia.com> has
+confirmed that it is safe to make this change.
+
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Cindy Lu <lulu@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ hw/virtio/vhost-user.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index e5285df4ba..2d40b1b3e7 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -2677,10 +2677,20 @@ static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
+                                           VIRTIO_CONFIG_S_DRIVER |
+                                           VIRTIO_CONFIG_S_DRIVER_OK);
+     } else {
+-        return vhost_user_set_status(dev, 0);
++        return 0;
+     }
+ }
+ 
++static void vhost_user_reset_status(struct vhost_dev *dev)
++{
++    /* Set device status only for last queue pair */
++    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
++        return;
++    }
++
++    vhost_user_set_status(dev, 0);
++}
++
+ const VhostOps user_ops = {
+         .backend_type = VHOST_BACKEND_TYPE_USER,
+         .vhost_backend_init = vhost_user_backend_init,
+@@ -2716,4 +2726,5 @@ const VhostOps user_ops = {
+         .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
+         .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
+         .vhost_dev_start = vhost_user_dev_start,
++        .vhost_reset_status = vhost_user_reset_status,
+ };
 -- 
-Best regards,
-Vladimir
+2.39.2
 
 
