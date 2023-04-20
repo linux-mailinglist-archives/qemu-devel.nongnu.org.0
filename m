@@ -2,70 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601BA6E94A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67E06E951B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:54:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppTY0-0004Ca-Cc; Thu, 20 Apr 2023 08:38:00 -0400
+	id 1ppTmS-00043s-8d; Thu, 20 Apr 2023 08:52:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1ppTXw-00048U-Ay
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:37:56 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1ppTXt-0005Yc-4Y
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:37:55 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-54fe3cd445aso39051577b3.5
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 05:37:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681994271; x=1684586271;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Ll+OOqP9UTs6KODp2qTkwH7mO4ZYdASH+Er+VNj9PrM=;
- b=W2S5ukKJh+PHElNJw7wMq3M+AQ4eRHkB1OQnKSVOozBLl6TYYtknfzV801tBZo2PBe
- lGo6ucF2Q2SbHsqAnJs3HHVJgoFazSJDDQ2JIqOPGL46W/NfptsHKtPVhx8i89XY8D/C
- IsEMcc17JmX55AWvO/rLb7951mSbN3Da1QSKtNSIQMQXqvvUIwWdmq+EuRzIce5N/dU9
- mjDs45TcXSl7wlYqdioW1euoXNA8tHj6LSjV7I8IxyHe1nhGvCxQ7nv8085fm7TRT16N
- h6oxVJITM3rZUPdkS/bW3977z58k7bh8GzupISs7l0Ps1LWQRIJLNE0dB9R7HpaPnb5X
- LESg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681994271; x=1684586271;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ll+OOqP9UTs6KODp2qTkwH7mO4ZYdASH+Er+VNj9PrM=;
- b=PgMeL7dRSaAmjaoSMAkzWSr/c3e0O519oyBEJ+io28Tg4kUXjL3EwLu5XG6T3n6qFR
- cqlet7l2EyqFn4mQBaieG8x32UZWRFhFbat5sfcqf88Q0OOSKvtX1trwZ54jWDZJtXyD
- 2fqWBrjp0nttfOHY/E9Rv9xiV+tCN+sj4owCddq0UG5X4UsM8pMshLuGiSwZe+vgWpNx
- e+lgilxwlNpiF5v8YicS9r09XXRfLidJjRdlgt+wzMUwQ7RMTrrzV9kE6zyC2Rud3NAN
- t509YFHya2GjNF/BpgMf+UPcFe2X4a/t5RW/fDLNaZWleYxQbWKt3t1VFYVD08pfkxwi
- Zd2g==
-X-Gm-Message-State: AAQBX9eHozJ/HfsG+g0OPQMa8x35Uzo+KsNpjvsbzTbZLWXZYjInwqb1
- 87Gcs1jW8hhCUPoGk/FIg+HGmtZ4LsEjIo3MSHdiQRbsIFY=
-X-Google-Smtp-Source: AKy350YntJDfsOjUzRHPW4x14deXZ01uIpZuv3aFdNPKOTOIg/jE3pbLIJEJl7n6z8Pwx9Pzf5uQp1UwDndIqtAnEjM=
-X-Received: by 2002:a0d:f3c7:0:b0:550:c7cb:55ce with SMTP id
- c190-20020a0df3c7000000b00550c7cb55cemr637469ywf.30.1681994271272; Thu, 20
- Apr 2023 05:37:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
+ id 1ppTmE-00042q-Jl
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:52:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
+ id 1ppTm9-0002pe-3d
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:52:40 -0400
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33KClOCF021861; Thu, 20 Apr 2023 12:52:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=qMzI+u0OmaUNykRo3Trvq/CjS3QEmAFmINVTGJapWdo=;
+ b=FRfkVSZjLWzrsLcQvpF2Yo9s4+GlFtxaZiyimJX0ecxWyer62Egn4RvCmO0X0+f63VCh
+ Q5JTgt4Hs3bwDmDjgvQ0011flhazdB6ERrPNPpuGh77MI8jHhZutCitLbMnPdgCT7YcT
+ 2ty1+h4eLm/zJdOGAAaO9Utp7RBQwqvKOGSIRZMCp0V7HnYr1ypDj/S94GFfHhyoS29I
+ OIqIaMloXDO6ChX6avvXlDWBtewaaTHTVAGFNyGYJtOVODhaSGaWQZsceQKp3vYZHrNk
+ s0m3f8V4yXSie+YUK7XD+KS/Q/jjfyXfwXLe2jlJOUuMipTYH82XHt8Vp6xQUogmB0NJ HQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q35q6g64p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 12:52:27 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33KCliF1022825;
+ Thu, 20 Apr 2023 12:52:27 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q35q6g63p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 12:52:27 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33KAC6db008978;
+ Thu, 20 Apr 2023 12:52:25 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3pykj6bdam-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Apr 2023 12:52:25 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33KCqMPp46662368
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 20 Apr 2023 12:52:22 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7369120043;
+ Thu, 20 Apr 2023 12:52:22 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1628A20040;
+ Thu, 20 Apr 2023 12:52:21 +0000 (GMT)
+Received: from melvil.aus.stglabs.ibm.com (unknown [9.40.193.168])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 20 Apr 2023 12:52:20 +0000 (GMT)
+From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Subject: [PATCH v3 0/2] Improve avocado code coverage for ppc64
+Date: Thu, 20 Apr 2023 07:52:15 -0500
+Message-Id: <20230420125217.620928-1-kconsul@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: RAGHU H <raghuhack78@gmail.com>
-Date: Thu, 20 Apr 2023 18:07:40 +0530
-Message-ID: <CAGWUp4oHxtj69B=gCtUAS_Fp0p6=wBjK_gViYKRqwkVBteCdeQ@mail.gmail.com>
-Subject: Error : "cxl_pci 0000:0d:00.0: Failed to get interrupt for event Info
- log"
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=raghuhack78@gmail.com; helo=mail-yw1-x1136.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 3X3is3muO-maxdYCu7_gev6NDgqlf6Fx
+X-Proofpoint-GUID: -vJZGJxH1mJpiyU1mH-Bfa0qBQUze4uy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-20_08,2023-04-20_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 malwarescore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 phishscore=0 mlxscore=0 spamscore=0 impostorscore=0
+ mlxlogscore=864 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304200102
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=kconsul@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,49 +115,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
+boot_linux.py test-case due to which the code coverage for
+powerpc decreased by 2%. This patchset aims to make up this
+2% code coverage by modifying the tuxrun_baselines.py test-case.
 
-I am using qemu config listed in CXL documentation to emulate CXL device
+Changes since v1 and v2:
+- Modified the way and code that creates the temporary qcow2
+  image that the tuxrun_baselines.py is now using.
+- Factored out code in avocado_qemu/__init__.py to create
+  the get_qemu_img() function that will now get called from
+  tuxrun_baselines.py.
 
+Kautuk Consul (2):
+  avocado_qemu/__init__.py: factor out the qemu-img finding
+  tests/avocado/tuxrun_baselines.py: improve code coverage for ppc64
 
--object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M
-\
--object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M
-\
--object memory-backend-file,id=cxl-mem3,share=on,mem-path=/tmp/cxltest3.raw,size=256M
-\
--object memory-backend-file,id=cxl-mem4,share=on,mem-path=/tmp/cxltest4.raw,size=256M
-\
--object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M
-\
--object memory-backend-file,id=cxl-lsa2,share=on,mem-path=/tmp/lsa2.raw,size=256M
-\
--object memory-backend-file,id=cxl-lsa3,share=on,mem-path=/tmp/lsa3.raw,size=256M
-\
--object memory-backend-file,id=cxl-lsa4,share=on,mem-path=/tmp/lsa4.raw,size=256M
-\
--device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
--device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2 \
--device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
--device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
--device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3 \
--device cxl-type3,bus=root_port14,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1 \
--device cxl-rp,port=0,bus=cxl.2,id=root_port15,chassis=0,slot=5 \
--device cxl-type3,bus=root_port15,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2 \
--device cxl-rp,port=1,bus=cxl.2,id=root_port16,chassis=0,slot=6 \
--device cxl-type3,bus=root_port16,memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3 \
--M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.targets.1=cxl.2,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k
+ tests/avocado/avocado_qemu/__init__.py |  27 +++---
+ tests/avocado/tuxrun_baselines.py      | 120 ++++++++++++++++++++++++-
+ 2 files changed, 132 insertions(+), 15 deletions(-)
 
-Kernel logs show cxl_pci module error while setting up irq
-(cxl_event_irqsetup in drivers/cxl/pci.c)
+-- 
+2.25.1
 
-cxl_pci 0000:0d:00.0: Failed to get interrupt for event Info log
-[    3.984800] cxl_pci 0000:e0:00.0: Failed to get interrupt for event Info log
-[    3.984841] cxl_pci 0000:df:00.0: Failed to get interrupt for event Info log
-
-
-Is this expected in an emulated environment?
-
-Regards
-Raghu
 
