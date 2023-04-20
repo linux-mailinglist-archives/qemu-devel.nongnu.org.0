@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C986E8FB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:14:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7788D6E8FB4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:13:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRHe-0000wX-Gq; Thu, 20 Apr 2023 06:12:58 -0400
+	id 1ppRHa-0000ot-3t; Thu, 20 Apr 2023 06:12:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHY-0000na-WB
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHP-0000cp-JO
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:43 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHG-0007zq-Ur
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHE-0007zz-NW
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681985547;
+ s=mimecast20190719; t=1681985549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eYVqMgcP4TZPkv0Q9qK8sk+UGd4f6O2gemeQ26SqbyY=;
- b=gBWDXxJAeHxCn7lodQ8RZaMlMxrsrLNjHMbSxGfunVeXWWgm+aErAVZofg63K03WXtwMSU
- v+w/k/3ItjBfT1eUdR2x4+38A/5jFSPQlkx2mr76+7hEBB9+hnsBT9+LemY9Rn3SXNLGZ6
- yoOh1SeHb9QhPxeAULJn1FGZ6fl/oq8=
+ bh=2QLrZjn/OknsMQll+23B6jfxbvFU3SjWJOMn7h956Ys=;
+ b=CIshjdPPD4JQjlUY8dlANi3HCq8lvbYhWAaDzkIQndj1AxrYLi6wkEX8U1dV5VYWwfL2JE
+ S42d1H6cjdx93OlPqSqLA8V7IV9+WIqIFGq9Y8Up13mFwcO0td2p1YB0YyRGxO7f8NtP4c
+ opwB3Scu3d8Ozee3CSNPRyS8IpoUT7A=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-225-6C9E0MY7MCq6F3r0pJhkTQ-1; Thu, 20 Apr 2023 06:12:26 -0400
-X-MC-Unique: 6C9E0MY7MCq6F3r0pJhkTQ-1
+ us-mta-241-yig7hIAZPbiTg-W80kWzkg-1; Thu, 20 Apr 2023 06:12:27 -0400
+X-MC-Unique: yig7hIAZPbiTg-W80kWzkg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 416A1886462;
- Thu, 20 Apr 2023 10:12:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7774B85A588;
+ Thu, 20 Apr 2023 10:12:27 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 403755AB7A;
- Thu, 20 Apr 2023 10:12:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 87EA7440BC;
+ Thu, 20 Apr 2023 10:12:26 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 04/23] test: Fix test-crypto-secret when compiling without
- keyring support
-Date: Thu, 20 Apr 2023 12:11:57 +0200
-Message-Id: <20230420101216.786304-5-thuth@redhat.com>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 05/23] qtest: Don't assert on "-qtest chardev:myid"
+Date: Thu, 20 Apr 2023 12:11:58 +0200
+Message-Id: <20230420101216.786304-6-thuth@redhat.com>
 In-Reply-To: <20230420101216.786304-1-thuth@redhat.com>
 References: <20230420101216.786304-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -63,8 +61,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,68 +78,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Juan Quintela <quintela@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Linux keyring support is protected by CONFIG_KEYUTILS.
-We also need CONFIG_SECRET_KEYRING.
+If the -qtest command line argument is passed a string that says
+"use this chardev for I/O", then it will assert:
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20230414114252.1136-1-quintela@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+$ ./build/clang/qemu-system-i386 -chardev file,path=/dev/null,id=myid -qtest chardev:myid
+Unexpected error in qtest_set_chardev() at ../../softmmu/qtest.c:1011:
+qemu-system-i386: Cannot find character device 'qtest'
+Aborted (core dumped)
+
+This is because in qtest_server_init() we assume that when we create
+the chardev with qemu_chr_new() it will always have the name "qtest".
+This is true if qemu_chr_new() had to create a new chardev, but not
+true if one already existed and is being referred to with
+"chardev:myid".
+
+Use the name of the chardev we get back from qemu_chr_new() as the
+string to set the qtest 'chardev' property to, instead of hardcoding
+it to "qtest".
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20230413150724.404304-2-peter.maydell@linaro.org>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/unit/test-crypto-secret.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ softmmu/qtest.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/unit/test-crypto-secret.c b/tests/unit/test-crypto-secret.c
-index 34a4aecc12..147b4af828 100644
---- a/tests/unit/test-crypto-secret.c
-+++ b/tests/unit/test-crypto-secret.c
-@@ -24,7 +24,7 @@
- #include "crypto/secret.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
--#ifdef CONFIG_KEYUTILS
-+#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
- #include "crypto/secret_keyring.h"
- #include <keyutils.h>
- #endif
-@@ -128,7 +128,7 @@ static void test_secret_indirect_emptyfile(void)
-     g_free(fname);
- }
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index 34bd2a33a7..26852996b5 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -867,7 +867,7 @@ void qtest_server_init(const char *qtest_chrdev, const char *qtest_log, Error **
+     }
  
--#ifdef CONFIG_KEYUTILS
-+#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
- 
- #define DESCRIPTION "qemu_test_secret"
- #define PAYLOAD "Test Payload"
-@@ -268,7 +268,7 @@ static void test_secret_keyring_bad_key_access_right(void)
-     keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
- }
- 
--#endif /* CONFIG_KEYUTILS */
-+#endif /* CONFIG_KEYUTILS && CONFIG_SECRET_KEYRING */
- 
- static void test_secret_noconv_base64_good(void)
- {
-@@ -571,7 +571,7 @@ int main(int argc, char **argv)
-     g_test_add_func("/crypto/secret/indirect/emptyfile",
-                     test_secret_indirect_emptyfile);
- 
--#ifdef CONFIG_KEYUTILS
-+#if defined(CONFIG_KEYUTILS) && defined(CONFIG_SECRET_KEYRING)
-     g_test_add_func("/crypto/secret/keyring/good",
-                     test_secret_keyring_good);
-     g_test_add_func("/crypto/secret/keyring/revoked_key",
-@@ -582,7 +582,7 @@ int main(int argc, char **argv)
-                     test_secret_keyring_bad_serial_key);
-     g_test_add_func("/crypto/secret/keyring/bad_key_access_right",
-                     test_secret_keyring_bad_key_access_right);
--#endif /* CONFIG_KEYUTILS */
-+#endif /* CONFIG_KEYUTILS && CONFIG_SECRET_KEYRING */
- 
-     g_test_add_func("/crypto/secret/noconv/base64/good",
-                     test_secret_noconv_base64_good);
+     qtest = object_new(TYPE_QTEST);
+-    object_property_set_str(qtest, "chardev", "qtest", &error_abort);
++    object_property_set_str(qtest, "chardev", chr->label, &error_abort);
+     if (qtest_log) {
+         object_property_set_str(qtest, "log", qtest_log, &error_abort);
+     }
 -- 
 2.31.1
 
