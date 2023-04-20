@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531E26E89DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 07:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC606E89EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 07:54:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppN9y-0007an-7l; Thu, 20 Apr 2023 01:48:46 -0400
+	id 1ppN9v-0007Us-Jm; Thu, 20 Apr 2023 01:48:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ppN9e-00077Z-9G
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:29 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1ppN9j-00078q-PT
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:33 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ppN9c-0001Eh-8f
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:26 -0400
-Received: by mail-pg1-x530.google.com with SMTP id
- 41be03b00d2f7-51b6d0b9430so435126a12.2
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 22:48:23 -0700 (PDT)
+ id 1ppN9g-0001Fi-32
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:30 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 98e67ed59e1d1-2468495aad8so361372a91.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 22:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681969703; x=1684561703;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681969706; x=1684561706;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9NH/ll5GymINE+o67jVPDPh88ENZTXN2KmByhXu2lJk=;
- b=gahnLMAWOp43nj6qrQPYbU9B6LR093xJyIqyVu5hr1DfhKFTKRxp/RTMPxAZ3EBN3T
- 9r8X34o0da4+tqDQLKJCPkNWkTQXvgH9wT/i5fKTMGeo+1OjCe+1VaLnJxCZ70gLvNbg
- jswl0xI+fAVvVxx694f0wgAj+oL9hHBIB3awYeHn09rYq98isrSm0iyNKZiptLQsTJsD
- peUYl55EJzI5ffPIy245JKkOgQakvuw/vnvrAkJuswODFFAf6fayA6EOZDRWZOOPzJYv
- HNWGFRdwZBAeLzbviH5eJ7PIgXb6l2PI1OpuY9/1TBHjx5qojAEYkZMWwVMh4Vq9bkcS
- 5NRg==
+ bh=Tl9f92216yqdyz0w94GLX0DDUZ9ja9a0/OMVZzQGksE=;
+ b=Z0W1Wg092qP6fGq/EaCiMr6RNisgGsE7FbYpBTVT33BQ4SFuxRX0wboApaeJpp+BBf
+ NwVuzISQlf3PRYzch9IBe98F6NFrMKKS6EMfRdUb1Ec4HLlLW7fVvDuuxaF8ohXHvSJ2
+ rvVtKRgoWlYGlI3wowMcOE9LNZTcFAQktX/D+PuZbleWgOTjEZm/LKxPPXt7dDDQMGkk
+ y/dZTkQVbXnYcEsk6kYb4U5n2q3tEZ48cZoMHOIePmTD9ze3L8sftZC+gSUrWrHaN71E
+ dao6NjU3zFrp4eNzUBdLNdYN23Fl6vFl2mAS/OAGjerWGDqUuIrkADU4E9Dl5Bg/WRie
+ Exbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681969703; x=1684561703;
+ d=1e100.net; s=20221208; t=1681969706; x=1684561706;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9NH/ll5GymINE+o67jVPDPh88ENZTXN2KmByhXu2lJk=;
- b=JDnbLrCBx3XabFDOKMaBR9jhpAxMXWGirgqZdxP3JD8dISigJjFCALaXgekL7vK7x7
- /GHX4cq5a4hRvPdyPUBZMUM3kkVjKePYQgLVaBDXOTGbCyvb9g50SOTwoikY8forsK/j
- ug2VuL/ZsjRQvakd0XmLLaxeQKmXV/fWpWfL/dlI1mDrj0Xyb0mwxwmJFCJ8st8rk7lA
- 9CvMWTc3mucUyd3FwSFdMkehpft8OtmMdARJggo5MDkrX7/Z7GGJMwYPbZmoXiw225Jv
- yhx7S2jkGLEvuSJz85NEHRKuwVVepT8a/h0B6L73Hk32zfKhXZKObdUqopBSDPAP+ZbO
- 2lbA==
-X-Gm-Message-State: AAQBX9ckm0n+m2eajik/HIhjkpSEzWllOKHTHU+SVuNEh99BiG0otD6T
- BVaf6riSoCMyLJg/UfdamK+9dQ==
-X-Google-Smtp-Source: AKy350boph9iAet2YIx7+uhgZJlfIJtAzgHy53RoUKqiLfn0uFo5ejeOhisxmnTL9tIYtW+E1aJBWw==
-X-Received: by 2002:a17:903:32d1:b0:1a6:dc1f:6230 with SMTP id
- i17-20020a17090332d100b001a6dc1f6230mr415591plr.55.1681969702881; 
- Wed, 19 Apr 2023 22:48:22 -0700 (PDT)
+ bh=Tl9f92216yqdyz0w94GLX0DDUZ9ja9a0/OMVZzQGksE=;
+ b=SDYdVnIq/dzeAPKxIZtv5kf16sWajjwUeH24Q+AOiyzAw55/Nir5xTkw+sVMrWyzWq
+ b6eO40eCpu7m9ADpnKkUWbMppS4p6mO9h7A0w0xNfUOwCBg3HmdaOat4ruJ8eIB/gJNy
+ Y3E6UxA/BvLAmiToZS0dOhRqMRsETFXOjXZOPKzJi7DIgeq4n5iT+sRI2zkKEZnu5AjH
+ fMQGrr3UEXrsLFJxBjdK6WYztF5rQRYLbWQYXvUtWoFpRWe4j+kUZzyaHJUHNNiDm5ow
+ dfUDkxNTRjqIuPsEhpu4+yad7EoAtbQrZgaGNmfGR8vuHNNMpvARA6NhytVwIuu4m4l5
+ JFVQ==
+X-Gm-Message-State: AAQBX9f/rR4RGFPlJ3UrSgWcKy89E2FH0+35gHkPi4tA+OJC3sB7ulZ9
+ 1o3534ZXe5NBHB4EU11/KAAJcQ==
+X-Google-Smtp-Source: AKy350a66LokQ2yJn8sEHsj52dbJ34+JdJWjbD65ilf5d6PSD+zjNbRH6z1xB7QwfmwuhBsSbjsAhw==
+X-Received: by 2002:a17:90b:3841:b0:247:2671:ca43 with SMTP id
+ nl1-20020a17090b384100b002472671ca43mr511523pjb.36.1681969706378; 
+ Wed, 19 Apr 2023 22:48:26 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a17090a46cf00b00247164c1947sm2769255pjg.0.2023.04.19.22.48.19
+ x15-20020a17090a46cf00b00247164c1947sm2769255pjg.0.2023.04.19.22.48.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Apr 2023 22:48:22 -0700 (PDT)
+ Wed, 19 Apr 2023 22:48:26 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,16 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 13/41] net/eth: Rename eth_setup_vlan_headers_ex
-Date: Thu, 20 Apr 2023 14:46:29 +0900
-Message-Id: <20230420054657.50367-14-akihiko.odaki@daynix.com>
+Subject: [PATCH v2 14/41] e1000x: Share more Rx filtering logic
+Date: Thu, 20 Apr 2023 14:46:30 +0900
+Message-Id: <20230420054657.50367-15-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230420054657.50367-1-akihiko.odaki@daynix.com>
 References: <20230420054657.50367-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::530;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x530.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,64 +101,317 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The old eth_setup_vlan_headers has no user so remove it and rename
-eth_setup_vlan_headers_ex.
+This saves some code and enables tracepoint for e1000's VLAN filtering.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- include/net/eth.h   | 9 +--------
- hw/net/net_tx_pkt.c | 2 +-
- net/eth.c           | 2 +-
- 3 files changed, 3 insertions(+), 10 deletions(-)
+ hw/net/e1000x_common.h |  4 +++-
+ hw/net/e1000.c         | 35 +++++--------------------------
+ hw/net/e1000e_core.c   | 47 +++++-------------------------------------
+ hw/net/e1000x_common.c | 44 +++++++++++++++++++++++++++++++++------
+ hw/net/igb_core.c      | 41 +++---------------------------------
+ hw/net/trace-events    |  4 ++--
+ 6 files changed, 56 insertions(+), 119 deletions(-)
 
-diff --git a/include/net/eth.h b/include/net/eth.h
-index 9f19c3a695..e8af5742be 100644
---- a/include/net/eth.h
-+++ b/include/net/eth.h
-@@ -351,16 +351,9 @@ eth_strip_vlan_ex(const struct iovec *iov, int iovcnt, size_t iovoff,
- uint16_t
- eth_get_l3_proto(const struct iovec *l2hdr_iov, int iovcnt, size_t l2hdr_len);
+diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
+index 0298e06283..be291684de 100644
+--- a/hw/net/e1000x_common.h
++++ b/hw/net/e1000x_common.h
+@@ -107,7 +107,9 @@ bool e1000x_rx_ready(PCIDevice *d, uint32_t *mac);
  
--void eth_setup_vlan_headers_ex(struct eth_header *ehdr, uint16_t vlan_tag,
-+void eth_setup_vlan_headers(struct eth_header *ehdr, uint16_t vlan_tag,
-     uint16_t vlan_ethtype, bool *is_new);
+ bool e1000x_is_vlan_packet(const void *buf, uint16_t vet);
  
--static inline void
--eth_setup_vlan_headers(struct eth_header *ehdr, uint16_t vlan_tag,
--    bool *is_new)
--{
--    eth_setup_vlan_headers_ex(ehdr, vlan_tag, ETH_P_VLAN, is_new);
--}
--
+-bool e1000x_rx_group_filter(uint32_t *mac, const uint8_t *buf);
++bool e1000x_rx_vlan_filter(uint32_t *mac, const struct vlan_header *vhdr);
++
++bool e1000x_rx_group_filter(uint32_t *mac, const struct eth_header *ehdr);
  
- uint8_t eth_get_gso_type(uint16_t l3_proto, uint8_t *l3_hdr, uint8_t l4proto);
+ bool e1000x_hw_rx_enabled(uint32_t *mac);
  
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index cc36750c9b..ce6b102391 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -368,7 +368,7 @@ void net_tx_pkt_setup_vlan_header_ex(struct NetTxPkt *pkt,
-     bool is_new;
-     assert(pkt);
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index 18eb6d8876..aae5f0bdc0 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -804,36 +804,11 @@ start_xmit(E1000State *s)
+ }
  
--    eth_setup_vlan_headers_ex(pkt->vec[NET_TX_PKT_L2HDR_FRAG].iov_base,
-+    eth_setup_vlan_headers(pkt->vec[NET_TX_PKT_L2HDR_FRAG].iov_base,
-         vlan, vlan_ethtype, &is_new);
- 
-     /* update l2hdrlen */
-diff --git a/net/eth.c b/net/eth.c
-index d7b30df79f..b6ff89c460 100644
---- a/net/eth.c
-+++ b/net/eth.c
-@@ -21,7 +21,7 @@
- #include "net/checksum.h"
- #include "net/tap.h"
- 
--void eth_setup_vlan_headers_ex(struct eth_header *ehdr, uint16_t vlan_tag,
-+void eth_setup_vlan_headers(struct eth_header *ehdr, uint16_t vlan_tag,
-     uint16_t vlan_ethtype, bool *is_new)
+ static int
+-receive_filter(E1000State *s, const uint8_t *buf, int size)
++receive_filter(E1000State *s, const void *buf)
  {
-     struct vlan_header *vhdr = PKT_GET_VLAN_HDR(ehdr);
+-    uint32_t rctl = s->mac_reg[RCTL];
+-    int isbcast = is_broadcast_ether_addr(buf);
+-    int ismcast = is_multicast_ether_addr(buf);
+-
+-    if (e1000x_is_vlan_packet(buf, le16_to_cpu(s->mac_reg[VET])) &&
+-        e1000x_vlan_rx_filter_enabled(s->mac_reg)) {
+-        uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(buf)->h_tci);
+-        uint32_t vfta =
+-            ldl_le_p((uint32_t *)(s->mac_reg + VFTA) +
+-                     ((vid >> E1000_VFTA_ENTRY_SHIFT) & E1000_VFTA_ENTRY_MASK));
+-        if ((vfta & (1 << (vid & E1000_VFTA_ENTRY_BIT_SHIFT_MASK))) == 0) {
+-            return 0;
+-        }
+-    }
+-
+-    if (!isbcast && !ismcast && (rctl & E1000_RCTL_UPE)) { /* promiscuous ucast */
+-        return 1;
+-    }
+-
+-    if (ismcast && (rctl & E1000_RCTL_MPE)) {          /* promiscuous mcast */
+-        return 1;
+-    }
+-
+-    if (isbcast && (rctl & E1000_RCTL_BAM)) {          /* broadcast enabled */
+-        return 1;
+-    }
+-
+-    return e1000x_rx_group_filter(s->mac_reg, buf);
++    return (!e1000x_is_vlan_packet(buf, s->mac_reg[VET]) ||
++            e1000x_rx_vlan_filter(s->mac_reg, PKT_GET_VLAN_HDR(buf))) &&
++           e1000x_rx_group_filter(s->mac_reg, buf);
+ }
+ 
+ static void
+@@ -949,7 +924,7 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
+         return size;
+     }
+ 
+-    if (!receive_filter(s, filter_buf, size)) {
++    if (!receive_filter(s, filter_buf)) {
+         return size;
+     }
+ 
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index f3335194d8..743b36ddfb 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -1034,48 +1034,11 @@ e1000e_rx_l4_cso_enabled(E1000ECore *core)
+ }
+ 
+ static bool
+-e1000e_receive_filter(E1000ECore *core, const uint8_t *buf, int size)
++e1000e_receive_filter(E1000ECore *core, const void *buf)
+ {
+-    uint32_t rctl = core->mac[RCTL];
+-
+-    if (e1000x_is_vlan_packet(buf, core->mac[VET]) &&
+-        e1000x_vlan_rx_filter_enabled(core->mac)) {
+-        uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(buf)->h_tci);
+-        uint32_t vfta =
+-            ldl_le_p((uint32_t *)(core->mac + VFTA) +
+-                     ((vid >> E1000_VFTA_ENTRY_SHIFT) & E1000_VFTA_ENTRY_MASK));
+-        if ((vfta & (1 << (vid & E1000_VFTA_ENTRY_BIT_SHIFT_MASK))) == 0) {
+-            trace_e1000e_rx_flt_vlan_mismatch(vid);
+-            return false;
+-        } else {
+-            trace_e1000e_rx_flt_vlan_match(vid);
+-        }
+-    }
+-
+-    switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
+-    case ETH_PKT_UCAST:
+-        if (rctl & E1000_RCTL_UPE) {
+-            return true; /* promiscuous ucast */
+-        }
+-        break;
+-
+-    case ETH_PKT_BCAST:
+-        if (rctl & E1000_RCTL_BAM) {
+-            return true; /* broadcast enabled */
+-        }
+-        break;
+-
+-    case ETH_PKT_MCAST:
+-        if (rctl & E1000_RCTL_MPE) {
+-            return true; /* promiscuous mcast */
+-        }
+-        break;
+-
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+-    return e1000x_rx_group_filter(core->mac, buf);
++    return (!e1000x_is_vlan_packet(buf, core->mac[VET]) ||
++            e1000x_rx_vlan_filter(core->mac, PKT_GET_VLAN_HDR(buf))) &&
++           e1000x_rx_group_filter(core->mac, buf);
+ }
+ 
+ static inline void
+@@ -1736,7 +1699,7 @@ e1000e_receive_internal(E1000ECore *core, const struct iovec *iov, int iovcnt,
+     net_rx_pkt_set_packet_type(core->rx_pkt,
+         get_eth_packet_type(PKT_GET_ETH_HDR(min_buf)));
+ 
+-    if (!e1000e_receive_filter(core, min_buf, size)) {
++    if (!e1000e_receive_filter(core, min_buf)) {
+         trace_e1000e_rx_flt_dropped();
+         return orig_size;
+     }
+diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
+index 7694673bcc..6cc23138a8 100644
+--- a/hw/net/e1000x_common.c
++++ b/hw/net/e1000x_common.c
+@@ -58,32 +58,64 @@ bool e1000x_is_vlan_packet(const void *buf, uint16_t vet)
+     return res;
+ }
+ 
+-bool e1000x_rx_group_filter(uint32_t *mac, const uint8_t *buf)
++bool e1000x_rx_vlan_filter(uint32_t *mac, const struct vlan_header *vhdr)
++{
++    if (e1000x_vlan_rx_filter_enabled(mac)) {
++        uint16_t vid = lduw_be_p(&vhdr->h_tci);
++        uint32_t vfta =
++            ldl_le_p((uint32_t *)(mac + VFTA) +
++                     ((vid >> E1000_VFTA_ENTRY_SHIFT) & E1000_VFTA_ENTRY_MASK));
++        if ((vfta & (1 << (vid & E1000_VFTA_ENTRY_BIT_SHIFT_MASK))) == 0) {
++            trace_e1000x_rx_flt_vlan_mismatch(vid);
++            return false;
++        }
++
++        trace_e1000x_rx_flt_vlan_match(vid);
++    }
++
++    return true;
++}
++
++bool e1000x_rx_group_filter(uint32_t *mac, const struct eth_header *ehdr)
+ {
+     static const int mta_shift[] = { 4, 3, 2, 0 };
+     uint32_t f, ra[2], *rp, rctl = mac[RCTL];
+ 
++    if (is_broadcast_ether_addr(ehdr->h_dest)) {
++        if (rctl & E1000_RCTL_BAM) {
++            return true;
++        }
++    } else if (is_multicast_ether_addr(ehdr->h_dest)) {
++        if (rctl & E1000_RCTL_MPE) {
++            return true;
++        }
++    } else {
++        if (rctl & E1000_RCTL_UPE) {
++            return true;
++        }
++    }
++
+     for (rp = mac + RA; rp < mac + RA + 32; rp += 2) {
+         if (!(rp[1] & E1000_RAH_AV)) {
+             continue;
+         }
+         ra[0] = cpu_to_le32(rp[0]);
+         ra[1] = cpu_to_le32(rp[1]);
+-        if (!memcmp(buf, (uint8_t *)ra, ETH_ALEN)) {
++        if (!memcmp(ehdr->h_dest, (uint8_t *)ra, ETH_ALEN)) {
+             trace_e1000x_rx_flt_ucast_match((int)(rp - mac - RA) / 2,
+-                                            MAC_ARG(buf));
++                                            MAC_ARG(ehdr->h_dest));
+             return true;
+         }
+     }
+-    trace_e1000x_rx_flt_ucast_mismatch(MAC_ARG(buf));
++    trace_e1000x_rx_flt_ucast_mismatch(MAC_ARG(ehdr->h_dest));
+ 
+     f = mta_shift[(rctl >> E1000_RCTL_MO_SHIFT) & 3];
+-    f = (((buf[5] << 8) | buf[4]) >> f) & 0xfff;
++    f = (((ehdr->h_dest[5] << 8) | ehdr->h_dest[4]) >> f) & 0xfff;
+     if (mac[MTA + (f >> 5)] & (1 << (f & 0x1f))) {
+         return true;
+     }
+ 
+-    trace_e1000x_rx_flt_inexact_mismatch(MAC_ARG(buf),
++    trace_e1000x_rx_flt_inexact_mismatch(MAC_ARG(ehdr->h_dest),
+                                          (rctl >> E1000_RCTL_MO_SHIFT) & 3,
+                                          f >> 5,
+                                          mac[MTA + (f >> 5)]);
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index 72a00564cf..4b9131e566 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -976,7 +976,6 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
+     uint16_t queues = 0;
+     uint16_t oversized = 0;
+     uint16_t vid = be16_to_cpu(l2_header->vlan.h_tci) & VLAN_VID_MASK;
+-    bool accepted = false;
+     int i;
+ 
+     memset(rss_info, 0, sizeof(E1000E_RSSInfo));
+@@ -986,16 +985,8 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
+     }
+ 
+     if (e1000x_is_vlan_packet(ehdr, core->mac[VET] & 0xffff) &&
+-        e1000x_vlan_rx_filter_enabled(core->mac)) {
+-        uint32_t vfta =
+-            ldl_le_p((uint32_t *)(core->mac + VFTA) +
+-                     ((vid >> E1000_VFTA_ENTRY_SHIFT) & E1000_VFTA_ENTRY_MASK));
+-        if ((vfta & (1 << (vid & E1000_VFTA_ENTRY_BIT_SHIFT_MASK))) == 0) {
+-            trace_e1000e_rx_flt_vlan_mismatch(vid);
+-            return queues;
+-        } else {
+-            trace_e1000e_rx_flt_vlan_match(vid);
+-        }
++        !e1000x_rx_vlan_filter(core->mac, PKT_GET_VLAN_HDR(ehdr))) {
++        return queues;
+     }
+ 
+     if (core->mac[MRQC] & 1) {
+@@ -1103,33 +1094,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
+             }
+         }
+     } else {
+-        switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
+-        case ETH_PKT_UCAST:
+-            if (rctl & E1000_RCTL_UPE) {
+-                accepted = true; /* promiscuous ucast */
+-            }
+-            break;
+-
+-        case ETH_PKT_BCAST:
+-            if (rctl & E1000_RCTL_BAM) {
+-                accepted = true; /* broadcast enabled */
+-            }
+-            break;
+-
+-        case ETH_PKT_MCAST:
+-            if (rctl & E1000_RCTL_MPE) {
+-                accepted = true; /* promiscuous mcast */
+-            }
+-            break;
+-
+-        default:
+-            g_assert_not_reached();
+-        }
+-
+-        if (!accepted) {
+-            accepted = e1000x_rx_group_filter(core->mac, ehdr->h_dest);
+-        }
+-
++        bool accepted = e1000x_rx_group_filter(core->mac, ehdr);
+         if (!accepted) {
+             for (macp = core->mac + RA2; macp < core->mac + RA2 + 16; macp += 2) {
+                 if (!(macp[1] & E1000_RAH_AV)) {
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index d35554fce8..a34d196ff7 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -106,6 +106,8 @@ e1000_receiver_overrun(size_t s, uint32_t rdh, uint32_t rdt) "Receiver overrun:
+ # e1000x_common.c
+ e1000x_rx_can_recv_disabled(bool link_up, bool rx_enabled, bool pci_master) "link_up: %d, rx_enabled %d, pci_master %d"
+ e1000x_vlan_is_vlan_pkt(bool is_vlan_pkt, uint16_t eth_proto, uint16_t vet) "Is VLAN packet: %d, ETH proto: 0x%X, VET: 0x%X"
++e1000x_rx_flt_vlan_mismatch(uint16_t vid) "VID mismatch: 0x%X"
++e1000x_rx_flt_vlan_match(uint16_t vid) "VID match: 0x%X"
+ e1000x_rx_flt_ucast_match(uint32_t idx, uint8_t b0, uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4, uint8_t b5) "unicast match[%d]: %02x:%02x:%02x:%02x:%02x:%02x"
+ e1000x_rx_flt_ucast_mismatch(uint8_t b0, uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4, uint8_t b5) "unicast mismatch: %02x:%02x:%02x:%02x:%02x:%02x"
+ e1000x_rx_flt_inexact_mismatch(uint8_t b0, uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4, uint8_t b5, uint32_t mo, uint32_t mta, uint32_t mta_val) "inexact mismatch: %02x:%02x:%02x:%02x:%02x:%02x MO %d MTA[%d] 0x%x"
+@@ -154,8 +156,6 @@ e1000e_rx_can_recv_rings_full(void) "Cannot receive: all rings are full"
+ e1000e_rx_can_recv(void) "Can receive"
+ e1000e_rx_has_buffers(int ridx, uint32_t free_desc, size_t total_size, uint32_t desc_buf_size) "ring #%d: free descr: %u, packet size %zu, descr buffer size %u"
+ e1000e_rx_null_descriptor(void) "Null RX descriptor!!"
+-e1000e_rx_flt_vlan_mismatch(uint16_t vid) "VID mismatch: 0x%X"
+-e1000e_rx_flt_vlan_match(uint16_t vid) "VID match: 0x%X"
+ e1000e_rx_desc_ps_read(uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3) "buffers: [0x%"PRIx64", 0x%"PRIx64", 0x%"PRIx64", 0x%"PRIx64"]"
+ e1000e_rx_desc_ps_write(uint16_t a0, uint16_t a1, uint16_t a2, uint16_t a3) "bytes written: [%u, %u, %u, %u]"
+ e1000e_rx_desc_buff_sizes(uint32_t b0, uint32_t b1, uint32_t b2, uint32_t b3) "buffer sizes: [%u, %u, %u, %u]"
 -- 
 2.40.0
 
