@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3964E6E93A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B873A6E93C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:11:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppT2c-0004ze-My; Thu, 20 Apr 2023 08:05:34 -0400
+	id 1ppT6t-0001X6-IQ; Thu, 20 Apr 2023 08:09:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppT2Y-0004xl-Q2
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:05:30 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ppT6r-0001Wq-Nh
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:09:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppT2W-00029o-71
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:05:30 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ppT6p-0003Lw-VF
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:09:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681992327;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=BVLi0YGYkERbJUui4v/i1u7WP1QWxTZWzE7oi1ebmHs=;
- b=V6LUgCoxYFcAck3fqs1inQJliVyVcX+QLXSkhZFtnIeTm4rIx+UN4Rarlm2zQYiNjC9yHL
- z2ODlW0pxHBkw42Ucyxe9SWEDEDspfBUmeTd0wnJC1onaZ5LIYY074aZVYeaujtgPtiZJs
- H6OndCls/w5K9a3XEBOXZqTTTTBQtDQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-uvw1qlbvMbeC6VF61KEaug-1; Thu, 20 Apr 2023 08:05:23 -0400
-X-MC-Unique: uvw1qlbvMbeC6VF61KEaug-1
-Received: by mail-wm1-f69.google.com with SMTP id
- w9-20020a05600c474900b003f17365b888so1206350wmo.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 05:05:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681992322; x=1684584322;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BVLi0YGYkERbJUui4v/i1u7WP1QWxTZWzE7oi1ebmHs=;
- b=GPVYJr2ZaeWMAP3CVNv/QVON3wWVeV6UapXUm60XirUh3o4/YiUtxO3ldMi1sbIb8r
- uLHldzqDNI9k6/Uhm7T7aDC0GR6Q02QCdhwO+lqK6Q8pWHA98Eb1JzE0b9ajt/RiRrsH
- M6tz9D9Eq9rARUrPkubXXd/aikg4XmPxAd6b2xunhp9B2m22ZHcFqBcbk9SaYuBXvc5F
- VgftzROSuu17ICDbKdoqlYytMzbUt4vC7YHdMvuA4pF88KfsvNtPE980kiJp/3wJ6TJD
- TDwKnel5PONC05Gk54iPzgyZuaQ53QfBdtGpYkOaPiuixLwsmhHj9szsn4TdCJpawEva
- nINA==
-X-Gm-Message-State: AAQBX9eWJGUV0r5skPNRstT78lvcLikWQ6f87N4drPpnUhJLUslZUJru
- HdmJQlH1zjGSo28+vhdBRvLDZo4xFyHzjBrOkU6G1K2KRMKxj43OZFEZstTNU4JIjGgAyt4u7OF
- 75pKeSnXwiKZQO9c=
-X-Received: by 2002:a05:600c:2183:b0:3f1:82ba:b03f with SMTP id
- e3-20020a05600c218300b003f182bab03fmr1078407wme.18.1681992322397; 
- Thu, 20 Apr 2023 05:05:22 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aOJgEeA4jDC+lV0j+uEYBYTjFrPfFJWuNk1fi+frFwAJMPiygkJ9XhthXx8X16+oOK3cCIqA==
-X-Received: by 2002:a05:600c:2183:b0:3f1:82ba:b03f with SMTP id
- e3-20020a05600c218300b003f182bab03fmr1078388wme.18.1681992322070; 
- Thu, 20 Apr 2023 05:05:22 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- y32-20020a05600c342000b003f173956a82sm5125605wmp.21.2023.04.20.05.05.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 05:05:21 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: David Edmondson <david.edmondson@oracle.com>
-Cc: qemu-devel@nongnu.org,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] migration: move migration_global_dump() to
- migration-hmp-cmds.c
-In-Reply-To: <m2edq2hzmg.fsf@oracle.com> (David Edmondson's message of "Mon,
- 06 Mar 2023 11:45:43 +0000")
-References: <20230302162631.10250-1-quintela@redhat.com>
- <m2edq2hzmg.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 20 Apr 2023 14:05:20 +0200
-Message-ID: <87mt32yd1b.fsf@secure.mitica>
+ s=mimecast20190719; t=1681992594;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6rnLKg3blOeRd/5UpvTNutjO0sWKe/Jf6iiNyydyiyk=;
+ b=LGEF7Vv/ozGFccg2+nofvFzczh99lxXIQzS5nE+bm4jgcF32qKIsIgL3dF1wpY7n0pnbSH
+ hUPyqfHHM2F0cXC764WoYwUT0f09AiuwNi5gTEsJE/9OgBoT5DwvLokWwozGxeOXxLlwKt
+ aDcyiVyRxZM0EQnlCdK75388nrAyeyE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-66-KBVoZd6ZN9Sp0OHQfXF33g-1; Thu, 20 Apr 2023 08:09:51 -0400
+X-MC-Unique: KBVoZd6ZN9Sp0OHQfXF33g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5052B3C1024D;
+ Thu, 20 Apr 2023 12:09:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BB1E1121315;
+ Thu, 20 Apr 2023 12:09:50 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>, kvm@vger.kernel.org,
+ virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
+Subject: [PULL 00/20] Block patches
+Date: Thu, 20 Apr 2023 08:09:28 -0400
+Message-Id: <20230420120948.436661-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,21 +86,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-David Edmondson <david.edmondson@oracle.com> wrote:
-> Juan Quintela <quintela@redhat.com> writes:
->
->> It is only used there, so we can make it static.
->> Once there, remove spice.h that it is not used.
->
-> The removal of ui/qemu-spice.h seems like an unrelated change - should
-> be a different changeset?
+The following changes since commit c1eb2ddf0f8075faddc5f7c3d39feae3e8e9d6b4:
 
-You are right.
+  Update version for v8.0.0 release (2023-04-19 17:27:13 +0100)
 
-Thanks.
+are available in the Git repository at:
+
+  https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+
+for you to fetch changes up to 36e5e9b22abe56aa00ca067851555ad8127a7966:
+
+  tracing: install trace events file only if necessary (2023-04-20 07:39:43 -0400)
+
+----------------------------------------------------------------
+Pull request
+
+Sam Li's zoned storage work and fixes I collected during the 8.0 freeze.
+
+----------------------------------------------------------------
+
+Carlos Santos (1):
+  tracing: install trace events file only if necessary
+
+Philippe Mathieu-Daudé (1):
+  block/dmg: Declare a type definition for DMG uncompress function
+
+Sam Li (17):
+  block/block-common: add zoned device structs
+  block/file-posix: introduce helper functions for sysfs attributes
+  block/block-backend: add block layer APIs resembling Linux
+    ZonedBlockDevice ioctls
+  block/raw-format: add zone operations to pass through requests
+  block: add zoned BlockDriver check to block layer
+  iotests: test new zone operations
+  block: add some trace events for new block layer APIs
+  docs/zoned-storage: add zoned device documentation
+  file-posix: add tracking of the zone write pointers
+  block: introduce zone append write for zoned devices
+  qemu-iotests: test zone append operation
+  block: add some trace events for zone append
+  include: update virtio_blk headers to v6.3-rc1
+  virtio-blk: add zoned storage emulation for zoned devices
+  block: add accounting for zone append operation
+  virtio-blk: add some trace events for zoned emulation
+  docs/zoned-storage:add zoned emulation use case
+
+Thomas De Schampheleire (1):
+  tracetool: use relative paths for '#line' preprocessor directives
+
+ docs/devel/index-api.rst                     |   1 +
+ docs/devel/zoned-storage.rst                 |  62 ++
+ qapi/block-core.json                         |  68 +-
+ qapi/block.json                              |   4 +
+ meson.build                                  |   4 +
+ block/dmg.h                                  |   8 +-
+ include/block/accounting.h                   |   1 +
+ include/block/block-common.h                 |  57 ++
+ include/block/block-io.h                     |  13 +
+ include/block/block_int-common.h             |  37 +
+ include/block/raw-aio.h                      |   8 +-
+ include/standard-headers/drm/drm_fourcc.h    |  12 +
+ include/standard-headers/linux/ethtool.h     |  48 +-
+ include/standard-headers/linux/fuse.h        |  45 +-
+ include/standard-headers/linux/pci_regs.h    |   1 +
+ include/standard-headers/linux/vhost_types.h |   2 +
+ include/standard-headers/linux/virtio_blk.h  | 105 +++
+ include/sysemu/block-backend-io.h            |  27 +
+ linux-headers/asm-arm64/kvm.h                |   1 +
+ linux-headers/asm-x86/kvm.h                  |  34 +-
+ linux-headers/linux/kvm.h                    |   9 +
+ linux-headers/linux/vfio.h                   |  15 +-
+ linux-headers/linux/vhost.h                  |   8 +
+ block.c                                      |  19 +
+ block/block-backend.c                        | 193 ++++++
+ block/dmg.c                                  |   7 +-
+ block/file-posix.c                           | 677 +++++++++++++++++--
+ block/io.c                                   |  68 ++
+ block/io_uring.c                             |   4 +
+ block/linux-aio.c                            |   3 +
+ block/qapi-sysemu.c                          |  11 +
+ block/qapi.c                                 |  18 +
+ block/raw-format.c                           |  26 +
+ hw/block/virtio-blk-common.c                 |   2 +
+ hw/block/virtio-blk.c                        | 405 +++++++++++
+ hw/virtio/virtio-qmp.c                       |   2 +
+ qemu-io-cmds.c                               | 224 ++++++
+ block/trace-events                           |   4 +
+ docs/system/qemu-block-drivers.rst.inc       |   6 +
+ hw/block/trace-events                        |   7 +
+ scripts/tracetool/backend/ftrace.py          |   4 +-
+ scripts/tracetool/backend/log.py             |   4 +-
+ scripts/tracetool/backend/syslog.py          |   4 +-
+ tests/qemu-iotests/tests/zoned               | 105 +++
+ tests/qemu-iotests/tests/zoned.out           |  69 ++
+ trace/meson.build                            |   2 +-
+ 46 files changed, 2353 insertions(+), 81 deletions(-)
+ create mode 100644 docs/devel/zoned-storage.rst
+ create mode 100755 tests/qemu-iotests/tests/zoned
+ create mode 100644 tests/qemu-iotests/tests/zoned.out
+
+-- 
+2.39.2
 
 
