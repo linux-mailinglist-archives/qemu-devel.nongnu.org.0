@@ -2,50 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158796E8F98
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254986E8FC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:14:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRHP-0000ct-CI; Thu, 20 Apr 2023 06:12:43 -0400
+	id 1ppRHZ-0000mY-K2; Thu, 20 Apr 2023 06:12:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHN-0000cZ-4x
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:41 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHP-0000e4-Jx
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:43 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHD-0007zO-SH
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppRHG-000809-3h
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:12:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681985542;
+ s=mimecast20190719; t=1681985551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EvquEffA/4KUPIo7lVefCiZExHYUC9bYpQShfaW34ns=;
- b=Xz7p2ucjFA11mkABInFxwdxRhCTglxpu5PyEYYMkQSvpc/BIdR3gd7RhiEbCNIU6o8iehi
- OSRiYNO9BlheXIPGYiMA45Z1XL4VVDjDtPRt1ukaYh3J/T8mgPOKvVBaKMMULe3s46Jhkf
- WTB/2Rze1eIH6Im9RNqdTA1EV2CqLPw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RP7ld/5oGmxExkBHAN8x2m9rLZBCH2GOiq2AZzB4TN0=;
+ b=gzxRaJrDemQQifH594ibKZG4hFeGL/hmk/ZCtVn5QUcBA4RBCTt4O50bF8WdfVF0qPLM1Q
+ W0F3eitZKzvuE9+mMM4ucZUSKrQ1eWNKZ3cddq1/WQk+8AKAC54A5AX0VJkGO4tfA+sSg0
+ U4EI1q33jO3PmS/pX5uCLt3I8W3LovY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-XyBK_DFTPwyx1Nd_LWCQ2A-1; Thu, 20 Apr 2023 06:12:18 -0400
-X-MC-Unique: XyBK_DFTPwyx1Nd_LWCQ2A-1
+ us-mta-167-Cq5g6AZFOzCV-x4UqmapGw-1; Thu, 20 Apr 2023 06:12:22 -0400
+X-MC-Unique: Cq5g6AZFOzCV-x4UqmapGw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 653F929324BE;
- Thu, 20 Apr 2023 10:12:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A57853C1485D;
+ Thu, 20 Apr 2023 10:12:21 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A708C5AB7A;
- Thu, 20 Apr 2023 10:12:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A61D6637A3;
+ Thu, 20 Apr 2023 10:12:18 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 00/23] First batch of testing and misc patches for 8.1
-Date: Thu, 20 Apr 2023 12:11:53 +0200
-Message-Id: <20230420101216.786304-1-thuth@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Gavin Shan <gshan@redhat.com>
+Subject: [PULL 01/23] hw: Add compat machines for 8.1
+Date: Thu, 20 Apr 2023 12:11:54 +0200
+Message-Id: <20230420101216.786304-2-thuth@redhat.com>
+In-Reply-To: <20230420101216.786304-1-thuth@redhat.com>
+References: <20230420101216.786304-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -74,119 +80,272 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
- Hi!
+From: Cornelia Huck <cohuck@redhat.com>
 
-The following changes since commit c1eb2ddf0f8075faddc5f7c3d39feae3e8e9d6b4:
+Add 8.1 machine types for arm/i440fx/m68k/q35/s390x/spapr.
 
-  Update version for v8.0.0 release (2023-04-19 17:27:13 +0100)
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20230314173009.152667-1-cohuck@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Gavin Shan <gshan@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ hw/arm/virt.c              |  9 ++++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 16 +++++++++++++---
+ hw/i386/pc_q35.c           | 14 ++++++++++++--
+ hw/m68k/virt.c             |  9 ++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ 10 files changed, 79 insertions(+), 10 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-04-20
-
-for you to fetch changes up to ec6fb1c8cd8d55c3d2a34cacfea6df0fe6c76057:
-
-  tests/vm/freebsd: Update to FreeBSD 13.2 (2023-04-20 11:28:16 +0200)
-
-----------------------------------------------------------------
-* Compat machines for version 8.1
-* Allow setting a chardev input file on the command line
-* Fix .travis.yml to work with non-public Travis instances, too
-* Move a lot of code from specifc_ss into softmmu_ss
-* Add a test case for TPM TIS I2C connected to Aspeed I2C controller
-* Update tests/vm/freebsd to version 13
-* Some more misc minor fixes here and there
-
-----------------------------------------------------------------
-Cornelia Huck (1):
-      hw: Add compat machines for 8.1
-
-Juan Quintela (3):
-      test: Fix test-crypto-secret when compiling without keyring support
-      tests/migration: Only run auto_converge in slow mode
-      MAINTAINERS: Add Juan Quintela to developer guides review
-
-Peter Maydell (2):
-      qtest: Don't assert on "-qtest chardev:myid"
-      chardev: Allow setting file chardev input file on the command line
-
-Stefan Berger (3):
-      qtest: Add functions for accessing devices on Aspeed I2C controller
-      qtest: Move tpm_util_tis_transmit() into tpm-tis-utils.c and rename it
-      qtest: Add a test case for TPM TIS I2C connected to Aspeed I2C controller
-
-Stefan Weil (2):
-      docs: Fix typo (wphx => whpx)
-      docs/cxl: Fix sentence
-
-Thomas Huth (10):
-      target/i386: Set family/model/stepping of the "max" CPU according to LM bit
-      hw/char: Move two more files from specific_ss to softmmu_ss
-      softmmu/qtest: Move the target-specific pseries RTAS code out of qtest.c
-      include/exec: Provide the tswap() functions for target independent code, too
-      softmmu: Make qtest.c target independent
-      hw/display: Compile vga.c as target-independent code
-      softmmu: Move dirtylimit.c into the target independent source set
-      hw/core: Move numa.c into the target independent source set
-      cpu: Remove parameter of list_cpus()
-      tests/vm/freebsd: Update to FreeBSD 13.2
-
-Vaibhav Jain (2):
-      travis.yml: Add missing clang-10 package to the 'Clang (disable-tcg)' job
-      travis.yml: Add missing 'flex', 'bison' packages to 'GCC (user)' job
-
- MAINTAINERS                             |   1 +
- docs/system/devices/cxl.rst             |   2 +-
- docs/system/introduction.rst            |   2 +-
- include/exec/cpu-all.h                  |  64 +--
- include/exec/cpu-common.h               |   2 +-
- include/exec/tswap.h                    |  72 ++++
- include/hw/boards.h                     |   3 +
- include/hw/i2c/aspeed_i2c.h             |   7 +
- include/hw/i386/pc.h                    |   3 +
- include/sysemu/qtest.h                  |   4 +
- tests/qtest/qtest_aspeed.h              |  41 ++
- tests/qtest/tpm-tis-util.h              |   4 +
- tests/qtest/tpm-util.h                  |   3 -
- chardev/char-file.c                     |   8 +
- chardev/char.c                          |   3 +
- cpu.c                                   |   2 +-
- hw/arm/virt.c                           |   9 +-
- hw/core/machine.c                       |   3 +
- hw/display/vga.c                        |  31 +-
- hw/i386/pc.c                            |   3 +
- hw/i386/pc_piix.c                       |  16 +-
- hw/i386/pc_q35.c                        |  14 +-
- hw/m68k/virt.c                          |   9 +-
- hw/ppc/spapr.c                          |  15 +-
- hw/ppc/spapr_rtas.c                     |  29 ++
- hw/s390x/s390-virtio-ccw.c              |  14 +-
- softmmu/dirtylimit.c                    |   3 +-
- softmmu/qtest.c                         |  53 +--
- softmmu/vl.c                            |   2 +-
- target/i386/cpu.c                       |  31 +-
- tests/qtest/migration-test.c            |  23 +-
- tests/qtest/qtest_aspeed.c              | 117 ++++++
- tests/qtest/tpm-crb-swtpm-test.c        |   3 -
- tests/qtest/tpm-crb-test.c              |   3 -
- tests/qtest/tpm-tis-device-swtpm-test.c |   5 +-
- tests/qtest/tpm-tis-i2c-test.c          | 663 ++++++++++++++++++++++++++++++++
- tests/qtest/tpm-tis-swtpm-test.c        |   5 +-
- tests/qtest/tpm-tis-util.c              |  47 ++-
- tests/qtest/tpm-util.c                  |  45 ---
- tests/unit/test-crypto-secret.c         |  10 +-
- .travis.yml                             |   5 +-
- hw/char/meson.build                     |   5 +-
- hw/core/meson.build                     |   2 +-
- hw/display/meson.build                  |   2 +-
- qemu-options.hx                         |  10 +-
- softmmu/meson.build                     |   4 +-
- tests/qtest/meson.build                 |   3 +
- tests/vm/freebsd                        | 101 ++---
- 48 files changed, 1224 insertions(+), 282 deletions(-)
- create mode 100644 include/exec/tswap.h
- create mode 100644 tests/qtest/qtest_aspeed.h
- create mode 100644 tests/qtest/qtest_aspeed.c
- create mode 100644 tests/qtest/tpm-tis-i2c-test.c
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 6fbbfd56c8..bf5fc9e3e7 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -381,6 +381,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
+ 
++extern GlobalProperty hw_compat_8_0[];
++extern const size_t hw_compat_8_0_len;
++
+ extern GlobalProperty hw_compat_7_2[];
+ extern const size_t hw_compat_7_2_len;
+ 
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 8206d5405a..eb668e9034 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -195,6 +195,9 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
+ /* sgx.c */
+ void pc_machine_init_sgx_epc(PCMachineState *pcms);
+ 
++extern GlobalProperty pc_compat_8_0[];
++extern const size_t pc_compat_8_0_len;
++
+ extern GlobalProperty pc_compat_7_2[];
+ extern const size_t pc_compat_7_2_len;
+ 
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index ac626b3bef..267fe56fae 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -3232,10 +3232,17 @@ static void machvirt_machine_init(void)
+ }
+ type_init(machvirt_machine_init);
+ 
++static void virt_machine_8_1_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE_AS_LATEST(8, 1)
++
+ static void virt_machine_8_0_options(MachineClass *mc)
+ {
++    virt_machine_8_1_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_8_0, hw_compat_8_0_len);
+ }
+-DEFINE_VIRT_MACHINE_AS_LATEST(8, 0)
++DEFINE_VIRT_MACHINE(8, 0)
+ 
+ static void virt_machine_7_2_options(MachineClass *mc)
+ {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index cd13b8b0a3..2ce97a5d3b 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -39,6 +39,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
++GlobalProperty hw_compat_8_0[] = {};
++const size_t hw_compat_8_0_len = G_N_ELEMENTS(hw_compat_8_0);
++
+ GlobalProperty hw_compat_7_2[] = {
+     { "e1000e", "migrate-timadj", "off" },
+     { "virtio-mem", "x-early-migration", "false" },
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 1489abf010..615e1d3d06 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -116,6 +116,9 @@
+     { "qemu64-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
+     { "athlon-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },
+ 
++GlobalProperty pc_compat_8_0[] = {};
++const size_t pc_compat_8_0_len = G_N_ELEMENTS(pc_compat_8_0);
++
+ GlobalProperty pc_compat_7_2[] = {
+     { "ICH9-LPC", "noreboot", "true" },
+ };
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 30eedd62a3..21591dad8d 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -454,21 +454,31 @@ static void pc_i440fx_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+ }
+ 
+-static void pc_i440fx_8_0_machine_options(MachineClass *m)
++static void pc_i440fx_8_1_machine_options(MachineClass *m)
+ {
+     pc_i440fx_machine_options(m);
+     m->alias = "pc";
+     m->is_default = true;
+ }
+ 
++DEFINE_I440FX_MACHINE(v8_1, "pc-i440fx-8.1", NULL,
++                      pc_i440fx_8_1_machine_options);
++
++static void pc_i440fx_8_0_machine_options(MachineClass *m)
++{
++    pc_i440fx_8_1_machine_options(m);
++    m->alias = NULL;
++    m->is_default = false;
++    compat_props_add(m->compat_props, hw_compat_8_0, hw_compat_8_0_len);
++    compat_props_add(m->compat_props, pc_compat_8_0, pc_compat_8_0_len);
++}
++
+ DEFINE_I440FX_MACHINE(v8_0, "pc-i440fx-8.0", NULL,
+                       pc_i440fx_8_0_machine_options);
+ 
+ static void pc_i440fx_7_2_machine_options(MachineClass *m)
+ {
+     pc_i440fx_8_0_machine_options(m);
+-    m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_7_2, hw_compat_7_2_len);
+     compat_props_add(m->compat_props, pc_compat_7_2, pc_compat_7_2_len);
+ }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 797ba347fd..f02919d92c 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -373,19 +373,29 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus = 288;
+ }
+ 
+-static void pc_q35_8_0_machine_options(MachineClass *m)
++static void pc_q35_8_1_machine_options(MachineClass *m)
+ {
+     pc_q35_machine_options(m);
+     m->alias = "q35";
+ }
+ 
++DEFINE_Q35_MACHINE(v8_1, "pc-q35-8.1", NULL,
++                   pc_q35_8_1_machine_options);
++
++static void pc_q35_8_0_machine_options(MachineClass *m)
++{
++    pc_q35_8_1_machine_options(m);
++    m->alias = NULL;
++    compat_props_add(m->compat_props, hw_compat_8_0, hw_compat_8_0_len);
++    compat_props_add(m->compat_props, pc_compat_8_0, pc_compat_8_0_len);
++}
++
+ DEFINE_Q35_MACHINE(v8_0, "pc-q35-8.0", NULL,
+                    pc_q35_8_0_machine_options);
+ 
+ static void pc_q35_7_2_machine_options(MachineClass *m)
+ {
+     pc_q35_8_0_machine_options(m);
+-    m->alias = NULL;
+     compat_props_add(m->compat_props, hw_compat_7_2, hw_compat_7_2_len);
+     compat_props_add(m->compat_props, pc_compat_7_2, pc_compat_7_2_len);
+ }
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 754b9bdfcc..731205b215 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -347,10 +347,17 @@ type_init(virt_machine_register_types)
+     } \
+     type_init(machvirt_machine_##major##_##minor##_init);
+ 
++static void virt_machine_8_1_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE(8, 1, true)
++
+ static void virt_machine_8_0_options(MachineClass *mc)
+ {
++    virt_machine_8_1_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_8_0, hw_compat_8_0_len);
+ }
+-DEFINE_VIRT_MACHINE(8, 0, true)
++DEFINE_VIRT_MACHINE(8, 0, false)
+ 
+ static void virt_machine_7_2_options(MachineClass *mc)
+ {
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 4921198b9d..ddc9c7b1a1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4734,15 +4734,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+     }                                                                \
+     type_init(spapr_machine_register_##suffix)
+ 
++/*
++ * pseries-8.1
++ */
++static void spapr_machine_8_1_class_options(MachineClass *mc)
++{
++    /* Defaults for the latest behaviour inherited from the base class */
++}
++
++DEFINE_SPAPR_MACHINE(8_1, "8.1", true);
++
+ /*
+  * pseries-8.0
+  */
+ static void spapr_machine_8_0_class_options(MachineClass *mc)
+ {
+-    /* Defaults for the latest behaviour inherited from the base class */
++    spapr_machine_8_1_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_8_0, hw_compat_8_0_len);
+ }
+ 
+-DEFINE_SPAPR_MACHINE(8_0, "8.0", true);
++DEFINE_SPAPR_MACHINE(8_0, "8.0", false);
+ 
+ /*
+  * pseries-7.2
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 503f212a31..e6f2c62625 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -826,14 +826,26 @@ bool css_migration_enabled(void)
+     }                                                                         \
+     type_init(ccw_machine_register_##suffix)
+ 
++static void ccw_machine_8_1_instance_options(MachineState *machine)
++{
++}
++
++static void ccw_machine_8_1_class_options(MachineClass *mc)
++{
++}
++DEFINE_CCW_MACHINE(8_1, "8.1", true);
++
+ static void ccw_machine_8_0_instance_options(MachineState *machine)
+ {
++    ccw_machine_8_1_instance_options(machine);
+ }
+ 
+ static void ccw_machine_8_0_class_options(MachineClass *mc)
+ {
++    ccw_machine_8_1_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_8_0, hw_compat_8_0_len);
+ }
+-DEFINE_CCW_MACHINE(8_0, "8.0", true);
++DEFINE_CCW_MACHINE(8_0, "8.0", false);
+ 
+ static void ccw_machine_7_2_instance_options(MachineState *machine)
+ {
+-- 
+2.31.1
 
 
