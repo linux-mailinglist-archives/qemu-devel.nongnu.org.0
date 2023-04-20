@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C3C6E9C36
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 21:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FE56E9C39
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 21:07:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppZb2-00031L-MN; Thu, 20 Apr 2023 15:05:32 -0400
+	id 1ppZcV-0003wy-KR; Thu, 20 Apr 2023 15:07:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1ppZaX-0002wt-Qx; Thu, 20 Apr 2023 15:05:08 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1ppZaU-0000gB-Aa; Thu, 20 Apr 2023 15:04:59 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BFEBA1FD8C;
- Thu, 20 Apr 2023 19:04:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682017496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qlM/g1aS7wcq0cfO78sTcll8Ur2rmEooPMzn41zpoR8=;
- b=CAzvUqG9QER9eCSoCCdVqxO1v6fBfRh9jAYzKr824KFZnzvhNYNwk3j/rC+LxWQWjoUdtd
- 43ez5ackqBtrIo7w5UfttZ8UHbWn5v0J3JpACxtGrNxXNEquGN53CyttGlycNjkfsNiGQb
- 7iANeWszQZ5orRq398QHPm7kNe5b+OQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682017496;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qlM/g1aS7wcq0cfO78sTcll8Ur2rmEooPMzn41zpoR8=;
- b=mjWF20aI8UuEgyWGDMVbbgq8AO3yvK6RDwaR7XhAbzexK455aS0yqUopy7Wg/JtcKjWuYB
- ecP9uX3/rNZXNEAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B6F01333C;
- Thu, 20 Apr 2023 19:04:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SnxwBdiMQWS5QwAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 20 Apr 2023 19:04:56 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Xu <peterx@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>, David Hildenbrand <david@redhat.com>, John
- Snow <jsnow@redhat.com>, Fam Zheng <fam@euphon.net>, Hailiang Zhang
- <zhanghailiang@xfusion.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-block@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, Leonardo Bras
- <leobras@redhat.com>, Markus Armbruster <armbru@redhat.com>, Stefan
- Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>, Eric
- Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 24/43] migration: Move migrate_announce_params() to
- option.c
-In-Reply-To: <20230420134002.29531-25-quintela@redhat.com>
-References: <20230420134002.29531-1-quintela@redhat.com>
- <20230420134002.29531-25-quintela@redhat.com>
-Date: Thu, 20 Apr 2023 16:04:53 -0300
-Message-ID: <877cu68je2.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppZcT-0003wp-NC
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 15:07:02 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppZcR-0001Cc-I2
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 15:07:01 -0400
+Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 39F335FE66;
+ Thu, 20 Apr 2023 22:06:52 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b58f::1:1d] (unknown
+ [2a02:6b8:b081:b58f::1:1d])
+ by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id p6kBuK1OmeA0-sMYMEZ5f; Thu, 20 Apr 2023 22:06:51 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682017611; bh=IToRBkfJmmqjO9OmBo5mwP3BL+DstIIx8wAdbwxTtXY=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=MECXnl5RLbJiOO37JWqMv9hSVX4pX4p4/SC4RqtiyR+b9DUCt3bj1HXpyL0rUJPWf
+ rtrczZwQZhvBKQ4fX5Mez3HQ6Pn3Ae4f+ooRFFOJaaROIzSSbOoGKfw7B/9yZFapaA
+ DhEWwiOsDzV1as7okr6C3ytN42DE8svLx+/cD7x4=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <eb10c99a-a0c6-a1cf-72ee-76b796a1726e@yandex-team.ru>
+Date: Thu, 20 Apr 2023 22:06:51 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] coverity: physmem: use simple assertions instead of
+ modelling
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org, philmd@linaro.org, david@redhat.com,
+ peterx@redhat.com, armbru@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20221226220351.754204-1-vsementsov@yandex-team.ru>
+ <35c7e623-1433-5250-6188-29424814bccb@yandex-team.ru>
+ <CAJSP0QWDcw8cYo8opfQ_+_U4p1DfQ49oo_ogOsnqJji+d1DzgA@mail.gmail.com>
+ <CAFEAcA9qwYFpYOg9tG2Kh-dnR4sr6jYzmapqNjZKqie8L=WO4A@mail.gmail.com>
+ <fea4486a-cb0f-3a23-eb5b-56fa4a6bca77@yandex-team.ru>
+ <65a4bc93-ba15-7e60-765a-8691ebba94e5@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <65a4bc93-ba15-7e60-765a-8691ebba94e5@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,76 +85,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Juan Quintela <quintela@redhat.com> writes:
+On 16.03.23 00:22, Paolo Bonzini wrote:
+> On 3/15/23 15:28, Vladimir Sementsov-Ogievskiy wrote:
+>> On 22.02.23 18:57, Peter Maydell wrote:
+>>> On Wed, 22 Feb 2023 at 14:19, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>>>>
+>>>> On Wed, 15 Feb 2023 at 15:22, Vladimir Sementsov-Ogievskiy
+>>>> <vsementsov@yandex-team.ru> wrote:
+>>>>>
+>>>>> ping
+>>>>>
+>>>>> [add Stefan]
+>>>>
+>>>> I'm not familiar with the Coverity models. Peter Maydell is the maintainer.
+>>>
+>>> We haven't run Coverity scans since September last year.
+>>
+>> What's the problem with it? May I help somehow?
+> 
+> The container broke when libslirp was removed, and I've been procrastinating fixing it. 🙁
+> 
+> Paolo
 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+Hi!
 
-Reviewed-by: Fabiano Rosas <farosas@suse.de>
+I see Coverity works again. Could we give this patch a try?
 
-> ---
->  migration/migration.c | 14 --------------
->  migration/options.c   | 19 +++++++++++++++++++
->  2 files changed, 19 insertions(+), 14 deletions(-)
->
-> diff --git a/migration/migration.c b/migration/migration.c
-> index dbb89c2e7b..2191437b15 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -954,20 +954,6 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
->      return params;
->  }
->  
-> -AnnounceParameters *migrate_announce_params(void)
-> -{
-> -    static AnnounceParameters ap;
-> -
-> -    MigrationState *s = migrate_get_current();
-> -
-> -    ap.initial = s->parameters.announce_initial;
-> -    ap.max = s->parameters.announce_max;
-> -    ap.rounds = s->parameters.announce_rounds;
-> -    ap.step = s->parameters.announce_step;
-> -
-> -    return &ap;
-> -}
-> -
->  /*
->   * Return true if we're already in the middle of a migration
->   * (i.e. any of the active or setup states)
-> diff --git a/migration/options.c b/migration/options.c
-> index 2cb04fbbd1..ed9d2a226f 100644
-> --- a/migration/options.c
-> +++ b/migration/options.c
-> @@ -16,6 +16,7 @@
->  #include "qapi/qapi-commands-migration.h"
->  #include "qapi/qmp/qerror.h"
->  #include "sysemu/runstate.h"
-> +#include "migration/misc.h"
->  #include "migration.h"
->  #include "ram.h"
->  #include "options.h"
-> @@ -589,3 +590,21 @@ uint64_t migrate_xbzrle_cache_size(void)
->  
->      return s->parameters.xbzrle_cache_size;
->  }
-> +
-> +/* parameters helpers */
-> +
-> +AnnounceParameters *migrate_announce_params(void)
-> +{
-> +    static AnnounceParameters ap;
-> +
-> +    MigrationState *s = migrate_get_current();
-> +
-> +    ap.initial = s->parameters.announce_initial;
-> +    ap.max = s->parameters.announce_max;
-> +    ap.rounds = s->parameters.announce_rounds;
-> +    ap.step = s->parameters.announce_step;
-> +
-> +    return &ap;
-> +}
-> +
-> +
+Locally, I now run Coverity on master, on master with dropped model (half of my patch) and with my full patch.
 
-Extra whitespace here^
+The model, that this patch drops, fixes 94 issues. The assertion I propose fixes same 94 issues and two more resource leaks.
+
+The model, that this patch drops, also bring 4 issues. The assertion I propose brings no new issues.
+
+Of course, my local setup is different from QEMU Coverity cloud run.
+
+-- 
+Best regards,
+Vladimir
+
 
