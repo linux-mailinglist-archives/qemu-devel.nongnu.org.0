@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD596E9D85
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 22:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D1A6E9D86
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 22:59:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppbM8-0000jg-DZ; Thu, 20 Apr 2023 16:58:16 -0400
+	id 1ppbMi-0001LI-WF; Thu, 20 Apr 2023 16:58:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppbM6-0000jL-PJ
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:58:14 -0400
+ id 1ppbMh-0001L5-9x
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:58:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppbM5-00072B-Df
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:58:14 -0400
+ id 1ppbMf-0007BS-Uf
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 16:58:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682024292;
+ s=mimecast20190719; t=1682024329;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J3XzTf68TcbKMqT5C013AewCSLgY1B4PJHAxxIq93WQ=;
- b=PCGn3SIQbsnk6KJkZ7P3pDM8r5Y5V++JWXIvTUHUH4s45l3UAecsbH52Fb5gKvOfrF94tk
- TFLiOX76VdMcinlnjfqonxUh33CYiEi7s9t2uew0QIhbD6DQpsldA8O9FFOF0aEsKu8Ave
- uua77ghZ+a/Bff4vAn3x2rikh9wlIK4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=alaHbn+63GKpwyBVcAuHBp/PdRQoaio/NcXxyqFzKWY=;
+ b=Z85yQyHmOtl0CsTIaZD0GIMrO6+v6UPhp+C/5fiHjWWukGI623r0JJRn6EJTCpWX7+yFtZ
+ GWqbS56FALs7G+gvCg7WN3zrgd8gwyfNLQoa7vlQn4RTJhU7M/P2xMrsPcgpEBpUpVxAk2
+ 0BrgWL7HFZmhOoee6r2NaMQId/J6CGU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-219-zXHfjH2nN6S46TEJgVosRA-1; Thu, 20 Apr 2023 16:58:10 -0400
-X-MC-Unique: zXHfjH2nN6S46TEJgVosRA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f0b0fbd4beso3843405e9.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 13:58:10 -0700 (PDT)
+ us-mta-465-NpKy4r6FPrSSKPXcLxhYxw-1; Thu, 20 Apr 2023 16:58:48 -0400
+X-MC-Unique: NpKy4r6FPrSSKPXcLxhYxw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-2f6632b85fcso319214f8f.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 13:58:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682024289; x=1684616289;
+ d=1e100.net; s=20221208; t=1682024327; x=1684616327;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J3XzTf68TcbKMqT5C013AewCSLgY1B4PJHAxxIq93WQ=;
- b=Bb0XLhpUQQcfVqMuR90ld0nVONojhunCbGtu6ZFV+tKUBwaz6VUwU9n/6zdLNsx1ns
- kuvoRGGnGfMiR2TZ4I0PFKC4ajFH9KfJV+1ax8FaF2FWZRBF6sevFxyzMGTzP8gkpgOo
- Xd6SEwJ5fpX9vCWZE1/2Co8LfIXVoXii/AJZOHxfM93oyTVwx11cJfVpM25f1KEwhD4/
- z9bwEczLNIGbS9hwKfXOFYxO+9EY4bUQOXz8PJMqiiUwBAjHj+oZD0Pjyypl1vKLIrK4
- 2P5/JIJpoewPo2Il1rM6r0vA0wteqxy+4g5opjUb621Y9IzZwaTbfQGb7IRnxjk2vHKv
- G8qQ==
-X-Gm-Message-State: AAQBX9dgPvx0mpsrQx90goSP9TdNVE4/Gwh5S6F66LPO4/u5GYDwjvHr
- AnnGZA5VSptNLOPnPuOGIa1yLXUggsowpBloAlo8G+rnJF3piY61NrN3asrqmvyudSYXDrUvWqC
- cLBMTDtPvOLGLXO8=
-X-Received: by 2002:a7b:cb50:0:b0:3f0:683d:224d with SMTP id
- v16-20020a7bcb50000000b003f0683d224dmr197360wmj.9.1682024289708; 
- Thu, 20 Apr 2023 13:58:09 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZUPwygviWFHIXEl2z5ia2eGqhB61kyc3C1xMTJa+Gf2+iG9372gyWnONtPib/UhE1ht8ZuMQ==
-X-Received: by 2002:a7b:cb50:0:b0:3f0:683d:224d with SMTP id
- v16-20020a7bcb50000000b003f0683d224dmr197347wmj.9.1682024289489; 
- Thu, 20 Apr 2023 13:58:09 -0700 (PDT)
+ bh=alaHbn+63GKpwyBVcAuHBp/PdRQoaio/NcXxyqFzKWY=;
+ b=THAcMEfLZq3XyTcNcbY8JKFZQ8ERBywBCIrQxn67cK+YYkflMjkC/Do/22N53qJppG
+ Nw51pGLhKafFhYNF1FQo7sYn47MdlMBscvkWYRNQzeiTTfvfEp9BBz+IgPo18A0qb2Mx
+ wmXtOFva5QPD3e5Mbgm8ipyQ15gpjUBkQiBirPI/lTPRUpSugptmghKr1DURe65AjTRL
+ +42uhZAWh/97P0Z8armSS9fROXsX8eltftVTAZu4GE/pFreBil35iOPXwnT8OfSJ36ph
+ 0Mjo7+jvqlUWSWSt7BKyGSin3kt1rfw+a/Sq3gj40ekqMWhUrKkTwEuw0cbT6gqstisu
+ zwCA==
+X-Gm-Message-State: AAQBX9c7KuSjAlSdnGWQm5M7t7tPlVetB187Rgb92HEmYulCrDlNvQX/
+ aDTKaS3kR0QL7CD97gX86rEe2Jok0ICGU0h+2etJPD1wH29WrF7Y7OiLVMkJ7aLh5ol5OjsC0QE
+ h1XVUDpYlkFXjRbQ=
+X-Received: by 2002:a5d:6182:0:b0:303:2702:6d66 with SMTP id
+ j2-20020a5d6182000000b0030327026d66mr625150wru.63.1682024326933; 
+ Thu, 20 Apr 2023 13:58:46 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Y3kffgCzFeX86Vg0Euw8HLQDuWKrE0JZ1MIqfK9a02BjA8bJZ5WEZZFp51CtH7p2mKk/HPrw==
+X-Received: by 2002:a5d:6182:0:b0:303:2702:6d66 with SMTP id
+ j2-20020a5d6182000000b0030327026d66mr625132wru.63.1682024326608; 
+ Thu, 20 Apr 2023 13:58:46 -0700 (PDT)
 Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
  [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- 25-20020a05600c025900b003ed2c0a0f37sm2973836wmj.35.2023.04.20.13.58.08
+ k13-20020a5d6e8d000000b002fae2a08089sm2853200wrz.70.2023.04.20.13.58.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 13:58:08 -0700 (PDT)
+ Thu, 20 Apr 2023 13:58:45 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org,  Elena Ufimtseva <elena.ufimtseva@oracle.com>,
@@ -74,16 +74,15 @@ Cc: qemu-devel@nongnu.org,  Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  <armbru@redhat.com>,  Alexandre Iooss <erdnaxe@crans.org>,  John G Johnson
  <john.g.johnson@oracle.com>,  Jagannathan Raman <jag.raman@oracle.com>,
  Eduardo Habkost <eduardo@habkost.net>,  Richard Henderson
- <richard.henderson@linaro.org>,  Mahmoud Mandour <ma.mandourr@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 8/9] docs/devel: mention the spacing requirement for QOM
-In-Reply-To: <20230420155723.1711048-9-alex.bennee@linaro.org> ("Alex
- =?utf-8?Q?Benn=C3=A9e=22's?= message of "Thu, 20 Apr 2023 16:57:22 +0100")
+ <richard.henderson@linaro.org>,  Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 9/9] docs/style: call out the use of GUARD macros
+In-Reply-To: <20230420155723.1711048-10-alex.bennee@linaro.org> ("Alex
+ =?utf-8?Q?Benn=C3=A9e=22's?= message of "Thu, 20 Apr 2023 16:57:23 +0100")
 References: <20230420155723.1711048-1-alex.bennee@linaro.org>
- <20230420155723.1711048-9-alex.bennee@linaro.org>
+ <20230420155723.1711048-10-alex.bennee@linaro.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 20 Apr 2023 22:58:07 +0200
-Message-ID: <87ildquv8g.fsf@secure.mitica>
+Date: Thu, 20 Apr 2023 22:58:45 +0200
+Message-ID: <87edoeuv7e.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -113,11 +112,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
-> We have a more complete document on QOM but we should at least mention
-> the style requirements in the style guide.
+> There use makes our code safer so we should mention them.
 >
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
