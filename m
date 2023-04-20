@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C296E9BE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 20:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AECB06E9BE4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 20:48:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppZJH-00056t-Q7; Thu, 20 Apr 2023 14:47:11 -0400
+	id 1ppZK6-0006Ky-OO; Thu, 20 Apr 2023 14:48:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1ppZIn-000554-Mk; Thu, 20 Apr 2023 14:46:47 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ id 1ppZJv-0006Dn-Vb; Thu, 20 Apr 2023 14:47:52 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1ppZIj-0002FZ-Jb; Thu, 20 Apr 2023 14:46:40 -0400
+ id 1ppZJt-0002p0-LW; Thu, 20 Apr 2023 14:47:51 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 08B8F1F88F;
- Thu, 20 Apr 2023 18:46:35 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7AC321FD8C;
+ Thu, 20 Apr 2023 18:47:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682016395; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1682016466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TpnUpwVARCVCxFR3QLbrBU1P1lPuKbgR34e8dwnfLXI=;
- b=dxU78cyK7eF3xEXiOh6GA2cpcD7WBMnzyv53Cb4IxvtTQWUWiixWyp8OP1blcOmp7b7CKc
- 3+SVwkvVsOE0TW4j000IMuKJL8NzRvudSBrjdM954czFrvI9XC2t3s/8Kquq5jSf/Fkb96
- l0cOyEWzBV697xHRcoT2H3zhdasQm9s=
+ bh=ygisrS+z3zZ/KOP2NdrPj7vqz689ERq9elA9YeQG1yE=;
+ b=Pob8iVXo29ivuPFxmFogqdcOMZs9gV5iNLh275UGrANCuOJaYQ9xFQ1d4LcdkldtymZXQP
+ gW07RnhSvrrHdywxQys0zi9MuBgmNi8UIAGg/k1Q4oXt5sBoDbFM3GiER96U2u+FSjmFf8
+ W6WHzeFHAg6eCX/zOX5iI4+KKi3Xl+c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682016395;
+ s=susede2_ed25519; t=1682016466;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TpnUpwVARCVCxFR3QLbrBU1P1lPuKbgR34e8dwnfLXI=;
- b=jI3J0a5qIi2/4UiIhOlxlIKzZS8IOZflUJQBFL0TUxEfaKGGd0BaE9AgT76SW1gLnxm0VH
- QgEccZz7DfOheWAA==
+ bh=ygisrS+z3zZ/KOP2NdrPj7vqz689ERq9elA9YeQG1yE=;
+ b=3WWV3LaDojyaqdDj4AglxEKVIcYWdefm9SYS1+O0U2cbRYCnTESEut7H5FWSIQcM1bffr9
+ Fb7dsWj6hi+AJLDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8961413584;
- Thu, 20 Apr 2023 18:46:34 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0527513584;
+ Thu, 20 Apr 2023 18:47:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2miaFIqIQWR9OwAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 20 Apr 2023 18:46:34 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id xjXOL9GIQWT7OwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 20 Apr 2023 18:47:45 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
@@ -58,15 +58,16 @@ Cc: Peter Xu <peterx@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
  <leobras@redhat.com>, Markus Armbruster <armbru@redhat.com>, Stefan
  Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>, Eric
  Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 13/43] migration: Create migrate_rdma_pin_all() function
-In-Reply-To: <20230420134002.29531-14-quintela@redhat.com>
+Subject: Re: [PATCH v2 21/43] migration: Create
+ migrate_throttle_trigger_threshold()
+In-Reply-To: <20230420134002.29531-22-quintela@redhat.com>
 References: <20230420134002.29531-1-quintela@redhat.com>
- <20230420134002.29531-14-quintela@redhat.com>
-Date: Thu, 20 Apr 2023 15:46:32 -0300
-Message-ID: <87leim8k8n.fsf@suse.de>
+ <20230420134002.29531-22-quintela@redhat.com>
+Date: Thu, 20 Apr 2023 15:47:43 -0300
+Message-ID: <87ildq8k6o.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
  helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -93,75 +94,58 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Juan Quintela <quintela@redhat.com> writes:
 
 > Signed-off-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 > ---
->  migration/options.c | 7 +++++++
+>  migration/options.c | 9 +++++++++
 >  migration/options.h | 1 +
->  migration/rdma.c    | 6 +++---
->  3 files changed, 11 insertions(+), 3 deletions(-)
+>  migration/ram.c     | 3 +--
+>  3 files changed, 11 insertions(+), 2 deletions(-)
 >
 > diff --git a/migration/options.c b/migration/options.c
-> index 2003e413da..9c9b8e5863 100644
+> index 2b6d88b4b9..b9f3815f7e 100644
 > --- a/migration/options.c
 > +++ b/migration/options.c
-> @@ -138,6 +138,13 @@ bool migrate_postcopy_ram(void)
->      return s->capabilities[MIGRATION_CAPABILITY_POSTCOPY_RAM];
+> @@ -554,6 +554,15 @@ int migrate_multifd_zstd_level(void)
+>      return s->parameters.multifd_zstd_level;
 >  }
 >  
-> +bool migrate_rdma_pin_all(void)
+> +uint8_t migrate_throttle_trigger_threshold(void)
 > +{
-> +    MigrationState *s = migrate_get_current();
+> +    MigrationState *s;
 > +
-> +    return s->capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL];
+> +    s = migrate_get_current();
+> +
+> +    return s->parameters.throttle_trigger_threshold;
 > +}
 > +
->  bool migrate_release_ram(void)
+>  uint64_t migrate_xbzrle_cache_size(void)
 >  {
 >      MigrationState *s;
 > diff --git a/migration/options.h b/migration/options.h
-> index 316efd1063..25c002b37a 100644
+> index 96d5a8e6e4..aa54443353 100644
 > --- a/migration/options.h
 > +++ b/migration/options.h
-> @@ -30,6 +30,7 @@ bool migrate_pause_before_switchover(void);
->  bool migrate_postcopy_blocktime(void);
->  bool migrate_postcopy_preempt(void);
->  bool migrate_postcopy_ram(void);
-> +bool migrate_rdma_pin_all(void);
->  bool migrate_release_ram(void);
->  bool migrate_return_path(void);
->  bool migrate_validate_uuid(void);
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index bf55e2f163..3e7b68c482 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -35,6 +35,7 @@
->  #include <rdma/rdma_cma.h>
->  #include "trace.h"
->  #include "qom/object.h"
-> +#include "options.h"
->  #include <poll.h>
+> @@ -55,6 +55,7 @@ int migrate_multifd_channels(void);
+>  MultiFDCompression migrate_multifd_compression(void);
+>  int migrate_multifd_zlib_level(void);
+>  int migrate_multifd_zstd_level(void);
+> +uint8_t migrate_throttle_trigger_threshold(void);
+>  uint64_t migrate_xbzrle_cache_size(void);
 >  
->  /*
-> @@ -4178,8 +4179,7 @@ void rdma_start_outgoing_migration(void *opaque,
->          goto err;
->      }
+>  #endif
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 7f28588dde..68801012ba 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1179,8 +1179,7 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
 >  
-> -    ret = qemu_rdma_source_init(rdma,
-> -        s->capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL], errp);
-> +    ret = qemu_rdma_source_init(rdma,migrate_rdma_pin_all(), errp);
+>  static void migration_trigger_throttle(RAMState *rs)
+>  {
+> -    MigrationState *s = migrate_get_current();
+> -    uint64_t threshold = s->parameters.throttle_trigger_threshold;
+> +    uint64_t threshold = migrate_throttle_trigger_threshold();
+>      uint64_t bytes_xfer_period =
+>          stat64_get(&ram_counters.transferred) - rs->bytes_xfer_prev;
+>      uint64_t bytes_dirty_period = rs->num_dirty_pages_period * TARGET_PAGE_SIZE;
 
-Missing a space after the comma here.
-
->  
->      if (ret) {
->          goto err;
-> @@ -4201,7 +4201,7 @@ void rdma_start_outgoing_migration(void *opaque,
->          }
->  
->          ret = qemu_rdma_source_init(rdma_return_path,
-> -            s->capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL], errp);
-> +                                    migrate_rdma_pin_all(), errp);
->  
->          if (ret) {
->              goto return_path_err;
+Reviewed-by: Fabiano Rosas <farosas@suse.de>
 
