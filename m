@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE576E931A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 13:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376E56E9321
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 13:42:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppSfB-0000Bi-TL; Thu, 20 Apr 2023 07:41:22 -0400
+	id 1ppSfg-0001qF-Bw; Thu, 20 Apr 2023 07:41:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ppSbv-0007el-1s
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:38:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1ppScd-0007m0-Bg
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:38:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ppSbk-0001TY-Bc
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:37:53 -0400
+ id 1ppScO-0001a4-Q4
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:38:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681990665;
+ s=mimecast20190719; t=1681990702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ct1ICfub90ccCopLja+U3Sq9ZQX/65uvuN+fpfLMIoc=;
- b=UU7n5wgJjMJiTAliMwu2nu9N14aEF2otl/lMJIPcR1yuq/fr0ebBEjQNkisNW3E/edYvOL
- yEB9pyc9/A8K3WW8fy4y6zZbO/7vu4Bzjdktqx4PR+gHMVCSVROUHoc9rMeKaAtTJkqLYf
- GLpi2nS0wseAHYjpNFFv2PvshAWNxr8=
+ bh=mEUiDYhTGG6/grGbCAPXx5jwh+m436EKZLWWN7O6BQM=;
+ b=C/1Tr+AmE8swVVpmDW9tCavOmZIEfPoOZjQWFSkZF3TX7+u5F7Tfmw9Zg9HVPaIsMT1384
+ 90+FVVKpd822CaQ+5jNtFT6+oPc5ey4o5IQWOkggyWLR+EUwzfkhxskZjJBelB5kyRa/YG
+ SLceD3rD96DfdWcfNE2dmA5Sl2pCny8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-VCLxhnfSPFqLD1O2cun8pQ-1; Thu, 20 Apr 2023 07:37:42 -0400
-X-MC-Unique: VCLxhnfSPFqLD1O2cun8pQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-556-i8H5la--OhiNA-YvKIl4IA-1; Thu, 20 Apr 2023 07:38:21 -0400
+X-MC-Unique: i8H5la--OhiNA-YvKIl4IA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 44168380671E;
- Thu, 20 Apr 2023 11:37:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1588A1C08982;
+ Thu, 20 Apr 2023 11:38:20 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 213381410F1C;
- Thu, 20 Apr 2023 11:37:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00AB92026D16;
+ Thu, 20 Apr 2023 11:37:42 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Lieven <pl@kamp.de>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -64,17 +64,18 @@ Cc: Peter Lieven <pl@kamp.de>, Stefan Hajnoczi <stefanha@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>,
  "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
  Stefano Garzarella <sgarzare@redhat.com>,
+ Zhengui Li <lizhengui@huawei.com>,
  Daniil Tatianin <d-tatianin@yandex-team.ru>
-Subject: [PATCH v3 02/20] virtio-scsi: avoid race between unplug and transport
- event
-Date: Thu, 20 Apr 2023 07:37:14 -0400
-Message-Id: <20230420113732.336620-3-stefanha@redhat.com>
+Subject: [PATCH v3 03/20] virtio-scsi: stop using aio_disable_external()
+ during unplug
+Date: Thu, 20 Apr 2023 07:37:15 -0400
+Message-Id: <20230420113732.336620-4-stefanha@redhat.com>
 In-Reply-To: <20230420113732.336620-1-stefanha@redhat.com>
 References: <20230420113732.336620-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,78 +99,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Only report a transport reset event to the guest after the SCSIDevice
-has been unrealized by qdev_simple_device_unplug_cb().
+This patch is part of an effort to remove the aio_disable_external()
+API because it does not fit in a multi-queue block layer world where
+many AioContexts may be submitting requests to the same disk.
 
-qdev_simple_device_unplug_cb() sets the SCSIDevice's qdev.realized field
-to false so that scsi_device_find/get() no longer see it.
+The SCSI emulation code is already in good shape to stop using
+aio_disable_external(). It was only used by commit 9c5aad84da1c
+("virtio-scsi: fixed virtio_scsi_ctx_check failed when detaching scsi
+disk") to ensure that virtio_scsi_hotunplug() works while the guest
+driver is submitting I/O.
 
-scsi_target_emulate_report_luns() also needs to be updated to filter out
-SCSIDevices that are unrealized.
+Ensure virtio_scsi_hotunplug() is safe as follows:
 
-These changes ensure that the guest driver does not see the SCSIDevice
-that's being unplugged if it responds very quickly to the transport
-reset event.
+1. qdev_simple_device_unplug_cb() -> qdev_unrealize() ->
+   device_set_realized() calls qatomic_set(&dev->realized, false) so
+   that future scsi_device_get() calls return NULL because they exclude
+   SCSIDevices with realized=false.
 
+   That means virtio-scsi will reject new I/O requests to this
+   SCSIDevice with VIRTIO_SCSI_S_BAD_TARGET even while
+   virtio_scsi_hotunplug() is still executing. We are protected against
+   new requests!
+
+2. Add a call to scsi_device_purge_requests() from scsi_unrealize() so
+   that in-flight requests are cancelled synchronously. This ensures
+   that no in-flight requests remain once qdev_simple_device_unplug_cb()
+   returns.
+
+Thanks to these two conditions we don't need aio_disable_external()
+anymore.
+
+Cc: Zhengui Li <lizhengui@huawei.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/scsi/scsi-bus.c    |  3 ++-
- hw/scsi/virtio-scsi.c | 18 +++++++++---------
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ hw/scsi/scsi-disk.c   | 1 +
+ hw/scsi/virtio-scsi.c | 3 ---
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 07275fb631..64d7311757 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -486,7 +486,8 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
-             DeviceState *qdev = kid->child;
-             SCSIDevice *dev = SCSI_DEVICE(qdev);
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 97c9b1c8cd..e01bd84541 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2522,6 +2522,7 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
  
--            if (dev->channel == channel && dev->id == id && dev->lun != 0) {
-+            if (dev->channel == channel && dev->id == id && dev->lun != 0 &&
-+                qdev_is_realized(&dev->qdev)) {
-                 store_lun(tmp, dev->lun);
-                 g_byte_array_append(buf, tmp, 8);
-                 len += 8;
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 612c525d9d..000961446c 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -1063,15 +1063,6 @@ static void virtio_scsi_hotunplug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     SCSIDevice *sd = SCSI_DEVICE(dev);
-     AioContext *ctx = s->ctx ?: qemu_get_aio_context();
- 
--    if (virtio_vdev_has_feature(vdev, VIRTIO_SCSI_F_HOTPLUG)) {
--        virtio_scsi_acquire(s);
--        virtio_scsi_push_event(s, sd,
--                               VIRTIO_SCSI_T_TRANSPORT_RESET,
--                               VIRTIO_SCSI_EVT_RESET_REMOVED);
--        scsi_bus_set_ua(&s->bus, SENSE_CODE(REPORTED_LUNS_CHANGED));
--        virtio_scsi_release(s);
--    }
--
-     aio_disable_external(ctx);
-     qdev_simple_device_unplug_cb(hotplug_dev, dev, errp);
-     aio_enable_external(ctx);
-@@ -1082,6 +1073,15 @@ static void virtio_scsi_hotunplug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         blk_set_aio_context(sd->conf.blk, qemu_get_aio_context(), NULL);
-         virtio_scsi_release(s);
-     }
-+
-+    if (virtio_vdev_has_feature(vdev, VIRTIO_SCSI_F_HOTPLUG)) {
-+        virtio_scsi_acquire(s);
-+        virtio_scsi_push_event(s, sd,
-+                               VIRTIO_SCSI_T_TRANSPORT_RESET,
-+                               VIRTIO_SCSI_EVT_RESET_REMOVED);
-+        scsi_bus_set_ua(&s->bus, SENSE_CODE(REPORTED_LUNS_CHANGED));
-+        virtio_scsi_release(s);
-+    }
+ static void scsi_unrealize(SCSIDevice *dev)
+ {
++    scsi_device_purge_requests(dev, SENSE_CODE(RESET));
+     del_boot_device_lchs(&dev->qdev, NULL);
  }
  
- static struct SCSIBusInfo virtio_scsi_scsi_info = {
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 000961446c..a02f9233ec 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -1061,11 +1061,8 @@ static void virtio_scsi_hotunplug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     VirtIODevice *vdev = VIRTIO_DEVICE(hotplug_dev);
+     VirtIOSCSI *s = VIRTIO_SCSI(vdev);
+     SCSIDevice *sd = SCSI_DEVICE(dev);
+-    AioContext *ctx = s->ctx ?: qemu_get_aio_context();
+ 
+-    aio_disable_external(ctx);
+     qdev_simple_device_unplug_cb(hotplug_dev, dev, errp);
+-    aio_enable_external(ctx);
+ 
+     if (s->ctx) {
+         virtio_scsi_acquire(s);
 -- 
 2.39.2
 
