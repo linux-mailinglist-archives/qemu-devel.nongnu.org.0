@@ -2,92 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B246E9706
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B076A6E970C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:28:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppVG0-0000Wj-5v; Thu, 20 Apr 2023 10:27:32 -0400
+	id 1ppVGX-0001Ks-Rj; Thu, 20 Apr 2023 10:28:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ppVFw-0000WM-Ss
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:27:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ppVGV-0001Jc-Ds
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:28:03 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ppVFu-0007ju-Lm
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:27:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682000845;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lQMPmbYd73mDGx3stex95x0CVUcJbGX+pSikMsaudyM=;
- b=JBtGfvYltS4pTSSI+qHOwhpCca1UmYEI411b6mspeFUrQxafl24tU2TWL2YNDs8sFTL6ba
- /BW+VqSVERO5qJeRXLvSv8T0AEb2XCvfatNo/HxTNSySHxHmx36xR54nYP+wYQeL99BtWX
- S8Rulfv9F5DmcmXFw1JAIJLTv607PEA=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-365-H9ZfeJFkPUGiU1Dfd2CL-g-1; Thu, 20 Apr 2023 10:27:24 -0400
-X-MC-Unique: H9ZfeJFkPUGiU1Dfd2CL-g-1
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-3ef25aaeb5bso4760171cf.3
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 07:27:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682000843; x=1684592843;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lQMPmbYd73mDGx3stex95x0CVUcJbGX+pSikMsaudyM=;
- b=MyF/O3ZPaADchKrlR0TaYD7hmbjDTep4pm+BYCJQUn61DAjluTv/hg6hK0sQJXNOK5
- vSqIuJilo49qvQC7kNUr0KxPEbOUm1IuCkdAEeBUU2eYvGoRG2R/8EIwuzOS3MiwSmcp
- 8zDe/T8VcajsloFsVu11WVVlfbfNxFJUwGUp1WFvIxuASSZ3JXYm4VAWFFOuwb6rhz2G
- cHAdCET8jw/IC3h4KPyo2VGeni7o8836BKuiy0chtWwVgl2i3yWgWNyVaVW6l/ilaxhU
- bjL5eNbaVuY4/CUIMsflcJZeb/8V9guc5nv9Ja6UcpHLgaavvMXGf67i0o1Lya4sQQch
- kB3g==
-X-Gm-Message-State: AAQBX9dsO2KBX4c+Ck51LwxvADVo2Bt/US6yjW+2J0t2Bz7BhG/qrXsM
- /cAZeIcLkEwyW3JLq1YVBcN5N8LRZbxdW/vyECE2jp0OFOigxrTgBqJBzLh4ezVmow5azLJ7nRu
- nQFiNWeAfWwpYmC0=
-X-Received: by 2002:ac8:5c4a:0:b0:3e8:dc66:fedb with SMTP id
- j10-20020ac85c4a000000b003e8dc66fedbmr2551448qtj.56.1682000843479; 
- Thu, 20 Apr 2023 07:27:23 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y61LUtcQzgv4naumZ2ZFhEFKvmzYGVxaRKxp5gPKkTmbowUfLRT6ItpnjGvSit3gUAQR2HcQ==
-X-Received: by 2002:ac8:5c4a:0:b0:3e8:dc66:fedb with SMTP id
- j10-20020ac85c4a000000b003e8dc66fedbmr2551414qtj.56.1682000843219; 
- Thu, 20 Apr 2023 07:27:23 -0700 (PDT)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- dp1-20020a05620a2b4100b0074ded6ad058sm448528qkb.129.2023.04.20.07.27.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 07:27:22 -0700 (PDT)
-Date: Thu, 20 Apr 2023 16:27:18 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Stefan
- Hajnoczi <stefanha@redhat.com>, "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 3/3] softmmu/physmem: Fixup
- qemu_ram_block_from_host() documentation
-Message-ID: <20230420162718.1fb0ecde@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230316153658.214487-4-david@redhat.com>
-References: <20230316153658.214487-1-david@redhat.com>
- <20230316153658.214487-4-david@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ppVGS-0007s7-F4
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:28:03 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2KjB1NDxz67Nln;
+ Thu, 20 Apr 2023 22:26:38 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 20 Apr 2023 15:27:47 +0100
+To: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
+CC: "Michael S . Tsirkin" <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>,
+ <linuxarm@huawei.com>
+Subject: [PATCH 0/2] hw/pci-bridge: pci_expander_bridge: Fix wrong type and
+ rework inheritance.
+Date: Thu, 20 Apr 2023 15:27:48 +0100
+Message-ID: <20230420142750.6950-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,79 +60,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Mar 2023 16:36:58 +0100
-David Hildenbrand <david@redhat.com> wrote:
+Peter Maydell highlighted an incorrect conversion to TYPE_PXB_DEVICE from
+a device that didn't have that a an ancestor type. PXB_DEV() used instead of
+PXB_CXL_DEV()/
 
-> Let's fixup the documentation (e.g., removing traces of the ram_addr_t
-                                                               ^^^^^^^^^
-_t typo?
+https://lore.kernel.org/qemu-devel/CAFEAcA-+de+eeLCE4YsAw1O-Qyd_4W1Ra05mGDsU_-3a6d92qw@mail.gmail.com/
 
-> parameter that no longer exists) and move it to the header file while at
-> it.
-> 
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  include/exec/cpu-common.h | 15 +++++++++++++++
->  softmmu/physmem.c         | 17 -----------------
->  2 files changed, 15 insertions(+), 17 deletions(-)
-> 
-> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-> index 6feaa40ca7..edef5bee21 100644
-> --- a/include/exec/cpu-common.h
-> +++ b/include/exec/cpu-common.h
-> @@ -75,6 +75,21 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length);
->  ram_addr_t qemu_ram_addr_from_host(void *ptr);
->  ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr);
->  RAMBlock *qemu_ram_block_by_name(const char *name);
-> +
-> +/*
-> + * Translates a host ptr back to a RAMBlock and an offset in that RAMBlock.
-> + *
-> + * @ptr: The host pointer to transalte.
-> + * @round_offset: Whether to round the result offset down to a target page
-> + * @offset: Will be set to the offset within the returned RAMBlock.
-> + *
-> + * Returns: RAMBlock (or NULL if not found)
-> + *
-> + * By the time this function returns, the returned pointer is not protected
-> + * by RCU anymore.  If the caller is not within an RCU critical section and
-> + * does not hold the iothread lock, it must have other means of protecting the
-> + * pointer, such as a reference to the memory region that owns the RAMBlock.
-> + */
->  RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
->                                     ram_addr_t *offset);
->  ram_addr_t qemu_ram_block_host_offset(RAMBlock *rb, void *host);
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index fb412a56e1..36b33786fd 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2169,23 +2169,6 @@ ram_addr_t qemu_ram_block_host_offset(RAMBlock *rb, void *host)
->      return res;
->  }
->  
-> -/*
-> - * Translates a host ptr back to a RAMBlock, a ram_addr and an offset
-> - * in that RAMBlock.
-> - *
-> - * ptr: Host pointer to look up
-> - * round_offset: If true round the result offset down to a page boundary
-> - * *ram_addr: set to result ram_addr
-> - * *offset: set to result offset within the RAMBlock
-> - *
-> - * Returns: RAMBlock (or NULL if not found)
-> - *
-> - * By the time this function returns, the returned pointer is not protected
-> - * by RCU anymore.  If the caller is not within an RCU critical section and
-> - * does not hold the iothread lock, it must have other means of protecting the
-> - * pointer, such as a reference to the region that includes the incoming
-> - * ram_addr_t.
-> - */
->  RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
->                                     ram_addr_t *offset)
->  {
+During the discussion it became clear that the inheritance of the various
+TYPE_PXB*_DEVICE was unusual. This patchset first provides the minimal
+fix then cleans up the inheritance of types based on functionality.
+
+There is also a rename to TYPE_PXB*_DEV to allow removal of some boilerplate.
+
+Before this series
+TYPE_PXB_DEVICE, TYPE_PXB_PCIE_DEVICE and TYPE_PXB_CXL_DEVICE all
+had TYPE_PCI_DEVICE as their direct parent though they shared a common
+struct PXBDev for their state.  As a result this state contained
+some data that was irrelevant for some the types.
+
+This series changes to
+TYPE_PXB_CXL_DEV has a parent of TYPE_PXB_PCIE_DEV
+TYPE_PXB_PCIE_DEV has a parent of TYPE_PXB_DEV
+TYPE_PXB_DEV continues to have a parent of TYPE_PCI_DEVICE.
+
+Each of the TYPE_PXB*_DEV has a state structure adding those elements
+to their parent that they need. This also allowed dropping a wrapping
+structure for the CXL state as the PXBCXLDev structure already provides
+the equivalent grouping.
+
+Patches are similar to those posted in the thread but rebased on v8.0.0.
+
+Jonathan Cameron (2):
+  hw/pci-bridge: pci_expander_bridge fix type in pxb_cxl_dev_reset()
+  hw/pci-bridge: Make PCIe and CXL PXB Devices inherit from TYPE_PXB_DEV
+
+ hw/acpi/cxl.c                       | 11 +++---
+ hw/cxl/cxl-host.c                   |  4 +-
+ hw/pci-bridge/pci_expander_bridge.c | 61 ++++++++++-------------------
+ include/hw/cxl/cxl.h                |  4 +-
+ include/hw/pci/pci_bridge.h         | 28 +++++++++----
+ 5 files changed, 50 insertions(+), 58 deletions(-)
+
+-- 
+2.37.2
 
 
