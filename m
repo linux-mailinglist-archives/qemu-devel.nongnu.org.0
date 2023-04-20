@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2A06E9DDE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 23:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38276E9F73
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 00:54:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppbqD-0007GA-AC; Thu, 20 Apr 2023 17:29:21 -0400
+	id 1ppd9T-00087b-T5; Thu, 20 Apr 2023 18:53:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbqA-0007Ec-7J
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:29:18 -0400
-Received: from rev.ng ([5.9.113.41])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbq7-0005YU-By
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:29:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=r2PjhWBCDWy69p3MQqHLdHlmJI2itJ0uiNpQysAZt1Q=; b=Pv8VRXs2neoCsZoSdzkQL0KYtG
- jE/KkUMj1djPm+OCG7qkPBEzU8OZJthMOZzMwUHjOtsGMQWsd9kZOKHtMC7CuwT8MED6UGG+PvvMX
- 6fGiAKcKDN2eRMIWKqQSqetkr9G9fEjhnAJVLS8+E5cTdLMqcs+hIwF7nuFuLPnrUjmw=;
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1ppd9Q-00087N-74
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 18:53:18 -0400
+Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>) id 1ppd9K-0002FZ-5J
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 18:53:15 -0400
+Received: from localhost.localdomain
+ (dynamic-077-004-048-045.77.4.pool.telefonica.de [77.4.48.45])
+ by csgraf.de (Postfix) with ESMTPSA id 3549B6080F7D;
+ Fri, 21 Apr 2023 00:52:59 +0200 (CEST)
+From: Alexander Graf <agraf@csgraf.de>
 To: qemu-devel@nongnu.org
-Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
- eduardo@habkost.net, philmd@linaro.org, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com
-Subject: [PATCH 8/8] tcg: Replace target_ulong with vaddr in tcg_gen_code()
-Date: Thu, 20 Apr 2023 23:28:50 +0200
-Message-Id: <20230420212850.20400-9-anjo@rev.ng>
-In-Reply-To: <20230420212850.20400-1-anjo@rev.ng>
-References: <20230420212850.20400-1-anjo@rev.ng>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ Cameron Esfahani <dirty@apple.com>,
+ Akihiro Suda <akihiro.suda.cz@hco.ntt.co.jp>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] hvf: Enable 1G page support
+Date: Fri, 21 Apr 2023 00:52:58 +0200
+Message-Id: <20230420225258.58009-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,44 +54,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Anton Johansson <anjo@rev.ng>
----
- include/tcg/tcg.h | 2 +-
- tcg/tcg.c         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Hvf on x86 only supported 2MiB large pages, but never bothered to strip
+out the 1GiB page size capability from -cpu host. With QEMU 8.0.0 this
+became a problem because OVMF started to use 1GiB pages by default.
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 5cfaa53938..b8dbc66610 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -852,7 +852,7 @@ void tcg_register_thread(void);
- void tcg_prologue_init(TCGContext *s);
- void tcg_func_start(TCGContext *s);
+Let's just unconditionally add 1GiB page walk support to the walker.
+
+With this fix applied, I can successfully run OVMF again.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1603
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
+Reported-by: Akihiro Suda <akihiro.suda.cz@hco.ntt.co.jp>
+Reported-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+---
+
+On my test VM, Linux dies later on with issues in interrupt delivery. But
+those are unrelated to this patch; I confirmed that I get the same behavior
+with 1GiB page support disabled.
+---
+ target/i386/hvf/x86_mmu.c | 30 ++++++++++++++++++++----------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
+
+diff --git a/target/i386/hvf/x86_mmu.c b/target/i386/hvf/x86_mmu.c
+index 96d117567e..1d860651c6 100644
+--- a/target/i386/hvf/x86_mmu.c
++++ b/target/i386/hvf/x86_mmu.c
+@@ -38,6 +38,7 @@
+ #define LEGACY_PTE_PAGE_MASK        (0xffffffffllu << 12)
+ #define PAE_PTE_PAGE_MASK           ((-1llu << 12) & ((1llu << 52) - 1))
+ #define PAE_PTE_LARGE_PAGE_MASK     ((-1llu << (21)) & ((1llu << 52) - 1))
++#define PAE_PTE_SUPER_PAGE_MASK     ((-1llu << (30)) & ((1llu << 52) - 1))
  
--int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start);
-+int tcg_gen_code(TCGContext *s, TranslationBlock *tb, vaddr pc_start);
+ struct gpt_translation {
+     target_ulong  gva;
+@@ -96,7 +97,7 @@ static bool get_pt_entry(struct CPUState *cpu, struct gpt_translation *pt,
  
- void tb_target_set_jmp_target(const TranslationBlock *, int,
-                               uintptr_t, uintptr_t);
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index bb52bc060b..3823c3156a 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -4922,7 +4922,7 @@ int64_t tcg_cpu_exec_time(void)
- #endif
- 
- 
--int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
-+int tcg_gen_code(TCGContext *s, TranslationBlock *tb, vaddr pc_start)
+ /* test page table entry */
+ static bool test_pt_entry(struct CPUState *cpu, struct gpt_translation *pt,
+-                          int level, bool *is_large, bool pae)
++                          int level, int *largeness, bool pae)
  {
- #ifdef CONFIG_PROFILER
-     TCGProfile *prof = &s->prof;
+     uint64_t pte = pt->pte[level];
+ 
+@@ -118,9 +119,9 @@ static bool test_pt_entry(struct CPUState *cpu, struct gpt_translation *pt,
+         goto exit;
+     }
+ 
+-    if (1 == level && pte_large_page(pte)) {
++    if (level && pte_large_page(pte)) {
+         pt->err_code |= MMU_PAGE_PT;
+-        *is_large = true;
++        *largeness = level;
+     }
+     if (!level) {
+         pt->err_code |= MMU_PAGE_PT;
+@@ -152,9 +153,18 @@ static inline uint64_t pse_pte_to_page(uint64_t pte)
+     return ((pte & 0x1fe000) << 19) | (pte & 0xffc00000);
+ }
+ 
+-static inline uint64_t large_page_gpa(struct gpt_translation *pt, bool pae)
++static inline uint64_t large_page_gpa(struct gpt_translation *pt, bool pae,
++                                      int largeness)
+ {
+-    VM_PANIC_ON(!pte_large_page(pt->pte[1]))
++    VM_PANIC_ON(!pte_large_page(pt->pte[largeness]))
++
++    /* 1Gib large page  */
++    if (pae && largeness == 2) {
++        return (pt->pte[2] & PAE_PTE_SUPER_PAGE_MASK) | (pt->gva & 0x3fffffff);
++    }
++
++    VM_PANIC_ON(largeness != 1)
++
+     /* 2Mb large page  */
+     if (pae) {
+         return (pt->pte[1] & PAE_PTE_LARGE_PAGE_MASK) | (pt->gva & 0x1fffff);
+@@ -170,7 +180,7 @@ static bool walk_gpt(struct CPUState *cpu, target_ulong addr, int err_code,
+                      struct gpt_translation *pt, bool pae)
+ {
+     int top_level, level;
+-    bool is_large = false;
++    int largeness = 0;
+     target_ulong cr3 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR3);
+     uint64_t page_mask = pae ? PAE_PTE_PAGE_MASK : LEGACY_PTE_PAGE_MASK;
+     
+@@ -186,19 +196,19 @@ static bool walk_gpt(struct CPUState *cpu, target_ulong addr, int err_code,
+     for (level = top_level; level > 0; level--) {
+         get_pt_entry(cpu, pt, level, pae);
+ 
+-        if (!test_pt_entry(cpu, pt, level - 1, &is_large, pae)) {
++        if (!test_pt_entry(cpu, pt, level - 1, &largeness, pae)) {
+             return false;
+         }
+ 
+-        if (is_large) {
++        if (largeness) {
+             break;
+         }
+     }
+ 
+-    if (!is_large) {
++    if (!largeness) {
+         pt->gpa = (pt->pte[0] & page_mask) | (pt->gva & 0xfff);
+     } else {
+-        pt->gpa = large_page_gpa(pt, pae);
++        pt->gpa = large_page_gpa(pt, pae, largeness);
+     }
+ 
+     return true;
 -- 
-2.39.1
+2.39.2 (Apple Git-143)
 
 
