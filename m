@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BEF36E9DDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 23:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2A06E9DDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 23:30:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppbqB-0007Fu-Vu; Thu, 20 Apr 2023 17:29:20 -0400
+	id 1ppbqD-0007GA-AC; Thu, 20 Apr 2023 17:29:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbqA-0007Eb-7P
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbqA-0007Ec-7J
  for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:29:18 -0400
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbq6-0005YN-H4
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ppbq7-0005YU-By
  for qemu-devel@nongnu.org; Thu, 20 Apr 2023 17:29:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,17 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ae8N8PtX9GA4vEDPBw+tqY03jh3qGcW4dVgpo4Y7dcg=; b=PN/6+zm/S3cY9Jlf8XqHiiP8Gc
- Y34E2QF3oZi7EAufnK8sxLsIGvec8VERMhC4CXcB5WYdX8boQwugG6SfThP93F3Q0ch+5nkM1C35n
- LQY4L4OxMqr4IT+tdlkJX/RgF41CAcPdn7p3bYeJOwWEqOUXWMt6aELuqhHbxv05yUNA=;
+ bh=r2PjhWBCDWy69p3MQqHLdHlmJI2itJ0uiNpQysAZt1Q=; b=Pv8VRXs2neoCsZoSdzkQL0KYtG
+ jE/KkUMj1djPm+OCG7qkPBEzU8OZJthMOZzMwUHjOtsGMQWsd9kZOKHtMC7CuwT8MED6UGG+PvvMX
+ 6fGiAKcKDN2eRMIWKqQSqetkr9G9fEjhnAJVLS8+E5cTdLMqcs+hIwF7nuFuLPnrUjmw=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com
-Subject: [PATCH 7/8] cpu: Replace target_ulong with vaddr in
- tb_invalidate_phys_addr()
-Date: Thu, 20 Apr 2023 23:28:49 +0200
-Message-Id: <20230420212850.20400-8-anjo@rev.ng>
+Subject: [PATCH 8/8] tcg: Replace target_ulong with vaddr in tcg_gen_code()
+Date: Thu, 20 Apr 2023 23:28:50 +0200
+Message-Id: <20230420212850.20400-9-anjo@rev.ng>
 In-Reply-To: <20230420212850.20400-1-anjo@rev.ng>
 References: <20230420212850.20400-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -63,36 +62,36 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- cpu.c                   | 2 +-
- include/exec/exec-all.h | 2 +-
+ include/tcg/tcg.h | 2 +-
+ tcg/tcg.c         | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/cpu.c b/cpu.c
-index 849bac062c..c245727ca6 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -293,7 +293,7 @@ void list_cpus(const char *optarg)
- }
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 5cfaa53938..b8dbc66610 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -852,7 +852,7 @@ void tcg_register_thread(void);
+ void tcg_prologue_init(TCGContext *s);
+ void tcg_func_start(TCGContext *s);
  
- #if defined(CONFIG_USER_ONLY)
--void tb_invalidate_phys_addr(target_ulong addr)
-+void tb_invalidate_phys_addr(vaddr addr)
- {
-     mmap_lock();
-     tb_invalidate_phys_page(addr);
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index c6cb3fcb8a..a00c298e4b 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -673,7 +673,7 @@ uint32_t curr_cflags(CPUState *cpu);
+-int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start);
++int tcg_gen_code(TCGContext *s, TranslationBlock *tb, vaddr pc_start);
  
- /* TranslationBlock invalidate API */
- #if defined(CONFIG_USER_ONLY)
--void tb_invalidate_phys_addr(target_ulong addr);
-+void tb_invalidate_phys_addr(vaddr addr);
- #else
- void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs);
+ void tb_target_set_jmp_target(const TranslationBlock *, int,
+                               uintptr_t, uintptr_t);
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index bb52bc060b..3823c3156a 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -4922,7 +4922,7 @@ int64_t tcg_cpu_exec_time(void)
  #endif
+ 
+ 
+-int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
++int tcg_gen_code(TCGContext *s, TranslationBlock *tb, vaddr pc_start)
+ {
+ #ifdef CONFIG_PROFILER
+     TCGProfile *prof = &s->prof;
 -- 
 2.39.1
 
