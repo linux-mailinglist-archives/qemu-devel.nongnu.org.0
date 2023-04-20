@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A9C6E9626
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B856E964F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:50:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUae-0001aP-UG; Thu, 20 Apr 2023 09:44:48 -0400
+	id 1ppUcd-00041K-Kp; Thu, 20 Apr 2023 09:46:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppUaU-0001Di-PQ
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:44:40 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppUbg-0003hz-6g
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:45:52 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppUaT-0007Mq-8s
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:44:38 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- a8-20020a05600c348800b003f17ddb04e3so1160019wmq.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:44:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppUbK-0007sF-9g
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:45:38 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ e13-20020a05600c4e4d00b003f18e479d9aso354178wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 06:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681998275; x=1684590275;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ey1zoEPfiLo0i2FQ9w1Jv6z45AxJlyuPBTKHAlrxCu8=;
- b=Jg+SCxIyYVCOTBroSNozFsRugtb9rP2bBfdG4Fz2vEukirYH7q10MZoJsMA/iB8Hw0
- BVQ7DxIuX55y0vWr4p/6HS2f7m5ZFl60Ufvh/uiDTEAhedcC3IkIqNPCrqnaKSc8cE5L
- a6zDZLtuK+HMjmUBETOIZXQDJUafIQvpqq8PegDHurPRMsZhq2M/PdnRQw2DVn0NMcgf
- g0HcQUN+V4lGpDZf9rR/MJ5umSBF/ajo3mWVUv5LiBj0ObPq0Ud1lj/iFvFhkqz5iw26
- kWv5xphD86u7R1MsjBtRKVKjJ3OmofKDwbxTq1GDZOoHyYmuuFg6Vzrev8UM6z9WQOjc
- nqZw==
+ d=linaro.org; s=google; t=1681998328; x=1684590328;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EafrFWI8Dvyov2ZouB1636vfnUzieBsU2B9legK09uc=;
+ b=Mi9yimC6nBVGyQoyf+OhTY2C+cznrBofRyR+OsmwNjyYyTCsxoJe4G45BAqUyd3PAg
+ bDR2GxZvQNP/CoaHyXiH4nDbxFuerEOK7wiJAyetVRZ75t1FDYt248WKxfA2E/p3kyT1
+ w/qWIFgiBM1qS1j9zLvGzcTRPNF+GAwXvlEW+kmaxCSmdJSqpq5RoLGSCixZsRO5J1Hh
+ hwUiS/DTnnVwEut5Tka8/qwNkr7tUf2IzlfcjmwVjnnebrzGzV56nGE2+mT+ozYj4ZX0
+ hLQtPrSEPZXprMrcF09yFUVi3Ce2/OhG8+PcKML9mSja4JA0JpbkY9vTBx+i31neiNTd
+ 9rqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681998275; x=1684590275;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=ey1zoEPfiLo0i2FQ9w1Jv6z45AxJlyuPBTKHAlrxCu8=;
- b=chXMpDSPihAoJGlLo5eEagnfppRO2ox9HbExMxPxeQv/eYh6q+ArLdWYBnTjTArrD3
- 2gj+islRE38mI5UHZa+4hffYOzPFI7T+y7e7iAa7FOzOCFKD7Xws5HF5/nGzlC8VdEy2
- YdjA/Jbdc/sSzwLWg2Rk6vfJHjiXMMI7A75OSV514QAje99KwUMC1JITjP2kxpn8Vqr0
- 0ML95ww7oqJ6HMz60rEw+kOjk1EMozK6pLO9VdyPCHj8CjeWLMXr+2pa50b09rgkY+Cy
- t2ytnv0ddhKP0xqPwEIbqaehJyWLtW/dunFjgrGD2nBbh3YxcK3D5C50TqrdDZ/KlRcB
- GXvg==
-X-Gm-Message-State: AAQBX9cMWzrG/4YHo2ZoRsLumQQnCGrYNElkAo840X9Lkxp26eysg4CW
- su21pXyL0DVJp4j5I6M7qtqa9Va/pS84Ij8KarI=
-X-Google-Smtp-Source: AKy350b7FpLd6yVrWtkTy9RhLEGYzmCJZyAjBXtr0eykGoqAXtTewK2q7s3f6BvRrZ/8Irg/ZBLwsw==
-X-Received: by 2002:a05:600c:3799:b0:3f1:7277:eaa with SMTP id
- o25-20020a05600c379900b003f172770eaamr1332901wmr.31.1681998275446; 
- Thu, 20 Apr 2023 06:44:35 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- k25-20020a05600c081900b003f17122587bsm5373385wmp.36.2023.04.20.06.44.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 06:44:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ABADE1FFB7;
- Thu, 20 Apr 2023 14:44:34 +0100 (BST)
-References: <cover.1681993775.git.quic_mathbern@quicinc.com>
- <135d716c2f1cdc125a3d44f5f6a0e67da13de744.1681993775.git.quic_mathbern@quicinc.com>
-User-agent: mu4e 1.11.2; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-Cc: qemu-devel@nongnu.org, bcain@quicinc.com, f4bug@amsat.org,
- peter.maydell@linaro.org, tsimpson@quicinc.com
-Subject: Re: [PATCH v2 RESEND 2/7] gdbstub: add test for untimely stop-reply
- packets
-Date: Thu, 20 Apr 2023 14:44:11 +0100
-In-reply-to: <135d716c2f1cdc125a3d44f5f6a0e67da13de744.1681993775.git.quic_mathbern@quicinc.com>
-Message-ID: <87sfcud5x9.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1681998328; x=1684590328;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EafrFWI8Dvyov2ZouB1636vfnUzieBsU2B9legK09uc=;
+ b=dhb8zNsGuBfpf4P2WwQMaswXxYKlA0/KXBhwXulmvnxqzzTx/Noh/gYzLf14v8L7F1
+ 0ZTm/cDoDAe+2jeAwggjuPHkFFBdabVrp+HFoj86CapniH4ZUHG1Lfc2+XSTFMeSdxYp
+ 270Jks+2UGAKTMryQRbHqXaOhEe8/AabbGM2pF38kH13noZPtCgA+6a9zt1MWZ2+AzWo
+ EJpK+T7Vf7ZAtOLF8hArn+9XOok1p/rIuFEYHJ+MiEoiUXMx/EISDYbAP+nj9xw49GF8
+ 91fz590umV9LphV2L8sDkOoXNkvzOgo68CNQErwC+/jTVOkDdx+Xh9tjywNETzx8HPFf
+ IgOA==
+X-Gm-Message-State: AAQBX9fI5OVt5algABAO0lqycsyHgth4U64B1JEwDW3SKZJs9thQZri6
+ bi7LpwCcP19C/UN2qb3IVKpe40stHUvqfv60c7ZTkQ==
+X-Google-Smtp-Source: AKy350YmpeFqsfZIlg1dl7hD4Omy01Puwx+wl+rwXe6NrF++Q/qrhmTqdSdm5UvQdx8WZLykzIpzQw==
+X-Received: by 2002:a1c:f213:0:b0:3f1:8308:d39e with SMTP id
+ s19-20020a1cf213000000b003f18308d39emr1393898wmc.9.1681998328626; 
+ Thu, 20 Apr 2023 06:45:28 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ q17-20020a1cf311000000b003eeb1d6a470sm2128493wmq.13.2023.04.20.06.45.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 06:45:28 -0700 (PDT)
+Message-ID: <421d369f-40b5-60a2-f763-cb496943918d@linaro.org>
+Date: Thu, 20 Apr 2023 15:45:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH] docs/about/deprecated.rst: Add "since 7.1" tag to
+ dtb-kaslr-seed deprecation
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20230420122256.1023709-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230420122256.1023709-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,22 +92,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 20/4/23 14:22, Peter Maydell wrote:
+> In commit 5242876f37ca we deprecated the dtb-kaslr-seed property of
+> the virt board, but forgot the "since n.n" tag in the documentation
+> of this in deprecated.rst.
+> 
+> This deprecation note first appeared in the 7.1 release, so
+> retrospectively add the correct "since 7.1" annotation to it.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> My mistake, since I added the deprecation.rst text to that commit.
+> ---
+>   docs/about/deprecated.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Matheus Tavares Bernardino <quic_mathbern@quicinc.com> writes:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> In the previous commit, we modified gdbstub.c to only send stop-reply
-> packets as a response to GDB commands that accept it. Now, let's add a
-> test for this intended behavior. Running this test before the fix from
-> the previous commit fails as QEMU sends a stop-reply packet
-> asynchronously, when GDB was in fact waiting an ACK.
->
-> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-
-Excellent work adding some more gdb testing ;-)
-
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
