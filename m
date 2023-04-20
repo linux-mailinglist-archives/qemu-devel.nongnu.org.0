@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B2F6E8F58
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D3F6E8F36
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:07:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRAL-0000kl-Kz; Thu, 20 Apr 2023 06:05:25 -0400
+	id 1ppRAD-0000cP-WE; Thu, 20 Apr 2023 06:05:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRA8-0000Yw-NG
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:13 -0400
+ id 1ppRAA-0000Zi-Ed
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:15 -0400
 Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRA3-0003r3-Cv
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:12 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f178da21afso3699425e9.1
+ id 1ppRA4-0003rV-Dk
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:13 -0400
+Received: by mail-wm1-x330.google.com with SMTP id he13so964577wmb.2
  for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1681985105; x=1684577105;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=gk+qtdkGjNiXdrXuOW9NlMvlVmOSEkalFiEAMg6KIvw=;
- b=kC3QU6Thgwo5+hIwmZtFxIQ4SFfW49ICeguvPbYSmbnpVtqV1ynIQXTDrAptejiWAs
- kQAGR4W74GIOyFXTE2Wuqq7uH6dE5ZH/Vji/I8fvywRn3evEMGDEUGUxyiXeGWIpkdZ8
- 5pjJfKXsxTNfJO/Zy7cTkrVAUzw3H7rMHojnd7hqh5nbi6lEMIsU2oqdOOHnO+kD9UYB
- XAsIljjrPXJ/Ma6xWoK8cPCcmgGCj9Sd1+I7BYc61gmURpiIHW8EQJo3fpCoxgy1pnmL
- vGY6YAVFGAGltn+B58LY8nHd8LsAjsqSsF0ls+I5EDvYKRTbk3DYEsQD35m2uuh1BUtC
- E05A==
+ :reply-to; bh=UBHmKP2QWvbgSGiIjbO0DHXHxUNpy1cA3E2msdtGyEU=;
+ b=IMHdiBul6mXvafDGTwo+tkps089yVSk8ABzbTn/IIh7NZA4m/6AAH3LqubRZ3O+Uzi
+ MHjf4w7AB3DjOpJH2McdbQwuZ4HrKMzXmmDfpgxnU5GbftHR1BkGTGZQE+01qqW4QDTA
+ etPY6oLMDJbuOrWvB9vbh3WuYfEUZIRHg4MlXnFumLo4Y4rTHnUnPT5+c4qMbck677jh
+ CRnUf9xztZdQQ7lsUu4aCJw2ToWhZvphj37xi6dnNkGmxAkxqtfS5Qt1uDMRv83zSh96
+ Gu0wyDeUtnVBF+QgNUg95pml6pFl1nXuzxQbSwuCY1tr7Fx24eW+kmHiuAzyIDUIxy7s
+ fRpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1681985105; x=1684577105;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gk+qtdkGjNiXdrXuOW9NlMvlVmOSEkalFiEAMg6KIvw=;
- b=TuU+XtOFa8ekUJ+MaxHF217KF1Ta6MtVhC5ejeYa6O83RReS5E9i6YFR/tx+bugaiu
- H8PaKJ6ZPeHiAxrEoLDBs59unojSXZmSCQIYvih7PpkEGXLDSxtxW1yfZA1Pt9YtoTqH
- aHfRR9bEyLsGp1YO9okMHP/39V/r+LUDksOH1T+8wIF5TxcWRCY/w0f/C7OtiGIgBZPq
- UYS8TFy0bVEk0BsUgmW3ZrKlmhA4FF0obSFX5GozTZBkMGM99I1pxdIzUHyavyc8KiRY
- uwmlNiOi+Of1f4XxoMeGdl4k+ThoLynZnRm0nu0ua6CW5UFGGYSTIoRFowr+Jkwwk4AJ
- ebVQ==
-X-Gm-Message-State: AAQBX9fNB/3NiLxH5L52fEgzIL1AHAIJe9PwOh4iIVNdls1guws+SuDK
- rcwROk7yUsI0NK4DR+DCc+s+rBcxIopf5kjgwNE=
-X-Google-Smtp-Source: AKy350ZyJ6kgu4G40s9kB/9yF+cZ0I3HeNFrbJR4x4FVTmLxhMS0K6ig7yAaS0IhkXCf4aGCED/elg==
-X-Received: by 2002:adf:ef51:0:b0:2f6:b273:a2fa with SMTP id
- c17-20020adfef51000000b002f6b273a2famr865486wrp.34.1681985105289; 
+ bh=UBHmKP2QWvbgSGiIjbO0DHXHxUNpy1cA3E2msdtGyEU=;
+ b=cJ5O4WbG+W7ey0QybC/hGpez/q6D39Pdw4sIzOfxpY5EYTK+lM4CUz3G2YtrjhQIjU
+ YHVnEijTZjxkvTmgGTxEyqogVnyZEdODTxW4oHANs1Fc1UQwNPLeA3PUTvDGlW2A+wQM
+ 2pAyeTyY37qUAxJXS4EM3yaydKA43LENwh+6RGjL5fz6ktN2PyS4FusLrA64G0qdtvel
+ 3KPOy9qNwJ0vA1PNYZqzpqTpVHe5W7B7VRav/NuWiXcqVcR2mNiPdnXEghJFCPS+rTIS
+ Ixp5AOGVDXzKuzBGtxJkCmQ0Jq4Og9wnkkvThIarwxOogg8RVxeKDWqKoGqPpqSY2ItP
+ 8MNg==
+X-Gm-Message-State: AAQBX9fyF/8dY1U8E7XT14J+uq6PrTnVFmbE13SwEBXz9vznecBKEtL6
+ kIDEZOwxH2EYMQncoJ1ckA9pDua5rnwQSbi49vw=
+X-Google-Smtp-Source: AKy350bbbPVu7Y2MEyPCChzvRNCKLzigX6Tzf9Y8gYOulKq4BvnekfuHwWPirdPcTuKmCF7cgdIq1A==
+X-Received: by 2002:a1c:cc02:0:b0:3ef:df3:1693 with SMTP id
+ h2-20020a1ccc02000000b003ef0df31693mr840105wmb.32.1681985105712; 
  Thu, 20 Apr 2023 03:05:05 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- o2-20020a5d58c2000000b002fe522117fdsm1556388wrf.36.2023.04.20.03.05.04
+ o2-20020a5d58c2000000b002fe522117fdsm1556388wrf.36.2023.04.20.03.05.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Apr 2023 03:05:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/21] hw/arm/virt: Restrict Cortex-A7 check to TCG
-Date: Thu, 20 Apr 2023 11:04:45 +0100
-Message-Id: <20230420100456.944969-11-peter.maydell@linaro.org>
+Subject: [PULL 11/21] target/arm: Initialize debug capabilities only once
+Date: Thu, 20 Apr 2023 11:04:46 +0100
+Message-Id: <20230420100456.944969-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230420100456.944969-1-peter.maydell@linaro.org>
 References: <20230420100456.944969-1-peter.maydell@linaro.org>
@@ -91,33 +90,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-The Cortex-A7 core is only available when TCG is enabled (see
-commit 80485d88f9 "target/arm: Restrict v7A TCG cpus to TCG accel").
+kvm_arm_init_debug() used to be called several times on a SMP system as
+kvm_arch_init_vcpu() calls it. Move the call to kvm_arch_init() to make
+sure it will be called only once; otherwise it will overwrite pointers
+to memory allocated with the previous call and leak it.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230405100848.76145-3-philmd@linaro.org
+Fixes: e4482ab7e3 ("target-arm: kvm - add support for HW assisted debug")
+Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Message-id: 20230405153644.25300-1-akihiko.odaki@daynix.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/arm/kvm_arm.h |  8 ++++++++
+ target/arm/kvm.c     |  2 ++
+ target/arm/kvm64.c   | 18 ++++--------------
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 4983f5fc93a..bdf3d76cc43 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -204,7 +204,9 @@ static const int a15irqmap[] = {
- };
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index 99017b635ce..330fbe5c722 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -18,6 +18,14 @@
+ #define KVM_ARM_VGIC_V2   (1 << 0)
+ #define KVM_ARM_VGIC_V3   (1 << 1)
  
- static const char *valid_cpus[] = {
-+#ifdef CONFIG_TCG
-     ARM_CPU_TYPE_NAME("cortex-a7"),
-+#endif
-     ARM_CPU_TYPE_NAME("cortex-a15"),
-     ARM_CPU_TYPE_NAME("cortex-a35"),
-     ARM_CPU_TYPE_NAME("cortex-a53"),
++/**
++ * kvm_arm_init_debug() - initialize guest debug capabilities
++ * @s: KVMState
++ *
++ * Should be called only once before using guest debug capabilities.
++ */
++void kvm_arm_init_debug(KVMState *s);
++
+ /**
+  * kvm_arm_vcpu_init:
+  * @cs: CPUState
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index f022c644d2f..84da49332c4 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -280,6 +280,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+         }
+     }
+ 
++    kvm_arm_init_debug(s);
++
+     return ret;
+ }
+ 
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 1197253d12f..810db33ccbd 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -74,24 +74,16 @@ GArray *hw_breakpoints, *hw_watchpoints;
+ #define get_hw_bp(i)    (&g_array_index(hw_breakpoints, HWBreakpoint, i))
+ #define get_hw_wp(i)    (&g_array_index(hw_watchpoints, HWWatchpoint, i))
+ 
+-/**
+- * kvm_arm_init_debug() - check for guest debug capabilities
+- * @cs: CPUState
+- *
+- * kvm_check_extension returns the number of debug registers we have
+- * or 0 if we have none.
+- *
+- */
+-static void kvm_arm_init_debug(CPUState *cs)
++void kvm_arm_init_debug(KVMState *s)
+ {
+-    have_guest_debug = kvm_check_extension(cs->kvm_state,
++    have_guest_debug = kvm_check_extension(s,
+                                            KVM_CAP_SET_GUEST_DEBUG);
+ 
+-    max_hw_wps = kvm_check_extension(cs->kvm_state, KVM_CAP_GUEST_DEBUG_HW_WPS);
++    max_hw_wps = kvm_check_extension(s, KVM_CAP_GUEST_DEBUG_HW_WPS);
+     hw_watchpoints = g_array_sized_new(true, true,
+                                        sizeof(HWWatchpoint), max_hw_wps);
+ 
+-    max_hw_bps = kvm_check_extension(cs->kvm_state, KVM_CAP_GUEST_DEBUG_HW_BPS);
++    max_hw_bps = kvm_check_extension(s, KVM_CAP_GUEST_DEBUG_HW_BPS);
+     hw_breakpoints = g_array_sized_new(true, true,
+                                        sizeof(HWBreakpoint), max_hw_bps);
+     return;
+@@ -920,8 +912,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     }
+     cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
+ 
+-    kvm_arm_init_debug(cs);
+-
+     /* Check whether user space can specify guest syndrome value */
+     kvm_arm_init_serror_injection(cs);
+ 
 -- 
 2.34.1
 
