@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947F46E8E87
+	by mail.lfdr.de (Postfix) with ESMTPS id 080FD6E8E86
 	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:48:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQtr-00079f-Tq; Thu, 20 Apr 2023 05:48:23 -0400
+	id 1ppQtr-0006yW-Nj; Thu, 20 Apr 2023 05:48:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppQte-0006kI-4i
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:48:12 -0400
-Received: from mout.web.de ([212.227.15.3])
+ id 1ppQtg-0006mh-SX
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:48:14 -0400
+Received: from mout.web.de ([212.227.15.14])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppQta-00081e-7d
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:48:08 -0400
+ id 1ppQtd-00082S-Sx
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:48:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681984081; i=lukasstraub2@web.de;
- bh=eLFJoHY7peL+SKZF2sPs8aKtSRtjxyC6z9ykmJRSQxE=;
+ t=1681984084; i=lukasstraub2@web.de;
+ bh=t+LreNTwhEDOCl9wopvzlvV3nV6+vyqsz+LJ3YLrwmk=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=db9iMjuURlMO8odNKtIdvRW5sUsr0xwGvhjeeNaNBiBAsPp67NqscWTXqNXv6CEzx
- 5n+U/wm54HWqFE9xP7daemXqiDVlIRw3Gu5Yb39C1Z9kE9E+f80qRvC6yvWxfy3zSP
- 7/96zk5fk/JbHFEPeFS6b0xG/OjfWKd28hdP0AVeo2JIv+ZK+UvVbNZ5mXlVeEV79C
- W40wm7N/SKiHtRQOK+qyjj6x7Fz5FqQwE3KXruZ0R3W65ZOKDhfE0HQ6lF78qUygDQ
- zld/t6ucsU0yZFErpoxg781zMz2YtXBbhqdnmhouxxPEUceisI9379z06LN8mYbcQh
- immhmCREMWbtw==
+ b=uIkgJeooMPauOrVuUpzt6iC4HOPbarxcCnFnlFZFqUSvQBZ6BuT6+cmHq+HEZDGzI
+ T9qbPkf2l4bQ2glKI644D3BNOGqr6UVeT9J03dlwGDMUMmYLRYbEjaudljrRy2z8sf
+ 4FVTzN4pfRxsfzrmFzUNWe0EvYLRNLIVMqCWLxpqFdPDHjE/BBrdq/LsZqWFZ/NML/
+ zlbhnumQa03t6bu/5e2wdptgOImbW9tVN7kkd6Btdq8jnuoT3Jmjjv3WyFOmG+y46n
+ /BIF8VcktIDga86e8GGF9Ti0S0l+lgNNMlZ/AvyrKGbIPikaoS5EvG+xji3eGuKWKV
+ FiFGnYdCLKZeg==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.123]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MWzD3-1pn4R607Dt-00XJrY; Thu, 20
- Apr 2023 11:48:01 +0200
-Date: Thu, 20 Apr 2023 11:47:59 +0200
+Received: from gecko.fritz.box ([82.207.254.123]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N1d7s-1qIGOS1LNA-012BxD; Thu, 20
+ Apr 2023 11:48:04 +0200
+Date: Thu, 20 Apr 2023 11:48:03 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo
  Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 03/13] ram.c: Dont change param->block in the compress
- thread
-Message-ID: <e77d30005c480b79e4bb17ce67d651b621112299.1681983401.git.lukasstraub2@web.de>
+Subject: [PATCH v2 04/13] ram.c: Reset result after sending queued data
+Message-ID: <01e40e659d664ec12470fb6495f00f1ee78d5cb3.1681983401.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1681983401.git.lukasstraub2@web.de>
 References: <cover.1681983401.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/C+TqE/eBD7dTk8zQL+MYLgv";
+Content-Type: multipart/signed; boundary="Sig_/kyBS=5mWfb_ii4L98I+T7_/";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:VTtd6cfmwvXWYVQeM0Ep7/hvo8QQzRQK6TZtavl+2j1E3kpwmNm
- 3Tksjcbupkd/jPEctp46Sh+icdea2wvSc32r4qlImv0zXkE1AXnVklnZ3NNpemV95GKtL3E
- g/iLj1l/mpEAzQw7f30y+NYAflSJax6lXkl+XYrwcLuFk40vngNEuEoakb+VeJOMslnSlZy
- q/fvmK2ZXqlq3uOMOWX7A==
-UI-OutboundReport: notjunk:1;M01:P0:FVzsHSdw788=;HidTxsaqgeSiNQysgXZdqwOvLdV
- yKYjygK+fdRa0f8Bi39rAuWYW3ABlq1WEXJQbCLf1SchpRyUiidR/g2RsgYFdeOjQjPlbyiI5
- VzJU/VU//Ea8Nxkhnh0a5k37/EGLGfRmQ2gZGgMaDnhBcwXeVsKNIoSuMG8GM5CF/Xa1/II0Y
- TpzR8pvmF4VNOqp+HLzxOmCieW6K5u+pg3pqOhdXfv8I33rxKfYJehAt4KuUoF7Ivqu8SBRMJ
- 6FjGxLiuZoa7+GZ8aS3kVTHYHzc5Qm8yyiqMRaM+B/tV6InwAS4AGj8Rvq9CHAFVlr63aRqXr
- MPJKe8CMa/AxlERlxw9UO+C1CL5zAhUzNlmw+dEZxa0liDcJG8uaPYmFlgLWAcCLRgP8sIFMA
- Nfq0AiJCIrLtyAYd3d0WdNx0r0DVmdUQBGeQ+Nzwiarh1xGOPEOvQsoCgO+Ux0b68aEBagkW0
- /3T7ncrjKrRUkcvcUXN0r6YjJB6qfS61lTyss5LrvsoCiT2QexQE3ZXKiKVSexlGvg9zX6eDc
- /oMYvImBWS0KPVl005MQhANoiLHb1LMqztYTIbjMEPlHUedfq2Jc+VKvldB4V6Evb5OWMjCdr
- S1q0oQU4RaJxkB1cNmg9yJg5nmrN+fh38JqV5Tcm49b551wlTNuNTSM+vV9VbqooI2idfWmui
- 7gAq/2AsFZ7du6Awwvi7uqEvfEfFa2DCj+tkkw3hZfutctKVMxnoE4/+/4Vxc/5stYDUqOUCq
- sJNgNSxPAf7OdOSrpnfetnQgJ2RVTImfL6Dw/pKV+egSXt7kw8drFmiOYb4TDmY1H+uPYVjR3
- QzCkjjqMsmBIgTUf956fY+U28olHKRaLrBBbrulje6Vm7/eFVP/76B6QPj+gxzdnk8QOGprlP
- 6l9oOELo+o3onVtNuPi+P9OfznstFcva8tA+MbFZjyni/8rKTaKSyUQDXq4I1qh9jFxlkNfKo
- PS1BmJdRWAiAtzT/h++6LNInOJk=
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:AlsPIqmGfukBd0RPCof/ZnptuG8lsIX9owHKDAK8zXZnbtdpsE8
+ +X/DvtxUEIBmpAnxKj1kn2TGJr3mHUmXc8WEvIcezhYW90rsw742Vf+x5SWpTWeWVm5IoM8
+ nsype4/MCbKP4Mr5SQnI0bG0QKXzGwdx2c6r0NeM+25k9cjPkqRHOSoMjhajmBeQuVR50iU
+ Bsz+Ldk2jDAVhWROdR4Aw==
+UI-OutboundReport: notjunk:1;M01:P0:Ketu+ru3RgQ=;GFBfzbgVBkEbRFyNDZQlMvH+dM+
+ Byuwhh26zqbtB/AfPeQXy/O6pvI9ixUX0dR5p48JQi4POxrM2gDZKPspUuzVDDUZptmeCaqG0
+ uNI/uozfiPTjPgMRxagOJTNJV7ggad9CiNL16Xn6LMFMf/76X5Dt+HfbS5DJs5GmmiD9Zqxw4
+ IAIcjoB5ZUEU4LoTRgsW1SpmHhQxHdxg0/ffy2XE3RXbhnyqwJ9OwkhSIHrVXBTjOk6FKUIiM
+ 9CoILnblMA/Z6kFqmCa0rgO1ObDm0zUVWVXfxH0tzRlNwCucExDCI1Zwbfvw+AKwxlAE0+iLZ
+ xkPu08Wc71kmcVpdcfSQKkxNDVt0FFGl1GtZiHkjjBoyiPdh4QCCd8hD3xXKWQDxjEaIQf1c3
+ EVqoMsLSPz5vxz1TqunBe9wBRPO0iljyHSwyX9/Cktk40Ro88Gkw1CoHvQu+f8zJicZGXg0J2
+ JhHd4y6EPnlgdzFhyJ5h+QOnU6HdLCK3pyudrSCRYq+nWb/0hqgahfbasAykrB7ZOHirXLz3Z
+ t3zNbYnKX4wCjNDTmsXsYzZcGUsH7wEjT2Ixq13G+nhiFAfhxq8zq//8TkWOFOYkzU8moO/xm
+ R/Wy9XP04mmEYV3xzlcmSBbL9LcFsa+4NcgStPQGGbTZEU3QPIzD0+cBlKNiHflKS0zbJBmk+
+ Hu6VeOXNRWWBOmstFVmPQS0yOHak+16eLfb/ljzmk1CrS5V28aqdOy7Rqz48Xc7jZXfbWP4rM
+ LyO5Er3Hos+drNR541kXm3VYSenlnDNA1Zcjt3+ZeMDvtFTSmAhte36C1VAmMNkSnXnykoaVo
+ LZEzzIaJFknmev/V/fAzNSqBwJV+DjSnUsHgvOqiwodQnbgBtnbB65c6rKEFEi02vbwFQSaOa
+ ePUUbwog5Lma+JFKFF5jSL0o5U4XHefoIM5Hpeo3nyFFLIDTXRFWDe7haGDD8/6dHs9zyR0Fu
+ iECqjg==
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -73,8 +72,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,81 +89,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/C+TqE/eBD7dTk8zQL+MYLgv
+--Sig_/kyBS=5mWfb_ii4L98I+T7_/
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Instead introduce a extra parameter to trigger the compress thread.
-Now, when the compress thread is done, we know what RAMBlock and
-offset it did compress.
+And take the param->mutex lock for the whole section to ensure
+thread-safety.
+Now, it is explicitly clear if there is no queued data to send.
+Before, this was handled by param->file stream being empty and thus
+qemu_put_qemu_file() not sending anything.
 
 This will be used in the next commits to move save_page_header()
 out of compress code.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/ram.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ migration/ram.c | 32 ++++++++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 10 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index ade6638a96..820b4ebaeb 100644
+index 820b4ebaeb..5ca0f115cf 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -503,6 +503,7 @@ typedef enum CompressResult CompressResult;
- struct CompressParam {
-     bool done;
-     bool quit;
-+    bool trigger;
-     CompressResult result;
-     QEMUFile *file;
-     QemuMutex mutex;
-@@ -576,10 +577,10 @@ static void *do_data_compress(void *opaque)
+@@ -1519,6 +1519,13 @@ update_compress_thread_counts(const CompressParam *p=
+aram, int bytes_xmit)
 
-     qemu_mutex_lock(&param->mutex);
-     while (!param->quit) {
--        if (param->block) {
-+        if (param->trigger) {
-             block =3D param->block;
-             offset =3D param->offset;
--            param->block =3D NULL;
-+            param->trigger =3D false;
-             qemu_mutex_unlock(&param->mutex);
+ static bool save_page_use_compression(RAMState *rs);
 
-             result =3D do_compress_ram_page(param->file, &param->stream,
-@@ -1556,6 +1557,7 @@ static inline void set_compress_params(CompressParam =
-*param, RAMBlock *block,
++static inline void compress_reset_result(CompressParam *param)
++{
++    param->result =3D RES_NONE;
++    param->block =3D NULL;
++    param->offset =3D 0;
++}
++
+ static void flush_compressed_data(RAMState *rs)
  {
-     param->block =3D block;
-     param->offset =3D offset;
-+    param->trigger =3D true;
- }
-
- static int compress_page_with_multi_thread(RAMBlock *block, ram_addr_t off=
-set)
+     MigrationState *ms =3D migrate_get_current();
+@@ -1540,13 +1547,16 @@ static void flush_compressed_data(RAMState *rs)
+     for (idx =3D 0; idx < thread_count; idx++) {
+         qemu_mutex_lock(&comp_param[idx].mutex);
+         if (!comp_param[idx].quit) {
+-            len =3D qemu_put_qemu_file(ms->to_dst_file, comp_param[idx].fi=
+le);
++            CompressParam *param =3D &comp_param[idx];
++            len =3D qemu_put_qemu_file(ms->to_dst_file, param->file);
++            compress_reset_result(param);
++
+             /*
+              * it's safe to fetch zero_page without holding comp_done_lock
+              * as there is no further request submitted to the thread,
+              * i.e, the thread should be waiting for a request at this poi=
+nt.
+              */
+-            update_compress_thread_counts(&comp_param[idx], len);
++            update_compress_thread_counts(param, len);
+         }
+         qemu_mutex_unlock(&comp_param[idx].mutex);
+     }
+@@ -1571,15 +1581,17 @@ static int compress_page_with_multi_thread(RAMBlock=
+ *block, ram_addr_t offset)
+ retry:
+     for (idx =3D 0; idx < thread_count; idx++) {
+         if (comp_param[idx].done) {
+-            comp_param[idx].done =3D false;
+-            bytes_xmit =3D qemu_put_qemu_file(ms->to_dst_file,
+-                                            comp_param[idx].file);
+-            qemu_mutex_lock(&comp_param[idx].mutex);
+-            set_compress_params(&comp_param[idx], block, offset);
+-            qemu_cond_signal(&comp_param[idx].cond);
+-            qemu_mutex_unlock(&comp_param[idx].mutex);
++            CompressParam *param =3D &comp_param[idx];
++            qemu_mutex_lock(&param->mutex);
++            param->done =3D false;
++            bytes_xmit =3D qemu_put_qemu_file(ms->to_dst_file, param->file=
+);
++            compress_reset_result(param);
++            set_compress_params(param, block, offset);
++
++            update_compress_thread_counts(param, bytes_xmit);
++            qemu_cond_signal(&param->cond);
++            qemu_mutex_unlock(&param->mutex);
+             pages =3D 1;
+-            update_compress_thread_counts(&comp_param[idx], bytes_xmit);
+             break;
+         }
+     }
 --
 2.40.0
 
 
---Sig_/C+TqE/eBD7dTk8zQL+MYLgv
+--Sig_/kyBS=5mWfb_ii4L98I+T7_/
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRBCk8ACgkQNasLKJxd
-slg5Qw/+NROUst2+fDV8s+qGPSqqkppVntNhiTkqXG3YOmAIgrobVgeu/rgk/1aC
-Y30wgaO2vL0JVBBY0nzs0FL/Mj3iERpS/OIkeHBDBMRBX1WjnIUblEI/m6ZpNS1/
-NIeGYi4uCAzo4UtCXHLwFawwiT1bYjKXIukhm+kITje9x5mPTfZBU8cA3YFSCV9Y
-oQ0rSi4b18aX9AK4pq+10PhPNhX4OALsygJ8Wi4S4OKnoKCDty77JRvAcU/R6Tjy
-fXc5KqI6dUq336RTnDRnJtzeOk0K4F+CllNNVS2MB3wu7KJ56a/P1PdKppaJiZ9c
-Y4m1XhAGkfedeW3oC7mmWKdjftRq7BGjykXrPDWRoLbTKXOSiKtvtTioulbRHFaq
-50XxO86pLIWDKuz2BGHP80YQweB/7YimakYExp6t912gcXhMSdtHe0wzR7aRnevN
-BKRu7cSsTLHyB6g9EazLHVu0BxEa3Ay4Dd3owRHOGcDcqvrMDtoOqfs5Xxd3n9fL
-I+YkFtFb93PQ5/nZ4KhFkS0sxUF5gdkq/YGChpRPaZ2l3pXYdbzzX/LHqdX8v1bA
-fc8FAcyAlpLsHq5cHdhm62/AOZeiad+++IM6cFnPHM3wlv9g2Sf9tqeeLw8YjqNp
-HuekaCuTwQZ6AJs8wwVyeemOpgPIyu24ouokxjCmuIYSCVaFLoA=
-=owzv
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRBClMACgkQNasLKJxd
+slgBpA/+OgeaPmPVXas+NfbEXADUppcJHhp6vTW2Y72prv6MNTCOwAWCqfRfi/rQ
+2Sh3unQI4Agi9/XSyWg7oD2RNsSYlGJB7N5dVh4B2BUVyrFoZGe2JcATv6xe79Ew
+jqu3KG0a1LzLlOWWITchgILmcBp5QxOUo+3HecZ2lhIo1yCdeajoZBW/fHq9P+p7
+SM4QmdKMJBEPL/5QdzG/QOhOeUNgEsKHCxLgsVjErwDAN8aytCsBI2qa6TiaC4Qb
+toWssViDt7knujnx5ZF6F8NwBEl8EFzOxhnS6su98REeaQ/0ibIkBCMwceQ3NSRL
+h4S7FSP1tr8YWq9pDutH9sPXYfUC9Lk9C9Jr7iEqFQewXtRmSB0T0fnedgGn6lm/
+gqIX6RcfFJQ1ye+CL2MMWw/akpH6OiU2MTXysBKEllWpY1qYsnP3z6Nt4CD8hqjQ
+JMthSscKrNthZabiUwT1nz7jD0OzQuuL/BhNApYPNiamvtbv7rb8Vbq7sPPuyA9+
+Es1vIHDnTxR/6+GM2mtPjnH3dwm66noOiYgcs3DXCTp4iEEsP+n435nPNVv1Ggp7
+uh5GVMx8DKTeKQcsNPFCV6ps1/PCD5NH9NUCb1kUkgJ0Vm3Z+5z5nuPlkca/sX2J
+IqlH5VMEt+UhXNLuSg3OAfyJhHuxzmZ0WBuGPO/oDHfO4eJIQu8=
+=2UQN
 -----END PGP SIGNATURE-----
 
---Sig_/C+TqE/eBD7dTk8zQL+MYLgv--
+--Sig_/kyBS=5mWfb_ii4L98I+T7_/--
 
