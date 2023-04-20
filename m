@@ -2,81 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733316E9071
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F056E9081
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:42:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRgG-0004fr-7N; Thu, 20 Apr 2023 06:38:24 -0400
+	id 1ppRjL-00060k-Sa; Thu, 20 Apr 2023 06:41:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppRgE-0004fU-Bi
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:38:22 -0400
-Received: from mout.web.de ([217.72.192.78])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppRjJ-000607-3B
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:41:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ppRgC-0007tu-H4
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:38:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1681987095; i=lukasstraub2@web.de;
- bh=5LQlHX6LNiyT/sVONQolnNkU6TluBrwvxyRubt6OgYE=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=s72V3Xzq14MpVhzY9gYkjVxAWekWD8sS2pwszGfJqIXARy8aOjQyonVcfjzV+5MtM
- 6Di2br1sYLyaUzCxxW2QBAateZc0JWFv6D9LedT8ozoP/00OZ7fNkRSSipsRRiEMnD
- W0BockOmv6s3qxrLDaTYGq7xajPjc9/ZLqVVifkfoZLnCgf7ty68VwhhbzZf2zK8oV
- V5oM0p7QEl0WCs3hI+kccLxF3VcWcv64xRZrqMHKjmpIGwut79AoZfSkh7SR8ZHRdx
- S4+Xd02Se8b0XI+jzPIX6Bx6UltZpb3zpkU952L6yfUD1TqDYJMnLM+SJqgZYgBNU7
- CEuk4t+LMkpZQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.123]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MGxMP-1q2w4q1fIx-00Ds8d; Thu, 20
- Apr 2023 12:38:15 +0200
-Date: Thu, 20 Apr 2023 12:37:56 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>, Thomas
- Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 01/13] qtest/migration-test.c: Add postcopy tests
- with compress enabled
-Message-ID: <20230420103756.2aada33a@gecko.fritz.box>
-In-Reply-To: <87cz3yzwgm.fsf@secure.mitica>
-References: <cover.1681983401.git.lukasstraub2@web.de>
- <01a063686e62ce97e7d0bc9fa935389f074ecb4b.1681983401.git.lukasstraub2@web.de>
- <87cz3yzwgm.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppRjG-0008TY-MS
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:41:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681987289;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=DqcdAjacGA9NO83iJk5KFOGsxhnp/5IfwJmUcO8MPuw=;
+ b=duj030jPigFVXFu4fofy8UWuYwDnkVWmEqfzZ7lWMKWCml/4WHUGZaiZuPmgk/ExKcNKDA
+ l8BkdHvabn+oZxKYh2WEVayibmp1vubh26O3ltOR7MHTiAPJ2r9a3vfAlEXFUIEF1TLY7O
+ o3gW9+wle3WKM7kRhy441DTe21lTyM8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-462-7aLj8xtfMkuuc3wXFb01vg-1; Thu, 20 Apr 2023 06:41:28 -0400
+X-MC-Unique: 7aLj8xtfMkuuc3wXFb01vg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ ay37-20020a05600c1e2500b003f16b58cf01so535474wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:41:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681987287; x=1684579287;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DqcdAjacGA9NO83iJk5KFOGsxhnp/5IfwJmUcO8MPuw=;
+ b=E0/ZLoCiI8i9ensPw+VY2kZHOK2mE0i3DXM1279OHwFSIy7VV8B1nZsckCnUUb2lt7
+ U7e975OU2qR/GP8tbB7Cck7JXiQohdmUenJBipF0C6le4mhN/Byrw1UOYwfq18w+QEpn
+ m3YGOEPOw4Vt5pyNHG+812/Sp94Y4fyozQ3S1tGc9cysesI/bRWGHJWZEIoratTOJmXe
+ 25hG36XsUX7sauIxNLuRMMmbeWq7g2/fVfVPf9NyF3sm5wUjPHqNTDyOQuBhkzBAsawh
+ OT9SWgLCYb/wmlwuulbuazUq7SrnzwxxcsetjKKUTf/rYB5JNbBRgMlMPKKI6mhh/2XL
+ aj1Q==
+X-Gm-Message-State: AAQBX9fPyo+zn636Nof5KMxZ7guzEp5V7MzMcgKBqI7fvAND9Dz71n87
+ /dpB7KVMwd5fn50zLc46F3Ghmelgumk7KkL2En0ms8cSMVMI3h+6da60kuWykA8OnC6DSPlHDju
+ +KUcyJmZtsl8X/fM=
+X-Received: by 2002:a05:600c:230d:b0:3f1:70a2:ceb5 with SMTP id
+ 13-20020a05600c230d00b003f170a2ceb5mr935126wmo.13.1681987286840; 
+ Thu, 20 Apr 2023 03:41:26 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bdfWQ2TxQfHSMe/cA/EPJtD7Fpt5EHOr9HQebsDpr8ODmGePS9/cirgl2VHoVRWGoDYVltVw==
+X-Received: by 2002:a05:600c:230d:b0:3f1:70a2:ceb5 with SMTP id
+ 13-20020a05600c230d00b003f170a2ceb5mr935113wmo.13.1681987286492; 
+ Thu, 20 Apr 2023 03:41:26 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ k24-20020a7bc318000000b003f16fc33fbesm1651669wmj.17.2023.04.20.03.41.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 03:41:25 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] migration: Handle block device inactivation failures
+ better
+In-Reply-To: <20230414153358.1452040-1-eblake@redhat.com> (Eric Blake's
+ message of "Fri, 14 Apr 2023 10:33:58 -0500")
+References: <20230414153358.1452040-1-eblake@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 20 Apr 2023 12:41:25 +0200
+Message-ID: <878remzvhm.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/wPuxOJi=v8+LtsVl5Akokm.";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:bawJjkMxckMA77TffB73GqIIPmSuhZZQ9Q8qOs2OU/4ppIHASi5
- xiyi4qIg6AGKvW+Sl4nSt7TZ1KHlkL+EEeakx02LSva23LhH/bxIeIcGPMjQafiO+UJX04t
- oUQWH6rYLFdiNqtUL6+BniHt8tIHYeUN1I6w6imhD7iKLwPiJ0BYBhZfQpzmCSZNWG3y7yU
- N3GEcMMlJN93wFm++nfaw==
-UI-OutboundReport: notjunk:1;M01:P0:/H44wgysra0=;zbLO5IXM30UvWtMoouL8cj1YS9L
- F3FveQTQjZgFZPXd91NviE2s+qwWHe+6EgohsSl0Q9tg7eZlCZkZJoRrdoa0CBuAyEqZkrdY+
- +yi1EhZSPPp1GkWsBE7OXY1aTQSnh62ruCwL51z6oqSI2msMkU67cxwsjWsza5qqMhrs/wxaF
- dzn65ZTvWIa0MZcKgxe0Gi4K48959m6slv9T6rVQzZQoEq2JSWmtgV0UpHJkYjdykXo9WmB0i
- t8YpHc/UMh8NW60ty+O649N0LwhuNzkSeq/4fZRrpcZZCa20Zd0TvvGw+yVTNTP50QBmANzz3
- 1MdWd9Tk31/qNNZ1N2DBVEDY+Fyllehm3EodfMdVIlH8nYWM83OyHdEQ5/AwXW1M8u6xOKWE4
- enFtNzFlza45YcZcHlEj1t6RPn1YSK/fDh3K2bDkBTNT3bI3lE/vJQMi+JKE+P1uCWeLBfLbK
- g8csa8llm1xb792KvmALRvolFLy1HimBLeqka8UAkD/j0Zl2qWAYmPP72isr9IDZnU3802f0x
- I+EeprNE5RMup5nrcBWTwF93KFAU8/r2RKyAO8e6Fhw6C2ruftOZCJKr8qgJ2mGhdR7jG3Iy5
- Okew39/7TXB/Nnq1eBDcqQble9bxEZGAwHi+Cf86sogJiE1hMWk0vPG5hlbg6b9Ugua8caQDR
- vLK4GZ+D9khpW8jHAgPPHVjGSkdAdQWL/TsWX/th/VZhf3oDVWt9ZZa3aJ2nTF6LkAicODFK6
- 1xn2Dr+ovfglF5Nt8W23mo36vbSqGR43z/k9qDsPJyNMSFobT6Cl3sEqcqRpFvZThKjdYAFRp
- +T0VsvSEL3XRJFUkBDFESm4cHXI0wqQjnAGoK7Ui/n6GVqiJ3YnRqei4S/7MJldCa4LHFJVPy
- 5P8li0jgNVwH+xOHw/vpx6SE/Hi7DFC9lZQquXA0wd+IEkiE3wX0ph27wcKoNqWhOUzNRPiLB
- OgyX17BRMOu8WzC8bfRNU3B4PGs=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,102 +96,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/wPuxOJi=v8+LtsVl5Akokm.
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Eric Blake <eblake@redhat.com> wrote:
+> Consider what happens when performing a migration between two host
+> machines connected to an NFS server serving multiple block devices to
+> the guest, when the NFS server becomes unavailable.  The migration
+> attempts to inactivate all block devices on the source (a necessary
+> step before the destination can take over); but if the NFS server is
+> non-responsive, the attempt to inactivate can itself fail.  When that
+> happens, the destination fails to get the migrated guest (good,
+> because the source wasn't able to flush everything properly):
+>
+>   (qemu) qemu-kvm: load of migration failed: Input/output error
+>
+> at which point, our only hope for the guest is for the source to take
+> back control.  With the current code base, the host outputs a message, but then appears to resume:
+>
+>   (qemu) qemu-kvm: qemu_savevm_state_complete_precopy_non_iterable: bdrv_inactivate_all() failed (-1)
+>
+>   (src qemu)info status
+>    VM status: running
+>
+> but a second migration attempt now asserts:
+>
+>   (src qemu) qemu-kvm: ../block.c:6738: int bdrv_inactivate_recurse(BlockDriverState *): Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed.
+>
+> Whether the guest is recoverable on the source after the first failure
+> is debatable, but what we do not want is to have qemu itself fail due
+> to an assertion.  It looks like the problem is as follows:
+>
+> In migration.c:migration_completion(), the source sets 'inactivate' to
+> true (since COLO is not enabled), then tries
+> savevm.c:qemu_savevm_state_complete_precopy() with a request to
+> inactivate block devices.  In turn, this calls
+> block.c:bdrv_inactivate_all(), which fails when flushing runs up
+> against the non-responsive NFS server.  With savevm failing, we are
+> now left in a state where some, but not all, of the block devices have
+> been inactivated; but migration_completion() then jumps to 'fail'
+> rather than 'fail_invalidate' and skips an attempt to reclaim those
+> those disks by calling bdrv_activate_all().  Even if we do attempt to
+> reclaim disks, we aren't taking note of failure there, either.
+>
+> Thus, we have reached a state where the migration engine has forgotten
+> all state about whether a block device is inactive, because we did not
+> set s->block_inactive in enough places; so migration allows the source
+> to reach vm_start() and resume execution, violating the block layer
+> invariant that the guest CPUs should not be restarted while a device
+> is inactive.  Note that the code in migration.c:migrate_fd_cancel()
+> will also try to reactivate all block devices if s->block_inactive was
+> set, but because we failed to set that flag after the first failure,
+> the source assumes it has reclaimed all devices, even though it still
+> has remaining inactivated devices and does not try again.  Normally,
+> qmp_cont() will also try to reactivate all disks (or correctly fail if
+> the disks are not reclaimable because NFS is not yet back up), but the
+> auto-resumption of the source after a migration failure does not go
+> through qmp_cont().  And because we have left the block layer in an
+> inconsistent state with devices still inactivated, the later migration
+> attempt is hitting the assertion failure.
+>
+> Since it is important to not resume the source with inactive disks,
+> this patch marks s->block_inactive before attempting inactivation,
+> rather than after succeeding, in order to prevent any vm_start() until
+> it has successfully reactivated all devices.
+>
+> See also https://bugzilla.redhat.com/show_bug.cgi?id=2058982
+>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 
-On Thu, 20 Apr 2023 12:20:25 +0200
-Juan Quintela <quintela@redhat.com> wrote:
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-> Lukas Straub <lukasstraub2@web.de> wrote:
-> > Add postcopy tests with compress enabled to ensure nothing breaks
-> > with the refactoring in the next commits.
-> >
-> > preempt+compress is blocked, so no test needed for that case.
-> >
-> > Signed-off-by: Lukas Straub <lukasstraub2@web.de> =20
->=20
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
->=20
-> And I wanted to removed the old compression code and it gets new users.  =
-Sniff.
+queued.
 
-Who know how many compress threads users are out there...
+>
+> ---
+>
+> v2: Set s->block_inactive sooner [Juan]
+> ---
+>  migration/migration.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/migration/migration.c b/migration/migration.c
+> index bda47891933..cb0d42c0610 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3444,13 +3444,11 @@ static void migration_completion(MigrationState *s)
+>                                              MIGRATION_STATUS_DEVICE);
+>              }
+>              if (ret >= 0) {
+> +                s->block_inactive = inactivate;
+>                  qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
+>                  ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
+>                                                           inactivate);
+>              }
+> -            if (inactivate && ret >= 0) {
+> -                s->block_inactive = true;
+> -            }
+>          }
+>          qemu_mutex_unlock_iothread();
 
-By the way, I'm not against deprecating compress threads in the long
-run. I'm already working on (cleanly :)) adding colo support with
-multifd.
+And I still have to look at the file to understand this "simple" patch.
+(simple in size, not in what it means).
 
-> > ---
-> >  tests/qtest/migration-test.c | 83 +++++++++++++++++++++++-------------
-> >  1 file changed, 53 insertions(+), 30 deletions(-)
-> >
-> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> > index 1f2a019ce0..930cb4f29d 100644
-> > --- a/tests/qtest/migration-test.c
-> > +++ b/tests/qtest/migration-test.c
-> > @@ -1127,6 +1127,36 @@ test_migrate_tls_x509_finish(QTestState *from,
-> >  #endif /* CONFIG_TASN1 */
-> >  #endif /* CONFIG_GNUTLS */
-> >
-> > +static void *
-> > +test_migrate_compress_start(QTestState *from,
-> > +                            QTestState *to)
-> > +{
-> > +    migrate_set_parameter_int(from, "compress-level", 1);
-> > +    migrate_set_parameter_int(from, "compress-threads", 4);
-> > +    migrate_set_parameter_bool(from, "compress-wait-thread", true);
-> > +    migrate_set_parameter_int(to, "decompress-threads", 4);
-> > +
-> > +    migrate_set_capability(from, "compress", true);
-> > +    migrate_set_capability(to, "compress", true);
-> > +
-> > +    return NULL;
-> > +} =20
->=20
-> Independently of this patch, we need to change this test to use 4
-> compression tests and 3 decompression or anything that is not the same
-> number in both sides.
->=20
-> I was complaining about this and when I arrived to the end of the path
-> found that this was code movement.
->=20
-> Later, Juan.
->=20
+I will add this to my queue, but if you are in the "mood", I would like
+to remove the declaration of inactivate and change this to something like:
 
-Oops, forgot to mention, the test is based on this patch
-https://lore.kernel.org/qemu-devel/2f4abb67cf5f3e1591b2666676462a93bdd20bbc=
-.1680618040.git.lukasstraub2@web.de/
+             if (ret >= 0) {
+                 /* Colo don't stop disks in normal operation */
+                 s->block_inactive = !migrate_colo_enabled();
+                 qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
+                 ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
+                                                          s->block_inactive);
+             }
 
-Will probably carry the patch with this series then. So you mean 4
-compress _threads_ and 3 decompress _threads_?
+Or something around that lines?
 
---=20
+> @@ -3522,6 +3520,7 @@ fail_invalidate:
+>          bdrv_activate_all(&local_err);
+>          if (local_err) {
+>              error_report_err(local_err);
+> +            s->block_inactive = true;
+>          } else {
+>              s->block_inactive = false;
+>          }
+> base-commit: 7dbd6f8a27e30fe14adb3d5869097cddf24038d6
 
+Just wondering, what git magic creates this line?
 
---Sig_/wPuxOJi=v8+LtsVl5Akokm.
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Thanks, Juan.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRBFgQACgkQNasLKJxd
-sliXCQ//aS7HT00J7059L4V1SrIHZrmmbte/7ZzDhYPvM/xijs8wUlKESaqu2DAz
-DbUMV6WXjj16Dtkp9f+sfyCnnCkhnwqNyMzFOhbwjZUdhVPEpdnhwHi2Pa3nRWVe
-dgW7rXDcRcuo85zHSJRz8Jk5m/02tEH9Igyun/gyExGJ5Hb4w4N37Siq+vB3vY5g
-JdLi48DTI8owSoRw/dVvWkvNAZCifewlRf/pEFwhjROvQ2k2b3dMIlli/xGoNSie
-GJRCNOJCcEFhG64FfXrEsqsXf2eFWqe4D9sqCRzl+pBkY9f+HBoeW6sOh4WD5F+Q
-7FTQ7VZPtBMsAyCKI1UMgFczFJlzCu6qeJmOXnZTP4Y+RJZ2pNgFK1q5ikQDJaHv
-Byc+RnxoElkR1wsgmYIFofKQjAYg4YEUrETZhTRMLpy8ZF0c1SsRSFzameWbLBII
-MGuyFFTyxPUzEqpEb5C+GcyCoVPSUJLAc5tmjIF6MmcwbGdqwtnp8c1DWlsPyR0W
-doCmTwUh4p4u7WQaJ0X2tmFMrulfAvAjiS0tPQ9j2R6VwAe6JLFYaUgWgbgc14Hd
-rZVRDUXe8KlxTdJHvCSU+4wHpz1QpClryKYEid0YkblzF0wBISMKGcfx15TyapfN
-Il+1lgnKvDtCFWLpApxUuot35eBKrHI7T4gsZtOtM3Szm9JWwNw=
-=aAKW
------END PGP SIGNATURE-----
-
---Sig_/wPuxOJi=v8+LtsVl5Akokm.--
 
