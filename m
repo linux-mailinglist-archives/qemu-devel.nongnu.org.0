@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65036E97DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 632976E97DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:02:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppVls-0003l7-0q; Thu, 20 Apr 2023 11:00:28 -0400
+	id 1ppVls-0003o0-Os; Thu, 20 Apr 2023 11:00:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppVlh-0003af-FV
+ id 1ppVlg-0003ae-Rp
  for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:00:17 -0400
 Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppVle-00045f-EP
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:00:17 -0400
+ id 1ppVle-00045g-Ea
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:00:16 -0400
 Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f182d74658so5451805e9.0
+ iw7-20020a05600c54c700b003f16fce55b5so1304518wmb.0
  for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 08:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1682002811; x=1684594811;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XBP9GX+3g7jnpQbho/wZSE31+XgbvM3Wes9mTCAwjIY=;
- b=LqloKtWzQxAA+SsGG55ds85QfkySzl6s1RT6Tj01LRqxfUUi+2iJyrL2h59a0/T3fB
- HcIhN/R9JsAeXon0P3aqGsq/IDl6PiRiN6MfOURfXSS8aQJtDP0EFGXMaGHJ2cAqbEjW
- EJw/h4fPaQlw/ljqoHen9q8xHszO73sLIvbkvcfHl8rLXBIkuEuZDNWlF8ZeC614njT0
- Y3nhVPbIdXT4H2/ddOxx/z8DIaEpovVPnYYUrAxCsvZLBn2AQ21j5YtC/l/nGAwmu6qV
- nogeHeWYnOtb880tDhf3H6040lv0OFYx4i/d1t3+hs0REdnNCJ5uRrxGW3+cx0exR71j
- 4zXw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MTE4gF7XsZ9y5Na2NQaOlWvM5YSPdb/d1vz4kdTlojw=;
+ b=b+RSzvFiKnpyiN7mEZxxrNuGLWLzhRYc86gdP33870JrqbCDAK5vTMkejSXjBVN9ym
+ aLkpyl87rbQ9L3h2KdXj0RJulTDO5EnVPrjhbbYRtScAE2DCrQk9rXxd4aPbQbHGHIOv
+ BHipwgFUCerLOrkvxcMd/AlJJajzZcCxwScEZZmXfGIhvBzZgZKrW6HY5zJdUGz/weBI
+ dpViOU5T6XYFVlQc8kMyCB+l2rjzUo0pvJ9GMQyHp5pOCCHhQwoBGgm6DPKuWrBm2HHu
+ a0OU5Rev7s7JqBlx77hJI9tT8shjV2c1zCmvm7uB6R4qjEOxNNvjXEh5sX3NL6YQQxtD
+ SS0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1682002811; x=1684594811;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XBP9GX+3g7jnpQbho/wZSE31+XgbvM3Wes9mTCAwjIY=;
- b=EQFeiFu0/URrlYeu2VLD/yOxnmrFDZ9wfiSHtMNa6o4LRL0uHG1roKLJmkxfPEa/5N
- t0R48Rc+tbnOW6GguMQupiARdBQOeb+1QDJCylpybztGDN2pQCCt/b9PMEL8nq29NCHP
- L08WSyTZvAZ0YVmqEzVlWuYNUMClpXqyfygQDDEakvROayYbQfxabAtSi/VWVY5WL+wl
- qqrP68gIGRr8uJvEiNKtjZKbm495dEQz7mvKaVawgEcsYtgALwY/PuKjr2E61PoBd76P
- tmTKJ1bosDPOfIjx9khIWdpcdlrar18rCY2RNFKCFkze6xDucDbRt3yjjII9nQ4Rttt8
- GJHw==
-X-Gm-Message-State: AAQBX9dmqsJjzAU7HwFeDmXE8nnx52bblnCckodplYCyhfCxFhPj99tb
- mS0TDk4fmRGmZpTJE0a8qa0+ng==
-X-Google-Smtp-Source: AKy350ZdmL5U2dwK/64gQONGDDDdO2bx3axX4HLMdjZ3+BSbj9sdnExmaJG24mnJMRoCa6lnOs5plA==
-X-Received: by 2002:adf:ffc9:0:b0:2f2:4db4:1f5b with SMTP id
- x9-20020adfffc9000000b002f24db41f5bmr1730423wrs.29.1682002810812; 
- Thu, 20 Apr 2023 08:00:10 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MTE4gF7XsZ9y5Na2NQaOlWvM5YSPdb/d1vz4kdTlojw=;
+ b=gIw06o5AK6+oEmMcIsL3N4UoYgrajgfrCgHy7Pju+0zlLIYRUIOe2UpcfcgQUyt0w/
+ yRpxHxGLn5Tn+y8cJdMQgfT2CiOkRXsXEb6c1bJX206Y+AWGy0IhO6yfN9tUSAZDHy+u
+ 5NloktJGyfSr8igg+Nl6WUiPMVWgwuc4xlqaU78X6+ex5w2C9zZq4uTxgh7GfeBYdR6s
+ 7nLKfhQhrogT+kUgYaXJhI6V4K5HtOI+b7n4WcYxAPQAfX9u5q7jAYhqNU78PJU5L5A9
+ 5TUkEUPP8f2AiCy7RiZ18J/iPw3CUt26/c9X2dou7tVxL3AARxDveX7ZXa6/h8rIW9du
+ q/Xg==
+X-Gm-Message-State: AAQBX9cbnU/8jM0go/pjbDeeJtYbRnbS5hfc7j87rpHmhVePUINiHY1D
+ do8Je/Lt58R5HXfTUK3g7CRcmw==
+X-Google-Smtp-Source: AKy350ZnYuDYbu5ILkjsXork1AZLIKAYHFqJ4yriYjlORTOS73jZsWAQZnrIKXPD42aZdA3DLMalMQ==
+X-Received: by 2002:a1c:ed18:0:b0:3ed:88f5:160a with SMTP id
+ l24-20020a1ced18000000b003ed88f5160amr1555454wmh.11.1682002811019; 
+ Thu, 20 Apr 2023 08:00:11 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- p6-20020adfe606000000b002ff1751ec79sm2146026wrm.65.2023.04.20.08.00.10
+ p9-20020a1c7409000000b003f17ee3bdc3sm2196686wmc.42.2023.04.20.08.00.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Apr 2023 08:00:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E43151FFB7;
- Thu, 20 Apr 2023 16:00:09 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0E5361FFB8;
+ Thu, 20 Apr 2023 16:00:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Michael Roth <michael.roth@amd.com>, Riku Voipio <riku.voipio@iki.fi>,
@@ -72,12 +73,14 @@ Cc: Michael Roth <michael.roth@amd.com>, Riku Voipio <riku.voipio@iki.fi>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 00/10] tracing: remove dynamic vcpu state
-Date: Thu, 20 Apr 2023 15:59:59 +0100
-Message-Id: <20230420150009.1675181-1-alex.bennee@linaro.org>
+Subject: [PATCH 01/10] *-user: remove the guest_user_syscall tracepoints
+Date: Thu, 20 Apr 2023 16:00:00 +0100
+Message-Id: <20230420150009.1675181-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230420150009.1675181-1-alex.bennee@linaro.org>
+References: <20230420150009.1675181-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
  envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
@@ -103,61 +106,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The references dynamic vcpu tracing support was removed when the
-original TCG trace points where removed. However there was still a
-legacy of dynamic trace state to track this in cpu.h and extra hash
-variables to track TBs. While the removed vcpu tracepoints are not in
-generated code (or helpers) they still bring in a bunch of machinery
-to manage the state so I've pulled them out. We could just replace
-them with static trace points which dump vcpu->index as one of their
-arguments because they don't happen that often.
+This is pure duplication now. Both bsd-user and linux-user have
+builtin strace support and we can also track syscalls via the plugins
+system.
 
-While most of the changes are excising bits of the tracing code I've
-also cleaned up the xxhash function use and simplified the core
-function to qemu_xxhash6.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/user/syscall-trace.h  |  4 ----
+ bsd-user/freebsd/os-syscall.c |  2 --
+ trace-events                  | 19 -------------------
+ 3 files changed, 25 deletions(-)
 
-Please review.
-
-Alex Bennée (10):
-  *-user: remove the guest_user_syscall tracepoints
-  trace-events: remove the remaining vcpu trace events
-  trace: remove vcpu_id from the TraceEvent structure
-  scripts/qapi: document the tool that generated the file
-  qapi: make the vcpu parameters deprecated for 8.1
-  trace: remove code that depends on setting vcpu
-  trace: remove control-vcpu.h
-  tcg: remove the final vestiges of dstate
-  hw/9pfs: use qemu_xxhash4
-  xxhash: remove qemu_xxhash7
-
- qapi/trace.json               |  22 +++----
- accel/tcg/tb-hash.h           |   6 +-
- include/exec/exec-all.h       |   3 -
- include/hw/core/cpu.h         |   5 --
- include/qemu/xxhash.h         |  17 ++----
- include/user/syscall-trace.h  |   4 --
- trace/control-internal.h      |  10 ---
- trace/control-vcpu.h          |  63 -------------------
- trace/control.h               |  48 ---------------
- trace/event-internal.h        |   2 -
- accel/tcg/cpu-exec.c          |   7 +--
- accel/tcg/tb-maint.c          |   5 +-
- accel/tcg/translate-all.c     |   6 --
- bsd-user/freebsd/os-syscall.c |   2 -
- hw/9pfs/9p.c                  |   4 +-
- hw/core/cpu-common.c          |   4 --
- stubs/trace-control.c         |  13 ----
- trace/control-target.c        | 111 +++-------------------------------
- trace/control.c               |  28 ---------
- trace/qmp.c                   |  76 +++--------------------
- trace/trace-hmp-cmds.c        |  17 +-----
- scripts/qapi/gen.py           |   4 +-
- scripts/tracetool/format/c.py |   6 --
- scripts/tracetool/format/h.py |  16 +----
- trace-events                  |  50 ---------------
- 25 files changed, 43 insertions(+), 486 deletions(-)
- delete mode 100644 trace/control-vcpu.h
-
+diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
+index 90bda7631c..557f881a79 100644
+--- a/include/user/syscall-trace.h
++++ b/include/user/syscall-trace.h
+@@ -26,9 +26,6 @@ static inline void record_syscall_start(void *cpu, int num,
+                                         abi_long arg5, abi_long arg6,
+                                         abi_long arg7, abi_long arg8)
+ {
+-    trace_guest_user_syscall(cpu, num,
+-                             arg1, arg2, arg3, arg4,
+-                             arg5, arg6, arg7, arg8);
+     qemu_plugin_vcpu_syscall(cpu, num,
+                              arg1, arg2, arg3, arg4,
+                              arg5, arg6, arg7, arg8);
+@@ -36,7 +33,6 @@ static inline void record_syscall_start(void *cpu, int num,
+ 
+ static inline void record_syscall_return(void *cpu, int num, abi_long ret)
+ {
+-    trace_guest_user_syscall_ret(cpu, num, ret);
+     qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
+ }
+ 
+diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
+index c8f998ecec..b0ae43766f 100644
+--- a/bsd-user/freebsd/os-syscall.c
++++ b/bsd-user/freebsd/os-syscall.c
+@@ -531,7 +531,6 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+     CPUState *cpu = env_cpu(cpu_env);
+     abi_long ret;
+ 
+-    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+     if (do_strace) {
+         print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
+     }
+@@ -541,7 +540,6 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+     if (do_strace) {
+         print_freebsd_syscall_ret(num, ret);
+     }
+-    trace_guest_user_syscall_ret(cpu, num, ret);
+ 
+     return ret;
+ }
+diff --git a/trace-events b/trace-events
+index b6b84b175e..691c3533e4 100644
+--- a/trace-events
++++ b/trace-events
+@@ -85,22 +85,3 @@ vcpu guest_cpu_exit(void)
+ # Targets: all
+ vcpu guest_cpu_reset(void)
+ 
+-# include/user/syscall-trace.h
+-
+-# @num: System call number.
+-# @arg*: System call argument value.
+-#
+-# Start executing a guest system call in syscall emulation mode.
+-#
+-# Mode: user
+-# Targets: TCG(all)
+-vcpu guest_user_syscall(uint64_t num, uint64_t arg1, uint64_t arg2, uint64_t arg3, uint64_t arg4, uint64_t arg5, uint64_t arg6, uint64_t arg7, uint64_t arg8) "num=0x%016"PRIx64" arg1=0x%016"PRIx64" arg2=0x%016"PRIx64" arg3=0x%016"PRIx64" arg4=0x%016"PRIx64" arg5=0x%016"PRIx64" arg6=0x%016"PRIx64" arg7=0x%016"PRIx64" arg8=0x%016"PRIx64
+-
+-# @num: System call number.
+-# @ret: System call result value.
+-#
+-# Finish executing a guest system call in syscall emulation mode.
+-#
+-# Mode: user
+-# Targets: TCG(all)
+-vcpu guest_user_syscall_ret(uint64_t num, uint64_t ret) "num=0x%016"PRIx64" ret=0x%016"PRIx64
 -- 
 2.39.2
 
