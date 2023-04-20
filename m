@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF3B6E8E06
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:25:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5D36E8E08
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:26:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQXr-0003TO-0d; Thu, 20 Apr 2023 05:25:39 -0400
+	id 1ppQYR-00047G-Bb; Thu, 20 Apr 2023 05:26:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppQXo-0003LM-JG
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:25:36 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppQXm-0008TP-MM
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:25:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9Rp4pXqrqBxqrjyT8Er3156X38qoB0KtAgmbhPvuofE=; b=J35jEi9v9XhkDbV0xVPG/J8bjx
- 6XWNt7xZaVS1l9KRwa9ZzjlfbD5SiSPdTM9lAoRSgekc0DetN2tu43UTg3hNf4PhQLeh2X3aTgyzv
- eAJ8KfDfdeiplXD9dhQIB6cLHaqC6Y353n8G2aNRzsIF/hAPX60u9EuMiFSXPCa8FrIGuwT6nduSm
- 7Gr7yfM6PcNUvN7oYjhPuUwOx/KFYoS6Lcn8pme7i3kyEGSJvao9WyxV1QGOgvTcRx51DQ0HjiANz
- iUi8WP+ek7gdHB+PFgLhRRiq2aznM7uWlZhS7p+3M+qAx3NWZPaO1OCPsEeefCJUMXExVNgwe8HTI
- x4VFEztO7SbZs6EEzCUECEjv5obtoJd8U3770qc+JDTyuRgpwZvREhyczoiBAThypZ/NqcRzSqbWm
- CWp2VYn3uyzek9HHYbP6+d1D4BWMd9OaappH471ypB9ampndNKg51VAZLqrkNNXaSut4ViY/oScdQ
- I/HuZNlk1SNWDEfuPplR6H0deNF/Mce+2Qw1w43dlLb7TJKWqBcnu9TH2jJKl7QUIrVQs5ubHgg2J
- kAXHYQeLhfLjUOlJvPoh4IU60Qvk+6pLpY1mTLNFSu1JXgpfmwAcewRZbXpIaIj9S/yTzWcYEzywI
- Vqkg8G9IMZdACkEwXSLgZOp5BA3NNd8+7hBVRF5Vk=;
-Received: from host81-151-114-25.range81-151.btcentralplus.com
- ([81.151.114.25] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppQWo-0009qT-PJ; Thu, 20 Apr 2023 10:24:38 +0100
-Message-ID: <55bf17e5-9875-f193-e1d7-ee688333bc78@ilande.co.uk>
-Date: Thu, 20 Apr 2023 10:25:24 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQYK-00043S-Mg
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:26:09 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQYH-000073-HY
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:26:07 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ bi21-20020a05600c3d9500b003f17a8eaedbso2747964wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:26:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681982764; x=1684574764;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6R3NUXQNloEfrtxFmSaTQ/yBgTC87AnGkpaRDr3/Tlc=;
+ b=mtXKjUH6MTTWHEhAdgjegcW/ynESuQnH7acjEWXhyOrcjoMbPN5RtkRwjV7NZi4O3f
+ lMuLpkE99zDdTWHs0sNlCGDFX3dY8vGIKRFVkhzoTEmWK5z6x2is1YaiNV2B8Vkx+cto
+ 2mhZViS3jqaybiSkqzSK+jAY++YGn/lnd2l+8gCjom2w1Fckf/FDO0ZYngZuLNMXs4gX
+ n/q4H01FmKLrdIGdr7RKtLjddyuIYtH14Ya618l+XIV5O+wHxPGhN8PGcrimvVDqif2i
+ aOxhNWjAGnY7jl1XDQMr9E6qfD1f0qYHMx+IpW/E5JU+0N7giPZeBtl7/T8EG7fFKIoU
+ BeJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681982764; x=1684574764;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6R3NUXQNloEfrtxFmSaTQ/yBgTC87AnGkpaRDr3/Tlc=;
+ b=Ray7DqeqFXgoHrAqOh10wzHwN/Dv0vXjZ+2NZ6kvAWCiisJ3MrI1hpajMH2l2s6eRB
+ D9BkXn9RTL6MxMHKCr8wu4VVf11IHWzDIfOWG5EVTvHrJxMlvDyGADax8HSeW+8NCiim
+ sNYdpuzuuSKFE52sp7qo/JQVhRWd/xGVb1FTrofopsybPIAsp4ikir8JVOT9HK0LaC70
+ R2vUsNFzcjgCn4Br2GjU5c/W1ira0xWeCIEqFl+3czb2LENahVwa6JH64pQ8Eua8F844
+ ArcXrDsXNMjFteziYZ8Fl5mfBVni1c8i4JxAomFa3mxHVFVDQqXSNN7Rk44tt/mhrXg7
+ fTUA==
+X-Gm-Message-State: AAQBX9cD3JIkmxk4yi3BAqydQlZsNkOqel+w+231KlkQpoT6idJ9EtRf
+ 70CHA+ilsyUZfbgUXgSQNzVwuw==
+X-Google-Smtp-Source: AKy350bWDKsTYcsKCThGLld9EfZFdXWATOTEzEIzqRjVhFMWdSFx7mMEoc5gzejmN/J8xF8x9GlpxA==
+X-Received: by 2002:a05:600c:2212:b0:3f0:7eda:c19f with SMTP id
+ z18-20020a05600c221200b003f07edac19fmr784404wml.11.1681982763983; 
+ Thu, 20 Apr 2023 02:26:03 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ q17-20020a1cf311000000b003eeb1d6a470sm1493645wmq.13.2023.04.20.02.26.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 02:26:03 -0700 (PDT)
+Message-ID: <84c043bf-1b29-e62e-f86d-52236a2c733d@linaro.org>
+Date: Thu, 20 Apr 2023 11:26:02 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] meson_options.txt: Enable qom-cast-debug by default
+ again
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Viresh Kumar
- <viresh.kumar@linaro.org>, Mathieu Poirier <mathieu.poirier@linaro.org>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Markus Armbruster <armbru@redhat.com>,
- Erik Schilling <erik.schilling@linaro.org>, Jason Wang
- <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- virtio-fs@redhat.com, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20230418162140.373219-1-alex.bennee@linaro.org>
- <20230418162140.373219-4-alex.bennee@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230418162140.373219-4-alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>, peter.maydell@linaro.org,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Fan Ni <fan.ni@samsung.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230417130037.236747-1-thuth@redhat.com>
+ <20230417130037.236747-3-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230417130037.236747-3-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 81.151.114.25
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 03/13] hw/virtio: fix typo in VIRTIO_CONFIG_IRQ_IDX
- comments
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
 X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,146 +95,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/04/2023 17:21, Alex Bennée wrote:
-
-> Fixes: 544f0278af (virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX)
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   hw/display/vhost-user-gpu.c    | 4 ++--
->   hw/net/virtio-net.c            | 4 ++--
->   hw/virtio/vhost-user-fs.c      | 4 ++--
->   hw/virtio/vhost-user-gpio.c    | 2 +-
->   hw/virtio/vhost-vsock-common.c | 4 ++--
->   hw/virtio/virtio-crypto.c      | 4 ++--
->   6 files changed, 11 insertions(+), 11 deletions(-)
+On 17/4/23 15:00, Thomas Huth wrote:
+> This switch had been disabled by default by accident in commit
+> c55cf6ab03f. But we should enable it by default instead to avoid
+> regressions in the QOM device hierarchy.
 > 
-> diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-> index 71dfd956b8..7c61a7c3ac 100644
-> --- a/hw/display/vhost-user-gpu.c
-> +++ b/hw/display/vhost-user-gpu.c
-> @@ -489,7 +489,7 @@ vhost_user_gpu_guest_notifier_pending(VirtIODevice *vdev, int idx)
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> @@ -506,7 +506,7 @@ vhost_user_gpu_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 53e1c32643..c53616a080 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -3359,7 +3359,7 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
->       }
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return false
->        */
->   
-> @@ -3391,7 +3391,7 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
->       }
->       /*
->        *Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index 83fc20e49e..49d699ffc2 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -161,7 +161,7 @@ static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> @@ -177,7 +177,7 @@ static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-> index d6927b610a..3b013f2d0f 100644
-> --- a/hw/virtio/vhost-user-gpio.c
-> +++ b/hw/virtio/vhost-user-gpio.c
-> @@ -194,7 +194,7 @@ static void vu_gpio_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-> index d2b5519d5a..623bdf91cc 100644
-> --- a/hw/virtio/vhost-vsock-common.c
-> +++ b/hw/virtio/vhost-vsock-common.c
-> @@ -129,7 +129,7 @@ static void vhost_vsock_common_guest_notifier_mask(VirtIODevice *vdev, int idx,
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> @@ -146,7 +146,7 @@ static bool vhost_vsock_common_guest_notifier_pending(VirtIODevice *vdev,
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> index 802e1b9659..6b3e607329 100644
-> --- a/hw/virtio/virtio-crypto.c
-> +++ b/hw/virtio/virtio-crypto.c
-> @@ -1208,7 +1208,7 @@ static void virtio_crypto_guest_notifier_mask(VirtIODevice *vdev, int idx,
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
->   
-> @@ -1227,7 +1227,7 @@ static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, int idx)
->   
->       /*
->        * Add the check for configure interrupt, Use VIRTIO_CONFIG_IRQ_IDX -1
-> -     * as the Marco of configure interrupt's IDX, If this driver does not
-> +     * as the macro of configure interrupt's IDX, If this driver does not
->        * support, the function will return
->        */
+> Fixes: c55cf6ab03 ("configure, meson: move some default-disabled options to meson_options.txt")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   meson_options.txt             | 2 +-
+>   scripts/meson-buildoptions.sh | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-
-ATB,
-
-Mark.
 
