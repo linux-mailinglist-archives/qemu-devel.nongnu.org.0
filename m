@@ -2,65 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1936A6E8E32
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5276D6E8E81
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:47:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppQiF-00028z-Tw; Thu, 20 Apr 2023 05:36:23 -0400
+	id 1ppQrt-0005BK-1q; Thu, 20 Apr 2023 05:46:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1ppQiA-0001wh-1c
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:36:18 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1ppQi7-0003QO-2N
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:36:17 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxJ_CKB0Fkz3EfAA--.49213S3;
- Thu, 20 Apr 2023 17:36:10 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxwOSGB0FkUfEwAA--.29752S12; 
- Thu, 20 Apr 2023 17:36:10 +0800 (CST)
-From: Tianrui Zhao <zhaotianrui@loongson.cn>
-To: qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, gaosong@loongson.cn
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- maobibo@loongson.cn, zhaotianrui@loongson.cn
-Subject: [PATCH RFC v1 10/10] target/loongarch: Add kvm file into meson build
-Date: Thu, 20 Apr 2023 17:36:06 +0800
-Message-Id: <20230420093606.3366969-11-zhaotianrui@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
-References: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQrn-0005Ao-5G
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:46:15 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppQrl-0007CG-BW
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:46:14 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id v3so962146wml.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:46:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1681983971; x=1684575971;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HxqAamqU6WBlvWwFUXonWBzXbwIaGqZLOCCI1UVafMw=;
+ b=V9qG3QDUenjuYyyOEjk6HfQHZdMusebjCWkscl8uqLeXl56a1v/dpAwKBaBuwyRdwO
+ tKS3bZ3EnnMH9VPqCWP1rUTFXDDAhrJ00cQ4eCBikVfQyVY81Ah8Pb+/HhvYC14ObSHL
+ zeB1lyruqYfkghT35xlY6ic8YwC6DxM7hWYIJy2HaGroK3VScrTD/tK05MhwENAIuEHD
+ 4HJgwwuoDScQYYft/JLRuQIUhkVNvFLTL6fDmWG45WUbhyNVdepwl/cMGo825374ioS9
+ 8ruI/emTsiBxHm0Cz7CqOCHu2Wda+5+LJAMoqH1gOj1ESIU86yDFt2cqjaGkOpADsJYB
+ 0ZIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681983971; x=1684575971;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HxqAamqU6WBlvWwFUXonWBzXbwIaGqZLOCCI1UVafMw=;
+ b=ZSKElG1ZqabrAFTaNZTfto5JXrFKA7v6PZpSOYLw4VL+1jfjhAvO73e1lPwOziB/FT
+ P+gxW9Fh65rQ2g1pi0tXnYS+lX99Z6UpCZDH6XU2h6i4mHVoDh5T41aiaSYJxiUNmYnL
+ 2jNzDnaOhO142f0IEVmSMT9O6ulFTgKJLowmS76AsbFUocM8LdFhdv0qxDV5CXiJEL7m
+ RIJOa0A/F3rxnIWPjkg+QIdUdsCtyKIcfv99ri6+qPIc4Y+TVStYARVhwoGU2EIuEKNF
+ itM9sePf8LksyjQjQQyuM56qxia3FZIxBOA9WyF+fbhRmlDIOX12fbsRQyShlNynFbGe
+ MDCA==
+X-Gm-Message-State: AAQBX9eUeN3iPaL60knj8dZTPb8IWP5/74Zpa7FTRZOaLFGMpCE9aocg
+ 84Oq5cBUSUmkbxUxUnFjfYUzNQ==
+X-Google-Smtp-Source: AKy350aID4yw8k3hj9g+TW7mUgR0tFPU1XrHV4/0Qg/1Szj3uuz/1FhLFuhOF2sTHGxnVuccuPkLOA==
+X-Received: by 2002:a1c:7510:0:b0:3f0:373d:780 with SMTP id
+ o16-20020a1c7510000000b003f0373d0780mr799043wmc.34.1681983971236; 
+ Thu, 20 Apr 2023 02:46:11 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ q16-20020a7bce90000000b003f09d7b6e20sm1560297wmj.2.2023.04.20.02.46.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 02:46:10 -0700 (PDT)
+Message-ID: <c28bd26b-1451-4363-f7c8-585067a2d599@linaro.org>
+Date: Thu, 20 Apr 2023 11:46:09 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxwOSGB0FkUfEwAA--.29752S12
-X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7uw4kWF4xAr1fGryrAw1kXwb_yoW8GrWDp3
- s7C3W8KF4kJFWkJ3s8C3s3XrZxtw13Gw12qay7K34fAwsxJ3y7XFZ3t3sxXF42q3W0kF1S
- 9rn3C3W5WF4UJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
- 0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCF
- FI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x0Yz7
- v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
- 8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04
- k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF
- 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v2 01/41] hw/net/net_tx_pkt: Decouple implementation from
+ PCI
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
+References: <20230420054657.50367-1-akihiko.odaki@daynix.com>
+ <20230420054657.50367-2-akihiko.odaki@daynix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230420054657.50367-2-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,43 +100,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add kvm.c and kvm-stub.c into meson.build to compile
-it when kvm is configed. Meanwhile in meson.build,
-we set the kvm_targets to loongarch64-softmmu when
-the cpu is loongarch.
+Hi Akihiko,
 
-Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
----
- meson.build                  | 2 ++
- target/loongarch/meson.build | 1 +
- 2 files changed, 3 insertions(+)
+On 20/4/23 07:46, Akihiko Odaki wrote:
+> This is intended to be followed by another change for the interface.
+> It also fixes the leak of memory mapping when the specified memory is
+> partially mapped.
+> 
+> Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   hw/net/net_tx_pkt.h |  9 ++++++++
+>   hw/net/net_tx_pkt.c | 53 ++++++++++++++++++++++++++++-----------------
+>   2 files changed, 42 insertions(+), 20 deletions(-)
+> 
+> diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+> index e5ce6f20bc..5eb123ef90 100644
+> --- a/hw/net/net_tx_pkt.h
+> +++ b/hw/net/net_tx_pkt.h
+> @@ -153,6 +153,15 @@ void net_tx_pkt_dump(struct NetTxPkt *pkt);
+>    */
+>   void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *dev);
+>   
+> +/**
+> + * Unmap a fragment mapped from a PCI device.
+> + *
+> + * @context:        PCI device owning fragment
 
-diff --git a/meson.build b/meson.build
-index 29f8644d6d..9a4bce4add 100644
---- a/meson.build
-+++ b/meson.build
-@@ -114,6 +114,8 @@ elif cpu in ['mips', 'mips64']
-   kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
- elif cpu in ['riscv']
-   kvm_targets = ['riscv32-softmmu', 'riscv64-softmmu']
-+elif cpu in ['loongarch64']
-+  kvm_targets = ['loongarch64-softmmu']
- else
-   kvm_targets = []
- endif
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 9293a8ab78..0c6cec81e4 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -26,6 +26,7 @@ loongarch_softmmu_ss.add(files(
- 
- common_ss.add(when: 'CONFIG_LOONGARCH_DIS', if_true: [files('disas.c'), gen])
- 
-+loongarch_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
- loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
- 
- target_arch += {'loongarch': loongarch_ss}
--- 
-2.31.1
+Per your description ...
+
+> + * @base:           pointer to fragment
+> + * @len:            length of fragment
+> + */
+> +void net_tx_pkt_unmap_frag_pci(void *context, void *base, size_t len);
+
+... we can directly use the stricter 'PCIDevice *dev'.
+
+>   /**
+>    * Send packet to qemu. handles sw offloads if vhdr is not supported.
+>    *
+> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+> index 8dc8568ba2..aca12ff035 100644
+> --- a/hw/net/net_tx_pkt.c
+> +++ b/hw/net/net_tx_pkt.c
+> @@ -384,10 +384,9 @@ void net_tx_pkt_setup_vlan_header_ex(struct NetTxPkt *pkt,
+>       }
+>   }
+>   
+> -bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
+> -    size_t len)
+> +static bool net_tx_pkt_add_raw_fragment_common(struct NetTxPkt *pkt,
+> +                                               void *base, size_t len)
+>   {
+> -    hwaddr mapped_len = 0;
+>       struct iovec *ventry;
+>       assert(pkt);
+>   
+> @@ -395,23 +394,12 @@ bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
+>           return false;
+>       }
+>   
+> -    if (!len) {
+> -        return true;
+> -     }
+> -
+>       ventry = &pkt->raw[pkt->raw_frags];
+> -    mapped_len = len;
+> +    ventry->iov_base = base;
+> +    ventry->iov_len = len;
+> +    pkt->raw_frags++;
+>   
+> -    ventry->iov_base = pci_dma_map(pkt->pci_dev, pa,
+> -                                   &mapped_len, DMA_DIRECTION_TO_DEVICE);
+> -
+> -    if ((ventry->iov_base != NULL) && (len == mapped_len)) {
+> -        ventry->iov_len = mapped_len;
+> -        pkt->raw_frags++;
+> -        return true;
+> -    } else {
+> -        return false;
+> -    }
+> +    return true;
+>   }
+>   
+>   bool net_tx_pkt_has_fragments(struct NetTxPkt *pkt)
+> @@ -465,8 +453,9 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *pci_dev)
+>           assert(pkt->raw);
+>           for (i = 0; i < pkt->raw_frags; i++) {
+>               assert(pkt->raw[i].iov_base);
+> -            pci_dma_unmap(pkt->pci_dev, pkt->raw[i].iov_base,
+> -                          pkt->raw[i].iov_len, DMA_DIRECTION_TO_DEVICE, 0);
+> +            net_tx_pkt_unmap_frag_pci(pkt->pci_dev,
+> +                                      pkt->raw[i].iov_base,
+> +                                      pkt->raw[i].iov_len);
+>           }
+>       }
+>       pkt->pci_dev = pci_dev;
+> @@ -476,6 +465,30 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *pci_dev)
+>       pkt->l4proto = 0;
+>   }
+>   
+> +void net_tx_pkt_unmap_frag_pci(void *context, void *base, size_t len)
+
+So net_tx_pkt_unmap_frag_pci(PCIDevice *dev, ...)
+
+> +{
+> +    pci_dma_unmap(context, base, len, DMA_DIRECTION_TO_DEVICE, 0);
+> +}
+> +
+> +bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
+
+It seems other hw/net/ models use (dma_addr_t addr, dma_addr_t len).
+Similarly does the pci_dma_FOO() API.
+
+> +    size_t len)
+> +{
+> +    dma_addr_t mapped_len = len;
+
+See, here you use dma_addr_t.
+
+> +    void *base = pci_dma_map(pkt->pci_dev, pa, &mapped_len,
+> +                             DMA_DIRECTION_TO_DEVICE);
+> +    if (!base) {
+> +        return false;
+> +    }
+> +
+> +    if (mapped_len != len ||
+> +        !net_tx_pkt_add_raw_fragment_common(pkt, base, len)) {
+> +        net_tx_pkt_unmap_frag_pci(pkt->pci_dev, base, mapped_len);
+> +        return false;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>   static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt,
+>                                     struct iovec *iov, uint32_t iov_len,
+>                                     uint16_t csl)
 
 
