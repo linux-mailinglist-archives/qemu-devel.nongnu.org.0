@@ -2,101 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E936E9A62
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 19:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34016E97BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 16:55:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppXpa-0001zf-D3; Thu, 20 Apr 2023 13:12:26 -0400
+	id 1ppVg4-0008AC-5I; Thu, 20 Apr 2023 10:54:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nnmlinux@linux.ibm.com>)
- id 1ppVdO-00075r-GF; Thu, 20 Apr 2023 10:51:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ppVg1-00089R-LZ
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:54:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nnmlinux@linux.ibm.com>)
- id 1ppVdB-0001IN-ON; Thu, 20 Apr 2023 10:51:41 -0400
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33KEgRb0031883; Thu, 20 Apr 2023 14:51:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=9/yzO259eHZYnpC3Sp67vnnIATQ3c26yu5n4SDVtFGQ=;
- b=TA/thpJdSWMXGeYWrwUvBK4iMk4lYsDt11XjCycHz8DNPyDGMJf9wLW6JqbAaLkcU5G3
- m+fUSsPOp52X0vP/A7q7tjwvjNRv3wh0Q9CqowedDWuG8MALn1dmXtg0vPciRP7H+l2H
- XoHy0QQwLscMYNHDBlDzckiFeNkTZjsUN5eAGSGE5znM/+m9YAyD/7/MK1D9amQbcxI4
- Px8r5Hpm1PNm5okFrhlQNq63M2VmsQz7WmNUTZeMiwvmpRZ8YN4kQeE3or2AX93IlVta
- zHFYqB/zotT8cqyd1kg9kXFqczv4r5B7cD9h5z/2ltyXw+gp8NsVGFvM+UwZlUqM/cP3 lg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q37d1gcxt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 14:51:20 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33KEi1s4005637;
- Thu, 20 Apr 2023 14:51:20 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q37d1gcwc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 14:51:19 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33KAC6i1008978;
- Thu, 20 Apr 2023 14:51:17 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3pykj6bffh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 14:51:17 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33KEpDoB38601110
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Apr 2023 14:51:14 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D4DEC20043;
- Thu, 20 Apr 2023 14:51:13 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4329C20040;
- Thu, 20 Apr 2023 14:51:12 +0000 (GMT)
-Received: from ltc-wspoon17.aus.stglabs.ibm.com (unknown [9.3.101.49])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 20 Apr 2023 14:51:12 +0000 (GMT)
-From: Narayana Murty N <nnmlinux@linux.ibm.com>
-To: danielhb413@gmail.com, clg@kaod.org, david@gibson.dropbear.id.au,
- groug@kaod.org
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, npiggin@linux.ibm.com,
- vajain21@linux.ibm.com, harshpb@linux.ibm.com, sbhat@linux.ibm.com
-Subject: [PATCH] target: ppc: Correctly initialize HILE in HID-0 for book3s
- processors
-Date: Thu, 20 Apr 2023 10:50:55 -0400
-Message-Id: <20230420145055.10196-1-nnmlinux@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: SAYFkdbQW1mgAhYsUmQK5JQ49UEHEBP-
-X-Proofpoint-GUID: nZDnaqbaRYhmZdmbRuUXiLySwTNv10al
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ppVfy-0001wj-O9
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 10:54:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682002461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=13xpk9Fr/rS6xhYHiZBXyOBuQXnZnABUgjUqEW2pZ0A=;
+ b=gaSSHSRlwe+ZdK8E0j8CVXPb1LUPmwhlLq7B8EHCZSrIY2GlKhJC2G7MGwPeinL01Z9CBh
+ 6+1F9Yfhva5E0tUma1/wSkZnRvavTIknxKXlHV64QoGFdLP5Tjs/gMKY+f36rx5JJn+S08
+ kxbk1S3hT4xdruzktboW3P2GcaTa1p8=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-515-h4_QqeYXMaK4ZBDL5h-6oQ-1; Thu, 20 Apr 2023 10:54:20 -0400
+X-MC-Unique: h4_QqeYXMaK4ZBDL5h-6oQ-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-3ef3c41a1ceso5064011cf.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 07:54:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682002459; x=1684594459;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=13xpk9Fr/rS6xhYHiZBXyOBuQXnZnABUgjUqEW2pZ0A=;
+ b=Ehuz3Hx3tyVG+vxZCeyUtE/JZ6xCfnIteTVPl2P4YbxGJJlMHt24iSicZoJWHKNetz
+ 4SaZxEEc02WqIGxClvszb25EvRYAp75vu2jo1Aqjr+qm5BHCvrbnftSRKVLQQm6GRrhx
+ k5ZwM5th8EraJ3vAcfYnYnwurIoZlFjkDOT2gUEl2eIoOP9sAFTh3rY2TDIV3uijLzwH
+ 2XUkmTAG6A6/+Sn33CQJrExx4pHIaMFm5zOD/RjaQJJ1s+DkvREdDqqybk+dZll+N29v
+ GRiF+ZRMshLxMOGMjUZA3XREmRXmojnQoMD1hnJLKE0ro8uUQl03p3xirnh9idiz6KTP
+ DBiw==
+X-Gm-Message-State: AAQBX9cLkT3Q+QiauBn9WrjG64t/F6u6EWon4o3eOTWCWv7AHKocfKEI
+ O4aAjzZoCFbT8insgky4Op3fmcdQ71sWJ7T7vxgGXcqQClCtlfCeVfU+xPmcArsJxTWwpDaXjve
+ aybxTm0G40EBMYRp2PE4qzZQ=
+X-Received: by 2002:ac8:5ac8:0:b0:3bf:c3be:758e with SMTP id
+ d8-20020ac85ac8000000b003bfc3be758emr2742167qtd.16.1682002458726; 
+ Thu, 20 Apr 2023 07:54:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350asm2E92XoXYpAKJcAvAuncHL5f2RmZajikoVZyDAwyaHN518VEj9nBBH56nX0t+8Wk8IwQqw==
+X-Received: by 2002:ac8:5ac8:0:b0:3bf:c3be:758e with SMTP id
+ d8-20020ac85ac8000000b003bfc3be758emr2742115qtd.16.1682002458278; 
+ Thu, 20 Apr 2023 07:54:18 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id
+ w9-20020ac87189000000b003ef46e51448sm545015qto.18.2023.04.20.07.54.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 07:54:17 -0700 (PDT)
+Date: Thu, 20 Apr 2023 16:54:14 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "zhangying" <zhangying134@huawei.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Thomas Lamprecht
+ <t.lamprecht@proxmox.com>, "Michael S. Tsirkin" <mst@redhat.com>, Renxuming
+ <renxuming@huawei.com>, "Wangyuan" <wangyuan38@huawei.com>, suxiaodong
+ <suxiaodong1@huawei.com>
+Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
+Message-ID: <20230420165414.6e5839c3@imammedo.users.ipa.redhat.com>
+In-Reply-To: <870c1c09814346539231d5018d5b9fdc@huawei.com>
+References: <870c1c09814346539231d5018d5b9fdc@huawei.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-20_11,2023-04-20_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- adultscore=0 spamscore=0 mlxscore=0 bulkscore=0 suspectscore=0
- mlxlogscore=795 clxscore=1011 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304200119
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=nnmlinux@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 20 Apr 2023 13:12:23 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,179 +102,441 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On PPC64 the HILE(Hypervisor Interrupt Little Endian) bit in HID-0
-register needs to be initialized as per isa 3.0b[1] section
-2.10. This bit gets copied to the MSR_LE when handling interrupts that
-are handled in HV mode to establish the Endianess mode of the interrupt
-handler.
+On Wed, 19 Apr 2023 02:48:55 +0000
+"zhangying (AZ)" <zhangying134@huawei.com> wrote:
 
-Qemu's ppc_interrupts_little_endian() depends on HILE to determine Host
-endianness which is then used to determine the endianess of the guest dump.
+> > On Tue, 18 Apr 2023 09:06:30 +0000
+> > "zhangying (AZ)" via <qemu-devel@nongnu.org> wrote:
+> >  =20
+> > > > On 30.07.20 17:58, Michael S. Tsirkin wrote: =20
+> > > > > macOS uses ACPI UIDs to build the DevicePath for NVRAM boot
+> > > > > options, while OVMF firmware gets them via an internal channel th=
+rough =20
+> > QEMU. =20
+> > > > > Due to a bug in QEMU ACPI currently UEFI firmware and ACPI have
+> > > > > different values, and this makes the underlying operating system
+> > > > > unable to report its boot option.
+> > > > >
+> > > > > The particular node in question is the primary PciRoot (PCI0 in
+> > > > > ACPI), which for some reason gets assigned 1 in ACPI UID and 0 in
+> > > > > the DevicePath. This is due to the _UID assigned to it by
+> > > > > build_dsdt in hw/i386/acpi-build.c Which does not correspond to
+> > > > > the primary PCI identifier given by pcibus_num in hw/pci/pci.c
+> > > > >
+> > > > > Reference with the device paths, OVMF startup logs, and ACPI table
+> > > > > dumps (SysReport):
+> > > > > https://github.com/acidanthera/bugtracker/issues/1050
+> > > > >
+> > > > > In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends
+> > > > > with the paragraph,
+> > > > >
+> > > > >     Root PCI bridges will use the plug and play ID of PNP0A03, Th=
+is will
+> > > > >     be stored in the ACPI Device Path _HID field, or in the Expan=
+ded
+> > > > >     ACPI Device Path _CID field to match the ACPI name space. The=
+ _UID
+> > > > >     in the ACPI Device Path structure must match the _UID in the =
+ACPI
+> > > > >     name space.
+> > > > >
+> > > > > (See especially the last sentence.)
+> > > > >
+> > > > > Considering *extra* root bridges / root buses (with bus number >
+> > > > > 0), QEMU's ACPI generator actually does the right thing; since
+> > > > > QEMU commit
+> > > > > c96d9286a6d7 ("i386/acpi-build: more traditional _UID and _HID for
+> > > > > PXB root buses", 2015-06-11).
+> > > > >
+> > > > > However, the _UID values for root bridge zero (on both i440fx and
+> > > > > q35) have always been "wrong" (from UEFI perspective), going back
+> > > > > in QEMU to commit 74523b850189 ("i386: add ACPI table files from
+> > > > > seabios", 2013-10-14).
+> > > > >
+> > > > > Even in SeaBIOS, these _UID values have always been 1; see commit
+> > > > > a4d357638c57 ("Port rombios32 code from bochs-bios.", 2008-03-08)
+> > > > > for i440fx, and commit ecbe3fd61511 ("seabios: q35: add dsdt",
+> > > > > 2012-12-01) for q35.
+> > > > >
+> > > > > Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> > > > > Tested-by: vit9696 <vit9696@protonmail.com>
+> > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > > ---
+> > > > >  hw/i386/acpi-build.c | 4 ++--
+> > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c index
+> > > > > b7bcbbbb2a..7a5a8b3521 100644
+> > > > > --- a/hw/i386/acpi-build.c
+> > > > > +++ b/hw/i386/acpi-build.c
+> > > > > @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker =
+=20
+> > *linker, =20
+> > > > >          dev =3D aml_device("PCI0");
+> > > > >          aml_append(dev, aml_name_decl("_HID", =20
+> > > > aml_eisaid("PNP0A03"))); =20
+> > > > >          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> > > > > -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> > > > > +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> > > > >          aml_append(sb_scope, dev);
+> > > > >          aml_append(dsdt, sb_scope);
+> > > > >
+> > > > > @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker =
+=20
+> > *linker, =20
+> > > > >          aml_append(dev, aml_name_decl("_HID", =20
+> > > > aml_eisaid("PNP0A08"))); =20
+> > > > >          aml_append(dev, aml_name_decl("_CID", =20
+> > > > aml_eisaid("PNP0A03"))); =20
+> > > > >          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> > > > > -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> > > > > +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> > > > >          aml_append(dev, build_q35_osc_method());
+> > > > >          aml_append(sb_scope, dev);
+> > > > >          aml_append(dsdt, sb_scope);
+> > > > > =20
+> > > >
+> > > > This "breaks" Windows guests created/installed before this change in
+> > > > the sense of Windows gets confused and declares that most of the
+> > > > devices changed and thus it has new entries for them in the device
+> > > > manager where settings of the old one do not apply anymore.
+> > > >
+> > > > We were made aware of this by our users when making QEMU 5.2.0
+> > > > available on a more used repository of us. Users complained that
+> > > > their static network configuration got thrown out in Windows 2016 or
+> > > > 2019 server VMs, and Windows tried to use DHCP (which was not
+> > > > available in their environments) and thus their Windows VMs had no =
+network =20
+> > connectivity at all anymore. =20
+> > > >
+> > > > It's currently not yet quite 100% clear to me with what QEMU version
+> > > > the Windows VM must be installed with, from reading the patch I have
+> > > > to believe it must be before that, but we got mixed reports and a
+> > > > colleague could not replicate it from upgrade of 4.0 to 5.2 (I did
+> > > > /not/ confirm that one). Anyway, just writing this all to avoid peo=
+ple seeing =20
+> > different results and brushing this off. =20
+> > > >
+> > > > So here's my personal reproducer, as said, I think that one should
+> > > > be able to just use QEMU 5.1 to install a Windows guest and start it
+> > > > with 5.2 afterwards to see this issue, but YMMV.
+> > > >
+> > > > Note. I always used the exact same QEMU command (see below) for
+> > > > installation, reproducing and bisect.
+> > > >
+> > > > 1. Installed Windows 2016 1616 VM using QEMU 3.0.1
+> > > >    - VirtIO net/scsi driver from VirtIO win 190 2. Setup static
+> > > > network in the VM and shutdown 3. Started VM with 5.2.0 -> Network =
+gone, =20
+> > new "Ethernet #2" =20
+> > > > adapter shows up instead
+> > > >
+> > > > Starting the  "Device Manager" and enabling "View -> Show hidden de=
+vices"
+> > > > showed me a greyed out device duplicate for basically anything
+> > > > attached, SCSI disk, Basic Display Adapter, CDROM device, ..., and =
+the =20
+> > Network device. =20
+> > > >
+> > > > The first difference I could find was the "Device instance path" one
+> > > > can find in the "Details" tab of the devices' "Properties" window.
+> > > >
+> > > > # old, from initial installation on QEMU 3.0.1
+> > > > PCI\VEN_1AF4&DEV_1000&SUBSYS_00011AF4&REV_00\3&13C0B0C5&0&90
+> > > >
+> > > > # new, from boot with QEMU 5.2
+> > > > PCI\VEN_1AF4&DEV_1000&SUBSYS_00011AF4&REV_00\3&267A616A&0&90
+> > > >
+> > > > They match until almost the end, not sure how important that is, but
+> > > > it caught my eye (I'm really no windows guy since a decade so please
+> > > > excuse my terrible debugging/exploring skills there. The rest of
+> > > > those properties looked pretty much identical.
+> > > >
+> > > > I then started a bisect, always just restarting the guest with the
+> > > > new QEMU build and checking "Device Manager" and network settings to
+> > > > see if good/bad. That worked pretty well and I came to this commit.
+> > > > See the bisect log attached at the end of this mail.
+> > > >
+> > > > So, from reading the commit message I figure that this change is
+> > > > wanted, what are the implications of just reverting it? (which works
+> > > > out in bringing back the old state in Windows + working static netw=
+ork config =20
+> > again). =20
+> > > >
+> > > > Or any other way/idea to address this in a sane way so that those
+> > > > picky Windows guests can be handled more graciously?
+> > > >
+> > > > I guess also that there could be more subtle effects from this patch
+> > > > here, the network one may have just had quite visible effects to po=
+p up as =20
+> > first issue... =20
+> > > >
+> > > > Thanks if you read so far!
+> > > >
+> > > > cheers,
+> > > > Thomas
+> > > > =20
+> > >
+> > > We have a similar problem and want to solve it further.
+> > >
+> > > Description of problem:
+> > >
+> > > When QEMU is upgraded from 4.1 to 6.2, if the machine type is not fix=
+ed as 4.1 =20
+> > and NIC was configured with static IP address, Windows will make origin=
+al
+> > 'network connection' inactive and create a new one (which is not config=
+ured as
+> > desired). As result guest looses network connectivity. =20
+> > >
+> > > Test 1:
+> > > Steps to test the guest loses the network connection:
+> > > 1. on QEMU 4.1 install Windows Server 2019 guest with virtio NIC 2.
+> > > configure NIC with static IP and shutdown guest 3. start guest on
+> > > qemu-6.2 with machine version as qemu 6.2
+> > >
+> > > Test 2:
+> > > Steps to test the guest does not lose the network connection:
+> > > 1. on QEMU 4.1 install Windows Server 2019 guest with virtio NIC 2.
+> > > configure NIC with static IP and shutdown guest 3. start guest on
+> > > qemu-6.2 with machine version as qemu 4.1
+> > >
+> > > Here's a historical analysis of the problem:
+> > >
+> > > Commit af1b80ae56c9 ("i386/acpi: fix inconsistent QEMU/OVMF device pa=
+ths") =20
+> > fixed UID of PCI root bridge in ACPI tables for all pc/q35 machine
+> > versions.however it was discovered that this change updates Windows
+> > configuration in an incompatible way causing network configuration fail=
+ure unless
+> > DHCP is used.
+> >=20
+> > that's expected,
+> > by upgrading machine type you basically change hardware.
+> >  =20
+> > >
+> > > And Commit 0a343a5add75 ("i386/acpi: restore device paths for pre-5.1=
+ vms") =20
+> > reverts the _UID update from 1 to 0 for q35 and i440fx VMs before versi=
+on 5.2 to
+> > maintain the original behaviour when upgrading. This requires that the =
+same
+> > machine type be used after the QEMU upgrade to 5.2 or later. =20
+> > >
+> > > We want all VMs to be able to use the features of the new qemu 6.2 ve=
+rsion =20
+> > After upgrade, we'd like to ask some questions: =20
+> > >
+> > > 1. When the QEMU is upgraded from 4.1 to 6.2, is there any method to =
+ensure =20
+> > that the guest does not lose the network connection for Test 1? could a=
+nyone
+> > give some suggestions?
+> >=20
+> > Upgrading qemu itself is fine as long as you keep using 4.1 machine typ=
+e.
+> >=20
+> > If you wish to upgrade machine type,
+> > you will have to reconfigure manually configured 'Network connection's =
+(nothing
+> > else would help you)
+> >=20
+> > From admin point of view it would be better to use DHPC (and if you nee=
+d fixed
+> > IPs, pin them on DHCP server side to VMs MAC addresses)
+> >  =20
+> > > 2. If no other method is available, reverts the _UID update from 1 to=
+ 0 for all =20
+> > QEMU versions(the prerequisite is that macOS is not used). Is there any=
+ risk? Is it
+> > recommended to do this? =20
+> > > 3. When the QEMU is upgraded from 4.1 to 6.2, set _UID to 1 for versi=
+ons =20
+> > earlier than QEMU 5.1 and to 0 for versions later than QEMU 5.2 Through
+> > Parameters, but start guest on qemu-6.2 with machine version as qemu 6.=
+2 to
+> > solve Test 1's problem. Is this solution feasible? Is there any risk?
+> >=20
+> > that's what we already do by flipping UID value based on machine type v=
+ersion.
+> > Risk is that by staying on old machine type you might not get some fixe=
+s or
+> > changed defaults/behavior. You can analyze changes by looking at versio=
+n-ed
+> > FOO_machine_options() and hw_compat_x.y pc_compat_x.y property list and
+> > decide if old machine type is good enough for you. =20
+>=20
+>=20
+> Thanks for the answer, but there are still some questions=EF=BC=9A
+> 1. Because our services do not involve macOS, we want to roll back the _U=
+ID of all qemu versions from 1 to 0. However, we do not know whether there =
+are potential risks. Do you suggest this?
 
-Currently the HILE bit is never set in the HID0 register even if the
-qemu is running in Little-Endian mode. This causes the guest dumps to be
-always taken in Big-Endian byte ordering. A guest memory dump of a
-Little-Endian guest running on Little-Endian qemu guest fails with the
-crash tool as illustrated below:
+you'll have to maintain downstream patch on your own
 
-Log :
-$ virsh dump DOMAIN --memory-only dump.file
+> 2. Flipping UID value based on machine type version, This will cause mult=
+iple VMs of different machine types to run on the same host. We want to run=
+ VMs of only one machine type on one host. If the machine type remains unch=
+anged, and a new parameter is added to notify the VM, If the VM is upgraded=
+ from 4.1, the UID is set to 1. If the VM is newly created, the UID is set =
+to 0. However, this will cause different operations for the same machine ty=
+pe version. Is this appropriate? Will there be some potential problems?
 
-Domain 'DOMAIN' dumped to dump.file
+frankly speaking you lost me between 'if-s'
 
-$ crash vmlinux dump.file
+even after upgrading qemu to the latest you can still use old machine type =
+(pc-q35-4.1) for exiting and new VMs to have the same behavior as qemu-4.1
 
-<snip>
-crash 8.0.2-1.el9
+> 3. QEMU is upgraded from 4.1 to 6.2. Is there any other problem about the=
+ _UID except that the IP address of Windows is lost?
 
-WARNING: endian mismatch:
-         crash utility: little-endian
-         dump.file: big-endian
+as for risks, no one would be able to tell you.
+Common sense tells me "Check Changelogs to decide if you need a new version=
+ and do some testing before rolling out changes."
 
-WARNING: machine type mismatch:
-         crash utility: PPC64
-         dump.file: (unknown)
-
-crash: dump.file: not a supported file format
-<snip>
-
-The patch fixes the issue by Setting HILE on little-endian host. HILE bit values
-are documented at [1] for POWER7, POWER8 and [2] for POWER9 onwards.
-
-For power9 and power10:
-	The new helper function "set_spr_default_value" added to change the default value
-	as per host endianness in init_proc_POWER9, init_proc_POWER10
-
-For power7 and power8 :
-	correcting "spr_register_hv" function parameter for initial value to
-	HID0_ISA206_INIT_VAL in register_book3s_ids_sprs()
-
-References:
-1. ISA 2.06, section 2.9 for POWER7,POWER8
-2. ISA 3.0b, section 2.10 for POWER9 onwards - https://openpowerfoundation.org/specifications/isa/
-
-Signed-off-by: Narayana Murty N <nnmlinux@linux.ibm.com>
----
- target/ppc/cpu.h         |  9 +++++++++
- target/ppc/cpu_init.c    | 18 +++++++++++++++++-
- target/ppc/helper_regs.c | 18 ++++++++++++++++++
- target/ppc/spr_common.h  |  3 +++
- 4 files changed, 47 insertions(+), 1 deletion(-)
-
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 557d736dab..8c15e9cde7 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2113,6 +2113,15 @@ void ppc_compat_add_property(Object *obj, const char *name,
- #define HID0_HILE           PPC_BIT(19) /* POWER8 */
- #define HID0_POWER9_HILE    PPC_BIT(4)
- 
-+/* HID0 register initial value for POWER9 */
-+#if HOST_BIG_ENDIAN
-+#define HID0_ISA206_INIT_VAL    0x00000000        /* POWER7 Onwards */
-+#define HID0_ISA300_INIT_VAL    0x00000000        /* POWER9 Onwards */
-+#else
-+#define HID0_ISA206_INIT_VAL    HID0_HILE         /* POWER7 Onwards */
-+#define HID0_ISA300_INIT_VAL    HID0_POWER9_HILE  /* POWER9 Onwards */
-+#endif
-+
- /*****************************************************************************/
- /* PowerPC Instructions types definitions                                    */
- enum {
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 0ce2e3c91d..5b481dc5c3 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -5372,7 +5372,7 @@ static void register_book3s_ids_sprs(CPUPPCState *env)
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  &spr_read_generic, &spr_write_generic,
--                 0x00000000);
-+                 HID0_ISA206_INIT_VAL);
-     spr_register_hv(env, SPR_TSCR, "TSCR",
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  SPR_NOACCESS, SPR_NOACCESS,
-@@ -5699,6 +5699,15 @@ static void register_power9_mmu_sprs(CPUPPCState *env)
- #endif
- }
- 
-+static void set_power9_default_value_sprs(CPUPPCState *env)
-+{
-+    /*
-+     * ISA 3.00, book3s ids HID0 register, HILE bit position
-+     * changed to bit HID0_POWER9_HILE
-+     */
-+    set_spr_default_value(env, SPR_HID0, HID0_ISA300_INIT_VAL);
-+}
-+
- static void register_power10_hash_sprs(CPUPPCState *env)
- {
-     /*
-@@ -6250,6 +6259,9 @@ static void init_proc_POWER9(CPUPPCState *env)
-     register_power8_rpr_sprs(env);
-     register_power9_mmu_sprs(env);
- 
-+    /* POWER9 Host Specific register initialization */
-+    set_power9_default_value_sprs(env);
-+
-     /* POWER9 Specific registers */
-     spr_register_kvm(env, SPR_TIDR, "TIDR", NULL, NULL,
-                      spr_read_generic, spr_write_generic,
-@@ -6424,6 +6436,10 @@ static void init_proc_POWER10(CPUPPCState *env)
-     register_power8_book4_sprs(env);
-     register_power8_rpr_sprs(env);
-     register_power9_mmu_sprs(env);
-+
-+    /* POWER10 Host Specific register initialization */
-+    set_power9_default_value_sprs(env);
-+
-     register_power10_hash_sprs(env);
-     register_power10_dexcr_sprs(env);
- 
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 779e7db513..f17e9e78c2 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -351,6 +351,24 @@ void _spr_register(CPUPPCState *env, int num, const char *name,
- #endif
- }
- 
-+/**
-+ * set_spr_default_value
-+ *
-+ * sets the spr register with default value overide.
-+ */
-+void set_spr_default_value(CPUPPCState *env, int num,
-+                   target_ulong default_value)
-+{
-+    assert(num < ARRAY_SIZE(env->spr_cb));
-+    ppc_spr_t *spr = &env->spr_cb[num];
-+
-+    /* Verify the spr registered already. */
-+    assert(spr->name != NULL);
-+
-+    spr->default_value = default_value;
-+    env->spr[num] = default_value;
-+}
-+
- /* Generic PowerPC SPRs */
- void register_generic_sprs(PowerPCCPU *cpu)
- {
-diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
-index 8437eb0340..b1d27f0138 100644
---- a/target/ppc/spr_common.h
-+++ b/target/ppc/spr_common.h
-@@ -77,6 +77,9 @@ void _spr_register(CPUPPCState *env, int num, const char *name,
-     spr_register_kvm(env, num, name, uea_read, uea_write,                    \
-                      oea_read, oea_write, 0, ival)
- 
-+void set_spr_default_value(CPUPPCState *env, int num,
-+                   target_ulong default_value);
-+
- /* prototypes for readers and writers for SPRs */
- void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
- void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
--- 
-2.39.2
+>=20
+>=20
+> > > Thanks.
+> > > =20
+> > > > =3D QEMU Command =3D
+> > > >
+> > > > (This was generated by our (Proxmox VE) stack, I only cleaned it up
+> > > > a bit to allow easier manual running it)
+> > > >
+> > > > ./qemu-system-x86_64 \
+> > > >   -name win2016 \
+> > > >   -chardev
+> > > > 'socket,id=3Dqmp,path=3D/var/run/qemu-server/11765.qmp,server,nowai=
+t' \
+> > > >   -mon 'chardev=3Dqmp,mode=3Dcontrol' \
+> > > >   -smbios 'type=3D1,uuid=3D6324fb28-e98a-44cf-85db-694d1b3405f5' \
+> > > >   -smp '2,sockets=3D1,cores=3D2,maxcpus=3D2' \
+> > > >   -nodefaults \
+> > > >   -boot 'menu=3Don,strict=3Don,reboot-timeout=3D1000' \
+> > > >   -vnc unix:/var/run/qemu-server/11765.vnc,password \
+> > > >   -no-hpet \
+> > > >   -cpu
+> > > > 'host,hv_ipi,hv_relaxed,hv_reset,hv_runtime,hv_spinlocks=3D0x1fff,h=
+v_s
+> > > > timer,hv
+> > > > _synic,hv_time,hv_vapic,hv_vpindex,+kvm_pv_eoi,+kvm_pv_unhalt,+md-cl
+> > > > ear,
+> > > > +pcid,+spec-ctrl' \
+> > > >   -m 2048 \
+> > > >   -device 'pci-bridge,id=3Dpci.1,chassis_nr=3D1,bus=3Dpci.0,addr=3D=
+0x1e' \
+> > > >   -device 'pci-bridge,id=3Dpci.2,chassis_nr=3D2,bus=3Dpci.0,addr=3D=
+0x1f' \
+> > > >   -device 'vmgenid,guid=3D2e56e6ca-2cf8-4f1d-8cc3-9b19a2510c01' \
+> > > >   -device 'piix3-usb-uhci,id=3Duhci,bus=3Dpci.0,addr=3D0x1.0x2' \
+> > > >   -device 'usb-tablet,id=3Dtablet,bus=3Duhci.0,port=3D1' \
+> > > >   -device 'VGA,id=3Dvga,bus=3Dpci.0,addr=3D0x2,edid=3Doff' \
+> > > >   -chardev
+> > > > 'socket,path=3D/var/run/qemu-server/11765.qga,server,nowait,id=3Dqg=
+a0' \
+> > > >   -device 'virtio-serial,id=3Dqga0,bus=3Dpci.0,addr=3D0x8' \
+> > > >   -device 'virtserialport,chardev=3Dqga0,name=3Dorg.qemu.guest_agen=
+t.0' \
+> > > >   -device 'virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x3'=
+ \
+> > > >   -iscsi 'initiator-name=3Diqn.1993-08.org.debian:01:468faae9322b' \
+> > > >   -drive
+> > > > 'file=3D/mnt/pve/iso/template/iso/virtio-win-0.1.190.iso,if=3Dnone,=
+id=3Ddr
+> > > > ive-ide0,me
+> > > > dia=3Dcdrom,aio=3Dthreads' \
+> > > >   -device 'ide-cd,bus=3Dide.0,unit=3D0,drive=3Ddrive-ide0,id=3Dide0=
+,bootindex=3D200' =20
+> > \ =20
+> > > >   -drive
+> > > > 'file=3D/mnt/pve/iso/template/iso/Win2016-1616-evaluation.ISO,if=3D=
+none,
+> > > > id=3Ddrive-
+> > > > ide2,media=3Dcdrom,aio=3Dthreads' \
+> > > >   -device 'ide-cd,bus=3Dide.1,unit=3D0,drive=3Ddrive-ide2,id=3Dide2=
+,bootindex=3D201' =20
+> > \ =20
+> > > >   -device 'virtio-scsi-pci,id=3Dscsihw0,bus=3Dpci.0,addr=3D0x5' \
+> > > >   -drive
+> > > > 'file=3D/dev/WDnvme/vm-11765-disk-0,if=3Dnone,id=3Ddrive-scsi0,form=
+at=3Draw,
+> > > > cache=3D
+> > > > none,aio=3Dnative,detect-zeroes=3Don' \
+> > > >   -device
+> > > > 'scsi-hd,bus=3Dscsihw0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Ddr=
+ive-scsi0,i
+> > > > d=3Dscsi0,rotati
+> > > > on_rate=3D1,bootindex=3D100' \
+> > > >   -netdev
+> > > > 'type=3Dtap,id=3Dnet0,ifname=3Dtap11765i0,script=3D/var/lib/qemu-se=
+rver/pve-
+> > > > bridge,d ownscript=3D/var/lib/qemu-server/pve-bridgedown,vhost=3Don=
+' \
+> > > >   -device
+> > > > 'virtio-net-pci,mac=3D02:98:90:43:42:1D,netdev=3Dnet0,bus=3Dpci.0,a=
+ddr=3D0x1
+> > > > 2,id=3Dnet0,
+> > > > bootindex=3D300' \
+> > > >   -rtc 'driftfix=3Dslew,base=3Dlocaltime' \
+> > > >   -machine 'type=3Dpc' \
+> > > >   -global 'kvm-pit.lost_tick_policy=3Ddiscard'
+> > > >
+> > > >
+> > > > =3D bisect log =3D
+> > > >
+> > > > git bisect start
+> > > > # bad: [553032db17440f8de011390e5a1cfddd13751b0b] Update version for
+> > > > v5.2.0 release git bisect bad
+> > > > 553032db17440f8de011390e5a1cfddd13751b0b
+> > > > # good: [d0ed6a69d399ae193959225cdeaa9382746c91cc] Update version
+> > > > for
+> > > > v5.1.0 release git bisect good
+> > > > d0ed6a69d399ae193959225cdeaa9382746c91cc
+> > > > # bad: [ed799805d00ccdda45eb8441c7d929624d9e98a6] qom: Add
+> > > > kernel-doc markup to introduction doc comment git bisect bad
+> > > > ed799805d00ccdda45eb8441c7d929624d9e98a6
+> > > > # bad: [e4d8b7c1a95fffcfa4bdab9aa7ffd1cf590cdcf5] Merge
+> > > > remote-tracking branch 'remotes/nvme/tags/pull-nvme-20200902' into
+> > > > staging git bisect bad
+> > > > e4d8b7c1a95fffcfa4bdab9aa7ffd1cf590cdcf5
+> > > > # bad: [af1dfe1ec0864e6700237a43cc36018176f9eba9] acpi: update
+> > > > expected DSDT files with _UID changes git bisect bad
+> > > > af1dfe1ec0864e6700237a43cc36018176f9eba9
+> > > > # good: [d7df0ceee0fd2e512cd214a9074ebeeb40da3099] Merge
+> > > > remote-tracking branch 'remotes/philmd-gitlab/tags/sd-next-20200821'
+> > > > into staging git bisect good
+> > > > d7df0ceee0fd2e512cd214a9074ebeeb40da3099
+> > > > # good: [df82aa7fe10e46b675678977999d49bd586538f8] Merge
+> > > > remote-tracking branch
+> > > > 'remotes/edgar/tags/edgar/xilinx-next-2020-08-24.for-upstream' into
+> > > > staging git bisect good df82aa7fe10e46b675678977999d49bd586538f8
+> > > > # good: [e39a8320b088dd5efc9ebaafe387e52b3d962665] target/riscv:
+> > > > Support the Virtual Instruction fault git bisect good
+> > > > e39a8320b088dd5efc9ebaafe387e52b3d962665
+> > > > # good: [a6841a2de66fa44fe52ed996b70f9fb9f7bd6ca7] qcow2: Add
+> > > > subcluster support to qcow2_co_pwrite_zeroes() git bisect good
+> > > > a6841a2de66fa44fe52ed996b70f9fb9f7bd6ca7
+> > > > # good: [2f8cd515477edab1cbf38ecbdbfa2cac13ce1550]
+> > > > hw/display/artist: Fix invalidation of lines near screen border git
+> > > > bisect good
+> > > > 2f8cd515477edab1cbf38ecbdbfa2cac13ce1550
+> > > > # good: [a5d3cfa2dc775e5d99f013703b8508f1d989d588] iotests: Add
+> > > > tests for
+> > > > qcow2 images with extended L2 entries git bisect good
+> > > > a5d3cfa2dc775e5d99f013703b8508f1d989d588
+> > > > # good: [8e49197ca5e76fdb8928833b2649ef13fc5aab2f] Merge
+> > > > remote-tracking branch
+> > > > 'remotes/hdeller/tags/target-hppa-v3-pull-request' into staging git
+> > > > bisect good 8e49197ca5e76fdb8928833b2649ef13fc5aab2f
+> > > > # bad: [af1b80ae56c9495999e8ccf7b70ef894378de642] i386/acpi: fix
+> > > > inconsistent QEMU/OVMF device paths git bisect bad
+> > > > af1b80ae56c9495999e8ccf7b70ef894378de642
+> > > > # good: [42a62c20925e02aef0d849f92a0e9540888e79ae] acpi: allow DSDT
+> > > > changes git bisect good 42a62c20925e02aef0d849f92a0e9540888e79ae
+> > > > # first bad commit: [af1b80ae56c9495999e8ccf7b70ef894378de642]
+> > > > i386/acpi: fix inconsistent QEMU/OVMF device paths =20
+> > > =20
+> >  =20
+>=20
 
 
