@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D1E6E89E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 07:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2976E89E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 07:54:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppN9s-0007DZ-LW; Thu, 20 Apr 2023 01:48:40 -0400
+	id 1ppN9s-00079D-5V; Thu, 20 Apr 2023 01:48:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ppN9X-00074t-0e
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:19 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+ id 1ppN9a-00076c-GU
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:25 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ppN9V-0001DR-31
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:18 -0400
-Received: by mail-pf1-x436.google.com with SMTP id
- d2e1a72fcca58-63b4dfead1bso601999b3a.3
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 22:48:16 -0700 (PDT)
+ id 1ppN9Z-0001E1-0b
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:22 -0400
+Received: by mail-pg1-x536.google.com with SMTP id
+ 41be03b00d2f7-518d325b8a2so588339a12.0
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 22:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681969696; x=1684561696;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681969699; x=1684561699;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5Ra4vem1bEUNGQf/At/UarboHQTyTTT4h6LEAWK7BBQ=;
- b=WPKtu+YqVE4I5JwiR6TgGJrcbiZrxPSm4Upe1jx85q3sqVpz7zpS7skIDNzw1CRb1t
- 801powGIKh8JiQleiJ5VZfGGh2xhkRMe1bVAdvIL2qn/X/NydimBKONu8fwQqu97wPkN
- sZ4KjMwrjlYaEF7mc1gNnRUrC+5DiEXw1lXiLY6JuF43mOb6fQIiKDMDDQ/Jfmz5qXf+
- hyEStEmOMM74X3ZGU0zY2e0GGFWDyOqsr18hal5IzoD2tJDVxfm+/5nBZpe+c4YBpj0k
- 23pwffsLz39a4zBV3cfofiK7C34Izl9kCMYj637wohJaEt/mXFtvgvhjSvgs8PPRJ14D
- nUww==
+ bh=s7PZIm04ooSj6Ki8OsJLg23id0yLR39T0g3+u0vz1Wk=;
+ b=v5uf2qz0fbZQH1bXbYuRR0/7qUd+I2kGFP4zAPhT8ZC6A7UicQXZMf2F12zz/2Fg5P
+ XPOU60r8lrEuwgAHToruyddC/cOujorO9YBxLL5HllPcEBPlr7qPgOD5x7xADptMSzVy
+ ZNJbtpfg/dHZIA1NlYT+7Kl1PeOMnYgnoI3ikeCo2vtCb9FlF1WWi2Q+mjHMkMoY3SZk
+ ACeNAgirSfbHK8tG8DORkt5P4X52PD2SkSQOsyoNM0pX9AhqfXbG78CoB5L0SxYePNOD
+ mJBzrAuNBsvW4A8KsYa+wxSghHvftPJsQfMLeLiBw2vpu8JUttYwhrqPgMLC8Ndna6kC
+ ISsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681969696; x=1684561696;
+ d=1e100.net; s=20221208; t=1681969699; x=1684561699;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5Ra4vem1bEUNGQf/At/UarboHQTyTTT4h6LEAWK7BBQ=;
- b=E4+yYEq+czgC5oP7IHbYU6aZrMsj/WP1GpUY3VY1tIFkr9dIFEiaf5OpktYZYbEUnE
- iAdHiHf1kWhKHkb+VZuLhITAMiWs708HQHZxbCH7XULKcO0J3/1FbQ+RHxxmQxjGpV3B
- 1Cqm0zbXJuZHGREDQyE59F9jQ+fsbfu7PrvgFApvgezPw5EDXyFLhCdPYzvSVz7jQDr5
- N6D216q7bkCJn+B7NidDrKHNAwgH8Wg8T8IqXrjWYMt0UPNHst4j0+l92pglIBaECvak
- 7IMbh0KreckolXx9jzydZNjCzcbdsGLkso+sM2Z9Welr46Tmfmr3doacmFiyNaEtOf8H
- IabA==
-X-Gm-Message-State: AAQBX9e+eps6YaRpFweENd+jRbixB5at1PZgv8RJQDzXQcPkibw3kIlC
- VNzIOEwM7zQ2jHkanDNWWAa0RA==
-X-Google-Smtp-Source: AKy350Yxsu8qfRuY7ixH4zzh5Xd34DYMKjwsV3nCnh8FeR9yF5ZF8L0/l8qyeYAhnvm9528L7wjG5Q==
-X-Received: by 2002:a17:903:294c:b0:1a1:e01e:7279 with SMTP id
- li12-20020a170903294c00b001a1e01e7279mr388890plb.4.1681969695889; 
- Wed, 19 Apr 2023 22:48:15 -0700 (PDT)
+ bh=s7PZIm04ooSj6Ki8OsJLg23id0yLR39T0g3+u0vz1Wk=;
+ b=j7YRUIjqoQfH6SpyBImyls+JsHRYwXGhmKhquU6qwOzyCI1f5+qbmiFcSEcfzNrTjb
+ ioVciBe9lOfGKfKsPwl83egbItVZnllKrX8bvOc29IjP2aSgvdeDGjhntSfVEY37kzgO
+ 0okhKZ7EOMBchJnwEZvUoL9Ri/viMcDqk0a7B28NzGSlFfA73deTYZDGG5VLk4dbEn+S
+ kOh6JSvK4mr/8YI+WJyvST07vZacf/0h3nOWF379ZJ+V9jvutuIM8euPHrvmD9pM92JV
+ nEq3pqFAIUaMK+qBmYjjnKo4ERCzyzHb8+I2J5Hf5dn0F0RZwjLv9J1FnBTIg0xhLIjk
+ zBGQ==
+X-Gm-Message-State: AAQBX9eOw2B99EliN6VpHGfsumJYylIWi/JMDcQINbT7of+Lq6byt+5d
+ UCi8v1bPrnVL7URMBf+/Sq/a+A==
+X-Google-Smtp-Source: AKy350arh2GriEDXnYlE0YHBy8hppaZFS56gwe/aMfLLql0TSUXSfzZ7haWWwlVVQ3s0KZR2Zlgu2A==
+X-Received: by 2002:a17:90a:2a03:b0:249:86bd:42a7 with SMTP id
+ i3-20020a17090a2a0300b0024986bd42a7mr450105pjd.42.1681969699430; 
+ Wed, 19 Apr 2023 22:48:19 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a17090a46cf00b00247164c1947sm2769255pjg.0.2023.04.19.22.48.12
+ x15-20020a17090a46cf00b00247164c1947sm2769255pjg.0.2023.04.19.22.48.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Apr 2023 22:48:15 -0700 (PDT)
+ Wed, 19 Apr 2023 22:48:19 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,16 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 11/41] tests/avocado: Remove test_igb_nomsi_kvm
-Date: Thu, 20 Apr 2023 14:46:27 +0900
-Message-Id: <20230420054657.50367-12-akihiko.odaki@daynix.com>
+Subject: [PATCH v2 12/41] hw/net/net_tx_pkt: Remove net_rx_pkt_get_l4_info
+Date: Thu, 20 Apr 2023 14:46:28 +0900
+Message-Id: <20230420054657.50367-13-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230420054657.50367-1-akihiko.odaki@daynix.com>
 References: <20230420054657.50367-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::436;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x436.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::536;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,51 +101,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is unlikely to find more bugs with KVM so remove test_igb_nomsi_kvm
-to save time to run it.
+This function is not used.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- tests/avocado/netdev-ethtool.py | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ hw/net/net_rx_pkt.h | 9 ---------
+ hw/net/net_rx_pkt.c | 5 -----
+ 2 files changed, 14 deletions(-)
 
-diff --git a/tests/avocado/netdev-ethtool.py b/tests/avocado/netdev-ethtool.py
-index 8de118e313..6da800f62b 100644
---- a/tests/avocado/netdev-ethtool.py
-+++ b/tests/avocado/netdev-ethtool.py
-@@ -29,7 +29,7 @@ def get_asset(self, name, sha1):
-         # URL into a unique one
-         return self.fetch_asset(name=name, locations=(url), asset_hash=sha1)
+diff --git a/hw/net/net_rx_pkt.h b/hw/net/net_rx_pkt.h
+index a06f5c2675..ce8dbdb284 100644
+--- a/hw/net/net_rx_pkt.h
++++ b/hw/net/net_rx_pkt.h
+@@ -119,15 +119,6 @@ eth_ip6_hdr_info *net_rx_pkt_get_ip6_info(struct NetRxPkt *pkt);
+  */
+ eth_ip4_hdr_info *net_rx_pkt_get_ip4_info(struct NetRxPkt *pkt);
  
--    def common_test_code(self, netdev, extra_args=None, kvm=False):
-+    def common_test_code(self, netdev, extra_args=None):
- 
-         # This custom kernel has drivers for all the supported network
-         # devices we can emulate in QEMU
-@@ -57,9 +57,6 @@ def common_test_code(self, netdev, extra_args=None, kvm=False):
-                          '-drive', drive,
-                          '-device', netdev)
- 
--        if kvm:
--            self.vm.add_args('-accel', 'kvm')
+-/**
+- * fetches L4 header analysis results
+- *
+- * Return:  pointer to analysis results structure which is stored in internal
+- *          packet area.
+- *
+- */
+-eth_l4_hdr_info *net_rx_pkt_get_l4_info(struct NetRxPkt *pkt);
 -
-         self.vm.set_console(console_index=0)
-         self.vm.launch()
+ typedef enum {
+     NetPktRssIpV4,
+     NetPktRssIpV4Tcp,
+diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
+index 63be6e05ad..6125a063d7 100644
+--- a/hw/net/net_rx_pkt.c
++++ b/hw/net/net_rx_pkt.c
+@@ -236,11 +236,6 @@ eth_ip4_hdr_info *net_rx_pkt_get_ip4_info(struct NetRxPkt *pkt)
+     return &pkt->ip4hdr_info;
+ }
  
-@@ -86,13 +83,6 @@ def test_igb_nomsi(self):
-         """
-         self.common_test_code("igb", "pci=nomsi")
- 
--    def test_igb_nomsi_kvm(self):
--        """
--        :avocado: tags=device:igb
--        """
--        self.require_accelerator('kvm')
--        self.common_test_code("igb", "pci=nomsi", True)
+-eth_l4_hdr_info *net_rx_pkt_get_l4_info(struct NetRxPkt *pkt)
+-{
+-    return &pkt->l4hdr_info;
+-}
 -
-     # It seems the other popular cards we model in QEMU currently fail
-     # the pattern test with:
-     #
+ static inline void
+ _net_rx_rss_add_chunk(uint8_t *rss_input, size_t *bytes_written,
+                       void *ptr, size_t size)
 -- 
 2.40.0
 
