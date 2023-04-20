@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555646E92D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 13:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5D26E9314
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 13:40:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppSWv-0004uS-4Q; Thu, 20 Apr 2023 07:32:49 -0400
+	id 1ppSdL-0007fB-VD; Thu, 20 Apr 2023 07:39:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppSWq-0004u5-GA
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:32:46 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ppSbV-0007be-G6
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:37:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppSWp-0007n1-1G
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:32:44 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ppSbC-0001ON-Po
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 07:37:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681990362;
+ s=mimecast20190719; t=1681990632;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yglNbKC3UpbKLsq7zeJ+I7cSSf9JUvuiLUayXnejVcc=;
- b=MxSUBda+a4a4v4VqzpVsrIpXTJW0ZOtsBY0gPr4oof6XZZRVE3BkLfjQdF83lIGXZH+Uaz
- s7iVDk8gThkqUsGVkUTkkdULAcCDzSeqBMx2tyryCFowuu3N/8sEwh0cuxGHe9XwTRyPxk
- DbioqRLAIsvHlCdJnZ5xVPQPqIvvBhA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-1-ZdTNWs6WM3mvUTg2F0abag-1; Thu, 20 Apr 2023 07:32:40 -0400
-X-MC-Unique: ZdTNWs6WM3mvUTg2F0abag-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-2fbb99cb244so327541f8f.3
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 04:32:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681990359; x=1684582359;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yglNbKC3UpbKLsq7zeJ+I7cSSf9JUvuiLUayXnejVcc=;
- b=ObzzOZLYHHvjq0FqUFqzxL+ErOBi/nONwHCb0/RDOF7FZ3f6VkyxuQnvdrljaOFtaQ
- sUyrbo4dWmE2mIq0dnBWtM2rG3TLnMW0EXzj17s/IuguNjsfo2dBrt8PCdbZZ9HTr4KB
- kYC9NG5EoIaZvxjCCdzPjav15/DguXkXn7uy1QeNfXcGyJQWaUDkaPP0IKnAZkvCuVXr
- xBxNCT/EBPfpcm0whF6Dsg8oHJjJaNqf7GZEzrqRw17OCTJn0zICjBtBIIuftdN8+LUi
- LatEDY2WOM7eJPqY6hYJhIuCoNq8YQS3j8ZjuIgl9Sq6wCe8+F5ABIyfa2KEFBpBQ+T2
- 0OZQ==
-X-Gm-Message-State: AAQBX9cMfYTfS7M8klEt9KfkxjkD/fJy278JJpm3EgCdc/uZoknLOh+2
- gUh1i4PFWkf2j1K4SYBv8BAq9je25rUQ/ubEyl0MhvmMgxyaU257CqtEPwtO1flZZLmlpPTqJLH
- U0WfoxsUxsv/j0dw=
-X-Received: by 2002:adf:e48e:0:b0:2f8:9955:6b7c with SMTP id
- i14-20020adfe48e000000b002f899556b7cmr1081300wrm.38.1681990359139; 
- Thu, 20 Apr 2023 04:32:39 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bDOdTtE0XEKUtK62ngmbYuGJOgBJ9EwxZiVJf4xaM0PNm7Ed4tPCAyO9P7mn4H8RYyes5gTQ==
-X-Received: by 2002:adf:e48e:0:b0:2f8:9955:6b7c with SMTP id
- i14-20020adfe48e000000b002f899556b7cmr1081283wrm.38.1681990358846; 
- Thu, 20 Apr 2023 04:32:38 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- f12-20020adfdb4c000000b002f9ff443184sm1759473wrj.24.2023.04.20.04.32.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 04:32:38 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Laurent Vivier <lvivier@redhat.com>
+ bh=SudnPadI0gEi52D5C6CYZr4WgReFDEo6BczhcbdBK/Y=;
+ b=dLdmhO6GAaYXOXdbHU2Vlj0BsCVTZHrP1Igm7sHmuG+W8Pj3pqHUa1W1uOEQR6LwY/Fp4S
+ 6GgC9i0UxEI4D35gBRDL4gZ9pUrCgwUgIgp5d4fcAK0yII5AKtK/32t9Pw4lWlUkLGiMAL
+ F7/9hJhj1Ym/mJw1zfGtq2AWg78cieQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-327-sCOc20IPPsmXUQuX-9FqjA-1; Thu, 20 Apr 2023 07:37:10 -0400
+X-MC-Unique: sCOc20IPPsmXUQuX-9FqjA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99B8C8996F1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 11:37:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA8FA492C3E;
+ Thu, 20 Apr 2023 11:37:09 +0000 (UTC)
+Date: Thu, 20 Apr 2023 12:37:07 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>
 Subject: Re: [PATCH 1/2] tests/qtest: capture RESUME events during migration
-In-Reply-To: <20230418133100.48799-2-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Tue, 18 Apr 2023 14:30:59
- +0100")
+Message-ID: <ZEEj48pjEBcStwwi@redhat.com>
 References: <20230418133100.48799-1-berrange@redhat.com>
  <20230418133100.48799-2-berrange@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 20 Apr 2023 13:32:37 +0200
-Message-ID: <87zg72yeju.fsf@secure.mitica>
+ <87zg72yeju.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87zg72yeju.fsf@secure.mitica>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,22 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> When running migration tests we monitor for a STOP event so we can skip
-> redundant waits. This will be needed for the RESUME event too shortly.
+On Thu, Apr 20, 2023 at 01:32:37PM +0200, Juan Quintela wrote:
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > When running migration tests we monitor for a STOP event so we can skip
+> > redundant waits. This will be needed for the RESUME event too shortly.
+> >
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> 
+> 
+> I am waiting for you to check the problem than Lukas detected, but this
+> part of the patch is "obviously" correct.
 >
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Famous last words.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Actually it has a small flaw - I don't set  'got_resume = false' at the
+start of each test :-(
 
-
-I am waiting for you to check the problem than Lukas detected, but this
-part of the patch is "obviously" correct.
-
-Famous last words.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
