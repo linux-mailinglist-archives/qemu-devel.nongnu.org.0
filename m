@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF4FF6E98EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF9E6E98F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:59:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppWf8-0000CJ-5H; Thu, 20 Apr 2023 11:57:34 -0400
+	id 1ppWf6-0000Ah-1K; Thu, 20 Apr 2023 11:57:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppWf4-0000Ai-R9
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:57:30 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1ppWf3-0000AG-9i
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:57:29 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppWf2-0007u8-1x
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:57:30 -0400
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-2f625d52275so700667f8f.3
+ id 1ppWf1-0007uH-Jp
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:57:29 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ bi21-20020a05600c3d9500b003f17a8eaedbso3317115wmb.1
  for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 08:57:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1682006246; x=1684598246;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=R59KmhBE1ju4nQIU2ym/eqgcBqBFRDfoZfCOJrQ0/j0=;
- b=PNSk7vpvRGHBpnQCP1aCoMvZfMNYBAJdhDESsErI647MISQQD4f3m6gFG+mbL4JZuE
- 603aCdF/Gw7uged1l9jfRW2OkstJXnX9rn4pliIx4xoP3O8Q6qcwqk3ZFNZaE9DDkLrv
- SHzg+qfC6U5EGkwJ7Mw/3iqW2mUeaRqjU9g0tJ4mIU7o0fuGxRoJgzQcmlbu/yxxbLDj
- 7hYm2sV8QUVa3MwSYdKBE8d+AN1IMQyTsOKZndr4mQ8Rb13tWZZ5Dz3+6/l9Y1ne7hxD
- 74uA90mDKSkaZHzERzZ7st/Jtyenw9MMq7/zRs/rruasdzvKyD5kl74mAlGRWbGGQiuH
- LZhg==
+ bh=Hii62K2Wc7QFsLVVFypLkGk3bZXI6Fmh1Q2b0Ws3wdo=;
+ b=fnNdLtGNgHdbnZp298veUMGtIEH+ervXxQrKnl4gkb/brtA0YLsUAsQxCsK1y7VNi6
+ BTd8fK0Ir5HN+95CfoiI/uQazRJ3/w4n8OBCyOaQ/h1V3fNwRjWXCMPyc0/FObYy1Y5S
+ HjtKESMvTqCZpRb57gj9S5Y4AcfCoyBd7PiSnwJLiJLzzQM513HAb3+v2TiD2vsFil8i
+ d6JuQhFAV8gfbXGAIu3exmCtZg+G6kLomfBPoOEjdGamAxLwSrmgdR5jk1WgVIonKc0Q
+ v/JIkQwFtgQwEZtZNIqUYuJojZpxMZBz5KGy9KFYjnZqtR97ML4x5JtKzMOCYNmootLW
+ vwLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1682006246; x=1684598246;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R59KmhBE1ju4nQIU2ym/eqgcBqBFRDfoZfCOJrQ0/j0=;
- b=daIX7ci7x+9v+rxVt1AhPpM/N6UMDr37/ujeXDIyrl0og9PWR0JgnF6JcSHG9BmP6u
- NNHs6vVhEUoAIO5HIv5Be3qybumVtMl66wKolNACwBOZP00yEhVSyJId2NYfdVSXv9sg
- GQELx2688/5NWvHIHx94hby9j7lVhfkROngfkJEpszydsE7C436uXkjBtujzAHT+mmmG
- 9MNuUYxpQ9K+tBHvKDupmdQUNRG+ISeieypjqYtmzOjmAnEhw4wT3buHitIj30miXdhJ
- fUFqigO6WbAOmBpVQ84dWrZNXtAouW8a7FixfLS4vNx7KPpTnNE5dJ09rGR9sys2Mnnr
- 2igg==
-X-Gm-Message-State: AAQBX9fgdQ2lqhoP3PPRum+Pd30h3/JDJ8sipecwZUKmpOFHFCork9Qo
- TIUkjAnV3itsQnSYlbKTOQO80A==
-X-Google-Smtp-Source: AKy350Zqedf+9hxm6VYVn/l8/pG9scwjIqZUNdvMVdUp+AMHuTJd1X01IG9uP1SznoO0FIm7mG/4dA==
-X-Received: by 2002:a5d:40c6:0:b0:2c8:9cfe:9e29 with SMTP id
- b6-20020a5d40c6000000b002c89cfe9e29mr1780944wrq.38.1682006245942; 
- Thu, 20 Apr 2023 08:57:25 -0700 (PDT)
+ bh=Hii62K2Wc7QFsLVVFypLkGk3bZXI6Fmh1Q2b0Ws3wdo=;
+ b=h0M9jBcw8jdIpXfibUZUOC2vu8GPMjm3Rn/kuj/KwFeSyzoYDi4Yx3sr3bcoZlccdQ
+ XLesF5xMOMTlnh11x2hrSatNL1y56PeAeLSjL9zMKwPjVZaIL8Uwhjy5ilzFkaFcrjCr
+ AlezfzFSp/OzJoMM5ICqZGkdlVLpncxVTjAbWmSpwTXdAhVhWBb6UR44NPo9y8a5iVl5
+ mIa/tQ1OBWPxdvvgJ1J2KaI7tmixccVWGfFUcJoGtVPdmu1w2z/37etkGRAbkNSy0wLJ
+ qPpubj1WqAYrJOor8/zLUlPO83xH8SR1UbJu50e17EuUxkeAqE/+OU2RzmwXVIVonlYu
+ F8Uw==
+X-Gm-Message-State: AAQBX9dXyi7H5128oB4X4D8nxUWr4AjDVHPu73an83YpnwpuIX68fWuO
+ JjBIF98XVbSrTEDftlHLL6xRzQ==
+X-Google-Smtp-Source: AKy350Zp+keAZCk2qd9Yo6GpN8Fz6U7j6XDz8Hpgq/MkHkY71qRH+0ZV8pWG66iP7sH62Visp7GftA==
+X-Received: by 2002:a7b:cc85:0:b0:3dc:5b88:e6dd with SMTP id
+ p5-20020a7bcc85000000b003dc5b88e6ddmr1786798wma.10.1682006246346; 
+ Thu, 20 Apr 2023 08:57:26 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- u9-20020adfdd49000000b002fe33e42c85sm2269503wrm.72.2023.04.20.08.57.24
+ h1-20020a5d6e01000000b002fa834e1c69sm2263428wrz.52.2023.04.20.08.57.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Apr 2023 08:57:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CA6FE1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id E21F51FFBC;
  Thu, 20 Apr 2023 16:57:23 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -72,18 +72,19 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  Jagannathan Raman <jag.raman@oracle.com>,
  Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH 3/9] docs: Fix typo (wphx => whpx)
-Date: Thu, 20 Apr 2023 16:57:17 +0100
-Message-Id: <20230420155723.1711048-4-alex.bennee@linaro.org>
+ Mahmoud Mandour <ma.mandourr@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH 4/9] docs/cxl: Fix sentence
+Date: Thu, 20 Apr 2023 16:57:18 +0100
+Message-Id: <20230420155723.1711048-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230420155723.1711048-1-alex.bennee@linaro.org>
 References: <20230420155723.1711048-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,29 +109,28 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Stefan Weil via <qemu-devel@nongnu.org>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1529
 Signed-off-by: Stefan Weil <sw@weilnetz.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230409201007.1157671-1-sw@weilnetz.de>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Message-Id: <20230409201828.1159568-1-sw@weilnetz.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/system/introduction.rst | 2 +-
+ docs/system/devices/cxl.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/system/introduction.rst b/docs/system/introduction.rst
-index c8a9fe6c1d..3e256f8326 100644
---- a/docs/system/introduction.rst
-+++ b/docs/system/introduction.rst
-@@ -27,7 +27,7 @@ Tiny Code Generator (TCG) capable of emulating many CPUs.
-   * - Hypervisor Framework (hvf)
-     - MacOS
-     - x86 (64 bit only), Arm (64 bit only)
--  * - Windows Hypervisor Platform (wphx)
-+  * - Windows Hypervisor Platform (whpx)
-     - Windows
-     - x86
-   * - NetBSD Virtual Machine Monitor (nvmm)
+diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
+index f25783a4ec..4c38223069 100644
+--- a/docs/system/devices/cxl.rst
++++ b/docs/system/devices/cxl.rst
+@@ -111,7 +111,7 @@ Interfaces provided include:
+ 
+ CXL Root Ports (CXL RP)
+ ~~~~~~~~~~~~~~~~~~~~~~~
+-A CXL Root Port servers te same purpose as a PCIe Root Port.
++A CXL Root Port serves the same purpose as a PCIe Root Port.
+ There are a number of CXL specific Designated Vendor Specific
+ Extended Capabilities (DVSEC) in PCIe Configuration Space
+ and associated component register access via PCI bars.
 -- 
 2.39.2
 
