@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F0B6E988A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAD36E9888
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 17:40:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppWOA-0001dd-IQ; Thu, 20 Apr 2023 11:40:02 -0400
+	id 1ppWOB-0001ea-6a; Thu, 20 Apr 2023 11:40:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robin@streamhpc.com>)
- id 1ppWO6-0001dK-Na
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:39:58 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ id 1ppWO8-0001dY-VJ
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:40:00 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robin@streamhpc.com>)
- id 1ppWO4-0002cu-8n
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:39:58 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id c9so7464892ejz.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 08:39:54 -0700 (PDT)
+ id 1ppWO7-0002gG-Fd
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 11:40:00 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id a5so7355728ejb.6
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 08:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=streamhpc-com.20221208.gappssmtp.com; s=20221208; t=1682005192; x=1684597192;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=U2r4Ii2IA/xpyMXe65bCVKM9TkC4qnrPXUCN7cHDgAg=;
- b=IIgFFicmzUzEHP5QTeUZ10EC5LkXdr+tw8kzJsZ8QQ2KFhDnkfIhqO0tytca4jri4b
- P0UAXbollwcj7btsOg4KsYTUXc9FfgRVrkifpEv6liI6xbGsN94/HZtRRulPfjboH4J3
- 8xJGuDg2kWnqZEgYeU2NYjzTzwfJWdJNohOex7Ef9Vc1+NUeho+bNajuqjPD7Tf3RK6j
- /ZHlk5OYZ/GNSmkHVenH/YIV1HwRKDsRLBMYn97M13eKuo7g/h6lqQn95yhTqy8ymWyb
- g5UhBo7/WQRvQtt2j6/fD2UPnT8juvM8xCKQMw6c+Xyelj9/5zcyrEBJDm9gpmDf/mud
- iCSA==
+ d=streamhpc-com.20221208.gappssmtp.com; s=20221208; t=1682005197; x=1684597197;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fMSXDOyBHSzUo4V9CU8EMz5/zuTCjkvesZBc0BhhGlk=;
+ b=BXHKBdyYDmXuJqbRMXQotKkZ+OOFH9r1++BUUvn2mhnuRTcUM8G4obRwn1GrE5UU6F
+ TObwVuTsLjQ3gTjJvC0/7LEb4Yy/mY4ckFSrg1VjhSoG3obxvBKnK46B89R2NOjEgNld
+ YDfP8eYLL8oGz0NPIbloR3Km5U+qhhge7YxX8nJ5Spqn9LYb1+WyWfgTFudeAjMy5/9y
+ bbxRyCOGasgLq1orRhQDW/6Kc0Sy+hu/8TZxUHaUAoUCfd8Ni4wxu4MhnuIMbzNDmYro
+ vfekRd7Abq6YOZQDA9LhVbXIu9C+8YgOuCygasaz1aup+6+8BfdXGxfHrkGuORDGgZ77
+ Dj+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682005192; x=1684597192;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=U2r4Ii2IA/xpyMXe65bCVKM9TkC4qnrPXUCN7cHDgAg=;
- b=Gf0HCVzfmip6+BQ8gZ5TwmV7KOfB18HauOL8TWkAbNr39P9eXXPlLaFrKZCWUI5dnk
- OQtGjNgIiO2fu+XONZrrFlDwxFeXoZNAM48rzHeNWJQxnAD9bswE2lZvE3LUfIUmDFYf
- M1AcUMy6iUZ9vY7m8tZbHem0BtzEu97QDp5J3c5Sz5GLFqYcsjqagsz4CEEFG/4Clv6c
- ttqnH2dcm9Xz071PDcV7j+GnjR8u8+ohG30eFNmF2LrbK4462JOd/ujjrWS2HXKaUIjO
- eprO9CYRAtYG8/Q4lmgwnhlcaUAS255yslih1ItzfzLfSo3LxIjVlfjLFFkF2CPySnYX
- /5sw==
-X-Gm-Message-State: AAQBX9fYdYND/K3TqXlmVLRy8ugzvO2LGfKTmcb2ucYCVRXxpWvIYg6W
- k9XV5ZQd+a+79qMQqP0uK/iZe+6ih8MHnhyjH8Y=
-X-Google-Smtp-Source: AKy350apik6g6peCokuY55epMQRUdFcbrRg9th/uwhLdsPfNkxRefw/d1ZUKerUgEAj7mcwKygH9AA==
-X-Received: by 2002:a17:906:bb11:b0:92b:6b6d:2daf with SMTP id
- jz17-20020a170906bb1100b0092b6b6d2dafmr1860844ejb.77.1682005192103; 
- Thu, 20 Apr 2023 08:39:52 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682005197; x=1684597197;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fMSXDOyBHSzUo4V9CU8EMz5/zuTCjkvesZBc0BhhGlk=;
+ b=S8Aktc0CmiNrzIr4cOE4TdLYWXWnjhLzetaFaaPdrhRAbi60JRueq/z57l/XnZbeoX
+ Ai75YkbaYRxTIugN1yCwIBK5yqdNq90WMfn/RKsmdb1Z9mE/wVccI9DL7Rtn6Vm/4vZz
+ ZjmuDuncSLRoLSgnlFsupGfBbhHdgFDuaajPhI7kpjLXUugXQXNchfEC8oMOMPb3+5bD
+ lyoWOVQB2tMxKr4nMLWz8KX948if8dd1iOLqYJQdz7ne12JRqaWhE2oC4mKHV0QemD60
+ afzy70aeh2cSsz3TKU26b0RqW+G9nNz8uqeKzzhGRQv/YLPgWQi5N/I2eGLASlRcqaNq
+ MojQ==
+X-Gm-Message-State: AAQBX9evrr+T2UoCX2xQU3/uwcBgWQr8Lm3Het31YHX2C1jihs9Ccydp
+ DL1Ys3klp66Eo8Jyt7TxycBHUaTVBybvNNmciug=
+X-Google-Smtp-Source: AKy350b79GBW17UivoDNW6XF1/Revf0RVNc3LUsUb9VPXEWK1GIgQ9yZ9v0S89aiLf7IZOTGjCOzVg==
+X-Received: by 2002:a17:906:9713:b0:94e:eab3:9e86 with SMTP id
+ k19-20020a170906971300b0094eeab39e86mr1987665ejx.33.1682005197721; 
+ Thu, 20 Apr 2023 08:39:57 -0700 (PDT)
 Received: from localhost.localdomain (095-097-139-014.static.chello.nl.
  [95.97.139.14]) by smtp.gmail.com with ESMTPSA id
- r2-20020a1709063d6200b00949691d3183sm859463ejf.36.2023.04.20.08.39.51
+ r2-20020a1709063d6200b00949691d3183sm859463ejf.36.2023.04.20.08.39.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 08:39:51 -0700 (PDT)
+ Thu, 20 Apr 2023 08:39:57 -0700 (PDT)
 From: robin@streamhpc.com
 To: qemu-devel@nongnu.org
 Cc: "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Robin Voetter <robin@streamhpc.com>
-Subject: [PATCH 0/1] pcie: Allow atomic completion on PCIE root port
-Date: Thu, 20 Apr 2023 17:38:39 +0200
-Message-Id: <20230420153839.167418-1-robin@streamhpc.com>
+Subject: [PATCH 1/1] pcie: Allow generic PCIE root port to enable atomic
+ completion
+Date: Thu, 20 Apr 2023 17:38:40 +0200
+Message-Id: <20230420153839.167418-2-robin@streamhpc.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230420153839.167418-1-robin@streamhpc.com>
+References: <20230420153839.167418-1-robin@streamhpc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=robin@streamhpc.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=robin@streamhpc.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,97 +94,67 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Robin Voetter <robin@streamhpc.com>
 
-The ROCm driver for Linux uses PCIe atomics to schedule work and
-generally communicate between the host and the device.  This does not
-currently work in QEMU with regular vfio-pci passthrough, because the
-pcie-root-port does not advertise the PCIe atomic completer
-capabilities.  When initializing the GPU from the Linux driver, it
-queries whether the PCIe connection from the CPU to GPU supports the
-required capabilities[1] in the pci_enable_atomic_ops_to_root
-function[2].  Currently the only part where this fails is checking the
-atomic completer capabilities (32 and 64 bits) on the root port[3].  In
-this case, the driver determines that PCIe atomics are not supported at
-all, and this causes ROCm programs to misbehave.  (While AMD advertises
-that there is some support for ROCm without PCIe atomics, I have never
-actually gotten that working...)
+Adds an experimental option to the pcie-root-port to make it report
+support for the PCIe atomic completion capabilities.  This can now be
+enabled by setting the x-atomic-completion option on the pcie-root-port
+device.  Defaults to disabled for now.  For example:
 
-This patch allows ROCm to properly function by introducing an
-additional experimental property to the pcie-root-port,
-x-atomic-completion.  Setting this option makes the port report
-support for the PCI_EXP_DEVCAP2_ATOMIC_COMP32 and COMP64
-capabilities.  This then makes the check from [3] pass, and
-everything seems to work appropriately after that.
+    -device pcie-root-port,x-atomic-completion=true,id=pcie.1
 
-To verify that the capabilities are reported correctly, one can use
-lspci to check the capabilities of the root port: lspci -vvv -s <root
-port id> should show 32bit+ and 64bit+ capabilities in DevCap2 when
-x-atomic-completion is enabled.  For example:
-
-    -device pcie-root-port,x-atomic-completion=true,id.pcie.1
-
-The output of lspci should include the following for the pcie root port:
-
-    AtomicOpsCap: 32bit+ 64bit+ 128bitCAS-
-
-To verify that ROCm works, the following HIP program should be
-sufficient.  The work is scheduled to the GPU by signaling a semaphore
-using atomic operations from the CPU side, which is completed on the
-GPU, and the GPU-side printf works by signaling a semaphore from the GPU
-that is completed on the CPU.  It can be compiled using hipcc with
-'hipcc -otest test.hip':
-
-    #include <hip/hip_runtime.h>
-    __global__ void test() {
-        printf("hello, world\n");
-    }
-    int main() {
-        test<<<dim3(1), dim3(1)>>>();
-        hipDeviceSynchronize();
-    }
-
-Previously, or when x-atomic-completion is set to false, this program
-would simply hang.  Additionally, a message along the lines of the
-following is printed to dmesg during boot if the GPU driver determines
-that atomics are not supported:
-
-    amdgpu 0000:01:00.0: amdgpu: PCIE atomic ops is not supported
-
-When atomics are properly supported, the above program works as
-intended, and the previous dmesg message is of course not printed. For
-this I am using a simple machine setup using the following device
-options, with the GPU that im testing with of course on 03:00.0.
-
-     -device pcie-root-port,x-atomic-completion=true,id=pcie.1
-     -device vfio-pci,host=03:00.0,bus=pcie.1
-
-This patch does not include any automatic detection whether the root
-port of the host supports the atomic completer capabilities, nor if any
-of the physical PCIe bridges between the CPU and GPU support atomic
-routing.  The intention here is that the user should make sure that the
-host does support atomic completion on the root complex. See also some
-prior discussion[4].  I have run the full test suite of some ROCm
-libraries: rocPRIM, rocRAND, hipRAND, hipCUB and rocThrust.  All of the
-tests pass now, with some minor unrelated changes.
-
-Kind regards,
-
-Robin Voetter, Stream HPC
-
-[1] https://github.com/torvalds/linux/blob/v6.2/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c#L3716
-[2] https://github.com/torvalds/linux/blob/v6.2/drivers/pci/pci.c#L3781
-[3] https://github.com/torvalds/linux/blob/v6.2/drivers/pci/pci.c#L3829
-[4] https://lists.nongnu.org/archive/html/qemu-devel/2023-04/msg01815.html
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Signed-off-by: Robin Voetter <robin@streamhpc.com>
 ---
-
-Robin Voetter (1):
-  pcie: Allow generic PCIE root port to enable atomic completion
-
  hw/pci-bridge/gen_pcie_root_port.c | 2 ++
  hw/pci/pcie.c                      | 6 ++++++
  include/hw/pci/pcie_port.h         | 3 +++
  3 files changed, 11 insertions(+)
 
---
+diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/gen_pcie_root_port.c
+index 1ce4e7beba..097eaecbed 100644
+--- a/hw/pci-bridge/gen_pcie_root_port.c
++++ b/hw/pci-bridge/gen_pcie_root_port.c
+@@ -145,6 +145,8 @@ static Property gen_rp_props[] = {
+                                 speed, PCIE_LINK_SPEED_16),
+     DEFINE_PROP_PCIE_LINK_WIDTH("x-width", PCIESlot,
+                                 width, PCIE_LINK_WIDTH_32),
++    DEFINE_PROP_BOOL("x-atomic-completion", PCIESlot,
++                     atomic_completion, false),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index b8c24cf45f..5dd61e3cdb 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -663,6 +663,12 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+ 
+     qbus_set_hotplug_handler(BUS(pci_bridge_get_sec_bus(PCI_BRIDGE(dev))),
+                              OBJECT(dev));
++
++    if (s->atomic_completion) {
++        /* PCIe requires setting both comp32 and comp64 if either is supported */
++        pci_set_long(dev->config + dev->exp.exp_cap + PCI_EXP_DEVCAP2,
++                     PCI_EXP_DEVCAP2_ATOMIC_COMP32 | PCI_EXP_DEVCAP2_ATOMIC_COMP64);
++    }
+ }
+ 
+ void pcie_cap_slot_reset(PCIDevice *dev)
+diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+index 90e6cf45b8..5e85657bb0 100644
+--- a/include/hw/pci/pcie_port.h
++++ b/include/hw/pci/pcie_port.h
+@@ -68,6 +68,9 @@ struct PCIESlot {
+     /* broken ACPI hotplug compat knob to preserve 6.1 ABI intact */
+     bool        hide_native_hotplug_cap;
+ 
++    /* Enables PCIE Atomic completion on pcie_root_port */
++    bool atomic_completion;
++
+     QLIST_ENTRY(PCIESlot) next;
+ };
+ 
+-- 
 2.39.2
 
 
