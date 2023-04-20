@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC94A6E8F3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAA66E8F78
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:08:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRAE-0000cg-Ts; Thu, 20 Apr 2023 06:05:18 -0400
+	id 1ppRAD-0000ba-B6; Thu, 20 Apr 2023 06:05:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRA4-0000Xj-3k
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:08 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ id 1ppRA7-0000Yi-8O
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:11 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppR9z-0003et-Qb
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:06 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-2efbaad9d76so445721f8f.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:05:02 -0700 (PDT)
+ id 1ppRA1-0003f2-KN
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:10 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-2febac9cacdso282817f8f.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681985101; x=1684577101;
+ d=linaro.org; s=google; t=1681985102; x=1684577102;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Gpk2O9QYMWltB8kuw8C1EvNPkPN/lY6R3pJGRRQ85tA=;
- b=NzY9mES7ibVQWezGS/1/9Ya/Y75yfYJY01EOAQmpITdCvr+57HmxuTgcU3XeNZH5ao
- vDdakdeeTTKQaspjyfzM5W5Vwr8jfcxrbCfJhtO6SkpYCdL69UAWMh0UB1RaJYwpy8Uo
- OKOsLc+h4/lTaTuKxz/lLJEspG2T5iYE05oyp3nl/YqFo/2t/kTpktzsVmR+XnYp+l7W
- lwvBJYPE3pN5KiQTn4N6FQrEw537F6PiJNmlk8/zSrYHMPMs6EIxtl6/UGqvaXgqz/yD
- m9W5g7r9TUP/YUi+XEwF7+FHfUaPcNJjYZcvEgM6cmgChtgRk3dpHdmmQO3+b4bp2PBo
- w7+Q==
+ :reply-to; bh=gHMd6Mccc9WWoHnZhKOQsV6TX3fZq4KK5xzXCVpXhHc=;
+ b=jV43J+jPPgeZZ1rafSh+11Yui31ZGn0F+Gg8wWEyD4/N8wfisjlzfLmg629dax6O+j
+ oovT03f6gnlsu5AX4cSC3Q3OQMJEcv47LhD8kVs2LU6RpSXH1UXk3oydrzlrag0VKW2G
+ XFZuLMLWWidW5yFA/dxtszsyPu++eWDbzboS19KGx9BnfkgeFU1fR07HKkI4OOFgL7Jx
+ wCzyyQ89mnI2Q/15Lvry9v/OLRrbUeXcDql6oz/A1y9LXMdK/fT/1I/zZnEpA7H1d4Pn
+ iT6fIVce9hkjx+ztZqYNN5KkwszMeV/JvAguA4HDIPOvNNlJ8xTucuDSWbz6cVfbx9SZ
+ B3Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681985101; x=1684577101;
+ d=1e100.net; s=20221208; t=1681985102; x=1684577102;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Gpk2O9QYMWltB8kuw8C1EvNPkPN/lY6R3pJGRRQ85tA=;
- b=RMVZXoyOhF5hY6596kJu35HaEvHvx92C1Pm99fmC+kXHri6gvvhsjFAsDFZ9cdBJYE
- 4xGcRG1HLqBoBBWGFF/Pbh3zVDC6zMuRkv7lqR9g8lvKhxCgbdw/mFptoo1c6Y4beRpA
- CgAex9k5hvE/cVzQcvx3p4jWqBIlXOGFOBuP3/IW5l0A1QqrJKn3/IEsYW2AR9PFhOTP
- MS+EsXAO7nH3fjViLnds8cFpxN6ucVNujLvfQow7G5lSIjnSZCeZls7B7g9bgIUL70y+
- aAtV4y5zaJpa0U7tMd5sbeFcy4gajho+hsWvi9sOw61BQCkjS9r5VUTU+M1YV47GxAHs
- EOZg==
-X-Gm-Message-State: AAQBX9cGDTOkxMcn4RqUQO8t1US92jMPGA4CMt6sxmp9naiD7W2mMyG3
- toVAkeg9Ccp/8eGdXMClrGMMnwBLD3r0j0cXKHI=
-X-Google-Smtp-Source: AKy350Z208x9WAr9xpGai+AManqTvX6QhZib5cndRVex0AYR73CCFlcIbZAuDuXJOVUsl9qUpqxBqQ==
-X-Received: by 2002:adf:ee8f:0:b0:2f8:ddce:f838 with SMTP id
- b15-20020adfee8f000000b002f8ddcef838mr784848wro.21.1681985101487; 
- Thu, 20 Apr 2023 03:05:01 -0700 (PDT)
+ bh=gHMd6Mccc9WWoHnZhKOQsV6TX3fZq4KK5xzXCVpXhHc=;
+ b=M/XGLGIOSlkB98OiRGi4nE0V7ws0VNJYEAmAsc7eDD8K64SXceTwSgRHEEhh0tiAyo
+ Kg7GrtaSb+jSZOOr5lIAK8eDEqvStGGL7+RMz2udOz+yhzhy/4ZKBsb3XyLX2cXuXXxX
+ yzSETK2FP+0d+LCuCaB8wY5z/zIcT0r75CCg9u/+Bhy+SF6SDDLM6t6I8geA5h/PR0bb
+ G2wO6sewLNWNNBCauu0wHe35Ynwm4o/4R3QHBXKDLoTOmibtRNyZ4kSJ+5ROnpi6LiNv
+ e+JgHTLu4Jixiu54bUi4NohHZDsusOmk25+03H+UbPGg167StCQG7LnQqMxhRgjzKr4P
+ qDeA==
+X-Gm-Message-State: AAQBX9eJ/8MSF8m654fD+KyFAs90UCuM3EcrpOR4diRMp0EzfkYgriBL
+ l0qY5TrrYecO0JEIRU6tjubklJfGWlziciOTqQU=
+X-Google-Smtp-Source: AKy350Y0Sws7heQ26++tRlTCAn0kytd+YuV1YqF9kJE/R9Djvh9hGclqSbMezrPv6+b7vdwCmKOUrg==
+X-Received: by 2002:adf:ff83:0:b0:2f9:5841:a4d4 with SMTP id
+ j3-20020adfff83000000b002f95841a4d4mr905392wrr.27.1681985102123; 
+ Thu, 20 Apr 2023 03:05:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  o2-20020a5d58c2000000b002fe522117fdsm1556388wrf.36.2023.04.20.03.05.01
@@ -58,23 +58,24 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Thu, 20 Apr 2023 03:05:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/21] hw/arm: Add WDT to Allwinner-A10 and Cubieboard
-Date: Thu, 20 Apr 2023 11:04:39 +0100
-Message-Id: <20230420100456.944969-5-peter.maydell@linaro.org>
+Subject: [PULL 05/21] hw/arm: Add WDT to Allwinner-H3 and Orangepi-PC
+Date: Thu, 20 Apr 2023 11:04:40 +0100
+Message-Id: <20230420100456.944969-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230420100456.944969-1-peter.maydell@linaro.org>
 References: <20230420100456.944969-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,93 +93,107 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
 
-This patch adds WDT to Allwinner-A10 and Cubieboard.
-WDT is added as an overlay to the Timer module memory map.
+This patch adds WDT to Allwinner-H3 and Orangepi-PC.
+WDT is added as an overlay to the Timer module memory area.
 
 Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-id: 20230326202256.22980-3-strahinja.p.jankovic@gmail.com
+Message-id: 20230326202256.22980-4-strahinja.p.jankovic@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/cubieboard.rst | 1 +
- include/hw/arm/allwinner-a10.h | 2 ++
- hw/arm/allwinner-a10.c         | 7 +++++++
- hw/arm/Kconfig                 | 1 +
- 4 files changed, 11 insertions(+)
+ docs/system/arm/orangepi.rst  | 1 +
+ include/hw/arm/allwinner-h3.h | 5 ++++-
+ hw/arm/allwinner-h3.c         | 8 ++++++++
+ hw/arm/Kconfig                | 1 +
+ 4 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/arm/cubieboard.rst b/docs/system/arm/cubieboard.rst
-index 8d485f5435a..58c4a2d3ea6 100644
---- a/docs/system/arm/cubieboard.rst
-+++ b/docs/system/arm/cubieboard.rst
-@@ -15,3 +15,4 @@ Emulated devices:
- - USB controller
- - SATA controller
- - TWI (I2C) controller
-+- Watchdog timer
-diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
-index 095afb225d6..cd1465c6138 100644
---- a/include/hw/arm/allwinner-a10.h
-+++ b/include/hw/arm/allwinner-a10.h
-@@ -13,6 +13,7 @@
- #include "hw/misc/allwinner-a10-ccm.h"
- #include "hw/misc/allwinner-a10-dramc.h"
+diff --git a/docs/system/arm/orangepi.rst b/docs/system/arm/orangepi.rst
+index e5973600a15..9afa54213b0 100644
+--- a/docs/system/arm/orangepi.rst
++++ b/docs/system/arm/orangepi.rst
+@@ -26,6 +26,7 @@ The Orange Pi PC machine supports the following devices:
+  * System Control module
+  * Security Identifier device
+  * TWI (I2C)
++ * Watchdog timer
+ 
+ Limitations
+ """""""""""
+diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
+index 59e0f822d2d..f15d6d7cc7d 100644
+--- a/include/hw/arm/allwinner-h3.h
++++ b/include/hw/arm/allwinner-h3.h
+@@ -48,6 +48,7 @@
+ #include "hw/net/allwinner-sun8i-emac.h"
+ #include "hw/rtc/allwinner-rtc.h"
  #include "hw/i2c/allwinner-i2c.h"
 +#include "hw/watchdog/allwinner-wdt.h"
+ #include "target/arm/cpu.h"
  #include "sysemu/block-backend.h"
  
- #include "target/arm/cpu.h"
-@@ -41,6 +42,7 @@ struct AwA10State {
-     AwSdHostState mmc0;
-     AWI2CState i2c0;
+@@ -96,7 +97,8 @@ enum {
+     AW_H3_DEV_RTC,
+     AW_H3_DEV_CPUCFG,
+     AW_H3_DEV_R_TWI,
+-    AW_H3_DEV_SDRAM
++    AW_H3_DEV_SDRAM,
++    AW_H3_DEV_WDT
+ };
+ 
+ /** Total number of CPU cores in the H3 SoC */
+@@ -141,6 +143,7 @@ struct AwH3State {
+     AWI2CState r_twi;
+     AwSun8iEmacState emac;
      AwRtcState rtc;
 +    AwWdtState wdt;
-     MemoryRegion sram_a;
-     EHCISysBusState ehci[AW_A10_NUM_USB];
-     OHCISysBusState ohci[AW_A10_NUM_USB];
-diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index b7ca795c712..b0ea3f7f662 100644
---- a/hw/arm/allwinner-a10.c
-+++ b/hw/arm/allwinner-a10.c
-@@ -38,6 +38,7 @@
- #define AW_A10_EHCI_BASE        0x01c14000
- #define AW_A10_OHCI_BASE        0x01c14400
- #define AW_A10_SATA_BASE        0x01c18000
-+#define AW_A10_WDT_BASE         0x01c20c90
- #define AW_A10_RTC_BASE         0x01c20d00
- #define AW_A10_I2C0_BASE        0x01c2ac00
- 
-@@ -92,6 +93,8 @@ static void aw_a10_init(Object *obj)
-     object_initialize_child(obj, "mmc0", &s->mmc0, TYPE_AW_SDHOST_SUN4I);
- 
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_AW_RTC_SUN4I);
+     GICState gic;
+     MemoryRegion sram_a1;
+     MemoryRegion sram_a2;
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+index 69d0ad6f50e..f05afddf7e0 100644
+--- a/hw/arm/allwinner-h3.c
++++ b/hw/arm/allwinner-h3.c
+@@ -49,6 +49,7 @@ const hwaddr allwinner_h3_memmap[] = {
+     [AW_H3_DEV_OHCI3]      = 0x01c1d400,
+     [AW_H3_DEV_CCU]        = 0x01c20000,
+     [AW_H3_DEV_PIT]        = 0x01c20c00,
++    [AW_H3_DEV_WDT]        = 0x01c20ca0,
+     [AW_H3_DEV_UART0]      = 0x01c28000,
+     [AW_H3_DEV_UART1]      = 0x01c28400,
+     [AW_H3_DEV_UART2]      = 0x01c28800,
+@@ -234,6 +235,8 @@ static void allwinner_h3_init(Object *obj)
+     object_initialize_child(obj, "twi1",  &s->i2c1,  TYPE_AW_I2C_SUN6I);
+     object_initialize_child(obj, "twi2",  &s->i2c2,  TYPE_AW_I2C_SUN6I);
+     object_initialize_child(obj, "r_twi", &s->r_twi, TYPE_AW_I2C_SUN6I);
 +
-+    object_initialize_child(obj, "wdt", &s->wdt, TYPE_AW_WDT_SUN4I);
++    object_initialize_child(obj, "wdt", &s->wdt, TYPE_AW_WDT_SUN6I);
  }
  
- static void aw_a10_realize(DeviceState *dev, Error **errp)
-@@ -203,6 +206,10 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->i2c0), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c0), 0, AW_A10_I2C0_BASE);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c0), 0, qdev_get_gpio_in(dev, 7));
-+
+ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+@@ -453,6 +456,11 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->r_twi), 0,
+                        qdev_get_gpio_in(DEVICE(&s->gic), AW_H3_GIC_SPI_R_TWI));
+ 
 +    /* WDT */
 +    sysbus_realize(SYS_BUS_DEVICE(&s->wdt), &error_fatal);
-+    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->wdt), 0, AW_A10_WDT_BASE, 1);
- }
- 
- static void aw_a10_class_init(ObjectClass *oc, void *data)
++    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->wdt), 0,
++                            s->memmap[AW_H3_DEV_WDT], 1);
++
+     /* Unimplemented devices */
+     for (i = 0; i < ARRAY_SIZE(unimplemented); i++) {
+         create_unimplemented_device(unimplemented[i].device_name,
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index db1105c7175..338dabce427 100644
+index 338dabce427..91636ab460c 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -325,6 +325,7 @@ config ALLWINNER_A10
-     select ALLWINNER_A10_PIC
-     select ALLWINNER_A10_CCM
-     select ALLWINNER_A10_DRAMC
-+    select ALLWINNER_WDT
-     select ALLWINNER_EMAC
+@@ -337,6 +337,7 @@ config ALLWINNER_H3
+     select ALLWINNER_A10_PIT
+     select ALLWINNER_SUN8I_EMAC
      select ALLWINNER_I2C
-     select AXP209_PMU
++    select ALLWINNER_WDT
+     select SERIAL
+     select ARM_TIMER
+     select ARM_GIC
 -- 
 2.34.1
 
