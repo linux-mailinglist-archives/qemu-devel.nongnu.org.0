@@ -2,104 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764AD6E9AA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 19:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D726E9AAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 19:26:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppXzh-00049O-12; Thu, 20 Apr 2023 13:22:53 -0400
+	id 1ppY2e-0004vX-QO; Thu, 20 Apr 2023 13:25:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ppXzf-00049F-Ke
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 13:22:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ppXze-0006i9-6F
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 13:22:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682011369;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6KjIZp/auA97xeuNY3tYnRGOBlSImC/bBkgYlFLISEM=;
- b=Z+ptCCtkMF7jA/SEuk4qPVV3lHEnj80ugh/32z6B5FOwaW70WVyIhqnX7SI1UASJWNoPeu
- LfuPEEv7k7UW3bDyGMJWOPVkZ4G6uMkhjzNWjVZFcfXxs1bbRnON3NMrljcG5QtXzpzUXX
- 71OvHLihEQGP4Z0sr96Ie7fTtJR0xq8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-351-fwM4bSeqPZCDCaCwKU9dNg-1; Thu, 20 Apr 2023 13:22:45 -0400
-X-MC-Unique: fwM4bSeqPZCDCaCwKU9dNg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f065208a64so5069305e9.3
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 10:22:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1ppY2c-0004vN-GO
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 13:25:54 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1ppY2Z-0007Tg-ML
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 13:25:53 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id
+ d2e1a72fcca58-63b733fd00bso1150357b3a.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 10:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682011550; x=1684603550;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2zCqtpCoec0UptKb0OnX3qyznNATG92HcVmQ6vVxicY=;
+ b=D/tt9NIoDej4nA/Fe6qdBMuW6Zj3EBWhL2nzi/iFjpWM1BhjdU66ke08JEGTN2JaLT
+ pnVHq0gXvjY0CYa/PGJ2z7uqO7WzcfLwlPB79PLr7V9rDjhcSycl4j48+VJqO9I6SKkA
+ v7N0Cf4z6AsHBemy3xh8kV5PTVgqh/247c1HuK3Cbfnt7r6qJ1EDZDZNKiW56+UeJQ/w
+ sWgjP15CVOPf/fxA/aGIZHnaarLjDb+ZnbSXgVL6bLx6R0YSRpaOpUGI/D5ZoH4WMq58
+ QtWIR89ha0cCFQDuCMEJexhfzQ091I9Mz5CVxCga+ztoz2OgNEOBbNskXzbIhGrCE5cc
+ H01A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682011365; x=1684603365;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6KjIZp/auA97xeuNY3tYnRGOBlSImC/bBkgYlFLISEM=;
- b=jDxcsta19grCTO7sIUdR4/wBv9OhW1Xiqd91dAl1FDBk3Q0zFsZBmX2jKElKnILmdC
- 9uk3cKFZOT3qELX4VYZ1NuA+uJ0Bkh7Le0LjaMO8Sw4dLBthaw2wR2oLf/KZXbxCRDAr
- AJWtCPT3bi1W3pjO/MdGWJk3I5+3tGeufrFOuExRNr3g0q4rG95JThj1oYqHS8AXtEq2
- 9GgBi6Xb/s/Kw5fjPTwV3jIiOYicR0n0PS9jnOSQ+xzeTAB2ApnMCZ82K6Vs2NMri4wP
- yisC5LQYaB4XFvTLT5JpbCW6o+/uIb2liPRywVx5Sn1WTENyINrma8L2W1DFjehF3l57
- ZMBg==
-X-Gm-Message-State: AAQBX9cLcd7q0cKgDAQI1P55LNhC6Nprb/Xabr3t2jVGSIHa+DkT0+ob
- hdgbQI4tv7V0BIdHsq+PMepokyzFf061dFbSnk20DPbvNyUhWvwuugNkCPtisULMULm4arVEC/d
- naLOtO8oyfbudstA=
-X-Received: by 2002:a5d:5222:0:b0:2fe:851c:672f with SMTP id
- i2-20020a5d5222000000b002fe851c672fmr2139662wra.8.1682011364804; 
- Thu, 20 Apr 2023 10:22:44 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z5/s83FRKPyOzG8oTKVwycIEhIFzyN9ba3T50lv7YsdTb3xclQx/SjRJqv9cYwFgm5M4o1ow==
-X-Received: by 2002:a5d:5222:0:b0:2fe:851c:672f with SMTP id
- i2-20020a5d5222000000b002fe851c672fmr2139638wra.8.1682011364443; 
- Thu, 20 Apr 2023 10:22:44 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c712:8100:8ea7:9fc9:e956:89?
- (p200300cbc71281008ea79fc9e9560089.dip0.t-ipconnect.de.
- [2003:cb:c712:8100:8ea7:9fc9:e956:89])
+ d=1e100.net; s=20221208; t=1682011550; x=1684603550;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2zCqtpCoec0UptKb0OnX3qyznNATG92HcVmQ6vVxicY=;
+ b=BD2T8M3nEiH9pTyHd7emfrYODkfPwMo7ycuRDwklNmOtxMV7BkfkG2fwIecDiqSfuU
+ DFmUxNnn9Nemlrfmv///6Y9YR9eXr7UZ7fRqxKhxGmNr6+Gj6jLFOg85TUcyQBpu/ArI
+ nvNd3gPCU9a94//fMvdQXqwa4TAJxU0MeAzaFp8t90+dHeGjSGRkvKCYQEsEhKf4q1Qx
+ eFtGtUZq61ygRLH7qqRgXWQrubeed0tdslwKpspRY0F3wo4zS1HU7+BCqM6LUpYjM0GE
+ ZHoFaEcUQAW98DzODf3qe0SO748jcmL1tuVES+kB4V3f0dAVF2jVhHMyopfDQsdir6ip
+ gJqw==
+X-Gm-Message-State: AAQBX9ep5TPJn5NfyniHEY9xtB71CQQvjLyZYyNWnxMVHO1kP6dWRfIN
+ Z7oqu2/3Kx5SpwaB44BTZTxVnQ==
+X-Google-Smtp-Source: AKy350ZGVymZ4rSUz5aQYBVDg0iZ9aRo+zAKUyhPV+kc+5wrZezD/o/+T2R3pBKPJMnbU49on0xxxA==
+X-Received: by 2002:a05:6a20:12c1:b0:ef:f887:40cb with SMTP id
+ v1-20020a056a2012c100b000eff88740cbmr3394255pzg.4.1682011550166; 
+ Thu, 20 Apr 2023 10:25:50 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f4-20020a0560001b0400b002ffbf2213d4sm2431829wrz.75.2023.04.20.10.22.43
+ v10-20020a62c30a000000b006352a6d56ebsm1483870pfg.119.2023.04.20.10.25.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 10:22:43 -0700 (PDT)
-Message-ID: <3577db7d-27ab-d5a2-8765-4378ef313fab@redhat.com>
-Date: Thu, 20 Apr 2023 19:22:42 +0200
+ Thu, 20 Apr 2023 10:25:49 -0700 (PDT)
+Message-ID: <c0a10431-2454-d022-f9ad-013f30b11850@daynix.com>
+Date: Fri, 21 Apr 2023 02:25:46 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v5] hostmem-file: add offset option
+Subject: Re: [PATCH v2 01/41] hw/net/net_tx_pkt: Decouple implementation from
+ PCI
 Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>, Alexander Graf <graf@amazon.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Daniel P . Berrange" <berrange@redhat.com>, Eric Blake <eblake@redhat.com>,
- Philippe Mathieu-Daude <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Ashish Kalra <ashish.kalra@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20230403221421.60877-1-graf@amazon.com> <ZCw16TyJf1iOS/1T@x1n>
- <9930c066-44bf-9365-9c68-aa5ff505c9ba@redhat.com>
- <20230411134604.7a617bd7@imammedo.users.ipa.redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230411134604.7a617bd7@imammedo.users.ipa.redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
+References: <20230420054657.50367-1-akihiko.odaki@daynix.com>
+ <20230420054657.50367-2-akihiko.odaki@daynix.com>
+ <c28bd26b-1451-4363-f7c8-585067a2d599@linaro.org>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <c28bd26b-1451-4363-f7c8-585067a2d599@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,57 +106,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11.04.23 13:46, Igor Mammedov wrote:
-> On Wed, 5 Apr 2023 15:58:31 +0200
-> David Hildenbrand <david@redhat.com> wrote:
+On 2023/04/20 18:46, Philippe Mathieu-Daudé wrote:
+> Hi Akihiko,
 > 
->> On 04.04.23 16:36, Peter Xu wrote:
->>> On Mon, Apr 03, 2023 at 10:14:21PM +0000, Alexander Graf wrote:
->>>> Add an option for hostmem-file to start the memory object at an offset
->>>> into the target file. This is useful if multiple memory objects reside
->>>> inside the same target file, such as a device node.
->>>>
->>>> In particular, it's useful to map guest memory directly into /dev/mem
->>>> for experimentation.
->>>>
->>>> To make this work consistently, also fix up all places in QEMU that
->>>> expect fd offsets to be 0.
->>>>
->>>> Signed-off-by: Alexander Graf <graf@amazon.com>
->>>
->>> Acked-by: Peter Xu <peterx@redhat.com>
->>>
->>> I also agree it'll be nicer to split the fix into separate patch, though.
->>> The only affected part IIUC is multi-process QEMU since 6.0.0.  Copying the
->>> maintainers too so they'll be aware.
->>>
->>> Corresponds to the tag:
->>>
->>> Fixes: ed5d001916 ("multi-process: setup memory manager for remote device")
->>>    
+> On 20/4/23 07:46, Akihiko Odaki wrote:
+>> This is intended to be followed by another change for the interface.
+>> It also fixes the leak of memory mapping when the specified memory is
+>> partially mapped.
 >>
->> If there are no options on splitting out the fix, I'll route this via my
->> tree.
+>> Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> ---
+>>   hw/net/net_tx_pkt.h |  9 ++++++++
+>>   hw/net/net_tx_pkt.c | 53 ++++++++++++++++++++++++++++-----------------
+>>   2 files changed, 42 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+>> index e5ce6f20bc..5eb123ef90 100644
+>> --- a/hw/net/net_tx_pkt.h
+>> +++ b/hw/net/net_tx_pkt.h
+>> @@ -153,6 +153,15 @@ void net_tx_pkt_dump(struct NetTxPkt *pkt);
+>>    */
+>>   void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *dev);
+>> +/**
+>> + * Unmap a fragment mapped from a PCI device.
+>> + *
+>> + * @context:        PCI device owning fragment
 > 
-> Having fixes as separate prep patch is much more preferable.
+> Per your description ...
 > 
+>> + * @base:           pointer to fragment
+>> + * @len:            length of fragment
+>> + */
+>> +void net_tx_pkt_unmap_frag_pci(void *context, void *base, size_t len);
+> 
+> ... we can directly use the stricter 'PCIDevice *dev'.
 
-Right. Question is if it's really worth it. (it's quite a corner cases I 
-guess ...)
+This function is intended to match the following type added later:
+typedef void (*NetTxPktFreeFrag)(DeviceState *, void *, size_t);
 
-> Another question is if we should also check that provided
-> offset honors 'align' option?
+> 
+>>   /**
+>>    * Send packet to qemu. handles sw offloads if vhdr is not supported.
+>>    *
+>> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+>> index 8dc8568ba2..aca12ff035 100644
+>> --- a/hw/net/net_tx_pkt.c
+>> +++ b/hw/net/net_tx_pkt.c
+>> @@ -384,10 +384,9 @@ void net_tx_pkt_setup_vlan_header_ex(struct 
+>> NetTxPkt *pkt,
+>>       }
+>>   }
+>> -bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
+>> -    size_t len)
+>> +static bool net_tx_pkt_add_raw_fragment_common(struct NetTxPkt *pkt,
+>> +                                               void *base, size_t len)
+>>   {
+>> -    hwaddr mapped_len = 0;
+>>       struct iovec *ventry;
+>>       assert(pkt);
+>> @@ -395,23 +394,12 @@ bool net_tx_pkt_add_raw_fragment(struct NetTxPkt 
+>> *pkt, hwaddr pa,
+>>           return false;
+>>       }
+>> -    if (!len) {
+>> -        return true;
+>> -     }
+>> -
+>>       ventry = &pkt->raw[pkt->raw_frags];
+>> -    mapped_len = len;
+>> +    ventry->iov_base = base;
+>> +    ventry->iov_len = len;
+>> +    pkt->raw_frags++;
+>> -    ventry->iov_base = pci_dma_map(pkt->pci_dev, pa,
+>> -                                   &mapped_len, 
+>> DMA_DIRECTION_TO_DEVICE);
+>> -
+>> -    if ((ventry->iov_base != NULL) && (len == mapped_len)) {
+>> -        ventry->iov_len = mapped_len;
+>> -        pkt->raw_frags++;
+>> -        return true;
+>> -    } else {
+>> -        return false;
+>> -    }
+>> +    return true;
+>>   }
+>>   bool net_tx_pkt_has_fragments(struct NetTxPkt *pkt)
+>> @@ -465,8 +453,9 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt, 
+>> PCIDevice *pci_dev)
+>>           assert(pkt->raw);
+>>           for (i = 0; i < pkt->raw_frags; i++) {
+>>               assert(pkt->raw[i].iov_base);
+>> -            pci_dma_unmap(pkt->pci_dev, pkt->raw[i].iov_base,
+>> -                          pkt->raw[i].iov_len, 
+>> DMA_DIRECTION_TO_DEVICE, 0);
+>> +            net_tx_pkt_unmap_frag_pci(pkt->pci_dev,
+>> +                                      pkt->raw[i].iov_base,
+>> +                                      pkt->raw[i].iov_len);
+>>           }
+>>       }
+>>       pkt->pci_dev = pci_dev;
+>> @@ -476,6 +465,30 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt, 
+>> PCIDevice *pci_dev)
+>>       pkt->l4proto = 0;
+>>   }
+>> +void net_tx_pkt_unmap_frag_pci(void *context, void *base, size_t len)
+> 
+> So net_tx_pkt_unmap_frag_pci(PCIDevice *dev, ...)
+> 
+>> +{
+>> +    pci_dma_unmap(context, base, len, DMA_DIRECTION_TO_DEVICE, 0);
+>> +}
+>> +
+>> +bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
+> 
+> It seems other hw/net/ models use (dma_addr_t addr, dma_addr_t len).
+> Similarly does the pci_dma_FOO() API.
 
-Good point, but I wonder if it's a real requirement (IOW, what would go 
-wrong)? The important part seems to be that the offset is aligned to the 
-underlying page size.
+This prototype is what net_tx_pkt_add_raw_fragment() currently has, and 
+this patch only moves it here. It will be updated in the following 
+patch, which replaces hwaddr with dma_addr_t.
 
-I'll be on vacation until 2. Mai, planning on picking it up by then to 
-send it upstream.
-
--- 
-Thanks,
-
-David / dhildenb
-
+> 
+>> +    size_t len)
+>> +{
+>> +    dma_addr_t mapped_len = len;
+> 
+> See, here you use dma_addr_t.
+> 
+>> +    void *base = pci_dma_map(pkt->pci_dev, pa, &mapped_len,
+>> +                             DMA_DIRECTION_TO_DEVICE);
+>> +    if (!base) {
+>> +        return false;
+>> +    }
+>> +
+>> +    if (mapped_len != len ||
+>> +        !net_tx_pkt_add_raw_fragment_common(pkt, base, len)) {
+>> +        net_tx_pkt_unmap_frag_pci(pkt->pci_dev, base, mapped_len);
+>> +        return false;
+>> +    }
+>> +
+>> +    return true;
+>> +}
+>> +
+>>   static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt,
+>>                                     struct iovec *iov, uint32_t iov_len,
+>>                                     uint16_t csl)
+> 
 
