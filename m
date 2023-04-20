@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CD16E8F8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CE96E8F90
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:10:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppREB-0005DF-9y; Thu, 20 Apr 2023 06:09:23 -0400
+	id 1ppREf-0006WN-Mc; Thu, 20 Apr 2023 06:09:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppRE9-0005CX-7E
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:09:21 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1ppREd-0006VU-IK; Thu, 20 Apr 2023 06:09:51 -0400
+Received: from mout.web.de ([212.227.17.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppRE6-0007Ax-Ns
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:09:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=s0dCWzCli6sCkYxXEIVfwYUJUPreM0j9pqx6MkPJSKc=; b=qh8coI8R0ikbRXzEXpAzQNHOmw
- /4lIPFYLuZEYK0nFVNhof5T33a3CdMTu6cM+DmKSV9R8dfJQfhdPv3I1qsg55XhOscJDG81xIBx/V
- pzZTd2m/9attVAL0JNEfIZiyZ/nLwocfh+mtFkkNj6J3s4XjHCLp4HOzLP1vxXqoE5Pj9b81vyjv3
- 96xeAFDfg5emE+Gcg2EEBgnEPlkbMFb7k0CtYd1bPW/GqwiNBxXM2TWHJ/tM/JnIOpGAS8jQ/A7+f
- cC6cj51HYqiDPDQyu0BMMWKLPS5h1ONNb25gIOImP3Z2W5ax6Ir0JW2fJkj/GP9CNMiihLhDcd3oB
- cJ3ZD3o3rTqcx1f+miMwxwgX/jNnxzjXlC4WvkVpodjJiUznJ77wogW2HPOKgwDixO0+EDGVM2U9K
- SO/vHhE9cCdOWDchoOJpoNNPU3zyb2A9x3Ah+8QcaqF1M/nbM2dsZ+SN6SlaXIlMAXu4TIQCv+O5C
- TO4UKuPXqj0AkLXdaaiRJWqDg3qDfcp2SLo7kIP+jgAt1VAVG5wYDt2e74mM5wFPXnBWKfVb5XezN
- C9l01UQEy6+MXD7snMG4ahVky/zVfdqL0Q0eUOwyZUYsK94ElgUmgow5IpclEvFwqALma79zGRv0A
- S1xb1w8rspoikk34FKqkmzPmJQIDL3YlhaT9bzUpg=;
-Received: from host81-151-114-25.range81-151.btcentralplus.com
- ([81.151.114.25] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ppRD8-000ADU-Gp; Thu, 20 Apr 2023 11:08:22 +0100
-Message-ID: <45cc9a09-e886-5822-b498-3714a1dd7182@ilande.co.uk>
-Date: Thu, 20 Apr 2023 11:09:07 +0100
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1ppREb-0007FE-Gl; Thu, 20 Apr 2023 06:09:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1681985364; i=lukasstraub2@web.de;
+ bh=K+1H05wDJheDbYjKYTCbsw1CaLKFToLi2piF96jRxRA=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=oLX5KuOrACe97MNfuK053zlWIMrbZi3Yb44pKE5lnoC6a43FHbG6eM5nhbTIGQkhC
+ FVkMUoSS5wu3HBQbXSYhUOuwDixqfuavThj1q9/bmFYUgZKFnaiZl8V78bYJ4ErvCc
+ lNxNoLFihG0vpXyOYdHz2AdtJjguz0CP/JPktXPuW2wkDJ10sYAdrvUkQAoQ2XcjyA
+ LXDNwZTmINwp4gW4biEXX3IVp+ysBpP6FacGausVcxYebfdkFeAUjgAEkL4Oo2Qxmu
+ hCb7Ep9bWYGz6cmO7dohVs/HXducO/QawPbHlLft9pTEAIfTUUhIWR2BOyVzSPi8uK
+ iJYp/4Ai4p4hA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gecko.fritz.box ([82.207.254.123]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MG994-1q5yZ62txc-00GsE0; Thu, 20
+ Apr 2023 12:09:24 +0200
+Date: Thu, 20 Apr 2023 12:09:21 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>, "michael.roth@amd.com" <michael.roth@amd.com>,
+ "armbru@redhat.com" <armbru@redhat.com>, "eblake@redhat.com"
+ <eblake@redhat.com>, "jasowang@redhat.com" <jasowang@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>, "Zhang, Hailiang"
+ <zhanghailiang@xfusion.com>, "philmd@linaro.org" <philmd@linaro.org>,
+ "thuth@redhat.com" <thuth@redhat.com>, "berrange@redhat.com"
+ <berrange@redhat.com>, "marcandre.lureau@redhat.com"
+ <marcandre.lureau@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "dave@treblig.org" <dave@treblig.org>, "hreitz@redhat.com"
+ <hreitz@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
+Subject: Re: [PATCH v2 4/4] configure: add --disable-colo-filters option
+Message-ID: <20230420100921.63b1e51b@gecko.fritz.box>
+In-Reply-To: <MWHPR11MB0031567319A3C4CE499F3CF99B639@MWHPR11MB0031.namprd11.prod.outlook.com>
+References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+ <20230419225232.508121-5-vsementsov@yandex-team.ru>
+ <MWHPR11MB0031567319A3C4CE499F3CF99B639@MWHPR11MB0031.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Viresh Kumar
- <viresh.kumar@linaro.org>, Mathieu Poirier <mathieu.poirier@linaro.org>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Markus Armbruster <armbru@redhat.com>,
- Erik Schilling <erik.schilling@linaro.org>, Jason Wang
- <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- virtio-fs@redhat.com, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20230418162140.373219-1-alex.bennee@linaro.org>
- <20230418162140.373219-10-alex.bennee@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230418162140.373219-10-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 81.151.114.25
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 09/13] hw/virtio: derive vhost-user-rng from
- vhost-user-device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; boundary="Sig_/B+Gx.od59WH+2AQN1vSW0A.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:Jt/Dq1e+JTUW1oy77+4jrFSb8EQ/eEX8IuMbvFzil0SvG8KH1dV
+ LdZzqcELX1rZInwC+0CdLPeXPGokm2rnLGTpjfmVMQ5IytSh0Bq7kUwRthjpb6y3swrCrsc
+ UMrzMymR2QS8EFeLHWFqFzD3+uQPxWFSFX/yR1tx+xSX7mH3bR6aTTKrZqJTeRawtq7kFiz
+ nBQqMcRHkoaiyXKgLGVmA==
+UI-OutboundReport: notjunk:1;M01:P0:NmfMvi+ZgtM=;/mQMKhY9b4UgbUsI8/kv7bPHgfq
+ GyONfKdGMJy9204KDsb0Kg+K47ONJYUCx5vxXmpGTJy8GP4dBI7L63kqHdqSGyb8PApJJY9d5
+ 8c/eButzrTQbZHxrkkZXFnz/rxl+c95oAPFBw8GbsTN8lkQ54+92Ammr3QbKcLyWiovgm1Sap
+ 3N9Ew6wcMeokxDEM50EN+a203HXCQm8JPbm7KDp1VPn85otty0KmDJIvEGaytUZOC367G1FmY
+ sOQ35f44QrYWmmIM0zeyEc+JUVKVNqjI4MyWQnGWLGOZcLkAhzThhP6WD5sGMkk4rD4ZXYpVs
+ YMO2v586ZD7LQFWtwpiS1ZRqV7d4C5nvWnewzdXQf84cRj5zsYeMQZv/ynyrjc6BQzxwig+/v
+ RtqFSjHJiBayOHUITC62Qz1JwALBEcdVsqkawyfKOdygV0lS38ZX5Io5cDxBACz+05rEe739z
+ 6yKz9egnLYWiEX7S8Rv54i5tgVAVgw7CdigZS5406HBA2ej0x5USIVegsjpk026F8hG6SJO62
+ U0+rkHbZQA8XUNhylNYZkXMpHUsZzc2xgHazEZK3XJpphtWue2NF3yG0BT1FBZLdJypduSk3b
+ RBZ+90wLsjCtGp9mIdG2SaIuS1b2tslrusiXJCi/olxW88eSmh2jwIn4hNsPEmlSY3d4T/bcF
+ kpaoPTxFJnoaoVs81aFRfHRHftDlBDmCWWc4TG5uD4P7FuR8FTCEuQbBPn+pB1wYt+1B0ecB+
+ BkvM8VeTZ68O57BjcHuBAGN5id8EsalIHmjNwFZQZhNZ/8GlmBCQJ5IUvsmxRAbnriu20j5Av
+ WRLXwq4x/q0x3WCGrZl1Mh6f3y9BmWlgdTIWrzcjchlcGgXtIVKqIDczeHm2Q8m5iC9ZW3mXU
+ 8qd08EI0qHw2iGRhfGBkkz7trOqG3uZvj+SEg98uHP1C4neacW7oog51N3R+fr7d/gX5236ML
+ oN6MkjvxXJ2Fwy6zkq0U0y38TLM=
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,412 +99,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/04/2023 17:21, Alex Bennée wrote:
+--Sig_/B+Gx.od59WH+2AQN1vSW0A.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> Now we can take advantage of our new base class and make
-> vhost-user-rng a much simpler boilerplate wrapper. Also as this
-> doesn't require any target specific hacks we only need to build the
-> stubs once.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v2
->    - new derivation layout
->    - move directly to softmmu_virtio_ss
-> ---
->   include/hw/virtio/vhost-user-rng.h |  11 +-
->   hw/virtio/vhost-user-rng.c         | 277 +++--------------------------
->   hw/virtio/meson.build              |   7 +-
->   3 files changed, 28 insertions(+), 267 deletions(-)
-> 
-> diff --git a/include/hw/virtio/vhost-user-rng.h b/include/hw/virtio/vhost-user-rng.h
-> index ddd9f01eea..13139c0d9d 100644
-> --- a/include/hw/virtio/vhost-user-rng.h
-> +++ b/include/hw/virtio/vhost-user-rng.h
-> @@ -12,21 +12,14 @@
->   #include "hw/virtio/virtio.h"
->   #include "hw/virtio/vhost.h"
->   #include "hw/virtio/vhost-user.h"
-> -#include "chardev/char-fe.h"
-> +#include "hw/virtio/vhost-user-device.h"
->   
->   #define TYPE_VHOST_USER_RNG "vhost-user-rng"
->   OBJECT_DECLARE_SIMPLE_TYPE(VHostUserRNG, VHOST_USER_RNG)
->   
->   struct VHostUserRNG {
->       /*< private >*/
-> -    VirtIODevice parent;
-> -    CharBackend chardev;
-> -    struct vhost_virtqueue *vhost_vq;
-> -    struct vhost_dev vhost_dev;
-> -    VhostUserState vhost_user;
-> -    VirtQueue *req_vq;
-> -    bool connected;
-> -
-> +    VHostUserBase parent;
->       /*< public >*/
->   };
->   
-> diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-> index efc54cd3fb..71d3991f93 100644
-> --- a/hw/virtio/vhost-user-rng.c
-> +++ b/hw/virtio/vhost-user-rng.c
-> @@ -3,7 +3,7 @@
->    *
->    * Copyright (c) 2021 Mathieu Poirier <mathieu.poirier@linaro.org>
->    *
-> - * Implementation seriously tailored on vhost-user-i2c.c
-> + * Simple wrapper of the generic vhost-user-device.
->    *
->    * SPDX-License-Identifier: GPL-2.0-or-later
->    */
-> @@ -13,281 +13,46 @@
->   #include "hw/qdev-properties.h"
->   #include "hw/virtio/virtio-bus.h"
->   #include "hw/virtio/vhost-user-rng.h"
-> -#include "qemu/error-report.h"
->   #include "standard-headers/linux/virtio_ids.h"
->   
-> -static const int feature_bits[] = {
-> -    VIRTIO_F_RING_RESET,
-> -    VHOST_INVALID_FEATURE_BIT
-> -};
-> -
-> -static void vu_rng_start(VirtIODevice *vdev)
-> -{
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-> -    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-> -    int ret;
-> -    int i;
-> -
-> -    if (!k->set_guest_notifiers) {
-> -        error_report("binding does not support guest notifiers");
-> -        return;
-> -    }
-> -
-> -    ret = vhost_dev_enable_notifiers(&rng->vhost_dev, vdev);
-> -    if (ret < 0) {
-> -        error_report("Error enabling host notifiers: %d", -ret);
-> -        return;
-> -    }
-> -
-> -    ret = k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, true);
-> -    if (ret < 0) {
-> -        error_report("Error binding guest notifier: %d", -ret);
-> -        goto err_host_notifiers;
-> -    }
-> -
-> -    rng->vhost_dev.acked_features = vdev->guest_features;
-> -    ret = vhost_dev_start(&rng->vhost_dev, vdev, true);
-> -    if (ret < 0) {
-> -        error_report("Error starting vhost-user-rng: %d", -ret);
-> -        goto err_guest_notifiers;
-> -    }
-> -
-> -    /*
-> -     * guest_notifier_mask/pending not used yet, so just unmask
-> -     * everything here. virtio-pci will do the right thing by
-> -     * enabling/disabling irqfd.
-> -     */
-> -    for (i = 0; i < rng->vhost_dev.nvqs; i++) {
-> -        vhost_virtqueue_mask(&rng->vhost_dev, vdev, i, false);
-> -    }
-> -
-> -    return;
-> -
-> -err_guest_notifiers:
-> -    k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, false);
-> -err_host_notifiers:
-> -    vhost_dev_disable_notifiers(&rng->vhost_dev, vdev);
-> -}
-> -
-> -static void vu_rng_stop(VirtIODevice *vdev)
-> -{
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-> -    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-> -    int ret;
-> -
-> -    if (!k->set_guest_notifiers) {
-> -        return;
-> -    }
-> -
-> -    vhost_dev_stop(&rng->vhost_dev, vdev, true);
-> -
-> -    ret = k->set_guest_notifiers(qbus->parent, rng->vhost_dev.nvqs, false);
-> -    if (ret < 0) {
-> -        error_report("vhost guest notifier cleanup failed: %d", ret);
-> -        return;
-> -    }
-> -
-> -    vhost_dev_disable_notifiers(&rng->vhost_dev, vdev);
-> -}
-> -
-> -static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
-> -{
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -    bool should_start = virtio_device_should_start(vdev, status);
-> -
-> -    if (vhost_dev_is_started(&rng->vhost_dev) == should_start) {
-> -        return;
-> -    }
-> -
-> -    if (should_start) {
-> -        vu_rng_start(vdev);
-> -    } else {
-> -        vu_rng_stop(vdev);
-> -    }
-> -}
-> -
-> -static uint64_t vu_rng_get_features(VirtIODevice *vdev,
-> -                                    uint64_t requested_features, Error **errp)
-> -{
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -
-> -    return vhost_get_features(&rng->vhost_dev, feature_bits,
-> -                              requested_features);
-> -}
-> -
-> -static void vu_rng_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> -{
-> -    /*
-> -     * Not normally called; it's the daemon that handles the queue;
-> -     * however virtio's cleanup path can call this.
-> -     */
-> -}
-> -
-> -static void vu_rng_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
-> -{
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -
-> -    vhost_virtqueue_mask(&rng->vhost_dev, vdev, idx, mask);
-> -}
-> -
-> -static bool vu_rng_guest_notifier_pending(VirtIODevice *vdev, int idx)
-> -{
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -
-> -    return vhost_virtqueue_pending(&rng->vhost_dev, idx);
-> -}
-> -
-> -static void vu_rng_connect(DeviceState *dev)
-> -{
-> -    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -
-> -    if (rng->connected) {
-> -        return;
-> -    }
-> -
-> -    rng->connected = true;
-> -
-> -    /* restore vhost state */
-> -    if (virtio_device_started(vdev, vdev->status)) {
-> -        vu_rng_start(vdev);
-> -    }
-> -}
-> -
-> -static void vu_rng_disconnect(DeviceState *dev)
-> -{
-> -    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -
-> -    if (!rng->connected) {
-> -        return;
-> -    }
-> -
-> -    rng->connected = false;
-> -
-> -    if (vhost_dev_is_started(&rng->vhost_dev)) {
-> -        vu_rng_stop(vdev);
-> -    }
-> -}
-> -
-> -static void vu_rng_event(void *opaque, QEMUChrEvent event)
-> -{
-> -    DeviceState *dev = opaque;
-> -
-> -    switch (event) {
-> -    case CHR_EVENT_OPENED:
-> -        vu_rng_connect(dev);
-> -        break;
-> -    case CHR_EVENT_CLOSED:
-> -        vu_rng_disconnect(dev);
-> -        break;
-> -    case CHR_EVENT_BREAK:
-> -    case CHR_EVENT_MUX_IN:
-> -    case CHR_EVENT_MUX_OUT:
-> -        /* Ignore */
-> -        break;
-> -    }
-> -}
-> -
-> -static void vu_rng_device_realize(DeviceState *dev, Error **errp)
-> -{
-> -    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> -    VHostUserRNG *rng = VHOST_USER_RNG(dev);
-> -    int ret;
-> -
-> -    if (!rng->chardev.chr) {
-> -        error_setg(errp, "missing chardev");
-> -        return;
-> -    }
-> -
-> -    if (!vhost_user_init(&rng->vhost_user, &rng->chardev, errp)) {
-> -        return;
-> -    }
-> -
-> -    virtio_init(vdev, VIRTIO_ID_RNG, 0);
-> -
-> -    rng->req_vq = virtio_add_queue(vdev, 4, vu_rng_handle_output);
-> -    if (!rng->req_vq) {
-> -        error_setg_errno(errp, -1, "virtio_add_queue() failed");
-> -        goto virtio_add_queue_failed;
-> -    }
-> -
-> -    rng->vhost_dev.nvqs = 1;
-> -    rng->vhost_dev.vqs = g_new0(struct vhost_virtqueue, rng->vhost_dev.nvqs);
-> -    ret = vhost_dev_init(&rng->vhost_dev, &rng->vhost_user,
-> -                         VHOST_BACKEND_TYPE_USER, 0, errp);
-> -    if (ret < 0) {
-> -        error_setg_errno(errp, -ret, "vhost_dev_init() failed");
-> -        goto vhost_dev_init_failed;
-> -    }
-> -
-> -    qemu_chr_fe_set_handlers(&rng->chardev, NULL, NULL, vu_rng_event, NULL,
-> -                             dev, NULL, true);
-> -
-> -    return;
-> -
-> -vhost_dev_init_failed:
-> -    g_free(rng->vhost_dev.vqs);
-> -    virtio_delete_queue(rng->req_vq);
-> -virtio_add_queue_failed:
-> -    virtio_cleanup(vdev);
-> -    vhost_user_cleanup(&rng->vhost_user);
-> -}
-> -
-> -static void vu_rng_device_unrealize(DeviceState *dev)
-> -{
-> -    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> -    VHostUserRNG *rng = VHOST_USER_RNG(dev);
-> -    struct vhost_virtqueue *vhost_vqs = rng->vhost_dev.vqs;
-> -
-> -    vu_rng_set_status(vdev, 0);
-> -
-> -    vhost_dev_cleanup(&rng->vhost_dev);
-> -    g_free(vhost_vqs);
-> -    virtio_delete_queue(rng->req_vq);
-> -    virtio_cleanup(vdev);
-> -    vhost_user_cleanup(&rng->vhost_user);
-> -}
-> -
-> -static struct vhost_dev *vu_rng_get_vhost(VirtIODevice *vdev)
-> -{
-> -    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -    return &rng->vhost_dev;
-> -}
-> -
->   static const VMStateDescription vu_rng_vmstate = {
->       .name = "vhost-user-rng",
->       .unmigratable = 1,
->   };
->   
-> -static Property vu_rng_properties[] = {
-> -    DEFINE_PROP_CHR("chardev", VHostUserRNG, chardev),
-> +static Property vrng_properties[] = {
-> +    DEFINE_PROP_CHR("chardev", VHostUserBase, chardev),
+On Thu, 20 Apr 2023 09:09:48 +0000
+"Zhang, Chen" <chen.zhang@intel.com> wrote:
 
-I did a double-take that this wouldn't have to be VHostUserRNG, but I think it should 
-still work with the new object hierarchy.
+> > -----Original Message-----
+> > From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> > Sent: Thursday, April 20, 2023 6:53 AM
+> > To: qemu-devel@nongnu.org
+> > Cc: qemu-block@nongnu.org; michael.roth@amd.com; armbru@redhat.com;
+> > eblake@redhat.com; jasowang@redhat.com; quintela@redhat.com; Zhang,
+> > Hailiang <zhanghailiang@xfusion.com>; philmd@linaro.org;
+> > thuth@redhat.com; berrange@redhat.com; marcandre.lureau@redhat.com;
+> > pbonzini@redhat.com; dave@treblig.org; hreitz@redhat.com;
+> > kwolf@redhat.com; Zhang, Chen <chen.zhang@intel.com>;
+> > lizhijian@fujitsu.com; Vladimir Sementsov-Ogievskiy <vsementsov@yandex-=
+ =20
+> > team.ru> =20
+> > Subject: [PATCH v2 4/4] configure: add --disable-colo-filters option
+> >=20
+> > Add option to not build COLO Proxy subsystem if it is not needed. =20
+>=20
+> I think no need to add the --disable-colo-filter option.
+> Net-filters just general infrastructure. Another example is COLO also
+> use the -chardev socket to connect each filters. No need to add the --dis=
+able-colo-chardev....
+> Please drop this patch.=20
+> But for COLO network part, still something need to do:
+> You can add --disable-colo-proxy not to build the net/colo-compare.c  if =
+it is not needed.
+> This file just for COLO and not belong to network filters.
 
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> +static void vu_rng_base_realize(DeviceState *dev, Error **errp)
-> +{
-> +    VHostUserBase *vub = VHOST_USER_BASE(dev);
-> +    VHostUserBaseClass *vubs = VHOST_USER_BASE_GET_CLASS(dev);
-> +
-> +    /* Fixed for RNG */
-> +    vub->virtio_id = VIRTIO_ID_RNG;
-> +    vub->num_vqs = 1;
-> +
-> +    vubs->parent_realize(dev, errp);
-> +}
-> +
->   static void vu_rng_class_init(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc = DEVICE_CLASS(klass);
-> -    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
-> +    VHostUserBaseClass *vubc = VHOST_USER_BASE_CLASS(klass);
->   
-> -    device_class_set_props(dc, vu_rng_properties);
->       dc->vmsd = &vu_rng_vmstate;
-> -    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-> +    device_class_set_props(dc, vrng_properties);
-> +    device_class_set_parent_realize(dc, vu_rng_base_realize,
-> +                                    &vubc->parent_realize);
->   
-> -    vdc->realize = vu_rng_device_realize;
-> -    vdc->unrealize = vu_rng_device_unrealize;
-> -    vdc->get_features = vu_rng_get_features;
-> -    vdc->set_status = vu_rng_set_status;
-> -    vdc->guest_notifier_mask = vu_rng_guest_notifier_mask;
-> -    vdc->guest_notifier_pending = vu_rng_guest_notifier_pending;
-> -    vdc->get_vhost = vu_rng_get_vhost;
-> +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
->   }
->   
->   static const TypeInfo vu_rng_info = {
->       .name = TYPE_VHOST_USER_RNG,
-> -    .parent = TYPE_VIRTIO_DEVICE,
-> +    .parent = TYPE_VHOST_USER_BASE,
->       .instance_size = sizeof(VHostUserRNG),
->       .class_init = vu_rng_class_init,
->   };
-> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-> index c0a86b94ae..de442dcb96 100644
-> --- a/hw/virtio/meson.build
-> +++ b/hw/virtio/meson.build
-> @@ -3,6 +3,11 @@ softmmu_virtio_ss.add(files('virtio-bus.c'))
->   softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_PCI', if_true: files('virtio-pci.c'))
->   softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'))
->   
-> +# VirtIO stubs which don't need building per-guest
-> +softmmu_virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
-> +softmmu_virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_RNG'],
-> +                      if_true: files('vhost-user-rng-pci.c'))
-> +
->   specific_virtio_ss = ss.source_set()
->   specific_virtio_ss.add(files('virtio.c'))
->   specific_virtio_ss.add(files('virtio-config-io.c', 'virtio-qmp.c'))
-> @@ -32,7 +37,6 @@ specific_virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c')
->   specific_virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
->   specific_virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
->   specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
-> -specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
->   specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_GPIO', if_true: files('vhost-user-gpio.c'))
->   specific_virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_GPIO'], if_true: files('vhost-user-gpio-pci.c'))
->   specific_virtio_ss.add(when: 'CONFIG_VHOST_VDPA_DEV', if_true: files('vdpa-dev.c'))
-> @@ -43,7 +47,6 @@ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vs
->   virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk-pci.c'))
->   virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c-pci.c'))
->   virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input-pci.c'))
-> -virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng-pci.c'))
->   virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-user-scsi-pci.c'))
->   virtio_pci_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-pci.c'))
->   virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-pci.c'))
+And net/filter-rewriter.c is just for COLO too.
 
-Otherwise minus the struct formatting, the modelling looks good although given I 
-can't vouch for the virtio parts:
+So in summary just drop net/filter-mirror.c from this patch?
 
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>=20
+> Thanks
+> Chen
+>=20
+> >=20
+> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> > ---
+> >  meson.build                   |  1 +
+> >  meson_options.txt             |  2 ++
+> >  net/meson.build               | 11 ++++++++---
+> >  scripts/meson-buildoptions.sh |  3 +++
+> >  4 files changed, 14 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/meson.build b/meson.build
+> > index c44d05a13f..5b2fdfbd3a 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -1962,6 +1962,7 @@ config_host_data.set('CONFIG_GPROF',
+> > get_option('gprof'))
+> > config_host_data.set('CONFIG_LIVE_BLOCK_MIGRATION',
+> > get_option('live_block_migration').allowed())
+> >  config_host_data.set('CONFIG_QOM_CAST_DEBUG',
+> > get_option('qom_cast_debug'))
+> > config_host_data.set('CONFIG_REPLICATION',
+> > get_option('replication').allowed())
+> > +config_host_data.set('CONFIG_COLO_FILTERS',
+> > +get_option('colo_filters').allowed())
+> >=20
+> >  # has_header
+> >  config_host_data.set('CONFIG_EPOLL', cc.has_header('sys/epoll.h')) dif=
+f --git
+> > a/meson_options.txt b/meson_options.txt index fc9447d267..ffe81317cb
+> > 100644
+> > --- a/meson_options.txt
+> > +++ b/meson_options.txt
+> > @@ -289,6 +289,8 @@ option('live_block_migration', type: 'feature', val=
+ue:
+> > 'auto',
+> >         description: 'block migration in the main migration stream')
+> > option('replication', type: 'feature', value: 'auto',
+> >         description: 'replication support')
+> > +option('colo_filters', type: 'feature', value: 'auto',
+> > +       description: 'colo_filters support')
+> >  option('bochs', type: 'feature', value: 'auto',
+> >         description: 'bochs image format support')  option('cloop', typ=
+e: 'feature',
+> > value: 'auto', diff --git a/net/meson.build b/net/meson.build index
+> > 38d50b8c96..7e54744aea 100644
+> > --- a/net/meson.build
+> > +++ b/net/meson.build
+> > @@ -1,12 +1,9 @@
+> >  softmmu_ss.add(files(
+> >    'announce.c',
+> >    'checksum.c',
+> > -  'colo.c',
+> >    'dump.c',
+> >    'eth.c',
+> >    'filter-buffer.c',
+> > -  'filter-mirror.c',
+> > -  'filter-rewriter.c',
+> >    'filter.c',
+> >    'hub.c',
+> >    'net-hmp-cmds.c',
+> > @@ -22,6 +19,14 @@ if get_option('replication').allowed()
+> >    softmmu_ss.add(files('colo-compare.c'))
+> >  endif
+> >=20
+> > +if get_option('replication').allowed() or
+> > +get_option('colo_filters').allowed()
+> > +  softmmu_ss.add(files('colo.c'))
+> > +endif
+> > +
+> > +if get_option('colo_filters').allowed()
+> > +  softmmu_ss.add(files('filter-mirror.c', 'filter-rewriter.c')) endif
+> > +
+> >  softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
+> >=20
+> >  if have_l2tpv3
+> > diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions=
+.sh
+> > index 009fab1515..cf9d23369f 100644
+> > --- a/scripts/meson-buildoptions.sh
+> > +++ b/scripts/meson-buildoptions.sh
+> > @@ -83,6 +83,7 @@ meson_options_help() {
+> >    printf "%s\n" '  capstone        Whether and how to find the capston=
+e library'
+> >    printf "%s\n" '  cloop           cloop image format support'
+> >    printf "%s\n" '  cocoa           Cocoa user interface (macOS only)'
+> > +  printf "%s\n" '  colo-filters    colo_filters support'
+> >    printf "%s\n" '  coreaudio       CoreAudio sound support'
+> >    printf "%s\n" '  crypto-afalg    Linux AF_ALG crypto backend driver'
+> >    printf "%s\n" '  curl            CURL block device driver'
+> > @@ -236,6 +237,8 @@ _meson_option_parse() {
+> >      --disable-cloop) printf "%s" -Dcloop=3Ddisabled ;;
+> >      --enable-cocoa) printf "%s" -Dcocoa=3Denabled ;;
+> >      --disable-cocoa) printf "%s" -Dcocoa=3Ddisabled ;;
+> > +    --enable-colo-filters) printf "%s" -Dcolo_filters=3Denabled ;;
+> > +    --disable-colo-filters) printf "%s" -Dcolo_filters=3Ddisabled ;;
+> >      --enable-coreaudio) printf "%s" -Dcoreaudio=3Denabled ;;
+> >      --disable-coreaudio) printf "%s" -Dcoreaudio=3Ddisabled ;;
+> >      --enable-coroutine-pool) printf "%s" -Dcoroutine_pool=3Dtrue ;;
+> > --
+> > 2.34.1 =20
+>=20
+>=20
 
 
-ATB,
 
-Mark.
+--=20
+
+
+--Sig_/B+Gx.od59WH+2AQN1vSW0A.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRBD1EACgkQNasLKJxd
+slgnbw/6A6fMFCU38dPJJfa/Vr0hG1d5kcDvHws6wCBABlK1yVXhPwTG0LV29RRh
+znvFCfXFy+0oCCYG/yaO++ZPK8IjLIxt/Q7T674Q1IsWISJVi+t3zuvSnwVxRGAf
+ptHW9+GTsCzNhcYGT1nwCEQjbpae3NHISxGtU3PrLQ3WiTwyBdr/Qlm9ow7mO+jq
+g0/FRq0SFTsuI2YYllXTATLhdyR23D1ii9m+zeI4ARCnFM1B8DLR0MidzHBfoqgL
+fIJ/1/jNJaGhySg21okbeNIsIEAxnPR9Xom+NyBAJ76eY+phy97b2ASQWM6lyK4e
+wVEPEAhjfJNkdwY8GJmNoctcje46veQr0d2NIE33HMx7gOfxeKgZri5MM3GlIRam
+Yy+zO4pdNDX4ZeyreY5MGrb3XVHelySZyaiqhpfzzDvnn1pQN1kgadY+bLLEj/kW
+Ho4t1oid5JaHiRDpxeNEXy1XZOwB8zB1xNPYZRvAlyloeLyFb7dq7RfYJju3Hlxs
+gSs9i1HqvyNcwsI3hkIbznMcOtsANNRGMi+3mZKRhY7/BiAGaTYeTI/HwqXp/tSD
+oVF6hukjTMm/lfRcmFMz6ZcW0peszBMWLDDOpyj0zlZPzjff7bHFwkx/o+4nJcDP
+CpS0O/NONx7jcczsY9P5+kTT7FJloTIitdG4sKf+vwzwYInbc+E=
+=318V
+-----END PGP SIGNATURE-----
+
+--Sig_/B+Gx.od59WH+2AQN1vSW0A.--
 
