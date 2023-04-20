@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6A46E8F3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:08:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A916E8EED
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 12:06:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppRAH-0000f1-MD; Thu, 20 Apr 2023 06:05:21 -0400
+	id 1ppRAF-0000cz-3y; Thu, 20 Apr 2023 06:05:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRAD-0000c2-13
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:17 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ id 1ppRAC-0000bX-NE
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:16 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppRA6-0003ss-VJ
+ id 1ppRA6-0003tD-F6
  for qemu-devel@nongnu.org; Thu, 20 Apr 2023 06:05:16 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-2eed43bfa4bso413779f8f.2
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f176a16c03so3356575e9.2
  for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 03:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681985108; x=1684577108;
+ d=linaro.org; s=google; t=1681985109; x=1684577109;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=q8LtUQbrNbIcb7AmK/HYZ5o0bALmmnEK3mbIWEsTZ58=;
- b=yDCp9XmGgFs0/vv77YflBnI5uYEBYXaazrbCqQDaxJAgCvn1fQYiudiC/S2hGEXVgW
- abSlxhBUWGhLjo0cn0etGdIZX25SQwbI/S7bTESvXxNXX8Nwvg1kDY9n1npWwTwqteu5
- P5FjdEg2AUbR4S5AnETxgG9HB/Hf5aoQVI56oRzFn6UW44bD5nGhZ/IiPZ4rSUVexZv5
- qgiW/0QtM2RSPVhttb9Gu6qWn9Jq7rlfR4fWybwYiS9ST3+lYa+z/J3nUKQrNdHrBco3
- lwAOdrY9Sg2+uMlzGptmAmo8ov0+Ct2xdQ8ZpLyO9AC9bwbj8lrYFsNWUsrzrfcN95b0
- pCXA==
+ :reply-to; bh=Pzbn4cqrDD/rPP1zQmiL6uq/uryn5Rqdl4z0KRkcO9U=;
+ b=C0sRrYoJ5EC3NTt7mh+98jfcPWpoFUP+ZDHWuUbUUH2R14MmU+fwqPQVH15DmC3Ka2
+ m4hDGGa0gnzs6Xw4/CrkIbvtopQAhGDBC4IAoU4uExrwQmHx0yBD1boAZruJ3R37mVQT
+ 5Dw0bhGcWu3WUhLEehP715RzrbzPOaYaEDBDnCzD5nzXzNw10Gz3ZtT9+SNSHjtIpC17
+ /0rVz+xy15tULVgsDT2S+pYa8TCbjX2lutjHAFJd3ptOpAXolwMwSPJ8S0QnN74MjZUs
+ Ir/1ihP+r4hMkR4qeWd2HlXOy/R5/oYTQoGe2IUq8AlT9UyHHQ+IAEoXSfg8euDQtW+A
+ uLFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681985108; x=1684577108;
+ d=1e100.net; s=20221208; t=1681985109; x=1684577109;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=q8LtUQbrNbIcb7AmK/HYZ5o0bALmmnEK3mbIWEsTZ58=;
- b=bF6Ooi6H9wUfP+oXhpX0zgB1AQZJmn7Ndxw7OM60HCjp4t9/axwSrzEmegMnm+jVE6
- RciM/JTfRa3vnLouJwBXRUsQsVuGwhHIkjEXYucYE9Sa6IivAAn3PKY2Yhiy76oHLwBe
- 88oEmWd7WnjAJBZvM5fRrhH852O1J+1E+tCUoYf6dGuyCaiYWxXT4lFKuL4rdVR3Rane
- jtVJ7SrpXPtud5gUa8xZNsjEMgQk8i+h+g0efRbTt63Qe5M0ShX5gA3tYlh9xGzaRofW
- Dg6fQw8KNpiXDGGRZavNPVNlv5h6eyDfFQm7saEphoy85mNDDdgor2etf14c/qmsssOg
- Zfgw==
-X-Gm-Message-State: AAQBX9ecXpdNc3CpUeVUxIU0AQHW47IpN8GpyKcJYlIDJoQctHNKAvB2
- ePZJR+IT6E9rc64eRVhodr2iWP75WHQ+3yQqxiI=
-X-Google-Smtp-Source: AKy350YSF92wrRmJS+nQORAL+qUgJnCe/fmAPXPkCjdOPCnmo+/5pyAg+75sfJybrDnTdYzzQKeKbw==
-X-Received: by 2002:adf:f988:0:b0:2f4:eb13:4091 with SMTP id
- f8-20020adff988000000b002f4eb134091mr885751wrr.45.1681985108346; 
+ bh=Pzbn4cqrDD/rPP1zQmiL6uq/uryn5Rqdl4z0KRkcO9U=;
+ b=G5SNjWb76YCqdWVGniEHqs7nTqaSiV5t/0q2J7fXM/JKYSJMKfMhHg1K47yT6c8NPE
+ KX6wQeSE+g94So6MLCDR2JBRhNEMDMvoKax5FXB2NINtuHY7ZvQOLPNv8+3FoyX6q37/
+ dijwUXqpsfe6xLbamLco75qhAvyOCMWjJnMg+/wu/lwX42o45tzfub7TqNVQLPziGvnk
+ 4V6P+2Pr+VQeQGHnetc6HBE8se/+t30xWGPrNFxg/yUozQtMrbFUh2HpbxvSoMZoLW9g
+ UuSdRQjAyxFKX2v0mugO4lc7mRF8XNLZLlFfGMXm7F6go9giir7rHpaFZSTavJHyWPba
+ wWXA==
+X-Gm-Message-State: AAQBX9ekF8Da80mWa6Of3zZBOMOsG3jwCqFNtBuMxBwLZE9aCCdMxVcr
+ joODjFqWLZPYdmvhbArWyZOwvX8iANR4F3m+RGI=
+X-Google-Smtp-Source: AKy350bkgUPTagcnxzsNucc/VWyNXcD0YmbhRvTat6hafDEbHlaCgM2Tk0qAI+X9PP3ZWgrqn3SVyg==
+X-Received: by 2002:adf:d4c6:0:b0:2f5:a598:33e5 with SMTP id
+ w6-20020adfd4c6000000b002f5a59833e5mr821202wrk.58.1681985108762; 
  Thu, 20 Apr 2023 03:05:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- o2-20020a5d58c2000000b002fe522117fdsm1556388wrf.36.2023.04.20.03.05.07
+ o2-20020a5d58c2000000b002fe522117fdsm1556388wrf.36.2023.04.20.03.05.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Apr 2023 03:05:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/21] hw/net/imx_fec: Support two Ethernet interfaces
- connected to single MDIO bus
-Date: Thu, 20 Apr 2023 11:04:52 +0100
-Message-Id: <20230420100456.944969-18-peter.maydell@linaro.org>
+Subject: [PULL 18/21] fsl-imx6ul: Add fec[12]-phy-connected properties
+Date: Thu, 20 Apr 2023 11:04:53 +0100
+Message-Id: <20230420100456.944969-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230420100456.944969-1-peter.maydell@linaro.org>
 References: <20230420100456.944969-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,98 +92,66 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-The SOC on i.MX6UL and i.MX7 has 2 Ethernet interfaces. The PHY on each may
-be connected to separate MDIO busses, or both may be connected on the same
-MDIO bus using different PHY addresses. Commit 461c51ad4275 ("Add a phy-num
-property to the i.MX FEC emulator") added support for specifying PHY
-addresses, but it did not provide support for linking the second PHY on
-a given MDIO bus to the other Ethernet interface.
-
-To be able to support two PHY instances on a single MDIO bus, two properties
-are needed: First, there needs to be a flag indicating if the MDIO bus on
-a given Ethernet interface is connected. If not, attempts to read from this
-bus must always return 0xffff. Implement this property as phy-connected.
-Second, if the MDIO bus on an interface is active, it needs a link to the
-consumer interface to be able to provide PHY access for it. Implement this
-property as phy-consumer.
+Add fec[12]-phy-connected properties and use it to set phy-connected
+and phy-consumer properties for imx_fec.
 
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Message-id: 20230315145248.1639364-2-linux@roeck-us.net
+Message-id: 20230315145248.1639364-3-linux@roeck-us.net
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/net/imx_fec.h |  2 ++
- hw/net/imx_fec.c         | 27 +++++++++++++++++++++++----
- 2 files changed, 25 insertions(+), 4 deletions(-)
+ include/hw/arm/fsl-imx6ul.h |  1 +
+ hw/arm/fsl-imx6ul.c         | 20 ++++++++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/include/hw/net/imx_fec.h b/include/hw/net/imx_fec.h
-index e3a8755db92..2d13290c787 100644
---- a/include/hw/net/imx_fec.h
-+++ b/include/hw/net/imx_fec.h
-@@ -270,6 +270,8 @@ struct IMXFECState {
-     uint32_t phy_int;
-     uint32_t phy_int_mask;
-     uint32_t phy_num;
-+    bool phy_connected;
-+    struct IMXFECState *phy_consumer;
+diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
+index 1952cb984d6..9ee15ae38d6 100644
+--- a/include/hw/arm/fsl-imx6ul.h
++++ b/include/hw/arm/fsl-imx6ul.h
+@@ -89,6 +89,7 @@ struct FslIMX6ULState {
+     MemoryRegion       ocram_alias;
  
-     bool is_fec;
+     uint32_t           phy_num[FSL_IMX6UL_NUM_ETHS];
++    bool               phy_connected[FSL_IMX6UL_NUM_ETHS];
+ };
  
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index c862d965930..5d1f1f104cc 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -282,11 +282,19 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
-     uint32_t val;
-     uint32_t phy = reg / 32;
+ enum FslIMX6ULMemoryMap {
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index d88d6cc1c5f..2189dcbb72c 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -407,7 +407,23 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
  
--    if (phy != s->phy_num) {
--        trace_imx_phy_read_num(phy, s->phy_num);
-+    if (!s->phy_connected) {
-         return 0xffff;
-     }
- 
-+    if (phy != s->phy_num) {
-+        if (s->phy_consumer && phy == s->phy_consumer->phy_num) {
-+            s = s->phy_consumer;
-+        } else {
-+            trace_imx_phy_read_num(phy, s->phy_num);
-+            return 0xffff;
+     /*
+      * Ethernet
++     *
++     * We must use two loops since phy_connected affects the other interface
++     * and we have to set all properties before calling sysbus_realize().
+      */
++    for (i = 0; i < FSL_IMX6UL_NUM_ETHS; i++) {
++        object_property_set_bool(OBJECT(&s->eth[i]), "phy-connected",
++                                 s->phy_connected[i], &error_abort);
++        /*
++         * If the MDIO bus on this controller is not connected, assume the
++         * other controller provides support for it.
++         */
++        if (!s->phy_connected[i]) {
++            object_property_set_link(OBJECT(&s->eth[1 - i]), "phy-consumer",
++                                     OBJECT(&s->eth[i]), &error_abort);
 +        }
 +    }
 +
-     reg %= 32;
- 
-     switch (reg) {
-@@ -343,11 +351,19 @@ static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
- {
-     uint32_t phy = reg / 32;
- 
--    if (phy != s->phy_num) {
--        trace_imx_phy_write_num(phy, s->phy_num);
-+    if (!s->phy_connected) {
-         return;
-     }
- 
-+    if (phy != s->phy_num) {
-+        if (s->phy_consumer && phy == s->phy_consumer->phy_num) {
-+            s = s->phy_consumer;
-+        } else {
-+            trace_imx_phy_write_num(phy, s->phy_num);
-+            return;
-+        }
-+    }
-+
-     reg %= 32;
- 
-     trace_imx_phy_write(val, phy, reg);
-@@ -1327,6 +1343,9 @@ static Property imx_eth_properties[] = {
-     DEFINE_NIC_PROPERTIES(IMXFECState, conf),
-     DEFINE_PROP_UINT32("tx-ring-num", IMXFECState, tx_ring_num, 1),
-     DEFINE_PROP_UINT32("phy-num", IMXFECState, phy_num, 0),
-+    DEFINE_PROP_BOOL("phy-connected", IMXFECState, phy_connected, true),
-+    DEFINE_PROP_LINK("phy-consumer", IMXFECState, phy_consumer, TYPE_IMX_FEC,
-+                     IMXFECState *),
+     for (i = 0; i < FSL_IMX6UL_NUM_ETHS; i++) {
+         static const hwaddr FSL_IMX6UL_ENETn_ADDR[FSL_IMX6UL_NUM_ETHS] = {
+             FSL_IMX6UL_ENET1_ADDR,
+@@ -620,6 +636,10 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+ static Property fsl_imx6ul_properties[] = {
+     DEFINE_PROP_UINT32("fec1-phy-num", FslIMX6ULState, phy_num[0], 0),
+     DEFINE_PROP_UINT32("fec2-phy-num", FslIMX6ULState, phy_num[1], 1),
++    DEFINE_PROP_BOOL("fec1-phy-connected", FslIMX6ULState, phy_connected[0],
++                     true),
++    DEFINE_PROP_BOOL("fec2-phy-connected", FslIMX6ULState, phy_connected[1],
++                     true),
      DEFINE_PROP_END_OF_LIST(),
  };
  
