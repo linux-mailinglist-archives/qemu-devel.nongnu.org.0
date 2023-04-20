@@ -2,106 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF716E951A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DC56E951E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 14:55:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppTmS-00043T-14; Thu, 20 Apr 2023 08:52:56 -0400
+	id 1ppToc-0006wb-9N; Thu, 20 Apr 2023 08:55:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
- id 1ppTmE-00042p-J7
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:52:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppToY-0006wB-Eb; Thu, 20 Apr 2023 08:55:06 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
- id 1ppTm9-0002rF-6D
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 08:52:41 -0400
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33KCaAV3013466; Thu, 20 Apr 2023 12:52:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=7rZArZWSwEYISuGh08M7+/Wj1X2QgeCZmsRYTlHy4TY=;
- b=Ml2K/j/4hISgXRUvzLnldfoKcGiu8b4tNMhRdHn+WG40DV9b1bPkZKVqbdsak3Dxxqdh
- zro1JA7MdUSvEbeYJxzy51nWDaqDHwpOevFmLROjxBZeyccM3KxHVitsUg5MoKxdx5IH
- b2C1uODPTe+kIcGJPLgmh1JMR7P+/lDpZTvG0G45hxti+Dp4ANae2OVWfE50qsQ3bZsy
- uq+OZUut7FI08+LCqgN4/LjFlewTBJPWiSsxKPMj1nHlLPWqvtrf7pWHlH9OWVW+lo/z
- QLtartDyJmFx3PnXH2w4ytusF/Rzi/+nbeBwGkDxoSu9dfSY/LS+fVzPqu05pa+E6mGr 3w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q345wbvvh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 12:52:31 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33KCaXhk016039;
- Thu, 20 Apr 2023 12:52:31 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q345wbvts-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 12:52:31 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33K4qbxv010375;
- Thu, 20 Apr 2023 12:52:28 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3pyk6fjtsc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Apr 2023 12:52:28 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33KCqPfG15532652
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Apr 2023 12:52:25 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A717F20049;
- Thu, 20 Apr 2023 12:52:25 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5494920043;
- Thu, 20 Apr 2023 12:52:24 +0000 (GMT)
-Received: from melvil.aus.stglabs.ibm.com (unknown [9.40.193.168])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 20 Apr 2023 12:52:24 +0000 (GMT)
-From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Cc: qemu-devel@nongnu.org, Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Subject: [PATCH v3 2/2] tests/avocado/tuxrun_baselines.py: improve code
- coverage for ppc64
-Date: Thu, 20 Apr 2023 07:52:17 -0500
-Message-Id: <20230420125217.620928-3-kconsul@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230420125217.620928-1-kconsul@linux.vnet.ibm.com>
-References: <20230420125217.620928-1-kconsul@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YzzB6BUl5dhvWirPxlgjiFVSZoMB7yqb
-X-Proofpoint-ORIG-GUID: KUmK7a59GbbsIf1uwdlMVMFcMGFfnHZ3
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppToU-0003PS-RS; Thu, 20 Apr 2023 08:55:06 -0400
+Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2cab:0:640:424b:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 56FE95F7B4;
+ Thu, 20 Apr 2023 15:54:51 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b58f::1:1d] (unknown
+ [2a02:6b8:b081:b58f::1:1d])
+ by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id nsdIVv05OW20-V3OB9iqN; Thu, 20 Apr 2023 15:54:50 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1681995290; bh=S95/6KumlT8YihnSZiATdNSGz/pTyN+bgNfCKfB1aGQ=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=Kj0nDlmYpXKrasMjPJBQd3InrPLQz4YZsyDzl2JXBccudp4O+atypfV0MMlMujIXD
+ VcsHnyKG5I7x6vfNg23rgXKeVLydiSwyqLxFteMUHxTwumr9eDDseVh6VuuTNGgmUm
+ u34CQ8BiMpRt92NgajpwlMhaLn/YuZeMts4JX5vo=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <2fd523da-30ce-dd84-62f3-1e50095d274e@yandex-team.ru>
+Date: Thu, 20 Apr 2023 15:54:49 +0300
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-20_08,2023-04-20_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0
- phishscore=0 malwarescore=0 bulkscore=0 priorityscore=1501 mlxscore=0
- suspectscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304200102
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=kconsul@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 05/43] migration: Move migrate_colo_enabled() to options.c
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Hailiang Zhang <zhanghailiang@xfusion.com>, Fam Zheng <fam@euphon.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+References: <20230302163410.11399-1-quintela@redhat.com>
+ <20230302163410.11399-6-quintela@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230302163410.11399-6-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,205 +79,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
-boot_linux.py test-case due to which the code coverage for ppc
-decreased by around 2%. As per the discussion on
-https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
-was mentioned that the baseline test for ppc64 could be modified
-to make up this 2% code coverage. This patch attempts to achieve
-this 2% code coverage by adding various device command line
-arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
-test-case.
+On 02.03.23 19:33, Juan Quintela wrote:
+> Once that we are there, we rename the function to migrate_colo() to be
+> consistent with all other capabilities.
+> 
+> Signed-off-by: Juan Quintela<quintela@redhat.com>
 
-The code coverage report with boot_linux.py, without it and finally
-with these tuxrun_baselines.py changes is as follows:
 
-With boot_linux.py
-------------------
-  lines......: 13.8% (58006 of 420997 lines)
-  functions..: 20.7% (7675 of 36993 functions)
-  branches...: 9.2% (22146 of 240611 branches)
-Without boot_linux.py (without this patch changes)
---------------------------------------------------
-  lines......: 11.9% (50174 of 420997 lines)
-  functions..: 18.8% (6947 of 36993 functions)
-  branches...: 7.4% (17580 of 239017 branches)
-Without boot_linux.py (with this patch changes)
------------------------------------------------
-  lines......: 13.8% (58287 of 420997 lines)
-  functions..: 20.7% (7640 of 36993 functions)
-  branches...: 8.4% (20223 of 240611 branches)
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/avocado/tuxrun_baselines.py | 120 +++++++++++++++++++++++++++++-
- 1 file changed, 116 insertions(+), 4 deletions(-)
-
-diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
-index d343376faa..ae082ac028 100644
---- a/tests/avocado/tuxrun_baselines.py
-+++ b/tests/avocado/tuxrun_baselines.py
-@@ -11,6 +11,7 @@
- 
- import os
- import time
-+import tempfile
- 
- from avocado import skip, skipIf
- from avocado_qemu import QemuSystemTest
-@@ -72,6 +73,8 @@ def setUp(self):
-         # Occasionally we need extra devices to hook things up
-         self.extradev = self.get_tag('extradev')
- 
-+        self.qemu_img = super().get_qemu_img()
-+
-     def wait_for_console_pattern(self, success_message, vm=None):
-         wait_for_console_pattern(self, success_message,
-                                  failure_message='Kernel panic - not syncing',
-@@ -308,7 +311,7 @@ def test_ppc64(self):
-         """
-         :avocado: tags=arch:ppc64
-         :avocado: tags=machine:pseries
--        :avocado: tags=cpu:POWER8
-+        :avocado: tags=cpu:POWER10
-         :avocado: tags=endian:big
-         :avocado: tags=console:hvc0
-         :avocado: tags=tuxboot:ppc64
-@@ -316,20 +319,129 @@ def test_ppc64(self):
-         :avocado: tags=extradev:driver=spapr-vscsi
-         :avocado: tags=root:sda
-         """
--        self.common_tuxrun(drive="scsi-hd")
-+
-+        # add device args to command line.
-+        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-+                         '-device', 'virtio-net,netdev=vnet')
-+        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
-+                         '-device', '{"driver":"virtio-net-pci","netdev":'
-+                         '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
-+                         '"bus":"pci.0","addr":"0x9"}')
-+        self.vm.add_args('-device', '{"driver":"qemu-xhci","p2":15,"p3":15,'
-+                         '"id":"usb","bus":"pci.0","addr":"0x2"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-scsi-pci","id":"scsi0"'
-+                         ',"bus":"pci.0","addr":"0x3"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-serial-pci","id":'
-+                         '"virtio-serial0","bus":"pci.0","addr":"0x4"}')
-+        self.vm.add_args('-device', '{"driver":"scsi-cd","bus":"scsi0.0"'
-+                         ',"channel":0,"scsi-id":0,"lun":0,"device_id":'
-+                         '"drive-scsi0-0-0-0","id":"scsi0-0-0-0"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-balloon-pci",'
-+                         '"id":"balloon0","bus":"pci.0","addr":"0x6"}')
-+        self.vm.add_args('-audiodev', '{"id":"audio1","driver":"none"}')
-+        self.vm.add_args('-device', '{"driver":"usb-tablet","id":"input0"'
-+                         ',"bus":"usb.0","port":"1"}')
-+        self.vm.add_args('-device', '{"driver":"usb-kbd","id":"input1"'
-+                         ',"bus":"usb.0","port":"2"}')
-+        self.vm.add_args('-device', '{"driver":"VGA","id":"video0",'
-+                         '"vgamem_mb":16,"bus":"pci.0","addr":"0x7"}')
-+        self.vm.add_args('-object', '{"qom-type":"rng-random","id":"objrng0"'
-+                         ',"filename":"/dev/urandom"}',
-+                         '-device', '{"driver":"virtio-rng-pci","rng":"objrng0"'
-+                         ',"id":"rng0","bus":"pci.0","addr":"0x8"}')
-+        self.vm.add_args('-object', '{"qom-type":"cryptodev-backend-builtin",'
-+                         '"id":"objcrypto0","queues":1}',
-+                         '-device', '{"driver":"virtio-crypto-pci",'
-+                         '"cryptodev":"objcrypto0","id":"crypto0","bus"'
-+                         ':"pci.0","addr":"0xa"}')
-+        self.vm.add_args('-device', '{"driver":"spapr-pci-host-bridge"'
-+                         ',"index":1,"id":"pci.1"}')
-+        self.vm.add_args('-device', '{"driver":"spapr-vscsi","id":"scsi1"'
-+                         ',"reg":12288}')
-+        self.vm.add_args('-m', '2G,slots=32,maxmem=4G',
-+                         '-object', 'memory-backend-ram,id=ram1,size=1G',
-+                         '-device', 'pc-dimm,id=dimm1,memdev=ram1')
-+
-+        # Create a temporary qcow2 and launch the test-case
-+        with tempfile.NamedTemporaryFile(prefix='tuxrun_ppc64_',
-+                                         suffix='.qcow2') as qcow2:
-+            process.run(self.qemu_img + ' create -f qcow2 ' +
-+                        qcow2.name + ' 1G')
-+
-+            self.vm.add_args('-drive', 'file=' + qcow2.name +
-+                         ',format=qcow2,if=none,id='
-+                         'drive-virtio-disk1',
-+                         '-device', 'virtio-blk-pci,scsi=off,bus=pci.0,'
-+                         'addr=0xb,drive=drive-virtio-disk1,id=virtio-disk1'
-+                         ',bootindex=2')
-+            self.common_tuxrun(drive="scsi-hd")
- 
-     def test_ppc64le(self):
-         """
-         :avocado: tags=arch:ppc64
-         :avocado: tags=machine:pseries
--        :avocado: tags=cpu:POWER8
-+        :avocado: tags=cpu:POWER10
-         :avocado: tags=console:hvc0
-         :avocado: tags=tuxboot:ppc64le
-         :avocado: tags=image:vmlinux
-         :avocado: tags=extradev:driver=spapr-vscsi
-         :avocado: tags=root:sda
-         """
--        self.common_tuxrun(drive="scsi-hd")
-+        # add device args to command line.
-+        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-+                         '-device', 'virtio-net,netdev=vnet')
-+        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
-+                         '-device', '{"driver":"virtio-net-pci","netdev":'
-+                         '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
-+                         '"bus":"pci.0","addr":"0x9"}')
-+        self.vm.add_args('-device', '{"driver":"qemu-xhci","p2":15,"p3":15,'
-+                         '"id":"usb","bus":"pci.0","addr":"0x2"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-scsi-pci","id":"scsi0"'
-+                         ',"bus":"pci.0","addr":"0x3"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-serial-pci","id":'
-+                         '"virtio-serial0","bus":"pci.0","addr":"0x4"}')
-+        self.vm.add_args('-device', '{"driver":"scsi-cd","bus":"scsi0.0"'
-+                         ',"channel":0,"scsi-id":0,"lun":0,"device_id":'
-+                         '"drive-scsi0-0-0-0","id":"scsi0-0-0-0"}')
-+        self.vm.add_args('-device', '{"driver":"virtio-balloon-pci",'
-+                         '"id":"balloon0","bus":"pci.0","addr":"0x6"}')
-+        self.vm.add_args('-audiodev', '{"id":"audio1","driver":"none"}')
-+        self.vm.add_args('-device', '{"driver":"usb-tablet","id":"input0"'
-+                         ',"bus":"usb.0","port":"1"}')
-+        self.vm.add_args('-device', '{"driver":"usb-kbd","id":"input1"'
-+                         ',"bus":"usb.0","port":"2"}')
-+        self.vm.add_args('-device', '{"driver":"VGA","id":"video0",'
-+                         '"vgamem_mb":16,"bus":"pci.0","addr":"0x7"}')
-+        self.vm.add_args('-object', '{"qom-type":"rng-random","id":"objrng0"'
-+                         ',"filename":"/dev/urandom"}',
-+                         '-device', '{"driver":"virtio-rng-pci","rng":"objrng0"'
-+                         ',"id":"rng0","bus":"pci.0","addr":"0x8"}')
-+        self.vm.add_args('-object', '{"qom-type":"cryptodev-backend-builtin",'
-+                         '"id":"objcrypto0","queues":1}',
-+                         '-device', '{"driver":"virtio-crypto-pci",'
-+                         '"cryptodev":"objcrypto0","id":"crypto0","bus"'
-+                         ':"pci.0","addr":"0xa"}')
-+        self.vm.add_args('-device', '{"driver":"spapr-pci-host-bridge"'
-+                         ',"index":1,"id":"pci.1"}')
-+        self.vm.add_args('-device', '{"driver":"spapr-vscsi","id":"scsi1"'
-+                         ',"reg":12288}')
-+        self.vm.add_args('-m', '2G,slots=32,maxmem=4G',
-+                         '-object', 'memory-backend-ram,id=ram1,size=1G',
-+                         '-device', 'pc-dimm,id=dimm1,memdev=ram1')
-+
-+        # Create a temporary qcow2 and launch the test-case
-+        with tempfile.NamedTemporaryFile(prefix='tuxrun_ppc64le_',
-+                                         suffix='.qcow2') as qcow2:
-+            process.run(self.qemu_img + ' create -f qcow2 ' +
-+                        qcow2.name + ' 1G')
-+
-+            self.vm.add_args('-drive', 'file=' + qcow2.name +
-+                         ',format=qcow2,if=none,id='
-+                         'drive-virtio-disk1',
-+                         '-device', 'virtio-blk-pci,scsi=off,bus=pci.0,'
-+                         'addr=0xb,drive=drive-virtio-disk1,id=virtio-disk1'
-+                         ',bootindex=2')
-+            self.common_tuxrun(drive="scsi-hd")
- 
-     def test_riscv32(self):
-         """
 -- 
-2.25.1
+Best regards,
+Vladimir
 
 
