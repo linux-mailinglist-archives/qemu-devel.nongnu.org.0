@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630286E9625
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727B36E9655
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 15:51:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppUYr-0000fK-4v; Thu, 20 Apr 2023 09:42:57 -0400
+	id 1ppUYv-0001Od-Ey; Thu, 20 Apr 2023 09:43:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUYA-0007j0-Gb
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:42:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ppUYF-0007pb-S4
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:42:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ppUY8-0006NY-Fq
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:42:14 -0400
+ id 1ppUYB-0006On-6P
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 09:42:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681998131;
+ s=mimecast20190719; t=1681998134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FnBemTGpJBwq3+eccXAvoL56joreF+/xlYaUeKbvlkc=;
- b=i4FtdKB6HhxUS7lXRC1+bqyqUrrgPFmZ/Qz6/cKz4izv1MEZc9fZHO4D9KnudGmhKhbmC4
- /Su1MdP8G2WxlG/VG4EYunDC+YEefseAPw6lCmw3nFYCzxtmrSp0EAptCABKzEMqS3VEwu
- p78K94OD3S//aZgL7M+/7P654UZ+2eo=
+ bh=7iuAp3CAA3aqL7BmtPkAn+nv94zFgdW4bZXzhU61HbE=;
+ b=V1TUwSEEYiM8GelNoXuKD+WhUrjngqQRBX7+wU1+8/C9HTGuns11Ljcm8I7f/XhEWqhgLU
+ C45Mj7cfNiC7eEzCN4o2yzv32ilq1TnP9k3QY1a0MJX+6pL+S0xkDLu3IWLJ5jQRC59jhv
+ dfEPCstS41IFuV3Qy7+E6wLQUZ1R35Y=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-FWetV6zXOySjjABgLOFhtA-1; Thu, 20 Apr 2023 09:42:07 -0400
-X-MC-Unique: FWetV6zXOySjjABgLOFhtA-1
+ us-mta-343-ZDqoWtwiOz2zq0oN6sZDMw-1; Thu, 20 Apr 2023 09:42:10 -0400
+X-MC-Unique: ZDqoWtwiOz2zq0oN6sZDMw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09EC4811E7B;
- Thu, 20 Apr 2023 13:42:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2BB6185A78B;
+ Thu, 20 Apr 2023 13:42:09 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 384F04020BED;
- Thu, 20 Apr 2023 13:42:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E2094020BF1;
+ Thu, 20 Apr 2023 13:42:07 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>,
@@ -54,15 +54,16 @@ Cc: Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2 41/43] migration: Create migrate_tls_hostname() function
-Date: Thu, 20 Apr 2023 15:40:00 +0200
-Message-Id: <20230420134002.29531-42-quintela@redhat.com>
+Subject: [PATCH v2 42/43] migration: Create migrate_block_bitmap_mapping()
+ function
+Date: Thu, 20 Apr 2023 15:40:01 +0200
+Message-Id: <20230420134002.29531-43-quintela@redhat.com>
 In-Reply-To: <20230420134002.29531-1-quintela@redhat.com>
 References: <20230420134002.29531-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,67 +88,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Notice that we changed the test of ->has_block_bitmap_mapping
+for the test that block_bitmap_mapping is not NULL.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/options.c | 7 +++++++
- migration/options.h | 1 +
- migration/tls.c     | 6 ++++--
- 3 files changed, 12 insertions(+), 2 deletions(-)
+ migration/block-dirty-bitmap.c | 14 ++++++++------
+ migration/options.c            |  7 +++++++
+ migration/options.h            |  1 +
+ 3 files changed, 16 insertions(+), 6 deletions(-)
 
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index a6ffae0002..62b2352bbb 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -605,11 +605,12 @@ static int init_dirty_bitmap_migration(DBMSaveState *s)
+     SaveBitmapState *dbms;
+     GHashTable *handled_by_blk = g_hash_table_new(NULL, NULL);
+     BlockBackend *blk;
+-    const MigrationParameters *mig_params = &migrate_get_current()->parameters;
+     GHashTable *alias_map = NULL;
++    BitmapMigrationNodeAliasList *block_bitmap_mapping =
++        migrate_block_bitmap_mapping();
+ 
+-    if (mig_params->has_block_bitmap_mapping) {
+-        alias_map = construct_alias_map(mig_params->block_bitmap_mapping, true,
++    if (block_bitmap_mapping) {
++        alias_map = construct_alias_map(block_bitmap_mapping, true,
+                                         &error_abort);
+     }
+ 
+@@ -1158,7 +1159,8 @@ static int dirty_bitmap_load_header(QEMUFile *f, DBMLoadState *s,
+ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
+ {
+     GHashTable *alias_map = NULL;
+-    const MigrationParameters *mig_params = &migrate_get_current()->parameters;
++    BitmapMigrationNodeAliasList *block_bitmap_mapping =
++        migrate_block_bitmap_mapping();
+     DBMLoadState *s = &((DBMState *)opaque)->load;
+     int ret = 0;
+ 
+@@ -1170,8 +1172,8 @@ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
+         return -EINVAL;
+     }
+ 
+-    if (mig_params->has_block_bitmap_mapping) {
+-        alias_map = construct_alias_map(mig_params->block_bitmap_mapping,
++    if (block_bitmap_mapping) {
++        alias_map = construct_alias_map(block_bitmap_mapping,
+                                         false, &error_abort);
+     }
+ 
 diff --git a/migration/options.c b/migration/options.c
-index 303a493388..8f0bf1ece6 100644
+index 8f0bf1ece6..7a8fb4578a 100644
 --- a/migration/options.c
 +++ b/migration/options.c
-@@ -595,6 +595,13 @@ char *migrate_tls_creds(void)
-     return s->parameters.tls_creds;
- }
+@@ -454,6 +454,13 @@ void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
  
-+char *migrate_tls_hostname(void)
+ /* parameters */
+ 
++BitmapMigrationNodeAliasList *migrate_block_bitmap_mapping(void)
 +{
 +    MigrationState *s = migrate_get_current();
 +
-+    return s->parameters.tls_hostname;
++    return s->parameters.block_bitmap_mapping;
 +}
 +
- uint64_t migrate_xbzrle_cache_size(void)
+ bool migrate_block_incremental(void)
  {
      MigrationState *s = migrate_get_current();
 diff --git a/migration/options.h b/migration/options.h
-index 72b0f3cf62..2f21837094 100644
+index 2f21837094..6b9ad7bae4 100644
 --- a/migration/options.h
 +++ b/migration/options.h
-@@ -82,6 +82,7 @@ int migrate_multifd_zstd_level(void);
- uint8_t migrate_throttle_trigger_threshold(void);
- char *migrate_tls_authz(void);
- char *migrate_tls_creds(void);
-+char *migrate_tls_hostname(void);
- uint64_t migrate_xbzrle_cache_size(void);
+@@ -62,6 +62,7 @@ bool migrate_cap_set(int cap, bool value, Error **errp);
  
- /* parameters setters */
-diff --git a/migration/tls.c b/migration/tls.c
-index 4c229326fd..3cae1a06e7 100644
---- a/migration/tls.c
-+++ b/migration/tls.c
-@@ -123,6 +123,7 @@ QIOChannelTLS *migration_tls_client_create(MigrationState *s,
-                                            Error **errp)
- {
-     QCryptoTLSCreds *creds;
-+    char *tls_hostname;
+ /* parameters */
  
-     creds = migration_tls_get_creds(
-         s, QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT, errp);
-@@ -130,8 +131,9 @@ QIOChannelTLS *migration_tls_client_create(MigrationState *s,
-         return NULL;
-     }
- 
--    if (s->parameters.tls_hostname && *s->parameters.tls_hostname) {
--        hostname = s->parameters.tls_hostname;
-+    tls_hostname = migrate_tls_hostname();
-+    if (tls_hostname && *tls_hostname) {
-+        hostname = tls_hostname;
-     }
- 
-     return qio_channel_tls_new_client(ioc, creds, hostname, errp);
++BitmapMigrationNodeAliasList *migrate_block_bitmap_mapping(void);
+ bool migrate_block_incremental(void);
+ uint32_t migrate_checkpoint_delay(void);
+ int migrate_compress_level(void);
 -- 
 2.39.2
 
