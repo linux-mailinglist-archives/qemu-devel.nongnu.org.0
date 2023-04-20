@@ -2,104 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6513F6E8BE7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 09:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A676E8BF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 09:58:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppP7c-0008Ok-CH; Thu, 20 Apr 2023 03:54:28 -0400
+	id 1ppPAz-0000rE-KQ; Thu, 20 Apr 2023 03:57:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1ppP7a-0008O6-5m; Thu, 20 Apr 2023 03:54:26 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppPAw-0000r6-5X
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 03:57:54 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1ppP7V-0004t5-4p; Thu, 20 Apr 2023 03:54:25 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f189819513so3688515e9.1; 
- Thu, 20 Apr 2023 00:54:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppPAt-0005vw-6i
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 03:57:53 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ o29-20020a05600c511d00b003f1739de43cso658824wms.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 00:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681977259; x=1684569259;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rlMZGzABfYVwgRPwdO0lLnSJgoIp6XmXJrdTz3/kXaA=;
- b=ECc9asmq2Lz+YurUvhjRkiSwU5CCV5r6VG4FSRg7bkfEYkNji8piCScs8/i3C1Z5Ug
- Eu7Sut11pXOaas2NyhGS+3Xpd1keubuzuajHS3qEwv5k4Ddaz0PqQONRZgK5CodzBu1+
- dzlZQcAx1ldrB9dNXBdBk1//D9hkIIuOvVNOI6I4njYdS9gYrXWUmwMecbCa7z4LOhHe
- TtMRy4PdPFI968J2aEavPPsCIJCLZnGL6KzSyG7RqaVkv0VNMj1xT3xpoYnJBovrmSer
- kE10BeCndvKj5q3/T4ylpDchCZAw41ICzhEguxZy4jbdqDPU3exJNIIZ84DEHlFvT7sY
- RWcw==
+ d=linaro.org; s=google; t=1681977469; x=1684569469;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mGIg7/0OArYQIa6hzMMaFDLnt/sTCsfKVy9cBXL2P0g=;
+ b=HsLWquY6HUqFETKQF7J4hoNO4A5B9eR6A6EPqpEo4LCJQ7NZ2R/WNBA2VNcZxiZSN2
+ 4eOMEaMSJDDWsOCXzRiBfB2fymX6ge+sMf6b2tQu3wfM0RbGFbMhD7Rc3exQHSNOPP3R
+ MTti36XO65ydAIjz9WeKQc5zvM8+TvF4TZmrJbaPhPGurEEVKFlkaJjmJoxMak4WDXyH
+ 9zb6hTrnBgcravku/JgjNwhcvDcf9QUkHS+hTArjo2I0K/n3PpTQ7u7s5/9qWmELvQVy
+ 0tzEHc1PdcrwcTGZk0NlMeZmG9JXuasrBQ7VEHWE27tvpwK9GZvUJxfHT3doHf6o9NiR
+ d/5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681977259; x=1684569259;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rlMZGzABfYVwgRPwdO0lLnSJgoIp6XmXJrdTz3/kXaA=;
- b=JpJDq9/n+WQJW9gHI9N9HOGUK0Z/HWLqqiElzoIPf9tWliQSZd5ffwgLKMJUxyTeHL
- hhTlGIXMDCIRNUy/Un0GbPHCWPVkrZS7m9CPLlQP8PNJNlOu8s8dhNL2Ols9FFSyoCZQ
- 5hKHN0MWpFngtSBAeSCa8Trx1B8hU1mO1sFXjr4Bg0P3ZB2NjHJAVNO0x31mZSTYq/jc
- nmyOVRX6v38GH+mivfzm6N2EP46jDhkwghOk1RlqfCLnDELeykdO1TiKxHq5O52hEBdI
- /eG6oJpwaYpCMLPXIChuRjH55dSmtP315uWtE7NRjpWVUtrNy3jxq/aZV0tvdw6ZHmE2
- emOw==
-X-Gm-Message-State: AAQBX9cjs6oa6foIVlDpwqSip6VCYDGhkWB4cLX6NC5i65Bb+6RA5+os
- W0Ikx6MtA5WQzftzifHcwAU=
-X-Google-Smtp-Source: AKy350YwSxaMZK3BIhAnKSE4ARMe4QpMbE9h4JdhWydGxfvL57OHI8B911smipOAj0mZNoxRya3sKg==
-X-Received: by 2002:adf:e886:0:b0:2f9:94ae:99f8 with SMTP id
- d6-20020adfe886000000b002f994ae99f8mr617299wrm.14.1681977258895; 
- Thu, 20 Apr 2023 00:54:18 -0700 (PDT)
-Received: from [192.168.6.46] (54-240-197-235.amazon.com. [54.240.197.235])
- by smtp.gmail.com with ESMTPSA id
- m2-20020a056000008200b002f53fa16239sm1196264wrx.103.2023.04.20.00.54.16
+ d=1e100.net; s=20221208; t=1681977469; x=1684569469;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mGIg7/0OArYQIa6hzMMaFDLnt/sTCsfKVy9cBXL2P0g=;
+ b=b5a8t0KL0jA0cVtJqGadLFmM4j72kouPOAIk4/LpY+hn/WMmdgdfJdF/2outrq052T
+ k/pOUzsuQ57B0p3dHst6UBdRkDDKUJWpZF0JMLXVsqIaA87BqKiqT7PyMvJ8xgpEXdNO
+ fKgQoQSe4LzPB0McfTLj6igJYIqxKQQe99fXoiwIj6GZiUOnMxfLlWk6FtTrEkamU9Bp
+ JDp682H/8CpIxzOd4BmURusWr2AOtg0nFzsBpzFID7shuvWMrWQ/ZQjpw5MqK1/WQOeY
+ Lq9mbDZtid1J2kh+zLW5bWiPveP/HCDalDwFEiifs+YG/ArkKKG7DyTJBBDLa5xylGP1
+ QlUQ==
+X-Gm-Message-State: AAQBX9dUg5iz+7gytql9MR3hnyjLUxL+rFew3mfMF3kRcYrmtJ7VeQsG
+ 8kTE1wR1cDiJN9QTfdsADl6SJw==
+X-Google-Smtp-Source: AKy350aui1AaxCIozY3T6itxdevRlopRD8EpyQlcqL1/cJAB7QbxOfurIipK1J3P4ld5mCU+4yFm9w==
+X-Received: by 2002:a7b:c059:0:b0:3eb:25ff:3446 with SMTP id
+ u25-20020a7bc059000000b003eb25ff3446mr495928wmc.4.1681977469237; 
+ Thu, 20 Apr 2023 00:57:49 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ c9-20020a7bc009000000b003ede3e54ed7sm1222663wmb.6.2023.04.20.00.57.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 00:54:18 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <2e7ce635-a3f6-ebf4-6866-51b78c736265@xen.org>
-Date: Thu, 20 Apr 2023 08:54:16 +0100
+ Thu, 20 Apr 2023 00:57:48 -0700 (PDT)
+Message-ID: <eced17f9-387c-ce07-233f-6c398840c936@linaro.org>
+Date: Thu, 20 Apr 2023 09:57:47 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 08/16] hw/xen: do not use
- aio_set_fd_handler(is_external=true) in xen_xenstore
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v2] tests/avocado/tuxrun_baselines.py: improve code
+ coverage for ppc64
+To: Kautuk Consul <kconsul@linux.vnet.ibm.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20230419092219.426230-1-kconsul@linux.vnet.ibm.com>
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Fam Zheng <fam@euphon.net>,
- Julia Suvorova <jusual@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Kevin Wolf <kwolf@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, qemu-block@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Peter Lieven <pl@kamp.de>, eesposit@redhat.com,
- Aarushi Mehta <mehta.aaru20@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- Xie Yongji <xieyongji@bytedance.com>, David Woodhouse <dwmw2@infradead.org>,
- David Woodhouse <dwmw@amazon.co.uk>
-References: <20230419172817.272758-1-stefanha@redhat.com>
- <20230419172817.272758-9-stefanha@redhat.com>
-Organization: Xen Project
-In-Reply-To: <20230419172817.272758-9-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230419092219.426230-1-kconsul@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
 X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-2.597, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,24 +93,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/04/2023 18:28, Stefan Hajnoczi wrote:
-> There is no need to suspend activity between aio_disable_external() and
-> aio_enable_external(), which is mainly used for the block layer's drain
-> operation.
+Hi Kautuk,
+
+On 19/4/23 11:22, Kautuk Consul wrote:
+> Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
+> boot_linux.py test-case due to which the code coverage for ppc
+> decreased by around 2%. As per the discussion on
+> https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
+> was mentioned that the baseline test for ppc64 could be modified
+> to make up this 2% code coverage. This patch attempts to achieve
+> this 2% code coverage by adding various device command line
+> arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
+> test-case.
 > 
-> This is part of ongoing work to remove the aio_disable_external() API.
+> The code coverage report with boot_linux.py, without it and finally
+> with these tuxrun_baselines.py changes is as follows:
 > 
-> Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> With boot_linux.py
+> ------------------
+>    lines......: 13.8% (58006 of 420997 lines)
+>    functions..: 20.7% (7675 of 36993 functions)
+>    branches...: 9.2% (22146 of 240611 branches)
+> Without boot_linux.py (without this patch changes)
+> --------------------------------------------------
+>    lines......: 11.9% (50174 of 420997 lines)
+>    functions..: 18.8% (6947 of 36993 functions)
+>    branches...: 7.4% (17580 of 239017 branches)
+> Without boot_linux.py (with this patch changes)
+> -----------------------------------------------
+>    lines......: 13.8% (58287 of 420997 lines)
+>    functions..: 20.7% (7640 of 36993 functions)
+>    branches...: 8.4% (20223 of 240611 branches)
+> 
+> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+> Reported-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   hw/i386/kvm/xen_xenstore.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   tests/avocado/tuxrun_baselines.py | 124 +++++++++++++++++++++++++++++-
+>   1 file changed, 122 insertions(+), 2 deletions(-)
 > 
+> diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
+> index d343376faa..f763ee5d50 100644
+> --- a/tests/avocado/tuxrun_baselines.py
+> +++ b/tests/avocado/tuxrun_baselines.py
+> @@ -11,6 +11,8 @@
+>   
+>   import os
+>   import time
+> +import string
+> +import random
+>   
+>   from avocado import skip, skipIf
+>   from avocado_qemu import QemuSystemTest
+> @@ -308,7 +310,7 @@ def test_ppc64(self):
+>           """
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:pseries
+> -        :avocado: tags=cpu:POWER8
+> +        :avocado: tags=cpu:POWER10
+>           :avocado: tags=endian:big
+>           :avocado: tags=console:hvc0
+>           :avocado: tags=tuxboot:ppc64
+> @@ -316,21 +318,139 @@ def test_ppc64(self):
+>           :avocado: tags=extradev:driver=spapr-vscsi
+>           :avocado: tags=root:sda
+>           """
+> +        # Generate a random string
+> +        res = ''.join(random.choices(string.ascii_lowercase +
+> +                                     string.digits, k=8))
+> +
+> +        # create qcow2 image to be used later.
+> +        process.run('./qemu-img create -f qcow2 '
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Please take qemu-img from $PATH.
 
+> +                    '/tmp/tuxrun_baselines_ppc64_' + str(res) +
+> +                    '.qcow2 1G')
+
+Do not use /tmp directly (i.e. Windows OS doesn't have it).
+You can use:
+- self.workdir
+- with tempfile.NamedTemporaryFile() as qcow2:
+- with tempfile.TemporaryDirectory(prefix='tuxrun_') as tmpdir:
+
+Also, better to define the path once in a variable:
+
+            qcow_img_path = f'{tmpdir}/tuxrun_baselines.qcow2'
+
+> +        # add device args to command line.
+> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
+> +                         '-device', 'virtio-net,netdev=vnet')
+> +        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
+> +                         '-device', '{"driver":"virtio-net-pci","netdev":'
+> +                         '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
+> +                         '"bus":"pci.0","addr":"0x9"}')
+> +        self.vm.add_args('-device', '{"driver":"qemu-xhci","p2":15,"p3":15,'
+> +                         '"id":"usb","bus":"pci.0","addr":"0x2"}')
+> +        self.vm.add_args('-device', '{"driver":"virtio-scsi-pci","id":"scsi0"'
+> +                         ',"bus":"pci.0","addr":"0x3"}')
+> +        self.vm.add_args('-device', '{"driver":"virtio-serial-pci","id":'
+> +                         '"virtio-serial0","bus":"pci.0","addr":"0x4"}')
+> +        self.vm.add_args('-device', '{"driver":"scsi-cd","bus":"scsi0.0"'
+> +                         ',"channel":0,"scsi-id":0,"lun":0,"device_id":'
+> +                         '"drive-scsi0-0-0-0","id":"scsi0-0-0-0"}')
+> +        self.vm.add_args('-device', '{"driver":"virtio-balloon-pci",'
+> +                         '"id":"balloon0","bus":"pci.0","addr":"0x6"}')
+> +        self.vm.add_args('-audiodev', '{"id":"audio1","driver":"none"}')
+> +        self.vm.add_args('-device', '{"driver":"usb-tablet","id":"input0"'
+> +                         ',"bus":"usb.0","port":"1"}')
+> +        self.vm.add_args('-device', '{"driver":"usb-kbd","id":"input1"'
+> +                         ',"bus":"usb.0","port":"2"}')
+> +        self.vm.add_args('-device', '{"driver":"VGA","id":"video0",'
+> +                         '"vgamem_mb":16,"bus":"pci.0","addr":"0x7"}')
+> +        self.vm.add_args('-object', '{"qom-type":"rng-random","id":"objrng0"'
+> +                         ',"filename":"/dev/urandom"}',
+> +                         '-device', '{"driver":"virtio-rng-pci","rng":"objrng0"'
+> +                         ',"id":"rng0","bus":"pci.0","addr":"0x8"}')
+> +        self.vm.add_args('-object', '{"qom-type":"cryptodev-backend-builtin",'
+> +                         '"id":"objcrypto0","queues":1}',
+> +                         '-device', '{"driver":"virtio-crypto-pci",'
+> +                         '"cryptodev":"objcrypto0","id":"crypto0","bus"'
+> +                         ':"pci.0","addr":"0xa"}')
+> +        self.vm.add_args('-device', '{"driver":"spapr-pci-host-bridge"'
+> +                         ',"index":1,"id":"pci.1"}')
+> +        self.vm.add_args('-device', '{"driver":"spapr-vscsi","id":"scsi1"'
+> +                         ',"reg":12288}')
+> +        self.vm.add_args('-m', '2G,slots=32,maxmem=4G',
+> +                         '-object', 'memory-backend-ram,id=ram1,size=1G',
+> +                         '-device', 'pc-dimm,id=dimm1,memdev=ram1')
+> +        self.vm.add_args('-drive', 'file=/tmp/tuxrun_baselines_ppc64_' +
+> +                         str(res) + '.qcow2,format=qcow2,if=none,id='
+
+Using it here:
+
+            self.vm.add_args('-drive', f'file={qcow_img_path},...
+
+> +                         'drive-virtio-disk1',
+> +                         '-device', 'virtio-blk-pci,scsi=off,bus=pci.0,'
+> +                         'addr=0xb,drive=drive-virtio-disk1,id=virtio-disk1'
+> +                         ',bootindex=2')
+>           self.common_tuxrun(drive="scsi-hd")
+>   
+> +        # remove qcow2 image
+> +        process.run('rm /tmp/tuxrun_baselines_ppc64_' + str(res) + '.qcow2')
+
+No need if using the 'with ...' syntax, automatically cleaned up.
 
