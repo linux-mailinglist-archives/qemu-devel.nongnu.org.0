@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A676E8BF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 09:58:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F69D6E8C29
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 10:07:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppPAz-0000rE-KQ; Thu, 20 Apr 2023 03:57:57 -0400
+	id 1ppPJ2-0003Ah-M0; Thu, 20 Apr 2023 04:06:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppPAw-0000r6-5X
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 03:57:54 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ppPJ0-0003AE-L6
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:06:14 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppPAt-0005vw-6i
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 03:57:53 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- o29-20020a05600c511d00b003f1739de43cso658824wms.4
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 00:57:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ppPIy-0007oJ-2E
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 04:06:13 -0400
+Received: by mail-wm1-x335.google.com with SMTP id he13so807393wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 01:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681977469; x=1684569469;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mGIg7/0OArYQIa6hzMMaFDLnt/sTCsfKVy9cBXL2P0g=;
- b=HsLWquY6HUqFETKQF7J4hoNO4A5B9eR6A6EPqpEo4LCJQ7NZ2R/WNBA2VNcZxiZSN2
- 4eOMEaMSJDDWsOCXzRiBfB2fymX6ge+sMf6b2tQu3wfM0RbGFbMhD7Rc3exQHSNOPP3R
- MTti36XO65ydAIjz9WeKQc5zvM8+TvF4TZmrJbaPhPGurEEVKFlkaJjmJoxMak4WDXyH
- 9zb6hTrnBgcravku/JgjNwhcvDcf9QUkHS+hTArjo2I0K/n3PpTQ7u7s5/9qWmELvQVy
- 0tzEHc1PdcrwcTGZk0NlMeZmG9JXuasrBQ7VEHWE27tvpwK9GZvUJxfHT3doHf6o9NiR
- d/5A==
+ d=anisinha-ca.20221208.gappssmtp.com; s=20221208; t=1681977970; x=1684569970; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CKOxyyL7AZDnCvvz/47DzqTsQzjXr1KI0sjQMLGyFPM=;
+ b=CxSQrP5jya5slh9FsYs/6Sou+yduTsad6fuRzV6FsxhHN0Gqp2Sn3aTutsd4Q6MuEW
+ wk8tfNfyhOqYiUBY7xF8MNLjgLGoobnzKBS8Lp/BFFBbkwzkRfyOPR7WSlWgVZHsnLXS
+ e+QTomYo8Gh0MezXjgnJ22xCzou8huZZ8xyYqdmMQ/wLNZmVaEXj2NSewhuq6lOU1TSg
+ 8YknAeyiXld9stY3KJjLlGl3Mv8GLbrNRxyaeCNT3Es83x8tDn6F4ZB6bfvAIC2ZzTf2
+ ZQfQpQmbD4xAP1K/BWCq0DH0hSvH3G93SSvNfXZvJQnttx0gJE2Irrd4huqPhIq7JMzV
+ B1/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681977469; x=1684569469;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mGIg7/0OArYQIa6hzMMaFDLnt/sTCsfKVy9cBXL2P0g=;
- b=b5a8t0KL0jA0cVtJqGadLFmM4j72kouPOAIk4/LpY+hn/WMmdgdfJdF/2outrq052T
- k/pOUzsuQ57B0p3dHst6UBdRkDDKUJWpZF0JMLXVsqIaA87BqKiqT7PyMvJ8xgpEXdNO
- fKgQoQSe4LzPB0McfTLj6igJYIqxKQQe99fXoiwIj6GZiUOnMxfLlWk6FtTrEkamU9Bp
- JDp682H/8CpIxzOd4BmURusWr2AOtg0nFzsBpzFID7shuvWMrWQ/ZQjpw5MqK1/WQOeY
- Lq9mbDZtid1J2kh+zLW5bWiPveP/HCDalDwFEiifs+YG/ArkKKG7DyTJBBDLa5xylGP1
- QlUQ==
-X-Gm-Message-State: AAQBX9dUg5iz+7gytql9MR3hnyjLUxL+rFew3mfMF3kRcYrmtJ7VeQsG
- 8kTE1wR1cDiJN9QTfdsADl6SJw==
-X-Google-Smtp-Source: AKy350aui1AaxCIozY3T6itxdevRlopRD8EpyQlcqL1/cJAB7QbxOfurIipK1J3P4ld5mCU+4yFm9w==
-X-Received: by 2002:a7b:c059:0:b0:3eb:25ff:3446 with SMTP id
- u25-20020a7bc059000000b003eb25ff3446mr495928wmc.4.1681977469237; 
- Thu, 20 Apr 2023 00:57:49 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- c9-20020a7bc009000000b003ede3e54ed7sm1222663wmb.6.2023.04.20.00.57.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 00:57:48 -0700 (PDT)
-Message-ID: <eced17f9-387c-ce07-233f-6c398840c936@linaro.org>
-Date: Thu, 20 Apr 2023 09:57:47 +0200
+ d=1e100.net; s=20221208; t=1681977970; x=1684569970;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CKOxyyL7AZDnCvvz/47DzqTsQzjXr1KI0sjQMLGyFPM=;
+ b=JbTbfTztHaqvJu9N4KOVDeHDFyMbDdHu6vkg8AS9bAj9Cjv3IuhPMo45ZXfeMR/J5b
+ rl/Wd379QkZIqmnAf9mJGNX/DfvrtQGv1LQ384yjtk1f50fvnhYgmHCL22zVIoziHzc6
+ vExvvJSVRVwmJRCYjn/rR9pkFw1hipjVOcps8ms+b3jCxTOLACr7Csu9O/A6SkD0FoKM
+ /65Npl9NqPAhtk6HCnU0qdRwlf+gYUi+rny5Rf0KtYil29gn7k0o+XAUmcBYf4XXv9SZ
+ obk8eM/cxHOSlJ9LcEmbSovw50IRA7HSN36LZit9DQcK9g1Ar86cj/0l1y4mqSU/7YV6
+ k8vQ==
+X-Gm-Message-State: AAQBX9cs/9gQrqq4Dkb1NWJQx9QWdh77PQk+nRD7iypi9mdNYE7ABEBV
+ +m5eIXbsBWRqi+UHt3j49W4c/CyIQJr1VTTeETpuHA==
+X-Google-Smtp-Source: AKy350ar6hj9x+K/bGFc93hkMfsPUfGsXgGs50ZAGLvIeS551hZC35kHd7l6SOxASZh1rL1ONynYMquzfsdEi3K6eWQ=
+X-Received: by 2002:a05:600c:2182:b0:3f1:6527:df05 with SMTP id
+ e2-20020a05600c218200b003f16527df05mr606024wme.22.1681977969831; Thu, 20 Apr
+ 2023 01:06:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v2] tests/avocado/tuxrun_baselines.py: improve code
- coverage for ppc64
-To: Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20230419092219.426230-1-kconsul@linux.vnet.ibm.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230419092219.426230-1-kconsul@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20230418165219.2036-1-eric.devolder@oracle.com>
+ <20230418165219.2036-4-eric.devolder@oracle.com>
+In-Reply-To: <20230418165219.2036-4-eric.devolder@oracle.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Thu, 20 Apr 2023 13:35:58 +0530
+Message-ID: <CAARzgwwVAptvsR1_8ttUKroLuqKdLc1dHWtNe7S0S3N-Nq4otw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] hw/acpi: i386: bump MADT to revision 5
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: shannon.zhaosl@gmail.com, mst@redhat.com, imammedo@redhat.com, 
+ peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ marcel.apfelbaum@gmail.com, pbonzini@redhat.com, richard.henderson@linaro.org, 
+ eduardo@habkost.net, boris.ostrovsky@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2a00:1450:4864:20::335;
+ envelope-from=ani@anisinha.ca; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,148 +86,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Kautuk,
-
-On 19/4/23 11:22, Kautuk Consul wrote:
-> Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
-> boot_linux.py test-case due to which the code coverage for ppc
-> decreased by around 2%. As per the discussion on
-> https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
-> was mentioned that the baseline test for ppc64 could be modified
-> to make up this 2% code coverage. This patch attempts to achieve
-> this 2% code coverage by adding various device command line
-> arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
-> test-case.
-> 
-> The code coverage report with boot_linux.py, without it and finally
-> with these tuxrun_baselines.py changes is as follows:
-> 
-> With boot_linux.py
-> ------------------
->    lines......: 13.8% (58006 of 420997 lines)
->    functions..: 20.7% (7675 of 36993 functions)
->    branches...: 9.2% (22146 of 240611 branches)
-> Without boot_linux.py (without this patch changes)
-> --------------------------------------------------
->    lines......: 11.9% (50174 of 420997 lines)
->    functions..: 18.8% (6947 of 36993 functions)
->    branches...: 7.4% (17580 of 239017 branches)
-> Without boot_linux.py (with this patch changes)
-> -----------------------------------------------
->    lines......: 13.8% (58287 of 420997 lines)
->    functions..: 20.7% (7640 of 36993 functions)
->    branches...: 8.4% (20223 of 240611 branches)
-> 
-> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-> Reported-by: Alex Bennée <alex.bennee@linaro.org>
+On Tue, Apr 18, 2023 at 10:22=E2=80=AFPM Eric DeVolder <eric.devolder@oracl=
+e.com> wrote:
+>
+> Currently i386 QEMU generates MADT revision 3, and reports
+> MADT revision 1. ACPI 6.3 introduces MADT revision 5.
+>
+> For MADT revision 4, that introduces ARM GIC structures, which do
+> not apply to i386.
+>
+> For MADT revision 5, the Local APIC flags introduces the Online
+> Capable bitfield.
+>
+> Making MADT generate and report revision 5 will solve problems with
+> CPU hotplug (the Online Capable flag indicates hotpluggable CPUs).
+>
+> Link: https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devol=
+der@oracle.com/T/#t
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 > ---
->   tests/avocado/tuxrun_baselines.py | 124 +++++++++++++++++++++++++++++-
->   1 file changed, 122 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
-> index d343376faa..f763ee5d50 100644
-> --- a/tests/avocado/tuxrun_baselines.py
-> +++ b/tests/avocado/tuxrun_baselines.py
-> @@ -11,6 +11,8 @@
->   
->   import os
->   import time
-> +import string
-> +import random
->   
->   from avocado import skip, skipIf
->   from avocado_qemu import QemuSystemTest
-> @@ -308,7 +310,7 @@ def test_ppc64(self):
->           """
->           :avocado: tags=arch:ppc64
->           :avocado: tags=machine:pseries
-> -        :avocado: tags=cpu:POWER8
-> +        :avocado: tags=cpu:POWER10
->           :avocado: tags=endian:big
->           :avocado: tags=console:hvc0
->           :avocado: tags=tuxboot:ppc64
-> @@ -316,21 +318,139 @@ def test_ppc64(self):
->           :avocado: tags=extradev:driver=spapr-vscsi
->           :avocado: tags=root:sda
->           """
-> +        # Generate a random string
-> +        res = ''.join(random.choices(string.ascii_lowercase +
-> +                                     string.digits, k=8))
-> +
-> +        # create qcow2 image to be used later.
-> +        process.run('./qemu-img create -f qcow2 '
+>  hw/i386/acpi-common.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> index 52e5c1439a..286c1c5c32 100644
+> --- a/hw/i386/acpi-common.c
+> +++ b/hw/i386/acpi-common.c
+> @@ -38,8 +38,15 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList *a=
+pic_ids,
+>  {
+>      uint32_t apic_id =3D apic_ids->cpus[uid].arch_id;
+>      /* Flags =E2=80=93 Local APIC Flags */
+> -    uint32_t flags =3D apic_ids->cpus[uid].cpu !=3D NULL || force_enable=
+d ?
+> -                     1 /* Enabled */ : 0;
+> +    bool enabled =3D apic_ids->cpus[uid].cpu !=3D NULL || force_enabled =
+?
+> +                     true : false;
 
-Please take qemu-img from $PATH.
+how about "processor_enabled" instead of just "enabled" as the variable nam=
+e.
 
-> +                    '/tmp/tuxrun_baselines_ppc64_' + str(res) +
-> +                    '.qcow2 1G')
+> +    /*
+> +     * ACPI 6.3 5.2.12.2 Local APIC Flags: OnlineCapable must be 0
+> +     * if Enabled is set.
+> +     */
+> +    bool onlinecapable =3D enabled ? false : true;
 
-Do not use /tmp directly (i.e. Windows OS doesn't have it).
-You can use:
-- self.workdir
-- with tempfile.NamedTemporaryFile() as qcow2:
-- with tempfile.TemporaryDirectory(prefix='tuxrun_') as tmpdir:
+ugh, how about uint32 onlinecapable =3D enabled? 0x0 : 0x2 ?
 
-Also, better to define the path once in a variable:
+> +    uint32_t flags =3D onlinecapable ? 0x2 : 0x0 | /* Online Capable */
+> +                     enabled ? 0x1 : 0x0; /* Enabled */
 
-            qcow_img_path = f'{tmpdir}/tuxrun_baselines.qcow2'
+then here, flags =3D onlinecapable | processor_enabled? 0x1 : 0x0;
 
-> +        # add device args to command line.
-> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-> +                         '-device', 'virtio-net,netdev=vnet')
-> +        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
-> +                         '-device', '{"driver":"virtio-net-pci","netdev":'
-> +                         '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
-> +                         '"bus":"pci.0","addr":"0x9"}')
-> +        self.vm.add_args('-device', '{"driver":"qemu-xhci","p2":15,"p3":15,'
-> +                         '"id":"usb","bus":"pci.0","addr":"0x2"}')
-> +        self.vm.add_args('-device', '{"driver":"virtio-scsi-pci","id":"scsi0"'
-> +                         ',"bus":"pci.0","addr":"0x3"}')
-> +        self.vm.add_args('-device', '{"driver":"virtio-serial-pci","id":'
-> +                         '"virtio-serial0","bus":"pci.0","addr":"0x4"}')
-> +        self.vm.add_args('-device', '{"driver":"scsi-cd","bus":"scsi0.0"'
-> +                         ',"channel":0,"scsi-id":0,"lun":0,"device_id":'
-> +                         '"drive-scsi0-0-0-0","id":"scsi0-0-0-0"}')
-> +        self.vm.add_args('-device', '{"driver":"virtio-balloon-pci",'
-> +                         '"id":"balloon0","bus":"pci.0","addr":"0x6"}')
-> +        self.vm.add_args('-audiodev', '{"id":"audio1","driver":"none"}')
-> +        self.vm.add_args('-device', '{"driver":"usb-tablet","id":"input0"'
-> +                         ',"bus":"usb.0","port":"1"}')
-> +        self.vm.add_args('-device', '{"driver":"usb-kbd","id":"input1"'
-> +                         ',"bus":"usb.0","port":"2"}')
-> +        self.vm.add_args('-device', '{"driver":"VGA","id":"video0",'
-> +                         '"vgamem_mb":16,"bus":"pci.0","addr":"0x7"}')
-> +        self.vm.add_args('-object', '{"qom-type":"rng-random","id":"objrng0"'
-> +                         ',"filename":"/dev/urandom"}',
-> +                         '-device', '{"driver":"virtio-rng-pci","rng":"objrng0"'
-> +                         ',"id":"rng0","bus":"pci.0","addr":"0x8"}')
-> +        self.vm.add_args('-object', '{"qom-type":"cryptodev-backend-builtin",'
-> +                         '"id":"objcrypto0","queues":1}',
-> +                         '-device', '{"driver":"virtio-crypto-pci",'
-> +                         '"cryptodev":"objcrypto0","id":"crypto0","bus"'
-> +                         ':"pci.0","addr":"0xa"}')
-> +        self.vm.add_args('-device', '{"driver":"spapr-pci-host-bridge"'
-> +                         ',"index":1,"id":"pci.1"}')
-> +        self.vm.add_args('-device', '{"driver":"spapr-vscsi","id":"scsi1"'
-> +                         ',"reg":12288}')
-> +        self.vm.add_args('-m', '2G,slots=32,maxmem=4G',
-> +                         '-object', 'memory-backend-ram,id=ram1,size=1G',
-> +                         '-device', 'pc-dimm,id=dimm1,memdev=ram1')
-> +        self.vm.add_args('-drive', 'file=/tmp/tuxrun_baselines_ppc64_' +
-> +                         str(res) + '.qcow2,format=qcow2,if=none,id='
-
-Using it here:
-
-            self.vm.add_args('-drive', f'file={qcow_img_path},...
-
-> +                         'drive-virtio-disk1',
-> +                         '-device', 'virtio-blk-pci,scsi=off,bus=pci.0,'
-> +                         'addr=0xb,drive=drive-virtio-disk1,id=virtio-disk1'
-> +                         ',bootindex=2')
->           self.common_tuxrun(drive="scsi-hd")
->   
-> +        # remove qcow2 image
-> +        process.run('rm /tmp/tuxrun_baselines_ppc64_' + str(res) + '.qcow2')
-
-No need if using the 'with ...' syntax, automatically cleaned up.
+>
+>      /* ACPI spec says that LAPIC entry for non present
+>       * CPU may be omitted from MADT or it must be marked
+> @@ -102,7 +109,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *=
+linker,
+>      MachineClass *mc =3D MACHINE_GET_CLASS(x86ms);
+>      const CPUArchIdList *apic_ids =3D mc->possible_cpu_arch_ids(MACHINE(=
+x86ms));
+>      AcpiDeviceIfClass *adevc =3D ACPI_DEVICE_IF_GET_CLASS(adev);
+> -    AcpiTable table =3D { .sig =3D "APIC", .rev =3D 1, .oem_id =3D oem_i=
+d,
+> +    AcpiTable table =3D { .sig =3D "APIC", .rev =3D 5, .oem_id =3D oem_i=
+d,
+>                          .oem_table_id =3D oem_table_id };
+>
+>      acpi_table_begin(&table, table_data);
+> --
+> 2.31.1
+>
 
