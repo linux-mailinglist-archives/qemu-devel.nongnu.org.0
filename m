@@ -2,88 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F96E8EB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF5F6E8EB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 11:56:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppR0s-0003Hh-Ak; Thu, 20 Apr 2023 05:55:39 -0400
+	id 1ppR1I-0003sW-72; Thu, 20 Apr 2023 05:56:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppR0n-0003HJ-55
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:55:33 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppR0l-0001F9-8G
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:55:32 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id q5so936004wmo.4
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:55:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681984529; x=1684576529;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Bi/QWEo6T19Q32EAIyUtyJzM34gPnX0GalgTgktQBQQ=;
- b=wu9Yz+W802ptsiOaceD8kiNBAe1D5zKPyfaTJVv/m8y8ejUntH4DxlxCFyGHV4xnoe
- hqv5IeLgpJ39z44RhTlx4EfN+BKlr5QUZh2FAWAkitKl6G6eNnrehi6UZ8dRZ6/ARPo1
- HlApe9BtjUiuaGSS+KATMv3HOZr3XwB1ubUjOc7CBWS5HxhyrhO/rkrOyegyKw1SksMC
- s6LMhlWLAjvSUE1FZ9hplV29lDPVthn40Vcc4u+uQtIIuA8j+R5YwDqkwfiFosVRvwm2
- IRxzLqDPnpKH4As0T0cOyg6fNq1284Ci6g4TBto9igjC+0OVB2WoxPAZzodDRSiDH0e+
- cf2A==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppR1G-0003rp-Uk
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:56:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppR1F-0001OE-Ke
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 05:56:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1681984561;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=fEj1bMF2urdmmAPppsr/439Odr9qyKc856nlfczHOCM=;
+ b=hnqTygMYUt/KdS4o8ZVrAzx+w/L+M6KnoGOXF2Os6L5WL1X8ZBK06RbYyik5yzgL86G1ci
+ OyUoIwclY7lekEKH9zqz05I6/mD/sAHCgEFb/eBW3PIQSV5SZ0a/zcyBtWmnANnfFrpyMs
+ T5T4Nt4U3BYfih073VBy2Jx9mI23kCM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-314-AombxQdtN46kzHCuZNLmIw-1; Thu, 20 Apr 2023 05:55:59 -0400
+X-MC-Unique: AombxQdtN46kzHCuZNLmIw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-2ffa43cd733so279584f8f.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 02:55:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681984529; x=1684576529;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Bi/QWEo6T19Q32EAIyUtyJzM34gPnX0GalgTgktQBQQ=;
- b=N+43gcWiGdk5DToAnM16EqW9DEYHOPE/b/otxRDZrGzhkWA1WMTnsDhWkuIkmUREwG
- jlTsI1a8oAINJWyZa7CtC1ya01TMa3J6gwpMU6TwwXekughkn8HRd92kZStwjYRzMbew
- GAHo/agw3XJa7y5JXFGvRISMyRpgeadUsJbPItm+3ntWgXZn7sZ3AEMDbjTP1ihpzocd
- V/Pl7rYzZ3YVhWegWQL2fkuoAvKkpyBRJgQHvvClsNeadOfdj6IoZt/Pt+4gPML2ldbr
- i8EvVhcGiorjlFcfc1Lii2EwmjZAYdyyemzTFwSJc85oamqIbZNltTxFJko7c59GnOrr
- muxQ==
-X-Gm-Message-State: AAQBX9eElO54w9w3DNnf1juud14LutQhFd6NNT3mUDYEVGwN6XZrcWOy
- kY1ESwg7ydwYJPN4VegpsqYoYA==
-X-Google-Smtp-Source: AKy350YeOBe2EXY4YuEAQnzZmVcnm+Z/6aidYXSV0A9B66KQSgGNlaz2C7dw9z5vuwuLWLCPcrOiag==
-X-Received: by 2002:a1c:7417:0:b0:3f1:74c3:3c51 with SMTP id
- p23-20020a1c7417000000b003f174c33c51mr700434wmc.35.1681984529124; 
- Thu, 20 Apr 2023 02:55:29 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- y21-20020a05600c365500b003f182a10106sm1574645wmq.8.2023.04.20.02.55.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 02:55:28 -0700 (PDT)
-Message-ID: <ec5baaa4-1d03-fd50-b4e5-38282f3e4f4e@linaro.org>
-Date: Thu, 20 Apr 2023 11:55:27 +0200
+ d=1e100.net; s=20221208; t=1681984558; x=1684576558;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fEj1bMF2urdmmAPppsr/439Odr9qyKc856nlfczHOCM=;
+ b=QEC4jKKd/zbUo1ttm+xfvp/j1+RPB011BLFisAl39WcQhOjv1O2CulXzJaKTCZ2ro1
+ dpfiduLj50qLrb5LZObyV0k0JEglavFM0kyB66QSPQlvg+Fc1Vqnj2PKZLgcnozf5+yx
+ z6CGI2mQceGOJLHiuirDUABYGPtbxSTJC88xcFqZ1j9dVspPtKf5x2/c4u5SRfX/d5EQ
+ FGn1/Psn9XZ0kiYGMS1sGjCOcXVBFQRXCuSN36MJtnDSj0g19/ydeePGR3Y9lqLqPuu3
+ euHolp+LSn0D+R7Z6G5elLTuJBY89G26tIGeiy+eOeeMUZF7KLt3U66c6TYT5TTW/SHc
+ xTzA==
+X-Gm-Message-State: AAQBX9eocJJ7Dz1oSmjvAr8U2BeFFsKFdSXRrNi/KYmym176PNCTwXEE
+ SqFze2gNGMfj6cOtg+Nw/En1ITbal9C9ui+CmYQMx0/VFHWRX8rEPJmt/jZZWSeIDVjG/iE4aqp
+ c/FbgyFAkUFZn0uk=
+X-Received: by 2002:a5d:4012:0:b0:2f8:81c1:ea75 with SMTP id
+ n18-20020a5d4012000000b002f881c1ea75mr792062wrp.20.1681984558386; 
+ Thu, 20 Apr 2023 02:55:58 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZHfeChm8YNwiF73HSsK6BKSTd8x+8CbhCF6PQXFyDrGj1Dzy8vWoCvu3vnlLc5wns2aga0gw==
+X-Received: by 2002:a5d:4012:0:b0:2f8:81c1:ea75 with SMTP id
+ n18-20020a5d4012000000b002f881c1ea75mr792039wrp.20.1681984558129; 
+ Thu, 20 Apr 2023 02:55:58 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ e5-20020a5d5305000000b002cf1c435afcsm1560877wrv.11.2023.04.20.02.55.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 02:55:57 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  michael.roth@amd.com,
+ armbru@redhat.com,  eblake@redhat.com,  jasowang@redhat.com,
+ zhanghailiang@xfusion.com,  philmd@linaro.org,  thuth@redhat.com,
+ berrange@redhat.com,  marcandre.lureau@redhat.com,  pbonzini@redhat.com,
+ dave@treblig.org,  hreitz@redhat.com,  kwolf@redhat.com,
+ chen.zhang@intel.com,  lizhijian@fujitsu.com
+Subject: Re: [PATCH v2 2/4] scripts/qapi: allow optional experimental enum
+ values
+In-Reply-To: <20230419225232.508121-3-vsementsov@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 20 Apr 2023 01:52:30 +0300")
+References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+ <20230419225232.508121-3-vsementsov@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 20 Apr 2023 11:55:56 +0200
+Message-ID: <87leimzxlf.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v2 13/41] net/eth: Rename eth_setup_vlan_headers_ex
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
- <dmitry.fleytman@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
-References: <20230420054657.50367-1-akihiko.odaki@daynix.com>
- <20230420054657.50367-14-akihiko.odaki@daynix.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230420054657.50367-14-akihiko.odaki@daynix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.597,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,20 +103,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/4/23 07:46, Akihiko Odaki wrote:
-> The old eth_setup_vlan_headers has no user so remove it and rename
-> eth_setup_vlan_headers_ex.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->   include/net/eth.h   | 9 +--------
->   hw/net/net_tx_pkt.c | 2 +-
->   net/eth.c           | 2 +-
->   3 files changed, 3 insertions(+), 10 deletions(-)
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> To be used in the next commit.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I am cc'd, but this is black magic to me.
+
+Later, Juan.
 
 
