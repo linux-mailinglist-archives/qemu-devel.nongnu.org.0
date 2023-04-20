@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFE16E89AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 07:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D40A6E89B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Apr 2023 07:49:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppN9S-0006u7-EF; Thu, 20 Apr 2023 01:48:14 -0400
+	id 1ppN9n-00075A-BN; Thu, 20 Apr 2023 01:48:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ppN9P-0006tf-Dj
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:11 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1ppN9T-0006uO-MM
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:15 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ppN9N-00012m-Oo
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:11 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- 98e67ed59e1d1-244a5ccf13eso388873a91.2
- for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 22:48:09 -0700 (PDT)
+ id 1ppN9R-00015i-4E
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 01:48:15 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id
+ 41be03b00d2f7-52019617020so543618a12.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Apr 2023 22:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681969689; x=1684561689;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1681969692; x=1684561692;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hO7vy38C7n7U8m09DYFIOuqZKNDrQj3wd3r1DxexBJ4=;
- b=HAE39E0UFwRARmKj8m7ywt1z5MPs6pV/wh6/mXTGVY3D5R0yCNDzifA/UWlm2gb4eA
- ODVeXyB4rLP0cR3+Zw1qVLAxgW1fw6oqNzqb2WwqdRoMGPLhmzN8O48qkMiaUb0x0gQQ
- uvMwgJFzwmc9r6pATa0eHafaw0iTf8p3sd3F+aWqaxetZD7rXX9HittIspGVHlUgicX6
- ATxsBdUuakz29njUO9W+54Gii8d5uPz/eKV8imrNOpouNu/JNoS/zznUZEkP9qwbGSu/
- hS/cYzT0AXak6Afne5mr9J+Nfp+iTiNcDzMKZr/Ek5Kod4ztI/1qk2F780VLI2vftIFB
- ZZMA==
+ bh=3xDGlD2yRV3C0PkIp3jpH6p4fU6/buA90WdM6GaBzNs=;
+ b=BJrPSjFPNZZt07NINnBLvWs8FLATXpp4APpaNxDHBZiiYFHxoY5HS5aa8R6an6LdCG
+ jcxl2a+3ndy9EQNYUMTcS7iNi8NtYDlrx5NIpWR/bXmOyp6PGcJuX6AJ07UMiVBUaSIR
+ mhSHbNE6y2LT/enxa62K6FvS8SL8KkWNhloJlsEZdW2xWzcffnaFhIaQyJUtTxlRyJ4X
+ tsg+BoYIr09icqBK/PzV74JzYlhTNIEoCrXNQeuaE78cVoF7yBg7KHB48TDZ/RJxq83h
+ hduHTgqZel08h3YuxgCOXKkXxpgI3gR3L4R4vfw/LgKO2qSxky7Q1jUa0NY55R4ZKLQY
+ 1nxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681969689; x=1684561689;
+ d=1e100.net; s=20221208; t=1681969692; x=1684561692;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hO7vy38C7n7U8m09DYFIOuqZKNDrQj3wd3r1DxexBJ4=;
- b=YwzsD6H7ueH2JW731iSWpsqcPZtgRcC9puD5BtdCsi2NjXf9DCRVD+lMWFO6rrfFDY
- 4yZ/t/4Gxfr8J/Or9sj3VnFi5OnTUp17VhqeADjJ7I6VKtd8RBVLxyhNMXzhklL45Qh+
- d0FaWYy3LyDIhp5hT0/sjicylL9B+l0qioeJzhkyZERqZRYRBm27ZTvafBnP7vOnISgx
- uHYtM7VB4h9qIGCmWwpJx+PIjNXqrzA355H+iLhCXzDaAeIcFJvF+h0qNJ35mH5D0LK1
- kdTw/J5U7LFd9VKL6NSNNF84dGzOhcSyzJGiuEbbUOim9Dy22s2YLCM10v7s9Od8qRV1
- fDmQ==
-X-Gm-Message-State: AAQBX9eRt2HUoFgWgOp7WjIU6uKTq6LRzGQnuTR64K+67PCcsjDDDoQy
- Gzik84pBHPDj/BN++QjeqZ0vCQ==
-X-Google-Smtp-Source: AKy350aRLxrvgBPQVYsx1GsNc9M3cWSYtA6egKdsmYvmgYrsuzbygNpJ7+VYJT+LIT1TTSGZUmTeEg==
-X-Received: by 2002:a17:90a:ca07:b0:249:89a2:5800 with SMTP id
- x7-20020a17090aca0700b0024989a25800mr653062pjt.9.1681969689052; 
- Wed, 19 Apr 2023 22:48:09 -0700 (PDT)
+ bh=3xDGlD2yRV3C0PkIp3jpH6p4fU6/buA90WdM6GaBzNs=;
+ b=LrumhkPKN2IK0hB4/JuV0+kOYIj85udIY+vNvqPA6VkcWJJlXS4bggRRB9M0k/QqNi
+ oLpWvwHfsT16GddMaZ7jAVNB7Htl9I769mU0x8S2rS66LDp2KDcvTKMPfi44ej69ZrzQ
+ WsyGdY+e+4586J+WwZ26N7XDR48d4g5OT5QW8xRsXd1zUGkjOmMue61GnYBb1sSE+hed
+ IvL3F+bayvtddkOlagmoa93/WMEJHiW3G9isHpktgwoNZ/Kzdz9C+3qELObZBlFdnx5T
+ Sd6vCW8FKcEjMyergJVfIPzLmKkmwdGO0+PsGn/jv//+lkDpGFv9IO8Zmu/riUcrRBl0
+ k+HQ==
+X-Gm-Message-State: AAQBX9d7vylgjL8zN6NnYTDHrF1fsxLM761G1wTVPD1th8/fyGXMsxPH
+ vaZNwj6jfok5VWO94uaFWoXOdA==
+X-Google-Smtp-Source: AKy350bb8Knz7CftPNh0DCM/s9FA5gkh/D6+p9vDQbKTp5HsKkQDcG1DOoeHUlHQVUM71Y4KTLltwA==
+X-Received: by 2002:a17:902:d48d:b0:1a6:6c58:d36e with SMTP id
+ c13-20020a170902d48d00b001a66c58d36emr388316plg.66.1681969692485; 
+ Wed, 19 Apr 2023 22:48:12 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a17090a46cf00b00247164c1947sm2769255pjg.0.2023.04.19.22.48.05
+ x15-20020a17090a46cf00b00247164c1947sm2769255pjg.0.2023.04.19.22.48.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Apr 2023 22:48:08 -0700 (PDT)
+ Wed, 19 Apr 2023 22:48:12 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,17 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 09/41] Fix references to igb Avocado test
-Date: Thu, 20 Apr 2023 14:46:25 +0900
-Message-Id: <20230420054657.50367-10-akihiko.odaki@daynix.com>
+Subject: [PATCH v2 10/41] tests/avocado: Remove unused imports
+Date: Thu, 20 Apr 2023 14:46:26 +0900
+Message-Id: <20230420054657.50367-11-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230420054657.50367-1-akihiko.odaki@daynix.com>
 References: <20230420054657.50367-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -102,54 +101,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fixes: 9f95111474 ("tests/avocado: re-factor igb test to avoid timeouts")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- MAINTAINERS                                        | 2 +-
- docs/system/devices/igb.rst                        | 2 +-
- scripts/ci/org.centos/stream/8/x86_64/test-avocado | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ tests/avocado/netdev-ethtool.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef45b5e71e..c31d2279ab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2256,7 +2256,7 @@ R: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
- S: Maintained
- F: docs/system/devices/igb.rst
- F: hw/net/igb*
--F: tests/avocado/igb.py
-+F: tests/avocado/netdev-ethtool.py
- F: tests/qtest/igb-test.c
- F: tests/qtest/libqos/igb.c
+diff --git a/tests/avocado/netdev-ethtool.py b/tests/avocado/netdev-ethtool.py
+index f7e9464184..8de118e313 100644
+--- a/tests/avocado/netdev-ethtool.py
++++ b/tests/avocado/netdev-ethtool.py
+@@ -7,7 +7,6 @@
  
-diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
-index 70edadd574..afe036dad2 100644
---- a/docs/system/devices/igb.rst
-+++ b/docs/system/devices/igb.rst
-@@ -60,7 +60,7 @@ Avocado test and can be ran with the following command:
+ from avocado import skip
+ from avocado_qemu import QemuSystemTest
+-from avocado_qemu import exec_command, exec_command_and_wait_for_pattern
+ from avocado_qemu import wait_for_console_pattern
  
- .. code:: shell
- 
--  make check-avocado AVOCADO_TESTS=tests/avocado/igb.py
-+  make check-avocado AVOCADO_TESTS=tests/avocado/netdev-ethtool.py
- 
- References
- ==========
-diff --git a/scripts/ci/org.centos/stream/8/x86_64/test-avocado b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-index d2c0e5fb4c..a1aa601ee3 100755
---- a/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-+++ b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-@@ -30,7 +30,7 @@ make get-vm-images
-     tests/avocado/cpu_queries.py:QueryCPUModelExpansion.test \
-     tests/avocado/empty_cpu_model.py:EmptyCPUModel.test \
-     tests/avocado/hotplug_cpu.py:HotPlugCPU.test \
--    tests/avocado/igb.py:IGB.test \
-+    tests/avocado/netdev-ethtool.py:NetDevEthtool.test_igb_nomsi \
-     tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd \
-     tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu \
-     tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_pt \
+ class NetDevEthtool(QemuSystemTest):
 -- 
 2.40.0
 
