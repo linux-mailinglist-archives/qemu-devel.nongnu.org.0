@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E4B6EA26F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 05:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995E66EA279
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 05:50:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pphhC-0002P8-CJ; Thu, 20 Apr 2023 23:44:27 -0400
+	id 1pphmj-0003po-MA; Thu, 20 Apr 2023 23:50:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1pphh1-0002Oi-MB
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:44:15 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1pphmg-0003p8-Kz
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:50:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1pphgz-0008F5-OO
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:44:15 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1pphme-0001Iz-W9
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:50:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682048652;
+ s=mimecast20190719; t=1682049003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xk6HCcJiU+bo+Qk84bw97dT3+zwOiBm65JfZksJjPmk=;
- b=cDpfzCKvW8q9F3X9OMGjEyBCukyPYZa1aeVstMRNo1daIw2rc0A7xZExTemnS6wdu1l9Y2
- o9wWILBk24fyPd/DVAEEvD3Ymrw9wYDJ+Qu50Pob0eyEnSOgzSRGobVbWqGmuKUKSKF9SJ
- Xe0jDkFFV0DePl1Y1Q97Vvig3xeeNOE=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6OLeGyBZAJYP/ReCsjoFBsGEm2axluUmkFazXbl6C8g=;
+ b=Pul71zSSOxVkFvNNV/a3rlqQ0j5UXbx9OgqTt33bHSmKzn22cHppI1RaEb5DIMZ0NkjNFz
+ M1mquZRBAI/b9UCsWWHy2BLrvyr9n6gyk7/mjD7ehXpKZMxLiyLgAUuEokfN0WQFIH8s4+
+ C5Uzu0/Fql+3DwGkv2wUaZHWaWI8+ZQ=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-511-dbTEN3ezP8OqbS8DUgW6sA-1; Thu, 20 Apr 2023 23:42:59 -0400
-X-MC-Unique: dbTEN3ezP8OqbS8DUgW6sA-1
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-5ef7c6b44b0so9139306d6.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 20:42:59 -0700 (PDT)
+ us-mta-461-J3QEkasfOjOWpICvYRWIWQ-1; Thu, 20 Apr 2023 23:50:01 -0400
+X-MC-Unique: J3QEkasfOjOWpICvYRWIWQ-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-3e7182d5544so9495751cf.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 20:50:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682048579; x=1684640579;
+ d=1e100.net; s=20221208; t=1682049001; x=1684641001;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xk6HCcJiU+bo+Qk84bw97dT3+zwOiBm65JfZksJjPmk=;
- b=Hib6yuEG9XiHn0bY3NSUdmDTz2v7Sx6RVWUxyVkG5cmV5tDU9aarhyOoMzDYbMfTRo
- i9hne4FrWb0+0yYlmelWcaOo0HChcqazUfiWGHizU74+KVjkzcOrxt82bw5LA9iJVoVG
- jFcmUPunl75cgkXYKRr/WTZsaV8VtlcdyCqr2BZGE/tMEC2pi9MP/hezGfhrLa4svOUF
- jguV3vI0F9cax4ynYHbJq1rTScLwRQ8W9p/BGsltkPYgjh4AHopGEKWJoYgmBhLpqHO2
- d/5IBdsxQw8nfZleg7+fxGweeLFHD/AoeV9uVGeof9z5CYxQ0JhBK5iVKV0J8llFYlwV
- 9hIw==
-X-Gm-Message-State: AAQBX9fVmT+kEvELHtAi79shSt8NBwNqTb+GRzbjJm7o8XHhg+vw4BkV
- yMUyXOMgw/e79PMU+CchoVi4r204cy/ulM6DGbB9frukhxDkCdm3pLLW4mAAD71E5BTro8qmReZ
- udrCGFAoeoOyhKQw=
-X-Received: by 2002:a05:6214:496:b0:605:648b:2adc with SMTP id
- pt22-20020a056214049600b00605648b2adcmr1289629qvb.19.1682048578862; 
- Thu, 20 Apr 2023 20:42:58 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YP1N9m7XpAdH8M4at2cC7tZQGeZBOxFmn3K+gc5yg6YdA9K3uR8D7T0c/W3HXitoPsYBFzaQ==
-X-Received: by 2002:a05:6214:496:b0:605:648b:2adc with SMTP id
- pt22-20020a056214049600b00605648b2adcmr1289611qvb.19.1682048578606; 
- Thu, 20 Apr 2023 20:42:58 -0700 (PDT)
+ bh=6OLeGyBZAJYP/ReCsjoFBsGEm2axluUmkFazXbl6C8g=;
+ b=jXtq2JvNuRV2zkPI3YH+33is3tAnitgmjO3PsRJB1YarYjuKgprCSPWVGptCrV+DM9
+ 3XhID2evN0EIdGApoiZaEG6pd9LuwMp+2uyQq1SMfCvANk6H7j4aijZw7ISMlGTUeXpv
+ HMEaJQtGOBXv/C9Lcnx8F+D3XfYENuWbijUJMwg8++JS67p3sMMMCv3mSTr/GkHScm+9
+ xTbWUrU/dIPKVVyVceZda66guuxxmpNADOEWxaLhUV8Ysb0kyBD2RjsdB3k2TijXO761
+ rh2oh8v9GXQUPsDNcj8H8x+iKOm0mHs8S59zKxQAHtXob0w2jAjFlicIYp2nvCYI+Mcw
+ fSCA==
+X-Gm-Message-State: AAQBX9cPQJB+s6zxR6WChGkYViPlKXWGLHUwpVwS+keMDCkT3ncSfdDG
+ 935uGCCqcPxWoIho69op6/yg3JKWUNEcvPvQrZDh0l9uxCOj8l8sOlGLJJ1faQ3cRwZwZ5Hsg5Q
+ KT3NCWp1Z3E8Wm24=
+X-Received: by 2002:ac8:5f92:0:b0:3b9:bf83:d5de with SMTP id
+ j18-20020ac85f92000000b003b9bf83d5demr6067285qta.26.1682049001282; 
+ Thu, 20 Apr 2023 20:50:01 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZnoOm16x9Xb4HG1BnAWfAMkf0YACAlwMlbdWqQsGAShzpIaq07TEXzUd1wUixjeYE1CquSVg==
+X-Received: by 2002:ac8:5f92:0:b0:3b9:bf83:d5de with SMTP id
+ j18-20020ac85f92000000b003b9bf83d5demr6067251qta.26.1682049000957; 
+ Thu, 20 Apr 2023 20:50:00 -0700 (PDT)
 Received: from ?IPV6:2601:18d:8a00:cfa:780e:7574:2b4c:7be5?
  ([2601:18d:8a00:cfa:780e:7574:2b4c:7be5])
  by smtp.gmail.com with ESMTPSA id
- j5-20020a0ce005000000b00605b0553ae7sm150832qvk.120.2023.04.20.20.42.57
+ b2-20020ac812c2000000b003e8160cf93asm995629qtj.80.2023.04.20.20.49.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 20:42:58 -0700 (PDT)
-Message-ID: <713d87d4-0080-e5df-7910-43d11f117f1d@redhat.com>
-Date: Thu, 20 Apr 2023 23:42:57 -0400
+ Thu, 20 Apr 2023 20:50:00 -0700 (PDT)
+Message-ID: <e9d0f20a-4ca8-7622-0171-2cb56b75821b@redhat.com>
+Date: Thu, 20 Apr 2023 23:49:59 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 1/2] tests/requirements.txt: bump up avocado-framework
+Subject: Re: [PATCH v4 1/6] tests/requirements.txt: bump up avocado-framework
  version to 101.0
 Content-Language: en-US
-To: Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: qemu-devel@nongnu.org, Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-References: <20230327115030.3418323-1-kconsul@linux.vnet.ibm.com>
- <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
+ Leif Lindholm <quic_llindhol@quicinc.com>, John Snow <jsnow@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
+ Kautuk Consul <kconsul@linux.vnet.ibm.com>,
+ Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+References: <20230417134321.3627231-1-alex.bennee@linaro.org>
+ <20230417134321.3627231-2-alex.bennee@linaro.org>
 From: Cleber Rosa <crosa@redhat.com>
-In-Reply-To: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
+In-Reply-To: <20230417134321.3627231-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=crosa@redhat.com;
@@ -91,7 +100,7 @@ X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,7 +117,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 3/27/23 07:50, Kautuk Consul wrote:
+On 4/17/23 09:43, Alex Bennée wrote:
+> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+>
 > Avocado version 101.0 has a fix to re-compute the checksum
 > of an asset file if the algorithm used in the *-CHECKSUM
 > file isn't the same as the one being passed to it by the
@@ -120,13 +131,29 @@ On 3/27/23 07:50, Kautuk Consul wrote:
 > URL thus making the test-cases take longer to execute.
 >
 > Bump up the avocado-framework version to 101.0.
+>
+> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
+> Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
+>
+> ---
+> v2
+>    - limit --max-parallel-tasks $(JOBS_OPTION:-j%=%)
+> ---
+>   tests/Makefile.include | 18 +++++++++++-------
+>   tests/requirements.txt |  2 +-
+>   2 files changed, 12 insertions(+), 8 deletions(-)
 
-Hi Kautuk,
+Hi everyone,
 
-First of all, thanks for working on this, and thanks to Hariharan for 
-testing it.
+Looks like I've mistakenly replied to the earlier thread, so here's 
+pretty much the same message on a better location.
 
-I'd like to give some context which not everyone may be aware of.  
+First of all, thanks to Kautuk for sending this and thanks to Hariharan 
+for further testing it.
+
+I'd like to give some context which not everyone may be aware of. 
 Avocado 101.0 is a very different when compared with 88.1. Everything 
 related to the execution of tests is brand new.  To be more precise, on 
 version 91.0[1], this new runner[2] became the default. On version 97.0, 
