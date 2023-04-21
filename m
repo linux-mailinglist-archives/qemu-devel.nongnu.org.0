@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF946EA85C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 12:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D158A6EA8A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 12:51:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppo4C-0007bF-RW; Fri, 21 Apr 2023 06:32:36 -0400
+	id 1ppoKu-0007nT-Lm; Fri, 21 Apr 2023 06:49:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppo47-0007Tw-My
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 06:32:35 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppo45-0005Qg-Fm
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 06:32:31 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id E217E600B7;
- Fri, 21 Apr 2023 13:32:24 +0300 (MSK)
-Received: from vsementsov-nix.yandex.net (unknown [2a02:6b8:b081:8816::1:4])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id 8WcxnS1Op4Y0-jpX6WH1g; Fri, 21 Apr 2023 13:32:24 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682073144; bh=SKoizXu+HLotkPiorGXbxF62o8s/OPgcMBo3eMAchak=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=E9E/W5+mw1yIcRSK2UXnbN1m5c4IULNlHY981BGtvQI4G4fBdQw0fz5TlC7Ec91/Z
- hOXlQKH7JazSEnH17c4unflCuRRD+OhJWko9cLD4/iKObmYl6suhPZBziqhAPM9omk
- eKHX4qwJdECSBIh1JQCwzxAzgtYZWTaoiCo/Bt4k=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
- berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, vsementsov@yandex-team.ru, philmd@linaro.org,
- antonkuchin@yandex-team.ru, den-plotnikov@yandex-team.ru
-Subject: [PATCH v7 4/4] pcie: implement DEVICE_ON event and query-hotplug
-Date: Fri, 21 Apr 2023 13:32:07 +0300
-Message-Id: <20230421103207.845847-5-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230421103207.845847-1-vsementsov@yandex-team.ru>
-References: <20230421103207.845847-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ppoKs-0007nL-Nu
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 06:49:50 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ppoKr-00080L-36
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 06:49:50 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-b8f5121503eso1939687276.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 03:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682074186; x=1684666186;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=jVkPSXD94pwWRo7H7Czuk0NKhLA3IeMG/SBOM2cH1kU=;
+ b=fxoTzrIO6BJxf76jgr8kvn6wnibSD7PXiG220FcPhhWLxv+qlNsj5j1q1nvFanEcQR
+ yyFH47Kr3k1S7iYnNPumx1bi6QJXkkZuJ1fSRHv+K63o/siMswi5BhJeHEmggtIMQ4yH
+ MRCxXsF4hxqGUvoH0aHiYZ9D79AP0eaEV5VHQZPaoDcouMLhluzCXS4eOKalPKwQw/vo
+ 7eFblVhFlOUaKdgi3OSMPtaI5Owv6Yj1CV7NVbMA6pZq//ofGl0hCqIwgG2F1pGDJ98O
+ 1XZDvpI2ChKoLYdde5t8xsQDxkneB2KPvr0FlMcZGvpPV4dksPTgAGm9lQzNGOHtLsNv
+ 84Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682074186; x=1684666186;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jVkPSXD94pwWRo7H7Czuk0NKhLA3IeMG/SBOM2cH1kU=;
+ b=OsPU5a4FC5Egld/VdnvOlXUGtplHd7o613qGaw1qRcyefD6i5x0kzcDrNQ1oMwh4Vu
+ HAfM3AHmkDExZ+LTVA7xkeGzzzgHT0Hq17nmysjcBAa7iT+a2JXgX+TB7lmLn0NwjA61
+ uRB5z0C7IVi5MVCiNz72+eyAD/3mviRd4Se5KMteuoxxgyqMDjcetqmyMnTPmwxfsNZR
+ 7+AUPpQuJHAuUShD1tTD6XIbu98EOCwHXekAeGv19d+y8JprzxOwOofHSXKtBHjhlakF
+ ANpThsJB/2TCTVN+DUHYsNq343l47X1TCiDtqudqFdyLsyAkFmi/N5s0uqqPt2NEZuRo
+ S6LA==
+X-Gm-Message-State: AAQBX9cV8ZIUEawfSggj1O2g85ei+1ry7zhrLiY2dnu+hX/NtievuKqo
+ LQl4lpsYNTIYC4blr2Cnl4vByCE+WAIK55eczuDF4cjT
+X-Google-Smtp-Source: AKy350ZgRoikI4NzGjlF+eqLIH1TCIMUwrG2WDlqk5TrbAidwwweK0TeS5O29dkH4+W1L5VcpCvCSw==
+X-Received: by 2002:a05:6902:1021:b0:b96:6c84:929e with SMTP id
+ x1-20020a056902102100b00b966c84929emr1973410ybt.60.1682074186671; 
+ Fri, 21 Apr 2023 03:49:46 -0700 (PDT)
+Received: from [192.168.162.227] ([172.58.142.250])
+ by smtp.gmail.com with ESMTPSA id
+ w14-20020a25850e000000b00b9582234118sm862580ybk.32.2023.04.21.03.49.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Apr 2023 03:49:46 -0700 (PDT)
+Message-ID: <6d9eaf4c-43ce-ebad-f504-8736247bca03@linaro.org>
+Date: Fri, 21 Apr 2023 11:49:42 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 00/21] target-arm queue
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20230420100456.944969-1-peter.maydell@linaro.org>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230420100456.944969-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,169 +93,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For PCIe and SHPC hotplug it's important to track led indicators and
-"device-on" status.
+On 4/20/23 11:04, Peter Maydell wrote:
+> Hi; here's the first target-arm pullreq for the 8.1 cycle.
+> Nothing particularly huge in here, just the various things
+> that had accumulated during the freeze.
+> 
+> thanks
+> -- PMM
+> 
+> The following changes since commit 2d82c32b2ceaca3dc3da5e36e10976f34bfcb598:
+> 
+>    Open 8.1 development tree (2023-04-20 10:05:25 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230420
+> 
+> for you to fetch changes up to 1ed1f338520cda0574b7e04f5e8e85e049740548:
+> 
+>    arm/mcimx7d-sabre: Set fec2-phy-connected property to false (2023-04-20 10:46:43 +0100)
+> 
+> ----------------------------------------------------------------
+> target-arm queue:
+>   * hw/arm: Fix some typos in comments (most found by codespell)
+>   * exynos: Fix out-of-bounds access in exynos4210_gcomp_find debug printf
+>   * Orangepi-PC, Cubieboard: add Allwinner WDT watchdog emulation
+>   * tests/avocado: Add reboot tests to Cubieboard
+>   * hw/timer/imx_epit: Fix bugs in timer limit checking
+>   * target/arm: Remove KVM AArch32 CPU definitions
+>   * hw/arm/virt: Restrict Cortex-A7 check to TCG
+>   * target/arm: Initialize debug capabilities only once
+>   * target/arm: Implement FEAT_PAN3
+>   * docs/devel/kconfig.rst: Fix incorrect markup
+>   * target/arm: Report pauth information to gdb as 'pauth_v2'
+>   * mcimxd7-sabre, mcimx6ul-evk: Correctly model the way the PHY
+>     on the second ethernet device must be configured via the
+>     first one
 
-At this step implement the prepared infrastructure in PCIe.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- hw/pci/pcie.c         | 83 +++++++++++++++++++++++++++++++++++++++++++
- hw/pci/pcie_port.c    |  1 +
- include/hw/pci/pcie.h |  2 ++
- 3 files changed, 86 insertions(+)
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index b8c24cf45f..a47c95e4b2 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -19,7 +19,10 @@
-  */
- 
- #include "qemu/osdep.h"
-+
-+#include "monitor/qdev.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-events-qdev.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pcie.h"
- #include "hw/pci/msix.h"
-@@ -45,6 +48,30 @@ static bool pcie_sltctl_powered_off(uint16_t sltctl)
-         && (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF;
- }
- 
-+static bool pcie_sltctl_powered_on(uint16_t sltctl)
-+{
-+    return (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON &&
-+        (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_ON &&
-+        (sltctl & PCI_EXP_SLTCTL_AIC) == PCI_EXP_SLTCTL_ATTN_IND_OFF;
-+}
-+
-+static LedActivity pcie_led_state_to_qapi(uint16_t value)
-+{
-+    switch (value) {
-+    case PCI_EXP_SLTCTL_PWR_IND_ON:
-+    case PCI_EXP_SLTCTL_ATTN_IND_ON:
-+        return LED_ACTIVITY_ON;
-+    case PCI_EXP_SLTCTL_PWR_IND_BLINK:
-+    case PCI_EXP_SLTCTL_ATTN_IND_BLINK:
-+        return LED_ACTIVITY_BLINK;
-+    case PCI_EXP_SLTCTL_PWR_IND_OFF:
-+    case PCI_EXP_SLTCTL_ATTN_IND_OFF:
-+        return LED_ACTIVITY_OFF;
-+    default:
-+        abort();
-+    }
-+}
-+
- /***************************************************************************
-  * pci express capability helper functions
-  */
-@@ -724,6 +751,28 @@ void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_sta)
-     *slt_sta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
- }
- 
-+static void find_child_fn(PCIBus *bus, PCIDevice *dev, void *opaque)
-+{
-+    PCIDevice **child = opaque;
-+
-+    if (!*child) {
-+        *child = dev;
-+    }
-+}
-+
-+/*
-+ * Returns the plugged device or first function of multifunction plugged device
-+ */
-+static PCIDevice *pcie_cap_slot_find_child(PCIDevice *dev)
-+{
-+    PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
-+    PCIDevice *child = NULL;
-+
-+    pci_for_each_device(sec_bus, pci_bus_num(sec_bus), find_child_fn, &child);
-+
-+    return child;
-+}
-+
- void pcie_cap_slot_write_config(PCIDevice *dev,
-                                 uint16_t old_slt_ctl, uint16_t old_slt_sta,
-                                 uint32_t addr, uint32_t val, int len)
-@@ -731,6 +780,7 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-     uint32_t pos = dev->exp.exp_cap;
-     uint8_t *exp_cap = dev->config + pos;
-     uint16_t sltsta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
-+    DeviceState *child_dev = DEVICE(pcie_cap_slot_find_child(dev));
- 
-     if (ranges_overlap(addr, len, pos + PCI_EXP_SLTSTA, 2)) {
-         /*
-@@ -768,6 +818,12 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-                         sltsta);
-     }
- 
-+    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_on(val) &&
-+        !pcie_sltctl_powered_on(old_slt_ctl) && child_dev)
-+    {
-+        qdev_hotplug_device_on_event(child_dev);
-+    }
-+
-     /*
-      * If the slot is populated, power indicator is off and power
-      * controller is off, it is safe to detach the devices.
-@@ -1100,3 +1156,30 @@ void pcie_acs_reset(PCIDevice *dev)
-         pci_set_word(dev->config + dev->exp.acs_cap + PCI_ACS_CTRL, 0);
-     }
- }
-+
-+HotplugInfo *pcie_cap_slot_get_hotplug_state(HotplugHandler *hotplug_dev,
-+                                             DeviceState *dev, Error **errp)
-+{
-+    PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-+    uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-+    uint16_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
-+    uint16_t power_led = sltctl & PCI_EXP_SLTCTL_PIC;
-+    uint16_t attn_led = sltctl & PCI_EXP_SLTCTL_AIC;
-+    uint16_t pcc = sltctl & PCI_EXP_SLTCTL_PCC;
-+    HotplugInfo *res = g_new(HotplugInfo, 1);
-+
-+    *res = (HotplugInfo) {
-+        .type = HOTPLUG_TYPE_PCIE_NATIVE,
-+        .bus = qdev_new_device_and_path(DEVICE(hotplug_pdev)),
-+        .child = qdev_new_device_and_path(dev),
-+        .device_on = dev->device_on_sent,
-+        .u.pcie_native.has_power_led = true,
-+        .u.pcie_native.power_led = pcie_led_state_to_qapi(power_led),
-+        .u.pcie_native.has_attention_led = true,
-+        .u.pcie_native.attention_led = pcie_led_state_to_qapi(attn_led),
-+        .u.pcie_native.has_power_on = true,
-+        .u.pcie_native.power_on = pcc == PCI_EXP_SLTCTL_PWR_ON,
-+    };
-+
-+    return res;
-+}
-diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-index 20ff2b39e8..91e53c269c 100644
---- a/hw/pci/pcie_port.c
-+++ b/hw/pci/pcie_port.c
-@@ -234,6 +234,7 @@ static void pcie_slot_class_init(ObjectClass *oc, void *data)
-     hc->unplug = pcie_cap_slot_unplug_cb;
-     hc->unplug_request = pcie_cap_slot_unplug_request_cb;
-     hc->is_hotpluggable_bus = pcie_slot_is_hotpluggbale_bus;
-+    hc->get_hotplug_state = pcie_cap_slot_get_hotplug_state;
- }
- 
- static const TypeInfo pcie_slot_type_info = {
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 3cc2b15957..f755a7cacb 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -146,4 +146,6 @@ void pcie_cap_slot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-                              Error **errp);
- void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                      DeviceState *dev, Error **errp);
-+HotplugInfo *pcie_cap_slot_get_hotplug_state(HotplugHandler *hotplug_dev,
-+                                             DeviceState *dev, Error **errp);
- #endif /* QEMU_PCIE_H */
--- 
-2.34.1
+r~
+
 
 
