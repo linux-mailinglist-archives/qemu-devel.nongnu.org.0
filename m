@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4336EA9D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028B16EAA08
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:11:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pppQQ-0003te-AC; Fri, 21 Apr 2023 07:59:38 -0400
+	id 1pppa1-00010I-FR; Fri, 21 Apr 2023 08:09:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pppQN-0003qS-GO; Fri, 21 Apr 2023 07:59:35 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pppZy-000109-IY
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:09:30 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pppQL-00050H-7S; Fri, 21 Apr 2023 07:59:34 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 8994D616EC;
- Fri, 21 Apr 2023 14:59:20 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:8816::1:4] (unknown
- [2a02:6b8:b081:8816::1:4])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id JxdHjT1OiuQ0-xvlUK7Zq; Fri, 21 Apr 2023 14:59:19 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682078359; bh=ZRyZ+7ySCEr+Y/PTlqpQTCf59bvaki66RWgbbe5bjAU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=RODDUAt8hbRf+2Zew5e+VRh18sR4pbAVFxm6Uv4hl5nDi2APvS0JMxk1Y3kyiw7jo
- YFdUqr9Ue4opRvnxv7lE8esE+WCj3j9er8K6xhxx6TN9EG1kF7aD8SOwRKg8CxRaSq
- AC/QJrGFKVepZk5nZz+qoq7G0vXCH6A8wETnENdY=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <7366eb2b-5fee-e7b9-e82d-2cf0bd950b9b@yandex-team.ru>
-Date: Fri, 21 Apr 2023 14:59:19 +0300
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pppZv-0006yV-DK
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:09:30 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2tVn1nwWz67CtD;
+ Fri, 21 Apr 2023 20:04:33 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 21 Apr
+ 2023 13:09:20 +0100
+Date: Fri, 21 Apr 2023 13:09:19 +0100
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, "Igor
+ Mammedov" <imammedo@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, "Fan
+ Ni" <fan.ni@samsung.com>, <linuxarm@huawei.com>
+Subject: Re: [RFC PATCH] hw/pci-bridge: Fix release ordering by embedding
+ PCIBridgeWindows within PCIBridge
+Message-ID: <20230421130919.00006ab2@Huawei.com>
+In-Reply-To: <b797ee27-2182-e391-9f39-dce51db7e07d@linaro.org>
+References: <20230420145937.17152-1-Jonathan.Cameron@huawei.com>
+ <b797ee27-2182-e391-9f39-dce51db7e07d@linaro.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v5 00/16] iotests: use vm.cmd()
-Content-Language: en-US
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, jsnow@redhat.com, crosa@redhat.com,
- kwolf@redhat.com, hreitz@redhat.com
-References: <20230215132547.1620575-1-vsementsov@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230215132547.1620575-1-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,32 +65,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15.02.23 16:25, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> Let's get rid of pattern
-> 
->      result = self.vm.qmp(...)
->      self.assert_qmp(result, 'return', {})
-> 
-> And switch to just
-> 
->      self.vm.cmd(...)
-> 
-> v5:
-> - include fixups by John
-> - fix 'make check-dev'
-> - split first patch into several [Daniel]
+On Fri, 21 Apr 2023 08:26:43 +0200
+Philippe Mathieu-Daud=E9 <philmd@linaro.org> wrote:
 
-Ping.
+> Hi Jonathan,
+>=20
+> On 20/4/23 16:59, Jonathan Cameron via wrote:
+> > The lifetime of the PCIBridgeWindows instance accessed via the windows =
+pointer
+> > in struct PCIBridge is managed separately from the PCIBridge itself.
+> >=20
+> > Triggered by ./qemu-system-x86_64 -M x-remote -display none -monitor st=
+dio
+> > QEMU monitor: device_add cxl-downstream
+> >=20
+> > In some error handling paths (such as the above due to attaching a cxl-=
+downstream
+> > port anything other than a cxl-upstream port) the g_free() of the PCIBr=
+idge
+> > windows in pci_bridge_region_cleanup() is called before the final call =
+of
+> > flatview_uref() in address_space_set_flatview() ultimately from
+> > drain_call_rcu()
+> >=20
+> > At one stage this resulted in a crash, currently can still be observed =
+using
+> > valgrind which records a use after free.
+> >=20
+> > When present, only one instance is allocated. pci_bridge_update_mapping=
+s()
+> > can operate directly on an instance rather than creating a new one and
+> > swapping it in.  Thus there appears to be no reason to not directly
+> > couple the lifetimes of the two structures by embedding the PCIBridgeWi=
+ndows
+> > within the PCIBridge removing the need for the problematic separate fre=
+e.
+> >=20
+> > Patch is same as was posted deep in the discussion.
+> > https://lore.kernel.org/qemu-devel/20230403171232.000020bb@huawei.com/
+> >=20
+> > Posted as an RFC as only lightly tested and I'm not sure what the reaso=
+ning
+> > behind the separation of lifetimes originally was. As such perhaps this=
+ is
+> > not the best route to fixing the issue.
+> >=20
+> > Reported-by: Thomas Huth <thuth@redhat.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >   hw/pci/pci_bridge.c         | 20 ++++++++------------
+> >   include/hw/pci/pci_bridge.h |  3 ++-
+> >   2 files changed, 10 insertions(+), 13 deletions(-) =20
+>=20
+>=20
+> > diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+> > index 01670e9e65..ac75ec0c1b 100644
+> > --- a/include/hw/pci/pci_bridge.h
+> > +++ b/include/hw/pci/pci_bridge.h
+> > @@ -30,6 +30,7 @@
+> >   #include "hw/pci/pci_bus.h"
+> >   #include "hw/cxl/cxl.h"
+> >   #include "qom/object.h"
+> > +#include "qemu/rcu.h" =20
+>=20
+> Where is this header is used
 
-Patches 1-2 (or their equivalence) are already merged, patches 03-16 are applicable on current master, I don't think it worth resending a v6 just to drop 1-2.
+Left over garbage from a previous attempt to fix.  Good spot.
+I'll clean that out and resend shortly.
 
--- 
-Best regards,
-Vladimir
+Thanks,
+
+Jonathan
+=20
+>=20
+> >   typedef struct PCIBridgeWindows PCIBridgeWindows;
+> >  =20
+> > @@ -73,7 +74,7 @@ struct PCIBridge {
+> >       MemoryRegion address_space_mem;
+> >       MemoryRegion address_space_io;
+> >  =20
+> > -    PCIBridgeWindows *windows;
+> > +    PCIBridgeWindows windows;
+> >  =20
+> >       pci_map_irq_fn map_irq;
+> >       const char *bus_name; =20
+>=20
 
 
