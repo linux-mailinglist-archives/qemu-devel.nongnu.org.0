@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951546EAF64
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 18:44:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083676EAF6E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 18:44:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pptqd-0004xc-Br; Fri, 21 Apr 2023 12:42:59 -0400
+	id 1pptqj-00057E-2Q; Fri, 21 Apr 2023 12:43:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kariem.taha2.7@gmail.com>)
- id 1pptqa-0004xH-T4
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:42:56 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1pptqh-00053f-8e
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:43:03 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <kariem.taha2.7@gmail.com>)
- id 1pptqZ-00036J-9Z
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:42:56 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3f18123d9f6so13869055e9.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 09:42:54 -0700 (PDT)
+ id 1pptqe-00036V-3q
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:43:02 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f195b164c4so3614225e9.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 09:42:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682095373; x=1684687373;
+ d=gmail.com; s=20221208; t=1682095378; x=1684687378;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Gp4j69SMZPwsWvT5LUaznCtmcmVnsoJ2lq/e90PdDrU=;
- b=X1YeQAOGbh27CHtKhvZYqR6AoYqysj1BSxHwQcMXaXCsexcGzHOElH/XZ/DAOG2V+p
- UfSoPa74+5EcEScFxxQP0G36expmA40H5nXOrUaLm6I0zGZMo6fUG2teokfz4BdQHmOx
- cWrRrbq77AX30IGPrNf7NySV/xwfCWRnFkvCsGkQffiK7eTj2jE2ymQtEZfLdroYRAV/
- 4abOIg+sADfk2jm7qAXjNMnIvmIr/U5cU7xAh4piZ3URIaNhRRRQgth/wq43bfvnsUss
- MvungWs14jbYkOo3zkALHsOP5U3FR2N6qns6PyD49Z3/U+3mHQ5/sPnBIFx0xpSawW/G
- L7dw==
+ bh=7Ocm2Mi/3XffgQukYR6fjIgFb1H6iTkSkxgaD4YHDdM=;
+ b=Y8YF3F0RTWYy+xToBIiArxuzE3M5O3l1b85d45BqyyYdF78dcnAoevUcuyUgLEs53U
+ yl97jxZE6oCh5EweqFOnuOsJknYE0h9TWsD4uIRe4ghpjFiFzx/RZC7GWcv4b0oSqPzM
+ t2FZp2iOiP7ptfI/vmMndJsKIB0hRw3a06dx2++7U2o+RiJjyHoYYWeHvUqwlNRnTPSY
+ Kf1jFTwXWI7Yyzsx7AfgyuLUpW35+/B6zVC7sGC3JhbO7yAjALZ4DXPXyL6w54r+VH7C
+ t0YfM/BVBRPsTQOiXLM9eiHDcJMB5Mta/IpsWdEL4hnNq6I8kQoNveVLiZRRKKEw1nuR
+ +uug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682095373; x=1684687373;
+ d=1e100.net; s=20221208; t=1682095378; x=1684687378;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Gp4j69SMZPwsWvT5LUaznCtmcmVnsoJ2lq/e90PdDrU=;
- b=iVPkKB+p8PtNIT62AlbvP0m6ADkjtuSqFhqiXaIag02MQ+WYVgIM4GsoJCtKw+mxE+
- YHZdmOuzEA2HClEjYDVBiklm4qQ6KYEh8F78dlHDY8nvh7qTYYsalrv2f99ASb3ji3M0
- LkUkvgW3zumkuY+0bAWsD6VHsyn/q1GiZQtC7Km1+8XbKoX2tnJBa4+H1Gnyjvi0cs4P
- nDBW91vQDLOkl+MpY/rvOPA3NK3uclCotqHFyPoZU1DVqwkr9n13znMIKbn0k1gb/T+Y
- hfWzA1wkX1EHCaG4K1y65T3HjLyIpDOyAlkin+qzhy+mHTeguewqkH/ELs3p705goR5t
- Z89Q==
-X-Gm-Message-State: AAQBX9dtJXMO/osxilfdMRR/29O8b3PW6106OD7gi/WZgy49ypsgz5d4
- UMUMQ6/t02Nnle+seEXKaWnux7BAqFU=
-X-Google-Smtp-Source: AKy350Zts3U7tNk7Rv4ocHVySqegiiwC/W1KfLYWoLBmHC9w2Ipk3WnTRn85LpYR2iCfdxO+qdSkng==
-X-Received: by 2002:a1c:7211:0:b0:3f1:82d8:8fde with SMTP id
- n17-20020a1c7211000000b003f182d88fdemr2236708wmc.24.1682095373308; 
- Fri, 21 Apr 2023 09:42:53 -0700 (PDT)
+ bh=7Ocm2Mi/3XffgQukYR6fjIgFb1H6iTkSkxgaD4YHDdM=;
+ b=Dp1JHeERUifLKMfucV/Mfu5KaoLDW1lVxmMk4ctF2uQA+gYv7D8fr6NrTUjNClg077
+ bGCd39Fiy9SKk8t5Um/SE/rqnCpyv9FoBXFysAs1sV0SvU1jPDkG4tDfzvlsPWZuBPIT
+ 8jCwtCyB151df8LMPCaJzye67ajFtMhrqZRNb8caMp1wOjNVHpwrXW1uT6FLJSXICt9L
+ nPH81avYAWQLBmZKNAkakjmnQG8LUmpPhATGhtF/ZVVy0Vy0BoO67/RmhfqYZ30SD5qL
+ mRUO15ywJjopRkOKvV3BMTVhQPj1GgRDSI3bfoPW+WiQRJcXYww/T2xsRj/QJw6n0+9x
+ Ivog==
+X-Gm-Message-State: AAQBX9cFdArwV9t6qHz8tyibjg3NK929bszR0JSIRxWMS2N+LaU75adz
+ NF7KMU6Nh8EgcWCoMbiCGEyRz89h9mE=
+X-Google-Smtp-Source: AKy350ad+Pd6PZ8UyyncqhKdTZXSYiBU4znbB7Vr/Uy+GHPwCkM9ZH7Oq913dAcObZ25UIJ+wpttxg==
+X-Received: by 2002:a05:600c:230e:b0:3ee:6cdf:c357 with SMTP id
+ 14-20020a05600c230e00b003ee6cdfc357mr2393100wmo.20.1682095378273; 
+ Fri, 21 Apr 2023 09:42:58 -0700 (PDT)
 Received: from karim.my.domain ([197.39.145.151])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a05600c221000b003ee1b2ab9a0sm5266658wml.11.2023.04.21.09.42.49
+ z16-20020a05600c221000b003ee1b2ab9a0sm5266658wml.11.2023.04.21.09.42.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 09:42:52 -0700 (PDT)
+ Fri, 21 Apr 2023 09:42:57 -0700 (PDT)
 From: Karim Taha <kariem.taha2.7@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: imp@bsdimp.com,
-	Karim Taha <kariem.taha2.7@gmail.com>
-Subject: [PATCH v3 01/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
-Date: Fri, 21 Apr 2023 18:41:50 +0200
-Message-Id: <20230421164200.2913-2-kariem.taha2.7@gmail.com>
+Cc: imp@bsdimp.com, Stacey Son <sson@FreeBSD.org>,
+ Karim Taha <kariem.taha2.7@gmail.com>
+Subject: [PATCH v3 02/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
+Date: Fri, 21 Apr 2023 18:41:51 +0200
+Message-Id: <20230421164200.2913-3-kariem.taha2.7@gmail.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421164200.2913-1-kariem.taha2.7@gmail.com>
 References: <20230421164200.2913-1-kariem.taha2.7@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=kariem.taha2.7@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=kariem.taha2.7@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,45 +93,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Warner Losh <imp@bsdimp.com>
+From: Stacey Son <sson@FreeBSD.org>
 
-Intialize guest_base in bsd-user/main.c.
+Add the socket conversion related flags and structs.
 
-Allow guest_base to be initialized on 64-bit hosts, the initial value is used by g2h_untagged function defined in include/exec/cpu_ldst.h
+Add the relevant definitions of struct target_sockaddr and struct
+target_ip_mreq and the related flags, to be used in
+bsd-user/bsd-socket.c for the socket conversion functions:
+target_to_host_sockaddr, host_to_target_sockaddr, target_to_host_ip_mreq
 
 Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
 ---
- bsd-user/main.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ bsd-user/syscall_defs.h | 110 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index babc3b009b..afdc1b5f3c 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -50,8 +50,22 @@
- #include "target_arch_cpu.h"
+diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
+index b6d113d24a..f041245792 100644
+--- a/bsd-user/syscall_defs.h
++++ b/bsd-user/syscall_defs.h
+@@ -179,6 +179,116 @@ struct target_freebsd__wrusage {
+     struct target_freebsd_rusage wru_children;
+ };
  
- int singlestep;
--uintptr_t guest_base;
++/*
++ * sys/socket.h
++ */
 +
 +/*
-+ * Going hand in hand with the va space needed (see below), we need
-+ * to find a host address to map the guest to. Assume that qemu
-+ * itself doesn't need memory above 32GB (or that we don't collide
-+ * with anything interesting). This is selected rather arbitrarily,
-+ * but seems to produce good results in tests to date.
++ * Types
 + */
-+# if HOST_LONG_BITS >= 64
-+uintptr_t guest_base = 0x800000000ul;    /* at 32GB */
-+bool have_guest_base = true;
-+#else
-+uintptr_t guest_base;    /* TODO: use sysctl to find big enough hole */
- bool have_guest_base;
++#define TARGET_SOCK_STREAM      1   /* stream socket */
++#define TARGET_SOCK_DGRAM       2   /* datagram socket */
++#define TARGET_SOCK_RAW         3   /* raw-protocol interface */
++#define TARGET_SOCK_RDM         4   /* reliably-delivered message */
++#define TARGET_SOCK_SEQPACKET   5   /* sequenced packet stream */
++
++
++/*
++ * Option flags per-socket.
++ */
++
++#define TARGET_SO_DEBUG         0x0001  /* turn on debugging info recording */
++#define TARGET_SO_ACCEPTCONN    0x0002  /* socket has had listen() */
++#define TARGET_SO_REUSEADDR     0x0004  /* allow local address reuse */
++#define TARGET_SO_KEEPALIVE     0x0008  /* keep connections alive */
++#define TARGET_SO_DONTROUTE     0x0010  /* just use interface addresses */
++#define TARGET_SO_BROADCAST     0x0020  /* permit sending of broadcast msgs */
++#define TARGET_SO_USELOOPBACK   0x0040  /* bypass hardware when possible */
++#define TARGET_SO_LINGER        0x0080  /* linger on close if data present */
++#define TARGET_SO_OOBINLINE     0x0100  /* leave received OOB data in line */
++#define TARGET_SO_REUSEPORT     0x0200  /* allow local address & port reuse */
++#define TARGET_SO_TIMESTAMP     0x0400  /* timestamp received dgram traffic */
++#define TARGET_SO_NOSIGPIPE     0x0800  /* no SIGPIPE from EPIPE */
++#define TARGET_SO_ACCEPTFILTER  0x1000  /* there is an accept filter */
++#define TARGET_SO_BINTIME       0x2000  /* timestamp received dgram traffic */
++#define TARGET_SO_NO_OFFLOAD    0x4000  /* socket cannot be offloaded */
++#define TARGET_SO_NO_DDP        0x8000  /* disable direct data placement */
++
++/*
++ * Additional options, not kept in so_options.
++ */
++#define TARGET_SO_SNDBUF        0x1001  /* send buffer size */
++#define TARGET_SO_RCVBUF        0x1002  /* receive buffer size */
++#define TARGET_SO_SNDLOWAT      0x1003  /* send low-water mark */
++#define TARGET_SO_RCVLOWAT      0x1004  /* receive low-water mark */
++#define TARGET_SO_SNDTIMEO      0x1005  /* send timeout */
++#define TARGET_SO_RCVTIMEO      0x1006  /* receive timeout */
++#define TARGET_SO_ERROR         0x1007  /* get error status and clear */
++#define TARGET_SO_TYPE          0x1008  /* get socket type */
++#define TARGET_SO_LABEL         0x1009  /* socket's MAC label */
++#define TARGET_SO_PEERLABEL     0x1010  /* socket's peer's MAC label */
++#define TARGET_SO_LISTENQLIMIT  0x1011  /* socket's backlog limit */
++#define TARGET_SO_LISTENQLEN    0x1012  /* socket's complete queue length */
++#define TARGET_SO_LISTENINCQLEN 0x1013  /* socket's incomplete queue length */
++#define TARGET_SO_SETFIB        0x1014  /* use this FIB to route */
++#define TARGET_SO_USER_COOKIE   0x1015  /* user cookie (dummynet etc.) */
++#define TARGET_SO_PROTOCOL      0x1016  /* get socket protocol (Linux name) */
++
++/* alias for SO_PROTOCOL (SunOS name) */
++#define TARGET_SO_PROTOTYPE     TARGET_SO_PROTOCOL
++
++/*
++ * Level number for (get/set)sockopt() to apply to socket itself.
++ */
++#define TARGET_SOL_SOCKET       0xffff  /* options for socket level */
++
++#ifndef CMSG_ALIGN
++#define CMSG_ALIGN(len) (((len) + sizeof(long) - 1) & ~(sizeof(long) - 1))
 +#endif
 +
- /*
-  * When running 32-on-64 we should make sure we can fit all of the possible
-  * guest address space into a contiguous chunk of virtual host memory.
++/*
++ * sys/socket.h
++ */
++struct target_msghdr {
++    abi_long    msg_name;       /* Socket name */
++    int32_t     msg_namelen;    /* Length of name */
++    abi_long    msg_iov;        /* Data blocks */
++    int32_t     msg_iovlen;     /* Number of blocks */
++    abi_long    msg_control;    /* Per protocol magic (eg BSD fd passing) */
++    int32_t     msg_controllen; /* Length of cmsg list */
++    int32_t     msg_flags;      /* flags on received message */
++};
++
++struct target_sockaddr {
++    uint8_t sa_len;
++    uint8_t sa_family;
++    uint8_t sa_data[14];
++} QEMU_PACKED;
++
++struct target_in_addr {
++    uint32_t s_addr; /* big endian */
++};
++
++struct target_cmsghdr {
++    uint32_t    cmsg_len;
++    int32_t     cmsg_level;
++    int32_t     cmsg_type;
++};
++
++/*
++ * netinet/in.h
++ */
++struct target_ip_mreq {
++    struct target_in_addr   imr_multiaddr;
++    struct target_in_addr   imr_interface;
++};
++
++struct target_ip_mreqn {
++    struct target_in_addr   imr_multiaddr;
++    struct target_in_addr   imr_address;
++    int32_t                 imr_ifindex;
++};
++
+ #define safe_syscall0(type, name) \
+ type safe_##name(void) \
+ { \
 -- 
 2.40.0
 
