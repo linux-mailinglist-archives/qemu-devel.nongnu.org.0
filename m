@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AE16EA507
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C146EA508
 	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 09:39:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pplLH-0004kd-S2; Fri, 21 Apr 2023 03:38:03 -0400
+	id 1pplLa-0004nJ-IG; Fri, 21 Apr 2023 03:38:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pplLD-0004kP-8K
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 03:37:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pplLY-0004lR-Pc
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 03:38:20 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pplLB-0007wg-48
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 03:37:58 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pplLX-00083k-1w
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 03:38:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682062675;
+ s=mimecast20190719; t=1682062697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YAVbavJ95/H15qsA862i/P/RT/8yRxcuw2Hq9F2q0s8=;
- b=DeyEyRyR/Aqpo5j8d5V7BPBki3LPJOFGRZ0pnZO2Sqhvva51QxNuS0+bmbtYf5GJmoiXH8
- G1WxP4Ua++DRwMBIcFYCR3nkhQqc/khp5DKlYd3a4clfXz+XloMEk8Z2FUt6+9FNzm81OZ
- OM3/AfWFTbkL0sKCMbqJE+F72kZxJ0E=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dMMIuZlSmetsblZCDeUgqaAXAUJZ7nAmf6/XgoiCTeY=;
+ b=IlLAEkWpyrt+bKWld8aNWOFQOJ2aq92ITFnobNoIaJOWGywMhD1zHlZaCukBKBME8WuiT5
+ jxwPxhtDbJ5OfyEanDbePRSNvroga2ZpKYy0dc4uj41EEb4iQCNuSW1l4WODO0ykJKcmnw
+ ftesYUxy8CJZyUyea2GmpzWAcDhErv8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-ppLXFSPcNdOxHIRWEzK7uw-1; Fri, 21 Apr 2023 03:37:53 -0400
-X-MC-Unique: ppLXFSPcNdOxHIRWEzK7uw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f080f53d62so5280785e9.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 00:37:53 -0700 (PDT)
+ us-mta-321-4E1VgXCHMLeom_6MiqB9Rw-1; Fri, 21 Apr 2023 03:38:15 -0400
+X-MC-Unique: 4E1VgXCHMLeom_6MiqB9Rw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f170a1fbe7so8527205e9.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 00:38:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682062672; x=1684654672;
+ d=1e100.net; s=20221208; t=1682062695; x=1684654695;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YAVbavJ95/H15qsA862i/P/RT/8yRxcuw2Hq9F2q0s8=;
- b=KUgkx9fesJ6xmqZH4OveDVxTxcB2iMS0pw5FS6kz9NBiqdEoJu9mOYOHC6sqodDYSA
- 7lMfh8LJduHPu5uzR2oeu7XRlzx4PRamd7BeHiREVIrIN6U7O/FDN6laK4qrNjxMH+6t
- nZMYftnfMCBYvE49/U6QU0f8RIxI5tHOrZ18IXFW+WBq6Yt6LTMw//5tYtlNSV+i8Ufx
- N0qUsmxKP0CHC7O8jqA7LZU0EuvI/M9HjkyS/CAl76oa9Dy3Gjj+dOtlJHx75K5bjMJY
- 2LfMukEulU55M1ydJ8G3OenHUKnCvDAdsbJUBNkvPbP9uOF+b87VJdA0qySUsqj6u1pf
- 9+lw==
-X-Gm-Message-State: AAQBX9dJONLqWjkLGN0uY2FYcKVhzulCKZ45gPTOeYenjfVUTLQ4UhEA
- r8ZciQ8WNlwiLIb9Ee1Qg4QOXarFsJ9IoWUzySTsuXvyXFgcQEy97rtqK6DiVhoLBBe6cpI+8tU
- FApBcDStvfA7qASw=
-X-Received: by 2002:a1c:6a08:0:b0:3f1:7ea7:20e5 with SMTP id
- f8-20020a1c6a08000000b003f17ea720e5mr1053138wmc.17.1682062672736; 
- Fri, 21 Apr 2023 00:37:52 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aR+9rlW20eiWFQtSTgUAy6ULPnusZFxVacZlysZGxGS7xYybJEO//EPI+qe4seUXgWAwxoWA==
-X-Received: by 2002:a1c:6a08:0:b0:3f1:7ea7:20e5 with SMTP id
- f8-20020a1c6a08000000b003f17ea720e5mr1053125wmc.17.1682062672470; 
- Fri, 21 Apr 2023 00:37:52 -0700 (PDT)
+ bh=dMMIuZlSmetsblZCDeUgqaAXAUJZ7nAmf6/XgoiCTeY=;
+ b=PTcM3tDKcSD15p1t5XRlWiEQlQxHMA5QA+AGPIqUB0V7J+fRT837A/qE8BpF3fErtX
+ MwLhZrW3ABEQ8yKin4K8oj4xGbRf6xY1WaboDRDra2kz5yAoeOX3VXvbPIdv5cpaeBbe
+ WO7ud6DQHQoGdXrZ3WH11lV9cA1piqDDVSSxFN0VO0zpKTqVpP0PYIMDfHM/BPsr08Cn
+ KcY6qPN0y+hRS0WsnWYLlba+t7eCj4uuUyHYWjU9ZnYuOVoTwDFmV7ZBtG+Wl7B0VLBV
+ DeoaRaiNFeZDubSPPto6SEeCWTfdUY0IdQk5r3SYN1H7Nip3H+mAeb5Jm3JgdwYfQN/l
+ srOg==
+X-Gm-Message-State: AAQBX9f6FXq8jc79oG7NDNPhYrIMalsDzG7sVcwn3nTaT8SmstFx/8Gg
+ WgWBGoLUEQX/HnxCRgyoC39Q1THHgE74FKKHPpuW569TETImWLlBFbCdwQXIyRWHrcX8EniGzts
+ GQ+mO6fqDQyiolBo=
+X-Received: by 2002:a7b:c5d4:0:b0:3f0:a0bb:58ef with SMTP id
+ n20-20020a7bc5d4000000b003f0a0bb58efmr971429wmk.25.1682062694829; 
+ Fri, 21 Apr 2023 00:38:14 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YOrrdjWksNALRxEPQvKpHmRItRxbWVmT3lOFiuCk6zo4mcQss4rb0gRIrPaGwAOLoqPnIX7w==
+X-Received: by 2002:a7b:c5d4:0:b0:3f0:a0bb:58ef with SMTP id
+ n20-20020a7bc5d4000000b003f0a0bb58efmr971406wmk.25.1682062694511; 
+ Fri, 21 Apr 2023 00:38:14 -0700 (PDT)
 Received: from redhat.com ([2.55.17.255]) by smtp.gmail.com with ESMTPSA id
- y24-20020a7bcd98000000b003ee70225ed2sm4038602wmj.15.2023.04.21.00.37.48
+ m7-20020adfe947000000b003011baf89b3sm3799958wrn.40.2023.04.21.00.38.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 00:37:51 -0700 (PDT)
-Date: Fri, 21 Apr 2023 03:37:46 -0400
+ Fri, 21 Apr 2023 00:38:14 -0700 (PDT)
+Date: Fri, 21 Apr 2023 03:38:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Bernhard Beschow <shentey@gmail.com>
 Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
@@ -71,15 +71,13 @@ Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>,
  Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
  Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v4 2/7] hw/pci/pci.c: Don't leak PCIBus::irq_count[] in
- pci_bus_irqs()
-Message-ID: <20230421033735-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v4 0/7] Resolve TYPE_PIIX3_XEN_DEVICE
+Message-ID: <20230421033757-mutt-send-email-mst@kernel.org>
 References: <20230403074124.3925-1-shentey@gmail.com>
- <20230403074124.3925-3-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230403074124.3925-3-shentey@gmail.com>
+In-Reply-To: <20230403074124.3925-1-shentey@gmail.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -104,47 +102,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Apr 03, 2023 at 09:41:19AM +0200, Bernhard Beschow wrote:
-> When calling pci_bus_irqs() multiple times on the same object without calling
-> pci_bus_irqs_cleanup() in between PCIBus::irq_count[] is currently leaked.
-> Let's fix this because Xen will do just that in a few commits, and because
-> calling pci_bus_irqs_cleanup() in between seems fragile and cumbersome.
+On Mon, Apr 03, 2023 at 09:41:17AM +0200, Bernhard Beschow wrote:
+> There is currently a dedicated PIIX3 device model for use under Xen. By reusing
+> existing PCI API during initialization this device model can be eliminated and
+> the plain PIIX3 device model can be used instead.
 > 
-> Note that pci_bus_irqs_cleanup() now has to NULL irq_count such that
-> pci_bus_irqs() doesn't do a double free.
+> Resolving TYPE_PIIX3_XEN_DEVICE results in less code while also making Xen
+> agnostic towards the precise south bridge being used in the PC machine. The
+> latter might become particularily interesting once PIIX4 becomes usable in the
+> PC machine, avoiding the "Frankenstein" use of PIIX4_ACPI in PIIX3.
+
+xen stuff so I assume that tree?
+
+> Testing done:
+> - `make check`
+> - Run `xl create` with the following config:
+>     name = "Manjaro"
+>     type = 'hvm'
+>     memory = 1536
+>     apic = 1
+>     usb = 1
+>     disk = [ "file:manjaro-kde-21.2.6-220416-linux515.iso,hdc:cdrom,r" ]
+>     device_model_override = "/usr/bin/qemu-system-x86_64"
+>     vga = "stdvga"
+>     sdl = 1
+> - `qemu-system-x86_64 -M pc -m 2G -cpu host -accel kvm \
+>     -cdrom manjaro-kde-21.2.6-220416-linux515.iso`
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-
-ok
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-
-> ---
->  hw/pci/pci.c | 2 ++
->  1 file changed, 2 insertions(+)
+> v4:
+> - Add patch fixing latent memory leak in pci_bus_irqs() (Anthony)
 > 
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index def5000e7b..be1c5d16ec 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -558,6 +558,7 @@ void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
->      bus->set_irq = set_irq;
->      bus->irq_opaque = irq_opaque;
->      bus->nirq = nirq;
-> +    g_free(bus->irq_count);
->      bus->irq_count = g_malloc0(nirq * sizeof(bus->irq_count[0]));
->  }
->  
-> @@ -573,6 +574,7 @@ void pci_bus_irqs_cleanup(PCIBus *bus)
->      bus->irq_opaque = NULL;
->      bus->nirq = 0;
->      g_free(bus->irq_count);
-> +    bus->irq_count = NULL;
->  }
->  
->  PCIBus *pci_register_root_bus(DeviceState *parent, const char *name,
+> v3:
+> - Rebase onto master
+> 
+> v2:
+> - xen_piix3_set_irq() is already generic. Just rename it. (Chuck)
+> 
+> Tested-by: Chuck Zmudzinski <brchuckz@aol.com>
+> 
+> Bernhard Beschow (7):
+>   include/hw/xen/xen: Rename xen_piix3_set_irq() to xen_intx_set_irq()
+>   hw/pci/pci.c: Don't leak PCIBus::irq_count[] in pci_bus_irqs()
+>   hw/isa/piix3: Reuse piix3_realize() in piix3_xen_realize()
+>   hw/isa/piix3: Wire up Xen PCI IRQ handling outside of PIIX3
+>   hw/isa/piix3: Avoid Xen-specific variant of piix3_write_config()
+>   hw/isa/piix3: Resolve redundant k->config_write assignments
+>   hw/isa/piix3: Resolve redundant TYPE_PIIX3_XEN_DEVICE
+> 
+>  include/hw/southbridge/piix.h |  1 -
+>  include/hw/xen/xen.h          |  2 +-
+>  hw/i386/pc_piix.c             | 36 +++++++++++++++++++--
+>  hw/i386/xen/xen-hvm.c         |  2 +-
+>  hw/isa/piix3.c                | 60 +----------------------------------
+>  hw/pci/pci.c                  |  2 ++
+>  stubs/xen-hw-stub.c           |  2 +-
+>  7 files changed, 39 insertions(+), 66 deletions(-)
+> 
 > -- 
 > 2.40.0
+> 
 
 
