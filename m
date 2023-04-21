@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E086EABFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833436EABFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:46:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppr5d-0000KI-Tn; Fri, 21 Apr 2023 09:46:17 -0400
+	id 1ppr61-0001Bx-Kx; Fri, 21 Apr 2023 09:46:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ppr5b-0000Gr-OK
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:46:15 -0400
+ id 1ppr5z-00018l-Gb
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:46:39 -0400
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ppr5T-000874-UM
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:46:15 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2wkZ30SHz67ZCZ;
- Fri, 21 Apr 2023 21:44:54 +0800 (CST)
+ id 1ppr5x-00089k-T5
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:46:39 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2wfz6pSPz67Pmj;
+ Fri, 21 Apr 2023 21:41:47 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 21 Apr 2023 14:46:04 +0100
+ 15.1.2507.23; Fri, 21 Apr 2023 14:46:35 +0100
 To: <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>
 CC: Brice Goglin <Brice.Goglin@inria.fr>, Raghu H <raghuhack78@gmail.com>, Fan
  Ni <fan.ni@samsung.com>, <linuxarm@huawei.com>
-Subject: [PATCH 2/3] docs/cxl: Remove incorrect CXL type 3 size parameter
-Date: Fri, 21 Apr 2023 14:45:06 +0100
-Message-ID: <20230421134507.26842-3-Jonathan.Cameron@huawei.com>
+Subject: [PATCH 3/3] docs/cxl: Replace unsupported AARCH64 with x86_64
+Date: Fri, 21 Apr 2023 14:45:07 +0100
+Message-ID: <20230421134507.26842-4-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230421134507.26842-1-Jonathan.Cameron@huawei.com>
 References: <20230421134507.26842-1-Jonathan.Cameron@huawei.com>
@@ -43,11 +43,11 @@ X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
  envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,37 +68,47 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Raghu H <raghuhack78@gmail.com>
 
-cxl-type3 memory size is read directly from the provided memory backed end
-device. Remove non existent size option
+Currently Qemu CXL emulation support is not availabe on AARCH64 but its
+available with qemu x86_64 architecture, updating the document to reflect
+the supported platform.
 
 Signed-off-by: Raghu H <raghuhack78@gmail.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- docs/system/devices/cxl.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ docs/system/devices/cxl.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-index b65480af6f..a101271260 100644
+index a101271260..8b2da9cd97 100644
 --- a/docs/system/devices/cxl.rst
 +++ b/docs/system/devices/cxl.rst
-@@ -354,13 +354,13 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
-   -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
-   -device cxl-upstream,bus=root_port0,id=us0 \
-   -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
--  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
-+  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0 \
-   -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
--  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
-+  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1 \
-   -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
--  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
-+  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2 \
-   -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
--  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
-+  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3 \
-   -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
+@@ -302,7 +302,7 @@ Example command lines
+ ---------------------
+ A very simple setup with just one directly attached CXL Type 3 device::
  
- Kernel Configuration Options
+-  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
++  qemu-system-x86_64 -M q35,cxl=on -m 4G,maxmem=8G,slots=8 -smp 4 \
+   ...
+   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+   -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
+@@ -315,7 +315,7 @@ A setup suitable for 4 way interleave. Only one fixed window provided, to enable
+ interleave across 2 CXL host bridges.  Each host bridge has 2 CXL Root Ports, with
+ the CXL Type3 device directly attached (no switches).::
+ 
+-  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
++  qemu-system-x86_64 -M q35,cxl=on -m 4G,maxmem=8G,slots=8 -smp 4 \
+   ...
+   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+   -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M \
+@@ -339,7 +339,7 @@ the CXL Type3 device directly attached (no switches).::
+ 
+ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
+ 
+-  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
++  qemu-system-x86_64 -M q35,cxl=on -m 4G,maxmem=8G,slots=8 -smp 4 \
+   ...
+   -object memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M \
 -- 
 2.37.2
 
