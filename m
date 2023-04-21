@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336B36EA8CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 13:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DE46EA91F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 13:31:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppoYe-0002gB-En; Fri, 21 Apr 2023 07:04:04 -0400
+	id 1ppoyE-0006mZ-VM; Fri, 21 Apr 2023 07:30:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppoYc-0002fH-Ct
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:04:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ppoyC-0006mO-0W
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:30:28 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppoYa-0002Ht-Vy
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:04:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682075040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k8GSMAcAtfIgVplRQ8BE8CkGy5MZ+ee90Z3OpPfv63w=;
- b=RyfIj4YVkZbE65U4MPEZgFQ+Mt9uiJ50uiGzVZgl9wACST7fIF0K++wMn1n9u3zYfMrhkq
- 8LqMkv2bdi8qwBk3fPPV2jz0ouVp5WwQ9Tzy0FPUjQwT+a3ArQlcINTLxSItNkhT4gKqGi
- 7KO0ZSUg6JinSfcp4hk7XQ0qVP0CuvA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-TpJ3npceMtOGyEuY8nLYQQ-1; Fri, 21 Apr 2023 07:03:55 -0400
-X-MC-Unique: TpJ3npceMtOGyEuY8nLYQQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B1B229AA2EA;
- Fri, 21 Apr 2023 11:03:55 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B30E6140EBF4;
- Fri, 21 Apr 2023 11:03:53 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org
-Subject: [PATCH 3/3] MAINTAINERS: Cover tests/avocado/machine_aspeed.py
-Date: Fri, 21 Apr 2023 13:03:45 +0200
-Message-Id: <20230421110345.1294131-4-thuth@redhat.com>
-In-Reply-To: <20230421110345.1294131-1-thuth@redhat.com>
-References: <20230421110345.1294131-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1ppoyA-0007fp-F6
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:30:27 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 498FC40164;
+ Fri, 21 Apr 2023 14:30:22 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 61E0D95;
+ Fri, 21 Apr 2023 14:30:21 +0300 (MSK)
+Message-ID: <cdd66cfb-c5e9-f476-1e09-30aee8c2e381@msgid.tls.msk.ru>
+Date: Fri, 21 Apr 2023 14:30:21 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v7 6/6] lsi53c895a: disable reentrancy detection for
+ script RAM
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Fiona Ebner <f.ebner@proxmox.com>,
+ Fam Zheng <fam@euphon.net>
+References: <20230313082417.827484-1-alxndr@bu.edu>
+ <20230313082417.827484-7-alxndr@bu.edu>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <20230313082417.827484-7-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -101
+X-Spam_score: -10.2
+X-Spam_bar: ----------
+X-Spam_report: (-10.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.297,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,29 +74,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-tests/avocado/machine_aspeed.py should belong to the ASPEED section
-in the maintainers file. Improve the wildcards here a little bit,
-so that it is covered, too.
+13.03.2023 11:24, Alexander Bulekov пишет:
+> As the code is designed to use the memory APIs to access the script ram,
+> disable reentrancy checks for the pseudo-RAM ram_io MemoryRegion.
+> 
+> In the future, ram_io may be converted from an IO to a proper RAM MemoryRegion.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ping?  Maybe it's worth to re-send this one, after it got 2 R-by's.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2c2068ea5c..6d8bf42d13 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1111,7 +1111,7 @@ F: include/hw/misc/pca9552*.h
- F: hw/net/ftgmac100.c
- F: include/hw/net/ftgmac100.h
- F: docs/system/arm/aspeed.rst
--F: tests/qtest/*aspeed*
-+F: tests/*/*aspeed*
- F: hw/arm/fby35.c
- 
- NRF51
--- 
-2.31.1
+Does it close CVE-2023-0330 ?
 
+Thanks,
+
+/mjt
 
