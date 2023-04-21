@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8926EA315
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 07:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C08C6EA31A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 07:26:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppjFg-0003TH-LC; Fri, 21 Apr 2023 01:24:08 -0400
+	id 1ppjFh-0003TS-EX; Fri, 21 Apr 2023 01:24:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kariem.taha2.7@gmail.com>)
- id 1ppjFc-0003SL-U8
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 01:24:04 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1ppjFg-0003TJ-3O
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 01:24:08 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <kariem.taha2.7@gmail.com>)
- id 1ppjFb-0001fN-1r
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 01:24:04 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f1950f569eso219525e9.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 22:24:02 -0700 (PDT)
+ id 1ppjFe-0001fe-6s
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 01:24:07 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f193ca053eso747235e9.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 22:24:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682054641; x=1684646641;
+ d=gmail.com; s=20221208; t=1682054644; x=1684646644;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6CZjjRGyO4D1eISjTJOlp65a7EdUWPMPHB+sWYRDwFQ=;
- b=B+HcPz3Dl6iyClrwohXMTvlq0SwffLaO3XjhJTaKLXMorBHzHt6gNBkJ0bQSbnRB4n
- 6OOCt+au4TlyZ7ugY1InL46JwRuE+CSKNllxYaKTt/8YlKuHa5oNrUU9/cbUMMWKo/gF
- v5cafW7wMfCH7GA06BcYD1AcfrhG31JwBj1itqRDqUML9HEDdAWi1EnbJ2lbYwucChIX
- dDZSGZSWlW9SzzhmIn8a5HBYPCCjAlK0Py1MXkzE6xsrFRM3/V0KTaoPGUEwIO+CkpH8
- 5wYxzzKSkRn1GybXia7RF69kJ6Y9+xcr/KeVMvvJgdA9kYHGIPw88H8svimgR6501vWe
- FMLg==
+ bh=h/UJOn8wgRX4tTksbI20dhhsucFRBdZhIv7ROQ0RsL8=;
+ b=WYvQwjiIGI52FmN6fA1ePjvofb0XnzHuMrKW9i+Tz0/X7WlEvXH6Y3SME+QFyv5DEP
+ WVRZDtYq0BkvGMC0vprOm3gSd4Ps7uUUfHSjPmb/UlYH5NqqFb3Gs35ItRL1vAATbqr+
+ U8YINw8jRprBeX8tqEjchSf+nx7pN+yX/3ViVrMS8NlARCDaEI7porMJ7tFY9bc/NcYe
+ H1/VvHcdzZZpnU1i9ZzAfW2ZCh+mcgoWZ2d5/RXXrTAXVDynxbdXXczEI6rvy3js62KD
+ quOifU/jKvGF5Y8qMIteTZ1eQaBAqIoikYGJ/eFMm5RnGr1absYMborscJVOMKVDAsKN
+ V2mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682054641; x=1684646641;
+ d=1e100.net; s=20221208; t=1682054644; x=1684646644;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6CZjjRGyO4D1eISjTJOlp65a7EdUWPMPHB+sWYRDwFQ=;
- b=bHx/6K/uin8RIHBxHDGKg/MjivsUfqBzVbE7urkD612RxgFtxIp+AkuCM1HhCjhiN1
- 5l0YGwMn6Bv1veFi8NLzUogq9V+7ek+KLOLzBvu99luOvREO4cZEpL6IF0dl1rfw4Pcz
- 60SBUzKLxUM4rfAeOmSnDoQlRr25Nl0eSucRQt0hZp2SpmUNM8dY5klmkxtGAfOnTjPE
- 7+8Y5vUiZVCvwZb91TtDwesyIC911cEFHIq5jDLxYuKOAo1jHWKGlF6JXs3KmQv6cgyx
- VzZ9cbeqFr1MgEG8xUMRH5W30Dvda7lgrE0DTeD/abhiK9/7UPMJj2N2vGHzYdK+khic
- ypDw==
-X-Gm-Message-State: AAQBX9fwJFqsCkeepLQL4UqzxMORvOAiL2tvG+qmzwpSlSwZoDR4UTWP
- Erx4om5xZ4aHlYF818bPtPq/l/474vtPJw==
-X-Google-Smtp-Source: AKy350b2qrEGxS5c6FMOtIuQa0HnCzpHsQjDggwsnRYBp8Eouk80AO+zHNE1ArVPvDxJ3RMZ8IlqoQ==
-X-Received: by 2002:a1c:f715:0:b0:3f0:5887:bea3 with SMTP id
- v21-20020a1cf715000000b003f05887bea3mr876209wmh.27.1682054641156; 
- Thu, 20 Apr 2023 22:24:01 -0700 (PDT)
+ bh=h/UJOn8wgRX4tTksbI20dhhsucFRBdZhIv7ROQ0RsL8=;
+ b=XEX0K8heXSxNxh4lDUXDSdisS/vZE03LCZefRcMHAlv5DDmam63Aah4wkd20sz9KnH
+ kaUI1cyaI1uthFVah8/fxETvv0v51K64cbhTDFSmlTAoAh8qyrPETwXHtk+Y14D+gN/u
+ WtBkTIxPoKOhNOeQ9g6CyxhzBfrElNxBfGam3LyUMrosZgu9AQ8t72DmJt1OWVTrUTVV
+ es2BGODC4+OBq9UNDxbDaC07Tk7VE/RMPlBqua8sP0nBik4/q9h9/WYAoyvBjfw8BPq0
+ pPqOD0uWqrlJ9UXLq6Soz4tIFD+0n+P4eaJx4GPh1kJ2wyQ3sFi7jCjWK7OMAELL1jlN
+ iu7g==
+X-Gm-Message-State: AAQBX9fT4TzkdhC4fnekcaSlT7a7Y99fwMZbsSt5bNHEcaFD/VoQZGPd
+ 1CvnAKdFvHL+92BbTR8Dob8FfVk8ptY=
+X-Google-Smtp-Source: AKy350bmeFm4mv7E0r/SciRNqHxupST4u7AoRwfeQXzp9R6WryrHjrPzWJD/rBx9sMshcBeD79LHmw==
+X-Received: by 2002:a05:600c:258:b0:3eb:29fe:f922 with SMTP id
+ 24-20020a05600c025800b003eb29fef922mr737018wmj.29.1682054644352; 
+ Thu, 20 Apr 2023 22:24:04 -0700 (PDT)
 Received: from karim.my.domain ([197.39.145.151])
  by smtp.gmail.com with ESMTPSA id
- t13-20020a7bc3cd000000b003f173c566b5sm3813475wmj.5.2023.04.20.22.23.55
+ t13-20020a7bc3cd000000b003f173c566b5sm3813475wmj.5.2023.04.20.22.24.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 22:24:00 -0700 (PDT)
+ Thu, 20 Apr 2023 22:24:03 -0700 (PDT)
 From: Karim Taha <kariem.taha2.7@gmail.com>
 X-Google-Original-From: Karim Taha <krm.taha@outlook.com>
 To: qemu-devel@nongnu.org
-Cc: imp@bsdimp.com, Sean Bruno <sbruno@FreeBSD.org>,
- Kyle Evans <kevans@FreeBSD.org>
-Subject: [PATCH 03/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
-Date: Fri, 21 Apr 2023 07:22:47 +0200
-Message-Id: <20230421052255.5603-4-krm.taha@outlook.com>
+Cc: imp@bsdimp.com,
+	Stacey Son <sson@FreeBSD.org>
+Subject: [PATCH 04/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
+Date: Fri, 21 Apr 2023 07:22:48 +0200
+Message-Id: <20230421052255.5603-5-krm.taha@outlook.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421052255.5603-1-krm.taha@outlook.com>
 References: <20230421052255.5603-1-krm.taha@outlook.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=kariem.taha2.7@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=kariem.taha2.7@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,62 +94,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Sean Bruno <sbruno@FreeBSD.org>
+From: Stacey Son <sson@FreeBSD.org>
 
-Co-authored-by: Kyle Evans <kevans@FreeBSD.org>
+added bsd-user/qemu-bsd.h, required by bsd-user/bsd-socket.h, contains
+forward declarations of the socket conversion functions defined in bsd-user/bsd-socket.c.
 ---
- bsd-user/syscall_defs.h | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ bsd-user/qemu-bsd.h | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 bsd-user/qemu-bsd.h
 
-diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
-index f041245792..b594fafecc 100644
---- a/bsd-user/syscall_defs.h
-+++ b/bsd-user/syscall_defs.h
-@@ -275,6 +275,44 @@ struct target_cmsghdr {
-     int32_t     cmsg_type;
- };
- 
+diff --git a/bsd-user/qemu-bsd.h b/bsd-user/qemu-bsd.h
+new file mode 100644
+index 0000000000..a052688596
+--- /dev/null
++++ b/bsd-user/qemu-bsd.h
+@@ -0,0 +1,36 @@
 +/*
-+ * mips32 is the exception to the general rule of long-alignment; it
-+ * unconditionally uses 64-bit alignment instead.
++ *  BSD conversion extern declarations
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
-+#if defined(TARGET_MIPS) && TARGET_ABI_BITS == 32
-+#define TARGET_ALIGNBYTES   (sizeof(abi_llong) - 1)
-+#else
-+#define TARGET_ALIGNBYTES   (sizeof(abi_long) - 1)
-+#endif
 +
-+#define TARGET_CMSG_NXTHDR(mhdr, cmsg, cmsg_start) \
-+                               __target_cmsg_nxthdr(mhdr, cmsg, cmsg_start)
-+#define TARGET_CMSG_ALIGN(len) (((len) + TARGET_ALIGNBYTES) \
-+                               & (size_t) ~TARGET_ALIGNBYTES)
-+#define TARGET_CMSG_DATA(cmsg) \
-+    ((unsigned char *)(cmsg) + TARGET_CMSG_ALIGN(sizeof(struct target_cmsghdr)))
-+#define TARGET_CMSG_SPACE(len) \
-+    (TARGET_CMSG_ALIGN(sizeof(struct target_cmsghdr)) + TARGET_CMSG_ALIGN(len))
-+#define TARGET_CMSG_LEN(len) \
-+    (TARGET_CMSG_ALIGN(sizeof(struct target_cmsghdr)) + (len))
++#ifndef QEMU_BSD_H
++#define QEMU_BSD_H
 +
-+static inline struct target_cmsghdr *
-+__target_cmsg_nxthdr(struct target_msghdr *__mhdr,
-+                     struct target_cmsghdr *__cmsg,
-+                     struct target_cmsghdr *__cmsg_start)
-+{
-+    struct target_cmsghdr *__ptr;
++#include <sys/types.h>
++#include <sys/socket.h>
++#include <sys/un.h>
++#include <netinet/in.h>
 +
-+    __ptr = (struct target_cmsghdr *)((unsigned char *) __cmsg +
-+        TARGET_CMSG_ALIGN(tswap32(__cmsg->cmsg_len)));
-+    if ((unsigned long)((char *)(__ptr + 1) - (char *)__cmsg_start) >
-+        tswap32(__mhdr->msg_controllen)) {
-+        /* No more entries.  */
-+        return (struct target_cmsghdr *)0;
-+    }
-+    return __ptr;
-+}
++/* bsd-socket.c */
++abi_long target_to_host_sockaddr(struct sockaddr *addr, abi_ulong target_addr,
++        socklen_t len);
++abi_long host_to_target_sockaddr(abi_ulong target_addr, struct sockaddr *addr,
++        socklen_t len);
++abi_long target_to_host_ip_mreq(struct ip_mreqn *mreqn, abi_ulong target_addr,
++        socklen_t len);
 +
- /*
-  * netinet/in.h
-  */
++#endif /* QEMU_BSD_H */
 -- 
 2.40.0
 
