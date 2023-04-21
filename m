@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22346EA36B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B386EA388
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:09:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppjs6-0005zV-23; Fri, 21 Apr 2023 02:03:50 -0400
+	id 1ppjwf-00016B-FI; Fri, 21 Apr 2023 02:08:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppjs3-0005sE-Bg
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:03:47 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppjwa-00015h-Ax
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:08:28 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppjrm-0008Sd-EO
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:03:47 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f193ca053eso910395e9.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:03:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppjwY-0000ln-P8
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:08:28 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-2fc3f1d6f8cso830838f8f.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:08:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682057008; x=1684649008;
+ d=linaro.org; s=google; t=1682057303; x=1684649303;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=QYv8U16/UjaQ8viKpqDWvQDkRGAyYBNOtzvcexOmfIs=;
- b=a5PSjguPwC/u2Q4WPMGvZ1TdAaQbEzLbAqBkZRFkJRc5VVbDbZE9CxDMzn9aTtyj4K
- upQ/W073L/j3qObyPlOqRtPNUaw6jjhCCT6oI6XY7oBrYr7FqhF/839Vee6So2xmBzEF
- myoZNr3+v0vhauKmnf+rHI4/ixsxxp5/buZBURJPP+QOZ9gwsw0HhI4MZOUngSADh34K
- YivjtQyRQew6jHJ6NC4l0sRHVch233uG/CshNjwEGJyN5MjCegmBXvbuyrpZEkXBIDGV
- U0DAZLHkE1MKnqPukkNFlxvpF9ud6MlKlJ06Dm5Ksjn62zigbSm4ZF77D82fmFAqjGIw
- Pk5A==
+ bh=mLyJ/EC+PgJUB+sGBBZPVyTomnWxMc3JVf5Eb4U86vs=;
+ b=d6r1Vs3z4Ts7DO/heHAT/UkEgjjgR0J1lAYXbIhOd50tXX5ICvpc+cWuw81dYCmt3g
+ EnNyNu2CtivIB3JEdEbObe/5IUzOSjauRPhvlyqVgVoPPezaxd8VxDhNd9fMhog68y1r
+ XgepbqOKHmxRMJEOf35zgJdVeNl5cWR5e/gTL9irH8jwwMJ8cIBGT6XsKWSGCEzDj9oP
+ tQpgWA8XFe19blPF4zPSUUp5LPjlKfTBFhf1i3U7R4FyL2mLz564dzzYfW8VuGwZIwgM
+ cpDqKtoOxpTfWkkMHIwHzbLxJFiXyJN3K+mif59th05a8eJjYLpuDmOKvLF3uCfob5lx
+ bLsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682057008; x=1684649008;
+ d=1e100.net; s=20221208; t=1682057303; x=1684649303;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QYv8U16/UjaQ8viKpqDWvQDkRGAyYBNOtzvcexOmfIs=;
- b=FqZFm5NTwiwYTh3z07/iDJizZl4hxqW4VKZBH+OSmB74x8SBcbVBHsPLAlgdknXC8Q
- NWs8k5dgtB6GjxhLkm6TJaSDabfPbIBMwQ6lfSKkHjH/Djx9DmEfKGlKtBHZW7kAZ0SA
- EPqW4bv6f0WlT7ymE3mL2/dTA7pYSm31YNdnbxHvUz75cE+QWGJ6EXuG8aDTdVTpu1KG
- md6G3viMDiaUpcli7i+j29q9rL3rvHSKD0Dc8r5UQwO2e6XVEuGUbvt2POED79OY4oWg
- osfjMKX5DgWAzrOvMSx3Yz4phRhTEyVPgrrEW55gWGDAwHdvI9rm8echKZnd//GWsWjL
- SGIg==
-X-Gm-Message-State: AAQBX9c5NIUziV9f7xXjovvCY5ibR7vU4zE83c8Jw70HAJL+1wi+KwTR
- JV2a4X/iBqiFTVmjFq+ION3wOQ==
-X-Google-Smtp-Source: AKy350ZRCfRfMgRnt2OE2X6p96XYpGLJi/jetJP2TrS4vhXn0tXDHZJbmbKfolSM16LnU1XSMSfMrw==
-X-Received: by 2002:a7b:cbcb:0:b0:3f1:6faa:d94c with SMTP id
- n11-20020a7bcbcb000000b003f16faad94cmr734817wmi.16.1682057007897; 
- Thu, 20 Apr 2023 23:03:27 -0700 (PDT)
+ bh=mLyJ/EC+PgJUB+sGBBZPVyTomnWxMc3JVf5Eb4U86vs=;
+ b=aXTuwiU9dJekFRCAIreAiF22FY8ESdF9Of69bV6QEbBvf/abmmCtBx3S7lVm2viaME
+ 3DIbdp+gbDu99yFVXC8KqwRVbtFVUMiWP1iE/7VXoRgBuWACOuKEk9U8AWbCqvmeJYEz
+ qGVTzXsAtaBG5ED3p+n3rDHMi5NI2A5CdTSYH9AL9geVDDwdVLbV/e2bFiubuJTCSYOg
+ ncD6CrdFh544QvPAReM5vQslHW2FHQ0dkfg9ZI2wLH9LdTnrkQon0IHIH1TfQu4jEj7e
+ 13xcAi8WL9JiAXduQeoISzsuVMeBsr2SoxVCh13GEmuy0rCtmixWCfxyI+rWVlfKCyb6
+ X6GA==
+X-Gm-Message-State: AAQBX9df5IGhcFHHMTKVCjKJtiPSebEMTXs/yfAhOa2wWJ/9MoSF8qaH
+ FruzF3AxtGLhLajPSOSo16H/vA==
+X-Google-Smtp-Source: AKy350ZeQWv2uc5014c5+RKDyuz0w4ytkLVmzy/B0iLs5kL5VOHMpCOlZHpYTRwbNnJTkfyBUoUEEQ==
+X-Received: by 2002:a5d:6886:0:b0:2f0:6192:92db with SMTP id
+ h6-20020a5d6886000000b002f0619292dbmr2606523wru.46.1682057303569; 
+ Thu, 20 Apr 2023 23:08:23 -0700 (PDT)
 Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
  [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- v19-20020a05600c215300b003ee20b4b2dasm3826384wml.46.2023.04.20.23.03.26
+ z18-20020adfd0d2000000b002fae7408544sm3563606wrh.108.2023.04.20.23.08.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 23:03:27 -0700 (PDT)
-Message-ID: <826f3ebc-ec1a-1a05-183b-3edd0291826c@linaro.org>
-Date: Fri, 21 Apr 2023 08:03:25 +0200
+ Thu, 20 Apr 2023 23:08:23 -0700 (PDT)
+Message-ID: <e04c4409-ba3e-47d5-0ada-b5007fa5983d@linaro.org>
+Date: Fri, 21 Apr 2023 08:08:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v4 1/2] avocado_qemu/__init__.py: factor out the qemu-img
- finding
+Subject: Re: [PATCH] async: Suppress GCC13 false positive in aio_bh_poll()
 Content-Language: en-US
-To: Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20230421042322.684093-1-kconsul@linux.vnet.ibm.com>
- <20230421042322.684093-2-kconsul@linux.vnet.ibm.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20230420202939.1982044-1-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230421042322.684093-2-kconsul@linux.vnet.ibm.com>
+In-Reply-To: <20230420202939.1982044-1-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
 X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,18 +97,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/4/23 06:23, Kautuk Consul wrote:
-> Factor out the code that finds the qemu-img binary in the
-> QemuSystemTest class and create a new get_qemu_img() function
-> with it. This function will get called also from the new code
-> in tuxrun_baselines.py avocado test-case.
+On 20/4/23 22:29, Cédric Le Goater wrote:
+> From: Cédric Le Goater <clg@redhat.com>
 > 
-> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+> GCC13 reports an error :
+> 
+> ../util/async.c: In function ‘aio_bh_poll’:
+> include/qemu/queue.h:303:22: error: storing the address of local variable ‘slice’ in ‘*ctx.bh_slice_list.sqh_last’ [-Werror=dangling-pointer=]
+>    303 |     (head)->sqh_last = &(elm)->field.sqe_next;                          \
+>        |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+> ../util/async.c:169:5: note: in expansion of macro ‘QSIMPLEQ_INSERT_TAIL’
+>    169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+>        |     ^~~~~~~~~~~~~~~~~~~~
+> ../util/async.c:161:17: note: ‘slice’ declared here
+>    161 |     BHListSlice slice;
+>        |                 ^~~~~
+> ../util/async.c:161:17: note: ‘ctx’ declared here
+> 
+> But the local variable 'slice' is removed from the global context list
+> in following loop of the same routine. Add a pragma to silent GCC.
+> 
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Cédric Le Goater <clg@redhat.com>
 > ---
->   tests/avocado/avocado_qemu/__init__.py | 27 +++++++++++++++-----------
->   1 file changed, 16 insertions(+), 11 deletions(-)
+>   util/async.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
 
-Suggested-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
