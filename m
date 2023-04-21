@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B946EB202
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 21:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86836EB3B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 23:33:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppw1H-0000OQ-Al; Fri, 21 Apr 2023 15:02:07 -0400
+	id 1ppyMD-00032u-JJ; Fri, 21 Apr 2023 17:31:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ppw1E-0000Nn-Ih
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 15:02:04 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppyMB-00032S-Dj
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 17:31:51 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ppw1A-00011d-5I
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 15:02:03 -0400
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-2f7a7f9667bso1320859f8f.1
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 12:01:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppyM9-0008JE-Lj
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 17:31:51 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f195b164c4so5141115e9.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 14:31:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682103718; x=1684695718;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=linaro.org; s=google; t=1682112707; x=1684704707;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=feuCjneQzEafoveiAYEavrlx45kQbUtLGqTQlKENo74=;
- b=sHD6eJvUGNAJmD2G3kz/I0NcJcigMEsu+JlTfZOaBstkrZIk/J5VPVz3L8k5NDajcC
- hoxeOpUu4BcWFho5a+E4wMp2kyVApRKV6W15i+gRG6iFJdThRlBBz7wBikf0oIlXXqOA
- 3O/Ghd/xznTIiUTnU8VGGbQoK3FYId/CWJSGS53dx0O+LGiZCbzxBPix1SDqKjZxFEJN
- CycW1qcoDMHVtFK2BqJvVTT6WGnwGShm7f6gokmPSwlI8OgbVrYVtYxGXGGugSOWmRBa
- 8xT11zUUPukTNpRBCrl2Wh25dcWkfoN9Le9ApfOyPNbo/8mcFYiw8liuHSB9g2UnUn7l
- /QUQ==
+ bh=O4ZYJ10wHVTvqgJujWaa1FzjnW+bAG67GIa/Or5mirM=;
+ b=ulp+4RQHWyQjsBY7YvYPb8Bye5srb2pWhXaTIyaOj0tEgIkfVCWPgxXy5wi6a8qYyW
+ PhOxlphgMsCYmQ/7oK14r7yUEc8hAUEK6qQ5tOQfI+fzTiuttBeoQRHTSmbJDepr1gG9
+ zx9dqA62mR+CpbojnqUg5jCfdLG9Xeqy33ySVcwk8VvwcYz+QQ99uplVStnn6qCp30+G
+ yFZBqLzjtm/I+K0U/HBEGDaiqRDkvLEaXWpFnLZ46nVMLcK/0u8eGtWiLRM+1slibfAd
+ CxM94L0J9UWMcd+bGv7oG3gr+6MdhkQaNtddjsCGuyX38+xfdal12ajcdq4RA58sDvNJ
+ WVgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682103718; x=1684695718;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20221208; t=1682112707; x=1684704707;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=feuCjneQzEafoveiAYEavrlx45kQbUtLGqTQlKENo74=;
- b=NOCfw8rbSVUjQBk1XQOTvQaVQ3PbYMkUCP3iEusE2p/RdrnI8oI+FA46liJ5WC3RXR
- Px/bzJE3qLAf5dJuRGRN8kBB9FIJDpYcbXwlaPhSvPTYE49JQyqlsmbtcV2ol7NT+DMR
- iIZbmvzpPkjZW6ua4pFtTAoNDMs7az/iSeI9wwC5fb4pBsOeqJZ4DbPBIXaLn4N3r4pR
- QeNyTpRi/eRjCGFS1PZ0yHdcX3HEvCdfI0aJjqq+3heBVGHQJoao5mnAOhd+VgmE/b6K
- LWX09shqkKmDMPnME57zyY+s+MiPQ8roc7ZHQ/7dENLgmzN0X9bHAG/AILgLL10nWO8B
- JU3A==
-X-Gm-Message-State: AAQBX9dLyl8zZKU0etgeRnF6qf5rCPMixGbHhqg8Gnh76bUb6YWkdCDd
- klYUvumQIhfnU59UHad+hifJjg==
-X-Google-Smtp-Source: AKy350ZOQ2Zn4Sqvkc1kthlHLa0Tb92euChIPL2UizFOpALnPJTGTwfpWlDXEWTrv0HuPIb5MXoOqw==
-X-Received: by 2002:adf:f48c:0:b0:2fb:2a43:4aa1 with SMTP id
- l12-20020adff48c000000b002fb2a434aa1mr4579803wro.42.1682103718532; 
- Fri, 21 Apr 2023 12:01:58 -0700 (PDT)
-Received: from [10.43.13.97] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
- [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
- f8-20020a5d4dc8000000b002f9e04459desm4931600wru.109.2023.04.21.12.01.58
+ bh=O4ZYJ10wHVTvqgJujWaa1FzjnW+bAG67GIa/Or5mirM=;
+ b=NUJUOdF944LiFOE+rj9YwMc+IOTI1PjzYFxcZpWnjY1kaUGAYAZWeWHDULTtPXs/uJ
+ 2K2IxKWNC+T/cX1ZhPGeL1slgapYNq/+X++qXn33NDVBLYF/MKh3XhdEuMYEzBPAGatI
+ cjt8mH+0c1OOOF7i132cD0k25YZDbpiWtN/hcP8kcRrM9fp1BfQCa/8RQUmYPykdlUgf
+ jP2NQPpsJJXLoQU4CgGgxWxrgxIvuXh4y/kgzH/Q5yahEWl9PQPt7IiqcYij/oW2+w3p
+ kegRvdyn4Ys2Ze6IKnPuki4gOcBUNzTd6KXPVurjru1sbaV2XvVEAxAOS9TrN2y5Z9AB
+ WWQw==
+X-Gm-Message-State: AAQBX9dyb0qcDrBVwWqi6WB/9owMh/wmXJJr/LxOWq8b/3nuKs4eNyT8
+ 5GpuQDtZPdulaAESrpC7yiKT/Q==
+X-Google-Smtp-Source: AKy350ZQ7vs9G23XXD1fuOoZAFzHGTJplGif/YRig8CAGnH3Siz4cEGzxqwudWARsNXDSH0Te2n2PA==
+X-Received: by 2002:a5d:5511:0:b0:2f9:fc06:9fcc with SMTP id
+ b17-20020a5d5511000000b002f9fc069fccmr4611779wrv.44.1682112707598; 
+ Fri, 21 Apr 2023 14:31:47 -0700 (PDT)
+Received: from [192.168.69.115] (uni14-h01-176-184-39-152.dsl.sta.abo.bbox.fr.
+ [176.184.39.152]) by smtp.gmail.com with ESMTPSA id
+ g13-20020adfe40d000000b002f8d402b191sm5196364wrm.112.2023.04.21.14.31.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 12:01:58 -0700 (PDT)
-Message-ID: <e7775d5f-292c-2a88-afaa-5731ee1bc897@linaro.org>
-Date: Fri, 21 Apr 2023 20:01:56 +0100
+ Fri, 21 Apr 2023 14:31:47 -0700 (PDT)
+Message-ID: <bcb3e2c4-e35f-58b7-5a58-8e5ba76754b4@linaro.org>
+Date: Fri, 21 Apr 2023 23:31:44 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 00/20] Block patches
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH] hw/riscv: virt: Enable booting M-mode or S-mode FW from
+ pflash0
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20230420120948.436661-1-stefanha@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230420120948.436661-1-stefanha@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc: Sunil V L <sunilvl@ventanamicro.com>, qemu-devel@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org
+References: <20230421043353.125701-1-sunilvl@ventanamicro.com>
+ <b882e2cf-8e7f-eacc-27cf-05364a065290@gmx.de>
+ <CABJz62ME20bT8v9TK4h+RcujHK_eY+wRF1UK9aN+Ww8Fg_=QQg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CABJz62ME20bT8v9TK4h+RcujHK_eY+wRF1UK9aN+Ww8Fg_=QQg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -93,60 +101,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/20/23 13:09, Stefan Hajnoczi wrote:
-> The following changes since commit c1eb2ddf0f8075faddc5f7c3d39feae3e8e9d6b4:
+On 21/4/23 18:48, Andrea Bolognani wrote:
+> On Fri, Apr 21, 2023 at 04:36:15PM +0200, Heinrich Schuchardt wrote:
+>> On 4/21/23 06:33, Sunil V L wrote:
+>>> Currently, virt machine supports two pflash instances each with
+>>> 32MB size. However, the first pflash is always assumed to
+>>> contain M-mode firmware and reset vector is set to this if
+>>> enabled. Hence, for S-mode payloads like EDK2, only one pflash
+>>> instance is available for use. This means both code and NV variables
+>>> of EDK2 will need to use the same pflash.
+>>>
+>>> The OS distros keep the EDK2 FW code as readonly. When non-volatile
+>>> variables also need to share the same pflash, it is not possible
+>>> to keep it as readonly since variables need write access.
+>>>
+>>> To resolve this issue, the code and NV variables need to be separated.
+>>> But in that case we need an extra flash. Hence, modify the convention
+>>> such that pflash0 will contain the M-mode FW only when "-bios none"
+>>> option is used. Otherwise, pflash0 will contain the S-mode payload FW.
+>>> This enables both pflash instances available for EDK2 use.
+>>>
+>>> Example usage:
+>>> 1) pflash0 containing M-mode FW
+>>> qemu-system-riscv64 -bios none -pflash <mmode_fw> -machine virt
+>>> or
+>>> qemu-system-riscv64 -bios none \
+>>> -drive file=<mmode_fw>,if=pflash,format=raw,unit=0 -machine virt
+>>>
+>>> 2) pflash0 containing S-mode payload like EDK2
+>>> qemu-system-riscv64 -pflash <smode_fw_code> -pflash <smode_vars> -machine  virt
+>>> or
+>>> qemu-system-riscv64 -bios <opensbi_fw> \
+>>> -pflash <smode_fw_code> \
+>>> -pflash <smode_vars> \
+>>> -machine  virt
+>>> or
+>>> qemu-system-riscv64 -bios <opensbi_fw> \
+>>> -drive file=<smode_fw_code>,if=pflash,format=raw,unit=0,readonly=on \
+>>> -drive file=<smode_fw_vars>,if=pflash,format=raw,unit=1 \
+>>> -machine virt
+>>>
+>>> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+>>> Reported-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+>>
+>> QEMU 7.2 (and possibly 8.0 to be released) contains the old behavior.
+>>
+>> Changed use of command line parameters should depend on the version of
+>> the virt machine, i.e. virt-7.2 should use the old behavior and virt as
+>> alias for virt-8.0 should use the new behavior. Please, have a look at
+>> the option handling in hw/arm/virt.c and macro DEFINE_VIRT_MACHINE().
 > 
->    Update version for v8.0.0 release (2023-04-19 17:27:13 +0100)
+> I would normally agree with you, but note that RISC-V doesn't have
+> versioned machine types yet, so this kind of breakage is not
+> necessarily unexpected.
 > 
-> are available in the Git repository at:
+>  From libvirt's point of view, being able to detect whether the new
+> behavior is implemented by looking for some machine type property
+> would be enough to handle the transition smoothly. That would of
+> course not help people running QEMU directly.
 > 
->    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-> 
-> for you to fetch changes up to 36e5e9b22abe56aa00ca067851555ad8127a7966:
-> 
->    tracing: install trace events file only if necessary (2023-04-20 07:39:43 -0400)
-> 
-> ----------------------------------------------------------------
-> Pull request
-> 
-> Sam Li's zoned storage work and fixes I collected during the 8.0 freeze.
-> 
-> ----------------------------------------------------------------
-> 
-> Carlos Santos (1):
->    tracing: install trace events file only if necessary
-> 
-> Philippe Mathieu-Daudé (1):
->    block/dmg: Declare a type definition for DMG uncompress function
-> 
-> Sam Li (17):
->    block/block-common: add zoned device structs
->    block/file-posix: introduce helper functions for sysfs attributes
->    block/block-backend: add block layer APIs resembling Linux
->      ZonedBlockDevice ioctls
->    block/raw-format: add zone operations to pass through requests
->    block: add zoned BlockDriver check to block layer
->    iotests: test new zone operations
->    block: add some trace events for new block layer APIs
->    docs/zoned-storage: add zoned device documentation
->    file-posix: add tracking of the zone write pointers
->    block: introduce zone append write for zoned devices
->    qemu-iotests: test zone append operation
->    block: add some trace events for zone append
->    include: update virtio_blk headers to v6.3-rc1
->    virtio-blk: add zoned storage emulation for zoned devices
->    block: add accounting for zone append operation
->    virtio-blk: add some trace events for zoned emulation
->    docs/zoned-storage:add zoned emulation use case
-> 
-> Thomas De Schampheleire (1):
->    tracetool: use relative paths for '#line' preprocessor directives
+> For what it's worth, this change seems to go in the right direction
+> by making things similar to other architectures (x86, Arm) so I'd
+> love to see it happen.
 
-32 failed CI jobs:
-https://gitlab.com/qemu-project/qemu/-/pipelines/844927626/failures
-
-
-r~
-
-
+Unfortunately another arch that followed the bad example of using
+a R/W device for the CODE region and not a simple ROM.
 
