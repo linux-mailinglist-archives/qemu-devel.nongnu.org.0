@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995086EAB8B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B556EAB8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:27:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppqlr-0002VH-1l; Fri, 21 Apr 2023 09:25:51 -0400
+	id 1ppqm4-0003KS-4C; Fri, 21 Apr 2023 09:26:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1ppqlo-0002Kt-LL
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:25:48 -0400
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1ppqm2-0003IM-5Y
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:26:02 -0400
 Received: from mga05.intel.com ([192.55.52.43])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1ppqlm-0003RX-68
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:25:47 -0400
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1ppqm0-0003To-Dt
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:26:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682083546; x=1713619546;
+ t=1682083560; x=1713619560;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rUrNmPlPd6NRRd5ixXgSObxH9EXe70ITjZYvcw8KG7s=;
- b=PsuKE2k1i7NY94SrlSehPdZjaP5wMSDbNS5l90Z2y5TGT4+5wh4ngLUX
- PaAtchO51MbMIMmzUQvkPeDZvV2UN1fMONpHue4hPrfb+qzkvZHh6/IgS
- 858QvSUWCg9ImX8RiASaTMbDj80tyjtz08RvjL/A9aMNMRyXmGhfmWO1n
- 4Hzc//ZfZ4kUMiU1pBLf03ciWL0ss66EB5ZVpOo1qwrYGR/Rg2xCAgHIf
- 06WfWGFcd/pz45RsmJARJUNnvqgLHhx2kzDU2pCZRhACz4hHpMQnrniVY
- qCY15okgYMf6G13WJFqqPzR1l3H3OP/WUx/VHmLydHYwMZUQE9zTOgPjn g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="432268492"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="432268492"
+ bh=VisIyIL59SJMs9taIQIxRXpTBeVwJwWgW9UPXLEeJ2Q=;
+ b=Ku8ErnulHsDMsBwr386lIlM7lvWW27kXrMWlYGQsElSZGQMte1Qbiwku
+ mfgfaEYCdbi9/TO7XnRYcrnwNLYJtlOJ2mzR2hmgZHdh24IUg4X8p+AgR
+ xjOCUdeAL9MIaSB2ym/ol0HSRIj2w6LhE+LOKr6YRMBmjzg7XScw/GqKj
+ L6/UbbL9plgMZoZQRaGZVOUXx9tT7zMXYFHS02HCNbGrCNd7gQBu0kduI
+ a++Gwp6YlPnwFJ+7LrhVG3ZFBGYccLtcy7Y+3cMYCG0aLUhhAltqsKl7p
+ nzDXQ20AkTcNF+aWAWxko4r8fiJL5XLHt7eM1WKyVSh5yNbXhZC/3nwrZ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="432268535"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="432268535"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 06:25:45 -0700
+ 21 Apr 2023 06:25:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="756906176"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="756906176"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="756906217"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="756906217"
 Received: from wufei-optiplex-7090.sh.intel.com ([10.238.200.247])
- by fmsmga008.fm.intel.com with ESMTP; 21 Apr 2023 06:25:43 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 21 Apr 2023 06:25:57 -0700
 From: Fei Wu <fei2.wu@intel.com>
 To: alex.bennee@linaro.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
-Cc: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH v11 13/14] tb-stats: dump hot TBs at the end of the execution
-Date: Fri, 21 Apr 2023 21:24:20 +0800
-Message-Id: <20230421132421.1617479-14-fei2.wu@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v11 14/14] configure: remove the final bits of --profiler
+ support
+Date: Fri, 21 Apr 2023 21:24:21 +0800
+Message-Id: <20230421132421.1617479-15-fei2.wu@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230421132421.1617479-1-fei2.wu@intel.com>
 References: <20230421132421.1617479-1-fei2.wu@intel.com>
@@ -75,213 +79,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Dump the hottest TBs if -d tb_stats,dump_limit=N is used.
-
-Example of output for the 3 hottest TBs:
-
-TB id:1 | phys:0x34d54 virt:0x0000000000034d54 flags:0x0000f0
-        | exec:4828932/0 guest inst cov:16.38%
-        | trans:1 ints: g:3 op:82 op_opt:34 spills:3
-        | h/g (host bytes / guest insts): 90.666664
-        | time to gen at 2.4GHz => code:3150.83(ns) IR:712.08(ns)
-        | targets: 0x0000000000034d5e (id:11), 0x0000000000034d0d (id:2)
-
-TB id:2 | phys:0x34d0d virt:0x0000000000034d0d flags:0x0000f0
-        | exec:4825842/0 guest inst cov:21.82%
-        | trans:1 ints: g:4 op:80 op_opt:38 spills:2
-        | h/g (host bytes / guest insts): 84.000000
-        | time to gen at 2.4GHz => code:3362.92(ns) IR:793.75(ns)
-        | targets: 0x0000000000034d19 (id:12), 0x0000000000034d54 (id:1)
-
-TB id:3 | phys:0xec1c1 virt:0x00000000000ec1c1 flags:0x0000b0
-        | exec:872032/0 guest inst cov:1.97%
-        | trans:1 ints: g:2 op:56 op_opt:26 spills:1
-        | h/g (host bytes / guest insts): 68.000000
-        | time to gen at 2.4GHz => code:1692.08(ns) IR:473.75(ns)
-        | targets: 0x00000000000ec1c5 (id:4), 0x00000000000ec1cb (id:13)
-
-Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-Message-Id: <20190829173437.5926-12-vandersonmr2@gmail.com>
-[AJB: fix authorship, ad softmmu support]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/tb-stats.c          | 21 +++++++++++++++++++++
- include/exec/tb-stats-dump.h  | 21 +++++++++++++++++++++
- include/exec/tb-stats-flags.h |  1 +
- linux-user/exit.c             |  2 ++
- softmmu/runstate.c            |  2 ++
- stubs/tb-stats.c              |  5 +++++
- util/log.c                    |  4 ++--
- 7 files changed, 54 insertions(+), 2 deletions(-)
- create mode 100644 include/exec/tb-stats-dump.h
+ meson.build                   | 2 --
+ meson_options.txt             | 2 --
+ scripts/meson-buildoptions.sh | 3 ---
+ 3 files changed, 7 deletions(-)
 
-diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-index 69ac3d25cf..da85f397fd 100644
---- a/accel/tcg/tb-stats.c
-+++ b/accel/tcg/tb-stats.c
-@@ -19,6 +19,7 @@
+diff --git a/meson.build b/meson.build
+index 29f8644d6d..27627199d7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1872,7 +1872,6 @@ if numa.found()
+                                        dependencies: numa))
+ endif
+ config_host_data.set('CONFIG_OPENGL', opengl.found())
+-config_host_data.set('CONFIG_PROFILER', get_option('profiler'))
+ config_host_data.set('CONFIG_RBD', rbd.found())
+ config_host_data.set('CONFIG_RDMA', rdma.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+@@ -3823,7 +3822,6 @@ if 'objc' in all_languages
+   summary_info += {'QEMU_OBJCFLAGS':    ' '.join(qemu_objcflags)}
+ endif
+ summary_info += {'QEMU_LDFLAGS':      ' '.join(qemu_ldflags)}
+-summary_info += {'profiler':          get_option('profiler')}
+ summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
+ summary_info += {'PIE':               get_option('b_pie')}
+ summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+diff --git a/meson_options.txt b/meson_options.txt
+index fc9447d267..163233fda6 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -320,8 +320,6 @@ option('qom_cast_debug', type: 'boolean', value: false,
+ option('gprof', type: 'boolean', value: false,
+        description: 'QEMU profiling with gprof',
+        deprecated: true)
+-option('profiler', type: 'boolean', value: false,
+-       description: 'profiler support')
+ option('slirp_smbd', type : 'feature', value : 'auto',
+        description: 'use smbd (at path --smbd=*) in slirp networking')
  
- #include "exec/tb-stats.h"
- #include "exec/tb-flush.h"
-+#include "exec/tb-stats-dump.h"
- #include "tb-context.h"
- 
- #include "internal.h"
-@@ -33,6 +34,7 @@ enum TBStatsStatus {
- 
- static enum TBStatsStatus tcg_collect_tb_stats;
- static uint32_t default_tbstats_flag;
-+static int max_dump_tbs;
- /* only accessed in safe work */
- static GList *last_search;
- 
-@@ -618,6 +620,20 @@ void dump_tb_info(int id, int log_mask, bool use_monitor)
- }
- 
- 
-+/*
-+ * Dump the final stats
-+ */
-+void tb_stats_dump(void)
-+{
-+    if (!tb_stats_collection_enabled()) {
-+        return;
-+    }
-+
-+    dump_tbs_info(max_dump_tbs, SORT_BY_HOTNESS, false);
-+}
-+
-+/* TBStatistic collection controls */
-+
- void enable_collect_tb_stats(void)
- {
-     tcg_collect_tb_stats = TB_STATS_RUNNING;
-@@ -666,3 +682,8 @@ void set_default_tbstats_flag(uint32_t flags)
- {
-     default_tbstats_flag = flags;
- }
-+
-+void set_tbstats_max_tbs(int max)
-+{
-+    max_dump_tbs = max;
-+}
-diff --git a/include/exec/tb-stats-dump.h b/include/exec/tb-stats-dump.h
-new file mode 100644
-index 0000000000..197c6148e9
---- /dev/null
-+++ b/include/exec/tb-stats-dump.h
-@@ -0,0 +1,21 @@
-+/*
-+ * TB Stats common dump functions across sysemu/linux-user
-+ *
-+ * Copyright (c) 2019 Linaro
-+ *
-+ * SPDX-License-Identifier: GPL-3.0-or-later
-+ */
-+
-+#ifndef _TB_STATS_DUMP_H_
-+#define _TB_STATS_DUMP_H_
-+
-+/**
-+ * tb_stats_dump: dump final tb_stats at end of execution
-+ */
-+#ifdef CONFIG_TCG
-+void tb_stats_dump(void);
-+#else
-+static inline void tb_stats_dump(void) { /* do nothing */ };
-+#endif
-+
-+#endif /* _TB_STATS_DUMP_H_ */
-diff --git a/include/exec/tb-stats-flags.h b/include/exec/tb-stats-flags.h
-index e64fe8caf1..6fd1f8ce33 100644
---- a/include/exec/tb-stats-flags.h
-+++ b/include/exec/tb-stats-flags.h
-@@ -25,6 +25,7 @@ void pause_collect_tb_stats(void);
- bool tb_stats_collection_enabled(void);
- bool tb_stats_collection_paused(void);
- 
-+void set_tbstats_max_tbs(int max);
- uint32_t get_default_tbstats_flag(void);
- void set_default_tbstats_flag(uint32_t);
- 
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index 3017d28a3c..4fd23bcf60 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -25,6 +25,7 @@
- #ifdef CONFIG_GPROF
- #include <sys/gmon.h>
- #endif
-+#include "exec/tb-stats-dump.h"
- 
- #ifdef CONFIG_GCOV
- extern void __gcov_dump(void);
-@@ -41,4 +42,5 @@ void preexit_cleanup(CPUArchState *env, int code)
-         gdb_exit(code);
-         qemu_plugin_user_exit();
-         perf_exit();
-+        tb_stats_dump();
- }
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index d168b82469..6c18b19d2b 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -30,6 +30,7 @@
- #include "crypto/cipher.h"
- #include "crypto/init.h"
- #include "exec/cpu-common.h"
-+#include "exec/tb-stats-dump.h"
- #include "gdbstub/syscalls.h"
- #include "hw/boards.h"
- #include "migration/misc.h"
-@@ -819,6 +820,7 @@ void qemu_cleanup(void)
-     vm_shutdown();
-     replay_finish();
- 
-+    tb_stats_dump();
-     job_cancel_sync_all();
-     bdrv_close_all();
- 
-diff --git a/stubs/tb-stats.c b/stubs/tb-stats.c
-index d212c2a1fa..a3e1406b88 100644
---- a/stubs/tb-stats.c
-+++ b/stubs/tb-stats.c
-@@ -21,6 +21,11 @@ bool tb_stats_collection_enabled(void)
-     return false;
- }
- 
-+void set_tbstats_max_tbs(int max)
-+{
-+    return;
-+}
-+
- void set_default_tbstats_flag(uint32_t flags)
- {
-     return;
-diff --git a/util/log.c b/util/log.c
-index 6477eb5a5f..d159ca6916 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -49,7 +49,6 @@ static __thread Notifier qemu_log_thread_cleanup_notifier;
- int qemu_loglevel;
- static bool log_per_thread;
- static GArray *debug_regions;
--int32_t max_num_hot_tbs_to_dump;
- static bool to_monitor;
- bool to_string;
- 
-@@ -568,7 +567,8 @@ int qemu_str_to_log_mask(const char *str)
-             enable_collect_tb_stats();
-         } else if (tb_stats_collection_enabled() &&
-                    g_str_has_prefix(*tmp, "dump_limit=")) {
--            max_num_hot_tbs_to_dump = atoi((*tmp) + 11);
-+            int hot_tbs = atoi((*tmp) + 11);
-+            set_tbstats_max_tbs(hot_tbs);
-         } else if (tb_stats_collection_enabled() &&
-                    g_str_has_prefix(*tmp, "level=")) {
-             uint32_t flags = 0;
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 009fab1515..8a6d61ed90 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -34,7 +34,6 @@ meson_options_help() {
+   printf "%s\n" '                           jemalloc/system/tcmalloc)'
+   printf "%s\n" '  --enable-module-upgrades try to load modules from alternate paths for'
+   printf "%s\n" '                           upgrades'
+-  printf "%s\n" '  --enable-profiler        profiler support'
+   printf "%s\n" '  --enable-qom-cast-debug  cast debugging support'
+   printf "%s\n" '  --enable-rng-none        dummy RNG, avoid using /dev/(u)random and'
+   printf "%s\n" '                           getrandom()'
+@@ -373,8 +372,6 @@ _meson_option_parse() {
+     --with-pkgversion=*) quote_sh "-Dpkgversion=$2" ;;
+     --enable-png) printf "%s" -Dpng=enabled ;;
+     --disable-png) printf "%s" -Dpng=disabled ;;
+-    --enable-profiler) printf "%s" -Dprofiler=true ;;
+-    --disable-profiler) printf "%s" -Dprofiler=false ;;
+     --enable-pvrdma) printf "%s" -Dpvrdma=enabled ;;
+     --disable-pvrdma) printf "%s" -Dpvrdma=disabled ;;
+     --enable-qcow1) printf "%s" -Dqcow1=enabled ;;
 -- 
 2.25.1
 
