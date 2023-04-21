@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF4E6EA5A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 10:16:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51186EA5B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 10:20:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pplvp-0008TI-0a; Fri, 21 Apr 2023 04:15:49 -0400
+	id 1pplzU-0001Ug-IT; Fri, 21 Apr 2023 04:19:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pplvm-0008T2-Ub
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:15:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pplzS-0001UJ-3o
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:19:34 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pplvk-0005vN-Ta
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:15:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pplzQ-0006Ni-C8
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:19:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682064944;
+ s=mimecast20190719; t=1682065171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X6Dts7TqUmVGZnsy/sAPAITChNouk4lFeN66xZMjkKk=;
- b=W5QPHQlQ/aaFlm6vzxpN3tNo0ZtngZpcBt2mCSP+4ZbQXc0mX/LWODuMcdgcXYPWwURaFC
- gEwJhGXrl5kWXjD4f4KXWtiGMZAu1fOpmz+IjxjAKwyuTKiVSz69qDjP83GIMknmXcSg4F
- le6hGkWV+tegkImXniVtoDQpuxHC0mI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jO2UvjBc7VnlrAlsGRT/lE6IvojoNmx578YvtdEt+0c=;
+ b=O2ndrz4grzYzAW297GoOS7uFTKe+YNpYi4f9qmLg2gj6OEgu3Oncvcy3Q08TxdTbh0NHj9
+ aRk+xeFuw4tqADQAR6lxuD0hWXhPiQepBIBLgFB/g/oJwuUard7TxGalGfamFosn4HG+zg
+ MB378j+lCpLRo/dEsXvJFhKOEapHBB8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-629-8dEbqHl9Mje2m0yFNgoCKg-1; Fri, 21 Apr 2023 04:15:42 -0400
-X-MC-Unique: 8dEbqHl9Mje2m0yFNgoCKg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f168827701so5742535e9.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 01:15:42 -0700 (PDT)
+ us-mta-675-6_pyeHsSN0-fnS9_GTdboA-1; Fri, 21 Apr 2023 04:19:30 -0400
+X-MC-Unique: 6_pyeHsSN0-fnS9_GTdboA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f17afcf99cso5439205e9.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 01:19:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682064942; x=1684656942;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=X6Dts7TqUmVGZnsy/sAPAITChNouk4lFeN66xZMjkKk=;
- b=MPtGFX3kge7YDYhlhJrY2nv/9shKJBNwwrooTCoVokPdv1UeALkB+iqgycVhraoxxe
- a/g0Qz35rhx1cUnI4EJConl1szM3WVdJrCNqr9B8qDnJ+kmfa2sUd5yaSbus7WO7iAUX
- XJBpYyoFS92lcDlcR8uqczD8Hwn/NZw34DjCxX08G68OjOaEO8h5AsWtJjKojlkFuQhT
- MvRVDS4/dZ65kJM8RYwLpq/mxHY3DTG6vXBnK1jM7DFgIDpwse7X/8ZepPedmXzhTwLt
- mEUoCSuAUb+gJPwmYh+5qexvyXf1/SgLJVFgTHh+a/ZcwLkfYQBUCPVKJkbuUwozsPWA
- eZLw==
-X-Gm-Message-State: AAQBX9ewRIGnwOF5kf6PuCX9/JQdXUqX0qBqVE76wcq5zwFO4s849zzQ
- jREPQvGcF8P64ic6rT4Lu3IFF/tE86dUObMqEd1KE9AfohiYCpL+j3qd/COruvSpXG2kwyU0JP/
- bKsubPERugqXwQ8A=
-X-Received: by 2002:a7b:cd83:0:b0:3f1:75ae:1cfe with SMTP id
- y3-20020a7bcd83000000b003f175ae1cfemr1134731wmj.7.1682064941912; 
- Fri, 21 Apr 2023 01:15:41 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bdzlFgzzcV48HGskMSDK2T18gfLcv0EJEixSbx3a0K/gO3h2QGG+A908QUbrT2o8ePaZ6lBg==
-X-Received: by 2002:a7b:cd83:0:b0:3f1:75ae:1cfe with SMTP id
- y3-20020a7bcd83000000b003f175ae1cfemr1134706wmj.7.1682064941559; 
- Fri, 21 Apr 2023 01:15:41 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682065169; x=1684657169;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jO2UvjBc7VnlrAlsGRT/lE6IvojoNmx578YvtdEt+0c=;
+ b=LXTptygLX620PBRWUuMfJIu3MBQ9Q4bhIuh20Epu18MvBosV55tMvOaIerF6ZXHiy+
+ jPsaHzNRgZWyQ3QSNmmh2Ln55u98jny35c/yXFicgV+AcVpOUGeYAAyPICcMTyera2LE
+ vsCN3x//AwRdavqGis231Vo0nkBOv7AOYb9jT54syIaqKgX9jN2FxtPWpcOayI3z8+Vt
+ kn3YBBLtHpKbI2MhczUnr1NX/gsjJR7GGbrtwrXfh+VPyp7ItdUPj6V3xPZyBYTFuRhk
+ bopiS9NLEvDqDZ3QajCVGG7EuTyKHPPQhd3qRv6txlFZhAxE7H9hrAKvQe3ahlO2jsaR
+ B6xQ==
+X-Gm-Message-State: AAQBX9fNEWpFIRKTwjt0ejYtwZ3EqG3ipQLMqjqZvT41jWvsVcEUn3DU
+ IHBFvoUTQFkTmaewCI798altVFbbVdzX5Zz9/hDoopWYlM2W28m7V4RrbrU4IgHGsx8feQYOZsn
+ LpPEuCGBksCFnR8A=
+X-Received: by 2002:a5d:62c3:0:b0:301:81f8:765f with SMTP id
+ o3-20020a5d62c3000000b0030181f8765fmr3391539wrv.38.1682065168953; 
+ Fri, 21 Apr 2023 01:19:28 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bnjEDB/4RLFVo/kwtvm6kSSYYiCKh6obqNx0F4mb3Cf2FNMVS1oVk5xeZ2QlR25iXtIUH6Fg==
+X-Received: by 2002:a5d:62c3:0:b0:301:81f8:765f with SMTP id
+ o3-20020a5d62c3000000b0030181f8765fmr3391526wrv.38.1682065168623; 
+ Fri, 21 Apr 2023 01:19:28 -0700 (PDT)
 Received: from redhat.com ([2.55.17.255]) by smtp.gmail.com with ESMTPSA id
- w9-20020a1cf609000000b003ede06f3178sm4112880wmc.31.2023.04.21.01.15.39
+ y4-20020a5d6204000000b002f900cfc262sm3814930wru.66.2023.04.21.01.19.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 01:15:40 -0700 (PDT)
-Date: Fri, 21 Apr 2023 04:15:36 -0400
+ Fri, 21 Apr 2023 01:19:28 -0700 (PDT)
+Date: Fri, 21 Apr 2023 04:19:24 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: Ani Sinha <ani@anisinha.ca>, shannon.zhaosl@gmail.com,
- imammedo@redhat.com, peter.maydell@linaro.org, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
- pbonzini@redhat.com, richard.henderson@linaro.org,
- eduardo@habkost.net, boris.ostrovsky@oracle.com,
- MIGUEL_LUIS <miguel.luis@oracle.com>
-Subject: Re: [PATCH v2 3/4] hw/acpi: i386: bump MADT to revision 5
-Message-ID: <20230421041524-mutt-send-email-mst@kernel.org>
-References: <20230418165219.2036-1-eric.devolder@oracle.com>
- <20230418165219.2036-4-eric.devolder@oracle.com>
- <CAARzgwwVAptvsR1_8ttUKroLuqKdLc1dHWtNe7S0S3N-Nq4otw@mail.gmail.com>
- <b0d86775-f7bc-fe38-c2ae-fc4f53173138@oracle.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Fan Ni <fan.ni@samsung.com>, linuxarm@huawei.com
+Subject: Re: [PATCH 0/2] hw/pci-bridge: pci_expander_bridge: Fix wrong type
+ and rework inheritance.
+Message-ID: <20230421041812-mutt-send-email-mst@kernel.org>
+References: <20230420142750.6950-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b0d86775-f7bc-fe38-c2ae-fc4f53173138@oracle.com>
+In-Reply-To: <20230420142750.6950-1-Jonathan.Cameron@huawei.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -104,84 +96,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 20, 2023 at 09:22:57AM -0500, Eric DeVolder wrote:
+On Thu, Apr 20, 2023 at 03:27:48PM +0100, Jonathan Cameron wrote:
+> Peter Maydell highlighted an incorrect conversion to TYPE_PXB_DEVICE from
+> a device that didn't have that a an ancestor type. PXB_DEV() used instead of
+> PXB_CXL_DEV()/
 > 
+> https://lore.kernel.org/qemu-devel/CAFEAcA-+de+eeLCE4YsAw1O-Qyd_4W1Ra05mGDsU_-3a6d92qw@mail.gmail.com/
 > 
-> On 4/20/23 03:05, Ani Sinha wrote:
-> > On Tue, Apr 18, 2023 at 10:22 PM Eric DeVolder <eric.devolder@oracle.com> wrote:
-> > > 
-> > > Currently i386 QEMU generates MADT revision 3, and reports
-> > > MADT revision 1. ACPI 6.3 introduces MADT revision 5.
-> > > 
-> > > For MADT revision 4, that introduces ARM GIC structures, which do
-> > > not apply to i386.
-> > > 
-> > > For MADT revision 5, the Local APIC flags introduces the Online
-> > > Capable bitfield.
-> > > 
-> > > Making MADT generate and report revision 5 will solve problems with
-> > > CPU hotplug (the Online Capable flag indicates hotpluggable CPUs).
-> > > 
-> > > Link: https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devolder@oracle.com/T/#t
-> > > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> > > ---
-> > >   hw/i386/acpi-common.c | 13 ++++++++++---
-> > >   1 file changed, 10 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-> > > index 52e5c1439a..286c1c5c32 100644
-> > > --- a/hw/i386/acpi-common.c
-> > > +++ b/hw/i386/acpi-common.c
-> > > @@ -38,8 +38,15 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
-> > >   {
-> > >       uint32_t apic_id = apic_ids->cpus[uid].arch_id;
-> > >       /* Flags – Local APIC Flags */
-> > > -    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
-> > > -                     1 /* Enabled */ : 0;
-> > > +    bool enabled = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
-> > > +                     true : false;
-> > 
-> > how about "processor_enabled" instead of just "enabled" as the variable name.
-> > 
-> > > +    /*
-> > > +     * ACPI 6.3 5.2.12.2 Local APIC Flags: OnlineCapable must be 0
-> > > +     * if Enabled is set.
-> > > +     */
-> > > +    bool onlinecapable = enabled ? false : true;
-> > 
-> > ugh, how about uint32 onlinecapable = enabled? 0x0 : 0x2 ?
-> > 
-> > > +    uint32_t flags = onlinecapable ? 0x2 : 0x0 | /* Online Capable */
-> > > +                     enabled ? 0x1 : 0x0; /* Enabled */
-> > 
-> > then here, flags = onlinecapable | processor_enabled? 0x1 : 0x0;
-> > 
+> During the discussion it became clear that the inheritance of the various
+> TYPE_PXB*_DEVICE was unusual. This patchset first provides the minimal
+> fix then cleans up the inheritance of types based on functionality.
 > 
-> Colleague Miguel Luis pointed out that this is simpler and equivalent:
+> There is also a rename to TYPE_PXB*_DEV to allow removal of some boilerplate.
 > 
-> uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ? 1 /*
-> Enabled */ : 2 /* Online Capable */;
+> Before this series
+> TYPE_PXB_DEVICE, TYPE_PXB_PCIE_DEVICE and TYPE_PXB_CXL_DEVICE all
+> had TYPE_PCI_DEVICE as their direct parent though they shared a common
+> struct PXBDev for their state.  As a result this state contained
+> some data that was irrelevant for some the types.
 > 
-> Is that acceptable?
-> eric
+> This series changes to
+> TYPE_PXB_CXL_DEV has a parent of TYPE_PXB_PCIE_DEV
+> TYPE_PXB_PCIE_DEV has a parent of TYPE_PXB_DEV
+> TYPE_PXB_DEV continues to have a parent of TYPE_PCI_DEVICE.
+> 
+> Each of the TYPE_PXB*_DEV has a state structure adding those elements
+> to their parent that they need. This also allowed dropping a wrapping
+> structure for the CXL state as the PXBCXLDev structure already provides
+> the equivalent grouping.
+> 
+> Patches are similar to those posted in the thread but rebased on v8.0.0.
 
+this conflicts with
+    Revert "hw/pxb-cxl: Support passthrough HDM Decoders unless overridden"
 
-Looks ok to me.
+I think you acked that one?
 
-> > > 
-> > >       /* ACPI spec says that LAPIC entry for non present
-> > >        * CPU may be omitted from MADT or it must be marked
-> > > @@ -102,7 +109,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-> > >       MachineClass *mc = MACHINE_GET_CLASS(x86ms);
-> > >       const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
-> > >       AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(adev);
-> > > -    AcpiTable table = { .sig = "APIC", .rev = 1, .oem_id = oem_id,
-> > > +    AcpiTable table = { .sig = "APIC", .rev = 5, .oem_id = oem_id,
-> > >                           .oem_table_id = oem_table_id };
-> > > 
-> > >       acpi_table_begin(&table, table_data);
-> > > --
-> > > 2.31.1
-> > > 
+> Jonathan Cameron (2):
+>   hw/pci-bridge: pci_expander_bridge fix type in pxb_cxl_dev_reset()
+>   hw/pci-bridge: Make PCIe and CXL PXB Devices inherit from TYPE_PXB_DEV
+> 
+>  hw/acpi/cxl.c                       | 11 +++---
+>  hw/cxl/cxl-host.c                   |  4 +-
+>  hw/pci-bridge/pci_expander_bridge.c | 61 ++++++++++-------------------
+>  include/hw/cxl/cxl.h                |  4 +-
+>  include/hw/pci/pci_bridge.h         | 28 +++++++++----
+>  5 files changed, 50 insertions(+), 58 deletions(-)
+> 
+> -- 
+> 2.37.2
 
 
