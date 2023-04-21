@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2666EA6ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7736EA736
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:38:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn4A-00034m-GL; Fri, 21 Apr 2023 05:28:30 -0400
+	id 1ppn8x-00083y-8Q; Fri, 21 Apr 2023 05:33:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppn48-00034K-8f; Fri, 21 Apr 2023 05:28:28 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ppn8u-00081u-Jd
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppn45-00025S-O1; Fri, 21 Apr 2023 05:28:28 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id CD0715E639;
- Fri, 21 Apr 2023 12:28:15 +0300 (MSK)
-Received: from vsementsov-nix.yandex.net (unknown [2a02:6b8:b081:8816::1:4])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id xRbs6S1Oh4Y0-A8cz5hI8; Fri, 21 Apr 2023 12:28:14 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682069294; bh=17YNwFm8Karbyne35n/ZbXTYptxjJvHR1qlAa2FYlk0=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=g2My+8AWSi0jbl3qH3JkNs7yCx6MgoZZ9q9fSx2F7wXvfNfeHgUWeEuA9lS2nvG6T
- GVHeOAp51sHhUSGTdTluF7dGsRJDiosqxKRyJNxw/qXNZ99JEFdoxqeAh7IFTY4qTo
- DJS96VQmZ/ITrlWczMMx/jDCJxZ3NZ8K2XWov4BQ=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, thuth@redhat.com,
- berrange@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- hreitz@redhat.com, kwolf@redhat.com, vsementsov@yandex-team.ru
-Subject: [PATCH v2] block: add configure options for excluding vmdk,
- vhdx and vpc
-Date: Fri, 21 Apr 2023 12:27:58 +0300
-Message-Id: <20230421092758.814122-1-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ppn8s-00030s-Bo
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682069601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c8a1UIjdCHh3WGvt2VkXWlfJzbxCEPGqQGf49faMT50=;
+ b=AEfytqD/9UWHcp03OHPO9aSQ8lCEWJ1qfCkhFpmIseVlwLIsXd7Fk8ey9Gx00S2E+zQj7K
+ 57HWBQFwgCnN0911DmYsNksS5Lr88GoLTeDlQ105uJbk3aJrxC9VurPAkIha3Oq4E0rg3Y
+ VxuYAy9gTz+pQnonx+gQakg7hNGwFqc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-13-U7QPIGjnPB-TW0DQlXZPSg-1; Fri, 21 Apr 2023 05:33:19 -0400
+X-MC-Unique: U7QPIGjnPB-TW0DQlXZPSg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 4fb4d7f45d1cf-50692ecb3c5so1612829a12.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682069598; x=1684661598;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=c8a1UIjdCHh3WGvt2VkXWlfJzbxCEPGqQGf49faMT50=;
+ b=lwBsFWQODIJIOWg/JLW6i9j8enNNqbnftRKKwBY6DU86xJpMx9MJTZCH+2Hd9r3Z/7
+ K9x0AN4HdK1XbIqcOZC+l2qLwrR+7bSAc/qSkomt9VJikywv8uCY7yNzICVVdB1rzuMc
+ +1hSh5UrXLvj8DWEzeNJQO2ncIPsoK3+hVt6g5fPbAJUEcXkdBudmSamlzfmJLCWB51s
+ N34eHArjYWjPgk4rduOK5uR86JkLZv/BaXxrrlbGiW0gbXnjrujXxRyA05G7rIUcquUA
+ ZIvqkQZ+bkCxhu+lHvzuvl7OWxOgGFrvatoJxy2Xab/442dzylIlgRnf1pRa0wuLI7Le
+ Lx2A==
+X-Gm-Message-State: AAQBX9dcHyP3MtB3+RWhGKudfxroOQ9VCAFobaNKWarefkZ3VJYxN25I
+ HeBQlmdYzeUHx4bDZCxWJ77f5iE89w7xCZpEAXPlWvGsEN32yso9E472wTW2yc8er4Zgotsogsd
+ udaGRNfZY3cTDKGFVkKxsg5GkggbQtpWOi115ObNLtikPRnRXB0unsHBgWqJ5eqs/DbPtHq1EwF
+ ejsw==
+X-Received: by 2002:aa7:dace:0:b0:4fb:78a0:eabe with SMTP id
+ x14-20020aa7dace000000b004fb78a0eabemr4107313eds.14.1682069597788; 
+ Fri, 21 Apr 2023 02:33:17 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zkru/csJe4+156C7agxnArVsDU2WhDV+Qu4hxhqD3AE5PL9XcHe0VeI9A5psAA764IP05kLw==
+X-Received: by 2002:aa7:dace:0:b0:4fb:78a0:eabe with SMTP id
+ x14-20020aa7dace000000b004fb78a0eabemr4107298eds.14.1682069597319; 
+ Fri, 21 Apr 2023 02:33:17 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ j19-20020a17090686d300b0094f109a5b3asm1834118ejy.135.2023.04.21.02.33.16
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Apr 2023 02:33:16 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/25] First batch of misc patches for QEMU 8.1
+Date: Fri, 21 Apr 2023 11:32:51 +0200
+Message-Id: <20230421093316.17941-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,140 +97,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Let's add --enable / --disable configure options for these formats,
-so that those who don't need them may not build them.
+The following changes since commit 2d82c32b2ceaca3dc3da5e36e10976f34bfcb598:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
+  Open 8.1 development tree (2023-04-20 10:05:25 +0100)
 
-v2: just a resend instead of ping, bonus: fix mistake in commit message.
+are available in the Git repository at:
 
- block/meson.build             | 18 +++++++++++++-----
- meson.build                   |  3 +++
- meson_options.txt             |  6 ++++++
- scripts/meson-buildoptions.sh |  9 +++++++++
- 4 files changed, 31 insertions(+), 5 deletions(-)
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-diff --git a/block/meson.build b/block/meson.build
-index 382bec0e7d..13337bd070 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -38,11 +38,6 @@ block_ss.add(files(
-   'snapshot-access.c',
-   'throttle-groups.c',
-   'throttle.c',
--  'vhdx-endian.c',
--  'vhdx-log.c',
--  'vhdx.c',
--  'vmdk.c',
--  'vpc.c',
-   'write-threshold.c',
- ), zstd, zlib, gnutls)
- 
-@@ -55,6 +50,19 @@ endif
- if get_option('vdi').allowed()
-   block_ss.add(files('vdi.c'))
- endif
-+if get_option('vhdx').allowed()
-+  block_ss.add(files(
-+    'vhdx-endian.c',
-+    'vhdx-log.c',
-+    'vhdx.c'
-+  ))
-+endif
-+if get_option('vmdk').allowed()
-+  block_ss.add(files('vmdk.c'))
-+endif
-+if get_option('vpc').allowed()
-+  block_ss.add(files('vpc.c'))
-+endif
- if get_option('cloop').allowed()
-   block_ss.add(files('cloop.c'))
- endif
-diff --git a/meson.build b/meson.build
-index c44d05a13f..a87f2385f6 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3921,6 +3921,9 @@ if have_block
-   summary_info += {'dmg support':       get_option('dmg').allowed()}
-   summary_info += {'qcow v1 support':   get_option('qcow1').allowed()}
-   summary_info += {'vdi support':       get_option('vdi').allowed()}
-+  summary_info += {'vhdx support':      get_option('vhdx').allowed()}
-+  summary_info += {'vmdk support':      get_option('vmdk').allowed()}
-+  summary_info += {'vpc support':       get_option('vpc').allowed()}
-   summary_info += {'vvfat support':     get_option('vvfat').allowed()}
-   summary_info += {'qed support':       get_option('qed').allowed()}
-   summary_info += {'parallels support': get_option('parallels').allowed()}
-diff --git a/meson_options.txt b/meson_options.txt
-index fc9447d267..369989f06b 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -299,6 +299,12 @@ option('qcow1', type: 'feature', value: 'auto',
-        description: 'qcow1 image format support')
- option('vdi', type: 'feature', value: 'auto',
-        description: 'vdi image format support')
-+option('vhdx', type: 'feature', value: 'auto',
-+       description: 'vhdx image format support')
-+option('vmdk', type: 'feature', value: 'auto',
-+       description: 'vmdk image format support')
-+option('vpc', type: 'feature', value: 'auto',
-+       description: 'vpc image format support')
- option('vvfat', type: 'feature', value: 'auto',
-        description: 'vvfat image format support')
- option('qed', type: 'feature', value: 'auto',
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 009fab1515..5fb4316935 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -167,6 +167,7 @@ meson_options_help() {
-   printf "%s\n" '                  VDUSE block export support'
-   printf "%s\n" '  vfio-user-server'
-   printf "%s\n" '                  vfio-user server support'
-+  printf "%s\n" '  vhdx            vhdx image format support'
-   printf "%s\n" '  vhost-crypto    vhost-user crypto backend support'
-   printf "%s\n" '  vhost-kernel    vhost kernel backend support'
-   printf "%s\n" '  vhost-net       vhost-net kernel acceleration support'
-@@ -176,10 +177,12 @@ meson_options_help() {
-   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
-   printf "%s\n" '  virglrenderer   virgl rendering support'
-   printf "%s\n" '  virtfs          virtio-9p support'
-+  printf "%s\n" '  vmdk            vmdk image format support'
-   printf "%s\n" '  vmnet           vmnet.framework network backend support'
-   printf "%s\n" '  vnc             VNC server'
-   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
-   printf "%s\n" '  vnc-sasl        SASL authentication for VNC server'
-+  printf "%s\n" '  vpc             vpc image format support'
-   printf "%s\n" '  vte             vte support for the gtk UI'
-   printf "%s\n" '  vvfat           vvfat image format support'
-   printf "%s\n" '  whpx            WHPX acceleration support'
-@@ -445,6 +448,8 @@ _meson_option_parse() {
-     --disable-vduse-blk-export) printf "%s" -Dvduse_blk_export=disabled ;;
-     --enable-vfio-user-server) printf "%s" -Dvfio_user_server=enabled ;;
-     --disable-vfio-user-server) printf "%s" -Dvfio_user_server=disabled ;;
-+    --enable-vhdx) printf "%s" -Dvhdx=enabled ;;
-+    --disable-vhdx) printf "%s" -Dvhdx=disabled ;;
-     --enable-vhost-crypto) printf "%s" -Dvhost_crypto=enabled ;;
-     --disable-vhost-crypto) printf "%s" -Dvhost_crypto=disabled ;;
-     --enable-vhost-kernel) printf "%s" -Dvhost_kernel=enabled ;;
-@@ -461,6 +466,8 @@ _meson_option_parse() {
-     --disable-virglrenderer) printf "%s" -Dvirglrenderer=disabled ;;
-     --enable-virtfs) printf "%s" -Dvirtfs=enabled ;;
-     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
-+    --enable-vmdk) printf "%s" -Dvmdk=enabled ;;
-+    --disable-vmdk) printf "%s" -Dvmdk=disabled ;;
-     --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
-     --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
-     --enable-vnc) printf "%s" -Dvnc=enabled ;;
-@@ -469,6 +476,8 @@ _meson_option_parse() {
-     --disable-vnc-jpeg) printf "%s" -Dvnc_jpeg=disabled ;;
-     --enable-vnc-sasl) printf "%s" -Dvnc_sasl=enabled ;;
-     --disable-vnc-sasl) printf "%s" -Dvnc_sasl=disabled ;;
-+    --enable-vpc) printf "%s" -Dvpc=enabled ;;
-+    --disable-vpc) printf "%s" -Dvpc=disabled ;;
-     --enable-vte) printf "%s" -Dvte=enabled ;;
-     --disable-vte) printf "%s" -Dvte=disabled ;;
-     --enable-vvfat) printf "%s" -Dvvfat=enabled ;;
+for you to fetch changes up to 5f9efbbcf6fc77e583254389124437d981ad76b9:
+
+  tests: lcitool: Switch to OpenSUSE Leap 15.4 (2023-04-20 11:17:36 +0200)
+
+----------------------------------------------------------------
+* Optional use of Meson wrap for slirp
+* Coverity fixes
+* Avoid -Werror=maybe-uninitialized
+* Mark coroutine QMP command functions as coroutine_fn
+* Mark functions that suspend as coroutine_mixed_fn
+* target/i386: Fix SGX CPUID leaf
+* First batch of qatomic_mb_read() removal
+* Small atomic.rst improvement
+* NBD cleanup
+* Update libvirt-ci submodule
+
+----------------------------------------------------------------
+Akihiko Odaki (1):
+      configure: Avoid -Werror=maybe-uninitialized
+
+Marc-André Lureau (3):
+      mtest2make.py: teach suite name that are just "PROJECT"
+      build-sys: prevent meson from downloading wrapped subprojects
+      build-sys: add slirp.wrap
+
+Paolo Bonzini (16):
+      nvme: remove constant argument to tracepoint
+      vnc: avoid underflow when accessing user-provided address
+      tests: bios-tables-test: replace memset with initializer
+      lasi: fix RTC migration
+      coverity: update COMPONENTS.md
+      target/mips: tcg: detect out-of-bounds accesses to cpu_gpr and cpu_gpr_hi
+      qapi-gen: mark coroutine QMP command functions as coroutine_fn
+      io: mark mixed functions that can suspend
+      migration: mark mixed functions that can suspend
+      monitor: mark mixed functions that can suspend
+      block-backend: remove qatomic_mb_read()
+      postcopy-ram: do not use qatomic_mb_read
+      qemu-coroutine: remove qatomic_mb_read()
+      docs: explain effect of smp_read_barrier_depends() on modern architectures
+      nbd: a BlockExport always has a BlockBackend
+      coverity: unify Fedora dockerfiles
+
+Peter Krempa (2):
+      tests: libvirt-ci: Update to commit '2fa24dce8bc'
+      tests: lcitool: Switch to OpenSUSE Leap 15.4
+
+Peter Maydell (2):
+      target/i386: Avoid unreachable variable declaration in mmu_translate()
+      configure: Honour cross-prefix when finding ObjC compiler
+
+Yang Zhong (1):
+      target/i386: Change wrong XFRM value in SGX CPUID leaf
+
+ .gitignore                                         |   2 +
+ block/block-backend.c                              |   4 +-
+ configure                                          |  40 ++--
+ docs/devel/atomics.rst                             |  11 +-
+ hw/misc/lasi.c                                     |   4 +-
+ hw/nvme/ctrl.c                                     |   4 +-
+ hw/nvme/trace-events                               |   2 +-
+ include/hw/misc/lasi.h                             |   3 +-
+ include/io/channel.h                               |  78 +++----
+ include/migration/qemu-file-types.h                |   4 +-
+ include/qapi/qmp/dispatch.h                        |   4 +-
+ io/channel.c                                       |  78 +++----
+ migration/postcopy-ram.c                           |   2 +-
+ migration/qemu-file.c                              |  14 +-
+ migration/qemu-file.h                              |   6 +-
+ nbd/server.c                                       |  14 +-
+ qapi/qmp-dispatch.c                                |   4 +-
+ scripts/coverity-scan/COMPONENTS.md                |  11 +-
+ scripts/coverity-scan/coverity-scan.docker         | 250 ++++++++++++---------
+ scripts/mtest2make.py                              |   9 +-
+ scripts/qapi/commands.py                           |  33 ++-
+ subprojects/slirp.wrap                             |   6 +
+ target/i386/cpu.c                                  |   4 +-
+ target/i386/tcg/sysemu/excp_helper.c               |   2 +-
+ target/mips/tcg/translate.c                        |   4 +
+ tests/docker/dockerfiles/centos8.docker            |   1 -
+ tests/docker/dockerfiles/debian-amd64-cross.docker |   4 +-
+ tests/docker/dockerfiles/debian-arm64-cross.docker |   4 +-
+ tests/docker/dockerfiles/debian-armel-cross.docker |   4 +-
+ tests/docker/dockerfiles/debian-armhf-cross.docker |   4 +-
+ .../dockerfiles/debian-mips64el-cross.docker       |   4 +-
+ .../docker/dockerfiles/debian-mipsel-cross.docker  |   4 +-
+ .../docker/dockerfiles/debian-ppc64el-cross.docker |   4 +-
+ tests/docker/dockerfiles/debian-s390x-cross.docker |   4 +-
+ tests/docker/dockerfiles/fedora-win32-cross.docker |   5 +-
+ tests/docker/dockerfiles/fedora-win64-cross.docker |   5 +-
+ tests/docker/dockerfiles/fedora.docker             |   5 +-
+ tests/docker/dockerfiles/opensuse-leap.docker      |   5 +-
+ tests/lcitool/libvirt-ci                           |   2 +-
+ tests/lcitool/mappings.yml                         |  36 +--
+ tests/lcitool/refresh                              |   2 +-
+ ...{opensuse-leap-153.yml => opensuse-leap-15.yml} |   0
+ tests/qtest/bios-tables-test.c                     | 123 ++++------
+ ui/vnc.c                                           |   2 +-
+ util/qemu-coroutine.c                              |  10 +-
+ 45 files changed, 425 insertions(+), 396 deletions(-)
+ create mode 100644 subprojects/slirp.wrap
+ rename tests/lcitool/targets/{opensuse-leap-153.yml => opensuse-leap-15.yml} (100%)
 -- 
-2.34.1
+2.40.0
 
 
