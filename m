@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A566EB15A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 20:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B946EB202
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 21:03:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppv9u-0001pV-Lb; Fri, 21 Apr 2023 14:06:58 -0400
+	id 1ppw1H-0000OQ-Al; Fri, 21 Apr 2023 15:02:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppv9t-0001pF-4g
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 14:06:57 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ppw1E-0000Nn-Ih
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 15:02:04 -0400
 Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppv9r-0006OF-Ej
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 14:06:56 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ppw1A-00011d-5I
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 15:02:03 -0400
 Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-2efbaad9d76so1907547f8f.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 11:06:55 -0700 (PDT)
+ ffacd0b85a97d-2f7a7f9667bso1320859f8f.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 12:01:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682100414; x=1684692414;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=linaro.org; s=google; t=1682103718; x=1684695718;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=PMv4D0VJfTywI9Nd8ABZBx3lwI6qG06/eyj45xd2sqs=;
- b=zu+5UE2S9nJbllUoQdkYK303rkUANml/z3PH+h1CjhT1X0xKDBu2mNkZ07UEHNLR+F
- a1YQzIXw743wlwgMqlmspWXoaubAVcqiPKCj624k3uTSFf7dlNh91tEw8QnVopVhuRrn
- chsOGzX6RPC6a7EoP44sxi3S188G6b9bRlQn8NSobcxJMuuTIY5LfMzjk2JhERREDXgH
- 1YdGvmr2A/fHJCB7whq537b9BnNH7hPC1TzuIzDYHFbNDO5P0ZWI4dqBUu4hEPhdb4q/
- 670+hlXaYoN3uzew62c39spr2ohNmCGXasIHEVmGQYoxK09IvFOkjQKwkW/wvtkoPvWY
- 7T4w==
+ bh=feuCjneQzEafoveiAYEavrlx45kQbUtLGqTQlKENo74=;
+ b=sHD6eJvUGNAJmD2G3kz/I0NcJcigMEsu+JlTfZOaBstkrZIk/J5VPVz3L8k5NDajcC
+ hoxeOpUu4BcWFho5a+E4wMp2kyVApRKV6W15i+gRG6iFJdThRlBBz7wBikf0oIlXXqOA
+ 3O/Ghd/xznTIiUTnU8VGGbQoK3FYId/CWJSGS53dx0O+LGiZCbzxBPix1SDqKjZxFEJN
+ CycW1qcoDMHVtFK2BqJvVTT6WGnwGShm7f6gokmPSwlI8OgbVrYVtYxGXGGugSOWmRBa
+ 8xT11zUUPukTNpRBCrl2Wh25dcWkfoN9Le9ApfOyPNbo/8mcFYiw8liuHSB9g2UnUn7l
+ /QUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682100414; x=1684692414;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1682103718; x=1684695718;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PMv4D0VJfTywI9Nd8ABZBx3lwI6qG06/eyj45xd2sqs=;
- b=hQ78OiVZw3DrwB4Y6rX1gvi5rMN3F5hscSdYpbI8Se55Z2hUltNG5MOjAh6XrR4q51
- UmfUVgPFzDMzX1Nqe2b/QbWtUwXs3CErFTM7HKCpI0pwPUhdaIw70BBim+iZBe8/1TYD
- 8PJ21iAl4YxvzSf+M4I8c+5sqiSWQnzN/Ei4ubQEmM2Rku0a3D06vuyAraFJ4+PKVFo5
- DZmyrtIOJsLlBgX7+IXHgP0Bvn4PlM/Ewgiqp8KLhN+KQ4i3apzG7RlyGyMfwQQ3Jmvn
- aNO/gcD48zQBWWJ1WG2vRsvA/XYSbTpB8Ig02ZVSk9b/I7ggiAMNQVB53/nSftzHd35e
- zDIA==
-X-Gm-Message-State: AAQBX9dGjhd2FRrqoMf6Af/+D1JmOEjmuCwwGgd/vMBX1FAKIufn/LK4
- s8hGxWlLNenRHNXpyCgLdrhpgA==
-X-Google-Smtp-Source: AKy350Y/y+WHoOy+iIAu1YA/9gE0ANdp4Vte3e6po4qt60teMIONC7wQXu0BiiNccxCq3YDdkKm30A==
-X-Received: by 2002:adf:f58d:0:b0:2fb:db79:748e with SMTP id
- f13-20020adff58d000000b002fbdb79748emr4793262wro.65.1682100413815; 
- Fri, 21 Apr 2023 11:06:53 -0700 (PDT)
-Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
- [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- s3-20020a5d6a83000000b002fe13ec49fasm4846938wru.98.2023.04.21.11.06.51
+ bh=feuCjneQzEafoveiAYEavrlx45kQbUtLGqTQlKENo74=;
+ b=NOCfw8rbSVUjQBk1XQOTvQaVQ3PbYMkUCP3iEusE2p/RdrnI8oI+FA46liJ5WC3RXR
+ Px/bzJE3qLAf5dJuRGRN8kBB9FIJDpYcbXwlaPhSvPTYE49JQyqlsmbtcV2ol7NT+DMR
+ iIZbmvzpPkjZW6ua4pFtTAoNDMs7az/iSeI9wwC5fb4pBsOeqJZ4DbPBIXaLn4N3r4pR
+ QeNyTpRi/eRjCGFS1PZ0yHdcX3HEvCdfI0aJjqq+3heBVGHQJoao5mnAOhd+VgmE/b6K
+ LWX09shqkKmDMPnME57zyY+s+MiPQ8roc7ZHQ/7dENLgmzN0X9bHAG/AILgLL10nWO8B
+ JU3A==
+X-Gm-Message-State: AAQBX9dLyl8zZKU0etgeRnF6qf5rCPMixGbHhqg8Gnh76bUb6YWkdCDd
+ klYUvumQIhfnU59UHad+hifJjg==
+X-Google-Smtp-Source: AKy350ZOQ2Zn4Sqvkc1kthlHLa0Tb92euChIPL2UizFOpALnPJTGTwfpWlDXEWTrv0HuPIb5MXoOqw==
+X-Received: by 2002:adf:f48c:0:b0:2fb:2a43:4aa1 with SMTP id
+ l12-20020adff48c000000b002fb2a434aa1mr4579803wro.42.1682103718532; 
+ Fri, 21 Apr 2023 12:01:58 -0700 (PDT)
+Received: from [10.43.13.97] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
+ [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
+ f8-20020a5d4dc8000000b002f9e04459desm4931600wru.109.2023.04.21.12.01.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 11:06:53 -0700 (PDT)
-Message-ID: <3175956a-ab3c-7259-1b28-6fe54043238f@linaro.org>
-Date: Fri, 21 Apr 2023 20:06:49 +0200
+ Fri, 21 Apr 2023 12:01:58 -0700 (PDT)
+Message-ID: <e7775d5f-292c-2a88-afaa-5731ee1bc897@linaro.org>
+Date: Fri, 21 Apr 2023 20:01:56 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v10 06/11] target/arm: move cpu_tcg to tcg/cpu32.c
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 00/20] Block patches
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20230412121829.14452-1-farosas@suse.de>
- <20230412121829.14452-7-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230412121829.14452-7-farosas@suse.de>
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20230420120948.436661-1-stefanha@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230420120948.436661-1-stefanha@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -99,55 +93,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/4/23 14:18, Fabiano Rosas wrote:
-> From: Claudio Fontana <cfontana@suse.de>
+On 4/20/23 13:09, Stefan Hajnoczi wrote:
+> The following changes since commit c1eb2ddf0f8075faddc5f7c3d39feae3e8e9d6b4:
 > 
-> move the module containing cpu models definitions
-> for 32bit TCG-only CPUs to tcg/ and rename it for clarity.
+>    Update version for v8.0.0 release (2023-04-19 17:27:13 +0100)
 > 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> ---
->   hw/arm/virt.c                         |  2 +-
->   target/arm/meson.build                |  1 -
->   target/arm/{cpu_tcg.c => tcg/cpu32.c} | 13 +++----------
->   target/arm/tcg/cpu64.c                |  2 +-
->   target/arm/tcg/meson.build            |  1 +
->   tests/qtest/arm-cpu-features.c        | 12 +++++++++---
->   6 files changed, 15 insertions(+), 16 deletions(-)
->   rename target/arm/{cpu_tcg.c => tcg/cpu32.c} (99%)
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> 
+> for you to fetch changes up to 36e5e9b22abe56aa00ca067851555ad8127a7966:
+> 
+>    tracing: install trace events file only if necessary (2023-04-20 07:39:43 -0400)
+> 
+> ----------------------------------------------------------------
+> Pull request
+> 
+> Sam Li's zoned storage work and fixes I collected during the 8.0 freeze.
+> 
+> ----------------------------------------------------------------
+> 
+> Carlos Santos (1):
+>    tracing: install trace events file only if necessary
+> 
+> Philippe Mathieu-Daudé (1):
+>    block/dmg: Declare a type definition for DMG uncompress function
+> 
+> Sam Li (17):
+>    block/block-common: add zoned device structs
+>    block/file-posix: introduce helper functions for sysfs attributes
+>    block/block-backend: add block layer APIs resembling Linux
+>      ZonedBlockDevice ioctls
+>    block/raw-format: add zone operations to pass through requests
+>    block: add zoned BlockDriver check to block layer
+>    iotests: test new zone operations
+>    block: add some trace events for new block layer APIs
+>    docs/zoned-storage: add zoned device documentation
+>    file-posix: add tracking of the zone write pointers
+>    block: introduce zone append write for zoned devices
+>    qemu-iotests: test zone append operation
+>    block: add some trace events for zone append
+>    include: update virtio_blk headers to v6.3-rc1
+>    virtio-blk: add zoned storage emulation for zoned devices
+>    block: add accounting for zone append operation
+>    virtio-blk: add some trace events for zoned emulation
+>    docs/zoned-storage:add zoned emulation use case
+> 
+> Thomas De Schampheleire (1):
+>    tracetool: use relative paths for '#line' preprocessor directives
+
+32 failed CI jobs:
+https://gitlab.com/qemu-project/qemu/-/pipelines/844927626/failures
 
 
-> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-> index 1cb08138ad..1555b0bab8 100644
-> --- a/tests/qtest/arm-cpu-features.c
-> +++ b/tests/qtest/arm-cpu-features.c
-> @@ -506,9 +506,15 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
->           QDict *resp;
->           char *error;
->   
-> -        assert_error(qts, "cortex-a15",
-> -            "We cannot guarantee the CPU type 'cortex-a15' works "
-> -            "with KVM on this host", NULL);
-> +        if (qtest_has_accel("tcg")) {
+r~
 
-Can we add a comment to explain this non trivial case?
-
-I suppose the reason is "KVM is builtin but not available, so we don't
-want to test the TCG fallback", is that correct?
-
-> +            assert_error(qts, "cortex-a15",
-> +                         "We cannot guarantee the CPU type 'cortex-a15' works "
-> +                         "with KVM on this host", NULL);
-> +        } else {
-> +            assert_error(qts, "cortex-a15",
-> +                         "The CPU type 'cortex-a15' is not a "
-> +                         "recognized ARM CPU type", NULL);
-> +        }
->   
->           assert_has_feature_enabled(qts, "host", "aarch64");
->   
 
 
