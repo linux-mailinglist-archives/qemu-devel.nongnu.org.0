@@ -2,89 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D656EAB58
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDE46EAB59
 	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:15:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppqaf-0007yb-By; Fri, 21 Apr 2023 09:14:17 -0400
+	id 1ppqbB-000888-LB; Fri, 21 Apr 2023 09:14:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ppqad-0007yG-SU
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:14:15 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ppqab-0000dN-Ij
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:14:15 -0400
-Received: by mail-oi1-x235.google.com with SMTP id
- 5614622812f47-38dee9a7795so718753b6e.3
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 06:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1682082852; x=1684674852;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SGDi5djStP9o+MSzMIbfR/djQeFXMik4yfmXAHaLhxE=;
- b=bXJgqkXDFHmVJKvclKa3d3hWJgFrSs8k07TNJLqQZ6QpbQUYdnTAdijpX2GUmc1KTu
- sSC7Be+GXch2gahopuketh5T85VcE80M76kaF2/cG4KJ0lP0mQDHFUPvklqSj32iNfyL
- xK84ibR2rMM02Y8Dk5PIzm9nfgoh75bq2zjsH3va+6R2mdj4CzX+9VrQkdcSin2Daj1b
- oJpeb134b6mfYJ6c3i9K5WYASqBVXEedoeRSgTPrkfnJJn+fb1fHlBJOmbJdNDiUGJLS
- 4L9W73D1Z340fwmfGYiEA+UzeFHiAffkpZAUYMmF6Iw7UtUXIPdcYAC8PebnVOWg/ZUJ
- hnYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682082852; x=1684674852;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SGDi5djStP9o+MSzMIbfR/djQeFXMik4yfmXAHaLhxE=;
- b=lM8/oZ8sbVNZxsziBmR651sTfKgvSbrf94lG6t2WtItvBXuhPud1xUj43aHA6O2Olo
- xjXFxRy3fSxCJl4IUxsbnVwCPhHJrVSSqI5cIVYa64mjxsBk3bbwSYpd0wo7wuIalUup
- eo6D5Ju5CMwXjwuJx5xqfyF9BMGmWZLJhERRd3h6MTbF5aaXKKl7zpqjscnO17w/dSi8
- nHfqT6P3tm4ELhBYJ7Jbnp0AhUdvYc5M/eM2h2o0pAXhiG5SMRVPZ5UoV6248iOIXByE
- HtSFQzOGk5iU4XZK0ViD7AjUyB8vBlnjXn4L8bKjkTugjG8NYFSUbVJWyhUqL8k4v6IJ
- qnig==
-X-Gm-Message-State: AAQBX9clia48G5Z6po5vWtZ7r0RLkxixm0qGrChgg7b7M0FAQx43kkU6
- eDip/GnA+jstHuNpIBdB7p37NA==
-X-Google-Smtp-Source: AKy350akDWwtr/0xA8/d4iBXocIVbc4GDrLSGiJXFe2w5hqb0bLGaX/8Ox7Td9+n4cgGw+1JNzWGUg==
-X-Received: by 2002:aca:f06:0:b0:38d:f298:6cee with SMTP id
- 6-20020aca0f06000000b0038df2986ceemr2628547oip.45.1682082851958; 
- Fri, 21 Apr 2023 06:14:11 -0700 (PDT)
-Received: from [192.168.68.107] ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- z9-20020a056808048900b0038dd5bf922bsm1621229oid.22.2023.04.21.06.14.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 06:14:11 -0700 (PDT)
-Message-ID: <80278c7e-9a8c-02de-477c-9f9aa6637541@ventanamicro.com>
-Date: Fri, 21 Apr 2023 10:14:08 -0300
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ppqb7-00087O-64
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:14:45 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ppqax-0000fv-Ro
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:14:43 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2vxx5bl8z67bjL;
+ Fri, 21 Apr 2023 21:09:41 +0800 (CST)
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 21 Apr
+ 2023 14:14:29 +0100
+Date: Fri, 21 Apr 2023 14:14:28 +0100
+To: Hao Zeng <zenghao@kylinos.cn>
+CC: <qemu-devel@nongnu.org>, <fan.ni@samsung.com>, <philmd@linaro.org>, Peter
+ Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v5] cxl-cdat:Fix open file not closed in ct3_load_cdat
+Message-ID: <20230421141428.00006f44@huawei.com>
+In-Reply-To: <20230413122358.3737557-1-zenghao@kylinos.cn>
+References: <20230413122358.3737557-1-zenghao@kylinos.cn>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH RESEND v7 11/12] target/riscv: rework write_misa()
-Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- palmer@rivosinc.com
-References: <20230420092100.177464-1-dbarboza@ventanamicro.com>
- <20230420092100.177464-12-dbarboza@ventanamicro.com>
- <CAKmqyKPd_5nVUvcd20AxrrH9UKT88pU-KLqQMbCh_nUCyh9LvA@mail.gmail.com>
- <981c651c-cc95-4cc2-df9c-eea0e4fca9ac@ventanamicro.com>
- <88910f92-f2c0-89c3-a37e-6b43a2219c90@ventanamicro.com>
-In-Reply-To: <88910f92-f2c0-89c3-a37e-6b43a2219c90@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x235.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,259 +62,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 13 Apr 2023 20:23:58 +0800
+Hao Zeng <zenghao@kylinos.cn> wrote:
+
+> Open file descriptor not closed in error paths. Fix by replace
+> open coded handling of read of whole file into a buffer with
+> g_file_get_contents()
+>=20
+> Fixes: aba578bdac ("hw/cxl: CDAT Data Object Exchange implementation")
+> Signed-off-by: Zeng Hao <zenghao@kylinos.cn>
+> Suggested-by: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Suggested-by: Jonathan Cameron via <qemu-devel@nongnu.org>
+>=20
+> ---
+> ChangeLog:
+>     v4-v5:
+>         fixes some style issues and keep the protection after using g_fre=
+e()
+>     v3-v4:
+>         Modify commit information,No code change.
+>     v2->v3:
+>         Submission of v3 on the basis of v2, based on Philippe Mathieu-Da=
+ud=E9's suggestion
+>         "Pointless bzero in g_malloc0, however this code would be
+>          simplified using g_file_get_contents()."
+>     v1->v2:
+>         - Patch 1: No change in patch v1
+>         - Patch 2: Fix the check on the return value of fread() in ct3_lo=
+ad_cdat
+> ---
+>  hw/cxl/cxl-cdat.c | 27 ++++++++-------------------
+>  1 file changed, 8 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
+> index 137abd0992..dd69366797 100644
+> --- a/hw/cxl/cxl-cdat.c
+> +++ b/hw/cxl/cxl-cdat.c
+> @@ -110,29 +110,18 @@ static void ct3_load_cdat(CDATObject *cdat, Error *=
+*errp)
+>      g_autofree CDATEntry *cdat_st =3D NULL;
+>      uint8_t sum =3D 0;
+>      int num_ent;
+> -    int i =3D 0, ent =3D 1, file_size =3D 0;
+> +    int i =3D 0, ent =3D 1;
+> +    gsize file_size =3D 0;
+>      CDATSubHeader *hdr;
+> -    FILE *fp =3D NULL;
+> +    GError *error =3D NULL;
+> =20
+>      /* Read CDAT file and create its cache */
+> -    fp =3D fopen(cdat->filename, "r");
+> -    if (!fp) {
+> -        error_setg(errp, "CDAT: Unable to open file");
+> +    if (!g_file_get_contents(cdat->filename, (gchar **)&cdat->buf,
+> +                             &file_size, &error)) {
+> +        error_setg(errp, "CDAT: File read failed: %s", error->message);
+> +        g_error_free(error);
+>          return;
+>      }
+> -
+> -    fseek(fp, 0, SEEK_END);
+> -    file_size =3D ftell(fp);
+> -    fseek(fp, 0, SEEK_SET);
+> -    cdat->buf =3D g_malloc0(file_size);
+> -
+> -    if (fread(cdat->buf, file_size, 1, fp) =3D=3D 0) {
+> -        error_setg(errp, "CDAT: File read failed");
+> -        return;
+> -    }
+> -
+> -    fclose(fp);
+> -
+>      if (file_size < sizeof(CDATTableHeader)) {
+>          error_setg(errp, "CDAT: File too short");
+>          return;
+> @@ -219,6 +208,6 @@ void cxl_doe_cdat_release(CXLComponentState *cxl_csta=
+te)
+>                                cdat->private);
+>      }
+>      if (cdat->buf) {
+
+Check patch complains about this check being unnecessary. I'll drop the che=
+ck
+and then pick up this patch as a precusor to the other stuff Peter pointed =
+out in this
+area.
+
+Thanks,
+
+Jonathan
 
 
-On 4/21/23 10:06, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 4/21/23 08:34, Daniel Henrique Barboza wrote:
->>
->>
->> On 4/20/23 20:45, Alistair Francis wrote:
->>> On Thu, Apr 20, 2023 at 7:22 PM Daniel Henrique Barboza
->>> <dbarboza@ventanamicro.com> wrote:
->>>>
->>>> write_misa() must use as much common logic as possible. We want to open
->>>> code just the bits that are exclusive to the CSR write operation and TCG
->>>> internals.
->>>>
->>>> Our validation is done with riscv_cpu_validate_set_extensions(), but we
->>>> need a small tweak first. When enabling RVG we're doing:
->>>>
->>>>          env->misa_ext |= RVI | RVM | RVA | RVF | RVD;
->>>>          env->misa_ext_mask = env->misa_ext;
->>>>
->>>> This works fine for realize() time but this can potentially overwrite
->>>> env->misa_ext_mask if we reutilize the function for write_misa().
->>>> Instead of doing misa_ext_mask = misa_ext, sum up the RVG extensions in
->>>> misa_ext_mask as well. This won't change realize() time behavior
->>>> (misa_ext_mask is still == misa_ext)  and will ensure that write_misa()
->>>> won't change misa_ext_mask by accident.
->>>>
->>>> After that, rewrite write_misa() to work as follows:
->>>>
->>>> - mask the write using misa_ext_mask to avoid enabling unsupported
->>>>    extensions;
->>>>
->>>> - suppress RVC if the next insn isn't aligned;
->>>>
->>>> - disable RVG if any of RVG dependencies are being disabled by the user;
->>>>
->>>> - assign env->misa_ext and run riscv_cpu_validate_set_extensions(). On
->>>>    error, rollback to the previous values of misa_ext and misa_ext_mask;
->>>>
->>>> - on success, check if there's a chance that misa_ext_mask was
->>>>    overwritten during the process and restore it;
->>>
->>> Is this right? If the guest does a combined valid/invalid modification
->>> shouldn't the valid modifications stick?
->>
->> At this moment we're doing misa_ext_mask = misa_ext at the start of validate_set_extensions()
->> in case we need to set RVG.
->>
->> So, even if we validated everything, there's still a chance that we're setting
->> misa_ext_mask. Since this value is defined during realize() and it indicates the
->> maximum extensions allowed in the CPU, we shouldn't be touching it during runtime.
->>
->> In fact, I believe this patch is not correct. Down there:
-> 
-> 
-> Scrap all that.
-> 
-> As it is now in riscv-to-apply.next the RVG code in validate_set_extensions() is
-> doing the following:
-> 
-> 
->      /* Do some ISA extension error checking */
->      if (riscv_has_ext(env, RVG) &&
->          (...)
->          env->misa_ext |= RVI | RVM | RVA | RVF | RVD;
->          env->misa_ext_mask |= RVI | RVM | RVA | RVF | RVD;
->      }
-> 
-> This was done on purpose, by myself, in commit "target/riscv: sync env->misa_ext* with
-> cpu->cfg in realize()".
-> 
-> The reason I did that is to avoid overwriting env_misa_ext during write_misa(): instead
-> of doing env->misa_ext_mask = env->misa_ext, if we enable the RVG bits then we're sure
-> that env_misa_ext won't be changed at all in write_misa() time (since the RVG bits were
-> already set during realize()).
+> -        free(cdat->buf);
+> +        g_free(cdat->buf);
+>      }
+>  }
 
-And again wrong :D this change is being done in this patch, precisely to avoid
-overwriting write_misa(), as the commit msg stated itself.
-
-I'll just re-send the patch with a better commit msg and stop talking.
-
-
-
-Daniel
-
-> 
-> And in fact the code in this patch is also correct. The problem here is that the commit
-> message wasn't updated with the current code state in riscv-to-apply.next and it's
-> making false assumptions. The code is fine, the commit message isn't.
-> 
-> I apologize for the confusion. I'll re-send with a proper commit message this time.
-> 
-> 
-> 
-> Daniel
-> 
-> 
->>
->>
->>>
->>> Alistair
->>>
->>>>
->>>> - handle RVF and MSTATUS_FS and continue as usual.
->>>>
->>>> Let's keep write_misa() as experimental for now until this logic gains
->>>> enough mileage.
->>>>
->>>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->>>> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
->>>> ---
->>>>   target/riscv/cpu.c |  4 ++--
->>>>   target/riscv/cpu.h |  1 +
->>>>   target/riscv/csr.c | 47 ++++++++++++++++++++--------------------------
->>>>   3 files changed, 23 insertions(+), 29 deletions(-)
->>>>
->>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->>>> index 7d407321aa..4fa720a39d 100644
->>>> --- a/target/riscv/cpu.c
->>>> +++ b/target/riscv/cpu.c
->>>> @@ -944,7 +944,7 @@ static void riscv_cpu_validate_misa_mxl(RISCVCPU *cpu, Error **errp)
->>>>    * Check consistency between chosen extensions while setting
->>>>    * cpu->cfg accordingly.
->>>>    */
->>>> -static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
->>>> +void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
->>>>   {
->>>>       CPURISCVState *env = &cpu->env;
->>>>       Error *local_err = NULL;
->>>> @@ -960,7 +960,7 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
->>>>           cpu->cfg.ext_ifencei = true;
->>>>
->>>>           env->misa_ext |= RVI | RVM | RVA | RVF | RVD;
->>>> -        env->misa_ext_mask = env->misa_ext;
->>>> +        env->misa_ext_mask |= RVI | RVM | RVA | RVF | RVD;
->>>>       }
->>>>
->>>>       if (riscv_has_ext(env, RVI) && riscv_has_ext(env, RVE)) {
->>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>>> index 15423585d0..1f39edc687 100644
->>>> --- a/target/riscv/cpu.h
->>>> +++ b/target/riscv/cpu.h
->>>> @@ -548,6 +548,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->>>>                           bool probe, uintptr_t retaddr);
->>>>   char *riscv_isa_string(RISCVCPU *cpu);
->>>>   void riscv_cpu_list(void);
->>>> +void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp);
->>>>
->>>>   #define cpu_list riscv_cpu_list
->>>>   #define cpu_mmu_index riscv_cpu_mmu_index
->>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>> index 865ee9efda..d449da2657 100644
->>>> --- a/target/riscv/csr.c
->>>> +++ b/target/riscv/csr.c
->>>> @@ -1387,39 +1387,18 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
->>>>   static RISCVException write_misa(CPURISCVState *env, int csrno,
->>>>                                    target_ulong val)
->>>>   {
->>>> +    RISCVCPU *cpu = env_archcpu(env);
->>>> +    uint32_t orig_misa_ext = env->misa_ext;
->>>> +    Error *local_err = NULL;
->>>> +
->>>>       if (!riscv_cpu_cfg(env)->misa_w) {
->>>>           /* drop write to misa */
->>>>           return RISCV_EXCP_NONE;
->>>>       }
->>>>
->>>> -    /* 'I' or 'E' must be present */
->>>> -    if (!(val & (RVI | RVE))) {
->>>> -        /* It is not, drop write to misa */
->>>> -        return RISCV_EXCP_NONE;
->>>> -    }
->>>> -
->>>> -    /* 'E' excludes all other extensions */
->>>> -    if (val & RVE) {
->>>> -        /*
->>>> -         * when we support 'E' we can do "val = RVE;" however
->>>> -         * for now we just drop writes if 'E' is present.
->>>> -         */
->>>> -        return RISCV_EXCP_NONE;
->>>> -    }
->>>> -
->>>> -    /*
->>>> -     * misa.MXL writes are not supported by QEMU.
->>>> -     * Drop writes to those bits.
->>>> -     */
->>>> -
->>>>       /* Mask extensions that are not supported by this hart */
->>>>       val &= env->misa_ext_mask;
->>>>
->>>> -    /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
->>>> -    if ((val & RVD) && !(val & RVF)) {
->>>> -        val &= ~RVD;
->>>> -    }
->>>> -
->>>>       /*
->>>>        * Suppress 'C' if next instruction is not aligned
->>>>        * TODO: this should check next_pc
->>>> @@ -1428,18 +1407,32 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
->>>>           val &= ~RVC;
->>>>       }
->>>>
->>>> +    /* Disable RVG if any of its dependencies are disabled */
->>>> +    if (!(val & RVI && val & RVM && val & RVA &&
->>>> +          val & RVF && val & RVD)) {
->>>> +        val &= ~RVG;
->>>> +    }
->>>> +
->>>>       /* If nothing changed, do nothing. */
->>>>       if (val == env->misa_ext) {
->>>>           return RISCV_EXCP_NONE;
->>>>       }
->>>>
->>>> -    if (!(val & RVF)) {
->>>> +    env->misa_ext = val;
->>>> +    riscv_cpu_validate_set_extensions(cpu, &local_err);
->>>> +    if (local_err != NULL) {
->>>> +        /* Rollback on validation error */
->>>> +        env->misa_ext = orig_misa_ext;
->>
->>
->> In this rollback we're not restoring the original env->misa_ext_mask.
->>
->> I think that a better alternative, instead of rolling back misa_ext_mask in
->> write_misa(), is to pass a flag to validate_set_extensions() to allow us to
->> change misa_ext_mask only during realize() time.
->>
->> I'll make this change and re-send. Thanks,
->>
->>
->> Daniel
->>
->>>> +
->>>> +        return RISCV_EXCP_NONE;
->>>> +    }
->>>> +
->>>> +    if (!(env->misa_ext & RVF)) {
->>>>           env->mstatus &= ~MSTATUS_FS;
->>>>       }
->>>>
->>>>       /* flush translation cache */
->>>>       tb_flush(env_cpu(env));
->>>> -    env->misa_ext = val;
->>>>       env->xl = riscv_cpu_mxl(env);
->>>>       return RISCV_EXCP_NONE;
->>>>   }
->>>> -- 
->>>> 2.40.0
->>>>
->>>>
 
