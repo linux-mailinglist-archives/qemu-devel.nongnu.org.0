@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0DA6EB079
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 19:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982A06EB07F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 19:22:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppuQg-0002Nq-Sk; Fri, 21 Apr 2023 13:20:14 -0400
+	id 1ppuSf-0003TF-GL; Fri, 21 Apr 2023 13:22:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ppuQe-0002NW-L2
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:20:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ppuQc-00011C-M8
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:20:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682097608;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wp2AZGlzQDlNpv5rZLbqYS2uf1vrENwJqARxY9V8jc0=;
- b=U1m+BXsWM+BXhGrqjFYRGfM0yAMBOWYSzhWHltVDi0arlJBA4hkRw4ukVOvMF4IkQgFyqa
- wDhgvx5/jpx8EfnwEib0doJdHAlRb0nbbjJQTiT0n2+yV1+ujlj2KdfLermEfQjsNQIs70
- WNa0P3B5n+hilisOHjUw5ZnvXV9Nkc8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-416-H_GaJohKPL-zhO9yw9GYow-1; Fri, 21 Apr 2023 13:20:06 -0400
-X-MC-Unique: H_GaJohKPL-zhO9yw9GYow-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17B2B2807D6C;
- Fri, 21 Apr 2023 17:20:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4ABDC492C13;
- Fri, 21 Apr 2023 17:20:05 +0000 (UTC)
-Date: Fri, 21 Apr 2023 18:20:03 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH 2/2] tests/qtest: make more migration pre-copy scenarios
- run non-live
-Message-ID: <ZELFw4PybPB9xpBX@redhat.com>
-References: <20230418133100.48799-1-berrange@redhat.com>
- <20230418133100.48799-3-berrange@redhat.com>
- <87cz41ynlr.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppuSd-0003Sz-Tb
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:22:15 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppuSc-00017a-5a
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:22:15 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f086770a50so14028055e9.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 10:22:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682097731; x=1684689731;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qYc2MnajnD23gCEOxF7gDUpzVQ9zp1bnA035FX24Hnw=;
+ b=Vd+uuN9tJ5TQCNLv4yL/2SoiqO/4bnyf4VVlfcNVXSM1Q1gV/ujBWW5lVXPDbCu66S
+ 5GfnXpDgIQPBAjcWob3HtrobYCfWZbnZ8MB0LnYJKYY6BXJoopdO42woFLKyEy/gEShH
+ DtN8Cx7w/60RrUdOXNLG3kTG70yvO6k4ZWCQ2AHC6Tw1W8N3qzOpUAVfvFrPSLdrCdY/
+ gPRVmnMHkNVVvrOJqRSVsUoREtkASezqHRiBNlkk38iHMjWYAI+9cbo4L9Q8J2ftuGY4
+ zERh6Lk5zf4d5AL6rYANOhRnFV+a05JVKmgf7s2uLtSaca2qZEIHcyo1wffy3DxgGgB9
+ 8e9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682097731; x=1684689731;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=qYc2MnajnD23gCEOxF7gDUpzVQ9zp1bnA035FX24Hnw=;
+ b=h+vu2Pm6i33M2v/7ZR6pLcZArwtrOQn1WAS2xsiOnFmSf7HUlxiBZhNKKIYnVO6G6u
+ x9VBZpFjdn+wtKvrYmp3353Dhv52idFlF9yiIgZOyDhwnRTElNMNnaJkgWV7dWXuFnS3
+ RiDN2UH/s2zQN1PFMv+KVwgq9VONENNx0NXaeZR5Ftf5t5e2Oi13ZEeAjVaedBTdjSsQ
+ /zxpmxNxBwOheRY7XtzqAK644rOGYLnUdg9vye/xnHur7sIEafCf6o6akaaWo3Rwvupt
+ Z45opUlx9EkxeLRMlynimhqnpshPa7Rj0AjbMi+vzgj9TTaKx4h9SVWgCRa7iSXdVxc4
+ t7Hg==
+X-Gm-Message-State: AAQBX9fVo4AQaRIb+QzGNn4h8QPRwMaZUUfMPdb3ZVWIHpEIypc7f/zj
+ fT+K823p6tN266DfhtGYYHeCOA==
+X-Google-Smtp-Source: AKy350Y+rCO82sBcE7q0hHihKm+R42rRG5b0qK5ZHyX1gAhouYNUj0YfbKTtDPx5pxQyquqjrsfIrg==
+X-Received: by 2002:a05:600c:2059:b0:3f1:73c5:66db with SMTP id
+ p25-20020a05600c205900b003f173c566dbmr2352131wmg.20.1682097730824; 
+ Fri, 21 Apr 2023 10:22:10 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ q16-20020a7bce90000000b003f09d7b6e20sm5452649wmj.2.2023.04.21.10.22.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Apr 2023 10:22:10 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DE1961FFB7;
+ Fri, 21 Apr 2023 18:22:09 +0100 (BST)
+References: <20230421052255.5603-1-krm.taha@outlook.com>
+ <20230421052255.5603-2-krm.taha@outlook.com> <ZEI4jQvHfU+JGFH9@redhat.com>
+ <CAHNti2dQnbmAO5hTyb6krd8tSMCqXDp80BEcd0ZUHXmk0LZS-w@mail.gmail.com>
+User-agent: mu4e 1.11.2; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Karim Taha <kariem.taha2.7@gmail.com>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Warner Losh
+ <imp@bsdimp.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 01/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
+Date: Fri, 21 Apr 2023 18:21:03 +0100
+In-reply-to: <CAHNti2dQnbmAO5hTyb6krd8tSMCqXDp80BEcd0ZUHXmk0LZS-w@mail.gmail.com>
+Message-ID: <87sfct9mm6.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87cz41ynlr.fsf@suse.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,69 +95,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 04:52:32PM -0300, Fabiano Rosas wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > There are 27 pre-copy live migration scenarios being tested. In all of
-> > these we force non-convergance and run for one iteration, then let it
-> > converge and wait for completion during the second (or following)
-> > iterations. At 3 mbps bandwidth limit the first iteration takes a very
-> > long time (~30 seconds).
-> >
-> > While it is important to test the migration passes and convergance
-> > logic, it is overkill to do this for all 27 pre-copy scenarios. The
-> > TLS migration scenarios in particular are merely exercising different
-> > code paths during connection establishment.
-> >
-> > To optimize time taken, switch most of the test scenarios to run
-> > non-live (ie guest CPUs paused) with no bandwidth limits. This gives
-> > a massive speed up for most of the test scenarios.
-> >
-> > For test coverage the following scenarios are unchanged
-> >
-> >  * Precopy with UNIX sockets
-> >  * Precopy with UNIX sockets and dirty ring tracking
-> >  * Precopy with XBZRLE
-> >  * Precopy with multifd
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> ...
-> 
-> > -        qtest_qmp_eventwait(to, "RESUME");
-> > +        if (!args->live) {
-> > +            qtest_qmp_discard_response(to, "{ 'execute' : 'cont'}");
-> > +        }
-> > +        if (!got_resume) {
-> > +            qtest_qmp_eventwait(to, "RESUME");
-> > +        }
-> 
-> Hi Daniel,
-> 
-> On an aarch64 host I'm sometimes (~30%) seeing a hang here on a TLS test:
-> 
-> ../configure --target-list=aarch64-softmmu --enable-gnutls
-> 
-> ... ./tests/qtest/migration-test --tap -k -p /aarch64/migration/precopy/tcp/tls/psk/match
 
-I never came to a satisfactory understanding of why this problem hits
-you. I've just sent out a new version of this series, which has quite
-a few differences, so possibly I've fixed it by luck.
+Karim Taha <kariem.taha2.7@gmail.com> writes:
 
-So if you have time, I'd appreciate any testing you can try on
+> On Fri, Apr 21, 2023 at 9:17=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange=
+@redhat.com> wrote:
+>
+>  On Fri, Apr 21, 2023 at 07:22:45AM +0200, Karim Taha wrote:
+>  > From: Warner Losh <imp@bsdimp.com>
+>  >=20
+>  > Allow guest_base to be initialized on 64-bit hosts, the initial value =
+is used by g2h_untagged function
+>  defined in include/exec/cpu_ldst.h
+>
+>  This commit message is all incorrectly structured I'm afraid.
+>
+>  There needs to a short 1 line summary, then a blank line,
+>  then the full commit description text, then a blank line,
+>  then the Signed-off-by tag(s).
+>
+>  Also if you're sending work done by Warner (as the From
+>  tag suggests), then we would expect to see Warner's own
+>  Signed-off-by tag, in addition to your own Signed-off-by.
+<snip>
+>
+> Alright, thanks for the commit formatting tips, I resent the patch series=
+, with my signed off by tag and the
+> author signed off by tags as well.
 
-  https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg03688.html
+Hmm something has gone wrong. Was this sent with a plain git-send-email
+or using a tool like git-publish?
+
+Can you point to a branch?
+
+>
+> Best regards,
+> Karim
 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
