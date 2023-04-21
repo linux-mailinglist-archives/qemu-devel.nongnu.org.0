@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C89F6EAFD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 18:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9B56EB05F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 19:16:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppu4F-0008FS-6X; Fri, 21 Apr 2023 12:57:03 -0400
+	id 1ppuLc-0004Bg-Rw; Fri, 21 Apr 2023 13:15:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kariem.taha2.7@gmail.com>)
- id 1ppu4D-0008FH-9z
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:57:01 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kariem.taha2.7@gmail.com>)
- id 1ppu4B-0005TI-Bg
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:57:01 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1a526aa3dd5so26748495ad.3
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 09:56:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682096218; x=1684688218;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7Z+qgoE7Tm3AlY894cbgGHbLWLegepqtxG8QUEyMAwM=;
- b=OGbqMaAjBB3KVotQqMSkHhEst0vVuNiaYgdCN2sZSu8vsU4nl3SMCCa9O59h1/WBqS
- QoYlpyzD+NVdoEFWQ0svvd84wqFEkfHkFSTzW/zwhCqEP0CpRhjzRdmS+VWZBoEMakdA
- gEeh5Y/qnv+Wd84tGrOBy/6+VLPuHWAk+2rFAGu9GGamx9m3v5GHccbedU4As2LSsBBH
- w1whRePlIsxiF+h/ys2OeMOXhH1ah9oa9Q5RUNkb/Z39AZOeG9iqkAc0oUH/pH1vqUHO
- VDayGtow2Iv5zobSO9tQP3w3E8mqqiD8spGpQTeLsGIoA4QI+3d0NXc6hLApdh2ndPzR
- NBIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682096218; x=1684688218;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7Z+qgoE7Tm3AlY894cbgGHbLWLegepqtxG8QUEyMAwM=;
- b=KHu2Yo3I6XKD+KTKzf3OFPxvFwdpQpOTpO5Q1t/uPMsdkJkUyU8LKA5yQEZuNzVGen
- BXSpCtBSQvADFnlHe0lXYKYIUm37S06smFSIrOH9RcBbEajkHZDzmj+FnDH7Y+TSLzYR
- dtBVMgxV0Q5RawJPMwE08EMdTvLE+KpTbkvdWIHEKMWMJSWwtw27iOjpXTs2K79i6rwJ
- XdjsnaZkK48jc/iyp0j5YDvVGgpWb0Z91p0G2DcAlwdpqU4MLO8vJJ0UWc5RoVLTy4go
- VgI32KIF2XI+tNz69QV+KAXi3qWBABkWUdjmT3MJfPAd+YN8nWFmYSoiIMvEqD0j7fMO
- yggA==
-X-Gm-Message-State: AAQBX9exCHGMxkb2Fx2CXMvoDeWd4l+9ojPfriB4udiCOWcxqnFb/xc0
- EurCcToJ6rpg9QVrCIE50+WNE4cmlMhFtOXK8x4=
-X-Google-Smtp-Source: AKy350ZeEYNdLaLQcLKB7Et/vhdxoNK5TAA9W9u2ccdYJH6OjaS+QtphT805a1GNUPTGMjX/wMincRAq85bvLHtTANc=
-X-Received: by 2002:a17:902:e5d1:b0:1a1:e237:5f0 with SMTP id
- u17-20020a170902e5d100b001a1e23705f0mr6820412plf.58.1682096217526; Fri, 21
- Apr 2023 09:56:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ppuLW-000496-VH
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:14:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ppuLL-0008F5-T2
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:14:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682097277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+NiFH0+mfBubvQ0cDBRcC1ezUPiTwttdCTy/N80ny3g=;
+ b=VdL7sPQTuY/LyWtjo8UPVVLdLeYAEix8IPeprbZK6GZXRpKaUlhnT+A7U9OxB7oFSBzRGp
+ LtCdfvSfeIMpGhSPK/H+SJBA/+9i5cXEJ1QGEgYYXwZgR3Dofc0dQSQiIxkJe0EYqzVA54
+ CbiCmJoiXcgMmdQGFOU0R8naPzIlfBg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-17-mMVdd-TEM7qZs6bzqik8ag-1; Fri, 21 Apr 2023 13:14:33 -0400
+X-MC-Unique: mMVdd-TEM7qZs6bzqik8ag-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 45AA485A5B1;
+ Fri, 21 Apr 2023 17:14:33 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.42.28.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8524E492C13;
+ Fri, 21 Apr 2023 17:14:12 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Li Zhijian <lizhijian@fujitsu.com>, Juan Quintela <quintela@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH v2 0/6] tests/qtest: make migration-test massively faster
+Date: Fri, 21 Apr 2023 18:14:05 +0100
+Message-Id: <20230421171411.566300-1-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20230421052255.5603-1-krm.taha@outlook.com>
- <20230421052255.5603-2-krm.taha@outlook.com>
- <ZEI4jQvHfU+JGFH9@redhat.com>
-In-Reply-To: <ZEI4jQvHfU+JGFH9@redhat.com>
-From: Karim Taha <kariem.taha2.7@gmail.com>
-Date: Fri, 21 Apr 2023 18:56:28 +0200
-Message-ID: <CAHNti2dQnbmAO5hTyb6krd8tSMCqXDp80BEcd0ZUHXmk0LZS-w@mail.gmail.com>
-Subject: Re: [PATCH 01/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>
-Content-Type: multipart/alternative; boundary="000000000000861a0505f9db8b43"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=kariem.taha2.7@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,177 +80,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000861a0505f9db8b43
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This makes migration-test faster by observing that most of the pre-copy
+tests don't need to be doing a live migration. They get sufficient code
+coverage with the guest CPUs paused.
 
-On Fri, Apr 21, 2023 at 9:17=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@r=
-edhat.com>
-wrote:
+On my machine this cuts the overall execution time of migration-test
+by 50% from 15 minutes, down to 8 minutes, without sacrificing any
+noticeable code coverage.
 
-> On Fri, Apr 21, 2023 at 07:22:45AM +0200, Karim Taha wrote:
-> > From: Warner Losh <imp@bsdimp.com>
-> >
-> > Allow guest_base to be initialized on 64-bit hosts, the initial value i=
-s
-> used by g2h_untagged function defined in include/exec/cpu_ldst.h
->
-> This commit message is all incorrectly structured I'm afraid.
->
-> There needs to a short 1 line summary, then a blank line,
-> then the full commit description text, then a blank line,
-> then the Signed-off-by tag(s).
->
-> Also if you're sending work done by Warner (as the From
-> tag suggests), then we would expect to see Warner's own
-> Signed-off-by tag, in addition to your own Signed-off-by.
->
-> > ---
-> >  bsd-user/main.c | 16 +++++++++++++++-
-> >  1 file changed, 15 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/bsd-user/main.c b/bsd-user/main.c
-> > index babc3b009b..afdc1b5f3c 100644
-> > --- a/bsd-user/main.c
-> > +++ b/bsd-user/main.c
-> > @@ -50,8 +50,22 @@
-> >  #include "target_arch_cpu.h"
-> >
-> >  int singlestep;
-> > -uintptr_t guest_base;
-> > +
-> > +/*
-> > + * Going hand in hand with the va space needed (see below), we need
-> > + * to find a host address to map the guest to. Assume that qemu
-> > + * itself doesn't need memory above 32GB (or that we don't collide
-> > + * with anything interesting). This is selected rather arbitrarily,
-> > + * but seems to produce good results in tests to date.
-> > + */
-> > +# if HOST_LONG_BITS >=3D 64
-> > +uintptr_t guest_base =3D 0x800000000ul;    /* at 32GB */
-> > +bool have_guest_base =3D true;
-> > +#else
-> > +uintptr_t guest_base;    /* TODO: use sysctl to find big enough hole *=
-/
-> >  bool have_guest_base;
-> > +#endif
-> > +
-> >  /*
-> >   * When running 32-on-64 we should make sure we can fit all of the
-> possible
-> >   * guest address space into a contiguous chunk of virtual host memory.
-> > --
-> > 2.40.0
-> >
-> >
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
-Alright, thanks for the commit formatting tips, I resent the patch series,
-with my signed off by tag and the author signed off by tags as well.
+This is still quite slow though.
 
-Best regards,
-Karim
+The tests which do still run in live mode all want to guarantee there
+are at least 2 iterations of migration, to exercise the dirty page
+handling code. This is achieved by running the 1 iteration with an
+incredibly small bandwidth and max downtime to prevent convergance,
+and watching query-migrate for the reported iteration to increment.
+This guarantees that all the tests take at least 30 seconds to run.
 
---000000000000861a0505f9db8b43
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Watching for the iteration counter to flip is inefficient and not
+actually needed. Instead we merely need to prove that some amount
+of already transferred data has been made dirty again. This in turn
+will guarantee that a further iteration is required beyond the current
+one. This proof is easy to achieve by monitoring the values at two
+distinct addresses in guest RAM, and can cut the 30 second duration
+down to 1 second.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 21, 2023 at 9:17=E2=80=AF=
-AM Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berra=
-nge@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">On Fri, Apr 21, 2023 at 07:22:45AM +0200, Karim Taha wrote:<b=
-r>
-&gt; From: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_bla=
-nk">imp@bsdimp.com</a>&gt;<br>
-&gt; <br>
-&gt; Allow guest_base to be initialized on 64-bit hosts, the initial value =
-is used by g2h_untagged function defined in include/exec/cpu_ldst.h<br>
-<br>
-This commit message is all incorrectly structured I&#39;m afraid.<br>
-<br>
-There needs to a short 1 line summary, then a blank line,<br>
-then the full commit description text, then a blank line,<br>
-then the Signed-off-by tag(s).<br>
-<br>
-Also if you&#39;re sending work done by Warner (as the From<br>
-tag suggests), then we would expect to see Warner&#39;s own<br>
-Signed-off-by tag, in addition to your own Signed-off-by.<br>
-<br>
-&gt; ---<br>
-&gt;=C2=A0 bsd-user/main.c | 16 +++++++++++++++-<br>
-&gt;=C2=A0 1 file changed, 15 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/bsd-user/main.c b/bsd-user/main.c<br>
-&gt; index babc3b009b..afdc1b5f3c 100644<br>
-&gt; --- a/bsd-user/main.c<br>
-&gt; +++ b/bsd-user/main.c<br>
-&gt; @@ -50,8 +50,22 @@<br>
-&gt;=C2=A0 #include &quot;target_arch_cpu.h&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 int singlestep;<br>
-&gt; -uintptr_t guest_base;<br>
-&gt; +<br>
-&gt; +/*<br>
-&gt; + * Going hand in hand with the va space needed (see below), we need<b=
-r>
-&gt; + * to find a host address to map the guest to. Assume that qemu<br>
-&gt; + * itself doesn&#39;t need memory above 32GB (or that we don&#39;t co=
-llide<br>
-&gt; + * with anything interesting). This is selected rather arbitrarily,<b=
-r>
-&gt; + * but seems to produce good results in tests to date.<br>
-&gt; + */<br>
-&gt; +# if HOST_LONG_BITS &gt;=3D 64<br>
-&gt; +uintptr_t guest_base =3D 0x800000000ul;=C2=A0 =C2=A0 /* at 32GB */<br=
->
-&gt; +bool have_guest_base =3D true;<br>
-&gt; +#else<br>
-&gt; +uintptr_t guest_base;=C2=A0 =C2=A0 /* TODO: use sysctl to find big en=
-ough hole */<br>
-&gt;=C2=A0 bool have_guest_base;<br>
-&gt; +#endif<br>
-&gt; +<br>
-&gt;=C2=A0 /*<br>
-&gt;=C2=A0 =C2=A0* When running 32-on-64 we should make sure we can fit all=
- of the possible<br>
-&gt;=C2=A0 =C2=A0* guest address space into a contiguous chunk of virtual h=
-ost memory.<br>
-&gt; -- <br>
-&gt; 2.40.0<br>
-&gt; <br>
-&gt; <br>
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br></blockquote><div><br></div><div>Alright, thanks for the commit formatt=
-ing tips, I resent the patch series, with my signed off by tag and the auth=
-or signed off by tags as well.=C2=A0</div><div><br></div><div>Best regards,=
-</div><div>Karim</div></div></div>
+After this optimization, and Juan's patch to disable autoconverge
+testnig, the migration test runs in merely 1 minute which I think
+it pretty impressive given the number of scenarios we're testing.
 
---000000000000861a0505f9db8b43--
+Daniel P. Berrangé (5):
+  tests/qtest: replace qmp_discard_response with
+    qtest_qmp_assert_success
+  tests/qtests: remove migration test iterations config
+  tests/qtest: capture RESUME events during migration
+  tests/qtest: make more migration pre-copy scenarios run non-live
+  tests/qtest: massively speed up migration-tet
+
+Juan Quintela (1):
+  tests/migration: Only run auto_converge in slow mode
+
+ tests/qtest/ahci-test.c              |  31 ++--
+ tests/qtest/boot-order-test.c        |   5 +-
+ tests/qtest/fdc-test.c               |  15 +-
+ tests/qtest/ide-test.c               |   5 +-
+ tests/qtest/migration-helpers.c      |  12 +-
+ tests/qtest/migration-helpers.h      |   1 +
+ tests/qtest/migration-test.c         | 252 +++++++++++++++++++--------
+ tests/qtest/test-filter-mirror.c     |   5 +-
+ tests/qtest/test-filter-redirector.c |   7 +-
+ tests/qtest/virtio-blk-test.c        |  24 +--
+ 10 files changed, 227 insertions(+), 130 deletions(-)
+
+-- 
+2.40.0
+
 
