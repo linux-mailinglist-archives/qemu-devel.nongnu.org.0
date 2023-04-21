@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5226EA345
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 07:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE44A6EA36A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:04:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppjV4-0007Mm-C4; Fri, 21 Apr 2023 01:40:02 -0400
+	id 1ppjrO-0005o1-53; Fri, 21 Apr 2023 02:03:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ppjUy-0007MV-CV
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 01:39:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ppjUw-0004TB-3X
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 01:39:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682055591;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a44l6hTEdflS+C4yNr+KJLVyFAATik9ivkjWBIP+qYc=;
- b=clNqlhgrI6thqEON1KOCLMnMsgFE2Fjp8Vl8QBU5EtzZ77QcsuI8NVv7KUI3Tg+vXmOVmc
- sxsOFxCHADeS6DoAvPKlmcdnm/7xNVFegIFc4BrJqQvCHTn4s41kwjUG3SBq86q3tYN8e/
- Hx+XawYAmIg25kZo42kT26hS+09qBeI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-101-YUxefSwMOBuMYKJZB2G54A-1; Fri, 21 Apr 2023 01:39:49 -0400
-X-MC-Unique: YUxefSwMOBuMYKJZB2G54A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f1754de18cso8096185e9.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 22:39:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppjr6-0005ni-QZ
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:02:50 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppjr5-0008JC-2b
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:02:48 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f17e5fe8bbso13917975e9.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:02:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682056963; x=1684648963;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ra40AOHZGkQL8lSsV7oSRIbJxRHun5b2eVlsD+9dNGc=;
+ b=VDkUfK78gAYmvtsqiKrEexzoBmc3DHQ5i30A8IIcFyD8q87WXc8hFgn+ToL2kL6ygH
+ W6EfEZNQvRNTXnVHGJqaCdDWNlAvohiurglp/jdYdB/Ntp5VJDlYxoATFGt1epvrGMpb
+ 7F/iDsqjZoEcaLiLO3vLJ3FeuHEgTzI+XkiuyeZ2zBvTn0/SUTe0dsy7mS/nAnerq+pD
+ 8p3QZbYGQdZJcnkMDNkEnVPrp0lis5MnTij1OzXM1LeNARJzpkjfM7eSSwhwwExvlCwS
+ m//4Wv6Gera4ZkTiKPrEjS2b7fCb5xzuQ04GknfdYLPaHllevEMuKd/7MlTA1wKUQ0Zm
+ zTYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682055588; x=1684647588;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20221208; t=1682056963; x=1684648963;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a44l6hTEdflS+C4yNr+KJLVyFAATik9ivkjWBIP+qYc=;
- b=Zto1ONmk/2RjSeZRzTTHp+JGLhlri8fgz2n4p3fhQhj/v313OrYUdBMMVLYW4TKiwl
- AvGMkqPMYLfl+FF7mAGTM5QWaNlsvf80HuqgIGIyJJbd2t+tszFbMtWfcfiLmQ85pJ09
- zTSlXEwSogl0vtmIZY8RLcaAg5zoed1tLlWvDzhz7wY3DIXia/C9W7glEnb9rmpoI/gg
- a4yMS4Ziu6pxTgy23KuqYozkBZkD7W8rmKebhc8f74N3BDwk6KIGagKOUb9o9el2rM3g
- SzdlPU/08g+2uKyCcmCOSo0Sx5v1MfNO+CQ6QDvfpYnZbKBOwQlY/GBH/0bf6IyxmsJ0
- 3a6w==
-X-Gm-Message-State: AAQBX9dFQFIk56IBm2881dRVC/mSlDLWZK6Z2pQmgHkC80Oq6rKtVwy7
- d/fT6LNh8uCH3KZnc2xqllq6zy/eIBS1aXX3WPwllzW7Bm0aHVESsu810J0spz84oAhCVf/TZNB
- nZOWR30LzRYg7FpulWPrfDQ30qy0c
-X-Received: by 2002:a7b:ca4a:0:b0:3f1:72ec:4015 with SMTP id
- m10-20020a7bca4a000000b003f172ec4015mr850713wml.13.1682055588014; 
- Thu, 20 Apr 2023 22:39:48 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aCromz1rJc7KmYxcuyi7q1zAoxFjK53pNdbRbp9Dglb9og4uPjHLK1jtt+q2HOAGk4Fpwhog==
-X-Received: by 2002:a7b:ca4a:0:b0:3f1:72ec:4015 with SMTP id
- m10-20020a7bca4a000000b003f172ec4015mr850702wml.13.1682055587685; 
- Thu, 20 Apr 2023 22:39:47 -0700 (PDT)
-Received: from redhat.com ([2.55.17.255]) by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c4f4600b003ee5fa61f45sm7248502wmq.3.2023.04.20.22.39.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 22:39:47 -0700 (PDT)
-Date: Fri, 21 Apr 2023 01:39:44 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>
-Subject: Re: [PATCH] vhost-user: send SET_STATUS 0 after GET_VRING_BASE
-Message-ID: <20230421013936-mutt-send-email-mst@kernel.org>
-References: <20230420130706.541219-1-stefanha@redhat.com>
+ bh=ra40AOHZGkQL8lSsV7oSRIbJxRHun5b2eVlsD+9dNGc=;
+ b=bcFMP/knBvDaMJjWqJSBiCHEAvld+RtwXVS0xuu+kAZyC24IYi9M257DIkiZBJ0IAm
+ O+zHZGfwiyxRYkJcq9p6HYO3irHXAiuYG13Ri8m6e/ulRvniXoSUXT/MCj1F4S+M/MeX
+ iUxXEn97wPrj95l3ekxm0Oj+qC/Hru3PCc+CnnPGNIhGgJtRwK9ND0AkoezLRaNqt2Z7
+ fBgDfuNOhWaFcXh26MdDXK2SIzd9U0F8CC1htNmkhIdBVxCGGkMgqjVoOhAwij2eW6Zh
+ gLvMKKv3J4lw7e0H6NZ8+41BEI+UaW0TnZDlDOwh4H435YYPvdJuwi7WWaAHs+PcyZ89
+ 9+jQ==
+X-Gm-Message-State: AAQBX9cffzb9fwVdJCvguIeslriXa2VYJ1oRUF4uzmUJqXIS54onUko2
+ cwNIs9BGsWwHcGHFK9rnC0TrJA==
+X-Google-Smtp-Source: AKy350b9ZG5k5gWkIdhO+sOxkfzHqGlS0/MXyUT9wFHhcrBIhDq5yTpzCbCzeWS+Yf1UtuDjqrjLHg==
+X-Received: by 2002:a05:600c:d6:b0:3f1:75b0:dc47 with SMTP id
+ u22-20020a05600c00d600b003f175b0dc47mr872417wmm.15.1682056963430; 
+ Thu, 20 Apr 2023 23:02:43 -0700 (PDT)
+Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
+ [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
+ f4-20020a0560001b0400b002ffbf2213d4sm3597967wrz.75.2023.04.20.23.02.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 23:02:43 -0700 (PDT)
+Message-ID: <bea4b7b0-8654-bf3c-df72-dd8323c38430@linaro.org>
+Date: Fri, 21 Apr 2023 08:02:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v4 2/2] tests/avocado/tuxrun_baselines.py: improve code
+ coverage for ppc64
+To: Kautuk Consul <kconsul@linux.vnet.ibm.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20230421042322.684093-1-kconsul@linux.vnet.ibm.com>
+ <20230421042322.684093-3-kconsul@linux.vnet.ibm.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230421042322.684093-3-kconsul@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230420130706.541219-1-stefanha@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,67 +98,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 20, 2023 at 09:07:06AM -0400, Stefan Hajnoczi wrote:
-> Setting the VIRTIO Device Status Field to 0 resets the device. The
-> device's state is lost, including the vring configuration.
+On 21/4/23 06:23, Kautuk Consul wrote:
+> Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
+> boot_linux.py test-case due to which the code coverage for ppc
+> decreased by around 2%. As per the discussion on
+> https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
+> was mentioned that the baseline test for ppc64 could be modified
+> to make up this 2% code coverage. This patch attempts to achieve
+> this 2% code coverage by adding various device command line
+> arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
+> test-case.
 > 
-> vhost-user.c currently sends SET_STATUS 0 before GET_VRING_BASE. This
-> risks confusion about the lifetime of the vhost-user state (e.g. vring
-> last_avail_idx) across VIRTIO device reset.
+> The code coverage report with boot_linux.py, without it and finally
+> with these tuxrun_baselines.py changes is as follows:
 > 
-> Eugenio P�rez <eperezma@redhat.com> adjusted the order for vhost-vdpa.c
-> in commit c3716f260bff ("vdpa: move vhost reset after get vring base")
-> and in that commit description suggested doing the same for vhost-user
-> in the future.
+> With boot_linux.py
+> ------------------
+>    lines......: 13.8% (58006 of 420997 lines)
+>    functions..: 20.7% (7675 of 36993 functions)
+>    branches...: 9.2% (22146 of 240611 branches)
+> Without boot_linux.py (without this patch changes)
+> --------------------------------------------------
+>    lines......: 11.9% (50174 of 420997 lines)
+>    functions..: 18.8% (6947 of 36993 functions)
+>    branches...: 7.4% (17580 of 239017 branches)
+> Without boot_linux.py (with this patch changes)
+> -----------------------------------------------
+>    lines......: 13.8% (58287 of 420997 lines)
+>    functions..: 20.7% (7640 of 36993 functions)
+>    branches...: 8.4% (20223 of 240611 branches)
 > 
-> Go ahead and adjust vhost-user.c now. I ran various online code searches
-> to identify vhost-user backends implementing SET_STATUS. It seems only
-> DPDK implements SET_STATUS and Yajun Wu <yajunw@nvidia.com> has
-> confirmed that it is safe to make this change.
-
-
-Fixes tag?
-
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Cindy Lu <lulu@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+> Reported-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  hw/virtio/vhost-user.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index e5285df4ba..2d40b1b3e7 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -2677,10 +2677,20 @@ static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
->                                            VIRTIO_CONFIG_S_DRIVER |
->                                            VIRTIO_CONFIG_S_DRIVER_OK);
->      } else {
-> -        return vhost_user_set_status(dev, 0);
-> +        return 0;
->      }
->  }
->  
-> +static void vhost_user_reset_status(struct vhost_dev *dev)
-> +{
-> +    /* Set device status only for last queue pair */
-> +    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-> +        return;
-> +    }
-> +
-> +    vhost_user_set_status(dev, 0);
-> +}
-> +
->  const VhostOps user_ops = {
->          .backend_type = VHOST_BACKEND_TYPE_USER,
->          .vhost_backend_init = vhost_user_backend_init,
-> @@ -2716,4 +2726,5 @@ const VhostOps user_ops = {
->          .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
->          .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
->          .vhost_dev_start = vhost_user_dev_start,
-> +        .vhost_reset_status = vhost_user_reset_status,
->  };
-> -- 
-> 2.39.2
+>   tests/avocado/tuxrun_baselines.py | 68 +++++++++++++++++++++++++++++--
+>   1 file changed, 64 insertions(+), 4 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
