@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66926EA39B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711336EA3A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:17:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppk3T-000512-It; Fri, 21 Apr 2023 02:15:35 -0400
+	id 1ppk4z-00070Z-TT; Fri, 21 Apr 2023 02:17:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppk3N-0004vS-NP
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:15:30 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppk4y-0006zp-0P
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:17:08 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppk3I-0001wZ-73
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:15:29 -0400
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-2f46348728eso809107f8f.3
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:15:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppk4w-00021W-Dw
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:17:07 -0400
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-2fbb99cb297so1211465f8f.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682057721; x=1684649721;
+ d=linaro.org; s=google; t=1682057825; x=1684649825;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=jBhw5+e07BV70UD2Ou3dYbxg7egkxAJFj+Mduwrt+Xc=;
- b=GaL8lsexlZ8ayy5NR5T/02B9ncvwagBg+v7hPVE3IabqjPXF7FozFZ3shZti58FXqp
- lD0GxgHjwEp6eMg9QYchYGr7NZ2yBlHvwZSQKh+ME+6bi/MH6x3kcE69vCOOft1kgLMc
- Q1zBwVJfEEs9JJjeMPaIduikXf6IUL5tw+EC6+BsEal2ZqtGVGLkRejKBMrLcxsahvVb
- ZLkNiLpsKRt0pVbyKS2Gnm/jqWVHC0WsGkjL1/uUTX9C0r/Z/CWZ2C4zNEJnyv8WeJSA
- xnh8UWUl/Jznm5PlBoxxzXEDvFMnuSLYTbnSP3wk6VX7iwjlHVVNW06VMRVF+DYSHYo7
- moZg==
+ bh=dZAouoG07rYEiITf/0M4FoJTyfaJecUXjX+wVTKhFjQ=;
+ b=gOaivThbpRspPCe0hMjRfT5HvGWSIYNEGgTo3hcQ06LOpkJd3YwiD5zFy8HSeppfB0
+ yUJ4YQWUpavY5d+tAymgSW6f4aoNJfTTOfq4CWafMpoiexf/gZJ1KGQriXlsZFRYDUM0
+ 10f646rrIB1TYSjh3M40/IhQJWGRmJg0ip6/0LdIfngTz+KV/si21qy+4Fr9NAo1VT/K
+ B2DSpkE9uwjL2h9paztY/0+EeR3BeokiDoMNbO5mCLHgtLakGY93X5kBSw2/8PAMT3lz
+ 0jQdGXVmi+Ez7eUIxOS0dMsRLOm4YjW9DY7dieRNxxOnYsdb4l80n61rhwfHfX35Rzl2
+ o5Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682057721; x=1684649721;
+ d=1e100.net; s=20221208; t=1682057825; x=1684649825;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jBhw5+e07BV70UD2Ou3dYbxg7egkxAJFj+Mduwrt+Xc=;
- b=mFFy3khE972ru+j/xvEcGXOAPEFgn+D/hcV/P+damTeZucAzP9QD/tze8UPvEXO4OO
- o36VH34vVk6SnGiOXTp/i/yykBrXw8epQLtvOVOG4fSykLkHaQlrFJwEV14upk88kVCK
- gGYss7N12e+PpB2dK1wFnvmy0CTy0wc//UMv2GbmvmX7mQD2wP05aiD4OkPM4PNd2RRq
- 8d3JmZLlWtLI4JCk0/r5bZB26xV7sQ4Dgm1xcSN82ROQa3SfbuHkXgnCEo09GsAjUJ9v
- 5ADKSFxc2hTLU2okfn1pElpqVLi5DgihRaul/2d29xp33Gs9Oplo2m0BA1QSth8dA9z9
- BJag==
-X-Gm-Message-State: AAQBX9fsaSzLlFGHvg9jOgrrKt24f5z/Qa3wDX31P2wuCyg3yUrvWttF
- GSOhGpLsf7hhcMDE5TnOUOAhtQ==
-X-Google-Smtp-Source: AKy350YksRlbN2/9wJvyBv71CCUx/5bfEtnn0IfwgbJtxnQQD8HI1caCu31u7tIrE03RCkiZdVfDaw==
-X-Received: by 2002:a05:6000:1811:b0:2f4:e0e5:aaf8 with SMTP id
- m17-20020a056000181100b002f4e0e5aaf8mr2496262wrh.68.1682057721450; 
- Thu, 20 Apr 2023 23:15:21 -0700 (PDT)
+ bh=dZAouoG07rYEiITf/0M4FoJTyfaJecUXjX+wVTKhFjQ=;
+ b=Yv5mcaUWx+AdUjLyNVfR5me4JLWM0qciAFZq+WmyLO1UDMhV6YHZ3bmfUFAMUIK883
+ a3O3Q11fTmt0MT8cA+U+uMVA95zroWc4n3oNfYTtdlbpjW+GbabA+I0Y8WDy2+XzTD+l
+ Z0sTitJoLVjbf8QiT8OBjjQCxY/mgod7ZJHz82gGaQlYLzFL8etBfNkMx2xvR92ByJg8
+ ZJRp7QhtkUkXiftz8DLYVVcq7TsXpiN6vp+PHITMaNdXzR1eUyFWLyxXq9eZqB7hi/o6
+ m1tfUIuZY1cHhOsSAvJfUQ5Mb6ksBw2oPAaFzDvuTRb37ySC43UyMdhvyalxv1GD91hS
+ eOwQ==
+X-Gm-Message-State: AAQBX9dZ/mLKOTH5EFR/re76wQGcxvj4U3hOjnq8bmcp8HTRWvhQL3BY
+ VcKk1GrWwhc8dqpfPUwnVI3Dew==
+X-Google-Smtp-Source: AKy350aM8l8mf6X8GnTxTxz55OVZVWYT4DJ1OX9FamdLkk8Q41To4n3e9qRIVtcgxyFHPkbGmtW1KQ==
+X-Received: by 2002:a5d:498c:0:b0:301:5615:26e4 with SMTP id
+ r12-20020a5d498c000000b00301561526e4mr2480271wrq.32.1682057824889; 
+ Thu, 20 Apr 2023 23:17:04 -0700 (PDT)
 Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
  [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- d9-20020adfe889000000b00303b72946b9sm877085wrm.50.2023.04.20.23.15.19
+ t15-20020adfe44f000000b002f00793bd7asm3659891wrm.27.2023.04.20.23.17.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 23:15:21 -0700 (PDT)
-Message-ID: <a6d0f507-c4df-d34e-29dd-9a058de6f23d@linaro.org>
-Date: Fri, 21 Apr 2023 08:15:17 +0200
+ Thu, 20 Apr 2023 23:17:04 -0700 (PDT)
+Message-ID: <1ce87a03-24e6-b765-1eee-4d97fddce9e0@linaro.org>
+Date: Fri, 21 Apr 2023 08:17:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 8/9] docs/devel: mention the spacing requirement for QOM
+Subject: Re: [PATCH 9/9] docs/style: call out the use of GUARD macros
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -74,14 +75,13 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Mahmoud Mandour <ma.mandourr@gmail.com>
 References: <20230420155723.1711048-1-alex.bennee@linaro.org>
- <20230420155723.1711048-9-alex.bennee@linaro.org>
- <6dcae2f9-9b0e-06a8-40fb-e4fec583e54e@ilande.co.uk>
+ <20230420155723.1711048-10-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <6dcae2f9-9b0e-06a8-40fb-e4fec583e54e@ilande.co.uk>
+In-Reply-To: <20230420155723.1711048-10-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -104,77 +104,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/4/23 21:32, Mark Cave-Ayland wrote:
-> On 20/04/2023 16:57, Alex Bennée wrote:
+On 20/4/23 17:57, Alex Bennée wrote:
+> There use makes our code safer so we should mention them.
 > 
->> We have a more complete document on QOM but we should at least mention
->> the style requirements in the style guide.
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   docs/devel/qom.rst   |  2 ++
->>   docs/devel/style.rst | 29 +++++++++++++++++++++++++++++
->>   2 files changed, 31 insertions(+)
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> A couple of points:
+> ---
+>   docs/devel/style.rst | 36 ++++++++++++++++++++++++++++++++++++
+>   1 file changed, 36 insertions(+)
 > 
-> 1) It is probably worth removing the typedefs given that they are 
-> handled by the various QOM macros
-> 
-> 2) There should be mention of the fixed names "parent_obj" and 
-> "parent_class" for
-> the first declaration.
-> 
-> How about something like this:
-> 
-> 
-> QEMU Object Model Declarations
-> ==============================
-> 
-> The QEMU Object Model (QOM) provides a framework for handling objects
-> in the base C language. The first declaration of a storage or class
-> structure should always be the parent and leave a visual space between
-
-s/should/must/
-
-> that declaration and the new code.
-> 
-> For a storage structure the first declaration should always be called
-> "parent_obj" and for a class structure the first member should always
-> be called "parent_class" as below:
-> 
-> .. code-block:: c
-> 
->      struct MyDeviceState {
->          DeviceState parent_obj;
-> 
->          /* Properties */
->          int prop_a;
->          char *prob_b;
-
-Should we mention "We recommend placing instance/class properties fields
-just after the parent field"?
-
->          /* Other stuff */
->          int internal_state;
->      };
-> 
->      struct MyDeviceClass {
->          DeviceClass parent_class;
-> 
->          void (*new_fn1)(void);
->          bool (*new_fn2)(CPUState *);
->      };
-> 
-> Note that there is no need to provide typedefs for QOM structures since 
-> these are generated automatically by the QOM declaration macros. See 
-> :ref:`qom` for more details.
-> 
-> 
-> ATB,
-> 
-> Mark.
+> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
+> index 0bd01f3fca..b50a981a86 100644
+> --- a/docs/devel/style.rst
+> +++ b/docs/devel/style.rst
+> @@ -657,6 +657,42 @@ that declaration and the new code.
+>   
+>   See :ref:`qom` for more details.
+>   
+> +QEMU GUARD macros
+> +=================
+> +
+> +QEMU provides a number of ``_GUARD`` macros intended to make the
+> +handling of multiple exit paths easier. For example using
+> +``QEMU_LOCK_GUARD`` to take a lock will ensure the lock is released on
+> +exit from the function.
+> +
+> +.. code-block:: c
+> +
+> +    static int my_critical_function(SomeState *s, void *data)
+> +    {
+> +        QEMU_LOCK_GUARD(&s->lock);
+> +        do_thing1(data);
+> +        if (check_state2(data)) {
+> +            return -1;
+> +        }
+> +        do_thing3(data);
+> +        return 0;
+> +    }
+> +
+> +will ensure s->lock is released however the function is exited. There
+> +are often ``WITH_`` forms of macros which more easily wrap around a
+> +block inside a function.
+> +
+> +.. code-block:: c
+> +
+> +    WITH_RCU_READ_LOCK_GUARD() {
+> +        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
+> +            err = do_the_thing(kid->child);
+> +            if (err < 0) {
+> +                return err;
+> +            }
+> +        }
+> +    }
+> +
+>   Error handling and reporting
+>   ============================
+>   
 
 
