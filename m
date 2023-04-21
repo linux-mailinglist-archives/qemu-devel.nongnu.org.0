@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BDF6EA723
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAEF6EA748
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:40:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppnBe-0007RF-AP; Fri, 21 Apr 2023 05:36:14 -0400
+	id 1ppnFS-0008If-Fx; Fri, 21 Apr 2023 05:40:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppnBa-0007El-7V
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:36:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppnBY-0003Yg-BD
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:36:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682069767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R3icSzVfmRuM+szIABXkN8mdFe4M2lgjM6ptqSyVtvI=;
- b=cVToDitkv3CCEk+DmF8iomgEkfmjdi2xS89baeJayPZfGvd40NLIP7sBB2LVe8xytD66DV
- 5LguXnjlgNBYvLRdqAfkhZZcQjVDEg0Hy3vjh7Q14GeFksf6suTJNs2k6FaHqgwoDEFd0P
- HHI+KZTchDo2iHNL4yaMAq9s3Ozo9UA=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-394-7kuMFJJHPNWiqE3B0mFObg-1; Fri, 21 Apr 2023 05:36:06 -0400
-X-MC-Unique: 7kuMFJJHPNWiqE3B0mFObg-1
-Received: by mail-vs1-f71.google.com with SMTP id
- ada2fe7eead31-4301bc3d45eso293977137.3
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:36:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppnFO-0008IR-TU
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:40:06 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppnFN-0004Mo-C3
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:40:06 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f182d745deso15399165e9.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:40:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682070004; x=1684662004;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=IJJcrkrs6Lhr57yvH9tGSyvY0ddAQOdQTki5bZvOgd8=;
+ b=dwjGUqRcYkCmIP6bpghC7/f0MWIBH1JPUJLu4YAdnwxKzDDIgH3goNQGIf6pW4Bizq
+ GHjM1p4RnIsT+9UYa17xbZQj0Vf6drMrvwF2CNYJKzuRU974JaZIMWUNPb9Y4GrLnBnG
+ vRENLpXLJC0sNvyQoPGJTyXBswXMewHbLHRPBTzlO7uWp6v9PnEdhyxPrkm5Wqm2SwRC
+ 8GO0z/MO1aZFv8naXjlA6e+gmEAm236+3rkuEEr1IqvJxmFU1VVmRi+lu0cE9IQUtRwS
+ M98gk+QTSGNcJ9OXWwr9G4xEOhzs4P0GD53d831Q3P54jwREXyqwx2tjCgPM5mVVfpxX
+ AIcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069765; x=1684661765;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=R3icSzVfmRuM+szIABXkN8mdFe4M2lgjM6ptqSyVtvI=;
- b=ZtR/gQsbm+MsIFJtmD6a3/SbAdPakwWH+hl+QgTDBQB/S0W0d6l6KC5pHRr4XM9kDk
- ui625ps8oyHYEm9WohhldN2RMqCl35sFFMDK1sKN4W7JTnHhAtWhW5CRduh77utuoHUU
- yp+o19w5uy3vrwzFSm6UOstiFU6DvMdK6mylyY6yHhT9j9FaJ6jDvVjC5Tr5bYRcei02
- 7uzTyn9PZFEYn+ML3D1spH6K2aW2Wk6oS5YHH6/2e4PJuk0Hsuf7+hrLXSi2/5/+4JmR
- P+L14yVXITCD+SBBh+d0noxVCWSqZP6XNPSXbyQOiAZZzk88Zh8gvDIrTzYVQHfC1XNQ
- FO+w==
-X-Gm-Message-State: AAQBX9e+SEK0bS35Brl+f7kknSlIF0NKHkC4hZQ21Rm9265tBfX8gaQp
- tQdN7W4cXVV9wCEt3NvUQBrcPIQCr2Gcre5T5JCwUIcLsgysTinGx0jaqGfKOove/jUJoHypN9U
- d3z51CMQwv+WqWHUoUpc9L0/PIdEzvxJ7cAbKzkOIaQ==
-X-Received: by 2002:a67:ea57:0:b0:42e:faab:8b56 with SMTP id
- r23-20020a67ea57000000b0042efaab8b56mr2071218vso.32.1682069765526; 
- Fri, 21 Apr 2023 02:36:05 -0700 (PDT)
-X-Google-Smtp-Source: AKy350blDzL2gSvXZzpaunkcoi1srHk7W1ILWFAFxMEQV4OhctJrmZW8FQb2iY2qqIRgCiULhThaz8kkuPpid7KOYhE=
-X-Received: by 2002:a67:ea57:0:b0:42e:faab:8b56 with SMTP id
- r23-20020a67ea57000000b0042efaab8b56mr2071212vso.32.1682069765318; Fri, 21
- Apr 2023 02:36:05 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682070004; x=1684662004;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IJJcrkrs6Lhr57yvH9tGSyvY0ddAQOdQTki5bZvOgd8=;
+ b=a5S5QQVItOeWM/QIQR3i6MZyHcyZD3hEH48ldMzo9+87rrsm7N1trUFr8qInYblEHu
+ ho1MV6PnQ/ao2CQiBQ9uJSy3+u1MkOaxzQEWHa8alfMUjfTu59OngoSYm6Ez7B/fgqAB
+ x2OjCMXpEuJacJuP/35NMabjQfkZLpreskbeWgr5WjBKpR03pe+R76nrYKmfRMqU7FKJ
+ QQo4FG2wToxm5kGHYZZ2m+NSgPHQzCRUuWtEwwocboBlM+8PVG8DVI47R2hJOnudrTm0
+ pGRID8P+su46e+w+VcdjBfY9i7+y8BkGrSfBYrKAqEEilHOLSC6PCfA1gifHcv4qtBZ6
+ s/YA==
+X-Gm-Message-State: AAQBX9cMqxPUafYTM0Ml8a9aBuE/SkM8KGwS5hgqWKOE44Z2I7P9pBKX
+ o/7RONnhPpo+3do0Vzx8MmF9Ug==
+X-Google-Smtp-Source: AKy350ay1AezmjQJPrNW5mSTYtRz7L+q6ksrjF62ySFdbydFuPzSTxPMrHrNjCDORNZFr+muIj7nZQ==
+X-Received: by 2002:a05:600c:2208:b0:3f1:75a9:5c0d with SMTP id
+ z8-20020a05600c220800b003f175a95c0dmr1517873wml.26.1682070003726; 
+ Fri, 21 Apr 2023 02:40:03 -0700 (PDT)
+Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
+ [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
+ t14-20020a05600c450e00b003f0a6a1f969sm7776517wmo.46.2023.04.21.02.40.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Apr 2023 02:40:03 -0700 (PDT)
+Message-ID: <42fbea54-1e77-69d1-8e5e-05a14de692c3@linaro.org>
+Date: Fri, 21 Apr 2023 11:40:00 +0200
 MIME-Version: 1.0
-References: <20221212131700.250209-1-pbonzini@redhat.com>
- <20221212131700.250209-3-pbonzini@redhat.com>
- <Y8lC8d0/XdEct7Mc@redhat.com>
-In-Reply-To: <Y8lC8d0/XdEct7Mc@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 21 Apr 2023 11:35:54 +0200
-Message-ID: <CABgObfZr615RrUuPegzN3V5DVpdhkau2_32ep58T8qWdsDS8cw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] block: do not check bdrv_file_open
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [RFC PATCH 05/13] gfxstream + rutabaga prep: virtio_gpu_gl ->
+ virtio_gpu_virgl
+Content-Language: en-US
+To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, david@redhat.com, stefanha@redhat.com,
+ kraxel@redhat.com, marcandre.lureau@redhat.com, akihiko.odaki@gmail.com,
+ dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
+References: <20230421011223.718-1-gurchetansingh@chromium.org>
+ <20230421011223.718-6-gurchetansingh@chromium.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230421011223.718-6-gurchetansingh@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,23 +96,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 2:17=E2=80=AFPM Kevin Wolf <kwolf@redhat.com> wrote=
-:
-> >      assert(!drv->bdrv_needs_filename || bs->filename[0]);
-> > -    if (drv->bdrv_file_open) {
-> > +    if (drv->bdrv_open) {
-> >          ret =3D drv->bdrv_file_open(bs, options, open_flags, &local_er=
-r);
-> >      } else if (drv->bdrv_open) {
-> >          ret =3D drv->bdrv_open(bs, options, open_flags, &local_err);
->
-> I suppose you mean drv->protocol_name for the first if condition?
->
-> The bug will disappear again after patch 3, but this intermediate state
-> is very broken.
+On 21/4/23 03:12, Gurchetan Singh wrote:
+> The virtio-gpu GL device has a heavy dependence on virgl.
+> Acknowledge this by naming functions accurately.
+> 
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> ---
+>   hw/display/virtio-gpu-gl.c     | 27 ++++++++++++++-------------
+>   hw/display/virtio-gpu-virgl.c  |  2 +-
+>   include/hw/virtio/virtio-gpu.h |  2 +-
+>   3 files changed, 16 insertions(+), 15 deletions(-)
 
-Yep, I split the patch wrong. Will resend after you merge block-next.
 
-Paolo
+> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+> index adee17968d..e256e44172 100644
+> --- a/include/hw/virtio/virtio-gpu.h
+> +++ b/include/hw/virtio/virtio-gpu.h
+> @@ -297,7 +297,7 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>                                     struct virtio_gpu_ctrl_command *cmd);
+>   void virtio_gpu_virgl_fence_poll(VirtIOGPU *g);
+>   void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g);
+> -void virtio_gpu_virgl_reset(VirtIOGPU *g);
+> +void virtio_gpu_virglrenderer_reset(VirtIOGPU *g);
+
+Or virtio_gpu_virgl_reset_renderer() similar to scanout?
+
+Regardless,
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+>   int virtio_gpu_virgl_init(VirtIOGPU *g);
+>   int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g);
 
 
