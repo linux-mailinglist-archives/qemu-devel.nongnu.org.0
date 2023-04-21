@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D186EAFE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 18:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE41B6EAFEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 18:59:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppu52-00011t-2T; Fri, 21 Apr 2023 12:57:52 -0400
+	id 1ppu54-00013z-Mi; Fri, 21 Apr 2023 12:57:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kariem.taha2.7@gmail.com>)
- id 1ppu50-000108-0m
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:57:50 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ id 1ppu53-000139-DZ
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:57:53 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <kariem.taha2.7@gmail.com>)
- id 1ppu4y-0005YI-Em
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:57:49 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-2fc3f1d6f8cso1266573f8f.3
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 09:57:47 -0700 (PDT)
+ id 1ppu51-0005Za-Lb
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:57:53 -0400
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-3010889c6ebso1227163f8f.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 09:57:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682096266; x=1684688266;
+ d=gmail.com; s=20221208; t=1682096270; x=1684688270;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ADcjkaFOtQafvRvF3uyKq3JB177Jsg04HoRFehYZ+uo=;
- b=cf1wBYMcaFuOD9ZjrRbEFcqaTxRX3JMN3G96zoI21DQbJMpXE06Uf9gRTmMBiqRYMP
- ZR+lhjnf/JhDjOWkTgPo+5rGfQqnWxZ7IJDkhMcrk0icQNoIirxmtgzKRYqDahKwZbp+
- nEuOLEUzLkYcbTzux+sM7pJyG1E4zb3dy5ZQz8SBjWwusBU9NOYyqqf9+Rh3vutTZt79
- vAhzj5BxWcBMZFVYzNX2SB/1NhazZscgpGhwBMUAnkitLBDxbNasB0v/22XFlU9px541
- U8uRKQeQhSfCK8CJI9AmFZ1rJD3JRS3taybAqonxMXhm54Nbnrt3isxbwoPnPYmrwmZx
- 1oNA==
+ bh=o8Ql/vEC3g+/z+QruUvVbxZ03TW0PYGQUSqXGsOmEVM=;
+ b=Jj0teoDZeKBOpIgMq83gkV6c5gWo3SbtCusOmW5a9Sk+DriDOWsNkC7ldaezh/u9pL
+ Qe9FxvwC6v+dyAaMKf6iA/4L24yl27xi8GcXKzbNzL1d+r7EYrFvA/GiL538z7K1T1dX
+ Ae4Bn8RKErz1Fh03xhpr84Q9ouDojOmWxLAkg82qdhYQCT+hOy4cV/DcVF33A4eNWWXQ
+ HzRBDfivbq/zVrfiDh7a9Xzjg9r9RabH0l0woeA8TXFgRkDZS5MUA23UFREXvjv/51tw
+ YEz2+KFBv7LD1bpNBeVzW8iQArGi+Q1c53FkAkATu3waYjaK+CpFzZmaZhF/+XhJrfE3
+ eHjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682096266; x=1684688266;
+ d=1e100.net; s=20221208; t=1682096270; x=1684688270;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ADcjkaFOtQafvRvF3uyKq3JB177Jsg04HoRFehYZ+uo=;
- b=hlNHDQSRRtxrR6wCRuwUESZiSFLMQ8LSqsI7kg776HjL33bj5OnYIRrckDtYRaxsEc
- MtKh9sICbWjf8k4BhEjfKrBDdZMSlUtnQS6HHXLaaw9O/oD+MK54uL9w9LFn5Xd6/zTi
- Rb90Gd5pQDLLkICEFEnluEh3hFvLOKvGUpHe6Kj7x8LmHx/0OdEDPXHIo3u26Z72i9bP
- mr2i8bfiFdyd2RorgDLW4k45tkG/Ksp4LS93aSqwwftihhBzVs00+MKcVlWvZ5W/ilNg
- cYNXvsZEjYdxEBbk38f+FoL/N/wK5L8WNHE5StX00DplLYzRuHVZZXbuW1P7OOzMnjcr
- JKOg==
-X-Gm-Message-State: AAQBX9eEszqRX7YJ6yHStl4Ff0xhAY1UDmluAwlegGBisy3IEjTHTHej
- KoxdUCNcSSlrAoaw1LcURX6SZHHGYqI=
-X-Google-Smtp-Source: AKy350Zok/D/z7yFTfto8gijmm4QH3XN8tBSupRtOU7NHhyvd1+uHPTdXpdz2QTTwdZxxGFstFhf1w==
-X-Received: by 2002:adf:dd85:0:b0:2ee:fc1b:b7ba with SMTP id
- x5-20020adfdd85000000b002eefc1bb7bamr4209416wrl.39.1682096266164; 
- Fri, 21 Apr 2023 09:57:46 -0700 (PDT)
+ bh=o8Ql/vEC3g+/z+QruUvVbxZ03TW0PYGQUSqXGsOmEVM=;
+ b=HaiV7x/yMf0lj8X7AMoVglWTCf4yOYmnXS5jC6gVsA1XoatFtuiY/qMCpZNBgQJxyq
+ gWb4l+rXiHHgX4I57/7pQwzFm2MBRPMIEkOeBmjYdNAbkIR4a5qNYoAw/8zOm64+43KL
+ Db/TqHmJQ5cEfykXGmJ52x3LSkpfFXoGxhHMj/y0ikA0WXd/cgD6vucdLE1HrJehMqqe
+ 34Gikyu3nlVGq261QBTwEf+lhwOIFZ8++RSRTyP3yZGgNUwNqMJJdtZJEhHBGdxvoDTE
+ Wpd54iEfSvZy9xCgRVcERazw1QihVeP3OgVoQotmdXgki1j12PJVFOBkK+u6xyhYI5vp
+ gXrQ==
+X-Gm-Message-State: AAQBX9fV5hPZTvfMgXIbLLWiTolH8HfpUkXVuEQ6LpqVMdnfgr2Xccog
+ R1SXmIkc5rOIQrw6M4jzqsIlKVRsIcA=
+X-Google-Smtp-Source: AKy350YTEdQX0dcbt6NvoZeBg/thkTX99OcwP6XM6UmdMR20XLlTx5vJ+zGkLB2BfJg8lyrgC24PBw==
+X-Received: by 2002:adf:f391:0:b0:2f6:ece3:76a with SMTP id
+ m17-20020adff391000000b002f6ece3076amr4169967wro.8.1682096269987; 
+ Fri, 21 Apr 2023 09:57:49 -0700 (PDT)
 Received: from karim.my.domain ([197.39.145.151])
  by smtp.gmail.com with ESMTPSA id
- e5-20020a5d5305000000b002cf1c435afcsm4820581wrv.11.2023.04.21.09.57.42
+ e5-20020a5d5305000000b002cf1c435afcsm4820581wrv.11.2023.04.21.09.57.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 09:57:45 -0700 (PDT)
+ Fri, 21 Apr 2023 09:57:49 -0700 (PDT)
 From: Karim Taha <kariem.taha2.7@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: imp@bsdimp.com, Stacey Son <sson@FreeBSD.org>,
  Karim Taha <kariem.taha2.7@gmail.com>
-Subject: [PATCH v4 04/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
-Date: Fri, 21 Apr 2023 18:53:44 +0200
-Message-Id: <20230421165351.3177-5-kariem.taha2.7@gmail.com>
+Subject: [PATCH v4 05/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
+Date: Fri, 21 Apr 2023 18:53:45 +0200
+Message-Id: <20230421165351.3177-6-kariem.taha2.7@gmail.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421165351.3177-1-kariem.taha2.7@gmail.com>
 References: <20230421165351.3177-1-kariem.taha2.7@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=kariem.taha2.7@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=kariem.taha2.7@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,26 +95,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Stacey Son <sson@FreeBSD.org>
 
-Declaration of the socket conversion functions.
+Definitions of the socket conversion functions.
 
-Add bsd-user/qemu-bsd.h, required by bsd-user/bsd-socket.h, contains
-forward declarations of the socket conversion functions defined in bsd-user/bsd-socket.c.
+Add bsd-user/bsd-socket.c, which contains the actual definitions of the
+socket conversion functions.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
 ---
- bsd-user/qemu-bsd.h | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 bsd-user/qemu-bsd.h
+ bsd-user/bsd-socket.c | 108 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
+ create mode 100644 bsd-user/bsd-socket.c
 
-diff --git a/bsd-user/qemu-bsd.h b/bsd-user/qemu-bsd.h
+diff --git a/bsd-user/bsd-socket.c b/bsd-user/bsd-socket.c
 new file mode 100644
-index 0000000000..a052688596
+index 0000000000..8a5e44444d
 --- /dev/null
-+++ b/bsd-user/qemu-bsd.h
-@@ -0,0 +1,36 @@
++++ b/bsd-user/bsd-socket.c
+@@ -0,0 +1,108 @@
 +/*
-+ *  BSD conversion extern declarations
++ *  BSD socket system call related helpers
 + *
 + *  Copyright (c) 2013 Stacey D. Son
 + *
@@ -131,24 +131,96 @@ index 0000000000..a052688596
 + *  You should have received a copy of the GNU General Public License
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
-+
-+#ifndef QEMU_BSD_H
-+#define QEMU_BSD_H
++#include "qemu/osdep.h"
 +
 +#include <sys/types.h>
 +#include <sys/socket.h>
 +#include <sys/un.h>
 +#include <netinet/in.h>
 +
-+/* bsd-socket.c */
-+abi_long target_to_host_sockaddr(struct sockaddr *addr, abi_ulong target_addr,
-+        socklen_t len);
-+abi_long host_to_target_sockaddr(abi_ulong target_addr, struct sockaddr *addr,
-+        socklen_t len);
-+abi_long target_to_host_ip_mreq(struct ip_mreqn *mreqn, abi_ulong target_addr,
-+        socklen_t len);
++#include "qemu.h"
++#include "qemu-bsd.h"
 +
-+#endif /* QEMU_BSD_H */
++/*
++ * socket conversion
++ */
++abi_long target_to_host_sockaddr(struct sockaddr *addr, abi_ulong target_addr,
++                                 socklen_t len)
++{
++    const socklen_t unix_maxlen = sizeof(struct sockaddr_un);
++    sa_family_t sa_family;
++    struct target_sockaddr *target_saddr;
++
++    target_saddr = lock_user(VERIFY_READ, target_addr, len, 1);
++    if (target_saddr == 0) {
++        return -TARGET_EFAULT;
++    }
++
++    sa_family = target_saddr->sa_family;
++
++    /*
++     * Oops. The caller might send a incomplete sun_path; sun_path
++     * must be terminated by \0 (see the manual page), but unfortunately
++     * it is quite common to specify sockaddr_un length as
++     * "strlen(x->sun_path)" while it should be "strlen(...) + 1". We will
++     * fix that here if needed.
++     */
++    if (target_saddr->sa_family == AF_UNIX) {
++        if (len < unix_maxlen && len > 0) {
++            char *cp = (char *)target_saddr;
++
++            if (cp[len - 1] && !cp[len]) {
++                len++;
++            }
++        }
++        if (len > unix_maxlen) {
++            len = unix_maxlen;
++        }
++    }
++
++    memcpy(addr, target_saddr, len);
++    addr->sa_family = sa_family;        /* type uint8_t */
++    addr->sa_len = target_saddr->sa_len;    /* type uint8_t */
++    unlock_user(target_saddr, target_addr, 0);
++
++    return 0;
++}
++
++abi_long host_to_target_sockaddr(abi_ulong target_addr, struct sockaddr *addr,
++                                 socklen_t len)
++{
++    struct target_sockaddr *target_saddr;
++
++    target_saddr = lock_user(VERIFY_WRITE, target_addr, len, 0);
++    if (target_saddr == 0) {
++        return -TARGET_EFAULT;
++    }
++    memcpy(target_saddr, addr, len);
++    target_saddr->sa_family = addr->sa_family;  /* type uint8_t */
++    target_saddr->sa_len = addr->sa_len;        /* type uint8_t */
++    unlock_user(target_saddr, target_addr, len);
++
++    return 0;
++}
++
++abi_long target_to_host_ip_mreq(struct ip_mreqn *mreqn, abi_ulong target_addr,
++                                socklen_t len)
++{
++    struct target_ip_mreqn *target_smreqn;
++
++    target_smreqn = lock_user(VERIFY_READ, target_addr, len, 1);
++    if (target_smreqn == 0) {
++        return -TARGET_EFAULT;
++    }
++    mreqn->imr_multiaddr.s_addr = target_smreqn->imr_multiaddr.s_addr;
++    mreqn->imr_address.s_addr = target_smreqn->imr_address.s_addr;
++    if (len == sizeof(struct target_ip_mreqn)) {
++        mreqn->imr_ifindex = tswapal(target_smreqn->imr_ifindex);
++    }
++    unlock_user(target_smreqn, target_addr, 0);
++
++    return 0;
++}
 -- 
 2.40.0
 
