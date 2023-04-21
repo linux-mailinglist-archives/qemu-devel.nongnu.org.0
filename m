@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1726EAD86
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 16:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D443F6EAD95
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 16:58:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppsB3-0005a4-Qd; Fri, 21 Apr 2023 10:55:57 -0400
+	id 1ppsDM-0006eP-KT; Fri, 21 Apr 2023 10:58:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppsB1-0005ZX-0Z
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 10:55:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppsDL-0006eH-2I
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 10:58:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppsAy-0006dT-MV
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 10:55:54 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ppsDJ-00074q-Kc
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 10:58:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682088951;
+ s=mimecast20190719; t=1682089096;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jQCB/pBxzy5dqE1XBMf3u5nzFMp+cSm/1jExe9lRziQ=;
- b=eF+7ubm8qIaLiBMIeGQsgaKTTuuNAV39KfeBqjMjAOwWHPut7ypHIXBWd42S+5fOaY+G9o
- zkWoECNUIZGEdniPo/jO4nNHyYS7JGaVHoJOkHlhVrOUjXYD+qqhBjDJp7gLjT6SEny39/
- r42gc7RUM6IX2MQ7acUHMazPXXYx/gQ=
+ bh=PaE399VBW23hi2h24At2Ko6G2rM4ZMeCTBgH42MnjNk=;
+ b=IXqUKOuZAspFVb4h66arygIq458RovBSRDWTJ2gtnc4DjQbCXjAXeywDucq7/PvkUuE2l6
+ qeAA4SsXyap+ZsKyXaNDF1teGwvInPZeMZh6RQ4nQLEAtVjLUmoujGQcXvUlNi87V2xvRD
+ Kc8fyl6dkQCbDmXWvCo1+TI9rCS+a9o=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-avRQPY6iPc2iqRzthsGiqQ-1; Fri, 21 Apr 2023 10:55:50 -0400
-X-MC-Unique: avRQPY6iPc2iqRzthsGiqQ-1
+ us-mta-422--SF8M8I-PBKrQlyQZgVMRw-1; Fri, 21 Apr 2023 10:58:14 -0400
+X-MC-Unique: -SF8M8I-PBKrQlyQZgVMRw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11ABD29A9D46;
- Fri, 21 Apr 2023 14:55:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E75D3815F7F;
+ Fri, 21 Apr 2023 14:58:14 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 34DCA492C13;
- Fri, 21 Apr 2023 14:55:49 +0000 (UTC)
-Date: Fri, 21 Apr 2023 09:55:47 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF0A4492C13;
+ Fri, 21 Apr 2023 14:58:13 +0000 (UTC)
+Date: Fri, 21 Apr 2023 09:58:11 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH 1/4] block: rename the bdrv_co_block_status static function
-Message-ID: <zt3hpfhj45jplvf5qazvjuxhot5dgevlgvzhlxem43yxpi2fby@ibuw2wmhyveq>
+Subject: Re: [PATCH 2/4] block: complete public block status API
+Message-ID: <uc5ibgjkkweuw4z7t4oulocfw572ehagtlh3nmaxsk7qhynnkk@l6fgw3pecy5z>
 References: <20230405103216.128103-1-pbonzini@redhat.com>
- <20230405103216.128103-2-pbonzini@redhat.com>
+ <20230405103216.128103-3-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230405103216.128103-2-pbonzini@redhat.com>
+In-Reply-To: <20230405103216.128103-3-pbonzini@redhat.com>
 User-Agent: NeoMutt/20230407
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,38 +77,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 05, 2023 at 12:32:13PM +0200, Paolo Bonzini wrote:
-> bdrv_block_status exists as a wrapper for bdrv_block_status_above,
-> but the name of the (hypothetical) coroutine version, bdrv_co_block_status,
-> is squatted by a random static function.  Rename it to bdrv_do_block_status.
+On Wed, Apr 05, 2023 at 12:32:14PM +0200, Paolo Bonzini wrote:
+> Include both coroutine and non-coroutine versions, the latter being
+> co_wrapper_mixed_bdrv_rdlock of the former.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  block/io.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  block/io.c               | 18 +++++-------------
+>  include/block/block-io.h | 18 ++++++++++++------
+>  2 files changed, 17 insertions(+), 19 deletions(-)
 
-[Hmm - I notice I have a local branch that tries to address an issue
-where a 4k-sector overlay backed by a 512-byte backing image can
-report unaligned block status, and touches this maze of functions to
-support a way to get block status forced to a given alignment.  I
-should try and revive that once this series lands...]
-
-> 
-> diff --git a/block/io.c b/block/io.c
-> index db438c765757..e86090b7692b 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -2230,7 +2230,7 @@ int bdrv_flush_all(void)
->   * set to the host mapping and BDS corresponding to the guest offset.
->   */
->  static int coroutine_fn GRAPH_RDLOCK
-> -bdrv_co_block_status(BlockDriverState *bs, bool want_zero,
-> +bdrv_do_block_status(BlockDriverState *bs, bool want_zero,
-
-This is still marked coroutine.  Do we want to go with the longer name
-bdrv_co_do_block_status, to make it obvious that it is both coroutine
-and a local helper?  Or is the fact that it is static to this file
-enough to elide the _co?
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
