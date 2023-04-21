@@ -2,83 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A916EB3EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 23:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83AF56EB3EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 23:53:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppyel-0004pj-D0; Fri, 21 Apr 2023 17:51:03 -0400
+	id 1ppygB-0005jW-46; Fri, 21 Apr 2023 17:52:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppyej-0004oz-1D
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 17:51:01 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppyeh-0005a2-Fk
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 17:51:00 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f1763ee8f8so15855265e9.1
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 14:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682113856; x=1684705856;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ExG9km92T53LchPRBqkF84qokCaalE5AvlkSZgbrmW8=;
- b=YOoWdDLqxxcD14i9LYCPVffbOMWb8ylPsZjnSGcFf9M/Vj8+u7ak937jq/+oj3dHM0
- 3YrsaNE4qDQ81klzGLeT+ZK/mYnskTAtmAEd012OtQA6XXy8goshEY0mG/lJIZLdu9JL
- 875cn2fgxyJnMwI5Kfo9MK3tBFcMXzNoqMTDGCnFbxSU9Lpq3fngEZYMDJQDJ471CiHo
- uEb99Qldns+fezzIXBjknHcw05kDEPPKwi93Gj+fOMQA4RrvWWXLGLBfL1whZCIz2fl3
- WSdgtoiVilJnvMTDmE4RlZwRcUO5oAjcASwhejCbb/bNEFEU5X3p8B76flOv3vWr2bHL
- ojJw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppyg4-0005j5-FL
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 17:52:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ppyfy-0005nk-N1
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 17:52:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682113937;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MvX8zvl7ygmt1lFuB/lHj6JYO5LKgR1tlqPz91YfP4U=;
+ b=f+9mZKhrYk3expJUXV1tDhvb6gI5dvUpNByONUjJ/psqzW0G+WHcPbT9PiGIWQ3pIRv8aO
+ AwPbA+8cNCOLOJlDe9uaFhIWNXRCPeaWXvivaJmbSMo2k4odnIzj9yqolHdzeMGxeaDeyn
+ AVL2yDqwv04exgz9JI5armjsha7bfSk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-674-1lFliAldMbCig_CqMaAVHA-1; Fri, 21 Apr 2023 17:52:15 -0400
+X-MC-Unique: 1lFliAldMbCig_CqMaAVHA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-2fcec825133so717890f8f.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 14:52:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682113856; x=1684705856;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1682113934; x=1684705934;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ExG9km92T53LchPRBqkF84qokCaalE5AvlkSZgbrmW8=;
- b=PmNIJRLnGWc/VPIwOblamQF0rHQClhU6DWxYMXB7sY2nPjnqpPLvgqmvsplvpSrWkG
- UgJd5vYW20nhq7pZSpNBRjpHnLOysbjwu1r1NXTfOGtMpa7h/gOCUtz6WvfRmcy7bF6Y
- tf3oLn6krUdsv1KobJJ2OmgR476gUKJULplKt0eAXZspxGu8okyL0ON2f8cfXt2OPxG5
- caSy0TdA+f/yVHTQCtBacTbjdzDfZ8mfVNXJ2Va2ndJS5VgkXwHFOmmlQAiSe6bmNloi
- EXVqVhWruI2b/RAuAJjiUvrwsLgHsq76Ifb8HWK0BHlXTNm5j+qBXTPA5BQ7s6uT2aL6
- tKbQ==
-X-Gm-Message-State: AAQBX9c/O3QPIbHLU997rF8ZoWey17PdS7ZBREpodITult1+lfVSy5WY
- p1Wzn792wpeueiCXWy4r4yvlKw==
-X-Google-Smtp-Source: AKy350bc3kjZiCYC+P4jtXwgYvm9nsaS1zL0BFyP3ceZpAJyZ3XSxs9x/F5KTLI1qluVd49xKlDHLQ==
-X-Received: by 2002:adf:f544:0:b0:2ef:b080:829a with SMTP id
- j4-20020adff544000000b002efb080829amr4328709wrp.11.1682113856143; 
- Fri, 21 Apr 2023 14:50:56 -0700 (PDT)
-Received: from [192.168.69.115] (uni14-h01-176-184-39-152.dsl.sta.abo.bbox.fr.
- [176.184.39.152]) by smtp.gmail.com with ESMTPSA id
- 25-20020a05600c025900b003ed2c0a0f37sm5826520wmj.35.2023.04.21.14.50.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 14:50:55 -0700 (PDT)
-Message-ID: <f90583d1-6033-845e-4da9-20cb2b8bd79d@linaro.org>
-Date: Fri, 21 Apr 2023 23:50:54 +0200
+ bh=MvX8zvl7ygmt1lFuB/lHj6JYO5LKgR1tlqPz91YfP4U=;
+ b=bLtEU2FAW08xrLN7Mpci+2rMIQ6mYCB/GrZV8DSKDgeSwQhxQorsVYma6N8Ua9YBOf
+ ip2tUsEUI8pTkjD++iey2k0r3U4yxZ5YKwDvhVIWU2lI6FLiXqdoXp5R8EomkuyHtwao
+ cj9RkUaO3XkXqDSNYmk3cK6RZVm59PMprHu0230YIs84KPu2phi9rdUjyx/AsKRKy5Nt
+ Sq4BuKGL4OmxOkqKLgk8A5feOda/Gna3IVLbrwScaFoYKbCwXHWIZANbJ9eNXBFffjxz
+ UtyN7SDXDcw1jgL68mbUkWpDKLU30tWYtMdWGOku2rRD5VbmEd668rrP2evsW1GgiuFb
+ RaGA==
+X-Gm-Message-State: AAQBX9fNraLUxIRYTEZ5/3ii1VQ2fsZlP/OUY1/fBrBVzbdBq6/Fk/5r
+ u3gKCLdI95/MdEYx47lNyVMagm1pasNzo50q3Dn3W42rLue4hv0WvZwvtfnIXDIXLQpn7Wrlw2o
+ mzQxNUBMAxgUUlc4=
+X-Received: by 2002:a5d:5488:0:b0:2f7:be02:e977 with SMTP id
+ h8-20020a5d5488000000b002f7be02e977mr5006908wrv.19.1682113934619; 
+ Fri, 21 Apr 2023 14:52:14 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bk2R8N4OnwgxEJVlqWPzapfXU3b+SaE+syNhl2f2bnIgHlA/ZUUJkVpQNTMxUmGCQyLvWSzQ==
+X-Received: by 2002:a5d:5488:0:b0:2f7:be02:e977 with SMTP id
+ h8-20020a5d5488000000b002f7be02e977mr5006892wrv.19.1682113934310; 
+ Fri, 21 Apr 2023 14:52:14 -0700 (PDT)
+Received: from redhat.com ([31.4.212.142]) by smtp.gmail.com with ESMTPSA id
+ i11-20020adfe48b000000b002c3f81c51b6sm5236065wrm.90.2023.04.21.14.52.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Apr 2023 14:52:13 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Thomas Huth <thuth@redhat.com>,  John Snow
+ <jsnow@redhat.com>,  Li Zhijian <lizhijian@fujitsu.com>,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  Zhang Chen <chen.zhang@intel.com>,  Laurent Vivier
+ <lvivier@redhat.com>
+Subject: Re: [PATCH v2 1/6] tests/qtest: replace qmp_discard_response with
+ qtest_qmp_assert_success
+In-Reply-To: <20230421171411.566300-2-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Fri, 21 Apr 2023 18:14:06
+ +0100")
+References: <20230421171411.566300-1-berrange@redhat.com>
+ <20230421171411.566300-2-berrange@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 21 Apr 2023 23:52:12 +0200
+Message-ID: <87v8hogayb.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 04/42] tcg: Split out tcg_out_ext8u
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20230408024314.3357414-1-richard.henderson@linaro.org>
- <20230408024314.3357414-6-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230408024314.3357414-6-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- SUSPICIOUS_RECIPS=2.51,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,28 +105,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/4/23 04:42, Richard Henderson wrote:
-> We will need a backend interface for performing 8-bit zero-extend.
-> Use it in tcg_reg_alloc_op in the meantime.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> The qmp_discard_response method simply ignores the result of the QMP
+> command, merely unref'ing the object. This is a bad idea for tests
+> as it leaves no trace if the QMP command unexpectedly failed. The
+> qtest_qmp_assert_success method will validate that the QMP command
+> returned without error, and if errors occur, it will print a message
+> on the console aiding debugging.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->   tcg/tcg.c                        |  5 +++++
->   tcg/aarch64/tcg-target.c.inc     | 11 +++++++----
->   tcg/arm/tcg-target.c.inc         | 12 +++++++++---
->   tcg/i386/tcg-target.c.inc        |  7 +++----
->   tcg/loongarch64/tcg-target.c.inc |  7 ++-----
->   tcg/mips/tcg-target.c.inc        |  9 ++++++++-
->   tcg/ppc/tcg-target.c.inc         |  7 +++++++
->   tcg/riscv/tcg-target.c.inc       |  7 ++-----
->   tcg/s390x/tcg-target.c.inc       | 14 +++++---------
->   tcg/sparc64/tcg-target.c.inc     |  9 ++++++++-
->   tcg/tci/tcg-target.c.inc         | 14 +++++++++++++-
->   11 files changed, 69 insertions(+), 33 deletions(-)
+>  tests/qtest/ahci-test.c              | 31 ++++++++++++++--------------
+>  tests/qtest/boot-order-test.c        |  5 +----
+>  tests/qtest/fdc-test.c               | 15 +++++++-------
+>  tests/qtest/ide-test.c               |  5 +----
+>  tests/qtest/migration-test.c         |  5 +----
+>  tests/qtest/test-filter-mirror.c     |  5 +----
+>  tests/qtest/test-filter-redirector.c |  7 ++-----
+>  tests/qtest/virtio-blk-test.c        | 24 ++++++++++-----------
+>  8 files changed, 40 insertions(+), 57 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+> -/* TODO actually test the results and get rid of this */
+> -#define qmp_discard_response(s, ...) qobject_unref(qtest_qmp(s, __VA_ARG=
+S__))
+
+As it couldn't be otherwise, all bad patterns are copied.
 
 
