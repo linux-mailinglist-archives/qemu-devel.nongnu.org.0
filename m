@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2B26EA050
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 01:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835896EA0D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 03:14:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppe6Y-0003FF-43; Thu, 20 Apr 2023 19:54:22 -0400
+	id 1ppfKN-0002c8-AH; Thu, 20 Apr 2023 21:12:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ppe6W-0003El-D4; Thu, 20 Apr 2023 19:54:20 -0400
-Received: from mail-vk1-xa35.google.com ([2607:f8b0:4864:20::a35])
+ (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
+ id 1ppfKK-0002bA-9O
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:40 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ppe6U-00070L-Gn; Thu, 20 Apr 2023 19:54:20 -0400
-Received: by mail-vk1-xa35.google.com with SMTP id
- 71dfb90a1353d-4404c9d9fceso354074e0c.2; 
- Thu, 20 Apr 2023 16:54:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
+ id 1ppfKA-0008KS-9E
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:39 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id
+ 41be03b00d2f7-524b02cc166so898095a12.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 18:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682034857; x=1684626857;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=50igzCLykD7JwgVvKrIP1Q4L2Vbw5aummnrBc5qQE3A=;
- b=RjSmXI0f960M2MCNv/rpbb/otsKJFvjxxqtCpLQB9wg3vglXAX0RTu3QqOoPpDiW0D
- 1wkLBJ8/fjTe7AMD2juEmPdAcvsi6z0NwxaL6kqyQXBEZuYqBUCCV8DEWWtN+T1yKtSB
- VsdWSvR/Mn+ZBYavmP2RQhqz2P+HwJsVT/7iYloJ97o0AbJHL8zYGUZsk0/1Ik8vNL2T
- vHrJuLLVa2a+HaEU0Jt2D6JC99ZSQilAS/33fq4e7FPP40GXxnKuQHNvY6EFKKAeEWhT
- dHm5o6VJAtwoEuJvtU5zyyJif7p/dnRAGTbIVDUT2sjQJ1ADFDmeM84hywbNoFMvbx/O
- ERbg==
+ d=chromium.org; s=google; t=1682039547; x=1684631547;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=66T6IkDCXTKMCU19HS077We1ZzJOoGsgYj56IyaO7XI=;
+ b=S6g/lq8XNfdLuiXOJvcm2zxRslL86hbwz0HYxednZTRuTtLvq28WoH1PuMCgQ/S1ik
+ WmQ1G1zhC+sxhnYAKyTHhPO/BwtgZljPLQVJN8sXwQElgkUweD7jhwvVe7dLwKnWtXfx
+ RbM4KoVFOwF6lpa+W498JHoGY/oH4iIS3mz40=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682034857; x=1684626857;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=50igzCLykD7JwgVvKrIP1Q4L2Vbw5aummnrBc5qQE3A=;
- b=dnq2w2Bka0BNnoMs9mmlCBA4laRUEObHlUUHsUfT2RH8ZSoM2ZSOngC1gaE1WlljgD
- DUitYdoaaIhaMsdMjbtYl6NtmhykK4Jc7ZBT+L54tOrD+FMNBtgBr1usn1kxVJ/cR9Lg
- cObar2N/hFbQGaB3bIX96XuzMEY0gLJiShDdc9yhnBdBlTw3x0HPtdK1oUTPixjrm8jV
- VgNss1o96CTSzcCFuCLWkTMRQX4+5WboqAYLDIZLEQQkwnMtsEuF57YEyldKgHnSP3Dz
- dcB1qtuFwLyJeFBPg9E16F4W2GCpg6ASTqUa20KozQUmQE2VkiVfgKfLzOdPbhkFMK78
- ptyA==
-X-Gm-Message-State: AAQBX9d4FHLPEBf2iWr6nz2ZL/UQoWzmuFjpbIUiygLGUg8b1tvAb4Qf
- qh2YRpaHDnj3obbQZkN/tvcl0nwywefx6OXKpzM=
-X-Google-Smtp-Source: AKy350an7Z1p/QNNmd89Y9XDyC+Do5OdiApmQCYIJHJ+Ua15ngQZLVmkyETdQsxUHDozAbB8moSlz1nT61taV0XRX4o=
-X-Received: by 2002:a1f:5e81:0:b0:432:3100:1278 with SMTP id
- s123-20020a1f5e81000000b0043231001278mr172898vkb.16.1682034857159; Thu, 20
- Apr 2023 16:54:17 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682039547; x=1684631547;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=66T6IkDCXTKMCU19HS077We1ZzJOoGsgYj56IyaO7XI=;
+ b=jWUz2Sw8TnK9U/EJRqUT7jDYjQE8YCQaKpbixgNTs3/2jC1HiiespKA4ugKj4Mu2PK
+ sdXanwimRLN87gy/L0VJf+kibf4qKir9RtyEj/yo8Rc4dYKbd2NUKlg1gPqzEOTixOPk
+ vuMFV0sHZGFxmczF0FhF+/AE11ayA2aNB49XyprPy3Vu9Kgh7OOa4+qP27zsYlXrpe5E
+ 4HDfVRiMVigVga/qvUOiVboE4SjJh/uG+DP0CQIrAe1I8Nyz79Gd5c+aEGs5+52LhChg
+ DqqbSfqS2/UXmaox0f95euDFcYDqT4EDuQaqO3+Xw0h17YF3mCEy/dscHnvc2sfZz916
+ 1thw==
+X-Gm-Message-State: AAQBX9f5H6cgNnvtH2d7LNmXumKGuh2TSebsoYuNi1k0egTRL3fG6DL4
+ kVDxnw61oT9LX3OGE5qx8jSEmcLO4SEmcL4sT3wjS8Bf
+X-Google-Smtp-Source: AKy350Y1Jp7cvjk4Mpr6jNO4KaxWEIQJZBW8cTgXUwk036F/IAhCjOjtEXf/2pPUWgsrCxuk7v0P8w==
+X-Received: by 2002:a17:90a:e584:b0:246:b6f9:148a with SMTP id
+ g4-20020a17090ae58400b00246b6f9148amr3463397pjz.21.1682039547222; 
+ Thu, 20 Apr 2023 18:12:27 -0700 (PDT)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:a7:2:6625:6aa3:1b0e:a808])
+ by smtp.gmail.com with ESMTPSA id
+ f4-20020a17090a8e8400b0024702e7c80fsm1697640pjo.23.2023.04.20.18.12.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Apr 2023 18:12:26 -0700 (PDT)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, philmd@linaro.org, david@redhat.com,
+ stefanha@redhat.com, kraxel@redhat.com, marcandre.lureau@redhat.com,
+ akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com,
+ alex.bennee@linaro.org
+Subject: [RFC PATCH 00/13] gfxstream + rutabaga_gfx: a surprising delight or
+ startling epiphany?
+Date: Thu, 20 Apr 2023 18:12:10 -0700
+Message-Id: <20230421011223.718-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-References: <20230418123624.16414-1-dbarboza@ventanamicro.com>
-In-Reply-To: <20230418123624.16414-1-dbarboza@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 21 Apr 2023 09:53:51 +1000
-Message-ID: <CAKmqyKOAwsfDB5_zWfvR5reW4ri75PMO0Y=80YiGUR7xuaWfBg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: add Ventana's Veyron V1 CPU
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
- palmer@rivosinc.com, Rahul Pathak <rpathak@ventanamicro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a35;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa35.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=gurchetansingh@chromium.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,123 +91,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023 at 10:37=E2=80=AFPM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> From: Rahul Pathak <rpathak@ventanamicro.com>
->
-> Add a virtual CPU for Ventana's first CPU named veyron-v1. It runs
-> exclusively for the rv64 target. It's tested with the 'virt' board.
->
-> CPU specs and general information can be found here:
->
-> https://www.nextplatform.com/2023/02/02/the-first-risc-v-shot-across-the-=
-datacenter-bow/
->
-> Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+From: Gurchetan Singh <gurchetansingh@google.com>
 
-Thanks!
+Rationale:
 
-Applied to riscv-to-apply.next
+- gfxstream [a] is good for the Android Emulator/upstream QEMU
+  alignment
+- Wayland passhthrough [b] via the cross-domain context type is good
+  for Linux on Linux display virtualization
+- rutabaga_gfx [c] sits on top of gfxstream, cross-domain and even
+  virglrenderer
+- This series ports rutabaga_gfx to QEMU
 
-Alistair
+Feedback requested:
 
-> ---
->  target/riscv/cpu-qom.h      |  1 +
->  target/riscv/cpu.c          | 38 +++++++++++++++++++++++++++++++++++++
->  target/riscv/cpu_vendorid.h |  4 ++++
->  3 files changed, 43 insertions(+)
->
-> diff --git a/target/riscv/cpu-qom.h b/target/riscv/cpu-qom.h
-> index b29090ad86..04af50983e 100644
-> --- a/target/riscv/cpu-qom.h
-> +++ b/target/riscv/cpu-qom.h
-> @@ -41,6 +41,7 @@
->  #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34"=
-)
->  #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54"=
-)
->  #define TYPE_RISCV_CPU_THEAD_C906       RISCV_CPU_TYPE_NAME("thead-c906"=
-)
-> +#define TYPE_RISCV_CPU_VEYRON_V1        RISCV_CPU_TYPE_NAME("veyron-v1")
->  #define TYPE_RISCV_CPU_HOST             RISCV_CPU_TYPE_NAME("host")
->
->  #if defined(TARGET_RISCV32)
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index befa64528f..db0875fb43 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -422,6 +422,43 @@ static void rv64_thead_c906_cpu_init(Object *obj)
->  #endif
->  }
->
-> +static void rv64_veyron_v1_cpu_init(Object *obj)
-> +{
-> +    CPURISCVState *env =3D &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu =3D RISCV_CPU(obj);
-> +
-> +    set_misa(env, MXL_RV64, RVG | RVC | RVS | RVU | RVH);
-> +    env->priv_ver =3D PRIV_VERSION_1_12_0;
-> +
-> +    /* Enable ISA extensions */
-> +    cpu->cfg.mmu =3D true;
-> +    cpu->cfg.ext_icbom =3D true;
-> +    cpu->cfg.cbom_blocksize =3D 64;
-> +    cpu->cfg.cboz_blocksize =3D 64;
-> +    cpu->cfg.ext_icboz =3D true;
-> +    cpu->cfg.ext_smaia =3D true;
-> +    cpu->cfg.ext_ssaia =3D true;
-> +    cpu->cfg.ext_sscofpmf =3D true;
-> +    cpu->cfg.ext_sstc =3D true;
-> +    cpu->cfg.ext_svinval =3D true;
-> +    cpu->cfg.ext_svnapot =3D true;
-> +    cpu->cfg.ext_svpbmt =3D true;
-> +    cpu->cfg.ext_smstateen =3D true;
-> +    cpu->cfg.ext_zba =3D true;
-> +    cpu->cfg.ext_zbb =3D true;
-> +    cpu->cfg.ext_zbc =3D true;
-> +    cpu->cfg.ext_zbs =3D true;
-> +    cpu->cfg.ext_XVentanaCondOps =3D true;
-> +
-> +    cpu->cfg.mvendorid =3D VEYRON_V1_MVENDORID;
-> +    cpu->cfg.marchid =3D VEYRON_V1_MARCHID;
-> +    cpu->cfg.mimpid =3D VEYRON_V1_MIMPID;
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +    set_satp_mode_max_supported(cpu, VM_1_10_SV48);
-> +#endif
-> +}
-> +
->  static void rv128_base_cpu_init(Object *obj)
->  {
->      if (qemu_tcg_mttcg_enabled()) {
-> @@ -1827,6 +1864,7 @@ static const TypeInfo riscv_cpu_type_infos[] =3D {
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C906,       rv64_thead_c906_cpu_init=
-),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_VEYRON_V1,        rv64_veyron_v1_cpu_init)=
-,
->      DEFINE_DYNAMIC_CPU(TYPE_RISCV_CPU_BASE128,  rv128_base_cpu_init),
->  #endif
->  };
-> diff --git a/target/riscv/cpu_vendorid.h b/target/riscv/cpu_vendorid.h
-> index a5aa249bc9..96b6b9c2cb 100644
-> --- a/target/riscv/cpu_vendorid.h
-> +++ b/target/riscv/cpu_vendorid.h
-> @@ -3,4 +3,8 @@
->
->  #define THEAD_VENDOR_ID         0x5b7
->
-> +#define VEYRON_V1_MARCHID       0x8000000000010000
-> +#define VEYRON_V1_MIMPID        0x111
-> +#define VEYRON_V1_MVENDORID     0x61f
-> +
->  #endif /*  TARGET_RISCV_CPU_VENDORID_H */
-> --
-> 2.40.0
->
->
+- How is everyone feeling about gfxstream/rutabaga_gfx, especially UI
+  maintainers?  I've been assuming it is a definite win, so if there's
+  a divergence of opinion on that, we should resolve that quickly.
+
+- Need help from memory region API experts on "HACK: use memory region
+  API to inject memory to guest"
+
+- Need help from QEMU multi-threaded experts on "HACK: schedule fence
+  return on main AIO context"
+
+----------
+| Longer |
+----------
+
+Dear all,
+
+The people have demanded it, and we have listened.  Just the other
+day, some kids came up to me on the street -- hat in hand, teardrops
+in their eyes -- and asked "please sir, can you perchance port
+gfxstream and rutabaga_gfx to upstream QEMU?".  I honestly can't take
+it anymore.
+
+In a way, I can understand the fanaticism of the gfxstreamists -- the
+benefits of gfxstream + rutabaga_gfx in upstream QEMU are massive for
+all involved:
+
+(i) Android Emulator aligned with QEMU
+
+The biggest use case is no doubt the Android Emulator.  Although used
+by millions of developers around the world [d][e], the Android Emulator
+itself uses currently uses a forked QEMU 2.12.  The initial fork
+happened in the early days of Android (circa 2006 [f]) and while the
+situation has improved, a QEMU update inside the Android Emulator only
+happens once every 3-5 years. Indeed, most Android Emulator developers
+aren't even subscribed to qemu-devel@ given this situation.  Their
+task is often to get the next foldable config working or fix that UI
+bug, but long term technical debt is something that is rarely
+prioritized.
+
+This one of those years when QEMU will be upreved, though.  Soon, the
+emulator will be based on QEMU7.2 and new controls will be instituted
+to make QEMU modifications harder.  Things that can be upstreamed
+will be upstreamed.
+
+One of the biggest downstream pieces of the Android Emulator is the
+gfxstream graphics stack, and it has some nontrivial features that
+aren't easy to implement elsewhere [g].
+
+The lore of gfxstream is detailed in patch 10, but suffice to say
+getting gfxstream mainlined would help move the Android Emulator out
+of it's downstream mud hut into the light, love and compassion of
+upstream.
+
+(ii) Wayland passthrough
+
+For the Linux guest on Linux host use case, we've elected to port
+rutabaga_gfx into QEMU rather than gfxstream.  rutabaga_gfx sits on
+top of gfxstream, virglrenderer, and the cross-domain context type.
+With the cross-domain context type, one can avoid a guest compositor
+pass to display VM windows like host normal windows.  It's now
+possible to run the examples found in the crosvm book [h] with this
+patchset.  There are a few problems [i], but fixing them is O(days).
+
+This use case is less strong than the Android Emulator one, since
+anyone who would play a game in a Linux guest via QEMU would be able
+to run it natively.  But it could be good for developers who need to
+test code in a virtual machine.
+
+------------------
+| Issues         |
+------------------
+
+The two biggest unsolved issues are the last two "HACK:" patches.
+Feedback from QEMU memory management and threading experts would be
+greatly appreciated.
+
+------------------
+| UI integration |
+------------------
+
+This patchset intentionally uses the simplest KMS display integration
+possible: framebuffer copies to Pixman.  The reason is Linux guests
+are expected to use Wayland Passthrough, and the Android Emulator UI
+integration is very complex.  gfxstream doesn't have a "context 0"
+like virglrenderer that can force synchronization between QEMU's and
+gfxstream's GL code.
+
+Initially, we just want to run the Android Emulator in headless mode,
+and we have a few subsequent followup ideas in mind for UI integration
+(all of with the goal to be minimally invasive for QEMU).  Note: even
+with Android in headless mode, QEMU upstream will be used in production
+and not just be a developer toy.
+
+--------------------------
+| Packaging / Versioning |
+--------------------------
+
+We have to build QEMU from sources due to compliance reasons, so we
+haven't created Debian packages for either gfxstream or rutabaga_gfx
+yet.  QEMU is upstream of Debian/Portage anyways.  Let us know the
+standard on packaging and we should be able to follow it.
+
+Versioning would be keyed on initial merge into QEMU.
+
+--------------------------
+| Testing                |
+--------------------------
+
+A document on how to test the patchset is availble on QEMU Gitlab [j].
+
+[a] https://android.googlesource.com/device/generic/vulkan-cereal/
+[b] https://www.youtube.com/watch?v=OZJiHMtIQ2M
+[c] https://github.com/google/crosvm/blob/main/rutabaga_gfx/ffi/src/include/rutabaga_gfx_ffi.h
+[d] https://www.youtube.com/watch?v=LgRRmgfrFQM
+[e] https://maltewolfcastle.medium.com/how-to-setup-an-automotive-android-emulator-f287a4061b19
+[f] https://groups.google.com/g/android-emulator-dev/c/dltBnUW_HzU
+[g] https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04271.html
+[h] https://crosvm.dev/book/devices/wayland.html
+[i] https://github.com/talex5/wayland-proxy-virtwl/blob/master/virtio-spec.md#problem
+[j] https://gitlab.com/qemu-project/qemu/-/issues/1611
+
+Antonio Caggiano (2):
+  virtio-gpu blob prep: improve decoding and add memory region
+  virtio-gpu: CONTEXT_INIT feature
+
+Dr. David Alan Gilbert (1):
+  virtio: Add shared memory capability
+
+Gerd Hoffmann (1):
+  virtio-gpu: hostmem
+
+Gurchetan Singh (9):
+  gfxstream + rutabaga prep: virtio_gpu_gl -> virtio_gpu_virgl
+  gfxstream + rutabaga prep: make GL device more library agnostic
+  gfxstream + rutabaga prep: define callbacks in realize function
+  gfxstream + rutabaga prep: added need defintions, fields, and options
+  gfxstream + rutabaga: add required meson changes
+  gfxstream + rutabaga: add initial support for gfxstream
+  gfxstream + rutabaga: enable rutabaga
+  HACK: use memory region API to inject memory to guest
+  HACK: schedule fence return on main AIO context
+
+ hw/display/meson.build                 |   40 +-
+ hw/display/virtio-gpu-base.c           |    6 +-
+ hw/display/virtio-gpu-gl.c             |  121 +--
+ hw/display/virtio-gpu-pci.c            |   14 +
+ hw/display/virtio-gpu-rutabaga-stubs.c |    8 +
+ hw/display/virtio-gpu-rutabaga.c       | 1032 ++++++++++++++++++++++++
+ hw/display/virtio-gpu-virgl-stubs.c    |    8 +
+ hw/display/virtio-gpu-virgl.c          |  138 +++-
+ hw/display/virtio-gpu.c                |   17 +-
+ hw/display/virtio-vga.c                |   33 +-
+ hw/virtio/virtio-pci.c                 |   18 +
+ include/hw/virtio/virtio-gpu-bswap.h   |   18 +
+ include/hw/virtio/virtio-gpu.h         |   38 +-
+ include/hw/virtio/virtio-pci.h         |    4 +
+ meson.build                            |    8 +
+ meson_options.txt                      |    2 +
+ scripts/meson-buildoptions.sh          |    3 +
+ 17 files changed, 1356 insertions(+), 152 deletions(-)
+ create mode 100644 hw/display/virtio-gpu-rutabaga-stubs.c
+ create mode 100644 hw/display/virtio-gpu-rutabaga.c
+ create mode 100644 hw/display/virtio-gpu-virgl-stubs.c
+
+-- 
+2.40.0.634.g4ca3ef3211-goog
+
 
