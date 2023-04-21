@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711336EA3A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A1A6EA3AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:19:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppk4z-00070Z-TT; Fri, 21 Apr 2023 02:17:09 -0400
+	id 1ppk6f-0008FL-Q2; Fri, 21 Apr 2023 02:18:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppk4y-0006zp-0P
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:17:08 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppk6b-0008E9-4V
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:18:50 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppk4w-00021W-Dw
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:17:07 -0400
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-2fbb99cb297so1211465f8f.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:17:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppk6Y-0002Hl-Sv
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:18:48 -0400
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-2f6401ce8f8so807931f8f.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682057825; x=1684649825;
+ d=linaro.org; s=google; t=1682057925; x=1684649925;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dZAouoG07rYEiITf/0M4FoJTyfaJecUXjX+wVTKhFjQ=;
- b=gOaivThbpRspPCe0hMjRfT5HvGWSIYNEGgTo3hcQ06LOpkJd3YwiD5zFy8HSeppfB0
- yUJ4YQWUpavY5d+tAymgSW6f4aoNJfTTOfq4CWafMpoiexf/gZJ1KGQriXlsZFRYDUM0
- 10f646rrIB1TYSjh3M40/IhQJWGRmJg0ip6/0LdIfngTz+KV/si21qy+4Fr9NAo1VT/K
- B2DSpkE9uwjL2h9paztY/0+EeR3BeokiDoMNbO5mCLHgtLakGY93X5kBSw2/8PAMT3lz
- 0jQdGXVmi+Ez7eUIxOS0dMsRLOm4YjW9DY7dieRNxxOnYsdb4l80n61rhwfHfX35Rzl2
- o5Zg==
+ bh=PO/a5ShqFCJtMSbVB2B854ubOLQvpt0irsUM9nDwxRc=;
+ b=QFF/+1KSEW1HTqGSpj7oUQ1wTXPNOX5nAGRYXt3EHwYRKOqsYEUlDyBdFD1d7i7Ml6
+ hnnA4yyU6w2B8nNFbWkgI16lyJkb3vkQPSeVVPB2Vjub3EWGiSm99VKMwc0UgP0dvFiM
+ Ikqw4jJHH/dEF+/VS6LwneGyuH7qkz2wXfF423XYgtHvPBpTZmoM5+jpb37dzy+l3Ecf
+ AOcpAmbkx7AgsWzcV7qouV9wwRdtUQe2gteLVgy2v15VZg7RSscwsqE30b8jYdlqM44/
+ yoUc0k/5E5cEA//B7c1cF5VhOcL7vpCas83RDAiiPN1KvJk6LOpgyh/wUOQh/R+qT2ny
+ lksw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682057825; x=1684649825;
+ d=1e100.net; s=20221208; t=1682057925; x=1684649925;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dZAouoG07rYEiITf/0M4FoJTyfaJecUXjX+wVTKhFjQ=;
- b=Yv5mcaUWx+AdUjLyNVfR5me4JLWM0qciAFZq+WmyLO1UDMhV6YHZ3bmfUFAMUIK883
- a3O3Q11fTmt0MT8cA+U+uMVA95zroWc4n3oNfYTtdlbpjW+GbabA+I0Y8WDy2+XzTD+l
- Z0sTitJoLVjbf8QiT8OBjjQCxY/mgod7ZJHz82gGaQlYLzFL8etBfNkMx2xvR92ByJg8
- ZJRp7QhtkUkXiftz8DLYVVcq7TsXpiN6vp+PHITMaNdXzR1eUyFWLyxXq9eZqB7hi/o6
- m1tfUIuZY1cHhOsSAvJfUQ5Mb6ksBw2oPAaFzDvuTRb37ySC43UyMdhvyalxv1GD91hS
- eOwQ==
-X-Gm-Message-State: AAQBX9dZ/mLKOTH5EFR/re76wQGcxvj4U3hOjnq8bmcp8HTRWvhQL3BY
- VcKk1GrWwhc8dqpfPUwnVI3Dew==
-X-Google-Smtp-Source: AKy350aM8l8mf6X8GnTxTxz55OVZVWYT4DJ1OX9FamdLkk8Q41To4n3e9qRIVtcgxyFHPkbGmtW1KQ==
-X-Received: by 2002:a5d:498c:0:b0:301:5615:26e4 with SMTP id
- r12-20020a5d498c000000b00301561526e4mr2480271wrq.32.1682057824889; 
- Thu, 20 Apr 2023 23:17:04 -0700 (PDT)
+ bh=PO/a5ShqFCJtMSbVB2B854ubOLQvpt0irsUM9nDwxRc=;
+ b=QQ24Avn12cRe+mPZzw7meJG+XLDXbkTvQ+GDdkyls5TuHPwPNM4R4QkyVDCHSQs2SH
+ KGIboxHX6q/n5VntqoZ3X5H491t6BTuek/m7eWCB+bU8/Q3dicH8MtYlLb8/9Kd7+IHC
+ ipF/RXJhBHGF19/+wE5yrKgihCXuvly7Bz/PE76JyrFho4h6cGtc4kEc45hlD4j+eJ3i
+ bDPQU0HFfrjqXQ7ZdG1zMKXKbsWA+4oF7aFNBHgjRerKOwCgCRawg6n98FDCmPHRkPT5
+ obWfM9UaDM2WToI7BB4qZNDCQjHIWrmtj0QJsd27Bln+DxDzcO6EciMvfBZKSAgjJwMp
+ Vnzw==
+X-Gm-Message-State: AAQBX9fvQn05TW3trntQ7Yy8r6s1r6mnSpu/ZD2S1ehHGRNKtib0ubvZ
+ We0/LX1i3ErV88c+gqQVwc+mrA==
+X-Google-Smtp-Source: AKy350bZtx0NZllV7eYkf7RGjWju5S3OHEJpkoSmenRioZuIrySL00cV/1RwpGH/0Cf818sEq0czFQ==
+X-Received: by 2002:a5d:428f:0:b0:2d4:751d:675b with SMTP id
+ k15-20020a5d428f000000b002d4751d675bmr2886188wrq.35.1682057924837; 
+ Thu, 20 Apr 2023 23:18:44 -0700 (PDT)
 Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
  [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- t15-20020adfe44f000000b002f00793bd7asm3659891wrm.27.2023.04.20.23.17.02
+ q9-20020a1ce909000000b003f177c3672dsm7076808wmc.29.2023.04.20.23.18.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 23:17:04 -0700 (PDT)
-Message-ID: <1ce87a03-24e6-b765-1eee-4d97fddce9e0@linaro.org>
-Date: Fri, 21 Apr 2023 08:17:01 +0200
+ Thu, 20 Apr 2023 23:18:44 -0700 (PDT)
+Message-ID: <d864d359-56c1-6c0d-38c6-a1fbb7c143b9@linaro.org>
+Date: Fri, 21 Apr 2023 08:18:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 9/9] docs/style: call out the use of GUARD macros
+Subject: Re: [PATCH 2/9] qemu-options.hx: Update descriptions of memory
+ options for NUMA node
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ qemu-devel@nongnu.org
 Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -73,15 +73,15 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  Jagannathan Raman <jag.raman@oracle.com>, Juan Quintela
  <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>
+ Mahmoud Mandour <ma.mandourr@gmail.com>, Yohei Kojima <y-koj@outlook.jp>
 References: <20230420155723.1711048-1-alex.bennee@linaro.org>
- <20230420155723.1711048-10-alex.bennee@linaro.org>
+ <20230420155723.1711048-3-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230420155723.1711048-10-alex.bennee@linaro.org>
+In-Reply-To: <20230420155723.1711048-3-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -105,62 +105,64 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 20/4/23 17:57, Alex Bennée wrote:
-> There use makes our code safer so we should mention them.
+> From: Yohei Kojima <y-koj@outlook.jp>
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> This commit adds the following description:
+> 1. `memdev` option is recommended over `mem` option (see [1,2])
+> 2. users must specify memory for all NUMA nodes (see [2])
+> 
+> This commit also separates descriptions for `mem` and `memdev` into two
+> paragraphs. The old doc describes legacy `mem` option first, and it was
+> a bit confusing.
+> 
+> Related documantations:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Typo "documentation".
 
+> [1] https://wiki.qemu.org/ChangeLog/5.1#Incompatible_changes
+> [2] https://www.qemu.org/docs/master/about/removed-features.html
+> 
+> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
+> Message-Id: <TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
 > ---
->   docs/devel/style.rst | 36 ++++++++++++++++++++++++++++++++++++
->   1 file changed, 36 insertions(+)
+>   qemu-options.hx | 25 ++++++++++++++++---------
+>   1 file changed, 16 insertions(+), 9 deletions(-)
 > 
-> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-> index 0bd01f3fca..b50a981a86 100644
-> --- a/docs/devel/style.rst
-> +++ b/docs/devel/style.rst
-> @@ -657,6 +657,42 @@ that declaration and the new code.
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 59bdf67a2c..174f0d0c2d 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -405,15 +405,22 @@ SRST
+>           -numa node,nodeid=0 -numa node,nodeid=1 \
+>           -numa cpu,node-id=0,socket-id=0 -numa cpu,node-id=1,socket-id=1
 >   
->   See :ref:`qom` for more details.
+> -    Legacy '\ ``mem``\ ' assigns a given RAM amount to a node (not supported
+> -    for 5.1 and newer machine types). '\ ``memdev``\ ' assigns RAM from
+> -    a given memory backend device to a node. If '\ ``mem``\ ' and
+> -    '\ ``memdev``\ ' are omitted in all nodes, RAM is split equally between them.
+> -
+> -
+> -    '\ ``mem``\ ' and '\ ``memdev``\ ' are mutually exclusive.
+> -    Furthermore, if one node uses '\ ``memdev``\ ', all of them have to
+> -    use it.
+> +    '\ ``memdev``\ ' option assigns RAM from a given memory backend
+> +    device to a node. It is recommended to use '\ ``memdev``\ ' option
+> +    over legacy '\ ``mem``\ ' option. This is because '\ ``memdev``\ '
+> +    option provides better performance and more control over the
+> +    backend's RAM (e.g. '\ ``prealloc``\ ' parameter of
+> +    '\ ``-memory-backend-ram``\ ' allows memory preallocation).
+> +
+> +    For compatibility reasons, legacy '\ ``mem``\ ' option is
+> +    supported in 5.0 and older machine types. Note that '\ ``mem``\ '
+> +    and '\ ``memdev``\ ' are mutually exclusive. If one node uses
+> +    '\ ``memdev``\ ', the rest nodes have to use '\ ``memdev``\ '
+> +    option, and vice versa.
+> +
+> +    Users must specify memory for all NUMA nodes by '\ ``memdev``\ '
+> +    (or legacy '\ ``mem``\ ' if available). In QEMU 5.2, the support
+> +    for '\ ``-numa node``\ ' without memory specified was removed.
 >   
-> +QEMU GUARD macros
-> +=================
-> +
-> +QEMU provides a number of ``_GUARD`` macros intended to make the
-> +handling of multiple exit paths easier. For example using
-> +``QEMU_LOCK_GUARD`` to take a lock will ensure the lock is released on
-> +exit from the function.
-> +
-> +.. code-block:: c
-> +
-> +    static int my_critical_function(SomeState *s, void *data)
-> +    {
-> +        QEMU_LOCK_GUARD(&s->lock);
-> +        do_thing1(data);
-> +        if (check_state2(data)) {
-> +            return -1;
-> +        }
-> +        do_thing3(data);
-> +        return 0;
-> +    }
-> +
-> +will ensure s->lock is released however the function is exited. There
-> +are often ``WITH_`` forms of macros which more easily wrap around a
-> +block inside a function.
-> +
-> +.. code-block:: c
-> +
-> +    WITH_RCU_READ_LOCK_GUARD() {
-> +        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
-> +            err = do_the_thing(kid->child);
-> +            if (err < 0) {
-> +                return err;
-> +            }
-> +        }
-> +    }
-> +
->   Error handling and reporting
->   ============================
->   
+>       '\ ``initiator``\ ' is an additional option that points to an
+>       initiator NUMA node that has best performance (the lowest latency or
 
 
