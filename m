@@ -2,88 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50CC6EB142
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 19:57:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F596EB14B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 20:00:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppv0d-0004qV-VH; Fri, 21 Apr 2023 13:57:23 -0400
+	id 1ppv3E-0005nB-D2; Fri, 21 Apr 2023 14:00:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppv0Y-0004pK-Nl
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:57:18 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppv0V-0002kM-Go
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:57:17 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f18123d9f6so14348185e9.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 10:57:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682099834; x=1684691834;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IGNgEV/AmNTyW5IcndaJKv1I/lWmvmwoTOo4eJbfmz0=;
- b=MWvjdpUN5d0d419WGQMIt4A72uqoHf9SUbholO7hKyEFcNROcUPCnPvJGs4lsy41EN
- ZDCDQatNMfdEcYttt1c/lAsDOmii8uY6rRauOpUxY3APd1PZKYsGcmsee3KB2RvrWTlk
- 2WyJ1C2H7VkhEuRCQbOIKMka47RVuufGnXyxocvB6S+aycllZfhK8raQORIlauqOf7Jt
- 6eNRyAFuFmHLiRYunSguH/p8ymkeoMLqBVc91dVlTbUmKMEwrpQRWRkPEW/vH2/ja7fX
- a06hGRbFyuhAP5K70v/qx9ySaQk1ukKAB+9OBs2Pmb2ggcNleAeF+d046JpujWo5vhKT
- 9M7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682099834; x=1684691834;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IGNgEV/AmNTyW5IcndaJKv1I/lWmvmwoTOo4eJbfmz0=;
- b=TPILSZJPOShnSPWynd/lA6Wn7ylkkduUZdQ3nOuySJTmkKKwvQLS9bHKWkBLZj/54T
- iKguE81ZMRD/Olvcfg5yYXmFrMnnZUGnmyIHWJnjB7XuN9bQuEpCDh71mrJCWrZ44cV7
- hJEsZP38LVbs6KTY52UWDNaFM1oo2I+Olnflxdiz05abl8ynWlwYJ76xJPV7NfUWCRxC
- Zpu0wTWSRO56VaZB1yaWfbspYno/AXnrO4yCd7/SXQ/TClOLlaaV0DphIT0cTKYjiFQQ
- O8L92HkoBpuvAv/E/21I/XpJXicjo8AqoCepFrGtw4jNG0EvgLKXKN0ZFQc47rTJXgmg
- OUyg==
-X-Gm-Message-State: AAQBX9fJeViSuS9d4Msr0eVKVwNcub77XikvkyBf31uq1F7VBtfTy8yk
- pQuBLUSmouOFwlv2t+X3u9XrCQ==
-X-Google-Smtp-Source: AKy350b2yluOf1AGPpzuhLsdnbofEtWZlUFQC8amdCJUe/NziRKdULvizM6U5Dfzchsv6wGBWw3jVg==
-X-Received: by 2002:a7b:c845:0:b0:3f1:9526:22be with SMTP id
- c5-20020a7bc845000000b003f1952622bemr1690664wml.23.1682099833996; 
- Fri, 21 Apr 2023 10:57:13 -0700 (PDT)
-Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
- [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- c21-20020a7bc855000000b003f17300c7dcsm5340305wml.48.2023.04.21.10.57.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 10:57:13 -0700 (PDT)
-Message-ID: <ae65d59f-5e16-24bb-aece-ccdd504fe75e@linaro.org>
-Date: Fri, 21 Apr 2023 19:57:11 +0200
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>) id 1ppv3C-0005mY-3y
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 14:00:02 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>) id 1ppv39-0003Wv-ER
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 14:00:01 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7FB7B60EF4;
+ Fri, 21 Apr 2023 17:59:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B63FDC433EF;
+ Fri, 21 Apr 2023 17:59:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1682099983;
+ bh=m5P6nliT6+94yARLAxNnuMjQHm1sO5fRsduqFS1dG6A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LOwHu9AtKmesRuGzJupttG8Wzx14+JadCsYVpZE8uKkeyj7+BGG2Ia3I5gOKkIV0O
+ GXn/1deKJmjXiFojl+FFvlI1xZ3Qk1Wz8DhQfCxbYlN7dLvcUms4wSlfYp1iaZrqcJ
+ ZS7YGn2yd9k8VLgTVM9kCHX42lJkUENpUtmLMn7DmYSuQrGrwGXqcEJvhuTFq2Ipjd
+ 9jCvPkEaegrfe11Gg/nFW+/zEezxTDRQkoGHua9X+NsfyG/BpA+0CGpzG8iE9PW2xV
+ KOwPSVTgrQfeXz+nWEopUf5Mqyq0eti2TTOf7QbAJRNjxLnedw0lv2b8hK3l773lEC
+ Rkf951DhQGEtw==
+Date: Fri, 21 Apr 2023 18:59:40 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: qemu-devel@nongnu.org, ycliang@andestech.com, dylan@andestech.com,
+ conor.dooley@microchip.com
+Subject: Re: [PATCH] target/riscv: Fix PMU node property for virt machine
+Message-ID: <20230421-profanity-debug-2ef7d4740c33@spud>
+References: <20230421131437.19036-1-peterlin@andestech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v10 04/11] target/arm: Do not expose all -cpu max features
- to qtests
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20230412121829.14452-1-farosas@suse.de>
- <20230412121829.14452-5-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230412121829.14452-5-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WXuYodcwKeHTXE4s"
+Content-Disposition: inline
+In-Reply-To: <20230421131437.19036-1-peterlin@andestech.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=conor@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,22 +70,232 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/4/23 14:18, Fabiano Rosas wrote:
-> We're about to move the TCG-only -cpu max configuration code under
-> CONFIG_TCG. To be able to do that we need to make sure the qtests
-> still have some cpu configured even when no other accelerator is
-> available.
-> 
-> Delineate now what is used with TCG-only and what is also used with
-> qtests to make the subsequent patches cleaner.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+
+--WXuYodcwKeHTXE4s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 21, 2023 at 09:14:37PM +0800, Yu Chien Peter Lin wrote:
+> The length of fdt_event_ctr_map[20] will add 5 dummy cells in
+> "riscv,event-to-mhpmcounters" property, so directly initialize
+> the array without an explicit size.
+>=20
+> This patch also fixes the typo of PMU cache operation result ID
+> of MISS (0x1) in the comments, and renames event idx 0x10021 to
+> RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS.
+>=20
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 > ---
->   target/arm/cpu64.c | 12 +++++++++---
->   1 file changed, 9 insertions(+), 3 deletions(-)
+>=20
+>   $ ./build/qemu-system-riscv64 -M virt,dumpdtb=3D/tmp/virt.dtb -cpu rv64=
+,sscofpmf=3Don && dtc /tmp/virt.dtb | grep mhpmcounters
+>   [...]
+>     riscv,event-to-mhpmcounters =3D <0x01 0x01 0x7fff9=20
+>                                    0x02 0x02 0x7fffc
+>                                    0x10019 0x10019 0x7fff8
+>                                    0x1001b 0x1001b 0x7fff8
+>                                    0x10021 0x10021 0x7fff8
+>                dummy cells --->    0x00 0x00 0x00 0x00 0x00>;
+>=20
+> This won't break the OpenSBI, but will cause it to incorrectly increment
+> num_hw_events [1] to 6, and DT validation failure in kernel [2].
+>=20
+>   $ dt-validate -p Documentation/devicetree/bindings/processed-schema.jso=
+n virt.dtb
+>   [...]
+>   virt.dtb: soc: pmu: {'riscv,event-to-mhpmcounters': [[1, 1, 524281], [2=
+, 2, 524284], [65561, 65561, 524280], [65563, 65563, 524280], [65569, 65569=
+, 524280], [0, 0, 0], [0, 0]], 'compatible': ['riscv,pmu']} should not be v=
+alid under {'type': 'object'}
 
-Nice.
+I would note that this warning here does not go away with this patch ^^
+It's still on my todo list, unless you want to fix it!
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>           From schema: /home/peterlin/.local/lib/python3.10/site-packages=
+/dtschema/schemas/simple-bus.yaml
+>   virt.dtb: pmu: riscv,event-to-mhpmcounters:6: [0, 0] is too short
+>   [...]
 
+And with the binding below there is a 3rd warning, but I think it is
+incorrect and I submitted a patch for the binding to fix it.
+
+That said, this doesn't seem to have been submitted on top of my naive
+s/20/15/ patch that Alistair picked up. Is this intended to replace, or
+for another branch? Replace works fine for me, don't have sentimental
+feelings for that patch!
+
+I think your approach here was better than my s/20/15/, but seems like a
+bit of a fix and a bit of cleanup all-in-one.
+
+Either way, warnings gone so WFM :) :)
+
+Thanks,
+Conor.
+
+> [1] https://github.com/riscv-software-src/opensbi/blob/master/lib/sbi/sbi=
+_pmu.c#L255
+> [2] https://github.com/torvalds/linux/blob/v6.3-rc7/Documentation/devicet=
+ree/bindings/perf/riscv%2Cpmu.yaml#L54-L66
+> ---
+>  target/riscv/cpu.h        |  2 +-
+>  target/riscv/cpu_helper.c |  2 +-
+>  target/riscv/pmu.c        | 88 +++++++++++++++++++--------------------
+>  3 files changed, 45 insertions(+), 47 deletions(-)
+>=20
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 638e47c75a..eab518542c 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -812,7 +812,7 @@ enum riscv_pmu_event_idx {
+>      RISCV_PMU_EVENT_HW_INSTRUCTIONS =3D 0x02,
+>      RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS =3D 0x10019,
+>      RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS =3D 0x1001B,
+> -    RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS =3D 0x10021,
+> +    RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS =3D 0x10021,
+>  };
+> =20
+>  /* CSR function table */
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index f88c503cf4..5d3e032ec9 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -1210,7 +1210,7 @@ static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MM=
+UAccessType access_type)
+> =20
+>      switch (access_type) {
+>      case MMU_INST_FETCH:
+> -        pmu_event_type =3D RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
+> +        pmu_event_type =3D RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS;
+>          break;
+>      case MMU_DATA_LOAD:
+>          pmu_event_type =3D RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
+> diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
+> index b8e56d2b7b..0b21c3fa38 100644
+> --- a/target/riscv/pmu.c
+> +++ b/target/riscv/pmu.c
+> @@ -35,51 +35,49 @@
+>   */
+>  void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
+>  {
+> -    uint32_t fdt_event_ctr_map[20] =3D {};
+> -    uint32_t cmask;
+> -
+>      /* All the programmable counters can map to any event */
+> -    cmask =3D MAKE_32BIT_MASK(3, num_ctrs);
+> -
+> -   /*
+> -    * The event encoding is specified in the SBI specification
+> -    * Event idx is a 20bits wide number encoded as follows:
+> -    * event_idx[19:16] =3D type
+> -    * event_idx[15:0] =3D code
+> -    * The code field in cache events are encoded as follows:
+> -    * event_idx.code[15:3] =3D cache_id
+> -    * event_idx.code[2:1] =3D op_id
+> -    * event_idx.code[0:0] =3D result_id
+> -    */
+> -
+> -   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
+> -   fdt_event_ctr_map[0] =3D cpu_to_be32(0x00000001);
+> -   fdt_event_ctr_map[1] =3D cpu_to_be32(0x00000001);
+> -   fdt_event_ctr_map[2] =3D cpu_to_be32(cmask | 1 << 0);
+> -
+> -   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
+> -   fdt_event_ctr_map[3] =3D cpu_to_be32(0x00000002);
+> -   fdt_event_ctr_map[4] =3D cpu_to_be32(0x00000002);
+> -   fdt_event_ctr_map[5] =3D cpu_to_be32(cmask | 1 << 2);
+> -
+> -   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) */
+> -   fdt_event_ctr_map[6] =3D cpu_to_be32(0x00010019);
+> -   fdt_event_ctr_map[7] =3D cpu_to_be32(0x00010019);
+> -   fdt_event_ctr_map[8] =3D cpu_to_be32(cmask);
+> -
+> -   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01) */
+> -   fdt_event_ctr_map[9] =3D cpu_to_be32(0x0001001B);
+> -   fdt_event_ctr_map[10] =3D cpu_to_be32(0x0001001B);
+> -   fdt_event_ctr_map[11] =3D cpu_to_be32(cmask);
+> -
+> -   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) */
+> -   fdt_event_ctr_map[12] =3D cpu_to_be32(0x00010021);
+> -   fdt_event_ctr_map[13] =3D cpu_to_be32(0x00010021);
+> -   fdt_event_ctr_map[14] =3D cpu_to_be32(cmask);
+> -
+> -   /* This a OpenSBI specific DT property documented in OpenSBI docs */
+> -   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
+> -                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
+> +    uint32_t cmask =3D MAKE_32BIT_MASK(3, num_ctrs);
+> +
+> +    /*
+> +     * The event encoding is specified in the SBI specification
+> +     * Event idx is a 20bits wide number encoded as follows:
+> +     * event_idx[19:16] =3D type
+> +     * event_idx[15:0] =3D code
+> +     * The code field in cache events are encoded as follows:
+> +     * event_idx.code[15:3] =3D cache_id
+> +     * event_idx.code[2:1] =3D op_id
+> +     * event_idx.code[0:0] =3D result_id
+> +     */
+> +    const uint32_t fdt_event_ctr_map[] =3D {
+> +        /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
+> +        cpu_to_be32(RISCV_PMU_EVENT_HW_CPU_CYCLES),
+> +        cpu_to_be32(RISCV_PMU_EVENT_HW_CPU_CYCLES),
+> +        cpu_to_be32(cmask | 1 << 0),
+> +
+> +        /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
+> +        cpu_to_be32(RISCV_PMU_EVENT_HW_INSTRUCTIONS),
+> +        cpu_to_be32(RISCV_PMU_EVENT_HW_INSTRUCTIONS),
+> +        cpu_to_be32(cmask | 1 << 2),
+> +
+> +        /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x01 type(0x0=
+1) */
+> +        cpu_to_be32(RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS),
+> +        cpu_to_be32(RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS),
+> +        cpu_to_be32(cmask),
+> +
+> +        /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x01 type(0x=
+01) */
+> +        cpu_to_be32(RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS),
+> +        cpu_to_be32(RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS),
+> +        cpu_to_be32(cmask),
+> +
+> +        /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x01 type(0x0=
+1) */
+> +        cpu_to_be32(RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS),
+> +        cpu_to_be32(RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS),
+> +        cpu_to_be32(cmask),
+> +    };
+> +
+> +    /* This a OpenSBI specific DT property documented in OpenSBI docs */
+> +    qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
+> +                     fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
+>  }
+> =20
+>  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
+> @@ -317,7 +315,7 @@ int riscv_pmu_update_event_map(CPURISCVState *env, ui=
+nt64_t value,
+>      case RISCV_PMU_EVENT_HW_INSTRUCTIONS:
+>      case RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS:
+>      case RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS:
+> -    case RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS:
+> +    case RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS:
+>          break;
+>      default:
+>          /* We don't support any raw events right now */
+> --=20
+> 2.34.1
+>=20
+>=20
+
+--WXuYodcwKeHTXE4s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZELPDAAKCRB4tDGHoIJi
+0sOPAQDJWKPxQZF+KYHnSOd4xDwsxKp0ek2XgLzQq+MK68VoogEAm++bmUkG4MWP
+t87ITkYggy8zQhypePGsNMFoFDUJ1wA=
+=9rfI
+-----END PGP SIGNATURE-----
+
+--WXuYodcwKeHTXE4s--
 
