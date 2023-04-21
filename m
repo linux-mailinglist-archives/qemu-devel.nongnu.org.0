@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD38E6EA610
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 10:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9166EA60F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 10:41:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppmKN-000315-35; Fri, 21 Apr 2023 04:41:11 -0400
+	id 1ppmKO-00031U-IF; Fri, 21 Apr 2023 04:41:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppmKL-00030x-H0
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:41:09 -0400
+ id 1ppmKN-00031C-0V
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:41:11 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppmKK-0001sD-52
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:41:09 -0400
+ id 1ppmKK-0001sK-J8
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:41:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682066466;
+ s=mimecast20190719; t=1682066468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YF32A6DyW2RGZUQizrMCWb85KOUmg8bRyLjV3FaQe30=;
- b=Y6OhpiVz93ZzMN9YBaJih3SQZyVK7M87lUw36wbibHMZ3Zdm7Si4lChUPTnipI8eoAjffI
- Hcm1Uo99KUDsAQIEIZFmbCKsGJGFgIuEJvH7H3xeFPnhygHiWBHKmYLKYWO7H44kk6Ev9K
- aaSjr4/fiqpoHGd6vNEG+Gtnj8DLaQI=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kIB/QotKeT2p8OO4tQ9BKrq03nO9wZG4in3EzRy+oUA=;
+ b=My6lvFMr7rE91n+A7r5Mk6u6AaRwhZJS9CrV/OozZMyOvEWCSSc5xGBMSv9KRbEcy2TONV
+ s0edmN57f55R9hX2V1/mUh9tJrMa5dbvO63nGlSmYl3uV3xMTcnO6gMMiGRYCR6KLt/1G2
+ mvbtiqigM+IQ2CiVE2dAp6ajFYQ/9Nk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-zscHjRqjNtmX2U1NwoCdPQ-1; Fri, 21 Apr 2023 04:41:03 -0400
-X-MC-Unique: zscHjRqjNtmX2U1NwoCdPQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-94a348facbbso151538666b.1
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 01:41:02 -0700 (PDT)
+ us-mta-339-3_QzN2YxND2R1iIYp1CFdw-1; Fri, 21 Apr 2023 04:41:04 -0400
+X-MC-Unique: 3_QzN2YxND2R1iIYp1CFdw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-504ecbc85c2so1552249a12.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 01:41:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682066461; x=1684658461;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YF32A6DyW2RGZUQizrMCWb85KOUmg8bRyLjV3FaQe30=;
- b=NKJ/CTVeUrN0MT6nbDU4I8qEkN6XA8+GS2FAoHs6Hbnfc/2Sxz0wXNvtyYf1mjotG+
- KzCqWcA0M/8T26TtTewLdxn7flX4yo+c5/iOz1MzGP8LSR3yfIHq36LTDNy1WF1nnaOz
- yE/IhtUon7aD7GtEpKZECkzNQwHwm+SCBIo2dhDFTN5lhZ8dIwfokqjf+00yM5AmDxa9
- xLaSxnOee54spb2b09eqzwfogDOsCDEpMGQrg1PDOkKxox1N2SegZqNLkCi0hnvraY2i
- Jng0mJyLiNLhrH9lGkJ9Ro9vYWx9QcGcLffj/hsZKd9nd3m7l7laceeW3+6pyhzuAIc1
- m/Kg==
-X-Gm-Message-State: AAQBX9clTvfGSjVie5tVb6FAww8vDQOnVFp5yaQUUF4459tJoFe9DK17
- fw2k5fVAOig0A5/uwaEIUTN6W5T5LDj9qX6H7X7sV6NDVjzAVtEh3XIUg/yUqcZUfykRX2aJNv9
- 9PEjHJvPU58JShsF6wmoUCBEWKKfBMDTpRB/6RYeihHyPHqgdSJqg6b32GswjB8YywoLPUSXIsF
- 7v0g==
-X-Received: by 2002:a17:907:d310:b0:94f:c71:dd48 with SMTP id
- vg16-20020a170907d31000b0094f0c71dd48mr1316699ejc.63.1682066461505; 
- Fri, 21 Apr 2023 01:41:01 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YSEYRgB4izID+ZFQLuKGGXhLBT5FLhFMX0lneaMOoVjimj0+nAuMONHWr+1H4tAmYSUf0H9A==
-X-Received: by 2002:a17:907:d310:b0:94f:c71:dd48 with SMTP id
- vg16-20020a170907d31000b0094f0c71dd48mr1316684ejc.63.1682066461107; 
- Fri, 21 Apr 2023 01:41:01 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682066463; x=1684658463;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kIB/QotKeT2p8OO4tQ9BKrq03nO9wZG4in3EzRy+oUA=;
+ b=PAiSTfRn8II7fs8DiqCcJ55KiOHE0k/FqDM27HbmjsNAUnAp+9zqWGXu1Ua3ZNqQmc
+ M7IOfjVzTdZLbBgYdNSyEzokXv+Oo6rtUKkXPcIXq27g9X1RPoRv8KXAVY/BSMniGe+M
+ vAQ1np9SA6r+uDf9BDuCKL8fXd25Nf1l5KcFh/gY2FJLb8S5KfQjNx5/I4XmBXImk1oY
+ xTbHSm13CcBrF8ietRnZZTxWgI8qtxhZqb/4/By+52ihFUJQdsQ3TfR2RLFLjWMpjr0S
+ GDHJG0vea/DO+hxAeZlClMrtij/7WDFiBsVUsVPyUzL6mHv2PU2wHehmGRDCCr+cP9jE
+ LTJA==
+X-Gm-Message-State: AAQBX9dRL1DBe2Qi+Kk9zhQ4CdqqfMR4d3z9cMx6B00EZd0nTgPkqmbO
+ Y9Cf0fLxg6ZhAznQ3eYr1w3hBNazyuwE0UEDnCp/ybBcix3/SBbKxPhbALpQ3knieB/vbUBcMk7
+ KQtZP+ZGeJ0ne6VTX/Qw5omRoPnlmiSSFLBRCAMshm1d8ubE0mzD71aKGWbY1rc1RBEwfQJ+s4d
+ ApAg==
+X-Received: by 2002:aa7:da8e:0:b0:506:ad45:49b1 with SMTP id
+ q14-20020aa7da8e000000b00506ad4549b1mr4183067eds.42.1682066462949; 
+ Fri, 21 Apr 2023 01:41:02 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZfEcua82lWRkbQCJe+ZToCJi7f3YT8VCoh9+U2mHrxOvRdptJaUtdpT3p+TXlb+ozjN0wXNA==
+X-Received: by 2002:aa7:da8e:0:b0:506:ad45:49b1 with SMTP id
+ q14-20020aa7da8e000000b00506ad4549b1mr4183050eds.42.1682066462499; 
+ Fri, 21 Apr 2023 01:41:02 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- g11-20020a170906394b00b0094f4f2db7e0sm1809665eje.143.2023.04.21.01.41.00
+ n20-20020a05640206d400b00504b203c4f1sm1661846edy.40.2023.04.21.01.41.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 01:41:00 -0700 (PDT)
+ Fri, 21 Apr 2023 01:41:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: pkrempa@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v3 0/2] tests: lcitool: Switch to OpenSUSE Leap 15.4
-Date: Fri, 21 Apr 2023 10:40:57 +0200
-Message-Id: <20230421084059.9142-1-pbonzini@redhat.com>
+Subject: [PATCH v3 1/2] tests: libvirt-ci: Update to commit '2fa24dce8bc'
+Date: Fri, 21 Apr 2023 10:40:58 +0200
+Message-Id: <20230421084059.9142-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230421084059.9142-1-pbonzini@redhat.com>
+References: <20230421084059.9142-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
@@ -99,39 +101,325 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v3 of Peter's series, which uses a newer libvirt-ci commit.  With this
-version, future updates of the libvirt-ci submodule will pick new
-Leap 15 releases without the need for changes to tests/lcitool/mappings.yml
-or tests/lcitool/targets.
+From: Peter Krempa <pkrempa@redhat.com>
 
-Paolo
+Update to commit which has fixes needed for OpenSUSE 15.4 and
+re-generate output files.
 
-Supersedes: <cover.1681735482.git.pkrempa@redhat.com>
+Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+Message-Id: <bd11b5954d3dd1e989699370af2b9e2e0c77194a.1681735482.git.pkrempa@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/docker/dockerfiles/centos8.docker               | 1 -
+ tests/docker/dockerfiles/debian-amd64-cross.docker    | 4 ++--
+ tests/docker/dockerfiles/debian-arm64-cross.docker    | 4 ++--
+ tests/docker/dockerfiles/debian-armel-cross.docker    | 4 ++--
+ tests/docker/dockerfiles/debian-armhf-cross.docker    | 4 ++--
+ tests/docker/dockerfiles/debian-mips64el-cross.docker | 4 ++--
+ tests/docker/dockerfiles/debian-mipsel-cross.docker   | 4 ++--
+ tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 4 ++--
+ tests/docker/dockerfiles/debian-s390x-cross.docker    | 4 ++--
+ tests/docker/dockerfiles/fedora-win32-cross.docker    | 5 ++---
+ tests/docker/dockerfiles/fedora-win64-cross.docker    | 5 ++---
+ tests/docker/dockerfiles/fedora.docker                | 5 ++---
+ tests/docker/dockerfiles/opensuse-leap.docker         | 1 -
+ tests/lcitool/libvirt-ci                              | 2 +-
+ 14 files changed, 23 insertions(+), 28 deletions(-)
 
-Peter Krempa (2):
-  tests: libvirt-ci: Update to commit '2fa24dce8bc'
-  tests: lcitool: Switch to OpenSUSE Leap 15.4
-
- tests/docker/dockerfiles/centos8.docker       |  1 -
- .../dockerfiles/debian-amd64-cross.docker     |  4 +--
- .../dockerfiles/debian-arm64-cross.docker     |  4 +--
- .../dockerfiles/debian-armel-cross.docker     |  4 +--
- .../dockerfiles/debian-armhf-cross.docker     |  4 +--
- .../dockerfiles/debian-mips64el-cross.docker  |  4 +--
- .../dockerfiles/debian-mipsel-cross.docker    |  4 +--
- .../dockerfiles/debian-ppc64el-cross.docker   |  4 +--
- .../dockerfiles/debian-s390x-cross.docker     |  4 +--
- .../dockerfiles/fedora-win32-cross.docker     |  5 ++-
- .../dockerfiles/fedora-win64-cross.docker     |  5 ++-
- tests/docker/dockerfiles/fedora.docker        |  5 ++-
- tests/docker/dockerfiles/opensuse-leap.docker |  5 ++-
- tests/lcitool/libvirt-ci                      |  2 +-
- tests/lcitool/mappings.yml                    | 36 +++++++++----------
- tests/lcitool/refresh                         |  2 +-
- ...suse-leap-153.yml => opensuse-leap-15.yml} |  0
- 17 files changed, 44 insertions(+), 49 deletions(-)
- rename tests/lcitool/targets/{opensuse-leap-153.yml => opensuse-leap-15.yml} (100%)
-
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 7e3a6217ae2d..1a6a9087c11f 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -100,7 +100,6 @@ RUN dnf distro-sync -y && \
+         python38-setuptools \
+         python38-wheel \
+         rdma-core-devel \
+-        rpm \
+         sed \
+         snappy-devel \
+         socat \
+diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker b/tests/docker/dockerfiles/debian-amd64-cross.docker
+index afb1cbd04638..2e7eb445f161 100644
+--- a/tests/docker/dockerfiles/debian-amd64-cross.docker
++++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
+@@ -148,7 +148,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get autoremove -y && \
+     eatmydata apt-get autoclean -y && \
+     mkdir -p /usr/local/share/meson/cross && \
+-    echo "[binaries]\n\
++    printf "[binaries]\n\
+ c = '/usr/bin/x86_64-linux-gnu-gcc'\n\
+ ar = '/usr/bin/x86_64-linux-gnu-gcc-ar'\n\
+ strip = '/usr/bin/x86_64-linux-gnu-strip'\n\
+@@ -158,7 +158,7 @@ pkgconfig = '/usr/bin/x86_64-linux-gnu-pkg-config'\n\
+ system = 'linux'\n\
+ cpu_family = 'x86_64'\n\
+ cpu = 'x86_64'\n\
+-endian = 'little'" > /usr/local/share/meson/cross/x86_64-linux-gnu && \
++endian = 'little'\n" > /usr/local/share/meson/cross/x86_64-linux-gnu && \
+     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/x86_64-linux-gnu-c++ && \
+diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
+index b4f7a7f903ee..f558770f845a 100644
+--- a/tests/docker/dockerfiles/debian-arm64-cross.docker
++++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+@@ -147,7 +147,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get autoremove -y && \
+     eatmydata apt-get autoclean -y && \
+     mkdir -p /usr/local/share/meson/cross && \
+-    echo "[binaries]\n\
++    printf "[binaries]\n\
+ c = '/usr/bin/aarch64-linux-gnu-gcc'\n\
+ ar = '/usr/bin/aarch64-linux-gnu-gcc-ar'\n\
+ strip = '/usr/bin/aarch64-linux-gnu-strip'\n\
+@@ -157,7 +157,7 @@ pkgconfig = '/usr/bin/aarch64-linux-gnu-pkg-config'\n\
+ system = 'linux'\n\
+ cpu_family = 'aarch64'\n\
+ cpu = 'aarch64'\n\
+-endian = 'little'" > /usr/local/share/meson/cross/aarch64-linux-gnu && \
++endian = 'little'\n" > /usr/local/share/meson/cross/aarch64-linux-gnu && \
+     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/aarch64-linux-gnu-c++ && \
+diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
+index 4b4191f82474..f3d7e07cce5a 100644
+--- a/tests/docker/dockerfiles/debian-armel-cross.docker
++++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+@@ -146,7 +146,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get autoremove -y && \
+     eatmydata apt-get autoclean -y && \
+     mkdir -p /usr/local/share/meson/cross && \
+-    echo "[binaries]\n\
++    printf "[binaries]\n\
+ c = '/usr/bin/arm-linux-gnueabi-gcc'\n\
+ ar = '/usr/bin/arm-linux-gnueabi-gcc-ar'\n\
+ strip = '/usr/bin/arm-linux-gnueabi-strip'\n\
+@@ -156,7 +156,7 @@ pkgconfig = '/usr/bin/arm-linux-gnueabi-pkg-config'\n\
+ system = 'linux'\n\
+ cpu_family = 'arm'\n\
+ cpu = 'arm'\n\
+-endian = 'little'" > /usr/local/share/meson/cross/arm-linux-gnueabi && \
++endian = 'little'\n" > /usr/local/share/meson/cross/arm-linux-gnueabi && \
+     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabi-c++ && \
+diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
+index c9b6b2e56377..531c556ad5aa 100644
+--- a/tests/docker/dockerfiles/debian-armhf-cross.docker
++++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+@@ -147,7 +147,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get autoremove -y && \
+     eatmydata apt-get autoclean -y && \
+     mkdir -p /usr/local/share/meson/cross && \
+-    echo "[binaries]\n\
++    printf "[binaries]\n\
+ c = '/usr/bin/arm-linux-gnueabihf-gcc'\n\
+ ar = '/usr/bin/arm-linux-gnueabihf-gcc-ar'\n\
+ strip = '/usr/bin/arm-linux-gnueabihf-strip'\n\
+@@ -157,7 +157,7 @@ pkgconfig = '/usr/bin/arm-linux-gnueabihf-pkg-config'\n\
+ system = 'linux'\n\
+ cpu_family = 'arm'\n\
+ cpu = 'armhf'\n\
+-endian = 'little'" > /usr/local/share/meson/cross/arm-linux-gnueabihf && \
++endian = 'little'\n" > /usr/local/share/meson/cross/arm-linux-gnueabihf && \
+     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-c++ && \
+diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+index cfe4f9a0d7fb..816dbd29113f 100644
+--- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+@@ -144,7 +144,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get autoremove -y && \
+     eatmydata apt-get autoclean -y && \
+     mkdir -p /usr/local/share/meson/cross && \
+-    echo "[binaries]\n\
++    printf "[binaries]\n\
+ c = '/usr/bin/mips64el-linux-gnuabi64-gcc'\n\
+ ar = '/usr/bin/mips64el-linux-gnuabi64-gcc-ar'\n\
+ strip = '/usr/bin/mips64el-linux-gnuabi64-strip'\n\
+@@ -154,7 +154,7 @@ pkgconfig = '/usr/bin/mips64el-linux-gnuabi64-pkg-config'\n\
+ system = 'linux'\n\
+ cpu_family = 'mips64'\n\
+ cpu = 'mips64el'\n\
+-endian = 'little'" > /usr/local/share/meson/cross/mips64el-linux-gnuabi64 && \
++endian = 'little'\n" > /usr/local/share/meson/cross/mips64el-linux-gnuabi64 && \
+     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mips64el-linux-gnuabi64-c++ && \
+diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+index 8e521fc9eec9..b115b29af3d6 100644
+--- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
++++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+@@ -144,7 +144,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get autoremove -y && \
+     eatmydata apt-get autoclean -y && \
+     mkdir -p /usr/local/share/meson/cross && \
+-    echo "[binaries]\n\
++    printf "[binaries]\n\
+ c = '/usr/bin/mipsel-linux-gnu-gcc'\n\
+ ar = '/usr/bin/mipsel-linux-gnu-gcc-ar'\n\
+ strip = '/usr/bin/mipsel-linux-gnu-strip'\n\
+@@ -154,7 +154,7 @@ pkgconfig = '/usr/bin/mipsel-linux-gnu-pkg-config'\n\
+ system = 'linux'\n\
+ cpu_family = 'mips'\n\
+ cpu = 'mipsel'\n\
+-endian = 'little'" > /usr/local/share/meson/cross/mipsel-linux-gnu && \
++endian = 'little'\n" > /usr/local/share/meson/cross/mipsel-linux-gnu && \
+     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mipsel-linux-gnu-c++ && \
+diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+index b1b8277f3f32..301bddb5367a 100644
+--- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+@@ -146,7 +146,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get autoremove -y && \
+     eatmydata apt-get autoclean -y && \
+     mkdir -p /usr/local/share/meson/cross && \
+-    echo "[binaries]\n\
++    printf "[binaries]\n\
+ c = '/usr/bin/powerpc64le-linux-gnu-gcc'\n\
+ ar = '/usr/bin/powerpc64le-linux-gnu-gcc-ar'\n\
+ strip = '/usr/bin/powerpc64le-linux-gnu-strip'\n\
+@@ -156,7 +156,7 @@ pkgconfig = '/usr/bin/powerpc64le-linux-gnu-pkg-config'\n\
+ system = 'linux'\n\
+ cpu_family = 'ppc64'\n\
+ cpu = 'powerpc64le'\n\
+-endian = 'little'" > /usr/local/share/meson/cross/powerpc64le-linux-gnu && \
++endian = 'little'\n" > /usr/local/share/meson/cross/powerpc64le-linux-gnu && \
+     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/powerpc64le-linux-gnu-c++ && \
+diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
+index af39568ce53f..5d27c91c171a 100644
+--- a/tests/docker/dockerfiles/debian-s390x-cross.docker
++++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+@@ -145,7 +145,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get autoremove -y && \
+     eatmydata apt-get autoclean -y && \
+     mkdir -p /usr/local/share/meson/cross && \
+-    echo "[binaries]\n\
++    printf "[binaries]\n\
+ c = '/usr/bin/s390x-linux-gnu-gcc'\n\
+ ar = '/usr/bin/s390x-linux-gnu-gcc-ar'\n\
+ strip = '/usr/bin/s390x-linux-gnu-strip'\n\
+@@ -155,7 +155,7 @@ pkgconfig = '/usr/bin/s390x-linux-gnu-pkg-config'\n\
+ system = 'linux'\n\
+ cpu_family = 's390x'\n\
+ cpu = 's390x'\n\
+-endian = 'big'" > /usr/local/share/meson/cross/s390x-linux-gnu && \
++endian = 'big'\n" > /usr/local/share/meson/cross/s390x-linux-gnu && \
+     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/s390x-linux-gnu-c++ && \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 1fc4c987f751..e7966ec7fd28 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -7,14 +7,14 @@
+ FROM registry.fedoraproject.org/fedora:37
+ 
+ RUN dnf install -y nosync && \
+-    echo -e '#!/bin/sh\n\
++    printf '#!/bin/sh\n\
+ if test -d /usr/lib64\n\
+ then\n\
+     export LD_PRELOAD=/usr/lib64/nosync/nosync.so\n\
+ else\n\
+     export LD_PRELOAD=/usr/lib/nosync/nosync.so\n\
+ fi\n\
+-exec "$@"' > /usr/bin/nosync && \
++exec "$@"\n' > /usr/bin/nosync && \
+     chmod +x /usr/bin/nosync && \
+     nosync dnf update -y && \
+     nosync dnf install -y \
+@@ -50,7 +50,6 @@ exec "$@"' > /usr/bin/nosync && \
+                python3-pip \
+                python3-sphinx \
+                python3-sphinx_rtd_theme \
+-               rpm \
+                sed \
+                socat \
+                sparse \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index 39a0617a9dcf..86c3a8f2ac04 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -7,14 +7,14 @@
+ FROM registry.fedoraproject.org/fedora:37
+ 
+ RUN dnf install -y nosync && \
+-    echo -e '#!/bin/sh\n\
++    printf '#!/bin/sh\n\
+ if test -d /usr/lib64\n\
+ then\n\
+     export LD_PRELOAD=/usr/lib64/nosync/nosync.so\n\
+ else\n\
+     export LD_PRELOAD=/usr/lib/nosync/nosync.so\n\
+ fi\n\
+-exec "$@"' > /usr/bin/nosync && \
++exec "$@"\n' > /usr/bin/nosync && \
+     chmod +x /usr/bin/nosync && \
+     nosync dnf update -y && \
+     nosync dnf install -y \
+@@ -50,7 +50,6 @@ exec "$@"' > /usr/bin/nosync && \
+                python3-pip \
+                python3-sphinx \
+                python3-sphinx_rtd_theme \
+-               rpm \
+                sed \
+                socat \
+                sparse \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index e030c5fb1e4a..b698b7595de1 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -7,14 +7,14 @@
+ FROM registry.fedoraproject.org/fedora:37
+ 
+ RUN dnf install -y nosync && \
+-    echo -e '#!/bin/sh\n\
++    printf '#!/bin/sh\n\
+ if test -d /usr/lib64\n\
+ then\n\
+     export LD_PRELOAD=/usr/lib64/nosync/nosync.so\n\
+ else\n\
+     export LD_PRELOAD=/usr/lib/nosync/nosync.so\n\
+ fi\n\
+-exec "$@"' > /usr/bin/nosync && \
++exec "$@"\n' > /usr/bin/nosync && \
+     chmod +x /usr/bin/nosync && \
+     nosync dnf update -y && \
+     nosync dnf install -y \
+@@ -110,7 +110,6 @@ exec "$@"' > /usr/bin/nosync && \
+                python3-sphinx \
+                python3-sphinx_rtd_theme \
+                rdma-core-devel \
+-               rpm \
+                sed \
+                snappy-devel \
+                socat \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 8e9500e44318..28f153b77b56 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -93,7 +93,6 @@ RUN zypper update -y && \
+            python39-pip \
+            python39-setuptools \
+            rdma-core-devel \
+-           rpm \
+            sed \
+            snappy-devel \
+            sndio-devel \
+diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+index 232f41f160d4..2fa24dce8bc2 160000
+--- a/tests/lcitool/libvirt-ci
++++ b/tests/lcitool/libvirt-ci
+@@ -1 +1 @@
+-Subproject commit 232f41f160d4567b8c82dd52aa96c2bc3a5b75c1
++Subproject commit 2fa24dce8bc2d0d57b02b111dbdbd24e25d4ae95
 -- 
 2.40.0
 
