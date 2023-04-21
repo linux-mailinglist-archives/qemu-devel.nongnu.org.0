@@ -2,78 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAEF6EA748
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5833A6EA773
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:45:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppnFS-0008If-Fx; Fri, 21 Apr 2023 05:40:10 -0400
+	id 1ppnJc-0001r8-2a; Fri, 21 Apr 2023 05:44:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppnFO-0008IR-TU
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:40:06 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppnFN-0004Mo-C3
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:40:06 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f182d745deso15399165e9.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682070004; x=1684662004;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IJJcrkrs6Lhr57yvH9tGSyvY0ddAQOdQTki5bZvOgd8=;
- b=dwjGUqRcYkCmIP6bpghC7/f0MWIBH1JPUJLu4YAdnwxKzDDIgH3goNQGIf6pW4Bizq
- GHjM1p4RnIsT+9UYa17xbZQj0Vf6drMrvwF2CNYJKzuRU974JaZIMWUNPb9Y4GrLnBnG
- vRENLpXLJC0sNvyQoPGJTyXBswXMewHbLHRPBTzlO7uWp6v9PnEdhyxPrkm5Wqm2SwRC
- 8GO0z/MO1aZFv8naXjlA6e+gmEAm236+3rkuEEr1IqvJxmFU1VVmRi+lu0cE9IQUtRwS
- M98gk+QTSGNcJ9OXWwr9G4xEOhzs4P0GD53d831Q3P54jwREXyqwx2tjCgPM5mVVfpxX
- AIcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682070004; x=1684662004;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IJJcrkrs6Lhr57yvH9tGSyvY0ddAQOdQTki5bZvOgd8=;
- b=a5S5QQVItOeWM/QIQR3i6MZyHcyZD3hEH48ldMzo9+87rrsm7N1trUFr8qInYblEHu
- ho1MV6PnQ/ao2CQiBQ9uJSy3+u1MkOaxzQEWHa8alfMUjfTu59OngoSYm6Ez7B/fgqAB
- x2OjCMXpEuJacJuP/35NMabjQfkZLpreskbeWgr5WjBKpR03pe+R76nrYKmfRMqU7FKJ
- QQo4FG2wToxm5kGHYZZ2m+NSgPHQzCRUuWtEwwocboBlM+8PVG8DVI47R2hJOnudrTm0
- pGRID8P+su46e+w+VcdjBfY9i7+y8BkGrSfBYrKAqEEilHOLSC6PCfA1gifHcv4qtBZ6
- s/YA==
-X-Gm-Message-State: AAQBX9cMqxPUafYTM0Ml8a9aBuE/SkM8KGwS5hgqWKOE44Z2I7P9pBKX
- o/7RONnhPpo+3do0Vzx8MmF9Ug==
-X-Google-Smtp-Source: AKy350ay1AezmjQJPrNW5mSTYtRz7L+q6ksrjF62ySFdbydFuPzSTxPMrHrNjCDORNZFr+muIj7nZQ==
-X-Received: by 2002:a05:600c:2208:b0:3f1:75a9:5c0d with SMTP id
- z8-20020a05600c220800b003f175a95c0dmr1517873wml.26.1682070003726; 
- Fri, 21 Apr 2023 02:40:03 -0700 (PDT)
-Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
- [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- t14-20020a05600c450e00b003f0a6a1f969sm7776517wmo.46.2023.04.21.02.40.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 02:40:03 -0700 (PDT)
-Message-ID: <42fbea54-1e77-69d1-8e5e-05a14de692c3@linaro.org>
-Date: Fri, 21 Apr 2023 11:40:00 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppnJZ-0001qT-BR
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:44:25 -0400
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppnJX-0004sy-Fx
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:44:25 -0400
+Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 1005360E5C;
+ Fri, 21 Apr 2023 12:44:16 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:8816::1:4] (unknown
+ [2a02:6b8:b081:8816::1:4])
+ by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id FibfIS1OnuQ0-m4uOlRO4; Fri, 21 Apr 2023 12:44:15 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682070255; bh=q/SKRoHMZ6d6GYhTmnQ8NRWDVXWufDeR6FTUBUGV1ik=;
+ h=In-Reply-To:From:Date:References:To:Subject:Message-ID;
+ b=E3Mw9hd3o1g7NGPomUvjLEFfoBgH+FrKdq7dR6cWXDqV/Lx5EpsqJ8RNGJiQI7Pw1
+ 8PRalSFjM4pM+Flpyo37HsvW+ZWEu5d39pecoaKF6hhjwywO63ogQmBnzP7Fl3yKOL
+ kVGwHoj/ZSDdj0F2j1DJgkruifx8p9Mgac6xw9oQ=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <1e1cac26-50fa-f2a9-641b-eafff9575b77@yandex-team.ru>
+Date: Fri, 21 Apr 2023 12:44:15 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [RFC PATCH 05/13] gfxstream + rutabaga prep: virtio_gpu_gl ->
- virtio_gpu_virgl
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] vnc: avoid underflow when accessing user-provided address
 Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, david@redhat.com, stefanha@redhat.com,
- kraxel@redhat.com, marcandre.lureau@redhat.com, akihiko.odaki@gmail.com,
- dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
-References: <20230421011223.718-1-gurchetansingh@chromium.org>
- <20230421011223.718-6-gurchetansingh@chromium.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230421011223.718-6-gurchetansingh@chromium.org>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20230330124424.40610-1-pbonzini@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230330124424.40610-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -96,36 +74,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/4/23 03:12, Gurchetan Singh wrote:
-> The virtio-gpu GL device has a heavy dependence on virgl.
-> Acknowledge this by naming functions accurately.
+On 30.03.23 15:44, Paolo Bonzini wrote:
+> If hostlen is zero, there is a possibility that addrstr[hostlen - 1]
+> underflows and, if a closing bracked is there, hostlen - 2 is passed
+> to g_strndup() on the next line.  If websocket==false then
+> addrstr[0] would be a colon, but if websocket==true this could in
+> principle happen.
 > 
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> ---
->   hw/display/virtio-gpu-gl.c     | 27 ++++++++++++++-------------
->   hw/display/virtio-gpu-virgl.c  |  2 +-
->   include/hw/virtio/virtio-gpu.h |  2 +-
->   3 files changed, 16 insertions(+), 15 deletions(-)
+> Fix it by checking hostlen.
+> 
+> Reported by Coverity.
+> 
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 
+I've already sent a similar patch, yes, but let's finally merge any:)
 
-> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-> index adee17968d..e256e44172 100644
-> --- a/include/hw/virtio/virtio-gpu.h
-> +++ b/include/hw/virtio/virtio-gpu.h
-> @@ -297,7 +297,7 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
->                                     struct virtio_gpu_ctrl_command *cmd);
->   void virtio_gpu_virgl_fence_poll(VirtIOGPU *g);
->   void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g);
-> -void virtio_gpu_virgl_reset(VirtIOGPU *g);
-> +void virtio_gpu_virglrenderer_reset(VirtIOGPU *g);
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Or virtio_gpu_virgl_reset_renderer() similar to scanout?
-
-Regardless,
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
->   int virtio_gpu_virgl_init(VirtIOGPU *g);
->   int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g);
+-- 
+Best regards,
+Vladimir
 
 
