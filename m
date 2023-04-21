@@ -2,91 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77296EA424
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8AB6EA428
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:56:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppkeG-0001NR-Jp; Fri, 21 Apr 2023 02:53:36 -0400
+	id 1ppkgl-00025f-T6; Fri, 21 Apr 2023 02:56:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppkeE-0001Ms-7E
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:53:34 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppkeC-0000La-Fo
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:53:33 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-2fe3fb8e2f7so839694f8f.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682060011; x=1684652011;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9yT3VjkybhCVBaKu+89v5QM5MAlJdkCBmus85P093/E=;
- b=g6mq2pWiB/LpxnbfWSM/IWFQLxTq9rv0Nz3+6ibJVGthZ+2rRoe02FqdHG+qKMnWfw
- sGCWfDc8+CPn7hh/euzsvyvtb33cL3CvL5BJOhgb1oQvTTwsYsUoaNsTQcnkj8f4ufal
- VSIVGhooMPHwIx43xRLOlW6y58V/fiapFsdgkc3cly148NKZrC5+5HiJe35hREHzlNDt
- zpLFyrA5jjCAmp71coC7CcdKKsYLORnGFJUEl/rQdkfJg4HX8oOOEmazB+HwDHtovSby
- jBNh3RqbW4EMNwFWX6MkrUvFbMZwHCPjjW0akG5oFBRVt+/R/tJWO+oFLxvEH9TlS7JM
- HXhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682060011; x=1684652011;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9yT3VjkybhCVBaKu+89v5QM5MAlJdkCBmus85P093/E=;
- b=V1YrPRP5pUvmDzh4KI2Ptb8Uee3MOJmSVHSxoluZu8B3+TqlB4MgDznMEAeMd3mADG
- 3hAixmmVlW0kx33gq8wVEKRVqBVmQPLgVskaDNQaCi8W14P4cz7LU1GFUsETQTEua6Q8
- jK6rZr/67p//dIgobZNswrgdWVS7Soo+Yag7GQ9Mucemjk/1NUYnxBlo1jE4FbVU2aZf
- /fHL/3oe+pma+3sSfPF/P6AfkNcdyEWn/FZWAS6YfOplrSLqAq6T3Pz3flTr3GNLBWEX
- piwWdGUEa/IiSWsR8JKGMXCJ5mAT542H/yy2rhRGtt4RgFE8RHR5q4IXoIKnn5Fijd6N
- TJVg==
-X-Gm-Message-State: AAQBX9c+hXLs4bI8RQNcelIwOtbrXkYhEhlDaiY5GEv+plqYnlBjYeZG
- mevcneg1J79DLd4eVHsPx2fGdQ==
-X-Google-Smtp-Source: AKy350ZTItqOVPC0jNYQXV5QpryERrm4LVydvgVMFiX59U0vQzhc7F5nQ/C912bPK1kZDMhElNViig==
-X-Received: by 2002:a5d:494e:0:b0:2f5:c57c:192f with SMTP id
- r14-20020a5d494e000000b002f5c57c192fmr3191315wrs.68.1682060010756; 
- Thu, 20 Apr 2023 23:53:30 -0700 (PDT)
-Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
- [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- m13-20020adffa0d000000b003017a46781fsm3384147wrr.62.2023.04.20.23.53.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 23:53:30 -0700 (PDT)
-Message-ID: <a0a2b159-5a79-2e67-8871-21b3490fb495@linaro.org>
-Date: Fri, 21 Apr 2023 08:53:27 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 10/10] xxhash: remove qemu_xxhash7
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Michael Roth <michael.roth@amd.com>, Riku Voipio <riku.voipio@iki.fi>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Yanan Wang <wangyanan55@huawei.com>, Greg Kurz <groug@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kyle Evans <kevans@freebsd.org>, Eduardo Habkost <eduardo@habkost.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Warner Losh <imp@bsdimp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230420150009.1675181-1-alex.bennee@linaro.org>
- <20230420150009.1675181-11-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230420150009.1675181-11-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1ppkgj-00025S-Mh
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:56:09 -0400
+Received: from [122.171.17.216]
+ (helo=li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1ppkgh-0000tr-1H
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:56:08 -0400
+Received: from root by li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com with
+ local (Exim 4.96) (envelope-from <harshpb@linux.ibm.com>)
+ id 1ppkgJ-000sWZ-1d; Fri, 21 Apr 2023 12:25:43 +0530
+Date: Fri, 21 Apr 2023 12:25:43 +0530
+From: Harsh Prateek Bora <harshpb@linux.ibm.com>
+To: Kautuk Consul <kconsul@linux.vnet.ibm.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>, 
+ Harsh Prateek Bora <harshpb@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
+Message-ID: <6442336f774e3_332682ac3cf5725c019@li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com.notmuch>
+In-Reply-To: <ZEIvI/eSTdEKJLmL@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+References: <20230421042322.684093-1-kconsul@linux.vnet.ibm.com>
+ <20230421042322.684093-2-kconsul@linux.vnet.ibm.com>
+ <ZEIvI/eSTdEKJLmL@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+Subject: Re: [PATCH v4 1/2] avocado_qemu/__init__.py: factor out the qemu-img
+ finding
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 122.171.17.216 (failed)
+Received-SPF: softfail client-ip=122.171.17.216;
+ envelope-from=harshpb@linux.ibm.com;
+ helo=li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com
+X-Spam_score_int: 48
+X-Spam_score: 4.8
+X-Spam_bar: ++++
+X-Spam_report: (4.8 / 5.0 requ) BAYES_00=-1.9, HELO_DYNAMIC_IPADDR=1.951,
+ RCVD_IN_PBL=3.335, RCVD_IN_SORBS_DUL=0.001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,16 +69,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/4/23 17:00, Alex Bennée wrote:
-> Now we no longer have users for qemu_xxhash7 we can drop an additional
-> multiply and rol and make qemu_xxhash6 the implementation. Adjust the
-> smaller hash functions accordingly.
+Kautuk Consul wrote:
+> Adding Harsh Prateek Bora.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   include/qemu/xxhash.h | 17 ++++-------------
->   1 file changed, 4 insertions(+), 13 deletions(-)
+> On 2023-04-20 23:23:21, Kautuk Consul wrote:
+> > Factor out the code that finds the qemu-img binary in the
+> > QemuSystemTest class and create a new get_qemu_img() function
+> > with it. This function will get called also from the new code
+> > in tuxrun_baselines.py avocado test-case.
+> > 
+> > Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+> > ---
+> >  tests/avocado/avocado_qemu/__init__.py | 27 +++++++++++++++-----------
+> >  1 file changed, 16 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+> > index cb71f50db9..d8f390e27a 100644
+> > --- a/tests/avocado/avocado_qemu/__init__.py
+> > +++ b/tests/avocado/avocado_qemu/__init__.py
+> > @@ -330,6 +330,19 @@ def _new_vm(self, name, *args):
+> >              vm.add_args(*args)
+> >          return vm
+> >  
+> > +    def get_qemu_img(self):
+> > +        self.log.debug('Looking for and selecting a qemu-img binary')
+> > +
+> > +        # If qemu-img has been built, use it, otherwise the system wide one
+> > +        # will be used.
+> > +        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
+> > +        if not os.path.exists(qemu_img):
+> > +            qemu_img = find_command('qemu-img', False)
+> > +        if qemu_img is False:
+> > +            self.cancel('Could not find "qemu-img"')
+> > +
+> > +        return qemu_img
+> > +
+> >      @property
+> >      def vm(self):
+> >          return self.get_vm(name='default')
+> > @@ -594,17 +607,9 @@ def set_up_existing_ssh_keys(self):
+> >          return (ssh_public_key, ssh_private_key)
+> >  
+> >      def download_boot(self):
+> > -        self.log.debug('Looking for and selecting a qemu-img binary to be '
+> > -                       'used to create the bootable snapshot image')
+> > -        # If qemu-img has been built, use it, otherwise the system wide one
+> > -        # will be used.  If none is available, the test will cancel.
+> > -        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
+> > -        if not os.path.exists(qemu_img):
+> > -            qemu_img = find_command('qemu-img', False)
+> > -        if qemu_img is False:
+> > -            self.cancel('Could not find "qemu-img", which is required to '
+> > -                        'create the bootable image')
+> > -        vmimage.QEMU_IMG = qemu_img
+> > +        # Set the qemu-img binary.
+> > +        # If none is available, the test will cancel.
+> > +        vmimage.QEMU_IMG = super().get_qemu_img()
+> > 
+Reviewed-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> >          self.log.info('Downloading/preparing boot image')
+> >          # Fedora 31 only provides ppc64le images
+> > -- 
+> > 2.25.1
+> > 
+> > 
+> 
+
 
 
