@@ -2,44 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703FD6EAA5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557E06EAA63
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:31:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pppqC-0008Lo-5f; Fri, 21 Apr 2023 08:26:16 -0400
+	id 1pppul-0002Yx-N6; Fri, 21 Apr 2023 08:30:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ppppt-0008LI-BI
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:25:58 -0400
+ id 1pppug-0002WS-TD
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:30:55 -0400
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ppppp-0001O8-Kp
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:25:56 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2txw6QB0z67m0K;
- Fri, 21 Apr 2023 20:24:36 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 21 Apr 2023 13:25:47 +0100
-To: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-CC: Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin"
- <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>, <linuxarm@huawei.com>, Thomas
- Huth <thuth@redhat.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>
-Subject: [RFC PATCH v2] hw/pci-bridge: Fix release ordering by embedding
- PCIBridgeWindows within PCIBridge
-Date: Fri, 21 Apr 2023 13:25:50 +0100
-Message-ID: <20230421122550.28234-1-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
+ id 1pppub-00022H-Go
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:30:54 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2v3f73rbz67m0K;
+ Fri, 21 Apr 2023 20:29:34 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 21 Apr
+ 2023 13:30:45 +0100
+Date: Fri, 21 Apr 2023 13:30:44 +0100
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ <peter.maydell@linaro.org>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <philmd@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>, Alexandre Iooss
+ <erdnaxe@crans.org>, John G Johnson <john.g.johnson@oracle.com>, Jagannathan
+ Raman <jag.raman@oracle.com>, Juan Quintela <quintela@redhat.com>, Eduardo
+ Habkost <eduardo@habkost.net>, "Richard Henderson"
+ <richard.henderson@linaro.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH 4/9] docs/cxl: Fix sentence
+Message-ID: <20230421133044.000025a4@Huawei.com>
+In-Reply-To: <20230420155723.1711048-5-alex.bennee@linaro.org>
+References: <20230420155723.1711048-1-alex.bennee@linaro.org>
+ <20230420155723.1711048-5-alex.bennee@linaro.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -62,133 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The lifetime of the PCIBridgeWindows instance accessed via the windows pointer
-in struct PCIBridge is managed separately from the PCIBridge itself.
+On Thu, 20 Apr 2023 16:57:18 +0100
+Alex Benn=E9e <alex.bennee@linaro.org> wrote:
 
-Triggered by ./qemu-system-x86_64 -M x-remote -display none -monitor stdio
-QEMU monitor: device_add cxl-downstream
+> From: Stefan Weil via <qemu-devel@nongnu.org>
+>=20
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Message-Id: <20230409201828.1159568-1-sw@weilnetz.de>
+> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
 
-In some error handling paths (such as the above due to attaching a cxl-downstream
-port anything other than a cxl-upstream port) the g_free() of the PCIBridge
-windows in pci_bridge_region_cleanup() is called before the final call of
-flatview_uref() in address_space_set_flatview() ultimately from
-drain_call_rcu()
+Thomas already sent a pull request with this one in it.
+https://lore.kernel.org/qemu-devel/20230420101216.786304-4-thuth@redhat.com/
 
-At one stage this resulted in a crash, currently can still be observed using
-valgrind which records a use after free.
-
-When present, only one instance is allocated. pci_bridge_update_mappings()
-can operate directly on an instance rather than creating a new one and
-swapping it in.  Thus there appears to be no reason to not directly
-couple the lifetimes of the two structures by embedding the PCIBridgeWindows
-within the PCIBridge removing the need for the problematic separate free.
-
-Patch is same as was posted deep in the discussion.
-https://lore.kernel.org/qemu-devel/20230403171232.000020bb@huawei.com/
-
-Posted as an RFC as only lightly tested and I'm not sure what the reasoning
-behind the separation of lifetimes originally was. As such perhaps this is
-not the best route to fixing the issue.
-
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
---
-v2: Fix spurious include of rcu.h (Philippe Mathieu-Daudé)
----
- hw/pci/pci_bridge.c         | 19 ++++++++-----------
- include/hw/pci/pci_bridge.h |  2 +-
- 2 files changed, 9 insertions(+), 12 deletions(-)
-
-diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index dd5af508f9..e7b9345615 100644
---- a/hw/pci/pci_bridge.c
-+++ b/hw/pci/pci_bridge.c
-@@ -184,11 +184,11 @@ static void pci_bridge_init_vga_aliases(PCIBridge *br, PCIBus *parent,
-     }
- }
- 
--static PCIBridgeWindows *pci_bridge_region_init(PCIBridge *br)
-+static void pci_bridge_region_init(PCIBridge *br)
- {
-     PCIDevice *pd = PCI_DEVICE(br);
-     PCIBus *parent = pci_get_bus(pd);
--    PCIBridgeWindows *w = g_new(PCIBridgeWindows, 1);
-+    PCIBridgeWindows *w = &br->windows;
-     uint16_t cmd = pci_get_word(pd->config + PCI_COMMAND);
- 
-     pci_bridge_init_alias(br, &w->alias_pref_mem,
-@@ -211,8 +211,6 @@ static PCIBridgeWindows *pci_bridge_region_init(PCIBridge *br)
-                           cmd & PCI_COMMAND_IO);
- 
-     pci_bridge_init_vga_aliases(br, parent, w->alias_vga);
--
--    return w;
- }
- 
- static void pci_bridge_region_del(PCIBridge *br, PCIBridgeWindows *w)
-@@ -234,19 +232,18 @@ static void pci_bridge_region_cleanup(PCIBridge *br, PCIBridgeWindows *w)
-     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_IO_LO]));
-     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_IO_HI]));
-     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_MEM]));
--    g_free(w);
- }
- 
- void pci_bridge_update_mappings(PCIBridge *br)
- {
--    PCIBridgeWindows *w = br->windows;
-+    PCIBridgeWindows *w = &br->windows;
- 
-     /* Make updates atomic to: handle the case of one VCPU updating the bridge
-      * while another accesses an unaffected region. */
-     memory_region_transaction_begin();
--    pci_bridge_region_del(br, br->windows);
-+    pci_bridge_region_del(br, w);
-     pci_bridge_region_cleanup(br, w);
--    br->windows = pci_bridge_region_init(br);
-+    pci_bridge_region_init(br);
-     memory_region_transaction_commit();
- }
- 
-@@ -385,7 +382,7 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
-     sec_bus->address_space_io = &br->address_space_io;
-     memory_region_init(&br->address_space_io, OBJECT(br), "pci_bridge_io",
-                        4 * GiB);
--    br->windows = pci_bridge_region_init(br);
-+    pci_bridge_region_init(br);
-     QLIST_INIT(&sec_bus->child);
-     QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
- }
-@@ -396,8 +393,8 @@ void pci_bridge_exitfn(PCIDevice *pci_dev)
-     PCIBridge *s = PCI_BRIDGE(pci_dev);
-     assert(QLIST_EMPTY(&s->sec_bus.child));
-     QLIST_REMOVE(&s->sec_bus, sibling);
--    pci_bridge_region_del(s, s->windows);
--    pci_bridge_region_cleanup(s, s->windows);
-+    pci_bridge_region_del(s, &s->windows);
-+    pci_bridge_region_cleanup(s, &s->windows);
-     /* object_unparent() is called automatically during device deletion */
- }
- 
-diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-index 01670e9e65..ea54a81a15 100644
---- a/include/hw/pci/pci_bridge.h
-+++ b/include/hw/pci/pci_bridge.h
-@@ -73,7 +73,7 @@ struct PCIBridge {
-     MemoryRegion address_space_mem;
-     MemoryRegion address_space_io;
- 
--    PCIBridgeWindows *windows;
-+    PCIBridgeWindows windows;
- 
-     pci_map_irq_fn map_irq;
-     const char *bus_name;
--- 
-2.37.2
+> ---
+>  docs/system/devices/cxl.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
+> index f25783a4ec..4c38223069 100644
+> --- a/docs/system/devices/cxl.rst
+> +++ b/docs/system/devices/cxl.rst
+> @@ -111,7 +111,7 @@ Interfaces provided include:
+> =20
+>  CXL Root Ports (CXL RP)
+>  ~~~~~~~~~~~~~~~~~~~~~~~
+> -A CXL Root Port servers te same purpose as a PCIe Root Port.
+> +A CXL Root Port serves the same purpose as a PCIe Root Port.
+>  There are a number of CXL specific Designated Vendor Specific
+>  Extended Capabilities (DVSEC) in PCIe Configuration Space
+>  and associated component register access via PCI bars.
 
 
