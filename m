@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A00F6EABA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0BB6EAB9D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:28:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppqoL-0002Tl-JY; Fri, 21 Apr 2023 09:28:25 -0400
+	id 1ppqoQ-0002tn-3X; Fri, 21 Apr 2023 09:28:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ppqnw-0002FP-9q
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:28:00 -0400
-Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b])
+ id 1ppqnz-0002Qs-TH
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:28:04 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ppqnu-0003u5-F6
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:27:59 -0400
-Received: by mail-oo1-xc2b.google.com with SMTP id
- 006d021491bc7-541b69a8355so655986eaf.2
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 06:27:57 -0700 (PDT)
+ id 1ppqnx-0003uW-CA
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:28:03 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id
+ 5614622812f47-38dee9a7795so724138b6e.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 06:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1682083677; x=1684675677;
+ d=ventanamicro.com; s=google; t=1682083680; x=1684675680;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=h9G76Yn3Vxy1PuEW01LasjD65akRIwetzGF2RPX1SbQ=;
- b=liK86/4PpO5TZ6RG4jVQbDOBnRdYPC11M/RfY09kSvBB4ZoG5smHt6eHGyPYE42Mnk
- raQGkJ82qWN0H55xV+QGvSV0w6NX/GkJqBL5umQFJouWm7QvKbNyIpfjqmO7QMpuLHlO
- zHYgfn95FDq+Jl4UaxuLuLpMlQCXIrH+WvehnYoT4V3R8KYfP8utBKSDsg8wKtZyNMAb
- keqoS4YFTv0s2pQMnzE2V05YOh8IYOanFw41QK5aFmnJfzQ3GDGxj8slHkKtpFGS5h7i
- SLSnvPjR5vRnVxeo+bQwRIQuBlYsK0JGKgHRk+94mtM89wV5X+u5rJLyFLgLK7dge2lE
- 46Jw==
+ bh=Z2BCmuELRJPh5SQX498hmY8SpGq4Krgaf5b8ZbejSLc=;
+ b=I/gNfDm9PRV15z6N+RPnRVLc+RNPjb9lLUGEXhCikK0tYw6wu2A4LGrvo4sWcbsRkf
+ AJwoStuUuoQ2DtNvGKCFBSgIjXCCcNENNRBrj1WE1zSkcdnIBDzFS5UoSGP0RHGe4v3s
+ noRvMQd47dSj+IoeX74KJVDL7+DOA+jUAoyttFYq773mbbTgmz+lrYKqRT+q/A86DzCT
+ sXet67VHwNu5w+T5FJ52d7ofRf1TmR6oDRdQ9HTZf7XbROn40iJTi8OIO55SXKfvBNXa
+ yZlcfMWCk05fy+ePA9yXR2S1UPITtq8WhiPYVdDF/YCPjWmn0DjBj7OBjQc+d5xBkSex
+ gTVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682083677; x=1684675677;
+ d=1e100.net; s=20221208; t=1682083680; x=1684675680;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=h9G76Yn3Vxy1PuEW01LasjD65akRIwetzGF2RPX1SbQ=;
- b=lc9xe9kuvQoxPdMb1Q9quRLj+h/dpLJHiP+/DcyzDaK08pNtmwVE4iOP7HfrqNUeiL
- 1HYVSwqyXMb2Lws29FLGQEfSSyQksnRub5cHIr2VByNW0pL5GJO2tiPEd6eiwHNRxyeq
- o1U+StlgjAgNTuWhCH3GGaS2USfNJ5iOoEvT1qCPWo0e24Z2w8+epwRRYsQ8UAIZzvd+
- 9bavorYdaJsY85/RCi4PqRKVuAJeCr41IVMEgBf7TDdES/JGCCXOQomIgPO/85HjTAd2
- MWEiWNc1AMEIgqz8/7EMoc/deO+mdLEGCiur1njuM7v779nwK3FNnzCKYbAb++DX16Ci
- yahw==
-X-Gm-Message-State: AAQBX9foCRfVoJHuZShJ1tzr2uoohkIP3Khv/c2JuV5lh/RYgDO63dqu
- ZNO8fz1eWdIUTXAitLfcjRmbnBFW9nHLG8vEvAs=
-X-Google-Smtp-Source: AKy350blg5Sykj8EK0DE6glshQkFh+HwRcJRK4du6+KMJ6Kxk+n8Wl7tRPecMfS8P4iQYm0qmEbLMQ==
-X-Received: by 2002:aca:1818:0:b0:38e:88b6:1808 with SMTP id
- h24-20020aca1818000000b0038e88b61808mr981655oih.5.1682083676533; 
- Fri, 21 Apr 2023 06:27:56 -0700 (PDT)
+ bh=Z2BCmuELRJPh5SQX498hmY8SpGq4Krgaf5b8ZbejSLc=;
+ b=BK1VLy0ne7PTpc0DYBdgLPtTHAvgpd+IS9VxIkVI5wDyjLFIaA8X1FxW33pqvO5Lry
+ v0N5IOn6lnJmEMdkKgtn2Fl+Zuq7fx2OY6N8AxaWBW5Ql8w2OPj1L+zzalnyOOBD7Wq1
+ YeTXt31+/fAlmGpiaqa6+ycOoa5x+6BeJXIvPPu4tbWbnmZv9V6X05cDztU6J8ImhmjG
+ Rm1HGpEOzupuV5oM0uoBodGux+ac9DLlKWMLkYBAJzP4YJPSj0APv7tIw2DI1XOUaNK0
+ IZLXm97mkfaD9sJ7yUihLlYvbDkk0B3m0Bsx6X3HjEWSpt48XRP0Sr6LhZx56Gv7PGW2
+ Nb4A==
+X-Gm-Message-State: AAQBX9dohF6PcUxDuNvMtN65WoQtjXtdDn2diLIzzRARIshBsAKzXqTG
+ cGVh80M7E6Gz76kcVtU6evClEzan3AJCFC5Z+os=
+X-Google-Smtp-Source: AKy350Yuu3nMmxKxnah4dWBFzHvxLEYw/nYb/jHKIHOzdLWH0tbHCXvkg4Xm4MycYNgXhRGQMt9bCw==
+X-Received: by 2002:a05:6808:2907:b0:38d:52bb:9f60 with SMTP id
+ ev7-20020a056808290700b0038d52bb9f60mr2545706oib.2.1682083679967; 
+ Fri, 21 Apr 2023 06:27:59 -0700 (PDT)
 Received: from grind.. ([191.255.108.232]) by smtp.gmail.com with ESMTPSA id
- r84-20020acada57000000b003895430852dsm1623359oig.54.2023.04.21.06.27.53
+ r84-20020acada57000000b003895430852dsm1623359oig.54.2023.04.21.06.27.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 06:27:56 -0700 (PDT)
+ Fri, 21 Apr 2023 06:27:59 -0700 (PDT)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v8 08/11] target/riscv/cpu.c: add riscv_cpu_validate_misa_mxl()
-Date: Fri, 21 Apr 2023 10:27:24 -0300
-Message-Id: <20230421132727.121462-9-dbarboza@ventanamicro.com>
+Subject: [PATCH v8 09/11] target/riscv/cpu.c: validate extensions before
+ riscv_timer_init()
+Date: Fri, 21 Apr 2023 10:27:25 -0300
+Message-Id: <20230421132727.121462-10-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421132727.121462-1-dbarboza@ventanamicro.com>
 References: <20230421132727.121462-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,100 +93,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Let's remove more code that is open coded in riscv_cpu_realize() and put
-it into a helper. Let's also add an error message instead of just
-asserting out if env->misa_mxl_max != env->misa_mlx.
+There is no need to init timers if we're not even sure that our
+extensions are valid. Execute riscv_cpu_validate_set_extensions() before
+riscv_timer_init().
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 50 ++++++++++++++++++++++++++++++----------------
- 1 file changed, 33 insertions(+), 17 deletions(-)
+ target/riscv/cpu.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index c928925544..43635144bd 100644
+index 43635144bd..2d7f0ac785 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -873,6 +873,33 @@ static void riscv_cpu_disable_priv_spec_isa_exts(RISCVCPU *cpu)
-     }
- }
- 
-+static void riscv_cpu_validate_misa_mxl(RISCVCPU *cpu, Error **errp)
-+{
-+    RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(cpu);
-+    CPUClass *cc = CPU_CLASS(mcc);
-+    CPURISCVState *env = &cpu->env;
-+
-+    /* Validate that MISA_MXL is set properly. */
-+    switch (env->misa_mxl_max) {
-+#ifdef TARGET_RISCV64
-+    case MXL_RV64:
-+    case MXL_RV128:
-+        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
-+        break;
-+#endif
-+    case MXL_RV32:
-+        cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    if (env->misa_mxl_max != env->misa_mxl) {
-+        error_setg(errp, "misa_mxl_max must be equal to misa_mxl");
-+        return;
-+    }
-+}
-+
- /*
-  * Check consistency between chosen extensions while setting
-  * cpu->cfg accordingly.
-@@ -1195,7 +1222,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     RISCVCPU *cpu = RISCV_CPU(dev);
-     CPURISCVState *env = &cpu->env;
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
--    CPUClass *cc = CPU_CLASS(mcc);
-     Error *local_err = NULL;
- 
-     cpu_exec_realizefn(cs, &local_err);
-@@ -1204,6 +1230,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+@@ -1257,13 +1257,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
          return;
      }
  
-+    riscv_cpu_validate_misa_mxl(cpu, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-     riscv_cpu_validate_priv_spec(cpu, &local_err);
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
-@@ -1232,22 +1264,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     }
- #endif /* CONFIG_USER_ONLY */
- 
--    /* Validate that MISA_MXL is set properly. */
--    switch (env->misa_mxl_max) {
--#ifdef TARGET_RISCV64
--    case MXL_RV64:
--    case MXL_RV128:
--        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
--        break;
--#endif
--    case MXL_RV32:
--        cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
--        break;
--    default:
--        g_assert_not_reached();
+-
+-#ifndef CONFIG_USER_ONLY
+-    if (cpu->cfg.ext_sstc) {
+-        riscv_timer_init(cpu);
 -    }
--    assert(env->misa_mxl_max == env->misa_mxl);
+-#endif /* CONFIG_USER_ONLY */
 -
      riscv_cpu_validate_set_extensions(cpu, &local_err);
      if (local_err != NULL) {
          error_propagate(errp, local_err);
+@@ -1271,6 +1264,10 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     }
+ 
+ #ifndef CONFIG_USER_ONLY
++    if (cpu->cfg.ext_sstc) {
++        riscv_timer_init(cpu);
++    }
++
+     if (cpu->cfg.pmu_num) {
+         if (!riscv_pmu_init(cpu, cpu->cfg.pmu_num) && cpu->cfg.ext_sscofpmf) {
+             cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
 -- 
 2.40.0
 
