@@ -2,106 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47A16EA2A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 06:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B926EA2C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 06:24:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppiEz-00060u-Or; Fri, 21 Apr 2023 00:19:21 -0400
+	id 1ppiJI-0007EY-6G; Fri, 21 Apr 2023 00:23:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1ppiEx-00060k-NT
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 00:19:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
+ id 1ppiJ6-0007E6-8y
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 00:23:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1ppiEw-0006gL-5i
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 00:19:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682050757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L1oZHDQLPG2gM87D0eT39CvXVL5Vz97NndtTXVulh3U=;
- b=YvVdVczzm2VOvQSPh0Vm+4bJZmnU/o4NcYLEpWLHvvKoi2S1nijZB8kMOVFSoJjIdv8mKi
- IA4mTb84I6epG8wExwoQBhIe3ONIabN3btOsKDKc6Q5GkOKc3DznsfP0gaJqEWM5753lIv
- jtGIllqhdsINmplZbqaJRXm6zg3fYSU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-sHgeV1-CPtmRgh7B5znyFw-1; Fri, 21 Apr 2023 00:19:15 -0400
-X-MC-Unique: sHgeV1-CPtmRgh7B5znyFw-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-5ef4b68f47bso9252216d6.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 21:19:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682050755; x=1684642755;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=L1oZHDQLPG2gM87D0eT39CvXVL5Vz97NndtTXVulh3U=;
- b=JWHymT8BNIXD1vScy1PCOB1a2Wt7YhhnXYZQdgPy3vuGiIHHFIcNGkhHkZPmp23rpH
- 38nuKhHEZhxZojf75EJfGi3Zqps+Oy4tpyoq1oKAOD8AHoYKh8N0IoaC/UrpOcyBEh2m
- miCjwkdJOZqNI9YQdIMTWkPt0WGPo4M54SKbvL83TEFbiuc8aUJWYPWnX/QCVaji9QZi
- nwBT54Na/9WpfXQKTOeuKQwt0X7AXC/ptCcsCgGnHlvY268yY1ROtVBycNZpP+4xQgNo
- 8ph18AG8PaXa1+bImJa9METJR9uY27coBHTY2P3xs2CdfIze4W9REWxXPf47iEps2EN0
- SCRg==
-X-Gm-Message-State: AAQBX9eN1iHuv4u4gfodBq3C7Ujtf9aatZd9goN+51qccFrS607KoVEr
- Kjglcis2N9P4JFATX96oox2Xf4eaYTxaohOfR+7DexcWaLmVqgcvk44AEd2MF70Yu8LEvWcThln
- SiG+tRIsPynySfpc=
-X-Received: by 2002:a05:6214:f6c:b0:5c5:6e60:eacd with SMTP id
- iy12-20020a0562140f6c00b005c56e60eacdmr3233247qvb.28.1682050754978; 
- Thu, 20 Apr 2023 21:19:14 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bbIjReMT3E/c8N75nZG5z8tmH3vaLCw5iZ05KxyYqZrz/692FVigGXoi+7PRvzhEY3Xq4m3A==
-X-Received: by 2002:a05:6214:f6c:b0:5c5:6e60:eacd with SMTP id
- iy12-20020a0562140f6c00b005c56e60eacdmr3233226qvb.28.1682050754692; 
- Thu, 20 Apr 2023 21:19:14 -0700 (PDT)
-Received: from ?IPV6:2601:18d:8a00:cfa:780e:7574:2b4c:7be5?
- ([2601:18d:8a00:cfa:780e:7574:2b4c:7be5])
- by smtp.gmail.com with ESMTPSA id
- v3-20020a0c8e03000000b005eab96abc9esm875884qvb.140.2023.04.20.21.19.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 21:19:14 -0700 (PDT)
-Message-ID: <edcd817b-826f-f437-4ea3-33c5a567770a@redhat.com>
-Date: Fri, 21 Apr 2023 00:19:12 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 1/6] tests/requirements.txt: bump up avocado-framework
- version to 101.0
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Radoslaw Biernacki <rad@semihalf.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Leif Lindholm <quic_llindhol@quicinc.com>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-References: <20230417134321.3627231-1-alex.bennee@linaro.org>
- <20230417134321.3627231-2-alex.bennee@linaro.org>
- <2a2124d2-5fcf-cfd2-4f68-c3f602f2824e@redhat.com>
-From: Cleber Rosa <crosa@redhat.com>
-In-Reply-To: <2a2124d2-5fcf-cfd2-4f68-c3f602f2824e@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
+ id 1ppiJ3-0007e1-6p
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 00:23:34 -0400
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33L4HcDs005452; Fri, 21 Apr 2023 04:23:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=826VU2Ho6/3Ut2hMiEY6blRUob6fWpdlim+kDBQbmNA=;
+ b=CmexAmTjUz5HQafOcdRhs9TW687IXhlynv7OtSGdtnOEgSY+mKCkk5Tv24WyuD5es19U
+ c2F9AMN3Yd93lR7xTVS6s7NRsrUnuh8g0mkhwvIikbj35puI7SQ82xSI50XRg5F82rx0
+ 1pUg1W2/OaZFWu4EHCqjvee7WPYOnQwx1fApxTZpgpgEo+eaVRxAW9w5GxN6h7NxESR6
+ yovYpgql0b/vfnnY0VWDyV/woOuQkTN4fzx2WvSqoJTB5ql/0FE1HDJC01V2bIKEaD8b
+ eLcX+Sav8H9l+osvsWd4EXAk4uB49s2y8gdywclF9N0J7O1Cp98v1GWRyEL1oa/WhJYo KA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q3kay03rq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Apr 2023 04:23:31 +0000
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33L4JYFP010244;
+ Fri, 21 Apr 2023 04:23:30 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q3kay03r2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Apr 2023 04:23:30 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33KMOfsn024226;
+ Fri, 21 Apr 2023 04:23:28 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pykj6kswe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Apr 2023 04:23:28 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33L4NQfh21102966
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 21 Apr 2023 04:23:26 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 47AAB20043;
+ Fri, 21 Apr 2023 04:23:26 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D9C2B20040;
+ Fri, 21 Apr 2023 04:23:24 +0000 (GMT)
+Received: from melvil.aus.stglabs.ibm.com (unknown [9.40.193.168])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 21 Apr 2023 04:23:24 +0000 (GMT)
+From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Subject: [PATCH v4 0/2] Improve code coverage for ppc64
+Date: Thu, 20 Apr 2023 23:23:20 -0500
+Message-Id: <20230421042322.684093-1-kconsul@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9AZUNNbg2QW7W98L5-ZtJBbG-bON3aHq
+X-Proofpoint-ORIG-GUID: FfmpJ_ouSVi48FOoKNqpe2OfU7qJhLlT
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-20_17,2023-04-20_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501
+ suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0 spamscore=0
+ mlxlogscore=685 lowpriorityscore=0 impostorscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304210033
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=kconsul@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,120 +115,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
+boot_linux.py test-case due to which the code coverage for ppc
+decreased by around 2%. As per the discussion on
+https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
+was mentioned that the baseline test for ppc64 could be modified
+to make up this 2% code coverage. This patchset attempts to achieve
+this 2% code coverage by adding various device command line
+arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
+test-case.
 
-On 4/18/23 03:10, Thomas Huth wrote:
-> On 17/04/2023 15.43, Alex Bennée wrote:
->> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
->>
->> Avocado version 101.0 has a fix to re-compute the checksum
->> of an asset file if the algorithm used in the *-CHECKSUM
->> file isn't the same as the one being passed to it by the
->> avocado user (i.e. the avocado_qemu python module).
->> In the earlier avocado versions this fix wasn't there due
->> to which if the checksum wouldn't match the earlier
->> checksum (calculated by a different algorithm), the avocado
->> code would start downloading a fresh image from the internet
->> URL thus making the test-cases take longer to execute.
->>
->> Bump up the avocado-framework version to 101.0.
->>
->> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
->> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
->> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
->> Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
->>
->> ---
->> v2
->>    - limit --max-parallel-tasks $(JOBS_OPTION:-j%=%)
->> ---
->>   tests/Makefile.include | 18 +++++++++++-------
->>   tests/requirements.txt |  2 +-
->>   2 files changed, 12 insertions(+), 8 deletions(-)
->>
->> diff --git a/tests/Makefile.include b/tests/Makefile.include
->> index 9422ddaece..a4de0ad5a2 100644
->> --- a/tests/Makefile.include
->> +++ b/tests/Makefile.include
->> @@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv
->>   # download all vm images, according to defined targets
->>   get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, 
->> $(FEDORA_31_DOWNLOAD))
->>   +JOBS_OPTION=$(lastword -j1 $(filter-out -j, $(filter 
->> -j%,$(MAKEFLAGS))))
->> +
->>   check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
->> -    $(call quiet-command, \
->> -            $(TESTS_PYTHON) -m avocado \
->> -            --show=$(AVOCADO_SHOW) run 
->> --job-results-dir=$(TESTS_RESULTS_DIR) \
->> -            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
->> -            --filter-by-tags-include-empty-key) \
->> -            $(AVOCADO_CMDLINE_TAGS) \
->> -            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
->> +    $(call quiet-command,                             \
->> +            $(TESTS_PYTHON) -m avocado \
->> +            --show=$(AVOCADO_SHOW) run 
->> --job-results-dir=$(TESTS_RESULTS_DIR)     \
->> +            $(if $(AVOCADO_TAGS),,                         \
->> +            --filter-by-tags-include-empty                 \
->> +            --filter-by-tags-include-empty-key)             \
->> +        --max-parallel-tasks $(JOBS_OPTION:-j%=%)             \
->> +            $(AVOCADO_CMDLINE_TAGS)                         \
->> +            $(if $(GITLAB_CI),,--failfast) 
->> $(AVOCADO_TESTS),             \
->
-> We might need to revisit this --failfast logic, too. If I've got that 
-> right, failfast is now the default with the new system? So we might 
-> want to disable it by default again if GITLAB_CI is not set?
->
->  Thomas
->
-Hi Thomas,
+Changes since v3:
+- Create a common ppc64_common_tuxrun routine in tuxrun_baselines.py
+  and call that from the ppc64 and ppc64le test case routines.
 
-I must be missing something, because under Avocado 101.0, I'm getting 
-the following behavior without the --failfast flag:
+Kautuk Consul (2):
+  avocado_qemu/__init__.py: factor out the qemu-img finding
+  tests/avocado/tuxrun_baselines.py: improve code coverage for ppc64
 
-   $ avocado run --max-parallel-tasks=1 -- /bin/true /bin/false /bin/true
-   JOB ID     : 646f476f01b8d5599a57530606de543f2d9a5366
-   JOB LOG    : 
-/root/avocado/job-results/job-2023-04-21T04.15-646f476/job.log
-    (1/3) /bin/true: STARTED
-    (1/3) /bin/true: PASS (0.01 s)
-    (2/3) /bin/false: STARTED
-    (2/3) /bin/false: FAIL (0.01 s)
-    (3/3) /bin/true: STARTED
-    (3/3) /bin/true: PASS (0.01 s)
-   RESULTS    : PASS 2 | ERROR 0 | FAIL 1 | SKIP 0 | WARN 0 | INTERRUPT 
-0 | CANCEL 0
-   JOB TIME   : 1.01 s
+ tests/avocado/avocado_qemu/__init__.py | 27 +++++-----
+ tests/avocado/tuxrun_baselines.py      | 68 ++++++++++++++++++++++++--
+ 2 files changed, 80 insertions(+), 15 deletions(-)
 
-   Test summary:
-   /bin/false: FAIL
-
-And this with --failfast:
-
-   $ avocado run --failfast --max-parallel-tasks=1 -- /bin/true 
-/bin/false /bin/true
-   JOB ID     : ae4894607a42194a7382efa545eccaccf7495fa3
-   JOB LOG    : 
-/root/avocado/job-results/job-2023-04-21T04.17-ae48946/job.log
-    (1/3) /bin/true: STARTED
-    (1/3) /bin/true: PASS (0.01 s)
-    (2/3) /bin/false: STARTED
-    (2/3) /bin/false: FAIL (0.01 s)
-   Interrupting job (failfast).
-   RESULTS    : PASS 1 | ERROR 0 | FAIL 1 | SKIP 1 | WARN 0 | INTERRUPT 
-0 | CANCEL 0
-   JOB TIME   : 0.75 s
-
-   Test summary:
-   /bin/false: FAIL
-
-Maybe it's something in the Makefile I'm missing, or something specific 
-to these tests, but that would be a long shot.
-
-Thanks,
-
-- Cleber.
+-- 
+2.25.1
 
 
