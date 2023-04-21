@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CAE56EA0D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 03:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13C86EA0DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 03:14:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppfKP-0002cf-D5; Thu, 20 Apr 2023 21:12:45 -0400
+	id 1ppfKU-0002dU-F5; Thu, 20 Apr 2023 21:12:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1ppfKL-0002bN-6e
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:41 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ id 1ppfKL-0002c3-Vg
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:42 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1ppfKI-0008MU-Mu
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:40 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- 98e67ed59e1d1-247526f0eceso1187001a91.2
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 18:12:36 -0700 (PDT)
+ id 1ppfKI-0008Mj-NG
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:41 -0400
+Received: by mail-pf1-x432.google.com with SMTP id
+ d2e1a72fcca58-63b5ce4f069so2173746b3a.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 18:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682039555; x=1684631555;
+ d=chromium.org; s=google; t=1682039557; x=1684631557;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kfHhm4nND4bStTj+yGgL15ysAxO8GJhh6JBse4owvSs=;
- b=KS7Z542rFWVB1stGg0lFyumYUE6ieEY2dhyJ7B4wTsJQ8ze85L43I6DYiahXfpVy/Y
- 9nbFbxR8hyUaZ+oa6a/JY2msPzBF+RjxIjDy333jFhUQD3VDa+Yf6GYMom1mZbBdtFC+
- Vk8kaCykJGTX9mgmvWg7TffnmJfRummmHN9N4=
+ bh=hhHTLIfJpfuTUDeD8Y57brA0Bsbdi/Q3CGhvHbiGyKc=;
+ b=Rb1DTRIbt4XIrq6XeCf60wGDJZMoyeZ0On8mjGsqsuLtkKW9ylzriLsCoE0qAWYL13
+ xRyoZyDRuLzwlCj+eX9WnB0+/iU79xG2CQCTBwfrk9grGvM9IODjWkbfDclwraUUAw1r
+ 8MfH2fJ10RZJQK1gOx3/mSkZL/7/6FwnORabM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682039555; x=1684631555;
+ d=1e100.net; s=20221208; t=1682039557; x=1684631557;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kfHhm4nND4bStTj+yGgL15ysAxO8GJhh6JBse4owvSs=;
- b=LkrNldHx90JqOQsR0w1RXmI9iBy+OBoZbnXaCSSaYpHygUbF5z9xhiECkvGq8KkuZt
- RalSGr6T+guHPd+5vbaAtP8zwtnsl+pVYxLzSotoBHPR9JVCgcrziBTtrhATlQxjoLJS
- +LilNWGUaJMq5awYHMTFBRk6xHE7PAujLl2Lvlg+45GVzYFVyJesIc2+AQD6Zz9VB3D1
- MlJgNlaCr36xcE+jRfjSr7pVLuVOjbiac2y/2jtuCxgV9c9BPO+Ia+dnst9h1DSodsCd
- m0DIVIwyjOQMAa7L6xIfIe81P1q1vQit81AqoNGBpQJyrHDEizXL/zOgPeYcCCJnGBXk
- 6Pkg==
-X-Gm-Message-State: AAQBX9cC4Ah90zFI8T7mwhg3RBFc8meJCTq9W7rjuhTU7GNovDGfDXO6
- 0Pe3jQ3DUOYCy7M0MzGC88jCaoTKhL+qCaVvEtO/vyI3
-X-Google-Smtp-Source: AKy350bw9b/BSApze1eDEktYM6VFCRxx3h4N9ycclng6YJOQO+yTf4ie8NU32MhvT0AAVmj6BOWzLw==
-X-Received: by 2002:a17:90a:4741:b0:249:6a63:7b8e with SMTP id
- y1-20020a17090a474100b002496a637b8emr3470649pjg.5.1682039555019; 
- Thu, 20 Apr 2023 18:12:35 -0700 (PDT)
+ bh=hhHTLIfJpfuTUDeD8Y57brA0Bsbdi/Q3CGhvHbiGyKc=;
+ b=Caf7qtxSgNiQzGSB94lsYdAms6OTobFpjemMU0hSmBeH+JW3b4hQHsj4A2anm+uZ2f
+ BOh0Dwlum+4rG4bL+dPe2qtpTBP+BzkLeu/DvI8qEEBM9mtNSGI1cns/X2QVvnfvbzOH
+ CdqbHF9GoGUNtCH0YxWjSLYmfr4zod4Htb/6YVjJcJub+HDDrC8u7uOon75KUib6tVN6
+ +dQkwmco97qihd4axvoSpA/tRINGPuJ5Fg18dYTy2lRqbrryfdVWoNmKhFHw3COWcZTJ
+ D2tMLwHsb/4jT1L1DRNFA1M/EXtck6+HzkQ30VxQjmNmOBuKgxz7e2I0xE2JNuGEw6Z9
+ TWtA==
+X-Gm-Message-State: AAQBX9eewDoYSHSh6vOgiGT8n5w4tdlpJBjyVK/6GS4dee9w5QluIl+t
+ F+nBD9LeJu+XKikE0LqUQA5GpvgzO4CkXP1VxtehR7Ov
+X-Google-Smtp-Source: AKy350bR8+LmuvrhRtj9zKLrbffGsdjt3iRA+eMEKbrP+v3oxKlvX1Ms8oSvfirPzsAJQu0IrIPg/Q==
+X-Received: by 2002:a17:903:1c4:b0:1a2:9183:a49c with SMTP id
+ e4-20020a17090301c400b001a29183a49cmr4169439plh.32.1682039556760; 
+ Thu, 20 Apr 2023 18:12:36 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:a7:2:6625:6aa3:1b0e:a808])
  by smtp.gmail.com with ESMTPSA id
- f4-20020a17090a8e8400b0024702e7c80fsm1697640pjo.23.2023.04.20.18.12.33
+ f4-20020a17090a8e8400b0024702e7c80fsm1697640pjo.23.2023.04.20.18.12.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 18:12:34 -0700 (PDT)
+ Thu, 20 Apr 2023 18:12:36 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, philmd@linaro.org, david@redhat.com,
  stefanha@redhat.com, kraxel@redhat.com, marcandre.lureau@redhat.com,
  akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com,
  alex.bennee@linaro.org
-Subject: [RFC PATCH 05/13] gfxstream + rutabaga prep: virtio_gpu_gl ->
- virtio_gpu_virgl
-Date: Thu, 20 Apr 2023 18:12:15 -0700
-Message-Id: <20230421011223.718-6-gurchetansingh@chromium.org>
+Subject: [RFC PATCH 06/13] gfxstream + rutabaga prep: make GL device more
+ library agnostic
+Date: Thu, 20 Apr 2023 18:12:16 -0700
+Message-Id: <20230421011223.718-7-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20230421011223.718-1-gurchetansingh@chromium.org>
 References: <20230421011223.718-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=gurchetansingh@chromium.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=gurchetansingh@chromium.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,123 +93,331 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The virtio-gpu GL device has a heavy dependence on virgl.
-Acknowledge this by naming functions accurately.
+Rather than create a virtio-gpu-gfxstream device and it's
+associated variants (vga, pci), let's just extend the GL device.
+
+We need to:
+    - Move all virgl functions to their own file
+    - Only all needed class callbacks in the generic GL device
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- hw/display/virtio-gpu-gl.c     | 27 ++++++++++++++-------------
- hw/display/virtio-gpu-virgl.c  |  2 +-
- include/hw/virtio/virtio-gpu.h |  2 +-
- 3 files changed, 16 insertions(+), 15 deletions(-)
+ hw/display/virtio-gpu-gl.c     | 110 ------------------------------
+ hw/display/virtio-gpu-virgl.c  | 119 +++++++++++++++++++++++++++++++--
+ include/hw/virtio/virtio-gpu.h |  11 +--
+ 3 files changed, 120 insertions(+), 120 deletions(-)
 
 diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
-index e06be60dfb..dc648aacb2 100644
+index dc648aacb2..2d140e8792 100644
 --- a/hw/display/virtio-gpu-gl.c
 +++ b/hw/display/virtio-gpu-gl.c
-@@ -25,9 +25,10 @@
+@@ -15,122 +15,12 @@
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
+ #include "qemu/error-report.h"
+-#include "qapi/error.h"
+-#include "sysemu/sysemu.h"
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-gpu.h"
+ #include "hw/virtio/virtio-gpu-bswap.h"
+ #include "hw/virtio/virtio-gpu-pixman.h"
+ #include "hw/qdev-properties.h"
  
- #include <virglrenderer.h>
- 
--static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
--                                             struct virtio_gpu_scanout *s,
--                                             uint32_t resource_id)
-+static void
-+virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
-+                               struct virtio_gpu_scanout *s,
-+                               uint32_t resource_id)
- {
-     uint32_t width, height;
-     uint32_t pixels, *data;
-@@ -48,14 +49,14 @@ static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
-     free(data);
- }
- 
--static void virtio_gpu_gl_flushed(VirtIOGPUBase *b)
-+static void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
- {
-     VirtIOGPU *g = VIRTIO_GPU(b);
- 
-     virtio_gpu_process_cmdq(g);
- }
- 
--static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-+static void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
- {
-     VirtIOGPU *g = VIRTIO_GPU(vdev);
-     VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
-@@ -71,7 +72,7 @@ static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-     }
-     if (gl->renderer_reset) {
-         gl->renderer_reset = false;
--        virtio_gpu_virgl_reset(g);
-+        virtio_gpu_virglrenderer_reset(g);
-     }
- 
-     cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
-@@ -87,7 +88,7 @@ static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-     virtio_gpu_virgl_fence_poll(g);
- }
- 
--static void virtio_gpu_gl_reset(VirtIODevice *vdev)
-+static void virtio_gpu_virgl_reset(VirtIODevice *vdev)
- {
-     VirtIOGPU *g = VIRTIO_GPU(vdev);
-     VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
-@@ -104,7 +105,7 @@ static void virtio_gpu_gl_reset(VirtIODevice *vdev)
-     }
- }
- 
--static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
-+static void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)
- {
-     VirtIOGPU *g = VIRTIO_GPU(qdev);
- 
-@@ -143,13 +144,13 @@ static void virtio_gpu_gl_class_init(ObjectClass *klass, void *data)
-     VirtIOGPUBaseClass *vbc = VIRTIO_GPU_BASE_CLASS(klass);
-     VirtIOGPUClass *vgc = VIRTIO_GPU_CLASS(klass);
- 
--    vbc->gl_flushed = virtio_gpu_gl_flushed;
--    vgc->handle_ctrl = virtio_gpu_gl_handle_ctrl;
-+    vbc->gl_flushed = virtio_gpu_virgl_flushed;
-+    vgc->handle_ctrl = virtio_gpu_virgl_handle_ctrl;
-     vgc->process_cmd = virtio_gpu_virgl_process_cmd;
--    vgc->update_cursor_data = virtio_gpu_gl_update_cursor_data;
-+    vgc->update_cursor_data = virtio_gpu_virgl_update_cursor;
- 
--    vdc->realize = virtio_gpu_gl_device_realize;
--    vdc->reset = virtio_gpu_gl_reset;
-+    vdc->realize = virtio_gpu_virgl_device_realize;
-+    vdc->reset = virtio_gpu_virgl_reset;
-     device_class_set_props(dc, virtio_gpu_gl_properties);
- }
- 
+-#include <virglrenderer.h>
+-
+-static void
+-virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
+-                               struct virtio_gpu_scanout *s,
+-                               uint32_t resource_id)
+-{
+-    uint32_t width, height;
+-    uint32_t pixels, *data;
+-
+-    data = virgl_renderer_get_cursor_data(resource_id, &width, &height);
+-    if (!data) {
+-        return;
+-    }
+-
+-    if (width != s->current_cursor->width ||
+-        height != s->current_cursor->height) {
+-        free(data);
+-        return;
+-    }
+-
+-    pixels = s->current_cursor->width * s->current_cursor->height;
+-    memcpy(s->current_cursor->data, data, pixels * sizeof(uint32_t));
+-    free(data);
+-}
+-
+-static void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
+-{
+-    VirtIOGPU *g = VIRTIO_GPU(b);
+-
+-    virtio_gpu_process_cmdq(g);
+-}
+-
+-static void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+-{
+-    VirtIOGPU *g = VIRTIO_GPU(vdev);
+-    VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
+-    struct virtio_gpu_ctrl_command *cmd;
+-
+-    if (!virtio_queue_ready(vq)) {
+-        return;
+-    }
+-
+-    if (!gl->renderer_inited) {
+-        virtio_gpu_virgl_init(g);
+-        gl->renderer_inited = true;
+-    }
+-    if (gl->renderer_reset) {
+-        gl->renderer_reset = false;
+-        virtio_gpu_virglrenderer_reset(g);
+-    }
+-
+-    cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
+-    while (cmd) {
+-        cmd->vq = vq;
+-        cmd->error = 0;
+-        cmd->finished = false;
+-        QTAILQ_INSERT_TAIL(&g->cmdq, cmd, next);
+-        cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
+-    }
+-
+-    virtio_gpu_process_cmdq(g);
+-    virtio_gpu_virgl_fence_poll(g);
+-}
+-
+-static void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+-{
+-    VirtIOGPU *g = VIRTIO_GPU(vdev);
+-    VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
+-
+-    virtio_gpu_reset(vdev);
+-
+-    /*
+-     * GL functions must be called with the associated GL context in main
+-     * thread, and when the renderer is unblocked.
+-     */
+-    if (gl->renderer_inited && !gl->renderer_reset) {
+-        virtio_gpu_virgl_reset_scanout(g);
+-        gl->renderer_reset = true;
+-    }
+-}
+-
+-static void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)
+-{
+-    VirtIOGPU *g = VIRTIO_GPU(qdev);
+-
+-#if HOST_BIG_ENDIAN
+-    error_setg(errp, "virgl is not supported on bigendian platforms");
+-    return;
+-#endif
+-
+-    if (!object_resolve_path_type("", TYPE_VIRTIO_GPU_GL, NULL)) {
+-        error_setg(errp, "at most one %s device is permitted", TYPE_VIRTIO_GPU_GL);
+-        return;
+-    }
+-
+-    if (!display_opengl) {
+-        error_setg(errp, "opengl is not available");
+-        return;
+-    }
+-
+-    g->parent_obj.conf.flags |= (1 << VIRTIO_GPU_FLAG_VIRGL_ENABLED);
+-    VIRTIO_GPU_BASE(g)->virtio_config.num_capsets =
+-        virtio_gpu_virgl_get_num_capsets(g);
+-
+-    virtio_gpu_device_realize(qdev, errp);
+-}
+-
+ static Property virtio_gpu_gl_properties[] = {
+     DEFINE_PROP_BIT("stats", VirtIOGPU, parent_obj.conf.flags,
+                     VIRTIO_GPU_FLAG_STATS_ENABLED, false),
 diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index 1c47603d40..f91d33ce13 100644
+index f91d33ce13..87eccb2b97 100644
 --- a/hw/display/virtio-gpu-virgl.c
 +++ b/hw/display/virtio-gpu-virgl.c
-@@ -599,7 +599,7 @@ void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g)
+@@ -14,6 +14,8 @@
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+ #include "qemu/iov.h"
++#include "qapi/error.h"
++#include "sysemu/sysemu.h"
+ #include "trace.h"
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-gpu.h"
+@@ -584,12 +586,12 @@ static void virtio_gpu_fence_poll(void *opaque)
      }
  }
  
--void virtio_gpu_virgl_reset(VirtIOGPU *g)
-+void virtio_gpu_virglrenderer_reset(VirtIOGPU *g)
+-void virtio_gpu_virgl_fence_poll(VirtIOGPU *g)
++static void virtio_gpu_virgl_fence_poll(VirtIOGPU *g)
+ {
+     virtio_gpu_fence_poll(g);
+ }
+ 
+-void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g)
++static void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g)
+ {
+     int i;
+ 
+@@ -599,12 +601,12 @@ void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g)
+     }
+ }
+ 
+-void virtio_gpu_virglrenderer_reset(VirtIOGPU *g)
++static void virtio_gpu_virglrenderer_reset(VirtIOGPU *g)
  {
      virgl_renderer_reset();
  }
+ 
+-int virtio_gpu_virgl_init(VirtIOGPU *g)
++static int virtio_gpu_virgl_init(VirtIOGPU *g)
+ {
+     int ret;
+ 
+@@ -625,7 +627,7 @@ int virtio_gpu_virgl_init(VirtIOGPU *g)
+     return 0;
+ }
+ 
+-int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g)
++static int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g)
+ {
+     uint32_t capset2_max_ver, capset2_max_size;
+     virgl_renderer_get_cap_set(VIRTIO_GPU_CAPSET_VIRGL2,
+@@ -634,3 +636,110 @@ int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g)
+ 
+     return capset2_max_ver ? 2 : 1;
+ }
++
++void
++virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
++                               struct virtio_gpu_scanout *s,
++                               uint32_t resource_id)
++{
++    uint32_t width, height;
++    uint32_t pixels, *data;
++
++    data = virgl_renderer_get_cursor_data(resource_id, &width, &height);
++    if (!data) {
++        return;
++    }
++
++    if (width != s->current_cursor->width ||
++        height != s->current_cursor->height) {
++        free(data);
++        return;
++    }
++
++    pixels = s->current_cursor->width * s->current_cursor->height;
++    memcpy(s->current_cursor->data, data, pixels * sizeof(uint32_t));
++    free(data);
++}
++
++void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
++{
++    VirtIOGPU *g = VIRTIO_GPU(b);
++
++    virtio_gpu_process_cmdq(g);
++}
++
++void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
++{
++    VirtIOGPU *g = VIRTIO_GPU(vdev);
++    VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
++    struct virtio_gpu_ctrl_command *cmd;
++
++    if (!virtio_queue_ready(vq)) {
++        return;
++    }
++
++    if (!gl->renderer_inited) {
++        virtio_gpu_virgl_init(g);
++        gl->renderer_inited = true;
++    }
++    if (gl->renderer_reset) {
++        gl->renderer_reset = false;
++        virtio_gpu_virglrenderer_reset(g);
++    }
++
++    cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
++    while (cmd) {
++        cmd->vq = vq;
++        cmd->error = 0;
++        cmd->finished = false;
++        QTAILQ_INSERT_TAIL(&g->cmdq, cmd, next);
++        cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
++    }
++
++    virtio_gpu_process_cmdq(g);
++    virtio_gpu_virgl_fence_poll(g);
++}
++
++void virtio_gpu_virgl_reset(VirtIODevice *vdev)
++{
++    VirtIOGPU *g = VIRTIO_GPU(vdev);
++    VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
++
++    virtio_gpu_reset(vdev);
++
++    /*
++     * GL functions must be called with the associated GL context in main
++     * thread, and when the renderer is unblocked.
++     */
++    if (gl->renderer_inited && !gl->renderer_reset) {
++        virtio_gpu_virgl_reset_scanout(g);
++        gl->renderer_reset = true;
++    }
++}
++
++void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)
++{
++    VirtIOGPU *g = VIRTIO_GPU(qdev);
++
++#if HOST_BIG_ENDIAN
++    error_setg(errp, "virgl is not supported on bigendian platforms");
++    return;
++#endif
++
++    if (!object_resolve_path_type("", TYPE_VIRTIO_GPU_GL, NULL)) {
++        error_setg(errp, "at most one %s device is permitted",
++                   TYPE_VIRTIO_GPU_GL);
++        return;
++    }
++
++    if (!display_opengl) {
++        error_setg(errp, "opengl is not available");
++        return;
++    }
++
++    g->parent_obj.conf.flags |= (1 << VIRTIO_GPU_FLAG_VIRGL_ENABLED);
++    VIRTIO_GPU_BASE(g)->virtio_config.num_capsets =
++        virtio_gpu_virgl_get_num_capsets(g);
++
++    virtio_gpu_device_realize(qdev, errp);
++}
 diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index adee17968d..e256e44172 100644
+index e256e44172..7317b60004 100644
 --- a/include/hw/virtio/virtio-gpu.h
 +++ b/include/hw/virtio/virtio-gpu.h
-@@ -297,7 +297,7 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+@@ -295,10 +295,11 @@ int virtio_gpu_update_dmabuf(VirtIOGPU *g,
+ /* virtio-gpu-3d.c */
+ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
                                    struct virtio_gpu_ctrl_command *cmd);
- void virtio_gpu_virgl_fence_poll(VirtIOGPU *g);
- void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g);
--void virtio_gpu_virgl_reset(VirtIOGPU *g);
-+void virtio_gpu_virglrenderer_reset(VirtIOGPU *g);
- int virtio_gpu_virgl_init(VirtIOGPU *g);
- int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g);
+-void virtio_gpu_virgl_fence_poll(VirtIOGPU *g);
+-void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g);
+-void virtio_gpu_virglrenderer_reset(VirtIOGPU *g);
+-int virtio_gpu_virgl_init(VirtIOGPU *g);
+-int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g);
++void virtio_gpu_virgl_update_cursor(VirtIOGPU *g, struct virtio_gpu_scanout *s,
++                                    uint32_t resource_id);
++void virtio_gpu_virgl_flushed(VirtIOGPUBase *b);
++void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq);
++void virtio_gpu_virgl_reset(VirtIODevice *vdev);
++void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp);
  
+ #endif
 -- 
 2.40.0.634.g4ca3ef3211-goog
 
