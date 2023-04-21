@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07286EB05C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 19:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3B96EAF88
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 18:51:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppuI3-0002Hj-3v; Fri, 21 Apr 2023 13:11:19 -0400
+	id 1pptx1-0005s6-TV; Fri, 21 Apr 2023 12:49:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppuI0-0002Gb-NB
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:11:16 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppuHy-0007qU-77
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:11:15 -0400
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-2f917585b26so1834519f8f.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 10:11:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682097072; x=1684689072;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2kR4DXAlMDBIuhLL2B0pgTKZgVl9OcxDTLRxhwoJh2w=;
- b=R5XMG0KZbnqHpNcb3pT+orCfH4KWNuOgkQnqQ6CqHRbCiZhzAvyM7I0ZoGRN/fIoKI
- RoB/nbuUKv4ovfcJ1Uwf32CZ1vyeHV/LojHoz1r+5NtHY/u5eadIlKYEVdBQeqRBIRqb
- YitT0BJe3h60tC/9ZEwbGxafpk9cAavUzGJzGdfGK3PWscXHfthwyCZDfSqTT0awSLCH
- Rk1GrZnrlPU3eIg8gz00wJOP+OpPi46yXeIj4/tLTDn9OBPcqTHVqa6eIgKveFhhFga4
- mM+anwbHZyGvHLiK3H1J6kL3D0fT1mA9vQfTKWhhNoDyB6BO8w6NSLvYjRF9X4Qnrs/L
- PIRg==
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1pptwz-0005r6-De
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:49:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1pptwu-00043p-Nu
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:49:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682095767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0XDSLl70BStCziHm8wpEMuwyVP0UPHr5F+JIHcB7XZg=;
+ b=O46TI81b3ZW2BAJhW7RtD/Bflfe2803571E7FhK7ZOYM9gxqsC++s2noF2vNUcxqS+VDsr
+ +eqqGZmmjtrBEA510qHhTsjd5GLVnlCBrC4lANMsr+ptudUEoyFljXuW0/9uSBuclL3jWc
+ 9GYJ9qNlhPVmnxhOxIuih7OYYMXQeKE=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-394-lerHU7nSMeSlSKHMM6hWQA-1; Fri, 21 Apr 2023 12:48:22 -0400
+X-MC-Unique: lerHU7nSMeSlSKHMM6hWQA-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-24708bfb463so2211985a91.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 09:48:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682097072; x=1684689072;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=2kR4DXAlMDBIuhLL2B0pgTKZgVl9OcxDTLRxhwoJh2w=;
- b=N1F4ubd46NuzWddp4t+sae/UNlil2RB4F5bpB+59hN1bPT/Vgba5jq5CJrEQElEdPv
- n1P1AMt6MNNDHAultzdMy6nFuEckTltwAPmDv1zODSZ8KvY4CwEVGQey3N+aetGU1/ic
- V8GzbabioJhYTp0X7PuKFcQXLwnP1kdCcqMub95NaFGocBqKZuPT7QGAofPbceROl3sK
- 9cKXPz4UBn/vQrcWL9EVnUdwzgebggavOXXMNRP8iJkBm5SROP3JmChyXee7Zl0CFuaY
- c8J13zUndjqjixSBi4m5oylZOAae6lN5uUiNP3KoTZwt5ZQaiZImfu5uERhAWNHP2i3R
- KQqQ==
-X-Gm-Message-State: AAQBX9cuZbXFbtBEHmy47AqZsJly6Jspz2wuE3lbHveX2lt8fV5Hem4r
- ub9wOVtPWzIH90EuN/5qkb1LAA==
-X-Google-Smtp-Source: AKy350aFLOriPLyQoKMxtwY6Bt+nyjVI/YyAtynGfm+ihfrX7T6Wlif6hlaAPAfJUTjLpO3TDwjYGA==
-X-Received: by 2002:a5d:560e:0:b0:2ef:ae66:c0e3 with SMTP id
- l14-20020a5d560e000000b002efae66c0e3mr4198575wrv.12.1682097072189; 
- Fri, 21 Apr 2023 10:11:12 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c4f4600b003ee5fa61f45sm8779502wmq.3.2023.04.21.10.11.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 10:11:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6D71B1FFB7;
- Fri, 21 Apr 2023 18:11:11 +0100 (BST)
-References: <20230421132421.1617479-1-fei2.wu@intel.com>
-User-agent: mu4e 1.11.2; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Fei Wu <fei2.wu@intel.com>
-Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v11 00/14] TCG code quality tracking
-Date: Fri, 21 Apr 2023 17:42:39 +0100
-In-reply-to: <20230421132421.1617479-1-fei2.wu@intel.com>
-Message-ID: <87wn259n4g.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1682095701; x=1684687701;
+ h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0XDSLl70BStCziHm8wpEMuwyVP0UPHr5F+JIHcB7XZg=;
+ b=Ao9sweNvdpQh11n2d+KyG+uTlJjuTVQNgb6A8wQHKtPJ6HTd4N6NobGo9BAZfJclt4
+ OMgulgRDkK2/Yaxb3hCiMt8pqkrrW30y7vzL6/cZfO+PGnA+UNNrccBNhqLsB/y0QunK
+ EXIlXeESjD5phiSgsGRADqeMV5QEewc5iFU3X2JJ2tTHSgKkf48AkHlE1PBMRMTrFkN1
+ 0tN8jeREGMvNb6yXWy7LkPxslpNwggllJCBpDVBXlXMOGvOl+TZsXkR9zPxFR1FaUJFR
+ 7ELB8PibAf661w/eRDq7ZGUEI+Vd37UQDGaP/1hZeW7O7Q5uQb5ex0XTKWIDygCth4MP
+ fh5w==
+X-Gm-Message-State: AAQBX9eR1aUxRD0M7azargiFtGjTaYlD4TlT4wfb1PYDorpycbHA8PxJ
+ nCImwV4vs+lJpQst/VAorLkq6JIIOyL1nHEK7aeDvRxhMSCyO5awm6ZpBC3xqyCrqL2lnCGqq+o
+ XvnpbTcxFmprvWHUkVN2Sh3HLCQdOi0o=
+X-Received: by 2002:a17:90a:d901:b0:246:fc58:d77b with SMTP id
+ c1-20020a17090ad90100b00246fc58d77bmr5516242pjv.44.1682095700866; 
+ Fri, 21 Apr 2023 09:48:20 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YhJIjeRVpjh25JBFNkdiCDcSuY8/qsCpccfdC9kciRptCa4HLXlAlLPaVJlsFgcs6wH68OJG8BqIfFsIu8714=
+X-Received: by 2002:a17:90a:d901:b0:246:fc58:d77b with SMTP id
+ c1-20020a17090ad90100b00246fc58d77bmr5516221pjv.44.1682095700597; Fri, 21 Apr
+ 2023 09:48:20 -0700 (PDT)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 21 Apr 2023 09:48:19 -0700
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20230421043353.125701-1-sunilvl@ventanamicro.com>
+ <b882e2cf-8e7f-eacc-27cf-05364a065290@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+In-Reply-To: <b882e2cf-8e7f-eacc-27cf-05364a065290@gmx.de>
+Date: Fri, 21 Apr 2023 09:48:19 -0700
+Message-ID: <CABJz62ME20bT8v9TK4h+RcujHK_eY+wRF1UK9aN+Ww8Fg_=QQg@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: virt: Enable booting M-mode or S-mode FW from
+ pflash0
+To: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc: Sunil V L <sunilvl@ventanamicro.com>, qemu-devel@nongnu.org, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,58 +100,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, Apr 21, 2023 at 04:36:15PM +0200, Heinrich Schuchardt wrote:
+> On 4/21/23 06:33, Sunil V L wrote:
+> > Currently, virt machine supports two pflash instances each with
+> > 32MB size. However, the first pflash is always assumed to
+> > contain M-mode firmware and reset vector is set to this if
+> > enabled. Hence, for S-mode payloads like EDK2, only one pflash
+> > instance is available for use. This means both code and NV variables
+> > of EDK2 will need to use the same pflash.
+> >
+> > The OS distros keep the EDK2 FW code as readonly. When non-volatile
+> > variables also need to share the same pflash, it is not possible
+> > to keep it as readonly since variables need write access.
+> >
+> > To resolve this issue, the code and NV variables need to be separated.
+> > But in that case we need an extra flash. Hence, modify the convention
+> > such that pflash0 will contain the M-mode FW only when "-bios none"
+> > option is used. Otherwise, pflash0 will contain the S-mode payload FW.
+> > This enables both pflash instances available for EDK2 use.
+> >
+> > Example usage:
+> > 1) pflash0 containing M-mode FW
+> > qemu-system-riscv64 -bios none -pflash <mmode_fw> -machine virt
+> > or
+> > qemu-system-riscv64 -bios none \
+> > -drive file=<mmode_fw>,if=pflash,format=raw,unit=0 -machine virt
+> >
+> > 2) pflash0 containing S-mode payload like EDK2
+> > qemu-system-riscv64 -pflash <smode_fw_code> -pflash <smode_vars> -machine  virt
+> > or
+> > qemu-system-riscv64 -bios <opensbi_fw> \
+> > -pflash <smode_fw_code> \
+> > -pflash <smode_vars> \
+> > -machine  virt
+> > or
+> > qemu-system-riscv64 -bios <opensbi_fw> \
+> > -drive file=<smode_fw_code>,if=pflash,format=raw,unit=0,readonly=on \
+> > -drive file=<smode_fw_vars>,if=pflash,format=raw,unit=1 \
+> > -machine virt
+> >
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > Reported-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+>
+> QEMU 7.2 (and possibly 8.0 to be released) contains the old behavior.
+>
+> Changed use of command line parameters should depend on the version of
+> the virt machine, i.e. virt-7.2 should use the old behavior and virt as
+> alias for virt-8.0 should use the new behavior. Please, have a look at
+> the option handling in hw/arm/virt.c and macro DEFINE_VIRT_MACHINE().
 
-Fei Wu <fei2.wu@intel.com> writes:
+I would normally agree with you, but note that RISC-V doesn't have
+versioned machine types yet, so this kind of breakage is not
+necessarily unexpected.
 
-> This patch series were done by Vanderson and Alex originally in 2019, I
-> (Fei Wu) rebased them on latest upstream from:
->     https://github.com/stsquad/qemu/tree/tcg/tbstats-and-perf-v10
-> and send out this review per Alex's request, I will continue to address
-> any future review comments here. As it's been a very long time and there
-> are lots of conflicts during rebase, it's my fault if I introduce any
-> problems during the process.
+From libvirt's point of view, being able to detect whether the new
+behavior is implemented by looking for some machine type property
+would be enough to handle the transition smoothly. That would of
+course not help people running QEMU directly.
 
-Hi Fei,
+For what it's worth, this change seems to go in the right direction
+by making things similar to other architectures (x86, Arm) so I'd
+love to see it happen.
 
-Thanks for picking this up. I can confirm that this applies cleanly to
-master and I have kicked the tyres and things still seem to work. I'm
-not sure if I can provide much review on code I wrote but a few things
-to point out:
+-- 
+Andrea Bolognani / Red Hat / Virtualization
 
-  - there are a number of CI failures, mainly qatomic on 32 bit guests
-    see https://gitlab.com/stsquad/qemu/-/pipelines/844857279/failures
-    maybe we just disable time accounting for 32 bit hosts?
-
-  - we need a proper solution to the invalidation of TBs so we can
-    exclude them from lists (or at least not do the attempt
-    translation/fail dance). Alternatively we could page out a copy of
-    the TB data to a disk file when we hit a certain hotness? How would
-    this interact with the jitperf support already?
-
-  - we should add some documentation to the manual so users don't have
-    to figure it all out by trail and error at the HMP command line.
-
-  - there may be some exit cases missed because I saw some weird TB's
-    with very long IR generation times.
-
-    TB id:5 | phys:0xb5f21d00 virt:0xffffcf2f17721d00 flags:0x00000051 1 in=
-v/2
-            | exec:1889055/0 guest inst cov:1.05%
-            | trans:2 ints: g:4 op:32 op_opt:26 spills:0
-            | h/g (host bytes / guest insts): 56.000000
-            | time to gen at 2.4GHz =3D> code:6723.33(ns) IR:2378539.17(ns)
-
-  - code motion in 9/14 should be folded into the first patch
-
-Even if we can't find a solution for safely dumping TBs I think the
-series without "tb-list" is still an improvement for getting rid of the
---enable-profiler and making info JIT useful by default.
-
-Richard,
-
-What do you think?
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
