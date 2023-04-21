@@ -2,92 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEC66EA929
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 13:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4456C6EA94F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 13:36:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppp2M-00007q-PR; Fri, 21 Apr 2023 07:34:46 -0400
+	id 1ppp3y-00029p-VJ; Fri, 21 Apr 2023 07:36:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1ppp2K-0008W9-TU
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:34:44 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1ppp2J-0008GK-8Y
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:34:44 -0400
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33LA0OS8026131; Fri, 21 Apr 2023 11:34:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=BMDVeJvlnhmxBzUAP/bs8DDgLnj9x8phI0yNuEyHzSA=;
- b=JuEB3uJ5uMucXI1WwbJIOZR90489z5mgE7AfIs5SS8gbX82wMMpOF0MzKHXkO9HqI9S0
- e2Fcllvy9IrWjDRuzQ85rEVOiS30/MVdRbDdo6VDLoG6wvRNROoP9Lj6vZt7SS7YprN/
- EdYt/DntRKvDciG6nND0M1HqLRFxS4zXg5AOvaN2nYzP9V7DNJCxElnZQ+FJ7GcdQOC8
- Z5WQ20Y6d/GLcyLfdHH3Xey7sG8vCQ9utyMBd7o9W568++bF2m4p0EiF7V/z4YKHeUus
- w0wB3jcZZVVVL13i9PJyMHxOTVuQ5BUP8VvggxjyhYZg9/G4QQCY5z3GbOcd6QlGxMR8 Jw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q3e34scp8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 11:34:34 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33LBYXVh032571
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 11:34:33 GMT
-Received: from NASANPPMTA01.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 21 Apr 2023 04:34:30 -0700
-From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-To: <alex.bennee@linaro.org>
-CC: <bcain@quicinc.com>, <eduardo@habkost.net>, <f4bug@amsat.org>,
- <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
- <philmd@linaro.org>, <qemu-devel@nongnu.org>,
- <quic_mathbern@quicinc.com>, <tsimpson@quicinc.com>,
- <wangyanan55@huawei.com>
-Subject: Re: [PATCH v2 RESEND 3/7] gdbstub: add support for the qRegisterInfo
- query
-Date: Fri, 21 Apr 2023 08:34:20 -0300
-Message-ID: <20230421113420.67122-1-quic_mathbern@quicinc.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <87o7nid5mb.fsf@linaro.org>
-References: <87o7nid5mb.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1ppp3w-00028r-NA
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:36:24 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1ppp3v-0000HG-1X
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:36:24 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id
+ 5614622812f47-38e2740958aso686281b6e.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 04:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1682076981; x=1684668981;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=g9BLG/9HcuGxwZaQCc42sjcmehGj1QEEM2G31hv+uJo=;
+ b=Aqzsz9sJLjMqQFdT5WxXs4lP0yTvLxmoJQzJFDLJejzzw1XlSEdFoJ/70iDu6RIZb2
+ tt00Fb4VFRYseFew5blps22DkVLdE41i8baIbpSNdugvrTBm/1ruzcF8v+/GgMFiX/E0
+ UZ58yerpSJbcxYFEOkkSSgYxyIHEf9eDY/5+EsygNsXNqmgQbJpHtV3q5vHvo92hhq03
+ uyJdrH8X70pOPw+3XyGA4rIu7DwGQnQEZJnWmowc1ZnGRDqb+OICPCVdrCiqrOQknxat
+ BTjaDk0/W17ehdzCy0Ml0LZQSPnyrDm/CP2uYj+Af1z+WIFwmEEmYbQqc341YwyfckH0
+ hwOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682076981; x=1684668981;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g9BLG/9HcuGxwZaQCc42sjcmehGj1QEEM2G31hv+uJo=;
+ b=bqfwygwMHvb6whi5Fo6yUh6xQKApdTF21NzDtvvdsaXoAd8Z5RIKbLWzE/oa43WZOZ
+ fb/42OSNS6Shxn3vP6n5Euf61JfBi4p5OM0xBjxen2VSoEbIHzekinmYm/M5D2Uggrkw
+ cTGZSdFxM5RxkwMXIj+UTSMXOFMqT17SDKBdOeIR2Mkn02ZiM2YYVCYQrjv+Y8DGqFLM
+ qqA4btssU/cWuDD+baOH0/TwBdrpnnODWtfFaDRgHoNCHJLxu5HmGpq3hWGP5SlBXkfU
+ iWSHa/IrSL6a4HhgsW6ph8m23PLKEt0EGSh4hJcjAjpJZMZDwCI8Xf9DR9TrJyOzeXd4
+ /MZw==
+X-Gm-Message-State: AAQBX9c76RfHdhfTtcGgIadKGC7xtV+kmknX+pK4UW+khSuyc0nl+pIw
+ Dqy/KfMScZ05akVI1N+QyhZSlQ==
+X-Google-Smtp-Source: AKy350YiR3U+nnzcCRzyFtForPth9TufswsLoRH/ei0rG62MOjIgA2idD66BexnGPsEEZkMChPnmYg==
+X-Received: by 2002:a05:6808:1a26:b0:387:266e:1624 with SMTP id
+ bk38-20020a0568081a2600b00387266e1624mr2906101oib.39.1682076981463; 
+ Fri, 21 Apr 2023 04:36:21 -0700 (PDT)
+Received: from [192.168.68.107] ([191.255.108.232])
+ by smtp.gmail.com with ESMTPSA id
+ p205-20020acaf1d6000000b00386eff32f58sm1570910oih.13.2023.04.21.04.36.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Apr 2023 04:36:21 -0700 (PDT)
+Message-ID: <dfaad783-bddb-64a1-72c7-da4b7ab71349@ventanamicro.com>
+Date: Fri, 21 Apr 2023 08:36:17 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH RESEND v7 12/12] target/riscv: forbid write_misa() for
+ static CPUs
+Content-Language: en-US
+To: Alistair Francis <alistair23@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
+ palmer@rivosinc.com
+References: <20230420092100.177464-1-dbarboza@ventanamicro.com>
+ <20230420092100.177464-13-dbarboza@ventanamicro.com>
+ <CAKmqyKPX4ThJkWfyoTmVoCtcwGdPYONYqdMLAXUGzOb+9T=ggw@mail.gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAKmqyKPX4ThJkWfyoTmVoCtcwGdPYONYqdMLAXUGzOb+9T=ggw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: SkehMlv1xWOxve0Y0FDWfha6RZbzJp-x
-X-Proofpoint-GUID: SkehMlv1xWOxve0Y0FDWfha6RZbzJp-x
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-21_04,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- clxscore=1011 malwarescore=0 phishscore=0 mlxlogscore=999 spamscore=0
- impostorscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304210099
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=quic_mathbern@quicinc.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SORTED_RECIPS=2.499,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,37 +99,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Bennée <alex.bennee@linaro.org> wrote:
->
-> > Matheus Tavares <quic_mathbern@quicinc.com> wrote:
-> >
-> > diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-> > index be18568d0a..f19f8c58c3 100644
-> > --- a/gdbstub/gdbstub.c
-> > +++ b/gdbstub/gdbstub.c
-> > @@ -1578,6 +1599,12 @@ static const GdbCmdParseEntry gdb_gen_query_table[] = {
-> >          .handler = handle_query_curr_tid,
-> >          .cmd = "C",
-> >      },
-> > +    {
-> > +        .handler = handle_query_regs,
-> > +        .cmd = "RegisterInfo",
-> > +        .cmd_startswith = 1,
-> > +        .schema = "l0"
-> > +    },
-> 
-> Where is this defined in the protocol spec, I can't see it in:
-> 
->   https://sourceware.org/gdb/onlinedocs/gdb/General-Query-Packets.html#General-Query-Packets
-> 
-> and it seems to be information that is handled by the xml register
-> description. Is there a reason that isn't used for Hexagon?
 
-Good point. It's actually an lldb extension to the protocol:
-https://github.com/llvm/llvm-project/blob/main/lldb/docs/lldb-gdb-remote.txt#L573
 
-But indeed, lldb should be able to use the xml register description as
-well. I'll take a look and try to do that instead.
+On 4/20/23 20:48, Alistair Francis wrote:
+> On Thu, Apr 20, 2023 at 7:22 PM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>>
+>> Static CPUs don't want their extensions changed by user interaction. We
+>> can prevent it during init by not exposing user facing properties, but
+>> write_misa() is also capable of disabling/enabling extension during
+>> runtime.
+>>
+>> We have a way of telling whether a CPU is static or not by checking for
+>> TYPE_RISCV_DYNAMIC_CPU. Use it to make write_misa() a no-op for these
+>> CPUs.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> ---
+>>   target/riscv/cpu.c | 5 +++++
+>>   target/riscv/cpu.h | 2 ++
+>>   target/riscv/csr.c | 5 +++++
+>>   3 files changed, 12 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 4fa720a39d..3cbcf6d320 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -1452,6 +1452,11 @@ static void riscv_cpu_init(Object *obj)
+>>   #endif /* CONFIG_USER_ONLY */
+>>   }
+>>
+>> +bool riscv_cpu_is_static(RISCVCPU *cpu)
+>> +{
+>> +    return object_dynamic_cast(OBJECT(cpu), TYPE_RISCV_DYNAMIC_CPU) == NULL;
+>> +}
+>> +
+>>   typedef struct RISCVCPUMisaExtConfig {
+>>       const char *name;
+>>       const char *description;
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 1f39edc687..1913ab9d8d 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -587,6 +587,8 @@ G_NORETURN void riscv_raise_exception(CPURISCVState *env,
+>>   target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
+>>   void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
+>>
+>> +bool riscv_cpu_is_static(RISCVCPU *cpu);
+>> +
+>>   #include "exec/cpu-all.h"
+>>
+>>   FIELD(TB_FLAGS, MEM_IDX, 0, 3)
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index d449da2657..929c5477dd 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -1391,6 +1391,11 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
+>>       uint32_t orig_misa_ext = env->misa_ext;
+>>       Error *local_err = NULL;
+>>
+>> +    if (riscv_cpu_is_static(cpu)) {
+>> +        /* never write MISA for static CPUs */
+>> +        return RISCV_EXCP_NONE;
+>> +    }
+> 
+> Do we actually need this? We already check misa_w which would be
+> disabled. What's the harm in allowing someone to manually enable
+> misa_w and then change the MISA?
+> 
+> Also, it's possible that static CPUs actually support changing the
+> MISA value at run time.
 
-Thanks!
+That's all valid points. I believe it's ok to drop this patch to allow
+for static CPUs to have more flexibility in the future. We're still have
+misa_w.
+
+
+Thanks,
+
+Daniel
+
+> 
+> Alistair
+> 
+>> +
+>>       if (!riscv_cpu_cfg(env)->misa_w) {
+>>           /* drop write to misa */
+>>           return RISCV_EXCP_NONE;
+>> --
+>> 2.40.0
+>>
+>>
 
