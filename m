@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1DD6EA725
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E206EA717
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:35:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn9C-0008Eh-CX; Fri, 21 Apr 2023 05:33:42 -0400
+	id 1ppn9D-0008Ew-1j; Fri, 21 Apr 2023 05:33:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn94-0008Dt-7H
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:34 -0400
+ id 1ppn96-0008EK-LK
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:36 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn92-00032P-Qp
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:33 -0400
+ id 1ppn94-00032a-5n
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682069612;
+ s=mimecast20190719; t=1682069613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/J2UWc60zpZAoalQ9qoSYz4mkciDC6lH/O28J3u9T3I=;
- b=GYnwkO523EAXZmqcOxTTwFlTJsmyHVFhuDLySht983dTva6bwvTMNvsF6muMF2OkKQc141
- YrdqDp8EsgUhFFgjZx+wm07c3Bz8FoUmomyjrXqm2+zTBL098GOWO/RsH4uXRS7gPvZ54Z
- IgHNMjU2syNOhW7EzTAXoAjF469OW1g=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zDYjso0ZakIa3G5uIUxSOeGAQdn++vo4CDjqXvD8jMQ=;
+ b=QHfdatekTrcc1Q1tKP8GhtmXaPHE1idnBe+ESKOpEFDW/lUO8sOal6NoxVw839mULNEKlu
+ 6LNmmkszi0CzgkTjTcC94pwh/36RZUnmcQp9ZIr4Iqp6dqdQu6gAsgx+1Wv4D+Vy0sLwfZ
+ EJ2Iv27u31twBSn2kA/ECVuuaUNL3fY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-473-4sfXuyOMN1S2owA3Hz700w-1; Fri, 21 Apr 2023 05:33:30 -0400
-X-MC-Unique: 4sfXuyOMN1S2owA3Hz700w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- 4fb4d7f45d1cf-5069f2ae8eeso7117200a12.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:30 -0700 (PDT)
+ us-mta-589-MDalOqEdPiaD8KrTBVX-Bg-1; Fri, 21 Apr 2023 05:33:32 -0400
+X-MC-Unique: MDalOqEdPiaD8KrTBVX-Bg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-94a356c74e0so124173266b.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069609; x=1684661609;
+ d=1e100.net; s=20221208; t=1682069610; x=1684661610;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/J2UWc60zpZAoalQ9qoSYz4mkciDC6lH/O28J3u9T3I=;
- b=hXi2B9J8j7IqGJ2UMn3qaWg+8Enbrx4gfv1TUSzzZ2ErLiDIamuHRK9KoymvxWa1Sz
- PFCWkSK3hYXXsXXwQS6Nz1Z3pvjKsuJXHpZHYoJVnGUyIh+ji+hWoASpkCCC6wkw+Nib
- T6oA5UJ5oaLwdjwSA7LYboSxl8q4Uig+tCPvgPJTsCTUuCjqInT/Im9oTpfLxBipvi7w
- m5NmftDp1ZxouZp9inPZI9Gze5zY7yoVI6GqZRWY0oCgkoI4jkYd/JVS1JH2TEHgD8Yl
- 3zC4wJGtf9HflrE0QSqspx/1Immn442CvpWadmF9JajsIy93M6H7K+eINozTgoEp6Ss0
- 9bxg==
-X-Gm-Message-State: AAQBX9f0oG9Uh0j9Y386IXn5FfHmSd7jNEryQp7LZZqRfkC84nxUWhLl
- 1umsmp6hFT3T4rrxom2nFG+98ZJsJFirtKYydqCs3sZGg3pSifnUDSRhgPrnklSzlvOX4Nfbztr
- 96QvAhex1ekd6kz0xPx3LPNHOKjJi479uAGpDIv5oL8vAvdrgdINthjAHfGqrQDIhKDGAwMKTxA
- NV4g==
-X-Received: by 2002:a17:906:a007:b0:933:4d47:55b7 with SMTP id
- p7-20020a170906a00700b009334d4755b7mr1777269ejy.2.1682069609057; 
- Fri, 21 Apr 2023 02:33:29 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aFCwbGgzP9ZMNjVFXyHgkxB53/FYMgk6OVpHkflzK5cccy0OSlgWkUdU0y3YFa2GQIkGVo8w==
-X-Received: by 2002:a17:906:a007:b0:933:4d47:55b7 with SMTP id
- p7-20020a170906a00700b009334d4755b7mr1777258ejy.2.1682069608735; 
- Fri, 21 Apr 2023 02:33:28 -0700 (PDT)
+ bh=zDYjso0ZakIa3G5uIUxSOeGAQdn++vo4CDjqXvD8jMQ=;
+ b=QDLD98gnfM3c4yzKM2FjujVu8TCgVLbglByQATSeGcjhKNlkhl+2X2Pp/b2+dA4JBy
+ lblxNhIPmJVk887Rcfew5P13gwdi9O5N3kH4IRkPh+g9WKxHFVfdAHK4iwBCpKsw4xcl
+ lk558X0u4017GCcf39wDXoXPBNESh2G+pXUa3PPx9MG7dS/UKg5oYJFVpWZcBokGAtKm
+ JOSOe3eRbhgJXHclhuhwoBj4EZavTKpgKfo9BYSxj3nR74wNE/vO9/+k4j7ka/HamxqC
+ qtAM9vVGHcuJTOeamYQd6ERn9DOCmgzXXegJpfgLsv0iMdFB/0ch0q4jK54xwB6dF3vD
+ 7M4A==
+X-Gm-Message-State: AAQBX9dw9nbvH1ZltUIAPrIUYCHVbJCFyrlOzExDo66la1zs+m6iiyZk
+ vtWvNW1GUadNKZOeXvUtmNUH/F8tkG+4CQ/HZN+W+/p15m3VszNJDCu9qJ9mFiaX9pdjs7mBOo2
+ tf9sCucgv7jcAzQY9Bx1M3TJnptschcM3Vhl/4nktcgQ3Wc1XcoowSX+x0PhBZ50oT5vH2nSkDe
+ aCZw==
+X-Received: by 2002:a17:906:4e88:b0:94f:6218:191f with SMTP id
+ v8-20020a1709064e8800b0094f6218191fmr1533818eju.52.1682069610525; 
+ Fri, 21 Apr 2023 02:33:30 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zo1IpXu2MkDEpkltWos/0+v9bZPwInn7/eRQxLIbg952vDV55/Quimrw3Eqq+tGen9OlcOVw==
+X-Received: by 2002:a17:906:4e88:b0:94f:6218:191f with SMTP id
+ v8-20020a1709064e8800b0094f6218191fmr1533808eju.52.1682069610218; 
+ Fri, 21 Apr 2023 02:33:30 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- i15-20020a1709061e4f00b0094f3d700868sm1826389ejj.80.2023.04.21.02.33.27
+ va2-20020a17090711c200b0093a0e5977e2sm1823556ejb.225.2023.04.21.02.33.29
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 02:33:27 -0700 (PDT)
+ Fri, 21 Apr 2023 02:33:29 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/25] target/i386: Avoid unreachable variable declaration in
- mmu_translate()
-Date: Fri, 21 Apr 2023 11:32:59 +0200
-Message-Id: <20230421093316.17941-9-pbonzini@redhat.com>
+Subject: [PULL 09/25] lasi: fix RTC migration
+Date: Fri, 21 Apr 2023 11:33:00 +0200
+Message-Id: <20230421093316.17941-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421093316.17941-1-pbonzini@redhat.com>
 References: <20230421093316.17941-1-pbonzini@redhat.com>
@@ -101,49 +100,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Maydell <peter.maydell@linaro.org>
+Migrate rtc_ref (which only needs to be 32-bit because it is summed to
+a 32-bit register), which requires bumping the migration version.
+The HPPA machine does not have versioned machine types so it is okay
+to block migration to old versions of QEMU.
 
-Coverity complains (CID 1507880) that the declaration "int error_code;"
-in mmu_translate() is unreachable code. Since this is only a declaration,
-this isn't actually a bug, but:
- * it's a bear-trap for future changes, because if it was changed to
-   include an initialization 'int error_code = foo;' then the
-   initialization wouldn't actually happen (being dead code)
- * it's against our coding style, which wants declarations to be
-   at the start of blocks
- * it means that anybody reading the code has to go and look up
-   exactly what the C rules are for skipping over variable declarations
-   using a goto
+While at it, drop the write-only field rtc from LasiState.
 
-Move the declaration to the top of the function.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20230406155946.3362077-1-peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/sysemu/excp_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/misc/lasi.c         | 4 ++--
+ include/hw/misc/lasi.h | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index e87f90dbe3c7..b5f0abffa3de 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -147,6 +147,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
-     hwaddr pte_addr, paddr;
-     uint32_t pkr;
-     int page_size;
-+    int error_code;
+diff --git a/hw/misc/lasi.c b/hw/misc/lasi.c
+index 23a7634a8c3a..ff9dc893ae65 100644
+--- a/hw/misc/lasi.c
++++ b/hw/misc/lasi.c
+@@ -194,7 +194,7 @@ static const MemoryRegionOps lasi_chip_ops = {
  
-  restart_all:
-     rsvd_mask = ~MAKE_64BIT_MASK(0, env_archcpu(env)->phys_bits);
-@@ -467,7 +468,6 @@ do_check_protect_pse36:
-     out->page_size = page_size;
-     return true;
+ static const VMStateDescription vmstate_lasi = {
+     .name = "Lasi",
+-    .version_id = 1,
++    .version_id = 2,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(irr, LasiState),
+@@ -204,6 +204,7 @@ static const VMStateDescription vmstate_lasi = {
+         VMSTATE_UINT32(iar, LasiState),
+         VMSTATE_UINT32(errlog, LasiState),
+         VMSTATE_UINT32(amr, LasiState),
++        VMSTATE_UINT32_V(rtc_ref, LasiState, 2),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -233,7 +234,6 @@ static void lasi_reset(DeviceState *dev)
+     s->iar = 0xFFFB0000 + 3; /* CPU_HPA + 3 */
  
--    int error_code;
-  do_fault_rsvd:
-     error_code = PG_ERROR_RSVD_MASK;
-     goto do_fault_cont;
+     /* Real time clock (RTC), it's only one 32-bit counter @9000 */
+-    s->rtc = time(NULL);
+     s->rtc_ref = 0;
+ }
+ 
+diff --git a/include/hw/misc/lasi.h b/include/hw/misc/lasi.h
+index ecc7065ce858..0a8c7352be21 100644
+--- a/include/hw/misc/lasi.h
++++ b/include/hw/misc/lasi.h
+@@ -69,8 +69,7 @@ struct LasiState {
+ 
+     uint32_t errlog;
+     uint32_t amr;
+-    uint32_t rtc;
+-    time_t rtc_ref;
++    uint32_t rtc_ref;
+ 
+     MemoryRegion this_mem;
+ };
 -- 
 2.40.0
 
