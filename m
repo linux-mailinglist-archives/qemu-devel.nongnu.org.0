@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4481B6EABA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381816EABBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:34:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppqoc-0004O7-W8; Fri, 21 Apr 2023 09:28:43 -0400
+	id 1ppqtS-0002QG-Q9; Fri, 21 Apr 2023 09:33:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppqoZ-00043V-1A
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:28:39 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1ppqtP-0002Pn-IR
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:33:39 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ppqoX-00042h-1c
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:28:38 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f09b4a1527so18578745e9.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 06:28:36 -0700 (PDT)
+ id 1ppqtN-0005m3-PR
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:33:39 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f1957e80a2so10486065e9.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 06:33:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682083715; x=1684675715;
+ d=linaro.org; s=google; t=1682084016; x=1684676016;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KEdrz3fYmKWEnebNHvbFXJHocxH3NRWGJKiBWDHyrY8=;
- b=nt6W3jC+ZFJWpJ1HADLgdokpvjIpzYVeqsLYKsT4BOjqiIEvn0FeM5CjGf2ILj81zt
- GfxWFWEfiQFmYJ7u1fzTMgWvBsYFbEtHDf+5XLhIo/49hCsTp57g6TlJe6UOKCMPCtAD
- +Ba0v82I6OkfJamK/mLQvwpcMsPEIwg3OLilHOLgMGkBgVP2eOIUgj72I8z7wJdhs/QH
- 8zZxy1AGKK7sIJSplptcuwt3RvGeXrk9ukfOyps4xwFWaK0wefZX0ZW/c1kfSX0y4SmU
- xXOyESFOLiu4ZXtzOMSWil9/T1/1JwQU5AzK6deGyW5KryAdbkJ/YWB5hd9it/4XxM/e
- m0IQ==
+ bh=DsFE5uMmZymhMCO7Yoaf4qPJeOJAaioHwB4seniFfnY=;
+ b=g69Emy4cac75eD1zEUqQFdRDUBjmhD7v8xq8xIDvRaTTIvFhGEjjfEIaIemaBOMOTJ
+ weu6p7oBJSyJd8KWLmPU4wegnker2VrxpeH5FboXaweKAul5LoST4+DCx7VhaFzPdVYR
+ 6Y0POnPSQfnM8ncXf51bCI+QolnjI00aSZxkiSa3tqoKU8dyLFgsZRW+PZOJ9fXyMBut
+ uvfe/t7w+F8Rx6Y3xZ4sSKGemOl2ezE8S/MErc/ufAlaTQAX6iZ80LkuyOHaMo2YbULq
+ V4aNHWgmEwsqYpb8O7jPq0+LRxJ4PTARC8njJh4Ty0TbaPJYX6mgGARehcridacq7R33
+ pMPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682083715; x=1684675715;
+ d=1e100.net; s=20221208; t=1682084016; x=1684676016;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=KEdrz3fYmKWEnebNHvbFXJHocxH3NRWGJKiBWDHyrY8=;
- b=Gz2Ky/38BKwjK2/YJTcU1MLI3lmELFHKuDbvntARFwqu6mguxhG0pnwlVpSfeAKWmf
- GJr/SsZH3iZJeK3OvXmRizruiqaASkHzw1m2cYFNgVIx7g0mXIS2RPCR7SfF5Kz6DGye
- prbGs5R4GP7fpvNyGmI7Mm5gsh6TxrhbBn2dh/EwCCfRiCsRBBKOiMWye7MxV5EGbZ8C
- 8dNKyTu8+aTsCuo1P6t5ez4j2vfHWM8W4cfCx3O0AYBeggsRh7YKXURbF4zP2CERbZZ0
- sKvkMCi6ciYM9W61mA/skVaIUhVdIQ+Xc33O0zAcCXQ44uYvOXTW0oDVNV9slaiUuCCj
- VzXg==
-X-Gm-Message-State: AAQBX9cD5S2f74utCGoprFcJ1b6+uvGOvzmuiMPBL4WqWP+ErbUu2ChV
- VlairK2vhtmYKcDetFX36lhLLA==
-X-Google-Smtp-Source: AKy350acDhh2EiZeQL1VpZ/emitYqEfOBPYKYUQlw6t6y8Z8DExNelBfp1r95Tuqkgko9X71itkUJA==
-X-Received: by 2002:a05:600c:acd:b0:3f1:69cc:475b with SMTP id
- c13-20020a05600c0acd00b003f169cc475bmr1943580wmr.36.1682083715273; 
- Fri, 21 Apr 2023 06:28:35 -0700 (PDT)
+ bh=DsFE5uMmZymhMCO7Yoaf4qPJeOJAaioHwB4seniFfnY=;
+ b=NmegJ/K2w3FrbqQ64ma2wRR1t+iEcG5L9bIz1WM5/UUJPow1nUdweL2sM8v1rEebkU
+ tkbE/dCoNs7ykVpa+mfeqKvdI8O91FUPH5N0nitBbvBcCE8ds4NR0Xu2f1n9KKgrjrWA
+ xlmQYXt1+vfKcPh7m9j6/8KTiDM6TlwFBf4EWLNaZLLV+z8eIqURV/pUCZ/ahrZSaEN4
+ EWkTb/47Pt83Cf/zqfd4I7oN1Izn7hU+9khJrK1mJa1ynGQLOjWWNMXOrLKj1ZIGCdqY
+ x1QJag6f0AOLzPVkXFOtXAJLwQj6dcrFX30FpJwg3WM9qkNIAjhzkdHsS6kI520a+o1o
+ NPXQ==
+X-Gm-Message-State: AAQBX9duLTMHCKrzoPuhLEnEnxekoCxMvW5ddr5ihg5prJm3wdGwZKPk
+ puEDjmolbEQ0Wt58qGJbFspb9A==
+X-Google-Smtp-Source: AKy350ZyUpNBTGAizeJHHFRrp2yKtiZ1WJ3Ap0lZPrUPe61CU/5gpxp7BT4bdONzECx6AG37AdZo9w==
+X-Received: by 2002:a1c:7211:0:b0:3f1:6880:3308 with SMTP id
+ n17-20020a1c7211000000b003f168803308mr2154314wmc.1.1682084016053; 
+ Fri, 21 Apr 2023 06:33:36 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- m1-20020a7bca41000000b003f179fc6d8esm4765070wml.44.2023.04.21.06.28.34
+ m9-20020a7bce09000000b003f049a42689sm4864802wmc.25.2023.04.21.06.33.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 06:28:34 -0700 (PDT)
+ Fri, 21 Apr 2023 06:33:35 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6CCA01FFB7;
- Fri, 21 Apr 2023 14:28:34 +0100 (BST)
-References: <20230421131547.2177449-1-clg@kaod.org>
+ by zen.linaroharston (Postfix) with ESMTP id 3E6C51FFB7;
+ Fri, 21 Apr 2023 14:33:35 +0100 (BST)
+References: <20230421042322.684093-1-kconsul@linux.vnet.ibm.com>
 User-agent: mu4e 1.11.2; emacs 29.0.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Thomas
- Huth <thuth@redhat.com>, Andrew Jeffery <andrew@aj.id.au>, Steven Lee
- <steven_lee@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
- qemu-arm@nongnu.org
-Subject: Re: [PATCH] aspeed/hace: Initialize g_autofree pointer
-Date: Fri, 21 Apr 2023 14:28:29 +0100
-In-reply-to: <20230421131547.2177449-1-clg@kaod.org>
-Message-ID: <87cz3xbbzx.fsf@linaro.org>
+To: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 0/2] Improve code coverage for ppc64
+Date: Fri, 21 Apr 2023 14:29:38 +0100
+In-reply-to: <20230421042322.684093-1-kconsul@linux.vnet.ibm.com>
+Message-ID: <875y9pbbrk.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,22 +99,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
 
-> As mentioned in docs/devel/style.rst "Automatic memory deallocation":
->
-> * Variables declared with g_auto* MUST always be initialized,
->   otherwise the cleanup function will use uninitialized stack memory
->
-> This avoids QEMU to coredump when running the "hash test" command
-> under Zephyr.
->
-> Cc: Steven Lee <steven_lee@aspeedtech.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Fixes: c5475b3f9a ("hw: Model ASPEED's Hash and Crypto Engine")
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
+> boot_linux.py test-case due to which the code coverage for ppc
+> decreased by around 2%. As per the discussion on
+> https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
+> was mentioned that the baseline test for ppc64 could be modified
+> to make up this 2% code coverage. This patchset attempts to achieve
+> this 2% code coverage by adding various device command line
+> arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
+> test-case.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+I've pulled the first patch into my testing/next, but the second
+conflicts with the inflight patch which adds checksums:
+
+  Message-Id: <20230417134321.3627231-3-alex.bennee@linaro.org>
+  Date: Mon, 17 Apr 2023 14:43:17 +0100
+  Subject: [PATCH v4 2/6] tests/avocado: use the new snapshots for testing
+  From: =3D?UTF-8?q?Alex=3D20Benn=3DC3=3DA9e?=3D <alex.bennee@linaro.org>
+
+You can either wait and re-base once the PR goes in (I'll send a pre-PR
+Monday) or do you can re-base directly off my branch at:
+
+  https://gitlab.com/stsquad/qemu/-/tree/testing/next
+
+and send the tested patch mentioning its based off my testing/next and
+I'll include it in the pre-PR.
+
+>
+> Changes since v3:
+> - Create a common ppc64_common_tuxrun routine in tuxrun_baselines.py
+>   and call that from the ppc64 and ppc64le test case routines.
+>
+> Kautuk Consul (2):
+>   avocado_qemu/__init__.py: factor out the qemu-img finding
+>   tests/avocado/tuxrun_baselines.py: improve code coverage for ppc64
+>
+>  tests/avocado/avocado_qemu/__init__.py | 27 +++++-----
+>  tests/avocado/tuxrun_baselines.py      | 68 ++++++++++++++++++++++++--
+>  2 files changed, 80 insertions(+), 15 deletions(-)
+
 
 --=20
 Alex Benn=C3=A9e
