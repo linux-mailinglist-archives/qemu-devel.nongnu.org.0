@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8E36EA920
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 13:32:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 377526EA928
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 13:35:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppoz9-00071s-KI; Fri, 21 Apr 2023 07:31:27 -0400
+	id 1ppp25-0008UY-6i; Fri, 21 Apr 2023 07:34:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1ppoz3-0006zf-Is
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:31:21 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1ppoz1-0007jL-Qw
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:31:21 -0400
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33LAm6eh013784; Fri, 21 Apr 2023 11:31:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=xRAe57eXR+IUCk3vzfSyoWw/wwNmBXJ7TbNTf/5J7Qc=;
- b=ZKyjGb+rI7xSVlTIWZqJUpTy3ICa9Pr8+LBhSpI+VBXoWxndTvTIQFMl0oLAMdiB0f/T
- lHLRIrxmdMt9cXM85KbfvGuzCRg+oJ3ku8V4mkUou6RKZs+O/J+WEzl17FRVQjnIp2fB
- /yZH4BTQ0VkgfkwpZaiWnq4FsACf+jKQkY3LN460ow1U4KcD8tVNt9k/cEzTEWrncauM
- CJ32vjtYxt/E1ODSIoMcbfbcnU5nA4hCbwtznVMaEYPo+cYlg0lBqlDky2a7e9UAIBfA
- yQ2pJaDfOeDGKRGE4C7M5HfR47BlWV9/JGAI0WUdoOR9G2BJmt60LPFLScEXLIQls80M NA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q3g1rs60g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 11:31:14 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33LBVEj9023301
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 11:31:14 GMT
-Received: from NASANPPMTA02.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 21 Apr 2023 04:31:11 -0700
-From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-To: <alex.bennee@linaro.org>
-CC: <bcain@quicinc.com>, <f4bug@amsat.org>, <peter.maydell@linaro.org>,
- <philmd@linaro.org>, <qemu-devel@nongnu.org>,
- <quic_mathbern@quicinc.com>, <tsimpson@quicinc.com>
-Subject: Re: [PATCH v2 RESEND 1/7] gdbstub: only send stop-reply packets when
- allowed to 
-Date: Fri, 21 Apr 2023 08:31:01 -0300
-Message-ID: <20230421113101.64460-1-quic_mathbern@quicinc.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <87wn26d5zs.fsf@linaro.org>
-References: <87wn26d5zs.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1ppp21-0008UK-JW
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:34:25 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1ppp1z-0008Fi-EH
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:34:25 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id
+ 5614622812f47-38e692c0930so810890b6e.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 04:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1682076861; x=1684668861;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pPMgSDRHzUCoVTveiXlP38arH/paY5HcgEKQmDvOFw0=;
+ b=UYeS23d0t44ybZCP9BXsFCLzMl2drWxzBXFrP/SBw6QrpdlmnpMmBdpJbd+hUufiVL
+ ZPKPgQFpmui72OjfhfydNfV646UBc7Pyqzel/TzI8goXZFXwCTwcKbMBckQNOf5pec5t
+ Cj7XsTX1ApOm6GZG/It5QN48jYUeqM+MoFOdYIzf6GcHgLq0vQyeGnqgnQyYfHSNhsKt
+ rgq3HupmVEqTNJWSdNUnQzhsCCNNnfkeWnZjCni81CMVH/pw6x3Yjk0v45BZFhSrA76Y
+ 3kdRZ3LLq3U8j4iXTxJTAcuXTg8yMNvdehdyAlS3BRn0o2Yjet2EJKXKqDoprfNhrO24
+ 1x8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682076861; x=1684668861;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pPMgSDRHzUCoVTveiXlP38arH/paY5HcgEKQmDvOFw0=;
+ b=lXx8ydp7wvs34U3KkBOJ8Cho1y5GrDfueU9+km4dWYOMxNDID4p0q+4pqWgUelPRTv
+ LYWXG5h1Ech9dM+xAP71wNoKM/C18LO8dLoIpKQqBjwyFpYbeTp5iHzmpukASSkSMIAL
+ fprzwWe4D15col+f4qebeHGDmOxpirj9xD7BG34KygdCWN4B3ikI+2X1agQN+MAX9sNF
+ 70Uymdj7m3Nlv6pp+TA8Mh5LIGzieQ7bxwSsURIRolWrIiL6S2ndnMPPe8DLGjFMJP2H
+ Hb6F5x1pK2+qRHVtfbUlwkyhoJID05d1ZFJCR19jaG05Br83UDUlIzCU117eI20m8AAz
+ pMVg==
+X-Gm-Message-State: AAQBX9eoLgy8m7b4NjKaKD/EdWr2V1/4n+IuBoIkT7QNEbdUfy24IhJH
+ J+G3yKqThW3y0kHZqFeZpGC/mA==
+X-Google-Smtp-Source: AKy350Yvpqq6L7V+1Ldb+QoAlu/JIlujX3DKBMdiWYb7PeZgj/H0dNx5lYNr6phkxoi6E3yQXIHMFw==
+X-Received: by 2002:a05:6808:1451:b0:38e:41e5:12a2 with SMTP id
+ x17-20020a056808145100b0038e41e512a2mr3001916oiv.27.1682076861539; 
+ Fri, 21 Apr 2023 04:34:21 -0700 (PDT)
+Received: from [192.168.68.107] ([191.255.108.232])
+ by smtp.gmail.com with ESMTPSA id
+ j130-20020aca3c88000000b00383ef58c15bsm1547634oia.28.2023.04.21.04.34.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Apr 2023 04:34:20 -0700 (PDT)
+Message-ID: <981c651c-cc95-4cc2-df9c-eea0e4fca9ac@ventanamicro.com>
+Date: Fri, 21 Apr 2023 08:34:16 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH RESEND v7 11/12] target/riscv: rework write_misa()
+Content-Language: en-US
+To: Alistair Francis <alistair23@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
+ palmer@rivosinc.com
+References: <20230420092100.177464-1-dbarboza@ventanamicro.com>
+ <20230420092100.177464-12-dbarboza@ventanamicro.com>
+ <CAKmqyKPd_5nVUvcd20AxrrH9UKT88pU-KLqQMbCh_nUCyh9LvA@mail.gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAKmqyKPd_5nVUvcd20AxrrH9UKT88pU-KLqQMbCh_nUCyh9LvA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: eQNhtsenytEHfucDUDz-J65vXi5ZlnkO
-X-Proofpoint-ORIG-GUID: eQNhtsenytEHfucDUDz-J65vXi5ZlnkO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-21_04,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=722 suspectscore=0 spamscore=0 mlxscore=0 adultscore=0
- impostorscore=0 phishscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304210099
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=quic_mathbern@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SORTED_RECIPS=2.499, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,32 +98,206 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Bennée <alex.bennee@linaro.org> wrote:
->
-> > Matheus Tavares <quic_mathbern@quicinc.com> wrote:
-> >
-> > diff --git a/gdbstub/user.c b/gdbstub/user.c
-> > index 80488b6bb9..bb03622c83 100644
-> > --- a/gdbstub/user.c
-> > +++ b/gdbstub/user.c
-> > @@ -174,12 +177,14 @@ void gdb_signalled(CPUArchState *env, int sig)
-> >  {
-> >      char buf[4];
-> >  
-> > -    if (!gdbserver_state.init || gdbserver_user_state.fd < 0) {
-> > +    if (!gdbserver_state.init || gdbserver_user_state.fd < 0 ||
-> > +        !gdbserver_state.allow_stop_reply) {
-> >          return;
-> >      }
-> >  
-> >      snprintf(buf, sizeof(buf), "X%02x", gdb_target_signal_to_gdb(sig));
-> >      gdb_put_packet(buf);
-> > +    gdbserver_state.allow_stop_reply = false;
-> 
-> Did I miss an equivalent for softmmu mode here?
 
-Hmm, there doesn't seem to be other "X aa" stop-replies sent from
-softmmu in our gdbstub. However, I just realize I did miss another spot
-of "W aa" at gdbstub/user.c:gdb_exit(). I'll add the allow_stop_reply
-guard there for the next iteration.
+
+On 4/20/23 20:45, Alistair Francis wrote:
+> On Thu, Apr 20, 2023 at 7:22 PM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>>
+>> write_misa() must use as much common logic as possible. We want to open
+>> code just the bits that are exclusive to the CSR write operation and TCG
+>> internals.
+>>
+>> Our validation is done with riscv_cpu_validate_set_extensions(), but we
+>> need a small tweak first. When enabling RVG we're doing:
+>>
+>>          env->misa_ext |= RVI | RVM | RVA | RVF | RVD;
+>>          env->misa_ext_mask = env->misa_ext;
+>>
+>> This works fine for realize() time but this can potentially overwrite
+>> env->misa_ext_mask if we reutilize the function for write_misa().
+>> Instead of doing misa_ext_mask = misa_ext, sum up the RVG extensions in
+>> misa_ext_mask as well. This won't change realize() time behavior
+>> (misa_ext_mask is still == misa_ext)  and will ensure that write_misa()
+>> won't change misa_ext_mask by accident.
+>>
+>> After that, rewrite write_misa() to work as follows:
+>>
+>> - mask the write using misa_ext_mask to avoid enabling unsupported
+>>    extensions;
+>>
+>> - suppress RVC if the next insn isn't aligned;
+>>
+>> - disable RVG if any of RVG dependencies are being disabled by the user;
+>>
+>> - assign env->misa_ext and run riscv_cpu_validate_set_extensions(). On
+>>    error, rollback to the previous values of misa_ext and misa_ext_mask;
+>>
+>> - on success, check if there's a chance that misa_ext_mask was
+>>    overwritten during the process and restore it;
+> 
+> Is this right? If the guest does a combined valid/invalid modification
+> shouldn't the valid modifications stick?
+
+At this moment we're doing misa_ext_mask = misa_ext at the start of validate_set_extensions()
+in case we need to set RVG.
+
+So, even if we validated everything, there's still a chance that we're setting
+misa_ext_mask. Since this value is defined during realize() and it indicates the
+maximum extensions allowed in the CPU, we shouldn't be touching it during runtime.
+
+In fact, I believe this patch is not correct. Down there:
+
+
+> 
+> Alistair
+> 
+>>
+>> - handle RVF and MSTATUS_FS and continue as usual.
+>>
+>> Let's keep write_misa() as experimental for now until this logic gains
+>> enough mileage.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> ---
+>>   target/riscv/cpu.c |  4 ++--
+>>   target/riscv/cpu.h |  1 +
+>>   target/riscv/csr.c | 47 ++++++++++++++++++++--------------------------
+>>   3 files changed, 23 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 7d407321aa..4fa720a39d 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -944,7 +944,7 @@ static void riscv_cpu_validate_misa_mxl(RISCVCPU *cpu, Error **errp)
+>>    * Check consistency between chosen extensions while setting
+>>    * cpu->cfg accordingly.
+>>    */
+>> -static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+>> +void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+>>   {
+>>       CPURISCVState *env = &cpu->env;
+>>       Error *local_err = NULL;
+>> @@ -960,7 +960,7 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+>>           cpu->cfg.ext_ifencei = true;
+>>
+>>           env->misa_ext |= RVI | RVM | RVA | RVF | RVD;
+>> -        env->misa_ext_mask = env->misa_ext;
+>> +        env->misa_ext_mask |= RVI | RVM | RVA | RVF | RVD;
+>>       }
+>>
+>>       if (riscv_has_ext(env, RVI) && riscv_has_ext(env, RVE)) {
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 15423585d0..1f39edc687 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -548,6 +548,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>>                           bool probe, uintptr_t retaddr);
+>>   char *riscv_isa_string(RISCVCPU *cpu);
+>>   void riscv_cpu_list(void);
+>> +void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp);
+>>
+>>   #define cpu_list riscv_cpu_list
+>>   #define cpu_mmu_index riscv_cpu_mmu_index
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index 865ee9efda..d449da2657 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -1387,39 +1387,18 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
+>>   static RISCVException write_misa(CPURISCVState *env, int csrno,
+>>                                    target_ulong val)
+>>   {
+>> +    RISCVCPU *cpu = env_archcpu(env);
+>> +    uint32_t orig_misa_ext = env->misa_ext;
+>> +    Error *local_err = NULL;
+>> +
+>>       if (!riscv_cpu_cfg(env)->misa_w) {
+>>           /* drop write to misa */
+>>           return RISCV_EXCP_NONE;
+>>       }
+>>
+>> -    /* 'I' or 'E' must be present */
+>> -    if (!(val & (RVI | RVE))) {
+>> -        /* It is not, drop write to misa */
+>> -        return RISCV_EXCP_NONE;
+>> -    }
+>> -
+>> -    /* 'E' excludes all other extensions */
+>> -    if (val & RVE) {
+>> -        /*
+>> -         * when we support 'E' we can do "val = RVE;" however
+>> -         * for now we just drop writes if 'E' is present.
+>> -         */
+>> -        return RISCV_EXCP_NONE;
+>> -    }
+>> -
+>> -    /*
+>> -     * misa.MXL writes are not supported by QEMU.
+>> -     * Drop writes to those bits.
+>> -     */
+>> -
+>>       /* Mask extensions that are not supported by this hart */
+>>       val &= env->misa_ext_mask;
+>>
+>> -    /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
+>> -    if ((val & RVD) && !(val & RVF)) {
+>> -        val &= ~RVD;
+>> -    }
+>> -
+>>       /*
+>>        * Suppress 'C' if next instruction is not aligned
+>>        * TODO: this should check next_pc
+>> @@ -1428,18 +1407,32 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
+>>           val &= ~RVC;
+>>       }
+>>
+>> +    /* Disable RVG if any of its dependencies are disabled */
+>> +    if (!(val & RVI && val & RVM && val & RVA &&
+>> +          val & RVF && val & RVD)) {
+>> +        val &= ~RVG;
+>> +    }
+>> +
+>>       /* If nothing changed, do nothing. */
+>>       if (val == env->misa_ext) {
+>>           return RISCV_EXCP_NONE;
+>>       }
+>>
+>> -    if (!(val & RVF)) {
+>> +    env->misa_ext = val;
+>> +    riscv_cpu_validate_set_extensions(cpu, &local_err);
+>> +    if (local_err != NULL) {
+>> +        /* Rollback on validation error */
+>> +        env->misa_ext = orig_misa_ext;
+
+
+In this rollback we're not restoring the original env->misa_ext_mask.
+
+I think that a better alternative, instead of rolling back misa_ext_mask in
+write_misa(), is to pass a flag to validate_set_extensions() to allow us to
+change misa_ext_mask only during realize() time.
+
+I'll make this change and re-send. Thanks,
+
+
+Daniel
+
+>> +
+>> +        return RISCV_EXCP_NONE;
+>> +    }
+>> +
+>> +    if (!(env->misa_ext & RVF)) {
+>>           env->mstatus &= ~MSTATUS_FS;
+>>       }
+>>
+>>       /* flush translation cache */
+>>       tb_flush(env_cpu(env));
+>> -    env->misa_ext = val;
+>>       env->xl = riscv_cpu_mxl(env);
+>>       return RISCV_EXCP_NONE;
+>>   }
+>> --
+>> 2.40.0
+>>
+>>
 
