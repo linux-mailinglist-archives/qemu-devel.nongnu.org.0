@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7736EA736
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2F46EA703
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:33:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn8x-00083y-8Q; Fri, 21 Apr 2023 05:33:27 -0400
+	id 1ppn8w-00083N-Lr; Fri, 21 Apr 2023 05:33:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn8u-00081u-Jd
+ id 1ppn8u-0007zZ-E1
  for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:24 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn8s-00030s-Bo
+ id 1ppn8s-00030t-Bi
  for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682069601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=c8a1UIjdCHh3WGvt2VkXWlfJzbxCEPGqQGf49faMT50=;
- b=AEfytqD/9UWHcp03OHPO9aSQ8lCEWJ1qfCkhFpmIseVlwLIsXd7Fk8ey9Gx00S2E+zQj7K
- 57HWBQFwgCnN0911DmYsNksS5Lr88GoLTeDlQ105uJbk3aJrxC9VurPAkIha3Oq4E0rg3Y
- VxuYAy9gTz+pQnonx+gQakg7hNGwFqc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xAI9peY/y5p9dVc6W035jPsyHtbIsgLa8iFPkn3MNGg=;
+ b=DCBc4IKd67zTis5ChkgsQtCqCBu8PNOamoSqo1hhztxEWxd3/EGjMsdv3cBlS5hZUotE07
+ azs8FdjDZ/02tEk+Uz4HOoDGA9RzzdpfazPestTKjpEQdFnKy7QK8mlccfEFuAmXbIPnM8
+ LQqfn2Is17L7m4v5u72LTuZroPu1cpI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-13-U7QPIGjnPB-TW0DQlXZPSg-1; Fri, 21 Apr 2023 05:33:19 -0400
-X-MC-Unique: U7QPIGjnPB-TW0DQlXZPSg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-50692ecb3c5so1612829a12.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:19 -0700 (PDT)
+ us-mta-319-3GW4wyW3M5iH7zQKmAslGw-1; Fri, 21 Apr 2023 05:33:20 -0400
+X-MC-Unique: 3GW4wyW3M5iH7zQKmAslGw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-50692ecb3c5so1612841a12.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069598; x=1684661598;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=c8a1UIjdCHh3WGvt2VkXWlfJzbxCEPGqQGf49faMT50=;
- b=lwBsFWQODIJIOWg/JLW6i9j8enNNqbnftRKKwBY6DU86xJpMx9MJTZCH+2Hd9r3Z/7
- K9x0AN4HdK1XbIqcOZC+l2qLwrR+7bSAc/qSkomt9VJikywv8uCY7yNzICVVdB1rzuMc
- +1hSh5UrXLvj8DWEzeNJQO2ncIPsoK3+hVt6g5fPbAJUEcXkdBudmSamlzfmJLCWB51s
- N34eHArjYWjPgk4rduOK5uR86JkLZv/BaXxrrlbGiW0gbXnjrujXxRyA05G7rIUcquUA
- ZIvqkQZ+bkCxhu+lHvzuvl7OWxOgGFrvatoJxy2Xab/442dzylIlgRnf1pRa0wuLI7Le
- Lx2A==
-X-Gm-Message-State: AAQBX9dcHyP3MtB3+RWhGKudfxroOQ9VCAFobaNKWarefkZ3VJYxN25I
- HeBQlmdYzeUHx4bDZCxWJ77f5iE89w7xCZpEAXPlWvGsEN32yso9E472wTW2yc8er4Zgotsogsd
- udaGRNfZY3cTDKGFVkKxsg5GkggbQtpWOi115ObNLtikPRnRXB0unsHBgWqJ5eqs/DbPtHq1EwF
- ejsw==
-X-Received: by 2002:aa7:dace:0:b0:4fb:78a0:eabe with SMTP id
- x14-20020aa7dace000000b004fb78a0eabemr4107313eds.14.1682069597788; 
- Fri, 21 Apr 2023 02:33:17 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Zkru/csJe4+156C7agxnArVsDU2WhDV+Qu4hxhqD3AE5PL9XcHe0VeI9A5psAA764IP05kLw==
-X-Received: by 2002:aa7:dace:0:b0:4fb:78a0:eabe with SMTP id
- x14-20020aa7dace000000b004fb78a0eabemr4107298eds.14.1682069597319; 
- Fri, 21 Apr 2023 02:33:17 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682069599; x=1684661599;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xAI9peY/y5p9dVc6W035jPsyHtbIsgLa8iFPkn3MNGg=;
+ b=aBJZXYQJpby/nSd7PVPQ6jntha8TRXeTYH2OMRbZpI1f3JGq553utY2NYp6BdJV0NV
+ G6rIcawq1UaokEi8vj8+ORgs0y8y1Ojh5gxeI7aCJwWSMnWVfcEliWu76WpJq9QstNsK
+ SBxStbA7eRx1lKCwYBU0JoLl6t5P6mPQ+iCoLJblMvE2AtEsCplBdhoAmCEPFkzCjqUw
+ 7MKyq5MT+lpk26pIJpXzMiMbpT285/XJ+DU7yGFVAaQi4I7T9xhkux393P5M5ngS7gla
+ pYjDQmit22G3NTvVb40ZJdvCrkaXpx+hRB90fNaIqSXe59bm7ambyow2aNDVEBvRgpyJ
+ c3Ag==
+X-Gm-Message-State: AAQBX9d1JHr6OiaZibCcFLFvMmBeV7FXMe6hPlY0rSvVp0dXxJo+Vc3O
+ gn+OPKVFwqusOLip3DIvKVtyqythVj3alMv/BWDWy4ZT4f+qWI161f+IHFXdrSjTqD0qJbPVxw0
+ e9HC/sksvw01FJ5pBpnPjWFmVu4mTqtvyU/AMbL1SnUsNF9b9kee1XkLnsf6n+6Bv4aEAx7Q8G6
+ Tfaw==
+X-Received: by 2002:a17:906:cb94:b0:94a:4ce3:8043 with SMTP id
+ mf20-20020a170906cb9400b0094a4ce38043mr1757108ejb.52.1682069598880; 
+ Fri, 21 Apr 2023 02:33:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YsP9TSjZDYKyeKtrkMbGeEKUf4R54tP76N9VuSAO8CzOwl3jzxwrF7b8vIBTTTdXMZDkvH2g==
+X-Received: by 2002:a17:906:cb94:b0:94a:4ce3:8043 with SMTP id
+ mf20-20020a170906cb9400b0094a4ce38043mr1757091ejb.52.1682069598449; 
+ Fri, 21 Apr 2023 02:33:18 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- j19-20020a17090686d300b0094f109a5b3asm1834118ejy.135.2023.04.21.02.33.16
- for <qemu-devel@nongnu.org>
+ e6-20020a1709062c0600b0094ef2003581sm1821937ejh.153.2023.04.21.02.33.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 02:33:16 -0700 (PDT)
+ Fri, 21 Apr 2023 02:33:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/25] First batch of misc patches for QEMU 8.1
-Date: Fri, 21 Apr 2023 11:32:51 +0200
-Message-Id: <20230421093316.17941-1-pbonzini@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 01/25] mtest2make.py: teach suite name that are just "PROJECT"
+Date: Fri, 21 Apr 2023 11:32:52 +0200
+Message-Id: <20230421093316.17941-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230421093316.17941-1-pbonzini@redhat.com>
+References: <20230421093316.17941-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset=UTF-8
@@ -97,116 +101,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 2d82c32b2ceaca3dc3da5e36e10976f34bfcb598:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-  Open 8.1 development tree (2023-04-20 10:05:25 +0100)
+A subproject test may be simply in the "PROJECT" suite (such as
+"qemu-common" with the following patches)
 
-are available in the Git repository at:
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20230302131848.1527460-2-marcandre.lureau@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/mtest2make.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 5f9efbbcf6fc77e583254389124437d981ad76b9:
-
-  tests: lcitool: Switch to OpenSUSE Leap 15.4 (2023-04-20 11:17:36 +0200)
-
-----------------------------------------------------------------
-* Optional use of Meson wrap for slirp
-* Coverity fixes
-* Avoid -Werror=maybe-uninitialized
-* Mark coroutine QMP command functions as coroutine_fn
-* Mark functions that suspend as coroutine_mixed_fn
-* target/i386: Fix SGX CPUID leaf
-* First batch of qatomic_mb_read() removal
-* Small atomic.rst improvement
-* NBD cleanup
-* Update libvirt-ci submodule
-
-----------------------------------------------------------------
-Akihiko Odaki (1):
-      configure: Avoid -Werror=maybe-uninitialized
-
-Marc-André Lureau (3):
-      mtest2make.py: teach suite name that are just "PROJECT"
-      build-sys: prevent meson from downloading wrapped subprojects
-      build-sys: add slirp.wrap
-
-Paolo Bonzini (16):
-      nvme: remove constant argument to tracepoint
-      vnc: avoid underflow when accessing user-provided address
-      tests: bios-tables-test: replace memset with initializer
-      lasi: fix RTC migration
-      coverity: update COMPONENTS.md
-      target/mips: tcg: detect out-of-bounds accesses to cpu_gpr and cpu_gpr_hi
-      qapi-gen: mark coroutine QMP command functions as coroutine_fn
-      io: mark mixed functions that can suspend
-      migration: mark mixed functions that can suspend
-      monitor: mark mixed functions that can suspend
-      block-backend: remove qatomic_mb_read()
-      postcopy-ram: do not use qatomic_mb_read
-      qemu-coroutine: remove qatomic_mb_read()
-      docs: explain effect of smp_read_barrier_depends() on modern architectures
-      nbd: a BlockExport always has a BlockBackend
-      coverity: unify Fedora dockerfiles
-
-Peter Krempa (2):
-      tests: libvirt-ci: Update to commit '2fa24dce8bc'
-      tests: lcitool: Switch to OpenSUSE Leap 15.4
-
-Peter Maydell (2):
-      target/i386: Avoid unreachable variable declaration in mmu_translate()
-      configure: Honour cross-prefix when finding ObjC compiler
-
-Yang Zhong (1):
-      target/i386: Change wrong XFRM value in SGX CPUID leaf
-
- .gitignore                                         |   2 +
- block/block-backend.c                              |   4 +-
- configure                                          |  40 ++--
- docs/devel/atomics.rst                             |  11 +-
- hw/misc/lasi.c                                     |   4 +-
- hw/nvme/ctrl.c                                     |   4 +-
- hw/nvme/trace-events                               |   2 +-
- include/hw/misc/lasi.h                             |   3 +-
- include/io/channel.h                               |  78 +++----
- include/migration/qemu-file-types.h                |   4 +-
- include/qapi/qmp/dispatch.h                        |   4 +-
- io/channel.c                                       |  78 +++----
- migration/postcopy-ram.c                           |   2 +-
- migration/qemu-file.c                              |  14 +-
- migration/qemu-file.h                              |   6 +-
- nbd/server.c                                       |  14 +-
- qapi/qmp-dispatch.c                                |   4 +-
- scripts/coverity-scan/COMPONENTS.md                |  11 +-
- scripts/coverity-scan/coverity-scan.docker         | 250 ++++++++++++---------
- scripts/mtest2make.py                              |   9 +-
- scripts/qapi/commands.py                           |  33 ++-
- subprojects/slirp.wrap                             |   6 +
- target/i386/cpu.c                                  |   4 +-
- target/i386/tcg/sysemu/excp_helper.c               |   2 +-
- target/mips/tcg/translate.c                        |   4 +
- tests/docker/dockerfiles/centos8.docker            |   1 -
- tests/docker/dockerfiles/debian-amd64-cross.docker |   4 +-
- tests/docker/dockerfiles/debian-arm64-cross.docker |   4 +-
- tests/docker/dockerfiles/debian-armel-cross.docker |   4 +-
- tests/docker/dockerfiles/debian-armhf-cross.docker |   4 +-
- .../dockerfiles/debian-mips64el-cross.docker       |   4 +-
- .../docker/dockerfiles/debian-mipsel-cross.docker  |   4 +-
- .../docker/dockerfiles/debian-ppc64el-cross.docker |   4 +-
- tests/docker/dockerfiles/debian-s390x-cross.docker |   4 +-
- tests/docker/dockerfiles/fedora-win32-cross.docker |   5 +-
- tests/docker/dockerfiles/fedora-win64-cross.docker |   5 +-
- tests/docker/dockerfiles/fedora.docker             |   5 +-
- tests/docker/dockerfiles/opensuse-leap.docker      |   5 +-
- tests/lcitool/libvirt-ci                           |   2 +-
- tests/lcitool/mappings.yml                         |  36 +--
- tests/lcitool/refresh                              |   2 +-
- ...{opensuse-leap-153.yml => opensuse-leap-15.yml} |   0
- tests/qtest/bios-tables-test.c                     | 123 ++++------
- ui/vnc.c                                           |   2 +-
- util/qemu-coroutine.c                              |  10 +-
- 45 files changed, 425 insertions(+), 396 deletions(-)
- create mode 100644 subprojects/slirp.wrap
- rename tests/lcitool/targets/{opensuse-leap-153.yml => opensuse-leap-15.yml} (100%)
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index 0fe81efbbcec..179dd5487182 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -51,10 +51,11 @@ def process_tests(test, targets, suites):
+ 
+     test_suites = test['suite'] or ['default']
+     for s in test_suites:
+-        # The suite name in the introspection info is "PROJECT:SUITE"
+-        s = s.split(':')[1]
+-        if s == 'slow' or s == 'thorough':
+-            continue
++        # The suite name in the introspection info is "PROJECT" or "PROJECT:SUITE"
++        if ':' in s:
++            s = s.split(':')[1]
++            if s == 'slow' or s == 'thorough':
++                continue
+         if s.endswith('-slow'):
+             s = s[:-5]
+             suites[s].speeds.append('slow')
 -- 
 2.40.0
 
