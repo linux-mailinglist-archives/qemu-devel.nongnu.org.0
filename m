@@ -2,114 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1799C6EA281
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 05:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1536EA283
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 05:58:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pphqc-0004sS-Ky; Thu, 20 Apr 2023 23:54:10 -0400
+	id 1pphtl-0005nT-EL; Thu, 20 Apr 2023 23:57:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pphqa-0004s5-ES
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:54:08 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1pphth-0005nF-NZ
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:57:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pphqX-0001y0-TJ
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:54:08 -0400
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33L3hMWS011972; Fri, 21 Apr 2023 03:54:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=JrcuJ1iN6yFbi0h9t8QRMSY8nriCHO0q/FdlMNtZTQU=;
- b=Bi1bLsBkZn6alPlN1yR1IMofU0y1JSXHkVytLB9lIZvoYJCUd2C0yuY9LrRME/E2Nqkv
- gfDYCEovqdorncdmhICwnH+KZOETrdWwxjV65i7lT9tjqqFfAp5vzgIG4Vwzll2inJxA
- gpsrP+URlgQVVRhgGJKIYBK4fi2VQNrLD29XHovkAoKh+mpR3oK7ndpDqa6leiAWjFSg
- BpYkyI9altfTm2w3qCNa8f4Qnf2NYB/QSSZf27hbYyOTH45aqtKqBd+4OzJW6HbUJwUQ
- YnfDNJRdNa0254n/FMv7KjOHCWGCVMdmmpMm1GSO3HBz1oiVVkYE9Hn96g57/Cw42xdr bg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q3ju1gbca-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 03:54:03 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33L3pFqP011943;
- Fri, 21 Apr 2023 03:54:03 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q3ju1gbbs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 03:54:03 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33L1FIRM003725;
- Fri, 21 Apr 2023 03:54:02 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3pykj8fb0u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Apr 2023 03:54:02 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com
- [10.39.53.233])
- by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33L3s0gX10027570
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Apr 2023 03:54:01 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C25C458054;
- Fri, 21 Apr 2023 03:54:00 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C40D55804E;
- Fri, 21 Apr 2023 03:53:54 +0000 (GMT)
-Received: from [9.43.106.147] (unknown [9.43.106.147])
- by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 21 Apr 2023 03:53:54 +0000 (GMT)
-Message-ID: <1be5d2af-23cd-5fda-7b41-cd0c8374d866@linux.ibm.com>
-Date: Fri, 21 Apr 2023 09:23:52 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 2/2] tests/avocado/tuxrun_baselines.py: improve code
- coverage for ppc64
-Content-Language: en-US
-To: Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- Harsh Prateek Bora <harsh.prateek.bora@gmail.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org
-References: <20230420125217.620928-1-kconsul@linux.vnet.ibm.com>
- <20230420125217.620928-3-kconsul@linux.vnet.ibm.com>
- <CAEuJdmpXiTNpdW_Wi+9dFMfvMsAgbvsw+mVB7+ptNoUArkjhsg@mail.gmail.com>
- <ZEIGJn9gxV7bQ//O@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <ZEIGJn9gxV7bQ//O@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: c4EZruyTbVdDB38zFOVsLmsRCyEOyoy9
-X-Proofpoint-ORIG-GUID: 2zF1e4PA2AA4e88QCvLq6YuAUQz3d89v
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1pphtZ-0002f0-DT
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:57:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682049427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D2R9+j84v3SZps6ZPoxuZMk+JbRfFMGX4gEN52VNSbY=;
+ b=ZwLIULtoiR52oxTRoLSFbENEchePXzGW1fSa69Cv6k8eW0WW7lWzqeDkMdYX5VVHYrgJjh
+ 4jCulEgqOVqLq4S+3WX6N7VWAit+hmPyvj9qRtyFH7xY6UNIPt8RLUWkK9gvZOGjdNKQqe
+ 4x5409wyURjkYQOWZVFndPEn5fajNtk=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-36-Y42mi4QHPm2s5XGLkIG_rg-1; Thu, 20 Apr 2023 23:57:02 -0400
+X-MC-Unique: Y42mi4QHPm2s5XGLkIG_rg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-3ef3c41a1ceso9509121cf.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 20:57:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682049422; x=1684641422;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=D2R9+j84v3SZps6ZPoxuZMk+JbRfFMGX4gEN52VNSbY=;
+ b=Ms6YPjw45l4fU2+GBCU10zDxGqmTXhuEWmWOkMGiRZfTdC2mHhuVV9piw21RsKTfTr
+ ULHVl7QgjWXlwrkZFHfZg8c5+5omWqRuWFL7pKAxuT1G/PbyoSkzLugSgDNGneJNlTLL
+ V6bs3II+4sPq73pJSsde5WXh7vzlTvN8kAHDgnCeWUg7adWtSkRGPzSqDMbNzQPVXmWp
+ 0K85uYai9Lnq7FrcxMBRey0MvCn3fLwQo4WUf35GCxF+MhMjWdTGTZ8gP34tUhC5zWe1
+ Aq+6EJw7bjIeER4lkWuKJFXJ3xVBT5ed8F9L0B1oyqOnA8lVVHCgTNBd3nxrd67n3Prj
+ E6hQ==
+X-Gm-Message-State: AAQBX9cQ3+k7fhPbdF8Zb4JhO20jGd1QQBwvkBf4C+fI5qsVeSgcMDy/
+ flfqvz9C1cduIS7OUenmeunk++TlLj1wHFkE8+ziFzXgWchkJx2S3ir80wantkKiy/4fmgKITCv
+ 0wsOq6oFg/E1Ij0Y=
+X-Received: by 2002:ac8:7d50:0:b0:3ed:ac62:1039 with SMTP id
+ h16-20020ac87d50000000b003edac621039mr6299376qtb.8.1682049422133; 
+ Thu, 20 Apr 2023 20:57:02 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z/7ZHEJbOVyZQBJqIi2dbRuv5TBlvJJ8qgBKkAwZMCAoAsIYNrOJtIclp3+sN/EnLboqGRyw==
+X-Received: by 2002:ac8:7d50:0:b0:3ed:ac62:1039 with SMTP id
+ h16-20020ac87d50000000b003edac621039mr6299347qtb.8.1682049421856; 
+ Thu, 20 Apr 2023 20:57:01 -0700 (PDT)
+Received: from ?IPV6:2601:18d:8a00:cfa:780e:7574:2b4c:7be5?
+ ([2601:18d:8a00:cfa:780e:7574:2b4c:7be5])
+ by smtp.gmail.com with ESMTPSA id
+ 1-20020a370701000000b0070648cf78bdsm985413qkh.54.2023.04.20.20.57.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Apr 2023 20:57:01 -0700 (PDT)
+Message-ID: <6096da77-6488-7702-78bb-3c0390bb825d@redhat.com>
+Date: Thu, 20 Apr 2023 23:56:59 -0400
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-20_17,2023-04-20_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304210029
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 1/6] tests/requirements.txt: bump up avocado-framework
+ version to 101.0
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Jan Richter <jarichte@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Leif Lindholm <quic_llindhol@quicinc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
+ Kautuk Consul <kconsul@linux.vnet.ibm.com>,
+ Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+References: <20230417134321.3627231-1-alex.bennee@linaro.org>
+ <20230417134321.3627231-2-alex.bennee@linaro.org>
+ <CAFn=p-bqK-RsMo8wVy2zCxU=iAkXG1t9xVuoqLSN0UbTYKPgwQ@mail.gmail.com>
+From: Cleber Rosa <crosa@redhat.com>
+In-Reply-To: <CAFn=p-bqK-RsMo8wVy2zCxU=iAkXG1t9xVuoqLSN0UbTYKPgwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -127,235 +118,101 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+On 4/17/23 12:50, John Snow wrote:
+> On Mon, Apr 17, 2023 at 9:43 AM Alex Bennée <alex.bennee@linaro.org> wrote:
+>> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+>>
+>> Avocado version 101.0 has a fix to re-compute the checksum
+>> of an asset file if the algorithm used in the *-CHECKSUM
+>> file isn't the same as the one being passed to it by the
+>> avocado user (i.e. the avocado_qemu python module).
+>> In the earlier avocado versions this fix wasn't there due
+>> to which if the checksum wouldn't match the earlier
+>> checksum (calculated by a different algorithm), the avocado
+>> code would start downloading a fresh image from the internet
+>> URL thus making the test-cases take longer to execute.
+>>
+>> Bump up the avocado-framework version to 101.0.
+>>
+>> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+>> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+>> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
+>> Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
+>>
+>> ---
+>> v2
+>>    - limit --max-parallel-tasks $(JOBS_OPTION:-j%=%)
+>> ---
+>>   tests/Makefile.include | 18 +++++++++++-------
+>>   tests/requirements.txt |  2 +-
+>>   2 files changed, 12 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/tests/Makefile.include b/tests/Makefile.include
+>> index 9422ddaece..a4de0ad5a2 100644
+>> --- a/tests/Makefile.include
+>> +++ b/tests/Makefile.include
+>> @@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv
+>>   # download all vm images, according to defined targets
+>>   get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
+>>
+>> +JOBS_OPTION=$(lastword -j1 $(filter-out -j, $(filter -j%,$(MAKEFLAGS))))
+>> +
+>>   check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>> -       $(call quiet-command, \
+>> -            $(TESTS_PYTHON) -m avocado \
+>> -            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+>> -            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
+>> -                       --filter-by-tags-include-empty-key) \
+>> -            $(AVOCADO_CMDLINE_TAGS) \
+>> -            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
+>> +       $(call quiet-command,                                                   \
+>> +            $(TESTS_PYTHON) -m avocado                                                 \
+>> +            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR)  \
+>> +            $(if $(AVOCADO_TAGS),,                                             \
+>> +                       --filter-by-tags-include-empty                          \
+>> +                       --filter-by-tags-include-empty-key)                     \
+>> +               --max-parallel-tasks $(JOBS_OPTION:-j%=%)                       \
+>> +            $(AVOCADO_CMDLINE_TAGS)                                            \
+>> +            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS),                   \
+>>               "AVOCADO", "tests/avocado")
+>>
+>>   check-acceptance-deprecated-warning:
+>> diff --git a/tests/requirements.txt b/tests/requirements.txt
+>> index 0ba561b6bd..a6f73da681 100644
+>> --- a/tests/requirements.txt
+>> +++ b/tests/requirements.txt
+>> @@ -2,5 +2,5 @@
+>>   # in the tests/venv Python virtual environment. For more info,
+>>   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+>>   # Note that qemu.git/python/ is always implicitly installed.
+>> -avocado-framework==88.1
+>> +avocado-framework==101.0
+>>   pycdlib==1.11.0
+>> --
+>> 2.39.2
+>>
+> I thought there were test failures that prohibited us from bumping the
+> Avocado-Framework version. Did those get rectified recently?
+>
+Hi John,
 
-On 4/21/23 09:12, Kautuk Consul wrote:
-> Hi,
-> 
-> On 2023-04-20 19:20:40, Harsh Prateek Bora wrote:
->> Since we are optimising code a lot, one suggestion below:
->>
->>
->> On Thu, Apr 20, 2023 at 6:23 PM Kautuk Consul <kconsul@linux.vnet.ibm.com>
->> wrote:
->>
->>> Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
->>> boot_linux.py test-case due to which the code coverage for ppc
->>> decreased by around 2%. As per the discussion on
->>> https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
->>> was mentioned that the baseline test for ppc64 could be modified
->>> to make up this 2% code coverage. This patch attempts to achieve
->>> this 2% code coverage by adding various device command line
->>> arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
->>> test-case.
->>>
->>> The code coverage report with boot_linux.py, without it and finally
->>> with these tuxrun_baselines.py changes is as follows:
->>>
->>> With boot_linux.py
->>> ------------------
->>>    lines......: 13.8% (58006 of 420997 lines)
->>>    functions..: 20.7% (7675 of 36993 functions)
->>>    branches...: 9.2% (22146 of 240611 branches)
->>> Without boot_linux.py (without this patch changes)
->>> --------------------------------------------------
->>>    lines......: 11.9% (50174 of 420997 lines)
->>>    functions..: 18.8% (6947 of 36993 functions)
->>>    branches...: 7.4% (17580 of 239017 branches)
->>> Without boot_linux.py (with this patch changes)
->>> -----------------------------------------------
->>>    lines......: 13.8% (58287 of 420997 lines)
->>>    functions..: 20.7% (7640 of 36993 functions)
->>>    branches...: 8.4% (20223 of 240611 branches)
->>>
->>> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
->>> Reported-by: Alex Bennée <alex.bennee@linaro.org>
->>> ---
->>>   tests/avocado/tuxrun_baselines.py | 120 +++++++++++++++++++++++++++++-
->>>   1 file changed, 116 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/tests/avocado/tuxrun_baselines.py
->>> b/tests/avocado/tuxrun_baselines.py
->>> index d343376faa..ae082ac028 100644
->>> --- a/tests/avocado/tuxrun_baselines.py
->>> +++ b/tests/avocado/tuxrun_baselines.py
->>> @@ -11,6 +11,7 @@
->>>
->>>   import os
->>>   import time
->>> +import tempfile
->>>
->>> <snip>
->>>           """
->>> -        self.common_tuxrun(drive="scsi-hd")
->>> +
->>> +        # add device args to command line.
->>> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0
->>> -:22',
->>> +                         '-device', 'virtio-net,netdev=vnet')
->>> +        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
->>> +                         '-device', '{"driver":"virtio-net-pci","netdev":'
->>> +
->>>   '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
->>> +                         '"bus":"pci.0","addr":"0x9"}')
->>> +        self.vm.add_args('-device',
->>> '{"driver":"qemu-xhci","p2":15,"p3":15,'
->>> +                         '"id":"usb","bus":"pci.0","addr":"0x2"}')
->>> +        self.vm.add_args('-device',
->>> '{"driver":"virtio-scsi-pci","id":"scsi0"'
->>> +                         ',"bus":"pci.0","addr":"0x3"}')
->>> +        self.vm.add_args('-device', '{"driver":"virtio-serial-pci","id":'
->>> +                         '"virtio-serial0","bus":"pci.0","addr":"0x4"}')
->>> +        self.vm.add_args('-device', '{"driver":"scsi-cd","bus":"scsi0.0"'
->>> +                         ',"channel":0,"scsi-id":0,"lun":0,"device_id":'
->>> +                         '"drive-scsi0-0-0-0","id":"scsi0-0-0-0"}')
->>> +        self.vm.add_args('-device', '{"driver":"virtio-balloon-pci",'
->>> +                         '"id":"balloon0","bus":"pci.0","addr":"0x6"}')
->>> +        self.vm.add_args('-audiodev', '{"id":"audio1","driver":"none"}')
->>> +        self.vm.add_args('-device', '{"driver":"usb-tablet","id":"input0"'
->>> +                         ',"bus":"usb.0","port":"1"}')
->>> +        self.vm.add_args('-device', '{"driver":"usb-kbd","id":"input1"'
->>> +                         ',"bus":"usb.0","port":"2"}')
->>> +        self.vm.add_args('-device', '{"driver":"VGA","id":"video0",'
->>> +                         '"vgamem_mb":16,"bus":"pci.0","addr":"0x7"}')
->>> +        self.vm.add_args('-object',
->>> '{"qom-type":"rng-random","id":"objrng0"'
->>> +                         ',"filename":"/dev/urandom"}',
->>> +                         '-device',
->>> '{"driver":"virtio-rng-pci","rng":"objrng0"'
->>> +                         ',"id":"rng0","bus":"pci.0","addr":"0x8"}')
->>> +        self.vm.add_args('-object',
->>> '{"qom-type":"cryptodev-backend-builtin",'
->>> +                         '"id":"objcrypto0","queues":1}',
->>> +                         '-device', '{"driver":"virtio-crypto-pci",'
->>> +                         '"cryptodev":"objcrypto0","id":"crypto0","bus"'
->>> +                         ':"pci.0","addr":"0xa"}')
->>> +        self.vm.add_args('-device', '{"driver":"spapr-pci-host-bridge"'
->>> +                         ',"index":1,"id":"pci.1"}')
->>> +        self.vm.add_args('-device', '{"driver":"spapr-vscsi","id":"scsi1"'
->>> +                         ',"reg":12288}')
->>> +        self.vm.add_args('-m', '2G,slots=32,maxmem=4G',
->>> +                         '-object', 'memory-backend-ram,id=ram1,size=1G',
->>> +                         '-device', 'pc-dimm,id=dimm1,memdev=ram1')
->>> +
->>>
->>
->>
->> Most of the above code for adding args is getting duplicated in the test
->> for ppc64le below as well.
->> It could be contained in a helper routine which could be called from both,
->> and would be easier to maintain.
-> I kept it separate because there may be some future reason to make the
-> devices different for ppc and ppc64le. I know that probably won't happen
-> but thought to keep it separate to allow for that possibility.
-> Or if you feel that they should be exactly the same maybe I could send
-> another patch after this to refactor the code into a single routine ?
+While testing before and after behavior of pretty much every test in 
+tests/avocado/,  I've found that some tests may get affected by the 
+extra isolation (and overhead) of the new runner in recent Avocado and 
+may get interrupted more often than on the previous runner.  But this is 
+highly dependent on the amount of resources the machine you run the 
+tests on has, and how tight the current timeout is.
 
-We can keep a single routine if all the devices are exactly same for 
-now. Whenever (or if now) there is a change in device needed, that can 
-be conveyed to that routine via a flag for be/le and the routine can add 
-additional devices based on the flag passed.
+Running all the tests under old and new Avocado also revealed some tests 
+that are equally broken under both versions.  Thomas has bisected some, 
+and Cedric has come up with some patches too.
 
->>
->> regards,
->> Harsh
->>
->> +        # Create a temporary qcow2 and launch the test-case
->>> +        with tempfile.NamedTemporaryFile(prefix='tuxrun_ppc64_',
->>> +                                         suffix='.qcow2') as qcow2:
->>> +            process.run(self.qemu_img + ' create -f qcow2 ' +
->>> +                        qcow2.name + ' 1G')
->>> +
->>> +            self.vm.add_args('-drive', 'file=' + qcow2.name +
->>> +                         ',format=qcow2,if=none,id='
->>> +                         'drive-virtio-disk1',
->>> +                         '-device', 'virtio-blk-pci,scsi=off,bus=pci.0,'
->>> +
->>>   'addr=0xb,drive=drive-virtio-disk1,id=virtio-disk1'
->>> +                         ',bootindex=2')
->>> +            self.common_tuxrun(drive="scsi-hd")
->>>
->>>       def test_ppc64le(self):
->>>           """
->>>           :avocado: tags=arch:ppc64
->>>           :avocado: tags=machine:pseries
->>> -        :avocado: tags=cpu:POWER8
->>> +        :avocado: tags=cpu:POWER10
->>>           :avocado: tags=console:hvc0
->>>           :avocado: tags=tuxboot:ppc64le
->>>           :avocado: tags=image:vmlinux
->>>           :avocado: tags=extradev:driver=spapr-vscsi
->>>           :avocado: tags=root:sda
->>>           """
->>> -        self.common_tuxrun(drive="scsi-hd")
->>> +        # add device args to command line.
->>> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0
->>> -:22',
->>> +                         '-device', 'virtio-net,netdev=vnet')
->>> +        self.vm.add_args('-netdev', '{"type":"user","id":"hostnet0"}',
->>> +                         '-device', '{"driver":"virtio-net-pci","netdev":'
->>> +
->>>   '"hostnet0","id":"net0","mac":"52:54:00:4c:e3:86",'
->>> +                         '"bus":"pci.0","addr":"0x9"}')
->>> +        self.vm.add_args('-device',
->>> '{"driver":"qemu-xhci","p2":15,"p3":15,'
->>> +                         '"id":"usb","bus":"pci.0","addr":"0x2"}')
->>> +        self.vm.add_args('-device',
->>> '{"driver":"virtio-scsi-pci","id":"scsi0"'
->>> +                         ',"bus":"pci.0","addr":"0x3"}')
->>> +        self.vm.add_args('-device', '{"driver":"virtio-serial-pci","id":'
->>> +                         '"virtio-serial0","bus":"pci.0","addr":"0x4"}')
->>> +        self.vm.add_args('-device', '{"driver":"scsi-cd","bus":"scsi0.0"'
->>> +                         ',"channel":0,"scsi-id":0,"lun":0,"device_id":'
->>> +                         '"drive-scsi0-0-0-0","id":"scsi0-0-0-0"}')
->>> +        self.vm.add_args('-device', '{"driver":"virtio-balloon-pci",'
->>> +                         '"id":"balloon0","bus":"pci.0","addr":"0x6"}')
->>> +        self.vm.add_args('-audiodev', '{"id":"audio1","driver":"none"}')
->>> +        self.vm.add_args('-device', '{"driver":"usb-tablet","id":"input0"'
->>> +                         ',"bus":"usb.0","port":"1"}')
->>> +        self.vm.add_args('-device', '{"driver":"usb-kbd","id":"input1"'
->>> +                         ',"bus":"usb.0","port":"2"}')
->>> +        self.vm.add_args('-device', '{"driver":"VGA","id":"video0",'
->>> +                         '"vgamem_mb":16,"bus":"pci.0","addr":"0x7"}')
->>> +        self.vm.add_args('-object',
->>> '{"qom-type":"rng-random","id":"objrng0"'
->>> +                         ',"filename":"/dev/urandom"}',
->>> +                         '-device',
->>> '{"driver":"virtio-rng-pci","rng":"objrng0"'
->>> +                         ',"id":"rng0","bus":"pci.0","addr":"0x8"}')
->>> +        self.vm.add_args('-object',
->>> '{"qom-type":"cryptodev-backend-builtin",'
->>> +                         '"id":"objcrypto0","queues":1}',
->>> +                         '-device', '{"driver":"virtio-crypto-pci",'
->>> +                         '"cryptodev":"objcrypto0","id":"crypto0","bus"'
->>> +                         ':"pci.0","addr":"0xa"}')
->>> +        self.vm.add_args('-device', '{"driver":"spapr-pci-host-bridge"'
->>> +                         ',"index":1,"id":"pci.1"}')
->>> +        self.vm.add_args('-device', '{"driver":"spapr-vscsi","id":"scsi1"'
->>> +                         ',"reg":12288}')
->>> +        self.vm.add_args('-m', '2G,slots=32,maxmem=4G',
->>> +                         '-object', 'memory-backend-ram,id=ram1,size=1G',
->>> +                         '-device', 'pc-dimm,id=dimm1,memdev=ram1')
->>> +
->>> +        # Create a temporary qcow2 and launch the test-case
->>> +        with tempfile.NamedTemporaryFile(prefix='tuxrun_ppc64le_',
->>> +                                         suffix='.qcow2') as qcow2:
->>> +            process.run(self.qemu_img + ' create -f qcow2 ' +
->>> +                        qcow2.name + ' 1G')
->>> +
->>> +            self.vm.add_args('-drive', 'file=' + qcow2.name +
->>> +                         ',format=qcow2,if=none,id='
->>> +                         'drive-virtio-disk1',
->>> +                         '-device', 'virtio-blk-pci,scsi=off,bus=pci.0,'
->>> +
->>>   'addr=0xb,drive=drive-virtio-disk1,id=virtio-disk1'
->>> +                         ',bootindex=2')
->>> +            self.common_tuxrun(drive="scsi-hd")
->>>
->>>       def test_riscv32(self):
->>>           """
->>> --
->>> 2.25.1
->>>
->>>
->>>
+To risk not being too verbose by default, let me know if you want the 
+full details.  Also, see my previous reply about the two issues I'm 
+aware that would make this bump as seamless as possible.
+
+Thanks,
+
+- Cleber.
+
 
