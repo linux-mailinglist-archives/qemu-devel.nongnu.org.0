@@ -2,70 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177C46EA80C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 12:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730756EA83D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 12:22:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppnmM-0007zb-1q; Fri, 21 Apr 2023 06:14:10 -0400
+	id 1ppnsz-0000r4-LA; Fri, 21 Apr 2023 06:21:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppnmJ-0007zK-RE; Fri, 21 Apr 2023 06:14:07 -0400
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1ppnsw-0000qG-KG; Fri, 21 Apr 2023 06:20:58 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppnmH-0002Fo-Am; Fri, 21 Apr 2023 06:14:07 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id B2E465E8D9;
- Fri, 21 Apr 2023 13:13:54 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:8816::1:4] (unknown
- [2a02:6b8:b081:8816::1:4])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id rDcBcS1Oia60-xS7aUprL; Fri, 21 Apr 2023 13:13:53 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682072033; bh=jrMwTYFA2XPeW4G0KFUX+9OsQa4eK4+DAOJoSvPPdH0=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=SIVgq1PTbYEJiSYSKi446u0DSQqccy+7kYdR3DN7BFvyaINPR/Wd5ydDkyQJrG4OW
- zReOJvfV7Uis4khRn0rGfNfEz0D3qXNiozNIvj2V8EC1tZ6g88KkFxBbpM2eKjJ0tx
- NenUoVPr/Yq1M4yd4+0N188T4EcCKBXMj21X8Mrw=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <68834b18-1fab-ca2a-d131-71f75fc374a1@yandex-team.ru>
-Date: Fri, 21 Apr 2023 13:13:53 +0300
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1ppnsu-0003UT-7A; Fri, 21 Apr 2023 06:20:58 -0400
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33L9c6Dm020581; Fri, 21 Apr 2023 10:20:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=CHyoc1nL94cwAgjwn9aRGY8k7rTNaRgymZY0um5quak=;
+ b=UAZu+6Bk5pxm5c1AyMiy1XEDBJFDHxm/GRS3ezCWfczidzJF1aB/vI307sCbBQztCOpC
+ ylBrULKg80MNgZ0kcga5qw+uWrAjbm6Lj+PILksN3WwvmB6YJUQshM3agoqkkjaPzl0E
+ xEB1AGSz3/6scK3EOPL2y7AOgY5RuStbVhce6Ovv2S419oguTAat7Hkv/uwkRXw9uapS
+ 5xTzELnpZlNkg6OZwSTe4RU+KT+z6FGsKS0oGwjXbL1pjhw/lJtgCv3UmJggL4TTvOVM
+ KEDwrKW7phjCg7TtEzYP+oN3h5zSjB1zOGzghylahmmHlQDM9cIl5zfJFKonbYCTxERG jw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q3qussudv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Apr 2023 10:20:41 +0000
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33LAJOIR010046;
+ Fri, 21 Apr 2023 10:20:41 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q3qussucd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Apr 2023 10:20:40 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33L0dMi4030533;
+ Fri, 21 Apr 2023 10:20:38 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3pykj6k9mh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Apr 2023 10:20:38 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33LAKWft3867188
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 21 Apr 2023 10:20:32 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5246E20075;
+ Fri, 21 Apr 2023 10:20:32 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ED14820076;
+ Fri, 21 Apr 2023 10:20:30 +0000 (GMT)
+Received: from [9.179.5.153] (unknown [9.179.5.153])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Fri, 21 Apr 2023 10:20:30 +0000 (GMT)
+Message-ID: <4ddd3177-58a8-c9f0-a9a8-ee71baf0511b@linux.ibm.com>
+Date: Fri, 21 Apr 2023 12:20:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: test-blockjob: intermittent CI failures in msys2-64bit job
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v19 02/21] s390x/cpu topology: add topology entries on CPU
+ hotplug
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-3-pmorel@linux.ibm.com>
+ <66d9ba0e9904f035326aca609a767976b94547cf.camel@linux.ibm.com>
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- John Snow <jsnow@redhat.com>, Alberto Garcia <berto@igalia.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <CAFEAcA_SeUuZRo7HQPUJgeaepoup29YdAuFaWjNL+fhEt+pmkA@mail.gmail.com>
- <CAFEAcA87HtzYN76nHhHZBfazDZdoRnszgAt-e2CqBBWEoF6_2Q@mail.gmail.com>
- <CAFEAcA-n+9N+0ZuE6MSD1aMBeGYAJTbQe=j1-2K=SgD_Ly6nEA@mail.gmail.com>
- <df71d7b5-7723-eaff-3dcd-45f69186f6af@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <df71d7b5-7723-eaff-3dcd-45f69186f6af@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <66d9ba0e9904f035326aca609a767976b94547cf.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Mnk0jUmITtFWYs5ai7S1ztW7ORYff-n3
+X-Proofpoint-ORIG-GUID: m1BbpUqSc-TPXVCMBYNfIqSxvy3bs8tM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-21_04,2023-04-20_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 spamscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304210087
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,68 +120,248 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17.03.23 15:35, Thomas Huth wrote:
-> On 17/03/2023 11.17, Peter Maydell wrote:
->> On Mon, 6 Mar 2023 at 11:16, Peter Maydell <peter.maydell@linaro.org> wrote:
->>>
->>> On Fri, 3 Mar 2023 at 18:36, Peter Maydell <peter.maydell@linaro.org> wrote:
->>>>
->>>> I've noticed that test-blockjob seems to fail intermittently
->>>> on the msys2-64bit job:
->>>>
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/3872508803
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/3871061024
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/3865312440
->>>>
->>>> Sample output:
->>>> | 53/89 ERROR:../tests/unit/test-blockjob.c:499:test_complete_in_standby:
->>>> assertion failed: (job->status == JOB_STATUS_STANDBY) ERROR
->>>> 53/89 qemu:unit / test-blockjob ERROR 0.08s exit status 3
->>
->>> Here's an intermittent failure from my macos x86 machine:
->>>
->>> 172/621 qemu:unit / test-blockjob
->>>             ERROR           0.26s   killed by signal 6 SIGABRT
->>
->> And an intermittent on the freebsd 13 CI job:
->> https://gitlab.com/qemu-project/qemu/-/jobs/3950667240
->>
->>>>> MALLOC_PERTURB_=197 G_TEST_BUILDDIR=/tmp/cirrus-ci-build/build/tests/unit G_TEST_SRCDIR=/tmp/cirrus-ci-build/tests/unit /tmp/cirrus-ci-build/build/tests/unit/test-blockjob --tap -k
->> ▶ 178/650 /blockjob/ids
->>             OK
->> 178/650 qemu:unit / test-blockjob
->>             ERROR           0.31s   killed by signal 6 SIGABRT
->> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
->> stderr:
->> Assertion failed: (job->status == JOB_STATUS_STANDBY), function
->> test_complete_in_standby, file ../tests/unit/test-blockjob.c, line
->> 499.
->>
->>
->> TAP parsing error: Too few tests run (expected 9, got 1)
->> (test program exited with status code -6)
->> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->>
->> Anybody in the block team looking at these, or shall we just
->> disable this test entirely ?
-> 
-> I ran into this issue today, too:
-> 
->   https://gitlab.com/thuth/qemu/-/jobs/3954367101
-> 
-> ... if nobody is interested in fixing this test, I think we should disable it...
-> 
->   Thomas
-> 
 
-I'm looking at this now, and seems that it's broken since 6f592e5aca1a27fe1c1f6 "job.c: enable job lock/unlock and remove Aiocontext locks", as it stops critical section by new aio_context_release() call exactly after bdrv_drain_all_and(), so it's not a surprise that job may start at that moment and the following assertion fires.
+On 4/20/23 10:59, Nina Schoetterl-Glausch wrote:
+> On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
+>> The topology information are attributes of the CPU and are
+>> specified during the CPU device creation.
+>>
+>> On hot plug we:
+>> - calculate the default values for the topology for drawers,
+>>    books and sockets in the case they are not specified.
+>> - verify the CPU attributes
+>> - check that we have still room on the desired socket
+>>
+>> The possibility to insert a CPU in a mask is dependent on the
+>> number of cores allowed in a socket, a book or a drawer, the
+>> checking is done during the hot plug of the CPU to have an
+>> immediate answer.
+>>
+>> If the complete topology is not specified, the core is added
+>> in the physical topology based on its core ID and it gets
+>> defaults values for the modifier attributes.
+>>
+>> This way, starting QEMU without specifying the topology can
+>> still get some advantage of the CPU topology.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   MAINTAINERS                        |   1 +
+>>   include/hw/s390x/cpu-topology.h    |  44 +++++
+>>   include/hw/s390x/s390-virtio-ccw.h |   1 +
+>>   hw/s390x/cpu-topology.c            | 282 +++++++++++++++++++++++++++++
+>>   hw/s390x/s390-virtio-ccw.c         |  22 ++-
+>>   hw/s390x/meson.build               |   1 +
+>>   6 files changed, 349 insertions(+), 2 deletions(-)
+>>   create mode 100644 hw/s390x/cpu-topology.c
+> [...]
+>
+>>   #endif
+>> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+>> index 9bba21a916..ea10a6c6e1 100644
+>> --- a/include/hw/s390x/s390-virtio-ccw.h
+>> +++ b/include/hw/s390x/s390-virtio-ccw.h
+>> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
+>>       bool dea_key_wrap;
+>>       bool pv;
+>>       uint8_t loadparm[8];
+>> +    bool vertical_polarization;
+> Why is this here and not in s390_topology?
+> This splits up the topology state somewhat.
+> I don't quite recall, did you use to have s390_topology in S390CcwMachineState at some point?
+> I think putting everything in S390CcwMachineState might make sense too.
 
-Emanuele could please look at it?
+Hum.
 
+This is a left over from an abandoned try.
+
+I put it back where it was, in s390_topology.
 
 
--- 
-Best regards,
-Vladimir
+>
+>>   };
+>>   
+>>   struct S390CcwMachineClass {
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> new file mode 100644
+>> index 0000000000..96da67bd7e
+>> --- /dev/null
+>> +++ b/hw/s390x/cpu-topology.c
+> [...]
+>
+>> +/**
+>> + * s390_topology_cpu_default:
+>> + * @cpu: pointer to a S390CPU
+>> + * @errp: Error pointer
+>> + *
+>> + * Setup the default topology if no attributes are already set.
+>> + * Passing a CPU with some, but not all, attributes set is considered
+>> + * an error.
+>> + *
+>> + * The function calculates the (drawer_id, book_id, socket_id)
+>> + * topology by filling the cores starting from the first socket
+>> + * (0, 0, 0) up to the last (smp->drawers, smp->books, smp->sockets).
+>> + *
+>> + * CPU type and dedication have defaults values set in the
+>> + * s390x_cpu_properties, entitlement must be adjust depending on the
+>> + * dedication.
+>> + */
+>> +static void s390_topology_cpu_default(S390CPU *cpu, Error **errp)
+>> +{
+>> +    CpuTopology *smp = s390_topology.smp;
+>> +    CPUS390XState *env = &cpu->env;
+>> +
+>> +    /* All geometry topology attributes must be set or all unset */
+>> +    if ((env->socket_id < 0 || env->book_id < 0 || env->drawer_id < 0) &&
+>> +        (env->socket_id >= 0 || env->book_id >= 0 || env->drawer_id >= 0)) {
+>> +        error_setg(errp,
+>> +                   "Please define all or none of the topology geometry attributes");
+>> +        return;
+>> +    }
+>> +
+>> +    /* Check if one of the geometry topology is unset */
+>> +    if (env->socket_id < 0) {
+>> +        /* Calculate default geometry topology attributes */
+>> +        env->socket_id = s390_std_socket(env->core_id, smp);
+>> +        env->book_id = s390_std_book(env->core_id, smp);
+>> +        env->drawer_id = s390_std_drawer(env->core_id, smp);
+>> +    }
+>> +
+>> +    /*
+>> +     * Even the user can specify the entitlement as horizontal on the
+>> +     * command line, qemu will only use env->entitlement during vertical
+>> +     * polarization.
+>> +     * Medium entitlement is chosen as the default entitlement when the CPU
+>> +     * is not dedicated.
+>> +     * A dedicated CPU always receives a high entitlement.
+>> +     */
+>> +    if (env->entitlement >= S390_CPU_ENTITLEMENT__MAX ||
+>> +        env->entitlement == S390_CPU_ENTITLEMENT_HORIZONTAL) {
+>> +        if (env->dedicated) {
+>> +            env->entitlement = S390_CPU_ENTITLEMENT_HIGH;
+>> +        } else {
+>> +            env->entitlement = S390_CPU_ENTITLEMENT_MEDIUM;
+>> +        }
+>> +    }
+> As you know, in my opinion there should be not possibility for the user
+> to set the entitlement to horizontal and dedicated && != HIGH should be
+> rejected as an error.
+> If you do this, you can delete this.
+
+In the next version with entitlement being an enum it is right.
+
+However, deleting this means that the default value for entitlement 
+depends on dedication.
+
+If we have only low, medium, high and default for entitlement is medium.
+
+If the user specifies the dedication true without specifying entitlement 
+we could force entitlement to high.
+
+But we can not distinguish this from the user specifying dedication true 
+with a medium entitlement, which is wrong.
+
+So three solution:
+
+1) We ignore what the user say if dedication is specified as true
+
+2) We specify that both dedication and entitlement must be specified if 
+dedication is true
+
+3) We set an impossible default to distinguish default from medium 
+entitlement
+
+
+For me the solution 3 is the best one, it is more flexible for the user.
+
+Solution 1 is obviously bad.
+
+Solution 2 forces the user to specify entitlement high and only high if 
+it specifies dedication true.
+
+AFAIU, you prefer the solution 2, forcing user to specify both 
+dedication and entitlement to suppress a default value in the enum.
+Why is it bad to have a default value in the enum that we do not use to 
+specify that the value must be calculated?
+
+
+>
+>> +}
+>> +
+>> +/**
+>> + * s390_topology_check:
+>> + * @socket_id: socket to check
+>> + * @book_id: book to check
+>> + * @drawer_id: drawer to check
+>> + * @entitlement: entitlement to check
+>> + * @dedicated: dedication to check
+>> + * @errp: Error pointer
+>> + *
+>> + * The function checks if the topology
+>> + * attributes fits inside the system topology.
+> fitS
+>
+> The function checks the validity of the provided topology arguments,
+> namely that they're in bounds and non contradictory.
+
+
+OK, thanks.
+
+
+>
+>> + */
+>> +static void s390_topology_check(uint16_t socket_id, uint16_t book_id,
+> I'd prefer if you stick to one id type. There defined as int32_t in env,
+> here you use uint16_t and below int.
+>
+> In env, you want a signed type with sufficient range, int16_t should suffice there,
+> but bigger is also fine.
+> You don't want the user to pass a negative id, so by using an unsigned type you
+> can avoid this without extra code.
+> But IMO there should be one point where a type conversion occurs.
+
+OK
+
+
+>
+>> +                                uint16_t drawer_id, uint16_t entitlement,
+>> +                                bool dedicated, Error **errp)
+>> +{
+>> +    CpuTopology *smp = s390_topology.smp;
+>> +    ERRP_GUARD();
+>> +
+>> +    if (socket_id >= smp->sockets) {
+>> +        error_setg(errp, "Unavailable socket: %d", socket_id);
+>> +        return;
+>> +    }
+>> +    if (book_id >= smp->books) {
+>> +        error_setg(errp, "Unavailable book: %d", book_id);
+>> +        return;
+>> +    }
+>> +    if (drawer_id >= smp->drawers) {
+>> +        error_setg(errp, "Unavailable drawer: %d", drawer_id);
+>> +        return;
+>> +    }
+>> +    if (entitlement >= S390_CPU_ENTITLEMENT__MAX) {
+>> +        error_setg(errp, "Unknown entitlement: %d", entitlement);
+>> +        return;
+>> +    }
+> I think you can delete this, too, there is no way that entitlement is > MAX.
+
+With entitlement being an enum in CPU properties yes.
+
+
+>
+>> +    if (dedicated && (entitlement == S390_CPU_ENTITLEMENT_LOW ||
+>> +                      entitlement == S390_CPU_ENTITLEMENT_MEDIUM)) {
+> Without HORIZONTAL you can do != HIGH and save one line, but that is
+> cosmetic only.
+
+Right, HORIZONTAL is eliminated during s390_topology_cpu_default()
+
+
+Regards,
+
+Pierre
 
 
