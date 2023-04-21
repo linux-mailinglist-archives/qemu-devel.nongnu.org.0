@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F916EA71C
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D5B6EA71D
 	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:36:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn9S-00005D-Lu; Fri, 21 Apr 2023 05:33:58 -0400
+	id 1ppn9S-0008WP-4f; Fri, 21 Apr 2023 05:33:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn9R-0008Vl-2x
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:57 -0400
+ id 1ppn9Q-0008VF-1y
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn9N-00035g-4t
+ id 1ppn9N-00035m-JS
  for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682069632;
+ s=mimecast20190719; t=1682069633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+PTFHqqlU3/xSLss1G2SG/vMkPEIyxDAqDr4X3EZpbY=;
- b=dLE+gj5Tr7tkFONq06CB/WvKRQ4dLfzyQXPZ5D2NK1FMRFNF8xuFL2oUL9zF8uBfZGGDIv
- OKVjf2U6p2K/eTVhxBRIL2aYAQg74SX5A+4zcbGkGI/cQVgyMiL497Qaquuy+x0nLEtJQL
- j4NPyGIqw1ovqAoKmGkO7O6vUI8T6rc=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gJKGv83T2S7mG0eDuSjytY2fJO/y/FRyf9NVrDOvjxE=;
+ b=A/OWeHPx2OpudQ8gf/ApT26AfpmgNpRA0bxU0yIEJKzPMC3XWw5ctXh/kG3AkaVP1lAcKk
+ +TtETjadfKmmXbWf3ImCsZ6yx6FlePId/AM57GBK1xQbHrLk4OKxJkUPE9F5rA0ieEO8qT
+ FQJq1rHF2R9uABmz0mAV9Vmk7O3iq+s=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-407-a_-NOxrbPyCSXw4hp0q1mw-1; Fri, 21 Apr 2023 05:33:50 -0400
-X-MC-Unique: a_-NOxrbPyCSXw4hp0q1mw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-94f2d9389afso116958366b.2
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:49 -0700 (PDT)
+ us-mta-611-F4vNWVX6O1yN12oDbydqEA-1; Fri, 21 Apr 2023 05:33:51 -0400
+X-MC-Unique: F4vNWVX6O1yN12oDbydqEA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-94f271ebbc2so148724766b.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069628; x=1684661628;
+ d=1e100.net; s=20221208; t=1682069630; x=1684661630;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+PTFHqqlU3/xSLss1G2SG/vMkPEIyxDAqDr4X3EZpbY=;
- b=eGVswDa9F78dxFv486nQwtEYfYai/ChXXpRx08/O/vl8Bg32XMKzj4NYIpV7ccb41g
- thbbrfZDW57Vh8IXPvIs9KPNCV4XrYMVLyyJ8vKZMESsHRjF61Kzkh3/EDwmNSsFTcmK
- cAgmEHDHEp9/Bv/CWFDa9CJsoCb2dyhvC5PpHMO/1duzQzF9dLDzNc10eBnbOH8apeN0
- dGV7e/SEfpUO/G2DkCfuHiHDkaYJiRFsVYyb9OC0V2FbvDW75njiCxM46rGfR2fSK+cx
- 8g5IeS+uPzEDhr1QlfnILbgI7l+DQLvM+6gPBjNwi4dUU0Z1yOy47T2oa+JLFQ5BU9HZ
- C/0w==
-X-Gm-Message-State: AAQBX9eE72eR/fMmd3Ciqhk7TBgFNtTP1N7/hgQcumc/IswG0YVxWu0H
- y7+pVqv2npzGNG4l8saVHuu8HnRQ3rk90GBzBAKvZfleO1xqFk/EsvXsgcdSBEZA43LawsBc/Yb
- D0AvQisPxJqn7SWMEH+t7MU64ivM0OuNOTMLzZWSIOIHpuUqMgoip7tOgYUPLvWNmqwpkZBxX4q
- S8sQ==
-X-Received: by 2002:a17:906:3fc4:b0:94e:be0:97 with SMTP id
- k4-20020a1709063fc400b0094e0be00097mr1583819ejj.26.1682069628633; 
- Fri, 21 Apr 2023 02:33:48 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZKb/QoEtC04whwvfimUGuvoOdMQ31YvfVrngXcWYeev3FNJVlcmudv7xVD77rQ+Y6tAOzsow==
-X-Received: by 2002:a17:906:3fc4:b0:94e:be0:97 with SMTP id
- k4-20020a1709063fc400b0094e0be00097mr1583812ejj.26.1682069628304; 
- Fri, 21 Apr 2023 02:33:48 -0700 (PDT)
+ bh=gJKGv83T2S7mG0eDuSjytY2fJO/y/FRyf9NVrDOvjxE=;
+ b=VlEts0HWywG54MVfLCEw6B/43yKygtY2b266Od/UA+ejQ3Tl8HGE7F5u20cmsTDP83
+ jBErgPpSs0g59bAeeqEw23TEW92z7GD2eqweqbPgK2hqs8W99Gyf6CYfOSc33ZJBfJyb
+ nm/TWRNkqYwtzRddlwpQ8SrSW7A+snDbAS31iGjlGgF7GnQClGP1oddhz/9PI3jwSvox
+ ww/BFtI8p2ZiYJtWXx8QmyTUYlmiykcHFm+nDQYVYlwFRV+ezkM1YtoW0mhuYZ24g5SY
+ Y6R3MYPR7Gz1nNpffiIffA8dA4phd80BcjP8pK/iVww/VfRZg3urmQqONgpZZjBq4gqS
+ VXSA==
+X-Gm-Message-State: AAQBX9eauwW2sFctDW4d91WmhDuRdhDyLzRIkltZvAAYvEmXEvbcamU8
+ VFEjR6YV8gR5jlBrQkgwXzhrDCA7CQzNytVyhp/IOIfapKleqFGl6l53XVh/JMsB8lUw4gwfTEL
+ ILKaenist2JX0BriU8HImNc6ieMyWEYGB/trmkwWbK0Ok73+FxRBdBHw7gi0as6NMy+yujX5+aF
+ dUgQ==
+X-Received: by 2002:a17:906:40f:b0:94f:a8fd:b69f with SMTP id
+ d15-20020a170906040f00b0094fa8fdb69fmr1851182eja.18.1682069629855; 
+ Fri, 21 Apr 2023 02:33:49 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aakeUI62Oe39n9bw7JOwCeiTsZD3C2abS8HiDAq4fruThrmWMJ4ub4HuQ9S5drUBvxgKYaDQ==
+X-Received: by 2002:a17:906:40f:b0:94f:a8fd:b69f with SMTP id
+ d15-20020a170906040f00b0094fa8fdb69fmr1851170eja.18.1682069629555; 
+ Fri, 21 Apr 2023 02:33:49 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- f5-20020a170906494500b0094eaa31aa63sm1824418ejt.77.2023.04.21.02.33.47
- for <qemu-devel@nongnu.org>
+ r2-20020a1709063d6200b00949691d3183sm1830140ejf.36.2023.04.21.02.33.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 02:33:47 -0700 (PDT)
+ Fri, 21 Apr 2023 02:33:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/25] coverity: unify Fedora dockerfiles
-Date: Fri, 21 Apr 2023 11:33:13 +0200
-Message-Id: <20230421093316.17941-23-pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 23/25] configure: Honour cross-prefix when finding ObjC compiler
+Date: Fri, 21 Apr 2023 11:33:14 +0200
+Message-Id: <20230421093316.17941-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421093316.17941-1-pbonzini@redhat.com>
 References: <20230421093316.17941-1-pbonzini@redhat.com>
@@ -100,279 +100,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Fedora CI and coverity runs are using a slightly different set of
-packages.  Copy most of the content over from tests/docker while
-keeping the commands at the end that unpack the tools.
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20230331174844.376300-1-pbonzini@redhat.com>
+Currently when configure picks an ObjectiveC compiler it doesn't pay
+attention to the cross-prefix.  This isn't a big deal in practice,
+because we only use ObjC on macos and you can't cross-compile to
+macos.  But it's a bit inconsistent.
+
+Rearrange the handling of objcc in configure so that we do the
+same thing that we do with cc and cxx. This means that the logic
+for picking the ObjC compiler goes from:
+ if --objcc is specified, use that
+ otherwise if clang is available, use that
+ otherwise use $cc
+to:
+ if --objcc is specified, use that
+ otherwise if --cross-prefix is specified, use ${cross_prefix}clang
+ otherwise if clang is available, use that
+ otherwise use $cc
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1185
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20230418161554.744834-1-peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/coverity-scan/coverity-scan.docker | 250 ++++++++++++---------
- 1 file changed, 145 insertions(+), 105 deletions(-)
+ configure | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
-index 6f60a52d2315..a349578526da 100644
---- a/scripts/coverity-scan/coverity-scan.docker
-+++ b/scripts/coverity-scan/coverity-scan.docker
-@@ -15,112 +15,152 @@
- # The work of actually doing the build is handled by the
- # run-coverity-scan script.
+diff --git a/configure b/configure
+index 22b8553b8d70..77c03315f820 100755
+--- a/configure
++++ b/configure
+@@ -316,6 +316,8 @@ for opt do
+   ;;
+   --cxx=*) CXX="$optarg"
+   ;;
++  --objcc=*) objcc="$optarg"
++  ;;
+   --cpu=*) cpu="$optarg"
+   ;;
+   --extra-cflags=*)
+@@ -361,6 +363,21 @@ else
+   cxx="${CXX-${cross_prefix}g++}"
+ fi
  
--FROM fedora:30
--ENV PACKAGES \
--    alsa-lib-devel \
--    bc \
--    brlapi-devel \
--    bzip2 \
--    bzip2-devel \
--    ccache \
--    clang \
--    curl \
--    cyrus-sasl-devel \
--    dbus-daemon \
--    device-mapper-multipath-devel \
--    findutils \
--    gcc \
--    gcc-c++ \
--    gettext \
--    git \
--    glib2-devel \
--    glusterfs-api-devel \
--    gnutls-devel \
--    gtk3-devel \
--    hostname \
--    libaio-devel \
--    libasan \
--    libattr-devel \
--    libblockdev-mpath-devel \
--    libcap-devel \
--    libcap-ng-devel \
--    libcurl-devel \
--    libepoxy-devel \
--    libfdt-devel \
--    libgbm-devel \
--    libiscsi-devel \
--    libjpeg-devel \
--    libpmem-devel \
--    libnfs-devel \
--    libpng-devel \
--    librbd-devel \
--    libseccomp-devel \
--    libssh-devel \
--    libubsan \
--    libudev-devel \
--    libusbx-devel \
--    libzstd-devel \
--    llvm \
--    lzo-devel \
--    make \
--    mingw32-bzip2 \
--    mingw32-curl \
--    mingw32-glib2 \
--    mingw32-gmp \
--    mingw32-gnutls \
--    mingw32-gtk3 \
--    mingw32-libjpeg-turbo \
--    mingw32-libpng \
--    mingw32-libtasn1 \
--    mingw32-nettle \
--    mingw32-nsis \
--    mingw32-pixman \
--    mingw32-pkg-config \
--    mingw32-SDL2 \
--    mingw64-bzip2 \
--    mingw64-curl \
--    mingw64-glib2 \
--    mingw64-gmp \
--    mingw64-gnutls \
--    mingw64-gtk3 \
--    mingw64-libjpeg-turbo \
--    mingw64-libpng \
--    mingw64-libtasn1 \
--    mingw64-nettle \
--    mingw64-pixman \
--    mingw64-pkg-config \
--    mingw64-SDL2 \
--    ncurses-devel \
--    nettle-devel \
--    numactl-devel \
--    perl \
--    perl-Test-Harness \
--    pixman-devel \
--    pulseaudio-libs-devel \
--    python3 \
--    python3-sphinx \
--    PyYAML \
--    rdma-core-devel \
--    SDL2-devel \
--    snappy-devel \
--    sparse \
--    spice-server-devel \
--    systemd-devel \
--    systemtap-sdt-devel \
--    tar \
--    usbredir-devel \
--    virglrenderer-devel \
--    vte291-devel \
--    wget \
--    which \
--    xen-devel \
--    xfsprogs-devel \
--    zlib-devel
--ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
-+FROM registry.fedoraproject.org/fedora:37
++# Preferred ObjC compiler:
++# $objcc (if set, i.e. via --objcc option)
++# ${cross_prefix}clang (if cross-prefix specified)
++# clang (if available)
++# $cc
++if test -z "${objcc}${cross_prefix}"; then
++  if has clang; then
++    objcc=clang
++  else
++    objcc="$cc"
++  fi
++else
++  objcc="${objcc-${cross_prefix}clang}"
++fi
++
+ ar="${AR-${cross_prefix}ar}"
+ as="${AS-${cross_prefix}as}"
+ ccas="${CCAS-$cc}"
+@@ -647,13 +664,6 @@ do
+     fi
+ done
  
--RUN dnf install -y $PACKAGES
--RUN rpm -q $PACKAGES | sort > /packages.txt
--ENV PATH $PATH:/usr/libexec/python3-sphinx/
-+RUN dnf install -y nosync && \
-+    echo -e '#!/bin/sh\n\
-+if test -d /usr/lib64\n\
-+then\n\
-+    export LD_PRELOAD=/usr/lib64/nosync/nosync.so\n\
-+else\n\
-+    export LD_PRELOAD=/usr/lib/nosync/nosync.so\n\
-+fi\n\
-+exec "$@"' > /usr/bin/nosync && \
-+    chmod +x /usr/bin/nosync && \
-+    nosync dnf update -y && \
-+    nosync dnf install -y \
-+               SDL2-devel \
-+               SDL2_image-devel \
-+               alsa-lib-devel \
-+               bash \
-+               bc \
-+               bison \
-+               brlapi-devel \
-+               bzip2 \
-+               bzip2-devel \
-+               ca-certificates \
-+               capstone-devel \
-+               ccache \
-+               clang \
-+               ctags \
-+               cyrus-sasl-devel \
-+               daxctl-devel \
-+               dbus-daemon \
-+               device-mapper-multipath-devel \
-+               diffutils \
-+               findutils \
-+               flex \
-+               fuse3-devel \
-+               gcc \
-+               gcc-c++ \
-+               gcovr \
-+               genisoimage \
-+               gettext \
-+               git \
-+               glib2-devel \
-+               glib2-static \
-+               glibc-langpack-en \
-+               glibc-static \
-+               glusterfs-api-devel \
-+               gnutls-devel \
-+               gtk3-devel \
-+               hostname \
-+               jemalloc-devel \
-+               json-c-devel \
-+               libaio-devel \
-+               libasan \
-+               libattr-devel \
-+               libbpf-devel \
-+               libcacard-devel \
-+               libcap-ng-devel \
-+               libcmocka-devel \
-+               libcurl-devel \
-+               libdrm-devel \
-+               libepoxy-devel \
-+               libfdt-devel \
-+               libffi-devel \
-+               libgcrypt-devel \
-+               libiscsi-devel \
-+               libjpeg-devel \
-+               libnfs-devel \
-+               libpmem-devel \
-+               libpng-devel \
-+               librbd-devel \
-+               libseccomp-devel \
-+               libselinux-devel \
-+               libslirp-devel \
-+               libssh-devel \
-+               libtasn1-devel \
-+               libubsan \
-+               liburing-devel \
-+               libusbx-devel \
-+               libzstd-devel \
-+               llvm \
-+               lttng-ust-devel \
-+               lzo-devel \
-+               make \
-+               mesa-libgbm-devel \
-+               meson \
-+               ncurses-devel \
-+               nettle-devel \
-+               ninja-build \
-+               nmap-ncat \
-+               numactl-devel \
-+               openssh-clients \
-+               pam-devel \
-+               pcre-static \
-+               pixman-devel \
-+               pkgconfig \
-+               pulseaudio-libs-devel \
-+               python3 \
-+               python3-PyYAML \
-+               python3-numpy \
-+               python3-opencv \
-+               python3-pillow \
-+               python3-pip \
-+               python3-sphinx \
-+               python3-sphinx_rtd_theme \
-+               rdma-core-devel \
-+               rpm \
-+               sed \
-+               snappy-devel \
-+               socat \
-+               sparse \
-+               spice-protocol \
-+               spice-server-devel \
-+               systemd-devel \
-+               systemtap-sdt-devel \
-+               tar \
-+               tesseract \
-+               tesseract-langpack-eng \
-+               usbredir-devel \
-+               util-linux \
-+               virglrenderer-devel \
-+               vte291-devel \
-+               which \
-+               xen-devel \
-+               xfsprogs-devel \
-+               zlib-devel \
-+               zlib-static \
-+               zstd && \
-+    nosync dnf autoremove -y && \
-+    nosync dnf clean all -y && \
-+    rpm -qa | sort > /packages.txt && \
-+    mkdir -p /usr/libexec/ccache-wrappers && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
-+
-+ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
-+ENV LANG "en_US.UTF-8"
-+ENV MAKE "/usr/bin/make"
-+ENV NINJA "/usr/bin/ninja"
-+ENV PYTHON "/usr/bin/python3"
-+ENV QEMU_CONFIGURE_OPTS --meson=internal
-+
-+RUN dnf install -y curl wget
- ENV COVERITY_TOOL_BASE=/coverity-tools
- COPY coverity_tool.tgz coverity_tool.tgz
- RUN mkdir -p /coverity-tools/coverity_tool && cd /coverity-tools/coverity_tool && tar xf /coverity_tool.tgz
+-# Default objcc to clang if available, otherwise use CC
+-if has clang; then
+-  objcc=clang
+-else
+-  objcc="$cc"
+-fi
+-
+ if test "$mingw32" = "yes" ; then
+   EXESUF=".exe"
+   # MinGW needs -mthreads for TLS and macro _MT.
+@@ -713,7 +723,7 @@ for opt do
+   ;;
+   --cxx=*)
+   ;;
+-  --objcc=*) objcc="$optarg"
++  --objcc=*)
+   ;;
+   --make=*) make="$optarg"
+   ;;
 -- 
 2.40.0
 
