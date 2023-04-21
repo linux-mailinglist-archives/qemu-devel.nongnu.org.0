@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136966EADD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 17:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF08D6EADF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 17:25:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppsQP-0003H5-8I; Fri, 21 Apr 2023 11:11:49 -0400
+	id 1ppsc6-0006g1-JD; Fri, 21 Apr 2023 11:23:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppsQM-00036F-BG
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 11:11:46 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ppsQK-0002R4-Qx
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 11:11:46 -0400
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-504eccc8fc8so2554772a12.2
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 08:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682089903; x=1684681903;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=k+WRw2YpIYlBr5FzzuZUd9F+0uyvdpSEvz/22/EyJtk=;
- b=aMaDUeDoccqyPUvKefurc3ObbddqtdiXuh+p69FAv3Psx1n/+3qurBEdSZaEFMj82t
- cB3K0vHHJwL1RLjIodjCBc6AO+msruP+gzZQL1GZwHPNYVlc7hJmtALreNVVd95Ey0xN
- Bn8BSQseK/WmvWC7Vsx1Rfj2j0wy5gCn6YX+Hu57J2nQAO7UCyYJE+JbK3H//Xno1MmQ
- RaLMNutor8GvedlT7vMq3oJnDUwYabydtgxV8szwjNyV3dgxLdJd2LxXjhajpCyaFwnX
- cE//2M2+oLJUafcNNUq/UcIGVLdYqYWOHbMyNFxoqVK+QqglcS18sZJygJyKnKQfhypF
- hjPg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ppsc4-0006fe-JN
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 11:23:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ppsc3-0004kB-4g
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 11:23:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682090628;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/Et1/AgAW3Lwleuipa3RzmhVuUfD1vdkqDk7rIfUM7E=;
+ b=WE7oVuXz2h9tY8PSJmyeSyNR8fE18Ec+8PTOCJ5sbXVSbssuvxdNzckdakTYrL0tNiOBrE
+ ETSITI8sW9fdJR23Eug1XZZQyXfNpeNXRobr/147S79YPIM4SGYEccxWWQDeqRX/c3sBD5
+ nZR/zeWpN6raiuvZ/vquaNwEjW7TFv4=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-350-oi4RGfswNzi_BNdN2EQdJg-1; Fri, 21 Apr 2023 11:23:46 -0400
+X-MC-Unique: oi4RGfswNzi_BNdN2EQdJg-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-63b8e47fd94so445700b3a.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 08:23:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682089903; x=1684681903;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=k+WRw2YpIYlBr5FzzuZUd9F+0uyvdpSEvz/22/EyJtk=;
- b=BP5J6XiuImLGJ/cL51Ql7yNs4Bry1ANL4+Oru3faZ40e23tIEPsTin9rToz1W9YGGO
- /OSGHDtcRWHhwm6IsMqJh5UlCR3ax7AWRtvvoomWDbAlz9R4ODGW9YnHZqBPcXp2/IA3
- m6+4WqNTmYjk98G5ZcI+TvIksmVl/EH8q7ISvl1w9rRxwA/dYXkNh+aDfYQ3JukcHeli
- wk3I/SFwRhFYUKf+VlUmbZCbfX7rjv+MeJLVs0WPDVuWgB65HQI/3gaMnjcIXAO1fxFh
- Lgbd6ZLodgCzXsUeLfQ42tScKiyFbpJgYOPp2ufqIhMtLZre/l5MquA6Em6rdpLJqW3l
- hKxg==
-X-Gm-Message-State: AAQBX9evVI9ZWLxUdURUySQ4SIkLM8m7+4d8wBZ46KwxqDodBLTNQY5J
- DAot/ohG4dGi7veHwmK2dAoakR0hX4maIpaZnTQ8mQ==
-X-Google-Smtp-Source: AKy350YgIdVxnTnsMaZvd83k0UsS8iW69f2kkcyuXacBAGaDG2R9Ef7kXeOYma2pcFXLqVePPKQqquH2uhSsJtUiOtI=
-X-Received: by 2002:aa7:c592:0:b0:504:b228:878d with SMTP id
- g18-20020aa7c592000000b00504b228878dmr5488694edq.25.1682089902940; Fri, 21
- Apr 2023 08:11:42 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682090625; x=1684682625;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/Et1/AgAW3Lwleuipa3RzmhVuUfD1vdkqDk7rIfUM7E=;
+ b=lU3x2XEHZwmFHiNzDrF/ysHMGY1ZWmsRFA5e3LGFuIJxtDmjdhv9vPXHjufwy2/Ano
+ i8wysMN/yLVP92Lugggw5cpTtARlZ/NlFEjjZp2HaHbk7B4XIAtFk1QGEqGm/EGiwr8y
+ KXgVljbV5GZIGTWzVZurZ4s+hITDmfuQ3+W0QzcEABXNExP9EPugmZHlTPqDuu0VDyhG
+ lywuiTpMRWtH3wsWxSXe7G8RrdX+9jm2fAZIrhs4k9rU4cxaJ0L8kGN8b6HKJ8/Uxr7u
+ j5PPjYv9sVmiZldhQPMMgavVaI2auWdgumQgpbFIWL8pZ1Lw6tdB7jnqRv91mT6I7AOV
+ SrCw==
+X-Gm-Message-State: AAQBX9f5J8flZdsbyWGD8l03R8nrXMBuECMUCAgFgv8HtcNlHy0pUQXt
+ lW9vp8ibT8XHNQeOsMhsNa1jGNa0qxJ9JrKdHd4OMitonhBgeoHOLrqGLJ11sG5FS+FOwXOs1mM
+ b/H6p0LCZq7E+hS4=
+X-Received: by 2002:a05:6a00:430b:b0:637:434a:75df with SMTP id
+ cb11-20020a056a00430b00b00637434a75dfmr6052924pfb.0.1682090625057; 
+ Fri, 21 Apr 2023 08:23:45 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aU7rxDqsnU5wrrjEX2jh+EDIAuPEKQwXLF9Hi2gxHMl+LPepH7lKgcrx2jcuH1jhtXKzwnTg==
+X-Received: by 2002:a05:6a00:430b:b0:637:434a:75df with SMTP id
+ cb11-20020a056a00430b00b00637434a75dfmr6052900pfb.0.1682090624708; 
+ Fri, 21 Apr 2023 08:23:44 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ m8-20020a654388000000b0051303d3e3c5sm2781355pgp.42.2023.04.21.08.23.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Apr 2023 08:23:44 -0700 (PDT)
+Date: Fri, 21 Apr 2023 11:23:42 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: Add Leonardo and Peter as reviewers
+Message-ID: <ZEKqfusi5NhRzqxz@x1n>
+References: <20230419162957.16696-1-quintela@redhat.com>
 MIME-Version: 1.0
-References: <20230414105111.30708-1-quic_jiles@quicinc.com>
-In-Reply-To: <20230414105111.30708-1-quic_jiles@quicinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 Apr 2023 16:11:31 +0100
-Message-ID: <CAFEAcA8nAe5_40S3w4-G+ufScHfpf6z2fZCd7rChiHuBMB5ejQ@mail.gmail.com>
-Subject: Re: [PATCH] accel/tcg/tcg-accel-ops-rr: ensure fairness with icount
-To: Jamie Iles <quic_jiles@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, pbonzini@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230419162957.16696-1-quintela@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,32 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 14 Apr 2023 at 15:48, Jamie Iles <quic_jiles@quicinc.com> wrote:
->
-> The round-robin scheduler will iterate over the CPU list with an
-> assigned budget until the next timer expiry and may exit early because
-> of a TB exit.  This is fine under normal operation but with icount
-> enabled and SMP it is possible for a CPU to be starved of run time and
-> the system live-locks.
->
-> For example, booting a riscv64 platform with '-icount
-> shift=0,align=off,sleep=on -smp 2' we observe a livelock once the kernel
-> has timers enabled and starts performing TLB shootdowns.  In this case
-> we have CPU 0 in M-mode with interrupts disabled sending an IPI to CPU
-> 1.  As we enter the TCG loop, we assign the icount budget to next timer
-> interrupt to CPU 0 and begin executing where the guest is sat in a busy
-> loop exhausting all of the budget before we try to execute CPU 1 which
-> is the target of the IPI but CPU 1 is left with no budget with which to
-> execute and the process repeats.
+On Wed, Apr 19, 2023 at 06:29:57PM +0200, Juan Quintela wrote:
+> Now that David has stepped down with Migration maintainership,
+> Leonardo and Peter has volunteer to review the migration patches.
+> This way they got CC'd on every migration patch.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-Coincidentally, I just ran into a fairly similar issue on Arm,
-where CPU0 is in a loop waiting for CPU1 to do something
-but CPU1 never gets to execute any instructions at all
-because it's run out of timeslice. This patch fixes that
-livelock for me.
+Acked-by: Peter Xu <peterx@redhat.com>
 
-Tested-by: Peter Maydell <peter.maydell@linaro.org>
+-- 
+Peter Xu
 
-thanks
--- PMM
 
