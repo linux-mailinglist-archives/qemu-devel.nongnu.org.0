@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A715A6EA5C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 10:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8562C6EA5C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 10:25:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppm2M-0003G7-Q5; Fri, 21 Apr 2023 04:22:34 -0400
+	id 1ppm4t-000477-Lt; Fri, 21 Apr 2023 04:25:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ppm2K-0003Fg-TP
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:22:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ppm4s-00046y-F9
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:25:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ppm2J-0007NZ-4U
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:22:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ppm4p-0007rW-Kr
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:25:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682065350;
+ s=mimecast20190719; t=1682065506;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=is3oJZaBdkNbzvZTIGULYW/H8IUQiiY6z77YqfTlROs=;
- b=LlUGCLjLT5N2XVYs0yBHGxYYnAeY146bO+00yBMjv5cqJ1NCQip/F/BdFnqvSHCL0fD2Gd
- kXzonnNdUOTwxAIn1CbEVRyQCyZB+4gShPKXN70ujEBYewovMb9z5qLcThfJM5jp7bokhi
- cu3l3GcrTHpdQSkYUsUEkrpNlvVdOQQ=
+ bh=5krHJ790Py7hiBztD0gDnXm1BXpcT5rZ+DngBz7s//s=;
+ b=R4qE6CvgHPZtcidnFxFzz9XXOeTCUiUf9BAcYXLxw04X9jMMmFBuG3272tQILtWEr54BuZ
+ 59VAow405drnHb6T0o4jRtSVn+6BNerAtE8E/slQ/ArhYPBwso9BTst7899fC8ry0vROPL
+ aMo5wR8C9nfhvRSDlDUmUXjI9f6rFDU=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-544-cL-GO-FGMuCTDYUZgswDjg-1; Fri, 21 Apr 2023 04:22:28 -0400
-X-MC-Unique: cL-GO-FGMuCTDYUZgswDjg-1
+ us-mta-475-bHKcZp1qOa2VA0JZX2AMIQ-1; Fri, 21 Apr 2023 04:25:05 -0400
+X-MC-Unique: bHKcZp1qOa2VA0JZX2AMIQ-1
 Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f1749c63c9so4973765e9.3
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 01:22:28 -0700 (PDT)
+ 5b1f17b1804b1-3f080f534acso9737285e9.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 01:25:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682065347; x=1684657347;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=is3oJZaBdkNbzvZTIGULYW/H8IUQiiY6z77YqfTlROs=;
- b=Ys9Bz3t18zUmFJywwjU5LJ7/cliAnYRYAeeLXEtSuKLZ0X5OYcn+u5F5saThY6xvOd
- OOZsqmsLDuZAp7g1iRoF0uon3H7l5R2gTGc8XHdZvhr0ZThLriNRfmybKXK1UjdduleP
- gyAJ2GlkGN4+MvIPGMbnKHV4lU4Mj1vsL5WJCYzgaylQk8uCoS2rjiy3rziqEkvUDMrg
- j+kdG9+Az/eQB2kgAPQx3bzGuQ9SUDZOa7nhjQePtbERyIUVfuGF/mrSCdBPgrbqvYG1
- v6k+lq5CIggLyOqMNJpQ3u2TegoYe78v6WGCv/kE0bIBmgKUmJ8bSqiude27ViFML3tJ
- GkHA==
-X-Gm-Message-State: AAQBX9fyUpThc8qznP9CUtKpYiwuorLBL7dwWuj5Dtm57EDAmKwSPbbH
- GKj/+PYPGkT4DBoLxao0jerAIJyirc4uNiOnx81F51gaAVOPRkegdVziJbm1Ui+oa4XG1+G4WR6
- e6VSzD3WA/yNr6Ls=
-X-Received: by 2002:a7b:c008:0:b0:3f1:7aff:e13a with SMTP id
- c8-20020a7bc008000000b003f17affe13amr1327711wmb.3.1682065347136; 
- Fri, 21 Apr 2023 01:22:27 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZqUux6pM7yw5uASgNF/FGv3i4xLAYdqshbBR7HHRniVdJhMek520gYmVJW1la/K8gshuo53A==
-X-Received: by 2002:a7b:c008:0:b0:3f1:7aff:e13a with SMTP id
- c8-20020a7bc008000000b003f17affe13amr1327694wmb.3.1682065346751; 
- Fri, 21 Apr 2023 01:22:26 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682065504; x=1684657504;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5krHJ790Py7hiBztD0gDnXm1BXpcT5rZ+DngBz7s//s=;
+ b=I9rAbsuw3lH5eN2tUud64wGgyJkBnJ0o6kTE8fGq1VbaeamyyzFrW0HKHKneHs3QSc
+ PQTBWdN/vZNH13jJOcrUw3wOV/w+1V+7EJQ8mRJhzAf55SNJEgh8XEcSnabtJXCY6mhB
+ GtoB4f/HP35rUcQmyG+kGxK+7t29RPfFOs/1ETKDjkcXEi9XdYfPwt8zhoA/jxm0Q4pg
+ ynG+2TzdFqZ30saEyySmgd/4UoOF9p/mRyfgI2bHP9bUCLQeglcbQzu37KmAtjo7lpUp
+ RmfS7J3kzHeK+UBJiukyRm/eekXbx6hNZ/uQpnT4GyMDLj2NfiXaQMYFZdvD4GEqBFJw
+ zs9w==
+X-Gm-Message-State: AAQBX9dKvHpNH84hkIemD0PLrd6c81Gp+HE+VIPqV65qfxL+PmuEE6AS
+ hQL4RiH9a+c2R/5J17Sb4EE3xapoJUk0fcL2UcueTsbGXoYQKLxhddfxE4hPQkzca5LpIMuVEmW
+ dBGdDE76IeVKfGqQ=
+X-Received: by 2002:a1c:7211:0:b0:3f1:71d2:da3a with SMTP id
+ n17-20020a1c7211000000b003f171d2da3amr1131545wmc.30.1682065504273; 
+ Fri, 21 Apr 2023 01:25:04 -0700 (PDT)
+X-Google-Smtp-Source: AKy350btdgphMXVg/wGvFwh9J6FVYpRqIYldgo9Sv5Kw0XKppCy7HR5ZedOHwndq+ckUQz0bYyWV8A==
+X-Received: by 2002:a1c:7211:0:b0:3f1:71d2:da3a with SMTP id
+ n17-20020a1c7211000000b003f171d2da3amr1131532wmc.30.1682065503981; 
+ Fri, 21 Apr 2023 01:25:03 -0700 (PDT)
 Received: from redhat.com ([2.55.62.70]) by smtp.gmail.com with ESMTPSA id
- u15-20020a05600c210f00b003f17848673fsm4121811wml.27.2023.04.21.01.22.25
+ k5-20020adff5c5000000b002f103ca90cdsm3856665wrp.101.2023.04.21.01.25.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 01:22:26 -0700 (PDT)
-Date: Fri, 21 Apr 2023 04:22:23 -0400
+ Fri, 21 Apr 2023 01:25:03 -0700 (PDT)
+Date: Fri, 21 Apr 2023 04:25:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: robin@streamhpc.com
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH 0/1] pcie: Allow atomic completion on PCIE root port
-Message-ID: <20230421042013-mutt-send-email-mst@kernel.org>
-References: <20230420153839.167418-1-robin@streamhpc.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v3 00/18] hw/ide: Untangle ISA/PCI abuses of
+ ide_init_ioport()
+Message-ID: <20230421042344-mutt-send-email-mst@kernel.org>
+References: <20230302224058.43315-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230420153839.167418-1-robin@streamhpc.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230302224058.43315-1-philmd@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -94,106 +101,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 20, 2023 at 05:38:39PM +0200, robin@streamhpc.com wrote:
-> From: Robin Voetter <robin@streamhpc.com>
+On Thu, Mar 02, 2023 at 11:40:40PM +0100, Philippe Mathieu-Daudé wrote:
+> Since v2: rebased
 > 
-> The ROCm driver for Linux uses PCIe atomics to schedule work and
-> generally communicate between the host and the device.  This does not
-> currently work in QEMU with regular vfio-pci passthrough, because the
-> pcie-root-port does not advertise the PCIe atomic completer
-> capabilities.  When initializing the GPU from the Linux driver, it
-> queries whether the PCIe connection from the CPU to GPU supports the
-> required capabilities[1] in the pci_enable_atomic_ops_to_root
-> function[2].  Currently the only part where this fails is checking the
-> atomic completer capabilities (32 and 64 bits) on the root port[3].  In
-> this case, the driver determines that PCIe atomics are not supported at
-> all, and this causes ROCm programs to misbehave.  (While AMD advertises
-> that there is some support for ROCm without PCIe atomics, I have never
-> actually gotten that working...)
-> 
-> This patch allows ROCm to properly function by introducing an
-> additional experimental property to the pcie-root-port,
-> x-atomic-completion.
+> I'm posting this series as it to not block Bernhard's PIIX
+> cleanup work. I don't have code change planned, but eventually
+> reword / improve commit descriptions.
 
-so what exactly makes it experimental? from this description
-it looks like it actually has to be enabled for things to work?
-Also pls CC alex on whether this is a correct way to do it.
+> Tested commit after commit to be sure it is bisectable. Sadly
+> this was before Zoltan & Thomas report a problem with commit
+> bb98e0f59c ("hw/isa/vt82c686: Remove intermediate IRQ forwarder").
 
->  Setting this option makes the port report
-> support for the PCI_EXP_DEVCAP2_ATOMIC_COMP32 and COMP64
-> capabilities.  This then makes the check from [3] pass, and
-> everything seems to work appropriately after that.
+I'm not sure what this implies, or how do you want to
+resolve the conflicts with Bernhard's work.
+
+did my best to review, series:
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+
 > 
-> To verify that the capabilities are reported correctly, one can use
-> lspci to check the capabilities of the root port: lspci -vvv -s <root
-> port id> should show 32bit+ and 64bit+ capabilities in DevCap2 when
-> x-atomic-completion is enabled.  For example:
+> Background thread:
+> https://lore.kernel.org/qemu-devel/5095dffc-309b-6c72-d255-8cdaa6fd3d52@ilande.co.uk/
 > 
->     -device pcie-root-port,x-atomic-completion=true,id.pcie.1
+> Philippe Mathieu-Daudé (18):
+>   hw/ide/piix: Expose output IRQ as properties for late object
+>     population
+>   hw/ide/piix: Allow using PIIX3-IDE as standalone PCI function
+>   hw/i386/pc_piix: Wire PIIX3 IDE ouput IRQs to ISA bus IRQs 14/15
+>   hw/isa/piix4: Wire PIIX4 IDE ouput IRQs to ISA bus IRQs 14/15
+>   hw/ide: Rename ISA specific ide_init_ioport -> ide_bus_init_ioport_isa
+>   hw/ide/piix: Ensure IDE output IRQs are wired at realization
+>   hw/isa: Deprecate isa_get_irq() in favor of isa_bus_get_irq()
+>   hw/ide: Introduce generic ide_init_ioport()
+>   hw/ide/piix: Use generic ide_bus_init_ioport()
+>   hw/isa: Ensure isa_register_portio_list() do not get NULL ISA device
+>   hw/isa: Simplify isa_address_space[_io]()
+>   hw/isa: Reduce 'isabus' singleton scope to isa_bus_new()
+>   exec/ioport: Factor portio_list_register_flush_coalesced() out
+>   exec/ioport: Factor portio_list_register() out
+>   hw/southbridge/piix: Use OBJECT_DECLARE_SIMPLE_TYPE() macro
+>   hw/isa/piix: Batch register QOM types using DEFINE_TYPES() macro
+>   hw/isa/piix: Unify QOM type name of PIIX ISA function
+>   hw/isa/piix: Unify PIIX-ISA QOM type names using qdev aliases
 > 
-> The output of lspci should include the following for the pcie root port:
+>  hw/audio/adlib.c              |  4 +--
+>  hw/display/qxl.c              |  7 ++--
+>  hw/display/vga.c              |  9 +++--
+>  hw/dma/i82374.c               |  7 ++--
+>  hw/i386/pc_piix.c             | 13 +++++---
+>  hw/ide/ioport.c               | 15 +++++++--
+>  hw/ide/isa.c                  |  2 +-
+>  hw/ide/piix.c                 | 54 +++++++++++++++++++++++-------
+>  hw/isa/isa-bus.c              | 36 ++++++++------------
+>  hw/isa/piix3.c                | 63 +++++++++++++++--------------------
+>  hw/isa/piix4.c                | 12 ++++---
+>  hw/mips/malta.c               |  2 +-
+>  hw/watchdog/wdt_ib700.c       |  4 +--
+>  include/exec/ioport.h         | 15 +++++----
+>  include/hw/ide/internal.h     |  3 +-
+>  include/hw/ide/isa.h          |  3 ++
+>  include/hw/ide/piix.h         |  4 +++
+>  include/hw/isa/isa.h          |  3 +-
+>  include/hw/southbridge/piix.h | 14 ++++----
+>  softmmu/ioport.c              | 48 +++++++++++++++++++-------
+>  softmmu/qdev-monitor.c        |  3 ++
+>  21 files changed, 190 insertions(+), 131 deletions(-)
 > 
->     AtomicOpsCap: 32bit+ 64bit+ 128bitCAS-
+> -- 
+> 2.38.1
 > 
-> To verify that ROCm works, the following HIP program should be
-> sufficient.  The work is scheduled to the GPU by signaling a semaphore
-> using atomic operations from the CPU side, which is completed on the
-> GPU, and the GPU-side printf works by signaling a semaphore from the GPU
-> that is completed on the CPU.  It can be compiled using hipcc with
-> 'hipcc -otest test.hip':
 > 
->     #include <hip/hip_runtime.h>
->     __global__ void test() {
->         printf("hello, world\n");
->     }
->     int main() {
->         test<<<dim3(1), dim3(1)>>>();
->         hipDeviceSynchronize();
->     }
 > 
-> Previously, or when x-atomic-completion is set to false, this program
-> would simply hang.  Additionally, a message along the lines of the
-> following is printed to dmesg during boot if the GPU driver determines
-> that atomics are not supported:
-> 
->     amdgpu 0000:01:00.0: amdgpu: PCIE atomic ops is not supported
-> 
-> When atomics are properly supported, the above program works as
-> intended, and the previous dmesg message is of course not printed. For
-> this I am using a simple machine setup using the following device
-> options, with the GPU that im testing with of course on 03:00.0.
-> 
->      -device pcie-root-port,x-atomic-completion=true,id=pcie.1
->      -device vfio-pci,host=03:00.0,bus=pcie.1
-> 
-> This patch does not include any automatic detection whether the root
-> port of the host supports the atomic completer capabilities, nor if any
-> of the physical PCIe bridges between the CPU and GPU support atomic
-> routing.  The intention here is that the user should make sure that the
-> host does support atomic completion on the root complex. See also some
-> prior discussion[4].  I have run the full test suite of some ROCm
-> libraries: rocPRIM, rocRAND, hipRAND, hipCUB and rocThrust.  All of the
-> tests pass now, with some minor unrelated changes.
-> 
-> Kind regards,
-> 
-> Robin Voetter, Stream HPC
-> 
-> [1] https://github.com/torvalds/linux/blob/v6.2/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c#L3716
-> [2] https://github.com/torvalds/linux/blob/v6.2/drivers/pci/pci.c#L3781
-> [3] https://github.com/torvalds/linux/blob/v6.2/drivers/pci/pci.c#L3829
-> [4] https://lists.nongnu.org/archive/html/qemu-devel/2023-04/msg01815.html
-> ---
-> 
-> Robin Voetter (1):
->   pcie: Allow generic PCIE root port to enable atomic completion
-> 
->  hw/pci-bridge/gen_pcie_root_port.c | 2 ++
->  hw/pci/pcie.c                      | 6 ++++++
->  include/hw/pci/pcie_port.h         | 3 +++
->  3 files changed, 11 insertions(+)
-> 
-> --
-> 2.39.2
 
 
