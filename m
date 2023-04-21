@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39976EA730
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:38:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CD16EA715
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:35:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn9H-0008Fo-G6; Fri, 21 Apr 2023 05:33:47 -0400
+	id 1ppn9L-0008If-ES; Fri, 21 Apr 2023 05:33:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn9A-0008Ex-Hh
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:41 -0400
+ id 1ppn9C-0008FN-2U
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:42 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn99-00033H-06
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:40 -0400
+ id 1ppn9A-00033O-2z
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682069618;
+ s=mimecast20190719; t=1682069619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iO/1n+pcKS6FRHfkbmdImpIrBTesk7jNxOCOpPvcGVo=;
- b=A5HO0Akx7FpJLYRJYDU55XgufgAV2n0pz7/1R7/Daoc7czdrF6ILAqXO1OZEhRzVuzwwFw
- WVGE66CXuc21+bssN20gZYElG56NMgL6Z+RlwU3XEKNBdkWVo/VDQwuv50IVHRUTuk75dg
- 1ZfGdTFsfdRQOQYCIicoWDUw3qqi5tk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uoqHZwp6ZDuBBp7HlO2FvItIj6HYt1hKP7ytMavVzfo=;
+ b=a0HmnvSkyyWcU1OBJ1Y/5yB0qDsqsFKADXvWLH8IKBoyDUP3m1RK6lU7ME+G0d14689cim
+ 3ygUAbHjh9JQg8j8pEKqRs6dtHDAwwiy+wiNc2N32h1GWAjKK9GVJZPnLb9+aOl55gY+bl
+ a5xluaT4x7xfdx3uxg+HLAxYcBlbXCg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-618-WgTx5zhxNQilyfujbbCKRA-1; Fri, 21 Apr 2023 05:33:36 -0400
-X-MC-Unique: WgTx5zhxNQilyfujbbCKRA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-506a7b4f141so1625544a12.2
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:35 -0700 (PDT)
+ us-mta-390-tipoV1CWN3-G4y8sEdzysg-1; Fri, 21 Apr 2023 05:33:38 -0400
+X-MC-Unique: tipoV1CWN3-G4y8sEdzysg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-94a348facbbso158077966b.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069614; x=1684661614;
+ d=1e100.net; s=20221208; t=1682069616; x=1684661616;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iO/1n+pcKS6FRHfkbmdImpIrBTesk7jNxOCOpPvcGVo=;
- b=NGWL3BEBosWiaVSfYL10bPrhDHjI/9uG95imA2LEJ+3p4U4PVZv1J+3egMMcM42k5K
- nrLVAG96GW6w0csJICt7FH1R1x8hbxukHl1A4tVKuMuZZ5jadv3EbwLNFvqrc5xXpy1N
- iGdGu+89Jdr97/G5omZI2hMEv6ihnyZJFDrNBaTf3EZaTa7gmMvBIlxAm0GETptYi4UR
- cxEDzvw2/4FBXstKuQiSNGOKioJdUgB5meoCqhQug/pNEg4ZhBNBOSQ3G07RhxfUy+uw
- oxZGY2EH710+8AVDodq1xKhCCmfzdasr1It6Bz8anzqS2En59Z5DJtmA91uV/Qdqi8m4
- yVGA==
-X-Gm-Message-State: AAQBX9cR+3J4Fx3qAsOzQvGittbKWiOv8TigiYR/+k9WASBtdXpC0wzZ
- TtILtJHxyEriokHEpFBF3SBUIePVQcj7z/Nr2nTO4fsQcgZg1nA/n5H73DyFr8MGK2e2RjdCUwj
- 9mvcek8j2CrnM/rs9zoN+hHmxsiBoR9W2XIVNq5n75Z3ZKpCk/JIt61uRtoN7W7qLUQZxdeMzyo
- Fn+w==
-X-Received: by 2002:a17:906:805a:b0:94e:fa56:a74f with SMTP id
- x26-20020a170906805a00b0094efa56a74fmr1777586ejw.14.1682069614521; 
- Fri, 21 Apr 2023 02:33:34 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YVK19mRfWae5ZitbeFIh31eAAobQOeBVPMdF8qt6803rCJl952uRw7nmHz7EXo7I0izFvxDA==
-X-Received: by 2002:a17:906:805a:b0:94e:fa56:a74f with SMTP id
- x26-20020a170906805a00b0094efa56a74fmr1777576ejw.14.1682069614257; 
- Fri, 21 Apr 2023 02:33:34 -0700 (PDT)
+ bh=uoqHZwp6ZDuBBp7HlO2FvItIj6HYt1hKP7ytMavVzfo=;
+ b=HkwWsWEWVIBPz5aNiM0K72wB/8DwO5Zh/C+a+Yne50rgVRDpyVVXtkHjCRzpnmM45k
+ jdsAkuW/VK+sK4xAFszkbb01kiUufhZvoKLeINFP84N+fgUyPfSxO1GcstvRJ559ut2S
+ foyaPZ/QAZPXmecCtvt1Cb7a3MVkZ/jucofR6Hb/z778ULzP8KzPyfWG40wb7vqSXl07
+ CSYHmkCKgK952SDlWQ3ehHHu8OYV3XlcWPCMfjtyjaxB1RbG/r6nSqZbns+6j2cp0WCy
+ j8hewHlJPfgk19xhS3SZBtSQ3IoqR28KviZWaYGnaLi+YHsOO4/TCwOWs+Fi5b2S9BZv
+ vmGw==
+X-Gm-Message-State: AAQBX9eC3WGabfBDr5vlRZdyWjV+vO2OXtIyJopeJxP6u34yFzIYNH29
+ LOxCPPY9TedU80cVesokxkYSkAVVRB35LD4OdSyioAo7yPBCJkTlohGfDHd6sfqTEZ7sBkvwR4T
+ yuou1H++csDn5XX5QgFFhAtFBZw+mxwhuc0QHTROcCXiOxPkNkutevEQw7/9sHwRnoWyAo3Oqkw
+ BYLA==
+X-Received: by 2002:a17:906:b197:b0:94c:b183:bb6f with SMTP id
+ w23-20020a170906b19700b0094cb183bb6fmr1599082ejy.18.1682069616257; 
+ Fri, 21 Apr 2023 02:33:36 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bsr5duKBidqpKIxeEvVJQBZ8Uq1Y3PiYfO1raiBch5cBKLyppbBx7EpL+dzK6TqckSp/3mCQ==
+X-Received: by 2002:a17:906:b197:b0:94c:b183:bb6f with SMTP id
+ w23-20020a170906b19700b0094cb183bb6fmr1599067ejy.18.1682069615874; 
+ Fri, 21 Apr 2023 02:33:35 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- jt20-20020a170906ca1400b008e54ac90de1sm1804717ejb.74.2023.04.21.02.33.33
+ o19-20020a1709062e9300b0094f281bd279sm1801428eji.198.2023.04.21.02.33.34
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 02:33:33 -0700 (PDT)
+ Fri, 21 Apr 2023 02:33:35 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>
-Subject: [PULL 12/25] qapi-gen: mark coroutine QMP command functions as
- coroutine_fn
-Date: Fri, 21 Apr 2023 11:33:03 +0200
-Message-Id: <20230421093316.17941-13-pbonzini@redhat.com>
+Subject: [PULL 13/25] io: mark mixed functions that can suspend
+Date: Fri, 21 Apr 2023 11:33:04 +0200
+Message-Id: <20230421093316.17941-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421093316.17941-1-pbonzini@redhat.com>
 References: <20230421093316.17941-1-pbonzini@redhat.com>
@@ -101,101 +100,303 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Coroutine commands have to be declared as coroutine_fn, but the
-marker does not show up in the qapi-comands-* headers; likewise, the
-marshaling function calls the command and therefore must be coroutine_fn.
-Static analysis would want coroutine_fn to match between prototype and
-declaration, because in principle coroutines might be compiled to a
-completely different calling convention.  So we would like to add the
-marker to the header.
+There should be no paths from a coroutine_fn to aio_poll, however in
+practice coroutine_mixed_fn will call aio_poll in the !qemu_in_coroutine()
+path.  By marking mixed functions, we can track accurately the call paths
+that execute entirely in coroutine context, and find more missing
+coroutine_fn markers.  This results in more accurate checks that
+coroutine code does not end up blocking.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+If the marking were extended transitively to all functions that call
+these ones, static analysis could be done much more efficiently.
+However, this is a start and makes it possible to use vrc's path-based
+searches to find potential bugs where coroutine_fns call blocking functions.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/qapi/commands.py | 33 +++++++++++++++++++++------------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+ include/io/channel.h | 78 ++++++++++++++++++++++----------------------
+ io/channel.c         | 78 ++++++++++++++++++++++----------------------
+ 2 files changed, 78 insertions(+), 78 deletions(-)
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 79c5e5c3a989..a079378d1b8d 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -41,11 +41,13 @@
- def gen_command_decl(name: str,
-                      arg_type: Optional[QAPISchemaObjectType],
-                      boxed: bool,
--                     ret_type: Optional[QAPISchemaType]) -> str:
-+                     ret_type: Optional[QAPISchemaType],
-+                     coroutine: bool) -> str:
-     return mcgen('''
--%(c_type)s qmp_%(c_name)s(%(params)s);
-+%(c_type)s %(coroutine_fn)sqmp_%(c_name)s(%(params)s);
- ''',
-                  c_type=(ret_type and ret_type.c_type()) or 'void',
-+                 coroutine_fn='coroutine_fn ' if coroutine else '',
-                  c_name=c_name(name),
-                  params=build_params(arg_type, boxed, 'Error **errp'))
+diff --git a/include/io/channel.h b/include/io/channel.h
+index 153fbd29049f..446a566e5e1b 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -301,10 +301,10 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+  * Returns: 1 if all bytes were read, 0 if end-of-file
+  *          occurs without data, or -1 on error
+  */
+-int qio_channel_readv_all_eof(QIOChannel *ioc,
+-                              const struct iovec *iov,
+-                              size_t niov,
+-                              Error **errp);
++int coroutine_mixed_fn qio_channel_readv_all_eof(QIOChannel *ioc,
++                                                 const struct iovec *iov,
++                                                 size_t niov,
++                                                 Error **errp);
  
-@@ -157,16 +159,21 @@ def gen_marshal_output(ret_type: QAPISchemaType) -> str:
-                  c_type=ret_type.c_type(), c_name=ret_type.c_name())
- 
- 
--def build_marshal_proto(name: str) -> str:
--    return ('void qmp_marshal_%s(QDict *args, QObject **ret, Error **errp)'
--            % c_name(name))
-+def build_marshal_proto(name: str,
-+                        coroutine: bool) -> str:
-+    return ('void %(coroutine_fn)sqmp_marshal_%(c_name)s(%(params)s)' % {
-+        'coroutine_fn': 'coroutine_fn ' if coroutine else '',
-+        'c_name': c_name(name),
-+        'params': 'QDict *args, QObject **ret, Error **errp',
-+    })
+ /**
+  * qio_channel_readv_all:
+@@ -328,10 +328,10 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were read, or -1 on error
+  */
+-int qio_channel_readv_all(QIOChannel *ioc,
+-                          const struct iovec *iov,
+-                          size_t niov,
+-                          Error **errp);
++int coroutine_mixed_fn qio_channel_readv_all(QIOChannel *ioc,
++                                             const struct iovec *iov,
++                                             size_t niov,
++                                             Error **errp);
  
  
--def gen_marshal_decl(name: str) -> str:
-+def gen_marshal_decl(name: str,
-+                     coroutine: bool) -> str:
-     return mcgen('''
- %(proto)s;
- ''',
--                 proto=build_marshal_proto(name))
-+                 proto=build_marshal_proto(name, coroutine))
+ /**
+@@ -353,10 +353,10 @@ int qio_channel_readv_all(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+-int qio_channel_writev_all(QIOChannel *ioc,
+-                           const struct iovec *iov,
+-                           size_t niov,
+-                           Error **errp);
++int coroutine_mixed_fn qio_channel_writev_all(QIOChannel *ioc,
++                                              const struct iovec *iov,
++                                              size_t niov,
++                                              Error **errp);
+ 
+ /**
+  * qio_channel_readv:
+@@ -437,10 +437,10 @@ ssize_t qio_channel_write(QIOChannel *ioc,
+  * Returns: 1 if all bytes were read, 0 if end-of-file occurs
+  *          without data, or -1 on error
+  */
+-int qio_channel_read_all_eof(QIOChannel *ioc,
+-                             char *buf,
+-                             size_t buflen,
+-                             Error **errp);
++int coroutine_mixed_fn qio_channel_read_all_eof(QIOChannel *ioc,
++                                                char *buf,
++                                                size_t buflen,
++                                                Error **errp);
+ 
+ /**
+  * qio_channel_read_all:
+@@ -457,10 +457,10 @@ int qio_channel_read_all_eof(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were read, or -1 on error
+  */
+-int qio_channel_read_all(QIOChannel *ioc,
+-                         char *buf,
+-                         size_t buflen,
+-                         Error **errp);
++int coroutine_mixed_fn qio_channel_read_all(QIOChannel *ioc,
++                                            char *buf,
++                                            size_t buflen,
++                                            Error **errp);
+ 
+ /**
+  * qio_channel_write_all:
+@@ -476,10 +476,10 @@ int qio_channel_read_all(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+-int qio_channel_write_all(QIOChannel *ioc,
+-                          const char *buf,
+-                          size_t buflen,
+-                          Error **errp);
++int coroutine_mixed_fn qio_channel_write_all(QIOChannel *ioc,
++                                             const char *buf,
++                                             size_t buflen,
++                                             Error **errp);
+ 
+ /**
+  * qio_channel_set_blocking:
+@@ -812,11 +812,11 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
+  *          occurs without data, or -1 on error
+  */
+ 
+-int qio_channel_readv_full_all_eof(QIOChannel *ioc,
+-                                   const struct iovec *iov,
+-                                   size_t niov,
+-                                   int **fds, size_t *nfds,
+-                                   Error **errp);
++int coroutine_mixed_fn qio_channel_readv_full_all_eof(QIOChannel *ioc,
++                                                      const struct iovec *iov,
++                                                      size_t niov,
++                                                      int **fds, size_t *nfds,
++                                                      Error **errp);
+ 
+ /**
+  * qio_channel_readv_full_all:
+@@ -838,11 +838,11 @@ int qio_channel_readv_full_all_eof(QIOChannel *ioc,
+  * Returns: 0 if all bytes were read, or -1 on error
+  */
+ 
+-int qio_channel_readv_full_all(QIOChannel *ioc,
+-                               const struct iovec *iov,
+-                               size_t niov,
+-                               int **fds, size_t *nfds,
+-                               Error **errp);
++int coroutine_mixed_fn qio_channel_readv_full_all(QIOChannel *ioc,
++                                                  const struct iovec *iov,
++                                                  size_t niov,
++                                                  int **fds, size_t *nfds,
++                                                  Error **errp);
+ 
+ /**
+  * qio_channel_writev_full_all:
+@@ -872,11 +872,11 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+ 
+-int qio_channel_writev_full_all(QIOChannel *ioc,
+-                                const struct iovec *iov,
+-                                size_t niov,
+-                                int *fds, size_t nfds,
+-                                int flags, Error **errp);
++int coroutine_mixed_fn qio_channel_writev_full_all(QIOChannel *ioc,
++                                                   const struct iovec *iov,
++                                                   size_t niov,
++                                                   int *fds, size_t nfds,
++                                                   int flags, Error **errp);
+ 
+ /**
+  * qio_channel_flush:
+diff --git a/io/channel.c b/io/channel.c
+index a8c7f1164901..375a130a398d 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -109,27 +109,27 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+ }
  
  
- def gen_trace(name: str) -> str:
-@@ -181,7 +188,8 @@ def gen_marshal(name: str,
-                 arg_type: Optional[QAPISchemaObjectType],
-                 boxed: bool,
-                 ret_type: Optional[QAPISchemaType],
--                gen_tracing: bool) -> str:
-+                gen_tracing: bool,
-+                coroutine: bool) -> str:
-     have_args = boxed or (arg_type and not arg_type.is_empty())
-     if have_args:
-         assert arg_type is not None
-@@ -195,7 +203,7 @@ def gen_marshal(name: str,
-     bool ok = false;
-     Visitor *v;
- ''',
--                proto=build_marshal_proto(name))
-+                proto=build_marshal_proto(name, coroutine))
+-int qio_channel_readv_all_eof(QIOChannel *ioc,
+-                              const struct iovec *iov,
+-                              size_t niov,
+-                              Error **errp)
++int coroutine_mixed_fn qio_channel_readv_all_eof(QIOChannel *ioc,
++                                                 const struct iovec *iov,
++                                                 size_t niov,
++                                                 Error **errp)
+ {
+     return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
+ }
  
-     if ret_type:
-         ret += mcgen('''
-@@ -387,10 +395,11 @@ def visit_command(self,
-                            self._genh, self._genc):
-                 self._genc.add(gen_marshal_output(ret_type))
-         with ifcontext(ifcond, self._genh, self._genc):
--            self._genh.add(gen_command_decl(name, arg_type, boxed, ret_type))
--            self._genh.add(gen_marshal_decl(name))
-+            self._genh.add(gen_command_decl(name, arg_type, boxed,
-+                                            ret_type, coroutine))
-+            self._genh.add(gen_marshal_decl(name, coroutine))
-             self._genc.add(gen_marshal(name, arg_type, boxed, ret_type,
--                                       self._gen_tracing))
-+                                       self._gen_tracing, coroutine))
-             if self._gen_tracing:
-                 self._gen_trace_events.add(gen_trace(name))
-         with self._temp_module('./init'):
+-int qio_channel_readv_all(QIOChannel *ioc,
+-                          const struct iovec *iov,
+-                          size_t niov,
+-                          Error **errp)
++int coroutine_mixed_fn qio_channel_readv_all(QIOChannel *ioc,
++                                             const struct iovec *iov,
++                                             size_t niov,
++                                             Error **errp)
+ {
+     return qio_channel_readv_full_all(ioc, iov, niov, NULL, NULL, errp);
+ }
+ 
+-int qio_channel_readv_full_all_eof(QIOChannel *ioc,
+-                                   const struct iovec *iov,
+-                                   size_t niov,
+-                                   int **fds, size_t *nfds,
+-                                   Error **errp)
++int coroutine_mixed_fn qio_channel_readv_full_all_eof(QIOChannel *ioc,
++                                                      const struct iovec *iov,
++                                                      size_t niov,
++                                                      int **fds, size_t *nfds,
++                                                      Error **errp)
+ {
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+@@ -215,11 +215,11 @@ next_iter:
+     return ret;
+ }
+ 
+-int qio_channel_readv_full_all(QIOChannel *ioc,
+-                               const struct iovec *iov,
+-                               size_t niov,
+-                               int **fds, size_t *nfds,
+-                               Error **errp)
++int coroutine_mixed_fn qio_channel_readv_full_all(QIOChannel *ioc,
++                                                  const struct iovec *iov,
++                                                  size_t niov,
++                                                  int **fds, size_t *nfds,
++                                                  Error **errp)
+ {
+     int ret = qio_channel_readv_full_all_eof(ioc, iov, niov, fds, nfds, errp);
+ 
+@@ -234,19 +234,19 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+     return ret;
+ }
+ 
+-int qio_channel_writev_all(QIOChannel *ioc,
+-                           const struct iovec *iov,
+-                           size_t niov,
+-                           Error **errp)
++int coroutine_mixed_fn qio_channel_writev_all(QIOChannel *ioc,
++                                              const struct iovec *iov,
++                                              size_t niov,
++                                              Error **errp)
+ {
+     return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, 0, errp);
+ }
+ 
+-int qio_channel_writev_full_all(QIOChannel *ioc,
+-                                const struct iovec *iov,
+-                                size_t niov,
+-                                int *fds, size_t nfds,
+-                                int flags, Error **errp)
++int coroutine_mixed_fn qio_channel_writev_full_all(QIOChannel *ioc,
++                                                   const struct iovec *iov,
++                                                   size_t niov,
++                                                   int *fds, size_t nfds,
++                                                   int flags, Error **errp)
+ {
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+@@ -325,30 +325,30 @@ ssize_t qio_channel_write(QIOChannel *ioc,
+ }
+ 
+ 
+-int qio_channel_read_all_eof(QIOChannel *ioc,
+-                             char *buf,
+-                             size_t buflen,
+-                             Error **errp)
++int coroutine_mixed_fn qio_channel_read_all_eof(QIOChannel *ioc,
++                                                char *buf,
++                                                size_t buflen,
++                                                Error **errp)
+ {
+     struct iovec iov = { .iov_base = buf, .iov_len = buflen };
+     return qio_channel_readv_all_eof(ioc, &iov, 1, errp);
+ }
+ 
+ 
+-int qio_channel_read_all(QIOChannel *ioc,
+-                         char *buf,
+-                         size_t buflen,
+-                         Error **errp)
++int coroutine_mixed_fn qio_channel_read_all(QIOChannel *ioc,
++                                            char *buf,
++                                            size_t buflen,
++                                            Error **errp)
+ {
+     struct iovec iov = { .iov_base = buf, .iov_len = buflen };
+     return qio_channel_readv_all(ioc, &iov, 1, errp);
+ }
+ 
+ 
+-int qio_channel_write_all(QIOChannel *ioc,
+-                          const char *buf,
+-                          size_t buflen,
+-                          Error **errp)
++int coroutine_mixed_fn qio_channel_write_all(QIOChannel *ioc,
++                                             const char *buf,
++                                             size_t buflen,
++                                             Error **errp)
+ {
+     struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
+     return qio_channel_writev_all(ioc, &iov, 1, errp);
 -- 
 2.40.0
 
