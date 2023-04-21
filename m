@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E9D6EA71B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F916EA71C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:36:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn9S-0008WT-6G; Fri, 21 Apr 2023 05:33:58 -0400
+	id 1ppn9S-00005D-Lu; Fri, 21 Apr 2023 05:33:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn9P-0008UW-Md
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:55 -0400
+ id 1ppn9R-0008Vl-2x
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn9N-00035B-EI
+ id 1ppn9N-00035g-4t
  for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682069630;
+ s=mimecast20190719; t=1682069632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=okad+PcFVQMByyo2KeLFQxi04FPrrcM5w65u5q8ERwU=;
- b=N7EqmnxOOF8q54cQWTjQpCLrBz0vAw7GQJXCrWGLe4jzeM0vLtRSm2OhSL04czYw0Uqb2m
- Wn1mI8Nz7G7QGEZ5bBIsMjn0fw8jiXRaJRjR7rxbzqrjQDy29YIsybMQPzeTgLm1iXvTRS
- GpMLxGYFcKgYi4bTe1WlYVQx4niq8bY=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+PTFHqqlU3/xSLss1G2SG/vMkPEIyxDAqDr4X3EZpbY=;
+ b=dLE+gj5Tr7tkFONq06CB/WvKRQ4dLfzyQXPZ5D2NK1FMRFNF8xuFL2oUL9zF8uBfZGGDIv
+ OKVjf2U6p2K/eTVhxBRIL2aYAQg74SX5A+4zcbGkGI/cQVgyMiL497Qaquuy+x0nLEtJQL
+ j4NPyGIqw1ovqAoKmGkO7O6vUI8T6rc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-643-3c76D2ArPrKW-uN5X6moMg-1; Fri, 21 Apr 2023 05:33:48 -0400
-X-MC-Unique: 3c76D2ArPrKW-uN5X6moMg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-506a455ee4cso1360640a12.3
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:48 -0700 (PDT)
+ us-mta-407-a_-NOxrbPyCSXw4hp0q1mw-1; Fri, 21 Apr 2023 05:33:50 -0400
+X-MC-Unique: a_-NOxrbPyCSXw4hp0q1mw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-94f2d9389afso116958366b.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069627; x=1684661627;
+ d=1e100.net; s=20221208; t=1682069628; x=1684661628;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=okad+PcFVQMByyo2KeLFQxi04FPrrcM5w65u5q8ERwU=;
- b=l+3CynzxvGVscIWz0HaAnRTAQtORNIBNzk0u2oLbZ/iypsi9D/lzlizBMpWNQJiXHd
- OMvNcDBTemAwKzQ+KF8X2vWBAV7irsv5mo+aeLGwidTpiIyfnhpwKxfWJMLk13BgZxRf
- kAJwutsczT3D4uDCfKwtAtKzEW11jqEAnYKeZ7lZFsSUwGpai27cXay8v5Ikepb3Mxpz
- 8MiB2m7rD201ttKrtOYFY93R7MnCqfd38ivp2/3wbhXGer1ZsGJP/mkkd7jcyzwIfu0E
- GHOAUNKXgsezySCw59hNk0O7hApxDgvmfvD6NNLGnXd8zh8GfM2XMVpKRJmGww5agarb
- m2LQ==
-X-Gm-Message-State: AAQBX9eWCyH07AlmsRtP3FQTa4SUx1LpX5prnabyYjjnSK7y7+BpB8NR
- zxMKqETvq/MQjYweYh3s41o3wh4dDQAnhUI9Mw3ZIZuoILfNlnSe4zIhvQB8U0ULcb9X0Nvcb7U
- KrgNtyWkXhRT9Emk8PZtbrG9X5a8UOqUcYqBd16IIv7C/XBcapAwHBlcK+CsxUXOGkc7d1hUEuS
- aZRQ==
-X-Received: by 2002:a17:907:1003:b0:94f:49a2:619a with SMTP id
- ox3-20020a170907100300b0094f49a2619amr1705963ejb.11.1682069627241; 
- Fri, 21 Apr 2023 02:33:47 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z0+ZSQQubXyXi7UGvvd0FDTZC94HOULxEPikGy5XeY1+tnnz2HKJnbQaUw8OWAZT5avzKskg==
-X-Received: by 2002:a17:907:1003:b0:94f:49a2:619a with SMTP id
- ox3-20020a170907100300b0094f49a2619amr1705949ejb.11.1682069626891; 
- Fri, 21 Apr 2023 02:33:46 -0700 (PDT)
+ bh=+PTFHqqlU3/xSLss1G2SG/vMkPEIyxDAqDr4X3EZpbY=;
+ b=eGVswDa9F78dxFv486nQwtEYfYai/ChXXpRx08/O/vl8Bg32XMKzj4NYIpV7ccb41g
+ thbbrfZDW57Vh8IXPvIs9KPNCV4XrYMVLyyJ8vKZMESsHRjF61Kzkh3/EDwmNSsFTcmK
+ cAgmEHDHEp9/Bv/CWFDa9CJsoCb2dyhvC5PpHMO/1duzQzF9dLDzNc10eBnbOH8apeN0
+ dGV7e/SEfpUO/G2DkCfuHiHDkaYJiRFsVYyb9OC0V2FbvDW75njiCxM46rGfR2fSK+cx
+ 8g5IeS+uPzEDhr1QlfnILbgI7l+DQLvM+6gPBjNwi4dUU0Z1yOy47T2oa+JLFQ5BU9HZ
+ C/0w==
+X-Gm-Message-State: AAQBX9eE72eR/fMmd3Ciqhk7TBgFNtTP1N7/hgQcumc/IswG0YVxWu0H
+ y7+pVqv2npzGNG4l8saVHuu8HnRQ3rk90GBzBAKvZfleO1xqFk/EsvXsgcdSBEZA43LawsBc/Yb
+ D0AvQisPxJqn7SWMEH+t7MU64ivM0OuNOTMLzZWSIOIHpuUqMgoip7tOgYUPLvWNmqwpkZBxX4q
+ S8sQ==
+X-Received: by 2002:a17:906:3fc4:b0:94e:be0:97 with SMTP id
+ k4-20020a1709063fc400b0094e0be00097mr1583819ejj.26.1682069628633; 
+ Fri, 21 Apr 2023 02:33:48 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZKb/QoEtC04whwvfimUGuvoOdMQ31YvfVrngXcWYeev3FNJVlcmudv7xVD77rQ+Y6tAOzsow==
+X-Received: by 2002:a17:906:3fc4:b0:94e:be0:97 with SMTP id
+ k4-20020a1709063fc400b0094e0be00097mr1583812ejj.26.1682069628304; 
+ Fri, 21 Apr 2023 02:33:48 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- w2-20020a1709067c8200b0094f2d38896esm1834463ejo.65.2023.04.21.02.33.45
+ f5-20020a170906494500b0094eaa31aa63sm1824418ejt.77.2023.04.21.02.33.47
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 02:33:46 -0700 (PDT)
+ Fri, 21 Apr 2023 02:33:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Eric Blake <eblake@redhat.com>
-Subject: [PULL 21/25] nbd: a BlockExport always has a BlockBackend
-Date: Fri, 21 Apr 2023 11:33:12 +0200
-Message-Id: <20230421093316.17941-22-pbonzini@redhat.com>
+Subject: [PULL 22/25] coverity: unify Fedora dockerfiles
+Date: Fri, 21 Apr 2023 11:33:13 +0200
+Message-Id: <20230421093316.17941-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421093316.17941-1-pbonzini@redhat.com>
 References: <20230421093316.17941-1-pbonzini@redhat.com>
@@ -100,42 +100,279 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-exp->common.blk cannot be NULL, nbd_export_delete() is only called (through
-a bottom half) from blk_exp_unref() and in turn that can only happen
-after blk_exp_add() has asserted exp->blk != NULL.
+The Fedora CI and coverity runs are using a slightly different set of
+packages.  Copy most of the content over from tests/docker while
+keeping the commands at the end that unpack the tools.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20230331174844.376300-1-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- nbd/server.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ scripts/coverity-scan/coverity-scan.docker | 250 ++++++++++++---------
+ 1 file changed, 145 insertions(+), 105 deletions(-)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index 3d8d0d81df22..4f5c42f84d9e 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1847,15 +1847,13 @@ static void nbd_export_delete(BlockExport *blk_exp)
-     g_free(exp->description);
-     exp->description = NULL;
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+index 6f60a52d2315..a349578526da 100644
+--- a/scripts/coverity-scan/coverity-scan.docker
++++ b/scripts/coverity-scan/coverity-scan.docker
+@@ -15,112 +15,152 @@
+ # The work of actually doing the build is handled by the
+ # run-coverity-scan script.
  
--    if (exp->common.blk) {
--        if (exp->eject_notifier_blk) {
--            notifier_remove(&exp->eject_notifier);
--            blk_unref(exp->eject_notifier_blk);
--        }
--        blk_remove_aio_context_notifier(exp->common.blk, blk_aio_attached,
--                                        blk_aio_detach, exp);
--        blk_set_disable_request_queuing(exp->common.blk, false);
-+    if (exp->eject_notifier_blk) {
-+        notifier_remove(&exp->eject_notifier);
-+        blk_unref(exp->eject_notifier_blk);
-     }
-+    blk_remove_aio_context_notifier(exp->common.blk, blk_aio_attached,
-+                                    blk_aio_detach, exp);
-+    blk_set_disable_request_queuing(exp->common.blk, false);
+-FROM fedora:30
+-ENV PACKAGES \
+-    alsa-lib-devel \
+-    bc \
+-    brlapi-devel \
+-    bzip2 \
+-    bzip2-devel \
+-    ccache \
+-    clang \
+-    curl \
+-    cyrus-sasl-devel \
+-    dbus-daemon \
+-    device-mapper-multipath-devel \
+-    findutils \
+-    gcc \
+-    gcc-c++ \
+-    gettext \
+-    git \
+-    glib2-devel \
+-    glusterfs-api-devel \
+-    gnutls-devel \
+-    gtk3-devel \
+-    hostname \
+-    libaio-devel \
+-    libasan \
+-    libattr-devel \
+-    libblockdev-mpath-devel \
+-    libcap-devel \
+-    libcap-ng-devel \
+-    libcurl-devel \
+-    libepoxy-devel \
+-    libfdt-devel \
+-    libgbm-devel \
+-    libiscsi-devel \
+-    libjpeg-devel \
+-    libpmem-devel \
+-    libnfs-devel \
+-    libpng-devel \
+-    librbd-devel \
+-    libseccomp-devel \
+-    libssh-devel \
+-    libubsan \
+-    libudev-devel \
+-    libusbx-devel \
+-    libzstd-devel \
+-    llvm \
+-    lzo-devel \
+-    make \
+-    mingw32-bzip2 \
+-    mingw32-curl \
+-    mingw32-glib2 \
+-    mingw32-gmp \
+-    mingw32-gnutls \
+-    mingw32-gtk3 \
+-    mingw32-libjpeg-turbo \
+-    mingw32-libpng \
+-    mingw32-libtasn1 \
+-    mingw32-nettle \
+-    mingw32-nsis \
+-    mingw32-pixman \
+-    mingw32-pkg-config \
+-    mingw32-SDL2 \
+-    mingw64-bzip2 \
+-    mingw64-curl \
+-    mingw64-glib2 \
+-    mingw64-gmp \
+-    mingw64-gnutls \
+-    mingw64-gtk3 \
+-    mingw64-libjpeg-turbo \
+-    mingw64-libpng \
+-    mingw64-libtasn1 \
+-    mingw64-nettle \
+-    mingw64-pixman \
+-    mingw64-pkg-config \
+-    mingw64-SDL2 \
+-    ncurses-devel \
+-    nettle-devel \
+-    numactl-devel \
+-    perl \
+-    perl-Test-Harness \
+-    pixman-devel \
+-    pulseaudio-libs-devel \
+-    python3 \
+-    python3-sphinx \
+-    PyYAML \
+-    rdma-core-devel \
+-    SDL2-devel \
+-    snappy-devel \
+-    sparse \
+-    spice-server-devel \
+-    systemd-devel \
+-    systemtap-sdt-devel \
+-    tar \
+-    usbredir-devel \
+-    virglrenderer-devel \
+-    vte291-devel \
+-    wget \
+-    which \
+-    xen-devel \
+-    xfsprogs-devel \
+-    zlib-devel
+-ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
++FROM registry.fedoraproject.org/fedora:37
  
-     for (i = 0; i < exp->nr_export_bitmaps; i++) {
-         bdrv_dirty_bitmap_set_busy(exp->export_bitmaps[i], false);
+-RUN dnf install -y $PACKAGES
+-RUN rpm -q $PACKAGES | sort > /packages.txt
+-ENV PATH $PATH:/usr/libexec/python3-sphinx/
++RUN dnf install -y nosync && \
++    echo -e '#!/bin/sh\n\
++if test -d /usr/lib64\n\
++then\n\
++    export LD_PRELOAD=/usr/lib64/nosync/nosync.so\n\
++else\n\
++    export LD_PRELOAD=/usr/lib/nosync/nosync.so\n\
++fi\n\
++exec "$@"' > /usr/bin/nosync && \
++    chmod +x /usr/bin/nosync && \
++    nosync dnf update -y && \
++    nosync dnf install -y \
++               SDL2-devel \
++               SDL2_image-devel \
++               alsa-lib-devel \
++               bash \
++               bc \
++               bison \
++               brlapi-devel \
++               bzip2 \
++               bzip2-devel \
++               ca-certificates \
++               capstone-devel \
++               ccache \
++               clang \
++               ctags \
++               cyrus-sasl-devel \
++               daxctl-devel \
++               dbus-daemon \
++               device-mapper-multipath-devel \
++               diffutils \
++               findutils \
++               flex \
++               fuse3-devel \
++               gcc \
++               gcc-c++ \
++               gcovr \
++               genisoimage \
++               gettext \
++               git \
++               glib2-devel \
++               glib2-static \
++               glibc-langpack-en \
++               glibc-static \
++               glusterfs-api-devel \
++               gnutls-devel \
++               gtk3-devel \
++               hostname \
++               jemalloc-devel \
++               json-c-devel \
++               libaio-devel \
++               libasan \
++               libattr-devel \
++               libbpf-devel \
++               libcacard-devel \
++               libcap-ng-devel \
++               libcmocka-devel \
++               libcurl-devel \
++               libdrm-devel \
++               libepoxy-devel \
++               libfdt-devel \
++               libffi-devel \
++               libgcrypt-devel \
++               libiscsi-devel \
++               libjpeg-devel \
++               libnfs-devel \
++               libpmem-devel \
++               libpng-devel \
++               librbd-devel \
++               libseccomp-devel \
++               libselinux-devel \
++               libslirp-devel \
++               libssh-devel \
++               libtasn1-devel \
++               libubsan \
++               liburing-devel \
++               libusbx-devel \
++               libzstd-devel \
++               llvm \
++               lttng-ust-devel \
++               lzo-devel \
++               make \
++               mesa-libgbm-devel \
++               meson \
++               ncurses-devel \
++               nettle-devel \
++               ninja-build \
++               nmap-ncat \
++               numactl-devel \
++               openssh-clients \
++               pam-devel \
++               pcre-static \
++               pixman-devel \
++               pkgconfig \
++               pulseaudio-libs-devel \
++               python3 \
++               python3-PyYAML \
++               python3-numpy \
++               python3-opencv \
++               python3-pillow \
++               python3-pip \
++               python3-sphinx \
++               python3-sphinx_rtd_theme \
++               rdma-core-devel \
++               rpm \
++               sed \
++               snappy-devel \
++               socat \
++               sparse \
++               spice-protocol \
++               spice-server-devel \
++               systemd-devel \
++               systemtap-sdt-devel \
++               tar \
++               tesseract \
++               tesseract-langpack-eng \
++               usbredir-devel \
++               util-linux \
++               virglrenderer-devel \
++               vte291-devel \
++               which \
++               xen-devel \
++               xfsprogs-devel \
++               zlib-devel \
++               zlib-static \
++               zstd && \
++    nosync dnf autoremove -y && \
++    nosync dnf clean all -y && \
++    rpm -qa | sort > /packages.txt && \
++    mkdir -p /usr/libexec/ccache-wrappers && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
++
++ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
++ENV LANG "en_US.UTF-8"
++ENV MAKE "/usr/bin/make"
++ENV NINJA "/usr/bin/ninja"
++ENV PYTHON "/usr/bin/python3"
++ENV QEMU_CONFIGURE_OPTS --meson=internal
++
++RUN dnf install -y curl wget
+ ENV COVERITY_TOOL_BASE=/coverity-tools
+ COPY coverity_tool.tgz coverity_tool.tgz
+ RUN mkdir -p /coverity-tools/coverity_tool && cd /coverity-tools/coverity_tool && tar xf /coverity_tool.tgz
 -- 
 2.40.0
 
