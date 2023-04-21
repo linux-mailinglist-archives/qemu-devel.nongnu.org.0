@@ -2,81 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD966EA6E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2666EA6ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:29:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn1x-000235-C4; Fri, 21 Apr 2023 05:26:13 -0400
+	id 1ppn4A-00034m-GL; Fri, 21 Apr 2023 05:28:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppn1v-00022w-A2
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:26:11 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppn1o-0001so-Sh
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:26:08 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f09b9ac51dso42718725e9.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682069162; x=1684661162;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TMuP0JaD7oSVu2iDKYePE8+CRm2b9/jhT9+tq4+ZAnU=;
- b=oRlRT4FKD6LvAqzrIi6mIlG3U6sb6U3E9QFmN7E36wYF8fYt7JMnxUgfH+uBuGTK5K
- azmzqcZ/37N25ZKkVJ2lhQZC7oZO2v6RkP13GfP284VgoEOcIfv3YSnXgHrsN14QvsX0
- Z7652m+GXmj7hzYW9eqtkS5nbbOY4RHcNvC1eOZ9gSpM8BhxsNj/GrJFx4g+FNQqW0qm
- XUPQupcVRUOzO2Ix6Bqd/9pYO9FvaWZRxT1KyUV6PyYfKJu7zuPNqZrN7lFrcebYOPSQ
- /qFXugeHZSjMavE08jk44spC1qpyJz/xpbeLngIxmA87vUTfJqeRtzc5c+dAdHUoBkGP
- s2vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069162; x=1684661162;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TMuP0JaD7oSVu2iDKYePE8+CRm2b9/jhT9+tq4+ZAnU=;
- b=hoVGU1m3v+duai9aYGhMhR57/16dP3Vcsk0qPdBFoUraNlzXwFG01Qk0yvaEfA/n1g
- 4zz5xbzODdXg9TysI3Jz1BBxZJWfXhDyF5B+uXpLhhG0H1m9Gjn15DwhbcLCQhXKWAMA
- er5nnlEhXeDxFwQe/TpShlAEd3gXHxr1gY2rqgbQqunlnLIJF5agS29wnMYXfvXEVkAX
- 7qcb4fwZeJzgjm1nX/Uj3uidQA2ErUJSjCQWXCqnXgFIsHdrag87JGpGNjEM1R9k2L6U
- rGXHRUnUwnU24rea4YeXjP9EcXRaZGCCoTtDDcbmou8M4su5LZeFzZP0U9r56TDPq9lr
- U1ag==
-X-Gm-Message-State: AAQBX9dOE8wrMWFldR09VhoJVWnaOu2zjt+E5CA0+U7ZT2pD4hYVeCRg
- v877JfoakV8TkA6C0/Dvu7dDhg==
-X-Google-Smtp-Source: AKy350b4NDzvaIst4Z7LseJzbeCoAY2Zx3K/aqr6qV+blB7oebnxYYG3UdtiFpRJwJ/iBDSZmgE6mw==
-X-Received: by 2002:a05:6000:12cf:b0:2ef:b257:b46c with SMTP id
- l15-20020a05600012cf00b002efb257b46cmr7054619wrx.29.1682069162200; 
- Fri, 21 Apr 2023 02:26:02 -0700 (PDT)
-Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
- [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- i40-20020a05600c4b2800b003ee6aa4e6a9sm7596922wmp.5.2023.04.21.02.26.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 02:26:01 -0700 (PDT)
-Message-ID: <3a47700d-04b6-7600-2831-46752be5ac0a@linaro.org>
-Date: Fri, 21 Apr 2023 11:26:00 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppn48-00034K-8f; Fri, 21 Apr 2023 05:28:28 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ppn45-00025S-O1; Fri, 21 Apr 2023 05:28:28 -0400
+Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id CD0715E639;
+ Fri, 21 Apr 2023 12:28:15 +0300 (MSK)
+Received: from vsementsov-nix.yandex.net (unknown [2a02:6b8:b081:8816::1:4])
+ by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id xRbs6S1Oh4Y0-A8cz5hI8; Fri, 21 Apr 2023 12:28:14 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682069294; bh=17YNwFm8Karbyne35n/ZbXTYptxjJvHR1qlAa2FYlk0=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=g2My+8AWSi0jbl3qH3JkNs7yCx6MgoZZ9q9fSx2F7wXvfNfeHgUWeEuA9lS2nvG6T
+ GVHeOAp51sHhUSGTdTluF7dGsRJDiosqxKRyJNxw/qXNZ99JEFdoxqeAh7IFTY4qTo
+ DJS96VQmZ/ITrlWczMMx/jDCJxZ3NZ8K2XWov4BQ=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, philmd@linaro.org, thuth@redhat.com,
+ berrange@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ hreitz@redhat.com, kwolf@redhat.com, vsementsov@yandex-team.ru
+Subject: [PATCH v2] block: add configure options for excluding vmdk,
+ vhdx and vpc
+Date: Fri, 21 Apr 2023 12:27:58 +0300
+Message-Id: <20230421092758.814122-1-vsementsov@yandex-team.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v3 0/2] tests: lcitool: Switch to OpenSUSE Leap 15.4
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: pkrempa@redhat.com, berrange@redhat.com
-References: <20230421084059.9142-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230421084059.9142-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,21 +69,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/4/23 10:40, Paolo Bonzini wrote:
-> v3 of Peter's series, which uses a newer libvirt-ci commit.  With this
-> version, future updates of the libvirt-ci submodule will pick new
-> Leap 15 releases without the need for changes to tests/lcitool/mappings.yml
-> or tests/lcitool/targets.
-> 
-> Paolo
-> 
-> Supersedes: <cover.1681735482.git.pkrempa@redhat.com>
-> 
-> Peter Krempa (2):
->    tests: libvirt-ci: Update to commit '2fa24dce8bc'
->    tests: lcitool: Switch to OpenSUSE Leap 15.4
+Let's add --enable / --disable configure options for these formats,
+so that those who don't need them may not build them.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+---
 
+v2: just a resend instead of ping, bonus: fix mistake in commit message.
+
+ block/meson.build             | 18 +++++++++++++-----
+ meson.build                   |  3 +++
+ meson_options.txt             |  6 ++++++
+ scripts/meson-buildoptions.sh |  9 +++++++++
+ 4 files changed, 31 insertions(+), 5 deletions(-)
+
+diff --git a/block/meson.build b/block/meson.build
+index 382bec0e7d..13337bd070 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -38,11 +38,6 @@ block_ss.add(files(
+   'snapshot-access.c',
+   'throttle-groups.c',
+   'throttle.c',
+-  'vhdx-endian.c',
+-  'vhdx-log.c',
+-  'vhdx.c',
+-  'vmdk.c',
+-  'vpc.c',
+   'write-threshold.c',
+ ), zstd, zlib, gnutls)
+ 
+@@ -55,6 +50,19 @@ endif
+ if get_option('vdi').allowed()
+   block_ss.add(files('vdi.c'))
+ endif
++if get_option('vhdx').allowed()
++  block_ss.add(files(
++    'vhdx-endian.c',
++    'vhdx-log.c',
++    'vhdx.c'
++  ))
++endif
++if get_option('vmdk').allowed()
++  block_ss.add(files('vmdk.c'))
++endif
++if get_option('vpc').allowed()
++  block_ss.add(files('vpc.c'))
++endif
+ if get_option('cloop').allowed()
+   block_ss.add(files('cloop.c'))
+ endif
+diff --git a/meson.build b/meson.build
+index c44d05a13f..a87f2385f6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3921,6 +3921,9 @@ if have_block
+   summary_info += {'dmg support':       get_option('dmg').allowed()}
+   summary_info += {'qcow v1 support':   get_option('qcow1').allowed()}
+   summary_info += {'vdi support':       get_option('vdi').allowed()}
++  summary_info += {'vhdx support':      get_option('vhdx').allowed()}
++  summary_info += {'vmdk support':      get_option('vmdk').allowed()}
++  summary_info += {'vpc support':       get_option('vpc').allowed()}
+   summary_info += {'vvfat support':     get_option('vvfat').allowed()}
+   summary_info += {'qed support':       get_option('qed').allowed()}
+   summary_info += {'parallels support': get_option('parallels').allowed()}
+diff --git a/meson_options.txt b/meson_options.txt
+index fc9447d267..369989f06b 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -299,6 +299,12 @@ option('qcow1', type: 'feature', value: 'auto',
+        description: 'qcow1 image format support')
+ option('vdi', type: 'feature', value: 'auto',
+        description: 'vdi image format support')
++option('vhdx', type: 'feature', value: 'auto',
++       description: 'vhdx image format support')
++option('vmdk', type: 'feature', value: 'auto',
++       description: 'vmdk image format support')
++option('vpc', type: 'feature', value: 'auto',
++       description: 'vpc image format support')
+ option('vvfat', type: 'feature', value: 'auto',
+        description: 'vvfat image format support')
+ option('qed', type: 'feature', value: 'auto',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 009fab1515..5fb4316935 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -167,6 +167,7 @@ meson_options_help() {
+   printf "%s\n" '                  VDUSE block export support'
+   printf "%s\n" '  vfio-user-server'
+   printf "%s\n" '                  vfio-user server support'
++  printf "%s\n" '  vhdx            vhdx image format support'
+   printf "%s\n" '  vhost-crypto    vhost-user crypto backend support'
+   printf "%s\n" '  vhost-kernel    vhost kernel backend support'
+   printf "%s\n" '  vhost-net       vhost-net kernel acceleration support'
+@@ -176,10 +177,12 @@ meson_options_help() {
+   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
+   printf "%s\n" '  virglrenderer   virgl rendering support'
+   printf "%s\n" '  virtfs          virtio-9p support'
++  printf "%s\n" '  vmdk            vmdk image format support'
+   printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vnc             VNC server'
+   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
+   printf "%s\n" '  vnc-sasl        SASL authentication for VNC server'
++  printf "%s\n" '  vpc             vpc image format support'
+   printf "%s\n" '  vte             vte support for the gtk UI'
+   printf "%s\n" '  vvfat           vvfat image format support'
+   printf "%s\n" '  whpx            WHPX acceleration support'
+@@ -445,6 +448,8 @@ _meson_option_parse() {
+     --disable-vduse-blk-export) printf "%s" -Dvduse_blk_export=disabled ;;
+     --enable-vfio-user-server) printf "%s" -Dvfio_user_server=enabled ;;
+     --disable-vfio-user-server) printf "%s" -Dvfio_user_server=disabled ;;
++    --enable-vhdx) printf "%s" -Dvhdx=enabled ;;
++    --disable-vhdx) printf "%s" -Dvhdx=disabled ;;
+     --enable-vhost-crypto) printf "%s" -Dvhost_crypto=enabled ;;
+     --disable-vhost-crypto) printf "%s" -Dvhost_crypto=disabled ;;
+     --enable-vhost-kernel) printf "%s" -Dvhost_kernel=enabled ;;
+@@ -461,6 +466,8 @@ _meson_option_parse() {
+     --disable-virglrenderer) printf "%s" -Dvirglrenderer=disabled ;;
+     --enable-virtfs) printf "%s" -Dvirtfs=enabled ;;
+     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
++    --enable-vmdk) printf "%s" -Dvmdk=enabled ;;
++    --disable-vmdk) printf "%s" -Dvmdk=disabled ;;
+     --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
+     --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
+     --enable-vnc) printf "%s" -Dvnc=enabled ;;
+@@ -469,6 +476,8 @@ _meson_option_parse() {
+     --disable-vnc-jpeg) printf "%s" -Dvnc_jpeg=disabled ;;
+     --enable-vnc-sasl) printf "%s" -Dvnc_sasl=enabled ;;
+     --disable-vnc-sasl) printf "%s" -Dvnc_sasl=disabled ;;
++    --enable-vpc) printf "%s" -Dvpc=enabled ;;
++    --disable-vpc) printf "%s" -Dvpc=disabled ;;
+     --enable-vte) printf "%s" -Dvte=enabled ;;
+     --disable-vte) printf "%s" -Dvte=disabled ;;
+     --enable-vvfat) printf "%s" -Dvvfat=enabled ;;
+-- 
+2.34.1
 
 
