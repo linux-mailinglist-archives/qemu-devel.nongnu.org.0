@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BCA6EAEA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 18:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E5C6EAEB2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 18:08:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pptDn-0005er-FG; Fri, 21 Apr 2023 12:02:51 -0400
+	id 1pptHv-0001k2-8O; Fri, 21 Apr 2023 12:07:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pptDd-0005bN-Bq
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:02:43 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
+ (Exim 4.90_1) (envelope-from <robin@streamhpc.com>)
+ id 1pptHl-0001cE-M9
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:06:58 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pptDb-0004Zx-Tl
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:02:41 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-54fc1824f0bso20883877b3.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 09:02:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <robin@streamhpc.com>)
+ id 1pptHj-0005Zc-H6
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 12:06:57 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id
+ a640c23a62f3a-94e53ef6815so258209366b.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 09:06:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682092958; x=1684684958;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nsiDB4RCa6Jx3gM8FRCQCg4nL8MkOLbxm11tk6qqht4=;
- b=YBplrLw3qvgZYnTx7xSVGm8U9Xvx0i7WHe7KMcoJcAZ/Embh/gREzhhQXkY2bBw+zs
- WJJdr7g7FvA4LlZDr0Bu6xaKnX6R81BDzz4IWVN0W11SoM3d7nR1ABTuHLmJobAojmtn
- 3wOxPCMF6L3lCs8T9cEELIeFNjOpjPbfg9x5cK4eCjjOG4DwKd2cmRyPgHMb5UolTNKR
- mSn3XW7Uyyu+/cWjJaMIYWJv4PnUrmxxQEu/RLjA9FYIGkK5rymb7ykaSxZMtxv/Lm5c
- 9Zz1N8fXhf/z+8btKhKwUgrIyk1NeSigQxXcwf9+2MLmdLZQs2Qsrt08TiiIix7HMoWL
- gKZA==
+ d=streamhpc-com.20221208.gappssmtp.com; s=20221208; t=1682093212; x=1684685212;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BOFm5K+uSjDqW1/ttKtwOawVLRKTXNDBWXzE9dFCCqw=;
+ b=CB0dmh1iWdJ2xfTVuZrmQgCMFAE5uHmeOtugakPQdhH0YEWQfEcH6jJInG1BnHDo3H
+ S78oE8E/ld7BqGZG0wE/wnMWieMO/lAOEk68Ewl/dKnaImFVeKBdwveP1crwmMub5RgF
+ SsF6AL0gg6+2bl0XYFxUOe+ZgYa76T8LbtLG/txMhdm1+N/FpynjWRNyflmOsoN9T+tM
+ 3HLgsS7a/bw+E5OKYZvZPe2IH6WrzOlMMVnwKJvRGY+jrnqdhMw2ZaclkF+hqaDDspJl
+ xB5olB5CVCNzx3SrJbOHj4Z2rozjzaA/rerySHXJuEEXe5FaKApffr3hiOsy0Pv/O6dA
+ Qr8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682092958; x=1684684958;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nsiDB4RCa6Jx3gM8FRCQCg4nL8MkOLbxm11tk6qqht4=;
- b=H76/4gwmEnC6SgF4KF6IhDvvbGdFHvUbCIqvh5mOygC6s7ImeVNMVq39zdZIYzSJvS
- RRApe/pwexREbX7xrIabsXqWsmcP/DaOlYvcn0yQ75CWdml4aYW9CAsvFujMZo2mQnuV
- 2Rt1ZFMYutFsAKJE30lwLIAtuOP1pPo3tRbxWFTqteCa2vanfHX0QgVXIRM/CBLGo38p
- fj8dbi/SV9Mxo+GMmGem+9FkSCfoPFUId3EEJ8CLXQKUqgwur+60hug2e4FZMPkKUUC8
- hNwTwQIwveQurxPsElpfARIcyZzv8AAijy5FCz8Jp9FTLoG0pKewv3ltO+yl6156YuVr
- CiNg==
-X-Gm-Message-State: AAQBX9cj0Yws3wkNwqGkDR3xO4wtLAe6FCNSGZodOjeZI5ZX0ZKxk+VU
- u4HLfQC1ZkYVBfxvCB2NuzOR6l2uk1wgAI9Gb/4=
-X-Google-Smtp-Source: AKy350YdK63RNUwZLZpWi16SgYTJRbfTfhHlP5NE/cos56T2DMx6qHIlesq+xrKlf3Xn8zT7ODa9r4RyZXUF0B9D7Uk=
-X-Received: by 2002:a0d:eb8b:0:b0:54e:989d:f2f4 with SMTP id
- u133-20020a0deb8b000000b0054e989df2f4mr2139802ywe.35.1682092958400; Fri, 21
- Apr 2023 09:02:38 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682093212; x=1684685212;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BOFm5K+uSjDqW1/ttKtwOawVLRKTXNDBWXzE9dFCCqw=;
+ b=ZKX+S6GXcKn2au8eDCaQ60kMMbrC0h4O7Ed3yOdw6C3AzaE6Z51cBQLFbkigJWWrcu
+ t1avYCuFvMn50JBclvwZ7rIjMMPqnPOXwVrUnocVEZGrbtIZn+KFMPt64icrVxSz77d1
+ mbpgayG2/MIW+8K43gXzF4h+ighJLj2rf4cfGMHvHn1Pa0KqbgLadIwyThfVdodp6qeX
+ Q1pHw7NZSt2YaNfUOp46hkS9WiDAl/OsUOalvR031Sm3E2TYe/NOK701P44LEZBnoL1E
+ cjZ9Cva3UaYofXZscu41dyNsbaLLDs+qlexsHwM0Aja0Z7D9BWVYJ9a5WluoPmNFbZ/I
+ 9Dsg==
+X-Gm-Message-State: AAQBX9f8/6K5qz18Ze8fk7J8BsApGfO6ceGL1vFE9Ub+izAlXBq92Cah
+ F64NC68ymrcnf5af6+gWCmsbKQ==
+X-Google-Smtp-Source: AKy350YTarOaaJpbA9VW6kZbSzHFuYwXCXrJmQtW99cQK7/aIy3f+frM4Uxig6a7lfgyWH3qgZVyWg==
+X-Received: by 2002:a17:906:6d51:b0:94e:cf72:8147 with SMTP id
+ a17-20020a1709066d5100b0094ecf728147mr3071079ejt.48.1682093212546; 
+ Fri, 21 Apr 2023 09:06:52 -0700 (PDT)
+Received: from [192.168.178.121] (dhcp-077-251-030-138.chello.nl.
+ [77.251.30.138]) by smtp.gmail.com with ESMTPSA id
+ lh21-20020a170906f8d500b0094eeab34ad5sm2175870ejb.124.2023.04.21.09.06.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Apr 2023 09:06:52 -0700 (PDT)
+Message-ID: <5330c419-bcdb-8577-4ed0-88a483f461e8@streamhpc.com>
+Date: Fri, 21 Apr 2023 18:06:49 +0200
 MIME-Version: 1.0
-References: <20230421011223.718-1-gurchetansingh@chromium.org>
-In-Reply-To: <20230421011223.718-1-gurchetansingh@chromium.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 21 Apr 2023 12:02:26 -0400
-Message-ID: <CAJSP0QVrxSgFJFqPd=iBfBoV9brL2v6d6P+4E7BmGYAxwEYPmw@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/13] gfxstream + rutabaga_gfx: a surprising delight
- or startling epiphany?
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@linaro.org, 
- david@redhat.com, stefanha@redhat.com, kraxel@redhat.com, 
- marcandre.lureau@redhat.com, akihiko.odaki@gmail.com, 
- dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 0/1] pcie: Allow atomic completion on PCIE root port
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <20230420153839.167418-1-robin@streamhpc.com>
+ <20230421042013-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Robin Voetter <robin@streamhpc.com>
+In-Reply-To: <20230421042013-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=robin@streamhpc.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-3.297, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,24 +96,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 20 Apr 2023 at 21:13, Gurchetan Singh
-<gurchetansingh@chromium.org> wrote:
->
-> From: Gurchetan Singh <gurchetansingh@google.com>
->
-> Rationale:
->
-> - gfxstream [a] is good for the Android Emulator/upstream QEMU
->   alignment
-> - Wayland passhthrough [b] via the cross-domain context type is good
->   for Linux on Linux display virtualization
-> - rutabaga_gfx [c] sits on top of gfxstream, cross-domain and even
->   virglrenderer
-> - This series ports rutabaga_gfx to QEMU
 
-What rutabaga_gfx and gfxstream? Can you explain where they sit in the
-stack and how they build on or complement virtio-gpu and
-virglrenderer?
 
-Stefan
+On 4/21/23 10:22, Michael S. Tsirkin wrote:
+> On Thu, Apr 20, 2023 at 05:38:39PM +0200, robin@streamhpc.com wrote:
+>> From: Robin Voetter <robin@streamhpc.com>
+>>
+>> The ROCm driver for Linux uses PCIe atomics to schedule work and
+>> generally communicate between the host and the device.  This does not
+>> currently work in QEMU with regular vfio-pci passthrough, because the
+>> pcie-root-port does not advertise the PCIe atomic completer
+>> capabilities.  When initializing the GPU from the Linux driver, it
+>> queries whether the PCIe connection from the CPU to GPU supports the
+>> required capabilities[1] in the pci_enable_atomic_ops_to_root
+>> function[2].  Currently the only part where this fails is checking the
+>> atomic completer capabilities (32 and 64 bits) on the root port[3].  In
+>> this case, the driver determines that PCIe atomics are not supported at
+>> all, and this causes ROCm programs to misbehave.  (While AMD advertises
+>> that there is some support for ROCm without PCIe atomics, I have never
+>> actually gotten that working...)
+>>
+>> This patch allows ROCm to properly function by introducing an
+>> additional experimental property to the pcie-root-port,
+>> x-atomic-completion.
+> 
+> so what exactly makes it experimental? from this description
+> it looks like it actually has to be enabled for things to work?
+
+I was not sure which would be appropriate, but I'm fine with making it a
+non-experimental option.
 
