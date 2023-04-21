@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E0B6EA724
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAB46EA707
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:34:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn94-0008Dc-0M; Fri, 21 Apr 2023 05:33:34 -0400
+	id 1ppn91-0008Cr-C3; Fri, 21 Apr 2023 05:33:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn91-0008Cz-MC
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ppn8z-0008C9-Lv
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn8x-00031k-0A
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:31 -0400
+ id 1ppn8y-00031u-CK
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682069606;
+ s=mimecast20190719; t=1682069607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/63fz4Ph/jJK0ribSmtIQrNvkXgQl0x7w1TcAVvHFeA=;
- b=eO7PCCVC2mWJGThAWZzT/dqSeHPFRr5LzV0Qp1t4rjj9C/vdqyghVZKnoKoUW63vofHry5
- FKgzsm7C9vVuvglZ3pst2DeximUTN2cQE8Tqixjk/t9abfaWfXpO9Ph84iJkVamT5Bo7Fm
- KMxag5C+Kimlgpb8W0Fc9rCx4C4fuzI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0A1oNUBxSBJvG4Ve5ByHYqFUyNpEsrySK2IqWao6VYY=;
+ b=iOLQp8v5eK97vTmNGeGFT00C8hYHoHpyogcBKzgzTu/yGARtU4ThuDVnWEDy8nf8LwMKOD
+ z3lVjjUj18f4THd3rhqMLoYJppQFlbjOk1+tp/HtGRoG2A6epFVUjzv+gjtLGVjzQWNxrk
+ Ki3GaSENsbtqL6F5NwGT7BNejh7rRtY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-bGxdxEU8MkKFcLue9xjyoQ-1; Fri, 21 Apr 2023 05:33:24 -0400
-X-MC-Unique: bGxdxEU8MkKFcLue9xjyoQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94eaa8f18eeso117433266b.1
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:24 -0700 (PDT)
+ us-mta-543-JlQGzZg3PPanFI5esHpEig-1; Fri, 21 Apr 2023 05:33:25 -0400
+X-MC-Unique: JlQGzZg3PPanFI5esHpEig-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-953429dac27so122770766b.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069603; x=1684661603;
+ d=1e100.net; s=20221208; t=1682069604; x=1684661604;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/63fz4Ph/jJK0ribSmtIQrNvkXgQl0x7w1TcAVvHFeA=;
- b=DSwZivC+7pcR1AJ0bNMURwvKwmIiVQLaQOCh+vsrOrSh+LGFdg7N86nhFxB6CCNWTS
- GtQRlg62bxQ2UCy/K2qzwCMQ24c2I+fl5S3Bbo8q8sIXLKpx/xIqdw/hjKy1XgUf0a5i
- WDqTL0Tp9e9iGQfudnMQuT2Z0IdW3/cVHCpGtk54RfE4xm9C+Wgp7nn/WTE+LiA42zrk
- ffKvlJlSDRLswOU4ksjBEJlA77f/SkVqA4X1GF4v7vjVMPrRBa66Z3dIgvrbg/h/diZY
- AVm+ccBtt4N37/0WXoGGS8gCLqMl0YXYXetX5/m+6SLegp5nHsyaNvAwpUsDqcP3w8wb
- LsCw==
-X-Gm-Message-State: AAQBX9dL6/dPaXsTbyIQp8wJl4x7NEi8S6MfCTowdBK/ucrgjxYj49os
- CTN0v7deC64T270/XCs0I1lz1jONOrhFZPvCX3G17tQRo2b8waRD2x9L1pN+b/D/slBsnJjYTUW
- E8M+0X5bf4GBEkXwRPwBkZXNzn/Q5t9RmODn7ztUOTK9DBfh4fKeqAlD5xrO2PXs6iLuPHap51Z
- hDOQ==
-X-Received: by 2002:a17:906:b0cf:b0:951:f54c:208c with SMTP id
- bk15-20020a170906b0cf00b00951f54c208cmr1578010ejb.41.1682069603391; 
- Fri, 21 Apr 2023 02:33:23 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y5lu3eyxsi5D818qEh48I1XF5ayPbP8CXCBZ0Z+KqLUuzyv+5L8bADKHIa6bksduzScjVd2Q==
-X-Received: by 2002:a17:906:b0cf:b0:951:f54c:208c with SMTP id
- bk15-20020a170906b0cf00b00951f54c208cmr1577997ejb.41.1682069603050; 
- Fri, 21 Apr 2023 02:33:23 -0700 (PDT)
+ bh=0A1oNUBxSBJvG4Ve5ByHYqFUyNpEsrySK2IqWao6VYY=;
+ b=Q9AB16j105to5FN4nQM5ypoYjB1CzJJ6iOAA6WBE80bK/qFt7ooBC116G+MgA1PO3T
+ 6kUnxT/LIV6m6kqH33nKTf9O1zDCzE26oWhCGVw+It700/9dZ+8G0A6nL1OMTnp8np/T
+ 05swBKsQpuj5IN8U35va9n6KCB7AVAVaV1/kdVAZHnp6xALBtESzi1NCML/b+VQ09nU2
+ HZYsujGZvBITuOpkuCQjRPnE7ND29xaw3k5MbWdMHfA2SD/L3OV3tFA6rascdu/2qfS6
+ ClbqVfs9331VZ79f2pdNId6ULc0G2/OFsy7QLi4kpY1hNtscLsWqmYvMfB6fOyHJIH82
+ P6zw==
+X-Gm-Message-State: AAQBX9eXHuTckeJ+zIaOBxk1yUgAkyJ2CeFVYuXTAFHd6uAescWMDZ2E
+ +FrRAVuiILCideAe3QdtlS4xqznWxHMCIQhxNBoELNo0FMo4V3cAiivFuGxL4JLRTOTAsI3yAOt
+ JVW4gpdmYVETGDn25AdkJ7Pzutc6HoblZiWF9BIntNYoM+Ut4sRIbDgT+qIhK8hcW6iX+ZhCEAb
+ xLKA==
+X-Received: by 2002:a17:906:ce37:b0:957:800:912f with SMTP id
+ sd23-20020a170906ce3700b009570800912fmr1777133ejb.71.1682069604555; 
+ Fri, 21 Apr 2023 02:33:24 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bSG/nxI3WUX9Ws4704gdjeKQZ0WK1XC8GR+c4WOCET5QGPHbsQVZcRb1VScnClyh2KoVgfbQ==
+X-Received: by 2002:a17:906:ce37:b0:957:800:912f with SMTP id
+ sd23-20020a170906ce3700b009570800912fmr1777119ejb.71.1682069604299; 
+ Fri, 21 Apr 2023 02:33:24 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- sd14-20020a170906ce2e00b0094f5d1bbb21sm1825232ejb.102.2023.04.21.02.33.21
+ y21-20020a17090614d500b0094b87711c9fsm1823908ejc.99.2023.04.21.02.33.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 02:33:22 -0700 (PDT)
+ Fri, 21 Apr 2023 02:33:23 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/25] nvme: remove constant argument to tracepoint
-Date: Fri, 21 Apr 2023 11:32:55 +0200
-Message-Id: <20230421093316.17941-5-pbonzini@redhat.com>
+Subject: [PULL 05/25] vnc: avoid underflow when accessing user-provided address
+Date: Fri, 21 Apr 2023 11:32:56 +0200
+Message-Id: <20230421093316.17941-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230421093316.17941-1-pbonzini@redhat.com>
 References: <20230421093316.17941-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,44 +100,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The last argument to -pci_nvme_err_startfail_virt_state is always "OFFLINE"
-due to the enclosing "if" condition requiring !sctrl->scs.  Reported by
-Coverity.
+If hostlen is zero, there is a possibility that addrstr[hostlen - 1]
+underflows and, if a closing bracked is there, hostlen - 2 is passed
+to g_strndup() on the next line.  If websocket==false then
+addrstr[0] would be a colon, but if websocket==true this could in
+principle happen.
+
+Fix it by checking hostlen.
+
+Reported by Coverity.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/nvme/ctrl.c       | 4 +---
- hw/nvme/trace-events | 2 +-
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ ui/vnc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index ac24eeb5ed5a..f59dfe1cbe96 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -7158,9 +7158,7 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+diff --git a/ui/vnc.c b/ui/vnc.c
+index bbd8b6baaeca..9d8a24dd8a69 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -3751,7 +3751,7 @@ static int vnc_display_get_address(const char *addrstr,
  
-     if (pci_is_vf(PCI_DEVICE(n)) && !sctrl->scs) {
-         trace_pci_nvme_err_startfail_virt_state(le16_to_cpu(sctrl->nvi),
--                                                le16_to_cpu(sctrl->nvq),
--                                                sctrl->scs ? "ONLINE" :
--                                                             "OFFLINE");
-+                                                le16_to_cpu(sctrl->nvq));
-         return -1;
-     }
-     if (unlikely(n->cq[0])) {
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index 7f7837e1a281..9afddf3b951c 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -187,7 +187,7 @@ pci_nvme_err_startfail_asqent_sz_zero(void) "nvme_start_ctrl failed because the
- pci_nvme_err_startfail_acqent_sz_zero(void) "nvme_start_ctrl failed because the admin completion queue size is zero"
- pci_nvme_err_startfail_zasl_too_small(uint32_t zasl, uint32_t pagesz) "nvme_start_ctrl failed because zone append size limit %"PRIu32" is too small, needs to be >= %"PRIu32""
- pci_nvme_err_startfail(void) "setting controller enable bit failed"
--pci_nvme_err_startfail_virt_state(uint16_t vq, uint16_t vi, const char *state) "nvme_start_ctrl failed due to ctrl state: vi=%u vq=%u %s"
-+pci_nvme_err_startfail_virt_state(uint16_t vq, uint16_t vi) "nvme_start_ctrl failed due to ctrl state: vi=%u vq=%u"
- pci_nvme_err_invalid_mgmt_action(uint8_t action) "action=0x%"PRIx8""
- pci_nvme_err_ignored_mmio_vf_offline(uint64_t addr, unsigned size) "addr 0x%"PRIx64" size %d"
- 
+         addr->type = SOCKET_ADDRESS_TYPE_INET;
+         inet = &addr->u.inet;
+-        if (addrstr[0] == '[' && addrstr[hostlen - 1] == ']') {
++        if (hostlen && addrstr[0] == '[' && addrstr[hostlen - 1] == ']') {
+             inet->host = g_strndup(addrstr + 1, hostlen - 2);
+         } else {
+             inet->host = g_strndup(addrstr, hostlen);
 -- 
 2.40.0
 
