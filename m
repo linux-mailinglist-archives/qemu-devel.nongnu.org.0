@@ -2,56 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028B16EAA08
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E499C6EAA2E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:19:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pppa1-00010I-FR; Fri, 21 Apr 2023 08:09:33 -0400
+	id 1pppiP-0004st-18; Fri, 21 Apr 2023 08:18:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pppZy-000109-IY
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:09:30 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pppZv-0006yV-DK
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:09:30 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2tVn1nwWz67CtD;
- Fri, 21 Apr 2023 20:04:33 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 21 Apr
- 2023 13:09:20 +0100
-Date: Fri, 21 Apr 2023 13:09:19 +0100
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-CC: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, "Igor
- Mammedov" <imammedo@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, "Fan
- Ni" <fan.ni@samsung.com>, <linuxarm@huawei.com>
-Subject: Re: [RFC PATCH] hw/pci-bridge: Fix release ordering by embedding
- PCIBridgeWindows within PCIBridge
-Message-ID: <20230421130919.00006ab2@Huawei.com>
-In-Reply-To: <b797ee27-2182-e391-9f39-dce51db7e07d@linaro.org>
-References: <20230420145937.17152-1-Jonathan.Cameron@huawei.com>
- <b797ee27-2182-e391-9f39-dce51db7e07d@linaro.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pppiN-0004sj-1A
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:18:11 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pppiK-0008I4-JU
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:18:10 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id
+ d9443c01a7336-1a6670671e3so19866885ad.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 05:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682079487; x=1684671487;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=CvUP+Y/afFX/YuQLhFGhi+4RSba325nyTQ6Vzm1gR6U=;
+ b=wGX46Nkj2S4jRkRGCJJ2+HVFiFZP9FbuHuDpGChkoRWIG5Mr4bPD/ZoKQCTqNFHbAF
+ 0/6qaEPQWDOpErbIbwrGkme7EvskDGLO/U71GeihATzIcg5nqJkmNsODENilgomJMNAe
+ MqFX6kWlgX3f90lxPNG2it0vTs5oGeQWXwh2YSYXzta9yxexsy8gy74ucETn/Ynrff02
+ cH61VLrKQj2p4ChCe/ki8k5MZFptFDnUTIPmDP1aojVklPY0kGfXVjhoVXo+8JX4pRUA
+ e979jEcJQMmv9HnpmpHw2Qqc+ErO+pEcZaR9SeC6XQTuLa3L55a3aiLBcPhh1CUerqqs
+ 8BCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682079487; x=1684671487;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CvUP+Y/afFX/YuQLhFGhi+4RSba325nyTQ6Vzm1gR6U=;
+ b=geFT1omH8HkrDOKulWu1jZW8S452Y4UWlrdR8xji+cB1CIQ0mnOfwH3lMOJSdRsx5l
+ yQ6Umlsn2w5WYjZ0SDvMDugAk3zRilYWRLUEEkWSJCceyUA1jf87TaSe6tq4TkZ+6lP8
+ E/IZlWvURqYn9DRIgK45tK3Tu0fuHuhgYsUP/5Tl/fnOWZAAnPZ0CH8QPnZlPude1Y5Z
+ yGq5bSBIStlRxomwzmTALRvMxlwFElOS35V5Y2EbPFXpqRREc/D9Qak3A7jNy3aP6raV
+ 075lXrWlTXvOC5iM67FBgOCbZVmABaLnNuexZH/KBVDVPyvfa+9ObcQERgkcnqC5wLpz
+ gPeA==
+X-Gm-Message-State: AAQBX9evpIpwKmYoBkDJQYkveUGkvCW/Wl6FUYukDEfzyaigqP2fjCJm
+ L7ZNp3QGCSg26gY2dE7CGi6BlQ==
+X-Google-Smtp-Source: AKy350ajSDo27B6ylvhYpA2bO7ZVIekestbIe8fv6eXXmfwrrEp5XyQo3y76Us9uzNnofMGmNQShAA==
+X-Received: by 2002:a17:903:294c:b0:1a1:e01e:7279 with SMTP id
+ li12-20020a170903294c00b001a1e01e7279mr4105928plb.4.1682079486762; 
+ Fri, 21 Apr 2023 05:18:06 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ o3-20020a170902778300b001a1a07d04e6sm2695222pll.77.2023.04.21.05.18.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Apr 2023 05:18:06 -0700 (PDT)
+Message-ID: <c26f49a2-4ee7-f7f3-e162-a181efebadd4@daynix.com>
+Date: Fri, 21 Apr 2023 21:18:02 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 08/40] igb: Always copy ethernet header
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20230414113737.62803-1-akihiko.odaki@daynix.com>
+ <20230414113737.62803-9-akihiko.odaki@daynix.com>
+ <95840429-756a-98f9-b336-91e480b37781@linaro.org>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <95840429-756a-98f9-b336-91e480b37781@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-3.297, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,95 +102,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 21 Apr 2023 08:26:43 +0200
-Philippe Mathieu-Daud=E9 <philmd@linaro.org> wrote:
+On 2023/04/14 23:46, Philippe Mathieu-Daudé wrote:
+> On 14/4/23 13:37, Akihiko Odaki wrote:
+>> igb_receive_internal() used to check the iov length to determine
+>> copy the iovs to a contiguous buffer, but the check is flawed in two
+>> ways:
+>> - It does not ensure that iovcnt > 0.
+>> - It does not take virtio-net header into consideration.
+>>
+>> The size of this copy is just 22 octets, which can be even less than
+>> the code size required for checks. This (wrong) optimization is probably
+>> not worth so just remove it. Removing this also allows igb to assume
+>> aligned accesses for the ethernet header.
+>>
+>> Fixes: 3a977deebe ("Intrdocue igb device emulation")
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> ---
+>>   hw/net/igb_core.c | 39 +++++++++++++++++++++------------------
+>>   1 file changed, 21 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+>> index 53f60fc3d3..1d188b526c 100644
+>> --- a/hw/net/igb_core.c
+>> +++ b/hw/net/igb_core.c
+> 
+> 
+>> -static uint16_t igb_receive_assign(IGBCore *core, const struct 
+>> eth_header *ehdr,
+>> +static uint16_t igb_receive_assign(IGBCore *core, const L2Header 
+>> *l2_header,
+>>                                      size_t size, E1000E_RSSInfo 
+>> *rss_info,
+>>                                      bool *external_tx)
+>>   {
+>>       static const int ta_shift[] = { 4, 3, 2, 0 };
+>> +    const struct eth_header *ehdr = &l2_header->eth;
+>>       uint32_t f, ra[2], *macp, rctl = core->mac[RCTL];
+>>       uint16_t queues = 0;
+>>       uint16_t oversized = 0;
+>> -    uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(ehdr)->h_tci) & 
+>> VLAN_VID_MASK;
+>> +    uint16_t vid = be16_to_cpu(l2_header->vlan[0].h_tci) & 
+>> VLAN_VID_MASK;
+> 
+> Why this API change? Are we certain tci is aligned in host memory?
 
-> Hi Jonathan,
->=20
-> On 20/4/23 16:59, Jonathan Cameron via wrote:
-> > The lifetime of the PCIBridgeWindows instance accessed via the windows =
-pointer
-> > in struct PCIBridge is managed separately from the PCIBridge itself.
-> >=20
-> > Triggered by ./qemu-system-x86_64 -M x-remote -display none -monitor st=
-dio
-> > QEMU monitor: device_add cxl-downstream
-> >=20
-> > In some error handling paths (such as the above due to attaching a cxl-=
-downstream
-> > port anything other than a cxl-upstream port) the g_free() of the PCIBr=
-idge
-> > windows in pci_bridge_region_cleanup() is called before the final call =
-of
-> > flatview_uref() in address_space_set_flatview() ultimately from
-> > drain_call_rcu()
-> >=20
-> > At one stage this resulted in a crash, currently can still be observed =
-using
-> > valgrind which records a use after free.
-> >=20
-> > When present, only one instance is allocated. pci_bridge_update_mapping=
-s()
-> > can operate directly on an instance rather than creating a new one and
-> > swapping it in.  Thus there appears to be no reason to not directly
-> > couple the lifetimes of the two structures by embedding the PCIBridgeWi=
-ndows
-> > within the PCIBridge removing the need for the problematic separate fre=
-e.
-> >=20
-> > Patch is same as was posted deep in the discussion.
-> > https://lore.kernel.org/qemu-devel/20230403171232.000020bb@huawei.com/
-> >=20
-> > Posted as an RFC as only lightly tested and I'm not sure what the reaso=
-ning
-> > behind the separation of lifetimes originally was. As such perhaps this=
- is
-> > not the best route to fixing the issue.
-> >=20
-> > Reported-by: Thomas Huth <thuth@redhat.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-> >   hw/pci/pci_bridge.c         | 20 ++++++++------------
-> >   include/hw/pci/pci_bridge.h |  3 ++-
-> >   2 files changed, 10 insertions(+), 13 deletions(-) =20
->=20
->=20
-> > diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-> > index 01670e9e65..ac75ec0c1b 100644
-> > --- a/include/hw/pci/pci_bridge.h
-> > +++ b/include/hw/pci/pci_bridge.h
-> > @@ -30,6 +30,7 @@
-> >   #include "hw/pci/pci_bus.h"
-> >   #include "hw/cxl/cxl.h"
-> >   #include "qom/object.h"
-> > +#include "qemu/rcu.h" =20
->=20
-> Where is this header is used
-
-Left over garbage from a previous attempt to fix.  Good spot.
-I'll clean that out and resend shortly.
-
-Thanks,
-
-Jonathan
-=20
->=20
-> >   typedef struct PCIBridgeWindows PCIBridgeWindows;
-> >  =20
-> > @@ -73,7 +74,7 @@ struct PCIBridge {
-> >       MemoryRegion address_space_mem;
-> >       MemoryRegion address_space_io;
-> >  =20
-> > -    PCIBridgeWindows *windows;
-> > +    PCIBridgeWindows windows;
-> >  =20
-> >       pci_map_irq_fn map_irq;
-> >       const char *bus_name; =20
->=20
-
+This change makes the VLAN tag always copied to the host memory, which 
+ensures that tci is aligned.
 
