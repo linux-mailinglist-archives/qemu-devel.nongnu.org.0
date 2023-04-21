@@ -2,51 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B128C6EAB5F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39836EAB60
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:17:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppqcq-0001pB-Hy; Fri, 21 Apr 2023 09:16:33 -0400
+	id 1ppqcs-0001px-Sp; Fri, 21 Apr 2023 09:16:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=8BaR=AM=kaod.org=clg@ozlabs.org>)
- id 1ppqcc-0001mC-IA; Fri, 21 Apr 2023 09:16:23 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=8BaR=AM=kaod.org=clg@ozlabs.org>)
- id 1ppqcZ-00015t-5L; Fri, 21 Apr 2023 09:16:17 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4Q2w575Ntrz4xDt;
- Fri, 21 Apr 2023 23:15:55 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Q2w541Lttz4xFn;
- Fri, 21 Apr 2023 23:15:51 +1000 (AEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Steven Lee <steven_lee@aspeedtech.com>, Joel Stanley <joel@jms.id.au>
-Subject: [PATCH] aspeed/hace: Initialize g_autofree pointer
-Date: Fri, 21 Apr 2023 15:15:47 +0200
-Message-Id: <20230421131547.2177449-1-clg@kaod.org>
-X-Mailer: git-send-email 2.40.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppqco-0001pD-TU
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:16:30 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ppqcm-00019q-WB
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:16:30 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-2fa47de5b04so1681027f8f.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 06:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682082986; x=1684674986;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DzPChkf84jFbfrRtyWFREOFWYl6ur94FcmbGf9QXDhI=;
+ b=ZZI0Q8UmknemZnlS1XGisq1i8jENZ8rL2kjq1wJzBKjgV+xqXglz1FgsSNZw6vvDAC
+ NrQO5oNFodTT88GM/1WnN/UpKk7XSgvwtX4pDAmd8YUaWBLZqKT6vwSY4VnEvbk/1WJf
+ 9P3hSrVZ8tB5kapx57bKP6ju5usWL1al8LofoX4+zgJYGjKyHRtpf4+EDkvKDUXbi+AP
+ VyFkcOvtlfmywu59uxIKKiNlIMyTuNey7EBn/Q3ECZuoBV1tP1rlUfvKf/YSr+/NQD1y
+ t1Suj9faj1ivjwuFbBCZHiiGknY/zEss75KNUQkOW1bg0/s86eSNNtmrGWB+sseCvtKx
+ g/Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682082986; x=1684674986;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=DzPChkf84jFbfrRtyWFREOFWYl6ur94FcmbGf9QXDhI=;
+ b=DlkYYPRPrLdCapG2nFNVqyvbL76WtbnR9tn4cTIDHsAIqBhOKAuaiMyu7MHETE79QM
+ yPG1RmujcwtMoOFyb3ieUzmP0GrK1FSBzbC0l+ZUDHQz/z98lc4xqzL24dG2lS1C0oyI
+ JkzdnDACX78pJ6nm9eL8JFVIAG7NonejBiKsdPLnVSqAt1Hq+fcewlG/tsTdXLA9AnsH
+ UTT3egJIrg/YmmaTsjI4IepjRI5oHg4aAiQOD7/QGtDugaENzCtb0di9kZl6buBD7I/m
+ 2mXFzn07voUIy5NZcslrXkQHGgxRbakf7moOO3gXq3rjOT+S6Xahh1rOdgr1B1l6ypSp
+ XATQ==
+X-Gm-Message-State: AAQBX9dwu/219B5X0mcOFmU+eJffmfW21I1bhITQbHH/FBOpiAQSYZ+g
+ MmNCILcgy/YvXkqs4Bn9dpCCEg==
+X-Google-Smtp-Source: AKy350bLsiUFv82u2wuhddKke/ULKibCAhgfSrMLsyuHDfa94S6myCVcwNHtjxy+h76RfbGkW7+HHQ==
+X-Received: by 2002:a05:6000:1806:b0:2ce:a6be:2bd with SMTP id
+ m6-20020a056000180600b002cea6be02bdmr4062838wrh.1.1682082986306; 
+ Fri, 21 Apr 2023 06:16:26 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ n17-20020a5d4c51000000b002d6f285c0a2sm4427526wrt.42.2023.04.21.06.16.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Apr 2023 06:16:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8B8821FFB7;
+ Fri, 21 Apr 2023 14:16:25 +0100 (BST)
+References: <20230421110345.1294131-1-thuth@redhat.com>
+User-agent: mu4e 1.11.2; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, Peter Maydell
+ <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, Andrew Jeffery <andrew@aj.id.au>, Joel
+ Stanley <joel@jms.id.au>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/3] tests/avocado/machine_aspeed: Fix the broken
+ ast2[56]00_evb_sdk tests
+Date: Fri, 21 Apr 2023 14:16:20 +0100
+In-reply-to: <20230421110345.1294131-1-thuth@redhat.com>
+Message-ID: <87ttx9bck6.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=8BaR=AM=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,36 +100,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As mentioned in docs/devel/style.rst "Automatic memory deallocation":
 
-* Variables declared with g_auto* MUST always be initialized,
-  otherwise the cleanup function will use uninitialized stack memory
+Thomas Huth <thuth@redhat.com> writes:
 
-This avoids QEMU to coredump when running the "hash test" command
-under Zephyr.
+> Fix the broken ast2500_evb_sdk and ast2600_evb_sdk avocado tests.
+> See the patch description of the second patch for details.
+> Also add the test to the MAINTAINERS file (third patch).
+>
+> Thomas Huth (3):
+>   tests/avocado: Make ssh_command_output_contains() globally available
+>   tests/avocado/machine_aspeed: Fix the broken ast2[56]00_evb_sdk tests
+>   MAINTAINERS: Cover tests/avocado/machine_aspeed.py
+>
+>  MAINTAINERS                            |  2 +-
+>  tests/avocado/avocado_qemu/__init__.py |  8 +++++++
+>  tests/avocado/linux_ssh_mips_malta.py  |  8 -------
+>  tests/avocado/machine_aspeed.py        | 31 +++++++++++++++-----------
+>  4 files changed, 27 insertions(+), 22 deletions(-)
 
-Cc: Steven Lee <steven_lee@aspeedtech.com>
-Cc: Joel Stanley <joel@jms.id.au>
-Fixes: c5475b3f9a ("hw: Model ASPEED's Hash and Crypto Engine")
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/misc/aspeed_hace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Queued to testing/next, thanks.
 
-diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-index 12a761f1f5..b07506ec04 100644
---- a/hw/misc/aspeed_hace.c
-+++ b/hw/misc/aspeed_hace.c
-@@ -189,7 +189,7 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
-                               bool acc_mode)
- {
-     struct iovec iov[ASPEED_HACE_MAX_SG];
--    g_autofree uint8_t *digest_buf;
-+    g_autofree uint8_t *digest_buf = NULL;
-     size_t digest_len = 0;
-     int niov = 0;
-     int i;
--- 
-2.40.0
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
