@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9343E6EA5F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 10:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD38E6EA610
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 10:42:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppmFN-0001km-3C; Fri, 21 Apr 2023 04:36:01 -0400
+	id 1ppmKN-000315-35; Fri, 21 Apr 2023 04:41:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppmFL-0001kY-7N; Fri, 21 Apr 2023 04:35:59 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ppmKL-00030x-H0
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:41:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppmFI-00014i-SE; Fri, 21 Apr 2023 04:35:58 -0400
-Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:2cab:0:640:424b:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 3227D5FF21;
- Fri, 21 Apr 2023 11:35:45 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:8816::1:4] (unknown
- [2a02:6b8:b081:8816::1:4])
- by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id hZasp815Qa60-MWqAvRTv; Fri, 21 Apr 2023 11:35:44 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682066144; bh=L4C662cIu4nV2oc7UGnMWdllBehHs1hNzU5V+AnoPRU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=fEWBZSkv2ujV2geurCk+3mitsEMogRhUqDPmE8DOcdDKNJaTaNEuOvtxo//nyMye6
- 0EAg5qq0wSSjqQQKdHlwvcma9KICbhjL0bORvY87Me3USiEIJ2zk5oyKHRI5jBV5mO
- Vst/3ehkxW7ak4XeqBTLI+FRAgIAPtbn/l22FixY=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <b9badd90-6d1f-5d1d-72a1-9c357a1fb9b2@yandex-team.ru>
-Date: Fri, 21 Apr 2023 11:35:43 +0300
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ppmKK-0001sD-52
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 04:41:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682066466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YF32A6DyW2RGZUQizrMCWb85KOUmg8bRyLjV3FaQe30=;
+ b=Y6OhpiVz93ZzMN9YBaJih3SQZyVK7M87lUw36wbibHMZ3Zdm7Si4lChUPTnipI8eoAjffI
+ Hcm1Uo99KUDsAQIEIZFmbCKsGJGFgIuEJvH7H3xeFPnhygHiWBHKmYLKYWO7H44kk6Ev9K
+ aaSjr4/fiqpoHGd6vNEG+Gtnj8DLaQI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-zscHjRqjNtmX2U1NwoCdPQ-1; Fri, 21 Apr 2023 04:41:03 -0400
+X-MC-Unique: zscHjRqjNtmX2U1NwoCdPQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-94a348facbbso151538666b.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 01:41:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682066461; x=1684658461;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YF32A6DyW2RGZUQizrMCWb85KOUmg8bRyLjV3FaQe30=;
+ b=NKJ/CTVeUrN0MT6nbDU4I8qEkN6XA8+GS2FAoHs6Hbnfc/2Sxz0wXNvtyYf1mjotG+
+ KzCqWcA0M/8T26TtTewLdxn7flX4yo+c5/iOz1MzGP8LSR3yfIHq36LTDNy1WF1nnaOz
+ yE/IhtUon7aD7GtEpKZECkzNQwHwm+SCBIo2dhDFTN5lhZ8dIwfokqjf+00yM5AmDxa9
+ xLaSxnOee54spb2b09eqzwfogDOsCDEpMGQrg1PDOkKxox1N2SegZqNLkCi0hnvraY2i
+ Jng0mJyLiNLhrH9lGkJ9Ro9vYWx9QcGcLffj/hsZKd9nd3m7l7laceeW3+6pyhzuAIc1
+ m/Kg==
+X-Gm-Message-State: AAQBX9clTvfGSjVie5tVb6FAww8vDQOnVFp5yaQUUF4459tJoFe9DK17
+ fw2k5fVAOig0A5/uwaEIUTN6W5T5LDj9qX6H7X7sV6NDVjzAVtEh3XIUg/yUqcZUfykRX2aJNv9
+ 9PEjHJvPU58JShsF6wmoUCBEWKKfBMDTpRB/6RYeihHyPHqgdSJqg6b32GswjB8YywoLPUSXIsF
+ 7v0g==
+X-Received: by 2002:a17:907:d310:b0:94f:c71:dd48 with SMTP id
+ vg16-20020a170907d31000b0094f0c71dd48mr1316699ejc.63.1682066461505; 
+ Fri, 21 Apr 2023 01:41:01 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YSEYRgB4izID+ZFQLuKGGXhLBT5FLhFMX0lneaMOoVjimj0+nAuMONHWr+1H4tAmYSUf0H9A==
+X-Received: by 2002:a17:907:d310:b0:94f:c71:dd48 with SMTP id
+ vg16-20020a170907d31000b0094f0c71dd48mr1316684ejc.63.1682066461107; 
+ Fri, 21 Apr 2023 01:41:01 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ g11-20020a170906394b00b0094f4f2db7e0sm1809665eje.143.2023.04.21.01.41.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Apr 2023 01:41:00 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: pkrempa@redhat.com,
+	berrange@redhat.com
+Subject: [PATCH v3 0/2] tests: lcitool: Switch to OpenSUSE Leap 15.4
+Date: Fri, 21 Apr 2023 10:40:57 +0200
+Message-Id: <20230421084059.9142-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
-Content-Language: en-US
-To: "Zhang, Chen" <chen.zhang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "michael.roth@amd.com" <michael.roth@amd.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "Zhang, Hailiang" <zhanghailiang@xfusion.com>,
- "philmd@linaro.org" <philmd@linaro.org>, "thuth@redhat.com"
- <thuth@redhat.com>, "berrange@redhat.com" <berrange@redhat.com>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "dave@treblig.org" <dave@treblig.org>, "hreitz@redhat.com"
- <hreitz@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
- "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
-References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
- <20230419225232.508121-4-vsementsov@yandex-team.ru>
- <MWHPR11MB00312BC202A9B93E260F58369B609@MWHPR11MB0031.namprd11.prod.outlook.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <MWHPR11MB00312BC202A9B93E260F58369B609@MWHPR11MB0031.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,40 +99,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21.04.23 06:02, Zhang, Chen wrote:
-> 
-> 
->> -----Original Message-----
->> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> Sent: Thursday, April 20, 2023 6:53 AM
->> To: qemu-devel@nongnu.org
->> Cc: qemu-block@nongnu.org; michael.roth@amd.com; armbru@redhat.com;
->> eblake@redhat.com; jasowang@redhat.com; quintela@redhat.com; Zhang,
->> Hailiang <zhanghailiang@xfusion.com>; philmd@linaro.org;
->> thuth@redhat.com; berrange@redhat.com; marcandre.lureau@redhat.com;
->> pbonzini@redhat.com; dave@treblig.org; hreitz@redhat.com;
->> kwolf@redhat.com; Zhang, Chen <chen.zhang@intel.com>;
->> lizhijian@fujitsu.com; Vladimir Sementsov-Ogievskiy <vsementsov@yandex-
->> team.ru>
->> Subject: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
->>
->> We don't allow to use x-colo capability when replication is not configured. So,
->> no reason to build COLO when replication is disabled, it's unusable in this
->> case.
-> 
-> Yes, you are right for current status. Because COLO best practices is replication + colo live migration + colo proxy.
-> But doesn't mean it has to be done in all scenarios as I explanation in V1.
-> The better way is allow to use x-colo capability firstly, and separate this patch
-> with two config options: --disable-replication  and --disable-x-colo.
-> 
+v3 of Peter's series, which uses a newer libvirt-ci commit.  With this
+version, future updates of the libvirt-ci submodule will pick new
+Leap 15 releases without the need for changes to tests/lcitool/mappings.yml
+or tests/lcitool/targets.
 
-But what for? We for sure don't have such scenarios now (COLO without replication), as it's not allowed by far 7e934f5b27eee1b0d7 (by you and David).
+Paolo
 
-If you think we need such scenario, I think it should be a separate series which reverts 7e934f5b27eee1b0d7 and adds corresponding test and probably documentation.
+Supersedes: <cover.1681735482.git.pkrempa@redhat.com>
 
+Peter Krempa (2):
+  tests: libvirt-ci: Update to commit '2fa24dce8bc'
+  tests: lcitool: Switch to OpenSUSE Leap 15.4
+
+ tests/docker/dockerfiles/centos8.docker       |  1 -
+ .../dockerfiles/debian-amd64-cross.docker     |  4 +--
+ .../dockerfiles/debian-arm64-cross.docker     |  4 +--
+ .../dockerfiles/debian-armel-cross.docker     |  4 +--
+ .../dockerfiles/debian-armhf-cross.docker     |  4 +--
+ .../dockerfiles/debian-mips64el-cross.docker  |  4 +--
+ .../dockerfiles/debian-mipsel-cross.docker    |  4 +--
+ .../dockerfiles/debian-ppc64el-cross.docker   |  4 +--
+ .../dockerfiles/debian-s390x-cross.docker     |  4 +--
+ .../dockerfiles/fedora-win32-cross.docker     |  5 ++-
+ .../dockerfiles/fedora-win64-cross.docker     |  5 ++-
+ tests/docker/dockerfiles/fedora.docker        |  5 ++-
+ tests/docker/dockerfiles/opensuse-leap.docker |  5 ++-
+ tests/lcitool/libvirt-ci                      |  2 +-
+ tests/lcitool/mappings.yml                    | 36 +++++++++----------
+ tests/lcitool/refresh                         |  2 +-
+ ...suse-leap-153.yml => opensuse-leap-15.yml} |  0
+ 17 files changed, 44 insertions(+), 49 deletions(-)
+ rename tests/lcitool/targets/{opensuse-leap-153.yml => opensuse-leap-15.yml} (100%)
 
 -- 
-Best regards,
-Vladimir
+2.40.0
 
 
