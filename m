@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0F06EB092
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 19:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E726EB099
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 19:34:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppuZ1-000055-BC; Fri, 21 Apr 2023 13:28:51 -0400
+	id 1ppudV-00015I-TI; Fri, 21 Apr 2023 13:33:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ppuYz-00004x-W8
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:28:50 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ppuYy-0002DJ-8w
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:28:49 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f09b9ac51dso57299965e9.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 10:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682098126; x=1684690126;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CGztsHJJOJRpjTln/mX+f57tm3Dtjda64nWRHoC/gqk=;
- b=Rg7ibYH6XvKvkVz3dgvDbUnGLZ8ZE3LxJAXN8LkgR7iqXbsZSSbNrVv4FzXTyTmg/H
- aQWY3d222ArrXjOgMPcNzYkZmWr9wxmSO83Gl785vhXfCxO1zUYZqALVogObhsm5LWg5
- FwhyS01VJLT4f5yNwbI9BFqmJxaL0seSYYQE+PIT31FvzEctUuKD6PxWtTjSTj+qJ9AQ
- KokLeOYwIFrfQKR1Qv14TErujyZsdcCNTdfI4IwOfdF+6HCNp53sHNXJbxhrXPUAr5Ul
- aWeLL2cFpBs9WaWRzYx7EcIXbL9eGYcyPL4TjGRc8RY1wCwavhQJP0ltQE2YChQsrQn6
- lzgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682098126; x=1684690126;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CGztsHJJOJRpjTln/mX+f57tm3Dtjda64nWRHoC/gqk=;
- b=AG1Kmnrl0K042NxA3pzDCwdTk0bjzV1PVIfpSnj5VGCZ+sxKfmuvpqbMjYugmeXXMq
- m6uAw7yf3XAaK+ZujiCmGKOBXH1ezLweC3nL5V2vCbH4FnvEY5Yl2lsOGAH497f07tnl
- ZbiaKghH4bBZYkD/C9o9CljMAYoCJ9jMe1p/bAp4HNWg5fHi7mgTQ5M6VQXoOwN7+Sl2
- JFBFMNziBtvzBvh+g9kjuOer9Pysj7uuDA8yUBYhpA3hgPDQbIimZG8wXGwpq8/S5nDY
- +snivghKEEyAMhIxEyOroPh8lVJShx7gkgP8z31q9RiZ8/HRaDl3uPA5nMELXn1f0sN/
- +JBA==
-X-Gm-Message-State: AAQBX9ctv/r2mW5DGcDdZPhqv34JDI4Gvt12hN5vvzh2lAf5ercFknzo
- 2EFeah+scpTpFWKm7xIhewBf1Q==
-X-Google-Smtp-Source: AKy350aOT46UZ7rAcu+z7qciEuc/qJomD7t4JBQVsRa3YCOB0mmpEOFmhb++unWUCPyB4IexEZHxTg==
-X-Received: by 2002:adf:faca:0:b0:2f6:1bb2:8348 with SMTP id
- a10-20020adffaca000000b002f61bb28348mr8404835wrs.34.1682098126554; 
- Fri, 21 Apr 2023 10:28:46 -0700 (PDT)
-Received: from [192.168.34.227]
- (cust-west-loneq8-46-193-226-34.wb.wifirst.net. [46.193.226.34])
- by smtp.gmail.com with ESMTPSA id
- m2-20020a056000008200b002f53fa16239sm4791961wrx.103.2023.04.21.10.28.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 10:28:46 -0700 (PDT)
-Message-ID: <ea774322-d8e7-accc-a2c5-538b1c9a24b0@linaro.org>
-Date: Fri, 21 Apr 2023 18:28:44 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ppudO-00011c-K0
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:33:22 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ppudL-0002rp-HD
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 13:33:22 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q31mh462yz67FD1;
+ Sat, 22 Apr 2023 01:32:04 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 21 Apr
+ 2023 18:33:15 +0100
+Date: Fri, 21 Apr 2023 18:33:14 +0100
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
+ <fan.ni@samsung.com>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
+ "Ira Weiny" <ira.weiny@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Michael Roth <michael.roth@amd.com>, Dave Jiang
+ <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>, "Daniel P .
+ =?ISO-8859-1?Q?Berrang?= =?ISO-8859-1?Q?=E9?=" <berrange@redhat.com>, Eric
+ Blake <eblake@redhat.com>, Mike Maslenkin <mike.maslenkin@gmail.com>,
+ =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>, "Thomas
+ Huth" <thuth@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>
+Subject: Re: [PATCH v4 5/6] hw/cxl: Add poison injection via the mailbox.
+Message-ID: <20230421183314.000011d9@Huawei.com>
+In-Reply-To: <c5332793-f062-e4e7-9579-8eeb416e57ab@linaro.org>
+References: <20230303150908.27889-1-Jonathan.Cameron@huawei.com>
+ <20230303150908.27889-6-Jonathan.Cameron@huawei.com>
+ <c5332793-f062-e4e7-9579-8eeb416e57ab@linaro.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 00/23] First batch of testing and misc patches for 8.1
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-References: <20230420101216.786304-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230420101216.786304-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,36 +71,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/20/23 11:11, Thomas Huth wrote:
->   Hi!
-> 
-> The following changes since commit c1eb2ddf0f8075faddc5f7c3d39feae3e8e9d6b4:
-> 
->    Update version for v8.0.0 release (2023-04-19 17:27:13 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/thuth/qemu.git tags/pull-request-2023-04-20
-> 
-> for you to fetch changes up to ec6fb1c8cd8d55c3d2a34cacfea6df0fe6c76057:
-> 
->    tests/vm/freebsd: Update to FreeBSD 13.2 (2023-04-20 11:28:16 +0200)
-> 
-> ----------------------------------------------------------------
-> * Compat machines for version 8.1
-> * Allow setting a chardev input file on the command line
-> * Fix .travis.yml to work with non-public Travis instances, too
-> * Move a lot of code from specifc_ss into softmmu_ss
-> * Add a test case for TPM TIS I2C connected to Aspeed I2C controller
-> * Update tests/vm/freebsd to version 13
-> * Some more misc minor fixes here and there
+On Tue, 14 Mar 2023 07:27:52 +0100
+Philippe Mathieu-Daud=E9 <philmd@linaro.org> wrote:
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+> On 3/3/23 16:09, Jonathan Cameron wrote:
+> > Very simple implementation to allow testing of corresponding
+> > kernel code. Note that for now we track each 64 byte section
+> > independently.  Whilst a valid implementation choice, it may
+> > make sense to fuse entries so as to prove out more complex
+> > corners of the kernel code.
+> >=20
+> > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> > v4: No change
+> > ---
+> >   hw/cxl/cxl-mailbox-utils.c | 41 ++++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 41 insertions(+) =20
+>=20
+>=20
+> > +static CXLRetCode cmd_media_inject_poison(struct cxl_cmd *cmd,
+> > +                                          CXLDeviceState *cxl_dstate,
+> > +                                          uint16_t *len)
+> > +{
+> > +    CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_ds=
+tate); =20
+>=20
+> This makes me wonder why CXLDeviceState isn't QDev based.
+
+Interesting question that I'll look into, but I hope you don't mind if
+I separate that question from this series.
+
+Logically it's a one of a couple of different subsets of functionality and
+different CXL components have a different mix of those. I'm not sure
+that will map to a QDev based approach. I'll need to take more time to look=
+ into
+this.
+
+>=20
+> (Also, why include/hw/cxl/cxl_device.h is under GPL-2.0-only license?)
+
+Not a clue.   Ben, any comment?
 
 
-r~
 
 
