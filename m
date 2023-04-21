@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E140D6EA713
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BDF6EA723
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:37:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppnAN-00031O-I0; Fri, 21 Apr 2023 05:34:55 -0400
+	id 1ppnBe-0007RF-AP; Fri, 21 Apr 2023 05:36:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppnAJ-0002kO-Os
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:34:51 -0400
+ id 1ppnBa-0007El-7V
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:36:10 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppnAI-0003B9-9p
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:34:51 -0400
+ id 1ppnBY-0003Yg-BD
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:36:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682069688;
+ s=mimecast20190719; t=1682069767;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zkhZsenSyq1FmF5tpquDpHbnBZ8BYf1pzoXgDFvHtyU=;
- b=Fmd/iGP322+uUT3vcuqpbhLTvDbLCPndJGVuQHWAPWP35odqTovFfeIg/f5X22Um9IGNN+
- lWJkrg8QByPQFA1KiPm8hasfLXx3LuGEWd97z/faZBXwz8XmDa1o4uv9AKQZYl21jAqVAU
- +liC1mD3rGuvT0SH/Rdj/IZLDZEii7k=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R3icSzVfmRuM+szIABXkN8mdFe4M2lgjM6ptqSyVtvI=;
+ b=cVToDitkv3CCEk+DmF8iomgEkfmjdi2xS89baeJayPZfGvd40NLIP7sBB2LVe8xytD66DV
+ 5LguXnjlgNBYvLRdqAfkhZZcQjVDEg0Hy3vjh7Q14GeFksf6suTJNs2k6FaHqgwoDEFd0P
+ HHI+KZTchDo2iHNL4yaMAq9s3Ozo9UA=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-620-OLSmU71-NTicU22ck3lOJw-1; Fri, 21 Apr 2023 05:34:47 -0400
-X-MC-Unique: OLSmU71-NTicU22ck3lOJw-1
-Received: by mail-ua1-f71.google.com with SMTP id
- a1e0cc1a2514c-771d11ea8cdso1113276241.0
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:34:47 -0700 (PDT)
+ us-mta-394-7kuMFJJHPNWiqE3B0mFObg-1; Fri, 21 Apr 2023 05:36:06 -0400
+X-MC-Unique: 7kuMFJJHPNWiqE3B0mFObg-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ ada2fe7eead31-4301bc3d45eso293977137.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:36:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069687; x=1684661687;
+ d=1e100.net; s=20221208; t=1682069765; x=1684661765;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zkhZsenSyq1FmF5tpquDpHbnBZ8BYf1pzoXgDFvHtyU=;
- b=MLCyw/7rINtkpGD0EruUaoUMRfzvzWpeYuQ0T9db0j/NZ1uxHuvkuOYp1WC+Mju9pa
- 6QK0cd8MBHd6XYm2buEkQwdA9afoTT2xldrxZrsB0bH6E5wkGV15eNMZhzMaThhcNaBq
- jw4cCq0y24XJgOmJrl/ihHnTGooGJsx9ij+eaXG+qjHxobGj64Ivg7yrCezBHelyNQqs
- tLZOxDBQRVYkEkAtGmqSU1Uo9lcqSUfAiET8DKB/XgUW9iIwv/GmYzo4Fee5Ru5P7PeL
- G4hjDzVmtNlXHtFnlDJDVp6JP+cPDrsnQphHiDc4hM4ldeZVhXxfc5w+JlWGkbG2RS+c
- 9XrQ==
-X-Gm-Message-State: AAQBX9dXoqJBJ511DWCCn1nU7QvdmwCeEOzTe6CFW+6PygNVf38xK37F
- uxY8Sjq44lI58wDcZIH2u3ohfpexGW44cqlf36rsez6Z9j2IUzQDlm7sg0OZfgGS2IjlI8MQfE4
- fJgUb8FACWvGnEoSXEyg0n8aEEyl59gRFU47Ml5NNIA==
-X-Received: by 2002:a67:fa55:0:b0:42e:4c9f:50b6 with SMTP id
- j21-20020a67fa55000000b0042e4c9f50b6mr2055793vsq.11.1682069686818; 
- Fri, 21 Apr 2023 02:34:46 -0700 (PDT)
-X-Google-Smtp-Source: AKy350az7Bfjh65GUv9TP0vwSKC8qGWWYVnW0wc1hxTIdmjx6iJ53GrdmFHLSJakrOpMsgdkqQZoaZlz2uB+LNzuu8k=
-X-Received: by 2002:a67:fa55:0:b0:42e:4c9f:50b6 with SMTP id
- j21-20020a67fa55000000b0042e4c9f50b6mr2055789vsq.11.1682069686591; Fri, 21
- Apr 2023 02:34:46 -0700 (PDT)
+ bh=R3icSzVfmRuM+szIABXkN8mdFe4M2lgjM6ptqSyVtvI=;
+ b=ZtR/gQsbm+MsIFJtmD6a3/SbAdPakwWH+hl+QgTDBQB/S0W0d6l6KC5pHRr4XM9kDk
+ ui625ps8oyHYEm9WohhldN2RMqCl35sFFMDK1sKN4W7JTnHhAtWhW5CRduh77utuoHUU
+ yp+o19w5uy3vrwzFSm6UOstiFU6DvMdK6mylyY6yHhT9j9FaJ6jDvVjC5Tr5bYRcei02
+ 7uzTyn9PZFEYn+ML3D1spH6K2aW2Wk6oS5YHH6/2e4PJuk0Hsuf7+hrLXSi2/5/+4JmR
+ P+L14yVXITCD+SBBh+d0noxVCWSqZP6XNPSXbyQOiAZZzk88Zh8gvDIrTzYVQHfC1XNQ
+ FO+w==
+X-Gm-Message-State: AAQBX9e+SEK0bS35Brl+f7kknSlIF0NKHkC4hZQ21Rm9265tBfX8gaQp
+ tQdN7W4cXVV9wCEt3NvUQBrcPIQCr2Gcre5T5JCwUIcLsgysTinGx0jaqGfKOove/jUJoHypN9U
+ d3z51CMQwv+WqWHUoUpc9L0/PIdEzvxJ7cAbKzkOIaQ==
+X-Received: by 2002:a67:ea57:0:b0:42e:faab:8b56 with SMTP id
+ r23-20020a67ea57000000b0042efaab8b56mr2071218vso.32.1682069765526; 
+ Fri, 21 Apr 2023 02:36:05 -0700 (PDT)
+X-Google-Smtp-Source: AKy350blDzL2gSvXZzpaunkcoi1srHk7W1ILWFAFxMEQV4OhctJrmZW8FQb2iY2qqIRgCiULhThaz8kkuPpid7KOYhE=
+X-Received: by 2002:a67:ea57:0:b0:42e:faab:8b56 with SMTP id
+ r23-20020a67ea57000000b0042efaab8b56mr2071212vso.32.1682069765318; Fri, 21
+ Apr 2023 02:36:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230405103216.128103-1-pbonzini@redhat.com>
-In-Reply-To: <20230405103216.128103-1-pbonzini@redhat.com>
+References: <20221212131700.250209-1-pbonzini@redhat.com>
+ <20221212131700.250209-3-pbonzini@redhat.com>
+ <Y8lC8d0/XdEct7Mc@redhat.com>
+In-Reply-To: <Y8lC8d0/XdEct7Mc@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 21 Apr 2023 11:34:35 +0200
-Message-ID: <CABgObfZe=6i5orJd25VH_oYZU4+UK-M-R++Ov6dO_61Pu0NVhA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] block: clean up coroutine versions of
- bdrv_{is_allocated, block_status}*
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org
+Date: Fri, 21 Apr 2023 11:35:54 +0200
+Message-ID: <CABgObfZr615RrUuPegzN3V5DVpdhkau2_32ep58T8qWdsDS8cw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] block: do not check bdrv_file_open
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
@@ -94,38 +95,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping.
+On Thu, Jan 19, 2023 at 2:17=E2=80=AFPM Kevin Wolf <kwolf@redhat.com> wrote=
+:
+> >      assert(!drv->bdrv_needs_filename || bs->filename[0]);
+> > -    if (drv->bdrv_file_open) {
+> > +    if (drv->bdrv_open) {
+> >          ret =3D drv->bdrv_file_open(bs, options, open_flags, &local_er=
+r);
+> >      } else if (drv->bdrv_open) {
+> >          ret =3D drv->bdrv_open(bs, options, open_flags, &local_err);
+>
+> I suppose you mean drv->protocol_name for the first if condition?
+>
+> The bug will disappear again after patch 3, but this intermediate state
+> is very broken.
+
+Yep, I split the patch wrong. Will resend after you merge block-next.
 
 Paolo
-
-On Wed, Apr 5, 2023 at 12:32=E2=80=AFPM Paolo Bonzini <pbonzini@redhat.com>=
- wrote:
->
-> Provide coroutine versions of bdrv_is_allocated* and bdrv_block_status*,
-> since the underlying BlockDriver API is coroutine-based, and use
-> automatically-generated wrappers for the "mixed" versions.
->
-> Paolo
->
-> Paolo Bonzini (4):
->   block: rename the bdrv_co_block_status static function
->   block: complete public block status API
->   block: switch to co_wrapper for bdrv_is_allocated_*
->   block: convert more bdrv_is_allocated* and bdrv_block_status* calls to
->     coroutine versions
->
->  block/copy-before-write.c |  2 +-
->  block/copy-on-read.c      |  8 ++--
->  block/io.c                | 87 +++++++++------------------------------
->  block/mirror.c            | 10 ++---
->  block/qcow2.c             |  5 ++-
->  block/replication.c       |  8 ++--
->  block/stream.c            |  8 ++--
->  block/vvfat.c             | 18 ++++----
->  include/block/block-io.h  | 30 +++++++++-----
->  9 files changed, 69 insertions(+), 107 deletions(-)
->
-> --
-> 2.39.2
 
 
