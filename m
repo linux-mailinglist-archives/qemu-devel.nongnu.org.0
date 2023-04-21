@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A836EA718
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E140D6EA713
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 11:35:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppn9V-0000FS-5D; Fri, 21 Apr 2023 05:34:01 -0400
+	id 1ppnAN-00031O-I0; Fri, 21 Apr 2023 05:34:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn9S-00005M-Il
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:58 -0400
+ id 1ppnAJ-0002kO-Os
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:34:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ppn9Q-00036s-Q9
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:33:58 -0400
+ id 1ppnAI-0003B9-9p
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 05:34:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682069636;
+ s=mimecast20190719; t=1682069688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HpiB6sxC3DohqxrKYpC94Jz3RHHqCyDuIsL7iXn2uv0=;
- b=hZqkzeeTnXT2EUqYwYwMQTuFTFrBKXGp/TNFZyb29e0PULU31MD8qFgi8jHmbnDphilyJc
- lcnWTs36HqAd9Ym4UD/yq+ugQDluAHteCuZwtqxEpOQnCFTdmg0SpbYvVl4ztQjHZWlgRQ
- bIwXy6jTPiNIR8nXuD+i0aafZX0/RHc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zkhZsenSyq1FmF5tpquDpHbnBZ8BYf1pzoXgDFvHtyU=;
+ b=Fmd/iGP322+uUT3vcuqpbhLTvDbLCPndJGVuQHWAPWP35odqTovFfeIg/f5X22Um9IGNN+
+ lWJkrg8QByPQFA1KiPm8hasfLXx3LuGEWd97z/faZBXwz8XmDa1o4uv9AKQZYl21jAqVAU
+ +liC1mD3rGuvT0SH/Rdj/IZLDZEii7k=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-444-lm1MrSfgOT-JDmjgG_9azw-1; Fri, 21 Apr 2023 05:33:55 -0400
-X-MC-Unique: lm1MrSfgOT-JDmjgG_9azw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-95707df1f05so101289566b.3
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:33:54 -0700 (PDT)
+ us-mta-620-OLSmU71-NTicU22ck3lOJw-1; Fri, 21 Apr 2023 05:34:47 -0400
+X-MC-Unique: OLSmU71-NTicU22ck3lOJw-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ a1e0cc1a2514c-771d11ea8cdso1113276241.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 02:34:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682069633; x=1684661633;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1682069687; x=1684661687;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HpiB6sxC3DohqxrKYpC94Jz3RHHqCyDuIsL7iXn2uv0=;
- b=M2v3XJQJfiG/7STJGKeSOD2z9CoN4z7NbONStjGZFgsDRfVsoASPgY1Tk6bGObXrQO
- cqZXYi5qssnljEVkjVUrt80f2JkK5aJj661HWUDdKxQWKzhal5BYu4Xn2kJbASLFQHOZ
- JMmg2jGGmNnl547/yUDkYwRBxSAYqaYcqx5pGGrKJ6QOIiyCfM6Vyzl9PLwrRTBfWkX3
- r6yMq+sknu533+WApwyAL6dNsOhKbWrKXNWdk591GGW08WgsEXYXwZT2EBJ7ULPIxpwL
- sxokX4VNTiIXp6aDFPORNR2QiXc1RxBC/1UTtJFPX3O48F0Q5CSdVJw/OQjmTpkQrRZ9
- hXHA==
-X-Gm-Message-State: AAQBX9cKX13DOcR9zlu/5TWjZGS6ruMvUfQ019kvIxqOtpKJHHne5sxl
- O/5vWrNXf3idr5qdMWHee7CqDFlVlv1KY9nLOyKmuNulw15ZbYMMOxSxbIQupbPEYKy4/wl7GJj
- 97aWiW8ChaMDNsWjL8jFHU8BlDNbSJSo1n4gh/IRqMmVcgnCKi/O4h+mozixbYr4xtOWi1A6xPn
- oGpg==
-X-Received: by 2002:a17:906:2a81:b0:957:811:e88f with SMTP id
- l1-20020a1709062a8100b009570811e88fmr1415644eje.26.1682069633469; 
- Fri, 21 Apr 2023 02:33:53 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aBiqqRyCqPjJd5a3UtfZtrINDyKCwFSO+YF9HRKCSDb1FwZT+KEZq8dgQAxCdUEBeUUjzwkw==
-X-Received: by 2002:a17:906:2a81:b0:957:811:e88f with SMTP id
- l1-20020a1709062a8100b009570811e88fmr1415636eje.26.1682069633232; 
- Fri, 21 Apr 2023 02:33:53 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- w15-20020a170906b18f00b0094f2c74401csm1791335ejy.203.2023.04.21.02.33.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Apr 2023 02:33:52 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Krempa <pkrempa@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 25/25] tests: lcitool: Switch to OpenSUSE Leap 15.4
-Date: Fri, 21 Apr 2023 11:33:16 +0200
-Message-Id: <20230421093316.17941-26-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230421093316.17941-1-pbonzini@redhat.com>
-References: <20230421093316.17941-1-pbonzini@redhat.com>
+ bh=zkhZsenSyq1FmF5tpquDpHbnBZ8BYf1pzoXgDFvHtyU=;
+ b=MLCyw/7rINtkpGD0EruUaoUMRfzvzWpeYuQ0T9db0j/NZ1uxHuvkuOYp1WC+Mju9pa
+ 6QK0cd8MBHd6XYm2buEkQwdA9afoTT2xldrxZrsB0bH6E5wkGV15eNMZhzMaThhcNaBq
+ jw4cCq0y24XJgOmJrl/ihHnTGooGJsx9ij+eaXG+qjHxobGj64Ivg7yrCezBHelyNQqs
+ tLZOxDBQRVYkEkAtGmqSU1Uo9lcqSUfAiET8DKB/XgUW9iIwv/GmYzo4Fee5Ru5P7PeL
+ G4hjDzVmtNlXHtFnlDJDVp6JP+cPDrsnQphHiDc4hM4ldeZVhXxfc5w+JlWGkbG2RS+c
+ 9XrQ==
+X-Gm-Message-State: AAQBX9dXoqJBJ511DWCCn1nU7QvdmwCeEOzTe6CFW+6PygNVf38xK37F
+ uxY8Sjq44lI58wDcZIH2u3ohfpexGW44cqlf36rsez6Z9j2IUzQDlm7sg0OZfgGS2IjlI8MQfE4
+ fJgUb8FACWvGnEoSXEyg0n8aEEyl59gRFU47Ml5NNIA==
+X-Received: by 2002:a67:fa55:0:b0:42e:4c9f:50b6 with SMTP id
+ j21-20020a67fa55000000b0042e4c9f50b6mr2055793vsq.11.1682069686818; 
+ Fri, 21 Apr 2023 02:34:46 -0700 (PDT)
+X-Google-Smtp-Source: AKy350az7Bfjh65GUv9TP0vwSKC8qGWWYVnW0wc1hxTIdmjx6iJ53GrdmFHLSJakrOpMsgdkqQZoaZlz2uB+LNzuu8k=
+X-Received: by 2002:a67:fa55:0:b0:42e:4c9f:50b6 with SMTP id
+ j21-20020a67fa55000000b0042e4c9f50b6mr2055789vsq.11.1682069686591; Fri, 21
+ Apr 2023 02:34:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230405103216.128103-1-pbonzini@redhat.com>
+In-Reply-To: <20230405103216.128103-1-pbonzini@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 21 Apr 2023 11:34:35 +0200
+Message-ID: <CABgObfZe=6i5orJd25VH_oYZU4+UK-M-R++Ov6dO_61Pu0NVhA@mail.gmail.com>
+Subject: Re: [PATCH 0/4] block: clean up coroutine versions of
+ bdrv_{is_allocated, block_status}*
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -102,171 +94,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Krempa <pkrempa@redhat.com>
+Ping.
 
-Since OpenSUSE Leap 15 counts as a single major release of an LTS distribution,
-lcitool has changed the target name to remove the minor version.  Adjust the
-mappings and refresh script.
+Paolo
 
-This also updates the dockerfile to 15.4, since the 15.3 version is EOL now:
-
-https://get.opensuse.org/leap/15.3
-
-Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <a408b7f241ac59e5944db6ae2360a792305c36e0.1681735482.git.pkrempa@redhat.com>
-[Adjust for target name change and reword commit message. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/docker/dockerfiles/opensuse-leap.docker |  4 +--
- tests/lcitool/libvirt-ci                      |  2 +-
- tests/lcitool/mappings.yml                    | 36 +++++++++----------
- tests/lcitool/refresh                         |  2 +-
- ...suse-leap-153.yml => opensuse-leap-15.yml} |  0
- 5 files changed, 22 insertions(+), 22 deletions(-)
- rename tests/lcitool/targets/{opensuse-leap-153.yml => opensuse-leap-15.yml} (100%)
-
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 28f153b77b56..afb9f5419f5c 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -1,10 +1,10 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile --layers all opensuse-leap-153 qemu
-+#  $ lcitool dockerfile --layers all opensuse-leap-15 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
--FROM registry.opensuse.org/opensuse/leap:15.3
-+FROM registry.opensuse.org/opensuse/leap:15.4
- 
- RUN zypper update -y && \
-     zypper install -y \
-diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
-index 2fa24dce8bc2..85487e140415 160000
---- a/tests/lcitool/libvirt-ci
-+++ b/tests/lcitool/libvirt-ci
-@@ -1 +1 @@
--Subproject commit 2fa24dce8bc2d0d57b02b111dbdbd24e25d4ae95
-+Subproject commit 85487e140415b2ac54b01a9a6b600fd7c21edc2f
-diff --git a/tests/lcitool/mappings.yml b/tests/lcitool/mappings.yml
-index e4719e45516c..454963f07b86 100644
---- a/tests/lcitool/mappings.yml
-+++ b/tests/lcitool/mappings.yml
-@@ -1,71 +1,71 @@
- mappings:
-   flake8:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   meson:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3:
-     CentOSStream8: python38
--    OpenSUSELeap153: python39-base
-+    OpenSUSELeap15: python39-base
- 
-   python3-PyYAML:
-     CentOSStream8: python38-PyYAML
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-devel:
-     CentOSStream8: python38-devel
--    OpenSUSELeap153: python39-devel
-+    OpenSUSELeap15: python39-devel
- 
-   python3-docutils:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-numpy:
-     CentOSStream8: python38-numpy
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-opencv:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-pillow:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-pip:
-     CentOSStream8: python38-pip
--    OpenSUSELeap153: python39-pip
-+    OpenSUSELeap15: python39-pip
- 
-   python3-pillow:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-selinux:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-setuptools:
-     CentOSStream8: python38-setuptools
--    OpenSUSELeap153: python39-setuptools
-+    OpenSUSELeap15: python39-setuptools
- 
-   python3-sphinx:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-sphinx-rtd-theme:
-     CentOSStream8:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
- 
-   python3-venv:
-     CentOSStream8: python38
--    OpenSUSELeap153: python39-base
-+    OpenSUSELeap15: python39-base
- 
-   python3-wheel:
-     CentOSStream8: python38-wheel
--    OpenSUSELeap153: python39-pip
-+    OpenSUSELeap15: python39-pip
- 
- pypi_mappings:
-   # Request more recent version
-@@ -74,4 +74,4 @@ pypi_mappings:
- 
-   # Drop packages that need devel headers
-   python3-numpy:
--    OpenSUSELeap153:
-+    OpenSUSELeap15:
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index c0d7ad551649..33ef1282dac4 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -120,7 +120,7 @@ try:
-     generate_dockerfile("debian-amd64", "debian-11",
-                         trailer="".join(debian11_extras))
-     generate_dockerfile("fedora", "fedora-37")
--    generate_dockerfile("opensuse-leap", "opensuse-leap-153")
-+    generate_dockerfile("opensuse-leap", "opensuse-leap-15")
-     generate_dockerfile("ubuntu2004", "ubuntu-2004")
-     generate_dockerfile("ubuntu2204", "ubuntu-2204")
- 
-diff --git a/tests/lcitool/targets/opensuse-leap-153.yml b/tests/lcitool/targets/opensuse-leap-15.yml
-similarity index 100%
-rename from tests/lcitool/targets/opensuse-leap-153.yml
-rename to tests/lcitool/targets/opensuse-leap-15.yml
--- 
-2.40.0
+On Wed, Apr 5, 2023 at 12:32=E2=80=AFPM Paolo Bonzini <pbonzini@redhat.com>=
+ wrote:
+>
+> Provide coroutine versions of bdrv_is_allocated* and bdrv_block_status*,
+> since the underlying BlockDriver API is coroutine-based, and use
+> automatically-generated wrappers for the "mixed" versions.
+>
+> Paolo
+>
+> Paolo Bonzini (4):
+>   block: rename the bdrv_co_block_status static function
+>   block: complete public block status API
+>   block: switch to co_wrapper for bdrv_is_allocated_*
+>   block: convert more bdrv_is_allocated* and bdrv_block_status* calls to
+>     coroutine versions
+>
+>  block/copy-before-write.c |  2 +-
+>  block/copy-on-read.c      |  8 ++--
+>  block/io.c                | 87 +++++++++------------------------------
+>  block/mirror.c            | 10 ++---
+>  block/qcow2.c             |  5 ++-
+>  block/replication.c       |  8 ++--
+>  block/stream.c            |  8 ++--
+>  block/vvfat.c             | 18 ++++----
+>  include/block/block-io.h  | 30 +++++++++-----
+>  9 files changed, 69 insertions(+), 107 deletions(-)
+>
+> --
+> 2.39.2
 
 
