@@ -2,45 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC356EAA30
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:19:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 703FD6EAA5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:27:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pppjR-0005Kj-5X; Fri, 21 Apr 2023 08:19:17 -0400
+	id 1pppqC-0008Lo-5f; Fri, 21 Apr 2023 08:26:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pppjO-0005KG-Pr
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:19:14 -0400
+ id 1ppppt-0008LI-BI
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:25:58 -0400
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pppjM-0008Ug-Nv
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:19:14 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2tpH1HBWz67lGm;
- Fri, 21 Apr 2023 20:17:59 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 21 Apr
- 2023 13:19:09 +0100
-Date: Fri, 21 Apr 2023 13:19:08 +0100
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>, Fan Ni
- <fan.ni@samsung.com>, <linuxarm@huawei.com>
-Subject: Re: [PATCH 0/2] hw/pci-bridge: pci_expander_bridge: Fix wrong type
- and rework inheritance.
-Message-ID: <20230421131908.000052f4@huawei.com>
-In-Reply-To: <CAFEAcA8g2GeCmQkx3MvotqNVV7AOD7-6BxFckiYcooJj9-UFyg@mail.gmail.com>
-References: <20230420142750.6950-1-Jonathan.Cameron@huawei.com>
- <20230421041812-mutt-send-email-mst@kernel.org>
- <CAFEAcA8g2GeCmQkx3MvotqNVV7AOD7-6BxFckiYcooJj9-UFyg@mail.gmail.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ id 1ppppp-0001O8-Kp
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 08:25:56 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q2txw6QB0z67m0K;
+ Fri, 21 Apr 2023 20:24:36 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 21 Apr 2023 13:25:47 +0100
+To: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
+CC: Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>, <linuxarm@huawei.com>, Thomas
+ Huth <thuth@redhat.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>
+Subject: [RFC PATCH v2] hw/pci-bridge: Fix release ordering by embedding
+ PCIBridgeWindows within PCIBridge
+Date: Fri, 21 Apr 2023 13:25:50 +0100
+Message-ID: <20230421122550.28234-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.122.247.231]
 X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
@@ -70,61 +67,128 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 21 Apr 2023 09:59:57 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
+The lifetime of the PCIBridgeWindows instance accessed via the windows pointer
+in struct PCIBridge is managed separately from the PCIBridge itself.
 
-> On Fri, 21 Apr 2023 at 09:19, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Thu, Apr 20, 2023 at 03:27:48PM +0100, Jonathan Cameron wrote:  
-> > > Peter Maydell highlighted an incorrect conversion to TYPE_PXB_DEVICE from
-> > > a device that didn't have that a an ancestor type. PXB_DEV() used instead of
-> > > PXB_CXL_DEV()/
-> > >
-> > > https://lore.kernel.org/qemu-devel/CAFEAcA-+de+eeLCE4YsAw1O-Qyd_4W1Ra05mGDsU_-3a6d92qw@mail.gmail.com/
-> > >
-> > > During the discussion it became clear that the inheritance of the various
-> > > TYPE_PXB*_DEVICE was unusual. This patchset first provides the minimal
-> > > fix then cleans up the inheritance of types based on functionality.
-> > >
-> > > There is also a rename to TYPE_PXB*_DEV to allow removal of some boilerplate.
-> > >
-> > > Before this series
-> > > TYPE_PXB_DEVICE, TYPE_PXB_PCIE_DEVICE and TYPE_PXB_CXL_DEVICE all
-> > > had TYPE_PCI_DEVICE as their direct parent though they shared a common
-> > > struct PXBDev for their state.  As a result this state contained
-> > > some data that was irrelevant for some the types.
-> > >
-> > > This series changes to
-> > > TYPE_PXB_CXL_DEV has a parent of TYPE_PXB_PCIE_DEV
-> > > TYPE_PXB_PCIE_DEV has a parent of TYPE_PXB_DEV
-> > > TYPE_PXB_DEV continues to have a parent of TYPE_PCI_DEVICE.
-> > >
-> > > Each of the TYPE_PXB*_DEV has a state structure adding those elements
-> > > to their parent that they need. This also allowed dropping a wrapping
-> > > structure for the CXL state as the PXBCXLDev structure already provides
-> > > the equivalent grouping.
-> > >
-> > > Patches are similar to those posted in the thread but rebased on v8.0.0.  
-> >
-> > this conflicts with
-> >     Revert "hw/pxb-cxl: Support passthrough HDM Decoders unless overridden"
-> >
-> > I think you acked that one?  
-> 
-> We should take one or the other, but not both. If this patchset
-> is good then it's probably better to fix the bug rather than
-> revert the feature, I think.
+Triggered by ./qemu-system-x86_64 -M x-remote -display none -monitor stdio
+QEMU monitor: device_add cxl-downstream
 
-If it's easy to drop the revert that would be my preference.
+In some error handling paths (such as the above due to attaching a cxl-downstream
+port anything other than a cxl-upstream port) the g_free() of the PCIBridge
+windows in pci_bridge_region_cleanup() is called before the final call of
+flatview_uref() in address_space_set_flatview() ultimately from
+drain_call_rcu()
 
-If not, then I'm fine spinning a new version of that patch without
-the bug (so with patch 1 of this squashed in).  Patch 2 is somewhat related
-refactoring.  Not necessary to fix the issue even though it was motivated
-by that bug.
+At one stage this resulted in a crash, currently can still be observed using
+valgrind which records a use after free.
 
-Jonathan
+When present, only one instance is allocated. pci_bridge_update_mappings()
+can operate directly on an instance rather than creating a new one and
+swapping it in.  Thus there appears to be no reason to not directly
+couple the lifetimes of the two structures by embedding the PCIBridgeWindows
+within the PCIBridge removing the need for the problematic separate free.
 
-> 
-> -- PMM
+Patch is same as was posted deep in the discussion.
+https://lore.kernel.org/qemu-devel/20230403171232.000020bb@huawei.com/
+
+Posted as an RFC as only lightly tested and I'm not sure what the reasoning
+behind the separation of lifetimes originally was. As such perhaps this is
+not the best route to fixing the issue.
+
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+--
+v2: Fix spurious include of rcu.h (Philippe Mathieu-Daudé)
+---
+ hw/pci/pci_bridge.c         | 19 ++++++++-----------
+ include/hw/pci/pci_bridge.h |  2 +-
+ 2 files changed, 9 insertions(+), 12 deletions(-)
+
+diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
+index dd5af508f9..e7b9345615 100644
+--- a/hw/pci/pci_bridge.c
++++ b/hw/pci/pci_bridge.c
+@@ -184,11 +184,11 @@ static void pci_bridge_init_vga_aliases(PCIBridge *br, PCIBus *parent,
+     }
+ }
+ 
+-static PCIBridgeWindows *pci_bridge_region_init(PCIBridge *br)
++static void pci_bridge_region_init(PCIBridge *br)
+ {
+     PCIDevice *pd = PCI_DEVICE(br);
+     PCIBus *parent = pci_get_bus(pd);
+-    PCIBridgeWindows *w = g_new(PCIBridgeWindows, 1);
++    PCIBridgeWindows *w = &br->windows;
+     uint16_t cmd = pci_get_word(pd->config + PCI_COMMAND);
+ 
+     pci_bridge_init_alias(br, &w->alias_pref_mem,
+@@ -211,8 +211,6 @@ static PCIBridgeWindows *pci_bridge_region_init(PCIBridge *br)
+                           cmd & PCI_COMMAND_IO);
+ 
+     pci_bridge_init_vga_aliases(br, parent, w->alias_vga);
+-
+-    return w;
+ }
+ 
+ static void pci_bridge_region_del(PCIBridge *br, PCIBridgeWindows *w)
+@@ -234,19 +232,18 @@ static void pci_bridge_region_cleanup(PCIBridge *br, PCIBridgeWindows *w)
+     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_IO_LO]));
+     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_IO_HI]));
+     object_unparent(OBJECT(&w->alias_vga[QEMU_PCI_VGA_MEM]));
+-    g_free(w);
+ }
+ 
+ void pci_bridge_update_mappings(PCIBridge *br)
+ {
+-    PCIBridgeWindows *w = br->windows;
++    PCIBridgeWindows *w = &br->windows;
+ 
+     /* Make updates atomic to: handle the case of one VCPU updating the bridge
+      * while another accesses an unaffected region. */
+     memory_region_transaction_begin();
+-    pci_bridge_region_del(br, br->windows);
++    pci_bridge_region_del(br, w);
+     pci_bridge_region_cleanup(br, w);
+-    br->windows = pci_bridge_region_init(br);
++    pci_bridge_region_init(br);
+     memory_region_transaction_commit();
+ }
+ 
+@@ -385,7 +382,7 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
+     sec_bus->address_space_io = &br->address_space_io;
+     memory_region_init(&br->address_space_io, OBJECT(br), "pci_bridge_io",
+                        4 * GiB);
+-    br->windows = pci_bridge_region_init(br);
++    pci_bridge_region_init(br);
+     QLIST_INIT(&sec_bus->child);
+     QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
+ }
+@@ -396,8 +393,8 @@ void pci_bridge_exitfn(PCIDevice *pci_dev)
+     PCIBridge *s = PCI_BRIDGE(pci_dev);
+     assert(QLIST_EMPTY(&s->sec_bus.child));
+     QLIST_REMOVE(&s->sec_bus, sibling);
+-    pci_bridge_region_del(s, s->windows);
+-    pci_bridge_region_cleanup(s, s->windows);
++    pci_bridge_region_del(s, &s->windows);
++    pci_bridge_region_cleanup(s, &s->windows);
+     /* object_unparent() is called automatically during device deletion */
+ }
+ 
+diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+index 01670e9e65..ea54a81a15 100644
+--- a/include/hw/pci/pci_bridge.h
++++ b/include/hw/pci/pci_bridge.h
+@@ -73,7 +73,7 @@ struct PCIBridge {
+     MemoryRegion address_space_mem;
+     MemoryRegion address_space_io;
+ 
+-    PCIBridgeWindows *windows;
++    PCIBridgeWindows windows;
+ 
+     pci_map_irq_fn map_irq;
+     const char *bus_name;
+-- 
+2.37.2
 
 
