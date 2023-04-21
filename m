@@ -2,79 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58E56EA252
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 05:27:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A936EA267
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 05:37:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pphPI-0002QM-LZ; Thu, 20 Apr 2023 23:25:56 -0400
+	id 1pphZY-0005AP-6z; Thu, 20 Apr 2023 23:36:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hoo.linux@gmail.com>)
- id 1pphPG-0002QB-QF
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:25:54 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1pphZT-00057u-0w
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:36:27 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.hoo.linux@gmail.com>)
- id 1pphPE-0005D1-Qy
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:25:54 -0400
-Received: by mail-pf1-x436.google.com with SMTP id
- d2e1a72fcca58-63b73203e0aso11539226b3a.1
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 20:25:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1pphZQ-00073o-9N
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 23:36:26 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-63b5ce4f069so2282196b3a.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 20:36:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682047551; x=1684639551;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+zxRsWS+3IU+RNo3KGaqhN519lT6XoGVpis2yIvD9J4=;
- b=mTvf/+GdsxzrevVYATMdwUZf+VPYPU5UcsdnfuafBVyLLSYzUYkz3JIYaUVVyqcLKk
- O1iiWDq524gGVsNwOsFV4Uxp3ZDSBJ17MqsbmF53mWgy3pybCTOmc2by24GQVT8Wbg2e
- 6FtawOD/Vpoj6pIB9XcBERDjsO7EAQC8Qgtal5BpWs8tKVjUOFSTHr345DEjFwPrgef5
- CfIsQbLrmlprgV1bhEPwwq4lf5fSJlfO36+Jhhe7b3ly5rY6txsT+ICGXNKuPfBtx56q
- UtX7JHCbNSVfWHrNn7hL40dvL3BCAiiApc17l/Xoqt8wsmbz94zkRo4rXVP/6E41pnkS
- K15Q==
+ d=bytedance.com; s=google; t=1682048176; x=1684640176;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1jAyLYhp4ydL9pXoFgTievz8fgHmpFOhj5xccyxtnbM=;
+ b=lp2uPGA/zzrUBtwKYaosqKXYbp1Hfuaopw4Et1t12z8UqIEtWDFJUqvZZm8AXxlaCr
+ J3D4BRSEP9UPFrmgBm0cFxhBEUg8LGrs1C4Ooa5DbdTjExLLIKiduWFeFqUZegKhy0lO
+ PI+OUij8NLg8tdSDSUzWRwOKx0ey59ZTNH3eq4xYsIb0LEp/mIQ3vti5mCr2ciDZ2JMs
+ GEfQiIjGOsYrMyGISiiPL/vdzn7T2jZsXypgv0Nc5Fg+66Fc4ppoZfjvKnb8nkPz0ZFC
+ ByQBiMwVApRyDGt0M5Dap5+fvdGoz7hgNghs/fgJ1YsLYUm/2yHyvqNlG69gI7Ik3k7r
+ H2mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682047551; x=1684639551;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+zxRsWS+3IU+RNo3KGaqhN519lT6XoGVpis2yIvD9J4=;
- b=IGqw2a7jgvqi8bdhFTvQf+XBlp71o3pfY4+2gyuj9B4TmeUFybcLpfGFDvXL2jX73y
- hpawHPzN6dYpRVg7R2uQPHGTV84gOaRaMP8bHGsnswUfUcpK756JReW88AT76FwHWNK2
- Vp/AUkCBdbsbnMwYvWMnMkBXTndeOzCKs7womyTn/ZefqVyaUghHczDP9ddNQ7cSIwGV
- D6SUO38VIoaLRhbv4AwxwenKbJtS6Bk68Y7XRadSyrsSNP8q1/Lj2xZ///7SAYbWwt4H
- tumscUKiVJJVASgoEh3RnEcO1geWEFH4RPL2iJ7fRDOKGas7jsYebhjVqSAO2XLYl313
- UYnA==
-X-Gm-Message-State: AAQBX9fK/T8thRzKT88iih4pCWaHZI21ofwnnHXed8HGwbO936OMhN8t
- 8ZCZgRsTFI2s6ZTlYDm2Mok=
-X-Google-Smtp-Source: AKy350Z7VTSVhHxJYob56JUW59cG1C4XRMANfKcmNbirGqTVp0eb7TcaQmNlYc1+096SEOMQ3XChFg==
-X-Received: by 2002:a17:903:2409:b0:1a2:89eb:3d1a with SMTP id
- e9-20020a170903240900b001a289eb3d1amr3756175plo.6.1682047550719; 
- Thu, 20 Apr 2023 20:25:50 -0700 (PDT)
-Received: from localhost.localdomain
- (ec2-16-163-40-128.ap-east-1.compute.amazonaws.com. [16.163.40.128])
- by smtp.gmail.com with ESMTPSA id
- ix7-20020a170902f80700b001a69918611csm1775868plb.72.2023.04.20.20.25.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 20:25:50 -0700 (PDT)
-From: Robert Hoo <robert.hoo.linux@gmail.com>
-To: pbonzini@redhat.com,
-	qemu-devel@nongnu.org
-Cc: kvm@vger.kernel.org, vkuznets@redhat.com,
- Robert Hoo <robert.hoo.linux@gmail.com>
-Subject: [RESEND][QEMU PATCH] accel/kvm: Don't use KVM maximum support number
- to alloc user memslots
-Date: Fri, 21 Apr 2023 11:25:22 +0800
-Message-Id: <20230421032522.999-1-robert.hoo.linux@gmail.com>
-X-Mailer: git-send-email 2.39.0
+ d=1e100.net; s=20221208; t=1682048176; x=1684640176;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1jAyLYhp4ydL9pXoFgTievz8fgHmpFOhj5xccyxtnbM=;
+ b=Ao6jTpSsvkFD9j2AZmTzkdrFgWxosDTeqkpgMJuaxR1WAR4aVl9Ye8MWTqbKT2o0jk
+ 1SCClKkgSN7ThXbMv0LfpPCZvq7GYXayz6JnGza+hPykGrh3xWdiEBPPBy5CV2xT9CTw
+ lk3WuJOyglYb5zPhIWYkx6GoD2/4F1YgfmJLEEDe4a5pumXwaHntQQfpQrkSHkXbbqss
+ 6JUuKQg502e5kClJcQ4tPr917OHTwpXL85VavRZ76p+YGhADvdWN7mqO7Ku/1YPbQoGK
+ PVXekWoUiDCIdH3svLT4J+ZYNq5X7suGWjTUH0Xd/HeBh/ZGJpp+y4hHqYRPUAyeGvyT
+ /tqA==
+X-Gm-Message-State: AAQBX9dcJe7s/IW8bAgHYBUa8VTowQrUtJBH3K7slbZW8u4Sria/kMR5
+ GWyuKUorhfDZjuNWpfWjUC/y7/zx4KViVljGvNDP
+X-Google-Smtp-Source: AKy350atzH7REymFEakAtJcBDaAv5k9Z2KJkzzHAI/Sc8hjb+qBg15jiqdI8NG3zUUovGGdTavKfB0tnlOpRCjqsQ48=
+X-Received: by 2002:a05:6a21:328d:b0:ee:ac3c:d2de with SMTP id
+ yt13-20020a056a21328d00b000eeac3cd2demr6256801pzb.28.1682048176395; Thu, 20
+ Apr 2023 20:36:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=robert.hoo.linux@gmail.com; helo=mail-pf1-x436.google.com
+References: <20230420113732.336620-1-stefanha@redhat.com>
+ <20230420113732.336620-14-stefanha@redhat.com>
+In-Reply-To: <20230420113732.336620-14-stefanha@redhat.com>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Fri, 21 Apr 2023 11:36:02 +0800
+Message-ID: <CACycT3suSR+nYhe4z2zuocYsBBVSDBCE+614zT0jfDZCBRveaA@mail.gmail.com>
+Subject: Re: [PATCH v3 13/20] block/export: rewrite vduse-blk drain code
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu devel list <qemu-devel@nongnu.org>, Peter Lieven <pl@kamp.de>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, qemu-block@nongnu.org, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ David Woodhouse <dwmw2@infradead.org>, Stefan Weil <sw@weilnetz.de>,
+ Fam Zheng <fam@euphon.net>, 
+ Julia Suvorova <jusual@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ xen-devel@lists.xenproject.org, Hanna Reitz <hreitz@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, eesposit@redhat.com,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Paul Durrant <paul@xen.org>, Aarushi Mehta <mehta.aaru20@gmail.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, 
+ "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,216 +106,310 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Corrects QEMU to properly use what KVM_CAP_NR_MEMSLOTS means,
-i.e. the maximum user memslots KVM supports.
-1. Rename KVMState::nr_slots --> max_slots.
-2. Remember nr_slots in each KML. This also decouples each KML, e.g. x86's
-   two KMLs don't need to have same size of slots[].
-3. Change back initial slot[] size to 32, increase it dynamically
-   (exponentially) till the maximum number KVM supports. 32 should suites
-   almost all normal guests.
+Hi Stefan,
 
-Background:
-Since KVM commit 4fc096a99e01d ("KVM: Raise the maximum number of user
-memslots"), KVM_CAP_NR_MEMSLOTS returns 32764 (SHRT_MAX - 3), which is a
-huge increase from previous 509 (x86). This change based on the fact that
-KVM alloc memslots dynamically. But QEMU allocates that huge number of user
-memslots statically. This is indeed unwanted by both sides. It makes:
+On Thu, Apr 20, 2023 at 7:39=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat.co=
+m> wrote:
+>
+> vduse_blk_detach_ctx() waits for in-flight requests using
+> AIO_WAIT_WHILE(). This is not allowed according to a comment in
+> bdrv_set_aio_context_commit():
+>
+>   /*
+>    * Take the old AioContex when detaching it from bs.
+>    * At this point, new_context lock is already acquired, and we are now
+>    * also taking old_context. This is safe as long as bdrv_detach_aio_con=
+text
+>    * does not call AIO_POLL_WHILE().
+>    */
+>
+> Use this opportunity to rewrite the drain code in vduse-blk:
+>
+> - Use the BlockExport refcount so that vduse_blk_exp_delete() is only
+>   called when there are no more requests in flight.
+>
+> - Implement .drained_poll() so in-flight request coroutines are stopped
+>   by the time .bdrv_detach_aio_context() is called.
+>
+> - Remove AIO_WAIT_WHILE() from vduse_blk_detach_ctx() to solve the
+>   .bdrv_detach_aio_context() constraint violation. It's no longer
+>   needed due to the previous changes.
+>
+> - Always handle the VDUSE file descriptor, even in drained sections. The
+>   VDUSE file descriptor doesn't submit I/O, so it's safe to handle it in
+>   drained sections. This ensures that the VDUSE kernel code gets a fast
+>   response.
+>
+> - Suspend virtqueue fd handlers in .drained_begin() and resume them in
+>   .drained_end(). This eliminates the need for the
+>   aio_set_fd_handler(is_external=3Dtrue) flag, which is being removed fro=
+m
+>   QEMU.
+>
+> This is a long list but splitting it into individual commits would
+> probably lead to git bisect failures - the changes are all related.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  block/export/vduse-blk.c | 132 +++++++++++++++++++++++++++------------
+>  1 file changed, 93 insertions(+), 39 deletions(-)
+>
+> diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+> index f7ae44e3ce..35dc8fcf45 100644
+> --- a/block/export/vduse-blk.c
+> +++ b/block/export/vduse-blk.c
+> @@ -31,7 +31,8 @@ typedef struct VduseBlkExport {
+>      VduseDev *dev;
+>      uint16_t num_queues;
+>      char *recon_file;
+> -    unsigned int inflight;
+> +    unsigned int inflight; /* atomic */
+> +    bool vqs_started;
+>  } VduseBlkExport;
+>
+>  typedef struct VduseBlkReq {
+> @@ -41,13 +42,24 @@ typedef struct VduseBlkReq {
+>
+>  static void vduse_blk_inflight_inc(VduseBlkExport *vblk_exp)
+>  {
+> -    vblk_exp->inflight++;
+> +    if (qatomic_fetch_inc(&vblk_exp->inflight) =3D=3D 0) {
 
-1. Memory waste. Allocates (SHRT_MAX - 3) * sizeof(KVMSlot), while a
-typical VM needs far less, e.g. my VM just reached 9th as the highest mem
-slot ever used. x86 further, has 2 kmls; approx. 2 x 2MB for each VM.
-2. Time waste. Several KML Slot functions go through the whole
-KML::slots[], (SHRT_MAX - 3) makes it far longer than necessary, e.g.
-kvm_lookup_matching_slot(), kvm_physical_memory_addr_from_host(),
-kvm_physical_log_clear(), kvm_log_sync_global().
+I wonder why we need to use atomic operations here.
 
-Functional Test:
-Temporarily set KVM_DEF_NR_SLOTS = 8, let it go through slot[] dynamic
-increase, VM launched and works well.
+> +        /* Prevent export from being deleted */
+> +        aio_context_acquire(vblk_exp->export.ctx);
+> +        blk_exp_ref(&vblk_exp->export);
+> +        aio_context_release(vblk_exp->export.ctx);
+> +    }
+>  }
+>
+>  static void vduse_blk_inflight_dec(VduseBlkExport *vblk_exp)
+>  {
+> -    if (--vblk_exp->inflight =3D=3D 0) {
+> +    if (qatomic_fetch_dec(&vblk_exp->inflight) =3D=3D 1) {
+> +        /* Wake AIO_WAIT_WHILE() */
+>          aio_wait_kick();
+> +
+> +        /* Now the export can be deleted */
+> +        aio_context_acquire(vblk_exp->export.ctx);
+> +        blk_exp_unref(&vblk_exp->export);
+> +        aio_context_release(vblk_exp->export.ctx);
+>      }
+>  }
+>
+> @@ -124,8 +136,12 @@ static void vduse_blk_enable_queue(VduseDev *dev, Vd=
+useVirtq *vq)
+>  {
+>      VduseBlkExport *vblk_exp =3D vduse_dev_get_priv(dev);
+>
+> +    if (!vblk_exp->vqs_started) {
+> +        return; /* vduse_blk_drained_end() will start vqs later */
+> +    }
+> +
+>      aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
+> -                       true, on_vduse_vq_kick, NULL, NULL, NULL, vq);
+> +                       false, on_vduse_vq_kick, NULL, NULL, NULL, vq);
+>      /* Make sure we don't miss any kick afer reconnecting */
+>      eventfd_write(vduse_queue_get_fd(vq), 1);
+>  }
+> @@ -133,9 +149,14 @@ static void vduse_blk_enable_queue(VduseDev *dev, Vd=
+useVirtq *vq)
+>  static void vduse_blk_disable_queue(VduseDev *dev, VduseVirtq *vq)
+>  {
+>      VduseBlkExport *vblk_exp =3D vduse_dev_get_priv(dev);
+> +    int fd =3D vduse_queue_get_fd(vq);
+>
+> -    aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
+> -                       true, NULL, NULL, NULL, NULL, NULL);
+> +    if (fd < 0) {
+> +        return;
+> +    }
+> +
+> +    aio_set_fd_handler(vblk_exp->export.ctx, fd, false,
+> +                       NULL, NULL, NULL, NULL, NULL);
+>  }
+>
+>  static const VduseOps vduse_blk_ops =3D {
+> @@ -152,42 +173,19 @@ static void on_vduse_dev_kick(void *opaque)
+>
+>  static void vduse_blk_attach_ctx(VduseBlkExport *vblk_exp, AioContext *c=
+tx)
+>  {
+> -    int i;
+> -
+>      aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->=
+dev),
+> -                       true, on_vduse_dev_kick, NULL, NULL, NULL,
+> +                       false, on_vduse_dev_kick, NULL, NULL, NULL,
+>                         vblk_exp->dev);
+>
+> -    for (i =3D 0; i < vblk_exp->num_queues; i++) {
+> -        VduseVirtq *vq =3D vduse_dev_get_queue(vblk_exp->dev, i);
+> -        int fd =3D vduse_queue_get_fd(vq);
+> -
+> -        if (fd < 0) {
+> -            continue;
+> -        }
+> -        aio_set_fd_handler(vblk_exp->export.ctx, fd, true,
+> -                           on_vduse_vq_kick, NULL, NULL, NULL, vq);
+> -    }
+> +    /* Virtqueues are handled by vduse_blk_drained_end() */
+>  }
+>
+>  static void vduse_blk_detach_ctx(VduseBlkExport *vblk_exp)
+>  {
+> -    int i;
+> -
+> -    for (i =3D 0; i < vblk_exp->num_queues; i++) {
+> -        VduseVirtq *vq =3D vduse_dev_get_queue(vblk_exp->dev, i);
+> -        int fd =3D vduse_queue_get_fd(vq);
+> -
+> -        if (fd < 0) {
+> -            continue;
+> -        }
+> -        aio_set_fd_handler(vblk_exp->export.ctx, fd,
+> -                           true, NULL, NULL, NULL, NULL, NULL);
+> -    }
+>      aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->=
+dev),
+> -                       true, NULL, NULL, NULL, NULL, NULL);
+> +                       false, NULL, NULL, NULL, NULL, NULL);
+>
+> -    AIO_WAIT_WHILE(vblk_exp->export.ctx, vblk_exp->inflight > 0);
+> +    /* Virtqueues are handled by vduse_blk_drained_begin() */
+>  }
+>
+>
+> @@ -220,8 +218,55 @@ static void vduse_blk_resize(void *opaque)
+>                              (char *)&config.capacity);
+>  }
+>
+> +static void vduse_blk_stop_virtqueues(VduseBlkExport *vblk_exp)
+> +{
+> +    for (uint16_t i =3D 0; i < vblk_exp->num_queues; i++) {
+> +        VduseVirtq *vq =3D vduse_dev_get_queue(vblk_exp->dev, i);
+> +        vduse_blk_disable_queue(vblk_exp->dev, vq);
+> +    }
+> +
+> +    vblk_exp->vqs_started =3D false;
+> +}
+> +
+> +static void vduse_blk_start_virtqueues(VduseBlkExport *vblk_exp)
+> +{
+> +    vblk_exp->vqs_started =3D true;
+> +
+> +    for (uint16_t i =3D 0; i < vblk_exp->num_queues; i++) {
+> +        VduseVirtq *vq =3D vduse_dev_get_queue(vblk_exp->dev, i);
+> +        vduse_blk_enable_queue(vblk_exp->dev, vq);
+> +    }
+> +}
+> +
+> +static void vduse_blk_drained_begin(void *opaque)
+> +{
+> +    BlockExport *exp =3D opaque;
+> +    VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expor=
+t);
+> +
+> +    vduse_blk_stop_virtqueues(vblk_exp);
+> +}
+> +
+> +static void vduse_blk_drained_end(void *opaque)
+> +{
+> +    BlockExport *exp =3D opaque;
+> +    VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expor=
+t);
+> +
+> +    vduse_blk_start_virtqueues(vblk_exp);
+> +}
+> +
+> +static bool vduse_blk_drained_poll(void *opaque)
+> +{
+> +    BlockExport *exp =3D opaque;
+> +    VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expor=
+t);
+> +
+> +    return qatomic_read(&vblk_exp->inflight) > 0;
+> +}
+> +
+>  static const BlockDevOps vduse_block_ops =3D {
+> -    .resize_cb =3D vduse_blk_resize,
+> +    .resize_cb     =3D vduse_blk_resize,
+> +    .drained_begin =3D vduse_blk_drained_begin,
+> +    .drained_end   =3D vduse_blk_drained_end,
+> +    .drained_poll  =3D vduse_blk_drained_poll,
+>  };
+>
+>  static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *op=
+ts,
+> @@ -268,6 +313,7 @@ static int vduse_blk_exp_create(BlockExport *exp, Blo=
+ckExportOptions *opts,
+>      vblk_exp->handler.serial =3D g_strdup(vblk_opts->serial ?: "");
+>      vblk_exp->handler.logical_block_size =3D logical_block_size;
+>      vblk_exp->handler.writable =3D opts->writable;
+> +    vblk_exp->vqs_started =3D true;
+>
+>      config.capacity =3D
+>              cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BIT=
+S);
+> @@ -322,14 +368,20 @@ static int vduse_blk_exp_create(BlockExport *exp, B=
+lockExportOptions *opts,
+>          vduse_dev_setup_queue(vblk_exp->dev, i, queue_size);
+>      }
+>
+> -    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev), true,
+> +    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev), false,
+>                         on_vduse_dev_kick, NULL, NULL, NULL, vblk_exp->de=
+v);
+>
+>      blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_det=
+ach,
+>                                   vblk_exp);
+> -
+>      blk_set_dev_ops(exp->blk, &vduse_block_ops, exp);
+>
+> +    /*
+> +     * We handle draining ourselves using an in-flight counter and by di=
+sabling
+> +     * virtqueue fd handlers. Do not queue BlockBackend requests, they n=
+eed to
+> +     * complete so the in-flight counter reaches zero.
+> +     */
+> +    blk_set_disable_request_queuing(exp->blk, true);
+> +
+>      return 0;
+>  err:
+>      vduse_dev_destroy(vblk_exp->dev);
+> @@ -344,6 +396,9 @@ static void vduse_blk_exp_delete(BlockExport *exp)
+>      VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expor=
+t);
+>      int ret;
+>
+> +    assert(qatomic_read(&vblk_exp->inflight) =3D=3D 0);
+> +
+> +    vduse_blk_detach_ctx(vblk_exp);
+>      blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_=
+detach,
+>                                      vblk_exp);
+>      blk_set_dev_ops(exp->blk, NULL, NULL);
+> @@ -355,13 +410,12 @@ static void vduse_blk_exp_delete(BlockExport *exp)
+>      g_free(vblk_exp->handler.serial);
+>  }
+>
+> +/* Called with exp->ctx acquired */
+>  static void vduse_blk_exp_request_shutdown(BlockExport *exp)
+>  {
+>      VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expor=
+t);
+>
+> -    aio_context_acquire(vblk_exp->export.ctx);
+> -    vduse_blk_detach_ctx(vblk_exp);
+> -    aio_context_acquire(vblk_exp->export.ctx);
+> +    vduse_blk_stop_virtqueues(vblk_exp);
 
-Performance improvement:
-Func time (ns) of kvm_lookup_matching_slot(), for example,
-			Before				After
-sample count		5874				6812
-mean			11403				5867
-min			1775				1722
-max			784949				30263
+Can we add a AIO_WAIT_WHILE() here? Then we don't need to
+increase/decrease the BlockExport refcount during I/O processing.
 
-Signed-off-by: Robert Hoo <robert.hoo.linux@gmail.com>
----
-Resend:
-Add stats about kvm_lookup_matching_slot() for example.
-CC kvm mail list per get_maintainer.pl suggests.
-I believe this benefits Live Migration, but not devices at hand to do
-the system level test.
-
- accel/kvm/kvm-all.c      | 57 +++++++++++++++++++++++++++++-----------
- include/sysemu/kvm_int.h |  4 ++-
- 2 files changed, 45 insertions(+), 16 deletions(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index cf3a88d90e..708170139c 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -178,22 +178,50 @@ int kvm_get_max_memslots(void)
- {
-     KVMState *s = KVM_STATE(current_accel());
- 
--    return s->nr_slots;
-+    return s->max_slots;
- }
- 
--/* Called with KVMMemoryListener.slots_lock held */
-+/* Called with kvm_slots_lock()'ed */
- static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
- {
-     KVMState *s = kvm_state;
-+    KVMSlot *new_slots;
-     int i;
-+    int new_nr, old_nr;
- 
--    for (i = 0; i < s->nr_slots; i++) {
-+    for (i = 0; i < kml->nr_slots; i++) {
-         if (kml->slots[i].memory_size == 0) {
-             return &kml->slots[i];
-         }
-     }
- 
--    return NULL;
-+    /* Already reached maximum, no more can expand */
-+    if (kml->nr_slots >= s->max_slots) {
-+        return NULL;
-+    }
-+
-+    new_nr = 2 * kml->nr_slots;
-+    new_nr = MIN(new_nr, s->max_slots);
-+    /* It might overflow */
-+    if (new_nr < 0 || new_nr <= kml->nr_slots) {
-+        return NULL;
-+    }
-+
-+    new_slots = g_try_new0(KVMSlot, new_nr);
-+    if (!new_slots) {
-+        return NULL;
-+    }
-+
-+    memcpy(new_slots, kml->slots, kml->nr_slots * sizeof(KVMSlot));
-+    old_nr = kml->nr_slots;
-+    kml->nr_slots = new_nr;
-+    g_free(kml->slots);
-+    kml->slots = new_slots;
-+    for (i = old_nr; i < kml->nr_slots; i++) {
-+        kml->slots[i].slot = i;
-+    }
-+
-+    return &kml->slots[old_nr];
- }
- 
- bool kvm_has_free_slot(MachineState *ms)
-@@ -226,10 +254,9 @@ static KVMSlot *kvm_lookup_matching_slot(KVMMemoryListener *kml,
-                                          hwaddr start_addr,
-                                          hwaddr size)
- {
--    KVMState *s = kvm_state;
-     int i;
- 
--    for (i = 0; i < s->nr_slots; i++) {
-+    for (i = 0; i < kml->nr_slots; i++) {
-         KVMSlot *mem = &kml->slots[i];
- 
-         if (start_addr == mem->start_addr && size == mem->memory_size) {
-@@ -271,7 +298,7 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
-     int i, ret = 0;
- 
-     kvm_slots_lock();
--    for (i = 0; i < s->nr_slots; i++) {
-+    for (i = 0; i < kml->nr_slots; i++) {
-         KVMSlot *mem = &kml->slots[i];
- 
-         if (ram >= mem->ram && ram < mem->ram + mem->memory_size) {
-@@ -1002,7 +1029,7 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
- 
-     kvm_slots_lock();
- 
--    for (i = 0; i < s->nr_slots; i++) {
-+    for (i = 0; i < kml->nr_slots; i++) {
-         mem = &kml->slots[i];
-         /* Discard slots that are empty or do not overlap the section */
-         if (!mem->memory_size ||
-@@ -1566,7 +1593,6 @@ static void kvm_log_sync(MemoryListener *listener,
- static void kvm_log_sync_global(MemoryListener *l)
- {
-     KVMMemoryListener *kml = container_of(l, KVMMemoryListener, listener);
--    KVMState *s = kvm_state;
-     KVMSlot *mem;
-     int i;
- 
-@@ -1578,7 +1604,7 @@ static void kvm_log_sync_global(MemoryListener *l)
-      * only a few used slots (small VMs).
-      */
-     kvm_slots_lock();
--    for (i = 0; i < s->nr_slots; i++) {
-+    for (i = 0; i < kml->nr_slots; i++) {
-         mem = &kml->slots[i];
-         if (mem->memory_size && mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
-             kvm_slot_sync_dirty_pages(mem);
-@@ -1687,10 +1713,11 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
- {
-     int i;
- 
--    kml->slots = g_new0(KVMSlot, s->nr_slots);
-+    kml->slots = g_new0(KVMSlot, KVM_DEF_NR_SLOTS);
-+    kml->nr_slots = KVM_DEF_NR_SLOTS;
-     kml->as_id = as_id;
- 
--    for (i = 0; i < s->nr_slots; i++) {
-+    for (i = 0; i < kml->nr_slots; i++) {
-         kml->slots[i].slot = i;
-     }
- 
-@@ -2427,11 +2454,11 @@ static int kvm_init(MachineState *ms)
-     }
- 
-     kvm_immediate_exit = kvm_check_extension(s, KVM_CAP_IMMEDIATE_EXIT);
--    s->nr_slots = kvm_check_extension(s, KVM_CAP_NR_MEMSLOTS);
-+    s->max_slots = kvm_check_extension(s, KVM_CAP_NR_MEMSLOTS);
- 
-     /* If unspecified, use the default value */
--    if (!s->nr_slots) {
--        s->nr_slots = 32;
-+    if (s->max_slots <= 0) {
-+        s->max_slots = KVM_DEF_NR_SLOTS;
-     }
- 
-     s->nr_as = kvm_check_extension(s, KVM_CAP_MULTI_ADDRESS_SPACE);
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index a641c974ea..38297ae366 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -37,8 +37,10 @@ typedef struct KVMMemoryUpdate {
-     MemoryRegionSection section;
- } KVMMemoryUpdate;
- 
-+#define KVM_DEF_NR_SLOTS 32
- typedef struct KVMMemoryListener {
-     MemoryListener listener;
-+    int nr_slots;
-     KVMSlot *slots;
-     int as_id;
-     QSIMPLEQ_HEAD(, KVMMemoryUpdate) transaction_add;
-@@ -69,7 +71,7 @@ struct KVMState
- {
-     AccelState parent_obj;
- 
--    int nr_slots;
-+    int max_slots;
-     int fd;
-     int vmfd;
-     int coalesced_mmio;
-
-base-commit: c6f3cbca32bde9ee94d9949aa63e8a7ef2d7bc5b
--- 
-2.31.1
-
+Thanks,
+Yongji
 
