@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835896EA0D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 03:14:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412626EA0D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 03:13:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppfKN-0002c8-AH; Thu, 20 Apr 2023 21:12:43 -0400
+	id 1ppfKn-0002hE-ED; Thu, 20 Apr 2023 21:13:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1ppfKK-0002bA-9O
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:40 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ id 1ppfKL-0002bB-1r
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:41 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1ppfKA-0008KS-9E
- for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:39 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id
- 41be03b00d2f7-524b02cc166so898095a12.0
+ id 1ppfKA-0008KX-B7
+ for qemu-devel@nongnu.org; Thu, 20 Apr 2023 21:12:40 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ 98e67ed59e1d1-246fa478d45so1451014a91.3
  for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 18:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682039547; x=1684631547;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=66T6IkDCXTKMCU19HS077We1ZzJOoGsgYj56IyaO7XI=;
- b=S6g/lq8XNfdLuiXOJvcm2zxRslL86hbwz0HYxednZTRuTtLvq28WoH1PuMCgQ/S1ik
- WmQ1G1zhC+sxhnYAKyTHhPO/BwtgZljPLQVJN8sXwQElgkUweD7jhwvVe7dLwKnWtXfx
- RbM4KoVFOwF6lpa+W498JHoGY/oH4iIS3mz40=
+ d=chromium.org; s=google; t=1682039549; x=1684631549;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+1/aJ9cKYlVu/fza4q8BHTu511UJuh61NIe2fSyDtS0=;
+ b=KxRoGc3j5LUc1tgSh6j7RX6rnB3+ku5ZcilsTyDNv2eA8nIWYWUySP4McEsuvI5yDm
+ vDCgymPa5RxOqEEPOPRZCd1X/qXVjXq+zhS7pibfJW4cWSVpR+nyHqgU9gvi0QVycVD9
+ D4Grp4LgH6aNJllNuHDqJG77h3/m0GNmieFJU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682039547; x=1684631547;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=66T6IkDCXTKMCU19HS077We1ZzJOoGsgYj56IyaO7XI=;
- b=jWUz2Sw8TnK9U/EJRqUT7jDYjQE8YCQaKpbixgNTs3/2jC1HiiespKA4ugKj4Mu2PK
- sdXanwimRLN87gy/L0VJf+kibf4qKir9RtyEj/yo8Rc4dYKbd2NUKlg1gPqzEOTixOPk
- vuMFV0sHZGFxmczF0FhF+/AE11ayA2aNB49XyprPy3Vu9Kgh7OOa4+qP27zsYlXrpe5E
- 4HDfVRiMVigVga/qvUOiVboE4SjJh/uG+DP0CQIrAe1I8Nyz79Gd5c+aEGs5+52LhChg
- DqqbSfqS2/UXmaox0f95euDFcYDqT4EDuQaqO3+Xw0h17YF3mCEy/dscHnvc2sfZz916
- 1thw==
-X-Gm-Message-State: AAQBX9f5H6cgNnvtH2d7LNmXumKGuh2TSebsoYuNi1k0egTRL3fG6DL4
- kVDxnw61oT9LX3OGE5qx8jSEmcLO4SEmcL4sT3wjS8Bf
-X-Google-Smtp-Source: AKy350Y1Jp7cvjk4Mpr6jNO4KaxWEIQJZBW8cTgXUwk036F/IAhCjOjtEXf/2pPUWgsrCxuk7v0P8w==
-X-Received: by 2002:a17:90a:e584:b0:246:b6f9:148a with SMTP id
- g4-20020a17090ae58400b00246b6f9148amr3463397pjz.21.1682039547222; 
- Thu, 20 Apr 2023 18:12:27 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682039549; x=1684631549;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+1/aJ9cKYlVu/fza4q8BHTu511UJuh61NIe2fSyDtS0=;
+ b=QMdPHoqmiSDaz/V2V2xVKBKjV0PlxsDLE+h0dDGbqQsm1/rjH5SQ/Q+EYKUyyxVP2S
+ 6usxUwfFwAKpT9C8AL+0D0HG3fAyYdGK+ZNgbYB1U8elIOMEJaCpSx2JGtr2AUOaiO6A
+ BdAXpSSuHYpP3JbwenH0CuyS7CVtohD1Jqnks/ILEDqm2OrDkB2RfhhgAYKIxSivFpCf
+ Ejn+mjpqkwV1u0tEaw5AmQaxNGvEKNmg7CMs6x14rxyf03epQdxRNKwYOgCO1zgHQscH
+ Ru07bXiWTinqwGtvhbdipr7k7uWS3qCuBgIQqCKjZb2Apn3eLwSF6d1QBDDS1XlYCXLQ
+ Zc7Q==
+X-Gm-Message-State: AAQBX9e/UPqrCjl1lGkqvxOsjTvgIBdrll4DTrZQVAa3asQo6r2BFlYU
+ dtZ5v7GJi4FmJ7yekxeOTYpmm7EJZCykG92PIabIapg8
+X-Google-Smtp-Source: AKy350agKVaE3oUxvUc2LJMEjMBEv/swjNSxEecHODiXvX+eZwhXp37KA0XL6eJaHQ4W5z6h8PIt8Q==
+X-Received: by 2002:a17:90b:1018:b0:247:6a93:1d56 with SMTP id
+ gm24-20020a17090b101800b002476a931d56mr3208310pjb.22.1682039548814; 
+ Thu, 20 Apr 2023 18:12:28 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:a7:2:6625:6aa3:1b0e:a808])
  by smtp.gmail.com with ESMTPSA id
- f4-20020a17090a8e8400b0024702e7c80fsm1697640pjo.23.2023.04.20.18.12.25
+ f4-20020a17090a8e8400b0024702e7c80fsm1697640pjo.23.2023.04.20.18.12.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Apr 2023 18:12:26 -0700 (PDT)
+ Thu, 20 Apr 2023 18:12:28 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, philmd@linaro.org, david@redhat.com,
  stefanha@redhat.com, kraxel@redhat.com, marcandre.lureau@redhat.com,
  akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com,
  alex.bennee@linaro.org
-Subject: [RFC PATCH 00/13] gfxstream + rutabaga_gfx: a surprising delight or
- startling epiphany?
-Date: Thu, 20 Apr 2023 18:12:10 -0700
-Message-Id: <20230421011223.718-1-gurchetansingh@chromium.org>
+Subject: [RFC PATCH 01/13] virtio: Add shared memory capability
+Date: Thu, 20 Apr 2023 18:12:11 -0700
+Message-Id: <20230421011223.718-2-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20230421011223.718-1-gurchetansingh@chromium.org>
+References: <20230421011223.718-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=gurchetansingh@chromium.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=gurchetansingh@chromium.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,184 +92,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Gurchetan Singh <gurchetansingh@google.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Rationale:
+Define a new capability type 'VIRTIO_PCI_CAP_SHARED_MEMORY_CFG' to allow
+defining shared memory regions with sizes and offsets of 2^32 and more.
+Multiple instances of the capability are allowed and distinguished
+by a device-specific 'id'.
 
-- gfxstream [a] is good for the Android Emulator/upstream QEMU
-  alignment
-- Wayland passhthrough [b] via the cross-domain context type is good
-  for Linux on Linux display virtualization
-- rutabaga_gfx [c] sits on top of gfxstream, cross-domain and even
-  virglrenderer
-- This series ports rutabaga_gfx to QEMU
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+---
+ hw/virtio/virtio-pci.c         | 18 ++++++++++++++++++
+ include/hw/virtio/virtio-pci.h |  4 ++++
+ 2 files changed, 22 insertions(+)
 
-Feedback requested:
-
-- How is everyone feeling about gfxstream/rutabaga_gfx, especially UI
-  maintainers?  I've been assuming it is a definite win, so if there's
-  a divergence of opinion on that, we should resolve that quickly.
-
-- Need help from memory region API experts on "HACK: use memory region
-  API to inject memory to guest"
-
-- Need help from QEMU multi-threaded experts on "HACK: schedule fence
-  return on main AIO context"
-
-----------
-| Longer |
-----------
-
-Dear all,
-
-The people have demanded it, and we have listened.  Just the other
-day, some kids came up to me on the street -- hat in hand, teardrops
-in their eyes -- and asked "please sir, can you perchance port
-gfxstream and rutabaga_gfx to upstream QEMU?".  I honestly can't take
-it anymore.
-
-In a way, I can understand the fanaticism of the gfxstreamists -- the
-benefits of gfxstream + rutabaga_gfx in upstream QEMU are massive for
-all involved:
-
-(i) Android Emulator aligned with QEMU
-
-The biggest use case is no doubt the Android Emulator.  Although used
-by millions of developers around the world [d][e], the Android Emulator
-itself uses currently uses a forked QEMU 2.12.  The initial fork
-happened in the early days of Android (circa 2006 [f]) and while the
-situation has improved, a QEMU update inside the Android Emulator only
-happens once every 3-5 years. Indeed, most Android Emulator developers
-aren't even subscribed to qemu-devel@ given this situation.  Their
-task is often to get the next foldable config working or fix that UI
-bug, but long term technical debt is something that is rarely
-prioritized.
-
-This one of those years when QEMU will be upreved, though.  Soon, the
-emulator will be based on QEMU7.2 and new controls will be instituted
-to make QEMU modifications harder.  Things that can be upstreamed
-will be upstreamed.
-
-One of the biggest downstream pieces of the Android Emulator is the
-gfxstream graphics stack, and it has some nontrivial features that
-aren't easy to implement elsewhere [g].
-
-The lore of gfxstream is detailed in patch 10, but suffice to say
-getting gfxstream mainlined would help move the Android Emulator out
-of it's downstream mud hut into the light, love and compassion of
-upstream.
-
-(ii) Wayland passthrough
-
-For the Linux guest on Linux host use case, we've elected to port
-rutabaga_gfx into QEMU rather than gfxstream.  rutabaga_gfx sits on
-top of gfxstream, virglrenderer, and the cross-domain context type.
-With the cross-domain context type, one can avoid a guest compositor
-pass to display VM windows like host normal windows.  It's now
-possible to run the examples found in the crosvm book [h] with this
-patchset.  There are a few problems [i], but fixing them is O(days).
-
-This use case is less strong than the Android Emulator one, since
-anyone who would play a game in a Linux guest via QEMU would be able
-to run it natively.  But it could be good for developers who need to
-test code in a virtual machine.
-
-------------------
-| Issues         |
-------------------
-
-The two biggest unsolved issues are the last two "HACK:" patches.
-Feedback from QEMU memory management and threading experts would be
-greatly appreciated.
-
-------------------
-| UI integration |
-------------------
-
-This patchset intentionally uses the simplest KMS display integration
-possible: framebuffer copies to Pixman.  The reason is Linux guests
-are expected to use Wayland Passthrough, and the Android Emulator UI
-integration is very complex.  gfxstream doesn't have a "context 0"
-like virglrenderer that can force synchronization between QEMU's and
-gfxstream's GL code.
-
-Initially, we just want to run the Android Emulator in headless mode,
-and we have a few subsequent followup ideas in mind for UI integration
-(all of with the goal to be minimally invasive for QEMU).  Note: even
-with Android in headless mode, QEMU upstream will be used in production
-and not just be a developer toy.
-
---------------------------
-| Packaging / Versioning |
---------------------------
-
-We have to build QEMU from sources due to compliance reasons, so we
-haven't created Debian packages for either gfxstream or rutabaga_gfx
-yet.  QEMU is upstream of Debian/Portage anyways.  Let us know the
-standard on packaging and we should be able to follow it.
-
-Versioning would be keyed on initial merge into QEMU.
-
---------------------------
-| Testing                |
---------------------------
-
-A document on how to test the patchset is availble on QEMU Gitlab [j].
-
-[a] https://android.googlesource.com/device/generic/vulkan-cereal/
-[b] https://www.youtube.com/watch?v=OZJiHMtIQ2M
-[c] https://github.com/google/crosvm/blob/main/rutabaga_gfx/ffi/src/include/rutabaga_gfx_ffi.h
-[d] https://www.youtube.com/watch?v=LgRRmgfrFQM
-[e] https://maltewolfcastle.medium.com/how-to-setup-an-automotive-android-emulator-f287a4061b19
-[f] https://groups.google.com/g/android-emulator-dev/c/dltBnUW_HzU
-[g] https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04271.html
-[h] https://crosvm.dev/book/devices/wayland.html
-[i] https://github.com/talex5/wayland-proxy-virtwl/blob/master/virtio-spec.md#problem
-[j] https://gitlab.com/qemu-project/qemu/-/issues/1611
-
-Antonio Caggiano (2):
-  virtio-gpu blob prep: improve decoding and add memory region
-  virtio-gpu: CONTEXT_INIT feature
-
-Dr. David Alan Gilbert (1):
-  virtio: Add shared memory capability
-
-Gerd Hoffmann (1):
-  virtio-gpu: hostmem
-
-Gurchetan Singh (9):
-  gfxstream + rutabaga prep: virtio_gpu_gl -> virtio_gpu_virgl
-  gfxstream + rutabaga prep: make GL device more library agnostic
-  gfxstream + rutabaga prep: define callbacks in realize function
-  gfxstream + rutabaga prep: added need defintions, fields, and options
-  gfxstream + rutabaga: add required meson changes
-  gfxstream + rutabaga: add initial support for gfxstream
-  gfxstream + rutabaga: enable rutabaga
-  HACK: use memory region API to inject memory to guest
-  HACK: schedule fence return on main AIO context
-
- hw/display/meson.build                 |   40 +-
- hw/display/virtio-gpu-base.c           |    6 +-
- hw/display/virtio-gpu-gl.c             |  121 +--
- hw/display/virtio-gpu-pci.c            |   14 +
- hw/display/virtio-gpu-rutabaga-stubs.c |    8 +
- hw/display/virtio-gpu-rutabaga.c       | 1032 ++++++++++++++++++++++++
- hw/display/virtio-gpu-virgl-stubs.c    |    8 +
- hw/display/virtio-gpu-virgl.c          |  138 +++-
- hw/display/virtio-gpu.c                |   17 +-
- hw/display/virtio-vga.c                |   33 +-
- hw/virtio/virtio-pci.c                 |   18 +
- include/hw/virtio/virtio-gpu-bswap.h   |   18 +
- include/hw/virtio/virtio-gpu.h         |   38 +-
- include/hw/virtio/virtio-pci.h         |    4 +
- meson.build                            |    8 +
- meson_options.txt                      |    2 +
- scripts/meson-buildoptions.sh          |    3 +
- 17 files changed, 1356 insertions(+), 152 deletions(-)
- create mode 100644 hw/display/virtio-gpu-rutabaga-stubs.c
- create mode 100644 hw/display/virtio-gpu-rutabaga.c
- create mode 100644 hw/display/virtio-gpu-virgl-stubs.c
-
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 247325c193..08ba76fca2 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1399,6 +1399,24 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
+     return offset;
+ }
+ 
++int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
++                           uint8_t bar, uint64_t offset, uint64_t length,
++                           uint8_t id)
++{
++    struct virtio_pci_cap64 cap = {
++        .cap.cap_len = sizeof cap,
++        .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
++    };
++
++    cap.cap.bar = bar;
++    cap.cap.length = cpu_to_le32(length);
++    cap.length_hi = cpu_to_le32(length >> 32);
++    cap.cap.offset = cpu_to_le32(offset);
++    cap.offset_hi = cpu_to_le32(offset >> 32);
++    cap.cap.id = id;
++    return virtio_pci_add_mem_cap(proxy, &cap.cap);
++}
++
+ static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
+                                        unsigned size)
+ {
+diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
+index ab2051b64b..5a3f182f99 100644
+--- a/include/hw/virtio/virtio-pci.h
++++ b/include/hw/virtio/virtio-pci.h
+@@ -264,4 +264,8 @@ unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
+ void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
+                                               int n, bool assign,
+                                               bool with_irqfd);
++
++int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy, uint8_t bar, uint64_t offset,
++                           uint64_t length, uint8_t id);
++
+ #endif
 -- 
 2.40.0.634.g4ca3ef3211-goog
 
