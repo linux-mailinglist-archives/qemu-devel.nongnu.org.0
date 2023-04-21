@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4739C6EA9B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 13:55:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4336EA9D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 14:01:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pppLu-00070y-I8; Fri, 21 Apr 2023 07:54:58 -0400
+	id 1pppQQ-0003te-AC; Fri, 21 Apr 2023 07:59:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pppLl-0006wU-V3
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:54:51 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pppLk-00041T-Dc
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 07:54:49 -0400
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-5066ce4f725so2240469a12.1
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 04:54:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682078086; x=1684670086;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yepHUzTuFqL58fI/+c8zlcPcCWo9u4xZkRuZuyr7G3Y=;
- b=CEXKcL4vrom830eDp1Q5NdtEa7kzhYJhHvxwXVfI3t3KnW0j/Dng/ARrN2YtBWwT+x
- kDuCIrDNavKGcbZwuYlcOXyJwbjuIdJD/fSn7j8BAn90gH8DCN+s3pZg7Ni1Lq+fpFDV
- EwbI/wbL9CzPGKusxfNZlHMCiwDx9ypZGRE/8OavEj+nVaReWNUqDAO2/ZOUsaPkCe0b
- mPNXeSBm73flxWjLORV9j5iydtyNLc9cPjwi8nPAGmEIPu6EzUipvk38fCcaevrHxVX5
- EHD/d5vdmUACqJ1qulwwOXzZ+9i6JJQ9wMUJwZsIiL0HgUhRaLLxr0PFLD/DQ+I8o2qx
- htHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682078086; x=1684670086;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yepHUzTuFqL58fI/+c8zlcPcCWo9u4xZkRuZuyr7G3Y=;
- b=Pcw38+PGms/09GfiiVj1H8MSWA592MarvVnbLu0Yqk/OwyI5vkBGEkcoX7J7PfMZDa
- SUQzc0RkZLPSbDCLhy5vCxVO3N2oNaLoGB/L6ObrVfRGk2YRcQAJhEWb1cYy8CvJk+Ah
- FwMrxG1WoBgw2Gr+iDaldqz6h+iOleQTyJrPzbPZlEUx6ez11Idat15I1HN+EJ7B5nf2
- jsFdIlJ2HIwqixpgcjesy632RfW2WnwbKaQr/A67IpuFXFKh2MHPCPItF89zsfY0BwUe
- F7snDeHd1U04uZHcCppTxsfu4PMpvQTqRi7HTbQbzWJ25MzSZooy3p+QcHy+2mvgQ7OM
- tbOQ==
-X-Gm-Message-State: AAQBX9dzmZcNGyJhs9VnHH2HjDezwwZNzySkZsMy285yWrmaYwqVmpFM
- 56LofP7qvLRixGSCSjT62/RguLry69DuvmABH74c3w==
-X-Google-Smtp-Source: AKy350ajo9ABC6toJRiCJsxSuwVnTOszx8IQqu6uETdmZ8f7qEafKdNFiTeOg02LBuWUImIm4Zrue7fPVhODj4ne+b0=
-X-Received: by 2002:a05:6402:1849:b0:506:7d34:51d1 with SMTP id
- v9-20020a056402184900b005067d3451d1mr4942327edy.29.1682078086430; Fri, 21 Apr
- 2023 04:54:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pppQN-0003qS-GO; Fri, 21 Apr 2023 07:59:35 -0400
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pppQL-00050H-7S; Fri, 21 Apr 2023 07:59:34 -0400
+Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 8994D616EC;
+ Fri, 21 Apr 2023 14:59:20 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:8816::1:4] (unknown
+ [2a02:6b8:b081:8816::1:4])
+ by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id JxdHjT1OiuQ0-xvlUK7Zq; Fri, 21 Apr 2023 14:59:19 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682078359; bh=ZRyZ+7ySCEr+Y/PTlqpQTCf59bvaki66RWgbbe5bjAU=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=RODDUAt8hbRf+2Zew5e+VRh18sR4pbAVFxm6Uv4hl5nDi2APvS0JMxk1Y3kyiw7jo
+ YFdUqr9Ue4opRvnxv7lE8esE+WCj3j9er8K6xhxx6TN9EG1kF7aD8SOwRKg8CxRaSq
+ AC/QJrGFKVepZk5nZz+qoq7G0vXCH6A8wETnENdY=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <7366eb2b-5fee-e7b9-e82d-2cf0bd950b9b@yandex-team.ru>
+Date: Fri, 21 Apr 2023 14:59:19 +0300
 MIME-Version: 1.0
-References: <20230420100456.944969-1-peter.maydell@linaro.org>
- <6d9eaf4c-43ce-ebad-f504-8736247bca03@linaro.org>
-In-Reply-To: <6d9eaf4c-43ce-ebad-f504-8736247bca03@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 Apr 2023 12:54:35 +0100
-Message-ID: <CAFEAcA-n5d0tyESWDSzDk2Lnzx2cT5zbWFY1Uvqx5NH=eBp96w@mail.gmail.com>
-Subject: Re: [PULL 00/21] target-arm queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v5 00/16] iotests: use vm.cmd()
+Content-Language: en-US
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, jsnow@redhat.com, crosa@redhat.com,
+ kwolf@redhat.com, hreitz@redhat.com
+References: <20230215132547.1620575-1-vsementsov@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230215132547.1620575-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.297,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,11 +74,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 21 Apr 2023 at 11:49, Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+On 15.02.23 16:25, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+> 
+> Let's get rid of pattern
+> 
+>      result = self.vm.qmp(...)
+>      self.assert_qmp(result, 'return', {})
+> 
+> And switch to just
+> 
+>      self.vm.cmd(...)
+> 
+> v5:
+> - include fixups by John
+> - fix 'make check-dev'
+> - split first patch into several [Daniel]
 
-8.1 :-)  (I created the 8.1 page yesterday.)
+Ping.
 
--- PMM
+Patches 1-2 (or their equivalence) are already merged, patches 03-16 are applicable on current master, I don't think it worth resending a v6 just to drop 1-2.
+
+-- 
+Best regards,
+Vladimir
+
 
