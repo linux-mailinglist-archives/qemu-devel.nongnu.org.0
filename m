@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD84E6EA85D
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D3B6EA85F
 	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 12:33:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppo4E-0007bJ-Kk; Fri, 21 Apr 2023 06:32:38 -0400
+	id 1ppo4E-0007bM-6w; Fri, 21 Apr 2023 06:32:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppo47-0007Tx-Ve
+ id 1ppo48-0007Tz-WC
  for qemu-devel@nongnu.org; Fri, 21 Apr 2023 06:32:35 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ppo44-0005QM-Fc
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 06:32:31 -0400
+ id 1ppo46-0005Qc-2o
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 06:32:32 -0400
 Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
  (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
  [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id E218661569;
- Fri, 21 Apr 2023 13:32:22 +0300 (MSK)
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id F1A8A5FFD4;
+ Fri, 21 Apr 2023 13:32:23 +0300 (MSK)
 Received: from vsementsov-nix.yandex.net (unknown [2a02:6b8:b081:8816::1:4])
  by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id 8WcxnS1Op4Y0-OdiaXwgj; Fri, 21 Apr 2023 13:32:21 +0300
+ ESMTPSA id 8WcxnS1Op4Y0-hKgBELmF; Fri, 21 Apr 2023 13:32:23 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1682073141; bh=2rBwgjc78E9+5GRVSs2tZZND+qPNYCWt7dKeNF58fUA=;
+ t=1682073143; bh=slhNISFNvHz3rbl0UetO9OSdskIxarpzqV10ymDjpqk=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=c+ZvFCrvdKQ1sJmc1dn6aql4T5S+C7fFse4oKrLWwYbyk+bBSdw1Jop/r6DuCX/+g
- TwN4s0zDn0fblpx9h3/qkvlgRFskdP7rBN/kWp2p8nA9RscrZIUsxvR8BkuRcMt040
- CDj2jiDseqq2JJMWINf7qyzHk+H40f7QnmXlp0L4=
+ b=kjnh3WcXk6dNUnmA61Zi4B8wbLQqUGwC2hUfZglrdYtiyimMIyokZlp/APpivG61k
+ TxAFuN88W/yZzEGlK8eX1aeBj1N/HxBvjhgB2g/tDcKQDanLvN+CdR7saDhDIha40a
+ l5mdMk8eHTYlExh4mNxRh+40pltGdbKkv7NYDdKY=
 Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -42,16 +43,16 @@ Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
  berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, vsementsov@yandex-team.ru, philmd@linaro.org,
  antonkuchin@yandex-team.ru, den-plotnikov@yandex-team.ru
-Subject: [PATCH v7 2/4] qapi: add DEVICE_ON and query-hotplug infrastructure
-Date: Fri, 21 Apr 2023 13:32:05 +0300
-Message-Id: <20230421103207.845847-3-vsementsov@yandex-team.ru>
+Subject: [PATCH v7 3/4] shpc: implement DEVICE_ON event and query-hotplug
+Date: Fri, 21 Apr 2023 13:32:06 +0300
+Message-Id: <20230421103207.845847-4-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230421103207.845847-1-vsementsov@yandex-team.ru>
 References: <20230421103207.845847-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -73,344 +74,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have DEVICE_DELETED event, that signals that device_del command is
-actually completed. But we don't have a counter-part for device_add.
-Still it's sensible for SHPC and PCIe-native hotplug, as there are time
-when the device in some intermediate state. Let's add an event that say
-that the device is finally powered on, power indicator is on and
-everything is OK for next manipulation on that device.
+For PCIe and SHPC hotplug it's important to track led indicators and
+"device-on" status.
 
-Motivations:
-1. To be sure that device is "accepted" by guest. Guest may ignore
-hotplugged device for some reason (for example during OS booting).
-Management wants to catch this and handle the problem, instead of
-silent assume that everything is OK. So, if we don't get the event by
-some timeout, we can report an error, try to unplug/plug the disk again
-or do some other things to handle the problem.
-
-2. The device can't be removed (by blockdev-del) while power indicator
-of hotplug controller is blinking (QEMU reports "guest is busy (power
-indicator blinking)"). So, management should avoid removing the device
-until it gets the DEVICE_ON event.
-(Probably, better solution for this point is to automatically postpone
-deletion until power indicator stops blinking)
-
-3. Also, management tool may make a GUI visualization of power
-indicator with help of this event.
-
-New query-hotplug command in additon to "device-on" state also provides
-SHPC/PCIe-native specific hotplug controller properties (like leds)
-that may help to determine real state of hotplug controller. That may
-help to get additional information for further debugging when DEVICE_ON
-/ DEVICE_DELETED not come in time as expected.
+At this step, implement the prepared infrastructure in SHPC.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- hw/core/hotplug.c      |  13 ++++
- include/hw/hotplug.h   |  12 ++++
- include/hw/qdev-core.h |   1 +
- include/monitor/qdev.h |   2 +
- qapi/qdev.json         | 144 +++++++++++++++++++++++++++++++++++++++++
- softmmu/qdev-monitor.c |  41 ++++++++++++
- 6 files changed, 213 insertions(+)
+ hw/pci-bridge/pci_bridge_dev.c  | 14 ++++++
+ hw/pci-bridge/pcie_pci_bridge.c |  1 +
+ hw/pci/shpc.c                   | 86 +++++++++++++++++++++++++++++++++
+ include/hw/pci/pci_bridge.h     |  2 +
+ include/hw/pci/shpc.h           |  2 +
+ include/monitor/qdev.h          |  4 ++
+ softmmu/qdev-monitor.c          | 17 +++++++
+ 7 files changed, 126 insertions(+)
 
-diff --git a/hw/core/hotplug.c b/hw/core/hotplug.c
-index 17ac986685..08d6d03760 100644
---- a/hw/core/hotplug.c
-+++ b/hw/core/hotplug.c
-@@ -57,6 +57,19 @@ void hotplug_handler_unplug(HotplugHandler *plug_handler,
-     }
+diff --git a/hw/pci-bridge/pci_bridge_dev.c b/hw/pci-bridge/pci_bridge_dev.c
+index 4b2696ea7f..69ffe93e2a 100644
+--- a/hw/pci-bridge/pci_bridge_dev.c
++++ b/hw/pci-bridge/pci_bridge_dev.c
+@@ -241,6 +241,19 @@ void pci_bridge_dev_unplug_request_cb(HotplugHandler *hotplug_dev,
+     shpc_device_unplug_request_cb(hotplug_dev, dev, errp);
  }
  
-+HotplugInfo *hotplug_handler_get_hotplug_state(HotplugHandler *plug_handler,
-+                                               DeviceState *plugged_dev,
-+                                               Error **errp)
++HotplugInfo *pci_bridge_dev_get_hotplug_state(HotplugHandler *hotplug_dev,
++                                              DeviceState *dev, Error **errp)
 +{
-+    HotplugHandlerClass *hdc = HOTPLUG_HANDLER_GET_CLASS(plug_handler);
++    PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
 +
-+    if (hdc->get_hotplug_state) {
-+        return hdc->get_hotplug_state(plug_handler, plugged_dev, errp);
++    if (!shpc_present(pci_hotplug_dev)) {
++        error_setg(errp, "standard hotplug controller has been disabled for "
++                   "this %s", object_get_typename(OBJECT(hotplug_dev)));
++        return NULL;
 +    }
-+
-+    return NULL;
++    return shpc_get_hotplug_state(hotplug_dev, dev, errp);
 +}
 +
- static const TypeInfo hotplug_handler_info = {
-     .name          = TYPE_HOTPLUG_HANDLER,
-     .parent        = TYPE_INTERFACE,
-diff --git a/include/hw/hotplug.h b/include/hw/hotplug.h
-index a9840ed485..9c43e1263b 100644
---- a/include/hw/hotplug.h
-+++ b/include/hw/hotplug.h
-@@ -13,6 +13,7 @@
- #define HOTPLUG_H
- 
- #include "qom/object.h"
-+#include "qapi/qapi-types-qdev.h"
- 
- #define TYPE_HOTPLUG_HANDLER "hotplug-handler"
- 
-@@ -60,6 +61,8 @@ struct HotplugHandlerClass {
-     hotplug_fn unplug_request;
-     hotplug_fn unplug;
-     bool (*is_hotpluggable_bus)(HotplugHandler *plug_handler, BusState *bus);
-+    HotplugInfo *(*get_hotplug_state)(HotplugHandler *plug_handler,
-+                                      DeviceState *plugged_dev, Error **errp);
- };
- 
- /**
-@@ -96,4 +99,13 @@ void hotplug_handler_unplug_request(HotplugHandler *plug_handler,
- void hotplug_handler_unplug(HotplugHandler *plug_handler,
-                             DeviceState *plugged_dev,
-                             Error **errp);
-+
-+/**
-+ * hotplug_handler_get_hotplug_state:
-+ *
-+ * Calls #HotplugHandlerClass.get_hotplug_state callback of @plug_handler.
-+ */
-+HotplugInfo *hotplug_handler_get_hotplug_state(HotplugHandler *plug_handler,
-+                                               DeviceState *plugged_dev,
-+                                               Error **errp);
- #endif
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index bd50ad5ee1..63889e41c0 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -180,6 +180,7 @@ struct DeviceState {
-     char *id;
-     char *canonical_path;
-     bool realized;
-+    bool device_on_sent; /* set once by SHPC or PCIE-hotplug */
-     bool pending_deleted_event;
-     int64_t pending_deleted_expires_ms;
-     QDict *opts;
-diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
-index 1d57bf6577..c1c8798e89 100644
---- a/include/monitor/qdev.h
-+++ b/include/monitor/qdev.h
-@@ -36,4 +36,6 @@ DeviceState *qdev_device_add_from_qdict(const QDict *opts,
-  */
- const char *qdev_set_id(DeviceState *dev, char *id, Error **errp);
- 
-+void qdev_hotplug_device_on_event(DeviceState *dev);
-+
- #endif
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index 135cd81586..ffd20c43e0 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -173,3 +173,147 @@
- #
- ##
- { 'event': 'DEVICE_UNPLUG_GUEST_ERROR', 'data': 'DeviceAndPath' }
-+
-+##
-+# @LedActivity:
-+#
-+# Three-state led indicator state.
-+#
-+# @on: Indicator is on.
-+#
-+# @blink: Indicator is blinking.
-+#
-+# @off: Indicator is off.
-+#
-+# Since: 8.1
-+##
-+{ 'enum': 'LedActivity',
-+  'data': [ 'on', 'blink', 'off' ] }
-+
-+##
-+# @HotplugSHPCSlotState:
-+#
-+# Standard Hot-Plug Controller slot state.
-+#
-+# @power-only: Slot is powered on but neither clock nor bus are connected.
-+#
-+# @enabled: Slot is powered on, clock and bus are connected, the card is
-+#           fully functional from a hardware standpoint.
-+#
-+# @disabled: Slot is disabled, card is safe to be removed.
-+#
-+# Since: 8.1
-+##
-+{ 'enum': 'HotplugSHPCSlotState',
-+  'data': [ 'power-only', 'enabled', 'disabled' ] }
-+
-+##
-+# @HotplugBaseState:
-+#
-+# Base structure for SHPC and PCIe-native hotplug.
-+#
-+# @power-led: Power indicator. When power indicator is on the device is
-+#             ready and accepted by guest. Off status means that device
-+#             is safe to remove and blinking is an intermediate state of
-+#             hot-plug or hot-unplug.
-+#
-+# @attention-led: Attention indicator. Off status means normal operation,
-+#                 On signals about operational problem, Blinking is for
-+#                 locating the slot.
-+#
-+# Since: 8.1
-+##
-+{ 'struct': 'HotplugBaseState',
-+  'data': { '*power-led': 'LedActivity',
-+            '*attention-led': 'LedActivity' } }
-+
-+##
-+# @HotplugSHPCState:
-+#
-+# Standard Hot Plug Controller state.
-+#
-+# @slot-state: The slot state field of Slot Status.
-+#
-+# Since: 8.1
-+##
-+{ 'struct': 'HotplugSHPCState',
-+  'base': 'HotplugBaseState',
-+  'data': { '*slot-state': 'HotplugSHPCSlotState' } }
-+
-+##
-+# @HotplugPCIeNativeState:
-+#
-+# PCIe Native hotplug slot state.
-+#
-+# @power-on: PCIe Power Controller Control of Slot Control Register.
-+#            True means Power On (Power Controller Control bit is 0),
-+#            False means Power Off (Power Controller Control bit is 1).
-+#
-+# Since: 8.1
-+##
-+{ 'struct': 'HotplugPCIeNativeState',
-+  'base': 'HotplugBaseState',
-+  'data': { '*power-on': 'bool' } }
-+
-+##
-+# @HotplugType:
-+#
-+# Type of hotplug controller / provider.
-+#
-+# @shpc: Standard Hot Plug Controller
-+#
-+# @pcie-native: PCIe Native hotplug
-+#
-+# Since: 8.1
-+##
-+{ 'enum': 'HotplugType',
-+  'data': ['shpc', 'pcie-native'] }
-+
-+##
-+# @HotplugInfo:
-+#
-+# Generic hotplug slot state.
-+#
-+# @type: type of the hotplug (shpc or pcie-native)
-+#
-+# @bus: The QOM path of the parent bus where device is hotplugged.
-+#
-+# @addr: The bus address for hotplugged device if applicable.
-+#
-+# @child: the hotplugged device
-+#
-+# @device-on: Device is powered-on by guest. This state changes at most
-+#             once for the device and corresponds to DEVICE_ON event.
-+#
-+# Single: 8.1
-+##
-+{ 'union': 'HotplugInfo',
-+  'base': { 'type': 'HotplugType',
-+            'bus': 'DeviceAndPath',
-+            '*addr': 'str',
-+            'child': 'DeviceAndPath',
-+            'device-on': 'bool' },
-+  'discriminator': 'type',
-+  'data': { 'shpc': 'HotplugSHPCState',
-+            'pcie-native': 'HotplugPCIeNativeState' } }
-+
-+##
-+# @query-hotplug:
-+#
-+# Query the state of hotplug controller.
-+#
-+# Since: 8.1
-+##
-+{ 'command': 'query-hotplug',
-+  'data': { 'id': 'str' },
-+  'returns': 'HotplugInfo' }
-+
-+##
-+# @DEVICE_ON:
-+#
-+# Emitted whenever the device insertion completion is acknowledged by the guest.
-+# For now only emitted for SHPC and PCIe-native hotplug.
-+#
-+# Since: 8.1
-+##
-+{ 'event': 'DEVICE_ON', 'data': 'DeviceAndPath' }
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index b8d2c4dadd..e4956bbd94 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -25,6 +25,7 @@
- #include "sysemu/arch_init.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-qdev.h"
-+#include "qapi/qapi-events-qdev.h"
- #include "qapi/qmp/dispatch.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
-@@ -956,6 +957,36 @@ void qmp_device_del(const char *id, Error **errp)
-     }
+ static void pci_bridge_dev_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -261,6 +274,7 @@ static void pci_bridge_dev_class_init(ObjectClass *klass, void *data)
+     hc->plug = pci_bridge_dev_plug_cb;
+     hc->unplug = pci_bridge_dev_unplug_cb;
+     hc->unplug_request = pci_bridge_dev_unplug_request_cb;
++    hc->get_hotplug_state = pci_bridge_dev_get_hotplug_state;
  }
  
-+HotplugInfo *qmp_query_hotplug(const char *id, Error **errp)
+ static const TypeInfo pci_bridge_dev_info = {
+diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
+index 2301b2ca0b..959b536303 100644
+--- a/hw/pci-bridge/pcie_pci_bridge.c
++++ b/hw/pci-bridge/pcie_pci_bridge.c
+@@ -157,6 +157,7 @@ static void pcie_pci_bridge_class_init(ObjectClass *klass, void *data)
+     hc->plug = pci_bridge_dev_plug_cb;
+     hc->unplug = pci_bridge_dev_unplug_cb;
+     hc->unplug_request = pci_bridge_dev_unplug_request_cb;
++    hc->get_hotplug_state = pci_bridge_dev_get_hotplug_state;
+ }
+ 
+ static const TypeInfo pcie_pci_bridge_info = {
+diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
+index e7bc7192f1..af2c49ee44 100644
+--- a/hw/pci/shpc.c
++++ b/hw/pci/shpc.c
+@@ -8,6 +8,9 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bus.h"
+ #include "hw/pci/msi.h"
++#include "qapi/qapi-types-qdev.h"
++#include "qapi/qapi-events-qdev.h"
++#include "monitor/qdev.h"
+ 
+ /* TODO: model power only and disabled slot states. */
+ /* TODO: handle SERR and wakeups */
+@@ -123,6 +126,39 @@
+ #define SHPC_PCI_TO_IDX(pci_slot) ((pci_slot) - 1)
+ #define SHPC_IDX_TO_PHYSICAL(slot) ((slot) + 1)
+ 
++static char *shpc_idx_to_pci_addr(int slot)
 +{
-+    DeviceState *dev = find_device_state(id, errp);
-+    HotplugHandler *hotplug_ctrl;
++    return g_strdup_printf("%d", SHPC_IDX_TO_PCI(slot));
++}
++
++static LedActivity shpc_led_state_to_qapi(uint8_t value)
++{
++    switch (value) {
++    case SHPC_LED_ON:
++        return LED_ACTIVITY_ON;
++    case SHPC_LED_BLINK:
++        return LED_ACTIVITY_BLINK;
++    case SHPC_LED_OFF:
++        return LED_ACTIVITY_OFF;
++    default:
++        abort();
++    }
++}
++
++static HotplugSHPCSlotState shpc_slot_state_to_qapi(uint8_t value)
++{
++    switch (value) {
++    case SHPC_STATE_PWRONLY:
++        return HOTPLUGSHPC_SLOT_STATE_POWER_ONLY;
++    case SHPC_STATE_ENABLED:
++        return HOTPLUGSHPC_SLOT_STATE_ENABLED;
++    case SHPC_STATE_DISABLED:
++        return HOTPLUGSHPC_SLOT_STATE_DISABLED;
++    default:
++        abort();
++    }
++}
++
+ static uint8_t shpc_get_status(SHPCDevice *shpc, int slot, uint16_t msk)
+ {
+     uint8_t *status = shpc->config + SHPC_SLOT_STATUS(slot);
+@@ -263,14 +299,23 @@ static bool shpc_slot_is_off(uint8_t state, uint8_t power, uint8_t attn)
+     return state == SHPC_STATE_DISABLED && power == SHPC_LED_OFF;
+ }
+ 
++static bool shpc_slot_is_on(uint8_t state, uint8_t power, uint8_t attn)
++{
++    return state == SHPC_STATE_ENABLED && power == SHPC_LED_ON &&
++        attn == SHPC_LED_OFF;
++}
++
+ static void shpc_slot_command(PCIDevice *d, uint8_t target,
+                               uint8_t state, uint8_t power, uint8_t attn)
+ {
+     SHPCDevice *shpc = d->shpc;
+     int slot = SHPC_LOGICAL_TO_IDX(target);
++    int pci_slot = SHPC_IDX_TO_PCI(slot);
+     uint8_t old_state = shpc_get_status(shpc, slot, SHPC_SLOT_STATE_MASK);
+     uint8_t old_power = shpc_get_status(shpc, slot, SHPC_SLOT_PWR_LED_MASK);
+     uint8_t old_attn = shpc_get_status(shpc, slot, SHPC_SLOT_ATTN_LED_MASK);
++    DeviceState *child_dev =
++        DEVICE(shpc->sec_bus->devices[PCI_DEVFN(pci_slot, 0)]);
+ 
+     if (target < SHPC_CMD_TRGT_MIN || slot >= shpc->nslots) {
+         shpc_invalid_command(shpc);
+@@ -313,6 +358,12 @@ static void shpc_slot_command(PCIDevice *d, uint8_t target,
+             SHPC_SLOT_EVENT_MRL |
+             SHPC_SLOT_EVENT_PRESENCE;
+     }
++
++    if (!shpc_slot_is_on(old_state, old_power, old_attn) &&
++        shpc_slot_is_on(state, power, attn) && child_dev)
++    {
++        qdev_hotplug_device_on_event(child_dev);
++    }
+ }
+ 
+ static void shpc_command(PCIDevice *d)
+@@ -713,6 +764,41 @@ void shpc_cap_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int l)
+     shpc_cap_update_dword(d);
+ }
+ 
++HotplugInfo *shpc_get_hotplug_state(HotplugHandler *hotplug_dev,
++                                    DeviceState *dev, Error **errp)
++{
++    PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
++    SHPCDevice *shpc = pci_hotplug_dev->shpc;
++    int slot;
++    uint8_t state, power, attn;
++    HotplugInfo *res;
++
++    if (!shpc_device_get_slot(PCI_DEVICE(dev), &slot, shpc, errp)) {
++        return NULL;
++    }
++
++    state = shpc_get_status(shpc, slot, SHPC_SLOT_STATE_MASK);
++    power = shpc_get_status(shpc, slot, SHPC_SLOT_PWR_LED_MASK);
++    attn = shpc_get_status(shpc, slot, SHPC_SLOT_ATTN_LED_MASK);
++
++    res = g_new(HotplugInfo, 1);
++    *res = (HotplugInfo) {
++        .bus = qdev_new_device_and_path(DEVICE(pci_hotplug_dev)),
++        .addr = shpc_idx_to_pci_addr(slot),
++        .child = qdev_new_device_and_path(dev),
++        .type = HOTPLUG_TYPE_SHPC,
++        .device_on = dev->device_on_sent,
++        .u.shpc.has_power_led = true,
++        .u.shpc.power_led = shpc_led_state_to_qapi(power),
++        .u.shpc.has_attention_led = true,
++        .u.shpc.attention_led = shpc_led_state_to_qapi(attn),
++        .u.shpc.has_slot_state = true,
++        .u.shpc.slot_state = shpc_slot_state_to_qapi(state),
++    };
++
++    return res;
++}
++
+ static int shpc_save(QEMUFile *f, void *pv, size_t size,
+                      const VMStateField *field, JSONWriter *vmdesc)
+ {
+diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+index 1677176b2a..f5ba4dd776 100644
+--- a/include/hw/pci/pci_bridge.h
++++ b/include/hw/pci/pci_bridge.h
+@@ -127,6 +127,8 @@ void pci_bridge_dev_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+                               Error **errp);
+ void pci_bridge_dev_unplug_request_cb(HotplugHandler *hotplug_dev,
+                                       DeviceState *dev, Error **errp);
++HotplugInfo *pci_bridge_dev_get_hotplug_state(HotplugHandler *hotplug_dev,
++                                              DeviceState *dev, Error **errp);
+ 
+ /*
+  * before qdev initialization(qdev_init()), this function sets bus_name and
+diff --git a/include/hw/pci/shpc.h b/include/hw/pci/shpc.h
+index 89c7a3b7fa..bf722ce65d 100644
+--- a/include/hw/pci/shpc.h
++++ b/include/hw/pci/shpc.h
+@@ -51,6 +51,8 @@ void shpc_device_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+                            Error **errp);
+ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+                                    DeviceState *dev, Error **errp);
++HotplugInfo *shpc_get_hotplug_state(HotplugHandler *hotplug_dev,
++                                    DeviceState *dev, Error **errp);
+ 
+ extern VMStateInfo shpc_vmstate_info;
+ #define SHPC_VMSTATE(_field, _type,  _test) \
+diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
+index c1c8798e89..949a3672cb 100644
+--- a/include/monitor/qdev.h
++++ b/include/monitor/qdev.h
+@@ -1,6 +1,8 @@
+ #ifndef MONITOR_QDEV_H
+ #define MONITOR_QDEV_H
+ 
++#include "qapi/qapi-types-qdev.h"
++
+ /*** monitor commands ***/
+ 
+ void hmp_info_qtree(Monitor *mon, const QDict *qdict);
+@@ -38,4 +40,6 @@ const char *qdev_set_id(DeviceState *dev, char *id, Error **errp);
+ 
+ void qdev_hotplug_device_on_event(DeviceState *dev);
+ 
++DeviceAndPath *qdev_new_device_and_path(DeviceState *dev);
++
+ #endif
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index e4956bbd94..814d8260d7 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -1178,6 +1178,23 @@ bool qmp_command_available(const QmpCommand *cmd, Error **errp)
+     return true;
+ }
+ 
++DeviceAndPath *qdev_new_device_and_path(DeviceState *dev)
++{
++    DeviceAndPath *res;
 +
 +    if (!dev) {
 +        return NULL;
 +    }
 +
-+    if (dev->parent_bus && !qbus_is_hotpluggable(dev->parent_bus)) {
-+        error_setg(errp, QERR_BUS_NO_HOTPLUG, dev->parent_bus->name);
-+        return NULL;
-+    }
++    res = g_new(DeviceAndPath, 1);
++    *res = (DeviceAndPath) {
++        .device = g_strdup(dev->id),
++        .path = g_strdup(dev->canonical_path),
++    };
 +
-+    if (!DEVICE_GET_CLASS(dev)->hotpluggable) {
-+        error_setg(errp, QERR_DEVICE_NO_HOTPLUG,
-+                   object_get_typename(OBJECT(dev)));
-+        return NULL;
-+    }
-+
-+    hotplug_ctrl = qdev_get_hotplug_handler(dev);
-+    /*
-+     * hotpluggable device MUST have HotplugHandler, if it doesn't
-+     * then something is very wrong with it.
-+     */
-+    g_assert(hotplug_ctrl);
-+
-+    return hotplug_handler_get_hotplug_state(hotplug_ctrl, dev, errp);
++    return res;
 +}
 +
- void hmp_device_add(Monitor *mon, const QDict *qdict)
+ void qdev_hotplug_device_on_event(DeviceState *dev)
  {
-     Error *err = NULL;
-@@ -1146,3 +1177,13 @@ bool qmp_command_available(const QmpCommand *cmd, Error **errp)
-     }
-     return true;
- }
-+
-+void qdev_hotplug_device_on_event(DeviceState *dev)
-+{
-+    if (dev->device_on_sent) {
-+        return;
-+    }
-+
-+    dev->device_on_sent = true;
-+    qapi_event_send_device_on(dev->id, dev->canonical_path);
-+}
+     if (dev->device_on_sent) {
 -- 
 2.34.1
 
