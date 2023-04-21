@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85FDA6EA423
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77296EA424
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:53:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppkck-0000dr-Cj; Fri, 21 Apr 2023 02:52:02 -0400
+	id 1ppkeG-0001NR-Jp; Fri, 21 Apr 2023 02:53:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppkci-0000dd-NM
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:52:00 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppkeE-0001Ms-7E
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:53:34 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppkch-0008VS-71
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:52:00 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-2f939bea9ebso1240945f8f.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:51:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppkeC-0000La-Fo
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:53:33 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id
+ ffacd0b85a97d-2fe3fb8e2f7so839694f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:53:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682059915; x=1684651915;
+ d=linaro.org; s=google; t=1682060011; x=1684652011;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HiGLWG40+zn+YC6OhzEHGvcpf5MqRMpIKFn0PmcBa6o=;
- b=t++y5Zf9hrfcL1qhzB4juPGsTbG0Aa3VCyw3/iSn2zhj2bm876KBjA3BREDquC3D8N
- 5tGorjhCUrKKlSHBYKBdRzDsdFxSoGxZcTRajqZgUo+uHCnJhFPqoul8YTZhimsgYkal
- Uzi2q37G6DzxFeJujxGqVaRm49JxuQBePq7ioWeeOnpBE60QGdf94hmeOo/3sirHshkm
- 0N3TgLc6+pQ4lbOyAnpOQzh0TXcmy1kf4ZCqS9U8loQyy7wI0pYIYRR3Dj/WyuVHtZen
- H+janrOOjCafRs9s6GmElXuCA2urAGboFZnT1PNNfIctb2oavazf33vayPguhf8sJR4F
- uq+A==
+ bh=9yT3VjkybhCVBaKu+89v5QM5MAlJdkCBmus85P093/E=;
+ b=g6mq2pWiB/LpxnbfWSM/IWFQLxTq9rv0Nz3+6ibJVGthZ+2rRoe02FqdHG+qKMnWfw
+ sGCWfDc8+CPn7hh/euzsvyvtb33cL3CvL5BJOhgb1oQvTTwsYsUoaNsTQcnkj8f4ufal
+ VSIVGhooMPHwIx43xRLOlW6y58V/fiapFsdgkc3cly148NKZrC5+5HiJe35hREHzlNDt
+ zpLFyrA5jjCAmp71coC7CcdKKsYLORnGFJUEl/rQdkfJg4HX8oOOEmazB+HwDHtovSby
+ jBNh3RqbW4EMNwFWX6MkrUvFbMZwHCPjjW0akG5oFBRVt+/R/tJWO+oFLxvEH9TlS7JM
+ HXhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682059915; x=1684651915;
+ d=1e100.net; s=20221208; t=1682060011; x=1684652011;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HiGLWG40+zn+YC6OhzEHGvcpf5MqRMpIKFn0PmcBa6o=;
- b=GwzjhvO461dIOh//MStQDI5S7Mo/iyZusgKPF5lM7TSMQU8ahoI8lYRusINuX9dR8y
- RHlAXCGm8lJEBnlBeK7n5j+VFrOdA/fjjaX7C2CFAon8HHICL8qvVQeISE+aQR9QPAPr
- FB6+LNM4ytJcBo5aIDRIyeBA+tCN5bBqQH4ceDS3/VbvpAhO2mb1LoyT8IxB+O0y5HlU
- n6IKqvZ8BZE5dURtlPslV2qTqEUmRQd2osvHFd+wdhDnE6rKShcr15n9pTykFWDCIwTy
- bA112vuNQerVhcUghyWpgkCFVM6DU1m2R/J+y4N/Q1kZ1VloZXO5ebMO1Frj6WU6ioUd
- FCvg==
-X-Gm-Message-State: AAQBX9ehCQsuu+A11CqPWawARZFJ2ZW608FaqXw+RJd2M2DJEqVi2KHg
- cS5GcVMkOVSb14lAzEkgrEqjpA==
-X-Google-Smtp-Source: AKy350aOKuVy7tbR3Hv6ifuwsWjrd9unFlFTRB3rPJ7dBby8eRV9ZeMBavyPYeoV3BzjISTkDbJ/nA==
-X-Received: by 2002:a5d:4fcd:0:b0:2f8:a17c:dedc with SMTP id
- h13-20020a5d4fcd000000b002f8a17cdedcmr3114514wrw.42.1682059915289; 
- Thu, 20 Apr 2023 23:51:55 -0700 (PDT)
+ bh=9yT3VjkybhCVBaKu+89v5QM5MAlJdkCBmus85P093/E=;
+ b=V1YrPRP5pUvmDzh4KI2Ptb8Uee3MOJmSVHSxoluZu8B3+TqlB4MgDznMEAeMd3mADG
+ 3hAixmmVlW0kx33gq8wVEKRVqBVmQPLgVskaDNQaCi8W14P4cz7LU1GFUsETQTEua6Q8
+ jK6rZr/67p//dIgobZNswrgdWVS7Soo+Yag7GQ9Mucemjk/1NUYnxBlo1jE4FbVU2aZf
+ /fHL/3oe+pma+3sSfPF/P6AfkNcdyEWn/FZWAS6YfOplrSLqAq6T3Pz3flTr3GNLBWEX
+ piwWdGUEa/IiSWsR8JKGMXCJ5mAT542H/yy2rhRGtt4RgFE8RHR5q4IXoIKnn5Fijd6N
+ TJVg==
+X-Gm-Message-State: AAQBX9c+hXLs4bI8RQNcelIwOtbrXkYhEhlDaiY5GEv+plqYnlBjYeZG
+ mevcneg1J79DLd4eVHsPx2fGdQ==
+X-Google-Smtp-Source: AKy350ZTItqOVPC0jNYQXV5QpryERrm4LVydvgVMFiX59U0vQzhc7F5nQ/C912bPK1kZDMhElNViig==
+X-Received: by 2002:a5d:494e:0:b0:2f5:c57c:192f with SMTP id
+ r14-20020a5d494e000000b002f5c57c192fmr3191315wrs.68.1682060010756; 
+ Thu, 20 Apr 2023 23:53:30 -0700 (PDT)
 Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
  [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
- i6-20020a5d6306000000b002fed865c55esm3694966wru.56.2023.04.20.23.51.53
+ m13-20020adffa0d000000b003017a46781fsm3384147wrr.62.2023.04.20.23.53.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 23:51:54 -0700 (PDT)
-Message-ID: <747b7e38-c348-cc4a-daad-93b3b36ae8ec@linaro.org>
-Date: Fri, 21 Apr 2023 08:51:52 +0200
+ Thu, 20 Apr 2023 23:53:30 -0700 (PDT)
+Message-ID: <a0a2b159-5a79-2e67-8871-21b3490fb495@linaro.org>
+Date: Fri, 21 Apr 2023 08:53:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 09/10] hw/9pfs: use qemu_xxhash4
+Subject: Re: [PATCH 10/10] xxhash: remove qemu_xxhash7
 Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Cc: Michael Roth <michael.roth@amd.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Yanan Wang <wangyanan55@huawei.com>, Greg Kurz <groug@kaod.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Kyle Evans <kevans@freebsd.org>, Eduardo Habkost <eduardo@habkost.net>,
  Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Warner Losh <imp@bsdimp.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 References: <20230420150009.1675181-1-alex.bennee@linaro.org>
- <20230420150009.1675181-10-alex.bennee@linaro.org>
- <1860032.XFESxothFF@silver>
+ <20230420150009.1675181-11-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <1860032.XFESxothFF@silver>
+In-Reply-To: <20230420150009.1675181-11-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -102,27 +102,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/4/23 17:35, Christian Schoenebeck wrote:
-> On Thursday, April 20, 2023 5:00:08 PM CEST Alex Bennée wrote:
->> No need to pass zeros as we have helpers that do that for us.
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>   hw/9pfs/9p.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
->> index 9621ec1341..9bf502c45f 100644
->> --- a/hw/9pfs/9p.c
->> +++ b/hw/9pfs/9p.c
->> @@ -741,12 +741,12 @@ static VariLenAffix affixForIndex(uint64_t index)
->>   /* creative abuse of tb_hash_func7, which is based on xxhash */
+On 20/4/23 17:00, Alex Bennée wrote:
+> Now we no longer have users for qemu_xxhash7 we can drop an additional
+> multiply and rol and make qemu_xxhash6 the implementation. Adjust the
+> smaller hash functions accordingly.
 > 
-> I guess this old comment could be dropped then.
-> 
-> Except of that:
-> 
-> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   include/qemu/xxhash.h | 17 ++++-------------
+>   1 file changed, 4 insertions(+), 13 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
