@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1129B6EAB7D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B476EAB79
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 15:26:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppqlI-000120-Vr; Fri, 21 Apr 2023 09:25:17 -0400
+	id 1ppqlO-0001Dl-JD; Fri, 21 Apr 2023 09:25:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1ppqlG-00011Q-L9
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:25:14 -0400
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1ppqlL-00014A-Or
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:25:19 -0400
 Received: from mga05.intel.com ([192.55.52.43])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1ppqlF-0003KR-3n
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:25:14 -0400
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1ppqlJ-0003Mk-IP
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 09:25:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682083513; x=1713619513;
+ t=1682083517; x=1713619517;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WNIo84hU1QQcPGj401Y32N/rh4tOgg/o7Vpt12k6Trk=;
- b=ZJbLap89BgBbG7pAHSyLWRhN78fkyc4ujjdp8x/UlKFLJLym2/knmNUg
- pQNB84mhAeoUuF8s2qLCLhr4CSbDuGtrb6i5l1/s1uiAAisKXcpAuofeq
- Ux1S4JUXKDyJ8LZ5u9dl4FDIqx0ckQwj2ZYhcLzETbV0XRE3Fv3xmXQFR
- Ofb9QcWRseWIKKBn2aLoPly8b1NzSorFGErdG/qw8vCUQbWAHO+4STl58
- AzDxqZMDqadv07Z9gDXLzHBhvtA/Vuqph/uUtZSZrqu1xHfXu/B4F/CyF
- UerwHxzcSOetu/2Xu5gLSc/J79SduXVnzXyZ/pue+36GhgV8KJ9ZsUwBk A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="432268326"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="432268326"
+ bh=Y0ZpXw5w1L+wV1VOoDF+rpMnJxQnje3Ws+zndxkNz9Q=;
+ b=n13T56XKNa4Ufo4/1kCSODfalGFQnCxRjV9kfzIoYtYr13MOwawVaFHh
+ b17aXjBszQh3v33xMxeJh/cFeyVSWkUm8Be6NOAsOTjVU8hw9FQhq6mcx
+ Ibs1Jrz377uegOIO6UAW/b/6c9+BjH52y4kyNXuSoriaUAjKiWqpfgzZf
+ /5ebsP4Na0s6oDWo7nHdJIeBI/Ekg0AtZ9rq52F1sDqVBvo82HFbT79ml
+ LYqXWd1qx9kDQLzsWttgqkHQnW4nF2grLLDt+u2vRL6j0T5rIsCK1AqRY
+ vSDI9f0LnNj9QOMcJ9UAkGVbM6AqTuchQRB//mj1jOudIpFqQhvdDk+4a Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="432268350"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="432268350"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2023 06:25:10 -0700
+ 21 Apr 2023 06:25:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="756906025"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="756906025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="756906026"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; d="scan'208";a="756906026"
 Received: from wufei-optiplex-7090.sh.intel.com ([10.238.200.247])
- by fmsmga008.fm.intel.com with ESMTP; 21 Apr 2023 06:25:09 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 21 Apr 2023 06:25:15 -0700
 From: Fei Wu <fei2.wu@intel.com>
 To: alex.bennee@linaro.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v11 05/14] accel/tcg: move profiler dev_time to tb_stats
-Date: Fri, 21 Apr 2023 21:24:12 +0800
-Message-Id: <20230421132421.1617479-6-fei2.wu@intel.com>
+Subject: [PATCH v11 06/14] accel/tcg: convert profiling of restore operations
+ to TBStats
+Date: Fri, 21 Apr 2023 21:24:13 +0800
+Message-Id: <20230421132421.1617479-7-fei2.wu@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230421132421.1617479-1-fei2.wu@intel.com>
 References: <20230421132421.1617479-1-fei2.wu@intel.com>
@@ -76,55 +77,101 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-This shouldn't live in the monitor code anyway. While we are at it
-make it an uint64_t as we won't be dealing in negative numbers.
+This starts the conversion of CONFIG_PROFILER data collection to under
+the TBStats system. We introduce a new flag TB_JIT_TIME and start
+tracking how much time is spent restoring execution state from a given
+TB.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/monitor.c  | 2 --
- accel/tcg/tb-stats.c | 2 ++
- include/qemu/timer.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ accel/tcg/translate-all.c | 23 ++++++++++++++---------
+ include/exec/tb-stats.h   |  6 ++++++
+ include/qemu/timer.h      |  3 ---
+ 3 files changed, 20 insertions(+), 12 deletions(-)
 
-diff --git a/accel/tcg/monitor.c b/accel/tcg/monitor.c
-index 1450e160e9..c9eec426ff 100644
---- a/accel/tcg/monitor.c
-+++ b/accel/tcg/monitor.c
-@@ -68,8 +68,6 @@ HumanReadableText *qmp_x_query_opcount(Error **errp)
- 
- #ifdef CONFIG_PROFILER
- 
--int64_t dev_time;
--
- HumanReadableText *qmp_x_query_profile(Error **errp)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 8a51c291d8..bf10987450 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -200,10 +200,12 @@ void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+                                uintptr_t host_pc)
  {
-     g_autoptr(GString) buf = g_string_new("");
-diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-index 434b235edb..a2438a1f51 100644
---- a/accel/tcg/tb-stats.c
-+++ b/accel/tcg/tb-stats.c
-@@ -28,6 +28,8 @@ enum TBStatsStatus {
- static enum TBStatsStatus tcg_collect_tb_stats;
- static uint32_t default_tbstats_flag;
- 
-+uint64_t dev_time;
+     uint64_t data[TARGET_INSN_START_WORDS];
+-#ifdef CONFIG_PROFILER
+-    TCGProfile *prof = &tcg_ctx->prof;
+-    int64_t ti = profile_getclock();
+-#endif
++    uint64_t ti = 0;
 +
- struct jit_profile_info {
-     uint64_t translations;
-     uint64_t aborted;
-diff --git a/include/qemu/timer.h b/include/qemu/timer.h
-index ee071e07d1..d86fc73a17 100644
---- a/include/qemu/timer.h
-+++ b/include/qemu/timer.h
-@@ -995,7 +995,7 @@ static inline int64_t profile_getclock(void)
-     return get_clock();
++    if (tb_stats_enabled(tb, TB_JIT_TIME)) {
++        ti = profile_getclock();
++    }
++
+     int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
+ 
+     if (insns_left < 0) {
+@@ -221,11 +223,14 @@ void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+ 
+     cpu->cc->tcg_ops->restore_state_to_opc(cpu, tb, data);
+ 
+-#ifdef CONFIG_PROFILER
+-    qatomic_set(&prof->restore_time,
+-                prof->restore_time + profile_getclock() - ti);
+-    qatomic_set(&prof->restore_count, prof->restore_count + 1);
+-#endif
++    if (tb_stats_enabled(tb, TB_JIT_TIME)) {
++        TBStatistics *ts = tb->tb_stats;
++        uint64_t elapsed = profile_getclock() - ti;
++        qemu_mutex_lock(&ts->jit_stats_lock);
++        ts->tb_restore_time += elapsed;
++        ts->tb_restore_count++;
++        qemu_mutex_unlock(&ts->jit_stats_lock);
++    }
  }
  
--extern int64_t dev_time;
-+extern uint64_t dev_time;
+ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc)
+diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+index 0ccf025ae4..80314c50f9 100644
+--- a/include/exec/tb-stats.h
++++ b/include/exec/tb-stats.h
+@@ -91,6 +91,11 @@ struct TBStatistics {
+      * this TBStats structure. Has to be reset on a tb_flush.
+      */
+     GPtrArray *tbs;
++
++    /* Recover state from TB */
++    uint64_t tb_restore_time;
++    uint64_t tb_restore_count;
++
+ };
+ 
+ bool tb_stats_cmp(const void *ap, const void *bp);
+@@ -102,6 +107,7 @@ void dump_jit_profile_info(TCGProfile *s, GString *buf);
+ #define TB_NOTHING    (1 << 0)
+ #define TB_EXEC_STATS (1 << 1)
+ #define TB_JIT_STATS  (1 << 2)
++#define TB_JIT_TIME   (1 << 3)
+ 
+ void enable_collect_tb_stats(void);
+ void disable_collect_tb_stats(void);
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index d86fc73a17..ad0da18a5f 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -989,7 +989,6 @@ static inline int64_t cpu_get_host_ticks(void)
+ }
  #endif
  
+-#ifdef CONFIG_PROFILER
+ static inline int64_t profile_getclock(void)
+ {
+     return get_clock();
+@@ -997,5 +996,3 @@ static inline int64_t profile_getclock(void)
+ 
+ extern uint64_t dev_time;
  #endif
+-
+-#endif
 -- 
 2.25.1
 
