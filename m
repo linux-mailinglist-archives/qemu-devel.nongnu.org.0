@@ -2,103 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CA06EA3CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5486EA3CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Apr 2023 08:27:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ppkC0-0001sz-9Y; Fri, 21 Apr 2023 02:24:24 -0400
+	id 1ppkEV-0002mG-BO; Fri, 21 Apr 2023 02:26:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppkBt-0001r5-DP
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:24:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ppkBq-00036u-WE
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:24:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682058254;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OkgaPyJpN8gdRqhrI5pRo7nJc6v2E2P70vuPYgvrJ3I=;
- b=ae5v1DUChqjgjWiHS47gXYO6rY7NqtGKuDnH1VDhbVmXhFEuIyMtZlppjIjmcN893mT+EK
- vQfOZHtbtTr9DqFbBC3SltMRLYlO8Gffb2o6wsAO17YPCEkPA9h1BwVfy6LtNFRRyi+1HM
- CTjPI+ODzFfdlVPY557PGCCUHEHBYhw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-364-OuO1O145PQKc0LLI4mXu1Q-1; Fri, 21 Apr 2023 02:24:13 -0400
-X-MC-Unique: OuO1O145PQKc0LLI4mXu1Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-5069f2ae8eeso6183485a12.0
- for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:24:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppkEM-0002li-LZ
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:26:51 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ppkEK-0003Wo-KI
+ for qemu-devel@nongnu.org; Fri, 21 Apr 2023 02:26:50 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f0a0c4e505so8938435e9.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Apr 2023 23:26:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682058406; x=1684650406;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=M0hd61OI4UW3TmrzQkAjHMoSJj5ZcwJ7VbTRL7zW/s4=;
+ b=Q1VBQqzSezsTKT1L4OnpbvsC4AzdqQ70qKrsQDG+1y5dom9W6ef0X4NjqXs2i9iye/
+ a0XWN7nULrH/e5sAX7fbTh5ZMDnVQYZySjXzojt//PuSwckQcEEW3Op07dCJUbj2ZJMN
+ TLe8Wjcbk3uPnqClpFuVNhEvkhPTvl0aJLfWL3GW1koh2XyCuoR4IZn11hG8obLJSacc
+ ys3AhXUZgZSrkfdOrn5ecnu12eZ1spUwkKYLHrVSBs/alk5b+nA3Xg2bmcbGBZBv5QWJ
+ 9aByVhQPxlmZvS4j+86YqJXsemIT4LN5OCGo26qIlJucwoox46c+9AokFguB6OvHuzAn
+ cHig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682058252; x=1684650252;
+ d=1e100.net; s=20221208; t=1682058406; x=1684650406;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OkgaPyJpN8gdRqhrI5pRo7nJc6v2E2P70vuPYgvrJ3I=;
- b=Fe6rjZCGgHRlk02MDyhEPP3PtfGq5prarzMkv/e0/8PoFYRqNQGZEERbXT4V2R3oke
- Z/i8/tA0CQ06o30j0bb5xogqGhjdDzQ/T8aYyoWA7fhR2h4TEER8IFoPu0N4FpGlVLsX
- g2UafgeY0BoBHJVrWIJhuygRYhkb0fdU1BEo8vgPK4CdTxaIUJBQ1Y1t58Ig9WaJFmEs
- /H6t/b6t/WbfMiW56iq+Hpn9Cnxtx/R4eCXbXzBsC0efpgzc+IBdyw9cy4FTLYA11xRj
- vD6uG02wxBXEMWuiyMA1+0Bo4T1bWOAStLguQQ8VLdTSqdyZ8NdSHUvtOZfNL/isC95N
- owsQ==
-X-Gm-Message-State: AAQBX9da6gBP2R1XUJk4So3KAe3czw3p9vHb4suO1MUSAbKHc8jf+oOk
- LQQj8+vuaQ7XryeSU/ISu74bja6l09H/def8V8A3qrrMemM2WMgrRxGNfGWslsnirwo26DfPBqo
- f7b9mHZ+EdtvlZig=
-X-Received: by 2002:a17:907:7851:b0:94e:f9ad:5775 with SMTP id
- lb17-20020a170907785100b0094ef9ad5775mr1392176ejc.12.1682058252064; 
- Thu, 20 Apr 2023 23:24:12 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z2/ypc2gCWoZ0ZZaIEGLi6oFW06peLT4rcFXbMDB12atsN82zyaTsV9ZKhFGohytOLw0El9A==
-X-Received: by 2002:a17:907:7851:b0:94e:f9ad:5775 with SMTP id
- lb17-20020a170907785100b0094ef9ad5775mr1392149ejc.12.1682058251704; 
- Thu, 20 Apr 2023 23:24:11 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-178-20.web.vodafone.de.
- [109.43.178.20]) by smtp.gmail.com with ESMTPSA id
- 15-20020a170906058f00b0095708428cdcsm720924ejn.6.2023.04.20.23.24.09
+ bh=M0hd61OI4UW3TmrzQkAjHMoSJj5ZcwJ7VbTRL7zW/s4=;
+ b=P4oq9r/GMchkpVfk9K1dDFarwX8A0NgPqemAF4oWxSsr3KAOXas9lZkyiyddZyFaHQ
+ 050hYEP6rltnfqspKAWkuocaHy2ySaZDDWxpoblCiTSVcGzecih+kIbFy4r0uElSyE7o
+ 7hNWnMtjgDLc3Pgd8oXy9fsHWLjUY4JYxcPp30BoHmRB0rqAiatOCu2WZ8brMt44gQga
+ iR67jxgSSi5iULNcFYa+t13rOp1r/ULGDm277t0XwFZR6BtWqC/TseDHOAfLFJaewXX+
+ UemzE01oLDKZob3fUyMMJRRVgXLUVXxQO13W58Zd+nXm095Y3TJFTWgVYZ25S+pVpwNf
+ 26Pg==
+X-Gm-Message-State: AAQBX9d0wG8tO474YV3tj2vP8afDFxCV12VqvHfYFnMhR+gudotQNU8H
+ lvUeJphObVM0n0V8xMI+Le0tAA==
+X-Google-Smtp-Source: AKy350YDAOORGdIAkeCWSWC/QQ0MlYY3u6kW6OTT1BPvsWbapBHQv4vku7vutcO6Kw1S0etRpu+uDQ==
+X-Received: by 2002:a7b:c845:0:b0:3f1:9540:d5fe with SMTP id
+ c5-20020a7bc845000000b003f19540d5femr8646wml.21.1682058406521; 
+ Thu, 20 Apr 2023 23:26:46 -0700 (PDT)
+Received: from [192.168.69.115] (min31-h02-176-184-28-119.dsl.sta.abo.bbox.fr.
+ [176.184.28.119]) by smtp.gmail.com with ESMTPSA id
+ y32-20020a05600c342000b003f173956a82sm7176689wmp.21.2023.04.20.23.26.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Apr 2023 23:24:11 -0700 (PDT)
-Message-ID: <8724e7f9-92f9-cc38-cd37-be416286b65c@redhat.com>
-Date: Fri, 21 Apr 2023 08:24:09 +0200
+ Thu, 20 Apr 2023 23:26:46 -0700 (PDT)
+Message-ID: <b797ee27-2182-e391-9f39-dce51db7e07d@linaro.org>
+Date: Fri, 21 Apr 2023 08:26:43 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v4 1/6] tests/requirements.txt: bump up avocado-framework
- version to 101.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [RFC PATCH] hw/pci-bridge: Fix release ordering by embedding
+ PCIBridgeWindows within PCIBridge
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Radoslaw Biernacki <rad@semihalf.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Leif Lindholm <quic_llindhol@quicinc.com>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-References: <20230417134321.3627231-1-alex.bennee@linaro.org>
- <20230417134321.3627231-2-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230417134321.3627231-2-alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>, linuxarm@huawei.com
+References: <20230420145937.17152-1-Jonathan.Cameron@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230420145937.17152-1-Jonathan.Cameron@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.669, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.669,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,76 +95,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/04/2023 15.43, Alex Bennée wrote:
-> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-> 
-> Avocado version 101.0 has a fix to re-compute the checksum
-> of an asset file if the algorithm used in the *-CHECKSUM
-> file isn't the same as the one being passed to it by the
-> avocado user (i.e. the avocado_qemu python module).
-> In the earlier avocado versions this fix wasn't there due
-> to which if the checksum wouldn't match the earlier
-> checksum (calculated by a different algorithm), the avocado
-> code would start downloading a fresh image from the internet
-> URL thus making the test-cases take longer to execute.
-> 
-> Bump up the avocado-framework version to 101.0.
-> 
-> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
-> Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
-> 
-> ---
-> v2
->    - limit --max-parallel-tasks $(JOBS_OPTION:-j%=%)
-> ---
->   tests/Makefile.include | 18 +++++++++++-------
->   tests/requirements.txt |  2 +-
->   2 files changed, 12 insertions(+), 8 deletions(-)
-> 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 9422ddaece..a4de0ad5a2 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv
->   # download all vm images, according to defined targets
->   get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
->   
-> +JOBS_OPTION=$(lastword -j1 $(filter-out -j, $(filter -j%,$(MAKEFLAGS))))
-> +
->   check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
-> -	$(call quiet-command, \
-> -            $(TESTS_PYTHON) -m avocado \
-> -            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
-> -            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
-> -			--filter-by-tags-include-empty-key) \
-> -            $(AVOCADO_CMDLINE_TAGS) \
-> -            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
-> +	$(call quiet-command, 							\
-> +            $(TESTS_PYTHON) -m avocado 						\
-> +            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) 	\
-> +            $(if $(AVOCADO_TAGS),, 						\
-> +			--filter-by-tags-include-empty 				\
-> +			--filter-by-tags-include-empty-key) 			\
-> +		--max-parallel-tasks $(JOBS_OPTION:-j%=%) 			\
-> +            $(AVOCADO_CMDLINE_TAGS) 						\
-> +            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), 			\
->               "AVOCADO", "tests/avocado")
->   
->   check-acceptance-deprecated-warning:
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index 0ba561b6bd..a6f73da681 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -2,5 +2,5 @@
->   # in the tests/venv Python virtual environment. For more info,
->   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
->   # Note that qemu.git/python/ is always implicitly installed.
-> -avocado-framework==88.1
-> +avocado-framework==101.0
->   pycdlib==1.11.0
+Hi Jonathan,
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+On 20/4/23 16:59, Jonathan Cameron via wrote:
+> The lifetime of the PCIBridgeWindows instance accessed via the windows pointer
+> in struct PCIBridge is managed separately from the PCIBridge itself.
+> 
+> Triggered by ./qemu-system-x86_64 -M x-remote -display none -monitor stdio
+> QEMU monitor: device_add cxl-downstream
+> 
+> In some error handling paths (such as the above due to attaching a cxl-downstream
+> port anything other than a cxl-upstream port) the g_free() of the PCIBridge
+> windows in pci_bridge_region_cleanup() is called before the final call of
+> flatview_uref() in address_space_set_flatview() ultimately from
+> drain_call_rcu()
+> 
+> At one stage this resulted in a crash, currently can still be observed using
+> valgrind which records a use after free.
+> 
+> When present, only one instance is allocated. pci_bridge_update_mappings()
+> can operate directly on an instance rather than creating a new one and
+> swapping it in.  Thus there appears to be no reason to not directly
+> couple the lifetimes of the two structures by embedding the PCIBridgeWindows
+> within the PCIBridge removing the need for the problematic separate free.
+> 
+> Patch is same as was posted deep in the discussion.
+> https://lore.kernel.org/qemu-devel/20230403171232.000020bb@huawei.com/
+> 
+> Posted as an RFC as only lightly tested and I'm not sure what the reasoning
+> behind the separation of lifetimes originally was. As such perhaps this is
+> not the best route to fixing the issue.
+> 
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>   hw/pci/pci_bridge.c         | 20 ++++++++------------
+>   include/hw/pci/pci_bridge.h |  3 ++-
+>   2 files changed, 10 insertions(+), 13 deletions(-)
+
+
+> diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+> index 01670e9e65..ac75ec0c1b 100644
+> --- a/include/hw/pci/pci_bridge.h
+> +++ b/include/hw/pci/pci_bridge.h
+> @@ -30,6 +30,7 @@
+>   #include "hw/pci/pci_bus.h"
+>   #include "hw/cxl/cxl.h"
+>   #include "qom/object.h"
+> +#include "qemu/rcu.h"
+
+Where is this header is used?
+
+>   typedef struct PCIBridgeWindows PCIBridgeWindows;
+>   
+> @@ -73,7 +74,7 @@ struct PCIBridge {
+>       MemoryRegion address_space_mem;
+>       MemoryRegion address_space_io;
+>   
+> -    PCIBridgeWindows *windows;
+> +    PCIBridgeWindows windows;
+>   
+>       pci_map_irq_fn map_irq;
+>       const char *bus_name;
 
 
