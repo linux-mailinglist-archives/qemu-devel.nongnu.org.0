@@ -2,89 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCF96EB5FB
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 01:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7729F6EB684
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 02:59:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pq0aa-0001Qd-5J; Fri, 21 Apr 2023 19:54:52 -0400
+	id 1pq1a4-0006rs-QM; Fri, 21 Apr 2023 20:58:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1pq0aY-0001QT-Fy
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 19:54:50 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1pq0aW-0000rM-Iu
- for qemu-devel@nongnu.org; Fri, 21 Apr 2023 19:54:50 -0400
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-5068e99960fso3789718a12.1
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 16:54:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682121286; x=1684713286;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/P9c+dm6zZc8lr/tHvqFYHBFZPdBZoGnF7gM90G3clo=;
- b=jwoaq2rM7okpr7LcRz8Dh8k1ayTiKouak77uL+LMifTMN1VNJVt2csnsMV1xb+7KU4
- O8RN6jvxlUNKzUnJu9WCd4dI+tYMTi6b3aeyIbbDHLRUIUI2M0jyEuzx3VDUAaGsxohM
- dTmVFuClE4lS1yZAS+bCmMkCJWUS5poG5haZM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682121286; x=1684713286;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/P9c+dm6zZc8lr/tHvqFYHBFZPdBZoGnF7gM90G3clo=;
- b=PwNUlp8WEs1b+NpvmwpwkDvF1E4qxQ3cBzJEQnX7qWHa4HmTnGPo6kEiRE2kSMdIIw
- D40d/oEkw8JVLRH1mXltLPWoYJGrMF4RD7j9fmpbw96qHR7Q2+6w8lL2ROW+WPyuC0RV
- LyWkBa/bi3aOrW0lJh70bxXbC/0JzylRE2lIrxHyaNzyTWTte8Lh/B0Q2oBolBIeW8+P
- 881menPQR9yIA+rGbc6OjnvhJMZny4fJjjAWEMlnm1W2yjXQrGPFBTOBdVCGtpPpRZsD
- 4H0vjv7SOkqRftSqGnpPhHMPQjkl+svraGiy7TlXyxRsfXcfbSg6nmQAoKt+K42rJ/WA
- FAHA==
-X-Gm-Message-State: AAQBX9c8N6/d1VFXrYPTyvZOIdw04CX6gTUxmlsQT97cGVZGp5gP3Qi2
- LLcd9H1r6iStyPHnWsJrwkZowbrQbwznu8wRUhWWXA==
-X-Google-Smtp-Source: AKy350YPwiB146m7rhggvnZypXFhYOWnvPWpNFXJWOvejyQxgPZT2JNLgn608FZfO77llbCZWay+EA==
-X-Received: by 2002:a05:6402:1a4e:b0:506:b228:7b03 with SMTP id
- bf14-20020a0564021a4e00b00506b2287b03mr6616392edb.13.1682121286561; 
- Fri, 21 Apr 2023 16:54:46 -0700 (PDT)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com.
- [209.85.208.45]) by smtp.gmail.com with ESMTPSA id
- i9-20020aa7c709000000b0050499afe96bsm2278938edq.10.2023.04.21.16.54.44
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Apr 2023 16:54:44 -0700 (PDT)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-506bf4cbecbso3254141a12.1
- for <qemu-devel@nongnu.org>; Fri, 21 Apr 2023 16:54:44 -0700 (PDT)
-X-Received: by 2002:a50:d09b:0:b0:505:47d:29b5 with SMTP id
- v27-20020a50d09b000000b00505047d29b5mr1938486edd.1.1682121283779; Fri, 21 Apr
- 2023 16:54:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pq1a2-0006qf-LD; Fri, 21 Apr 2023 20:58:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pq1a0-0003Sb-Tx; Fri, 21 Apr 2023 20:58:22 -0400
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33M0VbnR031413; Sat, 22 Apr 2023 00:58:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=7Rr7xZt4qM4bPB3lPDNP9GYzFoTTMd5ivo4EV7fx3eY=;
+ b=LOOzWfj6gB4lqHIE7mkuWQEf7ezPhGv3yl4uLWJkl8eGJ9ltJuTWp2AwCemj1Jx+yxWL
+ VEMRV7t0UQ4TDrpRYE3kpdVSVe2DWDtSDuJzJkYs1Wk1167L43dJBSwE8UIA526oiH9C
+ 5t7oqalBle0tOGkBFKfqD0eXeq0Nmh9S4OpDTorAhwr6vW4W2miX9F+76a812kuJ5blr
+ XmUrRDwMN04cHEEz7uPrR1B/ifvYdhNSeSDi0qKv4Kg1gi6ReoLeyt1GMT7uj4sj2aCP
+ VGZDmMipBBHDFv6AfkLlmRYTbFdd/tdPrsIw4Qf3YkcQJI4xrXC3sxsyq84aqh//bsp4 xg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q403m1eqj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 22 Apr 2023 00:58:16 +0000
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33M0j5LR009111;
+ Sat, 22 Apr 2023 00:58:15 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q403m1eq5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 22 Apr 2023 00:58:15 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33LHUnbl030204;
+ Sat, 22 Apr 2023 00:58:13 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3pykj6caru-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 22 Apr 2023 00:58:13 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33M0wBa046006716
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 22 Apr 2023 00:58:11 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C8642004B;
+ Sat, 22 Apr 2023 00:58:11 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C8C6E20043;
+ Sat, 22 Apr 2023 00:58:10 +0000 (GMT)
+Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.0.177])
+ by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Sat, 22 Apr 2023 00:58:10 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH 0/2] tests/tcg/s390x: Enable the multiarch system tests
+Date: Sat, 22 Apr 2023 02:58:06 +0200
+Message-Id: <20230422005808.1773015-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230421011223.718-1-gurchetansingh@chromium.org>
- <CAJSP0QVrxSgFJFqPd=iBfBoV9brL2v6d6P+4E7BmGYAxwEYPmw@mail.gmail.com>
-In-Reply-To: <CAJSP0QVrxSgFJFqPd=iBfBoV9brL2v6d6P+4E7BmGYAxwEYPmw@mail.gmail.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Fri, 21 Apr 2023 16:54:30 -0700
-X-Gmail-Original-Message-ID: <CAAfnVB=n8CJ7cL9kS84TMu1+hBrnWUYhaXAw7jhBPEra_EdgwQ@mail.gmail.com>
-Message-ID: <CAAfnVB=n8CJ7cL9kS84TMu1+hBrnWUYhaXAw7jhBPEra_EdgwQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/13] gfxstream + rutabaga_gfx: a surprising delight
- or startling epiphany?
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@linaro.org, 
- david@redhat.com, stefanha@redhat.com, kraxel@redhat.com, 
- marcandre.lureau@redhat.com, akihiko.odaki@gmail.com, 
- dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=gurchetansingh@chromium.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Dnu1-PLtqvecL4BZd-Ry-3hHpgTy77hK
+X-Proofpoint-GUID: sj8sJGuSrUr7CrBsySuhFjNJXuXarA0C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-21_08,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 malwarescore=0 phishscore=0 suspectscore=0 bulkscore=0
+ mlxscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=812 adultscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304220003
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,61 +110,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Apr 21, 2023 at 9:02=E2=80=AFAM Stefan Hajnoczi <stefanha@gmail.com=
-> wrote:
->
-> On Thu, 20 Apr 2023 at 21:13, Gurchetan Singh
-> <gurchetansingh@chromium.org> wrote:
-> >
-> > From: Gurchetan Singh <gurchetansingh@google.com>
-> >
-> > Rationale:
-> >
-> > - gfxstream [a] is good for the Android Emulator/upstream QEMU
-> >   alignment
-> > - Wayland passhthrough [b] via the cross-domain context type is good
-> >   for Linux on Linux display virtualization
-> > - rutabaga_gfx [c] sits on top of gfxstream, cross-domain and even
-> >   virglrenderer
-> > - This series ports rutabaga_gfx to QEMU
->
-> What rutabaga_gfx and gfxstream? Can you explain where they sit in the
-> stack and how they build on or complement virtio-gpu and
-> virglrenderer?
+Hi,
 
-rutabaga_gfx and gfxstream are both libraries that implement the
-virtio-gpu protocol.  There's a document available in the Gitlab issue
-to see where they fit in the stack [a].
+I noticed that Alex added "undefine MULTIARCH_TESTS" to
+tests/tcg/s390x/Makefile.softmmu-target in the plugin patch, and
+thought that it may better to just enable them, which this series
+does.
 
-gfxstream grew out of the Android Emulator's need to virtualize
-graphics for app developers.  There's a short history of gfxstream in
-patch 10.  It complements virglrenderer in that it's a bit more
-cross-platform and targets different use cases -- more detail here
-[b].  The ultimate goal is ditch out-of-tree kernel drivers in the
-Android Emulator and adopt virtio, and porting gfxstream to QEMU would
-speed up that transition.
+Patch 1 fixes an endianness issue in the memory test.
 
-rutabaga_gfx is a much smaller Rust library that sits on top of
-gfxstream and even virglrenderer, but does a few extra things.  It
-implements the cross-domain context type, which provides Wayland
-passthrough.  This helps virtio-gpu by providing more modern display
-virtualization.  For example, Microsoft for WSL2 also uses a similar
-technique [c], but I believe it is not virtio-based nor open-source.
-With this, we can have the same open-source Wayland passthrough
-solution on crosvm, QEMU and even Fuchsia [d].  Also, there might be
-an additional small Rust context type for security-sensitive use cases
-in the future -- rutabaga_gfx wouldn't compile its gfxstream bindings
-(since it's C++ based) in such cases.
+Patch 2 enables the multiarch system test. The main difficulty is
+outputting characters via SCLP, which is sidestepped by reusing the
+pc-bios/s390-ccw implementation.
 
-Both gfxstream and rutabaga_gfx are a part of the virtio spec [e] now too.
+Best regards,
+Ilya
 
-[a] https://gitlab.com/qemu-project/qemu/-/issues/1611
-[b] https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04271.html
-[c] https://www.youtube.com/watch?v=3DEkNBsBx501Q
-[d] https://fuchsia-review.googlesource.com/c/fuchsia/+/778764
-[e] https://github.com/oasis-tcs/virtio-spec/blob/master/device-types/gpu/d=
-escription.tex#L533
+Ilya Leoshkevich (2):
+  tests/tcg/multiarch: Make the system memory test work on big-endian
+  tests/tcg/s390x: Enable the multiarch system tests
 
->
-> Stefan
+ tests/tcg/multiarch/system/memory.c     | 24 ++++++++++++++++
+ tests/tcg/s390x/Makefile.softmmu-target | 37 +++++++++++++++++--------
+ tests/tcg/s390x/console.c               | 12 ++++++++
+ tests/tcg/s390x/head64.S                | 31 +++++++++++++++++++++
+ 4 files changed, 93 insertions(+), 11 deletions(-)
+ create mode 100644 tests/tcg/s390x/console.c
+ create mode 100644 tests/tcg/s390x/head64.S
+
+-- 
+2.39.2
+
 
