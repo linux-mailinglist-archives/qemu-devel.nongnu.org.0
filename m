@@ -2,85 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC58A6EBAF0
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 21:01:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78556EBAFB
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 21:23:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqISN-0000O2-3B; Sat, 22 Apr 2023 14:59:35 -0400
+	id 1pqIox-0004Vo-PN; Sat, 22 Apr 2023 15:22:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pqISE-0000Mx-S9; Sat, 22 Apr 2023 14:59:26 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pqISC-00087x-HV; Sat, 22 Apr 2023 14:59:26 -0400
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-506bdf29712so21526020a12.0; 
- Sat, 22 Apr 2023 11:59:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682189962; x=1684781962;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Lwuq2mDVCLHhIQi+lLJdyej7Ez4JVbFcKSD4IbDnZ+c=;
- b=bTHR+nJXlacq2DHnG4kaP3pyYECuxPjNl0p1PNaVWjFfN9jQBOOZPP3f09PcxOlrLL
- nWfRTAQEhXsfl2yeJbg7NUQex6eOtpxLoZYx8vj1xibZxIHMt6SndiQmhFiEygSO3uzy
- jKg6Tbg5JtGhBCbD0+EEzMlj80gjyX4bs7Q4NJS9ibTx/TloVXOMMqQNsKfiwJrxuBI7
- Jc3A1Vj040+MxQFDrZxpE+aEdRKZX7TMUmYK18ThcdOBtkOArM4hcjNGghlCN7RvW3AH
- eNySuY7igTMLn4g3PYqmibKwgXTd7x1ao0Gt4923PFZGq9UGkwSXgWjWpHAwWO0BvRd8
- 34cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682189962; x=1684781962;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Lwuq2mDVCLHhIQi+lLJdyej7Ez4JVbFcKSD4IbDnZ+c=;
- b=lMy5Xp2Yac6qgXfd7c8AwXwuLHRJBNUf9gt7i42U8TpX4BTry2dJxdpU+Uqi5zAF0g
- Ancqy3rM0R24EZ9O9oQPKZ+dTmiEeEgVeI/PviDpDvERHTwSpToE25WdtLaYokb4KsxS
- vrBGPushkDRIvEDSWLnh5lQZJw71na2WWP6fwlM80IMQXyU9h13/IQCzy1qVVaH4f8LZ
- Zrww/Uf2gPFh4f8Hx72Y1yZrLGfRSSSllTQJT/6lIIclFYdIBizxKB1kDCPRjdQKu9nG
- Yi3Px7+Y83j8hAVbtwy8iPq2LNpASfyUcXg3dDwyS+1N29Jty1dlNdAiILDZNUAOW52K
- mJeA==
-X-Gm-Message-State: AAQBX9cBPUDoF73qi0c3QTlCbJKNCcQKgLFjnw2/aewCyiZrwPTrOY3F
- UoLaI/LR3I7WCxqwrpnybLU=
-X-Google-Smtp-Source: AKy350ZRhC9F65HMXALMbPsSknoDdF8JXdA7cRk7o0zGTsmMcely3/CvolWVIrce7fRHghd+wcKpMQ==
-X-Received: by 2002:a17:907:36c7:b0:933:4556:d1cd with SMTP id
- bj7-20020a17090736c700b009334556d1cdmr5638524ejc.33.1682189961898; 
- Sat, 22 Apr 2023 11:59:21 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-191-017-015.77.191.pool.telefonica.de.
- [77.191.17.15]) by smtp.gmail.com with ESMTPSA id
- e14-20020a170906504e00b0094a90d3e385sm3528827ejk.30.2023.04.22.11.59.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Apr 2023 11:59:21 -0700 (PDT)
-Date: Sat, 22 Apr 2023 18:59:15 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pqIou-0004Tk-P5; Sat, 22 Apr 2023 15:22:52 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pqIos-0003lZ-CJ; Sat, 22 Apr 2023 15:22:52 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C88DA74634B;
+ Sat, 22 Apr 2023 21:21:12 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 58332745720; Sat, 22 Apr 2023 21:21:12 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 564177456E3;
+ Sat, 22 Apr 2023 21:21:12 +0200 (CEST)
+Date: Sat, 22 Apr 2023 21:21:12 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, John Snow <jsnow@redhat.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
  qemu-ppc@nongnu.org
-Subject: Re: [PATCH 05/13] hw/ide: Extract pci_ide_class_init()
-In-Reply-To: <b5037537-1b13-38c0-5c58-486ef7ad38b1@eik.bme.hu>
+Subject: Re: [PATCH 02/13] hw/ide/via: Implement ISA IRQ routing
+In-Reply-To: <8B29FA8F-B534-4CB5-8311-07AAAC782CD9@gmail.com>
+Message-ID: <d7d94bb5-3f76-e7bb-9786-207ec10e4936@eik.bme.hu>
 References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-6-shentey@gmail.com>
- <b5037537-1b13-38c0-5c58-486ef7ad38b1@eik.bme.hu>
-Message-ID: <135055C6-CF7C-4966-AAC3-A7B5027988DF@gmail.com>
+ <20230422150728.176512-3-shentey@gmail.com>
+ <3b1d7a25-1600-872d-c0e8-b71ec49f551e@eik.bme.hu>
+ <8B29FA8F-B534-4CB5-8311-07AAAC782CD9@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,262 +64,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-Am 22=2E April 2023 17:34:30 UTC schrieb BALATON Zoltan <balaton@eik=2Ebme=
-=2Ehu>:
->On Sat, 22 Apr 2023, Bernhard Beschow wrote:
->> Resolves redundant code in every PCI IDE device model=2E
+On Sat, 22 Apr 2023, Bernhard Beschow wrote:
+> Am 22. April 2023 17:23:56 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>> On Sat, 22 Apr 2023, Bernhard Beschow wrote:
+>>> The VIA south bridge allows the legacy IDE interrupts to be routed to four
+>>> different ISA interrupts. This can be configured through the 0x4a register in
+>>> the PCI configuration space of the ISA function. The default routing matches
+>>> the legacy ISA IRQs, that is 14 and 15.
+>>
+>> On VT8231 0x4a is PCI Master Arbitration Control, IDE interrupt Routing is 0x4c and only documents 14/15 as valid values.
 >
->This patch could be broken up a bit more as it seems to do unrelated chan=
-ges=2E Such as setting DEVICE_CATEGORY_STORAGE in a different way could be =
-a separate patch to make it simpler to review=2E
+> In the datasheet titled "VT8231 South Bridge", preliminary revision 0.8, 
+> Oct. 29, 1999, page 60, the "IDE Interrupt Routing" register is located 
+> at offset 0x4a and offers the same four interrupts in the same order as 
+> in the code. Are we looking at the same datasheet?
 
-Okay, I'll slice this patch in the next iteration, moving each assignment =
-separately=2E
+Apparently not. The one I have says: Revision 2.32, May 10, 2004. Looks 
+more authorative than a preliminary one.
 
-Best regards,
-Bernhard
-
+>> Not sure any guest would actually change this or 0x4a and if that could cause problems but you may need to handle this somehow. (Apart from testing with MorphOS with -kernel you should really be testing with pegasos2.rom with MorphOS and Linux, e.g. Debian 8.11 netinstall iso is known to boot.)
 >
->Regards,
->BALATON Zoltan
->
->> ---
->> include/hw/ide/pci=2Eh |  1 -
->> hw/ide/cmd646=2Ec      | 15 ---------------
->> hw/ide/pci=2Ec         | 25 ++++++++++++++++++++++++-
->> hw/ide/piix=2Ec        | 19 -------------------
->> hw/ide/sii3112=2Ec     |  3 ++-
->> hw/ide/via=2Ec         | 15 ---------------
->> 6 files changed, 26 insertions(+), 52 deletions(-)
->>=20
->> diff --git a/include/hw/ide/pci=2Eh b/include/hw/ide/pci=2Eh
->> index 74c127e32f=2E=2E7bc4e53d02 100644
->> --- a/include/hw/ide/pci=2Eh
->> +++ b/include/hw/ide/pci=2Eh
->> @@ -61,7 +61,6 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
->> extern MemoryRegionOps bmdma_addr_ioport_ops;
->> void pci_ide_create_devs(PCIDevice *dev);
->>=20
->> -extern const VMStateDescription vmstate_ide_pci;
->> extern const MemoryRegionOps pci_ide_cmd_le_ops;
->> extern const MemoryRegionOps pci_ide_data_le_ops;
->> #endif
->> diff --git a/hw/ide/cmd646=2Ec b/hw/ide/cmd646=2Ec
->> index a094a6e12a=2E=2E9aabf80e52 100644
->> --- a/hw/ide/cmd646=2Ec
->> +++ b/hw/ide/cmd646=2Ec
->> @@ -301,17 +301,6 @@ static void pci_cmd646_ide_realize(PCIDevice *dev,=
- Error **errp)
->>     }
->> }
->>=20
->> -static void pci_cmd646_ide_exitfn(PCIDevice *dev)
->> -{
->> -    PCIIDEState *d =3D PCI_IDE(dev);
->> -    unsigned i;
->> -
->> -    for (i =3D 0; i < 2; ++i) {
->> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eextr=
-a_io);
->> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eaddr=
-_ioport);
->> -    }
->> -}
->> -
->> static Property cmd646_ide_properties[] =3D {
->>     DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
->>     DEFINE_PROP_END_OF_LIST(),
->> @@ -323,17 +312,13 @@ static void cmd646_ide_class_init(ObjectClass *kl=
-ass, void *data)
->>     PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
->>=20
->>     dc->reset =3D cmd646_reset;
->> -    dc->vmsd =3D &vmstate_ide_pci;
->>     k->realize =3D pci_cmd646_ide_realize;
->> -    k->exit =3D pci_cmd646_ide_exitfn;
->>     k->vendor_id =3D PCI_VENDOR_ID_CMD;
->>     k->device_id =3D PCI_DEVICE_ID_CMD_646;
->>     k->revision =3D 0x07;
->> -    k->class_id =3D PCI_CLASS_STORAGE_IDE;
->>     k->config_read =3D cmd646_pci_config_read;
->>     k->config_write =3D cmd646_pci_config_write;
->>     device_class_set_props(dc, cmd646_ide_properties);
->> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->> }
->>=20
->> static const TypeInfo cmd646_ide_info =3D {
->> diff --git a/hw/ide/pci=2Ec b/hw/ide/pci=2Ec
->> index 67e0998ff0=2E=2E8bea92e394 100644
->> --- a/hw/ide/pci=2Ec
->> +++ b/hw/ide/pci=2Ec
->> @@ -467,7 +467,7 @@ static int ide_pci_post_load(void *opaque, int vers=
-ion_id)
->>     return 0;
->> }
->>=20
->> -const VMStateDescription vmstate_ide_pci =3D {
->> +static const VMStateDescription vmstate_ide_pci =3D {
->>     =2Ename =3D "ide",
->>     =2Eversion_id =3D 3,
->>     =2Eminimum_version_id =3D 0,
->> @@ -530,11 +530,34 @@ static void pci_ide_init(Object *obj)
->>     qdev_init_gpio_out(DEVICE(d), d->isa_irq, ARRAY_SIZE(d->isa_irq));
->> }
->>=20
->> +static void pci_ide_exitfn(PCIDevice *dev)
->> +{
->> +    PCIIDEState *d =3D PCI_IDE(dev);
->> +    unsigned i;
->> +
->> +    for (i =3D 0; i < ARRAY_SIZE(d->bmdma); ++i) {
->> +        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eextr=
-a_io);
->> +        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eaddr=
-_ioport);
->> +    }
->> +}
->> +
->> +static void pci_ide_class_init(ObjectClass *klass, void *data)
->> +{
->> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
->> +    PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
->> +
->> +    dc->vmsd =3D &vmstate_ide_pci;
->> +    k->exit =3D pci_ide_exitfn;
->> +    k->class_id =3D PCI_CLASS_STORAGE_IDE;
->> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->> +}
->> +
->> static const TypeInfo pci_ide_type_info =3D {
->>     =2Ename =3D TYPE_PCI_IDE,
->>     =2Eparent =3D TYPE_PCI_DEVICE,
->>     =2Einstance_size =3D sizeof(PCIIDEState),
->>     =2Einstance_init =3D pci_ide_init,
->> +    =2Eclass_init =3D pci_ide_class_init,
->>     =2Eabstract =3D true,
->>     =2Einterfaces =3D (InterfaceInfo[]) {
->>         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
->> diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
->> index a32f7ccece=2E=2E4e6ca99123 100644
->> --- a/hw/ide/piix=2Ec
->> +++ b/hw/ide/piix=2Ec
->> @@ -159,8 +159,6 @@ static void pci_piix_ide_realize(PCIDevice *dev, Er=
-ror **errp)
->>     bmdma_setup_bar(d);
->>     pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
->>=20
->> -    vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
->> -
->>     for (unsigned i =3D 0; i < 2; i++) {
->>         if (!pci_piix_init_bus(d, i, errp)) {
->>             return;
->> @@ -168,17 +166,6 @@ static void pci_piix_ide_realize(PCIDevice *dev, E=
-rror **errp)
->>     }
->> }
->>=20
->> -static void pci_piix_ide_exitfn(PCIDevice *dev)
->> -{
->> -    PCIIDEState *d =3D PCI_IDE(dev);
->> -    unsigned i;
->> -
->> -    for (i =3D 0; i < 2; ++i) {
->> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eextr=
-a_io);
->> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eaddr=
-_ioport);
->> -    }
->> -}
->> -
->> /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
->> static void piix3_ide_class_init(ObjectClass *klass, void *data)
->> {
->> @@ -187,11 +174,8 @@ static void piix3_ide_class_init(ObjectClass *klas=
-s, void *data)
->>=20
->>     dc->reset =3D piix_ide_reset;
->>     k->realize =3D pci_piix_ide_realize;
->> -    k->exit =3D pci_piix_ide_exitfn;
->>     k->vendor_id =3D PCI_VENDOR_ID_INTEL;
->>     k->device_id =3D PCI_DEVICE_ID_INTEL_82371SB_1;
->> -    k->class_id =3D PCI_CLASS_STORAGE_IDE;
->> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->>     dc->hotpluggable =3D false;
->> }
->>=20
->> @@ -209,11 +193,8 @@ static void piix4_ide_class_init(ObjectClass *klas=
-s, void *data)
->>=20
->>     dc->reset =3D piix_ide_reset;
->>     k->realize =3D pci_piix_ide_realize;
->> -    k->exit =3D pci_piix_ide_exitfn;
->>     k->vendor_id =3D PCI_VENDOR_ID_INTEL;
->>     k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB;
->> -    k->class_id =3D PCI_CLASS_STORAGE_IDE;
->> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->>     dc->hotpluggable =3D false;
->> }
->>=20
->> diff --git a/hw/ide/sii3112=2Ec b/hw/ide/sii3112=2Ec
->> index 5dd3d03c29=2E=2E0af897a9ef 100644
->> --- a/hw/ide/sii3112=2Ec
->> +++ b/hw/ide/sii3112=2Ec
->> @@ -301,9 +301,10 @@ static void sii3112_pci_class_init(ObjectClass *kl=
-ass, void *data)
->>     pd->class_id =3D PCI_CLASS_STORAGE_RAID;
->>     pd->revision =3D 1;
->>     pd->realize =3D sii3112_pci_realize;
->> +    pd->exit =3D NULL;
->>     dc->reset =3D sii3112_reset;
->> +    dc->vmsd =3D NULL;
->>     dc->desc =3D "SiI3112A SATA controller";
->> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->> }
->>=20
->> static const TypeInfo sii3112_pci_info =3D {
->> diff --git a/hw/ide/via=2Ec b/hw/ide/via=2Ec
->> index 91253fa4ef=2E=2E287143a005 100644
->> --- a/hw/ide/via=2Ec
->> +++ b/hw/ide/via=2Ec
->> @@ -200,34 +200,19 @@ static void via_ide_realize(PCIDevice *dev, Error=
- **errp)
->>     }
->> }
->>=20
->> -static void via_ide_exitfn(PCIDevice *dev)
->> -{
->> -    PCIIDEState *d =3D PCI_IDE(dev);
->> -    unsigned i;
->> -
->> -    for (i =3D 0; i < ARRAY_SIZE(d->bmdma); ++i) {
->> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eextr=
-a_io);
->> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eaddr=
-_ioport);
->> -    }
->> -}
->> -
->> static void via_ide_class_init(ObjectClass *klass, void *data)
->> {
->>     DeviceClass *dc =3D DEVICE_CLASS(klass);
->>     PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
->>=20
->>     dc->reset =3D via_ide_reset;
->> -    dc->vmsd =3D &vmstate_ide_pci;
->>     /* Reason: only works as function of VIA southbridge */
->>     dc->user_creatable =3D false;
->>=20
->>     k->realize =3D via_ide_realize;
->> -    k->exit =3D via_ide_exitfn;
->>     k->vendor_id =3D PCI_VENDOR_ID_VIA;
->>     k->device_id =3D PCI_DEVICE_ID_VIA_IDE;
->>     k->revision =3D 0x06;
->> -    k->class_id =3D PCI_CLASS_STORAGE_IDE;
->> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->> }
->>=20
->> static const TypeInfo via_ide_info =3D {
->>=20
+> I've tested extensively with an x86 Linux guest on my pc-via branch which worked flawlessly.
+
+That does not substitute testing Linux on pegasos2 though becuase there 
+are some hacks in Linux kernel to handle some pecularities of the pegasos2 
+including via ide on that machine and that can only be fully tested with 
+pegasos2.rom and PPC Linux.
+
+> As mentioned in the commit message the default routing of the chipset 
+> matches legacy behavior, that is interrupts 14 and 15. This is reflected 
+> by assigning [0x4a] = 4 in the code and that is how the code behaved 
+> before.
+
+And that's the only allowed value on VT8231, other bits are listed as 
+reserved so I wonder if we want to model this at all if no guest is 
+touching it anyway. So you could also just drop that part and keep it hard 
+mapped to 14-15 as it is now, mentioning the config reg in a comment if we 
+ever find a guest that needs it.
+
+Regards,
+BALATON Zoltan
 
