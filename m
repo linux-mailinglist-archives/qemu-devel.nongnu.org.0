@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61636EBA0D
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 17:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95BBA6EBAAF
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 19:29:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqFRH-0001mn-5p; Sat, 22 Apr 2023 11:46:15 -0400
+	id 1pqH2b-0006vz-Pc; Sat, 22 Apr 2023 13:28:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pqFRE-0001mf-TX
- for qemu-devel@nongnu.org; Sat, 22 Apr 2023 11:46:13 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ (Exim 4.90_1) (envelope-from <itachis6234@gmail.com>)
+ id 1pqFy0-00023j-8S
+ for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:20:04 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pqFRD-0002YC-09
- for qemu-devel@nongnu.org; Sat, 22 Apr 2023 11:46:12 -0400
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-1a5197f00e9so26291335ad.1
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 08:46:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <itachis6234@gmail.com>)
+ id 1pqFxw-0007G4-2y
+ for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:20:02 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id
+ d2e1a72fcca58-63b57c49c4cso2759502b3a.3
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 09:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682178369; x=1684770369;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aBqBbNpOs8y6mv3uSrKFWmMAk5YVcAXcI7k/IdMHz/c=;
- b=kliBGkqTukrHCODriBDh6oToEDQG1PrZ3XuPZ7OV4MP193wAXLKIjNtnj54oYiMGQc
- vAqUJJrSAMZZTdvO3qkP2Y+Lj/0rZRTiKa8ioXYqnrBmSxhNaNoMyC3E/vK8E12nEN/g
- Pwf+QBZRsD7yJTvKdxHgPNXzyyJWjs2fAMa+tL2xvb1R6qLZHcTRgk8iRHndw3i3bmdk
- 0JN20Rritkb3o2aNEcs0mbRs5NSh2PODnbpRDw84PPDEDn+Lu72dTuk1H6aTdng1A+Rj
- KKFkqyHLnEeci1ODIzvXjkTJ0pRX33AzovmJgEkBf9rfHFvtrbnEQQ8/9rEsdzAqlikn
- PvJA==
+ d=gmail.com; s=20221208; t=1682180388; x=1684772388;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=y0/W3cxH1hrq6ZsVgVTx66VqcjfJ692sb4HPppqAWsg=;
+ b=Chf45JII1eCv+etCJRyWGorpM5JgxMxcmsyx/v+cJsc9UWryVYC0LcAyV3cm/YE+nq
+ CGjoEgwzYoCVzpbwDgbugSc+16Xku5vBRd60bXDPpybHAzrAXpiUaACfHgmfkkG8/vx8
+ hCBA3ddmyABUh9aTOo6+7NHu7paWt0fGodp50413oWlm61v5kU2xuWxK2zgn5xV0XXVT
+ e6hTteGQp5z75PbSSrnt0/okBEGEsfeukTkGJ4oVs1YS7FzEksKfoMPlaHL4025sVY5Q
+ 5lpVPv6YayWfqDJI4kq/kynsgrKm5RTsCgZKG1gAZbtxQSxSpZDGp/mxKonEfVqhRG0a
+ lDkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682178369; x=1684770369;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aBqBbNpOs8y6mv3uSrKFWmMAk5YVcAXcI7k/IdMHz/c=;
- b=I4NlUYVMx8z176WOKY5jvDqZF62HRvXdwB8MCJv5MxtNTg7LiBJ8Qf3G+yVa5TsNQJ
- Dl9fP1NpH4JSTbO93KQnPfHfa/JSBK9EADscT8DOsgviuaGlEx2HlxXs2xKIe6UERsg5
- DbnuWRAEmRNucu5u7uAnzFFAjV2zzTNApaKMXUhpvZ0CuM9LCSSzjLc6gNSvthm8lQkl
- 1kRMHrzThnRXCw/zqV9L6o7DGJ2bqiwfxt33xddzxAshOQSFFSVezI5NbLgEuNrnjX4U
- UcXdLEujOyrKrQPYW0Zz215xNC1YvVJw6iWM6NfBUbZdXDM0my3Eat152LLyyK0laA0S
- XaoA==
-X-Gm-Message-State: AAQBX9cJFgLzfBcIf0xmenlHdsxUn/xOI+5SbgJYgDNKnlN+zIJppVTJ
- TS5RCG+glSjUU4akseOtYfo=
-X-Google-Smtp-Source: AKy350ZN3TCE6TN+Lu8a1HC6El3r27Oey2XIUrT8er2mdLZd3YYmqYxVS/4WVoQnbDKqiwh1tJ+2jw==
-X-Received: by 2002:a17:903:1107:b0:1a2:70ed:6cd9 with SMTP id
- n7-20020a170903110700b001a270ed6cd9mr9815991plh.22.1682178369143; 
- Sat, 22 Apr 2023 08:46:09 -0700 (PDT)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ d=1e100.net; s=20221208; t=1682180388; x=1684772388;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=y0/W3cxH1hrq6ZsVgVTx66VqcjfJ692sb4HPppqAWsg=;
+ b=Am0utiVMSkoqoIeSNEwy0rJf/+5YQ0SsDU76U1QhW9MJzr8ahOP8+c1A3qVijq4faQ
+ WUeqALolrw1oYQdhDgftLT57dVY0MbHft6/jQdAifNSxFfzjvs43XCC+PxLwIZevix1h
+ K5uO0EnhRB2loNxUK7Y8kf2UjurBbuKkEb4586YJpi9aCNYSfeFhAGGXuIzius97kb9l
+ c3CxJ4KdkbpEW+kfTEdDr2OfYsUjYndQAIo+6sFt3a4bcv8ZtkxGh0pSA24H90ZpS9IG
+ ZG68HvEPM2iA9ypkyo7LmUPiQnJeqR8NmirO73T6hY0BWdJw1pCZDmUUX/FsNZPx25Ed
+ vPVw==
+X-Gm-Message-State: AAQBX9dyC909UmdH6ghfr5ws6MkOUlgBt62SM145LFy7fQNGK4MF60bl
+ u6uXCf++dA3v9fg3DNlo3RU=
+X-Google-Smtp-Source: AKy350YwCSTLDUFR0a6clj/8/5bNkdKPDXZJS1FVwwvMxAFAHJEYd9gZtRAv+hh822vKwwDBZFPWpg==
+X-Received: by 2002:a05:6a00:c88:b0:638:7e00:3737 with SMTP id
+ a8-20020a056a000c8800b006387e003737mr12492487pfv.23.1682180388522; 
+ Sat, 22 Apr 2023 09:19:48 -0700 (PDT)
+Received: from apple.localdomain ([182.65.27.4])
  by smtp.gmail.com with ESMTPSA id
- y11-20020a170902864b00b0019c2b1c4db1sm4161254plt.239.2023.04.22.08.46.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Apr 2023 08:46:08 -0700 (PDT)
-Message-ID: <fbba1520-2e95-1401-dfc8-ff759900a542@gmail.com>
-Date: Sun, 23 Apr 2023 00:46:05 +0900
+ i14-20020a655b8e000000b0051f14839bf3sm4241667pgr.34.2023.04.22.09.19.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 22 Apr 2023 09:19:48 -0700 (PDT)
+From: Ajeets6 <itachis6234@gmail.com>
+To: itachis6234@gmail.com,
+	qemu-devel@nongnu.org
+Cc: imp@bsdimp.com,
+	Stacey Son <sson@FreeBSD.org>
+Subject: [PATCH 1/7] Create os-time.c and add t2h_freebsd_timeval
+Date: Sat, 22 Apr 2023 21:49:28 +0530
+Message-Id: <20230422161934.2311-1-itachis6234@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH 12/13] HACK: use memory region API to inject memory to
- guest
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, philmd@linaro.org, david@redhat.com,
- stefanha@redhat.com, kraxel@redhat.com, marcandre.lureau@redhat.com,
- dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
-References: <20230421011223.718-1-gurchetansingh@chromium.org>
- <20230421011223.718-13-gurchetansingh@chromium.org>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20230421011223.718-13-gurchetansingh@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-2.047, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=itachis6234@gmail.com; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 22 Apr 2023 13:28:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,121 +92,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/04/21 10:12, Gurchetan Singh wrote:
-> I just copied the patches that have been floating around that do
-> this, but it doesn't seem to robustly work.  This current
-> implementation is probably good enough to run vkcube or simple
-> apps, but whenever a test starts to aggressively map/unmap memory,
-> things do explode on the QEMU side.
-> 
-> A simple way to reproduce is run:
-> 
-> ./deqp-vk --deqp-case=deqp-vk --deqp-case=dEQP-VK.memory.mapping.suballocation.*
-> 
-> You should get stack traces that sometimes look like this:
-> 
-> 0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=140737316304448) at ./nptl/pthread_kill.c:44
-> 1  __pthread_kill_internal (signo=6, threadid=140737316304448) at ./nptl/pthread_kill.c:78
-> 2  __GI___pthread_kill (threadid=140737316304448, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
-> 3  0x00007ffff7042476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
-> 4  0x00007ffff70287f3 in __GI_abort () at ./stdlib/abort.c:79
-> 5  0x00007ffff70896f6 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7ffff71dbb8c "%s\n") at ../sysdeps/posix/libc_fatal.c:155
-> 6  0x00007ffff70a0d7c in malloc_printerr (str=str@entry=0x7ffff71de7b0 "double free or corruption (out)") at ./malloc/malloc.c:5664
-> 7  0x00007ffff70a2ef0 in _int_free (av=0x7ffff7219c80 <main_arena>, p=0x555557793e00, have_lock=<optimized out>) at ./malloc/malloc.c:4588
-> 8  0x00007ffff70a54d3 in __GI___libc_free (mem=<optimized out>) at ./malloc/malloc.c:3391
-> 9  0x0000555555d65e7e in phys_section_destroy (mr=0x555557793e10) at ../softmmu/physmem.c:1003
-> 10 0x0000555555d65ed0 in phys_sections_free (map=0x555556d4b410) at ../softmmu/physmem.c:1011
-> 11 0x0000555555d69578 in address_space_dispatch_free (d=0x555556d4b400) at ../softmmu/physmem.c:2430
-> 12 0x0000555555d58412 in flatview_destroy (view=0x5555572bb090) at ../softmmu/memory.c:292
-> 13 0x000055555600fd23 in call_rcu_thread (opaque=0x0) at ../util/rcu.c:284
-> 14 0x00005555560026d4 in qemu_thread_start (args=0x5555569cafa0) at ../util/qemu-thread-posix.c:541
-> 15 0x00007ffff7094b43 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:442
-> 16 0x00007ffff7126a00 in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
-> 
-> or this:
-> 
-> 0x0000555555e1dc80 in object_unref (objptr=0x6d656d3c6b6e696c) at ../qom/object.c:1198
-> 1198        g_assert(obj->ref > 0);
-> (gdb) bt
-> 0  0x0000555555e1dc80 in object_unref (objptr=0x6d656d3c6b6e696c) at ../qom/object.c:1198
-> 1  0x0000555555d5cca5 in memory_region_unref (mr=0x5555572b9e20) at ../softmmu/memory.c:1799
-> 2  0x0000555555d65e47 in phys_section_destroy (mr=0x5555572b9e20) at ../softmmu/physmem.c:998
-> 3  0x0000555555d65ec7 in phys_sections_free (map=0x5555588365c0) at ../softmmu/physmem.c:1011
-> 4  0x0000555555d6956f in address_space_dispatch_free (d=0x5555588365b0) at ../softmmu/physmem.c:2430
-> 5  0x0000555555d58409 in flatview_destroy (view=0x555558836570) at ../softmmu/memory.c:292
-> 6  0x000055555600fd1a in call_rcu_thread (opaque=0x0) at ../util/rcu.c:284
-> 7  0x00005555560026cb in qemu_thread_start (args=0x5555569cafa0) at ../util/qemu-thread-posix.c:541
-> 8  0x00007ffff7094b43 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:442
-> 9  0x00007ffff7126a00 in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
-> 
-> The reason seems to be memory regions are handled on a different
-> thread than the virtio-gpu thread, and that inevitably leads to
-> raciness.  The memory region docs[a] generally seems to dissuade this:
-> 
-> "In order to do this, as a general rule do not create or destroy
->   memory regions dynamically during a device’s lifetime, and only
->   call object_unparent() in the memory region owner’s instance_finalize
->   callback. The dynamically allocated data structure that contains
->   the memory region then should obviously be freed in the
->   instance_finalize callback as well."
-> 
-> Though instance_finalize is called before device destruction, so
-> storing the memory until then is unlikely to be an option.  The
-> tests do pass when virtio-gpu doesn't free the memory, but
-> progressively the guest becomes slower and then OOMs.
-> 
-> Though the api does make an exception:
-> 
-> "There is an exception to the above rule: it is okay to call
-> object_unparent at any time for an alias or a container region. It is
-> therefore also okay to create or destroy alias and container regions
-> dynamically during a device’s lifetime."
-> 
-> I believe we are trying to create a container subregion, but that's
-> still failing?  Are we doing it right?  Any memory region experts
-> here can help out?  The other revelant patch in this series
-> is "virtio-gpu: hostmem".
+From: Stacey Son <sson@FreeBSD.org>
 
-Perhaps dma_memory_map() is what you want?
+os-time.c contains various functions to convert FreeBSD-specific time
+structure between host and guest formats
 
-> 
-> [a] https://qemu.readthedocs.io/en/latest/devel/memory.html
-> 
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> ---
->   hw/display/virtio-gpu-rutabaga.c | 14 ++++++++++++++
->   1 file changed, 14 insertions(+)
-> 
-> diff --git a/hw/display/virtio-gpu-rutabaga.c b/hw/display/virtio-gpu-rutabaga.c
-> index 5fd1154198..196267aac2 100644
-> --- a/hw/display/virtio-gpu-rutabaga.c
-> +++ b/hw/display/virtio-gpu-rutabaga.c
-> @@ -159,6 +159,12 @@ static int32_t rutabaga_handle_unmap(VirtIOGPU *g,
->       GET_VIRTIO_GPU_GL(g);
->       GET_RUTABAGA(virtio_gpu);
->   
-> +    memory_region_transaction_begin();
-> +    memory_region_set_enabled(&res->region, false);
-> +    memory_region_del_subregion(&g->parent_obj.hostmem, &res->region);
-> +    object_unparent(OBJECT(&res->region));
-> +    memory_region_transaction_commit();
-> +
->       res->mapped = NULL;
->       return rutabaga_resource_unmap(rutabaga, res->resource_id);
->   }
-> @@ -671,6 +677,14 @@ rutabaga_cmd_resource_map_blob(VirtIOGPU *g,
->       result = rutabaga_resource_map(rutabaga, mblob.resource_id, &mapping);
->       CHECK_RESULT(result, cmd);
->   
-> +    memory_region_transaction_begin();
-> +    memory_region_init_ram_device_ptr(&res->region, OBJECT(g), NULL,
-> +                                      mapping.size, (void *)mapping.ptr);
-> +    memory_region_add_subregion(&g->parent_obj.hostmem, mblob.offset,
-> +                                &res->region);
-> +    memory_region_set_enabled(&res->region, true);
-> +    memory_region_transaction_commit();
-> +
->       memset(&resp, 0, sizeof(resp));
->       resp.hdr.type = VIRTIO_GPU_RESP_OK_MAP_INFO;
->       result = rutabaga_resource_map_info(rutabaga, mblob.resource_id,
+Signed-off-by: Ajeets6 <itachis6234@gmail.com>
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
+---
+ bsd-user/freebsd/os-time.c | 41 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 bsd-user/freebsd/os-time.c
+
+diff --git a/bsd-user/freebsd/os-time.c b/bsd-user/freebsd/os-time.c
+new file mode 100644
+index 0000000000..ec9f59ded7
+--- /dev/null
++++ b/bsd-user/freebsd/os-time.c
+@@ -0,0 +1,41 @@
++/*
++ *  FreeBSD time related system call helpers
++ *
++ *  Copyright (c) 2013-15 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++/*
++ * FreeBSD time conversion functions
++ */
++#include <errno.h>
++#include <time.h>
++#include <sys/types.h>
++#include "qemu.h"
++
++
++abi_long t2h_freebsd_timeval(struct timeval *tv, abi_ulong target_tv_addr)
++{
++    struct target_freebsd_timeval *target_tv;
++
++    if (!lock_user_struct(VERIFY_READ, target_tv, target_tv_addr, 0)) {
++        return -TARGET_EFAULT;
++    }
++    __get_user(tv->tv_sec, &target_tv->tv_sec);
++    __get_user(tv->tv_usec, &target_tv->tv_usec);
++    unlock_user_struct(target_tv, target_tv_addr, 1);
++
++    return 0;
++}
+\ No newline at end of file
+-- 
+2.34.1
+
 
