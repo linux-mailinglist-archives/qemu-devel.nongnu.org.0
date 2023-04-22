@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2FF6EB9E4
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 17:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C1A6EB9E3
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 17:10:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqEq3-0001sx-Bl; Sat, 22 Apr 2023 11:07:47 -0400
+	id 1pqEq4-0001tx-3y; Sat, 22 Apr 2023 11:07:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pqEq0-0001o5-57; Sat, 22 Apr 2023 11:07:44 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ id 1pqEq1-0001rR-S0; Sat, 22 Apr 2023 11:07:45 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pqEpy-00059P-Gn; Sat, 22 Apr 2023 11:07:43 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-94f32588c13so373844266b.2; 
- Sat, 22 Apr 2023 08:07:41 -0700 (PDT)
+ id 1pqEq0-00059f-04; Sat, 22 Apr 2023 11:07:45 -0400
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-506bdf29712so20427397a12.0; 
+ Sat, 22 Apr 2023 08:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682176060; x=1684768060;
+ d=gmail.com; s=20221208; t=1682176061; x=1684768061;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=muBkECbZkz3PPDQCsG7ydl9JvU+1aeqdPslh1wRssVc=;
- b=Aq0XsN9TtSS0usTAlTJ7nP0eM4bVGNN/vkUQ3ZCCeLWPEnmpPNdpI/F898OQ9hX9+z
- 7LNd0R6ePJKSf2+8m0qy0N3+qr1iha1OAjUbvet2j0Q8ofkJq/lrRZkTsxcqemktCEWL
- ZfiSGqvszQzmG7iie4lJ7Ejo6gG9+JQsEqE4fQwbEs2RjeQQt+7npEs45dHVYI2I3TbU
- 6zXnI1H33pnCk0kc9DLLieDI3OXwduDcNQRlsy4kZiayIPix2P3YLSiP1mkxsDYUMtBa
- 7fYrc7yAGdTN0mYl/MJEaXPz56qkLuUh8Il/8MCT0EY06muC8yrCnCNC6VW0VVVlVu+D
- DOcg==
+ bh=LcaNV7I4IAQWFd1JhvCsXEwizJor3Bk4TG7Mwe0NIvk=;
+ b=GvamUy6eMJtQhuf2MJGKLfpmBWr8SgaC6wFfY3kOSizpSWo58Bf9rdpy2mTS6SIR9W
+ Nq7lY4caEWEj5WpUDuey+Twy7vznPvH8OpRQyUENlws35qTB9g18fRmfhh+GBda8P4K7
+ mUYDPwSNnMtNkHXWyYQf9+LJ7jggK37nGImnzaCSl30XACc/1u6IllwmhA9243qO2wiU
+ DKTpbaqbv28uHCj9H1O/qJp32m/ild4pTAA2Cd5Xb00zkTl0kTiV497AjKvnSnfrQ9tP
+ odgVFtIWZjZnG04LYZJyVUDnqQPDMQbcwoWKlgcy5bau2YaCX08IyaOjw9ws+Ah0QFXP
+ pmuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682176060; x=1684768060;
+ d=1e100.net; s=20221208; t=1682176061; x=1684768061;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=muBkECbZkz3PPDQCsG7ydl9JvU+1aeqdPslh1wRssVc=;
- b=OeXCtKjC87RAlmXOhu9F9cOlwsZxZQpOgidcS0X40uKR6LCA8V6ZyssWpQrFld4a8r
- a2v3pcxGeAQVuct15A90f4uPvt00E+qNd8jXN2vnGUr2KNasqV1WszTkOcvXD6QPfCLo
- cmYvQ5OT2b+uiarCjlWmnCAFuFi5Uy3ZSH9AwN/Vu83BjnHgFFxQU7lwQxzNIGZHnU/1
- 5MgwwSXc0or2Iw7BMPtmO9pi4YzpzkbyXZTlMjup0zlVPYZb7FiUc+qvGlQgYiwvCtgY
- 7UdHNf+tdu5dH0L2mq66laQcEmqIwZac3OM9/r76K8nxH8j3t4BAXAiEgqHmiOWMKDJV
- aVYw==
-X-Gm-Message-State: AAQBX9ejia4M80d554lL9e11Mcczn2bMGi8uBu1MA4NaSeAZp09iXOYU
- WC7QSkzOIF5L3xr4szIB7VC8xrvl9zE=
-X-Google-Smtp-Source: AKy350blfDzx1ILyqcWMTq7PQfkUAa8BUu7Mu3klKw2iqDBnIADattD6xvPmbwFPnxuRsXY/TDk5JA==
-X-Received: by 2002:a17:906:7d6:b0:957:2d2a:e8a2 with SMTP id
- m22-20020a17090607d600b009572d2ae8a2mr4386577ejc.27.1682176060066; 
- Sat, 22 Apr 2023 08:07:40 -0700 (PDT)
+ bh=LcaNV7I4IAQWFd1JhvCsXEwizJor3Bk4TG7Mwe0NIvk=;
+ b=ZUnuMav5i8bj4/5vTd8VxHh/fbipv5+gTdzeRy5s9HAgbkyUdgT1OHzdx2dUz4qg1D
+ laREDDdur3U7dwPGc+r9cq0OX3k5NlIAUzc/E0g1sSZGTc+zttHm12D6YTbuJbVeUJLU
+ Han9TYU7/4h6dUJo5YVdCmC+U9/+JqiHaGFVS34cApu7boIgQGqOEOtoZj7kVnjmMejn
+ J+m1KuHX5BI0xQ+4nfDXNuzQVX7P35gydXMTrUnNL9yn3UvvGNKyo5WI21COJJdHT9ZB
+ KhTJl0fWH/ZxZt8X2i2gWIBn6mekW1K3k/JAUFzPWoWxwBGlw637JEXq3xP4Jq15FI4S
+ Bwmg==
+X-Gm-Message-State: AAQBX9eVtzWGAta7WjkuiQY74UqVByZgoZM7QlV3OatbbgsUE5csCbjI
+ ti/zx26m+D0qUIKWKJHONu9QW/iID/c=
+X-Google-Smtp-Source: AKy350ZtBq5hCS3/defTydVTigdUXcrQeR3wMUFnowear3xsEWJ3nEJf2Duj50pTlB61/1x5Vlw5qQ==
+X-Received: by 2002:a17:906:7313:b0:94e:e0b7:96d6 with SMTP id
+ di19-20020a170906731300b0094ee0b796d6mr7287335ejc.14.1682176061239; 
+ Sat, 22 Apr 2023 08:07:41 -0700 (PDT)
 Received: from Provence.localdomain
  (dynamic-077-191-017-015.77.191.pool.telefonica.de. [77.191.17.15])
  by smtp.gmail.com with ESMTPSA id
- e7-20020a170906844700b0094f7b713e40sm3300108ejy.126.2023.04.22.08.07.39
+ e7-20020a170906844700b0094f7b713e40sm3300108ejy.126.2023.04.22.08.07.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 08:07:39 -0700 (PDT)
+ Sat, 22 Apr 2023 08:07:40 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
@@ -62,16 +62,16 @@ Cc: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Huacai Chen <chenhuacai@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  qemu-ppc@nongnu.org, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 04/13] hw/ide: Extract IDEBus assignment into bmdma_init()
-Date: Sat, 22 Apr 2023 17:07:19 +0200
-Message-Id: <20230422150728.176512-5-shentey@gmail.com>
+Subject: [PATCH 05/13] hw/ide: Extract pci_ide_class_init()
+Date: Sat, 22 Apr 2023 17:07:20 +0200
+Message-Id: <20230422150728.176512-6-shentey@gmail.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230422150728.176512-1-shentey@gmail.com>
 References: <20230422150728.176512-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,78 +94,226 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Every invocation of bmdma_init() is followed by `d->bmdma[i].bus = &d->bus[i]`.
-Resolve this redundancy by extracting it into bmdma_init().
-
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Resolves redundant code in every PCI IDE device model.
 ---
- hw/ide/cmd646.c  | 1 -
- hw/ide/pci.c     | 1 +
- hw/ide/piix.c    | 1 -
- hw/ide/sii3112.c | 1 -
- hw/ide/via.c     | 1 -
- 5 files changed, 1 insertion(+), 4 deletions(-)
+ include/hw/ide/pci.h |  1 -
+ hw/ide/cmd646.c      | 15 ---------------
+ hw/ide/pci.c         | 25 ++++++++++++++++++++++++-
+ hw/ide/piix.c        | 19 -------------------
+ hw/ide/sii3112.c     |  3 ++-
+ hw/ide/via.c         | 15 ---------------
+ 6 files changed, 26 insertions(+), 52 deletions(-)
 
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index 74c127e32f..7bc4e53d02 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -61,7 +61,6 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
+ extern MemoryRegionOps bmdma_addr_ioport_ops;
+ void pci_ide_create_devs(PCIDevice *dev);
+ 
+-extern const VMStateDescription vmstate_ide_pci;
+ extern const MemoryRegionOps pci_ide_cmd_le_ops;
+ extern const MemoryRegionOps pci_ide_data_le_ops;
+ #endif
 diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-index a68357c1c5..a094a6e12a 100644
+index a094a6e12a..9aabf80e52 100644
 --- a/hw/ide/cmd646.c
 +++ b/hw/ide/cmd646.c
-@@ -297,7 +297,6 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
-         ide_bus_init_output_irq(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
--        d->bmdma[i].bus = &d->bus[i];
-         ide_bus_register_restart_cb(&d->bus[i]);
+@@ -301,17 +301,6 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
      }
  }
+ 
+-static void pci_cmd646_ide_exitfn(PCIDevice *dev)
+-{
+-    PCIIDEState *d = PCI_IDE(dev);
+-    unsigned i;
+-
+-    for (i = 0; i < 2; ++i) {
+-        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].extra_io);
+-        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].addr_ioport);
+-    }
+-}
+-
+ static Property cmd646_ide_properties[] = {
+     DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
+     DEFINE_PROP_END_OF_LIST(),
+@@ -323,17 +312,13 @@ static void cmd646_ide_class_init(ObjectClass *klass, void *data)
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+ 
+     dc->reset = cmd646_reset;
+-    dc->vmsd = &vmstate_ide_pci;
+     k->realize = pci_cmd646_ide_realize;
+-    k->exit = pci_cmd646_ide_exitfn;
+     k->vendor_id = PCI_VENDOR_ID_CMD;
+     k->device_id = PCI_DEVICE_ID_CMD_646;
+     k->revision = 0x07;
+-    k->class_id = PCI_CLASS_STORAGE_IDE;
+     k->config_read = cmd646_pci_config_read;
+     k->config_write = cmd646_pci_config_write;
+     device_class_set_props(dc, cmd646_ide_properties);
+-    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+ }
+ 
+ static const TypeInfo cmd646_ide_info = {
 diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-index 942e216b9b..67e0998ff0 100644
+index 67e0998ff0..8bea92e394 100644
 --- a/hw/ide/pci.c
 +++ b/hw/ide/pci.c
-@@ -519,6 +519,7 @@ void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d)
-     bus->dma = &bm->dma;
-     bm->irq = bus->irq;
-     bus->irq = qemu_allocate_irq(bmdma_irq, bm, 0);
-+    bm->bus = bus;
-     bm->pci_dev = d;
+@@ -467,7 +467,7 @@ static int ide_pci_post_load(void *opaque, int version_id)
+     return 0;
  }
  
+-const VMStateDescription vmstate_ide_pci = {
++static const VMStateDescription vmstate_ide_pci = {
+     .name = "ide",
+     .version_id = 3,
+     .minimum_version_id = 0,
+@@ -530,11 +530,34 @@ static void pci_ide_init(Object *obj)
+     qdev_init_gpio_out(DEVICE(d), d->isa_irq, ARRAY_SIZE(d->isa_irq));
+ }
+ 
++static void pci_ide_exitfn(PCIDevice *dev)
++{
++    PCIIDEState *d = PCI_IDE(dev);
++    unsigned i;
++
++    for (i = 0; i < ARRAY_SIZE(d->bmdma); ++i) {
++        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].extra_io);
++        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].addr_ioport);
++    }
++}
++
++static void pci_ide_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    dc->vmsd = &vmstate_ide_pci;
++    k->exit = pci_ide_exitfn;
++    k->class_id = PCI_CLASS_STORAGE_IDE;
++    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
++}
++
+ static const TypeInfo pci_ide_type_info = {
+     .name = TYPE_PCI_IDE,
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PCIIDEState),
+     .instance_init = pci_ide_init,
++    .class_init = pci_ide_class_init,
+     .abstract = true,
+     .interfaces = (InterfaceInfo[]) {
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
 diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 41d60921e3..a32f7ccece 100644
+index a32f7ccece..4e6ca99123 100644
 --- a/hw/ide/piix.c
 +++ b/hw/ide/piix.c
-@@ -144,7 +144,6 @@ static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
-     ide_bus_init_output_irq(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
+@@ -159,8 +159,6 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+     bmdma_setup_bar(d);
+     pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
  
-     bmdma_init(&d->bus[i], &d->bmdma[i], d);
--    d->bmdma[i].bus = &d->bus[i];
-     ide_bus_register_restart_cb(&d->bus[i]);
+-    vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
+-
+     for (unsigned i = 0; i < 2; i++) {
+         if (!pci_piix_init_bus(d, i, errp)) {
+             return;
+@@ -168,17 +166,6 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+     }
+ }
  
-     return true;
+-static void pci_piix_ide_exitfn(PCIDevice *dev)
+-{
+-    PCIIDEState *d = PCI_IDE(dev);
+-    unsigned i;
+-
+-    for (i = 0; i < 2; ++i) {
+-        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].extra_io);
+-        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].addr_ioport);
+-    }
+-}
+-
+ /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
+ static void piix3_ide_class_init(ObjectClass *klass, void *data)
+ {
+@@ -187,11 +174,8 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
+ 
+     dc->reset = piix_ide_reset;
+     k->realize = pci_piix_ide_realize;
+-    k->exit = pci_piix_ide_exitfn;
+     k->vendor_id = PCI_VENDOR_ID_INTEL;
+     k->device_id = PCI_DEVICE_ID_INTEL_82371SB_1;
+-    k->class_id = PCI_CLASS_STORAGE_IDE;
+-    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     dc->hotpluggable = false;
+ }
+ 
+@@ -209,11 +193,8 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
+ 
+     dc->reset = piix_ide_reset;
+     k->realize = pci_piix_ide_realize;
+-    k->exit = pci_piix_ide_exitfn;
+     k->vendor_id = PCI_VENDOR_ID_INTEL;
+     k->device_id = PCI_DEVICE_ID_INTEL_82371AB;
+-    k->class_id = PCI_CLASS_STORAGE_IDE;
+-    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     dc->hotpluggable = false;
+ }
+ 
 diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-index f9becdff8e..5dd3d03c29 100644
+index 5dd3d03c29..0af897a9ef 100644
 --- a/hw/ide/sii3112.c
 +++ b/hw/ide/sii3112.c
-@@ -287,7 +287,6 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
-         ide_bus_init_output_irq(&s->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&s->bus[i], &s->bmdma[i], s);
--        s->bmdma[i].bus = &s->bus[i];
-         ide_bus_register_restart_cb(&s->bus[i]);
-     }
+@@ -301,9 +301,10 @@ static void sii3112_pci_class_init(ObjectClass *klass, void *data)
+     pd->class_id = PCI_CLASS_STORAGE_RAID;
+     pd->revision = 1;
+     pd->realize = sii3112_pci_realize;
++    pd->exit = NULL;
+     dc->reset = sii3112_reset;
++    dc->vmsd = NULL;
+     dc->desc = "SiI3112A SATA controller";
+-    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
  }
+ 
+ static const TypeInfo sii3112_pci_info = {
 diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 0caae52276..91253fa4ef 100644
+index 91253fa4ef..287143a005 100644
 --- a/hw/ide/via.c
 +++ b/hw/ide/via.c
-@@ -196,7 +196,6 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
-         ide_bus_init_output_irq(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
--        d->bmdma[i].bus = &d->bus[i];
-         ide_bus_register_restart_cb(&d->bus[i]);
+@@ -200,34 +200,19 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
      }
  }
+ 
+-static void via_ide_exitfn(PCIDevice *dev)
+-{
+-    PCIIDEState *d = PCI_IDE(dev);
+-    unsigned i;
+-
+-    for (i = 0; i < ARRAY_SIZE(d->bmdma); ++i) {
+-        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].extra_io);
+-        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].addr_ioport);
+-    }
+-}
+-
+ static void via_ide_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+ 
+     dc->reset = via_ide_reset;
+-    dc->vmsd = &vmstate_ide_pci;
+     /* Reason: only works as function of VIA southbridge */
+     dc->user_creatable = false;
+ 
+     k->realize = via_ide_realize;
+-    k->exit = via_ide_exitfn;
+     k->vendor_id = PCI_VENDOR_ID_VIA;
+     k->device_id = PCI_DEVICE_ID_VIA_IDE;
+     k->revision = 0x06;
+-    k->class_id = PCI_CLASS_STORAGE_IDE;
+-    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+ }
+ 
+ static const TypeInfo via_ide_info = {
 -- 
 2.40.0
 
