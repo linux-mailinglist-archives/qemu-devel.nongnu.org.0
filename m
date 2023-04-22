@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19946EB9DB
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 17:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C596EB9E5
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 17:10:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqEpz-0001no-Rc; Sat, 22 Apr 2023 11:07:43 -0400
+	id 1pqEq2-0001rO-IH; Sat, 22 Apr 2023 11:07:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pqEpx-0001nP-Ks; Sat, 22 Apr 2023 11:07:42 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ id 1pqEpz-0001nf-Mi; Sat, 22 Apr 2023 11:07:43 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pqEpv-00058u-4x; Sat, 22 Apr 2023 11:07:41 -0400
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-94ed7e49541so385144866b.1; 
- Sat, 22 Apr 2023 08:07:38 -0700 (PDT)
+ id 1pqEpw-000596-KI; Sat, 22 Apr 2023 11:07:42 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-94a34d3812cso480632566b.2; 
+ Sat, 22 Apr 2023 08:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682176056; x=1684768056;
+ d=gmail.com; s=20221208; t=1682176058; x=1684768058;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=b8FU5hEdyUG1gEzln+YagVoC38jrfeZglvWjzJu20O8=;
- b=q3nT0FEYTML7k4HE4QPlxZf5OBN+CFrO2Rqr11Cs3wzl1xOzD4KOF00nX5prevlW31
- hRyIJ6xg83rR94fy6Y2GeDUChoPAwybmkL9J5pgzg/E76B4/P8wH8yKTyM/IRREZ5PKu
- +mMCCh4hUnzKMIVHrJy4r4bD7uGH2Ko00WLeg+ZOoXwDWCZWf01zz7WK1EBCmlCdvk42
- A8pM0YEGIj+lJ+llPb6ZqIq2yyUeOSgdKr2PbnaUKrIfbBNLFBGnR1Pj0y8GMB+Zrjue
- HnUlkl2JEcdLnm9/V2kK91IDfSJcK3ZGE1N+0tuJ+3T5FCIB40EcrmfkWVNml2PYJD8W
- kQGQ==
+ bh=+EWP4yPmLtvO9JWiKUeH2VsYNoRmYM/ETrmN3+B7dEc=;
+ b=Uiq7ApnD0hq+bd49pePFUZxZa1lvJoIMjzszv5MPjMUKqmYfIlKrLK+tLKZadYpTIl
+ svTifgiyY8R7jfPSbwbyhxPtefdKaxn6OOCf+Bky11WMboOMB1TQoBXQcdnV01MsmNNT
+ /k0wjaUa16Pag61vNoq/SNTreZJyB0vJ+QdazjVXUh3phPObH8j3Sl4m3Gbsh45Lsj7O
+ zx8GM9O7aIykvkavevEzhQYlX1IMZnkQ5KoO/X/9eIJ9A51HggRBlUqZMxjiWQJUSnDp
+ Ilk/WBnVDJiAzdEzU5DcDb7AvHnixpq31F0YlEhoD8TCG7wFDI2VwwPQp11Zx5xdbiYv
+ FgNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682176056; x=1684768056;
+ d=1e100.net; s=20221208; t=1682176058; x=1684768058;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=b8FU5hEdyUG1gEzln+YagVoC38jrfeZglvWjzJu20O8=;
- b=DQ4LL9fsSfdm1+KEOyPpIxwuwMp5Bd+KBVp3EhvGd7JNBqvBhEZKeO4DH+YR1Du1Ww
- vXcUhZ3BmkQLI6L11UmkYPIWuGPJqByDLP2Bxd8LVXAY2FgcuHamvx4/ndafNBtS2RtA
- mtS03kZAULAW9KTbvHkvZhxPj3q8Ts/EsK49WX5Hd0Da1rxXnAdwRb1+TRQ4lHLnxorZ
- Aimmuk0wc/uhu2a7TUgaQRcd9E2XtQAQUjFkRuP6GRNbYrrrwmlzC3fJHfVou6/slLzf
- b+iqpmmI/fp1FSQh0oaT74nW7iVxnnv/bLtLyepktkCd8j9BfuGjqUHUe5RxpP5Bd1oP
- ITww==
-X-Gm-Message-State: AAQBX9dPevRX6qvXawH4RGkwpMVz7nvBY/8MZ9pHrfhFLieQKRr/YI8Y
- G1T1yzarm/WY7MznqSYuwNxfrEP6Iz4=
-X-Google-Smtp-Source: AKy350atB+0M36WkTU75VUbOflfQEjL4rLPPUgVwX0IiEzkI+ytwyDCEbsrTY26/tcaK9R1T0n1wuA==
-X-Received: by 2002:a17:906:1912:b0:94e:1764:b09b with SMTP id
- a18-20020a170906191200b0094e1764b09bmr5744182eje.45.1682176056518; 
- Sat, 22 Apr 2023 08:07:36 -0700 (PDT)
+ bh=+EWP4yPmLtvO9JWiKUeH2VsYNoRmYM/ETrmN3+B7dEc=;
+ b=YJBE1wmofKXrbCRxYxqNNMypxddwFoSa8AUxP3T74V90JYH7WzrPAJsbLBFvqlHt7k
+ CS+Ss4ly+RwpY9evHylwO3do1HbWAd0DbjjcVXUm4cWhHrSMLohjOFUM/2yoTY4lMdor
+ UV7q+JbqOgOymPrBZDbTi7HIs+xnvwqzvya04rv4esLVMFKfRxhmNBeMzKMA8ZLBGfyl
+ 3Jj/z40cCjmus14aQhtzTeyrvnoV3GO9mUzJ5Df/08YX+qAW/0/TL4mPiKiq7ZJT76N/
+ +OIEb8hBJLrW/1Wg+HnGlGL+v5kboUJW06m+zDX7/ATVgTo+k3lctBx5ppaGhNrnpM1R
+ OFhQ==
+X-Gm-Message-State: AAQBX9eMIHKF8rEZdXCK3vg2SOW2J12uHTY5Q0cB2AaqxARKUPwp1PX+
+ tBuJqV2ObJ9hAP/4hNvpqKatTdF8xAg=
+X-Google-Smtp-Source: AKy350aFg6fqL8mrGqM2OXU2Zs3QnWkYQ00LQ/DDwILWvKzccHcg8V7kb7pim/6ZJXft4RRfzkQNWA==
+X-Received: by 2002:a17:906:1907:b0:958:cc8:bd55 with SMTP id
+ a7-20020a170906190700b009580cc8bd55mr2169339eje.0.1682176057798; 
+ Sat, 22 Apr 2023 08:07:37 -0700 (PDT)
 Received: from Provence.localdomain
  (dynamic-077-191-017-015.77.191.pool.telefonica.de. [77.191.17.15])
  by smtp.gmail.com with ESMTPSA id
- e7-20020a170906844700b0094f7b713e40sm3300108ejy.126.2023.04.22.08.07.35
+ e7-20020a170906844700b0094f7b713e40sm3300108ejy.126.2023.04.22.08.07.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 08:07:36 -0700 (PDT)
+ Sat, 22 Apr 2023 08:07:37 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
@@ -62,16 +62,16 @@ Cc: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Huacai Chen <chenhuacai@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  qemu-ppc@nongnu.org, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 01/13] hw/ide/pci: Expose legacy interrupts as GPIOs
-Date: Sat, 22 Apr 2023 17:07:16 +0200
-Message-Id: <20230422150728.176512-2-shentey@gmail.com>
+Subject: [PATCH 02/13] hw/ide/via: Implement ISA IRQ routing
+Date: Sat, 22 Apr 2023 17:07:17 +0200
+Message-Id: <20230422150728.176512-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230422150728.176512-1-shentey@gmail.com>
 References: <20230422150728.176512-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,38 +94,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Exposing the legacy IDE interrupts as GPIOs allows them to be connected in the
-parent device through qdev_connect_gpio_out(), i.e. without accessing private
-data of TYPE_PCI_IDE.
+The VIA south bridge allows the legacy IDE interrupts to be routed to four
+different ISA interrupts. This can be configured through the 0x4a register in
+the PCI configuration space of the ISA function. The default routing matches
+the legacy ISA IRQs, that is 14 and 15.
+
+Implement this missing piece of the VIA south bridge.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ide/pci.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/ide/via.c      |  6 ++++--
+ hw/isa/vt82c686.c | 17 +++++++++++++++++
+ 2 files changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-index fc9224bbc9..942e216b9b 100644
---- a/hw/ide/pci.c
-+++ b/hw/ide/pci.c
-@@ -522,10 +522,18 @@ void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d)
-     bm->pci_dev = d;
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index 177baea9a7..0caae52276 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -31,6 +31,7 @@
+ #include "sysemu/dma.h"
+ #include "hw/isa/vt82c686.h"
+ #include "hw/ide/pci.h"
++#include "hw/irq.h"
+ #include "trace.h"
+ 
+ static uint64_t bmdma_read(void *opaque, hwaddr addr,
+@@ -104,7 +105,8 @@ static void bmdma_setup_bar(PCIIDEState *d)
+ 
+ static void via_ide_set_irq(void *opaque, int n, int level)
+ {
+-    PCIDevice *d = PCI_DEVICE(opaque);
++    PCIIDEState *s = opaque;
++    PCIDevice *d = PCI_DEVICE(s);
+ 
+     if (level) {
+         d->config[0x70 + n * 8] |= 0x80;
+@@ -112,7 +114,7 @@ static void via_ide_set_irq(void *opaque, int n, int level)
+         d->config[0x70 + n * 8] &= ~0x80;
+     }
+ 
+-    via_isa_set_irq(pci_get_function_0(d), 14 + n, level);
++    qemu_set_irq(s->isa_irq[n], level);
  }
  
-+static void pci_ide_init(Object *obj)
+ static void via_ide_reset(DeviceState *dev)
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index ca89119ce0..c7e29bb46a 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -568,9 +568,19 @@ static const VMStateDescription vmstate_via = {
+     }
+ };
+ 
++static void via_isa_set_ide_irq(void *opaque, int n, int level)
 +{
-+    PCIIDEState *d = PCI_IDE(obj);
++    static const uint8_t irqs[] = { 14, 15, 10, 11 };
++    ViaISAState *s = opaque;
++    uint8_t irq = irqs[(s->dev.config[0x4a] >> (n * 2)) & 0x3];
 +
-+    qdev_init_gpio_out(DEVICE(d), d->isa_irq, ARRAY_SIZE(d->isa_irq));
++    qemu_set_irq(s->isa_irqs_in[irq], level);
 +}
 +
- static const TypeInfo pci_ide_type_info = {
-     .name = TYPE_PCI_IDE,
-     .parent = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(PCIIDEState),
-+    .instance_init = pci_ide_init,
-     .abstract = true,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+ static void via_isa_init(Object *obj)
+ {
+     ViaISAState *s = VIA_ISA(obj);
++    DeviceState *dev = DEVICE(s);
+ 
+     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+     object_initialize_child(obj, "ide", &s->ide, TYPE_VIA_IDE);
+@@ -578,6 +588,8 @@ static void via_isa_init(Object *obj)
+     object_initialize_child(obj, "uhci2", &s->uhci[1], TYPE_VT82C686B_USB_UHCI);
+     object_initialize_child(obj, "ac97", &s->ac97, TYPE_VIA_AC97);
+     object_initialize_child(obj, "mc97", &s->mc97, TYPE_VIA_MC97);
++
++    qdev_init_gpio_in_named(dev, via_isa_set_ide_irq, "ide", ARRAY_SIZE(s->ide.isa_irq));
+ }
+ 
+ static const TypeInfo via_isa_info = {
+@@ -692,6 +704,10 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
+         return;
+     }
++    for (i = 0; i < 2; i++) {
++        qdev_connect_gpio_out(DEVICE(&s->ide), i,
++                              qdev_get_gpio_in_named(DEVICE(s), "ide", i));
++    }
+ 
+     /* Functions 2-3: USB Ports */
+     for (i = 0; i < ARRAY_SIZE(s->uhci); i++) {
+@@ -814,6 +830,7 @@ static void vt8231_isa_reset(DeviceState *dev)
+                  PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
+     pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
+ 
++    pci_conf[0x4a] = 0x04; /* IDE interrupt Routing */
+     pci_conf[0x58] = 0x40; /* Miscellaneous Control 0 */
+     pci_conf[0x67] = 0x08; /* Fast IR Config */
+     pci_conf[0x6b] = 0x01; /* Fast IR I/O Base */
 -- 
 2.40.0
 
