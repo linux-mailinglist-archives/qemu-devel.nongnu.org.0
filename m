@@ -2,90 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353C36EBA65
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 18:43:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE596EBAA8
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 19:27:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqGJ1-00005q-To; Sat, 22 Apr 2023 12:41:47 -0400
+	id 1pqGzU-0005sr-NK; Sat, 22 Apr 2023 13:25:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pqGIz-00005T-HW
- for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:41:45 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pqGIx-0003IB-BI
- for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:41:44 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1a9253d4551so26609275ad.0
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 09:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682181702; x=1684773702;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QuhRFh/qfOU1tOhKtUTPEfBGwg8R0VJ8KiNscqBnm5c=;
- b=L91KPYs7/FDfvzhuSD8tHIWKqwYpJ05lytmrCcxgLPU5Qq2yMPq0/+1UvBOCJkExO5
- ny2QX0fkZ/SuyhGDhFPFIMB16sscOebFoYyfQZPvaO5xuPDvYb6WnP9pStVbY4eacyuD
- FRmP4XuLnC9f9jLHPFKa+wX2+ptX90cUHJ1Z8TbXPiJUZJPWHytrVtmj2jJMzM2v1E85
- i1hVK2xhT0fmYWaBMU5OEgo8exvVie3ENvlKLEe7TJFgKhOHpGVAy+fEqDyiw15VdK1I
- wDkLAh775GGleobAPyUI4wUcPqHGbej2mgbkE3l3kGnEX3Cyt2DjS0aW66VO1I86s+Q3
- LfIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682181702; x=1684773702;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QuhRFh/qfOU1tOhKtUTPEfBGwg8R0VJ8KiNscqBnm5c=;
- b=aAVVEWu6pBGftg0MVe+KGqrAN9vf+HCB5PTJHuWVsL0+tduYwNS3YLf5U8+/3VkPIu
- uFGwFXCuFjk9SfRfz4TcQKNVP8WT3Cjrk/fFNX+nDqkDssVQClTXgn/PSgtVGmRxTWtA
- X0AzXOQi7UMusTjFj+X3mKoO1ZuVjZBX2qELb5tX2tCk7HpBRELgfJfA2vAJLcDQYPMm
- BYvuOpjCFrkyUQcAlYqVrLtB78qBzg2qs66xpn7ACpbhm5PNhpZiFK/m+pucEprVkpDD
- /Py0x0W0bZAgY83K1ZGzqvKn6IR9Z4X9kx0IW6+nHCCta2A4VNOSfiEApgiNFUCLJI35
- tk7w==
-X-Gm-Message-State: AAQBX9c4TjIJPktodwI3GccCizbaeLePUIxv8tggcjbyniuYaEKmp2kE
- Du6gYgAycqecDY8d/DwdLsU=
-X-Google-Smtp-Source: AKy350adHDDwetADHpbt2RfFV/n5T8x7KPyEqyWK+A6m9Kw7W892S6TwuoITsr7f14VJ8hst/bk13w==
-X-Received: by 2002:a17:903:64e:b0:1a6:a2df:4700 with SMTP id
- kh14-20020a170903064e00b001a6a2df4700mr8585783plb.9.1682181701654; 
- Sat, 22 Apr 2023 09:41:41 -0700 (PDT)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- y1-20020a170902ed4100b001a6ebc39fd9sm4168918plb.309.2023.04.22.09.41.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Apr 2023 09:41:41 -0700 (PDT)
-Message-ID: <3204858e-89f4-261c-0863-49aeb28600cf@gmail.com>
-Date: Sun, 23 Apr 2023 01:41:37 +0900
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pqGzS-0005rl-BY; Sat, 22 Apr 2023 13:25:38 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pqGzP-0001li-BL; Sat, 22 Apr 2023 13:25:38 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BDB937462DB;
+ Sat, 22 Apr 2023 19:23:56 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 7A95D745720; Sat, 22 Apr 2023 19:23:56 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 788917456E3;
+ Sat, 22 Apr 2023 19:23:56 +0200 (CEST)
+Date: Sat, 22 Apr 2023 19:23:56 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, John Snow <jsnow@redhat.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 02/13] hw/ide/via: Implement ISA IRQ routing
+In-Reply-To: <20230422150728.176512-3-shentey@gmail.com>
+Message-ID: <3b1d7a25-1600-872d-c0e8-b71ec49f551e@eik.bme.hu>
+References: <20230422150728.176512-1-shentey@gmail.com>
+ <20230422150728.176512-3-shentey@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH 00/13] gfxstream + rutabaga_gfx: a surprising delight
- or startling epiphany?
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@linaro.org,
- david@redhat.com, stefanha@redhat.com, kraxel@redhat.com,
- marcandre.lureau@redhat.com, dmitry.osipenko@collabora.com,
- ray.huang@amd.com, alex.bennee@linaro.org
-References: <20230421011223.718-1-gurchetansingh@chromium.org>
- <CAJSP0QVrxSgFJFqPd=iBfBoV9brL2v6d6P+4E7BmGYAxwEYPmw@mail.gmail.com>
- <CAAfnVB=n8CJ7cL9kS84TMu1+hBrnWUYhaXAw7jhBPEra_EdgwQ@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CAAfnVB=n8CJ7cL9kS84TMu1+hBrnWUYhaXAw7jhBPEra_EdgwQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-2.047, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,70 +62,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/04/22 8:54, Gurchetan Singh wrote:
-> On Fri, Apr 21, 2023 at 9:02 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->>
->> On Thu, 20 Apr 2023 at 21:13, Gurchetan Singh
->> <gurchetansingh@chromium.org> wrote:
->>>
->>> From: Gurchetan Singh <gurchetansingh@google.com>
->>>
->>> Rationale:
->>>
->>> - gfxstream [a] is good for the Android Emulator/upstream QEMU
->>>    alignment
->>> - Wayland passhthrough [b] via the cross-domain context type is good
->>>    for Linux on Linux display virtualization
->>> - rutabaga_gfx [c] sits on top of gfxstream, cross-domain and even
->>>    virglrenderer
->>> - This series ports rutabaga_gfx to QEMU
->>
->> What rutabaga_gfx and gfxstream? Can you explain where they sit in the
->> stack and how they build on or complement virtio-gpu and
->> virglrenderer?
-> 
-> rutabaga_gfx and gfxstream are both libraries that implement the
-> virtio-gpu protocol.  There's a document available in the Gitlab issue
-> to see where they fit in the stack [a].
-> 
-> gfxstream grew out of the Android Emulator's need to virtualize
-> graphics for app developers.  There's a short history of gfxstream in
-> patch 10.  It complements virglrenderer in that it's a bit more
-> cross-platform and targets different use cases -- more detail here
-> [b].  The ultimate goal is ditch out-of-tree kernel drivers in the
-> Android Emulator and adopt virtio, and porting gfxstream to QEMU would
-> speed up that transition.
+On Sat, 22 Apr 2023, Bernhard Beschow wrote:
+> The VIA south bridge allows the legacy IDE interrupts to be routed to four
+> different ISA interrupts. This can be configured through the 0x4a register in
+> the PCI configuration space of the ISA function. The default routing matches
+> the legacy ISA IRQs, that is 14 and 15.
 
-I wonder what is motivation for maintaining gfxstream instead of 
-switching to virglrenderer/venus.
+On VT8231 0x4a is PCI Master Arbitration Control, IDE interrupt Routing is 
+0x4c and only documents 14/15 as valid values. Not sure any guest would 
+actually change this or 0x4a and if that could cause problems but you may 
+need to handle this somehow. (Apart from testing with MorphOS with -kernel 
+you should really be testing with pegasos2.rom with MorphOS and Linux, 
+e.g. Debian 8.11 netinstall iso is known to boot.)
 
-> 
-> rutabaga_gfx is a much smaller Rust library that sits on top of
-> gfxstream and even virglrenderer, but does a few extra things.  It
-> implements the cross-domain context type, which provides Wayland
-> passthrough.  This helps virtio-gpu by providing more modern display
-> virtualization.  For example, Microsoft for WSL2 also uses a similar
-> technique [c], but I believe it is not virtio-based nor open-source.
+Regards,
+BALATON Zoltan
 
-The guest side components of WSLg are open-source, but the host side is 
-not: https://github.com/microsoft/wslg
-It also uses DirectX for acceleration so it's not really portable for 
-outside Windows.
-
-> With this, we can have the same open-source Wayland passthrough
-> solution on crosvm, QEMU and even Fuchsia [d].  Also, there might be
-> an additional small Rust context type for security-sensitive use cases
-> in the future -- rutabaga_gfx wouldn't compile its gfxstream bindings
-> (since it's C++ based) in such cases.
-> 
-> Both gfxstream and rutabaga_gfx are a part of the virtio spec [e] now too.
-> 
-> [a] https://gitlab.com/qemu-project/qemu/-/issues/1611
-> [b] https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04271.html
-> [c] https://www.youtube.com/watch?v=EkNBsBx501Q
-> [d] https://fuchsia-review.googlesource.com/c/fuchsia/+/778764
-> [e] https://github.com/oasis-tcs/virtio-spec/blob/master/device-types/gpu/description.tex#L533
-> 
->>
->> Stefan
+> Implement this missing piece of the VIA south bridge.
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+> hw/ide/via.c      |  6 ++++--
+> hw/isa/vt82c686.c | 17 +++++++++++++++++
+> 2 files changed, 21 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/ide/via.c b/hw/ide/via.c
+> index 177baea9a7..0caae52276 100644
+> --- a/hw/ide/via.c
+> +++ b/hw/ide/via.c
+> @@ -31,6 +31,7 @@
+> #include "sysemu/dma.h"
+> #include "hw/isa/vt82c686.h"
+> #include "hw/ide/pci.h"
+> +#include "hw/irq.h"
+> #include "trace.h"
+>
+> static uint64_t bmdma_read(void *opaque, hwaddr addr,
+> @@ -104,7 +105,8 @@ static void bmdma_setup_bar(PCIIDEState *d)
+>
+> static void via_ide_set_irq(void *opaque, int n, int level)
+> {
+> -    PCIDevice *d = PCI_DEVICE(opaque);
+> +    PCIIDEState *s = opaque;
+> +    PCIDevice *d = PCI_DEVICE(s);
+>
+>     if (level) {
+>         d->config[0x70 + n * 8] |= 0x80;
+> @@ -112,7 +114,7 @@ static void via_ide_set_irq(void *opaque, int n, int level)
+>         d->config[0x70 + n * 8] &= ~0x80;
+>     }
+>
+> -    via_isa_set_irq(pci_get_function_0(d), 14 + n, level);
+> +    qemu_set_irq(s->isa_irq[n], level);
+> }
+>
+> static void via_ide_reset(DeviceState *dev)
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index ca89119ce0..c7e29bb46a 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -568,9 +568,19 @@ static const VMStateDescription vmstate_via = {
+>     }
+> };
+>
+> +static void via_isa_set_ide_irq(void *opaque, int n, int level)
+> +{
+> +    static const uint8_t irqs[] = { 14, 15, 10, 11 };
+> +    ViaISAState *s = opaque;
+> +    uint8_t irq = irqs[(s->dev.config[0x4a] >> (n * 2)) & 0x3];
+> +
+> +    qemu_set_irq(s->isa_irqs_in[irq], level);
+> +}
+> +
+> static void via_isa_init(Object *obj)
+> {
+>     ViaISAState *s = VIA_ISA(obj);
+> +    DeviceState *dev = DEVICE(s);
+>
+>     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+>     object_initialize_child(obj, "ide", &s->ide, TYPE_VIA_IDE);
+> @@ -578,6 +588,8 @@ static void via_isa_init(Object *obj)
+>     object_initialize_child(obj, "uhci2", &s->uhci[1], TYPE_VT82C686B_USB_UHCI);
+>     object_initialize_child(obj, "ac97", &s->ac97, TYPE_VIA_AC97);
+>     object_initialize_child(obj, "mc97", &s->mc97, TYPE_VIA_MC97);
+> +
+> +    qdev_init_gpio_in_named(dev, via_isa_set_ide_irq, "ide", ARRAY_SIZE(s->ide.isa_irq));
+> }
+>
+> static const TypeInfo via_isa_info = {
+> @@ -692,6 +704,10 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
+>         return;
+>     }
+> +    for (i = 0; i < 2; i++) {
+> +        qdev_connect_gpio_out(DEVICE(&s->ide), i,
+> +                              qdev_get_gpio_in_named(DEVICE(s), "ide", i));
+> +    }
+>
+>     /* Functions 2-3: USB Ports */
+>     for (i = 0; i < ARRAY_SIZE(s->uhci); i++) {
+> @@ -814,6 +830,7 @@ static void vt8231_isa_reset(DeviceState *dev)
+>                  PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
+>     pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
+>
+> +    pci_conf[0x4a] = 0x04; /* IDE interrupt Routing */
+>     pci_conf[0x58] = 0x40; /* Miscellaneous Control 0 */
+>     pci_conf[0x67] = 0x08; /* Fast IR Config */
+>     pci_conf[0x6b] = 0x01; /* Fast IR I/O Base */
+>
 
