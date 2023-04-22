@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506116EBAAA
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 19:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFCA6EBAAE
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 19:29:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqH2b-0006vU-8F; Sat, 22 Apr 2023 13:28:53 -0400
+	id 1pqH2Y-0006uP-U1; Sat, 22 Apr 2023 13:28:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <itachis6234@gmail.com>)
- id 1pqFxy-00023I-8V
- for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:20:02 -0400
+ id 1pqFy0-00023i-7q
+ for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:20:04 -0400
 Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <itachis6234@gmail.com>)
- id 1pqFxw-0007HV-2w
- for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:20:01 -0400
+ id 1pqFxw-0007Hc-2v
+ for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:20:02 -0400
 Received: by mail-pj1-x102b.google.com with SMTP id
- 98e67ed59e1d1-2472a3bfd23so2145610a91.3
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 09:19:53 -0700 (PDT)
+ 98e67ed59e1d1-24b3451b2fcso2252257a91.3
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 09:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682180392; x=1684772392;
+ d=gmail.com; s=20221208; t=1682180394; x=1684772394;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xJuOJ6VH++PAQzzFCf+AgyYeqIW4I0RKMTPwWjaO9sw=;
- b=KoFXuEt2E4lVmaeLv4i75Rp5EoCsGHfmjw1vDeYfRfmlxS5UvfFvOKJgAf7T9sbjcK
- rQoMU+xrOamTUSnvhmEadqf68uQNFMMCPNICTMgmuvMxYxTTUrsddBkbyLu24cMa4Vev
- 6xrCXX+HqE+OrpXm1KTBBBMlDWCgaDPZwnpTfPDo3AZ7YHkxpZ38FBVL44ZFN/e15Nwf
- FRZFyD/O2ebM0COYFLBGfcWk5y+vtfsXJXDGavTjnoKJwVabrY60E6ppdLOKVfFdjywB
- UkDQsGHtwOqDoMyC9BigcD17qqFOWPEHFrOc5B3hiXdA6A4rOJPRR9GelUyAc6G+6Nce
- dQ9g==
+ bh=mDPdeLBQukeDnq85V7V0rxAb4+em9pAzyCAxjlswg6M=;
+ b=W4+CVHtgIkZrbMr2uR8aJG98bLQSgD9i/qEU0V/DUvfyXKpy1eP3d2BPn/EyOFEU40
+ 6TqE27c+pp3LSDSA69CND2AW2ksNGoawUucbe9uXIJJdQJYDwerngrp/U56rJJv362mw
+ /yOmXt+3Oh8ROAybUZB+qVtw+hTYZGvT+N6H/9y1FQAO+H94/bGDdAxsiKbHeRPzklEM
+ whiSFcjgO+38UpdIcBFG3nLZpseXsKnKhlqYVbPA+JeBlxyRUMUCzATde65xDN9wjv4p
+ krAcnTD+THmJAvSvsoK06N6Dps2EMcLQYBkV4AGHNbveoGr1Xcm2hY3CfftKi9np5lwl
+ W4Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682180392; x=1684772392;
+ d=1e100.net; s=20221208; t=1682180394; x=1684772394;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xJuOJ6VH++PAQzzFCf+AgyYeqIW4I0RKMTPwWjaO9sw=;
- b=J0el8Y2rohWPKZj1J5tr8U2imL6+I3h2nKLlPUqWNLMbEHe6lDqWlLmMC0rRAKgDe3
- 35P91+W0hHK1Sc3p8BIm2Nrge+4rkXtYpToI2VpejLF6yXFeidWqk7ukGyNDbEzmXRGD
- lt5gzrlsXrxzj6HYzoRcSW1ENZvsqwxpaz0fcqf9u++YScLNrJeMw2JZEijgQGFyLJG0
- BByStmDu7Xc4//UpTd6F4TbvBbKHVfJFIVNMslxZi29SeVT5CBHBe5tYOHFFXF/c+60F
- 2A2u1VSkFoDCYp4l4CUajpHH2XhanwRCeeOp6DJ5IdImhwJm+NG+F/HU8dyYiInBWCta
- W+fg==
-X-Gm-Message-State: AAQBX9dBO0w6dI8Qt/43LND5YFcTEtBcm+n4iOv3DTcck34pPCUP8eon
- 3x7mBa69YGoj83DhBsDMfrNYrHRrkNZKgAAd
-X-Google-Smtp-Source: AKy350Yd1h2Js4mcnWJiOEzt1y74grWRQnFhvbakEJQoRfngRQFZ6cbJ2YkdHfzXTd1hznjkjdBmLg==
-X-Received: by 2002:a17:90a:72c5:b0:23f:e4b7:afb3 with SMTP id
- l5-20020a17090a72c500b0023fe4b7afb3mr8835388pjk.9.1682180392471; 
- Sat, 22 Apr 2023 09:19:52 -0700 (PDT)
+ bh=mDPdeLBQukeDnq85V7V0rxAb4+em9pAzyCAxjlswg6M=;
+ b=Wo6gwNckugodduZEPiamD2iRPHpqHyvovLVl8w0dB9cnxn8ycAGY6AcGqQt1S5g7or
+ Di8lrENxFxBdL4Y4SCOCR84PC1IHSVEgOfitEbBtt4XiaOGmfR/ZJ35Qu6BRe1HCBQdz
+ TYaVb4ijuWvRtnoXmDTL42A/HrcRazleKLjxW5T4LFNjHYTCTVlD2ClWWBK0qQOB0x9e
+ iTMgG98l9JO9ak8SYUgg/VZivXlSt5sWp5TFSFwpQWUz4l0Rxw30gFPRvq+Wnj8SiYOQ
+ XAHabYm/tPfMttolZR1e6ow+wx2o8zRJiugm9zftD8kxYtqHNfOfM72llJg+SUhkCXnu
+ lDjQ==
+X-Gm-Message-State: AAQBX9c7Vza5D08OUSJaGR3ex9a9sxTlRog0Rdefl8NUkk7vEU9Z4Ozm
+ ECqtuMu8Ko/ztd7N9U09wEA=
+X-Google-Smtp-Source: AKy350bU4XOvC0UPvrAZcTESjwlcm7BJLs9vT9imAyjX4BA05stUtjpV6ZENnB6+TI9g2JKLa15mjA==
+X-Received: by 2002:a17:90a:e556:b0:247:4ad1:f69b with SMTP id
+ ei22-20020a17090ae55600b002474ad1f69bmr8531894pjb.26.1682180394424; 
+ Sat, 22 Apr 2023 09:19:54 -0700 (PDT)
 Received: from apple.localdomain ([182.65.27.4])
  by smtp.gmail.com with ESMTPSA id
- i14-20020a655b8e000000b0051f14839bf3sm4241667pgr.34.2023.04.22.09.19.50
+ i14-20020a655b8e000000b0051f14839bf3sm4241667pgr.34.2023.04.22.09.19.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 09:19:52 -0700 (PDT)
+ Sat, 22 Apr 2023 09:19:54 -0700 (PDT)
 From: Ajeets6 <itachis6234@gmail.com>
 To: itachis6234@gmail.com,
 	qemu-devel@nongnu.org
 Cc: imp@bsdimp.com,
-	Kyle Evans <kevans@freebsd.org>
-Subject: [PATCH 3/7] Add clock_nanosleep
-Date: Sat, 22 Apr 2023 21:49:30 +0530
-Message-Id: <20230422161934.2311-3-itachis6234@gmail.com>
+	Stacey Son <sson@FreeBSD.org>
+Subject: [PATCH 4/7] Added clock_gettime(2) and clock_getres(2)
+Date: Sat, 22 Apr 2023 21:49:31 +0530
+Message-Id: <20230422161934.2311-4-itachis6234@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230422161934.2311-1-itachis6234@gmail.com>
 References: <20230422161934.2311-1-itachis6234@gmail.com>
@@ -95,46 +95,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Kyle Evans <kevans@freebsd.org>
+From: Stacey Son <sson@FreeBSD.org>
 
-+Add clock_nanosleep(2)
-Provide sleep interval in nanoseconds and allows to choose which clock
-to measure it against.
++Added clock_gettime(2) which gets the time
++Added clock_getres(2) which finds the resoultion of the specidfied
+clock
+
 Signed-off-by: Ajeets6 <itachis6234@gmail.com>
-Signed-off-by: Kyle Evans <kevans@freebsd.org>
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 ---
- bsd-user/freebsd/os-time.h | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ bsd-user/freebsd/os-time.h | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
 diff --git a/bsd-user/freebsd/os-time.h b/bsd-user/freebsd/os-time.h
-index 18c9e1dd12..29d2c8d02a 100644
+index 29d2c8d02a..f76744e808 100644
 --- a/bsd-user/freebsd/os-time.h
 +++ b/bsd-user/freebsd/os-time.h
-@@ -42,3 +42,24 @@ static inline abi_long do_freebsd_nanosleep(abi_long arg1, abi_long arg2)
+@@ -63,3 +63,35 @@ static inline abi_long do_freebsd_clock_nanosleep(abi_long arg1, abi_long arg2,
  
      return ret;
  }
-+/* clock_nanosleep(2) */
-+static inline abi_long do_freebsd_clock_nanosleep(abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4)
-+{
-+    struct timespec req, rem;
-+    abi_long ret;
-+    int clkid, flags;
 +
-+    clkid = arg1;
-+    /* XXX Translate? */
-+    flags = arg2;
-+    ret = t2h_freebsd_timespec(&req, arg3);
++/* clock_gettime(2) */
++static inline abi_long do_freebsd_clock_gettime(abi_long arg1, abi_long arg2)
++{
++    abi_long ret;
++    struct timespec ts;
++
++    ret = get_errno(clock_gettime(arg1, &ts));
 +    if (!is_error(ret)) {
-+        ret = get_errno(safe_clock_nanosleep(clkid, flags, &req, &rem));
-+        if (ret == -TARGET_EINTR && arg4) {
-+            h2t_freebsd_timespec(arg4, &rem);
++        if (h2t_freebsd_timespec(arg2, &ts)) {
++            return -TARGET_EFAULT;
 +        }
 +    }
 +
 +    return ret;
 +}
++
++/* clock_getres(2) */
++static inline abi_long do_freebsd_clock_getres(abi_long arg1, abi_long arg2)
++{
++    abi_long ret;
++    struct timespec ts;
++
++    ret = get_errno(clock_getres(arg1, &ts));
++    if (!is_error(ret)) {
++        if (h2t_freebsd_timespec(arg2, &ts)) {
++            return -TARGET_EFAULT;
++        }
++    }
++
++    return ret;
++}
+\ No newline at end of file
 -- 
 2.34.1
 
