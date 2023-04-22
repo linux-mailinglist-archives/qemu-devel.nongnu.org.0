@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F276EB923
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 14:20:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D9A6EB93D
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 15:06:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqCCU-0003Tc-Qg; Sat, 22 Apr 2023 08:18:46 -0400
+	id 1pqCuq-0007qe-80; Sat, 22 Apr 2023 09:04:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pqCCS-0003Sm-UJ
- for qemu-devel@nongnu.org; Sat, 22 Apr 2023 08:18:44 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pqCCR-00040c-6y
- for qemu-devel@nongnu.org; Sat, 22 Apr 2023 08:18:44 -0400
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-506bf4cbecbso3785509a12.1
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 05:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682165920; x=1684757920;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=olq2Iw1bu3q4xAYIhVO2KrCUAoToZDpug6n30m7Mu64=;
- b=aSe778bXwBHBF3DvFn0Vb8CE5D8kDDWlMkYPQVa7CV700TZbkL8qvtQp72sCkiS0QH
- DZQQrfs5ROVrPOvyqELnUM8S7b7gPFBSNrGksUzIAvwMbwFz5tmldw1Hxi4YlZVqpY5k
- cw+NrHTRrAd8/WxajOk5bdLCNJdf36LbDSA9D11b1/2O/pYGRfvDKK6M0ghYawETQSfd
- XiipBfzn/f7HGh03+getmfuuGH5ylULsmc0JDOaHctYaPoP58Cv6rpr6HGZQpq+48kGR
- BSA5tP/+Ss4/nTRRdCm5odXMN7M06lPUlOYAKEsRPgPhsxzdk2nRuAUtPCmKWSx1rUHl
- Ylxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682165920; x=1684757920;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=olq2Iw1bu3q4xAYIhVO2KrCUAoToZDpug6n30m7Mu64=;
- b=N0U1wSttn1vBc59X0J7/uUot/28bcI5YkPgGBplPTtkjRCo+epXRJqQk4p0N/QBJc3
- dYw5PGlHzFIikTaVGN9KJH7eSewm1gkgFEcFHtLFQzMNYzfEpLHsKGPkUsGPJzGnGvGm
- Ed3VEnfE4kavRfBdqAafaDGcMsAKH5aVxp1EeQXiS4P6DJK15gNf6i94VYgRWCL4CiKY
- ZaBTZ+SHbQjsaHq7yboJSGLfOkrRj+0aj81kcpQqmWDyt9kfcNTv6hNYViwToS9ptLZI
- X86GOrLzuZTy4RMgPB44Ydg33qJ83dXOz+hBjhMJk0x94/78Ovz5PgvFfd9S3cNVH1ST
- phmg==
-X-Gm-Message-State: AAQBX9ecVTqbdsWAsm8XqToCpITxDqeHK3ut0y6UUqELcRx+aZPPRhVN
- FkeisCFu64jCd0z1g/DTZmt2vvE0O3BUf8ujE8NRgw==
-X-Google-Smtp-Source: AKy350YnEu77RPxELJti94c5a5HR3MLv7YhFZci/RXk3KRRyUbURTIBXPCJF9uq5UH5iNF9F6iBvyyN57azvCKdbPQU=
-X-Received: by 2002:aa7:d699:0:b0:502:6e48:65ea with SMTP id
- d25-20020aa7d699000000b005026e4865eamr7117972edr.12.1682165920295; Sat, 22
- Apr 2023 05:18:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pqCuh-0007ms-LE; Sat, 22 Apr 2023 09:04:27 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pqCud-0004Uo-CM; Sat, 22 Apr 2023 09:04:27 -0400
+Received: from localhost.localdomain (unknown [180.165.241.15])
+ by APP-01 (Coremail) with SMTP id qwCowAAHTJxI20NkLKGxCA--.21573S2;
+ Sat, 22 Apr 2023 21:04:09 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
+ lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v4 0/7] target/riscv: Fix PMP related problem
+Date: Sat, 22 Apr 2023 21:03:22 +0800
+Message-Id: <20230422130329.23555-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230422005808.1773015-1-iii@linux.ibm.com>
- <20230422005808.1773015-2-iii@linux.ibm.com>
- <d3aa2548-cf1f-4cd0-8be8-80d376981969@t-8ch.de>
-In-Reply-To: <d3aa2548-cf1f-4cd0-8be8-80d376981969@t-8ch.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 22 Apr 2023 13:18:28 +0100
-Message-ID: <CAFEAcA_Sjgb=DYKmfreBGdwnymxs0tw7pqJsM14260++8+RdiA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] tests/tcg/multiarch: Make the system memory test work
- on big-endian
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org, 
- qemu-s390x@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAAHTJxI20NkLKGxCA--.21573S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WrWxKFWktw4kGr1UuF4kJFb_yoW5JF48pF
+ Z3C345tr4DtrW3Xr43tr17Zr1rArs5WF4Ut3W2kw1rZ3WagFyrCrWvk3yFkFWUJF95WrZx
+ KF4jyrWv9F4UZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+ 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHU
+ DUUUUU=
+X-Originating-IP: [180.165.241.15]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,40 +74,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 22 Apr 2023 at 12:03, Thomas Wei=C3=9Fschuh <thomas@t-8ch.de> wrote=
-:
->
-> On 2023-04-22 02:58:07+0200, Ilya Leoshkevich wrote:
-> > Make sure values are stored in memory as little-endian regardless of
-> > the host endianness.
-> >
-> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> > ---
-> >  tests/tcg/multiarch/system/memory.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/=
-system/memory.c
-> > index 214f7d4f54b..8ef6666b440 100644
-> > --- a/tests/tcg/multiarch/system/memory.c
-> > +++ b/tests/tcg/multiarch/system/memory.c
-> > @@ -121,6 +121,9 @@ static void init_test_data_u16(int offset)
-> >      for (i =3D 0; i < max; i++) {
-> >          uint8_t low =3D count++, high =3D count++;
-> >          word =3D BYTE_SHIFT(high, 1) | BYTE_SHIFT(low, 0);
-> > +#if __BYTE_ORDER__ =3D=3D __ORDER_BIG_ENDIAN__
-> > +        word =3D __builtin_bswap16(word);
-> > +#endif
->
-> These looks like a usecase for cpu_to_le16() and friends.
+This patchset tries to fix the PMP bypass problem issue https://gitlab.com/qemu-project/qemu/-/issues/1542:
 
-I'm not sure this test code has direct access to those, but
-the general principle is right.
+TLB will be cached if the matched PMP entry cover the whole page.  However PMP entries with higher priority may cover part of the page (but not match the access address), which means different regions in this page may have different permission rights. So it also cannot be cached (patch 1).
 
-It is particularly odd that we carefully manually put
-together a word by shifting-and-ORing together the
-various bytes in it, and then separately do a byteswap.
+Writing to pmpaddr didn't trigger tlb flush (patch 3).
 
-thanks
--- PMM
+We set the tlb_size to 1 to make the TLB_INVALID_MASK set, and and the next access will again go through tlb_fill. However, this way will not work in tb_gen_code() => get_page_addr_code_hostp(): the TLB host address will be cached, and the following instructions can use this host address directly which may lead to the bypass of PMP related check (patch 5).
+
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-pmp-fix-v4
+
+v4:
+
+Update comments for Patch 1, and move partial check code from Patch 2 to Patch 1
+
+Restore log message change in Patch 2
+
+Update commit message and the way to improve the problem in Patch 6
+
+
+v3:
+
+Ignore disabled PMP entry in pmp_get_tlb_size() in Patch 1
+
+Drop Patch 5, since tb jmp cache have been flushed in tlb_flush, so flush tb seems unnecessary.
+
+Fix commit message problems in Patch 8 (Patch 7 in new patchset)
+
+
+v2:
+
+Update commit message for patch 1
+
+Add default tlb_size when pmp is diabled or there is no rules and only get the tlb size when translation success in patch 2
+
+Update get_page_addr_code_hostp instead of probe_access_internal to fix the cached host address for instruction fetch in patch 6
+
+Add patch 7 to make the short up really work in pmp_hart_has_privs
+
+Add patch 8 to use pmp_update_rule_addr() and pmp_update_rule_nums() separately
+
+
+Weiwei Li (7):
+  target/riscv: Update pmp_get_tlb_size()
+  target/riscv: Move pmp_get_tlb_size apart from
+    get_physical_address_pmp
+  target/riscv: Flush TLB when pmpaddr is updated
+  target/riscv: Flush TLB only when pmpcfg/pmpaddr really changes
+  accel/tcg: Uncache the host address for instruction fetch when tlb
+    size < 1
+  target/riscv: Make the short cut really work in pmp_hart_has_privs
+  target/riscv: Separate pmp_update_rule() in pmpcfg_csr_write
+
+ accel/tcg/cputlb.c        |  5 +++
+ target/riscv/cpu_helper.c | 19 +++-----
+ target/riscv/pmp.c        | 91 +++++++++++++++++++++++++++++----------
+ target/riscv/pmp.h        |  3 +-
+ 4 files changed, 80 insertions(+), 38 deletions(-)
+
+-- 
+2.25.1
+
 
