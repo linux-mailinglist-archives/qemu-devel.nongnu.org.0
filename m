@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA8A6EBB82
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 23:29:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161A26EBC08
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 00:49:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqKlk-0005jc-Ge; Sat, 22 Apr 2023 17:27:44 -0400
+	id 1pqM1I-0007Cs-LS; Sat, 22 Apr 2023 18:47:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pqKli-0005fe-2Y; Sat, 22 Apr 2023 17:27:42 -0400
+ id 1pqM1G-0007Ca-6b; Sat, 22 Apr 2023 18:47:50 -0400
 Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pqKle-0000JV-DR; Sat, 22 Apr 2023 17:27:41 -0400
+ id 1pqM1D-0004lY-5x; Sat, 22 Apr 2023 18:47:49 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 902217462DB;
- Sat, 22 Apr 2023 23:26:00 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 3D4EB746377;
+ Sun, 23 Apr 2023 00:46:09 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 46A81745720; Sat, 22 Apr 2023 23:26:00 +0200 (CEST)
+ id EB3B1746369; Sun, 23 Apr 2023 00:46:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 44D8A7456E3;
- Sat, 22 Apr 2023 23:26:00 +0200 (CEST)
-Date: Sat, 22 Apr 2023 23:26:00 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id E930A745720;
+ Sun, 23 Apr 2023 00:46:08 +0200 (CEST)
+Date: Sun, 23 Apr 2023 00:46:08 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Bernhard Beschow <shentey@gmail.com>
 cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
@@ -34,11 +34,11 @@ cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
  qemu-ppc@nongnu.org
 Subject: Re: [PATCH 13/13] hw/ide: Extract bmdma_clear_status()
 In-Reply-To: <20230422150728.176512-14-shentey@gmail.com>
-Message-ID: <d603fd42-6aba-99be-c24d-d04fc36abacb@eik.bme.hu>
+Message-ID: <a0cad7e3-94f0-3106-d531-f76af18da730@eik.bme.hu>
 References: <20230422150728.176512-1-shentey@gmail.com>
  <20230422150728.176512-14-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; format=flowed; charset=US-ASCII
 X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -64,15 +64,7 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Sat, 22 Apr 2023, Bernhard Beschow wrote:
 > Extract bmdma_clear_status() mirroring bmdma_cmd_writeb().
-
-Is adding a trace point useful? This is called from places that already 
-have traces so I don't think we need another separate trace point here. 
-Also the names don't match but maybe rename function to 
-bmdma_update_status instead as it is more what it does.
-
-Regards,
-BALATON Zoltan
-
+>
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
 > include/hw/ide/pci.h |  1 +
@@ -150,6 +142,13 @@ BALATON Zoltan
 >     BMDMAState *bm = opaque;
 > -    SiI3112PCIState *d = SII3112_PCI(bm->pci_dev);
 > +    SiI3112PCIState *s = SII3112_PCI(bm->pci_dev);
+
+Also renaming local variable is an unrelated change. May be separate patch 
+but wasn't it added in previous patch? Why not already done there?
+
+Regards,
+BALATON Zoltan
+
 >     int i = (bm == &bm->pci_dev->bmdma[0]) ? 0 : 1;
 >
 >     trace_sii3112_bmdma_write(size, addr, val);
