@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFCA6EBAAE
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 19:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7086EBAB3
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Apr 2023 19:30:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqH2Y-0006uP-U1; Sat, 22 Apr 2023 13:28:50 -0400
+	id 1pqH2Y-0006tO-2Q; Sat, 22 Apr 2023 13:28:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <itachis6234@gmail.com>)
- id 1pqFy0-00023i-7q
+ id 1pqFy0-00023k-8D
  for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:20:04 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <itachis6234@gmail.com>)
- id 1pqFxw-0007Hc-2v
+ id 1pqFxw-0007Hh-2w
  for qemu-devel@nongnu.org; Sat, 22 Apr 2023 12:20:02 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- 98e67ed59e1d1-24b3451b2fcso2252257a91.3
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 09:19:55 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-63b5c4c769aso4346833b3a.3
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 09:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682180394; x=1684772394;
+ d=gmail.com; s=20221208; t=1682180396; x=1684772396;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mDPdeLBQukeDnq85V7V0rxAb4+em9pAzyCAxjlswg6M=;
- b=W4+CVHtgIkZrbMr2uR8aJG98bLQSgD9i/qEU0V/DUvfyXKpy1eP3d2BPn/EyOFEU40
- 6TqE27c+pp3LSDSA69CND2AW2ksNGoawUucbe9uXIJJdQJYDwerngrp/U56rJJv362mw
- /yOmXt+3Oh8ROAybUZB+qVtw+hTYZGvT+N6H/9y1FQAO+H94/bGDdAxsiKbHeRPzklEM
- whiSFcjgO+38UpdIcBFG3nLZpseXsKnKhlqYVbPA+JeBlxyRUMUCzATde65xDN9wjv4p
- krAcnTD+THmJAvSvsoK06N6Dps2EMcLQYBkV4AGHNbveoGr1Xcm2hY3CfftKi9np5lwl
- W4Iw==
+ bh=2YrUREgFu0MlYo7oSaAiYG4SU5g6cj18IVt3rdxu9ZI=;
+ b=n21jdN5jMJY2x8OizhyArjqZ/dAnb9WPQNVJbKbzFWNMqPr/HV257leLMqAm20ZMvt
+ yo1dKhuvU85z6inTEI1P5XPWjm/rm4FuBuIYZpwDQ442GApBD7tDU+83/0zrg1qLFwBL
+ uBTLaELZ2SB9OhuE3aumRhx/uht6RYb+fc4MXekG+pdH/6m78m+rmqK9cSjx/eD8KDX8
+ sSqb8e3wqfon2CrpwJd1MRAKXGJJnd2TdSVc5ctbX43Lp7xVC7ztY2WlKMcpa8EF4I4a
+ +y65Kp3WHr5T6ToaF0I+7IU0ZMPf1ifhUPyTH5gpt9F8iQ8lNQzboRkl8IqaSbF2zmWH
+ 1+JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682180394; x=1684772394;
+ d=1e100.net; s=20221208; t=1682180396; x=1684772396;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mDPdeLBQukeDnq85V7V0rxAb4+em9pAzyCAxjlswg6M=;
- b=Wo6gwNckugodduZEPiamD2iRPHpqHyvovLVl8w0dB9cnxn8ycAGY6AcGqQt1S5g7or
- Di8lrENxFxBdL4Y4SCOCR84PC1IHSVEgOfitEbBtt4XiaOGmfR/ZJ35Qu6BRe1HCBQdz
- TYaVb4ijuWvRtnoXmDTL42A/HrcRazleKLjxW5T4LFNjHYTCTVlD2ClWWBK0qQOB0x9e
- iTMgG98l9JO9ak8SYUgg/VZivXlSt5sWp5TFSFwpQWUz4l0Rxw30gFPRvq+Wnj8SiYOQ
- XAHabYm/tPfMttolZR1e6ow+wx2o8zRJiugm9zftD8kxYtqHNfOfM72llJg+SUhkCXnu
- lDjQ==
-X-Gm-Message-State: AAQBX9c7Vza5D08OUSJaGR3ex9a9sxTlRog0Rdefl8NUkk7vEU9Z4Ozm
- ECqtuMu8Ko/ztd7N9U09wEA=
-X-Google-Smtp-Source: AKy350bU4XOvC0UPvrAZcTESjwlcm7BJLs9vT9imAyjX4BA05stUtjpV6ZENnB6+TI9g2JKLa15mjA==
-X-Received: by 2002:a17:90a:e556:b0:247:4ad1:f69b with SMTP id
- ei22-20020a17090ae55600b002474ad1f69bmr8531894pjb.26.1682180394424; 
- Sat, 22 Apr 2023 09:19:54 -0700 (PDT)
+ bh=2YrUREgFu0MlYo7oSaAiYG4SU5g6cj18IVt3rdxu9ZI=;
+ b=aE1ousPCfnGozknTvo6LxG3xckoZwL99sbNlVCe++uh9XEbFNUTw1MQW6Dh++ej6Rg
+ nc2NrV8QDyLklClBpfGib/aBAwTzr+MD0XU2zLUuMpNsiC8gpufiwaJeOSU/QNv9raV1
+ cKa2C88QN8TkgwPO7RA0tLejZ8Ig9hXWs5gXKX0EIwAbZmXEeYI3XaaQncMQ4qguiPqZ
+ xUU76+dU7vz2pqyVAHHd/fkUoJPXWwJGHPkF5MmXA/6Rhnc4Sy4LDrr4X+BFOVIUJNF9
+ vqTgCLrYqrUpbQXjF1HwATaeJFfLJKdM1pstPvgQldoiOW6h1qjPA8vhm951hlujxf0w
+ AAUA==
+X-Gm-Message-State: AAQBX9eDQWHQXLFaDDOQ9koDAw9kW5WW8lGxCHc52BBz9DaovmgW/OnT
+ PY+RvhxFrhu2L2ZPrdIqGJE=
+X-Google-Smtp-Source: AKy350aQe485Vjpiddo4sj7DDpNdtgeY4J217ZBhnnhlFOI+2AU+lMjoTVUXWVk64Bp9D5SIiS+W4g==
+X-Received: by 2002:a05:6a20:c88d:b0:ee:777b:782b with SMTP id
+ hb13-20020a056a20c88d00b000ee777b782bmr9731514pzb.9.1682180396244; 
+ Sat, 22 Apr 2023 09:19:56 -0700 (PDT)
 Received: from apple.localdomain ([182.65.27.4])
  by smtp.gmail.com with ESMTPSA id
- i14-20020a655b8e000000b0051f14839bf3sm4241667pgr.34.2023.04.22.09.19.52
+ i14-20020a655b8e000000b0051f14839bf3sm4241667pgr.34.2023.04.22.09.19.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 09:19:54 -0700 (PDT)
+ Sat, 22 Apr 2023 09:19:56 -0700 (PDT)
 From: Ajeets6 <itachis6234@gmail.com>
 To: itachis6234@gmail.com,
 	qemu-devel@nongnu.org
 Cc: imp@bsdimp.com,
 	Stacey Son <sson@FreeBSD.org>
-Subject: [PATCH 4/7] Added clock_gettime(2) and clock_getres(2)
-Date: Sat, 22 Apr 2023 21:49:31 +0530
-Message-Id: <20230422161934.2311-4-itachis6234@gmail.com>
+Subject: [PATCH 5/7] Created qemu-os.h for function prototype
+Date: Sat, 22 Apr 2023 21:49:32 +0530
+Message-Id: <20230422161934.2311-5-itachis6234@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230422161934.2311-1-itachis6234@gmail.com>
 References: <20230422161934.2311-1-itachis6234@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=itachis6234@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=itachis6234@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,56 +97,89 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Stacey Son <sson@FreeBSD.org>
 
-+Added clock_gettime(2) which gets the time
-+Added clock_getres(2) which finds the resoultion of the specidfied
-clock
++Added t2h_freebsd_timespec and h2t_freebsd_timespec function protype in
+qemu-is.h
++included qemu-os.h in os-time.c and os-time.h
 
-Signed-off-by: Ajeets6 <itachis6234@gmail.com>
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Ajeets6 <itachis6234@gmail.com>
 ---
- bsd-user/freebsd/os-time.h | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ bsd-user/freebsd/os-time.c |  2 ++
+ bsd-user/freebsd/os-time.h |  5 ++++-
+ bsd-user/freebsd/qemu-os.h | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 bsd-user/freebsd/qemu-os.h
 
+diff --git a/bsd-user/freebsd/os-time.c b/bsd-user/freebsd/os-time.c
+index e71eed6519..5c88e1f13d 100644
+--- a/bsd-user/freebsd/os-time.c
++++ b/bsd-user/freebsd/os-time.c
+@@ -23,6 +23,8 @@
+ #include "qemu/osdep.h"
+ #include <time.h>
+ #include "qemu.h"
++#include "qemu-os.h"
++
+ 
+ 
+ abi_long t2h_freebsd_timespec(struct timespec *ts, abi_ulong target_ts_addr)
 diff --git a/bsd-user/freebsd/os-time.h b/bsd-user/freebsd/os-time.h
-index 29d2c8d02a..f76744e808 100644
+index f76744e808..bd995c8a7b 100644
 --- a/bsd-user/freebsd/os-time.h
 +++ b/bsd-user/freebsd/os-time.h
-@@ -63,3 +63,35 @@ static inline abi_long do_freebsd_clock_nanosleep(abi_long arg1, abi_long arg2,
+@@ -22,6 +22,7 @@
+ 
+ 
+ #include "qemu.h"
++#include "qemu-os.h"
+ 
+ 
+ 
+@@ -94,4 +95,6 @@ static inline abi_long do_freebsd_clock_getres(abi_long arg1, abi_long arg2)
+     }
  
      return ret;
- }
-+
-+/* clock_gettime(2) */
-+static inline abi_long do_freebsd_clock_gettime(abi_long arg1, abi_long arg2)
-+{
-+    abi_long ret;
-+    struct timespec ts;
-+
-+    ret = get_errno(clock_gettime(arg1, &ts));
-+    if (!is_error(ret)) {
-+        if (h2t_freebsd_timespec(arg2, &ts)) {
-+            return -TARGET_EFAULT;
-+        }
-+    }
-+
-+    return ret;
+-}
+\ No newline at end of file
 +}
 +
-+/* clock_getres(2) */
-+static inline abi_long do_freebsd_clock_getres(abi_long arg1, abi_long arg2)
-+{
-+    abi_long ret;
-+    struct timespec ts;
++#endif /* FREEBSD_OS_TIME_H */
+diff --git a/bsd-user/freebsd/qemu-os.h b/bsd-user/freebsd/qemu-os.h
+new file mode 100644
+index 0000000000..0c502ff0e5
+--- /dev/null
++++ b/bsd-user/freebsd/qemu-os.h
+@@ -0,0 +1,30 @@
++/*
++ *  FreeBSD conversion extern declarations
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+    ret = get_errno(clock_getres(arg1, &ts));
-+    if (!is_error(ret)) {
-+        if (h2t_freebsd_timespec(arg2, &ts)) {
-+            return -TARGET_EFAULT;
-+        }
-+    }
++#ifndef QEMU_OS_H
++#define QEMU_OS_H
 +
-+    return ret;
-+}
++#include <sys/timex.h>
++
++/* os-time.c */
++abi_long t2h_freebsd_timespec(struct timespec *ts, abi_ulong target_ts_addr);
++abi_long h2t_freebsd_timespec(abi_ulong target_ts_addr, struct timespec *ts);
++
++
++#endif /* QEMU_OS_H */
 \ No newline at end of file
 -- 
 2.34.1
