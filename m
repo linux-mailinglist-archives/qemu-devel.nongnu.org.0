@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB836EBCED
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481F76EBCEA
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:24:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqRDU-0004hY-2h; Sun, 23 Apr 2023 00:20:48 -0400
+	id 1pqRDR-0004gi-Vy; Sun, 23 Apr 2023 00:20:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRD6-0004NV-Ho
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:25 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1pqRDA-0004Wt-NR
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:28 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRD4-00018p-Vq
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:24 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id
- d9443c01a7336-1a920d4842bso27036305ad.2
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:22 -0700 (PDT)
+ id 1pqRD8-0001Bn-Hk
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:27 -0400
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1a52667955dso38486595ad.1
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223621; x=1684815621;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223625; x=1684815625;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xwJfDqqBhjAuYC/ssH4g4y70iA4xa/LgCFt3ljPGHSA=;
- b=pL8D+GIKBVUvjXG+eIid4QvvWaeV+XQhF9Lm2bvieD3uo231WSmJHLLn+4Fetpkfo8
- FHKfRy03vIK6u9kACN1HuYRYkkc2itF9yvDrTbKjhioSZFYjPgNOP9qjHttxzqSWJh/7
- 1fPkTqyJm2IzDRpncr0AskdkKiga1AWAgfIgXsewC3+BIr3eY+EGAySTw3YFwNx9dqpG
- oCw09jAwJPrTFI4gzqtrf6rusv/Y4ftaJ1aUboqjjEal6EJOxKsDNyFh7bKlB8xp6D/h
- q5Ry9Ijq6WTfKWTwluG6gKU8LZFIOnfdNgW8ZGc2F2wvoS2rIfpGvNaxznJ0Fzw+7oPf
- wVuw==
+ bh=oSx/Q5Zg5D9OUWDD4DVLGcD91xlqvbaERviIetrBRHM=;
+ b=wVtatYcKGfmLOIVJrgNpWosVMKR1JMWbzCMM9ejfczzn96OhvTo4a5IrSMLuPh/mDQ
+ yP+MdK0C/jugQ/7jvXMSKN3R5+S6rNBqnfrWMcaUaNdVVZrsU3VmFq0dkboe2lJCSau6
+ WX1JqiTQY8N+NKqKZW0VPw1TZgsojIh8AEN4f1VyLN4mbQfKeDwU2yMNBdWFx0AFHgg7
+ 11jBWUvuP04Elt54JhLYm4kMKMGNV8tmebCoC/J5AHvXgMyasv0/reDQisonXgLiNBxx
+ 8oMk21J4pgVyOYwVJCpUTrBvffeJfd/KhHoCZxbMsuDy79zelb5RAQvHAM2Y4Lq3i2o+
+ PG8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682223621; x=1684815621;
+ d=1e100.net; s=20221208; t=1682223625; x=1684815625;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xwJfDqqBhjAuYC/ssH4g4y70iA4xa/LgCFt3ljPGHSA=;
- b=JVHkaIaXWDbnYeN2leBydk/j4zPzC3Sblo1AQJGbbEcPujtlU0WLaM97Y8cDGlpdri
- J/PPBwUcSAAB/dsc375fTRxujiNwJRtgY3/Yvyy15o+kaIjRqbxjluZUPjRKjlwzfPkI
- 3eu85/THBXSmxpKuOQfFLef6ckNqV6Z9rTCI8BYZlvyBngLTTpqt3kvuupMbO8mk47Fg
- RJjzhb4p6gDcadx7ebrKk/eopD4SEXeU9/cHaVqp8Rpmq7RYm8DMkPazOTIVspL3HFai
- WT9AE1IqBilwhz+sCh8qSqI5vwhuXEDYLSllym90SOfirJTFV2FGx6dXtLwytZaD57O/
- D8uA==
-X-Gm-Message-State: AAQBX9chzqZrZsraMuVQ7cs1OV5HMRKyn2RiLsBa+bqjQXKgHgaNKFg/
- JiOgWt6+60OhMiYn9eux4dccEw==
-X-Google-Smtp-Source: AKy350ZULymCOM/YDXl1iatQonb7LcsfBvF8IlKoUH3CGRD6pcGEjvrfpvDinKUyj6nR5OXB5GdXqw==
-X-Received: by 2002:a17:902:eb84:b0:19e:839e:49d8 with SMTP id
- q4-20020a170902eb8400b0019e839e49d8mr9950062plg.59.1682223621657; 
- Sat, 22 Apr 2023 21:20:21 -0700 (PDT)
+ bh=oSx/Q5Zg5D9OUWDD4DVLGcD91xlqvbaERviIetrBRHM=;
+ b=WwkWoe1bJQ1e8QNFrz6A8b822u+KuaPvh/1Of5NfyfjPCanK1BDiI9HqqKqqYFiPGa
+ n7yJW0pBltCDZEAOdK2mTS2GPJqRk/oWzJqbiOkzlzoDGcqEPMO7rtiXOIUpdC2BO2e8
+ jyIvEhpMX2sb4GqSZHAXoWmGX1JLfmwjYVy2QrGubUMJ8Gd+Ef5v+7vKO0vIMmrxrkrF
+ j3cfzFo2OjRDCcHstKLqs4fljkblXhIfx8iYJ9P9it1EqaiqDsyXunCJgYakJt4mtaGB
+ 0Dw8YGqXEWlQYFYL/ZJIkda6MSw+DgYIN7WQlqo+oOlPN+VvRQhxyVxT51yi0g/b5GdQ
+ is3w==
+X-Gm-Message-State: AAQBX9eFJ03q8lVfPSBgsz5+yIpO3rNx66Fz3+sUb+7UkfWQc1wFGeb3
+ bc0VW3LAjzfx1jVXlT6SB7G1Hw==
+X-Google-Smtp-Source: AKy350bIzZ8iEBgswPL1vg1b7K6A/rz0eBqZML8/3JgmWC4nU4Y9pbzuxtEwk1ce2FtmyW/tyXiFdA==
+X-Received: by 2002:a17:902:da8c:b0:1a6:c2e6:fe27 with SMTP id
+ j12-20020a170902da8c00b001a6c2e6fe27mr14370430plx.46.1682223625040; 
+ Sat, 22 Apr 2023 21:20:25 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.18
+ f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 21:20:21 -0700 (PDT)
+ Sat, 22 Apr 2023 21:20:24 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,16 +70,17 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 29/47] igb: Rename a variable in igb_receive_internal()
-Date: Sun, 23 Apr 2023 13:18:15 +0900
-Message-Id: <20230423041833.5302-30-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 30/47] net/eth: Use void pointers
+Date: Sun, 23 Apr 2023 13:18:16 +0900
+Message-Id: <20230423041833.5302-31-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::631;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,61 +102,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rename variable "n" to "causes", which properly represents the content
-of the variable.
+The uses of uint8_t pointers were misleading as they are never accessed
+as an array of octets and it even require more strict alignment to
+access as struct eth_header.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/net/igb_core.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/net/eth.h | 4 ++--
+ net/eth.c         | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index ef29e68096..77e4ee42a5 100644
---- a/hw/net/igb_core.c
-+++ b/hw/net/igb_core.c
-@@ -1569,7 +1569,7 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-                      bool has_vnet, bool *external_tx)
+diff --git a/include/net/eth.h b/include/net/eth.h
+index 05f56931e7..95ff24d6b8 100644
+--- a/include/net/eth.h
++++ b/include/net/eth.h
+@@ -342,12 +342,12 @@ eth_get_pkt_tci(const void *p)
+ 
+ size_t
+ eth_strip_vlan(const struct iovec *iov, int iovcnt, size_t iovoff,
+-               uint8_t *new_ehdr_buf,
++               void *new_ehdr_buf,
+                uint16_t *payload_offset, uint16_t *tci);
+ 
+ size_t
+ eth_strip_vlan_ex(const struct iovec *iov, int iovcnt, size_t iovoff,
+-                  uint16_t vet, uint8_t *new_ehdr_buf,
++                  uint16_t vet, void *new_ehdr_buf,
+                   uint16_t *payload_offset, uint16_t *tci);
+ 
+ uint16_t
+diff --git a/net/eth.c b/net/eth.c
+index b6ff89c460..f7ffbda600 100644
+--- a/net/eth.c
++++ b/net/eth.c
+@@ -226,11 +226,11 @@ void eth_get_protocols(const struct iovec *iov, size_t iovcnt, size_t iovoff,
+ 
+ size_t
+ eth_strip_vlan(const struct iovec *iov, int iovcnt, size_t iovoff,
+-               uint8_t *new_ehdr_buf,
++               void *new_ehdr_buf,
+                uint16_t *payload_offset, uint16_t *tci)
  {
-     uint16_t queues = 0;
--    uint32_t n = 0;
-+    uint32_t causes = 0;
-     union {
-         L2Header l2_header;
-         uint8_t octets[ETH_ZLEN];
-@@ -1649,19 +1649,19 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-             e1000x_fcs_len(core->mac);
+     struct vlan_header vlan_hdr;
+-    struct eth_header *new_ehdr = (struct eth_header *) new_ehdr_buf;
++    struct eth_header *new_ehdr = new_ehdr_buf;
  
-         if (!igb_has_rxbufs(core, rxr.i, total_size)) {
--            n |= E1000_ICS_RXO;
-+            causes |= E1000_ICS_RXO;
-             trace_e1000e_rx_not_written_to_guest(rxr.i->idx);
-             continue;
-         }
+     size_t copied = iov_to_buf(iov, iovcnt, iovoff,
+                                new_ehdr, sizeof(*new_ehdr));
+@@ -276,7 +276,7 @@ eth_strip_vlan(const struct iovec *iov, int iovcnt, size_t iovoff,
  
--        n |= E1000_ICR_RXDW;
-+        causes |= E1000_ICR_RXDW;
- 
-         igb_rx_fix_l4_csum(core, core->rx_pkt);
-         igb_write_packet_to_guest(core, core->rx_pkt, &rxr, &rss_info);
- 
-         /* Check if receive descriptor minimum threshold hit */
-         if (igb_rx_descr_threshold_hit(core, rxr.i)) {
--            n |= E1000_ICS_RXDMT0;
-+            causes |= E1000_ICS_RXDMT0;
-         }
- 
-         core->mac[EICR] |= igb_rx_wb_eic(core, rxr.i->idx);
-@@ -1669,8 +1669,8 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-         trace_e1000e_rx_written_to_guest(rxr.i->idx);
-     }
- 
--    trace_e1000e_rx_interrupt_set(n);
--    igb_set_interrupt_cause(core, n);
-+    trace_e1000e_rx_interrupt_set(causes);
-+    igb_set_interrupt_cause(core, causes);
- 
-     return orig_size;
- }
+ size_t
+ eth_strip_vlan_ex(const struct iovec *iov, int iovcnt, size_t iovoff,
+-                  uint16_t vet, uint8_t *new_ehdr_buf,
++                  uint16_t vet, void *new_ehdr_buf,
+                   uint16_t *payload_offset, uint16_t *tci)
+ {
+     struct vlan_header vlan_hdr;
 -- 
 2.40.0
 
