@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E424C6EBCFE
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E666EBCF8
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:26:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqRDx-0006Ud-HJ; Sun, 23 Apr 2023 00:21:17 -0400
+	id 1pqREb-0008Hk-W6; Sun, 23 Apr 2023 00:21:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRDe-0005zG-DC
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:59 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1pqRDm-0006M7-OO
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:21:11 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRDc-0001Lh-OO
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:58 -0400
-Received: by mail-pl1-x635.google.com with SMTP id
- d9443c01a7336-1a66b9bd893so30497105ad.1
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:56 -0700 (PDT)
+ id 1pqRDf-0001M1-W3
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:21:05 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id
+ 41be03b00d2f7-51f6461af24so2633060a12.2
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223655; x=1684815655;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223659; x=1684815659;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/l+Oz5maSzDNe+2i6DODB/77+oirJqA9aouuomyS2Fs=;
- b=sY+way1wfuDCb1uxYPEVsphpQcwOb2wilTIIs82oZy6ceBUrTi51BeeKn6VoEU7rNR
- ZHZ2n6adSVDmxb9CWITlHujSQgYlTaTli44ZIizu+UYithIJIdSnJp1TTjf1stPFb2oN
- SFDBlIfLzX1qNci16MFjWBRY3rd/BX9VPAnhcsNYxE56xAM/1EdnWTOVtR2bDRW9JOHy
- mpRU//mqBjZPMAHQugczSFwAhNbG5PIXryR+/VH9zIZNR9GLNcJEqj8d2DpJjal/icBX
- L5FgsJWQmL5uoN+WgQgOlHtZIkljcd4z+gV7Dudv/WVs/GbGAKZ25nJhzYH4BacIUOhc
- h+Bw==
+ bh=dUASrVPY9bBz/EN5xysffHy9wsKX/LQEO5dQ1No285o=;
+ b=bGdFK9QWHuAbIxkRRTnBO3tB2Jt6Y/7vKe6wmZ/MWMRXjgoxgeVcx3EI6o9r8ut9Ks
+ k9s8IWifRRZ12NfFLZgXe6hH0PamHb/tYzKqbD+sIekS69NSeZ61iPTYZCIxlLJT52Af
+ BxfINoLu0DxprYoOoShtZU1rZ+bjoOS02/yRY73pVcJRr+MD3c+cmbsfLpB/z6c6ta9a
+ jrkZRfSxyyJV11fRTaj6PY2onBDLcQOjVNPoqtbHysayM+7pYBJHlOQ2oFnIEf1S5Qj7
+ g7LiQxOIg0Hx9kcoOex2uUlFyW7RZkR+rDBNegNkmFkOHskdCbKhT/ANxauana7oPybQ
+ d70w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682223655; x=1684815655;
+ d=1e100.net; s=20221208; t=1682223659; x=1684815659;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/l+Oz5maSzDNe+2i6DODB/77+oirJqA9aouuomyS2Fs=;
- b=ecPb+wLsWnBK1Pzl05B7PGpXWHxzIo9NQ5zp2DGSlacPksyvXz4IXbz7JzTSUJH0iV
- a1WqWo5wqYYooKn+DKJkwhHYSd8nKb6L1WejgsBRZmxB2uQmEfi3wefHM66p7zHZ5mla
- dyLaCe9mZpT0CRRRDXZzUFi0lxKG24cqfWhSSJFN8EIXZrQFxh7Mfl4MaCZKGlS6RLv2
- O9wfcSFzgmW+BrIJJ7fPWX3qpmI0U0/gs9lvQ4TNogSpA4m0N0ava+hbH5JZhCcwnGt3
- ZSeSrD0LFn3qfc6R+ShB+jT0FCoSkc4Mys3IBklFTartV6h/hYENPSqwKyp8hpYe9XG5
- BGuQ==
-X-Gm-Message-State: AAQBX9dZp/bIm+73er3Uo5MmvpfCIB7GCQCUem4wGGSUA26VXufaRVKD
- D5x6wfgPWB16Dlnq1KmK5WL9Wg==
-X-Google-Smtp-Source: AKy350b2qKWSMfak85AX83TaTlbvoS6kCduJwTBAwfLUEmTvSrF6HWIATouJJ9yLi+N4ddaJ70viAA==
-X-Received: by 2002:a17:903:11c7:b0:1a5:1438:9bcd with SMTP id
- q7-20020a17090311c700b001a514389bcdmr12237279plh.35.1682223655434; 
- Sat, 22 Apr 2023 21:20:55 -0700 (PDT)
+ bh=dUASrVPY9bBz/EN5xysffHy9wsKX/LQEO5dQ1No285o=;
+ b=KPLoqJ1TrXKYug9neC6cNfA6OgJVETOpkhS8v0XV16yBEb1A08fElhXExy/9c0yWnH
+ efhNUtijXEuAsW10nHNu5w/qjutkMSNI2GNHfqChyeNK9XVS8s5dAiO1WKmEdnVvEYjr
+ dHoxIqfAsy5XI8XsgiKwYTt14dzXVtQXD9rT5j7etwiFw4GdzhFYfmyp9LwUN6fCL5G6
+ DL78W0tteEm0+jLJHIVC8La5471c8nj1wjpBSiRJTT62ejBDpERrac+HOnutPoYPxiiD
+ Kl8wprqj9XqBXRqatuO0GjTKYkf05yYzHz29CuNybuaOUlC0j/pC1wBcSUKiJnu2cbDj
+ DLuA==
+X-Gm-Message-State: AAQBX9c5ldp67AnodmyYwV89k8U9Plhn9eZomx7BfX0NcCEWkgxScu3K
+ CLyd4AIXnPJNdu/BsRjCb00IfQ==
+X-Google-Smtp-Source: AKy350ZLe0ZQtvn2yDpOkCDZZCIpFDsWGXR2wenm8ouLsMFuXRCW46+ZqQkjAB3PgEQ4qmKZ8idPEg==
+X-Received: by 2002:a17:902:d492:b0:1a9:3447:71fb with SMTP id
+ c18-20020a170902d49200b001a9344771fbmr12049490plg.39.1682223658787; 
+ Sat, 22 Apr 2023 21:20:58 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.52
+ f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 21:20:55 -0700 (PDT)
+ Sat, 22 Apr 2023 21:20:58 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,17 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 39/47] igb: Filter with the second VLAN tag for extended
- VLAN
-Date: Sun, 23 Apr 2023 13:18:25 +0900
-Message-Id: <20230423041833.5302-40-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 40/47] igb: Implement igb-specific oversize check
+Date: Sun, 23 Apr 2023 13:18:26 +0900
+Message-Id: <20230423041833.5302-41-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::635;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x635.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -102,66 +101,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+igb has a configurable size limit for LPE, and uses different limits
+depending on whether the packet is treated as a VLAN packet.
+
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/igb_core.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ hw/net/igb_core.c | 36 +++++++++++++++++++++---------------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index a51c435084..667ff47701 100644
+index 667ff47701..16c563cf36 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -69,7 +69,7 @@ typedef struct IGBTxPktVmdqCallbackContext {
+@@ -980,16 +980,13 @@ igb_rx_l4_cso_enabled(IGBCore *core)
+     return !!(core->mac[RXCSUM] & E1000_RXCSUM_TUOFLD);
+ }
  
- typedef struct L2Header {
-     struct eth_header eth;
--    struct vlan_header vlan;
-+    struct vlan_header vlan[2];
- } L2Header;
+-static bool
+-igb_rx_is_oversized(IGBCore *core, uint16_t qn, size_t size)
++static bool igb_rx_is_oversized(IGBCore *core, const struct eth_header *ehdr,
++                                size_t size, size_t vlan_num,
++                                bool lpe, uint16_t rlpml)
+ {
+-    uint16_t pool = qn % IGB_NUM_VM_POOLS;
+-    bool lpe = !!(core->mac[VMOLR0 + pool] & E1000_VMOLR_LPE);
+-    int max_ethernet_lpe_size =
+-        core->mac[VMOLR0 + pool] & E1000_VMOLR_RLPML_MASK;
+-    int max_ethernet_vlan_size = 1522;
+-
+-    return size > (lpe ? max_ethernet_lpe_size : max_ethernet_vlan_size);
++    size_t vlan_header_size = sizeof(struct vlan_header) * vlan_num;
++    size_t header_size = sizeof(struct eth_header) + vlan_header_size;
++    return lpe ? size + ETH_FCS_LEN > rlpml : size > header_size + ETH_MTU;
+ }
  
- static ssize_t
-@@ -1001,7 +1001,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
-     uint32_t f, ra[2], *macp, rctl = core->mac[RCTL];
+ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
+@@ -1002,6 +999,8 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
      uint16_t queues = 0;
      uint16_t oversized = 0;
--    uint16_t vid = be16_to_cpu(l2_header->vlan.h_tci) & VLAN_VID_MASK;
-+    size_t vlan_num = 0;
+     size_t vlan_num = 0;
++    bool lpe;
++    uint16_t rlpml;
      int i;
  
      memset(rss_info, 0, sizeof(E1000E_RSSInfo));
-@@ -1010,8 +1010,19 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
-         *external_tx = true;
+@@ -1021,6 +1020,14 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
+         }
      }
  
--    if (e1000x_is_vlan_packet(ehdr, core->mac[VET] & 0xffff) &&
--        !e1000x_rx_vlan_filter(core->mac, PKT_GET_VLAN_HDR(ehdr))) {
-+    if (core->mac[CTRL_EXT] & BIT(26)) {
-+        if (be16_to_cpu(ehdr->h_proto) == core->mac[VET] >> 16 &&
-+            be16_to_cpu(l2_header->vlan[0].h_proto) == (core->mac[VET] & 0xffff)) {
-+            vlan_num = 2;
-+        }
-+    } else {
-+        if (be16_to_cpu(ehdr->h_proto) == (core->mac[VET] & 0xffff)) {
-+            vlan_num = 1;
-+        }
++    lpe = !!(core->mac[RCTL] & E1000_RCTL_LPE);
++    rlpml = core->mac[RLPML];
++    if (!(core->mac[RCTL] & E1000_RCTL_SBP) &&
++        igb_rx_is_oversized(core, ehdr, size, vlan_num, lpe, rlpml)) {
++        trace_e1000x_rx_oversized(size);
++        return queues;
 +    }
 +
-+    if (vlan_num &&
-+        !e1000x_rx_vlan_filter(core->mac, l2_header->vlan + vlan_num - 1)) {
+     if (vlan_num &&
+         !e1000x_rx_vlan_filter(core->mac, l2_header->vlan + vlan_num - 1)) {
          return queues;
+@@ -1106,7 +1113,11 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
+         queues &= core->mac[VFRE];
+         if (queues) {
+             for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+-                if ((queues & BIT(i)) && igb_rx_is_oversized(core, i, size)) {
++                lpe = !!(core->mac[VMOLR0 + i] & E1000_VMOLR_LPE);
++                rlpml = core->mac[VMOLR0 + i] & E1000_VMOLR_RLPML_MASK;
++                if ((queues & BIT(i)) &&
++                    igb_rx_is_oversized(core, ehdr, size, vlan_num,
++                                        lpe, rlpml)) {
+                     oversized |= BIT(i);
+                 }
+             }
+@@ -1662,11 +1673,6 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
+         iov_to_buf(iov, iovcnt, iov_ofs, &min_buf, sizeof(min_buf.l2_header));
      }
  
-@@ -1065,7 +1076,9 @@ static uint16_t igb_receive_assign(IGBCore *core, const L2Header *l2_header,
-         if (e1000x_vlan_rx_filter_enabled(core->mac)) {
-             uint16_t mask = 0;
- 
--            if (e1000x_is_vlan_packet(ehdr, core->mac[VET] & 0xffff)) {
-+            if (vlan_num) {
-+                uint16_t vid = be16_to_cpu(l2_header->vlan[vlan_num - 1].h_tci) & VLAN_VID_MASK;
-+
-                 for (i = 0; i < E1000_VLVF_ARRAY_SIZE; i++) {
-                     if ((core->mac[VLVF0 + i] & E1000_VLVF_VLANID_MASK) == vid &&
-                         (core->mac[VLVF0 + i] & E1000_VLVF_VLANID_ENABLE)) {
+-    /* Discard oversized packets if !LPE and !SBP. */
+-    if (e1000x_is_oversized(core->mac, size)) {
+-        return orig_size;
+-    }
+-
+     net_rx_pkt_set_packet_type(core->rx_pkt,
+                                get_eth_packet_type(&min_buf.l2_header.eth));
+     net_rx_pkt_set_protocols(core->rx_pkt, iov, iovcnt, iov_ofs);
 -- 
 2.40.0
 
