@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09256EBCDC
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCAB6EBCF6
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:25:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqRDX-0004vs-9y; Sun, 23 Apr 2023 00:20:51 -0400
+	id 1pqRDg-0005vE-65; Sun, 23 Apr 2023 00:21:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRDD-0004j8-BF
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:32 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1pqRDG-0004nj-F4
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:39 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRDB-00018p-Nn
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:31 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id
- d9443c01a7336-1a920d4842bso27036575ad.2
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:28 -0700 (PDT)
+ id 1pqRDE-0001IR-US
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:34 -0400
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1a526aa3dd5so38192175ad.3
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223628; x=1684815628;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223632; x=1684815632;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WfMEYJ9MsNl1NEs1qpCe7w36MfTu1Ir4rIbITGTkOa8=;
- b=1C5tivw8xhyua/X1Rqk3kCkSyip5aCOg+VS0o8Av+qElEwWqPBUPg0SX6Sf/jUZBKN
- YBDmLukZ4UTZS5gicChPIgt+LtWcbjcGI7P1ALNJwt/X3JPAHS6Kap+kegaMX76OUPVa
- 011xqIZFUyX6O8r3meecOIdIOS9X106n3AggBFCunWeN1LM+a2ESYzbFnr1z0e2x5arT
- IWPJNLEAABGQbZwINoef7e0gbyOVTfU7w2acsOB2LooR+hIUf05R29GydVFkt2MHnktn
- TuOrt5inkh0hUBG1xfNx0J1Hy104qp6u2QPedkA6zC0opoGHuc3jub7q7bPowDrPQ+Dg
- nVbg==
+ bh=8cbPtOGCt4/DtgDNQOMqkazCwuM1SU58VR9lfEcSjFg=;
+ b=Xyq9IkcplEjVDq/bilWK2GW45k7/Vdhf9JhZMzSD14FiWmDvvqFUogNfmQJeMoxsDr
+ STNqZVLyiUOVmylBIk9MXvKfVmykJicpAMeVhYk2rDeiTMa6NMglp0CX8ouY5MVhx5KS
+ +7bweTDGzJgc4ONYeSTh9Z/RzzNV6uLcLmy2BL/TbUvzgAcDM8b4c3gFRxJWbjK/bads
+ 8oGHvclRMheau7mwFcJWnYwJRzocVNLUzoFoUT60Bx+W0EV6Er6lr3Vv4Kt094912tvb
+ ceLtROEOHwakKrgXTCFOQ46LZDpP2TJuGcOhvYSeJxPf5sKm1H5YEGO1x5MQKncaSaPe
+ Zvrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682223628; x=1684815628;
+ d=1e100.net; s=20221208; t=1682223632; x=1684815632;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WfMEYJ9MsNl1NEs1qpCe7w36MfTu1Ir4rIbITGTkOa8=;
- b=CfI8fa2xZ22hzCULQpPowbYnne4YuHoBRbPmoB5ikQFkx8bedU92g0nrUXgt5SEf4I
- xpwloz0rfba0q6bZNUKGIDVZNazgLrxkSjEOev703o05J+IJ1KGfI6r21lNX387XpFfD
- 9cwm5LBHVXYql6jG+EXZb3+NIqldtJ3WhaTQcc6PiLWN+wCjL9z4G1l9OyRDPptnJkO0
- KAyasG+SkAF7qa2o5cpJYBDaxj5gRpWby8c8W6yAvEh9odbua4kk/ERR+RpiCsodSoVA
- 0BCdnbfo1VEz2Wk8K/LUX99Kvog9PgnA44W5qBd10u8f1zpm66sGsVXounBWT00o135t
- Db/Q==
-X-Gm-Message-State: AAQBX9dEccspGj7cFZL5RsvEh7LdFot8yefectgilbNlJrbnoaLVJY5l
- acN9GXW8cwvjb/LhYtTvLem3FA==
-X-Google-Smtp-Source: AKy350baN9cYlnYtuLRMD1rvfkdMsQaKd7mucyJ3k9VHFXG3MyGGwGvTns+q4P661KbYO2X2QyeXoA==
-X-Received: by 2002:a17:902:ecd1:b0:1a5:2e19:bc40 with SMTP id
- a17-20020a170902ecd100b001a52e19bc40mr13167425plh.26.1682223628394; 
- Sat, 22 Apr 2023 21:20:28 -0700 (PDT)
+ bh=8cbPtOGCt4/DtgDNQOMqkazCwuM1SU58VR9lfEcSjFg=;
+ b=SRn9QPIZxJ9FHSrAwLhJ+ux9gxkYcPwOIKoEkJNJopFmpSmD1IhdsQnHmMn/tgN73w
+ iPtKSdoXNiRkauyjNbPAhHtOiZz9Qjp29J06feui4LCFJAmptfejE7oLhOA2lXCmVybR
+ uM1ckG5BjorSxm1HTR5snWeanuNbn+fOA+aOsstDKJmiMWxTHE/FOkTnOW5MEoG0Ki3F
+ 574PGNu9n2T/U8tlSHxK/k51mwn/mD60KLF8ZqvzMaDRmZ4XmVLJw4UEh4uJ2XxIAdHv
+ /6XV8VNg94Gnn0lwYThQYIrO0uEutH9PUc6zbd9Q96Cks9FJcV5R7n2GsFZ7Sc7oSAbI
+ 2iKQ==
+X-Gm-Message-State: AAQBX9cmdWtj+qBozb7etT29UVKPlFjHdenNuxTkIrnT/B9Uv5tQGuPZ
+ 2OU65WNEhzgKApxPO7rqIc9bug==
+X-Google-Smtp-Source: AKy350ZOvZ9H4O0BgZ38ZlI2K3qoLXFFjYqy+hw8mlCHqbW6+Tnwi+ygnz9MLNfInnYZkNzteAg7gQ==
+X-Received: by 2002:a17:902:d4cc:b0:1a6:b971:faf8 with SMTP id
+ o12-20020a170902d4cc00b001a6b971faf8mr12545617plg.53.1682223631777; 
+ Sat, 22 Apr 2023 21:20:31 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.25
+ f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 21:20:28 -0700 (PDT)
+ Sat, 22 Apr 2023 21:20:31 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,16 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 31/47] net/eth: Always add VLAN tag
-Date: Sun, 23 Apr 2023 13:18:17 +0900
-Message-Id: <20230423041833.5302-32-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 32/47] hw/net/net_rx_pkt: Enforce alignment for eth_header
+Date: Sun, 23 Apr 2023 13:18:18 +0900
+Message-Id: <20230423041833.5302-33-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::629;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,106 +101,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is possible to have another VLAN tag even if the packet is already
-tagged.
+eth_strip_vlan and eth_strip_vlan_ex refers to ehdr_buf as struct
+eth_header. Enforce alignment for the structure.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- include/net/eth.h   |  4 ++--
- hw/net/net_tx_pkt.c | 16 +++++++---------
- net/eth.c           | 22 ++++++----------------
- 3 files changed, 15 insertions(+), 27 deletions(-)
+ hw/net/net_rx_pkt.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/include/net/eth.h b/include/net/eth.h
-index 95ff24d6b8..048e434685 100644
---- a/include/net/eth.h
-+++ b/include/net/eth.h
-@@ -353,8 +353,8 @@ eth_strip_vlan_ex(const struct iovec *iov, int iovcnt, size_t iovoff,
- uint16_t
- eth_get_l3_proto(const struct iovec *l2hdr_iov, int iovcnt, size_t l2hdr_len);
+diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
+index 6125a063d7..1de42b4f51 100644
+--- a/hw/net/net_rx_pkt.c
++++ b/hw/net/net_rx_pkt.c
+@@ -23,7 +23,10 @@
  
--void eth_setup_vlan_headers(struct eth_header *ehdr, uint16_t vlan_tag,
--    uint16_t vlan_ethtype, bool *is_new);
-+void eth_setup_vlan_headers(struct eth_header *ehdr, size_t *ehdr_size,
-+                            uint16_t vlan_tag, uint16_t vlan_ethtype);
- 
- 
- uint8_t eth_get_gso_type(uint16_t l3_proto, uint8_t *l3_hdr, uint8_t l4proto);
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index ce6b102391..af8f77a3f0 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -40,7 +40,10 @@ struct NetTxPkt {
- 
-     struct iovec *vec;
- 
--    uint8_t l2_hdr[ETH_MAX_L2_HDR_LEN];
+ struct NetRxPkt {
+     struct virtio_net_hdr virt_hdr;
+-    uint8_t ehdr_buf[sizeof(struct eth_header) + sizeof(struct vlan_header)];
 +    struct {
 +        struct eth_header eth;
-+        struct vlan_header vlan[3];
-+    } l2_hdr;
-     union {
-         struct ip_header ip;
-         struct ip6_header ip6;
-@@ -365,18 +368,13 @@ bool net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
- void net_tx_pkt_setup_vlan_header_ex(struct NetTxPkt *pkt,
-     uint16_t vlan, uint16_t vlan_ethtype)
- {
--    bool is_new;
++        struct vlan_header vlan;
++    } ehdr_buf;
+     struct iovec *vec;
+     uint16_t vec_len_total;
+     uint16_t vec_len;
+@@ -89,7 +92,7 @@ net_rx_pkt_pull_data(struct NetRxPkt *pkt,
+     if (pkt->ehdr_buf_len) {
+         net_rx_pkt_iovec_realloc(pkt, iovcnt + 1);
+ 
+-        pkt->vec[0].iov_base = pkt->ehdr_buf;
++        pkt->vec[0].iov_base = &pkt->ehdr_buf;
+         pkt->vec[0].iov_len = pkt->ehdr_buf_len;
+ 
+         pkt->tot_len = pllen + pkt->ehdr_buf_len;
+@@ -120,7 +123,7 @@ void net_rx_pkt_attach_iovec(struct NetRxPkt *pkt,
      assert(pkt);
  
-     eth_setup_vlan_headers(pkt->vec[NET_TX_PKT_L2HDR_FRAG].iov_base,
--        vlan, vlan_ethtype, &is_new);
-+                           &pkt->vec[NET_TX_PKT_L2HDR_FRAG].iov_len,
-+                           vlan, vlan_ethtype);
+     if (strip_vlan) {
+-        pkt->ehdr_buf_len = eth_strip_vlan(iov, iovcnt, iovoff, pkt->ehdr_buf,
++        pkt->ehdr_buf_len = eth_strip_vlan(iov, iovcnt, iovoff, &pkt->ehdr_buf,
+                                            &ploff, &tci);
+     } else {
+         pkt->ehdr_buf_len = 0;
+@@ -142,7 +145,7 @@ void net_rx_pkt_attach_iovec_ex(struct NetRxPkt *pkt,
  
--    /* update l2hdrlen */
--    if (is_new) {
--        pkt->hdr_len += sizeof(struct vlan_header);
--        pkt->vec[NET_TX_PKT_L2HDR_FRAG].iov_len +=
--            sizeof(struct vlan_header);
--    }
-+    pkt->hdr_len += sizeof(struct vlan_header);
- }
- 
- bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, void *base, size_t len)
-diff --git a/net/eth.c b/net/eth.c
-index f7ffbda600..5307978486 100644
---- a/net/eth.c
-+++ b/net/eth.c
-@@ -21,26 +21,16 @@
- #include "net/checksum.h"
- #include "net/tap.h"
- 
--void eth_setup_vlan_headers(struct eth_header *ehdr, uint16_t vlan_tag,
--    uint16_t vlan_ethtype, bool *is_new)
-+void eth_setup_vlan_headers(struct eth_header *ehdr, size_t *ehdr_size,
-+                            uint16_t vlan_tag, uint16_t vlan_ethtype)
- {
-     struct vlan_header *vhdr = PKT_GET_VLAN_HDR(ehdr);
- 
--    switch (be16_to_cpu(ehdr->h_proto)) {
--    case ETH_P_VLAN:
--    case ETH_P_DVLAN:
--        /* vlan hdr exists */
--        *is_new = false;
--        break;
--
--    default:
--        /* No VLAN header, put a new one */
--        vhdr->h_proto = ehdr->h_proto;
--        ehdr->h_proto = cpu_to_be16(vlan_ethtype);
--        *is_new = true;
--        break;
--    }
-+    memmove(vhdr + 1, vhdr, *ehdr_size - ETH_HLEN);
-     vhdr->h_tci = cpu_to_be16(vlan_tag);
-+    vhdr->h_proto = ehdr->h_proto;
-+    ehdr->h_proto = cpu_to_be16(vlan_ethtype);
-+    *ehdr_size += sizeof(*vhdr);
- }
- 
- uint8_t
+     if (strip_vlan) {
+         pkt->ehdr_buf_len = eth_strip_vlan_ex(iov, iovcnt, iovoff, vet,
+-                                              pkt->ehdr_buf,
++                                              &pkt->ehdr_buf,
+                                               &ploff, &tci);
+     } else {
+         pkt->ehdr_buf_len = 0;
 -- 
 2.40.0
 
