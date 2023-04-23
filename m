@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF626EBCDA
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3E26EBCF9
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:26:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqRDX-0005EG-MS; Sun, 23 Apr 2023 00:20:51 -0400
+	id 1pqRDf-0005sk-O6; Sun, 23 Apr 2023 00:20:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRDL-0004qr-4G
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:39 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ id 1pqRDN-0004u5-UY
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:44 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRDJ-0001JM-L0
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:38 -0400
-Received: by mail-pl1-x630.google.com with SMTP id
- d9443c01a7336-1a9253d4551so28595545ad.0
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:35 -0700 (PDT)
+ id 1pqRDL-0001JZ-MH
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:40 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-63d4595d60fso21524380b3a.0
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223635; x=1684815635;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223638; x=1684815638;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gJTd+zlMFrMjrpg4tmDtHb6BwlxiXhf67UG5csq1fUM=;
- b=u+tadI2NIIPwski1ECyaQ67QhkCTn5QAN0onz1IVipdrMm1ZX+gbKkSUA50iKyb4aE
- lYn74aUYKfA6453Ht+sXqSnAQY734ZDyeuyUQwS9MdcWV/z/iySLAGXwTrkZN+ysb2of
- YGvJvQ9j/eyUW96gSmbaJrxLvGoOMEC5NYilWJ00dRZBV9pSGK+EvSxInYNqQxHF61GY
- BR/M+8rls6WyIZbGzq8Ru/kmH6qBtwjG8cxidwvXlqZ24JJegS/PvbMhaY29UGAUsFG2
- V4/4bTE6v6Wm6vWQyHHMWUIoRzpYaIewN2neomwBvoG8plH0qis7EYV2LuoZYoJDqoDZ
- IQmw==
+ bh=LKJLr9o8J2GVfyrdFgQsY8r3zTBN5mxmP1a2nA1FkQU=;
+ b=u58n41MRqaPvsVGjgZ/hjr8oj+Ho34MapB8XGbAfSseCtDR25uVXqMXlN7LkdlafAH
+ 5UZ2OAiaZyEeaBkBDKFUPiofiFUNM1ucRrSI7Fbixn/aa/fO9qQlSSwf6ZpnlcwjcCvA
+ dHEPrs4ia0ABdPiXoaZCy0rYsm6oFMr9wIUhcuVlaf86OB0T+Zd0vJtmXJ/NSuNPQJlE
+ ggpL8ar2zVUjeW6GARXQeO+LZTaDSzcIWJnvAXWO1bR6sXBQ8uwnJ2uYWtRfeV65P/hX
+ jKz8TVx4HVBMi9GCAo0a1vjevZiYh2Hx5xRkvFAkGGiRMMbyYh3av4lb5L9C/Vt0ZQ56
+ QJVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682223635; x=1684815635;
+ d=1e100.net; s=20221208; t=1682223638; x=1684815638;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gJTd+zlMFrMjrpg4tmDtHb6BwlxiXhf67UG5csq1fUM=;
- b=NoQAkaKu5rw61XXzKX7y7+817gXgcJ6kDsJsSilEmZaTd/AFCXbCixS2aehOjcqlIJ
- ZM8iIKasbVQe690gN5Ekm0O0DXNhN2EsXpqTAW+v+UPnZOCpxKfN2okBTEcSARw1Z+yE
- 45c+8pO9+4N30ZNO4PrOq/Qe0onrNBZTgQrMYAgLVN7kEK8z4AeWVSrsdUHmLCsSVEFR
- Cy5Wn4HVEDiG+Y6jfpwijWbUyxJmxqZJCmH7aW7QsaqooTYVQAlTIgpnbb1ZWMAwKPoO
- 37CAKh1ky++2zD/K8yh1FFtklgjYmXSyGDdawr1fr3zUZclZkp7szHkCObDvBMN5T/JE
- 088A==
-X-Gm-Message-State: AAQBX9fnA/lojiWaogcXr/kumrUCOld4A34/bPaiFpHYul8k48WHZzYO
- o5e4lIQrOBNqHgzOF/K2rZiUIg==
-X-Google-Smtp-Source: AKy350arAFerEzezYRhQR3ffhPhpYvRBPu36OtsErnrizTIeKUi2NVAzljN4HEfvoJW/zKqrCHKIlQ==
-X-Received: by 2002:a17:903:124b:b0:1a9:236d:2fd3 with SMTP id
- u11-20020a170903124b00b001a9236d2fd3mr12112828plh.53.1682223635168; 
- Sat, 22 Apr 2023 21:20:35 -0700 (PDT)
+ bh=LKJLr9o8J2GVfyrdFgQsY8r3zTBN5mxmP1a2nA1FkQU=;
+ b=bEJ4RQbV32Jl64a13yf0W/bCKTIslUWeTnzlYLkkCXe2Kw8Ub+CYvJAJEEE/Zs/RXY
+ wWaW3i+Q98yMIh1nJY32poE3UDqKZA/7fmDboNmV9T3zRS18fakI7qnt5FuCr/GMB9eh
+ aqq3feGFGwjAFPwGfKHMNvKiVXQjiOlTd5sswhysMP3U/Pgu+CP1Box2vDEd+6+EoY+k
+ SqnHtb3no+ZApNbWTjXNqrncl/lvwZcRjfR1a1c1Xmc7lu/I01GFssxhEtRuVZJ6ncar
+ aBFBHvQR8xpBHapF0K78gq6yJmemZPtC5Fzfnqdl1uOrMuMyOjkNrHcYg10VJrRPBbLD
+ Sl7Q==
+X-Gm-Message-State: AAQBX9ctrpy+6nPpOG3B6nAWDTXVTSxcyguArU+6G5ghfDwHPh7dmJQO
+ S66S5EMbMxtKn8+0Lpl26ueVyg==
+X-Google-Smtp-Source: AKy350ZupjMpykR0fEshqXh/Nti2s6/pS48QLqWhop+l7tBCWkbHl7tKhWPrAe2DyWkF1Z+6jwbcfA==
+X-Received: by 2002:a17:902:ec91:b0:1a9:57b4:9d5a with SMTP id
+ x17-20020a170902ec9100b001a957b49d5amr6235315plg.31.1682223638514; 
+ Sat, 22 Apr 2023 21:20:38 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.32
+ f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 21:20:34 -0700 (PDT)
+ Sat, 22 Apr 2023 21:20:38 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,16 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 33/47] tests/qtest/libqos/igb: Set GPIE.Multiple_MSIX
-Date: Sun, 23 Apr 2023 13:18:19 +0900
-Message-Id: <20230423041833.5302-34-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 34/47] igb: Implement MSI-X single vector mode
+Date: Sun, 23 Apr 2023 13:18:20 +0900
+Message-Id: <20230423041833.5302-35-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::630;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x630.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,27 +101,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-GPIE.Multiple_MSIX is not set by default, and needs to be set to get
-interrupts from multiple MSI-X vectors.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- tests/qtest/libqos/igb.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/net/igb_core.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/libqos/igb.c b/tests/qtest/libqos/igb.c
-index 12fb531bf0..a603468beb 100644
---- a/tests/qtest/libqos/igb.c
-+++ b/tests/qtest/libqos/igb.c
-@@ -114,6 +114,7 @@ static void igb_pci_start_hw(QOSGraphObject *obj)
-     e1000e_macreg_write(&d->e1000e, E1000_RCTL, E1000_RCTL_EN);
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index 77e4ee42a5..46babe85a9 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -1873,7 +1873,7 @@ igb_update_interrupt_state(IGBCore *core)
  
-     /* Enable all interrupts */
-+    e1000e_macreg_write(&d->e1000e, E1000_GPIE,  E1000_GPIE_MSIX_MODE);
-     e1000e_macreg_write(&d->e1000e, E1000_IMS,  0xFFFFFFFF);
-     e1000e_macreg_write(&d->e1000e, E1000_EIMS, 0xFFFFFFFF);
+     icr = core->mac[ICR] & core->mac[IMS];
  
+-    if (msix_enabled(core->owner)) {
++    if (core->mac[GPIE] & E1000_GPIE_MSIX_MODE) {
+         if (icr) {
+             causes = 0;
+             if (icr & E1000_ICR_DRSTA) {
+@@ -1908,7 +1908,12 @@ igb_update_interrupt_state(IGBCore *core)
+         trace_e1000e_irq_pending_interrupts(core->mac[ICR] & core->mac[IMS],
+                                             core->mac[ICR], core->mac[IMS]);
+ 
+-        if (msi_enabled(core->owner)) {
++        if (msix_enabled(core->owner)) {
++            if (icr) {
++                trace_e1000e_irq_msix_notify_vec(0);
++                msix_notify(core->owner, 0);
++            }
++        } else if (msi_enabled(core->owner)) {
+             if (icr) {
+                 msi_notify(core->owner, 0);
+             }
 -- 
 2.40.0
 
