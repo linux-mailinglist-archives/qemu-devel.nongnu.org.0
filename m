@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0AA6EC108
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 18:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9D86EC10B
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 18:22:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqcSl-0000q5-JX; Sun, 23 Apr 2023 12:21:19 -0400
+	id 1pqcTC-0002C6-Qv; Sun, 23 Apr 2023 12:21:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pqcSk-0000oG-9i
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 12:21:18 -0400
+ id 1pqcTA-00024H-LJ
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 12:21:44 -0400
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pqcSf-0004pr-C5
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 12:21:18 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q4D4X3MwQz67H66;
- Mon, 24 Apr 2023 00:19:56 +0800 (CST)
+ id 1pqcT9-0004rd-0R
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 12:21:44 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q4D361nJWz67QQ9;
+ Mon, 24 Apr 2023 00:18:42 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sun, 23 Apr 2023 17:21:10 +0100
+ 15.1.2507.23; Sun, 23 Apr 2023 17:21:40 +0100
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
  <fan.ni@samsung.com>
 CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
@@ -35,10 +35,10 @@ CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
  <berrange@redhat.com>, Eric Blake <eblake@redhat.com>, Mike Maslenkin
  <mike.maslenkin@gmail.com>, =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=
  <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v5 2/6] hw/cxl: Introduce cxl_device_get_timestamp() utility
- function
-Date: Sun, 23 Apr 2023 17:20:09 +0100
-Message-ID: <20230423162013.4535-3-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v5 3/6] bswap: Add the ability to store to an unaligned 24 bit
+ field
+Date: Sun, 23 Apr 2023 17:20:10 +0100
+Message-ID: <20230423162013.4535-4-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230423162013.4535-1-Jonathan.Cameron@huawei.com>
 References: <20230423162013.4535-1-Jonathan.Cameron@huawei.com>
@@ -46,7 +46,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -55,8 +55,8 @@ X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,78 +76,103 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-There are new users of this functionality coming shortly so factor
-it out from the GET_TIMESTAMP mailbox command handling.
+CXL has 24 bit unaligned fields which need to be stored to.  CXL is
+specified as little endian.
 
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Define st24_le_p() and the supporting functions to store such a field
+from a 32 bit host native value.
+
+The use of b, w, l, q as the size specifier is limiting.  So "24" was
+used for the size part of the function name.
+
 Reviewed-by: Fan Ni <fan.ni@samsung.com>
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 ---
-v5: No change.
+v5:
+  - Added assertion that upper bits of the input parameter aren't set.
+  - Mask value in bswap24s()
+  - update docs
 ---
- hw/cxl/cxl-device-utils.c   | 15 +++++++++++++++
- hw/cxl/cxl-mailbox-utils.c  | 11 +----------
- include/hw/cxl/cxl_device.h |  2 ++
- 3 files changed, 18 insertions(+), 10 deletions(-)
+ docs/devel/loads-stores.rst |  1 +
+ include/qemu/bswap.h        | 25 +++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-index 4c5e88aaf5..86e1cea8ce 100644
---- a/hw/cxl/cxl-device-utils.c
-+++ b/hw/cxl/cxl-device-utils.c
-@@ -269,3 +269,18 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
+diff --git a/docs/devel/loads-stores.rst b/docs/devel/loads-stores.rst
+index ad5dfe133e..57b4396f7a 100644
+--- a/docs/devel/loads-stores.rst
++++ b/docs/devel/loads-stores.rst
+@@ -36,6 +36,7 @@ store: ``st{size}_{endian}_p(ptr, val)``
+ ``size``
+  - ``b`` : 8 bits
+  - ``w`` : 16 bits
++ - ``24`` : 24 bits
+  - ``l`` : 32 bits
+  - ``q`` : 64 bits
  
-     cxl_initialize_mailbox(cxl_dstate);
- }
-+
-+uint64_t cxl_device_get_timestamp(CXLDeviceState *cxl_dstate)
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 15a78c0db5..91ed9c7e2c 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -8,11 +8,25 @@
+ #undef  bswap64
+ #define bswap64(_x) __builtin_bswap64(_x)
+ 
++static inline uint32_t bswap24(uint32_t x)
 +{
-+    uint64_t time, delta;
-+    uint64_t final_time = 0;
++    assert((x & 0xff000000U) == 0);
 +
-+    if (cxl_dstate->timestamp.set) {
-+        /* Find the delta from the last time the host set the time. */
-+        time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        delta = time - cxl_dstate->timestamp.last_set;
-+        final_time = cxl_dstate->timestamp.host_set + delta;
-+    }
-+
-+    return final_time;
++    return (((x & 0x000000ffU) << 16) |
++            ((x & 0x0000ff00U) <<  0) |
++            ((x & 0x00ff0000U) >> 16));
 +}
-diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index 7b2aef0d67..702e16ca20 100644
---- a/hw/cxl/cxl-mailbox-utils.c
-+++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -163,17 +163,8 @@ static CXLRetCode cmd_timestamp_get(struct cxl_cmd *cmd,
-                                     CXLDeviceState *cxl_dstate,
-                                     uint16_t *len)
- {
--    uint64_t time, delta;
--    uint64_t final_time = 0;
--
--    if (cxl_dstate->timestamp.set) {
--        /* First find the delta from the last time the host set the time. */
--        time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--        delta = time - cxl_dstate->timestamp.last_set;
--        final_time = cxl_dstate->timestamp.host_set + delta;
--    }
-+    uint64_t final_time = cxl_device_get_timestamp(cxl_dstate);
- 
--    /* Then adjust the actual time */
-     stq_le_p(cmd->payload, final_time);
-     *len = 8;
- 
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index edb9791bab..02befda0f6 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -287,4 +287,6 @@ MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
- MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
-                             unsigned size, MemTxAttrs attrs);
- 
-+uint64_t cxl_device_get_timestamp(CXLDeviceState *cxlds);
 +
- #endif
+ static inline void bswap16s(uint16_t *s)
+ {
+     *s = __builtin_bswap16(*s);
+ }
+ 
++static inline void bswap24s(uint32_t *s)
++{
++    *s = bswap24(*s & 0x00ffffffU);
++}
++
+ static inline void bswap32s(uint32_t *s)
+ {
+     *s = __builtin_bswap32(*s);
+@@ -176,6 +190,7 @@ CPU_CONVERT(le, 64, uint64_t)
+  * size is:
+  *   b: 8 bits
+  *   w: 16 bits
++ *   24: 24 bits
+  *   l: 32 bits
+  *   q: 64 bits
+  *
+@@ -248,6 +263,11 @@ static inline void stw_he_p(void *ptr, uint16_t v)
+     __builtin_memcpy(ptr, &v, sizeof(v));
+ }
+ 
++static inline void st24_he_p(void *ptr, uint32_t v)
++{
++    __builtin_memcpy(ptr, &v, 3);
++}
++
+ static inline int ldl_he_p(const void *ptr)
+ {
+     int32_t r;
+@@ -297,6 +317,11 @@ static inline void stw_le_p(void *ptr, uint16_t v)
+     stw_he_p(ptr, le_bswap(v, 16));
+ }
+ 
++static inline void st24_le_p(void *ptr, uint32_t v)
++{
++    st24_he_p(ptr, le_bswap(v, 24));
++}
++
+ static inline void stl_le_p(void *ptr, uint32_t v)
+ {
+     stl_he_p(ptr, le_bswap(v, 32));
 -- 
 2.37.2
 
