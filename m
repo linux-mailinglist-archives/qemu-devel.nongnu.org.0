@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DEE6EBCFC
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5386EBCE2
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:22:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqRCp-00035A-8Q; Sun, 23 Apr 2023 00:20:07 -0400
+	id 1pqRCq-00038Z-0g; Sun, 23 Apr 2023 00:20:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRCc-0002zr-NT
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:19:56 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1pqRCg-000312-0Q
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:00 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRCb-0000qi-5v
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:19:54 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id
- d9443c01a7336-1a682eee3baso27209505ad.0
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:19:52 -0700 (PDT)
+ id 1pqRCe-0000qz-0w
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:19:57 -0400
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1a68d61579bso27282935ad.1
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223591; x=1684815591;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223594; x=1684815594;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CBA1GkUlp6RANFF4i4mWmjvW3mnXMfDstja65r4JnaQ=;
- b=AzlEgRTn98kN7yRs8/1eu3Bth/ifX7he5go+y8Z9SU7CiTN3hl0/MCv6wAB1Zo3rwG
- N6SEx5WknhMeJHo1g6KDq+3+nIk+eWiQcr7IWmjbp/nshKXwvMbKeyjtihFf4oSaPSH2
- M/dfkqt9HZ8c9czlZKmiOWbivReIMdkVYlt98oibdjyUJkjNGA/ob/qjkJIYmUoUynuJ
- vvXb6cDn5fhppOdbEZ7O3F8x3X4u8ZxMLeK5smBGQAH2VUQ+tVa+OF6o7TPmE65FZBXR
- rFJf+0VdwdgeCZYkBma6/nuoPt3QhEggWMdTIiHYliXHY6B9hPRHVFOg7KVArGO86LeI
- Q4wg==
+ bh=3tcjJdECqHzQHowtvhGwDzeBUVv76McgouuLzHxrMSc=;
+ b=Ya7x5s8T1f7PEXJH+aZ+9YAv/V9W5t4z5rxX6tcyLdhfjv45Uz5aS4TD962M7nzsi+
+ RdK6moMSYMCaF5oy1oDmydp23iDzO2SN6rxyguKPfNtPZeNHBtAM9h1vWQ60M7GTqai9
+ ie5if/M/bSf5u3eEfpBAIgdA1h9B7HfI2wVbI8hYl/xQ3PLItfy0p2iJr2EP95gjYLkI
+ THEGPLvLqbSrEjbCBz9Ij0GpztY696cB6ThfE0TSroH/AEm26ER0NXHuGrfc6DwvPOoQ
+ bFYK/SgwcsEZLHTa4zWPf92bklIJR7ITkPp2aLVxo3Cj+5kEMkDOK7vEgxy/FHV6Cpqy
+ cAGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682223591; x=1684815591;
+ d=1e100.net; s=20221208; t=1682223594; x=1684815594;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CBA1GkUlp6RANFF4i4mWmjvW3mnXMfDstja65r4JnaQ=;
- b=iAja03BGR6lq7u4aZTDRRQJc1Afzn/4tt80ReZ2ODhEuK8wDUMsgrWiege7L08mKu5
- k30UPoE2W3SxoNJAamO3Q/1uiQBTIy8+Z1CiPHATxE1D/UUC4Jtlc6hLFBde1uSCP37j
- LloMWvYokfuApHGbffmRHFVI+l4082+LzUO+/rDA5XInUE2j7+Bol33hVH+g6dO9Lx8I
- dTC/Pyjyw0f+ergvcN39lUzmJ4vNb62LysZOIM4b5+9WfQ042e5cEF3lkBjYnvxxSngO
- FiFmHD3f5b9sFsUxLzjBTye+UfQqxerctveEkoW4PCJin0JwXF84E+zwZo3vvMpR0TX/
- 7srg==
-X-Gm-Message-State: AAQBX9eJW4rhKT7LDeNgEq7MTFhcV4ywbxVmGO+dGt0h2sh3iEBfhwcK
- gV9iN4JneuhIs/YqErS5Df0p1g==
-X-Google-Smtp-Source: AKy350aBfzAZNMUm0/AK69XuAampCIuDG0Gs7GVDExktRSzCncfEVRcNADfU83geE94ydIaD/cuh9A==
-X-Received: by 2002:a17:902:dac4:b0:1a9:5c41:3f8e with SMTP id
- q4-20020a170902dac400b001a95c413f8emr4486594plx.42.1682223590989; 
- Sat, 22 Apr 2023 21:19:50 -0700 (PDT)
+ bh=3tcjJdECqHzQHowtvhGwDzeBUVv76McgouuLzHxrMSc=;
+ b=h4mWqA0M5Kh73ruxYQWfv+Tsi1ikQjY6paoXgTnt8wpuvXgtjtH/yCmWblwuiSkWKj
+ ozHrFxsv+BpZ02p0qTJjJnx57ucrZygxBQLklm2yGo/K6VyGKPaVOl+LKCfgtOaJ/AtK
+ 29JreD48YpPr40Xz4oBQh4xaOLvJo4ufQz/gapwkiO/WLqzZih1NOXYDkz1gNBBHmOpf
+ ASjCi0isbNFg6snqS2JEQVH3ijai2IkZNJRm/eYFpJ1DXKHpTatnJSmbU7qTw5CMTkVP
+ s13TzHVDTxfL2ED4w1Dp7MysevqxQkYBs9LYsS8JKJSqobAgNqnrbiWMgrzCeIW/jWei
+ EneQ==
+X-Gm-Message-State: AAQBX9fuiKcc8Z9yZ1zOjraOgcYmiAnUnXlXjNWcUs9PxrThqS6ZkcIS
+ lNEkCMRYaDu4vJJppTk8XixiIA==
+X-Google-Smtp-Source: AKy350bmY+0njkI1ysGYsrx1IMPMMzGzl50cgsngqlcernkHGZIqy6ND68NC2jM/VGmHErP8l38mHA==
+X-Received: by 2002:a17:902:ccce:b0:1a6:8442:546f with SMTP id
+ z14-20020a170902ccce00b001a68442546fmr10941824ple.19.1682223594345; 
+ Sat, 22 Apr 2023 21:19:54 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.19.47
+ f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.19.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 21:19:50 -0700 (PDT)
+ Sat, 22 Apr 2023 21:19:54 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,16 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 20/47] igb: Remove goto
-Date: Sun, 23 Apr 2023 13:18:06 +0900
-Message-Id: <20230423041833.5302-21-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 21/47] igb: Read DCMD.VLE of the first Tx descriptor
+Date: Sun, 23 Apr 2023 13:18:07 +0900
+Message-Id: <20230423041833.5302-22-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62f;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::630;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,9 +101,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The goto is a bit confusing as it changes the control flow only if L4
-protocol is not recognized. It is also different from e1000e, and
-noisy when comparing e1000e and igb.
+Section 7.2.2.3 Advanced Transmit Data Descriptor says:
+> For frames that spans multiple descriptors, all fields apart from
+> DCMD.EOP, DCMD.RS, DCMD.DEXT, DTALEN, Address and DTYP are valid only
+> in the first descriptors and are ignored in the subsequent ones.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
@@ -112,18 +113,18 @@ Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 167e1f949d..2de04fabfe 100644
+index 2de04fabfe..4ac7e7af44 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -1297,7 +1297,7 @@ igb_build_rx_metadata(IGBCore *core,
-             break;
+@@ -613,7 +613,7 @@ igb_process_tx_desc(IGBCore *core,
+             idx = (tx->first_olinfo_status >> 4) & 1;
+             igb_tx_insert_vlan(core, queue_index, tx,
+                 tx->ctx[idx].vlan_macip_lens >> 16,
+-                !!(cmd_type_len & E1000_TXD_CMD_VLE));
++                !!(tx->first_cmd_type_len & E1000_TXD_CMD_VLE));
  
-         default:
--            goto func_exit;
-+            break;
-         }
-     } else {
-         trace_e1000e_rx_metadata_l4_cso_disabled();
+             if (igb_tx_pkt_send(core, tx, queue_index)) {
+                 igb_on_tx_done_update_stats(core, tx->tx_pkt, queue_index);
 -- 
 2.40.0
 
