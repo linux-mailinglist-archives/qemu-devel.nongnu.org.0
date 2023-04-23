@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE986EC2E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 00:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9286EC2E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 00:12:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqhrD-0003bw-2t; Sun, 23 Apr 2023 18:06:55 -0400
+	id 1pqhvl-0005XU-CG; Sun, 23 Apr 2023 18:11:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pqhr6-0003b1-42; Sun, 23 Apr 2023 18:06:48 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ id 1pqhve-0005XB-Vh; Sun, 23 Apr 2023 18:11:31 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pqhr4-0002hl-0v; Sun, 23 Apr 2023 18:06:47 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-94f0dd117dcso513649466b.3; 
- Sun, 23 Apr 2023 15:06:44 -0700 (PDT)
+ id 1pqhvc-0003Gn-2v; Sun, 23 Apr 2023 18:11:30 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-504eb1155d3so27822740a12.1; 
+ Sun, 23 Apr 2023 15:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682287603; x=1684879603;
+ d=gmail.com; s=20221208; t=1682287885; x=1684879885;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=inKXuwOT7PQYiwwW8r0IDbaxjW5oVAuij9X7Goqm768=;
- b=Cnlb6suHD/ehYfKN79Se39aQh0RJpIyHN8k0+tACmrxcTTew8mQ+Bk0hkfTPoe0QQ/
- HQAMTz9zyzER1NbYtLtU+jQAKy3uX+z7SLDxt0tUYtSX+JE8Kk7jaEg+S5nnTX/piyCr
- qJrczIh+QssSDX890HtMT1JHUYe13JCdWG7o3dkg6b5/uufFGb+FRSdyOG4i5Ji89kxu
- j1UxKuyHeoyPVJaDsTVrPm1uA3aJYmgsqen3gmJOVjyhG/7uDS0JAOiSUNLoz9MOs6uR
- GQGxeePT0AfPFOpotWlQ1xpykwY1cbuflCawRQBTLw2ho9FlBYoFPwUbMKqOc/NgVyuF
- UNlA==
+ bh=ehl/xpxy2awJprAeYgXjIlTVS0qZ7ioF7KP9OwaaFog=;
+ b=ZffONKEHmimiouMJM7d+nL0uV9510duNI1A44toFe6b7/RlhlMQI+Fef+aBpNbKFmT
+ 4B34luk4Emo5DFBMx6btQ706/WoYNQXkGNh3g6JAobdSrsFyoMZMfcN+fb7GRbStts0n
+ UA3ueFs18uLmb07Ziwte2j6I3DKCbs5dlRJkbzhOgGBx4aNI34MtWGI3BZ2UTtEpGVqJ
+ ZPKTbqM5QO1lxmUN5J1kWdtutm3EyZNo6jjGRqepZOmoDA/YCaJ1SNzEAxkiPqex/Czl
+ YfIqIgR3qr9KKUExlXRgp7EC4RyE58XpvPoQ3zWzOA8pzhBl1KnsErrzjndWNmsTiTMb
+ 1zLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682287603; x=1684879603;
+ d=1e100.net; s=20221208; t=1682287885; x=1684879885;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=inKXuwOT7PQYiwwW8r0IDbaxjW5oVAuij9X7Goqm768=;
- b=l5reZku/jdwX02Cqo9WkVbXd3pzYOH8CHK6evC+6uWodFYWugtWy3G3xCjUOa+YXoE
- zG6nsVXuqNY/PeTn62RthVIQHOWb60z51XcX4R7MjkSxl7dNM30dlDpifl04UeCIviV0
- r+hHdyiS5XBpatrPOyTioC+3acnUc1UbMntUmvV1J00BDO6TDADG2fnP78zPptjfgrKR
- 0Q1OUezJwVcvH4hQyZNynD5KmcAOygBxX99kRijOL1P50zAuEXnXICltxuXroRndV0Sc
- rjnCHk1lZFRI3G8m7U5BEQuvURlcK8ddwJIaX/BNuOOH7/YsSZGSPHkBxSDlc0JvB0v0
- fNzg==
-X-Gm-Message-State: AAQBX9cul84w0KM+pNJurx39UXG59YwQD2VoAbgigL0G9E0rnELQXt0a
- KQWmyLv2C/6laZVYJ2jzJxc=
-X-Google-Smtp-Source: AKy350aKREyixrd574J1Nds3ygO/2+N2065vboOJnr/0cWupR57EAtGJs7/IpD2vODp74AGKQTzQ9w==
-X-Received: by 2002:a17:906:70cb:b0:947:df9e:4082 with SMTP id
- g11-20020a17090670cb00b00947df9e4082mr7949781ejk.35.1682287603138; 
- Sun, 23 Apr 2023 15:06:43 -0700 (PDT)
+ bh=ehl/xpxy2awJprAeYgXjIlTVS0qZ7ioF7KP9OwaaFog=;
+ b=av/RJ/4eor7lSjilzuf5n+FA5X8AUG9yWqaJwW4w4DwyLiTPA6P5MaWMTOK4R+lqOH
+ kQ6jpQH480NMu4MARm1SICpNgU5xJxFVsijjEHVsiovzRA+XjuVZsNor2JT6MnHrCMEU
+ JWr64ttLkU1oVLQqDEGIPXIiIvOpMD9xEwpb+gGS3WcL+AWN6/i4I2OMDp3A9XPhDy/d
+ xZgwGo/9CkvMR7wcT9aUl9KnOxnswfiL3fyQsMkJLERL2KSKWuLk0v1Q0gIUt/9g6Evd
+ vRcrDuBWl8MF5jiZVpCaAY7ezILs7kDVKeGeCjJZeTzT5xb2kfqLZV5siAPBgIdmjdvY
+ mcDw==
+X-Gm-Message-State: AAQBX9eQsAy9aPehl9mHacc4Sj8/tri6r9ymqUjFohD5GFvnCw5eeIQK
+ cLxGE1Za13kLsIIVQJIsfi0=
+X-Google-Smtp-Source: AKy350YK/i68vV/1DgMeuFA22T6UcZNpSxl3reYkJrqlqGFpOG+qKZAytgANMoGh8zfUqxHQaIm5QA==
+X-Received: by 2002:a17:906:cc99:b0:94a:511b:a21d with SMTP id
+ oq25-20020a170906cc9900b0094a511ba21dmr8603643ejb.28.1682287885242; 
+ Sun, 23 Apr 2023 15:11:25 -0700 (PDT)
 Received: from [127.0.0.1] (dynamic-077-183-111-058.77.183.pool.telefonica.de.
  [77.183.111.58]) by smtp.gmail.com with ESMTPSA id
- sb11-20020a170906edcb00b0094f7c1b6a94sm4908298ejb.11.2023.04.23.15.06.42
+ r20-20020a170906705400b0094f05fee9d3sm4856505ejj.211.2023.04.23.15.11.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Apr 2023 15:06:42 -0700 (PDT)
-Date: Sun, 23 Apr 2023 22:06:38 +0000
+ Sun, 23 Apr 2023 15:11:24 -0700 (PDT)
+Date: Sun, 23 Apr 2023 22:11:22 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
  Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org
-Subject: Re: [PATCH 06/13] hw/ide: Extract bmdma_init_ops()
-In-Reply-To: <29951829-1aee-5c7a-bf38-58e290afb706@linaro.org>
+Subject: Re: [PATCH 05/13] hw/ide: Extract pci_ide_class_init()
+In-Reply-To: <9a25912c-a494-9efc-62ee-1de83b69a060@linaro.org>
 References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-7-shentey@gmail.com>
- <29951829-1aee-5c7a-bf38-58e290afb706@linaro.org>
-Message-ID: <7513C99D-7240-4B0D-A3FB-66CFB32B5A9E@gmail.com>
+ <20230422150728.176512-6-shentey@gmail.com>
+ <9a25912c-a494-9efc-62ee-1de83b69a060@linaro.org>
+Message-ID: <1A105E4E-4F2E-4C06-8434-4A3349D45618@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,41 +97,40 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 23=2E April 2023 17:43:22 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <ph=
+Am 23=2E April 2023 17:41:33 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <ph=
 ilmd@linaro=2Eorg>:
 >On 22/4/23 17:07, Bernhard Beschow wrote:
->> There are three private copies of bmdma_setup_bar() with small adaption=
-s=2E
->> Consolidate them into one public implementation=2E
->>=20
->> While at it rename the function to bmdma_init_ops() to reflect that the=
- memory
->> regions being initialized represent BMDMA operations=2E The actual mapp=
-ing as a
->> PCI BAR is still performed separately in each device=2E
->>=20
->> Note that the bmdma_bar attribute will be renamed in a separate commit=
-=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> Resolves redundant code in every PCI IDE device model=2E
 >> ---
->>   include/hw/ide/pci=2Eh |  1 +
->>   hw/ide/cmd646=2Ec      | 20 +-------------------
->>   hw/ide/pci=2Ec         | 16 ++++++++++++++++
->>   hw/ide/piix=2Ec        | 19 +------------------
->>   hw/ide/via=2Ec         | 19 +------------------
->>   5 files changed, 20 insertions(+), 55 deletions(-)
+>>   include/hw/ide/pci=2Eh |  1 -
+>>   hw/ide/cmd646=2Ec      | 15 ---------------
+>>   hw/ide/pci=2Ec         | 25 ++++++++++++++++++++++++-
+>>   hw/ide/piix=2Ec        | 19 -------------------
+>>   hw/ide/sii3112=2Ec     |  3 ++-
+>>   hw/ide/via=2Ec         | 15 ---------------
+>>   6 files changed, 26 insertions(+), 52 deletions(-)
 >
->Nice=2E
 >
->Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>> diff --git a/hw/ide/sii3112=2Ec b/hw/ide/sii3112=2Ec
+>> index 5dd3d03c29=2E=2E0af897a9ef 100644
+>> --- a/hw/ide/sii3112=2Ec
+>> +++ b/hw/ide/sii3112=2Ec
+>> @@ -301,9 +301,10 @@ static void sii3112_pci_class_init(ObjectClass *kl=
+ass, void *data)
+>>       pd->class_id =3D PCI_CLASS_STORAGE_RAID;
+>>       pd->revision =3D 1;
+>>       pd->realize =3D sii3112_pci_realize;
+>> +    pd->exit =3D NULL;
+>>       dc->reset =3D sii3112_reset;
+>> +    dc->vmsd =3D NULL;
+>>       dc->desc =3D "SiI3112A SATA controller";
+>
+>The SiI3112A doesn't have these regions?
 
-I'd rework this patch in the next iteration=2E I think that most of the me=
-mory region initialization can be moved to pci_ide_init()=2E Unlike realize=
- methods, the nice thing about these instance_init() methods is that the pa=
-rent implementation is called implicitly rather than being overridden by th=
-e child implementation, similar to C++ constructors=2E This allows for code=
- reuse without much gymnastics=2E
+Yeah, it ignores a lot of stuff in the base class=2E This gets changed in =
+the last part of this series though=2E This seems why there is no exit meth=
+od=2E Furthermore -- probably due to additional custom fields -- there is n=
+o migration description=2E
 
 Best regards,
 Bernhard
