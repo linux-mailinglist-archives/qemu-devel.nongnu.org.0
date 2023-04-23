@@ -2,80 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC616EBE91
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 12:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACAA6EBE99
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 12:28:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqWpT-0004Fq-Sn; Sun, 23 Apr 2023 06:20:23 -0400
+	id 1pqWx4-0006Dx-4E; Sun, 23 Apr 2023 06:28:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqWpG-0004DC-Aj
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 06:20:13 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqWp8-0003Fq-1N
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 06:20:09 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-2fa36231b1cso1949050f8f.2
- for <qemu-devel@nongnu.org>; Sun, 23 Apr 2023 03:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682245200; x=1684837200;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gzmKpePtCVIxaEGtijl//AGdn8x8IEnPM9t3RxcYnKE=;
- b=EwZPICIqTbAzxRyqPJpbeAognFXInPBfIsKQIDlL4/5X3xfcxsPxDKOUJg7izmxbwf
- in30zf/nagfnig8fZ5WuC4pInKexbEh7/kGIcxrPFlcIQlY9Y3vMNuDHrPDxb9N9U073
- GuHDjNhmgDMgucu0oCnr1aOHf5+fYhDcYngbUKEd5PAjroPgMYTh0KkMvXu5rV27JqMC
- PYu3D77HTqrnv2O7/XBwSN2JU5Bxuhy8eiaWTg2FnJeCc7qzUy+sWn4JYNsSy7HxWvqs
- oCi4YzMY0pjkxJ8Z7FvK7Qsunoa9WYJPryjiDb/QkpUJV+F7GTjce92cDy/Q2GoN4snU
- juyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682245200; x=1684837200;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gzmKpePtCVIxaEGtijl//AGdn8x8IEnPM9t3RxcYnKE=;
- b=W2XNAejuarYZoBeATgd0+2DZelT54tL+pW40ld3ugHp+1AW4cn8iFVuVpBokbN/I5h
- smOUP2qo3/GH8NOOVZ68IbH5Zd4mtUIPb2UQT6uA5Zy7GjI1CxWLs63vGdfYKrfNP0A9
- 3EskXyKV5uqm8SRUQkDOIe0IFFK4q5oEkaBL5qJ0zlVGRGrnzCbmWu39MfS4kB/JZgoQ
- Cyov+n+BYG6J+sGCsa7nFzMjJ45DuXKNIxvCOL/e6FLEtuFX+BYuHPlsANsCFra4qzpX
- fHsxI087RpDcNxG4A9bq3lA2B5ujqX4R/g/5azVAj3fKbT7Owz7XWL+yhgOr3/YIFlDP
- xB5A==
-X-Gm-Message-State: AAQBX9czmWhwVbLOgDglY+QXd7HT7wXrIoURiW4+PBt0cZe9nBl0voaJ
- GjVtkR9rC09BqI0dNsGPgg1ugB/bq6l5IMLHZoUhhg==
-X-Google-Smtp-Source: AKy350YuEQ0CSIrUfVVSYcHLv1GvjK8huD5+FdDYdBsIHjO7FTKJ53Ap9fXQsnmc1AsTqcIJBUd7kg==
-X-Received: by 2002:adf:e0cb:0:b0:2ee:c42e:a54e with SMTP id
- m11-20020adfe0cb000000b002eec42ea54emr7665545wri.50.1682245200345; 
- Sun, 23 Apr 2023 03:20:00 -0700 (PDT)
-Received: from stoup.c.hoisthospitality.com
- (cust-west-loneq8-46-193-226-34.wb.wifirst.net. [46.193.226.34])
- by smtp.gmail.com with ESMTPSA id
- c10-20020a7bc2aa000000b003f080b2f9f4sm12550541wmk.27.2023.04.23.03.19.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Apr 2023 03:20:00 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PULL 15/15] tcg/riscv: Conditionalize tcg_out_exts_i32_i64
-Date: Sun, 23 Apr 2023 11:19:50 +0100
-Message-Id: <20230423101950.817899-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230423101950.817899-1-richard.henderson@linaro.org>
-References: <20230423101950.817899-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pqWwz-0006Dn-Q0
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 06:28:09 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pqWwx-0005LA-7D
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 06:28:09 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 2802C40146;
+ Sun, 23 Apr 2023 13:28:05 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 77BE595;
+ Sun, 23 Apr 2023 13:28:04 +0300 (MSK)
+Message-ID: <a01a470e-891e-bdfc-aefc-00701a6a0413@msgid.tls.msk.ru>
+Date: Sun, 23 Apr 2023 13:28:04 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: get_relocated_path: the configured paths are not looked for?
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <7f96ff38-2268-07d3-23a3-d46bf036b711@msgid.tls.msk.ru>
+ <20e76562-b1c7-3574-a277-7df6260226cc@gmail.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <20e76562-b1c7-3574-a277-7df6260226cc@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -89
+X-Spam_score: -9.0
+X-Spam_bar: ---------
+X-Spam_report: (-9.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.047,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,32 +60,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since TCG_TYPE_I32 values are kept sign-extended in registers, via "w"
-instructions, we don't need to extend if the register matches.
-This is already relied upon by comparisons.
+20.04.2023 08:29, Akihiko Odaki wrote:
+> On 2023/04/19 16:32, Michael Tokarev wrote:
+>> Hello!
+>>
+>> Today I discovered an interesting issue here: I copied a system-installed
+>> binary into another directory, in order to debug an unrelated issue. Just
+>> to discover it does not work, being unable to find any modules or data
+>> files.
+>>
+>> Here's how the strace of typical qemu-system-i386 run looks like (the
+>> relevant parts only):
+>>
+>> access("/tmp/qemu-bundle", R_OK) = -1 ENOENT (No such file or directory)
+>> access("/tmp/b/../lib/x86_64-linux-gnu/qemu/accel-tcg-i386.so", F_OK) = -1 ENOENT (No such file or directory)
+>> access("/var/run/qemu/Debian_1_8.0~rc4+dfsg-3/accel-tcg-i386.so", F_OK) = -1 ENOENT (No such file or directory)
+>>
+>> (the executable in this case is in /tmp, obviously).  And it fails with
+>> error "fatal: could not load module for type 'tcg-accel-ops'".
+>>
+>> This is despite the fact that qemu has been configured with proper --libdir
+>> and other --foodir to point to actual dirs such as /usr/lib /usr/share etc.
+> 
+> Some files in QEMU installation is closely coupled with the binary so it does not make much sense to copy only the executable to another directory. 
+> You need to copy all of the files QEMU owns to relocate a QEMU installation. QEMU uses relative paths to find such relocated files.
+> 
+> That said, it is indeed confusing that QEMU uses relative paths even if you specify an absolute path for --libdir. I prefer to require to specify 
+> relative paths for --libdir and other options to make a QEMU installation relocatable, but I didn't dare making such a breaking change.
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/riscv/tcg-target.c.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Well, quite often it makes little sense still.
 
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 328cbc0ad6..266fe1433d 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -609,7 +609,9 @@ static void tcg_out_ext32s(TCGContext *s, TCGReg ret, TCGReg arg)
- 
- static void tcg_out_exts_i32_i64(TCGContext *s, TCGReg ret, TCGReg arg)
- {
--    tcg_out_ext32s(s, ret, arg);
-+    if (ret != arg) {
-+        tcg_out_ext32s(s, ret, arg);
-+    }
- }
- 
- static void tcg_out_extu_i32_i64(TCGContext *s, TCGReg ret, TCGReg arg)
--- 
-2.34.1
+For example, in debian we had to (temporarily) move qemu-system-i386 from
+/usr/bin/ to /usr/libexec/, replacing the /usr/bin/ one with a shell wrapper
+(to decouple xen hvm build out of main qemu build). It was just by a chance
+the directory nesting is the same still, - I wanted to move it to /usr/lib/qemu/
+instead.  But at least this one still works.  Ditto for the actual xen version,
+the binary is in /usr/libexec/qemu-system-i386-xen now, I was about to move it
+to /usr/libexec/xen/qemu-system-i386 instead.
 
+I see absolutely no reason for the binary to look into /usr/libexec/share/qemu/bios.bin
+if it is told to get all data files from /usr/share/qemu/.
+
+Quite often I debug issues and have to compare "old" qemu with current one
+(exactly like I did in this case), extracting the old binary into /tmp/.
+And wonder why it breaks in other ways.
+
+And I still don't see how this turning absolute paths into relative (behind the
+scenes) can be useful. If we put qemu into /usr/local/bin for example, it
+can be configured to look for data files in /usr/local/share just fine,
+there's no need for this "magic". On the other hand, if we really want
+to use a different data dir, we can pass a right -L option.
+
+I think I'll just remove this (very questionable) behavior at least from the
+Debian package.  I already patched out the previous version of this, when
+it looked at ${exe_path}/../pc-bios - this at least made sense when we
+needed to find firmware files for just-built qemu, in the source dir. But
+it makes no sense (in my opinion) to do that for the installed version.
+
+Thanks,
+
+/mjt
 
