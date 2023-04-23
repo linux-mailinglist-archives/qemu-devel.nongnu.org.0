@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDB36EBCD6
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7916EBCD2
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:20:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqRBf-0001nd-5L; Sun, 23 Apr 2023 00:18:55 -0400
+	id 1pqRBj-0001o7-2F; Sun, 23 Apr 2023 00:18:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRBd-0001nJ-5R
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:18:53 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ id 1pqRBg-0001nn-Dh
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:18:56 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRBb-0000j1-13
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:18:52 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id
- d2e1a72fcca58-63b5c48ea09so2973976b3a.1
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:18:50 -0700 (PDT)
+ id 1pqRBe-0000k4-KM
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:18:56 -0400
+Received: by mail-pl1-x634.google.com with SMTP id
+ d9443c01a7336-1a66b9bd7dfso38219135ad.2
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223530; x=1684815530;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223533; x=1684815533;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rhyO5KHv07P2fPZjwxVzrfZ1VN6it93oojEHbZCgRoA=;
- b=jLWpIisCZj9HRGgmJ6QtTrhkq4xGSXSEhdzYpn/9+yhHRD8fOQUn+aRdjrK7Bm4fyX
- Dt4zhVod2CaMc6cGtNnGg4ANSm+S2ChtNy8vxT+5BMMQG6MQAKUcmcgrjQoldfFaESJ9
- TfNCsGFxNNOBBm9wbbh5jq/h33P/JTJpSULpXdppe/VZvCgFe06C0pWkyTuX5eWt/v5L
- ZjeCWM/TRfMecqnOL7dSBtl+fF/T+/Km7fWb5mXEVpHwRNm27JdS3VEZJosTCNT+aHRD
- JGSoPolyhB7a1oivvDbTU2pm9UE1LndNm7UJWc79fuxQZztPHlq8vZJQe9knJef6cYso
- s4Lg==
+ bh=BnuVnIj/2ZuF2EgM3/qsznMkchxIe/D9v7O7piK8to0=;
+ b=rld8efIbQzusaebPNunE5K5Njphm1xlWJgTFEd8+bqchVG2nO8C5YZT236142MQ/Yh
+ Lw6HNQVo/+PFWii4YkjdAvWvZBQq7MVD88Ad4luqPngorfmfsNiL44GuKY3ocv6L85TI
+ DrjPhOgXLthwMznyrl1GhBGaJLVAcpF9hY8gSCi6Plp5tZCAJiIQ1cNdIRX6oxH/MQNc
+ Noxu1y+qSpm4nxhq8dV2ylZEv6QG0H2wXtYLRenHH/dQjnyTDTPWae+x5R+vjWLDJ1lS
+ 9Bh5TaByoT8o88apZI15Lbv1W6qtG0dHB0VwscwWuYvkeqZvpTDZz+kSCJC3PuSSU4bI
+ BrmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682223530; x=1684815530;
+ d=1e100.net; s=20221208; t=1682223533; x=1684815533;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rhyO5KHv07P2fPZjwxVzrfZ1VN6it93oojEHbZCgRoA=;
- b=mCayn85do4uU13Mek9uP6rjEfzNNPfgA4DTi1hskseB2Caa4TSuXRvlQaxaQ2ClIhC
- EIkE7P7ytaALbbQLoZv2Dhdrk+SxLy8kBPq+NmLotU2ELr1IjFzvdCk37FlUmOswWPee
- JD+5mPL/S20vWMDktWvsH47cVvvUqn7SNE4oLibWYk9q5ZnFnLjby9wxt8F1s6BRE3l3
- LP4822VJ/rNfu3+LmS4FubQ5mWFsOaeRGptSlHIvmofB9CCZwmQDRpHfwijKCsEaoiAy
- dz7LRMXrSm0iEo1IEX5Bb7egAXyP5Pu2jB5JelHfNWq3amq9L8VQz+kkLiOsotRd36+Q
- yzSw==
-X-Gm-Message-State: AAQBX9cFg0b1grdmwADjKTdsR2Sotz+j8upahzynVs7JiRpxh988qItP
- MtHhLLombSayOjRSjoyWGD7gTg==
-X-Google-Smtp-Source: AKy350bRN3Fm939eyma3zYx6Y4Pmd5F5wuplOcvmLcaASJBA3Tz08jj5Vjm5hfHXItTjnYyp/p/2jQ==
-X-Received: by 2002:a17:902:8307:b0:1a6:f93a:a135 with SMTP id
- bd7-20020a170902830700b001a6f93aa135mr9448577plb.61.1682223530058; 
- Sat, 22 Apr 2023 21:18:50 -0700 (PDT)
+ bh=BnuVnIj/2ZuF2EgM3/qsznMkchxIe/D9v7O7piK8to0=;
+ b=fcT4vVpbCrSvtVxPG1bbuzItd+ecTCvbwqEwsoGQfiSM2dWEL8KRStIoh0/lv1bI+T
+ YTvoAE7lWMyqdwRidqtX+3sghpSICf73E2Y1HcnAawJsatqhrl3BF/npTKg16D1ZISsY
+ 2tVdd3pS4YDTRM+59LfpmwWMycZivm29qo25gX+AhnVbOkFibigk98xrpiUB1MeZJ8hX
+ nb796y3kOed0kFT8+Gsa6YjCwBwrdfW3RWQVVyTSQtRzNa44i+DfpY1VuKgvOcn3rta6
+ DsvTg9Xl6iIYuBjHutO5rYZlz43OX5UF8If/5/ZUxB62U1XfL6enQ9FXO54lbsEn+yWP
+ 9Luw==
+X-Gm-Message-State: AAQBX9dDJFEjjZM5P1ViS0N71IcCHrbvbJlnLbnKVIL7QXsCPEksMttV
+ /uBUrcjbiT6w4IrjvjC95Nbigw==
+X-Google-Smtp-Source: AKy350ZmlOfzzfRkbOUEkD2bXk94VVTdkGQ42OUIXhXed4Yqzi7WbarFRbEqrtth0RgseqR5gra6Zg==
+X-Received: by 2002:a17:902:d486:b0:1a9:5aef:1aea with SMTP id
+ c6-20020a170902d48600b001a95aef1aeamr5251628plg.66.1682223533429; 
+ Sat, 22 Apr 2023 21:18:53 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.18.46
+ f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.18.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 21:18:49 -0700 (PDT)
+ Sat, 22 Apr 2023 21:18:53 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,16 +70,16 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 02/47] hw/net/net_tx_pkt: Decouple interface from PCI
-Date: Sun, 23 Apr 2023 13:17:48 +0900
-Message-Id: <20230423041833.5302-3-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 03/47] e1000x: Fix BPRC and MPRC
+Date: Sun, 23 Apr 2023 13:17:49 +0900
+Message-Id: <20230423041833.5302-4-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::634;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,389 +101,211 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This allows to use the network packet abstractions even if PCI is not
-used.
+Before this change, e1000 and the common code updated BPRC and MPRC
+depending on the matched filter, but e1000e and igb decided to update
+those counters by deriving the packet type independently. This
+inconsistency caused a multicast packet to be counted twice.
 
+Updating BPRC and MPRC depending on are fundamentally flawed anyway as
+a filter can be used for different types of packets. For example, it is
+possible to filter broadcast packets with MTA.
+
+Always determine what counters to update by inspecting the packets.
+
+Fixes: 3b27430177 ("e1000: Implementing various counters")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- hw/net/net_tx_pkt.h  | 31 ++++++++++++++++++++-----------
- hw/net/e1000e_core.c | 13 ++++++++-----
- hw/net/igb_core.c    | 13 ++++++-------
- hw/net/net_tx_pkt.c  | 36 +++++++++++++-----------------------
- hw/net/vmxnet3.c     | 14 +++++++-------
- 5 files changed, 54 insertions(+), 53 deletions(-)
+ hw/net/e1000x_common.h |  5 +++--
+ hw/net/e1000.c         |  6 +++---
+ hw/net/e1000e_core.c   | 20 +++-----------------
+ hw/net/e1000x_common.c | 25 +++++++++++++++++++------
+ hw/net/igb_core.c      | 22 +++++-----------------
+ 5 files changed, 33 insertions(+), 45 deletions(-)
 
-diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
-index 5eb123ef90..4d7233e975 100644
---- a/hw/net/net_tx_pkt.h
-+++ b/hw/net/net_tx_pkt.h
-@@ -26,17 +26,16 @@
+diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
+index 911abd8a90..0298e06283 100644
+--- a/hw/net/e1000x_common.h
++++ b/hw/net/e1000x_common.h
+@@ -91,8 +91,9 @@ e1000x_update_regs_on_link_up(uint32_t *mac, uint16_t *phy)
+ }
  
- struct NetTxPkt;
+ void e1000x_update_rx_total_stats(uint32_t *mac,
+-                                  size_t data_size,
+-                                  size_t data_fcs_size);
++                                  eth_pkt_types_e pkt_type,
++                                  size_t pkt_size,
++                                  size_t pkt_fcs_size);
  
--typedef void (* NetTxPktCallback)(void *, const struct iovec *, int, const struct iovec *, int);
-+typedef void (*NetTxPktFreeFrag)(void *, void *, size_t);
-+typedef void (*NetTxPktSend)(void *, const struct iovec *, int, const struct iovec *, int);
+ void e1000x_core_prepare_eeprom(uint16_t       *eeprom,
+                                 const uint16_t *templ,
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index 59bacb5d3b..18eb6d8876 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -826,12 +826,10 @@ receive_filter(E1000State *s, const uint8_t *buf, int size)
+     }
  
- /**
-  * Init function for tx packet functionality
-  *
-  * @pkt:            packet pointer
-- * @pci_dev:        PCI device processing this packet
-  * @max_frags:      max tx ip fragments
-  */
--void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
--    uint32_t max_frags);
-+void net_tx_pkt_init(struct NetTxPkt **pkt, uint32_t max_frags);
+     if (ismcast && (rctl & E1000_RCTL_MPE)) {          /* promiscuous mcast */
+-        e1000x_inc_reg_if_not_full(s->mac_reg, MPRC);
+         return 1;
+     }
  
- /**
-  * Clean all tx packet resources.
-@@ -95,12 +94,11 @@ net_tx_pkt_setup_vlan_header(struct NetTxPkt *pkt, uint16_t vlan)
-  * populate data fragment into pkt context.
-  *
-  * @pkt:            packet
-- * @pa:             physical address of fragment
-+ * @base:           pointer to fragment
-  * @len:            length of fragment
-  *
-  */
--bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
--    size_t len);
-+bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, void *base, size_t len);
+     if (isbcast && (rctl & E1000_RCTL_BAM)) {          /* broadcast enabled */
+-        e1000x_inc_reg_if_not_full(s->mac_reg, BPRC);
+         return 1;
+     }
  
- /**
-  * Fix ip header fields and calculate IP header and pseudo header checksums.
-@@ -148,10 +146,11 @@ void net_tx_pkt_dump(struct NetTxPkt *pkt);
-  * reset tx packet private context (needed to be called between packets)
-  *
-  * @pkt:            packet
-- * @dev:            PCI device processing the next packet
-- *
-+ * @callback:       function to free the fragments
-+ * @context:        pointer to be passed to the callback
-  */
--void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *dev);
-+void net_tx_pkt_reset(struct NetTxPkt *pkt,
-+                      NetTxPktFreeFrag callback, void *context);
+@@ -922,6 +920,7 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
+     size_t desc_offset;
+     size_t desc_size;
+     size_t total_size;
++    eth_pkt_types_e pkt_type;
  
- /**
-  * Unmap a fragment mapped from a PCI device.
-@@ -162,6 +161,16 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *dev);
-  */
- void net_tx_pkt_unmap_frag_pci(void *context, void *base, size_t len);
+     if (!e1000x_hw_rx_enabled(s->mac_reg)) {
+         return -1;
+@@ -971,6 +970,7 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
+         size -= 4;
+     }
  
-+/**
-+ * map data fragment from PCI device and populate it into pkt context.
-+ *
-+ * @pci_dev:        PCI device owning fragment
-+ * @pa:             physical address of fragment
-+ * @len:            length of fragment
-+ */
-+bool net_tx_pkt_add_raw_fragment_pci(struct NetTxPkt *pkt, PCIDevice *pci_dev,
-+                                     dma_addr_t pa, size_t len);
-+
- /**
-  * Send packet to qemu. handles sw offloads if vhdr is not supported.
-  *
-@@ -182,7 +191,7 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc);
-  * @ret:            operation result
-  */
- bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
--                            NetTxPktCallback callback, void *context);
-+                            NetTxPktSend callback, void *context);
++    pkt_type = get_eth_packet_type(PKT_GET_ETH_HDR(filter_buf));
+     rdh_start = s->mac_reg[RDH];
+     desc_offset = 0;
+     total_size = size + e1000x_fcs_len(s->mac_reg);
+@@ -1036,7 +1036,7 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
+         }
+     } while (desc_offset < total_size);
  
- /**
-  * parse raw packet data and analyze offload requirements.
+-    e1000x_update_rx_total_stats(s->mac_reg, size, total_size);
++    e1000x_update_rx_total_stats(s->mac_reg, pkt_type, size, total_size);
+ 
+     n = E1000_ICS_RXT0;
+     if ((rdt = s->mac_reg[RDT]) < s->mac_reg[RDH])
 diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index cfa3f55e96..15821a75e0 100644
+index 15821a75e0..c2d864a504 100644
 --- a/hw/net/e1000e_core.c
 +++ b/hw/net/e1000e_core.c
-@@ -746,7 +746,8 @@ e1000e_process_tx_desc(E1000ECore *core,
-     addr = le64_to_cpu(dp->buffer_addr);
+@@ -1488,24 +1488,10 @@ e1000e_write_to_rx_buffers(E1000ECore *core,
+ }
  
-     if (!tx->skip_cp) {
--        if (!net_tx_pkt_add_raw_fragment(tx->tx_pkt, addr, split_size)) {
-+        if (!net_tx_pkt_add_raw_fragment_pci(tx->tx_pkt, core->owner,
-+                                             addr, split_size)) {
-             tx->skip_cp = true;
-         }
+ static void
+-e1000e_update_rx_stats(E1000ECore *core,
+-                       size_t data_size,
+-                       size_t data_fcs_size)
++e1000e_update_rx_stats(E1000ECore *core, size_t pkt_size, size_t pkt_fcs_size)
+ {
+-    e1000x_update_rx_total_stats(core->mac, data_size, data_fcs_size);
+-
+-    switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
+-    case ETH_PKT_BCAST:
+-        e1000x_inc_reg_if_not_full(core->mac, BPRC);
+-        break;
+-
+-    case ETH_PKT_MCAST:
+-        e1000x_inc_reg_if_not_full(core->mac, MPRC);
+-        break;
+-
+-    default:
+-        break;
+-    }
++    eth_pkt_types_e pkt_type = net_rx_pkt_get_packet_type(core->rx_pkt);
++    e1000x_update_rx_total_stats(core->mac, pkt_type, pkt_size, pkt_fcs_size);
+ }
+ 
+ static inline bool
+diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
+index 4c8e7dcf70..7694673bcc 100644
+--- a/hw/net/e1000x_common.c
++++ b/hw/net/e1000x_common.c
+@@ -80,7 +80,6 @@ bool e1000x_rx_group_filter(uint32_t *mac, const uint8_t *buf)
+     f = mta_shift[(rctl >> E1000_RCTL_MO_SHIFT) & 3];
+     f = (((buf[5] << 8) | buf[4]) >> f) & 0xfff;
+     if (mac[MTA + (f >> 5)] & (1 << (f & 0x1f))) {
+-        e1000x_inc_reg_if_not_full(mac, MPRC);
+         return true;
      }
-@@ -764,7 +765,7 @@ e1000e_process_tx_desc(E1000ECore *core,
-         }
  
-         tx->skip_cp = false;
--        net_tx_pkt_reset(tx->tx_pkt, core->owner);
-+        net_tx_pkt_reset(tx->tx_pkt, net_tx_pkt_unmap_frag_pci, core->owner);
+@@ -212,13 +211,14 @@ e1000x_rxbufsize(uint32_t rctl)
  
-         tx->sum_needed = 0;
-         tx->cptse = 0;
-@@ -3421,7 +3422,7 @@ e1000e_core_pci_realize(E1000ECore     *core,
-         qemu_add_vm_change_state_handler(e1000e_vm_state_change, core);
+ void
+ e1000x_update_rx_total_stats(uint32_t *mac,
+-                             size_t data_size,
+-                             size_t data_fcs_size)
++                             eth_pkt_types_e pkt_type,
++                             size_t pkt_size,
++                             size_t pkt_fcs_size)
+ {
+     static const int PRCregs[6] = { PRC64, PRC127, PRC255, PRC511,
+                                     PRC1023, PRC1522 };
  
-     for (i = 0; i < E1000E_NUM_QUEUES; i++) {
--        net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner, E1000E_MAX_TX_FRAGS);
-+        net_tx_pkt_init(&core->tx[i].tx_pkt, E1000E_MAX_TX_FRAGS);
-     }
+-    e1000x_increase_size_stats(mac, PRCregs, data_fcs_size);
++    e1000x_increase_size_stats(mac, PRCregs, pkt_fcs_size);
+     e1000x_inc_reg_if_not_full(mac, TPR);
+     e1000x_inc_reg_if_not_full(mac, GPRC);
+     /* TOR - Total Octets Received:
+@@ -226,8 +226,21 @@ e1000x_update_rx_total_stats(uint32_t *mac,
+     * Address> field through the <CRC> field, inclusively.
+     * Always include FCS length (4) in size.
+     */
+-    e1000x_grow_8reg_if_not_full(mac, TORL, data_size + 4);
+-    e1000x_grow_8reg_if_not_full(mac, GORCL, data_size + 4);
++    e1000x_grow_8reg_if_not_full(mac, TORL, pkt_size + 4);
++    e1000x_grow_8reg_if_not_full(mac, GORCL, pkt_size + 4);
++
++    switch (pkt_type) {
++    case ETH_PKT_BCAST:
++        e1000x_inc_reg_if_not_full(mac, BPRC);
++        break;
++
++    case ETH_PKT_MCAST:
++        e1000x_inc_reg_if_not_full(mac, MPRC);
++        break;
++
++    default:
++        break;
++    }
+ }
  
-     net_rx_pkt_init(&core->rx_pkt);
-@@ -3446,7 +3447,8 @@ e1000e_core_pci_uninit(E1000ECore *core)
-     qemu_del_vm_change_state_handler(core->vmstate);
- 
-     for (i = 0; i < E1000E_NUM_QUEUES; i++) {
--        net_tx_pkt_reset(core->tx[i].tx_pkt, core->owner);
-+        net_tx_pkt_reset(core->tx[i].tx_pkt,
-+                         net_tx_pkt_unmap_frag_pci, core->owner);
-         net_tx_pkt_uninit(core->tx[i].tx_pkt);
-     }
- 
-@@ -3571,7 +3573,8 @@ static void e1000e_reset(E1000ECore *core, bool sw)
-     e1000x_reset_mac_addr(core->owner_nic, core->mac, core->permanent_mac);
- 
-     for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
--        net_tx_pkt_reset(core->tx[i].tx_pkt, core->owner);
-+        net_tx_pkt_reset(core->tx[i].tx_pkt,
-+                         net_tx_pkt_unmap_frag_pci, core->owner);
-         memset(&core->tx[i].props, 0, sizeof(core->tx[i].props));
-         core->tx[i].skip_cp = false;
-     }
+ void
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 826e7a6cf1..abfdce9aaf 100644
+index abfdce9aaf..464a41d0aa 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -597,7 +597,8 @@ igb_process_tx_desc(IGBCore *core,
-     length = cmd_type_len & 0xFFFF;
+@@ -1438,29 +1438,17 @@ igb_write_to_rx_buffers(IGBCore *core,
  
-     if (!tx->skip_cp) {
--        if (!net_tx_pkt_add_raw_fragment(tx->tx_pkt, buffer_addr, length)) {
-+        if (!net_tx_pkt_add_raw_fragment_pci(tx->tx_pkt, dev,
-+                                             buffer_addr, length)) {
-             tx->skip_cp = true;
-         }
-     }
-@@ -616,7 +617,7 @@ igb_process_tx_desc(IGBCore *core,
- 
-         tx->first = true;
-         tx->skip_cp = false;
--        net_tx_pkt_reset(tx->tx_pkt, dev);
-+        net_tx_pkt_reset(tx->tx_pkt, net_tx_pkt_unmap_frag_pci, dev);
-     }
- }
- 
-@@ -842,8 +843,6 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
-         d = core->owner;
-     }
- 
--    net_tx_pkt_reset(txr->tx->tx_pkt, d);
+ static void
+ igb_update_rx_stats(IGBCore *core, const E1000E_RingInfo *rxi,
+-                    size_t data_size, size_t data_fcs_size)
++                    size_t pkt_size, size_t pkt_fcs_size)
+ {
+-    e1000x_update_rx_total_stats(core->mac, data_size, data_fcs_size);
 -
-     while (!igb_ring_empty(core, txi)) {
-         base = igb_ring_head_descr(core, txi);
- 
-@@ -861,6 +860,8 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
-         core->mac[EICR] |= eic;
-         igb_set_interrupt_cause(core, E1000_ICR_TXDW);
-     }
-+
-+    net_tx_pkt_reset(txr->tx->tx_pkt, net_tx_pkt_unmap_frag_pci, d);
- }
- 
- static uint32_t
-@@ -3954,7 +3955,7 @@ igb_core_pci_realize(IGBCore        *core,
-     core->vmstate = qemu_add_vm_change_state_handler(igb_vm_state_change, core);
- 
-     for (i = 0; i < IGB_NUM_QUEUES; i++) {
--        net_tx_pkt_init(&core->tx[i].tx_pkt, NULL, E1000E_MAX_TX_FRAGS);
-+        net_tx_pkt_init(&core->tx[i].tx_pkt, E1000E_MAX_TX_FRAGS);
-     }
- 
-     net_rx_pkt_init(&core->rx_pkt);
-@@ -3979,7 +3980,6 @@ igb_core_pci_uninit(IGBCore *core)
-     qemu_del_vm_change_state_handler(core->vmstate);
- 
-     for (i = 0; i < IGB_NUM_QUEUES; i++) {
--        net_tx_pkt_reset(core->tx[i].tx_pkt, NULL);
-         net_tx_pkt_uninit(core->tx[i].tx_pkt);
-     }
- 
-@@ -4158,7 +4158,6 @@ static void igb_reset(IGBCore *core, bool sw)
- 
-     for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
-         tx = &core->tx[i];
--        net_tx_pkt_reset(tx->tx_pkt, NULL);
-         memset(tx->ctx, 0, sizeof(tx->ctx));
-         tx->first = true;
-         tx->skip_cp = false;
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index aca12ff035..cc36750c9b 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -16,12 +16,12 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "net_tx_pkt.h"
- #include "net/eth.h"
- #include "net/checksum.h"
- #include "net/tap.h"
- #include "net/net.h"
- #include "hw/pci/pci_device.h"
-+#include "net_tx_pkt.h"
- 
- enum {
-     NET_TX_PKT_VHDR_FRAG = 0,
-@@ -32,8 +32,6 @@ enum {
- 
- /* TX packet private context */
- struct NetTxPkt {
--    PCIDevice *pci_dev;
+-    switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
+-    case ETH_PKT_BCAST:
+-        e1000x_inc_reg_if_not_full(core->mac, BPRC);
+-        break;
 -
-     struct virtio_net_hdr virt_hdr;
- 
-     struct iovec *raw;
-@@ -59,13 +57,10 @@ struct NetTxPkt {
-     uint8_t l4proto;
- };
- 
--void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
--    uint32_t max_frags)
-+void net_tx_pkt_init(struct NetTxPkt **pkt, uint32_t max_frags)
- {
-     struct NetTxPkt *p = g_malloc0(sizeof *p);
- 
--    p->pci_dev = pci_dev;
+-    case ETH_PKT_MCAST:
+-        e1000x_inc_reg_if_not_full(core->mac, MPRC);
+-        break;
 -
-     p->vec = g_new(struct iovec, max_frags + NET_TX_PKT_PL_START_FRAG);
+-    default:
+-        break;
+-    }
++    eth_pkt_types_e pkt_type = net_rx_pkt_get_packet_type(core->rx_pkt);
++    e1000x_update_rx_total_stats(core->mac, pkt_type, pkt_size, pkt_fcs_size);
  
-     p->raw = g_new(struct iovec, max_frags);
-@@ -384,8 +379,7 @@ void net_tx_pkt_setup_vlan_header_ex(struct NetTxPkt *pkt,
-     }
- }
+     if (core->mac[MRQC] & 1) {
+         uint16_t pool = rxi->idx % IGB_NUM_VM_POOLS;
  
--static bool net_tx_pkt_add_raw_fragment_common(struct NetTxPkt *pkt,
--                                               void *base, size_t len)
-+bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, void *base, size_t len)
- {
-     struct iovec *ventry;
-     assert(pkt);
-@@ -433,7 +427,8 @@ void net_tx_pkt_dump(struct NetTxPkt *pkt)
- #endif
- }
- 
--void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *pci_dev)
-+void net_tx_pkt_reset(struct NetTxPkt *pkt,
-+                      NetTxPktFreeFrag callback, void *context)
- {
-     int i;
- 
-@@ -453,12 +448,9 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *pci_dev)
-         assert(pkt->raw);
-         for (i = 0; i < pkt->raw_frags; i++) {
-             assert(pkt->raw[i].iov_base);
--            net_tx_pkt_unmap_frag_pci(pkt->pci_dev,
--                                      pkt->raw[i].iov_base,
--                                      pkt->raw[i].iov_len);
-+            callback(context, pkt->raw[i].iov_base, pkt->raw[i].iov_len);
+-        core->mac[PVFGORC0 + (pool * 64)] += data_size + 4;
++        core->mac[PVFGORC0 + (pool * 64)] += pkt_size + 4;
+         core->mac[PVFGPRC0 + (pool * 64)]++;
+-        if (net_rx_pkt_get_packet_type(core->rx_pkt) == ETH_PKT_MCAST) {
++        if (pkt_type == ETH_PKT_MCAST) {
+             core->mac[PVFMPRC0 + (pool * 64)]++;
          }
      }
--    pkt->pci_dev = pci_dev;
-     pkt->raw_frags = 0;
- 
-     pkt->hdr_len = 0;
-@@ -470,19 +462,17 @@ void net_tx_pkt_unmap_frag_pci(void *context, void *base, size_t len)
-     pci_dma_unmap(context, base, len, DMA_DIRECTION_TO_DEVICE, 0);
- }
- 
--bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
--    size_t len)
-+bool net_tx_pkt_add_raw_fragment_pci(struct NetTxPkt *pkt, PCIDevice *pci_dev,
-+                                     dma_addr_t pa, size_t len)
- {
-     dma_addr_t mapped_len = len;
--    void *base = pci_dma_map(pkt->pci_dev, pa, &mapped_len,
--                             DMA_DIRECTION_TO_DEVICE);
-+    void *base = pci_dma_map(pci_dev, pa, &mapped_len, DMA_DIRECTION_TO_DEVICE);
-     if (!base) {
-         return false;
-     }
- 
--    if (mapped_len != len ||
--        !net_tx_pkt_add_raw_fragment_common(pkt, base, len)) {
--        net_tx_pkt_unmap_frag_pci(pkt->pci_dev, base, mapped_len);
-+    if (mapped_len != len || !net_tx_pkt_add_raw_fragment(pkt, base, len)) {
-+        net_tx_pkt_unmap_frag_pci(pci_dev, base, mapped_len);
-         return false;
-     }
- 
-@@ -710,7 +700,7 @@ static void net_tx_pkt_udp_fragment_fix(struct NetTxPkt *pkt,
- }
- 
- static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
--                                           NetTxPktCallback callback,
-+                                           NetTxPktSend callback,
-                                            void *context)
- {
-     uint8_t gso_type = pkt->virt_hdr.gso_type & ~VIRTIO_NET_HDR_GSO_ECN;
-@@ -807,7 +797,7 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
- }
- 
- bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
--                            NetTxPktCallback callback, void *context)
-+                            NetTxPktSend callback, void *context)
- {
-     assert(pkt);
- 
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index f7b874c139..9acff310e7 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -651,9 +651,8 @@ static void vmxnet3_process_tx_queue(VMXNET3State *s, int qidx)
-             data_len = (txd.len > 0) ? txd.len : VMXNET3_MAX_TX_BUF_SIZE;
-             data_pa = txd.addr;
- 
--            if (!net_tx_pkt_add_raw_fragment(s->tx_pkt,
--                                                data_pa,
--                                                data_len)) {
-+            if (!net_tx_pkt_add_raw_fragment_pci(s->tx_pkt, PCI_DEVICE(s),
-+                                                 data_pa, data_len)) {
-                 s->skip_current_tx_pkt = true;
-             }
-         }
-@@ -678,7 +677,8 @@ static void vmxnet3_process_tx_queue(VMXNET3State *s, int qidx)
-             vmxnet3_complete_packet(s, qidx, txd_idx);
-             s->tx_sop = true;
-             s->skip_current_tx_pkt = false;
--            net_tx_pkt_reset(s->tx_pkt, PCI_DEVICE(s));
-+            net_tx_pkt_reset(s->tx_pkt,
-+                             net_tx_pkt_unmap_frag_pci, PCI_DEVICE(s));
-         }
-     }
- }
-@@ -1159,7 +1159,7 @@ static void vmxnet3_deactivate_device(VMXNET3State *s)
- {
-     if (s->device_active) {
-         VMW_CBPRN("Deactivating vmxnet3...");
--        net_tx_pkt_reset(s->tx_pkt, PCI_DEVICE(s));
-+        net_tx_pkt_reset(s->tx_pkt, net_tx_pkt_unmap_frag_pci, PCI_DEVICE(s));
-         net_tx_pkt_uninit(s->tx_pkt);
-         net_rx_pkt_uninit(s->rx_pkt);
-         s->device_active = false;
-@@ -1519,7 +1519,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
- 
-     /* Preallocate TX packet wrapper */
-     VMW_CFPRN("Max TX fragments is %u", s->max_tx_frags);
--    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s), s->max_tx_frags);
-+    net_tx_pkt_init(&s->tx_pkt, s->max_tx_frags);
-     net_rx_pkt_init(&s->rx_pkt);
- 
-     /* Read rings memory locations for RX queues */
-@@ -2399,7 +2399,7 @@ static int vmxnet3_post_load(void *opaque, int version_id)
- {
-     VMXNET3State *s = opaque;
- 
--    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s), s->max_tx_frags);
-+    net_tx_pkt_init(&s->tx_pkt, s->max_tx_frags);
-     net_rx_pkt_init(&s->rx_pkt);
- 
-     if (s->msix_used) {
 -- 
 2.40.0
 
