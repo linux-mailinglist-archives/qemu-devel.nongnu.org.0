@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722F46EBCE7
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDCA6EBD90
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 09:01:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqREc-0008Bq-16; Sun, 23 Apr 2023 00:21:58 -0400
+	id 1pqTh3-0006CS-Nf; Sun, 23 Apr 2023 02:59:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRE6-0007Qw-Kw
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:21:39 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRE4-0001JZ-IX
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:21:26 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-63d4595d60fso21525706b3a.0
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223682; x=1684815682;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ILeEC45O4cCOmKoGJEqXwqlDpUW0IKc6Vq1tRoBknx4=;
- b=KqaCTcy6SwLEtNbenDV4k1UgzUvv2KkIHeqVbWxovIhYObQZbrYijuJUoj9uwCiUv1
- UDnbmkjQDDDDkYl42VWRMd7gzZsjmG4HVYVhTMoJVzIQ+bTAw+lTnfG9G3Wphr2l0EYo
- hDEwc2WJSK0V6o8ssie7U5ZGOsvWLgLRUBAChFh9evT56DvScje+lwXNuomZLC9/AloO
- iykNpf4d3eaoHuIZTsImL6DD/J8yIs2YlTBFc5xXtBxsdmq+m5aqSjAPOQ60C+10qMyb
- ReYeGTQwiMgpCAAwE6rmXOwxFPWuy8YLsZIXDv9cNPMYLf5Kr2pFNs33P2ctHz3JBOlY
- zeow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682223682; x=1684815682;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ILeEC45O4cCOmKoGJEqXwqlDpUW0IKc6Vq1tRoBknx4=;
- b=DIXlltVgXi3+/VSApQ9S5lsps5AfxevHf+YBN8h465zsPR0Wqd15nB1pELyqD0AMPR
- DILzFaAmh9+3GDget9kIMJdm7WJN8aEziVk7IFLVemh7VvbzX6y7nTerExm4PjlDWs2h
- SABbAzA2xTLbp4nSrOiosEbyrC0dh/NGm1uKbbC0gcVUg5ipqXLSHtko65LxMgyqxEmQ
- SHEVpEDwIU3Na3hG8eLln4MnLy3+hi3qeh0ZD2wklIBZxag/fnFfjL7Jp5Z2+h32B18E
- PDyfJITYzGeq9OJetDYyWm4uF9Jw6PsDk8O0JLXCwhQRlRXfaUZvHcTN6KtzEDrsHK5K
- DKCg==
-X-Gm-Message-State: AAQBX9ccXidzeKsWTf7Zz4ByjAcwJatjg2DO1H6UMyfPn7VDuwVk4Dkw
- 3YyE7wly4G42R1EhR2O2tCgwyA==
-X-Google-Smtp-Source: AKy350YyGLeXGFlXJo3J6zIPmiXHWqn+QFq6UOGgGmZf2HL4K+L+hxgoOKoyq6ZXbwAw2oDz+hQu6g==
-X-Received: by 2002:a17:902:d486:b0:1a6:98a4:e941 with SMTP id
- c6-20020a170902d48600b001a698a4e941mr12954519plg.2.1682223682579; 
- Sat, 22 Apr 2023 21:21:22 -0700 (PDT)
-Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.21.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 21:21:22 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 47/47] docs/system/devices/igb: Note igb is tested for DPDK
-Date: Sun, 23 Apr 2023 13:18:33 +0900
-Message-Id: <20230423041833.5302-48-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230423041833.5302-1-akihiko.odaki@daynix.com>
-References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1pqTh0-0006C7-AR
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 02:59:26 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1pqTgw-0002tW-Vv
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 02:59:25 -0400
+Received: from loongson.cn (unknown [10.20.42.120])
+ by gateway (Coremail) with SMTP id _____8AxYcw+10Rk1_IgAA--.51494S3;
+ Sun, 23 Apr 2023 14:59:10 +0800 (CST)
+Received: from [10.20.42.120] (unknown [10.20.42.120])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxeb0910RkMHk2AA--.64904S3; 
+ Sun, 23 Apr 2023 14:59:10 +0800 (CST)
+Subject: Re: [PATCH RFC v1 01/10] linux-headers: Add KVM headers for loongarch
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, gaosong@loongson.cn
+References: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
+ <20230420093606.3366969-2-zhaotianrui@loongson.cn>
+ <87bkji51e2.fsf@redhat.com>
+ <202d559e-a244-6855-949b-59ed55470ec0@loongson.cn>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, maobibo@loongson.cn
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+Message-ID: <44d0900e-e103-8392-109e-54f28cd0168a@loongson.cn>
+Date: Sun, 23 Apr 2023 14:59:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
+In-Reply-To: <202d559e-a244-6855-949b-59ed55470ec0@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42d;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf8Cxeb0910RkMHk2AA--.64904S3
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvdXoWrKr4xAFyxKw4DAF4fAF47Jwb_yoWkArbEvw
+ 4xA34DK398G3Z5ta4Ut3WYgFya9ay0ywn0vFyYqFnxGrn5trW7Zr4Ik3yxu3Z8tr48uFs8
+ Jr95Jw1rArnrXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ x7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
+ xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07URa0PUUUUU=
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.047,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,53 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- docs/system/devices/igb.rst | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
-index afe036dad2..60c10bf7c7 100644
---- a/docs/system/devices/igb.rst
-+++ b/docs/system/devices/igb.rst
-@@ -14,7 +14,8 @@ Limitations
- ===========
- 
- This igb implementation was tested with Linux Test Project [2]_ and Windows HLK
--[3]_ during the initial development. The command used when testing with LTP is:
-+[3]_ during the initial development. Later it was also tested with DPDK Test
-+Suite [4]_. The command used when testing with LTP is:
- 
- .. code-block:: shell
- 
-@@ -22,8 +23,8 @@ This igb implementation was tested with Linux Test Project [2]_ and Windows HLK
- 
- Be aware that this implementation lacks many functionalities available with the
- actual hardware, and you may experience various failures if you try to use it
--with a different operating system other than Linux and Windows or if you try
--functionalities not covered by the tests.
-+with a different operating system other than DPDK, Linux, and Windows or if you
-+try functionalities not covered by the tests.
- 
- Using igb
- =========
-@@ -32,7 +33,7 @@ Using igb should be nothing different from using another network device. See
- :ref:`pcsys_005fnetwork` in general.
- 
- However, you may also need to perform additional steps to activate SR-IOV
--feature on your guest. For Linux, refer to [4]_.
-+feature on your guest. For Linux, refer to [5]_.
- 
- Developing igb
- ==============
-@@ -68,4 +69,5 @@ References
- .. [1] https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eb-gigabit-ethernet-controller-datasheet.pdf
- .. [2] https://github.com/linux-test-project/ltp
- .. [3] https://learn.microsoft.com/en-us/windows-hardware/test/hlk/
--.. [4] https://docs.kernel.org/PCI/pci-iov-howto.html
-+.. [4] https://doc.dpdk.org/dts/gsg/
-+.. [5] https://docs.kernel.org/PCI/pci-iov-howto.html
--- 
-2.40.0
+
+在 2023年04月20日 20:59, Tianrui Zhao 写道:
+>
+>
+> 在 2023年04月20日 17:49, Cornelia Huck 写道:
+>> On Thu, Apr 20 2023, Tianrui Zhao <zhaotianrui@loongson.cn> wrote:
+>>
+>>> Add asm-loongarch/kvm.h for loongarch KVM, and update
+>>> the linux/kvm.h about loongarch part. The structures in
+>>> the header are used as kvm_ioctl arguments.
+>> Just a procedural note: It's probably best to explicitly mark this as a
+>> placeholder patch until you can replace it with a full headers update.
+> Thanks, I will mark this as a placeholder patch until it can be merged.
+>
+> Thanks
+> Tianrui Zhao
+I will use update-linux-headers.sh to generate the kvm related headers 
+until the linux kvm patches are accepted. And now this patch is only a 
+placeholder to show some kvm structures and macros for reviewers.
+
+Thanks
+Tianrui Zhao
+>>
+>>> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+>>> ---
+>>>   linux-headers/asm-loongarch/kvm.h | 99 
+>>> +++++++++++++++++++++++++++++++
+>>>   linux-headers/linux/kvm.h         |  9 +++
+>>>   2 files changed, 108 insertions(+)
+>>>   create mode 100644 linux-headers/asm-loongarch/kvm.h
+>
 
 
