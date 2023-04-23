@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C796EBD02
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946FC6EBCD7
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 06:20:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqRCx-0003po-PH; Sun, 23 Apr 2023 00:20:15 -0400
+	id 1pqRD0-0003xm-BR; Sun, 23 Apr 2023 00:20:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRCu-0003eR-Ah
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:13 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pqRCw-0003qJ-Sy
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:14 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pqRCs-00014V-J2
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:12 -0400
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1a80d827179so28947385ad.3
- for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:10 -0700 (PDT)
+ id 1pqRCu-0000qz-5z
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 00:20:13 -0400
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1a68d61579bso27283575ad.1
+ for <qemu-devel@nongnu.org>; Sat, 22 Apr 2023 21:20:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223608; x=1684815608;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682223611; x=1684815611;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MrtCRX6iQBVwgwLH2Xil/FY7eqoBzL39/3IOXtgkA6M=;
- b=VCqNVXQm4OUYtbFBsTgqD96siMb6/P2AWR9WJU20piHvCilGDW5FeJocF4GowGlG5v
- ZJkVsWCQiFbccHxfjVNd/T5o3tnv3GCT3V2K0u+tam4eox2B8Pm9s+fRtLE7ogqDjtd7
- /dR5fmK2VwAQpEPImXk3yCkdevUp1gbsSVHeErHGxNKW/7zkZfaTtbn2IqGN4ibiSR8b
- P1L3m6ZGxIeg10Esm0DnKc0jesIHCPsvGL1GQsCUsLkIrg7mV2Bv6yGQrpHHb+YEXWfa
- eXv8m+R1W5mKxX6v1R4f1zcLerM2iI1WD4amRL/lO+lTrmUg8o3vYf3WjRKSGqe3KBX0
- GvlQ==
+ bh=Rv2ivFOb+al9ATLbdWafPIF6MnrGKAO9zkrVjCm/34Q=;
+ b=j+qoQypmxwXUatLVqPZwhmTFwwGskinY0ojSnjcB5aoEdEjVMBNqsMftBMnZsIFory
+ fR4woClRT7X4dTDH1DNFgWovf2KqF1N/ha5dW/V5L0RRsD+N2Z9h8JrQRVPHZ+Wv3ccK
+ pb16hIt3inDWBqz6WC8wgfVAI1cgVxnRGun+WUGkyKjdPLFTfJs3366Hmg5MwWywKgWb
+ d3ZXDot2qN/ekvx4z2dgGROAoCeaNsK8z4/URNcwkUGV05Cnfu0PwbS41H+rWCzbrOQt
+ WumVEYwcwJC9crRu2hHRrq6/YtpgcOSsMmrqnXsk8Ubo8xJQwoYWwZnz1xvdGEVwsFBw
+ 0IPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682223608; x=1684815608;
+ d=1e100.net; s=20221208; t=1682223611; x=1684815611;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MrtCRX6iQBVwgwLH2Xil/FY7eqoBzL39/3IOXtgkA6M=;
- b=fkCHN3MKd3tsKEwiD1SwHnrntDQpQdE5RGrnzviCoMdjMBg+YK6kN4I3gjTBF9WqNq
- ni1gml39AtiD/K1hQgEgPvdUCYtUijK2aLX1CFAwGr/KcWN2+/zL//Nj8LBvbBjYUBad
- XViCGWFv5A6EuBuYkrz0EOoeuFqyb9244VE9PyWfdbFE/P8rihh82TAFjp92OxXjhgsq
- bLNkEkb8T5nZZUKNYlIHLYI5EUrd3EHhlvUljqd5on+JGDQJ/i7mHaX+PPvpQkq30POM
- yOfiE9bCGgpXpSfPwJOIZqrpzs5HTeo5FyW395PwO/L6zy4NQnchFyg3GueYSeMl076G
- YUaA==
-X-Gm-Message-State: AAQBX9duII8AEE6wIGpc0D59vPZ7FcHsn0d6aRyYGDVZL40M0sIzivth
- G0qGxeA12pHEKg6kpJMZ/erCIQ==
-X-Google-Smtp-Source: AKy350bMr1XSSBhpzPMGNofWi1ey7SHAlBmQVP8Pab0nUL/9Kg0hM+YWpDLFHMIxY19xZni5GOB5wQ==
-X-Received: by 2002:a17:903:41ca:b0:1a4:fca9:7f44 with SMTP id
- u10-20020a17090341ca00b001a4fca97f44mr12127634ple.56.1682223608193; 
- Sat, 22 Apr 2023 21:20:08 -0700 (PDT)
+ bh=Rv2ivFOb+al9ATLbdWafPIF6MnrGKAO9zkrVjCm/34Q=;
+ b=J1BJROGpWavnR6yMUmCFVIWH3zKFTVLTocjr4+/j/LfAvNh+O9CkQa1Kq3Y0TDP7jW
+ E4vaZza/MYGaM1d+yhf/2q+23Ab66Riz9b/0Vn8DJa1hy2WJCu9aKyY7Sq5rmeZ/jMYz
+ M1pHgt2ZQl1Mlz2HLk52vc4P/89x+pdfyFENBOvcJnOxuwuJn/gfg66y0pErRKOl1N9F
+ kHuRm0e1hlF44kVqG+AFziLa+YRW+Yo18sLy9IsMKBxHRi+L7j5X713Hgir+iOWhuEri
+ LSA6etVj7dSe7bDCmeZeVirrRqLfmkJIbfp51i27AzM72/BV7ycgbRP1Ag0Hpar19Vj2
+ O5qQ==
+X-Gm-Message-State: AAQBX9eRATJ5eyITHpOSgVjhcHpCLCevy0n/XHu2CB96F1QrKXB7Uqyk
+ LSgIvszQqBd/qxE71f3i4UsEZQ==
+X-Google-Smtp-Source: AKy350ZSB4hXPuODCwWCQ12ctWKE0sChNGcLxcC5yQfxDonikj8XwBEWKpRZMqVBsDXuLCqxL5URPA==
+X-Received: by 2002:a17:902:f54b:b0:1a6:68fe:2ea2 with SMTP id
+ h11-20020a170902f54b00b001a668fe2ea2mr13428300plf.2.1682223611531; 
+ Sat, 22 Apr 2023 21:20:11 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.05
+ f1-20020a170902ff0100b001a5059861adsm4596996plj.224.2023.04.22.21.20.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Apr 2023 21:20:07 -0700 (PDT)
+ Sat, 22 Apr 2023 21:20:11 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
@@ -70,23 +70,24 @@ Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 25/47] igb: Share common VF constants
-Date: Sun, 23 Apr 2023 13:18:11 +0900
-Message-Id: <20230423041833.5302-26-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 26/47] igb: Fix igb_mac_reg_init coding style alignment
+Date: Sun, 23 Apr 2023 13:18:12 +0900
+Message-Id: <20230423041833.5302-27-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::632;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x632.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::630;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,82 +103,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The constants need to be consistent between the PF and VF.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- hw/net/igb_common.h |  8 ++++++++
- hw/net/igb.c        | 10 +++++-----
- hw/net/igbvf.c      |  7 -------
- 3 files changed, 13 insertions(+), 12 deletions(-)
+ hw/net/igb_core.c | 96 +++++++++++++++++++++++------------------------
+ 1 file changed, 48 insertions(+), 48 deletions(-)
 
-diff --git a/hw/net/igb_common.h b/hw/net/igb_common.h
-index 69ac490f75..f2a9065791 100644
---- a/hw/net/igb_common.h
-+++ b/hw/net/igb_common.h
-@@ -28,6 +28,14 @@
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index 5fb2a38a6f..3c1ef11afd 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -4027,54 +4027,54 @@ static const uint32_t igb_mac_reg_init[] = {
+     [VMOLR0 ... VMOLR0 + 7] = 0x2600 | E1000_VMOLR_STRCRC,
+     [RPLOLR]        = E1000_RPLOLR_STRCRC,
+     [RLPML]         = 0x2600,
+-    [TXCTL0]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL1]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL2]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL3]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL4]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL5]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL6]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL7]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL8]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL9]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL10]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL11]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL12]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL13]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL14]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
+-    [TXCTL15]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
+-                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
+-                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL0]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL1]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL2]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL3]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL4]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL5]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL6]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL7]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL8]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL9]        = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL10]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL11]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL12]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL13]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL14]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL15]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                      E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                      E1000_DCA_TXCTRL_DESC_RRO_EN,
+ };
  
- #include "igb_regs.h"
- 
-+#define TYPE_IGBVF "igbvf"
-+
-+#define IGBVF_MMIO_BAR_IDX  (0)
-+#define IGBVF_MSIX_BAR_IDX  (3)
-+
-+#define IGBVF_MMIO_SIZE     (16 * 1024)
-+#define IGBVF_MSIX_SIZE     (16 * 1024)
-+
- #define defreg(x) x = (E1000_##x >> 2)
- #define defreg_indexed(x, i) x##i = (E1000_##x(i) >> 2)
- #define defreg_indexeda(x, i) x##i##_A = (E1000_##x##_A(i) >> 2)
-diff --git a/hw/net/igb.c b/hw/net/igb.c
-index 51a7e9133e..1c989d7677 100644
---- a/hw/net/igb.c
-+++ b/hw/net/igb.c
-@@ -433,16 +433,16 @@ static void igb_pci_realize(PCIDevice *pci_dev, Error **errp)
- 
-     pcie_ari_init(pci_dev, 0x150, 1);
- 
--    pcie_sriov_pf_init(pci_dev, IGB_CAP_SRIOV_OFFSET, "igbvf",
-+    pcie_sriov_pf_init(pci_dev, IGB_CAP_SRIOV_OFFSET, TYPE_IGBVF,
-         IGB_82576_VF_DEV_ID, IGB_MAX_VF_FUNCTIONS, IGB_MAX_VF_FUNCTIONS,
-         IGB_VF_OFFSET, IGB_VF_STRIDE);
- 
--    pcie_sriov_pf_init_vf_bar(pci_dev, 0,
-+    pcie_sriov_pf_init_vf_bar(pci_dev, IGBVF_MMIO_BAR_IDX,
-         PCI_BASE_ADDRESS_MEM_TYPE_64 | PCI_BASE_ADDRESS_MEM_PREFETCH,
--        16 * KiB);
--    pcie_sriov_pf_init_vf_bar(pci_dev, 3,
-+        IGBVF_MMIO_SIZE);
-+    pcie_sriov_pf_init_vf_bar(pci_dev, IGBVF_MSIX_BAR_IDX,
-         PCI_BASE_ADDRESS_MEM_TYPE_64 | PCI_BASE_ADDRESS_MEM_PREFETCH,
--        16 * KiB);
-+        IGBVF_MSIX_SIZE);
- 
-     igb_init_net_peer(s, pci_dev, macaddr);
- 
-diff --git a/hw/net/igbvf.c b/hw/net/igbvf.c
-index 70beb7af50..284ea61184 100644
---- a/hw/net/igbvf.c
-+++ b/hw/net/igbvf.c
-@@ -50,15 +50,8 @@
- #include "trace.h"
- #include "qapi/error.h"
- 
--#define TYPE_IGBVF "igbvf"
- OBJECT_DECLARE_SIMPLE_TYPE(IgbVfState, IGBVF)
- 
--#define IGBVF_MMIO_BAR_IDX  (0)
--#define IGBVF_MSIX_BAR_IDX  (3)
--
--#define IGBVF_MMIO_SIZE     (16 * 1024)
--#define IGBVF_MSIX_SIZE     (16 * 1024)
--
- struct IgbVfState {
-     PCIDevice parent_obj;
- 
+ static void igb_reset(IGBCore *core, bool sw)
 -- 
 2.40.0
 
