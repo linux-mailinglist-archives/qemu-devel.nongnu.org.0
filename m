@@ -2,86 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DA96EC0A9
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 17:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE056EC109
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 18:21:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqbD6-0005l7-BR; Sun, 23 Apr 2023 11:01:04 -0400
+	id 1pqcS4-0000bC-Bz; Sun, 23 Apr 2023 12:20:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqbD3-0005ex-05
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 11:01:01 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqbCz-0000Gl-Q3
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 11:00:59 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f19c473b9eso19110045e9.0
- for <qemu-devel@nongnu.org>; Sun, 23 Apr 2023 08:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682262056; x=1684854056;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fK86PY255A2S7ePGcO47lsLbWGQFZM07SBZ5mnrpQY0=;
- b=ZvS3eLg8d00gzYhQGIazTo/oqJDpuiZZUQ7rFeveidiV9r1AS+G7q8jPAQ78TPiR8h
- mBOIsaSMYJqbHy4v77+q85GXdpBiMGj6yIb5493AQpVqogGrYZhLgEpVmBFUj9FMXll8
- O49qEywDzJXSWNsBuJlNgH+bZMmkSzyCD272fjW4NZPRkttk5a0ThMEMHNYs49h1DXEG
- aJWIngGJMGDK+AWFJ2cYltC+uBpTa200HRMVSrRNuuIAP+XAeXoRYtmz+bedJe1wbwef
- 220hFoP6Ie5L0HHArgxxe7QpTsee4AOjv9e2YWBQcWX5l46lKMnnM9Ou5zsHzHTXLYLe
- nMCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682262056; x=1684854056;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fK86PY255A2S7ePGcO47lsLbWGQFZM07SBZ5mnrpQY0=;
- b=QMLT2FN+pN3XkfqivvWF+CCYteqCLKh8R0q93GaQ6OmJNuT1HYB4DpQEBQmsPcGrIu
- H2sIS95fVmCckUFQ0klEBZlPLu0DymGzKTJI9z2ksxdml004PX5uwelDQSUC14wD9dQx
- U7tH8PlnWeZGSTp5Y035Sfgam2UxPPEOA8aIbZoVMmxAkDGRnY9hKWcJqQVUBbmqgJJO
- WK9i0cUCe/EZJLVJsVtsrFxAshCM3hV7MijQH085YCRNDn5qqAxomREhpS51ur/BlL5d
- +5BYzxuUU6VnHYRTGgFg+vXbQNt2afFDxEid4VjjJ49HpG08hXm50OXJCWj9FBQDBuFA
- 2ltg==
-X-Gm-Message-State: AAQBX9chrtdE4r0U48x4dfi1Sey7vGk/EblcSahsv9NvQrhBeQp5im32
- 5rauVMRwmhGLgeCQqSkbCaPsdw==
-X-Google-Smtp-Source: AKy350bPHHRPvhzJ6Uf292pqyfYyAtOe6HT5gEvPGO64My3LF0F+TZRaRS+k5f/Hep+X3niDvqFqpg==
-X-Received: by 2002:a5d:4603:0:b0:2fa:a8ad:c49b with SMTP id
- t3-20020a5d4603000000b002faa8adc49bmr7624310wrq.1.1682262055928; 
- Sun, 23 Apr 2023 08:00:55 -0700 (PDT)
-Received: from [10.43.4.99] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
- [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
- g2-20020a5d5402000000b002da75c5e143sm8804551wrv.29.2023.04.23.08.00.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Apr 2023 08:00:55 -0700 (PDT)
-Message-ID: <3ef7b062-d1b3-acf4-4015-6f77f337a1bd@linaro.org>
-Date: Sun, 23 Apr 2023 16:00:54 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pqcS1-0000ao-2Y
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 12:20:33 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pqcRy-0004gy-8t
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 12:20:32 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q4Cz753jZz67NsF;
+ Mon, 24 Apr 2023 00:15:15 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Sun, 23 Apr 2023 17:20:08 +0100
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
+ <fan.ni@samsung.com>
+CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>, Michael
+ Roth <michael.roth@amd.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>, Markus Armbruster
+ <armbru@redhat.com>, =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=
+ <berrange@redhat.com>, Eric Blake <eblake@redhat.com>, Mike Maslenkin
+ <mike.maslenkin@gmail.com>, =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=
+ <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v5 0/6] hw/cxl: Poison get, inject, clear
+Date: Sun, 23 Apr 2023 17:20:07 +0100
+Message-ID: <20230423162013.4535-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 00/20] Migration 20230420 patches
-Content-Language: en-US
-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-References: <20230420131751.28534-1-quintela@redhat.com>
- <0c8413a9-99b6-dfff-3c80-534048738c19@linaro.org>
- <87y1mke0hb.fsf@secure.mitica>
- <cf72042a-ecb2-bdb6-d4a4-3b45ab9b3cd8@linaro.org>
- <87pm7vdj93.fsf@secure.mitica>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87pm7vdj93.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.143,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,20 +66,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/23/23 10:45, Juan Quintela wrote:
-> This is the kind of trouble that I don'k now what to do.  I am pretty
-> sure that nobody is goigng to migrate a host that has so much RAM than
-> needs a 64bit counter in that two architectures (or any 32 architectures
-> for what is worth).
+v5: More details in each patch.
+ - Simpler algorithm to find entry when clearing.
+ - Improvements to debugability and docs for 24 bit endian functions.
+ - Use of ROUND_DOWN() to simplify the various alignment questions.
+ - Use CXL_CACHELINE_SIZE define to explain the mysterious 64 byte
+   granularity
+ - Use memory_region_size() instead of direct accesses.
 
-Does it really need to be a 64-bit counter? Should it be size_t instead?
-Given that a 32-bit host can't represent more than say 2**20 pages, we shouldn't need to 
-count them either.
+Many of the precursors listed for v4 have now been applied, but
+a few minor fixes have come up in the meantime so there are still
+a few precursors including the volatile support left from v4
+precursors.
+
+Depends on 
+[PATCH 0/2] hw/cxl: CDAT file handling fixes.
+[PATCH v2 0/3] hw/cxl: Fix decoder commit and uncommit handling
+[PATCH 0/3] docs/cxl: Gathering of fixes for 8.0 CXL docs.
+[PATCH v5 0/3] hw/mem: CXL Type-3 Volatile Memory Support
+ 
+Based on: Message-ID: 20230421132020.7408-1-Jonathan.Cameron@huawei.com
+Based on: Message-ID: 20230421135906.3515-1-Jonathan.Cameron@huawei.com
+Based on: Message-ID: 20230421134507.26842-1-Jonathan.Cameron@huawei.com
+Based on: Message-ID: 20230421160827.2227-1-Jonathan.Cameron@huawei.com
+
+The kernel support for Poison handling is currently in the cxl/pending
+branch and hopefully should be in the CXL pull request next week.
+
+https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/log/?h=pending
+
+This code has been very useful for testing and helped identify various
+corner cases.
+
+Updated cover letter.
+
+The series supports:
+1) Injection of variable length poison regions via QMP (to fake real
+   memory corruption and ensure we deal with odd overflow corner cases
+   such as clearing the middle of a large region making the list overflow
+   as we go from one long entry to two smaller entries.
+2) Read of poison list via the CXL mailbox.
+3) Injection via the poison injection mailbox command (limited to 64 byte
+   entries - spec constraint)
+4) Clearing of poison injected via either method.
+
+The implementation is meant to be a valid combination of impdef choices
+based on what the spec allowed. There are a number of places where it could
+be made more sophisticated that we might consider in future:
+* Fusing adjacent poison entries if the types match.
+* Separate injection list and main poison list, to test out limits on
+  injected poison list being smaller than the main list.
+* Poison list overflow event (needs event log support in general)
+* Connecting up to the poison list error record generation (rather complex
+  and not needed for currently kernel handling testing).
+* Triggering the synchronous and asynchronous errors that occur on reads
+  and writes of the memory when the host receives poison.
+
+As the kernel code is currently fairly simple, it is likely that the above
+does not yet matter but who knows what will turn up in future!
 
 
-r~
+Ira Weiny (2):
+  hw/cxl: Introduce cxl_device_get_timestamp() utility function
+  bswap: Add the ability to store to an unaligned 24 bit field
+
+Jonathan Cameron (4):
+  hw/cxl: rename mailbox return code type from ret_code to CXLRetCode
+  hw/cxl: QMP based poison injection support
+  hw/cxl: Add poison injection via the mailbox.
+  hw/cxl: Add clear poison mailbox command support.
+
+ docs/devel/loads-stores.rst |   1 +
+ hw/cxl/cxl-device-utils.c   |  15 ++
+ hw/cxl/cxl-mailbox-utils.c  | 289 ++++++++++++++++++++++++++++++------
+ hw/mem/cxl_type3.c          |  93 ++++++++++++
+ hw/mem/cxl_type3_stubs.c    |   6 +
+ include/hw/cxl/cxl.h        |   1 +
+ include/hw/cxl/cxl_device.h |  23 +++
+ include/qemu/bswap.h        |  25 ++++
+ qapi/cxl.json               |  18 +++
+ 9 files changed, 429 insertions(+), 42 deletions(-)
+
+-- 
+2.37.2
 
 
