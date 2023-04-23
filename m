@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B876EC20B
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 21:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D679B6EC215
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 21:42:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqfV7-0004ZH-L3; Sun, 23 Apr 2023 15:35:57 -0400
+	id 1pqfah-0006DO-JT; Sun, 23 Apr 2023 15:41:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqfV5-0004Z9-Pz
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 15:35:55 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqfaf-0006DG-Dj
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 15:41:41 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqfV4-0001MP-96
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 15:35:55 -0400
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-3023a56048bso3028754f8f.3
- for <qemu-devel@nongnu.org>; Sun, 23 Apr 2023 12:35:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqfad-0002LT-Ah
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 15:41:40 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f18335a870so22749805e9.0
+ for <qemu-devel@nongnu.org>; Sun, 23 Apr 2023 12:41:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682278550; x=1684870550;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h4rJz8GpTOPjuAPXDyJst6TJ5tIRPa8dRae6YngChV4=;
- b=RbpF1xdmBVrlmpvyAgmBFZHCwLiubSCRONlaXQB2RS6TSduNpdSuzTA+q+aOUDJ4Yg
- BYVvqoLUj+TDHfbcV73SZ8o29fJjTs3hjDxWpei9eACa84RAcZJTbOqbeIxTh8UpX/Ss
- bthpdGi60e/XTwK9E1bWjtVlHhq7LekjedVrRLbXI92tAuMmWbi8lrObFKMJtO/51Exa
- Zvefb63ZjMI3aYMFa7ek8/w9Fwdm7lWaNq99SD+jO6ZpCktjweU0ctBSnTjmaB4YBukU
- zti9CV3Nqx1mDGam68e1xtOap3L9Ceccs3zTVC5zk6nBDH1EwNXo1itaFSusQdet6EYJ
- sQ4g==
+ d=linaro.org; s=google; t=1682278897; x=1684870897;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/veav/GtEaROmlvGGesa/Lm/SKXlvaB+8Gk+ODfZT6I=;
+ b=TdpmrO1U5ZN4VFNyJfrkw0kDcLN0FnFNt6iRhCD5YVtzCnl6A/OUbn1QcjCnHfaw0K
+ jlppCpOL7xwHXwSJUFfshpuTCpPfZkregVZ1GbPROigTTNp/1xX+uvNuS9EyRZr0xLVd
+ 2g8rowwJM0k+NfC7XHSF+WfSgntsmg7kZ8x6w9HZvDGVvVjr1CXINYO6+WfH5FcAUkJk
+ Ui5+iBqP+hWIGmvnWgRjTI1wXZp0Nd68pQLCbIHCqqGXdsDGZEhCPj0joz3Pcisim6Ag
+ yCpaeuyrhLNe8+lUltaswgZ3JTy7NJz6m17X7f8e/3ak8D3B3Oj9tLpQpkIbYcjydvzS
+ CgwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682278550; x=1684870550;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=h4rJz8GpTOPjuAPXDyJst6TJ5tIRPa8dRae6YngChV4=;
- b=N7vQhQDeBlFPW6b4GGxsB2mNt3bvAgLdY79m498tGl/14OzP0fF+M6Rr6UU0UA6Idu
- mlLy3vTkeFPH98WOuPcAMvnEJwjIqs+VEkKaxKfIn5Q55F4hAVLxF86YImR15DxWbqUc
- 86O6JUwtTZmorjkZzAbKWrEjK1qHfKC9xIOnb/uS+QLUNirPw6DVUfUW2kYgPo6B7L85
- o9DyjMmjW/dHUpdW3mraedHvjgcX/6A5MpsetzGDh26o2creleVZtVrFDXqkF1Ovry5K
- 5QE4bDZVTmYtCyMMqpafD+TKLeeG4aIoRpWvGAavM/zJen00io+zZWQWxBu12+02l3yD
- DX5w==
-X-Gm-Message-State: AAQBX9dOb84F9ME+e93Q5sCqZif+urf83MZJc0ELXv3apSwxJ71/eMaY
- r7to46/8vaNH0xDdgiNXx0Ej6g==
-X-Google-Smtp-Source: AKy350bB7gUwRsRXYv/YG4QH4XdeybZwdwXHs8j7BAnMkydI0s+1+aTPAN6TVQPNtOAtXfyjudPg5Q==
-X-Received: by 2002:a5d:6808:0:b0:2fe:fd61:6426 with SMTP id
- w8-20020a5d6808000000b002fefd616426mr8426608wru.11.1682278549929; 
- Sun, 23 Apr 2023 12:35:49 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- u15-20020a5d468f000000b002f5fbc6ffb2sm9235548wrq.23.2023.04.23.12.35.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Apr 2023 12:35:49 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 284A81FFB7;
- Sun, 23 Apr 2023 20:35:49 +0100 (BST)
-References: <20230420212850.20400-1-anjo@rev.ng>
- <20230420212850.20400-8-anjo@rev.ng>
- <19f888bd-f0f4-2307-90c1-744f16ca77c2@linaro.org>
- <fe84e730-88e6-3b68-1929-758868757c68@linaro.org>
- <2c803abc-0f24-ecc6-fc14-56e674994829@linaro.org>
-User-agent: mu4e 1.11.2; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Anton
- Johansson
- <anjo@rev.ng>, ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, wangyanan55@huawei.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 7/8] cpu: Replace target_ulong with vaddr in
- tb_invalidate_phys_addr()
-Date: Sun, 23 Apr 2023 20:35:31 +0100
-In-reply-to: <2c803abc-0f24-ecc6-fc14-56e674994829@linaro.org>
-Message-ID: <87jzy2e6i2.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1682278897; x=1684870897;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/veav/GtEaROmlvGGesa/Lm/SKXlvaB+8Gk+ODfZT6I=;
+ b=aYny0uUAU1GdHtl4rQvnizeuiStwU6FzyNZFn7bru8sXcMCPH9ZihQTsXC2VXr3xol
+ /cdNpBmjcvwNdQ5A/HYFGbhqXR2Ww65HldL8a/xehP49g27z99KMa6MOqSBXGyceatx1
+ F6UrhoLk9amplt6uG5s61a+ZslYgiU2zb8fAGSooKWU0OwFCygUNJy9A2QIe35/fmIvP
+ Qq4lxqC0D1rC3xI5SOkNf65NoWDR95telWMqqm6EOiLkFpRRi32Q1P6nWJRcS8WTXbSA
+ t8ietdAqoeUwbIxpBdWv9I2OYEWqJ5CuHsYgxAuAayVpsQdIl6Er6i9tJkmJdyx+TVN+
+ chtg==
+X-Gm-Message-State: AAQBX9d14nR+bbLlCoGYIxGz/mQbDDgFh4QWs5rwVX3be0yF5WMARHGQ
+ qOm10ZtOfOGSAmG4mR10iV3F5lS/sYC72ngi9DeMsQ==
+X-Google-Smtp-Source: AKy350bV8IzOV+x8xAhWitvsxN8Zdkxnz3p0z258sf6zHydzwPcBlfg/TYQAd0a8odTSJTJqpaH/6g==
+X-Received: by 2002:a7b:cbd9:0:b0:3f1:94fe:65e2 with SMTP id
+ n25-20020a7bcbd9000000b003f194fe65e2mr5343434wmi.33.1682278897320; 
+ Sun, 23 Apr 2023 12:41:37 -0700 (PDT)
+Received: from [10.43.4.99] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
+ [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
+ m18-20020a7bcb92000000b003f24f245f57sm1561918wmi.42.2023.04.23.12.41.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Apr 2023 12:41:37 -0700 (PDT)
+Message-ID: <a2d5ca6c-8480-4c0b-7404-611d8f238ca9@linaro.org>
+Date: Sun, 23 Apr 2023 20:41:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH v3 01/44] target/loongarch: Add LSX data type VReg
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230420080709.3352575-1-gaosong@loongson.cn>
+ <20230420080709.3352575-2-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230420080709.3352575-2-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.143,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,30 +94,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/20/23 09:06, Song Gao wrote:
+> diff --git a/target/loongarch/machine.c b/target/loongarch/machine.c
+> index b1e523ea72..a67b735a32 100644
+> --- a/target/loongarch/machine.c
+> +++ b/target/loongarch/machine.c
+> @@ -10,6 +10,112 @@
+>   #include "migration/cpu.h"
+>   #include "internals.h"
+>   
+> +/* FPU state */
+> +static int get_fpr(QEMUFile *f, void *pv, size_t size,
+> +                   const VMStateField *field)
+> +{
+> +    fpr_t *v = pv;
+> +
+> +    qemu_get_sbe64s(f, &v->vreg.D(0));
+> +    return 0;
+> +}
+> +
+> +static int put_fpr(QEMUFile *f, void *pv, size_t size,
+> +                   const VMStateField *field, JSONWriter *vmdesc)
+> +{
+> +    fpr_t *v = pv;
+> +
+> +    qemu_put_sbe64s(f, &v->vreg.D(0));
+> +    return 0;
+> +}
+> +
+> +static const VMStateInfo vmstate_info_fpr = {
+> +    .name = "fpr",
+> +    .get  = get_fpr,
+> +    .put  = put_fpr,
+> +};
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+These functions are old style.
+Compare target/i386/machine.c, vmstate_xmm_reg.
 
-> On 4/23/23 18:29, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 23/4/23 11:14, Richard Henderson wrote:
->>> On 4/20/23 22:28, Anton Johansson wrote:
->>>> -void tb_invalidate_phys_addr(target_ulong addr)
->>>> +void tb_invalidate_phys_addr(vaddr addr)
->>>
->>> Hmm.=C2=A0 This isn't a virtual address, so 'vaddr' isn't right.
->>> I'm sure we have something more appropriate.
->> tb_page_addr_t?
->
-> No, it isn't a ram_addr_t either (see exec-all.h).
-> Perhaps just uint64_t.
+I notice you're migrating the same data twice, between fpu and lsx.
+Compare target/i386/machine.c, vmstate_ymmh_reg, for migrating only the upper half with 
+lsx.  I assume lsx without fpu is not a valid cpu configuration?
 
-Surely hwaddr?
+>   const VMStateDescription vmstate_loongarch_cpu = {
+>       .name = "cpu",
+>       .version_id = 0,
+>       .minimum_version_id = 0,
+>       .fields = (VMStateField[]) {
+> -
+>           VMSTATE_UINTTL_ARRAY(env.gpr, LoongArchCPU, 32),
+>           VMSTATE_UINTTL(env.pc, LoongArchCPU),
+> -        VMSTATE_UINT64_ARRAY(env.fpr, LoongArchCPU, 32),
+> -        VMSTATE_UINT32(env.fcsr0, LoongArchCPU),
+> -        VMSTATE_BOOL_ARRAY(env.cf, LoongArchCPU, 8),
+>   
+>           /* Remaining CSRs */
+>           VMSTATE_UINT64(env.CSR_CRMD, LoongArchCPU),
+> @@ -99,4 +200,8 @@ const VMStateDescription vmstate_loongarch_cpu = {
+>   
+>           VMSTATE_END_OF_LIST()
+>       },
+> +    .subsections = (const VMStateDescription*[]) {
+> +        &vmstate_fpu,
+> +        &vmstate_lsx,
+> +    }
 
->
->
-> r~
+Need to increment version_id and minimum_version_id.
 
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+r~
+
 
