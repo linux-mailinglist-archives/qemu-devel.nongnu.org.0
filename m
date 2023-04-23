@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDCA6EBD90
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 09:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229746EBDAB
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Apr 2023 09:32:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqTh3-0006CS-Nf; Sun, 23 Apr 2023 02:59:29 -0400
+	id 1pqUBZ-0004OU-7D; Sun, 23 Apr 2023 03:31:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1pqTh0-0006C7-AR
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 02:59:26 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1pqTgw-0002tW-Vv
- for qemu-devel@nongnu.org; Sun, 23 Apr 2023 02:59:25 -0400
-Received: from loongson.cn (unknown [10.20.42.120])
- by gateway (Coremail) with SMTP id _____8AxYcw+10Rk1_IgAA--.51494S3;
- Sun, 23 Apr 2023 14:59:10 +0800 (CST)
-Received: from [10.20.42.120] (unknown [10.20.42.120])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxeb0910RkMHk2AA--.64904S3; 
- Sun, 23 Apr 2023 14:59:10 +0800 (CST)
-Subject: Re: [PATCH RFC v1 01/10] linux-headers: Add KVM headers for loongarch
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, gaosong@loongson.cn
-References: <20230420093606.3366969-1-zhaotianrui@loongson.cn>
- <20230420093606.3366969-2-zhaotianrui@loongson.cn>
- <87bkji51e2.fsf@redhat.com>
- <202d559e-a244-6855-949b-59ed55470ec0@loongson.cn>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, maobibo@loongson.cn
-From: Tianrui Zhao <zhaotianrui@loongson.cn>
-Message-ID: <44d0900e-e103-8392-109e-54f28cd0168a@loongson.cn>
-Date: Sun, 23 Apr 2023 14:59:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqUBX-0004Nn-6B
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 03:30:59 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqUBU-0001r8-Ha
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 03:30:58 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-3010889c6ebso1902421f8f.2
+ for <qemu-devel@nongnu.org>; Sun, 23 Apr 2023 00:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682235055; x=1684827055;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=N24O491mJEhNcIKEytZSGussY2E41uyw6/N9ehBdK4Q=;
+ b=l2DfMTJpr+oNZoik/8D6RORvbvrQw4ZFJvFpzuhX4SXM8huNXM5KcKiTOymGVFCIPi
+ rg01xNMz4yfc0rRXE6Jhsa2epLnZhTZZQeVr/VijVZG7ZHX8O5Qh2DTC/C/i6zqCMU+5
+ U22cGEi7087UhMvJJ+1biPser2E+OVJ9oKW9q365z/alzM2RENZLYzNGd3udqJfYGkbX
+ ueaTi3ciQJzX2EitrIiWEFOS3Zvm2qq9b8x13i39eaNIgTFClcXiq4vnqQHTuwLxe8vg
+ VF1djDqZ6Y1o1MtFjW6/vCDLfV3cFdF8766ldrdCdP1mtfNRJLWrO7EMO+QcEw0rryzS
+ 0bFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682235055; x=1684827055;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N24O491mJEhNcIKEytZSGussY2E41uyw6/N9ehBdK4Q=;
+ b=Do/KpMDjFGtSHqueEAWVsGJ8OU1C11SeRx0y96fTsheGT+YEiAQdVmEl8FVN2ckzRx
+ shE8jterOYkuUFTSe5zwbt+O19gssTuvnBSiyfbuOn57doJqOrtgIQcJaI95X0fs6JEE
+ XXTGsx7ArKELS8h03ouBynORk6jjhfpjf0Nq1/WW8BTEpvNy+QB2X8p/XAZCn2NcrJNf
+ +yiaWa/RXmErTinkdm+2uMMPxHi7u/28VCG9myHE0MUGXrKmWmDzPu2+V/hq4BJsahbu
+ oBCElmUJ3Giw+/9NGJKZLxXGEbUMOQWFgBUJ3P6zTj9NOpg5/MYUzYv8G9hpUDC0n+qS
+ VQ6w==
+X-Gm-Message-State: AAQBX9eQOM/K7pWDNFTHWf9SbGlLL3lNXYae/gX21khUI/mxy2yerRbs
+ 0KgD5rF9XfF6mz1VlMMejW2+Mw==
+X-Google-Smtp-Source: AKy350Z6oBqvUqrf5glxd9wdB8xsV8KfNrqCkGkwyN4G9kYsw/ghde+lOKWoPrOg7UEQyMPkOYOuWA==
+X-Received: by 2002:adf:f209:0:b0:2f5:ace2:8737 with SMTP id
+ p9-20020adff209000000b002f5ace28737mr7817660wro.32.1682235054927; 
+ Sun, 23 Apr 2023 00:30:54 -0700 (PDT)
+Received: from [10.43.4.99] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
+ [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
+ z2-20020a5d4c82000000b003021288a56dsm7198959wrs.115.2023.04.23.00.30.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Apr 2023 00:30:54 -0700 (PDT)
+Message-ID: <db8c5197-74b4-497a-587f-994b100d4344@linaro.org>
+Date: Sun, 23 Apr 2023 08:30:53 +0100
 MIME-Version: 1.0
-In-Reply-To: <202d559e-a244-6855-949b-59ed55470ec0@loongson.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 31/54] tcg: Move TCGLabelQemuLdst to tcg.c
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20230411010512.5375-1-richard.henderson@linaro.org>
+ <20230411010512.5375-32-richard.henderson@linaro.org>
+ <87d1ac98-17b9-7321-05d9-fbcb158f978b@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87d1ac98-17b9-7321-05d9-fbcb158f978b@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxeb0910RkMHk2AA--.64904S3
-X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvdXoWrKr4xAFyxKw4DAF4fAF47Jwb_yoWkArbEvw
- 4xA34DK398G3Z5ta4Ut3WYgFya9ay0ywn0vFyYqFnxGrn5trW7Zr4Ik3yxu3Z8tr48uFs8
- Jr95Jw1rArnrXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
- x7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
- AFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
- 6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
- xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
- AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1l
- Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
- xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
- GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI4
- 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
- MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
- 8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07URa0PUUUUU=
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.047,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.047,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SUSPICIOUS_RECIPS=2.51,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,37 +99,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/21/23 23:29, Philippe Mathieu-Daudé wrote:
+> On 11/4/23 03:04, Richard Henderson wrote:
+>> This will shortly be used by sparc64 without also using
+>> TCG_TARGET_NEED_LDST_LABELS.
+> 
+> Is that in this series?
+
+No.  I've been cherry-picking patches here.
 
 
-在 2023年04月20日 20:59, Tianrui Zhao 写道:
->
->
-> 在 2023年04月20日 17:49, Cornelia Huck 写道:
->> On Thu, Apr 20 2023, Tianrui Zhao <zhaotianrui@loongson.cn> wrote:
->>
->>> Add asm-loongarch/kvm.h for loongarch KVM, and update
->>> the linux/kvm.h about loongarch part. The structures in
->>> the header are used as kvm_ioctl arguments.
->> Just a procedural note: It's probably best to explicitly mark this as a
->> placeholder patch until you can replace it with a full headers update.
-> Thanks, I will mark this as a placeholder patch until it can be merged.
->
-> Thanks
-> Tianrui Zhao
-I will use update-linux-headers.sh to generate the kvm related headers 
-until the linux kvm patches are accepted. And now this patch is only a 
-placeholder to show some kvm structures and macros for reviewers.
-
-Thanks
-Tianrui Zhao
->>
->>> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
->>> ---
->>>   linux-headers/asm-loongarch/kvm.h | 99 
->>> +++++++++++++++++++++++++++++++
->>>   linux-headers/linux/kvm.h         |  9 +++
->>>   2 files changed, 108 insertions(+)
->>>   create mode 100644 linux-headers/asm-loongarch/kvm.h
->
-
+r~
 
