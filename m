@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301BD6EC8B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E520D6EC8C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:24:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqsPS-00074y-8Q; Mon, 24 Apr 2023 05:22:58 -0400
+	id 1pqsPW-0007A9-UE; Mon, 24 Apr 2023 05:23:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsPQ-00073i-B8
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:22:56 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1pqsPU-00078C-Lk
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:23:00 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsPN-0004kp-LA
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:22:56 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-3023a56048bso3505703f8f.3
+ id 1pqsPN-0004l7-W3
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:23:00 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f1958d3a53so27504425e9.0
  for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1682328172; x=1684920172;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hTkRfH0Ve1ZP8J8LCPrqWJSboaa1eNljgxtDfB/bOpY=;
- b=x1d9VaF+eiFmatxXlLWHgrEeH2Co96wQP/t3urbLbnkulWb4rmhF2jPO/OP8NVPIZH
- d5nU+ktDjlQouyAqP6H8Wagi3pyf3z8GVXEjo8Qq9SYT4rykAE3gXsQNCmktP6g6NPxD
- JgSnLhD9MHTDSPr76hwEnGQoA0ei0at6cSPKTvVvIgSHbZkCLwQt4JvZRpbUvceXESqc
- 5q1IlQoOvGW2oHMgyr5gVwjO5fa8bOT7WDClZlbKdx2K18LTognDKUpCjIgMt2O8tYkk
- b+06V7Lmt9kgdrr5DWLarttKtF9ZtRhY/X6PCs0OyqAe54L+6NPyeZ4j51JSJCMldIk9
- EFow==
+ bh=otnCERiARxYXOemsNhRIhm75Bahsw6pevrZV+yYHYSs=;
+ b=fZ1tKN7AopRMvdYhFsS3on9/JutW6D0Z+5zwsY0TDfTv0Bs8HW7BbMG28cgvlGphj6
+ qVXtFkQQgY9h/2J47hirzInnIOOjLRS/zejUJuaC14pYsAc9alammyOQDDLhVX1uI730
+ o3aGpm6YSq+IXrLpGlvXiq3ykAIUoUQZsANOhK0NqE+LhJUqfnWW3reBM4usuAJVpKfy
+ cFvuKq4GvgsIQutwEIU7rfgheoD9ZmpIEVz9k7twM+gi0sW2hYSYUgahuIo4/EWsehAD
+ S+JIPgOjFn6UXM1QxASpez75bOyXc7izIK2FQaDuYwUDnSMdu9hzQdbgapA7E9X6Ri1a
+ K1vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1682328172; x=1684920172;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hTkRfH0Ve1ZP8J8LCPrqWJSboaa1eNljgxtDfB/bOpY=;
- b=F1RN2/SnVIu78n14ZzCytLKHTbB3TTQR5wuNaAOB+pMTbWwqr7XJlU3+Jzawkwq8Tc
- sQXv8cksa/zWJo6U4KjCuxbkn+jg0IQodeJc3otUYZFRJctlXGmNyoQTgRBQCDVwaIu1
- ULhalVgv+V0iXIyLg/ooIb1o2U/Swwm7Ng5/9XgXQjAgz/ncMRowK32OyjMmt80brvKP
- Bo9QyinU9b/ULyYLxgNPnbLq1KHpaMwbsaT+pz3eVda4jxslNf+bPt1DTJ5WymH5FTsc
- vFiRBJ7nBcJCwA8YWSzBR2MaOSiobMRpp5Nd6Y1OZRhT7XHTd3fLcH3SkoKwPVtY3qZn
- kdGQ==
-X-Gm-Message-State: AAQBX9ePy6k2Py/lO3/V66MEwUmEt3vjynAMO+KlPIFLJSLD0EWHYocl
- ymDc6Q/dctNouVGfSocR6ou5eg==
-X-Google-Smtp-Source: AKy350ZTeAdg5Mfruxw52/pHGrj+f4mHe9WGyZx+NZASycRiJ72podoh8TD3U2YQsUKtk5zSKgGFsw==
-X-Received: by 2002:adf:dc4b:0:b0:2f0:442a:2d45 with SMTP id
- m11-20020adfdc4b000000b002f0442a2d45mr8218540wrj.57.1682328171872; 
- Mon, 24 Apr 2023 02:22:51 -0700 (PDT)
+ bh=otnCERiARxYXOemsNhRIhm75Bahsw6pevrZV+yYHYSs=;
+ b=QIDmNy+QUbcwiCj0pohwLWuVUJGdsG7SkIeg/xfWem6pvq7YJtMFwKeLcB3qBSYIaX
+ 02evjFilqyikX9zUofgnvC1FmCE++7nDjINEhYY31SFADcoIRqjJ2iBSM1uedf53tBIk
+ RLj4Qb5j3CWcT7TEeRlNrcUzGh/E5RaJMicEzADpUBjOC5VMCADkp0/3HDiTvFN4prtU
+ PiRj4vbyf+VXl1BT5P7MHzQAOUQGQwIwTWhtj6UZ9tTeu8TYuhvNhZlJoBXtGvofumxm
+ bcICEF6/IBpo64I/irdA5Cm1ZL290lv2GEjCJVayhJHwlLP0Cu71NzbYfWsgGXUbiT7X
+ l9aw==
+X-Gm-Message-State: AAQBX9f+43tYWZBK0AN2XDQmY6+wOfS/RYguIiG37pRLtYd/CWimrbZC
+ OF5oKFplxkWIWpbZs8Z9mHxJ0w==
+X-Google-Smtp-Source: AKy350bOcx0s6giNPUAVFoQk1boqvGOYTmHZ0y9XJB3hPpKNCNb/VcQBP8zUkGBuJ7EoN7gVa3+80A==
+X-Received: by 2002:a5d:6582:0:b0:2ef:bbe1:5f85 with SMTP id
+ q2-20020a5d6582000000b002efbbe15f85mr9057065wru.9.1682328172335; 
+ Mon, 24 Apr 2023 02:22:52 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z10-20020a5d654a000000b002f22c44e974sm10339731wrv.102.2023.04.24.02.22.50
+ m7-20020adfe947000000b003011baf89b3sm10371203wrn.40.2023.04.24.02.22.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 24 Apr 2023 02:22:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CB4EB1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id E53E91FFBC;
  Mon, 24 Apr 2023 10:22:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -83,26 +83,26 @@ Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-arm@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Subject: [PATCH 03/18] tests/avocado: Add set of boot tests on SBSA-ref
-Date: Mon, 24 Apr 2023 10:22:34 +0100
-Message-Id: <20230424092249.58552-4-alex.bennee@linaro.org>
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH 04/18] gitlab-ci: Avoid to re-run "configure" in the
+ device-crash-test jobs
+Date: Mon, 24 Apr 2023 10:22:35 +0100
+Message-Id: <20230424092249.58552-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230424092249.58552-1-alex.bennee@linaro.org>
 References: <20230424092249.58552-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,206 +118,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
 
-This change adds set of boot tests on SBSA-ref machine:
+After "make check-venv" had been added to these jobs, they started
+to re-run "configure" each time since our logic in the makefile
+thinks that some files are out of date here. Avoid it with the same
+trick that we are using in buildtest-template.yml already by disabling
+the up-to-date check via NINJA=":".
 
-1. boot firmware up to the EDK2 banner
-2. boot Alpine Linux
-
-Prebuilt flash volumes are included, built using upstream documentation.
-
-To unify tests for AArch64/virt and AArch64/sbsa-ref we boot
-the same Alpine Linux image on both.
-
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230323082813.971535-1-marcin.juszkiewicz@linaro.org>
-Reviewed-by: Leif Lindholm <quic_llindhol@quicinc.com>
-Message-Id: <20230328171426.14258-1-philmd@linaro.org>
+Fixes: 1d8cf47e5b ("tests: run 'device-crash-test' from tests/venv")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20230414145845.456145-2-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- MAINTAINERS                              |   1 +
- tests/avocado/machine_aarch64_sbsaref.py | 158 +++++++++++++++++++++++
- 2 files changed, 159 insertions(+)
- create mode 100644 tests/avocado/machine_aarch64_sbsaref.py
+ .gitlab-ci.d/buildtest.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 24154f5721..034ff71dac 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -943,6 +943,7 @@ L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/arm/sbsa-ref.c
- F: docs/system/arm/sbsa.rst
-+F: tests/avocado/machine_aarch64_sbsaref.py
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index ba6f551752..333eea9dd3 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -102,7 +102,7 @@ crash-test-debian:
+     IMAGE: debian-amd64
+   script:
+     - cd build
+-    - make check-venv
++    - make NINJA=":" check-venv
+     - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-i386
  
- Sharp SL-5500 (Collie) PDA
- M: Peter Maydell <peter.maydell@linaro.org>
-diff --git a/tests/avocado/machine_aarch64_sbsaref.py b/tests/avocado/machine_aarch64_sbsaref.py
-new file mode 100644
-index 0000000000..0a79fa7ab6
---- /dev/null
-+++ b/tests/avocado/machine_aarch64_sbsaref.py
-@@ -0,0 +1,158 @@
-+# Functional test that boots a Linux kernel and checks the console
-+#
-+# SPDX-FileCopyrightText: 2023 Linaro Ltd.
-+# SPDX-FileContributor: Philippe Mathieu-Daudé <philmd@linaro.org>
-+# SPDX-FileContributor: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import os
-+
-+from avocado import skip
-+from avocado import skipUnless
-+from avocado.utils import archive
-+
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import interrupt_interactive_console_until_pattern
-+
-+
-+class Aarch64SbsarefMachine(QemuSystemTest):
-+    """
-+    :avocado: tags=arch:aarch64
-+    :avocado: tags=machine:sbsa-ref
-+    """
-+
-+    timeout = 180
-+
-+    def fetch_firmware(self):
-+        """
-+        Flash volumes generated using:
-+
-+        - Fedora GNU Toolchain version 12.2.1 20220819 (Red Hat Cross 12.2.1-2)
-+
-+        - Trusted Firmware-A
-+          https://github.com/ARM-software/arm-trusted-firmware/tree/5fdb2e54
-+
-+        - Tianocore EDK II
-+          https://github.com/tianocore/edk2/tree/494127613b
-+          https://github.com/tianocore/edk2-non-osi/tree/41876073
-+          https://github.com/tianocore/edk2-platforms/tree/8efa4f42
-+        """
-+
-+        # Secure BootRom (TF-A code)
-+        fs0_xz_url = (
-+            "https://fileserver.linaro.org/s/ATnSmq6k8SoXgbH/"
-+            "download/SBSA_FLASH0.fd.xz"
-+        )
-+        fs0_xz_hash = "a210a09692bcbe0a3743ffd0df44e80e0c7ad8ab"
-+        tar_xz_path = self.fetch_asset(fs0_xz_url, asset_hash=fs0_xz_hash)
-+        archive.extract(tar_xz_path, self.workdir)
-+        fs0_path = os.path.join(self.workdir, "SBSA_FLASH0.fd")
-+
-+        # Non-secure rom (UEFI and EFI variables)
-+        fs1_xz_url = (
-+            "https://fileserver.linaro.org/s/t8foNnMPz74DZZy/"
-+            "download/SBSA_FLASH1.fd.xz"
-+        )
-+        fs1_xz_hash = "13a9a262953787c7fc5a9155dfaa26e703631e02"
-+        tar_xz_path = self.fetch_asset(fs1_xz_url, asset_hash=fs1_xz_hash)
-+        archive.extract(tar_xz_path, self.workdir)
-+        fs1_path = os.path.join(self.workdir, "SBSA_FLASH1.fd")
-+
-+        for path in [fs0_path, fs1_path]:
-+            with open(path, "ab+") as fd:
-+                fd.truncate(256 << 20)  # Expand volumes to 256MiB
-+
-+        self.vm.set_console()
-+        self.vm.add_args(
-+            "-drive",
-+            f"if=pflash,file={fs0_path},format=raw",
-+            "-drive",
-+            f"if=pflash,file={fs1_path},format=raw",
-+            "-smp",
-+            "1",
-+            "-machine",
-+            "sbsa-ref",
-+        )
-+
-+    def test_sbsaref_edk2_firmware(self):
-+        """
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+
-+        self.fetch_firmware()
-+        self.vm.launch()
-+
-+        # TF-A boot sequence:
-+        #
-+        # https://github.com/ARM-software/arm-trusted-firmware/blob/v2.8.0/\
-+        #     docs/design/trusted-board-boot.rst#trusted-board-boot-sequence
-+        # https://trustedfirmware-a.readthedocs.io/en/v2.8/\
-+        #     design/firmware-design.html#cold-boot
-+
-+        # AP Trusted ROM
-+        wait_for_console_pattern(self, "Booting Trusted Firmware")
-+        wait_for_console_pattern(self, "BL1: v2.8(release):v2.8")
-+        wait_for_console_pattern(self, "BL1: Booting BL2")
-+
-+        # Trusted Boot Firmware
-+        wait_for_console_pattern(self, "BL2: v2.8(release)")
-+        wait_for_console_pattern(self, "Booting BL31")
-+
-+        # EL3 Runtime Software
-+        wait_for_console_pattern(self, "BL31: v2.8(release)")
-+
-+        # Non-trusted Firmware
-+        wait_for_console_pattern(self, "UEFI firmware (version 1.0")
-+        interrupt_interactive_console_until_pattern(self, "QEMU SBSA-REF Machine")
-+
-+    # This tests the whole boot chain from EFI to Userspace
-+    # We only boot a whole OS for the current top level CPU and GIC
-+    # Other test profiles should use more minimal boots
-+    def boot_alpine_linux(self, cpu):
-+        self.fetch_firmware()
-+
-+        iso_url = (
-+            "https://dl-cdn.alpinelinux.org/"
-+            "alpine/v3.17/releases/aarch64/alpine-standard-3.17.2-aarch64.iso"
-+        )
-+
-+        iso_hash = "5a36304ecf039292082d92b48152a9ec21009d3a62f459de623e19c4bd9dc027"
-+        iso_path = self.fetch_asset(iso_url, algorithm="sha256", asset_hash=iso_hash)
-+
-+        self.vm.set_console()
-+        self.vm.add_args(
-+            "-cpu",
-+            cpu,
-+            "-drive",
-+            f"file={iso_path},format=raw",
-+            "-device",
-+            "virtio-rng-pci,rng=rng0",
-+            "-object",
-+            "rng-random,id=rng0,filename=/dev/urandom",
-+        )
-+
-+        self.vm.launch()
-+        wait_for_console_pattern(self, "Welcome to Alpine Linux 3.17")
-+
-+    @skipUnless(os.getenv("AVOCADO_TIMEOUT_EXPECTED"), "Test might timeout")
-+    def test_sbsaref_alpine_linux_cortex_a57(self):
-+        """
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+        self.boot_alpine_linux("cortex-a57")
-+
-+    @skipUnless(os.getenv("AVOCADO_TIMEOUT_EXPECTED"), "Test might timeout")
-+    def test_sbsaref_alpine_linux_neoverse_n1(self):
-+        """
-+        :avocado: tags=cpu:max
-+        """
-+        self.boot_alpine_linux("neoverse-n1")
-+
-+    @skip("requires TF-A update to handle FEAT_FGT")
-+    def test_sbsaref_alpine_linux_max(self):
-+        """
-+        :avocado: tags=cpu:max
-+        """
-+        self.boot_alpine_linux("max,pauth-impdef=on")
+ build-system-fedora:
+@@ -145,7 +145,7 @@ crash-test-fedora:
+     IMAGE: fedora
+   script:
+     - cd build
+-    - make check-venv
++    - make NINJA=":" check-venv
+     - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-ppc
+     - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-riscv32
+ 
 -- 
 2.39.2
 
