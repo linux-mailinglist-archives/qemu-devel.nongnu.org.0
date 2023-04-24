@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFC26EC6D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 09:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FF36EC7CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 10:25:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqqQ2-00024W-7H; Mon, 24 Apr 2023 03:15:26 -0400
+	id 1pqrU8-0001OY-WD; Mon, 24 Apr 2023 04:23:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqqPt-00024E-Vr
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 03:15:20 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pqrU6-0001NI-8Q; Mon, 24 Apr 2023 04:23:42 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqqPq-0007gg-W5
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 03:15:16 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-2fa0ce30ac2so3689735f8f.3
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 00:15:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pqrU4-0005Yu-Hk; Mon, 24 Apr 2023 04:23:42 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-94eff00bcdaso731816166b.1; 
+ Mon, 24 Apr 2023 01:23:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682320513; x=1684912513;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wVxCUSS+12vVV+NOer+tRZF+C6fe+FYqLmKVrTS/lEQ=;
- b=BDNdFJ28qMHQWb4f9jQW5eJ8iDiDK/qJ3d/9HcKyoM3eeiRCi3QvTgR/KhIUD0uVDg
- ytGPBJxDsKw7KvSbxt/T5hlA9GYOEx3MfQCZUxCXMt9dNpLh3S8qK/v69KLKf54Ood9+
- Tqr1esZ5ec8Qksx+34x2YcNEVQV37Bwf/m1x34S92f7b3fxfycJenGF+rUBFXQFJigIs
- Gg5c0EvhPEJWSl0qZElPfC2tHgbtKTBIpANPYCYBHPQsfjQaw0wZuNANvvfT352EiApt
- 3eY0F24z6YQsp82E+l4F3ManCX9k4q38JqWCVorGit8fj/Kw5MZ8oRZp3XNqeTnvqnUo
- QasA==
+ d=gmail.com; s=20221208; t=1682324617; x=1684916617;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p/5zV32iZnJlYmTQbgPNkcGnk912T4ahM8O2AYxPu8M=;
+ b=klGplVxU7NpyAxk+Pkf+2NukrlJT6PGIn0zPTGwnpaE+iy/ayK3Vk3DmSJha4ySdB/
+ MkhSj/ya4/lzCNI1AP6UELITzuVEK/1rsdzwLj5YhN2PSnhEE2wxFzQPsMUYqJUs6gB5
+ cEJYtg/z57dMYFmpNjn0fil4ozEthQv9t03KizPlFqTFYY0gtShzijDJHVEdssxBQDjx
+ VLJ/4UaaIYO03MMpaeqyHHBtmTU8ptIRt0KhjMDkEw8kG0cveGzJEQqW9WPPuK+e8gOi
+ l0wOe+ASAIU5cE8BXe+aZCTDyWuM6h4h75C36JPvMigptFUyvKW2PcbsFV3jWCVX1GSF
+ 1PbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682320513; x=1684912513;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wVxCUSS+12vVV+NOer+tRZF+C6fe+FYqLmKVrTS/lEQ=;
- b=iISBdBNid/d1/9ewcpur6xvE6U3yyRKlmB5thEVvX4sCqOZ30cRSxeg0qkuzdU6F8G
- Duk+DkFUNlSF+2yrQl3+pTMqmwA4gVxjsGPSkc3GFFLHfjIlfM0+f2dKtO/YLGKvmKb+
- vIptYE2xp77o9Ne0B6N/h3mM/3Gf8ENBELGSgiS7vCWbwiipNSxa5J8np/Ezly7A5yNQ
- nT6pmFyNveoYK/eyMx6d4doWqrX6MPix6mDxzObsv5LrfP6W0b/PvV1szaWCnxiDfYYX
- L1cIc/pcBVR6zv5aUGPKDzu7Xn8jds6P8d9uwg0un0gX3Z3/Tuu1l9dLL6O93tuFtcu2
- tiJQ==
-X-Gm-Message-State: AAQBX9cr9weekj9Z1RBYfx+wsZdUo8Wj88LuF0RClfstiMqLumYdD7/t
- xahQ+JYXR2gP1W9mYicsMZHFDg==
-X-Google-Smtp-Source: AKy350awwUxDI1YDHfzySKBp98yWsgQssdHd7wz/p4vdVnZO1JW0Tt/c25BufIsjSTKA2OWA7uU9rw==
-X-Received: by 2002:a5d:5960:0:b0:2f9:9f6f:e4d with SMTP id
- e32-20020a5d5960000000b002f99f6f0e4dmr7667998wri.39.1682320513351; 
- Mon, 24 Apr 2023 00:15:13 -0700 (PDT)
-Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
- [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
- i3-20020adff303000000b002f4cf72fce6sm10161244wro.46.2023.04.24.00.15.12
+ d=1e100.net; s=20221208; t=1682324617; x=1684916617;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p/5zV32iZnJlYmTQbgPNkcGnk912T4ahM8O2AYxPu8M=;
+ b=EKEt48s3Tt8flYgpl+udpdf4TFFOW1E4W4cPgo27CV1kwykARXivHwWitLY+hyr3MV
+ bBCzVqLjHOXbJ7YaxG1w+eJ7NKM58pYwp7RC1eucWiVU0noJMwCjqvgcP9hVBSOmFik2
+ XXUrNnWFKQDrc39sECmEgMHVOKPRSkvEkOTp8EOxuRau0LVF3IakDqk2U3bGydYsVzka
+ Kx7Ou+Iu807543/FHV/fkcS17mAR7Ht4lK2mhmQS0zW/GbnN+XFXJ9KZVVXsH7TeXvyu
+ 2AGCqBwF2jMXiSp12d5kMJZsLN/+6OhPFCD0UVSzLM59712dDtIDFq73aJoJ5TmFDsb9
+ 1/aQ==
+X-Gm-Message-State: AAQBX9eKUAOAjX77FObXQXtGzV/gMQcdRQaWTDC71GDHIFZ1RHJKv5pC
+ TW/zu1R4abxxTTl3HbjbjqM=
+X-Google-Smtp-Source: AKy350bGBMlIjB7hCgcrCMdGBmDVNCdt6MtQPLjAT8En+ZHPqUxYWL3i9siXgA9K10x6IcjDNpDRtQ==
+X-Received: by 2002:a17:906:2b11:b0:94f:5fd0:dd42 with SMTP id
+ a17-20020a1709062b1100b0094f5fd0dd42mr8636324ejg.39.1682324617284; 
+ Mon, 24 Apr 2023 01:23:37 -0700 (PDT)
+Received: from [127.0.0.1] (business-90-187-110-129.pool2.vodafone-ip.de.
+ [90.187.110.129]) by smtp.gmail.com with ESMTPSA id
+ pv22-20020a170907209600b0094f0025983fsm5307767ejb.84.2023.04.24.01.23.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 00:15:13 -0700 (PDT)
-Message-ID: <691b8b09-6bc5-82db-f4c3-103fd98c406a@linaro.org>
-Date: Mon, 24 Apr 2023 08:15:11 +0100
+ Mon, 24 Apr 2023 01:23:36 -0700 (PDT)
+Date: Mon, 24 Apr 2023 07:45:11 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_07/13=5D_hw/ide=3A?=
+ =?US-ASCII?Q?_Extract_pci=5Fide=5F=7Bcmd=2Cdata?=
+ =?US-ASCII?Q?=7D=5Fle=5Fops_initialization_into_base_class_constructor?=
+In-Reply-To: <268be283-6456-c309-cc31-d67d14de6f3d@linaro.org>
+References: <20230422150728.176512-1-shentey@gmail.com>
+ <20230422150728.176512-8-shentey@gmail.com>
+ <268be283-6456-c309-cc31-d67d14de6f3d@linaro.org>
+Message-ID: <DEA90D89-F356-44A9-BC23-3880AD6F7239@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH v3 14/44] target/loongarch: Implement
- vmul/vmuh/vmulw{ev/od}
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20230420080709.3352575-1-gaosong@loongson.cn>
- <20230420080709.3352575-15-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230420080709.3352575-15-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.143,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,64 +97,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/20/23 09:06, Song Gao wrote:
-> @@ -972,6 +972,33 @@ void tcg_gen_mulsu2_i32(TCGv_i32 rl, TCGv_i32 rh, TCGv_i32 arg1, TCGv_i32 arg2)
->       }
->   }
->   
-> +void tcg_gen_mulus2_i32(TCGv_i32 rl, TCGv_i32 rh, TCGv_i32 arg1, TCGv_i32 arg2)
-> +{
-> +    if (TCG_TARGET_REG_BITS == 32) {
-> +        TCGv_i32 t0 = tcg_temp_ebb_new_i32();
-> +        TCGv_i32 t1 = tcg_temp_ebb_new_i32();
-> +        TCGv_i32 t2 = tcg_temp_ebb_new_i32();
-> +        tcg_gen_mulu2_i32(t0, t1, arg1, arg2);
-> +        /* Adjust for negative input for the signed arg2.  */
-> +        tcg_gen_sari_i32(t2, arg2, 31);
-> +        tcg_gen_and_i32(t2, t2, arg1);
-> +        tcg_gen_sub_i32(rh, t1, t2);
-> +        tcg_gen_mov_i32(rl, t0);
-> +        tcg_temp_free_i32(t0);
-> +        tcg_temp_free_i32(t1);
-> +        tcg_temp_free_i32(t2);
-> +    } else {
-> +        TCGv_i64 t0 = tcg_temp_ebb_new_i64();
-> +        TCGv_i64 t1 = tcg_temp_ebb_new_i64();
-> +        tcg_gen_extu_i32_i64(t0, arg1);
-> +        tcg_gen_ext_i32_i64(t1, arg2);
-> +        tcg_gen_mul_i64(t0, t0, t1);
-> +        tcg_gen_extr_i64_i32(rl, rh, t0);
-> +        tcg_temp_free_i64(t0);
-> +        tcg_temp_free_i64(t1);
-> +    }
-> +}
-> +
->   void tcg_gen_ext8s_i32(TCGv_i32 ret, TCGv_i32 arg)
->   {
->       if (TCG_TARGET_HAS_ext8s_i32) {
-> @@ -2634,6 +2661,22 @@ void tcg_gen_mulsu2_i64(TCGv_i64 rl, TCGv_i64 rh, TCGv_i64 arg1, TCGv_i64 arg2)
->       tcg_temp_free_i64(t2);
->   }
->   
-> +void tcg_gen_mulus2_i64(TCGv_i64 rl, TCGv_i64 rh, TCGv_i64 arg1, TCGv_i64 arg2)
-> +{
-> +    TCGv_i64 t0 = tcg_temp_ebb_new_i64();
-> +    TCGv_i64 t1 = tcg_temp_ebb_new_i64();
-> +    TCGv_i64 t2 = tcg_temp_ebb_new_i64();
-> +    tcg_gen_mulu2_i64(t0, t1, arg1, arg2);
-> +    /* Adjust for negative input for the signed arg2.  */
-> +    tcg_gen_sari_i64(t2, arg2, 63);
-> +    tcg_gen_and_i64(t2, t2, arg1);
-> +    tcg_gen_sub_i64(rh, t1, t2);
-> +    tcg_gen_mov_i64(rl, t0);
-> +    tcg_temp_free_i64(t0);
-> +    tcg_temp_free_i64(t1);
-> +    tcg_temp_free_i64(t2);
-> +}
-
-You don't need these.
-Just reverse the operands to the existing tcg_gen_mulsu2_*.
 
 
-r~
+Am 23=2E April 2023 17:46:18 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <ph=
+ilmd@linaro=2Eorg>:
+>On 22/4/23 17:07, Bernhard Beschow wrote:
+>> There is redundant code in cmd646 and via which can be extracted into t=
+he base
+>> class=2E In case of piix and sii3112 this is currently unneccessary but=
+ shouldn't
+>> interfere since the memory regions aren't mapped by those devices=2E In=
+ few
+>> commits later this will be changed, i=2Ee=2E those device models will a=
+lso make use
+>> of these memory regions=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>>   hw/ide/cmd646=2Ec | 11 -----------
+>>   hw/ide/pci=2Ec    | 10 ++++++++++
+>>   hw/ide/via=2Ec    | 11 -----------
+>>   3 files changed, 10 insertions(+), 22 deletions(-)
+>
+>
+>> diff --git a/hw/ide/pci=2Ec b/hw/ide/pci=2Ec
+>> index 65ed6f7f72=2E=2Ea9194313bd 100644
+>> --- a/hw/ide/pci=2Ec
+>> +++ b/hw/ide/pci=2Ec
+>> @@ -543,6 +543,16 @@ static void pci_ide_init(Object *obj)
+>>   {
+>>       PCIIDEState *d =3D PCI_IDE(obj);
+>>   +    memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_=
+le_ops,
+>> +                          &d->bus[0], "pci-ide0-data-ops", 8);
+>> +    memory_region_init_io(&d->cmd_bar[0], OBJECT(d), &pci_ide_cmd_le_o=
+ps,
+>> +                          &d->bus[0], "pci-ide0-cmd-ops", 4);
+>> +
+>> +    memory_region_init_io(&d->data_bar[1], OBJECT(d), &pci_ide_data_le=
+_ops,
+>> +                          &d->bus[1], "pci-ide1-data-ops", 8);
+>> +    memory_region_init_io(&d->cmd_bar[1], OBJECT(d), &pci_ide_cmd_le_o=
+ps,
+>> +                          &d->bus[1], "pci-ide1-cmd-ops", 4);
+>
+>The trailing "-ops" just adds noise IMO=2E
+
+I'll remove them in the next iteration=2E
+
+Best regards,
+Bernhard
+
+>
+>Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>
 
