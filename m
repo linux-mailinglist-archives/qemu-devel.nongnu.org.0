@@ -2,109 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8CF6EC451
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 06:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5C96EC469
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 06:37:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqnhB-0002YW-6Y; Mon, 24 Apr 2023 00:20:57 -0400
+	id 1pqnw3-0004V7-R0; Mon, 24 Apr 2023 00:36:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
- id 1pqnh9-0002YO-3S
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 00:20:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
- id 1pqnh7-0007dD-DP
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 00:20:54 -0400
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33O4Cqgp031564; Mon, 24 Apr 2023 04:20:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- content-transfer-encoding : mime-version; s=pp1;
- bh=xHgbaqySsoicWvLo8X0Rdt9jWMz2HIR6pMmJx7A5tuw=;
- b=B/WCmj1RI8VF78nlo4OgZZjCXyRhto9bZlgScFdAoHpg7d5w+bm4Q6qal7g2/duptwHn
- RGKFebJa27syxIZY9f+6SELk36hE4tLVQdkcspzDmDQKiru7VSX5IWP3urwbiJ8/++8G
- UgqovGYR1ak1rav8f0GZ0KhC1EAjYc7A1ZZo8lh+//ShYDSeYN4zjyK4ynBPD6DSN4GE
- X2pIzNUzx1FTcqz5TJTk4MNalt7ycB/oUfMz7hZ2S3VlkOdZFkxZC0WI6dDJsezYRHjM
- XLehxuxNDSsdcPSJwKNr0PoxHqOL6oIPvZWIrt3plGGvFlaIX311NdZmUS4x40QdKQh8 rA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q45103pcm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Apr 2023 04:20:51 +0000
-Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33O4Ko65022411;
- Mon, 24 Apr 2023 04:20:50 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q45103pby-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Apr 2023 04:20:50 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33O2lRmb013286;
- Mon, 24 Apr 2023 04:20:48 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3q47770uuv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Apr 2023 04:20:48 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33O4KkgH9700070
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Apr 2023 04:20:46 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3F15520043;
- Mon, 24 Apr 2023 04:20:46 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B496120040;
- Mon, 24 Apr 2023 04:20:44 +0000 (GMT)
-Received: from li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com (unknown
- [9.109.216.99])
- by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Mon, 24 Apr 2023 04:20:44 +0000 (GMT)
-Date: Mon, 24 Apr 2023 09:50:42 +0530
-From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 0/2] Improve code coverage for ppc64
-Message-ID: <ZEYDmqPD+c7g3mjR@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-References: <20230421042322.684093-1-kconsul@linux.vnet.ibm.com>
- <875y9pbbrk.fsf@linaro.org>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <875y9pbbrk.fsf@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: rPZ0GmeCbLLMmR7tYUbBIiRPjt-LwL-t
-X-Proofpoint-ORIG-GUID: e8KRpgw6Drhazmhr7KQPiflJVxRfQHVv
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqnvz-0004Tq-C4
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 00:36:15 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqnvx-0001Hi-E8
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 00:36:15 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f1950f5676so27415315e9.3
+ for <qemu-devel@nongnu.org>; Sun, 23 Apr 2023 21:36:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682310971; x=1684902971;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rGRC4M/xg5RvySFn6AUCpzfS3I3dPVkQtLaqMaINYlg=;
+ b=BzdrVA1b+yH7PDYRSew4u+SsxQdBVhn5a4orw/I7kkMuT6lH1MVFX0tQ2Pixfm5C53
+ 0CJC5y4Dsn8iYm6jmjhVLhawdrKgZSWeacul7biEURBD2oYcZWkJzulxxl2IfDVgmW/g
+ wvjcYSrufXTGYA0E19fYn5eeG9Z0UV1YCqFjd20VJKFW68TKKDGNK99KgYH/eduJ4pMj
+ DR004DlVovSOxiM/r+h0p5ytWQ20WNZqs0Qi7Qm2lbrSYRXEynbPkxnd6rCDVtnxxYxx
+ foHB+/0eBrAiD0VZbp06IhfveT5EgLsde51Ij3Ffpg7uiBo6Jog6AIyzqJGyYmSSpyuw
+ mjvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682310971; x=1684902971;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rGRC4M/xg5RvySFn6AUCpzfS3I3dPVkQtLaqMaINYlg=;
+ b=BVjVXYAC/3XuL9jG9qM81cWhkg0NKfRomHq8+nrZWsX49pFo7zicyAVawx4vgLl5Xb
+ HjpgFsu0K1gyh01TJllh7mYJWZGMVuj4O+cVFnCZwHFtfjJOokjm8T7c9eunnQvYFno9
+ sr4nfDpYi9k13OdeRiXyLX05eVnhIWuSpvWVMsaKx82/pU6GXmqfz1mcPGicsmD7+ktz
+ Wxy+pUIo9mjYghaOfzPkalY+LqJF5mMnR1oI9iku4lGguzRrXAhTheLbfQwCDoKZCwQJ
+ AaJbbAg+8Vu/FJCrBCRPegjKo2naNEJRfiPNL/dewPmprx5tJteg53DqcP1v7VNkX755
+ 0Z+g==
+X-Gm-Message-State: AAQBX9c91AQl//e5pCM1IgJ31mgBJ9NW+G7tdA7Ex8YluDV+pNdtHSHS
+ dr85Oi2lWP0THEbds53SPzyCfQ==
+X-Google-Smtp-Source: AKy350bZPxSB5+ezN04VmPKftjnjA1w6LbtMc3Wx7c4GvErmEd0lrUnwHJbcZI3HJTEJ/EIRtc3Gmg==
+X-Received: by 2002:adf:e948:0:b0:303:a2e4:e65b with SMTP id
+ m8-20020adfe948000000b00303a2e4e65bmr6086539wrn.66.1682310970908; 
+ Sun, 23 Apr 2023 21:36:10 -0700 (PDT)
+Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
+ [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
+ 25-20020a05600c025900b003ed2c0a0f37sm11088995wmj.35.2023.04.23.21.36.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Apr 2023 21:36:10 -0700 (PDT)
+Message-ID: <e522acac-cef1-e4ef-2cf4-7c99deeae1b7@linaro.org>
+Date: Mon, 24 Apr 2023 05:36:08 +0100
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-24_01,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- clxscore=1015 malwarescore=0 adultscore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304240037
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=kconsul@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 33/54] tcg: Introduce arg_slot_stk_ofs
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20230411010512.5375-1-richard.henderson@linaro.org>
+ <20230411010512.5375-34-richard.henderson@linaro.org>
+ <6f54a97a-306d-f375-1fc2-8faaf848ecd0@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <6f54a97a-306d-f375-1fc2-8faaf848ecd0@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.143,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SUSPICIOUS_RECIPS=2.51,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,56 +99,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023-04-21 14:29:38, Alex Benn�e wrote:
+On 4/23/23 19:55, Philippe Mathieu-Daudé wrote:
+> On 11/4/23 03:04, Richard Henderson wrote:
+>> Unify all computation of argument stack offset in one function.
+>> This requires that we adjust ref_slot to be in the same units,
+>> by adding max_reg_slots during init_call_layout.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/tcg.c | 29 +++++++++++++++++------------
+>>   1 file changed, 17 insertions(+), 12 deletions(-)
 > 
-> Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
 > 
-> > Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the
-> > boot_linux.py test-case due to which the code coverage for ppc
-> > decreased by around 2%. As per the discussion on
-> > https://lore.kernel.org/qemu-devel/87sfdpqcy4.fsf@linaro.org/ it
-> > was mentioned that the baseline test for ppc64 could be modified
-> > to make up this 2% code coverage. This patchset attempts to achieve
-> > this 2% code coverage by adding various device command line
-> > arguments (to ./qemu-system-ppc64) in the tuxrun_baselines.py
-> > test-case.
+>> +static inline int arg_slot_stk_ofs(unsigned arg_slot)
+>> +{
+>> +    unsigned max = TCG_STATIC_CALL_ARGS_SIZE / sizeof(tcg_target_long);
 > 
-> I've pulled the first patch into my testing/next, but the second
-> conflicts with the inflight patch which adds checksums:
-> 
->   Message-Id: <20230417134321.3627231-3-alex.bennee@linaro.org>
->   Date: Mon, 17 Apr 2023 14:43:17 +0100
->   Subject: [PATCH v4 2/6] tests/avocado: use the new snapshots for testing
->   From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-> 
-> You can either wait and re-base once the PR goes in (I'll send a pre-PR
-> Monday) or do you can re-base directly off my branch at:
-> 
->   https://gitlab.com/stsquad/qemu/-/tree/testing/next
-> 
-> and send the tested patch mentioning its based off my testing/next and
-> I'll include it in the pre-PR.
-Sent a v5 for this rebased off
-https://gitlab.com/stsquad/qemu/-/tree/testing/next.
+> static const?
 
-Thanks.
-> 
-> >
-> > Changes since v3:
-> > - Create a common ppc64_common_tuxrun routine in tuxrun_baselines.py
-> >   and call that from the ppc64 and ppc64le test case routines.
-> >
-> > Kautuk Consul (2):
-> >   avocado_qemu/__init__.py: factor out the qemu-img finding
-> >   tests/avocado/tuxrun_baselines.py: improve code coverage for ppc64
-> >
-> >  tests/avocado/avocado_qemu/__init__.py | 27 +++++-----
-> >  tests/avocado/tuxrun_baselines.py      | 68 ++++++++++++++++++++++++--
-> >  2 files changed, 80 insertions(+), 15 deletions(-)
-> 
-> 
-> -- 
-> Alex Benn�e
-> Virtualisation Tech Lead @ Linaro
-> 
+No, compile-time constant folding and propagation.
+
+
+r~
 
