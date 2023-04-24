@@ -2,64 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5146ECAB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 12:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7396ECAB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 12:53:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqtnt-0000wV-D4; Mon, 24 Apr 2023 06:52:17 -0400
+	id 1pqtnm-0000fo-Lu; Mon, 24 Apr 2023 06:52:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yong.li@intel.com>)
- id 1pqtnr-0000w5-C8; Mon, 24 Apr 2023 06:52:15 -0400
-Received: from mga01.intel.com ([192.55.52.88])
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1pqtnk-0000cZ-RW
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 06:52:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yong.li@intel.com>)
- id 1pqtna-0006MU-Ik; Mon, 24 Apr 2023 06:52:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1682333518; x=1713869518;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/QaQlEvjhN6xxRF5RZDN6Faa8uJF9kcPU/CsMrArPJk=;
- b=K8LRBSHsQx9pWN+TOBJzzbJQbBcXnuZOzRccNhMm4mN6+f8Xr/ZlARZZ
- K47XlILsav0ITgwKmDRuYSv9SesxoIW3Mq8yvWLkeu2iuXtSHW64ITHup
- 9Up9dRz88haTxzL07SsvsinOL1iMt8fnNz5NlYnVqjHhOAbXmv8lPdI63
- /Uv9R0ca/dAtvkyib5Sd+l7wDC6xwHewZ2tqlLoq9yvrVmSw5EyiJqbTe
- PtKvQY7ckLKOFlIFrFfjV4jF5ZB4PgLSD12lWp0vNw813vXuU2oDVrKkO
- c4N2q53f+EwaFlglhgDVVPBGW5buEMdD+HeMFw3EzcZ30Prfp6eLMfD9f Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="374368436"
-X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; d="scan'208";a="374368436"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2023 03:51:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="782369487"
-X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; d="scan'208";a="782369487"
-Received: from intel-optiplex-7090.sh.intel.com ([10.67.104.162])
- by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 03:51:44 -0700
-From: Yong Li <yong.li@intel.com>
-To: qemu-devel@nongnu.org
-Cc: Yong Li <yong.li@intel.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
-Subject: [PATCH] hw/riscv/virt: Add a second UART for secure world
-Date: Mon, 24 Apr 2023 18:51:38 +0800
-Message-Id: <20230424105139.3473939-1-yong.li@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1pqtnT-0006MA-Pg
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 06:52:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682333505;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=la9yr++JR6/5SOMjX01BNDOe/74IlMy+ZNLYr8flNAw=;
+ b=WR3Ggh4IsUXvGNO2AAC9B+rQzQNTRn0Lv3ZA3y1hrp25A+QIvlbs93YiucgqcypgRKuYkK
+ mvfW61UROLDBAD7QcbVR1T4W9UT+DtZuARq1FmrYUBBLFBBCgsOdWnxccRUGGrqYA1vOwk
+ egWr/d24B1XJzjlRC7PFL7I7T6khZo8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-310-ibJgIm88MdyDCdiT0vIg7w-1; Mon, 24 Apr 2023 06:51:44 -0400
+X-MC-Unique: ibJgIm88MdyDCdiT0vIg7w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-2f8b5e23d23so2430935f8f.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 03:51:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682333503; x=1684925503;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=la9yr++JR6/5SOMjX01BNDOe/74IlMy+ZNLYr8flNAw=;
+ b=cXC8grgEcoKXldKtph9xcBohv02cRJ5mpJPXfroaQ1RKg6HOyqo9JkBStrPA9zfdWB
+ bskI0H1qcZuDMcgVCJiJ5FtnUPDeJ9iTrOzbn1XBDIKNfLqeJQEMci9vGe76cL4QXn9T
+ jlWB8VtYcEsDfbTbYQM3fUgnqdbuvlo0SZIQdb9xKmqVbkIURgrw2+5KF+UraWMAsBrq
+ WITq1HYCv29pw7jI4DDrlTjM7QYePWUZOmC5ts9zqIbDmZxi4IqRQKB9xOhCmq849e/k
+ 748e8uAIg6pBFJw1IgjWndibwWrLM/sP9EMx5hGMIRVvJLUP1I5DdcVAUgQ5uF4qnSSO
+ HMcQ==
+X-Gm-Message-State: AAQBX9d/0YgI3cM0sBlWzfo9pvDoAPwRm/tEoCWRi3lOHCadyYHPTEJm
+ /jlD06NrmyyZyMhmxiakC/EcYNKrkQQ3JRlxtvQD/3kQBnPE29fWStFKde1+9BlIse/OenNC95l
+ fXXCnKrFaolEZhV8=
+X-Received: by 2002:adf:ed07:0:b0:2f5:7079:599e with SMTP id
+ a7-20020adfed07000000b002f57079599emr9177122wro.12.1682333502909; 
+ Mon, 24 Apr 2023 03:51:42 -0700 (PDT)
+X-Google-Smtp-Source: AKy350brVfaUAsudy2/sZbay1fwu79fWCaMwwLvLCwZ1G5YHOUVe98dRV1mS/bqc0/vPlAGIXUQX9g==
+X-Received: by 2002:adf:ed07:0:b0:2f5:7079:599e with SMTP id
+ a7-20020adfed07000000b002f57079599emr9177107wro.12.1682333502623; 
+ Mon, 24 Apr 2023 03:51:42 -0700 (PDT)
+Received: from [192.168.149.117]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ n16-20020adfe350000000b002c71b4d476asm10487201wrj.106.2023.04.24.03.51.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Apr 2023 03:51:42 -0700 (PDT)
+Message-ID: <83d606e2-8e50-88e0-1bde-e1e7cd4e1732@redhat.com>
+Date: Mon, 24 Apr 2023 12:51:41 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=yong.li@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2] block/monitor/block-hmp-cmds.c: Fix crash when execute
+ hmp_commit
+Content-Language: de-CH
+To: wangliangzz@126.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ qemu-stable@nongnu.org
+Cc: kwolf@redhat.com, hreitz@redhat.com, Wang Liang <wangliangzz@inspur.com>
+References: <20230424103902.45265-1-wangliangzz@126.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <20230424103902.45265-1-wangliangzz@126.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-2.143, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,58 +103,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The virt machine can have two UARTs and the second UART
-can be used when host secure-mode support is enabled.
 
-Signed-off-by: Yong Li <yong.li@intel.com>
----
- hw/riscv/virt.c         | 4 ++++
- include/hw/riscv/virt.h | 2 ++
- 2 files changed, 6 insertions(+)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index b38b41e685..02475e1678 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -88,6 +88,7 @@ static const MemMapEntry virt_memmap[] = {
-     [VIRT_APLIC_S] =      {  0xd000000, APLIC_SIZE(VIRT_CPUS_MAX) },
-     [VIRT_UART0] =        { 0x10000000,         0x100 },
-     [VIRT_VIRTIO] =       { 0x10001000,        0x1000 },
-+    [VIRT_UART1] =        { 0x10002000,         0x100 },
-     [VIRT_FW_CFG] =       { 0x10100000,          0x18 },
-     [VIRT_FLASH] =        { 0x20000000,     0x4000000 },
-     [VIRT_IMSIC_M] =      { 0x24000000, VIRT_IMSIC_MAX_SIZE },
-@@ -1508,6 +1509,9 @@ static void virt_machine_init(MachineState *machine)
-     serial_mm_init(system_memory, memmap[VIRT_UART0].base,
-         0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART0_IRQ), 399193,
-         serial_hd(0), DEVICE_LITTLE_ENDIAN);
-+    serial_mm_init(system_memory, memmap[VIRT_UART1].base,
-+        0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART1_IRQ), 399193,
-+        serial_hd(1), DEVICE_LITTLE_ENDIAN);
- 
-     sysbus_create_simple("goldfish_rtc", memmap[VIRT_RTC].base,
-         qdev_get_gpio_in(DEVICE(mmio_irqchip), RTC_IRQ));
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index e5c474b26e..8d2f8f225d 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -74,6 +74,7 @@ enum {
-     VIRT_APLIC_S,
-     VIRT_UART0,
-     VIRT_VIRTIO,
-+    VIRT_UART1,
-     VIRT_FW_CFG,
-     VIRT_IMSIC_M,
-     VIRT_IMSIC_S,
-@@ -88,6 +89,7 @@ enum {
- enum {
-     UART0_IRQ = 10,
-     RTC_IRQ = 11,
-+    UART1_IRQ = 12,
-     VIRTIO_IRQ = 1, /* 1 to 8 */
-     VIRTIO_COUNT = 8,
-     PCIE_IRQ = 0x20, /* 32 to 35 */
--- 
-2.25.1
+Am 24/04/2023 um 12:39 schrieb wangliangzz@126.com:
+> From: Wang Liang <wangliangzz@inspur.com>
+>
+> hmp_commit() calls blk_is_available() from a non-coroutine context (and in
+> the main loop). blk_is_available() is a co_wrapper_mixed_bdrv_rdlock
+> function, and in the non-coroutine context it calls AIO_WAIT_WHILE(),
+> which crashes if the aio_context lock is not taken before.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1615
+> Signed-off-by: Wang Liang <wangliangzz@inspur.com>
+>
+
+Thanks!
+Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
 
