@@ -2,54 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B7C6EC9ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 12:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8736ECA64
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 12:34:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqtBb-0008D9-IA; Mon, 24 Apr 2023 06:12:43 -0400
+	id 1pqtVA-0007gV-My; Mon, 24 Apr 2023 06:32:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pqtBY-0008AY-Go; Mon, 24 Apr 2023 06:12:40 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pqtBM-00072A-F7; Mon, 24 Apr 2023 06:12:36 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 24D007462DB;
- Mon, 24 Apr 2023 12:10:35 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C84C9745720; Mon, 24 Apr 2023 12:10:34 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C602F7456E3;
- Mon, 24 Apr 2023 12:10:34 +0200 (CEST)
-Date: Mon, 24 Apr 2023 12:10:34 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>, John Snow <jsnow@redhat.com>, 
- Huacai Chen <chenhuacai@kernel.org>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH 02/13] hw/ide/via: Implement ISA IRQ routing
-In-Reply-To: <38E230DE-6452-45B8-ACC9-84B2872BBC31@gmail.com>
-Message-ID: <71a961f7-22fd-c50b-8490-426c9dc7e28d@eik.bme.hu>
-References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-3-shentey@gmail.com>
- <3b1d7a25-1600-872d-c0e8-b71ec49f551e@eik.bme.hu>
- <8B29FA8F-B534-4CB5-8311-07AAAC782CD9@gmail.com>
- <d7d94bb5-3f76-e7bb-9786-207ec10e4936@eik.bme.hu>
- <38E230DE-6452-45B8-ACC9-84B2872BBC31@gmail.com>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pqtV7-0007g8-O0
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 06:32:53 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pqtUy-0002yJ-SX
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 06:32:53 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f1e2555b5aso8296485e9.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 03:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682332363; x=1684924363;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=HekhlNECns07R44Z9K5TIYVtdNSMvGMR7D7aXuLTW4w=;
+ b=KqZvlooGqzPbFnYyoDT9FR0u1PhaTgbn10imLe1nJE+SRYop93wiiDtVO/ojxVwXND
+ wYjg/iNbNfOxJobCSTYOX+yOxRdzaYbFnTQvB5hk9qI/MxAle4JMicOwxCgOjABOX0K1
+ tzn/rTk6Row7ti33PB193CSA1cFJajtI4NXNYCLmX1Dq1BXyYNWQRxeOQhtr0fNAI230
+ lB6HU89tg4MuAM0LxgLshhaLgF5xWVdfIkBebwjg1cJ1tkhNvZ9+MzgD36LcXmOzer3m
+ A3/KCRvhNJNALRLc/vZnP/4LbU2lalgM8BSjIPMws/AF+35MLA3GerCfppzA5nN2mYEU
+ nqxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682332363; x=1684924363;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HekhlNECns07R44Z9K5TIYVtdNSMvGMR7D7aXuLTW4w=;
+ b=cYf4LehNMty/K35ah0EjnrMmC8YuKgF8Uh3ef0wrjvh8p0nIo6QpVGIMUoMSUzoqG2
+ 5FMjmmj/gQEvbfvQ6evvlBBp+jpVy2RhAbmkiOdDagnQNpiEqwTM4887uMhMtF+XQMzG
+ 2Cc8Ur0vs0rXnYThMAhRBxfV2FG1oT/vAEPPZ4cf0q+A/5k+ttc4MtmJ54n1zygrSOzI
+ ybjpQrbktHrMKTZTe5s7rAabhdnqNiJqrN6o4BK7mzA6pTJu9sej1IV/BjVHFfjEIq6y
+ 1ryAEa+hLtv2fX0RylvR0TGlvoOCD/zt2ofszgWtrVZN90meghNyZsPu7OS82hPQBb4B
+ KUAA==
+X-Gm-Message-State: AAQBX9cWTw01xr+EQyidD8bmyAWYZNIUug6VIMOcj8WtDR3Yd6z63X7P
+ +PqClGuI2p+dyrzoAsPgmQM=
+X-Google-Smtp-Source: AKy350aHtxscROpY+5mNq4W2uKR9Is2yVrdGfKhbjlxYoDFPfS5Ov6f3mTC72TrqfIGT+sUwMQsshQ==
+X-Received: by 2002:a7b:cb8a:0:b0:3ee:1acd:b039 with SMTP id
+ m10-20020a7bcb8a000000b003ee1acdb039mr7454121wmi.34.1682332362824; 
+ Mon, 24 Apr 2023 03:32:42 -0700 (PDT)
+Received: from [192.168.22.129] (54-240-197-234.amazon.com. [54.240.197.234])
+ by smtp.gmail.com with ESMTPSA id
+ l2-20020a05600c4f0200b003ee74c25f12sm15346187wmq.35.2023.04.24.03.32.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Apr 2023 03:32:42 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <54a37172-cad5-3b27-36fc-3b7768e39df8@xen.org>
+Date: Mon, 24 Apr 2023 11:32:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 RESEND] xen: Fix SEGV on domain disconnect
+Content-Language: en-US
+To: mark.syms@citrix.com, qemu-devel@nongnu.org
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+References: <20230420110205.688689-1-mark.syms@citrix.com>
+Organization: Xen Project
+In-Reply-To: <20230420110205.688689-1-mark.syms@citrix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-2.143, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,55 +95,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 24 Apr 2023, Bernhard Beschow wrote:
-> Am 22. April 2023 19:21:12 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Sat, 22 Apr 2023, Bernhard Beschow wrote:
->>> Am 22. April 2023 17:23:56 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->>>> On Sat, 22 Apr 2023, Bernhard Beschow wrote:
->>>>> The VIA south bridge allows the legacy IDE interrupts to be routed to four
->>>>> different ISA interrupts. This can be configured through the 0x4a register in
->>>>> the PCI configuration space of the ISA function. The default routing matches
->>>>> the legacy ISA IRQs, that is 14 and 15.
->>>>
->>>> On VT8231 0x4a is PCI Master Arbitration Control, IDE interrupt Routing is 0x4c and only documents 14/15 as valid values.
->>>
->>> In the datasheet titled "VT8231 South Bridge", preliminary revision 0.8, Oct. 29, 1999, page 60, the "IDE Interrupt Routing" register is located at offset 0x4a and offers the same four interrupts in the same order as in the code. Are we looking at the same datasheet?
->>
->> Apparently not. The one I have says: Revision 2.32, May 10, 2004. Looks more authorative than a preliminary one.
->
-> Indeed. I've updated my copy of the datasheet.
->
->>
->>>> Not sure any guest would actually change this or 0x4a and if that could cause problems but you may need to handle this somehow. (Apart from testing with MorphOS with -kernel you should really be testing with pegasos2.rom with MorphOS and Linux, e.g. Debian 8.11 netinstall iso is known to boot.)
->>>
->>> I've tested extensively with an x86 Linux guest on my pc-via branch which worked flawlessly.
->>
->> That does not substitute testing Linux on pegasos2 though becuase there are some hacks in Linux kernel to handle some pecularities of the pegasos2 including via ide on that machine and that can only be fully tested with pegasos2.rom and PPC Linux.
->
-> I'll try to find the Debian ISO to test with pegasos2.rom.
+On 20/04/2023 12:02, mark.syms@citrix.com wrote:
+> From: Mark Syms <mark.syms@citrix.com>
+> 
+> Ensure the PV ring is drained on disconnect. Also ensure all pending
+> AIO is complete, otherwise AIO tries to complete into a mapping of the
+> ring which has been torn down.
+> 
+> Signed-off-by: Mark Syms <mark.syms@citrix.com>
+> ---
+> CC: Stefano Stabellini <sstabellini@kernel.org>
+> CC: Anthony Perard <anthony.perard@citrix.com>
+> CC: Paul Durrant <paul@xen.org>
+> CC: xen-devel@lists.xenproject.org
+> 
+> v2:
+>   * Ensure all inflight requests are completed before teardown
+>   * RESEND to fix formatting
+> ---
+>   hw/block/dataplane/xen-block.c | 31 +++++++++++++++++++++++++------
+>   1 file changed, 25 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
+> index 734da42ea7..d9da4090bf 100644
+> --- a/hw/block/dataplane/xen-block.c
+> +++ b/hw/block/dataplane/xen-block.c
+> @@ -523,6 +523,10 @@ static bool xen_block_handle_requests(XenBlockDataPlane *dataplane)
+>   
+>       dataplane->more_work = 0;
+>   
+> +    if (dataplane->sring == 0) {
+> +        return done_something;
+> +    }
+> +
 
-It should be here I think:
-https://www.debian.org/releases/jessie/debian-installer/
+I think you could just return false here... Nothing is ever going to be 
+done if there's no ring :-)
 
-Regards,
-BALATON Zoltan
+>       rc = dataplane->rings.common.req_cons;
+>       rp = dataplane->rings.common.sring->req_prod;
+>       xen_rmb(); /* Ensure we see queued requests up to 'rp'. */
+> @@ -666,14 +670,35 @@ void xen_block_dataplane_destroy(XenBlockDataPlane *dataplane >   void xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
+>   {
+>       XenDevice *xendev;
+> +    XenBlockRequest *request, *next;
+>   
+>       if (!dataplane) {
+>           return;
+>       }
+>   
+> +    /* We're about to drain the ring. We can cancel the scheduling of any
+> +     * bottom half now */
+> +    qemu_bh_cancel(dataplane->bh);
+> +
+> +    /* Ensure we have drained the ring */
+> +    aio_context_acquire(dataplane->ctx);
+> +    do {
+> +        xen_block_handle_requests(dataplane);
+> +    } while (dataplane->more_work);
+> +    aio_context_release(dataplane->ctx);
+> +
 
->>
->>> As mentioned in the commit message the default routing of the chipset matches legacy behavior, that is interrupts 14 and 15. This is reflected by assigning [0x4a] = 4 in the code and that is how the code behaved before.
->>
->> And that's the only allowed value on VT8231, other bits are listed as reserved so I wonder if we want to model this at all if no guest is touching it anyway. So you could also just drop that part and keep it hard mapped to 14-15 as it is now, mentioning the config reg in a comment if we ever find a guest that needs it.
->
-> I see it now. I'll use hardcoded IRQs 14 and 15 then.
->
-> Best regards,
-> Bernhard
->
->>
->> Regards,
->> BALATON Zoltan
->
->
+I don't think we want to be taking new requests, do we?
+
+> +    /* Now ensure that all inflight requests are complete */
+> +    while (!QLIST_EMPTY(&dataplane->inflight)) {
+> +        QLIST_FOREACH_SAFE(request, &dataplane->inflight, list, next) {
+> +            blk_aio_flush(request->dataplane->blk, xen_block_complete_aio,
+> +                        request);
+> +        }
+> +    }
+> +
+
+I think this could possibly be simplified by doing the drain after the 
+call to blk_set_aio_context(), as long as we set dataplane->ctx to 
+qemu_get_aio_context(). Alos, as long as more_work is not set then it 
+should still be safe to cancel the bh before the drain AFAICT.
+
+   Paul
+
+>       xendev = dataplane->xendev;
+>   
+>       aio_context_acquire(dataplane->ctx);
+> +
+>       if (dataplane->event_channel) {
+>           /* Only reason for failure is a NULL channel */
+>           xen_device_set_event_channel_context(xendev, dataplane->event_channel,
+> @@ -684,12 +709,6 @@ void xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
+>       blk_set_aio_context(dataplane->blk, qemu_get_aio_context(), &error_abort);
+>       aio_context_release(dataplane->ctx);
+>   
+> -    /*
+> -     * Now that the context has been moved onto the main thread, cancel
+> -     * further processing.
+> -     */
+> -    qemu_bh_cancel(dataplane->bh);
+> -
+>       if (dataplane->event_channel) {
+>           Error *local_err = NULL;
+>   
+
 
