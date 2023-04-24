@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15C46EC8C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92ED6EC8C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:24:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqsQ7-0007jZ-Kn; Mon, 24 Apr 2023 05:23:39 -0400
+	id 1pqsQD-00087X-0Z; Mon, 24 Apr 2023 05:23:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsPe-0007Fe-TQ
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:23:12 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pqsPj-0007JY-TE
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:23:25 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsPQ-0004nG-K4
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:23:09 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f1728c2a57so43348755e9.0
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:22:56 -0700 (PDT)
+ id 1pqsPR-0004oG-RS
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:23:14 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-2fddb442d47so3817410f8f.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:22:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682328175; x=1684920175;
+ d=linaro.org; s=google; t=1682328176; x=1684920176;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0gATlHo8jZj7xSKmpmcEVbxmuB9cXEWUKLiKEpRBnCw=;
- b=Q2UNVkztqm07zxn07aQUR+0xUDgzL1hfxGJ4UK1sdPrRKnSe62QvfHPBrGYJQhLNuq
- WIX8EoOP0F2UKq6e//EVavhv7A8p3OXvnLfHFFRJGGJ15ITsIsv/NqH89pg9jPxDc+8A
- O1BCE2MnFbWr4UqpDPHvUlITdVae1OvpfFcw58D5tYE5xIB5R/LiZAavBboQcSR3m2aF
- HnBWKrfBmmIoT21FKw7+0CnxyY0T0/pprw9u5MugaV3ByhylkHwrQy/3odjug170iAVG
- 9ylRF6Sb3ktPGvRedJjtSP45Kp7g9sey1XnlYbFlVkcbgGQ7fnjDV7p5M6UAEgI7U6AE
- pxVQ==
+ bh=k3CcGFsLs0X/rcB8rUBi4/9QeDN/ZK8Y25q/vvmaz/M=;
+ b=qQOz0BM1XgpF11Fnol50ZtckcMGGoW8Th7dj81dChwp5mcuZEIcf+pycRUOSdUlrOM
+ iWQgJ6uNQX3P8gYYeWxzT6FEoNWIAUxeFkmAoq4ZXFe1dTzjsTTYXubo5VviaI4kzKf8
+ 2G3BAzjapoYztFOsY63lyDlskGe67zrWezoTgs7RZWvItkZxLNdz/TLFjXwIVKK04nbX
+ nwLunfjzYOsKOQznvpcy8ZJRXPVygCsxGjfdMmG/6VRyd4frvr5tOlf9ibq28OocKioy
+ k2kgR2FX/arBGUjMg954Dt5yFotrYNNFeU4OVyFlbtWX1HVausFJFHWlu1XI+SG7cixG
+ zeAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682328175; x=1684920175;
+ d=1e100.net; s=20221208; t=1682328176; x=1684920176;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0gATlHo8jZj7xSKmpmcEVbxmuB9cXEWUKLiKEpRBnCw=;
- b=Sb+tEet1woQW5sQXko07YreopiKwmw5qvlD8IMmxTsAL0dptaMbLfXM8UH++laaQoB
- 8sAOu5grbcHtCQ7YwW7aMQgpE3t+Uq9SofVTk+8K2tG08S6/q3GaTzCWgr+imDnQ+DM5
- 9yvljUCLJ9Fdanai+Mv5NUCSnHia4QWrb8jPOTFxmreIyQr9aKQZwBP5k5q+EsFYKNnF
- GYlPGKaRbZXZuBjP7EzIvEyv9dJDTKY69D87j2Msw24lM4FssifPzMpxd1scA/soKeHH
- d9oBUxUNYINZ5ly+TAqnmbiAWCpPypSqQQTytukp050mB6wuNdPoiZR1CikMjO3Cgb77
- y1og==
-X-Gm-Message-State: AAQBX9cO8iGIdxSSI8XVH2RCNI6NepPgzv6e1NWH7r0FeL+Yyi7x8EnU
- nLlzEphq+WAZZw193NoSBkCOmQ==
-X-Google-Smtp-Source: AKy350auoJt2YuKXJvVsF5SyqzTGBDOxq9qJMRFR/qilc8ZTHVDu6ONGXevqRCU7gINNyRsDTAJV2g==
-X-Received: by 2002:a7b:c5c2:0:b0:3f1:7316:6f4 with SMTP id
- n2-20020a7bc5c2000000b003f1731606f4mr6853130wmk.20.1682328175248; 
- Mon, 24 Apr 2023 02:22:55 -0700 (PDT)
+ bh=k3CcGFsLs0X/rcB8rUBi4/9QeDN/ZK8Y25q/vvmaz/M=;
+ b=KyrG3a2q+RsKTxEBOkxzu1Krfa5szDfizSdW83cf6NuKkJC935daM0fDsavY302Fpx
+ eMx+t+dTC8M8B7ZGBWBVcILtNR8IJkMvbyYsv96EESN/qM+ZEbJ8+64vp9Y71gPPQ4+e
+ jCd4H/B3/z2odHEKBGcYv8JcKno3XvpQ1o9v7OBH7zg48BLW5LMlFsYRqjmLIrE/rszf
+ fLnKy9bFdA72Kq6o1HlsxUV4zGfJ32pAWMZ5qe5g9x6xEEe6TVdAJ76/ds4M8kRGhwas
+ pkzOR8M1pnpzR0Sj9VT04mwE5eFq08r0vAeR6V+qik8pK9fdptj/UKPn/6JVRerypMfR
+ rnMA==
+X-Gm-Message-State: AAQBX9ejYd3RklmGevG6yeCjpfNdYuHTCVQjsbxWHXtstAp/pKFqA3IT
+ x0vzW5/sqJ6nKHm8GGX1Vj5gCQ==
+X-Google-Smtp-Source: AKy350YlXlZsisAX5eueqPGDzkatxqG0pEljPV2MsjpbT9juAri6cdkU+LlF2ae5t1UqRrCFe9dOeg==
+X-Received: by 2002:adf:eacc:0:b0:2f4:867e:efaa with SMTP id
+ o12-20020adfeacc000000b002f4867eefaamr9543892wrn.53.1682328176281; 
+ Mon, 24 Apr 2023 02:22:56 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- g10-20020a7bc4ca000000b003f171234a08sm11582037wmk.20.2023.04.24.02.22.52
+ r4-20020adfdc84000000b002f598008d50sm10341053wrj.34.2023.04.24.02.22.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 24 Apr 2023 02:22:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8F3A11FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id A848B1FFB8;
  Mon, 24 Apr 2023 10:22:50 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -83,25 +83,28 @@ Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-arm@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 10/18] MAINTAINERS: Cover tests/avocado/machine_aspeed.py
-Date: Mon, 24 Apr 2023 10:22:41 +0100
-Message-Id: <20230424092249.58552-11-alex.bennee@linaro.org>
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Kautuk Consul <kconsul@linux.vnet.ibm.com>,
+ Harsh Prateek Bora <harshpb@linux.ibm.com>
+Subject: [PATCH 11/18] avocado_qemu/__init__.py: factor out the qemu-img
+ finding
+Date: Mon, 24 Apr 2023 10:22:42 +0100
+Message-Id: <20230424092249.58552-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230424092249.58552-1-alex.bennee@linaro.org>
 References: <20230424092249.58552-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,33 +120,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
 
-tests/avocado/machine_aspeed.py should belong to the ASPEED section
-in the maintainers file. Improve the wildcards here a little bit,
-so that it is covered, too.
+Factor out the code that finds the qemu-img binary in the
+QemuSystemTest class and create a new get_qemu_img() function
+with it. This function will get called also from the new code
+in tuxrun_baselines.py avocado test-case.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20230421110345.1294131-4-thuth@redhat.com>
+Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Reviewed-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230421042322.684093-2-kconsul@linux.vnet.ibm.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/avocado/avocado_qemu/__init__.py | 27 +++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 034ff71dac..d0f48a5113 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1113,7 +1113,7 @@ F: include/hw/misc/pca9552*.h
- F: hw/net/ftgmac100.c
- F: include/hw/net/ftgmac100.h
- F: docs/system/arm/aspeed.rst
--F: tests/qtest/*aspeed*
-+F: tests/*/*aspeed*
- F: hw/arm/fby35.c
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index 6788837e1b..33090903f1 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -330,6 +330,19 @@ def _new_vm(self, name, *args):
+             vm.add_args(*args)
+         return vm
  
- NRF51
++    def get_qemu_img(self):
++        self.log.debug('Looking for and selecting a qemu-img binary')
++
++        # If qemu-img has been built, use it, otherwise the system wide one
++        # will be used.
++        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
++        if not os.path.exists(qemu_img):
++            qemu_img = find_command('qemu-img', False)
++        if qemu_img is False:
++            self.cancel('Could not find "qemu-img"')
++
++        return qemu_img
++
+     @property
+     def vm(self):
+         return self.get_vm(name='default')
+@@ -602,17 +615,9 @@ def set_up_existing_ssh_keys(self):
+         return (ssh_public_key, ssh_private_key)
+ 
+     def download_boot(self):
+-        self.log.debug('Looking for and selecting a qemu-img binary to be '
+-                       'used to create the bootable snapshot image')
+-        # If qemu-img has been built, use it, otherwise the system wide one
+-        # will be used.  If none is available, the test will cancel.
+-        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
+-        if not os.path.exists(qemu_img):
+-            qemu_img = find_command('qemu-img', False)
+-        if qemu_img is False:
+-            self.cancel('Could not find "qemu-img", which is required to '
+-                        'create the bootable image')
+-        vmimage.QEMU_IMG = qemu_img
++        # Set the qemu-img binary.
++        # If none is available, the test will cancel.
++        vmimage.QEMU_IMG = super().get_qemu_img()
+ 
+         self.log.info('Downloading/preparing boot image')
+         # Fedora 31 only provides ppc64le images
 -- 
 2.39.2
 
