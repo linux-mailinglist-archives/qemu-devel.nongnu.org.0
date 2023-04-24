@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DC46EC98D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157C96EC99F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:59:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqstP-0001ko-J9; Mon, 24 Apr 2023 05:53:55 -0400
+	id 1pqsxL-0003Y1-Rq; Mon, 24 Apr 2023 05:57:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pqstI-0001kL-5e
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:53:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pqsxH-0003Xa-Lo
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:57:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pqstG-0003Qz-0n
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:53:47 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pqsxF-00045k-MO
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:57:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682330025;
+ s=mimecast20190719; t=1682330272;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HWqwc6RgSWWdiGzXOa8qbuV7Q7k1TP35nzc1Mfd3i7g=;
- b=Z8nkGmhdMJOJT8Z3UAlb2cL8hwuP3z9SLG1u/fUBD8MhjhdiFSAunhLP98CnL2S+WIX0NT
- E7bFLu2Riei4m5HRYZkSBxTdNkX/4qfG7LJQ85fkVJD7ecmEeRpwvyYUn4C89FPRE++S22
- 9m5tihWG9K4UMxBFVJu9LhDNUb1a+x4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-iYLIUrT1PWeim7JKN7R57Q-1; Mon, 24 Apr 2023 05:53:42 -0400
-X-MC-Unique: iYLIUrT1PWeim7JKN7R57Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AADFA38173C8;
- Mon, 24 Apr 2023 09:53:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B58544007;
- Mon, 24 Apr 2023 09:53:39 +0000 (UTC)
-Date: Mon, 24 Apr 2023 10:53:36 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, Li Zhijian <lizhijian@fujitsu.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2 3/6] tests/qtest: capture RESUME events during migration
-Message-ID: <ZEZRoFtQg/MEdKi1@redhat.com>
-References: <20230421171411.566300-1-berrange@redhat.com>
- <20230421171411.566300-4-berrange@redhat.com>
- <87leikgama.fsf@secure.mitica>
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=HNn/AE88k4lqHROzaBzztmGz4cjkpF+StVZyPt0UkbE=;
+ b=BkAr2yAxlwsiKfFYpgXzVj49uRn4Of9QdT4lnpcfG/IKGkbhk2vmLAPwpEtq8pb2TzPNck
+ 31eCQEAcUwa+JDi3kWvWmrjUSHJAo4FgcebwOFMA4dW1FibZVTjuht7S4yhquMG4TzR3/4
+ pm+5atjcUlpZosegvyANQ0chofHWHZs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-191-eJEJn7N8OX2qCdUyLgm2SA-1; Mon, 24 Apr 2023 05:57:50 -0400
+X-MC-Unique: eJEJn7N8OX2qCdUyLgm2SA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-2fe3fb8e32aso1496014f8f.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:57:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682330269; x=1684922269;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HNn/AE88k4lqHROzaBzztmGz4cjkpF+StVZyPt0UkbE=;
+ b=ljXcMiSyA3/LoP38eYQCFBDlmKcMEyR2iuS3jDNv5lT8AJPrbKovX+ewM6MFIxZMiE
+ nAzNzJ5bckqcaV1e0u7/SHXgIMtpOsjNQqKQHzrkcStrwVZk/NOF9l+6WBs6/PJHn5cZ
+ TmtyRtUy7P6GsAGgvhBiYAcAPXz6ABJy/f/9odZbAnzI2M0uqvYkubsn9fmARa6chtUF
+ YmHSw4RMDxAcNDsaKIB0ZabrsaDDlGdKJoNsvpj/HG6wwAG3uYHxZVHIGeqBjH+gMM5o
+ jFPZwllNIvML68FZOw+bDUe63kYMTBpWauRX8Xfirdot9H0cwE410PYw8LMYIibye0VY
+ 9oNQ==
+X-Gm-Message-State: AAQBX9fF17NWna8/fkYySohwsWHIx2GNyIjKYgqN82UbHoFpaGVmejfn
+ 23HpBTdY+fU21g4tyEkwYx0GudTn/yI9/uDDAz9sbQhNIutl5A2cLueBvdEaaERLh9Kt880fuh+
+ jjjbvY9i+R7k5tGA=
+X-Received: by 2002:adf:e507:0:b0:2f5:7ce1:781d with SMTP id
+ j7-20020adfe507000000b002f57ce1781dmr10129318wrm.50.1682330269617; 
+ Mon, 24 Apr 2023 02:57:49 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YFgO4m6KhlhMOI/0G0GnoqydyZuweb8oY44/ZVRtDPyNwcwEFIjMEX1E8FxHQ1ZS2yldaEeg==
+X-Received: by 2002:adf:e507:0:b0:2f5:7ce1:781d with SMTP id
+ j7-20020adfe507000000b002f57ce1781dmr10129306wrm.50.1682330269334; 
+ Mon, 24 Apr 2023 02:57:49 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ y11-20020adfe6cb000000b002f81b4227cesm10478710wrm.19.2023.04.24.02.57.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Apr 2023 02:57:48 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 00/20] Migration 20230420 patches
+In-Reply-To: <87pm7vdj93.fsf@secure.mitica> (Juan Quintela's message of "Sun, 
+ 23 Apr 2023 11:45:44 +0200")
+References: <20230420131751.28534-1-quintela@redhat.com>
+ <0c8413a9-99b6-dfff-3c80-534048738c19@linaro.org>
+ <87y1mke0hb.fsf@secure.mitica>
+ <cf72042a-ecb2-bdb6-d4a4-3b45ab9b3cd8@linaro.org>
+ <87pm7vdj93.fsf@secure.mitica>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Mon, 24 Apr 2023 11:57:47 +0200
+Message-ID: <87leihtxes.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87leikgama.fsf@secure.mitica>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -71,8 +86,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.172,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,84 +99,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Apr 21, 2023 at 11:59:25PM +0200, Juan Quintela wrote:
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > When running migration tests we monitor for a STOP event so we can skip
-> > redundant waits. This will be needed for the RESUME event too shortly.
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> 
-> i.e. it is better that what we have now.
-> 
-> But
-> 
-> 
-> > diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-> > index f6f3c6680f..61396335cc 100644
-> > --- a/tests/qtest/migration-helpers.c
-> > +++ b/tests/qtest/migration-helpers.c
-> > @@ -24,14 +24,20 @@
-> >  #define MIGRATION_STATUS_WAIT_TIMEOUT 120
-> >  
-> >  bool got_stop;
-> > +bool got_resume;
-> >  
-> > -static void check_stop_event(QTestState *who)
-> > +static void check_events(QTestState *who)
-> >  {
-> >      QDict *event = qtest_qmp_event_ref(who, "STOP");
-> >      if (event) {
-> >          got_stop = true;
-> >          qobject_unref(event);
-> >      }
-> > +    event = qtest_qmp_event_ref(who, "RESUME");
-> > +    if (event) {
-> > +        got_resume = true;
-> > +        qobject_unref(event);
-> > +    }
-> >  }
-> 
-> What happens if we receive the events in the order RESUME/STOP (I mean
-> in the big scheme of things, not that it makes sense in this particular
-> case).
-> 
-> QDict *qtest_qmp_event_ref(QTestState *s, const char *event)
-> {
->     while (s->pending_events) {
-> 
->         GList *first = s->pending_events;
->         QDict *response = (QDict *)first->data;
-> 
->         s->pending_events = g_list_delete_link(s->pending_events, first);
-> 
->         if (!strcmp(qdict_get_str(response, "event"), event)) {
->             return response;
->         }
->         qobject_unref(response);
->     }
->     return NULL;
-> }
-> 
-> if we don't found the event that we are searching for, we just drop it.
-> Does this makes sense if we are searching only for more than one event?
+Juan Quintela <quintela@redhat.com> wrote:
+> Richard Henderson <richard.henderson@linaro.org> wrote:
+>> On 4/22/23 10:21, Juan Quintela wrote:
+>>> Richard Henderson <richard.henderson@linaro.org> wrote:
+>>>> On 4/20/23 14:17, Juan Quintela wrote:
 
-You are right about this code being broken in general for multiple events.
+>> I'll note that mips32 and armv6 (that is, *not* debian's armv7 based
+>> armhf distro) are the only hosts we have that don't have an atomic
+>> 8-byte operation.
+>
+> This is the kind of trouble that I don'k now what to do.  I am pretty
+> sure that nobody is goigng to migrate a host that has so much RAM than
+> needs a 64bit counter in that two architectures (or any 32 architectures
+> for what is worth).
+>
+> A couple of minutes after sending the 1st email, I considederd sending
+> another one saying "my toolchain lies better than yours".
+>
+> I moved the atomic operations that do the buildcheck and run make again:
+>
+> $ rm -f qemu-system-mips*
+> $ time make
+>
+> [....]
+>
+> [2/5] Linking target qemu-system-mipsel
+> [3/5] Linking target qemu-system-mips
+> [4/5] Linking target qemu-system-mips64el
+> [5/5] Linking target qemu-system-mips64
+>
+> So clearly my toolchain is lying O:-)
 
-In this particular series though we're looking at STOP on the src host and
-RESUME on the dst host, so there's no ordering problem to worry about.
+And here I am.
+Wearing a brow paper bag on my head for week.
 
+These are emulatores for mips.  Not cross-compiled to run on MIPS.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+/me hides on the hills in shame.
+
+Later, Juan.
 
 
