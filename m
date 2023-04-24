@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8737F6ED14F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124B76ED14E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:29:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqy7m-0000hH-1p; Mon, 24 Apr 2023 11:29:06 -0400
+	id 1pqy7V-0007Ve-Hj; Mon, 24 Apr 2023 11:28:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pqy7k-0000Yo-H6
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:29:04 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqy7K-0007M6-JD
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:28:38 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pqy7i-00078c-W6
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:29:04 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f195b164c4so19801445e9.1
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 08:29:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqy7J-000721-2o
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:28:38 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f18335a870so29464365e9.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 08:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682350139; x=1684942139;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=linaro.org; s=google; t=1682350101; x=1684942101;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=SeO4Ee8PnhXOG96p6S1hHt+Ms53XU3EnnJq+Jqqlcrs=;
- b=AHKAZynhYJkH/5dJ4KeLsMoOFcWexuB9zT891npxw2WzmmWHwtqpXyoEfz1RDir1TS
- JjPMQwgS57JgHdB1CXVOhZ4B9r//iLWAkBiroUjL22BYL5ehsGU3qYfC8m8VAiUWs6A7
- oDCfJxAE4n76/pSUM+rPWVS5BYQeI38VpT3D2KxrZ3SSAM5bfAl+gsqWgrEJBfuxdJgr
- MKKLlMDbyz6Y5S6dyBMuDleOS+20bJ0pV7qRDsyui9TuDdyFMYoFO5sZBg62MvE4dJVP
- mpFoTLTa4xPDJ2TPZ5MutXclFQ0IJrtSQiriicaYTxU1U1RI3QxsZqsHMUf2Zh9ugV1V
- y/DA==
+ bh=TrcfAq7GpvAQ85HMncMMXdn9L3vMq9LXjETEWfhQ4T0=;
+ b=WjCaBhcQcQLxJFn7P4gShL9GTREDkwqBSxWSfFJWQy+hBb7ciiocAcRFK/nontWAA8
+ tOOvKrZDcLn/zhmQWsJJORzvffp2DGBAKv7NYwmej6MvVKV/EGI8Z3CXwYYlJB1MLGdN
+ MWLtKhSRH9VBB/0dJL2VtF686+KAVLZDG3nCS3RlfpgkTKtC0s8cniZjUVME/HEeGbZF
+ obgHORaw3q7xQDWgG3oa2afqru1w6/j6gaqGSPOURQP+TVcu3IuZ5FP2qHT9RtpgtJiQ
+ Tdqd9B8Bc+23fQyyMYqIxLfLaDo30A0lndm/lVYcs3zwgcaf/4AReRLV9hlNCL9SZ/yX
+ 4WPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682350139; x=1684942139;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1682350101; x=1684942101;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SeO4Ee8PnhXOG96p6S1hHt+Ms53XU3EnnJq+Jqqlcrs=;
- b=eAAQPdkl0cpw2VdpBUSiRsKXmq93D0Vfnk1QCxRmE8FxMr4SmYLnf2GAmr53umsecw
- u+npdLu9VDMz2oxCQhCgzb3OIc0dyV8TL9lKQ7seQh955mueEOD5icX1KqBB+IOh6asF
- SZ4RsIgy3oCfTWsx/u8KNe+854yJQD6HuWAdeIW7aTGJonTFP3t6gR0m6ldV4oaPrbXz
- MWe12mpdiZrNCpx4W52y45VBgZvGmG7hjt1vsrTa36I4VBQNCWt5kN/RlLmg78GVT52t
- 2/RwQ0mTdfDUj0KWq6Di9EL6Ch0r+sOXlNw1zoPEISAIHjhHE2swhRIsUX20CvqVj0S+
- zXMA==
-X-Gm-Message-State: AAQBX9cFAtZw5Gi/uwJ3FnXFKYwjptUIgr1PSbwDRd+dPQaMZLWmvipe
- 0Rv+6Lu4JTELLov7n8Hr0nPNCHtkraDK41RpUVvrpw==
-X-Google-Smtp-Source: AKy350Z5Go8s+YD0EBmclfGq0CTDDAm2TV7BBUYFpklxsfQNVWOo6Yi7v3NU0DoBFPozLRqtPHFgJQ==
-X-Received: by 2002:a05:600c:2204:b0:3f1:75b3:60df with SMTP id
- z4-20020a05600c220400b003f175b360dfmr6951519wml.41.1682350139072; 
- Mon, 24 Apr 2023 08:28:59 -0700 (PDT)
-Received: from [192.168.2.175] (230.red-88-28-30.dynamicip.rima-tde.net.
- [88.28.30.230]) by smtp.gmail.com with ESMTPSA id
- u3-20020a7bcb03000000b003f16f3cc9fcsm12474438wmj.9.2023.04.24.08.28.57
+ bh=TrcfAq7GpvAQ85HMncMMXdn9L3vMq9LXjETEWfhQ4T0=;
+ b=EsG1QG35+ko8AwPV34jXaWrRqsjjupP+MWP8vcp8vLVGfn6n0lQxBA8PJL7PqGewyJ
+ oKVAmuo+mTy/qahgr+Ey68G9Kt6521dYSlJPkv136rmwcKnwv2trq8mmiq5k/IRBRTMk
+ kqg8i8yO9E0YZF8z4YkGPGAmQVcrOxWIxgs8RbsMA7X6m1FtnQAcYp5gXeIOzYB6dzUS
+ h2Q2mBKqwL0fNjJ+aiAH2gm6tFn/uck58L/MyJshBvONDbMWwPnnhCgVw4XXJD3taCs4
+ EusdNI0T7FJYBkDNY3OfXj7SyHEFSWDUxDA3FlLISbYDetGCDV5N3i5EHDIwb8a3F3cD
+ XTXw==
+X-Gm-Message-State: AAQBX9eKafzRqardu9mp8vJnDYplvIoMPmohzAv2Mm8aILAF43WsjVeY
+ pgeyn5Jts3fEmtoo3YEs7sDNKACKPRZaQ859YmrZow==
+X-Google-Smtp-Source: AKy350Yz+WExavPY50HWnZrIL7BnKzuc26zkYZJ7ublQ+Lzerh4iXbTR0A+z6A7hcYJMVIUTyd0eXw==
+X-Received: by 2002:a1c:4b05:0:b0:3f0:3d47:2cc5 with SMTP id
+ y5-20020a1c4b05000000b003f03d472cc5mr7849778wma.10.1682350101626; 
+ Mon, 24 Apr 2023 08:28:21 -0700 (PDT)
+Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
+ [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
+ m36-20020a05600c3b2400b003edc4788fa0sm16018130wms.2.2023.04.24.08.28.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 08:28:58 -0700 (PDT)
-Message-ID: <a493d531-ab8a-f62c-698e-935c634db89e@linaro.org>
-Date: Mon, 24 Apr 2023 17:27:23 +0200
+ Mon, 24 Apr 2023 08:28:21 -0700 (PDT)
+Message-ID: <317bb3ff-8555-81c5-29ae-8b9dedf3cf6a@linaro.org>
+Date: Mon, 24 Apr 2023 16:28:19 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH] linux-user/main: Use list_cpus() instead of cpu_list()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH v3 28/44] target/loongarch: Implement vssrlrn vssrarn
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-trivial@nongnu.org
-References: <20230424122126.236586-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230424122126.236586-1-thuth@redhat.com>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230420080709.3352575-1-gaosong@loongson.cn>
+ <20230420080709.3352575-29-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230420080709.3352575-29-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -93,15 +94,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/4/23 14:21, Thomas Huth wrote:
-> This way we can get rid of the if'deffery and the XXX comment
-> here (it's repeated in the list_cpus() function anyway).
+On 4/20/23 09:06, Song Gao wrote:
+> This patch includes:
+> - VSSRLRN.{B.H/H.W/W.D};
+> - VSSRARN.{B.H/H.W/W.D};
+> - VSSRLRN.{BU.H/HU.W/WU.D};
+> - VSSRARN.{BU.H/HU.W/WU.D};
+> - VSSRLRNI.{B.H/H.W/W.D/D.Q};
+> - VSSRARNI.{B.H/H.W/W.D/D.Q};
+> - VSSRLRNI.{BU.H/HU.W/WU.D/DU.Q};
+> - VSSRARNI.{BU.H/HU.W/WU.D/DU.Q}.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
 > ---
->   linux-user/main.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
+>   target/loongarch/disas.c                    |  30 ++
+>   target/loongarch/helper.h                   |  30 ++
+>   target/loongarch/insn_trans/trans_lsx.c.inc |  30 ++
+>   target/loongarch/insns.decode               |  30 ++
+>   target/loongarch/lsx_helper.c               | 358 ++++++++++++++++++++
+>   5 files changed, 478 insertions(+)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
