@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76186ED298
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 18:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D19A86ED2AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 18:40:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqzAl-0001pH-Gz; Mon, 24 Apr 2023 12:36:15 -0400
+	id 1pqzDs-00067T-0B; Mon, 24 Apr 2023 12:39:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqzAS-0001YV-VL
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 12:36:03 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqzAR-00072b-7E
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 12:35:56 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3f19ab994ccso24664635e9.2
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 09:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682354154; x=1684946154;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=B9JU86cwotz75o8zF4Hf7xvRe/MqLjBnctHENlhKvlU=;
- b=j07PHXgBdVryR3TsIQMjJOrwbeKDMbNF2DX2pL8JPOrsZSVLkGEpt27DtboV+5W8N0
- ZvhO4hOcGli3tug5H+VcbrtYC8F8ERxA+YiX0Yowue0ipPBLg0e/Azgxy7PD0VNfXZhG
- gJagJGu+teWezkOwY+LsqvWuot7vrPvoEI2o1freMHvyJghq9XDYZwNRs26de3WF5Hrm
- WDhg6eEsVqKSDj6qi4Mz6a+M+DH2UgjH/Jh9v8n3Rl7vsaq5wRhIjymVGPt+4nRd7Tq6
- OTP1oqhlz4VfJC3bWL26xCdGTR5TOkRGPD59BY4O6F5AE6eV0/jcW9GJDu/mSUnnPXAW
- n3NQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pqzDq-000670-7H
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 12:39:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pqzDo-0007i6-Gq
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 12:39:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682354363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AIrPqDKNckrm9rRNnpAer5v7LLkXQnVJgY+hTsr4RqM=;
+ b=eIup6fWllD9/NmGoWOY7G/ceWGjtw1nrAtyvIrHq0N924hrQilHN05QoSTqVpwfqvosf/n
+ AXictHUxqAL0S/Wh9Spteht2NJJI6GZ3pxZOyFngq62bYu+uMMNCjYbucnFJ47LdDyg1ft
+ 6MeGhoyvCQV6Nw+TJAFWtDIPjVnqUWU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-629-JKYb5-l2OJiJslU_xcuclg-1; Mon, 24 Apr 2023 12:39:19 -0400
+X-MC-Unique: JKYb5-l2OJiJslU_xcuclg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-2fcec825133so1448174f8f.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 09:39:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682354154; x=1684946154;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20221208; t=1682354358; x=1684946358;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B9JU86cwotz75o8zF4Hf7xvRe/MqLjBnctHENlhKvlU=;
- b=ewSvGnsM08DXBZxm3lhj0nFQ0XKIXP6+RXOR4HbO0HEJWC6RtQ1mAGFuEhbQQTsPEY
- QLXFbsM5a7oNXkC/j50og2B7ANbWP7p2CdcOFu6OxlRirws7AnGRDbUDSxbNIS+R4qFm
- jSqyDg5TQL0EhKO4wi7gzkL/xbBS1jEf66bbCNX70qHWl3kFcXdAIwPZyvKMYuBGXz8c
- w1OXrM/908/CHzVZUgZz5WHuQtsk7Y5hCRNfAqs/nnAVZ4Pr7eQRwa4Dl3D4w+gQ1g9N
- iizTDO0iftFL99Njj/nUpUyTENoIuPwigFJNgYeqjD9WKYP3juagLDdQJcdj3TBZ3DtW
- V1MA==
-X-Gm-Message-State: AAQBX9evOkauB4hlQgpQrroo9NLJgLAUVex2+AMrXMjSnL0XIawMiEKL
- h7BaxthUUGkJp/Emd6D/i8S6ZA==
-X-Google-Smtp-Source: AKy350ZTtDqWTHnzHnwZH5QsLV1c2pXzVDKb4GSYjTNjMV1Dkq1p+ifuTkAtKQAPcXL/6kPQpWX4SQ==
-X-Received: by 2002:a1c:7c13:0:b0:3dc:4fd7:31e9 with SMTP id
- x19-20020a1c7c13000000b003dc4fd731e9mr8375894wmc.7.1682354153762; 
- Mon, 24 Apr 2023 09:35:53 -0700 (PDT)
-Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
- [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
- e26-20020a05600c219a00b003f180d5b145sm12575047wme.40.2023.04.24.09.35.53
+ bh=AIrPqDKNckrm9rRNnpAer5v7LLkXQnVJgY+hTsr4RqM=;
+ b=RxQPewdhFlUmDx4+BIi2r4U/W7AdXW8306MWC2hoN7NIc/0tOEMJYYrKfPg/K5RXrb
+ g+S62Y6sKbtErDHEi5eoGF1Fswt/pN1sjQB6v6F+/a2zaRdsFP0PcivppVkBotDO1S8c
+ +wP8gsA6qgIDurjrmsagjSf47oz9uD/PZp0MWBlwIDuc/1darm1g7CqqwOxHFx5fx70i
+ Xs4OsONZ67TMIEAAN+yazBcO0lmmcnIJCOJ2pXUOTip3Gq4rgaFQ4iB2qODE+8gxnQH3
+ 1C0YqgjlSl6E2Kg9klEwhG6gZUNfNkqiQZkASgTVTROoc057lLjy1PFVuNlQI+H0JoUL
+ rmxQ==
+X-Gm-Message-State: AAQBX9f5Ll94ALROfK3YPcMbGmH3zvX9/i5KMao/J/A32vr55A9seWu4
+ M5gc8qHIk2v6qG+Xq3rf4z/gWjHFFdt1KAnDwzjkthtjJA6IKQgAEZjB0V0A+iJUTrCxHwvmpQJ
+ 6lwlYmrExkRcvQEc=
+X-Received: by 2002:a5d:6352:0:b0:2ff:f37:9d19 with SMTP id
+ b18-20020a5d6352000000b002ff0f379d19mr9572365wrw.54.1682354358443; 
+ Mon, 24 Apr 2023 09:39:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YXH7DIWwRGycRJvCmHFGVfzxrgy/6LgMG3ZIr4fK98kNB1S0AwlJiz13PAHC+a9cp34yvylQ==
+X-Received: by 2002:a5d:6352:0:b0:2ff:f37:9d19 with SMTP id
+ b18-20020a5d6352000000b002ff0f379d19mr9572351wrw.54.1682354358155; 
+ Mon, 24 Apr 2023 09:39:18 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-178-102.web.vodafone.de.
+ [109.43.178.102]) by smtp.gmail.com with ESMTPSA id
+ o22-20020a1c7516000000b003f18372d540sm12443983wmc.14.2023.04.24.09.39.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 09:35:53 -0700 (PDT)
-Message-ID: <670e28e4-246c-ec2b-7924-f73fdb6ff176@linaro.org>
-Date: Mon, 24 Apr 2023 17:35:52 +0100
+ Mon, 24 Apr 2023 09:39:17 -0700 (PDT)
+Message-ID: <755fb6e3-1f2c-00d0-139c-7275825fbe69@redhat.com>
+Date: Mon, 24 Apr 2023 18:39:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 00/30] Migration 20230424 patches
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] hw/intc/allwinner-a10-pic: Don't use set_bit()/clear_bit()
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-References: <20230424132730.70752-1-quintela@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230424132730.70752-1-quintela@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: qemu-stable@nongnu.org, Beniamino Galvani <b.galvani@gmail.com>,
+ Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+References: <20230424152833.1334136-1-peter.maydell@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230424152833.1334136-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.194, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,38 +102,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/24/23 14:27, Juan Quintela wrote:
-> The following changes since commit 81072abf1575b11226b3779af76dc71dfa85ee5d:
+On 24/04/2023 17.28, Peter Maydell wrote:
+> The Allwinner PIC model uses set_bit() and clear_bit() to update the
+> values in its irq_pending[] array when an interrupt arrives.  However
+> it is using these functions wrongly: they work on an array of type
+> 'long', and it is passing an array of type 'uint32_t'.  Because the
+> code manually figures out the right array element, this works on
+> little-endian hosts and on 32-bit big-endian hosts, where bits 0..31
+> in a 'long' are in the same place as they are in a 'uint32_t'.
+> However it breaks on 64-bit big-endian hosts.
 > 
->    Merge tag 'migration-20230420-pull-request' ofhttps://gitlab.com/juan.quintela/qemu  into staging (2023-04-24 12:06:17 +0100)
+> Remove the use of set_bit() and clear_bit() in favour of using
+> deposit32() on the array element.  This fixes a bug where on
+> big-endian 64-bit hosts the guest kernel would hang early on in
+> bootup.
 > 
-> are available in the Git repository at:
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/intc/allwinner-a10-pic.c | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
 > 
->    https://gitlab.com/juan.quintela/qemu.git  tags/migration-20230424-pull-request
-> 
-> for you to fetch changes up to 9c894df3a37d675652390f7dbbe2f65b7bad7efa:
-> 
->    migration: Create migrate_max_bandwidth() function (2023-04-24 15:01:47 +0200)
-> 
-> ----------------------------------------------------------------
-> Migration Pull request
-> 
-> Everything that was reviewed since last PULL request:
-> - fix to control flow (eric)
-> - rearrange of hmp commands (juan)
-> - Make capabilities more consistent and coherent (juan)
->    Not all of them reviewed yet, so only the ones reviewed.
-> 
-> Later, Juan.
-> 
-> PD.  I am waiting to finish review of the compression fixes to send
-> them.
-> 
-> ----------------------------------------------------------------
+> diff --git a/hw/intc/allwinner-a10-pic.c b/hw/intc/allwinner-a10-pic.c
+> index 8cca1248073..4875e68ba6a 100644
+> --- a/hw/intc/allwinner-a10-pic.c
+> +++ b/hw/intc/allwinner-a10-pic.c
+> @@ -49,12 +49,9 @@ static void aw_a10_pic_update(AwA10PICState *s)
+>   static void aw_a10_pic_set_irq(void *opaque, int irq, int level)
+>   {
+>       AwA10PICState *s = opaque;
+> +    uint32_t *pending_reg = &s->irq_pending[irq / 32];
+>   
+> -    if (level) {
+> -        set_bit(irq % 32, (void *)&s->irq_pending[irq / 32]);
+> -    } else {
+> -        clear_bit(irq % 32, (void *)&s->irq_pending[irq / 32]);
+> -    }
+> +    *pending_reg = deposit32(*pending_reg, irq % 32, 1, level);
+>       aw_a10_pic_update(s);
+>   }
+>   
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
-
-
-r~
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
