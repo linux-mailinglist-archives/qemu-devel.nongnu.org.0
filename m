@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537B46EC8B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E406EC8B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:23:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqsPS-00075b-Dz; Mon, 24 Apr 2023 05:22:58 -0400
+	id 1pqsPR-00074K-9P; Mon, 24 Apr 2023 05:22:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsPQ-00072t-3G
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:22:56 -0400
+ id 1pqsPO-000729-5m
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:22:54 -0400
 Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsPM-0004k7-Bm
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:22:55 -0400
+ id 1pqsPM-0004jv-6y
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:22:53 -0400
 Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3f1958d3a53so27504155e9.0
+ 5b1f17b1804b1-3f19afc4f60so10495885e9.1
  for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682328171; x=1684920171;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=uzHHwwTA3hmrtSIwwqnu0eAhXH84uDjdP+zsHl3COXA=;
- b=bvbXDDLovJviJzHl/9jZ82cs6m296XzjTx+YN8KGYvzFXZPeGkshuXDrl9KoGucWut
- 6AKAaVgu2FJgGuT6Hrqh6Z6o/sITaVa5/Dks4loVE5yn2T660ZTdgVxjaV9Fc6sofcCp
- JFhxHFfMOzNzPt1NeXf9vIb0SyawRbuMupoWR1GG/5ZPn35PJ2rMhEvh5EBJsQNfLR/F
- 98wFVqqFZ30i9P9+gGieX06LU1fz6B46M/rSyhbTMS+oEWZLpAblMzZW8pqOUf9/nGBx
- b61yiNF+z7tqTsWo0Tf7ydiAqdezg9qubeFJYiHmlopE8XRHr/r95zFWkHC4Lmsrk5ZV
- o+UA==
+ d=linaro.org; s=google; t=1682328170; x=1684920170;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rKJ6jFTTTSxD6Aty0rAW8PYU4/632z+CMGqhH5MMkms=;
+ b=ilz9bhQ38wsEoy4GCgG1j4/fd5ahzhxGLrPR6jUiKYXcQQwOHcJ8a4/XTQB8z1NrR6
+ j9+iRpmE5VtK9XGKoSOw+BVQyj8PzKoWv3w3WgrL1ycJa8I4NALvne6lxTiBgOeMCe//
+ 4fcaUvkTcIjtdS3S+miFTu7FxmnYE72h49qbPLLkhiPD2xIuYlauX4F06k7cuyBcOQI3
+ wtmc8Cw/c2Au5W4QD7mByU5mSGyXUkXJmcnh+4EoVdh/cSQaTX54RGdaXAAGY7aRGWgX
+ yQgbmhwY0t58mWMd01PsOXIWZWZzCG9YvNX8a31wYu0rQXMhz2PZs/B9aJUDwKE63Oyt
+ zM9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682328171; x=1684920171;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uzHHwwTA3hmrtSIwwqnu0eAhXH84uDjdP+zsHl3COXA=;
- b=lpzO6o6CU2d6QRZaFObnfxZhUNhFO9HJwAS6O8rWf689SQF84/8m3iX84LlkPB1pV9
- A7s1z3ODrxcIu377e+enIlMvgJTwm3Zn1IXqKCBg9HM9vEM3XjDrNbZCm8fNyOnzTB3l
- k0TKJ+Q0DWUA3JS/j2la+wWzx91pWPACc/973v1iFYiUp2DmSzwjXP7YjttOiDeeU4GC
- 0B+uREeseDHNOo+wXa/XwCKJQGQSw54ng46ZgtSMIs4qM6IWB6cp+R3ZlzLhMv6EC6qb
- DrcA15EqwoOuUDketm21GNATv0DjDZpvXs9cDuJ37FLThZ/m8gmqY5dy91Iz83PgvrAa
- p+xw==
-X-Gm-Message-State: AAQBX9fjNCs02uopYI/8yO216MbDqjAqfkfk3BZXlf6ifWKEUx6JYuX2
- LEeFBVqQm9A7WE7OCUG0vhHluQ==
-X-Google-Smtp-Source: AKy350a8UgbFQzOxLLDJSisQTcSjBgTuNiiDEjiNR6Fyz4h5UcTDG/WnEMauinmv/v+bgfZvVwYX5w==
-X-Received: by 2002:a1c:7211:0:b0:3f1:71d2:da3a with SMTP id
- n17-20020a1c7211000000b003f171d2da3amr7140332wmc.30.1682328170890; 
+ d=1e100.net; s=20221208; t=1682328170; x=1684920170;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rKJ6jFTTTSxD6Aty0rAW8PYU4/632z+CMGqhH5MMkms=;
+ b=NTr2ZYf5+4intUytiEMI/X9TEf7SmREwEXSq3orVMLogSeGOTAbIkn6n18NZB4ml0P
+ a/Vq0JGv+IUD0C1TD299Q8ZDGBDWrzgab/pYY+nuiIDR5ieMcfIQ5IttjLZlZoBrdwD1
+ PfQ6KZxyIVttC6ImZmJt8bB8ESSvbHNtKTgbmdcYwJuzV8Z2LlI5DZyGFB56PBN9y9CT
+ dA7tGkeW5Z4UOsCv9qv9tvAlnpJicV45jPd6f98VcdyALFXa9YCpqhjMqx1SEKNgZln/
+ KqjaobknRL4DlcLxAQXTEf3nL8dAnHWVSaoG6BvBDlTuy07XxVwz0xUrxguNhs1ay9hH
+ 7lgg==
+X-Gm-Message-State: AAQBX9ewfEFaAxmBN9QMlLP7oonGQjjjSXwH9b+JFY4qCcdjPFaaZHFW
+ LB6mztt2/0yQlXwVNLYnp+iyzg==
+X-Google-Smtp-Source: AKy350Z6XQbPKms9s8usm6kT0sBbYRuNksPeXBCjDnFJQiXwsVtBJYotvlUtMEyMVlcJi50xQ7BByQ==
+X-Received: by 2002:a7b:cc8f:0:b0:3f1:819d:d050 with SMTP id
+ p15-20020a7bcc8f000000b003f1819dd050mr7046909wma.37.1682328170545; 
  Mon, 24 Apr 2023 02:22:50 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- l2-20020a1c7902000000b003f193d7c6b7sm8205254wme.41.2023.04.24.02.22.49
+ hg7-20020a05600c538700b003f1940fe278sm8182665wmb.7.2023.04.24.02.22.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 24 Apr 2023 02:22:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7A0FF1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 954F61FFB8;
  Mon, 24 Apr 2023 10:22:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -82,13 +83,17 @@ Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-arm@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 00/18] testing/next: avocado, docs (pre-PR)
-Date: Mon, 24 Apr 2023 10:22:31 +0100
-Message-Id: <20230424092249.58552-1-alex.bennee@linaro.org>
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Kautuk Consul <kconsul@linux.vnet.ibm.com>,
+ Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+Subject: [PATCH 01/18] tests/requirements.txt: bump up avocado-framework
+ version to 101.0
+Date: Mon, 24 Apr 2023 10:22:32 +0100
+Message-Id: <20230424092249.58552-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230424092249.58552-1-alex.bennee@linaro.org>
+References: <20230424092249.58552-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::331;
  envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
@@ -98,7 +103,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,78 +119,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is my pre-PR tree for the current state of testing/next and the
-various documentation patches that haven't been picked up by others.
-I'll look to send the PR later in the week.
+From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
 
-The following patches still need review:
+Avocado version 101.0 has a fix to re-compute the checksum
+of an asset file if the algorithm used in the *-CHECKSUM
+file isn't the same as the one being passed to it by the
+avocado user (i.e. the avocado_qemu python module).
+In the earlier avocado versions this fix wasn't there due
+to which if the checksum wouldn't match the earlier
+checksum (calculated by a different algorithm), the avocado
+code would start downloading a fresh image from the internet
+URL thus making the test-cases take longer to execute.
 
-  tests/tcg: limit the scope of the plugin tests (1 acks, 1 sobs, 0 tbs)
-  tests/avocado: use the new snapshots for testing
+Bump up the avocado-framework version to 101.0.
 
-Alex Bennée (7):
-  tests/avocado: use the new snapshots for testing
-  qemu-options: finesse the recommendations around -blockdev
-  tests/tcg: limit the scope of the plugin tests
-  docs/system: remove excessive punctuation from guest-loader docs
-  docs/devel: make a statement about includes
-  docs/devel: mention the spacing requirement for QOM
-  docs/style: call out the use of GUARD macros
+Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20230417134321.3627231-2-alex.bennee@linaro.org>
+Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
+Message-Id: <20230330101141.30199-10-alex.bennee@linaro.org>
 
-Kautuk Consul (3):
-  tests/requirements.txt: bump up avocado-framework version to 101.0
-  avocado_qemu/__init__.py: factor out the qemu-img finding
-  tests/avocado/tuxrun_baselines.py: improve code coverage for ppc64
+---
+v2
+  - limit --max-parallel-tasks $(JOBS_OPTION:-j%=%)
+---
+ tests/Makefile.include | 18 +++++++++++-------
+ tests/requirements.txt |  2 +-
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
-Philippe Mathieu-Daudé (1):
-  tests/avocado: Add set of boot tests on SBSA-ref
-
-Thomas Huth (6):
-  gitlab-ci: Avoid to re-run "configure" in the device-crash-test jobs
-  scripts/device-crash-test: Add a parameter to run with TCG only
-  .gitlab-ci.d/cirrus: Drop the CI job for compiling with FreeBSD 12
-  tests/avocado: Make ssh_command_output_contains() globally available
-  tests/avocado/machine_aspeed: Fix the broken ast2[56]00_evb_sdk tests
-  MAINTAINERS: Cover tests/avocado/machine_aspeed.py
-
-Yohei Kojima (1):
-  qemu-options.hx: Update descriptions of memory options for NUMA node
-
- MAINTAINERS                               |   3 +-
- docs/devel/qom.rst                        |   2 +
- docs/devel/style.rst                      | 108 ++++++++++
- docs/system/guest-loader.rst              |   6 +-
- .gitlab-ci.d/buildtest.yml                |   6 +-
- .gitlab-ci.d/cirrus.yml                   |  13 --
- .gitlab-ci.d/cirrus/freebsd-12.vars       |  16 --
- qemu-options.hx                           |  49 ++++-
- scripts/device-crash-test                 |   4 +-
- tests/Makefile.include                    |  18 +-
- tests/avocado/avocado_qemu/__init__.py    |  35 +++-
- tests/avocado/linux_ssh_mips_malta.py     |   8 -
- tests/avocado/machine_aarch64_sbsaref.py  | 158 +++++++++++++++
- tests/avocado/machine_aspeed.py           |  30 +--
- tests/avocado/tuxrun_baselines.py         | 232 +++++++++++++++++++---
- tests/lcitool/refresh                     |   1 -
- tests/requirements.txt                    |   2 +-
- tests/tcg/Makefile.target                 |  10 +-
- tests/tcg/aarch64/Makefile.softmmu-target |   2 -
- tests/tcg/aarch64/Makefile.target         |   1 -
- tests/tcg/arm/Makefile.softmmu-target     |   4 +-
- tests/tcg/arm/Makefile.target             |   8 -
- tests/tcg/cris/Makefile.target            |   3 +
- tests/tcg/hppa/Makefile.target            |   2 -
- tests/tcg/i386/Makefile.target            |  10 -
- tests/tcg/ppc64/Makefile.target           |   2 -
- tests/tcg/riscv64/Makefile.softmmu-target |   3 +
- tests/tcg/riscv64/Makefile.target         |   1 -
- tests/tcg/s390x/Makefile.softmmu-target   |   3 +
- tests/tcg/tricore/Makefile.softmmu-target |   3 +
- tests/tcg/xtensa/Makefile.softmmu-target  |   3 +
- 31 files changed, 599 insertions(+), 147 deletions(-)
- delete mode 100644 .gitlab-ci.d/cirrus/freebsd-12.vars
- create mode 100644 tests/avocado/machine_aarch64_sbsaref.py
-
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 9422ddaece..a4de0ad5a2 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -138,14 +138,18 @@ get-vm-image-fedora-31-%: check-venv
+ # download all vm images, according to defined targets
+ get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
+ 
++JOBS_OPTION=$(lastword -j1 $(filter-out -j, $(filter -j%,$(MAKEFLAGS))))
++
+ check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+-	$(call quiet-command, \
+-            $(TESTS_PYTHON) -m avocado \
+-            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+-            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
+-			--filter-by-tags-include-empty-key) \
+-            $(AVOCADO_CMDLINE_TAGS) \
+-            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
++	$(call quiet-command, 							\
++            $(TESTS_PYTHON) -m avocado 						\
++            --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) 	\
++            $(if $(AVOCADO_TAGS),, 						\
++			--filter-by-tags-include-empty 				\
++			--filter-by-tags-include-empty-key) 			\
++		--max-parallel-tasks $(JOBS_OPTION:-j%=%) 			\
++            $(AVOCADO_CMDLINE_TAGS) 						\
++            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), 			\
+             "AVOCADO", "tests/avocado")
+ 
+ check-acceptance-deprecated-warning:
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index 0ba561b6bd..a6f73da681 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -2,5 +2,5 @@
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+ # Note that qemu.git/python/ is always implicitly installed.
+-avocado-framework==88.1
++avocado-framework==101.0
+ pycdlib==1.11.0
 -- 
 2.39.2
 
