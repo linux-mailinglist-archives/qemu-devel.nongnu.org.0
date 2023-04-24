@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8696EC8DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CFE6EC8D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:26:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqsWY-0004IR-9i; Mon, 24 Apr 2023 05:30:18 -0400
+	id 1pqsQA-0007wi-CP; Mon, 24 Apr 2023 05:23:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsVr-0003wZ-5S
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:29:37 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1pqsPo-0007Oa-1h
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:23:25 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsVh-0006c4-0E
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:29:32 -0400
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-2f87c5b4635so3814086f8f.1
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:29:23 -0700 (PDT)
+ id 1pqsPT-0004pG-Hg
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:23:18 -0400
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-2f95231618aso2557679f8f.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:22:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682328560; x=1684920560;
+ d=linaro.org; s=google; t=1682328178; x=1684920178;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KZgFhfTtj2ImggRREYrxhpwQ3q5LfEc+IwV3JjKE3es=;
- b=YoHXJyTXBLh66AKNwBrJIHCyO5HhkmWA2vTLeHJFL6MeKV5saOk+RdLFuoKF2unXET
- ggWa+Mz3afLpqnsc2iK0h+EnvejTZk/99rz6SOhhzwKdyFsmwCoK0XR5lFzGDtLRZaZO
- 3dO13kgjX1t4FoqY9aCNTLVhgM7PWXLoWMOwK1FK6HEpl26n4A+4Jbxez7QuCWuaREIS
- 33B2kZ6Dh/DXuA/+eS1BwxN+h6qwEdEIg9QMXJbNXpA3Welut4CG/lPJ0U796c8GlkbD
- r66QpUBKCjS+I7n+SglWr336alW7Rwf3ocjxuXgWZsqFIJpDLBDdNxeRy6Zr276wZ8Sx
- T5Xg==
+ bh=ymh1KmF1OssFCV8CswQJao0hOIMo+XbhaPHzwGuiKz8=;
+ b=uT+ZCJ1wEBDq7TmrZeZGhrgzO26xURh4c4nX6qGOo4OqKvHcIRxN+uKvYt6GurNkY8
+ gTC/l1D9NqP1QiKRx97y1emjAxohpMKe6Tyxv3m9DZ8tSREn7E1Hnnw2I+ARAcUPUnuK
+ yDpAZoScYIIZAvWqj5ojfm+j245QGQTxHUegNhZ6cP3ogh5Qbp1ZTlXe/j9zZlsDB1w1
+ 7BjVDcBB3/9OzVxmhAYRLzN6zdrQzq5InrZpQ3pli0T2p+Xlo29WGW1DY8lJOIszhKzO
+ BS1wgS1TsA9W9W6GeGL6ZNks18KfC2dZqGt6NXEcgGHAOlVd3hfOA2bFLOqJxubaAvAJ
+ vxIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682328560; x=1684920560;
+ d=1e100.net; s=20221208; t=1682328178; x=1684920178;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KZgFhfTtj2ImggRREYrxhpwQ3q5LfEc+IwV3JjKE3es=;
- b=JmjWB5HpiGM+yt5j3R8ybJZRR7Cg6Rja0s8+LJcLlVfS9qrGHcWKrjPJXIuaCGG6Be
- XUVTjRAr8qFwFA7I0+cc35FBYIsmj9kPXjzdwmzb7t7AZBEUney0AiHUH9RH6yc8Z4JF
- 3lxuDaDCwrMnJYXK+IvY3rUCRODr57Kf500C0BzypF0SHE9GVv+Nt2FuRdTqjejZ+hZU
- 5u3GjgFZ973JkWfDOag9utNLUa5IZcPm1Vcrn+nzYov6W49Oad3B2o7zVeWVOLoDZbT6
- QVnqUfCGOAAE2hkvzf56w0AVgFrDVy1kw8kYLEbI/EGcz3d0EAzrIb2M948/XP4AgX18
- eL+w==
-X-Gm-Message-State: AAQBX9e4/XqXCEv7hRbOPZsc9c/gUvQfzqXUGAkAwwY4zPiKDjTxj5zI
- IWlCRSrttt4Qx6xHmeRjFbW1gQ==
-X-Google-Smtp-Source: AKy350YVvKB5XqgLUMz9d84prBmRhsBqo/TpZLCZwTJ4xa1t9uqdp1lTdhzNyq9esWfwUIHBFzm2kA==
-X-Received: by 2002:adf:ea46:0:b0:2e5:31a3:38d4 with SMTP id
- j6-20020adfea46000000b002e531a338d4mr9218447wrn.55.1682328560215; 
- Mon, 24 Apr 2023 02:29:20 -0700 (PDT)
+ bh=ymh1KmF1OssFCV8CswQJao0hOIMo+XbhaPHzwGuiKz8=;
+ b=S2/tSE9om5veBkexl8FWi4rGPs57zhXp4y3JUWDLsTk2hPg4gsfLcUrff4Y6gnJO/h
+ 5N8a5FLolxc+a8LqzBZpQnG+NpDYPPmjgrSsATw+Gt4aPC54xJkJrn1DgLehvkjrn3H5
+ pVRMHN/nFkSFqaFL+L45wxBHP4hYEbspBqd5PdybWGYE5NHfWHh6inUF6rP4sXcWtiIe
+ o/ejLJOqDGPWoHLW22PhLMzIHXYnCNP4Jk9pb7uCt6LZ0pJWyYl7SO21h+wU0ddgw3pU
+ SR+cjMBnjA2wKQuzLDURz9QATjjFtLveB3K86ubGLsBujpqDdnl6ShVpS6RHixD60v4n
+ 9DmA==
+X-Gm-Message-State: AAQBX9eTE8GkRmhHsPEdWHu6bWOph/L6O7DjBnwciXn7JMjq+3bqxnZ7
+ OUrjI3+P/UiZJipvw5DrRJa0kA==
+X-Google-Smtp-Source: AKy350anfhPe4x0DtWvXLd5zofs4N+YTUOEZbYDTE0pdkuCd86lZIDl/6l6HTMFp3yTgXJzMVrH73w==
+X-Received: by 2002:a05:6000:8e:b0:304:6d32:d589 with SMTP id
+ m14-20020a056000008e00b003046d32d589mr3845013wrx.18.1682328178209; 
+ Mon, 24 Apr 2023 02:22:58 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- j3-20020a5d5643000000b002e4cd2ec5c7sm10337523wrw.86.2023.04.24.02.29.19
+ w6-20020adfee46000000b002f0442a2d3asm10372906wro.48.2023.04.24.02.22.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Apr 2023 02:29:19 -0700 (PDT)
+ Mon, 24 Apr 2023 02:22:56 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 543721FFC6;
+ by zen.linaroharston (Postfix) with ESMTP id 6F1B41FFC7;
  Mon, 24 Apr 2023 10:22:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -83,25 +83,26 @@ Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-arm@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 16/18] docs/devel: make a statement about includes
-Date: Mon, 24 Apr 2023 10:22:47 +0100
-Message-Id: <20230424092249.58552-17-alex.bennee@linaro.org>
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH 17/18] docs/devel: mention the spacing requirement for QOM
+Date: Mon, 24 Apr 2023 10:22:48 +0100
+Message-Id: <20230424092249.58552-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230424092249.58552-1-alex.bennee@linaro.org>
 References: <20230424092249.58552-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,41 +118,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While not explicitly disallowing header macro abuse (because that
-would make us hypocrites) lets at least address some things to think
-about.
+We have a more complete document on QOM but we should at least mention
+the style requirements in the style guide.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20230420155723.1711048-8-alex.bennee@linaro.org>
----
- docs/devel/style.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Message-Id: <20230420155723.1711048-9-alex.bennee@linaro.org>
 
+---
+vppr:
+  - use Mark's formulation, briefly mention property separation.
+---
+ docs/devel/qom.rst   |  2 ++
+ docs/devel/style.rst | 40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+
+diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+index 3e34b07c98..c9237950d0 100644
+--- a/docs/devel/qom.rst
++++ b/docs/devel/qom.rst
+@@ -1,3 +1,5 @@
++.. _qom:
++
+ ===========================
+ The QEMU Object Model (QOM)
+ ===========================
 diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-index 68aa776930..5bc6f2f095 100644
+index 5bc6f2f095..e9fce0fc69 100644
 --- a/docs/devel/style.rst
 +++ b/docs/devel/style.rst
-@@ -300,6 +300,20 @@ putting those into qemu/typedefs.h instead of including the header.
+@@ -628,6 +628,46 @@ are still some caveats to beware of
+ QEMU Specific Idioms
+ ********************
  
- Cyclic inclusion is forbidden.
- 
-+Generative Includes
-+-------------------
++QEMU Object Model Declarations
++==============================
 +
-+QEMU makes fairly extensive use of the macro pre-processor to
-+instantiate multiple similar functions. While such abuse of the macro
-+processor isn't discouraged it can make debugging and code navigation
-+harder. You should consider carefully if the same effect can be
-+achieved by making it easy for the compiler to constant fold or using
-+python scripting to generate grep friendly code.
++QEMU Object Model Declarations
++==============================
 +
-+If you do use template header files they should be named with the
-+``.c.inc`` or ``.h.inc`` suffix to make it clear they are being
-+included for expansion.
++The QEMU Object Model (QOM) provides a framework for handling objects
++in the base C language. The first declaration of a storage or class
++structure should always be the parent and leave a visual space between
++that declaration and the new code. It is also useful to separate
++backing for properties (options driven by the user) and internal state
++to make navigation easier.
 +
- C types
- =======
++For a storage structure the first declaration should always be called
++"parent_obj" and for a class structure the first member should always
++be called "parent_class" as below:
++
++.. code-block:: c
++
++    struct MyDeviceState {
++        DeviceState parent_obj;
++
++        /* Properties */
++        int prop_a;
++        char *prop_b;
++        /* Other stuff */
++        int internal_state;
++    };
++
++    struct MyDeviceClass {
++        DeviceClass parent_class;
++
++        void (*new_fn1)(void);
++        bool (*new_fn2)(CPUState *);
++    };
++
++Note that there is no need to provide typedefs for QOM structures
++since these are generated automatically by the QOM declaration macros.
++See :ref:`qom` for more details.
++
+ Error handling and reporting
+ ============================
  
 -- 
 2.39.2
