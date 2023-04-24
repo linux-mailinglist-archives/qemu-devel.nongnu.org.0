@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B416ED63A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 22:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C226ED641
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 22:42:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pr30V-0002H7-0k; Mon, 24 Apr 2023 16:41:55 -0400
+	id 1pr30m-0002U7-TK; Mon, 24 Apr 2023 16:42:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr30S-0002Gj-Aj
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:41:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pr30l-0002QG-CJ
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:42:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr30P-0001Q4-Ql
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:41:51 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pr30j-0001Wn-PM
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:42:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682368908;
+ s=mimecast20190719; t=1682368923;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vhb+5BS3xz4WdYrLb/K7d4befNgGZRqpAPj6EArGY90=;
- b=XzjFsAAjpfJ8VEFaSm0dfktJR6O+4oWBJoVEQSj5H5fdZXGhnLhqS2mkdt5YJwQ4wfsNsV
- 3H98XFLVI7gijK7T3CF1Xh8K0/X5rt4sIYS6sHPNemT3YE5AsE2KKAxwVv/NPxkxMU9PfM
- TwQCTXOUFCYgyPcL7dRDQCwBMS0MGO0=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wD0UKQn245rDvrwOMrCFAKH72U4lZLb/noWJh+Mofuk=;
+ b=VVOanQWUT84CnCaJWO8IPQwTkGRLpAXUFC26/XJ+cpPwFyG3OQ3YlRht3CRIjonIB/4WWj
+ NFY5S7kywueUmLlvtEYxNHpaBjHoG8gbd9ITh4SZ96Jsam3S/DI78MfjzTs1OmlSlOHUm4
+ oMiZwwa7Nq66CXnGGIUMh8SmWtscDe0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-244-n86qqYgvO9a5sZ-4jNhsOw-1; Mon, 24 Apr 2023 16:41:47 -0400
-X-MC-Unique: n86qqYgvO9a5sZ-4jNhsOw-1
-Received: by mail-pf1-f200.google.com with SMTP id
- d2e1a72fcca58-63d30b08700so25751882b3a.1
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 13:41:46 -0700 (PDT)
+ us-mta-637-PNrmPUucPJmZLhuDFSob-g-1; Mon, 24 Apr 2023 16:42:01 -0400
+X-MC-Unique: PNrmPUucPJmZLhuDFSob-g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f16f50aeb5so18241695e9.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 13:42:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682368906; x=1684960906;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vhb+5BS3xz4WdYrLb/K7d4befNgGZRqpAPj6EArGY90=;
- b=LlJlwt4v+MYYQqZSIIhgwq/9W0CnKULpizcVH44wAXWhiDwjyklxraAa2S/VvlRyPq
- /CaJwQjP8wWTSbZO9QvH4oBW8N7ZBNK7rbEDCosD7Byd2g1luPy08nlYhBDKBNix5DXI
- MAX+ySK0KTZmbVMHsrffbbChFJXKVCfHsH+hgQQrhSh5O8r4UiCQObZFGZN5Q4GE7YSg
- fE4yknuQ5R1tB9y941MfQcl2qyNj2aecbp7pi4rqPivoyhWnDvWzGhKJm/WEaWeSLTU0
- X3RjaXscCCHMnH4NLgXVv9MFzO3xSH5ye/FYJ2bfA3nluz+4U4gVjzktKVP1v2avXoV5
- AoDQ==
-X-Gm-Message-State: AAQBX9chptcDbt/qloJZqEj8FbTa8VZAVlF/gTWbBLdoBbH+47WNKGLx
- 2VMLCtopTzuL7H9UoZ3M5A0BpHrA4B8LFNVsK4iUyEMqcJTCQ/5kuQWje+dooLTp1czMagDrYlC
- mnlkH4ZqRJPaK61VdleCSSiVuVpwNCpc=
-X-Received: by 2002:a17:90a:9285:b0:246:5787:6f5d with SMTP id
- n5-20020a17090a928500b0024657876f5dmr23350777pjo.10.1682368905926; 
- Mon, 24 Apr 2023 13:41:45 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bPBtvwbDNj5gD5JHsKt78RZe1K3E227trDr9IzwqzdNt9rrroeZQkUSQqsgRhkgvn4Zd2HjWDjOGoWi08YDcw=
-X-Received: by 2002:a17:90a:9285:b0:246:5787:6f5d with SMTP id
- n5-20020a17090a928500b0024657876f5dmr23350736pjo.10.1682368905514; Mon, 24
- Apr 2023 13:41:45 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682368920; x=1684960920;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wD0UKQn245rDvrwOMrCFAKH72U4lZLb/noWJh+Mofuk=;
+ b=FKuvQGmcGoEfAlhSrYb9ZmSqFkeodJVpd+QHvR8Hn1L0fbA6wt9OkzyJJhq6Mhko7b
+ pvKZiPFXnOhR/eXT7xFO2N1vzQsYsundR3ZrPJF6C1yiOW/E2iWaKgKQt4nM7u5tn3it
+ mFE44+ZYlpakBJA/cq2Pm4ANL25ZWKhdLau6p8CRuPzDy8Z4yQAI+CguDw58HokQYsna
+ 6sotQDB/oWa32PNdpvWTd4mlU63DzxqupKEuY3BsiBo1v5d5tPr9ekk83NJqn8/UwX2k
+ qA8/1Bxbr4k8hnmtds8sCtayxzYKmVdw2/gXBBJxdRpURa8+rhO+6E0pkxguxa5pbNgY
+ 92Nw==
+X-Gm-Message-State: AAQBX9el5gDAIVcC2kEOplNB/v7ivxkJWt5tq4N6l4KwSo1Tv+fqnYki
+ vpRYmwkVsT37/Lg1CDwlfUDXi7cj/asjdQhSDh+S/bVJ1QFKay1HGpGVnMaERM++UZTIQPO7piz
+ SlboMeVgNUPbUU0A=
+X-Received: by 2002:a1c:f302:0:b0:3f1:8c5f:dfc5 with SMTP id
+ q2-20020a1cf302000000b003f18c5fdfc5mr8142602wmq.39.1682368920568; 
+ Mon, 24 Apr 2023 13:42:00 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aYz6ocy0SIntgMJfxmIruTD/EEA6a5ovn4/2v4O6CDXWVwq/hb1ymvQSUodk23hGci3kJXRg==
+X-Received: by 2002:a1c:f302:0:b0:3f1:8c5f:dfc5 with SMTP id
+ q2-20020a1cf302000000b003f18c5fdfc5mr8142592wmq.39.1682368920231; 
+ Mon, 24 Apr 2023 13:42:00 -0700 (PDT)
+Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
+ s13-20020adfeb0d000000b002fb6a79dea0sm11632872wrn.7.2023.04.24.13.41.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Apr 2023 13:41:59 -0700 (PDT)
+Date: Mon, 24 Apr 2023 16:41:56 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, philmd@linaro.org, david@redhat.com,
+ peterx@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
+ den-plotnikov@yandex-team.ru
+Subject: Re: [PATCH] pci: make ROM memory resizable
+Message-ID: <20230424164105-mutt-send-email-mst@kernel.org>
+References: <20230424203647.94614-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
-References: <20230424200248.1183394-1-jsnow@redhat.com>
- <20230424200248.1183394-15-jsnow@redhat.com>
- <CANCZdfrmJtZBCf55hvQ48k9jguEvhrntVCYiqkjDx2BwYJOa-Q@mail.gmail.com>
-In-Reply-To: <CANCZdfrmJtZBCf55hvQ48k9jguEvhrntVCYiqkjDx2BwYJOa-Q@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 24 Apr 2023 16:41:34 -0400
-Message-ID: <CAFn=p-ZJkEZaujHfCdgNYvTw70rMTrFLgB0EW32a-v0UexgVRg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 14/20] configure: use 'mkvenv ensure meson' to
- bootstrap meson
-To: Warner Losh <imp@bsdimp.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Beraldo Leal <bleal@redhat.com>, 
- Kyle Evans <kevans@freebsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- Daniel Berrange <berrange@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230424203647.94614-1-vsementsov@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -102,158 +96,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Apr 24, 2023 at 4:36=E2=80=AFPM Warner Losh <imp@bsdimp.com> wrote:
->
->
->
-> On Mon, Apr 24, 2023, 2:03 PM John Snow <jsnow@redhat.com> wrote:
->>
->> This commit changes how we detect and install meson. It notably removes
->> '--meson=3D'.
->>
->> The previous patch creates a lightweight Python virtual environment
->> unconditionally using the user's configured $python that inherits system
->> packages. If Meson is installed there and meets our minimum version
->> requirements, we will use that Meson.
->>
->> In the event that Meson is installed but *not for the chosen Python
->> interpreter*, not found, or of insufficient version, we will attempt to
->> install Meson from vendored source into the newly created Python virtual
->> environment. This vendored installation is considered to replace the
->> mechanism from prior tarball distributions.
->>
->> This commit restores the ability to use a system meson, but in turn
->> temporarily removes the ability to use a meson as obtained from the
->> internet at configure-time (git submodules, as it stood prior to this
->> patch); that ability will be restored in the next commit.
->>
->> As a result of this patch, the Python interpreter we use for both our
->> own build scripts *and* Meson extensions are always known to be the
->> exact same Python. As a further benefit, there will also be a symlink
->> available in the build directory that points to the correct, configured
->> python and can be used by e.g. manual tests to invoke the correct,
->> configured Python unambiguously.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  configure                           | 72 ++++++++---------------------
->>  .gitlab-ci.d/buildtest-template.yml |  4 +-
->>  2 files changed, 21 insertions(+), 55 deletions(-)
->>
->> diff --git a/configure b/configure
->> index 462fe604d6..e9947369b2 100755
->> --- a/configure
->> +++ b/configure
->> @@ -731,8 +731,6 @@ for opt do
->>    ;;
->>    --skip-meson) skip_meson=3Dyes
->>    ;;
->> -  --meson=3D*) meson=3D"$optarg"
->> -  ;;
->>    --ninja=3D*) ninja=3D"$optarg"
->>    ;;
->>    --smbd=3D*) smbd=3D"$optarg"
->> @@ -1016,7 +1014,6 @@ Advanced options (experts only):
->>    --cross-prefix-ARCH=3DPREFIX cross compiler prefix when building ARCH=
- guest test cases
->>    --make=3DMAKE              use specified make [$make]
->>    --python=3DPYTHON          use specified python [$python]
->> -  --meson=3DMESON            use specified meson [$meson]
->>    --ninja=3DNINJA            use specified ninja [$ninja]
->>    --smbd=3DSMBD              use specified smbd [$smbd]
->>    --with-git=3DGIT           use specified git [$git]
->> @@ -1089,7 +1086,8 @@ fi
->>
->>  # Resolve PATH
->>  python=3D"$(command -v "$python")"
->> -explicit_python=3Dyes
->> +# This variable is intended to be used only for error messages:
->> +target_python=3D$python
->>
->>  # Create a Python virtual environment using our configured python.
->>  # The stdout of this script will be the location of a symlink that
->> @@ -1101,7 +1099,6 @@ explicit_python=3Dyes
->>  # - venv is cleared if it exists already;
->>  # - venv is allowed to use system packages;
->>  # - all setup is performed **offline**;
->> -# - No packages are installed by default;
->>  # - pip is not installed into the venv when possible,
->>  #   but ensurepip is called as a fallback when necessary.
->>
->> @@ -1116,58 +1113,27 @@ fi
->>  # Suppress writing compiled files
->>  python=3D"$python -B"
->>
->> -has_meson() {
->> -  local python_dir=3D$(dirname "$python")
->> -  # PEP405: pyvenv.cfg is either adjacent to the Python executable
->> -  # or one directory above
->> -  if test -f $python_dir/pyvenv.cfg || test -f $python_dir/../pyvenv.cf=
-g; then
->> -    # Ensure that Meson and Python come from the same virtual environme=
-nt
->> -    test -x "$python_dir/meson" &&
->> -      test "$(command -v meson)" -ef "$python_dir/meson"
->> -  else
->> -    has meson
->> -  fi
->> -}
->>
->> -if test -z "$meson"; then
->> -    if test "$explicit_python" =3D no && has_meson && version_ge "$(mes=
-on --version)" 0.61.5; then
->> -        meson=3Dmeson
->> -    elif test "$git_submodules_action" !=3D 'ignore' ; then
->> -        meson=3Dgit
->> -    elif test -e "${source_path}/meson/meson.py" ; then
->> -        meson=3Dinternal
->> -    else
->> -        if test "$explicit_python" =3D yes; then
->> -            error_exit "--python requires using QEMU's embedded Meson d=
-istribution, but it was not found."
->> -        else
->> -            error_exit "Meson not found.  Use --meson=3D/path/to/meson"
->> -        fi
->> +if ! $python "${source_path}/python/scripts/mkvenv.py" ensure \
->> +     --dir "${source_path}/python/wheels" \
->> +     "meson>=3D0.61.5" ;
->> +then
->> +    # We're very out of luck. Try to give a good diagnostic.
->> +    if test -e pyvenv/bin/meson; then
->> +        echo "Meson is too old:
->
->
-> Does a minimum version still get printed? I've needed to know that in the=
- past when I got the error...
->
-> Warner
->  $(pyvenv/bin/meson --version)"
+On Mon, Apr 24, 2023 at 11:36:47PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On migration, on target we load local ROM file. But actual ROM content
+> migrates through migration channel. Original ROM content from local
+> file doesn't matter. But when size mismatch - we have an error like
+> 
+>  Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
+> 
+> Let's just allow resizing of ROM memory. This way migration is not
+> relate on local ROM file on target node which is loaded by default but
+> is not actually needed.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> ---
+>  hw/pci/pci.c          |  7 +++++--
+>  include/exec/memory.h | 26 ++++++++++++++++++++++++++
+>  softmmu/memory.c      | 39 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 70 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index def5000e7b..72ee8f6aea 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -59,6 +59,8 @@
+>  # define PCI_DPRINTF(format, ...)       do { } while (0)
+>  #endif
+>  
+> +#define MAX_ROM_SIZE (2 * GiB)
+> +
+>  bool pci_available = true;
+>  
+>  static char *pcibus_get_dev_path(DeviceState *dev);
+> @@ -2341,7 +2343,7 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>          error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+>          g_free(path);
+>          return;
+> -    } else if (size > 2 * GiB) {
+> +    } else if (size > MAX_ROM_SIZE) {
+>          error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+>                     pdev->romfile);
+>          g_free(path);
+> @@ -2366,7 +2368,8 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>          snprintf(name, sizeof(name), "%s.rom", object_get_typename(OBJECT(pdev)));
+>      }
+>      pdev->has_rom = true;
+> -    memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize, &error_fatal);
+> +    memory_region_init_rom_resizable(&pdev->rom, OBJECT(pdev), name,
+> +                                     pdev->romsize, MAX_ROM_SIZE, &error_fatal);
+>      ptr = memory_region_get_ram_ptr(&pdev->rom);
+>      if (load_image_size(path, ptr, size) < 0) {
+>          error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
 
-At the end of the series, here's what happens if i change the meson
-requirement to a fictionally too-high version that would be impossible
-to fulfill:
+You know this steals 2GB from address space, yes? This is quite a lot
+...
 
----------------------------------------------------------------------------=
------
-jsnow@scv ~/s/q/b/git (python-configure-venv)> ../../configure
---enable-debug --disable-pypi;
-python determined to be '/usr/bin/python3'
-python version: Python 3.11.2
-MKVENV pyvenv
-MKVENV ensure meson>=3D2.61.5
-ERROR: Could not find a version that satisfies the requirement
-meson>=3D2.61.5 (from versions: none)
-ERROR: No matching distribution found for meson>=3D2.61.5
-
-*** Ouch! ***
-
-Could not ensure availability of 'meson>=3D2.61.5':
- =E2=80=A2 Python package 'meson' version '1.0.1' was found, but isn't suit=
-able.
- =E2=80=A2 No suitable version found in, or failed to install from
-'/home/jsnow/src/qemu/python/wheels'.
- =E2=80=A2 mkvenv was configured to operate offline and did not check PyPI.
----------------------------------------------------------------------------=
------
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 15ade918ba..ed1e5d9126 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -1453,6 +1453,19 @@ void memory_region_init_rom_nomigrate(MemoryRegion *mr,
+>                                        uint64_t size,
+>                                        Error **errp);
+>  
+> +/*
+> + * memory_region_init_rom_nomigrate_resizable: same as
+> + * memory_region_init_rom_nomigrate(), but initialize resizable memory region.
+> + *
+> + * @max_size maximum allowed size.
+> + */
+> +void memory_region_init_rom_nomigrate_resizable(MemoryRegion *mr,
+> +                                                struct Object *owner,
+> +                                                const char *name,
+> +                                                uint64_t size,
+> +                                                uint64_t max_size,
+> +                                                Error **errp);
+> +
+>  /**
+>   * memory_region_init_rom_device_nomigrate:  Initialize a ROM memory region.
+>   *                                 Writes are handled via callbacks.
+> @@ -1562,6 +1575,19 @@ void memory_region_init_rom(MemoryRegion *mr,
+>                              uint64_t size,
+>                              Error **errp);
+>  
+> +/*
+> + * memory_region_init_rom_resizable: same as memory_region_init_rom(),
+> + * but initialize resizable memory region.
+> + *
+> + * @max_size maximum allowed size.
+> + */
+> +void memory_region_init_rom_resizable(MemoryRegion *mr,
+> +                                      struct Object *owner,
+> +                                      const char *name,
+> +                                      uint64_t size,
+> +                                      uint64_t max_size,
+> +                                      Error **errp);
+> +
+>  /**
+>   * memory_region_init_rom_device:  Initialize a ROM memory region.
+>   *                                 Writes are handled via callbacks.
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index b1a6cae6f5..744d03bc02 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1701,6 +1701,18 @@ void memory_region_init_rom_nomigrate(MemoryRegion *mr,
+>      mr->readonly = true;
+>  }
+>  
+> +void memory_region_init_rom_nomigrate_resizable(MemoryRegion *mr,
+> +                                                struct Object *owner,
+> +                                                const char *name,
+> +                                                uint64_t size,
+> +                                                uint64_t max_size,
+> +                                                Error **errp)
+> +{
+> +    memory_region_init_resizeable_ram(mr, owner, name, size, max_size, NULL,
+> +                                      errp);
+> +    mr->readonly = true;
+> +}
+> +
+>  void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
+>                                               Object *owner,
+>                                               const MemoryRegionOps *ops,
+> @@ -3580,6 +3592,33 @@ void memory_region_init_rom(MemoryRegion *mr,
+>      vmstate_register_ram(mr, owner_dev);
+>  }
+>  
+> +void memory_region_init_rom_resizable(MemoryRegion *mr,
+> +                                      struct Object *owner,
+> +                                      const char *name,
+> +                                      uint64_t size,
+> +                                      uint64_t max_size,
+> +                                      Error **errp)
+> +{
+> +    DeviceState *owner_dev;
+> +    Error *err = NULL;
+> +
+> +    memory_region_init_rom_nomigrate_resizable(mr, owner, name, size, max_size,
+> +                                               &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +    /*
+> +     * This will assert if owner is neither NULL nor a DeviceState.
+> +     * We only want the owner here for the purposes of defining a
+> +     * unique name for migration. TODO: Ideally we should implement
+> +     * a naming scheme for Objects which are not DeviceStates, in
+> +     * which case we can relax this restriction.
+> +     */
+> +    owner_dev = DEVICE(owner);
+> +    vmstate_register_ram(mr, owner_dev);
+> +}
+> +
+>  void memory_region_init_rom_device(MemoryRegion *mr,
+>                                     Object *owner,
+>                                     const MemoryRegionOps *ops,
+> -- 
+> 2.34.1
 
 
