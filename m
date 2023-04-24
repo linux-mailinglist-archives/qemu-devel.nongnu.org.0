@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399996ED5D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 22:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A233C6ED5E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 22:09:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pr2Ou-0007lJ-BR; Mon, 24 Apr 2023 16:03:04 -0400
+	id 1pr2Ov-0007nV-Pa; Mon, 24 Apr 2023 16:03:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr2Oq-0007eQ-RC
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:03:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr2Os-0007jX-EY
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:03:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr2Oo-0000wo-Lr
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:03:00 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr2Oq-0000wv-As
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:03:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682366578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vMhulmk5OML72JeUi2RGWnSylGPWl5bnlwsN1SoB3nM=;
- b=XadXVMWJntvB12QbvDzjehsFWrEdj0n+/N/koNCxNk4QlCrvCawAsWa8/FX+QjtI1PP1E9
- p5peq7ZfVOZ+mjP0cQKwUSJD2fXmd5/4/JB81VXsJG5Qan6fGkZn+kO822kpfAZ+jotN/G
- 3/XjGo8udN0zgG8UxbW7LOhyBIXbIkk=
+ bh=kOo7dSyIG8DYno+AxpA5II1Cc5cRU+Bp4ZgeSQSSi6c=;
+ b=bXN0+YXESOmW2d/xC3hTa/4d6OaXfdgno/aFC9cTCqDWg9KzqKaODpvKfvsGALYW9Ooztz
+ 4A2/33KFlMeaSrKQP4hiX546mQdP3M+2/xkCguRw2ajhmtmvrF3EmfxDpdIAdTSybTG3q2
+ 1CWq30P/1HSGAAM0Iy0HtMkkH0ZLLg8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-uYsexOANN2mSB2g90lY01g-1; Mon, 24 Apr 2023 16:02:54 -0400
-X-MC-Unique: uYsexOANN2mSB2g90lY01g-1
+ us-mta-663-3IVgkhjoN9OBRVC9GlbUdA-1; Mon, 24 Apr 2023 16:02:55 -0400
+X-MC-Unique: 3IVgkhjoN9OBRVC9GlbUdA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 145F8185A78F;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB329101A54F;
  Mon, 24 Apr 2023 20:02:54 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.34.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58CB91121319;
- Mon, 24 Apr 2023 20:02:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23E891121318;
+ Mon, 24 Apr 2023 20:02:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Warner Losh <imp@bsdimp.com>, Beraldo Leal <bleal@redhat.com>,
@@ -52,16 +52,15 @@ Cc: Warner Losh <imp@bsdimp.com>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC PATCH v3 06/20] mkvenv: work around broken pip installations on
- Debian 10
-Date: Mon, 24 Apr 2023 16:02:34 -0400
-Message-Id: <20230424200248.1183394-7-jsnow@redhat.com>
+Subject: [RFC PATCH v3 07/20] mkvenv: add nested venv workaround
+Date: Mon, 24 Apr 2023 16:02:35 -0400
+Message-Id: <20230424200248.1183394-8-jsnow@redhat.com>
 In-Reply-To: <20230424200248.1183394-1-jsnow@redhat.com>
 References: <20230424200248.1183394-1-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -85,149 +84,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a workaround intended for Debian 10, where the debian-patched
-pip does not function correctly if accessed from within a virtual
-environment.
+Python virtual environments do not typically nest; they may inherit from
+the top-level system packages or not at all.
 
-We don't support Debian 10 any longer, but it's possible that this bug
-might appear on other derivative platforms and this workaround may prove
-useful.
+For our purposes, it would be convenient to emulate "nested" virtual
+environments to allow callers of the configure script to install
+specific versions of python utilities in order to test build system
+features, utility version compatibility, etc.
 
-RFC, a note from Paolo:
+While it is possible to install packages into the system environment
+(say, by using the --user flag), it's nicer to install test packages
+into a totally isolated environment instead.
 
-"BTW, another way to repair Debian 10's pip is to create a symbolic link
-to sys.base_prefix + '/share/python-wheels' in sys.prefix +
-'/share/python-wheels'. Since this is much faster, perhaps it can be
-done unconditionally [...] ?"
+As detailed in https://www.qemu.org/2023/03/24/python/, Emulate a nested
+venv environment by using .pth files installed into the site-packages
+folder that points to the parent environment when appropriate.
 
-I was slightly apprehensive about this as it felt "hackier", but it is
-indeed a lot less code and much faster. It's probably low-risk. Should
-we do that instead, or should we just scrap any fix at all under the
-premise that Debian 10 support is dropped anyway?
-
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/scripts/mkvenv.py | 67 +++++++++++++++++++++++++++++++---------
- 1 file changed, 52 insertions(+), 15 deletions(-)
+ python/scripts/mkvenv.py | 72 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 69 insertions(+), 3 deletions(-)
 
 diff --git a/python/scripts/mkvenv.py b/python/scripts/mkvenv.py
-index 4daa652f12..445f4eb092 100644
+index 445f4eb092..45d1b772e5 100644
 --- a/python/scripts/mkvenv.py
 +++ b/python/scripts/mkvenv.py
-@@ -151,26 +151,26 @@ def need_ensurepip() -> bool:
-     return True
+@@ -51,9 +51,11 @@
+ import os
+ from pathlib import Path
+ import re
++import site
+ import stat
+ import subprocess
+ import sys
++import sysconfig
+ import traceback
+ from types import SimpleNamespace
+ from typing import (
+@@ -74,6 +76,11 @@
+ logger = logging.getLogger("mkvenv")
  
  
--def check_ensurepip(with_pip: bool) -> None:
-+def check_ensurepip(prefix: str = "", suggest_remedy: bool = False) -> None:
++def inside_a_venv() -> bool:
++    """Returns True if it is executed inside of a virtual environment."""
++    return sys.prefix != sys.base_prefix
++
++
+ class Ouch(RuntimeError):
+     """An Exception class we can't confuse with a builtin."""
+ 
+@@ -82,9 +89,15 @@ class QemuEnvBuilder(venv.EnvBuilder):
      """
-     Check that we have ensurepip.
+     An extension of venv.EnvBuilder for building QEMU's configure-time venv.
  
-     Raise a fatal exception with a helpful hint if it isn't available.
-     """
--    if not with_pip:
--        return
--
-     if not find_spec("ensurepip"):
-         msg = (
-             "Python's ensurepip module is not found.\n"
-             "It's normally part of the Python standard library, "
-             "maybe your distribution packages it separately?\n"
--            "Either install ensurepip, or alleviate the need for it in the "
--            "first place by installing pip and setuptools for "
--            f"'{sys.executable}'.\n"
--            "(Hint: Debian puts ensurepip in its python3-venv package.)"
-+            "(Debian puts ensurepip in its python3-venv package.)\n"
-         )
--        raise Ouch(msg)
-+        if suggest_remedy:
-+            msg += (
-+                "Either install ensurepip, or alleviate the need for it in the"
-+                " first place by installing pip and setuptools for "
-+                f"'{sys.executable}'.\n"
+-    The only functional change is that it adds the ability to regenerate
+-    console_script shims for packages available via system_site
+-    packages.
++    The primary differences are:
++
++    (1) It adds the ability to regenerate console_script shims for
++    packages available via system_site_packages for any packages
++    specified by the 'script_packages' argument
++
++    (2) It emulates a "nested" virtual environment when invoked from
++    inside of an existing virtual environment by including packages from
++    the parent.
+ 
+     Parameters for base class init:
+       - system_site_packages: bool = False
+@@ -99,11 +112,51 @@ class QemuEnvBuilder(venv.EnvBuilder):
+     def __init__(self, *args: Any, **kwargs: Any) -> None:
+         logger.debug("QemuEnvBuilder.__init__(...)")
+         self.script_packages = kwargs.pop("script_packages", ())
++
++        # For nested venv emulation:
++        self.use_parent_packages = False
++        if inside_a_venv():
++            # Include parent packages only if we're in a venv and
++            # system_site_packages was True.
++            self.use_parent_packages = kwargs.pop(
++                "system_site_packages", False
 +            )
-+        raise Ouch(prefix + msg)
++            # Include system_site_packages only when the parent,
++            # The venv we are currently in, also does so.
++            kwargs["system_site_packages"] = sys.base_prefix in site.PREFIXES
++
+         super().__init__(*args, **kwargs)
  
-     # ensurepip uses pyexpat, which can also go missing on us:
-     if not find_spec("pyexpat"):
-@@ -178,12 +178,15 @@ def check_ensurepip(with_pip: bool) -> None:
-             "Python's pyexpat module is not found.\n"
-             "It's normally part of the Python standard library, "
-             "maybe your distribution packages it separately?\n"
--            "Either install pyexpat, or alleviate the need for it in the "
--            "first place by installing pip and setuptools for "
--            f"'{sys.executable}'.\n\n"
--            "(Hint: NetBSD's pkgsrc debundles this to e.g. 'py310-expat'.)"
-+            "(NetBSD's pkgsrc debundles this to e.g. 'py310-expat'.)\n"
-         )
--        raise Ouch(msg)
-+        if suggest_remedy:
-+            msg += (
-+                "Either install pyexpat, or alleviate the need for it in the "
-+                "first place by installing pip and setuptools for "
-+                f"'{sys.executable}'.\n"
+         # Make the context available post-creation:
+         self._context: Optional[SimpleNamespace] = None
+ 
++    def compute_venv_libpath(self, context: SimpleNamespace) -> str:
++        """
++        Compatibility wrapper for context.lib_path for Python < 3.12
++        """
++        # Python 3.12+, not strictly necessary because it's documented
++        # to be the same as 3.10 code below:
++        if sys.version_info >= (3, 12):
++            return context.lib_path
++
++        # Python 3.10+
++        if "venv" in sysconfig.get_scheme_names():
++            return sysconfig.get_path(
++                "purelib", scheme="venv", vars={"base": context.env_dir}
 +            )
-+        raise Ouch(prefix + msg)
- 
- 
- def make_venv(  # pylint: disable=too-many-arguments
-@@ -238,7 +241,8 @@ def make_venv(  # pylint: disable=too-many-arguments
-         with_pip = True if not system_site_packages else need_ensurepip()
-         logger.debug("with_pip unset, choosing %s", with_pip)
- 
--    check_ensurepip(with_pip)
-+    if with_pip:
-+        check_ensurepip(suggest_remedy=True)
- 
-     if symlinks is None:
-         # Default behavior of standard venv CLI
-@@ -430,6 +434,36 @@ def _get_entry_points() -> Iterator[Dict[str, str]]:
-         logger.debug("wrote '%s'", script_path)
- 
- 
-+def checkpip() -> None:
-+    """
-+    Debian10 has a pip that's broken when used inside of a virtual environment.
 +
-+    We try to detect and correct that case here.
-+    """
-+    try:
-+        # pylint: disable=import-outside-toplevel, unused-import
-+        import pip._internal  # noqa: F401
++        # For Python <= 3.9 we need to hardcode this. Fortunately the
++        # code below was the same in Python 3.6-3.10, so there is only
++        # one case.
++        if sys.platform == "win32":
++            return os.path.join(context.env_dir, "Lib", "site-packages")
++        return os.path.join(
++            context.env_dir,
++            "lib",
++            "python%d.%d" % sys.version_info[:2],
++            "site-packages",
++        )
 +
-+        logger.debug("pip appears to be working correctly.")
-+        return
-+    except ModuleNotFoundError as exc:
-+        if exc.name == "pip._internal":
-+            # Uh, fair enough. They did say "internal".
-+            # Let's just assume it's fine.
-+            return
-+        logger.warning("pip appears to be malfunctioning: %s", str(exc))
+     def ensure_directories(self, env_dir: DirType) -> SimpleNamespace:
+         logger.debug("ensure_directories(env_dir=%s)", env_dir)
+         self._context = super().ensure_directories(env_dir)
+@@ -124,6 +177,19 @@ def post_post_setup(self, context: SimpleNamespace) -> None:
+         """
+         The final, final hook. Enter the venv and run commands inside of it.
+         """
++        if self.use_parent_packages:
++            # We're inside of a venv and we want to include the parent
++            # venv's packages.
++            parent_libpath = sysconfig.get_path("purelib")
++            logger.debug("parent_libpath: %s", parent_libpath)
 +
-+    check_ensurepip("pip appears to be non-functional, and ")
++            our_libpath = self.compute_venv_libpath(context)
++            logger.debug("our_libpath: %s", our_libpath)
 +
-+    logging.debug("Attempting to repair pip ...")
-+    subprocess.run(
-+        (sys.executable, "-m", "ensurepip"),
-+        stdout=subprocess.DEVNULL,
-+        check=True,
-+    )
-+    logging.debug("Pip is now (hopefully) repaired!")
++            pth_file = os.path.join(our_libpath, "nested.pth")
++            with open(pth_file, "w", encoding="UTF-8") as file:
++                file.write(parent_libpath + os.linesep)
 +
-+
- def post_venv_setup(bin_path: str, packages: Sequence[str] = ()) -> None:
-     """
-     This is intended to be run *inside the venv* after it is created.
-@@ -440,6 +474,9 @@ def post_venv_setup(bin_path: str, packages: Sequence[str] = ()) -> None:
-     )
-     generate_console_scripts(python_path, bin_path, packages)
- 
-+    # Test for a broken pip (Debian 10 or derivative?) and fix it if needed
-+    checkpip()
-+
- 
- def _add_create_subcommand(subparsers: Any) -> None:
-     subparser = subparsers.add_parser("create", help="create a venv")
+         args = [
+             context.env_exe,
+             __file__,
 -- 
 2.39.2
 
