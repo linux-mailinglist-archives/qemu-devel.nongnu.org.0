@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8307B6ECB39
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:23:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E00C6ECB3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:23:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pquGw-0000rC-G3; Mon, 24 Apr 2023 07:22:18 -0400
+	id 1pquGv-0000qD-Ck; Mon, 24 Apr 2023 07:22:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pquGp-0000ox-5a
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pquGt-0000pu-UE
  for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:22:15 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pquGi-00056F-Sz
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:22:10 -0400
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-4ec816d64afso18432182e87.1
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pquGj-00056I-0o
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:22:15 -0400
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4ec94eb6dcaso4574731e87.3
  for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 04:21:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682335317; x=1684927317;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Hjv2ghBE76zbj8HVMab4fk/OqfGI6I9Ivr921PCqQDY=;
- b=lFT1js+seoNPclOF0gG/3BkgJWeAucwxpd0KNvj+sAZ5TmHnDyGroSSfJp20eDoccs
- stJrUDfYMNnr6lZ1DYQNq5RzRP9M/u/4p4gCOtaK9zSNX8M8IYs1/xouqbc7Bz5T70FO
- vLhSHFVz9NnuN2qoKuTXjYWH5OokRjBuUtnP7aIJ3YZRgjmoXxkauEEtXHtiQZ1MLMzy
- jEKdYl1j3vCztGXyHvvurPJl7OIInrSnp77M2VCGhKNi6fpGNzD/uIPjYhJNQcXBNymC
- WwD3426GUCWL4PoKkIBFtAV/uaaioWkxxMwQki0fEmP7UcnctJ+woMxG1ZPBUTKvBdgn
- 24BA==
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682335318; x=1684927318;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b49RuNteQiiwmolZv5ATskx2CIb9sDZ4N568I2W2fpQ=;
+ b=YpzdVPVe48eSpdd+9QLfbey3ENC1u1S0MTgJDV3Q9Hv7HEWvvgmJ5dajFRpjrik4bP
+ ZecT9okJGCYjJpTG5dLynQav4VmG6rzUZTd11TUaSYo9IGXSr/8Ji/iKdnz4eYNMUAbC
+ tpvRAwRSQ5UfVj3LJxOJoUinq9CAS3DmCMyo2GqddVqmU+JG9z6InLPs9o0TMlWeW6w3
+ VK97m6tSjIIf6H3d4AziktlDxLvTlu2ShXBcc/C97/jT/LQ7sFC+x4/LYGuoWGHvnxY/
+ SkACqwI9RgNVo/5Ze9ZoewlLGbWqnAQu1rTtOjsL6t7NIRkD4ehB+tVIxzZVyvKKKSWA
+ gT8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682335317; x=1684927317;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Hjv2ghBE76zbj8HVMab4fk/OqfGI6I9Ivr921PCqQDY=;
- b=lkhTCoedbm8lJdH8CHuZxqTQ8jUbynZ+5l7v/U71oeX5L9KjU0Jepc9qsMVG7Z3DlU
- 6PnsdlfeY0Hfpde1AR6GXtK96lQ7abqyupNVB5Zych45P4MZed6QF2osX/nCUpsVeMJK
- yuqrn0Vzy2H1Pwgo/7TDlPLlvu3p60oLL1S1ifzeOq8OiIyEAh2VIDfpiFX9U0J5AEtf
- WNgSyOzLeogslWpeVTzOzpPYTj9GHP9cjIYHRth7d0xuOHQ+qPn5UjudoUwnHdSNqPh3
- ovqX6XUiwL6Z4PuvjNDmB/XEyb1MamJbB7I6urWm0i6mc1n4iciiSQfI4rIJUaj/PDn/
- Nw7g==
-X-Gm-Message-State: AAQBX9cr9u3XXEFF05vUBWmQio32QmCTHhbgV4JUlkxBX4EsLwWafMZC
- tyTqh5xnHswsBzGDE1s2BAJrHw==
-X-Google-Smtp-Source: AKy350bqeFEPuGT1oW8HVlVOxWc8AmHxX9Mc5sqnOO2CpKpIkm3dOaO8gIOxerLwNnZsABC0cAmesw==
-X-Received: by 2002:a05:6512:1081:b0:4ec:9d13:9d09 with SMTP id
- j1-20020a056512108100b004ec9d139d09mr4666643lfg.34.1682335317424; 
+ d=1e100.net; s=20221208; t=1682335318; x=1684927318;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b49RuNteQiiwmolZv5ATskx2CIb9sDZ4N568I2W2fpQ=;
+ b=WTicL0tsj0Z34S0rdwXe+I/l+c/x4xwmVL6XfVOpDIe9qiDt+jUN2B4o/gXeTqpfyM
+ /ii0JiaSkVG5F2Ay0zPNKwFflKF94YQUJlHcu+/wXVCjynNjtR4yedj98I6GZJdHJYfN
+ 2efFi0iC4bx8G+5gBjwIVSrHUWCE1Z3G27C5NKn8tiO8CFUBQiobX21gUaceqi4Qeb8i
+ rSIAoPTvv35fILkbu36C4f5W8V1V8qm4bBukuPwe/lTAQp5TGSL0qk1q5mXNPbGFXy+Q
+ 7+sdN423Q8/JtHqMGZ3IPTbned58dz+6Px4XzqC7ebF8lQvsKCDz0aTzQNjjvDZ0ntsI
+ R63A==
+X-Gm-Message-State: AAQBX9eazalc9c42kSNJoihsAF2fYMZ1jQxFu5crx7zlNdIGOPvxcpgg
+ FNmc4Djt28OaI2h+dFtykLU5eA==
+X-Google-Smtp-Source: AKy350bppNDqHbwOEgJ5BIcccop9b4P00el97xvc4x6TCKxnQfVINbvxdtcvSZpkrjfQRrgDZnXg9A==
+X-Received: by 2002:a19:ac43:0:b0:4ee:d799:eca with SMTP id
+ r3-20020a19ac43000000b004eed7990ecamr2953685lfc.40.1682335317914; 
  Mon, 24 Apr 2023 04:21:57 -0700 (PDT)
 Received: from localhost.localdomain ([80.250.80.22])
  by smtp.gmail.com with ESMTPSA id
- j1-20020a19f501000000b004eff0bcb276sm415542lfb.7.2023.04.24.04.21.56
+ j1-20020a19f501000000b004eff0bcb276sm415542lfb.7.2023.04.24.04.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Apr 2023 04:21:56 -0700 (PDT)
+ Mon, 24 Apr 2023 04:21:57 -0700 (PDT)
 From: Viktor Prutyanov <viktor@daynix.com>
 To: mst@redhat.com, jasowang@redhat.com, marcel.apfelbaum@gmail.com,
  pbonzini@redhat.com, peterx@redhat.com, david@redhat.com
 Cc: philmd@linaro.org, qemu-devel@nongnu.org, yan@daynix.com,
  yuri.benditovich@daynix.com, Viktor Prutyanov <viktor@daynix.com>
-Subject: [RFC PATCH 0/4] vhost: register and change IOMMU flag depending on
- ATS state
-Date: Mon, 24 Apr 2023 14:21:43 +0300
-Message-Id: <20230424112147.17083-1-viktor@daynix.com>
+Subject: [RFC PATCH 1/4] pci: add handling of Enable bit in ATS Control
+ Register
+Date: Mon, 24 Apr 2023 14:21:44 +0300
+Message-Id: <20230424112147.17083-2-viktor@daynix.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20230424112147.17083-1-viktor@daynix.com>
+References: <20230424112147.17083-1-viktor@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::134;
- envelope-from=viktor@daynix.com; helo=mail-lf1-x134.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::131;
+ envelope-from=viktor@daynix.com; helo=mail-lf1-x131.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,44 +91,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When IOMMU and vhost are enabled together, QEMU tracks IOTLB or
-Device-TLB unmap events depending on whether Device-TLB is enabled. But
-even if Device-TLB and PCI ATS is enabled, the guest can reject to use
-it. For example, this situation appears when Windows Server 2022 is
-running with intel-iommu with device-iotlb=on and virtio-net-pci with
-vhost=on. The guest implies that no address translation info cached in
-device IOTLB and doesn't send device IOTLB invalidation commands. So,
-it leads to irrelevant address translations in vhost-net in the host
-kernel. Therefore network frames from the guest in host tap interface
-contains wrong payload data.
+According to PCIe Address Translation Services specification 5.1.3.,
+ATS Control Register has Enable bit to enable/disable ATS.
+Add a new field for a trigger function which is called at the Enable
+bit change, so that PCIe devices can handle ATS enable/disable.
 
-This series adds checking of ATS state for proper unmap flag register
-(IOMMU_NOTIFIER_UNMAP or IOMMU_NOTIFIER_DEVIOTLB_UNMAP).
-
-Tested on Windows Server 2022, Windows 11 and Fedora guests with
- -device virtio-net-pci,bus=pci.3,netdev=nd0,iommu_platform=on,ats=on
- -netdev tap,id=nd0,ifname=tap1,script=no,downscript=no,vhost=on
- -device intel-iommu,intremap=on,eim=on,device-iotlb=on/off
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001312
-
-Viktor Prutyanov (4):
-  pci: add handling of Enable bit in ATS Control Register
-  virtio-pci: add handling of ATS state change
-  memory: add interface for triggering IOMMU notify_flag_changed handler
-  vhost: register and change IOMMU flag depending on ATS state
-
+Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
+---
  hw/pci/pci.c                |  1 +
  hw/pci/pcie.c               | 21 +++++++++++++++++++++
- hw/virtio/vhost.c           | 23 +++++++++++++++++++++--
- hw/virtio/virtio-pci.c      | 12 ++++++++++++
- include/exec/memory.h       |  2 ++
  include/hw/pci/pci_device.h |  3 +++
  include/hw/pci/pcie.h       |  4 ++++
- include/hw/virtio/virtio.h  |  2 ++
- softmmu/memory.c            | 12 ++++++++++++
- 9 files changed, 78 insertions(+), 2 deletions(-)
+ 4 files changed, 29 insertions(+)
 
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 208c16f450..79a47d2589 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1550,6 +1550,7 @@ void pci_default_write_config(PCIDevice *d, uint32_t addr, uint32_t val_in, int
+     msi_write_config(d, addr, val_in, l);
+     msix_write_config(d, addr, val_in, l);
+     pcie_sriov_config_write(d, addr, val_in, l);
++    pcie_ats_config_write(d, addr, val_in, l);
+ }
+ 
+ /***********************************************************/
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 924fdabd15..e0217161e5 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -1057,6 +1057,27 @@ void pcie_ats_init(PCIDevice *dev, uint16_t offset, bool aligned)
+     pci_set_word(dev->wmask + dev->exp.ats_cap + PCI_ATS_CTRL, 0x800f);
+ }
+ 
++void pcie_ats_config_write(PCIDevice *dev, uint32_t address, uint32_t val,
++                           int len)
++{
++    uint32_t off;
++    uint16_t ats_cap = dev->exp.ats_cap;
++
++    if (!ats_cap || address < ats_cap) {
++        return;
++    }
++    off = address - ats_cap;
++    if (off >= PCI_EXT_CAP_ATS_SIZEOF) {
++        return;
++    }
++
++    if (range_covers_byte(off, len, PCI_ATS_CTRL + 1)) {
++        if (dev->ats_ctrl_trigger) {
++            dev->ats_ctrl_trigger(dev, !!(val & PCI_ATS_CTRL_ENABLE));
++        }
++    }
++}
++
+ /* ACS (Access Control Services) */
+ void pcie_acs_init(PCIDevice *dev, uint16_t offset)
+ {
+diff --git a/include/hw/pci/pci_device.h b/include/hw/pci/pci_device.h
+index d3dd0f64b2..2bb1d68f3b 100644
+--- a/include/hw/pci/pci_device.h
++++ b/include/hw/pci/pci_device.h
+@@ -160,6 +160,9 @@ struct PCIDevice {
+     /* ID of standby device in net_failover pair */
+     char *failover_pair_id;
+     uint32_t acpi_index;
++
++    /* PCI ATS enable/disable trigger */
++    void (*ats_ctrl_trigger)(PCIDevice *dev, bool enable);
+ };
+ 
+ static inline int pci_intx(PCIDevice *pci_dev)
+diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+index 798a262a0a..5f2dbd87cf 100644
+--- a/include/hw/pci/pcie.h
++++ b/include/hw/pci/pcie.h
+@@ -154,4 +154,8 @@ void pcie_cap_slot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+                              Error **errp);
+ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+                                      DeviceState *dev, Error **errp);
++
++void pcie_ats_config_write(PCIDevice *dev, uint32_t address, uint32_t val,
++                           int len);
++
+ #endif /* QEMU_PCIE_H */
 -- 
 2.21.0
 
