@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752BE6EC2F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 00:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 184596EC355
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 03:03:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqiN3-00035k-Os; Sun, 23 Apr 2023 18:39:49 -0400
+	id 1pqkaa-0005QH-F2; Sun, 23 Apr 2023 21:01:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pqiN0-00035N-U4; Sun, 23 Apr 2023 18:39:47 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <yong.li@intel.com>) id 1pqkaR-0005Q2-2x
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 21:01:48 -0400
+Received: from mga11.intel.com ([192.55.52.93])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pqiMy-0007CL-ED; Sun, 23 Apr 2023 18:39:46 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id CA1EF746324;
- Mon, 24 Apr 2023 00:38:05 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6BA93745720; Mon, 24 Apr 2023 00:38:05 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 67F2F7456E3;
- Mon, 24 Apr 2023 00:38:05 +0200 (CEST)
-Date: Mon, 24 Apr 2023 00:38:05 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>, John Snow <jsnow@redhat.com>, 
- Huacai Chen <chenhuacai@kernel.org>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH 11/13] hw/ide/sii3112: Reuse
- PCIIDEState::{cmd,data}_ops
-In-Reply-To: <1568DC85-6305-4EE5-9F22-E3E792E36538@gmail.com>
-Message-ID: <81efe661-25ea-6a06-f776-4d89eda10ae5@eik.bme.hu>
-References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-12-shentey@gmail.com>
- <468a2251-0484-ab97-217c-10d965af6c67@eik.bme.hu>
- <1568DC85-6305-4EE5-9F22-E3E792E36538@gmail.com>
+ (Exim 4.90_1) (envelope-from <yong.li@intel.com>) id 1pqkaL-0003zT-9C
+ for qemu-devel@nongnu.org; Sun, 23 Apr 2023 21:01:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1682298101; x=1713834101;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uXPbfjHxN6AP0eMomnvsrHD1Yj5K9aguGd+S6to4jGU=;
+ b=XVa3LxpivRwkV0sFWPp44JUo0awxHtJ7C1sHM0zaiFd4a8D29kfgf5DR
+ 05IiH2Nr5S/KCJ/q7ZfwldNQCXwzgoG8eEnblR0CcJLc3Shx3yvd1rqlN
+ hCO82j56mehztFVSykbt8rWht7x3ibjcBe6LOSMZHObQg/lHtjyabeZM1
+ MIlLdJEgrVMADOxZ0puouspTJgzxTXcJrpSxOz6zBrBN0Jzh5OkhgQqSJ
+ TXsvqv5yCUPyoz/ErYIEKovKK5Y29XFXnqyHCjiRhzFQFAeIrKC6LtEuQ
+ ihVgu89WvuW6OSa8QwXzxseI3+6bcDXv/GKcHoI7TyHRLlEipHksByMtZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="343813948"
+X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; d="scan'208";a="343813948"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2023 18:01:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="939118853"
+X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; d="scan'208";a="939118853"
+Received: from intel-optiplex-7090.sh.intel.com ([10.67.104.162])
+ by fmsmga006.fm.intel.com with ESMTP; 23 Apr 2023 18:01:34 -0700
+From: Yong Li <yong.li@intel.com>
+To: qemu-devel@nongnu.org
+Cc: Yong Li <yong.li@intel.com>,
+	"Zhiwei Liu" <zhiwei_liu@linux.alibaba.com>
+Subject: [PATCH] hw/riscv/virt: Add a second UART for secure world
+Date: Mon, 24 Apr 2023 09:01:32 +0800
+Message-Id: <20230424010132.3334748-1-yong.li@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=yong.li@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.172,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,195 +72,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 23 Apr 2023, Bernhard Beschow wrote:
-> Am 22. April 2023 21:10:14 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Sat, 22 Apr 2023, Bernhard Beschow wrote:
->>> Allows to unexport pci_ide_{cmd,data}_le_ops and models TYPE_SII3112_PCI as a
->>> standard-compliant PCI IDE device.
->>>
->>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>> ---
->>> include/hw/ide/pci.h |  2 --
->>> hw/ide/pci.c         |  4 ++--
->>> hw/ide/sii3112.c     | 50 ++++++++++++++++----------------------------
->>> 3 files changed, 20 insertions(+), 36 deletions(-)
->>>
->>> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
->>> index 5025df5b82..dbb4b13161 100644
->>> --- a/include/hw/ide/pci.h
->>> +++ b/include/hw/ide/pci.h
->>> @@ -62,6 +62,4 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
->>> extern MemoryRegionOps bmdma_addr_ioport_ops;
->>> void pci_ide_create_devs(PCIDevice *dev);
->>>
->>> -extern const MemoryRegionOps pci_ide_cmd_le_ops;
->>> -extern const MemoryRegionOps pci_ide_data_le_ops;
->>> #endif
->>> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
->>> index b2fcc00a64..97ccc75aa6 100644
->>> --- a/hw/ide/pci.c
->>> +++ b/hw/ide/pci.c
->>> @@ -60,7 +60,7 @@ static void pci_ide_ctrl_write(void *opaque, hwaddr addr,
->>>     ide_ctrl_write(bus, addr + 2, data);
->>> }
->>>
->>> -const MemoryRegionOps pci_ide_cmd_le_ops = {
->>> +static const MemoryRegionOps pci_ide_cmd_le_ops = {
->>>     .read = pci_ide_status_read,
->>>     .write = pci_ide_ctrl_write,
->>>     .endianness = DEVICE_LITTLE_ENDIAN,
->>> @@ -98,7 +98,7 @@ static void pci_ide_data_write(void *opaque, hwaddr addr,
->>>     }
->>> }
->>>
->>> -const MemoryRegionOps pci_ide_data_le_ops = {
->>> +static const MemoryRegionOps pci_ide_data_le_ops = {
->>>     .read = pci_ide_data_read,
->>>     .write = pci_ide_data_write,
->>>     .endianness = DEVICE_LITTLE_ENDIAN,
->>> diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
->>> index 0af897a9ef..9cf920369f 100644
->>> --- a/hw/ide/sii3112.c
->>> +++ b/hw/ide/sii3112.c
->>> @@ -88,21 +88,9 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
->>>         val |= (d->regs[1].confstat & (1UL << 11) ? (1 << 4) : 0);
->>>         val |= (uint32_t)d->i.bmdma[1].status << 16;
->>>         break;
->>> -    case 0x80 ... 0x87:
->>> -        val = pci_ide_data_le_ops.read(&d->i.bus[0], addr - 0x80, size);
->>> -        break;
->>> -    case 0x8a:
->>> -        val = pci_ide_cmd_le_ops.read(&d->i.bus[0], 2, size);
->>> -        break;
->>>     case 0xa0:
->>>         val = d->regs[0].confstat;
->>>         break;
->>> -    case 0xc0 ... 0xc7:
->>> -        val = pci_ide_data_le_ops.read(&d->i.bus[1], addr - 0xc0, size);
->>> -        break;
->>> -    case 0xca:
->>> -        val = pci_ide_cmd_le_ops.read(&d->i.bus[1], 2, size);
->>> -        break;
->>>     case 0xe0:
->>>         val = d->regs[1].confstat;
->>>         break;
->>> @@ -171,18 +159,6 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
->>>     case 0x0c ... 0x0f:
->>>         bmdma_addr_ioport_ops.write(&d->i.bmdma[1], addr - 12, val, size);
->>>         break;
->>> -    case 0x80 ... 0x87:
->>> -        pci_ide_data_le_ops.write(&d->i.bus[0], addr - 0x80, val, size);
->>> -        break;
->>> -    case 0x8a:
->>> -        pci_ide_cmd_le_ops.write(&d->i.bus[0], 2, val, size);
->>> -        break;
->>> -    case 0xc0 ... 0xc7:
->>> -        pci_ide_data_le_ops.write(&d->i.bus[1], addr - 0xc0, val, size);
->>> -        break;
->>> -    case 0xca:
->>> -        pci_ide_cmd_le_ops.write(&d->i.bus[1], 2, val, size);
->>> -        break;
->>>     case 0x100:
->>>         d->regs[0].scontrol = val & 0xfff;
->>>         if (val & 1) {
->>> @@ -259,6 +235,11 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
->>>     pci_config_set_interrupt_pin(dev->config, 1);
->>>     pci_set_byte(dev->config + PCI_CACHE_LINE_SIZE, 8);
->>>
->>> +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops[0]);
->>> +    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[0]);
->>> +    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops[1]);
->>> +    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[1]);
->>> +
->>>     /* BAR5 is in PCI memory space */
->>>     memory_region_init_io(&d->mmio, OBJECT(d), &sii3112_reg_ops, d,
->>>                          "sii3112.bar5", 0x200);
->>> @@ -266,17 +247,22 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
->>>
->>>     /* BAR0-BAR4 are PCI I/O space aliases into BAR5 */
->>
->> This patch breaks the above comment
->
-> Indeed. It's now the other way around.
+The virt machine can have two UARTs and the second UART
+can be used when host secure-mode support is enabled.
 
-OK, then adjust comments as well, also the other one about BAR5 at the top 
-which may not be true any more if you remove stuff from BAR5 and alias the 
-other BARs instead. The idea here was to follow the data sheet which 
-documents the memory space BAR5 and other io BARs are just io space 
-aliases of parts of the memory mapped registers. Those are to support 
-easily porting older drivers but other drivers may only map BAR5 where all 
-the regs are available.
+Signed-off-by: Yong Li <yong.li@intel.com>
+Cc: "Zhiwei Liu" <zhiwei_liu@linux.alibaba.com>
+---
+ hw/riscv/virt.c         | 4 ++++
+ include/hw/riscv/virt.h | 2 ++
+ 2 files changed, 6 insertions(+)
 
->> but I think you should not mess with BAR0-4 at all and leave to to 
->> aliased into BAR5. These have the same registers mirrored and some 
->> guests access them via the memory mapped BAR5 while others prefer the 
->> io mapped BAR0-4 so removing these from BAR5 would break some guests.
->
-> BARs 0-3 are the PCI-native BARs and BAR4 is the BMDMA BAR which are 
-> mapped by via and cmd646 already since they support these modes. SIL3112 
-> supports these modes as well but had custom implementations so far while 
-> ignoring the attributes of the parent class. Now that the parent class
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index b38b41e685..02475e1678 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -88,6 +88,7 @@ static const MemMapEntry virt_memmap[] = {
+     [VIRT_APLIC_S] =      {  0xd000000, APLIC_SIZE(VIRT_CPUS_MAX) },
+     [VIRT_UART0] =        { 0x10000000,         0x100 },
+     [VIRT_VIRTIO] =       { 0x10001000,        0x1000 },
++    [VIRT_UART1] =        { 0x10002000,         0x100 },
+     [VIRT_FW_CFG] =       { 0x10100000,          0x18 },
+     [VIRT_FLASH] =        { 0x20000000,     0x4000000 },
+     [VIRT_IMSIC_M] =      { 0x24000000, VIRT_IMSIC_MAX_SIZE },
+@@ -1508,6 +1509,9 @@ static void virt_machine_init(MachineState *machine)
+     serial_mm_init(system_memory, memmap[VIRT_UART0].base,
+         0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART0_IRQ), 399193,
+         serial_hd(0), DEVICE_LITTLE_ENDIAN);
++    serial_mm_init(system_memory, memmap[VIRT_UART1].base,
++        0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART1_IRQ), 399193,
++        serial_hd(1), DEVICE_LITTLE_ENDIAN);
+ 
+     sysbus_create_simple("goldfish_rtc", memmap[VIRT_RTC].base,
+         qdev_get_gpio_in(DEVICE(mmio_irqchip), RTC_IRQ));
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index e5c474b26e..8d2f8f225d 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -74,6 +74,7 @@ enum {
+     VIRT_APLIC_S,
+     VIRT_UART0,
+     VIRT_VIRTIO,
++    VIRT_UART1,
+     VIRT_FW_CFG,
+     VIRT_IMSIC_M,
+     VIRT_IMSIC_S,
+@@ -88,6 +89,7 @@ enum {
+ enum {
+     UART0_IRQ = 10,
+     RTC_IRQ = 11,
++    UART1_IRQ = 12,
+     VIRTIO_IRQ = 1, /* 1 to 8 */
+     VIRTIO_COUNT = 8,
+     PCIE_IRQ = 0x20, /* 32 to 35 */
+-- 
+2.25.1
 
-Which attributes? Do those make sense for a SATA controller or does the 
-sii3112 have those in BAR5? I'll wait for an updated version to review 
-this further as that may clear up some things.
-
-> already initializes these attributes we can just reuse them here which 
-> in addition makes it very obvious that SIL3112 supports these modes.
-
-By the way it's called SiI3112 for Silicon Image but the upper case I is 
-often misread as a lower case l as these look similar.
-
-Regards,
-BALATON Zoltan
-
-> I'll split this patch and the next one to (hopefully) make more visible what happens.
->
->> If you want to remove something from BAR5 and map subregions implementing those instead then I think only BAR5 needs to be chnaged or I'm not getting what is happening here so a more detailed commit message would be needed.
->
-> Agreed. I'll put wording similar to above into the commit message.
->
->>
->> Was this tested? A minimal test might be booting AROS and MorphOS on sam460ex.
->
-> I tested with MorphOS on sam460ex. The second ppc test case in the cover letter was actually supposed to show this.
->
-> Best regards,
-> Bernhard
->
->>
->> Regards,
->> BALATON Zoltan
->>
->>>     mr = g_new(MemoryRegion, 1);
->>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar0", &d->mmio, 0x80, 8);
->>> -    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar0", &s->data_ops[0], 0,
->>> +                             memory_region_size(&s->data_ops[0]));
->>> +    memory_region_add_subregion_overlap(&d->mmio, 0x80, mr, 1);
->>>     mr = g_new(MemoryRegion, 1);
->>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar1", &d->mmio, 0x88, 4);
->>> -    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar1", &s->cmd_ops[0], 0,
->>> +                             memory_region_size(&s->cmd_ops[0]));
->>> +    memory_region_add_subregion_overlap(&d->mmio, 0x88, mr, 1);
->>>     mr = g_new(MemoryRegion, 1);
->>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar2", &d->mmio, 0xc0, 8);
->>> -    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar2", &s->data_ops[1], 0,
->>> +                             memory_region_size(&s->data_ops[1]));
->>> +    memory_region_add_subregion_overlap(&d->mmio, 0xc0, mr, 1);
->>>     mr = g_new(MemoryRegion, 1);
->>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar3", &d->mmio, 0xc8, 4);
->>> -    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar3", &s->cmd_ops[1], 0,
->>> +                             memory_region_size(&s->cmd_ops[1]));
->>> +    memory_region_add_subregion_overlap(&d->mmio, 0xc8, mr, 1);
->>> +
->>>     mr = g_new(MemoryRegion, 1);
->>>     memory_region_init_alias(mr, OBJECT(d), "sii3112.bar4", &d->mmio, 0, 16);
->>>     pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>>
->
->
 
