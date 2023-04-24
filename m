@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AD56EC869
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C066EC873
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:09:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqsB3-000751-Tz; Mon, 24 Apr 2023 05:08:05 -0400
+	id 1pqsB6-0007MM-Fu; Mon, 24 Apr 2023 05:08:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yongxuan.wang@sifive.com>)
- id 1pqsAi-0006mb-6z
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:07:44 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1pqsAo-0006qt-3n
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:07:52 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yongxuan.wang@sifive.com>)
- id 1pqsAg-0001Ll-BM
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:07:43 -0400
-Received: by mail-pl1-x634.google.com with SMTP id
- d9443c01a7336-1a6762fd23cso36796825ad.3
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:07:41 -0700 (PDT)
+ id 1pqsAm-0001MZ-GH
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:07:49 -0400
+Received: by mail-pg1-x533.google.com with SMTP id
+ 41be03b00d2f7-51fcf5d1e44so4360542a12.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sifive.com; s=google; t=1682327261; x=1684919261;
+ d=sifive.com; s=google; t=1682327266; x=1684919266;
  h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
  :cc:subject:date:message-id:reply-to;
- bh=Fua0B/nbmKUJP9K04TOuYhl26KH1ZTyjvPcnsj/T2bE=;
- b=nN1yn7vtcS6I+YONZyIzuM3GtJ+qW/CuqcuBYf6Iops/SOssZCikqJy3pfgBIZ50vW
- JtzyqMiGxSud2nTGnUWY8vyvHJlXCudv9+h+uqIWAK3lz1cEwY98xwJ1qYN2FCB9o8Mh
- OeOZXYFenf/zEaSNqocoIJVTNcGUmOAhy92+NdxwZvvTltInjrdMMitu0e6jGI/RyCIT
- y2DwUg4O/xaZmje9KW7xBD/qyXrwZohnPmEtWR3gm+uhaXRkMwZ0iGKg60JffTwmnrGj
- NE24oSbZQwl60KG4Ic4BomGz142PpuayvBsyE+7HyhXuTrxA8CFjBvJPoLHdK+gaUs5V
- MU/Q==
+ bh=zCTpZ9cYwennHW314QharwHociieKqS09SCoYz2Uc9c=;
+ b=PKuQmahPDHia3TjZrCVAWuNT1ruY1srIGXlysgjFADbLQTbqOTzxr7gXRZY7dC+VM0
+ c+vi4s0nf1voHMy8JH6d6vYQz3ynjxZKUdrBXBRpZg5wL89afiS9Sxi2d2Pd/xcg2W33
+ xafyt+HnZqHQ7gSLRoEPbnov1OSH9/ZawWGg1H25hjyUK/m8WSqbuu3qSehZz3vL+55N
+ VodhHUFTUwbcYbNedvODjy7m+40Als1d1nEWeELdLwvXtituhVp7gqIiFuXRVvdrpHK/
+ kSAFFFiKUtEI8aVKTOz7otkrwMjRQIF3LXU7kmLVK+5rpUkqKwkEINKLFT5GUgl9ALAT
+ d6bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682327261; x=1684919261;
+ d=1e100.net; s=20221208; t=1682327266; x=1684919266;
  h=references:in-reply-to:message-id:date:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Fua0B/nbmKUJP9K04TOuYhl26KH1ZTyjvPcnsj/T2bE=;
- b=Gj+sFH6BlmCYD1/PYnEUs+nUl+9KncWUHH1nR/VGNnv8N9yJ5Opq8hCheSLSLi5RT1
- TxOiSn7V63EA1nlvBolMkjXbcQne5/2gNJ2OUkhb0EHMhkV5C6fkNr75wVavLxzrgiZy
- MO6m6E8GAP9pOH3JLZq4S0ZIyArWJwwEnRpXTlhSjZmM/TMbKAfznnrAlQPM6UammP6A
- qF//TrtITj//HkNQVIMnxsEcWze9yg4zGB5imkyZ8gy/SO+ajVfkzQ/oZ06pSD1tmgxC
- Utw2S1nNFdrHfDvzqaQIaNWSn3+DSNWcujPm5ECjDKohSnSrpex82+chfJxeSdSIqun2
- PIxw==
-X-Gm-Message-State: AAQBX9cTCDqe+h8xtrxwV5ZDohUXMXwrYwTOw75AqFpRoio6+fUGcwJ8
- YUQ0d7csT+dxcJgWti/+a78fQGqmuwpBKrmdZFrHTfcnjqz5yKI/KLWFvOCEp5hZdjDi+FzRQ/h
- tnh9Piy6laMKUouxpjtFQ/PQddgAl6a6l2sPMP0+AGUAhW7x7txBPJ7eA6+4sz5bVqN9UwzmfYp
- 3sN+qf
-X-Google-Smtp-Source: AKy350Y0kVgXK6MzgqOE+iENhZhpis8rzzeUu2s5kgPtN4XeCpSsdsoSS99vmnY0iNRjzTZaFcPT9Q==
-X-Received: by 2002:a17:902:ec86:b0:1a9:5674:282e with SMTP id
- x6-20020a170902ec8600b001a95674282emr10310838plg.14.1682327260677; 
- Mon, 24 Apr 2023 02:07:40 -0700 (PDT)
+ bh=zCTpZ9cYwennHW314QharwHociieKqS09SCoYz2Uc9c=;
+ b=iU7Xve+1a64IQJ6sU5ABC3GcNaCYyAtp2FsQ/7xz/l1FVVs7H1rOz7VxniQMXTqqe0
+ OFbHY24+7E27ZKNuWTeNuRafKckM1L1sozZ39WcyR3EgwMQW6V01NABAQMsB0WwH855J
+ 6mZitLrEFF8NrxkaYRg0UtURwQiLAN4rdIeJ2AggxCTF/B6ys1u7zgs9tZgY69nxKLWy
+ tEog4hXeOfTYIt0VtbN+ObAaX/9b8IhoxElEnKVOlM1HGsTsZjhcmuFzu1UDzKv5Df6O
+ zjYOps+/PVEIgF/C7TdhenX/tHYsvHCG+obApR2G2sHcnueCd6/Lu9oJoYtWA29LRBUO
+ EDGw==
+X-Gm-Message-State: AAQBX9dFt06lW3aoPgCjCTMhG18klY7T3uflOqIgLIG+GHWEVGQo5bzI
+ YrC6EUwFYLo+Bo7Ltdarf3j37jBTCMVzeb1y8FvJKEUrfwuHqR0HAB9lL89tgSNtBZ6nIpD7fjX
+ 0eKYvNvzmiFpm45eBTDSS5vo0HYgg3a5alyT0AFOYVzNxWX4Ad8sAbnX+Z2uQSQGnb797dFpFjk
+ +fmgbM
+X-Google-Smtp-Source: AKy350blO8lqsu+SA6uqnm+u1bPUNrWuOOKNE2c9gsgbqxocJntSV9P99fbdIJLwihPGn6GRnWPCag==
+X-Received: by 2002:a17:902:dad1:b0:1a6:d15f:3ce1 with SMTP id
+ q17-20020a170902dad100b001a6d15f3ce1mr16907842plx.34.1682327265978; 
+ Mon, 24 Apr 2023 02:07:45 -0700 (PDT)
 Received: from hsinchu25.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
  by smtp.gmail.com with ESMTPSA id
- jf2-20020a170903268200b001a207906418sm6234820plb.23.2023.04.24.02.07.38
+ jf2-20020a170903268200b001a207906418sm6234820plb.23.2023.04.24.02.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Apr 2023 02:07:40 -0700 (PDT)
+ Mon, 24 Apr 2023 02:07:45 -0700 (PDT)
 From: Yong-Xuan Wang <yongxuan.wang@sifive.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
@@ -67,21 +67,21 @@ Cc: rkanwal@rivosinc.com, anup@brainfault.org, dbarboza@ventanamicro.com,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
  kvm@vger.kernel.org
-Subject: [PATCH 3/6] target/riscv: check the in-kernel irqchip support
-Date: Mon, 24 Apr 2023 09:07:05 +0000
-Message-Id: <20230424090716.15674-4-yongxuan.wang@sifive.com>
+Subject: [PATCH 4/6] target/riscv: Create an KVM AIA irqchip
+Date: Mon, 24 Apr 2023 09:07:06 +0000
+Message-Id: <20230424090716.15674-5-yongxuan.wang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230424090716.15674-1-yongxuan.wang@sifive.com>
 References: <20230424090716.15674-1-yongxuan.wang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=yongxuan.wang@sifive.com; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=yongxuan.wang@sifive.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,38 +97,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We check the in-kernel irqchip support when using KVM acceleration.
+implement a function to create an KVM AIA chip
 
 Signed-off-by: Yong-Xuan Wang <yongxuan.wang@sifive.com>
 Reviewed-by: Jim Shu <jim.shu@sifive.com>
 ---
- target/riscv/kvm.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ target/riscv/kvm.c       | 83 ++++++++++++++++++++++++++++++++++++++++
+ target/riscv/kvm_riscv.h |  3 ++
+ 2 files changed, 86 insertions(+)
 
 diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index 30f21453d6..6aad25bbc3 100644
+index 6aad25bbc3..1c21f5a180 100644
 --- a/target/riscv/kvm.c
 +++ b/target/riscv/kvm.c
-@@ -433,7 +433,18 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
- 
- int kvm_arch_irqchip_create(KVMState *s)
+@@ -34,6 +34,7 @@
+ #include "exec/address-spaces.h"
+ #include "hw/boards.h"
+ #include "hw/irq.h"
++#include "hw/intc/riscv_imsic.h"
+ #include "qemu/log.h"
+ #include "hw/loader.h"
+ #include "kvm_riscv.h"
+@@ -547,3 +548,85 @@ bool kvm_arch_cpu_check_are_resettable(void)
+ void kvm_arch_accel_class_init(ObjectClass *oc)
  {
--    return 0;
-+    if (kvm_kernel_irqchip_split()) {
-+        error_report("-machine kernel_irqchip=split is not supported "
-+                     "on RISC-V.");
+ }
++
++void kvm_riscv_aia_create(DeviceState *aplic_s, bool msimode, int socket,
++                          uint64_t aia_irq_num, uint64_t hart_count,
++                          uint64_t aplic_base, uint64_t imsic_base)
++{
++    int ret;
++    int aia_fd = -1;
++    uint64_t aia_mode;
++    uint64_t aia_nr_ids;
++    uint64_t aia_hart_bits = find_last_bit(&hart_count, BITS_PER_LONG) + 1;
++
++    if (!msimode) {
++        error_report("Currently KVM AIA only supports aplic_imsic mode");
 +        exit(1);
 +    }
 +
-+    /*
-+     * If we can create the VAIA using the newer device control API, we
-+     * let the device do this when it initializes itself, otherwise we
-+     * fall back to the old API
-+     */
-+    return kvm_check_extension(s, KVM_CAP_DEVICE_CTRL);
- }
++    aia_fd = kvm_create_device(kvm_state, KVM_DEV_TYPE_RISCV_AIA, false);
++
++    if (aia_fd < 0) {
++        error_report("Unable to create in-kernel irqchip");
++        exit(1);
++    }
++
++    ret = kvm_device_access(aia_fd, KVM_DEV_RISCV_AIA_GRP_CONFIG,
++                            KVM_DEV_RISCV_AIA_CONFIG_MODE,
++                            &aia_mode, false, NULL);
++
++    ret = kvm_device_access(aia_fd, KVM_DEV_RISCV_AIA_GRP_CONFIG,
++                            KVM_DEV_RISCV_AIA_CONFIG_IDS,
++                            &aia_nr_ids, false, NULL);
++
++    ret = kvm_device_access(aia_fd, KVM_DEV_RISCV_AIA_GRP_CONFIG,
++                            KVM_DEV_RISCV_AIA_CONFIG_SRCS,
++                            &aia_irq_num, true, NULL);
++    if (ret < 0) {
++        error_report("KVM AIA: fail to set number input irq lines");
++        exit(1);
++    }
++
++    ret = kvm_device_access(aia_fd, KVM_DEV_RISCV_AIA_GRP_CONFIG,
++                            KVM_DEV_RISCV_AIA_CONFIG_HART_BITS,
++                            &aia_hart_bits, true, NULL);
++    if (ret < 0) {
++        error_report("KVM AIA: fail to set number of harts");
++        exit(1);
++    }
++
++    ret = kvm_device_access(aia_fd, KVM_DEV_RISCV_AIA_GRP_ADDR,
++                            KVM_DEV_RISCV_AIA_ADDR_APLIC,
++                            &aplic_base, true, NULL);
++    if (ret < 0) {
++        error_report("KVM AIA: fail to set the base address of APLIC");
++        exit(1);
++    }
++
++    for (int i = 0; i < hart_count; i++) {
++        uint64_t imsic_addr = imsic_base + i * IMSIC_HART_SIZE(0);
++        ret = kvm_device_access(aia_fd, KVM_DEV_RISCV_AIA_GRP_ADDR,
++                                KVM_DEV_RISCV_AIA_ADDR_IMSIC(i),
++                                &imsic_addr, true, NULL);
++        if (ret < 0) {
++            error_report("KVM AIA: fail to set the base address of IMSICs");
++            exit(1);
++        }
++    }
++
++    if (kvm_has_gsi_routing()) {
++        for (uint64_t idx = 0; idx < aia_irq_num + 1; ++idx) {
++            kvm_irqchip_add_irq_route(kvm_state, idx, socket, idx);
++        }
++        kvm_gsi_routing_allowed = true;
++        kvm_irqchip_commit_routes(kvm_state);
++    }
++
++    ret = kvm_device_access(aia_fd, KVM_DEV_RISCV_AIA_GRP_CTRL,
++                            KVM_DEV_RISCV_AIA_CTRL_INIT,
++                            NULL, true, NULL);
++    if (ret < 0) {
++        error_report("KVM AIA: initialized fail");
++        exit(1);
++    }
++}
+diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
+index 606968a4b7..6067adff51 100644
+--- a/target/riscv/kvm_riscv.h
++++ b/target/riscv/kvm_riscv.h
+@@ -21,6 +21,9 @@
  
- int kvm_arch_process_async_events(CPUState *cs)
+ void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
+ void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
++void kvm_riscv_aia_create(DeviceState *aplic_s, bool msimode, int socket,
++                          uint64_t aia_irq_num, uint64_t hart_count,
++                          uint64_t aplic_base, uint64_t imsic_base);
+ 
+ #define KVM_DEV_RISCV_AIA_GRP_CONFIG            0
+ #define KVM_DEV_RISCV_AIA_CONFIG_MODE           0
 -- 
 2.17.1
 
