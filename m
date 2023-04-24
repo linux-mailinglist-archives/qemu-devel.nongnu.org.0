@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B476ED5CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 22:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1299C6ED5D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 22:04:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pr2Ow-0007o5-D9; Mon, 24 Apr 2023 16:03:06 -0400
+	id 1pr2Ox-0007pU-JL; Mon, 24 Apr 2023 16:03:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr2Ot-0007kh-Ep
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:03:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr2Ou-0007m1-Gp
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:03:04 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr2Oq-0000x1-BQ
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:03:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pr2Ot-0000xx-3n
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 16:03:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682366579;
+ s=mimecast20190719; t=1682366582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ghbh4qRNVDBPRglbq18ow59ZrTEcqWklHbrforGx4nU=;
- b=E10OH0Iak09ttM8XOA8lvFnmXf+8uR6g9MjcEuAOaF+gJwmPlg0ShD3ZI8axG10H08P8ZU
- dp8w4t9dgmlJyoqev1Yc1rc1zB558g1ZPvtQOPBp3/Y3aB9RT9Y9jdALi1Lyi8n3V6faaV
- LlNZwPcoJ3BQtYFkneGBuiIeqlFjqFI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qCN5N1sd5u3Iw2MtpMYHLDxOFq022o0H7fXfF2oJZDM=;
+ b=dtmpzRX3Sr5ZNKMKfHMkmBbW8pn7zZxnoYi/YmqYEA15QoSnhw/icvntG9XAQYvOZROghv
+ VS/IystF+yCAyMeobgFNc8uDpOP0zv7vsT7j8W4KgSAq8dLzOpWaW/qZZLPC6hk3uf2Zus
+ dRG1HT/RNISKFOFHabdMhyFUvOSvLKI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-417-VGoanxCfOT-pTZ5AEtgtoQ-1; Mon, 24 Apr 2023 16:02:57 -0400
-X-MC-Unique: VGoanxCfOT-pTZ5AEtgtoQ-1
+ us-mta-91-bFncF_WKMG63sIb3_P-yNw-1; Mon, 24 Apr 2023 16:02:58 -0400
+X-MC-Unique: bFncF_WKMG63sIb3_P-yNw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 125CE101A551;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C5DA33C0C881;
  Mon, 24 Apr 2023 20:02:57 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.34.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E2AA1121319;
- Mon, 24 Apr 2023 20:02:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E5131121319;
+ Mon, 24 Apr 2023 20:02:57 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Warner Losh <imp@bsdimp.com>, Beraldo Leal <bleal@redhat.com>,
@@ -52,9 +52,9 @@ Cc: Warner Losh <imp@bsdimp.com>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC PATCH v3 10/20] tests/vm: Configure netbsd to use Python 3.10
-Date: Mon, 24 Apr 2023 16:02:38 -0400
-Message-Id: <20230424200248.1183394-11-jsnow@redhat.com>
+Subject: [RFC PATCH v3 11/20] tests/vm: add py310-expat to NetBSD
+Date: Mon, 24 Apr 2023 16:02:39 -0400
+Message-Id: <20230424200248.1183394-12-jsnow@redhat.com>
 In-Reply-To: <20230424200248.1183394-1-jsnow@redhat.com>
 References: <20230424200248.1183394-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,8 +84,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-NetBSD removes some packages from the Python stdlib, but only
-re-packages them for Python 3.10. Switch to using Python 3.10.
+NetBSD cannot successfully run "ensurepip" without access to the pyexpat
+module, which NetBSD debundles. Like the Debian patch, it would be
+strictly faster long term to install pip/setuptools, and I recommend
+developers at their workstations take that approach instead.
+
+For the purposes of a throwaway VM, there's not really a speed
+difference for who is responsible for installing pip; us (needs
+py310-pip) or Python (needs py310-expat).
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
@@ -93,14 +99,14 @@ Signed-off-by: John Snow <jsnow@redhat.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 0b9536ca17..13eae109c0 100755
+index 13eae109c0..c7e3f1e735 100755
 --- a/tests/vm/netbsd
 +++ b/tests/vm/netbsd
-@@ -30,6 +30,7 @@ class NetBSDVM(basevm.BaseVM):
-         "git-base",
+@@ -31,6 +31,7 @@ class NetBSDVM(basevm.BaseVM):
          "pkgconf",
          "xz",
-+        "python310",
+         "python310",
++        "py310-expat",
          "ninja-build",
  
          # gnu tools
