@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50CB6EC6C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 09:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B415D6EC6D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 09:13:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqqFs-0003uL-8C; Mon, 24 Apr 2023 03:04:56 -0400
+	id 1pqqMx-0006wI-78; Mon, 24 Apr 2023 03:12:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pqqFq-0003u9-7Y
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 03:04:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pqqFj-0005x3-Hu
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 03:04:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682319885;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l7sknfvl79fMUNapZC6tk/HRod7tEowFdnnEJrqP7Wk=;
- b=CF2Y/UphwOU/C3Nk+OG7MrnGgEKwUJf/W53Sji/IKIZgNT7xQQflDHc1zNipelvqWEiVK/
- A1qvzykGCtBU5l9u2fXg65F9tftSXc7siWNVZlctVNyLXr9BUGi5YNFNLbEBJihiW6jr3V
- XVQE6QbAjD6qnrCPYnEQ8amjFeSAcMU=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-271-tf4nJLcpOiqTUUWWeMIf2w-1; Mon, 24 Apr 2023 03:04:43 -0400
-X-MC-Unique: tf4nJLcpOiqTUUWWeMIf2w-1
-Received: by mail-yb1-f200.google.com with SMTP id
- 3f1490d57ef6-b9963a72fd9so3051282276.0
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 00:04:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqqMT-0006vI-FA
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 03:11:47 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pqqMQ-0007HX-Fg
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 03:11:45 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f18dacd392so22608185e9.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 00:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682320300; x=1684912300;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TjtHPfIb6DuBs2mf3FmsskD40J5YH7qCDWHn5J/nnsU=;
+ b=fVWsKe5XArhHJwOjBlr5+KjZxYHZH6R/ys8DitNybwnLDw/mFhunsWkYmvOC3rlsiD
+ +72H/9BizKQonD4GrM0MLLa/YodtpFktkLDIDdjwjArGWB7roZigH2Vg+Ur/+OT+wME2
+ rX43/wFtjG+tnef8oClByxjcMyoj2JEbQ4cbn3Uv/dsThI4rrjFjR0LkrIL5VEA61K1R
+ FgEMqXX3AoZL30RvEIavOfWAEdoBK8Aj1Qx+fvooY6JPx56cqVtx7oE3oZ91reGNuwJW
+ 6b8P52PXSI829Dulj62Wfi4fcuvMGNtJ21X3GEOJAxnSuBf9k6ZGz5gsaJHDIUSk+UuY
+ gfLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682319883; x=1684911883;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=l7sknfvl79fMUNapZC6tk/HRod7tEowFdnnEJrqP7Wk=;
- b=RbmdVM1/LCPEu/ECNYN+9FeycBFxkTA6HDyjzG4/aUxzAEtevfOT2xoMY3WoK+5pPv
- zLGllOVUYnrmavdcVQehT+sVHmbnIYeo3kVXZhP8eMZmEFiayn69e/3uBJGoxmV1M93Q
- /lL2a3kP3bpz9JHaNoRHoWEqbIdJpHFwtVBN0dqAgZJhUt81Vgo5WQWebJh2m6VegUBl
- 10HnAXcdUFW5rf3ISiLMAh/RuYhlzaRaSOF1A8T1GgU/IKUpVnXB0s0z5Vxi6ByYgW0e
- e/s51EeWlJ3nYr0TLibGdqlfB9jWVqgawXJ1QUwJmIXXDgid/F3WTJYHiyX8PgvtPIq1
- cHRw==
-X-Gm-Message-State: AC+VfDxatyd3v1IVg2lkusPL7I+5nMk2Ggak1v0hHvWw7yXZ5YmibFc0
- Rs9N4hHs4NOwwinegSo3/O1rfw1rOb8uQzwF+RXJfUPcNhRJ+6o1BVCHZRustKQQZimy14DWG8Y
- JOvXQ3mDAY3JVs9YVFDceHyGI8qBG36E=
-X-Received: by 2002:a25:5502:0:b0:b99:96bb:21e4 with SMTP id
- j2-20020a255502000000b00b9996bb21e4mr1635954ybb.30.1682319883181; 
- Mon, 24 Apr 2023 00:04:43 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4s9DTmnhSDszZnqJFeqc1JqOCgtBxxNK5gKQxCYrU95YWfMgy6g+ka9slznQZlsD/mkzhM2pL/xL2nw7Pjt1s=
-X-Received: by 2002:a25:5502:0:b0:b99:96bb:21e4 with SMTP id
- j2-20020a255502000000b00b9996bb21e4mr1635948ybb.30.1682319882991; Mon, 24 Apr
- 2023 00:04:42 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682320300; x=1684912300;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TjtHPfIb6DuBs2mf3FmsskD40J5YH7qCDWHn5J/nnsU=;
+ b=Dqyq5qM0UqjXcWSnUquF4HWGxAM4AFy6c7deawyoFmbRd42k7iijt6z36iq0DNpr9s
+ q2vEI+F9ZYFqyMFxFIABbH0ONleVxXf5xOUXgz4c/L+lXXcKaZmdcPxcU2G+etlkJTZL
+ raJrGbZo33l4fHF+7kTgjC9oWbrCQ3xVA3/2h+Aos3zLx2ljOvFtnd00aYEwFdqVNpN+
+ b9OYtiSpCw0oiGEEalh6XVR4TJN2wEeFClVdDLs/I45Ym9GFfVpQFvKdPpebJG9pWjKW
+ P+lDz5RflXwQIRtce/SYvEmOvnSb86IIVGhAFv08qJ38rb4SD+T9BRWdd48XiHECqOnu
+ ADjw==
+X-Gm-Message-State: AAQBX9chTUVvsyhWSuqM2buFaJXj1Pauy6gsRI25cF5/PdCOW8WTti5B
+ osIzRMbhUqJA+5S9tvuSp1+wOQ==
+X-Google-Smtp-Source: AKy350Yv+nOTdOs6Kcybi2C3dJOCPdAsAe8NxdSHIHmzRjjSWhvnAAwSAL1UvkCpKuNj7uXSWYtkCg==
+X-Received: by 2002:a05:6000:1201:b0:2f2:c46b:1eb5 with SMTP id
+ e1-20020a056000120100b002f2c46b1eb5mr8790905wrx.59.1682320300425; 
+ Mon, 24 Apr 2023 00:11:40 -0700 (PDT)
+Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
+ [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
+ o4-20020a056000010400b002fa67f77c16sm10068866wrx.57.2023.04.24.00.11.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Apr 2023 00:11:40 -0700 (PDT)
+Message-ID: <ef371ab9-b258-2ac0-db39-f980276e823d@linaro.org>
+Date: Mon, 24 Apr 2023 08:11:38 +0100
 MIME-Version: 1.0
-References: <cover.1681819697.git.ray90514@gmail.com>
- <CAJnb5S18+w9QX+W7CjnmB_eeo9RXsE-43otg1XRrvZJXP7EypA@mail.gmail.com>
-In-Reply-To: <CAJnb5S18+w9QX+W7CjnmB_eeo9RXsE-43otg1XRrvZJXP7EypA@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 24 Apr 2023 09:04:06 +0200
-Message-ID: <CAJaqyWdP2b7+cQexvDM12+6TkJ+PDZok=xx61U52HNj=U8FPLQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 0/2] vhost-vdpa: cache Virtio states
-To: Shao-Chien Chiang <ray90514@gmail.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH v3 13/44] target/loongarch: Implement vmax/vmin
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230420080709.3352575-1-gaosong@loongson.cn>
+ <20230420080709.3352575-14-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230420080709.3352575-14-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.143,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,31 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Apr 22, 2023 at 8:39=E2=80=AFAM Shao-Chien Chiang <ray90514@gmail.c=
-om> wrote:
->
-> Hi,
->
-> I found a problem about cache.
->
-> If there are several devices operating the same backend device, the
-> cache might be inconsistent.
->
+On 4/20/23 09:06, Song Gao wrote:
+> This patch includes:
+> - VMAX[I].{B/H/W/D}[U];
+> - VMIN[I].{B/H/W/D}[U].
+> 
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> ---
+>   target/loongarch/disas.c                    |  33 ++++
+>   target/loongarch/helper.h                   |  18 ++
+>   target/loongarch/insn_trans/trans_lsx.c.inc | 200 ++++++++++++++++++++
+>   target/loongarch/insns.decode               |  35 ++++
+>   target/loongarch/lsx_helper.c               |  33 ++++
+>   5 files changed, 319 insertions(+)
 
-Hi Shao-Chien,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-What do you mean by "several devices operating the same backend
-device". The guest only sees "one virtio device per vhost-vdpa backend
-device".
-
-Thanks!
-
-> I think we could handle this by checking if a device is the first
-> device, but I'm not sure it will be feasible.
->
-> Is there any better approach to this problem?
->
-> Thank you!
->
-
+r~
 
