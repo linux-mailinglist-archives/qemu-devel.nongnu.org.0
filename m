@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9756ECC3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 14:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BB26ECC3B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 14:44:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqvVt-00004z-AK; Mon, 24 Apr 2023 08:41:49 -0400
+	id 1pqvYU-00022d-5F; Mon, 24 Apr 2023 08:44:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqvVm-0008WA-JR
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:41:42 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ id 1pqvYR-00022E-UY
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:44:27 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqvVk-00071D-W0
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:41:42 -0400
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-3023a56048bso3709171f8f.3
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 05:41:40 -0700 (PDT)
+ id 1pqvYQ-0007V9-Fa
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:44:27 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3f178da21b2so45829535e9.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 05:44:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682340099; x=1684932099;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=linaro.org; s=google; t=1682340265; x=1684932265;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dB7wQ/Y/QdXsGj6AOL6lVcaP8Pjv6m4+9Jqt8sAZOPY=;
- b=ZmqDaZ3GnvyIU0kJ8F2pcBmC98a8/ZRWqLRRM5rHlz+yYLQP4lxM9+/gSMsq1aUsxi
- 48uHsbN0+Tf5KZyccN8elPXbELMb6HaGlb4XCvoZEgFAAbWywYu8Pdb/7QGbpvmFGn18
- JelOsgSMFTfewJEfYiSLKGYbdkzD3YOdvW2DjkS60MDSE/mlORSQtJWX6dNNBvLNAOVK
- TtXHTHpm6y8yK9NzKqOto3Rxn+71n+jHIU+ETwWA5OLHQ9jp0l71XW5TkFd0rMf/hjcw
- HxubtoRteyRNh6i4duc2J+2+0jte9WnXr6Z9iX9jtGgUBU08ddjU+BQPv0vmIGvDY78r
- AWMA==
+ bh=jWVEW4uESxyb2PKJ77ovPkBHc7ZhGyW0t1TF+mr0xJw=;
+ b=u/bverxBFsmb+eQRGN67m9y14TquvN3bqN49aAfvRhWN18OvS8O8JL4BEC18JCqo7x
+ ljMMC/pWfdxu1+Pge0EwgWFA1zpneXgOyBgfMNS/ZJJQzX7fb3Gby0u5v+4zeRxQYa9T
+ ytbtzd0DYjxI+gW+nDEsPakrfAqR0g7bPSWu6HYH1lvquRYu84HYh17o20++wu6+9OCs
+ jkkN+ykiSW0qJ5437y6tYBpHS8wR7GgNnQLoJl2DOuPC5i1TzfJb32iXvm9oFCjLBiLv
+ K1ttrQ5gL6pP/YjIRxcey/Xtb71y3JugCR4wdP4tEKEG6zgtK1l/nZw6Zb1hSISIPPOF
+ bXXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682340099; x=1684932099;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1682340265; x=1684932265;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dB7wQ/Y/QdXsGj6AOL6lVcaP8Pjv6m4+9Jqt8sAZOPY=;
- b=SwGvRp+oHMDOPxC8UO/nATOH21IRCFbBmf0smZ24TiGSWZL5bPWjpv3B6mjUpZzAYP
- wCvW7NZDXU60wHDE3O59NPxcCAUtcTlb3CIfWV/1blVSXGCeyjsbijXmQdeBel5yfiPe
- 4kW+lN8lLHR9cgKPwLTXAMMBZTeAQ9T1smMEPNwvCRoMGyXN0K8TViB+ELKG7qUoCAxJ
- /sNMEITObcvSle/HcOzJ0hqQyb+NSa2BXo1N6jZ5wHkZdTtZ+X/C5J4Q/3b/SxIGMcI4
- kWxTBx6HuZfiMFHGbP2isnOt+F8h14wtUIQX6i4H2iJ3hA8giSD+yvFe3ww8E+8+UiQ/
- LAQg==
-X-Gm-Message-State: AAQBX9eLqx1Bm/h0SllQfHJIh8ZDJ2Y0yDg16Hzosxf92IHGxYYxDpxJ
- +N2Qr0ipmGc1vh0LxC4fxdALVw==
-X-Google-Smtp-Source: AKy350Y9dX6y3ZpPGqNor6Icnd9pFVrRl1SsesYAnqi+a+Qq0gyTxyxZHdnEThd9E5Uuci/GlopW8w==
-X-Received: by 2002:a5d:638e:0:b0:2f1:57c5:7a26 with SMTP id
- p14-20020a5d638e000000b002f157c57a26mr10096872wru.62.1682340099183; 
- Mon, 24 Apr 2023 05:41:39 -0700 (PDT)
+ bh=jWVEW4uESxyb2PKJ77ovPkBHc7ZhGyW0t1TF+mr0xJw=;
+ b=GQWrSa/BxKxXPiN3JA27qApJ/YrYMfEVMF+akwZSTyHi6U5yC4TCDdwSS5fG26sp6t
+ XODhdIdeI3+XUR9JMKUHJuI3Wc4pG+j3iRwdJCCA0L75CFUmknUm+DHDcL4PdtGxzLHG
+ 0jcXaS9iTq05Wfnt593oA493IxvCPntYNbOsW1ph6ap35anUDqRV825CWEZwnzuY1iTw
+ YfvlSWUwNjNAfa6YfDNGOSCW3IF4amABVvrJ+Q1uigZYx38XavfqiQR47ug3oJ6JftR4
+ +TJlGVbyROtKsDJE6acVZKYaoZZhgDSKqOGu4jj1RHKkO0p2Ux2K5syI3YdsJPbJo/os
+ xkpw==
+X-Gm-Message-State: AAQBX9cLkES32f6z2wJ7nB8qyClLnQBfNncB81NMX21HO0LtHD897/Ig
+ cZMgsAwmZ6qgjevZVrHTMuyi49n2fkTwjIibeWtYYQ==
+X-Google-Smtp-Source: AKy350Z40DbehPX3cpxr0fMGGdEPA7ijBc1QqzWD7ptHEJv6/wlclBmgD9wkVGT3fzoDrd2RZptDPw==
+X-Received: by 2002:a1c:7908:0:b0:3f1:6ead:e389 with SMTP id
+ l8-20020a1c7908000000b003f16eade389mr7777281wme.30.1682340264646; 
+ Mon, 24 Apr 2023 05:44:24 -0700 (PDT)
 Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
  [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
- u6-20020adff886000000b002f28de9f73bsm10697082wrp.55.2023.04.24.05.41.38
+ m6-20020a05600c4f4600b003ee5fa61f45sm15546895wmq.3.2023.04.24.05.44.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 05:41:38 -0700 (PDT)
-Message-ID: <5a9e4a38-f062-f136-1d37-b434e549f163@linaro.org>
-Date: Mon, 24 Apr 2023 13:41:37 +0100
+ Mon, 24 Apr 2023 05:44:24 -0700 (PDT)
+Message-ID: <005598db-125a-01c6-9ca8-c9321c3aa99f@linaro.org>
+Date: Mon, 24 Apr 2023 13:44:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PULL 00/17] Migration 20230420 patches
+Subject: Re: [RFC PATCH v3 14/44] target/loongarch: Implement
+ vmul/vmuh/vmulw{ev/od}
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Xu <peterx@redhat.com>, Leonardo Bras <leobras@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20230424110119.68520-1-quintela@redhat.com>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230420080709.3352575-1-gaosong@loongson.cn>
+ <20230420080709.3352575-15-gaosong@loongson.cn>
+ <691b8b09-6bc5-82db-f4c3-103fd98c406a@linaro.org>
+ <14bbe700-0611-f2ed-556a-9aa4a12d318b@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230424110119.68520-1-quintela@redhat.com>
+In-Reply-To: <14bbe700-0611-f2ed-556a-9aa4a12d318b@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -95,54 +97,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/24/23 12:01, Juan Quintela wrote:
-> The following changes since commit 327ec8d6c2a2223b78d311153a471036e474c5c5:
-> 
->    Merge tag 'pull-tcg-20230423' ofhttps://gitlab.com/rth7680/qemu  into staging (2023-04-23 11:20:37 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/juan.quintela/qemu.git  tags/migration-20230420-pull-request
-> 
-> for you to fetch changes up to b02c7fc9ef447787414e6fa67eff75e7b7b30180:
-> 
->    migration: Pass migrate_caps_check() the old and new caps (2023-04-24 11:29:02 +0200)
-> 
-> ----------------------------------------------------------------
-> Migration Pull request (take 2)
-> 
-> Remove the two atomic patches that broke mips32.
-> 
-> Please, apply.
-> 
-> ----------------------------------------------------------------
-> 
-> Eric Blake (1):
->    migration: Handle block device inactivation failures better
-> 
-> Juan Quintela (12):
->    migration: Merge ram_counters and ram_atomic_counters
->    migration: Update atomic stats out of the mutex
->    migration: Make multifd_bytes atomic
->    migration: Make dirty_sync_missed_zero_copy atomic
->    migration: Make precopy_bytes atomic
->    migration: Make downtime_bytes atomic
->    migration: Make dirty_sync_count atomic
->    migration: Make postcopy_requests atomic
->    migration: Rename duplicate to zero_pages
->    migration: Rename normal to normal_pages
->    migration: rename enabled_capabilities to capabilities
->    migration: Pass migrate_caps_check() the old and new caps
-> 
-> Peter Xu (3):
->    util/mmap-alloc: qemu_fd_getfs()
->    vl.c: Create late backends before migration object
->    migration/postcopy: Detect file system on dest host
-> 
-> 李皆俊 (1):
->    migration: remove extra whitespace character for code style
+On 4/24/23 12:25, Song Gao wrote:
+>> You don't need these.
+>> Just reverse the operands to the existing tcg_gen_mulsu2_*.
+>>
+>>
+> Ok, I'm just trying to unify  "u * s " to the macros VMUL_Q and VMADD_Q.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
+Then create local wrappers:
+
+void tcg_gen_mulus2_i64(TCGv_i64 rl, TCGv_i64 rh, TCGv_i64 arg1, TCGv_i64 arg2)
+{
+     tcg_gen_mulsu2_i64(rl, rh, arg2, arg1);
+}
 
 
 r~
