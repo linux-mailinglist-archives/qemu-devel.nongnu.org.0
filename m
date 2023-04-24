@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E6B6ED143
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD91C6ED14D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:29:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqy54-0005zO-HW; Mon, 24 Apr 2023 11:26:18 -0400
+	id 1pqy6K-0006ni-VL; Mon, 24 Apr 2023 11:27:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqy52-0005zC-IK
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:26:16 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pqy6G-0006kx-E7
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:27:32 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqy50-0006iX-I3
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:26:15 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f18335a870so29445095e9.0
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 08:26:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pqy64-0006sI-MT
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:27:32 -0400
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-2fe3fb8e25fso2762975f8f.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 08:27:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682349972; x=1684941972;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=n9xu/v3ZOYKMpm4hpom/7dHOOaf5BR7bPw+xqZHWKNA=;
- b=dqlAJQkW6bbVwO8x0VF0J/NLQ+oFN4PvC3DLCFioZnI3cpraZiEXlOB0K7NBQcxVjt
- TrpifO8tPou/69nSZNRdPPQXsNEI82nWgye6zyapHUB3NOVBBs+Q0o6HGQlfCbf9E9Ji
- VvmeRDCAtC1kmCj+FrssDW+zzID1DvfAsTYVTsNtDile9jd7Fz1eQ6tUfMVf6/2Ywn17
- 6OJ8TnzuD8Qw0HptTFqTOPZOjgjqurseMd471rhKn7LrwWVovX2I9ehO+gk9GiT20NAD
- 0hK46R79gpLSSlXEKYbladN3NkezvgsbbGQV+G1xjYvWc1b7TSMDCkpoEQxdV1V2n0hh
- avXg==
+ d=linaro.org; s=google; t=1682350039; x=1684942039;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xSalvfnQsVLK8I+FBXVViucc3wM/l9KF4EOKeg2PWAM=;
+ b=aLhL1UN59zoeWERsyjR2sb2Uiw8sG9JvFRm4FNGE+Koyx6G+UdkE2lvKoDBsSrAXV0
+ R+PbpY4ZeSZB1vYQdZUm3G0VFfdwSfD8R1hfZtooqkRPIteS75o+XEomYtV7CDdolqd0
+ 3DNmDRWXqn8pE62ku1KXW7GlXOgkROCkbVklVvLzWr3UF96A3Xi62eYxf9eRQb8s6GJB
+ 2mEbzTPXE9ec7sMfV/XZnNEG114q9+BSfWKOvBSPgpzMAtWUeQxT/EBeVaugWpwrE82Z
+ lXI0R9IgaA4dBWLlCTtZMtdAedSEtIihP9K/b4UJfixGUh92ljdegK965FuNuuDkGmE2
+ hRbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682349972; x=1684941972;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=n9xu/v3ZOYKMpm4hpom/7dHOOaf5BR7bPw+xqZHWKNA=;
- b=eW7mVY4eC6QFe7kPM8jzo/rZ4hdSmL5KOtJKrW/K8Jfn4c7HW34ysAJAYZfiNp9q0c
- Nq1rGovPnFd0W2sQodu/9WiMzYMvNwWaleenlcI4KRomG0OCHaJ7WZ3YJkXViB7ACaWs
- O8G7HeXu/c79FtZw5zOQPezLm8HKW5J7RHSmjvgr45Sv5Lp7tH7omrPg7e01G3JTc+tn
- t97huKguYaEdV/2CgMm8G0KXTyvbV/dGPs7Uk+dvAXWJhHHiiY2bDXDgceTG5fKBEn2/
- ocxcEz2U31kv/KW9iC0GMOyhLUN9GLeQiQLDAlD51vcXw3ataOJMXQk79EUjU1SNflu7
- P2xA==
-X-Gm-Message-State: AAQBX9ezuxbq37Snmkp9v7qqaPrPs2E+F4y46+JiO671eb7MgL00fLwJ
- B9+oJC230fZq+sp697t/hbSSEw==
-X-Google-Smtp-Source: AKy350YG+9a58GJW2uSWzPfzIvQrWk/4gUkb7DgMXaf11kWJKQpXC0cnL29lZy7oo+20tA+3skJ4Yw==
-X-Received: by 2002:a7b:ca47:0:b0:3f1:9acf:8670 with SMTP id
- m7-20020a7bca47000000b003f19acf8670mr5340994wml.22.1682349972582; 
- Mon, 24 Apr 2023 08:26:12 -0700 (PDT)
-Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
- [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
- k18-20020a05600c0b5200b003edf2dc7ca3sm12368415wmr.34.2023.04.24.08.26.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 08:26:12 -0700 (PDT)
-Message-ID: <d4aa737d-a148-4fa2-6d0f-bae98dcce371@linaro.org>
-Date: Mon, 24 Apr 2023 16:26:10 +0100
+ d=1e100.net; s=20221208; t=1682350039; x=1684942039;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xSalvfnQsVLK8I+FBXVViucc3wM/l9KF4EOKeg2PWAM=;
+ b=c5XAjldLgBhXGSzd6aGloFg9O2r2bd4P81HW8MU7dmbcoQwc9tF+AsBbyitGs+kPWt
+ gmzWADpTWyryBx/vZxU5QxLX4LhRKN1aYLpsXwfDsWy1oSQNUcYaAzgM74IoNI7v+nh/
+ dWu2yndaVG9Ub8D4E4qcGKmPw3Dmw1rby5oymaK1nKWDFhPQb3IfUlmm7Rm8dk/V2WoY
+ NnIWQRtCEWh8G9Xy5eA1e8EP5gRfGUfS8ZghrJZo6PK5Wg3AWRlXVRapbzjhgNqlIzHB
+ Qo+abU5uyUA7ejeXEdKQoTs7tD6Yq2CQKtDM4RUY+oMukAD7SPg0YiWqtGUe+gyh/18Z
+ tlhw==
+X-Gm-Message-State: AAQBX9cMc+Pyo74Ko8cPIOm0GI2z3Gdv8TUHXEHaTLE/6arRY6gk5aNi
+ 35/GLzvq4tanOh+md68H/mD20A==
+X-Google-Smtp-Source: AKy350a2humg4nRsNyKYbWMyjGOn4O4jHCsUpCARctdBB6ARiZQi29ky99e7t/1D4quneGvFoFACaA==
+X-Received: by 2002:adf:fdd1:0:b0:2fb:ca40:e433 with SMTP id
+ i17-20020adffdd1000000b002fbca40e433mr9340408wrs.35.1682350039207; 
+ Mon, 24 Apr 2023 08:27:19 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ b1-20020a5d45c1000000b002fdeafcb132sm10971517wrs.107.2023.04.24.08.27.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Apr 2023 08:27:18 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: qemu-stable@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH 0/3] hw/arm: Fix raspi, aspeed bootloaders on big-endian hosts
+Date: Mon, 24 Apr 2023 16:27:14 +0100
+Message-Id: <20230424152717.1333930-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH v3 26/44] target/loongarch: Implement vsrlrn vsrarn
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20230420080709.3352575-1-gaosong@loongson.cn>
- <20230420080709.3352575-27-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230420080709.3352575-27-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,23 +93,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/20/23 09:06, Song Gao wrote:
-> This patch includes:
-> - VSRLRN.{B.H/H.W/W.D};
-> - VSRARN.{B.H/H.W/W.D};
-> - VSRLRNI.{B.H/H.W/W.D/D.Q};
-> - VSRARNI.{B.H/H.W/W.D/D.Q}.
-> 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> ---
->   target/loongarch/disas.c                    |  16 +++
->   target/loongarch/helper.h                   |  16 +++
->   target/loongarch/insn_trans/trans_lsx.c.inc |  16 +++
->   target/loongarch/insns.decode               |  16 +++
->   target/loongarch/lsx_helper.c               | 126 ++++++++++++++++++++
->   5 files changed, 190 insertions(+)
+Both the raspi and aspeed boards load their secondary CPU bootloader
+code in a way that only works on little-endian hosts. This patchset
+fixes that by making them both use the write_bootloader() function
+in boot.c, which gets endianness-handling right.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Patches 1 and 2 are essentially a patch from Cédric from a few
+months ago:
+https://patchew.org/QEMU/20230119123449.531826-1-clg@kaod.org/20230119123449.531826-9-clg@kaod.org/
+I've split it into two patches and tweaked it a bit.
 
-r~
+These fixes let us run the avocado tests for these boards on
+big-endian hosts.
+
+thanks
+-- PMM
+
+Cédric Le Goater (2):
+  hw/arm/boot: Make write_bootloader() public as arm_write_bootloader()
+  hw/arm/aspeed: Use arm_write_bootloader() to write the bootloader
+
+Peter Maydell (1):
+  hw/arm/raspi: Use arm_write_bootloader() to write boot code
+
+ include/hw/arm/boot.h | 49 +++++++++++++++++++++++++++++++++
+ hw/arm/aspeed.c       | 38 +++++++++++++------------
+ hw/arm/boot.c         | 35 ++++++-----------------
+ hw/arm/raspi.c        | 64 +++++++++++++++++++++++--------------------
+ 4 files changed, 111 insertions(+), 75 deletions(-)
+
+-- 
+2.34.1
+
 
