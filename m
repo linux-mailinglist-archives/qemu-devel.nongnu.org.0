@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A5B6ECB96
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6666ECC75
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:01:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pquiH-00073q-D9; Mon, 24 Apr 2023 07:50:33 -0400
+	id 1pqvoB-000234-Pt; Mon, 24 Apr 2023 09:00:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pquht-00072G-O2
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:50:13 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ (Exim 4.90_1) (envelope-from <msyms@tibco.com>) id 1pquzB-0004iT-Om
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:08:01 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pquhc-0003Ku-SL
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:50:07 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- 98e67ed59e1d1-24986c7cf2dso3890668a91.2
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 04:49:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <msyms@tibco.com>) id 1pquz9-0007tB-QB
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:08:01 -0400
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-2f8405b3dc1so2573489f8f.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 05:07:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682336991; x=1684928991;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=q8pSLOCpFnVMQVdoGlEpFWxQeSsv9PjTd4+E6pMikFo=;
- b=kCD8+B/fQ7AdNBIAn48F6GfmofiLIDnVSs7QtonGIoAWceqfvghOyVtnCG6vUZAwxl
- LUz5efAnyVs16bwI8P7pj+Ab9/xMh+Fkju4SqIQp5/DFbt1xzPTV6XqAdJyNOe30RviM
- fBY1TGlGFONLq3rQq04D+stJZYr9tSii/s9ADvxvapFgkokTkQwnZbJ3WSjDktkETYx7
- R1WTbqWOS1sw0bEXc4sskjzdNX2ZX7X0fOId5/igFHg467LtfQ0yf7w0CcQv9PNGsVnF
- kLkDsDQ7LQxPPCroh4xYgHt91kN1iEZv86l165XOFh4J4TUlfhDn+F53m5PqsEsUdRwJ
- UbLA==
+ d=cloud.com; s=cloud; t=1682338075; x=1684930075;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=K/nk8/06PUIiEF4MTmCY2ffYz6LVNdA5FqcFP3h+JHE=;
+ b=E/HqZX9LsREaDluM7cJjcYiaeEE/srWvsBzb31fs0CH00Nu768RWLMrUUQuDuYcGQJ
+ yX7N1yUYRfWezOgunqHuu5v9jpf5UOheoeccCcIPEOM9rWw8t/q759zsvL3P7h1sBfaV
+ AgnLwVzu/dqQWgIJJ1ECPPGufTa/GBT7ssQSI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682336991; x=1684928991;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q8pSLOCpFnVMQVdoGlEpFWxQeSsv9PjTd4+E6pMikFo=;
- b=QJ5GvK6m3V6oXLuFxdbQ+1euErzdnmjx97GutrtMtly7gENjA8bqX1X/x6CSZuKFe9
- Edatt5AqfADrfCbO+48fFQbCEKYY+lFg5QEno68kzAwB2sfC1FDgrMahyFbJqkHDSRBG
- vAFVJ/jZ/vzkHYBzvGD3xGucr1zA0SN3xmZuiNztT77FXmWgGHXGInEAetpYPLkF9B5O
- o/BKB+2OsDMOETz1wWuLeOcJdvQru4Jt1KJfXfegel2OyGH9+EZgkXSzflC5wHsp8Jkn
- WK+p6cElPSLq2DTha7FLN9tyx1SZ0hAr76/u8QBLq6ZUdTLFnxqUVIgm/dfeMP9KOxh/
- 0tCQ==
-X-Gm-Message-State: AAQBX9cs8UIgQbhdCLOx2KvMP2fGuglKRK2Nk9/ixmF4xqYNVvw2O1Eh
- hGXy1PHxtItrv3fnIj9IDf0F+Q==
-X-Google-Smtp-Source: AKy350ZYLZL796rqnpNfnk2DOKqJiNI7qP/lPEgPhvST1wG1GzntU3ndddw9bIEMtYfNQvt7ckMKoQ==
-X-Received: by 2002:a17:90b:4f8b:b0:247:398c:d64f with SMTP id
- qe11-20020a17090b4f8b00b00247398cd64fmr12642195pjb.23.1682336991189; 
- Mon, 24 Apr 2023 04:49:51 -0700 (PDT)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- ik28-20020a170902ab1c00b001a6d18cb338sm6526657plb.2.2023.04.24.04.49.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 04:49:50 -0700 (PDT)
-Message-ID: <4da6da80-3220-9edb-373d-ba9a1a9a3b92@daynix.com>
-Date: Mon, 24 Apr 2023 20:49:46 +0900
+ d=1e100.net; s=20221208; t=1682338075; x=1684930075;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K/nk8/06PUIiEF4MTmCY2ffYz6LVNdA5FqcFP3h+JHE=;
+ b=XnURfNBeRjmVoMPtI8cD6M6HnQZWuheeDkF3/mHLyiqi1a237mG4qzTUFsa3FwwFwp
+ T2oWGQDOK58rXemw50sH8Uy7sW5h7eTxxKepEdBvPePkOkbkt8/6uv5DEaFjiqsabftV
+ LxJphyjejbCm89B+RgSYjhr4lRxj4v0jycGZM+oHCs1Ta3ZGe/XKnRADr4EBpOG0jDj5
+ PU4KePYESiaxyzl7INWWdIKf8vcHFarPEBlGtRtRxEyd4NbLh7xbHiStSaWu566RQPvm
+ eY2LonL6ZIaVsDV1mf90oPdCE8RT4cpI0pAvdIhg1PApDX0/4PLCbMURjm8Imy5E6IsT
+ HUaQ==
+X-Gm-Message-State: AC+VfDwLjXEik983leAXbAthpP89ffnIQB7CT9Sclh7XowkLHG2Uk4MM
+ 29pIZsDroQ4BSIHBzzzKeSnSMRtAN40PGDYZYEFLKw==
+X-Google-Smtp-Source: ACHHUZ6u7WWEPIINNleWsZq9Pu/ASD8qrU9YsusjfMMTBjNblxYwTHQsh4UhCIhr4kycgtXT9iCpnCYDngowCfq8+Eg=
+X-Received: by 2002:a5d:4b86:0:b0:304:8149:239b with SMTP id
+ b6-20020a5d4b86000000b003048149239bmr1051205wrt.50.1682338074747; Mon, 24 Apr
+ 2023 05:07:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 44/47] igb: Notify only new interrupts
-Content-Language: en-US
-To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Cc: Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
-References: <20230423041833.5302-1-akihiko.odaki@daynix.com>
- <20230423041833.5302-45-akihiko.odaki@daynix.com>
- <DBBP189MB1433D210DF6CF7CA7265CE5595679@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <DBBP189MB1433D210DF6CF7CA7265CE5595679@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.194, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20230420110205.688689-1-mark.syms@citrix.com>
+ <54a37172-cad5-3b27-36fc-3b7768e39df8@xen.org>
+In-Reply-To: <54a37172-cad5-3b27-36fc-3b7768e39df8@xen.org>
+From: Mark Syms <mark.syms@cloud.com>
+Date: Mon, 24 Apr 2023 13:07:44 +0100
+Message-ID: <CAPYKksVtGyfv3TbAjLH1G=N6=pH-pH2-FTX5c3+E5PsOKo2aOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 RESEND] xen: Fix SEGV on domain disconnect
+To: paul@xen.org
+Cc: mark.syms@citrix.com, qemu-devel@nongnu.org, 
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, 
+ xen-devel@lists.xenproject.org, tim.smith@citrix.com
+Content-Type: multipart/alternative; boundary="000000000000567bf705fa13db30"
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=msyms@tibco.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 24 Apr 2023 09:00:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,566 +84,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/04/24 20:41, Sriram Yagnaraman wrote:
-> 
-> 
->> -----Original Message-----
->> From: Akihiko Odaki <akihiko.odaki@daynix.com>
->> Sent: Sunday, 23 April 2023 06:19
->> Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>; Jason Wang
->> <jasowang@redhat.com>; Dmitry Fleytman <dmitry.fleytman@gmail.com>;
->> Michael S . Tsirkin <mst@redhat.com>; Alex Bennée
->> <alex.bennee@linaro.org>; Philippe Mathieu-Daudé <philmd@linaro.org>;
->> Thomas Huth <thuth@redhat.com>; Wainer dos Santos Moschetta
->> <wainersm@redhat.com>; Beraldo Leal <bleal@redhat.com>; Cleber Rosa
->> <crosa@redhat.com>; Laurent Vivier <lvivier@redhat.com>; Paolo Bonzini
->> <pbonzini@redhat.com>; qemu-devel@nongnu.org; Tomasz Dzieciol
->> <t.dzieciol@partner.samsung.com>; Akihiko Odaki
->> <akihiko.odaki@daynix.com>
->> Subject: [PATCH v3 44/47] igb: Notify only new interrupts
->>
->> This follows the corresponding change for e1000e. This fixes:
->> tests/avocado/netdev-ethtool.py:NetDevEthtool.test_igb
->>
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->> ---
->>   hw/net/igb_core.c                             | 201 ++++++++----------
->>   hw/net/trace-events                           |  11 +-
->>   .../org.centos/stream/8/x86_64/test-avocado   |   1 +
->>   tests/avocado/netdev-ethtool.py               |   4 -
->>   4 files changed, 87 insertions(+), 130 deletions(-)
->>
-> 
-> This is a good change, makes a clear distinction on whether we are setting EICR or ICR or MBVFICR.
-> 
->> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c index
->> 1519a90aa6..96b7335b31 100644
->> --- a/hw/net/igb_core.c
->> +++ b/hw/net/igb_core.c
->> @@ -94,10 +94,7 @@ static ssize_t
->>   igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->>                        bool has_vnet, bool *external_tx);
->>
->> -static inline void
->> -igb_set_interrupt_cause(IGBCore *core, uint32_t val);
->> -
->> -static void igb_update_interrupt_state(IGBCore *core);
->> +static void igb_raise_interrupts(IGBCore *core, size_t index, uint32_t
->> +causes);
->>   static void igb_reset(IGBCore *core, bool sw);
->>
->>   static inline void
->> @@ -913,8 +910,8 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
->>       }
->>
->>       if (eic) {
->> -        core->mac[EICR] |= eic;
->> -        igb_set_interrupt_cause(core, E1000_ICR_TXDW);
->> +        igb_raise_interrupts(core, EICR, eic);
->> +        igb_raise_interrupts(core, ICR, E1000_ICR_TXDW);
->>       }
->>
->>       net_tx_pkt_reset(txr->tx->tx_pkt, net_tx_pkt_unmap_frag_pci, d); @@ -
->> 1686,6 +1683,7 @@ igb_receive_internal(IGBCore *core, const struct iovec
->> *iov, int iovcnt,  {
->>       uint16_t queues = 0;
->>       uint32_t causes = 0;
->> +    uint32_t ecauses = 0;
->>       union {
->>           L2Header l2_header;
->>           uint8_t octets[ETH_ZLEN];
->> @@ -1788,13 +1786,14 @@ igb_receive_internal(IGBCore *core, const struct
->> iovec *iov, int iovcnt,
->>               causes |= E1000_ICS_RXDMT0;
->>           }
->>
->> -        core->mac[EICR] |= igb_rx_wb_eic(core, rxr.i->idx);
->> +        ecauses |= igb_rx_wb_eic(core, rxr.i->idx);
->>
->>           trace_e1000e_rx_written_to_guest(rxr.i->idx);
->>       }
->>
->>       trace_e1000e_rx_interrupt_set(causes);
->> -    igb_set_interrupt_cause(core, causes);
->> +    igb_raise_interrupts(core, EICR, ecauses);
->> +    igb_raise_interrupts(core, ICR, causes);
->>
->>       return orig_size;
->>   }
->> @@ -1854,7 +1853,7 @@ void igb_core_set_link_status(IGBCore *core)
->>       }
->>
->>       if (core->mac[STATUS] != old_status) {
->> -        igb_set_interrupt_cause(core, E1000_ICR_LSC);
->> +        igb_raise_interrupts(core, ICR, E1000_ICR_LSC);
->>       }
->>   }
->>
->> @@ -1934,13 +1933,6 @@ igb_set_rx_control(IGBCore *core, int index,
->> uint32_t val)
->>       }
->>   }
->>
->> -static inline void
->> -igb_clear_ims_bits(IGBCore *core, uint32_t bits) -{
->> -    trace_e1000e_irq_clear_ims(bits, core->mac[IMS], core->mac[IMS] &
->> ~bits);
->> -    core->mac[IMS] &= ~bits;
->> -}
->> -
->>   static inline bool
->>   igb_postpone_interrupt(IGBIntrDelayTimer *timer)  { @@ -1963,9 +1955,8
->> @@ igb_eitr_should_postpone(IGBCore *core, int idx)
->>       return igb_postpone_interrupt(&core->eitr[idx]);
->>   }
->>
->> -static void igb_send_msix(IGBCore *core)
->> +static void igb_send_msix(IGBCore *core, uint32_t causes)
->>   {
->> -    uint32_t causes = core->mac[EICR] & core->mac[EIMS];
->>       int vector;
->>
->>       for (vector = 0; vector < IGB_INTR_NUM; ++vector) { @@ -1988,124
->> +1979,116 @@ igb_fix_icr_asserted(IGBCore *core)
->>       trace_e1000e_irq_fix_icr_asserted(core->mac[ICR]);
->>   }
->>
->> -static void
->> -igb_update_interrupt_state(IGBCore *core)
->> +static void igb_raise_interrupts(IGBCore *core, size_t index, uint32_t
->> +causes)
->>   {
->> -    uint32_t icr;
->> -    uint32_t causes;
->> +    uint32_t old_causes = core->mac[ICR] & core->mac[IMS];
->> +    uint32_t old_ecauses = core->mac[EICR] & core->mac[EIMS];
->> +    uint32_t raised_causes;
->> +    uint32_t raised_ecauses;
->>       uint32_t int_alloc;
->>
->> -    icr = core->mac[ICR] & core->mac[IMS];
->> +    trace_e1000e_irq_set(index << 2,
->> +                         core->mac[index], core->mac[index] | causes);
->> +
->> +    core->mac[index] |= causes;
->>
->>       if (core->mac[GPIE] & E1000_GPIE_MSIX_MODE) {
->> -        if (icr) {
->> -            causes = 0;
->> -            if (icr & E1000_ICR_DRSTA) {
->> -                int_alloc = core->mac[IVAR_MISC] & 0xff;
->> -                if (int_alloc & E1000_IVAR_VALID) {
->> -                    causes |= BIT(int_alloc & 0x1f);
->> -                }
->> +        raised_causes = core->mac[ICR] & core->mac[IMS] & ~old_causes;
->> +
->> +        if (raised_causes & E1000_ICR_DRSTA) {
->> +            int_alloc = core->mac[IVAR_MISC] & 0xff;
->> +            if (int_alloc & E1000_IVAR_VALID) {
->> +                core->mac[EICR] |= BIT(int_alloc & 0x1f);
->>               }
->> -            /* Check if other bits (excluding the TCP Timer) are enabled. */
->> -            if (icr & ~E1000_ICR_DRSTA) {
->> -                int_alloc = (core->mac[IVAR_MISC] >> 8) & 0xff;
->> -                if (int_alloc & E1000_IVAR_VALID) {
->> -                    causes |= BIT(int_alloc & 0x1f);
->> -                }
->> -                trace_e1000e_irq_add_msi_other(core->mac[EICR]);
->> +        }
->> +        /* Check if other bits (excluding the TCP Timer) are enabled. */
->> +        if (raised_causes & ~E1000_ICR_DRSTA) {
->> +            int_alloc = (core->mac[IVAR_MISC] >> 8) & 0xff;
->> +            if (int_alloc & E1000_IVAR_VALID) {
->> +                core->mac[EICR] |= BIT(int_alloc & 0x1f);
->>               }
->> -            core->mac[EICR] |= causes;
->>           }
->>
->> -        if ((core->mac[EICR] & core->mac[EIMS])) {
->> -            igb_send_msix(core);
->> +        raised_ecauses = core->mac[EICR] & core->mac[EIMS] & ~old_ecauses;
->> +        if (!raised_ecauses) {
->> +            return;
->>           }
->> +
->> +        igb_send_msix(core, raised_ecauses);
->>       } else {
->>           igb_fix_icr_asserted(core);
->>
->> -        if (icr) {
->> -            core->mac[EICR] |= (icr & E1000_ICR_DRSTA) | E1000_EICR_OTHER;
->> -        } else {
->> -            core->mac[EICR] &= ~E1000_EICR_OTHER;
->> +        raised_causes = core->mac[ICR] & core->mac[IMS] & ~old_causes;
->> +        if (!raised_causes) {
->> +            return;
->>           }
->>
->> -        trace_e1000e_irq_pending_interrupts(core->mac[ICR] & core-
->>> mac[IMS],
->> -                                            core->mac[ICR], core->mac[IMS]);
->> +        core->mac[EICR] |= (raised_causes & E1000_ICR_DRSTA) |
->> + E1000_EICR_OTHER;
->>
->>           if (msix_enabled(core->owner)) {
->> -            if (icr) {
->> -                trace_e1000e_irq_msix_notify_vec(0);
->> -                msix_notify(core->owner, 0);
->> -            }
->> +            trace_e1000e_irq_msix_notify_vec(0);
->> +            msix_notify(core->owner, 0);
->>           } else if (msi_enabled(core->owner)) {
->> -            if (icr) {
->> -                msi_notify(core->owner, 0);
->> -            }
->> +            trace_e1000e_irq_msi_notify(raised_causes);
->> +            msi_notify(core->owner, 0);
->>           } else {
->> -            if (icr) {
->> -                igb_raise_legacy_irq(core);
->> -            } else {
->> -                igb_lower_legacy_irq(core);
->> -            }
->> +            igb_raise_legacy_irq(core);
->>           }
->>       }
->>   }
->>
->> -static void
->> -igb_set_interrupt_cause(IGBCore *core, uint32_t val)
->> +static void igb_lower_interrupts(IGBCore *core, size_t index, uint32_t
->> +causes)
->>   {
->> -    trace_e1000e_irq_set_cause_entry(val, core->mac[ICR]);
->> +    trace_e1000e_irq_clear(index << 2,
->> +                           core->mac[index], core->mac[index] &
->> + ~causes);
->> +
->> +    core->mac[index] &= ~causes;
->>
->> -    core->mac[ICR] |= val;
->> +    trace_e1000e_irq_pending_interrupts(core->mac[ICR] & core->mac[IMS],
->> +                                        core->mac[ICR],
->> + core->mac[IMS]);
->>
->> -    trace_e1000e_irq_set_cause_exit(val, core->mac[ICR]);
->> +    if (!(core->mac[ICR] & core->mac[IMS]) &&
->> +        !(core->mac[GPIE] & E1000_GPIE_MSIX_MODE)) {
->> +        core->mac[EICR] &= ~E1000_EICR_OTHER;
->>
->> -    igb_update_interrupt_state(core);
->> +        if (!msix_enabled(core->owner) && !msi_enabled(core->owner)) {
->> +            igb_lower_legacy_irq(core);
->> +        }
->> +    }
->>   }
->>
->>   static void igb_set_eics(IGBCore *core, int index, uint32_t val)  {
->>       bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
->> +    uint32_t mask = msix ? E1000_EICR_MSIX_MASK :
->> + E1000_EICR_LEGACY_MASK;
->>
->>       trace_igb_irq_write_eics(val, msix);
->> -
->> -    core->mac[EICS] |=
->> -        val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK);
->> -
->> -    /*
->> -     * TODO: Move to igb_update_interrupt_state if EICS is modified in other
->> -     * places.
->> -     */
->> -    core->mac[EICR] = core->mac[EICS];
->> -
->> -    igb_update_interrupt_state(core);
->> +    igb_raise_interrupts(core, EICR, val & mask);
->>   }
->>
->>   static void igb_set_eims(IGBCore *core, int index, uint32_t val)  {
->>       bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
->> +    uint32_t mask = msix ? E1000_EICR_MSIX_MASK :
->> + E1000_EICR_LEGACY_MASK;
->>
->>       trace_igb_irq_write_eims(val, msix);
->> -
->> -    core->mac[EIMS] |=
->> -        val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK);
->> -
->> -    igb_update_interrupt_state(core);
->> +    igb_raise_interrupts(core, EIMS, val & mask);
->>   }
->>
->>   static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)  {
->>       uint32_t ent = core->mac[VTIVAR_MISC + vfn];
->> +    uint32_t causes;
->>
->>       if ((ent & E1000_IVAR_VALID)) {
->> -        core->mac[EICR] |= (ent & 0x3) << (22 - vfn * IGBVF_MSIX_VEC_NUM);
->> -        igb_update_interrupt_state(core);
->> +        causes = (ent & 0x3) << (22 - vfn * IGBVF_MSIX_VEC_NUM);
->> +        igb_raise_interrupts(core, EICR, causes);
->>       }
->>   }
->>
->>   static void mailbox_interrupt_to_pf(IGBCore *core)  {
->> -    igb_set_interrupt_cause(core, E1000_ICR_VMMB);
->> +    igb_raise_interrupts(core, ICR, E1000_ICR_VMMB);
-> 
-> Shouldn't we check MBVFIMR before sending the interrupt to PF?
-> Something like this:
+--000000000000567bf705fa13db30
+Content-Type: text/plain; charset="UTF-8"
 
-Yes, but I'm not pursuing complete feature coverege with this series. 
-There are just too many features or flags which software actually don't 
-care and I have no test for.
+Copying in Tim who did the final phase of the changes.
 
-> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-> index 96b7335b31..84a91ff815 100644
-> --- a/hw/net/igb_core.c
-> +++ b/hw/net/igb_core.c
-> @@ -2088,7 +2088,10 @@ static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)
->   
->   static void mailbox_interrupt_to_pf(IGBCore *core)
->   {
-> -    igb_raise_interrupts(core, ICR, E1000_ICR_VMMB);
-> +    if (((core->mac[MBVFIMR] | (core->mac[MBVFIMR] << 16)) & core->mac[MBVFICR]) ||
-> +        (core->mac[MBVFIMR] & core->mac[VFLRE])) {
-> +        igb_raise_interrupts(core, ICR, E1000_ICR_VMMB);
-> +    }
->   }
-> 
->>   }
->>
->>   static void igb_set_pfmailbox(IGBCore *core, int index, uint32_t val) @@ -
->> 2196,13 +2179,12 @@ static void igb_w1c(IGBCore *core, int index, uint32_t
->> val)  static void igb_set_eimc(IGBCore *core, int index, uint32_t val)  {
->>       bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
->> +    uint32_t mask = msix ? E1000_EICR_MSIX_MASK :
->> + E1000_EICR_LEGACY_MASK;
->>
->> -    /* Interrupts are disabled via a write to EIMC and reflected in EIMS. */
->> -    core->mac[EIMS] &=
->> -        ~(val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK));
->> +    trace_igb_irq_write_eimc(val, msix);
->>
->> -    trace_igb_irq_write_eimc(val, core->mac[EIMS], msix);
->> -    igb_update_interrupt_state(core);
->> +    /* Interrupts are disabled via a write to EIMC and reflected in EIMS. */
->> +    igb_lower_interrupts(core, EIMS, val & mask);
->>   }
->>
->>   static void igb_set_eiac(IGBCore *core, int index, uint32_t val) @@ -2242,11
->> +2224,10 @@ static void igb_set_eicr(IGBCore *core, int index, uint32_t val)
->>        * TODO: In IOV mode, only bit zero of this vector is available for the PF
->>        * function.
->>        */
->> -    core->mac[EICR] &=
->> -        ~(val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK));
->> +    uint32_t mask = msix ? E1000_EICR_MSIX_MASK :
->> + E1000_EICR_LEGACY_MASK;
->>
->>       trace_igb_irq_write_eicr(val, msix);
->> -    igb_update_interrupt_state(core);
->> +    igb_lower_interrupts(core, EICR, val & mask);
->>   }
->>
->>   static void igb_set_vtctrl(IGBCore *core, int index, uint32_t val) @@ -2346,7
->> +2327,7 @@ igb_autoneg_timer(void *opaque)
->>
->>           igb_update_flowctl_status(core);
->>           /* signal link status change to the guest */
->> -        igb_set_interrupt_cause(core, E1000_ICR_LSC);
->> +        igb_raise_interrupts(core, ICR, E1000_ICR_LSC);
->>       }
->>   }
->>
->> @@ -2419,7 +2400,7 @@ igb_set_mdic(IGBCore *core, int index, uint32_t
->> val)
->>       core->mac[MDIC] = val | E1000_MDIC_READY;
->>
->>       if (val & E1000_MDIC_INT_EN) {
->> -        igb_set_interrupt_cause(core, E1000_ICR_MDAC);
->> +        igb_raise_interrupts(core, ICR, E1000_ICR_MDAC);
->>       }
->>   }
->>
->> @@ -2527,28 +2508,23 @@ static void
->>   igb_set_ics(IGBCore *core, int index, uint32_t val)  {
->>       trace_e1000e_irq_write_ics(val);
->> -    igb_set_interrupt_cause(core, val);
->> +    igb_raise_interrupts(core, ICR, val);
->>   }
->>
->>   static void
->>   igb_set_imc(IGBCore *core, int index, uint32_t val)  {
->>       trace_e1000e_irq_ims_clear_set_imc(val);
->> -    igb_clear_ims_bits(core, val);
->> -    igb_update_interrupt_state(core);
->> +    igb_lower_interrupts(core, IMS, val);
->>   }
->>
->>   static void
->>   igb_set_ims(IGBCore *core, int index, uint32_t val)  {
->> -    uint32_t valid_val = val & 0x77D4FBFD;
->> -
->> -    trace_e1000e_irq_set_ims(val, core->mac[IMS], core->mac[IMS] |
->> valid_val);
->> -    core->mac[IMS] |= valid_val;
->> -    igb_update_interrupt_state(core);
->> +    igb_raise_interrupts(core, IMS, val & 0x77D4FBFD);
->>   }
->>
->> -static void igb_commit_icr(IGBCore *core)
->> +static void igb_nsicr(IGBCore *core)
->>   {
->>       /*
->>        * If GPIE.NSICR = 0, then the clear of IMS will occur only if at @@ -2557,19
->> +2533,14 @@ static void igb_commit_icr(IGBCore *core)
->>        */
->>       if ((core->mac[GPIE] & E1000_GPIE_NSICR) ||
->>           (core->mac[IMS] && (core->mac[ICR] & E1000_ICR_INT_ASSERTED))) {
->> -        igb_clear_ims_bits(core, core->mac[IAM]);
->> +        igb_lower_interrupts(core, IMS, core->mac[IAM]);
->>       }
->> -
->> -    igb_update_interrupt_state(core);
->>   }
->>
->>   static void igb_set_icr(IGBCore *core, int index, uint32_t val)  {
->> -    uint32_t icr = core->mac[ICR] & ~val;
->> -
->> -    trace_igb_irq_icr_write(val, core->mac[ICR], icr);
->> -    core->mac[ICR] = icr;
->> -    igb_commit_icr(core);
->> +    igb_nsicr(core);
->> +    igb_lower_interrupts(core, ICR, val);
->>   }
->>
->>   static uint32_t
->> @@ -2620,21 +2591,19 @@ static uint32_t
->>   igb_mac_icr_read(IGBCore *core, int index)  {
->>       uint32_t ret = core->mac[ICR];
->> -    trace_e1000e_irq_icr_read_entry(ret);
->>
->>       if (core->mac[GPIE] & E1000_GPIE_NSICR) {
->>           trace_igb_irq_icr_clear_gpie_nsicr();
->> -        core->mac[ICR] = 0;
->> +        igb_lower_interrupts(core, ICR, 0xffffffff);
->>       } else if (core->mac[IMS] == 0) {
->>           trace_e1000e_irq_icr_clear_zero_ims();
->> -        core->mac[ICR] = 0;
->> +        igb_lower_interrupts(core, ICR, 0xffffffff);
->>       } else if (!msix_enabled(core->owner)) {
->>           trace_e1000e_irq_icr_clear_nonmsix_icr_read();
->> -        core->mac[ICR] = 0;
->> +        igb_lower_interrupts(core, ICR, 0xffffffff);
->>       }
->>
->> -    trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
->> -    igb_commit_icr(core);
->> +    igb_nsicr(core);
->>       return ret;
->>   }
->>
->> diff --git a/hw/net/trace-events b/hw/net/trace-events index
->> d171dc8179..e4a98b2c7d 100644
->> --- a/hw/net/trace-events
->> +++ b/hw/net/trace-events
->> @@ -207,21 +207,14 @@ e1000e_irq_msix_notify_vec(uint32_t vector)
->> "MSI-X notify vector 0x%x"
->>   e1000e_irq_postponed_by_xitr(uint32_t reg) "Interrupt postponed by [E]ITR
->> register 0x%x"
->>   e1000e_irq_clear(uint32_t offset, uint32_t old, uint32_t new) "Clearing
->> interrupt register 0x%x: 0x%x --> 0x%x"
->>   e1000e_irq_set(uint32_t offset, uint32_t old, uint32_t new) "Setting
->> interrupt register 0x%x: 0x%x --> 0x%x"
->> -e1000e_irq_clear_ims(uint32_t bits, uint32_t old_ims, uint32_t new_ims)
->> "Clearing IMS bits 0x%x: 0x%x --> 0x%x"
->> -e1000e_irq_set_ims(uint32_t bits, uint32_t old_ims, uint32_t new_ims)
->> "Setting IMS bits 0x%x: 0x%x --> 0x%x"
->>   e1000e_irq_fix_icr_asserted(uint32_t new_val) "ICR_ASSERTED bit fixed:
->> 0x%x"
->>   e1000e_irq_add_msi_other(uint32_t new_val) "ICR_OTHER bit added: 0x%x"
->>   e1000e_irq_pending_interrupts(uint32_t pending, uint32_t icr, uint32_t ims)
->> "ICR PENDING: 0x%x (ICR: 0x%x, IMS: 0x%x)"
->> -e1000e_irq_set_cause_entry(uint32_t val, uint32_t icr) "Going to set IRQ
->> cause 0x%x, ICR: 0x%x"
->> -e1000e_irq_set_cause_exit(uint32_t val, uint32_t icr) "Set IRQ cause 0x%x,
->> ICR: 0x%x"
->> -e1000e_irq_icr_write(uint32_t bits, uint32_t old_icr, uint32_t new_icr)
->> "Clearing ICR bits 0x%x: 0x%x --> 0x%x"
->>   e1000e_irq_write_ics(uint32_t val) "Adding ICR bits 0x%x"
->>   e1000e_irq_icr_process_iame(void) "Clearing IMS bits due to IAME"
->>   e1000e_irq_read_ics(uint32_t ics) "Current ICS: 0x%x"
->>   e1000e_irq_read_ims(uint32_t ims) "Current IMS: 0x%x"
->>   e1000e_irq_icr_clear_nonmsix_icr_read(void) "Clearing ICR on read due to
->> non MSI-X int"
->> -e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR:
->> 0x%x"
->> -e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
->>   e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
->>   e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
->>   e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS
->> due to EIAME, IAM: 0x%X, cause: 0x%X"
->> @@ -237,7 +230,6 @@ e1000e_irq_tidv_fpd_not_running(void) "FPD
->> written while TIDV was not running"
->>   e1000e_irq_eitr_set(uint32_t eitr_num, uint32_t val) "EITR[%u] = %u"
->>   e1000e_irq_itr_set(uint32_t val) "ITR = %u"
->>   e1000e_irq_fire_all_timers(uint32_t val) "Firing all delay/throttling timers on
->> all interrupts enable (0x%X written to IMS)"
->> -e1000e_irq_adding_delayed_causes(uint32_t val, uint32_t icr) "Merging
->> delayed causes 0x%X to ICR 0x%X"
->>   e1000e_irq_msix_pending_clearing(uint32_t cause, uint32_t int_cfg, uint32_t
->> vec) "Clearing MSI-X pending bit for cause 0x%x, IVAR config 0x%x, vector %u"
->>
->>   e1000e_wrn_msix_vec_wrong(uint32_t cause, uint32_t cfg) "Invalid
->> configuration for cause 0x%x: 0x%x"
->> @@ -290,12 +282,11 @@ igb_rx_desc_buff_write(uint64_t addr, uint16_t
->> offset, const void* source, uint3  igb_rx_metadata_rss(uint32_t rss) "RSS
->> data: 0x%X"
->>
->>   igb_irq_icr_clear_gpie_nsicr(void) "Clearing ICR on read due to GPIE.NSICR
->> enabled"
->> -igb_irq_icr_write(uint32_t bits, uint32_t old_icr, uint32_t new_icr) "Clearing
->> ICR bits 0x%x: 0x%x --> 0x%x"
->>   igb_irq_set_iam(uint32_t icr) "Update IAM: 0x%x"
->>   igb_irq_read_iam(uint32_t icr) "Current IAM: 0x%x"
->>   igb_irq_write_eics(uint32_t val, bool msix) "Update EICS: 0x%x MSI-X: %d"
->>   igb_irq_write_eims(uint32_t val, bool msix) "Update EIMS: 0x%x MSI-X: %d"
->> -igb_irq_write_eimc(uint32_t val, uint32_t eims, bool msix) "Update EIMC:
->> 0x%x EIMS: 0x%x MSI-X: %d"
->> +igb_irq_write_eimc(uint32_t val, bool msix) "Update EIMC: 0x%x MSI-X: %d"
->>   igb_irq_write_eiac(uint32_t val) "Update EIAC: 0x%x"
->>   igb_irq_write_eiam(uint32_t val, bool msix) "Update EIAM: 0x%x MSI-X: %d"
->>   igb_irq_write_eicr(uint32_t val, bool msix) "Update EICR: 0x%x MSI-X: %d"
->> diff --git a/scripts/ci/org.centos/stream/8/x86_64/test-avocado
->> b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
->> index a1aa601ee3..e0443fc8ae 100755
->> --- a/scripts/ci/org.centos/stream/8/x86_64/test-avocado
->> +++ b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
->> @@ -30,6 +30,7 @@ make get-vm-images
->>       tests/avocado/cpu_queries.py:QueryCPUModelExpansion.test \
->>       tests/avocado/empty_cpu_model.py:EmptyCPUModel.test \
->>       tests/avocado/hotplug_cpu.py:HotPlugCPU.test \
->> +    tests/avocado/netdev-ethtool.py:NetDevEthtool.test_igb \
->>       tests/avocado/netdev-ethtool.py:NetDevEthtool.test_igb_nomsi \
->>       tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd \
->>       tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu \ diff --git
->> a/tests/avocado/netdev-ethtool.py b/tests/avocado/netdev-ethtool.py index
->> 6da800f62b..5f33288f81 100644
->> --- a/tests/avocado/netdev-ethtool.py
->> +++ b/tests/avocado/netdev-ethtool.py
->> @@ -67,10 +67,6 @@ def common_test_code(self, netdev,
->> extra_args=None):
->>           # no need to gracefully shutdown, just finish
->>           self.vm.kill()
->>
->> -    # Skip testing for MSI for now. Allegedly it was fixed by:
->> -    #   28e96556ba (igb: Allocate MSI-X vector when testing)
->> -    # but I'm seeing oops in the kernel
->> -    @skip("Kernel bug with MSI enabled")
->>       def test_igb(self):
->>           """
->>           :avocado: tags=device:igb
->> --
->> 2.40.0
-> 
+On Mon, 24 Apr 2023 at 11:32, Paul Durrant <xadimgnik@gmail.com> wrote:
+>
+> On 20/04/2023 12:02, mark.syms@citrix.com wrote:
+> > From: Mark Syms <mark.syms@citrix.com>
+> >
+> > Ensure the PV ring is drained on disconnect. Also ensure all pending
+> > AIO is complete, otherwise AIO tries to complete into a mapping of the
+> > ring which has been torn down.
+> >
+> > Signed-off-by: Mark Syms <mark.syms@citrix.com>
+> > ---
+> > CC: Stefano Stabellini <sstabellini@kernel.org>
+> > CC: Anthony Perard <anthony.perard@citrix.com>
+> > CC: Paul Durrant <paul@xen.org>
+> > CC: xen-devel@lists.xenproject.org
+> >
+> > v2:
+> >   * Ensure all inflight requests are completed before teardown
+> >   * RESEND to fix formatting
+> > ---
+> >   hw/block/dataplane/xen-block.c | 31 +++++++++++++++++++++++++------
+> >   1 file changed, 25 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/hw/block/dataplane/xen-block.c
+b/hw/block/dataplane/xen-block.c
+> > index 734da42ea7..d9da4090bf 100644
+> > --- a/hw/block/dataplane/xen-block.c
+> > +++ b/hw/block/dataplane/xen-block.c
+> > @@ -523,6 +523,10 @@ static bool
+xen_block_handle_requests(XenBlockDataPlane *dataplane)
+> >
+> >       dataplane->more_work = 0;
+> >
+> > +    if (dataplane->sring == 0) {
+> > +        return done_something;
+> > +    }
+> > +
+>
+> I think you could just return false here... Nothing is ever going to be
+> done if there's no ring :-)
+>
+> >       rc = dataplane->rings.common.req_cons;
+> >       rp = dataplane->rings.common.sring->req_prod;
+> >       xen_rmb(); /* Ensure we see queued requests up to 'rp'. */
+> > @@ -666,14 +670,35 @@ void
+xen_block_dataplane_destroy(XenBlockDataPlane *dataplane >   void
+xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
+> >   {
+> >       XenDevice *xendev;
+> > +    XenBlockRequest *request, *next;
+> >
+> >       if (!dataplane) {
+> >           return;
+> >       }
+> >
+> > +    /* We're about to drain the ring. We can cancel the scheduling of
+any
+> > +     * bottom half now */
+> > +    qemu_bh_cancel(dataplane->bh);
+> > +
+> > +    /* Ensure we have drained the ring */
+> > +    aio_context_acquire(dataplane->ctx);
+> > +    do {
+> > +        xen_block_handle_requests(dataplane);
+> > +    } while (dataplane->more_work);
+> > +    aio_context_release(dataplane->ctx);
+> > +
+>
+> I don't think we want to be taking new requests, do we?
+>
+> > +    /* Now ensure that all inflight requests are complete */
+> > +    while (!QLIST_EMPTY(&dataplane->inflight)) {
+> > +        QLIST_FOREACH_SAFE(request, &dataplane->inflight, list, next) {
+> > +            blk_aio_flush(request->dataplane->blk,
+xen_block_complete_aio,
+> > +                        request);
+> > +        }
+> > +    }
+> > +
+>
+> I think this could possibly be simplified by doing the drain after the
+> call to blk_set_aio_context(), as long as we set dataplane->ctx to
+> qemu_get_aio_context(). Alos, as long as more_work is not set then it
+> should still be safe to cancel the bh before the drain AFAICT.
+>
+>    Paul
+>
+> >       xendev = dataplane->xendev;
+> >
+> >       aio_context_acquire(dataplane->ctx);
+> > +
+> >       if (dataplane->event_channel) {
+> >           /* Only reason for failure is a NULL channel */
+> >           xen_device_set_event_channel_context(xendev,
+dataplane->event_channel,
+> > @@ -684,12 +709,6 @@ void xen_block_dataplane_stop(XenBlockDataPlane
+*dataplane)
+> >       blk_set_aio_context(dataplane->blk, qemu_get_aio_context(),
+&error_abort);
+> >       aio_context_release(dataplane->ctx);
+> >
+> > -    /*
+> > -     * Now that the context has been moved onto the main thread, cancel
+> > -     * further processing.
+> > -     */
+> > -    qemu_bh_cancel(dataplane->bh);
+> > -
+> >       if (dataplane->event_channel) {
+> >           Error *local_err = NULL;
+> >
+>
+
+--000000000000567bf705fa13db30
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Copying in Tim who did the final phase of the changes=
+.</div><div><br></div>On Mon, 24 Apr 2023 at 11:32, Paul Durrant &lt;<a hre=
+f=3D"mailto:xadimgnik@gmail.com">xadimgnik@gmail.com</a>&gt; wrote:<br>&gt;=
+<br>&gt; On 20/04/2023 12:02, <a href=3D"mailto:mark.syms@citrix.com">mark.=
+syms@citrix.com</a> wrote:<br>&gt; &gt; From: Mark Syms &lt;<a href=3D"mail=
+to:mark.syms@citrix.com">mark.syms@citrix.com</a>&gt;<br>&gt; &gt;<br>&gt; =
+&gt; Ensure the PV ring is drained on disconnect. Also ensure all pending<b=
+r>&gt; &gt; AIO is complete, otherwise AIO tries to complete into a mapping=
+ of the<br>&gt; &gt; ring which has been torn down.<br>&gt; &gt;<br>&gt; &g=
+t; Signed-off-by: Mark Syms &lt;<a href=3D"mailto:mark.syms@citrix.com">mar=
+k.syms@citrix.com</a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; CC: Stefano Stabell=
+ini &lt;<a href=3D"mailto:sstabellini@kernel.org">sstabellini@kernel.org</a=
+>&gt;<br>&gt; &gt; CC: Anthony Perard &lt;<a href=3D"mailto:anthony.perard@=
+citrix.com">anthony.perard@citrix.com</a>&gt;<br>&gt; &gt; CC: Paul Durrant=
+ &lt;<a href=3D"mailto:paul@xen.org">paul@xen.org</a>&gt;<br>&gt; &gt; CC: =
+<a href=3D"mailto:xen-devel@lists.xenproject.org">xen-devel@lists.xenprojec=
+t.org</a><br>&gt; &gt;<br>&gt; &gt; v2:<br>&gt; &gt; =C2=A0 * Ensure all in=
+flight requests are completed before teardown<br>&gt; &gt; =C2=A0 * RESEND =
+to fix formatting<br>&gt; &gt; ---<br>&gt; &gt; =C2=A0 hw/block/dataplane/x=
+en-block.c | 31 +++++++++++++++++++++++++------<br>&gt; &gt; =C2=A0 1 file =
+changed, 25 insertions(+), 6 deletions(-)<br>&gt; &gt;<br>&gt; &gt; diff --=
+git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c<br>&g=
+t; &gt; index 734da42ea7..d9da4090bf 100644<br>&gt; &gt; --- a/hw/block/dat=
+aplane/xen-block.c<br>&gt; &gt; +++ b/hw/block/dataplane/xen-block.c<br>&gt=
+; &gt; @@ -523,6 +523,10 @@ static bool xen_block_handle_requests(XenBlockD=
+ataPlane *dataplane)<br>&gt; &gt; =C2=A0 <br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0=
+ dataplane-&gt;more_work =3D 0;<br>&gt; &gt; =C2=A0 <br>&gt; &gt; + =C2=A0 =
+=C2=A0if (dataplane-&gt;sring =3D=3D 0) {<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return done_something;<br>&gt; &gt; + =C2=A0 =C2=A0}<br>&gt; &gt;=
+ +<br>&gt;<br>&gt; I think you could just return false here... Nothing is e=
+ver going to be<br>&gt; done if there&#39;s no ring :-)<br>&gt;<br>&gt; &gt=
+; =C2=A0 =C2=A0 =C2=A0 rc =3D dataplane-&gt;rings.common.req_cons;<br>&gt; =
+&gt; =C2=A0 =C2=A0 =C2=A0 rp =3D dataplane-&gt;rings.common.sring-&gt;req_p=
+rod;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 xen_rmb(); /* Ensure we see queued r=
+equests up to &#39;rp&#39;. */<br>&gt; &gt; @@ -666,14 +670,35 @@ void xen_=
+block_dataplane_destroy(XenBlockDataPlane *dataplane &gt; =C2=A0 void xen_b=
+lock_dataplane_stop(XenBlockDataPlane *dataplane)<br>&gt; &gt; =C2=A0 {<br>=
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 XenDevice *xendev;<br>&gt; &gt; + =C2=A0 =C2=
+=A0XenBlockRequest *request, *next;<br>&gt; &gt; =C2=A0 <br>&gt; &gt; =C2=
+=A0 =C2=A0 =C2=A0 if (!dataplane) {<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 }<br>&gt; &gt; =C2=A0 =
+<br>&gt; &gt; + =C2=A0 =C2=A0/* We&#39;re about to drain the ring. We can c=
+ancel the scheduling of any<br>&gt; &gt; + =C2=A0 =C2=A0 * bottom half now =
+*/<br>&gt; &gt; + =C2=A0 =C2=A0qemu_bh_cancel(dataplane-&gt;bh);<br>&gt; &g=
+t; +<br>&gt; &gt; + =C2=A0 =C2=A0/* Ensure we have drained the ring */<br>&=
+gt; &gt; + =C2=A0 =C2=A0aio_context_acquire(dataplane-&gt;ctx);<br>&gt; &gt=
+; + =C2=A0 =C2=A0do {<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0xen_block_h=
+andle_requests(dataplane);<br>&gt; &gt; + =C2=A0 =C2=A0} while (dataplane-&=
+gt;more_work);<br>&gt; &gt; + =C2=A0 =C2=A0aio_context_release(dataplane-&g=
+t;ctx);<br>&gt; &gt; +<br>&gt;<br>&gt; I don&#39;t think we want to be taki=
+ng new requests, do we?<br>&gt;<br>&gt; &gt; + =C2=A0 =C2=A0/* Now ensure t=
+hat all inflight requests are complete */<br>&gt; &gt; + =C2=A0 =C2=A0while=
+ (!QLIST_EMPTY(&amp;dataplane-&gt;inflight)) {<br>&gt; &gt; + =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0QLIST_FOREACH_SAFE(request, &amp;dataplane-&gt;inflight, list=
+, next) {<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0blk_aio_f=
+lush(request-&gt;dataplane-&gt;blk, xen_block_complete_aio,<br>&gt; &gt; + =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0request);<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>&gt; &gt=
+; + =C2=A0 =C2=A0}<br>&gt; &gt; +<br>&gt;<br>&gt; I think this could possib=
+ly be simplified by doing the drain after the<br>&gt; call to blk_set_aio_c=
+ontext(), as long as we set dataplane-&gt;ctx to<br>&gt; qemu_get_aio_conte=
+xt(). Alos, as long as more_work is not set then it<br>&gt; should still be=
+ safe to cancel the bh before the drain AFAICT.<br>&gt;<br>&gt; =C2=A0 =C2=
+=A0Paul<br>&gt;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 xendev =3D dataplane-&gt;=
+xendev;<br>&gt; &gt; =C2=A0 <br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 aio_context_=
+acquire(dataplane-&gt;ctx);<br>&gt; &gt; +<br>&gt; &gt; =C2=A0 =C2=A0 =C2=
+=A0 if (dataplane-&gt;event_channel) {<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /* Only reason for failure is a NULL channel */<br>&gt; &gt; =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xen_device_set_event_channel_context(xen=
+dev, dataplane-&gt;event_channel,<br>&gt; &gt; @@ -684,12 +709,6 @@ void xe=
+n_block_dataplane_stop(XenBlockDataPlane *dataplane)<br>&gt; &gt; =C2=A0 =
+=C2=A0 =C2=A0 blk_set_aio_context(dataplane-&gt;blk, qemu_get_aio_context()=
+, &amp;error_abort);<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 aio_context_release(=
+dataplane-&gt;ctx);<br>&gt; &gt; =C2=A0 <br>&gt; &gt; - =C2=A0 =C2=A0/*<br>=
+&gt; &gt; - =C2=A0 =C2=A0 * Now that the context has been moved onto the ma=
+in thread, cancel<br>&gt; &gt; - =C2=A0 =C2=A0 * further processing.<br>&gt=
+; &gt; - =C2=A0 =C2=A0 */<br>&gt; &gt; - =C2=A0 =C2=A0qemu_bh_cancel(datapl=
+ane-&gt;bh);<br>&gt; &gt; -<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 if (dataplane=
+-&gt;event_channel) {<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error=
+ *local_err =3D NULL;<br>&gt; &gt; =C2=A0 <br>&gt;<br></div>
+
+--000000000000567bf705fa13db30--
 
