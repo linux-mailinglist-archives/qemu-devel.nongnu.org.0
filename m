@@ -2,90 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62136EC892
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E4F6EC891
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:18:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqsKy-0007ZP-PD; Mon, 24 Apr 2023 05:18:20 -0400
+	id 1pqsKU-0006Qo-Po; Mon, 24 Apr 2023 05:17:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsKj-00073u-Qq
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:18:08 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsKd-0003CZ-9Y
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:18:05 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f1958d3a53so27449445e9.0
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682327868; x=1684919868;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DVktBb8QeggkKBIykACOSAkwwiHMPkq4qzFh96IKqzM=;
- b=ZnRfCyr/996O96qokik386yaDiPFDByXzHg7n2Cw/L+ghX58GNZeVv6i8zmw2//U8C
- yxlnaQW8Pfjd/GsNh45bx/TqeMvoaSy+v5vHenss44MhIWW68DzKR4n3hi37HZMNCSb1
- LQRwMmmhVKlHmkVpZ/AN4u+/hdqorDmYW214F7SCkSYtsoKFak951xQfS9YD1TT7v1gq
- Z1ykwMlFmJA4QtNziikACYQVh85PqU5cJUJE0vJ1iR0FgYFZ4ZflpqiZQtYgP5HgVMyf
- AqzPHRc3BFxJTltd7Y9e+yVaslqLNcOo8vtqxbstl4ip45iqi4Ogx9ahDTAecbuVvw84
- U5kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682327868; x=1684919868;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=DVktBb8QeggkKBIykACOSAkwwiHMPkq4qzFh96IKqzM=;
- b=g/WayB+gQ9boSURLurcTrqNNRHVChYPltRZyXf8I0VsmPOJzcVl0urmMIfAwcDi/AL
- ONDXhmqKY5I4v50HxmA8cby4hmRtARmk11svuU6gZPze/D1xzsO8L09jiV4oquWN2qfD
- mlgDjVnEzya5kGP4A45G0YAeK909H/byYSsQJufgvkLAkp6QJclIhZ+2+vTHDNz5TNJx
- cJScf/xbT5Gyw/Rv6av2sZbEIeXOVzrkFQEo/+g0LGJ1Xm/wXaHt0zMLSzF66eKZMEBv
- Yqas4aUSM+D8AP860sPM8iShSTQ7kw+Hh4ePOYMhXpfw2WXxfTbwMptqTY2hgIr0UX8x
- 2KvQ==
-X-Gm-Message-State: AAQBX9eH0u3QM4c894BWMn7sYl8CIMnDMwPyNevZK85M8OyrvCBCErSf
- e4jGYi/lGBrgixo1hgQSgJipAA==
-X-Google-Smtp-Source: AKy350ayRkYUKB+DYieLr3x1wMWu6nbPiFUxNAMPs5Aj/9t3OsNKRzKurEC21XPbQSG3hAouTiNxZQ==
-X-Received: by 2002:a7b:cb47:0:b0:3f0:967e:2cfb with SMTP id
- v7-20020a7bcb47000000b003f0967e2cfbmr7559655wmj.36.1682327868649; 
- Mon, 24 Apr 2023 02:17:48 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- q9-20020a1ce909000000b003f177c3672dsm14795271wmc.29.2023.04.24.02.17.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Apr 2023 02:17:48 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D6E881FFB7;
- Mon, 24 Apr 2023 10:17:47 +0100 (BST)
-References: <20230421052255.5603-1-krm.taha@outlook.com>
- <20230421052255.5603-2-krm.taha@outlook.com> <ZEI4jQvHfU+JGFH9@redhat.com>
- <CAHNti2dQnbmAO5hTyb6krd8tSMCqXDp80BEcd0ZUHXmk0LZS-w@mail.gmail.com>
- <87sfct9mm6.fsf@linaro.org>
- <CAHNti2d5JH9EupsOLs0e2o-2ifeEumR5XUqPkbG1u2x6QtOCqg@mail.gmail.com>
- <CANCZdfr=32YFV0mHJxJn0F3aNUQT5YccQdRYdtq1au6BFF8WHw@mail.gmail.com>
- <CAHNti2d1ZEsop_YDJ40ymwayieK2vbkA5rPnX3VT_8a=6igksg@mail.gmail.com>
-User-agent: mu4e 1.11.3; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Karim Taha <kariem.taha2.7@gmail.com>
-Cc: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 01/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
-Date: Mon, 24 Apr 2023 10:14:11 +0100
-In-reply-to: <CAHNti2d1ZEsop_YDJ40ymwayieK2vbkA5rPnX3VT_8a=6igksg@mail.gmail.com>
-Message-ID: <87o7ndabb8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1pqsK2-0006Pq-Hp
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:17:22 -0400
+Received: from mail-dbaeur03on2071b.outbound.protection.outlook.com
+ ([2a01:111:f400:fe1a::71b]
+ helo=EUR03-DBA-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1pqsK0-00035C-V8
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:17:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AyMN2hP1NM63QT42uTgaGp0PRa/jUV7ldV1/q/04FHHBIln9v7cTCLQgxruKUhIPHWa5FKSbZpCGPyymJLRYq4xGM3HlEUw/mZsMCu4bMzT0UzqAtwdolI5/ss4strT4/817miEa+I8uXo0zv8VWOYB89AHqkUXewMS/I5GDBDKbJtH0xZPDPxrL0TE7Y7KhjhPns4mdy+XyLNTeZ9Hdsm9+pwmnaQjYuE6IDKtOdBytWWaYVMZyW4jnEh9LwwPvVfnnwUFEmtmHGR/Fm9aN2Qvx5QZRViniwYtYc8DG6n4hfjwkLv/CucQYpGRkcyXk6aar09DkFmQtOFoSK1AuCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uV+O8VB011TyKZsfw+zmWqVBKFV1FqKWJbYlvULIEms=;
+ b=kdfT8+AiDseuQrNMZHmdHGh1MBiKLkYu4qqo7fmZd+zxdMp99R1F5QvJ6h/nvSlnGRv7Al2LqwoiV5GJY6GkLVng8oFrCXsY4AqMi9ra18M8dhmoiOw7kuJXXzQidRZksALUQJL2jDB4Ffd2jKNQ8kbFNVH6OW2dQG13t+nUfWKnMBdpM24SP4EvD25545e7EojPJku4qfW7sWryA7wvrxHzw6KTH3KrAVQcFA6kFCWRjJ158C8XPnc/z5zXzlWwO+Ww2w8aTtH4X8yraSgsn4QLzY6vH15L7MczCsAvVGhdCOeCiiinogFj/jn5JOj4TLlidDLziaZf46ciukwGDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uV+O8VB011TyKZsfw+zmWqVBKFV1FqKWJbYlvULIEms=;
+ b=HwmtsbXZCsxYwd2FWkfMumvc1KNzs6AUBEijuJbtFHFB7JrQrT6m5PCiZZz5qWD2xdL5Qdf72e0Dzt+FLC2SOWlpz2ZnIu7SsKXx/SdN9jicd2dEzQSwEP6w/150D4fkM+gHDIFaWNbsGhtWkarmHeqTMsT6UoLxoCb93dxI72JAXtzSJasOvxF+RWEV/TE/r96EVXlHJsiHRC/mrAbpTrMuv39lDXZ32Wv0ltChDVpWomchpJt16sT8eCUe2fJnGyeUUb5B4pJqdlZ2gbqRXiw84GPl357/vN7bLTG25gv9cBCaglPLmkqwRMcnDCe/GMheJnbID2iqCcDA9Ai4Hw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
+ by DBAPR08MB5832.eurprd08.prod.outlook.com (2603:10a6:10:1a5::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.33; Mon, 24 Apr
+ 2023 09:16:43 +0000
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::b630:c4eb:fba3:1158]) by AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::b630:c4eb:fba3:1158%6]) with mapi id 15.20.6319.033; Mon, 24 Apr 2023
+ 09:16:42 +0000
+From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: den@virtuozzo.com, michael.roth@amd.com, kkostiuk@redhat.com,
+ marcandre.lureau@gmail.com
+Subject: [PATCH v11 00/12] parallels: Refactor the code of images checks and
+ fix a bug
+Date: Mon, 24 Apr 2023 11:16:14 +0200
+Message-Id: <20230424091626.195590-1-alexander.ivanov@virtuozzo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: VI1P18901CA0008.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:801::18) To AS8PR08MB7095.eurprd08.prod.outlook.com
+ (2603:10a6:20b:402::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|DBAPR08MB5832:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb49db85-025a-4ecc-406e-08db44a49b9b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tZgv1DHX3Z9VBP1o4b0X3VM4I5kOzfoBzT3+uBx1nowDziQcZdkcwVICtcE0R69IZ+zUDKP3bgAXy/SvPKcU2fsilNEhn9B/Suq0CN3G5qDGmrIDq2qsdPlgaEJ83MtStt3yCXBjCnI+3IJDXMaLT5KLfqveGRKpdm6GdsFQXrrccA+UR9jnr7Q0WiPHnTShJJZdfRIjU8N3xFD0uhbmd/NOX3Yx+y7EgePFrZnOnSypR0hzVN7V9bWuyW9qjQ9bfH4VtYlEG0mQ4SHcVL6Z2PvXi6ZylNazN+qw1N60Nn308VorcUaK9NtU2Np/QpyrkPPc3cE5X3rvr5v4x4ZjhC23kFukIeSX4p0vcOkdN4lf31DvJTTRirF2qJr1Sy1ybtkN7FosJM5NqbUh9X3f5iJo8Trvb8iXqe2iVY00mYux2WZo7w8aUHTKRMZ1vDyb7yvF3uByUicVPG0KFlkD2yEG+EdRmV2XdvMwKo1GUCg534TKLOMCYLVObWNM15Z5OUGLUimG93k12E6IB4RJ/vC4GQeObfVxc9F61f1mTEBII9hEYxUkEzStwer2qGW/3vLoaqAqrzpmUu2TrJb1wE8UVHF1gAJiFJCBLIuFGnuNGEi3YmbJJG46SbwvaVKT
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(346002)(136003)(39840400004)(396003)(366004)(451199021)(5660300002)(44832011)(2616005)(86362001)(83380400001)(186003)(6512007)(6506007)(26005)(1076003)(38100700002)(38350700002)(8936002)(8676002)(478600001)(316002)(6666004)(6486002)(52116002)(41300700001)(36756003)(4326008)(66476007)(66556008)(66946007)(6916009)(2906002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9puIkjOxSCPJsWsaU/s+MujMWVBwNsibYvgvJTUYiq5MslP0hDaYkC7jLmGj?=
+ =?us-ascii?Q?IxuyjLdbP+8lkH2SSBpm4PSb+puH5x5GJ3opuezBnGD9FiUGzF479X4zxWg1?=
+ =?us-ascii?Q?9Ccvz+eZVrzdY7gxwU1fkRXUuDWWZPAL615V6MhbcOrGBF2JI9NdOHr6gWom?=
+ =?us-ascii?Q?kQTq4GYKz8kICzBqYiLmsbFMOPcDnwKdmiW4IFn0eRUxNJAYm5iIebPurdzl?=
+ =?us-ascii?Q?NGz0dbiwBQhLauAooHYJMWuOLxwelaUojiJqbfxQJY9xd33bUoX9AgK2mSGE?=
+ =?us-ascii?Q?S8qw8/gK6TTHDlIQcziZCU2xleUtT48YYxq75Db5H3/Y1fShCihqtqcptOSU?=
+ =?us-ascii?Q?ofPxjJ1qOPI4Jn23M7XzqljT/dyfDC2rcsrQIxEGPcyeYrYGL7ufEDFhbX8m?=
+ =?us-ascii?Q?9aEeAlpoxyCCXwECLSuiOKxnpiWqHMZQBI7GYv0ti1wcLxIWUrQdsqBVcjqv?=
+ =?us-ascii?Q?M/hnIdTJgc/fGrAZzU0xKCX8xcbNpYPUiAnMrxhoWgVAaSTCHGJUEXhaV/GG?=
+ =?us-ascii?Q?L8RuPOAaj03LoQmjIA7RWogNePqf3iOZYifQ9BRV3F1LEEsgWlXh7ctmooln?=
+ =?us-ascii?Q?zngvxslu6+nFoZfC3ZCq0wYfinZuaM8LtRAgDRHmvbq4be8n9COOo9PeOQEC?=
+ =?us-ascii?Q?WiPEID4DToWO6rPPAasCxBM7KRPwyqdBnP1F8zBw0XhXOzkET2fIWeG8qyzs?=
+ =?us-ascii?Q?+3RYoG31w2IIXOHDoOkNxkcIqhroAoZI+azUExgFrxPwysRtqxP7J44VMJ3K?=
+ =?us-ascii?Q?6n6XrW3g9Qs4S0VynFXGcRR3yMeB2hUCm6WZBHrMprgYPlAJwfnZoXCpexQC?=
+ =?us-ascii?Q?HOlGXtfisd8IyTZzcFd//Olt9+cH4rG73SgQfFTW/09vCVUAzR4yzJvms2m/?=
+ =?us-ascii?Q?/fDDv5DKsm0NGFPazhN31+NQvULh6dOUJ8W0eGYVCEOq6ODvL/VpoywgDm1H?=
+ =?us-ascii?Q?AUcBBSM5k+2qUCWThsCpUiXPpPXcsI24VPvfNGwYpEVyFaIYih2t/hm1Nmu7?=
+ =?us-ascii?Q?2kfEY+6+wP139CtcuWWKGMKClU47uV4ezsEyf0SHP2Ujdy9/INs4q2Bpzk1F?=
+ =?us-ascii?Q?GQUjOzT50mKgH8QCKKYGq6CWVRE/vsHXA+VpJZSYGJaWRGpdbQjLbcW/JIlN?=
+ =?us-ascii?Q?s6U7ahIzwQ/N4fVmjyjl2fq5CsljSaCi/pIcnTo9bIgoGObuEXTtbb/XPOtS?=
+ =?us-ascii?Q?kxvQU5sNunLKrwWfsF3hPCKMcSa2J50Hr1BcJc+efj8Tjnt3cOF3/mFMc27H?=
+ =?us-ascii?Q?1noFFFfEzMg67f9hyqEky+iN6RV+YXUnlcdxHAnECK2JZIfdS8QbHHhLxHGP?=
+ =?us-ascii?Q?7hMvAAsdwJOh5BwDOOEfG29Uvf8EytpLlBc2tloEAFtIublaTZNudGcWHNis?=
+ =?us-ascii?Q?fIIQbcDy5J6Re/RcEIIoCW9V9D108KEdachcrT/X4fugxjwy+my6vBMFCErF?=
+ =?us-ascii?Q?bPm8ptz8MPutgMJU86G15Ldfiix+n4c+oJw4M8b/pCdsqetlmnZuLBESoZwb?=
+ =?us-ascii?Q?YGu5+esqHoOfa67oGvVuYrJdXHGW/d2x/Z3+GDoij5utAU1TAIB+KEb/Ra8S?=
+ =?us-ascii?Q?4tzv7ZfjOb3rYtOR+0ZbEpz9STA21+D8DLD6nkyEEsZB6Ar8KmwB0ZptClQL?=
+ =?us-ascii?Q?Qw=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb49db85-025a-4ecc-406e-08db44a49b9b
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2023 09:16:38.4749 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ok6Jhm/OyGeTJMBjSkGXspscpsw6iD2RQEDTaNaAm9WBoyByBAwnUoxrRXY1I9J/juYjX3YH6LXVwt7eSP1Opli9DVakMTZYlvBj6ltC8cY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5832
+Received-SPF: pass client-ip=2a01:111:f400:fe1a::71b;
+ envelope-from=alexander.ivanov@virtuozzo.com;
+ helo=EUR03-DBA-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,87 +135,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Fix image inflation when offset in BAT is out of image.
 
-Karim Taha <kariem.taha2.7@gmail.com> writes:
+Replace whole BAT syncing by flushing only dirty blocks.
 
-> I made a fork on gitlab and pushed a branch at
-> https://gitlab.com/Kariiem/qemu/-/tree/gsoc23-task3/ .
+Move all the checks outside the main check function in
+separate functions
 
-OK so I can see the original commits are not following the correct form
-so this wasn't introduced by the tool send the emails. As Daniel
-mentioned previously the format of the commit message is:
+Use WITH_QEMU_LOCK_GUARD for simplier code.
 
-  [subsystem ref]: short description of commit
+Fix incorrect condition in out-of-image check.
 
-  A few more lines of explanation about the commit that explain
-  why it does what it does.
+v11:
+1: Use bdrv_nb_sectors() instead of bdrv_getlength() to get image size in sectors.
+7,9: Add coroutine_fn and GRAPH_RDLOCK annotations.
 
-  Optional bug reference
-  DCO tags (Signed-off-by, Reviewed-by, Acked-by etc)
+v10:
+8: Add a comment.
+9: Exclude unrelated changes.
 
+v9:
+3: Add (high_off == 0) case handling.
+7: Move res->image_end_offset setting to parallels_check_outside_image().
+8: Add a patch with a statistics calculation fix.
+9: Remove redundant high_off calculation.
+12: Change the condition to (off + s->cluster_size > size).
 
->
-> On Sat, Apr 22, 2023 at 1:18=E2=80=AFAM Warner Losh <imp@bsdimp.com> wrot=
-e:
->
->  Usually this means pushing a branch off of mastar to a service like gith=
-ub or gitlab, and then
->  posting a URL with where to get it.
->
->  Warner
->
->  On Fri, Apr 21, 2023 at 4:40=E2=80=AFPM Karim Taha <kariem.taha2.7@gmail=
-.com> wrote:
->
->  It was sent with git-publish, what do you mean by pointing to a branch?
->
->  On Fri, Apr 21, 2023 at 7:22=E2=80=AFPM Alex Benn=C3=A9e <alex.bennee@li=
-naro.org> wrote:
->
->  Karim Taha <kariem.taha2.7@gmail.com> writes:
->
->  > On Fri, Apr 21, 2023 at 9:17=E2=80=AFAM Daniel P. Berrang=C3=A9 <berra=
-nge@redhat.com> wrote:
->  >
->  >  On Fri, Apr 21, 2023 at 07:22:45AM +0200, Karim Taha wrote:
->  >  > From: Warner Losh <imp@bsdimp.com>
->  >  >=20
->  >  > Allow guest_base to be initialized on 64-bit hosts, the initial val=
-ue is used by g2h_untagged
->  function
->  >  defined in include/exec/cpu_ldst.h
->  >
->  >  This commit message is all incorrectly structured I'm afraid.
->  >
->  >  There needs to a short 1 line summary, then a blank line,
->  >  then the full commit description text, then a blank line,
->  >  then the Signed-off-by tag(s).
->  >
->  >  Also if you're sending work done by Warner (as the From
->  >  tag suggests), then we would expect to see Warner's own
->  >  Signed-off-by tag, in addition to your own Signed-off-by.
->  <snip>
->  >
->  > Alright, thanks for the commit formatting tips, I resent the patch ser=
-ies, with my signed off by
->  tag and the
->  > author signed off by tags as well.
->
->  Hmm something has gone wrong. Was this sent with a plain git-send-email
->  or using a tool like git-publish?
->
->  Can you point to a branch?
->
->  >
->  > Best regards,
->  > Karim
->
->  --=20
->  Alex Benn=C3=A9e
->  Virtualisation Tech Lead @ Linaro
+v8: Rebase on the top of the current master branch.
 
+v7:
+1,2: Fix string lengths in the commit messages.
+3: Fix a typo in the commit message.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+v6:
+1: Move the error check inside the loop. Move file size getting
+   to the function beginning. Skip out-of-image offsets.
+2: A new patch - don't let high_off be more than the end of the last cluster.
+3: Set data_end without any condition.
+7: Move data_end setting to parallels_check_outside_image().
+8: Remove s->data_end setting from parallels_check_leak().
+   Fix 'i' type.
+
+v5:
+2: Change the way of data_end fixing.
+6,7: Move data_end check to parallels_check_leak().
+
+v4:
+1: Move s->data_end fix to parallels_co_check(). Split the check
+   in parallels_open() and the fix in parallels_co_check() to two patches.
+2: A new patch - a part of the patch 1.
+   Add a fix for data_end to parallels_co_check().
+3: Move offset convertation to parallels_set_bat_entry().
+4: Fix 'ret' rewriting by bdrv_co_flush() results.
+7: Keep 'i' as uint32_t.
+
+v3:
+
+1-8: Fix commit message.
+
+v2:
+
+2: A new patch - a part of the splitted patch 2.
+3: Patch order was changed so the replacement is done in parallels_co_check.
+   Now we use a helper to set BAT entry and mark the block dirty.
+4: Revert the condition with s->header_unclean.
+5: Move unrelated helper parallels_set_bat_entry creation to a separate patch.
+7: Move fragmentation counting code to this function too.
+8: Fix an incorrect usage of WITH_QEMU_LOCK_GUARD.
+
+Alexander Ivanov (12):
+  parallels: Out of image offset in BAT leads to image inflation
+  parallels: Fix high_off calculation in parallels_co_check()
+  parallels: Fix image_end_offset and data_end after out-of-image check
+  parallels: create parallels_set_bat_entry_helper() to assign BAT value
+  parallels: Use generic infrastructure for BAT writing in
+    parallels_co_check()
+  parallels: Move check of unclean image to a separate function
+  parallels: Move check of cluster outside image to a separate function
+  parallels: Fix statistics calculation
+  parallels: Move check of leaks to a separate function
+  parallels: Move statistic collection to a separate function
+  parallels: Replace qemu_co_mutex_lock by WITH_QEMU_LOCK_GUARD
+  parallels: Incorrect condition in out-of-image check
+
+ block/parallels.c | 190 +++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 136 insertions(+), 54 deletions(-)
+
+-- 
+2.34.1
+
 
