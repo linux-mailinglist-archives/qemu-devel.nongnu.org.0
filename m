@@ -2,69 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019696EC69B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 08:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4540E6EC69F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 08:57:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqq68-0008Im-9V; Mon, 24 Apr 2023 02:54:52 -0400
+	id 1pqq7e-0000m9-Br; Mon, 24 Apr 2023 02:56:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pqq66-0008Ic-Ug
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 02:54:50 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pqq7a-0000lh-9G
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 02:56:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pqq65-0003DE-1A
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 02:54:50 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.98])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2D52120A60;
- Mon, 24 Apr 2023 06:54:38 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 24 Apr
- 2023 08:54:37 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005f8bf079d-8c7b-4b7b-8f13-7546506cbdea,
- 25941152E403896D37917F170B44A5747C524F91) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <eca829d1-6524-aa30-286f-da52800494dc@kaod.org>
-Date: Mon, 24 Apr 2023 08:54:36 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pqq7Y-0003hU-Og
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 02:56:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682319377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R+5553P875Ish8sLCIWq73ZeI9sJi8j2ZJpWYHoYf24=;
+ b=SOjfAJNA/YuRQLTo2vWNv6RxjV2NjlLLyDKz6eCgJmCYqdVxbbMubhb3yNyH1+D/wF2kBQ
+ aOk8Lm7zK9WEjOKQ2jbe7+JOpo25s1xfG4pSk16TS/vQ6YOrRaQIKX6i6N/jsbTg8UltX4
+ w3rmK7b8rZ8gcjTBI/Sa1xVFJLYaf48=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-498-fsVrGrk3OgWMymIegONJUg-1; Mon, 24 Apr 2023 02:56:15 -0400
+X-MC-Unique: fsVrGrk3OgWMymIegONJUg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-2fe3fb8e32aso1416280f8f.1
+ for <qemu-devel@nongnu.org>; Sun, 23 Apr 2023 23:56:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682319374; x=1684911374;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=R+5553P875Ish8sLCIWq73ZeI9sJi8j2ZJpWYHoYf24=;
+ b=cicgQf9MAcEeYAgClrHfse3JSqe27Beh0IDuTVBf84ew0Gne7YRAQpixNKN58vD4J7
+ Qlskacpq0cK5KNAfIr/do2ZMwSMjprWMAycnVUGqoi527D6RDdgoj/K6u5z0GZesXvCj
+ J3SK1YZGewc0/ICzwPXwGcWQUBDLG532tKZCIQ3PxSSK88yIcuZXf4RYszabRnbwCaCj
+ yx8Tz5lqzW54zFzh4wTDmFZuITOijA7EvKcReDztBBmrfAI2vGeFNNh3B5LEiih9A23A
+ 8dXY1oqQjG/OxD9xkwAVPk21qbgFdOrDCxxkUU1Eja5o6Z+GUkeiICrWObN/r/HR14pb
+ xyIg==
+X-Gm-Message-State: AAQBX9eJrqrTh4Lt9lpMTgKGX3E95L9Y6lr0UWt8eimf611LQrnmqrMk
+ lLSybZm6XxZ3AfU/Y7Ck1Ky3JDzoSYT7D4T2+sMx8ZOOllUCWWr7a+Iiz6g+hAZ/XJ+jmooO+GM
+ IabaDsxIn0e02pwM=
+X-Received: by 2002:adf:ec02:0:b0:2fb:aa2f:3e50 with SMTP id
+ x2-20020adfec02000000b002fbaa2f3e50mr8437743wrn.59.1682319374563; 
+ Sun, 23 Apr 2023 23:56:14 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YFKuAuYxE20K0Qp3FqtUW7TmTvfXKc3Cyl/Gl8DUgWuf5U89HiGnE0W4mhFdj5BaVbHReHTw==
+X-Received: by 2002:adf:ec02:0:b0:2fb:aa2f:3e50 with SMTP id
+ x2-20020adfec02000000b002fbaa2f3e50mr8437733wrn.59.1682319374326; 
+ Sun, 23 Apr 2023 23:56:14 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-178-102.web.vodafone.de.
+ [109.43.178.102]) by smtp.gmail.com with ESMTPSA id
+ z14-20020a5d4d0e000000b002efb4f2d240sm10072195wrt.87.2023.04.23.23.56.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Apr 2023 23:56:13 -0700 (PDT)
+Message-ID: <2262e333-0d18-2358-310f-dfadb8da0ee2@redhat.com>
+Date: Mon, 24 Apr 2023 08:56:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] async: Suppress GCC13 false positive in aio_bh_poll()
-To: Thomas Huth <thuth@redhat.com>, <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>
-References: <20230420202939.1982044-1-clg@kaod.org>
- <9f03827f-f425-e4e3-d6df-3c6549886e35@redhat.com>
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 6/6] tests/migration: Only run auto_converge in slow
+ mode
 Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <9f03827f-f425-e4e3-d6df-3c6549886e35@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: quintela@redhat.com, "Zhang, Chen" <chen.zhang@intel.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Li Zhijian <lizhijian@fujitsu.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230421171411.566300-1-berrange@redhat.com>
+ <20230421171411.566300-7-berrange@redhat.com>
+ <MWHPR11MB0031E5A085809AEAA22AFB519B669@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <87sfcpu8i4.fsf@secure.mitica>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87sfcpu8i4.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 97768291-0680-4a6e-a126-16a7d3fe7ccd
-X-Ovh-Tracer-Id: 2858941342210755506
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfedtledgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieekheekheehjefgffekffevgeeludffieetjeeugfeftdejkeeggfevffeviefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtfedpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhhuhhthhesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomhdpmhgrrhgtrghnughrvgdrlhhurhgvrghusehrvgguhhgrthdrtghomhdptghlghesrhgvughhrghtrdgtohhmpdhsthgvfhgrnhhhrgesrhgvughhrghtrdgtoh
- hmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.143,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.172,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.143, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,74 +109,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/24/23 08:33, Thomas Huth wrote:
-> On 20/04/2023 22.29, Cédric Le Goater wrote:
->> From: Cédric Le Goater <clg@redhat.com>
+On 24/04/2023 07.58, Juan Quintela wrote:
+> "Zhang, Chen" <chen.zhang@intel.com> wrote:
+>>> -----Original Message-----
+>>> From: Daniel P. Berrangé <berrange@redhat.com>
+>>> Sent: Saturday, April 22, 2023 1:14 AM
+>>> To: qemu-devel@nongnu.org
+>>> Cc: qemu-block@nongnu.org; Paolo Bonzini <pbonzini@redhat.com>;
+>>> Thomas Huth <thuth@redhat.com>; John Snow <jsnow@redhat.com>; Li
+>>> Zhijian <lizhijian@fujitsu.com>; Juan Quintela <quintela@redhat.com>;
+>>> Stefan Hajnoczi <stefanha@redhat.com>; Zhang, Chen
+>>> <chen.zhang@intel.com>; Laurent Vivier <lvivier@redhat.com>
+>>> Subject: [PATCH v2 6/6] tests/migration: Only run auto_converge in slow
+>>> mode
+>>>
 >>
->> GCC13 reports an error :
->>
->> ../util/async.c: In function ‘aio_bh_poll’:
->> include/qemu/queue.h:303:22: error: storing the address of local variable ‘slice’ in ‘*ctx.bh_slice_list.sqh_last’ [-Werror=dangling-pointer=]
->>    303 |     (head)->sqh_last = &(elm)->field.sqe_next;                          \
->>        |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
->> ../util/async.c:169:5: note: in expansion of macro ‘QSIMPLEQ_INSERT_TAIL’
->>    169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
->>        |     ^~~~~~~~~~~~~~~~~~~~
->> ../util/async.c:161:17: note: ‘slice’ declared here
->>    161 |     BHListSlice slice;
->>        |                 ^~~~~
->> ../util/async.c:161:17: note: ‘ctx’ declared here
->>
->> But the local variable 'slice' is removed from the global context list
->> in following loop of the same routine. Add a pragma to silent GCC.
->>
->> Cc: Stefan Hajnoczi <stefanha@redhat.com>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: Daniel P. Berrangé <berrange@redhat.com>
->> Signed-off-by: Cédric Le Goater <clg@redhat.com>
->> ---
->>   util/async.c | 14 ++++++++++++++
->>   1 file changed, 14 insertions(+)
->>
->> diff --git a/util/async.c b/util/async.c
->> index 21016a1ac7..856e1a8a33 100644
->> --- a/util/async.c
->> +++ b/util/async.c
->> @@ -164,7 +164,21 @@ int aio_bh_poll(AioContext *ctx)
->>       /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue().  */
->>       QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
->> +
->> +    /*
->> +     * GCC13 [-Werror=dangling-pointer=] complains that the local variable
->> +     * 'slice' is being stored in the global 'ctx->bh_slice_list' but the
->> +     * list is emptied before this function returns.
->> +     */
->> +#if !defined(__clang__)
->> +#pragma GCC diagnostic push
->> +#pragma GCC diagnostic ignored "-Wpragmas"
+>> What kind of scenario will the qtest open this g_test_init() -m slow to trigger the slow mode?
 > 
-> Why do we need to ignore -Wpragmas here?
-
-To handle GCC 8.5 as suggested by Philippe :
-
-   https://lore.kernel.org/qemu-devel/24d45c41-2f62-76a2-4294-fcfa346c9683@linaro.org/
-
+> The only way that I know is:
 > 
->> +#pragma GCC diagnostic ignored "-Wdangling-pointer="
->> +#endif
->>       QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
->> +#if !defined(__clang__)
->> +#pragma GCC diagnostic pop
->> +#endif
->>       while ((s = QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
->>           QEMUBH *bh;
-> 
-> Anyway:
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
+> export G_TEST_SLOW=1
+> make check (or whatever individual test that you want)
 
-Thanks,
+Or even simpler:
 
-C.
+  make check SPEED=slow
+
+Or if you want to run the test manually:
+
+  QTEST_QEMU_BINARY=./qemu-system-x86_64 \
+  tests/qtest/migration-test -m slow
+
+HTH,
+  Thomas
 
 
