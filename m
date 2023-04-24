@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6076F6ECC76
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32BF6ECC7F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:03:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqvoT-0002FQ-Rb; Mon, 24 Apr 2023 09:01:01 -0400
+	id 1pqvq9-0004Xf-Uj; Mon, 24 Apr 2023 09:02:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pqvoM-0002Cp-QJ
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:00:54 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pqvoK-0003uQ-7P
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:00:54 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8DxSup9fUZkEAsAAA--.90S3;
- Mon, 24 Apr 2023 21:00:45 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Axy7J7fUZkgdI4AA--.11473S3; 
- Mon, 24 Apr 2023 21:00:43 +0800 (CST)
-Subject: Re: [RFC PATCH v3 14/44] target/loongarch: Implement
- vmul/vmuh/vmulw{ev/od}
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230420080709.3352575-1-gaosong@loongson.cn>
- <20230420080709.3352575-15-gaosong@loongson.cn>
- <691b8b09-6bc5-82db-f4c3-103fd98c406a@linaro.org>
- <14bbe700-0611-f2ed-556a-9aa4a12d318b@loongson.cn>
- <005598db-125a-01c6-9ca8-c9321c3aa99f@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <4ab8ec34-4bf1-f78e-7592-81947eebfdb6@loongson.cn>
-Date: Mon, 24 Apr 2023 21:00:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pqvq7-0004VO-Qs
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:02:43 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pqvq5-0004Q9-Lk
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:02:43 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f086770a50so29022505e9.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 06:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682341359; x=1684933359;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ocGALLHHPBcm2259H2QGQje69HfnXukuyORSYpgIqO4=;
+ b=puOPFJtnjaketPkOtjlz7yoegEwZYohTQ+Jj3wvKJKuWBHfQcKgGNnIyZSB0GkAWeO
+ cAknDklAjjR1VKRUbf/agru1vvDpYe2ga0k5Vn21LiyGDjP6UXMfQhbP8QJhqS291B9K
+ 6+us7yV4pGN9OE9XHquVuSMROoeNNqQl6kgsxU3lJZeUZVpVzSVtw9INKB/Sj3BxmUPE
+ dQ9nqGBS/pkeFgcppC2YyKWBBJ7hHjE8jGxc4O91i0n8R+MjB9f5AKU4hAM/Pdj7EUKv
+ IeL5Oqtu3Nblf4TVvaXySeR/Vn3MWhwl8gD/3P7VH1c6/BcahJ+fsoVVL2KtzbBecnWI
+ GHCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682341359; x=1684933359;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ocGALLHHPBcm2259H2QGQje69HfnXukuyORSYpgIqO4=;
+ b=E6glWEWLVcbCfWeOmhoUPcauRR3G3WE2gZIReLlIpdgqTkWHAnh8T/bYE/PRQ5qwQI
+ SP4E9FMQud6CCOut4OFUJrZ+f8HnP6qC4dFOYXzclw/RoPlWaYO6xWTMYuzTH6olfxt8
+ tBXshpPIC/o37I19Yu4CZ0fKR01CJkP+kMZPyefGo0OkOY0aP/Wq8CqtIiiKdNDBYVWO
+ TbTeHtkOIoVlC9fDdE35BD+0B1wX75eDSL10U3lV2eAVa0IGJgNTjrIUxHawOuUkKxky
+ sLseW5tNeJ5fSnl5IrbJajcM8+9eaKtyQqnY0Sqw/3nB2iAIsvxT6Of0WtodnG2SzHwg
+ tqNQ==
+X-Gm-Message-State: AAQBX9eDoe14aciF5rnx7P+TFd9RVKYtj9uY/dbm4mTNyCXUD1M25i4H
+ OA1hzbaxx/u7uJyhg1lwfJ2a4Q==
+X-Google-Smtp-Source: AKy350biiSNqZ4A33+XCDlmv3053u+oGmbrNeKEsXNdYhOG1ei8bwdag/GChdkkM8Dy4byTiRz3tuA==
+X-Received: by 2002:a05:600c:21a:b0:3f1:75b6:8c7 with SMTP id
+ 26-20020a05600c021a00b003f175b608c7mr7521119wmi.37.1682341359187; 
+ Mon, 24 Apr 2023 06:02:39 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ k36-20020a05600c1ca400b003f1733feb3dsm15641335wms.0.2023.04.24.06.02.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Apr 2023 06:02:38 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E3F941FFB7;
+ Mon, 24 Apr 2023 14:02:37 +0100 (BST)
+References: <20230424114533.1937153-1-iii@linux.ibm.com>
+ <20230424114533.1937153-2-iii@linux.ibm.com>
+User-agent: mu4e 1.11.3; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
+ <david@redhat.com>, qemu-devel@nongnu.org, qemu-s390x@nongnu.org, Thomas
+ =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, Peter Maydell
+ <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 1/3] tests/tcg: Make the QEMU headers available to
+ the tests
+Date: Mon, 24 Apr 2023 14:00:51 +0100
+In-reply-to: <20230424114533.1937153-2-iii@linux.ibm.com>
+Message-ID: <87fs8pa0wi.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <005598db-125a-01c6-9ca8-c9321c3aa99f@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Axy7J7fUZkgdI4AA--.11473S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
- ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
- BjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
- xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
- j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxV
- AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
- 67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
- ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E
- 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
- AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
- 6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jr
- v_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
- c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
- v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7I
- U1wL05UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.194,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,25 +101,95 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/4/24 下午8:44, Richard Henderson 写道:
-> On 4/24/23 12:25, Song Gao wrote:
->>> You don't need these.
->>> Just reverse the operands to the existing tcg_gen_mulsu2_*.
->>>
->>>
->> Ok, I'm just trying to unify  "u * s " to the macros VMUL_Q and VMADD_Q.
->
-> Then create local wrappers:
->
-> void tcg_gen_mulus2_i64(TCGv_i64 rl, TCGv_i64 rh, TCGv_i64 arg1, 
-> TCGv_i64 arg2)
-> {
->     tcg_gen_mulsu2_i64(rl, rh, arg2, arg1);
-> }
->
-Ah,  got it.
+Ilya Leoshkevich <iii@linux.ibm.com> writes:
 
-Thanks.
-Song Gao
+> The QEMU headers contain macros and functions that are useful in the
+> test context. Add them to tests' include path. Also provide a header
+> similar to "qemu/osdep.h" for use in the freestanding environment.
+>
+> Tests that include <sys/auxv.h> get QEMU's copy of <elf.h>, which does
+> not work without <stdint.h>. Make use of the new header in these tests
+> in order to fix this.
+>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>  tests/include/qemu/testdep.h   | 14 ++++++++++++++
+>  tests/tcg/Makefile.target      |  4 ++--
+>  tests/tcg/aarch64/sve-ioctls.c |  1 +
+>  tests/tcg/aarch64/sysregs.c    |  1 +
+>  4 files changed, 18 insertions(+), 2 deletions(-)
+>  create mode 100644 tests/include/qemu/testdep.h
+>
+> diff --git a/tests/include/qemu/testdep.h b/tests/include/qemu/testdep.h
+> new file mode 100644
+> index 00000000000..ddf7c543bf4
+> --- /dev/null
+> +++ b/tests/include/qemu/testdep.h
+> @@ -0,0 +1,14 @@
+> +/*
+> + * Common dependencies for QEMU tests.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +#ifndef QEMU_TESTDEP_H
+> +#define QEMU_TESTDEP_H
+> +
+> +#include <stdint.h>
+> +#include "qemu/compiler.h"
+> +
+> +#define g_assert_not_reached __builtin_trap
+> +
+> +#endif
+> diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+> index 8318caf9247..5474395e693 100644
+> --- a/tests/tcg/Makefile.target
+> +++ b/tests/tcg/Makefile.target
+> @@ -85,8 +85,8 @@ TESTS=3D
+>  # additional tests which may re-use existing binaries
+>  EXTRA_TESTS=3D
+>=20=20
+> -# Start with a blank slate, the build targets get to add stuff first
+> -CFLAGS=3D
+> +# Start with the minimal build flags, the build targets will extend them
+> +CFLAGS=3D-I$(SRC_PATH)/include -I$(SRC_PATH)/tests/include
+>  LDFLAGS=3D
 
+Hmm I'm not so sure about this. The tests are deliberately minimal in
+terms of their dependencies because its hard enough getting a plain
+cross-compiler to work. Is there really much benefit to allowing this?
+What happens when a user includes another header which relies on
+functionality from one of the many libraries QEMU itself links to?
+
+>=20=20
+>  QEMU_OPTS=3D
+> diff --git a/tests/tcg/aarch64/sve-ioctls.c b/tests/tcg/aarch64/sve-ioctl=
+s.c
+> index 9544dffa0ee..11a0a4e47ff 100644
+> --- a/tests/tcg/aarch64/sve-ioctls.c
+> +++ b/tests/tcg/aarch64/sve-ioctls.c
+> @@ -8,6 +8,7 @@
+>   *
+>   * SPDX-License-Identifier: GPL-2.0-or-later
+>   */
+> +#include "qemu/testdep.h"
+>  #include <sys/prctl.h>
+>  #include <asm/hwcap.h>
+>  #include <stdio.h>
+> diff --git a/tests/tcg/aarch64/sysregs.c b/tests/tcg/aarch64/sysregs.c
+> index 46b931f781d..35ec25026a9 100644
+> --- a/tests/tcg/aarch64/sysregs.c
+> +++ b/tests/tcg/aarch64/sysregs.c
+> @@ -11,6 +11,7 @@
+>   * SPDX-License-Identifier: GPL-2.0-or-later
+>   */
+>=20=20
+> +#include "qemu/testdep.h"
+>  #include <asm/hwcap.h>
+>  #include <stdio.h>
+>  #include <sys/auxv.h>
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
