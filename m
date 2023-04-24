@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD40D6ED14A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C0B6ED149
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:28:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqy6G-0006kl-A1; Mon, 24 Apr 2023 11:27:32 -0400
+	id 1pqy6H-0006ks-2X; Mon, 24 Apr 2023 11:27:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pqy6A-0006jR-0T
+ id 1pqy6D-0006je-7a
  for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:27:29 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pqy65-0006sW-BS
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:27:25 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f1950f5628so33286065e9.3
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 08:27:20 -0700 (PDT)
+ id 1pqy65-0006so-Rk
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:27:28 -0400
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-2fc3f1d6f8cso2872348f8f.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 08:27:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1682350040; x=1684942040;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YnTnpb/oRrMNBNJ0ApTxJdoFLFl10qOphFuNP0DCCUU=;
- b=f8EpeHyY54VprktfHG/XyBsX5br9tra7f77EMN8mLmSbi5ZWbG9NBzjZFEb0OYPDAD
- mJp4HxvOSVCGzHu+w6q+hSr7EaICR3bdWz31p0tTnifHwha4sLBNPdqMJs3vJu8xX35c
- /+IlZBBkyxEGNQjy8IE/1E+XpVZm2uxHlHlTmONPmX/naD2l1Cw8nEUwuLXBy5oZpUD4
- WiUyZ4D3ANezM8Ep7vwkXWe5XdfOMthBshY9PJm2EJJj92usOZNUy94gyhLIWF2T7Z7i
- 4dj2hdRIGfjvrFsG2PgO0RLHWBcQLTibZgdvt/pkgS/vuw3ll7S0UwGH7Dqb//bs8zIK
- ubLg==
+ bh=5geIGOhKXTNOnUumAZpLeK5JvkWsmSTZmE66oiXbKTA=;
+ b=qCgxDrzJL3LSqI1wVDFaTIGojdBAyr0bJzIWpUmhDIWkmCI8b3/VQ181bQyGx1O9U3
+ VItbssMh+OI4giOAbPky5htwDBVF+6D2FTHU1LOqaF5TGC4swGQsoB8QZ6bRcxX0UXnl
+ TqWTxKEHhgIEt48jgvjGox/XdGIc+avTXRUUyVxY8ka/Jm0K7LV1TX2VQNuwAUQ8kOX0
+ 9oJaRVBpPU1GEIuHJkFFSNjmMcHDSkSv5YqPrX6DszAboAdiT/gVsf6VCI9+kTCtl7lu
+ 6QP74g4Hcl+M+lb+0XIebn7/D9QGp1BewotjRNyG+2KrQ60NMmHxhECeY03wVWXPh7Zb
+ VmOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1682350040; x=1684942040;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YnTnpb/oRrMNBNJ0ApTxJdoFLFl10qOphFuNP0DCCUU=;
- b=AuyYtCw/7+dZpvklyO1d2eIlP5lzGTfxE89H8Jiqlh6/2NTJWDnO84Bc2xFHgqteMo
- YULzYdCL3kR9kqnbBFOFmslMLLZQ2t7+GIQOM8TSsMxgz9f//VSUA2E0MDvjmrDceAd9
- 8wxcDrHkKQ6/J3kfFGpo/nSPeXuO0CoG8MKLmkCw4oUXv6CFC4a9LfJsyC6ybPlAob5e
- Rv5qOwT1JLglOw7YEuuhiOu4ZR8ijRbuK2Whnw6BVpcgAE+f6fVvTQtzSp5Z6Qta52zz
- EoeUBFy89nXcvBjVzin1Z7qkp5F8r9GmvmWsLqrLrFe6f2F+/TfF+qIdy6gD/cZc/0zg
- YOGA==
-X-Gm-Message-State: AAQBX9fyQNoEj6nevMj4tTtQ+raFjpG5jbZufOjpGnomDTtG/QD7GDHC
- PEASv2NOrAMd9ZsXn0b74atroTIKcG+oQoLZ2DA=
-X-Google-Smtp-Source: AKy350Z0pfmt9btu/lBi9AxmNX8Fxv6dHOtSGGCdbwKlCRg7htEo/gq2Qu6lS+4KHHwHX0iaGLac6Q==
-X-Received: by 2002:a1c:7211:0:b0:3da:1f6a:7b36 with SMTP id
- n17-20020a1c7211000000b003da1f6a7b36mr7761722wmc.0.1682350039748; 
- Mon, 24 Apr 2023 08:27:19 -0700 (PDT)
+ bh=5geIGOhKXTNOnUumAZpLeK5JvkWsmSTZmE66oiXbKTA=;
+ b=KC9m2NjeNG3noCSGhY9lB3GI0VJgOnjk/etZb6EhqASIBhIqGbxMwKyIDFwX/7wyHL
+ 4JsqVf+OQkUNPN3gGBu2XDyiF+6ujTUT7WHBx7QNA/UHKzxGLVTZhlbUV2oRlAhPKRIL
+ 9SlE1KBcXzY1UXhyAZb1RfjNnFVQra4s06Bpo47P3rygbH8QgH3s+KH4nJ43Fbxeo/25
+ 7TcEo/3J1mTvNTiYcC5tTgxQV5Lu4hWtIV3oJ1dEnPUy+9FXz2B6h1vwjIVeCm7Xg4Am
+ Pkq1PexM289wk1rok1aoM/b5eGpIwCootLknyP4w/AeiZQAs3ybCcVOgdIHhdLZIU4rW
+ TAHw==
+X-Gm-Message-State: AAQBX9frKtRayqa6D2W9JZ0rdEtiFyPv+jOFUclozUqA/34U95jqS/oF
+ CH3R5kkJJWj0OnEWdHb6GYTuyw==
+X-Google-Smtp-Source: AKy350a5BnB4gNiMYva/UB23u7cWOMKouUVvwveIh3wPFCzNhl+wc+MJxrdN8z0jAPOJXSQwYoVXQw==
+X-Received: by 2002:adf:fc11:0:b0:2f9:95b4:450a with SMTP id
+ i17-20020adffc11000000b002f995b4450amr9730401wrr.25.1682350040318; 
+ Mon, 24 Apr 2023 08:27:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  b1-20020a5d45c1000000b002fdeafcb132sm10971517wrs.107.2023.04.24.08.27.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Apr 2023 08:27:19 -0700 (PDT)
+ Mon, 24 Apr 2023 08:27:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -63,18 +63,18 @@ Cc: qemu-stable@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 1/3] hw/arm/boot: Make write_bootloader() public as
- arm_write_bootloader()
-Date: Mon, 24 Apr 2023 16:27:15 +0100
-Message-Id: <20230424152717.1333930-2-peter.maydell@linaro.org>
+Subject: [PATCH 2/3] hw/arm/aspeed: Use arm_write_bootloader() to write the
+ bootloader
+Date: Mon, 24 Apr 2023 16:27:16 +0100
+Message-Id: <20230424152717.1333930-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230424152717.1333930-1-peter.maydell@linaro.org>
 References: <20230424152717.1333930-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,152 +99,81 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The arm boot.c code includes a utility function write_bootloader()
-which assists in writing a boot-code fragment into guest memory,
-including handling endianness and fixing it up with entry point
-addresses and similar things.  This is useful not just for the boot.c
-code but also in board model code, so rename it to
-arm_write_bootloader() and make it globally visible.
-
-Since we are making it public, make its API a little neater: move the
-AddressSpace* argument to be next to the hwaddr argument, and allow
-the fixupcontext array to be const, since we never modify it in this
-function.
+When writing the secondary-CPU stub boot loader code to the guest,
+use arm_write_bootloader() instead of directly calling
+rom_add_blob_fixed().  This fixes a bug on big-endian hosts, because
+arm_write_bootloader() will correctly byte-swap the host-byte-order
+array values into the guest-byte-order to write into the guest
+memory.
 
 Cc: qemu-stable@nongnu.org
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-[PMM: Split out from another patch by Cédric, added doc comment]
+[PMM: Moved the "make arm_write_bootloader() function public" part
+ to its own patch; updated commit message to note that this fixes
+ an actual bug; adjust to the API changes noted in previous commit]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/boot.h | 49 +++++++++++++++++++++++++++++++++++++++++++
- hw/arm/boot.c         | 35 +++++++------------------------
- 2 files changed, 57 insertions(+), 27 deletions(-)
+ hw/arm/aspeed.c | 38 ++++++++++++++++++++------------------
+ 1 file changed, 20 insertions(+), 18 deletions(-)
 
-diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
-index f18cc3064ff..80c492d7421 100644
---- a/include/hw/arm/boot.h
-+++ b/include/hw/arm/boot.h
-@@ -183,4 +183,53 @@ void arm_write_secure_board_setup_dummy_smc(ARMCPU *cpu,
-                                             const struct arm_boot_info *info,
-                                             hwaddr mvbar_addr);
- 
-+typedef enum {
-+    FIXUP_NONE = 0,     /* do nothing */
-+    FIXUP_TERMINATOR,   /* end of insns */
-+    FIXUP_BOARDID,      /* overwrite with board ID number */
-+    FIXUP_BOARD_SETUP,  /* overwrite with board specific setup code address */
-+    FIXUP_ARGPTR_LO,    /* overwrite with pointer to kernel args */
-+    FIXUP_ARGPTR_HI,    /* overwrite with pointer to kernel args (high half) */
-+    FIXUP_ENTRYPOINT_LO, /* overwrite with kernel entry point */
-+    FIXUP_ENTRYPOINT_HI, /* overwrite with kernel entry point (high half) */
-+    FIXUP_GIC_CPU_IF,   /* overwrite with GIC CPU interface address */
-+    FIXUP_BOOTREG,      /* overwrite with boot register address */
-+    FIXUP_DSB,          /* overwrite with correct DSB insn for cpu */
-+    FIXUP_MAX,
-+} FixupType;
-+
-+typedef struct ARMInsnFixup {
-+    uint32_t insn;
-+    FixupType fixup;
-+} ARMInsnFixup;
-+
-+/**
-+ * arm_write_bootloader - write a bootloader to guest memory
-+ * @name: name of the bootloader blob
-+ * @as: AddressSpace to write the bootloader
-+ * @addr: guest address to write it
-+ * @insns: the blob to be loaded
-+ * @fixupcontext: context to be used for any fixups in @insns
-+ *
-+ * Write a bootloader to guest memory at address @addr in the address
-+ * space @as. @name is the name to use for the resulting ROM blob, so
-+ * it should be unique in the system and reasonably identifiable for debugging.
-+ *
-+ * @insns must be an array of ARMInsnFixup structs, each of which has
-+ * one 32-bit value to be written to the guest memory, and a fixup to be
-+ * applied to the value. FIXUP_NONE (do nothing) is value 0, so effectively
-+ * the fixup is optional when writing a struct initializer.
-+ * The final entry in the array must be { 0, FIXUP_TERMINATOR }.
-+ *
-+ * All other supported fixup types have the semantics "ignore insn
-+ * and instead use the value from the array element @fixupcontext[fixup]".
-+ * The caller should therefore provide @fixupcontext as an array of
-+ * size FIXUP_MAX whose elements have been initialized for at least
-+ * the entries that @insns refers to.
-+ */
-+void arm_write_bootloader(const char *name,
-+                          AddressSpace *as, hwaddr addr,
-+                          const ARMInsnFixup *insns,
-+                          const uint32_t *fixupcontext);
-+
- #endif /* HW_ARM_BOOT_H */
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 54f6a3e0b3c..720f22531a6 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -60,26 +60,6 @@ AddressSpace *arm_boot_address_space(ARMCPU *cpu,
-     return cpu_get_address_space(cs, asidx);
- }
- 
--typedef enum {
--    FIXUP_NONE = 0,     /* do nothing */
--    FIXUP_TERMINATOR,   /* end of insns */
--    FIXUP_BOARDID,      /* overwrite with board ID number */
--    FIXUP_BOARD_SETUP,  /* overwrite with board specific setup code address */
--    FIXUP_ARGPTR_LO,    /* overwrite with pointer to kernel args */
--    FIXUP_ARGPTR_HI,    /* overwrite with pointer to kernel args (high half) */
--    FIXUP_ENTRYPOINT_LO, /* overwrite with kernel entry point */
--    FIXUP_ENTRYPOINT_HI, /* overwrite with kernel entry point (high half) */
--    FIXUP_GIC_CPU_IF,   /* overwrite with GIC CPU interface address */
--    FIXUP_BOOTREG,      /* overwrite with boot register address */
--    FIXUP_DSB,          /* overwrite with correct DSB insn for cpu */
--    FIXUP_MAX,
--} FixupType;
--
--typedef struct ARMInsnFixup {
--    uint32_t insn;
--    FixupType fixup;
--} ARMInsnFixup;
--
- static const ARMInsnFixup bootloader_aarch64[] = {
-     { 0x580000c0 }, /* ldr x0, arg ; Load the lower 32-bits of DTB */
-     { 0xaa1f03e1 }, /* mov x1, xzr */
-@@ -150,9 +130,10 @@ static const ARMInsnFixup smpboot[] = {
-     { 0, FIXUP_TERMINATOR }
- };
- 
--static void write_bootloader(const char *name, hwaddr addr,
--                             const ARMInsnFixup *insns, uint32_t *fixupcontext,
--                             AddressSpace *as)
-+void arm_write_bootloader(const char *name,
-+                          AddressSpace *as, hwaddr addr,
-+                          const ARMInsnFixup *insns,
-+                          const uint32_t *fixupcontext)
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index c1f2b9cfcab..0b29028fe11 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -200,33 +200,35 @@ struct AspeedMachineState {
+ static void aspeed_write_smpboot(ARMCPU *cpu,
+                                  const struct arm_boot_info *info)
  {
-     /* Fix up the specified bootloader fragment and write it into
-      * guest memory using rom_add_blob_fixed(). fixupcontext is
-@@ -214,8 +195,8 @@ static void default_write_secondary(ARMCPU *cpu,
-         fixupcontext[FIXUP_DSB] = CP15_DSB_INSN;
-     }
+-    static const uint32_t poll_mailbox_ready[] = {
++    AddressSpace *as = arm_boot_address_space(cpu, info);
++    static const ARMInsnFixup poll_mailbox_ready[] = {
+         /*
+          * r2 = per-cpu go sign value
+          * r1 = AST_SMP_MBOX_FIELD_ENTRY
+          * r0 = AST_SMP_MBOX_FIELD_GOSIGN
+          */
+-        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
+-        0xe21000ff,  /* ands    r0, r0, #255          */
+-        0xe59f201c,  /* ldr     r2, [pc, #28]         */
+-        0xe1822000,  /* orr     r2, r2, r0            */
++        { 0xee100fb0 },  /* mrc     p15, 0, r0, c0, c0, 5 */
++        { 0xe21000ff },  /* ands    r0, r0, #255          */
++        { 0xe59f201c },  /* ldr     r2, [pc, #28]         */
++        { 0xe1822000 },  /* orr     r2, r2, r0            */
  
--    write_bootloader("smpboot", info->smp_loader_start,
--                     smpboot, fixupcontext, as);
-+    arm_write_bootloader("smpboot", as, info->smp_loader_start,
-+                         smpboot, fixupcontext);
+-        0xe59f1018,  /* ldr     r1, [pc, #24]         */
+-        0xe59f0018,  /* ldr     r0, [pc, #24]         */
++        { 0xe59f1018 },  /* ldr     r1, [pc, #24]         */
++        { 0xe59f0018 },  /* ldr     r0, [pc, #24]         */
+ 
+-        0xe320f002,  /* wfe                           */
+-        0xe5904000,  /* ldr     r4, [r0]              */
+-        0xe1520004,  /* cmp     r2, r4                */
+-        0x1afffffb,  /* bne     <wfe>                 */
+-        0xe591f000,  /* ldr     pc, [r1]              */
+-        AST_SMP_MBOX_GOSIGN,
+-        AST_SMP_MBOX_FIELD_ENTRY,
+-        AST_SMP_MBOX_FIELD_GOSIGN,
++        { 0xe320f002 },  /* wfe                           */
++        { 0xe5904000 },  /* ldr     r4, [r0]              */
++        { 0xe1520004 },  /* cmp     r2, r4                */
++        { 0x1afffffb },  /* bne     <wfe>                 */
++        { 0xe591f000 },  /* ldr     pc, [r1]              */
++        { AST_SMP_MBOX_GOSIGN },
++        { AST_SMP_MBOX_FIELD_ENTRY },
++        { AST_SMP_MBOX_FIELD_GOSIGN },
++        { 0, FIXUP_TERMINATOR }
+     };
++    static const uint32_t fixupcontext[FIXUP_MAX] = { 0 };
+ 
+-    rom_add_blob_fixed("aspeed.smpboot", poll_mailbox_ready,
+-                       sizeof(poll_mailbox_ready),
+-                       info->smp_loader_start);
++    arm_write_bootloader("aspeed.smpboot", as, info->smp_loader_start,
++                         poll_mailbox_ready, fixupcontext);
  }
  
- void arm_write_secure_board_setup_dummy_smc(ARMCPU *cpu,
-@@ -1186,8 +1167,8 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-         fixupcontext[FIXUP_ENTRYPOINT_LO] = entry;
-         fixupcontext[FIXUP_ENTRYPOINT_HI] = entry >> 32;
- 
--        write_bootloader("bootloader", info->loader_start,
--                         primary_loader, fixupcontext, as);
-+        arm_write_bootloader("bootloader", as, info->loader_start,
-+                             primary_loader, fixupcontext);
- 
-         if (info->write_board_setup) {
-             info->write_board_setup(cpu, info);
+ static void aspeed_reset_secondary(ARMCPU *cpu,
 -- 
 2.34.1
 
