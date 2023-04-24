@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EE16ED476
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 20:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074FD6ED485
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 20:36:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pr0zS-00007H-0G; Mon, 24 Apr 2023 14:32:42 -0400
+	id 1pr0zw-0000IS-Tg; Mon, 24 Apr 2023 14:33:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pr0zO-000073-V5; Mon, 24 Apr 2023 14:32:38 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pr0za-00008d-JU
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 14:32:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pr0zM-0005XV-8F; Mon, 24 Apr 2023 14:32:38 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:308d:0:640:82be:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 0C98D609DE;
- Mon, 24 Apr 2023 21:32:23 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:6523::1:a] (unknown
- [2a02:6b8:b081:6523::1:a])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id LWKtqR0Op4Y0-UnulUDGS; Mon, 24 Apr 2023 21:32:22 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682361142; bh=0ui6EAJNuC9/Lj1X3Mi8Y0E/frj79Q6qDsGqb5Mf0IQ=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=B736c7Te1aCryPspyRfP5Sivya35Bc0dzPddiKe18k99NSbh89H41JNoTyhQt2mOb
- 1DsjaVGw4SMxm6ttqi7ySTX6Gy1ZhtU50Q7gs3UexkKzF15gvZOqXInUArX5Btpx9x
- vK85dBPaKdFqXp+i0BaiNzmGrn84Lr+XjgP6nLZg=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <f3f2e92c-d357-4fb9-e765-7f89dc895247@yandex-team.ru>
-Date: Mon, 24 Apr 2023 21:32:21 +0300
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pr0zY-0005bj-0p
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 14:32:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682361164;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=25OUXbetfEtVW4TtQFUrhbSobX7X9vtoMlSfwobeOpU=;
+ b=FqQSsD7Ro0VaQgCmfQKkYR+P0nBbdu6r14qQJWPaHgwb013kH41qM2OFgAnRkza5llHSmH
+ U5p5+aR+obsy0XDG9gfmhlrm6S+n06pGONM43Y8Fwjr5Nj82woCM2U2UeIxJuJv00/p2in
+ sjigGZQl/fGJ67bXAapJQRmMb2Wd2g8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-672-NE_WwPpSPjmnzQtNwpj2ug-1; Mon, 24 Apr 2023 14:32:39 -0400
+X-MC-Unique: NE_WwPpSPjmnzQtNwpj2ug-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E1E93C0E451;
+ Mon, 24 Apr 2023 18:32:39 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75AD2C15BA0;
+ Mon, 24 Apr 2023 18:32:37 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Leonardo Bras <leobras@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Juan Quintela <quintela@redhat.com>,
+ qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>
+Subject: [PATCH v3 00/13] Migration: Create options.c for
+ capabilities/params/properties
+Date: Mon, 24 Apr 2023 20:32:23 +0200
+Message-Id: <20230424183236.74561-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: test-blockjob: intermittent CI failures in msys2-64bit job
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Alberto Garcia <berto@igalia.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>
-References: <CAFEAcA_SeUuZRo7HQPUJgeaepoup29YdAuFaWjNL+fhEt+pmkA@mail.gmail.com>
- <CAFEAcA87HtzYN76nHhHZBfazDZdoRnszgAt-e2CqBBWEoF6_2Q@mail.gmail.com>
- <CAFEAcA-n+9N+0ZuE6MSD1aMBeGYAJTbQe=j1-2K=SgD_Ly6nEA@mail.gmail.com>
- <df71d7b5-7723-eaff-3dcd-45f69186f6af@redhat.com>
- <68834b18-1fab-ca2a-d131-71f75fc374a1@yandex-team.ru>
- <e6eb754e-a825-f113-a9a7-0ca2006a00c6@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <e6eb754e-a825-f113-a9a7-0ca2006a00c6@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,140 +81,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24.04.23 16:36, Emanuele Giuseppe Esposito wrote:
-> 
-> 
-> Am 21/04/2023 um 12:13 schrieb Vladimir Sementsov-Ogievskiy:
->> On 17.03.23 15:35, Thomas Huth wrote:
->>> On 17/03/2023 11.17, Peter Maydell wrote:
->>>> On Mon, 6 Mar 2023 at 11:16, Peter Maydell <peter.maydell@linaro.org>
->>>> wrote:
->>>>>
->>>>> On Fri, 3 Mar 2023 at 18:36, Peter Maydell
->>>>> <peter.maydell@linaro.org> wrote:
->>>>>>
->>>>>> I've noticed that test-blockjob seems to fail intermittently
->>>>>> on the msys2-64bit job:
->>>>>>
->>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3872508803
->>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3871061024
->>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3865312440
->>>>>>
->>>>>> Sample output:
->>>>>> | 53/89
->>>>>> ERROR:../tests/unit/test-blockjob.c:499:test_complete_in_standby:
->>>>>> assertion failed: (job->status == JOB_STATUS_STANDBY) ERROR
->>>>>> 53/89 qemu:unit / test-blockjob ERROR 0.08s exit status 3
->>>>
->>>>> Here's an intermittent failure from my macos x86 machine:
->>>>>
->>>>> 172/621 qemu:unit / test-blockjob
->>>>>              ERROR           0.26s   killed by signal 6 SIGABRT
->>>>
->>>> And an intermittent on the freebsd 13 CI job:
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/3950667240
->>>>
->>>>>>> MALLOC_PERTURB_=197
->>>>>>> G_TEST_BUILDDIR=/tmp/cirrus-ci-build/build/tests/unit
->>>>>>> G_TEST_SRCDIR=/tmp/cirrus-ci-build/tests/unit
->>>>>>> /tmp/cirrus-ci-build/build/tests/unit/test-blockjob --tap -k
->>>> ▶ 178/650 /blockjob/ids
->>>>              OK
->>>> 178/650 qemu:unit / test-blockjob
->>>>              ERROR           0.31s   killed by signal 6 SIGABRT
->>>> ――――――――――――――――――――――――――――――――――――― ✀
->>>> ―――――――――――――――――――――――――――――――――――――
->>>> stderr:
->>>> Assertion failed: (job->status == JOB_STATUS_STANDBY), function
->>>> test_complete_in_standby, file ../tests/unit/test-blockjob.c, line
->>>> 499.
->>>>
->>>>
->>>> TAP parsing error: Too few tests run (expected 9, got 1)
->>>> (test program exited with status code -6)
->>>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->>>>
->>>> Anybody in the block team looking at these, or shall we just
->>>> disable this test entirely ?
->>>
->>> I ran into this issue today, too:
->>>
->>>    https://gitlab.com/thuth/qemu/-/jobs/3954367101
->>>
->>> ... if nobody is interested in fixing this test, I think we should
->>> disable it...
->>>
->>>    Thomas
->>>
->>
->> I'm looking at this now, and seems that it's broken since
->> 6f592e5aca1a27fe1c1f6 "job.c: enable job lock/unlock and remove
->> Aiocontext locks", as it stops critical section by new
->> aio_context_release() call exactly after bdrv_drain_all_and(), so it's
->> not a surprise that job may start at that moment and the following
->> assertion fires.
->>
->> Emanuele could please look at it?
->>
-> Well if I understood correctly, the only thing that was preventing the
-> job from continuing was the aiocontext lock held.
-> 
-> The failing assertion even mentions that:
-> /* Lock the IO thread to prevent the job from being run */
-> [...]
-> /* But the job cannot run, so it will remain on standby */
-> assert(job->status == JOB_STATUS_STANDBY);
-> 
-> Essentially bdrv_drain_all_end() would wake up the job coroutine, but it
-> would anyways block somewhere after since the aiocontext lock was taken
-> by the test.
-> 
-> Now that we got rid of aiocontext lock in job code, nothing prevents the
-> test from resuming.
-> Mixing job lock and aiocontext acquire/release is not a good idea, and
-> it would anyways block job_resume() called by bdrv_drain_all_end(), so
-> the test itself would deadlock.
-> 
-> So unless @Kevin has a better idea, this seems to be just an "hack" to
-> test stuff that is not possible to do now anymore. What I would suggest
-> is to get rid of that test, or at least of that assert function. I
-> unfortunately cannot reproduce the failure, but I think the remaining
-> functions called by the test should run as expected.
-> 
+Hi
 
-Thanks! I agree. Probably, alternatively we could just expand the drained section, like
+In this v3:
+- Rebase on top of latest.
+- Fix review of migrate_use_tls() comments.
+- Remaining of the patches not yet reviewed.
 
-@@ -488,12 +488,6 @@ static void test_complete_in_standby(void)
-      bdrv_drain_all_begin();
-      assert_job_status_is(job, JOB_STATUS_STANDBY);
-  
--    /* Lock the IO thread to prevent the job from being run */
--    aio_context_acquire(ctx);
--    /* This will schedule the job to resume it */
--    bdrv_drain_all_end();
--    aio_context_release(ctx);
--
-      WITH_JOB_LOCK_GUARD() {
-          /* But the job cannot run, so it will remain on standby */
-          assert(job->status == JOB_STATUS_STANDBY);
-@@ -511,6 +505,7 @@ static void test_complete_in_standby(void)
-          job_dismiss_locked(&job, &error_abort);
-      }
-  
-+    bdrv_drain_all_end();
-      aio_context_acquire(ctx);
-      destroy_blk(blk);
-      aio_context_release(ctx);
+Please review.
 
+[v2]
+- the first two patches are included on the last pull request.
+- Changed copyright from Anthony to Orit (thanks David)
+  Some archeology required.
+- Get all the reviews by from Vladimir.
+- Rebased on top of my last pull request.
 
-But, seems that test wanted to specifically test job, that still in STANDBY exactly after drained section...
+The first two patches don't belong in this series, but without them I
+got lots of confilcts if you try to use the series.  That two patches
+are independently on the list.
 
-[cc: Hanna]
+Please review.
 
-Hanna, it was your test (added in c2c731a4d35062295cd3260e66b3754588a2fad4, two years ago). Don't you remember was important to catch STANDBY job *after* a drained section?
+[v1]
+This series move to options.c:
+- all migration capabilities code
+- all migration parameters code
+- all properties code
+- all qmp commands that only touch the previous
+
+And once there:
+- sort of functions
+- make consistent and coherent all the functions naming/typing
+- create accessors for the parameters/capabilties that don't exist
+- more cleanups here and there.
+
+Todo:
+
+- There is still capabilities code on savevm.c, but I want this in
+  before moving that code to options.c, but still needs more thought
+  for my part. I.e. should I put vmstate sections in options.c, or
+  should I create new functions to access the capabilities in savevm.c.
+
+Please review.
+
+Juan Quintela (13):
+  migration: Move migrate_use_tls() to options.c
+  migration: Move qmp_migrate_set_parameters() to options.c
+  migration: Create migrate_params_init() function
+  migration: Make all functions check have the same format
+  migration: Create migrate_downtime_limit() function
+  migration: Move migrate_set_block_incremental() to options.c
+  migration: Move block_cleanup_parameters() to options.c
+  migration: Remove MigrationState from block_cleanup_parameters()
+  migration: Create migrate_tls_creds() function
+  migration: Create migrate_tls_authz() function
+  migration: Create migrate_tls_hostname() function
+  migration: Create migrate_block_bitmap_mapping() function
+  migration: Move migration_properties to options.c
+
+ migration/block-dirty-bitmap.c |  14 +-
+ migration/migration.c          | 640 +-------------------------
+ migration/migration.h          |   2 -
+ migration/options.c            | 818 ++++++++++++++++++++++++++++-----
+ migration/options.h            |  30 ++
+ migration/tls.c                |  23 +-
+ 6 files changed, 761 insertions(+), 766 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.39.2
 
 
