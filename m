@@ -2,93 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BA06ED276
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 18:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84AB76ED2AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 18:40:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqz2Q-00067k-Fj; Mon, 24 Apr 2023 12:27:38 -0400
+	id 1pqzDr-00067F-SE; Mon, 24 Apr 2023 12:39:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pqz2N-00066h-Og
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 12:27:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1pqzDp-00066p-UM
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 12:39:25 -0400
+Received: from mail-dm6nam11on2071.outbound.protection.outlook.com
+ ([40.107.223.71] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pqz2M-0005Fi-5L
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 12:27:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682353653;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wb2iTLITE/bUto0SOG3AjYW6klbWdDBsSr5RZno75sM=;
- b=h5DxOsUUb4eVsrLfyfU3/XBWdkQfIMAVVGR7M1zturbz/5tfrH1GBTYn3mS0dHUQ4YisGh
- jak9YmSbxrkzu1dtT8qzMNGntGg9xts4ptkqwdWw/ATRetQPDeK5Dy5vw1P01+Sub5UGyF
- oBm3dISiTxUjN7UL0JAEkJNNE1zl7Ws=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-XMo4IKRBOXKTA-4k8osF3g-1; Mon, 24 Apr 2023 12:27:32 -0400
-X-MC-Unique: XMo4IKRBOXKTA-4k8osF3g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f187a7a626so15881815e9.0
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 09:27:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682353650; x=1684945650;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Wb2iTLITE/bUto0SOG3AjYW6klbWdDBsSr5RZno75sM=;
- b=equbKbUZII1zWF5c/z3AQOyZqzhLcz+Y0DeKuKiOB1R7Jkqhtcqdj3p6GuIQUXyIYu
- Tq351ppQF/dQ4zwrQ9IwQpl6tIUGR5zC+tfEBEo/L6inLFJci34NidZxx568fapiwM7v
- MqRjZJI4/R9lI1Sc5RePIsGQdceZtXx+4/Z1iNDRCuWpRrkuY/YCuLUyMldqFRjAN3g1
- Kh1OLy2731LWWFPCcWRkpzBqrK1JMHyjCu4VALJgnjbiwWu2xtRu07Shvkftonu54iHg
- tzypc+2EvdEPGb4QpVlWjH0IcpsiAvTWZQmhehjx3VOV9Ul7elN5Xb9fJmkC6K/An3Be
- 68rw==
-X-Gm-Message-State: AAQBX9cSSJSfnuWpDiCBl1oKHOBINDsMRWYcr3OZyo543CVdSXhnpUnv
- TgzSCpdc6W2sRv06+06BUlZI+E9lIObz3c2k+N1iUfBOcZstDDINHPksO+0kQgWLncM1Bfe7l83
- BDkBpMb4Ihq2eTjQ=
-X-Received: by 2002:a1c:7505:0:b0:3f0:373d:c32b with SMTP id
- o5-20020a1c7505000000b003f0373dc32bmr8128593wmc.30.1682353650770; 
- Mon, 24 Apr 2023 09:27:30 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b42zoFcH7nJtNm74zgMBLTiUTNAD/3fdSkRPYznGse58zn1HwDOkrqZG7rmOl+jTvWl+4TLg==
-X-Received: by 2002:a1c:7505:0:b0:3f0:373d:c32b with SMTP id
- o5-20020a1c7505000000b003f0373dc32bmr8128579wmc.30.1682353650406; 
- Mon, 24 Apr 2023 09:27:30 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-178-102.web.vodafone.de.
- [109.43.178.102]) by smtp.gmail.com with ESMTPSA id
- m18-20020adffa12000000b003047297a5e8sm4494170wrr.54.2023.04.24.09.27.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 09:27:29 -0700 (PDT)
-Message-ID: <a38b1bbd-1c46-3ea6-d7c1-f77e414bb6bf@redhat.com>
-Date: Mon, 24 Apr 2023 18:27:28 +0200
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1pqzDn-0007hW-Ne
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 12:39:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BXm//fJrOq6AwQmiku44jW+pnOOTgjAnvn/zVZeNB3ROTvMOI9QRg08Q97CJ6ziNY4FL2/LnAewounRDXRYUGTiDfFDnysSBNVLMtStD37+s6X6WX0gepZ/VZH1V4oPbdmoaV+TSs0MTPHKw/iBjgQ30ZIOsi5gqY0XzRAnwVEY5IyeyQRrbYWAxz2wubEffiFD1CXcaaFHVHH+TxFkGP+a5I3tcDMkEiCN3g6rPmg+n/dOsJZo4zmn80AxekDReUK1VVXPKYpv3rDrfvoyioHYyYMJqjpB/NE5gVqDfa3pSzIxclfyeg1fJr8CR4diQlaO73I3LFDhwGZe6VbdxQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LWsXwchhkVOYokOGWubGZ7CyhtinkOMsqErSxMxIBbU=;
+ b=JAImdy5jSuuCALkKQXiMm/rtPBWUcD722xtrmfAi9dWiIOzUU/JvGx13xE1J+pt0oeid0fhLVKoeAC1/Su37RDFCekWfYZeeVyx0bbep7O8GURE/8ngIJTqcyxD+Pe7jtRvY2vdq/tABxx0kpqEr6IPPZ2n9pCthsjo8jpM/Ho2qP8aB2OIVPBq1Cdmpwrxibyms/llijJ8XRgLHtQlvq83i949Bo3RcaguJ6gPBVza8z5+LtQF2LxcNa54HuIF92N7c8Ib/iJJfxCiB9JgmbwuRrFOLZ9pZgXvnlfac/fYd5egzsqIIRQAUNgaDL6mF/JrfMMJD3tebMJ73V0xzeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LWsXwchhkVOYokOGWubGZ7CyhtinkOMsqErSxMxIBbU=;
+ b=23nydJX63daFzqQOv+kbbVUO/YVMsPNigdf2lpcM1fGzUpk5jjuQ36GbeSAib0ci/mriIKxb8Na+EXL9MeFesuhFCtD8ehbZQaUllziEutKUR4liMtX/XouyRe3TuH2GKb7sThepJgj3ex2B71Bdt2ZLz30XLcVGNhH22OHa+g0=
+Received: from DS7PR03CA0132.namprd03.prod.outlook.com (2603:10b6:5:3b4::17)
+ by IA0PR12MB8982.namprd12.prod.outlook.com (2603:10b6:208:481::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.33; Mon, 24 Apr
+ 2023 16:34:17 +0000
+Received: from DM6NAM11FT054.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b4:cafe::4a) by DS7PR03CA0132.outlook.office365.com
+ (2603:10b6:5:3b4::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.33 via Frontend
+ Transport; Mon, 24 Apr 2023 16:34:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT054.mail.protection.outlook.com (10.13.173.95) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6340.19 via Frontend Transport; Mon, 24 Apr 2023 16:34:16 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 24 Apr
+ 2023 11:34:14 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <pbonzini@redhat.com>, <richard.henderson@linaro.org>
+CC: <weijiang.yang@intel.com>, <philmd@linaro.org>, <dwmw@amazon.co.uk>,
+ <paul@xen.org>, <joao.m.martins@oracle.com>, <qemu-devel@nongnu.org>,
+ <mtosatti@redhat.com>, <kvm@vger.kernel.org>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <yang.zhong@intel.com>, <jing2.liu@intel.com>,
+ <vkuznets@redhat.com>, <michael.roth@amd.com>, <wei.huang2@amd.com>,
+ <berrange@redhat.com>, <babu.moger@amd.com>
+Subject: [PATCH v3 0/7] Add EPYC-Genoa model and update previous EPYC Models
+Date: Mon, 24 Apr 2023 11:33:54 -0500
+Message-ID: <20230424163401.23018-1-babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] hw/net/msf2-emac: Don't modify descriptor in-place in
- emac_store_desc()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- qemu-s390x <qemu-s390x@nongnu.org>
-References: <20230424151919.1333299-1-peter.maydell@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230424151919.1333299-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.194, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT054:EE_|IA0PR12MB8982:EE_
+X-MS-Office365-Filtering-Correlation-Id: b62b92b1-c5ac-4eef-b74a-08db44e1bf17
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QstI7LNGDzWlGE4Nov1Hv1QILilglG8NuIuyYnCtrMYzltXMlpgfjzzqPkqtDQAoAGtInUKmhsRkFeE2SpBMKmfsEqieAefNwpgu3/y5J+bN7jZIyEiQhrdCO4qqQ4SGl5MtUYCJx5cR+P63UIPAXDbp4JRE8euSlumy+2v4WlqRRHlmi1EXFO2GdWE6kRKV+DBTK/sWnsID1oUMjk4vp6piejJA/lFrmvW3pdb4I2Oin+yAuquNf3WQItQI3UDUmog/lL2NQVk78n+1oumYOs0l5X2XmHx4d1tRR7yvF+wqivV8NMjoD+wAH9j5zqhc6vHZOhiq66YeLsQ0zrEhO99EvZ/GbUOhHPQTP3btATSIDkV5FcXC2p3zIZtd9cFBUwzHF3o9YAX6tbfmrEG0Bt9+VIXf1E1YcFc8eVw9so7AQB3FSMLUwVieCzoTPOrp1gu/RXcpEdCwBYBVdw347Ryd9M13ipzW86/d81sofbvtqhd4wBVjB6fZVpnUe+JiT937+IlkCLOcMbGVkzStOo6ZywNQE4nULtmSLo4hnpEoO02DILjU6hUQy9BwyT+46XrblazM0tVsnZ3IBgDgZ9tSunGEI7xKUSouXSnAueX5cwO6Sn4EtLyaBzvClO7E7VYfikMuSCxrSCiGJFrChRYuOQftVkpwUvNv9veOBeykjPWRiciun3sybXGn00Fagix2D0V4X9wcYhg5nLH88nUNS1Rf3NawkpaJLo3RScVyRzeWQS4V9eu3tRRYVZwhYwm52b1uxp92NJPf3aJtV8ApwXUPDUD11RtJ1sBaf4E=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(346002)(376002)(136003)(451199021)(40470700004)(46966006)(36840700001)(36756003)(8676002)(8936002)(110136005)(54906003)(40460700003)(478600001)(4326008)(70206006)(70586007)(7416002)(40480700001)(15650500001)(356005)(44832011)(81166007)(316002)(41300700001)(82740400003)(2906002)(5660300002)(2616005)(86362001)(186003)(36860700001)(16526019)(966005)(336012)(426003)(26005)(1076003)(7696005)(6666004)(47076005)(83380400001)(82310400005)(170073001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2023 16:34:16.6608 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b62b92b1-c5ac-4eef-b74a-08db44e1bf17
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT054.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8982
+Received-SPF: softfail client-ip=40.107.223.71;
+ envelope-from=Babu.Moger@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,66 +123,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/04/2023 17.19, Peter Maydell wrote:
-> The msf2-emac ethernet controller has functions emac_load_desc() and
-> emac_store_desc() which read and write the in-memory descriptor
-> blocks and handle conversion between guest and host endianness.
-> 
-> As currently written, emac_store_desc() does the endianness
-> conversion in-place; this means that it effectively consumes the
-> input EmacDesc struct, because on a big-endian host the fields will
-> be overwritten with the little-endian versions of their values.
-> Unfortunately, in all the callsites the code continues to access
-> fields in the EmacDesc struct after it has called emac_store_desc()
-> -- specifically, it looks at the d.next field.
-> 
-> The effect of this is that on a big-endian host networking doesn't
-> work because the address of the next descriptor is corrupted.
-> 
-> We could fix this by making the callsite avoid using the struct; but
-> it's more robust to have emac_store_desc() leave its input alone.
-> 
-> (emac_load_desc() also does an in-place conversion, but here this is
-> fine, because the function is supposed to be initializing the
-> struct.)
-> 
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> This is one of a number of issues that prevent 'make check-avocado'
-> working for arm targets on a big-endian host...
-> 
->   hw/net/msf2-emac.c | 14 +++++++++-----
->   1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/net/msf2-emac.c b/hw/net/msf2-emac.c
-> index 7ccd3e51427..34c1f768db0 100644
-> --- a/hw/net/msf2-emac.c
-> +++ b/hw/net/msf2-emac.c
-> @@ -120,12 +120,16 @@ static void emac_load_desc(MSF2EmacState *s, EmacDesc *d, hwaddr desc)
->   
->   static void emac_store_desc(MSF2EmacState *s, EmacDesc *d, hwaddr desc)
+This series updates the AMD EPYC models and adds new EPYC-Genoa model.
+Sent out v1,v2 earlier but those changes are not merged yet. Now adding
+EPYC-Genoa on top of that.
 
-You could likely also add a "const" to "EmacDesc *d" now.
+Here are the features.
+a. Allow versioned CPUs to specify new cache_info pointers.
+b. Add EPYC-v4, EPYC-Rome-v3 and EPYC-Milan-v2 fixing the
+   cache_info.complex_indexing.
+c. Introduce EPYC-Milan-v2 by adding few missing feature bits.
+d. Add CPU model for AMD EPYC Genoa processor series
 
->   {
-> -    /* Convert from host endianness into LE. */
-> -    d->pktaddr = cpu_to_le32(d->pktaddr);
-> -    d->pktsize = cpu_to_le32(d->pktsize);
-> -    d->next = cpu_to_le32(d->next);
-> +    EmacDesc outd;
-> +    /*
-> +     * Convert from host endianness into LE. We use a local struct because
-> +     * calling code may still want to look at the fields afterwards.
-> +     */
-> +    outd.pktaddr = cpu_to_le32(d->pktaddr);
-> +    outd.pktsize = cpu_to_le32(d->pktsize);
-> +    outd.next = cpu_to_le32(d->next);
->   
-> -    address_space_write(&s->dma_as, desc, MEMTXATTRS_UNSPECIFIED, d, sizeof *d);
-> +    address_space_write(&s->dma_as, desc, MEMTXATTRS_UNSPECIFIED, &outd, sizeof outd);
->   }
+This series depends on the following recent kernel commits:
+8c19b6f257fa ("KVM: x86: Propagate the AMD Automatic IBRS feature to the guest")
+e7862eda309e ("x86/cpu: Support AMD Automatic IBRS")
+5b909d4ae59a ("x86/cpu, kvm: Add the Null Selector Clears Base feature")
+a9dc9ec5a1fa ("x86/cpu, kvm: Add the NO_NESTED_DATA_BP feature")
+0977cfac6e76 ("KVM: nSVM: Implement support for nested VNMI")
+fa4c027a7956 ("KVM: x86: Add support for SVM's Virtual NMI")
+---
+v3:
+  Refreshed the patches on top of latest master.
+  Add CPU model for AMD EPYC Genoa processor series (zen4)
+  
+v2:
+  Refreshed the patches on top of latest master.
+  Changed the feature NULL_SELECT_CLEARS_BASE to NULL_SEL_CLR_BASE to
+  match the kernel name.
+  https://lore.kernel.org/kvm/20221205233235.622491-3-kim.phillips@amd.com/
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+v1: https://lore.kernel.org/kvm/167001034454.62456.7111414518087569436.stgit@bmoger-ubuntu/
+v2: https://lore.kernel.org/kvm/20230106185700.28744-1-babu.moger@amd.com/
+
+Babu Moger (5):
+  target/i386: Add a couple of feature bits in  8000_0008_EBX
+  target/i386: Add feature bits for CPUID_Fn80000021_EAX
+  target/i386: Add missing feature bits in EPYC-Milan model
+  target/i386: Add VNMI and automatic IBRS feature bits
+  target/i386: Add EPYC-Genoa model to support Zen 4 processor series
+
+Michael Roth (2):
+  target/i386: allow versioned CPUs to specify new  cache_info
+  target/i386: Add new EPYC CPU versions with updated  cache_info
+
+ target/i386/cpu.c | 376 +++++++++++++++++++++++++++++++++++++++++++++-
+ target/i386/cpu.h |  15 ++
+ 2 files changed, 385 insertions(+), 6 deletions(-)
+
+-- 
+2.34.1
 
 
