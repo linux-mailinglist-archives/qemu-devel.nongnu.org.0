@@ -2,63 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075186ECBF2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 14:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C076ECC2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 14:39:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqvCT-0001Pz-AK; Mon, 24 Apr 2023 08:21:45 -0400
+	id 1pqvSs-0006Gg-6n; Mon, 24 Apr 2023 08:38:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pqvCL-0001O9-Sy
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:21:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvSq-0006Fe-4r
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:38:40 -0400
+Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pqvCK-0002SY-Jb
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:21:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682338896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=dsuP6VMHnYCR1DZcnBD6Y63DngXMZul/cFptIwU+kLI=;
- b=TwTtlaY99s+qw/6J1q6bOcK/r5RH3yZzR50AM1cFVsIYPlxK3+vyye67Gjgp8v0V4Ebcqk
- snTdPAIHxukYR76hq551IKgTa3Ir/uOY998TcyPSf5HhI9sobqtHvpVBQD0G4zNNUlhrO/
- EX+VzdTq+CvTs7E3nx4vu8WcLVDExyc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-BmVDO9kVNFi6XVE2Og81HA-1; Mon, 24 Apr 2023 08:21:30 -0400
-X-MC-Unique: BmVDO9kVNFi6XVE2Og81HA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65E242A59579;
- Mon, 24 Apr 2023 12:21:30 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54D65492C13;
- Mon, 24 Apr 2023 12:21:29 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-trivial@nongnu.org
-Subject: [PATCH] linux-user/main: Use list_cpus() instead of cpu_list()
-Date: Mon, 24 Apr 2023 14:21:26 +0200
-Message-Id: <20230424122126.236586-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvSo-00067E-54
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:38:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=IHNKU+YrdOWDgzMYYMuh4ysgXfgSs7M7K9wOt6HQSOQ=; b=epIKYqhDQroJDg6DFIMdiHFeB4
+ gn508gWyVXZ7haPxOktlzK+ziCtD+NhJv2eo+XmUFk3rv0CC99JZiXDn+sV+pTW97rf3HKjn1m+qC
+ NxDtllM6sBsCDz8THGAfovOne4A1RgjrCFOHw0l4fXFJEWBvRRLhwud28zzQ/cf1sc6U=;
+Message-ID: <303fc03f-2ad1-8998-f094-85815810f300@rev.ng>
+Date: Mon, 24 Apr 2023 14:37:59 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 0/8] Start replacing target_ulong with vaddr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net, philmd@linaro.org,
+ marcel.apfelbaum@gmail.com, wangyanan55@huawei.com
+References: <20230420212850.20400-1-anjo@rev.ng>
+ <3a0dff2a-37f8-5346-62ce-e6a01e793619@linaro.org>
+Content-Language: en-US
+Organization: rev.ng
+In-Reply-To: <3a0dff2a-37f8-5346-62ce-e6a01e793619@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,34 +61,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This way we can get rid of the if'deffery and the XXX comment
-here (it's repeated in the list_cpus() function anyway).
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- linux-user/main.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+On 4/23/23 12:59, Richard Henderson wrote:
+> You may wish to browse my work in progress
+>
+>   https://gitlab.com/rth7680/qemu/-/commits/tcg-once/
+>
+> to avoid duplication, as I have done some of these.  This tree is on 
+> top of my atomicity patch set; I'm working on upstreaming that now.
+I had a suspicion that would be the case, I'll take a look. Thanks!
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index fe03293516..aece4d9e91 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -359,10 +359,7 @@ static void handle_arg_cpu(const char *arg)
- {
-     cpu_model = strdup(arg);
-     if (cpu_model == NULL || is_help_option(cpu_model)) {
--        /* XXX: implement xxx_cpu_list for targets that still miss it */
--#if defined(cpu_list)
--        cpu_list();
--#endif
-+        list_cpus();
-         exit(EXIT_FAILURE);
-     }
- }
 -- 
-2.31.1
+Anton Johansson,
+rev.ng Labs Srl.
 
 
