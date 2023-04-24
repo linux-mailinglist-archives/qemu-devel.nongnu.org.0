@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AB06EC85B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8979D6EC868
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:08:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqs80-0005Nk-CW; Mon, 24 Apr 2023 05:04:56 -0400
+	id 1pqsAj-0006Zq-JH; Mon, 24 Apr 2023 05:07:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pqs7x-0005N9-Vn
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:04:54 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pqs7v-0000hv-VH
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:04:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=zR7QwzsLfi+uSgnatzPU2bscH4B8RTSIPWW5ovEON0Q=; b=g2sBMAkWfIVzc7jKjcyhtxo6oo
- xL0ickNBHe8YaQDOL4UEmUu0mTs15SozzRwCrXesFne4BUU6YoRggLrHqOtiV7R1VFyKfN37NSb6M
- GdwdkjaDht3ZCFRoFTT42IigBo0N4owxthQqEAKqKfnkl5GtfJc6y+ohYL6ubrQFWtV+gezY+zfYn
- 0fyb33ojEysS9RdXfCmun10kSQ7qRhwIEYit37k1UdLwK57IvxPS9g+OtSkjFQ59y8xhyBrstHRM8
- GVxS/g5MTYtkQu+bJz2ttGs9BHN7dgfjLKxoIlZ0dtNznoG57Rvh3ThPHrGFFKYIZ6AWPV/Lyg6au
- IAignWw3yu0a6KbgHqQx+Dtk0PF0mQR5SA+4qk5oJfpNJvB4hPhkrezR45+9hxSZv/GxAMqLvJ1qA
- yPLHi0Isd8CcL+rzHqGeux66qi7UFA9H0A8ApwV9QZXdFORISE3oRoo5R1fN/B2Wj6UH+hG3DqIrz
- fH/sap68IdAsXZHd8iMClpJ0/YLBNnVex/IstwksVQdlKLtAei4JNVC6hJf198+OYohXioYiuQZho
- n5BYRpliR8u5JUlqw2WXWJ6fDQkMtJvrupvBZYS7nQmt13Mdr6xH5uQ4WocigT9d9RR65zMRdM3Gc
- +wV/OcxPpE6eJKJWJvfTVmG5ZZFlX7AUomsW5Z8/Q=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: venture@google.com, Peter Foley <pefoley@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@linaro.org>,
- Peter Foley <pefoley@google.com>
-Subject: Re: [PATCH] Don't require libcap-ng for virtfs support
-Date: Mon, 24 Apr 2023 11:04:47 +0200
-Message-ID: <6278798.ENyYtN1ivr@silver>
-In-Reply-To: <20230421135327.1778365-1-pefoley@google.com>
-References: <20230421135327.1778365-1-pefoley@google.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+ (Exim 4.90_1) (envelope-from <yongxuan.wang@sifive.com>)
+ id 1pqsAT-0006ZB-W6
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:07:30 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yongxuan.wang@sifive.com>)
+ id 1pqsAO-0001JJ-Qm
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:07:28 -0400
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1a6817adde4so47115085ad.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:07:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sifive.com; s=google; t=1682327243; x=1684919243;
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W0ZLJMjIfbteWgeTcitGPEMCjIxn5hMvK2omBBWKwyY=;
+ b=fq0Jyl4ZxwJPKbMeJLyxi9p0RP7KmtkU7WUA4tz8RC4/28JDQSA5PrCQYR1QIpn0sJ
+ 9V3Eam0beiDPJ0gMQfNjyqgjmaCampqBYvLatXsMPV83QqJRxrvO09bLBk2ndcjjneok
+ IkFsiaAy6euujSRI2KFjRKCbW9XAQSW4cXU3z66eeHIXKzr70Zj479wojwyFQ6R2REhf
+ Y5YGJkS/O52/SFkyfh2naJYgvrxN4sXPkmk4kGcqulVZi9u1KSHU3eUTqnadBg0BMkCw
+ 5S+pKOhIscj5ApEv0QP4ICl3URE+gJwmFyCtANSY5JSaLomfI5P8wHjyqAoywVWifj0a
+ gKxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682327243; x=1684919243;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W0ZLJMjIfbteWgeTcitGPEMCjIxn5hMvK2omBBWKwyY=;
+ b=DhSSTOLh7CaUccqbzzePX+h1oPSM3f1IpUg6YK7svr77JkkpJ1VvVnhghlQOPl86LD
+ wqJIzDvZlSHJ1SfI5UHvV8cwpca1ANEIbvPKcqvibKWDUCZSpu+HqfLepnIUbdfpRHfB
+ ZIpfgLxVmtVZDynyh1/y/2ZWy36nrSW7D9eUl4un0mCzeddo6ZG9lPc81zHuIKnAaMs8
+ 2mAT7LOgyQoQCEnJcoTeM9vpTBKH+2TyZ+Y/kEeLgG3A011SZOEd3oESRnzWWsAHKv1J
+ ci3tHOEeHtNcwfC8DOTXY+/KlYkT2EURFUUvXUHLvA5SEh1/8Fr3S+L0z8ugYxaRorBX
+ Zsnw==
+X-Gm-Message-State: AAQBX9f1RRQrDn/aZgY5IeudLH0i8YbHkzaufUGUyPOdTYa91bgsgP7O
+ aja7lxMLC9BBklIFZ6dqjnQVVaA307k1bdLwaFt+910d1j+OWU3ZrTFQO6bT/k4K3XrgADqvh+Z
+ uSVCUbSmc79T7deIAQaY2eMGfk6bnKr1bR+lLKSc/akUZrIr1pf4H1TwoNZBrOzSKn9GiUuKXfi
+ aln5Lu
+X-Google-Smtp-Source: AKy350ZoO57h/XuKK+tNI/Br+M4m5wQJx/Lip/K3clt+KuomxdZBHh9m4cRozL2p5KojAI5nWj8JMA==
+X-Received: by 2002:a17:902:ead2:b0:1a4:fc40:bf04 with SMTP id
+ p18-20020a170902ead200b001a4fc40bf04mr12594617pld.27.1682327242706; 
+ Mon, 24 Apr 2023 02:07:22 -0700 (PDT)
+Received: from hsinchu25.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id
+ jf2-20020a170903268200b001a207906418sm6234820plb.23.2023.04.24.02.07.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Apr 2023 02:07:22 -0700 (PDT)
+From: Yong-Xuan Wang <yongxuan.wang@sifive.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: rkanwal@rivosinc.com, anup@brainfault.org, dbarboza@ventanamicro.com,
+ atishp@atishpatra.org, vincent.chen@sifive.com, greentime.hu@sifive.com,
+ frank.chang@sifive.com, Yong-Xuan Wang <yongxuan.wang@sifive.com>
+Subject: [PATCH 0/6]  Add RISC-V KVM AIA Support
+Date: Mon, 24 Apr 2023 09:07:02 +0000
+Message-Id: <20230424090716.15674-1-yongxuan.wang@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=yongxuan.wang@sifive.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,45 +91,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Friday, April 21, 2023 3:53:27 PM CEST Peter Foley wrote:
-> It's only required for the proxy helper.
-> 
-> Signed-off-by: Peter Foley <pefoley@google.com>
-> ---
->  meson.build | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index c44d05a13f..1d4888b1c0 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1759,12 +1759,12 @@ have_virtfs = get_option('virtfs') \
->               error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
->      .require(targetos == 'linux' or cc.has_function('pthread_fchdir_np'),
->               error_message: 'virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np') \
-> -    .require(targetos == 'darwin' or (libattr.found() and libcap_ng.found()),
-> -             error_message: 'virtio-9p (virtfs) on Linux requires libcap-ng-devel and libattr-devel') \
-> +    .require(targetos == 'darwin' or libattr.found(),
-> +             error_message: 'virtio-9p (virtfs) on Linux requires libattr-devel') \
->      .disable_auto_if(not have_tools and not have_system) \
->      .allowed()
->  
-> -have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
-> +have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools and libcap_ng.found()
-
-Well, I don't know how many people actually use the 9p proxy, if at all, but
-don't you think there should be at least a warning or some kind of output e.g.
-in the configure summary that QEMU would build without 9p proxy support just
-because of a missing lib, instead of silently disabling it?
-
-For macOS hosts we didn't care so far, because proxy is not implemented there
-and probably never will.
-
->  
->  if get_option('block_drv_ro_whitelist') == ''
->    config_host_data.set('CONFIG_BDRV_RO_WHITELIST', '')
-> 
+This series introduces support for KVM AIA in the RISC-V architecture. The
+implementation is refered to Anup's KVM AIA implementation in kvmtool
+(https://github.com/avpatel/kvmtool.git). To test these patches, a Linux kernel
+with KVM AIA support is required, which can be found in the qemu_kvm_aia branch
+at https://github.com/yong-xuan/linux.git. This kernel branch is based on the
+riscv_aia_v1 branch from https://github.com/avpatel/linux.git and includes two
+additional patches.
 
 
+Yong-Xuan Wang (6):
+  update-linux-headers: sync-up header with Linux for KVM AIA support
+  target/riscv: support the AIA device emulateion with KVM enabled
+  target/riscv: check the in-kernel irqchip support
+  target/riscv: Create an KVM AIA irqchip
+  target/riscv: update APLIC and IMSIC to support KVM AIA
+  target/riscv: select KVM AIA in riscv virt machine
+
+ hw/intc/riscv_aplic.c     |  19 +++-
+ hw/intc/riscv_imsic.c     |  16 ++-
+ hw/riscv/virt.c           | 214 +++++++++++++++++++++-----------------
+ linux-headers/linux/kvm.h |   2 +
+ target/riscv/kvm.c        |  96 ++++++++++++++++-
+ target/riscv/kvm_riscv.h  |  36 +++++++
+ 6 files changed, 277 insertions(+), 106 deletions(-)
+
+-- 
+2.17.1
 
 
