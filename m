@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B601B6ECAEC
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FAB6ECAE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:04:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqtxO-0006WW-9z; Mon, 24 Apr 2023 07:02:06 -0400
+	id 1pqtxG-0006MD-JH; Mon, 24 Apr 2023 07:01:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pqtxH-0006ND-CS
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:01:59 -0400
+ id 1pqtxE-0006Ll-H4
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:01:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pqtxF-000078-Oo
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:01:59 -0400
+ id 1pqtxC-00005K-8J
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:01:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682334117;
+ s=mimecast20190719; t=1682334113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o/b6BXR2tvRkk6dsejhwCcSg7kr31TPLDejWAL+HL1k=;
- b=ZiMigPvU7cBTlmWiBoGPxdlS5MYvc6UQrCKRjWMRXteFkZtowD4l82RWdyXkuWZ1VCvnIu
- 6P8MSRFP5uru6ECM/QvT1r74xWd2hA+bRvhtJxqa6F1jSw8ryDD2DJtMwBZe4yr9EcfCHI
- pWmKexgrOMcIx+Je+sERN46XfWnE9JU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kDD07bUVfgcxUkWFwK4WDIq54Bd6/eTopsF30v60fTk=;
+ b=XidkMLfTKOcQA2djI+ESSungunPtLTesGeKBKGsX2UeTYLxdeKVMQBwZRN/YiGJP1/6fpd
+ NnYe7A2W3drBGypEqUiiZC0xW8w8r9hBV6PveXXbTr58XIcpRo/abvGUioATuEXAxqJi6F
+ Jy9YILsEn3ya8w3nNDQjeFga6T341jc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-29-BkkMz3BpMYq56UhtzrptvQ-1; Mon, 24 Apr 2023 07:01:54 -0400
-X-MC-Unique: BkkMz3BpMYq56UhtzrptvQ-1
+ us-mta-641-j-stzAE2NiOX7pyhPV4OSA-1; Mon, 24 Apr 2023 07:01:52 -0400
+X-MC-Unique: j-stzAE2NiOX7pyhPV4OSA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05082886067
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 11:01:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E96B3C10141;
+ Mon, 24 Apr 2023 11:01:35 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BF1E492C13;
- Mon, 24 Apr 2023 11:01:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44238492C13;
+ Mon, 24 Apr 2023 11:01:34 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 11/17] migration: Rename normal to normal_pages
-Date: Mon, 24 Apr 2023 13:01:13 +0200
-Message-Id: <20230424110119.68520-12-quintela@redhat.com>
+ Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Lukas Straub <lukasstraub2@web.de>
+Subject: [PULL 12/17] migration: Handle block device inactivation failures
+ better
+Date: Mon, 24 Apr 2023 13:01:14 +0200
+Message-Id: <20230424110119.68520-13-quintela@redhat.com>
 In-Reply-To: <20230424110119.68520-1-quintela@redhat.com>
 References: <20230424110119.68520-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -78,94 +80,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rest of counters that refer to pages has a _pages suffix.
-And historically, this showed the number of full pages transferred.
-The name "normal" refered to the fact that they were sent without any
-optimization (compression, xbzrle, zero_page, ...).
+From: Eric Blake <eblake@redhat.com>
 
+Consider what happens when performing a migration between two host
+machines connected to an NFS server serving multiple block devices to
+the guest, when the NFS server becomes unavailable.  The migration
+attempts to inactivate all block devices on the source (a necessary
+step before the destination can take over); but if the NFS server is
+non-responsive, the attempt to inactivate can itself fail.  When that
+happens, the destination fails to get the migrated guest (good,
+because the source wasn't able to flush everything properly):
+
+  (qemu) qemu-kvm: load of migration failed: Input/output error
+
+at which point, our only hope for the guest is for the source to take
+back control.  With the current code base, the host outputs a message, but then appears to resume:
+
+  (qemu) qemu-kvm: qemu_savevm_state_complete_precopy_non_iterable: bdrv_inactivate_all() failed (-1)
+
+  (src qemu)info status
+   VM status: running
+
+but a second migration attempt now asserts:
+
+  (src qemu) qemu-kvm: ../block.c:6738: int bdrv_inactivate_recurse(BlockDriverState *): Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed.
+
+Whether the guest is recoverable on the source after the first failure
+is debatable, but what we do not want is to have qemu itself fail due
+to an assertion.  It looks like the problem is as follows:
+
+In migration.c:migration_completion(), the source sets 'inactivate' to
+true (since COLO is not enabled), then tries
+savevm.c:qemu_savevm_state_complete_precopy() with a request to
+inactivate block devices.  In turn, this calls
+block.c:bdrv_inactivate_all(), which fails when flushing runs up
+against the non-responsive NFS server.  With savevm failing, we are
+now left in a state where some, but not all, of the block devices have
+been inactivated; but migration_completion() then jumps to 'fail'
+rather than 'fail_invalidate' and skips an attempt to reclaim those
+those disks by calling bdrv_activate_all().  Even if we do attempt to
+reclaim disks, we aren't taking note of failure there, either.
+
+Thus, we have reached a state where the migration engine has forgotten
+all state about whether a block device is inactive, because we did not
+set s->block_inactive in enough places; so migration allows the source
+to reach vm_start() and resume execution, violating the block layer
+invariant that the guest CPUs should not be restarted while a device
+is inactive.  Note that the code in migration.c:migrate_fd_cancel()
+will also try to reactivate all block devices if s->block_inactive was
+set, but because we failed to set that flag after the first failure,
+the source assumes it has reclaimed all devices, even though it still
+has remaining inactivated devices and does not try again.  Normally,
+qmp_cont() will also try to reactivate all disks (or correctly fail if
+the disks are not reclaimable because NFS is not yet back up), but the
+auto-resumption of the source after a migration failure does not go
+through qmp_cont().  And because we have left the block layer in an
+inconsistent state with devices still inactivated, the later migration
+attempt is hitting the assertion failure.
+
+Since it is important to not resume the source with inactive disks,
+this patch marks s->block_inactive before attempting inactivation,
+rather than after succeeding, in order to prevent any vm_start() until
+it has successfully reactivated all devices.
+
+See also https://bugzilla.redhat.com/show_bug.cgi?id=2058982
+
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Acked-by: Lukas Straub <lukasstraub2@web.de>
+Tested-by: Lukas Straub <lukasstraub2@web.de>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c |  2 +-
- migration/ram.c       | 10 +++++-----
- migration/ram.h       |  2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ migration/migration.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index c8b360a2df..5543a7f896 100644
+index 5543a7f896..298fe16e27 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -1145,7 +1145,7 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
-     info->ram->duplicate = stat64_get(&ram_counters.zero_pages);
-     /* legacy value.  It is not used anymore */
-     info->ram->skipped = 0;
--    info->ram->normal = stat64_get(&ram_counters.normal);
-+    info->ram->normal = stat64_get(&ram_counters.normal_pages);
-     info->ram->normal_bytes = info->ram->normal * page_size;
-     info->ram->mbps = s->mbps;
-     info->ram->dirty_sync_count =
-diff --git a/migration/ram.c b/migration/ram.c
-index 19d345a030..229714045a 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1118,7 +1118,7 @@ uint64_t ram_pagesize_summary(void)
+@@ -3446,13 +3446,11 @@ static void migration_completion(MigrationState *s)
+                                             MIGRATION_STATUS_DEVICE);
+             }
+             if (ret >= 0) {
++                s->block_inactive = inactivate;
+                 qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
+                 ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
+                                                          inactivate);
+             }
+-            if (inactivate && ret >= 0) {
+-                s->block_inactive = true;
+-            }
+         }
+         qemu_mutex_unlock_iothread();
  
- uint64_t ram_get_total_transferred_pages(void)
- {
--    return stat64_get(&ram_counters.normal) +
-+    return stat64_get(&ram_counters.normal_pages) +
-         stat64_get(&ram_counters.zero_pages) +
-         compression_counters.pages + xbzrle_counters.pages;
- }
-@@ -1357,7 +1357,7 @@ static bool control_save_page(PageSearchStatus *pss, RAMBlock *block,
-     }
- 
-     if (bytes_xmit > 0) {
--        stat64_add(&ram_counters.normal, 1);
-+        stat64_add(&ram_counters.normal_pages, 1);
-     } else if (bytes_xmit == 0) {
-         stat64_add(&ram_counters.zero_pages, 1);
-     }
-@@ -1391,7 +1391,7 @@ static int save_normal_page(PageSearchStatus *pss, RAMBlock *block,
-         qemu_put_buffer(file, buf, TARGET_PAGE_SIZE);
-     }
-     ram_transferred_add(TARGET_PAGE_SIZE);
--    stat64_add(&ram_counters.normal, 1);
-+    stat64_add(&ram_counters.normal_pages, 1);
-     return 1;
- }
- 
-@@ -1447,7 +1447,7 @@ static int ram_save_multifd_page(QEMUFile *file, RAMBlock *block,
-     if (multifd_queue_page(file, block, offset) < 0) {
-         return -1;
-     }
--    stat64_add(&ram_counters.normal, 1);
-+    stat64_add(&ram_counters.normal_pages, 1);
- 
-     return 1;
- }
-@@ -2623,7 +2623,7 @@ void acct_update_position(QEMUFile *f, size_t size, bool zero)
-     if (zero) {
-         stat64_add(&ram_counters.zero_pages, pages);
-     } else {
--        stat64_add(&ram_counters.normal, pages);
-+        stat64_add(&ram_counters.normal_pages, pages);
-         ram_transferred_add(size);
-         qemu_file_credit_transfer(f, size);
-     }
-diff --git a/migration/ram.h b/migration/ram.h
-index 55258334fe..a6e0d70226 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -47,7 +47,7 @@ typedef struct {
-     Stat64 downtime_bytes;
-     Stat64 zero_pages;
-     Stat64 multifd_bytes;
--    Stat64 normal;
-+    Stat64 normal_pages;
-     Stat64 postcopy_bytes;
-     Stat64 postcopy_requests;
-     Stat64 precopy_bytes;
+@@ -3524,6 +3522,7 @@ fail_invalidate:
+         bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
++            s->block_inactive = true;
+         } else {
+             s->block_inactive = false;
+         }
 -- 
 2.39.2
 
