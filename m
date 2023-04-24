@@ -2,102 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB096ED09C
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 16:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8BE6ED0E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:01:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqxTu-0006i6-LN; Mon, 24 Apr 2023 10:47:54 -0400
+	id 1pqxg6-0004KD-IH; Mon, 24 Apr 2023 11:00:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pqxTr-0006fn-5I; Mon, 24 Apr 2023 10:47:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pqxTp-0008Uq-El; Mon, 24 Apr 2023 10:47:50 -0400
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33OEasOh006302; Mon, 24 Apr 2023 14:47:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=p4YyZuzrsrSnHn6mlm4xnMfLrcS1+1nhYIc2wjrfLMQ=;
- b=QKOMsthyFU/lwVtBwtBkXJNctKw2J4yg1ZA0Q4s0R1pwUg67aROkDCn6EbqgVNjFS0TI
- SGhWJM49QAvZLLL3YKT3pHs6MY6OiFTm9hLnVGpdVnINWRC5M1DA3PQle5PsW19tXVOe
- j5BoXQEymAmsL2FlgKg08ldMkQvvDYHNmIRrIhJnYRJn4zLWHCM2rXnbwtZR3RkpsL9o
- MGqxJLRc1i1xqnwTAh4/IEAK8dyZ7mO8pINuA/IbNOd2WS4jOfEepvOhGmyMFvND/1Nm
- HC20epmgy6ugZF8iWXO2xC5Hnf8VuYtUstvUfHg2VmcWyJuZv3h6/mfziUs04FaoH/Fm 9A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q47d5a4s5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Apr 2023 14:47:47 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33OEbZ7q010948;
- Mon, 24 Apr 2023 14:47:46 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q47d5a4nb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Apr 2023 14:47:46 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33O2F359020905;
- Mon, 24 Apr 2023 14:47:41 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3q47771676-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Apr 2023 14:47:41 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33OElddg21562036
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Apr 2023 14:47:39 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 469BD2004B;
- Mon, 24 Apr 2023 14:47:39 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4840620040;
- Mon, 24 Apr 2023 14:47:37 +0000 (GMT)
-Received: from li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com.com (unknown
- [9.43.92.123]) by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 24 Apr 2023 14:47:37 +0000 (GMT)
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-To: qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, farosas@suse.de, npiggin@gmail.com,
- danielhb413@gmail.com
-Subject: [PATCH v2 4/4] MAINTAINERS: Adding myself in the list for ppc/spapr
-Date: Mon, 24 Apr 2023 20:17:12 +0530
-Message-Id: <20230424144712.1985425-5-harshpb@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230424144712.1985425-1-harshpb@linux.ibm.com>
-References: <20230424144712.1985425-1-harshpb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <tismith@tibco.com>) id 1pqw4t-0005Dx-Sa
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:18:00 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tismith@tibco.com>) id 1pqw4r-0007ym-U8
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:17:59 -0400
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4efec123b28so1908318e87.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 06:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tibco.com; s=googleworkspace; t=1682342275; x=1684934275;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=a+WWeTT7yz9K2lWxU7Tm1CgnN360PHMug0vWEViBFWw=;
+ b=BWPaFNEDCZlRCHN9dxkgh7qXzaciL8B83EKJJvifbFz249EAXpbyE4l385LM5Lf46p
+ g/4PCXRt8s9Hyrn0+W/2NCn7NV2SRDLwlCp4EcsUJ7tbtNnMgqlH7aKHfB0+EtuwIPD+
+ Yr+jsMTsN0XjaV7nju6TcI4Ns0mQ/TpZRXPVaBMHvlRP86X+IOfCiD0+cFxPPs1wCnSN
+ 1ZjWtVsl8MvvNN7+/PAn7d44zi5NRIQJ0EgEHkncBkHTgwGL5P92Qyx+PcgU3Uqmat0B
+ hc4QudAiW731gsGmfJQzp4MiNblU2t3QiqLC0WQYGUDTU1blMo+4nCVT2vkOfSb5LtSI
+ ElpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682342275; x=1684934275;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=a+WWeTT7yz9K2lWxU7Tm1CgnN360PHMug0vWEViBFWw=;
+ b=dPy6Ho+0emBlgfVR5qNlzyz7cOC6ZGXzDgtDj+LXbWXA1ZgIlR1ZmFb5gtcFYY2X5G
+ nwWwGuEi65COOU0fXygpXtlszxP2HGS872KQhjBiMUgKoHI67Q000nZQ1gGqD98Rf8pB
+ mNSt5uNkcq60YmgewwQ5nVlsxpBBUjkzMxxWktkOpM0tvxVpKVDFZD3P2s+lvY6OH01M
+ sxAXSM8EJSgzvEujYnS8qr+fbhhAUqo1lXGiXr5mgGM97vymrvko1MjDQuuDmIdOw+34
+ zkpG5I3iYhvCcZW2BNoo6zDjYfzrNABZ7Vvlz8aST7WtEtVNPyuAReat+b6bGFhFQpFK
+ Pq4g==
+X-Gm-Message-State: AAQBX9fk4kXAgHwd9MTI2Ycgp3b5x1OMrQCHqb5ylvH3rAn5foS/Dfy3
+ ULqAra8QYFrpgxeiB3XCApfyWcldUQU/Tv1r5H9z6w==
+X-Google-Smtp-Source: AKy350Z5yeGOzzt/OX5fmCYzzKSIt9TlG3RtF2l52DUYcBpUWfco1vW/N8sQfd/z7NWRHPo/Sv2pc/RCFIU+fqWeMQk=
+X-Received: by 2002:a19:f018:0:b0:4ef:f126:affc with SMTP id
+ p24-20020a19f018000000b004eff126affcmr796788lfc.7.1682342274784; Mon, 24 Apr
+ 2023 06:17:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: i_ff8EkenOPdqEaaFxCMyvm1jdT0gjI6
-X-Proofpoint-GUID: 4D-w6i83ejqIOJgpt3JtnfsLZy3_sKZP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-24_09,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- spamscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 malwarescore=0 mlxlogscore=978
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304240131
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230420110205.688689-1-mark.syms@citrix.com>
+ <54a37172-cad5-3b27-36fc-3b7768e39df8@xen.org>
+ <CAPYKksVtGyfv3TbAjLH1G=N6=pH-pH2-FTX5c3+E5PsOKo2aOQ@mail.gmail.com>
+In-Reply-To: <CAPYKksVtGyfv3TbAjLH1G=N6=pH-pH2-FTX5c3+E5PsOKo2aOQ@mail.gmail.com>
+From: Tim Smith <tismith@tibco.com>
+Date: Mon, 24 Apr 2023 14:17:43 +0100
+Message-ID: <CALUK5G5T=8MkxaQxdeid_ypo1e4DJ-zBRAMb7D+dcHkVdJt2tQ@mail.gmail.com>
+Subject: Re: [PATCH v2 RESEND] xen: Fix SEGV on domain disconnect
+To: Mark Syms <mark.syms@cloud.com>
+Cc: paul@xen.org, mark.syms@citrix.com, qemu-devel@nongnu.org, 
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, 
+ xen-devel@lists.xenproject.org, tim.smith@citrix.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=tismith@tibco.com; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 24 Apr 2023 11:00:19 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,27 +90,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Would like to get notified of changes in this area and review them.
+On Mon, Apr 24, 2023 at 1:08=E2=80=AFPM Mark Syms <mark.syms@cloud.com> wro=
+te:
+>
+> Copying in Tim who did the final phase of the changes.
+>
+> On Mon, 24 Apr 2023 at 11:32, Paul Durrant <xadimgnik@gmail.com> wrote:
+> >
+> > On 20/04/2023 12:02, mark.syms@citrix.com wrote:
+> > > From: Mark Syms <mark.syms@citrix.com>
+> > >
+> > > Ensure the PV ring is drained on disconnect. Also ensure all pending
+> > > AIO is complete, otherwise AIO tries to complete into a mapping of th=
+e
+> > > ring which has been torn down.
+> > >
+> > > Signed-off-by: Mark Syms <mark.syms@citrix.com>
+> > > ---
+> > > CC: Stefano Stabellini <sstabellini@kernel.org>
+> > > CC: Anthony Perard <anthony.perard@citrix.com>
+> > > CC: Paul Durrant <paul@xen.org>
+> > > CC: xen-devel@lists.xenproject.org
+> > >
+> > > v2:
+> > >   * Ensure all inflight requests are completed before teardown
+> > >   * RESEND to fix formatting
+> > > ---
+> > >   hw/block/dataplane/xen-block.c | 31 +++++++++++++++++++++++++------
+> > >   1 file changed, 25 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-=
+block.c
+> > > index 734da42ea7..d9da4090bf 100644
+> > > --- a/hw/block/dataplane/xen-block.c
+> > > +++ b/hw/block/dataplane/xen-block.c
+> > > @@ -523,6 +523,10 @@ static bool xen_block_handle_requests(XenBlockDa=
+taPlane *dataplane)
+> > >
+> > >       dataplane->more_work =3D 0;
+> > >
+> > > +    if (dataplane->sring =3D=3D 0) {
+> > > +        return done_something;
+> > > +    }
+> > > +
+> >
+> > I think you could just return false here... Nothing is ever going to be
+> > done if there's no ring :-)
+> >
+> > >       rc =3D dataplane->rings.common.req_cons;
+> > >       rp =3D dataplane->rings.common.sring->req_prod;
+> > >       xen_rmb(); /* Ensure we see queued requests up to 'rp'. */
+> > > @@ -666,14 +670,35 @@ void xen_block_dataplane_destroy(XenBlockDataPl=
+ane *dataplane >   void xen_block_dataplane_stop(XenBlockDataPlane *datapla=
+ne)
+> > >   {
+> > >       XenDevice *xendev;
+> > > +    XenBlockRequest *request, *next;
+> > >
+> > >       if (!dataplane) {
+> > >           return;
+> > >       }
+> > >
+> > > +    /* We're about to drain the ring. We can cancel the scheduling o=
+f any
+> > > +     * bottom half now */
+> > > +    qemu_bh_cancel(dataplane->bh);
+> > > +
+> > > +    /* Ensure we have drained the ring */
+> > > +    aio_context_acquire(dataplane->ctx);
+> > > +    do {
+> > > +        xen_block_handle_requests(dataplane);
+> > > +    } while (dataplane->more_work);
+> > > +    aio_context_release(dataplane->ctx);
+> > > +
+> >
+> > I don't think we want to be taking new requests, do we?
+> >
 
-Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+If we're in this situation and the guest has put something on the
+ring, I think we should do our best with it.
+We cannot just rely on the guest to be well-behaved, because they're
+not :-( We're about to throw the
+ring away, so whatever is there would otherwise be lost. This bit is
+here to try to handle guests which are
+less than diligent about their shutdown. We *should* always be past
+this fast enough when the disconnect()/connect()
+of XenbusStateConnected happens that all remains well (if not, we were
+in a worse situation before).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2c2068ea5c..b5d290cf92 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1420,6 +1420,7 @@ M: Daniel Henrique Barboza <danielhb413@gmail.com>
- R: Cédric Le Goater <clg@kaod.org>
- R: David Gibson <david@gibson.dropbear.id.au>
- R: Greg Kurz <groug@kaod.org>
-+R: Harsh Prateek Bora <harshpb@linux.ibm.com>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/*/spapr*
--- 
-2.31.1
+> > > +    /* Now ensure that all inflight requests are complete */
+> > > +    while (!QLIST_EMPTY(&dataplane->inflight)) {
+> > > +        QLIST_FOREACH_SAFE(request, &dataplane->inflight, list, next=
+) {
+> > > +            blk_aio_flush(request->dataplane->blk, xen_block_complet=
+e_aio,
+> > > +                        request);
+> > > +        }
+> > > +    }
+> > > +
+> >
+> > I think this could possibly be simplified by doing the drain after the
+> > call to blk_set_aio_context(), as long as we set dataplane->ctx to
+> > qemu_get_aio_context(). Alos, as long as more_work is not set then it
+> > should still be safe to cancel the bh before the drain AFAICT.
 
+I'm not sure what you mean by simpler? Possibly I'm not getting something.
+
+We have to make sure that any "aio_bh_schedule_oneshot_full()" which
+happens as a result of
+"blk_aio_flush()" has finished before any change of AIO context,
+because it tries to use the one which
+was current at the time of being called (I have the SEGVs to prove it
+:-)). Whether that happens before or after
+"blk_set_aio_context(qemu_get_aio_context())" doesn't seem to be a
+change in complexity to me.
+
+Motivation was to get as much as possible to happen in the way it
+"normally" would, so that future changes
+are less likely to regress, but as mentioned maybe I'm missing something.
+
+The BH needs to be prevented from firing ASAP, otherwise the
+disconnect()/connect() which happens when
+XenbusStateConnected can have the bh fire from what the guest does
+next right in the middle of juggling
+contexts for the disconnect() (I have the SEGVs from that too...).
+
+> >    Paul
+> >
+> > >       xendev =3D dataplane->xendev;
+> > >
+> > >       aio_context_acquire(dataplane->ctx);
+> > > +
+> > >       if (dataplane->event_channel) {
+> > >           /* Only reason for failure is a NULL channel */
+> > >           xen_device_set_event_channel_context(xendev, dataplane->eve=
+nt_channel,
+> > > @@ -684,12 +709,6 @@ void xen_block_dataplane_stop(XenBlockDataPlane =
+*dataplane)
+> > >       blk_set_aio_context(dataplane->blk, qemu_get_aio_context(), &er=
+ror_abort);
+> > >       aio_context_release(dataplane->ctx);
+> > >
+> > > -    /*
+> > > -     * Now that the context has been moved onto the main thread, can=
+cel
+> > > -     * further processing.
+> > > -     */
+> > > -    qemu_bh_cancel(dataplane->bh);
+> > > -
+> > >       if (dataplane->event_channel) {
+> > >           Error *local_err =3D NULL;
+> > >
+> >
+
+Tim (hoping GMail behaves itself with this message...)
 
