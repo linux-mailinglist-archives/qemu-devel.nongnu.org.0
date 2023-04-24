@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99516ECDED
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6EE96ECDF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:28:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqwDW-00065R-Uf; Mon, 24 Apr 2023 09:26:54 -0400
+	id 1pqwEh-0006Gm-5y; Mon, 24 Apr 2023 09:28:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqwDV-00065J-3a
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:26:53 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqwDT-00017K-FR
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:26:52 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f1950f5676so32927795e9.3
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 06:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682342809; x=1684934809;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FsFFL78R6cRoeegabhwnJwsEmfP56EJBNO+6fjgxmxA=;
- b=yJfFR38Oe+VTs7oBqIHuskcl9PY3h+tb8jnZBQRdd8ElydNXS17PSWEa+MqRuMsl7s
- /fKcv/U0VHyMTilY7M4+Obw4SJicfxpgL8K08rjnoUIi72MLnk/WVR4NtTru1DQs+iTW
- bZnK+ah02Hk03tvxIugBEhpiQ/00wgtfv1QywesNG3pXJTFuC2HtLWjwtGvbvvK8TI2j
- NO6DRvvCCKg9ZK/suezMN22itMMSm5qO/3zcRN6F+MktzU1vyWtmsdcH9vYCALG9uI/T
- s4hgL3Xci7ns9GsznxV5ue/yBlxvRqstBsqIN4N+080Qxb+S1TEuQpsGIR6AD8GSy7+E
- oC5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682342809; x=1684934809;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FsFFL78R6cRoeegabhwnJwsEmfP56EJBNO+6fjgxmxA=;
- b=KEXEs+6SUCiazcz8ktsDSju1p5lm/yk8/ArGts8bYZ4jvfkciOTcxG7iCtgzMb+l9g
- TyIBvFxE+ewJY8viGJFljTA0bj1CVvouXhAjxlj2SP5dpBXjSRMdYrgCy33E/h5acKV7
- ZrM/5I+4q2odoxf6wjLylZVE3Y2a8ltDwjGeuK+MoEIFuMzMDwOeIGUnjRi5NHieilUU
- n2WKZ8ST42VCbHkUip/oyNaq438fbrwPjV2HHdS5rSFJkrsbbUJXiPkHmjOopyP0wZKQ
- x2QVxr1iqxpjNWljxIR62qyLS8u8TrzNZ+w+/+Huop5wUJYYLiT3mp4gz0qq84GwCeZZ
- ObKw==
-X-Gm-Message-State: AAQBX9e3M/Ng3/X9FeQSVDUPJH1awT/aP8exe1PPVHqGWaCvg4WlFIIK
- stovX2rKjjySSqhwd1mXwfW5KA==
-X-Google-Smtp-Source: AKy350av+AQDBRlKtUmZ+/QkOm4KMesPTPDyVhBA2JaRvUAKv6bnwzOobrcp6t17QmEouFUfn1rj6w==
-X-Received: by 2002:a5d:494e:0:b0:2f7:85e0:de75 with SMTP id
- r14-20020a5d494e000000b002f785e0de75mr10484608wrs.19.1682342808751; 
- Mon, 24 Apr 2023 06:26:48 -0700 (PDT)
-Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
- [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
- u15-20020a5d468f000000b002f5fbc6ffb2sm10793921wrq.23.2023.04.24.06.26.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 06:26:48 -0700 (PDT)
-Message-ID: <c5dabd2e-aed3-e8db-ad62-86d8e3432488@linaro.org>
-Date: Mon, 24 Apr 2023 14:26:46 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pqwEI-0006F2-O7
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:27:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pqwEH-0001EM-1u
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:27:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682342858;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rv4MEflyzqm+6OD5NFnep/ipeSjP1GgYvkLBBSLBWIE=;
+ b=NYRZD/G95CFpV35y9l6/pWTxaj44wwKvAy/yjcLnidEt7udQla1CsBFs1D8lHv+MexkXQc
+ ZVyEf2dHlQDD+jTTiInhp4TEwmG0dzTQYzaUSIKdP268wgLroNpAu3a7wVZAOle7uvp5uN
+ bMQ1oWFPJK7G7Z/ZFs8+4o0QkAqjJK4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-649-wPJLDJ9cP-qFVwMonMMG6Q-1; Mon, 24 Apr 2023 09:27:35 -0400
+X-MC-Unique: wPJLDJ9cP-qFVwMonMMG6Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D6B682A5957C;
+ Mon, 24 Apr 2023 13:27:34 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B17614171B8;
+ Mon, 24 Apr 2023 13:27:31 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Hailiang Zhang <zhanghailiang@xfusion.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Leonardo Bras <leobras@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PULL 00/30] Migration 20230424 patches
+Date: Mon, 24 Apr 2023 15:27:00 +0200
+Message-Id: <20230424132730.70752-1-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2] accel/tcg/tcg-accel-ops-rr: ensure fairness with icount
-Content-Language: en-US
-To: Jamie Iles <jiles@qti.qualcomm.com>
-Cc: "Jamie Iles (QUIC)" <quic_jiles@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230424112907.26832-1-quic_jiles@quicinc.com>
- <e612395f-ade3-6ceb-a611-8c9c41caeb31@linaro.org>
- <ZEaCctJfl/5Cye7K@JILES.na.qualcomm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <ZEaCctJfl/5Cye7K@JILES.na.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,18 +85,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/24/23 14:21, Jamie Iles wrote:
->> Why cpu_budget = INT64_MAX as opposed to 0 or 0xdeadbeef?  It's not set or used except for
->> icount_enabled.
-> 
-> That's left over from an earlier version, I can leave it uninitialized.
+The following changes since commit 81072abf1575b11226b3779af76dc71dfa85ee5d:
 
-No, you can't, as you'll get a compiler warning, because the compiler won't see that the 
-conditional init matches the conditional use.
+  Merge tag 'migration-20230420-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-04-24 12:06:17 +0100)
 
-A zero init value would only need comment for the conditional init/use.  A non-zero init 
-value without comment is magic and bad for maintenance.
+are available in the Git repository at:
 
+  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230424-pull-request
 
-r~
+for you to fetch changes up to 9c894df3a37d675652390f7dbbe2f65b7bad7efa:
+
+  migration: Create migrate_max_bandwidth() function (2023-04-24 15:01:47 +0200)
+
+----------------------------------------------------------------
+Migration Pull request
+
+Everything that was reviewed since last PULL request:
+- fix to control flow (eric)
+- rearrange of hmp commands (juan)
+- Make capabilities more consistent and coherent (juan)
+  Not all of them reviewed yet, so only the ones reviewed.
+
+Later, Juan.
+
+PD.  I am waiting to finish review of the compression fixes to send
+them.
+
+----------------------------------------------------------------
+
+Eric Blake (1):
+  migration: Minor control flow simplification
+
+Juan Quintela (29):
+  migration: move migration_global_dump() to migration-hmp-cmds.c
+  spice: move client_migrate_info command to ui/
+  migration: Create migrate_cap_set()
+  migration: Create options.c
+  migration: Move migrate_colo_enabled() to options.c
+  migration: Move migrate_use_compression() to options.c
+  migration: Move migrate_use_events() to options.c
+  migration: Move migrate_use_multifd() to options.c
+  migration: Move migrate_use_zero_copy_send() to options.c
+  migration: Move migrate_use_xbzrle() to options.c
+  migration: Move migrate_use_block() to options.c
+  migration: Move migrate_use_return() to options.c
+  migration: Create migrate_rdma_pin_all() function
+  migration: Move migrate_caps_check() to options.c
+  migration: Move qmp_query_migrate_capabilities() to options.c
+  migration: Move qmp_migrate_set_capabilities() to options.c
+  migration: Move migrate_cap_set() to options.c
+  migration: Move parameters functions to option.c
+  migration: Use migrate_max_postcopy_bandwidth()
+  migration: Move migrate_use_block_incremental() to option.c
+  migration: Create migrate_throttle_trigger_threshold()
+  migration: Create migrate_checkpoint_delay()
+  migration: Create migrate_max_cpu_throttle()
+  migration: Move migrate_announce_params() to option.c
+  migration: Create  migrate_cpu_throttle_initial() to option.c
+  migration: Create migrate_cpu_throttle_increment() function
+  migration: Create migrate_cpu_throttle_tailslow() function
+  migration: Move migrate_postcopy() to options.c
+  migration: Create migrate_max_bandwidth() function
+
+ hw/virtio/virtio-balloon.c     |   1 +
+ include/migration/misc.h       |   1 -
+ migration/block-dirty-bitmap.c |   1 +
+ migration/block.c              |   5 +-
+ migration/colo.c               |   6 +-
+ migration/meson.build          |   1 +
+ migration/migration-hmp-cmds.c |  39 +-
+ migration/migration.c          | 719 +-------------------------------
+ migration/migration.h          |  40 --
+ migration/multifd-zlib.c       |   1 +
+ migration/multifd-zstd.c       |   1 +
+ migration/multifd.c            |  24 +-
+ migration/options.c            | 722 +++++++++++++++++++++++++++++++++
+ migration/options.h            |  76 ++++
+ migration/postcopy-ram.c       |   1 +
+ migration/ram.c                |  43 +-
+ migration/rdma.c               |  12 +-
+ migration/savevm.c             |   3 +-
+ migration/socket.c             |   5 +-
+ qapi/migration.json            |  28 --
+ qapi/ui.json                   |  28 ++
+ ui/ui-hmp-cmds.c               |  17 +
+ ui/ui-qmp-cmds.c               |  29 ++
+ 23 files changed, 971 insertions(+), 832 deletions(-)
+ create mode 100644 migration/options.c
+ create mode 100644 migration/options.h
+
+-- 
+2.39.2
+
 
