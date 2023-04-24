@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1106EC86A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62136EC892
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 11:18:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqsBP-0008HR-MG; Mon, 24 Apr 2023 05:08:27 -0400
+	id 1pqsKy-0007ZP-PD; Mon, 24 Apr 2023 05:18:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsBJ-00082F-J5
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:08:23 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1pqsKj-00073u-Qq
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:18:08 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pqsBG-0001Wq-T3
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:08:20 -0400
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-2f7c281a015so2433137f8f.1
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:08:18 -0700 (PDT)
+ id 1pqsKd-0003CZ-9Y
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 05:18:05 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f1958d3a53so27449445e9.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 02:17:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682327296; x=1684919296;
+ d=linaro.org; s=google; t=1682327868; x=1684919868;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mQQ/M84VdXV+sFflrcfQTOJNz8ZZLyV8/lFJ1/359T0=;
- b=okOwcBmPQ8SmYfl2J08efeTuTDHZkDva4TGQsb/BYoG4vM564ESK1yZRJdJ3uUuM+m
- PF/NOa9Fm9tC1/CDPt60yE7guWKaGCz2xPQ4Prp5zeUzAGghd6LxF8tauLlTM1nEMOQg
- yu+16s27XSG+eympyTjmdk9sHMoSl7miWWnjvHsOR8tcucN3SvP+jQHBrTMuxCrn6rYj
- YviZy4JLtb7fmVX61c+ui7mmbXad4uX8vV5Niz3ZqUJwgdWRfVNIcsYfmKVkACqBY8KY
- 2tOfMLqcFy/iXlpb4zO8uLw6exklXGr7CPJXQQwKJbt5ykT8US/g3rVQtxVbuvAaC1cT
- C6LA==
+ bh=DVktBb8QeggkKBIykACOSAkwwiHMPkq4qzFh96IKqzM=;
+ b=ZnRfCyr/996O96qokik386yaDiPFDByXzHg7n2Cw/L+ghX58GNZeVv6i8zmw2//U8C
+ yxlnaQW8Pfjd/GsNh45bx/TqeMvoaSy+v5vHenss44MhIWW68DzKR4n3hi37HZMNCSb1
+ LQRwMmmhVKlHmkVpZ/AN4u+/hdqorDmYW214F7SCkSYtsoKFak951xQfS9YD1TT7v1gq
+ Z1ykwMlFmJA4QtNziikACYQVh85PqU5cJUJE0vJ1iR0FgYFZ4ZflpqiZQtYgP5HgVMyf
+ AqzPHRc3BFxJTltd7Y9e+yVaslqLNcOo8vtqxbstl4ip45iqi4Ogx9ahDTAecbuVvw84
+ U5kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682327296; x=1684919296;
+ d=1e100.net; s=20221208; t=1682327868; x=1684919868;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=mQQ/M84VdXV+sFflrcfQTOJNz8ZZLyV8/lFJ1/359T0=;
- b=O09NJYJR1Fj6ycDUstgkm9ROxXePbx2JIWVWgei14/4MQ+JdA9YUVMPehIDyjZzZVG
- PKam/2Cn9h/8tPkrZQ1fFVm+BcU8zY5Ujdc3pmIXlWIH0EUbgfO76KNBAIJWEpPj236J
- AK6b8a4LvVdaVobPakZJlTfoRbq2FLC8FCQ12lLg5UQzuP/73gpHN2tr+wW39S7IsT4T
- SLcQnBi0kyoBEhjRNv8KSx6KpUIvjVdJ7ZOrG3pfgGzqZ2xQv5s2fzZhepVbtHSgzKlt
- lw0ESp4EqgM9ND6M78swL/5HhiJ4EsqDLdfyPx5lNxzTjkmI9C4avVihZygejmgUvzNM
- RvGg==
-X-Gm-Message-State: AAQBX9fIo/5ciymrvDTPxGAsxoecaNAeiefWE0fAzCOcahggdHvEr1Il
- Lg3t7Hx/yJWq+NA7sSz+mtNzaQ==
-X-Google-Smtp-Source: AKy350ZVogtkIoJHhfub7k47N29ecpa+ZLKZswRObKkNrSJJ4RoIEubrR0BE+lcU+m6Pl4QMKfOr2Q==
-X-Received: by 2002:a5d:614e:0:b0:2ff:460e:bb49 with SMTP id
- y14-20020a5d614e000000b002ff460ebb49mr10251984wrt.24.1682327296160; 
- Mon, 24 Apr 2023 02:08:16 -0700 (PDT)
+ bh=DVktBb8QeggkKBIykACOSAkwwiHMPkq4qzFh96IKqzM=;
+ b=g/WayB+gQ9boSURLurcTrqNNRHVChYPltRZyXf8I0VsmPOJzcVl0urmMIfAwcDi/AL
+ ONDXhmqKY5I4v50HxmA8cby4hmRtARmk11svuU6gZPze/D1xzsO8L09jiV4oquWN2qfD
+ mlgDjVnEzya5kGP4A45G0YAeK909H/byYSsQJufgvkLAkp6QJclIhZ+2+vTHDNz5TNJx
+ cJScf/xbT5Gyw/Rv6av2sZbEIeXOVzrkFQEo/+g0LGJ1Xm/wXaHt0zMLSzF66eKZMEBv
+ Yqas4aUSM+D8AP860sPM8iShSTQ7kw+Hh4ePOYMhXpfw2WXxfTbwMptqTY2hgIr0UX8x
+ 2KvQ==
+X-Gm-Message-State: AAQBX9eH0u3QM4c894BWMn7sYl8CIMnDMwPyNevZK85M8OyrvCBCErSf
+ e4jGYi/lGBrgixo1hgQSgJipAA==
+X-Google-Smtp-Source: AKy350ayRkYUKB+DYieLr3x1wMWu6nbPiFUxNAMPs5Aj/9t3OsNKRzKurEC21XPbQSG3hAouTiNxZQ==
+X-Received: by 2002:a7b:cb47:0:b0:3f0:967e:2cfb with SMTP id
+ v7-20020a7bcb47000000b003f0967e2cfbmr7559655wmj.36.1682327868649; 
+ Mon, 24 Apr 2023 02:17:48 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- f17-20020a5d50d1000000b002e5f6f8fc4fsm10253084wrt.100.2023.04.24.02.08.15
+ q9-20020a1ce909000000b003f177c3672dsm14795271wmc.29.2023.04.24.02.17.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Apr 2023 02:08:15 -0700 (PDT)
+ Mon, 24 Apr 2023 02:17:48 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3DF4D1FFB7;
- Mon, 24 Apr 2023 10:08:15 +0100 (BST)
-References: <20230420155723.1711048-1-alex.bennee@linaro.org>
- <20230420155723.1711048-10-alex.bennee@linaro.org>
- <c2e905e0-2e2a-9666-3ea5-c2453d58a54b@yandex-team.ru>
+ by zen.linaroharston (Postfix) with ESMTP id D6E881FFB7;
+ Mon, 24 Apr 2023 10:17:47 +0100 (BST)
+References: <20230421052255.5603-1-krm.taha@outlook.com>
+ <20230421052255.5603-2-krm.taha@outlook.com> <ZEI4jQvHfU+JGFH9@redhat.com>
+ <CAHNti2dQnbmAO5hTyb6krd8tSMCqXDp80BEcd0ZUHXmk0LZS-w@mail.gmail.com>
+ <87sfct9mm6.fsf@linaro.org>
+ <CAHNti2d5JH9EupsOLs0e2o-2ifeEumR5XUqPkbG1u2x6QtOCqg@mail.gmail.com>
+ <CANCZdfr=32YFV0mHJxJn0F3aNUQT5YccQdRYdtq1au6BFF8WHw@mail.gmail.com>
+ <CAHNti2d1ZEsop_YDJ40ymwayieK2vbkA5rPnX3VT_8a=6igksg@mail.gmail.com>
 User-agent: mu4e 1.11.3; emacs 29.0.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- peter.maydell@linaro.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>, Markus Armbruster
- <armbru@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>, John G Johnson
- <john.g.johnson@oracle.com>, Jagannathan Raman <jag.raman@oracle.com>,
- Juan Quintela <quintela@redhat.com>, Eduardo Habkost
- <eduardo@habkost.net>, Richard Henderson <richard.henderson@linaro.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 9/9] docs/style: call out the use of GUARD macros
-Date: Mon, 24 Apr 2023 10:07:33 +0100
-In-reply-to: <c2e905e0-2e2a-9666-3ea5-c2453d58a54b@yandex-team.ru>
-Message-ID: <87sfcpabr4.fsf@linaro.org>
+To: Karim Taha <kariem.taha2.7@gmail.com>
+Cc: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 01/11] Signed-off-by: Karim Taha <kariem.taha2.7@gmail.com>
+Date: Mon, 24 Apr 2023 10:14:11 +0100
+In-reply-to: <CAHNti2d1ZEsop_YDJ40ymwayieK2vbkA5rPnX3VT_8a=6igksg@mail.gmail.com>
+Message-ID: <87o7ndabb8.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -107,95 +102,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+Karim Taha <kariem.taha2.7@gmail.com> writes:
 
-> On 20.04.23 18:57, Alex Benn=C3=A9e wrote:
->> There use makes our code safer so we should mention them.
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->
->
->> ---
->>   docs/devel/style.rst | 36 ++++++++++++++++++++++++++++++++++++
->>   1 file changed, 36 insertions(+)
->> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
->> index 0bd01f3fca..b50a981a86 100644
->> --- a/docs/devel/style.rst
->> +++ b/docs/devel/style.rst
->> @@ -657,6 +657,42 @@ that declaration and the new code.
->>     See :ref:`qom` for more details.
->>   +QEMU GUARD macros
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +QEMU provides a number of ``_GUARD`` macros intended to make the
->> +handling of multiple exit paths easier. For example using
->> +``QEMU_LOCK_GUARD`` to take a lock will ensure the lock is released on
->> +exit from the function.
->> +
->> +.. code-block:: c
->> +
->> +    static int my_critical_function(SomeState *s, void *data)
->> +    {
->> +        QEMU_LOCK_GUARD(&s->lock);
->> +        do_thing1(data);
->> +        if (check_state2(data)) {
->> +            return -1;
->> +        }
->> +        do_thing3(data);
->> +        return 0;
->> +    }
->
-> For more clearness, maybe add an equivalent code with qemu_mutex_lock() /=
- qemu_mutex_unlock(), I mean:
->
-> The equivalent code without _GUARD macro makes us to carefully put qemu_m=
-utex_unlock() on all exit points:
->
-> .. code-block:: c
->
->     static int my_critical_function(SomeState *s, void *data)
->     {
->         qemu_mutex_lock(&s->lock);
->         do_thing1(data);
->         if (check_state2(data)) {
->             qemu_mutex_unlock(&s->lock);
->             return -1;
->         }
->         do_thing3(data);
->         qemu_mutex_unlock(&s->lock);
->         return 0;
->     }
->
->> +
->> +will ensure s->lock is released however the function is exited. There
->> +are often ``WITH_`` forms of macros which more easily wrap around a
->> +block inside a function.
->> +
->> +.. code-block:: c
->> +
->> +    WITH_RCU_READ_LOCK_GUARD() {
->> +        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
->> +            err =3D do_the_thing(kid->child);
->> +            if (err < 0) {
->> +                return err;
->> +            }
->> +        }
->> +    }
->> +
->
-> and maybe similar here.
+> I made a fork on gitlab and pushed a branch at
+> https://gitlab.com/Kariiem/qemu/-/tree/gsoc23-task3/ .
 
-I added the example although I didn't repeat it for the WITH form
-because readers should hopefully have understood the idea with the first
-example.
+OK so I can see the original commits are not following the correct form
+so this wasn't introduced by the tool send the emails. As Daniel
+mentioned previously the format of the commit message is:
+
+  [subsystem ref]: short description of commit
+
+  A few more lines of explanation about the commit that explain
+  why it does what it does.
+
+  Optional bug reference
+  DCO tags (Signed-off-by, Reviewed-by, Acked-by etc)
 
 
 >
->>   Error handling and reporting
->>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->>=20=20=20
+> On Sat, Apr 22, 2023 at 1:18=E2=80=AFAM Warner Losh <imp@bsdimp.com> wrot=
+e:
+>
+>  Usually this means pushing a branch off of mastar to a service like gith=
+ub or gitlab, and then
+>  posting a URL with where to get it.
+>
+>  Warner
+>
+>  On Fri, Apr 21, 2023 at 4:40=E2=80=AFPM Karim Taha <kariem.taha2.7@gmail=
+.com> wrote:
+>
+>  It was sent with git-publish, what do you mean by pointing to a branch?
+>
+>  On Fri, Apr 21, 2023 at 7:22=E2=80=AFPM Alex Benn=C3=A9e <alex.bennee@li=
+naro.org> wrote:
+>
+>  Karim Taha <kariem.taha2.7@gmail.com> writes:
+>
+>  > On Fri, Apr 21, 2023 at 9:17=E2=80=AFAM Daniel P. Berrang=C3=A9 <berra=
+nge@redhat.com> wrote:
+>  >
+>  >  On Fri, Apr 21, 2023 at 07:22:45AM +0200, Karim Taha wrote:
+>  >  > From: Warner Losh <imp@bsdimp.com>
+>  >  >=20
+>  >  > Allow guest_base to be initialized on 64-bit hosts, the initial val=
+ue is used by g2h_untagged
+>  function
+>  >  defined in include/exec/cpu_ldst.h
+>  >
+>  >  This commit message is all incorrectly structured I'm afraid.
+>  >
+>  >  There needs to a short 1 line summary, then a blank line,
+>  >  then the full commit description text, then a blank line,
+>  >  then the Signed-off-by tag(s).
+>  >
+>  >  Also if you're sending work done by Warner (as the From
+>  >  tag suggests), then we would expect to see Warner's own
+>  >  Signed-off-by tag, in addition to your own Signed-off-by.
+>  <snip>
+>  >
+>  > Alright, thanks for the commit formatting tips, I resent the patch ser=
+ies, with my signed off by
+>  tag and the
+>  > author signed off by tags as well.
+>
+>  Hmm something has gone wrong. Was this sent with a plain git-send-email
+>  or using a tool like git-publish?
+>
+>  Can you point to a branch?
+>
+>  >
+>  > Best regards,
+>  > Karim
+>
+>  --=20
+>  Alex Benn=C3=A9e
+>  Virtualisation Tech Lead @ Linaro
 
 
 --=20
