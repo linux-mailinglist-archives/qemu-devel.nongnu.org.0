@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CE16ECC40
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5176ECC41
 	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 14:49:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqvc9-0003RB-Am; Mon, 24 Apr 2023 08:48:17 -0400
+	id 1pqvce-0003ak-OA; Mon, 24 Apr 2023 08:48:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvbl-0003Oi-B8
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:48:06 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvcV-0003Z5-4y
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:48:39 -0400
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvbj-0008Kw-GV
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:47:53 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvcT-0008Pf-Mt
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:48:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
  Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=DcDteXGeQ9zPTuLkmgoPswClvrFwYQ+thfxmzfqvDDY=; b=YMr3D7cwzmFlHRoCRYnSeQwLCi
- Q2Em4h/iMmm0GREk3h7CrZYhRcHXvkO/2FEksICvNqt0PRp0YaDnAJqpArAkTyd7Xv1sCgh2dMsKm
- KYPGjQB9GuSUBAzNeS7ZG1Jme1DYHHf/QTToTHtC7uYgjW2yTckgJt29fCXgfKvky2qU=;
-Message-ID: <0907fcb4-2446-5a0a-75d3-c4d7065344f2@rev.ng>
-Date: Mon, 24 Apr 2023 14:47:34 +0200
+ bh=smNyn11LhV+eWdhVcp1yYF7S5zSnDzRZqlkx7SSce5A=; b=hrl861qJ/pmKcJd8CkbzaGp4ym
+ SZKxzVEu7cgRVbdOT44OfO6qP1mpwul3Y3LyKDlS4v/om9llpvo0oyr6dOHYt1m8aq9BRE6dmSbJL
+ saUKTBI8NZqUaRS0oDj1/9drFZ3NGIeN6KmnYyUT0Okiqyu3q140Sxo4UzrtaQ41RX+4=;
+Message-ID: <0695f221-8615-7825-64e1-d92ac118f708@rev.ng>
+Date: Mon, 24 Apr 2023 14:48:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [PATCH 1/8] accel: Replace `target_ulong` with `vaddr` in TB/TLB
+Subject: Re: [PATCH 4/8] accel/tcg: Replace target_ulong with vaddr in
+ helper_unaligned_*()
+Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net, philmd@linaro.org,
  marcel.apfelbaum@gmail.com, wangyanan55@huawei.com
 References: <20230420212850.20400-1-anjo@rev.ng>
- <20230420212850.20400-2-anjo@rev.ng>
- <b8dd9e8a-c9c8-12a1-fcc8-026437a07fb4@linaro.org>
-Content-Language: en-US
+ <20230420212850.20400-5-anjo@rev.ng>
+ <6f98eae8-30b6-9253-38b9-0663a6861f4e@linaro.org>
 Organization: rev.ng
-In-Reply-To: <b8dd9e8a-c9c8-12a1-fcc8-026437a07fb4@linaro.org>
+In-Reply-To: <6f98eae8-30b6-9253-38b9-0663a6861f4e@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
@@ -69,69 +70,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 4/23/23 11:09, Richard Henderson wrote:
+On 4/23/23 11:10, Richard Henderson wrote:
 > On 4/20/23 22:28, Anton Johansson wrote:
->> Changes pc and cs_base in TranslationBlock from target_ulong to vaddr.
->> Auxilliary structs and tb_*()/tlb_*() functions that depend on this
->> change are also updated to take a vaddr for guest virtual addresses.
+>> Updates helper_unaligned_[ld|st] to take the store/load address as a
+>> vaddr instead of a target_ulong.
 >>
->> Signed-off-by: Anton Johansson <anjo@rev.ng>
+>> Signed-off-by: Anton Johansson<anjo@rev.ng>
 >> ---
->>   accel/stubs/tcg-stub.c       |   2 +-
->>   accel/tcg/cpu-exec.c         |  49 +++++-----
->>   accel/tcg/cputlb.c           | 179 +++++++++++++++++------------------
->>   accel/tcg/internal.h         |   6 +-
->>   accel/tcg/tb-hash.h          |  12 +--
->>   accel/tcg/tb-jmp-cache.h     |   2 +-
->>   accel/tcg/tb-maint.c         |   2 +-
->>   accel/tcg/translate-all.c    |  15 +--
->>   include/exec/cpu-defs.h      |   4 +-
->>   include/exec/cpu_ldst.h      |   6 +-
->>   include/exec/exec-all.h      |  82 ++++++++--------
->>   include/qemu/plugin-memory.h |   2 +-
->>   12 files changed, 181 insertions(+), 180 deletions(-)
+>>   accel/tcg/user-exec.c  | 4 ++--
+>>   include/tcg/tcg-ldst.h | 4 ++--
+>>   2 files changed, 4 insertions(+), 4 deletions(-)
 >
-> This is too large and must be split.  In addition, there are places 
-> where you must take more care with the replacement.
-
-Agreed this patch is very large. I struggled a bit in chopping it up 
-without breaking bisection, but I'll give it another go!
-
-
->
->> @@ -412,10 +412,11 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState 
->> *env)
->>   {
->>       CPUState *cpu = env_cpu(env);
->>       TranslationBlock *tb;
->> -    target_ulong cs_base, pc;
->> +    vaddr cs_base = 0, pc = 0;
->>       uint32_t flags, cflags;
->>   -    cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
->> +    cpu_get_tb_cpu_state(env, (target_ulong *) &pc,
->> +                         (target_ulong *) &cs_base, &flags);
->
-> This simply will not work on big-endian hosts.
-Ah of course! I'll pull in the changes updating the arguments of 
-cpu_get_tb_cpu_state() to
-avoid the pointer casts.
-
-
->
->
->> @@ -560,15 +557,15 @@ static void 
->> tlb_flush_page_by_mmuidx_async_0(CPUState *cpu,
->>   static void tlb_flush_page_by_mmuidx_async_1(CPUState *cpu,
->>                                                run_on_cpu_data data)
->>   {
->> -    target_ulong addr_and_idxmap = (target_ulong) data.target_ptr;
->> -    target_ulong addr = addr_and_idxmap & TARGET_PAGE_MASK;
->> +    vaddr addr_and_idxmap = (vaddr) data.target_ptr;
->
-> run_on_cpu_data.target_ptr is already vaddr, no need for cast.
-
-Right, will fix! Thanks
-
+> I've got patches posted to remove these functions.
+Nice, I'll remove this patch then!
 
 -- 
 Anton Johansson,
