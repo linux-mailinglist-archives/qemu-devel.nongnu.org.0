@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66AB36ECC70
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6076F6ECC76
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:02:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqvmw-00017X-Sd; Mon, 24 Apr 2023 08:59:27 -0400
+	id 1pqvoT-0002FQ-Rb; Mon, 24 Apr 2023 09:01:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pqvms-00016b-Td
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:59:24 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pqvmq-0003Ga-Vr
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:59:22 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id C65CE607DF;
- Mon, 24 Apr 2023 15:59:12 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:6523::1:a] (unknown
- [2a02:6b8:b081:6523::1:a])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id twEqkL1Ok0U0-10RYrwwp; Mon, 24 Apr 2023 15:59:12 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682341152; bh=zGqU5UFkDpsa+5jRMtEGSNhbNfHG2p85RrsKYklMlDw=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=zo0US7fcB81C74T07RwEXwBtuTDZQYtX/zsLBoLluWVh2Hqqe/HBBMBERXICvK4OC
- vzU3eoJKevXZyz66lpmp94zOpCZ/RcEitgwZUeRoE/qNlb+RcpNbM7IqkqcnSlwXtI
- jinRb8hr23bQ/olNLuwLaf6I7tZ0WlyEuZQP0wZY=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <c02284f7-a7be-e5ca-580e-dcf1a18051d5@yandex-team.ru>
-Date: Mon, 24 Apr 2023 15:58:55 +0300
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pqvoM-0002Cp-QJ
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:00:54 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pqvoK-0003uQ-7P
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:00:54 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8DxSup9fUZkEAsAAA--.90S3;
+ Mon, 24 Apr 2023 21:00:45 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Axy7J7fUZkgdI4AA--.11473S3; 
+ Mon, 24 Apr 2023 21:00:43 +0800 (CST)
+Subject: Re: [RFC PATCH v3 14/44] target/loongarch: Implement
+ vmul/vmuh/vmulw{ev/od}
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230420080709.3352575-1-gaosong@loongson.cn>
+ <20230420080709.3352575-15-gaosong@loongson.cn>
+ <691b8b09-6bc5-82db-f4c3-103fd98c406a@linaro.org>
+ <14bbe700-0611-f2ed-556a-9aa4a12d318b@loongson.cn>
+ <005598db-125a-01c6-9ca8-c9321c3aa99f@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <4ab8ec34-4bf1-f78e-7592-81947eebfdb6@loongson.cn>
+Date: Mon, 24 Apr 2023 21:00:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 9/9] docs/style: call out the use of GUARD macros
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- peter.maydell@linaro.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, Juan Quintela
- <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>
-References: <20230420155723.1711048-1-alex.bennee@linaro.org>
- <20230420155723.1711048-10-alex.bennee@linaro.org>
- <c2e905e0-2e2a-9666-3ea5-c2453d58a54b@yandex-team.ru>
- <87sfcpabr4.fsf@linaro.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <87sfcpabr4.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <005598db-125a-01c6-9ca8-c9321c3aa99f@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Axy7J7fUZkgdI4AA--.11473S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+ BjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+ xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+ j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+ 67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+ ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+ AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
+ 6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jr
+ v_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+ c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
+ v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7I
+ U1wL05UUUUU==
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.194,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,94 +82,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24.04.23 12:07, Alex Bennée wrote:
-> 
-> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
-> 
->> On 20.04.23 18:57, Alex Bennée wrote:
->>> There use makes our code safer so we should mention them.
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>
->>
->>> ---
->>>    docs/devel/style.rst | 36 ++++++++++++++++++++++++++++++++++++
->>>    1 file changed, 36 insertions(+)
->>> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
->>> index 0bd01f3fca..b50a981a86 100644
->>> --- a/docs/devel/style.rst
->>> +++ b/docs/devel/style.rst
->>> @@ -657,6 +657,42 @@ that declaration and the new code.
->>>      See :ref:`qom` for more details.
->>>    +QEMU GUARD macros
->>> +=================
->>> +
->>> +QEMU provides a number of ``_GUARD`` macros intended to make the
->>> +handling of multiple exit paths easier. For example using
->>> +``QEMU_LOCK_GUARD`` to take a lock will ensure the lock is released on
->>> +exit from the function.
->>> +
->>> +.. code-block:: c
->>> +
->>> +    static int my_critical_function(SomeState *s, void *data)
->>> +    {
->>> +        QEMU_LOCK_GUARD(&s->lock);
->>> +        do_thing1(data);
->>> +        if (check_state2(data)) {
->>> +            return -1;
->>> +        }
->>> +        do_thing3(data);
->>> +        return 0;
->>> +    }
->>
->> For more clearness, maybe add an equivalent code with qemu_mutex_lock() / qemu_mutex_unlock(), I mean:
->>
->> The equivalent code without _GUARD macro makes us to carefully put qemu_mutex_unlock() on all exit points:
->>
->> .. code-block:: c
->>
->>      static int my_critical_function(SomeState *s, void *data)
->>      {
->>          qemu_mutex_lock(&s->lock);
->>          do_thing1(data);
->>          if (check_state2(data)) {
->>              qemu_mutex_unlock(&s->lock);
->>              return -1;
->>          }
->>          do_thing3(data);
->>          qemu_mutex_unlock(&s->lock);
->>          return 0;
->>      }
->>
->>> +
->>> +will ensure s->lock is released however the function is exited. There
->>> +are often ``WITH_`` forms of macros which more easily wrap around a
->>> +block inside a function.
->>> +
->>> +.. code-block:: c
->>> +
->>> +    WITH_RCU_READ_LOCK_GUARD() {
->>> +        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
->>> +            err = do_the_thing(kid->child);
->>> +            if (err < 0) {
->>> +                return err;
->>> +            }
->>> +        }
->>> +    }
->>> +
->>
->> and maybe similar here.
-> 
-> I added the example although I didn't repeat it for the WITH form
-> because readers should hopefully have understood the idea with the first
-> example.
-> 
 
-Agreed, thanks!
+在 2023/4/24 下午8:44, Richard Henderson 写道:
+> On 4/24/23 12:25, Song Gao wrote:
+>>> You don't need these.
+>>> Just reverse the operands to the existing tcg_gen_mulsu2_*.
+>>>
+>>>
+>> Ok, I'm just trying to unify  "u * s " to the macros VMUL_Q and VMADD_Q.
+>
+> Then create local wrappers:
+>
+> void tcg_gen_mulus2_i64(TCGv_i64 rl, TCGv_i64 rh, TCGv_i64 arg1, 
+> TCGv_i64 arg2)
+> {
+>     tcg_gen_mulsu2_i64(rl, rh, arg2, arg1);
+> }
+>
+Ah,  got it.
 
--- 
-Best regards,
-Vladimir
+Thanks.
+Song Gao
 
 
