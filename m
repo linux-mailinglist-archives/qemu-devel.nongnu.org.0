@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4A56EE120
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 13:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B7F6EE1A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:10:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prGyD-00085y-Hl; Tue, 25 Apr 2023 07:36:29 -0400
+	id 1prHTj-0000nt-EO; Tue, 25 Apr 2023 08:09:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prGyB-00085p-QZ
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 07:36:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prHTg-0000nE-HL
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:09:00 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prGyA-00044V-AO
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 07:36:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prHTe-0001Um-Io
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:09:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682422580;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type: content-transfer-encoding:content-transfer-encoding;
- bh=Jb8fJ7UPHUQKAoPYGaUBfjo5f040yhkq7ajr9HgBcuc=;
- b=LrbMhOcy0T7OUIh0QULwYPW980dq1e+kIeqH1JaiRDPiHjzBBABnZunXCse9/kYQ2+PJwq
- ml6su8j5VXrgLrTb9pjS7FbdCe+O4pA8gxAynFm95picl90IZfCgnVMPTMvNLqg3ri5ePS
- XLz747vIXPgSS8QcbMIbiPwFHKZ6Ywo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-131-byTkFZS_Ns66qRU8c1M7oA-1; Tue, 25 Apr 2023 07:36:18 -0400
-X-MC-Unique: byTkFZS_Ns66qRU8c1M7oA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-301a3715507so2982043f8f.2
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 04:36:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682422577; x=1685014577;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:subject:to:from:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Jb8fJ7UPHUQKAoPYGaUBfjo5f040yhkq7ajr9HgBcuc=;
- b=gFbEp1bxy5oKO1mYBk+WD977mB5ec1W+zSnkDDiQ1Sj6aoDxK0X/eMsNOBCBVusFtg
- FrvTGEam4sgxjFJl+1RzLLKridt51F+gDX3gnd/e5nrYY1EMfUQBA/UmZHea/wd9t1nE
- u4QDwXqqhw93MU+E/gZz/wJ8Gc8gLSUYWMSZRFasc1MIeLRA4d9b6EXK1wdJXdmOx1zb
- xR1zBLLO8sLHYTKhzvKB3o/ftQ/5HLCka+zRB8rd6JGTWjuOgPG2+EWyP9mFu2KbemD6
- nuTfKPas6mqtnDo0yXH4GSgVHp3FMyJwD97sgkqHSEbRSYolp/oeiQbhRqmcfOUEx4+I
- I3vA==
-X-Gm-Message-State: AAQBX9cuxeayrJBETcRt8zVNbSrg7XfO9yMmYx3bIPfZh1oq64xK6DlV
- fgOWTop9kSbZQSdHO6xSt/OGoGYZstTFmle7kC2WMZJ60zypxpMztRXy9prkJWxAushuQ4ctXs8
- lAW0BD+F5AWDm9f6C2hUDid0PI/Grcd5mJ3LC3DurgrH6nHQA+Iw+78lcKh1z+702IrZ8hTAz30
- 57mNIr
-X-Received: by 2002:a05:6000:1c9:b0:2fb:ad8:288f with SMTP id
- t9-20020a05600001c900b002fb0ad8288fmr11870976wrx.11.1682422577113; 
- Tue, 25 Apr 2023 04:36:17 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y98dmZv/Y1NL/MKjP9CJRIQbZzusJVI4SK7uwWF9QGYqS036BB0sEPDV3UXLhRcOsyfXAWcw==
-X-Received: by 2002:a05:6000:1c9:b0:2fb:ad8:288f with SMTP id
- t9-20020a05600001c900b002fb0ad8288fmr11870963wrx.11.1682422576749; 
- Tue, 25 Apr 2023 04:36:16 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- j8-20020adff008000000b002f6176cc6desm12912280wro.110.2023.04.25.04.36.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 04:36:16 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Warning on Fedora 38
+ s=mimecast20190719; t=1682424529;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:resent-to:
+ resent-from:resent-message-id:in-reply-to:in-reply-to:  references:references; 
+ bh=GDvnadVPpEzrC3qMNGyLeVAeNob+n655pOBx4DP6yQ8=;
+ b=JakyAFYLyGYwgviRHoJpJLxlzSJ45xIxEWRVGa8IpaecL4uId/Zlti5r+zbg46cVHQY0LU
+ E0G2I+3zl0tlPdYK1Morn1ZOn1G6RlkPjmys/gKv9gv9v+ElwqahKVtB7AJy1vPAJ2wxTb
+ 7nWJnjtbq2jf2NMZffHzxuri2uSQX/4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-455-DMRNrO7gO0KCQoRkWQhEXg-1; Tue, 25 Apr 2023 08:08:46 -0400
+X-MC-Unique: DMRNrO7gO0KCQoRkWQhEXg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF9A0280A32A;
+ Tue, 25 Apr 2023 12:08:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89CC42027043;
+ Tue, 25 Apr 2023 12:08:45 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9458321F1672; Tue, 25 Apr 2023 14:08:44 +0200 (CEST)
+Resent-To: berrange@redhat.com, qemu-devel@nongnu.org, het.gala@nutanix.com,
+ eblake@redhat.com, michael.roth@amd.com
+Resent-From: Markus Armbruster <armbru@redhat.com>
+Resent-Date: Tue, 25 Apr 2023 14:08:44 +0200
+Resent-Message-ID: <87h6t4w4dv.fsf@pond.sub.org>
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,  Het Gala <het.gala@nutanix.com>,  Eric Blake
+ <eblake@redhat.com>,  Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v3 2/3] qapi: improve specificity of type/member
+ descriptions
+References: <20230420102619.348173-1-berrange@redhat.com>
+ <20230420102619.348173-3-berrange@redhat.com>
+Date: Mon, 24 Apr 2023 13:38:21 +0200
+In-Reply-To: <20230420102619.348173-3-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 20 Apr 2023 11:26:18
+ +0100")
+Message-ID: <87a5yxa4sy.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Tue, 25 Apr 2023 13:36:15 +0200
-Message-ID: <87mt2wgpn4.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Lines: 80
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -93,47 +87,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Hi
+> When describing member types always include the context of the
+> containing type. Although this is often redundant, in some cases
+> it will help to reduce ambiguity.
 
-I got this warning/error when switching to F38:
+This is no longer true.  It was in v2.  Suggest:
 
-In file included from /mnt/code/qemu/full/include/block/aio.h:21,
-                 from ../../../../mnt/code/qemu/full/util/async.c:28:
-../../../../mnt/code/qemu/full/util/async.c: In function =E2=80=98aio_bh_po=
-ll=E2=80=99:
-/mnt/code/qemu/full/include/qemu/queue.h:303:22: error: storing the address=
- of local variable =E2=80=98slice=E2=80=99 in =E2=80=98*ctx.bh_slice_list.s=
-qh_last=E2=80=99 [-Werror=3Ddangling-pointer=3D]
-  303 |     (head)->sqh_last =3D &(elm)->field.sqe_next;                   =
-       \
-      |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-../../../../mnt/code/qemu/full/util/async.c:167:5: note: in expansion of ma=
-cro =E2=80=98QSIMPLEQ_INSERT_TAIL=E2=80=99
-  167 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
-      |     ^~~~~~~~~~~~~~~~~~~~
-../../../../mnt/code/qemu/full/util/async.c:161:17: note: =E2=80=98slice=E2=
-=80=99 declared here
-  161 |     BHListSlice slice;
-      |                 ^~~~~
-../../../../mnt/code/qemu/full/util/async.c:161:17: note: =E2=80=98ctx=E2=
-=80=99 declared here
-cc1: all warnings being treated as errors
+  Error messages describe object members, enumeration values, features,
+  and variants like ROLE 'NAME', where ROLE is "member", "value",
+  "feature", or "branch", respectively.  When the member is defined in
+  another type, e.g. inherited from a base type, we add "of type
+  'TYPE'".  Example: test case struct-base-clash-deep reports a member
+  of type 'Sub' clashing with a member of its base type 'Base' as
 
-compiler is right that slice is a local variable.
-on the other hand, I *think* that the list is fully consumed on that
-function, so this shouldn't be a problem.
+      struct-base-clash-deep.json: In struct 'Sub':
+      struct-base-clash-deep.json:10: member 'name' collides with member 'n=
+ame' of type 'Base'
 
-g_new() is a posibility.
-I can't think of an easy way to convince gcc that using a local varible
-there is correct.
+  Members of implicitly defined types need special treatment.  We don't
+  want to add "of type 'TYPE'" for them, because their named are made up
+  and mean nothing to the user.  Instead, we describe members of an
+  implicitly defined base type as "base member 'NAME'", and command and
+  event parameters as "parameter 'NAME'".  Example: test case
+  union-bad-base reports member of a variant's type clashing with a
+  member of its implicitly defined base type as
 
-How to go from here?  Any good ideas?
+      union-bad-base.json: In union 'TestUnion':
+      union-bad-base.json:8: member 'string' of type 'TestTypeA' collides w=
+ith base member 'string'
 
-Later, Juan.
+  The next commit will permit unions as variant types.  "base member
+  'NAME' would then be ambigious: is it the union's base, or is it the
+  union's variant's base?  One of its test cases would report a clash
+  between two such bases as "base member 'type' collides with base
+  member 'type'".  Confusing.
+
+  Refine the special treatment: add "of TYPE" even for implicitly
+  defined types, but massage TYPE and ROLE so they make sense for the
+  user.
+
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  scripts/qapi/schema.py | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 207e4d71f3..da04b97ded 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -697,6 +697,7 @@ def connect_doc(self, doc):
+>=20=20
+>      def describe(self, info):
+>          role =3D self.role
+> +        meta =3D 'type'
+>          defined_in =3D self.defined_in
+>          assert defined_in
+>=20=20
+> @@ -708,13 +709,17 @@ def describe(self, info):
+>                  # Implicit type created for a command's dict 'data'
+>                  assert role =3D=3D 'member'
+>                  role =3D 'parameter'
+> +                meta =3D 'command'
+> +                defined_in =3D defined_in[:-4]
+>              elif defined_in.endswith('-base'):
+>                  # Implicit type created for a union's dict 'base'
+>                  role =3D 'base ' + role
+> +                defined_in =3D defined_in[:-5]
+>              else:
+>                  assert False
+> -        elif defined_in !=3D info.defn_name:
+> -            return "%s '%s' of type '%s'" % (role, self.name, defined_in)
+> +
+> +        if defined_in !=3D info.defn_name:
+> +            return "%s '%s' of %s '%s'" % (role, self.name, meta, define=
+d_in)
+>          return "%s '%s'" % (role, self.name)
+
+Since I rewrote both the patch and the commit message, would you like me
+to take the blame and claim authorship?
 
 
