@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9A56ECED1
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463526ECE1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:29:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqwFo-0007nq-6f; Mon, 24 Apr 2023 09:29:16 -0400
+	id 1pqwFq-00080S-Iy; Mon, 24 Apr 2023 09:29:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pqwEq-0006bK-L9
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:28:17 -0400
+ id 1pqwFT-0007Hu-UD
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:28:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pqwEn-0001Qa-A5
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:28:16 -0400
+ id 1pqwEr-0001Ra-Gk
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 09:28:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682342892;
+ s=mimecast20190719; t=1682342896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q9ahs+q7FcUaSl0xPsWuyFe/zAiH38ZcWWKpoDRd9rA=;
- b=AQiFGaOStTje9Tk2raM4kZDXDy43z4yapc86EN7qdYhRjWTyCrpMrCQcbUMIoXmF080GZ2
- Xsr/Qte6YDpMPFR4Y4sPiGeMLlF9TqEJkX3O6LsFOlMqxW5RskQ7kNEoswPYgyEx5vOP27
- phXdySmMGbEpaNp8t9/8HNBfw6S7weA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AjnI25kObyXcedTJG6dsPt3p71ooGwxu6v2cnBiQmTs=;
+ b=VMmXggmuh/DSO8+hwH1+kVMp81V7SJ4ApvcweEn+hwLhEAIbH02JMUMyb0o6xqU6jH1eJu
+ jho9K975l9+qTCq2zbkXgXzNoDAO6NL5uekYsUEjKybfWmiTCfIV8Ux7YvMgI7i5yoIGqB
+ ydT0YnOSeUtDTrrjrlv2nFlzBo0M89U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-h4aK7-PsMxynvlsNYRLDAg-1; Mon, 24 Apr 2023 09:28:09 -0400
-X-MC-Unique: h4aK7-PsMxynvlsNYRLDAg-1
+ us-mta-540-YViARjAvNq6Dm6L7T8dCwg-1; Mon, 24 Apr 2023 09:28:12 -0400
+X-MC-Unique: YViARjAvNq6Dm6L7T8dCwg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D971C3815F69;
- Mon, 24 Apr 2023 13:28:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CA0F8A0F383;
+ Mon, 24 Apr 2023 13:28:11 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4291414171B8;
- Mon, 24 Apr 2023 13:28:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 273CE14171B8;
+ Mon, 24 Apr 2023 13:28:09 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Hailiang Zhang <zhanghailiang@xfusion.com>,
@@ -55,9 +55,9 @@ Cc: Hailiang Zhang <zhanghailiang@xfusion.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
  Juan Quintela <quintela@redhat.com>
-Subject: [PULL 11/30] migration: Move migrate_use_xbzrle() to options.c
-Date: Mon, 24 Apr 2023 15:27:11 +0200
-Message-Id: <20230424132730.70752-12-quintela@redhat.com>
+Subject: [PULL 12/30] migration: Move migrate_use_block() to options.c
+Date: Mon, 24 Apr 2023 15:27:12 +0200
+Message-Id: <20230424132730.70752-13-quintela@redhat.com>
 In-Reply-To: <20230424132730.70752-1-quintela@redhat.com>
 References: <20230424132730.70752-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -70,8 +70,7 @@ X-Spam_score: -2.3
 X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,141 +87,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Once that we are there, we rename the function to migrate_xbzrle()
+Once that we are there, we rename the function to migrate_block()
 to be consistent with all other capabilities.
-We change the type to return bool also for consistency.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
+ migration/block.c     |  2 +-
  migration/migration.c | 11 +----------
  migration/migration.h |  1 -
  migration/options.c   |  9 +++++++++
  migration/options.h   |  1 +
- migration/ram.c       | 10 +++++-----
- 5 files changed, 16 insertions(+), 16 deletions(-)
+ migration/savevm.c    |  2 +-
+ 6 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index fbb61819ca..abb820cdb9 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1122,7 +1122,7 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
-     info->ram->downtime_bytes = stat64_get(&ram_counters.downtime_bytes);
-     info->ram->postcopy_bytes = stat64_get(&ram_counters.postcopy_bytes);
+diff --git a/migration/block.c b/migration/block.c
+index 4b167fa5cf..f0977217cf 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -1001,7 +1001,7 @@ static int block_load(QEMUFile *f, void *opaque, int version_id)
  
--    if (migrate_use_xbzrle()) {
-+    if (migrate_xbzrle()) {
-         info->xbzrle_cache = g_malloc0(sizeof(*info->xbzrle_cache));
-         info->xbzrle_cache->cache_size = migrate_xbzrle_cache_size();
-         info->xbzrle_cache->bytes = xbzrle_counters.bytes;
-@@ -2604,15 +2604,6 @@ int migrate_use_tls(void)
-     return s->parameters.tls_creds && *s->parameters.tls_creds;
+ static bool block_is_active(void *opaque)
+ {
+-    return migrate_use_block();
++    return migrate_block();
  }
  
--int migrate_use_xbzrle(void)
+ static SaveVMHandlers savevm_block_handlers = {
+diff --git a/migration/migration.c b/migration/migration.c
+index abb820cdb9..1f8ba94fc4 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2415,7 +2415,7 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+             error_setg(errp, "No disk migration is required in COLO mode");
+             return false;
+         }
+-        if (migrate_use_block() || migrate_use_block_incremental()) {
++        if (migrate_block() || migrate_use_block_incremental()) {
+             error_setg(errp, "Command options are incompatible with "
+                        "current migration capabilities");
+             return false;
+@@ -2622,15 +2622,6 @@ static int64_t migrate_max_postcopy_bandwidth(void)
+     return s->parameters.max_postcopy_bandwidth;
+ }
+ 
+-bool migrate_use_block(void)
 -{
 -    MigrationState *s;
 -
 -    s = migrate_get_current();
 -
--    return s->capabilities[MIGRATION_CAPABILITY_XBZRLE];
+-    return s->capabilities[MIGRATION_CAPABILITY_BLOCK];
 -}
 -
- uint64_t migrate_xbzrle_cache_size(void)
+ bool migrate_use_return_path(void)
  {
      MigrationState *s;
 diff --git a/migration/migration.h b/migration/migration.h
-index c939f82d53..e2bb5b1e2f 100644
+index e2bb5b1e2f..d4b68b08a5 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -455,7 +455,6 @@ int migrate_multifd_zlib_level(void);
- int migrate_multifd_zstd_level(void);
- 
+@@ -457,7 +457,6 @@ int migrate_multifd_zstd_level(void);
  int migrate_use_tls(void);
--int migrate_use_xbzrle(void);
  uint64_t migrate_xbzrle_cache_size(void);
  
- bool migrate_use_block(void);
+-bool migrate_use_block(void);
+ bool migrate_use_block_incremental(void);
+ int migrate_max_cpu_throttle(void);
+ bool migrate_use_return_path(void);
 diff --git a/migration/options.c b/migration/options.c
-index f357c99996..25264c500e 100644
+index 25264c500e..fe1eadeed6 100644
 --- a/migration/options.c
 +++ b/migration/options.c
-@@ -147,6 +147,15 @@ bool migrate_validate_uuid(void)
-     return s->capabilities[MIGRATION_CAPABILITY_VALIDATE_UUID];
+@@ -33,6 +33,15 @@ bool migrate_background_snapshot(void)
+     return s->capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
  }
  
-+bool migrate_xbzrle(void)
++bool migrate_block(void)
 +{
 +    MigrationState *s;
 +
 +    s = migrate_get_current();
 +
-+    return s->capabilities[MIGRATION_CAPABILITY_XBZRLE];
++    return s->capabilities[MIGRATION_CAPABILITY_BLOCK];
 +}
 +
- bool migrate_zero_blocks(void)
+ bool migrate_colo(void)
  {
-     MigrationState *s;
+     MigrationState *s = migrate_get_current();
 diff --git a/migration/options.h b/migration/options.h
-index ad22f4d24a..8f76a88329 100644
+index 8f76a88329..e985a5233e 100644
 --- a/migration/options.h
 +++ b/migration/options.h
-@@ -31,6 +31,7 @@ bool migrate_postcopy_preempt(void);
- bool migrate_postcopy_ram(void);
- bool migrate_release_ram(void);
- bool migrate_validate_uuid(void);
-+bool migrate_xbzrle(void);
- bool migrate_zero_blocks(void);
- bool migrate_zero_copy_send(void);
+@@ -18,6 +18,7 @@
  
-diff --git a/migration/ram.c b/migration/ram.c
-index 859dd7b63f..4576d0d849 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -156,14 +156,14 @@ static struct {
- 
- static void XBZRLE_cache_lock(void)
- {
--    if (migrate_use_xbzrle()) {
-+    if (migrate_xbzrle()) {
-         qemu_mutex_lock(&XBZRLE.lock);
-     }
- }
- 
- static void XBZRLE_cache_unlock(void)
- {
--    if (migrate_use_xbzrle()) {
-+    if (migrate_xbzrle()) {
-         qemu_mutex_unlock(&XBZRLE.lock);
-     }
- }
-@@ -1137,7 +1137,7 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
-         return;
+ bool migrate_auto_converge(void);
+ bool migrate_background_snapshot(void);
++bool migrate_block(void);
+ bool migrate_colo(void);
+ bool migrate_compress(void);
+ bool migrate_dirty_bitmaps(void);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index ebcf571e37..9671211339 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1612,7 +1612,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **errp)
+         return -EINVAL;
      }
  
--    if (migrate_use_xbzrle()) {
-+    if (migrate_xbzrle()) {
-         double encoded_size, unencoded_size;
- 
-         xbzrle_counters.cache_miss_rate = (double)(xbzrle_counters.cache_miss -
-@@ -1626,7 +1626,7 @@ static int find_dirty_block(RAMState *rs, PageSearchStatus *pss)
-             /* Flag that we've looped */
-             pss->complete_round = true;
-             /* After the first round, enable XBZRLE. */
--            if (migrate_use_xbzrle()) {
-+            if (migrate_xbzrle()) {
-                 rs->xbzrle_enabled = true;
-             }
-         }
-@@ -2979,7 +2979,7 @@ static int xbzrle_init(void)
- {
-     Error *local_err = NULL;
- 
--    if (!migrate_use_xbzrle()) {
-+    if (!migrate_xbzrle()) {
-         return 0;
+-    if (migrate_use_block()) {
++    if (migrate_block()) {
+         error_setg(errp, "Block migration and snapshots are incompatible");
+         return -EINVAL;
      }
- 
 -- 
 2.39.2
 
