@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D206ECB4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:26:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A396ECB51
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:30:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pquKJ-0005jX-1Q; Mon, 24 Apr 2023 07:25:47 -0400
+	id 1pquNl-0006kJ-Nj; Mon, 24 Apr 2023 07:29:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pquKF-0005jF-2R
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:25:43 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pquKC-0005tm-8B
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:25:42 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8DxZPAvZ0ZklQUAAA--.71S3;
- Mon, 24 Apr 2023 19:25:35 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxkrQtZ0ZkVrI4AA--.11047S3; 
- Mon, 24 Apr 2023 19:25:33 +0800 (CST)
-Subject: Re: [RFC PATCH v3 14/44] target/loongarch: Implement
- vmul/vmuh/vmulw{ev/od}
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230420080709.3352575-1-gaosong@loongson.cn>
- <20230420080709.3352575-15-gaosong@loongson.cn>
- <691b8b09-6bc5-82db-f4c3-103fd98c406a@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <14bbe700-0611-f2ed-556a-9aa4a12d318b@loongson.cn>
-Date: Mon, 24 Apr 2023 19:25:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <quic_jiles@quicinc.com>)
+ id 1pquNj-0006jy-6Y
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:29:19 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quic_jiles@quicinc.com>)
+ id 1pquNh-0006WD-0k
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:29:18 -0400
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33O7U65Z012830; Mon, 24 Apr 2023 11:29:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=Ov+BWbQ0T7QfaqQWC9kMFVUSHYtsfdhn2vOpirpqt3k=;
+ b=a3eTVGM9VJ8jMUaw4mdoUdlZ/PL/OSyisU5pMdlk8N9qmMZTi+uaAO/4fgT+nZM2mque
+ nTrPbsLvvL08azApqTvDbuLQKnE8Q2sTYoSM+7MMno8Fjoxms2filbLz78veCyP7snqo
+ yMlC3Y13ZDg8KFL3VwF9+Ds0hlZ/z5a/3Bfke1+F3mAGi0QusGJDacHiz5yRY0IOC49n
+ tEsXtcewUo3U5MGHtcQPwL7hg8w0ueeQgLWIvTQSw+vWRRlyqjSMts+zXiOr6z3cEVzu
+ j1T+GnwP5iLomZaH8Y6NbSEx0P1J5Oe6gWem1SaLnDzxbfaxU+Be03GlNn/jXdeHmbJM YA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q5ndprfaa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Apr 2023 11:29:11 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33OBTAcd001040
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Apr 2023 11:29:10 GMT
+Received: from localhost (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 24 Apr
+ 2023 04:29:09 -0700
+From: Jamie Iles <quic_jiles@quicinc.com>
+To: <qemu-devel@nongnu.org>
+CC: <richard.henderson@linaro.org>, <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2] accel/tcg/tcg-accel-ops-rr: ensure fairness with icount
+Date: Mon, 24 Apr 2023 12:29:07 +0100
+Message-ID: <20230424112907.26832-1-quic_jiles@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <691b8b09-6bc5-82db-f4c3-103fd98c406a@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxkrQtZ0ZkVrI4AA--.11047S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxAF4fAw1UKrWkKF4fXFyxKrg_yoW5Gw15pF
- 1kKrWjqFyrJrn5Jr17Jrs8AFy5uw1UCw1jvr10vFW3JF4UAw10qF15urn0grs0yws5Xw45
- A34DWr9rZw18Ga7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUwmhFDUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.194,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ZU33BYbs03xblh37A_5S14PJ0iuK1ac0
+X-Proofpoint-ORIG-GUID: ZU33BYbs03xblh37A_5S14PJ0iuK1ac0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-24_07,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ adultscore=0 phishscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0 clxscore=1011 priorityscore=1501 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304240104
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=quic_jiles@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,72 +98,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The round-robin scheduler will iterate over the CPU list with an
+assigned budget until the next timer expiry and may exit early because
+of a TB exit.  This is fine under normal operation but with icount
+enabled and SMP it is possible for a CPU to be starved of run time and
+the system live-locks.
 
-在 2023/4/24 下午3:15, Richard Henderson 写道:
-> On 4/20/23 09:06, Song Gao wrote:
->> @@ -972,6 +972,33 @@ void tcg_gen_mulsu2_i32(TCGv_i32 rl, TCGv_i32 
->> rh, TCGv_i32 arg1, TCGv_i32 arg2)
->>       }
->>   }
->>   +void tcg_gen_mulus2_i32(TCGv_i32 rl, TCGv_i32 rh, TCGv_i32 arg1, 
->> TCGv_i32 arg2)
->> +{
->> +    if (TCG_TARGET_REG_BITS == 32) {
->> +        TCGv_i32 t0 = tcg_temp_ebb_new_i32();
->> +        TCGv_i32 t1 = tcg_temp_ebb_new_i32();
->> +        TCGv_i32 t2 = tcg_temp_ebb_new_i32();
->> +        tcg_gen_mulu2_i32(t0, t1, arg1, arg2);
->> +        /* Adjust for negative input for the signed arg2.  */
->> +        tcg_gen_sari_i32(t2, arg2, 31);
->> +        tcg_gen_and_i32(t2, t2, arg1);
->> +        tcg_gen_sub_i32(rh, t1, t2);
->> +        tcg_gen_mov_i32(rl, t0);
->> +        tcg_temp_free_i32(t0);
->> +        tcg_temp_free_i32(t1);
->> +        tcg_temp_free_i32(t2);
->> +    } else {
->> +        TCGv_i64 t0 = tcg_temp_ebb_new_i64();
->> +        TCGv_i64 t1 = tcg_temp_ebb_new_i64();
->> +        tcg_gen_extu_i32_i64(t0, arg1);
->> +        tcg_gen_ext_i32_i64(t1, arg2);
->> +        tcg_gen_mul_i64(t0, t0, t1);
->> +        tcg_gen_extr_i64_i32(rl, rh, t0);
->> +        tcg_temp_free_i64(t0);
->> +        tcg_temp_free_i64(t1);
->> +    }
->> +}
->> +
->>   void tcg_gen_ext8s_i32(TCGv_i32 ret, TCGv_i32 arg)
->>   {
->>       if (TCG_TARGET_HAS_ext8s_i32) {
->> @@ -2634,6 +2661,22 @@ void tcg_gen_mulsu2_i64(TCGv_i64 rl, TCGv_i64 
->> rh, TCGv_i64 arg1, TCGv_i64 arg2)
->>       tcg_temp_free_i64(t2);
->>   }
->>   +void tcg_gen_mulus2_i64(TCGv_i64 rl, TCGv_i64 rh, TCGv_i64 arg1, 
->> TCGv_i64 arg2)
->> +{
->> +    TCGv_i64 t0 = tcg_temp_ebb_new_i64();
->> +    TCGv_i64 t1 = tcg_temp_ebb_new_i64();
->> +    TCGv_i64 t2 = tcg_temp_ebb_new_i64();
->> +    tcg_gen_mulu2_i64(t0, t1, arg1, arg2);
->> +    /* Adjust for negative input for the signed arg2.  */
->> +    tcg_gen_sari_i64(t2, arg2, 63);
->> +    tcg_gen_and_i64(t2, t2, arg1);
->> +    tcg_gen_sub_i64(rh, t1, t2);
->> +    tcg_gen_mov_i64(rl, t0);
->> +    tcg_temp_free_i64(t0);
->> +    tcg_temp_free_i64(t1);
->> +    tcg_temp_free_i64(t2);
->> +}
->
-> You don't need these.
-> Just reverse the operands to the existing tcg_gen_mulsu2_*.
->
->
-Ok, I'm just trying to unify  "u * s " to the macros VMUL_Q and VMADD_Q.
+For example, booting a riscv64 platform with '-icount
+shift=0,align=off,sleep=on -smp 2' we observe a livelock once the kernel
+has timers enabled and starts performing TLB shootdowns.  In this case
+we have CPU 0 in M-mode with interrupts disabled sending an IPI to CPU
+1.  As we enter the TCG loop, we assign the icount budget to next timer
+interrupt to CPU 0 and begin executing where the guest is sat in a busy
+loop exhausting all of the budget before we try to execute CPU 1 which
+is the target of the IPI but CPU 1 is left with no budget with which to
+execute and the process repeats.
 
-Thanks.
-Song Gao
+We try here to add some fairness by splitting the budget across all of
+the CPUs on the thread fairly before entering each one.  The CPU count
+is cached on CPU list generation ID to avoid iterating the list on each
+loop iteration.  With this change it is possible to boot an SMP rv64
+guest with icount enabled and no hangs.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Jamie Iles <quic_jiles@quicinc.com>
+---
+
+Changes in v2:
+ - Rename icount_cpu_timeslice to icount_percpu_budget
+ - Add a clarifying comment about caching to rr_cpu_count()
+
+ accel/tcg/tcg-accel-ops-icount.c | 17 ++++++++++++++--
+ accel/tcg/tcg-accel-ops-icount.h |  3 ++-
+ accel/tcg/tcg-accel-ops-rr.c     | 34 +++++++++++++++++++++++++++++++-
+ 3 files changed, 50 insertions(+), 4 deletions(-)
+
+diff --git a/accel/tcg/tcg-accel-ops-icount.c b/accel/tcg/tcg-accel-ops-icount.c
+index 84cc7421be88..e1e8afaf2f99 100644
+--- a/accel/tcg/tcg-accel-ops-icount.c
++++ b/accel/tcg/tcg-accel-ops-icount.c
+@@ -89,7 +89,20 @@ void icount_handle_deadline(void)
+     }
+ }
+ 
+-void icount_prepare_for_run(CPUState *cpu)
++/* Distribute the budget evenly across all CPUs */
++int64_t icount_percpu_budget(int cpu_count)
++{
++    int64_t limit = icount_get_limit();
++    int64_t timeslice = limit / cpu_count;
++
++    if (timeslice == 0) {
++        timeslice = limit;
++    }
++
++    return timeslice;
++}
++
++void icount_prepare_for_run(CPUState *cpu, int64_t cpu_budget)
+ {
+     int insns_left;
+ 
+@@ -101,7 +114,7 @@ void icount_prepare_for_run(CPUState *cpu)
+     g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
+     g_assert(cpu->icount_extra == 0);
+ 
+-    cpu->icount_budget = icount_get_limit();
++    cpu->icount_budget = MIN(icount_get_limit(), cpu_budget);
+     insns_left = MIN(0xffff, cpu->icount_budget);
+     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+     cpu->icount_extra = cpu->icount_budget - insns_left;
+diff --git a/accel/tcg/tcg-accel-ops-icount.h b/accel/tcg/tcg-accel-ops-icount.h
+index 1b6fd9c60751..16a301b6dc0b 100644
+--- a/accel/tcg/tcg-accel-ops-icount.h
++++ b/accel/tcg/tcg-accel-ops-icount.h
+@@ -11,7 +11,8 @@
+ #define TCG_ACCEL_OPS_ICOUNT_H
+ 
+ void icount_handle_deadline(void);
+-void icount_prepare_for_run(CPUState *cpu);
++void icount_prepare_for_run(CPUState *cpu, int64_t cpu_budget);
++int64_t icount_percpu_budget(int cpu_count);
+ void icount_process_data(CPUState *cpu);
+ 
+ void icount_handle_interrupt(CPUState *cpu, int mask);
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index 290833a37fb2..7114210173df 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -139,6 +139,33 @@ static void rr_force_rcu(Notifier *notify, void *data)
+     rr_kick_next_cpu();
+ }
+ 
++/*
++ * Calculate the number of CPUs that we will process in a single iteration of
++ * the main CPU thread loop so that we can fairly distribute the instruction
++ * count across CPUs.
++ *
++ * The CPU count is cached based on the CPU list generation ID to avoid
++ * iterating the list every time.
++ */
++static int rr_cpu_count(void)
++{
++    static unsigned int last_gen_id = ~0;
++    static int cpu_count;
++    CPUState *cpu;
++
++    cpu_list_lock();
++    if (cpu_list_generation_id_get() != last_gen_id) {
++        cpu_count = 0;
++        CPU_FOREACH(cpu) {
++            ++cpu_count;
++        }
++        last_gen_id = cpu_list_generation_id_get();
++    }
++    cpu_list_unlock();
++
++    return cpu_count;
++}
++
+ /*
+  * In the single-threaded case each vCPU is simulated in turn. If
+  * there is more than a single vCPU we create a simple timer to kick
+@@ -185,6 +212,9 @@ static void *rr_cpu_thread_fn(void *arg)
+     cpu->exit_request = 1;
+ 
+     while (1) {
++        int cpu_count = rr_cpu_count();
++        int64_t cpu_budget = INT64_MAX;
++
+         qemu_mutex_unlock_iothread();
+         replay_mutex_lock();
+         qemu_mutex_lock_iothread();
+@@ -197,6 +227,8 @@ static void *rr_cpu_thread_fn(void *arg)
+              * waking up the I/O thread and waiting for completion.
+              */
+             icount_handle_deadline();
++
++            cpu_budget = icount_percpu_budget(cpu_count);
+         }
+ 
+         replay_mutex_unlock();
+@@ -218,7 +250,7 @@ static void *rr_cpu_thread_fn(void *arg)
+ 
+                 qemu_mutex_unlock_iothread();
+                 if (icount_enabled()) {
+-                    icount_prepare_for_run(cpu);
++                    icount_prepare_for_run(cpu, cpu_budget);
+                 }
+                 r = tcg_cpus_exec(cpu);
+                 if (icount_enabled()) {
+-- 
+2.25.1
 
 
