@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C486ED12B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A786ED153
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 17:29:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqxyS-000369-Kq; Mon, 24 Apr 2023 11:19:28 -0400
+	id 1pqy7X-0007rn-Ml; Mon, 24 Apr 2023 11:28:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pqxyQ-00035Y-NK
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:19:26 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pqy7L-0007M4-Gk
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:28:40 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pqxyO-000556-1K
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:19:26 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3f178da21b5so30804735e9.3
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 08:19:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pqy7J-00072o-3U
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 11:28:38 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f1957e80a2so82902515e9.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 08:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682349562; x=1684941562;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0ew3Q4Te16gnuQZBIdWPX9nVhsTHp7a/L7LDD7lrC64=;
- b=XGBdXVAulx1pnsRt5YwIemP4xWGq8Vom4cLsvUMiC4YbLYQlokP8XjWsbeLwpxntru
- P4DSkkUZJo6aMPtAM9J8mWk4uM1KvOqtkduiU+xuthhFyxm5yv51vNWVE0t/yF78NJUe
- NUVpZ9ZvYaMf2r5D6ux1uBiDTSiR0hLbnozOOQBkXOort8zG2gRRpoYtoGCILKdxBLfb
- XPAlnpPyPgiH1EBGB4dijaFimDYBz/0+AJHZTh0kmT8310aGjyzjv8HRMg17j3C7YlUZ
- ho5qD3oFYKknYlW9pFGFGpx9XP4HKERuKAiAVtVBuQO5k3I+1qExR8gS4EHYQclrNme9
- 5FFw==
+ d=linaro.org; s=google; t=1682350110; x=1684942110;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zg2y8bRDWMoVXOWYzxb+HDrO1PvP860APqmju3jmv0Y=;
+ b=OfngBHQD7MTTFgAmTrW8kYt/+dI84DNcMtIxSj8uH1p072nuajfKriCEGpasfiXDkH
+ YeYv5qh1FHLhWc9tc5YzIoYgEzg0ZCdvp6kh2nszrFkkax7pajTuQEjexeNk3ck3MdJT
+ 3aJDjL66XT8HYo4PH7xmF1rrLwl2/Tk3iilETTLbN3jmV2lc/79HBJSXxIYH2IfUN8Pz
+ wk96M8llqbVh47F9F4VvWUUdpUz5F6wKOIuhz3CeZNebVPwlCpv6ltZPaewUGvNB//N6
+ tX6PrqgbKF0/OUNhYLEipwvmKSxH5IrzChmPtQK8rGAPEYKZl/SDWVY8lnanOTD5mKIO
+ Cb9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682349562; x=1684941562;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0ew3Q4Te16gnuQZBIdWPX9nVhsTHp7a/L7LDD7lrC64=;
- b=T2cVP5BIx+lm72uKqKM3Y6nBlUSrxvCxym0hvChs9SCEAo/OdVOD+weaHMwrk++wPS
- YnqfU4AmdZ/BLoEpdEKtoWRDLCWxJS4tkp5kKmpMi/XYoLiDlBfIjzwysRMhMA6vSN37
- HlD86lIuQTw/9fy36kI+WCJxqS0JjcNwzgqdTNlFbAx4JUMpMqC0v2tv31RMCDOH+1NL
- v1i3HhX+H5ct01NwvueUonZJ6uYFz3Y4aJPMTNRaiwshtQGV6LJF5K053+2PRKfTbzKa
- HYx5c5g+iZYVflArLbs6SUew6D59QkTMDr/YB6EMCr5ql08Qlmb5x1EtjffLnnu/u1XQ
- Sh9A==
-X-Gm-Message-State: AAQBX9fxlDBBxi8aFhp6DBSia3PK+4JypIvtRW18iYwVG3ZO13kB+PsL
- Q3Ld/LBQX1xbVZh54XVJVqcU2A==
-X-Google-Smtp-Source: AKy350bicqVT/66vlx7lfxsYaQHiUTYju7s7vSriBwSWk690ZkDC6aUWEGM5aQH4k+ppGdrrD1mksg==
-X-Received: by 2002:a05:600c:b49:b0:3f1:72db:4554 with SMTP id
- k9-20020a05600c0b4900b003f172db4554mr7908798wmr.1.1682349562055; 
- Mon, 24 Apr 2023 08:19:22 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- c16-20020a05600c0ad000b003f198dfbbfcsm6740939wmr.19.2023.04.24.08.19.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Apr 2023 08:19:21 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>
-Subject: [PATCH] hw/net/msf2-emac: Don't modify descriptor in-place in
- emac_store_desc()
-Date: Mon, 24 Apr 2023 16:19:19 +0100
-Message-Id: <20230424151919.1333299-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20221208; t=1682350110; x=1684942110;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zg2y8bRDWMoVXOWYzxb+HDrO1PvP860APqmju3jmv0Y=;
+ b=ifAk0/53IWPtFjvIuPG/DjseDWHolSm7Hv12iWc2UgpEyOojajhFX+QOjwJaq19tca
+ HmHYrZW7ITMNQ7ny5uv1B2G8bJV2mC5W03zALaS5Pr+htU5dehM4JrkxOwtFJNy3pGhH
+ peyzbvSqxaDyDqSDjd9PW2uJUhNHzGA03r4YsxrpCD7uj2m0P91zP8/Qck0UpBqjP3+t
+ hfOOza8Dn/NTZOvkwYKOJl4NgLzpF7ptyWuNBuF3WJjsTKu//qZ1rRyXujUg+GX/Q+QW
+ Afs7xai5ALuufNv195DmO5tM36ZrilNUJ2jM9Z8Q093ENy2iGP9O1XXwciFyHk8BGTzt
+ lLQw==
+X-Gm-Message-State: AAQBX9dV2HlV6YoAEJtGXM4+fZYbKfnwmGfG50rD3+u2uHFXCThCgLub
+ sIlH5gf/RZ3UN6m8TFg5XOncPPcCKspE/AOmTK1YAQ==
+X-Google-Smtp-Source: AKy350YwWqjXaZh8db1MXqXZKalt84ZJpTd7wVmWhT9fxsIuLD2MvDFIpLTV7Io7xnx0GSC0ZTOxwg==
+X-Received: by 2002:adf:ee91:0:b0:2f0:2e16:7e0c with SMTP id
+ b17-20020adfee91000000b002f02e167e0cmr13826975wro.26.1682350110466; 
+ Mon, 24 Apr 2023 08:28:30 -0700 (PDT)
+Received: from [192.168.2.175] (230.red-88-28-30.dynamicip.rima-tde.net.
+ [88.28.30.230]) by smtp.gmail.com with ESMTPSA id
+ o10-20020a1c750a000000b003f191c9c4b0sm9382506wmc.11.2023.04.24.08.28.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Apr 2023 08:28:29 -0700 (PDT)
+Message-ID: <2d1655e9-e77a-a09e-056a-5ea5e3cadf5a@linaro.org>
+Date: Mon, 24 Apr 2023 17:19:49 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH 7/8] cpu: Replace target_ulong with vaddr in
+ tb_invalidate_phys_addr()
+Content-Language: en-US
+To: anjo@rev.ng, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, wangyanan55@huawei.com, qemu-devel@nongnu.org
+References: <20230420212850.20400-1-anjo@rev.ng>
+ <20230420212850.20400-8-anjo@rev.ng>
+ <19f888bd-f0f4-2307-90c1-744f16ca77c2@linaro.org>
+ <fe84e730-88e6-3b68-1929-758868757c68@linaro.org>
+ <2c803abc-0f24-ecc6-fc14-56e674994829@linaro.org> <87jzy2e6i2.fsf@linaro.org>
+ <97043d98-60f1-8820-8ae6-998b44e41528@linaro.org>
+ <e9768a73-7055-bbca-3642-dbfc0c43075a@rev.ng>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <e9768a73-7055-bbca-3642-dbfc0c43075a@rev.ng>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,64 +101,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The msf2-emac ethernet controller has functions emac_load_desc() and
-emac_store_desc() which read and write the in-memory descriptor
-blocks and handle conversion between guest and host endianness.
+On 24/4/23 14:52, Anton Johansson wrote:
+> 
+> On 4/23/23 21:42, Richard Henderson wrote:
+>> On 4/23/23 20:35, Alex Bennée wrote:
+>>>
+>>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>>
+>>>> On 4/23/23 18:29, Philippe Mathieu-Daudé wrote:
+>>>>> On 23/4/23 11:14, Richard Henderson wrote:
+>>>>>> On 4/20/23 22:28, Anton Johansson wrote:
+>>>>>>> -void tb_invalidate_phys_addr(target_ulong addr)
+>>>>>>> +void tb_invalidate_phys_addr(vaddr addr)
+>>>>>>
+>>>>>> Hmm.  This isn't a virtual address, so 'vaddr' isn't right.
+>>>>>> I'm sure we have something more appropriate.
+>>>>> tb_page_addr_t?
+>>>>
+>>>> No, it isn't a ram_addr_t either (see exec-all.h).
+>>>> Perhaps just uint64_t.
+>>>
+>>> Surely hwaddr?
 
-As currently written, emac_store_desc() does the endianness
-conversion in-place; this means that it effectively consumes the
-input EmacDesc struct, because on a big-endian host the fields will
-be overwritten with the little-endian versions of their values.
-Unfortunately, in all the callsites the code continues to access
-fields in the EmacDesc struct after it has called emac_store_desc()
--- specifically, it looks at the d.next field.
+But hwaddr is only defined on system emulation...
 
-The effect of this is that on a big-endian host networking doesn't
-work because the address of the next descriptor is corrupted.
-
-We could fix this by making the callsite avoid using the struct; but
-it's more robust to have emac_store_desc() leave its input alone.
-
-(emac_load_desc() also does an in-place conversion, but here this is
-fine, because the function is supposed to be initializing the
-struct.)
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-This is one of a number of issues that prevent 'make check-avocado'
-working for arm targets on a big-endian host...
-
- hw/net/msf2-emac.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/hw/net/msf2-emac.c b/hw/net/msf2-emac.c
-index 7ccd3e51427..34c1f768db0 100644
---- a/hw/net/msf2-emac.c
-+++ b/hw/net/msf2-emac.c
-@@ -120,12 +120,16 @@ static void emac_load_desc(MSF2EmacState *s, EmacDesc *d, hwaddr desc)
- 
- static void emac_store_desc(MSF2EmacState *s, EmacDesc *d, hwaddr desc)
- {
--    /* Convert from host endianness into LE. */
--    d->pktaddr = cpu_to_le32(d->pktaddr);
--    d->pktsize = cpu_to_le32(d->pktsize);
--    d->next = cpu_to_le32(d->next);
-+    EmacDesc outd;
-+    /*
-+     * Convert from host endianness into LE. We use a local struct because
-+     * calling code may still want to look at the fields afterwards.
-+     */
-+    outd.pktaddr = cpu_to_le32(d->pktaddr);
-+    outd.pktsize = cpu_to_le32(d->pktsize);
-+    outd.next = cpu_to_le32(d->next);
- 
--    address_space_write(&s->dma_as, desc, MEMTXATTRS_UNSPECIFIED, d, sizeof *d);
-+    address_space_write(&s->dma_as, desc, MEMTXATTRS_UNSPECIFIED, &outd, sizeof outd);
- }
- 
- static void msf2_dma_tx(MSF2EmacState *s)
--- 
-2.34.1
+>>
+>> Duh.  Thanks,
+> 
+> Thanks guys, and hwaddr it shall be!
+> 
 
 
