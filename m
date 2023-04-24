@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A426ECB1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8307B6ECB39
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 13:23:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqu9N-0005u4-6g; Mon, 24 Apr 2023 07:14:29 -0400
+	id 1pquGw-0000rC-G3; Mon, 24 Apr 2023 07:22:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pqu9K-0005lX-KS
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:14:26 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pqu9H-0002Za-K5
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:14:25 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8DxyOmCZEZkKAUAAA--.57S3;
- Mon, 24 Apr 2023 19:14:11 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxirKCZEZkKLA4AA--.11109S3; 
- Mon, 24 Apr 2023 19:14:10 +0800 (CST)
-Subject: Re: [RFC PATCH v3 01/44] target/loongarch: Add LSX data type VReg
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230420080709.3352575-1-gaosong@loongson.cn>
- <20230420080709.3352575-2-gaosong@loongson.cn>
- <a2d5ca6c-8480-4c0b-7404-611d8f238ca9@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <516e64a9-d0ab-6335-4d1e-2cc6abdf250c@loongson.cn>
-Date: Mon, 24 Apr 2023 19:14:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pquGp-0000ox-5a
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:22:15 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pquGi-00056F-Sz
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 07:22:10 -0400
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-4ec816d64afso18432182e87.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 04:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682335317; x=1684927317;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hjv2ghBE76zbj8HVMab4fk/OqfGI6I9Ivr921PCqQDY=;
+ b=lFT1js+seoNPclOF0gG/3BkgJWeAucwxpd0KNvj+sAZ5TmHnDyGroSSfJp20eDoccs
+ stJrUDfYMNnr6lZ1DYQNq5RzRP9M/u/4p4gCOtaK9zSNX8M8IYs1/xouqbc7Bz5T70FO
+ vLhSHFVz9NnuN2qoKuTXjYWH5OokRjBuUtnP7aIJ3YZRgjmoXxkauEEtXHtiQZ1MLMzy
+ jEKdYl1j3vCztGXyHvvurPJl7OIInrSnp77M2VCGhKNi6fpGNzD/uIPjYhJNQcXBNymC
+ WwD3426GUCWL4PoKkIBFtAV/uaaioWkxxMwQki0fEmP7UcnctJ+woMxG1ZPBUTKvBdgn
+ 24BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682335317; x=1684927317;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Hjv2ghBE76zbj8HVMab4fk/OqfGI6I9Ivr921PCqQDY=;
+ b=lkhTCoedbm8lJdH8CHuZxqTQ8jUbynZ+5l7v/U71oeX5L9KjU0Jepc9qsMVG7Z3DlU
+ 6PnsdlfeY0Hfpde1AR6GXtK96lQ7abqyupNVB5Zych45P4MZed6QF2osX/nCUpsVeMJK
+ yuqrn0Vzy2H1Pwgo/7TDlPLlvu3p60oLL1S1ifzeOq8OiIyEAh2VIDfpiFX9U0J5AEtf
+ WNgSyOzLeogslWpeVTzOzpPYTj9GHP9cjIYHRth7d0xuOHQ+qPn5UjudoUwnHdSNqPh3
+ ovqX6XUiwL6Z4PuvjNDmB/XEyb1MamJbB7I6urWm0i6mc1n4iciiSQfI4rIJUaj/PDn/
+ Nw7g==
+X-Gm-Message-State: AAQBX9cr9u3XXEFF05vUBWmQio32QmCTHhbgV4JUlkxBX4EsLwWafMZC
+ tyTqh5xnHswsBzGDE1s2BAJrHw==
+X-Google-Smtp-Source: AKy350bqeFEPuGT1oW8HVlVOxWc8AmHxX9Mc5sqnOO2CpKpIkm3dOaO8gIOxerLwNnZsABC0cAmesw==
+X-Received: by 2002:a05:6512:1081:b0:4ec:9d13:9d09 with SMTP id
+ j1-20020a056512108100b004ec9d139d09mr4666643lfg.34.1682335317424; 
+ Mon, 24 Apr 2023 04:21:57 -0700 (PDT)
+Received: from localhost.localdomain ([80.250.80.22])
+ by smtp.gmail.com with ESMTPSA id
+ j1-20020a19f501000000b004eff0bcb276sm415542lfb.7.2023.04.24.04.21.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Apr 2023 04:21:56 -0700 (PDT)
+From: Viktor Prutyanov <viktor@daynix.com>
+To: mst@redhat.com, jasowang@redhat.com, marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com, peterx@redhat.com, david@redhat.com
+Cc: philmd@linaro.org, qemu-devel@nongnu.org, yan@daynix.com,
+ yuri.benditovich@daynix.com, Viktor Prutyanov <viktor@daynix.com>
+Subject: [RFC PATCH 0/4] vhost: register and change IOMMU flag depending on
+ ATS state
+Date: Mon, 24 Apr 2023 14:21:43 +0300
+Message-Id: <20230424112147.17083-1-viktor@daynix.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <a2d5ca6c-8480-4c0b-7404-611d8f238ca9@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8AxirKCZEZkKLA4AA--.11109S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Ary3AFyDKF1xCw4ftw4DXFb_yoW5JrWDpF
- 1kAFyUCryUGrZ5Jw4UGry5WFWDGr1UG3WDAr18WF18KF4DJrn0grWvqr9Ygr1rAw48Jr12
- vr4UZr9rZr47JrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.143,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::134;
+ envelope-from=viktor@daynix.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,77 +88,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+When IOMMU and vhost are enabled together, QEMU tracks IOTLB or
+Device-TLB unmap events depending on whether Device-TLB is enabled. But
+even if Device-TLB and PCI ATS is enabled, the guest can reject to use
+it. For example, this situation appears when Windows Server 2022 is
+running with intel-iommu with device-iotlb=on and virtio-net-pci with
+vhost=on. The guest implies that no address translation info cached in
+device IOTLB and doesn't send device IOTLB invalidation commands. So,
+it leads to irrelevant address translations in vhost-net in the host
+kernel. Therefore network frames from the guest in host tap interface
+contains wrong payload data.
 
-在 2023/4/24 上午3:41, Richard Henderson 写道:
-> On 4/20/23 09:06, Song Gao wrote:
->> diff --git a/target/loongarch/machine.c b/target/loongarch/machine.c
->> index b1e523ea72..a67b735a32 100644
->> --- a/target/loongarch/machine.c
->> +++ b/target/loongarch/machine.c
->> @@ -10,6 +10,112 @@
->>   #include "migration/cpu.h"
->>   #include "internals.h"
->>   +/* FPU state */
->> +static int get_fpr(QEMUFile *f, void *pv, size_t size,
->> +                   const VMStateField *field)
->> +{
->> +    fpr_t *v = pv;
->> +
->> +    qemu_get_sbe64s(f, &v->vreg.D(0));
->> +    return 0;
->> +}
->> +
->> +static int put_fpr(QEMUFile *f, void *pv, size_t size,
->> +                   const VMStateField *field, JSONWriter *vmdesc)
->> +{
->> +    fpr_t *v = pv;
->> +
->> +    qemu_put_sbe64s(f, &v->vreg.D(0));
->> +    return 0;
->> +}
->> +
->> +static const VMStateInfo vmstate_info_fpr = {
->> +    .name = "fpr",
->> +    .get  = get_fpr,
->> +    .put  = put_fpr,
->> +};
->
-> These functions are old style.
-> Compare target/i386/machine.c, vmstate_xmm_reg.
->
-> I notice you're migrating the same data twice, between fpu and lsx.
-> Compare target/i386/machine.c, vmstate_ymmh_reg, for migrating only 
-> the upper half with lsx. 
-Got it .
-> I assume lsx without fpu is not a valid cpu configuration?
->
-Yes.
->>   const VMStateDescription vmstate_loongarch_cpu = {
->>       .name = "cpu",
->>       .version_id = 0,
->>       .minimum_version_id = 0,
->>       .fields = (VMStateField[]) {
->> -
->>           VMSTATE_UINTTL_ARRAY(env.gpr, LoongArchCPU, 32),
->>           VMSTATE_UINTTL(env.pc, LoongArchCPU),
->> -        VMSTATE_UINT64_ARRAY(env.fpr, LoongArchCPU, 32),
->> -        VMSTATE_UINT32(env.fcsr0, LoongArchCPU),
->> -        VMSTATE_BOOL_ARRAY(env.cf, LoongArchCPU, 8),
->>             /* Remaining CSRs */
->>           VMSTATE_UINT64(env.CSR_CRMD, LoongArchCPU),
->> @@ -99,4 +200,8 @@ const VMStateDescription vmstate_loongarch_cpu = {
->>             VMSTATE_END_OF_LIST()
->>       },
->> +    .subsections = (const VMStateDescription*[]) {
->> +        &vmstate_fpu,
->> +        &vmstate_lsx,
->> +    }
->
-> Need to increment version_id and minimum_version_id.
->
-OK.
+This series adds checking of ATS state for proper unmap flag register
+(IOMMU_NOTIFIER_UNMAP or IOMMU_NOTIFIER_DEVIOTLB_UNMAP).
 
-Thanks.
-Song Gao
+Tested on Windows Server 2022, Windows 11 and Fedora guests with
+ -device virtio-net-pci,bus=pci.3,netdev=nd0,iommu_platform=on,ats=on
+ -netdev tap,id=nd0,ifname=tap1,script=no,downscript=no,vhost=on
+ -device intel-iommu,intremap=on,eim=on,device-iotlb=on/off
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001312
+
+Viktor Prutyanov (4):
+  pci: add handling of Enable bit in ATS Control Register
+  virtio-pci: add handling of ATS state change
+  memory: add interface for triggering IOMMU notify_flag_changed handler
+  vhost: register and change IOMMU flag depending on ATS state
+
+ hw/pci/pci.c                |  1 +
+ hw/pci/pcie.c               | 21 +++++++++++++++++++++
+ hw/virtio/vhost.c           | 23 +++++++++++++++++++++--
+ hw/virtio/virtio-pci.c      | 12 ++++++++++++
+ include/exec/memory.h       |  2 ++
+ include/hw/pci/pci_device.h |  3 +++
+ include/hw/pci/pcie.h       |  4 ++++
+ include/hw/virtio/virtio.h  |  2 ++
+ softmmu/memory.c            | 12 ++++++++++++
+ 9 files changed, 78 insertions(+), 2 deletions(-)
+
+-- 
+2.21.0
 
 
