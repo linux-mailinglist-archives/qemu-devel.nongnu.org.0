@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E38E6ECC60
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 14:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AB36ECC70
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 15:00:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqvge-0006iR-3Y; Mon, 24 Apr 2023 08:52:56 -0400
+	id 1pqvmw-00017X-Sd; Mon, 24 Apr 2023 08:59:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvgb-0006hz-Uy
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:52:53 -0400
-Received: from rev.ng ([5.9.113.41])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pqvms-00016b-Td
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:59:24 -0400
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvgX-0001BZ-4T
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:52:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
- Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=8t/vhPm0vh5Jg3ADihCMMJfjxUo6x8S6Mb8zgF4JGVE=; b=vDgKXH/B9I8UBudR+JrYRMnbLo
- uwvbR51WGepI/NlNcCQQR42pBNOD+CsVW47s/w/P3dr3rh3fC29eSdDPVX4SC9QnqHVYRwg7eOafK
- u35LupuJov9/OHh2+28ikiFCf4ib4LNCuWtRE/RVpXm1Vd3rRGKFMRAv8BuYAaw4bBvw=;
-Message-ID: <e9768a73-7055-bbca-3642-dbfc0c43075a@rev.ng>
-Date: Mon, 24 Apr 2023 14:52:36 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pqvmq-0003Ga-Vr
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:59:22 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id C65CE607DF;
+ Mon, 24 Apr 2023 15:59:12 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:6523::1:a] (unknown
+ [2a02:6b8:b081:6523::1:a])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id twEqkL1Ok0U0-10RYrwwp; Mon, 24 Apr 2023 15:59:12 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682341152; bh=zGqU5UFkDpsa+5jRMtEGSNhbNfHG2p85RrsKYklMlDw=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=zo0US7fcB81C74T07RwEXwBtuTDZQYtX/zsLBoLluWVh2Hqqe/HBBMBERXICvK4OC
+ vzU3eoJKevXZyz66lpmp94zOpCZ/RcEitgwZUeRoE/qNlb+RcpNbM7IqkqcnSlwXtI
+ jinRb8hr23bQ/olNLuwLaf6I7tZ0WlyEuZQP0wZY=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <c02284f7-a7be-e5ca-580e-dcf1a18051d5@yandex-team.ru>
+Date: Mon, 24 Apr 2023 15:58:55 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH 7/8] cpu: Replace target_ulong with vaddr in
- tb_invalidate_phys_addr()
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 9/9] docs/style: call out the use of GUARD macros
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, ale@rev.ng,
- pbonzini@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, qemu-devel@nongnu.org
-References: <20230420212850.20400-1-anjo@rev.ng>
- <20230420212850.20400-8-anjo@rev.ng>
- <19f888bd-f0f4-2307-90c1-744f16ca77c2@linaro.org>
- <fe84e730-88e6-3b68-1929-758868757c68@linaro.org>
- <2c803abc-0f24-ecc6-fc14-56e674994829@linaro.org> <87jzy2e6i2.fsf@linaro.org>
- <97043d98-60f1-8820-8ae6-998b44e41528@linaro.org>
-Organization: rev.ng
-In-Reply-To: <97043d98-60f1-8820-8ae6-998b44e41528@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ peter.maydell@linaro.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, Juan Quintela
+ <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+References: <20230420155723.1711048-1-alex.bennee@linaro.org>
+ <20230420155723.1711048-10-alex.bennee@linaro.org>
+ <c2e905e0-2e2a-9666-3ea5-c2453d58a54b@yandex-team.ru>
+ <87sfcpabr4.fsf@linaro.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <87sfcpabr4.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
- SPF_HELO_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,39 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  anjo@rev.ng
-X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 24.04.23 12:07, Alex Bennée wrote:
+> 
+> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+> 
+>> On 20.04.23 18:57, Alex Bennée wrote:
+>>> There use makes our code safer so we should mention them.
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>
+>>
+>>> ---
+>>>    docs/devel/style.rst | 36 ++++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 36 insertions(+)
+>>> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
+>>> index 0bd01f3fca..b50a981a86 100644
+>>> --- a/docs/devel/style.rst
+>>> +++ b/docs/devel/style.rst
+>>> @@ -657,6 +657,42 @@ that declaration and the new code.
+>>>      See :ref:`qom` for more details.
+>>>    +QEMU GUARD macros
+>>> +=================
+>>> +
+>>> +QEMU provides a number of ``_GUARD`` macros intended to make the
+>>> +handling of multiple exit paths easier. For example using
+>>> +``QEMU_LOCK_GUARD`` to take a lock will ensure the lock is released on
+>>> +exit from the function.
+>>> +
+>>> +.. code-block:: c
+>>> +
+>>> +    static int my_critical_function(SomeState *s, void *data)
+>>> +    {
+>>> +        QEMU_LOCK_GUARD(&s->lock);
+>>> +        do_thing1(data);
+>>> +        if (check_state2(data)) {
+>>> +            return -1;
+>>> +        }
+>>> +        do_thing3(data);
+>>> +        return 0;
+>>> +    }
+>>
+>> For more clearness, maybe add an equivalent code with qemu_mutex_lock() / qemu_mutex_unlock(), I mean:
+>>
+>> The equivalent code without _GUARD macro makes us to carefully put qemu_mutex_unlock() on all exit points:
+>>
+>> .. code-block:: c
+>>
+>>      static int my_critical_function(SomeState *s, void *data)
+>>      {
+>>          qemu_mutex_lock(&s->lock);
+>>          do_thing1(data);
+>>          if (check_state2(data)) {
+>>              qemu_mutex_unlock(&s->lock);
+>>              return -1;
+>>          }
+>>          do_thing3(data);
+>>          qemu_mutex_unlock(&s->lock);
+>>          return 0;
+>>      }
+>>
+>>> +
+>>> +will ensure s->lock is released however the function is exited. There
+>>> +are often ``WITH_`` forms of macros which more easily wrap around a
+>>> +block inside a function.
+>>> +
+>>> +.. code-block:: c
+>>> +
+>>> +    WITH_RCU_READ_LOCK_GUARD() {
+>>> +        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
+>>> +            err = do_the_thing(kid->child);
+>>> +            if (err < 0) {
+>>> +                return err;
+>>> +            }
+>>> +        }
+>>> +    }
+>>> +
+>>
+>> and maybe similar here.
+> 
+> I added the example although I didn't repeat it for the WITH form
+> because readers should hopefully have understood the idea with the first
+> example.
+> 
 
-On 4/23/23 21:42, Richard Henderson wrote:
-> On 4/23/23 20:35, Alex Bennée wrote:
->>
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>
->>> On 4/23/23 18:29, Philippe Mathieu-Daudé wrote:
->>>> On 23/4/23 11:14, Richard Henderson wrote:
->>>>> On 4/20/23 22:28, Anton Johansson wrote:
->>>>>> -void tb_invalidate_phys_addr(target_ulong addr)
->>>>>> +void tb_invalidate_phys_addr(vaddr addr)
->>>>>
->>>>> Hmm.  This isn't a virtual address, so 'vaddr' isn't right.
->>>>> I'm sure we have something more appropriate.
->>>> tb_page_addr_t?
->>>
->>> No, it isn't a ram_addr_t either (see exec-all.h).
->>> Perhaps just uint64_t.
->>
->> Surely hwaddr?
->
-> Duh.  Thanks,
-
-Thanks guys, and hwaddr it shall be!
+Agreed, thanks!
 
 -- 
-Anton Johansson,
-rev.ng Labs Srl.
+Best regards,
+Vladimir
 
 
