@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADAC6ED40F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 20:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EE16ED476
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 20:33:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pr0Wj-0002di-ST; Mon, 24 Apr 2023 14:03:02 -0400
+	id 1pr0zS-00007H-0G; Mon, 24 Apr 2023 14:32:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pr0Wc-0002d3-Ih
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 14:02:56 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pr0Wa-0000Nn-Fe
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 14:02:53 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-504eb1155d3so35606632a12.1
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 11:02:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682359370; x=1684951370;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i5l5dK6nH/wRmMeYaDPOFeHerf4zcI/4Sk8og2cdOps=;
- b=sK8/lgNP6MUTwQh4pZkScYm0LbbuZ9gPk+Ar+zJjAKltqiQMcFUUjqdIMUKhGANrt+
- QSXZIgpOD3COl+l1O9eLrR6m/q4BrLmoMPlEWra9LsnKxL9qme9XVuyhTbOaryP27R3j
- PsH/h5dxJE8DIHunYLbuvvHRR65k8qUlr4K5JBd0C4Dr3Ro3JZV5kDAl2tUHfH7h+Wcm
- nl9DI79e1xtbMYIEh9WbB3dnBd3OO4YtU0HAxOg4h0yS8Gw8saZ933D+vvFdjLyNctlE
- nnCJ6B8pjjyGQn2noqDRJXmwPr5a/ooZo8LiigqlaqONBW0MfZNcwsjNhbOHViVmtWmv
- vbUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682359370; x=1684951370;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=i5l5dK6nH/wRmMeYaDPOFeHerf4zcI/4Sk8og2cdOps=;
- b=CZyr4xIFB93BqAeoZNVt5iOqTW4a3n1ZhhkYi1tT00/qZmOtIGC47aDqEBj4UKhGll
- n6J0VU+okB/FQIPucHQp9mjZdRju2biiA+O63rP6sU9B3ermkmJmXS2Hi1hC8Vm5kQq2
- L/jsXKFEtvix0gzjFJMIyQmanYvZimmbWHeeZ/A5P3KwGiyvVIvt/DAiXF7mg9hUcrCn
- SMOH83Lp1HOwW76kVyL2vSqUyuqLXCaNq2/BNuhH2kC61WPuj6EFRey+dIy+rxwk/c0b
- xLzQCfMxNbMC2c+13DQPfFgTk40rJD/hLhH8hN7EU8Wc4oRLm39Fm4J5na26sl1Tb5W+
- FCug==
-X-Gm-Message-State: AAQBX9e2EgvFjvAV/Uhqw87u2r5Di3jE72u3Z7Q1mYgtZV8U/zZzZgGg
- oVyiHXw431qv9hFWl39TdFX5i+VTbgOLDUmH9L/diy+ReFxf+W4/
-X-Google-Smtp-Source: AKy350YXvJ4sve5LlsRCW25Pt1qYgpCrKjHdcHKGnqLo4FrTma+EIxVl65lV+iPeVaF0V9NciTciTBqry3Wgy2UrulM=
-X-Received: by 2002:a17:906:1d51:b0:953:7d80:c40e with SMTP id
- o17-20020a1709061d5100b009537d80c40emr11585644ejh.0.1682359369580; Mon, 24
- Apr 2023 11:02:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pr0zO-000073-V5; Mon, 24 Apr 2023 14:32:38 -0400
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pr0zM-0005XV-8F; Mon, 24 Apr 2023 14:32:38 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:308d:0:640:82be:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 0C98D609DE;
+ Mon, 24 Apr 2023 21:32:23 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:6523::1:a] (unknown
+ [2a02:6b8:b081:6523::1:a])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id LWKtqR0Op4Y0-UnulUDGS; Mon, 24 Apr 2023 21:32:22 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682361142; bh=0ui6EAJNuC9/Lj1X3Mi8Y0E/frj79Q6qDsGqb5Mf0IQ=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=B736c7Te1aCryPspyRfP5Sivya35Bc0dzPddiKe18k99NSbh89H41JNoTyhQt2mOb
+ 1DsjaVGw4SMxm6ttqi7ySTX6Gy1ZhtU50Q7gs3UexkKzF15gvZOqXInUArX5Btpx9x
+ vK85dBPaKdFqXp+i0BaiNzmGrn84Lr+XjgP6nLZg=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <f3f2e92c-d357-4fb9-e765-7f89dc895247@yandex-team.ru>
+Date: Mon, 24 Apr 2023 21:32:21 +0300
 MIME-Version: 1.0
-References: <20230420120948.436661-1-stefanha@redhat.com>
- <e7775d5f-292c-2a88-afaa-5731ee1bc897@linaro.org>
- <20230424175251.GA298880@fedora>
-In-Reply-To: <20230424175251.GA298880@fedora>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Tue, 25 Apr 2023 02:02:21 +0800
-Message-ID: <CAAAx-8LkKXALsL=hVvb7yLazjV+pt2A11kyV1xZ-uMRvhP51zg@mail.gmail.com>
-Subject: Re: [PULL 00/20] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=faithilikerun@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: test-blockjob: intermittent CI failures in msys2-64bit job
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Alberto Garcia <berto@igalia.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>
+References: <CAFEAcA_SeUuZRo7HQPUJgeaepoup29YdAuFaWjNL+fhEt+pmkA@mail.gmail.com>
+ <CAFEAcA87HtzYN76nHhHZBfazDZdoRnszgAt-e2CqBBWEoF6_2Q@mail.gmail.com>
+ <CAFEAcA-n+9N+0ZuE6MSD1aMBeGYAJTbQe=j1-2K=SgD_Ly6nEA@mail.gmail.com>
+ <df71d7b5-7723-eaff-3dcd-45f69186f6af@redhat.com>
+ <68834b18-1fab-ca2a-d131-71f75fc374a1@yandex-team.ru>
+ <e6eb754e-a825-f113-a9a7-0ca2006a00c6@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <e6eb754e-a825-f113-a9a7-0ca2006a00c6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,76 +83,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8825=E6=
-=97=A5=E5=91=A8=E4=BA=8C 01:52=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, Apr 21, 2023 at 08:01:56PM +0100, Richard Henderson wrote:
-> > On 4/20/23 13:09, Stefan Hajnoczi wrote:
-> > > The following changes since commit c1eb2ddf0f8075faddc5f7c3d39feae3e8=
-e9d6b4:
-> > >
-> > >    Update version for v8.0.0 release (2023-04-19 17:27:13 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-> > >
-> > > for you to fetch changes up to 36e5e9b22abe56aa00ca067851555ad8127a79=
-66:
-> > >
-> > >    tracing: install trace events file only if necessary (2023-04-20 0=
-7:39:43 -0400)
-> > >
-> > > ----------------------------------------------------------------
-> > > Pull request
-> > >
-> > > Sam Li's zoned storage work and fixes I collected during the 8.0 free=
-ze.
-> > >
-> > > ----------------------------------------------------------------
-> > >
-> > > Carlos Santos (1):
-> > >    tracing: install trace events file only if necessary
-> > >
-> > > Philippe Mathieu-Daud=C3=A9 (1):
-> > >    block/dmg: Declare a type definition for DMG uncompress function
-> > >
-> > > Sam Li (17):
-> > >    block/block-common: add zoned device structs
-> > >    block/file-posix: introduce helper functions for sysfs attributes
-> > >    block/block-backend: add block layer APIs resembling Linux
-> > >      ZonedBlockDevice ioctls
-> > >    block/raw-format: add zone operations to pass through requests
-> > >    block: add zoned BlockDriver check to block layer
-> > >    iotests: test new zone operations
-> > >    block: add some trace events for new block layer APIs
-> > >    docs/zoned-storage: add zoned device documentation
-> > >    file-posix: add tracking of the zone write pointers
-> > >    block: introduce zone append write for zoned devices
-> > >    qemu-iotests: test zone append operation
-> > >    block: add some trace events for zone append
-> > >    include: update virtio_blk headers to v6.3-rc1
-> > >    virtio-blk: add zoned storage emulation for zoned devices
-> > >    block: add accounting for zone append operation
-> > >    virtio-blk: add some trace events for zoned emulation
-> > >    docs/zoned-storage:add zoned emulation use case
-> > >
-> > > Thomas De Schampheleire (1):
-> > >    tracetool: use relative paths for '#line' preprocessor directives
-> >
-> > 32 failed CI jobs:
-> > https://gitlab.com/qemu-project/qemu/-/pipelines/844927626/failures
->
-> Hi Sam,
-> I have dropped the zoned storage patches from the block pull request.
-> Please take a look at the diff below and squash the fixes into your
-> original commits.
->
-> Once you have reworked your patch series, please retest them and then
-> resend so we can merge them in the next block pull request.
+On 24.04.23 16:36, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 21/04/2023 um 12:13 schrieb Vladimir Sementsov-Ogievskiy:
+>> On 17.03.23 15:35, Thomas Huth wrote:
+>>> On 17/03/2023 11.17, Peter Maydell wrote:
+>>>> On Mon, 6 Mar 2023 at 11:16, Peter Maydell <peter.maydell@linaro.org>
+>>>> wrote:
+>>>>>
+>>>>> On Fri, 3 Mar 2023 at 18:36, Peter Maydell
+>>>>> <peter.maydell@linaro.org> wrote:
+>>>>>>
+>>>>>> I've noticed that test-blockjob seems to fail intermittently
+>>>>>> on the msys2-64bit job:
+>>>>>>
+>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3872508803
+>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3871061024
+>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3865312440
+>>>>>>
+>>>>>> Sample output:
+>>>>>> | 53/89
+>>>>>> ERROR:../tests/unit/test-blockjob.c:499:test_complete_in_standby:
+>>>>>> assertion failed: (job->status == JOB_STATUS_STANDBY) ERROR
+>>>>>> 53/89 qemu:unit / test-blockjob ERROR 0.08s exit status 3
+>>>>
+>>>>> Here's an intermittent failure from my macos x86 machine:
+>>>>>
+>>>>> 172/621 qemu:unit / test-blockjob
+>>>>>              ERROR           0.26s   killed by signal 6 SIGABRT
+>>>>
+>>>> And an intermittent on the freebsd 13 CI job:
+>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3950667240
+>>>>
+>>>>>>> MALLOC_PERTURB_=197
+>>>>>>> G_TEST_BUILDDIR=/tmp/cirrus-ci-build/build/tests/unit
+>>>>>>> G_TEST_SRCDIR=/tmp/cirrus-ci-build/tests/unit
+>>>>>>> /tmp/cirrus-ci-build/build/tests/unit/test-blockjob --tap -k
+>>>> ▶ 178/650 /blockjob/ids
+>>>>              OK
+>>>> 178/650 qemu:unit / test-blockjob
+>>>>              ERROR           0.31s   killed by signal 6 SIGABRT
+>>>> ――――――――――――――――――――――――――――――――――――― ✀
+>>>> ―――――――――――――――――――――――――――――――――――――
+>>>> stderr:
+>>>> Assertion failed: (job->status == JOB_STATUS_STANDBY), function
+>>>> test_complete_in_standby, file ../tests/unit/test-blockjob.c, line
+>>>> 499.
+>>>>
+>>>>
+>>>> TAP parsing error: Too few tests run (expected 9, got 1)
+>>>> (test program exited with status code -6)
+>>>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+>>>>
+>>>> Anybody in the block team looking at these, or shall we just
+>>>> disable this test entirely ?
+>>>
+>>> I ran into this issue today, too:
+>>>
+>>>    https://gitlab.com/thuth/qemu/-/jobs/3954367101
+>>>
+>>> ... if nobody is interested in fixing this test, I think we should
+>>> disable it...
+>>>
+>>>    Thomas
+>>>
+>>
+>> I'm looking at this now, and seems that it's broken since
+>> 6f592e5aca1a27fe1c1f6 "job.c: enable job lock/unlock and remove
+>> Aiocontext locks", as it stops critical section by new
+>> aio_context_release() call exactly after bdrv_drain_all_and(), so it's
+>> not a surprise that job may start at that moment and the following
+>> assertion fires.
+>>
+>> Emanuele could please look at it?
+>>
+> Well if I understood correctly, the only thing that was preventing the
+> job from continuing was the aiocontext lock held.
+> 
+> The failing assertion even mentions that:
+> /* Lock the IO thread to prevent the job from being run */
+> [...]
+> /* But the job cannot run, so it will remain on standby */
+> assert(job->status == JOB_STATUS_STANDBY);
+> 
+> Essentially bdrv_drain_all_end() would wake up the job coroutine, but it
+> would anyways block somewhere after since the aiocontext lock was taken
+> by the test.
+> 
+> Now that we got rid of aiocontext lock in job code, nothing prevents the
+> test from resuming.
+> Mixing job lock and aiocontext acquire/release is not a good idea, and
+> it would anyways block job_resume() called by bdrv_drain_all_end(), so
+> the test itself would deadlock.
+> 
+> So unless @Kevin has a better idea, this seems to be just an "hack" to
+> test stuff that is not possible to do now anymore. What I would suggest
+> is to get rid of that test, or at least of that assert function. I
+> unfortunately cannot reproduce the failure, but I think the remaining
+> functions called by the test should run as expected.
+> 
 
-Thanks! I will do that ASAP.
+Thanks! I agree. Probably, alternatively we could just expand the drained section, like
+
+@@ -488,12 +488,6 @@ static void test_complete_in_standby(void)
+      bdrv_drain_all_begin();
+      assert_job_status_is(job, JOB_STATUS_STANDBY);
+  
+-    /* Lock the IO thread to prevent the job from being run */
+-    aio_context_acquire(ctx);
+-    /* This will schedule the job to resume it */
+-    bdrv_drain_all_end();
+-    aio_context_release(ctx);
+-
+      WITH_JOB_LOCK_GUARD() {
+          /* But the job cannot run, so it will remain on standby */
+          assert(job->status == JOB_STATUS_STANDBY);
+@@ -511,6 +505,7 @@ static void test_complete_in_standby(void)
+          job_dismiss_locked(&job, &error_abort);
+      }
+  
++    bdrv_drain_all_end();
+      aio_context_acquire(ctx);
+      destroy_blk(blk);
+      aio_context_release(ctx);
 
 
-Sam
+But, seems that test wanted to specifically test job, that still in STANDBY exactly after drained section...
+
+[cc: Hanna]
+
+Hanna, it was your test (added in c2c731a4d35062295cd3260e66b3754588a2fad4, two years ago). Don't you remember was important to catch STANDBY job *after* a drained section?
+
+-- 
+Best regards,
+Vladimir
+
 
