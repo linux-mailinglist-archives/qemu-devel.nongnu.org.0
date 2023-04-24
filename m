@@ -2,85 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BB26ECC3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 14:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CE16ECC40
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Apr 2023 14:49:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pqvYU-00022d-5F; Mon, 24 Apr 2023 08:44:30 -0400
+	id 1pqvc9-0003RB-Am; Mon, 24 Apr 2023 08:48:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqvYR-00022E-UY
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:44:27 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pqvYQ-0007V9-Fa
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:44:27 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f178da21b2so45829535e9.1
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 05:44:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682340265; x=1684932265;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jWVEW4uESxyb2PKJ77ovPkBHc7ZhGyW0t1TF+mr0xJw=;
- b=u/bverxBFsmb+eQRGN67m9y14TquvN3bqN49aAfvRhWN18OvS8O8JL4BEC18JCqo7x
- ljMMC/pWfdxu1+Pge0EwgWFA1zpneXgOyBgfMNS/ZJJQzX7fb3Gby0u5v+4zeRxQYa9T
- ytbtzd0DYjxI+gW+nDEsPakrfAqR0g7bPSWu6HYH1lvquRYu84HYh17o20++wu6+9OCs
- jkkN+ykiSW0qJ5437y6tYBpHS8wR7GgNnQLoJl2DOuPC5i1TzfJb32iXvm9oFCjLBiLv
- K1ttrQ5gL6pP/YjIRxcey/Xtb71y3JugCR4wdP4tEKEG6zgtK1l/nZw6Zb1hSISIPPOF
- bXXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682340265; x=1684932265;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jWVEW4uESxyb2PKJ77ovPkBHc7ZhGyW0t1TF+mr0xJw=;
- b=GQWrSa/BxKxXPiN3JA27qApJ/YrYMfEVMF+akwZSTyHi6U5yC4TCDdwSS5fG26sp6t
- XODhdIdeI3+XUR9JMKUHJuI3Wc4pG+j3iRwdJCCA0L75CFUmknUm+DHDcL4PdtGxzLHG
- 0jcXaS9iTq05Wfnt593oA493IxvCPntYNbOsW1ph6ap35anUDqRV825CWEZwnzuY1iTw
- YfvlSWUwNjNAfa6YfDNGOSCW3IF4amABVvrJ+Q1uigZYx38XavfqiQR47ug3oJ6JftR4
- +TJlGVbyROtKsDJE6acVZKYaoZZhgDSKqOGu4jj1RHKkO0p2Ux2K5syI3YdsJPbJo/os
- xkpw==
-X-Gm-Message-State: AAQBX9cLkES32f6z2wJ7nB8qyClLnQBfNncB81NMX21HO0LtHD897/Ig
- cZMgsAwmZ6qgjevZVrHTMuyi49n2fkTwjIibeWtYYQ==
-X-Google-Smtp-Source: AKy350Z40DbehPX3cpxr0fMGGdEPA7ijBc1QqzWD7ptHEJv6/wlclBmgD9wkVGT3fzoDrd2RZptDPw==
-X-Received: by 2002:a1c:7908:0:b0:3f1:6ead:e389 with SMTP id
- l8-20020a1c7908000000b003f16eade389mr7777281wme.30.1682340264646; 
- Mon, 24 Apr 2023 05:44:24 -0700 (PDT)
-Received: from [10.43.0.114] (cust-west-loneq8-46-193-226-34.wb.wifirst.net.
- [46.193.226.34]) by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c4f4600b003ee5fa61f45sm15546895wmq.3.2023.04.24.05.44.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 05:44:24 -0700 (PDT)
-Message-ID: <005598db-125a-01c6-9ca8-c9321c3aa99f@linaro.org>
-Date: Mon, 24 Apr 2023 13:44:22 +0100
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvbl-0003Oi-B8
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:48:06 -0400
+Received: from rev.ng ([5.9.113.41])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pqvbj-0008Kw-GV
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 08:47:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=DcDteXGeQ9zPTuLkmgoPswClvrFwYQ+thfxmzfqvDDY=; b=YMr3D7cwzmFlHRoCRYnSeQwLCi
+ Q2Em4h/iMmm0GREk3h7CrZYhRcHXvkO/2FEksICvNqt0PRp0YaDnAJqpArAkTyd7Xv1sCgh2dMsKm
+ KYPGjQB9GuSUBAzNeS7ZG1Jme1DYHHf/QTToTHtC7uYgjW2yTckgJt29fCXgfKvky2qU=;
+Message-ID: <0907fcb4-2446-5a0a-75d3-c4d7065344f2@rev.ng>
+Date: Mon, 24 Apr 2023 14:47:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH v3 14/44] target/loongarch: Implement
- vmul/vmuh/vmulw{ev/od}
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 1/8] accel: Replace `target_ulong` with `vaddr` in TB/TLB
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net, philmd@linaro.org,
+ marcel.apfelbaum@gmail.com, wangyanan55@huawei.com
+References: <20230420212850.20400-1-anjo@rev.ng>
+ <20230420212850.20400-2-anjo@rev.ng>
+ <b8dd9e8a-c9c8-12a1-fcc8-026437a07fb4@linaro.org>
 Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20230420080709.3352575-1-gaosong@loongson.cn>
- <20230420080709.3352575-15-gaosong@loongson.cn>
- <691b8b09-6bc5-82db-f4c3-103fd98c406a@linaro.org>
- <14bbe700-0611-f2ed-556a-9aa4a12d318b@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <14bbe700-0611-f2ed-556a-9aa4a12d318b@loongson.cn>
+Organization: rev.ng
+In-Reply-To: <b8dd9e8a-c9c8-12a1-fcc8-026437a07fb4@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,24 +62,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/24/23 12:25, Song Gao wrote:
->> You don't need these.
->> Just reverse the operands to the existing tcg_gen_mulsu2_*.
+
+On 4/23/23 11:09, Richard Henderson wrote:
+> On 4/20/23 22:28, Anton Johansson wrote:
+>> Changes pc and cs_base in TranslationBlock from target_ulong to vaddr.
+>> Auxilliary structs and tb_*()/tlb_*() functions that depend on this
+>> change are also updated to take a vaddr for guest virtual addresses.
 >>
->>
-> Ok, I'm just trying to unify  "u * s " to the macros VMUL_Q and VMADD_Q.
+>> Signed-off-by: Anton Johansson <anjo@rev.ng>
+>> ---
+>>   accel/stubs/tcg-stub.c       |   2 +-
+>>   accel/tcg/cpu-exec.c         |  49 +++++-----
+>>   accel/tcg/cputlb.c           | 179 +++++++++++++++++------------------
+>>   accel/tcg/internal.h         |   6 +-
+>>   accel/tcg/tb-hash.h          |  12 +--
+>>   accel/tcg/tb-jmp-cache.h     |   2 +-
+>>   accel/tcg/tb-maint.c         |   2 +-
+>>   accel/tcg/translate-all.c    |  15 +--
+>>   include/exec/cpu-defs.h      |   4 +-
+>>   include/exec/cpu_ldst.h      |   6 +-
+>>   include/exec/exec-all.h      |  82 ++++++++--------
+>>   include/qemu/plugin-memory.h |   2 +-
+>>   12 files changed, 181 insertions(+), 180 deletions(-)
+>
+> This is too large and must be split.  In addition, there are places 
+> where you must take more care with the replacement.
 
-Then create local wrappers:
-
-void tcg_gen_mulus2_i64(TCGv_i64 rl, TCGv_i64 rh, TCGv_i64 arg1, TCGv_i64 arg2)
-{
-     tcg_gen_mulsu2_i64(rl, rh, arg2, arg1);
-}
+Agreed this patch is very large. I struggled a bit in chopping it up 
+without breaking bisection, but I'll give it another go!
 
 
-r~
+>
+>> @@ -412,10 +412,11 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState 
+>> *env)
+>>   {
+>>       CPUState *cpu = env_cpu(env);
+>>       TranslationBlock *tb;
+>> -    target_ulong cs_base, pc;
+>> +    vaddr cs_base = 0, pc = 0;
+>>       uint32_t flags, cflags;
+>>   -    cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
+>> +    cpu_get_tb_cpu_state(env, (target_ulong *) &pc,
+>> +                         (target_ulong *) &cs_base, &flags);
+>
+> This simply will not work on big-endian hosts.
+Ah of course! I'll pull in the changes updating the arguments of 
+cpu_get_tb_cpu_state() to
+avoid the pointer casts.
+
+
+>
+>
+>> @@ -560,15 +557,15 @@ static void 
+>> tlb_flush_page_by_mmuidx_async_0(CPUState *cpu,
+>>   static void tlb_flush_page_by_mmuidx_async_1(CPUState *cpu,
+>>                                                run_on_cpu_data data)
+>>   {
+>> -    target_ulong addr_and_idxmap = (target_ulong) data.target_ptr;
+>> -    target_ulong addr = addr_and_idxmap & TARGET_PAGE_MASK;
+>> +    vaddr addr_and_idxmap = (vaddr) data.target_ptr;
+>
+> run_on_cpu_data.target_ptr is already vaddr, no need for cast.
+
+Right, will fix! Thanks
+
+
+-- 
+Anton Johansson,
+rev.ng Labs Srl.
 
 
