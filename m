@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C246EDCFB
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC866EDD10
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:47:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDMj-0006Xn-NC; Tue, 25 Apr 2023 03:45:33 -0400
+	id 1prDMa-0006Kq-25; Tue, 25 Apr 2023 03:45:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMM-0006Ev-4H
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMN-0006HS-D4
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMI-0006aP-DO
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:09 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDML-0006bW-R8
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408705;
+ s=mimecast20190719; t=1682408709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I98COpuRyuDepoEDhzUAJr/XMAii4g+6LaebKT+b88s=;
- b=E10k9JEW5bNtEhHaiOFSWkMkhN42XPxwilz7eZXk+bBy88jsZDWqKm5AcDT/4BcRVzuNEj
- sAtgJhnwDnNRK3diUB/7rSG2h+O2RrDtX3UZJa+G8EHQHal5VU0kQsGUdKyQMaluyVa5xC
- J5zsCAyBwIF1TBlIkjiAa0DxqDAsru8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oqT5dEfAVqgbT8QGYta7E3XoDIDCT9JGPTtaSzwWys0=;
+ b=fIX1ioePIq8ihtXBG5Rp77It51oqLUxmomRacgGyEPs2HmoqMFxVVr0HzaiHSJTY9hNTZF
+ JvYnlx4B97w3miMebVyfw6l5Al8awiDR1sX1kIvnXqaj+dreQuFQcgOF57NCZ0NAb69bhA
+ gbl25mNgBLi4yP3I/llRo3VRC9sLD/Y=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-672-gvbjDvTuMTS9wk3F6BP4nA-1; Tue, 25 Apr 2023 03:45:04 -0400
-X-MC-Unique: gvbjDvTuMTS9wk3F6BP4nA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f173bd0d1bso33753805e9.3
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:45:03 -0700 (PDT)
+ us-mta-577-IyFYZdAaOYWlpx11G1uK9w-1; Tue, 25 Apr 2023 03:45:07 -0400
+X-MC-Unique: IyFYZdAaOYWlpx11G1uK9w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-2fbb99cb303so1927018f8f.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:45:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408701; x=1685000701;
+ d=1e100.net; s=20221208; t=1682408705; x=1685000705;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I98COpuRyuDepoEDhzUAJr/XMAii4g+6LaebKT+b88s=;
- b=bvzIPFmKCC5U6RxetjO9CXierJT6BPP10MdiZSpv6VMQCcaOEVEXFbbzedh3Kra07R
- ZGzTLVfDs81xYGrDXZ9uI/n31cAREK3se6/Fau61cFTRkLj+f87X6CON1gj5z35Z3aA6
- rJHqblI3QFCS5r49fHx4cNZpQ3RE588RovwOzaW4CDW1W+GhfwxAjg7gnvaOPYEo4Ns6
- 1P3ASE1TWcv3j3Ss7jwZ6dVLfoHlRXU1Wtl6BWA9bLtiQu8EzJnBYJG4szSP2i2tLUBy
- s00c4WFN1pTpDWIqX5vK1538ZYefv/uOn/0hTki0PzOPdG8bCIndMuxlV5gxGHCpGQJa
- 5kmg==
-X-Gm-Message-State: AAQBX9cgcD1WL0T+acUhFKMRveyloubrIDtD0HLY8E5uyKe00ISMDTVG
- kbKRuXss1bDtRQMOzE0qRbChgXwvANZhb9EKRHohkcqTOMpodauuzYslpuZE9zbORhaZ5adXJG1
- 3FYNAtOgv9vu/8m8s0jN9qYXfEVGh8+7ln4DDs8YW5gHlG+CpXxQVuecdx/ym/Pnhn0pX
-X-Received: by 2002:adf:facb:0:b0:2f2:e638:1767 with SMTP id
- a11-20020adffacb000000b002f2e6381767mr10971763wrs.39.1682408701598; 
- Tue, 25 Apr 2023 00:45:01 -0700 (PDT)
-X-Google-Smtp-Source: AKy350afWR0EXJoLrlaFKej6cConBleBYYVU/VThTfTh0KW5n9ByraUjMwxNQYEEBzgTZCPG+xupHw==
-X-Received: by 2002:adf:facb:0:b0:2f2:e638:1767 with SMTP id
- a11-20020adffacb000000b002f2e6381767mr10971735wrs.39.1682408701214; 
- Tue, 25 Apr 2023 00:45:01 -0700 (PDT)
+ bh=oqT5dEfAVqgbT8QGYta7E3XoDIDCT9JGPTtaSzwWys0=;
+ b=TeEsL5fK2TASBaQHtflGRObCZ62oUD6/4rY2MFp/IGu6Cg687skjpieec6rseDJR3r
+ o5A5YqtGDWlIw11Rl1hj8LOzuRY1dlsNqkqJkYrtGeS/T8k498W5HdyxbS1B7esDl1Hf
+ FidvIBrbx04kb7KllxXjOqSjifuvgsJEaOfa4Z9zN40fIJ7tNQ+GksejNgO2tApVAPJ5
+ UADtsGvk2e2vNnO4Rb4VQsUZeYUHBkyvpnEdZ13PfbnRN2yIfMTz6M3SUmbSL7InIl8V
+ OEXIzrOwo9zws0kqTtFST0Mra8pj96dURUNhdRy05TvHd6dAMzrFSSD/omPO3tct5FaC
+ IzUg==
+X-Gm-Message-State: AAQBX9co4wf7LodQNzvRYkv/lCWTQmuTEe2OuQRr2ZioBYVz9pzuA7/8
+ QV9Tp7nIKqsTXVegnfK7J4wNCakhWRWmX5HYGsDQK79zKopKgcOfdqxBTwIGT6qGTtrjTPQeYjj
+ TVCCyLQC9JijMSqVv1ZibIX/vLYH3GpM7cXjiq7Toll8FTsodBCqnV55gbAqfZkp4xxJS
+X-Received: by 2002:adf:ec41:0:b0:2fb:599b:181e with SMTP id
+ w1-20020adfec41000000b002fb599b181emr9475051wrn.63.1682408705336; 
+ Tue, 25 Apr 2023 00:45:05 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZrD6cBr+VMJ+rK4vmTj0BxR2+idXyagIya0lE1sewPKU+pWlQBAqtfVCb6wQnN7cskrhU6rQ==
+X-Received: by 2002:adf:ec41:0:b0:2fb:599b:181e with SMTP id
+ w1-20020adfec41000000b002fb599b181emr9475030wrn.63.1682408705048; 
+ Tue, 25 Apr 2023 00:45:05 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- t12-20020a5d460c000000b002f6962ee703sm12443193wrq.61.2023.04.25.00.44.58
+ v17-20020a5d43d1000000b003047ea78b42sm3069194wrr.43.2023.04.25.00.45.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:45:00 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:44:57 -0400
+ Tue, 25 Apr 2023 00:45:04 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:45:01 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: [PULL 04/31] meson_options.txt: Enable qom-cast-debug by default again
-Message-ID: <0f220121a47fd1c8273eb3a4a67425c608307117.1682408661.git.mst@redhat.com>
+ Jason Wang <jasowang@redhat.com>
+Subject: [PULL 05/31] vhost: Drop unused eventfd_add|del hooks
+Message-ID: <560a997535937df2ea3716ba56bcbe38be37682f.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -78,7 +77,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1682408661.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -102,58 +101,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Peter Xu <peterx@redhat.com>
 
-This switch had been disabled by default by accident in commit
-c55cf6ab03f. But we should enable it by default instead to avoid
-regressions in the QOM device hierarchy.
+These hooks were introduced in:
 
-Fixes: c55cf6ab03 ("configure, meson: move some default-disabled options to meson_options.txt")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230417130037.236747-3-thuth@redhat.com>
+80a1ea3748 ("memory: move ioeventfd ops to MemoryListener", 2012-02-29)
+
+But they seem to be never used.  Drop them.
+
+Cc: Richard Henderson <rth@twiddle.net>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20230306193209.516011-1-peterx@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- meson_options.txt             | 2 +-
- scripts/meson-buildoptions.sh | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/virtio/vhost.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/meson_options.txt b/meson_options.txt
-index fc9447d267..2471dd02da 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -315,7 +315,7 @@ option('debug_mutex', type: 'boolean', value: false,
-        description: 'mutex debugging support')
- option('debug_stack_usage', type: 'boolean', value: false,
-        description: 'measure coroutine stack usage')
--option('qom_cast_debug', type: 'boolean', value: false,
-+option('qom_cast_debug', type: 'boolean', value: true,
-        description: 'cast debugging support')
- option('gprof', type: 'boolean', value: false,
-        description: 'QEMU profiling with gprof',
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 009fab1515..d4369a3ad8 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -14,6 +14,7 @@ meson_options_help() {
-   printf "%s\n" '                           use idef-parser to automatically generate TCG'
-   printf "%s\n" '                           code for the Hexagon frontend'
-   printf "%s\n" '  --disable-install-blobs  install provided firmware blobs'
-+  printf "%s\n" '  --disable-qom-cast-debug cast debugging support'
-   printf "%s\n" '  --docdir=VALUE           Base directory for documentation installation'
-   printf "%s\n" '                           (can be empty) [share/doc]'
-   printf "%s\n" '  --enable-block-drv-whitelist-in-tools'
-@@ -35,7 +36,6 @@ meson_options_help() {
-   printf "%s\n" '  --enable-module-upgrades try to load modules from alternate paths for'
-   printf "%s\n" '                           upgrades'
-   printf "%s\n" '  --enable-profiler        profiler support'
--  printf "%s\n" '  --enable-qom-cast-debug  cast debugging support'
-   printf "%s\n" '  --enable-rng-none        dummy RNG, avoid using /dev/(u)random and'
-   printf "%s\n" '                           getrandom()'
-   printf "%s\n" '  --enable-strip           Strip targets on install'
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index a266396576..746d130c74 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1291,18 +1291,6 @@ void vhost_virtqueue_stop(struct vhost_dev *dev,
+                        0, virtio_queue_get_desc_size(vdev, idx));
+ }
+ 
+-static void vhost_eventfd_add(MemoryListener *listener,
+-                              MemoryRegionSection *section,
+-                              bool match_data, uint64_t data, EventNotifier *e)
+-{
+-}
+-
+-static void vhost_eventfd_del(MemoryListener *listener,
+-                              MemoryRegionSection *section,
+-                              bool match_data, uint64_t data, EventNotifier *e)
+-{
+-}
+-
+ static int vhost_virtqueue_set_busyloop_timeout(struct vhost_dev *dev,
+                                                 int n, uint32_t timeout)
+ {
+@@ -1457,8 +1445,6 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+         .log_sync = vhost_log_sync,
+         .log_global_start = vhost_log_global_start,
+         .log_global_stop = vhost_log_global_stop,
+-        .eventfd_add = vhost_eventfd_add,
+-        .eventfd_del = vhost_eventfd_del,
+         .priority = 10
+     };
+ 
 -- 
 MST
 
