@@ -2,74 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8BE6EDBC9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 08:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC6E6EDC4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:12:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prCNw-0003ym-Ut; Tue, 25 Apr 2023 02:42:44 -0400
+	id 1prChr-0001KJ-PW; Tue, 25 Apr 2023 03:03:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prCNs-0003ux-VX
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 02:42:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prCNk-0004MX-Ji
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 02:42:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682404951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mrHMrosKDQaKSe8rxiYwmF82/vlFDdSh72QjQ16rbYg=;
- b=e8gaiIpRoJgWF1KhlayBxXkc3lbm6e48Y5zF4ZW+umWk1lAa7pbLrVyaynzvFbVWW39Rgr
- 0jatETIYyBaSnRWIEBIbEOrp8RMPyDflReOmXWmJsFSLNg0Vo9GTVmrm8SYOru7rBKms+V
- JPrCI2wXv66TINyA9rhIT1+5Oqk+K5E=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-QubYTjSGP4-6qAMqte4wzA-1; Tue, 25 Apr 2023 02:42:28 -0400
-X-MC-Unique: QubYTjSGP4-6qAMqte4wzA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AE88858289;
- Tue, 25 Apr 2023 06:42:27 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3835414171B8;
- Tue, 25 Apr 2023 06:42:27 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E43C421F9836; Tue, 25 Apr 2023 08:42:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1prChl-0001JT-GU
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:17 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1prChV-0007yn-TU
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:13 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8BxRPAce0dkZl8AAA--.734S3;
+ Tue, 25 Apr 2023 15:02:52 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S2; 
+ Tue, 25 Apr 2023 15:02:49 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, eblake@redhat.com, kwolf@redhat.com,
- hreitz@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
- arei.gonglei@huawei.com, pizhenwei@bytedance.com, jsnow@redhat.com,
- vsementsov@yandex-team.ru, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, quintela@redhat.com, jasowang@redhat.com,
- yuval.shaia.ml@gmail.com, stefanha@redhat.com, kraxel@redhat.com,
- kkostiuk@redhat.com, qemu-block@nongnu.org, marcandre.lureau@gmail.com,
- david@redhat.com
-Subject: [PATCH v2 16/16] qapi storage-daemon/qapi: Fix documentation section
- structure
-Date: Tue, 25 Apr 2023 08:42:23 +0200
-Message-Id: <20230425064223.820979-17-armbru@redhat.com>
-In-Reply-To: <20230425064223.820979-1-armbru@redhat.com>
-References: <20230425064223.820979-1-armbru@redhat.com>
+Cc: richard.henderson@linaro.org,
+	gaosong@loongson.cn
+Subject: [RFC PATCH v4 00/44] Add LoongArch LSX instructions
+Date: Tue, 25 Apr 2023 15:02:04 +0800
+Message-Id: <20230425070248.2550028-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxGw47Zr1rZw1kGryfuFWfXwb_yoWrtF4Dpr
+ W7urnxtFW8XrZ7Xr1kXa9xZrnIqr1xG3y2v3Z3t348uw43Ar97ZF18t3sFgFyUXayUCry2
+ qFy0kwn8Xa13X37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
+ zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
+ 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
+ aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+ Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY
+ 6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
+ AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
+ 1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,136 +73,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In the QEMU QMP Reference Manual, subsection "Block core (VM
-unrelated)" is empty.  Its contents is at the end of subsection
-"Background jobs" instead.  That's because qapi/job.json is included
-first from qapi/block-core.json, which makes qapi/job.json's
-documentation go between qapi/block-core.json's subsection heading and
-contents.
+Hi,
 
-In the QEMU Storage Daemon QMP Reference Manual, section "Block
-Devices" contains nothing but an empty subsection "Block core (VM
-unrelated)".  The latter's contents is at the end section "Socket data
-types", along with subsection "Block device exports".  Subsection
-"Background jobs" is at the end of section "Cryptography".  All this
-is because storage-daemon/qapi/qapi-schema.json includes modules in a
-confused order.
+This series adds LoongArch LSX instructions, Since the LoongArch
+Vol2 is not open, So we use 'RFC' title.
 
-Fix both as follows.
+I'm not sure when the manual will be open.
+After these patches are reviewed, how about merging them?
 
-Turn subsection "Background jobs" into a section.
+About test:
+V2 we use RISU test the LoongArch LSX instructions.
 
-Move it before section "Block devices" in the QEMU QMP Reference
-Manual, by including qapi/jobs.json right before qapi/block.json.
+QEMU:
+    https://github.com/loongson/qemu/tree/tcg-old-abi-support-lsx
+RISU:
+    https://github.com/loongson/risu/tree/loongarch-suport-lsx
 
-Reorder include directives in storage-daemon/qapi/qapi-schema.json to
-match the order in qapi/qapi-schema.json, so that the QEMU Storage
-Daemon QMP Reference Manual's section structure the QEMU QMP Reference
-Manual's.
+Build test:
+make docker-test-build@fedora-i386-cross
 
-In the QEMU QMP Reference Manual, qapi/cryptodev.json's documentation
-is at the end of section "Virtio devices".  That's because it lacks a
-section heading, and therefore gets squashed into whatever section
-happens to precede it.
+The following patches need to be reviewed:
+  0001-target-loongarch-Add-LSX-data-type-VReg.patch
+  0014-target-loongarch-Implement-vmul-vmuh-vmulw-ev-od.patch
+  0030-target-loongarch-Implement-vpcnt.patch
+  0034-target-loongarch-Implement-LSX-fpu-fcvt-instructions.patch
+  0037-target-loongarch-Implement-vbitsel-vset.patch
+  0041-target-loongarch-Implement-vld-vst.patch
 
-Add section heading so it's in section "Cryptography devices".
+V4:
+  - R-b and rebase;
+  - Migrate the upper half lsx regs;
+  - Remove tcg_gen_mulus2_*;
+  - Vsetallnez use !do_match2;
+  - Use tcg_gen_concat_i64_i128/tcg_gen_extr_i128_i64 to replace 
+    TCGV128_LOW(val)/TCGV128_High(val);
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Acked-by: zhenwei pi <pizhenwei@bytedance.com>
----
- qapi/cryptodev.json                  |  4 ++++
- qapi/job.json                        |  2 +-
- qapi/qapi-schema.json                |  2 +-
- storage-daemon/qapi/qapi-schema.json | 22 +++++++++++++++-------
- 4 files changed, 21 insertions(+), 9 deletions(-)
+V3:
+  - R-b;
+  - Add unsigned data type in vreg;
+  - Add ctx->vl;
+  - Use tcg_constant_vec_matching instead of dupi;
+  - Use __typeof(Vd->E(0)) instead of the output type;
+  - Tcg integer expansion;
+  - Use tcg_gen_qemu_ld/st_i128 to implement vld/vst;
+  - Fix some typos;
+  - Optimize code based on Richard's comments.
 
-diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
-index f33f96a692..cf960ea81f 100644
---- a/qapi/cryptodev.json
-+++ b/qapi/cryptodev.json
-@@ -4,6 +4,10 @@
- # This work is licensed under the terms of the GNU GPL, version 2 or later.
- # See the COPYING file in the top-level directory.
- 
-+##
-+# = Cryptography devices
-+##
-+
- ##
- # @QCryptodevBackendAlgType:
- #
-diff --git a/qapi/job.json b/qapi/job.json
-index bc4104757a..9e29a796c5 100644
---- a/qapi/job.json
-+++ b/qapi/job.json
-@@ -2,7 +2,7 @@
- # vim: filetype=python
- 
- ##
--# == Background jobs
-+# = Background jobs
- ##
- 
- ##
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index e57d8ff801..bb7217da26 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -43,11 +43,11 @@
- { 'include': 'sockets.json' }
- { 'include': 'run-state.json' }
- { 'include': 'crypto.json' }
-+{ 'include': 'job.json' }
- { 'include': 'block.json' }
- { 'include': 'block-export.json' }
- { 'include': 'char.json' }
- { 'include': 'dump.json' }
--{ 'include': 'job.json' }
- { 'include': 'net.json' }
- { 'include': 'rdma.json' }
- { 'include': 'rocker.json' }
-diff --git a/storage-daemon/qapi/qapi-schema.json b/storage-daemon/qapi/qapi-schema.json
-index 67749d1101..f10c949490 100644
---- a/storage-daemon/qapi/qapi-schema.json
-+++ b/storage-daemon/qapi/qapi-schema.json
-@@ -15,18 +15,26 @@
- 
- { 'include': '../../qapi/pragma.json' }
- 
-+# Documentation generated with qapi-gen.py is in source order, with
-+# included sub-schemas inserted at the first include directive
-+# (subsequent include directives have no effect).  To get a sane and
-+# stable order, it's best to include each sub-schema just once, or
-+# include it first right here.
-+
-+{ 'include': '../../qapi/common.json' }
-+{ 'include': '../../qapi/sockets.json' }
-+{ 'include': '../../qapi/crypto.json' }
-+{ 'include': '../../qapi/job.json' }
-+
- ##
- # = Block devices
- ##
- { 'include': '../../qapi/block-core.json' }
- { 'include': '../../qapi/block-export.json' }
-+
- { 'include': '../../qapi/char.json' }
--{ 'include': '../../qapi/common.json' }
--{ 'include': '../../qapi/control.json' }
--{ 'include': '../../qapi/crypto.json' }
--{ 'include': '../../qapi/introspect.json' }
--{ 'include': '../../qapi/job.json' }
- { 'include': '../../qapi/authz.json' }
--{ 'include': '../../qapi/qom.json' }
--{ 'include': '../../qapi/sockets.json' }
- { 'include': '../../qapi/transaction.json' }
-+{ 'include': '../../qapi/control.json' }
-+{ 'include': '../../qapi/introspect.json' }
-+{ 'include': '../../qapi/qom.json' }
+V2:
+  - Use gvec;
+  - Fix instructions bugs;
+  - Add set_fpr()/get_fpr() replace to cpu_fpr.
+
+
+Song Gao (44):
+  target/loongarch: Add LSX data type VReg
+  target/loongarch: meson.build support build LSX
+  target/loongarch: Add CHECK_SXE maccro for check LSX enable
+  target/loongarch: Implement vadd/vsub
+  target/loongarch: Implement vaddi/vsubi
+  target/loongarch: Implement vneg
+  target/loongarch: Implement vsadd/vssub
+  target/loongarch: Implement vhaddw/vhsubw
+  target/loongarch: Implement vaddw/vsubw
+  target/loongarch: Implement vavg/vavgr
+  target/loongarch: Implement vabsd
+  target/loongarch: Implement vadda
+  target/loongarch: Implement vmax/vmin
+  target/loongarch: Implement vmul/vmuh/vmulw{ev/od}
+  target/loongarch: Implement vmadd/vmsub/vmaddw{ev/od}
+  target/loongarch: Implement vdiv/vmod
+  target/loongarch: Implement vsat
+  target/loongarch: Implement vexth
+  target/loongarch: Implement vsigncov
+  target/loongarch: Implement vmskltz/vmskgez/vmsknz
+  target/loongarch: Implement LSX logic instructions
+  target/loongarch: Implement vsll vsrl vsra vrotr
+  target/loongarch: Implement vsllwil vextl
+  target/loongarch: Implement vsrlr vsrar
+  target/loongarch: Implement vsrln vsran
+  target/loongarch: Implement vsrlrn vsrarn
+  target/loongarch: Implement vssrln vssran
+  target/loongarch: Implement vssrlrn vssrarn
+  target/loongarch: Implement vclo vclz
+  target/loongarch: Implement vpcnt
+  target/loongarch: Implement vbitclr vbitset vbitrev
+  target/loongarch: Implement vfrstp
+  target/loongarch: Implement LSX fpu arith instructions
+  target/loongarch: Implement LSX fpu fcvt instructions
+  target/loongarch: Implement vseq vsle vslt
+  target/loongarch: Implement vfcmp
+  target/loongarch: Implement vbitsel vset
+  target/loongarch: Implement vinsgr2vr vpickve2gr vreplgr2vr
+  target/loongarch: Implement vreplve vpack vpick
+  target/loongarch: Implement vilvl vilvh vextrins vshuf
+  target/loongarch: Implement vld vst
+  target/loongarch: Implement vldi
+  target/loongarch: Use {set/get}_gpr replace to cpu_fpr
+  target/loongarch: CPUCFG support LSX
+
+ linux-user/loongarch64/signal.c               |    4 +-
+ target/loongarch/cpu.c                        |    5 +-
+ target/loongarch/cpu.h                        |   27 +-
+ target/loongarch/disas.c                      |  911 ++++
+ target/loongarch/fpu_helper.c                 |    2 +-
+ target/loongarch/gdbstub.c                    |    4 +-
+ target/loongarch/helper.h                     |  566 +++
+ .../loongarch/insn_trans/trans_farith.c.inc   |   72 +-
+ target/loongarch/insn_trans/trans_fcmp.c.inc  |   12 +-
+ .../loongarch/insn_trans/trans_fmemory.c.inc  |   37 +-
+ target/loongarch/insn_trans/trans_fmov.c.inc  |   31 +-
+ target/loongarch/insn_trans/trans_lsx.c.inc   | 4400 +++++++++++++++++
+ target/loongarch/insns.decode                 |  811 +++
+ target/loongarch/internals.h                  |   23 +
+ target/loongarch/lsx_helper.c                 | 3004 +++++++++++
+ target/loongarch/machine.c                    |   79 +-
+ target/loongarch/meson.build                  |    1 +
+ target/loongarch/translate.c                  |   55 +-
+ target/loongarch/translate.h                  |    1 +
+ 19 files changed, 9988 insertions(+), 57 deletions(-)
+ create mode 100644 target/loongarch/insn_trans/trans_lsx.c.inc
+ create mode 100644 target/loongarch/lsx_helper.c
+
 -- 
-2.39.2
+2.31.1
 
 
