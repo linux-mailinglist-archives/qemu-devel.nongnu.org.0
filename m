@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9186EDD00
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:46:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF896EDD02
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:46:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDN6-0000Nz-3S; Tue, 25 Apr 2023 03:45:57 -0400
+	id 1prDN9-0000TY-Cc; Tue, 25 Apr 2023 03:45:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDN3-00009h-Lc
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDN5-0000QD-NK
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDN0-0006ny-Uq
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:53 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDN3-0006oD-Ta
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408750;
+ s=mimecast20190719; t=1682408753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sdqkWiEXuBbe0aMuicHVixExQ0RmC/KmdA8XIHRB1Jw=;
- b=g3YmAarRsKT8lTtrl6tFMHSk2N0bdnLJvqfeDQXJm/VuiwE5uwx1CgyR0P1U7kwMh/ABOW
- tZ1gmxwVnQjHsnc7h8fg03yW1eX7uGJf5lLj2eEk5gguYRjBQRn5+ltdF3H19jNpIEWH/g
- J5VqWL4zeVnDZBoruoooxdTkAFrNjUE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=blfDpFbwTXrEQIE32dbNR8aJtUL+pHsX1hk7uO4u/aw=;
+ b=D7QmHiA4wy24irRri2+0IYoNVgIJy+Jo1mPFRCqvQrmhDk9ntiKfAoL51LaqXLkaXnQQJJ
+ Vm6RZpUZgihQqi4mZavwR0H1Ve1NWnFc+Q4CdoMxZUVFWCt2ieoCzDmq7CnWUArVRiL2e6
+ GFchTBmsiyscJeTvKTK+c2AHFw8Xewc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-sXKsYvenMzOgrZEGr30yMg-1; Tue, 25 Apr 2023 03:45:49 -0400
-X-MC-Unique: sXKsYvenMzOgrZEGr30yMg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f250e9e090so6441765e9.0
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:45:49 -0700 (PDT)
+ us-mta-601-2-JVNWv4MRWDhBsvxb7Q0Q-1; Tue, 25 Apr 2023 03:45:52 -0400
+X-MC-Unique: 2-JVNWv4MRWDhBsvxb7Q0Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f25376e3b1so5294225e9.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:45:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408747; x=1685000747;
+ d=1e100.net; s=20221208; t=1682408750; x=1685000750;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sdqkWiEXuBbe0aMuicHVixExQ0RmC/KmdA8XIHRB1Jw=;
- b=QJBolhyvX2q///K/RxMZf2W0tAmJELLd14ECDA2XGt3Jte/FwiTCJajnNAKPSL04o2
- RsORxLHYGzTm2Hrs+076u6B0EVtN4ZxlUtJkztyv2ExM1BeDVdyU7xc9MELkUxhScSSz
- vSuWlPFCu/tUiCPATpgD789KIAChpaobqVOVrYj9Dhux45sJ7mzuLa8DyZNgjkuSKtrG
- zc1ChOo6rvWND+jDnQYKVkD3+gwvOX4Pfre9TkWvu1Izt+OOslXwSG4qBcxY+U1pAhHw
- kpnqRwf+8ojwRPLr+uFY01a0DcMHhr+p0vFBLv3C8zlA0sI6pk0B07FJmy9Mm5MtScZR
- TznQ==
-X-Gm-Message-State: AAQBX9emGdWuJdNLaCjM2hc17y/9B01Tw267cGtcUjNNLPN43lixhFzH
- YybecH7DIAlFqCOksrK1AH9fqNQhTqy+dgcKYn+eNw3d2uPmAiQoYBbwq68U5LbfviiYOKpckkY
- zRqNPMRi1fAn++G3tySKAjyZ8hS9KfBohMcj7JjI+fW5io5qSPqxh7BxHZ4UgIrj7hGB7
-X-Received: by 2002:a7b:c393:0:b0:3f1:6458:99a7 with SMTP id
- s19-20020a7bc393000000b003f1645899a7mr9012024wmj.38.1682408746732; 
- Tue, 25 Apr 2023 00:45:46 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ad4TCuWCBC+AG461cfDN1Vfgv2g5HSPeZ6e0X8sYuDXur/RoTq2vL2cKfGjWKS10+DKS3e8g==
-X-Received: by 2002:a7b:c393:0:b0:3f1:6458:99a7 with SMTP id
- s19-20020a7bc393000000b003f1645899a7mr9011994wmj.38.1682408746316; 
- Tue, 25 Apr 2023 00:45:46 -0700 (PDT)
+ bh=blfDpFbwTXrEQIE32dbNR8aJtUL+pHsX1hk7uO4u/aw=;
+ b=EV5i5hxVmEYx+SlmOuQMoj6pZB3PPUll5nVTCO9Q8fydhIauKvuLFUzfthGvo2LTrm
+ 2QC7KWdW4+HC9phYY7W+Z/240pn/lkLEKtGizGcfrZV1LnOPFy48e0mwcujt75rqX4Fm
+ eqMncYgJukvboG0I0cw1F8w3UY7zzuUuaj37FTgNg8FyBXyh72ctDYHBcLGmGKO0Fr3v
+ hkDU1dCCXmXWNCcguelqcK0pXi2WKxqw5QltWQO2D7N05orYpuLXdnJyNVxyhQhCPxxt
+ b7F1igmpVYFIFHhlK9AANvFxaX8ypT9a4+Aj2HEkrs1222tucEbhd7fLUCUgBDk3BLUq
+ clrg==
+X-Gm-Message-State: AAQBX9eTfEjuXCX1+Y3/idxZfdvYHWbO8z01iByryCNuES1cVUId6Uf+
+ W9OsZaHK8X8JsEmCCsTdEgwGzZ5NTUM1Z/fhgD7TWvNkLHx/cCPt/dX3Er6TM7pazCFigxGY5qy
+ qI2K/tJ1psTDw7GMXnHHDCzuWSVVU79P3rwyCjUMs4lNHZ74Otmlvwu87I5BPg9oy/14w
+X-Received: by 2002:adf:f1d1:0:b0:2ef:5d73:f6b7 with SMTP id
+ z17-20020adff1d1000000b002ef5d73f6b7mr10956485wro.13.1682408750248; 
+ Tue, 25 Apr 2023 00:45:50 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bA9yONv16tMDWeHyElrRQgn47L4yQfbQMmE3Z1mG3NTcFvGyzO3U5zwxXenkbT6qRzvrDe3w==
+X-Received: by 2002:adf:f1d1:0:b0:2ef:5d73:f6b7 with SMTP id
+ z17-20020adff1d1000000b002ef5d73f6b7mr10956469wro.13.1682408749981; 
+ Tue, 25 Apr 2023 00:45:49 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- c21-20020a7bc855000000b003f17300c7dcsm14069408wml.48.2023.04.25.00.45.43
+ k17-20020a5d6291000000b002c561805a4csm12455059wru.45.2023.04.25.00.45.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:45:45 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:45:42 -0400
+ Tue, 25 Apr 2023 00:45:49 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:45:46 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Chuck Zmudzinski <brchuckz@aol.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org
-Subject: [PULL 16/31] pci: avoid accessing slot_reserved_mask directly
- outside of pci.c
-Message-ID: <b93fe7f2ca9aea5ef74db5881aabecd7b1c234ed.1682408661.git.mst@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+Subject: [PULL 17/31] vhost-user-blk-server: notify client about disk resize
+Message-ID: <ca858a5fe94c0325bfe5f764f1bb090b160264a3.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -80,7 +75,7 @@ Content-Disposition: inline
 In-Reply-To: <cover.1682408661.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -104,138 +99,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Chuck Zmudzinski <brchuckz@aol.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-This patch provides accessor functions as replacements for direct
-access to slot_reserved_mask according to the comment at the top
-of include/hw/pci/pci_bus.h which advises that data structures for
-PCIBus should not be directly accessed but instead be accessed using
-accessor functions in pci.h.
+Currently block_resize qmp command is simply ignored by vhost-user-blk
+export. So, the block-node is successfully resized, but virtio config
+is unchanged and guest doesn't see that disk is resized.
 
-Three accessor functions can conveniently replace all direct accesses
-of slot_reserved_mask. With this patch, the new accessor functions are
-used in hw/sparc64/sun4u.c and hw/xen/xen_pt.c and pci_bus.h is removed
-from the included header files of the same two files.
+Let's handle the resize by modifying the config and notifying the guest
+appropriately.
 
-No functional change intended.
+After this comment, lsblk in linux guest with attached
+vhost-user-blk-pci device shows new size immediately after block_resize
+QMP command on vhost-user exported block node.
 
-Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
-Message-Id: <b1b7f134883cbc83e455abbe5ee225c71aa0e8d0.1678888385.git.brchuckz@aol.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Message-Id: <20230321201323.3695923-1-vsementsov@yandex-team.ru>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> [sun4u]
 ---
- include/hw/pci/pci.h |  3 +++
- hw/pci/pci.c         | 15 +++++++++++++++
- hw/sparc64/sun4u.c   |  7 +++----
- hw/xen/xen_pt.c      |  7 +++----
- 4 files changed, 24 insertions(+), 8 deletions(-)
+ subprojects/libvhost-user/libvhost-user.h |  2 ++
+ block/export/vhost-user-blk-server.c      | 24 +++++++++++++++++++++++
+ subprojects/libvhost-user/libvhost-user.c | 10 ++++++++++
+ 3 files changed, 36 insertions(+)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index d5a40cd058..935b4b91b4 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -287,6 +287,9 @@ void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
- void pci_bus_map_irqs(PCIBus *bus, pci_map_irq_fn map_irq);
- void pci_bus_irqs_cleanup(PCIBus *bus);
- int pci_bus_get_irq_level(PCIBus *bus, int irq_num);
-+uint32_t pci_bus_get_slot_reserved_mask(PCIBus *bus);
-+void pci_bus_set_slot_reserved_mask(PCIBus *bus, uint32_t mask);
-+void pci_bus_clear_slot_reserved_mask(PCIBus *bus, uint32_t mask);
- /* 0 <= pin <= 3 0 = INTA, 1 = INTB, 2 = INTC, 3 = INTD */
- static inline int pci_swizzle(int slot, int pin)
+diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
+index 8c5a2719e3..49208cceaa 100644
+--- a/subprojects/libvhost-user/libvhost-user.h
++++ b/subprojects/libvhost-user/libvhost-user.h
+@@ -585,6 +585,8 @@ bool vu_queue_empty(VuDev *dev, VuVirtq *vq);
+  */
+ void vu_queue_notify(VuDev *dev, VuVirtq *vq);
+ 
++void vu_config_change_msg(VuDev *dev);
++
+ /**
+  * vu_queue_notify_sync:
+  * @dev: a VuDev context
+diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
+index 3409d9e02e..e56b92f2e2 100644
+--- a/block/export/vhost-user-blk-server.c
++++ b/block/export/vhost-user-blk-server.c
+@@ -10,6 +10,7 @@
+  * later.  See the COPYING file in the top-level directory.
+  */
+ #include "qemu/osdep.h"
++#include "qemu/error-report.h"
+ #include "block/block.h"
+ #include "subprojects/libvhost-user/libvhost-user.h" /* only for the type definitions */
+ #include "standard-headers/linux/virtio_blk.h"
+@@ -251,6 +252,27 @@ static void vu_blk_exp_request_shutdown(BlockExport *exp)
+     vhost_user_server_stop(&vexp->vu_server);
+ }
+ 
++static void vu_blk_exp_resize(void *opaque)
++{
++    VuBlkExport *vexp = opaque;
++    BlockDriverState *bs = blk_bs(vexp->handler.blk);
++    int64_t new_size = bdrv_getlength(bs);
++
++    if (new_size < 0) {
++        error_printf("Failed to get length of block node '%s'",
++                     bdrv_get_node_name(bs));
++        return;
++    }
++
++    vexp->blkcfg.capacity = cpu_to_le64(new_size >> VIRTIO_BLK_SECTOR_BITS);
++
++    vu_config_change_msg(&vexp->vu_server.vu_dev);
++}
++
++static const BlockDevOps vu_blk_dev_ops = {
++    .resize_cb = vu_blk_exp_resize,
++};
++
+ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+                              Error **errp)
  {
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index def5000e7b..8a87ccc8b0 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1116,6 +1116,21 @@ static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn)
-     return bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn));
+@@ -292,6 +314,8 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+     blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+                                  vexp);
+ 
++    blk_set_dev_ops(exp->blk, &vu_blk_dev_ops, vexp);
++
+     if (!vhost_user_server_start(&vexp->vu_server, vu_opts->addr, exp->ctx,
+                                  num_queues, &vu_blk_iface, errp)) {
+         blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index 0200b78e8e..0abd898a52 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -2455,6 +2455,16 @@ void vu_queue_notify_sync(VuDev *dev, VuVirtq *vq)
+     _vu_queue_notify(dev, vq, true);
  }
  
-+uint32_t pci_bus_get_slot_reserved_mask(PCIBus *bus)
++void vu_config_change_msg(VuDev *dev)
 +{
-+    return bus->slot_reserved_mask;
++    VhostUserMsg vmsg = {
++        .request = VHOST_USER_BACKEND_CONFIG_CHANGE_MSG,
++        .flags = VHOST_USER_VERSION,
++    };
++
++    vu_message_write(dev, dev->slave_fd, &vmsg);
 +}
 +
-+void pci_bus_set_slot_reserved_mask(PCIBus *bus, uint32_t mask)
-+{
-+    bus->slot_reserved_mask |= mask;
-+}
-+
-+void pci_bus_clear_slot_reserved_mask(PCIBus *bus, uint32_t mask)
-+{
-+    bus->slot_reserved_mask &= ~mask;
-+}
-+
- /* -1 for devfn means auto assign */
- static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
-                                          const char *name, int devfn,
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index a25e951f9d..eae7589462 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -31,7 +31,6 @@
- #include "hw/irq.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bridge.h"
--#include "hw/pci/pci_bus.h"
- #include "hw/pci/pci_host.h"
- #include "hw/qdev-properties.h"
- #include "hw/pci-host/sabre.h"
-@@ -608,9 +607,9 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     /* Only in-built Simba APBs can exist on the root bus, slot 0 on busA is
-        reserved (leaving no slots free after on-board devices) however slots
-        0-3 are free on busB */
--    pci_bus->slot_reserved_mask = 0xfffffffc;
--    pci_busA->slot_reserved_mask = 0xfffffff1;
--    pci_busB->slot_reserved_mask = 0xfffffff0;
-+    pci_bus_set_slot_reserved_mask(pci_bus, 0xfffffffc);
-+    pci_bus_set_slot_reserved_mask(pci_busA, 0xfffffff1);
-+    pci_bus_set_slot_reserved_mask(pci_busB, 0xfffffff0);
- 
-     ebus = pci_new_multifunction(PCI_DEVFN(1, 0), true, TYPE_EBUS);
-     qdev_prop_set_uint64(DEVICE(ebus), "console-serial-base",
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 2d33d178ad..a540149639 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -57,7 +57,6 @@
- #include <sys/ioctl.h>
- 
- #include "hw/pci/pci.h"
--#include "hw/pci/pci_bus.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "xen_pt.h"
-@@ -951,7 +950,7 @@ void xen_igd_reserve_slot(PCIBus *pci_bus)
-     }
- 
-     XEN_PT_LOG(0, "Reserving PCI slot 2 for IGD\n");
--    pci_bus->slot_reserved_mask |= XEN_PCI_IGD_SLOT_MASK;
-+    pci_bus_set_slot_reserved_mask(pci_bus, XEN_PCI_IGD_SLOT_MASK);
- }
- 
- static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
-@@ -971,7 +970,7 @@ static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
-         return;
-     }
- 
--    if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK)) {
-+    if (!(pci_bus_get_slot_reserved_mask(pci_bus) & XEN_PCI_IGD_SLOT_MASK)) {
-         xpdc->pci_qdev_realize(qdev, errp);
-         return;
-     }
-@@ -982,7 +981,7 @@ static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
-         s->real_device.dev == XEN_PCI_IGD_DEV &&
-         s->real_device.func == XEN_PCI_IGD_FN &&
-         s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
--        pci_bus->slot_reserved_mask &= ~XEN_PCI_IGD_SLOT_MASK;
-+        pci_bus_clear_slot_reserved_mask(pci_bus, XEN_PCI_IGD_SLOT_MASK);
-         XEN_PT_LOG(pci_dev, "Intel IGD found, using slot 2\n");
-     }
-     xpdc->pci_qdev_realize(qdev, errp);
+ static inline void
+ vring_used_flags_set_bit(VuVirtq *vq, int mask)
+ {
 -- 
 MST
 
