@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78846EE2C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 506866EE2CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:21:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prIZG-0002nm-A5; Tue, 25 Apr 2023 09:18:50 -0400
+	id 1prIaE-0004Eg-GI; Tue, 25 Apr 2023 09:19:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1prIZ9-0002dC-5r
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:18:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1prIZt-0003oH-QO
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:19:32 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1prIZ7-0007bL-Jq
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:18:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682428720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Qwff0QfFDBS4HQaM+Uym5fSdMtexnZiD8oQPYI1BZv0=;
- b=gb+RWQT2S0VtZ0NS8zkHGhI1n8ADRG4OJAy0ZVVv441vwuYomXZjsRNsA6HHFNBADgRuYx
- LnEciSjiNOkGs9CnXe7YNAX1LMSXtI9cuj1INXSodZ9hL2EtRZVpxrupDaqEyT5aAkEFzE
- yqhNPtGoiKEJnVThKJDbMapBAXzCUP0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-322-4HyDWOm_NIGsaslUJmaJLQ-1; Tue, 25 Apr 2023 09:18:37 -0400
-X-MC-Unique: 4HyDWOm_NIGsaslUJmaJLQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FD07A0F380;
- Tue, 25 Apr 2023 13:18:37 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.246])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBF88C15BA0;
- Tue, 25 Apr 2023 13:18:36 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6A21E180099C; Tue, 25 Apr 2023 15:18:35 +0200 (CEST)
-Date: Tue, 25 Apr 2023 15:18:35 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
- philmd@linaro.org, david@redhat.com, peterx@redhat.com, pbonzini@redhat.com, 
- marcel.apfelbaum@gmail.com, den-plotnikov@yandex-team.ru,
- Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH] pci: make ROM memory resizable
-Message-ID: <mlfkmafaoqkxtipgqspet7s2eoirmfspiltvjqbjd25iqkopbc@qkhsxgq4buf6>
-References: <20230424203647.94614-1-vsementsov@yandex-team.ru>
- <20230425031348-mutt-send-email-mst@kernel.org>
- <kwqw7gyagjlykfvdyiwlfr3tuepofr5o7e2mtute6dmltbzkg6@jy3ea7jlvllc>
- <bc9f987b-e66c-ea23-1ff0-c921b7de14ad@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1prIZn-0007fN-1M
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:19:29 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 48A145E78B;
+ Tue, 25 Apr 2023 16:19:14 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b440::1:14] (unknown
+ [2a02:6b8:b081:b440::1:14])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id CJGRGT1OgqM0-n4Kq03xp; Tue, 25 Apr 2023 16:19:13 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682428753; bh=MEz7ey3xg0C08bS9Sjzy1Z9Dmer0GbLfX7kKb8+le0Y=;
+ h=In-Reply-To:Cc:Date:References:To:From:Subject:Message-ID;
+ b=xILJ7fow7Hziq8FFlF5VFr14faZxxvDNCj5b7RnwaYKpMRfNfGnSq/2RYGrvMT73F
+ jG9VqscT9HznWjUjVQGLST2s1en1Q0GJH0tO6QiuBzYT/aBL2JevxuXPDtPPkp+/T/
+ GK2JLqwL94EOakP18ID6MpytmcAAFa12aTqbLacU=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <56042897-8efc-d77d-68eb-9af94a8921a5@yandex-team.ru>
+Date: Tue, 25 Apr 2023 16:19:12 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bc9f987b-e66c-ea23-1ff0-c921b7de14ad@yandex-team.ru>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 3/3] pci: ROM preallocation for incoming migration
+Content-Language: en-US
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
+ den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com
+References: <20230425105603.137823-1-vsementsov@yandex-team.ru>
+ <20230425105603.137823-4-vsementsov@yandex-team.ru>
+ <20230425084121-mutt-send-email-mst@kernel.org>
+ <12e32fad-f4a2-73df-8345-2ce7ac56aa35@yandex-team.ru>
+In-Reply-To: <12e32fad-f4a2-73df-8345-2ce7ac56aa35@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,28 +81,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-  Hi,
-
-> > If you supply your own versions for some reason you must make sure
-> > they have identical size on all host machines.
+On 25.04.23 16:07, Vladimir Sementsov-Ogievskiy wrote:
+> On 25.04.23 15:43, Michael S. Tsirkin wrote:
+>> On Tue, Apr 25, 2023 at 01:56:03PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>>> On incoming migration we have the following sequence to load option
+>>> ROM:
+>>>
+>>> 1. On device realize we do normal load ROM from the file
+>>>
+>>> 2. Than, on incoming migration we rewrite ROM from the incoming RAM
+>>>     block. If sizes mismatch we fail.
+>>>
+>>> This is not ideal when we migrate to updated distribution: we have to
+>>> keep old ROM files in new distribution and be careful around romfile
+>>> property to load correct ROM file. Which is loaded actually just to
+>>> allocate the ROM with correct length.
+>>>
+>>> Note, that romsize property doesn't really help: if we try to specify
+>>> it when default romfile is larger, it fails with something like:
+>>>
+>>> romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
+>>>
+>>> This commit brings new behavior for romfile="",romsize=SIZE combination
+>>> of options. Current behavior is just ignore romsize and not load or
+>>> create any ROM.
+>>>
+>>> Let's instead preallocate ROM, not loading any file. This way we can
+>>> migrate old vm to new environment not thinking about ROM files on
+>>> destination host:
+>>>
+>>> 1. specify romfile="",romsize=SIZE on target, with correct SIZE
+>>>     (actually, size of romfile on source aligned up to power of two, or
+>>>      just original romsize option on source)
+>>>
+>>> 2. On device realize we just preallocate ROM, and not load any file
+>>>
+>>> 3. On incoming migration ROM is filled from the migration stream
+>>>
+>>> As a bonus we avoid extra reading from ROM file on target.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+>> why is this a bad idea:
+>> - on source presumably user overrides romfile
+>> - we have a general rule that source and destination flags must match
+>>
+>> I propose instead to ignore romfile if qemu is incoming migration
+>> and romsize has been specified.
+>>
 > 
-> on my ubuntu 22.04:
+> Hmm, that would work even better, as no additional options needed, thanks. I'll resend
 > 
-> dpkg -L ipxe-qemu | grep efi-virtio
-> /usr/lib/ipxe/qemu/efi-virtio.rom
-> 
-> ls -lthr /usr/lib/ipxe/qemu/efi-virtio.rom
-> -rw-r--r-- 1 root root 512K Jan 13  2022 /usr/lib/ipxe/qemu/efi-virtio.rom
-> 
-> If look inside the file, it's filled with ffff starting from 0x32400
 
-So it would actually fit into 256k without problems.
-Strange ...
+romsize needed anyway, of course.
 
-I guess that one is for ubuntu to sort out.
-
-take care,
-  Gerd
+-- 
+Best regards,
+Vladimir
 
 
