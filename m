@@ -2,60 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1426EE8C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 22:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200FE6EE8CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 22:06:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prOtk-0008Ah-M9; Tue, 25 Apr 2023 16:04:24 -0400
+	id 1prOvV-0000Yi-LC; Tue, 25 Apr 2023 16:06:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1prOtj-0008AS-8V
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:04:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prOvU-0000YX-6v
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:06:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1prOth-0004N5-FI
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:04:22 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prOvS-0004kZ-LX
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:06:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682453060;
+ s=mimecast20190719; t=1682453169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6cUVHOIwW0+I4OMAzxPKPifKsGwUF5dCkazwtaR4L4I=;
- b=AP/C2hegjfD5ZgT8fWi6mYuk0JOIZtORuPP2UFfURkBtAxAJTvJJHWg8/IzFoyz7/HBUiO
- tjknRCdDBycvyhKblAnaJCC3HZHwJ4l+qGPS7BiITCtQ2PusjMdrKHqzCf/Cxip94JTteV
- N/U2tA6z4wOJEFUTuGdQ6UbKQGR9qts=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-338-5HIlCMyKM8ez4ZhA2R8MNA-1; Tue, 25 Apr 2023 16:04:11 -0400
-X-MC-Unique: 5HIlCMyKM8ez4ZhA2R8MNA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD59AA0F387;
- Tue, 25 Apr 2023 20:04:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E1D8492C14;
- Tue, 25 Apr 2023 20:04:05 +0000 (UTC)
-Date: Tue, 25 Apr 2023 15:04:03 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, pbonzini@redhat.com, 
- eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 03/20] block: bdrv/blk_co_unref() for calls in coroutine
- context
-Message-ID: <kku2ccvarnyfykucwbqpeqbfvpomt3cvmatpca57q5mgs63pen@bijq2o3md3kp>
-References: <20230425173158.574203-1-kwolf@redhat.com>
- <20230425173158.574203-4-kwolf@redhat.com>
+ bh=SsglBzJ5bPzxNfeLbd557X2S04FxtGdn7SKhC9ebl8Y=;
+ b=dTBF5ymgbSQlLMRNSogI689d38PQmwmHbG+UmY6+bq+Si2yu/xUSEl+X338JUxAesqoKPl
+ 3B0L39yB2jPmgRiGkLIv7/OTVGO7bjilxD/Cw/w9PHw9Lb5NGn4R/Dzq2z2VC5aosIS+Dw
+ +leFkevdWVV3aHAt6j2nh2+3olk/t0Y=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-591-56XW6E8cPHe6Nakb5XawJA-1; Tue, 25 Apr 2023 16:06:07 -0400
+X-MC-Unique: 56XW6E8cPHe6Nakb5XawJA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-2ff4bc7a770so3337978f8f.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 13:06:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682453166; x=1685045166;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SsglBzJ5bPzxNfeLbd557X2S04FxtGdn7SKhC9ebl8Y=;
+ b=asaYKg4ViiBipIHfnm6qMFNhpOvRxGfnPVerp4Ezs7+Lp0UlGH1yi4vcj8HYvcwXJs
+ +1hhIjrm1ZWwTz5qV2SWCJlh0+2zA2hUH0FbURjom0E2EZdsS3ox0VYPmUMoliNs+d3n
+ 49PhhR/Elbk3RkMJmPxY5bqz4bFlzEBSAV4Z72Xz4s02oiZ53gP5MrPAB3CaVzCKO8qc
+ cXDnjcF2eve3pbQAFvBuU++o8zf2KhF4iKipNuCxY/CBip3SlaGBVJQ6Z2jLEMv7dVWK
+ coBp3TgkwJc+U8qjcZ2DLjXq1hUyoA4F3n+MY3jFisIVNDuHEMk2+jet9M3UuPFZOkiO
+ SXWA==
+X-Gm-Message-State: AAQBX9ee9bj7WgO/6tk+a2jWAqSQt9MQYOxJFpDEY0GQLYZTOjxvvS5b
+ viMwvyfyZ8AV+mrKPHPhcErKBcSlF4yJVM9vgBxTdvOUJC1qH3UA4M+DcVzNRYgmOoGRpQopN9x
+ 1O+8QBt9+iSYh+yQ=
+X-Received: by 2002:a5d:4c49:0:b0:2fb:f93f:b96 with SMTP id
+ n9-20020a5d4c49000000b002fbf93f0b96mr13670397wrt.31.1682453166430; 
+ Tue, 25 Apr 2023 13:06:06 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YfiRsmasgXI05pwsdzLH6HiA1xwXtPeZGb761cEOJCrmglV5GDfvkyJQtGlmoyx51T3jJOAg==
+X-Received: by 2002:a5d:4c49:0:b0:2fb:f93f:b96 with SMTP id
+ n9-20020a5d4c49000000b002fbf93f0b96mr13670383wrt.31.1682453166136; 
+ Tue, 25 Apr 2023 13:06:06 -0700 (PDT)
+Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
+ t12-20020a5d690c000000b002f74578f494sm13870719wru.41.2023.04.25.13.06.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 13:06:05 -0700 (PDT)
+Date: Tue, 25 Apr 2023 16:06:02 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
+ den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com
+Subject: Re: [PATCH v2 0/3] ROM migration
+Message-ID: <20230425160524-mutt-send-email-mst@kernel.org>
+References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
+ <17200eef-53c0-71c2-6b7b-0f16514b223d@yandex-team.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230425173158.574203-4-kwolf@redhat.com>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+In-Reply-To: <17200eef-53c0-71c2-6b7b-0f16514b223d@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -63,8 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,31 +97,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 25, 2023 at 07:31:41PM +0200, Kevin Wolf wrote:
-> These functions must not be called in coroutine context, because they
-> need write access to the graph.
+On Tue, Apr 25, 2023 at 07:37:43PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On 25.04.23 19:14, Vladimir Sementsov-Ogievskiy wrote:
+> > Hi all!
+> > 
+> > v2: simply ignore romfile on incoming migration when romsize is
+> > specified.
+> > 
+> > Here I suggest a way to solve a problem, when we have existing
+> > running QEMU with old option ROM of small size and want to migrate to
+> > new environment where we don't have this ROM file.
+> > 
+> > All the details are in patch 03; 01-02 are simple code style
+> > improvements.
+> > 
+> > Vladimir Sementsov-Ogievskiy (3):
+> >    pci: pci_add_option_rom(): improve style
+> >    pci: pci_add_option_rom(): refactor: use g_autofree for path variable
+> >    pci: ROM preallocation for incoming migration
+> > 
+> >   hw/pci/pci.c | 101 ++++++++++++++++++++++++++++-----------------------
+> >   1 file changed, 55 insertions(+), 46 deletions(-)
+> > 
 > 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  include/block/block-global-state.h          |  3 ++-
->  include/sysemu/block-backend-global-state.h |  5 ++++-
->  block.c                                     |  2 +-
->  block/crypto.c                              |  6 +++---
->  block/parallels.c                           |  6 +++---
->  block/qcow.c                                |  6 +++---
->  block/qcow2.c                               | 14 +++++++-------
->  block/qed.c                                 |  6 +++---
->  block/vdi.c                                 |  6 +++---
->  block/vhdx.c                                |  6 +++---
->  block/vmdk.c                                | 18 +++++++++---------
->  block/vpc.c                                 |  6 +++---
->  12 files changed, 44 insertions(+), 40 deletions(-)
+> While being here, could I ask a question:
+> 
+> As I understand, netcard ROM file is needed only for network boot. So, it's absolutely correct to use romfile="" option: network boot will not work, but everything else will work correctly. Is that right?
+> 
+> -- 
+> Best regards,
+> Vladimir
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+That is correct.
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+MST
 
 
