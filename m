@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08B36EDD20
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9521E6EDD13
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:47:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDMp-0007Ny-Np; Tue, 25 Apr 2023 03:45:39 -0400
+	id 1prDMv-0007tr-J2; Tue, 25 Apr 2023 03:45:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMn-0007Fw-HJ
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:37 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMt-0007lF-JL
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:43 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMl-0006lE-ML
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:37 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMr-0006m0-TI
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408735;
+ s=mimecast20190719; t=1682408741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r7X86YUKsr6DaUP9RJPAougsaucvvbmX812GyuJi0kM=;
- b=gbcIxVgZWHXosipeOyL3fhF2tO+Y6QXyCa+n+3+O3rVVtVcey4daSCRoWCo5lzwSlkVQqN
- BavxFElXjLcNyP3iT7jeGVwMoFLFSHKQas02NLv895+3BMs6tEcUeC8mSoChZrUQLWuP3e
- 3Sx2OCWlMqxy8TxID+wLTYMiRng3TDY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S/sucOaXOBUPGK9bWXP9UafBJ0BFNQr2ff/dyB9xOGE=;
+ b=S1sq9qGx1Rx+hoIJDshriqXs/xZe0Wg4DoZvK+Hq9VuUqATbbGyhXTPFiGA/zAnttrctsr
+ 8m9BZQGreDywPf6/NVH6FLGeqSnqJrv5GdSXyaXCgfxgcGXhj0lD0qhYm8Op7nYLdomPNa
+ 5kPUnmQF2F9RnW/ybofEp9EIS0OdR4o=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-85-gKkS6dKZP8yiVutB25p1Tg-1; Tue, 25 Apr 2023 03:45:33 -0400
-X-MC-Unique: gKkS6dKZP8yiVutB25p1Tg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-2ffee43dac5so1939023f8f.2
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:45:33 -0700 (PDT)
+ us-mta-383-4kqG95VIPeKuTSzlg9wugQ-1; Tue, 25 Apr 2023 03:45:37 -0400
+X-MC-Unique: 4kqG95VIPeKuTSzlg9wugQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f195c06507so51460555e9.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:45:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408731; x=1685000731;
+ d=1e100.net; s=20221208; t=1682408734; x=1685000734;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r7X86YUKsr6DaUP9RJPAougsaucvvbmX812GyuJi0kM=;
- b=he4Z+k0wmDXb/UVLk67cRWXJmTP8vwt8zkpTLDGTWdgR3OhqC/pC2qkvWlIxhcaQSz
- buiPiPTgsY431LpcdQ/xMuPCa0jc7clt8E9niuxsYYlKd5uVa1o7hFPhHo6EuC+qRIVS
- xFbv2j9tKztrVurjKWriDrmaQbINHbrpENEq/3y6VG1eXxBPyolcrPjMoj093WjT0sR/
- jYC6AQT66tbPc0f7+nonyHik7LEfFOsYTJWjjWxzHmEDhpaQ3yuP/DiQc7V8upgtM1Ao
- KP0MPJnkS+ZqbNbauxxg6P/jIzqG8+ZmGe2Exh+0RpNUYEea+MtH+Qa0rPldhcc1GT4G
- NZhw==
-X-Gm-Message-State: AAQBX9e5sMTfM+fu43gWS0ZIRfJfqG84E4luQiJdsVsQcCrntvrfXH9h
- 1L18Twa1bSYTSVMrZVZO4jhXDwBZBqGkIFi8/CA8oo8IFEgltox+PYPYy/uXHGHHFaPLX7MdPZF
- LmzLMu2cjdpTQ6dxKy57ApxAePjQxiFjrCvEEMLrbJpNfKS1QNXaYMu9Q8emBBm/c+E0U
-X-Received: by 2002:a5d:570b:0:b0:2fb:11ec:f2a1 with SMTP id
- a11-20020a5d570b000000b002fb11ecf2a1mr10403978wrv.20.1682408731216; 
- Tue, 25 Apr 2023 00:45:31 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aHPkXsfzEDL6zb1tTFCSUGxqe6I5zOFivn0m3yNrPF4oN4okBmw7vGNLOOJnYi5NERagbJIg==
-X-Received: by 2002:a5d:570b:0:b0:2fb:11ec:f2a1 with SMTP id
- a11-20020a5d570b000000b002fb11ecf2a1mr10403957wrv.20.1682408730883; 
- Tue, 25 Apr 2023 00:45:30 -0700 (PDT)
+ bh=S/sucOaXOBUPGK9bWXP9UafBJ0BFNQr2ff/dyB9xOGE=;
+ b=FCHqm8CVmDvHQIySMsa3QqkwZ9CMbYr5FlxjnlyXUpg9ihEIWH7ycFczG25m8llaze
+ bHKlj9Oj7JKO5CVw96VXVgTwOhCvpEIlHxLTBa8Wg5B1Qc00jQOFDuW1vEg0AO8nkh5a
+ I7GWwXvM78g+EpEYitbN1cMvMygD6Bt/U0bOWbHY/VkzAnwC7NLMEX1MtEjN4+JdrkuN
+ dGKmj/Klhqpg81CsoXHNnQkc92RiWyvwWnFRRMTflLNSgvD2frWS6bV7exlDY02pxGYx
+ YoP8pr3cmTlNze1zJcFjXBA62dwssk9xtdOPuIl2l+nAX+8k7VzJmkrnbVmThymeva8H
+ w6sw==
+X-Gm-Message-State: AAQBX9exe4UeEs2FplQoLKAMl77DWWHfq8ZybxDTyEq8uFGDiLctPcuF
+ z0WVVREI/v/ysm3qh6I/95e1T/PPH6oF/pjB0sx7ISUm+rwu/eeHxTPqX94UOjaS+s2VABgJ5ui
+ K31UaV8jaiNFgAmSU0qCvKLlSvsm/YzBz+p82xFiNHLBI3A5Wtmj5nw3dDCJd1fwbF55Y
+X-Received: by 2002:adf:f604:0:b0:2cb:29eb:a35e with SMTP id
+ t4-20020adff604000000b002cb29eba35emr14909585wrp.11.1682408734651; 
+ Tue, 25 Apr 2023 00:45:34 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b8tuMf3vAbkBJqc5CNuCJGfV9C+0bq+UMgxdUNNyI7XH1hG5iPh4kyghW1XodlnsuXin+pug==
+X-Received: by 2002:adf:f604:0:b0:2cb:29eb:a35e with SMTP id
+ t4-20020adff604000000b002cb29eba35emr14909571wrp.11.1682408734373; 
+ Tue, 25 Apr 2023 00:45:34 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- b9-20020adfee89000000b002f777345d21sm12391227wro.95.2023.04.25.00.45.28
+ d6-20020a5d6dc6000000b002efb31d3c24sm12416494wrz.32.2023.04.25.00.45.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:45:30 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:45:27 -0400
+ Tue, 25 Apr 2023 00:45:33 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:45:31 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <anisinha@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 12/31] hw/i386/amd_iommu: Move capab_offset from AMDVIState to
- AMDVIPCIState
-Message-ID: <ae097d8fbd405011afc5c35c7f95a90066a97262.1682408661.git.mst@redhat.com>
+Subject: [PULL 13/31] hw/i386/amd_iommu: Set PCI static/const fields via
+ PCIDeviceClass
+Message-ID: <7f5a459dc8132bd15c28a0d2af1f0cf844ee19f4.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -107,88 +106,43 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-The 'PCI capability offset' is a *PCI* notion. Since AMDVIPCIState
-inherits PCIDevice and hold PCI-related fields, move capab_offset
-from AMDVIState to AMDVIPCIState.
+Set PCI static/const fields once in amdvi_pci_class_init.
+They will be propagated via DeviceClassRealize handler via
+pci_qdev_realize() -> do_pci_register_device() -> pci_config_set*().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230313153031.86107-5-philmd@linaro.org>
+Message-Id: <20230313153031.86107-6-philmd@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/amd_iommu.h  |  2 +-
- hw/i386/acpi-build.c |  2 +-
- hw/i386/amd_iommu.c  | 14 +++++++-------
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ hw/i386/amd_iommu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/amd_iommu.h b/hw/i386/amd_iommu.h
-index 5eccaad790..1c0cb54bd4 100644
---- a/hw/i386/amd_iommu.h
-+++ b/hw/i386/amd_iommu.h
-@@ -308,6 +308,7 @@ typedef struct AMDVIAddressSpace AMDVIAddressSpace;
- /* functions to steal PCI config space */
- typedef struct AMDVIPCIState {
-     PCIDevice dev;               /* The PCI device itself        */
-+    uint32_t capab_offset;       /* capability offset pointer    */
- } AMDVIPCIState;
- 
- struct AMDVIState {
-@@ -315,7 +316,6 @@ struct AMDVIState {
-     AMDVIPCIState pci;          /* IOMMU PCI device             */
- 
-     uint32_t version;
--    uint32_t capab_offset;       /* capability offset pointer    */
- 
-     uint64_t mmio_addr;
- 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index a27bc33956..7f211e1f48 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2399,7 +2399,7 @@ build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-                               object_property_get_int(OBJECT(&s->pci), "addr",
-                                                       &error_abort), 2);
-     /* Capability offset */
--    build_append_int_noprefix(table_data, s->capab_offset, 2);
-+    build_append_int_noprefix(table_data, s->pci.capab_offset, 2);
-     /* IOMMU base address */
-     build_append_int_noprefix(table_data, s->mmio.addr, 8);
-     /* PCI Segment Group */
 diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index 19f57e6318..9f6622e11f 100644
+index 9f6622e11f..8e4ce63f8e 100644
 --- a/hw/i386/amd_iommu.c
 +++ b/hw/i386/amd_iommu.c
-@@ -1516,15 +1516,15 @@ static void amdvi_init(AMDVIState *s)
-     pci_config_set_class(s->pci.dev.config, 0x0806);
+@@ -1511,9 +1511,7 @@ static void amdvi_init(AMDVIState *s)
+     amdvi_set_quad(s, AMDVI_MMIO_STATUS, 0, 0x98, 0x67);
+ 
+     /* reset device ident */
+-    pci_config_set_vendor_id(s->pci.dev.config, PCI_VENDOR_ID_AMD);
+     pci_config_set_prog_interface(s->pci.dev.config, 00);
+-    pci_config_set_class(s->pci.dev.config, 0x0806);
  
      /* reset AMDVI specific capabilities, all r/o */
--    pci_set_long(s->pci.dev.config + s->capab_offset, AMDVI_CAPAB_FEATURES);
--    pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_BAR_LOW,
-+    pci_set_long(s->pci.dev.config + s->pci.capab_offset, AMDVI_CAPAB_FEATURES);
-+    pci_set_long(s->pci.dev.config + s->pci.capab_offset + AMDVI_CAPAB_BAR_LOW,
-                  AMDVI_BASE_ADDR & ~(0xffff0000));
--    pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_BAR_HIGH,
-+    pci_set_long(s->pci.dev.config + s->pci.capab_offset + AMDVI_CAPAB_BAR_HIGH,
-                 (AMDVI_BASE_ADDR & ~(0xffff)) >> 16);
--    pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_RANGE,
-+    pci_set_long(s->pci.dev.config + s->pci.capab_offset + AMDVI_CAPAB_RANGE,
-                  0xff000000);
--    pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_MISC, 0);
--    pci_set_long(s->pci.dev.config + s->capab_offset + AMDVI_CAPAB_MISC,
-+    pci_set_long(s->pci.dev.config + s->pci.capab_offset + AMDVI_CAPAB_MISC, 0);
-+    pci_set_long(s->pci.dev.config + s->pci.capab_offset + AMDVI_CAPAB_MISC,
-             AMDVI_MAX_PH_ADDR | AMDVI_MAX_GVA_ADDR | AMDVI_MAX_VA_ADDR);
- }
+     pci_set_long(s->pci.dev.config + s->pci.capab_offset, AMDVI_CAPAB_FEATURES);
+@@ -1623,6 +1621,10 @@ static const TypeInfo amdvi_sysbus = {
+ static void amdvi_pci_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->vendor_id = PCI_VENDOR_ID_AMD;
++    k->class_id = 0x0806;
  
-@@ -1557,7 +1557,7 @@ static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
-     if (ret < 0) {
-         return;
-     }
--    s->capab_offset = ret;
-+    s->pci.capab_offset = ret;
- 
-     ret = pci_add_capability(&s->pci.dev, PCI_CAP_ID_MSI, 0,
-                              AMDVI_CAPAB_REG_SIZE, errp);
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+     dc->desc = "AMD IOMMU (AMD-Vi) DMA Remapping device";
 -- 
 MST
 
