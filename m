@@ -2,111 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85C46EE477
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 17:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB9B6EE472
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 17:07:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prKFr-0007Rz-BT; Tue, 25 Apr 2023 11:06:55 -0400
+	id 1prKEn-0006Qh-IE; Tue, 25 Apr 2023 11:05:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1prKFn-00079c-2v; Tue, 25 Apr 2023 11:06:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1prKFg-00067U-Ga; Tue, 25 Apr 2023 11:06:50 -0400
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33PF2BXc029558; Tue, 25 Apr 2023 15:06:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=VQrWtkUM8IEawT0BDmMzsnqJ6hU9BWI3LFBiwAUy3dM=;
- b=d9cx9Y5DnPGJId0EwWIGC5drEySFfPxi9roDh1cbf6VLnwkls01a9ZQfhctw3UXyBM2t
- Bf3GZcajYxwBJ1EnlXEB16LAffndBXql1RqwH82e/IDbtyFuzahs6jOKilbvybu3LIqM
- Ynvlv+0vijlxrt6R3QYQXFe4efuRX0bImaVmRsDB4cSFW9djQVUume+5GqHOAxvBymnK
- bARXIf4qx4gWqtCKq+6d27tWl+YQbdbmCEe8x5JZJaFSXQcI6hqHJIJJhODmYY/8oFW4
- r3RA/r1PyOoAczuzyJ6U6T+FzjzFlhc/HYgxVDGAcyXaENlycFkhFTBs2VxaI/x36XJI nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6gdr2kx7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 15:06:37 +0000
-Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33PF2rjv001201;
- Tue, 25 Apr 2023 15:04:32 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6gdr2g2v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 15:04:32 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33P5NXb6011243;
- Tue, 25 Apr 2023 15:03:07 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3q47771ghp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 15:03:07 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33PF31CR14156400
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Apr 2023 15:03:01 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 894AA20040;
- Tue, 25 Apr 2023 15:03:01 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F073F2004B;
- Tue, 25 Apr 2023 15:03:00 +0000 (GMT)
-Received: from [9.152.222.242] (unknown [9.152.222.242])
- by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Tue, 25 Apr 2023 15:03:00 +0000 (GMT)
-Message-ID: <61fd03cd-0fdd-7c39-0219-7fd2d969b0ca@linux.ibm.com>
-Date: Tue, 25 Apr 2023 17:03:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v19 14/21] tests/avocado: s390x cpu topology core
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-15-pmorel@linux.ibm.com>
- <2b678e7d-488d-0072-2b27-cd54a43a77b2@kaod.org>
-Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <2b678e7d-488d-0072-2b27-cd54a43a77b2@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: omSwceIBOkNiXQTcJT4SCgjTlzDUi1Wz
-X-Proofpoint-GUID: jKwnxgYZkGby4TBpJi5zfa8TmUtJnyjx
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1prKEb-0006PW-5a
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 11:05:41 -0400
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1prKEZ-0005rV-KK
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 11:05:36 -0400
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-4eed6ddcae1so25487350e87.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 08:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682435128; x=1685027128;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d5gEeM8U0H4MmN/XdilcWPVmjGoSia0iiid5t/C6TjY=;
+ b=OF2wR3nTzo6PIjovXLngC9cs6DzMO3ZlAHwIO0zp2hD2NLf11F3v39xNnXOyQCUVKd
+ 2UkEvF5yyuIUFK0NRdwSAxrONuIeHTil2A0AISISes+JLV6FRTxpLd6Fyw0jHilS0tlc
+ y+g3SJLnh0oNWDIkAiDFEi3pgco540K1nxzBkK7B1aW0b+Atpdgvh/OcPqP7mR8OXZm6
+ cRzaT6g7Jz0LDbzd9TUfi+sJgp+YNUYHAR+Ut6q5+5N/v2B2bvrjovDYMC3ytQsDKGdu
+ vCVaTbTwukiJGOC+TrxGeu/y4U4/R1uUrj5twZppkHYVczOSImUkuZO58UPGadt0Ri6w
+ v3Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682435128; x=1685027128;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=d5gEeM8U0H4MmN/XdilcWPVmjGoSia0iiid5t/C6TjY=;
+ b=ij+hzlXg4nbXd06eId9Ry7du4hvr6F6AWILgl9zOT7NqnhO/cgPBg50BLKED1oETWN
+ L9HAg6eCYoT9eALDyVPP8GEDtN891a3B66hXKUEMTMc9CaCZm3DhvZMi53ovLGPu/w+7
+ eac2Iz5L4ddtfPQCbKGO+3jks0zP3mmLb/UMT4liGPpPjWOKe8/H0sOnaiQcaNWkKbet
+ jwyjHuWVj+yc6Bq4y51CGjXAxIWypeauF9nmTgkmWZENIuF48w6LiEkodIlKv0qZ9QBc
+ DgAt0DzKczWp1JOqyeW5vx0nYU6rumm8PvkASsGCcvntcqntnMGeyaVNXwkeQhB8L68c
+ dQ1g==
+X-Gm-Message-State: AAQBX9eeJBNs4tcAgHhumB8PUbmEwTyniyLwWlVHK85B2nHE9HrFafHJ
+ X8ovvTCfB/1HEnFml+qFg3A=
+X-Google-Smtp-Source: AKy350YE7jjNxO+VqS45jc5bs/m1ZsPW9aeVDqMRdx8bVBVNbqah/fUR1/OHeXfnFXqiq2kqe3g9eg==
+X-Received: by 2002:a2e:a227:0:b0:2a8:a6b5:2042 with SMTP id
+ i7-20020a2ea227000000b002a8a6b52042mr4059021ljm.19.1682435128452; 
+ Tue, 25 Apr 2023 08:05:28 -0700 (PDT)
+Received: from fralle-msi (217-76-87-243.cust.bredband2.com. [217.76.87.243])
+ by smtp.gmail.com with ESMTPSA id
+ w19-20020a2e9bd3000000b002a8bc9918d4sm2147803ljj.97.2023.04.25.08.05.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 08:05:28 -0700 (PDT)
+Date: Tue, 25 Apr 2023 17:05:26 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
+Subject: Re: [QEMU][PATCH v4 1/4] MAINTAINERS: Include canfd tests under
+ Xilinx CAN
+Message-ID: <20230425150526.GA7006@fralle-msi>
+References: <20230425063433.25803-1-vikram.garhwal@amd.com>
+ <20230425063433.25803-2-vikram.garhwal@amd.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-25_07,2023-04-25_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 spamscore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 phishscore=0 bulkscore=0
- suspectscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304250127
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425063433.25803-2-vikram.garhwal@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::135;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x135.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,261 +95,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On [2023 Apr 24] Mon 23:34:30, Vikram Garhwal wrote:
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-On 4/4/23 11:21, Cédric Le Goater wrote:
-> On 4/3/23 18:28, Pierre Morel wrote:
->> Introduction of the s390x cpu topology core functions and
->> basic tests.
->>
->> We test the corelation between the command line and
->> the QMP results in query-cpus-fast for various CPU topology.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->
-> I gave the tests a run on a z LPAR. Nice job !
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 
-
-:) Thanks
-
-Pierre
-
-
->
-> I hope we can maintain the avocado framework to the level of
-> expectations. I find it very useful for such test cases.
->
-> Thanks,
->
-> C.
->
->
->> ---
->>   MAINTAINERS                    |   1 +
->>   tests/avocado/s390_topology.py | 196 +++++++++++++++++++++++++++++++++
->>   2 files changed, 197 insertions(+)
->>   create mode 100644 tests/avocado/s390_topology.py
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index fe5638e31d..41419840b0 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1662,6 +1662,7 @@ F: hw/s390x/cpu-topology.c
->>   F: target/s390x/kvm/cpu_topology.c
->>   F: docs/devel/s390-cpu-topology.rst
->>   F: docs/system/s390x/cpu-topology.rst
->> +F: tests/avocado/s390_topology.py
->>     X86 Machines
->>   ------------
->> diff --git a/tests/avocado/s390_topology.py 
->> b/tests/avocado/s390_topology.py
->> new file mode 100644
->> index 0000000000..38e9cc4f16
->> --- /dev/null
->> +++ b/tests/avocado/s390_topology.py
->> @@ -0,0 +1,196 @@
->> +# Functional test that boots a Linux kernel and checks the console
->> +#
->> +# Copyright (c) 2023 IBM Corp.
->> +#
->> +# Author:
->> +#  Pierre Morel <pmorel@linux.ibm.com>
->> +#
->> +# This work is licensed under the terms of the GNU GPL, version 2 or
->> +# later.  See the COPYING file in the top-level directory.
->> +
->> +import os
->> +import shutil
->> +import time
->> +
->> +from avocado import skip
->> +from avocado import skipUnless
->> +from avocado import skipIf
->> +from avocado_qemu import QemuSystemTest
->> +from avocado_qemu import exec_command
->> +from avocado_qemu import exec_command_and_wait_for_pattern
->> +from avocado_qemu import interrupt_interactive_console_until_pattern
->> +from avocado_qemu import wait_for_console_pattern
->> +from avocado.utils import process
->> +from avocado.utils import archive
->> +
->> +
->> +class LinuxKernelTest(QemuSystemTest):
->> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
->> +
->> +    def wait_for_console_pattern(self, success_message, vm=None):
->> +        wait_for_console_pattern(self, success_message,
->> +                                 failure_message='Kernel panic - not 
->> syncing',
->> +                                 vm=vm)
->> +
->> +
->> +class S390CPUTopology(LinuxKernelTest):
->> +    """
->> +    S390x CPU topology consist of 4 topology layers, from bottom to 
->> top,
->> +    the cores, sockets, books and drawers and 2 modifiers attributes,
->> +    the entitlement and the dedication.
->> +    See: docs/system/s390x/cpu-topology.rst.
->> +
->> +    S390x CPU topology is setup in different ways:
->> +    - implicitely from the '-smp' argument by completing each topology
->> +      level one after the other begining with drawer 0, book 0 and 
->> socket 0.
->> +    - explicitely from the '-device' argument on the QEMU command line
->> +    - explicitely by hotplug of a new CPU using QMP or HMP
->> +    - it is modified by using QMP 'set-cpu-topology'
->> +
->> +    The S390x modifier attribute entitlement depends on the machine
->> +    polarization, which can be horizontal or vertical.
->> +    The polarization is changed on a request from the guest.
->> +    """
->> +    timeout = 90
->> +
->> +
->> +    def check_topology(self, c, s, b, d, e, t):
->> +        res = self.vm.qmp('query-cpus-fast')
->> +        line =  res['return']
->> +        for x in line:
->> +            core = x['props']['core-id']
->> +            socket = x['props']['socket-id']
->> +            book = x['props']['book-id']
->> +            drawer = x['props']['drawer-id']
->> +            entitlement = x['entitlement']
->> +            dedicated = x['dedicated']
->> +            if core == c:
->> +                self.assertEqual(drawer, d)
->> +                self.assertEqual(book, b)
->> +                self.assertEqual(socket, s)
->> +                self.assertEqual(entitlement, e)
->> +                self.assertEqual(dedicated, t)
->> +
->> +    def kernel_init(self):
->> +        """
->> +        We need a kernel supporting the CPU topology.
->> +        We need a minimal root filesystem with a shell.
->> +        """
->> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
->> + '/fedora-secondary/releases/35/Server/s390x/os'
->> +                      '/images/kernel.img')
->> +        kernel_hash = '0d1aaaf303f07cf0160c8c48e56fe638'
->> +        kernel_path = self.fetch_asset(kernel_url, algorithm='md5',
->> +                                       asset_hash=kernel_hash)
->> +
->> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive'
->> + '/fedora-secondary/releases/35/Server/s390x/os'
->> +                      '/images/initrd.img')
->> +        initrd_hash = 'a122057d95725ac030e2ec51df46e172'
->> +        initrd_path_xz = self.fetch_asset(initrd_url, algorithm='md5',
->> + asset_hash=initrd_hash)
->> +        initrd_path = os.path.join(self.workdir, 'initrd-raw.img')
->> +        archive.lzma_uncompress(initrd_path_xz, initrd_path)
->> +
->> +        self.vm.set_console()
->> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
->> +                              'root=/dev/ram '
->> +                              'selinux=0 '
->> +                              'rdinit=/bin/sh')
->> +        self.vm.add_args('-nographic',
->> +                         '-enable-kvm',
->> +                         '-cpu', 'z14,ctop=on',
->> +                         '-m', '512',
->> +                         '-name', 'Some Guest Name',
->> +                         '-uuid', 
->> '30de4fd9-b4d5-409e-86a5-09b387f70bfa',
->> +                         '-kernel', kernel_path,
->> +                         '-initrd', initrd_path,
->> +                         '-append', kernel_command_line)
->> +
->> +    def test_single(self):
->> +        self.kernel_init()
->> +        self.vm.launch()
->> +        self.wait_for_console_pattern('no job control')
->> +        self.check_topology(0, 0, 0, 0, 'medium', False)
->> +
->> +    def test_default(self):
->> +        """
->> +        This test checks the implicite topology.
->> +
->> +        :avocado: tags=arch:s390x
->> +        :avocado: tags=machine:s390-ccw-virtio
->> +        """
->> +        self.kernel_init()
->> +        self.vm.add_args('-smp',
->> + '13,drawers=2,books=2,sockets=3,cores=2,maxcpus=24')
->> +        self.vm.launch()
->> +        self.wait_for_console_pattern('no job control')
->> +        self.check_topology(0, 0, 0, 0, 'medium', False)
->> +        self.check_topology(1, 0, 0, 0, 'medium', False)
->> +        self.check_topology(2, 1, 0, 0, 'medium', False)
->> +        self.check_topology(3, 1, 0, 0, 'medium', False)
->> +        self.check_topology(4, 2, 0, 0, 'medium', False)
->> +        self.check_topology(5, 2, 0, 0, 'medium', False)
->> +        self.check_topology(6, 0, 1, 0, 'medium', False)
->> +        self.check_topology(7, 0, 1, 0, 'medium', False)
->> +        self.check_topology(8, 1, 1, 0, 'medium', False)
->> +        self.check_topology(9, 1, 1, 0, 'medium', False)
->> +        self.check_topology(10, 2, 1, 0, 'medium', False)
->> +        self.check_topology(11, 2, 1, 0, 'medium', False)
->> +        self.check_topology(12, 0, 0, 1, 'medium', False)
->> +
->> +    def test_move(self):
->> +        """
->> +        This test checks the topology modification by moving a CPU
->> +        to another socket: CPU 0 is moved from socket 0 to socket 2.
->> +
->> +        :avocado: tags=arch:s390x
->> +        :avocado: tags=machine:s390-ccw-virtio
->> +        """
->> +        self.kernel_init()
->> +        self.vm.add_args('-smp',
->> + '1,drawers=2,books=2,sockets=3,cores=2,maxcpus=24')
->> +        self.vm.launch()
->> +        self.wait_for_console_pattern('no job control')
->> +
->> +        self.check_topology(0, 0, 0, 0, 'medium', False)
->> +        res = self.vm.qmp('set-cpu-topology',
->> +                          {'core-id': 0, 'socket-id': 2, 
->> 'entitlement': 'low'})
->> +        self.assertEqual(res['return'], {})
->> +        self.check_topology(0, 2, 0, 0, 'low', False)
->> +
->> +    def test_hotplug(self):
->> +        """
->> +        This test verifies that a CPU defined with '-device' command 
->> line
->> +        argument finds its right place inside the topology.
->> +
->> +        :avocado: tags=arch:s390x
->> +        :avocado: tags=machine:s390-ccw-virtio
->> +        """
->> +        self.kernel_init()
->> +        self.vm.add_args('-smp',
->> + '1,drawers=2,books=2,sockets=3,cores=2,maxcpus=24')
->> +        self.vm.add_args('-device', 'z14-s390x-cpu,core-id=10')
->> +        self.vm.launch()
->> +        self.wait_for_console_pattern('no job control')
->> +
->> +        self.check_topology(10, 2, 1, 0, 'medium', False)
->> +
->> +    def test_hotplug_full(self):
->> +        """
->> +        This test verifies that a hotplugged fully defined with 
->> '-device'
->> +        command line argument finds its right place inside the 
->> topology.
->> +
->> +        :avocado: tags=arch:s390x
->> +        :avocado: tags=machine:s390-ccw-virtio
->> +        """
->> +        self.kernel_init()
->> +        self.vm.add_args('-smp',
->> + '1,drawers=2,books=2,sockets=3,cores=2,maxcpus=24')
->> +        self.vm.add_args('-device',
->> +                         'z14-s390x-cpu,'
->> + 'core-id=1,socket-id=1,book-id=1,drawer-id=1')
->> +        self.vm.launch()
->> +        self.wait_for_console_pattern('no job control')
->> +        self.check_topology(1, 1, 1, 1, 'medium', False)
->> +
->
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 24154f5721..c3dbacb615 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1809,7 +1809,7 @@ M: Francisco Iglesias <francisco.iglesias@amd.com>
+>  S: Maintained
+>  F: hw/net/can/xlnx-*
+>  F: include/hw/net/xlnx-*
+> -F: tests/qtest/xlnx-can-test*
+> +F: tests/qtest/xlnx-can*-test*
+>  
+>  EDU
+>  M: Jiri Slaby <jslaby@suse.cz>
+> -- 
+> 2.17.1
+> 
 
