@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05DE6EE6B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B77D6EE6BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:32:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prMSA-0006xG-OW; Tue, 25 Apr 2023 13:27:46 -0400
+	id 1prMSF-0006ys-Br; Tue, 25 Apr 2023 13:27:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1prMS8-0006w9-LF
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:27:44 -0400
+ id 1prMSC-0006yG-QQ
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:27:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1prMS7-000387-8e
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:27:44 -0400
+ id 1prMSB-00039P-85
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:27:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682443662;
+ s=mimecast20190719; t=1682443666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SGtAMiwxZ6UOXxi5QjVUlwj1Vpn4MSdaUDJYH4vesKw=;
- b=LqasbpwQ5qHA4V6xcQcprrq0AyVvPhlhtiwuEzN3T2ZaaHuGj52rWp1ywlMmRsmsjfWHVe
- ScmLVFEOy2NrwRkhV7dpl32MglgQlalCj4A+XuZeeBLEv1UGKGn1MqhYgeJk217gyOXz/5
- q01/cUlg9kUJcce8epQToRj27m6X7w0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MVghegvQVUaizZCyEWjUSp2wGJFPOHKrCrNbSIUao8c=;
+ b=gmyr5bcgYtTVf2BqiMiN9KxwthebwbpJFtPpBcEY7JKGF8CbsT1mZj6/tyq90YnBE3i3+9
+ swbBqttwTtxEEErd6N3EcRfauC/MU7GT1teZhkfanq8HAcwfLZFgh4kdlsjtgHfoL6K/ZV
+ jLm199R+L57p9BxG3r13NcSq8+3AAkk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-170-F5m3ad6vPW6tX-c71MgQag-1; Tue, 25 Apr 2023 13:27:40 -0400
-X-MC-Unique: F5m3ad6vPW6tX-c71MgQag-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-318-brbwTRKSPLCfpDHZ0sB8ug-1; Tue, 25 Apr 2023 13:27:41 -0400
+X-MC-Unique: brbwTRKSPLCfpDHZ0sB8ug-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC32D87A9E0;
- Tue, 25 Apr 2023 17:27:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E4D928082A8;
+ Tue, 25 Apr 2023 17:27:40 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33E42141511D;
- Tue, 25 Apr 2023 17:27:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2173440C6E68;
+ Tue, 25 Apr 2023 17:27:39 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -60,18 +60,15 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  Stefano Stabellini <sstabellini@kernel.org>,
- Hanna Reitz <hreitz@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v4 08/20] hw/xen: do not use
- aio_set_fd_handler(is_external=true) in xen_xenstore
-Date: Tue, 25 Apr 2023 13:27:04 -0400
-Message-Id: <20230425172716.1033562-9-stefanha@redhat.com>
+ Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
+Subject: [PATCH v4 09/20] block: add blk_in_drain() API
+Date: Tue, 25 Apr 2023 13:27:05 -0400
+Message-Id: <20230425172716.1033562-10-stefanha@redhat.com>
 In-Reply-To: <20230425172716.1033562-1-stefanha@redhat.com>
 References: <20230425172716.1033562-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -80,8 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,32 +93,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There is no need to suspend activity between aio_disable_external() and
-aio_enable_external(), which is mainly used for the block layer's drain
-operation.
+The BlockBackend quiesce_counter is greater than zero during drained
+sections. Add an API to check whether the BlockBackend is in a drained
+section.
 
-This is part of ongoing work to remove the aio_disable_external() API.
+The next patch will use this API.
 
-Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/i386/kvm/xen_xenstore.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/sysemu/block-backend-global-state.h | 1 +
+ block/block-backend.c                       | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
-index 900679af8a..6e81bc8791 100644
---- a/hw/i386/kvm/xen_xenstore.c
-+++ b/hw/i386/kvm/xen_xenstore.c
-@@ -133,7 +133,7 @@ static void xen_xenstore_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "Xenstore evtchn port init failed");
-         return;
-     }
--    aio_set_fd_handler(qemu_get_aio_context(), xen_be_evtchn_fd(s->eh), true,
-+    aio_set_fd_handler(qemu_get_aio_context(), xen_be_evtchn_fd(s->eh), false,
-                        xen_xenstore_event, NULL, NULL, NULL, s);
+diff --git a/include/sysemu/block-backend-global-state.h b/include/sysemu/block-backend-global-state.h
+index 2b6d27db7c..ac7cbd6b5e 100644
+--- a/include/sysemu/block-backend-global-state.h
++++ b/include/sysemu/block-backend-global-state.h
+@@ -78,6 +78,7 @@ void blk_activate(BlockBackend *blk, Error **errp);
+ int blk_make_zero(BlockBackend *blk, BdrvRequestFlags flags);
+ void blk_aio_cancel(BlockAIOCB *acb);
+ int blk_commit_all(void);
++bool blk_in_drain(BlockBackend *blk);
+ void blk_drain(BlockBackend *blk);
+ void blk_drain_all(void);
+ void blk_set_on_error(BlockBackend *blk, BlockdevOnError on_read_error,
+diff --git a/block/block-backend.c b/block/block-backend.c
+index ffd1d66f7d..42721a3592 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1266,6 +1266,13 @@ blk_check_byte_request(BlockBackend *blk, int64_t offset, int64_t bytes)
+     return 0;
+ }
  
-     s->impl = xs_impl_create(xen_domid);
++/* Are we currently in a drained section? */
++bool blk_in_drain(BlockBackend *blk)
++{
++    GLOBAL_STATE_CODE(); /* change to IO_OR_GS_CODE(), if necessary */
++    return qatomic_read(&blk->quiesce_counter);
++}
++
+ /* To be called between exactly one pair of blk_inc/dec_in_flight() */
+ static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
+ {
 -- 
 2.39.2
 
