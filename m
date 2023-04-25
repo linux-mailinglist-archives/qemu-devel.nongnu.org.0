@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3E16EDD12
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4829F6EDD1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:49:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDOR-0001tc-IN; Tue, 25 Apr 2023 03:47:20 -0400
+	id 1prDOU-0002O7-Ih; Tue, 25 Apr 2023 03:47:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNc-0000tu-Bn
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNf-000115-0h
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:31 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNY-0006r7-JB
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNd-0006rl-Dy
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408783;
+ s=mimecast20190719; t=1682408787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=g+LmbV+KcWhotCY4TFXNF71hZn8TnJdbAxdQ6GLDJM0=;
- b=Tdfo0vuGXarHx1Swd/Wx1pOdNNJrFM0mG+eFuqecTMcOfwNsfI/0L338rMfogTVAnt4CKI
- 9yloJ6wN8bICgbuwbB+btgF8xtpKUhokbVImGLXmIm8aFjmHJ0CnL8VuZfn/JdDikf16DT
- +X9LGy/MeMbLka/zWRQbUW29bal3r84=
+ bh=HdiQFYvQ7qjd5XHe+MOZ4snXbsF1M5K1kc94Srzr2lU=;
+ b=QpfzXhun1q2COhjxXVnc6zE8iJN5Xu6HaVupRcQCRhfM+v1/b/e22WXeWWIg2/3GznmxIM
+ HlBJNG3vU8xrrB2/5BvkhnvTVX5h9tjfeDvTaHLgdWLJ/SON/cEPWVmvKnqC4oW//3A02f
+ WWsTPxIhU3iP9Q4MuImn9Pcp+GgJIZQ=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-642-QMjxjaV0PFq5qjVXrhxEog-1; Tue, 25 Apr 2023 03:46:22 -0400
-X-MC-Unique: QMjxjaV0PFq5qjVXrhxEog-1
+ us-mta-362-_kZn5AyRNdmYuGOqJvbcAw-1; Tue, 25 Apr 2023 03:46:26 -0400
+X-MC-Unique: _kZn5AyRNdmYuGOqJvbcAw-1
 Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f18b63229bso51543525e9.0
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:22 -0700 (PDT)
+ 5b1f17b1804b1-3f065208a64so31227295e9.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408776; x=1685000776;
+ d=1e100.net; s=20221208; t=1682408784; x=1685000784;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=g+LmbV+KcWhotCY4TFXNF71hZn8TnJdbAxdQ6GLDJM0=;
- b=i23isKLx7B+tCKAT9ZiccEEV+omBMGFwBDFaaXf3YZ58ZO+4ujwxD86BhEonhHwxG+
- G7mKDq7Esbw2ZZ6jzgyr+rJQ5RZi3aCZz7AWg0jVDVBD2dYUQ+94Fsp5rm1VlP4TkOLL
- TuZr0pnU6SFfbKeo1hqC1RUVKo27KMaxIf20RD6YFdheKJ7/yx/5wH93/AFfTKU+A7TU
- E4zWMr2PEO2AMJlpFtN32e1QzTzI8vfZN4juwyToZ+TjnSMcSHURsrKTH4Qs6OAiveY4
- zx1gzTAbvF3gjC5LEo77w6oPpN7lCjTOAEOjWh74InG8piSSplpVQY7giFi0rR7codFf
- VpTg==
-X-Gm-Message-State: AAQBX9ehxS7gjbTqL+hLlh/FYZyfTRTgeGYmtjfo9SiCona2RnVgJg+D
- izQSO/mNIGgoykulM5WplWloCxtqytK3HApowOiY2g2wYXqcznXRRJvPZu3IIDWU40wo4b9ssKH
- wEF3u0i7gUsq+calv8fSoatsFLROGwaiaz40J4mTbSuItSb4O6Agzomo9djRCyIn/F2Sg
-X-Received: by 2002:adf:f10e:0:b0:2ff:3605:e1e9 with SMTP id
- r14-20020adff10e000000b002ff3605e1e9mr11631025wro.17.1682408776672; 
- Tue, 25 Apr 2023 00:46:16 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b3GS+jHf+uZdTqE7EQqYAIWnobZ8r6SKeSlADspyez1uDF9NY0dwOx9gj5CZgT6SRaCYyDlA==
-X-Received: by 2002:adf:f10e:0:b0:2ff:3605:e1e9 with SMTP id
- r14-20020adff10e000000b002ff3605e1e9mr11630998wro.17.1682408776387; 
- Tue, 25 Apr 2023 00:46:16 -0700 (PDT)
+ bh=HdiQFYvQ7qjd5XHe+MOZ4snXbsF1M5K1kc94Srzr2lU=;
+ b=QizEtDREDANTtIQYrt0QMAY3VyOWZpd0UwMafc2LcPUO1M3GPYr/VNX8+G46WLSeiw
+ gfEXQ2g7BCJcBt9LiCNEwDm9KpRGqCfK5HAwU71fYkbSp9fD7RgFPgD3KghgCxtFpoil
+ Igz3XPQ10Gnp2bh5L9c34dLNe9dMSYKLv6gdWfzDrfJRjTbS0eIr/iwmQ+1utt26jA4j
+ ty3eHul4wrzH5mOcD9SSs6xZXxP8BprvMWU+TfuiptGT2Ygg5HLIT3DpSgZOj3jH5AjL
+ 5OqB6KSMQpkyeIExmjiU97AqQWecrXD6RAvt4Q0U2HFXbdtPZ0Etcy4gCvG1Fv1bkFlj
+ Cz6g==
+X-Gm-Message-State: AC+VfDwZeBr+2Zqtd4z9LA98yyNrbB/fuXa3pz1l8YDLeOF0B5fYO3Cu
+ pAiazKOL9dxUJ567QPR6JsGgvAbgF7B0gKY61CApj/KNMcdcG6WGtv3SAILe1REbvkppSo0IR6z
+ +cJezC+bpMOTVpm22NgDj1swndtE4B+usmQF7Wn5Q7bTn8+Ccge5MU7hlqndsAEdAR3Ae
+X-Received: by 2002:a1c:f613:0:b0:3f2:5a60:d629 with SMTP id
+ w19-20020a1cf613000000b003f25a60d629mr255223wmc.24.1682408784612; 
+ Tue, 25 Apr 2023 00:46:24 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7YIvE3oaWLi3SHpFicGyrxoGUU/yz5Hce5XkFNhQHz76NTkvNjopWL4uYl8qshmuYxTE/f6A==
+X-Received: by 2002:a1c:f613:0:b0:3f2:5a60:d629 with SMTP id
+ w19-20020a1cf613000000b003f25a60d629mr255201wmc.24.1682408784292; 
+ Tue, 25 Apr 2023 00:46:24 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- o2-20020a5d58c2000000b002fe522117fdsm12452357wrf.36.2023.04.25.00.46.13
+ iz14-20020a05600c554e00b003f175954e71sm17567293wmb.32.2023.04.25.00.46.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:46:15 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:46:12 -0400
+ Tue, 25 Apr 2023 00:46:23 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:46:21 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 23/31] intel_iommu: refine iotlb hash calculation
-Message-ID: <ec1a78cee97001b0ed25b5866e92dae058eb5877.1682408661.git.mst@redhat.com>
+ Viresh Kumar <viresh.kumar@linaro.org>
+Subject: [PULL 25/31] virtio: i2c: Check notifier helpers for
+ VIRTIO_CONFIG_IRQ_IDX
+Message-ID: <91208dd297f2686b778210ffda49acbfe36bd3b6.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,96 +98,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jason Wang <jasowang@redhat.com>
+From: Viresh Kumar <viresh.kumar@linaro.org>
 
-Commit 1b2b12376c8 ("intel-iommu: PASID support") takes PASID into
-account when calculating iotlb hash like:
+Since the driver doesn't support interrupts, we must return early when
+index is set to VIRTIO_CONFIG_IRQ_IDX.
 
-static guint vtd_iotlb_hash(gconstpointer v)
-{
-    const struct vtd_iotlb_key *key = v;
-
-    return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
-           (key->level) << VTD_IOTLB_LVL_SHIFT |
-           (key->pasid) << VTD_IOTLB_PASID_SHIFT;
-}
-
-This turns out to be problematic since:
-
-- the shift will lose bits if not converting to uint64_t
-- level should be off by one in order to fit into 2 bits
-- VTD_IOTLB_PASID_SHIFT is 30 but PASID is 20 bits which will waste
-  some bits
-- the hash result is uint64_t so we will lose bits when converting to
-  guint
-
-So this patch fixes them by
-
-- converting the keys into uint64_t before doing the shift
-- off level by one to make it fit into two bits
-- change the sid, lvl and pasid shift to 26, 42 and 44 in order to
-  take the full width of uint64_t
-- perform an XOR to the top 32bit with the bottom 32bit for the final
-  result to fit guint
-
-Fixes: Coverity CID 1508100
-Fixes: 1b2b12376c8 ("intel-iommu: PASID support")
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20230412073510.7158-1-jasowang@redhat.com>
+Fixes: 544f0278afca ("virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX")
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+Message-Id: <d53ec8bc002001eafac597f6bd9a8812df989257.1681790067.git.viresh.kumar@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- hw/i386/intel_iommu_internal.h | 6 +++---
- hw/i386/intel_iommu.c          | 9 +++++----
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ hw/virtio/vhost-user-i2c.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index f090e61e11..2e61eec2f5 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -114,9 +114,9 @@
-                                      VTD_INTERRUPT_ADDR_FIRST + 1)
- 
- /* The shift of source_id in the key of IOTLB hash table */
--#define VTD_IOTLB_SID_SHIFT         20
--#define VTD_IOTLB_LVL_SHIFT         28
--#define VTD_IOTLB_PASID_SHIFT       30
-+#define VTD_IOTLB_SID_SHIFT         26
-+#define VTD_IOTLB_LVL_SHIFT         42
-+#define VTD_IOTLB_PASID_SHIFT       44
- #define VTD_IOTLB_MAX_SIZE          1024    /* Max size of the hash table */
- 
- /* IOTLB_REG */
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index a62896759c..94d52f4205 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -64,8 +64,8 @@ struct vtd_as_key {
- struct vtd_iotlb_key {
-     uint64_t gfn;
-     uint32_t pasid;
--    uint32_t level;
-     uint16_t sid;
-+    uint8_t level;
- };
- 
- static void vtd_address_space_refresh_all(IntelIOMMUState *s);
-@@ -221,10 +221,11 @@ static gboolean vtd_iotlb_equal(gconstpointer v1, gconstpointer v2)
- static guint vtd_iotlb_hash(gconstpointer v)
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index 60eaf0d95b..4eef3f0633 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -128,6 +128,14 @@ static void vu_i2c_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
  {
-     const struct vtd_iotlb_key *key = v;
-+    uint64_t hash64 = key->gfn | ((uint64_t)(key->sid) << VTD_IOTLB_SID_SHIFT) |
-+        (uint64_t)(key->level - 1) << VTD_IOTLB_LVL_SHIFT |
-+        (uint64_t)(key->pasid) << VTD_IOTLB_PASID_SHIFT;
+     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
  
--    return key->gfn | ((key->sid) << VTD_IOTLB_SID_SHIFT) |
--           (key->level) << VTD_IOTLB_LVL_SHIFT |
--           (key->pasid) << VTD_IOTLB_PASID_SHIFT;
-+    return (guint)((hash64 >> 32) ^ (hash64 & 0xffffffffU));
++    /*
++     * We don't support interrupts, return early if index is set to
++     * VIRTIO_CONFIG_IRQ_IDX.
++     */
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return;
++    }
++
+     vhost_virtqueue_mask(&i2c->vhost_dev, vdev, idx, mask);
  }
  
- static gboolean vtd_as_equal(gconstpointer v1, gconstpointer v2)
+@@ -135,6 +143,14 @@ static bool vu_i2c_guest_notifier_pending(VirtIODevice *vdev, int idx)
+ {
+     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
+ 
++    /*
++     * We don't support interrupts, return early if index is set to
++     * VIRTIO_CONFIG_IRQ_IDX.
++     */
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return false;
++    }
++
+     return vhost_virtqueue_pending(&i2c->vhost_dev, idx);
+ }
+ 
 -- 
 MST
 
