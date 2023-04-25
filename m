@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B77D6EE6BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 675FE6EE6A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:29:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prMSF-0006ys-Br; Tue, 25 Apr 2023 13:27:51 -0400
+	id 1prMSF-0006zD-Mq; Tue, 25 Apr 2023 13:27:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1prMSC-0006yG-QQ
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:27:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1prMSE-0006yU-3s
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:27:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1prMSB-00039P-85
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:27:48 -0400
+ id 1prMSC-00039e-K9
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:27:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682443666;
+ s=mimecast20190719; t=1682443668;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MVghegvQVUaizZCyEWjUSp2wGJFPOHKrCrNbSIUao8c=;
- b=gmyr5bcgYtTVf2BqiMiN9KxwthebwbpJFtPpBcEY7JKGF8CbsT1mZj6/tyq90YnBE3i3+9
- swbBqttwTtxEEErd6N3EcRfauC/MU7GT1teZhkfanq8HAcwfLZFgh4kdlsjtgHfoL6K/ZV
- jLm199R+L57p9BxG3r13NcSq8+3AAkk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BWB8WEf8NZeINbe7UA+dJnukN7hLgv/twVbNfXFQN24=;
+ b=Y1pZfTHTxzzXfmVPTEZgOUkLSVGgeLZAvvSjgbpelgqklrzQKbSb2Cj5ulvZtLZNtOs6gS
+ Ci+Skdn+BC4ZYVk/8q7+mOKMSee5BPS2JxmX5LHqFbHZ2pwfFxDlJSQINAyVLnvoX738pp
+ i+82V8LX3ATQltHXaHB6OKevsSiZ1ys=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-318-brbwTRKSPLCfpDHZ0sB8ug-1; Tue, 25 Apr 2023 13:27:41 -0400
-X-MC-Unique: brbwTRKSPLCfpDHZ0sB8ug-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-371-trIX9XLKPRWWnULzgTRHCw-1; Tue, 25 Apr 2023 13:27:43 -0400
+X-MC-Unique: trIX9XLKPRWWnULzgTRHCw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E4D928082A8;
- Tue, 25 Apr 2023 17:27:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82C42A0F397;
+ Tue, 25 Apr 2023 17:27:42 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2173440C6E68;
- Tue, 25 Apr 2023 17:27:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02082492B03;
+ Tue, 25 Apr 2023 17:27:41 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -61,15 +61,16 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  Stefano Stabellini <sstabellini@kernel.org>,
  Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
-Subject: [PATCH v4 09/20] block: add blk_in_drain() API
-Date: Tue, 25 Apr 2023 13:27:05 -0400
-Message-Id: <20230425172716.1033562-10-stefanha@redhat.com>
+Subject: [PATCH v4 10/20] block: drain from main loop thread in
+ bdrv_co_yield_to_drain()
+Date: Tue, 25 Apr 2023 13:27:06 -0400
+Message-Id: <20230425172716.1033562-11-stefanha@redhat.com>
 In-Reply-To: <20230425172716.1033562-1-stefanha@redhat.com>
 References: <20230425172716.1033562-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -93,48 +94,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The BlockBackend quiesce_counter is greater than zero during drained
-sections. Add an API to check whether the BlockBackend is in a drained
-section.
+For simplicity, always run BlockDevOps .drained_begin/end/poll()
+callbacks in the main loop thread. This makes it easier to implement the
+callbacks and avoids extra locks.
 
-The next patch will use this API.
+Move the function pointer declarations from the I/O Code section to the
+Global State section in block-backend-common.h.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/sysemu/block-backend-global-state.h | 1 +
- block/block-backend.c                       | 7 +++++++
- 2 files changed, 8 insertions(+)
+ include/sysemu/block-backend-common.h | 25 +++++++++++++------------
+ block/io.c                            |  3 ++-
+ 2 files changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/include/sysemu/block-backend-global-state.h b/include/sysemu/block-backend-global-state.h
-index 2b6d27db7c..ac7cbd6b5e 100644
---- a/include/sysemu/block-backend-global-state.h
-+++ b/include/sysemu/block-backend-global-state.h
-@@ -78,6 +78,7 @@ void blk_activate(BlockBackend *blk, Error **errp);
- int blk_make_zero(BlockBackend *blk, BdrvRequestFlags flags);
- void blk_aio_cancel(BlockAIOCB *acb);
- int blk_commit_all(void);
-+bool blk_in_drain(BlockBackend *blk);
- void blk_drain(BlockBackend *blk);
- void blk_drain_all(void);
- void blk_set_on_error(BlockBackend *blk, BlockdevOnError on_read_error,
-diff --git a/block/block-backend.c b/block/block-backend.c
-index ffd1d66f7d..42721a3592 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1266,6 +1266,13 @@ blk_check_byte_request(BlockBackend *blk, int64_t offset, int64_t bytes)
-     return 0;
- }
+diff --git a/include/sysemu/block-backend-common.h b/include/sysemu/block-backend-common.h
+index 2391679c56..780cea7305 100644
+--- a/include/sysemu/block-backend-common.h
++++ b/include/sysemu/block-backend-common.h
+@@ -59,6 +59,19 @@ typedef struct BlockDevOps {
+      */
+     bool (*is_medium_locked)(void *opaque);
  
-+/* Are we currently in a drained section? */
-+bool blk_in_drain(BlockBackend *blk)
-+{
-+    GLOBAL_STATE_CODE(); /* change to IO_OR_GS_CODE(), if necessary */
-+    return qatomic_read(&blk->quiesce_counter);
-+}
++    /*
++     * Runs when the backend receives a drain request.
++     */
++    void (*drained_begin)(void *opaque);
++    /*
++     * Runs when the backend's last drain request ends.
++     */
++    void (*drained_end)(void *opaque);
++    /*
++     * Is the device still busy?
++     */
++    bool (*drained_poll)(void *opaque);
 +
- /* To be called between exactly one pair of blk_inc/dec_in_flight() */
- static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
- {
+     /*
+      * I/O API functions. These functions are thread-safe.
+      *
+@@ -76,18 +89,6 @@ typedef struct BlockDevOps {
+      * Runs when the size changed (e.g. monitor command block_resize)
+      */
+     void (*resize_cb)(void *opaque);
+-    /*
+-     * Runs when the backend receives a drain request.
+-     */
+-    void (*drained_begin)(void *opaque);
+-    /*
+-     * Runs when the backend's last drain request ends.
+-     */
+-    void (*drained_end)(void *opaque);
+-    /*
+-     * Is the device still busy?
+-     */
+-    bool (*drained_poll)(void *opaque);
+ } BlockDevOps;
+ 
+ /*
+diff --git a/block/io.c b/block/io.c
+index 2e267a85ab..4f9fe2f808 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -335,7 +335,8 @@ static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
+     if (ctx != co_ctx) {
+         aio_context_release(ctx);
+     }
+-    replay_bh_schedule_oneshot_event(ctx, bdrv_co_drain_bh_cb, &data);
++    replay_bh_schedule_oneshot_event(qemu_get_aio_context(),
++                                     bdrv_co_drain_bh_cb, &data);
+ 
+     qemu_coroutine_yield();
+     /* If we are resumed from some other event (such as an aio completion or a
 -- 
 2.39.2
 
