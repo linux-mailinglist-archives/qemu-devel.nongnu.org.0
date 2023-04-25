@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44736EDCF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F2F6EDCF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:45:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDM4-00062T-Vd; Tue, 25 Apr 2023 03:44:53 -0400
+	id 1prDM9-00063N-Ng; Tue, 25 Apr 2023 03:44:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDM3-00061u-Nt
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:44:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDM7-000634-At
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:44:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDM1-0006Ol-9e
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:44:50 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDM5-0006Ov-ON
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:44:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408688;
+ s=mimecast20190719; t=1682408693;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pmX5kxAQSbcLMByrNwTFGWFbaR7cA+dAexIzcdmcLAI=;
- b=KTW40WPacgxFqhhVMnla6vQoH2b4MLpa8cqWbTMG4NIgAJEdaqxdYtxuj41GEb/QKyyqUp
- TcH9GTVW2I9vb4U7ZZ2I8r8JCVFWqyOic7KGWFPrHJMNirELyU+kcOA65zkarwXOs47lGr
- M4gHRbmR+wjnPLkvH+IlvmZdBfSYoOU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+z9Tw3dIc5g4KFljaVdyXYNPXxeEiGC7ErcCHnIjeRk=;
+ b=Jxtm+2Eti2N58twL5/XqyKrMdpMrnTae0qRTJb3ntq8Bm7C3E/OYoahNySC1+D//paoZ1u
+ a2lrQiolt9rO0ozDVxRdf7ZxuGvidWXsL81Ll0M/ZQc3FzXDrPWFjekZosrCNDPKqXBdKH
+ +tO7D+d1Si9cuYh7/yaeaWrdS0DAvr0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-615-Bu1ok107OyCAqYDslXRU5A-1; Tue, 25 Apr 2023 03:44:47 -0400
-X-MC-Unique: Bu1ok107OyCAqYDslXRU5A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f21e35dc08so9371195e9.2
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:44:46 -0700 (PDT)
+ us-mta-526-shX2rB6SP4ymR98-KZyRQg-1; Tue, 25 Apr 2023 03:44:51 -0400
+X-MC-Unique: shX2rB6SP4ymR98-KZyRQg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f18c2b2110so18678665e9.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:44:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408685; x=1685000685;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pmX5kxAQSbcLMByrNwTFGWFbaR7cA+dAexIzcdmcLAI=;
- b=lChRyr1INPuBKHeAgLPAF088uB9vm9HS10LnPUc7x12S3EODYhPIM1z03lBSXJ6ALV
- Csa1ZpWKsxudalk9WgZqRbZ57E5LtB5fT7I3xqXwt7wWMwA1kKyh/5ag2g+t8X4NeEJk
- sU9CpEzQ4XyOgbbSJ3XTxaVfjqY8lGUJHoFRM/QjVQrNwPIuEcRYx/5I8dJ9DLE0ZxD/
- ii++pzp+eOWH9S2wnid/cgS3Mzf0LttRfZf3MSTAZgbry8mlsqfeovnwOOMbToZVCyqt
- /v+pBxZOmQloMlN34plGiSwx/KAq9UjE1M7DQF1mZoeAbbYkBJRw1qh/IQs9RYjPXcFR
- u0dA==
-X-Gm-Message-State: AAQBX9cCPGAi/97UQMH5i1z18Gt1Xh868YiUAsr6gVJsUlKazxbUxpEV
- /KBpAO+It1x2KoshRB7eFimvKCM7A6ysW109QnCBELrZGD8/eT5KRG4Q5BYSMp0xUDcl5Oyt54X
- txdrQR+oR8XST1KYkXDWUpFt0HjwPhUUruQ7gNlsSkUpXEcZ+oByNtbD5r9OWSOadKWDH
-X-Received: by 2002:adf:f7c6:0:b0:2ff:c0c0:532a with SMTP id
- a6-20020adff7c6000000b002ffc0c0532amr11211885wrq.25.1682408685274; 
- Tue, 25 Apr 2023 00:44:45 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ay/8Vq5w6xqpnDG5XPRT2lxd0eMaH0UgN5fKjwT3036vqwOEtS9c/C2eWJhoDpaxKy2g5UwQ==
-X-Received: by 2002:adf:f7c6:0:b0:2ff:c0c0:532a with SMTP id
- a6-20020adff7c6000000b002ffc0c0532amr11211869wrq.25.1682408684850; 
- Tue, 25 Apr 2023 00:44:44 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682408689; x=1685000689;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+z9Tw3dIc5g4KFljaVdyXYNPXxeEiGC7ErcCHnIjeRk=;
+ b=ZhW68cJ2w8XTd7pc+3QtwTRn1pyJmjXNI96S9E/m4cU5J70bCDmEqTvjfrtkB1Mzs3
+ dGPW6egih81+enEMvg4RT2hbPWv9HMJJPsRYTlUNuqAUUDgrWxtxiKIHwwVEK1ZYVE57
+ RTy/G9Tn2Z4OjQV2z3QcYjS2yxOGMAfU6hUMzUjnVtde7c56S3tQsEAdWFWkihFOdzXp
+ 0bfNihKJ8jSTFiqOoLlhjJKfYUernV1mUAB1seQhdvnd0/eWQP3zYWAUHiierSnLZyu2
+ sgH7FxnGAh99ZrUclfhK3DjEZM14ui3Cr7hcHs1S99beO8ZXr70942S0UiF8z0fMBQNL
+ 332g==
+X-Gm-Message-State: AAQBX9fdQ4gFa84TYL77dG6jrpSierSNdnPwCDn+JIyqcTPoldn5Lm6t
+ h//yeKC8U1Nuj1mWS/Wh82muso02vF+Y/eBqEwpXMRaFX4dh4b8g8PRlS0Rm52+W3bYDzAoFfv1
+ JuyElKjaCIhg73niFFNRpLiMFMW24C2BI3o1RrffwkY6AlyEiaRKp6If2ib8VkE1D6RG4
+X-Received: by 2002:a7b:ce15:0:b0:3f1:7278:66e0 with SMTP id
+ m21-20020a7bce15000000b003f1727866e0mr9427496wmc.30.1682408689104; 
+ Tue, 25 Apr 2023 00:44:49 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aNmo8ZiUVf51jkPyfp6pI8P+IUL/jDoj9V6L0mujsQD9rU9ZWUiiPLqG4Ix1eSI/R5uWLaLw==
+X-Received: by 2002:a7b:ce15:0:b0:3f1:7278:66e0 with SMTP id
+ m21-20020a7bce15000000b003f1727866e0mr9427465wmc.30.1682408688733; 
+ Tue, 25 Apr 2023 00:44:48 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- r17-20020adff711000000b002f2b8cb5d9csm12450358wrp.28.2023.04.25.00.44.43
+ eo9-20020a05600c82c900b003f0ad8d1c69sm11164816wmb.25.2023.04.25.00.44.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:44:44 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:44:42 -0400
+ Tue, 25 Apr 2023 00:44:47 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:44:45 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/31] virtio,pc,pci: fixes, features, cleanups
-Message-ID: <cover.1682408661.git.mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Carlos =?utf-8?B?TMOzcGV6?= <clopez@suse.de>,
+ Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Subject: [PULL 01/31] virtio: refresh vring region cache after updating a
+ virtqueue size
+Message-ID: <f0d634ea1964ccce317818c44fe299e71007e64d.1682408661.git.mst@redhat.com>
+References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1682408661.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -95,158 +106,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit c1eb2ddf0f8075faddc5f7c3d39feae3e8e9d6b4:
+From: Carlos López <clopez@suse.de>
 
-  Update version for v8.0.0 release (2023-04-19 17:27:13 +0100)
+When a virtqueue size is changed by the guest via
+virtio_queue_set_num(), its region cache is not automatically updated.
+If the size was increased, this could lead to accessing the cache out
+of bounds. For example, in vring_get_used_event():
 
-are available in the Git repository at:
+    static inline uint16_t vring_get_used_event(VirtQueue *vq)
+    {
+        return vring_avail_ring(vq, vq->vring.num);
+    }
 
-  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+    static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
+    {
+        VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
+        hwaddr pa = offsetof(VRingAvail, ring[i]);
 
-for you to fetch changes up to c28db9e0002df2abf88283b41dce0be17e8b0888:
+        if (!caches) {
+            return 0;
+        }
 
-  hw/pci-bridge: Make PCIe and CXL PXB Devices inherit from TYPE_PXB_DEV (2023-04-24 22:56:55 -0400)
+        return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
+    }
 
-----------------------------------------------------------------
-virtio,pc,pci: fixes, features, cleanups
+vq->vring.num will be greater than caches->avail.len, which will
+trigger a failed assertion down the call path of
+virtio_lduw_phys_cached().
 
-Mostly just fixes, cleanups all over the place.
-Some optimizations.
-More control over slot_reserved_mask.
-More feature bits supported for SVQ.
+Fix this by calling virtio_init_region_cache() after
+virtio_queue_set_num() if we are not already calling
+virtio_queue_set_rings(). In the legacy path this is already done by
+virtio_queue_update_rings().
 
+Signed-off-by: Carlos López <clopez@suse.de>
+Message-Id: <20230317002749.27379-1-clopez@suse.de>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Acked-by: Halil Pasic <pasic@linux.ibm.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/hw/virtio/virtio.h | 1 +
+ hw/s390x/virtio-ccw.c      | 1 +
+ hw/virtio/virtio-mmio.c    | 1 +
+ hw/virtio/virtio-pci.c     | 1 +
+ hw/virtio/virtio.c         | 2 +-
+ 5 files changed, 5 insertions(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Akihiko Odaki (1):
-      docs: Remove obsolete descriptions of SR-IOV support
-
-Ani Sinha (3):
-      Add my old and new work email mapping and use work email to support biosbits
-      Add my old and new work email mapping and use work email to support acpi
-      hw/acpi: limit warning on acpi table size to pc machines older than version 2.3
-
-Carlos López (1):
-      virtio: refresh vring region cache after updating a virtqueue size
-
-Chuck Zmudzinski (1):
-      pci: avoid accessing slot_reserved_mask directly outside of pci.c
-
-Cornelia Huck (1):
-      hw: Add compat machines for 8.1
-
-Eugenio Pérez (2):
-      vdpa: accept VIRTIO_NET_F_SPEED_DUPLEX in SVQ
-      MAINTAINERS: Add Eugenio Pérez as vhost-shadow-virtqueue reviewer
-
-Igor Mammedov (1):
-      acpi: pcihp: allow repeating hot-unplug requests
-
-Jason Wang (1):
-      intel_iommu: refine iotlb hash calculation
-
-Jonathan Cameron (2):
-      hw/pci-bridge: pci_expander_bridge fix type in pxb_cxl_dev_reset()
-      hw/pci-bridge: Make PCIe and CXL PXB Devices inherit from TYPE_PXB_DEV
-
-Paolo Bonzini (1):
-      tests: bios-tables-test: replace memset with initializer
-
-Peter Maydell (3):
-      docs/specs/pci-ids: Convert from txt to rST
-      docs/specs: Convert pci-serial.txt to rst
-      docs/specs: Convert pci-testdev.txt to rst
-
-Peter Xu (1):
-      vhost: Drop unused eventfd_add|del hooks
-
-Philippe Mathieu-Daudé (6):
-      MAINTAINERS: Mark AMD-Vi emulation as orphan
-      hw/i386/amd_iommu: Explicit use of AMDVI_BASE_ADDR in amdvi_init
-      hw/i386/amd_iommu: Remove intermediate AMDVIState::devid field
-      hw/i386/amd_iommu: Move capab_offset from AMDVIState to AMDVIPCIState
-      hw/i386/amd_iommu: Set PCI static/const fields via PCIDeviceClass
-      hw/i386/amd_iommu: Factor amdvi_pci_realize out of amdvi_sysbus_realize
-
-Stefan Weil (1):
-      docs/cxl: Fix sentence
-
-Thomas Huth (1):
-      meson_options.txt: Enable qom-cast-debug by default again
-
-Viresh Kumar (3):
-      docs: vhost-user: Define memory region separately
-      docs: vhost-user: Add Xen specific memory mapping support
-      virtio: i2c: Check notifier helpers for VIRTIO_CONFIG_IRQ_IDX
-
-Vladimir Sementsov-Ogievskiy (1):
-      vhost-user-blk-server: notify client about disk resize
-
-Yangming (1):
-      virtio-balloon: optimize the virtio-balloon on the ARM platform
-
- docs/pcie_sriov.txt                       |   5 +-
- docs/specs/pci-ids.txt                    |  70 -----------------
- docs/specs/pci-serial.txt                 |  34 ---------
- docs/specs/pci-testdev.txt                |  31 --------
- meson_options.txt                         |   2 +-
- hw/i386/amd_iommu.h                       |   9 +--
- hw/i386/intel_iommu_internal.h            |   6 +-
- include/hw/boards.h                       |   5 ++
- include/hw/cxl/cxl.h                      |   4 +-
- include/hw/i386/pc.h                      |   6 ++
- include/hw/pci/pci.h                      |   3 +
- include/hw/pci/pci_bridge.h               |  30 +++++---
- include/hw/virtio/virtio.h                |   1 +
- subprojects/libvhost-user/libvhost-user.h |   2 +
- block/export/vhost-user-blk-server.c      |  24 ++++++
- hw/acpi/cxl.c                             |  11 +--
- hw/acpi/pcihp.c                           |  10 +++
- hw/arm/virt.c                             |  11 ++-
- hw/char/serial-pci-multi.c                |   2 +-
- hw/char/serial-pci.c                      |   2 +-
- hw/core/machine.c                         |   3 +
- hw/cxl/cxl-host.c                         |   4 +-
- hw/i386/acpi-build.c                      |  12 ++-
- hw/i386/amd_iommu.c                       |  74 ++++++++++--------
- hw/i386/intel_iommu.c                     |   9 ++-
- hw/i386/pc.c                              |   4 +
- hw/i386/pc_piix.c                         |  17 ++++-
- hw/i386/pc_q35.c                          |  14 +++-
- hw/m68k/virt.c                            |  11 ++-
- hw/mem/pc-dimm.c                          |   7 ++
- hw/pci-bridge/pci_expander_bridge.c       |  61 +++++----------
- hw/pci/pci.c                              |  15 ++++
- hw/ppc/spapr.c                            |  17 ++++-
- hw/s390x/s390-virtio-ccw.c                |  14 +++-
- hw/s390x/virtio-ccw.c                     |   1 +
- hw/sparc64/sun4u.c                        |   7 +-
- hw/virtio/vhost-user-i2c.c                |  16 ++++
- hw/virtio/vhost.c                         |  14 ----
- hw/virtio/virtio-balloon.c                |  33 ++------
- hw/virtio/virtio-mmio.c                   |   1 +
- hw/virtio/virtio-pci.c                    |   1 +
- hw/virtio/virtio.c                        |   2 +-
- hw/xen/xen_pt.c                           |   7 +-
- net/vhost-vdpa.c                          |   3 +-
- subprojects/libvhost-user/libvhost-user.c |  10 +++
- tests/qtest/bios-tables-test.c            | 123 +++++++++++-------------------
- .mailmap                                  |   1 +
- MAINTAINERS                               |  12 ++-
- docs/devel/acpi-bits.rst                  |   2 +-
- docs/interop/vhost-user.rst               |  60 ++++++++++-----
- docs/specs/index.rst                      |   3 +
- docs/specs/pci-ids.rst                    |  98 ++++++++++++++++++++++++
- docs/specs/pci-serial.rst                 |  37 +++++++++
- docs/specs/pci-testdev.rst                |  39 ++++++++++
- docs/system/devices/cxl.rst               |   2 +-
- scripts/meson-buildoptions.sh             |   2 +-
- 56 files changed, 584 insertions(+), 420 deletions(-)
- delete mode 100644 docs/specs/pci-ids.txt
- delete mode 100644 docs/specs/pci-serial.txt
- delete mode 100644 docs/specs/pci-testdev.txt
- create mode 100644 docs/specs/pci-ids.rst
- create mode 100644 docs/specs/pci-serial.rst
- create mode 100644 docs/specs/pci-testdev.rst
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index f236e94ca6..f6b38f7e9c 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -309,6 +309,7 @@ int virtio_get_num_queues(VirtIODevice *vdev);
+ void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
+                             hwaddr avail, hwaddr used);
+ void virtio_queue_update_rings(VirtIODevice *vdev, int n);
++void virtio_init_region_cache(VirtIODevice *vdev, int n);
+ void virtio_queue_set_align(VirtIODevice *vdev, int n, int align);
+ void virtio_queue_notify(VirtIODevice *vdev, int n);
+ uint16_t virtio_queue_vector(VirtIODevice *vdev, int n);
+diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+index e33e5207ab..f44de1a8c1 100644
+--- a/hw/s390x/virtio-ccw.c
++++ b/hw/s390x/virtio-ccw.c
+@@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
+                 return -EINVAL;
+             }
+             virtio_queue_set_num(vdev, index, num);
++            virtio_init_region_cache(vdev, index);
+         } else if (virtio_queue_get_num(vdev, index) > num) {
+             /* Fail if we don't have a big enough queue. */
+             return -EINVAL;
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 23ba625eb6..c2c6d85475 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -354,6 +354,7 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
+         if (proxy->legacy) {
+             virtio_queue_update_rings(vdev, vdev->queue_sel);
+         } else {
++            virtio_init_region_cache(vdev, vdev->queue_sel);
+             proxy->vqs[vdev->queue_sel].num = value;
+         }
+         break;
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 247325c193..02fb84a8fa 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1554,6 +1554,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+         proxy->vqs[vdev->queue_sel].num = val;
+         virtio_queue_set_num(vdev, vdev->queue_sel,
+                              proxy->vqs[vdev->queue_sel].num);
++        virtio_init_region_cache(vdev, vdev->queue_sel);
+         break;
+     case VIRTIO_PCI_COMMON_Q_MSIX:
+         vector = virtio_queue_vector(vdev, vdev->queue_sel);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 98c4819fcc..272d930721 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -226,7 +226,7 @@ static void virtio_virtqueue_reset_region_cache(struct VirtQueue *vq)
+     }
+ }
+ 
+-static void virtio_init_region_cache(VirtIODevice *vdev, int n)
++void virtio_init_region_cache(VirtIODevice *vdev, int n)
+ {
+     VirtQueue *vq = &vdev->vq[n];
+     VRingMemoryRegionCaches *old = vq->vring.caches;
+-- 
+MST
 
 
