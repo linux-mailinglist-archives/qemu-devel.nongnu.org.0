@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A516EE1A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B59C6EE1AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:12:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prHVD-0002cL-E4; Tue, 25 Apr 2023 08:10:35 -0400
+	id 1prHWT-0004DK-LD; Tue, 25 Apr 2023 08:11:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1prHVB-0002bg-IW
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:10:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1prHV9-00029K-7U
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:10:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682424630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yYEj+qWSfwOhLKlNho0gU8eP4IEBpXy1c24rYLGjV70=;
- b=IjU20lXcV3Le2QvNwD+gZUAp6h9axLNtnEFBd5T0NN/+Rki62lugewuNf66nknE4Ll9AK0
- iiPc/75YglHxmcIsUCEwmY8q7ezT6EZS5zGb8z9LpP/pHYPEZBR9vuBidFMLaYk6Y2UWkb
- NJfdcbFtMlQBHxb7ePxeEwEg4Ftrb+Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-119-u5QWjBxOOfm-Qk_RhuRoPQ-1; Tue, 25 Apr 2023 08:10:26 -0400
-X-MC-Unique: u5QWjBxOOfm-Qk_RhuRoPQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63A74857FB5;
- Tue, 25 Apr 2023 12:10:26 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.246])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A167492B03;
- Tue, 25 Apr 2023 12:10:26 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BBE49180099C; Tue, 25 Apr 2023 14:10:24 +0200 (CEST)
-Date: Tue, 25 Apr 2023 14:10:24 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, 
- qemu-devel@nongnu.org, philmd@linaro.org, david@redhat.com, peterx@redhat.com, 
- pbonzini@redhat.com, marcel.apfelbaum@gmail.com, den-plotnikov@yandex-team.ru, 
- Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH] pci: make ROM memory resizable
-Message-ID: <kwqw7gyagjlykfvdyiwlfr3tuepofr5o7e2mtute6dmltbzkg6@jy3ea7jlvllc>
-References: <20230424203647.94614-1-vsementsov@yandex-team.ru>
- <20230425031348-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1prHWR-0004Cx-BH
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:11:51 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1prHWP-0002Kp-Ky
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:11:51 -0400
+Received: by mail-ed1-x531.google.com with SMTP id
+ 4fb4d7f45d1cf-504eb1155d3so42589549a12.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 05:11:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682424706; x=1685016706;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N/MGd1hg+r8NTF4tigrqq/9p2wpAxCdlJfUq9I+/V4U=;
+ b=TdWhHmQSB60iR/kcf/uZ4jrTF/sDMSW3tDyfwe7nRsPHdgRn//Y/GY4Y1qm0q/cxkI
+ eUJLT4NQkYFXCXDp+NDerfM+cM+FN9Ky+XhErJnS3S5TRMdIQjU0yhyIcphnB9zEEaNV
+ cUVJCLjTpst0ntoVnKiIjG50SKryorgpSsl+e+VPnRuirqEPqHutrlpcdq0jN9gl5guJ
+ T8RSQtLIfgbrsAxia+Ii5VSoh5H1ed36+vXzMff8KgXJ+/+/sG8irFraAF0f4U6LIheJ
+ 7TJNwUiiG48+W6MHYBhr4AQ9ZMRrkSiZ5w6ObRHTubYHYUp2Sh9TelkBc3gd7QWRx9n9
+ OQoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682424706; x=1685016706;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=N/MGd1hg+r8NTF4tigrqq/9p2wpAxCdlJfUq9I+/V4U=;
+ b=Mp2mGR89N3D+MwA66xg+QpMCnb0bCqxvp5roxJgDfulrEbrJGNJEF8KMOY7IcQGfaq
+ aPsc6NmIsz55Hoecit3PysJpoSjtkq9UDAhdMxKVc8BBTy/KXV+NStrUJD2Fn/nl2HO3
+ /4fNk23SSJvObQbybCszo/o3UUjqnqrp4KgMArHENpIu9uDAyvEMaUYF58qI4jCcOKZH
+ JtgY5VLmBUWwtaExrdEeKMeZYc0snDa+p+SPM7qgVNuYNXywh2Vh0Xk8r9Ejk3ki3w9k
+ c7IaikKFDFYAqWYLMJjqm/XYakkdMHCswBGz7dUA3R1UFcHMHqz6/HOIFKofbDHwMsiA
+ 5Wdw==
+X-Gm-Message-State: AAQBX9e8CE+xygytqPzoNMqpOhby1gTPYt8QkiiIQTNe8ixSfzq3Xx8V
+ rOgVJJPJFvSHKkn7eqZXnK3yS3i8HejRZAaXulr12g==
+X-Google-Smtp-Source: AKy350axKUCY35ZigAbbA+32Edq2amXkWJgpYDRSeXAaXJO0ytqZFZfSP96h+/OJC6Uubr1tKCeAUunqUsMEilQBKYs=
+X-Received: by 2002:a05:6402:2812:b0:506:974d:e7dd with SMTP id
+ h18-20020a056402281200b00506974de7ddmr20514971ede.12.1682424706512; Tue, 25
+ Apr 2023 05:11:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230425031348-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <87mt2wgpn4.fsf@secure.mitica>
+In-Reply-To: <87mt2wgpn4.fsf@secure.mitica>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Apr 2023 13:11:35 +0100
+Message-ID: <CAFEAcA9jj8jOqky0dmkin80BW85JH8dUkHuoe_0ORO97LhJHgQ@mail.gmail.com>
+Subject: Re: Warning on Fedora 38
+To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,24 +86,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 25, 2023 at 03:26:50AM -0400, Michael S. Tsirkin wrote:
-> On Mon, Apr 24, 2023 at 11:36:47PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > On migration, on target we load local ROM file. But actual ROM content
-> > migrates through migration channel. Original ROM content from local
-> > file doesn't matter. But when size mismatch - we have an error like
-> > 
-> >  Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
+On Tue, 25 Apr 2023 at 12:37, Juan Quintela <quintela@redhat.com> wrote:
+>
+>
+> Hi
+>
+> I got this warning/error when switching to F38:
+>
+> In file included from /mnt/code/qemu/full/include/block/aio.h:21,
+>                  from ../../../../mnt/code/qemu/full/util/async.c:28:
+> ../../../../mnt/code/qemu/full/util/async.c: In function =E2=80=98aio_bh_=
+poll=E2=80=99:
+> /mnt/code/qemu/full/include/qemu/queue.h:303:22: error: storing the addre=
+ss of local variable =E2=80=98slice=E2=80=99 in =E2=80=98*ctx.bh_slice_list=
+.sqh_last=E2=80=99 [-Werror=3Ddangling-pointer=3D]
 
-Oh, a 512k rom.  Where does that come from?
+Patch already on list:
+https://lore.kernel.org/qemu-devel/20230420202939.1982044-1-clg@kaod.org/
 
-The ones shipped by qemu are all between 128k and 256k in size,
-which gets rounded up to 256k (0x40000).  Has not changed since
-we added efi boot rom support ...
-
-If you supply your own versions for some reason you must make sure
-they have identical size on all host machines.
-
-take care,
-  Gerd
-
+-- PMM
 
