@@ -2,104 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702256EEA68
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 00:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6B16EEA7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 01:02:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prRTB-0002aB-CM; Tue, 25 Apr 2023 18:49:09 -0400
+	id 1prReq-0007Ee-2H; Tue, 25 Apr 2023 19:01:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1prRT9-0002Z4-8x; Tue, 25 Apr 2023 18:49:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1prRT7-00045V-DR; Tue, 25 Apr 2023 18:49:07 -0400
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33PMfxHK028826; Tue, 25 Apr 2023 22:49:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=3sSmCqqp4PVVXUJxxxCqnolLDxJwdfS8G1LGJ7DoThk=;
- b=lvQ0Kn9006z8dBPmY6oiszwCZBXa9d37jchsfGqwbjsMltOjBxI1WgRbuR0n+t75UmBR
- YKIonGsnal2w6ee0i0ys4SwTXdd4AE4XNzFKhY8Gpa0Z8CHCwiqtyplGt5hrY/xyMKXQ
- xDBkUSJDNpuCjC9BN6sQC0MV5XXXLjNIER2rLHcyp+pNX7VcvepcF5izgOUGDL0ke3xy
- i3xUrVQNVenTKEprWxMRjYzzdsfFV0nkrlmiP6qi9d64hsfOKp+5ctpvtJR7ubohy9b3
- a7k98TYIM7QCwUDc3miRae7gOUVSO31QnGWnGXQrzuBkJEuI1SD5ts7BRfcGgBieHUok Bw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6q0v24da-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 22:49:01 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33PMaLjn000356;
- Tue, 25 Apr 2023 22:49:00 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6q0v24cc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 22:49:00 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33PMaF3q020257;
- Tue, 25 Apr 2023 22:48:58 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3q47771nt4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 22:48:57 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33PMmtA619464712
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Apr 2023 22:48:55 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 86CF020043;
- Tue, 25 Apr 2023 22:48:55 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1181520040;
- Tue, 25 Apr 2023 22:48:55 +0000 (GMT)
-Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.10.36])
- by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 25 Apr 2023 22:48:54 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v3 2/2] tests/tcg/s390x: Enable the multiarch system tests
-Date: Wed, 26 Apr 2023 00:48:50 +0200
-Message-Id: <20230425224850.2116064-3-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230425224850.2116064-1-iii@linux.ibm.com>
-References: <20230425224850.2116064-1-iii@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QNKsBi18B2Wo5PA6-0f7VeHei5khX-RW
-X-Proofpoint-ORIG-GUID: ATI3K4jVxKzIKGqfoXFciWNomnQGzu_s
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-25_08,2023-04-25_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 mlxscore=0 phishscore=0 spamscore=0
- priorityscore=1501 malwarescore=0 impostorscore=0 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304250201
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3sVtIZAYKCrIkWSfbUYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--seanjc.bounces.google.com>)
+ id 1prRen-0007EE-T5
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 19:01:10 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3sVtIZAYKCrIkWSfbUYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--seanjc.bounces.google.com>)
+ id 1prRel-0006Or-U6
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 19:01:09 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ 3f1490d57ef6-b92309d84c1so31328318276.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1682463666; x=1685055666;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
+ b=C4AljZcb5zSEki65YN1EEhXpKoY2+BQjkZw0lA37fbXw5J94rINcczlcHQKioosXoz
+ QYJO7B3PQHsCBBmLZHmB2bdJerRvszbD8Z0QkB4l66SvwAArYTtc7JH15w/nYT/SE5u5
+ vwm/eMEJk1TY+eEPX82hBLbrKJ9kTJikXcAr57e2kixe1dolatDoyNrc44iwLTBRVolO
+ bfADSu5kj9Pbljxty8CvVBHkrXGW31eBuRDxicojfWBD4NefEdirxSFfQsz+fSqmBEth
+ Qzgwwtz8KWzAJnphFlQcihCJZ0/hpd4K50BVsMO7BpnBpVR4VQKe84Z8OdOHhFvQF7fh
+ tpww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682463666; x=1685055666;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
+ b=c9GjZlk2/vj+yvXdxk72LrGUbYlq5EQILuWQumQnjE7lxn4sf9gJgBA1tvVrFdTL74
+ 9vY5I/YZQdCWsDaxYEm2KLkazsidqTEMVamnseGXyVUkpuHrI3+Pt0rrvJxnMaWpcC25
+ gzyaPgUIlidEb4WfreeczR3OwV6lRPzj9+/22lZ5s0ei4LBB3grBEBHWAe/Mw5v8Vo0h
+ aG3PLcFd5xi2oZJ+pUZoJKYvIPeyvBBlMUfi78k7y1tbycSVPVd4UeUN/kg4GrsKOe4S
+ P6XyHzl7So8RlvsV7I8Yi83ZI+mGoWnRWDnbKRYh3SMVuiGzjO5fEs6bEh3dVDpn4xwt
+ Ybcg==
+X-Gm-Message-State: AC+VfDxU1pf2D//sMgHcnSSszsdhPDGadP0TWvMgcK+pio4NYiKi0CSh
+ GAU3XrH+I30ZDYISFbzWpRKuZ7UJhzU=
+X-Google-Smtp-Source: ACHHUZ7zn8PbJQ/UuE69mi5lwaIaGdUdtx9hP2cvpdZFHM9mCc7INsMunl92AGHkpHAOjQl1AWoM2QO/O/0=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:986:b0:54c:15ad:11e4 with SMTP id
+ ce6-20020a05690c098600b0054c15ad11e4mr342131ywb.0.1682463665939; Tue, 25 Apr
+ 2023 16:01:05 -0700 (PDT)
+Date: Tue, 25 Apr 2023 16:01:04 -0700
+In-Reply-To: <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Mime-Version: 1.0
+References: <ZDnAuGKrCO2wgjlG@google.com>
+ <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Message-ID: <ZEhbsHqBapHtdrg7@google.com>
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: chao.p.peng@linux.intel.com, xiaoyao.li@intel.com, 
+ isaku.yamahata@gmail.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com, 
+ wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org, 
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de, 
+ naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com, 
+ hughd@google.com, jlayton@kernel.org, bfields@fieldses.org, 
+ akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org, 
+ steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz, 
+ vannapurve@google.com, yu.c.zhang@linux.intel.com, 
+ kirill.shutemov@linux.intel.com, luto@kernel.org, jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ qperret@google.com, tabba@google.com, michael.roth@amd.com, mhocko@suse.com, 
+ wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3sVtIZAYKCrIkWSfbUYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--seanjc.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,138 +106,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Multiarch tests are written in C and need support for printing
-characters. Instead of implementing the runtime from scratch, just
-reuse the pc-bios/s390-ccw one.
+On Tue, Apr 18, 2023, Ackerley Tng wrote:
+> Sean Christopherson <seanjc@google.com> writes:
+> > I agree, a pure alignment check is too restrictive, and not really what I
+> > intended despite past me literally saying that's what I wanted :-)  I think
+> > I may have also inverted the "less alignment" statement, but luckily I
+> > believe that ends up being a moot point.
+> 
+> > The goal is to avoid having to juggle scenarios where KVM wants to create a
+> > hugepage, but restrictedmem can't provide one because of a misaligned file
+> > offset.  I think the rule we want is that the offset must be aligned to the
+> > largest page size allowed by the memslot _size_.  E.g. on x86, if the
+> > memslot size is >=1GiB then the offset must be 1GiB or beter, ditto for
+> > >=2MiB and >=4KiB (ignoring that 4KiB is already a requirement).
+> 
+> > We could loosen that to say the largest size allowed by the memslot, but I
+> > don't think that's worth the effort unless it's trivially easy to implement
+> > in code, e.g. KVM could technically allow a 4KiB aligned offset if the
+> > memslot is 2MiB sized but only 4KiB aligned on the GPA.  I doubt there's a
+> > real use case for such a memslot, so I want to disallow that unless it's
+> > super easy to implement.
+> 
+> Checking my understanding here about why we need this alignment check:
+> 
+> When KVM requests a page from restrictedmem, KVM will provide an offset
+> into the file in terms of 4K pages.
+> 
+> When shmem is configured to use hugepages, shmem_get_folio() will round
+> the requested offset down to the nearest hugepage-aligned boundary in
+> shmem_alloc_hugefolio().
+> 
+> Example of problematic configuration provided to
+> KVM_SET_USER_MEMORY_REGION2:
+> 
+> + shmem configured to use 1GB pages
+> + restrictedmem_offset provided to KVM_SET_USER_MEMORY_REGION2: 0x4000
+> + memory_size provided in KVM_SET_USER_MEMORY_REGION2: 1GB
+> + KVM requests offset (pgoff_t) 0x8, which translates to offset 0x8000
+> 
+> restrictedmem_get_page() and shmem_get_folio() returns the page for
+> offset 0x0 in the file, since rounding down 0x8000 to the nearest 1GB is
+> 0x0. This is allocating outside the range that KVM is supposed to use,
+> since the parameters provided in KVM_SET_USER_MEMORY_REGION2 is only
+> supposed to be offset 0x4000 to (0x4000 + 1GB = 0x40004000) in the file.
+> 
+> IIUC shmem will actually just round down (0x4000 rounded down to nearest
+> 1GB will be 0x0) and allocate without checking bounds, so if offset 0x0
+> to 0x4000 in the file were supposed to be used by something else, there
+> might be issues.
+> 
+> Hence, this alignment check ensures that rounding down of any offsets
+> provided by KVM (based on page size configured in the backing file
+> provided) to restrictedmem_get_page() must not go below the offset
+> provided to KVM_SET_USER_MEMORY_REGION2.
+> 
+> Enforcing alignment of restrictedmem_offset based on the currently-set
+> page size in the backing file (i.e. shmem) may not be effective, since
+> the size of the pages in the backing file can be adjusted to a larger
+> size after KVM_SET_USER_MEMORY_REGION2 succeeds. With that, we may still
+> end up allocating outside the range that KVM was provided with.
+> 
+> Hence, to be safe, we should check alignment to the max page size across
+> all backing filesystems, so the constraint is
+> 
+>     rounding down restrictedmem_offset to
+>     min(max page size across all backing filesystems,
+>         max page size that fits in memory_size) == restrictedmem_offset
+> 
+> which is the same check as
+> 
+>     restrictedmem_offset must be aligned to min(max page size across all
+>     backing filesystems, max page size that fits in memory_size)
+> 
+> which can safely reduce to
+> 
+>     restrictedmem_offset must be aligned to max page size that fits in
+>     memory_size
+> 
+> since "max page size that fits in memory_size" is probably <= to "max
+> page size across all backing filesystems", and if it's larger, it'll
+> just be a tighter constraint.
 
-Run tests with -nographic in order to enable SCLP (enable this for
-the existing tests as well, since it does not hurt).
+Yes?  The alignment check isn't strictly required, KVM _could_ deal with the above
+scenario, it's just a lot simpler and safer for KVM if the file offset needs to
+be sanely aligned.
 
-Use the default linker script for the new tests.
+> If the above understanding is correct:
+> 
+> + We must enforce this in the KVM_SET_USER_MEMORY_REGION2 handler, since
+>   IIUC shmem will just round down and allocate without checking bounds.
+> 
+>     + I think this is okay because holes in the restrictedmem file (in
+>       terms of offset) made to accommodate this constraint don't cost us
+>       anything anyway(?) Are they just arbitrary offsets in a file? In
+>       our case, this file is usually a new and empty file.
+> 
+>     + In the case of migration of a restrictedmem file between two KVM
+>       VMs, this constraint would cause a problem is if the largest
+>       possible page size on the destination machine is larger than that
+>       of the source machine. In that case, we might have to move the
+>       data in the file to a different offset (a separate problem).
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.softmmu-target | 40 +++++++++++++++++--------
- tests/tcg/s390x/console.c               | 12 ++++++++
- tests/tcg/s390x/head64.S                | 31 +++++++++++++++++++
- 3 files changed, 71 insertions(+), 12 deletions(-)
- create mode 100644 tests/tcg/s390x/console.c
- create mode 100644 tests/tcg/s390x/head64.S
+Hmm, I was thinking this would be a non-issue because the check would be tied to
+the max page _possible_ page size irrespective of hardware support, but that would
+be problematic if KVM ever supports 512GiB pages.  I'm not sure that speculatively
+requiring super huge memslots to be 512GiB aligned is sensible.
 
-diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
-index 3e7f72abcdc..e22df5e1c58 100644
---- a/tests/tcg/s390x/Makefile.softmmu-target
-+++ b/tests/tcg/s390x/Makefile.softmmu-target
-@@ -1,25 +1,41 @@
- S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
- VPATH+=$(S390X_SRC)
--QEMU_OPTS=-action panic=exit-failure -kernel
-+QEMU_OPTS=-action panic=exit-failure -nographic -kernel
- LINK_SCRIPT=$(S390X_SRC)/softmmu.ld
--LDFLAGS=-nostdlib -static -Wl,-T$(LINK_SCRIPT) -Wl,--build-id=none
-+CFLAGS+=-ggdb -O0
-+LDFLAGS=-nostdlib -static
- 
- %.o: %.S
- 	$(CC) -march=z13 -m64 -c $< -o $@
- 
--%: %.o $(LINK_SCRIPT)
-+%.o: %.c
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -march=z13 -m64 -c $< -o $@
-+
-+%: %.o
- 	$(CC) $< -o $@ $(LDFLAGS)
- 
--TESTS += unaligned-lowcore
--TESTS += bal
--TESTS += sam
--TESTS += lpsw
--TESTS += lpswe-early
--TESTS += ssm-early
--TESTS += stosm-early
--TESTS += exrl-ssm-early
-+ASM_TESTS =                                                                    \
-+    bal                                                                        \
-+    exrl-ssm-early                                                             \
-+    sam                                                                        \
-+    lpsw                                                                       \
-+    lpswe-early                                                                \
-+    ssm-early                                                                  \
-+    stosm-early                                                                \
-+    unaligned-lowcore
- 
- include $(S390X_SRC)/pgm-specification.mak
- $(PGM_SPECIFICATION_TESTS): pgm-specification-softmmu.o
- $(PGM_SPECIFICATION_TESTS): LDFLAGS+=pgm-specification-softmmu.o
--TESTS += $(PGM_SPECIFICATION_TESTS)
-+ASM_TESTS += $(PGM_SPECIFICATION_TESTS)
-+
-+$(ASM_TESTS): LDFLAGS += -Wl,-T$(LINK_SCRIPT) -Wl,--build-id=none
-+$(ASM_TESTS): $(LINK_SCRIPT)
-+TESTS += $(ASM_TESTS)
-+
-+S390X_MULTIARCH_RUNTIME_OBJS = head64.o console.o $(MINILIB_OBJS)
-+$(MULTIARCH_TESTS): $(S390X_MULTIARCH_RUNTIME_OBJS)
-+$(MULTIARCH_TESTS): LDFLAGS += $(S390X_MULTIARCH_RUNTIME_OBJS)
-+$(MULTIARCH_TESTS): CFLAGS += $(MINILIB_INC)
-+memory: CFLAGS += -DCHECK_UNALIGNED=0
-+TESTS += $(MULTIARCH_TESTS)
-diff --git a/tests/tcg/s390x/console.c b/tests/tcg/s390x/console.c
-new file mode 100644
-index 00000000000..d43ce3f44b4
---- /dev/null
-+++ b/tests/tcg/s390x/console.c
-@@ -0,0 +1,12 @@
-+/*
-+ * Console code for multiarch tests.
-+ * Reuses the pc-bios/s390-ccw implementation.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "../../../pc-bios/s390-ccw/sclp.c"
-+
-+void __sys_outc(char c)
-+{
-+    write(1, &c, sizeof(c));
-+}
-diff --git a/tests/tcg/s390x/head64.S b/tests/tcg/s390x/head64.S
-new file mode 100644
-index 00000000000..c6f36dfea4b
---- /dev/null
-+++ b/tests/tcg/s390x/head64.S
-@@ -0,0 +1,31 @@
-+/*
-+ * Startup code for multiarch tests.
-+ * Reuses the pc-bios/s390-ccw implementation.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#define main main_pre
-+#include "../../../pc-bios/s390-ccw/start.S"
-+#undef main
-+
-+main_pre:
-+    aghi %r15,-160                     /* reserve stack for C code */
-+    brasl %r14,sclp_setup
-+    brasl %r14,main
-+    larl %r1,success_psw               /* check main() return code */
-+    ltgr %r2,%r2
-+    je 0f
-+    larl %r1,failure_psw
-+0:
-+    lpswe 0(%r1)
-+
-+    .align 8
-+success_psw:
-+    .quad 0x2000180000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000180000000,0            /* disabled wait */
-+
-+    .section .bss
-+    .align 0x1000
-+stack:
-+    .skip 0x8000
--- 
-2.39.2
+Aha!  If we go with a KVM ioctl(), a clean way around this is tie the alignment
+requirement to the memfd flags, e.g. if userspace requests the memfd to be backed
+by PMD hugepages, then the memslot offset needs to be 2MiB aligned on x86.  That
+will continue to work if (big if) KVM supports 512GiB pages because the "legacy"
+memfd would still be capped at 2MiB pages.
 
+Architectures that support variable hugepage sizes might need to do something
+else, but I don't think that possibility affects what x86 can/can't do.
+
+> + On this note, it seems like there is no check for when the range is
+>   smaller than the allocated page? Like if the range provided is 4KB in
+>   size, but shmem is then configured to use a 1GB page, will we end up
+>   allocating past the end of the range?
+
+No, KVM already gracefully handles situations like this.  Well, x86 does, I assume
+other architectures do too :-)
+
+As above, the intent of the extra restriction is so that KVM doen't need even more
+weird code (read: math) to gracefully handle the new edge cases that would come with
+fd-only memslots.
 
