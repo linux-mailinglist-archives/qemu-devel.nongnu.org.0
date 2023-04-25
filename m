@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90986EDB03
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 07:01:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF1B6EDB45
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 07:44:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prAmU-0000iT-9Q; Tue, 25 Apr 2023 00:59:59 -0400
+	id 1prBS5-0000u2-NR; Tue, 25 Apr 2023 01:42:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prAmQ-0000iA-02
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 00:59:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prAmM-0004nX-JJ
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 00:59:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682398788;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A/ErBiNZJUSehrr/XHRa2g/6ETK6ZSu0faDGyZDntEs=;
- b=WEl0Zmq/9ieBm1zavFfmEfs9pvpa4NIWR2Hd9djvuJci2tWA9okmwhJ7zj/USCHmusuONA
- fULgZxvwU9ByWHRuSTuiQpp8s3BLSXMSFIafOzE6qe1xopNCU69PKZ2nEaODaiTLvPxArH
- aGAhekMgizcrd9Wqt6l6EmHj9C30ib0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-581-5vjYnB-HPyiDX0lGxlglrQ-1; Tue, 25 Apr 2023 00:59:44 -0400
-X-MC-Unique: 5vjYnB-HPyiDX0lGxlglrQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47A8C811E7C;
- Tue, 25 Apr 2023 04:59:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3F202027043;
- Tue, 25 Apr 2023 04:59:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D5AAB21E675B; Tue, 25 Apr 2023 06:59:41 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  kwolf@redhat.com,
- hreitz@redhat.com,  pbonzini@redhat.com,  marcandre.lureau@redhat.com,
- arei.gonglei@huawei.com,  pizhenwei@bytedance.com,  jsnow@redhat.com,
- vsementsov@yandex-team.ru,  eduardo@habkost.net,
- marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,
- quintela@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
- stefanha@redhat.com,  kraxel@redhat.com,  kkostiuk@redhat.com,
- qemu-block@nongnu.org
-Subject: Re: [PATCH 16/16] qapi storage-daemon/qapi: Fix documentation
- section structure
-References: <20230404115912.2829251-1-armbru@redhat.com>
- <20230404115912.2829251-17-armbru@redhat.com>
- <zvpeqmvqh3cujipmtidqivqslqnlr4nlkuich7jqjtpzpr3qjt@ywve7svdclba>
-Date: Tue, 25 Apr 2023 06:59:41 +0200
-In-Reply-To: <zvpeqmvqh3cujipmtidqivqslqnlr4nlkuich7jqjtpzpr3qjt@ywve7svdclba>
- (Eric Blake's message of "Tue, 4 Apr 2023 08:12:45 -0500")
-Message-ID: <871qk84kw2.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <robert.hoo.linux@gmail.com>)
+ id 1prBS2-0000tk-9Z
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 01:42:54 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <robert.hoo.linux@gmail.com>)
+ id 1prBRz-0003Pg-UP
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 01:42:53 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id
+ d75a77b69052e-3ef33f12995so24212261cf.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 22:42:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682401370; x=1684993370;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZqOIjUQas8Rx1/5sAHd8nDe5JfxJxpYrGJ2aW1S7/QE=;
+ b=FBq0wSQZHFhDmAXJRtxc/cteLPhGBUqYaKY4zqT63wqEVsVXk7rqp7CpgtfyIu6gSD
+ udOyk8v0wGFB+CVpkRCnnPbGB2GvhQIQHDFAsUpiRagIFEXWAyK3EmDIBnYTVqnWm1o2
+ GMQM78qvzSLYO4EdyjzmOI8lt7uEchuf6nrzBzZLjts+CfO3cHrpQCe3tKIxoHzUve9f
+ NYQHVsjLsloE70BlqCuNtEWnDdhl+iDhyaLrtFOFbYu2a1UFWPKzIyCL3uKRFq59lxF1
+ Mf6m6iiXNgXeFroxFVzWN+Q73d5hXPMX/csrrsJeBTEI5TFc+82Y1DNF21hM2ls92zAh
+ cgjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682401370; x=1684993370;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZqOIjUQas8Rx1/5sAHd8nDe5JfxJxpYrGJ2aW1S7/QE=;
+ b=BQDoc+znfnmGichmiY2NVU90J+OHCIitPcMq4kFnmhkvZihbnOAjqbFRyjuu/vCgte
+ sfgkEJFcm9fFib3mhBbv2txk/+r+0ctKUGH9rymfJoXGQzPNtoUp+fmCY9C4ZgisM66q
+ ialkfkguMKrd+y8HFJaoJlweIIG4bLrY9UyhFDgkH/xHBm6GxGe6YOUHqBw69+Gwhv3X
+ Ej5p//CDN2Ssqx9x7O4V0bLRLUNC5h6StxB+ehriKho3vR9t7sUMPVaYC/rKCHpDwxxH
+ cBDM9aDb8QQwVALYCdFbUPivY1fi6bKaKouxXmmmSIQLhdPzGC5X1hSk4TIJYCWlcPWx
+ Zhvg==
+X-Gm-Message-State: AAQBX9ft+6Xlv0/HqbkHd1lrZzmmUiWCKSRbjK+iqqYjkrp6UCi5mCZQ
+ 5bQno2gUy0q19qSfffwqt370WqpPVAac76WAepo=
+X-Google-Smtp-Source: AKy350YNhM9vliZvFdaghRH04BWbcCfd9ESSD8DXYLJEnsZ7/gtC/Wrot6ju3hxldLyczOrK6tmEF0ll4WNq9TVV65w=
+X-Received: by 2002:ac8:5c8c:0:b0:3d7:960e:5387 with SMTP id
+ r12-20020ac85c8c000000b003d7960e5387mr23905537qta.35.1682401370265; Mon, 24
+ Apr 2023 22:42:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20230424163401.23018-1-babu.moger@amd.com>
+ <20230424163401.23018-2-babu.moger@amd.com>
+In-Reply-To: <20230424163401.23018-2-babu.moger@amd.com>
+From: Robert Hoo <robert.hoo.linux@gmail.com>
+Date: Tue, 25 Apr 2023 13:42:39 +0800
+Message-ID: <CA+wubQCGyXujRJvREaWX97KhT0sw8o9bf_+qa6C0gYkcbrqr9A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/7] target/i386: allow versioned CPUs to specify new
+ cache_info
+To: Babu Moger <babu.moger@amd.com>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, weijiang.yang@intel.com,
+ philmd@linaro.org, dwmw@amazon.co.uk, paul@xen.org, joao.m.martins@oracle.com, 
+ qemu-devel@nongnu.org, mtosatti@redhat.com, kvm@vger.kernel.org, 
+ mst@redhat.com, marcel.apfelbaum@gmail.com, yang.zhong@intel.com, 
+ jing2.liu@intel.com, vkuznets@redhat.com, michael.roth@amd.com, 
+ wei.huang2@amd.com, berrange@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=robert.hoo.linux@gmail.com; helo=mail-qt1-x82a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,58 +93,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Eric Blake <eblake@redhat.com> writes:
-
-> On Tue, Apr 04, 2023 at 01:59:12PM +0200, Markus Armbruster wrote:
->> In the QEMU QMP Reference Manual, subsection "Block core (VM
->> unrelated)" is empty.  Its contents is at the end of subsection
->> "Background jobs" instead.  That's because qapi/job.json is includeded
+Babu Moger <babu.moger@amd.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8825=E6=97=A5=
+=E5=91=A8=E4=BA=8C 00:42=E5=86=99=E9=81=93=EF=BC=9A
 >
-> included
-
-Fixing...
-
->> first from qapi/block-core.json, which makes qapi/job.json's
->> documentation go between qapi/block-core.json's subsection heading and
->> contents.
->> 
->> In the QEMU Storage Daemon QMP Reference Manual, section "Block
->> Devices" contains nothing but an empty subsection "Block core (VM
->> unrelated)".  The latter's contents is at the end section "Socket data
->> types", along with subsection "Block device exports".  Subsection
->> "Background jobs" is at the end of section "Cryptography".  All this
->> is because storage-daemon/qapi/qapi-schema.json includes modules in a
->> confused order.
->> 
->> Fix both as follows.
->> 
->> Turn subsection "Background jobs" into a section.
->> 
->> Move it before section "Block devices" in the QEMU QMP Reference
->> Manual, by including qapi/jobs.json right before qapi/block.json.
->> 
->> Reorder include directives in storage-daemon/qapi/qapi-schema.json to
->> match the order in qapi/qapi-schema.json, so that the QEMU Storage
->> Daemon QMP Reference Manual's section structure the QEMU QMP Reference
->> Manual's.
->> 
->> In the QEMU QMP Reference Manual, qapi/cryptodev.json's documentation
->> is at the end of section "Virtio devices".  That's because it lacks a
->> section heading, and therefore gets squashed into whatever section
->> happens to precede it.
->> 
->> Add section heading so it's in section "Cryptography devices".
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  qapi/cryptodev.json                  |  4 ++++
->>  qapi/job.json                        |  2 +-
->>  qapi/qapi-schema.json                |  2 +-
->>  storage-daemon/qapi/qapi-schema.json | 22 +++++++++++++++-------
->>  4 files changed, 21 insertions(+), 9 deletions(-)
+> From: Michael Roth <michael.roth@amd.com>
 >
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+> New EPYC CPUs versions require small changes to their cache_info's.
 
-Thanks!
+Do you mean, for the real HW of EPYC CPU, each given model, e.g. Rome,
+has HW version updates periodically?
 
+> Because current QEMU x86 CPU definition does not support cache
+> versions,
+
+cache version --> versioned cache info
+
+> we would have to declare a new CPU type for each such case.
+
+My understanding was, for new HW CPU model, we should define a new
+vCPU model mapping it. But if answer to my above question is yes, i.e.
+new HW version of same CPU model, looks like it makes sense to some
+extent.
+
+> To avoid this duplication, the patch allows new cache_info pointers
+> to be specified for a new CPU version.
+
+"To avoid the dup work, the patch adds "cache_info" in X86CPUVersionDefinit=
+ion"
+>
+> Co-developed-by: Wei Huang <wei.huang2@amd.com>
+> Signed-off-by: Wei Huang <wei.huang2@amd.com>
+> Signed-off-by: Michael Roth <michael.roth@amd.com>
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  target/i386/cpu.c | 36 +++++++++++++++++++++++++++++++++---
+>  1 file changed, 33 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 6576287e5b..e3d9eaa307 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -1598,6 +1598,7 @@ typedef struct X86CPUVersionDefinition {
+>      const char *alias;
+>      const char *note;
+>      PropValue *props;
+> +    const CPUCaches *const cache_info;
+>  } X86CPUVersionDefinition;
+>
+>  /* Base definition for a CPU model */
+> @@ -5192,6 +5193,32 @@ static void x86_cpu_apply_version_props(X86CPU *cp=
+u, X86CPUModel *model)
+>      assert(vdef->version =3D=3D version);
+>  }
+>
+> +/* Apply properties for the CPU model version specified in model */
+
+I don't think this comment matches below function.
+
+> +static const CPUCaches *x86_cpu_get_version_cache_info(X86CPU *cpu,
+> +                                                       X86CPUModel *mode=
+l)
+
+Will "version" --> "versioned" be better?
+
+> +{
+> +    const X86CPUVersionDefinition *vdef;
+> +    X86CPUVersion version =3D x86_cpu_model_resolve_version(model);
+> +    const CPUCaches *cache_info =3D model->cpudef->cache_info;
+> +
+> +    if (version =3D=3D CPU_VERSION_LEGACY) {
+> +        return cache_info;
+> +    }
+> +
+> +    for (vdef =3D x86_cpu_def_get_versions(model->cpudef); vdef->version=
+; vdef++) {
+> +        if (vdef->cache_info) {
+> +            cache_info =3D vdef->cache_info;
+> +        }
+
+No need to assign "cache_info" when traverse the vdef list, but in
+below version matching block, do the assignment. Or, do you mean to
+have last valid cache info (during the traverse) returned? e.g. v2 has
+valid cache info, but v3 doesn't.
+> +
+> +        if (vdef->version =3D=3D version) {
+> +            break;
+> +        }
+> +    }
+> +
+> +    assert(vdef->version =3D=3D version);
+> +    return cache_info;
+> +}
+> +
 
