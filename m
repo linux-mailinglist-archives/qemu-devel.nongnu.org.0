@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B38A6EE91E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 22:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668A76EE91C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 22:37:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prPOk-0007zW-RQ; Tue, 25 Apr 2023 16:36:26 -0400
+	id 1prPNc-0007Ms-Td; Tue, 25 Apr 2023 16:35:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1prPOg-0007vz-8s
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:36:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1prPOZ-0002vL-TN
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:36:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682454970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pTCBuEf0qmvfjnSqR3orYqZmVEosIrXyQEutMoq0LVo=;
- b=N9JRvZ2CFwzylLaGjZajF8yDh3xooE6eSumtx7JfFcccOmZSH0vUOHolZ918VifLj4OkOf
- T5mu3QIozfAFg5CZlsBb/iXXpSD7NEv2cdDhxviG2nesoJBYEymzdyBBJQvtVbuYJ0pEg6
- 5tF06vSFXVQbM/KcXBlfIHbtDUASTLo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-UXB0h6NXMbO_5coiI0tmng-1; Tue, 25 Apr 2023 16:36:06 -0400
-X-MC-Unique: UXB0h6NXMbO_5coiI0tmng-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27E2E886466;
- Tue, 25 Apr 2023 20:36:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F05BE2027043;
- Tue, 25 Apr 2023 20:36:04 +0000 (UTC)
-Date: Tue, 25 Apr 2023 15:36:03 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, pbonzini@redhat.com, 
- eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 07/20] graph-lock: Fix GRAPH_RDLOCK_GUARD*() to be reader
- lock
-Message-ID: <nuzeche33pyoj55mjo6qnv4qay5l4gk34ka2pom3tsdjle5drv@5sgcju7s7z7q>
-References: <20230425173158.574203-1-kwolf@redhat.com>
- <20230425173158.574203-8-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <dfustini@baylibre.com>)
+ id 1prPNY-0007LW-Rz
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:35:12 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dfustini@baylibre.com>)
+ id 1prPNV-0002ht-LF
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:35:12 -0400
+Received: by mail-pf1-x436.google.com with SMTP id
+ d2e1a72fcca58-63b73203e0aso38223816b3a.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 13:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1682454907; x=1685046907; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JCy5CL+aVV3L+d+6YznmFmc95xl+9Z1cVCbvDUGg+7s=;
+ b=DTbux1NqDQwufutBK3IpPeWjqnsSBvn4yxbfZXC2JiDN5iD0rIVkh3MSke5Kxd+2ZO
+ yRXj7sqi4Iv4YzZ+EqeE/g9QDuN/1suoZD3tGavhl129WzyqGUocQ/e/8Mfx87QBJ74A
+ lowxm/YL4KIyy54a7QlcGIrBbh/VeeHq4kHsSO+00W+9zOQ1vhpI5TC764yraDDSLRFL
+ SV7Z15Q38Li8BmHneOvesCk3o+DmE7+1ZQueOH22kHNG4d4uI5/YvsQL4oC5JzrIeQtb
+ vOJ1L7cd4IWnWc5NyX6mbAE3NjoYym1Ev2cKk0NQkoMby9EkYQYBB0Srp7UQePz41Ijf
+ cQ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682454907; x=1685046907;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JCy5CL+aVV3L+d+6YznmFmc95xl+9Z1cVCbvDUGg+7s=;
+ b=SCOOjQMYfCyjyKal3wPX/Fu4WWxE4yLQCZ6OXECdQ35U2Nv+uyr6f2LGPQI5K67Au0
+ 6O+9CNPkDBNFPCSgh6EOPUAvn3kB6MXuPmrkjwZCe/p90aqj2oPnhwXYiiFEY7lCg/Xz
+ s59aFLHi8AONuNFpQ3h5Uyk0JDGpUF4iFKjGSt5TA1crTo5giYqOWzuss6ahOVv+awhs
+ IX6tBZ+mEYYNTKrwv6dcATOPK0hXgO/RhOSODTdWrrTmt7/TOCM24JV1bxO9pEKNgO0O
+ ShYMm7pIde6ColsKO2IkNBehiS/49XAEjNJxWur3s0W5wzyKYtboXoE0Z2+cTgRfSSky
+ GtsA==
+X-Gm-Message-State: AAQBX9dtMhvcjweA7YcxSFGTdJ0sPkkD/pOgS7Zvj6bIEy0ny1a2crOt
+ kMh+9pA7WR4UqEnnWSczZ1bxxQ==
+X-Google-Smtp-Source: AKy350ZHzQ8EJKPdjlfM/B4Z/AIm/oHMTa1WPRSJ6zF9vSOAouDzpzTrphFr+jO215kTj4RUjw3Pjg==
+X-Received: by 2002:a17:90a:b005:b0:24b:60d0:d622 with SMTP id
+ x5-20020a17090ab00500b0024b60d0d622mr16895462pjq.24.1682454906824; 
+ Tue, 25 Apr 2023 13:35:06 -0700 (PDT)
+Received: from x1.hsd1.or.comcast.net
+ ([2601:1c2:1800:f680:b08a:7f49:1848:42ff])
+ by smtp.gmail.com with ESMTPSA id
+ ep8-20020a17090ae64800b0024739e4ad02sm762752pjb.28.2023.04.25.13.35.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 13:35:06 -0700 (PDT)
+From: Drew Fustini <dfustini@baylibre.com>
+To: Ved Shanbhogue <ved@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Nicolas Pitre <npitre@baylibre.com>,
+ Adrien Ricciardi <aricciardi@baylibre.com>,
+ =?UTF-8?q?Kornel=20Dul=C4=99ba?= <mindal@semihalf.com>
+Cc: Drew Fustini <dfustini@baylibre.com>
+Subject: [RFC PATCH v2 0/9] riscv: implement Ssqosid extension and CBQRI
+ controllers
+Date: Tue, 25 Apr 2023 13:38:25 -0700
+Message-Id: <20230425203834.1135306-1-dfustini@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230425173158.574203-8-kwolf@redhat.com>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=dfustini@baylibre.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -80,54 +97,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 25, 2023 at 07:31:45PM +0200, Kevin Wolf wrote:
-> GRAPH_RDLOCK_GUARD() and GRAPH_RDLOCK_GUARD_MAINLOOP() only take a
-> reader lock for the graph, so the correct annotation for them to use is
-> TSA_ASSERT_SHARED rather than TSA_ASSERT.
+This RFC series implements the Ssqosid extension and the sqoscfg CSR as
+defined in the RISC-V Capacity and Bandwidth Controller QoS Register
+Interface (CBQRI) specification [1]. Quality of Service (QoS) in this
+context is concerned with shared resources on an SoC such as cache
+capacity and memory bandwidth.
 
-The comments at the start of graph-lock.h state that there is only 1
-writer (main loop, under BQL), and all others are readers (coroutines
-in varous AioContext) - but that's regarding the main BdrvGraphRWlock.
-I guess my confusion is over the act of writing the graph (only in the
-main loop) and using TSA annotations to check for safety.  Am I
-correct that the reason graph_lockable_auto_lock() only needs a
-TSA_ASSERT_SHARED locking is that it is only reachable from the other
-threads (and not the main loop thread itself) to check that we are
-indeed in a point where we aren't contending with the main loop's
-writable lock?
+These patches are available as a public git branch [2].
 
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  include/block/graph-lock.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
-> index 7ef391fab3..adaa3ed089 100644
-> --- a/include/block/graph-lock.h
-> +++ b/include/block/graph-lock.h
-> @@ -210,7 +210,7 @@ typedef struct GraphLockable { } GraphLockable;
->   * unlocked. TSA_ASSERT() makes sure that the following calls know that we
->   * hold the lock while unlocking is left unchecked.
->   */
-> -static inline GraphLockable * TSA_ASSERT(graph_lock) TSA_NO_TSA
-> +static inline GraphLockable * TSA_ASSERT_SHARED(graph_lock) TSA_NO_TSA
->  graph_lockable_auto_lock(GraphLockable *x)
->  {
->      bdrv_graph_co_rdlock();
+sqoscfg CSR
+-----------
+The sqoscfg CSR provides a mechanism by which a software workload (e.g.
+a process or a set of processes) can be associated with a resource
+control ID (RCID) and a monitoring counter ID (MCID) that accompanies
+each request made by the hart to shared resources like cache.
 
-But the act of grabbing a rdlock is definitely a SHARED not EXCLUSIVE
-action, so I think I agree with your changing of the annotation, even
-if the commit message could be slightly improved.
+CBQRI defines operations to configure resource usage limits, in the form
+of capacity or bandwidth, for an RCID. CBQRI also defines operations to
+configure counters to track the resource utilization per MCID.
 
-Assuming I've sorted out my own confusion on the various lock
-terminoligies,
+CBQRI controllers
+-----------------
+This series also implements an CBQRI capacity controller and an CBQRI
+bandwidth controller which can be configured from the command line:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+  $ qemu-system-riscv64 -M virt ... \
+      -device riscv.cbqri.capacity,mmio_base=0x04828000[,...] \
+      -device riscv.cbqri.bandwidth,mmio_base=0x04829000[,...]
+    
+The mmio_base option is mandatory, the others are optional.
+                           
+As many -device arguments as wanted can be provided as long as their
+mmio regions don't conflict.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+To see all possible options:
 
+  $ qemu-system-riscv64 -device riscv.cbqri.capacity,help
+  riscv.cbqri.capacity options:
+    alloc_op_config_limit=<bool> -  (default: true)
+    alloc_op_flush_rcid=<bool> -  (default: true)
+    alloc_op_read_limit=<bool> -  (default: true)
+    at_code=<bool>         -  (default: true)
+    at_data=<bool>         -  (default: true)
+    max_mcids=<uint16>     -  (default: 256)
+    max_rcids=<uint16>     -  (default: 64)   
+    mmio_base=<uint64>     -  (default: 0)
+    mon_evt_id_none=<bool> -  (default: true)
+    mon_evt_id_occupancy=<bool> -  (default: true)
+    mon_op_config_event=<bool> -  (default: true)
+    mon_op_read_counter=<bool> -  (default: true)
+    ncblks=<uint16>        -  (default: 16)
+    target=<str> 
+   
+  $ qemu-system-riscv64 -device riscv.cbqri.bandwidth,help
+  riscv.cbqri.bandwidth options:
+    alloc_op_config_limit=<bool> -  (default: true)
+    alloc_op_read_limit=<bool> -  (default: true)
+    at_code=<bool>         -  (default: true)
+    at_data=<bool>         -  (default: true)
+    max_mcids=<uint16>     -  (default: 256)
+    max_rcids=<uint16>     -  (default: 64)
+    mmio_base=<uint64>     -  (default: 0)
+    mon_evt_id_none=<bool> -  (default: true)
+    mon_evt_id_rdonly_count=<bool> -  (default: true)
+    mon_evt_id_rdwr_count=<bool> -  (default: true)
+    mon_evt_id_wronly_count=<bool> -  (default: true)
+    mon_op_config_event=<bool> -  (default: true)
+    mon_op_read_counter=<bool> -  (default: true)
+    nbwblks=<uint16>       -  (default: 1024)
+    target=<str>
+
+Boolean options correspond to hardware capabilities that can be disabled
+ 
+CBQRI proof-of-concept
+----------------------
+A hypothetical SoC with the following CBQRI controller configuration is
+used for the CBQRI proof-of-concept:
+
+  - L2 cache controllers
+    - Resource type: Capacity
+    - Number of capacity blocks (NCBLKS): 12
+    	- In the context of a set-associative cache, the number of
+	  capacity blocks can be thought of as the number of ways
+    - Number of access types: 2 (code and data)
+    - Usage monitoring not supported
+    - Capacity allocation operations: CONFIG_LIMIT, READ_LIMIT
+
+  - Last-level cache (LLC) controller
+    - Resource type: Capacity
+    - Number of capacity blocks (NCBLKS): 16
+    - Number of access types: 2 (code and data)
+    - Usage monitoring operations: CONFIG_EVENT, READ_COUNTER
+    - Event IDs supported: None, Occupancy
+    - Capacity allocation ops: CONFIG_LIMIT, READ_LIMIT, FLUSH_RCID
+
+  - Memory controllers
+    - Resource type: Bandwidth
+    - Number of bandwidth blocks (NBWBLKS): 1024
+       - Bandwidth blocks do not have a unit but instead represent a
+         portion of the total bandwidth resource. For NWBLKS of 1024,
+	 each block represents about 0.1% of the bandwidth resource.
+    - Maximum reserved bandwidth blocks (MRBWB): 819 [80% of NBWBLKS]
+    - Number of access types: 1 (no code/data differentiation)
+    - Usage monitoring operations: CONFIG_EVENT, READ_COUNTER
+    - Event IDs supported: None, Total read/write byte count, Total
+                           read byte count, Total write byte count
+    - Bandwidth allocation operations: CONFIG_LIMIT, READ_LIMIT
+
+The memory map used for the proof-of-concept:
+
+  Base addr  Size
+  0x4820000  4KB  Cluster 0 L2 cache controller
+  0x4821000  4KB  Cluster 1 L2 cache controller
+  0x4828000  4KB  Memory controller 0
+  0x4829000  4KB  Memory controller 1
+  0x482a000  4KB  Memory controller 2
+  0x482b000  4KB  Shared LLC cache controller
+
+This configuration is meant to provide a "concrete" example for software
+(like Linux) to test against. It represents just one of many possible
+ways for hardware to implement the CBQRI spec.
+
+The CBQRI proof-of-concept configuration is created with the following:
+
+  qemu-system-riscv64 \
+        -M virt \
+        -nographic \
+        -smp 8 \
+        -device riscv.cbqri.capacity,max_mcids=256,max_rcids=64,ncblks=12,alloc_op_flush_rcid=false,mon_op_config_event=false,mon_op_read_counter=false,mon_evt_id_none=false,mon_evt_id_occupancy=false,mmio_base=0x04820000 \
+        -device riscv.cbqri.capacity,max_mcids=256,max_rcids=64,ncblks=12,alloc_op_flush_rcid=false,mon_op_config_event=false,mon_op_read_counter=false,mon_evt_id_none=false,mon_evt_id_occupancy=false,mmio_base=0x04821000 \
+        -device riscv.cbqri.capacity,max_mcids=256,max_rcids=64,ncblks=16,mmio_base=0x0482B000 \
+        -device riscv.cbqri.bandwidth,max_mcids=256,max_rcids=64,nbwblks=1024,mrbwb=819,mmio_base=0x04828000 \
+        -device riscv.cbqri.bandwidth,max_mcids=256,max_rcids=64,nbwblks=1024,mrbwb=819,mmio_base=0x04829000 \
+        -device riscv.cbqri.bandwidth,max_mcids=256,max_rcids=64,nbwblks=1024,mrbwb=819,mmio_base=0x0482a000
+
+In addition, please note that this RFC series only implements the
+register interface that CBQRI specifies. It does not attempt to emulate
+the performance impact of configuring limits on shared resources like
+cache and memory bandwidth. Similarly, the code does not attempt to
+emulate cache and memory bandwidth utilization, like what would be
+observed on a real hardware system implementing CBQRI.
+
+Status of CBQRI
+---------------
+The CBQRI spec is still in a draft state and is undergoing review [3].
+It is possible there will be changes to the Ssqosid extension and the
+CBQRI spec. For example, the sqoscfg CSR address is not yet finalized.
+
+The goal of this Qemu patch series, along with complimentary Linux patch
+series [4][5], is to satisfy the software proof of concept requirement 
+or CBQRI to be frozen.
+
+Future work
+-----------
+In the future, the device tree generation will be expanded to include
+CBQRI-related properties. Currently, these are added to the dumped dtb
+that Linux consumes for the CBQRI proof-of-concept [5].
+
+Changes since v1
+----------------
+- Rebase on current master (8.0.50) instead of 8.0.0-rc4
+- Configure CBQRI controllers based on device properties in command line
+  arguments instead of a fixed example SoC configuration.
+- Move TYPE_RISCV_CBQRI_BC and TYPE_RISCV_CBQRI_CC into header so that
+  machines may use it (suggested by Alistair).
+- Change 'select RISC_CBQRI' to 'imply RISCV_CBQRI' for RISCV_VIRT.
+- Patches 8/9 could be dropped as they are not needed for the CBQRI
+  proof-of-concept to work. They are only meant to serve as an example
+  for those implementing new machines.
+
+[1] https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
+[2] https://gitlab.baylibre.com/baylibre/qemu/-/tree/riscv-cbqri-rfc-v2
+[3] https://lists.riscv.org/g/tech-cbqri/message/38
+[4] https://lore.kernel.org/linux-riscv/20230410043646.3138446-1-dfustini@baylibre.com/
+[5] https://lore.kernel.org/linux-riscv/20230419111111.477118-1-dfustini@baylibre.com/
 
