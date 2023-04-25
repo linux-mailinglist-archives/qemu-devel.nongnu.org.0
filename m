@@ -2,69 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9F56EDE3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 10:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E816EDE76
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 10:47:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prE80-00068V-LZ; Tue, 25 Apr 2023 04:34:24 -0400
+	id 1prEJI-0003d0-9v; Tue, 25 Apr 2023 04:46:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prE7y-00068F-G1
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 04:34:22 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1prEJE-0003cS-4m; Tue, 25 Apr 2023 04:46:00 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prE7v-00061G-SA
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 04:34:22 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:308d:0:640:82be:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id E8F326078B;
- Tue, 25 Apr 2023 11:34:10 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b440::1:14] (unknown
- [2a02:6b8:b081:b440::1:14])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id 9YBnca0Or4Y0-trqDwjFA; Tue, 25 Apr 2023 11:34:09 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682411649; bh=aLBkWlnIzOt51pZ927bEcjPgRSK6Ni/xpcMo+U/PzO0=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=Q8OY+wC6eLgu/TAzXPHohP2uj5dWJDvN0odJf1FhaTcexynCkTcx3Wlh/Psd5ggIY
- OFjWoWn/57IPcNFAbOzUcEV2l31trIEUQfk9nVc5w+z63skZYdgrf7KLhFU3ST3oIX
- XB9B7gzWG7WHecMyBXyKNL5bQJQiNFu0XwLNAXWc=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <f2fcb8b1-877c-59dc-3eb2-33a456fa7372@yandex-team.ru>
-Date: Tue, 25 Apr 2023 11:34:09 +0300
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1prEJB-0007r2-BR; Tue, 25 Apr 2023 04:45:59 -0400
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33P8hiR7002296; Tue, 25 Apr 2023 08:45:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=nPKv9ZAPAQuf69tA2yNDv+zouse37br2lRSRdQ7TSoU=;
+ b=SOiRvka4+dD9uCE/aUW9IkrbcV3iC+HapZZ5itAW+iMyYJM7HBQfyExrsSzYazguoxbz
+ XG1Tf86llPtkQjQ7G3tYxe9geXTzps/2D2D/88w3MJDkgJGCwhQaVTM8mtFq4M4aGiV7
+ 4wqRwbx9DSS9v3JZWUlEKYhdvPHVG79z8EyRnAxzUqshP9kmlKTRmilSnE7Ie0wDsQz5
+ JiiNpwiTNkR0c0+thLn14S+RnKQllnEZi313Fm3RasTGL8D3fi6RQ1uYPs5rEcnNp+vX
+ HIJ8gK0HcnXntYMmFwkm7fXI2x7Sqbv/9XyQI+DaOoDFzyw0Gak2/OMGuz8ektaLF8hM Dg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6bkx8277-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 08:45:46 +0000
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33P8jCfc008259;
+ Tue, 25 Apr 2023 08:45:45 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6bkx825w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 08:45:45 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33P46tOw003680;
+ Tue, 25 Apr 2023 08:45:43 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3q47771b9n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 08:45:43 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33P8jcJ848169406
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Apr 2023 08:45:38 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF6D620043;
+ Tue, 25 Apr 2023 08:45:37 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 56C8920040;
+ Tue, 25 Apr 2023 08:45:37 +0000 (GMT)
+Received: from [9.152.222.242] (unknown [9.152.222.242])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue, 25 Apr 2023 08:45:37 +0000 (GMT)
+Message-ID: <9c2cb730-d307-f344-35e8-82017681816a@linux.ibm.com>
+Date: Tue, 25 Apr 2023 10:45:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] pci: make ROM memory resizable
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v19 02/21] s390x/cpu topology: add topology entries on CPU
+ hotplug
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-3-pmorel@linux.ibm.com>
+ <66d9ba0e9904f035326aca609a767976b94547cf.camel@linux.ibm.com>
+ <4ddd3177-58a8-c9f0-a9a8-ee71baf0511b@linux.ibm.com>
+ <60aafc95dd0293ba8d5b4dbdc59fcda5e6c64f3e.camel@linux.ibm.com>
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, david@redhat.com,
- peterx@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- den-plotnikov@yandex-team.ru, Gerd Hoffmann <kraxel@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
-References: <20230424203647.94614-1-vsementsov@yandex-team.ru>
- <20230425031348-mutt-send-email-mst@kernel.org>
- <20230425033455-mutt-send-email-mst@kernel.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230425033455-mutt-send-email-mst@kernel.org>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <60aafc95dd0293ba8d5b4dbdc59fcda5e6c64f3e.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: -bsU6uGsoZAYYv-UHzGVIY5KW5VpKzOh
+X-Proofpoint-ORIG-GUID: oIczCWFr5KchYLr4MVssOKdewKebH5XL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-25_03,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304250068
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.194,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,64 +123,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25.04.23 10:43, Michael S. Tsirkin wrote:
-> On Tue, Apr 25, 2023 at 03:26:54AM -0400, Michael S. Tsirkin wrote:
->> On Mon, Apr 24, 2023 at 11:36:47PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>> On migration, on target we load local ROM file. But actual ROM content
->>> migrates through migration channel. Original ROM content from local
->>> file doesn't matter. But when size mismatch - we have an error like
+
+On 4/24/23 17:32, Nina Schoetterl-Glausch wrote:
+> On Fri, 2023-04-21 at 12:20 +0200, Pierre Morel wrote:
+>>> On 4/20/23 10:59, Nina Schoetterl-Glausch wrote:
+>>>>> On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
+[..]
+>>> In the next version with entitlement being an enum it is right.
 >>>
->>>   Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
->>
->> Oh, this is this old bug then:
->> https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1713490
->>
->> People seem to be "fixing" this by downgrading ROMs.
->>
->> Actually, I think the fix is different: we need to build
->> versions of ROMs for old machine types that can fit
->> in the old BAR size.
->>
->> Gerd, Laszlo what's your take on all this?
-> Actually, ignore this - we do keep old ROMs around specifically to avoid
-> ROM size changes and have been for ever. E.g.:
-> 
-> commit c45e5b5b30ac1f5505725a7b36e68cedfce4f01f
-> Author: Gerd Hoffmann<kraxel@redhat.com>
-> Date:   Tue Feb 26 17:46:11 2013 +0100
-> 
->      Switch to efi-enabled nic roms by default
->      
->      All PCI nics are switched to EFI-enabled roms by default.  They are
->      composed from three images (legacy, efi ia32 & efi x86), so classic
->      pxe booting will continue to work.
->      
->      Exception: eepro100 is not switched, it uses a single rom for all
->      emulated eepro100 variants, then goes patch the rom header on the
->      fly with the correct PCI IDs.  I doubt that will work as-is with
->      the efi roms.
->      
->      Keep old roms for 1.4+older machine types via compat properties,
->      needed because the efi-enabled roms are larger so the pci rom bar
->      size would change.
->      
->      Signed-off-by: Gerd Hoffmann<kraxel@redhat.com>
-> 
-> 
-> So it's downstream messing up with things, overriding the
-> rom file then changing its size.
-> 
-> 
-> On fedora I find both pxe virtio and efi virtio so it gets it right.
-> 
-> 
+>>> However, deleting this means that the default value for entitlement
+>>> depends on dedication.
+>>>
+>>> If we have only low, medium, high and default for entitlement is medium.
+>>>
+>>> If the user specifies the dedication true without specifying entitlement
+>>> we could force entitlement to high.
+>>>
+>>> But we can not distinguish this from the user specifying dedication true
+>>> with a medium entitlement, which is wrong.
+>>>
+>>> So three solution:
+>>>
+>>> 1) We ignore what the user say if dedication is specified as true
+>>>
+>>> 2) We specify that both dedication and entitlement must be specified if
+>>> dedication is true
+>>>
+>>> 3) We set an impossible default to distinguish default from medium
+>>> entitlement
+>>>
+>>>
+>>> For me the solution 3 is the best one, it is more flexible for the user.
+>>>
+>>> Solution 1 is obviously bad.
+>>>
+>>> Solution 2 forces the user to specify entitlement high and only high if
+>>> it specifies dedication true.
+>>>
+>>> AFAIU, you prefer the solution 2, forcing user to specify both
+>>> dedication and entitlement to suppress a default value in the enum.
+>>> Why is it bad to have a default value in the enum that we do not use to
+>>> specify that the value must be calculated?
+> Yes, I'd prefer solution 2. I don't like adapting the internal state where only
+> the three values make sense for the user interface.
+> It also keeps things simple and requires less code.
+> I also don't think it's a bad thing for the user, as it's not a thing done manually often.
+> I'm also not a fan of a value being implicitly being changed even though it doesn't look
+> like it from the command.
+>
+> However, what I really don't like is the additional state and naming it "horizontal",
 
-Yes I understand that distribution may work-around the problem just having all needed roms on target and specifying correct romfile= argument.
 
-But this is not ideal: having the file only to get its size, to not mismatch with incoming RAM block. There should be way to migrate ROMs automatically without extra files on target.
+No problem to use another name like "auto" as you propose later.
 
--- 
-Best regards,
-Vladimir
+
+> not so much the adjustment if dedication is switched to true without an entitlement given.
+> For the monitor command there is no problem, you currently have:
+
+
+That is clear, the has_xxx does the job.
+
+[..]
+
+
+> So you can just set it if (!has_entitlement).
+> There is also ways to set the value for cpus defined on the command line, e.g.:
+
+
+Yes, thanks, I already said I find your proposition to use a 
+DEFINE_PROP_CPUS390ENTITLEMENT good and will use it.
+
+
+>
+> diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-properties-system.h
+> index 0ac327ae60..41a605c5a7 100644
+> --- a/include/hw/qdev-properties-system.h
+> +++ b/include/hw/qdev-properties-system.h
+> @@ -22,6 +22,7 @@ extern const PropertyInfo qdev_prop_audiodev;
+>   extern const PropertyInfo qdev_prop_off_auto_pcibar;
+>   extern const PropertyInfo qdev_prop_pcie_link_speed;
+>   extern const PropertyInfo qdev_prop_pcie_link_width;
+> +extern const PropertyInfo qdev_prop_cpus390entitlement;
+>   
+>   #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
+>       DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
+> @@ -73,5 +74,8 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+>   #define DEFINE_PROP_UUID_NODEFAULT(_name, _state, _field) \
+>       DEFINE_PROP(_name, _state, _field, qdev_prop_uuid, QemuUUID)
+>   
+> +#define DEFINE_PROP_CPUS390ENTITLEMENT(_n, _s, _f) \
+> +    DEFINE_PROP(_n, _s, _f, qdev_prop_cpus390entitlement, int)
+> +
+>   
+>   #endif
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 54541d2230..01308e0b94 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -135,7 +135,7 @@ struct CPUArchState {
+>       int32_t book_id;
+>       int32_t drawer_id;
+>       bool dedicated;
+> -    uint8_t entitlement;        /* Used only for vertical polarization */
+> +    int entitlement;        /* Used only for vertical polarization */
+
+
+Isn't it better to use:
+
++    CpuS390Entitlement entitlement; /* Used only for vertical 
+polarization */
+
+
+>       uint64_t cpuid;
+>   #endif
+>   
+> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+> index d42493f630..db5c3d4fe6 100644
+> --- a/hw/core/qdev-properties-system.c
+> +++ b/hw/core/qdev-properties-system.c
+> @@ -1143,3 +1143,14 @@ const PropertyInfo qdev_prop_uuid = {
+>       .set   = set_uuid,
+>       .set_default_value = set_default_uuid_auto,
+>   };
+> +
+> +/* --- s390x cpu topology entitlement --- */
+> +
+> +QEMU_BUILD_BUG_ON(sizeof(CpuS390Entitlement) != sizeof(int));
+> +
+> +const PropertyInfo qdev_prop_cpus390entitlement = {
+> +    .name = "CpuS390Entitlement",
+> +    .enum_table = &CpuS390Entitlement_lookup,
+> +    .get   = qdev_propinfo_get_enum,
+> +    .set   = qdev_propinfo_set_enum,
+> +};
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index b8a292340c..1b3f5c61ae 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -199,8 +199,7 @@ static void s390_topology_cpu_default(S390CPU *cpu, Error **errp)
+>        * is not dedicated.
+>        * A dedicated CPU always receives a high entitlement.
+>        */
+> -    if (env->entitlement >= S390_CPU_ENTITLEMENT__MAX ||
+> -        env->entitlement == S390_CPU_ENTITLEMENT_HORIZONTAL) {
+> +    if (env->entitlement < 0) {
+
+
+Here we can have:
+
++    if (env->entitlement == S390_CPU_ENTITLEMENT_AUTO) {
+...
+
+>           if (env->dedicated) {
+>               env->entitlement = S390_CPU_ENTITLEMENT_HIGH;
+>           } else {
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index 57165fa3a0..dea50a3e06 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -31,6 +31,7 @@
+>   #include "qapi/qapi-types-machine.h"
+>   #include "sysemu/hw_accel.h"
+>   #include "hw/qdev-properties.h"
+> +#include "hw/qdev-properties-system.h"
+>   #include "fpu/softfloat-helpers.h"
+>   #include "disas/capstone.h"
+>   #include "sysemu/tcg.h"
+> @@ -248,6 +249,7 @@ static void s390_cpu_initfn(Object *obj)
+>       cs->exception_index = EXCP_HLT;
+>   
+>   #if !defined(CONFIG_USER_ONLY)
+> +    cpu->env.entitlement = -1;
+
+
+Then we do not need this initialization if here under we define 
+DEFINE_PROP_CPUS390ENTITLEMENT differently
+
+
+>       s390_cpu_init_sysemu(obj);
+>   #endif
+>   }
+> @@ -264,8 +266,7 @@ static Property s390x_cpu_properties[] = {
+>       DEFINE_PROP_INT32("book-id", S390CPU, env.book_id, -1),
+>       DEFINE_PROP_INT32("drawer-id", S390CPU, env.drawer_id, -1),
+>       DEFINE_PROP_BOOL("dedicated", S390CPU, env.dedicated, false),
+> -    DEFINE_PROP_UINT8("entitlement", S390CPU, env.entitlement,
+> -                      S390_CPU_ENTITLEMENT__MAX),
+> +    DEFINE_PROP_CPUS390ENTITLEMENT("entitlement", S390CPU, env.entitlement),
+
+
++    DEFINE_PROP_CPUS390ENTITLEMENT("entitlement", S390CPU, env.entitlement,
+                                    S390_CPU_ENTITLEMENT_AUTO),
+
+>   #endif
+>       DEFINE_PROP_END_OF_LIST()
+>   };
+>
+> There are other ways to achieve the same, you could also
+> implement get, set and set_default_value so that there is an additional
+> "auto"/"uninitialized" value that is not in the enum.
+> If you insist on having an additional state in the enum, name it "auto".
+
+Yes, I think it is a better name.
+
 
 
