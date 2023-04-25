@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3676EDD29
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:50:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DADF16EDD28
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:50:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDOV-0002cT-VC; Tue, 25 Apr 2023 03:47:24 -0400
+	id 1prDOh-0003Gv-1H; Tue, 25 Apr 2023 03:47:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNk-0001ja-H5
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNo-0001q2-Dz
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNi-0006sW-3r
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:35 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNm-0006uM-DM
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408793;
+ s=mimecast20190719; t=1682408796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ENB/ftYh8f6TIyn1LHdOpb4fofLhwW3Aa4TSW+e9pK0=;
- b=c9l+g8QCBGmhA/awuR4tkVM+L1yY61vXh8u9sLfKVeIEn7iZL7theA3ZKThbko7HGdwqFY
- 1cU851xdt90Awy4TgItBRMgU/card+qDwY9Z9+ldTSBxVf3MV3DWtZ6r7JUi3mKLOOyRnJ
- ouUV/0j3Xz3PygfKv0IxGC5/WfcpyPA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3YJvIXB4JXgLc+BchY3FYURGQPfXfUe8KWU9L0uhwmc=;
+ b=Fq6/QE1t5HgKkTThka1VbgDl3XkGONZjw81O1a4/26tvLOhCCApKTXnYsWU/lrq/u146hp
+ mYtZvWqpFXu6sCCnrWhx3bq4bQmtYaEpSUGmBxeVWqT2sy3ZFFPMkfpbSCDfi6sOYb+sBm
+ KqThojAEhkE+nVif8kQrifxAPlhoHGs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-435-_P61B52jNHefddncIO9SiA-1; Tue, 25 Apr 2023 03:46:32 -0400
-X-MC-Unique: _P61B52jNHefddncIO9SiA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f173bd0fc9so29624095e9.3
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:31 -0700 (PDT)
+ us-mta-546-bA3gZ2u-OA656rjU5pP5Gw-1; Tue, 25 Apr 2023 03:46:35 -0400
+X-MC-Unique: bA3gZ2u-OA656rjU5pP5Gw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-2f92bd71f32so1710361f8f.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408790; x=1685000790;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ENB/ftYh8f6TIyn1LHdOpb4fofLhwW3Aa4TSW+e9pK0=;
- b=jjg3rgNRtAHS4cKcbt5wR7EwACdBiru7RJXVxToCscAS7BYpezgocEAtNzOT/MEpMd
- JzPhCja2HHSzHBvn+pLddAesD7dvNrK9ER/m8L80TYkGkV2sI7bwJpYIvBfjr4EI/c+3
- ntbI8wfoLfgC8+/MXYqQzUJfC/t6OvF3o0TQVuHKHpwhLlvJrxSqJRF4KeICGkHkwZDX
- 4VbfM7hvnl0XpSzJrEEIZTUp7gFKhIz/JWLsFirKZ4QixOjLLmUKW+3vQSqcyUoIhgM1
- ekcOhaIZLvixSVeqirP8ADsP/QR+7M7JEIA5QQGtxSplAxYh8huH+uItDh3D1hebHdyC
- Ir6A==
-X-Gm-Message-State: AAQBX9fqXgKUBwuoGPLRgAWINBMfsIRG+53BhvHitDM0p4DvY2TPcrRj
- cRSCQ/Gv13hkedSQMWr7WnChssqCpIQdwYkHavCJOWPqSZ4R14NIRjbMDP3qTyAT9vZISvYip6G
- q94Od9Q73V9ADaKJcZuhnyACpF0e6pwK+2vdE9gbOCBD5FwF5Zvs72gk+cHxiB7twahjU
-X-Received: by 2002:a5d:6b04:0:b0:2f6:121a:c1d0 with SMTP id
- v4-20020a5d6b04000000b002f6121ac1d0mr11403745wrw.19.1682408790474; 
- Tue, 25 Apr 2023 00:46:30 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b9oMWpcaOo9YS0u2xc5QZ9xJjUc/hUU7fOHMT4xr6ajAIw2XlK4SrOYqsuDHm7agZ9vwhQdA==
-X-Received: by 2002:a5d:6b04:0:b0:2f6:121a:c1d0 with SMTP id
- v4-20020a5d6b04000000b002f6121ac1d0mr11403733wrw.19.1682408790086; 
- Tue, 25 Apr 2023 00:46:30 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682408793; x=1685000793;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3YJvIXB4JXgLc+BchY3FYURGQPfXfUe8KWU9L0uhwmc=;
+ b=kY68X+miE8V9n/maGaCzSenrrUOz3jiAyJ+jChCWDY2cJZqrcaqXxBQKcadJXA4d6u
+ BySPJ5lfOAK9eYn2apAaRBe/n5177noWSGqOnikKZ4k07IkaVIoWUg1mk/RwrWxXsewN
+ L+N7nzjsaPxOeDOZ8Wj7kARh/rSNqt+sNyPM8m+15QBnMk7Z0Qa4NfA6ElJJgCR/y4vF
+ FsuAnLNymDBY+tquZcWIXyxFdwQ2PZqghQFCwZX5JzBoB5Xa4F/SJWRhFStoxoTNb51C
+ up5q9+Wi6rZXbgJkG+cMMtBUspbfRImj+aJoUwptKmGn6H2TOC5nbSXw3tDjxFrT77e0
+ 119A==
+X-Gm-Message-State: AAQBX9fIuBLOuryQtXGNAlLJA+/b9dKxeWyotVYfMTH1kMAcsOJIDq6F
+ +YgeTVkar07kXeAnj/bv6TsZF8Xjh+ZGECmt0wXJFeWLIK7b33/l2VbQVnM6BExQBM9vmvxEx3I
+ tedFZ7fhSXGR25zvu+V2quv1uS/7Z/UHyIdvboiCtMQt+RlzExXw9fJZo0zorhcM+0+LE
+X-Received: by 2002:adf:ec46:0:b0:2ce:9fb8:b560 with SMTP id
+ w6-20020adfec46000000b002ce9fb8b560mr11849196wrn.8.1682408793264; 
+ Tue, 25 Apr 2023 00:46:33 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bpT1X4oxRSwMToIgC2x2pjYw/LIlQzmVNGpxxai/wdVS8/GgwXLW7dSjfQKc0lOKEtYEcXkQ==
+X-Received: by 2002:adf:ec46:0:b0:2ce:9fb8:b560 with SMTP id
+ w6-20020adfec46000000b002ce9fb8b560mr11849172wrn.8.1682408792937; 
+ Tue, 25 Apr 2023 00:46:32 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- k6-20020a5d5246000000b002e71156b0fcsm12524587wrc.6.2023.04.25.00.46.28
+ h18-20020a5d6892000000b002f9bfac5baesm12482772wru.47.2023.04.25.00.46.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:46:29 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:46:27 -0400
+ Tue, 25 Apr 2023 00:46:32 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:46:30 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 27/31] docs/specs/pci-ids: Convert from txt to rST
-Message-ID: <0c0e21d1c1e2dde4f7437bcd5c53127013cc25f7.1682408661.git.mst@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: [PULL 28/31] docs/specs: Convert pci-serial.txt to rst
+Message-ID: <3669b594d88930f9e5d7c83e038d7d9ca5a75378.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1682408661.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -99,216 +104,167 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Convert the pci-ids document from plain text to reStructuredText.
-
-I opted to use definition-lists here because rST tables are
-super-clunky, and actually formatting these as tables didn't
-seem necessary.
+Convert pci-serial.txt to reStructuredText. This includes
+some wordsmithing, and the correction of the docs to note
+that the Windows inf file includes 2x and 4x support
+(as it has done since commit dc9528fdf9f61 in 2014).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20230420160334.1048224-2-peter.maydell@linaro.org>
+Message-Id: <20230420160334.1048224-3-peter.maydell@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- docs/specs/pci-ids.txt | 70 ------------------------------
- docs/specs/index.rst   |  1 +
- docs/specs/pci-ids.rst | 98 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 99 insertions(+), 70 deletions(-)
- delete mode 100644 docs/specs/pci-ids.txt
- create mode 100644 docs/specs/pci-ids.rst
+ docs/specs/pci-serial.txt  | 34 ----------------------------------
+ hw/char/serial-pci-multi.c |  2 +-
+ hw/char/serial-pci.c       |  2 +-
+ docs/specs/index.rst       |  1 +
+ docs/specs/pci-ids.rst     |  6 +++---
+ docs/specs/pci-serial.rst  | 37 +++++++++++++++++++++++++++++++++++++
+ 6 files changed, 43 insertions(+), 39 deletions(-)
+ delete mode 100644 docs/specs/pci-serial.txt
+ create mode 100644 docs/specs/pci-serial.rst
 
-diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
+diff --git a/docs/specs/pci-serial.txt b/docs/specs/pci-serial.txt
 deleted file mode 100644
-index e463c4cb3a..0000000000
---- a/docs/specs/pci-ids.txt
+index 66c761f2b4..0000000000
+--- a/docs/specs/pci-serial.txt
 +++ /dev/null
-@@ -1,70 +0,0 @@
+@@ -1,34 +0,0 @@
 -
--PCI IDs for qemu
--================
+-QEMU pci serial devices
+-=======================
 -
--Red Hat, Inc. donates a part of its device ID range to qemu, to be used for
--virtual devices.  The vendor IDs are 1af4 (formerly Qumranet ID) and 1b36.
+-There is one single-port variant and two muliport-variants.  Linux
+-guests out-of-the box with all cards.  There is a Windows inf file
+-(docs/qemupciserial.inf) to setup the single-port card in Windows
+-guests.
 -
--Contact Gerd Hoffmann <kraxel@redhat.com> to get a device ID assigned
--for your devices.
 -
--1af4 vendor ID
----------------
+-single-port card
+-----------------
 -
--The 1000 -> 10ff device ID range is used as follows for virtio-pci devices.
--Note that this allocation separate from the virtio device IDs, which are
--maintained as part of the virtio specification.
+-Name:   pci-serial
+-PCI ID: 1b36:0002
 -
--1af4:1000  network device (legacy)
--1af4:1001  block device (legacy)
--1af4:1002  balloon device (legacy)
--1af4:1003  console device (legacy)
--1af4:1004  SCSI host bus adapter device (legacy)
--1af4:1005  entropy generator device (legacy)
--1af4:1009  9p filesystem device (legacy)
--1af4:1012  vsock device (bug compatibility)
+-PCI Region 0:
+-   IO bar, 8 bytes long, with the 16550 uart mapped to it.
+-   Interrupt is wired to pin A.
 -
--1af4:1040  Start of ID range for modern virtio devices.  The PCI device
--   to      ID is calculated from the virtio device ID by adding the
--1af4:10ef  0x1040 offset.  The virtio IDs are defined in the virtio
--           specification.  The Linux kernel has a header file with
--           defines for all virtio IDs (linux/virtio_ids.h), qemu has a
--           copy in include/standard-headers/.
 -
--1af4:10f0  Available for experimental usage without registration.  Must get
--   to      official ID when the code leaves the test lab (i.e. when seeking
--1af4:10ff  upstream merge or shipping a distro/product) to avoid conflicts.
+-multiport cards
+----------------
 -
--1af4:1100  Used as PCI Subsystem ID for existing hardware devices emulated
--           by qemu.
+-Name:   pci-serial-2x
+-PCI ID: 1b36:0003
 -
--1af4:1110  ivshmem device (shared memory, docs/specs/ivshmem-spec.txt)
+-Name:   pci-serial-4x
+-PCI ID: 1b36:0004
 -
--All other device IDs are reserved.
--
--1b36 vendor ID
----------------
--
--The 0000 -> 00ff device ID range is used as follows for QEMU-specific
--PCI devices (other than virtio):
--
--1b36:0001  PCI-PCI bridge
--1b36:0002  PCI serial port (16550A) adapter (docs/specs/pci-serial.txt)
--1b36:0003  PCI Dual-port 16550A adapter (docs/specs/pci-serial.txt)
--1b36:0004  PCI Quad-port 16550A adapter (docs/specs/pci-serial.txt)
--1b36:0005  PCI test device (docs/specs/pci-testdev.txt)
--1b36:0006  PCI Rocker Ethernet switch device
--1b36:0007  PCI SD Card Host Controller Interface (SDHCI)
--1b36:0008  PCIe host bridge
--1b36:0009  PCI Expander Bridge (-device pxb)
--1b36:000a  PCI-PCI bridge (multiseat)
--1b36:000b  PCIe Expander Bridge (-device pxb-pcie)
--1b36:000d  PCI xhci usb host adapter
--1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
--1b36:0010  PCIe NVMe device (-device nvme)
--1b36:0011  PCI PVPanic device (-device pvpanic-pci)
--1b36:0012  PCI ACPI ERST device (-device acpi-erst)
--
--All these devices are documented in docs/specs.
--
--The 0100 device ID is used for the QXL video card device.
+-PCI Region 0:
+-   IO bar, with two/four 16550 uart mapped after each other.
+-   The first is at offset 0, second at offset 8, ...
+-   Interrupt is wired to pin A.
+diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
+index f18b8dcce5..5d65c534cb 100644
+--- a/hw/char/serial-pci-multi.c
++++ b/hw/char/serial-pci-multi.c
+@@ -25,7 +25,7 @@
+  * THE SOFTWARE.
+  */
+ 
+-/* see docs/specs/pci-serial.txt */
++/* see docs/specs/pci-serial.rst */
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
+index 801b769aba..087da3059a 100644
+--- a/hw/char/serial-pci.c
++++ b/hw/char/serial-pci.c
+@@ -23,7 +23,7 @@
+  * THE SOFTWARE.
+  */
+ 
+-/* see docs/specs/pci-serial.txt */
++/* see docs/specs/pci-serial.rst */
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
 diff --git a/docs/specs/index.rst b/docs/specs/index.rst
-index a58d9311cb..8aa0fcb77a 100644
+index 8aa0fcb77a..dfa136073c 100644
 --- a/docs/specs/index.rst
 +++ b/docs/specs/index.rst
-@@ -8,6 +8,7 @@ guest hardware that is specific to QEMU.
- .. toctree::
+@@ -9,6 +9,7 @@ guest hardware that is specific to QEMU.
     :maxdepth: 2
  
-+   pci-ids
+    pci-ids
++   pci-serial
     ppc-xive
     ppc-spapr-xive
     ppc-spapr-numa
 diff --git a/docs/specs/pci-ids.rst b/docs/specs/pci-ids.rst
-new file mode 100644
-index 0000000000..e1cf022006
---- /dev/null
+index e1cf022006..7bc7168fb6 100644
+--- a/docs/specs/pci-ids.rst
 +++ b/docs/specs/pci-ids.rst
-@@ -0,0 +1,98 @@
-+================
-+PCI IDs for QEMU
-+================
+@@ -63,11 +63,11 @@ PCI devices (other than virtio):
+ 1b36:0001
+   PCI-PCI bridge
+ 1b36:0002
+-  PCI serial port (16550A) adapter (``docs/specs/pci-serial.txt``)
++  PCI serial port (16550A) adapter (:doc:`pci-serial`)
+ 1b36:0003
+-  PCI Dual-port 16550A adapter (``docs/specs/pci-serial.txt``)
++  PCI Dual-port 16550A adapter (:doc:`pci-serial`)
+ 1b36:0004
+-  PCI Quad-port 16550A adapter (``docs/specs/pci-serial.txt``)
++  PCI Quad-port 16550A adapter (:doc:`pci-serial`)
+ 1b36:0005
+   PCI test device (``docs/specs/pci-testdev.txt``)
+ 1b36:0006
+diff --git a/docs/specs/pci-serial.rst b/docs/specs/pci-serial.rst
+new file mode 100644
+index 0000000000..8d916a3669
+--- /dev/null
++++ b/docs/specs/pci-serial.rst
+@@ -0,0 +1,37 @@
++=======================
++QEMU PCI serial devices
++=======================
 +
-+Red Hat, Inc. donates a part of its device ID range to QEMU, to be used for
-+virtual devices.  The vendor IDs are 1af4 (formerly Qumranet ID) and 1b36.
++QEMU implements some PCI serial devices which are simple PCI
++wrappers around one or more 16550 UARTs.
 +
-+Contact Gerd Hoffmann <kraxel@redhat.com> to get a device ID assigned
-+for your devices.
++There is one single-port variant and two multiport-variants.  Linux
++guests work out-of-the box with all cards.  There is a Windows inf file
++(``docs/qemupciserial.inf``) to set up the cards in Windows guests.
 +
-+1af4 vendor ID
-+--------------
 +
-+The 1000 -> 10ff device ID range is used as follows for virtio-pci devices.
-+Note that this allocation is separate from the virtio device IDs, which are
-+maintained as part of the virtio specification.
++Single-port card
++----------------
 +
-+1af4:1000
-+  network device (legacy)
-+1af4:1001
-+  block device (legacy)
-+1af4:1002
-+  balloon device (legacy)
-+1af4:1003
-+  console device (legacy)
-+1af4:1004
-+  SCSI host bus adapter device (legacy)
-+1af4:1005
-+  entropy generator device (legacy)
-+1af4:1009
-+  9p filesystem device (legacy)
-+1af4:1012
-+  vsock device (bug compatibility)
++Name:
++  ``pci-serial``
++PCI ID:
++  1b36:0002
++PCI Region 0:
++   IO bar, 8 bytes long, with the 16550 UART mapped to it.
++Interrupt:
++   Wired to pin A.
 +
-+1af4:1040 to 1af4:10ef
-+  ID range for modern virtio devices.  The PCI device
-+  ID is calculated from the virtio device ID by adding the
-+  0x1040 offset.  The virtio IDs are defined in the virtio
-+  specification.  The Linux kernel has a header file with
-+  defines for all virtio IDs (``linux/virtio_ids.h``); QEMU has a
-+  copy in ``include/standard-headers/``.
 +
-+1af4:10f0 to 1a4f:10ff
-+  Available for experimental usage without registration.  Must get
-+  official ID when the code leaves the test lab (i.e. when seeking
-+  upstream merge or shipping a distro/product) to avoid conflicts.
++Multiport cards
++---------------
 +
-+1af4:1100
-+  Used as PCI Subsystem ID for existing hardware devices emulated
-+  by QEMU.
-+
-+1af4:1110
-+  ivshmem device (shared memory, ``docs/specs/ivshmem-spec.txt``)
-+
-+All other device IDs are reserved.
-+
-+1b36 vendor ID
-+--------------
-+
-+The 0000 -> 00ff device ID range is used as follows for QEMU-specific
-+PCI devices (other than virtio):
-+
-+1b36:0001
-+  PCI-PCI bridge
-+1b36:0002
-+  PCI serial port (16550A) adapter (``docs/specs/pci-serial.txt``)
-+1b36:0003
-+  PCI Dual-port 16550A adapter (``docs/specs/pci-serial.txt``)
-+1b36:0004
-+  PCI Quad-port 16550A adapter (``docs/specs/pci-serial.txt``)
-+1b36:0005
-+  PCI test device (``docs/specs/pci-testdev.txt``)
-+1b36:0006
-+  PCI Rocker Ethernet switch device
-+1b36:0007
-+  PCI SD Card Host Controller Interface (SDHCI)
-+1b36:0008
-+  PCIe host bridge
-+1b36:0009
-+  PCI Expander Bridge (-device pxb)
-+1b36:000a
-+  PCI-PCI bridge (multiseat)
-+1b36:000b
-+  PCIe Expander Bridge (-device pxb-pcie)
-+1b36:000d
-+  PCI xhci usb host adapter
-+1b36:000f
-+  mdpy (mdev sample device), ``linux/samples/vfio-mdev/mdpy.c``
-+1b36:0010
-+  PCIe NVMe device (``-device nvme``)
-+1b36:0011
-+  PCI PVPanic device (``-device pvpanic-pci``)
-+1b36:0012
-+  PCI ACPI ERST device (``-device acpi-erst``)
-+
-+All these devices are documented in :doc:`index`.
-+
-+The 0100 device ID is used for the QXL video card device.
++Name:
++  ``pci-serial-2x``, ``pci-serial-4x``
++PCI ID:
++  1b36:0003 (``-2x``) and 1b36:0004 (``-4x``)
++PCI Region 0:
++   IO bar, with two or four 16550 UARTs mapped after each other.
++   The first is at offset 0, the second at offset 8, and so on.
++Interrupt:
++   Wired to pin A.
 -- 
 MST
 
