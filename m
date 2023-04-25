@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8386EE57A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61966EE580
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:17:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prLJn-0001YH-Aq; Tue, 25 Apr 2023 12:15:03 -0400
+	id 1prLJn-0001YM-KF; Tue, 25 Apr 2023 12:15:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prLJl-0001XO-DU
+ id 1prLJl-0001XW-Mw
  for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:15:01 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prLJi-0003wW-96
+ id 1prLJj-0003wg-6h
  for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:15:01 -0400
 Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
  (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
  [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 6DC7360177;
- Tue, 25 Apr 2023 19:14:51 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id BCCFF60AC6;
+ Tue, 25 Apr 2023 19:14:52 +0300 (MSK)
 Received: from vsementsov-nix.yandex-team.ru (unknown
  [2a02:6b8:b081:b440::1:14])
  by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id ZEJx1U1OcKo0-Vui2v4vY; Tue, 25 Apr 2023 19:14:50 +0300
+ ESMTPSA id ZEJx1U1OcKo0-fbGyRcIy; Tue, 25 Apr 2023 19:14:51 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1682439290; bh=ehBE2fK1ENA84Ps5bmvth2N8WSsXpBuCWBbENqvHwGk=;
+ t=1682439291; bh=T4OMW3uNIsuTtXXlaMvFRDkYLhI73waVVu2T/GxdfZQ=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=a0yFWJ+KtMOYNR9yi6FOQ/NHE0m3g4HcH6ifSJhtYPXK4pch4wdLBbOkNVC6KsWMv
- T8AhvHKm/O4+7cbMEV7TYi+QsX1wXPndIvnqObtkDtBcFpbVxm4rLS3fFIyND8ROA5
- /+2PvoNvPen5egU4O3owGdUmWJw5JdL4pMHBmETU=
+ b=krcSXv1AMbevDgnQWqtm23VX9QBqYlsoo+HIZJVfthkCGVKQpxobn6zbLe+Nvff6M
+ Lw53VQReFgosBsiKd17fYW3l4b3xpylTlbj1g1T8WWrfXZvg3h1S/nX0R54STX7hAq
+ 1nge0r9jCVWj1ZUu8Towd8SPGAlFZ60UrClB78Og=
 Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -44,23 +43,23 @@ Cc: marcel.apfelbaum@gmail.com, mst@redhat.com, philmd@linaro.org,
  david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
  vsementsov@yandex-team.ru, den-plotnikov@yandex-team.ru, lersek@redhat.com,
  kraxel@redhat.com
-Subject: [PATCH v2 1/3] pci: pci_add_option_rom(): improve style
-Date: Tue, 25 Apr 2023 19:14:32 +0300
-Message-Id: <20230425161434.173022-2-vsementsov@yandex-team.ru>
+Subject: [PATCH v2 2/3] pci: pci_add_option_rom(): refactor: use g_autofree
+ for path variable
+Date: Tue, 25 Apr 2023 19:14:33 +0300
+Message-Id: <20230425161434.173022-3-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230425161434.173022-1-vsementsov@yandex-team.ru>
 References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+Received-SPF: pass client-ip=178.154.239.136;
  envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,63 +75,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix over-80 lines and missing curly brackets for if-operators, which
-are required by QEMU coding style.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- hw/pci/pci.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ hw/pci/pci.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index def5000e7b..4a61c8d24a 100644
+index 4a61c8d24a..a442f8fce1 100644
 --- a/hw/pci/pci.c
 +++ b/hw/pci/pci.c
-@@ -2297,10 +2297,12 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+@@ -2292,7 +2292,7 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+                                Error **errp)
+ {
+     int64_t size;
+-    char *path;
++    g_autofree char *path = NULL;
+     void *ptr;
      char name[32];
      const VMStateDescription *vmsd;
- 
--    if (!pdev->romfile)
-+    if (!pdev->romfile) {
+@@ -2337,16 +2337,13 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+     size = get_image_size(path);
+     if (size < 0) {
+         error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
+-        g_free(path);
          return;
--    if (strlen(pdev->romfile) == 0)
-+    }
-+    if (strlen(pdev->romfile) == 0) {
+     } else if (size == 0) {
+         error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+-        g_free(path);
          return;
-+    }
- 
-     if (!pdev->rom_bar) {
-         /*
-@@ -2349,7 +2351,8 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+     } else if (size > 2 * GiB) {
+         error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+                    pdev->romfile);
+-        g_free(path);
+         return;
      }
      if (pdev->romsize != -1) {
-         if (size > pdev->romsize) {
--            error_setg(errp, "romfile \"%s\" (%u bytes) is too large for ROM size %u",
-+            error_setg(errp, "romfile \"%s\" (%u bytes) "
-+                       "is too large for ROM size %u",
+@@ -2354,7 +2351,6 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+             error_setg(errp, "romfile \"%s\" (%u bytes) "
+                        "is too large for ROM size %u",
                         pdev->romfile, (uint32_t)size, pdev->romsize);
-             g_free(path);
+-            g_free(path);
              return;
-@@ -2359,14 +2362,13 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
-     }
- 
-     vmsd = qdev_get_vmsd(DEVICE(pdev));
-+    snprintf(name, sizeof(name), "%s.rom",
-+             vmsd ? vmsd->name : object_get_typename(OBJECT(pdev)));
- 
--    if (vmsd) {
--        snprintf(name, sizeof(name), "%s.rom", vmsd->name);
--    } else {
--        snprintf(name, sizeof(name), "%s.rom", object_get_typename(OBJECT(pdev)));
--    }
-     pdev->has_rom = true;
--    memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize, &error_fatal);
-+    memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize,
-+                           &error_fatal);
-+
+         }
+     } else {
+@@ -2372,10 +2368,8 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
      ptr = memory_region_get_ram_ptr(&pdev->rom);
      if (load_image_size(path, ptr, size) < 0) {
          error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
+-        g_free(path);
+         return;
+     }
+-    g_free(path);
+ 
+     if (is_default_rom) {
+         /* Only the default rom images will be patched (if needed). */
 -- 
 2.34.1
 
