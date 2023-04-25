@@ -2,70 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5BA6EE526
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 17:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1987E6EE53F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:07:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prL3y-0003Bp-KN; Tue, 25 Apr 2023 11:58:42 -0400
+	id 1prLBN-0007Uq-Bh; Tue, 25 Apr 2023 12:06:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prL3v-0003BK-Sk
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 11:58:39 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
+ id 1prLBL-0007Ue-Cb
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:06:19 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prL3s-0000XO-NP
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 11:58:39 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id E50195F476;
- Tue, 25 Apr 2023 18:58:28 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b440::1:14] (unknown
- [2a02:6b8:b081:b440::1:14])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id RwI6wT1Oq4Y0-CqZyHWY3; Tue, 25 Apr 2023 18:58:27 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682438307; bh=YaqJAESmxXE0jXBT4tIAOr756Q6+zD398hYWImOronk=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=n4NKcYO5D/8cvQ6cpAUf3BuznJ4qYsnEMM99uP6Tc6DLQ0L3cvgoi2qlWsxatzKL7
- sFLynmlf65sWJA4oSqSMUY+gkghNrtEf1kuagydirwQWKDc4C+WELDqv11N7GIAbXg
- 1JTgejRZjSlVybCj1qV2G9sExV0dog4RWS92nLSk=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <f2c185ce-282b-a17f-15bd-33d9118cb6f8@yandex-team.ru>
-Date: Tue, 25 Apr 2023 18:58:27 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 3/3] pci: ROM preallocation for incoming migration
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, philmd@linaro.org,
- david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
- den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com
-References: <20230425105603.137823-1-vsementsov@yandex-team.ru>
- <20230425105603.137823-4-vsementsov@yandex-team.ru>
- <20230425084121-mutt-send-email-mst@kernel.org>
- <12e32fad-f4a2-73df-8345-2ce7ac56aa35@yandex-team.ru>
- <56042897-8efc-d77d-68eb-9af94a8921a5@yandex-team.ru>
- <20230425093235-mutt-send-email-mst@kernel.org>
- <20230425165507.0eb52454@imammedo.users.ipa.redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230425165507.0eb52454@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
+ id 1prLBI-0002SW-R4
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:06:19 -0400
+Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33PF1XYu019512; Tue, 25 Apr 2023 09:06:12 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=proofpoint20171006;
+ bh=UiVZnwP/pPa+scJB0LZyhtHMnl9i2+uwmUOD50POLEg=;
+ b=oIqFz+KNzE+R7qfBqUQ2UMdk8CrSGy99NRxnGyT6WcbUlOc1pGa1r68Ah1f2bFljS3Qo
+ EsiVxBgxAOgxg4CWGcde6ZAYbivCD64cUCyj64OPnkTU4bHxPqvgYBUrKVhTMxL2hq3Q
+ EoBUIq27dFd6XmWUkxzpRBM/2WVE9Oa2EZJHfBQwJ5AGM+QNRdksElyL+g/p4wKm2ea4
+ xFJVH8CCsi0IPhxv+hrDO/fosv5EFYLID0nVicKFaYvg0ZLg6TsyvYvt3C3WBjLI2WoS
+ MXa2Yfg12VoMX3qAwR1wiHdabGRQQmy3NFpyZ84ZYIeR+8teWLhbwTVgBMUPjqwNb2If hw== 
+Received: from nam02-bn1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02lp2047.outbound.protection.outlook.com [104.47.51.47])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3q4ewgyujd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 09:06:11 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jn7xstWsTHkP47Z2kbUaL4QEsSxdHgoWEbbjVW7cAFPmRIiX72UUdhjIRKhUkWnvGHka3w230CDeJDs4by2i+bnve/KWl66x9ZAPGxm8wp9Z+glTWAD7GeePn2JBbHja8d3vIJwn6V/MTX4EojxFtnOxGQpQlFdz8brOl2mlotjYqhX5DuKcKDH6KCGnFiCRfKUOibXsrnJfYND8hsaEt9VLQYXIZJlq3ZlxSy+ZhnYBxE0e9woyJiq7eA7WA1ijirYUX1oBdBbHvqtvHKcTWEBcSUbPC6BX2RdkEKGVnelpvpW5+RkJxPb+n6UMySsdb8Nn0LheqRWtpe667BckFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UiVZnwP/pPa+scJB0LZyhtHMnl9i2+uwmUOD50POLEg=;
+ b=Y7fxXtlaUeHC6eRzRKf8bQ/11dKi9hYyYkl07zyO2/tGkLqwzmJ/R6HpsTS3CCk39rbea1khTnf+99t+78hUgsvxjIhKKBSMXFUtfdZB5OY5KVU7QZxX7ap5Bf48/sazdj0iGGQlUp5l7ibzLiII3/ymSCYqY1wgztuxZ3dD2YDqUtD5LYxoUGNfgTRo4SNcAcWBzgwvEmXdw7Irv1UQYmE+AbQDZwqrUjH5cMvOZVMqUwRnOAVhH9OTa2m1+t+SXkXlPsn3NqIrZ88xknv9FIaNd9IX+HyiVYbALKN7dIjuwGI8oVt9XA1V/Qbqzpmg/o1sa4bLD3XY38u3PaLWtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UiVZnwP/pPa+scJB0LZyhtHMnl9i2+uwmUOD50POLEg=;
+ b=WtCJnjmoxqG97dTqGIlvyoJidIO3DGEiOCOTxb6FIvXjdhMKUjazh938nINwP+q2crTJcG2IPhv9auRvyxKTL3kdAdKbBadGzDOHkmF9unEpMnq8F9QPUEUr0c2PUx8JImguade49qGWlKpjYXG9KNFW6sGaZoP72UKsJGtgbr5PKJkdJru+QzG10zKV9xOGHK7Ba5hJYOQz4oXUYCO+EFktYYiq5q5bbzdjYDja02sxSTZWkCfpQ5fDU157UuBS2aCLLg0jYe2voWscHY/zuMdI8XjDLX1kqQcdQP4dAQxJtD2OS/B0NchMmgPS5wC91hpsoKxYK5hx6KuYod4joA==
+Received: from PH0PR02MB7384.namprd02.prod.outlook.com (2603:10b6:510:12::12)
+ by CH3PR02MB9233.namprd02.prod.outlook.com (2603:10b6:610:150::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.33; Tue, 25 Apr
+ 2023 16:06:08 +0000
+Received: from PH0PR02MB7384.namprd02.prod.outlook.com
+ ([fe80::f2fb:d9ab:6983:b2be]) by PH0PR02MB7384.namprd02.prod.outlook.com
+ ([fe80::f2fb:d9ab:6983:b2be%7]) with mapi id 15.20.6340.020; Tue, 25 Apr 2023
+ 16:06:08 +0000
+From: "manish.mishra" <manish.mishra@nutanix.com>
+To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, peterx@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com, lsoaresp@redhat.com,
+ "manish.mishra" <manish.mishra@nutanix.com>
+Subject: [PATCH] multifd: Avoid busy-wait in multifd_send_pages()
+Date: Tue, 25 Apr 2023 16:05:55 +0000
+Message-Id: <20230425160555.67373-1-manish.mishra@nutanix.com>
+X-Mailer: git-send-email 2.22.3
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR16CA0015.namprd16.prod.outlook.com
+ (2603:10b6:a03:1a0::28) To PH0PR02MB7384.namprd02.prod.outlook.com
+ (2603:10b6:510:12::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR02MB7384:EE_|CH3PR02MB9233:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a3bf254-7258-4bc3-6a34-08db45a6fb2c
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tUZ37H5DCq5jiYtmHAY3dEimqPVKSsP10jWsC5ZWZ58sD23Q/cak0lV4tuoLUpbDeWUE4wZ1Uk0Qp5myYnl+NSKSwjThKUax21oPS0GWekKY9Ly+wZOI1Rz649ls4X2A3hbivHdd3s340dxbDL7074HIVmLJtd8U+n26zKviiZUZ64ySxY/qdMPNzSilgyYFPcKitP/nr2dAsCXkC6bYKYNYYjse0KzXsPHX3Hd8xPradY2uKMH9ntVFfE5rgD68qtUvBO9hgCsdDtuKjAHO0wXVjwOT5JxqzlNYtJhnWyUn4hBWfJ/L8VXh9Zedts/ScjtSV/PZ1B3uL1F7Ln//cqlt92i2Bo8QsIzjJFv1dnkT9/q+bYeSR4Oix/N6utT0cBYk0m4XIWDkX18ZZNqzVm/TT4E454DbIHi9+rn0DPYrJY3mm0W37TdPY+jursCqYqVA7x6YsZ6Jpu2itaU7d56B4Jz3WbqNON5kMixzST/lLw19Df4vud4dOf+j8W14SB7te7fqvt01ASqxsZCETkp/fQ0KlC2Kmcp7obubGGEPPDoh8TM6aMOeFNErHNEgjV3F2lj60AU/lF8Z7I+to0RV2L3gvYSP/xVA/gw666s0vXVQ6hdSpAwH3HZMNeZU
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR02MB7384.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(376002)(346002)(39860400002)(136003)(396003)(451199021)(478600001)(86362001)(36756003)(107886003)(186003)(6486002)(26005)(52116002)(1076003)(6512007)(6506007)(4326008)(6916009)(66556008)(316002)(6666004)(66476007)(66946007)(83380400001)(2906002)(38100700002)(38350700002)(8676002)(41300700001)(5660300002)(8936002)(2616005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?she3vuJravce0jHqHuxUSqU8mFKR4XeHp9x+w6/5uJcrTQ/M61H7tQ2CuYvT?=
+ =?us-ascii?Q?Mrq5XzP1ps9j/vPveuiY+cwXV6MgShQc4rtTEpfo9DT6tGx57xeNDQg1x/wT?=
+ =?us-ascii?Q?AjpsQ4O+6pTY2U9JDheFPiZMrRlrzNQjgwtWqAD/M846dCaUd3+BQ10FZXwR?=
+ =?us-ascii?Q?7L5/xouVoComKs7qtfJEg6vKZWCDwYGotoPxsdgvhsZPKqSJ31SiTwwmnyYm?=
+ =?us-ascii?Q?rlXSi79FmnF8aaCJ6bZoAZm0ZQxTzPljJkpUGZ87uSsUScT1mSKNZ6UHwh/4?=
+ =?us-ascii?Q?CuHS/kgmQeqimdwEF5II4r0uzcY3cLk8PU2sSDWIc+Gw9qHcdD0xIA5G8tTT?=
+ =?us-ascii?Q?GLyfmjjav5IejDmLgmJL1AdeC0p/sie1Bh1eEsuOnJj4OUv2+HQ6X+A8dMvZ?=
+ =?us-ascii?Q?V454WMJ1hPweDIxu7zZp4ukO/KNAzDX2usmDkSCJyJyOi7+WClWMlSv5grt5?=
+ =?us-ascii?Q?MrVZDAPE/Kky+x4a3J2CDkkTCzXWHYPUcrkjFFxiuuXPEZMiivv9o6E/SXxY?=
+ =?us-ascii?Q?+uzvLiqNCL/6i2m3aicGYeUBiZRjpFujP+h42/H4sQQmtr6joGpmtepOcR+r?=
+ =?us-ascii?Q?qbfrTrjgHcmTvtz1ZHzPIm0ZCuToZ5EuHiPrg8C7GAvO+XDLDKGF8I5H4FtH?=
+ =?us-ascii?Q?oqKuppOtG/lRA+WW/6xGSQjEbZPGYsTluEuVGIaDGF3vYS63meWjtMlQlByh?=
+ =?us-ascii?Q?RhEbM3J8hf5VR0ssMX2tFgrwXrBy2Jjv2h+OFhSarNU7LrkdVKmWRq3xSwjr?=
+ =?us-ascii?Q?syOlVL6jTRmB1e1axZIDapf6Hb6wekwhGdOKbRDaFeE2ie68Jc9MBOvPHOnd?=
+ =?us-ascii?Q?zQzZgPuNj0aS6LJULNOiyyAOhgOu21SGX2ohAtEkf/wqeJUKQ7LX4S3KiKsq?=
+ =?us-ascii?Q?6kne59KwE8CZMQ06dYD+nxq7umabMT5kKIypeFiHir/NNJzKdCJY81fqZ5Wb?=
+ =?us-ascii?Q?C/ufblwE0tZGY+H4Cpq8tELiCSlnh8KzUrLxUixQrqHGhmc3ygSFjWm3nbqk?=
+ =?us-ascii?Q?EfwfnolVDoEgBZZYbOnbVYzaPVadBCASLGJ7bJ/+9qY6TtQZcOFln4wBn8Tp?=
+ =?us-ascii?Q?4tmc8F7CjeBDKP/diMzXQO76FvmIGfiJLIbU8UtH8ruwyfgtcbTWIgVMjs2/?=
+ =?us-ascii?Q?chEK4HMxwVuy+DpAhVBa4sRxOJlpRj4OeBKLCqZFbwKcQY5LsaGQ02jSk6xk?=
+ =?us-ascii?Q?Bup+a2OYGCitT9Nc2cmvj2WkB0cqLS6vgnb+zHgyJg3qE1lkdnph+b4c6SQH?=
+ =?us-ascii?Q?Tjx6DYR9UPA1jA1H3v+s3Hc+7qAikMX35WmOiiSFNRcxCrLTdSkR4s+EPD66?=
+ =?us-ascii?Q?ZyUxSDpxPTTVTaaPMPyiqk2UtvtG32pfg1RTzCM0prRSWjGVryJngG5R9D5h?=
+ =?us-ascii?Q?UK4ltCr9X0/2SgdJuFZxqd4iif+Ji0oQtp3ZPpgwWnNzYRGSV61IPS4obm4G?=
+ =?us-ascii?Q?PEMzwg2cyPPsbAQsKH092sz+gfnGAgN57QMNUzzCRrGz934wUIG+SkLEj0vY?=
+ =?us-ascii?Q?KCbW/qmRE3NvUnAGQU20ZbEZeFVe2TqCT+dcZHgfCRgtT/k96mZzkSIAfAyG?=
+ =?us-ascii?Q?R8qcuk+m7mEbrqKz7MoqrFnJ54U0Kb1zl+CAnSNusR6OnHOfj8kwRpvgmafo?=
+ =?us-ascii?Q?iw=3D=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a3bf254-7258-4bc3-6a34-08db45a6fb2c
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7384.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2023 16:06:08.5624 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HDEBx2llDjuPYNSxPQg5ergufaJAYL5Gx3E3PbkP386C2XzCjsZsM7Kzd2yj44u55BDALfEoKdAvqfglAuZ+WUVuQFRdgXrEk4rR11jAjQI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR02MB9233
+X-Proofpoint-GUID: W1t6s8h5ATMBvjcncl2zTPXO-xrzGGic
+X-Proofpoint-ORIG-GUID: W1t6s8h5ATMBvjcncl2zTPXO-xrzGGic
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-25_07,2023-04-25_01,2023-02-09_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=manish.mishra@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,86 +156,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25.04.23 17:55, Igor Mammedov wrote:
-> On Tue, 25 Apr 2023 09:32:54 -0400
-> "Michael S. Tsirkin"<mst@redhat.com>  wrote:
-> 
->> On Tue, Apr 25, 2023 at 04:19:12PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>> On 25.04.23 16:07, Vladimir Sementsov-Ogievskiy wrote:
->>>> On 25.04.23 15:43, Michael S. Tsirkin wrote:
->>>>> On Tue, Apr 25, 2023 at 01:56:03PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>>>>> On incoming migration we have the following sequence to load option
->>>>>> ROM:
->>>>>>
->>>>>> 1. On device realize we do normal load ROM from the file
->>>>>>
->>>>>> 2. Than, on incoming migration we rewrite ROM from the incoming RAM
->>>>>>      block. If sizes mismatch we fail.
->>>>>>
->>>>>> This is not ideal when we migrate to updated distribution: we have to
->>>>>> keep old ROM files in new distribution and be careful around romfile
->>>>>> property to load correct ROM file. Which is loaded actually just to
->>>>>> allocate the ROM with correct length.
->>>>>>
->>>>>> Note, that romsize property doesn't really help: if we try to specify
->>>>>> it when default romfile is larger, it fails with something like:
->>>>>>
->>>>>> romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
->>>>>>
->>>>>> This commit brings new behavior for romfile="",romsize=SIZE combination
->>>>>> of options. Current behavior is just ignore romsize and not load or
->>>>>> create any ROM.
->>>>>>
->>>>>> Let's instead preallocate ROM, not loading any file. This way we can
->>>>>> migrate old vm to new environment not thinking about ROM files on
->>>>>> destination host:
->>>>>>
->>>>>> 1. specify romfile="",romsize=SIZE on target, with correct SIZE
->>>>>>      (actually, size of romfile on source aligned up to power of two, or
->>>>>>       just original romsize option on source)
->>>>>>
->>>>>> 2. On device realize we just preallocate ROM, and not load any file
->>>>>>
->>>>>> 3. On incoming migration ROM is filled from the migration stream
->>>>>>
->>>>>> As a bonus we avoid extra reading from ROM file on target.
->>>>>>
->>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>   
->>>>> why is this a bad idea:
->>>>> - on source presumably user overrides romfile
->>>>> - we have a general rule that source and destination flags must match
->>>>>
->>>>> I propose instead to ignore romfile if qemu is incoming migration
->>>>> and romsize has been specified.
->>>>>    
->>>> Hmm, that would work even better, as no additional options needed, thanks. I'll resend
->>>>    
->>> romsize needed anyway, of course.
->> yes but it can match on source and dest.
-> Aren't we pushin issue from QEMU(/how distro packages firmware/)
-> to mgmt layer(s) going this way?
-> 
+multifd_send_sync_main() posts request on the multifd channel
+but does not call sem_wait() on channels_ready semaphore, making
+the channels_ready semaphore count keep increasing.
+As a result, sem_wait() on channels_ready in multifd_send_pages()
+is always non-blocking hence multifd_send_pages() keeps searching
+for a free channel in a busy loop until a channel is freed.
 
-I'm afraid, we can't simply solve the issue on QEMU part, as we need this romsize at realize time. If we want to change the size on load of incoming migration, we'd have to reinitialize the device and memory layout.. This seems too difficult.
+Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+---
+ migration/multifd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On the other hand, it seems correct to force management to specify ROM size to create. Same as RAM size.
-
-Imagine, we always had the following behavior:
-
-  - romsize is necessary parameter when we have rom (absence means no rom, same as romfile="")
-  - romfile is ignored on incoming migration
-
-this way, we would never have any migration problems.
-
-So, the proposal is to at least support such behavior:
-
-  - ignore romfile on incoming migration when romsize is specified.
-
-Additionally we can deprecate missing romsize, when we have rom.
-
-
+diff --git a/migration/multifd.c b/migration/multifd.c
+index cce3ad6988..43d26e7012 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -615,6 +615,7 @@ int multifd_send_sync_main(QEMUFile *f)
+ 
+         trace_multifd_send_sync_main_signal(p->id);
+ 
++        qemu_sem_wait(&multifd_send_state->channels_ready);
+         qemu_mutex_lock(&p->mutex);
+ 
+         if (p->quit) {
+@@ -919,7 +920,7 @@ int multifd_save_setup(Error **errp)
+     multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
+     multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
+     multifd_send_state->pages = multifd_pages_init(page_count);
+-    qemu_sem_init(&multifd_send_state->channels_ready, 0);
++    qemu_sem_init(&multifd_send_state->channels_ready, thread_count);
+     qatomic_set(&multifd_send_state->exiting, 0);
+     multifd_send_state->ops = multifd_ops[migrate_multifd_compression()];
+ 
 -- 
-Best regards,
-Vladimir
+2.22.3
 
 
