@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A176EE63A
+	by mail.lfdr.de (Postfix) with ESMTPS id 8675C6EE63B
 	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:59:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prLzK-0001MG-KE; Tue, 25 Apr 2023 12:57:59 -0400
+	id 1prLzs-0001kb-6t; Tue, 25 Apr 2023 12:58:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1prLzB-0001LI-Jy
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:57:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1prLzp-0001jJ-Lp; Tue, 25 Apr 2023 12:58:29 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1prLz9-0004RA-A8
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:57:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682441866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HRUBzRoMGHrux8prZRtEz1GTudbuPtHdNfYybMw4t0g=;
- b=F5gRdZntxMkuUtiyQhNyAYt5ETbZ2LGerDVit7No8OcwAJnNZVjABKhnRu5vMjNPTLKLLu
- ljc4gmWBhVryTAtqU9PkLFHaO7Up/qUWiOfkuAMTvEKUw9QaNaUDctkixACB+BirFkYkH+
- 7ftxs1zngeoLw2TetOkHydAon/Oq/xE=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-436-OrFmW_XaOr2KW4ar3zC-dg-1; Tue, 25 Apr 2023 12:57:44 -0400
-X-MC-Unique: OrFmW_XaOr2KW4ar3zC-dg-1
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-51f10b8b27dso3584078a12.1
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 09:57:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682441864; x=1685033864;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HRUBzRoMGHrux8prZRtEz1GTudbuPtHdNfYybMw4t0g=;
- b=as6JYjKu8B2hgOxfjZ6ZkGA5yzhUmis6lvGQzsSQ0/OFow88VIqLl2B9fj3GpVS4In
- IDTDXrxXjg/jPunXOpQ3qP8LkD23egPAHQxm4/9AiqVIFvyA5fvMVV082+VaQLgWa6BP
- omFaaOTqSdYytFSvcRIXD3QRmIkBu+jTpYoHg5rQ/IjtZQDyWxy6DnLG4HMPUmaU3jJ2
- Mh25BPtfP2JD9bKvUN5q6HSAG6aVnkC4OubCfSSMykMi9xqmvPXo+baNfJA1qQqGGLQN
- 4q6vitAP5FCPUhEd4E/ZnA+vO/CTiWpsdKX/TMlWlUHhcIkKD3yiiyjaL9nn5XgL1Mab
- bTMg==
-X-Gm-Message-State: AAQBX9c3+R2ZY+yXTWdwrFSM/b5+Or2Xv1T9lvsTitK5p++U0EIv/Kpi
- KNEM6ZvUuilct02Ql470sOdCs42ln+irbLQOr9jl8CvIBV5sFadVIub160MPFoNzKEpQBKGZnZe
- lGjgZr3+AOVXB/sG3d6CK3eYIw7Yi0FY=
-X-Received: by 2002:a17:90b:1494:b0:23c:fa83:2a7d with SMTP id
- js20-20020a17090b149400b0023cfa832a7dmr18207669pjb.12.1682441863837; 
- Tue, 25 Apr 2023 09:57:43 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bSCrQ14sVYY2sp57mStmSqtqFuGHDV8lsdntQjuFS1cxSCwPvuVvKKtBB5BHRtrHaWfm/QuT5KXQlEOznSbdQ=
-X-Received: by 2002:a17:90b:1494:b0:23c:fa83:2a7d with SMTP id
- js20-20020a17090b149400b0023cfa832a7dmr18207654pjb.12.1682441863521; Tue, 25
- Apr 2023 09:57:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1prLzl-0004ZZ-2c; Tue, 25 Apr 2023 12:58:29 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 7C31E5F1A8;
+ Tue, 25 Apr 2023 19:58:13 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b440::1:14] (unknown
+ [2a02:6b8:b081:b440::1:14])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id CwJ3c20OquQ0-rK5qC50H; Tue, 25 Apr 2023 19:58:12 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682441892; bh=bRKMRbKrpK39ZoWVcEhQFcytDYTeL7LGI/ZhcRBeOjU=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=ZV3ua16tBMZEgRBmcnC6QgdkXzTOyI6o0IjzDkac+9BPpK4bFFIi3Fe9QDqMDj8g4
+ bj6ka2t7PUsbHEaahe8AUDEetDWv8JbHT775XbSZVmZSDNLrk8LogO9vntzuKBIIug
+ G6qyP9f6O9NUyu3g1hhjCUQWLUU4mrcbnHhNEP/Y=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <d21472fe-a90c-9d6a-f7d6-284e789822e7@yandex-team.ru>
+Date: Tue, 25 Apr 2023 19:58:12 +0300
 MIME-Version: 1.0
-References: <20230424200248.1183394-1-jsnow@redhat.com>
- <20230424200248.1183394-12-jsnow@redhat.com>
- <ZEgDjbHhHxNZ83fu@redhat.com>
-In-Reply-To: <ZEgDjbHhHxNZ83fu@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 25 Apr 2023 12:57:32 -0400
-Message-ID: <CAFn=p-aHL-bxvszkPB4MmZQGh0xOq619X12q7WNQVUJwf8L4rw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 11/20] tests/vm: add py310-expat to NetBSD
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>, 
- Beraldo Leal <bleal@redhat.com>, Kyle Evans <kevans@freebsd.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Reinoud Zandijk <reinoud@netbsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000a1875a05fa2c05d7"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: test-blockjob: intermittent CI failures in msys2-64bit job
+Content-Language: en-US
+To: Hanna Czenczek <hreitz@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Alberto Garcia <berto@igalia.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+References: <CAFEAcA_SeUuZRo7HQPUJgeaepoup29YdAuFaWjNL+fhEt+pmkA@mail.gmail.com>
+ <CAFEAcA87HtzYN76nHhHZBfazDZdoRnszgAt-e2CqBBWEoF6_2Q@mail.gmail.com>
+ <CAFEAcA-n+9N+0ZuE6MSD1aMBeGYAJTbQe=j1-2K=SgD_Ly6nEA@mail.gmail.com>
+ <df71d7b5-7723-eaff-3dcd-45f69186f6af@redhat.com>
+ <68834b18-1fab-ca2a-d131-71f75fc374a1@yandex-team.ru>
+ <e6eb754e-a825-f113-a9a7-0ca2006a00c6@redhat.com>
+ <f3f2e92c-d357-4fb9-e765-7f89dc895247@yandex-team.ru>
+ <78ad8ed0-e68a-5f4e-9627-454f0bd007fb@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <78ad8ed0-e68a-5f4e-9627-454f0bd007fb@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,126 +85,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000a1875a05fa2c05d7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 25.04.23 19:48, Hanna Czenczek wrote:
+> On 24.04.23 20:32, Vladimir Sementsov-Ogievskiy wrote:
+>> On 24.04.23 16:36, Emanuele Giuseppe Esposito wrote:
+>>>
+>>>
+>>> Am 21/04/2023 um 12:13 schrieb Vladimir Sementsov-Ogievskiy:
+>>>> On 17.03.23 15:35, Thomas Huth wrote:
+>>>>> On 17/03/2023 11.17, Peter Maydell wrote:
+>>>>>> On Mon, 6 Mar 2023 at 11:16, Peter Maydell <peter.maydell@linaro.org>
+>>>>>> wrote:
+>>>>>>>
+>>>>>>> On Fri, 3 Mar 2023 at 18:36, Peter Maydell
+>>>>>>> <peter.maydell@linaro.org> wrote:
+>>>>>>>>
+>>>>>>>> I've noticed that test-blockjob seems to fail intermittently
+>>>>>>>> on the msys2-64bit job:
+>>>>>>>>
+>>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3872508803
+>>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3871061024
+>>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3865312440
+>>>>>>>>
+>>>>>>>> Sample output:
+>>>>>>>> | 53/89
+>>>>>>>> ERROR:../tests/unit/test-blockjob.c:499:test_complete_in_standby:
+>>>>>>>> assertion failed: (job->status == JOB_STATUS_STANDBY) ERROR
+>>>>>>>> 53/89 qemu:unit / test-blockjob ERROR 0.08s exit status 3
+>>>>>>
+>>>>>>> Here's an intermittent failure from my macos x86 machine:
+>>>>>>>
+>>>>>>> 172/621 qemu:unit / test-blockjob
+>>>>>>>              ERROR           0.26s   killed by signal 6 SIGABRT
+>>>>>>
+>>>>>> And an intermittent on the freebsd 13 CI job:
+>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3950667240
+>>>>>>
+>>>>>>>>> MALLOC_PERTURB_=197
+>>>>>>>>> G_TEST_BUILDDIR=/tmp/cirrus-ci-build/build/tests/unit
+>>>>>>>>> G_TEST_SRCDIR=/tmp/cirrus-ci-build/tests/unit
+>>>>>>>>> /tmp/cirrus-ci-build/build/tests/unit/test-blockjob --tap -k
+>>>>>> ▶ 178/650 /blockjob/ids
+>>>>>>              OK
+>>>>>> 178/650 qemu:unit / test-blockjob
+>>>>>>              ERROR           0.31s   killed by signal 6 SIGABRT
+>>>>>> ――――――――――――――――――――――――――――――――――――― ✀
+>>>>>> ―――――――――――――――――――――――――――――――――――――
+>>>>>> stderr:
+>>>>>> Assertion failed: (job->status == JOB_STATUS_STANDBY), function
+>>>>>> test_complete_in_standby, file ../tests/unit/test-blockjob.c, line
+>>>>>> 499.
+>>>>>>
+>>>>>>
+>>>>>> TAP parsing error: Too few tests run (expected 9, got 1)
+>>>>>> (test program exited with status code -6)
+>>>>>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+>>>>>>
+>>>>>> Anybody in the block team looking at these, or shall we just
+>>>>>> disable this test entirely ?
+>>>>>
+>>>>> I ran into this issue today, too:
+>>>>>
+>>>>>    https://gitlab.com/thuth/qemu/-/jobs/3954367101
+>>>>>
+>>>>> ... if nobody is interested in fixing this test, I think we should
+>>>>> disable it...
+>>>>>
+>>>>>    Thomas
+>>>>>
+>>>>
+>>>> I'm looking at this now, and seems that it's broken since
+>>>> 6f592e5aca1a27fe1c1f6 "job.c: enable job lock/unlock and remove
+>>>> Aiocontext locks", as it stops critical section by new
+>>>> aio_context_release() call exactly after bdrv_drain_all_and(), so it's
+>>>> not a surprise that job may start at that moment and the following
+>>>> assertion fires.
+>>>>
+>>>> Emanuele could please look at it?
+>>>>
+>>> Well if I understood correctly, the only thing that was preventing the
+>>> job from continuing was the aiocontext lock held.
+>>>
+>>> The failing assertion even mentions that:
+>>> /* Lock the IO thread to prevent the job from being run */
+>>> [...]
+>>> /* But the job cannot run, so it will remain on standby */
+>>> assert(job->status == JOB_STATUS_STANDBY);
+>>>
+>>> Essentially bdrv_drain_all_end() would wake up the job coroutine, but it
+>>> would anyways block somewhere after since the aiocontext lock was taken
+>>> by the test.
+>>>
+>>> Now that we got rid of aiocontext lock in job code, nothing prevents the
+>>> test from resuming.
+>>> Mixing job lock and aiocontext acquire/release is not a good idea, and
+>>> it would anyways block job_resume() called by bdrv_drain_all_end(), so
+>>> the test itself would deadlock.
+>>>
+>>> So unless @Kevin has a better idea, this seems to be just an "hack" to
+>>> test stuff that is not possible to do now anymore. What I would suggest
+>>> is to get rid of that test, or at least of that assert function. I
+>>> unfortunately cannot reproduce the failure, but I think the remaining
+>>> functions called by the test should run as expected.
+>>>
+>>
+>> Thanks! I agree. Probably, alternatively we could just expand the drained section, like
+>>
+>> @@ -488,12 +488,6 @@ static void test_complete_in_standby(void)
+>>      bdrv_drain_all_begin();
+>>      assert_job_status_is(job, JOB_STATUS_STANDBY);
+>>
+>> -    /* Lock the IO thread to prevent the job from being run */
+>> -    aio_context_acquire(ctx);
+>> -    /* This will schedule the job to resume it */
+>> -    bdrv_drain_all_end();
+>> -    aio_context_release(ctx);
+>> -
+>>      WITH_JOB_LOCK_GUARD() {
+>>          /* But the job cannot run, so it will remain on standby */
+>>          assert(job->status == JOB_STATUS_STANDBY);
+>> @@ -511,6 +505,7 @@ static void test_complete_in_standby(void)
+>>          job_dismiss_locked(&job, &error_abort);
+>>      }
+>>
+>> +    bdrv_drain_all_end();
+>>      aio_context_acquire(ctx);
+>>      destroy_blk(blk);
+>>      aio_context_release(ctx);
+>>
+>>
+>> But, seems that test wanted to specifically test job, that still in STANDBY exactly after drained section...
+>>
+>> [cc: Hanna]
+>>
+>> Hanna, it was your test (added in c2c731a4d35062295cd3260e66b3754588a2fad4, two years ago). Don't you remember was important to catch STANDBY job *after* a drained section?
+> 
+> I’m not quite sure, but I think the idea was that we basically try to get as close to something that might come in over QMP.  Over QMP, you can’t issue a job-complete while keeping everything drained, so I wouldn’t just extend the drained section.
+> 
+> Getting rid of the assert function also seems pointless.  If we want to test whether job-complete works on tests in standby, we must put the test in standby, and verify this.  We can get rid of the test, of course, but it is a regression test, so it isn’t like it was added just for fun.  Then again, it’s now already effectively commented out via environment variable, so it doesn’t seem like a loss in practice to to fully drop it.
+> 
+> Anyway – the thing I wonder about is, if this is to test whether jobs in standby can be completed…  Why don’t we just pause the job instead of going through the context lock hassle?  I.e. just put a job_pause() right after bdrv_drain_all_begin().
+> 
+> If I’m not mistaken, reproducing the bug in the test seems really simple by adding a sleep(1) right before WITH_JOB_LOCK_GUARD(); and doing that works just fine if only you have a job_pause() in the drained section. (And dropping the aio_context_acquire()/release() calls, because they don’t do anything anymore.)
+> 
 
-On Tue, Apr 25, 2023, 12:45 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
->
-wrote:
+Sounds good. Could you send a patch?
 
-> On Mon, Apr 24, 2023 at 04:02:39PM -0400, John Snow wrote:
-> > NetBSD cannot successfully run "ensurepip" without access to the pyexpa=
-t
-> > module, which NetBSD debundles. Like the Debian patch, it would be
-> > strictly faster long term to install pip/setuptools, and I recommend
-> > developers at their workstations take that approach instead.
->
-> This sounds a bit like a NetBSD packaging bug surely ?  If we've got
-> ensurepip installed and it doesn't work due to missing expat I would
-> have though NetBSD should add a dependancy.
->
-
-Yes, I agree - though I think NetBSD doesn't unbundle ensurepip, so there
-might be nothing to add a dependency against ... and I assume they split
-out pyexpat for a reason.
-
-I can report it, anyway. It should at least fail more gracefully than it
-does.
-
-
-> None the less, we'll need a fix in QEMU until that's addressed.
->
-> >
-> > For the purposes of a throwaway VM, there's not really a speed
-> > difference for who is responsible for installing pip; us (needs
-> > py310-pip) or Python (needs py310-expat).
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  tests/vm/netbsd | 1 +
-> >  1 file changed, 1 insertion(+)
->
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
-
---000000000000a1875a05fa2c05d7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Tue, Apr 25, 2023, 12:45 PM Daniel P. Berrang=C3=A9=
- &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">On Mon, Apr 24, 2023 at 04:02:3=
-9PM -0400, John Snow wrote:<br>
-&gt; NetBSD cannot successfully run &quot;ensurepip&quot; without access to=
- the pyexpat<br>
-&gt; module, which NetBSD debundles. Like the Debian patch, it would be<br>
-&gt; strictly faster long term to install pip/setuptools, and I recommend<b=
-r>
-&gt; developers at their workstations take that approach instead.<br>
-<br>
-This sounds a bit like a NetBSD packaging bug surely ?=C2=A0 If we&#39;ve g=
-ot<br>
-ensurepip installed and it doesn&#39;t work due to missing expat I would<br=
->
-have though NetBSD should add a dependancy.<br></blockquote></div></div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">Yes, I agree - though I think Ne=
-tBSD doesn&#39;t unbundle ensurepip, so there might be nothing to add a dep=
-endency against ... and I assume they split out pyexpat for a reason.</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">I can report it, anyway. It s=
-hould at least fail more gracefully than it does.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">
-<br>
-None the less, we&#39;ll need a fix in QEMU until that&#39;s addressed.<br>=
-<br>
-&gt; <br>
-&gt; For the purposes of a throwaway VM, there&#39;s not really a speed<br>
-&gt; difference for who is responsible for installing pip; us (needs<br>
-&gt; py310-pip) or Python (needs py310-expat).<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 tests/vm/netbsd | 1 +<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
-<br>
-Reviewed-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.=
-com" target=3D"_blank" rel=3D"noreferrer">berrange@redhat.com</a>&gt;<br>
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer" target=3D=
-"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a h=
-ref=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferrer noreferre=
-r" target=3D"_blank">https://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer" target=3D"=
-_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">https://fstop138.berrange=
-.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0=
- <a href=3D"https://www.instagram.com/dberrange" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000a1875a05fa2c05d7--
+-- 
+Best regards,
+Vladimir
 
 
