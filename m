@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4384F6EE318
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72C16EE326
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:33:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prIlH-0008Q1-Mq; Tue, 25 Apr 2023 09:31:15 -0400
+	id 1prIn7-0000q6-Sf; Tue, 25 Apr 2023 09:33:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1prIl7-0008Pn-Kj
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:31:05 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prIn5-0000pR-T0
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:33:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1prIl5-0001i5-ON
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:31:05 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prIn4-00028D-9W
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:33:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682429463;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1682429581;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/1HrAEFtifVPb8JOgDveFB1YDo86Gg4kCbxcsscMJ1s=;
- b=M0ZPhxMr0zSk3PoEV9C0htCy6k/5fzhwGs25PIH7JSRPPN9Nw4TPfXvv8rA0qRKpylF58n
- F3mPSN7sCs0Rv5uehA53Z8CdVSUtli7kqGnwBRB86/uq57c4yKvLWy2zK01GbXYffOFmF0
- ZWM+uMeHEh2DidODPnJUZMkCZcxzcVA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-j6NfOabUPHO2XAhOS-0hcw-1; Tue, 25 Apr 2023 09:30:59 -0400
-X-MC-Unique: j6NfOabUPHO2XAhOS-0hcw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4930B8EE5BA;
- Tue, 25 Apr 2023 13:30:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 92702C15BA0;
- Tue, 25 Apr 2023 13:30:52 +0000 (UTC)
-Date: Tue, 25 Apr 2023 14:30:41 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Juan Quintela <quintela@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] async: Suppress GCC13 false positive in aio_bh_poll()
-Message-ID: <ZEfWAciwsB+t7Crk@redhat.com>
-References: <20230420202939.1982044-1-clg@kaod.org>
- <87a5ywgkqg.fsf@secure.mitica> <ZEfUq52l/wut8puM@redhat.com>
+ bh=svgNIZ5eP0FTVh8RCQkRk+xNG+olzbmoYO7o8WyjxrQ=;
+ b=LyIpF/ALelgaXzxMxJvPYCIWgPjp+5zq0EQUeIT1nTQY0JMNobP8Md1pSXUW1rtoQ3Qgem
+ oQGVgN5+vi5xgLW1LTa+Fzl8RoJLkrK96Foqm2NIdCkqcaB1Za7FuaLgbRH4EN/Y2+E/Sq
+ owGonzyZ6AYqpk/MBHCPY5SgEbFW/oA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-631-jws16vTxMSGPiAHazhQOoA-1; Tue, 25 Apr 2023 09:32:59 -0400
+X-MC-Unique: jws16vTxMSGPiAHazhQOoA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f195c06507so59027565e9.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 06:32:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682429578; x=1685021578;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=svgNIZ5eP0FTVh8RCQkRk+xNG+olzbmoYO7o8WyjxrQ=;
+ b=crHIDX3xd7WEhheKqMAkWPFB9xLNxQSTksmzJOFei/FLecFFjQRs+BrJYh95bE8kQ8
+ ilHn9no2Pdp9VQ5JRv/N/5FtSshIUMHwRYsCECve4eq8FvDk6+Rf4SepGEJylqNXNOvt
+ dzoqU68V+43PwKb88pzPAxpRYsU8EHe/2Pe7un/q5ywb7dw9PWf+YZ6UVWzoDmb9D5Bx
+ Dz/mnKybrYPK46PSWxjwcj3b6UmV6dgABNWV6jmcTjbmbh3eWjaUd2R8JBQpa8gX7gCq
+ nxL3BktM+MSPdN4VyIJgEUYkm+pjimf6CU8rv8lRwZKIaf53cjiBItCfj3euQNy+i1Pl
+ G0ZA==
+X-Gm-Message-State: AAQBX9flJkEv2+fnAw51HcglOVBxdJK0cki5ago4KLsblA6IgrEZixwy
+ Plo3JYrJ3ImkOyr8ADWv6bCDmjXWgqgs6bwqKI8P0vnwEkjpVchMj+Dam1+q2JObPC/Ok6orNPs
+ NHKp+BACgRP04wMU=
+X-Received: by 2002:a7b:c8c4:0:b0:3ee:1084:aa79 with SMTP id
+ f4-20020a7bc8c4000000b003ee1084aa79mr9153613wml.20.1682429578543; 
+ Tue, 25 Apr 2023 06:32:58 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YDW9dQIae7aw5zGNCpAEYK4agoMS0t6i145NlW1VJPvXjNJVGiI0ZuiF2MUHEet9R9QUnGPQ==
+X-Received: by 2002:a7b:c8c4:0:b0:3ee:1084:aa79 with SMTP id
+ f4-20020a7bc8c4000000b003ee1084aa79mr9153593wml.20.1682429578233; 
+ Tue, 25 Apr 2023 06:32:58 -0700 (PDT)
+Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
+ u15-20020a05600c210f00b003f17848673fsm14930795wml.27.2023.04.25.06.32.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 06:32:57 -0700 (PDT)
+Date: Tue, 25 Apr 2023 09:32:54 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
+ den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com
+Subject: Re: [PATCH 3/3] pci: ROM preallocation for incoming migration
+Message-ID: <20230425093235-mutt-send-email-mst@kernel.org>
+References: <20230425105603.137823-1-vsementsov@yandex-team.ru>
+ <20230425105603.137823-4-vsementsov@yandex-team.ru>
+ <20230425084121-mutt-send-email-mst@kernel.org>
+ <12e32fad-f4a2-73df-8345-2ce7ac56aa35@yandex-team.ru>
+ <56042897-8efc-d77d-68eb-9af94a8921a5@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZEfUq52l/wut8puM@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <56042897-8efc-d77d-68eb-9af94a8921a5@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -85,127 +99,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 25, 2023 at 02:24:59PM +0100, Daniel P. Berrang√© wrote:
-> On Tue, Apr 25, 2023 at 03:22:15PM +0200, Juan Quintela wrote:
-> > C√©dric Le Goater <clg@kaod.org> wrote:
-> > > From: C√©dric Le Goater <clg@redhat.com>
-> > >
-> > > GCC13 reports an error :
-> > >
-> > > ../util/async.c: In function ‚Äòaio_bh_poll‚Äô:
-> > > include/qemu/queue.h:303:22: error: storing the address of local
-> > > variable ‚Äòslice‚Äô in ‚Äò*ctx.bh_slice_list.sqh_last‚Äô
-> > > [-Werror=dangling-pointer=]
-> > >   303 |     (head)->sqh_last = &(elm)->field.sqe_next;                          \
-> > >       |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-> > > ../util/async.c:169:5: note: in expansion of macro ‚ÄòQSIMPLEQ_INSERT_TAIL‚Äô
-> > >   169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
-> > >       |     ^~~~~~~~~~~~~~~~~~~~
-> > > ../util/async.c:161:17: note: ‚Äòslice‚Äô declared here
-> > >   161 |     BHListSlice slice;
-> > >       |                 ^~~~~
-> > > ../util/async.c:161:17: note: ‚Äòctx‚Äô declared here
-> > >
-> > > But the local variable 'slice' is removed from the global context list
-> > > in following loop of the same routine. Add a pragma to silent GCC.
-> > >
-> > > Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > Cc: Daniel P. Berrang√© <berrange@redhat.com>
-> > > Signed-off-by: C√©dric Le Goater <clg@redhat.com>
-> > > ---
-> > >  util/async.c | 14 ++++++++++++++
-> > >  1 file changed, 14 insertions(+)
-> > >
-> > > diff --git a/util/async.c b/util/async.c
-> > > index 21016a1ac7..856e1a8a33 100644
-> > > --- a/util/async.c
-> > > +++ b/util/async.c
-> > > @@ -164,7 +164,21 @@ int aio_bh_poll(AioContext *ctx)
-> > >  
-> > >      /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue().  */
-> > >      QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
-> > > +
-> > > +    /*
-> > > +     * GCC13 [-Werror=dangling-pointer=] complains that the local variable
-> > > +     * 'slice' is being stored in the global 'ctx->bh_slice_list' but the
-> > > +     * list is emptied before this function returns.
-> > > +     */
-> > > +#if !defined(__clang__)
-> > > +#pragma GCC diagnostic push
-> > > +#pragma GCC diagnostic ignored "-Wpragmas"
-> > > +#pragma GCC diagnostic ignored "-Wdangling-pointer="
-> > > +#endif
-> > >      QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
-> > > +#if !defined(__clang__)
-> > > +#pragma GCC diagnostic pop
-> > > +#endif
-> > >  
-> > >      while ((s = QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
-> > >          QEMUBH *bh;
+On Tue, Apr 25, 2023 at 04:19:12PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On 25.04.23 16:07, Vladimir Sementsov-Ogievskiy wrote:
+> > On 25.04.23 15:43, Michael S. Tsirkin wrote:
+> > > On Tue, Apr 25, 2023 at 01:56:03PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> > > > On incoming migration we have the following sequence to load option
+> > > > ROM:
+> > > > 
+> > > > 1. On device realize we do normal load ROM from the file
+> > > > 
+> > > > 2. Than, on incoming migration we rewrite ROM from the incoming RAM
+> > > > ††† block. If sizes mismatch we fail.
+> > > > 
+> > > > This is not ideal when we migrate to updated distribution: we have to
+> > > > keep old ROM files in new distribution and be careful around romfile
+> > > > property to load correct ROM file. Which is loaded actually just to
+> > > > allocate the ROM with correct length.
+> > > > 
+> > > > Note, that romsize property doesn't really help: if we try to specify
+> > > > it when default romfile is larger, it fails with something like:
+> > > > 
+> > > > romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
+> > > > 
+> > > > This commit brings new behavior for romfile="",romsize=SIZE combination
+> > > > of options. Current behavior is just ignore romsize and not load or
+> > > > create any ROM.
+> > > > 
+> > > > Let's instead preallocate ROM, not loading any file. This way we can
+> > > > migrate old vm to new environment not thinking about ROM files on
+> > > > destination host:
+> > > > 
+> > > > 1. specify romfile="",romsize=SIZE on target, with correct SIZE
+> > > > ††† (actually, size of romfile on source aligned up to power of two, or
+> > > > †††† just original romsize option on source)
+> > > > 
+> > > > 2. On device realize we just preallocate ROM, and not load any file
+> > > > 
+> > > > 3. On incoming migration ROM is filled from the migration stream
+> > > > 
+> > > > As a bonus we avoid extra reading from ROM file on target.
+> > > > 
+> > > > Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+> > > why is this a bad idea:
+> > > - on source presumably user overrides romfile
+> > > - we have a general rule that source and destination flags must match
+> > > 
+> > > I propose instead to ignore romfile if qemu is incoming migration
+> > > and romsize has been specified.
+> > > 
 > > 
-> > I know, I know.
+> > Hmm, that would work even better, as no additional options needed, thanks. I'll resend
 > > 
-> > I like to make fun of the compiler as the next guy.  But it is not
-> > simpler this other change, just put the variable in the heap?
-> > 
-> > Later, Juan.
-> > 
-> > 
-> > From bb5792a6763a451c72ef5cfd78b09032689f54e5 Mon Sep 17 00:00:00 2001
-> > From: Juan Quintela <quintela@redhat.com>
-> > Date: Tue, 25 Apr 2023 15:19:11 +0200
-> > Subject: [PATCH] Silent GCC13 warning
-> > 
-> > Gcc complains about putting a local variable on a global list, not
-> > noticing that we remove the whole list before leaving the function.
-> > 
-> > Signed-off-by: Juan Quintela <quintela@redhat.com>
-> > ---
-> >  util/async.c | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/util/async.c b/util/async.c
-> > index 21016a1ac7..7a8432e9e9 100644
-> > --- a/util/async.c
-> > +++ b/util/async.c
-> > @@ -158,13 +158,17 @@ void aio_bh_call(QEMUBH *bh)
-> >  /* Multiple occurrences of aio_bh_poll cannot be called concurrently. */
-> >  int aio_bh_poll(AioContext *ctx)
-> >  {
-> > -    BHListSlice slice;
-> > +    /*
-> > +     * gcc13 complains about putting a local variable
-> > +     * in a global list, so put it on the heap.
-> > +     */
-> > +    g_autofree BHListSlice *slice = g_new(BHListSlice, 1);
-> >      BHListSlice *s;
-> >      int ret = 0;
-> >  
-> >      /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue().  */
-> > -    QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
-> > -    QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
-> > +    QSLIST_MOVE_ATOMIC(&slice->bh_list, &ctx->bh_list);
-> > +    QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, slice, next);
-> >  
-> >      while ((s = QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
-> >          QEMUBH *bh;
 > 
-> This must be a memory leak since you're adding a g_new but not
-> adding any g_free
+> romsize needed anyway, of course.
 
-Sorry, I'm failing to read properly today. It uses g_autofree
-so there is no leak.
+yes but it can match on source and dest.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> -- 
+> Best regards,
+> Vladimir
 
 
