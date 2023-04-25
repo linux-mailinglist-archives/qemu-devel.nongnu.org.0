@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D1A6EE924
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 22:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD7C6EE93E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 22:50:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prPNl-0007TX-QZ; Tue, 25 Apr 2023 16:35:25 -0400
+	id 1prPbH-0004WY-Ig; Tue, 25 Apr 2023 16:49:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfustini@baylibre.com>)
- id 1prPNj-0007SK-Em
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:35:23 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1prPbF-0004M8-BW
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:49:21 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dfustini@baylibre.com>)
- id 1prPNe-0002mE-G3
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:35:23 -0400
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-1a667067275so50265155ad.1
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 13:35:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1prPbD-0005YN-TA
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:49:21 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-5062c6aed59so7037a12.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 13:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1682454917; x=1685046917; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Aoi5Jr/oybb6QVYBY4oT3SSMiz/77CzPxbv5fPfCtsQ=;
- b=SkFslqvintKj9TTTP6XQqr9fw+ibmZQyjF5JFLuf27NsEFvaaVvyNeBKuw21fMHCMz
- 6mCeDZ90S99Nd8kL8J8K5vDE9xxT5i6G/jnLNUKZQdnzU4xCezS1DIF+3JM8cjbW9Tfe
- YXypwkmp5hxONS4Y3iGZwNT3vkH1/fUEajxV3Pn+BoIfsCu6ueaIEWv/NtpauYBA6DsZ
- I6dFbQKviA4vx7XjT7S0a+wbKatONMeEjNJy/LNeMk+ODDYZNZdZ9x1/ziJqBZYFA2g1
- duErKQxVCG7YhLgEFgRVKkKm8UEyWB/lELRjI7dDp8+0d47rLIVY6y+FJHUMcUDz/FQI
- hsYA==
+ d=google.com; s=20221208; t=1682455757; x=1685047757;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1GkCe639wVFgBuKcU9lMq8Dhrnoc9RqNORPOb1jtTPw=;
+ b=jMYheMKmb+9nE6PPrGwsKE2hGOBBM9OqBwcQ8vBMxVMP3rl6Gq3dxmfEZUc1PuvUXZ
+ tVs+U1aOhPc4hlffPebPFwDVwXNjh5C0/4zNHGhArOIVqWuB1Jg+XcIdWX84RHH+di0L
+ ld3m/Na3PuZJucf+z1QiHyAVUwC3yHWG1YzTdEOgAYjIeES8N7ujNNeJPfbvFHS4QDn9
+ 0mwkig3mWSVT2O0IGFUwS9c0wR9UhHM1JZ8ItgoaJTmK/Q5gdkOyxa35B/nu26AEGWa8
+ Mk9bhoQDM2DqLmmWgB93vtw4LkSm0AsDa61M1sZXWrj1IYEomw1YYr8HJY9PkK+I2g3p
+ jYjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682454917; x=1685046917;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Aoi5Jr/oybb6QVYBY4oT3SSMiz/77CzPxbv5fPfCtsQ=;
- b=MPl/9Kuwwe5PhSy84wrXp+FXTU92+DQQTMVcTspt8zytCAfbQvPO/Dncj1l0F7e3pY
- kGOMSchP/0ienlCIJBBQvpFvNJq7hzCBpxOZ4yV7Szj+CH8+w5g5zTk6pXdcKa8cn38v
- lfDzwG/YexmSjOvWLVlBZJ8TexnPoUC9cXsYsGbv1PfHb4xV+ampBIwLARpbkt1aOaQu
- HFMMQwN2st/1kgDVeI8q3xZWIOyXPUxZqLhwvzZX77OmF9Can4qEVF/6j6K+yGxBsCg7
- K/LjM2xDWmsgFi3ZGDyCZWv7yxybH+xjDUuT3PHj7FzLq1O6uk6vTaiIRLScex2xZQAE
- /q0w==
-X-Gm-Message-State: AAQBX9e3BcyFGxkbAO7HWN2fuzGekKqyO4738ZNlfjM91i4dvSwibRyB
- Bu8cEVzl/NEz+5E5NhYAuOn8ag==
-X-Google-Smtp-Source: AKy350a+L8MdQUu0gWbh/8zraaW+f4bEERNrLPGBrp+o6sjWrLoTgtRSJTABS9XPFv2x6bPrxaKu7Q==
-X-Received: by 2002:a17:902:ec8b:b0:1a9:4167:5daf with SMTP id
- x11-20020a170902ec8b00b001a941675dafmr20652434plg.50.1682454917034; 
- Tue, 25 Apr 2023 13:35:17 -0700 (PDT)
-Received: from x1.hsd1.or.comcast.net
- ([2601:1c2:1800:f680:b08a:7f49:1848:42ff])
- by smtp.gmail.com with ESMTPSA id
- ep8-20020a17090ae64800b0024739e4ad02sm762752pjb.28.2023.04.25.13.35.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 13:35:16 -0700 (PDT)
-From: Drew Fustini <dfustini@baylibre.com>
-To: Ved Shanbhogue <ved@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Nicolas Pitre <npitre@baylibre.com>,
- Adrien Ricciardi <aricciardi@baylibre.com>,
- =?UTF-8?q?Kornel=20Dul=C4=99ba?= <mindal@semihalf.com>
-Cc: Drew Fustini <dfustini@baylibre.com>
-Subject: [RFC PATCH v2 9/9] hw/riscv: build example SoC when CBQRI_EXAMPLE_SOC
- enabled
-Date: Tue, 25 Apr 2023 13:38:34 -0700
-Message-Id: <20230425203834.1135306-10-dfustini@baylibre.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230425203834.1135306-1-dfustini@baylibre.com>
-References: <20230425203834.1135306-1-dfustini@baylibre.com>
+ d=1e100.net; s=20221208; t=1682455757; x=1685047757;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1GkCe639wVFgBuKcU9lMq8Dhrnoc9RqNORPOb1jtTPw=;
+ b=NTZIP5b1GEo9751/cQ5Yg4Xyc+8VgSj9bRjJsnDea/6/WZoAPTR4YUKD0fac1s0sGf
+ jka212ZDZTJKMYzHjeAnZtP3jgwlybnI+YnUt5wQf1QacUvn/oGT0JJxfBtHibWiSmAN
+ Lz0QCvqd/8cFyyaMSgMeoPkL2oarhCcJbAxqGaUXllhuJKVA2GyrZ+8k2EqEPufOd5mP
+ pX94TBzwJNEDSgFqA3HvQZwliFw4rjvUJwIgBYcJBvRP49Q1u+/PtKS8xaOCeW5F665J
+ RgfUIXhIMwkW0hXcpTYE9F4g6MtRJONRhviOxMTaao+ZPtb6zlN4b5xer9bGTuLxRpMg
+ WPkQ==
+X-Gm-Message-State: AC+VfDyD7FoBzcgM8ICvA5nU2D5TXROQ5n3M2uafOSYBrZn3Jso9lkj9
+ ZqF1rcCPL2ThBZWjKKHKVrGfqymwB6V/sVt+RQr7Bg==
+X-Google-Smtp-Source: ACHHUZ48pvxjctiMqW39jZZlTUqCUAdXQS0z8HWh61j1Z/wqPrELiymbSNtn4hii6ahJLiFn2amsOM/0eJOQbPJs62Y=
+X-Received: by 2002:a05:6402:524d:b0:506:90c4:b63b with SMTP id
+ t13-20020a056402524d00b0050690c4b63bmr21880edd.4.1682455757426; Tue, 25 Apr
+ 2023 13:49:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=dfustini@baylibre.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20221003173810.1933849-1-venture@google.com>
+ <CAFEAcA9x7oC9sQy8XNJ8-WRc3X=qBVL1nMLB==dGM=+O5Z-CAQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA9x7oC9sQy8XNJ8-WRc3X=qBVL1nMLB==dGM=+O5Z-CAQ@mail.gmail.com>
+From: Patrick Venture <venture@google.com>
+Date: Tue, 25 Apr 2023 13:49:06 -0700
+Message-ID: <CAO=notw1yJeKPdjU65dAXbDgY0y8u1s5MDCcymLqCiw=pTcRiw@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/net: npcm7xx_emc: set MAC in register space
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: hskinnemoen@google.com, kfting@nuvoton.com, qemu-devel@nongnu.org, 
+ qemu-arm@nongnu.org, jasowang@redhat.com, Hao Wu <wuhaotsh@google.com>
+Content-Type: multipart/alternative; boundary="000000000000c5e8a705fa2f4163"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=venture@google.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,53 +88,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Build the example SoC instantiation code when CBQRI_EXAMPLE_SOC is
-enabled.
+--000000000000c5e8a705fa2f4163
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Nicolas Pitre <npitre@baylibre.com>
-Signed-off-by: Drew Fustini <dfustini@baylibre.com>
----
-Note: the example SoC instantiation code is only included for reference
-and it is not required anymore for the CBQRI proof-of-concept to work.
-The CBQRI controllers can be fully configured with device properties in
-the Qemu command line.
+On Thu, Oct 6, 2022 at 6:18=E2=80=AFAM Peter Maydell <peter.maydell@linaro.=
+org>
+wrote:
 
- hw/riscv/Kconfig     | 5 +++++
- hw/riscv/meson.build | 1 +
- 2 files changed, 6 insertions(+)
+> On Mon, 3 Oct 2022 at 18:38, Patrick Venture <venture@google.com> wrote:
+> >
+> > The MAC address set from Qemu wasn't being saved into the register spac=
+e.
+> >
+> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> > Signed-off-by: Patrick Venture <venture@google.com>
+> > ---
+> > v2: only set the registers from qemu on reset
+> >     once registers set, only read and write to them
+>
+>
+>
+> Applied to target-arm.next, thanks.
+>
 
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 8fd4aebc77d1..e5892736733c 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -49,6 +49,7 @@ config RISCV_VIRT
-     select PLATFORM_BUS
-     select ACPI
-     imply RISCV_CBQRI
-+    imply CBQRI_EXAMPLE_SOC
- 
- config SHAKTI_C
-     bool
-@@ -88,3 +89,7 @@ config SPIKE
-     select HTIF
-     select RISCV_ACLINT
-     select SIFIVE_PLIC
-+
-+config CBQRI_EXAMPLE_SOC
-+    bool
-+    select RISCV_CBQRI
-diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
-index 2281d17d0b09..50e94f40de46 100644
---- a/hw/riscv/meson.build
-+++ b/hw/riscv/meson.build
-@@ -12,5 +12,6 @@ riscv_ss.add(when: 'CONFIG_MICROCHIP_PFSOC', if_true: files('microchip_pfsoc.c')
- riscv_ss.add(when: 'CONFIG_ACPI', if_true: files('virt-acpi-build.c'))
- riscv_ss.add(when: 'CONFIG_RISCV_CBQRI',
-               if_true: files('cbqri_capacity.c', 'cbqri_bandwidth.c'))
-+riscv_ss.add(when: 'CONFIG_CBQRI_EXAMPLE_SOC', if_true: files('cbqri_example_soc.c'))
- 
- hw_arch += {'riscv': riscv_ss}
--- 
-2.34.1
+I think this was missed.  Please take a look.
 
+
+>
+> -- PMM
+>
+
+--000000000000c5e8a705fa2f4163
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 6, 2022 at 6:18=E2=80=AFA=
+M Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.mayde=
+ll@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">On Mon, 3 Oct 2022 at 18:38, Patrick Venture &lt;<a href=3D"ma=
+ilto:venture@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote=
+:<br>
+&gt;<br>
+&gt; The MAC address set from Qemu wasn&#39;t being saved into the register=
+ space.<br>
+&gt;<br>
+&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
+=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
+&gt; Signed-off-by: Patrick Venture &lt;<a href=3D"mailto:venture@google.co=
+m" target=3D"_blank">venture@google.com</a>&gt;<br>
+&gt; ---<br>
+&gt; v2: only set the registers from qemu on reset<br>
+&gt;=C2=A0 =C2=A0 =C2=A0once registers set, only read and write to them<br>
+<br>
+<br>
+<br>
+Applied to target-arm.next, thanks.<br></blockquote><div><br></div><div>I t=
+hink this was missed.=C2=A0 Please take a look.</div><div>=C2=A0</div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--000000000000c5e8a705fa2f4163--
 
