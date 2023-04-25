@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B59C6EE1AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0BC6EE1AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:14:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prHWT-0004DK-LD; Tue, 25 Apr 2023 08:11:53 -0400
+	id 1prHYL-0005ik-Rd; Tue, 25 Apr 2023 08:13:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1prHWR-0004Cx-BH
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:11:51 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ id 1prHYJ-0005i8-Hu
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:13:47 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1prHWP-0002Kp-Ky
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:11:51 -0400
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-504eb1155d3so42589549a12.1
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 05:11:47 -0700 (PDT)
+ id 1prHYH-0002nE-Vx
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:13:47 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-507bdc5ca2aso10101606a12.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 05:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682424706; x=1685016706;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=N/MGd1hg+r8NTF4tigrqq/9p2wpAxCdlJfUq9I+/V4U=;
- b=TdWhHmQSB60iR/kcf/uZ4jrTF/sDMSW3tDyfwe7nRsPHdgRn//Y/GY4Y1qm0q/cxkI
- eUJLT4NQkYFXCXDp+NDerfM+cM+FN9Ky+XhErJnS3S5TRMdIQjU0yhyIcphnB9zEEaNV
- cUVJCLjTpst0ntoVnKiIjG50SKryorgpSsl+e+VPnRuirqEPqHutrlpcdq0jN9gl5guJ
- T8RSQtLIfgbrsAxia+Ii5VSoh5H1ed36+vXzMff8KgXJ+/+/sG8irFraAF0f4U6LIheJ
- 7TJNwUiiG48+W6MHYBhr4AQ9ZMRrkSiZ5w6ObRHTubYHYUp2Sh9TelkBc3gd7QWRx9n9
- OQoQ==
+ d=linaro.org; s=google; t=1682424824; x=1685016824;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TNcSyrorUVfikrWr8sPHJsR2LjW0o251UKDh81rBbI0=;
+ b=nnJMzy4ahwVQzUsDXEnJ0TjgrFDBr2LakYS938/IdOT3pJQ7jii3KcAR1tH8+S+Jc3
+ oIktxdYusIJYhjXQZDCZ7GfX+KCWCkVBFeQZl6mwcs1SKTaNWRdDtgEtJNIA/3i36vXF
+ nfPC37XjXJXzdliqJFKrxkUM/JW4t014B46MRaF1qZgPELx4M3iDVaF38r8Sa4MOeChm
+ u/OVBQXjxMYig23Qm3gwc1Bv2aFA6/CtIo+e1D50DFdM9xrCurHMbTzq1psyp51CSSv5
+ Uf32uKF0PoR715PdDrDiQuZz7o4lB8QW5YIWXRCag3yARnH2RilqoTt9oRM2tjDl3UWl
+ 0THg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682424706; x=1685016706;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=N/MGd1hg+r8NTF4tigrqq/9p2wpAxCdlJfUq9I+/V4U=;
- b=Mp2mGR89N3D+MwA66xg+QpMCnb0bCqxvp5roxJgDfulrEbrJGNJEF8KMOY7IcQGfaq
- aPsc6NmIsz55Hoecit3PysJpoSjtkq9UDAhdMxKVc8BBTy/KXV+NStrUJD2Fn/nl2HO3
- /4fNk23SSJvObQbybCszo/o3UUjqnqrp4KgMArHENpIu9uDAyvEMaUYF58qI4jCcOKZH
- JtgY5VLmBUWwtaExrdEeKMeZYc0snDa+p+SPM7qgVNuYNXywh2Vh0Xk8r9Ejk3ki3w9k
- c7IaikKFDFYAqWYLMJjqm/XYakkdMHCswBGz7dUA3R1UFcHMHqz6/HOIFKofbDHwMsiA
- 5Wdw==
-X-Gm-Message-State: AAQBX9e8CE+xygytqPzoNMqpOhby1gTPYt8QkiiIQTNe8ixSfzq3Xx8V
- rOgVJJPJFvSHKkn7eqZXnK3yS3i8HejRZAaXulr12g==
-X-Google-Smtp-Source: AKy350axKUCY35ZigAbbA+32Edq2amXkWJgpYDRSeXAaXJO0ytqZFZfSP96h+/OJC6Uubr1tKCeAUunqUsMEilQBKYs=
-X-Received: by 2002:a05:6402:2812:b0:506:974d:e7dd with SMTP id
- h18-20020a056402281200b00506974de7ddmr20514971ede.12.1682424706512; Tue, 25
- Apr 2023 05:11:46 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682424824; x=1685016824;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TNcSyrorUVfikrWr8sPHJsR2LjW0o251UKDh81rBbI0=;
+ b=CUSxMKr+tJvklIMIdt32neuGQjKE/o1Lm6IhXUktrMSeOuiGF1bexU4Rk6/i0pEv4C
+ sIJYs0ZOa8tjfPnek36tKsp/+JBd8mtiHNouhFfYgCro8cmFhQ5zB2ed6dR8QY0JJxzX
+ cv0GnYLLL7X552EHQF0eAVW6q5MP+g4Blp9f2j3yFnWdy9nfKBPOtfhuNzht7v3VjvJf
+ BH9DuNZ9Nia9FYMGayXx0q4CEP287vI2wzu4CsO/kHJX+lA66vIfVqoDFZf0DjvgOpY/
+ l9HbF6wMHYw85AlvahkKI8z3UqPstQ4GVTgr0DoyChoUbQEhk02LnWoEbMn4KCvOr1We
+ YUVQ==
+X-Gm-Message-State: AAQBX9d+SyDBvI9t+NctmqnDTj8lss6IeQO9gOLsTFLV+IwM+8i1jKUe
+ bF2WCWadflXBFdXtWtF3xejIgDskaTjle7YqyVfqQSFV27gaEqgA
+X-Google-Smtp-Source: AKy350Z8X/qc4NxHxTf+nyfcJXwquacpCLKskkj9XIZtpyjvBkMc9HcyOpGuC20crNBklSO4hMBZHUfkY7hrX3gHYE0=
+X-Received: by 2002:aa7:db44:0:b0:506:70c9:b870 with SMTP id
+ n4-20020aa7db44000000b0050670c9b870mr14142581edt.3.1682424824240; Tue, 25 Apr
+ 2023 05:13:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <87mt2wgpn4.fsf@secure.mitica>
-In-Reply-To: <87mt2wgpn4.fsf@secure.mitica>
+References: <20230417164041.684562-1-peter.maydell@linaro.org>
+ <20230417164041.684562-11-peter.maydell@linaro.org>
+ <87jzy18oqv.fsf@pond.sub.org>
+In-Reply-To: <87jzy18oqv.fsf@pond.sub.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Apr 2023 13:11:35 +0100
-Message-ID: <CAFEAcA9jj8jOqky0dmkin80BW85JH8dUkHuoe_0ORO97LhJHgQ@mail.gmail.com>
-Subject: Re: Warning on Fedora 38
-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Date: Tue, 25 Apr 2023 13:13:33 +0100
+Message-ID: <CAFEAcA-T7jYeCp9Sqx8nMNeDL2Dr-U0=5FSCyv7QW58Eimto-w@mail.gmail.com>
+Subject: Re: [PATCH v3 10/10] hmp: Deprecate 'singlestep' member of StatusInfo
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ libvir-list@redhat.com, 
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,23 +89,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 25 Apr 2023 at 12:37, Juan Quintela <quintela@redhat.com> wrote:
+On Tue, 25 Apr 2023 at 13:10, Markus Armbruster <armbru@redhat.com> wrote:
 >
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> Hi
+> > -# Notes: @singlestep is enabled through the GDB stub
+> > +# Notes: @singlestep is enabled on the command line with
+> > +#        '-accel tcg,one-insn-per-tb=on', or with the HMP
+> > +#        'one-insn-per-tb' command.
 >
-> I got this warning/error when switching to F38:
->
-> In file included from /mnt/code/qemu/full/include/block/aio.h:21,
->                  from ../../../../mnt/code/qemu/full/util/async.c:28:
-> ../../../../mnt/code/qemu/full/util/async.c: In function =E2=80=98aio_bh_=
-poll=E2=80=99:
-> /mnt/code/qemu/full/include/qemu/queue.h:303:22: error: storing the addre=
-ss of local variable =E2=80=98slice=E2=80=99 in =E2=80=98*ctx.bh_slice_list=
-.sqh_last=E2=80=99 [-Werror=3Ddangling-pointer=3D]
+> You're deleting "enabled through the GDB stub".  Is this one of the
+> misstatements you alluded to in the commit message
 
-Patch already on list:
-https://lore.kernel.org/qemu-devel/20230420202939.1982044-1-clg@kaod.org/
+Yes -- this field has never been anything to do with
+GDB-enabled singlestep (or for that matter with
+emulation of any guest-CPU architecture singlestep
+functionality). I assume that whoever originally wrote
+that text was confused by the terrible name of the
+command line option/global variable.
 
 -- PMM
 
