@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96896EE5C4
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2216EE5C5
 	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:31:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prLXz-0004oa-Fe; Tue, 25 Apr 2023 12:29:43 -0400
+	id 1prLYY-0004uA-Sk; Tue, 25 Apr 2023 12:30:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1prLXo-0004o0-Qc
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:29:33 -0400
+ id 1prLYS-0004ty-RE
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:30:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1prLXm-00070a-T2
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:29:32 -0400
+ id 1prLYF-00074c-A7
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:30:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682440169;
+ s=mimecast20190719; t=1682440196;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=42lP/ytKQA/eCGkNRdBo0J2DfrHW7Ye9O5dUPefMkOg=;
- b=c31Jhpx9gvr/q1DlUBnsu+1IMvFW7jSNaa8DS4rA5uV9pQGGAvFBf6Kn53hBZPblhqEv4N
- X1JHQLBIl4hI6zu9c8nGIbvCe3VfZ5SkQGqKJ4daMff7qHKzF6wSh/vrwzUi1Y+3rVLBpK
- L+1ja1wHw4wnZ3XX8werieY0arFV+n4=
+ bh=E79i0nQNcOhPx9obbDT5boX/wVXS7Z+jrWPuvrkk1Y4=;
+ b=EzCDNcqjsTvCteCIvsZF4Q2Y7Rf5bAVx5RdzW28WyPRKsJUlbJPXdr3XAjyRJ8TzFNQ5Fm
+ s5anFKXX0+5cRssp7QO1iB23nS0FEQSte/APB6zgAiowla65gJedI5UgGCTXZDZKyNc4lR
+ 57yYKNsgoLK2bUbJ6Q/XnyXIFA0Bb38=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-111-R8bTjhhCPLi9WY5oOQOfhw-1; Tue, 25 Apr 2023 12:29:27 -0400
-X-MC-Unique: R8bTjhhCPLi9WY5oOQOfhw-1
+ us-mta-307-k5r-hIbGOR-yTKl6ZBF_ag-1; Tue, 25 Apr 2023 12:29:53 -0400
+X-MC-Unique: k5r-hIbGOR-yTKl6ZBF_ag-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 225DF185A790;
- Tue, 25 Apr 2023 16:29:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A73FC885624;
+ Tue, 25 Apr 2023 16:29:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 562ACC15BA0;
- Tue, 25 Apr 2023 16:29:24 +0000 (UTC)
-Date: Tue, 25 Apr 2023 12:29:22 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D32CC15BA0;
+ Tue, 25 Apr 2023 16:29:51 +0000 (UTC)
+Date: Tue, 25 Apr 2023 12:29:50 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, Peter Lieven <pl@kamp.de>,
@@ -64,15 +64,16 @@ Cc: qemu-devel@nongnu.org, Peter Lieven <pl@kamp.de>,
  Anthony Perard <anthony.perard@citrix.com>,
  "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
  Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH v3 00/20] block: remove aio_disable_external() API
-Message-ID: <20230425162922.GA725672@fedora>
+Subject: Re: [PATCH v3 20/20] aio: remove aio_disable_external() API
+Message-ID: <20230425162950.GB725672@fedora>
 References: <20230420113732.336620-1-stefanha@redhat.com>
- <1e1f3a54-7113-7929-38a1-23d97bfa4d45@linaro.org>
+ <20230420113732.336620-21-stefanha@redhat.com>
+ <f7b20c96-be06-2299-5589-11dbf23251f8@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lTQFmEIU0pfkRcw9"
+ protocol="application/pgp-signature"; boundary="BIT1XJZKQdQoLFB0"
 Content-Disposition: inline
-In-Reply-To: <1e1f3a54-7113-7929-38a1-23d97bfa4d45@linaro.org>
+In-Reply-To: <f7b20c96-be06-2299-5589-11dbf23251f8@linaro.org>
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,8 +82,8 @@ X-Spam_score: -2.3
 X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,90 +100,176 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---lTQFmEIU0pfkRcw9
+--BIT1XJZKQdQoLFB0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 20, 2023 at 03:39:59PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Hi Stefan,
->=20
+On Thu, Apr 20, 2023 at 03:44:06PM +0200, Philippe Mathieu-Daud=E9 wrote:
 > On 20/4/23 13:37, Stefan Hajnoczi wrote:
-> > v3:
-> > - Resend full patch series. v2 was sent in the middle of a git rebase a=
-nd was
-> >    missing patches. [Eric]
-> > - Apply Reviewed-by tags.
+> > All callers now pass is_external=3Dfalse to aio_set_fd_handler() and
+> > aio_set_event_notifier(). The aio_disable_external() API that
+> > temporarily disables fd handlers that were registered is_external=3Dtrue
+> > is therefore dead code.
+> >=20
+> > Remove aio_disable_external(), aio_enable_external(), and the
+> > is_external arguments to aio_set_fd_handler() and
+> > aio_set_event_notifier().
+> >=20
+> > The entire test-fdmon-epoll test is removed because its sole purpose was
+> > testing aio_disable_external().
+> >=20
+> > Parts of this patch were generated using the following coccinelle
+> > (https://coccinelle.lip6.fr/) semantic patch:
+> >=20
+> >    @@
+> >    expression ctx, fd, is_external, io_read, io_write, io_poll, io_poll=
+_ready, opaque;
+> >    @@
+> >    - aio_set_fd_handler(ctx, fd, is_external, io_read, io_write, io_pol=
+l, io_poll_ready, opaque)
+> >    + aio_set_fd_handler(ctx, fd, io_read, io_write, io_poll, io_poll_re=
+ady, opaque)
+> >=20
+> >    @@
+> >    expression ctx, notifier, is_external, io_read, io_poll, io_poll_rea=
+dy;
+> >    @@
+> >    - aio_set_event_notifier(ctx, notifier, is_external, io_read, io_pol=
+l, io_poll_ready)
+> >    + aio_set_event_notifier(ctx, notifier, io_read, io_poll, io_poll_re=
+ady)
+> >=20
+> > Reviewed-by: Juan Quintela <quintela@redhat.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >   include/block/aio.h           | 55 --------------------------
+> >   util/aio-posix.h              |  1 -
+> >   block.c                       |  7 ----
+> >   block/blkio.c                 | 15 +++----
+> >   block/curl.c                  | 10 ++---
+> >   block/export/fuse.c           |  8 ++--
+> >   block/export/vduse-blk.c      | 10 ++---
+> >   block/io.c                    |  2 -
+> >   block/io_uring.c              |  4 +-
+> >   block/iscsi.c                 |  3 +-
+> >   block/linux-aio.c             |  4 +-
+> >   block/nfs.c                   |  5 +--
+> >   block/nvme.c                  |  8 ++--
+> >   block/ssh.c                   |  4 +-
+> >   block/win32-aio.c             |  6 +--
+> >   hw/i386/kvm/xen_xenstore.c    |  2 +-
+> >   hw/virtio/virtio.c            |  6 +--
+> >   hw/xen/xen-bus.c              |  8 ++--
+> >   io/channel-command.c          |  6 +--
+> >   io/channel-file.c             |  3 +-
+> >   io/channel-socket.c           |  3 +-
+> >   migration/rdma.c              | 16 ++++----
+> >   tests/unit/test-aio.c         | 27 +------------
+> >   tests/unit/test-fdmon-epoll.c | 73 -----------------------------------
+> >   util/aio-posix.c              | 20 +++-------
+> >   util/aio-win32.c              |  8 +---
+> >   util/async.c                  |  3 +-
+> >   util/fdmon-epoll.c            | 10 -----
+> >   util/fdmon-io_uring.c         |  8 +---
+> >   util/fdmon-poll.c             |  3 +-
+> >   util/main-loop.c              |  7 ++--
+> >   util/qemu-coroutine-io.c      |  7 ++--
+> >   util/vhost-user-server.c      | 11 +++---
+> >   tests/unit/meson.build        |  3 --
+> >   34 files changed, 76 insertions(+), 290 deletions(-)
+> >   delete mode 100644 tests/unit/test-fdmon-epoll.c
 >=20
-> > Based-on: 087bc644b7634436ca9d52fe58ba9234e2bef026 (kevin/block-next)
 >=20
-> It seems kevin/block-next got rebased and doesn't contain 087bc644b76.
+> > -/**
+> > - * aio_disable_external:
+> > - * @ctx: the aio context
+> > - *
+> > - * Disable the further processing of external clients.
+> > - */
+> > -static inline void aio_disable_external(AioContext *ctx)
+> > -{
+> > -    qatomic_inc(&ctx->external_disable_cnt);
+> > -}
+> > -
+> > -/**
+> > - * aio_enable_external:
+> > - * @ctx: the aio context
+> > - *
+> > - * Enable the processing of external clients.
+> > - */
+> > -static inline void aio_enable_external(AioContext *ctx)
+> > -{
+> > -    int old;
+> > -
+> > -    old =3D qatomic_fetch_dec(&ctx->external_disable_cnt);
+> > -    assert(old > 0);
+> > -    if (old =3D=3D 1) {
+> > -        /* Kick event loop so it re-arms file descriptors */
+> > -        aio_notify(ctx);
+> > -    }
+> > -}
+> > -
+> > -/**
+> > - * aio_external_disabled:
+> > - * @ctx: the aio context
+> > - *
+> > - * Return true if the external clients are disabled.
+> > - */
+> > -static inline bool aio_external_disabled(AioContext *ctx)
+> > -{
+> > -    return qatomic_read(&ctx->external_disable_cnt);
+> > -}
 >=20
-> Based on 3d1ba50c4b ("vmdk: make vmdk_is_cid_valid a coroutine_fn")
-> I get:
+> Missing:
 >=20
-> Applying: hw/qdev: introduce qdev_is_realized() helper
-> Applying: virtio-scsi: avoid race between unplug and transport event
-> Applying: virtio-scsi: stop using aio_disable_external() during unplug
-> Applying: block/export: only acquire AioContext once for
-> vhost_user_server_stop()
-> error: patch failed: util/vhost-user-server.c:346
-> error: util/vhost-user-server.c: patch does not apply
-> Patch failed at 0004 block/export: only acquire AioContext once for
-> vhost_user_server_stop()
+> -- >8 --
+> diff --git a/include/block/aio.h b/include/block/aio.h
+> index d4ce01ea08..266be26f8e 100644
+> --- a/include/block/aio.h
+> +++ b/include/block/aio.h
+> @@ -224,6 +224,4 @@ struct AioContext {
+>      QEMUTimerListGroup tlg;
 >=20
-> Hmm patch #4 is already merged as commit 2957dc40a2, let's skip it:
+> -    int external_disable_cnt;
+> -
+>      /* Number of AioHandlers without .io_poll() */
+>      int poll_disable_cnt;
+> diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+> index d9d3807062..5c89169e46 100644
+> --- a/tests/unit/test-bdrv-drain.c
+> +++ b/tests/unit/test-bdrv-drain.c
+> @@ -436,5 +436,4 @@ static void test_graph_change_drain_all(void)
+>      g_assert_cmpint(bs_b->quiesce_counter, =3D=3D, 0);
+>      g_assert_cmpint(b_s->drain_count, =3D=3D, 0);
+> -    g_assert_cmpint(qemu_get_aio_context()->external_disable_cnt, =3D=3D=
+, 0);
 >=20
-> $ git am --skip
-> Applying: util/vhost-user-server: rename refcount to in_flight counter
-> Applying: block/export: wait for vhost-user-blk requests when draining
-> Applying: block/export: stop using is_external in vhost-user-blk server
-> Applying: hw/xen: do not use aio_set_fd_handler(is_external=3Dtrue) in
-> xen_xenstore
-> Applying: block: add blk_in_drain() API
-> Applying: block: drain from main loop thread in bdrv_co_yield_to_drain()
-> Applying: xen-block: implement BlockDevOps->drained_begin()
-> Applying: hw/xen: do not set is_external=3Dtrue on evtchn fds
-> Applying: block/export: rewrite vduse-blk drain code
-> Applying: block/export: don't require AioContext lock around
-> blk_exp_ref/unref()
-> Applying: block/fuse: do not set is_external=3Dtrue on FUSE fd
-> Applying: virtio: make it possible to detach host notifier from any thread
-> Applying: virtio-blk: implement BlockDevOps->drained_begin()
-> Applying: virtio-scsi: implement BlockDevOps->drained_begin()
-> Applying: virtio: do not set is_external=3Dtrue on host notifiers
-> Applying: aio: remove aio_disable_external() API
-> error: patch failed: util/fdmon-epoll.c:131
-> error: util/fdmon-epoll.c: patch does not apply
-> Patch failed at 0020 aio: remove aio_disable_external() API
+>      bdrv_unref(bs_b);
+> ---
 >=20
-> Now this clashes with commit e62da98527 ("aio-posix: fix race between epo=
-ll
-> upgrade and aio_set_fd_handler()").
->=20
-> Indeed reverting both e62da98527 / 2957dc40a2, I can apply your
-> series.
+> Once cleaned:
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
 
-Thanks, I will rebase to origin/master now to make this patch series
-easier to merge.
+Oh, yes! Thank you.
 
 Stefan
 
---lTQFmEIU0pfkRcw9
+--BIT1XJZKQdQoLFB0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRH/+IACgkQnKSrs4Gr
-c8iYggf/b4293BgOm1R5DDER4USW/3OSKh2P4LwY7cqAodChEJo2dbRViaYECV2Q
-bSxEGgsjB6wPdZYKwNFWfPiBpVQswZHeF0JDoupXILM4ZnsMtOXuhQKCIREPvPcj
-nwMdkECDC6G/aIyzybY4xHV4lYoUvv61OlvEzuG5p+6jmyiUIB7WYwftBdG0Vfsy
-eo5110kPiYRdcAlMsL7QpgS01WT9DBCSw98NhH0x0dWLBYlgkgGhP7GRnIMfriFc
-o+v31v9eCHe7J1wvvqdbniWgas9xqxzQyyLhXcvbVffHlUftAZ2KL/fhYIXyRwtk
-vl3prMrg4+6AVRr5K4a+zoJ8eK8ETg==
-=cT+E
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRH//4ACgkQnKSrs4Gr
+c8hAWAgArFHJSBD/052Y5YxJagR3rp5Ty6TQFZbFR7XqgZm4OKiJUdVsYRjLFAVb
+88VPsKWcJcTIjsM6CsLc08dll7kjwWltL1oWglX3chlwNSyFz7JJpkrBEsGi+FTk
+QnHEXHYTopX8yvkc63FJy9xMYPUkBRoxRU2out3CeqaPrcBTtkoDRjoUvG0iPi4I
+a2KBbyhYim8z4W2OWw3ereSqfBzSHaIc6c16hE74O2NTVFXYKWxj1VV/HNJDmRM9
+s+wDgxnywf2oAtec9QZvxI7k/Jkb4B4zqox2QJV/2f2ngq5QqQMEBh4Q8uKMyC8t
+qV7BJGwMNoPGtu5fnTYjZVJApmvWNA==
+=q6+o
 -----END PGP SIGNATURE-----
 
---lTQFmEIU0pfkRcw9--
+--BIT1XJZKQdQoLFB0--
 
 
