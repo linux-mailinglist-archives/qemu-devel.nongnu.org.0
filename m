@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADF16EDD28
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:50:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85406EDD19
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:48:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDOh-0003Gv-1H; Tue, 25 Apr 2023 03:47:36 -0400
+	id 1prDOU-0002QP-Jv; Tue, 25 Apr 2023 03:47:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNo-0001q2-Dz
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNp-0001rK-J8
  for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNm-0006uM-DM
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:40 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNn-0006uh-Ot
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408796;
+ s=mimecast20190719; t=1682408799;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3YJvIXB4JXgLc+BchY3FYURGQPfXfUe8KWU9L0uhwmc=;
- b=Fq6/QE1t5HgKkTThka1VbgDl3XkGONZjw81O1a4/26tvLOhCCApKTXnYsWU/lrq/u146hp
- mYtZvWqpFXu6sCCnrWhx3bq4bQmtYaEpSUGmBxeVWqT2sy3ZFFPMkfpbSCDfi6sOYb+sBm
- KqThojAEhkE+nVif8kQrifxAPlhoHGs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=i/SAGLle76FTyq9rNigXzvwryqMTCWn4q7DLUw9suUA=;
+ b=RXfV/maPE4Iebf0W3yQitf03adiW87jDkSu2kYDMtSzTYC6wQNvGrYeBxKHdnr0dk0i8iU
+ tcXyS2pvS1YpE5neI8eX3NU3snmmXZAAHDKRCnXx4RCrI3NsTQT7ocKVgfEXDW1t+oKFvj
+ QdoYwMp4p2+pLKYT/SheWwOoUrUIb44=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-546-bA3gZ2u-OA656rjU5pP5Gw-1; Tue, 25 Apr 2023 03:46:35 -0400
-X-MC-Unique: bA3gZ2u-OA656rjU5pP5Gw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-2f92bd71f32so1710361f8f.2
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:35 -0700 (PDT)
+ us-mta-65-UsLekdiqNlamJXyQIex0VA-1; Tue, 25 Apr 2023 03:46:37 -0400
+X-MC-Unique: UsLekdiqNlamJXyQIex0VA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-2f40f52c604so3040329f8f.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408793; x=1685000793;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3YJvIXB4JXgLc+BchY3FYURGQPfXfUe8KWU9L0uhwmc=;
- b=kY68X+miE8V9n/maGaCzSenrrUOz3jiAyJ+jChCWDY2cJZqrcaqXxBQKcadJXA4d6u
- BySPJ5lfOAK9eYn2apAaRBe/n5177noWSGqOnikKZ4k07IkaVIoWUg1mk/RwrWxXsewN
- L+N7nzjsaPxOeDOZ8Wj7kARh/rSNqt+sNyPM8m+15QBnMk7Z0Qa4NfA6ElJJgCR/y4vF
- FsuAnLNymDBY+tquZcWIXyxFdwQ2PZqghQFCwZX5JzBoB5Xa4F/SJWRhFStoxoTNb51C
- up5q9+Wi6rZXbgJkG+cMMtBUspbfRImj+aJoUwptKmGn6H2TOC5nbSXw3tDjxFrT77e0
- 119A==
-X-Gm-Message-State: AAQBX9fIuBLOuryQtXGNAlLJA+/b9dKxeWyotVYfMTH1kMAcsOJIDq6F
- +YgeTVkar07kXeAnj/bv6TsZF8Xjh+ZGECmt0wXJFeWLIK7b33/l2VbQVnM6BExQBM9vmvxEx3I
- tedFZ7fhSXGR25zvu+V2quv1uS/7Z/UHyIdvboiCtMQt+RlzExXw9fJZo0zorhcM+0+LE
-X-Received: by 2002:adf:ec46:0:b0:2ce:9fb8:b560 with SMTP id
- w6-20020adfec46000000b002ce9fb8b560mr11849196wrn.8.1682408793264; 
- Tue, 25 Apr 2023 00:46:33 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bpT1X4oxRSwMToIgC2x2pjYw/LIlQzmVNGpxxai/wdVS8/GgwXLW7dSjfQKc0lOKEtYEcXkQ==
-X-Received: by 2002:adf:ec46:0:b0:2ce:9fb8:b560 with SMTP id
- w6-20020adfec46000000b002ce9fb8b560mr11849172wrn.8.1682408792937; 
- Tue, 25 Apr 2023 00:46:32 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682408796; x=1685000796;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=i/SAGLle76FTyq9rNigXzvwryqMTCWn4q7DLUw9suUA=;
+ b=HeEMf1pVoZ34sAwwcYNgtjPQbuAKG2jTN2/0dFAsZCDTfYEL2kD0yl9g0GDo7xSgQZ
+ PsTzLHLDuVJZeP+SvcjJUnknzzun3jWN4bgb1gIaTjg1Z8zVQfuqiMi+Th3VWtiNVQmJ
+ J2VhZ66n6FGc0b7+CUEsggPYtviKwDV8c8lazYFuZvFHZ5tLt9wCjIm/LvKmetYtEr0p
+ emVaB8nmI3SgwnkEy1qlZvyTPwSBMV70tFU2ccGrcOwanRp48GHVTuBVFh1q/4dHUy8Z
+ EsZKTrQZFIZhx8QjRg8w2NFdRPYy84Y3xecSwmKazqOwK/U+iFdI0KkNT4FCqlAXtppn
+ XHtQ==
+X-Gm-Message-State: AAQBX9d/SnUZG5ZBC33tDGB0JgHaQu4OUQC0Ah0b9hSe4hYVda1VlrBx
+ blFHSU0IPC/7BX9mJidhoChNTAV788H7qJVSHSJbYqQ9yiV4WSqmKn0lkVPB9CLjbLGlHBJOSww
+ Yjfz0Yfj7PhSLIfZypdAnJaxtuDU//Mj1+34zLdfB3IHTWq0EfSNke12rEP1CoJNVrea5
+X-Received: by 2002:adf:e391:0:b0:2dc:cad4:87b9 with SMTP id
+ e17-20020adfe391000000b002dccad487b9mr11635790wrm.68.1682408795926; 
+ Tue, 25 Apr 2023 00:46:35 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a/AZ3b/+/GVycJPvbobZAzZE2pZ3zo0jwqaHP+OzEDrlP5xsjGBiBr8Cg1xaQXfSBQVbze2A==
+X-Received: by 2002:adf:e391:0:b0:2dc:cad4:87b9 with SMTP id
+ e17-20020adfe391000000b002dccad487b9mr11635773wrm.68.1682408795606; 
+ Tue, 25 Apr 2023 00:46:35 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- h18-20020a5d6892000000b002f9bfac5baesm12482772wru.47.2023.04.25.00.46.31
+ t15-20020adfe10f000000b00304832cd960sm2553024wrz.10.2023.04.25.00.46.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:46:32 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:46:30 -0400
+ Tue, 25 Apr 2023 00:46:35 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:46:33 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: [PULL 28/31] docs/specs: Convert pci-serial.txt to rst
-Message-ID: <3669b594d88930f9e5d7c83e038d7d9ca5a75378.1682408661.git.mst@redhat.com>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 29/31] docs/specs: Convert pci-testdev.txt to rst
+Message-ID: <4d58309388003837f8eba72c5643722060a5656a.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1682408661.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -104,167 +99,129 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Convert pci-serial.txt to reStructuredText. This includes
-some wordsmithing, and the correction of the docs to note
-that the Windows inf file includes 2x and 4x support
-(as it has done since commit dc9528fdf9f61 in 2014).
+Convert pci-testdev.txt to reStructuredText. Includes
+some minor wordsmithing.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20230420160334.1048224-3-peter.maydell@linaro.org>
+Message-Id: <20230420160334.1048224-4-peter.maydell@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- docs/specs/pci-serial.txt  | 34 ----------------------------------
- hw/char/serial-pci-multi.c |  2 +-
- hw/char/serial-pci.c       |  2 +-
+ docs/specs/pci-testdev.txt | 31 ------------------------------
  docs/specs/index.rst       |  1 +
- docs/specs/pci-ids.rst     |  6 +++---
- docs/specs/pci-serial.rst  | 37 +++++++++++++++++++++++++++++++++++++
- 6 files changed, 43 insertions(+), 39 deletions(-)
- delete mode 100644 docs/specs/pci-serial.txt
- create mode 100644 docs/specs/pci-serial.rst
+ docs/specs/pci-ids.rst     |  2 +-
+ docs/specs/pci-testdev.rst | 39 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 41 insertions(+), 32 deletions(-)
+ delete mode 100644 docs/specs/pci-testdev.txt
+ create mode 100644 docs/specs/pci-testdev.rst
 
-diff --git a/docs/specs/pci-serial.txt b/docs/specs/pci-serial.txt
+diff --git a/docs/specs/pci-testdev.txt b/docs/specs/pci-testdev.txt
 deleted file mode 100644
-index 66c761f2b4..0000000000
---- a/docs/specs/pci-serial.txt
+index 4280a1e73c..0000000000
+--- a/docs/specs/pci-testdev.txt
 +++ /dev/null
-@@ -1,34 +0,0 @@
+@@ -1,31 +0,0 @@
+-pci-test is a device used for testing low level IO
 -
--QEMU pci serial devices
--=======================
+-device implements up to three BARs: BAR0, BAR1 and BAR2.
+-Each of BAR 0+1 can be memory or IO. Guests must detect
+-BAR types and act accordingly.
 -
--There is one single-port variant and two muliport-variants.  Linux
--guests out-of-the box with all cards.  There is a Windows inf file
--(docs/qemupciserial.inf) to setup the single-port card in Windows
--guests.
+-BAR 0+1 size is up to 4K bytes each.
+-BAR 0+1 starts with the following header:
 -
+-typedef struct PCITestDevHdr {
+-    uint8_t test;  <- write-only, starts a given test number
+-    uint8_t width_type; <- read-only, type and width of access for a given test.
+-                           1,2,4 for byte,word or long write.
+-                           any other value if test not supported on this BAR
+-    uint8_t pad0[2];
+-    uint32_t offset; <- read-only, offset in this BAR for a given test
+-    uint32_t data;    <- read-only, data to use for a given test
+-    uint32_t count;  <- for debugging. number of writes detected.
+-    uint8_t name[]; <- for debugging. 0-terminated ASCII string.
+-} PCITestDevHdr;
 -
--single-port card
------------------
+-All registers are little endian.
 -
--Name:   pci-serial
--PCI ID: 1b36:0002
+-device is expected to always implement tests 0 to N on each BAR, and to add new
+-tests with higher numbers.  In this way a guest can scan test numbers until it
+-detects an access type that it does not support on this BAR, then stop.
 -
--PCI Region 0:
--   IO bar, 8 bytes long, with the 16550 uart mapped to it.
--   Interrupt is wired to pin A.
--
--
--multiport cards
-----------------
--
--Name:   pci-serial-2x
--PCI ID: 1b36:0003
--
--Name:   pci-serial-4x
--PCI ID: 1b36:0004
--
--PCI Region 0:
--   IO bar, with two/four 16550 uart mapped after each other.
--   The first is at offset 0, second at offset 8, ...
--   Interrupt is wired to pin A.
-diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
-index f18b8dcce5..5d65c534cb 100644
---- a/hw/char/serial-pci-multi.c
-+++ b/hw/char/serial-pci-multi.c
-@@ -25,7 +25,7 @@
-  * THE SOFTWARE.
-  */
- 
--/* see docs/specs/pci-serial.txt */
-+/* see docs/specs/pci-serial.rst */
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
-index 801b769aba..087da3059a 100644
---- a/hw/char/serial-pci.c
-+++ b/hw/char/serial-pci.c
-@@ -23,7 +23,7 @@
-  * THE SOFTWARE.
-  */
- 
--/* see docs/specs/pci-serial.txt */
-+/* see docs/specs/pci-serial.rst */
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
+-BAR2 is a 64bit memory bar, without backing storage.  It is disabled
+-by default and can be enabled using the membar=<size> property.  This
+-can be used to test whether guests handle pci bars of a specific
+-(possibly quite large) size correctly.
 diff --git a/docs/specs/index.rst b/docs/specs/index.rst
-index 8aa0fcb77a..dfa136073c 100644
+index dfa136073c..e58be38c41 100644
 --- a/docs/specs/index.rst
 +++ b/docs/specs/index.rst
-@@ -9,6 +9,7 @@ guest hardware that is specific to QEMU.
-    :maxdepth: 2
+@@ -10,6 +10,7 @@ guest hardware that is specific to QEMU.
  
     pci-ids
-+   pci-serial
+    pci-serial
++   pci-testdev
     ppc-xive
     ppc-spapr-xive
     ppc-spapr-numa
 diff --git a/docs/specs/pci-ids.rst b/docs/specs/pci-ids.rst
-index e1cf022006..7bc7168fb6 100644
+index 7bc7168fb6..e302bea484 100644
 --- a/docs/specs/pci-ids.rst
 +++ b/docs/specs/pci-ids.rst
-@@ -63,11 +63,11 @@ PCI devices (other than virtio):
- 1b36:0001
-   PCI-PCI bridge
- 1b36:0002
--  PCI serial port (16550A) adapter (``docs/specs/pci-serial.txt``)
-+  PCI serial port (16550A) adapter (:doc:`pci-serial`)
- 1b36:0003
--  PCI Dual-port 16550A adapter (``docs/specs/pci-serial.txt``)
-+  PCI Dual-port 16550A adapter (:doc:`pci-serial`)
+@@ -69,7 +69,7 @@ PCI devices (other than virtio):
  1b36:0004
--  PCI Quad-port 16550A adapter (``docs/specs/pci-serial.txt``)
-+  PCI Quad-port 16550A adapter (:doc:`pci-serial`)
+   PCI Quad-port 16550A adapter (:doc:`pci-serial`)
  1b36:0005
-   PCI test device (``docs/specs/pci-testdev.txt``)
+-  PCI test device (``docs/specs/pci-testdev.txt``)
++  PCI test device (:doc:`pci-testdev`)
  1b36:0006
-diff --git a/docs/specs/pci-serial.rst b/docs/specs/pci-serial.rst
+   PCI Rocker Ethernet switch device
+ 1b36:0007
+diff --git a/docs/specs/pci-testdev.rst b/docs/specs/pci-testdev.rst
 new file mode 100644
-index 0000000000..8d916a3669
+index 0000000000..4b6d36543b
 --- /dev/null
-+++ b/docs/specs/pci-serial.rst
-@@ -0,0 +1,37 @@
-+=======================
-+QEMU PCI serial devices
-+=======================
++++ b/docs/specs/pci-testdev.rst
+@@ -0,0 +1,39 @@
++====================
++QEMU PCI test device
++====================
 +
-+QEMU implements some PCI serial devices which are simple PCI
-+wrappers around one or more 16550 UARTs.
++``pci-testdev`` is a device used for testing low level IO.
 +
-+There is one single-port variant and two multiport-variants.  Linux
-+guests work out-of-the box with all cards.  There is a Windows inf file
-+(``docs/qemupciserial.inf``) to set up the cards in Windows guests.
++The device implements up to three BARs: BAR0, BAR1 and BAR2.
++Each of BAR 0+1 can be memory or IO. Guests must detect
++BAR types and act accordingly.
 +
++BAR 0+1 size is up to 4K bytes each.
++BAR 0+1 starts with the following header:
 +
-+Single-port card
-+----------------
++.. code-block:: c
 +
-+Name:
-+  ``pci-serial``
-+PCI ID:
-+  1b36:0002
-+PCI Region 0:
-+   IO bar, 8 bytes long, with the 16550 UART mapped to it.
-+Interrupt:
-+   Wired to pin A.
++  typedef struct PCITestDevHdr {
++      uint8_t test;        /* write-only, starts a given test number */
++      uint8_t width_type;  /*
++                            * read-only, type and width of access for a given test.
++                            * 1,2,4 for byte,word or long write.
++                            * any other value if test not supported on this BAR
++                            */
++      uint8_t pad0[2];
++      uint32_t offset;     /* read-only, offset in this BAR for a given test */
++      uint32_t data;       /* read-only, data to use for a given test */
++      uint32_t count;      /* for debugging. number of writes detected. */
++      uint8_t name[];      /* for debugging. 0-terminated ASCII string. */
++  } PCITestDevHdr;
 +
++All registers are little endian.
 +
-+Multiport cards
-+---------------
++The device is expected to always implement tests 0 to N on each BAR, and to add new
++tests with higher numbers.  In this way a guest can scan test numbers until it
++detects an access type that it does not support on this BAR, then stop.
 +
-+Name:
-+  ``pci-serial-2x``, ``pci-serial-4x``
-+PCI ID:
-+  1b36:0003 (``-2x``) and 1b36:0004 (``-4x``)
-+PCI Region 0:
-+   IO bar, with two or four 16550 UARTs mapped after each other.
-+   The first is at offset 0, the second at offset 8, and so on.
-+Interrupt:
-+   Wired to pin A.
++BAR2 is a 64bit memory BAR, without backing storage.  It is disabled
++by default and can be enabled using the ``membar=<size>`` property.  This
++can be used to test whether guests handle PCI BARs of a specific
++(possibly quite large) size correctly.
 -- 
 MST
 
