@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC3E6EE345
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3966EE347
 	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:40:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prItC-00039x-8R; Tue, 25 Apr 2023 09:39:26 -0400
+	id 1prItC-0003AO-IS; Tue, 25 Apr 2023 09:39:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prIsq-00033f-R2
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:39:05 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prIss-00035G-46
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:39:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prIsp-0003Ir-0n
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:39:04 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prIsp-0003Iz-0n
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:39:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682429941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3+ZM3KQoncTdei9rootHBy/08sRrht5xW3bbZSEsOQM=;
- b=aRwhOYKiwT0L/vpNoACDW09yNAoiGYMqR9xxrKe8TnMZZAuxACI4EaHoFeJR8BQJ1aevCW
- w2kC0+vABs9tU6uxu5AF0mhQW1JuCQa9Ow0RK3Rv6rpYGZetmE3XLhEkBu67cF8mFbIs8b
- iI7UAzr5bhDOxcmkIQsXjK9JBSgRn/c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tPPS70WFjcy2JwT8P5XtO5CMpg/f2RRQN7faqVv2JXE=;
+ b=R3w6Rf76dseFKQFtFdfobgRt6i06ei9ykPqi98ID5oTRzLDMADGZccoJEOncWiDPVr5X5A
+ SOAuvbl4u/JgufokgQETwyLoPDTtly7kWNLyTQC9dgmpMd0Uq7oVqA2acM+vL0r91OSRda
+ auRryI86jMqh44LTOzST9DJSpbnDRoo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-TwtY83DzO0qLmKc1QSoGRQ-1; Tue, 25 Apr 2023 09:38:59 -0400
-X-MC-Unique: TwtY83DzO0qLmKc1QSoGRQ-1
+ us-mta-197-UjoxOrgEPd-3QDCBvpwcIQ-1; Tue, 25 Apr 2023 09:38:59 -0400
+X-MC-Unique: UjoxOrgEPd-3QDCBvpwcIQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A216F8EE588;
- Tue, 25 Apr 2023 13:38:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14BB63822DE3;
+ Tue, 25 Apr 2023 13:38:59 +0000 (UTC)
 Received: from thuth.com (dhcp-192-205.str.redhat.com [10.33.192.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7677D1121314;
- Tue, 25 Apr 2023 13:38:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DCC731121318;
+ Tue, 25 Apr 2023 13:38:57 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>
@@ -47,9 +47,10 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Yanan Wang <wangyanan55@huawei.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [RFC PATCH 1/3] cpu: Add a way to detect 32-bit mode from argv0
-Date: Tue, 25 Apr 2023 15:38:49 +0200
-Message-Id: <20230425133851.489283-2-thuth@redhat.com>
+Subject: [RFC PATCH 2/3] target/i386/cpu: Allow to limit the 64-bit binary to
+ 32-bit mode only
+Date: Tue, 25 Apr 2023 15:38:50 +0200
+Message-Id: <20230425133851.489283-3-thuth@redhat.com>
 In-Reply-To: <20230425133851.489283-1-thuth@redhat.com>
 References: <20230425133851.489283-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,91 +80,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In the future, we might want to avoid compiling certain targets separately
-for 32-bit mode (i.e. -i386, -arm and -ppc) where the 64-bit variant is a
-superset of the 32-bit variant. But it would be good to provide a way to
-mimic the 32-bit behavior via the program name in case the users need this
-compatibility for some scenarios. Thus add a function that checks
-for the old 32-bit program names and sets a flag accordingly.
+qemu-system-x86_64 is pretty much a proper superset of qemu-system-i386,
+so in the long run, it does not make too much sense that we continuously
+build two binaries here.
+However, some people still might want to start QEMU in a mode that limits
+the environment to 32-bit. Thus allow qemu-system-x86_64 to run in 32-bit
+mode if the binary name ends in "-i386".
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/hw/core/cpu.h | 10 ++++++++++
- cpu.c                 | 13 +++++++++++++
- softmmu/vl.c          |  1 +
- 3 files changed, 24 insertions(+)
+ target/i386/cpu.h     |  4 ++--
+ target/i386/cpu.c     | 28 +++++++++++++---------------
+ target/i386/gdbstub.c |  8 +-------
+ 3 files changed, 16 insertions(+), 24 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 397fd3ac68..8fc15b7797 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -470,6 +470,15 @@ extern __thread CPUState *current_cpu;
- extern bool mttcg_enabled;
- #define qemu_tcg_mttcg_enabled() (mttcg_enabled)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index d243e290d3..5cb2eb3493 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -40,8 +40,8 @@
+ #define TARGET_HAS_PRECISE_SMC
  
-+/**
-+ * qemu_target_only_32bits:
-+ * Check whether the target is 32 bits only (like i386 in contrast to x86_64).
-+ *
-+ * Returns: %true if we are running with a 32-bit only target
-+ */
-+extern bool target_only_32bits;
-+#define qemu_target_only_32bits() (target_only_32bits)
-+
- /**
-  * cpu_paging_enabled:
-  * @cpu: The CPU whose state is to be inspected.
-@@ -1009,6 +1018,7 @@ void cpu_exec_unrealizefn(CPUState *cpu);
-  */
- bool target_words_bigendian(void);
+ #ifdef TARGET_X86_64
+-#define I386_ELF_MACHINE  EM_X86_64
+-#define ELF_MACHINE_UNAME "x86_64"
++#define I386_ELF_MACHINE  (qemu_target_only_32bits() ? EM_386 : EM_X86_64)
++#define ELF_MACHINE_UNAME (qemu_target_only_32bits() ? "i686" : "x86_64")
+ #else
+ #define I386_ELF_MACHINE  EM_386
+ #define ELF_MACHINE_UNAME "i686"
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 2e30e348a1..f713005476 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5093,11 +5093,9 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+     } else {
+         return ~0;
+     }
+-#ifndef TARGET_X86_64
+-    if (w == FEAT_8000_0001_EDX) {
++    if (qemu_target_only_32bits() && w == FEAT_8000_0001_EDX) {
+         r &= ~CPUID_EXT2_LM;
+     }
+-#endif
+     if (migratable_only) {
+         r &= x86_cpu_get_migratable_flags(w);
+     }
+@@ -5267,11 +5265,11 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
  
-+void cpu_init_target_only_32bits(const char *argv0);
- void page_size_init(void);
- 
- #ifdef NEED_CPU_H
-diff --git a/cpu.c b/cpu.c
-index 9105c85404..0b498f3a53 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -47,6 +47,8 @@
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
- 
-+bool target_only_32bits = (TARGET_LONG_BITS == 32);
-+
- #ifndef CONFIG_USER_ONLY
- static int cpu_common_post_load(void *opaque, int version_id)
+ static gchar *x86_gdb_arch_name(CPUState *cs)
  {
-@@ -427,6 +429,17 @@ bool target_words_bigendian(void)
- #endif
+-#ifdef TARGET_X86_64
+-    return g_strdup("i386:x86-64");
+-#else
+-    return g_strdup("i386");
+-#endif
++    if (qemu_target_only_32bits()) {
++        return g_strdup("i386");
++    } else {
++        return g_strdup("i386:x86-64");
++    }
  }
  
-+/*
-+ * This is used for 64-bit targets that can also run in restricted 32-bit
-+ * mode, e.g. if running as qemu-system-i386 instead of qemu-system-x86_64
-+ */
-+void cpu_init_target_only_32bits(const char *argv0)
-+{
-+    target_only_32bits |= g_str_has_suffix(argv0, "-i386") ||
-+                          g_str_has_suffix(argv0, "-arm") ||
-+                          g_str_has_suffix(argv0, "-ppc");
-+}
-+
- void page_size_init(void)
+ static void x86_cpu_cpudef_class_init(ObjectClass *oc, void *data)
+@@ -7295,13 +7293,13 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+ #endif /* !CONFIG_USER_ONLY */
+ 
+     cc->gdb_arch_name = x86_gdb_arch_name;
+-#ifdef TARGET_X86_64
+-    cc->gdb_core_xml_file = "i386-64bit.xml";
+-    cc->gdb_num_core_regs = 66;
+-#else
+-    cc->gdb_core_xml_file = "i386-32bit.xml";
+-    cc->gdb_num_core_regs = 50;
+-#endif
++    if (qemu_target_only_32bits()) {
++        cc->gdb_core_xml_file = "i386-32bit.xml";
++        cc->gdb_num_core_regs = 50;
++    } else {
++        cc->gdb_core_xml_file = "i386-64bit.xml";
++        cc->gdb_num_core_regs = 66;
++    }
+     cc->disas_set_info = x86_disas_set_info;
+ 
+     dc->user_creatable = true;
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index ebb000df6a..35a56b317c 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -72,15 +72,9 @@ static const int gpr_map32[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+ #define IDX_CTL_CR8_REG     (IDX_CTL_REGS + 4)
+ #define IDX_CTL_EFER_REG    (IDX_CTL_REGS + 5)
+ 
+-#ifdef TARGET_X86_64
+-#define GDB_FORCE_64 1
+-#else
+-#define GDB_FORCE_64 0
+-#endif
+-
+ static int gdb_read_reg_cs64(uint32_t hflags, GByteArray *buf, target_ulong val)
  {
-     /* NOTE: we can always suppose that qemu_host_page_size >=
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index fb6c221e8e..51b35a6f0b 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2677,6 +2677,7 @@ void qemu_init(int argc, char **argv)
- 
-     error_init(argv[0]);
-     qemu_init_exec_dir(argv[0]);
-+    cpu_init_target_only_32bits(argv[0]);
- 
-     qemu_init_arch_modules();
- 
+-    if ((hflags & HF_CS64_MASK) || GDB_FORCE_64) {
++    if ((hflags & HF_CS64_MASK) || !qemu_target_only_32bits()) {
+         return gdb_get_reg64(buf, val);
+     }
+     return gdb_get_reg32(buf, val);
 -- 
 2.31.1
 
