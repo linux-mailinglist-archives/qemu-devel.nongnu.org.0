@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63CE6EDC3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:10:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 985696EDC30
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:08:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prCiG-0001W5-By; Tue, 25 Apr 2023 03:03:45 -0400
+	id 1prCiI-0001WW-7V; Tue, 25 Apr 2023 03:03:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1prCiD-0001VC-D5
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:41 -0400
+ id 1prCiE-0001VN-0F
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:42 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1prCiA-0008HE-GL
+ (envelope-from <gaosong@loongson.cn>) id 1prCiB-0008HR-D2
  for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:41 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8BxrOo9e0dktl8AAA--.643S3;
- Tue, 25 Apr 2023 15:03:25 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8Cxd+k+e0dku18AAA--.664S3;
+ Tue, 25 Apr 2023 15:03:26 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S38; 
- Tue, 25 Apr 2023 15:03:24 +0800 (CST)
+ AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S39; 
+ Tue, 25 Apr 2023 15:03:25 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	gaosong@loongson.cn
-Subject: [RFC PATCH v4 36/44] target/loongarch: Implement vfcmp
-Date: Tue, 25 Apr 2023 15:02:40 +0800
-Message-Id: <20230425070248.2550028-37-gaosong@loongson.cn>
+Subject: [RFC PATCH v4 37/44] target/loongarch: Implement vbitsel vset
+Date: Tue, 25 Apr 2023 15:02:41 +0800
+Message-Id: <20230425070248.2550028-38-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230425070248.2550028-1-gaosong@loongson.cn>
 References: <20230425070248.2550028-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S38
+X-CM-TRANSID: AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S39
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3XryxKry5JF43ArW3Gw1UAwb_yoW3Ar1rpF
- y7GFyUKrW8X34rW3WSv3W5u3WUAF45Gw4q9a43tw4vgrW7ZFn7A34rtasI9FZ8C3WDJry8
- W3W7A34YgF9rJwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3Xw15WF1kur1kGrWxXrykAFb_yoWfXr4fpF
+ yIyry3Gr4UtFyfJ3ZYvw1Yv3Z8Zrs7Kw1j9w4fK397ZFW7XF1DAr40q3y29F4UXFWvvFyj
+ g3WDA34q9395X3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bexFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF
@@ -76,262 +76,270 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VFCMP.cond.{S/D}.
+- VBITSEL.V;
+- VBITSELI.B;
+- VSET{EQZ/NEZ}.V;
+- VSETANYEQZ.{B/H/W/D};
+- VSETALLNEZ.{B/H/W/D}.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    | 94 +++++++++++++++++++++
- target/loongarch/helper.h                   |  5 ++
- target/loongarch/insn_trans/trans_lsx.c.inc | 32 +++++++
- target/loongarch/insns.decode               |  5 ++
- target/loongarch/lsx_helper.c               | 54 ++++++++++++
- 5 files changed, 190 insertions(+)
+ target/loongarch/disas.c                    | 20 ++++++
+ target/loongarch/helper.h                   | 11 +++
+ target/loongarch/insn_trans/trans_lsx.c.inc | 74 +++++++++++++++++++++
+ target/loongarch/insns.decode               | 17 +++++
+ target/loongarch/lsx_helper.c               | 52 +++++++++++++++
+ 5 files changed, 174 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index e589b23f4c..64db01d2f9 100644
+index 64db01d2f9..ecf0c7b577 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1447,3 +1447,97 @@ INSN_LSX(vslti_bu,         vv_i)
- INSN_LSX(vslti_hu,         vv_i)
- INSN_LSX(vslti_wu,         vv_i)
- INSN_LSX(vslti_du,         vv_i)
-+
-+#define output_vfcmp(C, PREFIX, SUFFIX)                                     \
-+{                                                                           \
-+    (C)->info->fprintf_func((C)->info->stream, "%08x   %s%s\t%d, f%d, f%d", \
-+                            (C)->insn, PREFIX, SUFFIX, a->vd,               \
-+                            a->vj, a->vk);                                  \
-+}
-+
-+static bool output_vvv_fcond(DisasContext *ctx, arg_vvv_fcond * a,
-+                             const char *suffix)
+@@ -792,6 +792,12 @@ static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
+     return true;                                            \
+ }
+ 
++static void output_cv(DisasContext *ctx, arg_cv *a,
++                        const char *mnemonic)
 +{
-+    bool ret = true;
-+    switch (a->fcond) {
-+    case 0x0:
-+        output_vfcmp(ctx, "vfcmp_caf_", suffix);
-+        break;
-+    case 0x1:
-+        output_vfcmp(ctx, "vfcmp_saf_", suffix);
-+        break;
-+    case 0x2:
-+        output_vfcmp(ctx, "vfcmp_clt_", suffix);
-+        break;
-+    case 0x3:
-+        output_vfcmp(ctx, "vfcmp_slt_", suffix);
-+        break;
-+    case 0x4:
-+        output_vfcmp(ctx, "vfcmp_ceq_", suffix);
-+        break;
-+    case 0x5:
-+        output_vfcmp(ctx, "vfcmp_seq_", suffix);
-+        break;
-+    case 0x6:
-+        output_vfcmp(ctx, "vfcmp_cle_", suffix);
-+        break;
-+    case 0x7:
-+        output_vfcmp(ctx, "vfcmp_sle_", suffix);
-+        break;
-+    case 0x8:
-+        output_vfcmp(ctx, "vfcmp_cun_", suffix);
-+        break;
-+    case 0x9:
-+        output_vfcmp(ctx, "vfcmp_sun_", suffix);
-+        break;
-+    case 0xA:
-+        output_vfcmp(ctx, "vfcmp_cult_", suffix);
-+        break;
-+    case 0xB:
-+        output_vfcmp(ctx, "vfcmp_sult_", suffix);
-+        break;
-+    case 0xC:
-+        output_vfcmp(ctx, "vfcmp_cueq_", suffix);
-+        break;
-+    case 0xD:
-+        output_vfcmp(ctx, "vfcmp_sueq_", suffix);
-+        break;
-+    case 0xE:
-+        output_vfcmp(ctx, "vfcmp_cule_", suffix);
-+        break;
-+    case 0xF:
-+        output_vfcmp(ctx, "vfcmp_sule_", suffix);
-+        break;
-+    case 0x10:
-+        output_vfcmp(ctx, "vfcmp_cne_", suffix);
-+        break;
-+    case 0x11:
-+        output_vfcmp(ctx, "vfcmp_sne_", suffix);
-+        break;
-+    case 0x14:
-+        output_vfcmp(ctx, "vfcmp_cor_", suffix);
-+        break;
-+    case 0x15:
-+        output_vfcmp(ctx, "vfcmp_sor_", suffix);
-+        break;
-+    case 0x18:
-+        output_vfcmp(ctx, "vfcmp_cune_", suffix);
-+        break;
-+    case 0x19:
-+        output_vfcmp(ctx, "vfcmp_sune_", suffix);
-+        break;
-+    default:
-+        ret = false;
-+    }
-+    return ret;
++    output(ctx, mnemonic, "fcc%d, v%d", a->cd, a->vj);
 +}
 +
-+#define LSX_FCMP_INSN(suffix)                            \
-+static bool trans_vfcmp_cond_##suffix(DisasContext *ctx, \
-+                                     arg_vvv_fcond * a)  \
-+{                                                        \
-+    return output_vvv_fcond(ctx, a, #suffix);            \
-+}
+ static void output_vvv(DisasContext *ctx, arg_vvv *a, const char *mnemonic)
+ {
+     output(ctx, mnemonic, "v%d, v%d, v%d", a->vd, a->vj, a->vk);
+@@ -1541,3 +1547,17 @@ static bool trans_vfcmp_cond_##suffix(DisasContext *ctx, \
+ 
+ LSX_FCMP_INSN(s)
+ LSX_FCMP_INSN(d)
 +
-+LSX_FCMP_INSN(s)
-+LSX_FCMP_INSN(d)
++INSN_LSX(vbitsel_v,        vvvv)
++INSN_LSX(vbitseli_b,       vv_i)
++
++INSN_LSX(vseteqz_v,        cv)
++INSN_LSX(vsetnez_v,        cv)
++INSN_LSX(vsetanyeqz_b,     cv)
++INSN_LSX(vsetanyeqz_h,     cv)
++INSN_LSX(vsetanyeqz_w,     cv)
++INSN_LSX(vsetanyeqz_d,     cv)
++INSN_LSX(vsetallnez_b,     cv)
++INSN_LSX(vsetallnez_h,     cv)
++INSN_LSX(vsetallnez_w,     cv)
++INSN_LSX(vsetallnez_d,     cv)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index e9e9fa7f87..867756fdb5 100644
+index 867756fdb5..8eb2738cd0 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -637,3 +637,8 @@ DEF_HELPER_FLAGS_4(vslti_bu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
- DEF_HELPER_FLAGS_4(vslti_hu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
- DEF_HELPER_FLAGS_4(vslti_wu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
- DEF_HELPER_FLAGS_4(vslti_du, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+@@ -642,3 +642,14 @@ DEF_HELPER_5(vfcmp_c_s, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(vfcmp_s_s, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(vfcmp_c_d, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(vfcmp_s_d, void, env, i32, i32, i32, i32)
 +
-+DEF_HELPER_5(vfcmp_c_s, void, env, i32, i32, i32, i32)
-+DEF_HELPER_5(vfcmp_s_s, void, env, i32, i32, i32, i32)
-+DEF_HELPER_5(vfcmp_c_d, void, env, i32, i32, i32, i32)
-+DEF_HELPER_5(vfcmp_s_d, void, env, i32, i32, i32, i32)
++DEF_HELPER_FLAGS_4(vbitseli_b, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
++
++DEF_HELPER_3(vsetanyeqz_b, void, env, i32, i32)
++DEF_HELPER_3(vsetanyeqz_h, void, env, i32, i32)
++DEF_HELPER_3(vsetanyeqz_w, void, env, i32, i32)
++DEF_HELPER_3(vsetanyeqz_d, void, env, i32, i32)
++DEF_HELPER_3(vsetallnez_b, void, env, i32, i32)
++DEF_HELPER_3(vsetallnez_h, void, env, i32, i32)
++DEF_HELPER_3(vsetallnez_w, void, env, i32, i32)
++DEF_HELPER_3(vsetallnez_d, void, env, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 4d9f88bf4f..abb6efc09d 100644
+index abb6efc09d..964c3c47bf 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -3717,3 +3717,35 @@ TRANS(vslti_bu, do_vslti_u, MO_8)
- TRANS(vslti_hu, do_vslti_u, MO_16)
- TRANS(vslti_wu, do_vslti_u, MO_32)
- TRANS(vslti_du, do_vslti_u, MO_64)
-+
-+static bool trans_vfcmp_cond_s(DisasContext *ctx, arg_vvv_fcond *a)
+@@ -65,6 +65,17 @@ static bool gen_vv_i(DisasContext *ctx, arg_vv_i *a,
+     return true;
+ }
+ 
++static bool gen_cv(DisasContext *ctx, arg_cv *a,
++                    void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32))
 +{
-+    uint32_t flags;
-+    void (*fn)(TCGv_env, TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32);
-+    TCGv_i32 vd = tcg_constant_i32(a->vd);
 +    TCGv_i32 vj = tcg_constant_i32(a->vj);
-+    TCGv_i32 vk = tcg_constant_i32(a->vk);
++    TCGv_i32 cd = tcg_constant_i32(a->cd);
++
++    CHECK_SXE;
++    func(cpu_env, cd, vj);
++    return true;
++}
++
+ static bool gvec_vvv(DisasContext *ctx, arg_vvv *a, MemOp mop,
+                      void (*func)(unsigned, uint32_t, uint32_t,
+                                   uint32_t, uint32_t, uint32_t))
+@@ -3749,3 +3760,66 @@ static bool trans_vfcmp_cond_d(DisasContext *ctx, arg_vvv_fcond *a)
+ 
+     return true;
+ }
++
++static bool trans_vbitsel_v(DisasContext *ctx, arg_vvvv *a)
++{
++    CHECK_SXE;
++
++    tcg_gen_gvec_bitsel(MO_64, vec_full_offset(a->vd), vec_full_offset(a->va),
++                        vec_full_offset(a->vk), vec_full_offset(a->vj),
++                        16, ctx->vl/8);
++    return true;
++}
++
++static void gen_vbitseli(unsigned vece, TCGv_vec a, TCGv_vec b, int64_t imm)
++{
++    tcg_gen_bitsel_vec(vece, a, a, tcg_constant_vec_matching(a, vece, imm), b);
++}
++
++static bool trans_vbitseli_b(DisasContext *ctx, arg_vv_i *a)
++{
++    static const GVecGen2i op = {
++       .fniv = gen_vbitseli,
++       .fnoi = gen_helper_vbitseli_b,
++       .vece = MO_8,
++       .load_dest = true
++    };
 +
 +    CHECK_SXE;
 +
-+    fn = (a->fcond & 1 ? gen_helper_vfcmp_s_s : gen_helper_vfcmp_c_s);
-+    flags = get_fcmp_flags(a->fcond >> 1);
-+    fn(cpu_env, vd, vj, vk,  tcg_constant_i32(flags));
-+
++    tcg_gen_gvec_2i(vec_full_offset(a->vd), vec_full_offset(a->vj),
++                    16, ctx->vl/8, a->imm, &op);
 +    return true;
 +}
 +
-+static bool trans_vfcmp_cond_d(DisasContext *ctx, arg_vvv_fcond *a)
-+{
-+    uint32_t flags;
-+    void (*fn)(TCGv_env, TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32);
-+    TCGv_i32 vd = tcg_constant_i32(a->vd);
-+    TCGv_i32 vj = tcg_constant_i32(a->vj);
-+    TCGv_i32 vk = tcg_constant_i32(a->vk);
-+
-+    fn = (a->fcond & 1 ? gen_helper_vfcmp_s_d : gen_helper_vfcmp_c_d);
-+    flags = get_fcmp_flags(a->fcond >> 1);
-+    fn(cpu_env, vd, vj, vk, tcg_constant_i32(flags));
-+
-+    return true;
++#define VSET(NAME, COND)                                                       \
++static bool trans_## NAME (DisasContext *ctx, arg_cv *a)                       \
++{                                                                              \
++    TCGv_i64 t1, al, ah;                                                       \
++                                                                               \
++    al = tcg_temp_new_i64();                                                   \
++    ah = tcg_temp_new_i64();                                                   \
++    t1 = tcg_temp_new_i64();                                                   \
++                                                                               \
++    get_vreg64(ah, a->vj, 1);                                                  \
++    get_vreg64(al, a->vj, 0);                                                  \
++                                                                               \
++    CHECK_SXE;                                                                 \
++    tcg_gen_or_i64(t1, al, ah);                                                \
++    tcg_gen_setcondi_i64(COND, t1, t1, 0);                                     \
++    tcg_gen_st8_tl(t1, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7])); \
++                                                                               \
++    return true;                                                               \
 +}
++
++VSET(vseteqz_v, TCG_COND_EQ)
++VSET(vsetnez_v, TCG_COND_NE)
++
++TRANS(vsetanyeqz_b, gen_cv, gen_helper_vsetanyeqz_b)
++TRANS(vsetanyeqz_h, gen_cv, gen_helper_vsetanyeqz_h)
++TRANS(vsetanyeqz_w, gen_cv, gen_helper_vsetanyeqz_w)
++TRANS(vsetanyeqz_d, gen_cv, gen_helper_vsetanyeqz_d)
++TRANS(vsetallnez_b, gen_cv, gen_helper_vsetallnez_b)
++TRANS(vsetallnez_h, gen_cv, gen_helper_vsetallnez_h)
++TRANS(vsetallnez_w, gen_cv, gen_helper_vsetallnez_w)
++TRANS(vsetallnez_d, gen_cv, gen_helper_vsetallnez_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index a090a7d22b..d018b110cd 100644
+index d018b110cd..d8feeadc41 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -494,6 +494,7 @@ dbcl             0000 00000010 10101 ...............      @i15
+@@ -491,6 +491,7 @@ dbcl             0000 00000010 10101 ...............      @i15
+ #
+ 
+ &vv           vd vj
++&cv           cd vj
  &vvv          vd vj vk
  &vv_i         vd vj imm
  &vvvv         vd vj vk va
-+&vvv_fcond    vd vj vk fcond
- 
- #
+@@ -500,6 +501,7 @@ dbcl             0000 00000010 10101 ...............      @i15
  # LSX Formats
-@@ -508,6 +509,7 @@ dbcl             0000 00000010 10101 ...............      @i15
- @vv_ui8              .... ........ .. imm:8 vj:5 vd:5    &vv_i
- @vv_i5           .... ........ ..... imm:s5 vj:5 vd:5    &vv_i
- @vvvv               .... ........ va:5 vk:5 vj:5 vd:5    &vvvv
-+@vvv_fcond      .... ........ fcond:5  vk:5 vj:5 vd:5    &vvv_fcond
+ #
+ @vv               .... ........ ..... ..... vj:5 vd:5    &vv
++@cv            .... ........ ..... ..... vj:5 .. cd:3    &cv
+ @vvv               .... ........ ..... vk:5 vj:5 vd:5    &vvv
+ @vv_ui3        .... ........ ..... .. imm:3 vj:5 vd:5    &vv_i
+ @vv_ui4         .... ........ ..... . imm:4 vj:5 vd:5    &vv_i
+@@ -1150,3 +1152,18 @@ vslti_du         0111 00101000 10011 ..... ..... .....    @vv_ui5
  
- vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
- vadd_h           0111 00000000 10101 ..... ..... .....    @vvv
-@@ -1145,3 +1147,6 @@ vslti_bu         0111 00101000 10000 ..... ..... .....    @vv_ui5
- vslti_hu         0111 00101000 10001 ..... ..... .....    @vv_ui5
- vslti_wu         0111 00101000 10010 ..... ..... .....    @vv_ui5
- vslti_du         0111 00101000 10011 ..... ..... .....    @vv_ui5
+ vfcmp_cond_s     0000 11000101 ..... ..... ..... .....    @vvv_fcond
+ vfcmp_cond_d     0000 11000110 ..... ..... ..... .....    @vvv_fcond
 +
-+vfcmp_cond_s     0000 11000101 ..... ..... ..... .....    @vvv_fcond
-+vfcmp_cond_d     0000 11000110 ..... ..... ..... .....    @vvv_fcond
++vbitsel_v        0000 11010001 ..... ..... ..... .....    @vvvv
++
++vbitseli_b       0111 00111100 01 ........ ..... .....    @vv_ui8
++
++vseteqz_v        0111 00101001 11001 00110 ..... 00 ...   @cv
++vsetnez_v        0111 00101001 11001 00111 ..... 00 ...   @cv
++vsetanyeqz_b     0111 00101001 11001 01000 ..... 00 ...   @cv
++vsetanyeqz_h     0111 00101001 11001 01001 ..... 00 ...   @cv
++vsetanyeqz_w     0111 00101001 11001 01010 ..... 00 ...   @cv
++vsetanyeqz_d     0111 00101001 11001 01011 ..... 00 ...   @cv
++vsetallnez_b     0111 00101001 11001 01100 ..... 00 ...   @cv
++vsetallnez_h     0111 00101001 11001 01101 ..... 00 ...   @cv
++vsetallnez_w     0111 00101001 11001 01110 ..... 00 ...   @cv
++vsetallnez_d     0111 00101001 11001 01111 ..... 00 ...   @cv
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index cb4f26ff89..9fecd58328 100644
+index 9fecd58328..2fda1a72cb 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -2660,3 +2660,57 @@ VCMPI(vslti_bu, 8, UB, VSLT)
- VCMPI(vslti_hu, 16, UH, VSLT)
- VCMPI(vslti_wu, 32, UW, VSLT)
- VCMPI(vslti_du, 64, UD, VSLT)
+@@ -11,6 +11,7 @@
+ #include "exec/helper-proto.h"
+ #include "fpu/softfloat.h"
+ #include "internals.h"
++#include "tcg/tcg.h"
+ 
+ #define DO_ADD(a, b)  (a + b)
+ #define DO_SUB(a, b)  (a - b)
+@@ -2714,3 +2715,54 @@ VFCMP(vfcmp_c_s, 32, UW, float32_compare_quiet)
+ VFCMP(vfcmp_s_s, 32, UW, float32_compare)
+ VFCMP(vfcmp_c_d, 64, UD, float64_compare_quiet)
+ VFCMP(vfcmp_s_d, 64, UD, float64_compare)
 +
-+static uint64_t vfcmp_common(CPULoongArchState *env,
-+                             FloatRelation cmp, uint32_t flags)
++void HELPER(vbitseli_b)(void *vd, void *vj,  uint64_t imm, uint32_t v)
 +{
-+    uint64_t ret = 0;
++    int i;
++    VReg *Vd = (VReg *)vd;
++    VReg *Vj = (VReg *)vj;
 +
-+    switch (cmp) {
-+    case float_relation_less:
-+        ret = (flags & FCMP_LT);
-+        break;
-+    case float_relation_equal:
-+        ret = (flags & FCMP_EQ);
-+        break;
-+    case float_relation_greater:
-+        ret = (flags & FCMP_GT);
-+        break;
-+    case float_relation_unordered:
-+        ret = (flags & FCMP_UN);
-+        break;
-+    default:
-+        g_assert_not_reached();
++    for (i = 0; i < 16; i++) {
++        Vd->B(i) = (~Vd->B(i) & Vj->B(i)) | (Vd->B(i) & imm);
 +    }
-+
-+    if (ret) {
-+        ret = -1;
-+    }
-+
-+    return ret;
 +}
 +
-+#define VFCMP(NAME, BIT, E, FN)                                          \
-+void HELPER(NAME)(CPULoongArchState *env,                                \
-+                  uint32_t vd, uint32_t vj, uint32_t vk, uint32_t flags) \
-+{                                                                        \
-+    int i;                                                               \
-+    VReg t;                                                              \
-+    VReg *Vd = &(env->fpr[vd].vreg);                                     \
-+    VReg *Vj = &(env->fpr[vj].vreg);                                     \
-+    VReg *Vk = &(env->fpr[vk].vreg);                                     \
-+                                                                         \
-+    vec_clear_cause(env);                                                \
-+    for (i = 0; i < LSX_LEN/BIT ; i++) {                                 \
-+        FloatRelation cmp;                                               \
-+        cmp = FN(Vj->E(i), Vk->E(i), &env->fp_status);                   \
-+        t.E(i) = vfcmp_common(env, cmp, flags);                          \
-+        vec_update_fcsr0(env, GETPC());                                  \
-+    }                                                                    \
-+    *Vd = t;                                                             \
++/* Copy from target/arm/tcg/sve_helper.c */
++static inline bool do_match2(uint64_t n, uint64_t m0, uint64_t m1, int esz)
++{
++    uint64_t bits = 8 << esz;
++    uint64_t ones = dup_const(esz, 1);
++    uint64_t signs = ones << (bits - 1);
++    uint64_t cmp0, cmp1;
++
++    cmp1 = dup_const(esz, n);
++    cmp0 = cmp1 ^ m0;
++    cmp1 = cmp1 ^ m1;
++    cmp0 = (cmp0 - ones) & ~cmp0;
++    cmp1 = (cmp1 - ones) & ~cmp1;
++    return (cmp0 | cmp1) & signs;
 +}
 +
-+VFCMP(vfcmp_c_s, 32, UW, float32_compare_quiet)
-+VFCMP(vfcmp_s_s, 32, UW, float32_compare)
-+VFCMP(vfcmp_c_d, 64, UD, float64_compare_quiet)
-+VFCMP(vfcmp_s_d, 64, UD, float64_compare)
++#define SETANYEQZ(NAME, MO)                                         \
++void HELPER(NAME)(CPULoongArchState *env, uint32_t cd, uint32_t vj) \
++{                                                                   \
++    VReg *Vj = &(env->fpr[vj].vreg);                                \
++                                                                    \
++    env->cf[cd & 0x7] = do_match2(0, Vj->D(0), Vj->D(1), MO);       \
++}
++SETANYEQZ(vsetanyeqz_b, MO_8)
++SETANYEQZ(vsetanyeqz_h, MO_16)
++SETANYEQZ(vsetanyeqz_w, MO_32)
++SETANYEQZ(vsetanyeqz_d, MO_64)
++
++#define SETALLNEZ(NAME, MO)                                         \
++void HELPER(NAME)(CPULoongArchState *env, uint32_t cd, uint32_t vj) \
++{                                                                   \
++    VReg *Vj = &(env->fpr[vj].vreg);                                \
++                                                                    \
++    env->cf[cd & 0x7]= !do_match2(0, Vj->D(0), Vj->D(1), MO);       \
++}
++SETALLNEZ(vsetallnez_b, MO_8)
++SETALLNEZ(vsetallnez_h, MO_16)
++SETALLNEZ(vsetallnez_w, MO_32)
++SETALLNEZ(vsetallnez_d, MO_64)
 -- 
 2.31.1
 
