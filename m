@@ -2,63 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0206EE572
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732146EE590
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:19:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prLJq-0001ZI-Td; Tue, 25 Apr 2023 12:15:07 -0400
+	id 1prLKP-0001jg-Tj; Tue, 25 Apr 2023 12:15:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prLJp-0001Z9-9b
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:15:05 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1prLK3-0001c2-TH; Tue, 25 Apr 2023 12:15:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prLJj-0003ww-Ln
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:15:05 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id A748B60B79;
- Tue, 25 Apr 2023 19:14:53 +0300 (MSK)
-Received: from vsementsov-nix.yandex-team.ru (unknown
- [2a02:6b8:b081:b440::1:14])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id ZEJx1U1OcKo0-6yfkOzqC; Tue, 25 Apr 2023 19:14:52 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682439292; bh=7t/u3mBycvI3MJ/PwQawDvZlj0U49FNbAn/59SkMsd4=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=IejQD+Je3yCNpVzWyCEgnDrTQt4Ja7zXU1z5tfXuheA3mD/xIibbB0J2+SI9lTUvu
- 6jDKzwgjKrWFxTViOMP63Y4xYsit4uLH/F8SdZwY1T9dJmIg7bhYCcAFX38txl4qew
- tJ/Cs0pP4hD6AB/C8IhXlFxKZwT1WkI1y30QExtc=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: marcel.apfelbaum@gmail.com, mst@redhat.com, philmd@linaro.org,
- david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
- vsementsov@yandex-team.ru, den-plotnikov@yandex-team.ru, lersek@redhat.com,
- kraxel@redhat.com
-Subject: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
-Date: Tue, 25 Apr 2023 19:14:34 +0300
-Message-Id: <20230425161434.173022-4-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230425161434.173022-1-vsementsov@yandex-team.ru>
-References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1prLK1-0004CA-G4; Tue, 25 Apr 2023 12:15:19 -0400
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33PG6d3F001536; Tue, 25 Apr 2023 16:15:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=iPnXMUGXzuE0v9jyI8knFHGdGucZ8mfX7dSbi3Jl8Mc=;
+ b=WR3AEq7pDc2d1TbtDDExEWLo07wrTiOAoK7/jy3/sUHyg0lkARBWYpbt6OHpS8IrcL/a
+ BYkw6+pqAVhLkDNa7DI8Br6CDp6cb60O1LLVbd0+8/X4VMiwdC2PwobuDuEQ8e0T2V5Q
+ mK2rAe08O47t4bNFdm1ZEmLr9cs7Vg7J3eCqNv1vm4T/p2MHwO+lPlAAUMfargtQhrtG
+ I7bIIspxpTODCbIsRz3GlA0LeK338kr36cjtqnYcAVWrZRJzwFqj1R5eKD6zvwhM5RJp
+ C/4hXQhay5wfiwz0Mw9eYi065pylaisFxEshc4jlJ/b4XBvO3Cuia/UFEmxcIP4pQ+VG 0w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6hpa9gyx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 16:15:06 +0000
+Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33PG6w4c002677;
+ Tue, 25 Apr 2023 16:15:06 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6hpa9gvg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 16:15:06 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33P4dF7P012831;
+ Tue, 25 Apr 2023 16:15:03 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3q46ug1uvu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Apr 2023 16:15:02 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33PGEv9O22938230
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Apr 2023 16:14:57 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0C6F820077;
+ Tue, 25 Apr 2023 16:14:57 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C73A20071;
+ Tue, 25 Apr 2023 16:14:56 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com (unknown
+ [9.152.222.242])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 25 Apr 2023 16:14:56 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com, clg@kaod.org
+Subject: [PATCH v20 00/21] s390x: CPU Topology
+Date: Tue, 25 Apr 2023 18:14:35 +0200
+Message-Id: <20230425161456.21031-1-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Cc0S87C5zj9-6StZls7v7q_BDPnS5C_z
+X-Proofpoint-ORIG-GUID: c-KmvHiuJXy4__TBIbfbculkBH3AYbq9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-25_07,2023-04-25_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=999 spamscore=0 clxscore=1015
+ impostorscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304250144
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,175 +114,452 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On incoming migration we have the following sequence to load option
-ROM:
+Hi,
 
-1. On device realize we do normal load ROM from the file
+What is new:
 
-2. Than, on incoming migration we rewrite ROM from the incoming RAM
-   block. If sizes mismatch we fail.
+- Entitlement is now an enum and the default is "auto"
 
-This is not ideal when we migrate to updated distribution: we have to
-keep old ROM files in new distribution and be careful around romfile
-property to load correct ROM file. Which is loaded actually just to
-allocate the ROM with correct length.
+Implementation discussions
+==========================
 
-Note, that romsize property doesn't really help: if we try to specify
-it when default romfile is larger, it fails with something like:
+CPU models
+----------
 
-romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
+Since the facility 11, S390_FEAT_CONFIGURATION_TOPOLOGY is already
+in the CPU model for old QEMU we could not activate it as usual from
+KVM but needed a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
+Checking and enabling this capability enables facility 11,
+S390_FEAT_CONFIGURATION_TOPOLOGY.
 
-Let's just ignore ROM file when romsize is specified and we are in
-incoming migration state. In other words, we need only to preallocate
-ROM of specified size, local ROM file is unrelated.
+It is the responsibility of the admin to ensure the same CPU
+model for source and target host in a migration.
 
-This way:
+Migration
+---------
 
-If romsize was specified on source, we just use same commandline as on
-source, and migration will work independently of local ROM files on
-target.
+When the target guest is started, the Multi-processor Topology Change
+Report (MTCR) bit is set during the creation of the vCPU by KVM.
+We do not need to migrate its state, in the worst case, the target
+guest will see the MTCR and actualize its view of the topology
+without necessity, but this will be done only one time.
 
-If romsize was not specified on source (and we have mismatching local
-ROM file on target host), we have to specify romsize on target to match
-source romsize. romfile parameter may be kept same as on source or may
-be dropped, the file is not loaded anyway.
+Reset
+-----
 
-As a bonus we avoid extra reading from ROM file on target.
+Reseting the topology is done during subsystem reset, the
+polarization is reset to horizontal polarization.
 
-Note: when we don't have romsize parameter on source command line and
-need it for target, it may be calculated as aligned up to power of two
-size of ROM file on source (if we know, which file is it) or,
-alternatively it may be retrieved from source QEMU by QMP qom-get
-command, like
+Topology attributes
+-------------------
 
-  { "execute": "qom-get",
-    "arguments": {
-      "path": "/machine/peripheral/CARD_ID/virtio-net-pci.rom[0]",
-      "property": "size" } }
+The topology attributes are carried by the CPU object and defined
+on object creation.
+In the case the new attributes, socket, book, drawer, dedicated,
+entitlement are not provided QEMU provides defaults values.
 
-Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- hw/pci/pci.c | 77 ++++++++++++++++++++++++++++++----------------------
- 1 file changed, 45 insertions(+), 32 deletions(-)
+- Geometry defaults
+  The geometry default are based on the core-id of the core to 
+  fill the geometry in a monotone way starting with drawer 0,
+  book 0, and filling socket 0 with the number of cores per socket,
+  then filling socket 1, socket 2 ... etc until the book is complete
+  and all books until the first drawer is complete before starting with
+  the next drawer.
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index a442f8fce1..e2cab622e4 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -36,6 +36,7 @@
- #include "migration/vmstate.h"
- #include "net/net.h"
- #include "sysemu/numa.h"
-+#include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- #include "hw/loader.h"
- #include "qemu/error-report.h"
-@@ -2293,10 +2294,16 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
- {
-     int64_t size;
-     g_autofree char *path = NULL;
--    void *ptr;
-     char name[32];
-     const VMStateDescription *vmsd;
- 
-+    /*
-+     * In case of incoming migration ROM will come with migration stream, no
-+     * reason to load the file.  Neither we want to fail if local ROM file
-+     * mismatches with specified romsize.
-+     */
-+    bool load_file = !runstate_check(RUN_STATE_INMIGRATE);
-+
-     if (!pdev->romfile) {
-         return;
-     }
-@@ -2329,32 +2336,35 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
-         return;
-     }
- 
--    path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
--    if (path == NULL) {
--        path = g_strdup(pdev->romfile);
--    }
-+    if (load_file || pdev->romsize == -1) {
-+        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
-+        if (path == NULL) {
-+            path = g_strdup(pdev->romfile);
-+        }
- 
--    size = get_image_size(path);
--    if (size < 0) {
--        error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
--        return;
--    } else if (size == 0) {
--        error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
--        return;
--    } else if (size > 2 * GiB) {
--        error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
--                   pdev->romfile);
--        return;
--    }
--    if (pdev->romsize != -1) {
--        if (size > pdev->romsize) {
--            error_setg(errp, "romfile \"%s\" (%u bytes) "
--                       "is too large for ROM size %u",
--                       pdev->romfile, (uint32_t)size, pdev->romsize);
-+        size = get_image_size(path);
-+        if (size < 0) {
-+            error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
-+            return;
-+        } else if (size == 0) {
-+            error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
-+            return;
-+        } else if (size > 2 * GiB) {
-+            error_setg(errp,
-+                       "romfile \"%s\" too large (size cannot exceed 2 GiB)",
-+                       pdev->romfile);
-             return;
-         }
--    } else {
--        pdev->romsize = pow2ceil(size);
-+        if (pdev->romsize != -1) {
-+            if (size > pdev->romsize) {
-+                error_setg(errp, "romfile \"%s\" (%u bytes) "
-+                           "is too large for ROM size %u",
-+                           pdev->romfile, (uint32_t)size, pdev->romsize);
-+                return;
-+            }
-+        } else {
-+            pdev->romsize = pow2ceil(size);
-+        }
-     }
- 
-     vmsd = qdev_get_vmsd(DEVICE(pdev));
-@@ -2365,15 +2375,18 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
-     memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize,
-                            &error_fatal);
- 
--    ptr = memory_region_get_ram_ptr(&pdev->rom);
--    if (load_image_size(path, ptr, size) < 0) {
--        error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
--        return;
--    }
-+    if (load_file) {
-+        void *ptr = memory_region_get_ram_ptr(&pdev->rom);
- 
--    if (is_default_rom) {
--        /* Only the default rom images will be patched (if needed). */
--        pci_patch_ids(pdev, ptr, size);
-+        if (load_image_size(path, ptr, size) < 0) {
-+            error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
-+            return;
-+        }
-+
-+        if (is_default_rom) {
-+            /* Only the default rom images will be patched (if needed). */
-+            pci_patch_ids(pdev, ptr, size);
-+        }
-     }
- 
-     pci_register_bar(pdev, PCI_ROM_SLOT, 0, &pdev->rom);
+  This allows to keep existing start scripts and Libvirt existing
+  interface until it is extended.
+
+- Modifiers defaults
+  Default entitlement is medium
+  Default dedication is not dedicated.
+
+- Machine polarization default to horizontal
+
+Dynamic topology modification
+-----------------------------
+
+QAPI interface is extended with:
+- a command: 'set-cpu-topology'
+- a query: 'query-cpu-polarization'
+- a query: extension of qmp 'query-cpus-fast'
+- a query: extension of hmp 'hotpluggable-cpus'
+- an event: 'CPU_POLARITY_CHANGE'
+
+New command and interface are specified as unstable.
+
+The admin may use query-cpus-fast to verify the topology provided
+to the guest and set-cpu-topology to modify it.
+
+The event CPU_POLARITY_CHANGE is sent when the guest successfuly 
+uses the PTF(2) instruction to request a polarization change.
+In that case, the admin is supposed to modify the CPU provisioning
+accordingly.
+
+Testing
+=======
+
+To use the QEMU patches, you will need Linux V6-rc1 or newer,
+or use the following Linux mainline patches:
+
+f5ecfee94493 2022-07-20 KVM: s390: resetting the Topology-Change-Report    
+24fe0195bc19 2022-07-20 KVM: s390: guest support for topology function     
+0130337ec45b 2022-07-20 KVM: s390: Cleanup ipte lock access and SIIF fac.. 
+
+Currently this code is for KVM only, I have no idea if it is interesting
+to provide a TCG patch. If ever it will be done in another series.
+
+This series provide 12 avocado tests using Fedora-35 kernel and initrd
+image.
+
+Documentation
+=============
+
+To have a better understanding of the S390x CPU Topology and its
+implementation in QEMU you can have a look at the documentation in the
+last patch of this series.
+
+The admin will want to match the host and the guest topology, taking
+into account that the guest does not recognize multithreading.
+Consequently, two vCPU assigned to threads of the same real CPU should
+preferably be assigned to the same socket of the guest machine.
+
+
+Regards,
+Pierre
+
+Pierre Morel (21):
+  s390x/cpu topology: add s390 specifics to CPU topology
+  s390x/cpu topology: add topology entries on CPU hotplug
+  target/s390x/cpu topology: handle STSI(15) and build the SYSIB
+  s390x/sclp: reporting the maximum nested topology entries
+  s390x/cpu topology: resetting the Topology-Change-Report
+  s390x/cpu topology: interception of PTF instruction
+  target/s390x/cpu topology: activate CPU topology
+  qapi/s390x/cpu topology: set-cpu-topology qmp command
+  machine: adding s390 topology to query-cpu-fast
+  machine: adding s390 topology to info hotpluggable-cpus
+  qapi/s390x/cpu topology: CPU_POLARIZATION_CHANGE qapi event
+  qapi/s390x/cpu topology: query-cpu-polarization qmp command
+  docs/s390x/cpu topology: document s390x cpu topology
+  tests/avocado: s390x cpu topology core
+  tests/avocado: s390x cpu topology polarisation
+  tests/avocado: s390x cpu topology entitlement tests
+  tests/avocado: s390x cpu topology test dedicated CPU
+  tests/avocado: s390x cpu topology test socket full
+  tests/avocado: s390x cpu topology dedicated errors
+  tests/avocado: s390x cpu topology bad move
+  tests/avocado: s390x cpu topology query-cpu-polarization
+
+ MAINTAINERS                         |  10 +
+ docs/devel/index-internals.rst      |   1 +
+ docs/devel/s390-cpu-topology.rst    | 162 ++++++++++
+ docs/system/s390x/cpu-topology.rst  | 240 ++++++++++++++
+ docs/system/target-s390x.rst        |   1 +
+ qapi/machine-common.json            |  22 ++
+ qapi/machine-target.json            | 112 +++++++
+ qapi/machine.json                   |  26 +-
+ include/hw/boards.h                 |  10 +-
+ include/hw/qdev-properties-system.h |   4 +
+ include/hw/s390x/cpu-topology.h     |  80 +++++
+ include/hw/s390x/s390-virtio-ccw.h  |   6 +
+ include/hw/s390x/sclp.h             |   4 +-
+ target/s390x/cpu.h                  |  79 +++++
+ target/s390x/kvm/kvm_s390x.h        |   1 +
+ hw/core/machine-hmp-cmds.c          |   6 +
+ hw/core/machine-qmp-cmds.c          |   2 +
+ hw/core/machine-smp.c               |  53 ++-
+ hw/core/machine.c                   |   4 +
+ hw/core/qdev-properties-system.c    |  13 +
+ hw/s390x/cpu-topology.c             | 484 ++++++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c          |  27 +-
+ hw/s390x/sclp.c                     |   5 +
+ softmmu/vl.c                        |   6 +
+ target/s390x/cpu-sysemu.c           |  13 +
+ target/s390x/cpu.c                  |   7 +
+ target/s390x/cpu_models.c           |   1 +
+ target/s390x/kvm/cpu_topology.c     | 308 ++++++++++++++++++
+ target/s390x/kvm/kvm.c              |  42 ++-
+ hw/s390x/meson.build                |   1 +
+ qapi/meson.build                    |   1 +
+ qemu-options.hx                     |   7 +-
+ target/s390x/kvm/meson.build        |   3 +-
+ tests/avocado/s390_topology.py      | 472 +++++++++++++++++++++++++++
+ 34 files changed, 2193 insertions(+), 20 deletions(-)
+ create mode 100644 docs/devel/s390-cpu-topology.rst
+ create mode 100644 docs/system/s390x/cpu-topology.rst
+ create mode 100644 qapi/machine-common.json
+ create mode 100644 include/hw/s390x/cpu-topology.h
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 target/s390x/kvm/cpu_topology.c
+ create mode 100644 tests/avocado/s390_topology.py
+
 -- 
-2.34.1
+2.31.1
+
+Since v19:
+
+- use enum to specify the entitlement
+  (Nina)
+
+- Change default entitlement to "auto"
+
+- suppress skip_basis in avocado tests
+  (after comment from Cedric)
+
+- Correction of the documentation
+  (Cedric)
+
+- better code organization for s390_topology_add_core_to_socket
+  and s390_socket_nb
+  (Cedric)
+
+- Changed Copyright to respect IBM policy
+  (Nina)
+
+- set vertical_polarization back into s390_topology
+  (Nina)
+
+Since v18:
+
+- Changed default entitlement to S390_CPU_ENTITLEMENT__MAX
+  because no default can be correct.
+
+- added polarization entry to the S390CcwMachineState
+  which allow to suppress shadow entitlement
+
+- Suppress shadow entitlement
+  (Nina)
+
+- Added query-cpu-polarization
+
+- Added more avocado tests
+
+- modified cpu_hierarchy_to_string to look better
+  (Nina)
+
+Since v17:
+
+- bug correction in handling PTF
+
+- added avocado tests
+  (Thomas)
+
+- Change comments on QEMU machine to 8.1
+
+Since v16:
+
+- documentation, split, bug correction and rephrasing
+  (Nina, Thomas)
+
+- create machine-common.json
+
+- use of entitlement_shadow to keep track of the entitlement
+
+- adding drawers and books to query-hotpluggable-cpus
+
+- keep hmp interface for set-cpu-topology for a future series
+
+Since v15:
+
+- Use Enum for polarity and entitlement
+  (Nina)
+
+- move kvm_vm_enable_cap(KVM_CAP_S390_CPU_TOPOLOGY) to
+  kvm_arch_init()
+  (Thomas)
+
+- Make all CPU attributes optional for set-cpu-topology monitor
+  command
+  (Thomas, Nina)
+
+- Change use of the prefix "x-" to the use of feature unstable
+  to declare set-cpu-topology as unstable.
+  (Nina)
+
+- Make CPU_POLARITY_CHANGE even as unstable
+  (Nina)
+
+- Documentation update
+  (Thomas, Nina)
+
+Since v14:
+
+- move the ordering of TLE to just before filling the SYSIB,
+  optimize TLE ordering to be done on need only.
+  (Cedric in previous series)
+
+- remove 'query-topology' and instead extend 'query-cpus-fast'
+  (Daniel)
+
+- rename POLARITY_CHANGE to CPU_POLARITY_CHANGE
+  (Thomas)
+
+- Divers bugs correction and doc changes
+  (Thomas, Nina)
+
+- Separate topology and entitlement, simplify pft handling
+  (Nina)
+
+- add the resetting of all CPU to horizontal polarity
+  once implementing PTF interpretation
+
+Since v13:
+
+- Suppress the topology device to simplify the code
+  (Cedric)
+
+- moved reset of MTCR from device reset into subsystem
+  reset and removed previous reviewed-by from Nico and
+  Janis
+
+- No need for Migration
+
+- No need for machine dependencies
+  (Christian, Thomas)
+
+- Adding all features, drawer/book and dynamic
+  (Cedric)
+
+
+- since v12
+
+- suppress new CPU flag "disable-topology" just use ctop
+
+- no use of special fields in CCW machine or in CPU
+
+- modifications in documentation
+
+- insert documentation in tree
+  (Cedric)
+
+- moved cpu-topology.c from target/s390 to target/s390/kvm
+  to compile smoothly (without topology) for TCG
+  (Cedric)
+
+- since v11
+
+- new CPU flag "disable-topology"
+  I would have take "topology" if I was able to have
+  it false on default.
+  (Christian, Thomas)
+
+- Build the topology during the interception of the
+  STSI instruction.
+  (Cedric)
+
+- return CC3 in case the calculated SYSIB length is
+  greater than 4096.
+  (Janis)
+
+- minor corections on documentation
+
+- since v10
+
+- change machine attribute "topology-disable" to "topology"
+  (Cedric)
+- Add preliminary patch for machine properties
+  (Cedric)
+- Use next machine as 7.2
+  (Cedric / Connie)
+- Remove unecessary mutex
+  (Thomas)
+- use ENOTSUP return value for kvm_s390_topology_set_mtcr()
+  (Cedric)
+- Add explanation on container and cpu TLEs
+  (Thomas)
+- use again cpu and socket count in topology structure
+  (Cedric)
+- Suppress the S390TopoTLE structure and integrate
+  the TLE masks to the socket structure.
+  (-)
+- the STSI instruction now finds the topology from the machine
+  (Cedric)
+
+- since v9
+
+- remove books and drawers
+
+- remove thread denying and replace with a merge
+  of cores * threads to specify the CPUs available
+  to the guest
+
+- add a class option to avoid topology on older
+  machines
+  (Cedric)
+
+- Allocate a SYSIB buffer of the maximal length to
+  avoid overflow.
+  (Nico, Janis)
+
+- suppress redundancy of smp parameters in topology
+  and use directly the machine smp structure
+
+- Early check for topology support
+  (Cedric)
+
+- since v8
+
+- Linux patches are now mainline
+
+- simplification of the implementation
+  (Janis)
+
+- Migration, new machine definition
+  (Thomas)
+
+- Documentation
+
+- since v7
+
+- Coherence with the Linux patch series changes for MTCR get
+  (Pierre)
+
+- check return values during new CPU creation
+  (Thomas)
+
+- Improving codding style and argument usages
+  (Thomas)
+
+- since v6
+
+- Changes on smp args in qemu-options
+  (Daniel)
+  
+- changed comments in machine.jason
+  (Daniel)
+ 
+- Added reset
+  (Janosch)
+
+- since v5
+
+- rebasing on newer QEMU version
+
+- reworked most lines above 80 characters.
+
+- since v4
+
+- Added drawer and books to topology
+
+- Added numa topology
+
+- Added documentation
+
+- since v3
+
+- Added migration
+  (Thomas)
+
+- Separated STSI instruction from KVM to prepare TCG
+  (Thomas)
+
+- Take care of endianess to prepare TCG
+  (Thomas)
+
+- Added comments on STSI CPU container and PFT instruction
+  (Thomas)
+
+- Moved enabling the instructions as the last patch
+  (Thomas)
 
 
