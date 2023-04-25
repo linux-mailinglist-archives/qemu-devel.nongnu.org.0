@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813706EDC3F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:10:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42D96EDC22
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:06:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prCi1-0001QK-EC; Tue, 25 Apr 2023 03:03:29 -0400
+	id 1prCi8-0001SE-Ku; Tue, 25 Apr 2023 03:03:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1prChz-0001Pt-Lv
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:27 -0400
+ id 1prCi0-0001QI-Oj
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:28 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1prChw-00087V-MJ
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:27 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1prChy-00087n-C7
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:28 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Ax2ekwe0dkk18AAA--.663S3;
- Tue, 25 Apr 2023 15:03:12 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8BxLusxe0dklF8AAA--.694S3;
+ Tue, 25 Apr 2023 15:03:13 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S25; 
- Tue, 25 Apr 2023 15:03:11 +0800 (CST)
+ AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S26; 
+ Tue, 25 Apr 2023 15:03:12 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	gaosong@loongson.cn
-Subject: [RFC PATCH v4 23/44] target/loongarch: Implement vsllwil vextl
-Date: Tue, 25 Apr 2023 15:02:27 +0800
-Message-Id: <20230425070248.2550028-24-gaosong@loongson.cn>
+Subject: [RFC PATCH v4 24/44] target/loongarch: Implement vsrlr vsrar
+Date: Tue, 25 Apr 2023 15:02:28 +0800
+Message-Id: <20230425070248.2550028-25-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230425070248.2550028-1-gaosong@loongson.cn>
 References: <20230425070248.2550028-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S25
+X-CM-TRANSID: AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S26
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3XFWxXrW7Ar1DZrWUXrW8JFb_yoW7tF1xpF
- 42kryUGr48JrWxX3Za9a4rAF1DZr4DKw17uw4fta48WrW7JF1qqF1kt3yqkFW5X3ZxXFW0
- v3W3A3yY9FW5X37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3Jr48tFWxtFWDJr1xtrykGrg_yoW3Zryxp3
+ y7Kryjkr48JrZ7Xrn2va1Fy3WqqrsrKw13uw4ftr1jgw47JFnrXFyvq3yjgF4aqas5XFy0
+ 93W7CrZ0yry5Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bnkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF
@@ -76,156 +76,235 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VSLLWIL.{H.B/W.H/D.W};
-- VSLLWIL.{HU.BU/WU.HU/DU.WU};
-- VEXTL.Q.D, VEXTL.QU.DU.
+- VSRLR[I].{B/H/W/D};
+- VSRAR[I].{B/H/W/D}.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  9 +++++
- target/loongarch/helper.h                   |  9 +++++
- target/loongarch/insn_trans/trans_lsx.c.inc | 21 +++++++++++
- target/loongarch/insns.decode               |  9 +++++
- target/loongarch/lsx_helper.c               | 41 +++++++++++++++++++++
- 5 files changed, 89 insertions(+)
+ target/loongarch/disas.c                    |  18 ++++
+ target/loongarch/helper.h                   |  18 ++++
+ target/loongarch/insn_trans/trans_lsx.c.inc |  18 ++++
+ target/loongarch/insns.decode               |  18 ++++
+ target/loongarch/lsx_helper.c               | 104 ++++++++++++++++++++
+ 5 files changed, 176 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index f7d0fb4441..087cac10ad 100644
+index 087cac10ad..c62b6720ec 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1139,3 +1139,12 @@ INSN_LSX(vrotri_b,         vv_i)
- INSN_LSX(vrotri_h,         vv_i)
- INSN_LSX(vrotri_w,         vv_i)
- INSN_LSX(vrotri_d,         vv_i)
+@@ -1148,3 +1148,21 @@ INSN_LSX(vsllwil_hu_bu,    vv_i)
+ INSN_LSX(vsllwil_wu_hu,    vv_i)
+ INSN_LSX(vsllwil_du_wu,    vv_i)
+ INSN_LSX(vextl_qu_du,      vv)
 +
-+INSN_LSX(vsllwil_h_b,      vv_i)
-+INSN_LSX(vsllwil_w_h,      vv_i)
-+INSN_LSX(vsllwil_d_w,      vv_i)
-+INSN_LSX(vextl_q_d,        vv)
-+INSN_LSX(vsllwil_hu_bu,    vv_i)
-+INSN_LSX(vsllwil_wu_hu,    vv_i)
-+INSN_LSX(vsllwil_du_wu,    vv_i)
-+INSN_LSX(vextl_qu_du,      vv)
++INSN_LSX(vsrlr_b,          vvv)
++INSN_LSX(vsrlr_h,          vvv)
++INSN_LSX(vsrlr_w,          vvv)
++INSN_LSX(vsrlr_d,          vvv)
++INSN_LSX(vsrlri_b,         vv_i)
++INSN_LSX(vsrlri_h,         vv_i)
++INSN_LSX(vsrlri_w,         vv_i)
++INSN_LSX(vsrlri_d,         vv_i)
++
++INSN_LSX(vsrar_b,          vvv)
++INSN_LSX(vsrar_h,          vvv)
++INSN_LSX(vsrar_w,          vvv)
++INSN_LSX(vsrar_d,          vvv)
++INSN_LSX(vsrari_b,         vv_i)
++INSN_LSX(vsrari_h,         vv_i)
++INSN_LSX(vsrari_w,         vv_i)
++INSN_LSX(vsrari_d,         vv_i)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 617c579592..e98f7c3e6f 100644
+index e98f7c3e6f..20a5e7c8e6 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -352,3 +352,12 @@ DEF_HELPER_3(vmskgez_b, void, env, i32, i32)
- DEF_HELPER_3(vmsknz_b, void, env, i32,i32)
- 
- DEF_HELPER_FLAGS_4(vnori_b, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+@@ -361,3 +361,21 @@ DEF_HELPER_4(vsllwil_hu_bu, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsllwil_wu_hu, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsllwil_du_wu, void, env, i32, i32, i32)
+ DEF_HELPER_3(vextl_qu_du, void, env, i32, i32)
 +
-+DEF_HELPER_4(vsllwil_h_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsllwil_w_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsllwil_d_w, void, env, i32, i32, i32)
-+DEF_HELPER_3(vextl_q_d, void, env, i32, i32)
-+DEF_HELPER_4(vsllwil_hu_bu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsllwil_wu_hu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsllwil_du_wu, void, env, i32, i32, i32)
-+DEF_HELPER_3(vextl_qu_du, void, env, i32, i32)
++DEF_HELPER_4(vsrlr_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrlr_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrlr_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrlr_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrlri_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrlri_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrlri_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrlri_d, void, env, i32, i32, i32)
++
++DEF_HELPER_4(vsrar_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrar_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrar_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrar_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrari_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrari_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrari_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vsrari_d, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index ad8f32ed18..037c742aa4 100644
+index 037c742aa4..fb43e1b3ce 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -39,6 +39,18 @@ static bool gen_vv(DisasContext *ctx, arg_vv *a,
-     return true;
- }
- 
-+static bool gen_vv_i(DisasContext *ctx, arg_vv_i *a,
-+                     void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32))
-+{
-+    TCGv_i32 vd = tcg_constant_i32(a->vd);
-+    TCGv_i32 vj = tcg_constant_i32(a->vj);
-+    TCGv_i32 imm = tcg_constant_i32(a->imm);
+@@ -2987,3 +2987,21 @@ TRANS(vsllwil_hu_bu, gen_vv_i, gen_helper_vsllwil_hu_bu)
+ TRANS(vsllwil_wu_hu, gen_vv_i, gen_helper_vsllwil_wu_hu)
+ TRANS(vsllwil_du_wu, gen_vv_i, gen_helper_vsllwil_du_wu)
+ TRANS(vextl_qu_du, gen_vv, gen_helper_vextl_qu_du)
 +
-+    CHECK_SXE;
-+    func(cpu_env, vd, vj, imm);
-+    return true;
-+}
++TRANS(vsrlr_b, gen_vvv, gen_helper_vsrlr_b)
++TRANS(vsrlr_h, gen_vvv, gen_helper_vsrlr_h)
++TRANS(vsrlr_w, gen_vvv, gen_helper_vsrlr_w)
++TRANS(vsrlr_d, gen_vvv, gen_helper_vsrlr_d)
++TRANS(vsrlri_b, gen_vv_i, gen_helper_vsrlri_b)
++TRANS(vsrlri_h, gen_vv_i, gen_helper_vsrlri_h)
++TRANS(vsrlri_w, gen_vv_i, gen_helper_vsrlri_w)
++TRANS(vsrlri_d, gen_vv_i, gen_helper_vsrlri_d)
 +
- static bool gvec_vvv(DisasContext *ctx, arg_vvv *a, MemOp mop,
-                      void (*func)(unsigned, uint32_t, uint32_t,
-                                   uint32_t, uint32_t, uint32_t))
-@@ -2966,3 +2978,12 @@ TRANS(vrotri_b, gvec_vv_i, MO_8, tcg_gen_gvec_rotri)
- TRANS(vrotri_h, gvec_vv_i, MO_16, tcg_gen_gvec_rotri)
- TRANS(vrotri_w, gvec_vv_i, MO_32, tcg_gen_gvec_rotri)
- TRANS(vrotri_d, gvec_vv_i, MO_64, tcg_gen_gvec_rotri)
-+
-+TRANS(vsllwil_h_b, gen_vv_i, gen_helper_vsllwil_h_b)
-+TRANS(vsllwil_w_h, gen_vv_i, gen_helper_vsllwil_w_h)
-+TRANS(vsllwil_d_w, gen_vv_i, gen_helper_vsllwil_d_w)
-+TRANS(vextl_q_d, gen_vv, gen_helper_vextl_q_d)
-+TRANS(vsllwil_hu_bu, gen_vv_i, gen_helper_vsllwil_hu_bu)
-+TRANS(vsllwil_wu_hu, gen_vv_i, gen_helper_vsllwil_wu_hu)
-+TRANS(vsllwil_du_wu, gen_vv_i, gen_helper_vsllwil_du_wu)
-+TRANS(vextl_qu_du, gen_vv, gen_helper_vextl_qu_du)
++TRANS(vsrar_b, gen_vvv, gen_helper_vsrar_b)
++TRANS(vsrar_h, gen_vvv, gen_helper_vsrar_h)
++TRANS(vsrar_w, gen_vvv, gen_helper_vsrar_w)
++TRANS(vsrar_d, gen_vvv, gen_helper_vsrar_d)
++TRANS(vsrari_b, gen_vv_i, gen_helper_vsrari_b)
++TRANS(vsrari_h, gen_vv_i, gen_helper_vsrari_h)
++TRANS(vsrari_w, gen_vv_i, gen_helper_vsrari_w)
++TRANS(vsrari_d, gen_vv_i, gen_helper_vsrari_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 7c0b0c4ac8..23dd338026 100644
+index 23dd338026..a217411113 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -839,3 +839,12 @@ vrotri_b         0111 00101010 00000 01 ... ..... .....   @vv_ui3
- vrotri_h         0111 00101010 00000 1 .... ..... .....   @vv_ui4
- vrotri_w         0111 00101010 00001 ..... ..... .....    @vv_ui5
- vrotri_d         0111 00101010 0001 ...... ..... .....    @vv_ui6
+@@ -848,3 +848,21 @@ vsllwil_hu_bu    0111 00110000 11000 01 ... ..... .....   @vv_ui3
+ vsllwil_wu_hu    0111 00110000 11000 1 .... ..... .....   @vv_ui4
+ vsllwil_du_wu    0111 00110000 11001 ..... ..... .....    @vv_ui5
+ vextl_qu_du      0111 00110000 11010 00000 ..... .....    @vv
 +
-+vsllwil_h_b      0111 00110000 10000 01 ... ..... .....   @vv_ui3
-+vsllwil_w_h      0111 00110000 10000 1 .... ..... .....   @vv_ui4
-+vsllwil_d_w      0111 00110000 10001 ..... ..... .....    @vv_ui5
-+vextl_q_d        0111 00110000 10010 00000 ..... .....    @vv
-+vsllwil_hu_bu    0111 00110000 11000 01 ... ..... .....   @vv_ui3
-+vsllwil_wu_hu    0111 00110000 11000 1 .... ..... .....   @vv_ui4
-+vsllwil_du_wu    0111 00110000 11001 ..... ..... .....    @vv_ui5
-+vextl_qu_du      0111 00110000 11010 00000 ..... .....    @vv
++vsrlr_b          0111 00001111 00000 ..... ..... .....    @vvv
++vsrlr_h          0111 00001111 00001 ..... ..... .....    @vvv
++vsrlr_w          0111 00001111 00010 ..... ..... .....    @vvv
++vsrlr_d          0111 00001111 00011 ..... ..... .....    @vvv
++vsrlri_b         0111 00101010 01000 01 ... ..... .....   @vv_ui3
++vsrlri_h         0111 00101010 01000 1 .... ..... .....   @vv_ui4
++vsrlri_w         0111 00101010 01001 ..... ..... .....    @vv_ui5
++vsrlri_d         0111 00101010 0101 ...... ..... .....    @vv_ui6
++
++vsrar_b          0111 00001111 00100 ..... ..... .....    @vvv
++vsrar_h          0111 00001111 00101 ..... ..... .....    @vvv
++vsrar_w          0111 00001111 00110 ..... ..... .....    @vvv
++vsrar_d          0111 00001111 00111 ..... ..... .....    @vvv
++vsrari_b         0111 00101010 10000 01 ... ..... .....   @vv_ui3
++vsrari_h         0111 00101010 10000 1 .... ..... .....   @vv_ui4
++vsrari_w         0111 00101010 10001 ..... ..... .....    @vv_ui5
++vsrari_d         0111 00101010 1001 ...... ..... .....    @vv_ui6
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index ff00d60ab8..de86f41cce 100644
+index de86f41cce..61d39a044c 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -793,3 +793,44 @@ void HELPER(vnori_b)(void *vd, void *vj, uint64_t imm, uint32_t v)
-         Vd->B(i) = ~(Vj->B(i) | (uint8_t)imm);
-     }
- }
+@@ -834,3 +834,107 @@ VSLLWIL(vsllwil_d_w, 64, D, W)
+ VSLLWIL(vsllwil_hu_bu, 16, UH, UB)
+ VSLLWIL(vsllwil_wu_hu, 32, UW, UH)
+ VSLLWIL(vsllwil_du_wu, 64, UD, UW)
 +
-+#define VSLLWIL(NAME, BIT, E1, E2)                        \
++#define do_vsrlr(E, T)                                  \
++static T do_vsrlr_ ##E(T s1, int sh)                    \
++{                                                       \
++    if (sh == 0) {                                      \
++        return s1;                                      \
++    } else {                                            \
++        return  (s1 >> sh)  + ((s1 >> (sh - 1)) & 0x1); \
++    }                                                   \
++}
++
++do_vsrlr(B, uint8_t)
++do_vsrlr(H, uint16_t)
++do_vsrlr(W, uint32_t)
++do_vsrlr(D, uint64_t)
++
++#define VSRLR(NAME, BIT, T, E)                                  \
++void HELPER(NAME)(CPULoongArchState *env,                       \
++                  uint32_t vd, uint32_t vj, uint32_t vk)        \
++{                                                               \
++    int i;                                                      \
++    VReg *Vd = &(env->fpr[vd].vreg);                            \
++    VReg *Vj = &(env->fpr[vj].vreg);                            \
++    VReg *Vk = &(env->fpr[vk].vreg);                            \
++                                                                \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                         \
++        Vd->E(i) = do_vsrlr_ ## E(Vj->E(i), ((T)Vk->E(i))%BIT); \
++    }                                                           \
++}
++
++VSRLR(vsrlr_b, 8,  uint8_t, B)
++VSRLR(vsrlr_h, 16, uint16_t, H)
++VSRLR(vsrlr_w, 32, uint32_t, W)
++VSRLR(vsrlr_d, 64, uint64_t, D)
++
++#define VSRLRI(NAME, BIT, E)                              \
 +void HELPER(NAME)(CPULoongArchState *env,                 \
 +                  uint32_t vd, uint32_t vj, uint32_t imm) \
 +{                                                         \
 +    int i;                                                \
-+    VReg temp;                                            \
 +    VReg *Vd = &(env->fpr[vd].vreg);                      \
 +    VReg *Vj = &(env->fpr[vj].vreg);                      \
-+    typedef __typeof(temp.E1(0)) TD;                      \
 +                                                          \
-+    temp.D(0) = 0;                                        \
-+    temp.D(1) = 0;                                        \
 +    for (i = 0; i < LSX_LEN/BIT; i++) {                   \
-+        temp.E1(i) = (TD)Vj->E2(i) << (imm % BIT);        \
++        Vd->E(i) = do_vsrlr_ ## E(Vj->E(i), imm);         \
 +    }                                                     \
-+    *Vd = temp;                                           \
 +}
 +
-+void HELPER(vextl_q_d)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
-+{
-+    VReg *Vd = &(env->fpr[vd].vreg);
-+    VReg *Vj = &(env->fpr[vj].vreg);
++VSRLRI(vsrlri_b, 8, B)
++VSRLRI(vsrlri_h, 16, H)
++VSRLRI(vsrlri_w, 32, W)
++VSRLRI(vsrlri_d, 64, D)
 +
-+    Vd->Q(0) = int128_makes64(Vj->D(0));
++#define do_vsrar(E, T)                                  \
++static T do_vsrar_ ##E(T s1, int sh)                    \
++{                                                       \
++    if (sh == 0) {                                      \
++        return s1;                                      \
++    } else {                                            \
++        return  (s1 >> sh)  + ((s1 >> (sh - 1)) & 0x1); \
++    }                                                   \
 +}
 +
-+void HELPER(vextl_qu_du)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
-+{
-+    VReg *Vd = &(env->fpr[vd].vreg);
-+    VReg *Vj = &(env->fpr[vj].vreg);
++do_vsrar(B, int8_t)
++do_vsrar(H, int16_t)
++do_vsrar(W, int32_t)
++do_vsrar(D, int64_t)
 +
-+    Vd->Q(0) = int128_make64(Vj->D(0));
++#define VSRAR(NAME, BIT, T, E)                                  \
++void HELPER(NAME)(CPULoongArchState *env,                       \
++                  uint32_t vd, uint32_t vj, uint32_t vk)        \
++{                                                               \
++    int i;                                                      \
++    VReg *Vd = &(env->fpr[vd].vreg);                            \
++    VReg *Vj = &(env->fpr[vj].vreg);                            \
++    VReg *Vk = &(env->fpr[vk].vreg);                            \
++                                                                \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                         \
++        Vd->E(i) = do_vsrar_ ## E(Vj->E(i), ((T)Vk->E(i))%BIT); \
++    }                                                           \
 +}
 +
-+VSLLWIL(vsllwil_h_b, 16, H, B)
-+VSLLWIL(vsllwil_w_h, 32, W, H)
-+VSLLWIL(vsllwil_d_w, 64, D, W)
-+VSLLWIL(vsllwil_hu_bu, 16, UH, UB)
-+VSLLWIL(vsllwil_wu_hu, 32, UW, UH)
-+VSLLWIL(vsllwil_du_wu, 64, UD, UW)
++VSRAR(vsrar_b, 8,  uint8_t, B)
++VSRAR(vsrar_h, 16, uint16_t, H)
++VSRAR(vsrar_w, 32, uint32_t, W)
++VSRAR(vsrar_d, 64, uint64_t, D)
++
++#define VSRARI(NAME, BIT, E)                              \
++void HELPER(NAME)(CPULoongArchState *env,                 \
++                  uint32_t vd, uint32_t vj, uint32_t imm) \
++{                                                         \
++    int i;                                                \
++    VReg *Vd = &(env->fpr[vd].vreg);                      \
++    VReg *Vj = &(env->fpr[vj].vreg);                      \
++                                                          \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                   \
++        Vd->E(i) = do_vsrar_ ## E(Vj->E(i), imm);         \
++    }                                                     \
++}
++
++VSRARI(vsrari_b, 8, B)
++VSRARI(vsrari_h, 16, H)
++VSRARI(vsrari_w, 32, W)
++VSRARI(vsrari_d, 64, D)
 -- 
 2.31.1
 
