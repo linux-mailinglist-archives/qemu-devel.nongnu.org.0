@@ -2,114 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C665B6EE109
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 13:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4A56EE120
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 13:37:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prGmk-0005Vo-1U; Tue, 25 Apr 2023 07:24:38 -0400
+	id 1prGyD-00085y-Hl; Tue, 25 Apr 2023 07:36:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1prGmh-0005VT-Ga; Tue, 25 Apr 2023 07:24:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prGyB-00085p-QZ
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 07:36:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1prGme-0001oU-8u; Tue, 25 Apr 2023 07:24:34 -0400
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33PBKXV0003092; Tue, 25 Apr 2023 11:24:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=wzuLf2csHVajN3WMaE+ur2Cf1ruDWNXEWDmGrEvcqeI=;
- b=CtEZHrf5W8UtM2RDbODhwlkkmzS6s1EgQP9kMY1llscu6uW7u8Fkw8QAmJZEwfP42brK
- IvYFC39ylM8OPeHaTf8sfRpBaFz73IXPh8W1SdZR0ygbmk4QzHAb8ycgFgIY3iYd5LTX
- 7+AualEXZMDaYypjrcF8PUjcQTd33ZcNMqsxaJ68LlxpsZ2ajlhRimaebGjphK4WTtnN
- U1acv6+qYTH/6j6Aratne2VmjdfGjk1ylPGJ3txMDPX23XrIx1wmc8StT9h/aEDXckQR
- 21zTTSucVb9HTH6JYMAc0T3apvUHkltdw+IDSKy7wCOCbjywX/oJK/d0YoinjlHH5fkW JQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6dwer46u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 11:24:20 +0000
-Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33PBLMSj005905;
- Tue, 25 Apr 2023 11:24:20 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6dwer45d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 11:24:20 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33P1QQ4S017384;
- Tue, 25 Apr 2023 11:24:15 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3q46ug1pwe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 11:24:15 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33PBO9ZW11207300
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Apr 2023 11:24:09 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 999CC20040;
- Tue, 25 Apr 2023 11:24:09 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1942E20043;
- Tue, 25 Apr 2023 11:24:09 +0000 (GMT)
-Received: from [9.152.222.242] (unknown [9.152.222.242])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Tue, 25 Apr 2023 11:24:09 +0000 (GMT)
-Message-ID: <cc9aa844-3782-8c2b-af9d-eebee47cf992@linux.ibm.com>
-Date: Tue, 25 Apr 2023 13:24:08 +0200
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prGyA-00044V-AO
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 07:36:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682422580;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type: content-transfer-encoding:content-transfer-encoding;
+ bh=Jb8fJ7UPHUQKAoPYGaUBfjo5f040yhkq7ajr9HgBcuc=;
+ b=LrbMhOcy0T7OUIh0QULwYPW980dq1e+kIeqH1JaiRDPiHjzBBABnZunXCse9/kYQ2+PJwq
+ ml6su8j5VXrgLrTb9pjS7FbdCe+O4pA8gxAynFm95picl90IZfCgnVMPTMvNLqg3ri5ePS
+ XLz747vIXPgSS8QcbMIbiPwFHKZ6Ywo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-131-byTkFZS_Ns66qRU8c1M7oA-1; Tue, 25 Apr 2023 07:36:18 -0400
+X-MC-Unique: byTkFZS_Ns66qRU8c1M7oA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-301a3715507so2982043f8f.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 04:36:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682422577; x=1685014577;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:subject:to:from:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Jb8fJ7UPHUQKAoPYGaUBfjo5f040yhkq7ajr9HgBcuc=;
+ b=gFbEp1bxy5oKO1mYBk+WD977mB5ec1W+zSnkDDiQ1Sj6aoDxK0X/eMsNOBCBVusFtg
+ FrvTGEam4sgxjFJl+1RzLLKridt51F+gDX3gnd/e5nrYY1EMfUQBA/UmZHea/wd9t1nE
+ u4QDwXqqhw93MU+E/gZz/wJ8Gc8gLSUYWMSZRFasc1MIeLRA4d9b6EXK1wdJXdmOx1zb
+ xR1zBLLO8sLHYTKhzvKB3o/ftQ/5HLCka+zRB8rd6JGTWjuOgPG2+EWyP9mFu2KbemD6
+ nuTfKPas6mqtnDo0yXH4GSgVHp3FMyJwD97sgkqHSEbRSYolp/oeiQbhRqmcfOUEx4+I
+ I3vA==
+X-Gm-Message-State: AAQBX9cuxeayrJBETcRt8zVNbSrg7XfO9yMmYx3bIPfZh1oq64xK6DlV
+ fgOWTop9kSbZQSdHO6xSt/OGoGYZstTFmle7kC2WMZJ60zypxpMztRXy9prkJWxAushuQ4ctXs8
+ lAW0BD+F5AWDm9f6C2hUDid0PI/Grcd5mJ3LC3DurgrH6nHQA+Iw+78lcKh1z+702IrZ8hTAz30
+ 57mNIr
+X-Received: by 2002:a05:6000:1c9:b0:2fb:ad8:288f with SMTP id
+ t9-20020a05600001c900b002fb0ad8288fmr11870976wrx.11.1682422577113; 
+ Tue, 25 Apr 2023 04:36:17 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Y98dmZv/Y1NL/MKjP9CJRIQbZzusJVI4SK7uwWF9QGYqS036BB0sEPDV3UXLhRcOsyfXAWcw==
+X-Received: by 2002:a05:6000:1c9:b0:2fb:ad8:288f with SMTP id
+ t9-20020a05600001c900b002fb0ad8288fmr11870963wrx.11.1682422576749; 
+ Tue, 25 Apr 2023 04:36:16 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ j8-20020adff008000000b002f6176cc6desm12912280wro.110.2023.04.25.04.36.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 04:36:16 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Warning on Fedora 38
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 25 Apr 2023 13:36:15 +0200
+Message-ID: <87mt2wgpn4.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v19 02/21] s390x/cpu topology: add topology entries on CPU
- hotplug
-Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-3-pmorel@linux.ibm.com>
- <66d9ba0e9904f035326aca609a767976b94547cf.camel@linux.ibm.com>
- <4ddd3177-58a8-c9f0-a9a8-ee71baf0511b@linux.ibm.com>
- <60aafc95dd0293ba8d5b4dbdc59fcda5e6c64f3e.camel@linux.ibm.com>
- <9c2cb730-d307-f344-35e8-82017681816a@linux.ibm.com>
- <92a76767620a8e4bb12b7164b271d7172545cd0b.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <92a76767620a8e4bb12b7164b271d7172545cd0b.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uJp470MDt8G7bladvd73Mca5NN4RZtzW
-X-Proofpoint-ORIG-GUID: -lK8DyiDfVMQiqFSSqreZLerxGIwIUV5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-25_04,2023-04-25_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 suspectscore=0 spamscore=0 phishscore=0 clxscore=1015
- bulkscore=0 priorityscore=1501 mlxlogscore=999 malwarescore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304250099
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,81 +93,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 4/25/23 11:27, Nina Schoetterl-Glausch wrote:
-> On Tue, 2023-04-25 at 10:45 +0200, Pierre Morel wrote:
->> On 4/24/23 17:32, Nina Schoetterl-Glausch wrote:
->>> On Fri, 2023-04-21 at 12:20 +0200, Pierre Morel wrote:
->>>>> On 4/20/23 10:59, Nina Schoetterl-Glausch wrote:
->>>>>>> On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
-[..]
->>>    #endif
->>>        DEFINE_PROP_END_OF_LIST()
->>>    };
->>>
->>> There are other ways to achieve the same, you could also
->>> implement get, set and set_default_value so that there is an additional
->>> "auto"/"uninitialized" value that is not in the enum.
->>> If you insist on having an additional state in the enum, name it "auto".
->> Yes, I think it is a better name.
-> IMO using entitlement=auto doesn't make too much sense with the set-cpu-topology command,
-> because you can just leave if off or specify the entitlement you want directly.
-> So there is no actual need to have a user visible auto value and no need to have it in the enum.
+Hi
 
+I got this warning/error when switching to F38:
 
-This value is only usable but not required on input and is never 
-displayed by the qapi.
+In file included from /mnt/code/qemu/full/include/block/aio.h:21,
+                 from ../../../../mnt/code/qemu/full/util/async.c:28:
+../../../../mnt/code/qemu/full/util/async.c: In function =E2=80=98aio_bh_po=
+ll=E2=80=99:
+/mnt/code/qemu/full/include/qemu/queue.h:303:22: error: storing the address=
+ of local variable =E2=80=98slice=E2=80=99 in =E2=80=98*ctx.bh_slice_list.s=
+qh_last=E2=80=99 [-Werror=3Ddangling-pointer=3D]
+  303 |     (head)->sqh_last =3D &(elm)->field.sqe_next;                   =
+       \
+      |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+../../../../mnt/code/qemu/full/util/async.c:167:5: note: in expansion of ma=
+cro =E2=80=98QSIMPLEQ_INSERT_TAIL=E2=80=99
+  167 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+      |     ^~~~~~~~~~~~~~~~~~~~
+../../../../mnt/code/qemu/full/util/async.c:161:17: note: =E2=80=98slice=E2=
+=80=99 declared here
+  161 |     BHListSlice slice;
+      |                 ^~~~~
+../../../../mnt/code/qemu/full/util/async.c:161:17: note: =E2=80=98ctx=E2=
+=80=99 declared here
+cc1: all warnings being treated as errors
 
+compiler is right that slice is a local variable.
+on the other hand, I *think* that the list is fully consumed on that
+function, so this shouldn't be a problem.
 
-> Then the only problem is adjusting the entitlement when doing dedicated=on on the command line.
-> (If you want that)
+g_new() is a posibility.
+I can't think of an easy way to convince gcc that using a local varible
+there is correct.
 
-Even the exact usage of dedication depends on the administration entity 
-it will give the guest the
-knowledge of something like: "A real CPU is dedicated to this vCPU".
+How to go from here?  Any good ideas?
 
-The people using the qapi interface or using QEMU hotplug can easily 
-understand
-the concept without going deeper with entitlement which once implemented 
-will be,
-quite more complex to deal with.
-
-
-> So with my proposal there are only the low, medium and high values in the enum.
-> In order to set the entitlement automatically when using the command line I initialize
-> the entitlement to -1, so we later know if it has been set via the command line or not.
-> But you cannot set -1 via the property because qdev_propinfo_get_enum expects a string,
-> which is why I do it in s390_cpu_initfn.
->
-> I'm not sure if you can define entitlement as CpuS390Entitlement.
-> I think I changed it to int when I was exploring different solutions
-> and had to change it because of a type check. But what I proposed above doesn't cause the same issue.
-> DEFINE_PROP_CPUS390ENTITLEMENT could then also use CpuS390Entitlement.
-
-
-I did not have the problem by using CpuS390Entitlement.
-
-
->
-> So there are three possible solutions now:
-> 1. My proposal above, which as automatic adjustment, but only the three required values in the enum.
-> 2. Don't do automatic adjustment, three enum values.
-> 3. Automatic adjustment with auto value in the enum.
->
-> I still favor 2. but the other ones aren't terrible.
-
-Thank you to accept the solution 3, I understand your objections, but,
-I really think that there is no need to bother the user with entitlement
-while it will not get used in QEMU/KVM until the Linux scheduler is modified
-for the host and for the guest to handle it.
-
-
-Regards,
-
-Pierre
-
+Later, Juan.
 
 
