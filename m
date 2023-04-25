@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB416EE6D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D31A6EE6E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:35:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prMX6-0007xw-3Z; Tue, 25 Apr 2023 13:32:52 -0400
+	id 1prMX5-0007wb-N9; Tue, 25 Apr 2023 13:32:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prMWf-0006jw-KT
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:32:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prMWk-0006kt-5d
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:32:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prMWd-0004Ho-Ef
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:32:25 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prMWg-0004Ib-2C
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:32:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682443942;
+ s=mimecast20190719; t=1682443945;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kLKR1KcaXOlgQXmTsX1DmnxEuKtIK5E9413ZHPFsCuk=;
- b=N6+duMnsAMyKBQzUHM2vlUcv1NFENkfCT1EMU3lytCW62hOUcraitBLZsdRpaiPbcEFTFr
- dJRIaqCxtLzdZXYJaVl4bhpV/DPLo1Xm/6FulpPum1PErfNLTa4aWc7u4C0VCm6IGS5e43
- 8uUT3vJfF002+UZjzEvSI1Fs8Re+y3Q=
+ bh=A+/knfoDy8T3MlsOXbU80GG1FTl1vSNiph6inn5lsn0=;
+ b=MNYzqe5yUgjKdhKsfUD99FKttOReSF7fGrNVuCSKt9horusQs8sa/iq99/p6jQK83DJcxF
+ lImeSZKrcBwV9TvYi+p9xAeuBizL6H09I/Icpom/uTM3rwKcPPbJqvHO80yh9BGPdvENO/
+ ot4tx+FGXmr0o4UAM7fD1Bn207pRqqg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-8UY5Q8OoMxadm_VyQTZG7A-1; Tue, 25 Apr 2023 13:32:19 -0400
-X-MC-Unique: 8UY5Q8OoMxadm_VyQTZG7A-1
+ us-mta-657-kZ6KMT7uM1mhHfZrEXPNYg-1; Tue, 25 Apr 2023 13:32:22 -0400
+X-MC-Unique: kZ6KMT7uM1mhHfZrEXPNYg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3317C3815EE6;
- Tue, 25 Apr 2023 17:32:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 620D31C0512E;
+ Tue, 25 Apr 2023 17:32:21 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07CF2492B03;
- Tue, 25 Apr 2023 17:32:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B2E3492B0F;
+ Tue, 25 Apr 2023 17:32:19 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
  eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 12/20] mirror: Take graph lock for accessing a node's parent
- list
-Date: Tue, 25 Apr 2023 19:31:50 +0200
-Message-Id: <20230425173158.574203-13-kwolf@redhat.com>
+Subject: [PATCH 13/20] block: Mark bdrv_co_get_allocated_file_size() and
+ callers GRAPH_RDLOCK
+Date: Tue, 25 Apr 2023 19:31:51 +0200
+Message-Id: <20230425173158.574203-14-kwolf@redhat.com>
 In-Reply-To: <20230425173158.574203-1-kwolf@redhat.com>
 References: <20230425173158.574203-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -78,28 +78,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This adds GRAPH_RDLOCK annotations to declare that functions accessing
-the parent list of a node need to hold a reader lock for the graph. As
-it happens, they already do.
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
+This adds GRAPH_RDLOCK annotations to declare that callers of
+bdrv_co_get_allocated_file_size() need to hold a reader lock for the
+graph.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/mirror.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/block/block-io.h         | 7 +++++--
+ include/block/block_int-common.h | 2 +-
+ block.c                          | 4 +++-
+ block/vmdk.c                     | 2 +-
+ 4 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index af9bbd23d4..067a0630ba 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1416,7 +1416,7 @@ static MirrorOp *coroutine_fn active_write_prepare(MirrorBlockJob *s,
-     return op;
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 5dab88521d..fb2adb31c7 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -84,8 +84,11 @@ int64_t coroutine_mixed_fn bdrv_nb_sectors(BlockDriverState *bs);
+ int64_t coroutine_fn GRAPH_RDLOCK bdrv_co_getlength(BlockDriverState *bs);
+ int64_t co_wrapper_mixed_bdrv_rdlock bdrv_getlength(BlockDriverState *bs);
+ 
+-int64_t coroutine_fn bdrv_co_get_allocated_file_size(BlockDriverState *bs);
+-int64_t co_wrapper bdrv_get_allocated_file_size(BlockDriverState *bs);
++int64_t coroutine_fn GRAPH_RDLOCK
++bdrv_co_get_allocated_file_size(BlockDriverState *bs);
++
++int64_t co_wrapper_bdrv_rdlock
++bdrv_get_allocated_file_size(BlockDriverState *bs);
+ 
+ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOpts *opts,
+                                BlockDriverState *in_bs, Error **errp);
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 6fb28cd8fa..6e0365d8f2 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -685,7 +685,7 @@ struct BlockDriver {
+     int64_t coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_getlength)(
+         BlockDriverState *bs);
+ 
+-    int64_t coroutine_fn (*bdrv_co_get_allocated_file_size)(
++    int64_t coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_get_allocated_file_size)(
+         BlockDriverState *bs);
+ 
+     BlockMeasureInfo *(*bdrv_measure)(QemuOpts *opts, BlockDriverState *in_bs,
+diff --git a/block.c b/block.c
+index abec940867..3ccb935950 100644
+--- a/block.c
++++ b/block.c
+@@ -5750,7 +5750,8 @@ exit:
+  * sums the size of all data-bearing children.  (This excludes backing
+  * children.)
+  */
+-static int64_t coroutine_fn bdrv_sum_allocated_file_size(BlockDriverState *bs)
++static int64_t coroutine_fn GRAPH_RDLOCK
++bdrv_sum_allocated_file_size(BlockDriverState *bs)
+ {
+     BdrvChild *child;
+     int64_t child_size, sum = 0;
+@@ -5778,6 +5779,7 @@ int64_t coroutine_fn bdrv_co_get_allocated_file_size(BlockDriverState *bs)
+ {
+     BlockDriver *drv = bs->drv;
+     IO_CODE();
++    assert_bdrv_graph_readable();
+ 
+     if (!drv) {
+         return -ENOMEDIUM;
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 11b553ef25..fddbd1c86c 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2845,7 +2845,7 @@ static void vmdk_close(BlockDriverState *bs)
+     error_free(s->migration_blocker);
  }
  
--static void coroutine_fn active_write_settle(MirrorOp *op)
-+static void coroutine_fn GRAPH_RDLOCK active_write_settle(MirrorOp *op)
+-static int64_t coroutine_fn
++static int64_t coroutine_fn GRAPH_RDLOCK
+ vmdk_co_get_allocated_file_size(BlockDriverState *bs)
  {
-     uint64_t start_chunk = op->offset / op->s->granularity;
-     uint64_t end_chunk = DIV_ROUND_UP(op->offset + op->bytes,
+     int i;
 -- 
 2.40.0
 
