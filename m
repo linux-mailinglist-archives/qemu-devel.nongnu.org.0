@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4829F6EDD1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3444B6EDD1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:49:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDOU-0002O7-Ih; Tue, 25 Apr 2023 03:47:22 -0400
+	id 1prDPc-0004GE-Ml; Tue, 25 Apr 2023 03:48:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNf-000115-0h
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNi-0001UF-Ao
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:36 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNd-0006rl-Dy
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:30 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNg-0006sN-IZ
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408787;
+ s=mimecast20190719; t=1682408791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HdiQFYvQ7qjd5XHe+MOZ4snXbsF1M5K1kc94Srzr2lU=;
- b=QpfzXhun1q2COhjxXVnc6zE8iJN5Xu6HaVupRcQCRhfM+v1/b/e22WXeWWIg2/3GznmxIM
- HlBJNG3vU8xrrB2/5BvkhnvTVX5h9tjfeDvTaHLgdWLJ/SON/cEPWVmvKnqC4oW//3A02f
- WWsTPxIhU3iP9Q4MuImn9Pcp+GgJIZQ=
+ bh=NMtY4B3CUEsIScWMVfi1qUKQMVTCD7QWE7ao8AyIg/g=;
+ b=MtabJynQeZcp7aBEeW1vwUTQC2QVANm+drdNb5PNG6U/fr0qcyBqznWXUxCfA3gG9lCVEi
+ +vO0pTtyGSv4o687HXKeva6XFsiMK9HqND3pPLqR/zSMvf4ZkxTq/r50TdgSJ9449bg0Hn
+ h/7+Luqqb7LDhm0rTQZ2yEO6RgZnPC8=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-362-_kZn5AyRNdmYuGOqJvbcAw-1; Tue, 25 Apr 2023 03:46:26 -0400
-X-MC-Unique: _kZn5AyRNdmYuGOqJvbcAw-1
+ us-mta-622-akDCFo1INkC9DXCl9U8zfQ-1; Tue, 25 Apr 2023 03:46:29 -0400
+X-MC-Unique: akDCFo1INkC9DXCl9U8zfQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f065208a64so31227295e9.3
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:26 -0700 (PDT)
+ 5b1f17b1804b1-3f16fa91923so29673805e9.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408784; x=1685000784;
+ d=1e100.net; s=20221208; t=1682408787; x=1685000787;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HdiQFYvQ7qjd5XHe+MOZ4snXbsF1M5K1kc94Srzr2lU=;
- b=QizEtDREDANTtIQYrt0QMAY3VyOWZpd0UwMafc2LcPUO1M3GPYr/VNX8+G46WLSeiw
- gfEXQ2g7BCJcBt9LiCNEwDm9KpRGqCfK5HAwU71fYkbSp9fD7RgFPgD3KghgCxtFpoil
- Igz3XPQ10Gnp2bh5L9c34dLNe9dMSYKLv6gdWfzDrfJRjTbS0eIr/iwmQ+1utt26jA4j
- ty3eHul4wrzH5mOcD9SSs6xZXxP8BprvMWU+TfuiptGT2Ygg5HLIT3DpSgZOj3jH5AjL
- 5OqB6KSMQpkyeIExmjiU97AqQWecrXD6RAvt4Q0U2HFXbdtPZ0Etcy4gCvG1Fv1bkFlj
- Cz6g==
-X-Gm-Message-State: AC+VfDwZeBr+2Zqtd4z9LA98yyNrbB/fuXa3pz1l8YDLeOF0B5fYO3Cu
- pAiazKOL9dxUJ567QPR6JsGgvAbgF7B0gKY61CApj/KNMcdcG6WGtv3SAILe1REbvkppSo0IR6z
- +cJezC+bpMOTVpm22NgDj1swndtE4B+usmQF7Wn5Q7bTn8+Ccge5MU7hlqndsAEdAR3Ae
-X-Received: by 2002:a1c:f613:0:b0:3f2:5a60:d629 with SMTP id
- w19-20020a1cf613000000b003f25a60d629mr255223wmc.24.1682408784612; 
- Tue, 25 Apr 2023 00:46:24 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7YIvE3oaWLi3SHpFicGyrxoGUU/yz5Hce5XkFNhQHz76NTkvNjopWL4uYl8qshmuYxTE/f6A==
-X-Received: by 2002:a1c:f613:0:b0:3f2:5a60:d629 with SMTP id
- w19-20020a1cf613000000b003f25a60d629mr255201wmc.24.1682408784292; 
- Tue, 25 Apr 2023 00:46:24 -0700 (PDT)
+ bh=NMtY4B3CUEsIScWMVfi1qUKQMVTCD7QWE7ao8AyIg/g=;
+ b=cGfUCiSbilTQ2m9ZNbIDAjk8FpC53oUaG1zWM+2oN1QzDy2end0SNBKC1XNTgqGeEi
+ OszMPljZ/jiQD2dmsfrXn9vk5kY3CITHb6RAA876Hrf08FRfvijPgoIRUKR2kV/MzWEw
+ 8KPu6XLQCSJHlwHlHJ85BanoeZF5A8So0i/BeCwKJdrgpurz0Q032Le58Ophj/VpHh2x
+ 9/3P7OTH/QbLr8MAtJvdoG9I1tCSch0KI/yulph3XMswl8Mu57pRo/ZnXPAOZuYZHcJM
+ ZY992KReaDIWhdDH+/H03CITL1JgGn2kZBD4W2/94VStjkFXR9GDFxQsgMpqjhpaWe3A
+ zzAw==
+X-Gm-Message-State: AAQBX9fHsDHI5upz84HLIISgCMr4QTfFTNjjsy94XxGy/SXq9449622G
+ sniCaKWbGj4CToPCD5J3iQRw5y+CowT6ctq4xCR0KTJAyazY44MdA1kmaYbMt9yglMKYN04RH/X
+ osRh2ac/P8Z8ZHlJJ5QhkKxuxRvmsrT3rBZsfQ+rzYjdCmw/3unOrZ+W0Qbm6/d6vIKYF
+X-Received: by 2002:a7b:cd02:0:b0:3ef:d8c6:4bc0 with SMTP id
+ f2-20020a7bcd02000000b003efd8c64bc0mr8958821wmj.40.1682408787649; 
+ Tue, 25 Apr 2023 00:46:27 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bcSWukGm9Uxkg8qn6h5+di1XidClB4gYFQPKftFtL8mLEwZ7iHa9AnensvD2YeRNPbZnRAag==
+X-Received: by 2002:a7b:cd02:0:b0:3ef:d8c6:4bc0 with SMTP id
+ f2-20020a7bcd02000000b003efd8c64bc0mr8958801wmj.40.1682408787271; 
+ Tue, 25 Apr 2023 00:46:27 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- iz14-20020a05600c554e00b003f175954e71sm17567293wmb.32.2023.04.25.00.46.22
+ m9-20020a7bce09000000b003f049a42689sm14143446wmc.25.2023.04.25.00.46.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:46:23 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:46:21 -0400
+ Tue, 25 Apr 2023 00:46:26 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:46:24 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Subject: [PULL 25/31] virtio: i2c: Check notifier helpers for
- VIRTIO_CONFIG_IRQ_IDX
-Message-ID: <91208dd297f2686b778210ffda49acbfe36bd3b6.1682408661.git.mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, mst@redhat.com,
+ anisinha@redhat.com, jusual@redhat.com
+Subject: [PULL 26/31] acpi: pcihp: allow repeating hot-unplug requests
+Message-ID: <0f689cf5ada4d5df5ab95c7f7aa9fc221afa855d.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -98,54 +99,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Viresh Kumar <viresh.kumar@linaro.org>
+From: Igor Mammedov <imammedo@redhat.com>
 
-Since the driver doesn't support interrupts, we must return early when
-index is set to VIRTIO_CONFIG_IRQ_IDX.
+with Q35 using ACPI PCI hotplug by default, user's request to unplug
+device is ignored when it's issued before guest OS has been booted.
+And any additional attempt to request device hot-unplug afterwards
+results in following error:
 
-Fixes: 544f0278afca ("virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX")
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-Message-Id: <d53ec8bc002001eafac597f6bd9a8812df989257.1681790067.git.viresh.kumar@linaro.org>
+  "Device XYZ is already in the process of unplug"
+
+arguably it can be considered as a regression introduced by [2],
+before which it was possible to issue unplug request multiple
+times.
+
+Accept new uplug requests after timeout (1ms). This brings ACPI PCI
+hotplug on par with native PCIe unplug behavior [1] and allows user
+to repeat unplug requests at propper times.
+Set expire timeout to arbitrary 1msec so user won't be able to
+flood guest with SCI interrupts by calling device_del in tight loop.
+
+PS:
+ACPI spec doesn't mandate what OSPM can do with GPEx.status
+bits set before it's booted => it's impl. depended.
+Status bits may be retained (I tested with one Windows version)
+or cleared (Linux since 2.6 kernel times) during guest's ACPI
+subsystem initialization.
+Clearing status bits (though not wrong per se) hides the unplug
+event from guest, and it's upto user to repeat device_del later
+when guest is able to handle unplug requests.
+
+1) 18416c62e3 ("pcie: expire pending delete")
+2)
+Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+CC: mst@redhat.com
+CC: anisinha@redhat.com
+CC: jusual@redhat.com
+CC: kraxel@redhat.com
+Message-Id: <20230418090449.2155757-1-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Ani Sinha <anisinha@redhat.com>
 ---
- hw/virtio/vhost-user-i2c.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ hw/acpi/pcihp.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index 60eaf0d95b..4eef3f0633 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -128,6 +128,14 @@ static void vu_i2c_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
- {
-     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
- 
-+    /*
-+     * We don't support interrupts, return early if index is set to
-+     * VIRTIO_CONFIG_IRQ_IDX.
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index dcfb779a7a..cdd6f775a1 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -357,6 +357,16 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+      * acpi_pcihp_eject_slot() when the operation is completed.
+      */
+     pdev->qdev.pending_deleted_event = true;
++    /* if unplug was requested before OSPM is initialized,
++     * linux kernel will clear GPE0.sts[] bits during boot, which effectively
++     * hides unplug event. And than followup qmp_device_del() calls remain
++     * blocked by above flag permanently.
++     * Unblock qmp_device_del() by setting expire limit, so user can
++     * repeat unplug request later when OSPM has been booted.
 +     */
-+    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
-+        return;
-+    }
++    pdev->qdev.pending_deleted_expires_ms =
++        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL); /* 1 msec */
 +
-     vhost_virtqueue_mask(&i2c->vhost_dev, vdev, idx, mask);
+     s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
+     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
  }
- 
-@@ -135,6 +143,14 @@ static bool vu_i2c_guest_notifier_pending(VirtIODevice *vdev, int idx)
- {
-     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
- 
-+    /*
-+     * We don't support interrupts, return early if index is set to
-+     * VIRTIO_CONFIG_IRQ_IDX.
-+     */
-+    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
-+        return false;
-+    }
-+
-     return vhost_virtqueue_pending(&i2c->vhost_dev, idx);
- }
- 
 -- 
 MST
 
