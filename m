@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA4A6EE6D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 247186EE6DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:35:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prMXA-00084P-TL; Tue, 25 Apr 2023 13:32:57 -0400
+	id 1prMX5-0007sk-7i; Tue, 25 Apr 2023 13:32:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prMWo-0006lU-6h
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:32:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prMWq-000707-Oc
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:32:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prMWl-0004Jx-Qm
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:32:33 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prMWn-0004L9-Ub
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:32:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682443950;
+ s=mimecast20190719; t=1682443953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rw0zf+WNmenOsNhtO6mWbQCKpnq06K4ehFRtM2YZayM=;
- b=T7k0dXKwuF6Yqiz4A6YNM/BOIqfOP7m54GP/ZBsppnNjV22/n3jJSlBKuFm7Si/uvMp0LM
- fRrcz44fqXNGnzsdtZXImT8IqYjbSaeHN41Q1/QDBT2+JPa8aZBEGJcm51VzyWqxDexXJV
- LgFkCpppiO3KwlrPnygeYwTJ1ysCGuw=
+ bh=3Jj6PNQ7GAIvwDNnVx28H1P4Vt4Z5SSGKXTz+Chfefk=;
+ b=SHjc4GDwxxcdmYqRVAKDtzq4RnIGWaDov/lJhBkxXU5mS+1yXHlowmRA1FFFj92REQ2Xuj
+ bWqnH6GYFznCEwzvjJgT1Ck8aFTEjqrjlbmG7RLiTdYj/w+xyvh5Dln9fUQfLFLAnvLw/K
+ J6D1pptjJaIaw2Tz1DAwPHQjkW5L1gM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-jUzYX06zMt6YjvzR-rA4Bw-1; Tue, 25 Apr 2023 13:32:28 -0400
-X-MC-Unique: jUzYX06zMt6YjvzR-rA4Bw-1
+ us-mta-455-8FF7iMzVPpGjnB2uYD0p9w-1; Tue, 25 Apr 2023 13:32:29 -0400
+X-MC-Unique: 8FF7iMzVPpGjnB2uYD0p9w-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AA30885621;
- Tue, 25 Apr 2023 17:32:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A449185A794;
+ Tue, 25 Apr 2023 17:32:29 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B2D1492B03;
- Tue, 25 Apr 2023 17:32:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92B7B492B0F;
+ Tue, 25 Apr 2023 17:32:28 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
  eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 17/20] block: Mark bdrv_query_bds_stats() and callers
+Subject: [PATCH 18/20] block: Mark bdrv_query_block_graph_info() and callers
  GRAPH_RDLOCK
-Date: Tue, 25 Apr 2023 19:31:55 +0200
-Message-Id: <20230425173158.574203-18-kwolf@redhat.com>
+Date: Tue, 25 Apr 2023 19:31:56 +0200
+Message-Id: <20230425173158.574203-19-kwolf@redhat.com>
 In-Reply-To: <20230425173158.574203-1-kwolf@redhat.com>
 References: <20230425173158.574203-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -61,7 +61,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,38 +79,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This adds GRAPH_RDLOCK annotations to declare that callers of
-bdrv_query_bds_stats() need to hold a reader lock for the graph because
-it accesses the children list of a node.
+bdrv_query_block_graph_info() need to hold a reader lock for the graph
+because it accesses the children list of a node.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qapi.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ include/block/qapi.h | 7 ++++---
+ qemu-img.c           | 2 ++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/block/qapi.c b/block/qapi.c
-index c84147849d..71f2751257 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -604,8 +604,8 @@ static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
-         = bdrv_latency_histogram_stats(&hgram[BLOCK_ACCT_FLUSH]);
- }
+diff --git a/include/block/qapi.h b/include/block/qapi.h
+index 8773b9b191..18d48ddb70 100644
+--- a/include/block/qapi.h
++++ b/include/block/qapi.h
+@@ -25,6 +25,7 @@
+ #ifndef BLOCK_QAPI_H
+ #define BLOCK_QAPI_H
  
--static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
--                                        bool blk_level)
-+static BlockStats * GRAPH_RDLOCK
-+bdrv_query_bds_stats(BlockDriverState *bs, bool blk_level)
- {
-     BdrvChild *parent_child;
-     BlockDriverState *filter_or_cow_bs;
-@@ -713,6 +713,8 @@ BlockStatsList *qmp_query_blockstats(bool has_query_nodes,
-     BlockBackend *blk;
-     BlockDriverState *bs;
++#include "block/graph-lock.h"
+ #include "block/snapshot.h"
+ #include "qapi/qapi-types-block-core.h"
  
-+    GRAPH_RDLOCK_GUARD_MAINLOOP();
+@@ -43,9 +44,9 @@ void bdrv_query_image_info(BlockDriverState *bs,
+                            bool flat,
+                            bool skip_implicit_filters,
+                            Error **errp);
+-void bdrv_query_block_graph_info(BlockDriverState *bs,
+-                                 BlockGraphInfo **p_info,
+-                                 Error **errp);
++void GRAPH_RDLOCK
++bdrv_query_block_graph_info(BlockDriverState *bs, BlockGraphInfo **p_info,
++                            Error **errp);
+ 
+ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn);
+ void bdrv_image_info_specific_dump(ImageInfoSpecific *info_spec,
+diff --git a/qemu-img.c b/qemu-img.c
+index 9aeac69fa6..9f9f0a7629 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2938,6 +2938,8 @@ static BlockGraphInfoList *collect_image_info_list(bool image_opts,
+         }
+         bs = blk_bs(blk);
+ 
++        GRAPH_RDLOCK_GUARD_MAINLOOP();
 +
-     /* Just to be safe if query_nodes is not always initialized */
-     if (has_query_nodes && query_nodes) {
-         for (bs = bdrv_next_node(NULL); bs; bs = bdrv_next_node(bs)) {
+         /*
+          * Note that the returned BlockGraphInfo object will not have
+          * information about this image's backing node, because we have opened
 -- 
 2.40.0
 
