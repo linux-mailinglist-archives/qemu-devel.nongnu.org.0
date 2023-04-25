@@ -2,110 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A13B6EDF51
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 11:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362576EDFA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 11:48:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prF1k-0002f9-BZ; Tue, 25 Apr 2023 05:32:00 -0400
+	id 1prFG1-0006qo-Da; Tue, 25 Apr 2023 05:46:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1prF1h-0002eC-Mo; Tue, 25 Apr 2023 05:31:57 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prFFy-0006qJ-Uw
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 05:46:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1prF1e-0007HE-Vn; Tue, 25 Apr 2023 05:31:57 -0400
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33P9VYLp007483; Tue, 25 Apr 2023 09:31:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=yiWGhxS/cgXVl9G3omsaGmF+kN2Fj4x5nFZbOJlqUKg=;
- b=A/RLztxU8INDUC0adzoOPt8GP9Jwwhx5112QQqTNzbgo+4LQ4Mb+6xIdmGwAQhg5QoEl
- DPsMEjRUaeIP1SHFyjNqC43bqPuie0MJ1bjXmdFAXRfhZEAZlZ/6qEmtDxvk6r375VeO
- nMpAbWU9lNDDQa1tu/zEDrBRzyOIE4avhaB2ZjcePatRe7uoUapU/TmjBGTKPJmcjAOh
- TM2yafwsUZwr3H5mPNl/qb69HZHDyqCkSjypVvjNi1AiTjDmbEB1ukWkh8MIxXv40+aK
- F/UfZ3Ov6eWiRMQyP/3wVBaXgnSeEqUMaEveh0gU5h9tscGn5qehNKqOPZZbe7x1jAQk Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6axgb2xt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 09:31:49 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33P9Vmpn009117;
- Tue, 25 Apr 2023 09:31:48 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q6axgb2t6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 09:31:47 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33ONbbff026564;
- Tue, 25 Apr 2023 09:27:18 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3q47771n3p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Apr 2023 09:27:18 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33P9RCr420185720
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Apr 2023 09:27:12 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5C8B22004B;
- Tue, 25 Apr 2023 09:27:12 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EE24E20043;
- Tue, 25 Apr 2023 09:27:11 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.152.224.238])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 25 Apr 2023 09:27:11 +0000 (GMT)
-Message-ID: <92a76767620a8e4bb12b7164b271d7172545cd0b.camel@linux.ibm.com>
-Subject: Re: [PATCH v19 02/21] s390x/cpu topology: add topology entries on
- CPU hotplug
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Tue, 25 Apr 2023 11:27:11 +0200
-In-Reply-To: <9c2cb730-d307-f344-35e8-82017681816a@linux.ibm.com>
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-3-pmorel@linux.ibm.com>
- <66d9ba0e9904f035326aca609a767976b94547cf.camel@linux.ibm.com>
- <4ddd3177-58a8-c9f0-a9a8-ee71baf0511b@linux.ibm.com>
- <60aafc95dd0293ba8d5b4dbdc59fcda5e6c64f3e.camel@linux.ibm.com>
- <9c2cb730-d307-f344-35e8-82017681816a@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prFFw-0001iT-UC
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 05:46:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682415999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=btOP/+I6ttpu9dzPbxjHCE8F2v80+ppXZEohLr/qdnY=;
+ b=f88U2qGt34Q/QniLwYLZU+IhjUkaiSi4Sm/VFrVlaKX6l9sJAvE/tYW+nyjdhU6hWAQv3h
+ I4ioYhQIbt1e/3zHaYAfa9IcvM0s2KXbLI3mywbKHIzccW9gK7ov4XFZ9y8P7Ny5NHeXDm
+ BE5EpHZPcVTPzKMwchnZyu7NvGLKd68=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-326-YZeguY0MP3So9BLktjLbrg-1; Tue, 25 Apr 2023 05:46:38 -0400
+X-MC-Unique: YZeguY0MP3So9BLktjLbrg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f1749c63c9so19222055e9.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 02:46:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682415997; x=1685007997;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=btOP/+I6ttpu9dzPbxjHCE8F2v80+ppXZEohLr/qdnY=;
+ b=PUMdc0MVPV2Ol+VOXNKZHUaGBeid0oKArT/BDfvGR2Xy4GUrn+2VvVBCA15HTTAL0p
+ XSlNUKP8Bcmpi8dt2m5rpIp7iMd3SMBUgrRyR6+dPvvE87eHSlJD1onoR14RhaO1odhQ
+ 3gn+rysnmpSGmvww5P9Lw+0We1y8eGKKG+nDwdKToVxBOc1uAPOzCzUM0/cu6mjkCZ5t
+ hwclP0lgeJkCvm4vp+q5fG4Exz+MDBDQ2YvUPthzkWo0gN3YkbLlwVA1wJDbxTTl22cX
+ bcqPwWgF9ELuLIvjM4W7/DYg5Fzll9meaL2f8Afdcm4giXW0TtnfPxlr86njTz/9NFJi
+ VHZg==
+X-Gm-Message-State: AAQBX9e8KaH0GL5AI3gCTV6vhjhajFUISSlOinu4jkOBuaxyLkj0kN7k
+ Q2HvoZYWPW2rRjp2NhFPFk42zXI6FcfsCoG2Xv14fHE/6lcJgXezjTir7uUYD/BrZ2L4kY4+PnA
+ M42GSh8RnOZdxLXc=
+X-Received: by 2002:a5d:6e0a:0:b0:304:7929:470d with SMTP id
+ h10-20020a5d6e0a000000b003047929470dmr5370578wrz.53.1682415997000; 
+ Tue, 25 Apr 2023 02:46:37 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZwlTm2S7dclbGPNZf4WLoYqCamdW13v+/4RclFhHZ89od9SIx5xrHPFHm8KVIyhFZHY50ZnA==
+X-Received: by 2002:a5d:6e0a:0:b0:304:7929:470d with SMTP id
+ h10-20020a5d6e0a000000b003047929470dmr5370554wrz.53.1682415996725; 
+ Tue, 25 Apr 2023 02:46:36 -0700 (PDT)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ w13-20020adff9cd000000b002cea9d931e6sm12717501wrr.78.2023.04.25.02.46.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Apr 2023 02:46:36 -0700 (PDT)
+Message-ID: <a8d076f3-ac2b-4e1a-8bcc-44bf57a750b2@redhat.com>
+Date: Tue, 25 Apr 2023 11:46:34 +0200
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: K1pdCph8v8QayANu9f555rHaUMH8Acps
-X-Proofpoint-ORIG-GUID: fLbNm37JvOCwELOJGZILaZBncHPRGdj-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-25_03,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
- mlxscore=0 priorityscore=1501 mlxlogscore=999 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304250068
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
+ <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Siqi Chen <coc.cyqh@gmail.com>,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20230421142736.2817601-1-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v8 0/8] memory: prevent dma-reentracy issues
+In-Reply-To: <20230421142736.2817601-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.194, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -123,263 +113,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-04-25 at 10:45 +0200, Pierre Morel wrote:
-> On 4/24/23 17:32, Nina Schoetterl-Glausch wrote:
-> > On Fri, 2023-04-21 at 12:20 +0200, Pierre Morel wrote:
-> > > > On 4/20/23 10:59, Nina Schoetterl-Glausch wrote:
-> > > > > > On Mon, 2023-04-03 at 18:28 +0200, Pierre Morel wrote:
-> [..]
-> > > > In the next version with entitlement being an enum it is right.
-> > > >=20
-> > > > However, deleting this means that the default value for entitlement
-> > > > depends on dedication.
-> > > >=20
-> > > > If we have only low, medium, high and default for entitlement is me=
-dium.
-> > > >=20
-> > > > If the user specifies the dedication true without specifying entitl=
-ement
-> > > > we could force entitlement to high.
-> > > >=20
-> > > > But we can not distinguish this from the user specifying dedication=
- true
-> > > > with a medium entitlement, which is wrong.
-> > > >=20
-> > > > So three solution:
-> > > >=20
-> > > > 1) We ignore what the user say if dedication is specified as true
-> > > >=20
-> > > > 2) We specify that both dedication and entitlement must be specifie=
-d if
-> > > > dedication is true
-> > > >=20
-> > > > 3) We set an impossible default to distinguish default from medium
-> > > > entitlement
-> > > >=20
-> > > >=20
-> > > > For me the solution 3 is the best one, it is more flexible for the =
-user.
-> > > >=20
-> > > > Solution 1 is obviously bad.
-> > > >=20
-> > > > Solution 2 forces the user to specify entitlement high and only hig=
-h if
-> > > > it specifies dedication true.
-> > > >=20
-> > > > AFAIU, you prefer the solution 2, forcing user to specify both
-> > > > dedication and entitlement to suppress a default value in the enum.
-> > > > Why is it bad to have a default value in the enum that we do not us=
-e to
-> > > > specify that the value must be calculated?
-> > Yes, I'd prefer solution 2. I don't like adapting the internal state wh=
-ere only
-> > the three values make sense for the user interface.
-> > It also keeps things simple and requires less code.
-> > I also don't think it's a bad thing for the user, as it's not a thing d=
-one manually often.
-> > I'm also not a fan of a value being implicitly being changed even thoug=
-h it doesn't look
-> > like it from the command.
-> >=20
-> > However, what I really don't like is the additional state and naming it=
- "horizontal",
->=20
->=20
-> No problem to use another name like "auto" as you propose later.
->=20
->=20
-> > not so much the adjustment if dedication is switched to true without an=
- entitlement given.
-> > For the monitor command there is no problem, you currently have:
->=20
->=20
-> That is clear, the has_xxx does the job.
->=20
-> [..]
->=20
->=20
-> > So you can just set it if (!has_entitlement).
-> > There is also ways to set the value for cpus defined on the command lin=
-e, e.g.:
->=20
->=20
-> Yes, thanks, I already said I find your proposition to use a=20
-> DEFINE_PROP_CPUS390ENTITLEMENT good and will use it.
->=20
->=20
-> >=20
-> > diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-prop=
-erties-system.h
-> > index 0ac327ae60..41a605c5a7 100644
-> > --- a/include/hw/qdev-properties-system.h
-> > +++ b/include/hw/qdev-properties-system.h
-> > @@ -22,6 +22,7 @@ extern const PropertyInfo qdev_prop_audiodev;
-> >   extern const PropertyInfo qdev_prop_off_auto_pcibar;
-> >   extern const PropertyInfo qdev_prop_pcie_link_speed;
-> >   extern const PropertyInfo qdev_prop_pcie_link_width;
-> > +extern const PropertyInfo qdev_prop_cpus390entitlement;
-> >  =20
-> >   #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
-> >       DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
-> > @@ -73,5 +74,8 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
-> >   #define DEFINE_PROP_UUID_NODEFAULT(_name, _state, _field) \
-> >       DEFINE_PROP(_name, _state, _field, qdev_prop_uuid, QemuUUID)
-> >  =20
-> > +#define DEFINE_PROP_CPUS390ENTITLEMENT(_n, _s, _f) \
-> > +    DEFINE_PROP(_n, _s, _f, qdev_prop_cpus390entitlement, int)
-> > +
-> >  =20
-> >   #endif
-> > diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> > index 54541d2230..01308e0b94 100644
-> > --- a/target/s390x/cpu.h
-> > +++ b/target/s390x/cpu.h
-> > @@ -135,7 +135,7 @@ struct CPUArchState {
-> >       int32_t book_id;
-> >       int32_t drawer_id;
-> >       bool dedicated;
-> > -    uint8_t entitlement;        /* Used only for vertical polarization=
- */
-> > +    int entitlement;        /* Used only for vertical polarization */
->=20
->=20
-> Isn't it better to use:
->=20
-> +=C2=A0=C2=A0=C2=A0 CpuS390Entitlement entitlement; /* Used only for vert=
-ical=20
-> polarization */
->=20
->=20
-> >       uint64_t cpuid;
-> >   #endif
-> >  =20
-> > diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties=
--system.c
-> > index d42493f630..db5c3d4fe6 100644
-> > --- a/hw/core/qdev-properties-system.c
-> > +++ b/hw/core/qdev-properties-system.c
-> > @@ -1143,3 +1143,14 @@ const PropertyInfo qdev_prop_uuid =3D {
-> >       .set   =3D set_uuid,
-> >       .set_default_value =3D set_default_uuid_auto,
-> >   };
-> > +
-> > +/* --- s390x cpu topology entitlement --- */
-> > +
-> > +QEMU_BUILD_BUG_ON(sizeof(CpuS390Entitlement) !=3D sizeof(int));
-> > +
-> > +const PropertyInfo qdev_prop_cpus390entitlement =3D {
-> > +    .name =3D "CpuS390Entitlement",
-> > +    .enum_table =3D &CpuS390Entitlement_lookup,
-> > +    .get   =3D qdev_propinfo_get_enum,
-> > +    .set   =3D qdev_propinfo_set_enum,
-> > +};
-> > diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> > index b8a292340c..1b3f5c61ae 100644
-> > --- a/hw/s390x/cpu-topology.c
-> > +++ b/hw/s390x/cpu-topology.c
-> > @@ -199,8 +199,7 @@ static void s390_topology_cpu_default(S390CPU *cpu,=
- Error **errp)
-> >        * is not dedicated.
-> >        * A dedicated CPU always receives a high entitlement.
-> >        */
-> > -    if (env->entitlement >=3D S390_CPU_ENTITLEMENT__MAX ||
-> > -        env->entitlement =3D=3D S390_CPU_ENTITLEMENT_HORIZONTAL) {
-> > +    if (env->entitlement < 0) {
->=20
->=20
-> Here we can have:
->=20
-> +    if (env->entitlement =3D=3D S390_CPU_ENTITLEMENT_AUTO) {
-> ...
->=20
-> >           if (env->dedicated) {
-> >               env->entitlement =3D S390_CPU_ENTITLEMENT_HIGH;
-> >           } else {
-> > diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> > index 57165fa3a0..dea50a3e06 100644
-> > --- a/target/s390x/cpu.c
-> > +++ b/target/s390x/cpu.c
-> > @@ -31,6 +31,7 @@
-> >   #include "qapi/qapi-types-machine.h"
-> >   #include "sysemu/hw_accel.h"
-> >   #include "hw/qdev-properties.h"
-> > +#include "hw/qdev-properties-system.h"
-> >   #include "fpu/softfloat-helpers.h"
-> >   #include "disas/capstone.h"
-> >   #include "sysemu/tcg.h"
-> > @@ -248,6 +249,7 @@ static void s390_cpu_initfn(Object *obj)
-> >       cs->exception_index =3D EXCP_HLT;
-> >  =20
-> >   #if !defined(CONFIG_USER_ONLY)
-> > +    cpu->env.entitlement =3D -1;
->=20
->=20
-> Then we do not need this initialization if here under we define=20
-> DEFINE_PROP_CPUS390ENTITLEMENT differently
->=20
->=20
-> >       s390_cpu_init_sysemu(obj);
-> >   #endif
-> >   }
-> > @@ -264,8 +266,7 @@ static Property s390x_cpu_properties[] =3D {
-> >       DEFINE_PROP_INT32("book-id", S390CPU, env.book_id, -1),
-> >       DEFINE_PROP_INT32("drawer-id", S390CPU, env.drawer_id, -1),
-> >       DEFINE_PROP_BOOL("dedicated", S390CPU, env.dedicated, false),
-> > -    DEFINE_PROP_UINT8("entitlement", S390CPU, env.entitlement,
-> > -                      S390_CPU_ENTITLEMENT__MAX),
-> > +    DEFINE_PROP_CPUS390ENTITLEMENT("entitlement", S390CPU, env.entitle=
-ment),
->=20
->=20
-> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_CPUS390ENTITLEMENT("entitlement", S390CPU=
-, env.entitlement,
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 S390_CPU_ENTITLEM=
-ENT_AUTO),
->=20
-> >   #endif
-> >       DEFINE_PROP_END_OF_LIST()
-> >   };
-> >=20
-> > There are other ways to achieve the same, you could also
-> > implement get, set and set_default_value so that there is an additional
-> > "auto"/"uninitialized" value that is not in the enum.
-> > If you insist on having an additional state in the enum, name it "auto"=
-.
->=20
-> Yes, I think it is a better name.
+On 21/04/2023 16.27, Alexander Bulekov wrote:
+> v7 -> v8:
+>      - Disable reentrancy checks for bcm2835_property's iomem (Patch 7)
+>      - Cache DeviceState* in the MemoryRegion to avoid dynamic cast for
+>        each MemoryRegion access. (Patch 1)
+>      - Make re-entrancy fatal for debug-builds (Patch 8)
 
-IMO using entitlement=3Dauto doesn't make too much sense with the set-cpu-t=
-opology command,
-because you can just leave if off or specify the entitlement you want direc=
-tly.
-So there is no actual need to have a user visible auto value and no need to=
- have it in the enum.
-Then the only problem is adjusting the entitlement when doing dedicated=3Do=
-n on the command line.
-(If you want that)
-So with my proposal there are only the low, medium and high values in the e=
-num.
-In order to set the entitlement automatically when using the command line I=
- initialize
-the entitlement to -1, so we later know if it has been set via the command =
-line or not.
-But you cannot set -1 via the property because qdev_propinfo_get_enum expec=
-ts a string,
-which is why I do it in s390_cpu_initfn.
+  Hi Alexander,
 
-I'm not sure if you can define entitlement as CpuS390Entitlement.
-I think I changed it to int when I was exploring different solutions
-and had to change it because of a type check. But what I proposed above doe=
-sn't cause the same issue.
-DEFINE_PROP_CPUS390ENTITLEMENT could then also use CpuS390Entitlement.
+I just put your series into a run with the gitlab-CI and it seems this now 
+introduced another failure in one of the avocado tests:
 
-So there are three possible solutions now:
-1. My proposal above, which as automatic adjustment, but only the three req=
-uired values in the enum.
-2. Don't do automatic adjustment, three enum values.
-3. Automatic adjustment with auto value in the enum.
+  https://gitlab.com/thuth/qemu/-/jobs/4171448248#L318
 
-I still favor 2. but the other ones aren't terrible.
+The "IbmPrep40pMachine.test_openbios_and_netbsd" test is failing now.
+
+You can reproduce it manually quite easily:
+
+  wget 
+https://archive.netbsd.org/pub/NetBSD-archive/NetBSD-7.1.2/iso/NetBSD-7.1.2-prep.iso
+
+  ./qemu-system-ppc -nographic -M 40p -boot d -cdrom NetBSD-7.1.2-prep.iso
+
+Without your patches, this prints out "NetBSD/prep BOOT, Revision 1.9" in 
+the console, but with your patches, the message does not appear anymore.
+
+Could you please have a look?
+
+  Thanks,
+   Thomas
+
 
