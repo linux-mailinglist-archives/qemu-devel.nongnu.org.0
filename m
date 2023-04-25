@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB666EE880
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 21:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039B36EE84A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 21:33:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prOOl-0008Cf-W2; Tue, 25 Apr 2023 15:32:24 -0400
+	id 1prOOs-0008G5-O5; Tue, 25 Apr 2023 15:32:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prOOj-0008Bn-Ju
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 15:32:21 -0400
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c])
+ id 1prOOp-0008Ew-BJ
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 15:32:27 -0400
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prOOd-00045q-L7
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 15:32:21 -0400
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-2a8ba693f69so59501391fa.0
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 12:32:15 -0700 (PDT)
+ id 1prOOj-000490-Lb
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 15:32:27 -0400
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2a8dc00ade2so60498591fa.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 12:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682451133; x=1685043133;
+ d=linaro.org; s=google; t=1682451140; x=1685043140;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=R+fxTxTqIhiI86kN5IY9M/+obOs0ta97k4WM4ZR41R8=;
- b=X+97rYn7nYhePOgZIOufdVTChNLCg1ILAZNK6JF98HvkPuvQ6h4ZOmVWwXCYKLFXAb
- zT9ZI2rCNNxKwLYS7397Dt+CYNqhlxrmyEqZaqDZ2C2h7xb0xw6bme8oW90JX3z6EDql
- RbUbhwkeQEm8FnWA8rmLSEuffeamgPyLTbBWuAb18Z6L2kTCJUBiz4ZS6+tbe0YVtnjJ
- A/F5RIdnbr4fkD7KL/hkTnwuycLIvz4h+XM1uJnnFN1ZcoiEjVlJJiMj3ecUBq13dgMu
- ii9tXAvn92OjS4pLUTDldQf8VHidA/mSrRRsCnweHmF39FpdIAyljaveHOcu0pWqgIMp
- PpJw==
+ bh=wScQAbeOAdmPNfU1WObG2sqGKO5LVrW4aaS/W72yioE=;
+ b=Iwh8eDGHSeaqEaM2QjjVW9M2fwYX0rjrHpHVCT+mHRljb1TXHfMunDimC18xlA0OpN
+ xPUSGvu1IqsaCF5TKskjDzgxTD0cbmmgeGVeN2Vovuptk+8K+XSP/zGGQNzwPM5I/10f
+ DU7yF1ClozPu9CfXx4Bz3B0OvYG6DeabIgQhUCI9BuHcX42Zmu49OIHd8cURT2z1Rhpg
+ yi5hUQvnyqRPIodROiR6tklQq+HqmTCnH+bu3p+2gawk2DxNmwqqH3tR1As4Bzjy1Dte
+ l8s96L4xfwhhBvvPO+Z9QP8gX91QP0eXVUEVBD3ef/JlKatElWZunkJGE9k7VoSBWtLJ
+ h+xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682451133; x=1685043133;
+ d=1e100.net; s=20221208; t=1682451140; x=1685043140;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R+fxTxTqIhiI86kN5IY9M/+obOs0ta97k4WM4ZR41R8=;
- b=Ptuq9yQpGBu3lc4nHsJFHBI3hMgMJY5GUosdbNy/Zu7sj4yKCgwp9wgI0u7ItX/ZF/
- nSvSh8+YSOM45T/pOajbUc3qr4mwMd4wUeez2Rs+jW5SGPTz4LmyOH9IvmbmMQRyu0tw
- 39O1YQRn4cS/t5J3Oof0O2s/f3mCtqsZAfmKL/G2OELbkH85picf7Ecieza9ZlmviT4u
- SzX6g5awPBaexnTc6Azrib3gAMMrk8GaGREdS2Zij7LelNuYimruwfgLTWnEjXeucDJA
- eSsMqtW+aDokDzNGBs1D2ewi6TvU37CSUencCDzzuRjp9asGf9bpJpTs8Gx1Dmj87Tzz
- 1Qig==
-X-Gm-Message-State: AAQBX9ecd4l46mKZCptEvBRKdc9xWb9OpC3Z7pwf/+txOytVLQaFSia2
- nU6YuSJ/iVLumrxpIaUlWYu10ECeKc5qW7oL6ghxPA==
-X-Google-Smtp-Source: AKy350ZEhMVq2MhtpL8/LPCYy0S8TrfSY41eE9e1biZYO5Tq8sjSdOsKUyp8IAy7TbYhsUf8WbQc7A==
-X-Received: by 2002:a2e:7010:0:b0:2a9:f114:f166 with SMTP id
- l16-20020a2e7010000000b002a9f114f166mr3637834ljc.2.1682451133777; 
- Tue, 25 Apr 2023 12:32:13 -0700 (PDT)
+ bh=wScQAbeOAdmPNfU1WObG2sqGKO5LVrW4aaS/W72yioE=;
+ b=TfZUgEqs83stTAf5qem+d0MqtS9cxR7xosuaJM9E3CwgOdu2BoSfiiK4eODf71saF8
+ mm2UuxfXDPrAa2zD6UwjbBzGeZbN8y60skzeGKdn2WRsqx2EsTkq6usnebe2VBF+h32C
+ Z04Lb5CftqmgZN6AWtJs+78orO10nL0a9+XkIoC9yZmdiizcYa1NoXz/zxlKXH9bP8Vh
+ XDi08bj9oJYQpsWH02cdIGUPE+PHpFnhihnuPF+h9jJ7GMEzhp0CEJ4GAAjHag9pnaJE
+ uY1FYGIWLe0LdQHTZ9GygnKQwm5ay1waaoBtiMg4WQRWy00e8V55+akQmBhTv8nRCQyn
+ Q0wQ==
+X-Gm-Message-State: AAQBX9d0mZ0LKzgdQ89n4FCV6Hhx5FNFpAO/8MAvQobTA4P9S02qDTNw
+ np26bEsh5XOXH7eME/CzUEyENi1FEakoq2Ue9IVYHg==
+X-Google-Smtp-Source: AKy350ZE/bQoqtjysH4z81hnVfvvO1YpxULAystRMAYk4hVa9kXzll7VU+5AMW99ydQ7jx1uznf2tQ==
+X-Received: by 2002:a2e:b17c:0:b0:2a7:6a49:5d76 with SMTP id
+ a28-20020a2eb17c000000b002a76a495d76mr3912486ljm.33.1682451139861; 
+ Tue, 25 Apr 2023 12:32:19 -0700 (PDT)
 Received: from stoup.. ([91.209.212.61]) by smtp.gmail.com with ESMTPSA id
- z23-20020a2e8857000000b002a8c271de33sm2160484ljj.67.2023.04.25.12.32.06
+ z23-20020a2e8857000000b002a8c271de33sm2160484ljj.67.2023.04.25.12.32.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 12:32:13 -0700 (PDT)
+ Tue, 25 Apr 2023 12:32:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
  qemu-ppc@nongnu.org, git@xen0n.name, jiaxun.yang@flygoat.com,
  philmd@linaro.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v3 02/57] accel/tcg: Add cpu_in_serial_context
-Date: Tue, 25 Apr 2023 20:30:51 +0100
-Message-Id: <20230425193146.2106111-3-richard.henderson@linaro.org>
+Subject: [PATCH v3 03/57] accel/tcg: Introduce tlb_read_idx
+Date: Tue, 25 Apr 2023 20:30:52 +0100
+Message-Id: <20230425193146.2106111-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230425193146.2106111-1-richard.henderson@linaro.org>
 References: <20230425193146.2106111-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
- envelope-from=richard.henderson@linaro.org; helo=mail-lj1-x22c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=richard.henderson@linaro.org; helo=mail-lj1-x232.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,72 +93,367 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Like cpu_in_exclusive_context, but also true if
-there is no other cpu against which we could race.
-
-Use it in tb_flush as a direct replacement.
-Use it in cpu_loop_exit_atomic to ensure that there
-is no loop against cpu_exec_step_atomic.
+Instead of playing with offsetof in various places, use
+MMUAccessType to index an array.  This is easily defined
+instead of the previous dummy padding array in the union.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h        | 5 +++++
- accel/tcg/cpu-exec-common.c | 3 +++
- accel/tcg/tb-maint.c        | 2 +-
- 3 files changed, 9 insertions(+), 1 deletion(-)
+ include/exec/cpu-defs.h |   7 ++-
+ include/exec/cpu_ldst.h |  26 ++++++++--
+ accel/tcg/cputlb.c      | 104 +++++++++++++---------------------------
+ 3 files changed, 59 insertions(+), 78 deletions(-)
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index 96f198b28b..8250ecbf74 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -64,6 +64,11 @@ static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index e1c498ef4b..a6e0cf1812 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -111,8 +111,11 @@ typedef struct CPUTLBEntry {
+                use the corresponding iotlb value.  */
+             uintptr_t addend;
+         };
+-        /* padding to get a power of two size */
+-        uint8_t dummy[1 << CPU_TLB_ENTRY_BITS];
++        /*
++         * Padding to get a power of two size, as well as index
++         * access to addr_{read,write,code}.
++         */
++        target_ulong addr_idx[(1 << CPU_TLB_ENTRY_BITS) / TARGET_LONG_SIZE];
+     };
+ } CPUTLBEntry;
+ 
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index 09b55cc0ee..fad6efc0ad 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -360,13 +360,29 @@ static inline void clear_helper_retaddr(void)
+ /* Needed for TCG_OVERSIZED_GUEST */
+ #include "tcg/tcg.h"
+ 
++static inline target_ulong tlb_read_idx(const CPUTLBEntry *entry,
++                                        MMUAccessType access_type)
++{
++    /* Do not rearrange the CPUTLBEntry structure members. */
++    QEMU_BUILD_BUG_ON(offsetof(CPUTLBEntry, addr_read) !=
++                      MMU_DATA_LOAD * TARGET_LONG_SIZE);
++    QEMU_BUILD_BUG_ON(offsetof(CPUTLBEntry, addr_write) !=
++                      MMU_DATA_STORE * TARGET_LONG_SIZE);
++    QEMU_BUILD_BUG_ON(offsetof(CPUTLBEntry, addr_code) !=
++                      MMU_INST_FETCH * TARGET_LONG_SIZE);
++
++    const target_ulong *ptr = &entry->addr_idx[access_type];
++#if TCG_OVERSIZED_GUEST
++    return *ptr;
++#else
++    /* ofs might correspond to .addr_write, so use qatomic_read */
++    return qatomic_read(ptr);
++#endif
++}
++
+ static inline target_ulong tlb_addr_write(const CPUTLBEntry *entry)
+ {
+-#if TCG_OVERSIZED_GUEST
+-    return entry->addr_write;
+-#else
+-    return qatomic_read(&entry->addr_write);
+-#endif
++    return tlb_read_idx(entry, MMU_DATA_STORE);
+ }
+ 
+ /* Find the TLB index corresponding to the mmu_idx + address pair.  */
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 665c41fc12..e68cf422c5 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1441,34 +1441,17 @@ static void io_writex(CPUArchState *env, CPUTLBEntryFull *full,
      }
  }
  
-+static inline bool cpu_in_serial_context(CPUState *cs)
-+{
-+    return !(cs->tcg_cflags & CF_PARALLEL) || cpu_in_exclusive_context(cs);
-+}
-+
- extern int64_t max_delay;
- extern int64_t max_advance;
- 
-diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
-index e7962c9348..9a5fabf625 100644
---- a/accel/tcg/cpu-exec-common.c
-+++ b/accel/tcg/cpu-exec-common.c
-@@ -22,6 +22,7 @@
- #include "sysemu/tcg.h"
- #include "exec/exec-all.h"
- #include "qemu/plugin.h"
-+#include "internal.h"
- 
- bool tcg_allowed;
- 
-@@ -81,6 +82,8 @@ void cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc)
- 
- void cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc)
+-static inline target_ulong tlb_read_ofs(CPUTLBEntry *entry, size_t ofs)
+-{
+-#if TCG_OVERSIZED_GUEST
+-    return *(target_ulong *)((uintptr_t)entry + ofs);
+-#else
+-    /* ofs might correspond to .addr_write, so use qatomic_read */
+-    return qatomic_read((target_ulong *)((uintptr_t)entry + ofs));
+-#endif
+-}
+-
+ /* Return true if ADDR is present in the victim tlb, and has been copied
+    back to the main tlb.  */
+ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
+-                           size_t elt_ofs, target_ulong page)
++                           MMUAccessType access_type, target_ulong page)
  {
-+    /* Prevent looping if already executing in a serial context. */
-+    g_assert(!cpu_in_serial_context(cpu));
-     cpu->exception_index = EXCP_ATOMIC;
-     cpu_loop_exit_restore(cpu, pc);
- }
-diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index cb1f806f00..7d613d36d2 100644
---- a/accel/tcg/tb-maint.c
-+++ b/accel/tcg/tb-maint.c
-@@ -760,7 +760,7 @@ void tb_flush(CPUState *cpu)
-     if (tcg_enabled()) {
-         unsigned tb_flush_count = qatomic_mb_read(&tb_ctx.tb_flush_count);
+     size_t vidx;
  
--        if (cpu_in_exclusive_context(cpu)) {
-+        if (cpu_in_serial_context(cpu)) {
-             do_tb_flush(cpu, RUN_ON_CPU_HOST_INT(tb_flush_count));
-         } else {
-             async_safe_run_on_cpu(cpu, do_tb_flush,
+     assert_cpu_is_self(env_cpu(env));
+     for (vidx = 0; vidx < CPU_VTLB_SIZE; ++vidx) {
+         CPUTLBEntry *vtlb = &env_tlb(env)->d[mmu_idx].vtable[vidx];
+-        target_ulong cmp;
+-
+-        /* elt_ofs might correspond to .addr_write, so use qatomic_read */
+-#if TCG_OVERSIZED_GUEST
+-        cmp = *(target_ulong *)((uintptr_t)vtlb + elt_ofs);
+-#else
+-        cmp = qatomic_read((target_ulong *)((uintptr_t)vtlb + elt_ofs));
+-#endif
++        target_ulong cmp = tlb_read_idx(vtlb, access_type);
+ 
+         if (cmp == page) {
+             /* Found entry in victim tlb, swap tlb and iotlb.  */
+@@ -1490,11 +1473,6 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
+     return false;
+ }
+ 
+-/* Macro to call the above, with local variables from the use context.  */
+-#define VICTIM_TLB_HIT(TY, ADDR) \
+-  victim_tlb_hit(env, mmu_idx, index, offsetof(CPUTLBEntry, TY), \
+-                 (ADDR) & TARGET_PAGE_MASK)
+-
+ static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
+                            CPUTLBEntryFull *full, uintptr_t retaddr)
+ {
+@@ -1527,29 +1505,12 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+ {
+     uintptr_t index = tlb_index(env, mmu_idx, addr);
+     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+-    target_ulong tlb_addr, page_addr;
+-    size_t elt_ofs;
+-    int flags;
++    target_ulong tlb_addr = tlb_read_idx(entry, access_type);
++    target_ulong page_addr = addr & TARGET_PAGE_MASK;
++    int flags = TLB_FLAGS_MASK;
+ 
+-    switch (access_type) {
+-    case MMU_DATA_LOAD:
+-        elt_ofs = offsetof(CPUTLBEntry, addr_read);
+-        break;
+-    case MMU_DATA_STORE:
+-        elt_ofs = offsetof(CPUTLBEntry, addr_write);
+-        break;
+-    case MMU_INST_FETCH:
+-        elt_ofs = offsetof(CPUTLBEntry, addr_code);
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-    tlb_addr = tlb_read_ofs(entry, elt_ofs);
+-
+-    flags = TLB_FLAGS_MASK;
+-    page_addr = addr & TARGET_PAGE_MASK;
+     if (!tlb_hit_page(tlb_addr, page_addr)) {
+-        if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs, page_addr)) {
++        if (!victim_tlb_hit(env, mmu_idx, index, access_type, page_addr)) {
+             CPUState *cs = env_cpu(env);
+ 
+             if (!cs->cc->tcg_ops->tlb_fill(cs, addr, fault_size, access_type,
+@@ -1571,7 +1532,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+              */
+             flags &= ~TLB_INVALID_MASK;
+         }
+-        tlb_addr = tlb_read_ofs(entry, elt_ofs);
++        tlb_addr = tlb_read_idx(entry, access_type);
+     }
+     flags &= tlb_addr;
+ 
+@@ -1797,7 +1758,8 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+     if (prot & PAGE_WRITE) {
+         tlb_addr = tlb_addr_write(tlbe);
+         if (!tlb_hit(tlb_addr, addr)) {
+-            if (!VICTIM_TLB_HIT(addr_write, addr)) {
++            if (!victim_tlb_hit(env, mmu_idx, index, MMU_DATA_STORE,
++                                addr & TARGET_PAGE_MASK)) {
+                 tlb_fill(env_cpu(env), addr, size,
+                          MMU_DATA_STORE, mmu_idx, retaddr);
+                 index = tlb_index(env, mmu_idx, addr);
+@@ -1830,7 +1792,8 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+     } else /* if (prot & PAGE_READ) */ {
+         tlb_addr = tlbe->addr_read;
+         if (!tlb_hit(tlb_addr, addr)) {
+-            if (!VICTIM_TLB_HIT(addr_write, addr)) {
++            if (!victim_tlb_hit(env, mmu_idx, index, MMU_DATA_LOAD,
++                                addr & TARGET_PAGE_MASK)) {
+                 tlb_fill(env_cpu(env), addr, size,
+                          MMU_DATA_LOAD, mmu_idx, retaddr);
+                 index = tlb_index(env, mmu_idx, addr);
+@@ -1924,13 +1887,9 @@ load_memop(const void *haddr, MemOp op)
+ 
+ static inline uint64_t QEMU_ALWAYS_INLINE
+ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
+-            uintptr_t retaddr, MemOp op, bool code_read,
++            uintptr_t retaddr, MemOp op, MMUAccessType access_type,
+             FullLoadHelper *full_load)
+ {
+-    const size_t tlb_off = code_read ?
+-        offsetof(CPUTLBEntry, addr_code) : offsetof(CPUTLBEntry, addr_read);
+-    const MMUAccessType access_type =
+-        code_read ? MMU_INST_FETCH : MMU_DATA_LOAD;
+     const unsigned a_bits = get_alignment_bits(get_memop(oi));
+     const size_t size = memop_size(op);
+     uintptr_t mmu_idx = get_mmuidx(oi);
+@@ -1950,18 +1909,18 @@ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
+ 
+     index = tlb_index(env, mmu_idx, addr);
+     entry = tlb_entry(env, mmu_idx, addr);
+-    tlb_addr = code_read ? entry->addr_code : entry->addr_read;
++    tlb_addr = tlb_read_idx(entry, access_type);
+ 
+     /* If the TLB entry is for a different page, reload and try again.  */
+     if (!tlb_hit(tlb_addr, addr)) {
+-        if (!victim_tlb_hit(env, mmu_idx, index, tlb_off,
++        if (!victim_tlb_hit(env, mmu_idx, index, access_type,
+                             addr & TARGET_PAGE_MASK)) {
+             tlb_fill(env_cpu(env), addr, size,
+                      access_type, mmu_idx, retaddr);
+             index = tlb_index(env, mmu_idx, addr);
+             entry = tlb_entry(env, mmu_idx, addr);
+         }
+-        tlb_addr = code_read ? entry->addr_code : entry->addr_read;
++        tlb_addr = tlb_read_idx(entry, access_type);
+         tlb_addr &= ~TLB_INVALID_MASK;
+     }
+ 
+@@ -2047,7 +2006,8 @@ static uint64_t full_ldub_mmu(CPUArchState *env, target_ulong addr,
+                               MemOpIdx oi, uintptr_t retaddr)
+ {
+     validate_memop(oi, MO_UB);
+-    return load_helper(env, addr, oi, retaddr, MO_UB, false, full_ldub_mmu);
++    return load_helper(env, addr, oi, retaddr, MO_UB, MMU_DATA_LOAD,
++                       full_ldub_mmu);
+ }
+ 
+ tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong addr,
+@@ -2060,7 +2020,7 @@ static uint64_t full_le_lduw_mmu(CPUArchState *env, target_ulong addr,
+                                  MemOpIdx oi, uintptr_t retaddr)
+ {
+     validate_memop(oi, MO_LEUW);
+-    return load_helper(env, addr, oi, retaddr, MO_LEUW, false,
++    return load_helper(env, addr, oi, retaddr, MO_LEUW, MMU_DATA_LOAD,
+                        full_le_lduw_mmu);
+ }
+ 
+@@ -2074,7 +2034,7 @@ static uint64_t full_be_lduw_mmu(CPUArchState *env, target_ulong addr,
+                                  MemOpIdx oi, uintptr_t retaddr)
+ {
+     validate_memop(oi, MO_BEUW);
+-    return load_helper(env, addr, oi, retaddr, MO_BEUW, false,
++    return load_helper(env, addr, oi, retaddr, MO_BEUW, MMU_DATA_LOAD,
+                        full_be_lduw_mmu);
+ }
+ 
+@@ -2088,7 +2048,7 @@ static uint64_t full_le_ldul_mmu(CPUArchState *env, target_ulong addr,
+                                  MemOpIdx oi, uintptr_t retaddr)
+ {
+     validate_memop(oi, MO_LEUL);
+-    return load_helper(env, addr, oi, retaddr, MO_LEUL, false,
++    return load_helper(env, addr, oi, retaddr, MO_LEUL, MMU_DATA_LOAD,
+                        full_le_ldul_mmu);
+ }
+ 
+@@ -2102,7 +2062,7 @@ static uint64_t full_be_ldul_mmu(CPUArchState *env, target_ulong addr,
+                                  MemOpIdx oi, uintptr_t retaddr)
+ {
+     validate_memop(oi, MO_BEUL);
+-    return load_helper(env, addr, oi, retaddr, MO_BEUL, false,
++    return load_helper(env, addr, oi, retaddr, MO_BEUL, MMU_DATA_LOAD,
+                        full_be_ldul_mmu);
+ }
+ 
+@@ -2116,7 +2076,7 @@ uint64_t helper_le_ldq_mmu(CPUArchState *env, target_ulong addr,
+                            MemOpIdx oi, uintptr_t retaddr)
+ {
+     validate_memop(oi, MO_LEUQ);
+-    return load_helper(env, addr, oi, retaddr, MO_LEUQ, false,
++    return load_helper(env, addr, oi, retaddr, MO_LEUQ, MMU_DATA_LOAD,
+                        helper_le_ldq_mmu);
+ }
+ 
+@@ -2124,7 +2084,7 @@ uint64_t helper_be_ldq_mmu(CPUArchState *env, target_ulong addr,
+                            MemOpIdx oi, uintptr_t retaddr)
+ {
+     validate_memop(oi, MO_BEUQ);
+-    return load_helper(env, addr, oi, retaddr, MO_BEUQ, false,
++    return load_helper(env, addr, oi, retaddr, MO_BEUQ, MMU_DATA_LOAD,
+                        helper_be_ldq_mmu);
+ }
+ 
+@@ -2320,7 +2280,6 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
+                        uintptr_t retaddr, size_t size, uintptr_t mmu_idx,
+                        bool big_endian)
+ {
+-    const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
+     uintptr_t index, index2;
+     CPUTLBEntry *entry, *entry2;
+     target_ulong page1, page2, tlb_addr, tlb_addr2;
+@@ -2342,7 +2301,7 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
+ 
+     tlb_addr2 = tlb_addr_write(entry2);
+     if (page1 != page2 && !tlb_hit_page(tlb_addr2, page2)) {
+-        if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
++        if (!victim_tlb_hit(env, mmu_idx, index2, MMU_DATA_STORE, page2)) {
+             tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+                      mmu_idx, retaddr);
+             index2 = tlb_index(env, mmu_idx, page2);
+@@ -2395,7 +2354,6 @@ static inline void QEMU_ALWAYS_INLINE
+ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+              MemOpIdx oi, uintptr_t retaddr, MemOp op)
+ {
+-    const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
+     const unsigned a_bits = get_alignment_bits(get_memop(oi));
+     const size_t size = memop_size(op);
+     uintptr_t mmu_idx = get_mmuidx(oi);
+@@ -2418,7 +2376,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+ 
+     /* If the TLB entry is for a different page, reload and try again.  */
+     if (!tlb_hit(tlb_addr, addr)) {
+-        if (!victim_tlb_hit(env, mmu_idx, index, tlb_off,
++        if (!victim_tlb_hit(env, mmu_idx, index, MMU_DATA_STORE,
+             addr & TARGET_PAGE_MASK)) {
+             tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
+                      mmu_idx, retaddr);
+@@ -2724,7 +2682,8 @@ void cpu_st16_le_mmu(CPUArchState *env, abi_ptr addr, Int128 val,
+ static uint64_t full_ldub_code(CPUArchState *env, target_ulong addr,
+                                MemOpIdx oi, uintptr_t retaddr)
+ {
+-    return load_helper(env, addr, oi, retaddr, MO_8, true, full_ldub_code);
++    return load_helper(env, addr, oi, retaddr, MO_8,
++                       MMU_INST_FETCH, full_ldub_code);
+ }
+ 
+ uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr)
+@@ -2736,7 +2695,8 @@ uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr)
+ static uint64_t full_lduw_code(CPUArchState *env, target_ulong addr,
+                                MemOpIdx oi, uintptr_t retaddr)
+ {
+-    return load_helper(env, addr, oi, retaddr, MO_TEUW, true, full_lduw_code);
++    return load_helper(env, addr, oi, retaddr, MO_TEUW,
++                       MMU_INST_FETCH, full_lduw_code);
+ }
+ 
+ uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr addr)
+@@ -2748,7 +2708,8 @@ uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr addr)
+ static uint64_t full_ldl_code(CPUArchState *env, target_ulong addr,
+                               MemOpIdx oi, uintptr_t retaddr)
+ {
+-    return load_helper(env, addr, oi, retaddr, MO_TEUL, true, full_ldl_code);
++    return load_helper(env, addr, oi, retaddr, MO_TEUL,
++                       MMU_INST_FETCH, full_ldl_code);
+ }
+ 
+ uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr addr)
+@@ -2760,7 +2721,8 @@ uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr addr)
+ static uint64_t full_ldq_code(CPUArchState *env, target_ulong addr,
+                               MemOpIdx oi, uintptr_t retaddr)
+ {
+-    return load_helper(env, addr, oi, retaddr, MO_TEUQ, true, full_ldq_code);
++    return load_helper(env, addr, oi, retaddr, MO_TEUQ,
++                       MMU_INST_FETCH, full_ldq_code);
+ }
+ 
+ uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr addr)
 -- 
 2.34.1
 
