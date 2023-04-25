@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28EE36EDC1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:05:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941FA6EDC41
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:11:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prCi6-0001Qe-L7; Tue, 25 Apr 2023 03:03:34 -0400
+	id 1prCl1-0004Zp-Oe; Tue, 25 Apr 2023 03:06:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1prChz-0001Pb-NX
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:27 -0400
+ id 1prCjR-0003wR-Ov
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:04:59 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1prCht-000877-Uy
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:03:26 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1prCjD-0008OW-2D
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:04:57 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxZPAse0dkil8AAA--.734S3;
+ by gateway (Coremail) with SMTP id _____8CxE_Ate0dkjF8AAA--.678S3;
  Tue, 25 Apr 2023 15:03:09 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S21; 
- Tue, 25 Apr 2023 15:03:07 +0800 (CST)
+ AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S22; 
+ Tue, 25 Apr 2023 15:03:08 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	gaosong@loongson.cn
-Subject: [RFC PATCH v4 19/44] target/loongarch: Implement vsigncov
-Date: Tue, 25 Apr 2023 15:02:23 +0800
-Message-Id: <20230425070248.2550028-20-gaosong@loongson.cn>
+Subject: [RFC PATCH v4 20/44] target/loongarch: Implement
+ vmskltz/vmskgez/vmsknz
+Date: Tue, 25 Apr 2023 15:02:24 +0800
+Message-Id: <20230425070248.2550028-21-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230425070248.2550028-1-gaosong@loongson.cn>
 References: <20230425070248.2550028-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S21
+X-CM-TRANSID: AQAAf8Cxeb0Ye0dk3Eo6AA--.4591S22
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxWr1rtr45Zry5ZrW8Xw4rAFb_yoWrKrykpr
- 12yr17Gay8tFZ3XrnYva15ua1qqrs3Gw42van3K3Z8urZrXFyDZr1kta9FgFW8Xa1kZa40
- g3WayryYva9YqwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3Xw4Utw45Aw18Zr4kAryftFb_yoWxGw43pF
+ yayry2yFW8JryxArna934rWa1DXrsxK3W293Z8K348Xa17XFWDXry8t39F9FW8Xa1UXFyI
+ qasIyryYgFZxXw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bnkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -50,7 +51,7 @@ X-Coremail-Antispam: 1Uk129KBjvJXoWxWr1rtr45Zry5ZrW8Xw4rAFb_yoWrKrykpr
  Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
  1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
  0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAI
- cVC0I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcV
+ cVC0I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcV
  CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIE
  c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -76,133 +77,201 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VSIGNCOV.{B/H/W/D}.
+- VMSKLTZ.{B/H/W/D};
+- VMSKGEZ.B;
+- VMSKNZ.B.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  5 ++
- target/loongarch/helper.h                   |  5 ++
- target/loongarch/insn_trans/trans_lsx.c.inc | 53 +++++++++++++++++++++
- target/loongarch/insns.decode               |  5 ++
- target/loongarch/lsx_helper.c               |  7 +++
- 5 files changed, 75 insertions(+)
+ target/loongarch/disas.c                    |   7 ++
+ target/loongarch/helper.h                   |   7 ++
+ target/loongarch/insn_trans/trans_lsx.c.inc |   7 ++
+ target/loongarch/insns.decode               |   7 ++
+ target/loongarch/lsx_helper.c               | 113 ++++++++++++++++++++
+ 5 files changed, 141 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 412c1cedcb..46e808c321 100644
+index 46e808c321..2725b827ee 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1079,3 +1079,8 @@ INSN_LSX(vexth_hu_bu,      vv)
- INSN_LSX(vexth_wu_hu,      vv)
- INSN_LSX(vexth_du_wu,      vv)
- INSN_LSX(vexth_qu_du,      vv)
+@@ -1084,3 +1084,10 @@ INSN_LSX(vsigncov_b,       vvv)
+ INSN_LSX(vsigncov_h,       vvv)
+ INSN_LSX(vsigncov_w,       vvv)
+ INSN_LSX(vsigncov_d,       vvv)
 +
-+INSN_LSX(vsigncov_b,       vvv)
-+INSN_LSX(vsigncov_h,       vvv)
-+INSN_LSX(vsigncov_w,       vvv)
-+INSN_LSX(vsigncov_d,       vvv)
++INSN_LSX(vmskltz_b,        vv)
++INSN_LSX(vmskltz_h,        vv)
++INSN_LSX(vmskltz_w,        vv)
++INSN_LSX(vmskltz_d,        vv)
++INSN_LSX(vmskgez_b,        vv)
++INSN_LSX(vmsknz_b,         vv)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 005988be25..e1e5d58697 100644
+index e1e5d58697..34b7b2f576 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -338,3 +338,8 @@ DEF_HELPER_3(vexth_hu_bu, void, env, i32, i32)
- DEF_HELPER_3(vexth_wu_hu, void, env, i32, i32)
- DEF_HELPER_3(vexth_du_wu, void, env, i32, i32)
- DEF_HELPER_3(vexth_qu_du, void, env, i32, i32)
+@@ -343,3 +343,10 @@ DEF_HELPER_FLAGS_4(vsigncov_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(vsigncov_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(vsigncov_w, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(vsigncov_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_4(vsigncov_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vsigncov_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vsigncov_w, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vsigncov_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_3(vmskltz_b, void, env, i32, i32)
++DEF_HELPER_3(vmskltz_h, void, env, i32, i32)
++DEF_HELPER_3(vmskltz_w, void, env, i32, i32)
++DEF_HELPER_3(vmskltz_d, void, env, i32, i32)
++DEF_HELPER_3(vmskgez_b, void, env, i32, i32)
++DEF_HELPER_3(vmsknz_b, void, env, i32,i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 93ae76bc4c..644917a695 100644
+index 644917a695..64387f2666 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -2814,3 +2814,56 @@ TRANS(vexth_hu_bu, gen_vv, gen_helper_vexth_hu_bu)
- TRANS(vexth_wu_hu, gen_vv, gen_helper_vexth_wu_hu)
- TRANS(vexth_du_wu, gen_vv, gen_helper_vexth_du_wu)
- TRANS(vexth_qu_du, gen_vv, gen_helper_vexth_qu_du)
+@@ -2867,3 +2867,10 @@ TRANS(vsigncov_b, gvec_vvv, MO_8, do_vsigncov)
+ TRANS(vsigncov_h, gvec_vvv, MO_16, do_vsigncov)
+ TRANS(vsigncov_w, gvec_vvv, MO_32, do_vsigncov)
+ TRANS(vsigncov_d, gvec_vvv, MO_64, do_vsigncov)
 +
-+static void gen_vsigncov(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
-+{
-+    TCGv_vec t1, zero;
-+
-+    t1 = tcg_temp_new_vec_matching(t);
-+    zero = tcg_constant_vec_matching(t, vece, 0);
-+
-+    tcg_gen_neg_vec(vece, t1, b);
-+    tcg_gen_cmpsel_vec(TCG_COND_LT, vece, t, a, zero, t1, b);
-+    tcg_gen_cmpsel_vec(TCG_COND_EQ, vece, t, a, zero, zero, t);
-+}
-+
-+static void do_vsigncov(unsigned vece, uint32_t vd_ofs, uint32_t vj_ofs,
-+                        uint32_t vk_ofs, uint32_t oprsz, uint32_t maxsz)
-+{
-+    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_neg_vec, INDEX_op_cmpsel_vec, 0
-+        };
-+    static const GVecGen3 op[4] = {
-+        {
-+            .fniv = gen_vsigncov,
-+            .fno = gen_helper_vsigncov_b,
-+            .opt_opc = vecop_list,
-+            .vece = MO_8
-+        },
-+        {
-+            .fniv = gen_vsigncov,
-+            .fno = gen_helper_vsigncov_h,
-+            .opt_opc = vecop_list,
-+            .vece = MO_16
-+        },
-+        {
-+            .fniv = gen_vsigncov,
-+            .fno = gen_helper_vsigncov_w,
-+            .opt_opc = vecop_list,
-+            .vece = MO_32
-+        },
-+        {
-+            .fniv = gen_vsigncov,
-+            .fno = gen_helper_vsigncov_d,
-+            .opt_opc = vecop_list,
-+            .vece = MO_64
-+        },
-+    };
-+
-+    tcg_gen_gvec_3(vd_ofs, vj_ofs, vk_ofs, oprsz, maxsz, &op[vece]);
-+}
-+
-+TRANS(vsigncov_b, gvec_vvv, MO_8, do_vsigncov)
-+TRANS(vsigncov_h, gvec_vvv, MO_16, do_vsigncov)
-+TRANS(vsigncov_w, gvec_vvv, MO_32, do_vsigncov)
-+TRANS(vsigncov_d, gvec_vvv, MO_64, do_vsigncov)
++TRANS(vmskltz_b, gen_vv, gen_helper_vmskltz_b)
++TRANS(vmskltz_h, gen_vv, gen_helper_vmskltz_h)
++TRANS(vmskltz_w, gen_vv, gen_helper_vmskltz_w)
++TRANS(vmskltz_d, gen_vv, gen_helper_vmskltz_d)
++TRANS(vmskgez_b, gen_vv, gen_helper_vmskgez_b)
++TRANS(vmsknz_b, gen_vv, gen_helper_vmsknz_b)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 39c582d098..4233dd7404 100644
+index 4233dd7404..47c1ef78a7 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -778,3 +778,8 @@ vexth_hu_bu      0111 00101001 11101 11100 ..... .....    @vv
- vexth_wu_hu      0111 00101001 11101 11101 ..... .....    @vv
- vexth_du_wu      0111 00101001 11101 11110 ..... .....    @vv
- vexth_qu_du      0111 00101001 11101 11111 ..... .....    @vv
+@@ -783,3 +783,10 @@ vsigncov_b       0111 00010010 11100 ..... ..... .....    @vvv
+ vsigncov_h       0111 00010010 11101 ..... ..... .....    @vvv
+ vsigncov_w       0111 00010010 11110 ..... ..... .....    @vvv
+ vsigncov_d       0111 00010010 11111 ..... ..... .....    @vvv
 +
-+vsigncov_b       0111 00010010 11100 ..... ..... .....    @vvv
-+vsigncov_h       0111 00010010 11101 ..... ..... .....    @vvv
-+vsigncov_w       0111 00010010 11110 ..... ..... .....    @vvv
-+vsigncov_d       0111 00010010 11111 ..... ..... .....    @vvv
++vmskltz_b        0111 00101001 11000 10000 ..... .....    @vv
++vmskltz_h        0111 00101001 11000 10001 ..... .....    @vv
++vmskltz_w        0111 00101001 11000 10010 ..... .....    @vv
++vmskltz_d        0111 00101001 11000 10011 ..... .....    @vv
++vmskgez_b        0111 00101001 11000 10100 ..... .....    @vv
++vmsknz_b         0111 00101001 11000 11000 ..... .....    @vv
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index b4582a49d9..408815ea45 100644
+index 408815ea45..2359c63fdf 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -662,3 +662,10 @@ VEXTH(vexth_d_w, 64, D, W)
- VEXTH(vexth_hu_bu, 16, UH, UB)
- VEXTH(vexth_wu_hu, 32, UW, UH)
- VEXTH(vexth_du_wu, 64, UD, UW)
+@@ -669,3 +669,116 @@ DO_3OP(vsigncov_b, 8, B, DO_SIGNCOV)
+ DO_3OP(vsigncov_h, 16, H, DO_SIGNCOV)
+ DO_3OP(vsigncov_w, 32, W, DO_SIGNCOV)
+ DO_3OP(vsigncov_d, 64, D, DO_SIGNCOV)
 +
-+#define DO_SIGNCOV(a, b)  (a == 0 ? 0 : a < 0 ? -b : b)
++static uint64_t do_vmskltz_b(int64_t val)
++{
++    uint64_t m = 0x8080808080808080ULL;
++    uint64_t c =  val & m;
++    c |= c << 7;
++    c |= c << 14;
++    c |= c << 28;
++    return c >> 56;
++}
 +
-+DO_3OP(vsigncov_b, 8, B, DO_SIGNCOV)
-+DO_3OP(vsigncov_h, 16, H, DO_SIGNCOV)
-+DO_3OP(vsigncov_w, 32, W, DO_SIGNCOV)
-+DO_3OP(vsigncov_d, 64, D, DO_SIGNCOV)
++void HELPER(vmskltz_b)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
++{
++    uint16_t temp = 0;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++
++    temp = do_vmskltz_b(Vj->D(0));
++    temp |= (do_vmskltz_b(Vj->D(1)) << 8);
++    Vd->D(0) = temp;
++    Vd->D(1) = 0;
++}
++
++static uint64_t do_vmskltz_h(int64_t val)
++{
++    uint64_t m = 0x8000800080008000ULL;
++    uint64_t c =  val & m;
++    c |= c << 15;
++    c |= c << 30;
++    return c >> 60;
++}
++
++void HELPER(vmskltz_h)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
++{
++    uint16_t temp = 0;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++
++    temp = do_vmskltz_h(Vj->D(0));
++    temp |= (do_vmskltz_h(Vj->D(1)) << 4);
++    Vd->D(0) = temp;
++    Vd->D(1) = 0;
++}
++
++static uint64_t do_vmskltz_w(int64_t val)
++{
++    uint64_t m = 0x8000000080000000ULL;
++    uint64_t c =  val & m;
++    c |= c << 31;
++    return c >> 62;
++}
++
++void HELPER(vmskltz_w)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
++{
++    uint16_t temp = 0;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++
++    temp = do_vmskltz_w(Vj->D(0));
++    temp |= (do_vmskltz_w(Vj->D(1)) << 2);
++    Vd->D(0) = temp;
++    Vd->D(1) = 0;
++}
++
++static uint64_t do_vmskltz_d(int64_t val)
++{
++    return (uint64_t)val >> 63;
++}
++void HELPER(vmskltz_d)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
++{
++    uint16_t temp = 0;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++
++    temp = do_vmskltz_d(Vj->D(0));
++    temp |= (do_vmskltz_d(Vj->D(1)) << 1);
++    Vd->D(0) = temp;
++    Vd->D(1) = 0;
++}
++
++void HELPER(vmskgez_b)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
++{
++    uint16_t temp = 0;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++
++    temp =  do_vmskltz_b(Vj->D(0));
++    temp |= (do_vmskltz_b(Vj->D(1)) << 8);
++    Vd->D(0) = (uint16_t)(~temp);
++    Vd->D(1) = 0;
++}
++
++static uint64_t do_vmskez_b(uint64_t a)
++{
++    uint64_t m = 0x7f7f7f7f7f7f7f7fULL;
++    uint64_t c = ~(((a & m) + m) | a | m);
++    c |= c << 7;
++    c |= c << 14;
++    c |= c << 28;
++    return c >> 56;
++}
++
++void HELPER(vmsknz_b)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
++{
++    uint16_t temp = 0;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++
++    temp = do_vmskez_b(Vj->D(0));
++    temp |= (do_vmskez_b(Vj->D(1)) << 8);
++    Vd->D(0) = (uint16_t)(~temp);
++    Vd->D(1) = 0;
++}
 -- 
 2.31.1
 
