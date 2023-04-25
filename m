@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC3B6EE2B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CEA6EE2C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:20:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prIVh-0006lT-Kj; Tue, 25 Apr 2023 09:15:10 -0400
+	id 1prIZ0-00029Y-6g; Tue, 25 Apr 2023 09:18:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prIVG-0006Sg-De
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:14:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prIVT-0006rN-Uc
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:15:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prIUt-0006aE-0x
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:14:21 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prIVG-0006an-KU
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:14:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682428458;
+ s=mimecast20190719; t=1682428459;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YijfYPH6A8UH2Sl6+fxNlhx4m+vMGk3MZm7EECWpDzo=;
- b=dEutORoPBgSSZnqKcPIMGHPODXReAY1VgsSw+yXVs+VdUxcnNIg3FQvpDfm9MfhzVACeUj
- JuGVhPtkT4Qjnh49O+A4zRh3dTrP72ympMloLARAw0XNu46jLWPyrnxy/rp/uk5qItbo28
- h3LmpCh0Gagp8G1AgJY2zMy8v8JH5qY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eOxD0B6t6Kjmv88wWP5XaU39InLoXf99vLZGPp2IDzA=;
+ b=hVqbmSSRSXnQH1yto34bR1st7uEDi1tKOixRyM8Z3NsUsUHmE1ug+3ul9cnXwr+ArgSp7E
+ XvuA0kwKaLRcAdycF0UTFpFkAOeC0xcLIYx1NyLg/INqPGdagvptryoywkJRaPjMz55+Q+
+ 6EsqJSMgG6yzs8txA9JYL/cn4sFlKNQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-is4YeGWGP9248eX5tSWj2g-1; Tue, 25 Apr 2023 09:14:17 -0400
-X-MC-Unique: is4YeGWGP9248eX5tSWj2g-1
+ us-mta-27-5Es_dXVCM669woBBZbrTcw-1; Tue, 25 Apr 2023 09:14:18 -0400
+X-MC-Unique: 5Es_dXVCM669woBBZbrTcw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC8B21C01B25;
- Tue, 25 Apr 2023 13:14:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF0C3185A794;
+ Tue, 25 Apr 2023 13:14:17 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CC5E40C201F;
- Tue, 25 Apr 2023 13:14:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 004E240C2064;
+ Tue, 25 Apr 2023 13:14:16 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 13/25] io_uring: use LuringState from the running thread
-Date: Tue, 25 Apr 2023 15:13:47 +0200
-Message-Id: <20230425131359.259007-14-kwolf@redhat.com>
+Subject: [PULL 14/25] thread-pool: use ThreadPool from the running thread
+Date: Tue, 25 Apr 2023 15:13:48 +0200
+Message-Id: <20230425131359.259007-15-kwolf@redhat.com>
 In-Reply-To: <20230425131359.259007-1-kwolf@redhat.com>
 References: <20230425131359.259007-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -79,197 +79,213 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Remove usage of aio_context_acquire by always submitting asynchronous
-AIO to the current thread's LuringState.
+Use qemu_get_current_aio_context() where possible, since we always
+submit work to the current thread anyways.
 
-In order to prevent mistakes from the caller side, avoid passing LuringState
-in luring_io_{plug/unplug} and luring_co_submit, and document the functions
-to make clear that they work in the current thread's AioContext.
+We want to also be sure that the thread submitting the work is
+the same as the one processing the pool, to avoid adding
+synchronization to the pool list.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20230203131731.851116-3-eesposit@redhat.com>
+Message-Id: <20230203131731.851116-4-eesposit@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/aio.h     |  4 ----
- include/block/raw-aio.h | 15 +++++++++++----
- block/file-posix.c      | 12 ++++--------
- block/io_uring.c        | 23 +++++++++++++++--------
- 4 files changed, 30 insertions(+), 24 deletions(-)
+ include/block/thread-pool.h |  5 +++++
+ block/file-posix.c          | 21 ++++++++++-----------
+ block/file-win32.c          |  2 +-
+ block/qcow2-threads.c       |  2 +-
+ util/thread-pool.c          |  9 ++++-----
+ 5 files changed, 21 insertions(+), 18 deletions(-)
 
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 9e53aabba6..e267d918fd 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -211,10 +211,6 @@ struct AioContext {
-     struct LinuxAioState *linux_aio;
- #endif
- #ifdef CONFIG_LINUX_IO_URING
--    /*
--     * State for Linux io_uring.  Uses aio_context_acquire/release for
--     * locking.
--     */
-     struct LuringState *linux_io_uring;
+diff --git a/include/block/thread-pool.h b/include/block/thread-pool.h
+index 95ff2b0bdb..c408bde74c 100644
+--- a/include/block/thread-pool.h
++++ b/include/block/thread-pool.h
+@@ -29,12 +29,17 @@ typedef struct ThreadPool ThreadPool;
+ ThreadPool *thread_pool_new(struct AioContext *ctx);
+ void thread_pool_free(ThreadPool *pool);
  
-     /* State for file descriptor monitoring using Linux io_uring */
-diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
-index db614472e6..e46a29c3f0 100644
---- a/include/block/raw-aio.h
-+++ b/include/block/raw-aio.h
-@@ -69,12 +69,19 @@ void laio_io_unplug(uint64_t dev_max_batch);
- typedef struct LuringState LuringState;
- LuringState *luring_init(Error **errp);
- void luring_cleanup(LuringState *s);
--int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
--                                uint64_t offset, QEMUIOVector *qiov, int type);
-+
-+/* luring_co_submit: submit I/O requests in the thread's current AioContext. */
-+int coroutine_fn luring_co_submit(BlockDriverState *bs, int fd, uint64_t offset,
-+                                  QEMUIOVector *qiov, int type);
- void luring_detach_aio_context(LuringState *s, AioContext *old_context);
- void luring_attach_aio_context(LuringState *s, AioContext *new_context);
--void luring_io_plug(BlockDriverState *bs, LuringState *s);
--void luring_io_unplug(BlockDriverState *bs, LuringState *s);
-+
 +/*
-+ * luring_io_plug/unplug work in the thread's current AioContext, therefore the
-+ * caller must ensure that they are paired in the same IOThread.
++ * thread_pool_submit* API: submit I/O requests in the thread's
++ * current AioContext.
 + */
-+void luring_io_plug(void);
-+void luring_io_unplug(void);
- #endif
+ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
+         ThreadPoolFunc *func, void *arg,
+         BlockCompletionFunc *cb, void *opaque);
+ int coroutine_fn thread_pool_submit_co(ThreadPool *pool,
+         ThreadPoolFunc *func, void *arg);
+ void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg);
++
+ void thread_pool_update_params(ThreadPool *pool, struct AioContext *ctx);
  
- #ifdef _WIN32
+ #endif
 diff --git a/block/file-posix.c b/block/file-posix.c
-index 1b4342822b..30cb4ae421 100644
+index 30cb4ae421..173b3b1653 100644
 --- a/block/file-posix.c
 +++ b/block/file-posix.c
-@@ -2089,9 +2089,8 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
-         type |= QEMU_AIO_MISALIGNED;
- #ifdef CONFIG_LINUX_IO_URING
-     } else if (s->use_linux_io_uring) {
--        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
-         assert(qiov->size == bytes);
--        return luring_co_submit(bs, aio, s->fd, offset, qiov, type);
-+        return luring_co_submit(bs, s->fd, offset, qiov, type);
- #endif
- #ifdef CONFIG_LINUX_AIO
-     } else if (s->use_linux_aio) {
-@@ -2140,8 +2139,7 @@ static void coroutine_fn raw_co_io_plug(BlockDriverState *bs)
- #endif
- #ifdef CONFIG_LINUX_IO_URING
-     if (s->use_linux_io_uring) {
--        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
--        luring_io_plug(bs, aio);
-+        luring_io_plug();
-     }
- #endif
+@@ -2040,11 +2040,10 @@ out:
+     return result;
  }
-@@ -2156,8 +2154,7 @@ static void coroutine_fn raw_co_io_unplug(BlockDriverState *bs)
- #endif
- #ifdef CONFIG_LINUX_IO_URING
-     if (s->use_linux_io_uring) {
--        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
--        luring_io_unplug(bs, aio);
-+        luring_io_unplug();
-     }
- #endif
+ 
+-static int coroutine_fn raw_thread_pool_submit(BlockDriverState *bs,
+-                                               ThreadPoolFunc func, void *arg)
++static int coroutine_fn raw_thread_pool_submit(ThreadPoolFunc func, void *arg)
+ {
+     /* @bs can be NULL, bdrv_get_aio_context() returns the main context then */
+-    ThreadPool *pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
++    ThreadPool *pool = aio_get_thread_pool(qemu_get_current_aio_context());
+     return thread_pool_submit_co(pool, func, arg);
  }
-@@ -2181,8 +2178,7 @@ static int coroutine_fn raw_co_flush_to_disk(BlockDriverState *bs)
  
- #ifdef CONFIG_LINUX_IO_URING
-     if (s->use_linux_io_uring) {
--        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
--        return luring_co_submit(bs, aio, s->fd, 0, NULL, QEMU_AIO_FLUSH);
-+        return luring_co_submit(bs, s->fd, 0, NULL, QEMU_AIO_FLUSH);
+@@ -2112,7 +2111,7 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
+     };
+ 
+     assert(qiov->size == bytes);
+-    return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
++    return raw_thread_pool_submit(handle_aiocb_rw, &acb);
+ }
+ 
+ static int coroutine_fn raw_co_preadv(BlockDriverState *bs, int64_t offset,
+@@ -2181,7 +2180,7 @@ static int coroutine_fn raw_co_flush_to_disk(BlockDriverState *bs)
+         return luring_co_submit(bs, s->fd, 0, NULL, QEMU_AIO_FLUSH);
      }
  #endif
-     return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
-diff --git a/block/io_uring.c b/block/io_uring.c
-index 973e15d876..989f9a99ed 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -18,6 +18,9 @@
- #include "qapi/error.h"
- #include "trace.h"
+-    return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
++    return raw_thread_pool_submit(handle_aiocb_flush, &acb);
+ }
  
-+/* Only used for assertions.  */
-+#include "qemu/coroutine_int.h"
-+
- /* io_uring ring size */
- #define MAX_ENTRIES 128
+ static void raw_aio_attach_aio_context(BlockDriverState *bs,
+@@ -2243,7 +2242,7 @@ raw_regular_truncate(BlockDriverState *bs, int fd, int64_t offset,
+         },
+     };
  
-@@ -50,10 +53,9 @@ typedef struct LuringState {
+-    return raw_thread_pool_submit(bs, handle_aiocb_truncate, &acb);
++    return raw_thread_pool_submit(handle_aiocb_truncate, &acb);
+ }
  
-     struct io_uring ring;
+ static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offset,
+@@ -2992,7 +2991,7 @@ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
+         acb.aio_type |= QEMU_AIO_BLKDEV;
+     }
  
--    /* io queue for submit at batch.  Protected by AioContext lock. */
-+    /* No locking required, only accessed from AioContext home thread */
-     LuringQueue io_q;
+-    ret = raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
++    ret = raw_thread_pool_submit(handle_aiocb_discard, &acb);
+     raw_account_discard(s, bytes, ret);
+     return ret;
+ }
+@@ -3067,7 +3066,7 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int64_t bytes,
+         handler = handle_aiocb_write_zeroes;
+     }
  
--    /* I/O completion processing.  Only runs in I/O thread.  */
-     QEMUBH *completion_bh;
- } LuringState;
+-    return raw_thread_pool_submit(bs, handler, &acb);
++    return raw_thread_pool_submit(handler, &acb);
+ }
  
-@@ -209,6 +211,7 @@ end:
-          * eventually runs later. Coroutines cannot be entered recursively
-          * so avoid doing that!
-          */
-+        assert(luringcb->co->ctx == s->aio_context);
-         if (!qemu_coroutine_entered(luringcb->co)) {
-             aio_co_wake(luringcb->co);
+ static int coroutine_fn raw_co_pwrite_zeroes(
+@@ -3305,7 +3304,7 @@ raw_co_copy_range_to(BlockDriverState *bs,
+         },
+     };
+ 
+-    return raw_thread_pool_submit(bs, handle_aiocb_copy_range, &acb);
++    return raw_thread_pool_submit(handle_aiocb_copy_range, &acb);
+ }
+ 
+ BlockDriver bdrv_file = {
+@@ -3635,7 +3634,7 @@ hdev_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
+         struct sg_io_hdr *io_hdr = buf;
+         if (io_hdr->cmdp[0] == PERSISTENT_RESERVE_OUT ||
+             io_hdr->cmdp[0] == PERSISTENT_RESERVE_IN) {
+-            return pr_manager_execute(s->pr_mgr, bdrv_get_aio_context(bs),
++            return pr_manager_execute(s->pr_mgr, qemu_get_current_aio_context(),
+                                       s->fd, io_hdr);
          }
-@@ -262,13 +265,11 @@ static int ioq_submit(LuringState *s)
- 
- static void luring_process_completions_and_submit(LuringState *s)
- {
--    aio_context_acquire(s->aio_context);
-     luring_process_completions(s);
- 
-     if (!s->io_q.plugged && s->io_q.in_queue > 0) {
-         ioq_submit(s);
      }
--    aio_context_release(s->aio_context);
+@@ -3651,7 +3650,7 @@ hdev_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
+         },
+     };
+ 
+-    return raw_thread_pool_submit(bs, handle_aiocb_ioctl, &acb);
++    return raw_thread_pool_submit(handle_aiocb_ioctl, &acb);
+ }
+ #endif /* linux */
+ 
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 1763b8662e..0aedb0875c 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -168,7 +168,7 @@ static BlockAIOCB *paio_submit(BlockDriverState *bs, HANDLE hfile,
+     acb->aio_offset = offset;
+ 
+     trace_file_paio_submit(acb, opaque, offset, count, type);
+-    pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
++    pool = aio_get_thread_pool(qemu_get_current_aio_context());
+     return thread_pool_submit_aio(pool, aio_worker, acb, cb, opaque);
  }
  
- static void qemu_luring_completion_bh(void *opaque)
-@@ -306,14 +307,18 @@ static void ioq_init(LuringQueue *io_q)
-     io_q->blocked = false;
- }
- 
--void luring_io_plug(BlockDriverState *bs, LuringState *s)
-+void luring_io_plug(void)
- {
-+    AioContext *ctx = qemu_get_current_aio_context();
-+    LuringState *s = aio_get_linux_io_uring(ctx);
-     trace_luring_io_plug(s);
-     s->io_q.plugged++;
- }
- 
--void luring_io_unplug(BlockDriverState *bs, LuringState *s)
-+void luring_io_unplug(void)
- {
-+    AioContext *ctx = qemu_get_current_aio_context();
-+    LuringState *s = aio_get_linux_io_uring(ctx);
-     assert(s->io_q.plugged);
-     trace_luring_io_unplug(s, s->io_q.blocked, s->io_q.plugged,
-                            s->io_q.in_queue, s->io_q.in_flight);
-@@ -373,10 +378,12 @@ static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
-     return 0;
- }
- 
--int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
--                                  uint64_t offset, QEMUIOVector *qiov, int type)
-+int coroutine_fn luring_co_submit(BlockDriverState *bs, int fd, uint64_t offset,
-+                                  QEMUIOVector *qiov, int type)
+diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+index 953bbe6df8..6d2e6b7bf4 100644
+--- a/block/qcow2-threads.c
++++ b/block/qcow2-threads.c
+@@ -43,7 +43,7 @@ qcow2_co_process(BlockDriverState *bs, ThreadPoolFunc *func, void *arg)
  {
      int ret;
-+    AioContext *ctx = qemu_get_current_aio_context();
-+    LuringState *s = aio_get_linux_io_uring(ctx);
-     LuringAIOCB luringcb = {
-         .co         = qemu_coroutine_self(),
-         .ret        = -EINPROGRESS,
+     BDRVQcow2State *s = bs->opaque;
+-    ThreadPool *pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
++    ThreadPool *pool = aio_get_thread_pool(qemu_get_current_aio_context());
+ 
+     qemu_co_mutex_lock(&s->lock);
+     while (s->nb_threads >= QCOW2_MAX_THREADS) {
+diff --git a/util/thread-pool.c b/util/thread-pool.c
+index 31113b5860..a70abb8a59 100644
+--- a/util/thread-pool.c
++++ b/util/thread-pool.c
+@@ -48,7 +48,7 @@ struct ThreadPoolElement {
+     /* Access to this list is protected by lock.  */
+     QTAILQ_ENTRY(ThreadPoolElement) reqs;
+ 
+-    /* Access to this list is protected by the global mutex.  */
++    /* This list is only written by the thread pool's mother thread.  */
+     QLIST_ENTRY(ThreadPoolElement) all;
+ };
+ 
+@@ -175,7 +175,6 @@ static void thread_pool_completion_bh(void *opaque)
+     ThreadPool *pool = opaque;
+     ThreadPoolElement *elem, *next;
+ 
+-    aio_context_acquire(pool->ctx);
+ restart:
+     QLIST_FOREACH_SAFE(elem, &pool->head, all, next) {
+         if (elem->state != THREAD_DONE) {
+@@ -195,9 +194,7 @@ restart:
+              */
+             qemu_bh_schedule(pool->completion_bh);
+ 
+-            aio_context_release(pool->ctx);
+             elem->common.cb(elem->common.opaque, elem->ret);
+-            aio_context_acquire(pool->ctx);
+ 
+             /* We can safely cancel the completion_bh here regardless of someone
+              * else having scheduled it meanwhile because we reenter the
+@@ -211,7 +208,6 @@ restart:
+             qemu_aio_unref(elem);
+         }
+     }
+-    aio_context_release(pool->ctx);
+ }
+ 
+ static void thread_pool_cancel(BlockAIOCB *acb)
+@@ -251,6 +247,9 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
+ {
+     ThreadPoolElement *req;
+ 
++    /* Assert that the thread submitting work is the same running the pool */
++    assert(pool->ctx == qemu_get_current_aio_context());
++
+     req = qemu_aio_get(&thread_pool_aiocb_info, NULL, cb, opaque);
+     req->func = func;
+     req->arg = arg;
 -- 
 2.40.0
 
