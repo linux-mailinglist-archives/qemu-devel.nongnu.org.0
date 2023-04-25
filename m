@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70916EE8B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 21:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BCF6EE88E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 21:49:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prOQn-0003et-T6; Tue, 25 Apr 2023 15:34:30 -0400
+	id 1prOR3-0003us-G3; Tue, 25 Apr 2023 15:34:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prOQj-0003YN-Dk
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 15:34:25 -0400
-Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236])
+ id 1prOQk-0003aV-Gr
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 15:34:26 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prOQW-0004lG-Cf
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 15:34:24 -0400
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2a8bbea12d7so61233811fa.3
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 12:34:11 -0700 (PDT)
+ id 1prOQY-0004dZ-Hz
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 15:34:25 -0400
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-2a8a6602171so59398131fa.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 12:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682451251; x=1685043251;
+ d=linaro.org; s=google; t=1682451253; x=1685043253;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nOmbSp7hBydjLoN7MiEgB21hH67bcjILkQNA+Q9UF3g=;
- b=caSHb/VRtHNv1oSEGjjimxXApRFD+9t42CO5NfLoqxjnra7/Gg9fWA5IXD4c1DXFzG
- zvp56NU+N877FbfQ/ZqYE+jpixC0Ko0qXy9VSNIgAUYhnS1cIXr928znPKA1/G0utwkk
- z60Kq5qr7xhrZUKHY5T7GcAv3jTgRRWCbo8VnGrJy+CJEP00H4fE1G/FaBnngvyGML0i
- ZyFckwKsUOHDNzQPEpyvUZvtfxI4k2uCIzJC1YFqAYHCcsHna8MG4LLsffOOj+CAxmtA
- vxnR55kznfjVvd9HzrZIeTdHjv3M38blx6ffm+EzpOQwkjFdJLzXjdY0wuY0J4qXqIAm
- oijw==
+ bh=oGeKBjwjj2E8w/f9+TfXbJ+6j6aLsf9VhcvO9oNW35I=;
+ b=NrntvLZJUfj0+vtXua8gkDNDcStI/DQgjhUuy3ko37kA2ecnz+5WMYTg9QTrUnapJk
+ dzPqJAkJrIS+bRbqh9ORJByMZltD5WTyIe9N67dcpW3ZjunbH3gwo11xq86JsZogFvmx
+ T/BUuEwvV+rmiOLd25eKwY+9Gnwkt4WuyO24Gr0tozJ/j4RHA0ih1medIxJichTH4r/A
+ T5+6zVHiZVja2r7Mv+Zg0PxK/2AZd0DwBqmw5LwYnFKNXTjK/d15h28HPeNUNYyM5nBJ
+ 6xTa0tNRjraQe2bz/0wXAOh+/KhKFDm5koVY51PpGUgYkoOpDYc8M2MYB7Gpgao/6nmA
+ v0ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682451251; x=1685043251;
+ d=1e100.net; s=20221208; t=1682451253; x=1685043253;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nOmbSp7hBydjLoN7MiEgB21hH67bcjILkQNA+Q9UF3g=;
- b=RfnY/BBADNrxL2QRY5bTYV0PxZDIBIw9fmCYToOJxwsmZXHyHkuZqqurq5Wqnlaj7P
- sJI0ghpXbf426vfgqmxEaMX2N5q2TzTxyzyCvRfu/F/sKznfcL5Pbg50wXm9whiZ5C45
- r/gs6x4yvaVilKr/6onjWResp+C/wmcpNuWyBAArXisABunmVdi1v5XjLGki+bFZkgs1
- cNvEVto8Zo+DorqmsFQtYx8hrqV6RMvHeAacdLQXrwI1EM/iFVi2n2AeTRrJcTjsCJmW
- cSrxm9Hbs4TJxp8isg8h5ADepMZd3ga/9EMm5xX6U77yVxNpQ/4EUq8yvKSKuYay63pD
- bnAA==
-X-Gm-Message-State: AAQBX9eckHUbEeyOfQ5lCrbL12Q930ee8mhOkCjkDuUlquRsZCDIiaPz
- Gq70Q9Rc0btWkyqJYJGyTRtEy+4g2aCKRKTW2cw0Yg==
-X-Google-Smtp-Source: AKy350b7Ijt1IigEU+Lr01j+NDYgDUtg4nkbdutHBkNDcRX3hEmd/UcJlkIsHoeYms0CJkXSLncXRw==
-X-Received: by 2002:a2e:3213:0:b0:2a8:e642:8cdb with SMTP id
- y19-20020a2e3213000000b002a8e6428cdbmr3582700ljy.49.1682451250716; 
- Tue, 25 Apr 2023 12:34:10 -0700 (PDT)
+ bh=oGeKBjwjj2E8w/f9+TfXbJ+6j6aLsf9VhcvO9oNW35I=;
+ b=kKeFSuokoOxobm4ViRVKFR0ynXFqJlLxtFIM9bhAbvNHkEbb2akC3/wzwm6ohLvDJ+
+ uxpgaJIAsy5xgu9HaNbdAzLbYDRTsxubM4NSjz7n0VxIskkX8JPiL3X6VEnYmyrj9qvo
+ tx8SCpfyqNLX+sE1NqWIxwI9p1qQ8YdGL6UjZ0HcEYj9f4rO8r5hz9rV/RBNFXK/IsCM
+ 01qRKNBmukDQj83DoKznuR/FF6VFWbgpTZTMAxrMHNZPW65f1z4SfjY8Mp4Ko9/b639q
+ 6ZCQwkQsryGKlV5nJOB44CHUqrYHa7hM5b/iqvj4h7r6rfR2aPt0Pqm1iCmXLBqrj99/
+ IGXw==
+X-Gm-Message-State: AAQBX9dEXJlD7v0g8RPv2Ey7Rv62JQGtxLY/WFbYQlr6dQ3ufuSiY9DT
+ 4rA/2oYrKmqvqBByZ5ZzelAJjA9KFQRIPBpVCwhxQA==
+X-Google-Smtp-Source: AKy350bIZnDUC4+0LzdywBjPKekpjWolONpnw+cosTpq4+dVPQL+3kt52RAvBVZpOLZWcd28ye7pmA==
+X-Received: by 2002:a2e:9c03:0:b0:2ab:e50:315a with SMTP id
+ s3-20020a2e9c03000000b002ab0e50315amr2185784lji.51.1682451253648; 
+ Tue, 25 Apr 2023 12:34:13 -0700 (PDT)
 Received: from stoup.. ([91.209.212.61]) by smtp.gmail.com with ESMTPSA id
- z23-20020a2e8857000000b002a8c271de33sm2160484ljj.67.2023.04.25.12.34.08
+ z23-20020a2e8857000000b002a8c271de33sm2160484ljj.67.2023.04.25.12.34.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 12:34:10 -0700 (PDT)
+ Tue, 25 Apr 2023 12:34:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
  qemu-ppc@nongnu.org, git@xen0n.name, jiaxun.yang@flygoat.com,
  philmd@linaro.org
-Subject: [PATCH v3 19/57] accel/tcg: Add have_lse2 support in ldst_atomicity
-Date: Tue, 25 Apr 2023 20:31:08 +0100
-Message-Id: <20230425193146.2106111-20-richard.henderson@linaro.org>
+Subject: [PATCH v3 20/57] tcg: Introduce TCG_OPF_TYPE_MASK
+Date: Tue, 25 Apr 2023 20:31:09 +0100
+Message-Id: <20230425193146.2106111-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230425193146.2106111-1-richard.henderson@linaro.org>
 References: <20230425193146.2106111-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
- envelope-from=richard.henderson@linaro.org; helo=mail-lj1-x236.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=richard.henderson@linaro.org; helo=mail-lj1-x233.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,89 +93,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add fast paths for FEAT_LSE2, using the detection in tcg.
+Reorg TCG_OPF_64BIT and TCG_OPF_VECTOR into a two-bit field so
+that we can add TCG_OPF_128BIT without requiring another bit.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/ldst_atomicity.c.inc | 37 ++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
+ include/tcg/tcg.h            | 22 ++++++++++++----------
+ tcg/optimize.c               | 15 ++++++++++++---
+ tcg/tcg.c                    |  4 ++--
+ tcg/aarch64/tcg-target.c.inc |  8 +++++---
+ tcg/tci/tcg-target.c.inc     |  3 ++-
+ 5 files changed, 33 insertions(+), 19 deletions(-)
 
-diff --git a/accel/tcg/ldst_atomicity.c.inc b/accel/tcg/ldst_atomicity.c.inc
-index cf4a0e4a6e..4c4287c8c9 100644
---- a/accel/tcg/ldst_atomicity.c.inc
-+++ b/accel/tcg/ldst_atomicity.c.inc
-@@ -41,6 +41,8 @@
-  * but we're using tcg/tci/ instead.
-  */
- # define HAVE_al16_fast    false
-+#elif defined(__aarch64__)
-+# define HAVE_al16_fast    likely(have_lse2)
- #elif defined(__x86_64__)
- # define HAVE_al16_fast    likely(have_atomic16)
- #else
-@@ -48,6 +50,8 @@
- #endif
- #if defined(CONFIG_ATOMIC128) || defined(CONFIG_CMPXCHG128)
- # define HAVE_al16         true
-+#elif defined(__aarch64__)
-+# define HAVE_al16         true
- #else
- # define HAVE_al16         false
- #endif
-@@ -170,6 +174,14 @@ load_atomic16(void *pv)
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index b19e167e1d..efbd891f87 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -932,24 +932,26 @@ typedef struct TCGArgConstraint {
  
-     r.u = qatomic_read__nocheck(p);
-     return r.s;
-+#elif defined(__aarch64__)
-+    uint64_t l, h;
-+
-+    /* Via HAVE_al16_fast, FEAT_LSE2 is present: LDP becomes atomic. */
-+    asm("ldp %0, %1, %2" : "=r"(l), "=r"(h) : "m"(*(__uint128_t *)pv));
-+
-+    qemu_build_assert(!HOST_BIG_ENDIAN);
-+    return int128_make128(l, h);
- #elif defined(__x86_64__)
-     Int128Alias r;
+ /* Bits for TCGOpDef->flags, 8 bits available, all used.  */
+ enum {
++    /* Two bits describing the output type. */
++    TCG_OPF_TYPE_MASK    = 0x03,
++    TCG_OPF_32BIT        = 0x00,
++    TCG_OPF_64BIT        = 0x01,
++    TCG_OPF_VECTOR       = 0x02,
++    TCG_OPF_128BIT       = 0x03,
+     /* Instruction exits the translation block.  */
+-    TCG_OPF_BB_EXIT      = 0x01,
++    TCG_OPF_BB_EXIT      = 0x04,
+     /* Instruction defines the end of a basic block.  */
+-    TCG_OPF_BB_END       = 0x02,
++    TCG_OPF_BB_END       = 0x08,
+     /* Instruction clobbers call registers and potentially update globals.  */
+-    TCG_OPF_CALL_CLOBBER = 0x04,
++    TCG_OPF_CALL_CLOBBER = 0x10,
+     /* Instruction has side effects: it cannot be removed if its outputs
+        are not used, and might trigger exceptions.  */
+-    TCG_OPF_SIDE_EFFECTS = 0x08,
+-    /* Instruction operands are 64-bits (otherwise 32-bits).  */
+-    TCG_OPF_64BIT        = 0x10,
++    TCG_OPF_SIDE_EFFECTS = 0x20,
+     /* Instruction is optional and not implemented by the host, or insn
+        is generic and should not be implemened by the host.  */
+-    TCG_OPF_NOT_PRESENT  = 0x20,
+-    /* Instruction operands are vectors.  */
+-    TCG_OPF_VECTOR       = 0x40,
++    TCG_OPF_NOT_PRESENT  = 0x40,
+     /* Instruction is a conditional branch. */
+-    TCG_OPF_COND_BRANCH  = 0x80
++    TCG_OPF_COND_BRANCH  = 0x80,
+ };
  
-@@ -412,6 +424,18 @@ load_atom_extract_al16_or_al8(void *pv, int s)
-         r = qatomic_read__nocheck(p16);
-     }
-     return r >> shr;
-+#elif defined(__aarch64__)
+ typedef struct TCGOpDef {
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 9614fa3638..37d46f2a1f 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -2051,12 +2051,21 @@ void tcg_optimize(TCGContext *s)
+         copy_propagate(&ctx, op, def->nb_oargs, def->nb_iargs);
+ 
+         /* Pre-compute the type of the operation. */
+-        if (def->flags & TCG_OPF_VECTOR) {
++        switch (def->flags & TCG_OPF_TYPE_MASK) {
++        case TCG_OPF_VECTOR:
+             ctx.type = TCG_TYPE_V64 + TCGOP_VECL(op);
+-        } else if (def->flags & TCG_OPF_64BIT) {
++            break;
++        case TCG_OPF_128BIT:
++            ctx.type = TCG_TYPE_I128;
++            break;
++        case TCG_OPF_64BIT:
+             ctx.type = TCG_TYPE_I64;
+-        } else {
++            break;
++        case TCG_OPF_32BIT:
+             ctx.type = TCG_TYPE_I32;
++            break;
++        default:
++            qemu_build_not_reached();
+         }
+ 
+         /* Assume all bits affected, no bits known zero, no sign reps. */
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index d7659fdc67..8216855810 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -2294,7 +2294,7 @@ static void tcg_dump_ops(TCGContext *s, FILE *f, bool have_prefs)
+             nb_iargs = def->nb_iargs;
+             nb_cargs = def->nb_cargs;
+ 
+-            if (def->flags & TCG_OPF_VECTOR) {
++            if ((def->flags & TCG_OPF_TYPE_MASK) == TCG_OPF_VECTOR) {
+                 col += ne_fprintf(f, "v%d,e%d,", 64 << TCGOP_VECL(op),
+                                   8 << TCGOP_VECE(op));
+             }
+@@ -4782,7 +4782,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+         tcg_out_extrl_i64_i32(s, new_args[0], new_args[1]);
+         break;
+     default:
+-        if (def->flags & TCG_OPF_VECTOR) {
++        if ((def->flags & TCG_OPF_TYPE_MASK) == TCG_OPF_VECTOR) {
+             tcg_out_vec_op(s, op->opc, TCGOP_VECL(op), TCGOP_VECE(op),
+                            new_args, const_args);
+         } else {
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 3adc5fd3a3..43acb4fbcb 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1921,9 +1921,11 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+                        const TCGArg args[TCG_MAX_OP_ARGS],
+                        const int const_args[TCG_MAX_OP_ARGS])
+ {
+-    /* 99% of the time, we can signal the use of extension registers
+-       by looking to see if the opcode handles 64-bit data.  */
+-    TCGType ext = (tcg_op_defs[opc].flags & TCG_OPF_64BIT) != 0;
 +    /*
-+     * Via HAVE_al16_fast, FEAT_LSE2 is present.
-+     * LDP becomes single-copy atomic if 16-byte aligned, and
-+     * single-copy atomic on the parts if 8-byte aligned.
++     * 99% of the time, we can signal the use of extension registers
++     * by looking to see if the opcode handles 32-bit data or not.
 +     */
-+    uintptr_t pi = (uintptr_t)pv;
-+    int shr = (pi & 7) * 8;
-+    uint64_t l, h;
-+
-+    asm("ldp %0, %1, %2" : "=r"(l), "=r"(h) : "m"(*(__uint128_t *)(pi & ~7)));
-+    return (l >> shr) | (h << (-shr & 63));
- #elif defined(__x86_64__)
-     uintptr_t pi = (uintptr_t)pv;
-     int shr = (pi & 7) * 8;
-@@ -767,10 +791,15 @@ store_atomic16(void *pv, Int128Alias val)
-         l = int128_getlo(val.s);
-         h = int128_gethi(val.s);
++    TCGType ext = (tcg_op_defs[opc].flags & TCG_OPF_TYPE_MASK) != TCG_OPF_32BIT;
  
--        asm("0: ldxp %0, xzr, %1\n\t"
--            "stxp %w0, %2, %3, %1\n\t"
--            "cbnz %w0, 0b"
--            : "=&r"(t), "=Q"(*(__uint128_t *)pv) : "r"(l), "r"(h));
-+        if (HAVE_al16_fast) {
-+            /* Via HAVE_al16_fast, FEAT_LSE2 is present: STP becomes atomic. */
-+            asm("stp %1, %2, %0" : "=Q"(*(__uint128_t *)pv) : "r"(l), "r"(h));
-+        } else {
-+            asm("0: ldxp %0, xzr, %1\n\t"
-+                "stxp %w0, %2, %3, %1\n\t"
-+                "cbnz %w0, 0b"
-+                : "=&r"(t), "=Q"(*(__uint128_t *)pv) : "r"(l), "r"(h));
-+        }
-         return;
-     }
- #elif defined(CONFIG_CMPXCHG128)
+     /* Hoist the loads of the most common arguments.  */
+     TCGArg a0 = args[0];
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 4cf03a579c..e31640d109 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -790,7 +790,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+     CASE_32_64(sextract) /* Optional (TCG_TARGET_HAS_sextract_*). */
+         {
+             TCGArg pos = args[2], len = args[3];
+-            TCGArg max = tcg_op_defs[opc].flags & TCG_OPF_64BIT ? 64 : 32;
++            TCGArg max = ((tcg_op_defs[opc].flags & TCG_OPF_TYPE_MASK)
++                          == TCG_OPF_32BIT ? 32 : 64);
+ 
+             tcg_debug_assert(pos < max);
+             tcg_debug_assert(pos + len <= max);
 -- 
 2.34.1
 
