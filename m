@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2796EE8E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 22:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7B96EE8E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 22:17:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prP0G-0003Pj-To; Tue, 25 Apr 2023 16:11:08 -0400
+	id 1prP4i-0006Up-Bl; Tue, 25 Apr 2023 16:15:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1prP0E-0003Oz-R2
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:11:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1prP0D-0005jR-8w
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:11:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682453464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=h8Icss+s1ga5DVgfzuIseXB1yszTAQ1GzknViRxs9IE=;
- b=Mxw8LUeeDMoA++7iL0YtLnm5fmXBtBs9D9tPb46k2sVC7SAGj70hgmSAi9mJVHxv2As9C4
- gm4SGvdN2rMVpIt69kz3dMTyTVvEtd41sp2SSVIMY7PodVOCmJmuz70AfJN4ZVYpWNI5Yz
- EbAqhw1CW7aYcljXoCyftM+3PQcghXM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-145-uogNNy3vO_OaH-6UsEIGhA-1; Tue, 25 Apr 2023 16:11:00 -0400
-X-MC-Unique: uogNNy3vO_OaH-6UsEIGhA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A5523C0F676;
- Tue, 25 Apr 2023 20:11:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52C6E492B03;
- Tue, 25 Apr 2023 20:10:59 +0000 (UTC)
-Date: Tue, 25 Apr 2023 15:10:57 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, pbonzini@redhat.com, 
- eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 05/20] test-bdrv-drain: Don't modify the graph in
- coroutines
-Message-ID: <54oopk63xfdlo7dslqllkxbd32eivntk3xeilvkqvktbktzndh@waukpcqhzst3>
-References: <20230425173158.574203-1-kwolf@redhat.com>
- <20230425173158.574203-6-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1prP4d-0006UN-Hq
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:15:39 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1prP4c-00074E-2I
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 16:15:39 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-504fce3d7fbso9617229a12.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 13:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682453736; x=1685045736;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LGa2Vu75kfp4BIROOBRetvOgJUYNu0OpvUyEFHoBSOg=;
+ b=MkKsugK3uwoCn8ZeLZjuGeFrSstG+GOTpuTiTuFWkeX8IrqpkuHAdMAQjefAN8DvFd
+ 8hZ2GaPmCbLDEcgam08vjMQPFZ92I5l/sXGPKdBHZVB1mxRx9tO9cuiPH4CskO51KB+w
+ SwEI6k1CtVnd3Tv4eDK8TtFJAWH9Zm4SXw9pyIyiA00cGMQWj+AoXgdYON0LdjN0KJX5
+ asSap89ViOYblxNGEfpAtmU4fNjQ+QmEGeM02UhA4HLuNHT4aYMKQCzz+tjy5fPM67R0
+ +jupxNx63V6FmUavyypn9y4jRf95skN1BeDPpVYnENyqcDf+AKtI2HM5lhERUG0LHnUB
+ y6CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682453736; x=1685045736;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LGa2Vu75kfp4BIROOBRetvOgJUYNu0OpvUyEFHoBSOg=;
+ b=XI8BfWULK63IyJt+AqqLDWLsZSgDNePLS7uTtoSHzK4JRIJfhmvJGS2oguY2iCWQRZ
+ VPp1p+sjtPiN5jhk8UXDx2473b7wpSsUpJjugQnCN7MAFRKr2dxd90kSox8wYAM2SXgT
+ iq1J9EDeMG//xK9TrwUG5my4NhzWnjgWt5J7P6WiGjyJJgksKpVr/uFO2CiY7JYr7TUA
+ SxcSyrqsRnMSn+fLvvA+9OaJqiP9RXOo+KSbc6wcoQXT7EUQ4ASOAm2MyoXdpmZ8aqhU
+ s85KaD/dB7lyymYzjHqtqLRLplIM8n4FZS/LlH3bsgTPkihQMwft9X/3bEDk3UsDMDGv
+ QaYg==
+X-Gm-Message-State: AAQBX9fpaAmiI5P0QGAOiaYnrIuinoCIZQcrq+kuY+pH8elA2i8WjYT3
+ +r8iY4SAeYvSHUT57XPE3vFpJhpHEyPBkIj34Jz5eg==
+X-Google-Smtp-Source: AKy350bj5F+Z7Jf5YeMqJ5EyLEsEtYQxRPYthGqNh5G3k/3/eLu4j3y1mY6lZAMFyj+LFEQ3Jt7Jrqui+GWqJJtrg+0=
+X-Received: by 2002:a50:ee86:0:b0:506:a446:b926 with SMTP id
+ f6-20020a50ee86000000b00506a446b926mr17397729edr.19.1682453736290; Tue, 25
+ Apr 2023 13:15:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230425173158.574203-6-kwolf@redhat.com>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20230421165037.2506-1-Jonathan.Cameron@huawei.com>
+ <CAFEAcA_DB=nNdiMRwn02mUAATKLvV0Nzs2dCYaM+2fwitac5sg@mail.gmail.com>
+ <20230424164058.00000a3d@Huawei.com>
+ <CAFEAcA_2JP=cM-SCGVhnhnP_6zYr748=A=G=Sh+BH+gkFmwnZA@mail.gmail.com>
+ <20230424225626.00001219@huawei.com>
+ <CAFEAcA8QXcpkxdXMWP8X9tLem6K8qC3CwZ2-t-fqEpGR-nJBTg@mail.gmail.com>
+ <20230425183713.000054c3@huawei.com>
+In-Reply-To: <20230425183713.000054c3@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Apr 2023 21:15:25 +0100
+Message-ID: <CAFEAcA8FCZkU12hmkGX+N5Cokbakm1T8RJkCgO_JHT1ZsbVmxg@mail.gmail.com>
+Subject: Re: [RFC] hw/arm/virt: Provide DT binding generation for PCI eXpander
+ Bridges
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-arm@nongnu.org, Fan Ni <fan.ni@samsung.com>, linuxarm@huawei.com, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,26 +93,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 25, 2023 at 07:31:43PM +0200, Kevin Wolf wrote:
-> test-bdrv-drain contains a few test cases that are run both in coroutine
-> and non-coroutine context. Running the entire code including the setup
-> and shutdown in coroutines is incorrect because graph modifications can
-> generally not happen in coroutines.
-> 
-> Change the test so that creating and destroying the test nodes and
-> BlockBackends always happens outside of coroutine context.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  tests/unit/test-bdrv-drain.c | 112 +++++++++++++++++++++++------------
->  1 file changed, 75 insertions(+), 37 deletions(-)
->
+On Tue, 25 Apr 2023 at 18:37, Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+> We could explore only solving the problem for pxb-cxl for now.
+> However, we would still be talking infrastructure in kernel only
+> to support emulated CXL devices and I can see that being
+> controversial. A normal CXL host bridge is not something
+> we can enumerate.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Hmm, so what is real hardware doing that our emulation is not?
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+-- PMM
 
