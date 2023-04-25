@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A246EDCFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8526EDCFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:46:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDMj-0006V1-Jz; Tue, 25 Apr 2023 03:45:33 -0400
+	id 1prDMl-0006ny-0k; Tue, 25 Apr 2023 03:45:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMQ-0006Ks-2a
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMW-0006Sd-4O
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMO-0006c9-AY
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDMU-0006cz-Fd
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:45:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408711;
+ s=mimecast20190719; t=1682408716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7XpLwGyAuffmak/eTKXXpWJi44gue+ywAUu/QiqjzQo=;
- b=FNz7bSgjOeUKc5eVafHGJ0K+2DCkjStRnbgMKQcHje8HVKnwJrqh/9AfjDuMpyustDVZQy
- QZc1yyd7fhZreJzwy/Tf+DeLdT6abPY+wMLdAbIQvY9gA4pHh9CJlDtHqSbntezP85MWM2
- lwM2VbDYlx0lZe+NRcYl64pW2EImFqI=
+ bh=5xPxndmu6u19FkD0GIHESUMsZqlnKGGs95IpGgfP/Ak=;
+ b=IT0q6raaXpbiQ3D9tCyLxkem49/oSJkGmD6LR2ceLhAq19cfo9cTzdOgBVew+9U5KaYhJe
+ 6QMeNt/cWZl/ESZr5T1yH3K7h4Ki+L26Uw2JKPXc6zbIFwkPBeNghy30qICs5zdULM/jd3
+ G9qLvxALopjyzxriGAXKO+66Ho8ShtQ=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-611-SH2i4_KRMpq1c5qcbfU5Fw-1; Tue, 25 Apr 2023 03:45:10 -0400
-X-MC-Unique: SH2i4_KRMpq1c5qcbfU5Fw-1
+ us-mta-396-m4pUveJqP9a4KgS9pAAdKQ-1; Tue, 25 Apr 2023 03:45:14 -0400
+X-MC-Unique: m4pUveJqP9a4KgS9pAAdKQ-1
 Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f195c06507so51448885e9.1
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:45:10 -0700 (PDT)
+ 5b1f17b1804b1-3f080f46fb1so20306825e9.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:45:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408708; x=1685000708;
+ d=1e100.net; s=20221208; t=1682408712; x=1685000712;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7XpLwGyAuffmak/eTKXXpWJi44gue+ywAUu/QiqjzQo=;
- b=DTEGNAPs9oTo+lW4NogqRrfg4i7JVSbD+LZ25GGCHQucKvp73CvY1GgDZ6VCZGyRlp
- GXZBh9gWYtoIpJSLx7RG7g6lxb+kqk25fhIY9orkfVTrSAHuhAUgNy01ucrIvI+LgsVY
- o2oojotZAibcVwAKOZNKQRr3h/cCMY2aR9xTRIRwTq4qLBy1RxyUtCklEwfxDiXnoroS
- IXO24Z42CinNzj0z5LgdWCZFiwq7jkppNCpnpvKNKV6s0VtTkZPZEUUWDIfrnQZsc43/
- x2PgC1VHO38NUlGsCt/vEZyDdA4iLKOjsaMYHdyjINgiP/NgSn6K7Id5vHGDjGnxMCpj
- Z07w==
-X-Gm-Message-State: AAQBX9cwnStfc7pIKQ5Fe6OdPd2snuZwa+KlGTgsGQTcKDcHzZwXaYyp
- SRw3YKXN0gOF6inLaTwIF345j3tyKce4w6UEYiKRo0znEVpWo5qlqmKgpBd0TVWJAy0WUVIdNUJ
- JVLpo17OUSdZGtG+7L82gdcRo+1nYiJfmmJEObszXFVJFb5SC8AipzuFHIaiAZMUUJ0je
-X-Received: by 2002:a7b:cc15:0:b0:3f1:65cb:8156 with SMTP id
- f21-20020a7bcc15000000b003f165cb8156mr9786377wmh.0.1682408708616; 
- Tue, 25 Apr 2023 00:45:08 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b0ftLpcNmMZAotcWmhCi2AG3g1sGm/0QTnNWIGEyI04O318aNN9XkbMR4l9EWDFJl7Ar6Gkw==
-X-Received: by 2002:a7b:cc15:0:b0:3f1:65cb:8156 with SMTP id
- f21-20020a7bcc15000000b003f165cb8156mr9786349wmh.0.1682408708255; 
- Tue, 25 Apr 2023 00:45:08 -0700 (PDT)
+ bh=5xPxndmu6u19FkD0GIHESUMsZqlnKGGs95IpGgfP/Ak=;
+ b=HwQnD4VrgfCIwtTCyLnOLg9qb0XmfjNorYSMjnkAL51mv6e7+n5sx+fDb/jdEwCfRm
+ uYaly+rk3OuvLqxHTS66r26lmg8IDgdvZv8aB147/od5R+YCUgYbDH37j0n4MhDkTGrD
+ wbEMb5DTXYDNhBMhXnS/84n0qHb/eFcJ7CdOlLdj+XJ4OIPFm5NoTCWFqtJesP/MZppb
+ 53kjHVzZ64kRwfJ3hnOiSzV/xgZ17NAFg1CQUxzaVb/2JD56g0ifF+uRJikCutUhtZ2f
+ UJm2ZX9y9Lou0JcKODZlOC+rl1oh5XLs8ScvfbWllmsLtt+uSxr3XAd6GTEOdjU0IpK0
+ iuBQ==
+X-Gm-Message-State: AAQBX9diY1QyInl6YnBScO7HoXc3PR2a9qlap3Y8VQQ01fRL0Sk60Lny
+ OhmokKgPxZ5RQwppdrzU1LXogm0aeLmx1Y4txvppQihe0WS1XEkroebwkecrytqRbRa5nCLuKD9
+ ZELRBVi+qRhDbjlkuZZhcxQWhc8Uw3j2f4VrUckeoH6qMECJUzKkolurNNGrl5qGtOkqX
+X-Received: by 2002:a05:600c:2059:b0:3f1:73c5:66db with SMTP id
+ p25-20020a05600c205900b003f173c566dbmr9032319wmg.20.1682408712307; 
+ Tue, 25 Apr 2023 00:45:12 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aoz9iqKU12pCbzZ1M0ShyYqzcNoBfALG7pBK8wfhdrNY0U+vh7JaXbRafDNk6DP/rWjnV4uA==
+X-Received: by 2002:a05:600c:2059:b0:3f1:73c5:66db with SMTP id
+ p25-20020a05600c205900b003f173c566dbmr9032296wmg.20.1682408711994; 
+ Tue, 25 Apr 2023 00:45:11 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- f22-20020a1c6a16000000b003f17e79d74asm14278190wmc.7.2023.04.25.00.45.06
+ m1-20020a7bca41000000b003f179fc6d8esm14046536wml.44.2023.04.25.00.45.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:45:07 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:45:05 -0400
+ Tue, 25 Apr 2023 00:45:11 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:45:08 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Viresh Kumar <viresh.kumar@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 06/31] docs: vhost-user: Define memory region separately
-Message-ID: <17c67f6849551b2bbffb7a3a8b490b853df86129.1682408661.git.mst@redhat.com>
+Subject: [PULL 07/31] docs: vhost-user: Add Xen specific memory mapping support
+Message-ID: <f21e95ee97d5adb4a274b48c6c8f70a221c1f513.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -77,7 +77,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1682408661.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -103,98 +103,72 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Viresh Kumar <viresh.kumar@linaro.org>
 
-The same layout is defined twice, once in "single memory region
-description" and then in "memory regions description".
+The current model of memory mapping at the back-end works fine where a
+standard call to mmap() (for the respective file descriptor) is enough
+before the front-end can start accessing the guest memory.
 
-Separate out details of memory region from these two and reuse the same
-definition later on.
+There are other complex cases though where the back-end needs more
+information and simple mmap() isn't enough. For example Xen, a type-1
+hypervisor, currently supports memory mapping via two different methods,
+foreign-mapping (via /dev/privcmd) and grant-dev (via /dev/gntdev). In
+both these cases, the back-end needs to call mmap() and ioctl(), with
+extra information like the Xen domain-id of the guest whose memory we
+are trying to map.
 
-While at it, also rename "memory regions description" to "multiple
-memory regions description", to avoid potential confusion around similar
-names. And define single region before multiple ones.
-
-This is just a documentation optimization, the protocol remains the same.
+Add a new protocol feature, 'VHOST_USER_PROTOCOL_F_XEN_MMAP', which lets
+the back-end know about the additional memory mapping requirements.
+When this feature is negotiated, the front-end will send the additional
+information within the memory regions themselves.
 
 Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-Message-Id: <7c3718e5eb99178b22696682ae73aca6df1899c7.1678351495.git.viresh.kumar@linaro.org>
+Message-Id: <6d0bd7f0e1aeec3ddb603ae4ff334c75c7d0d7b3.1678351495.git.viresh.kumar@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/interop/vhost-user.rst | 39 +++++++++++++++++--------------------
- 1 file changed, 18 insertions(+), 21 deletions(-)
+ docs/interop/vhost-user.rst | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 8a5924ea75..1720d68126 100644
+index 1720d68126..5a070adbc1 100644
 --- a/docs/interop/vhost-user.rst
 +++ b/docs/interop/vhost-user.rst
-@@ -130,18 +130,8 @@ A vring address description
- Note that a ring address is an IOVA if ``VIRTIO_F_IOMMU_PLATFORM`` has
- been negotiated. Otherwise it is a user address.
+@@ -145,6 +145,26 @@ Memory region description
  
--Memory regions description
--^^^^^^^^^^^^^^^^^^^^^^^^^^
--
--+-------------+---------+---------+-----+---------+
--| num regions | padding | region0 | ... | region7 |
--+-------------+---------+---------+-----+---------+
--
--:num regions: a 32-bit number of regions
--
--:padding: 32-bit
--
--A region is:
-+Memory region description
-+^^^^^^^^^^^^^^^^^^^^^^^^^
+ :mmap offset: 64-bit offset where region starts in the mapped memory
  
- +---------------+------+--------------+-------------+
- | guest address | size | user address | mmap offset |
-@@ -158,19 +148,26 @@ A region is:
++When the ``VHOST_USER_PROTOCOL_F_XEN_MMAP`` protocol feature has been
++successfully negotiated, the memory region description contains two extra
++fields at the end.
++
+++---------------+------+--------------+-------------+----------------+-------+
++| guest address | size | user address | mmap offset | xen mmap flags | domid |
+++---------------+------+--------------+-------------+----------------+-------+
++
++:xen mmap flags: 32-bit bit field
++
++- Bit 0 is set for Xen foreign memory mapping.
++- Bit 1 is set for Xen grant memory mapping.
++- Bit 8 is set if the memory region can not be mapped in advance, and memory
++  areas within this region must be mapped / unmapped only when required by the
++  back-end. The back-end shouldn't try to map the entire region at once, as the
++  front-end may not allow it. The back-end should rather map only the required
++  amount of memory at once and unmap it after it is used.
++
++:domid: a 32-bit Xen hypervisor specific domain id.
++
  Single memory region description
  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
--+---------+---------------+------+--------------+-------------+
--| padding | guest address | size | user address | mmap offset |
--+---------+---------------+------+--------------+-------------+
-++---------+--------+
-+| padding | region |
-++---------+--------+
+@@ -864,6 +884,7 @@ Protocol features
+   #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
+   #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
+   #define VHOST_USER_PROTOCOL_F_STATUS               16
++  #define VHOST_USER_PROTOCOL_F_XEN_MMAP             17
  
- :padding: 64-bit
- 
--:guest address: a 64-bit guest address of the region
-+A region is represented by Memory region description.
- 
--:size: a 64-bit size
-+Multiple Memory regions description
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
--:user address: a 64-bit user address
-++-------------+---------+---------+-----+---------+
-+| num regions | padding | region0 | ... | region7 |
-++-------------+---------+---------+-----+---------+
- 
--:mmap offset: 64-bit offset where region starts in the mapped memory
-+:num regions: a 32-bit number of regions
-+
-+:padding: 32-bit
-+
-+A region is represented by Memory region description.
- 
- Log description
- ^^^^^^^^^^^^^^^
-@@ -952,8 +949,8 @@ Front-end message types
- ``VHOST_USER_SET_MEM_TABLE``
-   :id: 5
-   :equivalent ioctl: ``VHOST_SET_MEM_TABLE``
--  :request payload: memory regions description
--  :reply payload: (postcopy only) memory regions description
-+  :request payload: multiple memory regions description
-+  :reply payload: (postcopy only) multiple memory regions description
- 
-   Sets the memory map regions on the back-end so it can translate the
-   vring addresses. In the ancillary data there is an array of file
+ Front-end message types
+ -----------------------
 -- 
 MST
 
