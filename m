@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A1D6ED945
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 02:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06AE36EDAAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 05:36:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pr6MY-0006V8-Tl; Mon, 24 Apr 2023 20:16:54 -0400
+	id 1pr9Rl-000783-W6; Mon, 24 Apr 2023 23:34:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1pr6MW-0006UZ-QC
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 20:16:52 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1pr6MU-0006kp-Bm
- for qemu-devel@nongnu.org; Mon, 24 Apr 2023 20:16:52 -0400
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-506bdf29712so38253911a12.0
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 17:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682381808; x=1684973808;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6zDWDSBUMMLwEz1DERtbb9StXgsQDaHmpO0mXK7YTnI=;
- b=EVn/rFPgbcn07lK0L1ELdflUNgj/nmjq294sFhOU33Vq4OqxbQtPfylCmHeJ92fLu/
- KwSn4hCEc5i/vrxN7tptIxpElQgqzpT3IAlO1N8Bqu/URsCwp2MqU1O+msTMCftbZoTF
- FAumUCqLMk5G7V7IRsFl97ubMT1xxooNbIzLI=
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1pr9Rf-00074t-9L
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 23:34:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1pr9Ra-0000ZP-Fw
+ for qemu-devel@nongnu.org; Mon, 24 Apr 2023 23:34:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682393656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7ml2zmFL1Fb1Yb0klJhmBURQBgb7Btb7D0qsdDV0M7w=;
+ b=Y2NM6hzqVTOV9N3Opoekhpv97dQMaSYPZWVuZzhd1od2yPDoEX76gRiCzxb1uuaSKuQ83R
+ n0L/HWWeXsHA2nZRxvIE6KqqFuAsUahF9rnqd+2uQyVOod2ZbMQ8NFONup6kf8X+3EdQ2r
+ imZV2cGM3FxJctxdBTMWPHFAsWM9VFw=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-117-yHnqbuawNQqIrxQXeoeAuw-1; Mon, 24 Apr 2023 23:34:14 -0400
+X-MC-Unique: yHnqbuawNQqIrxQXeoeAuw-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-1878471366eso1214523fac.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 20:34:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682381808; x=1684973808;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6zDWDSBUMMLwEz1DERtbb9StXgsQDaHmpO0mXK7YTnI=;
- b=mDXKgwiOKc06vVG0L1tuS/BBusT1nHe1akmRQBq0jTsqLAQ2I/KJLA0rfpKNysqMCg
- sdRhb4Abzdz2J4on49xroFU4828kaPJYWv7AiMF5xbBxsIFsb6t4YrDSpXXn3qgPmckz
- ChyVbvze/h510C+Mofh96gTKMkI12T59mC/cjGHZ8riWrSnQTygDvhwZ2R5e5TkgMQMj
- n9BJmPxot7/cj0R1Vvre17iUJxfB7uiX4iKx0KjPgeK2xwzCgW9oDVoQdWMoBkrqo4ag
- uvRbTjB7gsZ1NUVO0QpS7CC9i7l1BYUPQE+1jZ8Rm1pvrg71yTt4WK1hIn2WoRMg/3hs
- Abcw==
-X-Gm-Message-State: AAQBX9dhwzNRuseqqUiGFR9EzkPsEEibbYeo6NxxuIduUx8/EGqH0a+c
- h+63LYwXLgs9L80Gqw2pqZbboON2PnXA85bQR9I=
-X-Google-Smtp-Source: AKy350Zke2QFgzMWsquf1q5He4X+Vsml98sEIrOMmjwNb5fLgGx8BcsK9fMIREnJ/vVMdhEAys08HA==
-X-Received: by 2002:a17:906:1149:b0:94a:8e19:6aba with SMTP id
- i9-20020a170906114900b0094a8e196abamr12099648eja.21.1682381808228; 
- Mon, 24 Apr 2023 17:16:48 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com.
- [209.85.208.49]) by smtp.gmail.com with ESMTPSA id
- f14-20020a1709062c4e00b009582c49acdasm3524755ejh.47.2023.04.24.17.16.47
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Apr 2023 17:16:47 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-509cde0f05eso10473a12.0
- for <qemu-devel@nongnu.org>; Mon, 24 Apr 2023 17:16:47 -0700 (PDT)
-X-Received: by 2002:a05:6402:e96:b0:505:863:d85f with SMTP id
- h22-20020a0564020e9600b005050863d85fmr33244eda.4.1682381807543; Mon, 24 Apr
- 2023 17:16:47 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1682393654; x=1684985654;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7ml2zmFL1Fb1Yb0klJhmBURQBgb7Btb7D0qsdDV0M7w=;
+ b=I/WjHOsOa/5je4tePGc/f1y1UjtaOrddAjP4B1kYTJqtutQGigbzIUdvJJg+li4Q8L
+ 7ksDhM1/hvYIcRqlhp1BmJCn4ncZQBKZTKZdGoRW7tnG0towyH81pUjMA++pJ3j7rDch
+ JquSXpeK/g3nGfPhhFdjsQZ62B13V8jNVDwLs2yz3rmhJZc2j7Z3zdtQEPPZF98n7GKd
+ U/j38F7A88sJy+g4sQx8l5r6IlZj+zybxFuLWPUyqWgT3En5AJj2fEUjI4eOp8IvWSj9
+ 0tk84lLJ2PJt1Fh4OhBLpqOXp6DxQ72WWtId96OQeEdejxbDtQn3OA7l5C4m7SsUofEp
+ Sojg==
+X-Gm-Message-State: AAQBX9cWnC26fOrm1884g6bBNmfXZDKEb/B0xTAQpl38qppA2oC0Oa4f
+ BYD83MyWRZZKeeY5YkybU4lI5FiSuxoLb6QdCNEBJtBNGyUqtWwOJ5q0/PVd3BmaI3zwCOyXmyT
+ QzWvU56n0rEpaFzM=
+X-Received: by 2002:a05:6870:3412:b0:184:433c:a175 with SMTP id
+ g18-20020a056870341200b00184433ca175mr10028258oah.22.1682393653736; 
+ Mon, 24 Apr 2023 20:34:13 -0700 (PDT)
+X-Google-Smtp-Source: AKy350axh4mUXvXX01+9VkB0W7sR5c2J+ugPgiwXHKi67Mzhea8nLsqvtRas6vxJFaRcaR9eGKQFqQ==
+X-Received: by 2002:a05:6870:3412:b0:184:433c:a175 with SMTP id
+ g18-20020a056870341200b00184433ca175mr10028255oah.22.1682393653479; 
+ Mon, 24 Apr 2023 20:34:13 -0700 (PDT)
+Received: from localhost.localdomain ([2804:1b3:a802:bb4a:9464:1a83:87df:7229])
+ by smtp.gmail.com with ESMTPSA id
+ 26-20020a056870135a00b001765b2f6c53sm5174475oac.9.2023.04.24.20.34.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Apr 2023 20:34:12 -0700 (PDT)
+From: Leonardo Bras <leobras@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PATCH v2 1/1] migration: Disable postcopy + multifd migration
+Date: Tue, 25 Apr 2023 00:33:08 -0300
+Message-Id: <20230425033307.484921-1-leobras@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230421011223.718-1-gurchetansingh@chromium.org>
- <CAJSP0QVrxSgFJFqPd=iBfBoV9brL2v6d6P+4E7BmGYAxwEYPmw@mail.gmail.com>
- <CAAfnVB=n8CJ7cL9kS84TMu1+hBrnWUYhaXAw7jhBPEra_EdgwQ@mail.gmail.com>
- <3204858e-89f4-261c-0863-49aeb28600cf@gmail.com>
-In-Reply-To: <3204858e-89f4-261c-0863-49aeb28600cf@gmail.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Mon, 24 Apr 2023 17:16:34 -0700
-X-Gmail-Original-Message-ID: <CAAfnVB=C=f_ceSVq11daaVU_JOYixbOqwdJ7xmcO4aGO2JijeA@mail.gmail.com>
-Message-ID: <CAAfnVB=C=f_ceSVq11daaVU_JOYixbOqwdJ7xmcO4aGO2JijeA@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/13] gfxstream + rutabaga_gfx: a surprising delight
- or startling epiphany?
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, 
- philmd@linaro.org, david@redhat.com, stefanha@redhat.com, kraxel@redhat.com, 
- marcandre.lureau@redhat.com, dmitry.osipenko@collabora.com, ray.huang@amd.com, 
- alex.bennee@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=gurchetansingh@chromium.org; helo=mail-ed1-x531.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,110 +97,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Apr 22, 2023 at 9:41=E2=80=AFAM Akihiko Odaki <akihiko.odaki@gmail.=
-com> wrote:
->
-> On 2023/04/22 8:54, Gurchetan Singh wrote:
-> > On Fri, Apr 21, 2023 at 9:02=E2=80=AFAM Stefan Hajnoczi <stefanha@gmail=
-.com> wrote:
-> >>
-> >> On Thu, 20 Apr 2023 at 21:13, Gurchetan Singh
-> >> <gurchetansingh@chromium.org> wrote:
-> >>>
-> >>> From: Gurchetan Singh <gurchetansingh@google.com>
-> >>>
-> >>> Rationale:
-> >>>
-> >>> - gfxstream [a] is good for the Android Emulator/upstream QEMU
-> >>>    alignment
-> >>> - Wayland passhthrough [b] via the cross-domain context type is good
-> >>>    for Linux on Linux display virtualization
-> >>> - rutabaga_gfx [c] sits on top of gfxstream, cross-domain and even
-> >>>    virglrenderer
-> >>> - This series ports rutabaga_gfx to QEMU
-> >>
-> >> What rutabaga_gfx and gfxstream? Can you explain where they sit in the
-> >> stack and how they build on or complement virtio-gpu and
-> >> virglrenderer?
-> >
-> > rutabaga_gfx and gfxstream are both libraries that implement the
-> > virtio-gpu protocol.  There's a document available in the Gitlab issue
-> > to see where they fit in the stack [a].
-> >
-> > gfxstream grew out of the Android Emulator's need to virtualize
-> > graphics for app developers.  There's a short history of gfxstream in
-> > patch 10.  It complements virglrenderer in that it's a bit more
-> > cross-platform and targets different use cases -- more detail here
-> > [b].  The ultimate goal is ditch out-of-tree kernel drivers in the
-> > Android Emulator and adopt virtio, and porting gfxstream to QEMU would
-> > speed up that transition.
->
-> I wonder what is motivation for maintaining gfxstream instead of
-> switching to virglrenderer/venus.
+Since the introduction of multifd, it's possible to perform a multifd
+migration and finish it using postcopy.
 
-gfxstream GLES has features that would require significant redesign to
-implement in virgl: multi-threading, live migration, widespread CTS
-conformance (virgl only works well on FOSS Linux due to TGSI issues),
-memory management to name a few.
+A bug introduced by yank (fixed on cfc3bcf373) was previously preventing
+a successful use of this migration scenario, and now thing should be
+working on most scenarios.
 
-Re: gfxstream VK and venus, it's a question of minimizing technical
-risk.  Going from upstream to a shipping product that works on
-MacOS/Windows/Linux means there's always going to be a long tail of
-bugs.
+But since there is not enough testing/support nor any reported users for
+this scenario, we should disable this combination before it may cause any
+problems for users.
 
-The Android Emulator is still on QEMU 2.12 and the update won't be
-easy (there are other things that need to be upstreamed besides GPU),
-cross-platform API layering over Vulkan is expected to take 1+ year,
-Vulkan doesn't work on many GPUs due to KVM issues [a], and no Vulkan
-at all support has landed in upstream QEMU.
+Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Acked-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+Changes since RFC:
+- Updated to latest master branch
+- Included Acks and Reviews
 
-Probably the most pragmatic way to do this is to take it step by step,
-and align over time by sharing components.  There might be a few
-proposals to mesa-dev on that front, but getting upstream QEMU working
-is a higher priority right now.  A bulk transition from one stack or
-the other would be more difficult to pull off.
+ migration/options.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-The great thing about context types/rutabaga_gfx,
-gfxstream/virglrenderer details are largely hidden from QEMU and
-present little maintenance burden.  Yes, a dependency on a new Rust
-library is added, but moving towards Rust makes a ton of sense
-security-wise long-term anyways.
+diff --git a/migration/options.c b/migration/options.c
+index 8e8753d9be..b0fc0aa60c 100644
+--- a/migration/options.c
++++ b/migration/options.c
+@@ -322,6 +322,11 @@ bool migrate_caps_check(bool *old_caps, bool *new_caps, Error **errp)
+             error_setg(errp, "Postcopy is not compatible with ignore-shared");
+             return false;
+         }
++
++        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
++            error_setg(errp, "Postcopy is not yet compatible with multifd");
++            return false;
++        }
+     }
+ 
+     if (new_caps[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
+-- 
+2.40.0
 
-[a] https://lore.kernel.org/all/20230330085802.2414466-1-stevensd@google.co=
-m/
--- even if this patch lands today, users will still need 1-2 years to
-update
-
->
-> >
-> > rutabaga_gfx is a much smaller Rust library that sits on top of
-> > gfxstream and even virglrenderer, but does a few extra things.  It
-> > implements the cross-domain context type, which provides Wayland
-> > passthrough.  This helps virtio-gpu by providing more modern display
-> > virtualization.  For example, Microsoft for WSL2 also uses a similar
-> > technique [c], but I believe it is not virtio-based nor open-source.
->
-> The guest side components of WSLg are open-source, but the host side is
-> not: https://github.com/microsoft/wslg
-> It also uses DirectX for acceleration so it's not really portable for
-> outside Windows.
->
-> > With this, we can have the same open-source Wayland passthrough
-> > solution on crosvm, QEMU and even Fuchsia [d].  Also, there might be
-> > an additional small Rust context type for security-sensitive use cases
-> > in the future -- rutabaga_gfx wouldn't compile its gfxstream bindings
-> > (since it's C++ based) in such cases.
-> >
-> > Both gfxstream and rutabaga_gfx are a part of the virtio spec [e] now t=
-oo.
-> >
-> > [a] https://gitlab.com/qemu-project/qemu/-/issues/1611
-> > [b] https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg04271.html
-> > [c] https://www.youtube.com/watch?v=3DEkNBsBx501Q
-> > [d] https://fuchsia-review.googlesource.com/c/fuchsia/+/778764
-> > [e] https://github.com/oasis-tcs/virtio-spec/blob/master/device-types/g=
-pu/description.tex#L533
-> >
-> >>
-> >> Stefan
 
