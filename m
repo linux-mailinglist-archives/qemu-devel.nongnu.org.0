@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01D16EE5E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9796EE5E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:39:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prLfx-00015f-Rg; Tue, 25 Apr 2023 12:37:57 -0400
+	id 1prLgk-0001dz-IJ; Tue, 25 Apr 2023 12:38:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prLfu-00015E-9u
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:37:55 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1prLgh-0001di-Sr
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:38:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prLfr-0000Gs-96
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:37:54 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id B77995F53C;
- Tue, 25 Apr 2023 19:37:44 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b440::1:14] (unknown
- [2a02:6b8:b081:b440::1:14])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id hbJjF20OdeA0-axzGZacY; Tue, 25 Apr 2023 19:37:43 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682440663; bh=eoVer081CCM3df2k6TTqGoX8k5J8Y0C/RmbPrVK/yK0=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=ySaRxk2Sop//ng9efJEGfcBkt3fzikK/e9g6Cosi6Kto+ZkaKZl6SeWYpoQ2SIbuy
- UVfairJqLIvg9WZsW1F+oAq0NEGnwsj56tTPgoYGqOecIwBVOJAmM347jAQSM7+4Ts
- JADehIJUqiZh9ykA8syne7gzQnHLEHkNxu8akx4M=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <17200eef-53c0-71c2-6b7b-0f16514b223d@yandex-team.ru>
-Date: Tue, 25 Apr 2023 19:37:43 +0300
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1prLgg-0000UE-3V
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 12:38:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682440721;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hzy5/FLoFQjiR9g8u3XY6PXDkJXxMBIPTEtPM/4cvRE=;
+ b=CJuzlDOp1P09AlItU5TjsRkC+Z9R4zyZ53+lMyMHfCkw/l7x4v4T8J3QO+xhSky6LAkIge
+ hNk5xKCGwTNKsGqGdCitWpiZSxnc9PZVo2xC3p61AcHxck1LSl1QNyjGR31mlLCGHfM/AG
+ LvvjuKBA2weE9VWB/kjzJVjIvF7RtVo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-53-fBAK_SJ8MAKTaRZsxxBP9A-1; Tue, 25 Apr 2023 12:38:37 -0400
+X-MC-Unique: fBAK_SJ8MAKTaRZsxxBP9A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 57D22101A49E;
+ Tue, 25 Apr 2023 16:38:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0DAF40C2064;
+ Tue, 25 Apr 2023 16:38:31 +0000 (UTC)
+Date: Tue, 25 Apr 2023 17:38:29 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
+ Beraldo Leal <bleal@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH v3 01/20] python: update pylint configuration
+Message-ID: <ZEgCBdIzPhu57gzb@redhat.com>
+References: <20230424200248.1183394-1-jsnow@redhat.com>
+ <20230424200248.1183394-2-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 0/3] ROM migration
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: marcel.apfelbaum@gmail.com, mst@redhat.com, philmd@linaro.org,
- david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
- den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com
-References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230425161434.173022-1-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230424200248.1183394-2-jsnow@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,37 +87,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25.04.23 19:14, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
+On Mon, Apr 24, 2023 at 04:02:29PM -0400, John Snow wrote:
+> Pylint 2.17.x decided that SocketAddrT was a bad name for a Type Alias for some
+> reason. Sure, fine, whatever.
 > 
-> v2: simply ignore romfile on incoming migration when romsize is
-> specified.
-> 
-> Here I suggest a way to solve a problem, when we have existing
-> running QEMU with old option ROM of small size and want to migrate to
-> new environment where we don't have this ROM file.
-> 
-> All the details are in patch 03; 01-02 are simple code style
-> improvements.
-> 
-> Vladimir Sementsov-Ogievskiy (3):
->    pci: pci_add_option_rom(): improve style
->    pci: pci_add_option_rom(): refactor: use g_autofree for path variable
->    pci: ROM preallocation for incoming migration
-> 
->   hw/pci/pci.c | 101 ++++++++++++++++++++++++++++-----------------------
->   1 file changed, 55 insertions(+), 46 deletions(-)
-> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/setup.cfg | 1 +
+>  1 file changed, 1 insertion(+)
 
-While being here, could I ask a question:
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-As I understand, netcard ROM file is needed only for network boot. So, it's absolutely correct to use romfile="" option: network boot will not work, but everything else will work correctly. Is that right?
 
+With regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
