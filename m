@@ -2,95 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6B16EEA7B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 01:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2206EEB1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 01:50:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prReq-0007Ee-2H; Tue, 25 Apr 2023 19:01:12 -0400
+	id 1prSOn-0000wl-65; Tue, 25 Apr 2023 19:48:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3sVtIZAYKCrIkWSfbUYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--seanjc.bounces.google.com>)
- id 1prRen-0007EE-T5
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 19:01:10 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1prSOl-0000wT-DS; Tue, 25 Apr 2023 19:48:39 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3sVtIZAYKCrIkWSfbUYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--seanjc.bounces.google.com>)
- id 1prRel-0006Or-U6
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 19:01:09 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id
- 3f1490d57ef6-b92309d84c1so31328318276.1
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1prSOj-0005n2-JI; Tue, 25 Apr 2023 19:48:39 -0400
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-5055141a8fdso9403971a12.3; 
+ Tue, 25 Apr 2023 16:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1682463666; x=1685055666;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
- b=C4AljZcb5zSEki65YN1EEhXpKoY2+BQjkZw0lA37fbXw5J94rINcczlcHQKioosXoz
- QYJO7B3PQHsCBBmLZHmB2bdJerRvszbD8Z0QkB4l66SvwAArYTtc7JH15w/nYT/SE5u5
- vwm/eMEJk1TY+eEPX82hBLbrKJ9kTJikXcAr57e2kixe1dolatDoyNrc44iwLTBRVolO
- bfADSu5kj9Pbljxty8CvVBHkrXGW31eBuRDxicojfWBD4NefEdirxSFfQsz+fSqmBEth
- Qzgwwtz8KWzAJnphFlQcihCJZ0/hpd4K50BVsMO7BpnBpVR4VQKe84Z8OdOHhFvQF7fh
- tpww==
+ d=gmail.com; s=20221208; t=1682466515; x=1685058515;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=uaYFvHm29BBfEQDertdXYpsZcLpIFUD9q62gMhoLdOc=;
+ b=YxkzhQmU1t+Ge2MwWM/dxdV+kIp0isvAwkwYusySyApMBY5McjyU2+5gaOeoLRYr1F
+ Vo/G7hlfJxHPGZnEkOyMRLZOp63FFrMBsL1SkgK3NUWWJns/gSGgsXrvHUshd2k90Ybg
+ NBUgv1jOV96xW4xRig3Z/euBfmY2NzFL5y5mMmsjEkrRrs0kzuL6Xt2JxW0o+/kTIBIn
+ WAO3oSWLY0+vU3C3lc1SkGU8/8SV5eLEoXD1IFkvV3MDyfF3cEP9Mfs5YU7poC9Q3jF4
+ UyL+UmfMNCcDC6wCMLCfE1LC53cw7dCH9g9Ue0KbabzQNc+HDehoZBJmhOwS+4PR+f8o
+ w2Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682463666; x=1685055666;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
- b=c9GjZlk2/vj+yvXdxk72LrGUbYlq5EQILuWQumQnjE7lxn4sf9gJgBA1tvVrFdTL74
- 9vY5I/YZQdCWsDaxYEm2KLkazsidqTEMVamnseGXyVUkpuHrI3+Pt0rrvJxnMaWpcC25
- gzyaPgUIlidEb4WfreeczR3OwV6lRPzj9+/22lZ5s0ei4LBB3grBEBHWAe/Mw5v8Vo0h
- aG3PLcFd5xi2oZJ+pUZoJKYvIPeyvBBlMUfi78k7y1tbycSVPVd4UeUN/kg4GrsKOe4S
- P6XyHzl7So8RlvsV7I8Yi83ZI+mGoWnRWDnbKRYh3SMVuiGzjO5fEs6bEh3dVDpn4xwt
- Ybcg==
-X-Gm-Message-State: AC+VfDxU1pf2D//sMgHcnSSszsdhPDGadP0TWvMgcK+pio4NYiKi0CSh
- GAU3XrH+I30ZDYISFbzWpRKuZ7UJhzU=
-X-Google-Smtp-Source: ACHHUZ7zn8PbJQ/UuE69mi5lwaIaGdUdtx9hP2cvpdZFHM9mCc7INsMunl92AGHkpHAOjQl1AWoM2QO/O/0=
-X-Received: from zagreus.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:690c:986:b0:54c:15ad:11e4 with SMTP id
- ce6-20020a05690c098600b0054c15ad11e4mr342131ywb.0.1682463665939; Tue, 25 Apr
- 2023 16:01:05 -0700 (PDT)
-Date: Tue, 25 Apr 2023 16:01:04 -0700
-In-Reply-To: <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
-Mime-Version: 1.0
-References: <ZDnAuGKrCO2wgjlG@google.com>
- <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
-Message-ID: <ZEhbsHqBapHtdrg7@google.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: chao.p.peng@linux.intel.com, xiaoyao.li@intel.com, 
- isaku.yamahata@gmail.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com, 
- wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org, 
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de, 
- naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com, 
- hughd@google.com, jlayton@kernel.org, bfields@fieldses.org, 
- akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org, 
- steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz, 
- vannapurve@google.com, yu.c.zhang@linux.intel.com, 
- kirill.shutemov@linux.intel.com, luto@kernel.org, jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- qperret@google.com, tabba@google.com, michael.roth@amd.com, mhocko@suse.com, 
- wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3sVtIZAYKCrIkWSfbUYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--seanjc.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ d=1e100.net; s=20221208; t=1682466515; x=1685058515;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uaYFvHm29BBfEQDertdXYpsZcLpIFUD9q62gMhoLdOc=;
+ b=NeKMQa8POt0RXaNPXUk8KIyEAzNBj0L9unbegoON6QuKNvfFXdBTojq6RD8tWrY3MB
+ Xap99523UQLt7oTOWNXTdl9tbcTmo6RJAbMZxHvPVfCToymovN89LWXZIbpLe5QFJaid
+ AvZN4gmCFYNXCZT7luXp6+xC8tDpgcAjHY1DM6zi9DUDwpK2EfF3PpKLv4o9oJqTTNB8
+ ESxL7CQ2AmhspO/MM1lmbNsFpKJi52xVbtoUqRgy/DSIS0F4XsV3kDDxvAjpQYlEjkM3
+ aW9elVUu3x4fBssLTlNQ7IV5qrQ1w9UNB40cYTjhzNyheEfNcad3LIqeiljrU7/+p3wz
+ zc+w==
+X-Gm-Message-State: AAQBX9f4eeQoXodwWsbRTzi51Fep581GRO5fDlZtGj3PHR1d+CNAgydY
+ DtJUFYw5fv9vHnO9ESdVg5k=
+X-Google-Smtp-Source: AKy350ZDyM46CHQELWoMLlf0TCA+mn0VX5W5zNS5nz4RuA9eRU+IDDRtANN+rIkrqZoQtowWDFiQ5g==
+X-Received: by 2002:aa7:c051:0:b0:506:741e:5c1b with SMTP id
+ k17-20020aa7c051000000b00506741e5c1bmr15257211edo.12.1682466514960; 
+ Tue, 25 Apr 2023 16:48:34 -0700 (PDT)
+Received: from [192.168.2.129] ([195.167.132.10])
+ by smtp.gmail.com with ESMTPSA id
+ w27-20020a17090633db00b0094ed0370f8fsm7480771eja.147.2023.04.25.16.48.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Apr 2023 16:48:34 -0700 (PDT)
+Message-ID: <46ffc696-cd15-e881-7901-d07b32ece684@amsat.org>
+Date: Wed, 26 Apr 2023 00:48:33 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v2] hw/net: npcm7xx_emc: set MAC in register space
+Content-Language: en-US
+To: Patrick Venture <venture@google.com>, hskinnemoen@google.com,
+ kfting@nuvoton.com, peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, jasowang@redhat.com,
+ Hao Wu <wuhaotsh@google.com>
+References: <20221003173810.1933849-1-venture@google.com>
+In-Reply-To: <20221003173810.1933849-1-venture@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.422,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,133 +92,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 18, 2023, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> > I agree, a pure alignment check is too restrictive, and not really what I
-> > intended despite past me literally saying that's what I wanted :-)  I think
-> > I may have also inverted the "less alignment" statement, but luckily I
-> > believe that ends up being a moot point.
-> 
-> > The goal is to avoid having to juggle scenarios where KVM wants to create a
-> > hugepage, but restrictedmem can't provide one because of a misaligned file
-> > offset.  I think the rule we want is that the offset must be aligned to the
-> > largest page size allowed by the memslot _size_.  E.g. on x86, if the
-> > memslot size is >=1GiB then the offset must be 1GiB or beter, ditto for
-> > >=2MiB and >=4KiB (ignoring that 4KiB is already a requirement).
-> 
-> > We could loosen that to say the largest size allowed by the memslot, but I
-> > don't think that's worth the effort unless it's trivially easy to implement
-> > in code, e.g. KVM could technically allow a 4KiB aligned offset if the
-> > memslot is 2MiB sized but only 4KiB aligned on the GPA.  I doubt there's a
-> > real use case for such a memslot, so I want to disallow that unless it's
-> > super easy to implement.
-> 
-> Checking my understanding here about why we need this alignment check:
-> 
-> When KVM requests a page from restrictedmem, KVM will provide an offset
-> into the file in terms of 4K pages.
-> 
-> When shmem is configured to use hugepages, shmem_get_folio() will round
-> the requested offset down to the nearest hugepage-aligned boundary in
-> shmem_alloc_hugefolio().
-> 
-> Example of problematic configuration provided to
-> KVM_SET_USER_MEMORY_REGION2:
-> 
-> + shmem configured to use 1GB pages
-> + restrictedmem_offset provided to KVM_SET_USER_MEMORY_REGION2: 0x4000
-> + memory_size provided in KVM_SET_USER_MEMORY_REGION2: 1GB
-> + KVM requests offset (pgoff_t) 0x8, which translates to offset 0x8000
-> 
-> restrictedmem_get_page() and shmem_get_folio() returns the page for
-> offset 0x0 in the file, since rounding down 0x8000 to the nearest 1GB is
-> 0x0. This is allocating outside the range that KVM is supposed to use,
-> since the parameters provided in KVM_SET_USER_MEMORY_REGION2 is only
-> supposed to be offset 0x4000 to (0x4000 + 1GB = 0x40004000) in the file.
-> 
-> IIUC shmem will actually just round down (0x4000 rounded down to nearest
-> 1GB will be 0x0) and allocate without checking bounds, so if offset 0x0
-> to 0x4000 in the file were supposed to be used by something else, there
-> might be issues.
-> 
-> Hence, this alignment check ensures that rounding down of any offsets
-> provided by KVM (based on page size configured in the backing file
-> provided) to restrictedmem_get_page() must not go below the offset
-> provided to KVM_SET_USER_MEMORY_REGION2.
-> 
-> Enforcing alignment of restrictedmem_offset based on the currently-set
-> page size in the backing file (i.e. shmem) may not be effective, since
-> the size of the pages in the backing file can be adjusted to a larger
-> size after KVM_SET_USER_MEMORY_REGION2 succeeds. With that, we may still
-> end up allocating outside the range that KVM was provided with.
-> 
-> Hence, to be safe, we should check alignment to the max page size across
-> all backing filesystems, so the constraint is
-> 
->     rounding down restrictedmem_offset to
->     min(max page size across all backing filesystems,
->         max page size that fits in memory_size) == restrictedmem_offset
-> 
-> which is the same check as
-> 
->     restrictedmem_offset must be aligned to min(max page size across all
->     backing filesystems, max page size that fits in memory_size)
-> 
-> which can safely reduce to
-> 
->     restrictedmem_offset must be aligned to max page size that fits in
->     memory_size
-> 
-> since "max page size that fits in memory_size" is probably <= to "max
-> page size across all backing filesystems", and if it's larger, it'll
-> just be a tighter constraint.
+Hi,
 
-Yes?  The alignment check isn't strictly required, KVM _could_ deal with the above
-scenario, it's just a lot simpler and safer for KVM if the file offset needs to
-be sanely aligned.
-
-> If the above understanding is correct:
+On 3/10/22 19:38, Patrick Venture wrote:
+> The MAC address set from Qemu wasn't being saved into the register space.
 > 
-> + We must enforce this in the KVM_SET_USER_MEMORY_REGION2 handler, since
->   IIUC shmem will just round down and allocate without checking bounds.
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Signed-off-by: Patrick Venture <venture@google.com>
+> ---
+> v2: only set the registers from qemu on reset
+>      once registers set, only read and write to them
+> ---
+>   hw/net/npcm7xx_emc.c | 30 +++++++++++++++++++++++-------
+>   1 file changed, 23 insertions(+), 7 deletions(-)
 > 
->     + I think this is okay because holes in the restrictedmem file (in
->       terms of offset) made to accommodate this constraint don't cost us
->       anything anyway(?) Are they just arbitrary offsets in a file? In
->       our case, this file is usually a new and empty file.
-> 
->     + In the case of migration of a restrictedmem file between two KVM
->       VMs, this constraint would cause a problem is if the largest
->       possible page size on the destination machine is larger than that
->       of the source machine. In that case, we might have to move the
->       data in the file to a different offset (a separate problem).
+> diff --git a/hw/net/npcm7xx_emc.c b/hw/net/npcm7xx_emc.c
+> index 7c86bb52e5..a33f8c7b23 100644
+> --- a/hw/net/npcm7xx_emc.c
+> +++ b/hw/net/npcm7xx_emc.c
+> @@ -112,6 +112,16 @@ static void emc_reset(NPCM7xxEMCState *emc)
+>   
+>       emc->tx_active = false;
+>       emc->rx_active = false;
+> +
+> +    /* Set the MAC address in the register space. */
+> +    uint32_t value = (emc->conf.macaddr.a[0] << 24) |
+> +        (emc->conf.macaddr.a[1] << 16) |
+> +        (emc->conf.macaddr.a[2] << 8) |
+> +        emc->conf.macaddr.a[3];
 
-Hmm, I was thinking this would be a non-issue because the check would be tied to
-the max page _possible_ page size irrespective of hardware support, but that would
-be problematic if KVM ever supports 512GiB pages.  I'm not sure that speculatively
-requiring super huge memslots to be 512GiB aligned is sensible.
+Per QEMU Coding style:
 
-Aha!  If we go with a KVM ioctl(), a clean way around this is tie the alignment
-requirement to the memfd flags, e.g. if userspace requests the memfd to be backed
-by PMD hugepages, then the memslot offset needs to be 2MiB aligned on x86.  That
-will continue to work if (big if) KVM supports 512GiB pages because the "legacy"
-memfd would still be capped at 2MiB pages.
+   Mixed declarations (interleaving statements and declarations
+   within blocks) are generally not allowed; declarations should
+   be at the beginning of blocks.
 
-Architectures that support variable hugepage sizes might need to do something
-else, but I don't think that possibility affects what x86 can/can't do.
+https://qemu-project.gitlab.io/qemu/devel/style.html#declarations
 
-> + On this note, it seems like there is no check for when the range is
->   smaller than the allocated page? Like if the range provided is 4KB in
->   size, but shmem is then configured to use a 1GB page, will we end up
->   allocating past the end of the range?
+> +    emc->regs[REG_CAMM_BASE] = value;
 
-No, KVM already gracefully handles situations like this.  Well, x86 does, I assume
-other architectures do too :-)
+Alternatively:
 
-As above, the intent of the extra restriction is so that KVM doen't need even more
-weird code (read: math) to gracefully handle the new edge cases that would come with
-fd-only memslots.
+   emc->regs[REG_CAMM_BASE] = ldl_be_p(s->conf.macaddr.a);
+   emc->regs[REG_CAML_BASE] = lduw_be_p(s->conf.macaddr.a + 4);
+
+> +
+> +    value = (emc->conf.macaddr.a[4] << 24) | (emc->conf.macaddr.a[5] << 16);
+> +    emc->regs[REG_CAML_BASE] = value;
+>   }
+>   
+>   static void npcm7xx_emc_reset(DeviceState *dev)
+> @@ -432,13 +442,25 @@ static bool emc_receive_filter1(NPCM7xxEMCState *emc, const uint8_t *buf,
+>           }
+>       case ETH_PKT_UCAST: {
+>           bool matches;
+> +        uint32_t value;
+> +        struct MACAddr mac;
+>           if (emc->regs[REG_CAMCMR] & REG_CAMCMR_AUP) {
+>               return true;
+>           }
+> +
+> +        value = emc->regs[REG_CAMM_BASE];
+> +        mac.a[0] = value >> 24;
+> +        mac.a[1] = value >> 16;
+> +        mac.a[2] = value >> 8;
+> +        mac.a[3] = value >> 0;
+> +        value = emc->regs[REG_CAML_BASE];
+> +        mac.a[4] = value >> 24;
+> +        mac.a[5] = value >> 16;
+
+Similarly:
+
+   stl_be_p(mac.a, emc->regs[REG_CAMM_BASE]);
+   stw_be_p(mac.a + 4, emc->regs[REG_CAML_BASE]);
+
+>           matches = ((emc->regs[REG_CAMCMR] & REG_CAMCMR_ECMP) &&
+>                      /* We only support one CAM register, CAM0. */
+>                      (emc->regs[REG_CAMEN] & (1 << 0)) &&
+> -                   memcmp(buf, emc->conf.macaddr.a, ETH_ALEN) == 0);
+> +                   memcmp(buf, mac.a, ETH_ALEN) == 0);
+>           if (emc->regs[REG_CAMCMR] & REG_CAMCMR_CCAM) {
+>               *fail_reason = "MACADDR matched, comparison complemented";
+>               return !matches;
+> @@ -661,15 +683,9 @@ static void npcm7xx_emc_write(void *opaque, hwaddr offset,
+>           break;
+>       case REG_CAMM_BASE + 0:
+>           emc->regs[reg] = value;
+> -        emc->conf.macaddr.a[0] = value >> 24;
+> -        emc->conf.macaddr.a[1] = value >> 16;
+> -        emc->conf.macaddr.a[2] = value >> 8;
+> -        emc->conf.macaddr.a[3] = value >> 0;
+>           break;
+>       case REG_CAML_BASE + 0:
+>           emc->regs[reg] = value;
+> -        emc->conf.macaddr.a[4] = value >> 24;
+> -        emc->conf.macaddr.a[5] = value >> 16;
+>           break;
+>       case REG_MCMDR: {
+>           uint32_t prev;
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+(original patch: 
+https://lore.kernel.org/qemu-devel/20221003173810.1933849-1-venture@google.com/)
 
