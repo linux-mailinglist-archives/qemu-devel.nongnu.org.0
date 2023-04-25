@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC856EE2CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3D66EE2DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 15:23:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prIZ8-0002Xp-80; Tue, 25 Apr 2023 09:18:42 -0400
+	id 1prIZA-0002bm-Bs; Tue, 25 Apr 2023 09:18:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prIVU-0006rW-5S
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prIVU-0006ra-6J
  for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:15:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([216.145.221.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prIVG-0006ce-Vt
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:14:53 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prIVG-0006cg-OP
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 09:14:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682428471;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=goC0+V3ApTSiKsw11bGVSK/Vwd7KgTol7PUe4lqysLo=;
- b=Tob8pJqzno/796brV3axFVr0TP5FPdO4YGv/K8eHplGjiKjzTx5Y5BXC6JLAwz5glXp2jA
- Jjom7PcOFJ9GtndpGXE419++LkboC5/Tmfpls16pgm4WBGAbsYPqMRpf7AcBH5Bt3YLusH
- DnP33cJ7g9iTFaVmGt9r2EKgMw7vpbY=
+ bh=OChVcuXN9xUdxHfBX7+VcKkQZ81IQ8rfLZ+Ubj4/KWw=;
+ b=cl3gkTS+DgMTWpAEN0Zx1PVM3mhYvZqK9hh4GmZfpMXkgxq6DI+Tt7jMi4jDHmS5IG34iO
+ CxA/cLXWpcsXDIz8T117gT7r8gLncvcrYyBGWq5rLrfHE0FarSrKTk+bhMjjE3mi3uM610
+ g/ujbuTBXhum+vnOtMjBdL1SYNnVQOM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-FTFTurJIPG6sACkM5UO9pQ-1; Tue, 25 Apr 2023 09:14:27 -0400
-X-MC-Unique: FTFTurJIPG6sACkM5UO9pQ-1
+ us-mta-2-93VU3-YuOym9tznnBhmXaA-1; Tue, 25 Apr 2023 09:14:28 -0400
+X-MC-Unique: 93VU3-YuOym9tznnBhmXaA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 343538828C7;
- Tue, 25 Apr 2023 13:14:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26E28185A7A7;
+ Tue, 25 Apr 2023 13:14:28 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A61340C2064;
- Tue, 25 Apr 2023 13:14:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B76C40C2064;
+ Tue, 25 Apr 2023 13:14:27 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 24/25] vmdk: make vmdk_is_cid_valid a coroutine_fn
-Date: Tue, 25 Apr 2023 15:13:58 +0200
-Message-Id: <20230425131359.259007-25-kwolf@redhat.com>
+Subject: [PULL 25/25] block/monitor/block-hmp-cmds.c: Fix crash when execute
+ hmp_commit
+Date: Tue, 25 Apr 2023 15:13:59 +0200
+Message-Id: <20230425131359.259007-26-kwolf@redhat.com>
 In-Reply-To: <20230425131359.259007-1-kwolf@redhat.com>
 References: <20230425131359.259007-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: permerror client-ip=216.145.221.124;
+ envelope-from=kwolf@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_FAIL=0.001, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,34 +78,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Wang Liang <wangliangzz@inspur.com>
 
-Functions that can do I/O are prime candidates for being coroutine_fns.  Make the
-change for the one that is itself called only from coroutine_fns.  Unfortunately
-vmdk does not use a coroutine_fn for the bulk of the open (like qcow2 does) so
-vmdk_read_cid cannot have the same treatment.
+hmp_commit() calls blk_is_available() from a non-coroutine context (and in
+the main loop). blk_is_available() is a co_wrapper_mixed_bdrv_rdlock
+function, and in the non-coroutine context it calls AIO_WAIT_WHILE(),
+which crashes if the aio_context lock is not taken before.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20230309084456.304669-10-pbonzini@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1615
+Signed-off-by: Wang Liang <wangliangzz@inspur.com>
+Message-Id: <20230424103902.45265-1-wangliangzz@126.com>
+Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/vmdk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/monitor/block-hmp-cmds.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index f5f49018fe..3f8c731e32 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -376,7 +376,7 @@ out:
-     return ret;
- }
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index 2846083546..ca2599de44 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -214,15 +214,17 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
+             error_report("Device '%s' not found", device);
+             return;
+         }
+-        if (!blk_is_available(blk)) {
+-            error_report("Device '%s' has no medium", device);
+-            return;
+-        }
  
--static int vmdk_is_cid_valid(BlockDriverState *bs)
-+static int coroutine_fn vmdk_is_cid_valid(BlockDriverState *bs)
- {
-     BDRVVmdkState *s = bs->opaque;
-     uint32_t cur_pcid;
+         bs = bdrv_skip_implicit_filters(blk_bs(blk));
+         aio_context = bdrv_get_aio_context(bs);
+         aio_context_acquire(aio_context);
+ 
++        if (!blk_is_available(blk)) {
++            error_report("Device '%s' has no medium", device);
++            aio_context_release(aio_context);
++            return;
++        }
++
+         ret = bdrv_commit(bs);
+ 
+         aio_context_release(aio_context);
 -- 
 2.40.0
 
