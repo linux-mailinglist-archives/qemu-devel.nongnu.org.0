@@ -2,94 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF58B6EE4A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 17:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F3A6EE4A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 17:23:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prKSR-0007ZG-Jr; Tue, 25 Apr 2023 11:19:55 -0400
+	id 1prKVU-0000sb-Nh; Tue, 25 Apr 2023 11:23:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1prKSP-0007YL-9C; Tue, 25 Apr 2023 11:19:53 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1prKSM-0000IM-CP; Tue, 25 Apr 2023 11:19:53 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id
- 6a1803df08f44-5ef524eaca1so25598546d6.0; 
- Tue, 25 Apr 2023 08:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682435988; x=1685027988;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:reply-to:message-id:subject:cc:to:from:date
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=KtLl/dqZ9Ziz3bHcuG/PUFP/kNX2qOzjTfEhsx4Vf4A=;
- b=Lrkf1F1Qm7jWsUl4tEUs7FNm7+wwiNndj0r4GoQ3VOVgK18RVFYc2X26We7ximRpoP
- BI8VrQ6uELZlyuYzs7J0klyzLPZqgXpUp7HMzMJ6vz4SPX7zwhyZjlRHtcvp6kuzvmmR
- UTUX1BxGoxcR7mOmF460x5asbKIBU0fy83sT2TDdl7vVqN6XSgW+nvlekVLF1C7jX0H5
- JF3kxOe+bF0ONIXb2dJ7X7zy+EFyqNMZdq5K3B1irr5ErzHLLH4+WsWV7DfngzuSZ7u5
- rc7tSYKmcX1Vjyp80YDFQ2BufV5BhxYts1xH0/zcdmKv9tDKbM/nmjZdlWUGlGR/P2JV
- dUug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682435988; x=1685027988;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:reply-to:message-id:subject:cc:to:from:date
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KtLl/dqZ9Ziz3bHcuG/PUFP/kNX2qOzjTfEhsx4Vf4A=;
- b=GArIZD2obCBT74pFbaINdTSial78iOGUf+6J1Wh+Mr2N5njNl/7pyd78EbRoAwr+v4
- vn4op4PF70mrCmoXyWypF3hfvKzJVSU/tamokP8uualtYn5KGoUEIT5Mk7EhWkQOriCz
- cfZydwL9wigRpYUtmq3ujiqKSm+eRP+j6pVokLrYr+fKtR7+3Qbi8urlJgJz77+OJZF5
- j7pzU3fcHeqg6N6eC1gJ5gwXXR51sxZLGGE5Y8vnQCLKlZlGa7+TjHCySG3r+VmDcJnR
- TNdqE+OctLKAprsGcIw80JrxRWC4T6ozOY9RS0w5JiygidggfQ1X7N8+siu+j+dHtn8x
- MihA==
-X-Gm-Message-State: AAQBX9fp2m219pP7FolsdzHEV8offPHUKyl/983Zb9FjIEkTgb4Lfmjj
- mrTlftv/dVkSwqFZVsC+yQ==
-X-Google-Smtp-Source: AKy350ZsbNDE9Bjcc458/0ATmyGhcQhcvDDqGtrAHuxQ/wutneQ24fbpGgVVQHZe97v6R8zhyRQ7Qw==
-X-Received: by 2002:a05:6214:1c8d:b0:5ef:6b89:91b8 with SMTP id
- ib13-20020a0562141c8d00b005ef6b8991b8mr28592051qvb.1.1682435988338; 
- Tue, 25 Apr 2023 08:19:48 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id
- v15-20020ad4528f000000b00606b55c8657sm3340149qvr.3.2023.04.25.08.19.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 08:19:47 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:a4bd:524d:aa90:55fd])
- by serve.minyard.net (Postfix) with ESMTPSA id 7CFF31800BB;
- Tue, 25 Apr 2023 15:19:46 +0000 (UTC)
-Date: Tue, 25 Apr 2023 10:19:45 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org, Corey Minyard <cminyard@mvista.com>,
- Jeremy Kerr <jk@codeconstruct.com.au>, qemu-arm@nongnu.org,
- Peter Delevoryas <peter@pjd.dev>, Keith Busch <kbusch@kernel.org>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Jason Wang <jasowang@redhat.com>, Lior Weintraub <liorw@pliops.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Matt Johnston <matt@codeconstruct.com.au>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH v2 1/3] hw/i2c: add mctp core
-Message-ID: <ZEfvkWCbJoKGIOnT@minyard.net>
-References: <20230425063540.46143-1-its@irrelevant.dk>
- <20230425063540.46143-2-its@irrelevant.dk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1prKVS-0000qq-9C
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 11:23:02 -0400
+Received: from mail-dm6nam11on20615.outbound.protection.outlook.com
+ ([2a01:111:f400:7eaa::615]
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1prKVP-00015S-6n
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 11:23:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cnScHBiAEu6S1Cyqq97w+XMmFPo2MbopToxF4YdIKCrdWuYmSWyI6Tyvi8Znkj+9+RCeI5gFo+xYV1+RexDHkMhjdKRwASvR1TSSFo2z5Yo8PAjttKraxl7BO1M5r7n7D5zSFShdqBKca8Dn6FoYLAFmW/h/1WVORyEbVS971e/piAQ/PeOFSpkFqFfWPgiWprTsIfxGOB6iyXPDLsAwjrDPgpb8kGNAm1qkEoYX74K0ZWHI/ia48/tkzWd6jIWHbOfU25liT3moURVwG6akmJBw6pq9rf3gRPRdwLjuqChN9dHwbSzN0XUVbkdV+hRDTk52LbaO1NE9a9Y9SL4H7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zHy/urKHOAksFyD2nJwv78kahqVGYamaV9TXSAua2rI=;
+ b=buSADmme5wDsjJMPUzSf0ANjdpil3OonPUtcPyuHL2U7kxFaVmtnZbsY/1HwJYU6Dt7aoUE+4851dIr9Sr/y7V/p7c95aEGp8SWn2fDY4pJfx7ePSO17roKu8LvggBry1JwtZisjHwqR35wqZtlajcmp+AcUNXiUno/Vk6/Y3w3Omzrxo0eLTnlPrtyzF2LhrPi0motHDxUF3VkKBFYYgrFwDMQWibXpsDDR8aPVeus/EhtjFL/iAsGhyr25oMZ3ssTkpSBfHEnhmiuVxbpoiC71Mg9y3aCOMq+L3dfQRQdX2SGgYqa7VEy5nk46qFUC6FA5XG0lP9KFVhfle4Ii2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zHy/urKHOAksFyD2nJwv78kahqVGYamaV9TXSAua2rI=;
+ b=jtQiy4iI1AuZ4qfGqDkBvzSycR0OteHse2ToHuCJGZ23txtLoGqd+aztjqHr9kPsNNFqYHpOxesnXfU7kxgo1cxudPbxoR7draWU2vSmACPvY71QeozxSiavlAh7bCzAo+S0+SXt/Tjq/0C0oaGb3tlrAnbb/sZ8nGXo3TrOZko=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by IA0PR12MB8280.namprd12.prod.outlook.com (2603:10b6:208:3df::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.33; Tue, 25 Apr
+ 2023 15:22:53 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::57ca:ec64:35da:a5b1]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::57ca:ec64:35da:a5b1%7]) with mapi id 15.20.6319.033; Tue, 25 Apr 2023
+ 15:22:52 +0000
+Message-ID: <68ec523e-72bd-3d5f-49f6-ef4d77c618ac@amd.com>
+Date: Tue, 25 Apr 2023 10:22:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 1/7] target/i386: allow versioned CPUs to specify new
+ cache_info
+Content-Language: en-US
+To: Robert Hoo <robert.hoo.linux@gmail.com>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org,
+ weijiang.yang@intel.com, philmd@linaro.org, dwmw@amazon.co.uk, paul@xen.org,
+ joao.m.martins@oracle.com, qemu-devel@nongnu.org, mtosatti@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, marcel.apfelbaum@gmail.com,
+ yang.zhong@intel.com, jing2.liu@intel.com, vkuznets@redhat.com,
+ michael.roth@amd.com, wei.huang2@amd.com, berrange@redhat.com
+References: <20230424163401.23018-1-babu.moger@amd.com>
+ <20230424163401.23018-2-babu.moger@amd.com>
+ <CA+wubQCGyXujRJvREaWX97KhT0sw8o9bf_+qa6C0gYkcbrqr9A@mail.gmail.com>
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <CA+wubQCGyXujRJvREaWX97KhT0sw8o9bf_+qa6C0gYkcbrqr9A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230425063540.46143-2-its@irrelevant.dk>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=tcminyard@gmail.com; helo=mail-qv1-xf30.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-ClientProxiedBy: CH0PR03CA0113.namprd03.prod.outlook.com
+ (2603:10b6:610:cd::28) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA0PR12MB8280:EE_
+X-MS-Office365-Filtering-Correlation-Id: e56c8d68-2e36-4a0e-0cca-08db45a0eff1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iJTPsM9OCTeGL7QVkaTOeJN+Hk/OeclHnPDZIRO22h6p27xHKSpDwztQMP3al+E390LiOnGM7xE2sUgtZuxzMOPF4FJyqheXtiOkkOWaJggAuGyXGLXDdiunwMznogeME+SG8HJkvQnrenQOkJKNTyZtL3WI5Zer97v4z2Fvy0peOUd0dzdt3wYF1bLzZWEePJD3UUAFuPXJN3GVIMmyvOdFlu66tFcZOvKo/T03hUzjzZXQpwWxgjgzghEzWqr25DqGzzUQeHIdqsJ5Esne5GaBBa2Qw4B+rKLHI7Y+remGv2aTJsIBLogWpCcA5GMVbl19TQWgwfVIMqdLr18hJectBAbTktXiCSdeSuVrr3N0XdoKWDurOJ7gf9FMk3CQ/Drh6c71ftiClipOBF0J4CD3VUYCbiUB5BTsBpGw7Eu5OEr/y6wd+w+qqrZ5vsOpviEF4RACrOrkr0LG1wfAFRCCxRyfKOeZYmtUDOZC+bvrScfSY7s1k3H9EY83lAKWJOVLjRcL8bvCyfySR3f0tIpXFDVcRvVo7IoNecq3h/8SppjSPhAhYWA8Ba7kTew5JYg1x0lwC+2YU0bJkpT/9opYSxWtgA/iD6ilmS72+5eVAf9vWfbgRpV1XuW6KW1qSjhJ5DBN+Ijh+wyQHcc1pw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR12MB4553.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(376002)(346002)(39860400002)(136003)(396003)(451199021)(478600001)(31696002)(86362001)(36756003)(186003)(53546011)(6486002)(26005)(6512007)(6506007)(4326008)(6916009)(66556008)(316002)(6666004)(66476007)(66946007)(83380400001)(3450700001)(2906002)(38100700002)(8676002)(41300700001)(31686004)(5660300002)(8936002)(7416002)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VlVVb0tnbTdvejFhTE9QUnA0Ym51eVUxbS9HTStEQU9UcVVoa0daRlQyT3lu?=
+ =?utf-8?B?bHMzWEZ5OXhuWFd4WkJSbTlwOW5QQUVubWZuemE3NGY1VDdFNUJmLzcrenNz?=
+ =?utf-8?B?ZG9INmxRQWI2ejloVG9jd3MwV3R1c2ZxU3pzZndYcXFNbktHSW4rcFlpWXBH?=
+ =?utf-8?B?SDNLbVdjeVViQzdmanNldVNma2RKZjk2Z2w0MG9iSkpRMGhIMUU2VWsyMEpO?=
+ =?utf-8?B?NWFoMmsxMU16UHBTK3IyZUUzVXZBMU5GbWZsaEFjT2NFVXU4Z2ZwOUIvVmdG?=
+ =?utf-8?B?WE9WV3VFcG9rb3RYb0lDYzR0bE9nTTMrVGh6Y0h0SU10OUlUS0NBaW9Oc2Zn?=
+ =?utf-8?B?dWZIQlZ3bFRaY3I0R2FBTkx1WDAzL0RqOTRybUxLcEtKYkNpamdJNmJnWE9D?=
+ =?utf-8?B?OU1HUHpYY2Rjc2loLzhmQi9kT3dwK2hFRVpKMEtaRnRNVnVsKzlYM3U0QXFY?=
+ =?utf-8?B?Wk55Z3EyMjlSOHp6TDgvNFhzUkNWdC9qUVozTGphM2hnOXVYdTR0WWJNMUln?=
+ =?utf-8?B?YUhQY2g5TXRQdzRhVzZ6TUhDM1BpMDM1eElnZ3N3OGlLdStnTWdqNjFGcFZF?=
+ =?utf-8?B?SGlzalNTbkovRmVKWkxGeHNDTU9sb1VPWm9OeXZraytUOTRzNjdDbmFlTFoz?=
+ =?utf-8?B?REpmWldnZm1EVEQ3S2hHS0IvMHdLK2oxWE1BL1A0VHk3M3BLMkdsTmg3SFhZ?=
+ =?utf-8?B?eENUM2lQNVgvcFhPVVpqWGl2NG15dUFBN1hOWVRTbGZBWVI2Y3A1dlJRK3Vj?=
+ =?utf-8?B?YWx1cTV1Zzg2MjI3UWNOeHZoWFU4R0gwa0RWNkZFTFVucXc3UDRLalQ4aVg3?=
+ =?utf-8?B?MElMSWc5bHBzWWNvNFFoQ1d3d3lpT1JjTUNTZG9sdHBpVXo3VkpzamJFbFZn?=
+ =?utf-8?B?dDVHWXlzZmpveEE0bEdyam1wTUZUYllmZGhOQkNpOUZ1Q29veFBML0daa05y?=
+ =?utf-8?B?MCtyUnVTSkRDck10ZDA0QzUvMDNnZDQ0clpzRlhSY2M0QUVCYWlxLy81Vktu?=
+ =?utf-8?B?OVFrRzNoVlRzQWN3WUxZVmpXQVZoTXI0OGQ2NUZQa3M2R0E5eVBBMDB1WHVv?=
+ =?utf-8?B?NmVGR1l5QkI4bnk5SWlhdzJTTllBTERqeTJUZlNTMDNNWjh4NzVaUU1lWDNP?=
+ =?utf-8?B?NEU2eWlyUUVYTk1LNVprd2NtS1ZrKzNwbkx3bDJFK1lRemNKdW5hTnNnVStt?=
+ =?utf-8?B?ek5Ia3RWejFSRDVxQmduakJkSTJueXFrakJQNFZaaG1zekhBeWdwbTQ5amEz?=
+ =?utf-8?B?RVo3YjJtalMrMFhUU0xsWGtoZG0wZTJ4T2Nhcnk1M3dOOFVRUDJvYnhrS0w4?=
+ =?utf-8?B?b1hvVURvNEFDVW1JME5BWXA2ejg3RDlWVjlpZWlmRHBUTUVOeDMvWEJFQnlZ?=
+ =?utf-8?B?cmVTU1J5R0RPVCtLUFYzYUxjNHM5T0NNZWJvWDRXTDdHWnczOGkvbWlxaEtC?=
+ =?utf-8?B?aWJhcHdiMXRKcHVBK09qSEdwL0tBVUY1SU5MSW05ZTl1OTlCUDZ3N3d3RCt4?=
+ =?utf-8?B?SzNqa05CLzNLMDdDQThTWEVGVGRVZU4xaUhFK0xTaVRjZGpHYVhwWkRDU2JP?=
+ =?utf-8?B?VnJCeWMrUXBEU2dCRGdFRzNoT0Vzd2JYN2MwazN3VUwzek5pSHo2NWNvTzdF?=
+ =?utf-8?B?cTBBNWwxQURQTzA5RGY1TG0vcmZGeGxpYmVnR21WNk1JeVIvM3dQeXE2U29C?=
+ =?utf-8?B?MnBaR2c2bTVVMGxwS3ZRbW0xdUVvcGx3Ti93Q2RNK2RWUjNmUy9DL1A5K3NS?=
+ =?utf-8?B?cmw3bW5NcFJyZ1MxdWMyYUU0SFM5U3FTYXhYaTAzaHlOaGVDbm1od0c4NmlU?=
+ =?utf-8?B?ZU91WHFqdXFsSFZGTEwyUThueW15bnpJbWhoYndKdGtWYVhsUGQ0cEpFR0lh?=
+ =?utf-8?B?ZkJEZDU4Q0Y4djdQRzdiMzlqSEZ5Mm84dFlabkFFbVd4bUVOK3NuTkZlS2E5?=
+ =?utf-8?B?dDRqMDV5MmFRR0h4d093VTBQaXp2V3JzZXMxWTFBY2prOGFTYVpBZWJWQnhS?=
+ =?utf-8?B?dzI4Q3cxdkdqa1FoclJGdkZtTEVrcEUwQ1FYVW94TTNRZ2QwTWltLzhCSWJR?=
+ =?utf-8?B?K3VoTDdJTER4RnZ1NUUvaHdicjdEU3A2ZzdEK3BoZ3Fyek5MVVZwekN2VE1s?=
+ =?utf-8?Q?fEKE=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e56c8d68-2e36-4a0e-0cca-08db45a0eff1
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2023 15:22:52.7734 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vXoGWV3tFLi7uK5ziZVSqU7sSsMqOuagLpcdIyENbDX0UxKI4poakX62nFaNuwI5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8280
+Received-SPF: softfail client-ip=2a01:111:f400:7eaa::615;
+ envelope-from=Babu.Moger@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,715 +150,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
+Reply-To: babu.moger@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 25, 2023 at 08:35:38AM +0200, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Add an abstract MCTP over I2C endpoint model. This implements MCTP
-> control message handling as well as handling the actual I2C transport
-> (packetization).
-> 
-> Devices are intended to derive from this and implement the class
-> methods.
-> 
-> Parts of this implementation is inspired by code[1] previously posted by
-> Jonathan Cameron.
+Hi Robert,
 
-All in all this looks good.  Two comments:
+On 4/25/23 00:42, Robert Hoo wrote:
+> Babu Moger <babu.moger@amd.com> 于2023年4月25日周二 00:42写道：
+>>
+>> From: Michael Roth <michael.roth@amd.com>
+>>
+>> New EPYC CPUs versions require small changes to their cache_info's.
+> 
+> Do you mean, for the real HW of EPYC CPU, each given model, e.g. Rome,
+> has HW version updates periodically?
 
-I would like to see the buffer handling consolidated into one function
-and the length checked, even for (especially for) the outside users of
-this code, like the nvme code.  Best to avoid future issues with buffer
-overruns.  This will require reworking the get_message_types function,
-unfortunately.
+Yes. Real hardware can change slightly changing the cache properties, but
+everything else exactly same as the base HW. But this is not a common
+thing. We don't see the need for adding new EPYC model for these cases.
+That is the reason we added cache_info here.
+> 
+>> Because current QEMU x86 CPU definition does not support cache
+>> versions,
+> 
+> cache version --> versioned cache info
 
-You have one trace function on a bad receive message check, but lots of
-other bad receive message checks with no trace.  Just a suggestion, but
-it might be nice for tracking down issues to trace all the reasons a
-message is dropped.
+Sure.
+> 
+>> we would have to declare a new CPU type for each such case.
+> 
+> My understanding was, for new HW CPU model, we should define a new
+> vCPU model mapping it. But if answer to my above question is yes, i.e.
+> new HW version of same CPU model, looks like it makes sense to some
+> extent.
 
-Thanks,
-
--corey
+Please see my response above.
 
 > 
->   [1]: https://lore.kernel.org/qemu-devel/20220520170128.4436-1-Jonathan.Cameron@huawei.com/
+>> To avoid this duplication, the patch allows new cache_info pointers
+>> to be specified for a new CPU version.
 > 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  MAINTAINERS                   |   7 +
->  hw/arm/Kconfig                |   1 +
->  hw/i2c/Kconfig                |   4 +
->  hw/i2c/mctp.c                 | 352 ++++++++++++++++++++++++++++++++++
->  hw/i2c/meson.build            |   1 +
->  hw/i2c/smbus_master.c         |  28 +++
->  hw/i2c/trace-events           |  12 ++
->  include/hw/i2c/mctp.h         | 114 +++++++++++
->  include/hw/i2c/smbus_master.h |   3 +
->  include/net/mctp.h            |  43 +++++
->  10 files changed, 565 insertions(+)
->  create mode 100644 hw/i2c/mctp.c
->  create mode 100644 include/hw/i2c/mctp.h
->  create mode 100644 include/net/mctp.h
+> "To avoid the dup work, the patch adds "cache_info" in X86CPUVersionDefinition"
+
+Sure
+
+>>
+>> Co-developed-by: Wei Huang <wei.huang2@amd.com>
+>> Signed-off-by: Wei Huang <wei.huang2@amd.com>
+>> Signed-off-by: Michael Roth <michael.roth@amd.com>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>> ---
+>>  target/i386/cpu.c | 36 +++++++++++++++++++++++++++++++++---
+>>  1 file changed, 33 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>> index 6576287e5b..e3d9eaa307 100644
+>> --- a/target/i386/cpu.c
+>> +++ b/target/i386/cpu.c
+>> @@ -1598,6 +1598,7 @@ typedef struct X86CPUVersionDefinition {
+>>      const char *alias;
+>>      const char *note;
+>>      PropValue *props;
+>> +    const CPUCaches *const cache_info;
+>>  } X86CPUVersionDefinition;
+>>
+>>  /* Base definition for a CPU model */
+>> @@ -5192,6 +5193,32 @@ static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
+>>      assert(vdef->version == version);
+>>  }
+>>
+>> +/* Apply properties for the CPU model version specified in model */
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 24154f5721c7..054aad1f3e97 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3339,6 +3339,13 @@ F: tests/qtest/adm1272-test.c
->  F: tests/qtest/max34451-test.c
->  F: tests/qtest/isl_pmbus_vr-test.c
->  
-> +MCTP I2C Transport
-> +M: Klaus Jensen <k.jensen@samsung.com>
-> +S: Maintained
-> +F: hw/i2c/mctp.c
-> +F: include/hw/i2c/mctp.h
-> +F: include/net/mctp.h
-> +
->  Firmware schema specifications
->  M: Philippe Mathieu-Daudé <philmd@linaro.org>
->  R: Daniel P. Berrange <berrange@redhat.com>
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index b53bd7f0b2a0..d7ecbc99e5ee 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -457,6 +457,7 @@ config ASPEED_SOC
->      select DS1338
->      select FTGMAC100
->      select I2C
-> +    select MCTP_I2C
->      select DPS310
->      select PCA9552
->      select SERIAL
-> diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
-> index 14886b35dac2..3415e8421ab1 100644
-> --- a/hw/i2c/Kconfig
-> +++ b/hw/i2c/Kconfig
-> @@ -45,3 +45,7 @@ config PCA954X
->  config PMBUS
->      bool
->      select SMBUS
-> +
-> +config MCTP_I2C
-> +    bool
-> +    select I2C
-> diff --git a/hw/i2c/mctp.c b/hw/i2c/mctp.c
-> new file mode 100644
-> index 000000000000..0f4045d0d685
-> --- /dev/null
-> +++ b/hw/i2c/mctp.c
-> @@ -0,0 +1,352 @@
-> +/*
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + *
-> + * SPDX-FileCopyrightText: Copyright (c) 2022 Samsung Electronics Co., Ltd.
-> + * SPDX-FileContributor: Klaus Jensen <k.jensen@samsung.com>
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/main-loop.h"
-> +
-> +#include "hw/qdev-properties.h"
-> +#include "hw/i2c/i2c.h"
-> +#include "hw/i2c/smbus_master.h"
-> +#include "hw/i2c/mctp.h"
-> +
-> +#include "trace.h"
-> +
-> +void i2c_mctp_schedule_send(MCTPI2CEndpoint *mctp)
-> +{
-> +    I2CBus *i2c = I2C_BUS(qdev_get_parent_bus(DEVICE(mctp)));
-> +
-> +    mctp->tx.state = I2C_MCTP_STATE_TX_START_SEND;
-> +
-> +    i2c_bus_master(i2c, mctp->tx.bh);
-> +}
-> +
-> +static void i2c_mctp_tx(void *opaque)
-> +{
-> +    DeviceState *dev = DEVICE(opaque);
-> +    I2CBus *i2c = I2C_BUS(qdev_get_parent_bus(dev));
-> +    I2CSlave *slave = I2C_SLAVE(dev);
-> +    MCTPI2CEndpoint *mctp = MCTP_I2C_ENDPOINT(dev);
-> +    MCTPI2CEndpointClass *mc = MCTP_I2C_ENDPOINT_GET_CLASS(mctp);
-> +    MCTPI2CPacket *pkt = (MCTPI2CPacket *)mctp->buffer;
-> +    uint8_t flags = 0;
-> +
-> +    switch (mctp->tx.state) {
-> +    case I2C_MCTP_STATE_TX_SEND_BYTE:
-> +        if (mctp->pos < mctp->len) {
-> +            uint8_t byte = mctp->buffer[mctp->pos];
-> +
-> +            trace_i2c_mctp_tx_send_byte(mctp->pos, byte);
-> +
-> +            /* send next byte */
-> +            i2c_send_async(i2c, byte);
-> +
-> +            mctp->pos++;
-> +
-> +            break;
-> +        }
-> +
-> +        /* packet sent */
-> +        i2c_end_transfer(i2c);
-> +
-> +        /* end of any control data */
-> +        mctp->len = 0;
-> +
-> +        /* fall through */
-> +
-> +    case I2C_MCTP_STATE_TX_START_SEND:
-> +        if (mctp->tx.is_control) {
-> +            /* packet payload is already in buffer */
-> +            flags |= MCTP_H_FLAGS_SOM | MCTP_H_FLAGS_EOM;
-> +        } else {
-> +            /* get message bytes from derived device */
-> +            mctp->len = mc->get_message_bytes(mctp, pkt->mctp.payload,
-> +                                              I2C_MCTP_MAXMTU, &flags);
-> +        }
-> +
-> +        if (!mctp->len) {
-> +            trace_i2c_mctp_tx_done();
-> +
-> +            /* no more packets needed; release the bus */
-> +            i2c_bus_release(i2c);
-> +
-> +            mctp->state = I2C_MCTP_STATE_IDLE;
-> +            mctp->tx.is_control = false;
-> +
-> +            break;
-> +        }
-> +
-> +        mctp->state = I2C_MCTP_STATE_TX;
-> +
-> +        pkt->i2c = (MCTPI2CPacketHeader) {
-> +            .dest = mctp->tx.addr & ~0x1,
-> +            .prot = 0xf,
-> +            .byte_count = 5 + mctp->len,
-> +            .source = slave->address << 1 | 0x1,
-> +        };
-> +
-> +        pkt->mctp.hdr = (MCTPPacketHeader) {
-> +            .version = 0x1,
-> +            .eid.dest = mctp->tx.eid,
-> +            .eid.source = mctp->my_eid,
-> +            .flags = flags | (mctp->tx.pktseq++ & 0x3) << 4 | mctp->tx.flags,
-> +        };
-> +
-> +        mctp->len += sizeof(MCTPI2CPacket);
-> +        assert(mctp->len < I2C_MCTP_MAX_LENGTH);
-> +
-> +        mctp->buffer[mctp->len] = i2c_smbus_pec(0, mctp->buffer, mctp->len);
-> +        mctp->len++;
-> +
-> +        trace_i2c_mctp_tx_start_send(mctp->len);
-> +
-> +        i2c_start_send_async(i2c, pkt->i2c.dest >> 1);
-> +
-> +        /* already "sent" the destination slave address */
-> +        mctp->pos = 1;
-> +
-> +        mctp->tx.state = I2C_MCTP_STATE_TX_SEND_BYTE;
-> +
-> +        break;
-> +    }
-> +}
-> +
-> +#define i2c_mctp_control_data(buf) \
-> +    (i2c_mctp_payload(buf) + offsetof(MCTPControlMessage, data))
-> +
-> +static void i2c_mctp_handle_control_set_eid(MCTPI2CEndpoint *mctp, uint8_t eid)
-> +{
-> +    mctp->my_eid = eid;
-> +
-> +    uint8_t buf[] = {
-> +        0x0, 0x0, eid, 0x0,
-> +    };
-> +
-> +    memcpy(i2c_mctp_control_data(mctp->buffer), buf, sizeof(buf));
-> +    mctp->len += sizeof(buf);
-> +}
-> +
-> +static void i2c_mctp_handle_control_get_eid(MCTPI2CEndpoint *mctp)
-> +{
-> +    uint8_t buf[] = {
-> +        0x0, mctp->my_eid, 0x0, 0x0,
-> +    };
-> +
-> +    memcpy(i2c_mctp_control_data(mctp->buffer), buf, sizeof(buf));
-> +    mctp->len += sizeof(buf);
-> +}
-> +
-> +static void i2c_mctp_handle_control_get_version(MCTPI2CEndpoint *mctp)
-> +{
-> +    uint8_t buf[] = {
-> +        0x0, 0x1, 0x0, 0x1, 0x3, 0x1,
-> +    };
-> +
-> +    memcpy(i2c_mctp_control_data(mctp->buffer), buf, sizeof(buf));
-> +    mctp->len += sizeof(buf);
-> +}
-> +
-> +enum {
-> +    MCTP_CONTROL_SET_EID                    = 0x01,
-> +    MCTP_CONTROL_GET_EID                    = 0x02,
-> +    MCTP_CONTROL_GET_VERSION                = 0x04,
-> +    MCTP_CONTROL_GET_MESSAGE_TYPE_SUPPORT   = 0x05,
-> +};
-> +
-> +static void i2c_mctp_handle_control(MCTPI2CEndpoint *mctp)
-> +{
-> +    MCTPI2CEndpointClass *mc = MCTP_I2C_ENDPOINT_GET_CLASS(mctp);
-> +    MCTPControlMessage *msg = (MCTPControlMessage *)i2c_mctp_payload(mctp->buffer);
-> +
-> +    /* clear Rq/D */
-> +    msg->flags &= 0x1f;
-> +
-> +    mctp->len = sizeof(MCTPControlMessage);
-> +
-> +    trace_i2c_mctp_handle_control(msg->command);
-> +
-> +    switch (msg->command) {
-> +    case MCTP_CONTROL_SET_EID:
-> +        i2c_mctp_handle_control_set_eid(mctp, msg->data[1]);
-> +        break;
-> +
-> +    case MCTP_CONTROL_GET_EID:
-> +        i2c_mctp_handle_control_get_eid(mctp);
-> +        break;
-> +
-> +    case MCTP_CONTROL_GET_VERSION:
-> +        i2c_mctp_handle_control_get_version(mctp);
-> +        break;
-> +
-> +    case MCTP_CONTROL_GET_MESSAGE_TYPE_SUPPORT:
-> +        mctp->len += mc->get_message_types(mctp, i2c_mctp_control_data(mctp->buffer),
-> +                                           MCTP_BASELINE_MTU - mctp->len);
-> +        break;
-> +
-> +    default:
-> +        trace_i2c_mctp_unhandled_control(msg->command);
-> +
-> +        msg->data[0] = MCTP_CONTROL_ERROR_UNSUPPORTED_CMD;
-> +        mctp->len++;
-> +
-> +        break;
-> +    }
-> +
-> +    assert(mctp->len <= MCTP_BASELINE_MTU);
-> +
-> +    i2c_mctp_schedule_send(mctp);
-> +}
-> +
-> +static int i2c_mctp_event_cb(I2CSlave *i2c, enum i2c_event event)
-> +{
-> +    MCTPI2CEndpoint *mctp = MCTP_I2C_ENDPOINT(i2c);
-> +    MCTPI2CEndpointClass *mc = MCTP_I2C_ENDPOINT_GET_CLASS(mctp);
-> +    MCTPI2CPacket *pkt = (MCTPI2CPacket *)mctp->buffer;
-> +    size_t payload_len;
-> +    uint8_t pec;
-> +
-> +    switch (event) {
-> +    case I2C_START_SEND:
-> +        if (mctp->state == I2C_MCTP_STATE_IDLE) {
-> +            mctp->state = I2C_MCTP_STATE_RX_STARTED;
-> +        } else if (mctp->state != I2C_MCTP_STATE_RX) {
-> +            return -1;
-> +        }
-> +
-> +        /* the i2c core eats the slave address, so put it back in */
-> +        pkt->i2c.dest = i2c->address << 1;
-> +        mctp->len = 1;
-> +
-> +        return 0;
-> +
-> +    case I2C_FINISH:
-> +        if (mctp->len < sizeof(MCTPI2CPacket) + 1) {
-> +            trace_i2c_mctp_drop("short packet");
-> +            goto drop;
-> +        }
-> +
-> +        payload_len = mctp->len - (1 + offsetof(MCTPI2CPacket, mctp.payload));
-> +
-> +        if (pkt->i2c.byte_count + 3 != mctp->len - 1) {
-> +            trace_i2c_mctp_drop_invalid_length(pkt->i2c.byte_count + 3,
-> +                                               mctp->len - 1);
-> +            goto drop;
-> +        }
-> +
-> +        pec = i2c_smbus_pec(0, mctp->buffer, mctp->len - 1);
-> +        if (mctp->buffer[mctp->len - 1] != pec) {
-> +            trace_i2c_mctp_drop_invalid_pec(mctp->buffer[mctp->len - 1], pec);
-> +            goto drop;
-> +        }
-> +
-> +        if (pkt->mctp.hdr.eid.dest != mctp->my_eid) {
-> +            trace_i2c_mctp_drop_invalid_eid(pkt->mctp.hdr.eid.dest,
-> +                                            mctp->my_eid);
-> +            goto drop;
-> +        }
-> +
-> +        if (pkt->mctp.hdr.flags & MCTP_H_FLAGS_SOM) {
-> +            mctp->tx.is_control = false;
-> +
-> +            if (mctp->state == I2C_MCTP_STATE_RX) {
-> +                mc->reset_message(mctp);
-> +            }
-> +
-> +            mctp->state = I2C_MCTP_STATE_RX;
-> +
-> +            mctp->tx.addr = pkt->i2c.source;
-> +            mctp->tx.eid = pkt->mctp.hdr.eid.source;
-> +            mctp->tx.flags = pkt->mctp.hdr.flags & 0x7;
-> +            mctp->tx.pktseq = (pkt->mctp.hdr.flags >> 4) & 0x3;
-> +
-> +            if ((pkt->mctp.payload[0] & 0x7f) == MCTP_MESSAGE_TYPE_CONTROL) {
-> +                mctp->tx.is_control = true;
-> +
-> +                i2c_mctp_handle_control(mctp);
-> +
-> +                return 0;
-> +            }
-> +        } else if (mctp->state == I2C_MCTP_STATE_RX_STARTED) {
-> +            trace_i2c_mctp_drop("expected SOM");
-> +            goto drop;
-> +        } else if (((pkt->mctp.hdr.flags >> 4) & 0x3) != (++mctp->tx.pktseq & 0x3)) {
-> +            trace_i2c_mctp_drop_invalid_pktseq((pkt->mctp.hdr.flags >> 4) & 0x3,
-> +                                               mctp->tx.pktseq & 0x3);
-> +            goto drop;
-> +        }
-> +
-> +        mc->put_message_bytes(mctp, i2c_mctp_payload(mctp->buffer), payload_len);
-> +
-> +        if (pkt->mctp.hdr.flags & MCTP_H_FLAGS_EOM) {
-> +            mc->handle_message(mctp);
-> +            mctp->state = I2C_MCTP_STATE_WAIT_TX;
-> +        }
-> +
-> +        return 0;
-> +
-> +    default:
-> +        return -1;
-> +    }
-> +
-> +drop:
-> +    mc->reset_message(mctp);
-> +
-> +    mctp->state = I2C_MCTP_STATE_IDLE;
-> +
-> +    return 0;
-> +}
-> +
-> +static int i2c_mctp_send_cb(I2CSlave *i2c, uint8_t data)
-> +{
-> +    MCTPI2CEndpoint *mctp = MCTP_I2C_ENDPOINT(i2c);
-> +
-> +    if (mctp->len < I2C_MCTP_MAX_LENGTH) {
-> +        mctp->buffer[mctp->len++] = data;
-> +        return 0;
-> +    }
-> +
-> +    return -1;
-> +}
-> +
-> +static void i2c_mctp_instance_init(Object *obj)
-> +{
-> +    MCTPI2CEndpoint *mctp = MCTP_I2C_ENDPOINT(obj);
-> +
-> +    mctp->tx.bh = qemu_bh_new(i2c_mctp_tx, mctp);
-> +}
-> +
-> +static Property mctp_i2c_props[] = {
-> +    DEFINE_PROP_UINT8("eid", MCTPI2CEndpoint, my_eid, 0x9),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void i2c_mctp_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +    I2CSlaveClass *k = I2C_SLAVE_CLASS(oc);
-> +
-> +    k->event = i2c_mctp_event_cb;
-> +    k->send = i2c_mctp_send_cb;
-> +
-> +    device_class_set_props(dc, mctp_i2c_props);
-> +}
-> +
-> +static const TypeInfo i2c_mctp_info = {
-> +    .name = TYPE_MCTP_I2C_ENDPOINT,
-> +    .parent = TYPE_I2C_SLAVE,
-> +    .abstract = true,
-> +    .instance_init = i2c_mctp_instance_init,
-> +    .instance_size = sizeof(MCTPI2CEndpoint),
-> +    .class_init = i2c_mctp_class_init,
-> +    .class_size = sizeof(MCTPI2CEndpointClass),
-> +};
-> +
-> +static void register_types(void)
-> +{
-> +    type_register_static(&i2c_mctp_info);
-> +}
-> +
-> +type_init(register_types)
-> diff --git a/hw/i2c/meson.build b/hw/i2c/meson.build
-> index 3996564c25c6..fd1f9022fd96 100644
-> --- a/hw/i2c/meson.build
-> +++ b/hw/i2c/meson.build
-> @@ -1,5 +1,6 @@
->  i2c_ss = ss.source_set()
->  i2c_ss.add(when: 'CONFIG_I2C', if_true: files('core.c'))
-> +i2c_ss.add(when: 'CONFIG_MCTP_I2C', if_true: files('mctp.c'))
->  i2c_ss.add(when: 'CONFIG_SMBUS', if_true: files('smbus_slave.c', 'smbus_master.c'))
->  i2c_ss.add(when: 'CONFIG_ACPI_SMBUS', if_true: files('pm_smbus.c'))
->  i2c_ss.add(when: 'CONFIG_ACPI_ICH9', if_true: files('smbus_ich9.c'))
-> diff --git a/hw/i2c/smbus_master.c b/hw/i2c/smbus_master.c
-> index 6a53c34e70b7..47f9eb24e033 100644
-> --- a/hw/i2c/smbus_master.c
-> +++ b/hw/i2c/smbus_master.c
-> @@ -15,6 +15,34 @@
->  #include "hw/i2c/i2c.h"
->  #include "hw/i2c/smbus_master.h"
->  
-> +static uint8_t crc8(uint16_t data)
-> +{
-> +#define POLY (0x1070U << 3)
-> +    int i;
-> +
-> +    for (i = 0; i < 8; i++) {
-> +        if (data & 0x8000) {
-> +            data = data ^ POLY;
-> +        }
-> +
-> +        data = data << 1;
-> +    }
-> +
-> +    return (uint8_t)(data >> 8);
-> +#undef POLY
-> +}
-> +
-> +uint8_t i2c_smbus_pec(uint8_t crc, uint8_t *buf, size_t len)
-> +{
-> +    int i;
-> +
-> +    for (i = 0; i < len; i++) {
-> +        crc = crc8((crc ^ buf[i]) << 8);
-> +    }
-> +
-> +    return crc;
-> +}
-> +
->  /* Master device commands.  */
->  int smbus_quick_command(I2CBus *bus, uint8_t addr, int read)
->  {
-> diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
-> index 8e88aa24c1ac..2e3065a99873 100644
-> --- a/hw/i2c/trace-events
-> +++ b/hw/i2c/trace-events
-> @@ -45,3 +45,15 @@ npcm7xx_smbus_recv_fifo(const char *id, uint8_t received, uint8_t expected) "%s
->  
->  pca954x_write_bytes(uint8_t value) "PCA954X write data: 0x%02x"
->  pca954x_read_data(uint8_t value) "PCA954X read data: 0x%02x"
-> +
-> +# mctp.c
-> +i2c_mctp_tx_start_send(size_t len) "len %zu"
-> +i2c_mctp_tx_send_byte(size_t pos, uint8_t byte) "pos %zu byte 0x%"PRIx8""
-> +i2c_mctp_tx_done(void) "packet sent"
-> +i2c_mctp_handle_control(uint8_t command) "command 0x%"PRIx8""
-> +i2c_mctp_unhandled_control(uint8_t command) "command 0x%"PRIx8""
-> +i2c_mctp_drop(const char *reason) "%s"
-> +i2c_mctp_drop_invalid_length(unsigned byte_count, size_t expected) "byte_count %u expected %zu"
-> +i2c_mctp_drop_invalid_pec(uint8_t pec, uint8_t expected) "pec 0x%"PRIx8" expected 0x%"PRIx8""
-> +i2c_mctp_drop_invalid_eid(uint8_t eid, uint8_t expected) "eid 0x%"PRIx8" expected 0x%"PRIx8""
-> +i2c_mctp_drop_invalid_pktseq(uint8_t pktseq, uint8_t expected) "pktseq 0x%"PRIx8" expected 0x%"PRIx8""
-> diff --git a/include/hw/i2c/mctp.h b/include/hw/i2c/mctp.h
-> new file mode 100644
-> index 000000000000..c53ee6a3b61b
-> --- /dev/null
-> +++ b/include/hw/i2c/mctp.h
-> @@ -0,0 +1,114 @@
-> +#ifndef QEMU_I2C_MCTP_H
-> +#define QEMU_I2C_MCTP_H
-> +
-> +#include "qom/object.h"
-> +#include "hw/qdev-core.h"
-> +#include "net/mctp.h"
-> +
-> +typedef struct MCTPI2CPacketHeader {
-> +    uint8_t dest;
-> +    uint8_t prot;
-> +    uint8_t byte_count;
-> +    uint8_t source;
-> +} MCTPI2CPacketHeader;
-> +
-> +typedef struct MCTPI2CPacket {
-> +    MCTPI2CPacketHeader i2c;
-> +    MCTPPacket          mctp;
-> +} MCTPI2CPacket;
-> +
-> +#define i2c_mctp_payload(buf) (buf + offsetof(MCTPI2CPacket, mctp.payload))
-> +
-> +#define TYPE_MCTP_I2C_ENDPOINT "mctp-i2c-endpoint"
-> +OBJECT_DECLARE_TYPE(MCTPI2CEndpoint, MCTPI2CEndpointClass, MCTP_I2C_ENDPOINT)
-> +
-> +struct MCTPI2CEndpointClass {
-> +    I2CSlaveClass parent_class;
-> +
-> +    int (*put_message_bytes)(MCTPI2CEndpoint *mctp, uint8_t *buf, size_t len);
-> +    size_t (*get_message_bytes)(MCTPI2CEndpoint *mctp, uint8_t *buf,
-> +                                size_t maxlen, uint8_t *mctp_flags);
-> +
-> +    void (*handle_message)(MCTPI2CEndpoint *mctp);
-> +    void (*reset_message)(MCTPI2CEndpoint *mctp);
-> +
-> +    size_t (*get_message_types)(MCTPI2CEndpoint *mctp, uint8_t *data,
-> +                                size_t maxlen);
-> +};
-> +
-> +/*
-> + * Maximum value of the SMBus Block Write "Byte Count" field (8 bits).
-> + *
-> + * This is the count of bytes that follow the Byte Count field and up to, but
-> + * not including, the PEC byte.
-> + */
-> +#define I2C_MCTP_MAXBLOCK 255
-> +
-> +/*
-> + * Maximum Transmission Unit under I2C.
-> + *
-> + * This is for the MCTP Packet Payload (255, subtracting the 4 byte MCTP Packet
-> + * Header or the 1 byte MCTP/I2C piggy-backed source address).
-> + */
-> +#define I2C_MCTP_MAXMTU (I2C_MCTP_MAXBLOCK - (sizeof(MCTPPacketHeader) + 1))
-> +
-> +/*
-> + * Maximum length of an MCTP/I2C packet.
-> + *
-> + * This is the sum of the three I2C header bytes (Destination target address,
-> + * Command Code and Byte Count), the maximum number of bytes in a message (255)
-> + * and the 1 byte Packet Error Code.
-> + */
-> +#define I2C_MCTP_MAX_LENGTH (3 + I2C_MCTP_MAXBLOCK + 1)
-> +
-> +/*
-> + * Maximum length of an MCTP/I2C Control Message.
-> + *
-> + * This is the 64 byte MCTP Baseline Maximum Transmission Unit, adding the
-> + * combined MCTP/I2C headers and the trailing 1 byte PEC.
-> + */
-> +#define I2C_MCTP_CONTROL_MAX_LENGTH \
-> +    (sizeof(MCTPI2CPacket) + MCTP_BASELINE_MTU + 1)
-> +
-> +typedef enum {
-> +    I2C_MCTP_STATE_IDLE,
-> +    I2C_MCTP_STATE_RX_STARTED,
-> +    I2C_MCTP_STATE_RX,
-> +    I2C_MCTP_STATE_WAIT_TX,
-> +    I2C_MCTP_STATE_TX,
-> +} MCTPState;
-> +
-> +typedef enum {
-> +    I2C_MCTP_STATE_TX_START_SEND,
-> +    I2C_MCTP_STATE_TX_SEND_BYTE,
-> +} MCTPTxState;
-> +
-> +typedef struct MCTPI2CEndpoint {
-> +    I2CSlave parent_obj;
-> +    I2CBus *i2c;
-> +
-> +    MCTPState state;
-> +
-> +    /* mctp endpoint identifier */
-> +    uint8_t my_eid;
-> +
-> +    uint8_t  buffer[I2C_MCTP_MAX_LENGTH];
-> +    uint64_t pos;
-> +    size_t   len;
-> +
-> +    struct {
-> +        MCTPTxState state;
-> +        bool is_control;
-> +
-> +        uint8_t eid;
-> +        uint8_t addr;
-> +        uint8_t pktseq;
-> +        uint8_t flags;
-> +
-> +        QEMUBH *bh;
-> +    } tx;
-> +} MCTPI2CEndpoint;
-> +
-> +void i2c_mctp_schedule_send(MCTPI2CEndpoint *mctp);
-> +
-> +#endif /* QEMU_I2C_MCTP_H */
-> diff --git a/include/hw/i2c/smbus_master.h b/include/hw/i2c/smbus_master.h
-> index bb13bc423c22..ea5eff3a2cd0 100644
-> --- a/include/hw/i2c/smbus_master.h
-> +++ b/include/hw/i2c/smbus_master.h
-> @@ -27,6 +27,9 @@
->  
->  #include "hw/i2c/i2c.h"
->  
-> +/* SMBus PEC */
-> +uint8_t i2c_smbus_pec(uint8_t crc, uint8_t *buf, size_t len);
-> +
->  /* Master device commands.  */
->  int smbus_quick_command(I2CBus *bus, uint8_t addr, int read);
->  int smbus_receive_byte(I2CBus *bus, uint8_t addr);
-> diff --git a/include/net/mctp.h b/include/net/mctp.h
-> new file mode 100644
-> index 000000000000..c936224ecf60
-> --- /dev/null
-> +++ b/include/net/mctp.h
-> @@ -0,0 +1,43 @@
-> +#ifndef QEMU_MCTP_H
-> +#define QEMU_MCTP_H
-> +
-> +#define MCTP_BASELINE_MTU 64
-> +
-> +enum {
-> +    MCTP_H_FLAGS_EOM = 1 << 6,
-> +    MCTP_H_FLAGS_SOM = 1 << 7,
-> +};
-> +
-> +enum {
-> +    MCTP_MESSAGE_TYPE_CONTROL   = 0x0,
-> +    MCTP_MESSAGE_TYPE_NMI       = 0x4,
-> +
-> +    MCTP_MESSAGE_IC             = 1 << 7,
-> +};
-> +
-> +typedef struct MCTPPacketHeader {
-> +    uint8_t version;
-> +    struct {
-> +        uint8_t dest;
-> +        uint8_t source;
-> +    } eid;
-> +    uint8_t flags;
-> +} MCTPPacketHeader;
-> +
-> +typedef struct MCTPPacket {
-> +    MCTPPacketHeader hdr;
-> +    uint8_t          payload[];
-> +} MCTPPacket;
-> +
-> +typedef struct MCTPControlMessage {
-> +    uint8_t type;
-> +    uint8_t flags;
-> +    uint8_t command;
-> +    uint8_t data[];
-> +} MCTPControlMessage;
-> +
-> +enum {
-> +    MCTP_CONTROL_ERROR_UNSUPPORTED_CMD = 0x5,
-> +};
-> +
-> +#endif /* QEMU_MCTP_H */
-> -- 
-> 2.40.0
+> I don't think this comment matches below function.
+
+Ok. Will remove it.
+
 > 
+>> +static const CPUCaches *x86_cpu_get_version_cache_info(X86CPU *cpu,
+>> +                                                       X86CPUModel *model)
 > 
+> Will "version" --> "versioned" be better?
+
+Sure.
+
+> 
+>> +{
+>> +    const X86CPUVersionDefinition *vdef;
+>> +    X86CPUVersion version = x86_cpu_model_resolve_version(model);
+>> +    const CPUCaches *cache_info = model->cpudef->cache_info;
+>> +
+>> +    if (version == CPU_VERSION_LEGACY) {
+>> +        return cache_info;
+>> +    }
+>> +
+>> +    for (vdef = x86_cpu_def_get_versions(model->cpudef); vdef->version; vdef++) {
+>> +        if (vdef->cache_info) {
+>> +            cache_info = vdef->cache_info;
+>> +        }
+> 
+> No need to assign "cache_info" when traverse the vdef list, but in
+> below version matching block, do the assignment. Or, do you mean to
+> have last valid cache info (during the traverse) returned? e.g. v2 has
+> valid cache info, but v3 doesn't.
+>> +
+>> +        if (vdef->version == version) {
+>> +            break;
+>> +        }
+>> +    }
+>> +
+>> +    assert(vdef->version == version);
+>> +    return cache_info;
+>> +}
+>> +
+
+-- 
+Thanks
+Babu Moger
 
