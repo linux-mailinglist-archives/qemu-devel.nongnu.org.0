@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605806EE1C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1E36EE1EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:34:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prHd1-0007RD-ES; Tue, 25 Apr 2023 08:18:39 -0400
+	id 1prHqq-0003mG-3w; Tue, 25 Apr 2023 08:32:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1prHct-0007Mm-PO
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:18:31 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1prHqh-0003ld-91
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:32:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1prHcs-0003fA-2P
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:18:31 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1prHqd-0006Jc-LH
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:32:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682425108;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1682425961;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2ReSaiKqgJHXPzX839kpckZ1rimsuo+pb4ewJqdrzgg=;
- b=MxRz+0SkMZVtWIs7Ov7/ok/BgHwuWJQDTWFETAFyDJ4Aw2HRZYrbMhI6bjDJfb/WrnOpiv
- aeYWRXo5VsH2jNwkM+mO/ILjtdMsxP3s/YxePGdZJvj1xBaoqfhYpNMZQ0RAYsPd+nw2XB
- 3rdFudM4bBhq94Nwy6/TBQCpdVcCSOU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-292-MuERG3reO_6drtKFMGA2UA-1; Tue, 25 Apr 2023 08:18:26 -0400
-X-MC-Unique: MuERG3reO_6drtKFMGA2UA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94f29909e11so502911266b.2
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 05:18:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682425105; x=1685017105;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2ReSaiKqgJHXPzX839kpckZ1rimsuo+pb4ewJqdrzgg=;
- b=XyWiIu0iVBXgRSjHx/8rTq74oMsuUg78CYPi9KhHQol/1p/xtjfhox0Tj8J7BbNClH
- Dv0YlBxf7cq7fYm1qLM7KWrO2GMmMWDeFrkm5JJe8xAXv7krfkkuIAcbQpBgOCmGHzih
- nSGznL4k+BtY9LRus84wJhT6DuT/97fUPvR+S9WJn1raE+tE4nb3KBYenhCrrArkoMGB
- 1bVdXejA1qCDxVfo6Gxo+MfmssjEG1dPVJQyE2kniiqR4PqKjQIJotEhy9slV0PWv40z
- YudskPnyKm+Ap+8ScJuz6zcfx3u/plS+26VoQhdinTJDRCzyXhbsNiGrdL27pR8zq7fE
- LGRg==
-X-Gm-Message-State: AAQBX9ckz8S74Y9xdwisXYL1S78xSe7RFtCALrf5/6eUssd3ufxoioeg
- 9sDpve1/8Ld6TA2QMORQgvP5pp8zrTIWQL+abv82GPiBxrV5xP570USXi6qUhSHObHbK8+lj+Bo
- VS4PFtn5MbhHl+HQ=
-X-Received: by 2002:a17:906:10c9:b0:94e:d688:c36d with SMTP id
- v9-20020a17090610c900b0094ed688c36dmr14337892ejv.38.1682425105513; 
- Tue, 25 Apr 2023 05:18:25 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bhPBGX39ali8roAYTBepFkmK/UIwBaUnGU6qrKauW6/kChcZRotG5YYNAxkYu7LRc2bxQY/w==
-X-Received: by 2002:a17:906:10c9:b0:94e:d688:c36d with SMTP id
- v9-20020a17090610c900b0094ed688c36dmr14337866ejv.38.1682425105133; 
- Tue, 25 Apr 2023 05:18:25 -0700 (PDT)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- d13-20020a170906174d00b0094e477eb441sm6620556eje.110.2023.04.25.05.18.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 05:18:24 -0700 (PDT)
-Date: Tue, 25 Apr 2023 14:18:23 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, david@redhat.com,
- peterx@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, den-plotnikov@yandex-team.ru
-Subject: Re: [PATCH] pci: make ROM memory resizable
-Message-ID: <20230425141823.6c7445c9@imammedo.users.ipa.redhat.com>
-In-Reply-To: <f1503dee-e297-ae5d-1826-6858236ee029@yandex-team.ru>
-References: <20230424203647.94614-1-vsementsov@yandex-team.ru>
- <f1503dee-e297-ae5d-1826-6858236ee029@yandex-team.ru>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ bh=T6guICRAkNLAupPJFtMXfoR19gxizcfPEJPdIbECQYs=;
+ b=NC+crDjDVnRbMSrjSIWzQUOzSmBbdhywkxeDZcE0vQqPQQPBq2G6oLluoYGWLoBJ8s9lib
+ CriJYfnPdwiVy50usdRF5hIvPg549BQPV05zvwffLY/ku/+4dlQAf0UrsGUZQUq9hBWhRQ
+ UJdyY7pkXIkNy0bDRdSLWVNpKBywkFk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-650-HSB4UV-zP8WQKzxOD0IRfw-1; Tue, 25 Apr 2023 08:32:38 -0400
+X-MC-Unique: HSB4UV-zP8WQKzxOD0IRfw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94B7485A5B1;
+ Tue, 25 Apr 2023 12:32:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CD5340C2064;
+ Tue, 25 Apr 2023 12:32:32 +0000 (UTC)
+Date: Tue, 25 Apr 2023 13:32:29 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Het Gala <het.gala@nutanix.com>,
+ Eric Blake <eblake@redhat.com>, Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v3 2/3] qapi: improve specificity of type/member
+ descriptions
+Message-ID: <ZEfIXfnavuNvkPyH@redhat.com>
+References: <20230420102619.348173-1-berrange@redhat.com>
+ <20230420102619.348173-3-berrange@redhat.com>
+ <87a5yxa4sy.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87a5yxa4sy.fsf@pond.sub.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -99,36 +82,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 25 Apr 2023 13:55:55 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-
-> On 24.04.23 23:36, Vladimir Sementsov-Ogievskiy wrote:
-> > On migration, on target we load local ROM file. But actual ROM content
-> > migrates through migration channel. Original ROM content from local
-> > file doesn't matter. But when size mismatch - we have an error like
-> > 
-> >   Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
-> > 
-> > Let's just allow resizing of ROM memory. This way migration is not
-> > relate on local ROM file on target node which is loaded by default but
-> > is not actually needed.
-> > 
-> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>  
+On Mon, Apr 24, 2023 at 01:38:21PM +0200, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> Seems, automatically reconfigure the memory on incoming migration is not so easy.. ROM size really influence config of the device, and after some digging in the code I still cannot say where it happens.
-You can't change PCI device bars on migration as it practically
-will mess up memory mapping (if you manage to do so), but
-guest will still think that it has the old one. So you'd need
-a guest side that will notice migration and deal with remapping.
-
-(one way to work around it could be unplug nic, and once it's gone
-migrate/replug on target side)
-
+> > When describing member types always include the context of the
+> > containing type. Although this is often redundant, in some cases
+> > it will help to reduce ambiguity.
 > 
-> So, I'm going to suggest another way, new series "[PATCH 0/3] ROM migration" will substitute this patch.
+> This is no longer true.  It was in v2.  Suggest:
 > 
+>   Error messages describe object members, enumeration values, features,
+>   and variants like ROLE 'NAME', where ROLE is "member", "value",
+>   "feature", or "branch", respectively.  When the member is defined in
+>   another type, e.g. inherited from a base type, we add "of type
+>   'TYPE'".  Example: test case struct-base-clash-deep reports a member
+>   of type 'Sub' clashing with a member of its base type 'Base' as
+> 
+>       struct-base-clash-deep.json: In struct 'Sub':
+>       struct-base-clash-deep.json:10: member 'name' collides with member 'name' of type 'Base'
+> 
+>   Members of implicitly defined types need special treatment.  We don't
+>   want to add "of type 'TYPE'" for them, because their named are made up
+>   and mean nothing to the user.  Instead, we describe members of an
+>   implicitly defined base type as "base member 'NAME'", and command and
+>   event parameters as "parameter 'NAME'".  Example: test case
+>   union-bad-base reports member of a variant's type clashing with a
+>   member of its implicitly defined base type as
+> 
+>       union-bad-base.json: In union 'TestUnion':
+>       union-bad-base.json:8: member 'string' of type 'TestTypeA' collides with base member 'string'
+> 
+>   The next commit will permit unions as variant types.  "base member
+>   'NAME' would then be ambigious: is it the union's base, or is it the
+>   union's variant's base?  One of its test cases would report a clash
+>   between two such bases as "base member 'type' collides with base
+>   member 'type'".  Confusing.
+> 
+>   Refine the special treatment: add "of TYPE" even for implicitly
+>   defined types, but massage TYPE and ROLE so they make sense for the
+>   user.
+> 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  scripts/qapi/schema.py | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> > index 207e4d71f3..da04b97ded 100644
+> > --- a/scripts/qapi/schema.py
+> > +++ b/scripts/qapi/schema.py
+> > @@ -697,6 +697,7 @@ def connect_doc(self, doc):
+> >  
+> >      def describe(self, info):
+> >          role = self.role
+> > +        meta = 'type'
+> >          defined_in = self.defined_in
+> >          assert defined_in
+> >  
+> > @@ -708,13 +709,17 @@ def describe(self, info):
+> >                  # Implicit type created for a command's dict 'data'
+> >                  assert role == 'member'
+> >                  role = 'parameter'
+> > +                meta = 'command'
+> > +                defined_in = defined_in[:-4]
+> >              elif defined_in.endswith('-base'):
+> >                  # Implicit type created for a union's dict 'base'
+> >                  role = 'base ' + role
+> > +                defined_in = defined_in[:-5]
+> >              else:
+> >                  assert False
+> > -        elif defined_in != info.defn_name:
+> > -            return "%s '%s' of type '%s'" % (role, self.name, defined_in)
+> > +
+> > +        if defined_in != info.defn_name:
+> > +            return "%s '%s' of %s '%s'" % (role, self.name, meta, defined_in)
+> >          return "%s '%s'" % (role, self.name)
+> 
+> Since I rewrote both the patch and the commit message, would you like me
+> to take the blame and claim authorship?
+
+Yes, I should have credited you as the author here since it was just
+taking your proposed code. The suggested commit message looks fine too
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
