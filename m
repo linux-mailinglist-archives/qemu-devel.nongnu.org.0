@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8675C6EE63B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 18:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CC46EE680
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 19:19:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prLzs-0001kb-6t; Tue, 25 Apr 2023 12:58:32 -0400
+	id 1prMIi-0008Mv-Qy; Tue, 25 Apr 2023 13:18:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prLzp-0001jJ-Lp; Tue, 25 Apr 2023 12:58:29 -0400
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1prMIh-0008Lx-Fk
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:17:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prLzl-0004ZZ-2c; Tue, 25 Apr 2023 12:58:29 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 7C31E5F1A8;
- Tue, 25 Apr 2023 19:58:13 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b440::1:14] (unknown
- [2a02:6b8:b081:b440::1:14])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id CwJ3c20OquQ0-rK5qC50H; Tue, 25 Apr 2023 19:58:12 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682441892; bh=bRKMRbKrpK39ZoWVcEhQFcytDYTeL7LGI/ZhcRBeOjU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=ZV3ua16tBMZEgRBmcnC6QgdkXzTOyI6o0IjzDkac+9BPpK4bFFIi3Fe9QDqMDj8g4
- bj6ka2t7PUsbHEaahe8AUDEetDWv8JbHT775XbSZVmZSDNLrk8LogO9vntzuKBIIug
- G6qyP9f6O9NUyu3g1hhjCUQWLUU4mrcbnHhNEP/Y=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <d21472fe-a90c-9d6a-f7d6-284e789822e7@yandex-team.ru>
-Date: Tue, 25 Apr 2023 19:58:12 +0300
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1prMIe-0000g0-1c
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 13:17:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682443074;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1cd2mVQP404DKHqImWmUqLx9nkxhErDvT8q8TEtm9Sg=;
+ b=F8vxYCurKt/9cxrZzLQOpRPyjYl4AeFcJ5kXXB2Hb2N5P6cl9hr4VC2c3KlX5u5436jX/5
+ Iyjz8hEsFf/gq17j2yIgTdt5j/Y3ixATTupywRlYdf0g7owvX+n2uND8BNjWPx4JE2o6dc
+ nNFuCm5Q5pzaj9VsUUUTwFZbv9rPnKg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-110-HbbLKasPMDGyMDu5Kfk-QQ-1; Tue, 25 Apr 2023 13:17:52 -0400
+X-MC-Unique: HbbLKasPMDGyMDu5Kfk-QQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33C9485A5B1;
+ Tue, 25 Apr 2023 17:17:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0BC81121314;
+ Tue, 25 Apr 2023 17:17:48 +0000 (UTC)
+Date: Tue, 25 Apr 2023 18:17:40 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
+ Beraldo Leal <bleal@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH v3 00/20] configure: create a python venv and ensure
+ meson, sphinx
+Message-ID: <ZEgLNJ13fJf5RAI4@redhat.com>
+References: <20230424200248.1183394-1-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: test-blockjob: intermittent CI failures in msys2-64bit job
-Content-Language: en-US
-To: Hanna Czenczek <hreitz@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Alberto Garcia <berto@igalia.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
-References: <CAFEAcA_SeUuZRo7HQPUJgeaepoup29YdAuFaWjNL+fhEt+pmkA@mail.gmail.com>
- <CAFEAcA87HtzYN76nHhHZBfazDZdoRnszgAt-e2CqBBWEoF6_2Q@mail.gmail.com>
- <CAFEAcA-n+9N+0ZuE6MSD1aMBeGYAJTbQe=j1-2K=SgD_Ly6nEA@mail.gmail.com>
- <df71d7b5-7723-eaff-3dcd-45f69186f6af@redhat.com>
- <68834b18-1fab-ca2a-d131-71f75fc374a1@yandex-team.ru>
- <e6eb754e-a825-f113-a9a7-0ca2006a00c6@redhat.com>
- <f3f2e92c-d357-4fb9-e765-7f89dc895247@yandex-team.ru>
- <78ad8ed0-e68a-5f4e-9627-454f0bd007fb@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <78ad8ed0-e68a-5f4e-9627-454f0bd007fb@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20230424200248.1183394-1-jsnow@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,156 +87,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25.04.23 19:48, Hanna Czenczek wrote:
-> On 24.04.23 20:32, Vladimir Sementsov-Ogievskiy wrote:
->> On 24.04.23 16:36, Emanuele Giuseppe Esposito wrote:
->>>
->>>
->>> Am 21/04/2023 um 12:13 schrieb Vladimir Sementsov-Ogievskiy:
->>>> On 17.03.23 15:35, Thomas Huth wrote:
->>>>> On 17/03/2023 11.17, Peter Maydell wrote:
->>>>>> On Mon, 6 Mar 2023 at 11:16, Peter Maydell <peter.maydell@linaro.org>
->>>>>> wrote:
->>>>>>>
->>>>>>> On Fri, 3 Mar 2023 at 18:36, Peter Maydell
->>>>>>> <peter.maydell@linaro.org> wrote:
->>>>>>>>
->>>>>>>> I've noticed that test-blockjob seems to fail intermittently
->>>>>>>> on the msys2-64bit job:
->>>>>>>>
->>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3872508803
->>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3871061024
->>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3865312440
->>>>>>>>
->>>>>>>> Sample output:
->>>>>>>> | 53/89
->>>>>>>> ERROR:../tests/unit/test-blockjob.c:499:test_complete_in_standby:
->>>>>>>> assertion failed: (job->status == JOB_STATUS_STANDBY) ERROR
->>>>>>>> 53/89 qemu:unit / test-blockjob ERROR 0.08s exit status 3
->>>>>>
->>>>>>> Here's an intermittent failure from my macos x86 machine:
->>>>>>>
->>>>>>> 172/621 qemu:unit / test-blockjob
->>>>>>>              ERROR           0.26s   killed by signal 6 SIGABRT
->>>>>>
->>>>>> And an intermittent on the freebsd 13 CI job:
->>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3950667240
->>>>>>
->>>>>>>>> MALLOC_PERTURB_=197
->>>>>>>>> G_TEST_BUILDDIR=/tmp/cirrus-ci-build/build/tests/unit
->>>>>>>>> G_TEST_SRCDIR=/tmp/cirrus-ci-build/tests/unit
->>>>>>>>> /tmp/cirrus-ci-build/build/tests/unit/test-blockjob --tap -k
->>>>>> ▶ 178/650 /blockjob/ids
->>>>>>              OK
->>>>>> 178/650 qemu:unit / test-blockjob
->>>>>>              ERROR           0.31s   killed by signal 6 SIGABRT
->>>>>> ――――――――――――――――――――――――――――――――――――― ✀
->>>>>> ―――――――――――――――――――――――――――――――――――――
->>>>>> stderr:
->>>>>> Assertion failed: (job->status == JOB_STATUS_STANDBY), function
->>>>>> test_complete_in_standby, file ../tests/unit/test-blockjob.c, line
->>>>>> 499.
->>>>>>
->>>>>>
->>>>>> TAP parsing error: Too few tests run (expected 9, got 1)
->>>>>> (test program exited with status code -6)
->>>>>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->>>>>>
->>>>>> Anybody in the block team looking at these, or shall we just
->>>>>> disable this test entirely ?
->>>>>
->>>>> I ran into this issue today, too:
->>>>>
->>>>>    https://gitlab.com/thuth/qemu/-/jobs/3954367101
->>>>>
->>>>> ... if nobody is interested in fixing this test, I think we should
->>>>> disable it...
->>>>>
->>>>>    Thomas
->>>>>
->>>>
->>>> I'm looking at this now, and seems that it's broken since
->>>> 6f592e5aca1a27fe1c1f6 "job.c: enable job lock/unlock and remove
->>>> Aiocontext locks", as it stops critical section by new
->>>> aio_context_release() call exactly after bdrv_drain_all_and(), so it's
->>>> not a surprise that job may start at that moment and the following
->>>> assertion fires.
->>>>
->>>> Emanuele could please look at it?
->>>>
->>> Well if I understood correctly, the only thing that was preventing the
->>> job from continuing was the aiocontext lock held.
->>>
->>> The failing assertion even mentions that:
->>> /* Lock the IO thread to prevent the job from being run */
->>> [...]
->>> /* But the job cannot run, so it will remain on standby */
->>> assert(job->status == JOB_STATUS_STANDBY);
->>>
->>> Essentially bdrv_drain_all_end() would wake up the job coroutine, but it
->>> would anyways block somewhere after since the aiocontext lock was taken
->>> by the test.
->>>
->>> Now that we got rid of aiocontext lock in job code, nothing prevents the
->>> test from resuming.
->>> Mixing job lock and aiocontext acquire/release is not a good idea, and
->>> it would anyways block job_resume() called by bdrv_drain_all_end(), so
->>> the test itself would deadlock.
->>>
->>> So unless @Kevin has a better idea, this seems to be just an "hack" to
->>> test stuff that is not possible to do now anymore. What I would suggest
->>> is to get rid of that test, or at least of that assert function. I
->>> unfortunately cannot reproduce the failure, but I think the remaining
->>> functions called by the test should run as expected.
->>>
->>
->> Thanks! I agree. Probably, alternatively we could just expand the drained section, like
->>
->> @@ -488,12 +488,6 @@ static void test_complete_in_standby(void)
->>      bdrv_drain_all_begin();
->>      assert_job_status_is(job, JOB_STATUS_STANDBY);
->>
->> -    /* Lock the IO thread to prevent the job from being run */
->> -    aio_context_acquire(ctx);
->> -    /* This will schedule the job to resume it */
->> -    bdrv_drain_all_end();
->> -    aio_context_release(ctx);
->> -
->>      WITH_JOB_LOCK_GUARD() {
->>          /* But the job cannot run, so it will remain on standby */
->>          assert(job->status == JOB_STATUS_STANDBY);
->> @@ -511,6 +505,7 @@ static void test_complete_in_standby(void)
->>          job_dismiss_locked(&job, &error_abort);
->>      }
->>
->> +    bdrv_drain_all_end();
->>      aio_context_acquire(ctx);
->>      destroy_blk(blk);
->>      aio_context_release(ctx);
->>
->>
->> But, seems that test wanted to specifically test job, that still in STANDBY exactly after drained section...
->>
->> [cc: Hanna]
->>
->> Hanna, it was your test (added in c2c731a4d35062295cd3260e66b3754588a2fad4, two years ago). Don't you remember was important to catch STANDBY job *after* a drained section?
+On Mon, Apr 24, 2023 at 04:02:28PM -0400, John Snow wrote:
+> GitLab CI: https://gitlab.com/jsnow/qemu/-/pipelines/846869409
+>            (All green, except Python self-tests, see below)
 > 
-> I’m not quite sure, but I think the idea was that we basically try to get as close to something that might come in over QMP.  Over QMP, you can’t issue a job-complete while keeping everything drained, so I wouldn’t just extend the drained section.
+> This patch series creates a mandatory python virtual environment
+> ("venv") during configure time and uses it to ensure the availability of
+> meson and sphinx.
 > 
-> Getting rid of the assert function also seems pointless.  If we want to test whether job-complete works on tests in standby, we must put the test in standby, and verify this.  We can get rid of the test, of course, but it is a regression test, so it isn’t like it was added just for fun.  Then again, it’s now already effectively commented out via environment variable, so it doesn’t seem like a loss in practice to to fully drop it.
+> See https://www.qemu.org/2023/03/24/python/ for details. The summary is
+> that the goal of this series is to ensure that the `python` used to run
+> meson is the same `python` used to run Sphinx, tests, and any build-time
+> python scripting we have. As it stands, meson and sphinx (and their
+> extensions) *may* run in a different python environment than the one
+> configured and chosen by the user at configure/build time.
 > 
-> Anyway – the thing I wonder about is, if this is to test whether jobs in standby can be completed…  Why don’t we just pause the job instead of going through the context lock hassle?  I.e. just put a job_pause() right after bdrv_drain_all_begin().
+> The effective change of this series is that QEMU will now
+> unconditionally create a venv at configure-time and will ensure that
+> meson (and sphinx, if docs are enabled) are available through that venv.
 > 
-> If I’m not mistaken, reproducing the bug in the test seems really simple by adding a sleep(1) right before WITH_JOB_LOCK_GUARD(); and doing that works just fine if only you have a job_pause() in the drained section. (And dropping the aio_context_acquire()/release() calls, because they don’t do anything anymore.)
+> Some important points as a pre-emptive "FAQ":
 > 
+> - This venv is unconditionally created and lives at {build_dir}/pyvenv.
+> 
+> - The python interpreter used by this venv is always the one identified
+>   by configure. (Which in turn is always the one specified by --python
+>   or $PYTHON)
+> 
+> - *almost* all python scripts in qemu.git executed as part of the build
+>   system, meson, sphinx, avocado tests, vm tests or CI are always
+>   executed within this venv.
+> 
+>   (iotests are not yet integrated; I plan to tackle this separately as a
+>   follow-up in order to have a more tightly focused scope on that
+>   series.)
+> 
+> - It remains possible to build and test fully offline.
+>   (In most cases, you just need meson and sphinx from your distro's repo.)
+> 
+> - Distribution packaged 'meson' and 'sphinx' are still utilized whenever
+>   possible as the highest preference.
+> 
+> - Vendored versions of e.g. 'meson' are always preferred to PyPI
+>   versions for speed, repeatability and ensuring tarball builds work
+>   as-is offline.
+> 
+>   (Sphinx will not be vendored, just like it already isn't.)
+> 
+> - Missing dependencies, when possible, are fetched and installed
+>   on-demand automatically to make developer environments "just work".
+> 
+> - Works for Python 3.7 and up, on Fedora, OpenSuSE, Red Hat, CentOS,
+>   Alpine, Debian, Ubuntu, NetBSD, OpenBSD, and hopefully everywhere
+> 
+> - No new dependencies (...for most platforms. Debian and NetBSD get an
+>   asterisk.)
+> 
+> - The meson git submodule is unused after this series and can be removed.
+> 
+> For reviewers, here's how the series is broken up:
+> 
+> Patch 1 is a testing pre-req. Note that even with this patch,
+> 'check-python-minreqs' and 'check-python-tox' CI jobs will both still
+> fail on origin/master because this series requires 3.7+, but
+> origin/master is currently still 3.6+.
+> 
+> - python: update pylint configuration
+> 
+> Patches 2-8 add the mkvenv script. The first patch checks in the barest
+> essentials, and each subsequent patch adds a workaround or feature one
+> at a time.
+> 
+> - python: add mkvenv.py
+> - mkvenv: add console script entry point generation
+> - mkvenv: Add better error message for missing pyexapt module
+> - mkvenv: generate console entry shims from inside the venv
+> - mkvenv: work around broken pip installations on Debian 10
+> - mkvenv: add nested venv workaround
+> - mkvenv: add ensure subcommand
+> 
+> Patches 9-11 modify our testing configuration to add new dependencies as
+> needed.
+> 
+> - tests/docker: add python3-venv dependency
+> - tests/vm: Configure netbsd to use Python 3.10
+> - tests/vm: add py310-expat to NetBSD
+> 
+> Patch 12 changes how we package release tarballs.
+> 
+> - scripts/make-release: download meson==0.61.5 .whl
+> 
+> Patches 13-16 wire mkvenv into configure and tests.
+> 
+> - configure: create a python venv unconditionally
+> - configure: use 'mkvenv ensure meson' to bootstrap meson
+> - configure: add --enable-pypi and --disable-pypi
+> - tests: Use configure-provided pyvenv for tests
+> 
+> Patches 17-20 delegate Sphinx bootstrapping to mkvenv. Some of these
+> changes could be folded earlier in the series (like the diagnose()
+> patch), but I'm keeping it separate for review for now.
+> 
+> - configure: move --enable-docs and --disable-docs back to configure
+> - mkvenv: add diagnose() method for ensure() failures
+> - configure: use --diagnose option with meson ensure
+> - configure: bootstrap sphinx with mkvenv
 
-Sounds good. Could you send a patch?
+I'm not sure this last bit is working.
 
+I uninstalled meson and python3-sphinx from my F38 host and ran
+configure --target-list=x86_64-softmmu and got this:
+
+$ ./configure --target-list=x86_64-softmmu
+Using './build' as the directory for build output
+python determined to be '/usr/bin/python3'
+python version: Python 3.11.3
+MKVENV pyvenv
+Configured python as '/home/berrange/src/virt/qemu/build/pyvenv/bin/python3 -B'
+MKVENV ensure meson>=0.61.5
+WARNING: Skipping /usr/lib/python3.11/site-packages/virt_firmware-1.5-py3.11.egg-info due to invalid metadata entry 'name'
+WARNING: Skipping /usr/lib/python3.11/site-packages/virt_firmware-1.5-py3.11.egg-info due to invalid metadata entry 'name'
+WARNING: Location 'file:///home/berrange/src/virt/qemu/python/wheels' is ignored: it is neither a file nor a directory.
+ERROR: Could not find a version that satisfies the requirement meson>=0.61.5 (from versions: none)
+ERROR: No matching distribution found for meson>=0.61.5
+WARNING: Skipping /usr/lib/python3.11/site-packages/virt_firmware-1.5-py3.11.egg-info due to invalid metadata entry 'name'
+WARNING: Skipping /usr/lib/python3.11/site-packages/virt_firmware-1.5-py3.11.egg-info due to invalid metadata entry 'name'
+WARNING: Skipping /usr/lib/python3.11/site-packages/virt_firmware-1.5-py3.11.egg-info due to invalid metadata entry 'name'
+MKVENV ensure sphinx>=1.6.0
+WARNING: Skipping /usr/lib/python3.11/site-packages/virt_firmware-1.5-py3.11.egg-info due to invalid metadata entry 'name'
+WARNING: Skipping /usr/lib/python3.11/site-packages/virt_firmware-1.5-py3.11.egg-info due to invalid metadata entry 'name'
+ERROR: Could not find a version that satisfies the requirement sphinx>=1.6.0 (from versions: none)
+ERROR: No matching distribution found for sphinx>=1.6.0
+
+*** Ouch! ***
+
+Could not ensure availability of 'sphinx>=1.6.0':
+ • Python package 'sphinx' was not found nor installed.
+ • No local package directory was searched.
+ • mkvenv was configured to operate offline and did not check PyPI. 
+
+
+Sphinx not found/usable, disabling docs.
+MKVENV ok!
+
+
+
+It says mkvenv was configured to run offline, but I didn't do
+anything. I thought the intention was for developers it would
+live download from PyPI ?
+
+
+On a system where i already have meson/sphinx installed, it
+all just worked fine AFAICT.
+
+With regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
