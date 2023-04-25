@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709586EDBD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 08:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8BE6EDBC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 08:43:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prCNv-0003wI-Ew; Tue, 25 Apr 2023 02:42:43 -0400
+	id 1prCNw-0003ym-Ut; Tue, 25 Apr 2023 02:42:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prCNs-0003tJ-9S
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prCNs-0003ux-VX
  for qemu-devel@nongnu.org; Tue, 25 Apr 2023 02:42:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prCNk-0004MW-Gv
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prCNk-0004MX-Ji
  for qemu-devel@nongnu.org; Tue, 25 Apr 2023 02:42:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682404951;
@@ -22,26 +22,26 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QDpQV06NfgVcspa4es6zhNZleoHG7UY4WS2OAhGfowg=;
- b=WG7PfpHW5jb4wdl+tJTbZjLHLy/7P5KVngyTVh4UU0nypUQcdHRBr7qmaAfTj9z5cTWyCV
- neOA0G4k3D17Twu5S/Ei5Ui9Z7A8W2TrImjvOnoIY9o2eArpSdjznBY+yAS0QfCVDbdI6L
- 5YzKcrL8RJCks/P4oA074rlCHeRQlbI=
+ bh=mrHMrosKDQaKSe8rxiYwmF82/vlFDdSh72QjQ16rbYg=;
+ b=e8gaiIpRoJgWF1KhlayBxXkc3lbm6e48Y5zF4ZW+umWk1lAa7pbLrVyaynzvFbVWW39Rgr
+ 0jatETIYyBaSnRWIEBIbEOrp8RMPyDflReOmXWmJsFSLNg0Vo9GTVmrm8SYOru7rBKms+V
+ JPrCI2wXv66TINyA9rhIT1+5Oqk+K5E=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-QkPe6hPtMlCYM3fmpa7X9Q-1; Tue, 25 Apr 2023 02:42:28 -0400
-X-MC-Unique: QkPe6hPtMlCYM3fmpa7X9Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-635-QubYTjSGP4-6qAMqte4wzA-1; Tue, 25 Apr 2023 02:42:28 -0400
+X-MC-Unique: QubYTjSGP4-6qAMqte4wzA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59650811E7C;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AE88858289;
  Tue, 25 Apr 2023 06:42:27 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3676740C2064;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3835414171B8;
  Tue, 25 Apr 2023 06:42:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E0EED21F9835; Tue, 25 Apr 2023 08:42:23 +0200 (CEST)
+ id E43C421F9836; Tue, 25 Apr 2023 08:42:23 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, eblake@redhat.com, kwolf@redhat.com,
@@ -52,16 +52,16 @@ Cc: michael.roth@amd.com, eblake@redhat.com, kwolf@redhat.com,
  yuval.shaia.ml@gmail.com, stefanha@redhat.com, kraxel@redhat.com,
  kkostiuk@redhat.com, qemu-block@nongnu.org, marcandre.lureau@gmail.com,
  david@redhat.com
-Subject: [PATCH v2 15/16] qapi: Format since information the conventional way:
- (since X.Y)
-Date: Tue, 25 Apr 2023 08:42:22 +0200
-Message-Id: <20230425064223.820979-16-armbru@redhat.com>
+Subject: [PATCH v2 16/16] qapi storage-daemon/qapi: Fix documentation section
+ structure
+Date: Tue, 25 Apr 2023 08:42:23 +0200
+Message-Id: <20230425064223.820979-17-armbru@redhat.com>
 In-Reply-To: <20230425064223.820979-1-armbru@redhat.com>
 References: <20230425064223.820979-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -86,90 +86,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+In the QEMU QMP Reference Manual, subsection "Block core (VM
+unrelated)" is empty.  Its contents is at the end of subsection
+"Background jobs" instead.  That's because qapi/job.json is included
+first from qapi/block-core.json, which makes qapi/job.json's
+documentation go between qapi/block-core.json's subsection heading and
+contents.
+
+In the QEMU Storage Daemon QMP Reference Manual, section "Block
+Devices" contains nothing but an empty subsection "Block core (VM
+unrelated)".  The latter's contents is at the end section "Socket data
+types", along with subsection "Block device exports".  Subsection
+"Background jobs" is at the end of section "Cryptography".  All this
+is because storage-daemon/qapi/qapi-schema.json includes modules in a
+confused order.
+
+Fix both as follows.
+
+Turn subsection "Background jobs" into a section.
+
+Move it before section "Block devices" in the QEMU QMP Reference
+Manual, by including qapi/jobs.json right before qapi/block.json.
+
+Reorder include directives in storage-daemon/qapi/qapi-schema.json to
+match the order in qapi/qapi-schema.json, so that the QEMU Storage
+Daemon QMP Reference Manual's section structure the QEMU QMP Reference
+Manual's.
+
+In the QEMU QMP Reference Manual, qapi/cryptodev.json's documentation
+is at the end of section "Virtio devices".  That's because it lacks a
+section heading, and therefore gets squashed into whatever section
+happens to precede it.
+
+Add section heading so it's in section "Cryptography devices".
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Acked-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- qapi/block-core.json | 6 +++---
- qapi/stats.json      | 2 +-
- qapi/tpm.json        | 3 +--
- qapi/ui.json         | 6 +++---
- 4 files changed, 8 insertions(+), 9 deletions(-)
+ qapi/cryptodev.json                  |  4 ++++
+ qapi/job.json                        |  2 +-
+ qapi/qapi-schema.json                |  2 +-
+ storage-daemon/qapi/qapi-schema.json | 22 +++++++++++++++-------
+ 4 files changed, 21 insertions(+), 9 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 9dd5ed9a47..b57978957f 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1318,10 +1318,10 @@
- #          value is monotonically increasing.
- #
- # @busy: false if the job is known to be in a quiescent state, with
--#        no pending I/O.  Since 1.3.
-+#        no pending I/O.  (Since 1.3)
- #
- # @paused: whether the job is paused or, if @busy is true, will
--#          pause itself as soon as possible.  Since 1.3.
-+#          pause itself as soon as possible.  (Since 1.3)
- #
- # @speed: the rate limit, bytes per second
- #
-@@ -2741,7 +2741,7 @@
- #
- # @on-error: the action to take on an error (default report).
- #            'stop' and 'enospc' can only be used if the block device
--#            supports io-status (see BlockInfo).  Since 1.3.
-+#            supports io-status (see BlockInfo).  (Since 1.3)
- #
- # @filter-node-name: the node name that should be assigned to the
- #                    filter driver that the stream job inserts into the graph
-diff --git a/qapi/stats.json b/qapi/stats.json
-index f17495ee65..36d5f4dc94 100644
---- a/qapi/stats.json
-+++ b/qapi/stats.json
-@@ -69,7 +69,7 @@
- #
- # @vcpu: statistics that apply to a single virtual CPU.
- #
--# @cryptodev: statistics that apply to a crypto device. since 8.0
-+# @cryptodev: statistics that apply to a crypto device (since 8.0)
- #
- # Since: 7.1
+diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
+index f33f96a692..cf960ea81f 100644
+--- a/qapi/cryptodev.json
++++ b/qapi/cryptodev.json
+@@ -4,6 +4,10 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
+ 
++##
++# = Cryptography devices
++##
++
  ##
-diff --git a/qapi/tpm.json b/qapi/tpm.json
-index 4e2ea9756a..eac87d30b2 100644
---- a/qapi/tpm.json
-+++ b/qapi/tpm.json
-@@ -44,8 +44,7 @@
- # An enumeration of TPM types
+ # @QCryptodevBackendAlgType:
  #
- # @passthrough: TPM passthrough type
--# @emulator: Software Emulator TPM type
--#            Since: 2.11
-+# @emulator: Software Emulator TPM type (since 2.11)
- #
- # Since: 1.5
+diff --git a/qapi/job.json b/qapi/job.json
+index bc4104757a..9e29a796c5 100644
+--- a/qapi/job.json
++++ b/qapi/job.json
+@@ -2,7 +2,7 @@
+ # vim: filetype=python
+ 
  ##
-diff --git a/qapi/ui.json b/qapi/ui.json
-index e9599dea50..88de458ba9 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1207,13 +1207,13 @@
- #               window resizes (virtio-gpu) this will default to "on",
- #               assuming the guest will resize the display to match
- #               the window size then.  Otherwise it defaults to "off".
--#               Since 3.1
-+#               (Since 3.1)
- # @show-tabs:   Display the tab bar for switching between the various graphical
- #               interfaces (e.g. VGA and virtual console character devices)
- #               by default.
--#               Since 7.1
-+#               (Since 7.1)
- # @show-menubar: Display the main window menubar. Defaults to "on".
--#                Since 8.0
-+#                (Since 8.0)
- #
- # Since: 2.12
+-# == Background jobs
++# = Background jobs
  ##
+ 
+ ##
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index e57d8ff801..bb7217da26 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -43,11 +43,11 @@
+ { 'include': 'sockets.json' }
+ { 'include': 'run-state.json' }
+ { 'include': 'crypto.json' }
++{ 'include': 'job.json' }
+ { 'include': 'block.json' }
+ { 'include': 'block-export.json' }
+ { 'include': 'char.json' }
+ { 'include': 'dump.json' }
+-{ 'include': 'job.json' }
+ { 'include': 'net.json' }
+ { 'include': 'rdma.json' }
+ { 'include': 'rocker.json' }
+diff --git a/storage-daemon/qapi/qapi-schema.json b/storage-daemon/qapi/qapi-schema.json
+index 67749d1101..f10c949490 100644
+--- a/storage-daemon/qapi/qapi-schema.json
++++ b/storage-daemon/qapi/qapi-schema.json
+@@ -15,18 +15,26 @@
+ 
+ { 'include': '../../qapi/pragma.json' }
+ 
++# Documentation generated with qapi-gen.py is in source order, with
++# included sub-schemas inserted at the first include directive
++# (subsequent include directives have no effect).  To get a sane and
++# stable order, it's best to include each sub-schema just once, or
++# include it first right here.
++
++{ 'include': '../../qapi/common.json' }
++{ 'include': '../../qapi/sockets.json' }
++{ 'include': '../../qapi/crypto.json' }
++{ 'include': '../../qapi/job.json' }
++
+ ##
+ # = Block devices
+ ##
+ { 'include': '../../qapi/block-core.json' }
+ { 'include': '../../qapi/block-export.json' }
++
+ { 'include': '../../qapi/char.json' }
+-{ 'include': '../../qapi/common.json' }
+-{ 'include': '../../qapi/control.json' }
+-{ 'include': '../../qapi/crypto.json' }
+-{ 'include': '../../qapi/introspect.json' }
+-{ 'include': '../../qapi/job.json' }
+ { 'include': '../../qapi/authz.json' }
+-{ 'include': '../../qapi/qom.json' }
+-{ 'include': '../../qapi/sockets.json' }
+ { 'include': '../../qapi/transaction.json' }
++{ 'include': '../../qapi/control.json' }
++{ 'include': '../../qapi/introspect.json' }
++{ 'include': '../../qapi/qom.json' }
 -- 
 2.39.2
 
