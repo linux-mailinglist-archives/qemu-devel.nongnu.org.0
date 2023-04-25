@@ -2,142 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531566EE4DA
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DAE6EE4D9
 	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 17:37:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prKi4-0006yL-Q3; Tue, 25 Apr 2023 11:36:04 -0400
+	id 1prKid-000733-Fd; Tue, 25 Apr 2023 11:36:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1prKi2-0006yA-IF
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 11:36:02 -0400
-Received: from mail-bn8nam11on20601.outbound.protection.outlook.com
- ([2a01:111:f400:7eae::601]
- helo=NAM11-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1prKhz-00049a-VD
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 11:36:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bj2VvWZj8FSrh4Lx3UY/gJGKzWeYqqhxyzpyvRqN5n4VPO3O8JIVkw2gK9w39djWWeMvub+Q34A9cYW/PviLZ+4VSYUtMVY7X8UUegVoy9seLThAD9UDZLPDVKoM20uB0YlXmsfTbEkri4RT6DgjTvPKyk0HUFhwiH5v01tT0ctFvos3FW9lZPTeFM2qG9MQJOsp4VJgVZbfK6nKTkpkl0Z6k/+9SFsOBrdSg9WQrAgz/c4IYdJ4xWSJ1vzMuAxKrf2BiHRmJe+HwrW7fOZ/2ALddZrBra2Qf+sqqSUqyhImFmrw9J5teEiwuP7cA3vu2Rc5EOXrpDRtx3SmwIpasw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NLnmXrc3bDPRMWPrHM8lwLBbuZ65L8iKgOk0YEdTG8E=;
- b=ZaEClV5Ll/WEqagiBe0e7jPelHiTwVdYvmX8n2TmH2NvOUKXkEn9HMnUZhyqbwRBeEwm4G4aW78gaC1HOnddDUMXwcf8B9ZP8T4MBcqVyoy4Xazc/UEQ9c3JYkRtSuKZjHmYXX2CEeyuwpT7Bp7Y85PG2L2PNGL7e5xAg1OIkKoA5e7AcObEGSfuwpmIGVpbxaSJOOdGV+RMgga6cBfTXXg2wGEBAVsA5CUwXXxxgVZy3MjhKCYQIb9mYObsgM0CzqGhW78YgEFgq4d82KZKD8Urv42SH5JC6jOB9G3Ep1MMw4gOGtOq2SY+8huqU+URWsBZ4Q3ICBItqDNxH5ah2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NLnmXrc3bDPRMWPrHM8lwLBbuZ65L8iKgOk0YEdTG8E=;
- b=PH0MU/aABsr58NrdpgZHNchX4UBAugXCSo8fzrQUga1DyFfdGhVMZLiU5+LwQB1U80MGm3zmjOEvCoh2xtdIdFdU4QIKVqc/B7/xXCouOmAOZh5Y5yvnXBPly3Zp1Y+BOQKDmur8nffm2hq2lR53MqRnmp5+TsnD9AkjGbHj+ro=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CO6PR12MB5490.namprd12.prod.outlook.com (2603:10b6:303:13d::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.34; Tue, 25 Apr
- 2023 15:35:56 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57ca:ec64:35da:a5b1]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57ca:ec64:35da:a5b1%7]) with mapi id 15.20.6319.033; Tue, 25 Apr 2023
- 15:35:55 +0000
-Message-ID: <87b874ed-d6d6-4232-3214-b577ea929811@amd.com>
-Date: Tue, 25 Apr 2023 10:35:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 2/7] target/i386: Add new EPYC CPU versions with
- updated cache_info
-Content-Language: en-US
-To: Maksim Davydov <davydov-max@yandex-team.ru>
-Cc: weijiang.yang@intel.com, philmd@linaro.org, dwmw@amazon.co.uk,
- paul@xen.org, joao.m.martins@oracle.com, qemu-devel@nongnu.org,
- mtosatti@redhat.com, kvm@vger.kernel.org, mst@redhat.com,
- marcel.apfelbaum@gmail.com, yang.zhong@intel.com, jing2.liu@intel.com,
- vkuznets@redhat.com, michael.roth@amd.com, wei.huang2@amd.com,
- berrange@redhat.com, pbonzini@redhat.com, richard.henderson@linaro.org
-References: <20230424163401.23018-1-babu.moger@amd.com>
- <20230424163401.23018-3-babu.moger@amd.com>
- <2d5b21cb-7b09-f4e8-576f-31d9977aa70c@yandex-team.ru>
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <2d5b21cb-7b09-f4e8-576f-31d9977aa70c@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH2PR02CA0027.namprd02.prod.outlook.com
- (2603:10b6:610:4e::37) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1prKib-00072l-ND; Tue, 25 Apr 2023 11:36:37 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1prKiW-0004DD-Eh; Tue, 25 Apr 2023 11:36:37 -0400
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4efef769000so3011842e87.3; 
+ Tue, 25 Apr 2023 08:36:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682436986; x=1685028986;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8TIjQ+Y1WeGcT8/p3GZLKpXWlwd0jCjkVPDmSIn/H/w=;
+ b=WFkelQnSg3iIoDKzKvAHImNbzgtppT6z3VYgkwRVsgN2A7fYILTjdZgvAy3dZtZTtz
+ Lmrh69YeyARwwO7/sSIKFP83dtSvJgeUHKC7MSAF3gF4R5UoUyVq1I2sRCdRFG/chACn
+ 4uxnF7Dp/oFJprI6cT4x/M62lBbZ18Uy5LJqP7W+4YR0i6Z2LrDeJazf1X7Jy3XxCvPk
+ mwoqHydRAwAiRBoldDRLyP+wjhixFBWaFaJ+guWwn/61djul9lbttlqg/4Bo1bNWDE2o
+ Ob3eSt4ebEDR/5Qu333TQsRt0IwkxCWhLeUeTtf1PpAsqiFGniA1tPx5yOCRi/PGaLp5
+ dPVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682436986; x=1685028986;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8TIjQ+Y1WeGcT8/p3GZLKpXWlwd0jCjkVPDmSIn/H/w=;
+ b=UGVWAU+ev0K+odMDcQm7DaeuSvfvKg2HyPVbOOfBam4X8TvjvPX6SX959xpY5mZb3C
+ WiEOg4An8KAlofIjqOJqc0oMHFJzHsResjca3IMSQE2jtBse1RHRn3gNvGW4R1soRlBC
+ BiKPvDVZDNBGjp91rn6nyjiCZr5aAVriVVimwUmXYX9jIjmBtdeQVr2TNMIGCTwo1X1W
+ tZSlZhTuiqwA5Fkll9/Ay4d/tZD5TZWkcPyYGSfoJn77VzHauSkpcw3yrHdQodm29rgw
+ kt2rS53zfYk46y9mahUD0Y71qqENLUeaJ7pLycn9vmKdgzfGhgCANsg3136Nyq1m2Zt8
+ CBLw==
+X-Gm-Message-State: AAQBX9fEE6+CCDiH9vc8mSifGK2fIcRKCqJOTwQwg5jV5Rm1f5N5mOHH
+ lv66V7O9xxQo7F4s+0eFrp0=
+X-Google-Smtp-Source: AKy350ZxIlAKS0oZl0kHFNKQ5ius+EPyy1pGNZlymHyxCDeaiYX9qkx+Mw0OcClHxp5f6jLjzWBaJA==
+X-Received: by 2002:a05:6512:20e:b0:4eb:1527:e29d with SMTP id
+ a14-20020a056512020e00b004eb1527e29dmr5054390lfo.52.1682436986025; 
+ Tue, 25 Apr 2023 08:36:26 -0700 (PDT)
+Received: from fralle-msi (217-76-87-243.cust.bredband2.com. [217.76.87.243])
+ by smtp.gmail.com with ESMTPSA id
+ b21-20020ac25635000000b004edc307b706sm2100134lff.244.2023.04.25.08.36.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 08:36:25 -0700 (PDT)
+Date: Tue, 25 Apr 2023 17:36:24 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>
+Subject: Re: [QEMU][PATCH v4 3/4] xlnx-versal: Connect Xilinx VERSAL CANFD
+ controllers
+Message-ID: <20230425153623.GB7006@fralle-msi>
+References: <20230425063433.25803-1-vikram.garhwal@amd.com>
+ <20230425063433.25803-4-vikram.garhwal@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CO6PR12MB5490:EE_
-X-MS-Office365-Filtering-Correlation-Id: 242f81b9-7383-440a-3470-08db45a2c2b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yQ+sF1LHT9ucqhCn0SHM42ZXp4ozkRgeMwZ/4zPaFJXRHAjFr+rpZJTgUx/ldUBWzcapM06nU3MBvzv91mJ2N+eED6zM5QzE3/SWzTwsnXE1TUrH285xhKVI7FTbLjBmvcRKo0PuktJsVqbsHLmnQJV5Za+JA4EjrqnIaI+6hPQV22Y14EKcdLdiw/qnMM1wbHOB/uQcHIg7jzuGKoycmWXkOzOONFac2ixrHxvzx3711I4Cbvt2VA+GRwr44v8LFOp3AasBOuYjAxsO6GwgnXMWjB+VcDeAVI0txaJ1tNl/5XVy5Ar3zcTGXMguGEB978x2tbWOhQmLzSQIUdXpeWpohg0K/9Bo/SHNdRCij9T5MiWfBzeznrzooFrOliBFaLt9VeMJyw3Oy9xKkimjQ0JDAMWDC6kwO0NghIDkTb4BDf4yGcWOrFmPWbTfYKdzZQ1V80J0P9IS+HzgK98I7IRjFKipajowxGmYFikV0Kn5m5hWXAUSEqRiTg2qEoZZSplY6+8HHG7bf+z9A1x+n9SrxbAAxNGJVDL7+i3IHwoXnoGV3yqdKn8GSHNdQv3KMGIsX5fvTG8XFVywPGRb/TBXyF+sAQ+MsHQFayUNGjcz3/VRkM6QnwUjg/IuvsWkdhO4+Fh9CRH3+bLSeREUUw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR12MB4553.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(376002)(136003)(346002)(39860400002)(396003)(451199021)(31686004)(15650500001)(2906002)(3450700001)(86362001)(26005)(186003)(6506007)(6512007)(83380400001)(66556008)(7416002)(36756003)(478600001)(66476007)(66946007)(6486002)(6666004)(38100700002)(53546011)(31696002)(2616005)(41300700001)(4326008)(6916009)(316002)(5660300002)(8676002)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MlN0S3ZxQTZWbmYrQk5Ncmo0cnNYQk9zZEFwYmRSU1RKRk1neFU3T1RZWStB?=
- =?utf-8?B?K05xaHAvTDNwQU5yWjA5d1gzK05NM09uY3p2dmhYNUhTT3dvRklWK3UzaHJP?=
- =?utf-8?B?aXNvdGdsWndaeXBZNnB6ZURtZUNLaVlENy9NRUViZ2NiMzBpRGhUM0VxQWVX?=
- =?utf-8?B?bEZkVFFWNUY5TTllR0VvNW16TlBIeWxNQ0o3WGlNb01rK3AweXlmUjdkZjFu?=
- =?utf-8?B?dzNlZUpnemhQN1ZuVVIxZFpWTCtlYWJOOThHbGxOUXNvY0VWdEUzaExTRUlh?=
- =?utf-8?B?YWxJWlY4dmVEckNpQzQwNXlQSk5LZVVOeGlTMFlZbUVtTUFmYlZ5MmxMc29p?=
- =?utf-8?B?a0k3aXVnWEVkU3QybmFyR2RDS24rY0ZRelRRZmV3bndQWDBPdVZRUzgzVFFH?=
- =?utf-8?B?aUFNQ1E0UTB5Si8rNkdudU1BbGZFTFJXb2s2QXE3Ymc5dnh0MkEzYUU2dTdo?=
- =?utf-8?B?c2ZLMzcvYXkrdWE1UElqU2xvZlJPNGxlNjk5NU5WWi9wejFtQm5iUytWWk9m?=
- =?utf-8?B?aGc2Y2FKRjVTKzlxS05DbW9QZWFWUzNFRWJ5WVZzSUdILzByZ0xZV3gwbFdS?=
- =?utf-8?B?TWtjUjc4RW5zcWNkeG83VHBuQkt4a1lOcXZEcHI3Vml3T0JwbUVxWWYrekZV?=
- =?utf-8?B?dGdjMnV6MUdQcm5OYzRicFFKUnByVEhWTXBLcURCNk1kTlg4SEdHaFB0NENY?=
- =?utf-8?B?eGJma2FPejZtV2J2Y05TU2EwdEFCUXFCWmtKcWQwSVowZmhabVdaK0RJUmpP?=
- =?utf-8?B?RWZPTVRvbDV6WFFqTU1HYUJ3WEtXZVRmWFkwQ0V3STVUQ0cxZW5hcmtVQXpT?=
- =?utf-8?B?TGNvUVVLT2FDTEZKMWlpZnF1L0hNZVpOZG9UcWZqZnJhZ1g1YVMxWDJxZ2Z4?=
- =?utf-8?B?RjFYV3VSQVlUU1lrSDlQSG9HKy9zMGJReHh3ZDFjU0ZsNldOV2crR2U0bWFv?=
- =?utf-8?B?R2hiZTZpeGlrYm5Dd1RlUHJJbmxFNnRmM3RHSDFMdmJDYm5QRXVjTUs0TldO?=
- =?utf-8?B?NExDS2FaSXJoZGp6aHdnSXRjTWhRT3VxdlZzaTVqSExPVE1QeVJ2L3hLNS9X?=
- =?utf-8?B?QkVjb09FL2Fwa2pUZWFXTHJNMVFNZmI4VnZFSjY4SFBsN1Z6U2ZVMzcrNUUx?=
- =?utf-8?B?eU9wdlpZRWxwaXVLMmNNa0tQUTV3SmVRK1NtVHhDWGduaTMrTUljcnc0cG0v?=
- =?utf-8?B?RU01N3pndjlpSGxWcExlR3V3aUhFaDFESVJwdGJtblkzTk1td1BNUkdrTENK?=
- =?utf-8?B?YWRpTjVodW51aVZ4cGdoWGJEdXFXU0p1OUJ4K3FLaldGaTJNZ0pTa2VjbnFr?=
- =?utf-8?B?d1h2dFRZQkhDeHFGaHFadm9oSFR1eE0yM1ExbWdjblVEVjJXWkV4MkpQK2dO?=
- =?utf-8?B?Y2N6RmNvWERiQ2VEWm5kKzNuTW9xRWd6V1VGR3plUWxqdFZEOU1zR2wxTEtY?=
- =?utf-8?B?VDRRNWY0aGk4ZjROZGlGNFFpUmNJQ3YxRHArT2hwTDRyZ2RoYm1Gdm1PZnZZ?=
- =?utf-8?B?YmlwR3NkbXNoNmU5bUVUemRkSmtlVzRBRzdpbzhQSTdWMUlINXl0RGNBSm9k?=
- =?utf-8?B?bXhreTVaanFIN3pmaHg3Ykw3dndGaEJxRkRyQ1gzM044TkM2Q1JkanhDendK?=
- =?utf-8?B?di9KdkVuZ3JNd3duYjJUM3hndTYrVlZqbUlYaHNuMHIySTBTcnlRVmJTeXpH?=
- =?utf-8?B?ZUlZMEluUFEraGZNUXRpZGk0dnBtOVh3OWN2bHk5SU5GekMrcmdnTXF3Sm1F?=
- =?utf-8?B?UEdQNUxoMWZnamhrZStBb3FBTndNay9Fb3hPaS90VCs4MHN2WDN3Q1liYlBn?=
- =?utf-8?B?dldmRVl1R2ZWT1JEM0JRL1FyNlRDNGREVmR4T2FTSWl3OENuYnNucWFMMXBm?=
- =?utf-8?B?eWVUbThqQ01RMXYxcExxYnBoSnRQVy85WisydzYvNmErdWgrcmFCSllWa0Fl?=
- =?utf-8?B?clprcncxbmJaK3hEYkg5NUVUZUFYODJuNlFBS3hTdGg5L2JpclAxWkp0cVpw?=
- =?utf-8?B?dXdNbDRsMWFiL0dTd29mOTlGQXEzUkRQN0MrdXFVdGY2Um43bFNNTXVrSmhp?=
- =?utf-8?B?aXdpTUtNZUZra1FpZ054SFR4MlJJMW1laStoVzhDLzQ1YzJVQmxQRUFBNm1k?=
- =?utf-8?Q?0ljw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 242f81b9-7383-440a-3470-08db45a2c2b5
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2023 15:35:55.8680 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eE+UXpYISPOPcnx1Mccbyn8VQRcnMMB80XlM9wDc4HzZVP7Za8k8H5AVSrLNv+Xf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5490
-Received-SPF: softfail client-ip=2a01:111:f400:7eae::601;
- envelope-from=Babu.Moger@amd.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425063433.25803-4-vikram.garhwal@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x132.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_WELCOMELIST=-0.01, USER_IN_WHITELIST=-100,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,193 +93,331 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: babu.moger@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Maksim,
+Hi Vikram,
 
-On 4/25/23 07:51, Maksim Davydov wrote:
+On [2023 Apr 24] Mon 23:34:32, Vikram Garhwal wrote:
+> Connect CANFD0 and CANFD1 on the Versal-virt machine and update xlnx-versal-virt
+> document with CANFD command line examples.
 > 
-> On 4/24/23 19:33, Babu Moger wrote:
->> From: Michael Roth <michael.roth@amd.com>
->>
->> Introduce new EPYC cpu versions: EPYC-v4 and EPYC-Rome-v3.
->> The only difference vs. older models is an updated cache_info with
->> the 'complex_indexing' bit unset, since this bit is not currently
->> defined for AMD and may cause problems should it be used for
->> something else in the future. Setting this bit will also cause
->> CPUID validation failures when running SEV-SNP guests.
->>
->> Signed-off-by: Michael Roth <michael.roth@amd.com>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->> ---
->>   target/i386/cpu.c | 118 ++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 118 insertions(+)
->>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index e3d9eaa307..c1bc47661d 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -1707,6 +1707,56 @@ static const CPUCaches epyc_cache_info = {
->>       },
->>   };
->>   +static CPUCaches epyc_v4_cache_info = {
->> +    .l1d_cache = &(CPUCacheInfo) {
->> +        .type = DATA_CACHE,
->> +        .level = 1,
->> +        .size = 32 * KiB,
->> +        .line_size = 64,
->> +        .associativity = 8,
->> +        .partitions = 1,
->> +        .sets = 64,
->> +        .lines_per_tag = 1,
->> +        .self_init = 1,
->> +        .no_invd_sharing = true,
->> +    },
->> +    .l1i_cache = &(CPUCacheInfo) {
->> +        .type = INSTRUCTION_CACHE,
->> +        .level = 1,
->> +        .size = 64 * KiB,
->> +        .line_size = 64,
->> +        .associativity = 4,
->> +        .partitions = 1,
->> +        .sets = 256,
->> +        .lines_per_tag = 1,
->> +        .self_init = 1,
->> +        .no_invd_sharing = true,
->> +    },
->> +    .l2_cache = &(CPUCacheInfo) {
->> +        .type = UNIFIED_CACHE,
->> +        .level = 2,
->> +        .size = 512 * KiB,
->> +        .line_size = 64,
->> +        .associativity = 8,
->> +        .partitions = 1,
->> +        .sets = 1024,
->> +        .lines_per_tag = 1,
->> +    },
->> +    .l3_cache = &(CPUCacheInfo) {
->> +        .type = UNIFIED_CACHE,
->> +        .level = 3,
->> +        .size = 8 * MiB,
->> +        .line_size = 64,
->> +        .associativity = 16,
->> +        .partitions = 1,
->> +        .sets = 8192,
->> +        .lines_per_tag = 1,
->> +        .self_init = true,
->> +        .inclusive = true,
->> +        .complex_indexing = false,
->> +    },
->> +};
->> +
->>   static const CPUCaches epyc_rome_cache_info = {
->>       .l1d_cache = &(CPUCacheInfo) {
->>           .type = DATA_CACHE,
->> @@ -1757,6 +1807,56 @@ static const CPUCaches epyc_rome_cache_info = {
->>       },
->>   };
->>   +static const CPUCaches epyc_rome_v3_cache_info = {
->> +    .l1d_cache = &(CPUCacheInfo) {
->> +        .type = DATA_CACHE,
->> +        .level = 1,
->> +        .size = 32 * KiB,
->> +        .line_size = 64,
->> +        .associativity = 8,
->> +        .partitions = 1,
->> +        .sets = 64,
->> +        .lines_per_tag = 1,
->> +        .self_init = 1,
->> +        .no_invd_sharing = true,
->> +    },
->> +    .l1i_cache = &(CPUCacheInfo) {
->> +        .type = INSTRUCTION_CACHE,
->> +        .level = 1,
->> +        .size = 32 * KiB,
->> +        .line_size = 64,
->> +        .associativity = 8,
->> +        .partitions = 1,
->> +        .sets = 64,
->> +        .lines_per_tag = 1,
->> +        .self_init = 1,
->> +        .no_invd_sharing = true,
->> +    },
->> +    .l2_cache = &(CPUCacheInfo) {
->> +        .type = UNIFIED_CACHE,
->> +        .level = 2,
->> +        .size = 512 * KiB,
->> +        .line_size = 64,
->> +        .associativity = 8,
->> +        .partitions = 1,
->> +        .sets = 1024,
->> +        .lines_per_tag = 1,
->> +    },
->> +    .l3_cache = &(CPUCacheInfo) {
->> +        .type = UNIFIED_CACHE,
->> +        .level = 3,
->> +        .size = 16 * MiB,
->> +        .line_size = 64,
->> +        .associativity = 16,
->> +        .partitions = 1,
->> +        .sets = 16384,
->> +        .lines_per_tag = 1,
->> +        .self_init = true,
->> +        .inclusive = true,
->> +        .complex_indexing = false,
->> +    },
->> +};
->> +
->>   static const CPUCaches epyc_milan_cache_info = {
->>       .l1d_cache = &(CPUCacheInfo) {
->>           .type = DATA_CACHE,
->> @@ -4091,6 +4191,15 @@ static const X86CPUDefinition builtin_x86_defs[] = {
->>                       { /* end of list */ }
->>                   }
->>               },
->> +            {
->> +                .version = 4,
->> +                .props = (PropValue[]) {
->> +                    { "model-id",
->> +                      "AMD EPYC-v4 Processor" },
->> +                    { /* end of list */ }
->> +                },
->> +                .cache_info = &epyc_v4_cache_info
->> +            },
->>               { /* end of list */ }
->>           }
->>       },
->> @@ -4210,6 +4319,15 @@ static const X86CPUDefinition builtin_x86_defs[] = {
->>                       { /* end of list */ }
->>                   }
->>               },
->> +            {
->> +                .version = 3,
->> +                .props = (PropValue[]) {
->> +                    { "model-id",
->> +                      "AMD EPYC-Rome-v3 Processor" },
-> What do you think about adding more information to the model name to reveal
-> its key feature? For instance, model-id can be "EPYC-Rome-v3 (NO INDEXING)",
-> because only cache info was affected. Or alias can be used to achieve
-> the same effect. It works well in
-
-Actually, we already thought about it. But decided against it. Reason is,
-when we add "(NO INDEXING)" to v3, we need to keep text in all the future
-revisions v4 etc and other cpu models. Otherwise it will give the
-impression that newer versions does not support "NO indexing". Hope it helps.
-
-> "EPYC-v2 <-> AMD EPYC Processor (with IBPB) <-> EPYC-IBPB"
->> +                    { /* end of list */ }
->> +                },
->> +                .cache_info = &epyc_rome_v3_cache_info
->> +            },
->>               { /* end of list */ }
->>           }
->>       },
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  docs/system/arm/xlnx-versal-virt.rst | 31 ++++++++++++++++++
+>  hw/arm/xlnx-versal-virt.c            | 48 ++++++++++++++++++++++++++++
+>  hw/arm/xlnx-versal.c                 | 37 +++++++++++++++++++++
+>  include/hw/arm/xlnx-versal.h         | 12 +++++++
+>  4 files changed, 128 insertions(+)
 > 
+> diff --git a/docs/system/arm/xlnx-versal-virt.rst b/docs/system/arm/xlnx-versal-virt.rst
+> index 92ad10d2da..d2d1b26692 100644
+> --- a/docs/system/arm/xlnx-versal-virt.rst
+> +++ b/docs/system/arm/xlnx-versal-virt.rst
+> @@ -34,6 +34,7 @@ Implemented devices:
+>  - DDR memory
+>  - BBRAM (36 bytes of Battery-backed RAM)
+>  - eFUSE (3072 bytes of one-time field-programmable bit array)
+> +- 2 CANFDs
+>  
+>  QEMU does not yet model any other devices, including the PL and the AI Engine.
+>  
+> @@ -224,3 +225,33 @@ To use a different index value, N, from default of 1, add:
+>  
+>    Better yet, do not use actual product data when running guest image
+>    on this Xilinx Versal Virt board.
+> +
+> +Using CANFDs for Versal Virt
+> +""""""""""""""""""""""""""""
+> +Versal CANFD controller is developed based on SocketCAN and QEMU CAN bus
+> +implementation. Bus connection and socketCAN connection for each CAN module
+> +can be set through command lines.
+> +
+> +To connect both CANFD0 and CANFD1 on the same bus:
+> +
+> +.. code-block:: bash
+> +
+> +    -object can-bus,id=canbus -machine canbus0=canbus -machine canbus1=canbus
+> +
+> +To connect CANFD0 and CANFD1 to separate buses:
+> +
+> +.. code-block:: bash
+> +
+> +    -object can-bus,id=canbus0 -object can-bus,id=canbus1 \
+> +    -machine canbus0=canbus0 -machine canbus1=canbus1
+> +
+> +The SocketCAN interface can connect to a Physical or a Virtual CAN interfaces on
+> +the host machine. Please check this document to learn about CAN interface on
+> +Linux: docs/system/devices/can.rst
+> +
+> +To connect CANFD0 and CANFD1 to host machine's CAN interface can0:
+> +
+> +.. code-block:: bash
+> +
+> +    -object can-bus,id=canbus -machine canbus0=canbus -machine canbus1=canbus
+> +    -object can-host-socketcan,id=canhost0,if=can0,canbus=canbus
+> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+> index 668a9d65a4..52c93a590d 100644
+> --- a/hw/arm/xlnx-versal-virt.c
+> +++ b/hw/arm/xlnx-versal-virt.c
+> @@ -40,9 +40,11 @@ struct VersalVirt {
+>          uint32_t clk_25Mhz;
+>          uint32_t usb;
+>          uint32_t dwc;
+> +        uint32_t canfd[2];
+>      } phandle;
+>      struct arm_boot_info binfo;
+>  
+> +    CanBusState *canbus[XLNX_VERSAL_NR_CANFD];
+>      struct {
+>          bool secure;
+>      } cfg;
+> @@ -235,6 +237,33 @@ static void fdt_add_uart_nodes(VersalVirt *s)
+>      }
+>  }
+>  
+> +static void fdt_add_canfd_nodes(VersalVirt *s)
+> +{
 
--- 
-Thanks
-Babu Moger
+In this function we need to modify the generated dtb a little so the kernel
+finds the devices correctly.
+
+> +    uint64_t addrs[] = { MM_CANFD0, MM_CANFD1 };
+> +    uint32_t size[] = { MM_CANFD0_SIZE, MM_CANFD1_SIZE };
+> +    unsigned int irqs[] = { VERSAL_CANFD0_IRQ_0, VERSAL_CANFD1_IRQ_0 };
+
+
+Here we can swap above 3 lines for below:
+
+    uint64_t addrs[] = { MM_CANFD1, MM_CANFD0 };
+    uint32_t size[] = { MM_CANFD1_SIZE, MM_CANFD0_SIZE };
+    unsigned int irqs[] = { VERSAL_CANFD1_IRQ_0, VERSAL_CANFD0_IRQ_0 };
+    const char clocknames[] = "can_clk\0s_axi_aclk";
+
+
+> +    int i;
+> +
+> +    /* Create and connect CANFD0 and CANFD1 nodes to canbus0. */
+> +    for (i = 0; i < ARRAY_SIZE(addrs); i++) {
+> +        char *name = g_strdup_printf("/canfd@%" PRIx64, addrs[i]);
+> +        qemu_fdt_add_subnode(s->fdt, name);
+
+
+> +        qemu_fdt_setprop_cell(s->fdt, name, "rx-fifo0", 0x40);
+> +        qemu_fdt_setprop_cell(s->fdt, name, "enable-rx-fifo1", 0x1);
+> +        qemu_fdt_setprop_cell(s->fdt, name, "rx-fifo1", 0x40);
+
+Here we can swap above for 3 lines for below:
+
+        qemu_fdt_setprop_cell(s->fdt, name, "rx-fifo-depth", 0x40);
+        qemu_fdt_setprop_cell(s->fdt, name, "tx-mailbox-count", 0x20);
+
+        qemu_fdt_setprop_cells(s->fdt, name, "clocks",
+                               s->phandle.clk_25Mhz, s->phandle.clk_25Mhz);
+        qemu_fdt_setprop(s->fdt, name, "clock-names",
+                         clocknames, sizeof(clocknames));
+
+
+> +
+> +        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
+> +                               GIC_FDT_IRQ_TYPE_SPI, irqs[i],
+> +                               GIC_FDT_IRQ_FLAGS_LEVEL_HI);
+> +        qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
+> +                                     2, addrs[i], 2, size[i]);
+> +        qemu_fdt_setprop_string(s->fdt, name, "compatible",
+
+
+> +                                "xlnx,versal-canfd");
+
+And here we can swap above line with (kernel compatible):
+
+                                "xlnx,canfd-2.0");
+
+After changing above the linux kernel will find the devices:
+
+...
+[    1.791998] CAN device driver interface
+[    1.732791] xilinx_can ff060000.canfd can0: reg_base=0x(____ptrval____) irq=28 clock=25000000, tx buffers: actual 32, using 1
+[    1.734668] xilinx_can ff070000.canfd can1: reg_base=0x(____ptrval____) irq=29 clock=25000000, tx buffers: actual 32, using 1
+...
+
+...
+#  ip a
+...
+2: can0: <NOARP40000> mtu 16 qdisc noop qlen 10
+    link/[280] 
+3: can1: <NOARP40000> mtu 16 qdisc noop qlen 10
+    link/[280] 
+...
+
+Looks good otherwise!
+
+Best regards,
+Francisco Iglesias
+
+
+> +
+> +        g_free(name);
+> +    }
+> +}
+> +
+>  static void fdt_add_fixed_link_nodes(VersalVirt *s, char *gemname,
+>                                       uint32_t phandle)
+>  {
+> @@ -639,12 +668,17 @@ static void versal_virt_init(MachineState *machine)
+>                              TYPE_XLNX_VERSAL);
+>      object_property_set_link(OBJECT(&s->soc), "ddr", OBJECT(machine->ram),
+>                               &error_abort);
+> +    object_property_set_link(OBJECT(&s->soc), "canbus0", OBJECT(s->canbus[0]),
+> +                             &error_abort);
+> +    object_property_set_link(OBJECT(&s->soc), "canbus1", OBJECT(s->canbus[1]),
+> +                             &error_abort);
+>      sysbus_realize(SYS_BUS_DEVICE(&s->soc), &error_fatal);
+>  
+>      fdt_create(s);
+>      create_virtio_regions(s);
+>      fdt_add_gem_nodes(s);
+>      fdt_add_uart_nodes(s);
+> +    fdt_add_canfd_nodes(s);
+>      fdt_add_gic_nodes(s);
+>      fdt_add_timer_nodes(s);
+>      fdt_add_zdma_nodes(s);
+> @@ -712,6 +746,20 @@ static void versal_virt_init(MachineState *machine)
+>  
+>  static void versal_virt_machine_instance_init(Object *obj)
+>  {
+> +    VersalVirt *s = XLNX_VERSAL_VIRT_MACHINE(obj);
+> +
+> +    /*
+> +     * User can set canbus0 and canbus1 properties to can-bus object and connect
+> +     * to socketcan(optional) interface via command line.
+> +     */
+> +    object_property_add_link(obj, "canbus0", TYPE_CAN_BUS,
+> +                             (Object **)&s->canbus[0],
+> +                             object_property_allow_set_link,
+> +                             0);
+> +    object_property_add_link(obj, "canbus1", TYPE_CAN_BUS,
+> +                             (Object **)&s->canbus[1],
+> +                             object_property_allow_set_link,
+> +                             0);
+>  }
+>  
+>  static void versal_virt_machine_class_init(ObjectClass *oc, void *data)
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index 69b1b99e93..1594dd6c5c 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -184,6 +184,38 @@ static void versal_create_uarts(Versal *s, qemu_irq *pic)
+>      }
+>  }
+>  
+> +static void versal_create_canfds(Versal *s, qemu_irq *pic)
+> +{
+> +    int i;
+> +    uint32_t irqs[] = { VERSAL_CANFD0_IRQ_0, VERSAL_CANFD1_IRQ_0};
+> +    uint64_t addrs[] = { MM_CANFD0, MM_CANFD1 };
+> +
+> +    for (i = 0; i < ARRAY_SIZE(s->lpd.iou.canfd); i++) {
+> +        char *name = g_strdup_printf("canfd%d", i);
+> +        SysBusDevice *sbd;
+> +        MemoryRegion *mr;
+> +
+> +        object_initialize_child(OBJECT(s), name, &s->lpd.iou.canfd[i],
+> +                                TYPE_XILINX_CANFD);
+> +        sbd = SYS_BUS_DEVICE(&s->lpd.iou.canfd[i]);
+> +
+> +        object_property_set_int(OBJECT(&s->lpd.iou.canfd[i]), "ext_clk_freq",
+> +                                XLNX_VERSAL_CANFD_REF_CLK , &error_abort);
+> +
+> +        object_property_set_link(OBJECT(&s->lpd.iou.canfd[i]), "canfdbus",
+> +                                 OBJECT(s->lpd.iou.canbus[i]),
+> +                                 &error_abort);
+> +
+> +        sysbus_realize(sbd, &error_fatal);
+> +
+> +        mr = sysbus_mmio_get_region(sbd, 0);
+> +        memory_region_add_subregion(&s->mr_ps, addrs[i], mr);
+> +
+> +        sysbus_connect_irq(sbd, 0, pic[irqs[i]]);
+> +        g_free(name);
+> +    }
+> +}
+> +
+>  static void versal_create_usbs(Versal *s, qemu_irq *pic)
+>  {
+>      DeviceState *dev;
+> @@ -718,6 +750,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
+>      versal_create_apu_gic(s, pic);
+>      versal_create_rpu_cpus(s);
+>      versal_create_uarts(s, pic);
+> +    versal_create_canfds(s, pic);
+>      versal_create_usbs(s, pic);
+>      versal_create_gems(s, pic);
+>      versal_create_admas(s, pic);
+> @@ -757,6 +790,10 @@ static void versal_init(Object *obj)
+>  static Property versal_properties[] = {
+>      DEFINE_PROP_LINK("ddr", Versal, cfg.mr_ddr, TYPE_MEMORY_REGION,
+>                       MemoryRegion *),
+> +    DEFINE_PROP_LINK("canbus0", Versal, lpd.iou.canbus[0],
+> +                      TYPE_CAN_BUS, CanBusState *),
+> +    DEFINE_PROP_LINK("canbus1", Versal, lpd.iou.canbus[1],
+> +                      TYPE_CAN_BUS, CanBusState *),
+>      DEFINE_PROP_END_OF_LIST()
+>  };
+>  
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index b6786e9832..39ee31185c 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -31,6 +31,7 @@
+>  #include "hw/dma/xlnx_csu_dma.h"
+>  #include "hw/misc/xlnx-versal-crl.h"
+>  #include "hw/misc/xlnx-versal-pmc-iou-slcr.h"
+> +#include "hw/net/xlnx-versal-canfd.h"
+>  
+>  #define TYPE_XLNX_VERSAL "xlnx-versal"
+>  OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
+> @@ -43,6 +44,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
+>  #define XLNX_VERSAL_NR_SDS     2
+>  #define XLNX_VERSAL_NR_XRAM    4
+>  #define XLNX_VERSAL_NR_IRQS    192
+> +#define XLNX_VERSAL_NR_CANFD   2
+> +#define XLNX_VERSAL_CANFD_REF_CLK (24 * 1000 * 1000)
+>  
+>  struct Versal {
+>      /*< private >*/
+> @@ -73,6 +76,8 @@ struct Versal {
+>              CadenceGEMState gem[XLNX_VERSAL_NR_GEMS];
+>              XlnxZDMA adma[XLNX_VERSAL_NR_ADMAS];
+>              VersalUsb2 usb;
+> +            CanBusState *canbus[XLNX_VERSAL_NR_CANFD];
+> +            XlnxVersalCANFDState canfd[XLNX_VERSAL_NR_CANFD];
+>          } iou;
+>  
+>          /* Real-time Processing Unit.  */
+> @@ -133,6 +138,8 @@ struct Versal {
+>  #define VERSAL_CRL_IRQ             10
+>  #define VERSAL_UART0_IRQ_0         18
+>  #define VERSAL_UART1_IRQ_0         19
+> +#define VERSAL_CANFD0_IRQ_0        20
+> +#define VERSAL_CANFD1_IRQ_0        21
+>  #define VERSAL_USB0_IRQ_0          22
+>  #define VERSAL_GEM0_IRQ_0          56
+>  #define VERSAL_GEM0_WAKE_IRQ_0     57
+> @@ -163,6 +170,11 @@ struct Versal {
+>  #define MM_UART1                    0xff010000U
+>  #define MM_UART1_SIZE               0x10000
+>  
+> +#define MM_CANFD0                   0xff060000U
+> +#define MM_CANFD0_SIZE              0x10000
+> +#define MM_CANFD1                   0xff070000U
+> +#define MM_CANFD1_SIZE              0x10000
+> +
+>  #define MM_GEM0                     0xff0c0000U
+>  #define MM_GEM0_SIZE                0x10000
+>  #define MM_GEM1                     0xff0d0000U
+> -- 
+> 2.17.1
+> 
 
