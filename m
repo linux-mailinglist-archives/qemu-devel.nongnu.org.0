@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3444B6EDD1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3676EDD29
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 09:50:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prDPc-0004GE-Ml; Tue, 25 Apr 2023 03:48:32 -0400
+	id 1prDOV-0002cT-VC; Tue, 25 Apr 2023 03:47:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNi-0001UF-Ao
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNk-0001ja-H5
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNg-0006sN-IZ
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:34 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prDNi-0006sW-3r
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 03:46:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682408791;
+ s=mimecast20190719; t=1682408793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NMtY4B3CUEsIScWMVfi1qUKQMVTCD7QWE7ao8AyIg/g=;
- b=MtabJynQeZcp7aBEeW1vwUTQC2QVANm+drdNb5PNG6U/fr0qcyBqznWXUxCfA3gG9lCVEi
- +vO0pTtyGSv4o687HXKeva6XFsiMK9HqND3pPLqR/zSMvf4ZkxTq/r50TdgSJ9449bg0Hn
- h/7+Luqqb7LDhm0rTQZ2yEO6RgZnPC8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ENB/ftYh8f6TIyn1LHdOpb4fofLhwW3Aa4TSW+e9pK0=;
+ b=c9l+g8QCBGmhA/awuR4tkVM+L1yY61vXh8u9sLfKVeIEn7iZL7theA3ZKThbko7HGdwqFY
+ 1cU851xdt90Awy4TgItBRMgU/card+qDwY9Z9+ldTSBxVf3MV3DWtZ6r7JUi3mKLOOyRnJ
+ ouUV/0j3Xz3PygfKv0IxGC5/WfcpyPA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-akDCFo1INkC9DXCl9U8zfQ-1; Tue, 25 Apr 2023 03:46:29 -0400
-X-MC-Unique: akDCFo1INkC9DXCl9U8zfQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f16fa91923so29673805e9.2
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:29 -0700 (PDT)
+ us-mta-435-_P61B52jNHefddncIO9SiA-1; Tue, 25 Apr 2023 03:46:32 -0400
+X-MC-Unique: _P61B52jNHefddncIO9SiA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f173bd0fc9so29624095e9.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 00:46:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682408787; x=1685000787;
+ d=1e100.net; s=20221208; t=1682408790; x=1685000790;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NMtY4B3CUEsIScWMVfi1qUKQMVTCD7QWE7ao8AyIg/g=;
- b=cGfUCiSbilTQ2m9ZNbIDAjk8FpC53oUaG1zWM+2oN1QzDy2end0SNBKC1XNTgqGeEi
- OszMPljZ/jiQD2dmsfrXn9vk5kY3CITHb6RAA876Hrf08FRfvijPgoIRUKR2kV/MzWEw
- 8KPu6XLQCSJHlwHlHJ85BanoeZF5A8So0i/BeCwKJdrgpurz0Q032Le58Ophj/VpHh2x
- 9/3P7OTH/QbLr8MAtJvdoG9I1tCSch0KI/yulph3XMswl8Mu57pRo/ZnXPAOZuYZHcJM
- ZY992KReaDIWhdDH+/H03CITL1JgGn2kZBD4W2/94VStjkFXR9GDFxQsgMpqjhpaWe3A
- zzAw==
-X-Gm-Message-State: AAQBX9fHsDHI5upz84HLIISgCMr4QTfFTNjjsy94XxGy/SXq9449622G
- sniCaKWbGj4CToPCD5J3iQRw5y+CowT6ctq4xCR0KTJAyazY44MdA1kmaYbMt9yglMKYN04RH/X
- osRh2ac/P8Z8ZHlJJ5QhkKxuxRvmsrT3rBZsfQ+rzYjdCmw/3unOrZ+W0Qbm6/d6vIKYF
-X-Received: by 2002:a7b:cd02:0:b0:3ef:d8c6:4bc0 with SMTP id
- f2-20020a7bcd02000000b003efd8c64bc0mr8958821wmj.40.1682408787649; 
- Tue, 25 Apr 2023 00:46:27 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bcSWukGm9Uxkg8qn6h5+di1XidClB4gYFQPKftFtL8mLEwZ7iHa9AnensvD2YeRNPbZnRAag==
-X-Received: by 2002:a7b:cd02:0:b0:3ef:d8c6:4bc0 with SMTP id
- f2-20020a7bcd02000000b003efd8c64bc0mr8958801wmj.40.1682408787271; 
- Tue, 25 Apr 2023 00:46:27 -0700 (PDT)
+ bh=ENB/ftYh8f6TIyn1LHdOpb4fofLhwW3Aa4TSW+e9pK0=;
+ b=jjg3rgNRtAHS4cKcbt5wR7EwACdBiru7RJXVxToCscAS7BYpezgocEAtNzOT/MEpMd
+ JzPhCja2HHSzHBvn+pLddAesD7dvNrK9ER/m8L80TYkGkV2sI7bwJpYIvBfjr4EI/c+3
+ ntbI8wfoLfgC8+/MXYqQzUJfC/t6OvF3o0TQVuHKHpwhLlvJrxSqJRF4KeICGkHkwZDX
+ 4VbfM7hvnl0XpSzJrEEIZTUp7gFKhIz/JWLsFirKZ4QixOjLLmUKW+3vQSqcyUoIhgM1
+ ekcOhaIZLvixSVeqirP8ADsP/QR+7M7JEIA5QQGtxSplAxYh8huH+uItDh3D1hebHdyC
+ Ir6A==
+X-Gm-Message-State: AAQBX9fqXgKUBwuoGPLRgAWINBMfsIRG+53BhvHitDM0p4DvY2TPcrRj
+ cRSCQ/Gv13hkedSQMWr7WnChssqCpIQdwYkHavCJOWPqSZ4R14NIRjbMDP3qTyAT9vZISvYip6G
+ q94Od9Q73V9ADaKJcZuhnyACpF0e6pwK+2vdE9gbOCBD5FwF5Zvs72gk+cHxiB7twahjU
+X-Received: by 2002:a5d:6b04:0:b0:2f6:121a:c1d0 with SMTP id
+ v4-20020a5d6b04000000b002f6121ac1d0mr11403745wrw.19.1682408790474; 
+ Tue, 25 Apr 2023 00:46:30 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b9oMWpcaOo9YS0u2xc5QZ9xJjUc/hUU7fOHMT4xr6ajAIw2XlK4SrOYqsuDHm7agZ9vwhQdA==
+X-Received: by 2002:a5d:6b04:0:b0:2f6:121a:c1d0 with SMTP id
+ v4-20020a5d6b04000000b002f6121ac1d0mr11403733wrw.19.1682408790086; 
+ Tue, 25 Apr 2023 00:46:30 -0700 (PDT)
 Received: from redhat.com ([2.55.61.39]) by smtp.gmail.com with ESMTPSA id
- m9-20020a7bce09000000b003f049a42689sm14143446wmc.25.2023.04.25.00.46.25
+ k6-20020a5d5246000000b002e71156b0fcsm12524587wrc.6.2023.04.25.00.46.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 00:46:26 -0700 (PDT)
-Date: Tue, 25 Apr 2023 03:46:24 -0400
+ Tue, 25 Apr 2023 00:46:29 -0700 (PDT)
+Date: Tue, 25 Apr 2023 03:46:27 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, mst@redhat.com,
- anisinha@redhat.com, jusual@redhat.com
-Subject: [PULL 26/31] acpi: pcihp: allow repeating hot-unplug requests
-Message-ID: <0f689cf5ada4d5df5ab95c7f7aa9fc221afa855d.1682408661.git.mst@redhat.com>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 27/31] docs/specs/pci-ids: Convert from txt to rST
+Message-ID: <0c0e21d1c1e2dde4f7437bcd5c53127013cc25f7.1682408661.git.mst@redhat.com>
 References: <cover.1682408661.git.mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -75,7 +73,7 @@ Content-Disposition: inline
 In-Reply-To: <cover.1682408661.git.mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -99,73 +97,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-with Q35 using ACPI PCI hotplug by default, user's request to unplug
-device is ignored when it's issued before guest OS has been booted.
-And any additional attempt to request device hot-unplug afterwards
-results in following error:
+Convert the pci-ids document from plain text to reStructuredText.
 
-  "Device XYZ is already in the process of unplug"
+I opted to use definition-lists here because rST tables are
+super-clunky, and actually formatting these as tables didn't
+seem necessary.
 
-arguably it can be considered as a regression introduced by [2],
-before which it was possible to issue unplug request multiple
-times.
-
-Accept new uplug requests after timeout (1ms). This brings ACPI PCI
-hotplug on par with native PCIe unplug behavior [1] and allows user
-to repeat unplug requests at propper times.
-Set expire timeout to arbitrary 1msec so user won't be able to
-flood guest with SCI interrupts by calling device_del in tight loop.
-
-PS:
-ACPI spec doesn't mandate what OSPM can do with GPEx.status
-bits set before it's booted => it's impl. depended.
-Status bits may be retained (I tested with one Windows version)
-or cleared (Linux since 2.6 kernel times) during guest's ACPI
-subsystem initialization.
-Clearing status bits (though not wrong per se) hides the unplug
-event from guest, and it's upto user to repeat device_del later
-when guest is able to handle unplug requests.
-
-1) 18416c62e3 ("pcie: expire pending delete")
-2)
-Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-CC: mst@redhat.com
-CC: anisinha@redhat.com
-CC: jusual@redhat.com
-CC: kraxel@redhat.com
-Message-Id: <20230418090449.2155757-1-imammedo@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20230420160334.1048224-2-peter.maydell@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Ani Sinha <anisinha@redhat.com>
 ---
- hw/acpi/pcihp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ docs/specs/pci-ids.txt | 70 ------------------------------
+ docs/specs/index.rst   |  1 +
+ docs/specs/pci-ids.rst | 98 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 99 insertions(+), 70 deletions(-)
+ delete mode 100644 docs/specs/pci-ids.txt
+ create mode 100644 docs/specs/pci-ids.rst
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index dcfb779a7a..cdd6f775a1 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -357,6 +357,16 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-      * acpi_pcihp_eject_slot() when the operation is completed.
-      */
-     pdev->qdev.pending_deleted_event = true;
-+    /* if unplug was requested before OSPM is initialized,
-+     * linux kernel will clear GPE0.sts[] bits during boot, which effectively
-+     * hides unplug event. And than followup qmp_device_del() calls remain
-+     * blocked by above flag permanently.
-+     * Unblock qmp_device_del() by setting expire limit, so user can
-+     * repeat unplug request later when OSPM has been booted.
-+     */
-+    pdev->qdev.pending_deleted_expires_ms =
-+        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL); /* 1 msec */
+diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
+deleted file mode 100644
+index e463c4cb3a..0000000000
+--- a/docs/specs/pci-ids.txt
++++ /dev/null
+@@ -1,70 +0,0 @@
+-
+-PCI IDs for qemu
+-================
+-
+-Red Hat, Inc. donates a part of its device ID range to qemu, to be used for
+-virtual devices.  The vendor IDs are 1af4 (formerly Qumranet ID) and 1b36.
+-
+-Contact Gerd Hoffmann <kraxel@redhat.com> to get a device ID assigned
+-for your devices.
+-
+-1af4 vendor ID
+---------------
+-
+-The 1000 -> 10ff device ID range is used as follows for virtio-pci devices.
+-Note that this allocation separate from the virtio device IDs, which are
+-maintained as part of the virtio specification.
+-
+-1af4:1000  network device (legacy)
+-1af4:1001  block device (legacy)
+-1af4:1002  balloon device (legacy)
+-1af4:1003  console device (legacy)
+-1af4:1004  SCSI host bus adapter device (legacy)
+-1af4:1005  entropy generator device (legacy)
+-1af4:1009  9p filesystem device (legacy)
+-1af4:1012  vsock device (bug compatibility)
+-
+-1af4:1040  Start of ID range for modern virtio devices.  The PCI device
+-   to      ID is calculated from the virtio device ID by adding the
+-1af4:10ef  0x1040 offset.  The virtio IDs are defined in the virtio
+-           specification.  The Linux kernel has a header file with
+-           defines for all virtio IDs (linux/virtio_ids.h), qemu has a
+-           copy in include/standard-headers/.
+-
+-1af4:10f0  Available for experimental usage without registration.  Must get
+-   to      official ID when the code leaves the test lab (i.e. when seeking
+-1af4:10ff  upstream merge or shipping a distro/product) to avoid conflicts.
+-
+-1af4:1100  Used as PCI Subsystem ID for existing hardware devices emulated
+-           by qemu.
+-
+-1af4:1110  ivshmem device (shared memory, docs/specs/ivshmem-spec.txt)
+-
+-All other device IDs are reserved.
+-
+-1b36 vendor ID
+---------------
+-
+-The 0000 -> 00ff device ID range is used as follows for QEMU-specific
+-PCI devices (other than virtio):
+-
+-1b36:0001  PCI-PCI bridge
+-1b36:0002  PCI serial port (16550A) adapter (docs/specs/pci-serial.txt)
+-1b36:0003  PCI Dual-port 16550A adapter (docs/specs/pci-serial.txt)
+-1b36:0004  PCI Quad-port 16550A adapter (docs/specs/pci-serial.txt)
+-1b36:0005  PCI test device (docs/specs/pci-testdev.txt)
+-1b36:0006  PCI Rocker Ethernet switch device
+-1b36:0007  PCI SD Card Host Controller Interface (SDHCI)
+-1b36:0008  PCIe host bridge
+-1b36:0009  PCI Expander Bridge (-device pxb)
+-1b36:000a  PCI-PCI bridge (multiseat)
+-1b36:000b  PCIe Expander Bridge (-device pxb-pcie)
+-1b36:000d  PCI xhci usb host adapter
+-1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
+-1b36:0010  PCIe NVMe device (-device nvme)
+-1b36:0011  PCI PVPanic device (-device pvpanic-pci)
+-1b36:0012  PCI ACPI ERST device (-device acpi-erst)
+-
+-All these devices are documented in docs/specs.
+-
+-The 0100 device ID is used for the QXL video card device.
+diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+index a58d9311cb..8aa0fcb77a 100644
+--- a/docs/specs/index.rst
++++ b/docs/specs/index.rst
+@@ -8,6 +8,7 @@ guest hardware that is specific to QEMU.
+ .. toctree::
+    :maxdepth: 2
+ 
++   pci-ids
+    ppc-xive
+    ppc-spapr-xive
+    ppc-spapr-numa
+diff --git a/docs/specs/pci-ids.rst b/docs/specs/pci-ids.rst
+new file mode 100644
+index 0000000000..e1cf022006
+--- /dev/null
++++ b/docs/specs/pci-ids.rst
+@@ -0,0 +1,98 @@
++================
++PCI IDs for QEMU
++================
 +
-     s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
-     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
- }
++Red Hat, Inc. donates a part of its device ID range to QEMU, to be used for
++virtual devices.  The vendor IDs are 1af4 (formerly Qumranet ID) and 1b36.
++
++Contact Gerd Hoffmann <kraxel@redhat.com> to get a device ID assigned
++for your devices.
++
++1af4 vendor ID
++--------------
++
++The 1000 -> 10ff device ID range is used as follows for virtio-pci devices.
++Note that this allocation is separate from the virtio device IDs, which are
++maintained as part of the virtio specification.
++
++1af4:1000
++  network device (legacy)
++1af4:1001
++  block device (legacy)
++1af4:1002
++  balloon device (legacy)
++1af4:1003
++  console device (legacy)
++1af4:1004
++  SCSI host bus adapter device (legacy)
++1af4:1005
++  entropy generator device (legacy)
++1af4:1009
++  9p filesystem device (legacy)
++1af4:1012
++  vsock device (bug compatibility)
++
++1af4:1040 to 1af4:10ef
++  ID range for modern virtio devices.  The PCI device
++  ID is calculated from the virtio device ID by adding the
++  0x1040 offset.  The virtio IDs are defined in the virtio
++  specification.  The Linux kernel has a header file with
++  defines for all virtio IDs (``linux/virtio_ids.h``); QEMU has a
++  copy in ``include/standard-headers/``.
++
++1af4:10f0 to 1a4f:10ff
++  Available for experimental usage without registration.  Must get
++  official ID when the code leaves the test lab (i.e. when seeking
++  upstream merge or shipping a distro/product) to avoid conflicts.
++
++1af4:1100
++  Used as PCI Subsystem ID for existing hardware devices emulated
++  by QEMU.
++
++1af4:1110
++  ivshmem device (shared memory, ``docs/specs/ivshmem-spec.txt``)
++
++All other device IDs are reserved.
++
++1b36 vendor ID
++--------------
++
++The 0000 -> 00ff device ID range is used as follows for QEMU-specific
++PCI devices (other than virtio):
++
++1b36:0001
++  PCI-PCI bridge
++1b36:0002
++  PCI serial port (16550A) adapter (``docs/specs/pci-serial.txt``)
++1b36:0003
++  PCI Dual-port 16550A adapter (``docs/specs/pci-serial.txt``)
++1b36:0004
++  PCI Quad-port 16550A adapter (``docs/specs/pci-serial.txt``)
++1b36:0005
++  PCI test device (``docs/specs/pci-testdev.txt``)
++1b36:0006
++  PCI Rocker Ethernet switch device
++1b36:0007
++  PCI SD Card Host Controller Interface (SDHCI)
++1b36:0008
++  PCIe host bridge
++1b36:0009
++  PCI Expander Bridge (-device pxb)
++1b36:000a
++  PCI-PCI bridge (multiseat)
++1b36:000b
++  PCIe Expander Bridge (-device pxb-pcie)
++1b36:000d
++  PCI xhci usb host adapter
++1b36:000f
++  mdpy (mdev sample device), ``linux/samples/vfio-mdev/mdpy.c``
++1b36:0010
++  PCIe NVMe device (``-device nvme``)
++1b36:0011
++  PCI PVPanic device (``-device pvpanic-pci``)
++1b36:0012
++  PCI ACPI ERST device (``-device acpi-erst``)
++
++All these devices are documented in :doc:`index`.
++
++The 0100 device ID is used for the QXL video card device.
 -- 
 MST
 
