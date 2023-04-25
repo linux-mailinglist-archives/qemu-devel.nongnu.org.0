@@ -2,123 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4239C6EE230
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8158F6EE232
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Apr 2023 14:50:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prI4N-000172-QE; Tue, 25 Apr 2023 08:46:55 -0400
+	id 1prI73-0006kU-Ch; Tue, 25 Apr 2023 08:49:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1prI4F-00015Z-MW; Tue, 25 Apr 2023 08:46:47 -0400
-Received: from mail-ve1eur01on0722.outbound.protection.outlook.com
- ([2a01:111:f400:fe1f::722]
- helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prI6m-0006kD-Js
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:49:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1prI4C-0000dl-Mp; Tue, 25 Apr 2023 08:46:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QDx1JzLVxUU4L5v1DWpnvc7PjCSA5HD/FJB+w0qv05cYMAGyDW9CsLaKCYBecMl8G4gbXheCLL69c4KCxuBM6EvbkDnYMkzujNzKNvQ4vBRYXKr3qFjChUSUMGEQG1QPtzTDKkTNk9+v10jGhZdsFCW399hhn/G4dB1BLWum8eOxMXVyvhfOXsHdPn1oB4iqvfh8peXP4HmBQSgsxXCis0/M2F+Kr0qK/l8ULWulcMTLswnosKdPiDjwbifwMaylzqksh67gLsZxMV0V+Idb5XvI9cw5oAXEZsnG4HIGe9EwLCVsAk3zTfYlTIOUqwG6rh8k5m80xZP5jyUEg/vKeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LGL7HxMgStalF0Xb+Gap4NMDYI2rDOLd7JEiC6WJGlI=;
- b=mNEB1LAvFqxrXh2h9rY+kfBleBDOS922TZa1A4Wh+vdf2/hTrucmz1zVzeXXRzrxaqsPitsaSb4DL5uKgqVkZRScYhqxLwr+8oUTpm+7k19HWuxkSMZuUWHVE1KQcyQdaEQOq/yIstj46A9mpLfDqB7V0PZcVI6Tw7LfRsGZWL3rQGqMFsDYL96XSMejgqS09Bkp7QiCe9EvwXrAMPdZwe7/QYpGvsuxZc0/ZSU+yg5k/Fjz2Poqas1PpIQ8olRbjV53bdhn2hfv9AVqbmOHjqgDgKP7Bj/15r+kFWkxtF8ex8kjnHRbAmvfSe6qGtqepS4gzMUh49GBjYeITTVcLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LGL7HxMgStalF0Xb+Gap4NMDYI2rDOLd7JEiC6WJGlI=;
- b=BPgL+SCjx/Yv1zPiXOkKzNXBuWBLs2brmrLt7SSPSpyC0j9ABQzVSpZGedaxFFvgSFDcmsS3uxvKbc23WCxXMLs5cG5pA/tsWMsdWTg7eCJP21HsDQZYX+M7NUSJ2LiYmgfAaa+dMahQo5ZSZ/7W5aTkbMy69D1MuxEy1LBmZm+RH/zYkO8H+zLAF77FxJ10nbxsXxPDzKfjjyVHAaD90/gGHYR04sCAKB+eqcTAeY0sxoiz2NqzGNZiDFFU0cfH+77hdpaajaV7O83YbE9sSuYxFQVLtweC9wf8EfECZjYeLwxf5M0/K1I/EePbUf9tza15/cI2Ax6ysNEqfTGh3Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
- by DBBPR08MB5961.eurprd08.prod.outlook.com (2603:10a6:10:203::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.34; Tue, 25 Apr
- 2023 12:46:36 +0000
-Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
- ([fe80::b630:c4eb:fba3:1158]) by AS8PR08MB7095.eurprd08.prod.outlook.com
- ([fe80::b630:c4eb:fba3:1158%6]) with mapi id 15.20.6319.034; Tue, 25 Apr 2023
- 12:46:36 +0000
-From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
- vsementsov@yandex-team.ru, kwolf@redhat.com, hreitz@redhat.com
-Subject: [PATCH 6/6] iotests/parallels: Fix test 131 after repair was added to
- parallels_open()
-Date: Tue, 25 Apr 2023 14:46:20 +0200
-Message-Id: <20230425124620.241022-8-alexander.ivanov@virtuozzo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230425124620.241022-1-alexander.ivanov@virtuozzo.com>
-References: <20230425124620.241022-1-alexander.ivanov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1PR07CA0238.eurprd07.prod.outlook.com
- (2603:10a6:802:58::41) To AS8PR08MB7095.eurprd08.prod.outlook.com
- (2603:10a6:20b:402::11)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prI6k-0001DA-9E
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 08:49:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682426961;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wSGLNfIrYKsImtBRJZVfN6F6VQKGUQq7wDz4I+K/hyM=;
+ b=Ht0LDLim80/ud71K5Kxj0qo+rF81Fooh9x6SzxkuQZlE07ZhJ7MbbHEApfAERgyQcg+1Kw
+ itmJ1/FsRoIf+Zv5r1U/TsxOeeMX0rW+GgcCPfymlMX1i4XbKBP1+WO1VLqLffsQjBfnvG
+ 7ZiaoxX+7qxOT1JyA1IMf1IVf/qbTM8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-591-k1lOWKdfOUGSXHze0hPOnA-1; Tue, 25 Apr 2023 08:49:19 -0400
+X-MC-Unique: k1lOWKdfOUGSXHze0hPOnA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-2fe3fb8e32aso2075454f8f.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 05:49:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682426958; x=1685018958;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wSGLNfIrYKsImtBRJZVfN6F6VQKGUQq7wDz4I+K/hyM=;
+ b=eHAJO/agu/e0NZZmc7DsK99LJrCm8m/ChOK8gat7qFNOZayIq5EeMJz8BhP0VBmIoO
+ oQqIg6ikPgkIrNOI95quRpqIBTSL3qX27O3dknLudo/ni/SnvB2dGsO1rjG0FSmfmy2G
+ xv//bZpjIRI0HGcisGDKaKb5RfXRKpuoCzk6vCQgd/NwZoAF5Io+cXNAHPxZ5jd8Qwcl
+ 3iuK1RgZKdHvK1GOGr+bh2W/Yxb/5JqXIoi1sWdUfQG/SBmX7s/oYfqYgnpnylqLdmMv
+ 1o+B15/QJKGHlUl/KWvZQWvmVGwTaTZk9I++Meop33SMAqRAv2fh6V7plCdnqDz4R15D
+ iHdg==
+X-Gm-Message-State: AAQBX9faZt6GZSjTZ5Z03YkjsLZat79oOFrH21F4jXWJ3DgTw2AfNj5N
+ wWyV04VBdc25RUzL8vIcK1qYI8RVBMsPlKWpxx7sZJygvvfIEzN5SjnACGZnNNVFGxbPxYzMpzo
+ YE3E/53hZr4f9B0Q=
+X-Received: by 2002:adf:fd10:0:b0:2f8:497f:6cfd with SMTP id
+ e16-20020adffd10000000b002f8497f6cfdmr10566251wrr.7.1682426958507; 
+ Tue, 25 Apr 2023 05:49:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZaGV9AvdfyQhRfg1gQjlpJi/ZnJW8kyxFPcPElHTZMJpnKpMrvUFpIXpooNevSREpKi6LJMA==
+X-Received: by 2002:adf:fd10:0:b0:2f8:497f:6cfd with SMTP id
+ e16-20020adffd10000000b002f8497f6cfdmr10566241wrr.7.1682426958189; 
+ Tue, 25 Apr 2023 05:49:18 -0700 (PDT)
+Received: from redhat.com ([2.55.17.255]) by smtp.gmail.com with ESMTPSA id
+ v11-20020a5d43cb000000b002ff77b033b1sm13079801wrr.33.2023.04.25.05.49.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 05:49:17 -0700 (PDT)
+Date: Tue, 25 Apr 2023 08:49:13 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, philmd@linaro.org, david@redhat.com,
+ peterx@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
+ den-plotnikov@yandex-team.ru, Gerd Hoffmann <kraxel@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
+Subject: Re: [PATCH] pci: make ROM memory resizable
+Message-ID: <20230425084609-mutt-send-email-mst@kernel.org>
+References: <20230424203647.94614-1-vsementsov@yandex-team.ru>
+ <20230425031348-mutt-send-email-mst@kernel.org>
+ <20230425033455-mutt-send-email-mst@kernel.org>
+ <f2fcb8b1-877c-59dc-3eb2-33a456fa7372@yandex-team.ru>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|DBBPR08MB5961:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a2e8841-e9c5-456f-b5ed-08db458b1b48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: v7yaG7CJ5zF7E/8F8fxL4MQpD1axwwU2SN8UtyAaV5BAiGa0ZeLFcZPc9gJeXDEfomNyVuNd6/FCd97seQ7gmsSqY4O9erAJPLMv+OgjiH0UjrnootzfSd0uLXDABT7p2vZqTpxIzdXVEt8YT16bV/R7mmdRdG4K1pFeHXMw1oZUKBheC2gpuQYuixYJ34AE2Tki3/u8w7x+5yQkaOtNy/vS+1oihv6/IE/+GXz0jqRWoptTdAUOdG8wPgQL/9Hk6rpTIqeHlLdqRD2JyYHLzOmtBHmqoFO7mU7UGntzbx+LX9ma/1di7mCYltA7x+Wjz9UFP94Z3keKQSIe80TATa8FnvggQvbL5owcbLU1+8eJvQmAdTdHZvtiCmTGA1zOEtxSHGHuGzCeLzTtemOfa8x+wR1dCCPjgdpkTalnzCpCghMRiDONiuaB19dc5sSQ0oKmiH8+gDWHPEF2xBHPDUtmCKWzq+TDUsDa5ZE3Oyg1k20kFTVvtvAasRXUC8Gl2cE8c6xP1z51e7IyESDT0+NM874Fu4QmzWhI3hanSFIpFSGoHJVnuA8IljDR5ajxcwr0MNei/k3kpxyPWQg+mdKj9kSb351IKlx+tCBzbhuSkmBZhGzZCsPL7mAQYMaaSUcugNcHvE7wGnIirfqnPQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(136003)(376002)(39850400004)(366004)(396003)(451199021)(83380400001)(478600001)(52116002)(6486002)(6666004)(2616005)(6512007)(1076003)(26005)(6506007)(186003)(5660300002)(44832011)(36756003)(38350700002)(38100700002)(66946007)(66556008)(4326008)(6916009)(66476007)(41300700001)(86362001)(2906002)(8936002)(316002)(8676002)(21314003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4mMiGt+UzBFdilW249ZAiEj5/5OW//6K34BiAEpEM+CCwDh8X7fELHtCzoQ5?=
- =?us-ascii?Q?u6gVU52lhAV+rs/wIW4u2CSWc6EvNw3WfDIJPaf9ezXSmmedtdr67t+pHvsZ?=
- =?us-ascii?Q?wJMd/dIwnlk4xxI/j6alUo8UAPcR2Zaoe2VesKRBMKsLdPnlaDzouC+T7F0N?=
- =?us-ascii?Q?imxtVTqREiDb39cU5mEmafBtgjPG2lUetAVUxhWNiySq/qGxbfCW1mzE1eov?=
- =?us-ascii?Q?kS0CElLAqdgFygO/57FgizVwKAyvNpS4O1UtNyp+omij+rbdOjBt/8A+DW+B?=
- =?us-ascii?Q?Z8ijkSUV1cVx4039OYx/QRxq1i0Mf014CwDNyq1uM49B8fDz1zeylIrUEvdU?=
- =?us-ascii?Q?NKASTLMkpTpXixgMHhZme6vde7J82b0MXWOF15e8XbiUWksdGSCxSOV1S+dD?=
- =?us-ascii?Q?JTXcAP48Ib1/byBleU0imoBFmtkclrON61AhYUBaLpAC02ssg1DpSSZaLVwq?=
- =?us-ascii?Q?guyNwN8peNeC4HQ7PHgNprsZbdnWMgQwPqOoKMucAM+I5hPkxHyqx5qz76CW?=
- =?us-ascii?Q?o6lXXDszXbYqnl2WsWqARyUydQitMiz5AcruBwPo9yJkTPR7WAFenoSdQrCK?=
- =?us-ascii?Q?xAJHS7X0Yk1Ihun7NL89nG+TCbG6ekc+SEtfnwhstPambqF5FgsxD+LkDeE8?=
- =?us-ascii?Q?o5tqCrLJMVYnE4oMzc3HGw0SHjd0WxRAkZ0uQL7e5LgMn4mfuF5jzxYC2VAN?=
- =?us-ascii?Q?q6LPwxNrecoR22X2vPZEdfiS7OD223oGurPSF1+sXBpni7qRzMb0zwxOM/NN?=
- =?us-ascii?Q?OxTRVglr9nsGbrQICqkSoT0rCHYgv6lzoPvvtjS8oDAmm/5tVy7inmlzyfv/?=
- =?us-ascii?Q?YNOHj9yLK/3ljpWSYA8uZKxpPBstGhjTEFlrdyl20HF+6qXz2b1RwfdOYV3t?=
- =?us-ascii?Q?7iXl5iy3BKFxEx3sM7wFydm2WncJpiJJzN9nntVxIEw28HBU4KG2jNZsqcGU?=
- =?us-ascii?Q?Dd9UQWSRgDmT43v63/DSSgKZlUmaFyKn+qLSHgH6lj+Q2P39L+S7O+VkRLuz?=
- =?us-ascii?Q?csbCqO4aD0B4KyDDP0HWYu6w7Gt4rna+0zRFYcWhiwNjlQhaMxmW7p/0WSW9?=
- =?us-ascii?Q?ZK3pXTA5WwvT7GNQu48HMX7KKGHburf+Bl2N/MCPCjDCb4JE/677+na8H+OQ?=
- =?us-ascii?Q?g9Hrenn9BohVIaFC6iscgbtPxwQvPIgTm8I+HKUFtOYSQhF3QQtgH2XY1ebq?=
- =?us-ascii?Q?RCYDbnigXMA0jiIn8wFxQPo49CdZmoQsS22BCS9FbyJYi4ZY0VqH7DL89OaE?=
- =?us-ascii?Q?O//syuyCAaKGbnzcnYyVZ9SYfcrRQtC5JeJqNgEz7M/zksQlxrDvTTnuT1rP?=
- =?us-ascii?Q?XmYsnW6wSxtuE7qX0ksSfVJnYXCwQqe0JQ+LKLooldP7zFYglXJH0HlBQaQa?=
- =?us-ascii?Q?nmpKYwGutuf0FQoMtkSfsA5ksTE6WalYsyeNOaAUK/UdEmIN2ZUYPi9yx1Zb?=
- =?us-ascii?Q?+xvu4LzGEDxQMMhrM8o+0MHw0JJjpDx24Fnly4dawWDxEocLy6wKKcsoV/jt?=
- =?us-ascii?Q?jy9bmWpAgM0dbzK5xIiU6El0i4DOqcblJO1Vsd/QBmKrIL4XPt5HGohHZLfn?=
- =?us-ascii?Q?+K5FlawHdzTegSBXN4drtrFq0S9/et5oTxgAnCdqRhiOYHCwSG6bH/UBMLAF?=
- =?us-ascii?Q?Ig=3D=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a2e8841-e9c5-456f-b5ed-08db458b1b48
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2023 12:46:36.4980 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bm44tN9cCe/7FrvNoot0ok7b3b9NrFVWd7gl59d14xg6hDD4M0xfIVzjW3DTdDg7muD9DOGDlsHNRXr+errVSKWBnG3Mh6wxjYvqU0LnusY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB5961
-Received-SPF: pass client-ip=2a01:111:f400:fe1f::722;
- envelope-from=alexander.ivanov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f2fcb8b1-877c-59dc-3eb2-33a456fa7372@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -135,62 +100,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Images repairing in parallels_open() was added, thus parallels tests fail.
-Access to an image leads to repairing the image. Further image check don't
-detect any corruption. Remove reads after image creation in test 131.
+On Tue, Apr 25, 2023 at 11:34:09AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On 25.04.23 10:43, Michael S. Tsirkin wrote:
+> > On Tue, Apr 25, 2023 at 03:26:54AM -0400, Michael S. Tsirkin wrote:
+> > > On Mon, Apr 24, 2023 at 11:36:47PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> > > > On migration, on target we load local ROM file. But actual ROM content
+> > > > migrates through migration channel. Original ROM content from local
+> > > > file doesn't matter. But when size mismatch - we have an error like
+> > > > 
+> > > >   Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
+> > > 
+> > > Oh, this is this old bug then:
+> > > https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1713490
+> > > 
+> > > People seem to be "fixing" this by downgrading ROMs.
+> > > 
+> > > Actually, I think the fix is different: we need to build
+> > > versions of ROMs for old machine types that can fit
+> > > in the old BAR size.
+> > > 
+> > > Gerd, Laszlo what's your take on all this?
+> > Actually, ignore this - we do keep old ROMs around specifically to avoid
+> > ROM size changes and have been for ever. E.g.:
+> > 
+> > commit c45e5b5b30ac1f5505725a7b36e68cedfce4f01f
+> > Author: Gerd Hoffmann<kraxel@redhat.com>
+> > Date:   Tue Feb 26 17:46:11 2013 +0100
+> > 
+> >      Switch to efi-enabled nic roms by default
+> >      All PCI nics are switched to EFI-enabled roms by default.  They are
+> >      composed from three images (legacy, efi ia32 & efi x86), so classic
+> >      pxe booting will continue to work.
+> >      Exception: eepro100 is not switched, it uses a single rom for all
+> >      emulated eepro100 variants, then goes patch the rom header on the
+> >      fly with the correct PCI IDs.  I doubt that will work as-is with
+> >      the efi roms.
+> >      Keep old roms for 1.4+older machine types via compat properties,
+> >      needed because the efi-enabled roms are larger so the pci rom bar
+> >      size would change.
+> >      Signed-off-by: Gerd Hoffmann<kraxel@redhat.com>
+> > 
+> > 
+> > So it's downstream messing up with things, overriding the
+> > rom file then changing its size.
+> > 
+> > 
+> > On fedora I find both pxe virtio and efi virtio so it gets it right.
+> > 
+> > 
+> 
+> Yes I understand that distribution may work-around the problem just having all needed roms on target and specifying correct romfile= argument.
+> 
+> But this is not ideal: having the file only to get its size, to not mismatch with incoming RAM block. There should be way to migrate ROMs automatically without extra files on target.
 
-Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
----
- tests/qemu-iotests/131     |  6 ++----
- tests/qemu-iotests/131.out | 15 ++-------------
- 2 files changed, 4 insertions(+), 17 deletions(-)
+This not "only to get its size". It is so you can start old machine type
+on the new box and get the same memory layout.
 
-diff --git a/tests/qemu-iotests/131 b/tests/qemu-iotests/131
-index 78ef238c64..57fe1e5577 100755
---- a/tests/qemu-iotests/131
-+++ b/tests/qemu-iotests/131
-@@ -69,11 +69,9 @@ echo == check that there is no trash after written ==
- echo == check that there is no trash before written ==
- { $QEMU_IO -c "read -P 0 0 $CLUSTER_HALF_SIZE" "$TEST_IMG"; } 2>&1 | _filter_qemu_io | _filter_testdir
- 
--echo "== Corrupt image =="
-+echo "== corrupt image =="
- poke_file "$TEST_IMG" "$inuse_offset" "\x59\x6e\x6f\x74"
--{ $QEMU_IO -c "read -P 0x11 $CLUSTER_SIZE $CLUSTER_SIZE" "$TEST_IMG"; } 2>&1 | _filter_qemu_io | _filter_testdir
--_check_test_img
--_check_test_img -r all
-+echo "== read corrupted image with repairing =="
- { $QEMU_IO -c "read -P 0x11 $CLUSTER_SIZE $CLUSTER_SIZE" "$TEST_IMG"; } 2>&1 | _filter_qemu_io | _filter_testdir
- 
- echo "== allocate with backing =="
-diff --git a/tests/qemu-iotests/131.out b/tests/qemu-iotests/131.out
-index 98017a067e..d2904578df 100644
---- a/tests/qemu-iotests/131.out
-+++ b/tests/qemu-iotests/131.out
-@@ -21,20 +21,9 @@ read 524288/524288 bytes at offset 2621440
- == check that there is no trash before written ==
- read 524288/524288 bytes at offset 0
- 512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--== Corrupt image ==
--qemu-io: can't open device TEST_DIR/t.parallels: parallels: Image was not closed correctly; cannot be opened read/write
--ERROR image was not closed correctly
--
--1 errors were found on the image.
--Data may be corrupted, or further writes to the image may corrupt it.
-+== corrupt image ==
-+== read corrupted image with repairing ==
- Repairing image was not closed correctly
--The following inconsistencies were found and repaired:
--
--    0 leaked clusters
--    1 corruptions
--
--Double checking the fixed image now...
--No errors were found on the image.
- read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- == allocate with backing ==
+Fundamentally, the approach QEMU takes is that it does not matter
+how you migrate: live, or by killing and restarting guest.
+What we try to do as best we can, is make the box look the same.
+
 -- 
-2.34.1
+MST
 
 
