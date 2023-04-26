@@ -2,97 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7CD6EEC62
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 04:32:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D515E6EED08
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 06:45:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prUw6-0002iw-Mp; Tue, 25 Apr 2023 22:31:14 -0400
+	id 1prX0q-00060T-5S; Wed, 26 Apr 2023 00:44:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1prUvX-0002eG-FX
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 22:30:39 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prX0j-0005zU-SO
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 00:44:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1prUvT-000297-W4
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 22:30:39 -0400
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33Q0rQvt008515; Wed, 26 Apr 2023 02:30:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ftTVLszdqEFi80gZkJB0HN967v3HAQntkNvMjNfmrz8=;
- b=D/jFCFJVGBos4/ln/LiuGYk+mYYq1OwnR0MSsETEj99ZKXQ+IzYcQs9iuNejfidU5LzL
- ONgnwIx+Q+mpD0WzwI9SAWiW1HXd1SM93y9aeuyoGvTTRyPsUaG/Ss4NoNf3UlPi7ivN
- w5ElDPtmtE6iBWRbfFoEst44HYvBoEhZu/rInEg664cB+FKcQr/ZvrsJSsOUYyIqgTao
- pOmwUCeXOwq4geYs8jPL9bSjxwZaaf4fMyHE5RVWFNcLaLnTu/Ye+bpamu7Nav5jo1ZP
- 2tVJYbHwza0QTd4+K1/7IL0vvqCLrsCtJLABLyyMn3dWdaExAY0kottdzkE8+0x0auuk Qw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q6bgpaejx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Apr 2023 02:30:22 +0000
-Received: from pps.filterd (NALASPPMTA02.qualcomm.com [127.0.0.1])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 33Q2ULRx015844; 
- Wed, 26 Apr 2023 02:30:21 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 3q48nmddq5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Apr 2023 02:30:21 +0000
-Received: from NALASPPMTA02.qualcomm.com (NALASPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33Q2ULmL015823;
- Wed, 26 Apr 2023 02:30:21 GMT
-Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.204.221])
- by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 33Q2UKW1015815
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Apr 2023 02:30:21 +0000
-Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 47164)
- id AFB626A9; Tue, 25 Apr 2023 19:30:19 -0700 (PDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
- ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
-Subject: [PATCH 9/9] Hexagon (tests/tcg/hexagon) Add v73 scalar tests
-Date: Tue, 25 Apr 2023 19:30:18 -0700
-Message-Id: <20230426023018.1742266-10-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230426023018.1742266-1-tsimpson@quicinc.com>
-References: <20230426023018.1742266-1-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1prX0h-0006Sw-Hr
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 00:44:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682484245;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=w1UlvGzKVyyBtaUDAR+3kQsN/7YKyq3pIHtv+lxfr8s=;
+ b=Lm5J1GZPoqLS+umehU7yoVkaAyIeWrAE+wrHEAi/WE7pybAexlHHum+aAVTrncI5VjlQTo
+ RL/T6m8eLHYJvAu+TqCp0/gp//1Az9TAQQp0Pgz7sSH+6fqdwJTAQkx10B3M3p3bzluzhz
+ nrg7n9trhJaF4aLSJt99OrieYFRUbeM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-473-3e1y4QP2PxmVRyf3gTplKQ-1; Wed, 26 Apr 2023 00:44:03 -0400
+X-MC-Unique: 3e1y4QP2PxmVRyf3gTplKQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-2f96ecfb40cso2364483f8f.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 21:44:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682484243; x=1685076243;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w1UlvGzKVyyBtaUDAR+3kQsN/7YKyq3pIHtv+lxfr8s=;
+ b=ZvkvEqr5klMKHo0sxNABwhAY9KMf9w7H0VeydI1qJTAflcaPX07KpzRkaSrIXqS9Al
+ T/T4wcvzK/++6RDyLqNjsFY5FcEqSLQG0EquPYp4NFjZLjB5kb+Zw29gA/iXeCZWHdyE
+ fOx33jIu+3BLTxvFV1boz8W/W9CXSYVG5oBGp5yHrPPdZxNx173ozH9ARjbsXUmXTOzf
+ YAlR+DWMKin8s3lwypnKq+X6k8PV6h8Ny4KzPxWZSVRvaq7HR84VhMFAy62FZ+tBpaVw
+ wH7V9h/3Q/gbvaeGSzvgodxTw/RjBq9buUDJem7S2fenwTzKlAM/DJIadwfQtTBCMjxD
+ SuyA==
+X-Gm-Message-State: AAQBX9e16eIOb9DgfVTCXCnpmDzyMw2oAMJWmL2Aj+8hx8YqRvnAcOAt
+ czurm4bXHneaywwUdJTgxLYl0FRUADCgMkVESvpqB5cDsy8N9EnGdAEiREa8ghhrauZqS7VXlE+
+ 1mDVU3eIcnK8Qcv0=
+X-Received: by 2002:adf:f391:0:b0:2f6:ece3:76a with SMTP id
+ m17-20020adff391000000b002f6ece3076amr12828148wro.8.1682484242814; 
+ Tue, 25 Apr 2023 21:44:02 -0700 (PDT)
+X-Google-Smtp-Source: AKy350azu72PWbnXEPoqWxmI+XiNKfO3xiSxNvXjkRj11zuBWDJG+KHoHVLnXzbblLDGdHwAJ1zPpA==
+X-Received: by 2002:adf:f391:0:b0:2f6:ece3:76a with SMTP id
+ m17-20020adff391000000b002f6ece3076amr12828135wro.8.1682484242507; 
+ Tue, 25 Apr 2023 21:44:02 -0700 (PDT)
+Received: from redhat.com ([2.55.17.255]) by smtp.gmail.com with ESMTPSA id
+ w13-20020adff9cd000000b002cea9d931e6sm14612195wrr.78.2023.04.25.21.43.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 21:44:01 -0700 (PDT)
+Date: Wed, 26 Apr 2023 00:43:57 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
+ den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com,
+ dgilbert@redhat.com, quintela@redhat.com, armbru@redhat.com
+Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
+Message-ID: <20230426002135-mutt-send-email-mst@kernel.org>
+References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
+ <20230425161434.173022-4-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ME4ku2W1fekGlVZPf1rHWvYopxswQWus
-X-Proofpoint-ORIG-GUID: ME4ku2W1fekGlVZPf1rHWvYopxswQWus
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-25_11,2023-04-25_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- mlxscore=0 mlxlogscore=999 suspectscore=0 adultscore=0 priorityscore=1501
- phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304260020
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425161434.173022-4-vsementsov@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,70 +98,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-VGVzdHMgYWRkZWQgZm9yIHRoZSBmb2xsb3dpbmcgaW5zdHJ1Y3Rpb25zCiAgICBKMl9jYWxscmgK
-ICAgIEoyX2p1bXByaAoKU2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1
-aWNpbmMuY29tPgotLS0KIHRlc3RzL3RjZy9oZXhhZ29uL3Y3M19zY2FsYXIuYyAgICB8IDk2ICsr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIHRlc3RzL3RjZy9oZXhhZ29uL01ha2VmaWxl
-LnRhcmdldCB8ICAyICsKIDIgZmlsZXMgY2hhbmdlZCwgOTggaW5zZXJ0aW9ucygrKQogY3JlYXRl
-IG1vZGUgMTAwNjQ0IHRlc3RzL3RjZy9oZXhhZ29uL3Y3M19zY2FsYXIuYwoKZGlmZiAtLWdpdCBh
-L3Rlc3RzL3RjZy9oZXhhZ29uL3Y3M19zY2FsYXIuYyBiL3Rlc3RzL3RjZy9oZXhhZ29uL3Y3M19z
-Y2FsYXIuYwpuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwLi5mZWU2N2ZjNTMx
-Ci0tLSAvZGV2L251bGwKKysrIGIvdGVzdHMvdGNnL2hleGFnb24vdjczX3NjYWxhci5jCkBAIC0w
-LDAgKzEsOTYgQEAKKy8qCisgKiAgQ29weXJpZ2h0KGMpIDIwMjMgUXVhbGNvbW0gSW5ub3ZhdGlv
-biBDZW50ZXIsIEluYy4gQWxsIFJpZ2h0cyBSZXNlcnZlZC4KKyAqCisgKiAgVGhpcyBwcm9ncmFt
-IGlzIGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkK
-KyAqICBpdCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNl
-IGFzIHB1Ymxpc2hlZCBieQorICogIHRoZSBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb247IGVpdGhl
-ciB2ZXJzaW9uIDIgb2YgdGhlIExpY2Vuc2UsIG9yCisgKiAgKGF0IHlvdXIgb3B0aW9uKSBhbnkg
-bGF0ZXIgdmVyc2lvbi4KKyAqCisgKiAgVGhpcyBwcm9ncmFtIGlzIGRpc3RyaWJ1dGVkIGluIHRo
-ZSBob3BlIHRoYXQgaXQgd2lsbCBiZSB1c2VmdWwsCisgKiAgYnV0IFdJVEhPVVQgQU5ZIFdBUlJB
-TlRZOyB3aXRob3V0IGV2ZW4gdGhlIGltcGxpZWQgd2FycmFudHkgb2YKKyAqICBNRVJDSEFOVEFC
-SUxJVFkgb3IgRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuICBTZWUgdGhlCisgKiAg
-R05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KKyAqCisgKiAgWW91
-IHNob3VsZCBoYXZlIHJlY2VpdmVkIGEgY29weSBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExp
-Y2Vuc2UKKyAqICBhbG9uZyB3aXRoIHRoaXMgcHJvZ3JhbTsgaWYgbm90LCBzZWUgPGh0dHA6Ly93
-d3cuZ251Lm9yZy9saWNlbnNlcy8+LgorICovCisKKyNpbmNsdWRlIDxzdGRpby5oPgorI2luY2x1
-ZGUgPHN0ZGJvb2wuaD4KKyNpbmNsdWRlIDxzdGRpbnQuaD4KKworLyoKKyAqICBUZXN0IHRoZSBz
-Y2FsYXIgY29yZSBpbnN0cnVjdGlvbnMgdGhhdCBhcmUgbmV3IGluIHY3MworICovCisKK2ludCBl
-cnI7CisKK3N0YXRpYyB2b2lkIF9fY2hlY2szMihpbnQgbGluZSwgdWludDMyX3QgcmVzdWx0LCB1
-aW50MzJfdCBleHBlY3QpCit7CisgICAgaWYgKHJlc3VsdCAhPSBleHBlY3QpIHsKKyAgICAgICAg
-cHJpbnRmKCJFUlJPUiBhdCBsaW5lICVkOiAweCUwOHggIT0gMHglMDh4XG4iLAorICAgICAgICAg
-ICAgICAgbGluZSwgcmVzdWx0LCBleHBlY3QpOworICAgICAgICBlcnIrKzsKKyAgICB9Cit9CisK
-KyNkZWZpbmUgY2hlY2szMihSRVMsIEVYUCkgX19jaGVjazMyKF9fTElORV9fLCBSRVMsIEVYUCkK
-Kworc3RhdGljIHZvaWQgX19jaGVjazY0KGludCBsaW5lLCB1aW50NjRfdCByZXN1bHQsIHVpbnQ2
-NF90IGV4cGVjdCkKK3sKKyAgICBpZiAocmVzdWx0ICE9IGV4cGVjdCkgeworICAgICAgICBwcmlu
-dGYoIkVSUk9SIGF0IGxpbmUgJWQ6IDB4JTAxNmxseCAhPSAweCUwMTZsbHhcbiIsCisgICAgICAg
-ICAgICAgICBsaW5lLCByZXN1bHQsIGV4cGVjdCk7CisgICAgICAgIGVycisrOworICAgIH0KK30K
-KworI2RlZmluZSBjaGVjazY0KFJFUywgRVhQKSBfX2NoZWNrNjQoX19MSU5FX18sIFJFUywgRVhQ
-KQorCitzdGF0aWMgYm9vbCBteV9mdW5jX2NhbGxlZDsKKworc3RhdGljIHZvaWQgbXlfZnVuYyh2
-b2lkKQoreworICAgIG15X2Z1bmNfY2FsbGVkID0gdHJ1ZTsKK30KKworc3RhdGljIGlubGluZSB2
-b2lkIGNhbGxyaCh2b2lkICpmdW5jKQoreworICAgIGFzbSB2b2xhdGlsZSgiY2FsbHJoICUwXG5c
-dCIKKyAgICAgICAgICAgICAgICAgOiA6ICJyIihmdW5jKQorICAgICAgICAgICAgICAgICAvKiBN
-YXJrIHRoZSBjYWxsZXItc2F2ZSByZWdpc3RlcnMgYXMgY2xvYmJlcmVkICovCisgICAgICAgICAg
-ICAgICAgIDogInIwIiwgInIxIiwgInIyIiwgInIzIiwgInI0IiwgInI1IiwgInI2IiwgInI3Iiwg
-InI4IiwgInI5IiwKKyAgICAgICAgICAgICAgICAgICAicjEwIiwgInIxMSIsICJyMTIiLCAicjEz
-IiwgInIxNCIsICJyMTUiLCAicjI4IiwKKyAgICAgICAgICAgICAgICAgICAicDAiLCAicDEiLCAi
-cDIiLCAicDMiKTsKK30KKworc3RhdGljIHZvaWQgdGVzdF9jYWxscmgodm9pZCkKK3sKKyAgICBt
-eV9mdW5jX2NhbGxlZCA9IGZhbHNlOworICAgIGNhbGxyaCgmbXlfZnVuYyk7CisgICAgY2hlY2sz
-MihteV9mdW5jX2NhbGxlZCwgdHJ1ZSk7Cit9CisKK3N0YXRpYyB2b2lkIHRlc3RfanVtcHJoKHZv
-aWQpCit7CisgICAgdWludDMyX3QgcmVzOworICAgIGFzbSAoIiUwID0gIzVcblx0IgorICAgICAg
-ICAgInIwID0gIyMxZlxuXHQiCisgICAgICAgICAianVtcHJoIHIwXG5cdCIKKyAgICAgICAgICIl
-MCA9ICMzXG5cdCIKKyAgICAgICAgICJqdW1wIDJmXG5cdCIKKyAgICAgICAgICIxOlxuXHQiCisg
-ICAgICAgICAiJTAgPSAjMVxuXHQiCisgICAgICAgICAiMjpcblx0IgorICAgICAgICAgOiAiPXIi
-KHJlcykgOiA6ICJyMCIpOworICAgIGNoZWNrMzIocmVzLCAxKTsKK30KKworaW50IG1haW4oKQor
-eworICAgIHRlc3RfY2FsbHJoKCk7CisgICAgdGVzdF9qdW1wcmgoKTsKKworICAgIHB1dHMoZXJy
-ID8gIkZBSUwiIDogIlBBU1MiKTsKKyAgICByZXR1cm4gZXJyID8gMSA6IDA7Cit9CmRpZmYgLS1n
-aXQgYS90ZXN0cy90Y2cvaGV4YWdvbi9NYWtlZmlsZS50YXJnZXQgYi90ZXN0cy90Y2cvaGV4YWdv
-bi9NYWtlZmlsZS50YXJnZXQKaW5kZXggOGNkOTVjYjRhNy4uMjhlZjUwOTY4OSAxMDA2NDQKLS0t
-IGEvdGVzdHMvdGNnL2hleGFnb24vTWFrZWZpbGUudGFyZ2V0CisrKyBiL3Rlc3RzL3RjZy9oZXhh
-Z29uL01ha2VmaWxlLnRhcmdldApAQCAtNzksNiArNzksNyBAQCBIRVhfVEVTVFMgKz0gdGVzdF92
-c3BsaWNlYgogSEVYX1RFU1RTICs9IHY2OF9zY2FsYXIKIEhFWF9URVNUUyArPSB2NjhfaHZ4CiBI
-RVhfVEVTVFMgKz0gdjY5X2h2eAorSEVYX1RFU1RTICs9IHY3M19zY2FsYXIKIAogVEVTVFMgKz0g
-JChIRVhfVEVTVFMpCiAKQEAgLTk4LDYgKzk5LDcgQEAgdjY4X2h2eDogdjY4X2h2eC5jIGh2eF9t
-aXNjLmggdjZtcHlfcmVmLmgKIHY2OF9odng6IENGTEFHUyArPSAtbWh2eCAtV25vLXVudXNlZC1m
-dW5jdGlvbgogdjY5X2h2eDogdjY5X2h2eC5jIGh2eF9taXNjLmgKIHY2OV9odng6IENGTEFHUyAr
-PSAtbWh2eCAtV25vLXVudXNlZC1mdW5jdGlvbgordjczX3NjYWxhcjogQ0ZMQUdTICs9IC1Xbm8t
-dW51c2VkLWZ1bmN0aW9uCiAKIGh2eF9oaXN0b2dyYW06IGh2eF9oaXN0b2dyYW0uYyBodnhfaGlz
-dG9ncmFtX3Jvdy5TCiAJJChDQykgJChDRkxBR1MpICQoQ1JPU1NfQ0NfR1VFU1RfQ0ZMQUdTKSAk
-XiAtbyAkQCAkKExERkxBR1MpCi0tIAoyLjI1LjEKCg==
+On Tue, Apr 25, 2023 at 07:14:34PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On incoming migration we have the following sequence to load option
+> ROM:
+> 
+> 1. On device realize we do normal load ROM from the file
+> 
+> 2. Than, on incoming migration we rewrite ROM from the incoming RAM
+>    block. If sizes mismatch we fail.
+
+let's mention an example error message:
+ Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
+
+
+> 
+> This is not ideal when we migrate to updated distribution: we have to
+> keep old ROM files in new distribution and be careful around romfile
+> property to load correct ROM file.
+
+> Which is loaded actually just to
+> allocate the ROM with correct length.
+> Note, that romsize property doesn't really help: if we try to specify
+> it when default romfile is larger, it fails with something like:
+> 
+> romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
+
+Something I'd like to clarify is that the comment applies to uses where
+users/distributions supply their own ROM file.  And lots of
+users/distributions seem to have already painted themselves into a
+corner by supplying a mix of ROM files of unmatching sizes -
+basically they don't understand the detail of live migration,
+ROM size interaction with it and with memory layout, etc -
+as a very small number of people does.
+For example, ubuntu doubled ROM file size by padding their ROMs
+with 0xffffffff at some point, breaking migration for all existing machine
+types.
+
+just a web search for
+ Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
+
+will turn up a bunch of confused distros and users.
+
+
+> 
+> Let's just ignore ROM file when romsize is specified and we are in
+> incoming migration state. In other words, we need only to preallocate
+> ROM of specified size, local ROM file is unrelated.
+
+
+
+
+> 
+> This way:
+> 
+> If romsize was specified on source, we just use same commandline as on
+> source, and migration will work independently of local ROM files on
+> target.
+> 
+> If romsize was not specified on source (and we have mismatching local
+> ROM file on target host), we have to specify romsize on target to match
+> source romsize. romfile parameter may be kept same as on source or may
+> be dropped, the file is not loaded anyway.
+> 
+> As a bonus we avoid extra reading from ROM file on target.
+> 
+> Note: when we don't have romsize parameter on source command line and
+> need it for target, it may be calculated as aligned up to power of two
+> size of ROM file on source (if we know, which file is it) or,
+> alternatively it may be retrieved from source QEMU by QMP qom-get
+> command, like
+> 
+>   { "execute": "qom-get",
+>     "arguments": {
+>       "path": "/machine/peripheral/CARD_ID/virtio-net-pci.rom[0]",
+>       "property": "size" } }
+> 
+> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> ---
+>  hw/pci/pci.c | 77 ++++++++++++++++++++++++++++++----------------------
+>  1 file changed, 45 insertions(+), 32 deletions(-)
+> 
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index a442f8fce1..e2cab622e4 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -36,6 +36,7 @@
+>  #include "migration/vmstate.h"
+>  #include "net/net.h"
+>  #include "sysemu/numa.h"
+> +#include "sysemu/runstate.h"
+>  #include "sysemu/sysemu.h"
+>  #include "hw/loader.h"
+>  #include "qemu/error-report.h"
+> @@ -2293,10 +2294,16 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>  {
+>      int64_t size;
+>      g_autofree char *path = NULL;
+> -    void *ptr;
+>      char name[32];
+>      const VMStateDescription *vmsd;
+>  
+> +    /*
+> +     * In case of incoming migration ROM will come with migration stream, no
+> +     * reason to load the file.  Neither we want to fail if local ROM file
+> +     * mismatches with specified romsize.
+> +     */
+> +    bool load_file = !runstate_check(RUN_STATE_INMIGRATE);
+> +
+>      if (!pdev->romfile) {
+>          return;
+>      }
+
+CC pbonzini,dgilbert,quintela,armbru : guys, is poking at runstate_check like
+this the right way to figure out we are not going to use the
+device locally before incoming migration will overwrite ROM contents?
+
+> @@ -2329,32 +2336,35 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>          return;
+>      }
+>  
+> -    path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
+> -    if (path == NULL) {
+> -        path = g_strdup(pdev->romfile);
+> -    }
+> +    if (load_file || pdev->romsize == -1) {
+> +        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
+> +        if (path == NULL) {
+> +            path = g_strdup(pdev->romfile);
+> +        }
+>  
+> -    size = get_image_size(path);
+> -    if (size < 0) {
+> -        error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
+> -        return;
+> -    } else if (size == 0) {
+> -        error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+> -        return;
+> -    } else if (size > 2 * GiB) {
+> -        error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+> -                   pdev->romfile);
+> -        return;
+> -    }
+> -    if (pdev->romsize != -1) {
+> -        if (size > pdev->romsize) {
+> -            error_setg(errp, "romfile \"%s\" (%u bytes) "
+> -                       "is too large for ROM size %u",
+> -                       pdev->romfile, (uint32_t)size, pdev->romsize);
+> +        size = get_image_size(path);
+> +        if (size < 0) {
+> +            error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
+> +            return;
+> +        } else if (size == 0) {
+> +            error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+> +            return;
+> +        } else if (size > 2 * GiB) {
+> +            error_setg(errp,
+> +                       "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+> +                       pdev->romfile);
+>              return;
+>          }
+> -    } else {
+> -        pdev->romsize = pow2ceil(size);
+> +        if (pdev->romsize != -1) {
+> +            if (size > pdev->romsize) {
+> +                error_setg(errp, "romfile \"%s\" (%u bytes) "
+> +                           "is too large for ROM size %u",
+> +                           pdev->romfile, (uint32_t)size, pdev->romsize);
+> +                return;
+> +            }
+> +        } else {
+> +            pdev->romsize = pow2ceil(size);
+> +        }
+>      }
+>  
+>      vmsd = qdev_get_vmsd(DEVICE(pdev));
+> @@ -2365,15 +2375,18 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>      memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize,
+>                             &error_fatal);
+>  
+> -    ptr = memory_region_get_ram_ptr(&pdev->rom);
+> -    if (load_image_size(path, ptr, size) < 0) {
+> -        error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
+> -        return;
+> -    }
+> +    if (load_file) {
+> +        void *ptr = memory_region_get_ram_ptr(&pdev->rom);
+>  
+> -    if (is_default_rom) {
+> -        /* Only the default rom images will be patched (if needed). */
+> -        pci_patch_ids(pdev, ptr, size);
+> +        if (load_image_size(path, ptr, size) < 0) {
+> +            error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
+> +            return;
+> +        }
+> +
+> +        if (is_default_rom) {
+> +            /* Only the default rom images will be patched (if needed). */
+> +            pci_patch_ids(pdev, ptr, size);
+> +        }
+>      }
+
+it kind of feels weird to ignore 
+
+
+>      pci_register_bar(pdev, PCI_ROM_SLOT, 0, &pdev->rom);
+> -- 
+> 2.34.1
+
 
