@@ -2,93 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C34C6EF3D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 13:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A55D6EF3FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 14:07:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prdhc-0006mz-AX; Wed, 26 Apr 2023 07:52:52 -0400
+	id 1prduk-0002hr-6D; Wed, 26 Apr 2023 08:06:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1prdhZ-0006jS-Ng; Wed, 26 Apr 2023 07:52:49 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1prdhY-0001Ky-7I; Wed, 26 Apr 2023 07:52:49 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id
- d75a77b69052e-3ef5bea20caso25075401cf.3; 
- Wed, 26 Apr 2023 04:52:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682509966; x=1685101966;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ndAtHpJW5J8EYg1Y31h074kjS64zxIpxow1wLB8Qu18=;
- b=mAwXWacn+KZVfLUIL3Bu6ZZAie+u29hK5wjIejOCDLhu5oEYpJdrfQe7r5pqxBV7Ww
- 00K07ebDval1g9xWaxC2VvGhpABSro/t0pabt1IOsX9J3sNNBXhpmYes2kf66NUp4tY4
- L7J609NFlK/aTp1BuwLua8JSsqDa+sh+jSlGxTJ+xRKz3GvwlZ2aWIjrTmbJEDd+D2If
- lMfQ+kC2pMewnjXQkQKYo4PcgYudrAVnuAHoGWkXULVHoSwLt+onLT8gS/yCKgevGAje
- r3KVxYHBXh90usqo8aHQ3ELsra8Bv3PSBd5HiL2LJCAAg26DFe/RGLcIwjc15IKeYVo8
- R6NA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prduO-0002ey-7o
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 08:06:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prduH-000479-CJ
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 08:05:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682510754;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oNmyoVXVsxvoKW1+fTKiUbDa4iQGSofgQy43+6FSckc=;
+ b=bhm1DjyyRXwr5AUDBAFoAZg6C2riXpHnxx+Ua23zCGvYRH6+Qi1vVo5OySmctgMs1JN2oG
+ Gr+p14/ODfXpIoVAXlRH53Y2FvFEbSbfkIRZVRDK4DKTdEhMf6Qiwsy1FYNOfuTMlxlN3P
+ SHKWfEMG7iXyAVcegjCAFmO0uIJSpTc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-209-eUKWzzRKO8ib0ca0SxLeNA-1; Wed, 26 Apr 2023 08:05:52 -0400
+X-MC-Unique: eUKWzzRKO8ib0ca0SxLeNA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-2ffee43dac5so2573289f8f.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 05:05:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682509966; x=1685101966;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ndAtHpJW5J8EYg1Y31h074kjS64zxIpxow1wLB8Qu18=;
- b=WrnYDsqBQnik0dptt8WAd060JfWpIpj3VKvPtbeZW3n3y7CbtOOQo0D6HFSbJLa6p7
- gjAicEmUYOmXdmR3O8zKmLA0l23AS77Dp3nL3Yuah/MR+zNB/TizaNKZzHl6QgkoVtJB
- 0uIXl7kWXxLFwfvnTYUONaZ9hC8Ke0wgR3Vm45Ni1fD9tefBBeegAfZkQgfEwS2ioYl3
- frLLxfESKPUwpvPw0bqwPlc4nsajIZH1CzNY3izfCEiEQdSX4hW/anJ0HPQyEPSssrMr
- NtGK7rDGEBIx7jM4EBnIlma+Li1WsrkOK6AVPtGXGtkV3i/76y/2Xn2eVDq0M1jPhY/7
- 1ClA==
-X-Gm-Message-State: AAQBX9e2b1zqqc1qhAwli7FQAQTSrPPbkN9VgEEPj5vvF+OjrNQpsReH
- LXPklmAGqDYLiJvc3Z+CtA==
-X-Google-Smtp-Source: AKy350bhln8x3rSrnyRv31CkdKve8yFkeLDs0qiwYsULeX3x1NInPEs0fcj/J/55m8lh/Gl4rriuZg==
-X-Received: by 2002:a05:622a:42:b0:3ec:45c7:33be with SMTP id
- y2-20020a05622a004200b003ec45c733bemr34251120qtw.42.1682509966018; 
- Wed, 26 Apr 2023 04:52:46 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.185.84])
- by smtp.gmail.com with ESMTPSA id
- r18-20020ac85c92000000b003f0a7c13fcdsm1835083qta.74.2023.04.26.04.52.44
+ d=1e100.net; s=20221208; t=1682510751; x=1685102751;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oNmyoVXVsxvoKW1+fTKiUbDa4iQGSofgQy43+6FSckc=;
+ b=Uf8oZzuVki7P19aQ6UFI4dBOFrDugb0DxqO6Aoi/iHa6de0MhzTj016fxDs0X5cqHz
+ Rs6TRRI05oPpoQUgsIdNsygsxGdZclXcEe+5hi/g8gD6dGkMbXQPV5IQ7qewWrR/iwA6
+ GxqslBK9hVNCpEZs4AiXM9a77e1xsvXDww4O5m1Frrve10+AeM+KHWLnHqQvwv9qyCM1
+ 9ltec4LCc1JJ9CcG1TRwVbKKyEDSiSuJi1pa242X2gzrp73VuCiMFmfAyKrkMMdtmDjC
+ 0+pL2FqOCs+K6GkoqqihYL18mUvKgoRfm0ay54YFkO3vPXPBB3hNH4A9Ye4R4YUwtwmH
+ koDA==
+X-Gm-Message-State: AAQBX9dqjZebMyQEtENFXXmX3fLx3hJmSzc5oUlc9Ct3RXiXqHwS24t9
+ T6Kjmjwux726TPvk8r/o86DiAp5NikHJRlIxYVEPiA2XGf6dajvxBQqDdx0Ogsv1ktVoXEaVIih
+ 0uymHg5kwWuDOCmE=
+X-Received: by 2002:adf:e752:0:b0:2f9:129e:bff2 with SMTP id
+ c18-20020adfe752000000b002f9129ebff2mr13848276wrn.24.1682510751564; 
+ Wed, 26 Apr 2023 05:05:51 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z7RHWFnT3wvmF0FueF9fQMH0J/Upk7+YUkzbfGpC91W4ePrNrxbchDUZTVo57RrPPVAuGq5w==
+X-Received: by 2002:adf:e752:0:b0:2f9:129e:bff2 with SMTP id
+ c18-20020adfe752000000b002f9129ebff2mr13848258wrn.24.1682510751276; 
+ Wed, 26 Apr 2023 05:05:51 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ bg39-20020a05600c3ca700b003f09c34fa4csm21514772wmb.40.2023.04.26.05.05.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Apr 2023 04:52:45 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:772b:130b:d11f:1565])
- by serve.minyard.net (Postfix) with ESMTPSA id 0A8EC180011;
- Wed, 26 Apr 2023 11:52:44 +0000 (UTC)
-Date: Wed, 26 Apr 2023 06:52:42 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org, Corey Minyard <cminyard@mvista.com>,
- Jeremy Kerr <jk@codeconstruct.com.au>, qemu-arm@nongnu.org,
- Peter Delevoryas <peter@pjd.dev>, Keith Busch <kbusch@kernel.org>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Jason Wang <jasowang@redhat.com>, Lior Weintraub <liorw@pliops.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Matt Johnston <matt@codeconstruct.com.au>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH v2 1/3] hw/i2c: add mctp core
-Message-ID: <ZEkQiqt59Hn0vjt1@minyard.net>
-References: <20230425063540.46143-1-its@irrelevant.dk>
- <20230425063540.46143-2-its@irrelevant.dk>
- <ZEfvkWCbJoKGIOnT@minyard.net> <ZEjOlBlEH3KH8f6d@cormorant.local>
+ Wed, 26 Apr 2023 05:05:50 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org,  berrange@redhat.com,  peterx@redhat.com,
+ dgilbert@redhat.com,  lsoaresp@redhat.com
+Subject: Re: [PATCH] multifd: Avoid busy-wait in multifd_send_pages()
+In-Reply-To: <82cfd4b3-fbea-b147-e84a-d8d160088c14@nutanix.com> (manish
+ mishra's message of "Wed, 26 Apr 2023 16:56:58 +0530")
+References: <20230425160555.67373-1-manish.mishra@nutanix.com>
+ <87v8hjey3b.fsf@secure.mitica>
+ <b87ce3c6-6426-eab1-95ef-d02eb83ab9ff@nutanix.com>
+ <87pm7qgazb.fsf@secure.mitica>
+ <82cfd4b3-fbea-b147-e84a-d8d160088c14@nutanix.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 26 Apr 2023 14:05:49 +0200
+Message-ID: <87leieg86a.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZEjOlBlEH3KH8f6d@cormorant.local>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=tcminyard@gmail.com; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,67 +103,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 26, 2023 at 09:11:16AM +0200, Klaus Jensen wrote:
-> On Apr 25 10:19, Corey Minyard wrote:
-> > On Tue, Apr 25, 2023 at 08:35:38AM +0200, Klaus Jensen wrote:
-> > > From: Klaus Jensen <k.jensen@samsung.com>
-> > > 
-> > > Add an abstract MCTP over I2C endpoint model. This implements MCTP
-> > > control message handling as well as handling the actual I2C transport
-> > > (packetization).
-> > > 
-> > > Devices are intended to derive from this and implement the class
-> > > methods.
-> > > 
-> > > Parts of this implementation is inspired by code[1] previously posted by
-> > > Jonathan Cameron.
-> > 
-> > All in all this looks good.  Two comments:
-> > 
-> > I would like to see the buffer handling consolidated into one function
-> > and the length checked, even for (especially for) the outside users of
-> > this code, like the nvme code.  Best to avoid future issues with buffer
-> > overruns.  This will require reworking the get_message_types function,
-> > unfortunately.
-> > 
-> 
-> Right now the implementations (i.e. hw/nvme/nmi-i2c.c) writes directly
-> into the mctp core buffer for get_message_bytes(). The contract is that
-> it must not write more than the `maxlen` parameter. Is that bad? Would
-> it be better that get_message_bytes() returned a pointer to its own
-> buffer that hw/mctp can then copy from?
+"manish.mishra" <manish.mishra@nutanix.com> wrote:
+> On 26/04/23 4:35 pm, Juan Quintela wrote:
+>> "manish.mishra" <manish.mishra@nutanix.com> wrote:
+>>> On 26/04/23 3:58 pm, Juan Quintela wrote:
 
-qemu has had several instances of unchecked writing into a buffer
-eventually getting it into trouble.  It might be ok in the beginning,
-but as things change and code is added, something might come in that is
-not ok.
+>> Before:
+>>
+>> while (true) {
+>>      ....
+>>      sem_post(channels_ready)
+>> }
+>>
+>> And you want to add to the initialization a counter equal to the number
+>> of channels.
+>>
+>> Now:
+>>
+>> while (true) {
+>>      sem_post(channels_ready)
+>>      ....
+>> }
+>>
+>> It is semantically the same, but when we setup it ready it means that
+>> when we set it to 1, we now that the channel and thread are ready for
+>> action.
+>>
+>>> May be we can do one thing let the sem_post in while loop at same
+>>> position itself. But we can do another post just before start
+>> I can see how this can make any difference.
+>>
+>>
+>>> of this while loop, as that will be called only once it should do work
+>>> of initialising count equal to multiFD channels?
+>> Yeap.  But I can see what difference do we have here.
+>>
+>> Later, Juan.
+>>
+>
+> Thanks Juan,
+> Just confirming if i misunderstood something :)
+>
+> I meant your approach makes sense, i was just suggesting a small change. =
+To do something like this.
+>
+> qemu_sem_init(&multifd_send_state->channels_ready, 0);
+>
+> static void *multifd_send_thread(void *opaque) {
+> =C2=A0=C2=A0=C2=A0=C2=A0 ...
+>
+> =C2=A0=C2=A0=C2=A0=C2=A0 sem_post(channels_ready); // Post once at start =
+of thread and let one in loop as it is.
+>
+> =C2=A0=C2=A0=C2=A0=C2=A0 while (true) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ....
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sem_post(channels_ready)
+> =C2=A0=C2=A0=C2=A0=C2=A0 }
+> }
+>
+>
+> Something like below has issue that we are marking channel_ready even
+> before channel is actually ready,
 
-nmi_get_message_types(), for instance, does not check maxlen.
+I think it is exactly the same.
 
-It may be borderline paranoia, but I've seen too many instances where
-paranoia was warranted :).
+> i meant if network is slow it may
+> take some time to update pending_job and hence we can busy loop in
+> send_multifd_page().
 
-Plus I think it would make the code a little cleaner and easier to
-maintain.  If you wanted to change how the buffer worked, trace data put
-into the buffer, or something like that, all the code to handle that is
-in one place.
+No difference from send_multifd_page() point of view.
+Notice that I mank that the channel is ready before I do any work.
 
-> 
-> > You have one trace function on a bad receive message check, but lots of
-> > other bad receive message checks with no trace.  Just a suggestion, but
-> > it might be nice for tracking down issues to trace all the reasons a
-> > message is dropped.
-> > 
-> 
-> Sounds reasonable! :)
-> 
-> Thanks for the review!
+send_multifd_page() does a sem_wait() before doing anything related to
+this channel, so I can't see how it can be a differnce.
 
-Thank you for the submission :).
+> static void *multifd_send_thread(void *opaque) {
+> =C2=A0=C2=A0=C2=A0=C2=A0 ...
+>
+> =C2=A0=C2=A0=C2=A0=C2=A0 while (true) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sem_post(channels_ready);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ....
+> =C2=A0=C2=A0=C2=A0=C2=A0 }
+> }
+>
+>
+> Not sure if we are already in agreement :) just confirming.
 
--corey
+> =C2=A0=C2=A0=C2=A0=C2=A0 sem_post(channels_ready); // Post once at start =
+of thread and let one in loop as it is.
+> =C2=A0=C2=A0=C2=A0=C2=A0 while (true) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sem_post(channels_ready)
+> =C2=A0=C2=A0=C2=A0=C2=A0 }
+
+and
+
+> =C2=A0=C2=A0=C2=A0=C2=A0 while (true) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sem_post(channels_ready)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+> =C2=A0=C2=A0=C2=A0=C2=A0 }
+
+When "..." is exactly the same don't make any difference, the only
+difference is that in one case we "write" to semposts, and in the other
+we write just one.
+
+Or I am missing something.
+
+Later, Juan.
+
+
+
 
