@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148B06EF593
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 15:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 375476EF5EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 16:01:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prfJW-0004tv-0o; Wed, 26 Apr 2023 09:36:06 -0400
+	id 1prfgb-0003Tf-DF; Wed, 26 Apr 2023 09:59:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prfJT-0004th-TD; Wed, 26 Apr 2023 09:36:04 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prfJS-0005nv-D9; Wed, 26 Apr 2023 09:36:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KPHRQ+59Ay4XnGKW/gq6oM5ni+pkBWBLlfIN4XlprMI=; b=Xjuv2Mn7YCCTR9XSTwJdLW4DQF
- fitA3OZuj9i148FegjSZiSigPEloLrLHBCPRC9crtAwd/9hRHRXoFR0XIedWnG3pgy+TC3O4J/fqe
- XVmyldC67QHWP6tkK0xD1hGYPpI8DeY1wOgOiyqQ6Isz3sjHlFt7HKQTij5GrqpDwIAkP2aM2j7ta
- +2fgnTlQhLsvt9lx+WPzcljuCp++gR4tfxGRJnVQBByo1YMq4lLQsjcrJEm2kRG29mf7PxSnz4X20
- nk13afKTgMyJilvNO2Mc0P1/hKfVV2tn9UFm+5fyavhP06eRVc6ZUZmh6iJ0QI8d47G3w+W3cG5QR
- wux8DTyreT+DCTZY36lqNzBsFfWhBIm2wfBAVftzFeEc18J8QHVpDZa4oyBAhT0kd27kMp/HFFh+g
- +2Nzsqso1QSg2Hg+yc0E7rWwXaP5Z4o+wsYBO9GxYXkZlDZToKW53yqgGFCkPaSa91uSeLqXLRX2s
- tMs6uBA52LDBcFDJDMRnTsaZw6uSZD40xWkqBTNjOytS6YSq1H013lhXMfz5+e7VywKKga3YwLgSq
- 3FDODXpPuysASXBrcv3a04Pi2A3iESqJ+fOecpvj9hp8jYCULH3Lz4Yaa4Sq02hzy7uBzBZ7rkQ4Y
- P9sQPnSCW2xZ2np+CXx9ncuq+/bFEeS3TLtVllMDM=;
-Received: from host81-151-114-25.range81-151.btcentralplus.com
- ([81.151.114.25] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prfIO-0002rU-67; Wed, 26 Apr 2023 14:35:00 +0100
-Message-ID: <b17d899e-6adb-ea45-0c26-3241315587fa@ilande.co.uk>
-Date: Wed, 26 Apr 2023 14:35:47 +0100
+ (Exim 4.90_1) (envelope-from <tmaillart@freebox.fr>)
+ id 1prfLS-0005kS-6R
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 09:38:06 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tmaillart@freebox.fr>)
+ id 1prfLP-0006CB-NW
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 09:38:05 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f1738d0d4cso46383065e9.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 06:38:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=freebox-fr.20221208.gappssmtp.com; s=20221208; t=1682516280; x=1685108280;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FW4TEW5eQ5iiO5uXVdklILR+nOdCuQS5hIi2nFpGYkQ=;
+ b=wkBTjw7f2aUU0I/UuJ/lP4Cincb6IcqO/+CwH+b5riMGjGrtNHeHzf3EvJ1gBfwjFd
+ phObZPf+2HDr68u4ykkOmdGfvpU9jHCcjtCZXE5iTTjOf8NVCbt7823SkiJDmHZ/FXze
+ HQ1bk0cSdsXcmeTc2YHEU2Apa40diyKkYBUcRqsSQlh150XJuiuP9slKU9UD5ziGNfb7
+ qNOY2ZGmgM4oUcIXkgBjKriVSbKK22wOZbMnCqgZWEFWJ3PX33ijttX6na8xdDxmyitG
+ HaWnlyBbKrQypO7wtRb8n3140Vp1p5JEK/51xZuXW/pe80OwHfOuhOxbww5c++YC4M1F
+ 21bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682516280; x=1685108280;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FW4TEW5eQ5iiO5uXVdklILR+nOdCuQS5hIi2nFpGYkQ=;
+ b=cEaeZsfxrTDeyR671z2mWOjez/4/DwSfmL+nHcibyHY4yNFqiUN6KbHEveB0l/Evzp
+ UBIN4xJztQI7Nhl/f1k76j0jYRBcyPvyCg1vYRlKnCFo9yy9zrpFvrFn7KcoOqj0DUQM
+ LwswQUSdU26g7fRiiEv9Gn7oU725bc0eerxJru9YCt5JlQyhLzGAgKxBPA7OV99P6Ou6
+ oIPlxY6ntmFdntq+hO8GSqG1KXglQb0rt+NFGyQKh/6pSC5Zv96K2MYUnAyAOmUmBP3q
+ a9ZERGbHvXhhL9GvoGpWAhdbrR8O2Uumrh4MWkgpPTeDAPAhJzdVxBhOVrnsNEDDGvvx
+ l06w==
+X-Gm-Message-State: AAQBX9fzCrjNbjQ44d2jpzU2SVxkBXz3Ci58nR3fBitGi+wKE4NXYBII
+ OjmNTKE1FmouFlIu637snlTODA==
+X-Google-Smtp-Source: AKy350aF/aNSqhTSKXC5RIir9Xw8dMtESu6Ptt0a167MXvYiT7LdTlccJRPgTd7MlFv+bS1dkQDewA==
+X-Received: by 2002:a7b:c447:0:b0:3f1:7006:e782 with SMTP id
+ l7-20020a7bc447000000b003f17006e782mr12194294wmi.25.1682516280510; 
+ Wed, 26 Apr 2023 06:38:00 -0700 (PDT)
+Received: from localhost.localdomain (freebox.vlq16.iliad.fr. [213.36.7.13])
+ by smtp.gmail.com with ESMTPSA id
+ u3-20020a7bcb03000000b003f16f3cc9fcsm18132148wmj.9.2023.04.26.06.38.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Apr 2023 06:38:00 -0700 (PDT)
+From: =?UTF-8?q?Th=C3=A9o=20Maillart?= <tmaillart@freebox.fr>
+To: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Th=C3=A9o=20Maillart?= <tmaillart@freebox.fr>
+Subject: [PATCH] scsi: check inquiry buffer length to prevent crash
+Date: Wed, 26 Apr 2023 15:37:47 +0200
+Message-Id: <20230426133747.403945-1-tmaillart@freebox.fr>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>
-Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
- <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-References: <20230302224058.43315-1-philmd@linaro.org>
- <20230302224058.43315-19-philmd@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230302224058.43315-19-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 81.151.114.25
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 18/18] hw/isa/piix: Unify PIIX-ISA QOM type names using
- qdev aliases
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=tmaillart@freebox.fr; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 26 Apr 2023 09:59:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,60 +90,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02/03/2023 22:40, Philippe Mathieu-Daudé wrote:
+Using linux 6.x guest, at boot time, an inquiry makes qemu crash.
+Here is a trace of the scsi inquiry in question:
 
-> Unify PIIX ISA (PCI function #0) as:
-> 
->   pci-piix3 -> piix-isa       (abstract base class)
->   PIIX3     -> piix3-isa      (PIIX3 implementation)
->   PIIX3-xen -> piix3-isa-xen  (PIIX3 implementation with Xen extensions)
->   piix4-isa -> piix4-isa      (PIIX4 implementation)
-> 
-> Alias previous names in the QDevAlias table.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   include/hw/southbridge/piix.h | 6 +++---
->   softmmu/qdev-monitor.c        | 3 +++
->   2 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-> index 71a82ef266..cce65e8f44 100644
-> --- a/include/hw/southbridge/piix.h
-> +++ b/include/hw/southbridge/piix.h
-> @@ -58,9 +58,9 @@ struct PIIX3State {
->       MemoryRegion rcr_mem;
->   };
->   
-> -#define TYPE_PIIX_ISA       "pci-piix3"
-> -#define TYPE_PIIX3_ISA      "PIIX3"
-> -#define TYPE_PIIX3_ISA_XEN  "PIIX3-xen"
-> +#define TYPE_PIIX_ISA       "piix-isa"
-> +#define TYPE_PIIX3_ISA      "piix3-isa"
-> +#define TYPE_PIIX3_ISA_XEN  "piix3-isa-xen"
->   #define TYPE_PIIX4_ISA      "piix4-isa"
->   
->   OBJECT_DECLARE_SIMPLE_TYPE(PIIX3State, PIIX3_ISA)
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index b8d2c4dadd..820e7f52ad 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -72,6 +72,9 @@ static const QDevAlias qdev_alias_table[] = {
->       { "ES1370", "es1370" }, /* -soundhw name */
->       { "ich9-ahci", "ahci" },
->       { "lsi53c895a", "lsi" },
-> +    { "piix-isa", "pci-piix3" },
-> +    { "piix3-isa", "PIIX3" },
-> +    { "piix3-isa-xen", "PIIX3-xen" },
->       { "virtio-9p-device", "virtio-9p", QEMU_ARCH_VIRTIO_MMIO },
->       { "virtio-9p-ccw", "virtio-9p", QEMU_ARCH_VIRTIO_CCW },
->       { "virtio-9p-pci", "virtio-9p", QEMU_ARCH_VIRTIO_PCI },
+scsi_req_parsed target 1 lun 0 tag 0x2cffb48 command 18 dir 1 length 4
+scsi_req_parsed_lba target 1 lun 0 tag 0x2cffb48 command 18 lba 110592
+scsi_req_alloc target 1 lun 0 tag 0x2cffb48
+scsi_inquiry target 1 lun 0 tag 0x2cffb48 page 0x01/0xb0
+scsi_generic_send_command Command: data= 0x12 0x01 0xb0 0x00 0x04 0x00
+scsi_req_continue target 1 lun 0 tag 0x2cffb48
+scsi_generic_read_data scsi_read_data tag=0x2cffb48
+scsi_generic_aio_sgio_command generic aio sgio: tag=0x2cffb48 cmd=0x12 timeout=30000
+scsi_generic_read_complete Data ready tag=0x2cffb48 len=4
+scsi_req_data target 1 lun 0 tag 0x2cffb48 len 4
+scsi_req_continue target 1 lun 0 tag 0x2cffb48
+scsi_generic_read_data scsi_read_data tag=0x2cffb48
+scsi_generic_command_complete_noio Command complete 0x7fb0870b80 tag=0x2cffb48 status=0
+scsi_req_dequeue target 1 lun 0 tag 0x2cffb48
 
-Same comment here re: naming: I completely agree that the existing name is confusing, 
-however I don't find the replacements that less confusing either :/
+And here is a backtrace from the crash:
 
+ #0  0x0000007face68580 in a_crash () at ./src/internal/atomic.h:250
+ #1  get_nominal_size (end=0x7f6758f92c "", p=0x7f6758f920 "") at src/malloc/mallocng/meta.h:168
+ #2  __libc_free (p=0x7f6758f920) at src/malloc/mallocng/free.c:110
+ #3  0x0000005592f93ed8 in scsi_free_request (req=0x7fac2c6b50) at ../hw/scsi/scsi-generic.c:70
+ #4  0x0000005592f869b8 in scsi_req_unref (req=0x7fac2c6b50) at ../hw/scsi/scsi-bus.c:1382
+ #5  0x0000005592f94b7c in scsi_read_complete (opaque=0x7fac2c6b50, ret=0) at ../hw/scsi/scsi-generic.c:354
+ #6  0x0000005593659b90 in blk_aio_complete (acb=0x7f66c206a0) at ../block/block-backend.c:1527
+ #7  0x000000559365a3c8 in blk_aio_ioctl_entry (opaque=0x7f66c206a0) at ../block/block-backend.c:1735
+ #8  0x00000055937dee64 in coroutine_bootstrap (self=0x7f672f77e0, co=0x7f672f77e0) at ../util/coroutine-sigaltstack.c:104
+ #9  0x00000055937deed8 in coroutine_trampoline (signal=12) at ../util/coroutine-sigaltstack.c:145
+ #10 <signal handler called>
+ #11 __cp_end () at src/thread/aarch64/syscall_cp.s:30
+ #12 0x0000007facea8214 in __syscall_cp_c (nr=133, u=<optimized out>, v=<optimized out>, w=<optimized out>, x=<optimized out>,
+     y=<optimized out>, z=<optimized out>) at src/thread/pthread_cancel.c:33
+ #13 0x0000007facefa020 in ?? ()
 
-ATB,
+Signed-off-by: Théo Maillart <tmaillart@freebox.fr>
+---
+ hw/scsi/scsi-generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Mark.
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index ac9fa662b4..25246589b7 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -191,7 +191,7 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
+     if ((s->type == TYPE_DISK || s->type == TYPE_ZBC) &&
+         (r->req.cmd.buf[1] & 0x01)) {
+         page = r->req.cmd.buf[2];
+-        if (page == 0xb0) {
++        if (page == 0xb0 && r->buflen >= 12) {
+             uint64_t max_transfer = calculate_max_transfer(s);
+             stl_be_p(&r->buf[8], max_transfer);
+             /* Also take care of the opt xfer len. */
+-- 
+2.40.0
+
 
