@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA776EEDDA
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 07:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F4B6EEDE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 08:00:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prYAI-0006AJ-1w; Wed, 26 Apr 2023 01:58:07 -0400
+	id 1prYAC-00068n-A9; Wed, 26 Apr 2023 01:58:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA2-00064Y-Dk
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA5-000650-2a
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA0-0002kZ-DF
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:49 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA1-0002l8-Sk
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682488667;
+ s=mimecast20190719; t=1682488669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oZg4NSR4L/Mujdb2USzvaQev50KSWuCQXyXll7XtRyw=;
- b=Zskwj21W0mFV+VWnyW4kNNwHRdg4SCMsQOUTagwYfWQnOKvfa0iiuOvKxRkHx74JZAbtJD
- +BaAMMT76Oymy4reA+6w5wxQw9Wx0dzcBmE6yhEseO/Eg4XKLmZVQzpgsTAHXs/KKkgCrE
- sl487Sv3adhqeWfpoDbH/GVZ6zC4dCg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4Hz9ZJyOHb7HeMMGGGjq9hemFWL+7NMJVM41BZbVF+U=;
+ b=CDUq313j2IT5QN2YL/GEgrJBcc1l4laBhg9DegdPz7ZJurMsW6czN4VhwSGs7BL+dPeywy
+ eUjow2BOgQV0Eq0EYBTdoRAuXzqfl6E7YkZyG2rjvTH8T2ztv86Iw8fG/267OsZjWAvScJ
+ RGuAIgxDDIrYCP98FPulM0UNb5FMo3I=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-IKVNnHHaNVKb2LP0hCF4JA-1; Wed, 26 Apr 2023 01:57:45 -0400
-X-MC-Unique: IKVNnHHaNVKb2LP0hCF4JA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-111-VY1c3qtyMhCCTrJ_ToMP6Q-1; Wed, 26 Apr 2023 01:57:45 -0400
+X-MC-Unique: VY1c3qtyMhCCTrJ_ToMP6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7999D185A790;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CF2885C069;
  Wed, 26 Apr 2023 05:57:45 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BB6C14171BA;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B80640C6E67;
  Wed, 26 Apr 2023 05:57:45 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1E6E721E66EF; Wed, 26 Apr 2023 07:57:44 +0200 (CEST)
+ id 1FD0B21F1674; Wed, 26 Apr 2023 07:57:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org
-Subject: [PULL 00/17] QAPI patches patches for 2023-04-26
-Date: Wed, 26 Apr 2023 07:57:27 +0200
-Message-Id: <20230426055744.1041930-1-armbru@redhat.com>
+Cc: richard.henderson@linaro.org,
+	Eric Blake <eblake@redhat.com>
+Subject: [PULL 01/17] qapi: Fix error message format regression
+Date: Wed, 26 Apr 2023 07:57:28 +0200
+Message-Id: <20230426055744.1041930-2-armbru@redhat.com>
+In-Reply-To: <20230426055744.1041930-1-armbru@redhat.com>
+References: <20230426055744.1041930-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -75,103 +79,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Commit 52a474180ae3 changed reporting of errors connected to a source
+location without mentioning it in the commit message.  For instance,
 
-The following changes since commit 327ec8d6c2a2223b78d311153a471036e474c5c5:
+    $ python scripts/qapi-gen.py tests/qapi-schema/unknown-escape.json
+    tests/qapi-schema/unknown-escape.json:3:21: unknown escape \x
 
-  Merge tag 'pull-tcg-20230423' of https://gitlab.com/rth7680/qemu into staging (2023-04-23 11:20:37 +0100)
+became
 
-are available in the Git repository at:
+    scripts/qapi-gen.py: tests/qapi-schema/unknown-escape.json:3:21: unknown escape \x
 
-  https://repo.or.cz/qemu/armbru.git tags/pull-qapi-2023-04-26
+This is not how compilers report such errors, and Emacs doesn't
+recognize the format.  Revert this change.
 
-for you to fetch changes up to a17dbc4b79a28ffb9511f192474ffefd88214cde:
+Fixes: 52a474180ae3 (qapi-gen: Separate arg-parsing from generation)
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20230316071325.492471-2-armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ scripts/qapi/main.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  qapi: allow unions to contain further unions (2023-04-26 07:52:45 +0200)
-
-----------------------------------------------------------------
-QAPI patches patches for 2023-04-26
-
-----------------------------------------------------------------
-Daniel P. Berrangé (2):
-      qapi: support updating expected test output via make
-      qapi: allow unions to contain further unions
-
-Markus Armbruster (15):
-      qapi: Fix error message format regression
-      qapi/schema: Use super()
-      qapi: Clean up after removal of simple unions
-      qapi: Split up check_type()
-      qapi: Improve error message for unexpected array types
-      qapi: Simplify code a bit after previous commits
-      qapi: Fix error message when type name or array is expected
-      qapi: Fix to reject 'data': 'mumble' in struct
-      tests/qapi-schema: Improve union discriminator coverage
-      tests/qapi-schema: Rename a few conditionals
-      tests/qapi-schema: Clean up positive test for conditionals
-      tests/qapi-schema: Cover optional conditional struct member
-      qapi: Fix code generated for optional conditional struct member
-      qapi: Require boxed for conditional command and event arguments
-      qapi: Improve specificity of type/member descriptions
-
- docs/devel/qapi-code-gen.rst                       |   5 +-
- tests/unit/test-qobject-input-visitor.c            |  47 +++++++++
- tests/unit/test-qobject-output-visitor.c           |  58 +++++++++++
- scripts/qapi/commands.py                           |   1 +
- scripts/qapi/expr.py                               | 115 +++++++++++----------
- scripts/qapi/gen.py                                |   1 +
- scripts/qapi/main.py                               |   2 +-
- scripts/qapi/schema.py                             |  31 ++++--
- scripts/qapi/visit.py                              |   2 +
- tests/qapi-schema/args-if-implicit.err             |   2 +
- tests/qapi-schema/args-if-implicit.json            |   4 +
- tests/qapi-schema/args-if-implicit.out             |   0
- tests/qapi-schema/args-if-unboxed.err              |   2 +
- tests/qapi-schema/args-if-unboxed.json             |   6 ++
- tests/qapi-schema/args-if-unboxed.out              |   0
- tests/qapi-schema/bad-data.err                     |   2 +-
- tests/qapi-schema/event-args-if-unboxed.err        |   2 +
- tests/qapi-schema/event-args-if-unboxed.json       |   4 +
- tests/qapi-schema/event-args-if-unboxed.out        |   0
- tests/qapi-schema/event-nest-struct.err            |   2 +-
- tests/qapi-schema/meson.build                      |   5 +
- tests/qapi-schema/nested-struct-data.err           |   2 +-
- tests/qapi-schema/qapi-schema-test.json            |  52 ++++++++--
- tests/qapi-schema/qapi-schema-test.out             |  61 +++++++----
- tests/qapi-schema/returns-dict.err                 |   2 +-
- tests/qapi-schema/struct-data-typename.err         |   2 +
- tests/qapi-schema/struct-data-typename.json        |   2 +
- tests/qapi-schema/struct-data-typename.out         |   0
- tests/qapi-schema/struct-member-invalid.err        |   2 +-
- tests/qapi-schema/test-qapi.py                     |   1 +
- tests/qapi-schema/union-array-branch.err           |   2 +-
- tests/qapi-schema/union-invalid-discriminator.err  |   2 +-
- tests/qapi-schema/union-invalid-discriminator.json |   4 +-
- tests/qapi-schema/union-invalid-union-subfield.err |   2 +
- .../qapi-schema/union-invalid-union-subfield.json  |  30 ++++++
- tests/qapi-schema/union-invalid-union-subfield.out |   0
- tests/qapi-schema/union-invalid-union-subtype.err  |   2 +
- tests/qapi-schema/union-invalid-union-subtype.json |  29 ++++++
- tests/qapi-schema/union-invalid-union-subtype.out  |   0
- 39 files changed, 383 insertions(+), 103 deletions(-)
- create mode 100644 tests/qapi-schema/args-if-implicit.err
- create mode 100644 tests/qapi-schema/args-if-implicit.json
- create mode 100644 tests/qapi-schema/args-if-implicit.out
- create mode 100644 tests/qapi-schema/args-if-unboxed.err
- create mode 100644 tests/qapi-schema/args-if-unboxed.json
- create mode 100644 tests/qapi-schema/args-if-unboxed.out
- create mode 100644 tests/qapi-schema/event-args-if-unboxed.err
- create mode 100644 tests/qapi-schema/event-args-if-unboxed.json
- create mode 100644 tests/qapi-schema/event-args-if-unboxed.out
- create mode 100644 tests/qapi-schema/struct-data-typename.err
- create mode 100644 tests/qapi-schema/struct-data-typename.json
- create mode 100644 tests/qapi-schema/struct-data-typename.out
- create mode 100644 tests/qapi-schema/union-invalid-union-subfield.err
- create mode 100644 tests/qapi-schema/union-invalid-union-subfield.json
- create mode 100644 tests/qapi-schema/union-invalid-union-subfield.out
- create mode 100644 tests/qapi-schema/union-invalid-union-subtype.err
- create mode 100644 tests/qapi-schema/union-invalid-union-subtype.json
- create mode 100644 tests/qapi-schema/union-invalid-union-subtype.out
-
+diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+index fc216a53d3..316736b6a2 100644
+--- a/scripts/qapi/main.py
++++ b/scripts/qapi/main.py
+@@ -98,6 +98,6 @@ def main() -> int:
+                  builtins=args.builtins,
+                  gen_tracing=not args.suppress_tracing)
+     except QAPIError as err:
+-        print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
++        print(err, file=sys.stderr)
+         return 1
+     return 0
 -- 
 2.39.2
 
