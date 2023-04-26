@@ -2,88 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3ABC6EF645
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 16:21:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E902F6EF681
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 16:33:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prg0T-0001VX-2c; Wed, 26 Apr 2023 10:20:29 -0400
+	id 1prgBf-0003YB-JN; Wed, 26 Apr 2023 10:32:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1prg0R-0001VL-Qy
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 10:20:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1prgBb-0003XV-2x; Wed, 26 Apr 2023 10:32:00 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1prg0Q-00078H-8u
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 10:20:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682518822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LXaPFUqpbD0RkLxwdK76aRaEGq9SIJiSAGWE5uIugr0=;
- b=FfJKHgSOA7Opoq2TGpAagUcy37Mgdde4b/K+mLUyKbApny/LaOdDMLdD/21YdPDX1eL4xQ
- TGfuig3l+EfCC+47wzDUN3RQ/HchLigpCFvWietPiNOdNQ7VjLlk+aJnK9Tmq9BQ44NNy/
- suZ52mI8jRthWaxk2M73mT5C4Gi+FOw=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-437-ZQWauRnbO-WiYksy4mSvSg-1; Wed, 26 Apr 2023 10:20:20 -0400
-X-MC-Unique: ZQWauRnbO-WiYksy4mSvSg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-5ef52d3474bso4862216d6.0
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 07:20:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682518820; x=1685110820;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LXaPFUqpbD0RkLxwdK76aRaEGq9SIJiSAGWE5uIugr0=;
- b=JbRZhmd2aUEdlGSVRBmvQXty7OAHP3+LJ87pQU9ZXdIk+nlLGUD8DIA9P1UflhNh74
- opjNupESXlK92I7ziCKwrTTbZM163ou7V1llLrlTrLAHxPEnX1eeaej3rWe/ZMsahhC4
- KaBLKEXq5Ecsp4kXvfR6n4QkQyZP/T7s7Dg85x6fibQy83hciL0jRIjPNY/rTdIFo1j1
- 2x01Bmj3ntUvOXgR/QN+4HpI+sf73e6pNrW+2VvPhssbS32BXwAtdq7/OUunzPdmLbaV
- qq54Hp811RxFdpo5tDXHHdENugtxJu82GrIO1Gogl7MvT9x/60LFNurLaYUxqvSS9H3H
- 5GRQ==
-X-Gm-Message-State: AC+VfDx/msjoE28szDF9rcMFmuJjR1mjlxvY040s/fW+lQKkTmEYRnPB
- M57DLll6lT/trUzf3Y8YQvDZZKMwXRp0JMlNLgUyjUIjkFaMyHf11bKt1J1MUc6+szwwpv0En6z
- WYSRjaunNEvGVNXo=
-X-Received: by 2002:a05:6214:508c:b0:5ed:c96e:ca4a with SMTP id
- kk12-20020a056214508c00b005edc96eca4amr9096140qvb.1.1682518820076; 
- Wed, 26 Apr 2023 07:20:20 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7vYkJFZcYvTOaH9KAa43YH62O3/P3m2V1GpzQ4f3lYyE3w4rRzqfvO6221OAKxwwJ8YrmehQ==
-X-Received: by 2002:a05:6214:508c:b0:5ed:c96e:ca4a with SMTP id
- kk12-20020a056214508c00b005edc96eca4amr9096118qvb.1.1682518819856; 
- Wed, 26 Apr 2023 07:20:19 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- o14-20020a0ccb0e000000b005ef442226bbsm4860933qvk.8.2023.04.26.07.20.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Apr 2023 07:20:19 -0700 (PDT)
-Date: Wed, 26 Apr 2023 10:20:18 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Viktor Prutyanov <viktor@daynix.com>
-Cc: mst@redhat.com, jasowang@redhat.com, marcel.apfelbaum@gmail.com,
- pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
- qemu-devel@nongnu.org, yan@daynix.com, yuri.benditovich@daynix.com
-Subject: Re: [RFC PATCH 3/4] memory: add interface for triggering IOMMU
- notify_flag_changed handler
-Message-ID: <ZEkzIj017GA3OMMc@x1n>
-References: <20230424112147.17083-1-viktor@daynix.com>
- <20230424112147.17083-4-viktor@daynix.com>
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1prgBX-00019B-0d; Wed, 26 Apr 2023 10:31:58 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 362B445983;
+ Wed, 26 Apr 2023 16:31:39 +0200 (CEST)
+Message-ID: <3ba2f8b9-9818-6601-2247-7b0e20d7ab0d@proxmox.com>
+Date: Wed, 26 Apr 2023 16:31:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230424112147.17083-4-viktor@daynix.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+From: Fiona Ebner <f.ebner@proxmox.com>
+Subject: Re: QMP (without OOB) function running in thread different from the
+ main thread as part of aio_poll
+To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Michael Roth <michael.roth@amd.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>, Kevin Wolf <kwolf@redhat.com>,
+ Peter Xu <peterx@redhat.com>
+References: <2a61b581-5a21-c945-bb98-b6863cac0c1f@proxmox.com>
+ <877cu7gk1g.fsf@pond.sub.org>
+ <CABgObfapoyrFhY9kna_=D7PJ4yAssTgzY3jxSZD=6v0zCGDcSA@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CABgObfapoyrFhY9kna_=D7PJ4yAssTgzY3jxSZD=6v0zCGDcSA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,26 +64,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Apr 24, 2023 at 02:21:46PM +0300, Viktor Prutyanov wrote:
-> +void memory_region_iommu_notify_flags_changed(MemoryRegion *mr)
-> +{
-> +    IOMMUMemoryRegion *iommu_mr;
-> +
-> +    if (mr->alias) {
-> +        memory_region_iommu_notify_flags_changed(mr->alias);
-> +        return;
-> +    }
-> +    iommu_mr = IOMMU_MEMORY_REGION(mr);
-> +    memory_region_update_iommu_notify_flags(iommu_mr, NULL);
+Am 20.04.23 um 08:55 schrieb Paolo Bonzini:
+> 
+> 
+> Il gio 20 apr 2023, 08:11 Markus Armbruster <armbru@redhat.com
+> <mailto:armbru@redhat.com>> ha scritto:
+> 
+>     So, splicing in a bottom half unmoored monitor commands from the main
+>     loop.  We weren't aware of that, as our commit messages show.
+> 
+>     I guess the commands themselves don't care; all they need is the BQL.
+> 
+>     However, did we unwittingly change what can get blocked?  Before,
+>     monitor commands could block only the main thread.  Now they can also
+>     block vCPU threads.  Impact?
+> 
+> 
+> Monitor commands could always block vCPU threads through the BQL(*).
+> However, aio_poll() only runs in the vCPU threads in very special cases;
+> typically associated to resetting a device which causes a blk_drain() on
+> the device's BlockBackend. So it is not a performance issue.
+> 
 
-Do we still want to trap the error if the update failed?
+AFAIU, all generated coroutine wrappers use aio_poll. In my backtrace
+aio_poll happens via blk_pwrite for a pflash device. So a bit more often
+than "very special cases" ;)
 
-The other question: whether vhost can simply use the existing register /
-unregister calls for iommu notifiers, rather than modifying the flags on
-its own?  I'd assume this happens very rare anyway.  Or is there other
-concerns?
+> However, liberal reuse of the main block layer AioContext could indeed
+> be a *correctness* issue. I need to re-read Fiona's report instead of
+> stopping at the first three lines because it's the evening. :)
 
--- 
-Peter Xu
+For me, being called in a vCPU thread caused problems with a custom QMP
+function patched in by Proxmox. The function uses a newly opened
+BlockBackend and calls qemu_mutex_unlock_iothread() after which
+qemu_get_current_aio_context() returns 0x0 (when running in the main
+thread, it still returns the main thread's AioContext). It then calls
+blk_pwritev which is also a generated coroutine wrapper and the
+assert(qemu_get_current_aio_context() == qemu_get_aio_context());
+in the else branch of the AIO_WAIT_WHILE_INTERNAL macro fails.
+
+Sounds like there's room for improvement in our code :/ I'm not aware of
+something similar in upstream QEMU.
+
+Thanks to Markus for the detailed history lesson!
+
+Best Regards,
+Fiona
 
 
