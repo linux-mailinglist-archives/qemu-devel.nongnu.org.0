@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58426EFA2A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 20:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB8C6EF9F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 20:20:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prk5B-0001Zn-A2; Wed, 26 Apr 2023 14:41:37 -0400
+	id 1prjjT-0000PC-Oa; Wed, 26 Apr 2023 14:19:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prk57-0001Y9-3r; Wed, 26 Apr 2023 14:41:33 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prk54-0005cK-6d; Wed, 26 Apr 2023 14:41:32 -0400
-Received: by mail-ed1-x532.google.com with SMTP id
- 4fb4d7f45d1cf-504eb1155d3so657060a12.1; 
- Wed, 26 Apr 2023 11:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682534481; x=1685126481;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b8YxUXWiZ4NPX8cVo3D1VOrvx2/9ohmiEN6vQz+K3QU=;
- b=ZQeWTJcQZVX1LoMMYQlkdDNUbeXLqyBWzX7OZ+3hTjZrqi7DlmzdhTDl9C42793hQC
- TZGlW7xRuGw7k6s5BmdpPOgelZH85jctx22vcHfN61GTHLAou+iFIRBb4HrJgIulFrnt
- 2oQe6nXqtJDBbnv1lBLNNFewDdzHpafvC1z592graoMFLayuLEzKiy6YYGoM/t8PTp6V
- kygyKKct2Dw8GNEoI35Jac6GodWcHGxD6L37hZQMf9dIq9/gimX4iWRHkbo+FzrOZEKR
- JQaISXRShwQ0UBU2ET5TcYDc+paYryYoJprTsdjgwKgK6QMzx6/XvbBIu3fjtXFlcD8j
- 260g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682534481; x=1685126481;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=b8YxUXWiZ4NPX8cVo3D1VOrvx2/9ohmiEN6vQz+K3QU=;
- b=BWIATlLVB1PwPDGbk2yBtYcEBDGThQAwZuHPQK3z3kvtSAzQX0mTaoeXyOtWuCNmWk
- KivtUn7neVLsbUre6q0K8zZEcLwo5Z18EQQk0NyEmHmtUpXCBxSVyZAAc3Fb6MxRbHSS
- DsI36tEGb//L5rVeBApw+hFFa6lo6xuptKFsceHHMPcPKiaa4Eod/YuThaSHVDZ+PAsy
- kG4KsseDCWuOg8Wd51esJ6+mvR9pkbzCnGmX9L74YxvXb5rMC10lcoSEVDPx1zytdPZt
- 9r9+Sy3YHJX9ZR5LrDbYH6t8l+Qx/wyw/RVl1l/Abe3s46Hc2mc4J1rrizFkwedwWnKh
- +Vtg==
-X-Gm-Message-State: AC+VfDx7DmCgNkEUxRMBJTG7Y/LWX8dknOg5qAHTFzg3fYHMq2tTCQQn
- WwK3vwY1zU7kegQDTM88c3E=
-X-Google-Smtp-Source: ACHHUZ5tKcqjD2XJhsLkmM2BHBrptdbgEezN9y2n6RAp7H4upBb4P+qrfTqAVgrL8BSf5EfZHfjSOw==
-X-Received: by 2002:a17:906:4e1a:b0:946:c1d2:8b5d with SMTP id
- z26-20020a1709064e1a00b00946c1d28b5dmr3443366eju.17.1682534481389; 
- Wed, 26 Apr 2023 11:41:21 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-013-234-209.77.13.pool.telefonica.de.
- [77.13.234.209]) by smtp.gmail.com with ESMTPSA id
- b24-20020aa7cd18000000b00501d5432f2fsm7029295edw.60.2023.04.26.11.41.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 11:41:20 -0700 (PDT)
-Date: Wed, 26 Apr 2023 18:18:35 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH 10/13] hw/ide/piix: Reuse PCIIDEState::{cmd,data}_ops
-In-Reply-To: <4ed18370-3a92-3ae5-912f-1f6dafab37d1@ilande.co.uk>
-References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-11-shentey@gmail.com>
- <4ed18370-3a92-3ae5-912f-1f6dafab37d1@ilande.co.uk>
-Message-ID: <612DFA62-40DC-44D3-88A9-797FB4EC1F48@gmail.com>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prjjQ-0000P2-S0
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 14:19:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prjjP-0001wn-13
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 14:19:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682533146;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fGkVsxiVhyNjK+KqbXTaXshJ0ptYBX9XC29QLB8F6fg=;
+ b=Ce23rY8mzGqKdeQ8/tUAdCuTODu10tLaCNmpc1Y3zWepNSOa67XdJr396/VEbLMP+jLaeo
+ Y1ThKM2JV0tiVdUJHJOvbDxIgtl1PFD715uXz7CREMoZvatzBhVdNHnXP8uCFseE6SLlK4
+ GGlioARgB2vMw6oNNOXLjvjo2uNrx1I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-259-kO38epx1MgGuCmHbm6uUXw-1; Wed, 26 Apr 2023 14:19:04 -0400
+X-MC-Unique: kO38epx1MgGuCmHbm6uUXw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E596A10504A8;
+ Wed, 26 Apr 2023 18:19:03 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.193.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2569914171B6;
+ Wed, 26 Apr 2023 18:19:01 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PATCH v9 0/3] Eliminate multifd flush
+Date: Wed, 26 Apr 2023 20:18:58 +0200
+Message-Id: <20230426181901.13574-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,103 +79,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi
 
+Changes in v9:
+- rebase over migration-pull-20230424
+  this means that we need to change things for options.c creation.
+- make the property be set for 8.0 not 7.0 (thanks peter)
+- the check that disabled the property was lost on some rebase, put it back.
 
-Am 26=2E April 2023 11:37:48 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayl=
-and@ilande=2Eco=2Euk>:
->On 22/04/2023 16:07, Bernhard Beschow wrote:
->
->> Now that PCIIDEState::{cmd,data}_ops are initialized in the base class
->> constructor there is an opportunity for PIIX to reuse these attributes=
-=2E This
->> resolves usage of ide_init_ioport() which would fall back internally to=
- using
->> the isabus global due to NULL being passed as ISADevice by PIIX=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> ---
->>   hw/ide/piix=2Ec | 30 +++++++++++++-----------------
->>   1 file changed, 13 insertions(+), 17 deletions(-)
->>=20
->> diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
->> index a3a15dc7db=2E=2E406a67fa0f 100644
->> --- a/hw/ide/piix=2Ec
->> +++ b/hw/ide/piix=2Ec
->> @@ -104,34 +104,32 @@ static void piix_ide_reset(DeviceState *dev)
->>       pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
->>   }
->>   -static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, ISABus *is=
-a_bus,
->> -                              Error **errp)
->> +static void pci_piix_init_bus(PCIIDEState *d, unsigned i, ISABus *isa_=
-bus)
->>   {
->>       static const struct {
->>           int iobase;
->>           int iobase2;
->>           int isairq;
->>       } port_info[] =3D {
->> -        {0x1f0, 0x3f6, 14},
->> -        {0x170, 0x376, 15},
->> +        {0x1f0, 0x3f4, 14},
->> +        {0x170, 0x374, 15},
->>       };
->> -    int ret;
->> +    MemoryRegion *address_space_io =3D pci_address_space_io(PCI_DEVICE=
-(d));
->>         ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
->> -    ret =3D ide_init_ioport(&d->bus[i], NULL, port_info[i]=2Eiobase,
->> -                          port_info[i]=2Eiobase2);
->> -    if (ret) {
->> -        error_setg_errno(errp, -ret, "Failed to realize %s port %u",
->> -                         object_get_typename(OBJECT(d)), i);
->> -        return false;
->> -    }
->> +    memory_region_add_subregion(address_space_io, port_info[i]=2Eiobas=
-e,
->> +                                &d->data_ops[i]);
->> +    /*
->> +     * PIIX forwards the last byte of cmd_ops to ISA=2E Model this usi=
-ng a low
->> +     * prio so competing memory regions take precedence=2E
->> +     */
->> +    memory_region_add_subregion_overlap(address_space_io, port_info[i]=
-=2Eiobase2,
->> +                                        &d->cmd_ops[i], -1);
->
->Interesting=2E Is this behaviour documented somewhere and/or used in one =
-of your test images at all? If I'd have seen this myself, I probably though=
-t that the addresses were a typo=2E=2E=2E
+Please, review.
 
-I first  stumbled upon this and wondered why this code was working with VI=
-A_IDE (through my pc-via branch)=2E Then I found the correct offsets there =
-which are confirmed in the piix datasheet, e=2Eg=2E: "Secondary Control Blo=
-ck Offset: 0374h"
+[v8]
+- rebase over latests
 
->
->>       ide_bus_init_output_irq(&d->bus[i],
->>                               isa_bus_get_irq(isa_bus, port_info[i]=2Ei=
-sairq));
->>         bmdma_init(&d->bus[i], &d->bmdma[i], d);
->>       ide_bus_register_restart_cb(&d->bus[i]);
->> -
->> -    return true;
->>   }
->>     static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
->> @@ -160,9 +158,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, Er=
-ror **errp)
->>       }
->>         for (unsigned i =3D 0; i < 2; i++) {
->> -        if (!pci_piix_init_bus(d, i, isa_bus, errp)) {
->> -            return;
->> -        }
->> +        pci_piix_init_bus(d, i, isa_bus);
->>       }
->>   }
->>  =20
->
->
->ATB,
->
->Mark=2E
+[v7]
+- Rebased to last upstream
+- Rename the capability to a property.  So we move all the problems
+  that we have on last review dissaper because it is not a capability.
+
+So now, it is works as expected.  Enabled for old machine types,
+disabled for new machine types.  Users will only found it if they go through the migration properties.
+
+[v6]
+- Rename multifd-sync-after-each-section to
+         multifd-flush-after-each-section
+- Redo comments (thanks Markus)
+- Redo how to comment capabilities that are enabled/disabled during
+  development. (thanks Markus)
+
+[v5]
+- Remove RAM Flags documentation (already on PULL request)
+- rebase on top of PULL request.
+
+[v4]
+- Rebased on top of migration-20230209 PULL request
+- Integrate two patches in that pull request
+- Rebase
+- Address Eric reviews.
+
+[v3]
+- update to latest upstream.
+- fix checkpatch errors.
+
+[v2]
+- update to latest upstream
+- change 0, 1, 2 values to defines
+- Add documentation for SAVE_VM_FLAGS
+- Add missing qemu_fflush(), it made random hangs for migration test
+  (only for tls, no clue why).
+
+[v1]
+Upstream multifd code synchronize all threads after each RAM section.  This is suboptimal.
+Change it to only flush after we go trough all ram.
+
+Preserve all semantics for old machine types.
+
+Juan Quintela (3):
+  multifd: Create property multifd-flush-after-each-section
+  multifd: Protect multifd_send_sync_main() calls
+  multifd: Only flush once each full round of memory
+
+ hw/core/machine.c     |  4 +++-
+ migration/migration.c |  2 ++
+ migration/migration.h | 11 +++++++++++
+ migration/options.c   |  7 +++++++
+ migration/options.h   |  1 +
+ migration/ram.c       | 44 +++++++++++++++++++++++++++++++++++++------
+ 6 files changed, 62 insertions(+), 7 deletions(-)
+
+-- 
+2.40.0
+
 
