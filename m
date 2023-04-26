@@ -2,95 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2F16EEB9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 02:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57736EEB92
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 02:43:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prTF4-0007kb-9h; Tue, 25 Apr 2023 20:42:42 -0400
+	id 1prTF2-0007jG-Gb; Tue, 25 Apr 2023 20:42:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1prTEw-0007ib-Sg
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 20:42:35 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1prTEv-0007iJ-RI
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 20:42:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1prTEf-0006JM-3I
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1prTEn-0006Kj-TR
  for qemu-devel@nongnu.org; Tue, 25 Apr 2023 20:42:32 -0400
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33Q0f741020171; Wed, 26 Apr 2023 00:42:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=qcppdkim1;
- bh=YxkbL8SJGmcIeSbKC0InFPh3yWhhYm9ioyWtx8RIazg=;
- b=CI5P6APzy1PXTLG70F8i//AWalHUdmXeW6+fA6HRCxu6exSfvOIBmejlNmIhAy/ydiBW
- TWSkU8nn4SwQKHsHydms4AMm5J3CeB42xiIc9aLumDZRq0Yd/RDplMeWmiiFyb+BG7J4
- CT1EO46j1ShqiWdrKgc4KPqgWJfMWrBD57XIOwfE5207EpdPXzctXOLPYF3yI8g/cgvc
- PEueiYQYEeSWkwszAjw2Ks+FshfEYK8x98CkOR3Qvmx9sJFvOBWcrwE/zjP3uc4u3N4m
- E/uH2ss+X4+oBBKPFEvJcDjXyEHKMljDps/r3G6MB6++5XYyO8pIFugSDCXkDKngvYs2 4Q== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q6bdra8bq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Apr 2023 00:42:08 +0000
-Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 33Q0eE68015736; 
- Wed, 26 Apr 2023 00:42:07 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3q48nm4yac-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Apr 2023 00:42:07 +0000
-Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33Q0g7cw016834;
- Wed, 26 Apr 2023 00:42:07 GMT
-Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.204.221])
- by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 33Q0g6YC016831
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Apr 2023 00:42:07 +0000
-Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 47164)
- id A1E97532; Tue, 25 Apr 2023 17:42:06 -0700 (PDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
- ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
-Subject: [PATCH 08/21] Hexagon (target/hexagon) Clean up pred_written usage
-Date: Tue, 25 Apr 2023 17:42:02 -0700
-Message-Id: <20230426004202.1319250-1-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682469740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NXzSpAgHeUU/6xLQAwDBMqmvrEGmgD7eHtwtuM0EoGU=;
+ b=NgC7ceKB7VbyEDkBxMGO0y76ZoTWmL3G+jSdZytxWhtr3fbfKm8l1uD7qtrn5f7YaSe/nO
+ MqTWQT/NbSXRncIwba8Avr46JthzX6fp/Mf/HSF3+T/WVdRDi9moUph5df/MedmxjdZpfS
+ LNbZsi2RRRMwjRXVeMtW5rEGP6Vub9o=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-226-o33lKzyNPL-yEpaRneeOiw-1; Tue, 25 Apr 2023 20:42:19 -0400
+X-MC-Unique: o33lKzyNPL-yEpaRneeOiw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-5ef67855124so5575706d6.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 17:42:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682469739; x=1685061739;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NXzSpAgHeUU/6xLQAwDBMqmvrEGmgD7eHtwtuM0EoGU=;
+ b=Wgc/UuMvC/PCHELSXRO1SGLCkj4rSktomutTHkE35/z2qwoZvbYHnhTxu3tIClVVJh
+ QzBhx0LPT7Q/o9G3Nzot8twzF7LKTZVAkCgp7eGTQCxcdo5GN8PTnsV0gFCHcsa05AwU
+ WAmm9aiLqgK5D6r5sMpPLkAfECoJF3/UeLGcwAu9b/oVvSEvfhqK7Uj/5vJFF45m60Lq
+ qtLNMXIhQROfaMNVK52Zg/mrARzBmCCZZoISMn9KmtMjcrSJ7mY5KYY8JHX5HyACpcdE
+ hAALp6ZVzliZV/kBPfPLP2sQnV1Lscd6Yb3SE5sCedKZumokmC74sXPHQ3KrNBJktuyR
+ 5kSQ==
+X-Gm-Message-State: AAQBX9fsnqO9fPpT5/+LUkIrkF/QxplcAL38NQfJK6iI6U4KVpzwnbHz
+ Wt/1UHuFCQ/5LHAvuGHFvsC/8ThIVwtfWinezGEd9y4BlW0rvvhu9zqalG1WClz9Lg3FzX1Hv6M
+ CeQKK2eDRlne4yl4=
+X-Received: by 2002:a05:6214:400a:b0:5ef:55d8:7164 with SMTP id
+ kd10-20020a056214400a00b005ef55d87164mr29994584qvb.5.1682469739156; 
+ Tue, 25 Apr 2023 17:42:19 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YKy+LRlgT6gpnKM/Iy0UanTo5mlROwsRwXg9yGYwuhycatan4xi9OoZtFVAW9SKyA6JNz17w==
+X-Received: by 2002:a05:6214:400a:b0:5ef:55d8:7164 with SMTP id
+ kd10-20020a056214400a00b005ef55d87164mr29994567qvb.5.1682469738890; 
+ Tue, 25 Apr 2023 17:42:18 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ a21-20020a0ca995000000b005ef4de2cc3bsm4481374qvb.138.2023.04.25.17.42.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Apr 2023 17:42:18 -0700 (PDT)
+Date: Tue, 25 Apr 2023 20:42:17 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Subject: Re: [PULL 61/73] hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
+Message-ID: <ZEhzaWpNM+NvZCUw@x1n>
+References: <cover.1678237635.git.mst@redhat.com>
+ <010746ae1db7f52700cb2e2c46eb94f299cfa0d2.1678237635.git.mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 1iadS7T3sqxrsfhcu7LlCUD8s1oGhExV
-X-Proofpoint-ORIG-GUID: 1iadS7T3sqxrsfhcu7LlCUD8s1oGhExV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-25_11,2023-04-25_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 mlxscore=0 suspectscore=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 impostorscore=0
- mlxlogscore=402 spamscore=0 adultscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304260004
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <010746ae1db7f52700cb2e2c46eb94f299cfa0d2.1678237635.git.mst@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,103 +101,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T25seSBlbmRsb29wIGluc3RydWN0aW9ucyB3aWxsIGNvbmRpdGlvbmFsbHkgd3JpdGUgdG8gYSBw
-cmVkaWNhdGUuCldoZW4gdGhlcmUgaXMgYW4gZW5kbG9vcCBpbnN0cnVjdGlvbiwgd2UgcHJlbG9h
-ZCB0aGUgdmFsdWVzIGludG8KbmV3X3ByZWRfdmFsdWUuCgpUaGUgb25seSBwbGFjZSBwcmVkX3dy
-aXR0ZW4gaXMgbmVlZGVkIGlzIHdoZW4gSEVYX0RFQlVHIGlzIG9uLgoKV2UgcmVtb3ZlIHRoZSBs
-YXN0IHVzZSBvZiBjaGVja19mb3JfYXR0cmliLiAgSG93ZXZlciwgbmV3IHVzZXMgd2lsbCBiZQpp
-bnRyb2R1Y2VkIGxhdGVyIGluIHRoaXMgc2VyaWVzLCBzbyB3ZSBjaGFuZ2UgaXQgdG8gInN0YXRp
-YyBpbmxpbmUiLgoKU2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNp
-bmMuY29tPgotLS0KIHRhcmdldC9oZXhhZ29uL2dlbnB0ci5jICAgIHwgMTYgKysrKystLS0tLS0t
-CiB0YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYyB8IDUzICsrKysrKysrKysrKy0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDQ2IGRl
-bGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhhZ29uL2dlbnB0ci5jIGIvdGFyZ2V0
-L2hleGFnb24vZ2VucHRyLmMKaW5kZXggMTA0ZmYwNjFmNS4uYjljNGE0NmUzYSAxMDA2NDQKLS0t
-IGEvdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMKKysrIGIvdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMK
-QEAgLTEzNyw3ICsxMzcsOSBAQCB2b2lkIGdlbl9sb2dfcHJlZF93cml0ZShEaXNhc0NvbnRleHQg
-KmN0eCwgaW50IHBudW0sIFRDR3YgdmFsKQogICAgICAgICB0Y2dfZ2VuX2FuZF90bChoZXhfbmV3
-X3ByZWRfdmFsdWVbcG51bV0sCiAgICAgICAgICAgICAgICAgICAgICAgIGhleF9uZXdfcHJlZF92
-YWx1ZVtwbnVtXSwgYmFzZV92YWwpOwogICAgIH0KLSAgICB0Y2dfZ2VuX29yaV90bChoZXhfcHJl
-ZF93cml0dGVuLCBoZXhfcHJlZF93cml0dGVuLCAxIDw8IHBudW0pOworICAgIGlmIChIRVhfREVC
-VUcpIHsKKyAgICAgICAgdGNnX2dlbl9vcmlfdGwoaGV4X3ByZWRfd3JpdHRlbiwgaGV4X3ByZWRf
-d3JpdHRlbiwgMSA8PCBwbnVtKTsKKyAgICB9CiAgICAgc2V0X2JpdChwbnVtLCBjdHgtPnByZWdz
-X3dyaXR0ZW4pOwogfQogCkBAIC04MjMsMTUgKzgyNSwxMyBAQCBzdGF0aWMgdm9pZCBnZW5fZW5k
-bG9vcDAoRGlzYXNDb250ZXh0ICpjdHgpCiAKICAgICAvKgogICAgICAqICAgIGlmIChscGNmZyA9
-PSAxKSB7Ci0gICAgICogICAgICAgIGhleF9uZXdfcHJlZF92YWx1ZVszXSA9IDB4ZmY7Ci0gICAg
-ICogICAgICAgIGhleF9wcmVkX3dyaXR0ZW4gfD0gMSA8PCAzOworICAgICAqICAgICAgICBwMyA9
-IDB4ZmY7CiAgICAgICogICAgfQogICAgICAqLwogICAgIFRDR0xhYmVsICpsYWJlbDEgPSBnZW5f
-bmV3X2xhYmVsKCk7CiAgICAgdGNnX2dlbl9icmNvbmRpX3RsKFRDR19DT05EX05FLCBscGNmZywg
-MSwgbGFiZWwxKTsKICAgICB7Ci0gICAgICAgIHRjZ19nZW5fbW92aV90bChoZXhfbmV3X3ByZWRf
-dmFsdWVbM10sIDB4ZmYpOwotICAgICAgICB0Y2dfZ2VuX29yaV90bChoZXhfcHJlZF93cml0dGVu
-LCBoZXhfcHJlZF93cml0dGVuLCAxIDw8IDMpOworICAgICAgICBnZW5fbG9nX3ByZWRfd3JpdGUo
-Y3R4LCAzLCB0Y2dfY29uc3RhbnRfdGwoMHhmZikpOwogICAgIH0KICAgICBnZW5fc2V0X2xhYmVs
-KGxhYmVsMSk7CiAKQEAgLTkwMCwxNCArOTAwLDEyIEBAIHN0YXRpYyB2b2lkIGdlbl9lbmRsb29w
-MDEoRGlzYXNDb250ZXh0ICpjdHgpCiAKICAgICAvKgogICAgICAqICAgIGlmIChscGNmZyA9PSAx
-KSB7Ci0gICAgICogICAgICAgIGhleF9uZXdfcHJlZF92YWx1ZVszXSA9IDB4ZmY7Ci0gICAgICog
-ICAgICAgIGhleF9wcmVkX3dyaXR0ZW4gfD0gMSA8PCAzOworICAgICAqICAgICAgICBwMyA9IDB4
-ZmY7CiAgICAgICogICAgfQogICAgICAqLwogICAgIHRjZ19nZW5fYnJjb25kaV90bChUQ0dfQ09O
-RF9ORSwgbHBjZmcsIDEsIGxhYmVsMSk7CiAgICAgewotICAgICAgICB0Y2dfZ2VuX21vdmlfdGwo
-aGV4X25ld19wcmVkX3ZhbHVlWzNdLCAweGZmKTsKLSAgICAgICAgdGNnX2dlbl9vcmlfdGwoaGV4
-X3ByZWRfd3JpdHRlbiwgaGV4X3ByZWRfd3JpdHRlbiwgMSA8PCAzKTsKKyAgICAgICAgZ2VuX2xv
-Z19wcmVkX3dyaXRlKGN0eCwgMywgdGNnX2NvbnN0YW50X3RsKDB4ZmYpKTsKICAgICB9CiAgICAg
-Z2VuX3NldF9sYWJlbChsYWJlbDEpOwogCmRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi90cmFu
-c2xhdGUuYyBiL3RhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5jCmluZGV4IGMwODdmMTgzZDAuLjFm
-MDQ1NTlmOTEgMTAwNjQ0Ci0tLSBhL3RhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5jCisrKyBiL3Rh
-cmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5jCkBAIC0yMzksNyArMjM5LDcgQEAgc3RhdGljIGludCBy
-ZWFkX3BhY2tldF93b3JkcyhDUFVIZXhhZ29uU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpjdHgs
-CiAgICAgcmV0dXJuIG53b3JkczsKIH0KIAotc3RhdGljIGJvb2wgY2hlY2tfZm9yX2F0dHJpYihQ
-YWNrZXQgKnBrdCwgaW50IGF0dHJpYikKK3N0YXRpYyBpbmxpbmUgYm9vbCBjaGVja19mb3JfYXR0
-cmliKFBhY2tldCAqcGt0LCBpbnQgYXR0cmliKQogewogICAgIGZvciAoaW50IGkgPSAwOyBpIDwg
-cGt0LT5udW1faW5zbnM7IGkrKykgewogICAgICAgICBpZiAoR0VUX0FUVFJJQihwa3QtPmluc25b
-aV0ub3Bjb2RlLCBhdHRyaWIpKSB7CkBAIC0yNjIsMTEgKzI2Miw2IEBAIHN0YXRpYyBib29sIG5l
-ZWRfc2xvdF9jYW5jZWxsZWQoUGFja2V0ICpwa3QpCiAgICAgcmV0dXJuIGZhbHNlOwogfQogCi1z
-dGF0aWMgYm9vbCBuZWVkX3ByZWRfd3JpdHRlbihQYWNrZXQgKnBrdCkKLXsKLSAgICByZXR1cm4g
-Y2hlY2tfZm9yX2F0dHJpYihwa3QsIEFfV1JJVEVTX1BSRURfUkVHKTsKLX0KLQogc3RhdGljIGJv
-b2wgbmVlZF9uZXh0X1BDKERpc2FzQ29udGV4dCAqY3R4KQogewogICAgIFBhY2tldCAqcGt0ID0g
-Y3R4LT5wa3Q7CkBAIC00MTQsNyArNDA5LDcgQEAgc3RhdGljIHZvaWQgZ2VuX3N0YXJ0X3BhY2tl
-dChEaXNhc0NvbnRleHQgKmN0eCkKICAgICAgICAgICAgIHRjZ19nZW5fbW92aV90bChoZXhfZ3By
-W0hFWF9SRUdfUENdLCBuZXh0X1BDKTsKICAgICAgICAgfQogICAgIH0KLSAgICBpZiAobmVlZF9w
-cmVkX3dyaXR0ZW4ocGt0KSkgeworICAgIGlmIChIRVhfREVCVUcpIHsKICAgICAgICAgdGNnX2dl
-bl9tb3ZpX3RsKGhleF9wcmVkX3dyaXR0ZW4sIDApOwogICAgIH0KIApAQCAtNDI4LDYgKzQyMywx
-NyBAQCBzdGF0aWMgdm9pZCBnZW5fc3RhcnRfcGFja2V0KERpc2FzQ29udGV4dCAqY3R4KQogICAg
-ICAgICB9CiAgICAgfQogCisgICAgLyoKKyAgICAgKiBQcmVsb2FkIHRoZSBwcmVkaWNhdGVkIHBy
-ZWQgcmVnaXN0ZXJzIGludG8gaGV4X25ld19wcmVkX3ZhbHVlW3ByZWRfbnVtXQorICAgICAqIE9u
-bHkgZW5kbG9vcCBpbnN0cnVjdGlvbnMgY29uZGl0aW9uYWxseSB3cml0ZSB0byBwcmVkIHJlZ2lz
-dGVycworICAgICAqLworICAgIGlmIChwa3QtPnBrdF9oYXNfZW5kbG9vcCkgeworICAgICAgICBm
-b3IgKGludCBpID0gMDsgaSA8IGN0eC0+cHJlZ19sb2dfaWR4OyBpKyspIHsKKyAgICAgICAgICAg
-IGludCBwcmVkX251bSA9IGN0eC0+cHJlZ19sb2dbaV07CisgICAgICAgICAgICB0Y2dfZ2VuX21v
-dl90bChoZXhfbmV3X3ByZWRfdmFsdWVbcHJlZF9udW1dLCBoZXhfcHJlZFtwcmVkX251bV0pOwor
-ICAgICAgICB9CisgICAgfQorCiAgICAgLyogUHJlbG9hZCB0aGUgcHJlZGljYXRlZCBIVlggcmVn
-aXN0ZXJzIGludG8gZnV0dXJlX1ZSZWdzIGFuZCB0bXBfVlJlZ3MgKi8KICAgICBpZiAoIWJpdG1h
-cF9lbXB0eShjdHgtPnByZWRpY2F0ZWRfZnV0dXJlX3ZyZWdzLCBOVU1fVlJFR1MpKSB7CiAgICAg
-ICAgIGludCBpID0gZmluZF9maXJzdF9iaXQoY3R4LT5wcmVkaWNhdGVkX2Z1dHVyZV92cmVncywg
-TlVNX1ZSRUdTKTsKQEAgLTUzMiw0MSArNTM4LDE0IEBAIHN0YXRpYyB2b2lkIGdlbl9yZWdfd3Jp
-dGVzKERpc2FzQ29udGV4dCAqY3R4KQogCiBzdGF0aWMgdm9pZCBnZW5fcHJlZF93cml0ZXMoRGlz
-YXNDb250ZXh0ICpjdHgpCiB7Ci0gICAgaW50IGk7Ci0KICAgICAvKiBFYXJseSBleGl0IGlmIHRo
-ZSBsb2cgaXMgZW1wdHkgKi8KICAgICBpZiAoIWN0eC0+cHJlZ19sb2dfaWR4KSB7CiAgICAgICAg
-IHJldHVybjsKICAgICB9CiAKLSAgICAvKgotICAgICAqIE9ubHkgZW5kbG9vcCBpbnN0cnVjdGlv
-bnMgd2lsbCBjb25kaXRpb25hbGx5Ci0gICAgICogd3JpdGUgYSBwcmVkaWNhdGUuICBJZiB0aGVy
-ZSBhcmUgbm8gZW5kbG9vcAotICAgICAqIGluc3RydWN0aW9ucywgd2UgY2FuIHVzZSB0aGUgbm9u
-LWNvbmRpdGlvbmFsCi0gICAgICogd3JpdGUgb2YgdGhlIHByZWRpY2F0ZXMuCi0gICAgICovCi0g
-ICAgaWYgKGN0eC0+cGt0LT5wa3RfaGFzX2VuZGxvb3ApIHsKLSAgICAgICAgVENHdiB6ZXJvID0g
-dGNnX2NvbnN0YW50X3RsKDApOwotICAgICAgICBUQ0d2IHByZWRfd3JpdHRlbiA9IHRjZ190ZW1w
-X25ldygpOwotICAgICAgICBmb3IgKGkgPSAwOyBpIDwgY3R4LT5wcmVnX2xvZ19pZHg7IGkrKykg
-ewotICAgICAgICAgICAgaW50IHByZWRfbnVtID0gY3R4LT5wcmVnX2xvZ1tpXTsKLQotICAgICAg
-ICAgICAgdGNnX2dlbl9hbmRpX3RsKHByZWRfd3JpdHRlbiwgaGV4X3ByZWRfd3JpdHRlbiwgMSA8
-PCBwcmVkX251bSk7Ci0gICAgICAgICAgICB0Y2dfZ2VuX21vdmNvbmRfdGwoVENHX0NPTkRfTkUs
-IGhleF9wcmVkW3ByZWRfbnVtXSwKLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwcmVk
-X3dyaXR0ZW4sIHplcm8sCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaGV4X25ld19w
-cmVkX3ZhbHVlW3ByZWRfbnVtXSwKLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBoZXhf
-cHJlZFtwcmVkX251bV0pOwotICAgICAgICB9Ci0gICAgfSBlbHNlIHsKLSAgICAgICAgZm9yIChp
-ID0gMDsgaSA8IGN0eC0+cHJlZ19sb2dfaWR4OyBpKyspIHsKLSAgICAgICAgICAgIGludCBwcmVk
-X251bSA9IGN0eC0+cHJlZ19sb2dbaV07Ci0gICAgICAgICAgICB0Y2dfZ2VuX21vdl90bChoZXhf
-cHJlZFtwcmVkX251bV0sIGhleF9uZXdfcHJlZF92YWx1ZVtwcmVkX251bV0pOwotICAgICAgICAg
-ICAgaWYgKEhFWF9ERUJVRykgewotICAgICAgICAgICAgICAgIC8qIERvIHRoaXMgc28gSEVMUEVS
-KGRlYnVnX2NvbW1pdF9lbmQpIHdpbGwga25vdyAqLwotICAgICAgICAgICAgICAgIHRjZ19nZW5f
-b3JpX3RsKGhleF9wcmVkX3dyaXR0ZW4sIGhleF9wcmVkX3dyaXR0ZW4sCi0gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgMSA8PCBwcmVkX251bSk7Ci0gICAgICAgICAgICB9Ci0gICAgICAg
-IH0KKyAgICBmb3IgKGludCBpID0gMDsgaSA8IGN0eC0+cHJlZ19sb2dfaWR4OyBpKyspIHsKKyAg
-ICAgICAgaW50IHByZWRfbnVtID0gY3R4LT5wcmVnX2xvZ1tpXTsKKyAgICAgICAgdGNnX2dlbl9t
-b3ZfdGwoaGV4X3ByZWRbcHJlZF9udW1dLCBoZXhfbmV3X3ByZWRfdmFsdWVbcHJlZF9udW1dKTsK
-ICAgICB9CiB9CiAKLS0gCjIuMjUuMQoK
+Hi, Michael, Jonathan,
+
+On Tue, Mar 07, 2023 at 08:13:53PM -0500, Michael S. Tsirkin wrote:
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> This register in AER should be both writeable and should
+> have a default value with a couple of the errors masked
+> including the Uncorrectable Internal Error used by CXL for
+> it's error reporting.
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Message-Id: <20230302133709.30373-2-Jonathan.Cameron@huawei.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Fan Ni <fan.ni@samsung.com>
+> ---
+>  include/hw/pci/pcie_regs.h | 3 +++
+>  hw/pci/pcie_aer.c          | 4 ++++
+>  2 files changed, 7 insertions(+)
+> 
+> diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
+> index 1fe0bdd25b..4972106c42 100644
+> --- a/include/hw/pci/pcie_regs.h
+> +++ b/include/hw/pci/pcie_regs.h
+> @@ -141,6 +141,9 @@ typedef enum PCIExpLinkWidth {
+>                                           PCI_ERR_UNC_ATOP_EBLOCKED |    \
+>                                           PCI_ERR_UNC_TLP_PRF_BLOCKED)
+>  
+> +#define PCI_ERR_UNC_MASK_DEFAULT        (PCI_ERR_UNC_INTN | \
+> +                                         PCI_ERR_UNC_TLP_PRF_BLOCKED)
+> +
+>  #define PCI_ERR_UNC_SEVERITY_DEFAULT    (PCI_ERR_UNC_DLP |              \
+>                                           PCI_ERR_UNC_SDN |              \
+>                                           PCI_ERR_UNC_FCP |              \
+> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+> index 9a19be44ae..909e027d99 100644
+> --- a/hw/pci/pcie_aer.c
+> +++ b/hw/pci/pcie_aer.c
+> @@ -112,6 +112,10 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver, uint16_t offset,
+>  
+>      pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
+>                   PCI_ERR_UNC_SUPPORTED);
+> +    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
+> +                 PCI_ERR_UNC_MASK_DEFAULT);
+> +    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
+> +                 PCI_ERR_UNC_SUPPORTED);
+
+This breaks the simplest migration from QEMU 8.0->7.2 binaries on all
+machine types I think as long as the cap is present, e.g. the default
+e1000e provided by the default q35 machine can already hit it with all
+default cmdline:
+
+  ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
+
+7.2 binary will have empty wmask for PCI_ERR_UNCOR_MASK, meanwhile I think
+it can also see a non-zero value, then the migration will fail at:
+
+vmstate_load 0000:00:02.0/e1000e, e1000e                                                   
+qemu-7.2: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
+qemu-7.2: Failed to load PCIDevice:config   
+qemu-7.2: Failed to load e1000e:parent_obj                                                
+qemu-7.2: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'      
+qemu-7.2: load of migration failed: Invalid argument
+
+We probably at least want to have the default value to be still zero, and
+we'd need to make sure it'll not be modified by the guest, iiuc.
+
+Below oneliner works for me and makes the migration work again:
+
+===8<===
+diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+index 103667c368..563a37b79c 100644
+--- a/hw/pci/pcie_aer.c
++++ b/hw/pci/pcie_aer.c
+@@ -113,7 +113,7 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver, uint16_t offset,
+     pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
+                  PCI_ERR_UNC_SUPPORTED);
+     pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
+-                 PCI_ERR_UNC_MASK_DEFAULT);
++                 0/*PCI_ERR_UNC_MASK_DEFAULT*/);
+     pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
+                  PCI_ERR_UNC_SUPPORTED);
+===8<===
+
+Anyone could have a look on a solid solution from PCI side?
+
+Copy Juan and Leonardo.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
