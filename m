@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622B26EFA2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 20:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC07F6EFA2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 20:43:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prk5B-0001Zx-Mv; Wed, 26 Apr 2023 14:41:37 -0400
+	id 1prk5E-0001e4-MU; Wed, 26 Apr 2023 14:41:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prk57-0001YB-8P; Wed, 26 Apr 2023 14:41:33 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ id 1prk58-0001ZK-Q4; Wed, 26 Apr 2023 14:41:35 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prk54-0005bu-79; Wed, 26 Apr 2023 14:41:33 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-50685f1b6e0so13746865a12.0; 
- Wed, 26 Apr 2023 11:41:19 -0700 (PDT)
+ id 1prk54-0005be-7p; Wed, 26 Apr 2023 14:41:34 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-956ff2399c9so1321700266b.3; 
+ Wed, 26 Apr 2023 11:41:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682534479; x=1685126479;
+ d=gmail.com; s=20221208; t=1682534477; x=1685126477;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gml1hfRegNX/KcXMPSEgyawYZdwoullBviJGijFwtg4=;
- b=oJH6aMxWbyn1U+5ZbWDGuBSFjw5qRNRzQfglBwaS0dXw9mRxiMQuMaSGikgsJzoZ/a
- CnO4qnHqAXzM6ck8dnANxX1P2jDH+FKu4QFGYb6Yl0wGKU7xTa+She9DyvDMlYb613dX
- FpJkUUzmw/CV2BFva6rLtdJoob4TjEx7w0qFhVyGS+WyHOSzx6pBFvz4Ena7FMsbKwcl
- HSGCGObXGXd7wHfr/BkmuIecfFdT3NLmYfxzmVot1AmwLqIjRgDTErmNMbG+Fjs4XE0/
- 0NWk5Le3WS4MxvInsK9/K2/3a8GZ8ESQktB2+U2K2hzfs+WvNvncQR2ASBIKUZJoJKmP
- GWLw==
+ bh=rB+PWZsJyPcTAOquyIu+KLdgZN4X5fVRpKl8JESb9PA=;
+ b=hIGcgKviTlzYquRHo1FkJYiejx+1pxDSCnw5TQZl8DviM4qXfj5pWsPgCePVvSZg6P
+ 6t1mzbodhOSUwbmAQvdbOM5bNGQ7c6HdFth9/a6toipDFsdnyJshd931diE4D4SuMTjf
+ aCLFWPRfXt/WzcNpc2UlriD1To5kcs5GUlyRUfkoJByvH8DfYgFpgh94jjyL2EEbUIsd
+ Xd28n2vDIEjY5AO9gorYvok92mgUA4d55N0REW88jFEJkBGlZlLKUGH2kZK2+QoNvvdl
+ 5+ZhGX804eDt9tOhUrfDjH8WCFxWnA6DDWdFeQPGHBT4m3qMbflgC3CNa6ZS0Yun60+q
+ eQtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682534479; x=1685126479;
+ d=1e100.net; s=20221208; t=1682534477; x=1685126477;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gml1hfRegNX/KcXMPSEgyawYZdwoullBviJGijFwtg4=;
- b=KXAXUXvPePvomdlrGkqE/+M+kyeuqNNRKjxEnn90aJOt08ASKGTZdcgYj1f5mS7EBn
- OXjPr25WF0jyXCuW6AnFtIMVVV3BZ+aP07JJzEOvKb/yOW0c7+EqJGUKJyFAfhB1RFcB
- CJK4S7ihVJnvHLTFyK7Cjun1qMGO0gNhYN5KECkyHqkCJtKLA1N6qvc0QOboTXAnqAzi
- ldhNjx5LgsWNjZqrllGcxrAYoi0twgJ8K2gtc4aoVwwY3dOtQ5gf3Q96TYZnDKwxD4Hv
- irW1wmIq3KT9wJKH9NJypyXCqOpYL3qxlhbuUz70dJyn3bwkcuoEXjZirqr+T3KcO1Xh
- 9mYg==
-X-Gm-Message-State: AAQBX9e7Vw3Tey1JOJYADnjG6Z2KzJukMjOVaKsJcdywzgg72oK6L4B/
- nT//zaWwNfCqu7WHAh3ceOw=
-X-Google-Smtp-Source: AKy350YQVUw/cTyRVkAN78kxSown8O/IHo5Ydy012fF/V/Wqw9qHY/7zgFHO5fSR22wx05wAVSdvTQ==
-X-Received: by 2002:a05:6402:10c2:b0:504:9cec:8afb with SMTP id
- p2-20020a05640210c200b005049cec8afbmr17984601edu.2.1682534478430; 
- Wed, 26 Apr 2023 11:41:18 -0700 (PDT)
+ bh=rB+PWZsJyPcTAOquyIu+KLdgZN4X5fVRpKl8JESb9PA=;
+ b=iYDCIBn9+Olyk1PAWWiIyGw9HXgRcw+PrqcQkwitDZFmUHwxqZ6fO4w4uI/hFVQ2Qd
+ RPktV7PYdngQa5mo3MnV8p+rlUkkkz/6CTgBHGX7rOKl5RNxcZP6ZV5SDiaANP0xMoyH
+ RAklKRrlJOMvCRMPKPQJep3wKctRYtiBs0Qc1gYIEfg+vNlacZww5R4bGv71oja/XQKv
+ AbEwOVngYYZcytpWdimMFhORiAPzePuHd13xh9KV5SdTVnVC8BgrCA9EH7dElNFCHRRx
+ 4y24wHva08pUtNeBG/XDv5+IE2No/baDcP7TWQ5PZ+SguCJj95p2OWt0ALblcRpPrj0d
+ ECHQ==
+X-Gm-Message-State: AAQBX9dGljf4FXpp/kFNw8Tvi1WoxbaH/RYF1z7CpqtKFSy+yVTqlfBJ
+ aOoRW4mG3M8DtxD22rjut5A=
+X-Google-Smtp-Source: AKy350YDxnUOetSafNkaX/nSe8JT5JdQy4T3OctzGT9qXWzv2yhU6abDxP7FGlq113FOktT1ghOLBQ==
+X-Received: by 2002:a17:906:16d3:b0:94a:90e5:b2b6 with SMTP id
+ t19-20020a17090616d300b0094a90e5b2b6mr16358128ejd.58.1682534476891; 
+ Wed, 26 Apr 2023 11:41:16 -0700 (PDT)
 Received: from [127.0.0.1] (dynamic-077-013-234-209.77.13.pool.telefonica.de.
  [77.13.234.209]) by smtp.gmail.com with ESMTPSA id
- v5-20020a056402184500b0050687f06aacsm6971353edy.12.2023.04.26.11.41.17
+ o19-20020a1709062e9300b0094f281bd279sm8511817eji.198.2023.04.26.11.41.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 11:41:18 -0700 (PDT)
-Date: Wed, 26 Apr 2023 18:29:31 +0000
+ Wed, 26 Apr 2023 11:41:16 -0700 (PDT)
+Date: Wed, 26 Apr 2023 18:32:05 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
@@ -62,18 +62,18 @@ CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Huacai Chen <chenhuacai@kernel.org>,
  =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
  qemu-ppc@nongnu.org
-Subject: Re: [PATCH 08/13] hw/ide: Rename PCIIDEState::*_bar attributes
-In-Reply-To: <8bd8555f-3b29-728a-9f2a-cbc724dad3b3@ilande.co.uk>
+Subject: Re: [PATCH 05/13] hw/ide: Extract pci_ide_class_init()
+In-Reply-To: <811f068f-de53-dd81-b360-6b95930a237f@ilande.co.uk>
 References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-9-shentey@gmail.com>
- <8bd8555f-3b29-728a-9f2a-cbc724dad3b3@ilande.co.uk>
-Message-ID: <C7B7621E-875A-4A52-B876-5963A20F1925@gmail.com>
+ <20230422150728.176512-6-shentey@gmail.com>
+ <811f068f-de53-dd81-b360-6b95930a237f@ilande.co.uk>
+Message-ID: <2B50BD9B-05D8-4CAC-96AF-D9A07AE0836F@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,198 +98,251 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 26=2E April 2023 11:21:28 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayl=
+Am 26=2E April 2023 11:04:30 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayl=
 and@ilande=2Eco=2Euk>:
 >On 22/04/2023 16:07, Bernhard Beschow wrote:
 >
->> The attributes represent memory regions containing operations which are=
- mapped
->> by the device models into PCI BARs=2E Reflect this by changing the suff=
-ic into
->> "_ops"=2E
->>=20
->> Note that in a few commits piix will also use the {cmd,data}_ops but wo=
-n't map
->> them into BARs=2E This further suggests that the "_bar" suffix doesn't =
-match
->> very well=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> Resolves redundant code in every PCI IDE device model=2E
+>
+>I think this needs to mention that it's moving the PCIDeviceClass::exit()=
+ function from all of the PCI IDE controller implementations to a common im=
+plementation in the parent PCI_IDE type=2E
+
+I'll completely rework this patch=2E
+
+>
 >> ---
->>   include/hw/ide/pci=2Eh |  6 +++---
->>   hw/ide/cmd646=2Ec      | 10 +++++-----
->>   hw/ide/pci=2Ec         | 18 +++++++++---------
->>   hw/ide/piix=2Ec        |  2 +-
->>   hw/ide/via=2Ec         | 10 +++++-----
->>   5 files changed, 23 insertions(+), 23 deletions(-)
+>>   include/hw/ide/pci=2Eh |  1 -
+>>   hw/ide/cmd646=2Ec      | 15 ---------------
+>>   hw/ide/pci=2Ec         | 25 ++++++++++++++++++++++++-
+>>   hw/ide/piix=2Ec        | 19 -------------------
+>>   hw/ide/sii3112=2Ec     |  3 ++-
+>>   hw/ide/via=2Ec         | 15 ---------------
+>>   6 files changed, 26 insertions(+), 52 deletions(-)
 >>=20
 >> diff --git a/include/hw/ide/pci=2Eh b/include/hw/ide/pci=2Eh
->> index 597c77c7ad=2E=2E5025df5b82 100644
+>> index 74c127e32f=2E=2E7bc4e53d02 100644
 >> --- a/include/hw/ide/pci=2Eh
 >> +++ b/include/hw/ide/pci=2Eh
->> @@ -51,9 +51,9 @@ struct PCIIDEState {
->>       BMDMAState bmdma[2];
->>       qemu_irq isa_irq[2];
->>       uint32_t secondary; /* used only for cmd646 */
->> -    MemoryRegion bmdma_bar;
->> -    MemoryRegion cmd_bar[2];
->> -    MemoryRegion data_bar[2];
->> +    MemoryRegion bmdma_ops;
->> +    MemoryRegion cmd_ops[2];
->> +    MemoryRegion data_ops[2];
->>   };
->>     void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d);
+>> @@ -61,7 +61,6 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
+>>   extern MemoryRegionOps bmdma_addr_ioport_ops;
+>>   void pci_ide_create_devs(PCIDevice *dev);
+>>   -extern const VMStateDescription vmstate_ide_pci;
+>>   extern const MemoryRegionOps pci_ide_cmd_le_ops;
+>>   extern const MemoryRegionOps pci_ide_data_le_ops;
+>>   #endif
 >> diff --git a/hw/ide/cmd646=2Ec b/hw/ide/cmd646=2Ec
->> index 85716aaf17=2E=2Eb9d005a357 100644
+>> index a094a6e12a=2E=2E9aabf80e52 100644
 >> --- a/hw/ide/cmd646=2Ec
 >> +++ b/hw/ide/cmd646=2Ec
->> @@ -251,13 +251,13 @@ static void pci_cmd646_ide_realize(PCIDevice *dev=
-, Error **errp)
->>       dev->wmask[MRDMODE] =3D 0x0;
->>       dev->w1cmask[MRDMODE] =3D MRDMODE_INTR_CH0 | MRDMODE_INTR_CH1;
->>   -    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar=
-[0]);
->> -    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[0]=
-);
->> -    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar[1=
-]);
->> -    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]=
-);
->> +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &d->data_ops[0=
-]);
->> +    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_ops[0]=
-);
->> +    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &d->data_ops[1=
-]);
->> +    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_ops[1]=
-);
->>         bmdma_init_ops(d, &cmd646_bmdma_ops);
->> -    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar)=
-;
->> +    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_ops)=
-;
->>         /* TODO: RST# value should be 0 */
->>       pci_conf[PCI_INTERRUPT_PIN] =3D 0x01; // interrupt on pin 1
->> diff --git a/hw/ide/pci=2Ec b/hw/ide/pci=2Ec
->> index a9194313bd=2E=2Eb2fcc00a64 100644
->> --- a/hw/ide/pci=2Ec
->> +++ b/hw/ide/pci=2Ec
->> @@ -527,15 +527,15 @@ void bmdma_init_ops(PCIIDEState *d, const MemoryR=
-egionOps *bmdma_ops)
->>   {
->>       size_t i;
->>   -    memory_region_init(&d->bmdma_bar, OBJECT(d), "bmdma-container", =
-16);
->> +    memory_region_init(&d->bmdma_ops, OBJECT(d), "bmdma-container", 16=
-);
->>       for (i =3D 0; i < ARRAY_SIZE(d->bmdma); i++) {
->>           BMDMAState *bm =3D &d->bmdma[i];
->>             memory_region_init_io(&bm->extra_io, OBJECT(d), bmdma_ops, =
-bm, "bmdma-ops", 4);
->> -        memory_region_add_subregion(&d->bmdma_bar, i * 8, &bm->extra_i=
-o);
->> +        memory_region_add_subregion(&d->bmdma_ops, i * 8, &bm->extra_i=
-o);
->>           memory_region_init_io(&bm->addr_ioport, OBJECT(d), &bmdma_add=
-r_ioport_ops, bm,
->>                                 "bmdma-ioport-ops", 4);
->> -        memory_region_add_subregion(&d->bmdma_bar, i * 8 + 4, &bm->add=
-r_ioport);
->> +        memory_region_add_subregion(&d->bmdma_ops, i * 8 + 4, &bm->add=
-r_ioport);
+>> @@ -301,17 +301,6 @@ static void pci_cmd646_ide_realize(PCIDevice *dev,=
+ Error **errp)
 >>       }
 >>   }
->>   @@ -543,14 +543,14 @@ static void pci_ide_init(Object *obj)
->>   {
->>       PCIIDEState *d =3D PCI_IDE(obj);
->>   -    memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_=
-le_ops,
->> +    memory_region_init_io(&d->data_ops[0], OBJECT(d), &pci_ide_data_le=
-_ops,
->>                             &d->bus[0], "pci-ide0-data-ops", 8);
->> -    memory_region_init_io(&d->cmd_bar[0], OBJECT(d), &pci_ide_cmd_le_o=
-ps,
->> +    memory_region_init_io(&d->cmd_ops[0], OBJECT(d), &pci_ide_cmd_le_o=
-ps,
->>                             &d->bus[0], "pci-ide0-cmd-ops", 4);
->>   -    memory_region_init_io(&d->data_bar[1], OBJECT(d), &pci_ide_data_=
-le_ops,
->> +    memory_region_init_io(&d->data_ops[1], OBJECT(d), &pci_ide_data_le=
-_ops,
->>                             &d->bus[1], "pci-ide1-data-ops", 8);
->> -    memory_region_init_io(&d->cmd_bar[1], OBJECT(d), &pci_ide_cmd_le_o=
-ps,
->> +    memory_region_init_io(&d->cmd_ops[1], OBJECT(d), &pci_ide_cmd_le_o=
-ps,
->>                             &d->bus[1], "pci-ide1-cmd-ops", 4);
->>         qdev_init_gpio_out(DEVICE(d), d->isa_irq, ARRAY_SIZE(d->isa_irq=
-));
->> @@ -562,8 +562,8 @@ static void pci_ide_exitfn(PCIDevice *dev)
->>       unsigned i;
->>         for (i =3D 0; i < ARRAY_SIZE(d->bmdma); ++i) {
+>>   -static void pci_cmd646_ide_exitfn(PCIDevice *dev)
+>> -{
+>> -    PCIIDEState *d =3D PCI_IDE(dev);
+>> -    unsigned i;
+>> -
+>> -    for (i =3D 0; i < 2; ++i) {
 >> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eextr=
 a_io);
 >> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eaddr=
 _ioport);
->> +        memory_region_del_subregion(&d->bmdma_ops, &d->bmdma[i]=2Eextr=
-a_io);
->> +        memory_region_del_subregion(&d->bmdma_ops, &d->bmdma[i]=2Eaddr=
-_ioport);
->>       }
+>> -    }
+>> -}
+>> -
+>>   static Property cmd646_ide_properties[] =3D {
+>>       DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
+>>       DEFINE_PROP_END_OF_LIST(),
+>> @@ -323,17 +312,13 @@ static void cmd646_ide_class_init(ObjectClass *kl=
+ass, void *data)
+>>       PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
+>>         dc->reset =3D cmd646_reset;
+>> -    dc->vmsd =3D &vmstate_ide_pci;
+>>       k->realize =3D pci_cmd646_ide_realize;
+>> -    k->exit =3D pci_cmd646_ide_exitfn;
+>>       k->vendor_id =3D PCI_VENDOR_ID_CMD;
+>>       k->device_id =3D PCI_DEVICE_ID_CMD_646;
+>>       k->revision =3D 0x07;
+>> -    k->class_id =3D PCI_CLASS_STORAGE_IDE;
+>>       k->config_read =3D cmd646_pci_config_read;
+>>       k->config_write =3D cmd646_pci_config_write;
+>>       device_class_set_props(dc, cmd646_ide_properties);
+>> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
 >>   }
->>   diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
->> index 5611473d37=2E=2E6942b484f9 100644
+>>     static const TypeInfo cmd646_ide_info =3D {
+>> diff --git a/hw/ide/pci=2Ec b/hw/ide/pci=2Ec
+>> index 67e0998ff0=2E=2E8bea92e394 100644
+>> --- a/hw/ide/pci=2Ec
+>> +++ b/hw/ide/pci=2Ec
+>> @@ -467,7 +467,7 @@ static int ide_pci_post_load(void *opaque, int vers=
+ion_id)
+>>       return 0;
+>>   }
+>>   -const VMStateDescription vmstate_ide_pci =3D {
+>> +static const VMStateDescription vmstate_ide_pci =3D {
+>>       =2Ename =3D "ide",
+>>       =2Eversion_id =3D 3,
+>>       =2Eminimum_version_id =3D 0,
+>> @@ -530,11 +530,34 @@ static void pci_ide_init(Object *obj)
+>>       qdev_init_gpio_out(DEVICE(d), d->isa_irq, ARRAY_SIZE(d->isa_irq))=
+;
+>>   }
+>>   +static void pci_ide_exitfn(PCIDevice *dev)
+>> +{
+>> +    PCIIDEState *d =3D PCI_IDE(dev);
+>> +    unsigned i;
+>> +
+>> +    for (i =3D 0; i < ARRAY_SIZE(d->bmdma); ++i) {
+>> +        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eextr=
+a_io);
+>> +        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eaddr=
+_ioport);
+>> +    }
+>> +}
+>> +
+>> +static void pci_ide_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+>> +    PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
+>> +
+>> +    dc->vmsd =3D &vmstate_ide_pci;
+>> +    k->exit =3D pci_ide_exitfn;
+>> +    k->class_id =3D PCI_CLASS_STORAGE_IDE;
+>> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>> +}
+>> +
+>>   static const TypeInfo pci_ide_type_info =3D {
+>>       =2Ename =3D TYPE_PCI_IDE,
+>>       =2Eparent =3D TYPE_PCI_DEVICE,
+>>       =2Einstance_size =3D sizeof(PCIIDEState),
+>>       =2Einstance_init =3D pci_ide_init,
+>> +    =2Eclass_init =3D pci_ide_class_init,
+>>       =2Eabstract =3D true,
+>>       =2Einterfaces =3D (InterfaceInfo[]) {
+>>           { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+>> diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
+>> index a32f7ccece=2E=2E4e6ca99123 100644
 >> --- a/hw/ide/piix=2Ec
 >> +++ b/hw/ide/piix=2Ec
->> @@ -140,7 +140,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, Er=
+>> @@ -159,8 +159,6 @@ static void pci_piix_ide_realize(PCIDevice *dev, Er=
 ror **errp)
->>       pci_conf[PCI_CLASS_PROG] =3D 0x80; // legacy ATA mode
->>         bmdma_init_ops(d, &piix_bmdma_ops);
->> -    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar)=
-;
->> +    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_ops)=
-;
->>         for (unsigned i =3D 0; i < 2; i++) {
+>>       bmdma_setup_bar(d);
+>>       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar=
+);
+>>   -    vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
+>> -
+>
+>Presumably this still survives migration between a pre-series and post-se=
+ries QEMU using the PIIX IDE controller?
+>
+>>       for (unsigned i =3D 0; i < 2; i++) {
 >>           if (!pci_piix_init_bus(d, i, errp)) {
+>>               return;
+>> @@ -168,17 +166,6 @@ static void pci_piix_ide_realize(PCIDevice *dev, E=
+rror **errp)
+>>       }
+>>   }
+>>   -static void pci_piix_ide_exitfn(PCIDevice *dev)
+>> -{
+>> -    PCIIDEState *d =3D PCI_IDE(dev);
+>> -    unsigned i;
+>> -
+>> -    for (i =3D 0; i < 2; ++i) {
+>> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eextr=
+a_io);
+>> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eaddr=
+_ioport);
+>> -    }
+>> -}
+>> -
+>>   /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
+>>   static void piix3_ide_class_init(ObjectClass *klass, void *data)
+>>   {
+>> @@ -187,11 +174,8 @@ static void piix3_ide_class_init(ObjectClass *klas=
+s, void *data)
+>>         dc->reset =3D piix_ide_reset;
+>>       k->realize =3D pci_piix_ide_realize;
+>> -    k->exit =3D pci_piix_ide_exitfn;
+>>       k->vendor_id =3D PCI_VENDOR_ID_INTEL;
+>>       k->device_id =3D PCI_DEVICE_ID_INTEL_82371SB_1;
+>> -    k->class_id =3D PCI_CLASS_STORAGE_IDE;
+>> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>>       dc->hotpluggable =3D false;
+>>   }
+>>   @@ -209,11 +193,8 @@ static void piix4_ide_class_init(ObjectClass *kl=
+ass, void *data)
+>>         dc->reset =3D piix_ide_reset;
+>>       k->realize =3D pci_piix_ide_realize;
+>> -    k->exit =3D pci_piix_ide_exitfn;
+>>       k->vendor_id =3D PCI_VENDOR_ID_INTEL;
+>>       k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB;
+>> -    k->class_id =3D PCI_CLASS_STORAGE_IDE;
+>> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>>       dc->hotpluggable =3D false;
+>>   }
+>>   diff --git a/hw/ide/sii3112=2Ec b/hw/ide/sii3112=2Ec
+>> index 5dd3d03c29=2E=2E0af897a9ef 100644
+>> --- a/hw/ide/sii3112=2Ec
+>> +++ b/hw/ide/sii3112=2Ec
+>> @@ -301,9 +301,10 @@ static void sii3112_pci_class_init(ObjectClass *kl=
+ass, void *data)
+>>       pd->class_id =3D PCI_CLASS_STORAGE_RAID;
+>>       pd->revision =3D 1;
+>>       pd->realize =3D sii3112_pci_realize;
+>> +    pd->exit =3D NULL;
+>>       dc->reset =3D sii3112_reset;
+>> +    dc->vmsd =3D NULL;
+>>       dc->desc =3D "SiI3112A SATA controller";
+>> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>>   }
+>
+>No need to set explicit NULLs here: class/object structures are all zeroe=
+d before init (unless you're deliberately trying to prevent the common PCID=
+eviceClass::exit() function from being called here temporarily?)
+>
+>>   static const TypeInfo sii3112_pci_info =3D {
 >> diff --git a/hw/ide/via=2Ec b/hw/ide/via=2Ec
->> index 704a8024cb=2E=2E35dd97e49b 100644
+>> index 91253fa4ef=2E=2E287143a005 100644
 >> --- a/hw/ide/via=2Ec
 >> +++ b/hw/ide/via=2Ec
->> @@ -154,13 +154,13 @@ static void via_ide_realize(PCIDevice *dev, Error=
+>> @@ -200,34 +200,19 @@ static void via_ide_realize(PCIDevice *dev, Error=
  **errp)
->>       dev->wmask[PCI_INTERRUPT_LINE] =3D 0;
->>       dev->wmask[PCI_CLASS_PROG] =3D 5;
->>   -    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar=
-[0]);
->> -    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[0]=
-);
->> -    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar[1=
-]);
->> -    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]=
-);
->> +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &d->data_ops[0=
-]);
->> +    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_ops[0]=
-);
->> +    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &d->data_ops[1=
-]);
->> +    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_ops[1]=
-);
->>         bmdma_init_ops(d, &via_bmdma_ops);
->> -    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar)=
-;
->> +    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_ops)=
-;
->>         qdev_init_gpio_in(ds, via_ide_set_irq, ARRAY_SIZE(d->bus));
->>       for (i =3D 0; i < ARRAY_SIZE(d->bus); i++) {
+>>       }
+>>   }
+>>   -static void via_ide_exitfn(PCIDevice *dev)
+>> -{
+>> -    PCIIDEState *d =3D PCI_IDE(dev);
+>> -    unsigned i;
+>> -
+>> -    for (i =3D 0; i < ARRAY_SIZE(d->bmdma); ++i) {
+>> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eextr=
+a_io);
+>> -        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i]=2Eaddr=
+_ioport);
+>> -    }
+>> -}
+>> -
+>>   static void via_ide_class_init(ObjectClass *klass, void *data)
+>>   {
+>>       DeviceClass *dc =3D DEVICE_CLASS(klass);
+>>       PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
+>>         dc->reset =3D via_ide_reset;
+>> -    dc->vmsd =3D &vmstate_ide_pci;
+>>       /* Reason: only works as function of VIA southbridge */
+>>       dc->user_creatable =3D false;
+>>         k->realize =3D via_ide_realize;
+>> -    k->exit =3D via_ide_exitfn;
+>>       k->vendor_id =3D PCI_VENDOR_ID_VIA;
+>>       k->device_id =3D PCI_DEVICE_ID_VIA_IDE;
+>>       k->revision =3D 0x06;
+>> -    k->class_id =3D PCI_CLASS_STORAGE_IDE;
+>> -    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>>   }
+>>     static const TypeInfo via_ide_info =3D {
 >
->I don't really feel strongly either way on this one, so I'm happy to go a=
-long with the silent majority here - I see that Zoltan has expressed a pref=
-erence for it to stay as-is=2E
-
-Doesn't it look off in PIIX-IDE where we don't map these regions via BARs?=
- Don't these memory regions only become "BARs" by mapping them as such?
-
+>A couple of queries, but generally looks good to me=2E
 >
 >
 >ATB,
