@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809E36EFCB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 23:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9966EFE01
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 01:28:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prn8s-0003r1-Lx; Wed, 26 Apr 2023 17:57:38 -0400
+	id 1proX3-0006Ub-U5; Wed, 26 Apr 2023 19:26:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
- id 1prn8q-0003qm-Sl; Wed, 26 Apr 2023 17:57:36 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
- id 1prn8o-0000mY-RF; Wed, 26 Apr 2023 17:57:36 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-54fc1824f0bso88170887b3.0; 
- Wed, 26 Apr 2023 14:57:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682546252; x=1685138252;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=19Hz5X8MU8UomO+JzTGoA6GoP+OpnGAwZPmF8OKPLLU=;
- b=a+11S3Lt6Fezegiy9SDI3+a3p7UETd8CBvM3n3qoevM9r4UYPo6b6qql00Wv69RvCV
- e0/2TdUKihiw6FybnzPSPwwd/aDxmM5ofDNRT+dMEUZ4ha4ebwyshXEmFuX2/K4+R+mk
- vI+B2s6X0vR9LlJ2Rl+jzu/OZEYwf/58ulvdZkDfspkVHcpr/Swl+KYuaFoYh9+M+m5a
- X+M7bOPvm8JWaP5/6ZWprIOKk0OnuM9K6x2TDVIg/1b35ehsnW6XufqOhDa+vI0H1+LL
- ti15FclEzz9PGc5JZSdEgAs8k6uowa0PrxBJVm0ffcFWBHYog+xdUDUnHgKoVZ4RSwaM
- 6Yvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682546252; x=1685138252;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=19Hz5X8MU8UomO+JzTGoA6GoP+OpnGAwZPmF8OKPLLU=;
- b=XD5feVGDEnwg9JwCwz7H1QMolj4Gw9HAhDSqqeP9twt1oCiMdASdZcEJ+YaxgeVcT4
- rn0XMkJXCAOnWBMtfuWcs1Yb4U5bHtSWhOrDtwEQRDhQURLES04NNqLIKJ+sdZMTUDeF
- cM0nFvriSAS5P0k6MHHtz5fWaCyEY3tDAdCKpcg67Ve9I8qmRYTRJD0RpHqK49sWZBl/
- VzMddyGdqWBIERHFpUTRKDxLw6DTTW/+cI3uNnyS06fGoGQPG7o39Kq6tffbzuGObcOr
- WdR5Euq0p/a6dTuYHOc2BoV0CmubVjwPfWkWpk+vEFvJAinVPn/jyGOvU1enrxhy8cMl
- 4uOA==
-X-Gm-Message-State: AAQBX9civpGKIahEFyD3Ota8b5NPQ7w3xPOmT+TI2Z98REiia5mbMbnM
- JxJlRcduhf6Zwz8uOSq9ELUUrVCt/K9pyDRMumw=
-X-Google-Smtp-Source: AKy350ZpXkfhrYBa0ffEuplDUITGlB1A+OsFgtJO4NUFnm/lb92LSFsCfitMIlxje8wummjFW7OO/RrhyPs18EDlWko=
-X-Received: by 2002:a0d:db06:0:b0:555:d2a9:4187 with SMTP id
- d6-20020a0ddb06000000b00555d2a94187mr13398121ywe.23.1682546252302; Wed, 26
- Apr 2023 14:57:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1proX2-0006Tj-0t; Wed, 26 Apr 2023 19:26:40 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1proWz-0000R0-45; Wed, 26 Apr 2023 19:26:39 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7EB677456E3;
+ Thu, 27 Apr 2023 01:24:50 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2AF44746335; Thu, 27 Apr 2023 01:24:50 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 281D674632B;
+ Thu, 27 Apr 2023 01:24:50 +0200 (CEST)
+Date: Thu, 27 Apr 2023 01:24:50 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
+ qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ John Snow <jsnow@redhat.com>, Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 11/13] hw/ide/sii3112: Reuse
+ PCIIDEState::{cmd,data}_ops
+In-Reply-To: <2BE97CCD-7EB4-4F02-B504-194C7B40A900@gmail.com>
+Message-ID: <df0667fa-ce41-65c0-46e3-1fa1b7ebe8fe@eik.bme.hu>
+References: <20230422150728.176512-1-shentey@gmail.com>
+ <20230422150728.176512-12-shentey@gmail.com>
+ <b4b8c651-3874-a919-1221-d09b3842e3c8@ilande.co.uk>
+ <2BE97CCD-7EB4-4F02-B504-194C7B40A900@gmail.com>
 MIME-Version: 1.0
-References: <20230424094309.197969-1-alexander.ivanov@virtuozzo.com>
- <20230424094309.197969-4-alexander.ivanov@virtuozzo.com>
-In-Reply-To: <20230424094309.197969-4-alexander.ivanov@virtuozzo.com>
-From: Mike Maslenkin <mike.maslenkin@gmail.com>
-Date: Thu, 27 Apr 2023 00:56:56 +0300
-Message-ID: <CAL77WPDgx5gsnDZAbir+ae5f6N419WxHQVHZhUr=M4E63AZk0w@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] parallels: Add checking and repairing duplicate
- offsets in BAT
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, den@virtuozzo.com, 
- stefanha@redhat.com, vsementsov@yandex-team.ru, kwolf@redhat.com, 
- hreitz@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=mike.maslenkin@gmail.com; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,45 +65,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Apr 24, 2023 at 12:44=E2=80=AFPM Alexander Ivanov
-<alexander.ivanov@virtuozzo.com> wrote:
+On Wed, 26 Apr 2023, Bernhard Beschow wrote:
+> Am 26. April 2023 11:41:54 UTC schrieb Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>:
+>> On 22/04/2023 16:07, Bernhard Beschow wrote:
+>>
+>>> Allows to unexport pci_ide_{cmd,data}_le_ops and models TYPE_SII3112_PCI as a
+>>> standard-compliant PCI IDE device.
+>>>
+>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>> ---
+>>>   include/hw/ide/pci.h |  2 --
+>>>   hw/ide/pci.c         |  4 ++--
+>>>   hw/ide/sii3112.c     | 50 ++++++++++++++++----------------------------
+>>>   3 files changed, 20 insertions(+), 36 deletions(-)
+>>>
+>>> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+>>> index 5025df5b82..dbb4b13161 100644
+>>> --- a/include/hw/ide/pci.h
+>>> +++ b/include/hw/ide/pci.h
+>>> @@ -62,6 +62,4 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
+>>>   extern MemoryRegionOps bmdma_addr_ioport_ops;
+>>>   void pci_ide_create_devs(PCIDevice *dev);
+>>>   -extern const MemoryRegionOps pci_ide_cmd_le_ops;
+>>> -extern const MemoryRegionOps pci_ide_data_le_ops;
+>>>   #endif
+>>> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+>>> index b2fcc00a64..97ccc75aa6 100644
+>>> --- a/hw/ide/pci.c
+>>> +++ b/hw/ide/pci.c
+>>> @@ -60,7 +60,7 @@ static void pci_ide_ctrl_write(void *opaque, hwaddr addr,
+>>>       ide_ctrl_write(bus, addr + 2, data);
+>>>   }
+>>>   -const MemoryRegionOps pci_ide_cmd_le_ops = {
+>>> +static const MemoryRegionOps pci_ide_cmd_le_ops = {
+>>>       .read = pci_ide_status_read,
+>>>       .write = pci_ide_ctrl_write,
+>>>       .endianness = DEVICE_LITTLE_ENDIAN,
+>>> @@ -98,7 +98,7 @@ static void pci_ide_data_write(void *opaque, hwaddr addr,
+>>>       }
+>>>   }
+>>>   -const MemoryRegionOps pci_ide_data_le_ops = {
+>>> +static const MemoryRegionOps pci_ide_data_le_ops = {
+>>>       .read = pci_ide_data_read,
+>>>       .write = pci_ide_data_write,
+>>>       .endianness = DEVICE_LITTLE_ENDIAN,
+>>> diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
+>>> index 0af897a9ef..9cf920369f 100644
+>>> --- a/hw/ide/sii3112.c
+>>> +++ b/hw/ide/sii3112.c
+>>> @@ -88,21 +88,9 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
+>>>           val |= (d->regs[1].confstat & (1UL << 11) ? (1 << 4) : 0);
+>>>           val |= (uint32_t)d->i.bmdma[1].status << 16;
+>>>           break;
+>>> -    case 0x80 ... 0x87:
+>>> -        val = pci_ide_data_le_ops.read(&d->i.bus[0], addr - 0x80, size);
+>>> -        break;
+>>> -    case 0x8a:
+>>> -        val = pci_ide_cmd_le_ops.read(&d->i.bus[0], 2, size);
+>>> -        break;
+>>>       case 0xa0:
+>>>           val = d->regs[0].confstat;
+>>>           break;
+>>> -    case 0xc0 ... 0xc7:
+>>> -        val = pci_ide_data_le_ops.read(&d->i.bus[1], addr - 0xc0, size);
+>>> -        break;
+>>> -    case 0xca:
+>>> -        val = pci_ide_cmd_le_ops.read(&d->i.bus[1], 2, size);
+>>> -        break;
+>>>       case 0xe0:
+>>>           val = d->regs[1].confstat;
+>>>           break;
+>>> @@ -171,18 +159,6 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
+>>>       case 0x0c ... 0x0f:
+>>>           bmdma_addr_ioport_ops.write(&d->i.bmdma[1], addr - 12, val, size);
+>>>           break;
+>>> -    case 0x80 ... 0x87:
+>>> -        pci_ide_data_le_ops.write(&d->i.bus[0], addr - 0x80, val, size);
+>>> -        break;
+>>> -    case 0x8a:
+>>> -        pci_ide_cmd_le_ops.write(&d->i.bus[0], 2, val, size);
+>>> -        break;
+>>> -    case 0xc0 ... 0xc7:
+>>> -        pci_ide_data_le_ops.write(&d->i.bus[1], addr - 0xc0, val, size);
+>>> -        break;
+>>> -    case 0xca:
+>>> -        pci_ide_cmd_le_ops.write(&d->i.bus[1], 2, val, size);
+>>> -        break;
+>>>       case 0x100:
+>>>           d->regs[0].scontrol = val & 0xfff;
+>>>           if (val & 1) {
+>>> @@ -259,6 +235,11 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
+>>>       pci_config_set_interrupt_pin(dev->config, 1);
+>>>       pci_set_byte(dev->config + PCI_CACHE_LINE_SIZE, 8);
+>>>   +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops[0]);
+>>> +    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[0]);
+>>> +    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops[1]);
+>>> +    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[1]);
+>>> +
+>>>       /* BAR5 is in PCI memory space */
+>>>       memory_region_init_io(&d->mmio, OBJECT(d), &sii3112_reg_ops, d,
+>>>                            "sii3112.bar5", 0x200);
+>>> @@ -266,17 +247,22 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
+>>>         /* BAR0-BAR4 are PCI I/O space aliases into BAR5 */
+>>>       mr = g_new(MemoryRegion, 1);
+>>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar0", &d->mmio, 0x80, 8);
+>>> -    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar0", &s->data_ops[0], 0,
+>>> +                             memory_region_size(&s->data_ops[0]));
+>>> +    memory_region_add_subregion_overlap(&d->mmio, 0x80, mr, 1);
+>>>       mr = g_new(MemoryRegion, 1);
+>>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar1", &d->mmio, 0x88, 4);
+>>> -    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar1", &s->cmd_ops[0], 0,
+>>> +                             memory_region_size(&s->cmd_ops[0]));
+>>> +    memory_region_add_subregion_overlap(&d->mmio, 0x88, mr, 1);
+>>>       mr = g_new(MemoryRegion, 1);
+>>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar2", &d->mmio, 0xc0, 8);
+>>> -    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar2", &s->data_ops[1], 0,
+>>> +                             memory_region_size(&s->data_ops[1]));
+>>> +    memory_region_add_subregion_overlap(&d->mmio, 0xc0, mr, 1);
+>>>       mr = g_new(MemoryRegion, 1);
+>>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar3", &d->mmio, 0xc8, 4);
+>>> -    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar3", &s->cmd_ops[1], 0,
+>>> +                             memory_region_size(&s->cmd_ops[1]));
+>>> +    memory_region_add_subregion_overlap(&d->mmio, 0xc8, mr, 1);
+>>> +
+>>>       mr = g_new(MemoryRegion, 1);
+>>>       memory_region_init_alias(mr, OBJECT(d), "sii3112.bar4", &d->mmio, 0, 16);
+>>>       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>>
+>> So if I read this right, this is now switching the aliases over on BAR5 to allow re-use of the common IDE/BMDMA BARs in PCIIDEState? If that's correct then I think the commit message needs a bit more detail, otherwise:
 >
-> Cluster offsets must be unique among all the BAT entries. Find duplicate
-> offsets in the BAT and fix it by copying the content of the relevant
-> cluster to a newly allocated cluster and set the new cluster offset to th=
-e
-> duplicated entry.
+> That's correct. Besides improving the commit message I'll additonally split this patch into two to show what's going on.
 >
-> Add host_cluster_index() helper to deduplicate the code.
->
-> Move parallels_fix_leak() call to parallels_co_check() to fix both types
-> of leak: real corruption and a leak produced by allocate_clusters()
-> during deduplication.
->
-> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-> ---
->  block/parallels.c | 134 ++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 129 insertions(+), 5 deletions(-)
->
-> diff --git a/block/parallels.c b/block/parallels.c
-> index ec89ed894b..3b992e8173 100644
-> --- a/block/parallels.c
-> +++ b/block/parallels.c
-> @@ -136,6 +136,12 @@ static int cluster_remainder(BDRVParallelsState *s, =
-int64_t sector_num,
->      return MIN(nb_sectors, ret);
->  }
->
-> +static uint32_t host_cluster_index(BDRVParallelsState *s, int64_t off)
-> +{
-> +    off -=3D s->header->data_off << BDRV_SECTOR_BITS;
-> +    return off / s->cluster_size;
-> +}
-> +
+> Furthermore, I'd init the memory regions in sii3112's init method rather 
+> than in realize(). This will be more consistent with the other PCI IDE 
+> device models and with the other memory regions.
 
-I guess  there should be:
-off -=3D le32_to_cpu(s->header->data_off) << BDRV_SECTOR_BITS
+Why is an init method meeded? If it's not needed why add it? Just keep it 
+simple. My view on these methods is that usually only a realize method is 
+needed which is the normal constructor of the object, but sometimes we 
+need some properties or something else to be available that can configure 
+the object before realising which is when an init method is needed. 
+Sometimes QEMU creates an object then destroys it without realising (I 
+think e.g. when using help to query device properties) so then memory 
+regions would be created and destroyed pointlessly. So unless there's a 
+good reason to have an init method I'd leave this device without one to 
+keep it simple. That other devices have an init method does not explain 
+why this one should have one. Maybe those devices need it for some 
+properties or they are just old code and not properly QOM'ified.
 
 Regards,
-Mike.
+BALATON Zoltan
 
