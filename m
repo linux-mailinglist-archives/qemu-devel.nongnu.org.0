@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1F86EF2EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 12:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713696EF2FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 12:59:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prcpj-0001UM-Jf; Wed, 26 Apr 2023 06:57:11 -0400
+	id 1prcrr-0003JP-TZ; Wed, 26 Apr 2023 06:59:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prcpf-0001Nn-Ju; Wed, 26 Apr 2023 06:57:07 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1prcrq-0003Hf-3E
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 06:59:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prcpd-0006fb-SA; Wed, 26 Apr 2023 06:57:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vLz3etrqKlv/nrgGCD0DJxmaDKvu/FeWqFTr96QQ4iM=; b=jL0KNSmEl2kcO1gNKsVhK+38WA
- TBK9ugLd3UdqGjgBODnVzKMaZNiyfTsGho6tIJ9YoF2M0fOdbe/XyiiIvszi015P8cRCSOiEbyfv8
- dsF+yxvbDCWVb294UZ8Yooi58pyL9FF/qSj9UV84UaT+yCSFXPXrDSlqKDBeX6sgYHhGnYkHbMMkV
- 5apQD/PlJw61PxpBCv1oaYigwT/6I3+sfscIViMxPQrVdOAUr635K+1Hs/C948Yw+r09wfN224PXE
- lCTJjlQS/H/KRwxBilyu75Nfj6poI1jxu9bQti4RJTqEkvW1OUMWTucKbA4ZtToiscJmbVs6HtQxp
- NM2zoCurQVwIgtMmr2B3cTElI/3HYokmb3/586a6yKEIc1h9ikVcM74xMeiJl891gCxswR0G4CFMU
- h16N7crkcTiKS5BBEEXVFleBm1Fiui93nrHSQcoMM97eGAPP1HABC5KNtdlqFbdf6V3zsqMRfavqS
- svhOGkeOZ9LBv+uoiVgieMAb8kmCLhZruxmRemeCKtmLw0JUJ5UB6NdoJV3tX7wT4DD9k0MdtFE9Q
- UVeLALQ7nHBSE9Dm8Yyrnm49G9Ny0KLXGlNAzXhsLCli0EQZcjPZBsKYBazd22AJjV0howYdLbRrB
- um76JPzV422GIr2d2l6Ligt0JHfb+lHiyCKtnD/Tg=;
-Received: from host81-151-114-25.range81-151.btcentralplus.com
- ([81.151.114.25] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prcoc-0001mP-TV; Wed, 26 Apr 2023 11:56:08 +0100
-Message-ID: <2b338da3-501b-1a88-1890-cda508c3512f@ilande.co.uk>
-Date: Wed, 26 Apr 2023 11:56:54 +0100
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1prcro-0006sJ-Bj
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 06:59:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682506758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cNs4jTa+gmWqjssWjD62Jv3T5J/YUfCD/qHxFgUivXQ=;
+ b=Rnb1TDOI+gzyr17+aypiI3Y9G1XhUGmirAG/vvCHaZYC7TLpHjAq12tj6/x0IHRcoAKpJk
+ 2FJS3gH7rUNyhFATE0qIkX4nnlASG33Ck8l+f3QTkbgsVBOsmidpsiWvTZghsu0BFs+NEm
+ QfzNSN6u5J64qi+zaxvbXVlmM5f6HyM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-561-gLl5TNiZNbWZZ2ngrO6DOA-1; Wed, 26 Apr 2023 06:59:16 -0400
+X-MC-Unique: gLl5TNiZNbWZZ2ngrO6DOA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-9534238ffa6so751538166b.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 03:59:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682506755; x=1685098755;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cNs4jTa+gmWqjssWjD62Jv3T5J/YUfCD/qHxFgUivXQ=;
+ b=MDmiRyH3rOgZQaksQtf7USnqnmK4c1vHjzf5zOtr6y0mcEIn7uPWRmkFu3K+JESBk6
+ xk82XFA+9eWT1j8RoVRpNvRlhG0RWgT+mGEHmLRo+HibX6HufCi/9c2n9RBcrZtO2gMR
+ 9eR6M236xxdhDTF8rTs4fn7DwwFdPip9gTblLjr6QtXHdeef1/ReEHTgCzfpeltdabRI
+ qyAPp0utWX0lhBvWQA9nc5OuaU/4yd2P8bBD0ov3o6+gWrWEZO4CpoPoaH1Os9j79y2+
+ rcreeJqUuog/Mo+bSG2BciDQN9jy1viLNRaR8dR6C7FyJt369WCBVSgp5jvZ0R0sPSar
+ Ccpg==
+X-Gm-Message-State: AAQBX9flDq/yJl0PkOfyr7m/UQPjAx4paOJkSWPXlF7S74iAVE0UiJJU
+ //aCjTLzEwsUljeJpC30hGdGRFaYafr/wPF2wMt2mRyt9y/XNH0qACvnoBWuIKBLuz0vJXU1+tC
+ d3tPxqKC+Kg5RUBU=
+X-Received: by 2002:a17:907:c001:b0:94f:449e:75db with SMTP id
+ ss1-20020a170907c00100b0094f449e75dbmr19083360ejc.52.1682506755596; 
+ Wed, 26 Apr 2023 03:59:15 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z1Nj1rBy4xouLY+bFHlUlUVhRuorEoUMWdGTP/4g3bKYBQXi9t4eF49cQeVd6yEwHRN4Lz5g==
+X-Received: by 2002:a17:907:c001:b0:94f:449e:75db with SMTP id
+ ss1-20020a170907c00100b0094f449e75dbmr19083335ejc.52.1682506755324; 
+ Wed, 26 Apr 2023 03:59:15 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ l18-20020a056402345200b00506935b7c75sm6547057edc.69.2023.04.26.03.59.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Apr 2023 03:59:14 -0700 (PDT)
+Message-ID: <5fc11d22-275d-cc8d-bf9c-f1c015cbee23@redhat.com>
+Date: Wed, 26 Apr 2023 12:59:13 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RFC PATCH 0/3] Deprecate the qemu-system-i386 binary
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-ppc@nongnu.org
-References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-5-shentey@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230422150728.176512-5-shentey@gmail.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20230425133851.489283-1-thuth@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20230425133851.489283-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 81.151.114.25
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 04/13] hw/ide: Extract IDEBus assignment into bmdma_init()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,85 +107,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/04/2023 16:07, Bernhard Beschow wrote:
-
-> Every invocation of bmdma_init() is followed by `d->bmdma[i].bus = &d->bus[i]`.
-> Resolve this redundancy by extracting it into bmdma_init().
+On 4/25/23 15:38, Thomas Huth wrote:
+> - CPU types have different suffixes between the -x86_64 and -i386
+>    variant (see TYPE_X86_CPU in cpu-qom.h) ... do we need to care
+>    about this in the new qemu-system-i386 symlink run mode?
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/ide/cmd646.c  | 1 -
->   hw/ide/pci.c     | 1 +
->   hw/ide/piix.c    | 1 -
->   hw/ide/sii3112.c | 1 -
->   hw/ide/via.c     | 1 -
->   5 files changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-> index a68357c1c5..a094a6e12a 100644
-> --- a/hw/ide/cmd646.c
-> +++ b/hw/ide/cmd646.c
-> @@ -297,7 +297,6 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
->           ide_bus_init_output_irq(&d->bus[i], qdev_get_gpio_in(ds, i));
->   
->           bmdma_init(&d->bus[i], &d->bmdma[i], d);
-> -        d->bmdma[i].bus = &d->bus[i];
->           ide_bus_register_restart_cb(&d->bus[i]);
->       }
->   }
-> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-> index 942e216b9b..67e0998ff0 100644
-> --- a/hw/ide/pci.c
-> +++ b/hw/ide/pci.c
-> @@ -519,6 +519,7 @@ void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d)
->       bus->dma = &bm->dma;
->       bm->irq = bus->irq;
->       bus->irq = qemu_allocate_irq(bmdma_irq, bm, 0);
-> +    bm->bus = bus;
->       bm->pci_dev = d;
->   }
->   
-> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-> index 41d60921e3..a32f7ccece 100644
-> --- a/hw/ide/piix.c
-> +++ b/hw/ide/piix.c
-> @@ -144,7 +144,6 @@ static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
->       ide_bus_init_output_irq(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
->   
->       bmdma_init(&d->bus[i], &d->bmdma[i], d);
-> -    d->bmdma[i].bus = &d->bus[i];
->       ide_bus_register_restart_cb(&d->bus[i]);
->   
->       return true;
-> diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-> index f9becdff8e..5dd3d03c29 100644
-> --- a/hw/ide/sii3112.c
-> +++ b/hw/ide/sii3112.c
-> @@ -287,7 +287,6 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
->           ide_bus_init_output_irq(&s->bus[i], qdev_get_gpio_in(ds, i));
->   
->           bmdma_init(&s->bus[i], &s->bmdma[i], s);
-> -        s->bmdma[i].bus = &s->bus[i];
->           ide_bus_register_restart_cb(&s->bus[i]);
->       }
->   }
-> diff --git a/hw/ide/via.c b/hw/ide/via.c
-> index 0caae52276..91253fa4ef 100644
-> --- a/hw/ide/via.c
-> +++ b/hw/ide/via.c
-> @@ -196,7 +196,6 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
->           ide_bus_init_output_irq(&d->bus[i], qdev_get_gpio_in(ds, i));
->   
->           bmdma_init(&d->bus[i], &d->bmdma[i], d);
-> -        d->bmdma[i].bus = &d->bus[i];
->           ide_bus_register_restart_cb(&d->bus[i]);
->       }
->   }
+> - The code in target/i386/tcg/sysemu/smm_helper.c looks like it
+>    maybe needs a runtime switch, too ... or is it ok to leave this
+>    hard-coded to the x86_64 version?
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Yes, it would have to switch based on the CPU's LM feature.
 
+> Anyway, I'd like to get some feedback on this idea here... What
+> do you think of the idea of getting rid of the qemu-system-i386
+> binary this way in the future?
 
-ATB,
+I wonder if we should take this a step further and rename 
+qemu-system-x86_64 to qemu-system-x86!  Distros can if they wish create 
+symlinks to both qemu-system-i386 and qemu-system-x86_64.
 
-Mark.
+Then we would name the CPUs "foo-x86" and alias them to foo-x86_64 and, 
+if they don't have LM set, to foo-i386 as well.
+
+Paolo
+
 
