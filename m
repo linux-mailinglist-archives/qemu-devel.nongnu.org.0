@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3446EF856
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 18:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F0F6EF863
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 18:25:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prhuq-0004wm-BZ; Wed, 26 Apr 2023 12:22:48 -0400
+	id 1prhxU-00073Q-Ob; Wed, 26 Apr 2023 12:25:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1prhun-0004vV-L4
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:22:45 -0400
-Received: from esa5.hc2706-39.iphmx.com ([216.71.137.63])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1prhxQ-00072r-2p
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:25:30 -0400
+Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1prhum-00068J-21
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:22:45 -0400
-X-IronPort-RemoteIP: 209.85.219.69
-X-IronPort-MID: 287060773
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1prhxO-0006iv-2d
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:25:27 -0400
+X-IronPort-RemoteIP: 209.85.222.200
+X-IronPort-MID: 276150411
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:Qswvqa3BTl9bOU3hCvbD5Wxzkn2cJEfYwER7XKvMYLTBsI5bp2cHz
- 2odXTiOOv3bNDDycopxaI3j800F68DUzdU2SwM/qSg9HnlHl5H5CIXCJC8cHc8zwu4v7q5Dx
- 59DAjUVBJlsFhcwnj/0bv666yE6jfrSLlbFILasEjhrQgN5QzsWhxtmmuoo6qZlmtH8CA6W0
- T/Ii5S31GSNhnglYwr414rZ8Ek05Kio5mtC1rADTasjUGH2xiF94K03ePnZw0vQGuF8AuO8T
- uDf+7C1lkuxE8AFU47Nfh7TKyXmc5aLVeS8oiM+t5uK23CukhcPPpMTb5LwX6v2ZwKhxLidw
- P0V3XC5pJxA0qfkwYzxWDEBe81y0DEvFBYq7hFTvOTKp3AqfUcAzN1VBmI0E58xvdpMOl1q8
- qVIEh1dREqq0rfeLLKTEoGAh+wmJcjveZoB4zRuk2CfAvEhTpTOBa7N4Le03h9q3pEITauYP
- ZNIL2Q+BPjDS0Qn1lM/AZYumuuyrnPiNTBUtTp5oIJtszeLklQuj+OF3Nz9WP2Xfeh7uGKh+
- WOdoHXCAUgQKJ/Axm/Qmp6rrqqV9c/hY6oLGbils/JnnlCX7moUDhIQSB28u/bRt6Klc9dWK
- khR4zR36KZspQqkSd7yWxD+q3mB1vIBZ+dt/yQBwFnl4sLpD8yxWjNdJtKdQLTKbPMLeAE=
-IronPort-HdrOrdr: A9a23:JoLkvasFrWzpFTv3f852q+Ti7skDT9V00zEX/kB9WHVpm62j+f
- xG+c5w6faaslkssQ4b6La90cW7MBHhHP1OgLX5X43PYOCOggLBEGgF1+vfKlbbakjDH4BmuJ
- uJjMBFeb7N5FJB/KHHCVmDeOrJabG8gcSVuds=
-X-Talos-CUID: 9a23:qiJubmOGLr6/i+5DYyNE9mAGM4cZSUbh6HCJc3WVWUwzYejA
-X-Talos-MUID: 9a23:5vd7nwp9/FE5IOYuLqUezxNDKf9FzYKKMR8MysoXgMrdPzAzZDjI2Q==
-Received: from mail-qv1-f69.google.com ([209.85.219.69])
+IronPort-Data: A9a23:3OVDwqI5T4iG2NnFFE+RapclxSXFcZb7ZxGr2PjKsXjdYENShGdWz
+ TEaXjjQbKnZM2r2eNAlaNiyoUgPvZ7UyN8yS1dorCE8RH908vbIVI+TRqvS04J+DSFhoGZPt
+ Zh2hgzodZhsJpPkjk7xdOOn9T8kjvvgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziJ2yDhjlV
+ ena+qUzA3f4nW8lWo4ow/jb8kg34K6s4GlwUmEWPpingnePzxH5M7pCfcldH1OgKqFIE+izQ
+ fr0zb3R1gs1KD90V7tJOp6iGqE7aue60Tqm0xK6aID76vR2nRHe545gXBYqhea7vB3S9zx54
+ I0lWZVd0m7FNIWV8AgWe0Aw/y2TocSqUVIISJSymZX78qHIT5fj669rAEIJIIIywPQ0EDFs1
+ NMZdBk1bx/W0opawJrjIgVtrsEqLc2uJYBG/386lWmfAvEhTpTOBa7N4Le03h9q3pEITauYP
+ ZBDL2A3NHwsYDUWUrsTIJs6jOGknFH1bntVpE/9Sa8fuTeNlVEpjOG0WDbTUo3WbMxOxXipn
+ z/p3kXSEihKb/qayhPQpxpAgceKx0sXQrk6DbC967tmjUOewkQVDxsZU0b9puO24nNSQPpaI
+ k0QvzMt9O08rhTzCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBdEmEZADD6nKfanQAX6
+ 2I=
+IronPort-HdrOrdr: A9a23:qmTFV6ik1tiNBjnciSCKlXFfUHBQXgwji2hC6mlwRA09TyVXrb
+ HLoB19726JtN91YhsdcL+7Sc+9qB/nhPxICMwqTMyftWrdyRaVxf9ZnPLfKlTbckWUh41gPO
+ VbAtJD4bXLbWSS5vyKhzVQfexQpeWvweSDqd2b4U1QbTxHXYld0iYRMHflLqS0fmV77FgCea
+ Z0KvAom9PZQwVuUi1zPBZlY9T+
+X-Talos-CUID: =?us-ascii?q?9a23=3AWGO+e2lXUwx09LGKheM9eOFxbxvXOSfYwHTvPkC?=
+ =?us-ascii?q?SM3QqWe23aHCRpIpcksU7zg=3D=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AFlPTAw9RksNWxecreJB2R8aQf5Y0yq21U348qMg?=
+ =?us-ascii?q?pmuivJRUgYBGYjx3iFw=3D=3D?=
+Received: from mail-qk1-f200.google.com ([209.85.222.200])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 26 Apr 2023 12:20:20 -0400
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-5ef4b68f47bso45312456d6.2
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 09:20:20 -0700 (PDT)
+ 26 Apr 2023 12:20:24 -0400
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-74d62b70922so1142145485a.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 09:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bu.edu; s=s1gsbu; t=1682526019; x=1685118019;
+ d=bu.edu; s=s1gsbu; t=1682526023; x=1685118023;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=baPw7HeUNSOgBdUdX5+Wv116KVOdtz82o0yKX11s6GY=;
- b=HOTBcmjzK+VrSqZG+hRfhMXWw5DnTHU8N63AWA5iXVJqZGte35yFYlcUvc++1cOMei
- NzudhD/vOPObQp42GDavrwghDDg8j75lpv1Oregf7XZVStL6sVMHG+Q2R0dSURonvXxu
- /P856opItzGwjYbcLMNbk4YSOtxh3dvixnxa04XVY795+6ChUeECk8g+sFdLiHYJPW65
- 7WLof1T5equXfYCH1cbYAczD5mO7qcl4lTN6YptepTgzzgAkWi4mdlY+q4RlEVQC51Mj
- WDJWKwWX7PzOhX3mUKAPUEkn54Ayc9nRPNzMi/2UfZTIoiUJiTgQLHiJpjsdgGevjWmB
- +a7Q==
+ bh=y8lqfGW40ktWobrkJtbGNnWDtsD/7tWAErgFuibUF9w=;
+ b=FEYlrYCHHuX4QmzFaQ5KfpQhp00jrDbB9ZRDOMynR4KFyHWbhgl6Nork4IyBDFGuKn
+ v5DrH3r3yVUuFuABYUNFh9xy1Q41lrGPJXz0QIIP5HCuH+0xE1BNSkCJK1wqtOAUW6nW
+ rB6s1QsKlZcMiDJBbf0xawxp4anmNIfdit+8kSWpnNJ+rB6c7rM6a8Megz06kJ6/8XY/
+ VAJB/+M38DwmBWuIU3fr7HEzasGtpl5/YnINdmoHUwybZqnbbGmeEnTA0Y6adtSIMO9n
+ xQ3sXtF+Vl77JNp81kpM9uJgO3FBgIal6ak+SecSlICrFQf0FhskjBa484ouYB9MZiTn
+ cSCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682526019; x=1685118019;
+ d=1e100.net; s=20221208; t=1682526023; x=1685118023;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=baPw7HeUNSOgBdUdX5+Wv116KVOdtz82o0yKX11s6GY=;
- b=FzD3Bhyj/5eq/X8GEcN5eo0RbcxaWQuQZNo/V/OFfEX7JpjQCvSS3lpEzW7Lc0yC+G
- T+4MwXQ8Y668JxJrliaJROdt4660RudNT1+LmPswbobVHP8SMV+xBYerwOyRCAt7CwLg
- TayadTdoLXKhM50vjXKb/LOFixiQp+Yr5yc4YNOSTGVHwRNq5Fdu4uUO755taYl3RXUF
- vzqC+IWypE8nghS5z3boQS9TYNjGNVcuPCyTuz6iqrsOnHykjhkXVSS0YDo2yZ9jxjyM
- G5jDJ8hrWzYZaZ3fVENtt+vG/YLG8mgQRl9Eikh4U7Ds9WCq5YRtbF5umQDG95ozQTQw
- 10Jw==
-X-Gm-Message-State: AAQBX9eLwbCwxsD2DD7bfeyxhp5qVN7O5F497P76wQqXnv+jNfQ4dFag
- vA5lrrfWgs/YDKcchvaSTahpJ9LorAsaUEN/qSf5ll9JlJ4Y4oKgwxTLxl0DOqb6cEOUeQmVbBI
- hRWxuIQeA5Wsk+33mcN/P5P/yzpIHbNa3rIjsbGTd/64=
-X-Received: by 2002:a05:6214:1c4f:b0:5ef:5144:9d24 with SMTP id
- if15-20020a0562141c4f00b005ef51449d24mr38061703qvb.21.1682526019488; 
- Wed, 26 Apr 2023 09:20:19 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bp+GsjrdVdootw/GoXQWNlgEnT+dB9PI9t6pL2vHlJD3PuCKJkKZtUMUHgY78QX3EQ0oJ62g==
-X-Received: by 2002:a05:6214:1c4f:b0:5ef:5144:9d24 with SMTP id
- if15-20020a0562141c4f00b005ef51449d24mr38061600qvb.21.1682526018604; 
- Wed, 26 Apr 2023 09:20:18 -0700 (PDT)
+ bh=y8lqfGW40ktWobrkJtbGNnWDtsD/7tWAErgFuibUF9w=;
+ b=N3U1Eyhe1Kh/9TyHSJLZgzo/G4Z/fh+vGpsBTzD/PjmqdAzk4OmMRD1pTcFP3eaEDS
+ Oh1BmKtRxJSJ3/TkD7nW0qM6/3RCPsy/TnpGSKQHqs4Ris9hZTAIVWn4CgL0cZ6xZsoc
+ ESUB9qt8+wtwMl0WqIfpRkjYpl4jT2XerUIF0vp8whaC+H1+O831naecK/G4bHnyOfMj
+ PLe5g9TSH+45gT2ZQRSubt74aL2ervUunpI1bBeCghi+X4Mz5uilQKNMn71pOpHPZJZY
+ K3FWsteeSrUo+67tVOYnXbO6kMoY+bGrGtl0ct3M+dbQAyn2zc2aJtSc99E6cgFKyP0W
+ ckVA==
+X-Gm-Message-State: AAQBX9d3ABVnql4VY4tNee62ketMfzcbHn5o9nG+Ny/im9oTcXnL/Yo1
+ VpATwePI/UIWdSOOImsfd9IZNHYAPThZ3uE5V1hwDPlRIH9q0d6RyBwrDgHLB4CJT46NF+H4uV7
+ YnqU0lb7qgCqPyVRBlAuGYrz4HQ9Zp0ctoACt5wyEpwM=
+X-Received: by 2002:a05:6214:d67:b0:5ef:46a9:15d2 with SMTP id
+ 7-20020a0562140d6700b005ef46a915d2mr40741316qvs.7.1682526022963; 
+ Wed, 26 Apr 2023 09:20:22 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aDDhrY6YFKE9X7SgJ6MzvzBVadcWbwKdF+LFCJ3AQz2pkJzC5OKajgqomyhuFMm3gRhZyNpg==
+X-Received: by 2002:a05:6214:d67:b0:5ef:46a9:15d2 with SMTP id
+ 7-20020a0562140d6700b005ef46a915d2mr40741269qvs.7.1682526022721; 
+ Wed, 26 Apr 2023 09:20:22 -0700 (PDT)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- r8-20020a0ccc08000000b005f160622f3esm4953167qvk.85.2023.04.26.09.20.17
+ z18-20020a0ca952000000b005dd8b9345d3sm4939392qva.107.2023.04.26.09.20.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Apr 2023 09:20:18 -0700 (PDT)
+ Wed, 26 Apr 2023 09:20:22 -0700 (PDT)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -98,20 +102,19 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
  Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org (open list:Raspberry Pi)
-Subject: [PATCH v9 6/8] bcm2835_property: disable reentrancy detection for
- iomem
-Date: Wed, 26 Apr 2023 12:19:49 -0400
-Message-Id: <20230426161951.2948996-7-alxndr@bu.edu>
+ Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org (open list:Block I/O path)
+Subject: [PATCH v9 7/8] memory: abort on re-entrancy in debug builds
+Date: Wed, 26 Apr 2023 12:19:50 -0400
+Message-Id: <20230426161951.2948996-8-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230426161951.2948996-1-alxndr@bu.edu>
 References: <20230426161951.2948996-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.63; envelope-from=alxndr@bu.edu;
- helo=esa5.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
+ helo=esa7.hc2706-39.iphmx.com
 X-Spam_score_int: -7
 X-Spam_score: -0.8
 X-Spam_bar: /
@@ -134,34 +137,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As the code is designed for re-entrant calls from bcm2835_property to
-bcm2835_mbox and back into bcm2835_property, mark iomem as
-reentrancy-safe.
+This is useful for using unit-tests/fuzzing to detect bugs introduced by
+the re-entrancy guard mechanism into devices that are intentionally
+re-entrant.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/misc/bcm2835_property.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ softmmu/memory.c | 3 +++
+ util/async.c     | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
-index 890ae7bae5..de056ea2df 100644
---- a/hw/misc/bcm2835_property.c
-+++ b/hw/misc/bcm2835_property.c
-@@ -382,6 +382,13 @@ static void bcm2835_property_init(Object *obj)
- 
-     memory_region_init_io(&s->iomem, OBJECT(s), &bcm2835_property_ops, s,
-                           TYPE_BCM2835_PROPERTY, 0x10);
-+
-+    /*
-+     * bcm2835_property_ops call into bcm2835_mbox, which in-turn reads from
-+     * iomem. As such, mark iomem as re-entracy safe.
-+     */
-+    s->iomem.disable_reentrancy_guard = true;
-+
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
-     sysbus_init_irq(SYS_BUS_DEVICE(s), &s->mbox_irq);
- }
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index af9365bb81..d038633a6c 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -547,6 +547,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+         !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
+         if (mr->dev->mem_reentrancy_guard.engaged_in_io) {
+             trace_memory_region_reentrant_io(get_cpu_index(), mr, addr, size);
++#ifdef DEBUG
++            abort();
++#endif
+             return MEMTX_ACCESS_ERROR;
+         }
+         mr->dev->mem_reentrancy_guard.engaged_in_io = true;
+diff --git a/util/async.c b/util/async.c
+index a9b528c370..2dc9389e0d 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -160,6 +160,9 @@ void aio_bh_call(QEMUBH *bh)
+         last_engaged_in_io = bh->reentrancy_guard->engaged_in_io;
+         if (bh->reentrancy_guard->engaged_in_io) {
+             trace_reentrant_aio(bh->ctx, bh->name);
++#ifdef DEBUG
++            abort();
++#endif
+         }
+         bh->reentrancy_guard->engaged_in_io = true;
+     }
 -- 
 2.39.0
 
