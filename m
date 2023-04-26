@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3934A6EF276
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0A86EF277
 	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 12:44:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prcZN-0001qA-KA; Wed, 26 Apr 2023 06:40:17 -0400
+	id 1prcZO-0001uR-MQ; Wed, 26 Apr 2023 06:40:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1prcZK-0001jc-1G
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 06:40:14 -0400
+ id 1prcZL-0001mx-GT
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 06:40:15 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1prcZH-0003gX-QD
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 06:40:13 -0400
+ id 1prcZK-0003hf-3w
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 06:40:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682505609;
+ s=mimecast20190719; t=1682505613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9ZrWAxw5fQaC7cSYT/zt/7he3gpCpMnVQMGMUcDp41o=;
- b=OLOMhhCawUuFcVqoDrVmyEj8S4OosGqicp2LIhB+5AUVesZyAbTz2P/lFQpgXSQIcDtKqq
- 5ieRtUoNlZFcisUE/JSiw0+Q0pFJ/4Z0gcWj714luBuyZPrTfATfJOJ/8SDDlTGMwIejG7
- ZeuMUHYsrOlAqmGjLY74TtKPO8QENt8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-619-ED7fEYprM66tWQuS-dKJjQ-1; Wed, 26 Apr 2023 06:40:08 -0400
-X-MC-Unique: ED7fEYprM66tWQuS-dKJjQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f170a1fbe7so41415265e9.2
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 03:40:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682505607; x=1685097607;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9ZrWAxw5fQaC7cSYT/zt/7he3gpCpMnVQMGMUcDp41o=;
- b=iXsXFa5wpg2+kiqMajqKuEvH+AeU2S/fSoMFJCit/gcmCIsqvHJeXaBXQJBuSmhIzQ
- 018/1BYroKpnNCn4CujSy9Vchp23PFJKitiyffSxQb1rA/a5C/Ib1HZRylzo9u+pgBI4
- QUYRQIsEu/Rh7Yykts/6oeGP65FXYjWn1RSD2wX4IaSYbXlJ8wa11hjfn0pLKMef5gIG
- XFKhfB2paWFKNz4lu8jypHBWKPHEj5LmmDAwjrmK2qwDHdJIBW2S8t/o0t689XNsHBAc
- tQ++ONbtzjAW94kTBXAaz3w19+rIxd/yRG+tz73bTz29C7eXBSbCZuMFYxFHLVRCYMOI
- zmlQ==
-X-Gm-Message-State: AAQBX9eDUq0chH4Ilt8eGtxVgFXNux1HM9iRV6lRrUItGUbGE1EwhGnq
- oOEY25BVYI74WyZCIgpoxccf/Y7k+3/MjPyVhgOSdBIs0SAVRVoEcKLOS1eKB+OLw2VltJuzM0B
- tAo08XjyDLkUxVmg=
-X-Received: by 2002:a05:600c:22d4:b0:3f1:9134:f277 with SMTP id
- 20-20020a05600c22d400b003f19134f277mr14105087wmg.8.1682505607125; 
- Wed, 26 Apr 2023 03:40:07 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZaXg4HTsK5DVyjrG1qjVqdGVA4NM3jJ5WqFa+GfsWuV+qYS56xODdhG+sOkSJLAcyc8sbl3A==
-X-Received: by 2002:a05:600c:22d4:b0:3f1:9134:f277 with SMTP id
- 20-20020a05600c22d400b003f19134f277mr14105069wmg.8.1682505606814; 
- Wed, 26 Apr 2023 03:40:06 -0700 (PDT)
-Received: from [192.168.149.117]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- s8-20020a05600c45c800b003f18992079dsm18221089wmo.42.2023.04.26.03.40.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 03:40:06 -0700 (PDT)
-Message-ID: <87e795fd-b611-8e66-977f-775778832b26@redhat.com>
-Date: Wed, 26 Apr 2023 12:40:05 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] tests/unit/test-blockjob: Re-enable complete_in_standby
- test
-Content-Language: de-CH
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8QdsUP6SikZizHlSb/W811YkaBJvBiTtrPOagdFkMPA=;
+ b=goImbWigPLuutOmua/zFFsaEiFmPmRFyhXv21dda6LkiUKsczW5Zw4xOgR2WFxf2o5VFFv
+ fHG7S5v1ZUy7IvFYvXPSmNeuAE7RdxpSsW7h/4jl9nE3s0lwtIzJfCDVWoeK2mZOb3Bi8P
+ DyXvLZfafkn2cLb2xc6xj2Ch3YgQvgM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-135-fmj39Ay7OT2mw2YmnSg7dA-1; Wed, 26 Apr 2023 06:40:12 -0400
+X-MC-Unique: fmj39Ay7OT2mw2YmnSg7dA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D3791C0514C;
+ Wed, 26 Apr 2023 10:40:11 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30A4E2027043;
+ Wed, 26 Apr 2023 10:40:11 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Peter Maydell <peter.maydell@linaro.org>, Hanna Czenczek
- <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20230426081601.2567990-1-eesposit@redhat.com>
- <a11743c0-5f9b-fa8c-14d9-8e724bf4cee0@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <a11743c0-5f9b-fa8c-14d9-8e724bf4cee0@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+ Peter Maydell <peter.maydell@linaro.org>,
+ Hanna Czenczek <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v2] tests/unit/test-blockjob: Re-enable complete_in_standby
+ test
+Date: Wed, 26 Apr 2023 06:40:09 -0400
+Message-Id: <20230426104009.2571175-1-eesposit@redhat.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,53 +80,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Pause the job while draining so that pause_count will be
+increased and bdrv_drain_all_end() won't reset it to 0, so the
+job will not continue.
 
+With this fix, the test is not flaky anymore.
 
-Am 26/04/2023 um 10:45 schrieb Thomas Huth:
-> On 26/04/2023 10.16, Emanuele Giuseppe Esposito wrote:
->> Pause the job while draining so that pause_count will be
->> increased and bdrv_drain_all_end() won't reset it to 0, so the
->> job will not continue.
->>
->> With this fix, the test is not flaky anymore.
->>
->> Additionally remove useless aiocontext lock around bdrv_drain_all_end()
->> in test_complete_in_standby().
->>
->> Fixes: b6903cbe3a2 "tests/unit/test-blockjob: Disable
->> complete_in_standby test"
->> Suggested-by: Hanna Czenczek <hreitz@redhat.com>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   tests/unit/test-blockjob.c | 17 +++++++----------
->>   1 file changed, 7 insertions(+), 10 deletions(-)
->>
->> diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
->> index a130f6fefb..46d720aeee 100644
->> --- a/tests/unit/test-blockjob.c
->> +++ b/tests/unit/test-blockjob.c
->> @@ -488,11 +488,15 @@ static void test_complete_in_standby(void)
->>       bdrv_drain_all_begin();
->>       assert_job_status_is(job, JOB_STATUS_STANDBY);
->>   +    /*
->> +     * Increase pause_count so that the counter is
->> +     * unbalanced and job won't resume
->> +     */
->> +    job_pause(job);
->> +
->>       /* Lock the IO thread to prevent the job from being run */
-> 
-> I guess the above comment should now be removed, too?
-> 
->> -    aio_context_acquire(ctx);
->>       /* This will schedule the job to resume it */
->>       bdrv_drain_all_end();
->> -    aio_context_release(ctx);
-> 
->  Thomas
-> 
-Makes sense, resending
+Additionally remove useless aiocontext lock around bdrv_drain_all_end()
+in test_complete_in_standby().
 
-Emanuele
+Fixes: b6903cbe3a2 "tests/unit/test-blockjob: Disable
+complete_in_standby test"
+Suggested-by: Hanna Czenczek <hreitz@redhat.com>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ tests/unit/test-blockjob.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
+
+diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
+index a130f6fefb..7c03958feb 100644
+--- a/tests/unit/test-blockjob.c
++++ b/tests/unit/test-blockjob.c
+@@ -488,11 +488,14 @@ static void test_complete_in_standby(void)
+     bdrv_drain_all_begin();
+     assert_job_status_is(job, JOB_STATUS_STANDBY);
+ 
+-    /* Lock the IO thread to prevent the job from being run */
+-    aio_context_acquire(ctx);
++    /*
++     * Increase pause_count so that the counter is
++     * unbalanced and job won't resume
++     */
++    job_pause(job);
++
+     /* This will schedule the job to resume it */
+     bdrv_drain_all_end();
+-    aio_context_release(ctx);
+ 
+     WITH_JOB_LOCK_GUARD() {
+         /* But the job cannot run, so it will remain on standby */
+@@ -531,13 +534,6 @@ int main(int argc, char **argv)
+     g_test_add_func("/blockjob/cancel/standby", test_cancel_standby);
+     g_test_add_func("/blockjob/cancel/pending", test_cancel_pending);
+     g_test_add_func("/blockjob/cancel/concluded", test_cancel_concluded);
+-
+-    /*
+-     * This test is flaky and sometimes fails in CI and otherwise:
+-     * don't run unless user opts in via environment variable.
+-     */
+-    if (getenv("QEMU_TEST_FLAKY_TESTS")) {
+-        g_test_add_func("/blockjob/complete_in_standby", test_complete_in_standby);
+-    }
++    g_test_add_func("/blockjob/complete_in_standby", test_complete_in_standby);
+     return g_test_run();
+ }
+-- 
+2.39.1
 
 
