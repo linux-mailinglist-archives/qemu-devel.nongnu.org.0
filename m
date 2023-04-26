@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2296F6EFA88
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 20:57:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A846EFA8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 21:00:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prkK4-0004dh-Oj; Wed, 26 Apr 2023 14:57:00 -0400
+	id 1prkMl-0005qw-MJ; Wed, 26 Apr 2023 14:59:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prkK3-0004dT-Dh; Wed, 26 Apr 2023 14:56:59 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ id 1prkMj-0005qV-HA; Wed, 26 Apr 2023 14:59:45 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1prkK1-00007J-Q6; Wed, 26 Apr 2023 14:56:59 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 164795F861;
- Wed, 26 Apr 2023 21:56:50 +0300 (MSK)
+ id 1prkMh-0000fj-04; Wed, 26 Apr 2023 14:59:45 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id B57875F88D;
+ Wed, 26 Apr 2023 21:59:33 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:6525::1:35] (unknown
  [2a02:6b8:b081:6525::1:35])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id nuMsP50OgGk0-mK2km8SM; Wed, 26 Apr 2023 21:56:49 +0300
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id WxMZd20Oe8c0-plBrC6hM; Wed, 26 Apr 2023 21:59:33 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1682535409; bh=jCQEiJQrkDAuEobBV8EsDp/3fB7HUFrQ6i5XpHbVewY=;
+ t=1682535573; bh=F+BMABfwyIdh/kLolPqXOZB3ibng8vrP+ZtM0D+oagw=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=eVxyior6lNPaRp9k9J2787wQoamHfH+aPN5yq0M2/M9iRICuZl+J+vLIw9F0D9FDf
- yGLrCUad99+dyHVQcoMW6GEmrBYX/CLzRTe+XEcTF8C+SrvH+fknJ3D2dpN8Gjz6RN
- 7bOHvSndbItn8MMvcVTpHCko4PnufKJvTc2S2lDE=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ b=1ipLlUoYe+AdZb4VproZcXzsLPmYfa8uA71v1zIipQP24tPCDguCH5Ydyc7m3qRW+
+ IYhKmr9YS7xhcvQ3yluFrNTnGp/Njp7tZxLcvCLVvr7A0BnhOFhHqDhHf2GJrFmAhs
+ jSr+ERNPe3+4/XvmrR+qmBrR+dDrCVbOkrJZlB+8=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <3ec6e4bb-66ce-f1c2-e618-3fd441fe81b5@yandex-team.ru>
-Date: Wed, 26 Apr 2023 21:56:49 +0300
+Message-ID: <9341beae-f90c-e2c8-1357-e546e33423f8@yandex-team.ru>
+Date: Wed, 26 Apr 2023 21:59:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v3 10/13] migration: Create migrate_tls_authz() function
+Subject: Re: [PATCH v3 11/13] migration: Create migrate_tls_hostname() function
 Content-Language: en-US
 To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
 Cc: Leonardo Bras <leobras@redhat.com>, Stefan Hajnoczi
@@ -48,12 +49,12 @@ Cc: Leonardo Bras <leobras@redhat.com>, Stefan Hajnoczi
  Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
  John Snow <jsnow@redhat.com>
 References: <20230424183236.74561-1-quintela@redhat.com>
- <20230424183236.74561-11-quintela@redhat.com>
+ <20230424183236.74561-12-quintela@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230424183236.74561-11-quintela@redhat.com>
+In-Reply-To: <20230424183236.74561-12-quintela@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
  envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -80,9 +81,10 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 24.04.23 21:32, Juan Quintela wrote:
 > Signed-off-by: Juan Quintela<quintela@redhat.com>
 
+
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Still same recommendations: "const char *" and "s" becomes unused in migration_tls_channel_process_incoming()
+[same recommendations]
 
 -- 
 Best regards,
