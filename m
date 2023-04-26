@@ -2,71 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5783D6EF055
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 10:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B2E6EF056
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 10:36:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prac5-0001Xv-Gk; Wed, 26 Apr 2023 04:34:57 -0400
+	id 1prad5-0002AQ-M1; Wed, 26 Apr 2023 04:35:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1prac3-0001XP-7i
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 04:34:55 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1prad1-00029s-Iv
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 04:35:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1prabz-0004KZ-Cs
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 04:34:54 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id CBB285E60D;
- Wed, 26 Apr 2023 11:34:39 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:0:107:fa75:a4ff:fe7d:8480] (unknown
- [2a02:6b8:0:107:fa75:a4ff:fe7d:8480])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id bYCJZ00OcOs0-HPfBK8DM; Wed, 26 Apr 2023 11:34:38 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682498078; bh=ITAS+Ts9N0491y5FFGkBoX9cca6VOg59oVQfshbkgjI=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=rLHgbINu0lgj3zIfyhPfhHWvkjYLWA5CE+fVvKZnnt78CKahrTs4qzlIOuQKk9v4w
- dwSYH4YozrOyFcx/q5HWGJ0TxQPpfdAKiT5vlAYjKN6H9mV+f69blLxHU/gPxiISHC
- Q+ntjeHrbFOrRNch29xf8EQFv2crMPv4m1NX+7og=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <72506a15-47a5-3782-16aa-d43f27bd3489@yandex-team.ru>
-Date: Wed, 26 Apr 2023 11:34:37 +0300
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pracz-0004mM-FE
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 04:35:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682498152;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7QN60KQwMSbtP2Jas+ML5memxyfC8SCYTLlb2k4LDMI=;
+ b=We3ejv87RjzhknI79gZ39pwFgoQfn3Jymr/9P+de2sr0NWHBSwo0J6xdzLEBdvsHoti8UB
+ KXlIQv3e5y1mAYFDKTCvE2T6G+C4SMp5a+9RAI608CTzbqZDHnoRjYrFHbTb4QcTSM2Zdn
+ avZecBXsfNm7TlJcyexh2NcjXMoUSkI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-126-Jjh8YdGuOnGJTfAyQX44Jw-1; Wed, 26 Apr 2023 04:35:50 -0400
+X-MC-Unique: Jjh8YdGuOnGJTfAyQX44Jw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-505b696f254so6585659a12.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 01:35:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682498149; x=1685090149;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7QN60KQwMSbtP2Jas+ML5memxyfC8SCYTLlb2k4LDMI=;
+ b=QogZw33GjYQHVIRdQUtSvzMR1xX4k58tMaRLfGLVCC/N1TFKNbG9ajPsdawz1WG+XE
+ HbL74hKT7C5aq8TWMfFEbuyXgtZWEci60pQqnPsgN8dHqg5CPVp7q49cIcbUjy8LLoGX
+ C4zm8M7/JJ6yUJed1KVX+VpG5teECu73AzDXUEfQv0fda5GtVr7Dai9CYGKkRpx9XLPv
+ fb6xX56VF21nKU0C6k4Zc6OOhJLdjQ/GGNI1XNkmGLZ+IyDkLku3oZyEEK1hA+eYjj9T
+ lu8oqQVr5LpPjMTo0WHOx0I7m9E7rCQ9OdFpsp2lTHW2R7ultxQQQVc42BchT4iRfazc
+ DSAQ==
+X-Gm-Message-State: AAQBX9dHzI5PpZGS2dRPAsDzQaSwAN0kne8MFcXHabZ26Isk5M3LVViv
+ qA2p6F+SE6DulYY4wQZtiWnIRMuSFmxCtZGpvlvgjjM4f91tAcpLCyf7jRSJ4SX9kwAN8AjaeQD
+ XbGPI+3ne4ArfEd4=
+X-Received: by 2002:a05:6402:120c:b0:506:a2dd:e162 with SMTP id
+ c12-20020a056402120c00b00506a2dde162mr16678267edw.22.1682498149318; 
+ Wed, 26 Apr 2023 01:35:49 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b2SbXch9W9bd+DYRt3Isfegp7vh1j/pdjj93JCXU/mIYYZdcsiCuizd8mITHnK4m/e2ZK77g==
+X-Received: by 2002:a05:6402:120c:b0:506:a2dd:e162 with SMTP id
+ c12-20020a056402120c00b00506a2dde162mr16678255edw.22.1682498149009; 
+ Wed, 26 Apr 2023 01:35:49 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ t1-20020aa7d4c1000000b005066cadcc54sm6506591edr.43.2023.04.26.01.35.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Apr 2023 01:35:48 -0700 (PDT)
+Message-ID: <85f4b92c-3194-a3e6-b656-289118852341@redhat.com>
+Date: Wed, 26 Apr 2023 10:35:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 2/7] target/i386: Add new EPYC CPU versions with
- updated cache_info
-To: babu.moger@amd.com
-Cc: weijiang.yang@intel.com, philmd@linaro.org, dwmw@amazon.co.uk,
- paul@xen.org, joao.m.martins@oracle.com, qemu-devel@nongnu.org,
- mtosatti@redhat.com, kvm@vger.kernel.org, mst@redhat.com,
- marcel.apfelbaum@gmail.com, yang.zhong@intel.com, jing2.liu@intel.com,
- vkuznets@redhat.com, michael.roth@amd.com, wei.huang2@amd.com,
- berrange@redhat.com, pbonzini@redhat.com, richard.henderson@linaro.org
-References: <20230424163401.23018-1-babu.moger@amd.com>
- <20230424163401.23018-3-babu.moger@amd.com>
- <2d5b21cb-7b09-f4e8-576f-31d9977aa70c@yandex-team.ru>
- <87b874ed-d6d6-4232-3214-b577ea929811@amd.com>
+ Thunderbird/102.9.1
+Subject: Re: [RFC PATCH v3 00/20] configure: create a python venv and ensure
+ meson, sphinx
 Content-Language: en-US
-From: Maksim Davydov <davydov-max@yandex-team.ru>
-In-Reply-To: <87b874ed-d6d6-4232-3214-b577ea929811@amd.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>,
+ Beraldo Leal <bleal@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ Thomas Huth <thuth@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230424200248.1183394-1-jsnow@redhat.com>
+ <ZEgLNJ13fJf5RAI4@redhat.com>
+ <CAFn=p-YNjRZnFUhFr7PfHWKGvRnRnF1mpTc7KvFr5eXBM0Lsxw@mail.gmail.com>
+ <CAFn=p-ajvEJkCvv=Z0hG9A8tbf9cYz2eTTDRChwqbFWiMUzAPw@mail.gmail.com>
+ <ZEgXo67oiOugfCn8@redhat.com>
+ <CAFn=p-bcuu8__gRfRtkMikZ=+N2e63yU2q1rkjaQNpTK_LYL=w@mail.gmail.com>
+ <ZEjfJtRC+MfRXpVL@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <ZEjfJtRC+MfRXpVL@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,195 +118,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 4/25/23 18:35, Moger, Babu wrote:
-> Hi Maksim,
+On 4/26/23 10:21, Daniel P. Berrangé wrote:
+>> So if you already have Sphinx, this should perform an upgrade to the
+>> latest version?
 >
-> On 4/25/23 07:51, Maksim Davydov wrote:
->> On 4/24/23 19:33, Babu Moger wrote:
->>> From: Michael Roth <michael.roth@amd.com>
->>>
->>> Introduce new EPYC cpu versions: EPYC-v4 and EPYC-Rome-v3.
->>> The only difference vs. older models is an updated cache_info with
->>> the 'complex_indexing' bit unset, since this bit is not currently
->>> defined for AMD and may cause problems should it be used for
->>> something else in the future. Setting this bit will also cause
->>> CPUID validation failures when running SEV-SNP guests.
->>>
->>> Signed-off-by: Michael Roth <michael.roth@amd.com>
->>> Signed-off-by: Babu Moger <babu.moger@amd.com>
->>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->>> ---
->>>    target/i386/cpu.c | 118 ++++++++++++++++++++++++++++++++++++++++++++++
->>>    1 file changed, 118 insertions(+)
->>>
->>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>> index e3d9eaa307..c1bc47661d 100644
->>> --- a/target/i386/cpu.c
->>> +++ b/target/i386/cpu.c
->>> @@ -1707,6 +1707,56 @@ static const CPUCaches epyc_cache_info = {
->>>        },
->>>    };
->>>    +static CPUCaches epyc_v4_cache_info = {
->>> +    .l1d_cache = &(CPUCacheInfo) {
->>> +        .type = DATA_CACHE,
->>> +        .level = 1,
->>> +        .size = 32 * KiB,
->>> +        .line_size = 64,
->>> +        .associativity = 8,
->>> +        .partitions = 1,
->>> +        .sets = 64,
->>> +        .lines_per_tag = 1,
->>> +        .self_init = 1,
->>> +        .no_invd_sharing = true,
->>> +    },
->>> +    .l1i_cache = &(CPUCacheInfo) {
->>> +        .type = INSTRUCTION_CACHE,
->>> +        .level = 1,
->>> +        .size = 64 * KiB,
->>> +        .line_size = 64,
->>> +        .associativity = 4,
->>> +        .partitions = 1,
->>> +        .sets = 256,
->>> +        .lines_per_tag = 1,
->>> +        .self_init = 1,
->>> +        .no_invd_sharing = true,
->>> +    },
->>> +    .l2_cache = &(CPUCacheInfo) {
->>> +        .type = UNIFIED_CACHE,
->>> +        .level = 2,
->>> +        .size = 512 * KiB,
->>> +        .line_size = 64,
->>> +        .associativity = 8,
->>> +        .partitions = 1,
->>> +        .sets = 1024,
->>> +        .lines_per_tag = 1,
->>> +    },
->>> +    .l3_cache = &(CPUCacheInfo) {
->>> +        .type = UNIFIED_CACHE,
->>> +        .level = 3,
->>> +        .size = 8 * MiB,
->>> +        .line_size = 64,
->>> +        .associativity = 16,
->>> +        .partitions = 1,
->>> +        .sets = 8192,
->>> +        .lines_per_tag = 1,
->>> +        .self_init = true,
->>> +        .inclusive = true,
->>> +        .complex_indexing = false,
->>> +    },
->>> +};
->>> +
->>>    static const CPUCaches epyc_rome_cache_info = {
->>>        .l1d_cache = &(CPUCacheInfo) {
->>>            .type = DATA_CACHE,
->>> @@ -1757,6 +1807,56 @@ static const CPUCaches epyc_rome_cache_info = {
->>>        },
->>>    };
->>>    +static const CPUCaches epyc_rome_v3_cache_info = {
->>> +    .l1d_cache = &(CPUCacheInfo) {
->>> +        .type = DATA_CACHE,
->>> +        .level = 1,
->>> +        .size = 32 * KiB,
->>> +        .line_size = 64,
->>> +        .associativity = 8,
->>> +        .partitions = 1,
->>> +        .sets = 64,
->>> +        .lines_per_tag = 1,
->>> +        .self_init = 1,
->>> +        .no_invd_sharing = true,
->>> +    },
->>> +    .l1i_cache = &(CPUCacheInfo) {
->>> +        .type = INSTRUCTION_CACHE,
->>> +        .level = 1,
->>> +        .size = 32 * KiB,
->>> +        .line_size = 64,
->>> +        .associativity = 8,
->>> +        .partitions = 1,
->>> +        .sets = 64,
->>> +        .lines_per_tag = 1,
->>> +        .self_init = 1,
->>> +        .no_invd_sharing = true,
->>> +    },
->>> +    .l2_cache = &(CPUCacheInfo) {
->>> +        .type = UNIFIED_CACHE,
->>> +        .level = 2,
->>> +        .size = 512 * KiB,
->>> +        .line_size = 64,
->>> +        .associativity = 8,
->>> +        .partitions = 1,
->>> +        .sets = 1024,
->>> +        .lines_per_tag = 1,
->>> +    },
->>> +    .l3_cache = &(CPUCacheInfo) {
->>> +        .type = UNIFIED_CACHE,
->>> +        .level = 3,
->>> +        .size = 16 * MiB,
->>> +        .line_size = 64,
->>> +        .associativity = 16,
->>> +        .partitions = 1,
->>> +        .sets = 16384,
->>> +        .lines_per_tag = 1,
->>> +        .self_init = true,
->>> +        .inclusive = true,
->>> +        .complex_indexing = false,
->>> +    },
->>> +};
->>> +
->>>    static const CPUCaches epyc_milan_cache_info = {
->>>        .l1d_cache = &(CPUCacheInfo) {
->>>            .type = DATA_CACHE,
->>> @@ -4091,6 +4191,15 @@ static const X86CPUDefinition builtin_x86_defs[] = {
->>>                        { /* end of list */ }
->>>                    }
->>>                },
->>> +            {
->>> +                .version = 4,
->>> +                .props = (PropValue[]) {
->>> +                    { "model-id",
->>> +                      "AMD EPYC-v4 Processor" },
->>> +                    { /* end of list */ }
->>> +                },
->>> +                .cache_info = &epyc_v4_cache_info
->>> +            },
->>>                { /* end of list */ }
->>>            }
->>>        },
->>> @@ -4210,6 +4319,15 @@ static const X86CPUDefinition builtin_x86_defs[] = {
->>>                        { /* end of list */ }
->>>                    }
->>>                },
->>> +            {
->>> +                .version = 3,
->>> +                .props = (PropValue[]) {
->>> +                    { "model-id",
->>> +                      "AMD EPYC-Rome-v3 Processor" },
->> What do you think about adding more information to the model name to reveal
->> its key feature? For instance, model-id can be "EPYC-Rome-v3 (NO INDEXING)",
->> because only cache info was affected. Or alias can be used to achieve
->> the same effect. It works well in
-> Actually, we already thought about it. But decided against it. Reason is,
-> when we add "(NO INDEXING)" to v3, we need to keep text in all the future
-> revisions v4 etc and other cpu models. Otherwise it will give the
-> impression that newer versions does not support "NO indexing". Hope it helps.
->
-Maybe, this information can be revealed in the name of cache info
-structure that describes the new cache. Thus it can be reused in newer
-versions (v4 and etc) and show info about changes. This, of course,
-will not work well for new processor models, but as I see, the new model
-there is created with unset complex_indexing
+> Essentially I meant 'force' to mean*never*  use the host python
+> installation packages. Always install all the deps in the venv,
+> even if they exist in the host with sufficient version met.
 
->> "EPYC-v2 <-> AMD EPYC Processor (with IBPB) <-> EPYC-IBPB"
->>> +                    { /* end of list */ }
->>> +                },
->>> +                .cache_info = &epyc_rome_v3_cache_info
->>> +            },
->>>                { /* end of list */ }
->>>            }
->>>        },
+I think this is essentially --enable-isolated-venv.  I don't think there 
+is a usecase for "let the venv use system packages, but override them 
+with pip right away".
 
--- 
-Best regards,
-Maksim Davydov
+>>
+>> --python=... # runtime used to create venv
+>> --enable-pip-groups=testing,devel,avocado,meson,sphinx
+>> --enable-pip=now  # install all python deps now
+>> --enable-pip=on-demand  # install qemu.git/meson/sphinx, delay the rest
+>> --enable-pip=no    # offline
+>> --{enable,disable}-isolated-venv # let venv use system/distro if disable
+> 
+> This feels like a bit of overkill to me, and would create a hell
+> of a lot of combinations to test if you expand the matrix of
+> options.
+
+Yeah, this is a bit overkill.  I think we can reduce it to three cases, 
+corresponding to:
+
+- --enable-pypi --enable-isolated-venv - use pip to install everything, 
+including for options in "auto" state (e.g. would install sphinx without 
+--enable-docs)
+
+- --enable-pypi --disable-isolated-venv - use pip to install missing 
+packages.  TBD whether to do so for options in "auto" state or only for 
+"enabled" (i.e., TBD whether to install sphinx without --enable-docs).
+
+- --disable-pypi (only meaningful for --disable-isolated-venv) - apart 
+from vendored wheels, just use system site packages (same as QEMU <= 8.0)
+
+I think we want to hash out this detail first, and thus we should leave 
+online mode out of the non-RFC version.  It can be implemented together 
+with isolated mode.
+
+Paolo
 
 
