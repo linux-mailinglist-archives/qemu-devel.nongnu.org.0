@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E37D6EF228
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 12:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9EF6EF22C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 12:38:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prcVH-0006eZ-JS; Wed, 26 Apr 2023 06:36:03 -0400
+	id 1prcWk-0007Zm-2H; Wed, 26 Apr 2023 06:37:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prcVF-0006e2-SI; Wed, 26 Apr 2023 06:36:01 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prcVE-0002Ni-3V; Wed, 26 Apr 2023 06:36:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dcSDnkxTbm1NB3yqQeFsuudF9K0dKFwL+B2jUcip6RA=; b=Oeg9ExiZU/KTOD1JxdPizwwnO8
- /HRk+p9QL5CPrD6JKKwQQfHcmw/7gRDzIMHp9UMTCYJFHLXOcNuFnqPyqxlMgn5FlmTnW8y4Ng0mQ
- c1r4EM9CFhAKxWljDy8rNpxXp0BuZcGr/020QHFFS65JCfWJHBruU10mpFVt5Ts8e8xskzzz3GCsH
- 9ZkR/nzZQ31c4jRXpG4PJ+c5MUEHlVDEtJCCwFmYUAOhEJBFINH0yun4rUhnzmNubaeRRrcj/7WmR
- 58qdesqJbvcrNNK2ccdhmcSeFlVI7TF14uGal35b8DZzhI0wp7ZTcIGhtJAFmytt6iHpsCIVQn3gh
- +iwWHHH3pLVe/bC515OlRyL/iFP/D8AwI3nTUwCz7+qsWM55OrkBY3Ylac2nKLDpQawS3JSUy4JDv
- W96+y5mQKxxE/F4V4ubzi/x3iKkUl+qYXG385PZNSH77aHzNe+eDrrkr+cXw++uJI50qwHVTzUqTc
- CoICqbEo8AMkEUnLjThVUmkL2BmE43p08N8hCFKx54K6VhqgazIbySPWz8AUnd6oF2mdF0CqrfmQl
- rpNcBPOq9wWHCdD6K3URfw90umcI+OccFoEHg1G9EgCkqN9LZD13ADFWvOg+p9h55so7nacLhRPU9
- vQWYYcFcFw+e91CQNa5+o0VsDuDTRGR2oLOL5fVIs=;
-Received: from host81-151-114-25.range81-151.btcentralplus.com
- ([81.151.114.25] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prcU5-0001Xi-BY; Wed, 26 Apr 2023 11:34:53 +0100
-Message-ID: <c5c6b9af-57de-f631-5282-a645f64aa5ef@ilande.co.uk>
-Date: Wed, 26 Apr 2023 11:35:40 +0100
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1prcWg-0007Yy-Gk
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 06:37:31 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1prcWe-0002hH-Jo
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 06:37:30 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id
+ d2e1a72fcca58-63b57c49c4cso5719837b3a.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 03:37:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682505445; x=1685097445;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yVJ1lpFoRl4WWN/5DEX1Otb8TrNGE1Zk+LUAIQVwlqw=;
+ b=j8uOaqpjJAN2R86kw3zedjGQRdJljJ173UbUaNhn8bahETZNLFVink30szVfYvmbiX
+ DzBqyBGZw1Gl/gCvSAjpSke+02uunc2jekdebrn1QdUhlZ53OCWbQwb6PNc6linDn/TJ
+ +Uw6Cri913yXedy1rnFApR654L4k3YUz6grsA8k7udhCTAiyQtXnG8HxJGkcB/9rbN3w
+ V9OghWN1FIWQo27tbU/DXFt7gbwsQirAXxwh+u+1uUNjRk46JsJkXnkA9+WQ332LucG1
+ 2/AYKf6t58grxa8ighyrjZP9jeaRJIaNkA3w90MOnqwvGVNAAwsRxEYO7G87g2/Bsjmt
+ OZtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682505445; x=1685097445;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yVJ1lpFoRl4WWN/5DEX1Otb8TrNGE1Zk+LUAIQVwlqw=;
+ b=cn3N+dHogBfzQ1B6IqwnXbPKSAeX9UCerA+pkWe58rNiyvJQ64YwhTrbDNaBI5NQpY
+ DeYk/jyoa+AOp3KFhx3zcs2d9OBr+/02DOT8KyK3PKt+zj2rp12ZR+XEz3BtTh8AaBV8
+ XUikQyxDyyrktHXHvAV89Lz939gdCkdm3stbqlMTLuEEWvvdgBJz8c8xqivYIi5xhUAh
+ /QJSAQ5WXy137+w9lIsawG+X6aMUPFFh8m9hilDmi+YTzL+PezV/dm1EQXCYJNoR/GhP
+ P7y8J4t2+eSunpo0/3qMpl2YqWgaVBzF55z5WKLI8IkA/SlZpaFBl/sqvFnxx+kt8XyX
+ IHdw==
+X-Gm-Message-State: AAQBX9crC4Tr0/pS8myv/z/zDOJzI1Ca2CIpzOjAnbFTe0MN2h2tRYti
+ DW7BzqrvRCvhbN60uDT8wicjCg==
+X-Google-Smtp-Source: AKy350YFAQg79rQDWtp5B24xald+Mjl7fgq3Cn9hD5IeCg3yXq+QVrqj/pWHVjgNPZEH69KaZiglpg==
+X-Received: by 2002:a05:6a21:3405:b0:f5:75f7:a0bd with SMTP id
+ yn5-20020a056a21340500b000f575f7a0bdmr9235181pzb.13.1682505445568; 
+ Wed, 26 Apr 2023 03:37:25 -0700 (PDT)
+Received: from alarm.u-tokyo.ac.jp ([157.82.194.15])
+ by smtp.gmail.com with ESMTPSA id
+ m11-20020a63580b000000b0051322a5aa64sm9317919pgb.3.2023.04.26.03.37.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Apr 2023 03:37:25 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Tomasz Dzieciol <t.dzieciol@partner.samsung.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v4 00/48] igb: Fix for DPDK
+Date: Wed, 26 Apr 2023 19:36:28 +0900
+Message-Id: <20230426103716.26279-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>
-Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
- <hpoussin@reactos.org>, qemu-ppc@nongnu.org, qemu-block@nongnu.org
-References: <20230302224058.43315-1-philmd@linaro.org>
- <20230302224058.43315-2-philmd@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230302224058.43315-2-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 81.151.114.25
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 01/18] hw/ide/piix: Expose output IRQ as properties for
- late object population
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,101 +99,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02/03/2023 22:40, Philippe Mathieu-Daudé wrote:
+Based-on: <366bbcafdb6e0373f0deb105153768a8c0bded87.camel@gmail.com>
+("[PATCH 0/1] e1000e: Fix tx/rx counters")
 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/ide/piix.c         | 14 ++++++++++++--
->   include/hw/ide/piix.h |  4 ++++
->   2 files changed, 16 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-> index 41d60921e3..a36dac8469 100644
-> --- a/hw/ide/piix.c
-> +++ b/hw/ide/piix.c
-> @@ -121,6 +121,13 @@ static void piix_ide_reset(DeviceState *dev)
->       pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
->   }
->   
-> +static void piix_ide_initfn(Object *obj)
-> +{
-> +    PCIIDEState *dev = PCI_IDE(obj);
-> +
-> +    qdev_init_gpio_out_named(DEVICE(obj), dev->isa_irq, "ide-irq", 2);
-> +}
-> +
->   static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
->   {
->       static const struct {
-> @@ -133,6 +140,7 @@ static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
->       };
->       int ret;
->   
-> +    qemu_irq irq_out = d->isa_irq[i] ? : isa_get_irq(NULL, port_info[i].isairq);
->       ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
->       ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
->                             port_info[i].iobase2);
-> @@ -141,7 +149,7 @@ static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
->                            object_get_typename(OBJECT(d)), i);
->           return false;
->       }
-> -    ide_bus_init_output_irq(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
-> +    ide_bus_init_output_irq(&d->bus[i], irq_out);
->   
->       bmdma_init(&d->bus[i], &d->bmdma[i], d);
->       d->bmdma[i].bus = &d->bus[i];
-> @@ -162,7 +170,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
->   
->       vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
->   
-> -    for (unsigned i = 0; i < 2; i++) {
-> +    for (unsigned i = 0; i < ARRAY_SIZE(d->isa_irq); i++) {
->           if (!pci_piix_init_bus(d, i, errp)) {
->               return;
->           }
-> @@ -199,6 +207,7 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
->   static const TypeInfo piix3_ide_info = {
->       .name          = TYPE_PIIX3_IDE,
->       .parent        = TYPE_PCI_IDE,
-> +    .instance_init = piix_ide_initfn,
->       .class_init    = piix3_ide_class_init,
->   };
->   
-> @@ -221,6 +230,7 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
->   static const TypeInfo piix4_ide_info = {
->       .name          = TYPE_PIIX4_IDE,
->       .parent        = TYPE_PCI_IDE,
-> +    .instance_init = piix_ide_initfn,
->       .class_init    = piix4_ide_class_init,
->   };
->   
-> diff --git a/include/hw/ide/piix.h b/include/hw/ide/piix.h
-> index ef3ef3d62d..533d24d408 100644
-> --- a/include/hw/ide/piix.h
-> +++ b/include/hw/ide/piix.h
-> @@ -1,6 +1,10 @@
->   #ifndef HW_IDE_PIIX_H
->   #define HW_IDE_PIIX_H
->   
-> +/*
-> + * QEMU interface:
-> + *  + named GPIO outputs "ide-irq": asserted by each IDE channel
-> + */
->   #define TYPE_PIIX3_IDE "piix3-ide"
->   #define TYPE_PIIX4_IDE "piix4-ide"
+This series has fixes and feature additions to pass DPDK Test Suite with
+igb. It also includes a few minor changes related to networking.
 
-Comparing this with Bernhard's latest series, Bernhard's patch at 
-https://patchew.org/QEMU/20230422150728.176512-1-shentey@gmail.com/20230422150728.176512-2-shentey@gmail.com/ 
-(with a small change) is the version we should use, since legacy IRQs are a feature 
-of all PCI IDE controllers and not just the PIIX controllers.
+Patch [01, 10] are bug fixes.
+Patch [11, 14] delete code which is unnecessary.
+Patch [15, 33] are minor changes.
+Patch [34, 46] implement new features.
+Patch [47, 48] update documentations.
 
-If we do it this way then it is possible for all PCI IDE controllers to share the 
-same logic for BDMA and legacy/native mode switching moving forward: if a PCI IDE 
-controller doesn't implement legacy IRQ routing then the board can leave the IRQs 
-disconnected.
+While this includes so many patches, it is not necessary to land them at
+once. Only bug fix patches may be applied first, for example.
 
+V3 -> V4:
+- Renamed "min_buf variable to "buf". (Sriram Yagnaraman)
+- Added patch "igb: Clear-on-read ICR when ICR.INTA is set".
+  (Sriram Yagnaraman)
 
-ATB,
+V2 -> V3:
+- Fixed parameter name in hw/net/net_tx_pkt. (Philippe Mathieu-Daudé)
+- Added patch "igb: Clear IMS bits when committing ICR access".
+- Added patch "igb: Clear EICR bits for delayed MSI-X interrupts".
+- Added patch "e1000e: Rename a variable in e1000e_receive_internal()".
+- Added patch "igb: Rename a variable in igb_receive_internal()".
+- Added patch "e1000e: Notify only new interrupts".
+- Added patch "igb: Notify only new interrupts".
 
-Mark.
+V1 -> V2:
+- Dropped patch "Include the second VLAN tag in the buffer". The second
+  VLAN tag is not used at the point and unecessary.
+- Added patch "e1000x: Rename TcpIpv6 into TcpIpv6Ex".
+- Split patch "hw/net/net_tx_pkt: Decouple from PCI".
+  (Philippe Mathieu-Daudé)
+- Added advanced Rx descriptor packet encoding definitions.
+  (Sriram Yagnaraman)
+- Added some constants to eth.h to derive packet oversize thresholds.
+- Added IGB_TX_FLAGS_VLAN_SHIFT usage.
+- Renamed patch "igb: Fix igb_mac_reg_init alignment".
+  (Philippe Mathieu-Daudé)
+- Fixed size check for packets with double VLAN. (Sriram Yagnaraman)
+- Fixed timing to timestamp Tx packet.
+
+Akihiko Odaki (48):
+  hw/net/net_tx_pkt: Decouple implementation from PCI
+  hw/net/net_tx_pkt: Decouple interface from PCI
+  e1000x: Fix BPRC and MPRC
+  igb: Fix Rx packet type encoding
+  igb: Do not require CTRL.VME for tx VLAN tagging
+  igb: Clear IMS bits when committing ICR access
+  net/net_rx_pkt: Use iovec for net_rx_pkt_set_protocols()
+  e1000e: Always copy ethernet header
+  igb: Always copy ethernet header
+  Fix references to igb Avocado test
+  tests/avocado: Remove unused imports
+  tests/avocado: Remove test_igb_nomsi_kvm
+  hw/net/net_tx_pkt: Remove net_rx_pkt_get_l4_info
+  net/eth: Rename eth_setup_vlan_headers_ex
+  e1000x: Share more Rx filtering logic
+  e1000x: Take CRC into consideration for size check
+  e1000x: Rename TcpIpv6 into TcpIpv6Ex
+  e1000e: Always log status after building rx metadata
+  igb: Always log status after building rx metadata
+  igb: Remove goto
+  igb: Read DCMD.VLE of the first Tx descriptor
+  e1000e: Reset packet state after emptying Tx queue
+  vmxnet3: Reset packet state after emptying Tx queue
+  igb: Add more definitions for Tx descriptor
+  igb: Share common VF constants
+  igb: Fix igb_mac_reg_init coding style alignment
+  igb: Clear EICR bits for delayed MSI-X interrupts
+  e1000e: Rename a variable in e1000e_receive_internal()
+  igb: Rename a variable in igb_receive_internal()
+  net/eth: Use void pointers
+  net/eth: Always add VLAN tag
+  hw/net/net_rx_pkt: Enforce alignment for eth_header
+  tests/qtest/libqos/igb: Set GPIE.Multiple_MSIX
+  igb: Implement MSI-X single vector mode
+  igb: Use UDP for RSS hash
+  igb: Implement Rx SCTP CSO
+  igb: Implement Tx SCTP CSO
+  igb: Strip the second VLAN tag for extended VLAN
+  igb: Filter with the second VLAN tag for extended VLAN
+  igb: Implement igb-specific oversize check
+  igb: Implement Rx PTP2 timestamp
+  igb: Implement Tx timestamp
+  e1000e: Notify only new interrupts
+  igb: Notify only new interrupts
+  igb: Clear-on-read ICR when ICR.INTA is set
+  vmxnet3: Do not depend on PC
+  MAINTAINERS: Add a reviewer for network packet abstractions
+  docs/system/devices/igb: Note igb is tested for DPDK
+
+ MAINTAINERS                                   |   3 +-
+ docs/system/devices/igb.rst                   |  14 +-
+ hw/net/e1000e_core.h                          |   2 -
+ hw/net/e1000x_common.h                        |   9 +-
+ hw/net/e1000x_regs.h                          |  24 +-
+ hw/net/igb_common.h                           |  24 +-
+ hw/net/igb_regs.h                             |  67 +-
+ hw/net/net_rx_pkt.h                           |  38 +-
+ hw/net/net_tx_pkt.h                           |  46 +-
+ include/net/eth.h                             |  29 +-
+ include/qemu/crc32c.h                         |   1 +
+ hw/net/e1000.c                                |  41 +-
+ hw/net/e1000e_core.c                          | 292 +++----
+ hw/net/e1000x_common.c                        |  79 +-
+ hw/net/igb.c                                  |  10 +-
+ hw/net/igb_core.c                             | 717 ++++++++++--------
+ hw/net/igbvf.c                                |   7 -
+ hw/net/net_rx_pkt.c                           | 107 ++-
+ hw/net/net_tx_pkt.c                           | 101 ++-
+ hw/net/virtio-net.c                           |   7 +-
+ hw/net/vmxnet3.c                              |  22 +-
+ net/eth.c                                     | 100 +--
+ tests/qtest/libqos/igb.c                      |   1 +
+ util/crc32c.c                                 |   8 +
+ hw/net/Kconfig                                |   2 +-
+ hw/net/trace-events                           |  19 +-
+ .../org.centos/stream/8/x86_64/test-avocado   |   3 +-
+ tests/avocado/netdev-ethtool.py               |  17 +-
+ 28 files changed, 969 insertions(+), 821 deletions(-)
+
+-- 
+2.40.0
+
 
