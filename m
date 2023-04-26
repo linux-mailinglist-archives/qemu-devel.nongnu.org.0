@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D639F6EEBD3
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 03:15:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99ED6EEBF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 03:39:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prTkn-0002Wv-QT; Tue, 25 Apr 2023 21:15:29 -0400
+	id 1prU6X-0007iY-6G; Tue, 25 Apr 2023 21:37:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1prTkk-0002Vv-NH
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 21:15:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1prTki-0004t9-Lq
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 21:15:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682471723;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=v3+4iPKUfwtVRVMSQ6WYaOP/gPedpOYcn0mV28WpLUQ=;
- b=aNWJB1kC3VEkrCN0EyRzclxsWJ2kf0YhMil4f7axIQbGJC1pfPP+XoSKdlK/eR+abDMDGn
- 0nhZU8mdwHw/Hni+ud0kRND76t7umxb72xXI0q6XR1Ygn53chLDZ/NNfoXR7IPQeO6lFOH
- ionNcvYg2GZN0cYF4n1oaI5Fj5EbDbc=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-127-C7h7TUdQPRCnStjUdb5z-g-1; Tue, 25 Apr 2023 21:15:19 -0400
-X-MC-Unique: C7h7TUdQPRCnStjUdb5z-g-1
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-3ecc0c4b867so18949021cf.1
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 18:15:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682471717; x=1685063717;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v3+4iPKUfwtVRVMSQ6WYaOP/gPedpOYcn0mV28WpLUQ=;
- b=SPFTJImivGA8zp4+wZoKVzaQyv1yOksKob03/Bj8m3MN5PtjEWsDTP+abW6zj+fSv6
- 4NRDtIYWffb7t8gRNMLRn3sXG+DBjOTThLZpeMMsDCtA+NjjcaTmLKXVgES9b7pBq5kA
- +I92tWcib3rOhNerF8UJ54MKGIdhHDXWK7WqdU88u15Yp4BnjoDk9RCwqGIjoigIwj90
- 4mRZOrzHWLGvqE6z7V7c15FSbQMAhB0xCHquFqFXR4fTabac0gRwXoGQHOa7WimABuOZ
- VykDY8xN8b5oWfsn8YJCaaX4ebZ82AWRKbo61j5CpxzTY+AdvJEc8NBQknvrs7dVMIKi
- CGsA==
-X-Gm-Message-State: AAQBX9f9i8YyHMatiTctavIG64MMNDj1xs0UIj2cvqKs+HlZenMhINl4
- 9XYo3160s3QT1OBrj7JcoklbvRzqxeUhhakTLFI1GbsndwAbcely8A/bdJfzTEWWMQP5d00/b1u
- kNtMUReVS+YLmxtqT2vG2U8EiqfE3qeJ1VtdM8sQUERh5/372ebjn7f/uCm/34Jw+jI30z/eg
-X-Received: by 2002:ac8:7f4a:0:b0:3ef:4a7c:d7c5 with SMTP id
- g10-20020ac87f4a000000b003ef4a7cd7c5mr7238449qtk.4.1682471717230; 
- Tue, 25 Apr 2023 18:15:17 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z3zf9UZUdM48lkfZb5MOiQX/nijD98WskVoQOpn7a+6lwQhilN/U8t2vsGNFcTC8ajuHimYg==
-X-Received: by 2002:ac8:7f4a:0:b0:3ef:4a7c:d7c5 with SMTP id
- g10-20020ac87f4a000000b003ef4a7cd7c5mr7238408qtk.4.1682471716843; 
- Tue, 25 Apr 2023 18:15:16 -0700 (PDT)
-Received: from x1n.redhat.com
- (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca. [70.52.229.124])
- by smtp.gmail.com with ESMTPSA id
- fp3-20020a05622a508300b003ef239e3d5csm4874074qtb.17.2023.04.25.18.15.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Apr 2023 18:15:16 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1prU6U-0007iI-4i
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 21:37:54 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1prU6Q-0001IC-Lv
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 21:37:53 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8BxZ+lngEhkJc8AAA--.1455S3;
+ Wed, 26 Apr 2023 09:37:43 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxirJfgEhkwN47AA--.15524S3; 
+ Wed, 26 Apr 2023 09:37:41 +0800 (CST)
+Subject: Re: [PATCH 3/3] hw/loongarch/virt: Set max 256 cpus support on
+ loongarch virt machine
 To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- peterx@redhat.com
-Subject: [PATCH v3] migration: Allow postcopy_ram_supported_by_host() to
- report err
-Date: Tue, 25 Apr 2023 21:15:14 -0400
-Message-Id: <20230426011514.1972344-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.39.1
+Cc: richard.henderson@linaro.org, philmd@linaro.org, maobibo@loongson.cn,
+ yangxiaojuan@loongson.cn
+References: <20230406100052.3355632-1-gaosong@loongson.cn>
+ <20230406100052.3355632-3-gaosong@loongson.cn>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <0d391c88-6749-b1c3-466b-e90d91ada360@loongson.cn>
+Date: Wed, 26 Apr 2023 09:37:35 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20230406100052.3355632-3-gaosong@loongson.cn>
+Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8AxirJfgEhkwN47AA--.15524S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW3WFyrZF17Zw1rCw17Wr47twb_yoW7uw1Dpr
+ yDCFyrWr48JFZrXw1qg3W3ur1DWrs3ury29FyakFyfCF4DCryUZ34kt3sxXF4rCaykJr1v
+ vas3uw12g3ZFyr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bxAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+ x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+ kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
+ 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
+ k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+ MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
+ 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+ IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UWHqcUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-1.422, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,283 +82,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Instead of print it to STDERR, bring the error upwards so that it can be
-reported via QMP responses.
+ping~
 
-E.g.:
-
-{ "execute": "migrate-set-capabilities" ,
-  "arguments": { "capabilities":
-  [ { "capability": "postcopy-ram", "state": true } ] } }
-
-{ "error":
-  { "class": "GenericError",
-    "desc": "Postcopy is not supported: Host backend files need to be TMPFS
-    or HUGETLBFS only" } }
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/options.c      |  8 ++----
- migration/postcopy-ram.c | 59 ++++++++++++++++++++++------------------
- migration/postcopy-ram.h |  3 +-
- migration/savevm.c       |  3 +-
- 4 files changed, 39 insertions(+), 34 deletions(-)
-
-diff --git a/migration/options.c b/migration/options.c
-index 8e8753d9be..4026b5e126 100644
---- a/migration/options.c
-+++ b/migration/options.c
-@@ -285,6 +285,7 @@ bool migrate_caps_check(bool *old_caps, bool *new_caps, Error **errp)
- {
-     MigrationIncomingState *mis = migration_incoming_get_current();
- 
-+    ERRP_GUARD();
- #ifndef CONFIG_LIVE_BLOCK_MIGRATION
-     if (new_caps[MIGRATION_CAPABILITY_BLOCK]) {
-         error_setg(errp, "QEMU compiled without old-style (blk/-b, inc/-i) "
-@@ -310,11 +311,8 @@ bool migrate_caps_check(bool *old_caps, bool *new_caps, Error **errp)
-          */
-         if (!old_caps[MIGRATION_CAPABILITY_POSTCOPY_RAM] &&
-             runstate_check(RUN_STATE_INMIGRATE) &&
--            !postcopy_ram_supported_by_host(mis)) {
--            /* postcopy_ram_supported_by_host will have emitted a more
--             * detailed message
--             */
--            error_setg(errp, "Postcopy is not supported");
-+            !postcopy_ram_supported_by_host(mis, errp)) {
-+            error_prepend(errp, "Postcopy is not supported: ");
-             return false;
-         }
- 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 0711500036..7c280480c2 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -283,11 +283,13 @@ static bool request_ufd_features(int ufd, uint64_t features)
-     return true;
- }
- 
--static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis)
-+static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis,
-+                                Error **errp)
- {
-     uint64_t asked_features = 0;
-     static uint64_t supported_features;
- 
-+    ERRP_GUARD();
-     /*
-      * it's not possible to
-      * request UFFD_API twice per one fd
-@@ -295,7 +297,7 @@ static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis)
-      */
-     if (!supported_features) {
-         if (!receive_ufd_features(&supported_features)) {
--            error_report("%s failed", __func__);
-+            error_setg(errp, "Userfault feature detection failed");
-             return false;
-         }
-     }
-@@ -317,8 +319,7 @@ static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis)
-      * userfault file descriptor
-      */
-     if (!request_ufd_features(ufd, asked_features)) {
--        error_report("%s failed: features %" PRIu64, __func__,
--                     asked_features);
-+        error_setg(errp, "Failed features %" PRIu64, asked_features);
-         return false;
-     }
- 
-@@ -329,7 +330,8 @@ static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis)
-         have_hp = supported_features & UFFD_FEATURE_MISSING_HUGETLBFS;
- #endif
-         if (!have_hp) {
--            error_report("Userfault on this host does not support huge pages");
-+            error_setg(errp,
-+                       "Userfault on this host does not support huge pages");
-             return false;
-         }
-     }
-@@ -338,7 +340,7 @@ static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis)
- 
- /* Callback from postcopy_ram_supported_by_host block iterator.
-  */
--static int test_ramblock_postcopiable(RAMBlock *rb)
-+static int test_ramblock_postcopiable(RAMBlock *rb, Error **errp)
- {
-     const char *block_name = qemu_ram_get_idstr(rb);
-     ram_addr_t length = qemu_ram_get_used_length(rb);
-@@ -346,16 +348,18 @@ static int test_ramblock_postcopiable(RAMBlock *rb)
-     QemuFsType fs;
- 
-     if (length % pagesize) {
--        error_report("Postcopy requires RAM blocks to be a page size multiple,"
--                     " block %s is 0x" RAM_ADDR_FMT " bytes with a "
--                     "page size of 0x%zx", block_name, length, pagesize);
-+        error_setg(errp,
-+                   "Postcopy requires RAM blocks to be a page size multiple,"
-+                   " block %s is 0x" RAM_ADDR_FMT " bytes with a "
-+                   "page size of 0x%zx", block_name, length, pagesize);
-         return 1;
-     }
- 
-     if (rb->fd >= 0) {
-         fs = qemu_fd_getfs(rb->fd);
-         if (fs != QEMU_FS_TYPE_TMPFS && fs != QEMU_FS_TYPE_HUGETLBFS) {
--            error_report("Host backend files need to be TMPFS or HUGETLBFS only");
-+            error_setg(errp,
-+                       "Host backend files need to be TMPFS or HUGETLBFS only");
-             return 1;
-         }
-     }
-@@ -368,7 +372,8 @@ static int test_ramblock_postcopiable(RAMBlock *rb)
-  * normally fine since if the postcopy succeeds it gets turned back on at the
-  * end.
-  */
--bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-+bool postcopy_ram_supported_by_host(MigrationIncomingState *mis,
-+                                    Error **errp)
- {
-     long pagesize = qemu_real_host_page_size();
-     int ufd = -1;
-@@ -377,29 +382,27 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-     struct uffdio_register reg_struct;
-     struct uffdio_range range_struct;
-     uint64_t feature_mask;
--    Error *local_err = NULL;
-     RAMBlock *block;
- 
-+    ERRP_GUARD();
-     if (qemu_target_page_size() > pagesize) {
--        error_report("Target page size bigger than host page size");
-+        error_setg(errp, "Target page size bigger than host page size");
-         goto out;
-     }
- 
-     ufd = uffd_open(O_CLOEXEC);
-     if (ufd == -1) {
--        error_report("%s: userfaultfd not available: %s", __func__,
--                     strerror(errno));
-+        error_setg(errp, "Userfaultfd not available: %s", strerror(errno));
-         goto out;
-     }
- 
-     /* Give devices a chance to object */
--    if (postcopy_notify(POSTCOPY_NOTIFY_PROBE, &local_err)) {
--        error_report_err(local_err);
-+    if (postcopy_notify(POSTCOPY_NOTIFY_PROBE, errp)) {
-         goto out;
-     }
- 
-     /* Version and features check */
--    if (!ufd_check_and_apply(ufd, mis)) {
-+    if (!ufd_check_and_apply(ufd, mis, errp)) {
-         goto out;
-     }
- 
-@@ -417,7 +420,7 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-      * affect in reality, or we can revisit.
-      */
-     RAMBLOCK_FOREACH(block) {
--        if (test_ramblock_postcopiable(block)) {
-+        if (test_ramblock_postcopiable(block, errp)) {
-             goto out;
-         }
-     }
-@@ -427,7 +430,7 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-      * it was enabled.
-      */
-     if (munlockall()) {
--        error_report("%s: munlockall: %s", __func__,  strerror(errno));
-+        error_setg(errp, "munlockall() failed: %s", strerror(errno));
-         goto out;
-     }
- 
-@@ -439,8 +442,7 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-     testarea = mmap(NULL, pagesize, PROT_READ | PROT_WRITE, MAP_PRIVATE |
-                                     MAP_ANONYMOUS, -1, 0);
-     if (testarea == MAP_FAILED) {
--        error_report("%s: Failed to map test area: %s", __func__,
--                     strerror(errno));
-+        error_setg(errp, "Failed to map test area: %s", strerror(errno));
-         goto out;
-     }
-     g_assert(QEMU_PTR_IS_ALIGNED(testarea, pagesize));
-@@ -450,14 +452,14 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-     reg_struct.mode = UFFDIO_REGISTER_MODE_MISSING;
- 
-     if (ioctl(ufd, UFFDIO_REGISTER, &reg_struct)) {
--        error_report("%s userfault register: %s", __func__, strerror(errno));
-+        error_setg(errp, "UFFDIO_REGISTER failed: %s", strerror(errno));
-         goto out;
-     }
- 
-     range_struct.start = (uintptr_t)testarea;
-     range_struct.len = pagesize;
-     if (ioctl(ufd, UFFDIO_UNREGISTER, &range_struct)) {
--        error_report("%s userfault unregister: %s", __func__, strerror(errno));
-+        error_setg(errp, "UFFDIO_UNREGISTER failed: %s", strerror(errno));
-         goto out;
-     }
- 
-@@ -465,8 +467,8 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-                    (__u64)1 << _UFFDIO_COPY |
-                    (__u64)1 << _UFFDIO_ZEROPAGE;
-     if ((reg_struct.ioctls & feature_mask) != feature_mask) {
--        error_report("Missing userfault map features: %" PRIx64,
--                     (uint64_t)(~reg_struct.ioctls & feature_mask));
-+        error_setg(errp, "Missing userfault map features: %" PRIx64,
-+                   (uint64_t)(~reg_struct.ioctls & feature_mask));
-         goto out;
-     }
- 
-@@ -1188,6 +1190,8 @@ static int postcopy_temp_pages_setup(MigrationIncomingState *mis)
- 
- int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
- {
-+    Error *local_err = NULL;
-+
-     /* Open the fd for the kernel to give us userfaults */
-     mis->userfault_fd = uffd_open(O_CLOEXEC | O_NONBLOCK);
-     if (mis->userfault_fd == -1) {
-@@ -1200,7 +1204,8 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
-      * Although the host check already tested the API, we need to
-      * do the check again as an ABI handshake on the new fd.
-      */
--    if (!ufd_check_and_apply(mis->userfault_fd, mis)) {
-+    if (!ufd_check_and_apply(mis->userfault_fd, mis, &local_err)) {
-+        error_report_err(local_err);
-         return -1;
-     }
- 
-diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
-index b4867a32d5..442ab89752 100644
---- a/migration/postcopy-ram.h
-+++ b/migration/postcopy-ram.h
-@@ -14,7 +14,8 @@
- #define QEMU_POSTCOPY_RAM_H
- 
- /* Return true if the host supports everything we need to do postcopy-ram */
--bool postcopy_ram_supported_by_host(MigrationIncomingState *mis);
-+bool postcopy_ram_supported_by_host(MigrationIncomingState *mis,
-+                                    Error **errp);
- 
- /*
-  * Make all of RAM sensitive to accesses to areas that haven't yet been written
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 9671211339..211eff3a8b 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1753,7 +1753,8 @@ static int loadvm_postcopy_handle_advise(MigrationIncomingState *mis,
-         return -EINVAL;
-     }
- 
--    if (!postcopy_ram_supported_by_host(mis)) {
-+    if (!postcopy_ram_supported_by_host(mis, &local_err)) {
-+        error_report_err(local_err);
-         postcopy_state_set(POSTCOPY_INCOMING_NONE);
-         return -1;
-     }
--- 
-2.39.1
+ÔÚ 2023/4/6 ÏÂÎç6:00, Song Gao Ð´µÀ:
+> Add separate macro EXTIOI_CPUS for extioi interrupt controller, extioi
+> only supports 4 cpu. And set macro LOONGARCH_MAX_CPUS as 256 so that
+> loongarch virt machine supports more cpus.
+>
+> Interrupts from external devices can only be routed cpu 0-3 because
+> of extioi limits, cpu internal interrupt such as timer/ipi can be
+> triggered on all cpus.
+>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   hw/intc/loongarch_extioi.c         |  4 ++--
+>   hw/loongarch/virt.c                | 21 ++++++++++++++-------
+>   include/hw/intc/loongarch_extioi.h | 10 ++++++----
+>   include/hw/loongarch/virt.h        |  2 +-
+>   4 files changed, 23 insertions(+), 14 deletions(-)
+>
+> diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
+> index 4b8ec3f28a..0e7a3e32f3 100644
+> --- a/hw/intc/loongarch_extioi.c
+> +++ b/hw/intc/loongarch_extioi.c
+> @@ -254,7 +254,7 @@ static const VMStateDescription vmstate_loongarch_extioi = {
+>       .minimum_version_id = 1,
+>       .fields = (VMStateField[]) {
+>           VMSTATE_UINT32_ARRAY(bounce, LoongArchExtIOI, EXTIOI_IRQS_GROUP_COUNT),
+> -        VMSTATE_UINT32_2DARRAY(coreisr, LoongArchExtIOI, LOONGARCH_MAX_VCPUS,
+> +        VMSTATE_UINT32_2DARRAY(coreisr, LoongArchExtIOI, EXTIOI_CPUS,
+>                                  EXTIOI_IRQS_GROUP_COUNT),
+>           VMSTATE_UINT32_ARRAY(nodetype, LoongArchExtIOI,
+>                                EXTIOI_IRQS_NODETYPE_COUNT / 2),
+> @@ -281,7 +281,7 @@ static void loongarch_extioi_instance_init(Object *obj)
+>   
+>       qdev_init_gpio_in(DEVICE(obj), extioi_setirq, EXTIOI_IRQS);
+>   
+> -    for (cpu = 0; cpu < LOONGARCH_MAX_VCPUS; cpu++) {
+> +    for (cpu = 0; cpu < EXTIOI_CPUS; cpu++) {
+>           memory_region_init_io(&s->extioi_iocsr_mem[cpu], OBJECT(s), &extioi_ops,
+>                                 s, "extioi_iocsr", 0x900);
+>           sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->extioi_iocsr_mem[cpu]);
+> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+> index c8a01b1fb6..28bb35d614 100644
+> --- a/hw/loongarch/virt.c
+> +++ b/hw/loongarch/virt.c
+> @@ -607,8 +607,13 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+>           memory_region_add_subregion(&env->system_iocsr, MAIL_SEND_ADDR,
+>                                       sysbus_mmio_get_region(SYS_BUS_DEVICE(ipi),
+>                                       1));
+> -        /* extioi iocsr memory region */
+> -        memory_region_add_subregion(&env->system_iocsr, APIC_BASE,
+> +        /*
+> +	 * extioi iocsr memory region
+> +	 * only one extioi is added on loongarch virt machine
+> +	 * external device interrupt can only be routed to cpu 0-3
+> +	 */
+> +	if (cpu < EXTIOI_CPUS)
+> +            memory_region_add_subregion(&env->system_iocsr, APIC_BASE,
+>                                   sysbus_mmio_get_region(SYS_BUS_DEVICE(extioi),
+>                                   cpu));
+>       }
+> @@ -618,10 +623,12 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+>        * cpu_pin[9:2] <= intc_pin[7:0]
+>        */
+>       for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
+> -        cpudev = DEVICE(qemu_get_cpu(cpu));
+> -        for (pin = 0; pin < LS3A_INTC_IP; pin++) {
+> -            qdev_connect_gpio_out(extioi, (cpu * 8 + pin),
+> -                                  qdev_get_gpio_in(cpudev, pin + 2));
+> +        if (cpu < EXTIOI_CPUS) {
+> +            cpudev = DEVICE(qemu_get_cpu(cpu));
+> +            for (pin = 0; pin < LS3A_INTC_IP; pin++) {
+> +                qdev_connect_gpio_out(extioi, (cpu * 8 + pin),
+> +                                      qdev_get_gpio_in(cpudev, pin + 2));
+> +	    }
+>           }
+>       }
+>   
+> @@ -1026,7 +1033,7 @@ static void loongarch_class_init(ObjectClass *oc, void *data)
+>       mc->default_ram_size = 1 * GiB;
+>       mc->default_cpu_type = LOONGARCH_CPU_TYPE_NAME("la464");
+>       mc->default_ram_id = "loongarch.ram";
+> -    mc->max_cpus = LOONGARCH_MAX_VCPUS;
+> +    mc->max_cpus = LOONGARCH_MAX_CPUS;
+>       mc->is_default = 1;
+>       mc->default_kernel_irqchip_split = false;
+>       mc->block_default_type = IF_VIRTIO;
+> diff --git a/include/hw/intc/loongarch_extioi.h b/include/hw/intc/loongarch_extioi.h
+> index 15b8c999f6..fbdef9a7b3 100644
+> --- a/include/hw/intc/loongarch_extioi.h
+> +++ b/include/hw/intc/loongarch_extioi.h
+> @@ -14,6 +14,8 @@
+>   #define LS3A_INTC_IP               8
+>   #define EXTIOI_IRQS                (256)
+>   #define EXTIOI_IRQS_BITMAP_SIZE    (256 / 8)
+> +/* irq from EXTIOI is routed to no more than 4 cpus */
+> +#define EXTIOI_CPUS                (4)
+>   /* map to ipnum per 32 irqs */
+>   #define EXTIOI_IRQS_IPMAP_SIZE     (256 / 32)
+>   #define EXTIOI_IRQS_COREMAP_SIZE   256
+> @@ -46,17 +48,17 @@ struct LoongArchExtIOI {
+>       uint32_t nodetype[EXTIOI_IRQS_NODETYPE_COUNT / 2];
+>       uint32_t bounce[EXTIOI_IRQS_GROUP_COUNT];
+>       uint32_t isr[EXTIOI_IRQS / 32];
+> -    uint32_t coreisr[LOONGARCH_MAX_VCPUS][EXTIOI_IRQS_GROUP_COUNT];
+> +    uint32_t coreisr[EXTIOI_CPUS][EXTIOI_IRQS_GROUP_COUNT];
+>       uint32_t enable[EXTIOI_IRQS / 32];
+>       uint32_t ipmap[EXTIOI_IRQS_IPMAP_SIZE / 4];
+>       uint32_t coremap[EXTIOI_IRQS / 4];
+>       uint32_t sw_pending[EXTIOI_IRQS / 32];
+> -    DECLARE_BITMAP(sw_isr[LOONGARCH_MAX_VCPUS][LS3A_INTC_IP], EXTIOI_IRQS);
+> +    DECLARE_BITMAP(sw_isr[EXTIOI_CPUS][LS3A_INTC_IP], EXTIOI_IRQS);
+>       uint8_t  sw_ipmap[EXTIOI_IRQS_IPMAP_SIZE];
+>       uint8_t  sw_coremap[EXTIOI_IRQS];
+> -    qemu_irq parent_irq[LOONGARCH_MAX_VCPUS][LS3A_INTC_IP];
+> +    qemu_irq parent_irq[EXTIOI_CPUS][LS3A_INTC_IP];
+>       qemu_irq irq[EXTIOI_IRQS];
+> -    MemoryRegion extioi_iocsr_mem[LOONGARCH_MAX_VCPUS];
+> +    MemoryRegion extioi_iocsr_mem[EXTIOI_CPUS];
+>       MemoryRegion extioi_system_mem;
+>   };
+>   #endif /* LOONGARCH_EXTIOI_H */
+> diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
+> index 54a9f595bb..f1659655c6 100644
+> --- a/include/hw/loongarch/virt.h
+> +++ b/include/hw/loongarch/virt.h
+> @@ -14,7 +14,7 @@
+>   #include "hw/intc/loongarch_ipi.h"
+>   #include "hw/block/flash.h"
+>   
+> -#define LOONGARCH_MAX_VCPUS     4
+> +#define LOONGARCH_MAX_CPUS      256
+>   
+>   #define VIRT_ISA_IO_BASE        0x18000000UL
+>   #define VIRT_ISA_IO_SIZE        0x0004000
 
 
