@@ -2,98 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B2E6EF056
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 10:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885326EF06C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 10:47:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prad5-0002AQ-M1; Wed, 26 Apr 2023 04:35:59 -0400
+	id 1pramv-0005b4-AV; Wed, 26 Apr 2023 04:46:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1prad1-00029s-Iv
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 04:35:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pramh-0005WN-KA
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 04:46:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pracz-0004mM-FE
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 04:35:55 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prame-0006eW-Pm
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 04:45:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682498152;
+ s=mimecast20190719; t=1682498751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7QN60KQwMSbtP2Jas+ML5memxyfC8SCYTLlb2k4LDMI=;
- b=We3ejv87RjzhknI79gZ39pwFgoQfn3Jymr/9P+de2sr0NWHBSwo0J6xdzLEBdvsHoti8UB
- KXlIQv3e5y1mAYFDKTCvE2T6G+C4SMp5a+9RAI608CTzbqZDHnoRjYrFHbTb4QcTSM2Zdn
- avZecBXsfNm7TlJcyexh2NcjXMoUSkI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Hw/nKYBHQH3hvfAaunfOsUD5sHNwu/V6DaO5dQrd+jo=;
+ b=NyYWJIu4KtMqHt+4l5/++ovHMXm/bl5Fl5xqjaIN6IejB5z+5S90lDsy0KGxz08uBTbR2D
+ dYMOEOER/o/wkCCO4PLyT5WvMJG+/mGUDyyIuHytdbDJyBpX+HkwXbRhazG93hkjuZ6PDo
+ XqHpOZ2L7JlE1BwajRSGRWe6on7cFA0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-126-Jjh8YdGuOnGJTfAyQX44Jw-1; Wed, 26 Apr 2023 04:35:50 -0400
-X-MC-Unique: Jjh8YdGuOnGJTfAyQX44Jw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-505b696f254so6585659a12.3
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 01:35:50 -0700 (PDT)
+ us-mta-591-zn5DjcOjOHmGE7cbCdO-9A-1; Wed, 26 Apr 2023 04:45:49 -0400
+X-MC-Unique: zn5DjcOjOHmGE7cbCdO-9A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-2ff4bc7a770so3681615f8f.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 01:45:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682498149; x=1685090149;
+ d=1e100.net; s=20221208; t=1682498749; x=1685090749;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7QN60KQwMSbtP2Jas+ML5memxyfC8SCYTLlb2k4LDMI=;
- b=QogZw33GjYQHVIRdQUtSvzMR1xX4k58tMaRLfGLVCC/N1TFKNbG9ajPsdawz1WG+XE
- HbL74hKT7C5aq8TWMfFEbuyXgtZWEci60pQqnPsgN8dHqg5CPVp7q49cIcbUjy8LLoGX
- C4zm8M7/JJ6yUJed1KVX+VpG5teECu73AzDXUEfQv0fda5GtVr7Dai9CYGKkRpx9XLPv
- fb6xX56VF21nKU0C6k4Zc6OOhJLdjQ/GGNI1XNkmGLZ+IyDkLku3oZyEEK1hA+eYjj9T
- lu8oqQVr5LpPjMTo0WHOx0I7m9E7rCQ9OdFpsp2lTHW2R7ultxQQQVc42BchT4iRfazc
- DSAQ==
-X-Gm-Message-State: AAQBX9dHzI5PpZGS2dRPAsDzQaSwAN0kne8MFcXHabZ26Isk5M3LVViv
- qA2p6F+SE6DulYY4wQZtiWnIRMuSFmxCtZGpvlvgjjM4f91tAcpLCyf7jRSJ4SX9kwAN8AjaeQD
- XbGPI+3ne4ArfEd4=
-X-Received: by 2002:a05:6402:120c:b0:506:a2dd:e162 with SMTP id
- c12-20020a056402120c00b00506a2dde162mr16678267edw.22.1682498149318; 
- Wed, 26 Apr 2023 01:35:49 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b2SbXch9W9bd+DYRt3Isfegp7vh1j/pdjj93JCXU/mIYYZdcsiCuizd8mITHnK4m/e2ZK77g==
-X-Received: by 2002:a05:6402:120c:b0:506:a2dd:e162 with SMTP id
- c12-20020a056402120c00b00506a2dde162mr16678255edw.22.1682498149009; 
- Wed, 26 Apr 2023 01:35:49 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.googlemail.com with ESMTPSA id
- t1-20020aa7d4c1000000b005066cadcc54sm6506591edr.43.2023.04.26.01.35.47
+ bh=Hw/nKYBHQH3hvfAaunfOsUD5sHNwu/V6DaO5dQrd+jo=;
+ b=hOwZgrgCLjGtgg06YeaCvYZ6tFCOdjnAyz8uJzOZTgWgS61eYpdAa2GC88Gyp84eNe
+ n3bX0ov22RGl6DDecHKGdJfUuypcBHJpgPbIqghwkDRtyptwt6hIbLeInKpfUI5MYD0y
+ 0t9/8WCJ7ezD653wFxcYH7liBxxnsGwfv18t/fnYpiEq5izTY/Fz0HLE7eXkq41PV+Kc
+ 3be9iQ+DfctWEF0FR+iawT0qo1UgiHlSuE7knovk0xK3KzPvLbt8a8nFECxYcvdGXN8h
+ +WrIIYjoRuljdmvRXOA1CBzGmG+NnGPyG1Z6y8u4el4ml+Txy9C/I/gkokKugVXr9gI4
+ rP1w==
+X-Gm-Message-State: AAQBX9eX0uD1/ZBURKu5CvA62kkD3XB3RdA468pGWyy6uE+41L8eWi75
+ 21IGnalnsgV8oGfLRktcWmq0TxJwNJO1Jj99CEBuiBkdKZcUs/D+VLgBZODIXPCzbuiMTUaoCya
+ QQc/2AfGrrdsbIDY=
+X-Received: by 2002:adf:f30a:0:b0:2f5:9b1f:da81 with SMTP id
+ i10-20020adff30a000000b002f59b1fda81mr13048492wro.54.1682498748910; 
+ Wed, 26 Apr 2023 01:45:48 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a3wtwiVpNTjuuC9IPn6gVKwU4euD5b3YlLmmw3bsU+Dm173zeS1XYpsNKntjbiO1yXg6L5gQ==
+X-Received: by 2002:adf:f30a:0:b0:2f5:9b1f:da81 with SMTP id
+ i10-20020adff30a000000b002f59b1fda81mr13048480wro.54.1682498748624; 
+ Wed, 26 Apr 2023 01:45:48 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-176-131.web.vodafone.de.
+ [109.43.176.131]) by smtp.gmail.com with ESMTPSA id
+ m7-20020a5d4a07000000b002c55521903bsm15105870wrq.51.2023.04.26.01.45.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 01:35:48 -0700 (PDT)
-Message-ID: <85f4b92c-3194-a3e6-b656-289118852341@redhat.com>
-Date: Wed, 26 Apr 2023 10:35:47 +0200
+ Wed, 26 Apr 2023 01:45:48 -0700 (PDT)
+Message-ID: <a11743c0-5f9b-fa8c-14d9-8e724bf4cee0@redhat.com>
+Date: Wed, 26 Apr 2023 10:45:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [RFC PATCH v3 00/20] configure: create a python venv and ensure
- meson, sphinx
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] tests/unit/test-blockjob: Re-enable complete_in_standby
+ test
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>,
- Beraldo Leal <bleal@redhat.com>, Kyle Evans <kevans@freebsd.org>,
- Thomas Huth <thuth@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20230424200248.1183394-1-jsnow@redhat.com>
- <ZEgLNJ13fJf5RAI4@redhat.com>
- <CAFn=p-YNjRZnFUhFr7PfHWKGvRnRnF1mpTc7KvFr5eXBM0Lsxw@mail.gmail.com>
- <CAFn=p-ajvEJkCvv=Z0hG9A8tbf9cYz2eTTDRChwqbFWiMUzAPw@mail.gmail.com>
- <ZEgXo67oiOugfCn8@redhat.com>
- <CAFn=p-bcuu8__gRfRtkMikZ=+N2e63yU2q1rkjaQNpTK_LYL=w@mail.gmail.com>
- <ZEjfJtRC+MfRXpVL@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <ZEjfJtRC+MfRXpVL@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Peter Maydell <peter.maydell@linaro.org>, Hanna Czenczek
+ <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20230426081601.2567990-1-eesposit@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230426081601.2567990-1-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
@@ -118,48 +104,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/26/23 10:21, Daniel P. Berrangé wrote:
->> So if you already have Sphinx, this should perform an upgrade to the
->> latest version?
->
-> Essentially I meant 'force' to mean*never*  use the host python
-> installation packages. Always install all the deps in the venv,
-> even if they exist in the host with sufficient version met.
-
-I think this is essentially --enable-isolated-venv.  I don't think there 
-is a usecase for "let the venv use system packages, but override them 
-with pip right away".
-
->>
->> --python=... # runtime used to create venv
->> --enable-pip-groups=testing,devel,avocado,meson,sphinx
->> --enable-pip=now  # install all python deps now
->> --enable-pip=on-demand  # install qemu.git/meson/sphinx, delay the rest
->> --enable-pip=no    # offline
->> --{enable,disable}-isolated-venv # let venv use system/distro if disable
+On 26/04/2023 10.16, Emanuele Giuseppe Esposito wrote:
+> Pause the job while draining so that pause_count will be
+> increased and bdrv_drain_all_end() won't reset it to 0, so the
+> job will not continue.
 > 
-> This feels like a bit of overkill to me, and would create a hell
-> of a lot of combinations to test if you expand the matrix of
-> options.
+> With this fix, the test is not flaky anymore.
+> 
+> Additionally remove useless aiocontext lock around bdrv_drain_all_end()
+> in test_complete_in_standby().
+> 
+> Fixes: b6903cbe3a2 "tests/unit/test-blockjob: Disable
+> complete_in_standby test"
+> Suggested-by: Hanna Czenczek <hreitz@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   tests/unit/test-blockjob.c | 17 +++++++----------
+>   1 file changed, 7 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
+> index a130f6fefb..46d720aeee 100644
+> --- a/tests/unit/test-blockjob.c
+> +++ b/tests/unit/test-blockjob.c
+> @@ -488,11 +488,15 @@ static void test_complete_in_standby(void)
+>       bdrv_drain_all_begin();
+>       assert_job_status_is(job, JOB_STATUS_STANDBY);
+>   
+> +    /*
+> +     * Increase pause_count so that the counter is
+> +     * unbalanced and job won't resume
+> +     */
+> +    job_pause(job);
+> +
+>       /* Lock the IO thread to prevent the job from being run */
 
-Yeah, this is a bit overkill.  I think we can reduce it to three cases, 
-corresponding to:
+I guess the above comment should now be removed, too?
 
-- --enable-pypi --enable-isolated-venv - use pip to install everything, 
-including for options in "auto" state (e.g. would install sphinx without 
---enable-docs)
+> -    aio_context_acquire(ctx);
+>       /* This will schedule the job to resume it */
+>       bdrv_drain_all_end();
+> -    aio_context_release(ctx);
 
-- --enable-pypi --disable-isolated-venv - use pip to install missing 
-packages.  TBD whether to do so for options in "auto" state or only for 
-"enabled" (i.e., TBD whether to install sphinx without --enable-docs).
-
-- --disable-pypi (only meaningful for --disable-isolated-venv) - apart 
-from vendored wheels, just use system site packages (same as QEMU <= 8.0)
-
-I think we want to hash out this detail first, and thus we should leave 
-online mode out of the non-RFC version.  It can be implemented together 
-with isolated mode.
-
-Paolo
+  Thomas
 
 
