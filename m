@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59316EF39B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 13:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB7F6EF3A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 13:50:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prdZs-0007Mc-7t; Wed, 26 Apr 2023 07:44:52 -0400
+	id 1prddi-0003tv-3k; Wed, 26 Apr 2023 07:48:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prdZk-0007Ih-NV; Wed, 26 Apr 2023 07:44:44 -0400
+ id 1prddf-0003th-0w; Wed, 26 Apr 2023 07:48:47 -0400
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prdZi-0008BA-2L; Wed, 26 Apr 2023 07:44:44 -0400
+ id 1prddc-0000ag-P9; Wed, 26 Apr 2023 07:48:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=olg+MEvzVxHSwQu3vygSMFZFR9Tg/nMFvlKcM5pUIBc=; b=UNftqEB50OS4c5odH7/AdTL0AP
- ngXfup9g5th2CNicXOul1/fuX6ctX60atJeUKqX9CKah3d1Vaqh54BgObdGRgCAzIEpalysZ9Bw/O
- D5Gl0IDf4EAVoMvoN8rniGkRthtkr0UtirXq8AkSbDK1eBDdjmTt4ylYlwZvqXbj0dtN22y8Lk2/H
- qoeSfdTJrFCcJoDAmvxMoiJqHX228R/glKGN62/KTy/vHLsthD30sRjRQ0L4IsURfyQDo0P4dZOaX
- GetOrLLcyPLKax1yf8GeGJjwYBJvtp4ktcpQ3k52TMffzPSnWdFi/dQL6ajESXtnumSKaUmCJLNYq
- HCinx2GdFAoWR3rO31h/TJ0m3AwDXMpkrb0gd1Nk4ICFfA7MAdbfO5BqrW3EAIjMhM3cj1YYIdxH2
- pbnnskERff4GXbVDFr48XRaK0sidkGZ6Fno03HNxi5fRusT9Pxojd1w2wXp2kM+1ZnldocFPmtOAQ
- iXWTV+AasdTSk3BCkSqfT58pK0N6DUAeavxumrOH9ELdmz0CNm1wZajUIrlN59iTIwFbE1iTGr8Or
- BpQSrj6oFTppGJ/npqME25TJmqrxMh7/yYd55TPHALyaXc+4zsMfH8W+UNwQgFlgroyruAlAVSR1U
- E39v/Tldd1S6YYgNhVAYoArtUeZckq/SjmTJpuGGI=;
+ bh=BsR90hVxZddcF+B9tn0ryLLD+TqYkmRumY7J76pstIo=; b=baQA2jjU57hjnyvZUMbFKa6HJi
+ UNEmnN1sX7l+ZXrJZ03pST5Q+YgRZQTKeSVNjGamUyg04glj6xpjeA3E/GPGLmxo4UFl9h+7JAOp/
+ qkvyFVENud8xAemPJWHBvzxYFa7DJ1vRQ5TAzlDde73u6/k4zb5OW4hbeYoitaojCZytjZV/1E0Su
+ 0MF+K3C5ZoSy1OlyqfGDyIF5RC1T4Qw2i5Y5p7yZMxg0tB0KhN1z/d4QpWRQq7YYeB5UX613XFpE2
+ EyfsLaEa0Ty2otydqNLZhhmKFUjpK8yuBWOIZq88n6SMFhlOLB3uiM9x267Ag7k4r9+LeEcne2eiE
+ jVp3XAkShhETmCyUVCOgjWVqDxlR2wkxegvbyM3KI8bCh07bI5iG/mubhrf+cPn9V+TBAOoiEJx9D
+ rb7WIU2Yjpzmery0785oDNHlbnBALAodWkLd87aVnU6HDRHy31Ltqh5eRvyN/MFP1EnaNkQXqVU2i
+ w2f/p1PjfY8rrRLChS2ZbXQsCNn3kHvzRO2X6tQ/8g6ZXVA+eR2tFSwBRSgE9j03IrB9lpuewJ5j6
+ Td1e3uGWx56Xmulgyy/e9jzTWrbbMY8DmtB0Jaq5D5+vOEBxXz6nQ0yr1KtHfAYD4N32+j61I2a3X
+ MHJGnefxX5h7kiwQs9BS721cRwt3AWwzS/n6OGFXs=;
 Received: from host81-151-114-25.range81-151.btcentralplus.com
  ([81.151.114.25] helo=[10.8.0.6])
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prdYg-0002AV-4a; Wed, 26 Apr 2023 12:43:42 +0100
-Message-ID: <859c8a06-cfdf-3f0b-615f-07a703439687@ilande.co.uk>
-Date: Wed, 26 Apr 2023 12:44:29 +0100
+ id 1prdcf-0002CJ-Dc; Wed, 26 Apr 2023 12:47:45 +0100
+Message-ID: <5ab023a4-6f97-bca8-0b68-a098b98da809@ilande.co.uk>
+Date: Wed, 26 Apr 2023 12:48:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -50,14 +50,14 @@ Cc: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-ppc@nongnu.org
 References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-13-shentey@gmail.com>
+ <20230422150728.176512-14-shentey@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230422150728.176512-13-shentey@gmail.com>
+In-Reply-To: <20230422150728.176512-14-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 81.151.114.25
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 12/13] hw/ide/sii3112: Reuse PCIIDEState::bmdma_ops
+Subject: Re: [PATCH 13/13] hw/ide: Extract bmdma_clear_status()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -86,236 +86,154 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 22/04/2023 16:07, Bernhard Beschow wrote:
 
-> Allows to unexport bmdma_addr_ioport_ops and models TYPE_SII3112_PCI as a
-> standard-compliant PCI IDE device.
-
-Nice! I think it's worth adding a brief mention that you've added BMDMA trace-events, 
-but otherwise looks sensible to me.
-
+> Extract bmdma_clear_status() mirroring bmdma_cmd_writeb().
+> 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   include/hw/ide/pci.h |  1 -
->   hw/ide/pci.c         |  2 +-
->   hw/ide/sii3112.c     | 94 ++++++++++++++++++++++++++------------------
->   hw/ide/trace-events  |  6 ++-
->   4 files changed, 60 insertions(+), 43 deletions(-)
+>   include/hw/ide/pci.h |  1 +
+>   hw/ide/cmd646.c      |  2 +-
+>   hw/ide/pci.c         |  7 +++++++
+>   hw/ide/piix.c        |  2 +-
+>   hw/ide/sii3112.c     | 12 +++++-------
+>   hw/ide/via.c         |  2 +-
+>   hw/ide/trace-events  |  1 +
+>   7 files changed, 17 insertions(+), 10 deletions(-)
 > 
 > diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-> index dbb4b13161..81e0370202 100644
+> index 81e0370202..6a286ad307 100644
 > --- a/include/hw/ide/pci.h
 > +++ b/include/hw/ide/pci.h
-> @@ -59,7 +59,6 @@ struct PCIIDEState {
+> @@ -59,6 +59,7 @@ struct PCIIDEState {
 >   void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d);
 >   void bmdma_init_ops(PCIIDEState *d, const MemoryRegionOps *bmdma_ops);
 >   void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
-> -extern MemoryRegionOps bmdma_addr_ioport_ops;
+> +void bmdma_clear_status(BMDMAState *bm, uint32_t val);
 >   void pci_ide_create_devs(PCIDevice *dev);
 >   
 >   #endif
+> diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+> index b9d005a357..973c3ff0dc 100644
+> --- a/hw/ide/cmd646.c
+> +++ b/hw/ide/cmd646.c
+> @@ -144,7 +144,7 @@ static void bmdma_write(void *opaque, hwaddr addr,
+>           cmd646_update_irq(pci_dev);
+>           break;
+>       case 2:
+> -        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
+> +        bmdma_clear_status(bm, val);
+>           break;
+>       case 3:
+>           if (bm == &bm->pci_dev->bmdma[0]) {
 > diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-> index 97ccc75aa6..3539b162b7 100644
+> index 3539b162b7..4aa06be7c6 100644
 > --- a/hw/ide/pci.c
 > +++ b/hw/ide/pci.c
-> @@ -342,7 +342,7 @@ static void bmdma_addr_write(void *opaque, hwaddr addr,
->       bm->addr |= ((data & mask) << shift) & ~3;
+> @@ -318,6 +318,13 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val)
+>       bm->cmd = val & 0x09;
 >   }
 >   
-> -MemoryRegionOps bmdma_addr_ioport_ops = {
-> +static MemoryRegionOps bmdma_addr_ioport_ops = {
->       .read = bmdma_addr_read,
->       .write = bmdma_addr_write,
->       .endianness = DEVICE_LITTLE_ENDIAN,
+> +void bmdma_clear_status(BMDMAState *bm, uint32_t val)
+> +{
+> +    trace_bmdma_update_status(val);
+> +
+> +    bm->status = (val & 0x60) | (bm->status & BM_STATUS_DMAING) | (bm->status & ~val & 0x06);
+> +}
+> +
+>   static uint64_t bmdma_addr_read(void *opaque, hwaddr addr,
+>                                   unsigned width)
+>   {
+> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+> index 406a67fa0f..9eab615e35 100644
+> --- a/hw/ide/piix.c
+> +++ b/hw/ide/piix.c
+> @@ -76,7 +76,7 @@ static void bmdma_write(void *opaque, hwaddr addr,
+>           bmdma_cmd_writeb(bm, val);
+>           break;
+>       case 2:
+> -        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
+> +        bmdma_clear_status(bm, val);
+>           break;
+>       }
+>   }
 > diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-> index 9cf920369f..373c0dd1ee 100644
+> index 373c0dd1ee..1180ff55e7 100644
 > --- a/hw/ide/sii3112.c
 > +++ b/hw/ide/sii3112.c
-> @@ -34,47 +34,73 @@ struct SiI3112PCIState {
->       SiI3112Regs regs[2];
->   };
->   
-> -/* The sii3112_reg_read and sii3112_reg_write functions implement the
-> - * Internal Register Space - BAR5 (section 6.7 of the data sheet).
-> - */
-> -
-> -static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
-> -                                unsigned int size)
-> +static uint64_t sii3112_bmdma_read(void *opaque, hwaddr addr, unsigned int size)
+> @@ -66,7 +66,7 @@ static void sii3112_bmdma_write(void *opaque, hwaddr addr,
+>                                   uint64_t val, unsigned int size)
 >   {
-> -    SiI3112PCIState *d = opaque;
-> +    BMDMAState *bm = opaque;
-> +    SiI3112PCIState *d = SII3112_PCI(bm->pci_dev);
-> +    int i = (bm == &bm->pci_dev->bmdma[0]) ? 0 : 1;
->       uint64_t val;
+>       BMDMAState *bm = opaque;
+> -    SiI3112PCIState *d = SII3112_PCI(bm->pci_dev);
+> +    SiI3112PCIState *s = SII3112_PCI(bm->pci_dev);
+>       int i = (bm == &bm->pci_dev->bmdma[0]) ? 0 : 1;
 >   
->       switch (addr) {
->       case 0x00:
-> -        val = d->i.bmdma[0].cmd;
-> +        val = bm->cmd;
+>       trace_sii3112_bmdma_write(size, addr, val);
+> @@ -75,10 +75,10 @@ static void sii3112_bmdma_write(void *opaque, hwaddr addr,
+>           bmdma_cmd_writeb(bm, val);
 >           break;
 >       case 0x01:
-> -        val = d->regs[0].swdata;
-> +        val = d->regs[i].swdata;
+> -        d->regs[i].swdata = val & 0x3f;
+> +        s->regs[i].swdata = val & 0x3f;
 >           break;
 >       case 0x02:
-> -        val = d->i.bmdma[0].status;
-> +        val = bm->status;
+> -        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 6);
+> +        bmdma_clear_status(bm, val);
 >           break;
->       case 0x03:
->           val = 0;
+>       default:
 >           break;
-> -    case 0x04 ... 0x07:
-> -        val = bmdma_addr_ioport_ops.read(&d->i.bmdma[0], addr - 4, size);
-> -        break;
-> -    case 0x08:
-> -        val = d->i.bmdma[1].cmd;
-> +    default:
-> +        val = 0;
->           break;
-> -    case 0x09:
-> -        val = d->regs[1].swdata;
-> +    }
-> +    trace_sii3112_bmdma_read(size, addr, val);
-> +    return val;
-> +}
-> +
-> +static void sii3112_bmdma_write(void *opaque, hwaddr addr,
-> +                                uint64_t val, unsigned int size)
-> +{
-> +    BMDMAState *bm = opaque;
-> +    SiI3112PCIState *d = SII3112_PCI(bm->pci_dev);
-> +    int i = (bm == &bm->pci_dev->bmdma[0]) ? 0 : 1;
-> +
-> +    trace_sii3112_bmdma_write(size, addr, val);
-> +    switch (addr) {
-> +    case 0x00:
-> +        bmdma_cmd_writeb(bm, val);
->           break;
-> -    case 0x0a:
-> -        val = d->i.bmdma[1].status;
-> +    case 0x01:
-> +        d->regs[i].swdata = val & 0x3f;
->           break;
-> -    case 0x0b:
-> -        val = 0;
-> +    case 0x02:
-> +        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 6);
->           break;
-> -    case 0x0c ... 0x0f:
-> -        val = bmdma_addr_ioport_ops.read(&d->i.bmdma[1], addr - 12, size);
-> +    default:
->           break;
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps sii3112_bmdma_ops = {
-> +    .read = sii3112_bmdma_read,
-> +    .write = sii3112_bmdma_write,
-> +};
-> +
-> +/* The sii3112_reg_read and sii3112_reg_write functions implement the
-> + * Internal Register Space - BAR5 (section 6.7 of the data sheet).
-> + */
-> +
-> +static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
-> +                                unsigned int size)
-> +{
-> +    SiI3112PCIState *d = opaque;
-> +    uint64_t val;
-> +
-> +    switch (addr) {
->       case 0x10:
->           val = d->i.bmdma[0].cmd;
->           val |= (d->regs[0].confstat & (1UL << 11) ? (1 << 4) : 0); /*SATAINT0*/
-> @@ -127,38 +153,26 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
->   
->       trace_sii3112_write(size, addr, val);
->       switch (addr) {
-> -    case 0x00:
->       case 0x10:
->           bmdma_cmd_writeb(&d->i.bmdma[0], val);
->           break;
-> -    case 0x01:
->       case 0x11:
+> @@ -160,8 +160,7 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
 >           d->regs[0].swdata = val & 0x3f;
 >           break;
-> -    case 0x02:
 >       case 0x12:
->           d->i.bmdma[0].status = (val & 0x60) | (d->i.bmdma[0].status & 1) |
->                                  (d->i.bmdma[0].status & ~val & 6);
+> -        d->i.bmdma[0].status = (val & 0x60) | (d->i.bmdma[0].status & 1) |
+> -                               (d->i.bmdma[0].status & ~val & 6);
+> +        bmdma_clear_status(&d->i.bmdma[0], val);
 >           break;
-> -    case 0x04 ... 0x07:
-> -        bmdma_addr_ioport_ops.write(&d->i.bmdma[0], addr - 4, val, size);
-> -        break;
-> -    case 0x08:
 >       case 0x18:
 >           bmdma_cmd_writeb(&d->i.bmdma[1], val);
->           break;
-> -    case 0x09:
->       case 0x19:
+> @@ -170,8 +169,7 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
 >           d->regs[1].swdata = val & 0x3f;
 >           break;
-> -    case 0x0a:
 >       case 0x1a:
->           d->i.bmdma[1].status = (val & 0x60) | (d->i.bmdma[1].status & 1) |
->                                  (d->i.bmdma[1].status & ~val & 6);
+> -        d->i.bmdma[1].status = (val & 0x60) | (d->i.bmdma[1].status & 1) |
+> -                               (d->i.bmdma[1].status & ~val & 6);
+> +        bmdma_clear_status(&d->i.bmdma[1], val);
 >           break;
-> -    case 0x0c ... 0x0f:
-> -        bmdma_addr_ioport_ops.write(&d->i.bmdma[1], addr - 12, val, size);
-> -        break;
 >       case 0x100:
 >           d->regs[0].scontrol = val & 0xfff;
->           if (val & 1) {
-> @@ -240,6 +254,9 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
->       pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops[1]);
->       pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[1]);
->   
-> +    bmdma_init_ops(s, &sii3112_bmdma_ops);
-> +    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &s->bmdma_ops);
-> +
->       /* BAR5 is in PCI memory space */
->       memory_region_init_io(&d->mmio, OBJECT(d), &sii3112_reg_ops, d,
->                            "sii3112.bar5", 0x200);
-> @@ -262,10 +279,10 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
->       memory_region_init_alias(mr, OBJECT(d), "sii3112.bar3", &s->cmd_ops[1], 0,
->                                memory_region_size(&s->cmd_ops[1]));
->       memory_region_add_subregion_overlap(&d->mmio, 0xc8, mr, 1);
-> -
->       mr = g_new(MemoryRegion, 1);
-> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar4", &d->mmio, 0, 16);
-> -    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, mr);
-> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar4", &s->bmdma_ops, 0,
-> +                             memory_region_size(&s->bmdma_ops));
-> +    memory_region_add_subregion_overlap(&d->mmio, 0x0, mr, 1);
->   
->       qdev_init_gpio_in(ds, sii3112_set_irq, 2);
->       for (i = 0; i < 2; i++) {
-> @@ -287,7 +304,6 @@ static void sii3112_pci_class_init(ObjectClass *klass, void *data)
->       pd->class_id = PCI_CLASS_STORAGE_RAID;
->       pd->revision = 1;
->       pd->realize = sii3112_pci_realize;
-> -    pd->exit = NULL;
->       dc->reset = sii3112_reset;
->       dc->vmsd = NULL;
->       dc->desc = "SiI3112A SATA controller";
+> diff --git a/hw/ide/via.c b/hw/ide/via.c
+> index 35dd97e49b..afb97f302a 100644
+> --- a/hw/ide/via.c
+> +++ b/hw/ide/via.c
+> @@ -75,7 +75,7 @@ static void bmdma_write(void *opaque, hwaddr addr,
+>           bmdma_cmd_writeb(bm, val);
+>           break;
+>       case 2:
+> -        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
+> +        bmdma_clear_status(bm, val);
+>           break;
+>       default:;
+>       }
 > diff --git a/hw/ide/trace-events b/hw/ide/trace-events
-> index 57042cafdd..a479525e38 100644
+> index a479525e38..d219c64b61 100644
 > --- a/hw/ide/trace-events
 > +++ b/hw/ide/trace-events
-> @@ -38,8 +38,10 @@ bmdma_read(uint64_t addr, uint8_t val) "bmdma: readb 0x%"PRIx64" : 0x%02x"
->   bmdma_write(uint64_t addr, uint64_t val) "bmdma: writeb 0x%"PRIx64" : 0x%02"PRIx64
->   
->   # sii3112.c
-> -sii3112_read(int size, uint64_t addr, uint64_t val) "bmdma: read (size %d) 0x%"PRIx64" : 0x%02"PRIx64
-> -sii3112_write(int size, uint64_t addr, uint64_t val) "bmdma: write (size %d) 0x%"PRIx64" : 0x%02"PRIx64
-> +sii3112_bmdma_read(int size, uint64_t addr, uint64_t val) "read (size %d) 0x%"PRIx64" : 0x%02"PRIx64
-> +sii3112_bmdma_write(int size, uint64_t addr, uint64_t val) "write (size %d) 0x%"PRIx64" : 0x%02"PRIx64
-> +sii3112_read(int size, uint64_t addr, uint64_t val) "read (size %d) 0x%"PRIx64" : 0x%02"PRIx64
-> +sii3112_write(int size, uint64_t addr, uint64_t val) "write (size %d) 0x%"PRIx64" : 0x%02"PRIx64
->   sii3112_set_irq(int channel, int level) "channel %d level %d"
->   
->   # via.c
+> @@ -30,6 +30,7 @@ bmdma_write_cmd646(uint64_t addr, uint64_t val) "bmdma: writeb 0x%"PRIx64" : 0x%
+>   # pci.c
+>   bmdma_reset(void) ""
+>   bmdma_cmd_writeb(uint32_t val) "val: 0x%08x"
+> +bmdma_update_status(uint32_t val) "val: 0x%08x"
+>   bmdma_addr_read(uint64_t data) "data: 0x%016"PRIx64
+>   bmdma_addr_write(uint64_t data) "data: 0x%016"PRIx64
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+I see there has been further discussion related to naming of the function: FWIW my 
+preference would be bmdma_status_writeb() since it matches the existing convention 
+for bmdma_cmd_writeb() and is pretty clear that it handles byte-only BMDMA status 
+register writes.
+
+I don't mind either way regarding the extra trace-event, although generally if 
+someone has added it then it means they have found it useful. Otherwise LGTM, but 
+I'll wait to see what the final outcome is before adding an R-B.
 
 
 ATB,
