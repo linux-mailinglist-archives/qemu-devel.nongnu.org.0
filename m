@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4BE6EF876
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 18:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8306EF875
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 18:31:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pri24-0000ee-EC; Wed, 26 Apr 2023 12:30:16 -0400
+	id 1pri2W-0000i4-Kw; Wed, 26 Apr 2023 12:30:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pri21-0000eL-Q5
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:30:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pri2G-0000fe-GE
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:30:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pri20-0007es-9a
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:30:13 -0400
+ id 1pri2E-0007hH-St
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:30:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682526611;
+ s=mimecast20190719; t=1682526626;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=R1rxOTcjGo2/M6P0B6hGRXJT3GfGobaKhmxqyGQhZ9Y=;
- b=comuIATu3psIKjfoW7ltk+vEVOi3LlAuTb8JWDRljJdK+lQ0UxKt31LLp/UWY6IlKRrX1s
- TB5WhNLXIDYFDK/2h58UHo0ROjXcjer6jhwPW7pL2DsLBMdA5DHFqc/w5ZFPo9I7rDV0h9
- 6Zerl3J/MMqWLCGM593WuGG/L/BW46Y=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oBOeJVdJ36cd61nHknLsZrDGYnyW5doe2Fso26eT0zQ=;
+ b=NJEjs8WkcUnQYmMzJ6XeTHClyASGxGjYUBF4WFPxITC/qrJEx+D//szNlDe1jW76unekx0
+ It5vLT31I9UA5UWWz+pIR3p0nlZjzznghzOIFWVbW/V6BziKyNVwkEYoOZ7dh9lJWs86zB
+ 77NnKJtW7V4q2dVu7e2iflOHJKUEGkE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-480-oKfisocVPcqxgIt8Aw_fYQ-1; Wed, 26 Apr 2023 12:30:09 -0400
-X-MC-Unique: oKfisocVPcqxgIt8Aw_fYQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-2ffee43dac5so2708471f8f.2
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 09:30:09 -0700 (PDT)
+ us-mta-637-tgX73bC2Pwave7ElUtC70g-1; Wed, 26 Apr 2023 12:30:24 -0400
+X-MC-Unique: tgX73bC2Pwave7ElUtC70g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f080f46fb1so28165595e9.0
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 09:30:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682526607; x=1685118607;
+ d=1e100.net; s=20221208; t=1682526623; x=1685118623;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R1rxOTcjGo2/M6P0B6hGRXJT3GfGobaKhmxqyGQhZ9Y=;
- b=YTIEGNtA8FcpIAWou2J3atvAP6uCLIEKNc24/5lqbtENaM4EPILTnDeRieHl9xD3mG
- fgnrpIxECYH8VnQaujWnTopJAboxUTvpnD+yabTj3VhcQ3++FvIQCP6ORM2ySEOjBxBs
- dM8z/WYSrOVztN+M776+jjK/9TGqipc2kfCfcPiohjX3MAvaA6agGx48sZifIUdUueUh
- BXbWiFS5ThIXY4UjAcGrq+YtCmNxdhkkD5akM/25lfqOVI/VW3vkjA6s3iXTzNbpKdjQ
- RaukP6GMwQeYP9MQS1FWfre7Gf6ylfVXnRG0yrMuetBCc9rkgWBpK7vqV9Wg0m57+vVW
- DcZg==
-X-Gm-Message-State: AAQBX9f3Drkq4DhC0un6pmJD0J2fRt1tu46Wz8zj9A8IwKJj1MQB8cZh
- Zy/Yn7vZyaYXWWORFhPxLPpSQNPMlYxd0Vj7AT9I5IISLc4+PQcP3Hn4g3nrd1U/rb5jinwesGX
- tkuW0TzjDNYWl0N5RLq0mlXRUlwlh
-X-Received: by 2002:a5d:6886:0:b0:2f0:6192:92db with SMTP id
- h6-20020a5d6886000000b002f0619292dbmr13467003wru.46.1682526607721; 
- Wed, 26 Apr 2023 09:30:07 -0700 (PDT)
-X-Google-Smtp-Source: AKy350azmS6ABNTAp89Q47IizRW6ltBkgLhnJ8xpMxNbVsucYGXz7uVW2RXtwO4NnOWi/3Mps7Upgg==
-X-Received: by 2002:a5d:6886:0:b0:2f0:6192:92db with SMTP id
- h6-20020a5d6886000000b002f0619292dbmr13466992wru.46.1682526607391; 
- Wed, 26 Apr 2023 09:30:07 -0700 (PDT)
+ bh=oBOeJVdJ36cd61nHknLsZrDGYnyW5doe2Fso26eT0zQ=;
+ b=ZLKI4saC1xMjIXjrKifPGmg/oge8JuvcbPwFirbD0oJLqG7yMHotMx2eQODfFw3Qja
+ YwSuWUK9h69UA4+E8Cx5913/0K1lPLjoDLy/qDZyFtxl4zKwTqe6lIaqsAqApKLIsEPa
+ KJ9h+s/uukrsY5+TWwWxilOdAmWQuFjQNftNehC/FHMIJ2yZ3Wiyrjp/0TGJiLY3d3tC
+ vTSSLUf0aJUhyai9XCvgPbtjYIrTUKLXfcNoBRk1JlOBByUgcy4xIP7LOGvqIMg73kqG
+ FmMyCxhT9ArVbSVIIkZBxFZgzwr2AG6Agiels8Y6ZSseNMUSJIlTSkCVCTZlIfXj5AJc
+ Q7Nw==
+X-Gm-Message-State: AAQBX9cV94UhPhcgPjPf7ulODQs4lWVpqtIhnUmq19zb7LTxhHFNjIAz
+ a23DMAjAOwznTxqX0LF/KilsrPvU0+2pglhc0Z1icwOw6Mwh6OGbTtkdpq3FHbyAVxq4enL1Wq7
+ W1oIvCadMJkJ4MAY=
+X-Received: by 2002:adf:dc02:0:b0:2f7:53ff:723c with SMTP id
+ t2-20020adfdc02000000b002f753ff723cmr13580119wri.66.1682526623160; 
+ Wed, 26 Apr 2023 09:30:23 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aw1pqeqk9h+8BuMQwDHcmRoYWh5fuvHvJu+PmNM+dklp8FYINMgTNFs3Xdqn5P2a0bnWGbtw==
+X-Received: by 2002:adf:dc02:0:b0:2f7:53ff:723c with SMTP id
+ t2-20020adfdc02000000b002f753ff723cmr13580107wri.66.1682526622896; 
+ Wed, 26 Apr 2023 09:30:22 -0700 (PDT)
 Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
  [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- g16-20020a5d5410000000b002fbc61cd080sm16384376wrv.9.2023.04.26.09.30.06
+ o2-20020a5d58c2000000b002fe522117fdsm16263233wrf.36.2023.04.26.09.30.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Apr 2023 09:30:06 -0700 (PDT)
+ Wed, 26 Apr 2023 09:30:22 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Subject: Re: [PATCH 1/2] migration/vmstate-dump: Dump array size too as "num"
-In-Reply-To: <20230425180544.1815888-2-peterx@redhat.com> (Peter Xu's message
- of "Tue, 25 Apr 2023 14:05:43 -0400")
+Subject: Re: [PATCH 2/2] vmstate-static-checker: Recognize "num" field
+In-Reply-To: <20230425180544.1815888-3-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 25 Apr 2023 14:05:44 -0400")
 References: <20230425180544.1815888-1-peterx@redhat.com>
- <20230425180544.1815888-2-peterx@redhat.com>
+ <20230425180544.1815888-3-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 26 Apr 2023 18:30:05 +0200
-Message-ID: <87bkjafvxu.fsf@secure.mitica>
+Date: Wed, 26 Apr 2023 18:30:21 +0200
+Message-ID: <877ctyfvxe.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -101,48 +101,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> For VMS_ARRAY typed vmsd fields, also dump the number of entries in the
-> array in -vmstate-dump.
+> Recognize this field for VMS_ARRAY typed vmsd fields, then we can do proper
+> size matching with previous patch.
 >
-> Without such information, vmstate static checker can report false negatives
-> of incompatible vmsd on VMS_ARRAY typed fields, when the src/dst do not
-> have the same type of array defined.  It's because in the checker we only
-> check against size of fields within a VMSD field.
->
-> One example: e1000e used to have a field defined as a boolean array with 5
-> entries, then removed it and replaced it with UNUSED (in 31e3f318c8b535):
->
-> -        VMSTATE_BOOL_ARRAY(core.eitr_intr_pending, E1000EState,
-> -                           E1000E_MSIX_VEC_NUM),
-> +        VMSTATE_UNUSED(E1000E_MSIX_VEC_NUM),
->
-> It's a legal replacement but vmstate static checker is not happy with it,
-> because it checks only against the "size" field between the two
-> fields (here one is BOOL_ARRAY, the other is UNUSED):
->
-> For BOOL_ARRAY:
->
->       {
->         "field": "core.eitr_intr_pending",
->         "version_id": 0,
->         "field_exists": false,
->         "size": 1
->       },
->
-> For UNUSED:
->
->       {
->         "field": "unused",
->         "version_id": 0,
->         "field_exists": false,
->         "size": 5
->       },
->
-> It's not the script to blame because there's just not enough information
-> dumped to show the total size of the entry for an array.  Add it.
->
-> Note that this will not break old vmstate checker because the field will
-> just be ignored.
+> Note that this is compatible with old -dump-vmstate output, because when
+> "num" is not there we'll still use the old "size" only.
 >
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
