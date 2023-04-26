@@ -2,96 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A2A6EEC56
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 04:25:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D60B6EEC60
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 04:32:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prUop-0000uD-Sh; Tue, 25 Apr 2023 22:23:43 -0400
+	id 1prUvi-0002h0-Ep; Tue, 25 Apr 2023 22:30:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1prUon-0000th-2f
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 22:23:41 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1prUok-0000ke-UG
- for qemu-devel@nongnu.org; Tue, 25 Apr 2023 22:23:40 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id
- d2e1a72fcca58-63d2ba63dddso5220713b3a.2
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 19:23:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1682475812; x=1685067812;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dY6YFGS5YhBPz119emz84807goMWNpCefgDK41V5Ayw=;
- b=erZ8A7biMxxqB/SHMsCaaHRCTf4sgfmB01IUdLmTOqn3XjaYP8AjgSREJDbT1NsNES
- /bBrBS6cxiRpFRyZUvGFLmr143lJiB2sBSk1Fb2cjgYzqdDA9XKitxFo8Vy+WOD1Gz+U
- YCIg/104TE6Wk/PcJYYXX0pc3D0UHcYMt6LTsdfJGSlgIvqqqHp6rpYXCQCHll/dhoWH
- tZx2JzETNasVfnw4wjoJV0520uuCwBCJalEII7Icjv3uRBPf9Nc/wHCFl56Nl4nOe6CL
- +JoxEMGVgBC0NjcSHXE0+CB+Qog3Yb3HVG/POtvzwL93Z2za9ShPng35vggP6wWuKkGZ
- /seA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682475812; x=1685067812;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dY6YFGS5YhBPz119emz84807goMWNpCefgDK41V5Ayw=;
- b=lbsTRy+z1d3SfVfXOKYAUtxD2FrFkrSNavhlqee1OsSUhjjjM/VfgXmU6isINOXj7K
- kLYi28RU4j5I3mDaj4CVxin8vM06q4pm/GxAzOdxJ92u8sYMuTYkQeNO/cMYhGRI6oM3
- EkyoGl0wX0XwgW6vdx+nK61RFOyUhhxDulcuJNgJgupfqU8BPZP7ylmRrAhwbd0OevEA
- q8X4yQprrNRvm/E7AD+PV2+WvgrKU5crZPVVslYRJW/7A6hneApS2HT106sI8eHGiUcl
- 6CGdVPvXpnCp3O0hHNnOeZjDW2FZJRq3MrOMuRovRdp3YHmDV2ghip4vM5+Ii6xj5xk2
- onGw==
-X-Gm-Message-State: AAQBX9eM7I6tvLgNZ6Zm8zf0JQowyAkg6uC6P57xhj3hvxgoVR/zpLF8
- BCuoiArVAndo1CMj5BWCShEsrPq2GY4/dojxNMz4
-X-Google-Smtp-Source: AKy350bUdc4Aelq2+pyhyCkb7VYlUy7PjweYo0DP7me+Y3/2hO8ewi4s6aXdU11wFO/OMLnfiF/4gpBlv6/Ezxkkk4I=
-X-Received: by 2002:a17:90b:4acc:b0:24b:8b39:cd7f with SMTP id
- mh12-20020a17090b4acc00b0024b8b39cd7fmr13173940pjb.41.1682475811679; Tue, 25
- Apr 2023 19:23:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1prUvX-0002du-5s
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 22:30:39 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1prUvT-00028a-OO
+ for qemu-devel@nongnu.org; Tue, 25 Apr 2023 22:30:38 -0400
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33Q1NT3Q014634; Wed, 26 Apr 2023 02:30:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=VvhmmyYG8C+UdsiwwwyNKkxVZ/oae6Htf9S6wsr6Yxw=;
+ b=jk18Mxu65nYlod7iACNnZT75c/Tiolj56w5ZZ0VkNix7N7v8KOZtrt0SYmYDCmZVp3PW
+ 8RJHpvYeUWB3eflXmoPCC6zmAyv5JcbxS0mtnACLOVJ6gZSQ5u5oed3FnWI8Iq53bZBV
+ zjCYAflJnM+YKdDkBjFwUjVynmMv5J/rueWs122BjG8FmBxQOfDy0lIll6y7POme5C9H
+ WPTYA1AjFgNZ9g9tBjwau+Dy+DANeZ959lf3opwpFs/B7SLBueaUTiFtvjW6Y/WyWH/h
+ nPosCt/c7eaG8cTmBDH+G5Ecp0mm+ijTwyYt+K3kQYvVKzEnMKWvYHveG3/QgC3uLeOz dg== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q6an22gdg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Apr 2023 02:30:21 +0000
+Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 33Q2SegE022915; 
+ Wed, 26 Apr 2023 02:30:20 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 3q48nmdetu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Apr 2023 02:30:20 +0000
+Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33Q2LqAX016291;
+ Wed, 26 Apr 2023 02:30:20 GMT
+Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.204.221])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 33Q2UJfd025444
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Apr 2023 02:30:20 +0000
+Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 47164)
+ id 9BA17682; Tue, 25 Apr 2023 19:30:19 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
+Subject: [PATCH 0/9] Hexagon (target/hexagon) New architecture support
+Date: Tue, 25 Apr 2023 19:30:09 -0700
+Message-Id: <20230426023018.1742266-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230420113732.336620-1-stefanha@redhat.com>
- <20230420113732.336620-14-stefanha@redhat.com>
- <CACycT3suSR+nYhe4z2zuocYsBBVSDBCE+614zT0jfDZCBRveaA@mail.gmail.com>
- <20230425164241.GC725672@fedora>
-In-Reply-To: <20230425164241.GC725672@fedora>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Wed, 26 Apr 2023 10:23:14 +0800
-Message-ID: <CACycT3s+jJ7=6+bsvedoBvmUm9U6pVoJgVKMO882gkQJr5Yj4A@mail.gmail.com>
-Subject: Re: [PATCH v3 13/20] block/export: rewrite vduse-blk drain code
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu devel list <qemu-devel@nongnu.org>, Peter Lieven <pl@kamp.de>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, qemu-block@nongnu.org, 
- Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>, 
- David Woodhouse <dwmw2@infradead.org>, Stefan Weil <sw@weilnetz.de>,
- Fam Zheng <fam@euphon.net>, 
- Julia Suvorova <jusual@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- xen-devel@lists.xenproject.org, Hanna Reitz <hreitz@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, eesposit@redhat.com,
- Kevin Wolf <kwolf@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, 
- Paul Durrant <paul@xen.org>, Aarushi Mehta <mehta.aaru20@gmail.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, 
- "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>, 
- Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=xieyongji@bytedance.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: iv4eqMd_7b5ShWpN0jxw4KXEGJYMMfWF
+X-Proofpoint-ORIG-GUID: iv4eqMd_7b5ShWpN0jxw4KXEGJYMMfWF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-25_11,2023-04-25_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=626 bulkscore=0 priorityscore=1501
+ impostorscore=0 phishscore=0 spamscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304260021
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,137 +106,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 26, 2023 at 12:43=E2=80=AFAM Stefan Hajnoczi <stefanha@redhat.c=
-om> wrote:
->
-> On Fri, Apr 21, 2023 at 11:36:02AM +0800, Yongji Xie wrote:
-> > Hi Stefan,
-> >
-> > On Thu, Apr 20, 2023 at 7:39=E2=80=AFPM Stefan Hajnoczi <stefanha@redha=
-t.com> wrote:
-> > >
-> > > vduse_blk_detach_ctx() waits for in-flight requests using
-> > > AIO_WAIT_WHILE(). This is not allowed according to a comment in
-> > > bdrv_set_aio_context_commit():
-> > >
-> > >   /*
-> > >    * Take the old AioContex when detaching it from bs.
-> > >    * At this point, new_context lock is already acquired, and we are =
-now
-> > >    * also taking old_context. This is safe as long as bdrv_detach_aio=
-_context
-> > >    * does not call AIO_POLL_WHILE().
-> > >    */
-> > >
-> > > Use this opportunity to rewrite the drain code in vduse-blk:
-> > >
-> > > - Use the BlockExport refcount so that vduse_blk_exp_delete() is only
-> > >   called when there are no more requests in flight.
-> > >
-> > > - Implement .drained_poll() so in-flight request coroutines are stopp=
-ed
-> > >   by the time .bdrv_detach_aio_context() is called.
-> > >
-> > > - Remove AIO_WAIT_WHILE() from vduse_blk_detach_ctx() to solve the
-> > >   .bdrv_detach_aio_context() constraint violation. It's no longer
-> > >   needed due to the previous changes.
-> > >
-> > > - Always handle the VDUSE file descriptor, even in drained sections. =
-The
-> > >   VDUSE file descriptor doesn't submit I/O, so it's safe to handle it=
- in
-> > >   drained sections. This ensures that the VDUSE kernel code gets a fa=
-st
-> > >   response.
-> > >
-> > > - Suspend virtqueue fd handlers in .drained_begin() and resume them i=
-n
-> > >   .drained_end(). This eliminates the need for the
-> > >   aio_set_fd_handler(is_external=3Dtrue) flag, which is being removed=
- from
-> > >   QEMU.
-> > >
-> > > This is a long list but splitting it into individual commits would
-> > > probably lead to git bisect failures - the changes are all related.
-> > >
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > ---
-> > >  block/export/vduse-blk.c | 132 +++++++++++++++++++++++++++----------=
---
-> > >  1 file changed, 93 insertions(+), 39 deletions(-)
-> > >
-> > > diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-> > > index f7ae44e3ce..35dc8fcf45 100644
-> > > --- a/block/export/vduse-blk.c
-> > > +++ b/block/export/vduse-blk.c
-> > > @@ -31,7 +31,8 @@ typedef struct VduseBlkExport {
-> > >      VduseDev *dev;
-> > >      uint16_t num_queues;
-> > >      char *recon_file;
-> > > -    unsigned int inflight;
-> > > +    unsigned int inflight; /* atomic */
-> > > +    bool vqs_started;
-> > >  } VduseBlkExport;
-> > >
-> > >  typedef struct VduseBlkReq {
-> > > @@ -41,13 +42,24 @@ typedef struct VduseBlkReq {
-> > >
-> > >  static void vduse_blk_inflight_inc(VduseBlkExport *vblk_exp)
-> > >  {
-> > > -    vblk_exp->inflight++;
-> > > +    if (qatomic_fetch_inc(&vblk_exp->inflight) =3D=3D 0) {
-> >
-> > I wonder why we need to use atomic operations here.
->
-> The inflight counter is only modified by the vhost-user export thread,
-> but it may be read by another thread here:
->
-
-I see. I mean is it enough to just use volatile keywords here, since
-the writers would not access the variable concurrently.
-
->   static bool vduse_blk_drained_poll(void *opaque)
->   {
->       BlockExport *exp =3D opaque;
->       VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expo=
-rt);
->
->       return qatomic_read(&vblk_exp->inflight) > 0;
->
-> BlockDevOps->drained_poll() calls are invoked when BlockDriverStates are
-> drained (e.g. blk_drain_all() and related APIs).
->
-> > > @@ -355,13 +410,12 @@ static void vduse_blk_exp_delete(BlockExport *e=
-xp)
-> > >      g_free(vblk_exp->handler.serial);
-> > >  }
-> > >
-> > > +/* Called with exp->ctx acquired */
-> > >  static void vduse_blk_exp_request_shutdown(BlockExport *exp)
-> > >  {
-> > >      VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, e=
-xport);
-> > >
-> > > -    aio_context_acquire(vblk_exp->export.ctx);
-> > > -    vduse_blk_detach_ctx(vblk_exp);
-> > > -    aio_context_acquire(vblk_exp->export.ctx);
-> > > +    vduse_blk_stop_virtqueues(vblk_exp);
-> >
-> > Can we add a AIO_WAIT_WHILE() here? Then we don't need to
-> > increase/decrease the BlockExport refcount during I/O processing.
->
-> I don't think so because vduse_blk_exp_request_shutdown() is not the
-> only place where we wait for requests to complete. There would still
-> need to be away to wait for requests to finish (without calling
-> AIO_WAIT_WHILE()) in vduse_blk_drained_poll().
->
-
-But the BlockExport would not be freed until we call
-vduse_blk_exp_request_shutdown(). If we can ensure that there will be
-no inflight I/O after we call vduse_blk_exp_request_shutdown(), the
-BlockExport can be freed safely without increasing/decreasing the
-BlockExport refcount during I/O processing.
-
-Thanks,
-Yongji
+QWRkIHN1cHBvcnQgZm9yIG5ldyBIZXhhZ29uIGFyY2hpdGVjdHVyZSB2ZXJzaW9ucyB2NjgvdjY5
+L3Y3MS92NzMKCgpUYXlsb3IgU2ltcHNvbiAoOSk6CiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24p
+IEFkZCBzdXBwb3J0IGZvciB2NjgvdjY5L3Y3MS92NzMKICBIZXhhZ29uICh0YXJnZXQvaGV4YWdv
+bikgQWRkIHY2OCBzY2FsYXIgaW5zdHJ1Y3Rpb25zCiAgSGV4YWdvbiAodGVzdHMvdGNnL2hleGFn
+b24pIEFkZCB2Njggc2NhbGFyIHRlc3RzCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEFkZCB2
+NjggSFZYIGluc3RydWN0aW9ucwogIEhleGFnb24gKHRlc3RzL3RjZy9oZXhhZ29uKSBBZGQgdjY4
+IEhWWCB0ZXN0cwogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBBZGQgdjY5IEhWWCBpbnN0cnVj
+dGlvbnMKICBIZXhhZ29uICh0ZXN0cy90Y2cvaGV4YWdvbikgQWRkIHY2OSBIVlggdGVzdHMKICBI
+ZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgQWRkIHY3MyBzY2FsYXIgaW5zdHJ1Y3Rpb25zCiAgSGV4
+YWdvbiAodGVzdHMvdGNnL2hleGFnb24pIEFkZCB2NzMgc2NhbGFyIHRlc3RzCgogY29uZmlndXJl
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KIGxpbnV4LXVzZXIv
+aGV4YWdvbi90YXJnZXRfZWxmLmggICAgICAgICAgICAgIHwgIDEzICstCiB0YXJnZXQvaGV4YWdv
+bi9jcHUuaCAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgNCArCiB0YXJnZXQvaGV4YWdvbi9n
+ZW5fdGNnLmggICAgICAgICAgICAgICAgICAgICB8ICAyMiArKwogdGFyZ2V0L2hleGFnb24vZ2Vu
+X3RjZ19odnguaCAgICAgICAgICAgICAgICAgfCAgMTIgKwogdGFyZ2V0L2hleGFnb24vbW12ZWMv
+bWFjcm9zLmggICAgICAgICAgICAgICAgfCAgIDkgKy0KIHRlc3RzL3RjZy9oZXhhZ29uL3Y2bXB5
+X3JlZi5oICAgICAgICAgICAgICAgIHwgMTYxICsrKysrKysrKysKIHRhcmdldC9oZXhhZ29uL2F0
+dHJpYnNfZGVmLmguaW5jICAgICAgICAgICAgIHwgIDE2ICsKIHRhcmdldC9oZXhhZ29uL2NwdS5j
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIwICsrCiB0YXJnZXQvaGV4YWdvbi90cmFuc2xh
+dGUuYyAgICAgICAgICAgICAgICAgICB8ICAgMyArCiB0ZXN0cy90Y2cvaGV4YWdvbi9taXNjLmMg
+ICAgICAgICAgICAgICAgICAgICB8ICAxMiArCiB0ZXN0cy90Y2cvaGV4YWdvbi92NjhfaHZ4LmMg
+ICAgICAgICAgICAgICAgICB8ICA5MCArKysrKysKIHRlc3RzL3RjZy9oZXhhZ29uL3Y2OF9zY2Fs
+YXIuYyAgICAgICAgICAgICAgIHwgMTg2ICsrKysrKysrKysrCiB0ZXN0cy90Y2cvaGV4YWdvbi92
+NjlfaHZ4LmMgICAgICAgICAgICAgICAgICB8IDMxOCArKysrKysrKysrKysrKysrKysKIHRlc3Rz
+L3RjZy9oZXhhZ29uL3Y3M19zY2FsYXIuYyAgICAgICAgICAgICAgIHwgIDk2ICsrKysrKwogdGFy
+Z2V0L2hleGFnb24vZ2VuX2lkZWZfcGFyc2VyX2Z1bmNzLnB5ICAgICAgfCAgIDIgKwogdGFyZ2V0
+L2hleGFnb24vaW1wb3J0ZWQvYnJhbmNoLmlkZWYgICAgICAgICAgfCAgIDcgKy0KIHRhcmdldC9o
+ZXhhZ29uL2ltcG9ydGVkL2VuY29kZV9wcC5kZWYgICAgICAgIHwgIDIxICstCiB0YXJnZXQvaGV4
+YWdvbi9pbXBvcnRlZC9sZHN0LmlkZWYgICAgICAgICAgICB8ICAyMCArLQogdGFyZ2V0L2hleGFn
+b24vaW1wb3J0ZWQvbW12ZWMvZW5jb2RlX2V4dC5kZWYgfCAgMTYgKy0KIHRhcmdldC9oZXhhZ29u
+L2ltcG9ydGVkL21tdmVjL2V4dC5pZGVmICAgICAgIHwgMzIxICsrKysrKysrKysrKysrKysrKy0K
+IHRlc3RzL3RjZy9oZXhhZ29uL01ha2VmaWxlLnRhcmdldCAgICAgICAgICAgIHwgIDEzICsKIDIy
+IGZpbGVzIGNoYW5nZWQsIDEzNDkgaW5zZXJ0aW9ucygrKSwgMTUgZGVsZXRpb25zKC0pCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgdGVzdHMvdGNnL2hleGFnb24vdjZtcHlfcmVmLmgKIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCB0ZXN0cy90Y2cvaGV4YWdvbi92NjhfaHZ4LmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0
+ZXN0cy90Y2cvaGV4YWdvbi92Njhfc2NhbGFyLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy90
+Y2cvaGV4YWdvbi92NjlfaHZ4LmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy90Y2cvaGV4YWdv
+bi92NzNfc2NhbGFyLmMKCi0tIAoyLjI1LjEKCg==
 
