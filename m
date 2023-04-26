@@ -2,86 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B5A6EED7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 07:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28A86EED92
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 07:34:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prXXn-0004Kz-1Y; Wed, 26 Apr 2023 01:18:19 -0400
+	id 1prXlS-00072g-K5; Wed, 26 Apr 2023 01:32:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1prXXk-0004Km-Ev
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:18:16 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1prXXf-0004bQ-NO
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:18:16 -0400
-Received: by mail-pf1-x435.google.com with SMTP id
- d2e1a72fcca58-63b5c4c769aso8603557b3a.3
- for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 22:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682486288; x=1685078288;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mLt6368LlbNC33ctNDhSfMJxBPRG7HK298EDl4e0MBU=;
- b=jl+XeYVAWurVn8cfIoA4TV1t+Ql3SIHjmkY+WJlm+Jfy1e4SryCYEPbzAYsNKiJkAE
- JnRisyNZ4BIRRiNtiyw/QXTLLHUWED/+S3komVu9uXt5fPXryjPJMP1yJc/8wvj1XY40
- W2GqXogeyYmTS1KTX9CVt1rE8Zkzt1Hz+ZdBl8rN4exlyGop9NnC5a4IK5yd8oKfPBuH
- 2P3mClTMWKuQlMY52TtBHHWtOEGACarg6ed6St0uw0+Qtd+w59QEueFImtQET7AfIEpL
- fYWi4hM0yfDiaHCK2qemHUoTwKBSGVdK69AAr6rZQxfTQ+xfnzCaysyaaiQ8Hfbr0u0J
- rP3Q==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1prXl4-00072E-Si
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:32:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1prXl2-0006oV-LG
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:32:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682487118;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BmscPbGEWUoYLOI+zjhGWLvDj85PzgtYQxvV9mP7bKQ=;
+ b=DFE6gZIoaZr0dJr0H3RVaG5L6+nnBdP3q01iw7eT/fKD802OXv+9tCyN++s6J/UKap2luQ
+ hhtD1JluKKEmz6Izq1i7cXAYIoMzEle9duOtZPwVCid5jy/l7W/SfYpQH6Q/hlDoPn4yfd
+ 1q29v8m8LHul3JeNidg3tMyHhXw11FU=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-644-pl1kk_mdOtqVfwdxN1FELw-1; Wed, 26 Apr 2023 01:31:56 -0400
+X-MC-Unique: pl1kk_mdOtqVfwdxN1FELw-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-1a685dfa3f2so68232735ad.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Apr 2023 22:31:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682486288; x=1685078288;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1682487116; x=1685079116;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mLt6368LlbNC33ctNDhSfMJxBPRG7HK298EDl4e0MBU=;
- b=BgvSwtU+pU7zggT8y/u428CqfHrpo4bXwaZXsKn1r6nT4bYeerw6uCMhY9CXFscIYR
- 28B22HhVmt9zLlGzVtQXI6OmKwon7ows2PbHDjwCF69cWT/nzdjukOMCGFKvbIXzB76k
- 2TxDz4hmwyC1ilvhWXDomjIeig44RQtMj18+raddNi3U3T+C5aOOWZHqrQYcOHewcExs
- oVUgotqtu+VHX5KQkbmVylfq3Uau5lDYNyMe69KhcGSMg6Ek8YIqXOmQrM6JbDT4S6Da
- UvfjBswF4SGJ3cXjzqmJ/MIVZlnqJ5XxJ/34fzAs18jdeYaYfqhuhSEjizKanyWxcxWe
- pXkA==
-X-Gm-Message-State: AAQBX9fiVJqg12mRy59xh1/JuUtbfoEwe6SL0Y5fxLUURokTk8Bk31/R
- 8n0WdU/L4P8b0R79fADyt4M=
-X-Google-Smtp-Source: AKy350YOa46F+cSqvdCQjcNx2W+TPk3L/ZBflR+9G7ozsE96mQNZW/OsvoD35wK+cqyjR5Ujc5LC0A==
-X-Received: by 2002:aa7:8896:0:b0:63c:6485:d5fd with SMTP id
- z22-20020aa78896000000b0063c6485d5fdmr27715628pfe.2.1682486287629; 
- Tue, 25 Apr 2023 22:18:07 -0700 (PDT)
-Received: from [10.213.29.157] ([157.82.194.11])
+ bh=BmscPbGEWUoYLOI+zjhGWLvDj85PzgtYQxvV9mP7bKQ=;
+ b=WXx+rkiPfe8JhbcJeD2Ob0iJp+Z07dSndPxpAeSGKXRvReNUvv1Nj2CSIzgrnUSplq
+ +Z7Xo565FlNCVbGjssaACgQ2Vi66ajU674XX2Pt0oujQiLXThTkHq7SUThEX+TYsve7Z
+ rQlvuCfwbwHDVZ5BhY5fEeAKB02prpPvJ595HwmbQ8YcjyP3m0iaT+cgKljW5b9MvuZN
+ STZATbQjKx4UpR9k9UWoOjOchmHvFltpLvJu9w6SPevaYFfjnpXqJskHMeMjLTWSh7IK
+ GCpnxJOH6lmrajYJRYN1nHpZxeU4Dtpey/uRCYkpF8G/jT8Rdziw+088QZ+gednD7Mpn
+ YLPA==
+X-Gm-Message-State: AC+VfDwbZQC12MhdZf3/Et6A2RB+buvTqWSsn2txaM1kSj9G6sWNY/Cx
+ zyjLweM5N5ybQ4CEqgO6orr614Oz8IYgPCX5WUWrM596/rv4eSzm2qMdtCFWNrVpy2027bzB07G
+ Vg0LoY4mQb++yUWA=
+X-Received: by 2002:a17:902:d4cb:b0:1a9:7eea:2626 with SMTP id
+ o11-20020a170902d4cb00b001a97eea2626mr9531728plg.10.1682487115802; 
+ Tue, 25 Apr 2023 22:31:55 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6tI1ZHhgi5iuTbs7nF9T2bjuZM3ArWRrFfySr8rCSE0qqpgYR8hfOtcadfozNkDof1BQ3AwQ==
+X-Received: by 2002:a17:902:d4cb:b0:1a9:7eea:2626 with SMTP id
+ o11-20020a170902d4cb00b001a97eea2626mr9531707plg.10.1682487115506; 
+ Tue, 25 Apr 2023 22:31:55 -0700 (PDT)
+Received: from [10.72.12.241] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- i23-20020aa796f7000000b0063f0068cf6csm6897626pfq.198.2023.04.25.22.18.05
+ jw16-20020a170903279000b0019cd1ee1523sm9155827plb.30.2023.04.25.22.31.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Apr 2023 22:18:07 -0700 (PDT)
-Message-ID: <7cede535-6377-f5da-2302-05e794650ad9@gmail.com>
-Date: Wed, 26 Apr 2023 14:18:04 +0900
+ Tue, 25 Apr 2023 22:31:55 -0700 (PDT)
+Message-ID: <f169bd76-c638-edd6-a356-4ce69c19debc@redhat.com>
+Date: Wed, 26 Apr 2023 13:31:45 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] cocoa: Fix warnings about invalid prototype declarations
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
-References: <20230425192820.34063-1-philmd@linaro.org>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [RFC PATCH 1/4] pci: add handling of Enable bit in ATS Control
+ Register
 Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20230425192820.34063-1-philmd@linaro.org>
+To: Viktor Prutyanov <viktor@daynix.com>, mst@redhat.com,
+ marcel.apfelbaum@gmail.com, pbonzini@redhat.com, peterx@redhat.com,
+ david@redhat.com
+Cc: philmd@linaro.org, qemu-devel@nongnu.org, yan@daynix.com,
+ yuri.benditovich@daynix.com
+References: <20230424112147.17083-1-viktor@daynix.com>
+ <20230424112147.17083-2-viktor@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20230424112147.17083-2-viktor@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,23 +107,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/04/26 4:28, Philippe Mathieu-Daudé wrote:
-> Fix the following Cocoa trivial warnings:
-> 
->    C compiler for the host machine: cc (clang 14.0.0 "Apple clang version 14.0.0 (clang-1400.0.29.202)")
->    Objective-C compiler for the host machine: clang (clang 14.0.0)
-> 
->    [100/334] Compiling Objective-C object libcommon.fa.p/net_vmnet-bridged.m.o
->    net/vmnet-bridged.m:40:31: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
->    static char* get_valid_ifnames()
->                                  ^
->                                   void
->    [742/1436] Compiling Objective-C object libcommon.fa.p/ui_cocoa.m.o
->    ui/cocoa.m:1937:22: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
->    static int cocoa_main()
->                         ^
->                          void >
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+在 2023/4/24 19:21, Viktor Prutyanov 写道:
+> According to PCIe Address Translation Services specification 5.1.3.,
+> ATS Control Register has Enable bit to enable/disable ATS.
+> Add a new field for a trigger function which is called at the Enable
+> bit change, so that PCIe devices can handle ATS enable/disable.
+>
+> Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
+> ---
+>   hw/pci/pci.c                |  1 +
+>   hw/pci/pcie.c               | 21 +++++++++++++++++++++
+>   include/hw/pci/pci_device.h |  3 +++
+>   include/hw/pci/pcie.h       |  4 ++++
+>   4 files changed, 29 insertions(+)
+>
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 208c16f450..79a47d2589 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -1550,6 +1550,7 @@ void pci_default_write_config(PCIDevice *d, uint32_t addr, uint32_t val_in, int
+>       msi_write_config(d, addr, val_in, l);
+>       msix_write_config(d, addr, val_in, l);
+>       pcie_sriov_config_write(d, addr, val_in, l);
+> +    pcie_ats_config_write(d, addr, val_in, l);
+>   }
+>   
+>   /***********************************************************/
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index 924fdabd15..e0217161e5 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -1057,6 +1057,27 @@ void pcie_ats_init(PCIDevice *dev, uint16_t offset, bool aligned)
+>       pci_set_word(dev->wmask + dev->exp.ats_cap + PCI_ATS_CTRL, 0x800f);
+>   }
+>   
+> +void pcie_ats_config_write(PCIDevice *dev, uint32_t address, uint32_t val,
+> +                           int len)
+> +{
+> +    uint32_t off;
+> +    uint16_t ats_cap = dev->exp.ats_cap;
+> +
+> +    if (!ats_cap || address < ats_cap) {
+> +        return;
+> +    }
+> +    off = address - ats_cap;
+> +    if (off >= PCI_EXT_CAP_ATS_SIZEOF) {
+> +        return;
+> +    }
+> +
+> +    if (range_covers_byte(off, len, PCI_ATS_CTRL + 1)) {
+
+
+Do we really need +1 here?
+
+The rest looks good.
+
+Thanks
+
+
+> +        if (dev->ats_ctrl_trigger) {
+> +            dev->ats_ctrl_trigger(dev, !!(val & PCI_ATS_CTRL_ENABLE));
+> +        }
+> +    }
+> +}
+> +
+>   /* ACS (Access Control Services) */
+>   void pcie_acs_init(PCIDevice *dev, uint16_t offset)
+>   {
+> diff --git a/include/hw/pci/pci_device.h b/include/hw/pci/pci_device.h
+> index d3dd0f64b2..2bb1d68f3b 100644
+> --- a/include/hw/pci/pci_device.h
+> +++ b/include/hw/pci/pci_device.h
+> @@ -160,6 +160,9 @@ struct PCIDevice {
+>       /* ID of standby device in net_failover pair */
+>       char *failover_pair_id;
+>       uint32_t acpi_index;
+> +
+> +    /* PCI ATS enable/disable trigger */
+> +    void (*ats_ctrl_trigger)(PCIDevice *dev, bool enable);
+>   };
+>   
+>   static inline int pci_intx(PCIDevice *pci_dev)
+> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+> index 798a262a0a..5f2dbd87cf 100644
+> --- a/include/hw/pci/pcie.h
+> +++ b/include/hw/pci/pcie.h
+> @@ -154,4 +154,8 @@ void pcie_cap_slot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+>                                Error **errp);
+>   void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+>                                        DeviceState *dev, Error **errp);
+> +
+> +void pcie_ats_config_write(PCIDevice *dev, uint32_t address, uint32_t val,
+> +                           int len);
+> +
+>   #endif /* QEMU_PCIE_H */
+
 
