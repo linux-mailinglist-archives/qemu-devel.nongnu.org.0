@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1100C6EF319
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 13:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E92C6EF32C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 13:16:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prd0F-0007LF-9p; Wed, 26 Apr 2023 07:08:03 -0400
+	id 1prd6t-0001Fj-IA; Wed, 26 Apr 2023 07:14:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prd0D-0007Ko-6N
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 07:08:01 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prd0B-0000G9-IE
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 07:08:00 -0400
-Received: by mail-ej1-x632.google.com with SMTP id
- a640c23a62f3a-94f7a7a3351so1318565466b.2
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 04:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682507278; x=1685099278;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MoZYQsxxiV8bzjpr4hn5qiPECq7y7xwbiLqo2QEGA+0=;
- b=aLoguzaMB9t9asLgNT4AXYaIhcIXF6LBv/4iWuHW4ocNUW+clbZYFYllH6A5AImihF
- f8yvp0zVxqDLTHdxtnI6beesYuCc78NIABigzd3tdhwTj1jCb2xjg1i/dFtfkHZU4fZf
- SxS0ad3r/sgHD8eCO0cbQY/HoAg8WVmkSEg9/t2nCvfwXZazj5+LjOqv3jd2MyRrz8nf
- VdFM86z2oK6dx5x25n7GLLtKtlnN0GSbVG00v67fqR3jFzmVcsijFmBdTvfNO3i08xML
- p1WuBPKuJ6Z4cqh2EvC7srv5SXrVti1OXU3sVx6jUm6zgXsOH1QP3+IdL7P/Ta3lmgxx
- CodQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682507278; x=1685099278;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MoZYQsxxiV8bzjpr4hn5qiPECq7y7xwbiLqo2QEGA+0=;
- b=iMtpTDXfdfZPVV6DQnHad85YWVm5PgaCK6bwM6wXKmdYh+IAYYbDxm1bFU91b0Udqr
- apW9E+N+lv6XY/ttuH5xZUP7NzzKw6ud7ua2tO5mW7sj330N4cNFdO7GBcF/alD4sJ0X
- u8xUc0cjHXqYrCEFpep4eRLvJqFwyncj7x4pgEy0JQB67iHHAiwlArXYvkT8tjqiLS6H
- 9TdA4QoNZorwC20rL+xwbJk9RLWluVK4Q4MVQM4c0O8AsBPKNYQOKpkI+GWrsUu2inHC
- MTMCqKev2KtlPr3Lh6irOkq2xFQq0P80AzMC6/pZjGXupdxNXtd2rvpXsLVH4sOobpCJ
- eTvA==
-X-Gm-Message-State: AAQBX9fEENK2HohY35ABpQzTdY06U9gJEMtuY8BM+U3eXrlFP3rtOyEQ
- EPD5lCwZxTK7Rf1XR/v1zP7R4Fo97qDBFnpZbAeSXQ==
-X-Google-Smtp-Source: AKy350Z1qLy6A/STAdIHAba9Bf+TuLyDYqcrrjwEguPisvAJ8HYiMfGYyOITDgY3ZLhC6uBhJ5x61A==
-X-Received: by 2002:a17:906:40f:b0:94f:a8fd:b69f with SMTP id
- d15-20020a170906040f00b0094fa8fdb69fmr17348577eja.18.1682507277702; 
- Wed, 26 Apr 2023 04:07:57 -0700 (PDT)
-Received: from [172.23.3.19] ([31.221.30.162])
- by smtp.gmail.com with ESMTPSA id
- cw5-20020a170906478500b0095728d6f3b6sm6491788ejc.125.2023.04.26.04.07.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 04:07:57 -0700 (PDT)
-Message-ID: <a9880b85-63ab-122f-9fdb-58fc887a120d@linaro.org>
-Date: Wed, 26 Apr 2023 12:07:55 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1prd6d-0001E3-GR; Wed, 26 Apr 2023 07:14:39 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1prd6b-0001TH-F3; Wed, 26 Apr 2023 07:14:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=DGkWIKGSKKb2uFXjSjILQf+NFhDDShBUL5d/CkLCZxc=; b=g9JnBVrE5z3QFFUIVYrD+UNw0t
+ mr4ZAFRrnyJJzN3+KJgMe7wHZRxCcSN7wpfOLG4xZ2XMvzJ/9edOJEEhDqikT+36rQvXgwZ4Ve1qk
+ XJWOWD7hiW5VQwKdb+c5ijh4SZVSujJAyRhudnqD4d7Uyxt6+jsZG7VVICyuEDdWBaTcBdXJaQZlD
+ XG3Goo6ZIQw6VZGYfA0v5qDVIXgzsAI+OE4CQIJQhSPDnDquz235MgnCc9tO7xluoOwda1I/a2lWK
+ 7STpIn/5oVdgRXTIvRp0yKqWSV1VRVYI5MhgRs5zX/cQZneDaZ2fQeok8fsttPs5meYdD6LFPG1Rc
+ 0YslEuxWIIZcqZGKuFToDA+XylrVdHr2af6IYSss8B3GdXsVO8x4viNHqVLzuD+uyWJE/Yhkd0IMI
+ hvTf1HKn5toClwgzQnEpcHp/W0WFQ5NtqT5xxfdoTVhKD1X1YMwNSFLkyrADGtRn0miUjE1AtGXYV
+ Jj6CnOSI8EaixlFbKxwMdu59Bu0qo6364XBPwUhhpQrwCzqmc1NoEKpRWiJli2PLS5m3RHVIz1YpY
+ A7F9w/IgApI0BvugGiABJKFWUFt9SQk4OqNXmvG77OMd9Exrdq+N9pnF1oTVvD8g164ln9hUmxvG4
+ 4dwG1SioKOTS3p4VEPVOFm8Rp/X4zyMfukKEPVz/Y=;
+Received: from host81-151-114-25.range81-151.btcentralplus.com
+ ([81.151.114.25] helo=[10.8.0.6])
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1prd5a-0001x9-BP; Wed, 26 Apr 2023 12:13:38 +0100
+Message-ID: <cef5ddb5-993b-b87b-7ee7-8b6f80c2b9c4@ilande.co.uk>
+Date: Wed, 26 Apr 2023 12:14:25 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 00/17] QAPI patches patches for 2023-04-26
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20230426055744.1041930-1-armbru@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230426055744.1041930-1-armbru@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-ppc@nongnu.org
+References: <20230422150728.176512-1-shentey@gmail.com>
+ <20230422150728.176512-7-shentey@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20230422150728.176512-7-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x632.google.com
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 81.151.114.25
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 06/13] hw/ide: Extract bmdma_init_ops()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,47 +84,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/26/23 06:57, Markus Armbruster wrote:
-> The following changes since commit 327ec8d6c2a2223b78d311153a471036e474c5c5:
-> 
->    Merge tag 'pull-tcg-20230423' ofhttps://gitlab.com/rth7680/qemu  into staging (2023-04-23 11:20:37 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://repo.or.cz/qemu/armbru.git  tags/pull-qapi-2023-04-26
-> 
-> for you to fetch changes up to a17dbc4b79a28ffb9511f192474ffefd88214cde:
-> 
->    qapi: allow unions to contain further unions (2023-04-26 07:52:45 +0200)
-> 
-> ----------------------------------------------------------------
-> QAPI patches patches for 2023-04-26
-> 
-> ----------------------------------------------------------------
-> Daniel P. Berrangé (2):
->        qapi: support updating expected test output via make
->        qapi: allow unions to contain further unions
-> 
-> Markus Armbruster (15):
->        qapi: Fix error message format regression
->        qapi/schema: Use super()
->        qapi: Clean up after removal of simple unions
->        qapi: Split up check_type()
->        qapi: Improve error message for unexpected array types
->        qapi: Simplify code a bit after previous commits
->        qapi: Fix error message when type name or array is expected
->        qapi: Fix to reject 'data': 'mumble' in struct
->        tests/qapi-schema: Improve union discriminator coverage
->        tests/qapi-schema: Rename a few conditionals
->        tests/qapi-schema: Clean up positive test for conditionals
->        tests/qapi-schema: Cover optional conditional struct member
->        qapi: Fix code generated for optional conditional struct member
->        qapi: Require boxed for conditional command and event arguments
->        qapi: Improve specificity of type/member descriptions
+On 22/04/2023 16:07, Bernhard Beschow wrote:
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
+> There are three private copies of bmdma_setup_bar() with small adaptions.
+> Consolidate them into one public implementation.
+> 
+> While at it rename the function to bmdma_init_ops() to reflect that the memory
+> regions being initialized represent BMDMA operations. The actual mapping as a
+> PCI BAR is still performed separately in each device.
+> 
+> Note that the bmdma_bar attribute will be renamed in a separate commit.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   include/hw/ide/pci.h |  1 +
+>   hw/ide/cmd646.c      | 20 +-------------------
+>   hw/ide/pci.c         | 16 ++++++++++++++++
+>   hw/ide/piix.c        | 19 +------------------
+>   hw/ide/via.c         | 19 +------------------
+>   5 files changed, 20 insertions(+), 55 deletions(-)
+> 
+> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+> index 7bc4e53d02..597c77c7ad 100644
+> --- a/include/hw/ide/pci.h
+> +++ b/include/hw/ide/pci.h
+> @@ -57,6 +57,7 @@ struct PCIIDEState {
+>   };
+>   
+>   void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d);
+> +void bmdma_init_ops(PCIIDEState *d, const MemoryRegionOps *bmdma_ops);
+>   void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
+>   extern MemoryRegionOps bmdma_addr_ioport_ops;
+>   void pci_ide_create_devs(PCIDevice *dev);
+> diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+> index 9aabf80e52..6fd09fe74e 100644
+> --- a/hw/ide/cmd646.c
+> +++ b/hw/ide/cmd646.c
+> @@ -161,24 +161,6 @@ static const MemoryRegionOps cmd646_bmdma_ops = {
+>       .write = bmdma_write,
+>   };
+>   
+> -static void bmdma_setup_bar(PCIIDEState *d)
+> -{
+> -    BMDMAState *bm;
+> -    int i;
+> -
+> -    memory_region_init(&d->bmdma_bar, OBJECT(d), "cmd646-bmdma", 16);
+> -    for(i = 0;i < 2; i++) {
+> -        bm = &d->bmdma[i];
+> -        memory_region_init_io(&bm->extra_io, OBJECT(d), &cmd646_bmdma_ops, bm,
+> -                              "cmd646-bmdma-bus", 4);
+> -        memory_region_add_subregion(&d->bmdma_bar, i * 8, &bm->extra_io);
+> -        memory_region_init_io(&bm->addr_ioport, OBJECT(d),
+> -                              &bmdma_addr_ioport_ops, bm,
+> -                              "cmd646-bmdma-ioport", 4);
+> -        memory_region_add_subregion(&d->bmdma_bar, i * 8 + 4, &bm->addr_ioport);
+> -    }
+> -}
+> -
+>   static void cmd646_update_irq(PCIDevice *pd)
+>   {
+>       int pci_level;
+> @@ -285,7 +267,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
+>                             &d->bus[1], "cmd646-cmd1", 4);
+>       pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
+>   
+> -    bmdma_setup_bar(d);
+> +    bmdma_init_ops(d, &cmd646_bmdma_ops);
+>       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
+>   
+>       /* TODO: RST# value should be 0 */
+> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+> index 8bea92e394..65ed6f7f72 100644
+> --- a/hw/ide/pci.c
+> +++ b/hw/ide/pci.c
+> @@ -523,6 +523,22 @@ void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d)
+>       bm->pci_dev = d;
+>   }
+>   
+> +void bmdma_init_ops(PCIIDEState *d, const MemoryRegionOps *bmdma_ops)
+> +{
+> +    size_t i;
+> +
+> +    memory_region_init(&d->bmdma_bar, OBJECT(d), "bmdma-container", 16);
+> +    for (i = 0; i < ARRAY_SIZE(d->bmdma); i++) {
+> +        BMDMAState *bm = &d->bmdma[i];
+> +
+> +        memory_region_init_io(&bm->extra_io, OBJECT(d), bmdma_ops, bm, "bmdma-ops", 4);
+> +        memory_region_add_subregion(&d->bmdma_bar, i * 8, &bm->extra_io);
+> +        memory_region_init_io(&bm->addr_ioport, OBJECT(d), &bmdma_addr_ioport_ops, bm,
+> +                              "bmdma-ioport-ops", 4);
+> +        memory_region_add_subregion(&d->bmdma_bar, i * 8 + 4, &bm->addr_ioport);
+> +    }
+> +}
+> +
+>   static void pci_ide_init(Object *obj)
+>   {
+>       PCIIDEState *d = PCI_IDE(obj);
+> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+> index 4e6ca99123..5611473d37 100644
+> --- a/hw/ide/piix.c
+> +++ b/hw/ide/piix.c
+> @@ -86,23 +86,6 @@ static const MemoryRegionOps piix_bmdma_ops = {
+>       .write = bmdma_write,
+>   };
+>   
+> -static void bmdma_setup_bar(PCIIDEState *d)
+> -{
+> -    int i;
+> -
+> -    memory_region_init(&d->bmdma_bar, OBJECT(d), "piix-bmdma-container", 16);
+> -    for(i = 0;i < 2; i++) {
+> -        BMDMAState *bm = &d->bmdma[i];
+> -
+> -        memory_region_init_io(&bm->extra_io, OBJECT(d), &piix_bmdma_ops, bm,
+> -                              "piix-bmdma", 4);
+> -        memory_region_add_subregion(&d->bmdma_bar, i * 8, &bm->extra_io);
+> -        memory_region_init_io(&bm->addr_ioport, OBJECT(d),
+> -                              &bmdma_addr_ioport_ops, bm, "bmdma", 4);
+> -        memory_region_add_subregion(&d->bmdma_bar, i * 8 + 4, &bm->addr_ioport);
+> -    }
+> -}
+> -
+>   static void piix_ide_reset(DeviceState *dev)
+>   {
+>       PCIIDEState *d = PCI_IDE(dev);
+> @@ -156,7 +139,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+>   
+>       pci_conf[PCI_CLASS_PROG] = 0x80; // legacy ATA mode
+>   
+> -    bmdma_setup_bar(d);
+> +    bmdma_init_ops(d, &piix_bmdma_ops);
+>       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
+>   
+>       for (unsigned i = 0; i < 2; i++) {
+> diff --git a/hw/ide/via.c b/hw/ide/via.c
+> index 287143a005..40704e2857 100644
+> --- a/hw/ide/via.c
+> +++ b/hw/ide/via.c
+> @@ -86,23 +86,6 @@ static const MemoryRegionOps via_bmdma_ops = {
+>       .write = bmdma_write,
+>   };
+>   
+> -static void bmdma_setup_bar(PCIIDEState *d)
+> -{
+> -    int i;
+> -
+> -    memory_region_init(&d->bmdma_bar, OBJECT(d), "via-bmdma-container", 16);
+> -    for (i = 0; i < ARRAY_SIZE(d->bmdma); i++) {
+> -        BMDMAState *bm = &d->bmdma[i];
+> -
+> -        memory_region_init_io(&bm->extra_io, OBJECT(d), &via_bmdma_ops, bm,
+> -                              "via-bmdma", 4);
+> -        memory_region_add_subregion(&d->bmdma_bar, i * 8, &bm->extra_io);
+> -        memory_region_init_io(&bm->addr_ioport, OBJECT(d),
+> -                              &bmdma_addr_ioport_ops, bm, "bmdma", 4);
+> -        memory_region_add_subregion(&d->bmdma_bar, i * 8 + 4, &bm->addr_ioport);
+> -    }
+> -}
+> -
+>   static void via_ide_set_irq(void *opaque, int n, int level)
+>   {
+>       PCIIDEState *s = opaque;
+> @@ -187,7 +170,7 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
+>                             &d->bus[1], "via-ide1-cmd", 4);
+>       pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
+>   
+> -    bmdma_setup_bar(d);
+> +    bmdma_init_ops(d, &via_bmdma_ops);
+>       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
+>   
+>       qdev_init_gpio_in(ds, via_ide_set_irq, ARRAY_SIZE(d->bus));
+
+Nice! In actual fact, with some more refactoring of the CMD646 device I believe you 
+could remove the per-implementation ops and move everything into hw/ide/pci.c.
+
+The main reason this is a bit difficult now is because of the "Device specific" 
+registers intertwined with the BMDMA registers, but there's no reason that CMD646 
+couldn't manually attach a fallback MemoryRegion to PCIIDEState::bmdma_bar and 
+implement its device-specific registers there.
+
+Unfortunately this isn't just a cut/paste job because there is also some mirroring of 
+the BMDMA in PCI configuration space which will need some extra untangling: let's 
+leave this as-is for now since it makes it easier for a follow-up patch to improve 
+this later. On that basis:
+
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
-r~
+ATB,
 
+Mark.
 
