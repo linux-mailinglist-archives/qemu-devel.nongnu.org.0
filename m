@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB7F6EF3A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 13:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C34C6EF3D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 13:54:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prddi-0003tv-3k; Wed, 26 Apr 2023 07:48:50 -0400
+	id 1prdhc-0006mz-AX; Wed, 26 Apr 2023 07:52:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prddf-0003th-0w; Wed, 26 Apr 2023 07:48:47 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prddc-0000ag-P9; Wed, 26 Apr 2023 07:48:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=BsR90hVxZddcF+B9tn0ryLLD+TqYkmRumY7J76pstIo=; b=baQA2jjU57hjnyvZUMbFKa6HJi
- UNEmnN1sX7l+ZXrJZ03pST5Q+YgRZQTKeSVNjGamUyg04glj6xpjeA3E/GPGLmxo4UFl9h+7JAOp/
- qkvyFVENud8xAemPJWHBvzxYFa7DJ1vRQ5TAzlDde73u6/k4zb5OW4hbeYoitaojCZytjZV/1E0Su
- 0MF+K3C5ZoSy1OlyqfGDyIF5RC1T4Qw2i5Y5p7yZMxg0tB0KhN1z/d4QpWRQq7YYeB5UX613XFpE2
- EyfsLaEa0Ty2otydqNLZhhmKFUjpK8yuBWOIZq88n6SMFhlOLB3uiM9x267Ag7k4r9+LeEcne2eiE
- jVp3XAkShhETmCyUVCOgjWVqDxlR2wkxegvbyM3KI8bCh07bI5iG/mubhrf+cPn9V+TBAOoiEJx9D
- rb7WIU2Yjpzmery0785oDNHlbnBALAodWkLd87aVnU6HDRHy31Ltqh5eRvyN/MFP1EnaNkQXqVU2i
- w2f/p1PjfY8rrRLChS2ZbXQsCNn3kHvzRO2X6tQ/8g6ZXVA+eR2tFSwBRSgE9j03IrB9lpuewJ5j6
- Td1e3uGWx56Xmulgyy/e9jzTWrbbMY8DmtB0Jaq5D5+vOEBxXz6nQ0yr1KtHfAYD4N32+j61I2a3X
- MHJGnefxX5h7kiwQs9BS721cRwt3AWwzS/n6OGFXs=;
-Received: from host81-151-114-25.range81-151.btcentralplus.com
- ([81.151.114.25] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prdcf-0002CJ-Dc; Wed, 26 Apr 2023 12:47:45 +0100
-Message-ID: <5ab023a4-6f97-bca8-0b68-a098b98da809@ilande.co.uk>
-Date: Wed, 26 Apr 2023 12:48:37 +0100
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1prdhZ-0006jS-Ng; Wed, 26 Apr 2023 07:52:49 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1prdhY-0001Ky-7I; Wed, 26 Apr 2023 07:52:49 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id
+ d75a77b69052e-3ef5bea20caso25075401cf.3; 
+ Wed, 26 Apr 2023 04:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682509966; x=1685101966;
+ h=in-reply-to:content-disposition:mime-version:references:reply-to
+ :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ndAtHpJW5J8EYg1Y31h074kjS64zxIpxow1wLB8Qu18=;
+ b=mAwXWacn+KZVfLUIL3Bu6ZZAie+u29hK5wjIejOCDLhu5oEYpJdrfQe7r5pqxBV7Ww
+ 00K07ebDval1g9xWaxC2VvGhpABSro/t0pabt1IOsX9J3sNNBXhpmYes2kf66NUp4tY4
+ L7J609NFlK/aTp1BuwLua8JSsqDa+sh+jSlGxTJ+xRKz3GvwlZ2aWIjrTmbJEDd+D2If
+ lMfQ+kC2pMewnjXQkQKYo4PcgYudrAVnuAHoGWkXULVHoSwLt+onLT8gS/yCKgevGAje
+ r3KVxYHBXh90usqo8aHQ3ELsra8Bv3PSBd5HiL2LJCAAg26DFe/RGLcIwjc15IKeYVo8
+ R6NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682509966; x=1685101966;
+ h=in-reply-to:content-disposition:mime-version:references:reply-to
+ :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=ndAtHpJW5J8EYg1Y31h074kjS64zxIpxow1wLB8Qu18=;
+ b=WrnYDsqBQnik0dptt8WAd060JfWpIpj3VKvPtbeZW3n3y7CbtOOQo0D6HFSbJLa6p7
+ gjAicEmUYOmXdmR3O8zKmLA0l23AS77Dp3nL3Yuah/MR+zNB/TizaNKZzHl6QgkoVtJB
+ 0uIXl7kWXxLFwfvnTYUONaZ9hC8Ke0wgR3Vm45Ni1fD9tefBBeegAfZkQgfEwS2ioYl3
+ frLLxfESKPUwpvPw0bqwPlc4nsajIZH1CzNY3izfCEiEQdSX4hW/anJ0HPQyEPSssrMr
+ NtGK7rDGEBIx7jM4EBnIlma+Li1WsrkOK6AVPtGXGtkV3i/76y/2Xn2eVDq0M1jPhY/7
+ 1ClA==
+X-Gm-Message-State: AAQBX9e2b1zqqc1qhAwli7FQAQTSrPPbkN9VgEEPj5vvF+OjrNQpsReH
+ LXPklmAGqDYLiJvc3Z+CtA==
+X-Google-Smtp-Source: AKy350bhln8x3rSrnyRv31CkdKve8yFkeLDs0qiwYsULeX3x1NInPEs0fcj/J/55m8lh/Gl4rriuZg==
+X-Received: by 2002:a05:622a:42:b0:3ec:45c7:33be with SMTP id
+ y2-20020a05622a004200b003ec45c733bemr34251120qtw.42.1682509966018; 
+ Wed, 26 Apr 2023 04:52:46 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.185.84])
+ by smtp.gmail.com with ESMTPSA id
+ r18-20020ac85c92000000b003f0a7c13fcdsm1835083qta.74.2023.04.26.04.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Apr 2023 04:52:45 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:772b:130b:d11f:1565])
+ by serve.minyard.net (Postfix) with ESMTPSA id 0A8EC180011;
+ Wed, 26 Apr 2023 11:52:44 +0000 (UTC)
+Date: Wed, 26 Apr 2023 06:52:42 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, Corey Minyard <cminyard@mvista.com>,
+ Jeremy Kerr <jk@codeconstruct.com.au>, qemu-arm@nongnu.org,
+ Peter Delevoryas <peter@pjd.dev>, Keith Busch <kbusch@kernel.org>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Jason Wang <jasowang@redhat.com>, Lior Weintraub <liorw@pliops.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Matt Johnston <matt@codeconstruct.com.au>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH v2 1/3] hw/i2c: add mctp core
+Message-ID: <ZEkQiqt59Hn0vjt1@minyard.net>
+References: <20230425063540.46143-1-its@irrelevant.dk>
+ <20230425063540.46143-2-its@irrelevant.dk>
+ <ZEfvkWCbJoKGIOnT@minyard.net> <ZEjOlBlEH3KH8f6d@cormorant.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-ppc@nongnu.org
-References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-14-shentey@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230422150728.176512-14-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 81.151.114.25
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 13/13] hw/ide: Extract bmdma_clear_status()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZEjOlBlEH3KH8f6d@cormorant.local>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=tcminyard@gmail.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,162 +101,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/04/2023 16:07, Bernhard Beschow wrote:
-
-> Extract bmdma_clear_status() mirroring bmdma_cmd_writeb().
+On Wed, Apr 26, 2023 at 09:11:16AM +0200, Klaus Jensen wrote:
+> On Apr 25 10:19, Corey Minyard wrote:
+> > On Tue, Apr 25, 2023 at 08:35:38AM +0200, Klaus Jensen wrote:
+> > > From: Klaus Jensen <k.jensen@samsung.com>
+> > > 
+> > > Add an abstract MCTP over I2C endpoint model. This implements MCTP
+> > > control message handling as well as handling the actual I2C transport
+> > > (packetization).
+> > > 
+> > > Devices are intended to derive from this and implement the class
+> > > methods.
+> > > 
+> > > Parts of this implementation is inspired by code[1] previously posted by
+> > > Jonathan Cameron.
+> > 
+> > All in all this looks good.  Two comments:
+> > 
+> > I would like to see the buffer handling consolidated into one function
+> > and the length checked, even for (especially for) the outside users of
+> > this code, like the nvme code.  Best to avoid future issues with buffer
+> > overruns.  This will require reworking the get_message_types function,
+> > unfortunately.
+> > 
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   include/hw/ide/pci.h |  1 +
->   hw/ide/cmd646.c      |  2 +-
->   hw/ide/pci.c         |  7 +++++++
->   hw/ide/piix.c        |  2 +-
->   hw/ide/sii3112.c     | 12 +++++-------
->   hw/ide/via.c         |  2 +-
->   hw/ide/trace-events  |  1 +
->   7 files changed, 17 insertions(+), 10 deletions(-)
+> Right now the implementations (i.e. hw/nvme/nmi-i2c.c) writes directly
+> into the mctp core buffer for get_message_bytes(). The contract is that
+> it must not write more than the `maxlen` parameter. Is that bad? Would
+> it be better that get_message_bytes() returned a pointer to its own
+> buffer that hw/mctp can then copy from?
+
+qemu has had several instances of unchecked writing into a buffer
+eventually getting it into trouble.  It might be ok in the beginning,
+but as things change and code is added, something might come in that is
+not ok.
+
+nmi_get_message_types(), for instance, does not check maxlen.
+
+It may be borderline paranoia, but I've seen too many instances where
+paranoia was warranted :).
+
+Plus I think it would make the code a little cleaner and easier to
+maintain.  If you wanted to change how the buffer worked, trace data put
+into the buffer, or something like that, all the code to handle that is
+in one place.
+
 > 
-> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-> index 81e0370202..6a286ad307 100644
-> --- a/include/hw/ide/pci.h
-> +++ b/include/hw/ide/pci.h
-> @@ -59,6 +59,7 @@ struct PCIIDEState {
->   void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d);
->   void bmdma_init_ops(PCIIDEState *d, const MemoryRegionOps *bmdma_ops);
->   void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
-> +void bmdma_clear_status(BMDMAState *bm, uint32_t val);
->   void pci_ide_create_devs(PCIDevice *dev);
->   
->   #endif
-> diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-> index b9d005a357..973c3ff0dc 100644
-> --- a/hw/ide/cmd646.c
-> +++ b/hw/ide/cmd646.c
-> @@ -144,7 +144,7 @@ static void bmdma_write(void *opaque, hwaddr addr,
->           cmd646_update_irq(pci_dev);
->           break;
->       case 2:
-> -        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
-> +        bmdma_clear_status(bm, val);
->           break;
->       case 3:
->           if (bm == &bm->pci_dev->bmdma[0]) {
-> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-> index 3539b162b7..4aa06be7c6 100644
-> --- a/hw/ide/pci.c
-> +++ b/hw/ide/pci.c
-> @@ -318,6 +318,13 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val)
->       bm->cmd = val & 0x09;
->   }
->   
-> +void bmdma_clear_status(BMDMAState *bm, uint32_t val)
-> +{
-> +    trace_bmdma_update_status(val);
-> +
-> +    bm->status = (val & 0x60) | (bm->status & BM_STATUS_DMAING) | (bm->status & ~val & 0x06);
-> +}
-> +
->   static uint64_t bmdma_addr_read(void *opaque, hwaddr addr,
->                                   unsigned width)
->   {
-> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-> index 406a67fa0f..9eab615e35 100644
-> --- a/hw/ide/piix.c
-> +++ b/hw/ide/piix.c
-> @@ -76,7 +76,7 @@ static void bmdma_write(void *opaque, hwaddr addr,
->           bmdma_cmd_writeb(bm, val);
->           break;
->       case 2:
-> -        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
-> +        bmdma_clear_status(bm, val);
->           break;
->       }
->   }
-> diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-> index 373c0dd1ee..1180ff55e7 100644
-> --- a/hw/ide/sii3112.c
-> +++ b/hw/ide/sii3112.c
-> @@ -66,7 +66,7 @@ static void sii3112_bmdma_write(void *opaque, hwaddr addr,
->                                   uint64_t val, unsigned int size)
->   {
->       BMDMAState *bm = opaque;
-> -    SiI3112PCIState *d = SII3112_PCI(bm->pci_dev);
-> +    SiI3112PCIState *s = SII3112_PCI(bm->pci_dev);
->       int i = (bm == &bm->pci_dev->bmdma[0]) ? 0 : 1;
->   
->       trace_sii3112_bmdma_write(size, addr, val);
-> @@ -75,10 +75,10 @@ static void sii3112_bmdma_write(void *opaque, hwaddr addr,
->           bmdma_cmd_writeb(bm, val);
->           break;
->       case 0x01:
-> -        d->regs[i].swdata = val & 0x3f;
-> +        s->regs[i].swdata = val & 0x3f;
->           break;
->       case 0x02:
-> -        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 6);
-> +        bmdma_clear_status(bm, val);
->           break;
->       default:
->           break;
-> @@ -160,8 +160,7 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
->           d->regs[0].swdata = val & 0x3f;
->           break;
->       case 0x12:
-> -        d->i.bmdma[0].status = (val & 0x60) | (d->i.bmdma[0].status & 1) |
-> -                               (d->i.bmdma[0].status & ~val & 6);
-> +        bmdma_clear_status(&d->i.bmdma[0], val);
->           break;
->       case 0x18:
->           bmdma_cmd_writeb(&d->i.bmdma[1], val);
-> @@ -170,8 +169,7 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
->           d->regs[1].swdata = val & 0x3f;
->           break;
->       case 0x1a:
-> -        d->i.bmdma[1].status = (val & 0x60) | (d->i.bmdma[1].status & 1) |
-> -                               (d->i.bmdma[1].status & ~val & 6);
-> +        bmdma_clear_status(&d->i.bmdma[1], val);
->           break;
->       case 0x100:
->           d->regs[0].scontrol = val & 0xfff;
-> diff --git a/hw/ide/via.c b/hw/ide/via.c
-> index 35dd97e49b..afb97f302a 100644
-> --- a/hw/ide/via.c
-> +++ b/hw/ide/via.c
-> @@ -75,7 +75,7 @@ static void bmdma_write(void *opaque, hwaddr addr,
->           bmdma_cmd_writeb(bm, val);
->           break;
->       case 2:
-> -        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
-> +        bmdma_clear_status(bm, val);
->           break;
->       default:;
->       }
-> diff --git a/hw/ide/trace-events b/hw/ide/trace-events
-> index a479525e38..d219c64b61 100644
-> --- a/hw/ide/trace-events
-> +++ b/hw/ide/trace-events
-> @@ -30,6 +30,7 @@ bmdma_write_cmd646(uint64_t addr, uint64_t val) "bmdma: writeb 0x%"PRIx64" : 0x%
->   # pci.c
->   bmdma_reset(void) ""
->   bmdma_cmd_writeb(uint32_t val) "val: 0x%08x"
-> +bmdma_update_status(uint32_t val) "val: 0x%08x"
->   bmdma_addr_read(uint64_t data) "data: 0x%016"PRIx64
->   bmdma_addr_write(uint64_t data) "data: 0x%016"PRIx64
+> > You have one trace function on a bad receive message check, but lots of
+> > other bad receive message checks with no trace.  Just a suggestion, but
+> > it might be nice for tracking down issues to trace all the reasons a
+> > message is dropped.
+> > 
+> 
+> Sounds reasonable! :)
+> 
+> Thanks for the review!
 
-I see there has been further discussion related to naming of the function: FWIW my 
-preference would be bmdma_status_writeb() since it matches the existing convention 
-for bmdma_cmd_writeb() and is pretty clear that it handles byte-only BMDMA status 
-register writes.
+Thank you for the submission :).
 
-I don't mind either way regarding the extra trace-event, although generally if 
-someone has added it then it means they have found it useful. Otherwise LGTM, but 
-I'll wait to see what the final outcome is before adding an R-B.
-
-
-ATB,
-
-Mark.
+-corey
 
