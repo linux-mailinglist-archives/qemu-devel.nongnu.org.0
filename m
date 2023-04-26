@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A172F6EFB9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 22:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C85C6EFB9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 22:26:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prlXh-0006Qb-PY; Wed, 26 Apr 2023 16:15:10 -0400
+	id 1prlhF-0008PT-Bi; Wed, 26 Apr 2023 16:25:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prlXe-0006Py-L2; Wed, 26 Apr 2023 16:15:06 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ id 1prlhD-0008P6-Jv; Wed, 26 Apr 2023 16:24:59 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prlXb-0005ja-Bg; Wed, 26 Apr 2023 16:15:05 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-9505214c47fso1420479566b.1; 
- Wed, 26 Apr 2023 13:15:02 -0700 (PDT)
+ id 1prlhB-0007Pn-H7; Wed, 26 Apr 2023 16:24:59 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id
+ 4fb4d7f45d1cf-50847469a7fso11088813a12.0; 
+ Wed, 26 Apr 2023 13:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682540101; x=1685132101;
+ d=gmail.com; s=20221208; t=1682540694; x=1685132694;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NLwZ9iqFziXoPuY85+aeQObl778YHYtMBZycHMfQsi0=;
- b=Wfj4gJHAgdpDMBFrPt16g38PQgU891lDEcoPJQNKpoHn121KfbmjgLNHCC9WmNLL9s
- cdXEnB0l7JBvO9gm7HHzYpWA8hy3wKlTBHXaAGWs0+/RXv+qCsM1PX/1r/+6wjb9uonf
- yzplPCOz+1a2+RfVu3W4KU/dwrz2sx+gF0eVGh7HoPiuXtmpmrmSfZMAaPLDI8GIJ+1I
- TgpmoNwv/T53B3SBGA1L6AoJxfpc04Wevaph9u4f+iyRQpEk/O1C26Rgpyjw9OtT3gjW
- Tl0a3pRngnzvtuKBO/grRSc04NxCBEU0A5ZmUtW2+omF1RVuyx1ADpPV/3s352ShvLeX
- 0KMw==
+ bh=w+qiEKa+gLFtuI7hs2weA/t7k8eutTEx35e+iSozLsQ=;
+ b=C+uQgvzULc3+yilSRUm0mBjXzvyWk+RYGLkA+RYWTEmnMz+WFEohUUdPmhkh1LvUrU
+ eVrt0651Kg6KFzUTQWHrKWKkPUl350YBwG48tl/+T1NZtsFM/TVYLGuktJAXHDi+bOeG
+ r8zJcVam6xwKjAbnqBLG6KMdqoYvUu33a7/7A9MLRMw09OMlOlkecY6zXfdrFJQmfVay
+ uZYKPRBpUcOyS4V6Tg0i//m0cmwzfRpCEA5EEOwbN2pIXAXP8kTH1mDwLZw1gcsp7tCg
+ hBtwAp8Oi9vww4k8MFSGSG0dP69qVw/ngONg4ROQVhTtuQ+uBeFAs5OnZJvpgNHsFxrr
+ tMsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682540101; x=1685132101;
+ d=1e100.net; s=20221208; t=1682540694; x=1685132694;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NLwZ9iqFziXoPuY85+aeQObl778YHYtMBZycHMfQsi0=;
- b=IYCrNsjDMbAaRB8FJk6XCrZUGwi/FOUcglG34qcmrrPpnIKaMh9QjtqZmJD7tEmEoW
- EUnnDRnoKkxgZnpsls0gu4TKtSyoEl245UtW5TJn/+Vkg082aoGTcih2smdniIhfOVKA
- cPwsNlK4be//Tt9W/1wM7Y+qPxqesMvjHTUqAsF56+XGQdGbMOecD/EH7znot4AwKdQ9
- NmRej8i6031ZJciiE+mq5gN0YvhOADyXEzem6mTegAtsY53h9pShIMiB6JR7Ld/BnU9p
- BtRc+vPvPMNWNFv+fF3B1eGCGLMgUUahK+WdqkDVQx+bJt6OdUDBq7+86n0kBkPbSZvT
- 7Eng==
-X-Gm-Message-State: AAQBX9d9VI/GzSP9pRgRbK/r8BqEazpWvMG2cLZpB5h0FwJmErqpcqoK
- aDvVh3oYXhFPZBG55cShHN4=
-X-Google-Smtp-Source: AKy350Z3i9/S2rIM1pUFPmn1jiPEVTNYYiWBV6mcA5pluRah//vYcmOWL7ct6PrvJbfXDTRa5YOrXQ==
-X-Received: by 2002:a17:907:7f04:b0:94e:3d6f:9c0f with SMTP id
- qf4-20020a1709077f0400b0094e3d6f9c0fmr22023632ejc.55.1682540100683; 
- Wed, 26 Apr 2023 13:15:00 -0700 (PDT)
+ bh=w+qiEKa+gLFtuI7hs2weA/t7k8eutTEx35e+iSozLsQ=;
+ b=a/TWgzACdsrAOEx850qIbQx8fi6cEjewGxDk3deheslmROzFBl/eZ7Guv/huRkz3u/
+ m3EIB0uq8S0GctvYZ2yBiy17rKMqrC6h00BDoHcM1pjjb6ly/RLjI9OdoVuRjR9qJkh1
+ wSsDrbfZXWNndZ8vowfJIvnxXP+jhxi9NELNjPP3L8Zpnz69nPxbUdRHl25toOyNgvZ7
+ lMWhbq2OrPffp7It1/qKeruiL5JcAloP12httNw+ezsEKveoaNQiOGKqKyxpnAxLEUIT
+ 6gNpYMY1yLbTBuEq0eBT6RaQBsjKupZQX6VTKMx1h9eDCzGfWhij1wwJjcGgHGVo+9hv
+ gF/A==
+X-Gm-Message-State: AAQBX9ca3tO6nYLhak/DvgjOp0k0lf4J6WGsJnmryaSh6m/tKHXjt16o
+ YjFUTH0WiQ81j4/+9QDIEh8=
+X-Google-Smtp-Source: AKy350YSeLPgn12zZfUXNIS+KGfhIhe9Pth3ZOO0p0qjbJMNwc0uvb6QgUWv3fOPZ4l7jwddv8vOtA==
+X-Received: by 2002:a05:6402:5170:b0:504:b323:fdf1 with SMTP id
+ d16-20020a056402517000b00504b323fdf1mr18763003ede.21.1682540694098; 
+ Wed, 26 Apr 2023 13:24:54 -0700 (PDT)
 Received: from [127.0.0.1] (dynamic-077-013-234-209.77.13.pool.telefonica.de.
  [77.13.234.209]) by smtp.gmail.com with ESMTPSA id
- qw16-20020a1709066a1000b00959b3c30f2csm3997595ejc.222.2023.04.26.13.14.59
+ e14-20020a170906504e00b0094a90d3e385sm8552853ejk.30.2023.04.26.13.24.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 13:15:00 -0700 (PDT)
-Date: Wed, 26 Apr 2023 20:14:51 +0000
+ Wed, 26 Apr 2023 13:24:53 -0700 (PDT)
+Date: Wed, 26 Apr 2023 20:24:47 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
@@ -62,19 +62,18 @@ CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Huacai Chen <chenhuacai@kernel.org>,
  =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
  qemu-ppc@nongnu.org
-Subject: Re: [PATCH 10/13] hw/ide/piix: Reuse PCIIDEState::{cmd,data}_ops
-In-Reply-To: <612DFA62-40DC-44D3-88A9-797FB4EC1F48@gmail.com>
+Subject: Re: [PATCH 11/13] hw/ide/sii3112: Reuse PCIIDEState::{cmd,data}_ops
+In-Reply-To: <b4b8c651-3874-a919-1221-d09b3842e3c8@ilande.co.uk>
 References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-11-shentey@gmail.com>
- <4ed18370-3a92-3ae5-912f-1f6dafab37d1@ilande.co.uk>
- <612DFA62-40DC-44D3-88A9-797FB4EC1F48@gmail.com>
-Message-ID: <CD1A2767-74AD-4285-ADF8-1757B8DD7953@gmail.com>
+ <20230422150728.176512-12-shentey@gmail.com>
+ <b4b8c651-3874-a919-1221-d09b3842e3c8@ilande.co.uk>
+Message-ID: <2BE97CCD-7EB4-4F02-B504-194C7B40A900@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,112 +96,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-Am 26=2E April 2023 18:18:35 UTC schrieb Bernhard Beschow <shentey@gmail=
-=2Ecom>:
+Am 26=2E April 2023 11:41:54 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayla=
+nd@ilande=2Eco=2Euk>:
+>On 22/04/2023 16:07, Bernhard Beschow wrote:
 >
->
->Am 26=2E April 2023 11:37:48 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ay=
-land@ilande=2Eco=2Euk>:
->>On 22/04/2023 16:07, Bernhard Beschow wrote:
->>
->>> Now that PCIIDEState::{cmd,data}_ops are initialized in the base class
->>> constructor there is an opportunity for PIIX to reuse these attributes=
-=2E This
->>> resolves usage of ide_init_ioport() which would fall back internally t=
-o using
->>> the isabus global due to NULL being passed as ISADevice by PIIX=2E
->>>=20
->>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>> ---
->>>   hw/ide/piix=2Ec | 30 +++++++++++++-----------------
->>>   1 file changed, 13 insertions(+), 17 deletions(-)
->>>=20
->>> diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
->>> index a3a15dc7db=2E=2E406a67fa0f 100644
->>> --- a/hw/ide/piix=2Ec
->>> +++ b/hw/ide/piix=2Ec
->>> @@ -104,34 +104,32 @@ static void piix_ide_reset(DeviceState *dev)
->>>       pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
->>>   }
->>>   -static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, ISABus *i=
-sa_bus,
->>> -                              Error **errp)
->>> +static void pci_piix_init_bus(PCIIDEState *d, unsigned i, ISABus *isa=
-_bus)
->>>   {
->>>       static const struct {
->>>           int iobase;
->>>           int iobase2;
->>>           int isairq;
->>>       } port_info[] =3D {
->>> -        {0x1f0, 0x3f6, 14},
->>> -        {0x170, 0x376, 15},
->>> +        {0x1f0, 0x3f4, 14},
->>> +        {0x170, 0x374, 15},
->>>       };
->>> -    int ret;
->>> +    MemoryRegion *address_space_io =3D pci_address_space_io(PCI_DEVIC=
-E(d));
->>>         ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
->>> -    ret =3D ide_init_ioport(&d->bus[i], NULL, port_info[i]=2Eiobase,
->>> -                          port_info[i]=2Eiobase2);
->>> -    if (ret) {
->>> -        error_setg_errno(errp, -ret, "Failed to realize %s port %u",
->>> -                         object_get_typename(OBJECT(d)), i);
->>> -        return false;
->>> -    }
->>> +    memory_region_add_subregion(address_space_io, port_info[i]=2Eioba=
-se,
->>> +                                &d->data_ops[i]);
->>> +    /*
->>> +     * PIIX forwards the last byte of cmd_ops to ISA=2E Model this us=
-ing a low
->>> +     * prio so competing memory regions take precedence=2E
->>> +     */
->>> +    memory_region_add_subregion_overlap(address_space_io, port_info[i=
-]=2Eiobase2,
->>> +                                        &d->cmd_ops[i], -1);
->>
->>Interesting=2E Is this behaviour documented somewhere and/or used in one=
- of your test images at all? If I'd have seen this myself, I probably thoug=
-ht that the addresses were a typo=2E=2E=2E
->
->I first  stumbled upon this and wondered why this code was working with V=
-IA_IDE (through my pc-via branch)=2E Then I found the correct offsets there=
- which are confirmed in the piix datasheet, e=2Eg=2E: "Secondary Control Bl=
-ock Offset: 0374h"
-
-In case you were wondering about the forwarding of the last byte the datas=
-heet says: "Accesses to byte 3 of the Control Block are forwarded to ISA wh=
-ere the floppy disk controller responds=2E"
-
->
->>
->>>       ide_bus_init_output_irq(&d->bus[i],
->>>                               isa_bus_get_irq(isa_bus, port_info[i]=2E=
-isairq));
->>>         bmdma_init(&d->bus[i], &d->bmdma[i], d);
->>>       ide_bus_register_restart_cb(&d->bus[i]);
->>> -
->>> -    return true;
->>>   }
->>>     static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
->>> @@ -160,9 +158,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, E=
+>> Allows to unexport pci_ide_{cmd,data}_le_ops and models TYPE_SII3112_PC=
+I as a
+>> standard-compliant PCI IDE device=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>>   include/hw/ide/pci=2Eh |  2 --
+>>   hw/ide/pci=2Ec         |  4 ++--
+>>   hw/ide/sii3112=2Ec     | 50 ++++++++++++++++-------------------------=
+---
+>>   3 files changed, 20 insertions(+), 36 deletions(-)
+>>=20
+>> diff --git a/include/hw/ide/pci=2Eh b/include/hw/ide/pci=2Eh
+>> index 5025df5b82=2E=2Edbb4b13161 100644
+>> --- a/include/hw/ide/pci=2Eh
+>> +++ b/include/hw/ide/pci=2Eh
+>> @@ -62,6 +62,4 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
+>>   extern MemoryRegionOps bmdma_addr_ioport_ops;
+>>   void pci_ide_create_devs(PCIDevice *dev);
+>>   -extern const MemoryRegionOps pci_ide_cmd_le_ops;
+>> -extern const MemoryRegionOps pci_ide_data_le_ops;
+>>   #endif
+>> diff --git a/hw/ide/pci=2Ec b/hw/ide/pci=2Ec
+>> index b2fcc00a64=2E=2E97ccc75aa6 100644
+>> --- a/hw/ide/pci=2Ec
+>> +++ b/hw/ide/pci=2Ec
+>> @@ -60,7 +60,7 @@ static void pci_ide_ctrl_write(void *opaque, hwaddr a=
+ddr,
+>>       ide_ctrl_write(bus, addr + 2, data);
+>>   }
+>>   -const MemoryRegionOps pci_ide_cmd_le_ops =3D {
+>> +static const MemoryRegionOps pci_ide_cmd_le_ops =3D {
+>>       =2Eread =3D pci_ide_status_read,
+>>       =2Ewrite =3D pci_ide_ctrl_write,
+>>       =2Eendianness =3D DEVICE_LITTLE_ENDIAN,
+>> @@ -98,7 +98,7 @@ static void pci_ide_data_write(void *opaque, hwaddr a=
+ddr,
+>>       }
+>>   }
+>>   -const MemoryRegionOps pci_ide_data_le_ops =3D {
+>> +static const MemoryRegionOps pci_ide_data_le_ops =3D {
+>>       =2Eread =3D pci_ide_data_read,
+>>       =2Ewrite =3D pci_ide_data_write,
+>>       =2Eendianness =3D DEVICE_LITTLE_ENDIAN,
+>> diff --git a/hw/ide/sii3112=2Ec b/hw/ide/sii3112=2Ec
+>> index 0af897a9ef=2E=2E9cf920369f 100644
+>> --- a/hw/ide/sii3112=2Ec
+>> +++ b/hw/ide/sii3112=2Ec
+>> @@ -88,21 +88,9 @@ static uint64_t sii3112_reg_read(void *opaque, hwadd=
+r addr,
+>>           val |=3D (d->regs[1]=2Econfstat & (1UL << 11) ? (1 << 4) : 0)=
+;
+>>           val |=3D (uint32_t)d->i=2Ebmdma[1]=2Estatus << 16;
+>>           break;
+>> -    case 0x80 =2E=2E=2E 0x87:
+>> -        val =3D pci_ide_data_le_ops=2Eread(&d->i=2Ebus[0], addr - 0x80=
+, size);
+>> -        break;
+>> -    case 0x8a:
+>> -        val =3D pci_ide_cmd_le_ops=2Eread(&d->i=2Ebus[0], 2, size);
+>> -        break;
+>>       case 0xa0:
+>>           val =3D d->regs[0]=2Econfstat;
+>>           break;
+>> -    case 0xc0 =2E=2E=2E 0xc7:
+>> -        val =3D pci_ide_data_le_ops=2Eread(&d->i=2Ebus[1], addr - 0xc0=
+, size);
+>> -        break;
+>> -    case 0xca:
+>> -        val =3D pci_ide_cmd_le_ops=2Eread(&d->i=2Ebus[1], 2, size);
+>> -        break;
+>>       case 0xe0:
+>>           val =3D d->regs[1]=2Econfstat;
+>>           break;
+>> @@ -171,18 +159,6 @@ static void sii3112_reg_write(void *opaque, hwaddr=
+ addr,
+>>       case 0x0c =2E=2E=2E 0x0f:
+>>           bmdma_addr_ioport_ops=2Ewrite(&d->i=2Ebmdma[1], addr - 12, va=
+l, size);
+>>           break;
+>> -    case 0x80 =2E=2E=2E 0x87:
+>> -        pci_ide_data_le_ops=2Ewrite(&d->i=2Ebus[0], addr - 0x80, val, =
+size);
+>> -        break;
+>> -    case 0x8a:
+>> -        pci_ide_cmd_le_ops=2Ewrite(&d->i=2Ebus[0], 2, val, size);
+>> -        break;
+>> -    case 0xc0 =2E=2E=2E 0xc7:
+>> -        pci_ide_data_le_ops=2Ewrite(&d->i=2Ebus[1], addr - 0xc0, val, =
+size);
+>> -        break;
+>> -    case 0xca:
+>> -        pci_ide_cmd_le_ops=2Ewrite(&d->i=2Ebus[1], 2, val, size);
+>> -        break;
+>>       case 0x100:
+>>           d->regs[0]=2Escontrol =3D val & 0xfff;
+>>           if (val & 1) {
+>> @@ -259,6 +235,11 @@ static void sii3112_pci_realize(PCIDevice *dev, Er=
+ror **errp)
+>>       pci_config_set_interrupt_pin(dev->config, 1);
+>>       pci_set_byte(dev->config + PCI_CACHE_LINE_SIZE, 8);
+>>   +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops=
+[0]);
+>> +    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[0]=
+);
+>> +    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops[1=
+]);
+>> +    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[1]=
+);
+>> +
+>>       /* BAR5 is in PCI memory space */
+>>       memory_region_init_io(&d->mmio, OBJECT(d), &sii3112_reg_ops, d,
+>>                            "sii3112=2Ebar5", 0x200);
+>> @@ -266,17 +247,22 @@ static void sii3112_pci_realize(PCIDevice *dev, E=
 rror **errp)
->>>       }
->>>         for (unsigned i =3D 0; i < 2; i++) {
->>> -        if (!pci_piix_init_bus(d, i, isa_bus, errp)) {
->>> -            return;
->>> -        }
->>> +        pci_piix_init_bus(d, i, isa_bus);
->>>       }
->>>   }
->>>  =20
->>
->>
->>ATB,
->>
->>Mark=2E
+>>         /* BAR0-BAR4 are PCI I/O space aliases into BAR5 */
+>>       mr =3D g_new(MemoryRegion, 1);
+>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar0", &d->mmio=
+, 0x80, 8);
+>> -    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar0", &s->data=
+_ops[0], 0,
+>> +                             memory_region_size(&s->data_ops[0]));
+>> +    memory_region_add_subregion_overlap(&d->mmio, 0x80, mr, 1);
+>>       mr =3D g_new(MemoryRegion, 1);
+>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar1", &d->mmio=
+, 0x88, 4);
+>> -    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar1", &s->cmd_=
+ops[0], 0,
+>> +                             memory_region_size(&s->cmd_ops[0]));
+>> +    memory_region_add_subregion_overlap(&d->mmio, 0x88, mr, 1);
+>>       mr =3D g_new(MemoryRegion, 1);
+>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar2", &d->mmio=
+, 0xc0, 8);
+>> -    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar2", &s->data=
+_ops[1], 0,
+>> +                             memory_region_size(&s->data_ops[1]));
+>> +    memory_region_add_subregion_overlap(&d->mmio, 0xc0, mr, 1);
+>>       mr =3D g_new(MemoryRegion, 1);
+>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar3", &d->mmio=
+, 0xc8, 4);
+>> -    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar3", &s->cmd_=
+ops[1], 0,
+>> +                             memory_region_size(&s->cmd_ops[1]));
+>> +    memory_region_add_subregion_overlap(&d->mmio, 0xc8, mr, 1);
+>> +
+>>       mr =3D g_new(MemoryRegion, 1);
+>>       memory_region_init_alias(mr, OBJECT(d), "sii3112=2Ebar4", &d->mmi=
+o, 0, 16);
+>>       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, mr);
+>
+>So if I read this right, this is now switching the aliases over on BAR5 t=
+o allow re-use of the common IDE/BMDMA BARs in PCIIDEState? If that's corre=
+ct then I think the commit message needs a bit more detail, otherwise:
+
+That's correct=2E Besides improving the commit message I'll additonally sp=
+lit this patch into two to show what's going on=2E
+
+Furthermore, I'd init the memory regions in sii3112's init method rather t=
+han in realize()=2E This will be more consistent with the other PCI IDE dev=
+ice models and with the other memory regions=2E
+
+Best regards,
+Bernhard
+
+>
+>Reviewed-by: Mark Cave-Ayland <mark=2Ecave-ayland@ilande=2Eco=2Euk>
+>
+>
+>ATB,
+>
+>Mark=2E
 
