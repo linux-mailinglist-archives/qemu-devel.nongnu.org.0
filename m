@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B733F6EEDD7
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 07:59:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6938F6EEDE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 08:00:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prYAP-0006BK-S0; Wed, 26 Apr 2023 01:58:15 -0400
+	id 1prYAV-0006FU-Qq; Wed, 26 Apr 2023 01:58:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA5-00065Y-LY
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA7-00066P-3V
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA1-0002l6-RM
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:53 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA3-0002lt-Rq
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682488669;
+ s=mimecast20190719; t=1682488671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EzV7jMDO/oPYTIZ3Q5bzgIZeimLue6BIglf8wNAP8IM=;
- b=WgRzH8AVBzfgEspIDTj2iC6/IYXYUX12v5YIC/uXF7xu9KyomSqgfLZA54LH0JAxlF05qt
- MviF12vSFq8HW7/OWb05bBhNVigLKMuAx+Mq+/03mAwt8kz0IaNNKorx5TWapeKHuX4YNo
- ataFI0dNbfkRlEorfGM9JxASAzDzc/I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sHaz+ZyHxDWMdvVqCZzu28yAU4wKDL37BtKh3S/IF5A=;
+ b=C7iyrsYFkP/4G6mVD79fvyTtmPZt/mHW/reH39Y1GyCxZSenUn/plJ3/y1G2yUujMs3ALk
+ 81gFf3vu3zMfPY68oFgFW5jngjUsoy3UBXDOGRt7Of/PQ7HytfApAhraCrBkPSGLiDnoHH
+ xsxIieP8/h8UHGemVLvsDFjuNZBVPi4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-111-i7KBhvuqOOCGTo607IdrZA-1; Wed, 26 Apr 2023 01:57:45 -0400
-X-MC-Unique: i7KBhvuqOOCGTo607IdrZA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-654-O8KR1VNKMeuA4mB2R9qwTw-1; Wed, 26 Apr 2023 01:57:46 -0400
+X-MC-Unique: O8KR1VNKMeuA4mB2R9qwTw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 780523855561;
- Wed, 26 Apr 2023 05:57:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F72787A9E3;
+ Wed, 26 Apr 2023 05:57:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B83F40C6E68;
- Wed, 26 Apr 2023 05:57:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E0CB2027043;
+ Wed, 26 Apr 2023 05:57:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2666221F167A; Wed, 26 Apr 2023 07:57:44 +0200 (CEST)
+ id 28D7421F167D; Wed, 26 Apr 2023 07:57:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
-	Eric Blake <eblake@redhat.com>
-Subject: [PULL 04/17] qapi: Split up check_type()
-Date: Wed, 26 Apr 2023 07:57:31 +0200
-Message-Id: <20230426055744.1041930-5-armbru@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 05/17] qapi: Improve error message for unexpected array types
+Date: Wed, 26 Apr 2023 07:57:32 +0200
+Message-Id: <20230426055744.1041930-6-armbru@redhat.com>
 In-Reply-To: <20230426055744.1041930-1-armbru@redhat.com>
 References: <20230426055744.1041930-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -79,219 +79,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-check_type() can check type names, arrays, and implicit struct types.
-Callers pass flags to select from this menu.  This makes the function
-somewhat hard to read.  Moreover, a few minor bugs are hiding in
-there, as we'll see shortly.
-
-Split it into check_type_name(), check_type_name_or_array(), and
-check_type_name_or_implicit().  Each of them is a copy of the original
-specialized to a certain set of flags.
+We reject array types in certain places with "cannot be an array".
+Deleting this check improves the error message to "should be a type
+name" or "should be an object or type name", depending on context, so
+do that.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230316071325.492471-5-armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-[Commit message corrected]
+Message-Id: <20230316071325.492471-6-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- scripts/qapi/expr.py | 116 +++++++++++++++++++++++++------------------
- 1 file changed, 67 insertions(+), 49 deletions(-)
+ scripts/qapi/expr.py                     | 6 ------
+ tests/qapi-schema/bad-data.err           | 2 +-
+ tests/qapi-schema/union-array-branch.err | 2 +-
+ 3 files changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 59bdd86024..bc04bf34c2 100644
+index bc04bf34c2..5abeaa19dd 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -333,62 +333,74 @@ def normalize_members(members: object) -> None:
-             members[key] = {'type': arg}
- 
- 
--def check_type(value: Optional[object],
--               info: QAPISourceInfo,
--               source: str,
--               allow_array: bool = False,
--               allow_dict: Union[bool, str] = False) -> None:
--    """
--    Normalize and validate the QAPI type of ``value``.
--
--    Python types of ``str`` or ``None`` are always allowed.
--
--    :param value: The value to check.
--    :param info: QAPI schema source file information.
--    :param source: Error string describing this ``value``.
--    :param allow_array:
--        Allow a ``List[str]`` of length 1, which indicates an array of
--        the type named by the list element.
--    :param allow_dict:
--        Allow a dict.  Its members can be struct type members or union
--        branches.  When the value of ``allow_dict`` is in pragma
--        ``member-name-exceptions``, the dict's keys may violate the
--        member naming rules.  The dict members are normalized in place.
--
--    :raise QAPISemError: When ``value`` fails validation.
--    :return: None, ``value`` is normalized in-place as needed.
--    """
-+def check_type_name(value: Optional[object],
-+                    info: QAPISourceInfo, source: str) -> None:
-+    if value is None:
-+        return
-+
-+    if isinstance(value, str):
-+        return
-+
-+    if isinstance(value, list):
-+        raise QAPISemError(info, "%s cannot be an array" % source)
-+
-+    raise QAPISemError(info, "%s should be a type name" % source)
-+
-+
-+def check_type_name_or_array(value: Optional[object],
-+                             info: QAPISourceInfo, source: str) -> None:
-     if value is None:
-         return
- 
--    # Type name
+@@ -341,9 +341,6 @@ def check_type_name(value: Optional[object],
      if isinstance(value, str):
          return
  
--    # Array type
-     if isinstance(value, list):
--        if not allow_array:
--            raise QAPISemError(info, "%s cannot be an array" % source)
-         if len(value) != 1 or not isinstance(value[0], str):
-             raise QAPISemError(info,
-                                "%s: array type must contain single type name" %
-                                source)
+-    if isinstance(value, list):
+-        raise QAPISemError(info, "%s cannot be an array" % source)
+-
+     raise QAPISemError(info, "%s should be a type name" % source)
+ 
+ 
+@@ -392,9 +389,6 @@ def check_type_name_or_implicit(value: Optional[object],
+     if isinstance(value, str):
          return
  
--    # Anonymous type
-+    raise QAPISemError(info,
-+                       "%s should be a type name" % source)
- 
--    if not allow_dict:
--        raise QAPISemError(info, "%s should be a type name" % source)
-+
-+def check_type_name_or_implicit(value: Optional[object],
-+                                info: QAPISourceInfo, source: str,
-+                                parent_name: Optional[str]) -> None:
-+    """
-+    Normalize and validate an optional implicit struct type.
-+
-+    Accept ``None``, ``str``, or a ``dict`` defining an implicit
-+    struct type.  The latter is normalized in place.
-+
-+    :param value: The value to check.
-+    :param info: QAPI schema source file information.
-+    :param source: Error string describing this ``value``.
-+    :param parent_name:
-+        When the value of ``parent_name`` is in pragma
-+        ``member-name-exceptions``, an implicit struct type may
-+        violate the member naming rules.
-+
-+    :raise QAPISemError: When ``value`` fails validation.
-+    :return: None
-+    """
-+    if value is None:
-+        return
-+
-+    if isinstance(value, str):
-+        return
-+
-+    if isinstance(value, list):
-+        raise QAPISemError(info, "%s cannot be an array" % source)
- 
+-    if isinstance(value, list):
+-        raise QAPISemError(info, "%s cannot be an array" % source)
+-
      if not isinstance(value, dict):
          raise QAPISemError(info,
                             "%s should be an object or type name" % source)
- 
--    permissive = False
--    if isinstance(allow_dict, str):
--        permissive = allow_dict in info.pragma.member_name_exceptions
-+    permissive = parent_name in info.pragma.member_name_exceptions
- 
--    # value is a dictionary, check that each member is okay
-     for (key, arg) in value.items():
-         key_source = "%s member '%s'" % (source, key)
-         if key.startswith('*'):
-@@ -401,7 +413,7 @@ def check_type(value: Optional[object],
-         check_keys(arg, info, key_source, ['type'], ['if', 'features'])
-         check_if(arg, info, key_source)
-         check_features(arg.get('features'), info)
--        check_type(arg['type'], info, key_source, allow_array=True)
-+        check_type_name_or_array(arg['type'], info, key_source)
- 
- 
- def check_features(features: Optional[object],
-@@ -489,8 +501,8 @@ def check_struct(expr: QAPIExpression) -> None:
-     name = cast(str, expr['struct'])  # Checked in check_exprs
-     members = expr['data']
- 
--    check_type(members, expr.info, "'data'", allow_dict=name)
--    check_type(expr.get('base'), expr.info, "'base'")
-+    check_type_name_or_implicit(members, expr.info, "'data'", name)
-+    check_type_name(expr.get('base'), expr.info, "'base'")
- 
- 
- def check_union(expr: QAPIExpression) -> None:
-@@ -508,7 +520,7 @@ def check_union(expr: QAPIExpression) -> None:
-     members = expr['data']
-     info = expr.info
- 
--    check_type(base, info, "'base'", allow_dict=name)
-+    check_type_name_or_implicit(base, info, "'base'", name)
-     check_name_is_str(discriminator, info, "'discriminator'")
- 
-     if not isinstance(members, dict):
-@@ -518,7 +530,7 @@ def check_union(expr: QAPIExpression) -> None:
-         source = "'data' member '%s'" % key
-         check_keys(value, info, source, ['type'], ['if'])
-         check_if(value, info, source)
--        check_type(value['type'], info, source)
-+        check_type_name(value['type'], info, source)
- 
- 
- def check_alternate(expr: QAPIExpression) -> None:
-@@ -544,7 +556,7 @@ def check_alternate(expr: QAPIExpression) -> None:
-         check_name_lower(key, info, source)
-         check_keys(value, info, source, ['type'], ['if'])
-         check_if(value, info, source)
--        check_type(value['type'], info, source, allow_array=True)
-+        check_type_name_or_array(value['type'], info, source)
- 
- 
- def check_command(expr: QAPIExpression) -> None:
-@@ -560,10 +572,13 @@ def check_command(expr: QAPIExpression) -> None:
-     rets = expr.get('returns')
-     boxed = expr.get('boxed', False)
- 
--    if boxed and args is None:
--        raise QAPISemError(expr.info, "'boxed': true requires 'data'")
--    check_type(args, expr.info, "'data'", allow_dict=not boxed)
--    check_type(rets, expr.info, "'returns'", allow_array=True)
-+    if boxed:
-+        if args is None:
-+            raise QAPISemError(expr.info, "'boxed': true requires 'data'")
-+        check_type_name(args, expr.info, "'data'")
-+    else:
-+        check_type_name_or_implicit(args, expr.info, "'data'", None)
-+    check_type_name_or_array(rets, expr.info, "'returns'")
- 
- 
- def check_event(expr: QAPIExpression) -> None:
-@@ -578,9 +593,12 @@ def check_event(expr: QAPIExpression) -> None:
-     args = expr.get('data')
-     boxed = expr.get('boxed', False)
- 
--    if boxed and args is None:
--        raise QAPISemError(expr.info, "'boxed': true requires 'data'")
--    check_type(args, expr.info, "'data'", allow_dict=not boxed)
-+    if boxed:
-+        if args is None:
-+            raise QAPISemError(expr.info, "'boxed': true requires 'data'")
-+        check_type_name(args, expr.info, "'data'")
-+    else:
-+        check_type_name_or_implicit(args, expr.info, "'data'", None)
- 
- 
- def check_exprs(exprs: List[QAPIExpression]) -> List[QAPIExpression]:
+diff --git a/tests/qapi-schema/bad-data.err b/tests/qapi-schema/bad-data.err
+index 7991c8898d..a987df4108 100644
+--- a/tests/qapi-schema/bad-data.err
++++ b/tests/qapi-schema/bad-data.err
+@@ -1,2 +1,2 @@
+ bad-data.json: In command 'oops':
+-bad-data.json:2: 'data' cannot be an array
++bad-data.json:2: 'data' should be an object or type name
+diff --git a/tests/qapi-schema/union-array-branch.err b/tests/qapi-schema/union-array-branch.err
+index 5db9c17481..2aa146261a 100644
+--- a/tests/qapi-schema/union-array-branch.err
++++ b/tests/qapi-schema/union-array-branch.err
+@@ -1,2 +1,2 @@
+ union-array-branch.json: In union 'TestUnion':
+-union-array-branch.json:8: 'data' member 'value1' cannot be an array
++union-array-branch.json:8: 'data' member 'value1' should be a type name
 -- 
 2.39.2
 
