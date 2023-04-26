@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334BE6EF92F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 19:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0171C6EF931
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 19:22:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prioa-0001k0-VC; Wed, 26 Apr 2023 13:20:24 -0400
+	id 1priqR-00030t-75; Wed, 26 Apr 2023 13:22:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1prioU-0001is-Lb
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 13:20:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1prioS-0007hj-Aj
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 13:20:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682529614;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4+j+3mR83+Lc+omK9h5X3QZqL+dgWshqZnoHyNReBew=;
- b=afpvz4OrQr62757+Z+9wtwGp+I+PoL24Jntck5rgKbnk7ZsfLMjO/whX0sZm+zAJpfJLv8
- P/ArvvnBuPbhMajuHS4BsQQEhsQXLheTlqyRkgctwAWL8MY8BK4FPlRyoGpOI0VF636cPy
- UrM6cRv8ZPJ8/y3o/8rII6oORYaPP4c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53-iFalyfFQNXy4rrOx0qpxSg-1; Wed, 26 Apr 2023 13:20:12 -0400
-X-MC-Unique: iFalyfFQNXy4rrOx0qpxSg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1priqM-00030Z-1k
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 13:22:14 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1priqK-00080G-KC
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 13:22:13 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6AA7418A6461;
- Wed, 26 Apr 2023 17:20:12 +0000 (UTC)
-Received: from pinwheel (unknown [10.39.192.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15AF32027043;
- Wed, 26 Apr 2023 17:20:10 +0000 (UTC)
-Date: Wed, 26 Apr 2023 19:20:08 +0200
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, mst@redhat.com,
- anisinha@redhat.com, jusual@redhat.com
-Subject: Re: [PATCH v4] acpi: pcihp: allow repeating hot-unplug requests
-Message-ID: <ZEldKCEgmDA7Hmdx@pinwheel>
-References: <20230418090449.2155757-1-imammedo@redhat.com>
- <eaff7481-48ab-14f4-330b-e2d84dd72855@msgid.tls.msk.ru>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3D6301FD6A;
+ Wed, 26 Apr 2023 17:22:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1682529731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aoFlR35NSYvAu5UBazeaVIk+ydGlvOcw63YhY7BwAdA=;
+ b=UszZkfmSL87yTJya6qsS+4VnqsbLQakUXMFKHCdnNO9OEL0c3VZYXakD11F19eM2bCE3UT
+ p6qUs2kxq/Q6EI6m0eDSyG9L3RU/llA7Q10svzpqsJgK94LYvtcRkd+2N9Sova6aaY1+OT
+ WvHqUW4XW9F/UHHY9AWJm//5kFsV+Ng=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1682529731;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aoFlR35NSYvAu5UBazeaVIk+ydGlvOcw63YhY7BwAdA=;
+ b=ruOktBZ2eQn/mWJw6vDQK/J8K7K7hfvQlDQQruQaY5GlBXZKZcUnzpfB69gVtGytH/7Gbg
+ yhq7+bdXJIEmb4Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A8C0713421;
+ Wed, 26 Apr 2023 17:22:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id GER4HMJdSWRKQwAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 26 Apr 2023 17:22:10 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>, Leonardo Bras <leobras@redhat.com>, Juan
+ Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] multifd: Fix the number of channels ready
+In-Reply-To: <20230426162307.11060-1-quintela@redhat.com>
+References: <20230426162307.11060-1-quintela@redhat.com>
+Date: Wed, 26 Apr 2023 14:22:08 -0300
+Message-ID: <87354mmudb.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eaff7481-48ab-14f4-330b-e2d84dd72855@msgid.tls.msk.ru>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,32 +82,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 26, 2023 at 07:40:02PM +0300, Michael Tokarev wrote:
-> 18.04.2023 12:04, Igor Mammedov wrote:
-> > with Q35 using ACPI PCI hotplug by default, user's request to unplug
-> > device is ignored when it's issued before guest OS has been booted.
-> > And any additional attempt to request device hot-unplug afterwards
-> > results in following error:
-> > 
-> >    "Device XYZ is already in the process of unplug"
-> > 
-> > arguably it can be considered as a regression introduced by [2],
-> > before which it was possible to issue unplug request multiple
-> > times.
-> 
-> Stable-8.0 material?
+Juan Quintela <quintela@redhat.com> writes:
 
-FWIW, I'd say, yes. This fix is useful for stable releases.  As this
-solves a real problem for upper-management tools.
+> We don't wait in the sem when we are doing a sync_main.  Make it wait
+> there.  To make things clearer, we mark the channel ready at the
+> begining of the thread loop.
 
-I have tested this fix; and it works.  I'll post my testing notes /
-reproducer in a follow-up email.  In short, I followed the
-reproducer steps from here[1].
-
-[1] https://gitlab.com/libvirt/libvirt/-/issues/309
-
-
--- 
-/kashyap
-
+So in other words we're estabilishing that "channel ready" means ready
+to send, regardless of having sent the sync packet. Is that it?
 
