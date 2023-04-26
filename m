@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5726EFC55
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 23:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABC26EFC67
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 23:24:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prmXl-000322-A1; Wed, 26 Apr 2023 17:19:18 -0400
+	id 1prmbb-0004of-E7; Wed, 26 Apr 2023 17:23:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prmXX-00031A-Jn
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 17:19:08 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1prmbZ-0004oA-Hu
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 17:23:13 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prmXV-0001P9-Vu
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 17:19:03 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-2f917585b26so7010996f8f.0
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 14:19:01 -0700 (PDT)
+ id 1prmbW-00026N-Vi
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 17:23:13 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f315712406so1445785e9.0
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 14:23:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682543940; x=1685135940;
+ d=linaro.org; s=google; t=1682544189; x=1685136189;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UTvvbGrV1NFx3B704Y1VpTkshZJo0t7kNy4HzjMtL7E=;
- b=eWsGQV1VAlfzuK5uLlqRXjbW95Sx2S9MyoloVsJEMid09qDzds4RSIpbPHEhI0UOGu
- iUsTfqz6HP6nf6q8t3psUne9KEFuLCDGy0Z3cajB4R1kT4AbjYVmrzOo1Rdg5YkSbweO
- BEbLZdb/U2lZhHah02jzZhYYfFlATpTM7aHWaTL0fiXHPMmhF9rr8lrcz2r5VYhQ9MLW
- 2Yi8pEh/06MA7K8j/poKd1xdQHSHAoT1GNpBiqHRK6bmIOlh9ire85s5KXmVd3bxwFIH
- 1D+MYg9hqkS2B3BWGxwBAcMqRfCXQJClifVDQx+Uv1d80asWJmVNpNR96uBeXuXNJi5G
- kvhQ==
+ bh=TrUDpmraLkrzDB9JlQqfkxgNEUwUSORNCUCp+dPNDsc=;
+ b=Vbew1sNR8NCf+/x/YLvtsTGphP4OqfnCfgoL5KYGakxZGhA+qAIqdC00rEFnheN3uB
+ hQAOlByhZQB6NCejS6Tgai9+O0VQWzu2yFJGrW2uCX4Qyc+QbfixZ7GqXaf4bELruarD
+ nZRnnucTcmH70jv4fROBKt2FMM2BrKDegCSvHuCyhLV6OPjk/q/mj7O9tsci80torT/H
+ Y3rVyhGw/sbuqJEOZ/H6dZOMNwKGZRseyhJPQyPX/8Ni2RFOKoPZVLRPk7EysXR3ozX6
+ cizgzFS8oATbc4I8bYer+wM2MnCaLfCgoVJAnPxpuIFqSgVjCfFOcPguE8rNfPdjWSsv
+ EAdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682543940; x=1685135940;
+ d=1e100.net; s=20221208; t=1682544189; x=1685136189;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UTvvbGrV1NFx3B704Y1VpTkshZJo0t7kNy4HzjMtL7E=;
- b=ER9jEjPtXPKzvGdTHFT7Sq75ig6ktnLCOGOGhhTg47eprI6ayAD0ary0z6zdFkQ3zN
- jzIij+eKXr83kVZT28AuI+dIOy9psXveMjDYW+4mMiKTHu85D/WytEbfSY4xiReiz5fT
- 2aMgDulzmOdHv2QOa7xp3qbtyEaUWpWy39LDyVeB6Uj0yU777zXENNn+9x762WpcLqV1
- Wa+oAKUSx5UtSZnpvRa9VpXosA4OLGt5EdPA4DssotzpONZGtv3pXKyso+smWwhKKMX2
- QtCrTsCMKX5Cfr+S4qX4JXlEqENd0fYcSJtbiqYHDdW0NQs5sMCFnH62ME9cRjEpKg9t
- KnOQ==
-X-Gm-Message-State: AAQBX9cU0i5WMAa7bgugi4W0JI4D/uhexp5hwnavhdIAfQAZyBaqZtcp
- b6MALG0pW+kLrLktGaaizz1QkfZ6eE1n3jgoofmfbQ==
-X-Google-Smtp-Source: AKy350asqf1j6Pz6AwFMG2wGTyWyFpROHhEv4ja8ldBCiRy610Ubp4eNyMPoxdRhjapoZLCMgq9FUg==
-X-Received: by 2002:a5d:51c7:0:b0:2ef:bada:2f04 with SMTP id
- n7-20020a5d51c7000000b002efbada2f04mr14630013wrv.59.1682543940369; 
- Wed, 26 Apr 2023 14:19:00 -0700 (PDT)
-Received: from [192.168.4.234]
+ bh=TrUDpmraLkrzDB9JlQqfkxgNEUwUSORNCUCp+dPNDsc=;
+ b=DkpiFVyE00zE1jQB27RCAdf/uNAmUFRdFcVEWAeFvEL8VG2wOwHPjwWWqGYbVVcNIt
+ 3dSVfjCC8sivTR2hrjc9i8Cz3/p/Px+BouttFDsViFLdhBBC/2DKB9OP/iGZ/zYmNloN
+ OQuLT/JzuYSKCyVP7dF88BMEY2hov3pQu6+KtC0nLp14NrPRY7ZplICC6MdXACNI38u/
+ A3rIaJG9dc8CTsdLdRu33YW5qV7o6ZK3+mLmugzuj7bER/Y/KqFMdf2vHIRuexmSJ/Dx
+ qgZ5qBNumO0ZVcPoPZeH70D2ySAPhCLPd8mZc5Jw5EKaZ2H8Eq3D6iy+FfxMwTZwI0rt
+ mVTg==
+X-Gm-Message-State: AC+VfDyDVbOrRTipZiUbYaHdIfUaTF585WOhzhEce1smX2a48Ryr2d6b
+ uQPPzKK67VxqST9RO1rfG8Qn2A==
+X-Google-Smtp-Source: ACHHUZ4FMr9uT2tsododNHGmE/h4rbyRAt7vrSkt0Atq+C0yVhjsQlDzKAIT5uoqRRdQt5+W/uG7xA==
+X-Received: by 2002:a05:600c:4f55:b0:3f1:88b:bd40 with SMTP id
+ m21-20020a05600c4f5500b003f1088bbd40mr2372461wmq.14.1682544188913; 
+ Wed, 26 Apr 2023 14:23:08 -0700 (PDT)
+Received: from [192.168.5.119]
  (cpc148070-lewi21-2-0-cust450.2-4.cable.virginm.net. [82.15.53.195])
  by smtp.gmail.com with ESMTPSA id
- k17-20020a5d6291000000b002c561805a4csm16761326wru.45.2023.04.26.14.18.59
+ bg39-20020a05600c3ca700b003f09c34fa4csm22836170wmb.40.2023.04.26.14.23.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 14:19:00 -0700 (PDT)
-Message-ID: <0d357dfd-79a7-a343-9cb8-80328bd76060@linaro.org>
-Date: Wed, 26 Apr 2023 22:18:58 +0100
+ Wed, 26 Apr 2023 14:23:08 -0700 (PDT)
+Message-ID: <379e70f9-2d04-dddc-fe5b-d4eee3bde62f@linaro.org>
+Date: Wed, 26 Apr 2023 22:23:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 07/21] Hexagon (target/hexagon) Eliminate uses of
- log_pred_write function
+Subject: Re: [PATCH 08/21] Hexagon (target/hexagon) Clean up pred_written usage
 Content-Language: en-US
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
  quic_mathbern@quicinc.com
-References: <20230426004154.1319172-1-tsimpson@quicinc.com>
+References: <20230426004202.1319250-1-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230426004154.1319172-1-tsimpson@quicinc.com>
+In-Reply-To: <20230426004202.1319250-1-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -97,27 +96,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/26/23 01:41, Taylor Simpson wrote:
-> These instructions have implicit writes to registers, so we don't
-> want them to be helpers when idef-parser is off.
+On 4/26/23 01:42, Taylor Simpson wrote:
+> Only endloop instructions will conditionally write to a predicate.
+> When there is an endloop instruction, we preload the values into
+> new_pred_value.
 > 
-> The following instructions are overriden
->      S2_cabacdecbin
->      SA1_cmpeqi
+> The only place pred_written is needed is when HEX_DEBUG is on.
 > 
-> Remove the log_pred_write function from op_helper.c
-> Remove references in macros.h
-> 
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
-> ---
->   target/hexagon/gen_tcg.h   | 16 +++++++
->   target/hexagon/helper.h    |  2 +
->   target/hexagon/macros.h    |  4 --
->   target/hexagon/genptr.c    |  5 ++
->   target/hexagon/op_helper.c | 96 ++++++++++++++++++++++++++++++++------
->   5 files changed, 104 insertions(+), 19 deletions(-)
+> We remove the last use of check_for_attrib.  However, new uses will be
+> introduced later in this series, so we change it to "static inline".
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+This is insufficient -- clang will warn about unused inline functions within the main C 
+file (as opposed to #included).
+
+Use __attribute__((unused)) instead, and remove it when it gains new unconditional uses.
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
