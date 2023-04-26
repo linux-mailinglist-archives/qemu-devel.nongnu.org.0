@@ -2,90 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A236EF87C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 18:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659C76EF87E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 18:33:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pri4M-00020Y-G0; Wed, 26 Apr 2023 12:32:38 -0400
+	id 1pri4d-000273-PL; Wed, 26 Apr 2023 12:32:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pri4I-0001zj-Ts
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:32:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1pri4a-00026Z-10; Wed, 26 Apr 2023 12:32:52 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pri4G-0007w3-DP
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:32:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682526751;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OeTDoLXS6RltfLC6Fu5jlG1TPes/2zUMmmT55z2xi4k=;
- b=A/ca5MB0ynGzbCHhAVYxci2LlC4Roxw4VtPMJ8IKSJZti3QFUARKOTOpENHe6H8cmyt27s
- Tiz5PxCHDNBRwPEZzBf3P6T6UPX96XY1VL8iWTZXXvCp4Ez/aicXqXj5wlyItMgPJ5GzIL
- xkYY4F29PqajbhG0uiU7cFUMAtR4M3Y=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-3JtXjnG-Nnu_BasG-ToNhw-1; Wed, 26 Apr 2023 12:32:29 -0400
-X-MC-Unique: 3JtXjnG-Nnu_BasG-ToNhw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-2f43679bcf5so4219544f8f.1
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 09:32:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682526736; x=1685118736;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OeTDoLXS6RltfLC6Fu5jlG1TPes/2zUMmmT55z2xi4k=;
- b=PdeTsclKAg8pNjaDIpxTR4ahdofYUdi/U0FZ++ems6KjgUoqPuWCCa4BV5RHnLFf5t
- TElF7f5XLr/ZSx3caaq8tCHJ1UuSoj70F3OUt9sZoZV3VmdEukQZNG7hYU169MARiAD5
- uDn1A0aW5cqJbeNgdD8Yx+HT/ORuq+Hl6jaQaL9a4iHWEQJWceAQpCMrh4WguFims5/a
- mwb9tlGOmmJlTrfw2NRiuh5ociCJrbM9q/3uesVYtCFFDUTTWRLOd0V56rySXpVVx6y1
- sqyocnrS+mqZ7n55aLOmeslH50XyxdkH31tGTaaf6sC+GjyC66jNL1Ot5M0jo0eqaqLQ
- yxeg==
-X-Gm-Message-State: AC+VfDwrbX0aiaKCeFPogyl7wvKg272wJkiQPfzaG7BEKV7qCzOtH+oy
- UYEX1FCCCxy2bARtWSadUTgCgfr19ZBRhBX7JiP7hHknQBrpwnfQz7dngopuXFB+mMp220VCnGz
- sGILaTbD2Cy9QOMZhSZ3gMTBbg8UoWkU=
-X-Received: by 2002:a5d:498c:0:b0:301:5615:26e4 with SMTP id
- r12-20020a5d498c000000b00301561526e4mr3101869wrq.32.1682526736671; 
- Wed, 26 Apr 2023 09:32:16 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ54wtmwg9wM0T61qy3gCLdnR6Fi2krR7r8lh0pS2WUhsJb8IRcLcAa8OH5NRm9XwrwZcuJSp46+pfuvm55/9oU=
-X-Received: by 2002:a5d:498c:0:b0:301:5615:26e4 with SMTP id
- r12-20020a5d498c000000b00301561526e4mr3101856wrq.32.1682526736420; Wed, 26
- Apr 2023 09:32:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1pri4Y-0007y2-5K; Wed, 26 Apr 2023 12:32:51 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id CE31A401B4;
+ Wed, 26 Apr 2023 19:32:39 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 93E3E86;
+ Wed, 26 Apr 2023 19:32:38 +0300 (MSK)
+Message-ID: <b1656b72-b550-29a4-a2f8-53492e9a3ad5@msgid.tls.msk.ru>
+Date: Wed, 26 Apr 2023 19:32:38 +0300
 MIME-Version: 1.0
-References: <20230424200248.1183394-1-jsnow@redhat.com>
- <ZEjmo7dRO0Vwcmo5@redhat.com>
- <1f69da1d-ef7a-40f9-7116-fdd572962543@redhat.com>
-In-Reply-To: <1f69da1d-ef7a-40f9-7116-fdd572962543@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 26 Apr 2023 12:32:02 -0400
-Message-ID: <CAFn=p-a9Nz446twKediLqu-dzox7X_27MG+=mxDEBAdj+uehFQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 00/20] configure: create a python venv and ensure
- meson, sphinx
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>,
- Beraldo Leal <bleal@redhat.com>, 
- Kyle Evans <kevans@freebsd.org>, Thomas Huth <thuth@redhat.com>, 
- Reinoud Zandijk <reinoud@netbsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000073283d05fa3fc82d"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PULL 01/31] virtio: refresh vring region cache after updating a
+ virtqueue size
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, =?UTF-8?Q?Carlos_L=c3=b3pez?=
+ <clopez@suse.de>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <cover.1682408661.git.mst@redhat.com>
+ <f0d634ea1964ccce317818c44fe299e71007e64d.1682408661.git.mst@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <f0d634ea1964ccce317818c44fe299e71007e64d.1682408661.git.mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -82
+X-Spam_score: -8.3
+X-Spam_bar: --------
+X-Spam_report: (-8.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,152 +67,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000073283d05fa3fc82d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+25.04.2023 10:44, Michael S. Tsirkin wrote:
+> From: Carlos López <clopez@suse.de>
+> 
+> When a virtqueue size is changed by the guest via
+> virtio_queue_set_num(), its region cache is not automatically updated.
+> If the size was increased, this could lead to accessing the cache out
+> of bounds. For example, in vring_get_used_event():
+> 
+>      static inline uint16_t vring_get_used_event(VirtQueue *vq)
+>      {
+>          return vring_avail_ring(vq, vq->vring.num);
+>      }
+> 
+>      static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
+>      {
+>          VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
+>          hwaddr pa = offsetof(VRingAvail, ring[i]);
+> 
+>          if (!caches) {
+>              return 0;
+>          }
+> 
+>          return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
+>      }
+> 
+> vq->vring.num will be greater than caches->avail.len, which will
+> trigger a failed assertion down the call path of
+> virtio_lduw_phys_cached().
 
-On Wed, Apr 26, 2023, 5:08 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+Is it not a stable-8.0 material?
+Michael, you dropped this patch from your previous pullreq
+for v8.0 already before..
 
-> On 4/26/23 10:53, Daniel P. Berrang=C3=A9 wrote:
-> > I think it'd be useful for support purposes if the configure
-> > script summary printed details of how we setup the venv.
-> > eg perhaps a summary for each python module of whether we
-> > added it to the venv, or relied on te site packages:
-> >
-> >     python venv: meson (site), sphinx (venv), avocado (venv)
->
-
-OK, I'll try to work this out.
-
-At the moment "already had the package" or "installed it from vendored
-source" is the same pip call, so it's hard to differentiate post-hoc
-without some further analysis.
-
-One reason this is hard is because I don't have a good method for quickly
-determining "Do we already have $package that fulfills $depspec" except by
-invoking pip, and that's costly, 500ms at the absolute fastest I have yet
-managed. 1.2s in more typical cases. Owowowow.
-
-So, for speed, I combine "do we already have it" and "can we install it
-from vendored source" into a single call to amortize pip startup cost.
-
-With Python 3.8+ I might be able to inspect the package post-hoc to find
-where it's installed to and determine if it came from system packages or
-not.
-
-It's easy to tell the user if we used PyPI or not, though.
-
-I'll experiment.
-
-
-> Yes, I agree John did a great job with the errors but a little more work
-> is needed to cleanup of mkvenv.py's logging of the "good" case.
-
-
-In the good case, it worked! you should be happy! :D
-
-(kidding.)
-
-  The
-> installation case is already covered by "pip install"'s output, but we
-> need to have something like:
->
-> mkvenv: Creating {isolated|non-isolated} virtual environment [based on
-> /home/pbonzini/myvenv]
->
-
-"based on ..." for nested venv case only?
-
-
-> and when creating the console-scripts shims:
->
-> mkvenv: Found avocado v90.0
->
-
-Sure. Up to the user at that point to figure out if we used that package or
-not.
-
-e.g. "found meson 0.5.0" might occur even if we require >=3D1.0.
-
-Simple to implement, though.
-
-
-> Paolo
->
->
-
---00000000000073283d05fa3fc82d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Apr 26, 2023, 5:08 AM Paolo Bonzini &lt;<a hre=
-f=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">On 4/26/23 10:53, Daniel P. Berrang=C3=A9 =
-wrote:<br>
-&gt; I think it&#39;d be useful for support purposes if the configure<br>
-&gt; script summary printed details of how we setup the venv.<br>
-&gt; eg perhaps a summary for each python module of whether we<br>
-&gt; added it to the venv, or relied on te site packages:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0python venv: meson (site), sphinx (venv), avocado (=
-venv)<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">OK, I&#39;ll try to work this out.</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">At the moment &quot;already had the package&quot; or &quot;=
-installed it from vendored source&quot; is the same pip call, so it&#39;s h=
-ard to differentiate post-hoc without some further analysis.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">One reason this is hard is because I =
-don&#39;t have a good method for quickly determining &quot;Do we already ha=
-ve $package that fulfills $depspec&quot; except by invoking pip, and that&#=
-39;s costly, 500ms at the absolute fastest I have yet managed. 1.2s in more=
- typical cases. Owowowow.</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-">So, for speed, I combine &quot;do we already have it&quot; and &quot;can =
-we install it from vendored source&quot; into a single call to amortize pip=
- startup cost.</div><div dir=3D"auto"><br></div><div dir=3D"auto">With Pyth=
-on 3.8+ I might be able to inspect the package post-hoc to find where it&#3=
-9;s installed to and determine if it came from system packages or not.</div=
-><div dir=3D"auto"><br></div><div dir=3D"auto">It&#39;s easy to tell the us=
-er if we used PyPI or not, though.</div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">I&#39;ll experiment.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Yes, I agree John did a great job with the errors but a little more work <b=
-r>
-is needed to cleanup of mkvenv.py&#39;s logging of the &quot;good&quot; cas=
-e.</blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">In=
- the good case, it worked! you should be happy! :D</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">(kidding.)</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=C2=
-=A0 The <br>
-installation case is already covered by &quot;pip install&quot;&#39;s outpu=
-t, but we <br>
-need to have something like:<br>
-<br>
-mkvenv: Creating {isolated|non-isolated} virtual environment [based on <br>
-/home/pbonzini/myvenv]<br></blockquote></div></div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">&quot;based on ...&quot; for nested venv case only?</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote=
-"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">
-<br>
-and when creating the console-scripts shims:<br>
-<br>
-mkvenv: Found avocado v90.0<br></blockquote></div></div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">Sure. Up to the user at that point to figure out=
- if we used that package or not.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">e.g. &quot;found meson 0.5.0&quot; might occur even if we require=
- &gt;=3D1.0.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Simple to i=
-mplement, though.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div c=
-lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Paolo<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000073283d05fa3fc82d--
-
+/mjt
 
