@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026276EF97E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 19:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367DF6EF980
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 19:36:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prj2p-0007t6-6R; Wed, 26 Apr 2023 13:35:07 -0400
+	id 1prj42-0000g1-ON; Wed, 26 Apr 2023 13:36:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prj2m-0007sg-8t
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 13:35:04 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prj2g-00020X-Kg
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 13:35:03 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f196e8e2c6so55944055e9.1
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 10:34:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682530497; x=1685122497;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qjFm4fkTbWPbOWsdgJzujfWEd3CNh8VkUM4ZsKcjNoc=;
- b=BwaQGEJyVQ7tSn7A1qvzqTUqm4iI7CbVEygAIjZUVqIIrO4eGappmC68OxwfJ6mPb4
- WyzX4uuZog7t/csogyhOJIQDo5lrqUGf22nbvFEYvEIIT//ZNHeNnb5Ao24VstlI3e2I
- sEWa+lrHVLFPGcx109W+XfrAEx0p/1V5vXNcaPXyrazy3oArSyr1V6VP+hdv46qwPpJU
- p0T8CzbMmtBYpT/89dn5Xfqr88O4iMQuYvaeSlW5aPKDut9fG402dbYvmbL3biLhM6Y0
- rIGO+yrr6PBOODbWg8WytuYj7CpVtjBli0U28qp0Izy79iPNiaDlMSPbg5GPIdnx1u+a
- AuBA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prj3y-0000fj-JX
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 13:36:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prj3v-0002Tf-5f
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 13:36:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682530558;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=LgSK8I6LuQZIBJ4ikWOGn7Voho5LolAh/IspLHRyJSk=;
+ b=RFOqs91c7Pvy7Hhq59gf8OYaLSbxee77YqsLul9xf6BA+j6iywM/M2U4Mh/mStUhmfydmy
+ 7VcaAcUGTCkHjqmm3ayhJtndkREJwXj75fX7GTbGLUiDk0R2V2+QGJ7Nl+EIrqSL8+fpG3
+ JU1hxa2NhENUEntnWgo/hSQRYXS0cJ8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-455-mep5BX_lNP-jP164lUHX9Q-1; Wed, 26 Apr 2023 13:35:30 -0400
+X-MC-Unique: mep5BX_lNP-jP164lUHX9Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f250e9e090so13876665e9.0
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 10:35:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682530497; x=1685122497;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qjFm4fkTbWPbOWsdgJzujfWEd3CNh8VkUM4ZsKcjNoc=;
- b=D0O8fquQl7RDZ7gFR5l3/0FPw/Ng0+XT3sHvKwJYteWS95aPgM4bsHUr1IOp3EY55A
- HE9QvJEcOqomJv52MKsO6IwSxc5pBZNHOPhJBK8d72cApgi2uJdlRM7MBJDYIApX/F16
- CY76AMUBLmKXiQl0AH8my50ddsTZ9CrQQ/pwVbAvtbPOyGC4Rf+5QtyyD8E9xPXbzWGI
- Cff24cN+AoAZjH7TtdqM7XdiRWNiLh3RfHmuh4QNcpZ1urBzhd0yx43opXuvthzpE0em
- HoHMid2YGAPhOxiGMcBdPgz7qvcawGRSskmQJLka1zHI9rtVtX47FfcwOpvOC3w68g42
- MF8w==
-X-Gm-Message-State: AAQBX9cwN+j8pXzx5JuRG8bLQ0kWnCWYCY79CQVF4HBCh2Jdj8yQ4Zi0
- xbbn94Q9fOdgV0MlGMLxeayTsQ==
-X-Google-Smtp-Source: AKy350a1RoYpW3Sdfi1HTAF2PFnbINyp2Vp/wGPd8J8NIIBRg5NZag7Vg8yOfFaP9oGA/a4918QmYQ==
-X-Received: by 2002:a7b:c003:0:b0:3f1:885f:2e52 with SMTP id
- c3-20020a7bc003000000b003f1885f2e52mr13094604wmb.16.1682530496863; 
- Wed, 26 Apr 2023 10:34:56 -0700 (PDT)
-Received: from [172.23.3.19] ([195.167.132.10])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a7bcd0f000000b003f182cc55c4sm18665533wmj.12.2023.04.26.10.34.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 10:34:56 -0700 (PDT)
-Message-ID: <961db72c-9295-2c40-9abe-65bc421d3de1@linaro.org>
-Date: Wed, 26 Apr 2023 18:34:54 +0100
+ d=1e100.net; s=20221208; t=1682530528; x=1685122528;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LgSK8I6LuQZIBJ4ikWOGn7Voho5LolAh/IspLHRyJSk=;
+ b=aBAUGqYz1TI3UT6D9/adYof0uzuFsMoqbR6j53E2NEQR3xE4+shK7QMEb8BKboTjWh
+ SxVwRIMHWwDJdrVe1AcVpAYyk3QCNK/5r33FPnOUY8rvw4Le5obxArpJ8oWX2RS7g3Wd
+ N4G2hwGlLg2nrr0EAOF1sFF3OKSBk3QaVYWQt3a1dlNB8BrCgD1XvigNFS54bg7GMqsx
+ x2WlLVLNALHZXCRj/4YHdLxLK0sVkI7m2hINy2h2E7eA9aCkOuh75udm0aZiTePDJyKt
+ 9c/P4bqIJ09Rf0DAJBztUwsi8fi+bLDrQzl11yJU0iX+M8J4M0RFZb3A3lGi84ALRykF
+ X5qw==
+X-Gm-Message-State: AAQBX9fxZR/zgH/lTEAgJM0Fol6tIgm4bfAXBqyA56LvZojWF/uB6p4k
+ G4SsCw0ziVTubTJ4pSSo9iWH8pcDzd/oOq/AAfUxZhCohhQG/e2NcUTRqZNaVWtDlca3A4UEJkA
+ uP5zMDo7rtu/JqGXHem1URbRN2EFy
+X-Received: by 2002:a05:600c:24cd:b0:3f1:7e3a:2ef2 with SMTP id
+ 13-20020a05600c24cd00b003f17e3a2ef2mr13134654wmu.14.1682530528809; 
+ Wed, 26 Apr 2023 10:35:28 -0700 (PDT)
+X-Google-Smtp-Source: AKy350acrPmR91HAf129K8CWxAUopYrC2vmkBIBy/XCgOwL/MncJ7BWkdEAKt7z7I65MewxKhyK6xw==
+X-Received: by 2002:a05:600c:24cd:b0:3f1:7e3a:2ef2 with SMTP id
+ 13-20020a05600c24cd00b003f17e3a2ef2mr13134635wmu.14.1682530528504; 
+ Wed, 26 Apr 2023 10:35:28 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ s9-20020adfdb09000000b00301a351a8d6sm15836391wri.84.2023.04.26.10.35.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Apr 2023 10:35:27 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org,  Peter Xu <peterx@redhat.com>,  Leonardo Bras
+ <leobras@redhat.com>
+Subject: Re: [PATCH] multifd: Fix the number of channels ready
+In-Reply-To: <87354mmudb.fsf@suse.de> (Fabiano Rosas's message of "Wed, 26 Apr
+ 2023 14:22:08 -0300")
+References: <20230426162307.11060-1-quintela@redhat.com>
+ <87354mmudb.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 26 Apr 2023 19:35:27 +0200
+Message-ID: <87r0s6eecg.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 03/21] Hexagon (target/hexagon) Add overrides for loop
- setup instructions
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
- quic_mathbern@quicinc.com
-References: <20230426004121.1318914-1-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230426004121.1318914-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,20 +97,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/26/23 01:41, Taylor Simpson wrote:
-> These instructions have implicit writes to registers, so we don't
-> want them to be helpers when idef-parser is off.
-> 
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
-> ---
->   target/hexagon/gen_tcg.h | 21 +++++++++++++++++++
->   target/hexagon/genptr.c  | 44 ++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 65 insertions(+)
+Fabiano Rosas <farosas@suse.de> wrote:
+> Juan Quintela <quintela@redhat.com> writes:
+>
+>> We don't wait in the sem when we are doing a sync_main.  Make it wait
+>> there.  To make things clearer, we mark the channel ready at the
+>> begining of the thread loop.
+>
+> So in other words we're estabilishing that "channel ready" means ready
+> to send, regardless of having sent the sync packet. Is that it?
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Yeap.
 
-r~
+There was a bug (from the beggining) that made the counter always get
+up and up.  This fixes it.
+
+It was always supposed to work this way.
+
+/me puts (second time in the week) a brown paper bag on head
+
+Later, Juan.
+
 
