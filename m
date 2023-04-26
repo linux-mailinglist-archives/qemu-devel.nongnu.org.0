@@ -2,73 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C9C6EEF63
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 09:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F256D6EEF6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 09:39:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prZhK-00054l-HU; Wed, 26 Apr 2023 03:36:18 -0400
+	id 1prZk6-0006fw-U2; Wed, 26 Apr 2023 03:39:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1prZhC-00053r-It; Wed, 26 Apr 2023 03:36:10 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1prZh9-0003al-CO; Wed, 26 Apr 2023 03:36:10 -0400
-Received: from [192.168.0.120] (unknown [180.165.241.15])
- by APP-01 (Coremail) with SMTP id qwCowAAXXJxI1Ehk0yccCw--.47983S2;
- Wed, 26 Apr 2023 15:35:37 +0800 (CST)
-Message-ID: <1d731da7-689a-d2a1-fc88-3902c006fe02@iscas.ac.cn>
-Date: Wed, 26 Apr 2023 15:35:36 +0800
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1prZk4-0006cT-OO
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 03:39:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1prZk2-0003vm-DL
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 03:39:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682494744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Xtr8x53TfTSZ9/HOmLj8GsqjZj7O3wMN/TpQPJ1Rt9w=;
+ b=alGzrC2uj5RykDrAqrfiga/Cpf/LiFgyt4vABedsh7Txz/wo9QpSaNQq1/Oi7RMUgL8/xM
+ JTplR54on0Z2pkruomtRrjyMu4elX8CJIbdWJLxEcZGCAinmpFfyBnrFrk8quaEL5mRV0d
+ +Ji0XXjZPQMKrcdW+M5XdleiFXSNK9k=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-320-OD5pxPuLOVmrTcxxjiw97w-1; Wed, 26 Apr 2023 03:39:03 -0400
+X-MC-Unique: OD5pxPuLOVmrTcxxjiw97w-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-5ef47299acdso39518426d6.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 00:39:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682494741; x=1685086741;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xtr8x53TfTSZ9/HOmLj8GsqjZj7O3wMN/TpQPJ1Rt9w=;
+ b=H/7+qFqUYlh83GZwqgcQgy2bLOx0ShUhfQvcdl+K88V2N00ZSPECWxgDgSEH5F7J+4
+ Wj3O1X8pjgnG6wU2X0IWdwnLgM4Gb322+FfjgzwRgr3xy/Hk8Qhkram4gJ2SsWLcYMMp
+ 6GAQsJDrYMt8Pu0hy5GT88WPiFH8l+Sj1Nj6i9EEC4HtE6B3cHF5PTMmQ0MbvPNa86jm
+ nA2y/lLE/6iQ6KMbn5gfTraN+AZwb58iRt/zNBIBPoQ6RxvIDwVtBOjmLquKSV2FofrH
+ +O7DaaLqLvzGPgu5e9Boy53lgo0Asz6Zwm+iuCwe41v/oLiE7ruN6wNVH3keDRQz7n4i
+ +92w==
+X-Gm-Message-State: AAQBX9dIqf9SQn9Fkx9hxVvLJNbDLREsmtjpgxDLQrmdzNW4m7hskz9c
+ IGitlg4SwpYneTMtlBWU5/a5jXM7a2M7NPjdsMwDmkUmTCsK+dI4RJkglbR32PX/3ISY/ZFn8sT
+ AAPq9Tm6665hObsU=
+X-Received: by 2002:a05:6214:400a:b0:5ef:4837:cd3f with SMTP id
+ kd10-20020a056214400a00b005ef4837cd3fmr31367404qvb.14.1682494741467; 
+ Wed, 26 Apr 2023 00:39:01 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YSwiqdPPLto2oaY51dFjB4gv5+wEzcKaikrN/FpQ2zeWwcjo6kKhLmtwWOX4laugdPysoQyQ==
+X-Received: by 2002:a05:6214:400a:b0:5ef:4837:cd3f with SMTP id
+ kd10-20020a056214400a00b005ef4837cd3fmr31367383qvb.14.1682494741129; 
+ Wed, 26 Apr 2023 00:39:01 -0700 (PDT)
+Received: from [192.168.149.117]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ o8-20020a0ccb08000000b005f4964785b1sm4668653qvk.0.2023.04.26.00.38.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Apr 2023 00:39:00 -0700 (PDT)
+Message-ID: <817ea28a-3fe8-d92e-5404-6bafc33fa67c@redhat.com>
+Date: Wed, 26 Apr 2023 09:38:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Cc: liweiwei@iscas.ac.cn
-Subject: Re: [RFC PATCH v2 1/9] riscv: implement Ssqosid extension and sqoscfg
- CSR
-To: Drew Fustini <dfustini@baylibre.com>, Ved Shanbhogue <ved@rivosinc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Nicolas Pitre <npitre@baylibre.com>,
- Adrien Ricciardi <aricciardi@baylibre.com>,
- =?UTF-8?Q?Kornel_Dul=c4=99ba?= <mindal@semihalf.com>
-References: <20230425203834.1135306-1-dfustini@baylibre.com>
- <20230425203834.1135306-2-dfustini@baylibre.com>
-Content-Language: en-US
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230425203834.1135306-2-dfustini@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: test-blockjob: intermittent CI failures in msys2-64bit job
+To: Hanna Czenczek <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Alberto Garcia <berto@igalia.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+References: <CAFEAcA_SeUuZRo7HQPUJgeaepoup29YdAuFaWjNL+fhEt+pmkA@mail.gmail.com>
+ <CAFEAcA87HtzYN76nHhHZBfazDZdoRnszgAt-e2CqBBWEoF6_2Q@mail.gmail.com>
+ <CAFEAcA-n+9N+0ZuE6MSD1aMBeGYAJTbQe=j1-2K=SgD_Ly6nEA@mail.gmail.com>
+ <df71d7b5-7723-eaff-3dcd-45f69186f6af@redhat.com>
+ <68834b18-1fab-ca2a-d131-71f75fc374a1@yandex-team.ru>
+ <e6eb754e-a825-f113-a9a7-0ca2006a00c6@redhat.com>
+ <f3f2e92c-d357-4fb9-e765-7f89dc895247@yandex-team.ru>
+ <78ad8ed0-e68a-5f4e-9627-454f0bd007fb@redhat.com>
+Content-Language: de-CH
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <78ad8ed0-e68a-5f4e-9627-454f0bd007fb@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAAXXJxI1Ehk0yccCw--.47983S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtFWDGFy7tw1rCFW7KF1ftFb_yoW7KF1UpF
- 4qka43Gws2yFy3Z3Wftr4UXwn5Aw4xGw42kws3uwn5Jrs3JrW8GFnrKrZFgFy8XFs8ur12
- 9Fs0vr1rCr4DXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-Originating-IP: [180.165.241.15]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,173 +115,196 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 2023/4/26 04:38, Drew Fustini wrote:
-> From: Kornel Dulęba <mindal@semihalf.com>
->
-> Implement the sqoscfg CSR defined by the Ssqosid ISA extension
-> (Supervisor-mode Quality of Service ID). The CSR contains two fields:
->
->    - Resource Control ID (RCID) used determine resource allocation
->    - Monitoring Counter ID (MCID) used to track resource usage
->
-> The CSR is defined for S-mode but accessing it when V=1 shall cause a
-> virtual instruction exception. Implement this behavior by calling the
-> hmode predicate.
->
-> Link: https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
-> Signed-off-by: Kornel Dulęba <mindal@semihalf.com>
-> [dfustini: rebase on v8.0.50, reword commit message]
-> Signed-off-by: Drew Fustini <dfustini@baylibre.com>
-> ---
-> Changes since v1:
-> - rebase on current master (v8.0.50) instead of 8.0.0-rc4
->
->   disas/riscv.c           |  1 +
->   target/riscv/cpu.c      |  2 ++
->   target/riscv/cpu.h      |  3 +++
->   target/riscv/cpu_bits.h |  5 +++++
->   target/riscv/csr.c      | 34 ++++++++++++++++++++++++++++++++++
->   5 files changed, 45 insertions(+)
->
-> diff --git a/disas/riscv.c b/disas/riscv.c
-> index d6b0fbe5e877..94336f54637b 100644
-> --- a/disas/riscv.c
-> +++ b/disas/riscv.c
-> @@ -2100,6 +2100,7 @@ static const char *csr_name(int csrno)
->       case 0x0143: return "stval";
->       case 0x0144: return "sip";
->       case 0x0180: return "satp";
-> +    case 0x0181: return "sqoscfg";
->       case 0x0200: return "hstatus";
->       case 0x0202: return "hedeleg";
->       case 0x0203: return "hideleg";
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1e97473af27b..fb3f8c43a32d 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -114,6 +114,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
->       ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
->       ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
->       ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
-> +    ISA_EXT_DATA_ENTRY(ssqosid, true, PRIV_VERSION_1_12_0, ext_ssqosid),
->       ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
->       ISA_EXT_DATA_ENTRY(svadu, true, PRIV_VERSION_1_12_0, ext_svadu),
->       ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
-> @@ -1397,6 +1398,7 @@ static Property riscv_cpu_extensions[] = {
->   
->       DEFINE_PROP_BOOL("svadu", RISCVCPU, cfg.ext_svadu, true),
->   
-> +    DEFINE_PROP_BOOL("ssqosid", RISCVCPU, cfg.ext_ssqosid, true),
->       DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
->       DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
->       DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 638e47c75a57..ffc1b5009d15 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -222,6 +222,8 @@ struct CPUArchState {
->       target_ulong mcause;
->       target_ulong mtval;  /* since: priv-1.10.0 */
->   
-> +    target_ulong sqoscfg;
-> +
->       /* Machine and Supervisor interrupt priorities */
->       uint8_t miprio[64];
->       uint8_t siprio[64];
-> @@ -454,6 +456,7 @@ struct RISCVCPUConfig {
->       bool ext_icboz;
->       bool ext_zicond;
->       bool ext_zihintpause;
-> +    bool ext_ssqosid;
->       bool ext_smstateen;
->       bool ext_sstc;
->       bool ext_svadu;
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index fca7ef0cef91..d11a3928735e 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -217,6 +217,7 @@
->   /* Supervisor Protection and Translation */
->   #define CSR_SPTBR           0x180
->   #define CSR_SATP            0x180
-> +#define CSR_SQOSCFG         0x181
->   
->   /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
->   #define CSR_SISELECT        0x150
-> @@ -898,4 +899,8 @@ typedef enum RISCVException {
->   #define MHPMEVENT_IDX_MASK                 0xFFFFF
->   #define MHPMEVENT_SSCOF_RESVD              16
->   
-> +/* SQOSCFG BITS (QOSID) */
-> +#define SQOSCFG_RCID                      0x00000FFF
-> +#define SQOSCFG_MCID                      0x0FFF0000
-> +
->   #endif
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d522efc0b63a..5769b3545704 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -2700,6 +2700,37 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
->       return RISCV_EXCP_NONE;
->   }
->   
-> +static RISCVException check_sqoscfg(CPURISCVState *env, int csrno)
-> +{
-> +    RISCVCPU *cpu = env_archcpu(env);
-> +
-> +    if (!cpu->cfg.ext_ssqosid) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    /*
-> +     * Even though this is an S-mode CSR the spec says that we need to throw
-> +     * and virt instruction fault if a guest tries to access it.
-> +     */
-> +    return hmode(env, csrno);
 
-If above comments is true, use hmode() here is not right, since it only 
-check whether H extension is supported.
+Am 25/04/2023 um 18:48 schrieb Hanna Czenczek:
+> On 24.04.23 20:32, Vladimir Sementsov-Ogievskiy wrote:
+>> On 24.04.23 16:36, Emanuele Giuseppe Esposito wrote:
+>>>
+>>>
+>>> Am 21/04/2023 um 12:13 schrieb Vladimir Sementsov-Ogievskiy:
+>>>> On 17.03.23 15:35, Thomas Huth wrote:
+>>>>> On 17/03/2023 11.17, Peter Maydell wrote:
+>>>>>> On Mon, 6 Mar 2023 at 11:16, Peter Maydell <peter.maydell@linaro.org>
+>>>>>> wrote:
+>>>>>>>
+>>>>>>> On Fri, 3 Mar 2023 at 18:36, Peter Maydell
+>>>>>>> <peter.maydell@linaro.org> wrote:
+>>>>>>>>
+>>>>>>>> I've noticed that test-blockjob seems to fail intermittently
+>>>>>>>> on the msys2-64bit job:
+>>>>>>>>
+>>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3872508803
+>>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3871061024
+>>>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3865312440
+>>>>>>>>
+>>>>>>>> Sample output:
+>>>>>>>> | 53/89
+>>>>>>>> ERROR:../tests/unit/test-blockjob.c:499:test_complete_in_standby:
+>>>>>>>> assertion failed: (job->status == JOB_STATUS_STANDBY) ERROR
+>>>>>>>> 53/89 qemu:unit / test-blockjob ERROR 0.08s exit status 3
+>>>>>>
+>>>>>>> Here's an intermittent failure from my macos x86 machine:
+>>>>>>>
+>>>>>>> 172/621 qemu:unit / test-blockjob
+>>>>>>>              ERROR           0.26s   killed by signal 6 SIGABRT
+>>>>>>
+>>>>>> And an intermittent on the freebsd 13 CI job:
+>>>>>> https://gitlab.com/qemu-project/qemu/-/jobs/3950667240
+>>>>>>
+>>>>>>>>> MALLOC_PERTURB_=197
+>>>>>>>>> G_TEST_BUILDDIR=/tmp/cirrus-ci-build/build/tests/unit
+>>>>>>>>> G_TEST_SRCDIR=/tmp/cirrus-ci-build/tests/unit
+>>>>>>>>> /tmp/cirrus-ci-build/build/tests/unit/test-blockjob --tap -k
+>>>>>> ▶ 178/650 /blockjob/ids
+>>>>>>              OK
+>>>>>> 178/650 qemu:unit / test-blockjob
+>>>>>>              ERROR           0.31s   killed by signal 6 SIGABRT
+>>>>>> ――――――――――――――――――――――――――――――――――――― ✀
+>>>>>> ―――――――――――――――――――――――――――――――――――――
+>>>>>> stderr:
+>>>>>> Assertion failed: (job->status == JOB_STATUS_STANDBY), function
+>>>>>> test_complete_in_standby, file ../tests/unit/test-blockjob.c, line
+>>>>>> 499.
+>>>>>>
+>>>>>>
+>>>>>> TAP parsing error: Too few tests run (expected 9, got 1)
+>>>>>> (test program exited with status code -6)
+>>>>>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+>>>>>>
+>>>>>> Anybody in the block team looking at these, or shall we just
+>>>>>> disable this test entirely ?
+>>>>>
+>>>>> I ran into this issue today, too:
+>>>>>
+>>>>>    https://gitlab.com/thuth/qemu/-/jobs/3954367101
+>>>>>
+>>>>> ... if nobody is interested in fixing this test, I think we should
+>>>>> disable it...
+>>>>>
+>>>>>    Thomas
+>>>>>
+>>>>
+>>>> I'm looking at this now, and seems that it's broken since
+>>>> 6f592e5aca1a27fe1c1f6 "job.c: enable job lock/unlock and remove
+>>>> Aiocontext locks", as it stops critical section by new
+>>>> aio_context_release() call exactly after bdrv_drain_all_and(), so it's
+>>>> not a surprise that job may start at that moment and the following
+>>>> assertion fires.
+>>>>
+>>>> Emanuele could please look at it?
+>>>>
+>>> Well if I understood correctly, the only thing that was preventing the
+>>> job from continuing was the aiocontext lock held.
+>>>
+>>> The failing assertion even mentions that:
+>>> /* Lock the IO thread to prevent the job from being run */
+>>> [...]
+>>> /* But the job cannot run, so it will remain on standby */
+>>> assert(job->status == JOB_STATUS_STANDBY);
+>>>
+>>> Essentially bdrv_drain_all_end() would wake up the job coroutine, but it
+>>> would anyways block somewhere after since the aiocontext lock was taken
+>>> by the test.
+>>>
+>>> Now that we got rid of aiocontext lock in job code, nothing prevents the
+>>> test from resuming.
+>>> Mixing job lock and aiocontext acquire/release is not a good idea, and
+>>> it would anyways block job_resume() called by bdrv_drain_all_end(), so
+>>> the test itself would deadlock.
+>>>
+>>> So unless @Kevin has a better idea, this seems to be just an "hack" to
+>>> test stuff that is not possible to do now anymore. What I would suggest
+>>> is to get rid of that test, or at least of that assert function. I
+>>> unfortunately cannot reproduce the failure, but I think the remaining
+>>> functions called by the test should run as expected.
+>>>
+>>
+>> Thanks! I agree. Probably, alternatively we could just expand the
+>> drained section, like
+>>
+>> @@ -488,12 +488,6 @@ static void test_complete_in_standby(void)
+>>      bdrv_drain_all_begin();
+>>      assert_job_status_is(job, JOB_STATUS_STANDBY);
+>>
+>> -    /* Lock the IO thread to prevent the job from being run */
+>> -    aio_context_acquire(ctx);
+>> -    /* This will schedule the job to resume it */
+>> -    bdrv_drain_all_end();
+>> -    aio_context_release(ctx);
+>> -
+>>      WITH_JOB_LOCK_GUARD() {
+>>          /* But the job cannot run, so it will remain on standby */
+>>          assert(job->status == JOB_STATUS_STANDBY);
+>> @@ -511,6 +505,7 @@ static void test_complete_in_standby(void)
+>>          job_dismiss_locked(&job, &error_abort);
+>>      }
+>>
+>> +    bdrv_drain_all_end();
+>>      aio_context_acquire(ctx);
+>>      destroy_blk(blk);
+>>      aio_context_release(ctx);
+>>
+>>
+>> But, seems that test wanted to specifically test job, that still in
+>> STANDBY exactly after drained section...
+>>
+>> [cc: Hanna]
+>>
+>> Hanna, it was your test (added in
+>> c2c731a4d35062295cd3260e66b3754588a2fad4, two years ago). Don't you
+>> remember was important to catch STANDBY job *after* a drained section?
+> 
+> I’m not quite sure, but I think the idea was that we basically try to
+> get as close to something that might come in over QMP.  Over QMP, you
+> can’t issue a job-complete while keeping everything drained, so I
+> wouldn’t just extend the drained section.
+> 
+> Getting rid of the assert function also seems pointless.  If we want to
+> test whether job-complete works on tests in standby, we must put the
+> test in standby, and verify this.  We can get rid of the test, of
+> course, but it is a regression test, so it isn’t like it was added just
+> for fun.  Then again, it’s now already effectively commented out via
+> environment variable, so it doesn’t seem like a loss in practice to to
+> fully drop it.
+> 
+> Anyway – the thing I wonder about is, if this is to test whether jobs in
+> standby can be completed…  Why don’t we just pause the job instead of
+> going through the context lock hassle?  I.e. just put a job_pause()
+> right after bdrv_drain_all_begin().
+> 
+> If I’m not mistaken, reproducing the bug in the test seems really simple
+> by adding a sleep(1) right before WITH_JOB_LOCK_GUARD(); and doing that
+> works just fine if only you have a job_pause() in the drained section. 
+> (And dropping the aio_context_acquire()/release() calls, because they
+> don’t do anything anymore.)
+> 
+Why sleep(1)? I have the patch ready:
 
-It need another check for guest mode access. And we should use smode() 
-instead of hmode() here.
+diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
+index a130f6fefb..8054b72afa 100644
+--- a/tests/unit/test-blockjob.c
++++ b/tests/unit/test-blockjob.c
+@@ -488,11 +488,15 @@ static void test_complete_in_standby(void)
+     bdrv_drain_all_begin();
+     assert_job_status_is(job, JOB_STATUS_STANDBY);
 
-> +}
-> +
-> +static RISCVException read_sqoscfg(CPURISCVState *env, int csrno,
-> +                                target_ulong *val)
++    /*
++     * Increase pause_count so that the counter is
++     * unbalanced and job won't resume
++     */
++    job_pause(job);
++
+     /* Lock the IO thread to prevent the job from being run */
+-    aio_context_acquire(ctx);
+     /* This will schedule the job to resume it */
+     bdrv_drain_all_end();
+-    aio_context_release(ctx);
 
-'target_ulong' is better to align with 'CPURISCVState'.
+     WITH_JOB_LOCK_GUARD() {
+         /* But the job cannot run, so it will remain on standby */
 
-Regards,
+But I don't get why we should sleep additionally.
 
-Weiwei Li
-
-> +{
-> +    *val = env->sqoscfg;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_sqoscfg(CPURISCVState *env, int csrno,
-> +                                 target_ulong val)
-> +{
-> +    env->sqoscfg = val & (SQOSCFG_RCID | SQOSCFG_MCID);
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +
-> +
->   static int read_vstopi(CPURISCVState *env, int csrno, target_ulong *val)
->   {
->       int irq, ret;
-> @@ -4182,6 +4213,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->       /* Supervisor Protection and Translation */
->       [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
->   
-> +    /* Supervisor-Level Quality of Service Identifier */
-> +    [CSR_SQOSCFG]  = { "sqoscfg",  check_sqoscfg, read_sqoscfg, write_sqoscfg },
-> +
->       /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
->       [CSR_SISELECT]   = { "siselect",   aia_smode, NULL, NULL, rmw_xiselect },
->       [CSR_SIREG]      = { "sireg",      aia_smode, NULL, NULL, rmw_xireg },
+Emanuele
 
 
