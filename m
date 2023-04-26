@@ -2,85 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C5B6EFB16
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 21:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79AD6EFB40
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 21:42:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prkme-0001Zd-9i; Wed, 26 Apr 2023 15:26:32 -0400
+	id 1prl0j-0004xd-JQ; Wed, 26 Apr 2023 15:41:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prkma-0001ZB-7F; Wed, 26 Apr 2023 15:26:29 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prkmV-0005pL-Vw; Wed, 26 Apr 2023 15:26:27 -0400
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-5069097bac7so13332813a12.0; 
- Wed, 26 Apr 2023 12:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682537182; x=1685129182;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2tFnhIL1In1G7GndfvtQ3M73F0+eXvoizq3Y580wxSI=;
- b=Nni2RCqR2P+pPtpXCI1YxJN9z+0k1I1VXpDiLdb5VxLvUQWVPspp/mSK0EEQDw7TSI
- SNLLQgUS+FQvhc+jK7X+DAKgotmxXJGEODjVdklDud/tpYNczFQFZuZcfGLZguRX+i/z
- spmSkI9rUyz0hIDhIhf1tQQx3blEZTOLqOdhVWAHM1nwUqDGB1FxmmiUAkNjrYLYut47
- EmQKVuVuDORBNIInTmtsfcYYiBkywB03Nl3YBP7RkToV3uYeCtw1eLEtNcG74W+vdEQS
- ecmoE+G5iYQoLD6z8KsFK/de2ixW4AoLS2OFtk4EjNMrjJQslscvueLtjgkALB29/HNt
- Zk3Q==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prl0h-0004x0-LB
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 15:41:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prl0f-0000A9-Nq
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 15:41:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682538060;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=sDFklaXk/CmEsuenWgVn5ttNWFkue6K2KMHX5GavEP0=;
+ b=YcHNubzpFh3O5YsG4+me/rGBD1lFz1ms+bmh3YDtFeW8yyPYPORyAEZE5MoL4DeXPipMMl
+ 4wiw7Pd45vnOHkTXBZjDi1ffutKNAmzhnY8ba3mxWWA2WxHFrOMl/spaOIvglEBxuBg2Wp
+ KAztdDqTuZN9IH1vEH6u3kSyRcB0MFI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-108-hpKA6BNFOk2mc8484kIkCw-1; Wed, 26 Apr 2023 15:40:59 -0400
+X-MC-Unique: hpKA6BNFOk2mc8484kIkCw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-30467a7020eso3419537f8f.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 12:40:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682537182; x=1685129182;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1682538058; x=1685130058;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2tFnhIL1In1G7GndfvtQ3M73F0+eXvoizq3Y580wxSI=;
- b=NqHwJCDG4Vk55xzMQsJPoSjMP4BIujvkHCI3/R3J9DebQ07GrJWLPKTlI0uk9INJYf
- Gvj+NsZuYUELFGvgUSzmLWSB8UNFdB4v2edLqsU/uJWvmWjkwvoCWWhrnByGovhtdQax
- CvLfszHqjffG4Zt179U6rGVnf8HJ3hfGUm0CfcBtgWbtNEd0W8cl40vZSVjadOfmFcIo
- kKSo5WQen5cSWICrT+o7PSrikTcT+Pa7gyU3N+GIj2EQy3bIXW3ocgsZg40QMNjHJr4L
- Iw+f0gOTJzGEnai5hnDgV40jR8h6xPmNZv0dehqjJR0i3HBCH1mEBarYSvUs6jsvMIbl
- ZsAA==
-X-Gm-Message-State: AAQBX9d9/OEQXt5/fZKFq71E8IM2BNc0eCZ22XZpLqr6IZPdPsuxi/UY
- 9uil0OAOqXqVUhOVhOY0B/Q=
-X-Google-Smtp-Source: AKy350ZV6+vkNh3dRCfX5HAW14I7UwxZ+J94QS7QgzwLdxQ5SBoeOlxZ6eLYY85PZ4BbtQHb6u4m8w==
-X-Received: by 2002:a17:906:fc11:b0:94e:c142:dfb1 with SMTP id
- ov17-20020a170906fc1100b0094ec142dfb1mr18340700ejb.61.1682537181856; 
- Wed, 26 Apr 2023 12:26:21 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-013-234-209.77.13.pool.telefonica.de.
- [77.13.234.209]) by smtp.gmail.com with ESMTPSA id
- gn2-20020a1709070d0200b009545230e682sm8390107ejc.91.2023.04.26.12.26.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 12:26:21 -0700 (PDT)
-Date: Wed, 26 Apr 2023 19:26:12 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH 01/13] hw/ide/pci: Expose legacy interrupts as GPIOs
-In-Reply-To: <1a4c06ca-9300-dbdf-34b1-b499f936249e@ilande.co.uk>
-References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-2-shentey@gmail.com>
- <1a4c06ca-9300-dbdf-34b1-b499f936249e@ilande.co.uk>
-Message-ID: <BBDDF399-1622-4EB3-9283-73BB9C6747AA@gmail.com>
+ bh=sDFklaXk/CmEsuenWgVn5ttNWFkue6K2KMHX5GavEP0=;
+ b=klORvLkY2Wkduuh/+cBtUcycXKnfpQvHNj/w5qHDMxMtEhoeFgYqgf6oQk3WqrG0qE
+ eQ3iO1+KPX8Jbnq67LjWjdJFNjB4+PV5nMEHcYljbph68SqQV8XIyJVjy2e20HeNfdak
+ +TA2N+bbUDcgWoVcxoeL8aeeXKa/j4e/HIjqiFG95nUS/nIidMlQ444QBew/oOB4eZyn
+ GPup+8iJLf/y36cuDkoH2GAli9ev/kvM/6Q0OW8DeEATKgn6hH6S4VEnWCk5LCDfcTQU
+ iVKcvQ5cfsk8eWcNaH6CXTCz1Waked5akaGgzSZFHNEJxUw4TI9Yfx/GXIXlHrDo1fCo
+ zbaw==
+X-Gm-Message-State: AAQBX9dZ8VGVI4JCzUEQG/UYjdXWIhRAHLzgPNDNLvPIvCT9o+RPOWRI
+ uUndIo+9yucFTfr8SRFpbNXyOMwkSeT9c0p8tzQS3djeM3QDY71L6fVCXYBquT9pCre7Z6aHi4L
+ 3/NA/WIjW7iuCkE4=
+X-Received: by 2002:adf:efc2:0:b0:2ef:4bea:b032 with SMTP id
+ i2-20020adfefc2000000b002ef4beab032mr15126218wrp.64.1682538058169; 
+ Wed, 26 Apr 2023 12:40:58 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z/7Q6yH0iBMItiwXnQial93jfzOn0UUoaVnzzZITZHq1K1r6H6aiLXUfD2gfcIcYN7233Z2g==
+X-Received: by 2002:adf:efc2:0:b0:2ef:4bea:b032 with SMTP id
+ i2-20020adfefc2000000b002ef4beab032mr15126212wrp.64.1682538057842; 
+ Wed, 26 Apr 2023 12:40:57 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ iv18-20020a05600c549200b003f17b91c3adsm22691420wmb.28.2023.04.26.12.40.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Apr 2023 12:40:56 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Stefan
+ Hajnoczi <stefanha@redhat.com>,  Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org,  Peter Xu <peterx@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 09/13] migration: Create migrate_tls_creds() function
+In-Reply-To: <75f595ed-39a2-446f-d1d1-83fba1e294ca@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Wed, 26 Apr 2023 21:55:14 +0300")
+References: <20230424183236.74561-1-quintela@redhat.com>
+ <20230424183236.74561-10-quintela@redhat.com>
+ <75f595ed-39a2-446f-d1d1-83fba1e294ca@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 26 Apr 2023 21:40:54 +0200
+Message-ID: <877ctye8jd.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,69 +100,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-Am 26=2E April 2023 10:41:30 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayl=
-and@ilande=2Eco=2Euk>:
->On 22/04/2023 16:07, Bernhard Beschow wrote:
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> On 24.04.23 21:32, Juan Quintela wrote:
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
 >
->> Exposing the legacy IDE interrupts as GPIOs allows them to be connected=
- in the
->> parent device through qdev_connect_gpio_out(), i=2Ee=2E without accessi=
-ng private
->> data of TYPE_PCI_IDE=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> ---
->>   hw/ide/pci=2Ec | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>=20
->> diff --git a/hw/ide/pci=2Ec b/hw/ide/pci=2Ec
->> index fc9224bbc9=2E=2E942e216b9b 100644
->> --- a/hw/ide/pci=2Ec
->> +++ b/hw/ide/pci=2Ec
->> @@ -522,10 +522,18 @@ void bmdma_init(IDEBus *bus, BMDMAState *bm, PCII=
-DEState *d)
->>       bm->pci_dev =3D d;
->>   }
->>   +static void pci_ide_init(Object *obj)
->> +{
->> +    PCIIDEState *d =3D PCI_IDE(obj);
->> +
->> +    qdev_init_gpio_out(DEVICE(d), d->isa_irq, ARRAY_SIZE(d->isa_irq));
->
->Just one minor nit: can we make this qdev_init_gpio_out_named() and call =
-it "isa-irq" to match? This is for 2 reasons: firstly these are PCI devices=
- and so an unnamed IRQ/gpio could be considered to belong to PCI, and secon=
-dly it gives the gpio the same name as the struct field=2E
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Yes, makes sense=2E
+> could be stricter "const char *"
+
+I change changed the patch just to reflect this.
 
 >
->From my previous email I think this should supercede Phil's patch at http=
-s://patchew=2Eorg/QEMU/20230302224058=2E43315-1-philmd@linaro=2Eorg/2023030=
-2224058=2E43315-2-philmd@linaro=2Eorg/=2E
+>> @@ -34,20 +34,19 @@ migration_tls_get_creds(MigrationState *s,
+>>                           Error **errp)
 >
->> +}
->> +
->>   static const TypeInfo pci_ide_type_info =3D {
->>       =2Ename =3D TYPE_PCI_IDE,
->>       =2Eparent =3D TYPE_PCI_DEVICE,
->>       =2Einstance_size =3D sizeof(PCIIDEState),
->> +    =2Einstance_init =3D pci_ide_init,
->>       =2Eabstract =3D true,
->>       =2Einterfaces =3D (InterfaceInfo[]) {
->>           { INTERFACE_CONVENTIONAL_PCI_DEVICE },
->
->Otherwise:
->
->Reviewed-by: Mark Cave-Ayland <mark=2Ecave-ayland@ilande=2Eco=2Euk>
->
->
->ATB,
->
->Mark=2E
+> "s" argument becomes unused, may be dropped.
+
+Good catch!
+
+I created the patches for this, will send after I send the PULL request.
+
+Thanks, Juan.
+
 
