@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 305DC6EF4AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 14:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD8B6EF4B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 14:52:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prebG-00088T-NR; Wed, 26 Apr 2023 08:50:22 -0400
+	id 1precq-0001CL-Gf; Wed, 26 Apr 2023 08:52:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prebE-000882-Ra; Wed, 26 Apr 2023 08:50:20 -0400
+ id 1preco-0001C8-6W; Wed, 26 Apr 2023 08:51:58 -0400
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1prebD-0003T4-DO; Wed, 26 Apr 2023 08:50:20 -0400
+ id 1precm-0003qW-ON; Wed, 26 Apr 2023 08:51:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7Ab4Mhnd26kazHuwxFXKphw0Z7TjOvzmKh5IYqMuL6Y=; b=P4wh1W/uJrZ+WiHDoaSj8mVNaL
- 35WKBfVGQRN/4bhBjjfsnCpk/9iewxvyCcM2B+C6BTe9aVYBVkE7fDo8nMLERez4bbtcg74VOKsaa
- CwXzB5x35ocLLMxx0KS/5zv5bUcpyFnqW5ik9udAHftO2QeBcAhKF8RKQ+U2Y7bjk5GAj8ZZzjzX5
- qT77sDm6l1nHURrS/V63sRde/uQ3IHVh0hNgeNVjqc0g/oghjsp1hj3FsmYnvII5yjPH8NgcyvgCh
- KG6V4kXyDQT7nQ1DsSV/DLTOE02/Svn45QJEygflG69vXIXo4Y9VSLHe2Hx1kG5irFDxWP+IpMlaa
- jtNlfudJCDC74pg8yGzDhIkyqC02lC+BgIlWBxWl5ALdr8Jg1w+1GitqqRE8Ib2BFMIbWPLbcBVHy
- 1MWs5pBw4ZbGeeu/i5Q0EluzII9Jm9QYHacBm65k6Io//dkgVkcx+2YcPg8C41Uw7BtV0ndHFRrJO
- j1hpeL6hws5jUkcdfTTqZwYuzQFdXoug2ncJCLMM5q9Xx8l2soaWQLRChGzu1jbLfkgYRP71XlnjC
- d+myh7WEHxiubVep0Ws0wnEdbLuOZBYmsL4j0M+B9tfCJ1DaZG3A3BREQmNaDglCv84BBjxF/tWkM
- 9cw1hDR/8F0ILn9yLFMdUdOXGiBx53SHFfBVCEIn8=;
+ bh=9kz83Rmyszinq3i1VUIXg72ps0VIxwis/jUYiPJELwQ=; b=Yd9hQ2NTcdWADwE87neWl6DmBy
+ dBsPfITLlD9aFiVoiHr87CXHQA3CWjrDxHuRQhPU7r4Gc1xTHbv+GBJQj1pchgWr3Gw43vaBJDOL2
+ bE+7+w8w1cq6qVjpWqr735tIAcq3ve/QL2p1Qh9to6PZ3MxZu/rMklLtCZm4UxbZGGdC1CaD9l7Ao
+ ZuHBVF8wb2DlxGLMeTTiC9nxwxB2lZM0paFHTkAR2CJiqgKjEfymiGtliB7JTxaKtIrLQthAW8b30
+ Z6H8JX+xMChygkoqh+Qpdclpg+YUQkQmTBQ4ijyz9KQVpITgrsUIZ2o0zno6a/8HMJMWmSqtYFTRb
+ OlNcP4VwzXxNzkhiBtbZY0LTULgvkOmsjdYl2q42x28739f5dNLYf7qTsBEHMQdlf5foato3gKWHX
+ i8FqCLymmjiOwuuijmXYA6XC0YK1tRaz2p3WHrty8xP5E8mnwVzIGcZ17Ckg2S3nApV8szHAUlPBN
+ lYxsfm2VhRfeVD+FIKGGxocQRAm6NusIqU684cWRvasYKC9yi6t5nhwee4iB17qJDLE4+TQP/nKIe
+ 1toqWoQGtV39joszt9rIEFfdBKlD1I34zuLnNztVZjyfkAsdJ4Fft/zcAKIWmAlq/49ZnHo/xRllZ
+ rKH/+RwG8YySS+YmJcJ63e6STpCIxvlTsJEoCbjxI=;
 Received: from host81-151-114-25.range81-151.btcentralplus.com
  ([81.151.114.25] helo=[10.8.0.6])
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1preaD-0002T7-02; Wed, 26 Apr 2023 13:49:20 +0100
-Message-ID: <a233b5c7-56a6-ac94-c7c1-9fa5da9acb9c@ilande.co.uk>
-Date: Wed, 26 Apr 2023 13:50:08 +0100
+ id 1prebf-0002Tx-BV; Wed, 26 Apr 2023 13:50:51 +0100
+Message-ID: <7f94c0cc-f5b1-fd5a-fbc0-114620d98dc6@ilande.co.uk>
+Date: Wed, 26 Apr 2023 13:51:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -48,21 +48,17 @@ To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
 Cc: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
  <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
+ Aurelien Jarno <aurelien@aurel32.net>
 References: <20230302224058.43315-1-philmd@linaro.org>
- <20230302224058.43315-4-philmd@linaro.org>
+ <20230302224058.43315-5-philmd@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230302224058.43315-4-philmd@linaro.org>
+In-Reply-To: <20230302224058.43315-5-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 81.151.114.25
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 03/18] hw/i386/pc_piix: Wire PIIX3 IDE ouput IRQs to
- ISA bus IRQs 14/15
+Subject: Re: [PATCH v3 04/18] hw/isa/piix4: Wire PIIX4 IDE ouput IRQs to ISA
+ bus IRQs 14/15
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -91,36 +87,30 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 02/03/2023 22:40, Philippe Mathieu-Daudé wrote:
 
-> Since pc_init1() has access to the ISABus*, retrieve the
-> ISA IRQs with isa_bus_get_irq().
+> piix4_realize() initialized an array of 16 ISA IRQs in
+> PIIX4State::isa[], use it to wire the IDE output IRQs.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   hw/i386/pc_piix.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
+>   hw/isa/piix4.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 126b6c11df..1e90b9ff0d 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -277,7 +277,13 @@ static void pc_init1(MachineState *machine,
->       if (pcmc->pci_enabled) {
->           PCIDevice *dev;
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index e0b149f8eb..702b458a3e 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -229,6 +229,8 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
 >   
-> -        dev = pci_create_simple(pci_bus, piix3_devfn + 1, TYPE_PIIX3_IDE);
-> +        dev = pci_new_multifunction(piix3_devfn + 1, false, TYPE_PIIX3_IDE);
-> +        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 0,
-> +                                    isa_bus_get_irq(isa_bus, 14));
-> +        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 1,
-> +                                    isa_bus_get_irq(isa_bus, 15));
-> +        pci_realize_and_unref(dev, pci_bus, &error_fatal);
-> +
->           pci_ide_create_devs(dev);
->           idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
->           idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
+>       /* IDE */
+>       qdev_prop_set_int32(DEVICE(&s->ide), "addr", dev->devfn + 1);
+> +    qdev_connect_gpio_out_named(DEVICE(&s->ide), "ide-irq", 0, s->isa[14]);
+> +    qdev_connect_gpio_out_named(DEVICE(&s->ide), "ide-irq", 1, s->isa[15]);
+>       if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
+>           return;
+>       }
 
-Another reason this probably isn't a good idea: you're having to call 
-qdev_connect_gpio_*() before realizing the device :(
+The wiring approach looks right, although again the qdev_connect_gpio_out*() should 
+be after qdev_realize().
 
 
 ATB,
