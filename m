@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728056EFB8E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 22:11:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A172F6EFB9B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 22:15:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prlSv-0003Yu-2q; Wed, 26 Apr 2023 16:10:13 -0400
+	id 1prlXh-0006Qb-PY; Wed, 26 Apr 2023 16:15:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prlSt-0003Yj-HZ
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 16:10:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prlSr-00050W-UM
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 16:10:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682539809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UKv9qPP1abQ4oDyWPLUI7DII4wc+W+bRFJjvO0rV4wo=;
- b=J+r/EorPWF5fBlPbETDomKVchErPzqZLPCNshLsxZzdv3iO60Pemy51iSWK70VFtmDjBUd
- goaN9PXjzxGSSprHCrcL0kOp4W/eNU0n6vduo3qNsaVc3nh1AVzDx53Uz7aYSrWbNgLefS
- kZsXIvRV1yyGdWlMDWmH28fVKBjUWEY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-00RBeTAINWelFldd8QGAQA-1; Wed, 26 Apr 2023 16:10:06 -0400
-X-MC-Unique: 00RBeTAINWelFldd8QGAQA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E75F858297;
- Wed, 26 Apr 2023 20:10:06 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6162D2166B41;
- Wed, 26 Apr 2023 20:10:05 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v5 2/2] migration: Make dirty_bytes_last_sync atomic
-Date: Wed, 26 Apr 2023 22:10:02 +0200
-Message-Id: <20230426201002.15414-3-quintela@redhat.com>
-In-Reply-To: <20230426201002.15414-1-quintela@redhat.com>
-References: <20230426201002.15414-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1prlXe-0006Py-L2; Wed, 26 Apr 2023 16:15:06 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1prlXb-0005ja-Bg; Wed, 26 Apr 2023 16:15:05 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-9505214c47fso1420479566b.1; 
+ Wed, 26 Apr 2023 13:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682540101; x=1685132101;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NLwZ9iqFziXoPuY85+aeQObl778YHYtMBZycHMfQsi0=;
+ b=Wfj4gJHAgdpDMBFrPt16g38PQgU891lDEcoPJQNKpoHn121KfbmjgLNHCC9WmNLL9s
+ cdXEnB0l7JBvO9gm7HHzYpWA8hy3wKlTBHXaAGWs0+/RXv+qCsM1PX/1r/+6wjb9uonf
+ yzplPCOz+1a2+RfVu3W4KU/dwrz2sx+gF0eVGh7HoPiuXtmpmrmSfZMAaPLDI8GIJ+1I
+ TgpmoNwv/T53B3SBGA1L6AoJxfpc04Wevaph9u4f+iyRQpEk/O1C26Rgpyjw9OtT3gjW
+ Tl0a3pRngnzvtuKBO/grRSc04NxCBEU0A5ZmUtW2+omF1RVuyx1ADpPV/3s352ShvLeX
+ 0KMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682540101; x=1685132101;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NLwZ9iqFziXoPuY85+aeQObl778YHYtMBZycHMfQsi0=;
+ b=IYCrNsjDMbAaRB8FJk6XCrZUGwi/FOUcglG34qcmrrPpnIKaMh9QjtqZmJD7tEmEoW
+ EUnnDRnoKkxgZnpsls0gu4TKtSyoEl245UtW5TJn/+Vkg082aoGTcih2smdniIhfOVKA
+ cPwsNlK4be//Tt9W/1wM7Y+qPxqesMvjHTUqAsF56+XGQdGbMOecD/EH7znot4AwKdQ9
+ NmRej8i6031ZJciiE+mq5gN0YvhOADyXEzem6mTegAtsY53h9pShIMiB6JR7Ld/BnU9p
+ BtRc+vPvPMNWNFv+fF3B1eGCGLMgUUahK+WdqkDVQx+bJt6OdUDBq7+86n0kBkPbSZvT
+ 7Eng==
+X-Gm-Message-State: AAQBX9d9VI/GzSP9pRgRbK/r8BqEazpWvMG2cLZpB5h0FwJmErqpcqoK
+ aDvVh3oYXhFPZBG55cShHN4=
+X-Google-Smtp-Source: AKy350Z3i9/S2rIM1pUFPmn1jiPEVTNYYiWBV6mcA5pluRah//vYcmOWL7ct6PrvJbfXDTRa5YOrXQ==
+X-Received: by 2002:a17:907:7f04:b0:94e:3d6f:9c0f with SMTP id
+ qf4-20020a1709077f0400b0094e3d6f9c0fmr22023632ejc.55.1682540100683; 
+ Wed, 26 Apr 2023 13:15:00 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-013-234-209.77.13.pool.telefonica.de.
+ [77.13.234.209]) by smtp.gmail.com with ESMTPSA id
+ qw16-20020a1709066a1000b00959b3c30f2csm3997595ejc.222.2023.04.26.13.14.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Apr 2023 13:15:00 -0700 (PDT)
+Date: Wed, 26 Apr 2023 20:14:51 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 10/13] hw/ide/piix: Reuse PCIIDEState::{cmd,data}_ops
+In-Reply-To: <612DFA62-40DC-44D3-88A9-797FB4EC1F48@gmail.com>
+References: <20230422150728.176512-1-shentey@gmail.com>
+ <20230422150728.176512-11-shentey@gmail.com>
+ <4ed18370-3a92-3ae5-912f-1f6dafab37d1@ilande.co.uk>
+ <612DFA62-40DC-44D3-88A9-797FB4EC1F48@gmail.com>
+Message-ID: <CD1A2767-74AD-4285-ADF8-1757B8DD7953@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,80 +97,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As we set its value, it needs to be operated with atomics.
-We rename it from remaining to better reflect its meaning.
 
-Statistics always return the real reamaining bytes.  This was used to
-store how much pages where dirty on the previous generation, so we can
-calculate the expected downtime as: dirty_bytes_last_sync /
-current_bandwith.
 
-If we use the actual remaining bytes, we would see a very small value
-at the end of the iteration.
+Am 26=2E April 2023 18:18:35 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>
+>
+>Am 26=2E April 2023 11:37:48 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ay=
+land@ilande=2Eco=2Euk>:
+>>On 22/04/2023 16:07, Bernhard Beschow wrote:
+>>
+>>> Now that PCIIDEState::{cmd,data}_ops are initialized in the base class
+>>> constructor there is an opportunity for PIIX to reuse these attributes=
+=2E This
+>>> resolves usage of ide_init_ioport() which would fall back internally t=
+o using
+>>> the isabus global due to NULL being passed as ISADevice by PIIX=2E
+>>>=20
+>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>>> ---
+>>>   hw/ide/piix=2Ec | 30 +++++++++++++-----------------
+>>>   1 file changed, 13 insertions(+), 17 deletions(-)
+>>>=20
+>>> diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
+>>> index a3a15dc7db=2E=2E406a67fa0f 100644
+>>> --- a/hw/ide/piix=2Ec
+>>> +++ b/hw/ide/piix=2Ec
+>>> @@ -104,34 +104,32 @@ static void piix_ide_reset(DeviceState *dev)
+>>>       pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
+>>>   }
+>>>   -static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, ISABus *i=
+sa_bus,
+>>> -                              Error **errp)
+>>> +static void pci_piix_init_bus(PCIIDEState *d, unsigned i, ISABus *isa=
+_bus)
+>>>   {
+>>>       static const struct {
+>>>           int iobase;
+>>>           int iobase2;
+>>>           int isairq;
+>>>       } port_info[] =3D {
+>>> -        {0x1f0, 0x3f6, 14},
+>>> -        {0x170, 0x376, 15},
+>>> +        {0x1f0, 0x3f4, 14},
+>>> +        {0x170, 0x374, 15},
+>>>       };
+>>> -    int ret;
+>>> +    MemoryRegion *address_space_io =3D pci_address_space_io(PCI_DEVIC=
+E(d));
+>>>         ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
+>>> -    ret =3D ide_init_ioport(&d->bus[i], NULL, port_info[i]=2Eiobase,
+>>> -                          port_info[i]=2Eiobase2);
+>>> -    if (ret) {
+>>> -        error_setg_errno(errp, -ret, "Failed to realize %s port %u",
+>>> -                         object_get_typename(OBJECT(d)), i);
+>>> -        return false;
+>>> -    }
+>>> +    memory_region_add_subregion(address_space_io, port_info[i]=2Eioba=
+se,
+>>> +                                &d->data_ops[i]);
+>>> +    /*
+>>> +     * PIIX forwards the last byte of cmd_ops to ISA=2E Model this us=
+ing a low
+>>> +     * prio so competing memory regions take precedence=2E
+>>> +     */
+>>> +    memory_region_add_subregion_overlap(address_space_io, port_info[i=
+]=2Eiobase2,
+>>> +                                        &d->cmd_ops[i], -1);
+>>
+>>Interesting=2E Is this behaviour documented somewhere and/or used in one=
+ of your test images at all? If I'd have seen this myself, I probably thoug=
+ht that the addresses were a typo=2E=2E=2E
+>
+>I first  stumbled upon this and wondered why this code was working with V=
+IA_IDE (through my pc-via branch)=2E Then I found the correct offsets there=
+ which are confirmed in the piix datasheet, e=2Eg=2E: "Secondary Control Bl=
+ock Offset: 0374h"
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+In case you were wondering about the forwarding of the last byte the datas=
+heet says: "Accesses to byte 3 of the Control Block are forwarded to ISA wh=
+ere the floppy disk controller responds=2E"
 
----
-
-I am open to use ram_bytes_remaining() in its only use and be more
-"optimistic" about the downtime.
-
-Don't use __nocheck() functions.
----
- migration/migration.c | 3 ++-
- migration/ram.c       | 2 +-
- migration/ram.h       | 2 +-
- 3 files changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index 712f802962..c81c65bf28 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2754,7 +2754,8 @@ static void migration_update_counters(MigrationState *s,
-      */
-     if (qatomic_read(&ram_counters.dirty_pages_rate) &&
-         transferred > 10000) {
--        s->expected_downtime = ram_counters.remaining / bandwidth;
-+        s->expected_downtime =
-+            qatomic_read(&ram_counters.dirty_bytes_last_sync) / bandwidth;
-     }
- 
-     qemu_file_reset_rate_limit(s->to_dst_file);
-diff --git a/migration/ram.c b/migration/ram.c
-index 7c534a41e0..704df661d1 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1223,7 +1223,7 @@ static void migration_bitmap_sync(RAMState *rs)
-         RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-             ramblock_sync_dirty_bitmap(rs, block);
-         }
--        ram_counters.remaining = ram_bytes_remaining();
-+        qatomic_set(&ram_counters.dirty_bytes_last_sync, ram_bytes_remaining());
-     }
-     qemu_mutex_unlock(&rs->bitmap_mutex);
- 
-diff --git a/migration/ram.h b/migration/ram.h
-index 3db0a9d65c..11a0fde99b 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -41,6 +41,7 @@
-  * one thread).
-  */
- typedef struct {
-+    aligned_uint64_t dirty_bytes_last_sync;
-     aligned_uint64_t dirty_pages_rate;
-     Stat64 dirty_sync_count;
-     Stat64 dirty_sync_missed_zero_copy;
-@@ -51,7 +52,6 @@ typedef struct {
-     Stat64 postcopy_bytes;
-     Stat64 postcopy_requests;
-     Stat64 precopy_bytes;
--    int64_t remaining;
-     Stat64 transferred;
- } RAMStats;
- 
--- 
-2.40.0
-
+>
+>>
+>>>       ide_bus_init_output_irq(&d->bus[i],
+>>>                               isa_bus_get_irq(isa_bus, port_info[i]=2E=
+isairq));
+>>>         bmdma_init(&d->bus[i], &d->bmdma[i], d);
+>>>       ide_bus_register_restart_cb(&d->bus[i]);
+>>> -
+>>> -    return true;
+>>>   }
+>>>     static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+>>> @@ -160,9 +158,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, E=
+rror **errp)
+>>>       }
+>>>         for (unsigned i =3D 0; i < 2; i++) {
+>>> -        if (!pci_piix_init_bus(d, i, isa_bus, errp)) {
+>>> -            return;
+>>> -        }
+>>> +        pci_piix_init_bus(d, i, isa_bus);
+>>>       }
+>>>   }
+>>>  =20
+>>
+>>
+>>ATB,
+>>
+>>Mark=2E
 
