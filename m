@@ -2,93 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785796EFAA3
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 21:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3EC6EFAAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 21:10:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prkVE-0001QJ-W5; Wed, 26 Apr 2023 15:08:34 -0400
+	id 1prkWt-0002kE-Mg; Wed, 26 Apr 2023 15:10:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prkV5-0001PO-6w
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 15:08:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1prkWp-0002hr-VI
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 15:10:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prkV3-0002ha-Fg
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 15:08:22 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1prkWo-00037M-IH
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 15:10:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682536100;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=EsUi4NGQajDlmCCoSNxbNmMW72x5j5Iw6dJcbLd5x3Y=;
- b=SemBD7lsofmV0ojT2eRZ8KIxphCvbXe1bDp46Zd12JX074+V1Isb8UP8VmPTmKN7JM616S
- QpenSPvSZKQ2Ksw55fHsarPfzsO+h/nP7WZLE7GA0dHwBVUaxzEWCBNEbgCK5yyrmjlIsE
- oCmCyGlewxVYNb+zwP0Dm/eTOiLIRyE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1682536209;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VrSuq2LEeUkAP98e8EWwupizJmXmPw1wxeEBaK5unao=;
+ b=NS5O0JjsAuCU6tZ+Ghm/b/jht/MpYIbQ9JDKPRBgpVDoqzjDCkRmqZJnz/0RYR90ndS0Md
+ d+MGL7iEdM7yNlrrUNrHm4CJEYHethXnFfVwgfStPf9fSh2knXX/kMpmbLko/w2trGOneg
+ Bcj2tHEC12RHSCP5A15eGgQb7pVncs4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-223-No7bRHS5Nz2wRjRROYQbcQ-1; Wed, 26 Apr 2023 15:08:17 -0400
-X-MC-Unique: No7bRHS5Nz2wRjRROYQbcQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-2fbb99cb2easo2479301f8f.1
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 12:08:17 -0700 (PDT)
+ us-mta-518-_cG2pT8APPGKgGch09LMkw-1; Wed, 26 Apr 2023 15:10:08 -0400
+X-MC-Unique: _cG2pT8APPGKgGch09LMkw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-5069f2ae8eeso696593a12.0
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 12:10:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682536096; x=1685128096;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EsUi4NGQajDlmCCoSNxbNmMW72x5j5Iw6dJcbLd5x3Y=;
- b=YVL102QpDXQd0OPFQ53rvOYYeR2VRIeWDAA+vSrq3qyNsvGwaLdVjhx7zftYspSr0J
- mesY3bAY8ooSuWJYtqy892FSyEP1L9k36YvFXfJGYz+hEjMWcMC/9/Ux43aJT4D660Wj
- aSptdskH4NO/2Qd/y5e74nAKTlw2TmVm/Tx0Z6+fHnBlNmnzTUSqtY1Y5BOpXRi4sGTL
- urnKNBpFpAsvPhbDFJ/l0vBy72egx6CKIxSav+sa+8ORkkadNFiLkWx7Z1ukVkr0jX/R
- o/+GGKHYuUaIzBPHD/ml0Qkq1QMuQuwlOmY4TGKYXlsH7JKy/uVeaB1DTWS/MAUay6m0
- TOxw==
-X-Gm-Message-State: AAQBX9cvbv1k9lmWiwmvsPN4vRHFqEFzrGNhGmt8MBLjXIFJl9q3z9rr
- zCaGsxz5kLxukcwHZac6Tuu1zd8OpTbHVd0qHnUd5nuKL0fvBksfdSpHQ5OTadXgTZoDCXcIWcl
- Y5E3mdNGOsGeFhyE=
-X-Received: by 2002:a5d:4f81:0:b0:2fe:c0ea:18b4 with SMTP id
- d1-20020a5d4f81000000b002fec0ea18b4mr15418567wru.24.1682536096759; 
- Wed, 26 Apr 2023 12:08:16 -0700 (PDT)
-X-Google-Smtp-Source: AKy350agW1sXsLOTc205wYBldZ/hwc+Bs6mwP6ZmL4+c6v27WO1jFeaQ3Pzah/scmtI7dcScp2P1tA==
-X-Received: by 2002:a5d:4f81:0:b0:2fe:c0ea:18b4 with SMTP id
- d1-20020a5d4f81000000b002fec0ea18b4mr15418556wru.24.1682536096431; 
- Wed, 26 Apr 2023 12:08:16 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- p10-20020a1c544a000000b003f03d483966sm22258679wmi.44.2023.04.26.12.08.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Apr 2023 12:08:15 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Stefan
- Hajnoczi <stefanha@redhat.com>,  Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org,  Peter Xu <peterx@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 08/13] migration: Remove MigrationState from
- block_cleanup_parameters()
-In-Reply-To: <6fe2c00c-d651-19f1-316b-eda65c5c2c7a@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Wed, 26 Apr 2023 21:51:40 +0300")
-References: <20230424183236.74561-1-quintela@redhat.com>
- <20230424183236.74561-9-quintela@redhat.com>
- <6fe2c00c-d651-19f1-316b-eda65c5c2c7a@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 26 Apr 2023 21:08:13 +0200
-Message-ID: <87bkjaea1u.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1682536207; x=1685128207;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VrSuq2LEeUkAP98e8EWwupizJmXmPw1wxeEBaK5unao=;
+ b=PhSHahL+SZ9HqjVkLALOLTIBx+LznxeNRevw/NiiBPqel7k8Kh4FoOMjQSntAdm+Vy
+ tR1HPEi+4q6LXizTZt/7JnWiK1OrMDjPXirJ+OimH2xt0mn2ajmsqRu9GtV80XzqHFyX
+ LfZ8vjeRgyyxmkYfbDzRecJC2uKXjzyuo6pcp+KGM/+wGXNV/14kV/q+wKJMASFkEiSL
+ S5OriEdeiFTfADnEg4m9USWiXt/ZLlGkC77yAW427z4rToFpweCCZby2a7DY/CaPMsiO
+ kGQCWc2rGbtp7kTeSukIFUQ4mf11CAM/zMN6+un9rh8LRPPmdfbTMQCe4eFaHY8yEILh
+ dBjw==
+X-Gm-Message-State: AC+VfDw2W5mOOrWa5vYCU1qq2uZ8kk2efciVk23d2nj+eB6YQRLvye6t
+ c3aj/y6/RS8Wo6zAVMNU23igAD0jxNoqKsIg4l0ik3mKld/xLnoivxOiSjy+jkONqBoz+xB3MGi
+ YSkYyoQsHG7B1/hE=
+X-Received: by 2002:a17:907:b025:b0:959:b757:e49 with SMTP id
+ fu37-20020a170907b02500b00959b7570e49mr2651999ejc.1.1682536206947; 
+ Wed, 26 Apr 2023 12:10:06 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7Zzjiik/hOjfpKWRM0tiCXxzZa0JOTBHyGkT3C1qgMyCyQ+OPfrcq1JIOA7PW+vtDyMtAt1Q==
+X-Received: by 2002:a17:907:b025:b0:959:b757:e49 with SMTP id
+ fu37-20020a170907b02500b00959b7570e49mr2651984ejc.1.1682536206651; 
+ Wed, 26 Apr 2023 12:10:06 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ x19-20020a1709065ad300b0095381e27d13sm8416406ejs.184.2023.04.26.12.10.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Apr 2023 12:10:05 -0700 (PDT)
+Message-ID: <9dbae22f-ba66-4e5a-50fa-4fc4b790983d@redhat.com>
+Date: Wed, 26 Apr 2023 21:10:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RFC PATCH v3 00/20] configure: create a python venv and ensure
+ meson, sphinx
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>,
+ Beraldo Leal <bleal@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230424200248.1183394-1-jsnow@redhat.com>
+ <87ab99cd-b3a6-22a5-ce2a-f569b2ef1213@redhat.com>
+ <74877b05-a904-8c51-4b50-bdd078a2fab3@redhat.com>
+ <CAFn=p-ZRUocSC+UhTs1FPNBbnY0q2c6b5_ZAxT7_C9LjB8MKWA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFn=p-ZRUocSC+UhTs1FPNBbnY0q2c6b5_ZAxT7_C9LjB8MKWA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,77 +112,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> On 24.04.23 21:32, Juan Quintela wrote:
->> This makes the function more regular with everything else.
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+On 4/26/23 18:16, John Snow wrote:
+> 
+>      > - I am ambivalent about keeping --enable/--disable-pypi in the first
+>      > committed patchset, but in any case I would move patches 16 and 20
+>      > before patch 15
+> 
+> I might be stubborn but I think I want to keep it in for now. If it 
+> needs redesigned to fit with the other flags you want to add, I think 
+> that's OK.
+> 
+> if we vendor the whl directly in qemu.git we won't need PyPI for meson, 
+> but it's still useful for Sphinx so I think I'm still leaning towards 
+> keeping it.
 
-Thanks.
+Yes, it's definitely useful.  It's just that unifying $python with 
+sphinx-build's interpreter is as a separate (and earlier) step than 
+introducing PyPI.
 
->> ---
->>   migration/migration.c | 4 ++--
->>   migration/options.c   | 4 +++-
->>   migration/options.h   | 2 +-
->>   3 files changed, 6 insertions(+), 4 deletions(-)
->> diff --git a/migration/migration.c b/migration/migration.c
->> index cefe6da2b8..ef8caa79b9 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -1218,7 +1218,7 @@ static void migrate_fd_cleanup(MigrationState *s)
->>           error_report_err(error_copy(s->error));
->>       }
->>       notifier_list_notify(&migration_state_notifiers, s);
->> -    block_cleanup_parameters(s);
->> +    block_cleanup_parameters();
->>       yank_unregister_instance(MIGRATION_YANK_INSTANCE);
->>   }
->>   @@ -1712,7 +1712,7 @@ void qmp_migrate(const char *uri, bool
->> has_blk, bool blk,
->>                      "a valid migration protocol");
->>           migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
->>                             MIGRATION_STATUS_FAILED);
->> -        block_cleanup_parameters(s);
->> +        block_cleanup_parameters();
->>           return;
->>       }
->>   diff --git a/migration/options.c b/migration/options.c
->> index 26fe00799b..f65b7babef 100644
->> --- a/migration/options.c
->> +++ b/migration/options.c
->> @@ -597,8 +597,10 @@ void migrate_set_block_incremental(bool value)
->>     /* parameters helpers */
->>   -void block_cleanup_parameters(MigrationState *s)
->> +void block_cleanup_parameters(void)
->>   {
->> +    MigrationState *s = migrate_get_current();
->> +
->>       if (s->must_remove_block_options) {
->>           /* setting to false can never fail */
->>           migrate_cap_set(MIGRATION_CAPABILITY_BLOCK, false, &error_abort);
->> diff --git a/migration/options.h b/migration/options.h
->> index 1fc8d341dd..3948218dbe 100644
->> --- a/migration/options.h
->> +++ b/migration/options.h
->> @@ -90,6 +90,6 @@ void migrate_set_block_incremental(bool value);
->>     bool migrate_params_check(MigrationParameters *params, Error
->> **errp);
->>   void migrate_params_init(MigrationParameters *params);
->> -void block_cleanup_parameters(MigrationState *s);
->> +void block_cleanup_parameters(void);
->
-> Don't you want to rename it to migrate_* ?
+> I'll try to refactor to keep it at the tail end of the series.
 
-The idea is to deprecate block migration.  There are much better things
-on the block layer to migrate disks.  So I think we can let it from now
-there.
+Cool, thanks.
 
+>     Just one extra thing, since we're changing so much of Python handling
+>     and since the code is written, I would keep the Debian 10 workarounds
+>     for now, and only drop them after we drop support for 3.6.
+> 
+> 
+> This series was written assuming we get to drop 3.6 as a prereq. Is that 
+> not the case?
+> 
+> Or did you mean to write 3.7 there?
 
-Later, Juan.
+Yes, 3.7.
+
+Paolo
 
 
