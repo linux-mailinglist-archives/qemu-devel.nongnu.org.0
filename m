@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8186EFB90
+	by mail.lfdr.de (Postfix) with ESMTPS id 728056EFB8E
 	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 22:11:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prlT0-0003Ze-7J; Wed, 26 Apr 2023 16:10:18 -0400
+	id 1prlSv-0003Yu-2q; Wed, 26 Apr 2023 16:10:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prlSy-0003ZW-Dm
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 16:10:16 -0400
+ id 1prlSt-0003Yj-HZ
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 16:10:11 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prlSu-00051C-UJ
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 16:10:16 -0400
+ id 1prlSr-00050W-UM
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 16:10:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682539812;
+ s=mimecast20190719; t=1682539809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jPHyCSjLtpWEDLa4l0TzlJ/JeARyRn2lQmHerQQ6Z6E=;
- b=BW/vZucJ70GelL2+8Cj6RsTf1K3hkFazhkl+zvwnIQLKNaMS50fpsKPToVRoRvXfHuopTo
- jYLNSuMjqo8qyPI+G3B4Zo+ETXZgsEJ1ouh0RSSz6Kxi/+iiBRnbVvepwzDBXrRunlrxQd
- 9cfOB8QUQ9dvoyB5EAi+UgVAbqZKGFk=
+ bh=UKv9qPP1abQ4oDyWPLUI7DII4wc+W+bRFJjvO0rV4wo=;
+ b=J+r/EorPWF5fBlPbETDomKVchErPzqZLPCNshLsxZzdv3iO60Pemy51iSWK70VFtmDjBUd
+ goaN9PXjzxGSSprHCrcL0kOp4W/eNU0n6vduo3qNsaVc3nh1AVzDx53Uz7aYSrWbNgLefS
+ kZsXIvRV1yyGdWlMDWmH28fVKBjUWEY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-127-4-29lNvFMeuOaE_u9aUdEg-1; Wed, 26 Apr 2023 16:10:06 -0400
-X-MC-Unique: 4-29lNvFMeuOaE_u9aUdEg-1
+ us-mta-237-00RBeTAINWelFldd8QGAQA-1; Wed, 26 Apr 2023 16:10:06 -0400
+X-MC-Unique: 00RBeTAINWelFldd8QGAQA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1EE5CA0F380;
- Wed, 26 Apr 2023 20:10:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E75F858297;
+ Wed, 26 Apr 2023 20:10:06 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 366802166B41;
- Wed, 26 Apr 2023 20:10:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6162D2166B41;
+ Wed, 26 Apr 2023 20:10:05 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v5 1/2] migration: Make dirty_pages_rate atomic
-Date: Wed, 26 Apr 2023 22:10:01 +0200
-Message-Id: <20230426201002.15414-2-quintela@redhat.com>
+Subject: [PATCH v5 2/2] migration: Make dirty_bytes_last_sync atomic
+Date: Wed, 26 Apr 2023 22:10:02 +0200
+Message-Id: <20230426201002.15414-3-quintela@redhat.com>
 In-Reply-To: <20230426201002.15414-1-quintela@redhat.com>
 References: <20230426201002.15414-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -79,75 +79,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In this case we use qatomic operations instead of Stat64 wrapper
-because there is no stat64_set().  Defining the 64 bit wrapper is
-trivial. The one without atomics is more interesting.
+As we set its value, it needs to be operated with atomics.
+We rename it from remaining to better reflect its meaning.
+
+Statistics always return the real reamaining bytes.  This was used to
+store how much pages where dirty on the previous generation, so we can
+calculate the expected downtime as: dirty_bytes_last_sync /
+current_bandwith.
+
+If we use the actual remaining bytes, we would see a very small value
+at the end of the iteration.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 
 ---
 
-Don't use __nocheck() variants
+I am open to use ram_bytes_remaining() in its only use and be more
+"optimistic" about the downtime.
+
+Don't use __nocheck() functions.
 ---
- migration/migration.c | 6 ++++--
- migration/ram.c       | 5 +++--
+ migration/migration.c | 3 ++-
+ migration/ram.c       | 2 +-
  migration/ram.h       | 2 +-
- 3 files changed, 8 insertions(+), 5 deletions(-)
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 22e8586623..712f802962 100644
+index 712f802962..c81c65bf28 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -1005,7 +1005,8 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
- 
-     if (s->state != MIGRATION_STATUS_COMPLETED) {
-         info->ram->remaining = ram_bytes_remaining();
--        info->ram->dirty_pages_rate = ram_counters.dirty_pages_rate;
-+        info->ram->dirty_pages_rate =
-+           qatomic_read(&ram_counters.dirty_pages_rate);
-     }
- }
- 
-@@ -2751,7 +2752,8 @@ static void migration_update_counters(MigrationState *s,
-      * if we haven't sent anything, we don't want to
-      * recalculate. 10000 is a small enough number for our purposes
+@@ -2754,7 +2754,8 @@ static void migration_update_counters(MigrationState *s,
       */
--    if (ram_counters.dirty_pages_rate && transferred > 10000) {
-+    if (qatomic_read(&ram_counters.dirty_pages_rate) &&
-+        transferred > 10000) {
-         s->expected_downtime = ram_counters.remaining / bandwidth;
+     if (qatomic_read(&ram_counters.dirty_pages_rate) &&
+         transferred > 10000) {
+-        s->expected_downtime = ram_counters.remaining / bandwidth;
++        s->expected_downtime =
++            qatomic_read(&ram_counters.dirty_bytes_last_sync) / bandwidth;
      }
  
+     qemu_file_reset_rate_limit(s->to_dst_file);
 diff --git a/migration/ram.c b/migration/ram.c
-index 01356f60a4..7c534a41e0 100644
+index 7c534a41e0..704df661d1 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -1129,8 +1129,9 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
-     double compressed_size;
+@@ -1223,7 +1223,7 @@ static void migration_bitmap_sync(RAMState *rs)
+         RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+             ramblock_sync_dirty_bitmap(rs, block);
+         }
+-        ram_counters.remaining = ram_bytes_remaining();
++        qatomic_set(&ram_counters.dirty_bytes_last_sync, ram_bytes_remaining());
+     }
+     qemu_mutex_unlock(&rs->bitmap_mutex);
  
-     /* calculate period counters */
--    ram_counters.dirty_pages_rate = rs->num_dirty_pages_period * 1000
--                / (end_time - rs->time_last_bitmap_sync);
-+    qatomic_set(&ram_counters.dirty_pages_rate,
-+                rs->num_dirty_pages_period * 1000 /
-+                (end_time - rs->time_last_bitmap_sync));
- 
-     if (!page_count) {
-         return;
 diff --git a/migration/ram.h b/migration/ram.h
-index a6e0d70226..3db0a9d65c 100644
+index 3db0a9d65c..11a0fde99b 100644
 --- a/migration/ram.h
 +++ b/migration/ram.h
-@@ -41,7 +41,7 @@
+@@ -41,6 +41,7 @@
   * one thread).
   */
  typedef struct {
--    int64_t dirty_pages_rate;
-+    aligned_uint64_t dirty_pages_rate;
++    aligned_uint64_t dirty_bytes_last_sync;
+     aligned_uint64_t dirty_pages_rate;
      Stat64 dirty_sync_count;
      Stat64 dirty_sync_missed_zero_copy;
-     Stat64 downtime_bytes;
+@@ -51,7 +52,6 @@ typedef struct {
+     Stat64 postcopy_bytes;
+     Stat64 postcopy_requests;
+     Stat64 precopy_bytes;
+-    int64_t remaining;
+     Stat64 transferred;
+ } RAMStats;
+ 
 -- 
 2.40.0
 
