@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F0F6EF863
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 18:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31C86EF84E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 18:21:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prhxU-00073Q-Ob; Wed, 26 Apr 2023 12:25:32 -0400
+	id 1prht8-0000qw-Kf; Wed, 26 Apr 2023 12:21:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1prhxQ-00072r-2p
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:25:30 -0400
-Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1prht1-0000pu-3i
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:20:55 -0400
+Received: from esa13.hc2706-39.iphmx.com ([216.71.137.83])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1prhxO-0006iv-2d
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:25:27 -0400
-X-IronPort-RemoteIP: 209.85.222.200
-X-IronPort-MID: 276150411
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1prhsy-0005pS-Jn
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 12:20:54 -0400
+X-IronPort-RemoteIP: 209.85.222.197
+X-IronPort-MID: 274887218
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:3OVDwqI5T4iG2NnFFE+RapclxSXFcZb7ZxGr2PjKsXjdYENShGdWz
- TEaXjjQbKnZM2r2eNAlaNiyoUgPvZ7UyN8yS1dorCE8RH908vbIVI+TRqvS04J+DSFhoGZPt
- Zh2hgzodZhsJpPkjk7xdOOn9T8kjvvgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziJ2yDhjlV
- ena+qUzA3f4nW8lWo4ow/jb8kg34K6s4GlwUmEWPpingnePzxH5M7pCfcldH1OgKqFIE+izQ
- fr0zb3R1gs1KD90V7tJOp6iGqE7aue60Tqm0xK6aID76vR2nRHe545gXBYqhea7vB3S9zx54
- I0lWZVd0m7FNIWV8AgWe0Aw/y2TocSqUVIISJSymZX78qHIT5fj669rAEIJIIIywPQ0EDFs1
- NMZdBk1bx/W0opawJrjIgVtrsEqLc2uJYBG/386lWmfAvEhTpTOBa7N4Le03h9q3pEITauYP
- ZBDL2A3NHwsYDUWUrsTIJs6jOGknFH1bntVpE/9Sa8fuTeNlVEpjOG0WDbTUo3WbMxOxXipn
- z/p3kXSEihKb/qayhPQpxpAgceKx0sXQrk6DbC967tmjUOewkQVDxsZU0b9puO24nNSQPpaI
- k0QvzMt9O08rhTzCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBdEmEZADD6nKfanQAX6
- 2I=
-IronPort-HdrOrdr: A9a23:qmTFV6ik1tiNBjnciSCKlXFfUHBQXgwji2hC6mlwRA09TyVXrb
- HLoB19726JtN91YhsdcL+7Sc+9qB/nhPxICMwqTMyftWrdyRaVxf9ZnPLfKlTbckWUh41gPO
- VbAtJD4bXLbWSS5vyKhzVQfexQpeWvweSDqd2b4U1QbTxHXYld0iYRMHflLqS0fmV77FgCea
- Z0KvAom9PZQwVuUi1zPBZlY9T+
-X-Talos-CUID: =?us-ascii?q?9a23=3AWGO+e2lXUwx09LGKheM9eOFxbxvXOSfYwHTvPkC?=
- =?us-ascii?q?SM3QqWe23aHCRpIpcksU7zg=3D=3D?=
-X-Talos-MUID: =?us-ascii?q?9a23=3AFlPTAw9RksNWxecreJB2R8aQf5Y0yq21U348qMg?=
- =?us-ascii?q?pmuivJRUgYBGYjx3iFw=3D=3D?=
-Received: from mail-qk1-f200.google.com ([209.85.222.200])
+IronPort-Data: A9a23:s32PR6BEe7p8rBVW/5Dhw5YqxClBgxIJ4kV8jS/XYbTApDh33zwDx
+ mUeDDuFPv6KNGKkf9wiOom09EgH6J7Rn4BkTANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
+ ynLQoCYdKjYdleF+lH2dOCn9SImvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYctitWia++3k
+ YqaT/b3ZRn0ilaYDkpOs/jY8E814qyo0N8llgdWic5j7Qe2e0Y9Ucp3yZGZdxPQXoRSF+imc
+ OfPpJnRErTxpkpF5nuNy94XQ2VTKlLgFVHmZkl+AsBOtiN/Shkaic7XAha9hXB/0F1ll/gpo
+ DlEWAfZpQ0BZ8Ugk8xEO/VU/r0X0QSrN9YrLFDm2fF/wXEqfFPj39VKFWcYF7YF2c9QP3weq
+ sEWAw4kO0Xra+KemNpXS8Fpj8UnadDoZcYR4yA/iz7eCvkiTNbIRKCiCd1whm9hwJATW6yEP
+ YxAOGUHgBfoOnWjPn8eDII4kP2AjGS5fjFFwL6QjfBovziDk1YogNABNvLSQp+YV+8IgH2Gt
+ 1vE0lTeKDo2M/m2nG/tHnWEw7WncTnAcJsfEaD9+vN0jVm7wGsVBxsLE1yhrpGEZlWWXtteL
+ wkN+XNro/FjqwqkSd7yWxD+q3mB1vIBZ+dt/yQBwFnl4sLpD8yxVjhsouJpADD+iPILeA==
+IronPort-HdrOrdr: A9a23:VfV79qOYir+728BcTv+jsMiBIKoaSvp037BL7TEVdfUxSKalfq
+ +V8sjzpSWYtN9vYgBZpTntAsm9qArnhOdICOoqTNWftWvd11dARbsKheCP/9SKIUzDH4BmpM
+ RdmxYSMqyVMbDH4PyKhjVRrLsbsb66zJw=
+X-Talos-CUID: 9a23:felHj2DPrRD65Bj6EyZ71GoNPO4PSWD+5VDuPh/nNGhCdpTAHA==
+X-Talos-MUID: 9a23:FdQ9YgRtX0mrjolKRXTrvHJwJu01/Z+wGXkPvKUhkeKoMglZbmI=
+Received: from mail-qk1-f197.google.com ([209.85.222.197])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 26 Apr 2023 12:20:24 -0400
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-74d62b70922so1142145485a.3
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 09:20:24 -0700 (PDT)
+ 26 Apr 2023 12:20:28 -0400
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-74dfe945c74so480491985a.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 09:20:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bu.edu; s=s1gsbu; t=1682526023; x=1685118023;
+ d=bu.edu; s=s1gsbu; t=1682526026; x=1685118026;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y8lqfGW40ktWobrkJtbGNnWDtsD/7tWAErgFuibUF9w=;
- b=FEYlrYCHHuX4QmzFaQ5KfpQhp00jrDbB9ZRDOMynR4KFyHWbhgl6Nork4IyBDFGuKn
- v5DrH3r3yVUuFuABYUNFh9xy1Q41lrGPJXz0QIIP5HCuH+0xE1BNSkCJK1wqtOAUW6nW
- rB6s1QsKlZcMiDJBbf0xawxp4anmNIfdit+8kSWpnNJ+rB6c7rM6a8Megz06kJ6/8XY/
- VAJB/+M38DwmBWuIU3fr7HEzasGtpl5/YnINdmoHUwybZqnbbGmeEnTA0Y6adtSIMO9n
- xQ3sXtF+Vl77JNp81kpM9uJgO3FBgIal6ak+SecSlICrFQf0FhskjBa484ouYB9MZiTn
- cSCA==
+ bh=68oaiYGL7UhG3W5jva6oSZ0GIeZDrcn2k6P7uHwGxlY=;
+ b=GPwkKqfMeRvTFAZrgPKv8bMlXpyYlBayJKhJzqHG5BIK6OrTDro8JzVteKvvXlbHlt
+ EB1n295qx5imnztk8ou4Fs8FjAciy1VcAZ0QKbqM9ylsYRwHRoTEA/LrN4gKPtbWJzyS
+ /AAyO8lrDZXNWjv7e5HfeEHZK+fAGyxkYLRi1z+CX1nSRs3mxHrce6l6ojymGhFJbJE5
+ m+xi9uE85yrD8cOvUGr4Rl1ZY2KwfLFIqzUM5Y4moyGWbwqU/L4CZXXOnxd019jCQUpJ
+ Xq1YccGNS8kFpEWQEfu3fvzbX/FdpGPqsGl2XcGCl25+Z9EOtAdUWUuXR53XumLyaLUa
+ Hi6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682526023; x=1685118023;
+ d=1e100.net; s=20221208; t=1682526026; x=1685118026;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=y8lqfGW40ktWobrkJtbGNnWDtsD/7tWAErgFuibUF9w=;
- b=N3U1Eyhe1Kh/9TyHSJLZgzo/G4Z/fh+vGpsBTzD/PjmqdAzk4OmMRD1pTcFP3eaEDS
- Oh1BmKtRxJSJ3/TkD7nW0qM6/3RCPsy/TnpGSKQHqs4Ris9hZTAIVWn4CgL0cZ6xZsoc
- ESUB9qt8+wtwMl0WqIfpRkjYpl4jT2XerUIF0vp8whaC+H1+O831naecK/G4bHnyOfMj
- PLe5g9TSH+45gT2ZQRSubt74aL2ervUunpI1bBeCghi+X4Mz5uilQKNMn71pOpHPZJZY
- K3FWsteeSrUo+67tVOYnXbO6kMoY+bGrGtl0ct3M+dbQAyn2zc2aJtSc99E6cgFKyP0W
- ckVA==
-X-Gm-Message-State: AAQBX9d3ABVnql4VY4tNee62ketMfzcbHn5o9nG+Ny/im9oTcXnL/Yo1
- VpATwePI/UIWdSOOImsfd9IZNHYAPThZ3uE5V1hwDPlRIH9q0d6RyBwrDgHLB4CJT46NF+H4uV7
- YnqU0lb7qgCqPyVRBlAuGYrz4HQ9Zp0ctoACt5wyEpwM=
-X-Received: by 2002:a05:6214:d67:b0:5ef:46a9:15d2 with SMTP id
- 7-20020a0562140d6700b005ef46a915d2mr40741316qvs.7.1682526022963; 
- Wed, 26 Apr 2023 09:20:22 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aDDhrY6YFKE9X7SgJ6MzvzBVadcWbwKdF+LFCJ3AQz2pkJzC5OKajgqomyhuFMm3gRhZyNpg==
-X-Received: by 2002:a05:6214:d67:b0:5ef:46a9:15d2 with SMTP id
- 7-20020a0562140d6700b005ef46a915d2mr40741269qvs.7.1682526022721; 
- Wed, 26 Apr 2023 09:20:22 -0700 (PDT)
+ bh=68oaiYGL7UhG3W5jva6oSZ0GIeZDrcn2k6P7uHwGxlY=;
+ b=fVyZSzRvkZAw5RXr3e+udrMgglTgxZMdhtQT1L5mLz37Sn+IO5M42rz9sP7i/wy8qn
+ euGCYjTlqp/xSqGrZeG+N2UZosUGJ4DfS/Gw5A4ehwVdXEmmY35UmCmkhcyNxtxtdEIl
+ Ri1/tXjC+92lhOU31/58pv3eTOyPfqjcn5xxTGgvMqssGYDNJL9j4jKJymdstpv8yL8+
+ TuhzNoOpi4FjL8gDk06n1YPCTxTC/V2l50bvd/BkG/iLGUA+KE1tmu4zwyHwQMkJgTz5
+ qBeDKr/Krrs/FW0mmT1jVNgG+GdiEVgmQiFo9qY7nvHrzz8QokoSM3fd33L9Pn9hGw/r
+ ZItQ==
+X-Gm-Message-State: AAQBX9dARgfI99DZlmTQgBkNdqTECQUlwa6ibAVMspI564CSKNzyNq6t
+ gZqriAOt1wNsVb2W3K0NIkwdnHITfbjccIZQ6qaIqKRlEaBPA3jQF+KGB78bWi442CT9ShKWhCs
+ gEim1IWy1168y9SI3KoaENgqBKfjBx6g7FYbFIpGW62M=
+X-Received: by 2002:a05:622a:170b:b0:3ef:2fbd:90ba with SMTP id
+ h11-20020a05622a170b00b003ef2fbd90bamr36987139qtk.43.1682526026314; 
+ Wed, 26 Apr 2023 09:20:26 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZQ8VKoo+uzlCju2hLXsNgUukt/YuhPXMH+1U2lg+TgXrBGRCGZoz4tHhYIZMqzVz3YbCwMlg==
+X-Received: by 2002:a05:622a:170b:b0:3ef:2fbd:90ba with SMTP id
+ h11-20020a05622a170b00b003ef2fbd90bamr36987110qtk.43.1682526026089; 
+ Wed, 26 Apr 2023 09:20:26 -0700 (PDT)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- z18-20020a0ca952000000b005dd8b9345d3sm4939392qva.107.2023.04.26.09.20.21
+ l13-20020a05622a050d00b003ef38277445sm5432332qtx.16.2023.04.26.09.20.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Apr 2023 09:20:22 -0700 (PDT)
+ Wed, 26 Apr 2023 09:20:25 -0700 (PDT)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -102,19 +98,19 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
  Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org (open list:Block I/O path)
-Subject: [PATCH v9 7/8] memory: abort on re-entrancy in debug builds
-Date: Wed, 26 Apr 2023 12:19:50 -0400
-Message-Id: <20230426161951.2948996-8-alxndr@bu.edu>
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org (open list:PReP)
+Subject: [PATCH v9 8/8] raven: disable reentrancy detection for iomem
+Date: Wed, 26 Apr 2023 12:19:51 -0400
+Message-Id: <20230426161951.2948996-9-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230426161951.2948996-1-alxndr@bu.edu>
 References: <20230426161951.2948996-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
- helo=esa7.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.137.83; envelope-from=alxndr@bu.edu;
+ helo=esa13.hc2706-39.iphmx.com
 X-Spam_score_int: -7
 X-Spam_score: -0.8
 X-Spam_bar: /
@@ -137,45 +133,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is useful for using unit-tests/fuzzing to detect bugs introduced by
-the re-entrancy guard mechanism into devices that are intentionally
-re-entrant.
+As the code is designed for re-entrant calls from raven_io_ops to
+pci-conf, mark raven_io_ops as reentrancy-safe.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- softmmu/memory.c | 3 +++
- util/async.c     | 3 +++
- 2 files changed, 6 insertions(+)
+ hw/pci-host/raven.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index af9365bb81..d038633a6c 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -547,6 +547,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-         !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
-         if (mr->dev->mem_reentrancy_guard.engaged_in_io) {
-             trace_memory_region_reentrant_io(get_cpu_index(), mr, addr, size);
-+#ifdef DEBUG
-+            abort();
-+#endif
-             return MEMTX_ACCESS_ERROR;
-         }
-         mr->dev->mem_reentrancy_guard.engaged_in_io = true;
-diff --git a/util/async.c b/util/async.c
-index a9b528c370..2dc9389e0d 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -160,6 +160,9 @@ void aio_bh_call(QEMUBH *bh)
-         last_engaged_in_io = bh->reentrancy_guard->engaged_in_io;
-         if (bh->reentrancy_guard->engaged_in_io) {
-             trace_reentrant_aio(bh->ctx, bh->name);
-+#ifdef DEBUG
-+            abort();
-+#endif
-         }
-         bh->reentrancy_guard->engaged_in_io = true;
-     }
+diff --git a/hw/pci-host/raven.c b/hw/pci-host/raven.c
+index 072ffe3c5e..9a11ac4b2b 100644
+--- a/hw/pci-host/raven.c
++++ b/hw/pci-host/raven.c
+@@ -294,6 +294,13 @@ static void raven_pcihost_initfn(Object *obj)
+     memory_region_init(&s->pci_memory, obj, "pci-memory", 0x3f000000);
+     address_space_init(&s->pci_io_as, &s->pci_io, "raven-io");
+ 
++    /*
++     * Raven's raven_io_ops use the address-space API to access pci-conf-idx
++     * (which is also owned by the raven device). As such, mark the
++     * pci_io_non_contiguous as re-entrancy safe.
++     */
++    s->pci_io_non_contiguous.disable_reentrancy_guard = true;
++
+     /* CPU address space */
+     memory_region_add_subregion(address_space_mem, PCI_IO_BASE_ADDR,
+                                 &s->pci_io);
 -- 
 2.39.0
 
