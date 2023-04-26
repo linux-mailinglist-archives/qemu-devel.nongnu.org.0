@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6726EEDE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 07:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C8D6EEDDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 07:59:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prYAX-0006Jg-Up; Wed, 26 Apr 2023 01:58:21 -0400
+	id 1prYAY-0006L3-Te; Wed, 26 Apr 2023 01:58:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA4-00064y-B3
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:52 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA7-00067i-L5
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:55 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA1-0002ko-CM
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1prYA4-0002m2-Dq
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 01:57:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682488668;
+ s=mimecast20190719; t=1682488671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jRk1nFbnqOhorbVjQ1hQZKVhXqGBVGhh4vs3W09hBcI=;
- b=gXm7AkJ+QNccwmY226zx1bPEGsw9ue657brvyyRu+gYAL2OJhY/OBQFPrwmlBG8gGw9gJR
- 8tc66JW8vFZbgo+MEJ2BFHjAUD7M9xcwXBceOpPhJ+Wg2FmaVTVhgvsxv/NQnwYlJkxxxF
- ksG5ebISyUO/Pk9ylT7FJncp9BH2yvo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nVDfzAF6LV/svDWG8x3EvjcEqX00xRmByzKi14lXILc=;
+ b=Ue9Ayi9kCfnyAkY2LGi0CPtv5W9J/JOnLABLQGPr+js3BxFVSEoDY7Q+RjgoaZONrDz7Bb
+ Qhnx9VE9xLlWLJEisjpRiYgV1jNh6f6vyxrEjmY94DtZpXxnCgEVOg2Or4DdoDPT5b/R+k
+ kQUO8pHEfd+nO/dg808eiDgf6PEMd9k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121-ndPmPqqxPaCrocgvqVcDiw-1; Wed, 26 Apr 2023 01:57:46 -0400
-X-MC-Unique: ndPmPqqxPaCrocgvqVcDiw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-361-1xofCn7XOF6LMvegbhd8RQ-1; Wed, 26 Apr 2023 01:57:46 -0400
+X-MC-Unique: 1xofCn7XOF6LMvegbhd8RQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 805401C06EDE;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80769185A791;
  Wed, 26 Apr 2023 05:57:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F7452027045;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60412492B0F;
  Wed, 26 Apr 2023 05:57:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3636421F9821; Wed, 26 Apr 2023 07:57:44 +0200 (CEST)
+ id 3871A21F9824; Wed, 26 Apr 2023 07:57:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
-	Eric Blake <eblake@redhat.com>
-Subject: [PULL 11/17] tests/qapi-schema: Clean up positive test for
- conditionals
-Date: Wed, 26 Apr 2023 07:57:38 +0200
-Message-Id: <20230426055744.1041930-12-armbru@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 12/17] tests/qapi-schema: Cover optional conditional struct
+ member
+Date: Wed, 26 Apr 2023 07:57:39 +0200
+Message-Id: <20230426055744.1041930-13-armbru@redhat.com>
 In-Reply-To: <20230426055744.1041930-1-armbru@redhat.com>
 References: <20230426055744.1041930-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -80,97 +80,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Union TestIfUnion is conditional on macros TEST_IF_UNION and
-TEST_IF_STRUCT.  It uses TestIfEnum, which is conditional on macro
-TEST_IF_ENUM.  If TEST_IF_UNION and TEST_IF_STRUCT are defined, but
-TEST_IF_ENUM isn't, the generated code won't compile.
-
-Command test-if-cmd is conditional an macros TEST_IF_CMD and
-TEST_IF_STRUCT, and uses TestIfEnum.  Similar issue.
-
-Event TEST_IF_EVENT is conditional an macros TEST_IF_EVT and
-TEST_IF_STRUCT, and uses TestIfEnum.  Similar issue.
-
-Replace the uses of TestIfEnum in the latter two by str.
-
-TestIfUnion is now TestIfEnum's only user.  Change TestIfEnum's
-condition to TEST_IF_UNION.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230316071325.492471-12-armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-[Commit message corrected]
+Message-Id: <20230316071325.492471-13-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- tests/qapi-schema/qapi-schema-test.json | 6 +++---
- tests/qapi-schema/qapi-schema-test.out  | 8 +++-----
- 2 files changed, 6 insertions(+), 8 deletions(-)
+ tests/qapi-schema/qapi-schema-test.json | 3 ++-
+ tests/qapi-schema/qapi-schema-test.out  | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-index 5728d4de38..8f0ee95d23 100644
+index 8f0ee95d23..f1f742d38c 100644
 --- a/tests/qapi-schema/qapi-schema-test.json
 +++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -225,7 +225,7 @@
+@@ -220,7 +220,8 @@
+ 
+ { 'struct': 'TestIfStruct',
+   'data': { 'foo': 'int',
+-            'bar': { 'type': 'int', 'if': 'TEST_IF_STRUCT_MEMBER'} },
++            'bar': { 'type': 'int', 'if': 'TEST_IF_STRUCT_MEMBER'},
++            '*baz': { 'type': 'str', 'if': 'TEST_IF_STRUCT_MEMBER'} },
+   'if': 'TEST_IF_STRUCT' }
  
  { 'enum': 'TestIfEnum',
-   'data': [ 'foo', { 'name' : 'bar', 'if': 'TEST_IF_ENUM_MEMBER' } ],
--  'if': 'TEST_IF_ENUM' }
-+  'if': 'TEST_IF_UNION' }
- 
- { 'union': 'TestIfUnion',
-   'base': { 'type': 'TestIfEnum' },
-@@ -250,7 +250,7 @@
- { 'command': 'test-if-cmd',
-   'data': {
-     'foo': 'TestIfStruct',
--    'bar': { 'type': 'TestIfEnum', 'if': 'TEST_IF_CMD_ARG' } },
-+    'bar': { 'type': 'str', 'if': 'TEST_IF_CMD_ARG' } },
-   'returns': 'UserDefThree',
-   'if': { 'all': ['TEST_IF_CMD', 'TEST_IF_STRUCT'] } }
- 
-@@ -258,7 +258,7 @@
- 
- { 'event': 'TEST_IF_EVENT',
-   'data': { 'foo': 'TestIfStruct',
--            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_ARG' } },
-+            'bar': { 'type': ['str'], 'if': 'TEST_IF_EVT_ARG' } },
-   'if': { 'all': ['TEST_IF_EVT', 'TEST_IF_STRUCT'] } }
- 
- { 'event': 'TEST_IF_EVENT2', 'data': {},
 diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
-index cbd96f0b24..715f3a3f23 100644
+index 715f3a3f23..cee92c0d2e 100644
 --- a/tests/qapi-schema/qapi-schema-test.out
 +++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -252,7 +252,7 @@ enum TestIfEnum
+@@ -247,6 +247,8 @@ object TestIfStruct
+     member foo: int optional=False
+     member bar: int optional=False
+         if TEST_IF_STRUCT_MEMBER
++    member baz: str optional=True
++        if TEST_IF_STRUCT_MEMBER
+     if TEST_IF_STRUCT
+ enum TestIfEnum
      member foo
-     member bar
-         if TEST_IF_ENUM_MEMBER
--    if TEST_IF_ENUM
-+    if TEST_IF_UNION
- object q_obj_TestIfUnion-base
-     member type: TestIfEnum optional=False
-     if {'all': ['TEST_IF_UNION', 'TEST_IF_STRUCT']}
-@@ -283,7 +283,7 @@ command test-if-alternate-cmd q_obj_test-if-alternate-cmd-arg -> None
-     if {'all': ['TEST_IF_ALT', 'TEST_IF_STRUCT']}
- object q_obj_test-if-cmd-arg
-     member foo: TestIfStruct optional=False
--    member bar: TestIfEnum optional=False
-+    member bar: str optional=False
-         if TEST_IF_CMD_ARG
-     if {'all': ['TEST_IF_CMD', 'TEST_IF_STRUCT']}
- command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
-@@ -291,11 +291,9 @@ command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
-     if {'all': ['TEST_IF_CMD', 'TEST_IF_STRUCT']}
- command test-cmd-return-def-three None -> UserDefThree
-     gen=True success_response=True boxed=False oob=False preconfig=False
--array TestIfEnumList TestIfEnum
--    if TEST_IF_ENUM
- object q_obj_TEST_IF_EVENT-arg
-     member foo: TestIfStruct optional=False
--    member bar: TestIfEnumList optional=False
-+    member bar: strList optional=False
-         if TEST_IF_EVT_ARG
-     if {'all': ['TEST_IF_EVT', 'TEST_IF_STRUCT']}
- event TEST_IF_EVENT q_obj_TEST_IF_EVENT-arg
 -- 
 2.39.2
 
