@@ -2,81 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748CB6EF310
+	by mail.lfdr.de (Postfix) with ESMTPS id 7838C6EF311
 	for <lists+qemu-devel@lfdr.de>; Wed, 26 Apr 2023 13:06:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prcxM-0004x7-09; Wed, 26 Apr 2023 07:05:04 -0400
+	id 1prcxo-00056V-Rb; Wed, 26 Apr 2023 07:05:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1prcxJ-0004u9-9V
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 07:05:01 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1prcxH-00085c-Cs
- for qemu-devel@nongnu.org; Wed, 26 Apr 2023 07:05:00 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f195b164c4so36048105e9.1
- for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 04:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682507097; x=1685099097;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=o5FgA/nqKiM3bIk4Z6oCwmP/fYv1VeuGEadN/P5+nkk=;
- b=Fgs2QXn+88qOSxmyzuhM+EW1zXSHPropl/B/dBpcIu8KfWZ7B6p8ekvsa7+jqb0KXd
- wh/IUjW48uZ+31nuYzfIn4/qUFfM9uGysvIchtdOgkLIX8f6kgVJbv8KSglzfsHgLx6A
- 6div38l1vQtGg5i21VsE9rgl2PLE+o9lRCeWETAaH0IBrEkR2SY43eqIuk9mczBT0Vgs
- ppNFeCpognup5f5UOyvUx2sT4s4Y/tLFJWFCvwqKlz0QPaedm2sN8JlbsZQviO9xi+uV
- f3REVa104S8QZbFuk9rqD24Rrhim1sEDf1qDA1JSjU5N7eqbVKJgSGSKjXPC/ap3r/j9
- y/jw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prcxd-00055s-SC
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 07:05:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1prcxa-0008It-TI
+ for qemu-devel@nongnu.org; Wed, 26 Apr 2023 07:05:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682507117;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=oYVjKBsMW2/OZIDyd/lIknWhI95fwYMRmBqPl47L0+I=;
+ b=fRtW1HWLBdmJT0qoG3dlLhn7/tSxWT2TYuj0/ExOd2OmU3/0A51B/FoXnHjcOsbc+LC6Np
+ F+wyaCdLnkFR3eBWrwQ7fhhnucWjxUPvffqWSzXKpt7TUylFyuMGpQX9+JnCdMyw90Kre2
+ bzUMpKIF2RHbnuswnhfZy7hpl+5PW+I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-586-ixZxVQ4bOpGaIzxVXoRPfA-1; Wed, 26 Apr 2023 07:05:16 -0400
+X-MC-Unique: ixZxVQ4bOpGaIzxVXoRPfA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f1763fac8bso43440605e9.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Apr 2023 04:05:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682507097; x=1685099097;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o5FgA/nqKiM3bIk4Z6oCwmP/fYv1VeuGEadN/P5+nkk=;
- b=j0lKunQoO0palaH4xBgECk89Y1BxZ/bAe/leVTxk9Qwt7Dd74gc5VHFhjzFg/1mDnI
- wSxEDPMld5EPnlW7Pc3PgqMPf0q8PTybbSSUkfHORQHZIdHXmC7tVX0kJheP+rlJTt+o
- /+dBzEEe5fnKOO4RIJ1YeGa6ICmW+oQlKwpUSNXOLEJJ43CdN/SaR4jJjejm/TzWABvS
- FyzXZ0kKQrTXkDDYCQY6cnxxHr6sM5hICOAYPrO3VjoaUJKCwHPXX0KUq77rs4Dp8DFF
- TCFrRDLHNFUiA/MuF3GhNlWCnwzaRKXv10JQYajEUvPtwhVBjU//hWtC4JTUJY3PvWGh
- gvZQ==
-X-Gm-Message-State: AAQBX9fs0aDLs4Aw7MFuYB1mXPr8g0Gy511ODlnPyCxZ1bers0u5lT/p
- d6HnAEScVX5CmszCuGV6dakG1TU3gOXiW3yYn9EG7w==
-X-Google-Smtp-Source: AKy350Ym0V9/uN04UiKQ4FUIJ1lezYSDcvFERNhEhOvlnEBGXbd2sRe/XLasyjgf2SPLkJa0C1MG0w==
-X-Received: by 2002:a05:600c:259:b0:3f1:662a:93d0 with SMTP id
- 25-20020a05600c025900b003f1662a93d0mr13610389wmj.15.1682507097462; 
- Wed, 26 Apr 2023 04:04:57 -0700 (PDT)
-Received: from [172.23.2.237] ([31.221.30.162])
- by smtp.gmail.com with ESMTPSA id
- z4-20020a05600c0a0400b003ef4cd057f5sm21498679wmp.4.2023.04.26.04.04.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Apr 2023 04:04:57 -0700 (PDT)
-Message-ID: <acbcec45-0689-21c7-2a3c-36ad0be45ea8@linaro.org>
-Date: Wed, 26 Apr 2023 12:04:56 +0100
+ d=1e100.net; s=20221208; t=1682507114; x=1685099114;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oYVjKBsMW2/OZIDyd/lIknWhI95fwYMRmBqPl47L0+I=;
+ b=PGuuIRgD2hAMLxrdLKOvGlqGQYTVYVI6j1CnFHY5/y4LaK2hA1jd5fV31/pk0fT7Ho
+ TEPuDsI+WnJr60sf1Yu4OHtMM80QEYAfq0OqKZXEdrk0Dbb8B/gS8jJVkoL5Uk4FNwke
+ rTxG5a+ZxXd8DdvSVvGzxO4bifys/hhpIXdCtJtzgj1kOGg52RLT1Z4hXCFIsusTwCl0
+ Asn2AMmBuP6wP/6KzhSylrBUWhtMLXW4HCKEh7V1el032NZcb2/WiWPbW+PfqCYSuNvi
+ i+zFflmDgewbozL9hpDBmJje8lEq8Fz701sTSyiINkV2z1G2IIva4jEDhRBv5IcfotjB
+ CNOg==
+X-Gm-Message-State: AAQBX9drzl+8Ruh1yOEMoQ7LhzFupjBGzu8D6FOY8EdFS1CDtYaQ4QDN
+ OeqUHJa8plzdgWMyD8kb0cYv1wjC1S3vxxvkGsfZ7zLaIppW4p9iCIOpaKcf2GErUKfTjiJ/yLp
+ y5tV6vGpzdyibbts9JqVMMad3G1zP
+X-Received: by 2002:a1c:4c04:0:b0:3f1:806a:83d5 with SMTP id
+ z4-20020a1c4c04000000b003f1806a83d5mr12192704wmf.20.1682507114639; 
+ Wed, 26 Apr 2023 04:05:14 -0700 (PDT)
+X-Google-Smtp-Source: AKy350al1tBYzBvEkp/z7blm1tSJggoHMiYRwOrquhn8XYvFJIJGuG3s+y4LGRtcZ6XL0rtXTBsSwA==
+X-Received: by 2002:a1c:4c04:0:b0:3f1:806a:83d5 with SMTP id
+ z4-20020a1c4c04000000b003f1806a83d5mr12192683wmf.20.1682507114274; 
+ Wed, 26 Apr 2023 04:05:14 -0700 (PDT)
+Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
+ [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ i11-20020adfe48b000000b002c3f81c51b6sm15521318wrm.90.2023.04.26.04.05.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Apr 2023 04:05:13 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org,  berrange@redhat.com,  peterx@redhat.com,
+ dgilbert@redhat.com,  lsoaresp@redhat.com
+Subject: Re: [PATCH] multifd: Avoid busy-wait in multifd_send_pages()
+In-Reply-To: <b87ce3c6-6426-eab1-95ef-d02eb83ab9ff@nutanix.com> (manish
+ mishra's message of "Wed, 26 Apr 2023 16:09:07 +0530")
+References: <20230425160555.67373-1-manish.mishra@nutanix.com>
+ <87v8hjey3b.fsf@secure.mitica>
+ <b87ce3c6-6426-eab1-95ef-d02eb83ab9ff@nutanix.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 26 Apr 2023 13:05:12 +0200
+Message-ID: <87pm7qgazb.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH] linux-user: report ENOTTY for unknown ioctls
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-References: <20230426070659.80649-1-thomas@t-8ch.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230426070659.80649-1-thomas@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,24 +98,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/4/23 09:06, Thomas Weißschuh wrote:
-> The correct error number for unknown ioctls is ENOTTY.
-> 
-> ENOSYS would mean that the ioctl() syscall itself is not implemented,
-> which is very improbable and unexpected for userspace.
-> 
-> ENOTTY means "Inappropriate ioctl for device". This is what the kernel
-> returns on unknown ioctls, what qemu is trying to express and what
-> userspace is prepared to handle.
-> 
-> Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
-> ---
->   linux-user/syscall.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+"manish.mishra" <manish.mishra@nutanix.com> wrote:
+> On 26/04/23 3:58 pm, Juan Quintela wrote:
+>> "manish.mishra" <manish.mishra@nutanix.com> wrote:
+>>> multifd_send_sync_main() posts request on the multifd channel
+>>> but does not call sem_wait() on channels_ready semaphore, making
+>>> the channels_ready semaphore count keep increasing.
+>>> As a result, sem_wait() on channels_ready in multifd_send_pages()
+>>> is always non-blocking hence multifd_send_pages() keeps searching
+>>> for a free channel in a busy loop until a channel is freed.
+>>>
+>>> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+>>> ---
+>>>   migration/multifd.c | 3 ++-
+>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/migration/multifd.c b/migration/multifd.c
+>>> index cce3ad6988..43d26e7012 100644
+>>> --- a/migration/multifd.c
+>>> +++ b/migration/multifd.c
+>>> @@ -615,6 +615,7 @@ int multifd_send_sync_main(QEMUFile *f)
+>>>             trace_multifd_send_sync_main_signal(p->id);
+>>>   +        qemu_sem_wait(&multifd_send_state->channels_ready);
+>>>           qemu_mutex_lock(&p->mutex);
+>>>             if (p->quit) {
+>> We need this, but I think it is better to put it on the second loop.
+>>
+>>> @@ -919,7 +920,7 @@ int multifd_save_setup(Error **errp)
+>>>       multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
+>>>       multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
+>>>       multifd_send_state->pages = multifd_pages_init(page_count);
+>>> -    qemu_sem_init(&multifd_send_state->channels_ready, 0);
+>>> +    qemu_sem_init(&multifd_send_state->channels_ready, thread_count);
+>>>       qatomic_set(&multifd_send_state->exiting, 0);
+>>>       multifd_send_state->ops = multifd_ops[migrate_multifd_compression()];
+>> I think this bit is wrong.
+>> We should not set the channels ready until the thread is ready and
+>> channel is created.
+>>
+>> What do you think about this patch:
+>>
+>>  From bcb0ef9b97b858458c403d2e4dc9e0dbd96721b3 Mon Sep 17 00:00:00 2001
+>> From: Juan Quintela <quintela@redhat.com>
+>> Date: Wed, 26 Apr 2023 12:20:36 +0200
+>> Subject: [PATCH] multifd: Fix the number of channels ready
+>>
+>> We don't wait in the sem when we are doing a sync_main.  Make it wait
+>> there.  To make things clearer, we mark the channel ready at the
+>> begining of the thread loop.
+>>
+>> This causes a busy loop in multifd_send_page().
+>> Found-by: manish.mishra <manish.mishra@nutanix.com>
+>>
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>   migration/multifd.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/migration/multifd.c b/migration/multifd.c
+>> index 903df2117b..e625e8725e 100644
+>> --- a/migration/multifd.c
+>> +++ b/migration/multifd.c
+>> @@ -635,6 +635,7 @@ int multifd_send_sync_main(QEMUFile *f)
+>>       for (i = 0; i < migrate_multifd_channels(); i++) {
+>>           MultiFDSendParams *p = &multifd_send_state->params[i];
+>>   +        qemu_sem_wait(&multifd_send_state->channels_ready);
+>>           trace_multifd_send_sync_main_wait(p->id);
+>>           qemu_sem_wait(&p->sem_sync);
+>>   @@ -668,6 +669,7 @@ static void *multifd_send_thread(void *opaque)
+>>       p->num_packets = 1;
+>>         while (true) {
+>> +        qemu_sem_post(&multifd_send_state->channels_ready);
+>
+>
+> This has one issue though, if we mark channel_ready here itself, channel is actually not ready so we can still busy loop?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Before:
+
+while (true) {
+    ....
+    sem_post(channels_ready)
+}
+
+And you want to add to the initialization a counter equal to the number
+of channels.
+
+Now:
+
+while (true) {
+    sem_post(channels_ready)
+    ....
+}
+
+It is semantically the same, but when we setup it ready it means that
+when we set it to 1, we now that the channel and thread are ready for
+action.
+
+> May be we can do one thing let the sem_post in while loop at same
+> position itself. But we can do another post just before start
+
+I can see how this can make any difference.
+
+
+> of this while loop, as that will be called only once it should do work
+> of initialising count equal to multiFD channels?
+
+Yeap.  But I can see what difference do we have here.
+
+Later, Juan.
 
 
