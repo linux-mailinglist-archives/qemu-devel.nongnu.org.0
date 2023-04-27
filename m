@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6B46F0609
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:44:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8936F060B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:44:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps0ya-0006iX-Jy; Thu, 27 Apr 2023 08:43:56 -0400
+	id 1ps0yq-0006o1-7Q; Thu, 27 Apr 2023 08:44:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gudkov.andrei@huawei.com>)
- id 1ps0yW-0006dO-U1
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:43:52 -0400
+ id 1ps0ym-0006mY-Ez
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:44:08 -0400
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gudkov.andrei@huawei.com>)
- id 1ps0yS-0001pQ-VI
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:43:52 -0400
-Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q6b4z11zsz6D9gm;
- Thu, 27 Apr 2023 20:43:31 +0800 (CST)
+ id 1ps0yZ-0001qR-1I
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:44:08 -0400
+Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Q6b5H2CmYz6D9gs;
+ Thu, 27 Apr 2023 20:43:47 +0800 (CST)
 Received: from DESKTOP-0LHM7NF.huawei.com (10.199.58.101) by
  lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 27 Apr 2023 13:43:32 +0100
+ 15.1.2507.23; Thu, 27 Apr 2023 13:43:48 +0100
 To: <qemu-devel@nongnu.org>
 CC: <quintela@redhat.com>, <eblake@redhat.com>, <armbru@redhat.com>,
  <berrange@redhat.com>, <zhengchuan@huawei.com>, Andrei Gudkov
  <gudkov.andrei@huawei.com>
-Subject: [PATCH v2 0/4] Migration time prediction using calc-dirty-rate
-Date: Thu, 27 Apr 2023 15:42:56 +0300
-Message-ID: <cover.1682598010.git.gudkov.andrei@huawei.com>
+Subject: [PATCH v2 1/4] migration/calc-dirty-rate: replaced CRC32 with xxHash
+Date: Thu, 27 Apr 2023 15:42:57 +0300
+Message-ID: <cd115a89fc81d5f2eeb4ea7d57a98b84f794f340.1682598010.git.gudkov.andrei@huawei.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1682598010.git.gudkov.andrei@huawei.com>
+References: <cover.1682598010.git.gudkov.andrei@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -42,12 +44,11 @@ X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
  envelope-from=gudkov.andrei@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,116 +66,119 @@ From:  Andrei Gudkov via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-V1 -> V2:
-  - Extracted CRC32->xxHash into separate commit
-  - Extacted @n-zero-samples metric into separate commit
-  - Added description to qapi about connection between
-    @n-dirty-samples and @periods arrays
-  - Added (Since ...) tag to new metrics
+This significantly reduces overhead of dirty page
+rate calculation in sampling mode.
+Tested using 32GiB VM on E5-2690 CPU.
 
+With CRC32:
+total_pages=8388608 sampled_pages=16384 millis=71
+
+With xxHash:
+total_pages=8388608 sampled_pages=16384 millis=14
+
+Signed-off-by: Andrei Gudkov <gudkov.andrei@huawei.com>
 ---
+ migration/dirtyrate.c  | 45 +++++++++++++++++++++++++++++++++---------
+ migration/trace-events |  4 ++--
+ 2 files changed, 38 insertions(+), 11 deletions(-)
 
-The overall goal of this patch is to be able to predict time it would
-take to migrate VM in precopy mode based on max allowed downtime,
-network bandwidth, and metrics collected with "calc-dirty-rate".
-Predictor itself is a simple python script that closely follows iterations
-of the migration algorithm: compute how long it would take to copy
-dirty pages, estimate number of pages dirtied by VM from the beginning
-of the last iteration; repeat all over again until estimated iteration time
-fits max allowed downtime. However, to get reasonable accuracy, predictor
-requires more metrics, which have been implemented into "calc-dirty-rate".
-
-Summary of calc-dirty-rate changes:
-
-1. The most important change is that now calc-dirty-rate produces
-   a *vector* of dirty page measurements for progressively increasing time
-   periods: 125ms, 250, 500, 750, 1000, 1500, .., up to specified calc-time.
-   The motivation behind such change is that number of dirtied pages as
-   a function of time starting from "clean state" (new migration iteration)
-   is far from linear. Shape of this function depends on the workload type
-   and intensity. Measuring number of dirty pages at progressively
-   increasing periods allows to reconstruct this function using piece-wise
-   interpolation.
-
-2. New metric added -- number of all-zero pages.
-   Predictor needs to distinguish between number of zero and non-zero pages
-   because during migration only 8 byte header is placed on the wire for
-   all-zero page.
-
-3. Hashing function was changed from CRC32 to xxHash.
-   This reduces overhead of sampling by ~10 times, which is important since
-   now some of the measurement periods are sub-second.
-
-4. Other trivial metrics were added for convenience: total number
-   of VM pages, number of sampled pages, page size.
-
-
-After these changes output from calc-dirty-rate looks like this:
-
-{
-  "page-size": 4096,
-  "periods": [125, 250, 375, 500, 750, 1000, 1500,
-              2000, 3000, 4001, 6000, 8000, 10000,
-              15000, 20000, 25000, 30000, 35000,
-              40000, 45000, 50000, 60000],
-  "status": "measured",
-  "sample-pages": 512,
-  "dirty-rate": 98,
-  "mode": "page-sampling",
-  "n-dirty-pages": [33, 78, 119, 151, 217, 236, 293, 336,
-                    425, 505, 620, 756, 898, 1204, 1457,
-                    1723, 1934, 2141, 2328, 2522, 2675, 2958],
-  "n-sampled-pages": 16392,
-  "n-zero-pages": 10060,
-  "n-total-pages": 8392704,
-  "start-time": 2916750,
-  "calc-time": 60
-}
-
-Passing this data into prediction script, we get the following estimations:
-
-Downtime> |    125ms |    250ms |    500ms |   1000ms |   5000ms |    unlim
----------------------------------------------------------------------------
- 100 Mbps |        - |        - |        - |        - |        - |   16m59s  
-   1 Gbps |        - |        - |        - |        - |        - |    1m40s
-   2 Gbps |        - |        - |        - |        - |    1m41s |      50s  
- 2.5 Gbps |        - |        - |        - |        - |    1m07s |      40s
-   5 Gbps |      48s |      46s |      31s |      28s |      25s |      20s
-  10 Gbps |      13s |      12s |      12s |      12s |      12s |      10s
-  25 Gbps |       5s |       5s |       5s |       5s |       4s |       4s
-  40 Gbps |       3s |       3s |       3s |       3s |       3s |       3s
-
-
-Quality of prediction was tested with YCSB benchmark. Memcached instance
-was installed into 32GiB VM, and a client generated a stream of requests.
-Between experiments we varied request size distribution, number of threads,
-and location of the client (inside or outside the VM).
-After short preheat phase, we measured calc-dirty-rate:
-1. {"execute": "calc-dirty-rate", "arguments":{"calc-time":60}}
-2. Wait 60 seconds
-3. Collect results with {"execute": "query-dirty-rate"}
-
-Afterwards we tried to migrate VM after randomly selecting max downtime
-and bandwidth limit. Typical prediction error is 6-7%, with only 180 out
-of 5779 experiments failing badly: prediction error >=25% or incorrectly
-predicting migration success when in fact it didn't converge.
-
-
-Andrei Gudkov (4):
-  migration/calc-dirty-rate: replaced CRC32 with xxHash
-  migration/calc-dirty-rate: detailed stats in sampling mode
-  migration/calc-dirty-rate: added n-zero-pages metric
-  migration/calc-dirty-rate: tool to predict migration time
-
- MAINTAINERS                  |   1 +
- migration/dirtyrate.c        | 228 +++++++++++++++++++++-------
- migration/dirtyrate.h        |  26 +++-
- migration/trace-events       |   4 +-
- qapi/migration.json          |  28 +++-
- scripts/predict_migration.py | 283 +++++++++++++++++++++++++++++++++++
- 6 files changed, 511 insertions(+), 59 deletions(-)
- create mode 100644 scripts/predict_migration.py
-
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 180ba38c7a..acba3213a3 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -29,6 +29,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+ #include "exec/memory.h"
++#include "qemu/xxhash.h"
+ 
+ /*
+  * total_dirty_pages is procted by BQL and is used
+@@ -308,6 +309,33 @@ static void update_dirtyrate(uint64_t msec)
+     DirtyStat.dirty_rate = dirtyrate;
+ }
+ 
++/*
++ * Compute hash of a single page of size TARGET_PAGE_SIZE.
++ */
++static uint32_t compute_page_hash(void *ptr)
++{
++    uint32_t i;
++    uint64_t v1, v2, v3, v4;
++    uint64_t res;
++    const uint64_t *p = ptr;
++
++    v1 = QEMU_XXHASH_SEED + XXH_PRIME64_1 + XXH_PRIME64_2;
++    v2 = QEMU_XXHASH_SEED + XXH_PRIME64_2;
++    v3 = QEMU_XXHASH_SEED + 0;
++    v4 = QEMU_XXHASH_SEED - XXH_PRIME64_1;
++    for (i = 0; i < TARGET_PAGE_SIZE / 8; i += 4) {
++        v1 = XXH64_round(v1, p[i + 0]);
++        v2 = XXH64_round(v2, p[i + 1]);
++        v3 = XXH64_round(v3, p[i + 2]);
++        v4 = XXH64_round(v4, p[i + 3]);
++    }
++    res = XXH64_mergerounds(v1, v2, v3, v4);
++    res += TARGET_PAGE_SIZE;
++    res = XXH64_avalanche(res);
++    return (uint32_t)(res & UINT32_MAX);
++}
++
++
+ /*
+  * get hash result for the sampled memory with length of TARGET_PAGE_SIZE
+  * in ramblock, which starts from ramblock base address.
+@@ -315,13 +343,12 @@ static void update_dirtyrate(uint64_t msec)
+ static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
+                                       uint64_t vfn)
+ {
+-    uint32_t crc;
++    uint32_t hash;
+ 
+-    crc = crc32(0, (info->ramblock_addr +
+-                vfn * TARGET_PAGE_SIZE), TARGET_PAGE_SIZE);
++    hash = compute_page_hash(info->ramblock_addr + vfn * TARGET_PAGE_SIZE);
+ 
+-    trace_get_ramblock_vfn_hash(info->idstr, vfn, crc);
+-    return crc;
++    trace_get_ramblock_vfn_hash(info->idstr, vfn, hash);
++    return hash;
+ }
+ 
+ static bool save_ramblock_hash(struct RamblockDirtyInfo *info)
+@@ -454,13 +481,13 @@ out:
+ 
+ static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
+ {
+-    uint32_t crc;
++    uint32_t hash;
+     int i;
+ 
+     for (i = 0; i < info->sample_pages_count; i++) {
+-        crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
+-        if (crc != info->hash_result[i]) {
+-            trace_calc_page_dirty_rate(info->idstr, crc, info->hash_result[i]);
++        hash = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
++        if (hash != info->hash_result[i]) {
++            trace_calc_page_dirty_rate(info->idstr, hash, info->hash_result[i]);
+             info->sample_dirty_count++;
+         }
+     }
+diff --git a/migration/trace-events b/migration/trace-events
+index 92161eeac5..f39818c329 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -342,8 +342,8 @@ dirty_bitmap_load_success(void) ""
+ # dirtyrate.c
+ dirtyrate_set_state(const char *new_state) "new state %s"
+ query_dirty_rate_info(const char *new_state) "current state %s"
+-get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock name: %s, vfn: %"PRIu64 ", crc: %" PRIu32
+-calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
++get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t hash) "ramblock name: %s, vfn: %"PRIu64 ", hash: %" PRIu32
++calc_page_dirty_rate(const char *idstr, uint32_t new_hash, uint32_t old_hash) "ramblock name: %s, new hash: %" PRIu32 ", old hash: %" PRIu32
+ skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
+ find_page_matched(const char *idstr) "ramblock %s addr or size changed"
+ dirtyrate_calculate(int64_t dirtyrate) "dirty rate: %" PRIi64 " MB/s"
 -- 
 2.30.2
 
