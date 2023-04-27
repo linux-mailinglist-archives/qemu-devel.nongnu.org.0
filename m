@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC166F06B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1AF6F06BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:37:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps1m1-0007QB-Cm; Thu, 27 Apr 2023 09:35:01 -0400
+	id 1ps1nv-0008EZ-3G; Thu, 27 Apr 2023 09:36:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ps1lx-0007PO-Na
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:34:57 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ps1np-0008C2-Ph
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:36:53 -0400
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ps1lv-0005nK-VD
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:34:57 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ps1no-0006Cr-Ea
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:36:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
  Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Qlzzavp8mwic6jj9sKRnPIwxl6mtAWzwyKonhopsLp4=; b=MhilxK70wxELRkyljsXT+ozCM9
- +ZrI0KSxa6DboGc0knJ9S0uuJFrNGnRPy4rScosuKAJC6QjIpdfwNQGPTB3AELMPVw5xahcS8BH+7
- dmEY9alsZ9C6B8YoEx+DZFfLSQkSCXjF7Sbuasc7NB/U7vKkl+Ahc5acySiz/p41hNF8=;
-Message-ID: <b5443af7-4192-774c-66f4-1b020613f07b@rev.ng>
-Date: Thu, 27 Apr 2023 15:34:36 +0200
+ bh=ndzcv46gcz0JPBGLJkLi/1vIhoSFN1HZvMTZLB7F7yQ=; b=oyQPu4wKFnkSp4ZoV7qsbnCGOF
+ DL6ebIo8D5y6+8UX8dRmPtA1t+yvQe8bIZAf6QclEL4Vkz957HrGR1Dl1PFJ/Pr/p97DnuG9M3GMF
+ FqTfafgmGA4My6jBMgk43WuNH9TgS6ZmAT80R2AgmSHymmdmrC0KhQIPgzwkx1b9Ks54=;
+Message-ID: <4f8e27c5-5731-3f51-71ab-b9354920f1d9@rev.ng>
+Date: Thu, 27 Apr 2023 15:36:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [PATCH 3/9] Hexagon (tests/tcg/hexagon) Add v68 scalar tests
-Content-Language: en-US
+Subject: Re: [PATCH 4/9] Hexagon (target/hexagon) Add v68 HVX instructions
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, philmd@linaro.org, ale@rev.ng,
  bcain@quicinc.com, quic_mathbern@quicinc.com
 References: <20230426023018.1742266-1-tsimpson@quicinc.com>
- <20230426023018.1742266-4-tsimpson@quicinc.com>
+ <20230426023018.1742266-5-tsimpson@quicinc.com>
+Content-Language: en-US
 Organization: rev.ng
-In-Reply-To: <20230426023018.1742266-4-tsimpson@quicinc.com>
+In-Reply-To: <20230426023018.1742266-5-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -69,78 +69,18 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 On 4/26/23 04:30, Taylor Simpson wrote:
+> The following instructions are added
+>      V6_v6mpyvubs10_vxx
+>      V6_v6mpyhubs10_vxx
+>      V6_v6mpyvubs10
+>      V6_v6mpyhubs10
+>
 > Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->   tests/tcg/hexagon/v68_scalar.c    | 186 ++++++++++++++++++++++++++++++
->   tests/tcg/hexagon/Makefile.target |   2 +
->   2 files changed, 188 insertions(+)
->   create mode 100644 tests/tcg/hexagon/v68_scalar.c
->
-> diff --git a/tests/tcg/hexagon/v68_scalar.c b/tests/tcg/hexagon/v68_scalar.c
-> new file mode 100644
-> index 0000000000..7a8adb1130
-> --- /dev/null
-> +++ b/tests/tcg/hexagon/v68_scalar.c
-> @@ -0,0 +1,186 @@
-> +/*
-> + *  Copyright(c) 2023 Qualcomm Innovation Center, Inc. All Rights Reserved.
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include <stdio.h>
-> +#include <stdbool.h>
-> +#include <stdint.h>
-> +
-> +/*
-> + *  Test the scalar core instructions that are new in v68
-> + */
-> +
-> +int err;
-> +
-> +static int buffer32[] = { 1, 2, 3, 4 };
-> +static long long buffer64[] = { 5, 6, 7, 8 };
-> +
-> +static void __check32(int line, uint32_t result, uint32_t expect)
-> +{
-> +    if (result != expect) {
-> +        printf("ERROR at line %d: 0x%08x != 0x%08x\n",
-> +               line, result, expect);
-> +        err++;
-> +    }
-> +}
-> +
-> +#define check32(RES, EXP) __check32(__LINE__, RES, EXP)
-> +
-> +static void __check64(int line, uint64_t result, uint64_t expect)
-> +{
-> +    if (result != expect) {
-> +        printf("ERROR at line %d: 0x%016llx != 0x%016llx\n",
-> +               line, result, expect);
-> +        err++;
-> +    }
-> +}
-> +
-> +#define check64(RES, EXP) __check64(__LINE__, RES, EXP)
-
-check32/check64 show up in fpstuff.c, usr.c, mem_noshuf.c, and now in 
-v[68|73]_scalar.c, but in
-slight variations (different arg. names/order of args.)  We should 
-consider keeping a single definition
-in a check_result.h header, or similar.
-
-Otherwise,
+>   target/hexagon/mmvec/macros.h                |   9 +-
+>   target/hexagon/imported/mmvec/encode_ext.def |   8 +-
+>   target/hexagon/imported/mmvec/ext.idef       | 281 ++++++++++++++++++-
+>   3 files changed, 295 insertions(+), 3 deletions(-)
 
 Reviewed-by: Anton Johansson <anjo@rev.ng>
 
