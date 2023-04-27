@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CED6F05F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:40:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458FE6F0604
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:42:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps0uG-0002nO-Oh; Thu, 27 Apr 2023 08:39:28 -0400
+	id 1ps0wy-0004km-I1; Thu, 27 Apr 2023 08:42:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ps0uB-0002ic-Ks
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:39:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ps0u9-0000rp-F8
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:39:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682599160;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EVCnuEp0nXF1jQj3oAC22pXhBF5xnMYayWXQ1iNIIAs=;
- b=YSyjJWQY4DURBi6fUiFy9u8LOW67eAHup2+U5F2gzY9EhCOLNHGE2cH43/Yif2qmHhQWBE
- bb/KEuYY2Ol+G+w0b9f5937lopzm7iVWzchAD9mkZio9DfZxKCN3I4r8GXK3Ne2GrXJRIp
- brV1FKeFsZfn+fDW2NjFg5/4gJDzPBY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-407-y5iXq1HnMN6ZIrC3UUNsHw-1; Thu, 27 Apr 2023 08:39:17 -0400
-X-MC-Unique: y5iXq1HnMN6ZIrC3UUNsHw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D387510AF917;
- Thu, 27 Apr 2023 12:39:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C9B4C15BA0;
- Thu, 27 Apr 2023 12:39:15 +0000 (UTC)
-Date: Thu, 27 Apr 2023 14:39:14 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- eesposit@redhat.com
-Subject: Re: [PATCH] aio-wait: avoid AioContext lock in aio_wait_bh_oneshot()
-Message-ID: <ZEps8jWZxEcRRPy/@redhat.com>
-References: <20230404153307.458883-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ps0wu-0004b4-7h
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:42:12 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ps0wF-0001FQ-KV
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:42:10 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-953343581a4so1290085566b.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 05:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682599232; x=1685191232;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mWPY39s+jEYGtmXjgHTYeCWeKYTXFj8bZY+hOTxLFGc=;
+ b=Jk6Dv2qnBl5i+OMKQRpZEw4JgXkiYGFrq/GZuuHNMCDezK5N4mCgSqeoWqxbKU+GbS
+ WzMYU70J0iZ8h+pdaBFTyZD6fo+D7JZXsouUIiZa+NXGSU2y5UUjj8i2o+/h5BBuQYeF
+ s9p/vV9/KokPViBAg2MDWav2Th9NBg1OHx7JikNrgOYs8G57oZBOHRJA1XI43IAQlPZJ
+ 7zgMtqf4sJAuppiLL/61gRsSZLVIFM3vbp2aWibJIKxBL9bB5E7+cSlVWNKtMwQlPNcv
+ yTni/p/FDCXNKGgBdvmAe9dd568JgBXYfCBX/rdVLy4e9LY7lHG8TYxkDZDumdX6TnTC
+ 26fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682599232; x=1685191232;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mWPY39s+jEYGtmXjgHTYeCWeKYTXFj8bZY+hOTxLFGc=;
+ b=Sp6esbCBsOZzvS6LXIcl3m6RUmXzkvRsd0QsRBzu/1OrtwLy11GQPEwe5oXsvPlldx
+ tjNe+SHkFled2xqDAczkD7Ms3gnocruAVqpJJTOpj/53hYtKjrIBM5iIcdYdtC2O7m0I
+ JYL3bH2tYYAjkI41J8UUhfKCvvDBKQfYAuuaA45JVnSALUkzDbyQI3O61uboQ4PrBGV2
+ ptD1+tul0xidCZ/yIFqcIse7CMLTOuanqU7foTSwniLO06w65czLTbuphefq8vc5YSr9
+ AURJwvy0QzHyXP+KN7CyofVnE9RD8Fnt6y+vc5gLTXCs6DvQC5w/1ppYzhj96JzJmigG
+ TIzg==
+X-Gm-Message-State: AC+VfDxUtlAVrpQj1eCllcs2RhTqBbItR1i4q9pxGsFBe9zUU/ccIkR0
+ zPXzYU9pRR7/7tPasIR0ZVsbuQ==
+X-Google-Smtp-Source: ACHHUZ6Njzavr9XElqOVmmP3niyvzAuHSoN0ZwJMHPAn6UJHEcQonHOE/yLZF0EZaP3V1BZTcgeMgA==
+X-Received: by 2002:a17:907:8687:b0:953:7bb2:28d8 with SMTP id
+ qa7-20020a170907868700b009537bb228d8mr1510666ejc.21.1682599231898; 
+ Thu, 27 Apr 2023 05:40:31 -0700 (PDT)
+Received: from [172.23.3.19] ([31.221.30.162])
+ by smtp.gmail.com with ESMTPSA id
+ l15-20020aa7c30f000000b004af73333d6esm7797576edq.53.2023.04.27.05.40.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Apr 2023 05:40:31 -0700 (PDT)
+Message-ID: <d848bcb8-71b2-205a-c953-23e4a9b7d888@linaro.org>
+Date: Thu, 27 Apr 2023 13:40:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230404153307.458883-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] tests/tcg/s390x: Test EXECUTE of relative branches
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand
+ <david@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+References: <20230426235813.198183-1-iii@linux.ibm.com>
+ <20230426235813.198183-3-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230426235813.198183-3-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,22 +96,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 04.04.2023 um 17:33 hat Stefan Hajnoczi geschrieben:
-> There is no need for the AioContext lock in aio_wait_bh_oneshot().
-> It's easy to remove the lock from existing callers and then switch from
-> AIO_WAIT_WHILE() to AIO_WAIT_WHILE_UNLOCKED() in aio_wait_bh_oneshot().
+On 4/27/23 00:58, Ilya Leoshkevich wrote:
+> Add a small test to prevent regressions.
 > 
-> Document that the AioContext lock should not be held across
-> aio_wait_bh_oneshot(). Holding a lock across aio_poll() can cause
-> deadlock so we don't want callers to do that.
-> 
-> This is a step towards getting rid of the AioContext lock.
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
+> ---
+>   tests/tcg/s390x/Makefile.target |   1 +
+>   tests/tcg/s390x/ex-branch.c     | 158 ++++++++++++++++++++++++++++++++
+>   2 files changed, 159 insertions(+)
+>   create mode 100644 tests/tcg/s390x/ex-branch.c
 
-Thanks, applied to the block branch.
+I'll admit I got lost in the macro expansion.
 
-Kevin
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
+
+r~
 
