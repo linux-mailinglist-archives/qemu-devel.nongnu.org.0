@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5899E6F0201
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 09:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4406F020B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 09:47:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prwJ5-00007C-9X; Thu, 27 Apr 2023 03:44:47 -0400
+	id 1prwKq-0001lK-Kd; Thu, 27 Apr 2023 03:46:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prwIz-0008M2-Tk
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 03:44:42 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ id 1prwKp-0001l9-8k
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 03:46:35 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1prwIy-0001f4-8w
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 03:44:41 -0400
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-5083bd8e226so12497443a12.3
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 00:44:39 -0700 (PDT)
+ id 1prwKn-0002HW-3M
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 03:46:34 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-50a145a0957so4094808a12.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 00:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682581478; x=1685173478;
+ d=linaro.org; s=google; t=1682581591; x=1685173591;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0I0sWEEvR+qElZC5uPH89Dc84Vnnse7pNikWWnL9Yto=;
- b=NIeLqI+mg4+7PxC63qG7jb988S4KFNgOVoR+Wz0n9LZ+2xr8jCKd7jDFHSzlfNm1xc
- N2BSxbQXcigpd7D386CJGFORk1uzilRTgLdFo9jvcA5N2h2lACgIuQDbR/lhlRcf96mz
- piGNTqMGPyd5/13E1Uftdg/hPoyf77bE8HzyG55T/PoVKXzJTTEeNeHo61SRLgwso1eu
- FNXkF+E6rAu5zeKrWlRp+7gG2XYvozNUQh3gj79ZfQshrvG60KneXqgv5bdgfY6Whoeg
- nUAK/hmKZGCUsh+V17KtHgBEXfvjWFLU0eERdD0ulXMQp4fK74kZzMdo0SrF7coB5v8A
- hQ1Q==
+ bh=TLERvTyVrI0aGRcyFCunpIOho9bqq2BbtD6Osm4//kM=;
+ b=jJYxCovLmc43BUTd6uh4nXa+ykGgCytkvER8argeH2ZTa5qRbpZaS9tkveBI/v0fp8
+ sl5WVSHAhxw/L94SFbSf72Y3wE0dQOhzRq1KU2dqyR2uNe+fZzzHkHt41bmoqCiKt7UG
+ QV/hK6x0mwooAKmE9yuv4K09zSJzegpEWF3w8pG7Et9gA1yfec+ifIiUXVnWeedmCGLJ
+ yp98Ki23GhxOTiLYHI7O2/qhTV7NF8dWFzRrzZ+CRIxaz5viATtb+4yF5vVTeCkWJL2P
+ nqa3DdDJ67iaQGz6Coh9vjCJaq8jfrUej9aom5g8IP6AEN8ehSnJUCv9aUAYhD7ZQu/8
+ zVdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682581478; x=1685173478;
+ d=1e100.net; s=20221208; t=1682581591; x=1685173591;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0I0sWEEvR+qElZC5uPH89Dc84Vnnse7pNikWWnL9Yto=;
- b=NbWb4QL/aCf68bwP8EzGqmEPpJCCrkJOUlkpSIvMC5BiS7MO1CTWHPrMji/et+P7VI
- q7/xZpyme7Z54i8tcaOR2lRcS+Z/By0OFMvfNwu8nTFdUIdd4tNC9OqE1FlGdCZ1GihW
- Ez7m3iVJE0J0twHS/YrHblGlUyPoDDkqlnhA1rXkC9liCP5VbDg/HZ8XzFnVSwQkl9tH
- n0im/gQm9CRSyQJpNcphxXHBA7gSAHMe8AkiDEID9kbog3TWQnngKRDPrkKqZrHzmq7e
- y2yUevR5GpCmKcF8/Dzst1ruJRTbpFqcmeGTqvQsABoClkBFHTjt/6eiCRv1T9kRXtJG
- Hf/w==
-X-Gm-Message-State: AC+VfDziUjCi+NlhmrP1+9AiuBJKFF9HlUcdKM1HtUiQxB1G8CyR+W7/
- 1pQ17kd073CQRaIQgMw5zAWmKA==
-X-Google-Smtp-Source: ACHHUZ4Lg5iRY4hkq+GwrftVJSlY7zgsVyoXvD4Ro/ylTrUHOLU6eae6UPmlbjiwyh2gYz2R+70Bhg==
-X-Received: by 2002:aa7:c247:0:b0:506:84e0:a78a with SMTP id
- y7-20020aa7c247000000b0050684e0a78amr855048edo.3.1682581478447; 
- Thu, 27 Apr 2023 00:44:38 -0700 (PDT)
+ bh=TLERvTyVrI0aGRcyFCunpIOho9bqq2BbtD6Osm4//kM=;
+ b=KJRDgo3hFvaZPWUU1V1VSR/UX/R64teGpehTvb9NnR9/f9pRDs0fqv/fCuxM5EJ0Tz
+ r8oOt/R5SVBW5fFcAhaK+xcgx6AQb0cWZSOFjZ2LFAbyqhMDVHfqOf44EETE3aAfmQb1
+ dhPBLr9LXXVed5+SZ9kzLrR1/jI8cHJHqnmALxFLERv5bDPapi9OuNbJAdB46J170QcU
+ jWFtxO34rdHUtD2NmGD3yWiRQbvBck72PHcDPj67PheGcn7/y7GBAJzlEJlPtuzPL+Qg
+ mZweiPfhMiouK6v1OSwHmRgf3ICNVCCcomSE3Rxvzee51viuvRBDtmyjfPJ4Hgh0Yvfd
+ W6mw==
+X-Gm-Message-State: AC+VfDwA7Hz2vfJZ4OYwFNWINADzTF5LSJIRrocJJOcGhm3o7YlobRvQ
+ qZCfbhY+bX3Wzyoy++cIKpU8fA==
+X-Google-Smtp-Source: ACHHUZ52eCXLYaIRYYz54D6hq1V9CNNYdiXjf/dbir2u+6AZUt/M7I/mksQtieMimlMctsA+VhhJ2A==
+X-Received: by 2002:a17:906:728e:b0:94e:6eb3:abc4 with SMTP id
+ b14-20020a170906728e00b0094e6eb3abc4mr5266620ejl.4.1682581591281; 
+ Thu, 27 Apr 2023 00:46:31 -0700 (PDT)
 Received: from [172.23.3.19] ([195.167.132.10])
  by smtp.gmail.com with ESMTPSA id
- i17-20020a056402055100b0050685927971sm7566964edx.30.2023.04.27.00.44.37
+ fx21-20020a170906b75500b009531d9efcc4sm9172372ejb.133.2023.04.27.00.46.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 00:44:38 -0700 (PDT)
-Message-ID: <80d69526-99be-f031-bb75-49f184a58a65@linaro.org>
-Date: Thu, 27 Apr 2023 08:44:37 +0100
+ Thu, 27 Apr 2023 00:46:30 -0700 (PDT)
+Message-ID: <f40409d1-9aed-5b13-6798-867fbfb50a8a@linaro.org>
+Date: Thu, 27 Apr 2023 08:46:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 1/2] cpu: expose qemu_cpu_list_lock for lock-guard use
+Subject: Re: [PATCH v3 2/2] accel/tcg/tcg-accel-ops-rr: ensure fairness with
+ icount
 Content-Language: en-US
 To: Jamie Iles <quic_jiles@quicinc.com>, qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, philmd@linaro.org, peter.maydell@linaro.org
 References: <20230427020925.51003-1-quic_jiles@quicinc.com>
- <20230427020925.51003-2-quic_jiles@quicinc.com>
+ <20230427020925.51003-3-quic_jiles@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230427020925.51003-2-quic_jiles@quicinc.com>
+In-Reply-To: <20230427020925.51003-3-quic_jiles@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x534.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -96,20 +97,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/27/23 03:09, Jamie Iles wrote:
-> Expose qemu_cpu_list_lock globally so that we can use
-> WITH_QEMU_LOCK_GUARD and QEMU_LOCK_GUARD to simplify a few code paths
-> now and in future.
+> The round-robin scheduler will iterate over the CPU list with an
+> assigned budget until the next timer expiry and may exit early because
+> of a TB exit.  This is fine under normal operation but with icount
+> enabled and SMP it is possible for a CPU to be starved of run time and
+> the system live-locks.
 > 
+> For example, booting a riscv64 platform with '-icount
+> shift=0,align=off,sleep=on -smp 2' we observe a livelock once the kernel
+> has timers enabled and starts performing TLB shootdowns.  In this case
+> we have CPU 0 in M-mode with interrupts disabled sending an IPI to CPU
+> 1.  As we enter the TCG loop, we assign the icount budget to next timer
+> interrupt to CPU 0 and begin executing where the guest is sat in a busy
+> loop exhausting all of the budget before we try to execute CPU 1 which
+> is the target of the IPI but CPU 1 is left with no budget with which to
+> execute and the process repeats.
+> 
+> We try here to add some fairness by splitting the budget across all of
+> the CPUs on the thread fairly before entering each one.  The CPU count
+> is cached on CPU list generation ID to avoid iterating the list on each
+> loop iteration.  With this change it is possible to boot an SMP rv64
+> guest with icount enabled and no hangs.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Tested-by: Peter Maydell<peter.maydell@linaro.org>
 > Signed-off-by: Jamie Iles<quic_jiles@quicinc.com>
 > ---
->   cpus-common.c             |  2 +-
->   include/exec/cpu-common.h |  1 +
->   linux-user/elfload.c      | 12 ++++++------
->   migration/dirtyrate.c     | 26 +++++++++++++-------------
->   trace/control-target.c    |  9 ++++-----
->   5 files changed, 25 insertions(+), 25 deletions(-)
-
-Thanks,
+>   accel/tcg/tcg-accel-ops-icount.c | 17 +++++++++++++--
+>   accel/tcg/tcg-accel-ops-icount.h |  3 ++-
+>   accel/tcg/tcg-accel-ops-rr.c     | 37 +++++++++++++++++++++++++++++++-
+>   3 files changed, 53 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
