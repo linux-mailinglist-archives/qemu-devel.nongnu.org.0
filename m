@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B046F01B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 09:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A076F01B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 09:28:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prw2A-00055Z-ED; Thu, 27 Apr 2023 03:27:18 -0400
+	id 1prw26-00053E-Ee; Thu, 27 Apr 2023 03:27:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1prw1t-00050z-Qf
+ id 1prw1t-000513-Lq
  for qemu-devel@nongnu.org; Thu, 27 Apr 2023 03:27:01 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1prw1p-0007cc-Kr
+ (envelope-from <zhaotianrui@loongson.cn>) id 1prw1q-0007cl-Dn
  for qemu-devel@nongnu.org; Thu, 27 Apr 2023 03:27:01 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8CxvOq8I0pk93cBAA--.2405S3;
- Thu, 27 Apr 2023 15:26:52 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8BxLuu9I0pk+3cBAA--.2585S3;
+ Thu, 27 Apr 2023 15:26:53 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Axy7K1I0pk9Ec+AA--.18880S10; 
+ AQAAf8Axy7K1I0pk9Ec+AA--.18880S11; 
  Thu, 27 Apr 2023 15:26:52 +0800 (CST)
 From: Tianrui Zhao <zhaotianrui@loongson.cn>
 To: qemu-devel@nongnu.org
@@ -31,19 +31,20 @@ Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, maobibo@loongson.cn,
  zhaotianrui@loongson.cn, philmd@linaro.org, richard.henderson@linaro.org,
  peter.maydell@linaro.org
-Subject: [PATCH RFC v2 8/9] target/loongarch: Implement set vcpu intr for kvm
-Date: Thu, 27 Apr 2023 15:26:44 +0800
-Message-Id: <20230427072645.3368102-9-zhaotianrui@loongson.cn>
+Subject: [PATCH RFC v2 9/9] target/loongarch: Add loongarch kvm into meson
+ build
+Date: Thu, 27 Apr 2023 15:26:45 +0800
+Message-Id: <20230427072645.3368102-10-zhaotianrui@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230427072645.3368102-1-zhaotianrui@loongson.cn>
 References: <20230427072645.3368102-1-zhaotianrui@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Axy7K1I0pk9Ec+AA--.18880S10
+X-CM-TRANSID: AQAAf8Axy7K1I0pk9Ec+AA--.18880S11
 X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxJFyUZr1rZF15WF4DAF1DZFb_yoWrWryxpr
- ZruF98Kr4xJrZrJ3Z3Z3Z8Xrn8X3yfCrnF9aySk34xCr47XryUXF1vq3srXF13G3y8WryI
- qr1Fyw15WF18Xw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uw4kWF4xAr13uw1fKF17KFg_yoW8GrWDp3
+ s3u3WUKF48JrWkJ3s8A3s3XrZxtw13Gw12qayxK34SywsxJ3y7XFn3tasxXF42q3W8KF1S
+ vrn3C3W5WF4UJwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  be8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -53,7 +54,7 @@ X-Coremail-Antispam: 1Uk129KBjvJXoWxJFyUZr1rZF15WF4DAF1DZFb_yoWrWryxpr
  kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
  6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
  8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
- 2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6x
+ 2Ix0cI8IcVAFwI0_Ar0_tr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6x
  AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr1j6F4UJwCI42IY6I8E87Iv
  6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
 Received-SPF: pass client-ip=114.242.206.163;
@@ -78,130 +79,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Implement loongarch kvm set vcpu interrupt interface,
-when a irq is set in vcpu, we use the KVM_INTERRUPT
-ioctl to set intr into kvm.
+Add kvm.c and kvm-stub.c into meson.build to compile
+it when kvm is configed. Meanwhile in meson.build,
+we set the kvm_targets to loongarch64-softmmu when
+the cpu is loongarch.
 
 Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
 ---
- target/loongarch/cpu.c           | 18 +++++++++++++-----
- target/loongarch/kvm-stub.c      | 11 +++++++++++
- target/loongarch/kvm.c           | 16 ++++++++++++++++
- target/loongarch/kvm_loongarch.h | 13 +++++++++++++
- target/loongarch/trace-events    |  1 +
- 5 files changed, 54 insertions(+), 5 deletions(-)
- create mode 100644 target/loongarch/kvm-stub.c
- create mode 100644 target/loongarch/kvm_loongarch.h
+ meson.build                  | 2 ++
+ target/loongarch/meson.build | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 600c00bbf2..d0b8f652a1 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -18,6 +18,11 @@
- #include "cpu-csr.h"
- #include "sysemu/reset.h"
- #include "tcg/tcg.h"
-+#include "sysemu/kvm.h"
-+#include "kvm_loongarch.h"
-+#ifdef CONFIG_KVM
-+#include <linux/kvm.h>
-+#endif
+diff --git a/meson.build b/meson.build
+index b1b29299da..db11f9e2e7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -114,6 +114,8 @@ elif cpu in ['mips', 'mips64']
+   kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
+ elif cpu in ['riscv']
+   kvm_targets = ['riscv32-softmmu', 'riscv64-softmmu']
++elif cpu in ['loongarch64']
++  kvm_targets = ['loongarch64-softmmu']
+ else
+   kvm_targets = []
+ endif
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 9293a8ab78..0c6cec81e4 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -26,6 +26,7 @@ loongarch_softmmu_ss.add(files(
  
- const char * const regnames[32] = {
-     "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
-@@ -104,12 +109,15 @@ void loongarch_cpu_set_irq(void *opaque, int irq, int level)
-         return;
-     }
+ common_ss.add(when: 'CONFIG_LOONGARCH_DIS', if_true: [files('disas.c'), gen])
  
--    env->CSR_ESTAT = deposit64(env->CSR_ESTAT, irq, 1, level != 0);
--
--    if (FIELD_EX64(env->CSR_ESTAT, CSR_ESTAT, IS)) {
--        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+    if (kvm_enabled()) {
-+        kvm_loongarch_set_interrupt(cpu, irq, level);
-     } else {
--        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-+        env->CSR_ESTAT = deposit64(env->CSR_ESTAT, irq, 1, level != 0);
-+        if (FIELD_EX64(env->CSR_ESTAT, CSR_ESTAT, IS)) {
-+            cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+        } else {
-+            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-+        }
-     }
- }
++loongarch_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
+ loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
  
-diff --git a/target/loongarch/kvm-stub.c b/target/loongarch/kvm-stub.c
-new file mode 100644
-index 0000000000..9965c1f119
---- /dev/null
-+++ b/target/loongarch/kvm-stub.c
-@@ -0,0 +1,11 @@
-+/*
-+ * QEMU KVM LoongArch specific function stubs
-+ *
-+ * Copyright (c) 2023 Loongson Technology Corporation Limited
-+ */
-+#include "cpu.h"
-+
-+void kvm_loongarch_set_interrupt(LoongArchCPU *cpu, int irq, int level)
-+{
-+   g_assert_not_reached();
-+}
-diff --git a/target/loongarch/kvm.c b/target/loongarch/kvm.c
-index bd994926d9..e80ca8b37f 100644
---- a/target/loongarch/kvm.c
-+++ b/target/loongarch/kvm.c
-@@ -519,6 +519,22 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-     return ret;
- }
- 
-+int kvm_loongarch_set_interrupt(LoongArchCPU *cpu, int irq, int level)
-+{
-+    struct kvm_loongarch_interrupt intr;
-+    CPUState *cs = CPU(cpu);
-+
-+    intr.cpu = cs->cpu_index;
-+    if (level) {
-+        intr.irq = irq;
-+    } else {
-+        intr.irq = -irq;
-+    }
-+
-+    trace_kvm_set_intr(irq, level);
-+    return kvm_vcpu_ioctl(cs, KVM_INTERRUPT, &intr);
-+}
-+
- void kvm_arch_accel_class_init(ObjectClass *oc)
- {
- }
-diff --git a/target/loongarch/kvm_loongarch.h b/target/loongarch/kvm_loongarch.h
-new file mode 100644
-index 0000000000..cdef980eec
---- /dev/null
-+++ b/target/loongarch/kvm_loongarch.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU LoongArch kvm interface
-+ *
-+ * Copyright (c) 2023 Loongson Technology Corporation Limited
-+ */
-+
-+#ifndef QEMU_KVM_LOONGARCH_H
-+#define QEMU_KVM_LOONGARCH_H
-+
-+int  kvm_loongarch_set_interrupt(LoongArchCPU *cpu, int irq, int level);
-+
-+#endif
-diff --git a/target/loongarch/trace-events b/target/loongarch/trace-events
-index c79e01663a..2673e43bfd 100644
---- a/target/loongarch/trace-events
-+++ b/target/loongarch/trace-events
-@@ -12,3 +12,4 @@ kvm_failed_put_mpstate(const char *msg) "Failed to put mp_state into KVM: %s"
- kvm_failed_get_counter(const char *msg) "Failed to get counter from KVM: %s"
- kvm_failed_put_counter(const char *msg) "Failed to put counter into KVM: %s"
- kvm_arch_handle_exit(int num) "kvm arch handle exit, the reason number: %d"
-+kvm_set_intr(int irq, int level) "kvm set interrupt, irq num: %d, level: %d"
+ target_arch += {'loongarch': loongarch_ss}
 -- 
 2.31.1
 
