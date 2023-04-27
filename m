@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3746F0D29
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B906F0D75
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:49:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps8Ft-0002wB-3p; Thu, 27 Apr 2023 16:30:17 -0400
+	id 1ps8XB-0000Lc-W6; Thu, 27 Apr 2023 16:48:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ps8Fr-0002uO-2I; Thu, 27 Apr 2023 16:30:15 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1ps8XA-0000LG-9y; Thu, 27 Apr 2023 16:48:08 -0400
+Received: from mout.web.de ([217.72.192.78])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ps8Fn-0004zn-OQ; Thu, 27 Apr 2023 16:30:14 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id E5CE660FA2;
- Thu, 27 Apr 2023 23:30:03 +0300 (MSK)
-Received: from vsementsov-nix.yandex-team.ru (unknown
- [2a02:6b8:b081:b438::1:2b])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id lTP2w70Oh0U0-KpRVML39; Thu, 27 Apr 2023 23:30:03 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682627403; bh=knsqnnuLlTA+E6gwey9u9m+AMw1tOhZ7SzhcknyuWZI=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=NSZGAJVWdJDkJ38N2b0vOgb0S02pg3aQI04pzq6hUx6r4OsLludZYXfVn0cRx6yuC
- CbVLLl0yksfDs4fA+YmIqupcyeUSm5sJhzwS5xoh5oNSpC3KPWAWs+qMw1xZNtMnvq
- x6efcpttpZLosdwxxVlhh4MWthtX0/cckNPldGyA=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, michael.roth@amd.com, armbru@redhat.com,
- eblake@redhat.com, jasowang@redhat.com, quintela@redhat.com,
- zhanghailiang@xfusion.com, philmd@linaro.org, thuth@redhat.com,
- berrange@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- dave@treblig.org, hreitz@redhat.com, kwolf@redhat.com,
- chen.zhang@intel.com, lizhijian@fujitsu.com, lukasstraub2@web.de,
- vsementsov@yandex-team.ru
-Subject: [PATCH v3 4/4] configure: add --disable-colo-proxy option
-Date: Thu, 27 Apr 2023 23:29:46 +0300
-Message-Id: <20230427202946.1007276-5-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230427202946.1007276-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1ps8X7-0000D8-MG; Thu, 27 Apr 2023 16:48:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1682628460; i=lukasstraub2@web.de;
+ bh=kiCje0cyUAbhw3ISoF64GgQbNPrnBYN3wmz7xXQLU9c=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=mK1+eySCbb/ebDQk5hHR3qXt6odUukzid9C1lhBjyaBW0u2GenIf07UaOqAXCAS0P
+ BALXvs8kGIaiDitzP/XL3e2jA0EV6HOQYg0BRPvsJ+tx3d3JLq8sBl4H7WsKDU/r1g
+ RtYimT/95aub3p8yVWvk7SSceR9W16dsPLOrg18esDXucqqwGYijaK/x77SwC60q5z
+ pwVmi9dqol3WnCsHuUFBf1zpd04OpDatocQTZYwb4l5C9iiQwwfuy75oyEa0MAQPsD
+ RezCrZiUJ5fqxMF2CJ7yOdQ0VgYGrc7qtE0kTgsxlhvZqYhm3Cpjlc0a1EIq95HY1I
+ 9a9I73CCi+5wQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gecko.fritz.box ([82.207.254.107]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MSqTE-1phdZq2Xra-00UUcF; Thu, 27
+ Apr 2023 22:47:40 +0200
+Date: Thu, 27 Apr 2023 22:47:28 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, michael.roth@amd.com,
+ armbru@redhat.com, eblake@redhat.com, jasowang@redhat.com,
+ quintela@redhat.com, zhanghailiang@xfusion.com, philmd@linaro.org,
+ thuth@redhat.com, berrange@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, dave@treblig.org, hreitz@redhat.com, kwolf@redhat.com,
+ chen.zhang@intel.com, lizhijian@fujitsu.com
+Subject: Re: [PATCH v3 1/4] block/meson.build: prefer positive condition for
+ replication
+Message-ID: <20230427204728.63d40e98@gecko.fritz.box>
+In-Reply-To: <20230427202946.1007276-2-vsementsov@yandex-team.ru>
 References: <20230427202946.1007276-1-vsementsov@yandex-team.ru>
+ <20230427202946.1007276-2-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/E2kppciZFRaEDYcqwPLceUA";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:weZFEsCb2JiBA5xnU8yhmm2QwTNwfrkI2uGojU75EXNQUxhUEOe
+ mMlLObb/cyAsFv94Slt+zUoVxGtPeSnuy9c/0HBMlcu8gxoPyxhOSD1xEC0Pu56TgGDS019
+ hIiL3qVsyhT3ox2FCH4bdfMY/mnAhAYwL7pM/n0UEdwlHkZcpMthKTDi+gqz54w/6NB1vhN
+ 2oUk7A9RoLlIfwPcaVICA==
+UI-OutboundReport: notjunk:1;M01:P0:zcLx8w3NPjM=;6IYKnbhFQp/kOEUAXkglGtI5Q+h
+ cmJxJi9jN+blvVsCGj8yO+ZwkAfjFNZkELY1lU1zym6LjsXTq2H+/u1gtDZAIytWfyVoVq5/r
+ Fe4WNIwlHmpCLbtFZSDAZDg1e68w1ps6tI8ZOGNWtR+j+E8dzKU3EX6Sa7OWngHV9d/5cGYcO
+ bHFWLY+AHrziMKmMCwIOBG9n3RhkvUbPBWpG3sre1axEGIZ9j8HxX5WCOPywE8jFxQhOm0JL/
+ Zj4EjoEwQXTpyZITuSEWastIbCxrlVS6w0stMwZdlFqmvV5rMGhDnyr2AwnDuHF+c2d8YfLD6
+ moXmUhsLcxKBlgzzgCoATKSA60ou2q82gzm4BGiXe/Exe1WdKSv8k/Pqm6UtHXW30Wq5ETHvz
+ JFO/GXBU8pn15/yul9pzGkqvS8BlXEMoREnngKqLhCLYulWTz8v3TvAAAy/G9iOk4oKYwA0wQ
+ MtLw9WSR3TIJ9fDpHVwP8GWcEKuq/HN75Ik0Se1+MjOIoxewFp8LApufzDzMX70SMjFVCJfEu
+ GI2ee2JsF/c6E9gWv+2IlAb+oN8ATNukbiE+C6Nt3Y37mHebx878aQ/OWQq8Pj6Rt6UyM+V81
+ Cw0s8zfFwAb4hLKMId8SHwOeMl2Ry27k2rEmJToZjPcQ0BvArcOtT3crdHQs7hPt/OavVR8Eh
+ PPfboUbHdG2osjwwOoZWuF6GX61G7n8whBAbSt1oQ6K19zg/RUOxSmTYbrdAbzkOy2TTaR8Um
+ KxGd+7arii2qJ6jPd9tXMSJxmwjC1P1ubu2skQrFvvWyslR1fRrZMVc6oPoZCVuPmW1Tw6LnZ
+ KsNnAbjW6YJ9JTx7evv4mWGuSgef5mG9W6xRXuY/lv3JwFN7aMM6CPw7GmTWJAJrVtXaT1QPg
+ wgWmm7Ma6sosFtdmGzu8bN1+5kz9G/zDTyyc34Sv/QSkealkpuVlK1Vt0NS0OLDIOP5F5BJdq
+ BTRgkSLCFW4K8rDA8vkSTD3rue0=
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,119 +92,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add option to not build filter-mirror, filter-rewriter and
-colo-compare when they are not needed.
+--Sig_/E2kppciZFRaEDYcqwPLceUA
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-There could be more agile configuration, for example add separate
-options for each filter, but that may be done in future on demand. The
-aim of this patch is to make possible to disable the whole COLO Proxy
-subsystem.
+On Thu, 27 Apr 2023 23:29:43 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- meson_options.txt             |  2 ++
- net/meson.build               | 14 ++++++++++----
- scripts/meson-buildoptions.sh |  3 +++
- stubs/colo-compare.c          |  7 +++++++
- stubs/meson.build             |  1 +
- 5 files changed, 23 insertions(+), 4 deletions(-)
- create mode 100644 stubs/colo-compare.c
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-diff --git a/meson_options.txt b/meson_options.txt
-index 2471dd02da..b59e7ae342 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -289,6 +289,8 @@ option('live_block_migration', type: 'feature', value: 'auto',
-        description: 'block migration in the main migration stream')
- option('replication', type: 'feature', value: 'auto',
-        description: 'replication support')
-+option('colo_proxy', type: 'feature', value: 'auto',
-+       description: 'colo-proxy support')
- option('bochs', type: 'feature', value: 'auto',
-        description: 'bochs image format support')
- option('cloop', type: 'feature', value: 'auto',
-diff --git a/net/meson.build b/net/meson.build
-index 87afca3e93..4cfc850c69 100644
---- a/net/meson.build
-+++ b/net/meson.build
-@@ -1,13 +1,9 @@
- softmmu_ss.add(files(
-   'announce.c',
-   'checksum.c',
--  'colo-compare.c',
--  'colo.c',
-   'dump.c',
-   'eth.c',
-   'filter-buffer.c',
--  'filter-mirror.c',
--  'filter-rewriter.c',
-   'filter.c',
-   'hub.c',
-   'net-hmp-cmds.c',
-@@ -19,6 +15,16 @@ softmmu_ss.add(files(
-   'util.c',
- ))
- 
-+if get_option('replication').allowed() or \
-+    get_option('colo_proxy').allowed()
-+  softmmu_ss.add(files('colo-compare.c'))
-+  softmmu_ss.add(files('colo.c'))
-+endif
-+
-+if get_option('colo_proxy').allowed()
-+  softmmu_ss.add(files('filter-mirror.c', 'filter-rewriter.c'))
-+endif
-+
- softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
- 
- if have_l2tpv3
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index d4369a3ad8..036047ce6f 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -83,6 +83,7 @@ meson_options_help() {
-   printf "%s\n" '  capstone        Whether and how to find the capstone library'
-   printf "%s\n" '  cloop           cloop image format support'
-   printf "%s\n" '  cocoa           Cocoa user interface (macOS only)'
-+  printf "%s\n" '  colo-proxy      colo-proxy support'
-   printf "%s\n" '  coreaudio       CoreAudio sound support'
-   printf "%s\n" '  crypto-afalg    Linux AF_ALG crypto backend driver'
-   printf "%s\n" '  curl            CURL block device driver'
-@@ -236,6 +237,8 @@ _meson_option_parse() {
-     --disable-cloop) printf "%s" -Dcloop=disabled ;;
-     --enable-cocoa) printf "%s" -Dcocoa=enabled ;;
-     --disable-cocoa) printf "%s" -Dcocoa=disabled ;;
-+    --enable-colo-proxy) printf "%s" -Dcolo_proxy=enabled ;;
-+    --disable-colo-proxy) printf "%s" -Dcolo_proxy=disabled ;;
-     --enable-coreaudio) printf "%s" -Dcoreaudio=enabled ;;
-     --disable-coreaudio) printf "%s" -Dcoreaudio=disabled ;;
-     --enable-coroutine-pool) printf "%s" -Dcoroutine_pool=true ;;
-diff --git a/stubs/colo-compare.c b/stubs/colo-compare.c
-new file mode 100644
-index 0000000000..ec726665be
---- /dev/null
-+++ b/stubs/colo-compare.c
-@@ -0,0 +1,7 @@
-+#include "qemu/osdep.h"
-+#include "qemu/notify.h"
-+#include "net/colo-compare.h"
-+
-+void colo_compare_cleanup(void)
-+{
-+}
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 8412cad15f..a56645e2f7 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -46,6 +46,7 @@ stub_ss.add(files('target-monitor-defs.c'))
- stub_ss.add(files('trace-control.c'))
- stub_ss.add(files('uuid.c'))
- stub_ss.add(files('colo.c'))
-+stub_ss.add(files('colo-compare.c'))
- stub_ss.add(files('vmstate.c'))
- stub_ss.add(files('vm-stop.c'))
- stub_ss.add(files('win32-kbd-hook.c'))
--- 
-2.34.1
+Reviewed-by: Lukas Straub <lukasstraub2@web.de>
 
+> ---
+>  block/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/block/meson.build b/block/meson.build
+> index 382bec0e7d..b9a72e219b 100644
+> --- a/block/meson.build
+> +++ b/block/meson.build
+> @@ -84,7 +84,7 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file=
+-win32.c', 'win32-aio.c')
+>  block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), core=
+f, iokit])
+>  block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
+>  block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
+> -if not get_option('replication').disabled()
+> +if get_option('replication').allowed()
+>    block_ss.add(files('replication.c'))
+>  endif
+>  block_ss.add(when: libaio, if_true: files('linux-aio.c'))
+
+
+
+--=20
+
+
+--Sig_/E2kppciZFRaEDYcqwPLceUA
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRK32AACgkQNasLKJxd
+slgxGRAAolumahUTNG2yGL6NEROqKxA3fgspM1gkI7J0CwqM5djEN3coSTp1ji2U
+CuIjrDyHJnShDyCzJqmW7Fd/5PkYUEUyG78rT7dZZVX8omaEzG7zGgx9VjEx8qoM
+Az+5pwjriH8i1ejwiHAhGU6EEG+YdhDnkBGl0bwYRWVGs58h0AgCez9F6rUSGPO+
+lHC9IRx1KgPNSm8xMr9aDCI8TyNa0s6HGITt0JsJkmBxKTAoHujSNJ2TE8Y4PEl6
+xHfwrHWv8n6g5LE2T0TXD1bfHznLnQl2vvAeB5NM2LHwDA6hjLgMnKU3QU8HBuIg
+FbtVM+GxyD/j12MR0KwiHwSBxiV2MnF1IynA4nAvyxNEpEetjWXRWQvGjOC6ije2
+OEOqW4QoMvCC19ewib34dGHM5CAVUMLF7hMct18P766oJQZhkyT55Dl+GNLPg8rf
+0crHy80NSGjxzWZrMWdSrdBezcntezmrDv2n3/NHHRRk4NBel2wyY7O4EC5z0qAk
+38rt8Uh5wSUZHbmT9jJceIJUPb6xENTL1E4SSk6KSnhfjwoBdzA9qzkV79G5nQgy
+WfSzxUf7Sxbw/MCFnRhs9+gVXEfCAOludaJB3pt8RKC7Q3fX6WrrGWbIpmPmoEWi
+2BrNZ3wjxxHi+L44X4Hpk786ec/viEU6Rk8VSvMUfOI4MNq29a8=
+=DSWk
+-----END PGP SIGNATURE-----
+
+--Sig_/E2kppciZFRaEDYcqwPLceUA--
 
