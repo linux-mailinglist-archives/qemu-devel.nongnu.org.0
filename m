@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DF66F03C0
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2516F03C3
 	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 11:54:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pryJB-0004ml-DF; Thu, 27 Apr 2023 05:53:01 -0400
+	id 1pryJB-0004mg-2a; Thu, 27 Apr 2023 05:53:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pryJ8-0004m3-OB
+ id 1pryJ8-0004lw-Hn
  for qemu-devel@nongnu.org; Thu, 27 Apr 2023 05:52:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pryJ5-0000GI-TP
+ id 1pryJ6-0000GN-Di
  for qemu-devel@nongnu.org; Thu, 27 Apr 2023 05:52:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682589174;
+ s=mimecast20190719; t=1682589175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=So7kpXrb7cV0UvncIqicvZPdMh4mWLNIKUG+xNw8oMk=;
- b=cLmVsugRGVkREwiiWXx/XbMJjYji6J+DtVFchuK859iCSoJbqUfNI0xX5/uwJVqSWCAE2a
- GvbWUDGgFFLjLyQaNuqZ1GcVQr/0NO6X2JFzq4weVyeiHIEeUwAni+zWewz0vP6K0Iem9R
- lS5bMU0qeFAGpRMP/6Gtkzzb4Q4dvRU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G+QFx+Aqiw5usmuF3tqscQMneODVq40iixST2DAUc0c=;
+ b=Ep96USatlt/6RHtDt3oGISriYX1KoHWglqqJer+lWcIhZZTqabfV5EfXG2h8xhW7b9dQCi
+ AnYu6oAUBfibX1JIjModLdzcN1slH169mgsQmAKJYhZqbRXyEfLvjp0MCvi17vAOf51ABZ
+ Nl11tsjuhqAzk2WWIfutoUNviUueinI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-325-Q11oDuONNMCf3ahRmUavhQ-1; Thu, 27 Apr 2023 05:52:52 -0400
-X-MC-Unique: Q11oDuONNMCf3ahRmUavhQ-1
+ us-mta-587-yheyZzCKNeC69TvsG_xqDw-1; Thu, 27 Apr 2023 05:52:54 -0400
+X-MC-Unique: yheyZzCKNeC69TvsG_xqDw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46E152806041;
- Thu, 27 Apr 2023 09:52:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A19DD811E7C;
+ Thu, 27 Apr 2023 09:52:53 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC6152166B46;
- Thu, 27 Apr 2023 09:52:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88E4F2166B41;
+ Thu, 27 Apr 2023 09:52:52 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Peter Xu <peterx@redhat.com>, Leonardo Bras <leobras@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>
-Subject: [PATCH v6 0/3] Migration: Make more ram_counters atomic
-Date: Thu, 27 Apr 2023 11:52:47 +0200
-Message-Id: <20230427095250.22350-1-quintela@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH v6 1/3] stat64: Add stat64_set() operation
+Date: Thu, 27 Apr 2023 11:52:48 +0200
+Message-Id: <20230427095250.22350-2-quintela@redhat.com>
+In-Reply-To: <20230427095250.22350-1-quintela@redhat.com>
+References: <20230427095250.22350-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
@@ -77,65 +79,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Changes in v6:
-- Create stat64_set() operation
-  Impersonating Paolo in "Author" field, as he is the real author.
-- Update to stat64_set()
-- Everything is consistent and coherent under the sun.
-
-Please review.
-
-[v5]
-Not only change the type of the counters, also use the __nocheck()
-variants of the functions.
-
-Please, review.
-
-[v4]
-- Change aligned_uint64_t to size_t to make (some) 32bit hosts happy.
-
-Please review.
-
-[v3]
-- Addressed reviews
-- All counters are now atomic, either Stat64 or atomic.
-- Rename duplicated to zero_pages
-- Rename normal to zero_pages.
-
-Please review.
-
-[v2]
-- fix typos found by David Edmondson
-- Add review-by tags.
-
-Please review.
-
-[v1]
-On previous series we cerate ram_atomic_counters.  But we basically
-need that all counters are atomic.  So move back to only have
-ram_counters, just with a new type that allows the atomic counters.
-
-Once there, move update of stats out of RAM mutex.
-And make multifd_bytes atomic.
-
-Later, Juan.
-
-Juan Quintela (2):
-  migration: Make dirty_pages_rate atomic
-  migration: Make dirty_bytes_last_sync atomic
-
-Paolo Bonzini (1):
-  stat64: Add stat64_set() operation
-
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
  include/qemu/stats64.h |  6 ++++++
- migration/migration.c  |  9 ++++++---
- migration/ram.c        |  7 ++++---
- migration/ram.h        |  4 ++--
  util/stats64.c         | 11 +++++++++++
- 5 files changed, 29 insertions(+), 8 deletions(-)
+ 2 files changed, 17 insertions(+)
 
+diff --git a/include/qemu/stats64.h b/include/qemu/stats64.h
+index 802402254b..99b5cb724a 100644
+--- a/include/qemu/stats64.h
++++ b/include/qemu/stats64.h
+@@ -40,6 +40,11 @@ static inline uint64_t stat64_get(const Stat64 *s)
+     return qatomic_read__nocheck(&s->value);
+ }
+ 
++static inline void stat64_set(Stat64 *s, uint64_t value)
++{
++    qatomic_set__nocheck(&s->value, value);
++}
++
+ static inline void stat64_add(Stat64 *s, uint64_t value)
+ {
+     qatomic_add(&s->value, value);
+@@ -62,6 +67,7 @@ static inline void stat64_max(Stat64 *s, uint64_t value)
+ }
+ #else
+ uint64_t stat64_get(const Stat64 *s);
++void stat64_set(Stat64 *s, uint64_t value);
+ bool stat64_min_slow(Stat64 *s, uint64_t value);
+ bool stat64_max_slow(Stat64 *s, uint64_t value);
+ bool stat64_add32_carry(Stat64 *s, uint32_t low, uint32_t high);
+diff --git a/util/stats64.c b/util/stats64.c
+index 897613c949..09736014ec 100644
+--- a/util/stats64.c
++++ b/util/stats64.c
+@@ -57,6 +57,17 @@ uint64_t stat64_get(const Stat64 *s)
+     return ((uint64_t)high << 32) | low;
+ }
+ 
++void stat64_set(Stat64 *s, uint64_t val)
++{
++    while (!stat64_wrtrylock(s)) {
++        cpu_relax();
++    }
++
++    qatomic_set(&s->high, val >> 32);
++    qatomic_set(&s->low, val);
++    stat64_wrunlock(s);
++}
++
+ bool stat64_add32_carry(Stat64 *s, uint32_t low, uint32_t high)
+ {
+     uint32_t old;
 -- 
 2.40.0
 
