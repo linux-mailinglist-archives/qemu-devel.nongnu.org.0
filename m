@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25A16F066B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:12:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD5B6F067F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:18:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps1Q7-0005Nx-6f; Thu, 27 Apr 2023 09:12:23 -0400
+	id 1ps1Ud-0006zO-KN; Thu, 27 Apr 2023 09:17:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1ps1Pz-0005NZ-LM
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:12:15 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1ps1UX-0006yp-6J; Thu, 27 Apr 2023 09:16:57 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1ps1Pw-0000wu-Pa
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:12:14 -0400
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1ps1UV-0002Dp-Dj; Thu, 27 Apr 2023 09:16:56 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1316E21B30;
- Thu, 27 Apr 2023 13:12:09 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4CD8821B34;
+ Thu, 27 Apr 2023 13:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682601129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1682601411; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PIP26LRooR4aw4/wSjUqUgczx/ao5b+eWH5anwWQE/Q=;
- b=S1MHWFw4XpWsi0hglUU8RG+hp2tChy/Rr67D5ZWNUNFbvbvntLrPIH/35fzZaVTTff6ubr
- RI8z6lynA/OSBBL8bE8Hz+3x0YQhGJbuvZh6Iie5BO3GgBbIFfCIBangaJ/k21Fvi6avuV
- osSo9TmlPUk61pBMVvwHEMcO54YRBnk=
+ bh=MX6UVE4mjzxG9yyliZyZZXDI0qRbdsD1I4FO143MM78=;
+ b=z36CFUnj8VFVgi37lLzTYRvr+6OjlKh8Og7SEhuI6LmproqH01NMl89QGSpCnQRu3NCwlr
+ Yljtf02M6z26IPjDongNyx+WP1Dx+ef4aUnSkOkpkYkktExOGZc7+NlfTq7+oozMC3xtAG
+ XJTwPbbwB5luY+/M2W6stf1RcoY/Mpo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682601129;
+ s=susede2_ed25519; t=1682601411;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PIP26LRooR4aw4/wSjUqUgczx/ao5b+eWH5anwWQE/Q=;
- b=TdYPl35dEMROvs+VtHs6wxbxKIzi7NsVOp/aTlVgjklhQY59xfmrrcAW8YD99WxdERVOJr
- y/d30OJP0zqRLyCQ==
+ bh=MX6UVE4mjzxG9yyliZyZZXDI0qRbdsD1I4FO143MM78=;
+ b=E0DzPQk6dGBGxxtCS3ZwVfi7ZmeP03GaNSMnAtFlNBHs9sKOJCayKYey2+siNfJjbtRvlJ
+ 5GxSNLNo8zq7/wBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8D519138F9;
- Thu, 27 Apr 2023 13:12:08 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C4453138F9;
+ Thu, 27 Apr 2023 13:16:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lKWfFah0SmT3bQAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 27 Apr 2023 13:12:08 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id KjPxIcJ1SmSDcAAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 27 Apr 2023 13:16:50 +0000
 From: Fabiano Rosas <farosas@suse.de>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?=
- Lureau <marcandre.lureau@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>
-Subject: Re: [PATCH] meson: Pass -j option to sphinx
-In-Reply-To: <ZEpjgDbIZZ5H89N8@redhat.com>
-References: <20230426160347.8860-1-farosas@suse.de>
- <ZEpjgDbIZZ5H89N8@redhat.com>
-Date: Thu, 27 Apr 2023 10:12:06 -0300
-Message-ID: <87cz3ppizd.fsf@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>, Laurent
+ Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v11 06/13] tests/qtest: Adjust and document
+ query-cpu-model-expansion test for arm
+In-Reply-To: <c2853e95-2aec-246a-5846-d91d40329c61@linaro.org>
+References: <20230426180013.14814-1-farosas@suse.de>
+ <20230426180013.14814-7-farosas@suse.de>
+ <c2853e95-2aec-246a-5846-d91d40329c61@linaro.org>
+Date: Thu, 27 Apr 2023 10:16:48 -0300
+Message-ID: <87a5ytpirj.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -88,79 +93,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On Wed, Apr 26, 2023 at 01:03:46PM -0300, Fabiano Rosas wrote:
->> Save a bit of build time by passing the number of jobs option to
->> sphinx.
+> On 4/26/23 19:00, Fabiano Rosas wrote:
+>> We're about to move the 32-bit CPUs under CONFIG_TCG, so adjust the
+>> query-cpu-model-expansion test to check against the cortex-a7, which
+>> is already under CONFIG_TCG. That allows the next patch to contain
+>> only code movement.
 >>=20
->> To avoid warnings from sphinx, alter our plugins to inform whether
->> they support parallelism. The two plugins touched are quite simple and
->> I don't see anything that would indicate they do not support being
->> called in parallel, so return True for both reads and writes.
+>> While here add comments clarifying what we're testing.
 >>=20
->> before:
->>  $ time make -j16 man html
->>  ...
->>  [1/2] Generating docs/QEMU manual with a custom command
->>  [2/2] Generating docs/QEMU man pages with a custom command
->>=20
->>  real    0m49.770s
->>  user    0m49.425s
->>  sys     0m0.716s
->>=20
->> after:
->>  $ time make -j16 man html
->>  ...
->>  [1/2] Generating docs/QEMU manual with a custom command (wrapped by mes=
-on because command contains newlines)
->>  [2/2] Generating docs/QEMU man pages with a custom command (wrapped by =
-meson because command contains newlines)
->>  real    0m30.153s
->>  user    1m5.945s
->>  sys     0m2.440s
+>> Signed-off-by: Fabiano Rosas<farosas@suse.de>
+>> Suggested-by: Philippe Mathieu-Daud=C3=A9<philmd@linaro.org>
+>> ---
+>>   tests/qtest/arm-cpu-features.c | 20 +++++++++++++++++---
+>>   1 file changed, 17 insertions(+), 3 deletions(-)
 >
-> When I test this on Fedora 38, the docs build hangs forever.
->
-> I ran sphinx directly and see it prints a traceback and then
-> fails to exit after this error
->
-> Traceback (most recent call last):
->   File "/usr/lib/python3.11/site-packages/sphinx/util/parallel.py", line =
-105, in join
->     if not self._join_one():
->            ^^^^^^^^^^^^^^^^
->   File "/usr/lib/python3.11/site-packages/sphinx/util/parallel.py", line =
-129, in _join_one
->     self._result_funcs.pop(tid)(self._args.pop(tid), result)
->   File "/usr/lib/python3.11/site-packages/sphinx/builders/__init__.py", l=
-ine 478, in merge
->     self.env.merge_info_from(docs, env, self.app)
->   File "/usr/lib/python3.11/site-packages/sphinx/environment/__init__.py"=
-, line 366, in merge_info_from
->     domain.merge_domaindata(docnames, other.domaindata[domainname])
->   File "/usr/lib/python3.11/site-packages/sphinx/domains/__init__.py", li=
-ne 295, in merge_domaindata
->     raise NotImplementedError('merge_domaindata must be implemented in %s=
- '
-> NotImplementedError: merge_domaindata must be implemented in <class 'dbus=
-domain.DBusDomain'> to be able to do parallel builds!
->
-> During handling of the above exception, another exception occurred:
->
-> Traceback (most recent call last):
->   File "/usr/lib/python3.11/site-packages/sphinx/cmd/build.py", line 281,=
- in build_main
->     app.build(args.force_all, args.filenames)
->   File "/usr/lib/python3.11/site-packages/sphinx/application.py", line 34=
-7, in build
->     self.builder.build_update()
->   File "/usr/lib/python3.11/site-packages/sphinx/builders/__init__.py", l=
-ine 310, in build_update
->     self.build(to_build,
+> I don't see why you're changing the cpu model here.
+> Neither cpu will work, of course, but why change?
 >
 
-Ah it seems the DBus plugin is only in effect when using sphinx > 4.
-I'll try to reproduce and see what it takes to implement this
-merge_domaindata. Thanks for testing.
+Because there's already a patch in master that puts the cortex-a7 under
+CONFIG_TCG, so I can have the whole if/else in this patch.
+
+If I keep the cortex-a15, this change needs to go into the next patch
+("move cpu_tcg to tcg/cpu32.c") which moves the rest of the 32bit cpus,
+which was supposed to be only code movement.
 
