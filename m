@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3F36F026C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 10:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3E96F0270
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 10:20:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prwpC-0006aM-Ny; Thu, 27 Apr 2023 04:17:58 -0400
+	id 1prwrG-0007QL-Fb; Thu, 27 Apr 2023 04:20:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1prwp8-0006Zl-LA
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:17:56 -0400
+ id 1prwr9-0007PN-TQ
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:20:01 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1prwp2-0007lN-Id
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:17:53 -0400
+ id 1prwqu-0008F7-Sr
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:19:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682583466;
+ s=mimecast20190719; t=1682583576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XANpfYL3eIPAk1eeS6Vmi90EzxLHXhcMqTqYhiXJQPU=;
- b=Xefo2M8ckIe9VC7V9JGTzRLHHqrReI+eoQXlm1yQVMZQ/6L/8g2V0PvCx7oFXJMXarpunb
- FGObUJXP2nVDNgqLxxcB3ofy2Y02vbNJCoc464EPeLL3OqJfBtWAB9VTj8FJvUphvoSr4f
- 8XIh71ln4q3K7v37AWLFc/ce4r39gP8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sFtUvoE0eHDC2HpV4oGHkxfd7astdfA8slZEKZeEvQY=;
+ b=fp69Xc4aEaD2XlSg984a8Q7HZ5wnWO4zt7mf8VM2+jmQEbNw9pDIF8Q/gJjcmO461iBo8l
+ TOeW5Vz4tTd3p/KGdRO+8D/WF7ikwBuSrhv2qKF9qJewHFii8VgUARKTDHsT4fQi4F6MEz
+ JUCE0KiZJHFNff4q+5lT9xQB8YFwgyU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-672-FmPsIOwuO2SaVDlf9ofDvQ-1; Thu, 27 Apr 2023 04:17:45 -0400
-X-MC-Unique: FmPsIOwuO2SaVDlf9ofDvQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-30479b764f9so1738003f8f.0
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 01:17:44 -0700 (PDT)
+ us-mta-538-DjJ4WARuMH6lzuduK05AbQ-1; Thu, 27 Apr 2023 04:19:31 -0400
+X-MC-Unique: DjJ4WARuMH6lzuduK05AbQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f16ef3bf06so28295345e9.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 01:19:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682583464; x=1685175464;
+ d=1e100.net; s=20221208; t=1682583570; x=1685175570;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XANpfYL3eIPAk1eeS6Vmi90EzxLHXhcMqTqYhiXJQPU=;
- b=ZcPrF9V9fUrIgcT8pBlqco0XG/lAT1c//0TInmB1xvsQVfYxGIHJFzSuUHJD6tIdFZ
- 76axK1J9fSLOqIIsfFiyokuXTWFgRj8LO5wkk/eciNBE9qi8i86JlbhwQd5kXUdxVmTe
- vj6WBRMBCaghPLiwPCIX2bpiMsEDdizLNMQvQJgMeVRzAhzF/jGIXNKfCQtEAz7+9cQ+
- 5KmrjdCloiqV5lOyiPIRI1S77sfN4T8LlS7R438oDOHdU2z9NUNm2ApRROlVuudfu7oB
- Pa8A0x/O05ggvZuVQwJ1ORgtVrMKIbadF/PvEv9T01zd5MH9Q56IvKn5LL+jF3M87EDX
- eayw==
-X-Gm-Message-State: AC+VfDwkHbiUr3C+hmehjvPdNKAXoMUCRAPcae6atTwhvKQvIFris4lN
- HPIoBP9NDi97YbjslwN71kueHoLWflLqaOeujaQ+3BCzVQkPvDnCFmhXEqholTaVAkbnf6g5KCb
- xogVCHrCXtqhVTUQ=
-X-Received: by 2002:adf:e6d2:0:b0:2fa:1c3b:ca51 with SMTP id
- y18-20020adfe6d2000000b002fa1c3bca51mr640270wrm.71.1682583463976; 
- Thu, 27 Apr 2023 01:17:43 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ46g63pcSLtnRl+42gqLAN0PpDM/Mm6ShmCrFyhibcuma7BKtuDchwaLIo0YOfRMXUsorDqaQ==
-X-Received: by 2002:adf:e6d2:0:b0:2fa:1c3b:ca51 with SMTP id
- y18-20020adfe6d2000000b002fa1c3bca51mr640254wrm.71.1682583463665; 
- Thu, 27 Apr 2023 01:17:43 -0700 (PDT)
+ bh=sFtUvoE0eHDC2HpV4oGHkxfd7astdfA8slZEKZeEvQY=;
+ b=YeIKmKMa1IQkFsEXrPg34VWnq+mE+bNl1R+X2cjHpTjQZ10J4nqDIkUf6Rz8Ywt6tx
+ QSNyA0hE/PcypbMQ/851JJ+mRd4f2N/ZJRC+pxt5Bba8J0nxcshWb5jd+rNCB0btZukH
+ sJW9T/9yThCCTgWM/xMomwNC1R63k3HVtZzy6Xh6H+pfVVDRYQPJ/6LqtbzOZC4gFeUF
+ zyQLcVXIhBkU5sPPpNgp/52EpcQJ/T40qhm4XosKvrMj7EWvQbh3naQj8ZmhUg0FgbxP
+ u2bMLTRdyzHy8b0hP6GjgFdg0WUgtF2zXEgAOawBYhInIggstTX4YJWe3prwSX4pebbP
+ 79Zg==
+X-Gm-Message-State: AC+VfDxSHFYA87Nd3osVsmHvTV5SMoadrMpO9iOBHMdxk6J8gpjTBfoV
+ yS+FDhATpAYnEkhOH3EBIWS7dV1AZxx+7nZWegVzKOdajb4cAeipmTAmU85CQmjf4B46fvAhJ71
+ hviodm2/KVqzTD/c=
+X-Received: by 2002:a05:600c:ac8:b0:3f1:819d:d050 with SMTP id
+ c8-20020a05600c0ac800b003f1819dd050mr654836wmr.37.1682583570420; 
+ Thu, 27 Apr 2023 01:19:30 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7s1dyYBiL4t7WLkYL0KdM9a3BiugKy82vPxe9SB0twLnukRNmRRuphfAFZFYFXRaoQtWsS2A==
+X-Received: by 2002:a05:600c:ac8:b0:3f1:819d:d050 with SMTP id
+ c8-20020a05600c0ac800b003f1819dd050mr654824wmr.37.1682583570047; 
+ Thu, 27 Apr 2023 01:19:30 -0700 (PDT)
 Received: from [10.32.181.74] (nat-pool-mxp-t.redhat.com. [149.6.153.186])
  by smtp.googlemail.com with ESMTPSA id
- y11-20020adfe6cb000000b002f81b4227cesm17963386wrm.19.2023.04.27.01.17.42
+ 11-20020a05600c228b00b003f1736fdfedsm20469219wmf.10.2023.04.27.01.19.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 01:17:43 -0700 (PDT)
-Message-ID: <8124b04e-b9ca-b52c-6177-1aebdd0f9204@redhat.com>
-Date: Thu, 27 Apr 2023 10:17:42 +0200
+ Thu, 27 Apr 2023 01:19:29 -0700 (PDT)
+Message-ID: <e50334ea-9ae6-13d1-ac41-035f07ce7980@redhat.com>
+Date: Thu, 27 Apr 2023 10:19:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH v5 1/2] migration: Make dirty_pages_rate atomic
+Subject: Re: [PATCH v5 2/2] migration: Make dirty_bytes_last_sync atomic
 Content-Language: en-US
 To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, Leonardo Bras <leobras@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
 References: <20230426201002.15414-1-quintela@redhat.com>
- <20230426201002.15414-2-quintela@redhat.com>
+ <20230426201002.15414-3-quintela@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230426201002.15414-2-quintela@redhat.com>
+In-Reply-To: <20230426201002.15414-3-quintela@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
@@ -105,62 +105,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/26/23 22:10, Juan Quintela wrote:
-> In this case we use qatomic operations instead of Stat64 wrapper
-> because there is no stat64_set().  Defining the 64 bit wrapper is
-> trivial. The one without atomics is more interesting.
+> Don't use __nocheck() functions.
 
-This does not work if CONFIG_ATOMIC64 is not defined.
+Doesn't this break on 32-bit platforms?
 
-I actually have stat64_set in a patchset that I still have to submit, so 
-you can reuse it:
+#if defined(__x86_64__) || defined(__sparc__) || defined(__mips64)
+# define ATOMIC_REG_SIZE  8
+#else
+# define ATOMIC_REG_SIZE  sizeof(void *)
+#endif
 
-diff --git a/include/qemu/stats64.h b/include/qemu/stats64.h
-index 802402254b6f..99b5cb724a89 100644
---- a/include/qemu/stats64.h
-+++ b/include/qemu/stats64.h
-@@ -40,6 +40,11 @@ static inline uint64_t stat64_get(const Stat64 *s)
-      return qatomic_read__nocheck(&s->value);
-  }
+#define qatomic_set(ptr, i)  do {                      \
+     qemu_build_assert(sizeof(*ptr) <= ATOMIC_REG_SIZE); \
+     qatomic_set__nocheck(ptr, i);                      \
+} while(0)
 
-+static inline void stat64_set(Stat64 *s, uint64_t value)
-+{
-+    qatomic_set__nocheck(&s->value, value);
-+}
-+
-  static inline void stat64_add(Stat64 *s, uint64_t value)
-  {
-      qatomic_add(&s->value, value);
-@@ -62,6 +67,7 @@ static inline void stat64_max(Stat64 *s,
-  }
-  #else
-  uint64_t stat64_get(const Stat64 *s);
-+void stat64_set(Stat64 *s, uint64_t value);
-  bool stat64_min_slow(Stat64 *s, uint64_t value);
-  bool stat64_max_slow(Stat64 *s, uint64_t value);
-  bool stat64_add32_carry(Stat64 *s, uint32_t low, uint32_t high);
-diff --git a/util/stats64.c b/util/stats64.c
-index 897613c94965..efa04d5759f0 100644
---- a/util/stats64.c
-+++ b/util/stats64.c
-@@ -57,6 +57,17 @@ uint64_t stat64_get(const Stat64 *s)
-      return ((uint64_t)high << 32) | low;
-  }
-
-+void stat64_set(Stat64 *s, uint64_t val)
-+{
-+    while (!stat64_wrtrylock(s)) {
-+        cpu_relax();
-+    }
-+
-+    qatomic_set(&s->high, val >> 32);
-+    qatomic_set(&s->low, val);
-+    stat64_wrunlock(s);
-+}
-+
-  bool stat64_add32_carry(Stat64 *s, uint32_t low, uint32_t high)
-  {
-      uint32_t old;
-
+So if sizeof(void*) == 4 it would trigger a compile-time assertion.
 
 Paolo
 
