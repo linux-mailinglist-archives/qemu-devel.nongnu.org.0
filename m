@@ -2,99 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A81A6F079A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 16:37:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5BA6F07A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 16:41:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps2k6-00036Q-Gv; Thu, 27 Apr 2023 10:37:06 -0400
+	id 1ps2n3-0005Ij-3M; Thu, 27 Apr 2023 10:40:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ps2k4-00035v-B6
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 10:37:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ps2my-0005Hs-3w
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 10:40:04 -0400
+Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ps2k2-0004Zq-FD
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 10:37:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682606199;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=drAEWeNga3k20mhosfvGXwlBTp+qejLeba4d8+RP7fc=;
- b=VBYhtNr5x9CUdpnVBWcGhtthNpDPdLUPneaWld4U34uQ15W+USyBhvsplFTYq7RtDeaqHI
- P+KFTIaZ+WFN3fbkTI8W1cahgoB3QWqrhPeIZaIQgdCAeSPdkwUCEQ9MLpLVEgptPdChPM
- etLv5mXNQHYeQqJ8Qt4up7cTvYUDuCI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-584-h5PYolpLNne6RgpJos25OA-1; Thu, 27 Apr 2023 10:36:18 -0400
-X-MC-Unique: h5PYolpLNne6RgpJos25OA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-2f625d521abso4942629f8f.3
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 07:36:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682606176; x=1685198176;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=drAEWeNga3k20mhosfvGXwlBTp+qejLeba4d8+RP7fc=;
- b=YVVgR/BkJp55cdZj+76pJJn6GDn9270CGeJuwYtFmHOJCuO0iK6LrLeUo4yWkmrtW+
- MrMmZWCFbalAAUpa/swTqSdZ5eiA0vm/rQ9sjS1Eft8fhiU+fuF8PnDJ9POUzgZbhoeh
- GkGZ05zKtfoYIgFZvAom4jqWMLIN7DPEtSpNfyZ+zdigopYyo6e31sfxdgmiG3VZ7Jkw
- sTI/YUPv/kIhq4unvQ0IhNR+zpttT2LB87O9imzkfbQQ2C/dhdppjPfQNv2z5vlQGujx
- i8NAwrDZQ699jQQBWjjkuMHfV0kctaWQqnIweZ/mHphNSJp1xqD7mKyBvUoUEO+U3O42
- 1kIQ==
-X-Gm-Message-State: AC+VfDycoSpkKRKilgoqWHp/fzukpSt1MsuKdR/262dHcL8VEI25OpRA
- 4IE0g1q3/oYzJstVAaGzj5JPJICYEeIpEY7+bYxLrOW8KviKuOmiBtiFfRZhYEsf6B9PFK7Y2ml
- behCTnuZ9ljcvrLM=
-X-Received: by 2002:adf:dbcf:0:b0:2ef:b433:2942 with SMTP id
- e15-20020adfdbcf000000b002efb4332942mr1180822wrj.21.1682606176249; 
- Thu, 27 Apr 2023 07:36:16 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ68bOB4fqeYwDBzIagJnMoJdu7CSNCARqZinByNIGIq4HNcRN7OcpEuCmyqAsVpzaNZRwf1GQ==
-X-Received: by 2002:adf:dbcf:0:b0:2ef:b433:2942 with SMTP id
- e15-20020adfdbcf000000b002efb4332942mr1180810wrj.21.1682606175909; 
- Thu, 27 Apr 2023 07:36:15 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- k6-20020a5d5246000000b002e71156b0fcsm18840361wrc.6.2023.04.27.07.36.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 07:36:15 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: Kevin Wolf <kwolf@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,  QEMU Developers
- <qemu-devel@nongnu.org>,  "open list:Block layer core"
- <qemu-block@nongnu.org>,  Michael Roth <michael.roth@amd.com>,  Fam Zheng
- <fam@euphon.net>,  Stefan Hajnoczi <stefanha@redhat.com>,  Thomas
- Lamprecht <t.lamprecht@proxmox.com>,  Peter Xu <peterx@redhat.com>
-Subject: Re: QMP (without OOB) function running in thread different from the
- main thread as part of aio_poll
-In-Reply-To: <515e6a39-8515-b32b-05ce-6d7511779b1b@proxmox.com> (Fiona Ebner's
- message of "Thu, 27 Apr 2023 14:27:09 +0200")
-References: <2a61b581-5a21-c945-bb98-b6863cac0c1f@proxmox.com>
- <877cu7gk1g.fsf@pond.sub.org>
- <CABgObfapoyrFhY9kna_=D7PJ4yAssTgzY3jxSZD=6v0zCGDcSA@mail.gmail.com>
- <3ba2f8b9-9818-6601-2247-7b0e20d7ab0d@proxmox.com>
- <ZEpWd+273aIVZrRV@redhat.com>
- <515e6a39-8515-b32b-05ce-6d7511779b1b@proxmox.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 27 Apr 2023 16:36:14 +0200
-Message-ID: <87zg6tbdep.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1ps2mu-0005w4-UB
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 10:40:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=ipxAvyfIh9XPFum/q33CDyWGpqoYTq0fKV7GXcBl2nE=; b=pRv2MOrtiST/N7oy3EuK4LSnF4
+ o++xubfkcwj3pb2sGt/o0ubDGwbW4uvkgy1BQ9LwN78pBHRMhS0Lw8j7jDUGzPo9ObRD9+pRYOlrR
+ 1i640YqHEDArOva7gcNXqt0yswuPY4sNbJlq23oHzgT5ghzNek478slgAxBWDhDjwxok=;
+Message-ID: <25c56b1b-6b9a-d04f-c70e-5e111ae148bb@rev.ng>
+Date: Thu, 27 Apr 2023 16:39:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 7/9] Hexagon (tests/tcg/hexagon) Add v69 HVX tests
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, philmd@linaro.org, ale@rev.ng,
+ bcain@quicinc.com, quic_mathbern@quicinc.com
+References: <20230426023018.1742266-1-tsimpson@quicinc.com>
+ <20230426023018.1742266-8-tsimpson@quicinc.com>
+Organization: rev.ng
+In-Reply-To: <20230426023018.1742266-8-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,145 +61,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fiona Ebner <f.ebner@proxmox.com> wrote:
-> Am 27.04.23 um 13:03 schrieb Kevin Wolf:
->> Am 26.04.2023 um 16:31 hat Fiona Ebner geschrieben:
->>> Am 20.04.23 um 08:55 schrieb Paolo Bonzini:
 
-Hi
-
-> Our function is a custom variant of saving a snapshot and uses
-> qemu_savevm_state_setup(), which is why the qemu_mutex_unlock_iothread()
-> is there. I looked for inspiration for how upstream does things and it
-> turns out that upstream QEMU v8.0.0 has essentially the same issue with
-> snapshot-save. When snapshot_save_job_bh runs in a vCPU thread instead
-> of the main thread, the situation is the same: after
-> qemu_mutex_unlock_iothread(), qemu_get_current_aio_context() will return
-> 0x0 and then the assertion in the AIO_WAIT_WHILE_INTERNAL macro fails
-> (this time the generated coroutine wrapper is bdrv_writev_vmstate)[0].
+On 4/26/23 04:30, Taylor Simpson wrote:
+> The following instructions are tested
+>      V6_vasrvuhubrndsat
+>      V6_vasrvuhubsat
+>      V6_vasrvwuhrndsat
+>      V6_vasrvwuhsat
+>      V6_vassign_tmp
+>      V6_vcombine_tmp
+>      V6_vmpyuhvs
 >
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   tests/tcg/hexagon/v69_hvx.c       | 318 ++++++++++++++++++++++++++++++
+>   tests/tcg/hexagon/Makefile.target |   3 +
+>   2 files changed, 321 insertions(+)
+>   create mode 100644 tests/tcg/hexagon/v69_hvx.c
 >
-> So all bottom halves scheduled for the main thread's AioContext can
-> potentially get to run in a vCPU thread and need to be very careful with
-> things like qemu_mutex_unlock_iothread.
->
-> Is qemu_get_current_aio_context() returning 0x0 expected? I haven't
-> looked into why it happens yet. Does there need to be a way to drop the
-> BQL without also giving up the main thread's AioContext or would it be
-> enough to re-acquire the context?
->
-> CC-ing Juan as the migration maintainer.
+> diff --git a/tests/tcg/hexagon/v69_hvx.c b/tests/tcg/hexagon/v69_hvx.c
+> new file mode 100644
+> index 0000000000..051e5420df
+> --- /dev/null
+> +++ b/tests/tcg/hexagon/v69_hvx.c
+> @@ -0,0 +1,318 @@
+> +/*
+> + *  Copyright(c) 2023 Qualcomm Innovation Center, Inc. All Rights Reserved.
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License as published by
+> + *  the Free Software Foundation; either version 2 of the License, or
+> + *  (at your option) any later version.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
+> + *
+> + *  You should have received a copy of the GNU General Public License
+> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include <stdio.h>
+> +#include <stdint.h>
+> +#include <stdbool.h>
+> +#include <string.h>
+> +#include <limits.h>
+> +
+> +int err;
+> +
+> +#include "hvx_misc.h"
+> +
+> +#define fVROUND(VAL, SHAMT) \
+> +    ((VAL) + (((SHAMT) > 0) ? (1LL << ((SHAMT) - 1)) : 0))
+> +
+> +#define fVSATUB(VAL) \
+> +    ((((VAL) & 0xffLL) == (VAL)) ? \
+> +        (VAL) : \
+> +        ((((int32_t)(VAL)) < 0) ? 0 : 0xff))
+> +
+> +#define fVSATUH(VAL) \
+> +    ((((VAL) & 0xffffLL) == (VAL)) ? \
+> +        (VAL) : \
+> +        ((((int32_t)(VAL)) < 0) ? 0 : 0xffff))
+> +
+> +static void test_vasrvuhubrndsat(void)
+> +{
+> +    void *p0 = buffer0;
+> +    void *p1 = buffer1;
+> +    void *pout = output;
+> +
+> +    memset(expect, 0xaa, sizeof(expect));
+> +    memset(output, 0xbb, sizeof(output));
+> +
+> +    for (int i = 0; i < BUFSIZE / 2; i++) {
+> +        asm("v4 = vmem(%0 + #0)\n\t"
+> +            "v5 = vmem(%0 + #1)\n\t"
+> +            "v6 = vmem(%1 + #0)\n\t"
+> +            "v5.ub = vasr(v5:4.uh, v6.ub):rnd:sat\n\t"
+> +            "vmem(%2) = v5\n\t"
+> +            : : "r"(p0), "r"(p1), "r"(pout)
+> +            : "v4", "v5", "v6", "memory");
+> +        p0 += sizeof(MMVector) * 2;
+> +        p1 += sizeof(MMVector);
+> +        pout += sizeof(MMVector);
+> +
+> +        for (int j = 0; j < MAX_VEC_SIZE_BYTES / 2; j++) {
+> +            int shamt;
+> +            uint8_t byte0;
+> +            uint8_t byte1;
+> +
+> +            shamt = buffer1[i].ub[2 * j + 0] & 0x7;
+> +            byte0 = fVSATUB(fVROUND(buffer0[2 * i + 0].uh[j], shamt) >> shamt);
+> +            shamt = buffer1[i].ub[2 * j + 1] & 0x7;
+> +            byte1 = fVSATUB(fVROUND(buffer0[2 * i + 1].uh[j], shamt) >> shamt);
+> +            expect[i].uh[j] = (byte1 << 8) | (byte0 & 0xff);
+> +        }
+> +    }
+> +
+> +    check_output_h(__LINE__, BUFSIZE / 2);
+> +}
+> +
+> +static void test_vasrvuhubsat(void)
+> +{
+> +    void *p0 = buffer0;
+> +    void *p1 = buffer1;
+> +    void *pout = output;
+> +
+> +    memset(expect, 0xaa, sizeof(expect));
+> +    memset(output, 0xbb, sizeof(output));
+> +
+> +    for (int i = 0; i < BUFSIZE / 2; i++) {
+> +        asm("v4 = vmem(%0 + #0)\n\t"
+> +            "v5 = vmem(%0 + #1)\n\t"
+> +            "v6 = vmem(%1 + #0)\n\t"
+> +            "v5.ub = vasr(v5:4.uh, v6.ub):sat\n\t"
+> +            "vmem(%2) = v5\n\t"
+> +            : : "r"(p0), "r"(p1), "r"(pout)
+> +            : "v4", "v5", "v6", "memory");
+> +        p0 += sizeof(MMVector) * 2;
+> +        p1 += sizeof(MMVector);
+> +        pout += sizeof(MMVector);
+> +
+> +        for (int j = 0; j < MAX_VEC_SIZE_BYTES / 2; j++) {
+> +            int shamt;
+> +            uint8_t byte0;
+> +            uint8_t byte1;
+> +
+> +            shamt = buffer1[i].ub[2 * j + 0] & 0x7;
+> +            byte0 = fVSATUB(buffer0[2 * i + 0].uh[j] >> shamt);
+> +            shamt = buffer1[i].ub[2 * j + 1] & 0x7;
+> +            byte1 = fVSATUB(buffer0[2 * i + 1].uh[j] >> shamt);
+> +            expect[i].uh[j] = (byte1 << 8) | (byte0 & 0xff);
+> +        }
+> +    }
+> +
+> +    check_output_h(__LINE__, BUFSIZE / 2);
+> +}
+> +
+> +static void test_vasrvwuhrndsat(void)
+> +{
+> +    void *p0 = buffer0;
+> +    void *p1 = buffer1;
+> +    void *pout = output;
+> +
+> +    memset(expect, 0xaa, sizeof(expect));
+> +    memset(output, 0xbb, sizeof(output));
+> +
+> +    for (int i = 0; i < BUFSIZE / 2; i++) {
+> +        asm("v4 = vmem(%0 + #0)\n\t"
+> +            "v5 = vmem(%0 + #1)\n\t"
+> +            "v6 = vmem(%1 + #0)\n\t"
+> +            "v5.uh = vasr(v5:4.w, v6.uh):rnd:sat\n\t"
+> +            "vmem(%2) = v5\n\t"
+> +            : : "r"(p0), "r"(p1), "r"(pout)
+> +            : "v4", "v5", "v6", "memory");
+> +        p0 += sizeof(MMVector) * 2;
+> +        p1 += sizeof(MMVector);
+> +        pout += sizeof(MMVector);
+> +
+> +        for (int j = 0; j < MAX_VEC_SIZE_BYTES / 2; j++) {
+> +            int shamt;
+> +            uint16_t half0;
+> +            uint16_t half1;
+> +
+> +            shamt = buffer1[i].uh[2 * j + 0] & 0xf;
+> +            half0 = fVSATUH(fVROUND(buffer0[2 * i + 0].w[j], shamt) >> shamt);
+> +            shamt = buffer1[i].uh[2 * j + 1] & 0xf;
+> +            half1 = fVSATUH(fVROUND(buffer0[2 * i + 1].w[j], shamt) >> shamt);
+> +            expect[i].w[j] = (half1 << 16) | (half0 & 0xffff);
 
-This is the world backwards.
-The tradition is that migration people blame block layer people for
-breaking things and for help, not the other way around O:-)
+I think we want MAX_VEC_SIZE_BYTES / 4 as the upper bound for this loop, 
+we currently
+overflow since we're accessing words.
 
-> Best Regards,
-> Fiona
->
-> [0]:
->> Thread 21 "CPU 0/KVM" received signal SIGABRT, Aborted.
->> __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
->> 50	../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
->> (gdb) bt
->> #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
->> #1  0x00007f9027b3e537 in __GI_abort () at abort.c:79
->> #2 0x00007f9027b3e40f in __assert_fail_base (fmt=0x7f9027cb66a8
->> "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n",
->> assertion=0x558ed44fcec0 "qemu_get_current_aio_context() ==
->> qemu_get_aio_context()", file=0x558ed44fce80
->> "/home/febner/repos/qemu/block/block-gen.h", line=43,
->> function=<optimized out>) at assert.c:92
->> #3 0x00007f9027b4d662 in __GI___assert_fail
->> (assertion=0x558ed44fcec0 "qemu_get_current_aio_context() ==
->> qemu_get_aio_context()", file=0x558ed44fce80
->> "/home/febner/repos/qemu/block/block-gen.h", line=43,
->> function=0x558ed44fcf80 <__PRETTY_FUNCTION__.14> "bdrv_poll_co") at
->> assert.c:101
->> #4  0x0000558ed412df5f in bdrv_poll_co (s=0x7f8ffcff37a0) at /home/febner/repos/qemu/block/block-gen.h:43
->> #5  0x0000558ed412f4cd in bdrv_writev_vmstate (bs=0x558ed60536a0, qiov=0x7f8ffcff3840, pos=0) at block/block-gen.c:809
->> #6 0x0000558ed3df36d0 in qio_channel_block_writev
->> (ioc=0x7f8ff40ac060, iov=0x7f8ff43f6350, niov=1, fds=0x0, nfds=0,
->> flags=0, errp=0x7f8ffcff39c0) at ../migration/channel-block.c:89
->> #7 0x0000558ed40feedb in qio_channel_writev_full
->> (ioc=0x7f8ff40ac060, iov=0x7f8ff43f6350, niov=1, fds=0x0, nfds=0,
->> flags=0, errp=0x7f8ffcff39c0) at ../io/channel.c:108
->> #8 0x0000558ed40ff3c3 in qio_channel_writev_full_all
->> (ioc=0x7f8ff40ac060, iov=0x7f8ff4648040, niov=1, fds=0x0, nfds=0,
->> flags=0, errp=0x7f8ffcff39c0) at ../io/channel.c:263
->> #9 0x0000558ed40ff2e4 in qio_channel_writev_all (ioc=0x7f8ff40ac060,
->> iov=0x7f8ff4648040, niov=1, errp=0x7f8ffcff39c0) at
->> ../io/channel.c:242
->> #10 0x0000558ed3dee4dc in qemu_fflush (f=0x7f8ff4640000) at ../migration/qemu-file.c:302
->> #11 0x0000558ed4050f91 in ram_save_setup (f=0x7f8ff4640000, opaque=0x558ed4ca34c0 <ram_state>) at ../migration/ram.c:3302
->> #12 0x0000558ed3e141c8 in qemu_savevm_state_setup (f=0x7f8ff4640000) at ../migration/savevm.c:1266
->> #13 0x0000558ed3e14eed in qemu_savevm_state (f=0x7f8ff4640000, errp=0x558ed68c5238) at ../migration/savevm.c:1626
->> #14 0x0000558ed3e1755e in save_snapshot (name=0x558ed72af790
->> "snap0", overwrite=false, vmstate=0x558ed6708ce0 "scsi0",
->> has_devices=true, devices=0x558ed66d6a60, errp=0x558ed68c5238) at
->> ../migration/savevm.c:2954
->> #15 0x0000558ed3e17fb1 in snapshot_save_job_bh (opaque=0x558ed68c5170) at ../migration/savevm.c:3253
->> #16 0x0000558ed42f050a in aio_bh_call (bh=0x558ed671ae00) at ../util/async.c:155
->> #17 0x0000558ed42f0615 in aio_bh_poll (ctx=0x558ed5c62910) at ../util/async.c:184
->> #18 0x0000558ed42d47b8 in aio_poll (ctx=0x558ed5c62910, blocking=true) at ../util/aio-posix.c:721
->> #19 0x0000558ed412df1c in bdrv_poll_co (s=0x7f8ffcff3eb0) at /home/febner/repos/qemu/block/block-gen.h:43
->> #20 0x0000558ed4130c3a in blk_pwrite (blk=0x558ed5ed4f60,
->> offset=230912, bytes=512, buf=0x7f8ffc438600, flags=0) at
->> block/block-gen.c:1650
->> #21 0x0000558ed3ba9078 in pflash_update (pfl=0x558ed5eb7b30, offset=230912, size=1) at ../hw/block/pflash_cfi01.c:394
->> #22 0x0000558ed3ba9749 in pflash_write (pfl=0x558ed5eb7b30,
->> offset=231232, value=0, width=1, be=0) at
->> ../hw/block/pflash_cfi01.c:522
->> #23 0x0000558ed3ba9cda in pflash_mem_write_with_attrs
->> (opaque=0x558ed5eb7b30, addr=231232, value=0, len=1, attrs=...) at
->> ../hw/block/pflash_cfi01.c:681
->> #24 0x0000558ed402a36a in memory_region_write_with_attrs_accessor
->> (mr=0x558ed5eb7ef0, addr=231232, value=0x7f8ffcff40c8, size=1,
->> shift=0, mask=255, attrs=...) at ../softmmu/memory.c:514
->> #25 0x0000558ed402a4a9 in access_with_adjusted_size (addr=231232,
->> value=0x7f8ffcff40c8, size=1, access_size_min=1, access_size_max=4,
->> access_fn=0x558ed402a270 <memory_region_write_with_attrs_accessor>,
->> mr=0x558ed5eb7ef0, attrs=...) at ../softmmu/memory.c:555
->> #26 0x0000558ed402d5de in memory_region_dispatch_write
->> (mr=0x558ed5eb7ef0, addr=231232, data=0, op=MO_8, attrs=...) at
->> ../softmmu/memory.c:1522
->> #27 0x0000558ed403a6f4 in flatview_write_continue
->> (fv=0x558ed66d62c0, addr=4291004224, attrs=..., ptr=0x7f9029957028,
->> len=1, addr1=231232, l=1, mr=0x558ed5eb7ef0) at
->> ../softmmu/physmem.c:2641
->> #28 0x0000558ed403a857 in flatview_write (fv=0x558ed66d62c0,
->> addr=4291004224, attrs=..., buf=0x7f9029957028, len=1) at
->> ../softmmu/physmem.c:2683
->> #29 0x0000558ed403ac07 in address_space_write (as=0x558ed4ca2b20
->> <address_space_memory>, addr=4291004224, attrs=...,
->> buf=0x7f9029957028, len=1) at ../softmmu/physmem.c:2779
->> #30 0x0000558ed403ac74 in address_space_rw (as=0x558ed4ca2b20
->> <address_space_memory>, addr=4291004224, attrs=...,
->> buf=0x7f9029957028, len=1, is_write=true) at
->> ../softmmu/physmem.c:2789
->> #31 0x0000558ed40cea88 in kvm_cpu_exec (cpu=0x558ed622a910) at ../accel/kvm/kvm-all.c:2989
->> #32 0x0000558ed40d179a in kvm_vcpu_thread_fn (arg=0x558ed622a910) at ../accel/kvm/kvm-accel-ops.c:51
->> #33 0x0000558ed42d925f in qemu_thread_start (args=0x558ed5c68c80) at ../util/qemu-thread-posix.c:541
->> #34 0x00007f9028ab7ea7 in start_thread (arg=<optimized out>) at pthread_create.c:477
->> #35 0x00007f9027c18a2f in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+> +        }
+> +    }
+> +
+> +    check_output_w(__LINE__, BUFSIZE / 2);
+> +}
+> +
+> +static void test_vasrvwuhsat(void)
+> +{
+> +    void *p0 = buffer0;
+> +    void *p1 = buffer1;
+> +    void *pout = output;
+> +
+> +    memset(expect, 0xaa, sizeof(expect));
+> +    memset(output, 0xbb, sizeof(output));
+> +
+> +    for (int i = 0; i < BUFSIZE / 2; i++) {
+> +        asm("v4 = vmem(%0 + #0)\n\t"
+> +            "v5 = vmem(%0 + #1)\n\t"
+> +            "v6 = vmem(%1 + #0)\n\t"
+> +            "v5.uh = vasr(v5:4.w, v6.uh):sat\n\t"
+> +            "vmem(%2) = v5\n\t"
+> +            : : "r"(p0), "r"(p1), "r"(pout)
+> +            : "v4", "v5", "v6", "memory");
+> +        p0 += sizeof(MMVector) * 2;
+> +        p1 += sizeof(MMVector);
+> +        pout += sizeof(MMVector);
+> +
+> +        for (int j = 0; j < MAX_VEC_SIZE_BYTES / 2; j++) {
+> +            int shamt;
+> +            uint16_t half0;
+> +            uint16_t half1;
+> +
+> +            shamt = buffer1[i].uh[2 * j + 0] & 0xf;
+> +            half0 = fVSATUH(buffer0[2 * i + 0].w[j] >> shamt);
+> +            shamt = buffer1[i].uh[2 * j + 1] & 0xf;
+> +            half1 = fVSATUH(buffer0[2 * i + 1].w[j] >> shamt);
+> +            expect[i].w[j] = (half1 << 16) | (half0 & 0xffff);
+Same here.
 
-To see that I am understading this right:
+Otherwise,
 
-- you create a thread
-- that calls a memory_region operation
-- that calls a device write function
-- that calls the block layer
-- that creates a snapshot
-- that calls the migration code
-- that calls the block layer again
-
-Without further investigation, I have no clue what is going on here,
-sorry.
-
-Later, Juan.
+Reviewed-by: Anton Johansson <anjo@rev.ng>
 
 
