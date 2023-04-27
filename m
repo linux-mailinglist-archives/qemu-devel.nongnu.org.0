@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1916F09FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 18:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379F26F0A04
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 18:38:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps4aj-0005VJ-H4; Thu, 27 Apr 2023 12:35:33 -0400
+	id 1ps4ag-0005P6-H1; Thu, 27 Apr 2023 12:35:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ps4ah-0005U8-Ax
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:35:31 -0400
+ id 1ps4ab-0005GO-1r
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:35:28 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ps4ae-0006ms-70
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:35:31 -0400
+ id 1ps4aY-0006lK-B7
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:35:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682613324;
+ s=mimecast20190719; t=1682613321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6yMHYrA9NrI4BEISNh357klwmig/KwcB8MVZWi34Mqk=;
- b=OW4G5Il68pWKljyd9y97LVfO71rQXUJmi0+Z2vZbrrzmTbHfXytfV2V9kHe+s60AXV0Tt2
- SzvT6/u7q1U8S/WDOfRR2Vx1k9jV2RRAuFaskIfS9dP6ks8uUmm7+zAqvnNRKRVsOix8dL
- 1UXZkzeIX37fEm9JllvmViRxB9mjAW0=
+ bh=osSFFVLtpSQW3rj3iu3uCMmm5SDDB3Xwew23SW70aBw=;
+ b=i8RWYB5v3UK9IkoRGHDD4sBuyT8PqpD5gtMhisVOlQvIiXGqSW/42qPCYMCtGTyQzJZAxF
+ tLTA+uFKTgAScC8bWlpL3K11+GFOOLERQRi74Ak9MQr1vSUXW/IjskoXKOWh4vwqI0i+d1
+ wsmhIBUTFN3e/uDVKb+ZEySFXHLK3dg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-D2HCk5i0OtOAMwXUFQOvVw-1; Thu, 27 Apr 2023 12:35:13 -0400
-X-MC-Unique: D2HCk5i0OtOAMwXUFQOvVw-1
+ us-mta-193-1eQV3ExiM7-HUMg6bNUDyw-1; Thu, 27 Apr 2023 12:35:16 -0400
+X-MC-Unique: 1eQV3ExiM7-HUMg6bNUDyw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7F2B88F475
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 16:35:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0F2D85C6F5
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 16:35:09 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA64F10DF8;
- Thu, 27 Apr 2023 16:35:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 071B463F4F;
+ Thu, 27 Apr 2023 16:35:08 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH 16/19] migration/rdma: Make ram_control_save_page() use
- exported interfaces
-Date: Thu, 27 Apr 2023 18:34:46 +0200
-Message-Id: <20230427163449.27473-17-quintela@redhat.com>
+Subject: [PATCH 17/19] migration/rdma: Create rdma_control_save_page()
+Date: Thu, 27 Apr 2023 18:34:47 +0200
+Message-Id: <20230427163449.27473-18-quintela@redhat.com>
 In-Reply-To: <20230427163449.27473-1-quintela@redhat.com>
 References: <20230427163449.27473-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -79,24 +78,174 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The only user of ram_control_save_page() and save_page() hook was
+rdma. Just move the function to rdma.c, rename it to
+rdma_control_save_page().
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/qemu-file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/qemu-file.c | 26 --------------------------
+ migration/qemu-file.h | 14 --------------
+ migration/ram.c       |  4 ++--
+ migration/rdma.c      | 22 +++++++++++++++++++++-
+ migration/rdma.h      |  8 ++++++++
+ 5 files changed, 31 insertions(+), 43 deletions(-)
 
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 9d86900efe..17b3c2ea21 100644
+index 17b3c2ea21..8d3f33fe41 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -323,7 +323,7 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
-         int ret = f->hooks->save_page(f, block_offset,
-                                       offset, size, bytes_sent);
-         if (ret != RAM_SAVE_CONTROL_NOT_SUPP) {
--            f->rate_limit_used += size;
-+            qemu_file_acct_rate_limit(f, size);
-         }
+@@ -315,32 +315,6 @@ void qemu_fflush(QEMUFile *f)
+     f->iovcnt = 0;
+ }
  
-         if (ret != RAM_SAVE_CONTROL_DELAYED &&
+-size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
+-                             ram_addr_t offset, size_t size,
+-                             uint64_t *bytes_sent)
+-{
+-    if (f->hooks && f->hooks->save_page) {
+-        int ret = f->hooks->save_page(f, block_offset,
+-                                      offset, size, bytes_sent);
+-        if (ret != RAM_SAVE_CONTROL_NOT_SUPP) {
+-            qemu_file_acct_rate_limit(f, size);
+-        }
+-
+-        if (ret != RAM_SAVE_CONTROL_DELAYED &&
+-            ret != RAM_SAVE_CONTROL_NOT_SUPP) {
+-            if (bytes_sent && *bytes_sent > 0) {
+-                qemu_file_credit_transfer(f, *bytes_sent);
+-            } else if (ret < 0) {
+-                qemu_file_set_error(f, ret);
+-            }
+-        }
+-
+-        return ret;
+-    }
+-
+-    return RAM_SAVE_CONTROL_NOT_SUPP;
+-}
+-
+ /*
+  * Attempt to fill the buffer from the underlying file
+  * Returns the number of bytes read, or negative value for an error.
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index d69f5d65e8..ae3a704772 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -36,18 +36,7 @@
+ #define RAM_CONTROL_ROUND     1
+ #define RAM_CONTROL_FINISH    3
+ 
+-/*
+- * This function allows override of where the RAM page
+- * is saved (such as RDMA, for example.)
+- */
+-typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
+-                                 ram_addr_t block_offset,
+-                                 ram_addr_t offset,
+-                                 size_t size,
+-                                 uint64_t *bytes_sent);
+-
+ typedef struct QEMUFileHooks {
+-    QEMURamSaveFunc *save_page;
+ } QEMUFileHooks;
+ 
+ QEMUFile *qemu_file_new_input(QIOChannel *ioc);
+@@ -148,9 +137,6 @@ int qemu_file_get_to_fd(QEMUFile *f, int fd, size_t size);
+ #define RAM_SAVE_CONTROL_NOT_SUPP -1000
+ #define RAM_SAVE_CONTROL_DELAYED  -2000
+ 
+-size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
+-                             ram_addr_t offset, size_t size,
+-                             uint64_t *bytes_sent);
+ QIOChannel *qemu_file_get_ioc(QEMUFile *file);
+ 
+ #endif
+diff --git a/migration/ram.c b/migration/ram.c
+index d29dd67d5f..a085ce8cae 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1342,8 +1342,8 @@ static bool control_save_page(PageSearchStatus *pss, RAMBlock *block,
+     int ret;
+ 
+     *pages = -1;
+-    ret = ram_control_save_page(pss->pss_channel, block->offset, offset,
+-                                TARGET_PAGE_SIZE, &bytes_xmit);
++    ret = rdma_control_save_page(pss->pss_channel, block->offset, offset,
++                                 TARGET_PAGE_SIZE, &bytes_xmit);
+     if (ret == RAM_SAVE_CONTROL_NOT_SUPP) {
+         return false;
+     }
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 72ea08ee95..42ac7fd1e2 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -3315,6 +3315,27 @@ err:
+     return ret;
+ }
+ 
++size_t rdma_control_save_page(QEMUFile *f, ram_addr_t block_offset,
++                              ram_addr_t offset, size_t size,
++                              uint64_t *bytes_sent)
++{
++    int ret = qemu_rdma_save_page(f, block_offset, offset, size, bytes_sent);
++    if (ret != RAM_SAVE_CONTROL_NOT_SUPP) {
++        qemu_file_acct_rate_limit(f, size);
++    }
++
++    if (ret != RAM_SAVE_CONTROL_DELAYED &&
++        ret != RAM_SAVE_CONTROL_NOT_SUPP) {
++        if (bytes_sent && *bytes_sent > 0) {
++            qemu_file_credit_transfer(f, *bytes_sent);
++        } else if (ret < 0) {
++            qemu_file_set_error(f, ret);
++        }
++    }
++    return ret;
++}
++
++
+ static void rdma_accept_incoming_migration(void *opaque);
+ 
+ static void rdma_cm_poll_handler(void *opaque)
+@@ -3984,7 +4005,6 @@ static const QEMUFileHooks rdma_read_hooks = {
+ };
+ 
+ static const QEMUFileHooks rdma_write_hooks = {
+-    .save_page          = qemu_rdma_save_page,
+ };
+ 
+ 
+diff --git a/migration/rdma.h b/migration/rdma.h
+index 1266a90e07..ed3650ef67 100644
+--- a/migration/rdma.h
++++ b/migration/rdma.h
+@@ -17,6 +17,8 @@
+ #ifndef QEMU_MIGRATION_RDMA_H
+ #define QEMU_MIGRATION_RDMA_H
+ 
++#include "exec/memory.h"
++
+ void rdma_start_outgoing_migration(void *opaque, const char *host_port,
+                                    Error **errp);
+ 
+@@ -28,10 +30,16 @@ int qemu_rdma_registration_handle(QEMUFile *f);
+ int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags);
+ int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags);
+ int rdma_block_notification_handle(QEMUFile *f, const char *name);
++size_t rdma_control_save_page(QEMUFile *f, ram_addr_t block_offset,
++                              ram_addr_t offset, size_t size,
++                              uint64_t *bytes_sent);
+ #else
+ int qemu_rdma_registration_handle(QEMUFile *f) { return 0; }
+ int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags) { return 0; }
+ int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags) { return 0; }
+ int rdma_block_notification_handle(QEMUFile *f, const char *name) { return 0; }
++size_t rdma_control_save_page(QEMUFile *f, ram_addr_t block_offset,
++                              ram_addr_t offset, size_t size,
++                              uint64_t *bytes_sent) { return false; }
+ #endif
+ #endif
 -- 
 2.40.0
 
