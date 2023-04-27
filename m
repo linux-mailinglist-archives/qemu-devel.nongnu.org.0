@@ -2,89 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29E36F02B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 10:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98F56F0307
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 11:07:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prxBp-0002oe-Cw; Thu, 27 Apr 2023 04:41:21 -0400
+	id 1prxZw-00073N-3o; Thu, 27 Apr 2023 05:06:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prxBm-0002oF-VA
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:41:19 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1prxZu-00073F-Mf
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 05:06:14 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prxBl-00042n-4y
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:41:18 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1prxZq-0000Kk-7J
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 05:06:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682584874;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=mpclj9gesZVLh00CtJpOTkmEgZqYo1svl1gnIp97oxU=;
- b=bA6EfZ9WkAZXXTG/e9jLRGRvKWKdPu2nqUpyc2iCzKPQciT2gp6kJSuz7C8Ze0EHz22QfS
- YU3Yiu/hE7TtQxNzgMKoT9Mac8/xu79AOGoTqQMU0Xyic9Sxv2Z/l5zE8F5UQpqbN+w9Y3
- 9pc6w/Q1Y5uHVgch2wIukxUEGkCKBL0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1682586369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=knPFVzHzGbtrZWpiLhNwmasdRnu90HBEUNfsNa8hcX0=;
+ b=GzE0FVfKKibp6ioNptZ4F5kE7QUtmaYJHXrMk3Z4bWWUOjNwaNk4VHeCij97h25RaO5nKh
+ qaW+szeWom2Yk8xmymGxqXjAjcPkIHamvgW37hp6N6yVL0QRlT4CBqNshVlsaZsduDnR0u
+ pG0XkLcZKw6O8bepZpZgW5mbsdR30tk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-593-Qtid3JJdN5a-5z00g9Q9PQ-1; Thu, 27 Apr 2023 04:41:13 -0400
-X-MC-Unique: Qtid3JJdN5a-5z00g9Q9PQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f1763fac8bso52162805e9.1
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 01:41:13 -0700 (PDT)
+ us-mta-655-5vaGZmfoMWO3t58LY0MQgA-1; Thu, 27 Apr 2023 05:06:05 -0400
+X-MC-Unique: 5vaGZmfoMWO3t58LY0MQgA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-2fbb99cb2easo2720700f8f.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 02:06:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682584872; x=1685176872;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mpclj9gesZVLh00CtJpOTkmEgZqYo1svl1gnIp97oxU=;
- b=PM7tnJNjoeKK+h6x8MU9DQS/tHfylJEeGaVxutX/U9whVOIhI/ahwpaCO906D5i08s
- 82OWNG/TGgO1AvH91Ko9LmddTaPq1Z2jDPgIwvK9sxifXfiY/ErAJMoqFhcr73NG2FyM
- HWhaZBA5cwqBQz1U/urDVcM6xsX8/EedCi1ZQ6h5TFn1tcynKK+HH9T3ZPmNpOI3s2Sk
- K27eXIwXUE8oaO2cJJFZfM45W4BNQRk0Jj/mUborU03IctPuDmuCgglzvVWGqZGEtlk9
- eFcz0tDnsVMiMGp3j3YBwKtcqI31qAPEBxhQHqDS97rIlWUNg29zheD4hA7/Rx1fbupi
- fLRQ==
-X-Gm-Message-State: AC+VfDwKx6jS4vijk6D4rwAGscEzIlvsTnmn0eoEWnR5I1i7716JtTrM
- zCsFCf62J5aJSbMTViDKHYNmegp7gEhShbitDo4r1PTxcU35isfwptPQm4dS9UeOmM22O7CzcsI
- E7zg31UgKlXs0OGVvDLM8ZprNK0etmBiA7i2MXe9AweY1O4WVJXF4Ggsouzw6x5Kp+URilLnwPf
- IkrLdD
-X-Received: by 2002:a1c:7707:0:b0:3f1:78d0:fc3f with SMTP id
- t7-20020a1c7707000000b003f178d0fc3fmr871596wmi.14.1682584871828; 
- Thu, 27 Apr 2023 01:41:11 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5jWZip3CR9q5Yy6L2ngkN34XtY3Cw0PIjs/Ubyrm+FOq7Tp5OOKK0V6wv888lGa+JLFLJnhQ==
-X-Received: by 2002:a1c:7707:0:b0:3f1:78d0:fc3f with SMTP id
- t7-20020a1c7707000000b003f178d0fc3fmr871577wmi.14.1682584871513; 
- Thu, 27 Apr 2023 01:41:11 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- v12-20020adfe28c000000b0030497b3224bsm4732356wri.64.2023.04.27.01.41.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 01:41:11 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Xu <peterx@redhat.com>,  Leonardo Bras <leobras@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 0/2] Migration: Make more ram_counters atomic
-In-Reply-To: <20230426201002.15414-1-quintela@redhat.com> (Juan Quintela's
- message of "Wed, 26 Apr 2023 22:10:00 +0200")
-References: <20230426201002.15414-1-quintela@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 27 Apr 2023 10:41:10 +0200
-Message-ID: <87jzxxd8ex.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1682586364; x=1685178364;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=knPFVzHzGbtrZWpiLhNwmasdRnu90HBEUNfsNa8hcX0=;
+ b=LBDeH3RAukyliUadtfLnrk3L0/KJks/C8svIef2d9dnjXV7aozacUAmL+mfDqZg4LA
+ 8O05KEI2J5a98QDtWd4sHAcb8Z25F+6OUqdp2QxfCwIU96wLuJnDP8z/MoSibI5L9tys
+ JB60fwJQpdKtuD+jckklAs0KJGX8eAsn7K+F7U52ieRjxtaRTlxYd7xWILR2ZbCmYUCG
+ x1iU+6LeVZuU/nSmcOM4MoJPzkV3qUCeDnb37bR5smcCDY+4RIbxnuX+Rxpekcc14bzh
+ pH5StDdWwD6D/L33bUfoCnkKXaQo3HHOzjLkgWxRXZWs9MfRjuf6J//WOZMXfY30jGZb
+ WHLQ==
+X-Gm-Message-State: AC+VfDx+S0GfuTc8JLfhOBz+fCjb07bzhWixJnCFp8Q0j+bSeNF5fauJ
+ /cZ151JtNDdc61CU3z0ABncctY8V/kbKBO/SsfAqKec5U1rzmzviL5dqbOnSd3SMJPj7TJfT7bV
+ onZkjJahA+eWI0Ec=
+X-Received: by 2002:a5d:6dc2:0:b0:2f2:9198:f0f with SMTP id
+ d2-20020a5d6dc2000000b002f291980f0fmr716304wrz.10.1682586364526; 
+ Thu, 27 Apr 2023 02:06:04 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5Ii4zHsHXiea1yj3yZSBEwJahQjhng/d4bosHqvUjP05pG7tUdlJ6ua0puzDrQdgUJYxjScg==
+X-Received: by 2002:a5d:6dc2:0:b0:2f2:9198:f0f with SMTP id
+ d2-20020a5d6dc2000000b002f291980f0fmr716283wrz.10.1682586364160; 
+ Thu, 27 Apr 2023 02:06:04 -0700 (PDT)
+Received: from [10.32.181.74] (nat-pool-mxp-t.redhat.com. [149.6.153.186])
+ by smtp.googlemail.com with ESMTPSA id
+ b2-20020adff902000000b00304aba2cfcbsm1600776wrr.7.2023.04.27.02.06.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Apr 2023 02:06:03 -0700 (PDT)
+Message-ID: <5558862a-7398-3090-d1d2-06ba67c8a2c2@redhat.com>
+Date: Thu, 27 Apr 2023 11:06:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RFC PATCH 0/3] Deprecate the qemu-system-i386 binary
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>
+References: <20230425133851.489283-1-thuth@redhat.com>
+ <5fc11d22-275d-cc8d-bf9c-f1c015cbee23@redhat.com>
+ <ZEoyNt0UtSYRt9Go@redhat.com>
+ <CABgObfbqD+C4aME0yApeb_9dWA=22Yz+oi_7ECUtf6A4McHrhA@mail.gmail.com>
+ <ZEozZX/eH7BzUrWl@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <ZEozZX/eH7BzUrWl@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,63 +107,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Juan Quintela <quintela@redhat.com> wrote:
+On 4/27/23 10:33, Daniel P. Berrangé wrote:
+> On Thu, Apr 27, 2023 at 10:31:00AM +0200, Paolo Bonzini wrote:
+>> On Thu, Apr 27, 2023 at 10:28 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+>>>> I wonder if we should take this a step further and rename qemu-system-x86_64
+>>>> to qemu-system-x86!  Distros can if they wish create symlinks to both
+>>>> qemu-system-i386 and qemu-system-x86_64.
+>>>
+>>> I can't help feeling this just creates a new upgrade burden for distros
+>>> for no obvious win.
+>>
+>> We can create the symlinks on install as well during the deprecation
+>> period. It doesn't have to be done by distros.
+> 
+> What's the actual win though ?  Why would anyone want to create guests
+> using qemu-system-x86, if both qemu-system-i386 / qemu-system-x86_64
+> still exist indefinitely for backwards compat.  What does having a
+> qemu-system-x86 add that can't be achieve just though hardlink
+> between the two existing binaries ?
 
-self-NACK
+That the two existing binaries can also be removed sooner or later.
 
-Working on top of paolo stat64_set() function.
+Even if we add a QMP-only binary, qemu-system-* would be a nicer 
+interface for developers and for quick-and-dirty launch of guests 
+(including usecases such as kvm-unit-tests).  Libvirt is not even 
+available on Windows and I think on any non-Linux system?  So having a 
+qemu-system-x86 that has the same defaults as qemu-qmp-x86 is useful for 
+developers.
 
+That said, most people are really using qemu-kvm and not 
+qemu-system-{i386,x86_64}.  On one hand it'd be nice if qemu-kvm's 
+default machine type changed away from "-M pc", on the other hand that 
+would have consequences on CLI backwards-compatibility. :(
 
-
-> Hi
->
-> In this v5:
->
-> Not only change the type of the counters, also use the __nocheck()
-> variants of the functions.
->
-> Please, review.
->
-> [v4]
-> - Change aligned_uint64_t to size_t to make (some) 32bit hosts happy.
->
-> Please review.
->
-> [v3]
-> - Addressed reviews
-> - All counters are now atomic, either Stat64 or atomic.
-> - Rename duplicated to zero_pages
-> - Rename normal to zero_pages.
->
-> Please review.
->
-> [v2]
-> - fix typos found by David Edmondson
-> - Add review-by tags.
->
-> Please review.
->
-> [v1]
-> On previous series we cerate ram_atomic_counters.  But we basically
-> need that all counters are atomic.  So move back to only have
-> ram_counters, just with a new type that allows the atomic counters.
->
-> Once there, move update of stats out of RAM mutex.
-> And make multifd_bytes atomic.
->
-> Later, Juan.
->
-> Juan Quintela (2):
->   migration: Make dirty_pages_rate atomic
->   migration: Make dirty_bytes_last_sync atomic
->
->  migration/migration.c | 9 ++++++---
->  migration/ram.c       | 7 ++++---
->  migration/ram.h       | 4 ++--
->  3 files changed, 12 insertions(+), 8 deletions(-)
+Paolo
 
 
