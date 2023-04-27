@@ -2,96 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CBD6F0C17
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 20:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAB76F0C33
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 21:00:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps6Yw-0003mn-5i; Thu, 27 Apr 2023 14:41:55 -0400
+	id 1ps6pN-00082U-5i; Thu, 27 Apr 2023 14:58:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ps6YY-0003lb-Kk
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 14:41:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1ps6pK-000825-Ol
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 14:58:46 -0400
+Received: from mout.web.de ([212.227.17.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ps6YV-0008IO-J6
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 14:41:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682620882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Fd5Ug5ZILzQtJxf/iMUPyrZegtwcSGD6L/iLxtkDwYI=;
- b=SNMLiZOQPp2pZuiArWBd+Dj+hEzzHxMUl9X2Nc00C0VRnfzaId+FNl2XM6xXfkKk1dMRmH
- vBoAtiD78BddCt2tSU8onhMVlQgKZE/9N/AmCuDIrOKNhzuLerJtfFn/jUj4t2o4U3LQle
- oKh8+mBYBMGe12uMnhEgr5bYcbfpoIg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-523-abPqYDs0Ma2rh_WK11tCXg-1; Thu, 27 Apr 2023 14:41:17 -0400
-X-MC-Unique: abPqYDs0Ma2rh_WK11tCXg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-2f8b5e23d23so5363223f8f.0
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 11:41:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682620876; x=1685212876;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Fd5Ug5ZILzQtJxf/iMUPyrZegtwcSGD6L/iLxtkDwYI=;
- b=Z6TEHGh9u0/nvqrHMCl5taanQsijhIhHiRCrKJd/oyHhpa/vM4XvEX2savMTMyOOff
- ItfifjPlwwxtxG/GTsdy31+iSCPKvxPx1U8NoAiRhEMKcy+sO+TrpHr5sS9dsjLkfO4Z
- SPDfEsT8uB3riX2hWvt50cmlM8+b6ObL5NNmv8JAh/rpgN6M1lg4yZ1jVx5qomz3kquX
- XCzf0WRMPkmTw3Px5lNvVEfhzidjKWmWNNA4XizlGd9H/T3IVjob2nBJ40Nvh4rV5Yg7
- vDhnjcoDquGA/JvEmkRbNtxKx6CbghE65/urKiMFIzFxLZUS8jU8TGGz4IKT6jyRfMXB
- nJ0g==
-X-Gm-Message-State: AC+VfDzksQV76u/lUA8CT2QD+uYwAFq3dFXLKXwORgSUtHhQH4YtpjSE
- aG4/QcZy0ulJhWvwJegMZ5OQAL/8db2Z4jEbBTwwMs+MUlFxiaYx/WbJlcePvHtjxsW/75bKQym
- YXphX5WvPBTPzPnE=
-X-Received: by 2002:adf:ce09:0:b0:2fe:c0ea:18a8 with SMTP id
- p9-20020adfce09000000b002fec0ea18a8mr2037750wrn.49.1682620875871; 
- Thu, 27 Apr 2023 11:41:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4r6U/z03Y3sXqApW8AbEpFx+1XgKXWutwRgCTXxZ05gqML+1QqbIgZYbVHDdXikLFdp7xkkQ==
-X-Received: by 2002:adf:ce09:0:b0:2fe:c0ea:18a8 with SMTP id
- p9-20020adfce09000000b002fec0ea18a8mr2037724wrn.49.1682620875545; 
- Thu, 27 Apr 2023 11:41:15 -0700 (PDT)
-Received: from redhat.com ([2.52.19.183]) by smtp.gmail.com with ESMTPSA id
- o12-20020a5d474c000000b002f4c2ea66absm19204927wrs.85.2023.04.27.11.41.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 11:41:15 -0700 (PDT)
-Date: Thu, 27 Apr 2023 14:41:10 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <anisinha@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v11 08/13] tests/qtest: Fix tests when no KVM or TCG are
- present
-Message-ID: <20230427144055-mutt-send-email-mst@kernel.org>
-References: <20230426180013.14814-1-farosas@suse.de>
- <20230426180013.14814-9-farosas@suse.de>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1ps6pJ-00032k-27
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 14:58:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1682621915; i=lukasstraub2@web.de;
+ bh=pI6Yrcg6dVpyckTu2V2fjPM2mjR8UC6wDQi2fsc9vKE=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=LLckFEV54oOuLpVZn8PDV0/rtg8Qh507adr5DkIim6JmKQo1QzJhffJcXOCWjm0gm
+ xbn0XI5bs/FgQaSnZgrG/qibqDlP6GJL72dwLFl07BoaUjKnRjw+iyZqyl5FjlL+IY
+ MA/S7QVK1WftvXDTlndNKYCWHZfeiETIwYzIRLkkoWzhjUykPf6CiREOsjfIyiqn/1
+ TbLbL6XLnGQkqK54I5H8QC7rTngsf9pX2ABgeDoTtJOVzV+QThgX5IertYYva+MDEH
+ EoMT8aYiQbZHY+e/MRvHrxtp45SaxiaUHlMRiHebCIa1TvdHu51wbOczfJccNgF0Pl
+ sTO7ke7aqu5Pw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gecko.fritz.box ([82.207.254.107]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MftBr-1qTfUY1U8v-00g5fK; Thu, 27
+ Apr 2023 20:58:35 +0200
+Date: Thu, 27 Apr 2023 20:58:25 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, Leonardo Bras
+ <leobras@redhat.com>
+Subject: Re: [PATCH 04/19] migration: Rename RAMStats to MigrationAtomicStats
+Message-ID: <20230427185825.0e8ee97e@gecko.fritz.box>
+In-Reply-To: <20230427163449.27473-5-quintela@redhat.com>
+References: <20230427163449.27473-1-quintela@redhat.com>
+ <20230427163449.27473-5-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230426180013.14814-9-farosas@suse.de>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/y6Jze9WYh4z4bxo1GYf+0Wy";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:UPAm9rFY9qPzUWPoZDHaq8NiZkGIkl69VOSiOyM/VI8WPbXIAuo
+ aSFiJ32MOVg1btuyRy5QIlI3A7pjHkycihajU0i4G/rlsPf7/qyKAG2o7pCJmTE9yQrKy78
+ bn2VX8cAxJQ1eDZTRzVB1bFasSmkI4Qlbyjmnh+3hTRXJ9Xp+SKEsg5RkNyg//VD4MikBpX
+ POkShykpUI7J3r+piuSWw==
+UI-OutboundReport: notjunk:1;M01:P0:uxwlqjKRicw=;gwQQevUgEZBFZZBWop97sOBLU4t
+ xrp/1gs4tRNrE6JBn57xQUGhbHeK/RuMBmSD0brwZx2qefX3SMG9cn8+dqhWd+Egxb5+RZhrg
+ vbMtVRggQCwzoprLdzkz2KJFMP9xV9f+q9ExXMi8uIijxmKcxNvMgqzo5RXT6+u62rFOHerWg
+ qwIjJ9+xeQudq/osplZxELY/yMKpnfxSs1OpTQOXQp8kjAkgB5QXjUG5eKI6J/76wkgCYSfPW
+ XTR6wY72xVmaFbdprqPP9Zigcim2UtK+dR1wHDOn6eR+EqcQrnREtqA9R76fcjEYHXD56ZjBQ
+ jnlV95CuCkurUID86OSM3n8p3e4UZ0KQ0/PHAO45Cgw4JjzHeJYwF939PUbJ0NR3kxqrS0Hnk
+ 3wmDeuM6nbC/d+IP9M9HkrHOcYZBRP7SdhTIchCR4VZnXAqDDD6Z3eIbywlN9ma1Arsvxhyoh
+ eizEto7NnqE3kojsnle1IVJtsgLQj034kgS+s1srKslE+f2Qsd48jpwM4xbXnux9pAiiNX8Tv
+ eo43vjNUnMfviJFI8yNNkVWJbP6ziv6eo7DbF9ugAPvsDVRldMpNnOxy/IdUhav1eQrGVMsUU
+ gWAxTtJVeFtOvK1+UFrm0PfiKBJSL6q64lyfH8zEtQrhrQC14O/ZQKcOooT0MKURC50IQpgA5
+ FRDHRYPNnYppU0Vn9PC/+nsWRCAXJjGpeWX76B8pbdOqtyQ6gvW7k2pbRm1hqSmnKXy551W53
+ XJoYtPvwuNq1EvCU+q35OdzWgMYCVN6IZ4EofAFjI/pl+Mb7u0TMaAol5kMrsulHneJrPciHF
+ isYDakPpWAO6ehmR6eGul4R4pTzRf6lbUVP+Fq+gg7q8qgX/QAzs1GK8AXBCEug5yc7qBYc/k
+ ONRPHsQn97UxPwrArz0NGN9OX//F2eg6Jz6asJYsOxLmh9N23+3ZOINv9y4He8wZBpWL3QkF2
+ OXcN5gTPK5z7vILXRQJtwko+cls=
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,159 +89,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 26, 2023 at 03:00:08PM -0300, Fabiano Rosas wrote:
-> It is possible to have a build with both TCG and KVM disabled due to
-> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
-> host.
-> 
-> If we build with --disable-tcg on the aarch64 host, we will end-up
-> with a QEMU binary (x86) that does not support TCG nor KVM.
-> 
-> Skip tests that crash or hang in the above scenario. Do not include
-> any test cases if TCG and KVM are missing.
-> 
-> Make sure that calls to qtest_has_accel are placed after g_test_init
-> in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
-> printed before other messages") to avoid TAP parsing errors.
-> 
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+--Sig_/y6Jze9WYh4z4bxo1GYf+0Wy
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, 27 Apr 2023 18:34:34 +0200
+Juan Quintela <quintela@redhat.com> wrote:
 
-makes sense to me
+> It is lousely based on MigrationStats, but that name is taken, so this
+> is the best one that I came with.
+>=20
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
+Reviewed-by: Lukas Straub <lukasstraub2@web.de>
 > ---
->  tests/qtest/bios-tables-test.c | 11 +++++++++--
->  tests/qtest/boot-serial-test.c |  5 +++++
->  tests/qtest/migration-test.c   |  9 ++++++++-
->  tests/qtest/pxe-test.c         |  8 +++++++-
->  tests/qtest/vmgenid-test.c     |  9 +++++++--
->  5 files changed, 36 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 464f87382e..7fd88b0e9c 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -2045,8 +2045,7 @@ static void test_acpi_virt_oem_fields(void)
->  int main(int argc, char *argv[])
->  {
->      const char *arch = qtest_get_arch();
-> -    const bool has_kvm = qtest_has_accel("kvm");
-> -    const bool has_tcg = qtest_has_accel("tcg");
-> +    bool has_kvm, has_tcg;
->      char *v_env = getenv("V");
->      int ret;
->  
-> @@ -2056,6 +2055,14 @@ int main(int argc, char *argv[])
->  
->      g_test_init(&argc, &argv, NULL);
->  
-> +    has_kvm = qtest_has_accel("kvm");
-> +    has_tcg = qtest_has_accel("tcg");
-> +
-> +    if (!has_tcg && !has_kvm) {
-> +        g_test_skip("No KVM or TCG accelerator available");
-> +        return 0;
-> +    }
-> +
->      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->          ret = boot_sector_init(disk);
->          if (ret) {
-> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-> index 3aef3a97a9..6dd06aeaf4 100644
-> --- a/tests/qtest/boot-serial-test.c
-> +++ b/tests/qtest/boot-serial-test.c
-> @@ -287,6 +287,11 @@ int main(int argc, char *argv[])
->  
->      g_test_init(&argc, &argv, NULL);
->  
-> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
-> +        g_test_skip("No KVM or TCG accelerator available");
-> +        return 0;
-> +    }
-> +
->      for (i = 0; tests[i].arch != NULL; i++) {
->          if (g_str_equal(arch, tests[i].arch) &&
->              qtest_has_machine(tests[i].machine)) {
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 60dd53d3ec..be73ec3c06 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -2477,7 +2477,7 @@ static bool kvm_dirty_ring_supported(void)
->  
->  int main(int argc, char **argv)
->  {
-> -    bool has_kvm;
-> +    bool has_kvm, has_tcg;
->      bool has_uffd;
->      const char *arch;
->      g_autoptr(GError) err = NULL;
-> @@ -2486,6 +2486,13 @@ int main(int argc, char **argv)
->      g_test_init(&argc, &argv, NULL);
->  
->      has_kvm = qtest_has_accel("kvm");
-> +    has_tcg = qtest_has_accel("tcg");
-> +
-> +    if (!has_tcg && !has_kvm) {
-> +        g_test_skip("No KVM or TCG accelerator available");
-> +        return 0;
-> +    }
-> +
->      has_uffd = ufd_version_check();
->      arch = qtest_get_arch();
->  
-> diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
-> index 62b6eef464..e4b48225a5 100644
-> --- a/tests/qtest/pxe-test.c
-> +++ b/tests/qtest/pxe-test.c
-> @@ -131,11 +131,17 @@ int main(int argc, char *argv[])
->      int ret;
->      const char *arch = qtest_get_arch();
->  
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
-> +        g_test_skip("No KVM or TCG accelerator available");
-> +        return 0;
-> +    }
-> +
->      ret = boot_sector_init(disk);
->      if(ret)
->          return ret;
->  
-> -    g_test_init(&argc, &argv, NULL);
->  
->      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->          test_batch(x86_tests, false);
-> diff --git a/tests/qtest/vmgenid-test.c b/tests/qtest/vmgenid-test.c
-> index efba76e716..324db08c7a 100644
-> --- a/tests/qtest/vmgenid-test.c
-> +++ b/tests/qtest/vmgenid-test.c
-> @@ -165,13 +165,18 @@ int main(int argc, char **argv)
->  {
->      int ret;
->  
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
-> +        g_test_skip("No KVM or TCG accelerator available");
-> +        return 0;
-> +    }
-> +
->      ret = boot_sector_init(disk);
->      if (ret) {
->          return ret;
->      }
->  
-> -    g_test_init(&argc, &argv, NULL);
-> -
->      qtest_add_func("/vmgenid/vmgenid/set-guid",
->                     vmgenid_set_guid_test);
->      qtest_add_func("/vmgenid/vmgenid/set-guid-auto",
-> -- 
-> 2.35.3
+>=20
+> If you have any good suggestion for the name, I am all ears.
+> ---
+>  migration/migration-stats.c | 2 +-
+>  migration/migration-stats.h | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/migration/migration-stats.c b/migration/migration-stats.c
+> index 8c0af9b80a..2f2cea965c 100644
+> --- a/migration/migration-stats.c
+> +++ b/migration/migration-stats.c
+> @@ -14,4 +14,4 @@
+>  #include "qemu/stats64.h"
+>  #include "migration-stats.h"
+> =20
+> -RAMStats mig_stats;
+> +MigrationAtomicStats mig_stats;
+> diff --git a/migration/migration-stats.h b/migration/migration-stats.h
+> index 197374b4f6..149af932d7 100644
+> --- a/migration/migration-stats.h
+> +++ b/migration/migration-stats.h
+> @@ -34,8 +34,8 @@ typedef struct {
+>      Stat64 postcopy_requests;
+>      Stat64 precopy_bytes;
+>      Stat64 transferred;
+> -} RAMStats;
+> +} MigrationAtomicStats;
+> =20
+> -extern RAMStats mig_stats;
+> +extern MigrationAtomicStats mig_stats;
+> =20
+>  #endif
 
+
+
+--=20
+
+
+--Sig_/y6Jze9WYh4z4bxo1GYf+0Wy
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRKxdEACgkQNasLKJxd
+sli9gA/7BUURO4ySjsGQQ14CoEZC+A8UYyrYPUVJ0oxQfmGr5PVGa+izZFQf+avX
+Rfr6By6d+7SlQac0ehw8562vOFEVWtt2iuRIIKDuDnOpBW8c/oCaMfON/b8p9dEi
+kDeU+VTswrz7rn+r0vjPgyjC+9qfDlT+vzMhHx4g74TZJrha4kbg0cW+ycmmHl+C
+WHige0GUY5vdKB065TmTtu+Bf3FbefKiWWHAYjrcgtfYmn1KQVzc9c/kpHsUK6Pa
+QOs7U8Gh2MwYyX5Idwf/gcYqab+Q8VJK4DNgFZJ5bnoRN6OuswMLmp4qP0nxyDsM
+RnzC4q94ASPsW+HESUSqnANdj70OIOwJn12EHS0R/dv8mr0bQmxDtqezE/v4gTuz
+o0fGjXVtjEQtBiuWnNI+wvNWShG/1JkTWTnNGOPJ+igpX2JArDqHCFdoIv8PNE5P
+JTGfRHtMjYW3xPSX99MXQbrP2e3QckU1rixObgaOhDPHPC4tDOc4dHv2v6wNGg5C
+85P4NFr/9HihcUkYCumhrmSdX/WcMjvxTSxuk3NrFko2BHkCtnqzSr2Z4XIhZYOh
+iVHZkP2NgbyA2RS+/6D7Q18jiwXRQjIXlZ+SDoy+N7PvRm99rG2rYNisn4ijJ4xT
+w9OFY2GPldDgRyS4kOB6V1yWxDj8RYuIF8gGAbeBW3NqkpAQ03k=
+=nYGg
+-----END PGP SIGNATURE-----
+
+--Sig_/y6Jze9WYh4z4bxo1GYf+0Wy--
 
