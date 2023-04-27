@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8136F08AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 17:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568F76F0898
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 17:46:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps3oE-0001s6-29; Thu, 27 Apr 2023 11:45:26 -0400
+	id 1ps3ob-0001wC-62; Thu, 27 Apr 2023 11:45:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ps3o4-0001oU-Mh
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:45:18 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ id 1ps3o7-0001ps-Bf
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:45:19 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ps3o2-0004iw-9U
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:45:16 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f19323259dso74608325e9.3
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 08:45:13 -0700 (PDT)
+ id 1ps3o4-0004lG-Sx
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:45:19 -0400
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-3047ff3269aso3163123f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 08:45:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682610313; x=1685202313;
+ d=linaro.org; s=google; t=1682610315; x=1685202315;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=G81MgRiGIts/A6nA0K+cz87dFeXnPcfbunuD/xKLhHk=;
- b=wFrC++d3Tgi2zn1i7R0Htq2qLimfNNOnYM/Cd9I5vD+cL6/b64qoAg7oawLixvqEbD
- Piaw7fNwT8qQITnmhBGld/eZ5rou/dVMS2cMKb+P0CTqGGljc5Ab+lGmj9/CowEXLTz3
- 8o2vII+B4xiMr0hSKgfNARlKJz3HaID3Z7M0iBiwaTZFiBJP2Y2zx6v8aNa43mni+Bv6
- FRe7afRt4Lr7CS3ZYnaF79GuztzQqw5lCKs/6mHcxGaUR4U+7gSrDQJ1GVSfCo1kZj+W
- BnuvuSKPwHqCw33q8ou5ID8xUglibIP+8trAGy2HHQrDd3kkFqFU0k5+bufWw0MbmuTC
- xIQQ==
+ bh=4eCwi/pVbpdAUWwYQpZXmTPlZe0TlOgYAIJaukeqpyY=;
+ b=ZlF4TOgx83J9HtkORK/uelak1qPhRe4gQGmQqatv24sS0cXegokAQYh5xWTFJYKpmt
+ SBaJ20OEDG8npsWOXlhC5OTwiQcWYM/f8TKZXsPnAFY4hz2/ncEuLZ5HBy9vF2qTaBlW
+ Shcs6Is0+RQK1vhGz8PDlvqo7/THvLPOQC5Stg/+2w5deLL7vQBQVEzoi5C++8Wih4MI
+ lFJC5QcWio1+Z7HIVloLO+tpDWhIi3bSY1zL0YZ2wtOxv3VRXYK7vZeQV4c1XOJ49Pw/
+ ecC2dUVYxkEMVZdHNBCtm0sqVMxS3fTYxNziQyVlxD1akxgI6g8faSg3+D+rri2AgxRJ
+ no7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682610313; x=1685202313;
+ d=1e100.net; s=20221208; t=1682610315; x=1685202315;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=G81MgRiGIts/A6nA0K+cz87dFeXnPcfbunuD/xKLhHk=;
- b=KSU3uSxNx9yswUQhcNNk2PeAI3s/dTpCGItLQBobtobCH8xP1RO/68Vi9cTaRipi5c
- X7fspsc1lg7Og3BApGrg64ErGcswfn40aCFXYg43GrkR8MTN8SKwI8jgjlrJu2s4eLBW
- 1WwlCUHVZyhbLNJCWBelnTblQpm4NLgTqUze9YPRNiFX4ET6SjfwGaqURGMeya5wtd/F
- APM2He9XlH+40Fdptbg4lAD3ukDcakhNaoiVQBdqYJ5o3jgr7ckrKnNV4/neWi1dDBUZ
- nRO75ggMkX9OHBzWrZwypC4Ey80XPF3pVd0BYi5YvDond5G0gmGfL7gLPWSxeW1Ekdzp
- /3/Q==
-X-Gm-Message-State: AC+VfDxxsDSNGENirYxh7EAuzHbHo67DopbTW3MS7OF2Xrdh3zrEQD2p
- N8nvS7qi1rNciWtHkCllVNAq8Q==
-X-Google-Smtp-Source: ACHHUZ4tj27KxXizT9+UzrGhhBcKNkczF2ah4mcA1nmLhPGNg1dYmgdAv5vE6OHWhRW11h+EqKlBXA==
-X-Received: by 2002:a05:600c:28e:b0:3ea:d620:57a7 with SMTP id
- 14-20020a05600c028e00b003ead62057a7mr2111876wmk.8.1682610312667; 
- Thu, 27 Apr 2023 08:45:12 -0700 (PDT)
+ bh=4eCwi/pVbpdAUWwYQpZXmTPlZe0TlOgYAIJaukeqpyY=;
+ b=W4xVbMkv+wFo8BlwXUTnB+/SkEw6JjTVzEDchVzXz/ZGQj29WHCpMXzPZyo8xiE3aE
+ Zl9V/qBhIvXKDJ3OuOF7ZiDnDqNWGDEdQSJ+HjPhecTiNy8Stz1VdlK/I2Pz1KSysrLE
+ bcGybT80TTZx1WeTT9W5Er8ROKaWs6Tm3PHm4UWXkzxDl8YLg9S2UOKx1gYZcOp6wJRn
+ 3ps/tU7T2qzBjPPOjQFXdfhXRlEH+toXnnupka2Piy6uHtEh+05ylveSyMwVQTkdZHZ0
+ tg9HdXJbC83hx41oJvjtUIJfmuRfl07voBmHSIuu63XUI+RG9XYKV4Jpn1ef8kPvpAkP
+ N2+g==
+X-Gm-Message-State: AC+VfDzqhfEsGBzS5V/E71HWgI7LUQC18FLlsCpreTcdvjq0eTHG6qDB
+ aqQiFzoyy7raSaBzyZNCwAR5bwAW4c6IBj6aT+I=
+X-Google-Smtp-Source: ACHHUZ559p2Kpka0YRynLIBRv54qA7IOlaP6n4U5C6j5LZvUUGrOwSPwa0JTDnUER088oEx/chOg7Q==
+X-Received: by 2002:a5d:4008:0:b0:301:3179:f94 with SMTP id
+ n8-20020a5d4008000000b0030131790f94mr1616240wrp.5.1682610315312; 
+ Thu, 27 Apr 2023 08:45:15 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z19-20020a1c4c13000000b003f173419e7asm21518496wmf.43.2023.04.27.08.45.11
+ z16-20020a5d4410000000b002fb0c5a0458sm18841221wrq.91.2023.04.27.08.45.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 08:45:11 -0700 (PDT)
+ Thu, 27 Apr 2023 08:45:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 22C1E1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id 3A7C81FFBD;
  Thu, 27 Apr 2023 16:45:11 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eldon Stegall <eldon-qemu@eldondev.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 04/18] gitlab-ci: Avoid to re-run "configure" in the
- device-crash-test jobs
-Date: Thu, 27 Apr 2023 16:44:56 +0100
-Message-Id: <20230427154510.1791273-5-alex.bennee@linaro.org>
+Subject: [PULL 05/18] scripts/device-crash-test: Add a parameter to run with
+ TCG only
+Date: Thu, 27 Apr 2023 16:44:57 +0100
+Message-Id: <20230427154510.1791273-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230427154510.1791273-1-alex.bennee@linaro.org>
 References: <20230427154510.1791273-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,40 +103,53 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Thomas Huth <thuth@redhat.com>
 
-After "make check-venv" had been added to these jobs, they started
-to re-run "configure" each time since our logic in the makefile
-thinks that some files are out of date here. Avoid it with the same
-trick that we are using in buildtest-template.yml already by disabling
-the up-to-date check via NINJA=":".
+We're currently facing the problem that the device-crash-test script
+runs twice as long in the CI when a runner supports KVM - which sometimes
+results in a timeout of the CI job. To get a more deterministic runtime
+here, add an option to the script that allows to run it with TCG only.
 
-Fixes: 1d8cf47e5b ("tests: run 'device-crash-test' from tests/venv")
+Reported-by: Eldon Stegall <eldon-qemu@eldondev.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230414145845.456145-2-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230414145845.456145-3-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230424092249.58552-5-alex.bennee@linaro.org>
+Message-Id: <20230424092249.58552-6-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index ba6f551752..333eea9dd3 100644
+index 333eea9dd3..bb3650a51c 100644
 --- a/.gitlab-ci.d/buildtest.yml
 +++ b/.gitlab-ci.d/buildtest.yml
-@@ -102,7 +102,7 @@ crash-test-debian:
-     IMAGE: debian-amd64
+@@ -103,7 +103,7 @@ crash-test-debian:
    script:
      - cd build
--    - make check-venv
-+    - make NINJA=":" check-venv
-     - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-i386
+     - make NINJA=":" check-venv
+-    - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-i386
++    - tests/venv/bin/python3 scripts/device-crash-test -q --tcg-only ./qemu-system-i386
  
  build-system-fedora:
-@@ -145,7 +145,7 @@ crash-test-fedora:
-     IMAGE: fedora
-   script:
-     - cd build
--    - make check-venv
-+    - make NINJA=":" check-venv
-     - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-ppc
-     - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-riscv32
+   extends:
+diff --git a/scripts/device-crash-test b/scripts/device-crash-test
+index 73bcb98693..b74d887331 100755
+--- a/scripts/device-crash-test
++++ b/scripts/device-crash-test
+@@ -397,7 +397,7 @@ def binariesToTest(args, testcase):
  
+ 
+ def accelsToTest(args, testcase):
+-    if getBinaryInfo(args, testcase['binary']).kvm_available:
++    if getBinaryInfo(args, testcase['binary']).kvm_available and not args.tcg_only:
+         yield 'kvm'
+     yield 'tcg'
+ 
+@@ -510,6 +510,8 @@ def main():
+                         help="Full mode: test cases that are expected to fail")
+     parser.add_argument('--strict', action='store_true', dest='strict',
+                         help="Treat all warnings as fatal")
++    parser.add_argument('--tcg-only', action='store_true', dest='tcg_only',
++                        help="Only test with TCG accelerator")
+     parser.add_argument('qemu', nargs='*', metavar='QEMU',
+                         help='QEMU binary to run')
+     args = parser.parse_args()
 -- 
 2.39.2
 
