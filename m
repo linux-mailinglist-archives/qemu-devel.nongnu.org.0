@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD356F0271
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 10:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D096F0275
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 10:23:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prwrJ-0007Qi-Pw; Thu, 27 Apr 2023 04:20:09 -0400
+	id 1prwu2-0000R8-KA; Thu, 27 Apr 2023 04:23:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prwr9-0007PM-Sa
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:20:01 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prwu0-0000Qz-LJ
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:22:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1prwr3-0008FD-AW
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:19:58 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1prwty-0000ai-Cd
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:22:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682583577;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=WIp78WUe7zqBUK9ECupb/u8IN9usbL9czk+8mihvMxU=;
- b=RIjcXaHP6jKMwfyno8imKDMlomTQG4bq2SKD1fq32XqPRBn5X6i79SLsj9N+dlkjy5BKX/
- dnrebXv08a+SKIofBRelU3qcGk6D/KwugXCLnZN+BP4hcbd+CtGFCbvc1BKMChmIvMV3+y
- kaIBFq1xCdZhSaGQaG6EXRja9P5ltXQ=
+ s=mimecast20190719; t=1682583771;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=udF4JGUg6NgBe6ynHJAmrccMdX1ZlXQsSfyO6WtRQ6w=;
+ b=evTTlmoSpsUJteqOqMAGkx9BEICCrLn516rw+0bsJTQyCauCuGD7ldZBWrZuKCCxjWMscA
+ 7HL4kUQ+gn8tXGBHFvqhWNnXcaB8UkgBYHs9BbQFq0xMdkyDuhLd01CoavjMkRAjCkO2vP
+ +kAcKEeoiHVlxs4SbhqSmQ2wxCcGx8U=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-387-mbDAmP5TNomyOKDZRwaljA-1; Thu, 27 Apr 2023 04:19:35 -0400
-X-MC-Unique: mbDAmP5TNomyOKDZRwaljA-1
+ us-mta-67-CwtHJA0PNva_txQ2TqLbCQ-1; Thu, 27 Apr 2023 04:22:50 -0400
+X-MC-Unique: CwtHJA0PNva_txQ2TqLbCQ-1
 Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-30479c17304so1661951f8f.3
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 01:19:35 -0700 (PDT)
+ ffacd0b85a97d-30479b764f9so1740229f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 01:22:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682583573; x=1685175573;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WIp78WUe7zqBUK9ECupb/u8IN9usbL9czk+8mihvMxU=;
- b=YfuYiqMGelWple1qZSMDXwp6MqVjzGuMgK3RTAYoFpCyqpA17q/lWQDs5XdFDeEzPU
- nFvoq2T8wGeBAmcXTkdhd8be3igZHFwqgFJn6BC0M+5uKdB8tpA+TcfqddcKiYKdHYvD
- ut94ynvHLwl7W/9I+lKBsd2KlqXVhgXSXstWmlIPZ/BKPySafzfj1N7yzxFRUq78MNMS
- LcZ6b4u3jFSDteybId9aLAwNSFzyhjJgWGAtAEgFXPgTW7og8baDbJIA5SB5B81ZrAZA
- SZ6v+tZZfsm/PmnVOkQlB9jbQyzgnM7QFoz37oDhAQR4+FjBJpeBR2DWPXINy4f+ym75
- PBNQ==
-X-Gm-Message-State: AC+VfDwphBCpegd53+kwbryFCk9S9N7NhSqettu73MKcKCLzsDW1JK/d
- Vx79cgkxD8gEoDB4GCJafVwDBFOEouWbCPgwIXg3GCc4v5Sq/c0wpYIGhS0/Y4ZktdHCJ35h9JZ
- qzftl/OV97xuiRi4=
-X-Received: by 2002:adf:f78a:0:b0:2fa:98dc:b21c with SMTP id
- q10-20020adff78a000000b002fa98dcb21cmr658411wrp.18.1682583573065; 
- Thu, 27 Apr 2023 01:19:33 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ40nBdN8plNbk2o2rn3TNObDWdJS72cf6BBgZC+SMdPs6aS97+cJU6AzoCU6dh9maWOxOT5Rg==
-X-Received: by 2002:adf:f78a:0:b0:2fa:98dc:b21c with SMTP id
- q10-20020adff78a000000b002fa98dcb21cmr658390wrp.18.1682583572614; 
- Thu, 27 Apr 2023 01:19:32 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- z1-20020a5d44c1000000b00304a876c3c1sm2219036wrr.5.2023.04.27.01.19.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 01:19:32 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org,  Peter Xu <peterx@redhat.com>,  Cleber Rosa
- <crosa@redhat.com>,  John Snow <jsnow@redhat.com>,  Leonardo Bras
- <leobras@redhat.com>
-Subject: Re: [PULL 0/7] Migration 20230426 patches
-In-Reply-To: <5db4affa-d831-2ba1-7175-c5ba32182ef1@linaro.org> (Richard
- Henderson's message of "Thu, 27 Apr 2023 08:51:03 +0100")
-References: <20230426181253.13286-1-quintela@redhat.com>
- <5db4affa-d831-2ba1-7175-c5ba32182ef1@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 27 Apr 2023 10:19:31 +0200
-Message-ID: <87sfcld9f0.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1682583768; x=1685175768;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=udF4JGUg6NgBe6ynHJAmrccMdX1ZlXQsSfyO6WtRQ6w=;
+ b=MlOweXixLlhIdUtR/7w4hc+0nRvfGHLJKTSc01oXOZ9SKa8ivbnPGXDwdpLohS+ad9
+ hxUBD7biQhhbYXWI/tx/moGImk2JX4T0HUZqdiGFK284LLFB9nvOav3egtTdJrSP4yUz
+ 7YlyxkoNv2N6VWy7blve/vdtfgn6tmlYJBklvLWNG4vwcE83UutcNijGdMXJQ2Mt5zFp
+ br8O8Us7jRQVvxucPa/HIeoVUWtoD9qo+NLkZyvbfhkf7qH8UWsAY8vGfnzH7io9BjFa
+ QK8FjxMz48YgtaC9ZyyxVC4yLyc5u6AgF+mIZIqb1MoQNj+AhhtxmsqbzO7VtRmoq3rZ
+ MkkQ==
+X-Gm-Message-State: AC+VfDxNUl6zOxVMxcKrtdjZodO5HaCoJMJLhq146LdMo2wrHLPoewJ7
+ P3/4lLXYrsP4Hj94HD/ad8wVwNIIrRIlLJhICp+4Vb+HdxZfYUCWkZqN/+cdcn/5ppaEJgt9p/P
+ hAulsXWET7Qd7r94=
+X-Received: by 2002:a5d:43c3:0:b0:2f2:c46b:1eb5 with SMTP id
+ v3-20020a5d43c3000000b002f2c46b1eb5mr585794wrr.59.1682583768804; 
+ Thu, 27 Apr 2023 01:22:48 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6u9MQKjBkTessLmpJ3GDfvzOmvirMsNX/szYmXjhTE4DxVTTHAMN+LmqhVVspVp8/9Hv+1kA==
+X-Received: by 2002:a5d:43c3:0:b0:2f2:c46b:1eb5 with SMTP id
+ v3-20020a5d43c3000000b002f2c46b1eb5mr585772wrr.59.1682583768522; 
+ Thu, 27 Apr 2023 01:22:48 -0700 (PDT)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ i1-20020a05600011c100b002cff06039d7sm17755129wrx.39.2023.04.27.01.22.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Apr 2023 01:22:47 -0700 (PDT)
+Message-ID: <19584145-19d1-9e54-bb63-4bc0a06baea1@redhat.com>
+Date: Thu, 27 Apr 2023 10:22:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH v2] hw/pci-bridge: Fix release ordering by embedding
+ PCIBridgeWindows within PCIBridge
+Content-Language: en-US
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Fan Ni <fan.ni@samsung.com>, linuxarm@huawei.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20230421122550.28234-1-Jonathan.Cameron@huawei.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230421122550.28234-1-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,67 +101,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Richard Henderson <richard.henderson@linaro.org> wrote:
-> On 4/26/23 19:12, Juan Quintela wrote:
->> The following changes since commit 9c894df3a37d675652390f7dbbe2f65b7bad7efa:
->>    migration: Create migrate_max_bandwidth() function (2023-04-24
->> 15:01:47 +0200)
->> are available in the Git repository at:
->>    https://gitlab.com/juan.quintela/qemu.git
->> tags/migration-20230426-pull-request
->> for you to fetch changes up to
->> 7b5cd8ff519e9fe3df6cda65428a6f1aa28a6ced:
->>    vmstate-static-checker: Recognize "num" field (2023-04-26
->> 19:17:55 +0200)
->> ----------------------------------------------------------------
->> Migration Pull request
->> Hi
->> This PULL request is on top of migration-20230424 already queued by
->> Richard.
->> It contains:
->> - MAINTAINERS: make peter and leo reviewers for migration (juan)
->> - Disable postcopy + multifd together. It needs at least to call
->>    send_sync before it will work. (juan)
->> - Improve postcopy error messages (peter)
->> - vmstate checker: Compare sizes of arrays correctly (peter)
->> - Move more capability functions to options.c (juan)
->> Please, apply.
->
-> Build failures:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/4187732684#L2303
+On 21/04/2023 14.25, Jonathan Cameron wrote:
+> The lifetime of the PCIBridgeWindows instance accessed via the windows pointer
+> in struct PCIBridge is managed separately from the PCIBridge itself.
+> 
+> Triggered by ./qemu-system-x86_64 -M x-remote -display none -monitor stdio
+> QEMU monitor: device_add cxl-downstream
+> 
+> In some error handling paths (such as the above due to attaching a cxl-downstream
+> port anything other than a cxl-upstream port) the g_free() of the PCIBridge
+> windows in pci_bridge_region_cleanup() is called before the final call of
+> flatview_uref() in address_space_set_flatview() ultimately from
+> drain_call_rcu()
+> 
+> At one stage this resulted in a crash, currently can still be observed using
+> valgrind which records a use after free.
+> 
+> When present, only one instance is allocated. pci_bridge_update_mappings()
+> can operate directly on an instance rather than creating a new one and
+> swapping it in.  Thus there appears to be no reason to not directly
+> couple the lifetimes of the two structures by embedding the PCIBridgeWindows
+> within the PCIBridge removing the need for the problematic separate free.
+> 
+> Patch is same as was posted deep in the discussion.
+> https://lore.kernel.org/qemu-devel/20230403171232.000020bb@huawei.com/
+> 
+> Posted as an RFC as only lightly tested and I'm not sure what the reasoning
+> behind the separation of lifetimes originally was. As such perhaps this is
+> not the best route to fixing the issue.
 
-Fixed.
+I'm pretty ignorant when it comes to flatviews etc., but from my distant 
+point of view, this rather sounds like a workaround than a real fix ... 
+anyway, embedding the structure instead of allocating it is certainly a good 
+change anyway, and it fixes the problem for this rather obscure scenario, so 
+I'm fine if we only go ahead with this patch.
 
-Sorry about that.
-It only fails on hosts that don't support userfaultd() (i.e. non-linux).
-
-Will resend.
-
-Sorry for the noise.
-
-Later, Juan.
-
-
->
-> ../migration/postcopy-ram.c:1368:6: error: conflicting types for
-> 'postcopy_ram_supported_by_host'; have '_Bool(MigrationIncomingState
-> *)'
->  1368 | bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
->       |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from ../migration/migration.h:27,
->                  from ../migration/postcopy-ram.c:22:
-> ../migration/postcopy-ram.h:17:6: note: previous declaration of
-> 'postcopy_ram_supported_by_host' with type
-> '_Bool(MigrationIncomingState *, Error **)'
->    17 | bool postcopy_ram_supported_by_host(MigrationIncomingState *mis,
->       |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
->
-> r~
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
