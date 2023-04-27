@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DED66F03F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 12:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44BBD6F0448
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 12:38:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prybX-0004Zq-1C; Thu, 27 Apr 2023 06:11:59 -0400
+	id 1pryzV-0008Cz-5Z; Thu, 27 Apr 2023 06:36:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1prybU-0004Zi-Ow
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 06:11:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pryzP-0008CG-2J
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 06:36:39 -0400
+Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1prybS-0003Hf-Iu
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 06:11:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682590310;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=WEV/AKdFFvRS4B/K14gi5dGilE+5DLeWWZplwCfK8WM=;
- b=CnM/eax5JyWADk3YZo/5PwC8u0VuW9eoBP5ZZkf16u926jqIFZHjAlRo4Gh1/TjOXBvjXu
- DGjtVJFkYiCHmy+HltanvLhN5IioBT3T1vX6WQJpT/3ivjXVmCNCdN32KlrSeRPj8KpaLA
- EpDl/T1tRTmvTTtyWwrmktyfIEXJVKc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-QabC3BAEPkOFwaoEV0AUzQ-1; Thu, 27 Apr 2023 06:11:46 -0400
-X-MC-Unique: QabC3BAEPkOFwaoEV0AUzQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17CF485A5B1;
- Thu, 27 Apr 2023 10:11:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC085C15BA0;
- Thu, 27 Apr 2023 10:11:44 +0000 (UTC)
-Date: Thu, 27 Apr 2023 11:11:42 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- "Canokeys.org" <contact@canokeys.org>
-Subject: Apache license usage (was Re: [PULL 04/15] hw/usb: Add CanoKey
- Implementation)
-Message-ID: <ZEpKXncC/e6FKRe9@redhat.com>
-References: <20220614121610.508356-1-kraxel@redhat.com>
- <20220614121610.508356-5-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pryzM-0000Vg-Gy
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 06:36:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=DuBCEA6rMGYyxiZsF+IsR/Agx2B5U8IBq8x9K4fy9CE=; b=T1cP2jtuPFhR9WNsUVurL/aqqb
+ OPZrqb6we6s1mW4Sz1zXbefeOY1dlDTJWvBXzjcJ9C8W4JvtJmv7oIX9B6JZOHRp+M9pl3nv5KXg9
+ AlctLX2BY2Z3kmpfCFp8wGQcuCMzw3HBVlrOAmLkQbEc9TaYwTOEHr8vm/sHmIJUPXOQ=;
+Message-ID: <dba8a799-2e60-dc45-2384-e59ec12d14fe@rev.ng>
+Date: Thu, 27 Apr 2023 12:36:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220614121610.508356-5-kraxel@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 2/9] Hexagon (target/hexagon) Add v68 scalar instructions
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, philmd@linaro.org, ale@rev.ng,
+ bcain@quicinc.com, quic_mathbern@quicinc.com
+References: <20230426023018.1742266-1-tsimpson@quicinc.com>
+ <20230426023018.1742266-3-tsimpson@quicinc.com>
+Organization: rev.ng
+In-Reply-To: <20230426023018.1742266-3-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,94 +61,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jun 14, 2022 at 02:15:59PM +0200, Gerd Hoffmann wrote:
-> From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-> 
-> This commit added a new emulated device called CanoKey to QEMU.
-> 
-> CanoKey implements platform independent features in canokey-core
-> https://github.com/canokeys/canokey-core, and leaves the USB implementation
-> to the platform.
-> 
-> In this commit the USB part was implemented in QEMU using QEMU's USB APIs,
-> therefore the emulated CanoKey can communicate with the guest OS using USB.
-> 
-> Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
-> Message-Id: <YoY6Mgph6f6Hc/zI@Sun>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+On 4/26/23 04:30, Taylor Simpson wrote:
+> The following instructions are added
+>      L2_loadw_aq
+>      L4_loadd_aq
+>      R6_release_at_vi
+>      R6_release_st_vi
+>      S2_storew_rl_at_vi
+>      S4_stored_rl_at_vi
+>      S2_storew_rl_st_vi
+>      S4_stored_rl_st_vi
+>
+> The release instructions are nop's in qemu.  The others behave as
+>   loads/stores.
+>
+> The encodings for these instructions changed some "don't care" bits
+>      L2_loadw_locked
+>      L4_loadd_locked
+>      S2_storew_locked
+>      S4_stored_locked
+>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->  hw/usb/canokey.h |  69 +++++++++++
->  hw/usb/canokey.c | 300 +++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 369 insertions(+)
->  create mode 100644 hw/usb/canokey.h
->  create mode 100644 hw/usb/canokey.c
-> 
-> diff --git a/hw/usb/canokey.h b/hw/usb/canokey.h
-> new file mode 100644
-> index 000000000000..24cf30420346
-> --- /dev/null
-> +++ b/hw/usb/canokey.h
-> @@ -0,0 +1,69 @@
-> +/*
-> + * CanoKey QEMU device header.
-> + *
-> + * Copyright (c) 2021-2022 Canokeys.org <contact@canokeys.org>
-> + * Written by Hongren (Zenithal) Zheng <i@zenithal.me>
-> + *
-> + * This code is licensed under the Apache-2.0.
-> + */
+>   target/hexagon/gen_tcg.h                | 18 ++++++++++++++++++
+>   target/hexagon/attribs_def.h.inc        |  7 +++++++
+>   target/hexagon/translate.c              |  3 +++
+>   target/hexagon/gen_idef_parser_funcs.py |  2 ++
+>   target/hexagon/imported/encode_pp.def   | 19 ++++++++++++++-----
+>   target/hexagon/imported/ldst.idef       | 20 +++++++++++++++++++-
+>   6 files changed, 63 insertions(+), 6 deletions(-)
 
-> diff --git a/hw/usb/canokey.c b/hw/usb/canokey.c
-> new file mode 100644
-> index 000000000000..6cb8b7cdb089
-> --- /dev/null
-> +++ b/hw/usb/canokey.c
-> @@ -0,0 +1,300 @@
-> +/*
-> + * CanoKey QEMU device implementation.
-> + *
-> + * Copyright (c) 2021-2022 Canokeys.org <contact@canokeys.org>
-> + * Written by Hongren (Zenithal) Zheng <i@zenithal.me>
-> + *
-> + * This code is licensed under the Apache-2.0.
-> + */
-
-In the process of auditing licensing in QEMU I found this patch
-adding code that is Apache-2.0 licensed, and as such I don't
-think we should have ever merged the patch as is.
-
-QEMU as a combined work is GPLv2-only.
-
-There is disagreement between the Apache foundation and FSF on this
-topic[1], but FSF considered Apache 2.0 to be incompatible with the
-GPL-v2. Fedora licensing follows the same view of Apache being GPLv2
-incompatible.
-
-More generally I think it is a little dubious to write new devices
-while claiming a license that's different from normal QEMU code
-license. I expect there is inevitably a degree of cut+paste from
-existing QEMU code to handle the device boilerplate code which
-would be sufficient to expect a GPLv2-or-later license to apply.
-
-The two added files in this commit are the only occurrence of
-Apache licensing in QEMU that I see.
-
-Hongren, IIUC from the attribution above, you wrote the code but
-Canokeys.org claims copyright. Could you report whether Canokeys.org
-will agree to change the licensing on these files to QEMU's normal
-GPLv2-or-later licensing.
-
-With regards,
-Daniel
-
-[1] https://www.apache.org/licenses/GPL-compatibility.html
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Anton Johansson <anjo@rev.ng>
 
 
