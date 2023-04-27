@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F25C6F04AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 13:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290E26F04B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 13:06:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1przQD-000250-55; Thu, 27 Apr 2023 07:04:22 -0400
+	id 1przRe-0004DM-Ri; Thu, 27 Apr 2023 07:05:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1przPr-0001ty-9c
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 07:04:00 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+ id 1przRc-0004DA-Pl
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 07:05:48 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1przPp-0006bU-Mr
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 07:03:59 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-95369921f8eso1352726866b.0
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 04:03:55 -0700 (PDT)
+ id 1przRb-000794-7x
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 07:05:48 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id
+ 4fb4d7f45d1cf-5067736607fso14492356a12.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 04:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682593433; x=1685185433;
+ d=linaro.org; s=google; t=1682593545; x=1685185545;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=V14gViqL7W8hYdUabsQJAXePdOjpxxWEZZPDNq3mm1g=;
- b=R9jeDZGRx1EI1H4kXUzc0T0tsrzTPMyhtikO/FAq5PUc9kW7CWkI/V3IsWgg3QOGeS
- ytNC11YAuL3UpMyIXUchQkGQMq28iE/RzIN3YUhHsv0k/CCzCpm5UjGzIFf15oVDneJK
- rhCrXigXx3KdQxy3RkuUMbOIiBVmzm3yptk+Xc5GTIB7FFvLZhQ69uET2EtV1UJS6aoY
- ERWnWt/28+sZKubdyFoWVjn1UmBvgCQshakdNvuMgsrasC6AehHwkNlrP9R4L2y6nU2G
- UUPZrElRIL/PNrg6w0PYH3b8I4H4JiL1ThrWENRqtp57tTVHlybswv03COYqtyV11zOa
- rqOw==
+ bh=ts6vZ+nScpLZ/YLrlBn6nX1nn8QQNBQr3vHVewNrwL4=;
+ b=eqreLt257YGZOca2xH/x++tBCMCFXlTe9e9xryuGr3GSg85ecsdD140VmVa725tgRs
+ UgEKtQ850tkUp6AIUaIeIhnm95HRMaJXPSQb2uRavk6QdJcCCRNToigIndU/jEWiet5V
+ L3TAYUopQbajhm4vEIKqhxHo9N1U0qFg7Z++OtfRTsOhPOHtk1gvQL+oPbHYOfjYa2CR
+ Coli92GsNFykhAVPj+oB//2AaiJNF3Kl/xyO26u0JJpxLs0GrqM4LtY6euTfcE0sscVU
+ PlmPfNay8IiGJ6NhukhZMJcrnA5kw6feh8rkdwcbpd89Lu0tJ79/unXwDvU8KqqKpYUw
+ JKbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682593433; x=1685185433;
+ d=1e100.net; s=20221208; t=1682593545; x=1685185545;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=V14gViqL7W8hYdUabsQJAXePdOjpxxWEZZPDNq3mm1g=;
- b=agyJnm/CaaBGZ8JSvjGHxEkunYm22yPs9nXuhOhEUB7V2nVbHkFYMVfBE86q9975cS
- yPn8+EMuANr0pIrBkDFYHoNc8FgAz/5W9tbQnPB7lIk3PxQ6xwytSYRv26ELhhhjfaOA
- dbK0/McfHsfvNJqmtKfX7eZDQq2C/1jOeiG340wxnDs8ob58ix/ujojTA5Q/Tc+sWOPA
- +6TjC2XEtXPen9FdAsZaQlmVtX5MnAa7Gc53IwSBt5bwFekHthDljm8C/mb3lDXQ8j1/
- KpH90J5xk1FJPKfuJcW6RteXJpxjwtXCJSH7DyWkZLfymmRo/bJqEHGdEyuNWHXdEQiO
- CnGw==
-X-Gm-Message-State: AC+VfDxhRW4by6H74vdG4t1Gfsli10//8R4xCahWV//4UbcY2XnSFQVY
- Je0WfnzctPUpX1gMQthNlC48Ig==
-X-Google-Smtp-Source: ACHHUZ5+T+Jqr1GdZwF6UmH6uXJakPtIZSzoU7cPDqtq9RFoVxmSYgz7z7pi90xSDliqv4SvEXj74g==
-X-Received: by 2002:a17:906:dac2:b0:94a:9ae2:1642 with SMTP id
- xi2-20020a170906dac200b0094a9ae21642mr1007578ejb.46.1682593433603; 
- Thu, 27 Apr 2023 04:03:53 -0700 (PDT)
+ bh=ts6vZ+nScpLZ/YLrlBn6nX1nn8QQNBQr3vHVewNrwL4=;
+ b=R2PDm4ii1QhEMLFJOm8iQ4ftrs/NSaeray9VOlu6viumcQFFKjGs6hlnDig28IAj0t
+ KgxV0YVvimdjaRAa22NkTAjMlPRl3eCtwAC2jwXFbqukKBlmLCEgzn6dAiCUoHTlmZtU
+ DVir0qRsJ7T7MxsAJ3tgmnVfAgcb9xkScG+mzPZupRjibMzt34QgdEpfn0nxL9nbQvjz
+ mMo2qtv4/Zjp+wML2t34yPYIuFM5WdMYc4HRvfYNWDFgMilcB5NmRugI7rRlQJluUhx8
+ ORqMocrKUL64AbV92l9oKmyaFtSz0IxEyE3pUWHIjCno/0BzvjRfZQEUAEBR8Keux2SE
+ diEA==
+X-Gm-Message-State: AC+VfDy8L5mLPGFeI2ix0QnSM3GByAxsNWE538XIXiet7eLzqsTHVzCv
+ o9p8y3xDzTrmFs9TFDMDspG7yA==
+X-Google-Smtp-Source: ACHHUZ7dd+VtOf+WZMI4yZFU58Z2LV6+oOuuflcDRGIrM5qI3je4lQyvSkPgema/vgVGUtajyyFRpw==
+X-Received: by 2002:a17:907:94ca:b0:92f:924b:e8f4 with SMTP id
+ dn10-20020a17090794ca00b0092f924be8f4mr1310650ejc.4.1682593545613; 
+ Thu, 27 Apr 2023 04:05:45 -0700 (PDT)
 Received: from [172.23.3.19] ([31.221.30.162])
  by smtp.gmail.com with ESMTPSA id
- lu14-20020a170906face00b0094f4e914f67sm9371946ejb.66.2023.04.27.04.03.53
+ fx21-20020a170906b75500b009531d9efcc4sm9422338ejb.133.2023.04.27.04.05.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 04:03:53 -0700 (PDT)
-Message-ID: <a779d222-07b4-76e6-2fda-aa3b68683506@linaro.org>
-Date: Thu, 27 Apr 2023 12:03:51 +0100
+ Thu, 27 Apr 2023 04:05:45 -0700 (PDT)
+Message-ID: <73122088-84f4-88f9-5925-3d12a71ac47a@linaro.org>
+Date: Thu, 27 Apr 2023 12:05:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 18/21] Hexagon (target/hexagon) Move new_pred_value to
+Subject: Re: [PATCH 19/21] Hexagon (target/hexagon) Move pred_written to
  DisasContext
 Content-Language: en-US
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
  quic_mathbern@quicinc.com
 References: <20230426004234.1319401-1-tsimpson@quicinc.com>
- <20230426004234.1319401-9-tsimpson@quicinc.com>
+ <20230426004234.1319401-10-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230426004234.1319401-9-tsimpson@quicinc.com>
+In-Reply-To: <20230426004234.1319401-10-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -98,7 +98,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/26/23 01:42, Taylor Simpson wrote:
-> The new_pred_value array in the CPUHexagonState is only used for
+> The pred_written variable in the CPUHexagonState is only used for
 > bookkeeping within the translation of a packet.  With recent changes
 > that eliminate the need to free TCGv variables, these make more sense
 > to be transient and kept in DisasContext.
@@ -106,15 +106,13 @@ On 4/26/23 01:42, Taylor Simpson wrote:
 > Suggested-by: Richard Henderson<richard.henderson@linaro.org>
 > Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
 > ---
->   target/hexagon/cpu.h                        |  1 -
->   target/hexagon/gen_tcg.h                    | 12 ++++++------
->   target/hexagon/translate.h                  |  2 +-
->   target/hexagon/genptr.c                     | 10 +++++++---
->   target/hexagon/idef-parser/parser-helpers.c |  2 +-
->   target/hexagon/op_helper.c                  |  2 +-
->   target/hexagon/translate.c                  | 16 ++++++----------
->   target/hexagon/gen_tcg_funcs.py             |  2 +-
->   8 files changed, 23 insertions(+), 24 deletions(-)
+>   target/hexagon/cpu.h       | 2 --
+>   target/hexagon/helper.h    | 2 +-
+>   target/hexagon/translate.h | 2 +-
+>   target/hexagon/genptr.c    | 2 +-
+>   target/hexagon/op_helper.c | 5 +++--
+>   target/hexagon/translate.c | 9 ++++-----
+>   6 files changed, 10 insertions(+), 12 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
