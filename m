@@ -2,86 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEC66F063E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:56:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 384FC6F0660
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:06:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps1Aw-0004kt-HL; Thu, 27 Apr 2023 08:56:42 -0400
+	id 1ps1Ia-0000rO-Jf; Thu, 27 Apr 2023 09:04:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ps1At-0004ae-Iy
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:56:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ps1IF-0000nS-JC
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:04:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ps1As-0004pK-6D
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:56:39 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ps1IB-0007B5-Bb
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:04:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682600197;
+ s=mimecast20190719; t=1682600650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PHhT/smfyWtvGZDS7UNOSFwqaBjI/hYBfmr5J0LGzIU=;
- b=TnyH4xt9moLajRvlSV3tkowec9TSSr3FdxG4LTPbsN71pFsoEl3jnDO9mSEgb+3OMcl+UT
- aPqfPuWQ6icBfQRz24E8srKBWCH02PCBRaBkS7bHkJtbgEPXwRPuDNESbEHwW2wVtGoZkr
- IYzb+cN2fxFmu0K10lJTpg1yx8+uk1o=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sxAYtP33oSJz90CS8J4nQtz5FjwI4kqFxvtCzPjdRow=;
+ b=DnhJpmY1CqGntCoJ58x18lffT0xJw8zPVe7l9AsGZSNmErUzkRVWXh+fvlg3XOb8wEHkvr
+ kAhHGy5GGQ7lNUNJWQ060DABHhtOaxjU6FE1OnkZJDnwHmdnn13BsqahCD1WjlMzTv+m/g
+ yH5aZIuC+Krw+Mz8YDD1CHn04BBM0K0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-625-ZjeC4tm5MxWK0zlTQh626w-1; Thu, 27 Apr 2023 08:56:36 -0400
-X-MC-Unique: ZjeC4tm5MxWK0zlTQh626w-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-94ec76d7a26so817391266b.1
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 05:56:35 -0700 (PDT)
+ us-mta-230-TA3IaKZ9PtmnL9k75qtKDw-1; Thu, 27 Apr 2023 09:04:08 -0400
+X-MC-Unique: TA3IaKZ9PtmnL9k75qtKDw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f170a1fbe7so51804995e9.2
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 06:04:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682600194; x=1685192194;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PHhT/smfyWtvGZDS7UNOSFwqaBjI/hYBfmr5J0LGzIU=;
- b=TOaYIarBwX9Fs/acNKJBo1iwq4qBhtUUpok3yhIzIlUwVCpQV5i/pfVOhgAOY3LSci
- b6BFc+5Y884YPkW1+XDiC+k58SvTIzbq7um6eaJgdcePniHNBl+7uCjTfA5FIqcoX4Jz
- 3BGXEUjlo5fbec0ZDekeQBhsXQu9xLbokUCBfxYJfkx81+aggy0C+Hcwy8TsrsT4+SL8
- Z6N5p4gcUv7wBKradRoitCxUrTsByARpjhdwszIzJ4448Coilo2Di7Pc5/EQ1Fcv3Hs+
- sQiGmlgi9Bopk0QtRIAEcui989JLBCcgSVzdrFnB8o1ZYUiz8UwdW5bAsa+n+nmmCgdB
- hRTw==
-X-Gm-Message-State: AC+VfDyOhTwcTy2L4GAyzuZGhhJ4cwVNKDyCdjrCe7Gwi75K88W1P2ev
- plpTy4S0YcYQ3n3xvnH93P3zfLETa97iFDPTlNWTvQ9fxjErhzXUDTp7PgNj7nfWxmKL1vG9CfP
- L3MeedDQVZmT/CBN68wR7VJG2NoxoQQSwzxrpKQyklFGOAsV4nc2LmfSss6uAv/D5PNjd021NUk
- EUeg==
-X-Received: by 2002:a17:907:7da9:b0:953:4481:3301 with SMTP id
- oz41-20020a1709077da900b0095344813301mr1769652ejc.59.1682600194392; 
- Thu, 27 Apr 2023 05:56:34 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5C6m/c+ARIMtcq3u80lgyXOIAqWu1LFgWOkgZVqJegzXZSKSFDiEZHMU01xMhGZkQ9tNndsA==
-X-Received: by 2002:a17:907:7da9:b0:953:4481:3301 with SMTP id
- oz41-20020a1709077da900b0095344813301mr1769630ejc.59.1682600194023; 
- Thu, 27 Apr 2023 05:56:34 -0700 (PDT)
-Received: from [10.168.80.215] ([131.175.147.17])
+ d=1e100.net; s=20221208; t=1682600647; x=1685192647;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sxAYtP33oSJz90CS8J4nQtz5FjwI4kqFxvtCzPjdRow=;
+ b=XN5aob5iK4C2Q2U0gZXeOZkLBMT7PmekbkK78DwGWJsbzhWzEVbkeouEZOvsktjc5i
+ 9dLfb5PZS6ldEbdL5InwNiI4G303zk9EsXt/gJN2EZLkhJ7BSij/k9wi6er0pGhcgRXG
+ lcvLJTGcrbeIIZim0G3ppua4tC9M/xoG5GB2fAJZFLmvsNgPNC3jle+m2aBTe2ZiWJzq
+ 4ogtqxi9u0z6r1m2cVWTN/EV5ilmyCM9gleg5tP0o0TZYjw5W8jLFGN00rcsv8Dkq0er
+ 4LBPN6hPgqGQXxlq9rdNFXSHrhUUY3zUrtiTwLR1WdbqyeQnlORxxlflVphHGAqZdOIc
+ JLYw==
+X-Gm-Message-State: AC+VfDy3e3ZNPqp6jMmdHXnYv3oryXB26Cfs9lXtNY4tM8BX2o3TsrsI
+ rI9GbNB0y51qHocWgjzDcvqXh7ZBl5YRz45rA32lOXT66PsvWI6/bS7zrpgJYGIypv1ow1v2XPr
+ ulnSc4ht8FTKXR6E=
+X-Received: by 2002:a7b:cc94:0:b0:3f1:69cc:475b with SMTP id
+ p20-20020a7bcc94000000b003f169cc475bmr1471350wma.36.1682600646975; 
+ Thu, 27 Apr 2023 06:04:06 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6Y+emsQnCcLHigUNtvy1q9hSW3PDQHYfrpZTlmAbntw9O83ta3mWr6Gk74PHTDPydokgeF4A==
+X-Received: by 2002:a7b:cc94:0:b0:3f1:69cc:475b with SMTP id
+ p20-20020a7bcc94000000b003f169cc475bmr1471322wma.36.1682600646648; 
+ Thu, 27 Apr 2023 06:04:06 -0700 (PDT)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- vh7-20020a170907d38700b0094f31208918sm9517149ejc.108.2023.04.27.05.56.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 05:56:33 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Taylor Simpson <tsimpson@quicinc.com>
-Subject: [PATCH] target/hexagon: fix = vs. == mishap
-Date: Thu, 27 Apr 2023 14:56:32 +0200
-Message-Id: <20230427125632.104034-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.40.0
+ 11-20020a05600c228b00b003f1736fdfedsm21283728wmf.10.2023.04.27.06.04.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Apr 2023 06:04:05 -0700 (PDT)
+Message-ID: <4761c580-ca69-bfbd-0501-999fa7bc4059@redhat.com>
+Date: Thu, 27 Apr 2023 15:04:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
+ <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>
+References: <20230426161951.2948996-1-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v9 0/8] memory: prevent dma-reentracy issues
+In-Reply-To: <20230426161951.2948996-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,29 +112,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Coverity reports a parameter that is "set but never used".  This is caused
-by an assignment operator being used instead of equality.
+On 26/04/2023 18.19, Alexander Bulekov wrote:
+> v8-> v9:
+>      - Disable reentrancy checks for raven's iomem (Patch 8)
+>      - Fix non-bisectable disable_reentrancy_guard patch by squashing it
+>        into Patch 1.
+>      - Fix trailing whitespace
 
-Cc: Taylor Simpson <tsimpson@quicinc.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/hexagon/idef-parser/parser-helpers.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sorry for not noticing earlier (I think the test is not run on gitlab-CI), 
+but I just noticed another failing avocado test:
 
-diff --git a/target/hexagon/idef-parser/parser-helpers.c b/target/hexagon/idef-parser/parser-helpers.c
-index 86511efb62b9..0a01ec39b75e 100644
---- a/target/hexagon/idef-parser/parser-helpers.c
-+++ b/target/hexagon/idef-parser/parser-helpers.c
-@@ -1123,7 +1123,7 @@ HexValue gen_extend_op(Context *c,
-                        HexValue *value,
-                        HexSignedness signedness)
- {
--    unsigned bit_width = (dst_width = 64) ? 64 : 32;
-+    unsigned bit_width = (dst_width == 64) ? 64 : 32;
-     HexValue value_m = *value;
-     HexValue src_width_m = *src_width;
- 
--- 
-2.40.0
+tests/venv/bin/avocado --show console run \
+  tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_x86_64
+
+... seems to hang now (and finally gets "INTERRUPTED").
+
+If I got that right, the test is basically more or less doing:
+
+  wget https://storage.tuxboot.com/x86_64/bzImage
+  wget https://storage.tuxboot.com/x86_64/rootfs.ext4.zst
+  unzstd rootfs.ext4.zst
+  qemu-system-x86_64 -cpu Nehalem -M q35 -kernel bzImage \
+   -hda rootfs.ext4 -m 2G -append "root=/dev/sda console=ttyS0" \
+   -serial stdio
+
+Then log in as "root" and shut down with "halt".
+
+The "halt" works fine with git master, but it fails for me when I have your 
+patches applied. Could you please have a look?
+
+  Thanks,
+   Thomas
 
 
