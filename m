@@ -2,58 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195B96F062E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CD26F063D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:56:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps145-0001qB-41; Thu, 27 Apr 2023 08:49:37 -0400
+	id 1ps1AU-00040k-IX; Thu, 27 Apr 2023 08:56:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ps13y-0001pl-Oo
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:49:30 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ps1AS-0003yG-9u
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:56:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ps13x-0002qo-7C
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:49:30 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ps1AQ-0004aZ-Sv
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:56:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682599767;
+ s=mimecast20190719; t=1682600170;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FzEIXM0FRcqwdSc97dOurxFLcCuILNq6nPn2lvdOKnE=;
- b=WxcedY5Vvcgf3mdJprzgtkgIsqvQeJKWrLvXC5Vcv5vfyfvIxUxeCEOkiRyE+j3b+4/aMK
- 7y1Wbnjz9n/McYw/OpE0RU0GvphL/EoBTxpWwe0LoCVQ6yWT+5IipG4jstd5JvdKvwKNXJ
- t0rYN26P31xwh2ri+t+bFsCiESn4XWU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-DxK3nxbRNd2l392Fu-JRvA-1; Thu, 27 Apr 2023 08:49:24 -0400
-X-MC-Unique: DxK3nxbRNd2l392Fu-JRvA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2EA3C185A7A2;
- Thu, 27 Apr 2023 12:49:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BB25C15BA0;
- Thu, 27 Apr 2023 12:49:22 +0000 (UTC)
-Date: Thu, 27 Apr 2023 14:49:20 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH] block/nvme: use AIO_WAIT_WHILE_UNLOCKED()
-Message-ID: <ZEpvUDYCw4iyCWff@redhat.com>
-References: <20230404112044.427062-1-stefanha@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2i11gauYtKzpujwiNKXwlF+ueCGrE+rc0CkTsdy1xxk=;
+ b=LPoUVxZ7gJ33bysp2BRox0Wa7XR0csl73r+oMwKd0h6qfma1H36nnyoxoWeSNDtZ7jYLAO
+ IIhFFwTrvWfuzWuVtWeGHmPHcm1dtTMTvZ+yeJ/v3p3t/HxBLUSalcNGFAm193VT//40xs
+ OojTX7WK8woCFO3LJtbL2SHvlInoXRQ=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-59-yqey5ybBNEuMUF4tFq2Hlg-1; Thu, 27 Apr 2023 08:55:19 -0400
+X-MC-Unique: yqey5ybBNEuMUF4tFq2Hlg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-94f0dd11762so961534066b.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 05:54:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682600065; x=1685192065;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2i11gauYtKzpujwiNKXwlF+ueCGrE+rc0CkTsdy1xxk=;
+ b=h8pGUZq5J4T8OwStFXuYlzW9HbwvLiMwiTZ6hW9pkNVKBSI3nrDf9HsbWb/S8dkhCP
+ oiaum61hIeRYKUuOfGqNgpuJQbmhRjFaUEQoVYnJZtoPT7s0xQ2c8RZNqGjm25ZAgF70
+ gKuHmLUQfHe/vV+dyUC7wMbjgPMzkvtICIQGFIRyCzX+UR7OIqoqhewAYH7h4G3QWwgD
+ JOYa1uNHz8p97i+V/v+GD+Wl8Nh5TuBTE0w69SyRZtQ0mZnZtF0bNlVAtSKajn+uF3eN
+ Pfx01RFFBMFNE34ewnYMY6aDXIxF74TBvwEO94l3HrSRi7G1BXRfgkoTepsGBZqfAiNV
+ esUA==
+X-Gm-Message-State: AC+VfDyxfMlygPGXpWErOuPv/thLwpDmAkOD1ehx2yF7WoeIXEPdwiPD
+ AVb0dmm4melUpzyIDUcQ5xF5xJIoVlCC0Gi4mgSztwIaq6fSzWJfNEfDAk5iNbNokaKI+fHCHl7
+ 46bRlcIrs7t0PdQ8fimlfLqLi61hg+J9tYtUp6Ii97DDIAZwlvRBnF9vI6fcNq9UnsQHy10wv/q
+ GHpQ==
+X-Received: by 2002:a17:907:36c4:b0:94a:35d1:59a with SMTP id
+ bj4-20020a17090736c400b0094a35d1059amr1612034ejc.14.1682600065391; 
+ Thu, 27 Apr 2023 05:54:25 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4Fzs7lzxX5DTDNR6YolN401XOqKxQvgkCGK75jHRfRBxcJ1TqzeUdW/aAs4znGBh9Y9bHXvw==
+X-Received: by 2002:a17:907:36c4:b0:94a:35d1:59a with SMTP id
+ bj4-20020a17090736c400b0094a35d1059amr1612016ejc.14.1682600065038; 
+ Thu, 27 Apr 2023 05:54:25 -0700 (PDT)
+Received: from [10.168.80.215] ([131.175.147.17])
+ by smtp.gmail.com with ESMTPSA id
+ qb25-20020a1709077e9900b00959b810efcbsm4832766ejc.36.2023.04.27.05.54.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Apr 2023 05:54:24 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com,
+	mst@redhat.com,
+	qemu-trivial@nongnu.org
+Subject: [PATCH] tests: vhost-user-test: release mutex on protocol violation
+Date: Thu, 27 Apr 2023 14:54:23 +0200
+Message-Id: <20230427125423.103536-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230404112044.427062-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -61,7 +83,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,53 +100,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 04.04.2023 um 13:20 hat Stefan Hajnoczi geschrieben:
-> A few Admin Queue commands are submitted during nvme_file_open(). They
-> are synchronous since device initialization cannot continue until the
-> commands complete.
-> 
-> AIO_WAIT_WHILE() is currently used, but the block/nvme.c code actually
-> doesn't rely on the AioContext lock. Replace it with
-> AIO_WAIT_WHILE_UNLOCKED(NULL, condition). There is no change in behavior
-> and the dependency on the AioContext lock is eliminated.
-> 
-> This is a step towards removing the AioContext lock.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  block/nvme.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/block/nvme.c b/block/nvme.c
-> index 5b744c2bda..829b9c04db 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -512,7 +512,6 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
->  {
->      BDRVNVMeState *s = bs->opaque;
->      NVMeQueuePair *q = s->queues[INDEX_ADMIN];
-> -    AioContext *aio_context = bdrv_get_aio_context(bs);
->      NVMeRequest *req;
->      int ret = -EINPROGRESS;
->      req = nvme_get_free_req_nowait(q);
-> @@ -521,7 +520,7 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
->      }
->      nvme_submit_command(q, req, cmd, nvme_admin_cmd_sync_cb, &ret);
->  
-> -    AIO_WAIT_WHILE(aio_context, ret == -EINPROGRESS);
-> +    AIO_WAIT_WHILE_UNLOCKED(NULL, ret == -EINPROGRESS);
->      return ret;
->  }
+chr_read() is printing an error message and returning with s->data_mutex taken.
+This can potentially cause a hang.  Reported by Coverity.
 
-Wait, do we hold the lock in this piece of code or don't we? Either the
-old code was buggy (then the commit message should be explicit about
-it), or the new one is.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/qtest/vhost-user-test.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-It seems that in practice, it doesn't matter much because this function
-is only called through .bdrv_file_open, which I think always run in the
-main thread for a protocol driver. I believe that we generally don't
-hold the AioContext lock there, so it's the old code that was wrong?
-
-Kevin
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index bf9f7c4248ca..e4f95b2858f0 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -351,7 +351,7 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+         if (size != msg.size) {
+             qos_printf("%s: Wrong message size received %d != %d\n",
+                        __func__, size, msg.size);
+-            return;
++            goto out;
+         }
+     }
+ 
+@@ -509,6 +509,7 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+         break;
+     }
+ 
++out:
+     g_mutex_unlock(&s->data_mutex);
+ }
+ 
+-- 
+2.40.0
 
 
