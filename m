@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755B86F0DAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 23:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2CE6F0DB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 23:12:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps8tA-0005sq-PY; Thu, 27 Apr 2023 17:10:52 -0400
+	id 1ps8tD-0005up-Tv; Thu, 27 Apr 2023 17:10:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ps8t6-0005rx-0t
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 17:10:49 -0400
-Received: from esa8.hc2706-39.iphmx.com ([216.71.140.196])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ps8tC-0005uQ-Ks
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 17:10:54 -0400
+Received: from esa16.hc2706-39.iphmx.com ([216.71.140.205])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ps8t3-0005MH-82
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 17:10:47 -0400
-X-IronPort-RemoteIP: 209.85.222.199
-X-IronPort-MID: 273267400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ps8tB-0005N6-1u
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 17:10:54 -0400
+X-IronPort-RemoteIP: 209.85.160.198
+X-IronPort-MID: 273505222
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:+IGXKaA07k9pqxVW/5fhw5YqxClBgxIJ4kV8jS/XYbTApGwrgTIDz
- WEeXT+DPfmIZ2X2fdAlPoWx/U8G78DSy9Y3TANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
- ynLQoCYdKjYdleF+lH2dOCn9SImvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYctitWia++3k
- YqaT/b3ZRn0ilaYDkpOs/jY8E8146yp0N8llgdWic5j7Qe2e0Y9Ucp3yZGZdxPQXoRSF+imc
- OfPpJnRErTxpkpF5nuNy94XQ2VTKlLgFVHmZkl+AsBOtiN/Shkaic7XAha9hXB/0F1ll/gpo
- DlEWAfZpQ0BZ8Ugk8xEO/VU/r0X0QSrN9YrLFDm2fF/wXEqfFPGyqpEF1smALEkubl7XmJWr
- sJHGTskO0Xra+KemNpXS8Fpj8UnadDoZcYR4yAxiz7eCvkiTNbIRKCiCd1whm9hwJATW6yEP
- YxAOGsHgBfoOnWjPn8eDII4kP2AjGS5fjFFwL6QjfBouDKNk1ApiNABNvLqIPGTdOkSwX+U+
- ELFxELhHA0cOe6AnG/tHnWEw7WncTnAcJsfEaD9+vN0jVm7wGsVBxsLE1yhrpGEZlWWXtteL
- wkN+XNro/FjpQqkSd7yWxD+q3mB1vIBZ+dt/yQBwFnl4sLpD8yxXQDokhYphAQaifIL
-IronPort-HdrOrdr: A9a23:tpe5R66AU/ywPhytLAPXwPHXdLJyesId70hD6qkRc20tTiX8ra
- qTdZsgtSMc5AxhP03Is+rwW5VoOEmsl6KdgrN+AV7BZniChILAFugLhrcKqAeQfxEWmNQts5
- uIsJITNDQzNzVHZArBjzVQ2uxA/OW6
-X-Talos-CUID: =?us-ascii?q?9a23=3AJ+VyKWnx4lwOShyXdceA2zgtfnrXOVfUk13LOV+?=
- =?us-ascii?q?FNVoqF7HKSkfLxvxVmOM7zg=3D=3D?=
-X-Talos-MUID: 9a23:q2HQIgrTUrfcNGGofpoezw44Gd5Zz+PxMUxTsZY9ndGaKSp9CSjI2Q==
-Received: from mail-qk1-f199.google.com ([209.85.222.199])
+IronPort-Data: A9a23:L1ko/qMmjNAJjcXvrR0clcFynXyQoLVcMsEvi/4bfWQNrUpzhWZSy
+ WUfUW2DPf7cMWrxf9gkbI+//BsPvsDUzN82SAZtpSBmQkwRlceUXt7xwmUcns+xwm8vaGo9s
+ q3yv/GZdJhcokf0/0vraf656yEnj8lkf5KkYMbcICd9WAR4fykojBNnioYRj5VhxNO0GGthg
+ /uryyHkEALjim8c3l48sfrZ80sz5quq41v0g3RlDRx1lA6G/5UqJM9HTU2BByOQapVZGOe8W
+ 9HCwNmRlo8O105wYj8Nuu+TnnwiG9Y+DyDX4pZlc/HKbix5m8AH+v1T2MzwyKtgo27hc9hZk
+ L2hvHErIOsjFvSkdO81CnG0H8ziVEHvFXCuzXWX6KSuI0P6n3TE76RwFmMaDKgj2LhRJ1AUz
+ voGFA0OV0XW7w626OrTpuhEg80iKIzyINpatCgxnXfWCvEpRZ2FSKLPjTNa9G1o14YeQLCHO
+ ZJfMGs/BPjDS0Qn1lM/AZYumuuyrnPiNTBUtTp5oIJtvDOOlFEriuKF3Nz9Q+WPHJlzgB6hv
+ DyF8U6lHj9CD/HF4G/Qmp6rrqqV9c/hY6oLGbils/JnnlCX7moUDhIQSB28u/bRt6Klc9dWK
+ khR4zZ36KZrpRztQd76UBm15nWDu3bwRuZtLgHz0ynVooK83upTLjJYJtKdQLTKbPMLeAE=
+IronPort-HdrOrdr: A9a23:OekdeK5sCWHurHwhSgPXwPLXdLJyesId70hD6qkXc3Bom62j+P
+ xG+c5x6faaslgssR0b+OxoWpPwIk80hKQU3WB5B97LNmTbUQ2TXeRfBODZsl/d8kPFh4lg/J
+ YlX69iCMDhSXhW5PyKhjVQyuxQpOW6zA==
+X-Talos-CUID: =?us-ascii?q?9a23=3AJmGVPmjDK6bOEhuqmqhpZxuLFjJuXizD1lX8Emq?=
+ =?us-ascii?q?DKzhPbozPclmOxJ5nqp87?=
+X-Talos-MUID: 9a23:KtIfMwX5UMfVn2jq/AbVgWg+Etkw2r7wS04nzYko4/KpbwUlbg==
+Received: from mail-qt1-f198.google.com ([209.85.160.198])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 27 Apr 2023 17:10:43 -0400
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-74e0cfab3f0so1383337785a.1
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 14:10:43 -0700 (PDT)
+ 27 Apr 2023 17:10:46 -0400
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-3ef691d1eebso41123141cf.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 14:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bu.edu; s=s1gsbu; t=1682629842; x=1685221842;
+ d=bu.edu; s=s1gsbu; t=1682629845; x=1685221845;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3SdAMrXHXFKpIl5axn2Wa+vv4dRDlBMdBU9qEifc6x0=;
- b=KW7CV0J6EY0fDwThGtGw2mV/XIr2QVr9ZzmmCxQL3KD5G23HIbJP/Ts25JkCfWJ+RC
- IxqH5DOE5TQpIU5qq1u4hOuL3nbZrAkljXBE8lakBfKn7bTXfWNyNOCZz14xAvGyp0+S
- 2hGWcspqZ4+8E2sXL+sv2K0mdNtZj2GbZF9R1aa0i6SV9V89V7VGCreAM1BlXZ8ybVrV
- rqHkU/HW4W5kRTo+9zfKTibYMRJ9flsws+Snd0flNLR/81a6s0K1F6xk6k+oQ4LOPkO9
- LYW0Q/4CCusiAk91x76HiHDTm7kXIVoCebsvov/G4taQnZfTgFuXGz/FGKq8VHbM4P9n
- agQQ==
+ bh=baPw7HeUNSOgBdUdX5+Wv116KVOdtz82o0yKX11s6GY=;
+ b=bLc+Sf5D1COH9x0JkJGO6Ctb9788JBLqleFbg1rk9fKeYwT1xuEpXgsPlBhLdBxhc8
+ +dHqKSk7ueRWZawLcd9+Lqpt+n57ngOvEilE/H/vrR4RembzJXWHy2UfrV5dI/YqXTOS
+ lQtmWH3P2jAFFIoFwK1y0p/lKJerr8CicukEyGsfIZNl01WAhafJnv2jlDL24EjkEPru
+ xXHtzIt1wpHEYtZdX6uiiXwxTqORr17CyOzXdCa1CrS9kWtARYnIOQ5v6cYDXWrD+aWm
+ XbWeTViYxuACcF2UU7KxIm5JIn5LQ+xm2cOGEDpX1wfDJ3ArwMCvHTyw22PhEYrk17uc
+ GNJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682629842; x=1685221842;
+ d=1e100.net; s=20221208; t=1682629845; x=1685221845;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3SdAMrXHXFKpIl5axn2Wa+vv4dRDlBMdBU9qEifc6x0=;
- b=cxMteY2wlHYSqj5WPa+TnQcxF9K44l6TrhekrJHif6A6d0hL11FeXK2frH6bcPi0Uk
- 1IWQE+xitGhHt+UrCXlzO0fxn/raDFJ4RZGghYS1cNGuxb1jHesWwFpCncFb42Y7hu6L
- Qcd7ynkWDwo7Wq1yY3LhmcAtFfC632qr/H9QMyww5Z2uli4xjJBIJxiF26aItcK5+udW
- riuyKvZ39Sl6/d9o0hPrkYlIsKMnxjDNCra+STHunq3DE/5E75brKZExlCQMtktTJnI+
- l/0ihN7dLfWbQcP24UhNIUclfjqhBdOZ1h4YsjaCl0PdgpyyuB/OgQkICWnJcLHu9Rie
- FJtQ==
-X-Gm-Message-State: AC+VfDz2r+E1oowp2QLPUVlejiEKprhnO2wDbv0zwSiPwX6+DgnU4gRZ
- EPU2D4lAo4j4Q7busM7lY2x/BfuZ+Fabr+pdJ50bxwD9tAqSilSoeNWfIYXB2ZUQPan9PjhBKn1
- osevOOpvycpDPjjSNSVH+dT/13UoSsZ8vI4aoK2LYPbg=
-X-Received: by 2002:a05:6214:20ee:b0:614:da60:f45d with SMTP id
- 14-20020a05621420ee00b00614da60f45dmr4902469qvk.30.1682629842287; 
- Thu, 27 Apr 2023 14:10:42 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6B2366U41LLQszN6ihcZBrJk8YDRrKzcE3mBVfX6MFBk6kfHQJtYnCxk0tCNi7X4uqKewdLA==
-X-Received: by 2002:a05:6214:20ee:b0:614:da60:f45d with SMTP id
- 14-20020a05621420ee00b00614da60f45dmr4902422qvk.30.1682629842058; 
- Thu, 27 Apr 2023 14:10:42 -0700 (PDT)
+ bh=baPw7HeUNSOgBdUdX5+Wv116KVOdtz82o0yKX11s6GY=;
+ b=M2C9Ajbb6IVCXJcoMpZyL0E+nhXF5IR+or/D5s1U2SkoK96tjT0iZDRB2mB5SKeYIN
+ p11KWbB4T3Dq8aOQmpR6bMLMQWibOcgUkybxuDfesHFpDhX7/jFelfFZqU3tH5km3NlH
+ mwgo7mISidkzovYQg15kdKfa4SiNmIVFNyq74BJI9Rx4YebJXHQ+YTev9RqOsgTo3Cau
+ vvzi39aHPhnZP/MIS3fjRWCTlgZCequluGj4qDa2aMUjZtRGceGYc1qVd/rMnR8Ovydp
+ M/r32aM5ZLgLzRYHYAWdBeSTsyUss83ONPw0LeYGfTBGfjP1Hj8RTW2kATzS/SZv6zat
+ pabQ==
+X-Gm-Message-State: AC+VfDxGPa99daqbrbwuUqTjcvkK1jJ+iSxtd9VtxnPGn5On1lGfk77y
+ LsFFGcakv34p/DOnNP1ykQOxC9wrBPMksRHi53xNCxmgTQALyJJ6V9f1OGvEzS0grRTHYLKiy6w
+ hkngDU08HtVoGsGvdV6yHZsMwe+lWQcpMYb6uoXP7J7M=
+X-Received: by 2002:ac8:57c4:0:b0:3ea:bac1:a5be with SMTP id
+ w4-20020ac857c4000000b003eabac1a5bemr4760082qta.42.1682629845233; 
+ Thu, 27 Apr 2023 14:10:45 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5qbri2Q+LH4NR35KATOGWb7DKHwgO2Xe2TuucXECJ/VltVtTl8c7BvSI8Jk5PVIxv7tHJtJg==
+X-Received: by 2002:ac8:57c4:0:b0:3ea:bac1:a5be with SMTP id
+ w4-20020ac857c4000000b003eabac1a5bemr4760042qta.42.1682629844982; 
+ Thu, 27 Apr 2023 14:10:44 -0700 (PDT)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- z30-20020a0ca95e000000b005ef61084fddsm5909401qva.131.2023.04.27.14.10.41
+ y11-20020ac8128b000000b003ef6582d971sm4947634qti.47.2023.04.27.14.10.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 14:10:41 -0700 (PDT)
+ Thu, 27 Apr 2023 14:10:44 -0700 (PDT)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -99,26 +99,28 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
  Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Fiona Ebner <f.ebner@proxmox.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v10 5/8] lsi53c895a: disable reentrancy detection for script
- RAM
-Date: Thu, 27 Apr 2023 17:10:10 -0400
-Message-Id: <20230427211013.2994127-6-alxndr@bu.edu>
+ Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org (open list:Raspberry Pi)
+Subject: [PATCH v10 6/8] bcm2835_property: disable reentrancy detection for
+ iomem
+Date: Thu, 27 Apr 2023 17:10:11 -0400
+Message-Id: <20230427211013.2994127-7-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230427211013.2994127-1-alxndr@bu.edu>
 References: <20230427211013.2994127-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.196; envelope-from=alxndr@bu.edu;
- helo=esa8.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.140.205; envelope-from=alxndr@bu.edu;
+ helo=esa16.hc2706-39.iphmx.com
 X-Spam_score_int: -7
 X-Spam_score: -0.8
 X-Spam_bar: /
 X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.266, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ HK_RANDOM_ENVFROM=0.266, HK_RANDOM_FROM=0.999, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -134,36 +136,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As the code is designed to use the memory APIs to access the script ram,
-disable reentrancy checks for the pseudo-RAM ram_io MemoryRegion.
+As the code is designed for re-entrant calls from bcm2835_property to
+bcm2835_mbox and back into bcm2835_property, mark iomem as
+reentrancy-safe.
 
-In the future, ram_io may be converted from an IO to a proper RAM MemoryRegion.
-
-Reported-by: Fiona Ebner <f.ebner@proxmox.com>
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- hw/scsi/lsi53c895a.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/misc/bcm2835_property.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-index af93557a9a..db27872963 100644
---- a/hw/scsi/lsi53c895a.c
-+++ b/hw/scsi/lsi53c895a.c
-@@ -2302,6 +2302,12 @@ static void lsi_scsi_realize(PCIDevice *dev, Error **errp)
-     memory_region_init_io(&s->io_io, OBJECT(s), &lsi_io_ops, s,
-                           "lsi-io", 256);
+diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+index 890ae7bae5..de056ea2df 100644
+--- a/hw/misc/bcm2835_property.c
++++ b/hw/misc/bcm2835_property.c
+@@ -382,6 +382,13 @@ static void bcm2835_property_init(Object *obj)
  
-+    /*
-+     * Since we use the address-space API to interact with ram_io, disable the
-+     * re-entrancy guard.
-+     */
-+    s->ram_io.disable_reentrancy_guard = true;
+     memory_region_init_io(&s->iomem, OBJECT(s), &bcm2835_property_ops, s,
+                           TYPE_BCM2835_PROPERTY, 0x10);
 +
-     address_space_init(&s->pci_io_as, pci_address_space_io(dev), "lsi-pci-io");
-     qdev_init_gpio_out(d, &s->ext_irq, 1);
- 
++    /*
++     * bcm2835_property_ops call into bcm2835_mbox, which in-turn reads from
++     * iomem. As such, mark iomem as re-entracy safe.
++     */
++    s->iomem.disable_reentrancy_guard = true;
++
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
+     sysbus_init_irq(SYS_BUS_DEVICE(s), &s->mbox_irq);
+ }
 -- 
 2.39.0
 
