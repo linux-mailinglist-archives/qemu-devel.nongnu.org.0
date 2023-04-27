@@ -2,78 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02E86F0BF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 20:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CBD6F0C17
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 20:43:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps6PI-0007Ao-Kr; Thu, 27 Apr 2023 14:31:52 -0400
+	id 1ps6Yw-0003mn-5i; Thu, 27 Apr 2023 14:41:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ps6P2-00076a-KL
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 14:31:36 -0400
-Received: from mout.web.de ([212.227.15.3])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ps6YY-0003lb-Kk
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 14:41:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ps6Ow-0006HT-Vs
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 14:31:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1682620285; i=lukasstraub2@web.de;
- bh=/VIdB1nIIxd4PIRwVlYjJNhMAnhOqmugz5SuMUuAVvs=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=MX0jG28xAFjR+9T19FAAZW5XA6zAXqPVw3+NaQge93x1NcTrj5EbqK1UtwUio0Z8U
- y6GtsCN89gKlu03WU2tGN0tsYtHUKNY0Hr3lkWKDEI0Ostlz3lU9krafP2tS0KSmXD
- 6mYpCfeIjsGWd+8U0iQ+6ywDECiCmvZWEw7KH8fSfdZfD0Od41D51nLylzWThEO2Qy
- 7GwPm3WaFiDKddIZ1Nk3fkDeQ8Sfgcj+fCeU+Q0GRbLSzHN3YBqkMViSppCKsWhPbO
- aIps9753wOIOFn+E4uslAGBm1AudNMfTRkolZTLh5qrqZXuiadEphfh5/h4kx+KoR0
- /jW0kVA6WBnKw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.107]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MBjIG-1pzkpN1C8K-00C6pz; Thu, 27
- Apr 2023 20:31:25 +0200
-Date: Thu, 27 Apr 2023 20:31:24 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, Leonardo Bras
- <leobras@redhat.com>
-Subject: Re: [PATCH 03/19] migration: Rename ram_counters to mig_stats
-Message-ID: <20230427183124.77bd476a@gecko.fritz.box>
-In-Reply-To: <20230427163449.27473-4-quintela@redhat.com>
-References: <20230427163449.27473-1-quintela@redhat.com>
- <20230427163449.27473-4-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ps6YV-0008IO-J6
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 14:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682620882;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fd5Ug5ZILzQtJxf/iMUPyrZegtwcSGD6L/iLxtkDwYI=;
+ b=SNMLiZOQPp2pZuiArWBd+Dj+hEzzHxMUl9X2Nc00C0VRnfzaId+FNl2XM6xXfkKk1dMRmH
+ vBoAtiD78BddCt2tSU8onhMVlQgKZE/9N/AmCuDIrOKNhzuLerJtfFn/jUj4t2o4U3LQle
+ oKh8+mBYBMGe12uMnhEgr5bYcbfpoIg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-523-abPqYDs0Ma2rh_WK11tCXg-1; Thu, 27 Apr 2023 14:41:17 -0400
+X-MC-Unique: abPqYDs0Ma2rh_WK11tCXg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-2f8b5e23d23so5363223f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 11:41:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682620876; x=1685212876;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Fd5Ug5ZILzQtJxf/iMUPyrZegtwcSGD6L/iLxtkDwYI=;
+ b=Z6TEHGh9u0/nvqrHMCl5taanQsijhIhHiRCrKJd/oyHhpa/vM4XvEX2savMTMyOOff
+ ItfifjPlwwxtxG/GTsdy31+iSCPKvxPx1U8NoAiRhEMKcy+sO+TrpHr5sS9dsjLkfO4Z
+ SPDfEsT8uB3riX2hWvt50cmlM8+b6ObL5NNmv8JAh/rpgN6M1lg4yZ1jVx5qomz3kquX
+ XCzf0WRMPkmTw3Px5lNvVEfhzidjKWmWNNA4XizlGd9H/T3IVjob2nBJ40Nvh4rV5Yg7
+ vDhnjcoDquGA/JvEmkRbNtxKx6CbghE65/urKiMFIzFxLZUS8jU8TGGz4IKT6jyRfMXB
+ nJ0g==
+X-Gm-Message-State: AC+VfDzksQV76u/lUA8CT2QD+uYwAFq3dFXLKXwORgSUtHhQH4YtpjSE
+ aG4/QcZy0ulJhWvwJegMZ5OQAL/8db2Z4jEbBTwwMs+MUlFxiaYx/WbJlcePvHtjxsW/75bKQym
+ YXphX5WvPBTPzPnE=
+X-Received: by 2002:adf:ce09:0:b0:2fe:c0ea:18a8 with SMTP id
+ p9-20020adfce09000000b002fec0ea18a8mr2037750wrn.49.1682620875871; 
+ Thu, 27 Apr 2023 11:41:15 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4r6U/z03Y3sXqApW8AbEpFx+1XgKXWutwRgCTXxZ05gqML+1QqbIgZYbVHDdXikLFdp7xkkQ==
+X-Received: by 2002:adf:ce09:0:b0:2fe:c0ea:18a8 with SMTP id
+ p9-20020adfce09000000b002fec0ea18a8mr2037724wrn.49.1682620875545; 
+ Thu, 27 Apr 2023 11:41:15 -0700 (PDT)
+Received: from redhat.com ([2.52.19.183]) by smtp.gmail.com with ESMTPSA id
+ o12-20020a5d474c000000b002f4c2ea66absm19204927wrs.85.2023.04.27.11.41.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Apr 2023 11:41:15 -0700 (PDT)
+Date: Thu, 27 Apr 2023 14:41:10 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <anisinha@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v11 08/13] tests/qtest: Fix tests when no KVM or TCG are
+ present
+Message-ID: <20230427144055-mutt-send-email-mst@kernel.org>
+References: <20230426180013.14814-1-farosas@suse.de>
+ <20230426180013.14814-9-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/VQfAbSQNZsjTofnaxGdTkYN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:ybbe6IObSurl99QiE7iIqqG4JZYpq7KT746tkAFXqkzYk0NrMZp
- iyT3PoQHl9wk+8RIyrnDCa/AIxIOshZUhq+hVeugM5J2THi15z/D3beikcgim3f0gd6MvSi
- uTcrqIFVg/TU+GXUp7CFnik4yjHxjFMfm5sVPSOkssHrvbnnOSLYlgYon9XcAC0rJA4Iz5X
- 4liVofTKFXoxN+D+iHdsg==
-UI-OutboundReport: notjunk:1;M01:P0:0vkJ3fX2tPI=;evLv9EXm3WINfU/plboJr1PiYt1
- K9/85qU9X3suOqU2h8ZkHW41ai6XGiNnLvI4jIqNgWzdIkBZeg6Ts+w5IuOg7bWCBY5d4cH6s
- ZWabpgH5EXVmB5kgZxSXbcKD7+9UF5zpZgH8K6AwdxFJlqE8/MLin/BucAupIYsEdFzqJoTub
- x/2cFSQFQOozSTgI1R9HxpSAvngweQ6Nyu/PeeYHHmLuIOvGNoRadiwiVZmeqBLKpWnDCBXQY
- kr2fipZUCoLi8vkPzLrb6Z5hYlOlt7BXFxrfMDH9C9EfU3IiqoHzUrclJ5yh9T9/kSjskOyUO
- LqpWoIwzgD6xV2WxByDeHEVx7mjCk8NGLVJENe0+f2jK3ULPe29tRfoPgAAGoZSdSs9HkOXxo
- Sl/pd78G18g0gjULce767qe/N/QmQe0Dhz4pjBTD86gxLRIQXUopJfbd8SMjvCQbf0uY/SIOX
- W7Q9uOpCfOemrVSX6Do6jl8Ot526DZ1q0HKHxdpaF8liAqYj6jurolggeQICHx49eU2yt5cI6
- BZvEPxEd6jl3MNi3/zXSv9nk5DQ49T8XGp9uO2jn81w0BNkb56CWi4VldRgvNGJLp0fDRXLmL
- 6dAe5PvkpuUlTCT5kfJrI4M4FXeDZEM19E+kNAgavEdpAuYyTvXxF7Cnrzd3wszzMVIyNVeKE
- mCb7wZyRpi9yZm5fr/utZrTH6Y54i08O+4bi7nxnJb/QW0+rJMjsLcRSTknXcNgeObf6d0wHM
- vcl0vYk5Y+OUin9MXD0mBTb+27vvKywlwgPn1Y/GhF2HDidF8C/yx/8fp2gUkHnKv1XqHq4Ok
- vwqyWE4Y6ENlHo6AlrsJEq/YhWNORmtnFL3KDhvlrMuOoql4GRfeQmb3XvGe+BeAj5gUx8aBc
- kwFpb/eF1EMml/x+nmRNsxpYAb6jZJn8JKFAo7qiAZ0LdEdOpn3oUn78Vwl9UvTuwzCoXYV8g
- cPOA3nE2kyAfszkjBuX/zYgDvj8=
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230426180013.14814-9-farosas@suse.de>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,402 +107,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/VQfAbSQNZsjTofnaxGdTkYN
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 26, 2023 at 03:00:08PM -0300, Fabiano Rosas wrote:
+> It is possible to have a build with both TCG and KVM disabled due to
+> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
+> host.
+> 
+> If we build with --disable-tcg on the aarch64 host, we will end-up
+> with a QEMU binary (x86) that does not support TCG nor KVM.
+> 
+> Skip tests that crash or hang in the above scenario. Do not include
+> any test cases if TCG and KVM are missing.
+> 
+> Make sure that calls to qtest_has_accel are placed after g_test_init
+> in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
+> printed before other messages") to avoid TAP parsing errors.
+> 
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 
-On Thu, 27 Apr 2023 18:34:33 +0200
-Juan Quintela <quintela@redhat.com> wrote:
 
-> migration_stats is just too long, and it is going to have more than
-> ram counters in the near future.
->=20
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+makes sense to me
 
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
 > ---
->  migration/migration-stats.c |  2 +-
->  migration/migration-stats.h |  2 +-
->  migration/migration.c       | 32 ++++++++++++-------------
->  migration/multifd.c         |  6 ++---
->  migration/ram.c             | 48 ++++++++++++++++++-------------------
->  migration/savevm.c          |  2 +-
->  6 files changed, 46 insertions(+), 46 deletions(-)
->=20
-> diff --git a/migration/migration-stats.c b/migration/migration-stats.c
-> index b0eb5ae73c..8c0af9b80a 100644
-> --- a/migration/migration-stats.c
-> +++ b/migration/migration-stats.c
-> @@ -14,4 +14,4 @@
->  #include "qemu/stats64.h"
->  #include "migration-stats.h"
-> =20
-> -RAMStats ram_counters;
-> +RAMStats mig_stats;
-> diff --git a/migration/migration-stats.h b/migration/migration-stats.h
-> index 2edea0c779..197374b4f6 100644
-> --- a/migration/migration-stats.h
-> +++ b/migration/migration-stats.h
-> @@ -36,6 +36,6 @@ typedef struct {
->      Stat64 transferred;
->  } RAMStats;
-> =20
-> -extern RAMStats ram_counters;
-> +extern RAMStats mig_stats;
-> =20
->  #endif
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 5ecf3dc381..feb5ab7493 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -909,26 +909,26 @@ static void populate_ram_info(MigrationInfo *info, =
-MigrationState *s)
->      size_t page_size =3D qemu_target_page_size();
-> =20
->      info->ram =3D g_malloc0(sizeof(*info->ram));
-> -    info->ram->transferred =3D stat64_get(&ram_counters.transferred);
-> +    info->ram->transferred =3D stat64_get(&mig_stats.transferred);
->      info->ram->total =3D ram_bytes_total();
-> -    info->ram->duplicate =3D stat64_get(&ram_counters.zero_pages);
-> +    info->ram->duplicate =3D stat64_get(&mig_stats.zero_pages);
->      /* legacy value.  It is not used anymore */
->      info->ram->skipped =3D 0;
-> -    info->ram->normal =3D stat64_get(&ram_counters.normal_pages);
-> +    info->ram->normal =3D stat64_get(&mig_stats.normal_pages);
->      info->ram->normal_bytes =3D info->ram->normal * page_size;
->      info->ram->mbps =3D s->mbps;
->      info->ram->dirty_sync_count =3D
-> -        stat64_get(&ram_counters.dirty_sync_count);
-> +        stat64_get(&mig_stats.dirty_sync_count);
->      info->ram->dirty_sync_missed_zero_copy =3D
-> -        stat64_get(&ram_counters.dirty_sync_missed_zero_copy);
-> +        stat64_get(&mig_stats.dirty_sync_missed_zero_copy);
->      info->ram->postcopy_requests =3D
-> -        stat64_get(&ram_counters.postcopy_requests);
-> +        stat64_get(&mig_stats.postcopy_requests);
->      info->ram->page_size =3D page_size;
-> -    info->ram->multifd_bytes =3D stat64_get(&ram_counters.multifd_bytes);
-> +    info->ram->multifd_bytes =3D stat64_get(&mig_stats.multifd_bytes);
->      info->ram->pages_per_second =3D s->pages_per_second;
-> -    info->ram->precopy_bytes =3D stat64_get(&ram_counters.precopy_bytes);
-> -    info->ram->downtime_bytes =3D stat64_get(&ram_counters.downtime_byte=
-s);
-> -    info->ram->postcopy_bytes =3D stat64_get(&ram_counters.postcopy_byte=
-s);
-> +    info->ram->precopy_bytes =3D stat64_get(&mig_stats.precopy_bytes);
-> +    info->ram->downtime_bytes =3D stat64_get(&mig_stats.downtime_bytes);
-> +    info->ram->postcopy_bytes =3D stat64_get(&mig_stats.postcopy_bytes);
-> =20
->      if (migrate_xbzrle()) {
->          info->xbzrle_cache =3D g_malloc0(sizeof(*info->xbzrle_cache));
-> @@ -960,7 +960,7 @@ static void populate_ram_info(MigrationInfo *info, Mi=
-grationState *s)
->      if (s->state !=3D MIGRATION_STATUS_COMPLETED) {
->          info->ram->remaining =3D ram_bytes_remaining();
->          info->ram->dirty_pages_rate =3D
-> -           stat64_get(&ram_counters.dirty_pages_rate);
-> +           stat64_get(&mig_stats.dirty_pages_rate);
->      }
->  }
-> =20
-> @@ -1613,10 +1613,10 @@ static bool migrate_prepare(MigrationState *s, bo=
-ol blk, bool blk_inc,
-> =20
->      migrate_init(s);
->      /*
-> -     * set ram_counters compression_counters memory to zero for a
-> +     * set mig_stats compression_counters memory to zero for a
->       * new migration
->       */
-> -    memset(&ram_counters, 0, sizeof(ram_counters));
-> +    memset(&mig_stats, 0, sizeof(mig_stats));
->      memset(&compression_counters, 0, sizeof(compression_counters));
-> =20
->      return true;
-> @@ -2627,7 +2627,7 @@ static MigThrError migration_detect_error(Migration=
-State *s)
->  static uint64_t migration_total_bytes(MigrationState *s)
+>  tests/qtest/bios-tables-test.c | 11 +++++++++--
+>  tests/qtest/boot-serial-test.c |  5 +++++
+>  tests/qtest/migration-test.c   |  9 ++++++++-
+>  tests/qtest/pxe-test.c         |  8 +++++++-
+>  tests/qtest/vmgenid-test.c     |  9 +++++++--
+>  5 files changed, 36 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 464f87382e..7fd88b0e9c 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -2045,8 +2045,7 @@ static void test_acpi_virt_oem_fields(void)
+>  int main(int argc, char *argv[])
 >  {
->      return qemu_file_total_transferred(s->to_dst_file) +
-> -        stat64_get(&ram_counters.multifd_bytes);
-> +        stat64_get(&mig_stats.multifd_bytes);
->  }
-> =20
->  static void migration_calculate_complete(MigrationState *s)
-> @@ -2691,10 +2691,10 @@ static void migration_update_counters(MigrationSt=
-ate *s,
->       * if we haven't sent anything, we don't want to
->       * recalculate. 10000 is a small enough number for our purposes
->       */
-> -    if (stat64_get(&ram_counters.dirty_pages_rate) &&
-> +    if (stat64_get(&mig_stats.dirty_pages_rate) &&
->          transferred > 10000) {
->          s->expected_downtime =3D
-> -            stat64_get(&ram_counters.dirty_bytes_last_sync) / bandwidth;
-> +            stat64_get(&mig_stats.dirty_bytes_last_sync) / bandwidth;
->      }
-> =20
->      qemu_file_reset_rate_limit(s->to_dst_file);
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 347999f84a..4a2e1a47ce 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -434,8 +434,8 @@ static int multifd_send_pages(QEMUFile *f)
->      transferred =3D ((uint64_t) pages->num) * p->page_size + p->packet_l=
-en;
->      qemu_file_acct_rate_limit(f, transferred);
->      qemu_mutex_unlock(&p->mutex);
-> -    stat64_add(&ram_counters.transferred, transferred);
-> -    stat64_add(&ram_counters.multifd_bytes, transferred);
-> +    stat64_add(&mig_stats.transferred, transferred);
-> +    stat64_add(&mig_stats.multifd_bytes, transferred);
->      qemu_sem_post(&p->sem);
-> =20
->      return 1;
-> @@ -577,7 +577,7 @@ static int multifd_zero_copy_flush(QIOChannel *c)
->          return -1;
->      }
->      if (ret =3D=3D 1) {
-> -        stat64_add(&ram_counters.dirty_sync_missed_zero_copy, 1);
-> +        stat64_add(&mig_stats.dirty_sync_missed_zero_copy, 1);
->      }
-> =20
->      return ret;
-> diff --git a/migration/ram.c b/migration/ram.c
-> index a6d5478ef8..c3981f64e4 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -464,13 +464,13 @@ uint64_t ram_bytes_remaining(void)
->  void ram_transferred_add(uint64_t bytes)
+>      const char *arch = qtest_get_arch();
+> -    const bool has_kvm = qtest_has_accel("kvm");
+> -    const bool has_tcg = qtest_has_accel("tcg");
+> +    bool has_kvm, has_tcg;
+>      char *v_env = getenv("V");
+>      int ret;
+>  
+> @@ -2056,6 +2055,14 @@ int main(int argc, char *argv[])
+>  
+>      g_test_init(&argc, &argv, NULL);
+>  
+> +    has_kvm = qtest_has_accel("kvm");
+> +    has_tcg = qtest_has_accel("tcg");
+> +
+> +    if (!has_tcg && !has_kvm) {
+> +        g_test_skip("No KVM or TCG accelerator available");
+> +        return 0;
+> +    }
+> +
+>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>          ret = boot_sector_init(disk);
+>          if (ret) {
+> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+> index 3aef3a97a9..6dd06aeaf4 100644
+> --- a/tests/qtest/boot-serial-test.c
+> +++ b/tests/qtest/boot-serial-test.c
+> @@ -287,6 +287,11 @@ int main(int argc, char *argv[])
+>  
+>      g_test_init(&argc, &argv, NULL);
+>  
+> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
+> +        g_test_skip("No KVM or TCG accelerator available");
+> +        return 0;
+> +    }
+> +
+>      for (i = 0; tests[i].arch != NULL; i++) {
+>          if (g_str_equal(arch, tests[i].arch) &&
+>              qtest_has_machine(tests[i].machine)) {
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 60dd53d3ec..be73ec3c06 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -2477,7 +2477,7 @@ static bool kvm_dirty_ring_supported(void)
+>  
+>  int main(int argc, char **argv)
 >  {
->      if (runstate_is_running()) {
-> -        stat64_add(&ram_counters.precopy_bytes, bytes);
-> +        stat64_add(&mig_stats.precopy_bytes, bytes);
->      } else if (migration_in_postcopy()) {
-> -        stat64_add(&ram_counters.postcopy_bytes, bytes);
-> +        stat64_add(&mig_stats.postcopy_bytes, bytes);
->      } else {
-> -        stat64_add(&ram_counters.downtime_bytes, bytes);
-> +        stat64_add(&mig_stats.downtime_bytes, bytes);
->      }
-> -    stat64_add(&ram_counters.transferred, bytes);
-> +    stat64_add(&mig_stats.transferred, bytes);
->  }
-> =20
->  struct MigrationOps {
-> @@ -744,7 +744,7 @@ void mig_throttle_counter_reset(void)
-> =20
->      rs->time_last_bitmap_sync =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
->      rs->num_dirty_pages_period =3D 0;
-> -    rs->bytes_xfer_prev =3D stat64_get(&ram_counters.transferred);
-> +    rs->bytes_xfer_prev =3D stat64_get(&mig_stats.transferred);
->  }
-> =20
->  /**
-> @@ -764,7 +764,7 @@ static void xbzrle_cache_zero_page(RAMState *rs, ram_=
-addr_t current_addr)
->      /* We don't care if this fails to allocate a new cache page
->       * as long as it updated an old one */
->      cache_insert(XBZRLE.cache, current_addr, XBZRLE.zero_target_page,
-> -                 stat64_get(&ram_counters.dirty_sync_count));
-> +                 stat64_get(&mig_stats.dirty_sync_count));
->  }
-> =20
->  #define ENCODING_FLAG_XBZRLE 0x1
-> @@ -790,7 +790,7 @@ static int save_xbzrle_page(RAMState *rs, PageSearchS=
-tatus *pss,
->      int encoded_len =3D 0, bytes_xbzrle;
->      uint8_t *prev_cached_page;
->      QEMUFile *file =3D pss->pss_channel;
-> -    uint64_t generation =3D stat64_get(&ram_counters.dirty_sync_count);
-> +    uint64_t generation =3D stat64_get(&mig_stats.dirty_sync_count);
-> =20
->      if (!cache_is_cached(XBZRLE.cache, current_addr, generation)) {
->          xbzrle_counters.cache_miss++;
-> @@ -1118,8 +1118,8 @@ uint64_t ram_pagesize_summary(void)
-> =20
->  uint64_t ram_get_total_transferred_pages(void)
+> -    bool has_kvm;
+> +    bool has_kvm, has_tcg;
+>      bool has_uffd;
+>      const char *arch;
+>      g_autoptr(GError) err = NULL;
+> @@ -2486,6 +2486,13 @@ int main(int argc, char **argv)
+>      g_test_init(&argc, &argv, NULL);
+>  
+>      has_kvm = qtest_has_accel("kvm");
+> +    has_tcg = qtest_has_accel("tcg");
+> +
+> +    if (!has_tcg && !has_kvm) {
+> +        g_test_skip("No KVM or TCG accelerator available");
+> +        return 0;
+> +    }
+> +
+>      has_uffd = ufd_version_check();
+>      arch = qtest_get_arch();
+>  
+> diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
+> index 62b6eef464..e4b48225a5 100644
+> --- a/tests/qtest/pxe-test.c
+> +++ b/tests/qtest/pxe-test.c
+> @@ -131,11 +131,17 @@ int main(int argc, char *argv[])
+>      int ret;
+>      const char *arch = qtest_get_arch();
+>  
+> +    g_test_init(&argc, &argv, NULL);
+> +
+> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
+> +        g_test_skip("No KVM or TCG accelerator available");
+> +        return 0;
+> +    }
+> +
+>      ret = boot_sector_init(disk);
+>      if(ret)
+>          return ret;
+>  
+> -    g_test_init(&argc, &argv, NULL);
+>  
+>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>          test_batch(x86_tests, false);
+> diff --git a/tests/qtest/vmgenid-test.c b/tests/qtest/vmgenid-test.c
+> index efba76e716..324db08c7a 100644
+> --- a/tests/qtest/vmgenid-test.c
+> +++ b/tests/qtest/vmgenid-test.c
+> @@ -165,13 +165,18 @@ int main(int argc, char **argv)
 >  {
-> -    return stat64_get(&ram_counters.normal_pages) +
-> -        stat64_get(&ram_counters.zero_pages) +
-> +    return stat64_get(&mig_stats.normal_pages) +
-> +        stat64_get(&mig_stats.zero_pages) +
->          compression_counters.pages + xbzrle_counters.pages;
->  }
-> =20
-> @@ -1129,7 +1129,7 @@ static void migration_update_rates(RAMState *rs, in=
-t64_t end_time)
->      double compressed_size;
-> =20
->      /* calculate period counters */
-> -    stat64_set(&ram_counters.dirty_pages_rate,
-> +    stat64_set(&mig_stats.dirty_pages_rate,
->                 rs->num_dirty_pages_period * 1000 /
->                 (end_time - rs->time_last_bitmap_sync));
-> =20
-> @@ -1180,7 +1180,7 @@ static void migration_trigger_throttle(RAMState *rs)
->  {
->      uint64_t threshold =3D migrate_throttle_trigger_threshold();
->      uint64_t bytes_xfer_period =3D
-> -        stat64_get(&ram_counters.transferred) - rs->bytes_xfer_prev;
-> +        stat64_get(&mig_stats.transferred) - rs->bytes_xfer_prev;
->      uint64_t bytes_dirty_period =3D rs->num_dirty_pages_period * TARGET_=
-PAGE_SIZE;
->      uint64_t bytes_dirty_threshold =3D bytes_xfer_period * threshold / 1=
-00;
-> =20
-> @@ -1209,7 +1209,7 @@ static void migration_bitmap_sync(RAMState *rs)
->      RAMBlock *block;
->      int64_t end_time;
-> =20
-> -    stat64_add(&ram_counters.dirty_sync_count, 1);
-> +    stat64_add(&mig_stats.dirty_sync_count, 1);
-> =20
->      if (!rs->time_last_bitmap_sync) {
->          rs->time_last_bitmap_sync =3D qemu_clock_get_ms(QEMU_CLOCK_REALT=
-IME);
-> @@ -1223,7 +1223,7 @@ static void migration_bitmap_sync(RAMState *rs)
->          RAMBLOCK_FOREACH_NOT_IGNORED(block) {
->              ramblock_sync_dirty_bitmap(rs, block);
->          }
-> -        stat64_set(&ram_counters.dirty_bytes_last_sync, ram_bytes_remain=
-ing());
-> +        stat64_set(&mig_stats.dirty_bytes_last_sync, ram_bytes_remaining=
-());
+>      int ret;
+>  
+> +    g_test_init(&argc, &argv, NULL);
+> +
+> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
+> +        g_test_skip("No KVM or TCG accelerator available");
+> +        return 0;
+> +    }
+> +
+>      ret = boot_sector_init(disk);
+>      if (ret) {
+>          return ret;
 >      }
->      qemu_mutex_unlock(&rs->bitmap_mutex);
-> =20
-> @@ -1243,10 +1243,10 @@ static void migration_bitmap_sync(RAMState *rs)
->          /* reset period counters */
->          rs->time_last_bitmap_sync =3D end_time;
->          rs->num_dirty_pages_period =3D 0;
-> -        rs->bytes_xfer_prev =3D stat64_get(&ram_counters.transferred);
-> +        rs->bytes_xfer_prev =3D stat64_get(&mig_stats.transferred);
->      }
->      if (migrate_events()) {
-> -        uint64_t generation =3D stat64_get(&ram_counters.dirty_sync_coun=
-t);
-> +        uint64_t generation =3D stat64_get(&mig_stats.dirty_sync_count);
->          qapi_event_send_migration_pass(generation);
->      }
->  }
-> @@ -1320,7 +1320,7 @@ static int save_zero_page(PageSearchStatus *pss, QE=
-MUFile *f, RAMBlock *block,
->      int len =3D save_zero_page_to_file(pss, f, block, offset);
-> =20
->      if (len) {
-> -        stat64_add(&ram_counters.zero_pages, 1);
-> +        stat64_add(&mig_stats.zero_pages, 1);
->          ram_transferred_add(len);
->          return 1;
->      }
-> @@ -1357,9 +1357,9 @@ static bool control_save_page(PageSearchStatus *pss=
-, RAMBlock *block,
->      }
-> =20
->      if (bytes_xmit > 0) {
-> -        stat64_add(&ram_counters.normal_pages, 1);
-> +        stat64_add(&mig_stats.normal_pages, 1);
->      } else if (bytes_xmit =3D=3D 0) {
-> -        stat64_add(&ram_counters.zero_pages, 1);
-> +        stat64_add(&mig_stats.zero_pages, 1);
->      }
-> =20
->      return true;
-> @@ -1391,7 +1391,7 @@ static int save_normal_page(PageSearchStatus *pss, =
-RAMBlock *block,
->          qemu_put_buffer(file, buf, TARGET_PAGE_SIZE);
->      }
->      ram_transferred_add(TARGET_PAGE_SIZE);
-> -    stat64_add(&ram_counters.normal_pages, 1);
-> +    stat64_add(&mig_stats.normal_pages, 1);
->      return 1;
->  }
-> =20
-> @@ -1447,7 +1447,7 @@ static int ram_save_multifd_page(QEMUFile *file, RA=
-MBlock *block,
->      if (multifd_queue_page(file, block, offset) < 0) {
->          return -1;
->      }
-> -    stat64_add(&ram_counters.normal_pages, 1);
-> +    stat64_add(&mig_stats.normal_pages, 1);
-> =20
->      return 1;
->  }
-> @@ -1486,7 +1486,7 @@ update_compress_thread_counts(const CompressParam *=
-param, int bytes_xmit)
->      ram_transferred_add(bytes_xmit);
-> =20
->      if (param->zero_page) {
-> -        stat64_add(&ram_counters.zero_pages, 1);
-> +        stat64_add(&mig_stats.zero_pages, 1);
->          return;
->      }
-> =20
-> @@ -2179,7 +2179,7 @@ int ram_save_queue_pages(const char *rbname, ram_ad=
-dr_t start, ram_addr_t len)
->      RAMBlock *ramblock;
->      RAMState *rs =3D ram_state;
-> =20
-> -    stat64_add(&ram_counters.postcopy_requests, 1);
-> +    stat64_add(&mig_stats.postcopy_requests, 1);
->      RCU_READ_LOCK_GUARD();
-> =20
->      if (!rbname) {
-> @@ -2634,9 +2634,9 @@ void acct_update_position(QEMUFile *f, size_t size,=
- bool zero)
->      uint64_t pages =3D size / TARGET_PAGE_SIZE;
-> =20
->      if (zero) {
-> -        stat64_add(&ram_counters.zero_pages, pages);
-> +        stat64_add(&mig_stats.zero_pages, pages);
->      } else {
-> -        stat64_add(&ram_counters.normal_pages, pages);
-> +        stat64_add(&mig_stats.normal_pages, pages);
->          ram_transferred_add(size);
->          qemu_file_credit_transfer(f, size);
->      }
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 8e2efb1a19..a9d0a88e62 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1622,7 +1622,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **e=
-rrp)
->      }
-> =20
->      migrate_init(ms);
-> -    memset(&ram_counters, 0, sizeof(ram_counters));
-> +    memset(&mig_stats, 0, sizeof(mig_stats));
->      memset(&compression_counters, 0, sizeof(compression_counters));
->      ms->to_dst_file =3D f;
-> =20
+>  
+> -    g_test_init(&argc, &argv, NULL);
+> -
+>      qtest_add_func("/vmgenid/vmgenid/set-guid",
+>                     vmgenid_set_guid_test);
+>      qtest_add_func("/vmgenid/vmgenid/set-guid-auto",
+> -- 
+> 2.35.3
 
-
-
---=20
-
-
---Sig_/VQfAbSQNZsjTofnaxGdTkYN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRKv3wACgkQNasLKJxd
-slhg5RAAszd465mjHnCNEkpntOVs+fS5gI/YnDeDJjSwYrBzvQ2Bo6F85pOVq/UT
-f9DWnQF+bExXYSZZJ99GzMyYUyG01rgCZcyzrfrBkWhnGEOxKgYSVq54+kv6laWG
-WsLAmhRiayKRtArwf8hnMfEdYSUN96Yzw7kZUUwquN+qZ0dDHG5y26xqsVYh840k
-aAp5RdPhOWeaGejOtF+01/q85IfU2Q9XeZ9Z8XUUe5mXCU/JIBKDDAVgZY5Y5h8T
-EctJR+icydkqwA+X2Dtcmn8kLTGIytkTWFyDRffljq9gBDgJGKwPDG0YoEHxS0Ll
-BlzsnwLrsot0lL/f9MD1RsUJ6lSbDbmc5Owxv1f4AF0P6IzITv0dq4IgWt6igSVS
-K5wztj9Lr2+pWqKMIs3QIV9gpscJ2V6kQARkw45RsDfI+Trg789mht8ci5c73GIy
-7PkC7JeQ/qvHEakFPpG3zeFAgBTeDjYzv1xzxFjbrbGzTf3UQLZyxrnB4Yqrfk95
-iyUDH7fudHFaqf0txt1+ES9hqATdUt1vFYIFKACXVkhfgt2na0uJMhtXEATkCFd3
-tNjgxGVmrtIRw8tLglOXq9YKLQEk4svu79aCjGVxefEKs/IrcjUc8oLSZXAWXdDV
-YDwN6xuI73ep/KZeRXMpbWIRYobtJ0veHsBkwIEw+0+fyELkFnA=
-=av7i
------END PGP SIGNATURE-----
-
---Sig_/VQfAbSQNZsjTofnaxGdTkYN--
 
