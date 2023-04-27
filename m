@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6A76F09F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 18:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3B76F0A08
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 18:38:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps4aY-0005Fl-Ir; Thu, 27 Apr 2023 12:35:22 -0400
+	id 1ps4aZ-0005Fw-H9; Thu, 27 Apr 2023 12:35:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ps4aX-0005FG-5a
+ id 1ps4aX-0005Fe-Sg
  for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:35:21 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ps4aV-0006ko-O8
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:35:20 -0400
+ id 1ps4aV-0006kr-S2
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:35:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682613319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vFVSz2sLMTWKc6+hkxmZlMqk9lYsjx+Z706drG9kI7I=;
- b=IHnJ+5C6sHMbIWjYb6KYGSOCECM4I8wXX3vGQQP3WqotvxnQEG3TW1wPaSUd14NPyfmwJx
- l6quyt56GW//6ZGnU3yS/oJwtDzNyS8NYqLpGBxPbhOXDaehkzVlhT4Icz/LQWxYvjrvgZ
- RQ+KiDZxg3ESUE58oWHXU+OV1w1GYRM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iZOknDHkrqErhjtulmRkjLzOJj3FFNiXAvfxSmzwR3g=;
+ b=ffgwNmjHaDX1P31rXZe+TnUrdNv3/ji8/65gpQV+hzy5RL9YyEbYVzL6lIMxRtcgIrCpvj
+ HqmtE6ExVOtEqACZR8PCulcIFxWo2RHQiaYq8cCxSuH4w+IZyhn+/Xov9hhmsXQtGOmWTC
+ 9H5gNf3rpckgSHwydUyVOuNj5Ec9B7g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-602-gd23lQhFMKa1w-wkylOLGw-1; Thu, 27 Apr 2023 12:35:17 -0400
-X-MC-Unique: gd23lQhFMKa1w-wkylOLGw-1
+ us-mta-638-IGc1tWcUP1mnyMnqn6wLCg-1; Thu, 27 Apr 2023 12:35:12 -0400
+X-MC-Unique: IGc1tWcUP1mnyMnqn6wLCg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81E3A817079
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 16:35:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 908F03855597
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 16:35:06 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B919410DF8;
- Thu, 27 Apr 2023 16:35:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C549D63F52;
+ Thu, 27 Apr 2023 16:35:05 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH 13/19] migration: Make RAM_SAVE_FLAG_HOOK a normal case entry
-Date: Thu, 27 Apr 2023 18:34:43 +0200
-Message-Id: <20230427163449.27473-14-quintela@redhat.com>
+Subject: [PATCH 14/19] migration/rdma: Remove all uses of RAM_CONTROL_HOOK
+Date: Thu, 27 Apr 2023 18:34:44 +0200
+Message-Id: <20230427163449.27473-15-quintela@redhat.com>
 In-Reply-To: <20230427163449.27473-1-quintela@redhat.com>
 References: <20230427163449.27473-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -78,44 +78,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fixes this commit, clearly a bad merge after a rebase or similar, it
-should have been its own case since that point.
-
-commit 5b0e9dd46fbda5152566a4a26fd96bc0d0452bf7
-Author: Peter Lieven <pl@kamp.de>
-Date:   Tue Jun 24 11:32:36 2014 +0200
-
-    migration: catch unknown flag combinations in ram_load
+Instead of going trhough ram_control_load_hook(), call
+qemu_rdma_registration_handle() directly.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ migration/qemu-file.h | 1 -
+ migration/ram.c       | 5 ++++-
+ migration/rdma.c      | 5 +----
+ migration/rdma.h      | 2 ++
+ 4 files changed, 7 insertions(+), 6 deletions(-)
 
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index fac26d7869..7623e3c475 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -41,7 +41,6 @@ typedef int (QEMURamHookFunc)(QEMUFile *f, uint64_t flags, void *data);
+  */
+ #define RAM_CONTROL_SETUP     0
+ #define RAM_CONTROL_ROUND     1
+-#define RAM_CONTROL_HOOK      2
+ #define RAM_CONTROL_FINISH    3
+ #define RAM_CONTROL_BLOCK_REG 4
+ 
 diff --git a/migration/ram.c b/migration/ram.c
-index a5109a0f77..67ba2d7f7e 100644
+index 67ba2d7f7e..c0110ca8cb 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -4466,14 +4466,12 @@ static int ram_load_precopy(QEMUFile *f)
-                 multifd_recv_sync_main();
+@@ -4467,7 +4467,10 @@ static int ram_load_precopy(QEMUFile *f)
              }
              break;
-+        case RAM_SAVE_FLAG_HOOK:
-+            ram_control_load_hook(f, RAM_CONTROL_HOOK, NULL);
-+            break;
+         case RAM_SAVE_FLAG_HOOK:
+-            ram_control_load_hook(f, RAM_CONTROL_HOOK, NULL);
++            ret = qemu_rdma_registration_handle(f);
++            if (ret < 0) {
++                qemu_file_set_error(f, ret);
++            }
+             break;
          default:
--            if (flags & RAM_SAVE_FLAG_HOOK) {
--                ram_control_load_hook(f, RAM_CONTROL_HOOK, NULL);
--            } else {
--                error_report("Unknown combination of migration flags: 0x%x",
--                             flags);
--                ret = -EINVAL;
--            }
-+            error_report("Unknown combination of migration flags: 0x%x", flags);
-+            ret = -EINVAL;
-         }
-         if (!ret) {
-             ret = qemu_file_get_error(f);
+             error_report("Unknown combination of migration flags: 0x%x", flags);
+diff --git a/migration/rdma.c b/migration/rdma.c
+index d7fdc963fd..e72584483a 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -3527,7 +3527,7 @@ static int dest_ram_sort_func(const void *a, const void *b)
+  *
+  * Keep doing this until the source tells us to stop.
+  */
+-static int qemu_rdma_registration_handle(QEMUFile *f)
++int qemu_rdma_registration_handle(QEMUFile *f)
+ {
+     RDMAControlHeader reg_resp = { .len = sizeof(RDMARegisterResult),
+                                .type = RDMA_CONTROL_REGISTER_RESULT,
+@@ -3851,9 +3851,6 @@ static int rdma_load_hook(QEMUFile *f, uint64_t flags, void *data)
+     case RAM_CONTROL_BLOCK_REG:
+         return rdma_block_notification_handle(f, data);
+ 
+-    case RAM_CONTROL_HOOK:
+-        return qemu_rdma_registration_handle(f);
+-
+     default:
+         /* Shouldn't be called with any other values */
+         abort();
+diff --git a/migration/rdma.h b/migration/rdma.h
+index a16a8d8bc6..8d0253047c 100644
+--- a/migration/rdma.h
++++ b/migration/rdma.h
+@@ -24,9 +24,11 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp);
+ 
+ 
+ #ifdef CONFIG_RDMA
++int qemu_rdma_registration_handle(QEMUFile *f);
+ int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags);
+ int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags);
+ #else
++int qemu_rdma_registration_handle(QEMUFile *f) { return 0; }
+ int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags) { return 0; }
+ int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags) { return 0; }
+ #endif
 -- 
 2.40.0
 
