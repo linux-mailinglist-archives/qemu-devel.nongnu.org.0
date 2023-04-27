@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFAD46F0233
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 09:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4623A6F023B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 10:03:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prwWC-0006ho-TW; Thu, 27 Apr 2023 03:58:20 -0400
+	id 1prwas-0008Ry-57; Thu, 27 Apr 2023 04:03:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prwWB-0006hc-2v; Thu, 27 Apr 2023 03:58:19 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1prwaq-0008Ro-8t
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:03:08 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1prwW9-0004ae-IF; Thu, 27 Apr 2023 03:58:18 -0400
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-504eccc8fc8so11849432a12.2; 
- Thu, 27 Apr 2023 00:58:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1prwao-0005O2-OR
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 04:03:08 -0400
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-956eacbe651so1498245866b.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 01:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682582295; x=1685174295;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3IRkEdCmaxDw5yNC9NRn/hthe2sOQUIbkORHOS+VGT0=;
- b=VnKKXzWDTf9usaj5P49EJMtoI2d5EVlTGjmD73SfQ9ps1z02FMhXKav27E/+LZYgVX
- x5ahHduU3LtZ16QbMMe8hm4GVelbz6fRkrs985FGIYB7k9uhe6JY6pRG0g8P45mjYHns
- 3inQCjAbTL8wHnN4qn6TupgtHe5g6eHSqsRBEqpBtDxKM7FyFUGKYH+L2yzBw3QzOjjf
- 7Lq1rI2kNGyxyeHbjwxV9WOVqVY0qQtFcO599TExwA3oTW+U6IeOKWF518QmBoadEZ/A
- XleNRSJXqp3rpXZc1l7HO2HhKwdfGYv75OxSMLZDZu/T7qYXF0tJWU7JVLNBNzqkjNiC
- PWsA==
+ d=linaro.org; s=google; t=1682582585; x=1685174585;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dGHc89c3UdTLkFNCDbIwqIHNEzyfbm67sQoe8R0nzXQ=;
+ b=FjS1t+I5ZkXbOD4M0dwCoeo+Lbj772JNW5KBa6cSE6tmyolqDVnYpEUotSWwusMlJP
+ tNbsJ2WYoIhdQ0jy1WV/TCqzczs8YHMj7eubygShosAKPHCgNNm6WCSXBDmrfr7P+bQy
+ l620vLAD6Ug8X18Zs6tW1L/9AYGfI1GWukmsVCrkgjJwNcoXKBqS3isMHIFJWBLAkwVk
+ U1rverETeIVNVWtZzseYeLZ349meUUc7KbC8UrXKIqelUUOegwwyGiFMHXSoTrrjsPvW
+ 21EZ1hIf85gZO2DLAK86STu6Nig7Cac2vFBxUfJneU1/CG6WIOU4jU/m1zf98q2wQUcX
+ lyeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682582295; x=1685174295;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3IRkEdCmaxDw5yNC9NRn/hthe2sOQUIbkORHOS+VGT0=;
- b=Sm9QT4jkp3UbacYP99fn4GF1RPlu1+Qp3KwbaNaYHrqOQF7tDrkSyCEx4Y8RIPX9Jh
- 3KoCGMKAT5HOIyz1ExhBCQVRTJodHrdaWZIl+7q5+4u51XR2nWhr2HB7rWuLoBLSLjba
- w1w7i0Ux5gDbocmBw1fSQg+ZfNfG9DLIJLr0Q+eFuBn4CQTfuxX+eCcUtRdxwF2kUtcr
- ZZfjRssshFbRYBh61zNw8VLwnv/wZWu28uZRP+ygEgrnWWuquRfJSaPi/YCjilDCVxeQ
- Br/6kZeWc1otQRUluOboVFgJl4VhvHzzW6T8iLQdLK0BSOp2Es1XlErGphtEp2YS5CfP
- 710Q==
-X-Gm-Message-State: AC+VfDxe2pVsclLalVZX/iVQaejf+XFZfwRL8iwSfLNhndRvKSwo6Zl7
- 1QC2uR6DIe6KSyxF1ZAjIi0=
-X-Google-Smtp-Source: ACHHUZ6Yd01St0yHoJ62KtH1Up25yrTB/2cn0t5yrlnlErWe4xyjJrXI2z129yrZPAAQEdruL6f7Mw==
-X-Received: by 2002:a05:6402:795:b0:506:983f:1f61 with SMTP id
- d21-20020a056402079500b00506983f1f61mr853535edy.3.1682582295427; 
- Thu, 27 Apr 2023 00:58:15 -0700 (PDT)
-Received: from [127.0.0.1] ([62.214.191.67]) by smtp.gmail.com with ESMTPSA id
- bf18-20020a0564021a5200b00506b88e4f17sm7547876edb.68.2023.04.27.00.58.14
+ d=1e100.net; s=20221208; t=1682582585; x=1685174585;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dGHc89c3UdTLkFNCDbIwqIHNEzyfbm67sQoe8R0nzXQ=;
+ b=FVCLOoky48n4g323dLFWE5anhp0vX/r9BZfo4MJ8TwZiWOCmWb7m+s0gWnYLy4ouT6
+ gOC10YwVgLCo+kU/JAGl6hgEdkCzX67wjeaOnEWmLGMCIio4WPM45gkrOGXsDY6gRth9
+ UN9CVExY11M7CfRvSb6J2t9TiPV8bVk8pZGRQKpoGfjl1DQClTmLbyz2PwvNimdGHclz
+ 6Tlje7QikBKpb6TkJG87Sasdqh4d9SF8IkaWVMKAxGF9aWvQ4SgfxFCRx7a2+oPxb0Qr
+ clUZ4tIbOL/ZEUiTppQjZxTVYcss5NBmq4rV3bCbbiMTg4D0knQyBrH4BpIRcyBw6rey
+ IEGg==
+X-Gm-Message-State: AC+VfDzkAnMM50nyBikWM/X03vpxLqgynzPPCuh6s8j4+uOGMA16is+F
+ NHdJyGTqDMVbMGR4Mu47Nqsqew==
+X-Google-Smtp-Source: ACHHUZ5Jq7sJcZLYyqri5YWW1RPyAViVkdpFYipxqR8kpdl5tR9tUklwn8PCaOv3AYjdPpuU+YSbXw==
+X-Received: by 2002:a17:907:36c4:b0:94f:ab46:77f9 with SMTP id
+ bj4-20020a17090736c400b0094fab4677f9mr839700ejc.15.1682582584954; 
+ Thu, 27 Apr 2023 01:03:04 -0700 (PDT)
+Received: from [172.23.3.19] ([195.167.132.10])
+ by smtp.gmail.com with ESMTPSA id
+ o19-20020a1709062e9300b0094f281bd279sm9215641eji.198.2023.04.27.01.03.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 00:58:15 -0700 (PDT)
-Date: Thu, 27 Apr 2023 07:58:08 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: John Snow <jsnow@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_03/18=5D_hw/i386/pc=5Fpiix=3A_Wire?=
- =?US-ASCII?Q?_PIIX3_IDE_ouput_IRQs_to_ISA_bus_IRQs_14/15?=
-In-Reply-To: <a233b5c7-56a6-ac94-c7c1-9fa5da9acb9c@ilande.co.uk>
-References: <20230302224058.43315-1-philmd@linaro.org>
- <20230302224058.43315-4-philmd@linaro.org>
- <a233b5c7-56a6-ac94-c7c1-9fa5da9acb9c@ilande.co.uk>
-Message-ID: <3A39AAE9-73FC-4C56-9BD6-0DA2D78548E0@gmail.com>
+ Thu, 27 Apr 2023 01:03:04 -0700 (PDT)
+Message-ID: <05af1a24-879d-2ea1-ac63-48a6b1f2bd1b@linaro.org>
+Date: Thu, 27 Apr 2023 09:03:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 09/21] Hexagon (target/hexagon) Don't overlap dest writes
+ with source reads
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
+ quic_mathbern@quicinc.com
+References: <20230426004217.1319317-1-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230426004217.1319317-1-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,57 +96,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/26/23 01:42, Taylor Simpson wrote:
+> When generating TCG, make sure we have read all the operand registers
+> before writing to the destination registers.
+> 
+> This is a prerequesite for short-circuiting where the source and dest
+> operands could be the same.
+> 
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> ---
+>   target/hexagon/genptr.c | 45 ++++++++++++++++++++++++++---------------
+>   1 file changed, 29 insertions(+), 16 deletions(-)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Am 26=2E April 2023 12:50:08 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayl=
-and@ilande=2Eco=2Euk>:
->On 02/03/2023 22:40, Philippe Mathieu-Daud=C3=A9 wrote:
->
->> Since pc_init1() has access to the ISABus*, retrieve the
->> ISA IRQs with isa_bus_get_irq()=2E
->>=20
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
->> ---
->>   hw/i386/pc_piix=2Ec | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
->> index 126b6c11df=2E=2E1e90b9ff0d 100644
->> --- a/hw/i386/pc_piix=2Ec
->> +++ b/hw/i386/pc_piix=2Ec
->> @@ -277,7 +277,13 @@ static void pc_init1(MachineState *machine,
->>       if (pcmc->pci_enabled) {
->>           PCIDevice *dev;
->>   -        dev =3D pci_create_simple(pci_bus, piix3_devfn + 1, TYPE_PII=
-X3_IDE);
->> +        dev =3D pci_new_multifunction(piix3_devfn + 1, false, TYPE_PII=
-X3_IDE);
->> +        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 0,
->> +                                    isa_bus_get_irq(isa_bus, 14));
->> +        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 1,
->> +                                    isa_bus_get_irq(isa_bus, 15));
->> +        pci_realize_and_unref(dev, pci_bus, &error_fatal);
->> +
->>           pci_ide_create_devs(dev);
->>           idebus[0] =3D qdev_get_child_bus(&dev->qdev, "ide=2E0");
->>           idebus[1] =3D qdev_get_child_bus(&dev->qdev, "ide=2E1");
->
->Another reason this probably isn't a good idea: you're having to call qde=
-v_connect_gpio_*() before realizing the device :(
-
-Just curious: Resources like memory regions are assigned before realizatio=
-n, see e=2Eg=2E i440fx or q35=2E Interrupts are also resources=2E What make=
-s them special?
-
-I'm asking since this issue seems to be the main blocker for the piix cons=
-olidation to be merged=2E
-
-Best regards,
-Bernhard
-
->
->
->ATB,
->
->Mark=2E
+r~
 
