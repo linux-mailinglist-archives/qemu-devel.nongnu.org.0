@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B306F0640
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DEC66F063E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:56:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps1Ai-0004HF-KP; Thu, 27 Apr 2023 08:56:29 -0400
+	id 1ps1Aw-0004kt-HL; Thu, 27 Apr 2023 08:56:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ps1Ag-0004ER-KE
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:56:26 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ps1At-0004ae-Iy
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:56:39 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ps1Ae-0004m8-7t
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:56:26 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ps1As-0004pK-6D
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 08:56:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682600182;
+ s=mimecast20190719; t=1682600197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IfclxeSdUSyg5QrSLqcHhq+pSnFVJv1yUJYwKGUdf4c=;
- b=Nc40K73rF7t/zYfFA/DtoDyr1IFjGIPvXBeUip5XAscoURRP7QRiBP2Si+Id21m7AzALbN
- F6wJbxAO7q3RYHR+vpLxjcTDXvAFNxxHxx7QDlv9mJ0VGsHcjgiQxkQIBrBEKBBW0HCiuh
- AyLMse5Lpklp5c39Ua/geFsKukn4tN0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PHhT/smfyWtvGZDS7UNOSFwqaBjI/hYBfmr5J0LGzIU=;
+ b=TnyH4xt9moLajRvlSV3tkowec9TSSr3FdxG4LTPbsN71pFsoEl3jnDO9mSEgb+3OMcl+UT
+ aPqfPuWQ6icBfQRz24E8srKBWCH02PCBRaBkS7bHkJtbgEPXwRPuDNESbEHwW2wVtGoZkr
+ IYzb+cN2fxFmu0K10lJTpg1yx8+uk1o=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-57-qjoW7ZxlNSqvqkfzQBocMA-1; Thu, 27 Apr 2023 08:56:21 -0400
-X-MC-Unique: qjoW7ZxlNSqvqkfzQBocMA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f1749c63c9so30171515e9.3
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 05:56:20 -0700 (PDT)
+ us-mta-625-ZjeC4tm5MxWK0zlTQh626w-1; Thu, 27 Apr 2023 08:56:36 -0400
+X-MC-Unique: ZjeC4tm5MxWK0zlTQh626w-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-94ec76d7a26so817391266b.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 05:56:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682600180; x=1685192180;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IfclxeSdUSyg5QrSLqcHhq+pSnFVJv1yUJYwKGUdf4c=;
- b=M5prKukkVruDzF0z89F2Otq+l67m9x4sgeXfKFaeERyj/HAucohs3inwAAB9/sOmHz
- 7Gqv5gitEFRy2VqFmS+JVe50vveAd1VRHz/O+i/nvPYKURR9q/Yf8vHplcoL5L11lMRr
- kfMZYkDWTEfTpd8TN0TC5WTO4XJCWCCBPZdiYgThGRsgv3eJ+1XdBF36duisFwKuX2mq
- sx7PeGwDdOWzLH25D/LaMxLgnp1HwPFmBOT+aEPrgiffDk32vGi+FH90gRTwsJcrphie
- JK+GfFkwsYTev3U8AOFvSVvbXi4EAvlwQ0x1Cq+LlYy13fkjLWJieTkSbgsylpphzK1d
- m7nQ==
-X-Gm-Message-State: AC+VfDz5z1DQKm72O8W+HePAE1F49ijE5kR1ZQ3okQ1CL86zU6aKx4md
- +GIOnbqHCE1LLRH41Ec5X4MkuHwS9r9LaYX86GjVSodDbh9Zg+GsY0Hg/UjJFFZcvax5LOsAnJR
- L4jbLgm2t7jSMSSQ=
-X-Received: by 2002:a7b:cb8c:0:b0:3ee:6cdf:c357 with SMTP id
- m12-20020a7bcb8c000000b003ee6cdfc357mr1419454wmi.20.1682600180083; 
- Thu, 27 Apr 2023 05:56:20 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5vZ1hF6lrpvBQpu6xUI14t+rQJqjlNyuX/dy+gdY36TXRQy7F/QS7TxMkvCsufd+8kDf42Dg==
-X-Received: by 2002:a7b:cb8c:0:b0:3ee:6cdf:c357 with SMTP id
- m12-20020a7bcb8c000000b003ee6cdfc357mr1419442wmi.20.1682600179825; 
- Thu, 27 Apr 2023 05:56:19 -0700 (PDT)
-Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ d=1e100.net; s=20221208; t=1682600194; x=1685192194;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PHhT/smfyWtvGZDS7UNOSFwqaBjI/hYBfmr5J0LGzIU=;
+ b=TOaYIarBwX9Fs/acNKJBo1iwq4qBhtUUpok3yhIzIlUwVCpQV5i/pfVOhgAOY3LSci
+ b6BFc+5Y884YPkW1+XDiC+k58SvTIzbq7um6eaJgdcePniHNBl+7uCjTfA5FIqcoX4Jz
+ 3BGXEUjlo5fbec0ZDekeQBhsXQu9xLbokUCBfxYJfkx81+aggy0C+Hcwy8TsrsT4+SL8
+ Z6N5p4gcUv7wBKradRoitCxUrTsByARpjhdwszIzJ4448Coilo2Di7Pc5/EQ1Fcv3Hs+
+ sQiGmlgi9Bopk0QtRIAEcui989JLBCcgSVzdrFnB8o1ZYUiz8UwdW5bAsa+n+nmmCgdB
+ hRTw==
+X-Gm-Message-State: AC+VfDyOhTwcTy2L4GAyzuZGhhJ4cwVNKDyCdjrCe7Gwi75K88W1P2ev
+ plpTy4S0YcYQ3n3xvnH93P3zfLETa97iFDPTlNWTvQ9fxjErhzXUDTp7PgNj7nfWxmKL1vG9CfP
+ L3MeedDQVZmT/CBN68wR7VJG2NoxoQQSwzxrpKQyklFGOAsV4nc2LmfSss6uAv/D5PNjd021NUk
+ EUeg==
+X-Received: by 2002:a17:907:7da9:b0:953:4481:3301 with SMTP id
+ oz41-20020a1709077da900b0095344813301mr1769652ejc.59.1682600194392; 
+ Thu, 27 Apr 2023 05:56:34 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5C6m/c+ARIMtcq3u80lgyXOIAqWu1LFgWOkgZVqJegzXZSKSFDiEZHMU01xMhGZkQ9tNndsA==
+X-Received: by 2002:a17:907:7da9:b0:953:4481:3301 with SMTP id
+ oz41-20020a1709077da900b0095344813301mr1769630ejc.59.1682600194023; 
+ Thu, 27 Apr 2023 05:56:34 -0700 (PDT)
+Received: from [10.168.80.215] ([131.175.147.17])
  by smtp.gmail.com with ESMTPSA id
- o10-20020a1c750a000000b003f191c9c4b0sm17943557wmc.11.2023.04.27.05.56.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 05:56:19 -0700 (PDT)
-Message-ID: <58980d6b-7c33-0663-3712-7a07dc0d33ff@redhat.com>
-Date: Thu, 27 Apr 2023 14:56:18 +0200
+ vh7-20020a170907d38700b0094f31208918sm9517149ejc.108.2023.04.27.05.56.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Apr 2023 05:56:33 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Taylor Simpson <tsimpson@quicinc.com>
+Subject: [PATCH] target/hexagon: fix = vs. == mishap
+Date: Thu, 27 Apr 2023 14:56:32 +0200
+Message-Id: <20230427125632.104034-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] tests: vhost-user-test: release mutex on protocol
- violation
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, qemu-trivial@nongnu.org
-References: <20230427125423.103536-1-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230427125423.103536-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,37 +97,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/04/2023 14.54, Paolo Bonzini wrote:
-> chr_read() is printing an error message and returning with s->data_mutex taken.
-> This can potentially cause a hang.  Reported by Coverity.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   tests/qtest/vhost-user-test.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-> index bf9f7c4248ca..e4f95b2858f0 100644
-> --- a/tests/qtest/vhost-user-test.c
-> +++ b/tests/qtest/vhost-user-test.c
-> @@ -351,7 +351,7 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
->           if (size != msg.size) {
->               qos_printf("%s: Wrong message size received %d != %d\n",
->                          __func__, size, msg.size);
-> -            return;
-> +            goto out;
->           }
->       }
->   
-> @@ -509,6 +509,7 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
->           break;
->       }
->   
-> +out:
->       g_mutex_unlock(&s->data_mutex);
->   }
->   
+Coverity reports a parameter that is "set but never used".  This is caused
+by an assignment operator being used instead of equality.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Cc: Taylor Simpson <tsimpson@quicinc.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/hexagon/idef-parser/parser-helpers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/hexagon/idef-parser/parser-helpers.c b/target/hexagon/idef-parser/parser-helpers.c
+index 86511efb62b9..0a01ec39b75e 100644
+--- a/target/hexagon/idef-parser/parser-helpers.c
++++ b/target/hexagon/idef-parser/parser-helpers.c
+@@ -1123,7 +1123,7 @@ HexValue gen_extend_op(Context *c,
+                        HexValue *value,
+                        HexSignedness signedness)
+ {
+-    unsigned bit_width = (dst_width = 64) ? 64 : 32;
++    unsigned bit_width = (dst_width == 64) ? 64 : 32;
+     HexValue value_m = *value;
+     HexValue src_width_m = *src_width;
+ 
+-- 
+2.40.0
 
 
