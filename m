@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E986F0504
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 13:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD17E6F0541
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 14:00:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1prznV-0006I0-Qu; Thu, 27 Apr 2023 07:28:25 -0400
+	id 1ps0HF-0004fs-Jz; Thu, 27 Apr 2023 07:59:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prznT-0006Hn-RY
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 07:28:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ps0HC-0004fS-PF
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 07:59:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1prznR-0003fw-2Q
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 07:28:22 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ps0HA-0000OV-HN
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 07:59:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682594900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D+gdklBykihMS2NvfjoFbxWKXiYCowQdDSLZnNE+z+I=;
- b=M8WzMXt+knL8qLk4OLbi4nUskq0xZ1/VQIAokuVzi9/6Srah+E9d8fEoAXIGQAo4GrJ6zw
- +5Jsk1Nn13Nr6w1bOcfWkmc434cJYXZsMJpSbRN82lFi3eHnsxpsny5unIVrrTC8cEz1hQ
- D1bbE3QUGL84rBNKndfJlz0bXiu12sY=
+ s=mimecast20190719; t=1682596743;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ZO/ctY9Uik+K5iHHjXUD9+S7wUSKaxMC8NfYfcSbT1o=;
+ b=AoZ/p5XcVg+cEtnmcBfMJ9JFYPgcJkadl0Dw959R7rZU3MYwL9pkFPfighPN6K2zoQnn4o
+ a/IiKROllvmU2QW8EE7iLPjBfah8mFj8MujfhXr7dEZwmzoJgKzi0xvKX+EBj8QLDFbIPL
+ bfUllYX7Lhj/Y2i/rpLudHnUkOxBmlo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-CXBq58uaMr2UlU3twDZkiQ-1; Thu, 27 Apr 2023 07:28:18 -0400
-X-MC-Unique: CXBq58uaMr2UlU3twDZkiQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-570-_aD60cCOPKuylYR6S-aZEg-1; Thu, 27 Apr 2023 07:59:01 -0400
+X-MC-Unique: _aD60cCOPKuylYR6S-aZEg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E9F688CC44;
- Thu, 27 Apr 2023 11:28:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44F702027043;
- Thu, 27 Apr 2023 11:28:17 +0000 (UTC)
-Date: Thu, 27 Apr 2023 13:28:15 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, pbonzini@redhat.com,
- eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 07/20] graph-lock: Fix GRAPH_RDLOCK_GUARD*() to be reader
- lock
-Message-ID: <ZEpcT2MNisoGppOk@redhat.com>
-References: <20230425173158.574203-1-kwolf@redhat.com>
- <20230425173158.574203-8-kwolf@redhat.com>
- <nuzeche33pyoj55mjo6qnv4qay5l4gk34ka2pom3tsdjle5drv@5sgcju7s7z7q>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 607A7858F0E;
+ Thu, 27 Apr 2023 11:59:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9434314171B6;
+ Thu, 27 Apr 2023 11:58:59 +0000 (UTC)
+Date: Thu, 27 Apr 2023 12:58:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] meson: Pass -j option to sphinx
+Message-ID: <ZEpjgDbIZZ5H89N8@redhat.com>
+References: <20230426160347.8860-1-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <nuzeche33pyoj55mjo6qnv4qay5l4gk34ka2pom3tsdjle5drv@5sgcju7s7z7q>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+In-Reply-To: <20230426160347.8860-1-farosas@suse.de>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -76,49 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 25.04.2023 um 22:36 hat Eric Blake geschrieben:
-> On Tue, Apr 25, 2023 at 07:31:45PM +0200, Kevin Wolf wrote:
-> > GRAPH_RDLOCK_GUARD() and GRAPH_RDLOCK_GUARD_MAINLOOP() only take a
-> > reader lock for the graph, so the correct annotation for them to use is
-> > TSA_ASSERT_SHARED rather than TSA_ASSERT.
+On Wed, Apr 26, 2023 at 01:03:46PM -0300, Fabiano Rosas wrote:
+> Save a bit of build time by passing the number of jobs option to
+> sphinx.
 > 
-> The comments at the start of graph-lock.h state that there is only 1
-> writer (main loop, under BQL), and all others are readers (coroutines
-> in varous AioContext) - but that's regarding the main BdrvGraphRWlock.
+> To avoid warnings from sphinx, alter our plugins to inform whether
+> they support parallelism. The two plugins touched are quite simple and
+> I don't see anything that would indicate they do not support being
+> called in parallel, so return True for both reads and writes.
+> 
+> before:
+>  $ time make -j16 man html
+>  ...
+>  [1/2] Generating docs/QEMU manual with a custom command
+>  [2/2] Generating docs/QEMU man pages with a custom command
+> 
+>  real    0m49.770s
+>  user    0m49.425s
+>  sys     0m0.716s
+> 
+> after:
+>  $ time make -j16 man html
+>  ...
+>  [1/2] Generating docs/QEMU manual with a custom command (wrapped by meson because command contains newlines)
+>  [2/2] Generating docs/QEMU man pages with a custom command (wrapped by meson because command contains newlines)
+>  real    0m30.153s
+>  user    1m5.945s
+>  sys     0m2.440s
 
-I think much of that comment is actually unrelated to BdrvGraphRWlock
-(which tracks lock/unlock operations of a single thread), but to graph
-locking in general.
+When I test this on Fedora 38, the docs build hangs forever.
 
-> I guess my confusion is over the act of writing the graph (only in the
-> main loop) and using TSA annotations to check for safety.  Am I
-> correct that the reason graph_lockable_auto_lock() only needs a
-> TSA_ASSERT_SHARED locking is that it is only reachable from the other
-> threads (and not the main loop thread itself) to check that we are
-> indeed in a point where we aren't contending with the main loop's
-> writable lock?
+I ran sphinx directly and see it prints a traceback and then
+fails to exit after this error
 
-TSA_ASSERT_SHARED is not a precondition requirement, but a postcondition
-assertion. That is, callers of the function can assume that they hold
-the lock after this function returns.
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/site-packages/sphinx/util/parallel.py", line 105, in join
+    if not self._join_one():
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/site-packages/sphinx/util/parallel.py", line 129, in _join_one
+    self._result_funcs.pop(tid)(self._args.pop(tid), result)
+  File "/usr/lib/python3.11/site-packages/sphinx/builders/__init__.py", line 478, in merge
+    self.env.merge_info_from(docs, env, self.app)
+  File "/usr/lib/python3.11/site-packages/sphinx/environment/__init__.py", line 366, in merge_info_from
+    domain.merge_domaindata(docnames, other.domaindata[domainname])
+  File "/usr/lib/python3.11/site-packages/sphinx/domains/__init__.py", line 295, in merge_domaindata
+    raise NotImplementedError('merge_domaindata must be implemented in %s '
+NotImplementedError: merge_domaindata must be implemented in <class 'dbusdomain.DBusDomain'> to be able to do parallel builds!
 
-This should really be TSA_ACQUIRE_SHARED for graph_lockable_auto_lock(),
-but as the comment above it states, this is impossible because TSA
-doesn't understand unlocking via the cleanup attribute.
+During handling of the above exception, another exception occurred:
 
-"shared" and "exclusive" in TSA map to "reader" and "writer" lock of a
-RWLock. So since we're only taking a reader lock in this function, we
-can only assert that the caller now holds a shared lock (which allows
-you to call GRAPH_RDLOCK functions), but not an exclusive one like the
-code previously suggested (this would allow you to call GRAPH_WRLOCK
-functions).
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/site-packages/sphinx/cmd/build.py", line 281, in build_main
+    app.build(args.force_all, args.filenames)
+  File "/usr/lib/python3.11/site-packages/sphinx/application.py", line 347, in build
+    self.builder.build_update()
+  File "/usr/lib/python3.11/site-packages/sphinx/builders/__init__.py", line 310, in build_update
+    self.build(to_build,
 
-I'm not sure if this fully addresses your confusion yet. Feel free to
-ask if there are more unclear parts.
 
-Kevin
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
