@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A436F0D11
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B110D6F0D28
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:31:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps897-0001E7-Lu; Thu, 27 Apr 2023 16:23:17 -0400
+	id 1ps8Fs-0002vq-KY; Thu, 27 Apr 2023 16:30:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ps895-0001DO-Dz
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 16:23:15 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ps893-0003kR-MY
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 16:23:15 -0400
-Received: by mail-ot1-x330.google.com with SMTP id
- 46e09a7af769-6a5f6349ec3so3753758a34.0
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 13:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1682626992; x=1685218992;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N/gVmMos9PhHYqfSmywV2l7sf2PPrXS6nCHEqb0Kx6o=;
- b=TmjZtPkEJlpUVAX7irIAJVtTAXV5qF8VJtrqPJ2kPZ0LbdDMQ7vYfPQLs081c5zlrn
- qYBEjH6zPe8FtGP+0BlQjp9PC78KjVvDuRsjtqrlNCa7r8022PIp6/IE1ZlVkRUZHuds
- BudVihbOYMcuBTK/SsxBkNJKQZpOYTpPYCF+4moMRftqbybCjrYHMgWbkRLMFz8J5mVB
- fZKPNqN2FR6cmzSzVTy8qqKJ6JG/0p0gN4k6wELZ+uxmmZpVwqTNrxR2y0SvR4vjYaw/
- neCfj2IyVVpCEYY7IEYRgUIvyH7YuBADz66P23vHklyXQjA17O4S9IbuchBSIfMkOs8U
- 0rDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682626992; x=1685218992;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N/gVmMos9PhHYqfSmywV2l7sf2PPrXS6nCHEqb0Kx6o=;
- b=K20il6d98XMJQ+QgAqQ+VSwtIPfCorOee+YOpWsVQnr4xegWvGulpT+2A2YkitismS
- usMcwC/o+ZHAx0fmoeTpz/5G55AfcF6tX5CDAoL3XmA1cS6CpG8Edls/uHkzZusZ7A56
- vXJFn/U9POYpURGbm2wOoBEW60WgAtjI8UwJ0JkIyj3Ir9ZqSqXpwUfsknxEXxWDe6Ok
- +k1vp/eOtqnE1P9HbVCN3tXhnhH/WO+OCv6ca5wHC37rFexwI/MrSpCexjTZH9fEq3/x
- lM8iDpy5RftUKOto0sBfK5IE5SD+LSKAWmP/EKlQTZP2+SHGMRR/DdSwkdBqgYWWLpjl
- 2UJw==
-X-Gm-Message-State: AC+VfDwcHxy2q43DjxzwyjknQw56oiVWKHQlbDTNe3l3IUfpa5it0SEY
- AKC1ou2rain+N149+oDEflM3sg==
-X-Google-Smtp-Source: ACHHUZ40Bij2GTBfrBKHMhEcp2YT5SvzVJB9bAi+CuhuK8w7g73znz4PjKFavNACQHigGm4o8m+gOQ==
-X-Received: by 2002:a05:6870:9443:b0:177:81bb:1b23 with SMTP id
- e3-20020a056870944300b0017781bb1b23mr1353152oal.38.1682626991738; 
- Thu, 27 Apr 2023 13:23:11 -0700 (PDT)
-Received: from [192.168.68.107] ([179.111.98.125])
- by smtp.gmail.com with ESMTPSA id
- dx46-20020a05687076ae00b00183ff6b45a2sm8058830oab.10.2023.04.27.13.23.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 13:23:11 -0700 (PDT)
-Message-ID: <006e575d-3625-509d-5d90-1c10118a730a@ventanamicro.com>
-Date: Thu, 27 Apr 2023 17:23:07 -0300
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ps8Fq-0002uF-Ns; Thu, 27 Apr 2023 16:30:14 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ps8Fm-0004nV-PM; Thu, 27 Apr 2023 16:30:14 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id DCA1C5EA85;
+ Thu, 27 Apr 2023 23:29:59 +0300 (MSK)
+Received: from vsementsov-nix.yandex-team.ru (unknown
+ [2a02:6b8:b081:b438::1:2b])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id lTP2w70Oh0U0-bMTsXcuO; Thu, 27 Apr 2023 23:29:59 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682627399; bh=qf2m6vxf2Rl8UGTNsMjU/wLrD5N48lYBrbJ/mpzF3WU=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=X85HEZjXWkL+cefz3hFdDR6TW5ccYphkphwNfcJNTWYOdaxQ1rulCCzmtMQKTlt05
+ oy9+riO8FEB03ckNCzg8uPjx5FkKrOq8wzC7chElotPGYnZIl6mfxLuEUyB+a0YwBP
+ VFLdVLti4UccT2R+L/mh71uX1KOpI6jE9ZtXogoY=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, michael.roth@amd.com, armbru@redhat.com,
+ eblake@redhat.com, jasowang@redhat.com, quintela@redhat.com,
+ zhanghailiang@xfusion.com, philmd@linaro.org, thuth@redhat.com,
+ berrange@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ dave@treblig.org, hreitz@redhat.com, kwolf@redhat.com,
+ chen.zhang@intel.com, lizhijian@fujitsu.com, lukasstraub2@web.de,
+ vsementsov@yandex-team.ru
+Subject: [PATCH v3 0/4] COLO: improve build options
+Date: Thu, 27 Apr 2023 23:29:42 +0300
+Message-Id: <20230427202946.1007276-1-vsementsov@yandex-team.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/6] Add RISC-V KVM AIA Support
-To: Yong-Xuan Wang <yongxuan.wang@sifive.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: rkanwal@rivosinc.com, anup@brainfault.org, atishp@atishpatra.org,
- vincent.chen@sifive.com, greentime.hu@sifive.com, frank.chang@sifive.com
-References: <20230424090716.15674-1-yongxuan.wang@sifive.com>
-Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230424090716.15674-1-yongxuan.wang@sifive.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x330.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,47 +75,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+v3:
+01: add r-bs
+02: improve commit message
+03: - improve commit message
+    - drop ifdefs from migration/colo.c which are not needed anymore
+    - don't move migrate_colo_enabled() (now just migrate_colo()), instead modify it inplace
+    - keep colo-compare.c for now (will be handled in updated 04 patch)
+    - so, no colo_compare_cleanup() stub needed for now, neither migrate_colo_enabled() stub
+    - keep Acked-by.
+04: - improve commit message
+    - rename to --disable-colo-proxy to match subsystem name in MAINTAINERS
+    - don't introduce CONFIG_COLO_PROXY, it actually is not needed
+    - colo-compare.c is handled now and included if any of 'replication' and 'colo-proxy' are enabled
+    - so, we add colo_compare_cleanup() stub in a separate stub file
 
-The patches seems to be based on an old QEMU code base. E.g. patch 2 does not
-have the changes made by 568e0614d097 that was merged in January this year.
+Hi all!
 
-Can you please re-send the series based on top of Alistair's riscv-to-apply.next
-(https://github.com/alistair23/qemu/tree/riscv-to-apply.next)?
+COLO substem seems to be useless when CONFIG_REPLICATION is unset, as we
+simply don't allow to set x-colo capability in this case. So, let's not
+compile in unreachable code and interface we cannot use when
+CONFIG_REPLICATION is unset.
 
+Also, provide personal configure option for COLO Proxy subsystem.
 
-Thanks,
+Vladimir Sementsov-Ogievskiy (4):
+  block/meson.build: prefer positive condition for replication
+  scripts/qapi: allow optional experimental enum values
+  build: move COLO under CONFIG_REPLICATION
+  configure: add --disable-colo-proxy option
 
+ block/meson.build              |  2 +-
+ hmp-commands.hx                |  2 ++
+ meson_options.txt              |  2 ++
+ migration/colo.c               | 28 -------------------------
+ migration/meson.build          |  6 ++++--
+ migration/migration-hmp-cmds.c |  2 ++
+ migration/options.c            | 17 ++++++++--------
+ net/meson.build                | 14 +++++++++----
+ qapi/migration.json            | 12 +++++++----
+ scripts/meson-buildoptions.sh  |  3 +++
+ scripts/qapi/types.py          |  2 ++
+ stubs/colo-compare.c           |  7 +++++++
+ stubs/colo.c                   | 37 ++++++++++++++++++++++++++++++++++
+ stubs/meson.build              |  2 ++
+ 14 files changed, 88 insertions(+), 48 deletions(-)
+ create mode 100644 stubs/colo-compare.c
+ create mode 100644 stubs/colo.c
 
-Daniel
+-- 
+2.34.1
 
-
-
-
-On 4/24/23 06:07, Yong-Xuan Wang wrote:
-> This series introduces support for KVM AIA in the RISC-V architecture. The
-> implementation is refered to Anup's KVM AIA implementation in kvmtool
-> (https://github.com/avpatel/kvmtool.git). To test these patches, a Linux kernel
-> with KVM AIA support is required, which can be found in the qemu_kvm_aia branch
-> at https://github.com/yong-xuan/linux.git. This kernel branch is based on the
-> riscv_aia_v1 branch from https://github.com/avpatel/linux.git and includes two
-> additional patches.
-> 
-> 
-> Yong-Xuan Wang (6):
->    update-linux-headers: sync-up header with Linux for KVM AIA support
->    target/riscv: support the AIA device emulateion with KVM enabled
->    target/riscv: check the in-kernel irqchip support
->    target/riscv: Create an KVM AIA irqchip
->    target/riscv: update APLIC and IMSIC to support KVM AIA
->    target/riscv: select KVM AIA in riscv virt machine
-> 
->   hw/intc/riscv_aplic.c     |  19 +++-
->   hw/intc/riscv_imsic.c     |  16 ++-
->   hw/riscv/virt.c           | 214 +++++++++++++++++++++-----------------
->   linux-headers/linux/kvm.h |   2 +
->   target/riscv/kvm.c        |  96 ++++++++++++++++-
->   target/riscv/kvm_riscv.h  |  36 +++++++
->   6 files changed, 277 insertions(+), 106 deletions(-)
-> 
 
