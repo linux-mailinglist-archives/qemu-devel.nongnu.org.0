@@ -2,83 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E82F6F0D87
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E24F6F0DA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 23:12:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps8gB-0002UY-Cr; Thu, 27 Apr 2023 16:57:27 -0400
+	id 1ps8tU-0005yq-1x; Thu, 27 Apr 2023 17:11:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ps8g9-0002Ts-N2
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 16:57:25 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1ps8g7-0002MN-2m
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 16:57:25 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id
- 5614622812f47-38dfdc1daa9so5036055b6e.1
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 13:57:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ps8tR-0005xy-2A
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 17:11:09 -0400
+Received: from esa6.hc2706-39.iphmx.com ([216.71.137.79])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ps8tB-0005Nd-Fo
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 17:11:08 -0400
+X-IronPort-RemoteIP: 209.85.219.69
+X-IronPort-MID: 279188979
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:f9VQKqojZFaZePpwFs9PcA6fqgVeBmKkZxIvgKrLsJaIsI4StFCzt
+ garIBmAbP+OY2umfY8la46z80hSuMWEzdNmT1c5+SkwF39A+ZacVYWSI3mrAy7DdceroGCLT
+ ik9hnssCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
+ Mj75sbSIzdJ4RYtWo4vw//F+UIHUMja4mtC5QRiP68T5zcyqlFOZH4hDfDpR5fHatQMdgKKb
+ 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+AsBOsDAbzsAB+v9T2M4nVKtio27hc+ada
+ Tl6ncfYpQ8BZsUgkQmGOvVSO3gW0aZuodcrLZUj2CA6IoKvn3bEmp1T4E8K0YIw4rYvAkJw7
+ twjN3MpdEHZici37rDhc7w57igjBJGD0II3v3hhyXTAE69jT86SBarN4tBc0XE7gcUm8fT2P
+ ZJIL2oyKk6ZMlsRaz/7C7pn9AusrnD7YztUsnqfuOw673W7IAlZiue8aYqFK4PbLSlTtmenl
+ l3K0zjoOy4hKtWh4j681G2cnvCayEsXX6pXTtVU7MVCmVCW2ykfBQMbUXO9pv+2jFP4XMhQQ
+ 3H44QIrpKk2sVW1F5zzAUz+r3mDsRoRHdFXFoXW9T2w90Yd2C7BbkBsc9KLQIF43CPqbVTGD
+ mO0ou4=
+IronPort-HdrOrdr: A9a23:DzzTSKt0+NVdR9vAgMNRJz4v7skDrNV00zEX/kB9WHVpmwKj5q
+ STdZMgpGXJYVMqMk3I9urwXpVoLUmsl6KdgrNhRotKIjOWwVdARbsKheCSoAEIcxefygc379
+ YGT0ERMqyUMXFKyezX2k2XKeoB/fWw2JyUpI7lvgpQpMJRB52ILT0VNu9WKCNLrXF9dOIE/V
+ Oniat6mwY=
+X-Talos-CUID: =?us-ascii?q?9a23=3AH4Dkh2kbmAiRbwheHZ+xK3HpWUPXOWWNlHTzHVS?=
+ =?us-ascii?q?YMnkqbKfEE1G6+Y1myfM7zg=3D=3D?=
+X-Talos-MUID: 9a23:EH9qYQlFxodzcGmcWgpZdnpDC/dX74jyGXkyqosPheKADApvCy+C2WE=
+Received: from mail-qv1-f69.google.com ([209.85.219.69])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 27 Apr 2023 17:10:25 -0400
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-5ef5e31f3f5so58173116d6.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 14:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1682629042; x=1685221042;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WDpKtg80pfh3MVGEDNBfXsCezbM2b4xXFEtlq1vb3Bk=;
- b=CHT0WEOFnkKK8LEUSmXk9a6N4ehSAzitEtkgUytLD9+KVyDPglfSiQyTcrO5djYCkd
- 9+95wVEMxh9sqtLXRlfa25UaxHkQn+I391YFdYGtocao1BgNRkvlK4dh2f//Tw8y+8za
- LI40PU5NlCVBgMuoQIlCAVpax70/p/6qfqGVuA9+b19Kew/HFZSWGfA/DfaJMN35H/ee
- XRah/8ODpojCdUpdsZgw6TG3iLLOnuuOzWG827G1yZC9YWysI7Xjk5bkFGrhn7/qjvJb
- AIq0W6Gr0mtmZxwaMmzCSOheAW/lJVw2po8kzayaT4Xi6B8UYInYcs2QxCYoLmnkykLR
- cyFg==
+ d=bu.edu; s=s1gsbu; t=1682629825; x=1685221825;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=H+MNZbyxsaO5V04u2s0QZGITFzRAE5qsQ7x4EV6Qms8=;
+ b=XuaD5HkyeA3WojPDzFGjkhbJt6/uubUaWI5Hk2NvRy/+FQp5cTVYZ1kx9cyR/D6eq5
+ sH+BBSQUQg8/QPXGRgshaaYRuYw50HCcIePmrQC68WmaiVsccBnE82RIUwrbQHN2eqaW
+ eTVhrfRtpIxZPPTFtj8KXTNhuNjsrIsy58v7LjHOFKxu0GYMkf1lqSU+xCQOEI2exQxD
+ g2df+6J8v/kStvtz1qc6gXTqRQkSQYkpPCD+xA/SkOYOw6nqosuyRPOdS3UgNmDO9kq9
+ L+LY1so1x1bydYhrB1ifNV0Llo3G07/YJbOdHdg75RIpW/6GH0A9Sf4z+35GsSOSCXrU
+ EyzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682629042; x=1685221042;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WDpKtg80pfh3MVGEDNBfXsCezbM2b4xXFEtlq1vb3Bk=;
- b=H+A3CJ4lP+k3mVmHYvRZgnGFO9h3p+bHETRAGNDECQOZtwZq8TxP5RNgawv1AkalWK
- GXtXQ5oHTBXiyPBLfrhTd3zPrGRxg0aIr6BCiKStp1AmjdInc1MOzCEoFVFbIlNGvtcs
- Hn9UU3rXRVpdYYc7Be/ORJlq5iY9YNyPmbaoS9fzuQYd5rBz52lN7tAcNF9qRQRmjt+P
- 8Ys3VwoAokv6C24VuWYzxLIV1/Jzvvrw0fXWzZIqwDWGXDeF5kaGlJ6R/q1gfDvNToev
- 3ua6lZl/5SS8jguu1P6t/Fh8MoTKXhw+BYbByhGoQTs5EovMqIrz+PG695el5NCPGm0a
- 5r7w==
-X-Gm-Message-State: AC+VfDxcUDA1rTmfXeXyROeGTazBK87gzl9UWQOYtK8aqr9vT+ar3Wyi
- tViZ/DUTNNxPGQYGyrS+ClKwWA+H95Q82cqXk3A=
-X-Google-Smtp-Source: ACHHUZ65U42Yc5fUnz87jqJFnl5ZcwHwUP5THZCSG6uY9uB+ti6rFjT8nshBgNmfCyaYOAiCxJY8Mw==
-X-Received: by 2002:a05:6808:915:b0:38e:257e:a62a with SMTP id
- w21-20020a056808091500b0038e257ea62amr1256465oih.50.1682629041811; 
- Thu, 27 Apr 2023 13:57:21 -0700 (PDT)
-Received: from grind.dc1.ventanamicro.com ([179.111.98.125])
+ d=1e100.net; s=20221208; t=1682629825; x=1685221825;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=H+MNZbyxsaO5V04u2s0QZGITFzRAE5qsQ7x4EV6Qms8=;
+ b=Fljlm+r1anz8ABO9/IXl+1WZcjTmULs8wdFhDou20aFyppXqxhnipKVQwY/k/GmE6W
+ F8CoyIzhJwhM2+2NI/OvZFvI/sSUzuN34mYhMXIh7bdEcyPAqKCp9z919S4UhqFysy4Z
+ QQ8yG7DaiQNQhVbnv45yzEZcxGIop+Om+HLssLaGDnBTJBlUWQEJ8jO/RQ2ajZwNxgff
+ qspf9gDhnTF9cuWvrZYNTeWMBoMLfRglCuCV+o2ibZfEH6vInUm1sVxDYGla6WgXfKDM
+ xY3dengVDDXY5HuqcK2d5dzOXCKUJwLnSlQDkDwCQcn+xvmkEXX85FQRn2lMu7cSuhz9
+ Ir4Q==
+X-Gm-Message-State: AC+VfDwpC1hU77gQayqVE00q6jUooYsgcY+GBOrl8cNXzI9DripqU95m
+ MDHurG7Qt3W1i+7b4O2qCzWoh6NNz1YB+k3rqqi5aqXIQPSitmEVofda160W+1V+r/yV7KW9shn
+ 6WD8LGePCaB43to6B2A8wO8re5gpiIfiHm9Unz6wUZDU=
+X-Received: by 2002:a05:6214:1bc6:b0:5e0:e52c:5d7a with SMTP id
+ m6-20020a0562141bc600b005e0e52c5d7amr5171973qvc.38.1682629824766; 
+ Thu, 27 Apr 2023 14:10:24 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4GceXMFY5c1nEehhX42iGP22zadKo+Y2315BTQFXjCQ/y7ohNOjTqYrJMhnqTydO/Zyia4aQ==
+X-Received: by 2002:a05:6214:1bc6:b0:5e0:e52c:5d7a with SMTP id
+ m6-20020a0562141bc600b005e0e52c5d7amr5171916qvc.38.1682629824396; 
+ Thu, 27 Apr 2023 14:10:24 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- k205-20020acabad6000000b0038934c5b400sm4804225oif.25.2023.04.27.13.57.19
+ z2-20020a0c8f02000000b005ef524ea9f1sm5853504qvd.141.2023.04.27.14.10.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 13:57:21 -0700 (PDT)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+ Thu, 27 Apr 2023 14:10:24 -0700 (PDT)
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH 2/2] target/riscv/vector_helper.c: make
- vext_set_tail_elems_1s() debug only
-Date: Thu, 27 Apr 2023 17:57:08 -0300
-Message-Id: <20230427205708.246679-3-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230427205708.246679-1-dbarboza@ventanamicro.com>
-References: <20230427205708.246679-1-dbarboza@ventanamicro.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH v10 0/8] memory: prevent dma-reentracy issues
+Date: Thu, 27 Apr 2023 17:10:05 -0400
+Message-Id: <20230427211013.2994127-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.79; envelope-from=alxndr@bu.edu;
+ helo=esa6.hc2706-39.iphmx.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ HK_RANDOM_ENVFROM=0.266, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,47 +131,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit 3479a814 ("target/riscv: rvv-1.0: add VMA and VTA") added vma and
-vta fields in the vtype register, while also defining that QEMU doesn't
-need to have a tail agnostic policy to be compliant with the RVV spec.
-It ended up removing all tail handling code as well. Later, commit
-752614ca ("target/riscv: rvv: Add tail agnostic for vector load / store
-instructions") reintroduced the tail agnostic fill for vector load/store
-instructions only.
+v8-> v9:
+    - Replace trace-events and attempt at making re-entrancy fatal with
+      a warn_report message. This message should only be printed if a
+      device is broken (and needs to be marked re-entrancy safe), or if
+      something in the guest is attempting to trigger unintentional
+      re-entrancy.
+    - Added APIC change to the series
 
-This puts QEMU in a situation where some functions are 1-filling the
-tail elements and others don't. This is still a valid implementation,
-but the process of 1-filling the tail elements takes valuable emulation
-time that can be used doing anything else. If the spec doesn't demand a
-specific tail-agostic policy, a proper software wouldn't expect any
-policy to be in place. This means that, more often than not, the work
-we're doing by 1-filling tail elements is wasted. We would be better of
-if vext_set_tail_elems_1s() is removed entirely from the code.
+v7 -> v8:
+    - Disable reentrancy checks for bcm2835_property's iomem (Patch 7)
+    - Cache DeviceState* in the MemoryRegion to avoid dynamic cast for
+      each MemoryRegion access. (Patch 1)
+    - Make re-entrancy fatal for debug-builds (Patch 8)
 
-All this said, there's still a debug value associated with it. So,
-instead of removing it, let's gate it with cpu->cfg.debug. This way
-software can enable this code if desirable, but for the regular case we
-shouldn't waste time with it.
+v6 -> v7:
+    - Fix bad qemu_bh_new_guarded calls found by Thomas (Patch 4)
+    - Add an MR-specific flag to disable reentrancy (Patch 5)
+    - Disable reentrancy checks for lsi53c895a's RAM-like MR (Patch 6)
+    
+    Patches 5 and 6 need review. I left the review-tags for Patch 4,
+    however a few of the qemu_bh_new_guarded calls have changed.
+  
+v5 -> v6:
+    - Only apply checkpatch checks to code in paths containing "/hw/"
+      (/hw/ and include/hw/)
+    - Fix a bug in a _guarded call added to hw/block/virtio-blk.c
+v4-> v5:
+    - Add corresponding checkpatch checks
+    - Save/restore reentrancy-flag when entering/exiting BHs
+    - Improve documentation
+    - Check object_dynamic_cast return value
+    
+v3 -> v4: Instead of changing all of the DMA APIs, instead add an
+    optional reentrancy guard to the BH API.
+    
+v2 -> v3: Bite the bullet and modify the DMA APIs, rather than
+    attempting to guess DeviceStates in BHs.
+    
+These patches aim to solve two types of DMA-reentrancy issues:
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- target/riscv/vector_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+1.) mmio -> dma -> mmio case
+To solve this, we track whether the device is engaged in io by
+checking/setting a reentrancy-guard within APIs used for MMIO access.
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 8e6c99e573..e0a292ac24 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -272,7 +272,7 @@ static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,
-     uint32_t vta = vext_vta(desc);
-     int k;
- 
--    if (vta == 0) {
-+    if (vta == 0 || !riscv_cpu_cfg(env)->debug)  {
-         return;
-     }
- 
+2.) bh -> dma write -> mmio case
+This case is trickier, since we dont have a generic way to associate a
+bh with the underlying Device/DeviceState. Thus, this version allows a
+device to associate a reentrancy-guard with a bh, when creating it.
+(Instead of calling qemu_bh_new, you call qemu_bh_new_guarded)
+
+I replaced most of the qemu_bh_new invocations with the guarded analog,
+except for the ones where the DeviceState was not trivially accessible.
+
+Alexander Bulekov (8):
+  memory: prevent dma-reentracy issues
+  async: Add an optional reentrancy guard to the BH API
+  checkpatch: add qemu_bh_new/aio_bh_new checks
+  hw: replace most qemu_bh_new calls with qemu_bh_new_guarded
+  lsi53c895a: disable reentrancy detection for script RAM
+  bcm2835_property: disable reentrancy detection for iomem
+  raven: disable reentrancy detection for iomem
+  apic: disable reentrancy detection for apic-msi
+
+ docs/devel/multiple-iothreads.txt |  7 +++++++
+ hw/9pfs/xen-9p-backend.c          |  5 ++++-
+ hw/block/dataplane/virtio-blk.c   |  3 ++-
+ hw/block/dataplane/xen-block.c    |  5 +++--
+ hw/char/virtio-serial-bus.c       |  3 ++-
+ hw/display/qxl.c                  |  9 ++++++---
+ hw/display/virtio-gpu.c           |  6 ++++--
+ hw/ide/ahci.c                     |  3 ++-
+ hw/ide/ahci_internal.h            |  1 +
+ hw/ide/core.c                     |  4 +++-
+ hw/intc/apic.c                    |  7 +++++++
+ hw/misc/bcm2835_property.c        |  7 +++++++
+ hw/misc/imx_rngc.c                |  6 ++++--
+ hw/misc/macio/mac_dbdma.c         |  2 +-
+ hw/net/virtio-net.c               |  3 ++-
+ hw/nvme/ctrl.c                    |  6 ++++--
+ hw/pci-host/raven.c               |  7 +++++++
+ hw/scsi/lsi53c895a.c              |  6 ++++++
+ hw/scsi/mptsas.c                  |  3 ++-
+ hw/scsi/scsi-bus.c                |  3 ++-
+ hw/scsi/vmw_pvscsi.c              |  3 ++-
+ hw/usb/dev-uas.c                  |  3 ++-
+ hw/usb/hcd-dwc2.c                 |  3 ++-
+ hw/usb/hcd-ehci.c                 |  3 ++-
+ hw/usb/hcd-uhci.c                 |  2 +-
+ hw/usb/host-libusb.c              |  6 ++++--
+ hw/usb/redirect.c                 |  6 ++++--
+ hw/usb/xen-usb.c                  |  3 ++-
+ hw/virtio/virtio-balloon.c        |  5 +++--
+ hw/virtio/virtio-crypto.c         |  3 ++-
+ include/block/aio.h               | 18 ++++++++++++++++--
+ include/exec/memory.h             |  5 +++++
+ include/hw/qdev-core.h            |  7 +++++++
+ include/qemu/main-loop.h          |  7 +++++--
+ scripts/checkpatch.pl             |  8 ++++++++
+ softmmu/memory.c                  | 16 ++++++++++++++++
+ tests/unit/ptimer-test-stubs.c    |  3 ++-
+ util/async.c                      | 18 +++++++++++++++++-
+ util/main-loop.c                  |  5 +++--
+ util/trace-events                 |  1 +
+ 40 files changed, 180 insertions(+), 41 deletions(-)
+
 -- 
-2.40.0
+2.39.0
 
 
