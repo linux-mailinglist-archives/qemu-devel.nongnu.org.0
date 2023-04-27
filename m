@@ -2,124 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C6B6F06D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C4A6F06DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:47:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps1wC-000351-KN; Thu, 27 Apr 2023 09:45:32 -0400
+	id 1ps1xa-00043L-Mz; Thu, 27 Apr 2023 09:46:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ps1w5-00034h-7E
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:45:25 -0400
-Received: from esa15.hc2706-39.iphmx.com ([216.71.140.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ps1w3-0007wy-2w
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:45:24 -0400
-X-IronPort-RemoteIP: 209.85.219.70
-X-IronPort-MID: 272144296
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:kAu9va+M4sJ4vG/jzOEUDrUDPXyTJUtcMsCJ2f8bNWPcYEJGY0x3z
- WQXUG7QOK7bZjejKtEnPtyx9UIPvpHcx4VnSQJuqCkxFiIbosf7XuiUfxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yI6jefQHeCU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
- MiaT/f3YTdJ4BYpdDNFg06/gEk35q+q5GlH5gZWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
- uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
- DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJHAGNrYaoc1UO0oU2
- 78nOGk1MAqP2O3jldpXSsE07igiBMziPYdao285iD+GVbApRpfMR6iM7thdtNsyrpoWTLCOO
- oxDMGspM0yojx5nYz/7DLo3mPeuimPXeSAepV6IzUYyyzKMllUtjOK8brI5fPSGbMxNuXac/
- 1jepXXmDVYQLdiR4iKapyfEaujn2HmTtJgpPKS18+MvjFCNy2g7DhoQWl2m5/6jhSaDt8l3L
- kUV/m83s/F3+hPzCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBfJtKdQLTKbPMLeAE=
-IronPort-HdrOrdr: A9a23:QsXziKNl47Bb78BcTsWjsMiBIKoaSvp037BN7TEWdfU1SL3+qy
- nKpp4mPHDP6Qr5NEtOpTniAtjjfZq/z+8Q3WB5B97LMDUO3lHYT72KhbGI/9SKIUPDH4BmtZ
- uII5ISNDWzZWIK6PrH3A==
-X-Talos-CUID: 9a23:R2vwymxtLD37SJNyd/3wBgUlKssecCb27037eWH7NnYwcOOPRQCfrfY=
-X-Talos-MUID: 9a23:bo1yowk0tT7y8kyBd/dWdnpuHc5wxJSqUXoVy4QZtI6OLCh+EC+C2WE=
-Received: from mail-qv1-f70.google.com ([209.85.219.70])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 27 Apr 2023 09:45:18 -0400
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-5ef640838f6so49608636d6.1
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 06:45:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
+ id 1ps1xO-00041v-KZ; Thu, 27 Apr 2023 09:46:47 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
+ id 1ps1xK-0008IW-FJ; Thu, 27 Apr 2023 09:46:44 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id
+ 3f1490d57ef6-b9a824c3a95so723047276.1; 
+ Thu, 27 Apr 2023 06:46:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bu.edu; s=s1gsbu; t=1682603117; x=1685195117;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=6sRjZsKV+KteiwWISjwiORtyK11E4RoKaDeW0FvT5d4=;
- b=iuLRXG5E75Vbzwb0b2UVEnzfY1Zrvjb8XJWby1DSwsSkXqq8EHDAi+QuWsNea98P33
- XwSD2Gdfz9LB436xAtgz7IgYasm4dsNzt74lRSp6rC2uBAmPTPBbbR9C8IC3ImzmWEjT
- EDm2oKzpw3s4Iwm4DvukEg/cbBxiAqa4SPMFhwZSpKzHXkvC5dxZns1AEOoazAs1/RSw
- fSU0Uuasa+/mCgQUk8jYY6nU2TlLaT3fEgk8qyQiXS5ovFAFU9aKbiIyzWRX5rM/SA7h
- j13Qf3qyhcWJI5BZLvcx1X4sMKQBGw3374mTTaU0RXJG6yjgksSwx6beZSzDs8+frVLt
- 7w2Q==
+ d=gmail.com; s=20221208; t=1682603201; x=1685195201;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eyetcH04Kjj3EpFQV/Xeqk0cNieHTgIFEfEwhkgNxJA=;
+ b=d8efuIQ8UWDbnuXZVz4/39Lg7fJxdcKYbmFJEQWlhpWqsP+NClPYcAuNXEy9NBcex6
+ ClJ15OmsHQMnIEMnFeZvoz2rBcgZ4iRpfZzReyetXILG3bvLZPdRFKh/mpN3u9PVPWZ7
+ aPle8J0hMW52Hwq9nPRWBrtZmD2KGzByx33Q0ykaBYm7f4cAjSHExzuSvl9/vsDwimQn
+ ufZKWZwehXhbjOOQoYahpnjX38MrVacBd2qhhvFHLn+U33krvl0KXGIUILtsXRH3mr/J
+ 4z4nTxnwiTmTEV/I9D5D4/AbXKta44XhngHzRg1zovGBCVO9zKR5nL/HamSGX5ght+tj
+ plTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682603117; x=1685195117;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6sRjZsKV+KteiwWISjwiORtyK11E4RoKaDeW0FvT5d4=;
- b=fQJOA1xQATgpqxWL8Mt0mPZwEZAY/rPx2GcDK48iNxQB8A63n8anesXuiJFCD55cAf
- s5eoP6tcZ3ajn5LVrjgZlQ+HWN4+qHnCujAmPq+jogKDhrD12sBf0CF/LPzvTzvSX8sM
- IpO3mFWxlqMF0CQEVqKb+waXyA76zlpKlnqMyY9PoplC4v/GiEudO3nLet1ZCCoBZu0D
- DqwBsyiztheejaaHWESyqj9jquQybjU09644S/GZ+Mr0hzPaR3kh1AX5Q6kcmnSncVgK
- tfWJ/6wnO6Mo8CW8F7EwAgCQ7AtguRrMy2+HcAwFAGvUO2almQNPVxzDd3bE5Y3ctUJS
- 8qSg==
-X-Gm-Message-State: AC+VfDwg4/2xrZFV39XuhYpKkT0ub0QLO8SghzyzycBaCZ502lyOUmfo
- +l0VWX5r+/NuI/ZlLK/6i9fOZU+A4ehrR7iTuM8nxEOohTa0ujv1MDZQ9IB3pYdUFhiZ5pQK0U8
- 5BCBBd0XEGSfnp09ZXGTXCrq5qADnow==
-X-Received: by 2002:a05:6214:20ca:b0:5ef:5138:1e5d with SMTP id
- 10-20020a05621420ca00b005ef51381e5dmr2299199qve.49.1682603117308; 
- Thu, 27 Apr 2023 06:45:17 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5yDRhuG5dJBH7uycdVgHnXRBJhaZBy6oFqWRm2vIGYd/ncDctYEwlZ57YZJY2tyyRtmk4oJA==
-X-Received: by 2002:a05:6214:20ca:b0:5ef:5138:1e5d with SMTP id
- 10-20020a05621420ca00b005ef51381e5dmr2299138qve.49.1682603117038; 
- Thu, 27 Apr 2023 06:45:17 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- p15-20020a0ccb8f000000b005dd8b93457asm5619194qvk.18.2023.04.27.06.45.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 06:45:16 -0700 (PDT)
-Date: Thu, 27 Apr 2023 09:45:12 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
- David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PATCH v9 0/8] memory: prevent dma-reentracy issues
-Message-ID: <20230427134512.aj63etlkw3zuuohr@mozz.bu.edu>
-References: <20230426161951.2948996-1-alxndr@bu.edu>
- <4761c580-ca69-bfbd-0501-999fa7bc4059@redhat.com>
+ d=1e100.net; s=20221208; t=1682603201; x=1685195201;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eyetcH04Kjj3EpFQV/Xeqk0cNieHTgIFEfEwhkgNxJA=;
+ b=PGvvMzLCKyE8pIZRqwIDdC0u2ciB8+txrjvKkSYgZ6p5LBfgQhC+//IqhKs9yr3apo
+ FCoBgwEoKNiIe54eovWm6c6qZmpIZgjALeuV4p/nA37wG4GYcQKhwIWY7TMKDBUlASyL
+ pgIxsVlzI6SWGGwDTIgy3FLRP5KoHcK/1eJIa+DM1VWqfaBM971g5ovDSvtByMpBBFyg
+ C8Kw7MJoOhdjpmJJlfovPJB8XGNNAhdf0ym7Or5bxqSc+AJVQneMQihZDF+JNjDyV6bo
+ QGuF6A0YwEn1W70ub/HSzsdhe1/dY4s+bGYLDYCD2A2UGPbf19HXEiGNytPxLHc8q654
+ ph7A==
+X-Gm-Message-State: AC+VfDy3ZQm89rL2ow5wnjVe0eK6by4MPSXi7gs4wa8oq37Wfo6EFeu1
+ jU182Qvua5WaLo+Vs1CEjfn04lhSKwOUKKeMuMY=
+X-Google-Smtp-Source: ACHHUZ6t2EFi01QNq0ZLlo82W8SXZzOGQjWloc6zAXMBDFw7uZQd5RwhvhBVRoWVPFeN39D0g3H5hEFVdEVfKrpOFxU=
+X-Received: by 2002:a81:8787:0:b0:54f:ba25:61c5 with SMTP id
+ x129-20020a818787000000b0054fba2561c5mr1263081ywf.0.1682603200608; Thu, 27
+ Apr 2023 06:46:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4761c580-ca69-bfbd-0501-999fa7bc4059@redhat.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.200; envelope-from=alxndr@bu.edu;
- helo=esa15.hc2706-39.iphmx.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.266, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_PORT=0.001 autolearn=no autolearn_force=no
+References: <20230424094309.197969-1-alexander.ivanov@virtuozzo.com>
+ <20230424094309.197969-4-alexander.ivanov@virtuozzo.com>
+In-Reply-To: <20230424094309.197969-4-alexander.ivanov@virtuozzo.com>
+From: Mike Maslenkin <mike.maslenkin@gmail.com>
+Date: Thu, 27 Apr 2023 16:46:04 +0300
+Message-ID: <CAL77WPBykju=hEwxkiKvVkNgbGeVxuJc2tuBssTkN0rTupjJiQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/5] parallels: Add checking and repairing duplicate
+ offsets in BAT
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, den@virtuozzo.com, 
+ stefanha@redhat.com, vsementsov@yandex-team.ru, kwolf@redhat.com, 
+ hreitz@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=mike.maslenkin@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -135,49 +88,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 230427 1504, Thomas Huth wrote:
-> On 26/04/2023 18.19, Alexander Bulekov wrote:
-> > v8-> v9:
-> >      - Disable reentrancy checks for raven's iomem (Patch 8)
-> >      - Fix non-bisectable disable_reentrancy_guard patch by squashing it
-> >        into Patch 1.
-> >      - Fix trailing whitespace
-> 
-> Sorry for not noticing earlier (I think the test is not run on gitlab-CI),
-> but I just noticed another failing avocado test:
-> 
-> tests/venv/bin/avocado --show console run \
->  tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_x86_64
-> 
-> ... seems to hang now (and finally gets "INTERRUPTED").
-> 
-> If I got that right, the test is basically more or less doing:
-> 
->  wget https://storage.tuxboot.com/x86_64/bzImage
->  wget https://storage.tuxboot.com/x86_64/rootfs.ext4.zst
->  unzstd rootfs.ext4.zst
->  qemu-system-x86_64 -cpu Nehalem -M q35 -kernel bzImage \
->   -hda rootfs.ext4 -m 2G -append "root=/dev/sda console=ttyS0" \
->   -serial stdio
-> 
-> Then log in as "root" and shut down with "halt".
-> 
-> The "halt" works fine with git master, but it fails for me when I have your
-> patches applied. Could you please have a look?
+Sorry for the noise again , but I have another note
 
-#0  trace_memory_region_reentrant_io  at trace/trace-softmmu.h:335
-#1  0x0000555555fad303 in access_with_adjusted_size  at ../softmmu/memory.c:549
-#2  0x0000555555fad0eb in memory_region_dispatch_write  at ../softmmu/memory.c:1531
-#3  0x0000555555fbb543 in address_space_stl_internal  at ../memory_ldst.c.inc:319
-#4  0x0000555555f29149 in stl_le_phys  at /home/alxndr/Development/qemu-demo/qemu/include/exec/memory_ldst_phys.h.inc:121
-#5  ioapic_service  at ../hw/intc/ioapic.c:138
-#6  0x0000555555f28bd1 in ioapic_eoi_broadcast  at ../hw/intc/ioapic.c:286
-#7  0x0000555555f26e4a in apic_eoi  at ../hw/intc/apic.c:432
-#8  0x0000555555f2687c in apic_mem_write  at ../hw/intc/apic.c:788
-#9  0x0000555555fad3f9 in memory_region_write_accessor  at ../softmmu/memory.c:493
-gef➤  p ((MemoryRegion*)mr)->name
-$2 = 0x5555578cbbe0 "apic-msi"
+On Mon, Apr 24, 2023 at 12:44=E2=80=AFPM Alexander Ivanov
+<alexander.ivanov@virtuozzo.com> wrote:
+>
+> Cluster offsets must be unique among all the BAT entries. Find duplicate
+> offsets in the BAT and fix it by copying the content of the relevant
+> cluster to a newly allocated cluster and set the new cluster offset to th=
+e
+> duplicated entry.
+>
+> Add host_cluster_index() helper to deduplicate the code.
+>
+> Move parallels_fix_leak() call to parallels_co_check() to fix both types
+> of leak: real corruption and a leak produced by allocate_clusters()
+> during deduplication.
+>
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+>  block/parallels.c | 134 ++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 129 insertions(+), 5 deletions(-)
+>
+> diff --git a/block/parallels.c b/block/parallels.c
+> index ec89ed894b..3b992e8173 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -136,6 +136,12 @@ static int cluster_remainder(BDRVParallelsState *s, =
+int64_t sector_num,
+>      return MIN(nb_sectors, ret);
+>  }
+>
+> +static uint32_t host_cluster_index(BDRVParallelsState *s, int64_t off)
+> +{
+> +    off -=3D s->header->data_off << BDRV_SECTOR_BITS;
+> +    return off / s->cluster_size;
+> +}
+> +
+>  static int64_t block_status(BDRVParallelsState *s, int64_t sector_num,
+>                              int nb_sectors, int *pnum)
+>  {
+> @@ -533,7 +539,6 @@ parallels_check_leak(BlockDriverState *bs, BdrvCheckR=
+esult *res,
+>  {
+>      BDRVParallelsState *s =3D bs->opaque;
+>      int64_t count, leak_size;
+> -    int ret;
+>
+>      leak_size =3D parallels_get_leak_size(bs, res);
+>      if (leak_size < 0) {
+> @@ -550,16 +555,123 @@ parallels_check_leak(BlockDriverState *bs, BdrvChe=
+ckResult *res,
+>              fix & BDRV_FIX_LEAKS ? "Repairing" : "ERROR", leak_size);
+>
+>      if (fix & BDRV_FIX_LEAKS) {
+> -        ret =3D parallels_fix_leak(bs, res);
+> -        if (ret < 0) {
+> -            return ret;
+> -        }
+>          res->leaks_fixed +=3D count;
+>      }
+>
+>      return 0;
+>  }
+>
+> +static int parallels_check_duplicate(BlockDriverState *bs,
+> +                                     BdrvCheckResult *res,
+> +                                     BdrvCheckMode *fix)
+> +{
+> +    BDRVParallelsState *s =3D bs->opaque;
+> +    QEMUIOVector qiov;
+> +    int64_t off, sector;
+> +    unsigned long *bitmap;
+> +    uint32_t i, bitmap_size, cluster_index;
+> +    int n, ret =3D 0;
+> +    uint64_t *buf =3D NULL;
+> +
+> +    /*
+> +     * Create a bitmap of used clusters.
+> +     * If a bit is set, there is a BAT entry pointing to this cluster.
+> +     * Loop through the BAT entries, check bits relevant to an entry off=
+set.
+> +     * If bit is set, this entry is duplicated. Otherwise set the bit.
+> +     *
+> +     * We shouldn't worry about newly allocated clusters outside the ima=
+ge
+> +     * because they are created higher then any existing cluster pointed=
+ by
+> +     * a BAT entry.
+> +     */
+> +    bitmap_size =3D host_cluster_index(s, res->image_end_offset);
+> +    bitmap =3D bitmap_new(bitmap_size);
+> +
+> +    buf =3D qemu_memalign(4096, s->cluster_size);
+> +    qemu_iovec_init(&qiov, 0);
+> +    qemu_iovec_add(&qiov, buf, s->cluster_size);
+> +
+> +    for (i =3D 0; i < s->bat_size; i++) {
+> +        off =3D bat2sect(s, i) << BDRV_SECTOR_BITS;
+> +        if (off =3D=3D 0) {
+> +            continue;
+> +        }
+> +
+> +        cluster_index =3D host_cluster_index(s, off);
+> +        if (test_bit(cluster_index, bitmap)) {
+> +            /* this cluster duplicates another one */
+> +            fprintf(stderr,
+> +                    "%s duplicate offset in BAT entry %u\n",
+> +                    *fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR", i);
+> +
+> +            res->corruptions++;
+> +
+> +            if (*fix & BDRV_FIX_ERRORS) {
+> +                /*
+> +                 * Reset the entry and allocate a new cluster
+> +                 * for the relevant guest offset. In this way we let
+> +                 * the lower layer to place the new cluster properly.
+> +                 * Copy the original cluster to the allocated one.
+> +                 */
+> +                parallels_set_bat_entry(s, i, 0);
+> +
+> +                ret =3D bdrv_co_pread(bs->file, off, s->cluster_size, bu=
+f, 0);
+> +                if (ret < 0) {
+> +                    res->check_errors++;
+> +                    goto out;
+> +                }
+> +
+> +                sector =3D (i * s->cluster_size) >> BDRV_SECTOR_BITS;
+> +                sector =3D allocate_clusters(bs, sector, s->tracks, &n);
+> +                if (sector < 0) {
+> +                    res->check_errors++;
+> +                    ret =3D sector;
+> +                    goto out;
+> +                }
 
-I'll send a patch to mark this re-entrancy safe based-on this series.
--Alex
+I can not understand how index in a BAT table related to s->cluster_size.
+Probably there should be "cluster_index" used?
+Anyway, looks like both cause uint32 truncation as result of
+({i,cluster_index} * s->cluster_size)
+
+Regards,
+Mike.
 
