@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1DE6F0C39
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 21:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5685E6F0C92
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 21:33:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps6rk-000160-94; Thu, 27 Apr 2023 15:01:16 -0400
+	id 1ps7LO-0000Ws-Cv; Thu, 27 Apr 2023 15:31:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ps6rg-00013z-2l
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 15:01:12 -0400
-Received: from mout.web.de ([217.72.192.78])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ps7LL-0000WX-Dg; Thu, 27 Apr 2023 15:31:51 -0400
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ps6rd-0003jP-Ci
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 15:01:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1682622065; i=lukasstraub2@web.de;
- bh=rM/+84AOPp7vcBqzucsNUdK55owS+3ZoEGLRiwvZ+rA=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=QujBK9LQXd3PEyai+TGbeTC7eKace25NtpDaadzEf917tGlBkKwbp46/IR+SGL15e
- UDERmGOidABfbe05OmJOditUD3gZxiaC5pxUvwR++b2Y7XJXFWyGnDax6P0udgAivo
- eQ8BxPlAsAw3HrPkqeg7Zd4O2K1i91dMA4tN+/TYBw5VmP2pBL3EiSlZV5WIofNPjR
- RtVYIOIM7V+opIrsaQO/ZA2gDvXUYdvmrr7WlP/J1vnAYaL2FTSz4LuqJMoy3UW6aq
- 68GEvPQVGgBNLfDWBCNF8ar0eh8sYHujSJDhXJ+MiBKisuQiIdCroH6E12eah9FKUS
- v5BsLCUcpJJdg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.107]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MjPPs-1qXGEU3xzG-00kmda; Thu, 27
- Apr 2023 21:01:05 +0200
-Date: Thu, 27 Apr 2023 21:01:03 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, Leonardo Bras
- <leobras@redhat.com>
-Subject: Re: [PATCH 06/19] migration/rdma: Unfold last user of
- acct_update_position()
-Message-ID: <20230427190103.27dc124b@gecko.fritz.box>
-In-Reply-To: <20230427163449.27473-7-quintela@redhat.com>
-References: <20230427163449.27473-1-quintela@redhat.com>
- <20230427163449.27473-7-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ps7LH-0002Ln-3j; Thu, 27 Apr 2023 15:31:50 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id A5B0061062;
+ Thu, 27 Apr 2023 22:31:34 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b438::1:2b] (unknown
+ [2a02:6b8:b081:b438::1:2b])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id WVOp930OquQ0-5nvFlep9; Thu, 27 Apr 2023 22:31:33 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682623893; bh=hDe96BF2CHii5uOAzirOfcpO4TPmyGG2sxILdmtM4Qo=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=jReOqKdBOv2HX5UIwx7utIt6EHs6ZjqSohWsRHQCNi59dzSQgFq0fYZFxqCMKLE9D
+ TTFZOKy7XXbJmFyJFNA7Bb8Lh5NTkEPhR8MYtHAI8RXH1xmqofHDCvQA+RTCMQ+YYS
+ d6QVZgJ1pKYT9/m0TT0cD0NW9BzbLoXK00/vpQ+o=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <73b38f83-a927-d3d9-c08e-7276f48f013c@yandex-team.ru>
+Date: Thu, 27 Apr 2023 22:31:32 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/0VYU/K_2HGyINwb7oTdVYXl";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:XkbOjrFc1kT4w5fgpQmBUhK0AOwDAxHLFAOuPWoxAOPEgxhQQvs
- W/ZAG1itDVvRY+9oPJAnee+OdKrzw6NqqTIP00heNK/YouwJMql5yT0SAFG/2jWu03WhCgq
- sRqIFmf/lqOxfzhOOcQSqgCr9FEMsqDwjocPtK0GEsxRmE0pwlTlOkJmlcRJtUhsV0SYN9L
- 0qv6PvZsAnzCWwmDwlW9Q==
-UI-OutboundReport: notjunk:1;M01:P0:Q+mE/SeXho4=;EcJ8Q1qxIK8MjdFvNC34igp0B3P
- Fs+KgY8fB+zmwzj4223nnuTxsQH/6/3BKNOo3TYmp6r3SV0GJZe/mbOne0DyYP1f5XRko2PPY
- hWQu0ZZ1KkP3n54yzCDDxKtCnfNxg+wvqA11lbcFGgXSMYkMepSTgt/NKMLpe/DleVGMalUX7
- qpXg1MMDLeWaO2iPQhn6+2oqGfpb4EIgp4dujLTIh/bva2m1VLZscPDlPWR2+toHhaFSi4BkP
- PjR1NG0P59SChbRxzUBdRCghAIbmHBP7pXqeAMIIW5fvg5KkRh0DsreIQJgpcfz3T36VE2m/J
- MQDBtn9jThgpJHNWSBe9s78OYEcAfnMJfD3lUaOZhhLAvNjUumh892FNHsQB8G4KodG+Y7fis
- dAjbNH+xIxhkDxlhyUiGilq52fwgjorGk+fTSVusnZuz547VtobBrZnOLHR5/95GFSMfm4Y5a
- np5K+KFpye8Ss8gkKrBAtoPug+J+gVUgvuQ3xvirLmsfSeT8mOH+78ThptUXyd0iJQv5QAfnt
- otTFaRHLrl2/GsmjxxF8FdDXRQUbofsLb29JzduADpd1jrRvkk6ljm7I9E+Jd3R3QTeUSd0lO
- THP1GbsNS06Obu/6Mxcq8jn8zdGBLZlGEIf6q+3oN8ib+2J/p24fovpdlWCxfG96+Rn+q/x5u
- NgQuTu11ub5K2+6/twU0e1jTeSK30PJ9rLvNQygmo12zflEwL93WL4FnK3+JiPKQmKefsNLbD
- Dt5DDhSR9Iiy95XwVLISMtXNicjxh9E/cWcwfp4nitwEmrCswgX10daw7dFEiMsK6JZf1sedv
- 9ZMToc0cJ3rP+Ind3gukRsvroRFNgpdDRRF38q9cXOvTnmmJhvH7qrhXtb2kNdhCbzAP8ViKp
- ovLeom4XUW8aTAZ/q9KhuDrSA4AcGIJBIc8bTe5oDwQWb+PSojG1rJq6a95DZ9qfWg+gobnLI
- kGAEgJ8rCoHFnSu2V/4SaP05igA=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
+Content-Language: en-US
+To: "Zhang, Chen" <chen.zhang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "michael.roth@amd.com" <michael.roth@amd.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "Zhang, Hailiang" <zhanghailiang@xfusion.com>,
+ "philmd@linaro.org" <philmd@linaro.org>, "thuth@redhat.com"
+ <thuth@redhat.com>, "berrange@redhat.com" <berrange@redhat.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "dave@treblig.org" <dave@treblig.org>, "hreitz@redhat.com"
+ <hreitz@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
+References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+ <20230419225232.508121-4-vsementsov@yandex-team.ru>
+ <MWHPR11MB00312BC202A9B93E260F58369B609@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <b9badd90-6d1f-5d1d-72a1-9c357a1fb9b2@yandex-team.ru>
+ <MWHPR11MB0031A7CE9FB5A6E93AD601A79B669@MWHPR11MB0031.namprd11.prod.outlook.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <MWHPR11MB0031A7CE9FB5A6E93AD601A79B669@MWHPR11MB0031.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,98 +92,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/0VYU/K_2HGyINwb7oTdVYXl
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 23.04.23 04:54, Zhang, Chen wrote:
+> 
+>> -----Original Message-----
+>> From: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+>> Sent: Friday, April 21, 2023 4:36 PM
+>> To: Zhang, Chen<chen.zhang@intel.com>;qemu-devel@nongnu.org
+>> Cc:qemu-block@nongnu.org;michael.roth@amd.com;armbru@redhat.com;
+>> eblake@redhat.com;jasowang@redhat.com;quintela@redhat.com; Zhang,
+>> Hailiang<zhanghailiang@xfusion.com>;philmd@linaro.org;
+>> thuth@redhat.com;berrange@redhat.com;marcandre.lureau@redhat.com;
+>> pbonzini@redhat.com;dave@treblig.org;hreitz@redhat.com;
+>> kwolf@redhat.com;lizhijian@fujitsu.com
+>> Subject: Re: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
+>>
+>> On 21.04.23 06:02, Zhang, Chen wrote:
+>>>
+>>>> -----Original Message-----
+>>>> From: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+>>>> Sent: Thursday, April 20, 2023 6:53 AM
+>>>> To:qemu-devel@nongnu.org
+>>>> Cc:qemu-block@nongnu.org;michael.roth@amd.com;
+>> armbru@redhat.com;
+>>>> eblake@redhat.com;jasowang@redhat.com;quintela@redhat.com;
+>> Zhang,
+>>>> Hailiang<zhanghailiang@xfusion.com>;philmd@linaro.org;
+>>>> thuth@redhat.com;berrange@redhat.com;
+>> marcandre.lureau@redhat.com;
+>>>> pbonzini@redhat.com;dave@treblig.org;hreitz@redhat.com;
+>>>> kwolf@redhat.com; Zhang, Chen<chen.zhang@intel.com>;
+>>>> lizhijian@fujitsu.com; Vladimir Sementsov-Ogievskiy
+>>>> <vsementsov@yandex- team.ru>
+>>>> Subject: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
+>>>>
+>>>> We don't allow to use x-colo capability when replication is not
+>>>> configured. So, no reason to build COLO when replication is disabled,
+>>>> it's unusable in this case.
+>>> Yes, you are right for current status. Because COLO best practices is
+>> replication + colo live migration + colo proxy.
+>>> But doesn't mean it has to be done in all scenarios as I explanation in V1.
+>>> The better way is allow to use x-colo capability firstly, and separate
+>>> this patch with two config options: --disable-replication  and --disable-x-
+>> colo.
+>> But what for? We for sure don't have such scenarios now (COLO without
+>> replication), as it's not allowed by far 7e934f5b27eee1b0d7 (by you and
+>> David).
+>>
+>> If you think we need such scenario, I think it should be a separate series
+>> which reverts 7e934f5b27eee1b0d7 and adds corresponding test and
+>> probably documentation.
+> In the patch 7e934f5b27eee1b0d7 said it's for current independent disk mode,
+> And what we talked about before is the shared disk mode.
+> Rethink about the COLO shared disk mode, this feature still needs some enabling works.
+> It looks OK for now and separate the build options when enabling COLO shared disk mode.
 
-On Thu, 27 Apr 2023 18:34:36 +0200
-Juan Quintela <quintela@redhat.com> wrote:
+I've started working on this, and now I see, that check in the migrate_caps_check() is not the only place.
 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+migration/colo.c has also several abort() points. For example, colo_process_checkpoint will simply abort if CONFIG_REPLICATION not defined.
 
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+So for sure, current code is not prepared to use COLO with REPLICATION disabled.
 
-> ---
->  migration/ram.c  | 9 ---------
->  migration/ram.h  | 1 -
->  migration/rdma.c | 4 +++-
->  3 files changed, 3 insertions(+), 11 deletions(-)
->=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index c249a1f468..7d81c4a39e 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2629,15 +2629,6 @@ static int ram_find_and_save_block(RAMState *rs)
->      return pages;
->  }
-> =20
-> -void acct_update_position(QEMUFile *f, size_t size)
-> -{
-> -    uint64_t pages =3D size / TARGET_PAGE_SIZE;
-> -
-> -    stat64_add(&mig_stats.normal_pages, pages);
-> -    ram_transferred_add(size);
-> -    qemu_file_credit_transfer(f, size);
-> -}
-> -
->  static uint64_t ram_bytes_total_with_ignored(void)
->  {
->      RAMBlock *block;
-> diff --git a/migration/ram.h b/migration/ram.h
-> index 3804753ca3..6fffbeb5f1 100644
-> --- a/migration/ram.h
-> +++ b/migration/ram.h
-> @@ -53,7 +53,6 @@ void mig_throttle_counter_reset(void);
-> =20
->  uint64_t ram_pagesize_summary(void);
->  int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_=
-t len);
-> -void acct_update_position(QEMUFile *f, size_t size);
->  void ram_postcopy_migrated_memory_release(MigrationState *ms);
->  /* For outgoing discard bitmap */
->  void ram_postcopy_send_discard_bitmap(MigrationState *ms);
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index 7a9b284c3f..7e747b2595 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -2231,7 +2231,9 @@ retry:
->      }
-> =20
->      set_bit(chunk, block->transit_bitmap);
-> -    acct_update_position(f, sge.length);
-> +    stat64_add(&mig_stats.normal_pages, sge.length / qemu_target_page_si=
-ze());
-> +    ram_transferred_add(sge.length);
-> +    qemu_file_credit_transfer(f, sge.length);
->      rdma->total_writes++;
-> =20
->      return 0;
+If this possibility is needed it requires more work. Personally, I don't think that possibility to enable COLO with disabled REPLICATION is really needed and I know nobody who need it, so that seems to be extra work.
 
 
+-- 
+Best regards,
+Vladimir
 
---=20
-
-
---Sig_/0VYU/K_2HGyINwb7oTdVYXl
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRKxm8ACgkQNasLKJxd
-slgazw/+Ne8iFhOq+olAMFFFoHNmK/uSlHg5NSEblh1Kn4n3yCRcW0MYuXTqWeZ6
-ukLQQ5hZbKIuRw0q1WJa/YxUBFZarkRcNAGCIR9W8ZiyD/emXp+odcbu+YPi7iax
-iFEjFWss6tIEa5H+hE/TNDVE1h4fOEvvP6QR7ehepo+mvIUNa9niWnMcmCEdsbpH
-KifOa8sdve71wZAchVtzE8mbXzHaNfAMObQSSS9q23sihXn2kCBeQX31Y0MlPqKG
-MmgTZpikFz3eIOa8dXqjGOwHr18VUbdlo+/RnloDWedHO42tLg+9jYOmLCHPfnI9
-ym41BAGGJmhotDlNMAZln0N1ZOyc18U8iYuOPsTLmztgzT89SQWrmgDqRxVZz5RG
-6nZTWDX1ny3sKsOk1JC5APLNd2OCbo8akghfog6KW+Ba5FpMkCpDGNBJlT73R/v0
-VLkgWaWjIZrhSc6zZxu7gyY0kP1d/dL4KdipHPvnkLJYpwlF6hyBi3smXfD+v6yF
-pcbHF4UcVrc1hGJ3wpKogGpYCUKYpJCr+alTUN3pB0ACx/7STkbd0vluceP295xs
-S0JZSjhzBsPyWWSaxHe5VJ8PnodLlCsD3gOSGrofLPmN9I8+giP/9/EzP6xjQj11
-YHU5g+L070gBCs9hBgGZDZphc7jXSWutOfLHbuJZsoT0NwfG8+U=
-=EJwM
------END PGP SIGNATURE-----
-
---Sig_/0VYU/K_2HGyINwb7oTdVYXl--
 
