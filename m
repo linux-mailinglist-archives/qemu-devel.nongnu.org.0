@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C426F0837
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 17:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7E96F0845
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 17:27:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps3VV-0003qY-CY; Thu, 27 Apr 2023 11:26:05 -0400
+	id 1ps3Wm-0001ZN-6l; Thu, 27 Apr 2023 11:27:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ps3Uh-0003Az-R6
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:25:29 -0400
+ id 1ps3WY-0001Nl-Ci
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:27:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ps3Uf-0000ZU-6T
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:25:15 -0400
+ id 1ps3WW-0000yM-0n
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:27:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682609111;
+ s=mimecast20190719; t=1682609221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T1cBJX1ouDMnbDsO+Ogp0Q8jRZ8ENZ0BxMiXIpx3+xg=;
- b=QSGuWTs9rXJETQAafPc3V+jBgIIAFK36iJPQMo605SSlvhjHjOQytRom+/RVcLXfrgxHQJ
- 1FCFtCcSMqF5qtlAcY4y6gIfkXF23hjq5ab/za5hoKwtTkqz8WgcOd+Xm0j+ttcq/0dC/O
- x7WvHeP11xxkVdhWHyjIcsvnTCT+0Io=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dy1LT4y8A/6RjhKEZRZXKNwPiEwkx5zgEeXLHA5wj5w=;
+ b=Cl1FaXcsT3Rtur5lyv9dyGP+4RtTvu1gG/PZD9bjKYecLYosDFXtKP2VnBwbSgLejqMwJG
+ jWS+PKvjf+brbeHgi/m1TvZccUdDRnbK1HBllb5ODBAeeEQl9mQ0vLqL22VB2PHVIUMCY1
+ dV9XqPeYh7yF+1uJwmcjhIheTcbgZUw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-Huj69sQON5OYn19Fm6Q3KA-1; Thu, 27 Apr 2023 11:25:09 -0400
-X-MC-Unique: Huj69sQON5OYn19Fm6Q3KA-1
+ us-mta-384-XvNiFx8gPpOQ-TY2OzLorA-1; Thu, 27 Apr 2023 11:26:04 -0400
+X-MC-Unique: XvNiFx8gPpOQ-TY2OzLorA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CE9310F981F;
- Thu, 27 Apr 2023 15:23:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3903F38294DB;
+ Thu, 27 Apr 2023 15:23:22 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB45A40C2064;
- Thu, 27 Apr 2023 15:23:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2B5940C201F;
+ Thu, 27 Apr 2023 15:23:19 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -51,11 +51,10 @@ Cc: qemu-block@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Yanan Wang <wangyanan55@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Leonardo Bras <leobras@redhat.com>, Fam Zheng <fam@euphon.net>,
  Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PULL 14/18] multifd: Protect multifd_send_sync_main() calls
-Date: Thu, 27 Apr 2023 17:22:30 +0200
-Message-Id: <20230427152234.25400-15-quintela@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PULL 15/18] multifd: Only flush once each full round of memory
+Date: Thu, 27 Apr 2023 17:22:31 +0200
+Message-Id: <20230427152234.25400-16-quintela@redhat.com>
 In-Reply-To: <20230427152234.25400-1-quintela@redhat.com>
 References: <20230427152234.25400-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -86,64 +85,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We only need to do that on the ram_save_iterate() call on sending and
-on destination when we get a RAM_SAVE_FLAG_EOS.
-
-In setup() and complete() we need to synch in both new and old cases,
-so don't add a check there.
+We need to add a new flag to mean to flush at that point.
+Notice that we still flush at the end of setup and at the end of
+complete stages.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Acked-by: Peter Xu <peterx@redhat.com>
 
 ---
 
-Remove the wrappers that we take out on patch 5.
+Add missing qemu_fflush(), now it passes all tests always.
+In the previous version, the check that changes the default value to
+false got lost in some rebase.  Get it back.
 ---
- migration/ram.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ migration/migration.h |  3 +--
+ migration/options.c   |  8 ++------
+ migration/ram.c       | 28 +++++++++++++++++++++++++++-
+ 3 files changed, 30 insertions(+), 9 deletions(-)
 
+diff --git a/migration/migration.h b/migration/migration.h
+index e2247d708f..3a918514e7 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -412,8 +412,7 @@ struct MigrationState {
+      * only need to do this flush after we have go through all the
+      * dirty pages.  For historical reasons, we do that after each
+      * section.  This is suboptimal (we flush too many times).
+-     * Default value is false.  Setting this property has no effect
+-     * until the patch that removes this comment.  (since 8.1)
++     * Default value is false. (since 8.1)
+      */
+     bool multifd_flush_after_each_section;
+     /*
+diff --git a/migration/options.c b/migration/options.c
+index 690c8f718e..53b7fc5d5d 100644
+--- a/migration/options.c
++++ b/migration/options.c
+@@ -89,7 +89,7 @@ Property migration_properties[] = {
+     DEFINE_PROP_BOOL("decompress-error-check", MigrationState,
+                       decompress_error_check, true),
+     DEFINE_PROP_BOOL("multifd-flush-after-each-section", MigrationState,
+-                      multifd_flush_after_each_section, true),
++                      multifd_flush_after_each_section, false),
+     DEFINE_PROP_UINT8("x-clear-bitmap-shift", MigrationState,
+                       clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
+     DEFINE_PROP_BOOL("x-preempt-pre-7-2", MigrationState,
+@@ -341,11 +341,7 @@ bool migrate_multifd_flush_after_each_section(void)
+ {
+     MigrationState *s = migrate_get_current();
+ 
+-    /*
+-     * Until the patch that remove this comment, we always return that
+-     * the property is enabled.
+-     */
+-    return true || s->multifd_flush_after_each_section;
++    return s->multifd_flush_after_each_section;
+ }
+ 
+ bool migrate_postcopy(void)
 diff --git a/migration/ram.c b/migration/ram.c
-index 01356f60a4..1e2414d681 100644
+index 1e2414d681..e9dcda8b9d 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -3394,9 +3394,11 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- out:
-     if (ret >= 0
-         && migration_is_setup_or_active(migrate_get_current()->state)) {
--        ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
--        if (ret < 0) {
--            return ret;
-+        if (migrate_multifd_flush_after_each_section()) {
-+            ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
-+            if (ret < 0) {
-+                return ret;
+@@ -86,6 +86,7 @@
+ #define RAM_SAVE_FLAG_XBZRLE   0x40
+ /* 0x80 is reserved in qemu-file.h for RAM_SAVE_FLAG_HOOK */
+ #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
++#define RAM_SAVE_FLAG_MULTIFD_FLUSH    0x200
+ /* We can't use any flag that is bigger than 0x200 */
+ 
+ int (*xbzrle_encode_buffer_func)(uint8_t *, uint8_t *, int,
+@@ -1581,6 +1582,7 @@ retry:
+  * associated with the search process.
+  *
+  * Returns:
++ *         <0: An error happened
+  *         PAGE_ALL_CLEAN: no dirty page found, give up
+  *         PAGE_TRY_AGAIN: no dirty page found, retry for next block
+  *         PAGE_DIRTY_FOUND: dirty page found
+@@ -1608,6 +1610,15 @@ static int find_dirty_block(RAMState *rs, PageSearchStatus *pss)
+         pss->page = 0;
+         pss->block = QLIST_NEXT_RCU(pss->block, next);
+         if (!pss->block) {
++            if (!migrate_multifd_flush_after_each_section()) {
++                QEMUFile *f = rs->pss[RAM_CHANNEL_PRECOPY].pss_channel;
++                int ret = multifd_send_sync_main(f);
++                if (ret < 0) {
++                    return ret;
++                }
++                qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_FLUSH);
++                qemu_fflush(f);
 +            }
+             /*
+              * If memory migration starts over, we will meet a dirtied page
+              * which may still exists in compression threads's ring, so we
+@@ -2600,6 +2611,9 @@ static int ram_find_and_save_block(RAMState *rs)
+                     break;
+                 } else if (res == PAGE_TRY_AGAIN) {
+                     continue;
++                } else if (res < 0) {
++                    pages = res;
++                    break;
+                 }
+             }
          }
+@@ -3286,6 +3300,10 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+         return ret;
+     }
  
-         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-@@ -4153,7 +4155,9 @@ int ram_load_postcopy(QEMUFile *f, int channel)
++    if (!migrate_multifd_flush_after_each_section()) {
++        qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_FLUSH);
++    }
++
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
  
+@@ -3471,6 +3489,9 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+         return ret;
+     }
+ 
++    if (!migrate_multifd_flush_after_each_section()) {
++        qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_FLUSH);
++    }
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
+ 
+@@ -4152,7 +4173,9 @@ int ram_load_postcopy(QEMUFile *f, int channel)
+             }
+             decompress_data_with_multi_threads(f, page_buffer, len);
+             break;
+-
++        case RAM_SAVE_FLAG_MULTIFD_FLUSH:
++            multifd_recv_sync_main();
++            break;
          case RAM_SAVE_FLAG_EOS:
              /* normal exit */
--            multifd_recv_sync_main();
-+            if (migrate_multifd_flush_after_each_section()) {
-+                multifd_recv_sync_main();
-+            }
+             if (migrate_multifd_flush_after_each_section()) {
+@@ -4426,6 +4449,9 @@ static int ram_load_precopy(QEMUFile *f)
+                 break;
+             }
              break;
-         default:
-             error_report("Unknown combination of migration flags: 0x%x"
-@@ -4424,7 +4428,9 @@ static int ram_load_precopy(QEMUFile *f)
-             break;
++        case RAM_SAVE_FLAG_MULTIFD_FLUSH:
++            multifd_recv_sync_main();
++            break;
          case RAM_SAVE_FLAG_EOS:
              /* normal exit */
--            multifd_recv_sync_main();
-+            if (migrate_multifd_flush_after_each_section()) {
-+                multifd_recv_sync_main();
-+            }
-             break;
-         default:
-             if (flags & RAM_SAVE_FLAG_HOOK) {
+             if (migrate_multifd_flush_after_each_section()) {
 -- 
 2.40.0
 
