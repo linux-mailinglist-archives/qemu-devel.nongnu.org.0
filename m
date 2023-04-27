@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B110D6F0D28
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7026F0D2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:31:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps8Fs-0002vq-KY; Thu, 27 Apr 2023 16:30:16 -0400
+	id 1ps8Fs-0002uK-Hp; Thu, 27 Apr 2023 16:30:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ps8Fq-0002uF-Ns; Thu, 27 Apr 2023 16:30:14 -0400
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ id 1ps8Fp-0002td-BL; Thu, 27 Apr 2023 16:30:13 -0400
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ps8Fm-0004nV-PM; Thu, 27 Apr 2023 16:30:14 -0400
+ id 1ps8Fm-0004ni-LC; Thu, 27 Apr 2023 16:30:13 -0400
 Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
  (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
  [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id DCA1C5EA85;
- Thu, 27 Apr 2023 23:29:59 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id D161660BE4;
+ Thu, 27 Apr 2023 23:30:00 +0300 (MSK)
 Received: from vsementsov-nix.yandex-team.ru (unknown
  [2a02:6b8:b081:b438::1:2b])
  by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id lTP2w70Oh0U0-bMTsXcuO; Thu, 27 Apr 2023 23:29:59 +0300
+ ESMTPSA id lTP2w70Oh0U0-2oBW33kN; Thu, 27 Apr 2023 23:30:00 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1682627399; bh=qf2m6vxf2Rl8UGTNsMjU/wLrD5N48lYBrbJ/mpzF3WU=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=X85HEZjXWkL+cefz3hFdDR6TW5ccYphkphwNfcJNTWYOdaxQ1rulCCzmtMQKTlt05
- oy9+riO8FEB03ckNCzg8uPjx5FkKrOq8wzC7chElotPGYnZIl6mfxLuEUyB+a0YwBP
- VFLdVLti4UccT2R+L/mh71uX1KOpI6jE9ZtXogoY=
+ t=1682627400; bh=NXWkIzTRXeZcyRzPSF7IqML4j7ow1KVVOdG5EMRpimM=;
+ h=Cc:Message-Id:References:Date:In-Reply-To:Subject:To:From;
+ b=qk/gACqZdcXZNqUR8w0UKy4UZeK+LwfVQZMPromIeq0aLwmRRaYiPq4g6KHCryE0z
+ iPJQOr1AJAXHUCfLyljFpPe8vjrdf087B5Ws0qAO7K2gzCbZvvMKNgd861IqVBkCSH
+ JmxyjNEIqK2rbtFwgWkuqOutWABrfc6n/jeowHK0=
 Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -45,15 +45,18 @@ Cc: qemu-block@nongnu.org, michael.roth@amd.com, armbru@redhat.com,
  dave@treblig.org, hreitz@redhat.com, kwolf@redhat.com,
  chen.zhang@intel.com, lizhijian@fujitsu.com, lukasstraub2@web.de,
  vsementsov@yandex-team.ru
-Subject: [PATCH v3 0/4] COLO: improve build options
-Date: Thu, 27 Apr 2023 23:29:42 +0300
-Message-Id: <20230427202946.1007276-1-vsementsov@yandex-team.ru>
+Subject: [PATCH v3 1/4] block/meson.build: prefer positive condition for
+ replication
+Date: Thu, 27 Apr 2023 23:29:43 +0300
+Message-Id: <20230427202946.1007276-2-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230427202946.1007276-1-vsementsov@yandex-team.ru>
+References: <20230427202946.1007276-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -75,54 +78,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v3:
-01: add r-bs
-02: improve commit message
-03: - improve commit message
-    - drop ifdefs from migration/colo.c which are not needed anymore
-    - don't move migrate_colo_enabled() (now just migrate_colo()), instead modify it inplace
-    - keep colo-compare.c for now (will be handled in updated 04 patch)
-    - so, no colo_compare_cleanup() stub needed for now, neither migrate_colo_enabled() stub
-    - keep Acked-by.
-04: - improve commit message
-    - rename to --disable-colo-proxy to match subsystem name in MAINTAINERS
-    - don't introduce CONFIG_COLO_PROXY, it actually is not needed
-    - colo-compare.c is handled now and included if any of 'replication' and 'colo-proxy' are enabled
-    - so, we add colo_compare_cleanup() stub in a separate stub file
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ block/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi all!
-
-COLO substem seems to be useless when CONFIG_REPLICATION is unset, as we
-simply don't allow to set x-colo capability in this case. So, let's not
-compile in unreachable code and interface we cannot use when
-CONFIG_REPLICATION is unset.
-
-Also, provide personal configure option for COLO Proxy subsystem.
-
-Vladimir Sementsov-Ogievskiy (4):
-  block/meson.build: prefer positive condition for replication
-  scripts/qapi: allow optional experimental enum values
-  build: move COLO under CONFIG_REPLICATION
-  configure: add --disable-colo-proxy option
-
- block/meson.build              |  2 +-
- hmp-commands.hx                |  2 ++
- meson_options.txt              |  2 ++
- migration/colo.c               | 28 -------------------------
- migration/meson.build          |  6 ++++--
- migration/migration-hmp-cmds.c |  2 ++
- migration/options.c            | 17 ++++++++--------
- net/meson.build                | 14 +++++++++----
- qapi/migration.json            | 12 +++++++----
- scripts/meson-buildoptions.sh  |  3 +++
- scripts/qapi/types.py          |  2 ++
- stubs/colo-compare.c           |  7 +++++++
- stubs/colo.c                   | 37 ++++++++++++++++++++++++++++++++++
- stubs/meson.build              |  2 ++
- 14 files changed, 88 insertions(+), 48 deletions(-)
- create mode 100644 stubs/colo-compare.c
- create mode 100644 stubs/colo.c
-
+diff --git a/block/meson.build b/block/meson.build
+index 382bec0e7d..b9a72e219b 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -84,7 +84,7 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c')
+ block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
+ block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
+ block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
+-if not get_option('replication').disabled()
++if get_option('replication').allowed()
+   block_ss.add(files('replication.c'))
+ endif
+ block_ss.add(when: libaio, if_true: files('linux-aio.c'))
 -- 
 2.34.1
 
