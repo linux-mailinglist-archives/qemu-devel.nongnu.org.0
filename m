@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACAD6F0AC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 19:24:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557A06F0AD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 19:26:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps5Lp-0007W5-K8; Thu, 27 Apr 2023 13:24:13 -0400
+	id 1ps5Nt-0003sl-1h; Thu, 27 Apr 2023 13:26:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1ps5Li-0007Ux-S9; Thu, 27 Apr 2023 13:24:06 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1ps5Nr-0003sY-Ku
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 13:26:19 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1ps5Lh-0007nA-Ae; Thu, 27 Apr 2023 13:24:06 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id
- d2e1a72fcca58-63b60365f53so10566086b3a.0; 
- Thu, 27 Apr 2023 10:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682616243; x=1685208243;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rMm7qHxD1ENfDuHfN3u0ZIVnhWuSae3qlQpW2+gKwzo=;
- b=dhaM5Dz9c+kFH0iz+xyoPLvs0AFzZko354AAFcjRiDnD8wREQSEZf5Lh/Q76Q4xgdG
- BFZpD67GcGaAt+ca+8Rgmx+R96oO0Se6AjglboZG63hDhTSvCqcD2CHkSae1eBseeSYt
- W2p/hRZSz2hxBm52rD04+/JhlkZB0dlFSj9g7IwvkzPX2wA8wTr+bAV9Vp19YkNYwVcE
- NVY4uzfDcnkprCttRftFBDcWoKxGnKbNaTFy4bl7LbuShBc5jGHV+W79TUyXNq+LceOd
- 35hYxPRFOUaNe0NmnT+jsoujGAjcWs1c3WhA0VFgxKsTeW4r2lnFWI178sL4DfeG6yJB
- 4Ziw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682616243; x=1685208243;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rMm7qHxD1ENfDuHfN3u0ZIVnhWuSae3qlQpW2+gKwzo=;
- b=S8b2tZ/IXBuy17utWeKkm2bYjxxaz943kBsqGvuzbJB63NAQ8bQEYsaJDwQKPMuKj+
- 0X95o/eg/C/hCbJCjxEdDb/y6N+65y5d711u2A6Z/BjI/Txvgg0TuTQ01Lb85Zg65+eq
- IxAQdho3M/J4ti4vabpk5JMd0KZeekA6PEFTF86TFreB+TVyHwA11NLQ2AlbqzPDqWrS
- r4bEaTU2bTiLGhGj9tAUNJtrpT7AZSVEEO1RLG7cPMGkOqiei8yaXhiou9nItihOAO6E
- Jkc9vd9nK+aJWnNPzk06BWIXc1Gba1swxI1YlXP+3WFNSGTOtkM/xXpgmp5LGEISLWqb
- A87w==
-X-Gm-Message-State: AC+VfDxVlFiXIdiFGQ+10G09Mk+ctJHC/RadlrrXuKeArAAGBLoDGWpH
- 76nWwP87IT2Ue8zZXU6urwitnkSt1wXlYZtSNiM=
-X-Google-Smtp-Source: ACHHUZ66mpu/JQDxC0Eg6srU06aaaBWNoClGy9dNu56CDoH7fC4KPt+3HMPNWgGvQmZ9yA5hMnuAVg==
-X-Received: by 2002:a05:6a21:33a7:b0:ef:1457:6cdf with SMTP id
- yy39-20020a056a2133a700b000ef14576cdfmr3066931pzb.19.1682616242764; 
- Thu, 27 Apr 2023 10:24:02 -0700 (PDT)
-Received: from fedlinux.. ([106.84.128.101]) by smtp.gmail.com with ESMTPSA id
- x12-20020a65538c000000b0050bc03741ffsm11698712pgq.84.2023.04.27.10.23.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 10:24:02 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1ps5Np-0000CZ-TB
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 13:26:19 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9440A1FE09;
+ Thu, 27 Apr 2023 17:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1682616375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=weiiZsKo2TKn77vhMzXLDGCP7JbOCvNW8n8i27NATsY=;
+ b=GT6tYAgtQyVC3OsBt+wofNw6nOSexvZGfJbsLiMVQyiBmWdQUl4dGXuyB/EztigVp6/SGO
+ dpsqZ20vrQ7kxPCrv6s+aoAC011L+gvmfM15eF1kllRABa4PkIL9HBnCedAJhfBEv9u5z1
+ O9BoOAsAy8WxIvS5+0e2Lxo2+Hq45CM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1682616375;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=weiiZsKo2TKn77vhMzXLDGCP7JbOCvNW8n8i27NATsY=;
+ b=Zgt/ChTPMv6ejkHx3Wtr99VHTwJvwCKH1/a5jXN856+wKauy+8W1TDDrY2JD25ZcciCXkj
+ fpOaflGE590KdYDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C80F313910;
+ Thu, 27 Apr 2023 17:26:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uEdzIzWwSmTldAAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 27 Apr 2023 17:26:13 +0000
+From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
-Cc: dlemoal@kernel.org, dmitry.fomichev@wdc.com,
- Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- hare@suse.de, Fam Zheng <fam@euphon.net>,
- Stefano Garzarella <sgarzare@redhat.com>, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v10 4/4] block: add some trace events for zone append
-Date: Fri, 28 Apr 2023 01:23:39 +0800
-Message-Id: <20230427172339.3709-5-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230427172339.3709-1-faithilikerun@gmail.com>
-References: <20230427172339.3709-1-faithilikerun@gmail.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2] meson: Pass -j option to sphinx
+Date: Thu, 27 Apr 2023 14:25:16 -0300
+Message-Id: <20230427172516.19003-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=faithilikerun@gmail.com; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,49 +81,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/file-posix.c | 3 +++
- block/trace-events | 2 ++
- 2 files changed, 5 insertions(+)
+Save a bit of build time by passing the number of jobs option to
+sphinx.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 8fc7f73d2c..5f1745ede8 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2517,6 +2517,8 @@ out:
-             if (!BDRV_ZT_IS_CONV(*wp)) {
-                 if (type & QEMU_AIO_ZONE_APPEND) {
-                     *s->offset = *wp;
-+                    trace_zbd_zone_append_complete(bs, *s->offset
-+                        >> BDRV_SECTOR_BITS);
-                 }
-                 /* Advance the wp if needed */
-                 if (offset + bytes > *wp) {
-@@ -3559,6 +3561,7 @@ static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
-         len += iov_len;
-     }
+We cannot use the -j option from make because meson does not support
+setting build time parameters for custom targets. Use nproc instead or
+the equivalent sphinx option "-j auto", if that is available.
+
+Also make sure our plugins support parallelism and report it properly
+to sphinx. Particularly, implement the merge_domaindata method in
+DBusDomain that is used to merge in data from other subprocesses.
+
+before:
+  $ time make man html
+  ...
+  [1/2] Generating docs/QEMU manual with a custom command
+  [2/2] Generating docs/QEMU man pages with a custom command
+
+  real    0m43.157s
+  user    0m42.642s
+  sys     0m0.576s
+
+after:
+  $ time make man html
+  ...
+  [1/2] Generating docs/QEMU manual with a custom command
+  [2/2] Generating docs/QEMU man pages with a custom command
+
+  real    0m25.014s
+  user    0m51.288s
+  sys     0m2.085s
+
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
+---
+ docs/meson.build           | 12 ++++++++++++
+ docs/sphinx/dbusdomain.py  |  4 ++++
+ docs/sphinx/fakedbusdoc.py |  5 +++++
+ docs/sphinx/qmp_lexer.py   |  5 +++++
+ 4 files changed, 26 insertions(+)
+
+diff --git a/docs/meson.build b/docs/meson.build
+index f220800e3e..9e4bed6fa0 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -10,6 +10,18 @@ if sphinx_build.found()
+     SPHINX_ARGS += [ '-W', '-Dkerneldoc_werror=1' ]
+   endif
  
-+    trace_zbd_zone_append(bs, *offset >> BDRV_SECTOR_BITS);
-     return raw_co_prw(bs, *offset, len, qiov, QEMU_AIO_ZONE_APPEND);
- }
- #endif
-diff --git a/block/trace-events b/block/trace-events
-index 3f4e1d088a..32665158d6 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -211,6 +211,8 @@ file_hdev_is_sg(int type, int version) "SG device found: type=%d, version=%d"
- file_flush_fdatasync_failed(int err) "errno %d"
- zbd_zone_report(void *bs, unsigned int nr_zones, int64_t sector) "bs %p report %d zones starting at sector offset 0x%" PRIx64 ""
- zbd_zone_mgmt(void *bs, const char *op_name, int64_t sector, int64_t len) "bs %p %s starts at sector offset 0x%" PRIx64 " over a range of 0x%" PRIx64 " sectors"
-+zbd_zone_append(void *bs, int64_t sector) "bs %p append at sector offset 0x%" PRIx64 ""
-+zbd_zone_append_complete(void *bs, int64_t sector) "bs %p returns append sector 0x%" PRIx64 ""
++  sphinx_version = run_command(SPHINX_ARGS + ['--version'],
++                               check: false).stdout().split()[1]
++  if sphinx_version.version_compare('>=5.1.2')
++    SPHINX_ARGS += ['-j', 'auto']
++  else
++    nproc = find_program('nproc')
++    if nproc.found()
++      jobs = run_command(nproc, check:false).stdout()
++      SPHINX_ARGS += ['-j', jobs]
++    endif
++  endif
++
+   # This is a bit awkward but works: create a trivial document and
+   # try to run it with our configuration file (which enforces a
+   # version requirement). This will fail if sphinx-build is too old.
+diff --git a/docs/sphinx/dbusdomain.py b/docs/sphinx/dbusdomain.py
+index 2ea95af623..9872fd5bf6 100644
+--- a/docs/sphinx/dbusdomain.py
++++ b/docs/sphinx/dbusdomain.py
+@@ -400,6 +400,10 @@ def get_objects(self) -> Iterator[Tuple[str, str, str, str, str, int]]:
+         for refname, obj in self.objects.items():
+             yield (refname, refname, obj.objtype, obj.docname, obj.node_id, 1)
  
- # ssh.c
- sftp_error(const char *op, const char *ssh_err, int ssh_err_code, int sftp_err_code) "%s failed: %s (libssh error code: %d, sftp error code: %d)"
++    def merge_domaindata(self, docnames, otherdata):
++        for name, obj in otherdata['objects'].items():
++            if obj.docname in docnames:
++                self.data['objects'][name] = obj
+ 
+ def setup(app):
+     app.add_domain(DBusDomain)
+diff --git a/docs/sphinx/fakedbusdoc.py b/docs/sphinx/fakedbusdoc.py
+index d2c5079046..2d2e6ef640 100644
+--- a/docs/sphinx/fakedbusdoc.py
++++ b/docs/sphinx/fakedbusdoc.py
+@@ -23,3 +23,8 @@ def run(self):
+ def setup(app: Sphinx) -> Dict[str, Any]:
+     """Register a fake dbus-doc directive with Sphinx"""
+     app.add_directive("dbus-doc", FakeDBusDocDirective)
++
++    return dict(
++        parallel_read_safe = True,
++        parallel_write_safe = True
++    )
+diff --git a/docs/sphinx/qmp_lexer.py b/docs/sphinx/qmp_lexer.py
+index f7e4c0e198..a59de8a079 100644
+--- a/docs/sphinx/qmp_lexer.py
++++ b/docs/sphinx/qmp_lexer.py
+@@ -41,3 +41,8 @@ def setup(sphinx):
+         sphinx.add_lexer('QMP', QMPExampleLexer)
+     except errors.VersionRequirementError:
+         sphinx.add_lexer('QMP', QMPExampleLexer())
++
++    return dict(
++        parallel_read_safe = True,
++        parallel_write_safe = True
++    )
 -- 
-2.40.0
+2.35.3
 
 
