@@ -2,89 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5646F08CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 17:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2CB6F091C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 18:08:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps3wy-0007nc-0j; Thu, 27 Apr 2023 11:54:28 -0400
+	id 1ps48v-00045S-Je; Thu, 27 Apr 2023 12:06:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ps3wv-0007mC-7X
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:54:25 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ps3wt-0006mE-58
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 11:54:24 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-2febac9cacdso5384333f8f.1
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 08:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682610861; x=1685202861;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ce0cdJ9i1NfBLh1+Cb1T4HPYjQLrv+NJRBLrnGH/7bo=;
- b=sqP16VpKZOgf/EXdW4ghzExsmDZrjiEQEUpIASL4UhPilg8U9IiNGhdOtzAiQ6D/BS
- mhPWxIDCcqQU46Ct/SCXUHlkuPuREOIY3TuJobbsByj89fhUQGqOQ9s1BmnDh9XnWB/a
- 7zo8fYv9N4cZbD1Td5jysdkXJDmNpJlZ4Bv0tij7DOFZyfWbd40xlcRtF6TrU+ruqlzS
- 89JxOKmh3SgvaeTWPVh5FAtZ9Slqs9dnt2UDl7Syw2D0G29n3xZO+jy1CLvlUd3Y/9sa
- dh2xLgD0WdIDXQBgNWZl09sBHRvzwnMPzbj0msQndDud/ki4c2sTWq/9r8CIb9PCnEdT
- MauQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ps48q-00042P-DU
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:06:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ps48o-0000sp-KU
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 12:06:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682611600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a2YP9Ie5bDYYlK9WCyYafHP+qW0E/HMxmBcv5YoGWTg=;
+ b=WQDPQRBBJfbZAGrjbxtM2K8PkQgXjJnT52VnwVYpczYt5Gw21GZIHhuO7zIx7SnIui7iY0
+ va4uFjDkD2ZQcYGRQIKAeMOXR8w4uZuC34qnHlCn6kEa1s46mej9c7dYRmtxCLPOHfIVhA
+ HMoZKwLPA0E/jNWng7WmtO/NKQoxOWk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-280-GZAg6QaLOtWlZFrqX7V9kw-1; Thu, 27 Apr 2023 12:06:14 -0400
+X-MC-Unique: GZAg6QaLOtWlZFrqX7V9kw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-302cdf5d034so4567964f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 09:05:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682610861; x=1685202861;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ce0cdJ9i1NfBLh1+Cb1T4HPYjQLrv+NJRBLrnGH/7bo=;
- b=ekvfIL7D4mCFtK1fONgDbwLknsI7GsiB+mftg0wSyQtpn9eRhCy+YRzJjLwRBX4Rza
- 89lUD3B90mGZVB5zHWeCrl5/QVKaqEh9VtIccRb05lK0iiQlodah3UPgXG82HnOTI2bC
- Gg3bDTXPbEw1oBv+Rz+CoBBwkGlq1TNKd+pKSpca3ZSgMGgIeWfSZ+DUVV7E6/5mNVEf
- x03MWv5i7L9UmGZJ9USfcSx/dYvN9VtRU1lBffCCuIynQo4QKDvqPAI9Lc5mvgXPOBGd
- W8swxbZ7tW/OrY8I6PLRQbUP6REtLmcIrI2PgaXZXA5up8nllDSY4Bro+yYNrj1+1iBd
- JKPg==
-X-Gm-Message-State: AC+VfDyCc/5eyNOR3KTLNEitXezUcky5s9vEcyHskaqNzuBqnT66ibfA
- Nj7gcHBRg/RWoJr9P6VfF85IXQ==
-X-Google-Smtp-Source: ACHHUZ4GOR01TJ9omc3Zb5sMrTzh/eu99XyqvcLHyWsr3SJMZUCsy+dtJt1w4HIPpngKzRkcNO/ysw==
-X-Received: by 2002:a5d:4d4a:0:b0:2f9:5841:a4d4 with SMTP id
- a10-20020a5d4d4a000000b002f95841a4d4mr1827847wru.27.1682610860790; 
- Thu, 27 Apr 2023 08:54:20 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- j14-20020adfea4e000000b002fc3d8c134bsm18943318wrn.74.2023.04.27.08.54.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 08:54:20 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8D2461FFC7;
- Thu, 27 Apr 2023 16:45:12 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PULL 18/18] docs/style: call out the use of GUARD macros
-Date: Thu, 27 Apr 2023 16:45:10 +0100
-Message-Id: <20230427154510.1791273-19-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230427154510.1791273-1-alex.bennee@linaro.org>
-References: <20230427154510.1791273-1-alex.bennee@linaro.org>
+ d=1e100.net; s=20221208; t=1682611557; x=1685203557;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=a2YP9Ie5bDYYlK9WCyYafHP+qW0E/HMxmBcv5YoGWTg=;
+ b=AvoNMx01RR42/wH6bpyBphAJc1EwxGiblQOWI524BdOuJAEaKRrIau2LBM+DchNzQl
+ YYxWky36PFxoWQ9wl/eGwfYr3uqJzQ0n/6ESMfTm4K2vusAnF0aU3D+XaWqEdsfaoSli
+ yGL1wBGrirfydyn4QDS7+v0c5Hkb0Ga4h7TZd0t/JJoQ+9dVzSE+TkBhsuLUFFegMKxn
+ 1fiUZr4kf3aRA4A86GzyZZwtO4W8jV/c+b9fNHba+aRbSHWDFR4UPUDtOI9nNADGyvch
+ Z2Hv27Pm5umSVpYIK4focR9cYySgHZyS+AJ81+dN5OySX6Oln3r52pnXLrn9rLORSmZs
+ xhCQ==
+X-Gm-Message-State: AC+VfDwvpdWVzia6Uzz3o7jftavh9i3VS0Rutop8AmUIEqHoQFMENfHN
+ +qmUQm7AYF7Pe3Gbqjo137z6bOAYjTaXQFaBW9D2x7RV7T/1LOY3ue0M/znlLhO890XKJVhWpXH
+ TfS+PY4hbuvKIfYs=
+X-Received: by 2002:a5d:45d2:0:b0:304:aad4:b1e4 with SMTP id
+ b18-20020a5d45d2000000b00304aad4b1e4mr1608509wrs.32.1682611556921; 
+ Thu, 27 Apr 2023 09:05:56 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7yTnS6m5zg0PLHoMkYxXGckuvHbsbIdn1lZwYZ9y6V3OgcriT+7fQ+h9OJmePi4+x/UvmIqw==
+X-Received: by 2002:a5d:45d2:0:b0:304:aad4:b1e4 with SMTP id
+ b18-20020a5d45d2000000b00304aad4b1e4mr1608466wrs.32.1682611556626; 
+ Thu, 27 Apr 2023 09:05:56 -0700 (PDT)
+Received: from [192.168.8.102] (tmo-097-86.customers.d1-online.com.
+ [80.187.97.86]) by smtp.gmail.com with ESMTPSA id
+ z16-20020a5d4410000000b002f79ea6746asm18860774wrq.94.2023.04.27.09.05.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Apr 2023 09:05:55 -0700 (PDT)
+Message-ID: <97eba78f-59d2-5eaa-50ec-7ddbd9fa9f3a@redhat.com>
+Date: Thu, 27 Apr 2023 18:05:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v9 7/8] memory: abort on re-entrancy in debug builds
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
+ <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Fam Zheng <fam@euphon.net>, "open list:Block I/O path"
+ <qemu-block@nongnu.org>
+References: <20230426161951.2948996-1-alxndr@bu.edu>
+ <20230426161951.2948996-8-alxndr@bu.edu>
+ <20230427144444.dnjazwxpcrmrce7e@mozz.bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230427144444.dnjazwxpcrmrce7e@mozz.bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,80 +116,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There use makes our code safer so we should mention them.
+On 27/04/2023 16.44, Alexander Bulekov wrote:
+> On 230426 1219, Alexander Bulekov wrote:
+>> This is useful for using unit-tests/fuzzing to detect bugs introduced by
+>> the re-entrancy guard mechanism into devices that are intentionally
+>> re-entrant.
+>>
+>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> ---
+> 
+> This doesn't actually do anything right now. Doesn't look like DEBUG is
+> defined with --enable-debug
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20230424092249.58552-19-alex.bennee@linaro.org>
+Ah, I thought you'd enable it with --extra-cflags=-DDEBUG or so
 
-diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-index ac2ce42a2f..aa5e083ff8 100644
---- a/docs/devel/style.rst
-+++ b/docs/devel/style.rst
-@@ -665,6 +665,60 @@ Note that there is no need to provide typedefs for QOM structures
- since these are generated automatically by the QOM declaration macros.
- See :ref:`qom` for more details.
- 
-+QEMU GUARD macros
-+=================
-+
-+QEMU provides a number of ``_GUARD`` macros intended to make the
-+handling of multiple exit paths easier. For example using
-+``QEMU_LOCK_GUARD`` to take a lock will ensure the lock is released on
-+exit from the function.
-+
-+.. code-block:: c
-+
-+    static int my_critical_function(SomeState *s, void *data)
-+    {
-+        QEMU_LOCK_GUARD(&s->lock);
-+        do_thing1(data);
-+        if (check_state2(data)) {
-+            return -1;
-+        }
-+        do_thing3(data);
-+        return 0;
-+    }
-+
-+will ensure s->lock is released however the function is exited. The
-+equivalent code without _GUARD macro makes us to carefully put
-+qemu_mutex_unlock() on all exit points:
-+
-+.. code-block:: c
-+
-+    static int my_critical_function(SomeState *s, void *data)
-+    {
-+        qemu_mutex_lock(&s->lock);
-+        do_thing1(data);
-+        if (check_state2(data)) {
-+            qemu_mutex_unlock(&s->lock);
-+            return -1;
-+        }
-+        do_thing3(data);
-+        qemu_mutex_unlock(&s->lock);
-+        return 0;
-+    }
-+
-+There are often ``WITH_`` forms of macros which more easily wrap
-+around a block inside a function.
-+
-+.. code-block:: c
-+
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
-+            err = do_the_thing(kid->child);
-+            if (err < 0) {
-+                return err;
-+            }
-+        }
-+    }
-+
- Error handling and reporting
- ============================
- 
--- 
-2.39.2
+> Any suggestion for how to make re-entrancy louder/fatal on
+> debug/developer builds? Maybe we can just replace the trace event with
+> an unconditional log-message?
+
+I'm not sure whether I'd go for a completely uncondition log message, but 
+maybe qemu_log_mask(LOG_GUEST_ERROR, ...) is ok?
+
+  Thomas
 
 
