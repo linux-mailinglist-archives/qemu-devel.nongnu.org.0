@@ -2,99 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384FC6F0660
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CFB6F0661
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 15:06:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps1Ia-0000rO-Jf; Thu, 27 Apr 2023 09:04:36 -0400
+	id 1ps1KA-000242-Iq; Thu, 27 Apr 2023 09:06:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ps1IF-0000nS-JC
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:04:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ps1K4-00022t-Fi; Thu, 27 Apr 2023 09:06:08 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ps1IB-0007B5-Bb
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 09:04:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682600650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sxAYtP33oSJz90CS8J4nQtz5FjwI4kqFxvtCzPjdRow=;
- b=DnhJpmY1CqGntCoJ58x18lffT0xJw8zPVe7l9AsGZSNmErUzkRVWXh+fvlg3XOb8wEHkvr
- kAhHGy5GGQ7lNUNJWQ060DABHhtOaxjU6FE1OnkZJDnwHmdnn13BsqahCD1WjlMzTv+m/g
- yH5aZIuC+Krw+Mz8YDD1CHn04BBM0K0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-230-TA3IaKZ9PtmnL9k75qtKDw-1; Thu, 27 Apr 2023 09:04:08 -0400
-X-MC-Unique: TA3IaKZ9PtmnL9k75qtKDw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f170a1fbe7so51804995e9.2
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 06:04:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682600647; x=1685192647;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sxAYtP33oSJz90CS8J4nQtz5FjwI4kqFxvtCzPjdRow=;
- b=XN5aob5iK4C2Q2U0gZXeOZkLBMT7PmekbkK78DwGWJsbzhWzEVbkeouEZOvsktjc5i
- 9dLfb5PZS6ldEbdL5InwNiI4G303zk9EsXt/gJN2EZLkhJ7BSij/k9wi6er0pGhcgRXG
- lcvLJTGcrbeIIZim0G3ppua4tC9M/xoG5GB2fAJZFLmvsNgPNC3jle+m2aBTe2ZiWJzq
- 4ogtqxi9u0z6r1m2cVWTN/EV5ilmyCM9gleg5tP0o0TZYjw5W8jLFGN00rcsv8Dkq0er
- 4LBPN6hPgqGQXxlq9rdNFXSHrhUUY3zUrtiTwLR1WdbqyeQnlORxxlflVphHGAqZdOIc
- JLYw==
-X-Gm-Message-State: AC+VfDy3e3ZNPqp6jMmdHXnYv3oryXB26Cfs9lXtNY4tM8BX2o3TsrsI
- rI9GbNB0y51qHocWgjzDcvqXh7ZBl5YRz45rA32lOXT66PsvWI6/bS7zrpgJYGIypv1ow1v2XPr
- ulnSc4ht8FTKXR6E=
-X-Received: by 2002:a7b:cc94:0:b0:3f1:69cc:475b with SMTP id
- p20-20020a7bcc94000000b003f169cc475bmr1471350wma.36.1682600646975; 
- Thu, 27 Apr 2023 06:04:06 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6Y+emsQnCcLHigUNtvy1q9hSW3PDQHYfrpZTlmAbntw9O83ta3mWr6Gk74PHTDPydokgeF4A==
-X-Received: by 2002:a7b:cc94:0:b0:3f1:69cc:475b with SMTP id
- p20-20020a7bcc94000000b003f169cc475bmr1471322wma.36.1682600646648; 
- Thu, 27 Apr 2023 06:04:06 -0700 (PDT)
-Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- 11-20020a05600c228b00b003f1736fdfedsm21283728wmf.10.2023.04.27.06.04.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 06:04:05 -0700 (PDT)
-Message-ID: <4761c580-ca69-bfbd-0501-999fa7bc4059@redhat.com>
-Date: Thu, 27 Apr 2023 15:04:03 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ps1Jz-0007kz-6V; Thu, 27 Apr 2023 09:06:08 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7258A746392;
+ Thu, 27 Apr 2023 15:04:15 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2970B746346; Thu, 27 Apr 2023 15:04:15 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 27342746369;
+ Thu, 27 Apr 2023 15:04:15 +0200 (CEST)
+Date: Thu, 27 Apr 2023 15:04:15 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: Bernhard Beschow <shentey@gmail.com>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>, 
+ David Woodhouse <dwmw2@infradead.org>, 
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>, 
+ qemu-ppc@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH v3 03/18] hw/i386/pc_piix: Wire PIIX3 IDE ouput IRQs to
+ ISA bus IRQs 14/15
+In-Reply-To: <df449cf0-c1f1-b9cb-8c9e-45b9ed7f1978@ilande.co.uk>
+Message-ID: <a7c88b4d-2ffa-60b8-c37a-b993ad79ca40@eik.bme.hu>
+References: <20230302224058.43315-1-philmd@linaro.org>
+ <20230302224058.43315-4-philmd@linaro.org>
+ <a233b5c7-56a6-ac94-c7c1-9fa5da9acb9c@ilande.co.uk>
+ <3A39AAE9-73FC-4C56-9BD6-0DA2D78548E0@gmail.com>
+ <df449cf0-c1f1-b9cb-8c9e-45b9ed7f1978@ilande.co.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>
-References: <20230426161951.2948996-1-alxndr@bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v9 0/8] memory: prevent dma-reentracy issues
-In-Reply-To: <20230426161951.2948996-1-alxndr@bu.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-833733603-1682600655=:17165"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -112,36 +73,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/04/2023 18.19, Alexander Bulekov wrote:
-> v8-> v9:
->      - Disable reentrancy checks for raven's iomem (Patch 8)
->      - Fix non-bisectable disable_reentrancy_guard patch by squashing it
->        into Patch 1.
->      - Fix trailing whitespace
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Sorry for not noticing earlier (I think the test is not run on gitlab-CI), 
-but I just noticed another failing avocado test:
+--3866299591-833733603-1682600655=:17165
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-tests/venv/bin/avocado --show console run \
-  tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_x86_64
+On Thu, 27 Apr 2023, Mark Cave-Ayland wrote:
+> On 27/04/2023 08:58, Bernhard Beschow wrote:
+>> Am 26. April 2023 12:50:08 UTC schrieb Mark Cave-Ayland 
+>> <mark.cave-ayland@ilande.co.uk>:
+>>> On 02/03/2023 22:40, Philippe Mathieu-Daudé wrote:
+>>> 
+>>>> Since pc_init1() has access to the ISABus*, retrieve the
+>>>> ISA IRQs with isa_bus_get_irq().
+>>>> 
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>>> ---
+>>>>    hw/i386/pc_piix.c | 8 +++++++-
+>>>>    1 file changed, 7 insertions(+), 1 deletion(-)
+>>>> 
+>>>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+>>>> index 126b6c11df..1e90b9ff0d 100644
+>>>> --- a/hw/i386/pc_piix.c
+>>>> +++ b/hw/i386/pc_piix.c
+>>>> @@ -277,7 +277,13 @@ static void pc_init1(MachineState *machine,
+>>>>        if (pcmc->pci_enabled) {
+>>>>            PCIDevice *dev;
+>>>>    -        dev = pci_create_simple(pci_bus, piix3_devfn + 1, 
+>>>> TYPE_PIIX3_IDE);
+>>>> +        dev = pci_new_multifunction(piix3_devfn + 1, false, 
+>>>> TYPE_PIIX3_IDE);
+>>>> +        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 0,
+>>>> +                                    isa_bus_get_irq(isa_bus, 14));
+>>>> +        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", 1,
+>>>> +                                    isa_bus_get_irq(isa_bus, 15));
+>>>> +        pci_realize_and_unref(dev, pci_bus, &error_fatal);
+>>>> +
+>>>>            pci_ide_create_devs(dev);
+>>>>            idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
+>>>>            idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
+>>> 
+>>> Another reason this probably isn't a good idea: you're having to call 
+>>> qdev_connect_gpio_*() before realizing the device :(
+>> 
+>> Just curious: Resources like memory regions are assigned before 
+>> realization, see e.g. i440fx or q35. Interrupts are also resources. What 
+>> makes them special?
+>
+> I think I've covered the .instance_init() vs. realize() part in my reply to 
+> Zoltan, but in terms of qdev_connect_gpio_out_named() the reasoning here is
 
-... seems to hang now (and finally gets "INTERRUPTED").
+Well, not quite I'm afaid as I still have questions as it's not clear what 
+should be in init and in realize.
 
-If I got that right, the test is basically more or less doing:
+I've looked at i440fx and it has no init just realize which does what 
+init method shoulc do anf the i440fx_init there is a legacy init function 
+which should probably be realize so this does not look to be a good 
+example. The q35 model is more complex and I proably don't understand it 
+fully but still has a realize where most of the memory regions are created 
+and an init method where some tweaks are done that are mentioned in a 
+comment as needed but not the norm so it may also not be the best example 
+so I'm not even getting why Bernhard's cited these in the first place.
 
-  wget https://storage.tuxboot.com/x86_64/bzImage
-  wget https://storage.tuxboot.com/x86_64/rootfs.ext4.zst
-  unzstd rootfs.ext4.zst
-  qemu-system-x86_64 -cpu Nehalem -M q35 -kernel bzImage \
-   -hda rootfs.ext4 -m 2G -append "root=/dev/sda console=ttyS0" \
-   -serial stdio
+Maybe some QOM/qdev experts could give some advice here.
 
-Then log in as "root" and shut down with "halt".
+Regards,
+BALATON Zoltan
 
-The "halt" works fine with git master, but it fails for me when I have your 
-patches applied. Could you please have a look?
-
-  Thanks,
-   Thomas
-
+> that a device shouldn't change it's internal behaviour depending upon how it 
+> is wired. In other words a standalone device will behave exactly the same as 
+> a device connected into a machine.
+>
+>> I'm asking since this issue seems to be the main blocker for the piix 
+>> consolidation to be merged.
+>
+> I did have a brief catch-up with Phil at the start of the week, and he's 
+> tagged your series for review but he is really busy at the moment. As before 
+> I repeat my offer to help out if needed as I think it's a good series, but 
+> for now we're waiting for Phil to let us know what the next steps are...
+>
+>
+> ATB,
+>
+> Mark.
+>
+>
+--3866299591-833733603-1682600655=:17165--
 
