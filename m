@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7B76F03C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 11:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5A26F03C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 11:54:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pryKJ-0005RT-EJ; Thu, 27 Apr 2023 05:54:11 -0400
+	id 1pryKA-0005NG-20; Thu, 27 Apr 2023 05:54:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pryKA-0005NN-6C
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 05:54:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pryK6-0005MN-BJ
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 05:53:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pryK3-0000NP-Pk
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 05:54:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pryK3-0000NO-Oh
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 05:53:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682589233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
@@ -23,25 +23,25 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
  bh=uHYyBz+fmnoc8Dkb2G/7Q1mzvfUIsMnmiow0yU6kOro=;
- b=J5bD4yMbs7e6tbkU6LbN1N0grqdeSNc4D3SDLNwazeSgcIVrNfz/TSv+DA80fHFxocRm8R
- CSS717ZAbhfa2eZrvFhlIUTjhWX6tekUnHtP71HaR66J0lRBs4VLACqWKU5lSBk6lQbeol
- K0eBm4UwwYG1mLSftqSfjEt4iCvEHV0=
+ b=TXnfG/r0PzBaBTJ0sFzhi5xMKIUNmKpe307htZOYn9shDq9rC5LNf/YqBHe3udKoT6Dm/Q
+ QK3rQSgLTaZhV1wrfOiFWyANngLdI1IkMWtsgul2aJBv35PmnA4qKezxLa8W+CzhgaIAOi
+ l09RYzRfrs6JKJ7knwSLJ/Wygc/By38=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-jT5YynCLNcKZHx1KyPXdsg-1; Thu, 27 Apr 2023 05:53:49 -0400
-X-MC-Unique: jT5YynCLNcKZHx1KyPXdsg-1
+ us-mta-47-R6iH-MwpP5KiCWcgoXYn_g-1; Thu, 27 Apr 2023 05:53:49 -0400
+X-MC-Unique: R6iH-MwpP5KiCWcgoXYn_g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0B6485A5A3;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFB29884EC1;
  Thu, 27 Apr 2023 09:53:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F9A8C15BA0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A029AC15BAD;
  Thu, 27 Apr 2023 09:53:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 77E9E21E66EF; Thu, 27 Apr 2023 11:53:46 +0200 (CEST)
+ id 79B3F21E6608; Thu, 27 Apr 2023 11:53:46 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, eblake@redhat.com, kwolf@redhat.com,
@@ -54,8 +54,8 @@ Cc: michael.roth@amd.com, eblake@redhat.com, kwolf@redhat.com,
  david@redhat.com
 Subject: [PATCH 17/16] docs/devel/qapi-code-gen: Describe some doc markup
  pitfalls
-Date: Thu, 27 Apr 2023 11:53:45 +0200
-Message-Id: <20230427095346.1238913-1-armbru@redhat.com>
+Date: Thu, 27 Apr 2023 11:53:46 +0200
+Message-Id: <20230427095346.1238913-2-armbru@redhat.com>
 In-Reply-To: <20230425064223.820979-1-armbru@redhat.com>
 References: <20230425064223.820979-1-armbru@redhat.com>
 MIME-Version: 1.0
