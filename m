@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B906F0D75
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C56F0D76
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Apr 2023 22:49:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ps8XB-0000Lc-W6; Thu, 27 Apr 2023 16:48:10 -0400
+	id 1ps8YJ-0000kc-35; Thu, 27 Apr 2023 16:49:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ps8XA-0000LG-9y; Thu, 27 Apr 2023 16:48:08 -0400
-Received: from mout.web.de ([217.72.192.78])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ps8YH-0000k7-2z
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 16:49:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1ps8X7-0000D8-MG; Thu, 27 Apr 2023 16:48:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1682628460; i=lukasstraub2@web.de;
- bh=kiCje0cyUAbhw3ISoF64GgQbNPrnBYN3wmz7xXQLU9c=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=mK1+eySCbb/ebDQk5hHR3qXt6odUukzid9C1lhBjyaBW0u2GenIf07UaOqAXCAS0P
- BALXvs8kGIaiDitzP/XL3e2jA0EV6HOQYg0BRPvsJ+tx3d3JLq8sBl4H7WsKDU/r1g
- RtYimT/95aub3p8yVWvk7SSceR9W16dsPLOrg18esDXucqqwGYijaK/x77SwC60q5z
- pwVmi9dqol3WnCsHuUFBf1zpd04OpDatocQTZYwb4l5C9iiQwwfuy75oyEa0MAQPsD
- RezCrZiUJ5fqxMF2CJ7yOdQ0VgYGrc7qtE0kTgsxlhvZqYhm3Cpjlc0a1EIq95HY1I
- 9a9I73CCi+5wQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.107]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MSqTE-1phdZq2Xra-00UUcF; Thu, 27
- Apr 2023 22:47:40 +0200
-Date: Thu, 27 Apr 2023 22:47:28 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, michael.roth@amd.com,
- armbru@redhat.com, eblake@redhat.com, jasowang@redhat.com,
- quintela@redhat.com, zhanghailiang@xfusion.com, philmd@linaro.org,
- thuth@redhat.com, berrange@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, dave@treblig.org, hreitz@redhat.com, kwolf@redhat.com,
- chen.zhang@intel.com, lizhijian@fujitsu.com
-Subject: Re: [PATCH v3 1/4] block/meson.build: prefer positive condition for
- replication
-Message-ID: <20230427204728.63d40e98@gecko.fritz.box>
-In-Reply-To: <20230427202946.1007276-2-vsementsov@yandex-team.ru>
-References: <20230427202946.1007276-1-vsementsov@yandex-team.ru>
- <20230427202946.1007276-2-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ps8YF-0000SS-HB
+ for qemu-devel@nongnu.org; Thu, 27 Apr 2023 16:49:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682628554;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nkE++VkS1g9+07kdZWVSrLoAMUhgkLQS/v/lFWKvB6c=;
+ b=fEaanPZG/LkY+cFB+oF5LJNWf3HtYPIUbDGJnUBnH3M/khODpfBe6DbhiXwxynZKNRehKY
+ w6tuHzuORz4B4YusqaZfyTi6XI93k6AWHlYCoftEBsC3QDAIC6xMs+Q+Rs6MbQE0EY+6to
+ pAWwGBP5CAqKFTcwMrMVtVhAFaUIkx4=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-14-I0ox2CfvMaqqHWjI1cCdIQ-1; Thu, 27 Apr 2023 16:49:12 -0400
+X-MC-Unique: I0ox2CfvMaqqHWjI1cCdIQ-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ 71dfb90a1353d-4403bf0d4dfso2197278e0c.2
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 13:49:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682628552; x=1685220552;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nkE++VkS1g9+07kdZWVSrLoAMUhgkLQS/v/lFWKvB6c=;
+ b=GNtjySOeZyQCVx5lKip/lToV9YoPdo6y7G+v9QUQQIKDTpFck5Ej8ikST3ECsyuA1g
+ fUL9A4WXTLKjXbQ41QnBZClnZaINS/qICW1vZwEXEDLZCqJQ+vZrZYJ5RMRdHp+hy3eA
+ 26qevyNFd4TEbCMs+STeMD2Mhdv6ayWnCmo2meETEWng1ELnRXUAy6FMLPUq3yQrlspU
+ zz4qIdd6dW/QU9CrsFm3JwMJgxN4pdO/b9o6QtsP53qEyHjshc1QP1mHnnyCXnDEUdhh
+ ge4UFfKH+RBshjPyIRFeWVytuWBVenAoXeSp3z5ABAK3tw/WvENZQ3MXor2YTpY4qn9j
+ P8ng==
+X-Gm-Message-State: AC+VfDzrOZOrnGeOliVmsYuJREb4tRR70fo/t+2R19kKMe/eikctAY5T
+ JwyCrV1LPsoav0HNHt8dm13DVZVaSYAh5gfHU0/GFg5mgxWM3DoOETW4LJwfTMWaPvAEsxR7QF3
+ 7hxKjo4qtNbq/nztWbSIlkZfGNBa/Yc4=
+X-Received: by 2002:a1f:5f51:0:b0:440:65a5:332a with SMTP id
+ t78-20020a1f5f51000000b0044065a5332amr1249630vkb.5.1682628552065; 
+ Thu, 27 Apr 2023 13:49:12 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6jaGDdmC08q3hLdl22aV2QCUNPF1nb+S8EZ4MFyBqblhCU1cwePf1pB9Oq0kcw685ldZG8cdHfxoVNEj/K9ms=
+X-Received: by 2002:a1f:5f51:0:b0:440:65a5:332a with SMTP id
+ t78-20020a1f5f51000000b0044065a5332amr1249626vkb.5.1682628551804; Thu, 27 Apr
+ 2023 13:49:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/E2kppciZFRaEDYcqwPLceUA";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:weZFEsCb2JiBA5xnU8yhmm2QwTNwfrkI2uGojU75EXNQUxhUEOe
- mMlLObb/cyAsFv94Slt+zUoVxGtPeSnuy9c/0HBMlcu8gxoPyxhOSD1xEC0Pu56TgGDS019
- hIiL3qVsyhT3ox2FCH4bdfMY/mnAhAYwL7pM/n0UEdwlHkZcpMthKTDi+gqz54w/6NB1vhN
- 2oUk7A9RoLlIfwPcaVICA==
-UI-OutboundReport: notjunk:1;M01:P0:zcLx8w3NPjM=;6IYKnbhFQp/kOEUAXkglGtI5Q+h
- cmJxJi9jN+blvVsCGj8yO+ZwkAfjFNZkELY1lU1zym6LjsXTq2H+/u1gtDZAIytWfyVoVq5/r
- Fe4WNIwlHmpCLbtFZSDAZDg1e68w1ps6tI8ZOGNWtR+j+E8dzKU3EX6Sa7OWngHV9d/5cGYcO
- bHFWLY+AHrziMKmMCwIOBG9n3RhkvUbPBWpG3sre1axEGIZ9j8HxX5WCOPywE8jFxQhOm0JL/
- Zj4EjoEwQXTpyZITuSEWastIbCxrlVS6w0stMwZdlFqmvV5rMGhDnyr2AwnDuHF+c2d8YfLD6
- moXmUhsLcxKBlgzzgCoATKSA60ou2q82gzm4BGiXe/Exe1WdKSv8k/Pqm6UtHXW30Wq5ETHvz
- JFO/GXBU8pn15/yul9pzGkqvS8BlXEMoREnngKqLhCLYulWTz8v3TvAAAy/G9iOk4oKYwA0wQ
- MtLw9WSR3TIJ9fDpHVwP8GWcEKuq/HN75Ik0Se1+MjOIoxewFp8LApufzDzMX70SMjFVCJfEu
- GI2ee2JsF/c6E9gWv+2IlAb+oN8ATNukbiE+C6Nt3Y37mHebx878aQ/OWQq8Pj6Rt6UyM+V81
- Cw0s8zfFwAb4hLKMId8SHwOeMl2Ry27k2rEmJToZjPcQ0BvArcOtT3crdHQs7hPt/OavVR8Eh
- PPfboUbHdG2osjwwOoZWuF6GX61G7n8whBAbSt1oQ6K19zg/RUOxSmTYbrdAbzkOy2TTaR8Um
- KxGd+7arii2qJ6jPd9tXMSJxmwjC1P1ubu2skQrFvvWyslR1fRrZMVc6oPoZCVuPmW1Tw6LnZ
- KsNnAbjW6YJ9JTx7evv4mWGuSgef5mG9W6xRXuY/lv3JwFN7aMM6CPw7GmTWJAJrVtXaT1QPg
- wgWmm7Ma6sosFtdmGzu8bN1+5kz9G/zDTyyc34Sv/QSkealkpuVlK1Vt0NS0OLDIOP5F5BJdq
- BTRgkSLCFW4K8rDA8vkSTD3rue0=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20230425173158.574203-1-kwolf@redhat.com>
+ <20230425173158.574203-4-kwolf@redhat.com>
+ <CABgObfbOD+cpEdP0JE6Os1-vYvrp1zMvCFOST0YrBw3H0s9noQ@mail.gmail.com>
+ <ZEqqLnWqFi4WH1yq@redhat.com>
+In-Reply-To: <ZEqqLnWqFi4WH1yq@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 27 Apr 2023 22:49:00 +0200
+Message-ID: <CABgObfb1CuAEe53SiMbjSDZNvA+Hp4DB_HFZb-dxHg94vdJNDQ@mail.gmail.com>
+Subject: Re: [PATCH 03/20] block: bdrv/blk_co_unref() for calls in coroutine
+ context
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: "open list:Block layer core" <qemu-block@nongnu.org>, "Hajnoczi,
+ Stefan" <stefanha@redhat.com>, 
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000001ea47505fa577dc4"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,64 +99,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/E2kppciZFRaEDYcqwPLceUA
-Content-Type: text/plain; charset=UTF-8
+--0000000000001ea47505fa577dc4
+Content-Type: text/plain; charset="UTF-8"
+
+Il gio 27 apr 2023, 19:00 Kevin Wolf <kwolf@redhat.com> ha scritto:
+
+> By the way, and slightly unrelated, can vrc somehow help with finding
+> places that call coroutine wrappers without holding the AioContext lock?
+> (This results in an abort() when AIO_WAIT_WHILE() tries to unlock the
+> AioContext.) This is one of the classes of bugs we're seeing in 8.0.
+>
+
+Seems more like a task for TSA.
+
+Even though C TSA doesn't let you check that the *right* AioContext lock is
+taken, it can check statically that *one* such lock is taken, and in
+general I would guess it's rare for the wrong AioContext to be locked.
+
+Paolo
+
+
+> Kevin
+>
+>
+
+--0000000000001ea47505fa577dc4
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 27 Apr 2023 23:29:43 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il gio 27 apr 2023, 19:00 Kevin Wolf &lt;<a href=3D"ma=
+ilto:kwolf@redhat.com">kwolf@redhat.com</a>&gt; ha scritto:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">By the way, and slightly unrelated, can vrc someho=
+w help with finding<br>
+places that call coroutine wrappers without holding the AioContext lock?<br=
+>
+(This results in an abort() when AIO_WAIT_WHILE() tries to unlock the<br>
+AioContext.) This is one of the classes of bugs we&#39;re seeing in 8.0.<br=
+></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">See=
+ms more like a task for TSA.</div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">Even though C TSA doesn&#39;t let you check that the *right* AioContex=
+t lock is taken, it can check statically that *one* such lock is taken, and=
+ in general I would guess it&#39;s rare for the wrong AioContext to be lock=
+ed.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">
+<br>
+Kevin<br>
+<br>
+</blockquote></div></div></div>
 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+--0000000000001ea47505fa577dc4--
 
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-
-> ---
->  block/meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/block/meson.build b/block/meson.build
-> index 382bec0e7d..b9a72e219b 100644
-> --- a/block/meson.build
-> +++ b/block/meson.build
-> @@ -84,7 +84,7 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file=
--win32.c', 'win32-aio.c')
->  block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), core=
-f, iokit])
->  block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
->  block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
-> -if not get_option('replication').disabled()
-> +if get_option('replication').allowed()
->    block_ss.add(files('replication.c'))
->  endif
->  block_ss.add(when: libaio, if_true: files('linux-aio.c'))
-
-
-
---=20
-
-
---Sig_/E2kppciZFRaEDYcqwPLceUA
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRK32AACgkQNasLKJxd
-slgxGRAAolumahUTNG2yGL6NEROqKxA3fgspM1gkI7J0CwqM5djEN3coSTp1ji2U
-CuIjrDyHJnShDyCzJqmW7Fd/5PkYUEUyG78rT7dZZVX8omaEzG7zGgx9VjEx8qoM
-Az+5pwjriH8i1ejwiHAhGU6EEG+YdhDnkBGl0bwYRWVGs58h0AgCez9F6rUSGPO+
-lHC9IRx1KgPNSm8xMr9aDCI8TyNa0s6HGITt0JsJkmBxKTAoHujSNJ2TE8Y4PEl6
-xHfwrHWv8n6g5LE2T0TXD1bfHznLnQl2vvAeB5NM2LHwDA6hjLgMnKU3QU8HBuIg
-FbtVM+GxyD/j12MR0KwiHwSBxiV2MnF1IynA4nAvyxNEpEetjWXRWQvGjOC6ije2
-OEOqW4QoMvCC19ewib34dGHM5CAVUMLF7hMct18P766oJQZhkyT55Dl+GNLPg8rf
-0crHy80NSGjxzWZrMWdSrdBezcntezmrDv2n3/NHHRRk4NBel2wyY7O4EC5z0qAk
-38rt8Uh5wSUZHbmT9jJceIJUPb6xENTL1E4SSk6KSnhfjwoBdzA9qzkV79G5nQgy
-WfSzxUf7Sxbw/MCFnRhs9+gVXEfCAOludaJB3pt8RKC7Q3fX6WrrGWbIpmPmoEWi
-2BrNZ3wjxxHi+L44X4Hpk786ec/viEU6Rk8VSvMUfOI4MNq29a8=
-=DSWk
------END PGP SIGNATURE-----
-
---Sig_/E2kppciZFRaEDYcqwPLceUA--
 
