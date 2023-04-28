@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6FFA6F1620
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840196F1636
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:58:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psLkN-0008Iu-QW; Fri, 28 Apr 2023 06:54:39 -0400
+	id 1psLkT-0008OK-33; Fri, 28 Apr 2023 06:54:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkL-0008Ht-Dc
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkO-0008KQ-Lk
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkK-0003wj-1s
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkL-0003xf-J4
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682679275;
+ s=mimecast20190719; t=1682679277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1XPqCaynsnpWAl1XdZ7YzQXXi9WvVLe1EAjUUcFynAU=;
- b=ZzqHsFbhh6zL5o84qMYQdy197WOASlM0h3H98JH2jfNqG1EUzE913DXlhYvaURZlG5Sa6H
- oFDDU/1ED+5iGAAJZc3PUgP02gw9XQWpH8Vsl3AZED8tH+8Q5xLzjVrnQ4dEM+LMEaCUce
- uF479QyNC17Fr/0DCBsCbkggKAapTBo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3T2JN4V5sTEi3+Atgcwj6xKzuaS7DsV2sipAePiKw64=;
+ b=EdJlhWxb7n62dCqMxqTdMtMcS70TpHYtDVJvRrbz2VSDL6FaySc7qg7sNL2/UfFDl/5KJx
+ +ipXVMQ1gRsmYS1nEf6oINyC/eJxL7m+YZ1skomseRHJ2vNsopJSqGKkQtRxUiBfE3IQ1n
+ fVKUU6d8AUhgXSAtUnwXEtLMnh9rQYg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-574-aSo0GLswPgqzmaA8KHczEw-1; Fri, 28 Apr 2023 06:54:33 -0400
-X-MC-Unique: aSo0GLswPgqzmaA8KHczEw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-176-qO3W_1rJPnaJQ--dTJ18CA-1; Fri, 28 Apr 2023 06:54:33 -0400
+X-MC-Unique: qO3W_1rJPnaJQ--dTJ18CA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED54C3C1485D;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B820A885636;
  Fri, 28 Apr 2023 10:54:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C9BF01410F1C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90D1C492C13;
  Fri, 28 Apr 2023 10:54:32 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8D76221D1DA2; Fri, 28 Apr 2023 12:54:29 +0200 (CEST)
+ id 90F8621D191A; Fri, 28 Apr 2023 12:54:29 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, peter.maydell@linaro.org, pbonzini@redhat.com,
@@ -56,15 +56,15 @@ Cc: michael.roth@amd.com, peter.maydell@linaro.org, pbonzini@redhat.com,
  jiri@resnulli.us, stefanb@linux.vnet.ibm.com, stefanha@redhat.com,
  lukasstraub2@web.de, kkostiuk@redhat.com, qemu-block@nongnu.org,
  victortoso@redhat.com
-Subject: [PATCH 07/17] qapi: Tidy up a slightly awkward TODO comment
-Date: Fri, 28 Apr 2023 12:54:19 +0200
-Message-Id: <20230428105429.1687850-8-armbru@redhat.com>
+Subject: [PATCH 08/17] qapi/dump: Indent bulleted lists consistently
+Date: Fri, 28 Apr 2023 12:54:20 +0200
+Message-Id: <20230428105429.1687850-9-armbru@redhat.com>
 In-Reply-To: <20230428105429.1687850-1-armbru@redhat.com>
 References: <20230428105429.1687850-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -89,36 +89,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-MigrateSetParameters has a TODO comment sitting right behind its doc
-comment.  I wrote it this way to keep it out of the manual, but that
-reason is not obvious.
-
-The previous commit (sphinx/qapidoc: Do not emit TODO sections into
-user manuals) lets me move it into the doc comment as a TODO section.
+Documentation of dump-guest-memory contains two bulleted lists.  The
+first one is indented, the second one isn't.  Delete the first one's
+indentation for a more consistent look.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/migration.json | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ qapi/dump.json | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 82000adce4..11c09800c2 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -945,10 +945,11 @@
- # Features:
- # @unstable: Member @x-checkpoint-delay is experimental.
+diff --git a/qapi/dump.json b/qapi/dump.json
+index 6fc215dd47..24af1df7db 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -44,12 +44,12 @@
  #
-+# TODO: either fuse back into MigrationParameters, or make
-+#       MigrationParameters members mandatory
-+#
- # Since: 2.4
- ##
--# TODO either fuse back into MigrationParameters, or make
--# MigrationParameters members mandatory
- { 'struct': 'MigrateSetParameters',
-   'data': { '*announce-initial': 'size',
-             '*announce-max': 'size',
+ #          Also, paging=true has the following limitations:
+ #
+-#             1. The guest may be in a catastrophic state or can have corrupted
+-#                memory, which cannot be trusted
+-#             2. The guest can be in real-mode even if paging is enabled. For
+-#                example, the guest uses ACPI to sleep, and ACPI sleep state
+-#                goes in real-mode
+-#             3. Currently only supported on i386 and x86_64.
++#          1. The guest may be in a catastrophic state or can have corrupted
++#             memory, which cannot be trusted
++#          2. The guest can be in real-mode even if paging is enabled. For
++#             example, the guest uses ACPI to sleep, and ACPI sleep state
++#             goes in real-mode
++#          3. Currently only supported on i386 and x86_64.
+ #
+ # @protocol: the filename or file descriptor of the vmcore. The supported
+ #            protocols are:
 -- 
 2.39.2
 
