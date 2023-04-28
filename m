@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFDE6F146D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475E46F14BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:56:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psKfU-0006qL-Ac; Fri, 28 Apr 2023 05:45:36 -0400
+	id 1psKpQ-0006Zx-Pl; Fri, 28 Apr 2023 05:55:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1psKfC-0006Ym-E3; Fri, 28 Apr 2023 05:45:14 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1psKpP-0006Zn-Mk
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:55:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1psKf9-0007gJ-Gg; Fri, 28 Apr 2023 05:45:14 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id B83346098D;
- Fri, 28 Apr 2023 12:44:57 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b432::1:18] (unknown
- [2a02:6b8:b081:b432::1:18])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id tiFg300McuQ0-sJGqZpKj; Fri, 28 Apr 2023 12:44:56 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682675096; bh=5tffh5/Ra+gNY8QfcAV3iJ2JZ5st2OuEW0LQ2x8Mbb8=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=t8lPwNJSLcjbuUIIfC+NcnMlqfRo4sT631aFyyQQCxWN3Dh+crnXWyg+WYfovOBKg
- i2egZoofSaapGir0HFSuytodGT1VMWAoFrLr7mFacjRYd8Up5Kpc1JzyDR/FYSYX8Q
- xHr0nIeitYyESh65B7mIqjQn2V6ZqWw6vKz/+zU0=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <542215a2-fa1c-17ff-e41c-c71564b02f75@yandex-team.ru>
-Date: Fri, 28 Apr 2023 12:44:55 +0300
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1psKpN-0001bw-E0
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:55:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682675744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=beGSlsM1YO7VmD2gFWs75nRL02r/305Ahmeskyo8oHQ=;
+ b=JARlis7gQgHgw2Xs3MflNpugynl5/34hjuv546z3B3UacaIG4MoAsSxbCbvhO7Ghd+vIfm
+ BIUsHNPcSiR8gSgvCyBceLKAz9ONRXmhM4unN07O+F8SuuLA31K1Bi6UoItwArDtQo7a5B
+ 1vGwVPhZRPudCDikkDl8tMCUCJjIGNI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-654-ZZNYkKpRNiuMLttegxqNmw-1; Fri, 28 Apr 2023 05:55:39 -0400
+X-MC-Unique: ZZNYkKpRNiuMLttegxqNmw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 054CA1C0754D;
+ Fri, 28 Apr 2023 09:55:39 +0000 (UTC)
+Received: from gondolin.redhat.com (unknown [10.39.193.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 178FB1121314;
+ Fri, 28 Apr 2023 09:55:36 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Eric Auger <eauger@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Gavin Shan <gshan@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Andrea Bolognani <abologna@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v7 0/1] arm: enable MTE for QEMU + kvm
+Date: Fri, 28 Apr 2023 11:55:32 +0200
+Message-Id: <20230428095533.21747-1-cohuck@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 17/16] docs/devel/qapi-code-gen: Describe some doc markup
- pitfalls
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, michael.roth@amd.com, eblake@redhat.com,
- kwolf@redhat.com, hreitz@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, arei.gonglei@huawei.com,
- pizhenwei@bytedance.com, jsnow@redhat.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, wangyanan55@huawei.com, quintela@redhat.com,
- jasowang@redhat.com, yuval.shaia.ml@gmail.com, stefanha@redhat.com,
- kraxel@redhat.com, kkostiuk@redhat.com, qemu-block@nongnu.org,
- marcandre.lureau@gmail.com, david@redhat.com
-References: <20230425064223.820979-1-armbru@redhat.com>
- <20230427095346.1238913-1-armbru@redhat.com>
- <eee8f95c-43eb-b357-d42a-1c479967b97c@yandex-team.ru>
- <87y1mcnyet.fsf@pond.sub.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <87y1mcnyet.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,68 +80,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28.04.23 12:34, Markus Armbruster wrote:
-> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
-> 
->> On 27.04.23 12:53, Markus Armbruster wrote:
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->>>    docs/devel/qapi-code-gen.rst | 53 ++++++++++++++++++++++++++++++++++++
->>>    1 file changed, 53 insertions(+)
->>> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
->>> index d81aac7a19..14983b074c 100644
->>> --- a/docs/devel/qapi-code-gen.rst
->>> +++ b/docs/devel/qapi-code-gen.rst
->>> @@ -1059,6 +1059,59 @@ For example::
->>>       'returns': ['BlockStats'] }
->>>      +Markup pitfalls
->>> +~~~~~~~~~~~~~~~
->>> +
->>> +A blank line is required between list items and paragraphs.  Without
->>> +it, the list may not be recognized, resulting in garbled output.  Good
->>> +example::
->>> +
->>> + # An event's state is modified if:
->>> + #
->>> + # - its name matches the @name pattern, and
->>> + # - if @vcpu is given, the event has the "vcpu" property.
->>> +
->>> +Without the blank line this would be a single paragraph.
->>> +
->>> +Indentation matters.  Bad example::
->>> +
->>> + # @none: None (no memory side cache in this proximity domain,
->>> + #              or cache associativity unknown)
->>> +
->>> +The description is parsed as a definition list with term "None (no
->>> +memory side cache in this proximity domain," and definition "or cache
->>> +associativity unknown)".
->>
->> May be add good example of indentation as well
-> 
-> Patches I'm about to post will fill up this pitfall.  They change the
-> text to:
-> 
->       # @none: None (no memory side cache in this proximity domain,
->       #              or cache associativity unknown)
->       #     (since 5.0)
-> 
->      The last line's de-indent is wrong.  The second and subsequent lines
+v7 takes a different approach to wiring up MTE, so I still include a cover
+letter where I can explain things better, even though it is now only a
+single patch :)
 
-So you want to drop "The description is parsed as a definition list ..." ?
+Previous versions used a cpu property to control MTE enablement, while
+keeping the same semantics for the virt machine "mte" property as used with
+tcg. This version now uses the machine property for kvm as well; while it
+continues to control allocation of tag memory for tcg, it now also controls
+enablement of the kvm capability. Since the cpu prop is now gone, so is the
+testing via the arm cpu props test; I don't have a good idea for testing
+mte on kvm automatically, since it has a hard dependency on host support.
+(Should I tack some futher documentation somewhere? I'm not seeing an
+obvious place.)
 
->      need to line up with each other, like this::
-> 
->       # @none: None (no memory side cache in this proximity domain,
->       #     or cache associativity unknown)
->       #     (since 5.0)
-> 
-> Good enough?
+A kvm guest with mte enabled still cannot be migrated (we need some uffd
+interface enhancements before we can support postcopy), so it is still off
+per default.
 
-Example of good indent is good)
+Another open problem is mte vs mte3: tcg emulates mte3, kvm gives the guest
+whatever the host supports. Without migration support, this is not too much
+of a problem yet, but for compatibility handling, we'll need a way to keep
+QEMU from handing out mte3 for guests that might be migrated to a mte3-less
+host. We could tack this unto the mte property (specifying the version or
+max supported), or we could handle this via cpu properties if we go with
+handling compatibility via cpu models (sorting this out for kvm is probably
+going to be interesting in general.) In any case, I think we'll need a way
+to inform kvm of it.
+
+Tested with kvm selftests on FVP (as I still don't have any hardware with
+MTE...) and some make check(-tcg) incantations. Hopefully, I haven't (re)-
+introduced too many issues.
+
+Cornelia Huck (1):
+  arm/kvm: add support for MTE
+
+ hw/arm/virt.c        | 69 +++++++++++++++++++++++++-------------------
+ target/arm/cpu.c     |  9 +++---
+ target/arm/cpu.h     |  4 +++
+ target/arm/kvm.c     | 35 ++++++++++++++++++++++
+ target/arm/kvm64.c   |  5 ++++
+ target/arm/kvm_arm.h | 19 ++++++++++++
+ 6 files changed, 107 insertions(+), 34 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.40.0
 
 
