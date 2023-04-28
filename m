@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011DB6F2489
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D29C6F20C7
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 00:28:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psjTV-0002nw-AP; Sat, 29 Apr 2023 08:14:49 -0400
+	id 1psWYJ-0006FK-5y; Fri, 28 Apr 2023 18:26:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTT-0002nZ-C9
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:14:47 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWYH-0006Ew-K4
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:26:53 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTR-0004Bu-IG
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:14:46 -0400
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-3010889c6ebso406454f8f.2
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:14:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWYG-000528-19
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:26:53 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-3f1e2555b5aso1288595e9.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 15:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682770484; x=1685362484;
+ d=linaro.org; s=google; t=1682720810; x=1685312810;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=iGBJJtjAm8Kv2/FPIdfdRI1Xi3UjJZY7LJrhjHKTIU8=;
- b=CVhRk7+qHr+sqMq5Ag1XklRPAsezrcu4ATWjkpzckV/vy3afCDTK2qHm1t+u5AeiAr
- E/M5FnpFB21rdeCt0j57Ixt406TZJIZYnHA9iMVYp7vzn7Ewnmc/cDxDQUbd6lhe9WVn
- acblWzngJqgPv5Lpbbdg1cGv0lq5MlK8fPv+uqv4fV5TGFsvfZ5Ijq1HPb8IVpmk3wvB
- lfvg8nOzkzRaTtgL2D1Gx0lKf/ib6R9mJlrQtIOgxVQiOzVxe3062yXTFiYccZqNxlaX
- qhnmCA9XJl9Z2396o5Zz/MzPp5+PpcuALnvITQVzNUNACBamfbF8y2qiLdnR2ZHUKbXV
- g+PA==
+ bh=O9aXlHiSzuHZuxcHDHaynEz+z8FIFGb9+9d/DZdtI5w=;
+ b=w3LIV9+5lN9B/klNftYkBEAhsUk8/5vyOu5tcoH5NEa9dFlxXOCVBlGnKVtf54ZMdv
+ cFqrnnNr/SbVwfIENsdV0+6aG1YLVkJkromgyjLp3XbXAnD5nP2dnR11knNltmPw9Qiy
+ 5C5K8FIhg4jXfmUCHDUIiRxE4RMBTHdOeH7hOTRVIlZHguqyTkN2c2YD75L5NTXR+JNN
+ GMyafafGKGbMIobh4rqNExFJpBCJJvaRY6weUlzR4KjmG8IYSBCo9pHZuiAGeGTeSCzu
+ bTSe297gR9Bd+mgG6oI98r0ZdDPbAfixfao0wu06ITQw+SDUwYheaibfl9qrW8XgfxSg
+ tfBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682770484; x=1685362484;
+ d=1e100.net; s=20221208; t=1682720810; x=1685312810;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iGBJJtjAm8Kv2/FPIdfdRI1Xi3UjJZY7LJrhjHKTIU8=;
- b=BY/+prGwS+8qfxlfH+CAXc+/UpZ0/t+HQzabQbtmT7rcDLlVIHKvUdog/usTc6sAV/
- pdfOpqWd493UXLzkhAU6VuRnR8KwLQN+Jeb0lXeiLpo4BryhRarXnjo2NzsR99wgHpxx
- AKamHh3x5ziHNSmbod+6oWTFmMbNwwl7YwNxB85kM/RaXG6/+rXgGj7hyQ1TYG24+Lzo
- OmOUbNz+QvF+Fn3G1rXPxtEUc/GbhxrMlnr/lRTSC4uOE5bj26jwATFw1vP7ldI4ALXW
- JiwfFKQ5cGK4ConIy3ol2js3KHUp8M/NB43yGCX/BtqN/SCJsETTSl12AD9zYqlZLpwc
- 106g==
-X-Gm-Message-State: AC+VfDyoJL22sxacS5iXqydz5G1B/GLm9XlGymmQBxToOMlSEW5AKbv2
- Pl5sJFOkpIbu8XUKSZdmKHZhXw==
-X-Google-Smtp-Source: ACHHUZ5ggtIZCA78pawI7bAZcRj/wwUgqzsJQgx9shLRDzpjvyicdg8SZ+zQn2oTh4he4zrdBx778A==
-X-Received: by 2002:adf:f285:0:b0:2f4:6270:48d3 with SMTP id
- k5-20020adff285000000b002f4627048d3mr5664107wro.0.1682770483821; 
- Sat, 29 Apr 2023 05:14:43 -0700 (PDT)
-Received: from [192.168.212.175] (7.red-88-29-166.dynamicip.rima-tde.net.
- [88.29.166.7]) by smtp.gmail.com with ESMTPSA id
- i3-20020adff303000000b002f4cf72fce6sm23542073wro.46.2023.04.29.05.14.41
+ bh=O9aXlHiSzuHZuxcHDHaynEz+z8FIFGb9+9d/DZdtI5w=;
+ b=Qhzp5qYXyUUObf5o3di03URb/Q+7YjXQ0B8WhVeEjKsgtVulXGAEVBRqPCiN+eh2Vo
+ 1iwm2uSlhrC/Aej6ZZH54fAF/uckHB0AGI7AnL+obxbEkGJKarsDef1TfOkztgkwLuC8
+ R9qSHUcC1sNfl0XWzzsDQYX/xE4iyKBeVfLXTlcm2XoshdcirXjgZXSbNFWuenMeu/gc
+ ZS+0Sv5d5bLKrTbQsyoqXYOAQ49+6F+RnUpT6iD8eAXbW11QoZHbQ3w1jB2ADs/zNcVt
+ 3raSKW22AG9IscndPXsv418qS8iW/j/PIA+QoSu1Fkj8E2NEmgfyiaiVCKISiryG8tfR
+ D3tQ==
+X-Gm-Message-State: AC+VfDzudA9IQu+kaLAEtk3p7QI+P3dKppxciteIWsC8xidfqKo5/LQ9
+ aOE3rQ9JAxeDyO+nHDp+VA5I8w==
+X-Google-Smtp-Source: ACHHUZ5ipB5Ecrzf2Ea4TfwOW8PgaE+y+M8OFt4ZjIJiFgYOo3sCWHnulfgyzmi0r5dxRYqK8X408Q==
+X-Received: by 2002:a1c:7317:0:b0:3f1:73c8:3a6d with SMTP id
+ d23-20020a1c7317000000b003f173c83a6dmr5017423wmb.12.1682720810473; 
+ Fri, 28 Apr 2023 15:26:50 -0700 (PDT)
+Received: from [192.168.192.175] (47.red-88-28-19.dynamicip.rima-tde.net.
+ [88.28.19.47]) by smtp.gmail.com with ESMTPSA id
+ m18-20020a7bcb92000000b003f24f245f57sm16708528wmi.42.2023.04.28.15.26.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Apr 2023 05:14:43 -0700 (PDT)
-Message-ID: <ddfb4c85-d7c4-368d-f482-d8cc8f4cbc6a@linaro.org>
-Date: Fri, 28 Apr 2023 23:17:05 +0100
+ Fri, 28 Apr 2023 15:26:49 -0700 (PDT)
+Message-ID: <889ca022-d497-d3a0-f712-e57866c51492@linaro.org>
+Date: Fri, 28 Apr 2023 23:26:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 1/9] hw/ide/ahci: remove stray backslash
+Subject: Re: [PATCH v2 2/5] hw/display/virtio-gpu-virgl: make GL device more
+ library agnostic
 Content-Language: en-US
-To: Niklas Cassel <nks@flawful.org>, John Snow <jsnow@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <niklas.cassel@wdc.com>
-References: <20230428132124.670840-1-nks@flawful.org>
- <20230428132124.670840-2-nks@flawful.org>
+To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, marcandre.lureau@redhat.com, akihiko.odaki@gmail.com,
+ dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
+References: <20230428164823.789-1-gurchetansingh@google.com>
+ <20230428164823.789-2-gurchetansingh@google.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230428132124.670840-2-nks@flawful.org>
+In-Reply-To: <20230428164823.789-2-gurchetansingh@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,15 +95,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/4/23 15:21, Niklas Cassel wrote:
-> From: Niklas Cassel <niklas.cassel@wdc.com>
+On 28/4/23 18:48, Gurchetan Singh wrote:
+> From: Gurchetan Singh <gurchetansingh@chromium.org>
 > 
-> This backslash obviously does not belong here, so remove it.
+> Rather than create a virtio-gpu-gfxstream device and it's
+> associated variants (vga, pci), let's just extend the GL device.
 > 
-> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+> We need to:
+>      - Move all virgl functions to their own file
+>      - Only all needed class callbacks in the generic GL device
+> 
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 > ---
->   hw/ide/ahci.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> v2:
+>      - (Akihiko) Fix unnecessary line break
+> 
+>   hw/display/virtio-gpu-gl.c     | 109 ------------------------------
+>   hw/display/virtio-gpu-virgl.c  | 118 +++++++++++++++++++++++++++++++--
+>   include/hw/virtio/virtio-gpu.h |  11 +--
+>   3 files changed, 119 insertions(+), 119 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
