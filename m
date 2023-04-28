@@ -2,102 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4246F1124
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 06:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDEB6F11A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 08:10:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psG7V-0005Kk-TE; Fri, 28 Apr 2023 00:54:09 -0400
+	id 1psHIO-0000bH-3M; Fri, 28 Apr 2023 02:09:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1psG7S-0005KD-Oj; Fri, 28 Apr 2023 00:54:06 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psHIL-0000at-JU
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 02:09:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1psG7Q-0001ct-Aa; Fri, 28 Apr 2023 00:54:06 -0400
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33S4kJ0o001459; Fri, 28 Apr 2023 04:53:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=Gp4o9hNudj0Hpd5/962ixtwY6k/9yaoLW+D4I356C/U=;
- b=VcBsO5YCpFJTpED0jlmklagr/QyH7zAUs/fBMfwrbPo8Yf75cdolVF9WZis+XbtYcVO/
- /96dl1OU4hcTHpKflKUMlxJQm6Lqm/qa/Iw8BaBs4+TYemHv0MzJwsZdKq+CEy1xsk9d
- NSq8f1heOqoa6MW9vv5kNEGUVSctLUjNTardhcGdZsOJPkqBpHZx/JLEPJ+W7GUsRoUk
- UFWHa0LrdYQhT+mJgirsHLE9a/RT7JjAjlqCCe6LWY7m/eXBzk5/+GjIQIs6CmnkxTGt
- KpY0g6IP3iwxXMsDTnkoXSk4nqppixx8X9X0F2p93e0i1gehW902GYIB3gh4QbUcvfHt zQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q870u8mek-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Apr 2023 04:53:47 +0000
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33S4bQxH002239;
- Fri, 28 Apr 2023 04:53:46 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q870u8mdv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Apr 2023 04:53:46 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33S3tpV7031904;
- Fri, 28 Apr 2023 04:53:44 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3q4776tqpq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Apr 2023 04:53:44 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33S4ret045416958
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Apr 2023 04:53:40 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6ED9520043;
- Fri, 28 Apr 2023 04:53:40 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 25ECD20040;
- Fri, 28 Apr 2023 04:53:34 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.211.132.94])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with SMTP;
- Fri, 28 Apr 2023 04:53:33 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
- Fri, 28 Apr 2023 10:23:31 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: Fabiano Rosas <farosas@suse.de>, Narayana Murty N
- <nnmlinux@linux.ibm.com>, danielhb413@gmail.com,
- clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, npiggin@linux.ibm.com,
- vajain21@linux.ibm.com, harshpb@linux.ibm.com, sbhat@linux.ibm.com
-Subject: Re: [PATCH] target: ppc: Correctly initialize HILE in HID-0 for
- book3s processors
-In-Reply-To: <87v8hq8lgz.fsf@suse.de>
-References: <20230420145055.10196-1-nnmlinux@linux.ibm.com>
- <87v8hq8lgz.fsf@suse.de>
-Date: Fri, 28 Apr 2023 10:23:31 +0530
-Message-ID: <87y1mcfvzo.fsf@vajain21.in.ibm.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psHIJ-00062h-76
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 02:09:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682662162;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZjbZxE4rO12xm7v+m3qDdMiuNYSjwbiWUbqg7xa+qVI=;
+ b=TsNpYNsQLCzsCN43Btndi07Phj74y6r1VQ2iT8P6MDwFmtqdM1lUHHN6W18VxzrshoJ9xU
+ pXVCl3DEbowKBprS9nrdAzpVw0L3mR07zgVgAMRpb2CrK8oUh3EWveOG2iCTKh1mW38SE6
+ PctgE5LGTtefx5QI8RIaDPB+9mbXggk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-164-ih7snIKyNw-Z56sJU8ZaYw-1; Fri, 28 Apr 2023 02:09:20 -0400
+X-MC-Unique: ih7snIKyNw-Z56sJU8ZaYw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f1745d08b5so36270125e9.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 23:09:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682662159; x=1685254159;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZjbZxE4rO12xm7v+m3qDdMiuNYSjwbiWUbqg7xa+qVI=;
+ b=mB0DriyGdxzQDufJxB/TdD81aHVUEe+bcCkG45JldDJrAMsRgAdyuLS6Dxcr1gPedc
+ 9gHukluDipqc+Nvac5haWoNF5+uMS1YWsidRgyIby+73nT3MD3VGqWZZO7zeN1H4prhX
+ 1W/vF4X1IzmpTf9pdTjpqAUaa2hGgsXPa/nKECXPfzffT0Jx6Nxx1x5CUY+YQGlpZ8bM
+ AZbzBJIyinkHXafWLprrONtOuPxS5jD4f2a/zZJc25C4aVmGqcXCbXyO0+jz+QjhLmX8
+ 2U1hdCCB0joFbRkGpg4m/YHXNaSqx+9vcN2HaLsEVMn3p2dqYmswdKmqilZJZWpTM8VG
+ NRtQ==
+X-Gm-Message-State: AC+VfDwkOJAOfnBHqWRmLmtz2bHx1cDxYtaQhGhnLHBAjkFWXA+bMp39
+ BrkKs+RmkXvnKv4k3KdXLlM+RPys6TM9FKtebd5x+2Q/7MHxD2wSmkdl9pGIpKhiOXpeC/pdntO
+ Cvb5xPkzsuVRqnX8=
+X-Received: by 2002:a5d:4a0a:0:b0:301:8551:446f with SMTP id
+ m10-20020a5d4a0a000000b003018551446fmr3166290wrq.38.1682662159630; 
+ Thu, 27 Apr 2023 23:09:19 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5uKQPc2/J6yuMou5PXAUnRiLcaU2cGn304rS/fSrFrYUXCzm1xeM9pzZPGSQkSkJ9/noiGbA==
+X-Received: by 2002:a5d:4a0a:0:b0:301:8551:446f with SMTP id
+ m10-20020a5d4a0a000000b003018551446fmr3166266wrq.38.1682662159353; 
+ Thu, 27 Apr 2023 23:09:19 -0700 (PDT)
+Received: from [192.168.8.102] (tmo-098-235.customers.d1-online.com.
+ [80.187.98.235]) by smtp.gmail.com with ESMTPSA id
+ e16-20020a5d5950000000b0030490c8ccafsm8207476wri.52.2023.04.27.23.09.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Apr 2023 23:09:18 -0700 (PDT)
+Message-ID: <2c193be7-542f-ed4c-8a80-ff8b0de186cb@redhat.com>
+Date: Fri, 28 Apr 2023 08:09:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: iLwm8TZOX5kpqjTXGRXknIdQ2TMRapsU
-X-Proofpoint-ORIG-GUID: S_jwxleVeJK-dJMjpDgOC2-iOgvQ7nzV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_02,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 suspectscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
- mlxlogscore=958 phishscore=0 malwarescore=0 adultscore=0 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304280035
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=vaibhav@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
+ <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>
+References: <20230427211013.2994127-1-alxndr@bu.edu>
+ <20230427211013.2994127-2-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230427211013.2994127-2-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -115,76 +113,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 27/04/2023 23.10, Alexander Bulekov wrote:
+> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
+> This flag is set/checked prior to calling a device's MemoryRegion
+> handlers, and set when device code initiates DMA.  The purpose of this
+> flag is to prevent two types of DMA-based reentrancy issues:
+> 
+> 1.) mmio -> dma -> mmio case
+> 2.) bh -> dma write -> mmio case
+> 
+> These issues have led to problems such as stack-exhaustion and
+> use-after-frees.
+> 
+> Summary of the problem from Peter Maydell:
+> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1282
+> Resolves: CVE-2023-0330
+> 
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   include/exec/memory.h  |  5 +++++
+>   include/hw/qdev-core.h |  7 +++++++
+>   softmmu/memory.c       | 16 ++++++++++++++++
+>   3 files changed, 28 insertions(+)
+> 
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 15ade918ba..e45ce6061f 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -767,6 +767,8 @@ struct MemoryRegion {
+>       bool is_iommu;
+>       RAMBlock *ram_block;
+>       Object *owner;
+> +    /* owner as TYPE_DEVICE. Used for re-entrancy checks in MR access hotpath */
+> +    DeviceState *dev;
+>   
+>       const MemoryRegionOps *ops;
+>       void *opaque;
+> @@ -791,6 +793,9 @@ struct MemoryRegion {
+>       unsigned ioeventfd_nb;
+>       MemoryRegionIoeventfd *ioeventfds;
+>       RamDiscardManager *rdm; /* Only for RAM */
+> +
+> +    /* For devices designed to perform re-entrant IO into their own IO MRs */
+> +    bool disable_reentrancy_guard;
+>   };
+>   
+>   struct IOMMUMemoryRegion {
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index bd50ad5ee1..7623703943 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -162,6 +162,10 @@ struct NamedClockList {
+>       QLIST_ENTRY(NamedClockList) node;
+>   };
+>   
+> +typedef struct {
+> +    bool engaged_in_io;
+> +} MemReentrancyGuard;
+> +
+>   /**
+>    * DeviceState:
+>    * @realized: Indicates whether the device has been fully constructed.
+> @@ -194,6 +198,9 @@ struct DeviceState {
+>       int alias_required_for_version;
+>       ResettableState reset;
+>       GSList *unplug_blockers;
+> +
+> +    /* Is the device currently in mmio/pio/dma? Used to prevent re-entrancy */
+> +    MemReentrancyGuard mem_reentrancy_guard;
+>   };
+>   
+>   struct DeviceListener {
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index b1a6cae6f5..fe23f0e5ce 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -542,6 +542,18 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+>           access_size_max = 4;
+>       }
+>   
+> +    /* Do not allow more than one simultaneous access to a device's IO Regions */
+> +    if (mr->dev && !mr->disable_reentrancy_guard &&
+> +        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
+> +        if (mr->dev->mem_reentrancy_guard.engaged_in_io) {
+> +            warn_report("Blocked re-entrant IO on "
+> +                    "MemoryRegion: %s at addr: 0x%" HWADDR_PRIX,
+> +                    memory_region_name(mr), addr);
 
-Hi Fabiano,
+Ack, a warn_report make sense here, at least initially, to make sure that 
+people get aware of related problems!
 
-Thanks for looking into this patch and apologies for the delayed reponse.
-Fabiano Rosas <farosas@suse.de> writes:
+  Thomas
 
-> Narayana Murty N <nnmlinux@linux.ibm.com> writes:
->
->> On PPC64 the HILE(Hypervisor Interrupt Little Endian) bit in HID-0
->> register needs to be initialized as per isa 3.0b[1] section
->> 2.10. This bit gets copied to the MSR_LE when handling interrupts that
->> are handled in HV mode to establish the Endianess mode of the interrupt
->> handler.
->>
->> Qemu's ppc_interrupts_little_endian() depends on HILE to determine Host
->> endianness which is then used to determine the endianess of the guest dump.
->>
->
-> Not quite. We use the interrupt endianness as a proxy to guest
-> endianness to avoid reading MSR_LE at an inopportune moment when the
-> guest is switching endianness.
-Agreed
 
-> This is not dependent on host
-> endianness. The HILE check is used when taking a memory dump of a
-> HV-capable machine such as the emulated powernv.
-
-I think one concern which the patch tries to address is the guest memorydump file
-generated of a BigEndian(BE) guest on a LittleEndian(LE) host is not readable on
-the same LE host since 'crash' doesnt support cross endianess
-dumps. Also even for a LE guest on LE host the memory dumps are marked as BE
-making it not possible to analyze any guest memory dumps on the host.
-
-However setting the HILE based on host endianess of qemu might not be
-the right way to fix this problem. Based on an off mailing list discussion
-with Narayana, he is working on another patch which doesnt set HILE
-based on host endianess. However the problem seems to be stemming from
-fact that qemu on KVM is using the HILE to set up the endianess of
-memory-dump elf and since its not setup correctly the memory dumps are
-in wrong endianess.
-
-> I think the actual issue might be that we're calling
-> ppc_interrupts_little_endian with hv=true for the dump.
->
-Yes, that is currently the case with cpu_get_dump_info(). Excerpt from
-that function below that sets the endianess of the dump:
-
-    if (ppc_interrupts_little_endian(cpu, cpu->env.has_hv_mode)) {
-        info->d_endian = ELFDATA2LSB;
-    } else {
-        info->d_endian = ELFDATA2MSB;
-    }
-
-for pseries kvm guest cpu->env.has_hv_mode is already set hence
-ppc_interrupts_little_endian() assumes its running in 'hv' mode. The new
-patch from Narayana will be addressing this.
-
->> Currently the HILE bit is never set in the HID0 register even if the
->> qemu is running in Little-Endian mode. This causes the guest dumps to be
->> always taken in Big-Endian byte ordering. A guest memory dump of a
->> Little-Endian guest running on Little-Endian qemu guest fails with the
->> crash tool as illustrated below:
->>
->
-> Could you describe in more detail what is your setup? Specifically
-> whether both guests are running TCG or KVM (info kvm) and the state of
-> the nested-hv capability in QEMU command line.
-Currently the issue is seen with any pseries KVM guest running on a PowerNV host.
-
--- 
-Cheers
-~ Vaibhav
 
