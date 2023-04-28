@@ -2,68 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9476F1A99
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 16:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A116F1AE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 16:51:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psPDj-0002Ka-3z; Fri, 28 Apr 2023 10:37:11 -0400
+	id 1psPOd-0006CA-Jk; Fri, 28 Apr 2023 10:48:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1psPDf-0002Eh-VN; Fri, 28 Apr 2023 10:37:07 -0400
-Received: from [159.226.251.80] (helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1psPDd-0008Bg-W9; Fri, 28 Apr 2023 10:37:07 -0400
-Received: from localhost.localdomain (unknown [61.165.33.195])
- by APP-01 (Coremail) with SMTP id qwCowACHj3vq2UtkrB5ZDA--.57839S15;
- Fri, 28 Apr 2023 22:36:36 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v5 13/13] target/riscv: Deny access if access is partially
- inside the PMP entry
-Date: Fri, 28 Apr 2023 22:36:21 +0800
-Message-Id: <20230428143621.142390-14-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230428143621.142390-1-liweiwei@iscas.ac.cn>
-References: <20230428143621.142390-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1psPOa-000658-7a; Fri, 28 Apr 2023 10:48:24 -0400
+Received: from imap4.hz.codethink.co.uk ([188.40.203.114])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1psPOR-00027P-VZ; Fri, 28 Apr 2023 10:48:23 -0400
+Received: from [167.98.27.226] (helo=lawrence-thinkpad.guest.codethink.co.uk)
+ by imap4.hz.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
+ id 1psPOH-005zz5-IM; Fri, 28 Apr 2023 15:48:05 +0100
+From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+To: qemu-devel@nongnu.org
+Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
+ qemu-riscv@nongnu.org, richard.henderson@linaro.org,
+ Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+Subject: [PATCH v3 00/19] Add RISC-V vector cryptographic instruction set
+ support
+Date: Fri, 28 Apr 2023 15:47:38 +0100
+Message-Id: <20230428144757.57530-1-lawrence.hunter@codethink.co.uk>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACHj3vq2UtkrB5ZDA--.57839S15
-X-Coremail-Antispam: 1UD129KBjvdXoWruryrurWUGr43KryrJFWkZwb_yoWfJFg_Gr
- WIqF48G3sFg3Wvy3WkAF43Ary0934kGws29FZ7KF4aka42krZ3Xw1ktFn7A34j9a93W3s3
- Cwn7Zry7Cr1agjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbkAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
- IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
- F7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
- 1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
- 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
- IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
- M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
- kIc2xKxwCY02Avz4vE14v_Xryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
- Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
- CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0
- I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
- vEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIev
- Ja73UjIFyTuYvjfUYJPEDUUUU
-X-Originating-IP: [61.165.33.195]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 159.226.251.80 (deferred)
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=188.40.203.114;
+ envelope-from=lawrence.hunter@codethink.co.uk; helo=imap4.hz.codethink.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,33 +57,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Access will fails if access is partially inside the PMP entry.
-However,only set ret = false doesn't really mean pmp violation
-since pmp_hart_has_privs_default() may return true at the end of
-pmp_hart_has_privs().
+This patchset provides an implementation for Zvbb, Zvbc, Zvkned, Zvknh, Zvksh, Zvkg, and Zvksed of the draft RISC-V vector cryptography extensions as per the v20230425 version of the specification(1) (6a7ae7f2). This is an update to the patchset submitted to qemu-devel on Monday, 17 Apr 2023 14:58:36 +0100.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/pmp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2:
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 317c28ba73..1ee8899d04 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -327,8 +327,8 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-         if ((s + e) == 1) {
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "pmp violation - access is partially inside\n");
--            ret = false;
--            break;
-+            *allowed_privs = 0;
-+            return false;
-         }
- 
-         /* fully inside */
+    squashed commits into one commit per extension with separate commits for
+    each refactoring
+    unified trans_rvzvk*.c.inc files into one trans_rvvk.c.inc
+    style fixes in insn32.decode and other files
+    added macros for EGS values in translation functions.
+    updated from v20230303 to v20230407 of the spec:
+        Zvkb has been split into Zvbb and Zvbc
+        vbrev, vclz, vctz, vcpop and vwsll have been added to Zvbb.
+
+v3:
+
+    New patch 03/19 removes redundant “cpu_vl == 0” checks from trans_rvv.c.inc
+    Introduction of new tcg ops has been factored out of patch 11/19 and into 09/19
+        These ops are now added to non riscv-specific files
+
+As v20230425 is a freeze candidate, we are not expecting any significant changes to the specification or this patch series.
+
+Please note that the Zvkt data-independent execution latency extension (and all extensions including it) has not been implemented, and we would recommend not using these patches in an environment where timing attacks are an issue.
+
+Work performed by Dickon, Lawrence, Nazar, Kiran, and William from Codethink sponsored by SiFive, as well as Max Chou and Frank Chang from SiFive.
+
+For convenience we have created a git repo with our patches on top of a recent master. https://github.com/CodethinkLabs/qemu-ct
+
+    https://github.com/riscv/riscv-crypto/releases
+
+Thanks to those who have already reviewed:
+
+    Richard Henderson richard.henderson@linaro.org
+        [PATCH v2 02/17] target/riscv: Refactor vector-vector translation macro
+        [PATCH v2 04/17] target/riscv: Move vector translation checks
+        [PATCH v2 05/17] target/riscv: Refactor translation of vector-widening instruction
+        [PATCH v2 07/17] qemu/bitops.h: Limit rotate amounts
+        [PATCH v2 08/17] qemu/host-utils.h: Add clz and ctz functions for lower-bit integers
+        [PATCH v2 14/17] crypto: Create sm4_subword
+    Alistair Francis alistair.francis@wdc.com
+        [PATCH v2 02/17] target/riscv: Refactor vector-vector translation macro
+    Philipp Tomsich philipp.tomsich@vrull.eu
+        Various v1 reviews
+    Christoph Müllner christoph.muellner@vrull.eu
+        Various v1 reviews
+
+
+Dickon Hood (3):
+  target/riscv: Refactor translation of vector-widening instruction
+  qemu/bitops.h: Limit rotate amounts
+  target/riscv: Add Zvbb ISA extension support
+
+Kiran Ostrolenk (5):
+  target/riscv: Refactor some of the generic vector functionality
+  target/riscv: Refactor vector-vector translation macro
+  target/riscv: Refactor some of the generic vector functionality
+  qemu/host-utils.h: Add clz and ctz functions for lower-bit integers
+  target/riscv: Add Zvknh ISA extension support
+
+Lawrence Hunter (2):
+  target/riscv: Add Zvbc ISA extension support
+  target/riscv: Add Zvksh ISA extension support
+
+Max Chou (3):
+  crypto: Create sm4_subword
+  crypto: Add SM4 constant parameter CK
+  target/riscv: Add Zvksed ISA extension support
+
+Nazar Kazakov (6):
+  target/riscv: Remove redundant "cpu_vl == 0" checks
+  target/riscv: Move vector translation checks
+  tcg: Add andcs and rotrs tcg gvec ops
+  target/riscv: Add Zvkned ISA extension support
+  target/riscv: Add Zvkg ISA extension support
+  target/riscv: Expose Zvk* and Zvb[b,c] cpu properties
+
+ accel/tcg/tcg-runtime-gvec.c             |   11 +
+ accel/tcg/tcg-runtime.h                  |    1 +
+ crypto/sm4.c                             |   10 +
+ include/crypto/sm4.h                     |    9 +
+ include/qemu/bitops.h                    |   24 +-
+ include/qemu/host-utils.h                |   54 ++
+ include/tcg/tcg-op-gvec.h                |    4 +
+ target/arm/tcg/crypto_helper.c           |   10 +-
+ target/riscv/cpu.c                       |   39 +
+ target/riscv/cpu.h                       |    8 +
+ target/riscv/helper.h                    |   95 ++
+ target/riscv/insn32.decode               |   58 ++
+ target/riscv/insn_trans/trans_rvv.c.inc  |  174 ++--
+ target/riscv/insn_trans/trans_rvvk.c.inc |  593 ++++++++++++
+ target/riscv/meson.build                 |    4 +-
+ target/riscv/op_helper.c                 |    6 +
+ target/riscv/translate.c                 |    1 +
+ target/riscv/vcrypto_helper.c            | 1052 ++++++++++++++++++++++
+ target/riscv/vector_helper.c             |  243 +----
+ target/riscv/vector_internals.c          |   81 ++
+ target/riscv/vector_internals.h          |  228 +++++
+ tcg/tcg-op-gvec.c                        |   23 +
+ 22 files changed, 2365 insertions(+), 363 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvvk.c.inc
+ create mode 100644 target/riscv/vcrypto_helper.c
+ create mode 100644 target/riscv/vector_internals.c
+ create mode 100644 target/riscv/vector_internals.h
+
 -- 
-2.25.1
+2.40.1
 
 
