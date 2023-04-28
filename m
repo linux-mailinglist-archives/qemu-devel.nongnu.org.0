@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764696F1D84
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:34:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA5D6F1D9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:48:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psRyg-0004bh-SS; Fri, 28 Apr 2023 13:33:50 -0400
+	id 1psSAa-0007dc-Uy; Fri, 28 Apr 2023 13:46:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psRyf-0004bY-9n
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:33:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psRyd-0000KF-SO
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:33:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682703227;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=a5j5Ml0VZ/QI5mtzrQks0K8OV5Ygh9FrNQUrfTa3NVk=;
- b=hLAa0xWaCNayaUdFOLUkTRtksBiM7yuDyUe7jZ2HKCMroY/tLAwanbeUnphVyucigXdWGk
- At2VSPAJBQVFzQuXe7vutknVzvasr3neAPugH03+87ckpYNeeFnX/T+VSZKb3W3PqaXO6L
- GC2kgiPgEvKtYiiODPd7fvdaSZ6j8T4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-128-QeauF6LuMHmqG5XxN54DmQ-1; Fri, 28 Apr 2023 13:33:45 -0400
-X-MC-Unique: QeauF6LuMHmqG5XxN54DmQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f08901fed3so63452375e9.1
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:33:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682703224; x=1685295224;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a5j5Ml0VZ/QI5mtzrQks0K8OV5Ygh9FrNQUrfTa3NVk=;
- b=gOkFUh74lDu4LUzWGk0OGGt8AhZtsaOK7SoyfeUUaJy9JDluQQd4+Y87PPchPo2DST
- j9+D/WtnbaM+oHZCRJ8smos0/JZ+vEqUyedbry4jsChcjFi6aYrqoDYF59iW09MecQs5
- Pd455h/xGEusErYsN+5iM+jnQVJMq/sQrR+s088eWthjn1E+TGerXj7YWU4iiyh35mrR
- /NYWNOXK1IfRK46X05Ms78Y5nljO76ZS8BtuRtZbdXAjO7oCqlW6DJmsciezCezznHcs
- qMHiP7JCQrR/JqePwb7sjaHIgIuoqh1U0Hi/Lf4TAS5WPBt1DEs183//pyRPIkL/o7kT
- NIew==
-X-Gm-Message-State: AC+VfDwzyAYbF++8PvFJ3XR/WIJy/Q2b/oIuTcQNW01rKd8sGqj/HT27
- Hhi4yLGHyK7iNE737bphiYMU/mKDgNXsUzMQi+rAt2vPHcCDBk1fQUe+TqVDJc/SEjPpb3lwLcR
- 0NJj7RtYqd5WYsw8=
-X-Received: by 2002:adf:db86:0:b0:2f4:a3ea:65d2 with SMTP id
- u6-20020adfdb86000000b002f4a3ea65d2mr4618640wri.57.1682703224494; 
- Fri, 28 Apr 2023 10:33:44 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5ei9PhSsNnAUQWwqzncWbioEHVklmsjIgw6Ut7b7JAxDUbKRhruW8fAea4HmyJDTHlgxuZew==
-X-Received: by 2002:adf:db86:0:b0:2f4:a3ea:65d2 with SMTP id
- u6-20020adfdb86000000b002f4a3ea65d2mr4618625wri.57.1682703224161; 
- Fri, 28 Apr 2023 10:33:44 -0700 (PDT)
-Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
- [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- o12-20020a5d474c000000b002f4c2ea66absm21647853wrs.85.2023.04.28.10.33.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 10:33:43 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,
- Thomas Huth <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 14/13] migration: Initialize and cleanup
- decompression in migration.c
-In-Reply-To: <20230420095950.057fe69b@gecko.fritz.box> (Lukas Straub's message
- of "Thu, 20 Apr 2023 11:59:50 +0200")
-References: <cover.1681983401.git.lukasstraub2@web.de>
- <20230420095950.057fe69b@gecko.fritz.box>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 19:33:42 +0200
-Message-ID: <87wn1v9aix.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1psSAY-0007dN-JM
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:46:06 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1psSAV-0002MI-D8
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:46:06 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C5ECF1F8D4;
+ Fri, 28 Apr 2023 17:45:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1682703940; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+FULDWD+1hCHO/UC4VP07r7eCa4/VoAL/r76idvuvdE=;
+ b=BZJGM1T+P8GLACSDsbcI2iOPDplp2empYjg6abO0PhL6wdzUoWsJC8i/1HIbW3OFW2zuDR
+ 2bYIWh+FVCVrnqoAzW/aBuBjaEMysen0aFE3yawPVdengt3lgnmJCYvCqjRdqa5oMJTmds
+ Tj3jCpZ2ZlYCKHuc4+v0d40TjE51TM4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1682703940;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+FULDWD+1hCHO/UC4VP07r7eCa4/VoAL/r76idvuvdE=;
+ b=9mr4aT08AqBES7Nr4HoOvE6J0u92zwHhUM0h02jfEdZ23+bodgGnKRwUZqUjosaYJB0UZo
+ S61zPAv/5vGmtSDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55807138FA;
+ Fri, 28 Apr 2023 17:45:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id PD0CCEQGTGR/HwAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 28 Apr 2023 17:45:40 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, Peter
+ Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3] meson: Pass -j option to sphinx
+In-Reply-To: <87r0s4gc8g.fsf@pond.sub.org>
+References: <20230428150102.13114-1-farosas@suse.de>
+ <87r0s4gc8g.fsf@pond.sub.org>
+Date: Fri, 28 Apr 2023 14:45:37 -0300
+Message-ID: <87pm7nsxxa.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,23 +86,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Lukas Straub <lukasstraub2@web.de> wrote:
-> This fixes compress with colo.
+Markus Armbruster <armbru@redhat.com> writes:
+
+> Fabiano Rosas <farosas@suse.de> writes:
 >
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-> ---
+>> Save a bit of build time by passing the number of jobs option to
+>> sphinx.
+>>
+>> We cannot use the -j option from make because meson does not support
+>> setting build time parameters for custom targets. Use nproc instead or
+>> the equivalent sphinx option "-j auto", if that is available.
+>>
+>> Also make sure our plugins support parallelism and report it properly
+>> to sphinx. Particularly, implement the merge_domaindata method in
+>> DBusDomain that is used to merge in data from other subprocesses.
+>>
+>> before:
+>>   $ time make man html
+>>   ...
+>>   [1/2] Generating docs/QEMU manual with a custom command
+>>   [2/2] Generating docs/QEMU man pages with a custom command
+>>
+>>   real    0m43.157s
+>>   user    0m42.642s
+>>   sys     0m0.576s
+>>
+>> after:
+>>   $ time make man html
+>>   ...
+>>   [1/2] Generating docs/QEMU manual with a custom command
+>>   [2/2] Generating docs/QEMU man pages with a custom command
+>>
+>>   real    0m25.014s
+>>   user    0m51.288s
+>>   sys     0m2.085s
 >
-> Oops, this one slipped trough
+> Thanks for tackling this!  sphinx-build is so slow I disable doc
+> building unless I'm working on docs.
+>
+>> Tested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>> ---
+>>  docs/meson.build           | 12 ++++++++++++
+>>  docs/sphinx/dbusdomain.py  |  4 ++++
+>>  docs/sphinx/fakedbusdoc.py |  5 +++++
+>>  docs/sphinx/qmp_lexer.py   |  5 +++++
+>>  4 files changed, 26 insertions(+)
+>>
+>> diff --git a/docs/meson.build b/docs/meson.build
+>> index f220800e3e..138ec6ce6f 100644
+>> --- a/docs/meson.build
+>> +++ b/docs/meson.build
+>> @@ -10,6 +10,18 @@ if sphinx_build.found()
+>>      SPHINX_ARGS +=3D [ '-W', '-Dkerneldoc_werror=3D1' ]
+>>    endif
+>>=20=20
+>> +  sphinx_version =3D run_command(SPHINX_ARGS + ['--version'],
+>> +                               check: true).stdout().split()[1]
+>> +  if sphinx_version.version_compare('>=3D5.1.2')
+>
+> Where do you get 5.1.2 from?  I have 5.0.2, and -j auto appears to work
+> fine.  The manual page says "Changed in version 1.7: Support auto
+> argument."
+>
 
-As the saying goes, it happes in the best families.
+Ouch, I was looking at the readthedocs repository which has a similar
+change.
 
-Yeap, it is a literal translation of a Spanish saying O:-)
+So I think we could probably just hardcode the option. Most distros will
+have a more recent sphinx version.
+https://repology.org/project/python:sphinx/versions
 
+Let me try to figure out what gitlab is using. I know it is less than 4
+because our docs don't show some of the dbus parts:
+
+https://www.qemu.org/docs/master/interop/dbus-display.html
+
+>> +    SPHINX_ARGS +=3D ['-j', 'auto']
+>> +  else
+>> +    nproc =3D find_program('nproc')
+>> +    if nproc.found()
+>> +      jobs =3D run_command(nproc, check: true).stdout()
+>> +      SPHINX_ARGS +=3D ['-j', jobs]
+>> +    endif
+>> +  endif
+>> +
+>>    # This is a bit awkward but works: create a trivial document and
+>>    # try to run it with our configuration file (which enforces a
+>>    # version requirement). This will fail if sphinx-build is too old.
+>
+> [...]
 
