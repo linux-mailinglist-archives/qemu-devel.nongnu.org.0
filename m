@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CA76F1DB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1996F1DB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:58:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psSKD-00043C-Ot; Fri, 28 Apr 2023 13:56:05 -0400
+	id 1psSLi-0004q9-IH; Fri, 28 Apr 2023 13:57:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSKB-00042t-CE
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:56:03 -0400
+ id 1psSLg-0004on-LJ
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:57:36 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSK9-0004dg-OU
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:56:03 -0400
+ id 1psSLd-0004nc-RC
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:57:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682704561;
+ s=mimecast20190719; t=1682704653;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=eFb+r9es7E5J7cvljWyAQkgkS6xWiYY72c8fgsW1lKA=;
- b=GOzIagevwoaR4G/+3oM5XUIWrhIdqiFH5T5NQbJ3dUAeLbKZ/fmZneGcbS/8sP+6BEQL0I
- 33q4AHzq+JUfqLbv906zgCOy6EZv13Skh3X6r+uAdpxbIV0QNLxq4cUnutoUh9q3S5x+UP
- iFAQ2ZBPBOYiC8P8qimW3kYv0dcPQmA=
+ bh=ZFspu/IiQvdgJqKpz9hvKYuABAWOMJAV9kCuyDvA3/Q=;
+ b=F05w/b/EhQIt2WKUqX+D4mNffT6lZd4Uimf20WAddS9NYY8BzsjTAEC02Ng945sqzjucTk
+ JrS/116r6COBPGL0//RjAKZ7zz5YtiABSzoxNbO1GMpEOV4NGNzowl2eLitU8K7vKCz9ZC
+ 8+JG/bj1MK/ccA+qQHllhYPANh4ZJ5c=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-658-5kfGWc_5MBeGqW5BJyZ2YQ-1; Fri, 28 Apr 2023 13:55:59 -0400
-X-MC-Unique: 5kfGWc_5MBeGqW5BJyZ2YQ-1
+ us-mta-672-IP2z-dwdNeqora41Zx40gg-1; Fri, 28 Apr 2023 13:57:31 -0400
+X-MC-Unique: IP2z-dwdNeqora41Zx40gg-1
 Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-2f625d521abso6190f8f.3
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:55:59 -0700 (PDT)
+ ffacd0b85a97d-301110f1756so12157f8f.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:57:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682704558; x=1685296558;
+ d=1e100.net; s=20221208; t=1682704650; x=1685296650;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eFb+r9es7E5J7cvljWyAQkgkS6xWiYY72c8fgsW1lKA=;
- b=WjW8k84X+imzMF+Z8W6Lj88C6Bs7+8nIRxTsc7KS5yr06fO2HXlKLOWndhqdY4l67h
- yW0OE2BF8ZZ3IKKncSNpr6ck9TReR5zPSTb0ic6I/L0McyKAwzOLi50IHmdCVTLldqi7
- hWnEPsPMM1DJkHybQ9Xhj5FXljvnPdS852Hiv3Mv9PqBk7wYXzDXdKxjtFqXo0LCJcAd
- Bj6+wPKQuNqCzPwpzwjxqHX+ZnvfJ8G1N+AMrpXQGuC8msyMpFzPbDAReIwnxherojsa
- 2tPfWuzyV9dhINTDyK+E68fNARJO2dur/GiQHd5dsysAFAR2EEspyKNFLMhi6tRMlP3G
- QgkA==
-X-Gm-Message-State: AC+VfDz7F1Mx3zDuATMuv5b0FOvue4ygK4X/BbmeHR7vGhSVMYpw2KR2
- JokaSwYU5VglPJTASBVNSR9yOHWAm7XM/hz0Qae2dcuLzlQxeE9Y+8KfaveQRVNhhv/JQAm4IRs
- EoOMg1heG8AxRXGw=
-X-Received: by 2002:a5d:414b:0:b0:2f5:2e27:af40 with SMTP id
- c11-20020a5d414b000000b002f52e27af40mr4188762wrq.70.1682704558622; 
- Fri, 28 Apr 2023 10:55:58 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5oLHfD7Jk69b+Apa92DJtP7V6AoaKfkhoeD/m0+fdcYRobwL/BTwB+3H5l5WOAC4yg0omoNw==
-X-Received: by 2002:a5d:414b:0:b0:2f5:2e27:af40 with SMTP id
- c11-20020a5d414b000000b002f52e27af40mr4188739wrq.70.1682704558340; 
- Fri, 28 Apr 2023 10:55:58 -0700 (PDT)
+ bh=ZFspu/IiQvdgJqKpz9hvKYuABAWOMJAV9kCuyDvA3/Q=;
+ b=S5+/jxlFOs/A8TgRmXBT2+mqgeEQ+Ob1ryzz/eMUcTcDk8pS8iwG8ZZptGDwy3CIiy
+ KbByK2lUwTBo2IAYgeD1GznxYLp85K+IKc2p7HvwjaQRKQW8b0XAwyPtdDnYRLlK5Vhp
+ 3Q6g1A/vxAPVRTh0DnhL2UXnX9i7u1HYa9JH3NX224wf+5vSuI2WUmq0u0mV1VaJOzfk
+ SPLSHmRiBj72vC6A1lL77rC/ChVCqoe78+gG7JW2aOESU4nZt24Va4tfyi1BTkngdur7
+ yxMYZQZkSgzv7vREYnbro/pxG3igUztdS7kiahjqN5hf1rj7J840B7ggup1SSx3g8TKx
+ ZHHw==
+X-Gm-Message-State: AC+VfDwVv7vgMes6Yi4/cVNcaGa62JigKYDiCm40usNEa5mnfztv5IP0
+ UyOLpn6FSDt/tbG7PPJf7UK4e/c5QiXnkO183vp9536NNo8T5k5YNHNVRB6PYOvcKDY0J4R+Vjm
+ PF5GVLai1zD8Xp8o=
+X-Received: by 2002:a5d:4bcb:0:b0:2d0:33aa:26da with SMTP id
+ l11-20020a5d4bcb000000b002d033aa26damr4433587wrt.7.1682704650595; 
+ Fri, 28 Apr 2023 10:57:30 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7PcO18xlQjyyVPvitQZgZ5mS9mTzeiH2D9BEPYKWMzHXm/zB8W2jJRv2rgKqC/RPs2Aihk0A==
+X-Received: by 2002:a5d:4bcb:0:b0:2d0:33aa:26da with SMTP id
+ l11-20020a5d4bcb000000b002d033aa26damr4433573wrt.7.1682704650334; 
+ Fri, 28 Apr 2023 10:57:30 -0700 (PDT)
 Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
  [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- q11-20020a5d574b000000b003049d7b9f4csm7693051wrw.32.2023.04.28.10.55.57
+ gw19-20020a05600c851300b003ef5bb63f13sm18691937wmb.10.2023.04.28.10.57.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 10:55:57 -0700 (PDT)
+ Fri, 28 Apr 2023 10:57:29 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
@@ -76,15 +76,15 @@ Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
  pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
  stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
  qemu-block@nongnu.org,  victortoso@redhat.com
-Subject: Re: [PATCH 04/17] meson: Fix to make QAPI generator output depend
- on main.py
-In-Reply-To: <20230428105429.1687850-5-armbru@redhat.com> (Markus Armbruster's
- message of "Fri, 28 Apr 2023 12:54:16 +0200")
+Subject: Re: [PATCH 05/17] Revert "qapi: BlockExportRemoveMode: move
+ comments to TODO"
+In-Reply-To: <20230428105429.1687850-6-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 28 Apr 2023 12:54:17 +0200")
 References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-5-armbru@redhat.com>
+ <20230428105429.1687850-6-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 19:55:56 +0200
-Message-ID: <877ctv99hv.fsf@secure.mitica>
+Date: Fri, 28 Apr 2023 19:57:28 +0200
+Message-ID: <87354j99fb.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -95,7 +95,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,37 +114,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> @qapi_gen_depends is missing scripts/qapi/main.py.  Fix that, and drop
-> a duplicate scripts/qapi/common.py.
+> This reverts commit 97cd74f77231f3897838f8db32b659d94803e01f.
 >
+> The next commit will hide TODO: sections.  See there for rationale.
+
+Reviewing with forward pointers has its own challenges O:-)
+
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-
-> ---
->  meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meson.build b/meson.build
-> index c44d05a13f..ed24df2ade 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2834,12 +2834,12 @@ qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
->                       meson.current_source_dir() / 'scripts/qapi/expr.py',
->                       meson.current_source_dir() / 'scripts/qapi/gen.py',
->                       meson.current_source_dir() / 'scripts/qapi/introspect.py',
-> +                     meson.current_source_dir() / 'scripts/qapi/main.py',
->                       meson.current_source_dir() / 'scripts/qapi/parser.py',
->                       meson.current_source_dir() / 'scripts/qapi/schema.py',
->                       meson.current_source_dir() / 'scripts/qapi/source.py',
->                       meson.current_source_dir() / 'scripts/qapi/types.py',
->                       meson.current_source_dir() / 'scripts/qapi/visit.py',
-> -                     meson.current_source_dir() / 'scripts/qapi/common.py',
->                       meson.current_source_dir() / 'scripts/qapi-gen.py'
->  ]
-
-And here you see why putting things in alphabetical order (when
-possible) avoids this kind of duplications.
 
 
