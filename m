@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FE76F143B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CFD6F1442
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:34:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psKT2-0007Ry-B6; Fri, 28 Apr 2023 05:32:41 -0400
+	id 1psKUa-0008CV-5L; Fri, 28 Apr 2023 05:34:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterlin@andestech.com>)
- id 1psKSy-0007Rk-Hj
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:32:37 -0400
-Received: from 60-248-80-70.hinet-ip.hinet.net ([60.248.80.70]
- helo=Atcsqr.andestech.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psKUY-0008Bq-BL
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:34:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterlin@andestech.com>)
- id 1psKSv-0005qg-Kf
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:32:36 -0400
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
- by Atcsqr.andestech.com with ESMTP id 33S9WMex064050
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 17:32:22 +0800 (+08)
- (envelope-from peterlin@andestech.com)
-Received: from atcfdc88.andestech.com (10.0.15.158) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0;
- Fri, 28 Apr 2023 17:32:20 +0800
-From: Yu Chien Peter Lin <peterlin@andestech.com>
-To: <qemu-devel@nongnu.org>
-CC: Yu Chien Peter Lin <peterlin@andestech.com>
-Subject: [PATCH 1/2] target: riscv: fix typos
-Date: Fri, 28 Apr 2023 17:32:14 +0800
-Message-ID: <20230428093214.10289-1-peterlin@andestech.com>
-X-Mailer: git-send-email 2.38.0.68.ge85701b4af.dirty
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psKUT-000645-Mp
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:34:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682674449;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QTWfh0mTR5TIlGJzxubMNhjXbsO3W3buPcrMKjkf5OU=;
+ b=iqZEHTmnP2ccGvJ+5bxDleRtzOMsrUAa8cCgTupV63Fnh1qrrUZp2FVAZZnFpUv+vj3QWI
+ TT2JITFHW56Ye5BArHOMc5KOdmLU5Z6i5IS0/mfa77x7R7IjwoykMAxV4b3r9x4BZhVSSA
+ DltG+U1k9Ri7XXJ5eNNdKsHtD1JeUkY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-2cg0p9r1NEG2DWObqaBNMA-1; Fri, 28 Apr 2023 05:34:05 -0400
+X-MC-Unique: 2cg0p9r1NEG2DWObqaBNMA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 647ED1C02D42;
+ Fri, 28 Apr 2023 09:34:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90786440BC;
+ Fri, 28 Apr 2023 09:34:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7EECE21E675B; Fri, 28 Apr 2023 11:34:02 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  eblake@redhat.com,
+ kwolf@redhat.com,  hreitz@redhat.com,  pbonzini@redhat.com,
+ marcandre.lureau@redhat.com,  arei.gonglei@huawei.com,
+ pizhenwei@bytedance.com,  jsnow@redhat.com,  eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,
+ quintela@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
+ stefanha@redhat.com,  kraxel@redhat.com,  kkostiuk@redhat.com,
+ qemu-block@nongnu.org,  marcandre.lureau@gmail.com,  david@redhat.com
+Subject: Re: [PATCH 17/16] docs/devel/qapi-code-gen: Describe some doc
+ markup pitfalls
+References: <20230425064223.820979-1-armbru@redhat.com>
+ <20230427095346.1238913-1-armbru@redhat.com>
+ <eee8f95c-43eb-b357-d42a-1c479967b97c@yandex-team.ru>
+Date: Fri, 28 Apr 2023 11:34:02 +0200
+In-Reply-To: <eee8f95c-43eb-b357-d42a-1c479967b97c@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 27 Apr 2023 15:41:12 +0300")
+Message-ID: <87y1mcnyet.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.0.15.158]
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL: Atcsqr.andestech.com 33S9WMex064050
-Received-SPF: pass client-ip=60.248.80.70; envelope-from=peterlin@andestech.com;
- helo=Atcsqr.andestech.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, RDNS_DYNAMIC=0.982,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, TVD_RCVD_IP=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,76 +89,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix a few minor typos for PMU events.
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
 
-Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
----
- target/riscv/cpu.h        | 2 +-
- target/riscv/cpu_helper.c | 2 +-
- target/riscv/pmu.c        | 8 ++++----
- 3 files changed, 6 insertions(+), 6 deletions(-)
+> On 27.04.23 12:53, Markus Armbruster wrote:
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>   docs/devel/qapi-code-gen.rst | 53 ++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 53 insertions(+)
+>> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+>> index d81aac7a19..14983b074c 100644
+>> --- a/docs/devel/qapi-code-gen.rst
+>> +++ b/docs/devel/qapi-code-gen.rst
+>> @@ -1059,6 +1059,59 @@ For example::
+>>      'returns': ['BlockStats'] }
+>>     +Markup pitfalls
+>> +~~~~~~~~~~~~~~~
+>> +
+>> +A blank line is required between list items and paragraphs.  Without
+>> +it, the list may not be recognized, resulting in garbled output.  Good
+>> +example::
+>> +
+>> + # An event's state is modified if:
+>> + #
+>> + # - its name matches the @name pattern, and
+>> + # - if @vcpu is given, the event has the "vcpu" property.
+>> +
+>> +Without the blank line this would be a single paragraph.
+>> +
+>> +Indentation matters.  Bad example::
+>> +
+>> + # @none: None (no memory side cache in this proximity domain,
+>> + #              or cache associativity unknown)
+>> +
+>> +The description is parsed as a definition list with term "None (no
+>> +memory side cache in this proximity domain," and definition "or cache
+>> +associativity unknown)".
+>
+> May be add good example of indentation as well
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 638e47c75a..eab518542c 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -812,7 +812,7 @@ enum riscv_pmu_event_idx {
-     RISCV_PMU_EVENT_HW_INSTRUCTIONS = 0x02,
-     RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS = 0x10019,
-     RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS = 0x1001B,
--    RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS = 0x10021,
-+    RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS = 0x10021,
- };
- 
- /* CSR function table */
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f88c503cf4..5d3e032ec9 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -1210,7 +1210,7 @@ static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access_type)
- 
-     switch (access_type) {
-     case MMU_INST_FETCH:
--        pmu_event_type = RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
-+        pmu_event_type = RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS;
-         break;
-     case MMU_DATA_LOAD:
-         pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
-diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-index fa1e1484c2..0be0e8027b 100644
---- a/target/riscv/pmu.c
-+++ b/target/riscv/pmu.c
-@@ -62,17 +62,17 @@ void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
-    fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
-    fdt_event_ctr_map[5] = cpu_to_be32(cmask | 1 << 2);
- 
--   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) */
-+   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x01 type(0x01) */
-    fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
-    fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
-    fdt_event_ctr_map[8] = cpu_to_be32(cmask);
- 
--   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01) */
-+   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x01 type(0x01) */
-    fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
-    fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
-    fdt_event_ctr_map[11] = cpu_to_be32(cmask);
- 
--   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) */
-+   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x01 type(0x01) */
-    fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
-    fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
-    fdt_event_ctr_map[14] = cpu_to_be32(cmask);
-@@ -317,7 +317,7 @@ int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
-     case RISCV_PMU_EVENT_HW_INSTRUCTIONS:
-     case RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS:
-     case RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS:
--    case RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS:
-+    case RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS:
-         break;
-     default:
-         /* We don't support any raw events right now */
--- 
-2.34.1
+Patches I'm about to post will fill up this pitfall.  They change the
+text to:
+
+     # @none: None (no memory side cache in this proximity domain,
+     #              or cache associativity unknown)
+     #     (since 5.0)
+
+    The last line's de-indent is wrong.  The second and subsequent lines
+    need to line up with each other, like this::
+
+     # @none: None (no memory side cache in this proximity domain,
+     #     or cache associativity unknown)
+     #     (since 5.0)
+
+Good enough?
+
+[...]
 
 
