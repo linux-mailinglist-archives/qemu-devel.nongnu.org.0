@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D29C6F20C7
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 00:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6901C6F20CB
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 00:28:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psWYJ-0006FK-5y; Fri, 28 Apr 2023 18:26:55 -0400
+	id 1psWZU-0006xi-Pc; Fri, 28 Apr 2023 18:28:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWYH-0006Ew-K4
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:26:53 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWZS-0006xC-NR
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:28:06 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWYG-000528-19
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:26:53 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3f1e2555b5aso1288595e9.0
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 15:26:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWZQ-00056D-RZ
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:28:06 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f173af665fso1150195e9.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 15:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682720810; x=1685312810;
+ d=linaro.org; s=google; t=1682720881; x=1685312881;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=O9aXlHiSzuHZuxcHDHaynEz+z8FIFGb9+9d/DZdtI5w=;
- b=w3LIV9+5lN9B/klNftYkBEAhsUk8/5vyOu5tcoH5NEa9dFlxXOCVBlGnKVtf54ZMdv
- cFqrnnNr/SbVwfIENsdV0+6aG1YLVkJkromgyjLp3XbXAnD5nP2dnR11knNltmPw9Qiy
- 5C5K8FIhg4jXfmUCHDUIiRxE4RMBTHdOeH7hOTRVIlZHguqyTkN2c2YD75L5NTXR+JNN
- GMyafafGKGbMIobh4rqNExFJpBCJJvaRY6weUlzR4KjmG8IYSBCo9pHZuiAGeGTeSCzu
- bTSe297gR9Bd+mgG6oI98r0ZdDPbAfixfao0wu06ITQw+SDUwYheaibfl9qrW8XgfxSg
- tfBA==
+ bh=56IOLzA770kT40xdSibzvmIUHfGCxiEPZX/wywdJkEw=;
+ b=cXj9Hhot8+zIe8kg9Sa/PiXrJvm/U46gOXWqoaLwkT3gvFc13zKF1qvLWatOJw4Q/Z
+ J4u/bJ97Wwte6Iid3DeHjicf5i8HHDrVy/QfaK0kNaCCnqJueKE9dSMQgbjn14aMNEW2
+ 0k65H+/8jrSAab9zAsLCjlE/N+6jfCl3Pj9Dfs9xeDn+b8jqqIMj0Mrn2NayljXPq4rQ
+ 4m0DbV+TOJ5YlmHoPlhWCdw4qHvdk4PJxKFdmTvCL/8NBH6m45ape3i8qw4g1ga8J32I
+ 9qdHlYgvAKVBgBQe6XhPzq2iqZlXwjKdSoTPiTy51G88uCaIAFVQQPkOuQf1UElrGvHc
+ gMbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682720810; x=1685312810;
+ d=1e100.net; s=20221208; t=1682720881; x=1685312881;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=O9aXlHiSzuHZuxcHDHaynEz+z8FIFGb9+9d/DZdtI5w=;
- b=Qhzp5qYXyUUObf5o3di03URb/Q+7YjXQ0B8WhVeEjKsgtVulXGAEVBRqPCiN+eh2Vo
- 1iwm2uSlhrC/Aej6ZZH54fAF/uckHB0AGI7AnL+obxbEkGJKarsDef1TfOkztgkwLuC8
- R9qSHUcC1sNfl0XWzzsDQYX/xE4iyKBeVfLXTlcm2XoshdcirXjgZXSbNFWuenMeu/gc
- ZS+0Sv5d5bLKrTbQsyoqXYOAQ49+6F+RnUpT6iD8eAXbW11QoZHbQ3w1jB2ADs/zNcVt
- 3raSKW22AG9IscndPXsv418qS8iW/j/PIA+QoSu1Fkj8E2NEmgfyiaiVCKISiryG8tfR
- D3tQ==
-X-Gm-Message-State: AC+VfDzudA9IQu+kaLAEtk3p7QI+P3dKppxciteIWsC8xidfqKo5/LQ9
- aOE3rQ9JAxeDyO+nHDp+VA5I8w==
-X-Google-Smtp-Source: ACHHUZ5ipB5Ecrzf2Ea4TfwOW8PgaE+y+M8OFt4ZjIJiFgYOo3sCWHnulfgyzmi0r5dxRYqK8X408Q==
-X-Received: by 2002:a1c:7317:0:b0:3f1:73c8:3a6d with SMTP id
- d23-20020a1c7317000000b003f173c83a6dmr5017423wmb.12.1682720810473; 
- Fri, 28 Apr 2023 15:26:50 -0700 (PDT)
+ bh=56IOLzA770kT40xdSibzvmIUHfGCxiEPZX/wywdJkEw=;
+ b=BRfzWZVYjRFdV5fm86UmrM5lS34V6ORTEnen17/zyYtGaudBE29Qs58DTVQs8U44B3
+ MAVyZLv036v5PqDrx9i0JPjrDpVaYRxN/8ejbX62UUK449Pf33M75Km5MEgLIF1uLcAg
+ 3t7vUWw/onTpnMdH0Flqa8GVZSKk+o87OGx4AEHVAMC3G6LwQcHA/Bz9P2Kamj+tPx7K
+ bcia+7913+m8ZqbZuoOk9RXvUY45ux1Rbq9pLEst2gw8tTcvbTRIG4dAkj9cUpqGU30l
+ Uqne0zhwusPPfGeuRuYL8N3pPqBvB8Stc2YKVGF8fjSqjInCzofKcVTRAPcxVH9IC55O
+ 9tbw==
+X-Gm-Message-State: AC+VfDwonM9buBREC8VVrZwbx8dGTF9kC1NjhdPlbKqu0PQSRthNFCAJ
+ dZFPmXcsQdykQ54YhAmJuDu+zA==
+X-Google-Smtp-Source: ACHHUZ4maGIwkNKVdegMC7L/CUk72WiJkdmq3rMfG//GBiNlSCC/0fuIXSRYTRvM8zzwJfa07oSkmQ==
+X-Received: by 2002:a7b:ce86:0:b0:3f0:4734:bef8 with SMTP id
+ q6-20020a7bce86000000b003f04734bef8mr5310808wmj.39.1682720881528; 
+ Fri, 28 Apr 2023 15:28:01 -0700 (PDT)
 Received: from [192.168.192.175] (47.red-88-28-19.dynamicip.rima-tde.net.
  [88.28.19.47]) by smtp.gmail.com with ESMTPSA id
- m18-20020a7bcb92000000b003f24f245f57sm16708528wmi.42.2023.04.28.15.26.48
+ j14-20020adfea4e000000b002fc3d8c134bsm22130949wrn.74.2023.04.28.15.27.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Apr 2023 15:26:49 -0700 (PDT)
-Message-ID: <889ca022-d497-d3a0-f712-e57866c51492@linaro.org>
-Date: Fri, 28 Apr 2023 23:26:45 +0100
+ Fri, 28 Apr 2023 15:28:01 -0700 (PDT)
+Message-ID: <c17cbfae-ac52-90f1-a204-18c991fae011@linaro.org>
+Date: Fri, 28 Apr 2023 23:27:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v2 2/5] hw/display/virtio-gpu-virgl: make GL device more
- library agnostic
+Subject: Re: [PATCH v2 5/5] virtio-gpu: CONTEXT_INIT feature
 Content-Language: en-US
 To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, marcandre.lureau@redhat.com, akihiko.odaki@gmail.com,
  dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
 References: <20230428164823.789-1-gurchetansingh@google.com>
- <20230428164823.789-2-gurchetansingh@google.com>
+ <20230428164823.789-5-gurchetansingh@google.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230428164823.789-2-gurchetansingh@google.com>
+In-Reply-To: <20230428164823.789-5-gurchetansingh@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -96,24 +95,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 28/4/23 18:48, Gurchetan Singh wrote:
-> From: Gurchetan Singh <gurchetansingh@chromium.org>
+> From: Antonio Caggiano <antonio.caggiano@collabora.com>
 > 
-> Rather than create a virtio-gpu-gfxstream device and it's
-> associated variants (vga, pci), let's just extend the GL device.
+> The feature can be enabled when a backend wants it.
 > 
-> We need to:
->      - Move all virgl functions to their own file
->      - Only all needed class callbacks in the generic GL device
-> 
+> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 > ---
-> v2:
->      - (Akihiko) Fix unnecessary line break
-> 
->   hw/display/virtio-gpu-gl.c     | 109 ------------------------------
->   hw/display/virtio-gpu-virgl.c  | 118 +++++++++++++++++++++++++++++++--
->   include/hw/virtio/virtio-gpu.h |  11 +--
->   3 files changed, 119 insertions(+), 119 deletions(-)
+>   hw/display/virtio-gpu-base.c   | 3 +++
+>   include/hw/virtio/virtio-gpu.h | 3 +++
+>   2 files changed, 6 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
