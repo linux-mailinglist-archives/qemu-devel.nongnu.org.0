@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6DD6F1463
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:44:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5DF6F146A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:45:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psKeH-0003dO-CU; Fri, 28 Apr 2023 05:44:18 -0400
+	id 1psKe3-0003R4-LB; Fri, 28 Apr 2023 05:44:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKe8-0003Uz-0J
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:08 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKe1-0003Qh-9e
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:01 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKe6-0007a2-AS
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:07 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKdz-0007Yz-TM
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682675045;
+ s=mimecast20190719; t=1682675039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FMY6TNWmsyd0oLNeirVgt3oxIPuY5OVMgckNjaBfKmo=;
- b=VSIaO2Q09eKwqh5J01+f4B0onORE33ixJbnN7fmtap1qmfX/pjV0rq+l+Qt1HNW+z1We1U
- dDA+XhFKktMMDdCUowuAoYpRyZzDyaUscR+H9KKw2lR5+Qeef3lOD6myF3S0txjqeIiBRS
- bxn84tFQTyEy/z7wIMYDx9Yek2oJMFg=
+ bh=uvO69u+7iCd+pwuHsuzCzuuClp9Td+ey/1aZNXKPKaw=;
+ b=g6TcWPdycv0CL3+TRVUUyu8GyhNzfFyh6uBsYrlENoTgFSvlU6KIUJQLT/8ElEosLajB9u
+ m2PL6Uh1ohvHypg5GJbZBWahHH1uGTLodlYGEV+xaKvMYj50az8IhQ2iO03DWqBFqRsYbT
+ hegRAgzbGa7/WMWG7jAYByTi/jhTJcI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-FUmGqKGLOwOwHsYXKivcRw-1; Fri, 28 Apr 2023 05:43:53 -0400
-X-MC-Unique: FUmGqKGLOwOwHsYXKivcRw-1
+ us-mta-512-Vw5Xr2TnMqeB8fuw3lA_Jg-1; Fri, 28 Apr 2023 05:43:56 -0400
+X-MC-Unique: Vw5Xr2TnMqeB8fuw3lA_Jg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69B4810504A6;
- Fri, 28 Apr 2023 09:43:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E575185A78B;
+ Fri, 28 Apr 2023 09:43:55 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 413B41410F1E;
- Fri, 28 Apr 2023 09:43:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C50F81410F1E;
+ Fri, 28 Apr 2023 09:43:53 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
 Cc: Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 02/13] hw/rdma: Remove unused macros PG_DIR_SZ and PG_TBL_SZ
-Date: Fri, 28 Apr 2023 11:43:35 +0200
-Message-Id: <20230428094346.1292054-3-thuth@redhat.com>
+Subject: [PULL 03/13] hw/rdma: Compile target-independent parts of the rdma
+ code only once
+Date: Fri, 28 Apr 2023 11:43:36 +0200
+Message-Id: <20230428094346.1292054-4-thuth@redhat.com>
 In-Reply-To: <20230428094346.1292054-1-thuth@redhat.com>
 References: <20230428094346.1292054-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,30 +79,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-They have apparently never been used.
+Some files of the rdma code do not depend on any target specific
+macros. Compile these only once to save some time during the build.
 
-Message-Id: <20230419103018.627115-1-thuth@redhat.com>
+Message-Id: <20230419114937.667221-1-thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/rdma/rdma_rm.c | 4 ----
- 1 file changed, 4 deletions(-)
+ hw/rdma/meson.build | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/rdma/rdma_rm.c b/hw/rdma/rdma_rm.c
-index cfd85de3e6..038d564433 100644
---- a/hw/rdma/rdma_rm.c
-+++ b/hw/rdma/rdma_rm.c
-@@ -23,10 +23,6 @@
- #include "rdma_backend.h"
- #include "rdma_rm.h"
- 
--/* Page directory and page tables */
--#define PG_DIR_SZ { TARGET_PAGE_SIZE / sizeof(__u64) }
--#define PG_TBL_SZ { TARGET_PAGE_SIZE / sizeof(__u64) }
--
- void rdma_format_device_counters(RdmaDeviceResources *dev_res, GString *buf)
- {
-     g_string_append_printf(buf, "\ttx               : %" PRId64 "\n",
+diff --git a/hw/rdma/meson.build b/hw/rdma/meson.build
+index 7325f40c32..fc7917192f 100644
+--- a/hw/rdma/meson.build
++++ b/hw/rdma/meson.build
+@@ -1,10 +1,12 @@
+-specific_ss.add(when: 'CONFIG_VMW_PVRDMA', if_true: files(
++softmmu_ss.add(when: 'CONFIG_VMW_PVRDMA', if_true: files(
+   'rdma.c',
+   'rdma_backend.c',
+-  'rdma_rm.c',
+   'rdma_utils.c',
++  'vmw/pvrdma_qp_ops.c',
++))
++specific_ss.add(when: 'CONFIG_VMW_PVRDMA', if_true: files(
++  'rdma_rm.c',
+   'vmw/pvrdma_cmd.c',
+   'vmw/pvrdma_dev_ring.c',
+   'vmw/pvrdma_main.c',
+-  'vmw/pvrdma_qp_ops.c',
+ ))
 -- 
 2.31.1
 
