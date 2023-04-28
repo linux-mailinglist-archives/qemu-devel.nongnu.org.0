@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEB66F1594
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C4B6F157A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:30:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psLLr-0006KM-5f; Fri, 28 Apr 2023 06:29:19 -0400
+	id 1psLLu-0006Lt-QS; Fri, 28 Apr 2023 06:29:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLk-0006Hd-PL
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:13 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLm-0006JB-2Y
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:14 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLh-0007M5-FZ
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLj-0007Ma-2m
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682677748;
+ s=mimecast20190719; t=1682677750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LtZbHqHnbk21s0/r/g/70h+XfrDO6nRHiJYF3Ml9t6Q=;
- b=PZQAbFTSFPrHa9o/9VH74Su+0cuzL6w6OQDUKpXYdEjkPzYc+spBzLVhbS5JGzgeLkIg3I
- zZkE4HH4SaftQpOi0AS0sQYwnFOuvXJpHxfWJ9pybTN+o/Cp+T0vd9tcfbE8osJM/mYS4Q
- XwudW2DljUkf8CrYWzwdEAAnLh/ob3w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lmXSi46piOfuf8hoH+8j3jnr9T73v2e9Grtb1mbVpa0=;
+ b=HibTDavoWlbk6+ye4j+2xg8G7i/vVprg75uHye4ftpJt0cApYDGVL8Ek+VgrC6ZibfzNRd
+ pJIvyCq5SN164mWdJ9LUYL2GwG21l9yYItxHm9kKwHyGu+hLtXnNbiFAArPRpS/Tgz8ihI
+ zclY11a2tTavxQ2RHfM3NQIC/hv65H4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-DzPNGDyyNDe89PhHlhID_w-1; Fri, 28 Apr 2023 06:29:05 -0400
-X-MC-Unique: DzPNGDyyNDe89PhHlhID_w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-607-I91Xpmc8NwKULpN5L3HEmw-1; Fri, 28 Apr 2023 06:29:04 -0400
+X-MC-Unique: I91Xpmc8NwKULpN5L3HEmw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94A60811E7B;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79EB638221CE;
  Fri, 28 Apr 2023 10:29:04 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57D7840C6EC4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 595871410F1C;
  Fri, 28 Apr 2023 10:29:04 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5F2AF21D0BC3; Fri, 28 Apr 2023 12:29:01 +0200 (CEST)
+ id 616A421C6901; Fri, 28 Apr 2023 12:29:01 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PULL 16/17] qapi storage-daemon/qapi: Fix documentation section
- structure
-Date: Fri, 28 Apr 2023 12:29:00 +0200
-Message-Id: <20230428102901.1685375-17-armbru@redhat.com>
+Cc: richard.henderson@linaro.org, Juan Quintela <quintela@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PULL 17/17] docs/devel/qapi-code-gen: Describe some doc markup
+ pitfalls
+Date: Fri, 28 Apr 2023 12:29:01 +0200
+Message-Id: <20230428102901.1685375-18-armbru@redhat.com>
 In-Reply-To: <20230428102901.1685375-1-armbru@redhat.com>
 References: <20230428102901.1685375-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -82,136 +80,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In the QEMU QMP Reference Manual, subsection "Block core (VM
-unrelated)" is empty.  Its contents is at the end of subsection
-"Background jobs" instead.  That's because qapi/job.json is included
-first from qapi/block-core.json, which makes qapi/job.json's
-documentation go between qapi/block-core.json's subsection heading and
-contents.
-
-In the QEMU Storage Daemon QMP Reference Manual, section "Block
-Devices" contains nothing but an empty subsection "Block core (VM
-unrelated)".  The latter's contents is at the end section "Socket data
-types", along with subsection "Block device exports".  Subsection
-"Background jobs" is at the end of section "Cryptography".  All this
-is because storage-daemon/qapi/qapi-schema.json includes modules in a
-confused order.
-
-Fix both as follows.
-
-Turn subsection "Background jobs" into a section.
-
-Move it before section "Block devices" in the QEMU QMP Reference
-Manual, by including qapi/jobs.json right before qapi/block.json.
-
-Reorder include directives in storage-daemon/qapi/qapi-schema.json to
-match the order in qapi/qapi-schema.json, so that the QEMU Storage
-Daemon QMP Reference Manual's section structure the QEMU QMP Reference
-Manual's.
-
-In the QEMU QMP Reference Manual, qapi/cryptodev.json's documentation
-is at the end of section "Virtio devices".  That's because it lacks a
-section heading, and therefore gets squashed into whatever section
-happens to precede it.
-
-Add section heading so it's in section "Cryptography devices".
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20230427095346.1238913-1-armbru@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Acked-by: zhenwei pi <pizhenwei@bytedance.com>
-Message-Id: <20230425064223.820979-17-armbru@redhat.com>
 ---
- qapi/cryptodev.json                  |  4 ++++
- qapi/job.json                        |  2 +-
- qapi/qapi-schema.json                |  2 +-
- storage-daemon/qapi/qapi-schema.json | 22 +++++++++++++++-------
- 4 files changed, 21 insertions(+), 9 deletions(-)
+ docs/devel/qapi-code-gen.rst | 53 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
-index f33f96a692..cf960ea81f 100644
---- a/qapi/cryptodev.json
-+++ b/qapi/cryptodev.json
-@@ -4,6 +4,10 @@
- # This work is licensed under the terms of the GNU GPL, version 2 or later.
- # See the COPYING file in the top-level directory.
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index ea0592034a..af1986f33e 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -1060,6 +1060,59 @@ For example::
+    'returns': ['BlockStats'] }
  
-+##
-+# = Cryptography devices
-+##
+ 
++Markup pitfalls
++~~~~~~~~~~~~~~~
 +
- ##
- # @QCryptodevBackendAlgType:
- #
-diff --git a/qapi/job.json b/qapi/job.json
-index bc4104757a..9e29a796c5 100644
---- a/qapi/job.json
-+++ b/qapi/job.json
-@@ -2,7 +2,7 @@
- # vim: filetype=python
- 
- ##
--# == Background jobs
-+# = Background jobs
- ##
- 
- ##
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index e57d8ff801..bb7217da26 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -43,11 +43,11 @@
- { 'include': 'sockets.json' }
- { 'include': 'run-state.json' }
- { 'include': 'crypto.json' }
-+{ 'include': 'job.json' }
- { 'include': 'block.json' }
- { 'include': 'block-export.json' }
- { 'include': 'char.json' }
- { 'include': 'dump.json' }
--{ 'include': 'job.json' }
- { 'include': 'net.json' }
- { 'include': 'rdma.json' }
- { 'include': 'rocker.json' }
-diff --git a/storage-daemon/qapi/qapi-schema.json b/storage-daemon/qapi/qapi-schema.json
-index 67749d1101..f10c949490 100644
---- a/storage-daemon/qapi/qapi-schema.json
-+++ b/storage-daemon/qapi/qapi-schema.json
-@@ -15,18 +15,26 @@
- 
- { 'include': '../../qapi/pragma.json' }
- 
-+# Documentation generated with qapi-gen.py is in source order, with
-+# included sub-schemas inserted at the first include directive
-+# (subsequent include directives have no effect).  To get a sane and
-+# stable order, it's best to include each sub-schema just once, or
-+# include it first right here.
++A blank line is required between list items and paragraphs.  Without
++it, the list may not be recognized, resulting in garbled output.  Good
++example::
 +
-+{ 'include': '../../qapi/common.json' }
-+{ 'include': '../../qapi/sockets.json' }
-+{ 'include': '../../qapi/crypto.json' }
-+{ 'include': '../../qapi/job.json' }
++ # An event's state is modified if:
++ #
++ # - its name matches the @name pattern, and
++ # - if @vcpu is given, the event has the "vcpu" property.
 +
- ##
- # = Block devices
- ##
- { 'include': '../../qapi/block-core.json' }
- { 'include': '../../qapi/block-export.json' }
++Without the blank line this would be a single paragraph.
 +
- { 'include': '../../qapi/char.json' }
--{ 'include': '../../qapi/common.json' }
--{ 'include': '../../qapi/control.json' }
--{ 'include': '../../qapi/crypto.json' }
--{ 'include': '../../qapi/introspect.json' }
--{ 'include': '../../qapi/job.json' }
- { 'include': '../../qapi/authz.json' }
--{ 'include': '../../qapi/qom.json' }
--{ 'include': '../../qapi/sockets.json' }
- { 'include': '../../qapi/transaction.json' }
-+{ 'include': '../../qapi/control.json' }
-+{ 'include': '../../qapi/introspect.json' }
-+{ 'include': '../../qapi/qom.json' }
++Indentation matters.  Bad example::
++
++ # @none: None (no memory side cache in this proximity domain,
++ #              or cache associativity unknown)
++
++The description is parsed as a definition list with term "None (no
++memory side cache in this proximity domain," and definition "or cache
++associativity unknown)".
++
++Section tags are case-sensitive and end with a colon.  Good example::
++
++ # Since: 7.1
++
++Bad examples (all ordinary paragraphs)::
++
++ # since: 7.1
++
++ # Since 7.1
++
++ # Since : 7.1
++
++Likewise, member descriptions require a colon.  Good example::
++
++ # @interface-id: Interface ID
++
++Bad examples (all ordinary paragraphs)::
++
++ # @interface-id   Interface ID
++
++ # @interface-id : Interface ID
++
++Undocumented members are not flagged, yet.  Instead, the generated
++documentation describes them as "Not documented".  Think twice before
++adding more undocumented members.
++
++When you change documentation comments, please check the generated
++documentation comes out as intended!
++
++
+ Client JSON Protocol introspection
+ ==================================
+ 
 -- 
 2.39.2
 
