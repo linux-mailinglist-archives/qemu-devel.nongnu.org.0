@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB3B6F1622
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EDC6F1630
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:57:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psLkb-0008Vy-IE; Fri, 28 Apr 2023 06:54:53 -0400
+	id 1psLkV-0008QT-DM; Fri, 28 Apr 2023 06:54:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkV-0008QX-Gc
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkT-0008PC-7U
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkO-0003zr-Lb
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkN-0003y9-CC
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682679280;
+ s=mimecast20190719; t=1682679277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CfyEEtFyAtjA7SIvT1gbyirmoAzKMzKB8IpF1ZNH67I=;
- b=J6uzFaC8dsQLmr3IepMdo9PZ6H6f1g64KBTKH9pQ2epQKptFgU77pOA+8FdR77wKnYt7Su
- Q83b8fJuDIazvlfYGWio9HfIr8DEA+hc9eGhAJcz7VIbYsVWRPNYfySyPPfwaEBVDM872t
- sZwdWap13SaXbZqzLxm1zVtDHEot74A=
+ bh=LD0F1iZRv0I5Fmv5mf/4am9Df5S9cMioTKXfKn+93AU=;
+ b=Y8T/+S/4AMS0IPKiyqX5yPcoe3m5VE8PDShRna4gvWkPXKMFJJzZcpN5PuxhJz87IPwSSA
+ gFHbu+Wr/8K/Pti08AG+RHc37VLBzKIEbdbIKPp1CBZv+r7YG0sl+HFerrqmVtEHIrzFeA
+ uNNps+EYsjOTG3h0j2SOsnzevt7OPCM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-161-Ek-h0Wd1PY2N-KQZJ4rSYQ-1; Fri, 28 Apr 2023 06:54:34 -0400
-X-MC-Unique: Ek-h0Wd1PY2N-KQZJ4rSYQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-572-GadySFSsNXaequZ0MK81iQ-1; Fri, 28 Apr 2023 06:54:34 -0400
+X-MC-Unique: GadySFSsNXaequZ0MK81iQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B249418E527B;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B401CA0F3A4;
  Fri, 28 Apr 2023 10:54:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E4CE40C6EC4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F7BC1410F1C;
  Fri, 28 Apr 2023 10:54:32 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 860BF21F983A; Fri, 28 Apr 2023 12:54:29 +0200 (CEST)
+ id 89BE421D1D99; Fri, 28 Apr 2023 12:54:29 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, peter.maydell@linaro.org, pbonzini@redhat.com,
@@ -56,17 +56,17 @@ Cc: michael.roth@amd.com, peter.maydell@linaro.org, pbonzini@redhat.com,
  jiri@resnulli.us, stefanb@linux.vnet.ibm.com, stefanha@redhat.com,
  lukasstraub2@web.de, kkostiuk@redhat.com, qemu-block@nongnu.org,
  victortoso@redhat.com
-Subject: [PATCH 05/17] Revert "qapi: BlockExportRemoveMode: move comments to
- TODO"
-Date: Fri, 28 Apr 2023 12:54:17 +0200
-Message-Id: <20230428105429.1687850-6-armbru@redhat.com>
+Subject: [PATCH 06/17] sphinx/qapidoc: Do not emit TODO sections into user
+ manuals
+Date: Fri, 28 Apr 2023 12:54:18 +0200
+Message-Id: <20230428105429.1687850-7-armbru@redhat.com>
 In-Reply-To: <20230428105429.1687850-1-armbru@redhat.com>
 References: <20230428105429.1687850-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -91,38 +91,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This reverts commit 97cd74f77231f3897838f8db32b659d94803e01f.
+QAPI doc comments are for QMP users: they go into the "QEMU QMP
+Reference Manual" and the "QEMU Storage Daemon QMP Reference Manual".
 
-The next commit will hide TODO: sections.  See there for rationale.
+The doc comment TODO sections are for somebody else, namely for the
+people who can do: developers.  Do not emit them into the user
+manuals.
+
+This elides the following TODOs:
+
+* SchemaInfoCommand
+
+  # TODO: @success-response (currently irrelevant, because it's QGA, not QMP)
+
+  This is a note to developers adding introspection to the guest
+  agent.  It makes no sense to users.
+
+* @query-hotpluggable-cpus
+
+  # TODO: Better documentation; currently there is none.
+
+  This is a reminder for developers.  It doesn't help users.
+
+* @device_add
+
+  # TODO: This command effectively bypasses QAPI completely due to its
+  #       "additional arguments" business.  It shouldn't have been added to
+  #       the schema in this form.  It should be qapified properly, or
+  #       replaced by a properly qapified command.
+
+  Likewise.
+
+Eliding them is an improvement.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/block-export.json | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ docs/devel/qapi-code-gen.rst | 5 +++--
+ docs/sphinx/qapidoc.py       | 3 +++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index 3be3de357f..3ec8ad0ce7 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -249,13 +249,13 @@
- #
- # @hard: Drop all connections immediately and remove export.
- #
--# TODO: Potential additional modes to be added in the future:
-+# Potential additional modes to be added in the future:
- #
--#       hide: Just hide export from new clients, leave existing connections as is.
--#       Remove export after all clients are disconnected.
-+# hide: Just hide export from new clients, leave existing connections as is.
-+# Remove export after all clients are disconnected.
- #
--#       soft: Hide export from new clients, answer with ESHUTDOWN for all further
--#       requests from existing clients.
-+# soft: Hide export from new clients, answer with ESHUTDOWN for all further
-+# requests from existing clients.
- #
- # Since: 2.12
- ##
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index ff7b74bdb2..6386b58881 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -1007,8 +1007,9 @@ A "Since: x.y.z" tagged section lists the release that introduced the
+ definition.
+ 
+ An "Example" or "Examples" section is automatically rendered entirely
+-as literal fixed-width text.  In other sections, the text is
+-formatted, and rST markup can be used.
++as literal fixed-width text.  "TODO" sections are not rendered at all
++(they are for developers, not users of QMP).  In other sections, the
++text is formatted, and rST markup can be used.
+ 
+ For example::
+ 
+diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+index d791b59492..8f3b9997a1 100644
+--- a/docs/sphinx/qapidoc.py
++++ b/docs/sphinx/qapidoc.py
+@@ -268,6 +268,9 @@ def _nodes_for_sections(self, doc):
+         """Return list of doctree nodes for additional sections"""
+         nodelist = []
+         for section in doc.sections:
++            if section.name and section.name == 'TODO':
++                # Hide TODO: sections
++                continue
+             snode = self._make_section(section.name)
+             if section.name and section.name.startswith('Example'):
+                 snode += self._nodes_for_example(section.text)
 -- 
 2.39.2
 
