@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10A76F1EA9
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 21:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DFF36F1E9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 21:13:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psTWE-0004nG-35; Fri, 28 Apr 2023 15:12:34 -0400
+	id 1psTWG-0004pi-7o; Fri, 28 Apr 2023 15:12:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psTW9-0004kB-Cs
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:29 -0400
+ id 1psTWC-0004mL-VK
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:32 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psTW6-0002yC-03
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:29 -0400
+ id 1psTW4-0002y8-Ng
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682709143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E4P9/Comv2W+9H69u3LnQkSLu/Ua9tCZaXw7xoUFIfw=;
- b=aUjrL8E0vtqGmi9h8U40ZMTqeX4RMZzxxtA/W9ylGTLoCB7QVD8wxBPN9ipyfAcuC+KIjd
- QiBILvn2iNfF5U/xIsyD8ILBmt9yj+b9WtweBxdxA8aBFJk+CD+l+5v8iOxqw0owLGdgM2
- GHf1e5CtajsC08As8+5a7m/nVQ8O/gM=
+ bh=z5BOUcS3NEKS3ep+Gx/z01Redsa8AlMTbGnP6mbzpWo=;
+ b=a+5jomdei/rSmhgVulXNhKK/CYaM6p7r2wuyrSoE29sYiU9ZYQWidGLC6JYOcCtaUgjGgR
+ OEfYSpzS/lUjAwfFEw5dYltWu3FUX65m5ahtHvBsQ1LbhVT3bupbLA3kLwSZdO7SZ1uNK1
+ Ycsjm0+1Cb8k6UOSQ03y8g0sbxbxpwY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-1ZCv5NoJPLK9M_ybtHpZZA-1; Fri, 28 Apr 2023 15:12:20 -0400
-X-MC-Unique: 1ZCv5NoJPLK9M_ybtHpZZA-1
+ us-mta-74-NYd30KgKNvaCcpf8A0J0gg-1; Fri, 28 Apr 2023 15:12:21 -0400
+X-MC-Unique: NYd30KgKNvaCcpf8A0J0gg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4D65101A550;
- Fri, 28 Apr 2023 19:12:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7A4CA85A5A3;
+ Fri, 28 Apr 2023 19:12:21 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D07F72166B4F;
- Fri, 28 Apr 2023 19:12:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B9312166B4F;
+ Fri, 28 Apr 2023 19:12:19 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Leonardo Bras <leobras@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PULL 08/21] migration: Drop unused parameter for
- migration_tls_client_create()
-Date: Fri, 28 Apr 2023 21:11:50 +0200
-Message-Id: <20230428191203.39520-9-quintela@redhat.com>
+ Lukas Straub <lukasstraub2@web.de>
+Subject: [PULL 09/21] qtest/migration-test.c: Add tests with compress enabled
+Date: Fri, 28 Apr 2023 21:11:51 +0200
+Message-Id: <20230428191203.39520-10-quintela@redhat.com>
 In-Reply-To: <20230428191203.39520-1-quintela@redhat.com>
 References: <20230428191203.39520-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -81,82 +80,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is not needed since we moved the accessor for tls properties to
-options.c.
+From: Lukas Straub <lukasstraub2@web.de>
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+There has never been tests for migration with compress enabled.
+
+Add suitable tests, testing with compress-wait-thread = false
+too.
+
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Acked-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- migration/multifd.c      | 2 +-
- migration/postcopy-ram.c | 2 +-
- migration/tls.c          | 5 ++---
- migration/tls.h          | 3 +--
- 4 files changed, 5 insertions(+), 7 deletions(-)
+ tests/qtest/migration-test.c | 103 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 4a2e1a47ce..4e71c19292 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -821,7 +821,7 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
-     const char *hostname = s->hostname;
-     QIOChannelTLS *tioc;
- 
--    tioc = migration_tls_client_create(s, ioc, hostname, errp);
-+    tioc = migration_tls_client_create(ioc, hostname, errp);
-     if (!tioc) {
-         return;
-     }
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 75aa276bb1..5615ec29eb 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -1632,7 +1632,7 @@ postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
-     }
- 
-     if (migrate_channel_requires_tls_upgrade(ioc)) {
--        tioc = migration_tls_client_create(s, ioc, s->hostname, &local_err);
-+        tioc = migration_tls_client_create(ioc, s->hostname, &local_err);
-         if (!tioc) {
-             goto out;
-         }
-diff --git a/migration/tls.c b/migration/tls.c
-index d4a76cf590..fa03d9136c 100644
---- a/migration/tls.c
-+++ b/migration/tls.c
-@@ -114,8 +114,7 @@ static void migration_tls_outgoing_handshake(QIOTask *task,
-     object_unref(OBJECT(ioc));
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 60dd53d3ec..d28b0d9880 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -406,6 +406,41 @@ static void migrate_set_parameter_str(QTestState *who, const char *parameter,
+     migrate_check_parameter_str(who, parameter, value);
  }
  
--QIOChannelTLS *migration_tls_client_create(MigrationState *s,
--                                           QIOChannel *ioc,
-+QIOChannelTLS *migration_tls_client_create(QIOChannel *ioc,
-                                            const char *hostname,
-                                            Error **errp)
++static long long migrate_get_parameter_bool(QTestState *who,
++                                           const char *parameter)
++{
++    QDict *rsp;
++    int result;
++
++    rsp = wait_command(who, "{ 'execute': 'query-migrate-parameters' }");
++    result = qdict_get_bool(rsp, parameter);
++    qobject_unref(rsp);
++    return !!result;
++}
++
++static void migrate_check_parameter_bool(QTestState *who, const char *parameter,
++                                        int value)
++{
++    int result;
++
++    result = migrate_get_parameter_bool(who, parameter);
++    g_assert_cmpint(result, ==, value);
++}
++
++static void migrate_set_parameter_bool(QTestState *who, const char *parameter,
++                                      int value)
++{
++    QDict *rsp;
++
++    rsp = qtest_qmp(who,
++                    "{ 'execute': 'migrate-set-parameters',"
++                    "'arguments': { %s: %i } }",
++                    parameter, value);
++    g_assert(qdict_haskey(rsp, "return"));
++    qobject_unref(rsp);
++    migrate_check_parameter_bool(who, parameter, value);
++}
++
+ static void migrate_ensure_non_converge(QTestState *who)
  {
-@@ -141,7 +140,7 @@ void migration_tls_channel_connect(MigrationState *s,
+     /* Can't converge with 1ms downtime + 3 mbs bandwidth limit */
+@@ -1524,6 +1559,70 @@ static void test_precopy_unix_xbzrle(void)
+     test_precopy_common(&args);
+ }
+ 
++static void *
++test_migrate_compress_start(QTestState *from,
++                            QTestState *to)
++{
++    migrate_set_parameter_int(from, "compress-level", 1);
++    migrate_set_parameter_int(from, "compress-threads", 4);
++    migrate_set_parameter_bool(from, "compress-wait-thread", true);
++    migrate_set_parameter_int(to, "decompress-threads", 4);
++
++    migrate_set_capability(from, "compress", true);
++    migrate_set_capability(to, "compress", true);
++
++    return NULL;
++}
++
++static void test_precopy_unix_compress(void)
++{
++    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
++    MigrateCommon args = {
++        .connect_uri = uri,
++        .listen_uri = uri,
++        .start_hook = test_migrate_compress_start,
++        /*
++         * Test that no invalid thread state is left over from
++         * the previous iteration.
++         */
++        .iterations = 2,
++    };
++
++    test_precopy_common(&args);
++}
++
++static void *
++test_migrate_compress_nowait_start(QTestState *from,
++                                   QTestState *to)
++{
++    migrate_set_parameter_int(from, "compress-level", 9);
++    migrate_set_parameter_int(from, "compress-threads", 1);
++    migrate_set_parameter_bool(from, "compress-wait-thread", false);
++    migrate_set_parameter_int(to, "decompress-threads", 1);
++
++    migrate_set_capability(from, "compress", true);
++    migrate_set_capability(to, "compress", true);
++
++    return NULL;
++}
++
++static void test_precopy_unix_compress_nowait(void)
++{
++    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
++    MigrateCommon args = {
++        .connect_uri = uri,
++        .listen_uri = uri,
++        .start_hook = test_migrate_compress_nowait_start,
++        /*
++         * Test that no invalid thread state is left over from
++         * the previous iteration.
++         */
++        .iterations = 2,
++    };
++
++    test_precopy_common(&args);
++}
++
+ static void test_precopy_tcp_plain(void)
  {
-     QIOChannelTLS *tioc;
- 
--    tioc = migration_tls_client_create(s, ioc, hostname, errp);
-+    tioc = migration_tls_client_create(ioc, hostname, errp);
-     if (!tioc) {
-         return;
-     }
-diff --git a/migration/tls.h b/migration/tls.h
-index 98e23c9b0e..5797d153cb 100644
---- a/migration/tls.h
-+++ b/migration/tls.h
-@@ -28,8 +28,7 @@ void migration_tls_channel_process_incoming(MigrationState *s,
-                                             QIOChannel *ioc,
-                                             Error **errp);
- 
--QIOChannelTLS *migration_tls_client_create(MigrationState *s,
--                                           QIOChannel *ioc,
-+QIOChannelTLS *migration_tls_client_create(QIOChannel *ioc,
-                                            const char *hostname,
-                                            Error **errp);
- 
+     MigrateCommon args = {
+@@ -2530,6 +2629,10 @@ int main(int argc, char **argv)
+     qtest_add_func("/migration/bad_dest", test_baddest);
+     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+     qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
++    qtest_add_func("/migration/precopy/unix/compress/wait",
++                   test_precopy_unix_compress);
++    qtest_add_func("/migration/precopy/unix/compress/nowait",
++                   test_precopy_unix_compress_nowait);
+ #ifdef CONFIG_GNUTLS
+     qtest_add_func("/migration/precopy/unix/tls/psk",
+                    test_precopy_unix_tls_psk);
 -- 
 2.40.0
 
