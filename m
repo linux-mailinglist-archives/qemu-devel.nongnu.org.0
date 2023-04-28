@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EDC6F1630
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FFA6F1620
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:56:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psLkV-0008QT-DM; Fri, 28 Apr 2023 06:54:47 -0400
+	id 1psLkN-0008Iu-QW; Fri, 28 Apr 2023 06:54:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkT-0008PC-7U
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:45 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkL-0008Ht-Dc
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:37 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkN-0003y9-CC
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:44 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLkK-0003wj-1s
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:54:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682679277;
+ s=mimecast20190719; t=1682679275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LD0F1iZRv0I5Fmv5mf/4am9Df5S9cMioTKXfKn+93AU=;
- b=Y8T/+S/4AMS0IPKiyqX5yPcoe3m5VE8PDShRna4gvWkPXKMFJJzZcpN5PuxhJz87IPwSSA
- gFHbu+Wr/8K/Pti08AG+RHc37VLBzKIEbdbIKPp1CBZv+r7YG0sl+HFerrqmVtEHIrzFeA
- uNNps+EYsjOTG3h0j2SOsnzevt7OPCM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1XPqCaynsnpWAl1XdZ7YzQXXi9WvVLe1EAjUUcFynAU=;
+ b=ZzqHsFbhh6zL5o84qMYQdy197WOASlM0h3H98JH2jfNqG1EUzE913DXlhYvaURZlG5Sa6H
+ oFDDU/1ED+5iGAAJZc3PUgP02gw9XQWpH8Vsl3AZED8tH+8Q5xLzjVrnQ4dEM+LMEaCUce
+ uF479QyNC17Fr/0DCBsCbkggKAapTBo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-GadySFSsNXaequZ0MK81iQ-1; Fri, 28 Apr 2023 06:54:34 -0400
-X-MC-Unique: GadySFSsNXaequZ0MK81iQ-1
+ us-mta-574-aSo0GLswPgqzmaA8KHczEw-1; Fri, 28 Apr 2023 06:54:33 -0400
+X-MC-Unique: aSo0GLswPgqzmaA8KHczEw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B401CA0F3A4;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED54C3C1485D;
  Fri, 28 Apr 2023 10:54:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F7BC1410F1C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C9BF01410F1C;
  Fri, 28 Apr 2023 10:54:32 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 89BE421D1D99; Fri, 28 Apr 2023 12:54:29 +0200 (CEST)
+ id 8D76221D1DA2; Fri, 28 Apr 2023 12:54:29 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, peter.maydell@linaro.org, pbonzini@redhat.com,
@@ -56,10 +56,9 @@ Cc: michael.roth@amd.com, peter.maydell@linaro.org, pbonzini@redhat.com,
  jiri@resnulli.us, stefanb@linux.vnet.ibm.com, stefanha@redhat.com,
  lukasstraub2@web.de, kkostiuk@redhat.com, qemu-block@nongnu.org,
  victortoso@redhat.com
-Subject: [PATCH 06/17] sphinx/qapidoc: Do not emit TODO sections into user
- manuals
-Date: Fri, 28 Apr 2023 12:54:18 +0200
-Message-Id: <20230428105429.1687850-7-armbru@redhat.com>
+Subject: [PATCH 07/17] qapi: Tidy up a slightly awkward TODO comment
+Date: Fri, 28 Apr 2023 12:54:19 +0200
+Message-Id: <20230428105429.1687850-8-armbru@redhat.com>
 In-Reply-To: <20230428105429.1687850-1-armbru@redhat.com>
 References: <20230428105429.1687850-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -74,8 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,75 +89,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QAPI doc comments are for QMP users: they go into the "QEMU QMP
-Reference Manual" and the "QEMU Storage Daemon QMP Reference Manual".
+MigrateSetParameters has a TODO comment sitting right behind its doc
+comment.  I wrote it this way to keep it out of the manual, but that
+reason is not obvious.
 
-The doc comment TODO sections are for somebody else, namely for the
-people who can do: developers.  Do not emit them into the user
-manuals.
-
-This elides the following TODOs:
-
-* SchemaInfoCommand
-
-  # TODO: @success-response (currently irrelevant, because it's QGA, not QMP)
-
-  This is a note to developers adding introspection to the guest
-  agent.  It makes no sense to users.
-
-* @query-hotpluggable-cpus
-
-  # TODO: Better documentation; currently there is none.
-
-  This is a reminder for developers.  It doesn't help users.
-
-* @device_add
-
-  # TODO: This command effectively bypasses QAPI completely due to its
-  #       "additional arguments" business.  It shouldn't have been added to
-  #       the schema in this form.  It should be qapified properly, or
-  #       replaced by a properly qapified command.
-
-  Likewise.
-
-Eliding them is an improvement.
+The previous commit (sphinx/qapidoc: Do not emit TODO sections into
+user manuals) lets me move it into the doc comment as a TODO section.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.rst | 5 +++--
- docs/sphinx/qapidoc.py       | 3 +++
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ qapi/migration.json | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index ff7b74bdb2..6386b58881 100644
---- a/docs/devel/qapi-code-gen.rst
-+++ b/docs/devel/qapi-code-gen.rst
-@@ -1007,8 +1007,9 @@ A "Since: x.y.z" tagged section lists the release that introduced the
- definition.
- 
- An "Example" or "Examples" section is automatically rendered entirely
--as literal fixed-width text.  In other sections, the text is
--formatted, and rST markup can be used.
-+as literal fixed-width text.  "TODO" sections are not rendered at all
-+(they are for developers, not users of QMP).  In other sections, the
-+text is formatted, and rST markup can be used.
- 
- For example::
- 
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-index d791b59492..8f3b9997a1 100644
---- a/docs/sphinx/qapidoc.py
-+++ b/docs/sphinx/qapidoc.py
-@@ -268,6 +268,9 @@ def _nodes_for_sections(self, doc):
-         """Return list of doctree nodes for additional sections"""
-         nodelist = []
-         for section in doc.sections:
-+            if section.name and section.name == 'TODO':
-+                # Hide TODO: sections
-+                continue
-             snode = self._make_section(section.name)
-             if section.name and section.name.startswith('Example'):
-                 snode += self._nodes_for_example(section.text)
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 82000adce4..11c09800c2 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -945,10 +945,11 @@
+ # Features:
+ # @unstable: Member @x-checkpoint-delay is experimental.
+ #
++# TODO: either fuse back into MigrationParameters, or make
++#       MigrationParameters members mandatory
++#
+ # Since: 2.4
+ ##
+-# TODO either fuse back into MigrationParameters, or make
+-# MigrationParameters members mandatory
+ { 'struct': 'MigrateSetParameters',
+   'data': { '*announce-initial': 'size',
+             '*announce-max': 'size',
 -- 
 2.39.2
 
