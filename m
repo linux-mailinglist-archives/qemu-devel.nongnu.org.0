@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAEC6F1DAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:54:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CA76F1DB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:56:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psSIc-0003Hi-3C; Fri, 28 Apr 2023 13:54:26 -0400
+	id 1psSKD-00043C-Ot; Fri, 28 Apr 2023 13:56:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSIZ-0003H6-Ga
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:54:23 -0400
+ id 1psSKB-00042t-CE
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:56:03 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSIY-00048N-2G
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:54:23 -0400
+ id 1psSK9-0004dg-OU
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:56:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682704461;
+ s=mimecast20190719; t=1682704561;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=sJG0mOpPemXypqoJGoUc3hIsdACMszFsCcG1uLbPIRY=;
- b=chLGsMwJXtw4kQQ08lcjWOf7MFCjDasVV4gRaBF98uLO2zkq/Sb3M/I8STnSap3OgLiGe/
- cxHBRXYKMUlz7BYyox549dz+8CJ8REYTpfHAK9SQBzUqNapn25VuybyY8gIvwlOGXoPDLK
- kE5AOpIJG7AoxL4t38Z4kGLz68udPeI=
+ bh=eFb+r9es7E5J7cvljWyAQkgkS6xWiYY72c8fgsW1lKA=;
+ b=GOzIagevwoaR4G/+3oM5XUIWrhIdqiFH5T5NQbJ3dUAeLbKZ/fmZneGcbS/8sP+6BEQL0I
+ 33q4AHzq+JUfqLbv906zgCOy6EZv13Skh3X6r+uAdpxbIV0QNLxq4cUnutoUh9q3S5x+UP
+ iFAQ2ZBPBOYiC8P8qimW3kYv0dcPQmA=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212-MRSDPWhQOmGPbYm0jHU8Eg-1; Fri, 28 Apr 2023 13:54:20 -0400
-X-MC-Unique: MRSDPWhQOmGPbYm0jHU8Eg-1
+ us-mta-658-5kfGWc_5MBeGqW5BJyZ2YQ-1; Fri, 28 Apr 2023 13:55:59 -0400
+X-MC-Unique: 5kfGWc_5MBeGqW5BJyZ2YQ-1
 Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-30479c17304so2453f8f.3
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:54:19 -0700 (PDT)
+ ffacd0b85a97d-2f625d521abso6190f8f.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:55:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682704458; x=1685296458;
+ d=1e100.net; s=20221208; t=1682704558; x=1685296558;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sJG0mOpPemXypqoJGoUc3hIsdACMszFsCcG1uLbPIRY=;
- b=dFEVmaxYGAhDpzwVWqecuOIQ1/UDjtOwCEwwpIs480ECJ8iYij6GhGb6QKB5Ti0g0o
- nkLmwZakjE8PRKELHCMAzxw6LBTzTsDeATMvue1Ayws+UOkDwGo3T77EVkMqE/LbI7o/
- WfrPEl8/OQILq0JV15zIfC6VtnUfCZH/lOvs5ba5tj9AZYe/jF8aNimQu1ZRlREYgtbG
- Ksmzs11CHA13FO3rFlpZmOp96XyIbHED/C2QfETsPUWuw/FvRp1CtseQ3qH1maAlXnL+
- B1Uh+oIxpGVH2Aj0DX1AGsAZcAFwnXObtgHz6Ivm8lgvn6JkP29SX4b4c2ESqnBddBIH
- tNVw==
-X-Gm-Message-State: AC+VfDwSaLN7RccfJvQ6i4wWGeUabnzFfvwPR9WSG+XY9Ky3URlyI47k
- XoJllVj4mXwGvwpuf+jfBih+EIowBCozERxJ1BMLhMb716Sda724rltJvA3cEiOYwAyvrV4frf3
- xDsTGQfMFu0qhUMY=
-X-Received: by 2002:adf:e44e:0:b0:301:81f8:765f with SMTP id
- t14-20020adfe44e000000b0030181f8765fmr4471883wrm.38.1682704458730; 
- Fri, 28 Apr 2023 10:54:18 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4t1s/9HClTUhBWxo64I9ugRl3bAnXAiSmGCZ0IsMN5gxlxB3+xv50gUFwRrZbsx42obclp9w==
-X-Received: by 2002:adf:e44e:0:b0:301:81f8:765f with SMTP id
- t14-20020adfe44e000000b0030181f8765fmr4471861wrm.38.1682704458452; 
- Fri, 28 Apr 2023 10:54:18 -0700 (PDT)
+ bh=eFb+r9es7E5J7cvljWyAQkgkS6xWiYY72c8fgsW1lKA=;
+ b=WjW8k84X+imzMF+Z8W6Lj88C6Bs7+8nIRxTsc7KS5yr06fO2HXlKLOWndhqdY4l67h
+ yW0OE2BF8ZZ3IKKncSNpr6ck9TReR5zPSTb0ic6I/L0McyKAwzOLi50IHmdCVTLldqi7
+ hWnEPsPMM1DJkHybQ9Xhj5FXljvnPdS852Hiv3Mv9PqBk7wYXzDXdKxjtFqXo0LCJcAd
+ Bj6+wPKQuNqCzPwpzwjxqHX+ZnvfJ8G1N+AMrpXQGuC8msyMpFzPbDAReIwnxherojsa
+ 2tPfWuzyV9dhINTDyK+E68fNARJO2dur/GiQHd5dsysAFAR2EEspyKNFLMhi6tRMlP3G
+ QgkA==
+X-Gm-Message-State: AC+VfDz7F1Mx3zDuATMuv5b0FOvue4ygK4X/BbmeHR7vGhSVMYpw2KR2
+ JokaSwYU5VglPJTASBVNSR9yOHWAm7XM/hz0Qae2dcuLzlQxeE9Y+8KfaveQRVNhhv/JQAm4IRs
+ EoOMg1heG8AxRXGw=
+X-Received: by 2002:a5d:414b:0:b0:2f5:2e27:af40 with SMTP id
+ c11-20020a5d414b000000b002f52e27af40mr4188762wrq.70.1682704558622; 
+ Fri, 28 Apr 2023 10:55:58 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5oLHfD7Jk69b+Apa92DJtP7V6AoaKfkhoeD/m0+fdcYRobwL/BTwB+3H5l5WOAC4yg0omoNw==
+X-Received: by 2002:a5d:414b:0:b0:2f5:2e27:af40 with SMTP id
+ c11-20020a5d414b000000b002f52e27af40mr4188739wrq.70.1682704558340; 
+ Fri, 28 Apr 2023 10:55:58 -0700 (PDT)
 Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
  [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- m7-20020adfe947000000b003011baf89b3sm21601455wrn.40.2023.04.28.10.54.17
+ q11-20020a5d574b000000b003049d7b9f4csm7693051wrw.32.2023.04.28.10.55.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 10:54:17 -0700 (PDT)
+ Fri, 28 Apr 2023 10:55:57 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
@@ -76,14 +76,15 @@ Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
  pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
  stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
  qemu-block@nongnu.org,  victortoso@redhat.com
-Subject: Re: [PATCH 03/17] qapi: Fix crash on stray double quote character
-In-Reply-To: <20230428105429.1687850-4-armbru@redhat.com> (Markus Armbruster's
- message of "Fri, 28 Apr 2023 12:54:15 +0200")
+Subject: Re: [PATCH 04/17] meson: Fix to make QAPI generator output depend
+ on main.py
+In-Reply-To: <20230428105429.1687850-5-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 28 Apr 2023 12:54:16 +0200")
 References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-4-armbru@redhat.com>
+ <20230428105429.1687850-5-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 19:54:16 +0200
-Message-ID: <87bkj799kn.fsf@secure.mitica>
+Date: Fri, 28 Apr 2023 19:55:56 +0200
+Message-ID: <877ctv99hv.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -112,27 +113,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> When the lexer chokes on a stray character, its shows the characters
-> until the next structural character in the error message.
-
-You have a problem
-
-> It uses a regular expression
-
-You use regular expresions.
-
-Now you have two problems.
-
-Yes, I had to do it.
-
-> to match a non-empty string of non-structural
-> characters.  Bug: the regular expression treats '"' as structural.
-> When the lexer chokes on '"', the match fails, and trips
-> must_match()'s assertion.  Fix the regular expression.
+> @qapi_gen_depends is missing scripts/qapi/main.py.  Fix that, and drop
+> a duplicate scripts/qapi/common.py.
 >
-> Fixes: 14c32795024c (qapi: Improve reporting of lexical errors)
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+
+> ---
+>  meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meson.build b/meson.build
+> index c44d05a13f..ed24df2ade 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2834,12 +2834,12 @@ qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
+>                       meson.current_source_dir() / 'scripts/qapi/expr.py',
+>                       meson.current_source_dir() / 'scripts/qapi/gen.py',
+>                       meson.current_source_dir() / 'scripts/qapi/introspect.py',
+> +                     meson.current_source_dir() / 'scripts/qapi/main.py',
+>                       meson.current_source_dir() / 'scripts/qapi/parser.py',
+>                       meson.current_source_dir() / 'scripts/qapi/schema.py',
+>                       meson.current_source_dir() / 'scripts/qapi/source.py',
+>                       meson.current_source_dir() / 'scripts/qapi/types.py',
+>                       meson.current_source_dir() / 'scripts/qapi/visit.py',
+> -                     meson.current_source_dir() / 'scripts/qapi/common.py',
+>                       meson.current_source_dir() / 'scripts/qapi-gen.py'
+>  ]
+
+And here you see why putting things in alphabetical order (when
+possible) avoids this kind of duplications.
 
 
