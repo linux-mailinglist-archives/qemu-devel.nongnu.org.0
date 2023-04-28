@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553986F1DD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 20:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 819506F1DE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 20:19:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psSZJ-0004Dr-DL; Fri, 28 Apr 2023 14:11:41 -0400
+	id 1psSfG-0007Aa-7n; Fri, 28 Apr 2023 14:17:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSZE-0004DB-8D
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:11:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1psSfE-0007AD-6k
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:17:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSZC-0008Hy-Uc
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:11:35 -0400
+ id 1psSfC-0000n2-Bc
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:17:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682705493;
+ s=mimecast20190719; t=1682705864;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=kuZOUXZclaf8oIB+RHDVRGOVJc1whAcQ4LyNhDOjMbk=;
- b=UBklZ2tYdOe6BBD4M+Iq1ISXp9WtfIiznC+o5ADFiBYZJFQxmxSeVB4F7Lx6m8dzNjNMFg
- Ss0l2uA39d3rwcVk/nYXFmdd/lDxcilgrnocyibFOKFIh2bBfGVeVy9TL+Qk9D86jkFU9F
- Q8plRBd2CCf6D0H2ueHcAL6gQ0OGzfk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zMTZaP9xEkOaeFQCxir8ovtk43hcoRmZ20XluLV+bXA=;
+ b=MJzDdNSusNqdlaeMBiq08GZUQNydEJ6kzjup2mrjxOXp5JQ1xruVNg1JtL1BVfyMMzNhD6
+ rIgtYlGFQqaleCdvMqf7ZbjbgC5nKJcsmdbcC6X5NZh5Xbvv+dk2ue6Rd4am7poZR0JGE9
+ bLyVJu/Q3WbaODtXMAa7Fs91VZIZjAs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-340-60-hZ3dSPNe3bNrjUKmN6Q-1; Fri, 28 Apr 2023 14:11:31 -0400
-X-MC-Unique: 60-hZ3dSPNe3bNrjUKmN6Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-2f446161e5aso23245f8f.1
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 11:11:31 -0700 (PDT)
+ us-mta-433-bbpigpeBNNOlzG0siJO0Jg-1; Fri, 28 Apr 2023 14:17:43 -0400
+X-MC-Unique: bbpigpeBNNOlzG0siJO0Jg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f1912ed0daso34434695e9.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 11:17:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682705490; x=1685297490;
+ d=1e100.net; s=20221208; t=1682705862; x=1685297862;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kuZOUXZclaf8oIB+RHDVRGOVJc1whAcQ4LyNhDOjMbk=;
- b=KtT6BHcgQ5IuzRBlljm8SlX82WivSgDcZ9mdIjnD3JVyxDlT7OsN1/fryyPtmHddC0
- qMkogjYM5dyBDUJO1K7AmrDoq/O5xuAku8J8RY6bG0+BSf7XbLR+DhcD3Oztjf+dvmCJ
- jBSNgHRcf8ZL5BI1TC4YlxQ1jLuZVSUbphntz+mH1yAV0YGMue0LAZgLOzOt4W1sfkcX
- km3gvQNHbNZK94jKtSgoZ2yAWQ4GXZ8cAYabnwsF0wU8MMA39MUrwYrwYfK7ikAAL8Qo
- Ls7guXxYc26brffIZz+WmLN5eqg5E5JBRSyl0hn9RKlJMYJI3qeyVe5SbqtnNt5hr/z1
- euEA==
-X-Gm-Message-State: AC+VfDwOsZo7+3HUCTat0/NmrkVoof1Sg24LJdhdVco/jHRTEBZq+5yD
- BFC+mQwpCe6sVZaAmaR+0/bHYVV2ew6V5kzf77xzKeaMURIbuedYcYu359/NeSWSXGCQmYyRASk
- 13uQHcQGHvz48JR8=
-X-Received: by 2002:a5d:480e:0:b0:2ff:7311:6e74 with SMTP id
- l14-20020a5d480e000000b002ff73116e74mr4333047wrq.26.1682705490353; 
- Fri, 28 Apr 2023 11:11:30 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6nxh5w4Pzr/bISxcTSz6bVwLQNwwlschesjo1SoZMroDzlUno1lVto6AZG0zxjmQaformKPg==
-X-Received: by 2002:a5d:480e:0:b0:2ff:7311:6e74 with SMTP id
- l14-20020a5d480e000000b002ff73116e74mr4333010wrq.26.1682705490061; 
- Fri, 28 Apr 2023 11:11:30 -0700 (PDT)
+ bh=zMTZaP9xEkOaeFQCxir8ovtk43hcoRmZ20XluLV+bXA=;
+ b=kBtoMGkI5SYJgI9caIC6T1rKGcclFsMUW615Q0DLY2Br84gQPW7mWCM5/NVroKl9tT
+ Aox8sqM0vcVbQUfE+FVFT0oLxEyMjn0ATqLGtvEfVJFDWqoDz1CE375AD/UaW9glb30v
+ 3hnYgE13NHYkiRfq3cP6KGPoTin7T8ewGKiRuV7ZUsXhGa15E1n0YPvgYBKYQ7pp5TYu
+ nAa2R6bW1Cqx6SjmXF0crwolI8HKHKPITcmZKnV1QdEtg0SjD2SuvyEY1OuZm0Y+Hqex
+ IgThnrpxQiE7k68LCwImoyGsbpOfbjuDUqjhngM1M5jjAVI3Af/k2MSfetVyCuv2Jc0Y
+ y6XA==
+X-Gm-Message-State: AC+VfDxetRi5+sHrSKz5L/2lT343dGdeKbU9FErcWmiCeYVvs9YvTFL8
+ 72y4MB29gfCTleMy04HfnVRF+y/dS8tpOXXnvSfNc2iTjZXxiy3nTTQ7zErh3kf6C+U1t8LDcSk
+ 6yMflcUUYH8G3s1o=
+X-Received: by 2002:a7b:c398:0:b0:3f1:738f:d3d1 with SMTP id
+ s24-20020a7bc398000000b003f1738fd3d1mr4581250wmj.4.1682705862168; 
+ Fri, 28 Apr 2023 11:17:42 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7Yr83omBWTEUkB9bSmkst3DXbDvJVRm5eCu17CNf1R4E4h1nOSNFHEsQE+a29DEyQe58VUag==
+X-Received: by 2002:a7b:c398:0:b0:3f1:738f:d3d1 with SMTP id
+ s24-20020a7bc398000000b003f1738fd3d1mr4581232wmj.4.1682705861921; 
+ Fri, 28 Apr 2023 11:17:41 -0700 (PDT)
 Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
  [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- t12-20020a5d460c000000b002f6962ee703sm21680475wrq.61.2023.04.28.11.11.29
+ he13-20020a05600c540d00b003f198b9eac5sm19480565wmb.6.2023.04.28.11.17.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 11:11:29 -0700 (PDT)
+ Fri, 28 Apr 2023 11:17:41 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
@@ -76,17 +76,18 @@ Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
  pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
  stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
  qemu-block@nongnu.org,  victortoso@redhat.com
-Subject: Re: [PATCH 11/17] qapi: Fix argument description indentation stripping
-In-Reply-To: <20230428105429.1687850-12-armbru@redhat.com> (Markus
- Armbruster's message of "Fri, 28 Apr 2023 12:54:23 +0200")
+Subject: Re: [PATCH 15/17] docs/devel/qapi-code-gen: Update doc comment
+ conventions
+In-Reply-To: <20230428105429.1687850-16-armbru@redhat.com> (Markus
+ Armbruster's message of "Fri, 28 Apr 2023 12:54:27 +0200")
 References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-12-armbru@redhat.com>
+ <20230428105429.1687850-16-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 20:11:28 +0200
-Message-ID: <87a5yr7u7j.fsf@secure.mitica>
+Date: Fri, 28 Apr 2023 20:17:40 +0200
+Message-ID: <875y9f7tx7.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -113,14 +114,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> When an argument's description starts on the line after the "#arg: "
-> line, indentation is stripped only from the description's first line,
-> as demonstrated by the previous commit.  Moreover, subsequent lines
-> with less indentation are not rejected.
->
-> Make the first line's indentation the expected indentation for the
-> remainder of the description.  This fixes indentation stripping, and
-> also requires at least that much indentation.
+> The commit before previous relaxed the indentation rules to let us
+> improve the doc comment conventions.  This commit changes the written
+> conventions.  The next commits will update QAPI schemas to conform to
+> them.
 >
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
