@@ -2,71 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4A76F1F91
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 22:39:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035846F1F9E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 22:44:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psUqh-0007Z1-Vj; Fri, 28 Apr 2023 16:37:48 -0400
+	id 1psUx4-0000Cc-6Z; Fri, 28 Apr 2023 16:44:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1psUqg-0007Ys-Ez
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 16:37:46 -0400
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1psUx2-0000CN-UO
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 16:44:20 -0400
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1psUqd-0001rf-9v
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 16:37:46 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:369a:0:640:c31a:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 64C165F767;
- Fri, 28 Apr 2023 23:37:35 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b432::1:18] (unknown
- [2a02:6b8:b081:b432::1:18])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id YbQS260Oka60-9g2PQSYa; Fri, 28 Apr 2023 23:37:34 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1682714254; bh=/Wql7gg65J36qVqb7UTwLL7lo7Rd7yUId8VExK+u7RY=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=dLeN3Ttu94cTVX6rH+eNdm+N43gOpXqH/ijQL92YXtEtI719FfngtgfR8bxhtg+5P
- yFwulY0xS9tFv7GUu3RR6m60eizRLQSMZCS37bUjF+0Ux7ap9MtQjy4WysO7/sg5ca
- znueOy0gwjqmaHfy2KFuzOvZUWyX6+zMyIMNV3sg=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <26d09b06-bded-6b98-b388-acecda3f21c3@yandex-team.ru>
-Date: Fri, 28 Apr 2023 23:37:34 +0300
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1psUx0-0002yR-Iu
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 16:44:20 -0400
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33SJ8Lr1019376; Fri, 28 Apr 2023 20:44:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=IwXHtb4nXYOEJwrflDMyX7yfJHmgM1MTzsmXyhZ2H3c=;
+ b=XbeTVgwphOSgEtD/Gl2s5dEh5vsOIXnu49wjsMLtboP9AmQLVHxrLiXTcZnI5RUpMhwm
+ w7IgQXq61aop5hwj73cGXwD4OC0dXvxFE2SZ5ap95JXIY5rPi4RUJHteKfJVu5aOzm3B
+ GQUMsZ27c/P4343Ik4xTqGRewVWD4P3UVIagdQt6iDMyGgHSqVj2khEv+A9Uh4IxgB3Z
+ DuFijyUciWk7Za1jeHzGkBtOGfjnY4PB7hkD51oQZ3pL8eZmo5VOn43bU1osb/qxJ4tP
+ 2elm8uivHpO+qtkZpGLYGV/huER+UNkljdoHdyC8bfnaC5V//Dpn7Eeg8Una6QjmDdya jQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q8fvngw7m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 20:44:15 +0000
+Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 33SKiEtd008231; 
+ Fri, 28 Apr 2023 20:44:14 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 3q87ypvg5d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 20:44:14 +0000
+Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33SKiEdE008226;
+ Fri, 28 Apr 2023 20:44:14 GMT
+Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.204.221])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 33SKiEpZ008202
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 20:44:14 +0000
+Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 47164)
+ id 1346966C; Fri, 28 Apr 2023 13:44:14 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, tsimpson@quicinc.com, richard.henderson@linaro.org,
+ philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
+ quic_mathbern@quicinc.com
+Subject: [PATCH v2] target/hexagon: fix = vs. == mishap
+Date: Fri, 28 Apr 2023 13:44:11 -0700
+Message-Id: <20230428204411.1400931-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
-Content-Language: en-US
-To: quintela@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, philmd@linaro.org,
- david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
- den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com,
- dgilbert@redhat.com, armbru@redhat.com
-References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
- <20230425161434.173022-4-vsementsov@yandex-team.ru>
- <20230426002135-mutt-send-email-mst@kernel.org>
- <877ctwbe8u.fsf@secure.mitica>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <877ctwbe8u.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Cr31RS8wvteo7EscQnJfd7rYLMCRlo7b
+X-Proofpoint-GUID: Cr31RS8wvteo7EscQnJfd7rYLMCRlo7b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-28_06,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=711 spamscore=0 bulkscore=0 mlxscore=0 adultscore=0
+ lowpriorityscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ priorityscore=1501 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304280170
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,140 +107,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28.04.23 11:30, Juan Quintela wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->> On Tue, Apr 25, 2023 at 07:14:34PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>> On incoming migration we have the following sequence to load option
->>> ROM:
->>>
->>> 1. On device realize we do normal load ROM from the file
->>>
->>> 2. Than, on incoming migration we rewrite ROM from the incoming RAM
->>>     block. If sizes mismatch we fail.
->>
->> let's mention an example error message:
->>   Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
-> 
-> This is a mess(TM).
-> And no easy way to fix it.  Everything has its problems.
-> 
-> Ok, I will elaborate.
-> 
-> We have source machine and destination machine.
-> Easy case, same version of qemu (or at least the same rom files).
-> The interesting ones is when the sizes are wrong.
-> 
-> Again this splits on two cases:
-> - target side is bigger
->    not big deal, during migration we just don't use all the space.
-
-But still doesn't work without my patch, as size mismatch -> migration fail.
-
-Or, if you try to set romsize to match source, it fails on realize, when trying to load ROM from file and see that specified size is smaller. (again my patch fixes it).
-
-> - target side is smaller
->    guess what, not easy way to get this working O:-)
-> 
-> We added some changes on the past for this, but I don't remember the
-> details.
-
-romsize parameter is added. Still, it can't help in all cases.
-
-> 
-> If I understood his patch correctly, it set seems to try to fix this to
-> always do the right thing with respect to migration, i.e. using whatever
-> was on the source.  I think this is nice.
-
-Yes. In details:
-
-- If you didn't use romsize before, all you need is to specify correct romsize on target, it will work, no matter which rom files you have on target
-- If you already use romsize - just keep same parameters on target, it will work, no matter which rom files you have on target.
-
-> 
-> But we still have left out the big elephant on the ROM, what happens
-> when we reboot.
-
-Hmm. I now checked, seems nothing happen with these pci ROMs on reboot. They are not reloaded. pci_qdev_realize() is not called again on reboot.. Or what I miss?
-
-> 
-> Right now, when we reboot we still use the rom files for the source.
-> 
-> And I think that in the case of reboot, if the ROM files have changed
-> (because there was an upgrade or we migrate to a host with a never
-> version, etc,) we should always do a powerdown + start to let qemu use
-> the new ROM files.
-> 
-> As far as I know, no management app does that, and especially as we move
-> to UEFI (i.e. more complex firmware with more posibilities for CVE's) I
-> think we should considerd this case.
-> 
->>> @@ -2293,10 +2294,16 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
->>>   {
->>>       int64_t size;
->>>       g_autofree char *path = NULL;
->>> -    void *ptr;
->>>       char name[32];
->>>       const VMStateDescription *vmsd;
->>>   
->>> +    /*
->>> +     * In case of incoming migration ROM will come with migration stream, no
->>> +     * reason to load the file.  Neither we want to fail if local ROM file
->>> +     * mismatches with specified romsize.
->>> +     */
->>> +    bool load_file = !runstate_check(RUN_STATE_INMIGRATE);
->>> +
->>>       if (!pdev->romfile) {
->>>           return;
->>>       }
->>
->> CC pbonzini,dgilbert,quintela,armbru : guys, is poking at runstate_check like
->> this the right way to figure out we are not going to use the
->> device locally before incoming migration will overwrite ROM contents?
-> 
-> There is only a way to get into RUN_STATE_INMIGRATE, and that is that we
-> have started the guest with --incoming <something>.  So the check does
-> what it is intended.
-> 
-> Once told that, I have never been seen it used for this.
-> /me launches grep on source tree
-> 
-> At least the block layer and usb use it exactly for this.  So I will say
-> it is the correct way of doing it (or at least I can think of a better
-> way right now).
-> 
-> The grep also shows this:
-> 
-> static void rom_reset(void *unused)
-> {
->      Rom *rom;
-> 
->      QTAILQ_FOREACH(rom, &roms, next) {
->          if (rom->fw_file) {
->              continue;
->          }
->          /*
->           * We don't need to fill in the RAM with ROM data because we'll fill
->           * the data in during the next incoming migration in all cases.  Note
->           * that some of those RAMs can actually be modified by the guest.
->           */
->          if (runstate_check(RUN_STATE_INMIGRATE)) {
->              if (rom->data && rom->isrom) {
->                  /*
->                   * Free it so that a rom_reset after migration doesn't
->                   * overwrite a potentially modified 'rom'.
->                   */
->                  rom_free_data(rom);
->              }
->              continue;
->          }
-> 
-> It is not exactly the problem at hand, but it is related.  I am just
-> wondering if we can do something common.
-
-Does these roms (of type Rom) from hw/core/loader.c relate to roms in hw/pci/pci.c, which are "MemoryRegion" ?
-
--- 
-Best regards,
-Vladimir
-
+RnJvbTogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT4KCioqKiogQ2hhbmdlcyBp
+biB2MiAqKioqCkZpeCB5eWFzc2VydCdzIGZvciBzaWduIGFuZCB6ZXJvIGV4dGVuZHMKCkNvdmVy
+aXR5IHJlcG9ydHMgYSBwYXJhbWV0ZXIgdGhhdCBpcyAic2V0IGJ1dCBuZXZlciB1c2VkIi4gIFRo
+aXMgaXMgY2F1c2VkCmJ5IGFuIGFzc2lnbm1lbnQgb3BlcmF0b3IgYmVpbmcgdXNlZCBpbnN0ZWFk
+IG9mIGVxdWFsaXR5LgoKQ28tYXV0aG9yZWQtYnk6IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBx
+dWljaW5jLmNvbT4KU2lnbmVkLW9mZi1ieTogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0
+LmNvbT4KU2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29t
+PgotLS0KIHRhcmdldC9oZXhhZ29uL2lkZWYtcGFyc2VyL3BhcnNlci1oZWxwZXJzLmMgfCAyICst
+CiB0YXJnZXQvaGV4YWdvbi9pZGVmLXBhcnNlci9pZGVmLXBhcnNlci55ICAgIHwgNCArKy0tCiAy
+IGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
+aXQgYS90YXJnZXQvaGV4YWdvbi9pZGVmLXBhcnNlci9wYXJzZXItaGVscGVycy5jIGIvdGFyZ2V0
+L2hleGFnb24vaWRlZi1wYXJzZXIvcGFyc2VyLWhlbHBlcnMuYwppbmRleCA4NjUxMWVmYjYyLi4w
+YTAxZWMzOWI3IDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9pZGVmLXBhcnNlci9wYXJzZXIt
+aGVscGVycy5jCisrKyBiL3RhcmdldC9oZXhhZ29uL2lkZWYtcGFyc2VyL3BhcnNlci1oZWxwZXJz
+LmMKQEAgLTExMjMsNyArMTEyMyw3IEBAIEhleFZhbHVlIGdlbl9leHRlbmRfb3AoQ29udGV4dCAq
+YywKICAgICAgICAgICAgICAgICAgICAgICAgSGV4VmFsdWUgKnZhbHVlLAogICAgICAgICAgICAg
+ICAgICAgICAgICBIZXhTaWduZWRuZXNzIHNpZ25lZG5lc3MpCiB7Ci0gICAgdW5zaWduZWQgYml0
+X3dpZHRoID0gKGRzdF93aWR0aCA9IDY0KSA/IDY0IDogMzI7CisgICAgdW5zaWduZWQgYml0X3dp
+ZHRoID0gKGRzdF93aWR0aCA9PSA2NCkgPyA2NCA6IDMyOwogICAgIEhleFZhbHVlIHZhbHVlX20g
+PSAqdmFsdWU7CiAgICAgSGV4VmFsdWUgc3JjX3dpZHRoX20gPSAqc3JjX3dpZHRoOwogCmRpZmYg
+LS1naXQgYS90YXJnZXQvaGV4YWdvbi9pZGVmLXBhcnNlci9pZGVmLXBhcnNlci55IGIvdGFyZ2V0
+L2hleGFnb24vaWRlZi1wYXJzZXIvaWRlZi1wYXJzZXIueQppbmRleCA1NDQ0ZmQ0NzQ5Li4yNTYx
+ZjBlYmIwIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9pZGVmLXBhcnNlci9pZGVmLXBhcnNl
+ci55CisrKyBiL3RhcmdldC9oZXhhZ29uL2lkZWYtcGFyc2VyL2lkZWYtcGFyc2VyLnkKQEAgLTY4
+NSw3ICs2ODUsNyBAQCBydmFsdWUgOiBGQUlMCiAgICAgICAgICAgICAgeXlhc3NlcnQoYywgJkAx
+LCAkNS50eXBlID09IElNTUVESUFURSAmJgogICAgICAgICAgICAgICAgICAgICAgICQ1LmltbS50
+eXBlID09IFZBTFVFLAogICAgICAgICAgICAgICAgICAgICAgICJTWFQgZXhwZWN0cyBpbW1lZGlh
+dGUgdmFsdWVzXG4iKTsKLSAgICAgICAgICAgICAkJCA9IGdlbl9leHRlbmRfb3AoYywgJkAxLCAm
+JDMsICQ1LmltbS52YWx1ZSwgJiQ3LCBTSUdORUQpOworICAgICAgICAgICAgICQkID0gZ2VuX2V4
+dGVuZF9vcChjLCAmQDEsICYkMywgNjQsICYkNywgU0lHTkVEKTsKICAgICAgICAgIH0KICAgICAg
+ICB8IFpYVCAnKCcgcnZhbHVlICcsJyBJTU0gJywnIHJ2YWx1ZSAnKScKICAgICAgICAgIHsKQEAg
+LTY5Myw3ICs2OTMsNyBAQCBydmFsdWUgOiBGQUlMCiAgICAgICAgICAgICAgeXlhc3NlcnQoYywg
+JkAxLCAkNS50eXBlID09IElNTUVESUFURSAmJgogICAgICAgICAgICAgICAgICAgICAgICQ1Lmlt
+bS50eXBlID09IFZBTFVFLAogICAgICAgICAgICAgICAgICAgICAgICJaWFQgZXhwZWN0cyBpbW1l
+ZGlhdGUgdmFsdWVzXG4iKTsKLSAgICAgICAgICAgICAkJCA9IGdlbl9leHRlbmRfb3AoYywgJkAx
+LCAmJDMsICQ1LmltbS52YWx1ZSwgJiQ3LCBVTlNJR05FRCk7CisgICAgICAgICAgICAgJCQgPSBn
+ZW5fZXh0ZW5kX29wKGMsICZAMSwgJiQzLCA2NCwgJiQ3LCBVTlNJR05FRCk7CiAgICAgICAgICB9
+CiAgICAgICAgfCAnKCcgcnZhbHVlICcpJwogICAgICAgICAgewotLSAKMi4yNS4xCgo=
 
