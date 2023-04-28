@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049796F1530
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01A16F1564
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:28:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psLAj-0002jg-5Z; Fri, 28 Apr 2023 06:17:49 -0400
+	id 1psLJn-0005X6-Ig; Fri, 28 Apr 2023 06:27:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psLAd-0002jC-HN
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:17:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLJk-0005WM-VG
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:27:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psLAb-0005KQ-QD
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:17:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLJj-00070s-1X
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:27:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682677060;
+ s=mimecast20190719; t=1682677625;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GEcIm3ncOAoTM5gXAT+mpmQYieCKspPnGHdQEd9rYu4=;
- b=QOSYwXhMwb404rKKvIBKDpKdgASxsvWI0/6gjcpU8AIrO3XuKYNiF8Mvt3FXBFyJtWObuO
- fQmEtD/Z/W3WPYJQZHcSGN/lzuQS2UK9eH0WWv36ZYKss09DAqssCXMrHFtCGahONq6IKR
- jXfAi2+51dPwjqwjFWMUiS5uMiGT47k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-672-AIH5wYhyO464SUx_QnQcLA-1; Fri, 28 Apr 2023 06:17:39 -0400
-X-MC-Unique: AIH5wYhyO464SUx_QnQcLA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f315735edeso36422465e9.1
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 03:17:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682677057; x=1685269057;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GEcIm3ncOAoTM5gXAT+mpmQYieCKspPnGHdQEd9rYu4=;
- b=gJhxkC/BG3ZDWvdpMR59wZkU+3wAStOgRMFW1+5WfMGSa3lVE+m8M9QG857/qTFJq7
- MoDZQXVHv7yh4k++bMWclgwBpXFOqOBnM16kNCcr1PfpCb3dYXx/dCnEQoezHivkZCOi
- 2quPb4LjaA5nfYo91DaU3P8pifK0GM2oD4zD06zQdB3sfDUbS8YvEpCXAYOhYYZAOcl3
- HoUHCEbYfrtReq+Dm55y0czgrqf2Yph/iLszjOZrshpPf7uwN2R+Cn1TzPOidZ81gGap
- 8lxH3tkv1vnoDPz3NSIiHZIR0zs2PSMi62xlU89JkFFjykYTM6k1XpsZHRGCRFS7VFWm
- iyBg==
-X-Gm-Message-State: AC+VfDzqjopvugEfQeFkGHfz3dVARIDCIO0ZA7bjLQrxONqRIcPhhMbJ
- /UQ6ONpQbe/wPcSrTXriIdph2ezsthmsl+WwPcVwvnaMKxJRVUt8tRL+IzMkfyFlYxDe82Mi0Jv
- holvdoJ4kDfvpcAwG9oE0qoHWlHIF+NjY4eZZxEu4Kui4BYTsTB1RB36wfss5BpPYTEEKxVlm3F
- M=
-X-Received: by 2002:a05:600c:2281:b0:3f1:72db:454c with SMTP id
- 1-20020a05600c228100b003f172db454cmr3732826wmf.19.1682677057412; 
- Fri, 28 Apr 2023 03:17:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6FktJaAGE40caFUd8g4qI52GCYnLpji+iN7DVzduBKljo2WSveb2KJU30mvG2c6xX9jHNUVw==
-X-Received: by 2002:a05:600c:2281:b0:3f1:72db:454c with SMTP id
- 1-20020a05600c228100b003f172db454cmr3732806wmf.19.1682677057000; 
- Fri, 28 Apr 2023 03:17:37 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id
- f22-20020a1c6a16000000b003f17e79d74asm24233480wmc.7.2023.04.28.03.17.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 03:17:36 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org
-Subject: [PATCH] cpus-common: stop using mb_set/mb_read
-Date: Fri, 28 Apr 2023 12:17:35 +0200
-Message-Id: <20230428101735.130779-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.40.0
+ in-reply-to:in-reply-to:references:references;
+ bh=kssoOXe7tK3Hg0sQVG/+YFUJ9ZPfKy3zfl88ndf8g4U=;
+ b=D5kyqvKo2Us1S1C3ajJW2DwFXbxMeE5/gCHiqcsHnphtqBUa1GI+g35+kwWPk3LElM2NPW
+ 2MJ7nnKr8i8hTaSFDjCiPl4ubNx5JV7uZ1oeXSAqbVBsiI2okkPzMRfuRQLO1gNznQyBVJ
+ kaNI0pGDpw/YWZkr7aAfMDmNu+MTmhw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-157-aXVUeiYSMe25K2o-epm7sg-1; Fri, 28 Apr 2023 06:27:02 -0400
+X-MC-Unique: aXVUeiYSMe25K2o-epm7sg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEE2387B2A3;
+ Fri, 28 Apr 2023 10:27:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88D8C1121315;
+ Fri, 28 Apr 2023 10:27:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7764721E6608; Fri, 28 Apr 2023 12:27:00 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  eblake@redhat.com,
+ kwolf@redhat.com,  hreitz@redhat.com,  pbonzini@redhat.com,
+ marcandre.lureau@redhat.com,  arei.gonglei@huawei.com,
+ pizhenwei@bytedance.com,  jsnow@redhat.com,  eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,
+ quintela@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
+ stefanha@redhat.com,  kraxel@redhat.com,  kkostiuk@redhat.com,
+ qemu-block@nongnu.org,  marcandre.lureau@gmail.com,  david@redhat.com
+Subject: Re: [PATCH 17/16] docs/devel/qapi-code-gen: Describe some doc
+ markup pitfalls
+References: <20230425064223.820979-1-armbru@redhat.com>
+ <20230427095346.1238913-1-armbru@redhat.com>
+ <eee8f95c-43eb-b357-d42a-1c479967b97c@yandex-team.ru>
+ <87y1mcnyet.fsf@pond.sub.org>
+ <542215a2-fa1c-17ff-e41c-c71564b02f75@yandex-team.ru>
+Date: Fri, 28 Apr 2023 12:27:00 +0200
+In-Reply-To: <542215a2-fa1c-17ff-e41c-c71564b02f75@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Fri, 28 Apr 2023 12:44:55 +0300")
+Message-ID: <87edo4nvyj.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -97,38 +90,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use a store-release at the end of the work item, and a load-acquire when
-waiting for the item to be completed.  This is the standard message passing
-pattern and is both enough and clearer than mb_read/mb_set.
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- cpus-common.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> On 28.04.23 12:34, Markus Armbruster wrote:
+>> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+>> 
+>>> On 27.04.23 12:53, Markus Armbruster wrote:
+>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>>> ---
+>>>>    docs/devel/qapi-code-gen.rst | 53 ++++++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 53 insertions(+)
+>>>> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+>>>> index d81aac7a19..14983b074c 100644
+>>>> --- a/docs/devel/qapi-code-gen.rst
+>>>> +++ b/docs/devel/qapi-code-gen.rst
+>>>> @@ -1059,6 +1059,59 @@ For example::
+>>>>       'returns': ['BlockStats'] }
+>>>>      +Markup pitfalls
+>>>> +~~~~~~~~~~~~~~~
+>>>> +
+>>>> +A blank line is required between list items and paragraphs.  Without
+>>>> +it, the list may not be recognized, resulting in garbled output.  Good
+>>>> +example::
+>>>> +
+>>>> + # An event's state is modified if:
+>>>> + #
+>>>> + # - its name matches the @name pattern, and
+>>>> + # - if @vcpu is given, the event has the "vcpu" property.
+>>>> +
+>>>> +Without the blank line this would be a single paragraph.
+>>>> +
+>>>> +Indentation matters.  Bad example::
+>>>> +
+>>>> + # @none: None (no memory side cache in this proximity domain,
+>>>> + #              or cache associativity unknown)
+>>>> +
+>>>> +The description is parsed as a definition list with term "None (no
+>>>> +memory side cache in this proximity domain," and definition "or cache
+>>>> +associativity unknown)".
+>>>
+>>> May be add good example of indentation as well
+>>
+>> Patches I'm about to post will fill up this pitfall.  They change the
+>> text to:
+>>
+>>       # @none: None (no memory side cache in this proximity domain,
+>>       #              or cache associativity unknown)
+>>       #     (since 5.0)
+>>      The last line's de-indent is wrong.  The second and subsequent lines
+>
+> So you want to drop "The description is parsed as a definition list ..." ?
 
-diff --git a/cpus-common.c b/cpus-common.c
-index b0047e456f93..a53716deb437 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -157,7 +157,7 @@ void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
-     wi.exclusive = false;
- 
-     queue_work_on_cpu(cpu, &wi);
--    while (!qatomic_mb_read(&wi.done)) {
-+    while (!qatomic_load_acquire(&wi.done)) {
-         CPUState *self_cpu = current_cpu;
- 
-         qemu_cond_wait(&qemu_work_cond, mutex);
-@@ -363,7 +363,7 @@ void process_queued_cpu_work(CPUState *cpu)
-         if (wi->free) {
-             g_free(wi);
-         } else {
--            qatomic_mb_set(&wi->done, true);
-+            qatomic_store_release(&wi->done, true);
-         }
-     }
-     qemu_mutex_unlock(&cpu->work_mutex);
--- 
-2.40.0
+Yes, because that'll be factually wrong :)
+
+Happy to explain further once the patches are on the list.
+
+>>      need to line up with each other, like this::
+>>
+>>       # @none: None (no memory side cache in this proximity domain,
+>>       #     or cache associativity unknown)
+>>       #     (since 5.0)
+>>
+>> Good enough?
+>
+> Example of good indent is good)
+
+Thanks!
 
 
