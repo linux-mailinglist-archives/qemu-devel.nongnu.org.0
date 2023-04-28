@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537666F1774
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 14:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F786F17A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 14:24:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psN21-0000Zh-Io; Fri, 28 Apr 2023 08:16:57 -0400
+	id 1psN7t-0001m7-1k; Fri, 28 Apr 2023 08:23:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psN1v-0000ZH-UM
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:16:51 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1psN7p-0001li-Pt
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:22:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psN1t-0004lH-Lo
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:16:51 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1psN7n-0005VG-Tg
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:22:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682684208;
+ s=mimecast20190719; t=1682684574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hP9CvCKBji8TpSnqIP+pGsRFcTanm9rrLx3NAYRFoU0=;
- b=W3Od9gCX2+v8XqGBIsJlzdn/zZ/afNIkMFSmNCdOT5G38H4AbySKWMCh1jM4g4o3heIgVs
- jQ90cEs52phWB+Aa+aU24CEu+b1s+T1YtMUc0EjtA4xMPJIhCTAjCpNZRDQjgtOZAOI//n
- sMkSx3VEb9fx0RmJkegsdRzzYVtVX3Y=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-410-c6NzMQsaPJSJBdC1ZFmdNQ-1; Fri, 28 Apr 2023 08:16:46 -0400
-X-MC-Unique: c6NzMQsaPJSJBdC1ZFmdNQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-30467a7020eso4866468f8f.2
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 05:16:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682684205; x=1685276205;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hP9CvCKBji8TpSnqIP+pGsRFcTanm9rrLx3NAYRFoU0=;
- b=jtSRVqoeB6h7T1ZUMUmdkyvjM/kLfVlmpNn1jxMjPzYPWZ5BO4f7T8yAg+c010DLNF
- SRdRY+eLYuLY0FqlIYXOQRRGXEtN2GtW0VA8h0HLNyA+3mkueT96Axq20d+jIydux/dm
- 2IqbQPnY2N9pMGF3MLbeDO2wPucTspy9A1pfF28U1mPVPj40PRgwNJcLRbCELsF8rYeC
- v4uQKGA58KPkW6rMNo+cwWXqfD/fNkHQ2g3qQWbd0KLcBZhUJ0Ab0eP18J3glgKGuAle
- EuQk+l2Fp0jNGu9CN2pQpi8e5Q/zGyeVIPV+SRNXAWxOZ52HhujdCRnHZGOH4cfnBjk9
- Bkqw==
-X-Gm-Message-State: AC+VfDwStL7FLxsMuGv7bqDWDsy/xwscEMFfKE3/IXOlFL301dLd6EB7
- fBAuMnLJp4OIhRvrPoNuZuvPaNppuo6+Bn4Y7yRlJ9cp1AkeuZpwg+rCZ2z5788tlq4fa5ZvXn0
- lF0WdKb5p2cmX8Q0=
-X-Received: by 2002:adf:ed42:0:b0:2d8:708a:d84 with SMTP id
- u2-20020adfed42000000b002d8708a0d84mr3722388wro.19.1682684205340; 
- Fri, 28 Apr 2023 05:16:45 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5lsk8Jxo7T9a7FNt87NxqU47T4FR/o6lQ6XQlGap5FkqFzgYlVjJx3dC9tJOSWUHqZg8+VZw==
-X-Received: by 2002:adf:ed42:0:b0:2d8:708a:d84 with SMTP id
- u2-20020adfed42000000b002d8708a0d84mr3722366wro.19.1682684205001; 
- Fri, 28 Apr 2023 05:16:45 -0700 (PDT)
-Received: from [192.168.8.102] (tmo-098-235.customers.d1-online.com.
- [80.187.98.235]) by smtp.gmail.com with ESMTPSA id
- b4-20020a05600010c400b002e45f6ffe63sm21064681wrx.26.2023.04.28.05.16.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Apr 2023 05:16:44 -0700 (PDT)
-Message-ID: <e3d52859-7613-0a1d-aa15-36e1f92ff8d6@redhat.com>
-Date: Fri, 28 Apr 2023 14:16:42 +0200
+ bh=ew+Zdz0/rQP1RcftuUA7Z49tOEEO+yaUxVnO2qtnyb4=;
+ b=EaLRcTeUbeDgafhMY9ySWxiLPKP/ZaRZ4e50d9kDap0iKcw5XUjmIlVG65EWLz13f7jEMP
+ R2/wCBYXnMLGwfpmEzcLmDa6RcqiQ8vM681gBQoJGAkrKBj4KA6P49CE9IEzEQPDsKjm4y
+ GebQFydfkcT+UZXqIgF9XFXVWRxf6lc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-38-1a3kU4wKPbO0Dhh0kX7UWg-1; Fri, 28 Apr 2023 08:22:48 -0400
+X-MC-Unique: 1a3kU4wKPbO0Dhh0kX7UWg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ED7D185A79C;
+ Fri, 28 Apr 2023 12:22:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66707440BC;
+ Fri, 28 Apr 2023 12:22:46 +0000 (UTC)
+Date: Fri, 28 Apr 2023 14:22:45 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: Fiona Ebner <f.ebner@proxmox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Michael Roth <michael.roth@amd.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>, Peter Xu <peterx@redhat.com>
+Subject: Re: QMP (without OOB) function running in thread different from the
+ main thread as part of aio_poll
+Message-ID: <ZEu6lVDVUh8AC6Af@redhat.com>
+References: <877cu7gk1g.fsf@pond.sub.org>
+ <CABgObfapoyrFhY9kna_=D7PJ4yAssTgzY3jxSZD=6v0zCGDcSA@mail.gmail.com>
+ <3ba2f8b9-9818-6601-2247-7b0e20d7ab0d@proxmox.com>
+ <ZEpWd+273aIVZrRV@redhat.com>
+ <515e6a39-8515-b32b-05ce-6d7511779b1b@proxmox.com>
+ <87zg6tbdep.fsf@secure.mitica>
+ <b1402ecd-1288-1ceb-ce58-65fc90636fac@proxmox.com>
+ <87bkj8bg8g.fsf@secure.mitica> <ZEuEIhe86udi38kx@redhat.com>
+ <87354kbdvc.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v6 1/1] util/async-teardown: wire up
- query-command-line-options
-Content-Language: en-US
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>, pbonzini@redhat.com
-Cc: qemu-devel@nongnu.org, david@redhat.com, borntraeger@de.ibm.com,
- frankja@linux.ibm.com, fiuczy@linux.ibm.com, pasic@linux.ibm.com,
- nsg@linux.ibm.com, berrange@redhat.com, alex.bennee@linaro.org,
- armbru@redhat.com
-References: <20230428111224.37140-1-imbrenda@linux.ibm.com>
- <20230428111224.37140-2-imbrenda@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230428111224.37140-2-imbrenda@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87354kbdvc.fsf@secure.mitica>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,68 +90,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/04/2023 13.12, Claudio Imbrenda wrote:
-> Add new -run-with option with an async-teardown=on|off parameter. It is
-> visible in the output of query-command-line-options QMP command, so it
-> can be discovered and used by libvirt.
+Am 28.04.2023 um 10:38 hat Juan Quintela geschrieben:
+> Kevin Wolf <kwolf@redhat.com> wrote:
+> >> I am perhaps a bit ingenuous here, but it is there a way to convince
+> >> qemu that snapshot_save_job_bh *HAS* to run on the main thread?
+> >
+> > I believe we're talking about a technicality here. I asked another more
+> > fundamental question that nobody has answered yet:
+> >
+> > Why do you think that it's ok to call bdrv_writev_vmstate() without
+> > holding the BQL?
 > 
-> The option -async-teardown is now redundant, deprecate it.
+> I will say this function starts by bdrv_ (i.e. block layer people) and
+> endes with _vmstate (i.e. migration people).
 > 
-> Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
-> Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
-> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> ---
->   docs/about/deprecated.rst |  5 +++++
->   os-posix.c                | 15 +++++++++++++++
->   qemu-options.hx           | 34 +++++++++++++++++++++++-----------
->   util/async-teardown.c     | 21 +++++++++++++++++++++
->   4 files changed, 64 insertions(+), 11 deletions(-)
-> 
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 1ca9dc33d6..0986db9a86 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -111,6 +111,11 @@ Use ``-machine acpi=off`` instead.
->   The HAXM project has been retired (see https://github.com/intel/haxm#status).
->   Use "whpx" (on Windows) or "hvf" (on macOS) instead.
->   
-> +``-async-teardown`` (since 8.1)
-> +,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-> +
-> +Use ``-run-with async-teardown=on`` instead.
-> +
->   
->   QEMU Machine Protocol (QMP) commands
->   ------------------------------------
-> diff --git a/os-posix.c b/os-posix.c
-> index 5adc69f560..117ad2bdc1 100644
-> --- a/os-posix.c
-> +++ b/os-posix.c
-> @@ -36,6 +36,8 @@
->   #include "qemu/log.h"
->   #include "sysemu/runstate.h"
->   #include "qemu/cutils.h"
-> +#include "qemu/config-file.h"
-> +#include "qemu/option.h"
->   
->   #ifdef CONFIG_LINUX
->   #include <sys/prctl.h>
-> @@ -132,6 +134,8 @@ static bool os_parse_runas_uid_gid(const char *optarg)
->    */
->   int os_parse_cmd_args(int index, const char *optarg)
->   {
-> +    QemuOpts *opts;
+> To be honest, I don't know.  That is why I _supposed_ you have an idea.
 
-Fails to compile on FreeBSD:
+My idea is that bdrv_*() can only be called when you hold the BQL, or
+for BlockDriverStates in an iothread the AioContext lock.
 
-../src/os-posix.c:137:15: error: unused variable 'opts' 
-[-Werror,-Wunused-variable]
-     QemuOpts *opts;
-               ^
-1 error generated.
+Apparently dropping the BQL in migration code was introduced in Paolo's
+commit 9b095037527. I'm not sure what this was supposed to improve in
+the case of snapshots because the VM is stopped anyway.
 
-Apart from that, the patch looks fine to me.
+Would anything bad happen if we removed the BQL unlock/lock section in
+qemu_savevm_state() again?
 
-  Thomas
+Kevin
 
 
