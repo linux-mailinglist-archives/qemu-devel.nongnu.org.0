@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6901C6F20CB
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 00:28:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7988B6F20D1
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 00:33:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psWZU-0006xi-Pc; Fri, 28 Apr 2023 18:28:08 -0400
+	id 1psWe0-00009B-7c; Fri, 28 Apr 2023 18:32:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWZS-0006xC-NR
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:28:06 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWdy-00008E-4a
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:32:46 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWZQ-00056D-RZ
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:28:06 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3f173af665fso1150195e9.3
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 15:28:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWdw-00064Z-9S
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:32:45 -0400
+Received: by mail-wr1-x434.google.com with SMTP id
+ ffacd0b85a97d-2f6401ce8f8so151197f8f.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 15:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682720881; x=1685312881;
+ d=linaro.org; s=google; t=1682721162; x=1685313162;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=56IOLzA770kT40xdSibzvmIUHfGCxiEPZX/wywdJkEw=;
- b=cXj9Hhot8+zIe8kg9Sa/PiXrJvm/U46gOXWqoaLwkT3gvFc13zKF1qvLWatOJw4Q/Z
- J4u/bJ97Wwte6Iid3DeHjicf5i8HHDrVy/QfaK0kNaCCnqJueKE9dSMQgbjn14aMNEW2
- 0k65H+/8jrSAab9zAsLCjlE/N+6jfCl3Pj9Dfs9xeDn+b8jqqIMj0Mrn2NayljXPq4rQ
- 4m0DbV+TOJ5YlmHoPlhWCdw4qHvdk4PJxKFdmTvCL/8NBH6m45ape3i8qw4g1ga8J32I
- 9qdHlYgvAKVBgBQe6XhPzq2iqZlXwjKdSoTPiTy51G88uCaIAFVQQPkOuQf1UElrGvHc
- gMbQ==
+ bh=O8L0o1sAlxY6lrvihDvAAf8F9qY4OxJ51gZwJAMl8MM=;
+ b=wjZtAWpe2rXb0QPbB8GX3s0lvweu0Ibya7k0DWbGUU3P8fzuzmosvNFJkHJ4c0mPif
+ b2ATjXtjXyzozy12gTToQ9+e9oXokhzIZKcZvJfldKeKejb9nt5atiUXO1hPY9PEn18J
+ pqtalMDj7bVCaFF+Xil+E3e2rt3zvc7sCV9d/XrSDr7TslLtAqhKAjMsgHnw4GAvwyAP
+ yVdNwtqpZtt2BchoVXi6EEsO3JWze+4LzZH5xy0AjmXd1iB2HETe/JrAmIxDY6GThCIB
+ ho5vCKCzDSHsHfVzXvjIrfbboW6lSfp8Zlk90QtHWQofmuwwJv70U6j2cf4opx9BaLdY
+ WAPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682720881; x=1685312881;
+ d=1e100.net; s=20221208; t=1682721162; x=1685313162;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=56IOLzA770kT40xdSibzvmIUHfGCxiEPZX/wywdJkEw=;
- b=BRfzWZVYjRFdV5fm86UmrM5lS34V6ORTEnen17/zyYtGaudBE29Qs58DTVQs8U44B3
- MAVyZLv036v5PqDrx9i0JPjrDpVaYRxN/8ejbX62UUK449Pf33M75Km5MEgLIF1uLcAg
- 3t7vUWw/onTpnMdH0Flqa8GVZSKk+o87OGx4AEHVAMC3G6LwQcHA/Bz9P2Kamj+tPx7K
- bcia+7913+m8ZqbZuoOk9RXvUY45ux1Rbq9pLEst2gw8tTcvbTRIG4dAkj9cUpqGU30l
- Uqne0zhwusPPfGeuRuYL8N3pPqBvB8Stc2YKVGF8fjSqjInCzofKcVTRAPcxVH9IC55O
- 9tbw==
-X-Gm-Message-State: AC+VfDwonM9buBREC8VVrZwbx8dGTF9kC1NjhdPlbKqu0PQSRthNFCAJ
- dZFPmXcsQdykQ54YhAmJuDu+zA==
-X-Google-Smtp-Source: ACHHUZ4maGIwkNKVdegMC7L/CUk72WiJkdmq3rMfG//GBiNlSCC/0fuIXSRYTRvM8zzwJfa07oSkmQ==
-X-Received: by 2002:a7b:ce86:0:b0:3f0:4734:bef8 with SMTP id
- q6-20020a7bce86000000b003f04734bef8mr5310808wmj.39.1682720881528; 
- Fri, 28 Apr 2023 15:28:01 -0700 (PDT)
+ bh=O8L0o1sAlxY6lrvihDvAAf8F9qY4OxJ51gZwJAMl8MM=;
+ b=JHZ/Q1hfEO2GynK2Y1daLJMou0lAUvtybLqyMXDTNRjjlUH+5bTjaWjrKCxu2Egya4
+ vOA5ZYBmqfyW45fMug4IzdyQkQAb6n8Zf3EILIdX+B6pWh+sUqzRgtWxdCpWTvwbonl5
+ PEb+aQbnatRYeBa+QS4kGAF+gp0PjRhMBy/5YXn9fOGru6hmzGpp1yCSHXtG6YI+WQqh
+ ccDqf43OatA9nehMD+wlPQu4OxklFcICM0s8TuRuLMh/L81et7nNxlKcinkmX7dfBC62
+ v0ZdUVKjD8RXh++u6Fmh0SNINJmHh6ww6YgiCenQsmm2x0EgS8H3/YiBz6AnDz/J20d0
+ v05A==
+X-Gm-Message-State: AC+VfDzPzUQndct1aftDPbrFPZezcYyMBj63BtdoLELIIhJ58Rt9a6vT
+ uNf+79Ak3QL1gQTFNYcLHnRO7Q==
+X-Google-Smtp-Source: ACHHUZ5C4D+3gTAx4ICr9zTxHJaaTEv2bP5RuQ/h7mn70+TcT4vTSAu3JOglWG4uVZb7K3nEFwRdTg==
+X-Received: by 2002:a5d:6291:0:b0:2f7:f6e:566 with SMTP id
+ k17-20020a5d6291000000b002f70f6e0566mr5344739wru.31.1682721162670; 
+ Fri, 28 Apr 2023 15:32:42 -0700 (PDT)
 Received: from [192.168.192.175] (47.red-88-28-19.dynamicip.rima-tde.net.
  [88.28.19.47]) by smtp.gmail.com with ESMTPSA id
- j14-20020adfea4e000000b002fc3d8c134bsm22130949wrn.74.2023.04.28.15.27.59
+ w6-20020adfee46000000b002f0442a2d3asm22072998wro.48.2023.04.28.15.32.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Apr 2023 15:28:01 -0700 (PDT)
-Message-ID: <c17cbfae-ac52-90f1-a204-18c991fae011@linaro.org>
-Date: Fri, 28 Apr 2023 23:27:58 +0100
+ Fri, 28 Apr 2023 15:32:42 -0700 (PDT)
+Message-ID: <d3e7cb83-27ba-b2e0-ac5e-73956725d22c@linaro.org>
+Date: Fri, 28 Apr 2023 23:32:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v2 5/5] virtio-gpu: CONTEXT_INIT feature
+Subject: Re: [PATCH v11 08/13] tests/qtest: Fix tests when no KVM or TCG are
+ present
 Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
-Cc: kraxel@redhat.com, marcandre.lureau@redhat.com, akihiko.odaki@gmail.com,
- dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
-References: <20230428164823.789-1-gurchetansingh@google.com>
- <20230428164823.789-5-gurchetansingh@google.com>
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <anisinha@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230426180013.14814-1-farosas@suse.de>
+ <20230426180013.14814-9-farosas@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230428164823.789-5-gurchetansingh@google.com>
+In-Reply-To: <20230426180013.14814-9-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -94,18 +102,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/4/23 18:48, Gurchetan Singh wrote:
-> From: Antonio Caggiano <antonio.caggiano@collabora.com>
+On 26/4/23 20:00, Fabiano Rosas wrote:
+> It is possible to have a build with both TCG and KVM disabled due to
+> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
+> host.
 > 
-> The feature can be enabled when a backend wants it.
+> If we build with --disable-tcg on the aarch64 host, we will end-up
+> with a QEMU binary (x86) that does not support TCG nor KVM.
 > 
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> Skip tests that crash or hang in the above scenario. Do not include
+> any test cases if TCG and KVM are missing.
+> 
+> Make sure that calls to qtest_has_accel are placed after g_test_init
+> in similar fashion to commit ae4b01b349 ("tests: Ensure TAP version is
+> printed before other messages") to avoid TAP parsing errors.
+> 
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->   hw/display/virtio-gpu-base.c   | 3 +++
->   include/hw/virtio/virtio-gpu.h | 3 +++
->   2 files changed, 6 insertions(+)
+>   tests/qtest/bios-tables-test.c | 11 +++++++++--
+>   tests/qtest/boot-serial-test.c |  5 +++++
+>   tests/qtest/migration-test.c   |  9 ++++++++-
+>   tests/qtest/pxe-test.c         |  8 +++++++-
+>   tests/qtest/vmgenid-test.c     |  9 +++++++--
+>   5 files changed, 36 insertions(+), 6 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
