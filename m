@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D68E6F1DEC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 20:21:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840F96F1DED
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 20:22:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psSic-00089J-SV; Fri, 28 Apr 2023 14:21:18 -0400
+	id 1psSjW-0000Rq-G3; Fri, 28 Apr 2023 14:22:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSia-00088W-Tg
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:21:16 -0400
+ id 1psSjV-0000Ps-AC
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:22:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSiZ-0001hU-2X
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:21:16 -0400
+ id 1psSjU-0001mc-2U
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:22:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682706074;
+ s=mimecast20190719; t=1682706131;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=OREnveZ/b5GcsRuu3mnTgT/0ieDEK3gxMH4LxQ+wlrk=;
- b=HH29oC+2tJBFh1hjHYGU0bLE8PVNxqTfq6jY9a24JlVug35DswfesTGiuLu8DvLQdETxWe
- Z/pi96z3R6JFyqzHjZ/vUs6H1wvXqv4BIqj3CZwXMr7ha6KUCjS9qyZqRpDKomgL6SiqT0
- FRRUriskkCpotiYIeEVbSVK9yGzsDCM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KcFc5j0DAg8eWHd4kU4TYbFwd6KtQYdFzIBS5glrI/U=;
+ b=W/lS7GWXQmxjsOiMijfudl+HyBFdgoS7aoGkis38kZKgPwkeTWp+QfLR75tfa9hmO8DQKv
+ wsx8CKjEHZmceSCvoXNR2EkBCXzzp4QNfm3UwOY24cRSevLFVqh8aO2GzAeSzOqawaj5CZ
+ 5PY+P4hlAKf+vsx+5mrmfzXFoDKpVS8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-624-Yo6IXvEBMA-sMpNfTPZVaA-1; Fri, 28 Apr 2023 14:21:12 -0400
-X-MC-Unique: Yo6IXvEBMA-sMpNfTPZVaA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f080f534acso71295e9.0
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 11:21:12 -0700 (PDT)
+ us-mta-622-75vVhpK3N2mupl6SG6mbyg-1; Fri, 28 Apr 2023 14:22:08 -0400
+X-MC-Unique: 75vVhpK3N2mupl6SG6mbyg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f21e35dc08so28354285e9.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 11:22:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682706071; x=1685298071;
+ d=1e100.net; s=20221208; t=1682706125; x=1685298125;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OREnveZ/b5GcsRuu3mnTgT/0ieDEK3gxMH4LxQ+wlrk=;
- b=cUYLabXDYM/R7dnwHQf1+Wdac7dG0POD/QykaJ8rfqs71C8k9+Iw9do+ipX6Ivd5ol
- O1XbcH1qWfXHh5aBn1gKRNUj09mD+danG/Uwgfg7OT1Fq1S/fLm/OrZ9PuEgG5736At/
- q3r9SgLo3VZcDYCXQ2EiEWYU7gaBzoh11Uhnn/+KMIU7ZV1OPiBzJxA0T9bEPn6B+it5
- noUz5qWYvNA/WP35CA8ojn5lBTgNHpgmQ5WxouPP9a59n9gq+N+4wYdRH9xbCxi1xw21
- AqGUh2TzFxcNurfLFoyKTkPYFN/612tY/pAiPsF5M6IWDTbsL9hL+nziGQ2E41i/lVTL
- LY6g==
-X-Gm-Message-State: AC+VfDxokO0nT2G4rpMDBsVX511zRz/pqHRYt+qCthbfbhTsjPwuH1ki
- fs/HfzEaur28APb97n6faMspgTTKEkl4ZpoSsakB+RS1JKqXZl7EgNo0hQgX9dG962Xy/v0dvmC
- SMJc0dHFsLnJCGyA=
-X-Received: by 2002:a05:600c:2941:b0:3f0:967e:2cfb with SMTP id
- n1-20020a05600c294100b003f0967e2cfbmr4952469wmd.36.1682706071087; 
- Fri, 28 Apr 2023 11:21:11 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4nE0KKGCFhfRcKY+eaf7bUcZKI9THePg2YFMVv1a45tX6/5u+WvT5EBUOrOhOUYzxbS+TAtg==
-X-Received: by 2002:a05:600c:2941:b0:3f0:967e:2cfb with SMTP id
- n1-20020a05600c294100b003f0967e2cfbmr4952444wmd.36.1682706070781; 
- Fri, 28 Apr 2023 11:21:10 -0700 (PDT)
+ bh=KcFc5j0DAg8eWHd4kU4TYbFwd6KtQYdFzIBS5glrI/U=;
+ b=WiSrP/BjkFenYdAuM1lrqhH+ZPkNTeFH3bF7mOpN2ccv4jtrODqAcVy+y+dekXfKRG
+ T/cyg4B3rV/65Gl6WGu6PM9JLm4bFT85oxhs5Rs5JBDIsbEJLM813bjHjjaKB1KAva/q
+ 6zHK1qMTmdhVWDpaA/sD2Cq3b7pQ8VpUGmVK7oF/kW+RoPXntZGjWo8FkqS6LkRHHIpW
+ fY2SsztqEv6/OeOyqVfrxQnxCpdpaY7jLLkgPzSW+9SucAM4szc0aJAm4D72+Iyt7wC1
+ ilICHiS3UftiPp9Go4kQn5JB4+yLcwxfokMZmlyfuZg6xf0VYphW9CN6QwDab3JCbArr
+ 1z8w==
+X-Gm-Message-State: AC+VfDzrB+V3ZcwzyFHo/Bs50K5ij496MPsnQDUyHJfbMreWfvn4c0fx
+ B9+SL+j6CCca2Qghz9BtsLy9krzDaOBJq9h0wWJvo5NOlkUVEEAIVFcufutC/nt1twAaudjPtd2
+ 6fJh3Qpy/2p53rdY=
+X-Received: by 2002:adf:f491:0:b0:2f7:780e:ee0a with SMTP id
+ l17-20020adff491000000b002f7780eee0amr4718207wro.64.1682706125797; 
+ Fri, 28 Apr 2023 11:22:05 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7Y+Sm0+m9UN/aWYyINJBs0MBBLkVe1qkkrK4m8YvDUn+Yy0L+WLwsui7CiyIXq9OuNZlYJ5g==
+X-Received: by 2002:adf:f491:0:b0:2f7:780e:ee0a with SMTP id
+ l17-20020adff491000000b002f7780eee0amr4718165wro.64.1682706125501; 
+ Fri, 28 Apr 2023 11:22:05 -0700 (PDT)
 Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
  [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- z4-20020a05600c0a0400b003ef4cd057f5sm29144364wmp.4.2023.04.28.11.21.09
+ r16-20020a5d4e50000000b002c7066a6f77sm21721991wrt.31.2023.04.28.11.22.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 11:21:10 -0700 (PDT)
+ Fri, 28 Apr 2023 11:22:05 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
@@ -76,15 +76,15 @@ Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
  pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
  stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
  qemu-block@nongnu.org,  victortoso@redhat.com
-Subject: Re: [PATCH 16/17] qga/qapi-schema: Reformat doc comments to conform
- to current conventions
-In-Reply-To: <20230428105429.1687850-17-armbru@redhat.com> (Markus
- Armbruster's message of "Fri, 28 Apr 2023 12:54:28 +0200")
+Subject: Re: [PATCH 14/17] qapi: Section parameter @indent is no longer
+ used, drop
+In-Reply-To: <20230428105429.1687850-15-armbru@redhat.com> (Markus
+ Armbruster's message of "Fri, 28 Apr 2023 12:54:26 +0200")
 References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-17-armbru@redhat.com>
+ <20230428105429.1687850-15-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 20:21:09 +0200
-Message-ID: <871qk37tre.fsf@secure.mitica>
+Date: Fri, 28 Apr 2023 20:22:04 +0200
+Message-ID: <87wn1v6f5f.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -114,28 +114,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> Change
->
->     # @name: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
->     #        do eiusmod tempor incididunt ut labore et dolore magna aliqua.
->
-> to
->
->     # @name: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
->     #     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
->
-> See recent commit "qapi: Relax doc string @name: description
-> indentation rules" for rationale.
->
-> Reflow paragraphs to 70 columns width, and consistently use two spaces
-> to separate sentences.
->
-> To check the generated documentation does not change, I compared the
-> generated HTML before and after this commit with "wdiff -3".  Finds no
-> differences.  Comparing with diff is not useful, as the reflown
-> paragraphs are visible there.
->
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
