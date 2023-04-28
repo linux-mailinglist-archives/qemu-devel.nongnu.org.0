@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EA26F1E28
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 20:41:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F556F1E23
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 20:40:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psT1i-0006Tj-NV; Fri, 28 Apr 2023 14:41:03 -0400
+	id 1psSzA-0005Xu-Jc; Fri, 28 Apr 2023 14:38:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1psT1E-0006R9-KD; Fri, 28 Apr 2023 14:40:33 -0400
-Received: from mout.web.de ([212.227.15.3])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1psSz7-0005X0-EO
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:38:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1psT1A-00051z-SM; Fri, 28 Apr 2023 14:40:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1682706842; i=lukasstraub2@web.de;
- bh=2bHxcMhFlVrwzVXQZ3StzGh+H6ExTaCPoYYZNzt61n8=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=ooYd+GBACr4y14o+VjHD9McKIRKTlzmwRuu43XXnCY7ScdZvrd7rVFElDel6o3Xk7
- clGVaen4J4+O66vqpOZi4d2MB9b4tRn4lNYCWny+Ssf8VREIEPcK9pSUmFv5ShUEyK
- vmDhUnzaYrwsWjVHetvESWuBJAIrNvySbLgTJAY4yg5D3OlKlvvWE1ZUx+C8HiM28h
- YYmvHzV6ser1uLZFS18Hc4ZuaCSbZloIQr1LTtvz9+Jg8k4+a3p8XQ8riDBwqprlLB
- CkZQlU77z+crcM8bF5YOKbUJBiI+a9h1YKAU4okFAGwNA7Qsik+sYA8BWM/YsB1fK4
- 0ocdcnKPwDeYg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.126]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MA4bO-1pzezY1UmQ-00BYwI; Fri, 28
- Apr 2023 20:34:02 +0200
-Date: Fri, 28 Apr 2023 20:33:47 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, michael.roth@amd.com, peter.maydell@linaro.org,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com,
- thuth@redhat.com, philmd@linaro.org, mst@redhat.com, imammedo@redhat.com,
- anisinha@redhat.com, eblake@redhat.com, kraxel@redhat.com,
- kwolf@redhat.com, hreitz@redhat.com, arei.gonglei@huawei.com,
- pizhenwei@bytedance.com, jsnow@redhat.com, vsementsov@yandex-team.ru,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, wangyanan55@huawei.com,
- quintela@redhat.com, peterx@redhat.com, leobras@redhat.com,
- jasowang@redhat.com, yuval.shaia.ml@gmail.com, pavel.dovgaluk@ispras.ru,
- jiri@resnulli.us, stefanb@linux.vnet.ibm.com, stefanha@redhat.com,
- kkostiuk@redhat.com, qemu-block@nongnu.org, victortoso@redhat.com
-Subject: Re: [PATCH 17/17] qapi: Reformat doc comments to conform to current
- conventions
-Message-ID: <20230428183347.4f93ed14@gecko.fritz.box>
-In-Reply-To: <20230428105429.1687850-18-armbru@redhat.com>
-References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-18-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1psSz4-0004dD-CB
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:38:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682707097;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=LOGh0lUFieWpa9Yv+vluGGk9yebSZ8Z9UOm8QhfrmBg=;
+ b=AnoYeJcJ0L25ePQ49/zE7HJLH3m8I2Dp2CjN1ZFidhuD+CaU//H7dklxWSyQ+F+UqUAeOo
+ fRBwYr1zyX2ckN7w7VKFVYKYTjEdX0JRx4kUustag+HHA8GrjVgPVqLIG+wuOEbRcPiAOl
+ xen5mBsMjur4UqUL2rT1TD14drMVn0I=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-13-j5k1VBXXPXqYynqNBKElZg-1; Fri, 28 Apr 2023 14:38:15 -0400
+X-MC-Unique: j5k1VBXXPXqYynqNBKElZg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-304991654ceso21509f8f.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 11:38:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682707094; x=1685299094;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LOGh0lUFieWpa9Yv+vluGGk9yebSZ8Z9UOm8QhfrmBg=;
+ b=Wg7HZoRXh2hz+3ca19zYCvw/Z6Kdrxgoyq9XV2rBdj3ysDWvRHm4T1fu7MZ9LkchlP
+ x4YrmQfLTfEp4PaEnCHE624wqMuHeCQm9vIqbrm352XZMdKZaj9vbXHICSs6LkFrAGLE
+ IqtkmkEGuQcA8njHPyNF7HWf5ULEGMy+vRunjV4mZH4z89T6AC6bUQ5k77KDV/U+g6MW
+ Boe8SxjJ0ua2StjDtZDiXtfQsKCUo2QYoAshhO5VzA/HDADezma9VkOYVfSVc9KzeGdA
+ WUXyiIywzo4jrloIY6p4zJIs4D5y8dc+Pgjy+LOl9HUNQ25XNnPQGO/uiwTUkkFbEFk2
+ Ogwg==
+X-Gm-Message-State: AC+VfDztZqQMMZwuI4myT8R4B4tMO3rR53o/NA/ewf5jnJTXexj2TqY3
+ 8+toJmAfUy3m35nYIAFUwVitlvD1IkcfniXWD/JOHF/DrwncRvJZxMEUHQ0hLsR074u62PNUUHS
+ xm9r90tzbIHZLLGc=
+X-Received: by 2002:adf:f346:0:b0:2ef:399c:1051 with SMTP id
+ e6-20020adff346000000b002ef399c1051mr4788424wrp.20.1682707094317; 
+ Fri, 28 Apr 2023 11:38:14 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6oAfylp749XPph8PoPOkhh/9V6RpnMGJ7TsACxelbOAGlT+Ymq1YM9ojgpiVtbswR+cOHWOA==
+X-Received: by 2002:adf:f346:0:b0:2ef:399c:1051 with SMTP id
+ e6-20020adff346000000b002ef399c1051mr4788417wrp.20.1682707093950; 
+ Fri, 28 Apr 2023 11:38:13 -0700 (PDT)
+Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
+ [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
+ u6-20020adff886000000b002f7780eee10sm21757591wrp.59.2023.04.28.11.38.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Apr 2023 11:38:13 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org,  QEMU Trivial <qemu-trivial@nongnu.org>,  Hyman
+ Huang <huangy81@chinatelecom.cn>,  Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH] softmmu: Tidy dirtylimit_dirty_ring_full_time
+In-Reply-To: <be8ccc72-0dfb-ca33-e309-27d51d96a623@redhat.com> (Thomas Huth's
+ message of "Fri, 28 Apr 2023 12:57:05 +0200")
+References: <20230428103448.3811208-1-richard.henderson@linaro.org>
+ <be8ccc72-0dfb-ca33-e309-27d51d96a623@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 28 Apr 2023 20:38:12 +0200
+Message-ID: <87jzxv6eej.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/wenK8Isldd0z5VqI+qhLPOx";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:P4zLiMhjOftovkKSWQN2t5QK9mjZVi6YH35HwDgsjNMXGfWHebe
- J4OERnOFZM1Og8dhs4lNIBQyM8wYD/T8qWlrZN8r/ZlW7AetEKoZxRTKl23vcOyEkC8J/dL
- V/xSeZU+VR/vgAFB+YZW3xNxXfyOXyzdS0vqhYafm+4hM9IioffdngO3H7DPutxzjgApC7l
- gXlpEd2rNXvVnMecCY/Ow==
-UI-OutboundReport: notjunk:1;M01:P0:7w0I6pSUOgg=;JFJNnG5IvqbZKjGBVLlGZ28lJ0B
- ZP2u8FhsGQXkJGatrJdxAQqWGi/CPvQV+AWwYbripTKZYZN1rqxQJeQeOmDQkegOTFAxO4IFP
- 1H0UUvwwUtTj/qDI9A+YItudoikKOC8IRxOUR+HPkUpA+EaZTro37oG5V9bsNkvL7mY+juahA
- rhSMT2jEfuBYZPM5OhoqpauSj4WkObKwem2u2cGCYsWHvWTLP3bR639BOtoOguWAFT03TuN2u
- htP02WFScPxIqiNjPv4IuOVFfM96va1WnXaR+/P6BRKBA2p7IkCNMEp9/R355Sfob3MjS0HIb
- XEYYTguCaT61gcZYBenz2UOiSv6rtJ+KSyptN9f7DfXN0m/tZ4NFy2hXNQNyNAhE6QhbzQyNu
- chhAQa0alXpXedAC4yUK+rzUR3flV5De48763UieDxDKxzWF6Sxyy6TPvjvbHERIkqYrjuUr4
- +Idm48Dg+3fUkiv6H6echkSWTztZLEt8EwIwlNtpzJF75UVSld2p+OI8QDdMs7dLptNzmTaGL
- jxqJXL8YuMPQSNP3ZVYwcKqqY+Ztc13OJzTMwK5R+mewlWTapJTPpUhRSgFJjIfcI/r9nu68S
- XwTcV1flWI9qMbYfIxgoWHavlXknjun1npDa1L2EPkRglbH9LOTAwCSswVw1iZaI07eJL84JZ
- 3FEmxcncMSkd1Vhz5UBHojmO7onwbJHUX09qnGPEu1TMHNymje20VWry4yFexlnsJ4QQ6f1+R
- nDBI1effuD/2+6eDROkmYqk1z/1TccEDutJKgw7TP4ILddK0tM4rPWXneq344Ik8pdlxWYgBl
- oUtCrf0/7aE46chnTybY8ZCTCWWrOzQfmwY0v01uYqgGiHoM6LcY5mS3qX5WsAPgOReCx6PxO
- SsijD9DsFKgycqaQRpInAj3ckU5L8NZVnyawprmhD6BMw2Twe0osNHRRGUiiic/myry5N6214
- 6N9GJwmMlmGLGduqCEjiJx/IcHk=
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,211 +98,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/wenK8Isldd0z5VqI+qhLPOx
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Thomas Huth <thuth@redhat.com> wrote:
+> On 28/04/2023 12.34, Richard Henderson wrote:
+>> Drop inline marker: let compiler decide.
+>> Change return type to uint64_t: this matches the computation in the
+>> return statement and the local variable assignment in the caller.
+>> Rename local to dirty_ring_size_MB to fix typo.
+>> Simplify conversion to MiB via qemu_target_page_bits and right shift.
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-On Fri, 28 Apr 2023 12:54:29 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-> Change
->=20
->     # @name: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
->     #        do eiusmod tempor incididunt ut labore et dolore magna aliqu=
-a.
->=20
-> to
->=20
->     # @name: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
->     #     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
->=20
-> See recent commit "qapi: Relax doc string @name: description
-> indentation rules" for rationale.
->=20
-> Reflow paragraphs to 70 columns width, and consistently use two spaces
-> to separate sentences.
->=20
-> To check the generated documentation does not change, I compared the
-> generated HTML before and after this commit with "wdiff -3".  Finds no
-> differences.  Comparing with diff is not useful, as the reflown
-> paragraphs are visible there.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Not that I expect the amount of bytes in one machine to not fit in
+64bit, but good change.
 
-Acked-by: Lukas Straub <lukasstraub2@web.de>
+About the signesdness of variables, I really hate it, specially that
+compiler not help here where arguments, operands and assignment place is
+unsigned.  Sniff.
 
-> ---
->  qapi/acpi.json           |   50 +-
->  qapi/audio.json          |   85 +-
->  qapi/authz.json          |   29 +-
->  qapi/block-core.json     | 2801 ++++++++++++++++++++------------------
->  qapi/block-export.json   |  242 ++--
->  qapi/block.json          |  214 +--
->  qapi/char.json           |  134 +-
->  qapi/common.json         |   19 +-
->  qapi/compat.json         |   13 +-
->  qapi/control.json        |   59 +-
->  qapi/crypto.json         |  261 ++--
->  qapi/cryptodev.json      |    3 +
->  qapi/cxl.json            |   74 +-
->  qapi/dump.json           |   78 +-
->  qapi/error.json          |    6 +-
->  qapi/introspect.json     |   89 +-
->  qapi/job.json            |  139 +-
->  qapi/machine-target.json |  303 +++--
->  qapi/machine.json        |  389 +++---
->  qapi/migration.json      | 1117 ++++++++-------
->  qapi/misc-target.json    |   67 +-
->  qapi/misc.json           |  180 ++-
->  qapi/net.json            |  260 ++--
->  qapi/pci.json            |   35 +-
->  qapi/qapi-schema.json    |   25 +-
->  qapi/qdev.json           |   63 +-
->  qapi/qom.json            |  404 +++---
->  qapi/rdma.json           |    1 -
->  qapi/replay.json         |   48 +-
->  qapi/rocker.json         |   20 +-
->  qapi/run-state.json      |  215 +--
->  qapi/sockets.json        |   50 +-
->  qapi/stats.json          |   83 +-
->  qapi/tpm.json            |   20 +-
->  qapi/trace.json          |   34 +-
->  qapi/transaction.json    |   87 +-
->  qapi/ui.json             |  435 +++---
->  qapi/virtio.json         |   84 +-
->  qapi/yank.json           |   42 +-
->  39 files changed, 4322 insertions(+), 3936 deletions(-)
->=20
-> [...]
->=20
-> diff --git a/qapi/yank.json b/qapi/yank.json
-> index 1639744ada..87ec7cab96 100644
-> --- a/qapi/yank.json
-> +++ b/qapi/yank.json
-> @@ -9,7 +9,7 @@
->  ##
->  # @YankInstanceType:
->  #
-> -# An enumeration of yank instance types. See @YankInstance for more
-> +# An enumeration of yank instance types.  See @YankInstance for more
->  # information.
->  #
->  # Since: 6.0
-> @@ -20,8 +20,8 @@
->  ##
->  # @YankInstanceBlockNode:
->  #
-> -# Specifies which block graph node to yank. See @YankInstance for more
-> -# information.
-> +# Specifies which block graph node to yank.  See @YankInstance for
-> +# more information.
->  #
->  # @node-name: the name of the block graph node
->  #
-> @@ -33,8 +33,8 @@
->  ##
->  # @YankInstanceChardev:
->  #
-> -# Specifies which character device to yank. See @YankInstance for more
-> -# information.
-> +# Specifies which character device to yank.  See @YankInstance for
-> +# more information.
->  #
->  # @id: the chardev's ID
->  #
-> @@ -46,21 +46,18 @@
->  ##
->  # @YankInstance:
->  #
-> -# A yank instance can be yanked with the @yank qmp command to recover fr=
-om a
-> -# hanging QEMU.
-> +# A yank instance can be yanked with the @yank qmp command to recover
-> +# from a hanging QEMU.
->  #
->  # Currently implemented yank instances:
->  #
-> -# - nbd block device:
-> -#   Yanking it will shut down the connection to the nbd server without
-> -#   attempting to reconnect.
-> -# - socket chardev:
-> -#   Yanking it will shut down the connected socket.
-> -# - migration:
-> -#   Yanking it will shut down all migration connections. Unlike
-> -#   @migrate_cancel, it will not notify the migration process, so migrat=
-ion
-> -#   will go into @failed state, instead of @cancelled state. @yank shoul=
-d be
-> -#   used to recover from hangs.
-> +# - nbd block device: Yanking it will shut down the connection to the
-> +#   nbd server without attempting to reconnect.
-> +# - socket chardev: Yanking it will shut down the connected socket.
-> +# - migration: Yanking it will shut down all migration connections.
-> +#   Unlike @migrate_cancel, it will not notify the migration process,
-> +#   so migration will go into @failed state, instead of @cancelled
-> +#   state.  @yank should be used to recover from hangs.
->  #
->  # Since: 6.0
->  ##
-> @@ -74,13 +71,14 @@
->  ##
->  # @yank:
->  #
-> -# Try to recover from hanging QEMU by yanking the specified instances. S=
-ee
-> -# @YankInstance for more information.
-> +# Try to recover from hanging QEMU by yanking the specified instances.
-> +# See @YankInstance for more information.
->  #
->  # Takes a list of @YankInstance as argument.
->  #
-> -# Returns: - Nothing on success
-> -#          - @DeviceNotFound error, if any of the YankInstances doesn't =
-exist
-> +# Returns:
-> +# - Nothing on success
-> +# - @DeviceNotFound error, if any of the YankInstances doesn't exist
->  #
->  # Example:
->  #
-> @@ -101,7 +99,7 @@
->  ##
->  # @query-yank:
->  #
-> -# Query yank instances. See @YankInstance for more information.
-> +# Query yank instances.  See @YankInstance for more information.
->  #
->  # Returns: list of @YankInstance
->  #
-
-
-
---=20
-
-
---Sig_/wenK8Isldd0z5VqI+qhLPOx
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRMEYwACgkQNasLKJxd
-sli6VQ/8DJlSmRViYjjT8Ygvkj07jr8N9UbxnXxC1Hv5I97AwdYX8oyK3udiIw11
-AelK2MisVu/LT/809owp1G1KN/PTjVTsPvj1EM/Dfyi7+kK/kk2+61NNc8nM8A4G
-c1ghbzDBNsKXFn4b26kvDKvqdO2V77nGbrMRS/Q6ByOG8nN1r/s8fOQrSiQz+Hiq
-4IitX7l22VMVRAox/1VXyB6euwdwwBbFl4yoxe2scQk5MGg5FeylDuDE5BEz3AfQ
-l9fdOqPjKVlFKbWUBw2L169jPCo+Cz4GB9E/BnzTqawFQ8fPogNZUc+M40AuMPsp
-wwAKYPr1DM6oIYN39sxNkigZtETzCgRCXtIvF2bl9tvJ6UUQwODPN9PpTgNw9ZHl
-sdoh74Hivi/wNalKBds5Q8kDBOlUuIy4Dl0n+q5rGjM8n4ragNJaKxhVDAQqgnk6
-gObt1V+1luQLRZLrWx9sP+dQZuzsgZ708/8jk6o3Czv4uP0woroYCe84OlxWlTSw
-iYZ4unCVJfLGrrbTElgbo36Vv/O3PvhUDBub/p1NqUTdxo/twvK84dAk24qLNjLx
-w/TzWRIyatAH9HtGzuzlIPm3n/Y98wtyMkPT3qfWk0VqLxzVVCDNNRhSEaCNHNXV
-uHM5Vr6sOfEiFwJ7XwgRJlXCdN6c9fHksp8RCoteYuYztrOi434=
-=iy65
------END PGP SIGNATURE-----
-
---Sig_/wenK8Isldd0z5VqI+qhLPOx--
 
