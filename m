@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA5D6F1D9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413086F1DA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:51:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psSAa-0007dc-Uy; Fri, 28 Apr 2023 13:46:08 -0400
+	id 1psSEZ-0000Ts-Rb; Fri, 28 Apr 2023 13:50:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1psSAY-0007dN-JM
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:46:06 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1psSAV-0002MI-D8
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:46:06 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C5ECF1F8D4;
- Fri, 28 Apr 2023 17:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682703940; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+FULDWD+1hCHO/UC4VP07r7eCa4/VoAL/r76idvuvdE=;
- b=BZJGM1T+P8GLACSDsbcI2iOPDplp2empYjg6abO0PhL6wdzUoWsJC8i/1HIbW3OFW2zuDR
- 2bYIWh+FVCVrnqoAzW/aBuBjaEMysen0aFE3yawPVdengt3lgnmJCYvCqjRdqa5oMJTmds
- Tj3jCpZ2ZlYCKHuc4+v0d40TjE51TM4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682703940;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+FULDWD+1hCHO/UC4VP07r7eCa4/VoAL/r76idvuvdE=;
- b=9mr4aT08AqBES7Nr4HoOvE6J0u92zwHhUM0h02jfEdZ23+bodgGnKRwUZqUjosaYJB0UZo
- S61zPAv/5vGmtSDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55807138FA;
- Fri, 28 Apr 2023 17:45:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id PD0CCEQGTGR/HwAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 28 Apr 2023 17:45:40 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
- <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, Peter
- Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3] meson: Pass -j option to sphinx
-In-Reply-To: <87r0s4gc8g.fsf@pond.sub.org>
-References: <20230428150102.13114-1-farosas@suse.de>
- <87r0s4gc8g.fsf@pond.sub.org>
-Date: Fri, 28 Apr 2023 14:45:37 -0300
-Message-ID: <87pm7nsxxa.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1psSEX-0000RU-BW
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:50:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1psSEU-0003FO-Ko
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:50:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682704209;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=dFy8RI3865X52CBDIP3RqFy8Zpprq4rs5liYXkWuaDw=;
+ b=MabR2pmiAuTOpIDeemWISEZZXzdFFhjBm8La5VVFlyWIjQVMu+3rWfrUiw0svRCQRkwyv7
+ g8QMKbHcQTWClvDXIGI6JxjAI6WFIHz0YCwSU3sAec/e4do5TUkjAGt3zYcq4eFjXPTaRv
+ JFPf+jukXpJUq18CGXWs8gP+f8KKllc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632-qoi5k9BfOBiT_ykpoKmM1A-1; Fri, 28 Apr 2023 13:50:07 -0400
+X-MC-Unique: qoi5k9BfOBiT_ykpoKmM1A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-2ff4bc7a770so2928f8f.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:50:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682704207; x=1685296207;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dFy8RI3865X52CBDIP3RqFy8Zpprq4rs5liYXkWuaDw=;
+ b=JZ4+HddruJFakD5o8jlsBrfCvYGMExLWhVFrejtENU0A+/dCTYP8mFk+n52zbREu2B
+ FuF05iwolIpK3FEE+6s5ba9Qxu9S8Q3cjXAiko2RdD4NlLlWnjbYO3G4zM1z6fudF/jH
+ Jb6rSiUj/DOBa11r7D4jVJWhcgNYC4zUgN5zJHzR0TrVxQjNp7oAzwLSWJmfMpn3KMJK
+ yv5K+EaIm1OVWMKizM6xOnl0Kv58Fyb+DwdMzK5aL2FvnpDrBITK73/fAxtctyQoAy1v
+ /AydoclWjxHb/8n90t0gxozyj1oefVfN10guctSr7jvCBqWujeHQQPg18qaK8l3YfgoH
+ Dmvg==
+X-Gm-Message-State: AC+VfDyXDAyV1y0HVXW2PpMWCbsxhsDFeeauSRC7Po4mGAaN0av6YPdQ
+ ZgEVHSP2b7sDwei9b+B1l4Ix8aPCMst7kjZRb1lY7sEWwYQ864fewV+X6AsmIvPsDZ9Qj3/FZMU
+ KEp7Mp7X5bp+r4lI=
+X-Received: by 2002:adf:f4cd:0:b0:2f5:b1aa:679c with SMTP id
+ h13-20020adff4cd000000b002f5b1aa679cmr4615529wrp.39.1682704206683; 
+ Fri, 28 Apr 2023 10:50:06 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ72eYhHFo8pqocqwiP4gKwEIq5wnV7fJc+hh5FrBhyijJLt+bN4pH9GAu/TG54zthIX+gg4RQ==
+X-Received: by 2002:adf:f4cd:0:b0:2f5:b1aa:679c with SMTP id
+ h13-20020adff4cd000000b002f5b1aa679cmr4615516wrp.39.1682704206287; 
+ Fri, 28 Apr 2023 10:50:06 -0700 (PDT)
+Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
+ [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
+ p1-20020a05600c204100b003f3270ddbd8sm2503636wmg.37.2023.04.28.10.50.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Apr 2023 10:50:05 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  qemu-arm@nongnu.org,  qemu-devel@nongnu.org,
+ kvm@vger.kernel.org,  Eric Auger <eauger@redhat.com>,  Gavin Shan
+ <gshan@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,  Richard
+ Henderson <richard.henderson@linaro.org>,  Andrea Bolognani
+ <abologna@redhat.com>
+Subject: Re: [PATCH v7 1/1] arm/kvm: add support for MTE
+In-Reply-To: <20230428095533.21747-2-cohuck@redhat.com> (Cornelia Huck's
+ message of "Fri, 28 Apr 2023 11:55:33 +0200")
+References: <20230428095533.21747-1-cohuck@redhat.com>
+ <20230428095533.21747-2-cohuck@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 28 Apr 2023 19:50:04 +0200
+Message-ID: <87sfcj99rn.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,97 +102,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> writes:
-
-> Fabiano Rosas <farosas@suse.de> writes:
+Cornelia Huck <cohuck@redhat.com> wrote:
+> Extend the 'mte' property for the virt machine to cover KVM as
+> well. For KVM, we don't allocate tag memory, but instead enable the
+> capability.
 >
->> Save a bit of build time by passing the number of jobs option to
->> sphinx.
->>
->> We cannot use the -j option from make because meson does not support
->> setting build time parameters for custom targets. Use nproc instead or
->> the equivalent sphinx option "-j auto", if that is available.
->>
->> Also make sure our plugins support parallelism and report it properly
->> to sphinx. Particularly, implement the merge_domaindata method in
->> DBusDomain that is used to merge in data from other subprocesses.
->>
->> before:
->>   $ time make man html
->>   ...
->>   [1/2] Generating docs/QEMU manual with a custom command
->>   [2/2] Generating docs/QEMU man pages with a custom command
->>
->>   real    0m43.157s
->>   user    0m42.642s
->>   sys     0m0.576s
->>
->> after:
->>   $ time make man html
->>   ...
->>   [1/2] Generating docs/QEMU manual with a custom command
->>   [2/2] Generating docs/QEMU man pages with a custom command
->>
->>   real    0m25.014s
->>   user    0m51.288s
->>   sys     0m2.085s
->
-> Thanks for tackling this!  sphinx-build is so slow I disable doc
-> building unless I'm working on docs.
->
->> Tested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->> ---
->>  docs/meson.build           | 12 ++++++++++++
->>  docs/sphinx/dbusdomain.py  |  4 ++++
->>  docs/sphinx/fakedbusdoc.py |  5 +++++
->>  docs/sphinx/qmp_lexer.py   |  5 +++++
->>  4 files changed, 26 insertions(+)
->>
->> diff --git a/docs/meson.build b/docs/meson.build
->> index f220800e3e..138ec6ce6f 100644
->> --- a/docs/meson.build
->> +++ b/docs/meson.build
->> @@ -10,6 +10,18 @@ if sphinx_build.found()
->>      SPHINX_ARGS +=3D [ '-W', '-Dkerneldoc_werror=3D1' ]
->>    endif
->>=20=20
->> +  sphinx_version =3D run_command(SPHINX_ARGS + ['--version'],
->> +                               check: true).stdout().split()[1]
->> +  if sphinx_version.version_compare('>=3D5.1.2')
->
-> Where do you get 5.1.2 from?  I have 5.0.2, and -j auto appears to work
-> fine.  The manual page says "Changed in version 1.7: Support auto
-> argument."
->
+> If MTE has been enabled, we need to disable migration,
 
-Ouch, I was looking at the readthedocs repository which has a similar
-change.
+And I was wondering why I was cc'd in a patch that talks about arm, cpus
+and architectures O:-)
 
-So I think we could probably just hardcode the option. Most distros will
-have a more recent sphinx version.
-https://repology.org/project/python:sphinx/versions
-
-Let me try to figure out what gitlab is using. I know it is less than 4
-because our docs don't show some of the dbus parts:
-
-https://www.qemu.org/docs/master/interop/dbus-display.html
-
->> +    SPHINX_ARGS +=3D ['-j', 'auto']
->> +  else
->> +    nproc =3D find_program('nproc')
->> +    if nproc.found()
->> +      jobs =3D run_command(nproc, check: true).stdout()
->> +      SPHINX_ARGS +=3D ['-j', jobs]
->> +    endif
->> +  endif
->> +
->>    # This is a bit awkward but works: create a trivial document and
->>    # try to run it with our configuration file (which enforces a
->>    # version requirement). This will fail if sphinx-build is too old.
+> as we do not
+> yet have a way to migrate the tags as well. Therefore, MTE will stay
+> off with KVM unless requested explicitly.
 >
-> [...]
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>  hw/arm/virt.c        | 69 +++++++++++++++++++++++++-------------------
+>  target/arm/cpu.c     |  9 +++---
+>  target/arm/cpu.h     |  4 +++
+>  target/arm/kvm.c     | 35 ++++++++++++++++++++++
+>  target/arm/kvm64.c   |  5 ++++
+>  target/arm/kvm_arm.h | 19 ++++++++++++
+>  6 files changed, 107 insertions(+), 34 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index a89d699f0b76..544a6c5bec8f 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2146,7 +2146,7 @@ static void machvirt_init(MachineState *machine)
+>          exit(1);
+>      }
+>  
+> -    if (vms->mte && (kvm_enabled() || hvf_enabled())) {
+> +    if (vms->mte && hvf_enabled()) {
+>          error_report("mach-virt: %s does not support providing "
+>                       "MTE to the guest CPU",
+>                       current_accel_name());
+> @@ -2216,39 +2216,48 @@ static void machvirt_init(MachineState *machine)
+>          }
+>  
+>          if (vms->mte) {
+> -            /* Create the memory region only once, but link to all cpus. */
+> -            if (!tag_sysmem) {
+> -                /*
+> -                 * The property exists only if MemTag is supported.
+> -                 * If it is, we must allocate the ram to back that up.
+> -                 */
+> -                if (!object_property_find(cpuobj, "tag-memory")) {
+> -                    error_report("MTE requested, but not supported "
+> -                                 "by the guest CPU");
+> -                    exit(1);
+> +            if (tcg_enabled()) {
+> +                /* Create the memory region only once, but link to all cpus. */
+> +                if (!tag_sysmem) {
+> +                    /*
+> +                     * The property exists only if MemTag is supported.
+> +                     * If it is, we must allocate the ram to back that up.
+> +                     */
+> +                    if (!object_property_find(cpuobj, "tag-memory")) {
+> +                        error_report("MTE requested, but not supported "
+> +                                     "by the guest CPU");
+> +                        exit(1);
+> +                    }
+> +
+> +                    tag_sysmem = g_new(MemoryRegion, 1);
+> +                    memory_region_init(tag_sysmem, OBJECT(machine),
+> +                                       "tag-memory", UINT64_MAX / 32);
+> +
+> +                    if (vms->secure) {
+> +                        secure_tag_sysmem = g_new(MemoryRegion, 1);
+> +                        memory_region_init(secure_tag_sysmem, OBJECT(machine),
+> +                                           "secure-tag-memory",
+> +                                           UINT64_MAX / 32);
+> +
+> +                        /* As with ram, secure-tag takes precedence over tag. */
+> +                        memory_region_add_subregion_overlap(secure_tag_sysmem,
+> +                                                            0, tag_sysmem, -1);
+> +                    }
+>                  }
+
+Pardon my ignorance here, but to try to help with migration.  How is
+this mte tag stored?
+- 1 array of 8bits per page of memory
+- 1 array of 64bits per page of memory
+- whatever
+
+Lets asume that it is 1 byte per page. For the explanation it don't
+matter, only matters that it is an array of things that are one for each
+page.
+
+What I arrived for migration the 1st time that I looked at this problem
+is that you can "abuse" multifd and call it a day.
+
+In multifd propper you just send in each page:
+
+- 1 array of page addresses
+- 1 array of pages that correspond to the previous addresses
+
+So my suggestion is just to send another array:
+
+- 1 array of page addresses
+- 1 array of page tags that correspond to the previous one
+- 1 array of pages that correspond to the previous addresses
+
+You put compatiblity marks here and there checking that you are using
+mte (and the same version) in both sides and you call that a day.
+
+Notice that this requires the series (still not upstream but already on
+the list) that move the zero page detection to the multifd thread,
+because I am assuming that zero pages also have tags (yes, it was not a
+very impressive guess).
+
+What do you think?  Does this work for you?
+What I would need for kvm/tcg would be some way of doing:
+
+- get_the_mte_tag_of_page(page_id)
+- set_the_mte_tag_of_page(page_id)
+
+Now you need to tell me if I should do this for each page, or use some
+kind of scatter-gather function that allows me to receive the mte tags
+from an array of pages.
+
+You could pass this information when we are searching for dirty pages,
+but it is going to be complicated doing that (basically we only pass the
+dirty page id, nothing else).
+
+Doing this in normal precopy can also be done, but it would be an
+exercise in masochism.
+
+Another question, if you are using MTE, all pages have MTE, right?
+Or there are other exceptions?
+
+Sorry for my ignorance on this matter.
+
+Later, Juan.
+
 
