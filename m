@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D696F2100
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 00:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB0C6F210B
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 00:50:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psWmP-0004I3-3B; Fri, 28 Apr 2023 18:41:29 -0400
+	id 1psWuH-0005cT-08; Fri, 28 Apr 2023 18:49:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWmN-0004Ho-9k
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:41:27 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWuF-0005c5-7f
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:49:35 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWmL-0007mN-JS
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:41:26 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-3047ff3269aso164931f8f.0
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 15:41:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psWuD-0000gd-JZ
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 18:49:34 -0400
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-2f86ee42669so255720f8f.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 15:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682721683; x=1685313683;
+ d=linaro.org; s=google; t=1682722172; x=1685314172;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0cuvsEbBhCtuQzbt1hUViFpMfr807snK5BPN0pHj8nk=;
- b=Dpb24JZjNfF/BBFERkAAmCteJ+a4xGF8bpRWFODOs+TwSLuV3e1f2x1sS+5QpnK/d+
- JIfAcr45f6QVaA6dxbmX67CSSl3iFCybIr1zBQ77H2aBbdJxXAh7B0r9wSfYs/RrqdM6
- XXOkXslemMdv+Xcia9bFz4sgqSTbyf08UYAgETEPCpJDjPuzPl5sS/UG+5qEK3N422uS
- ijgjuDvJeh9fJkkXFhTMJfhkc0hWoEfua14jAMgQkyRlk0Ax5Ak7e14nP3GhG2jgy1yd
- 8s2bLBWzZzN8klGtpd9Fhp9tmPZUngmnpJ4dvrfG22itG4gFU7iYF8MQBqfJmtWQbBcL
- vH2Q==
+ bh=5y4hiFQT4Z+EpiHpgNeUbiNxFTBOY+nRx4Ksy7QSVIg=;
+ b=F5eD8FIrkxA24Ea9Sk4iZBvd6r5QkIndUNARbTVmQBa/l0aG7eanY20R1JsXkVTvGl
+ KhVnmUBGkIqVDaxclo5s09nwCLA04S4NzxGobDiVCYnECFv4moQC2tPwz3Rz8rUxu3lS
+ RsKRVvjDej2xkw5Kk5N6VO3soVltVo0weyfVpWbuwTEJ39/3Df0iMrXrqn+jcG4MndOj
+ MqbwceBDjaC8d9/Z+xWBAmgjLgNxY5860+oDTBCKqmu9bfTUhUtUcddYZkkQ8Cwjil2y
+ 5hyE7egc4aWBLyQXHS1Ccf3W5MQUlYDJm3+eMzWY0fHWs3cxOzb4VTOaXUqd70sR3MtC
+ q6Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682721683; x=1685313683;
+ d=1e100.net; s=20221208; t=1682722172; x=1685314172;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0cuvsEbBhCtuQzbt1hUViFpMfr807snK5BPN0pHj8nk=;
- b=a+1jw6zI0sT42gjjdBb0JvkwzL9qFhiq3MFBvxGDCq1kRoGLUF5cMt0M0CBn+JfFIK
- gdiWyQ8qhl6uod/gBPCfabwBSP2J9ycEvTHTIGKNNJl0FWMGQy486CYh8CqOM3TAWyY0
- ekEEuuJlMzob7NdmfWGNEsRND5+F2qTlleNBFYI3+nF7Y5XAWY0QrHd2yCXiB7qb1rSb
- 92iwEa6F5wXP/q5cL0nle8Bs1Gi6OVlOsaCgbYUxuEymV8hyx0GIPl/1AkE65r52rSu+
- BJrmEGpeNSn+jLyi7vRdJK6Gc+YTAP+9xej1XorzT/TePwb2Zu2Myp+n/Uj++wSEfUSx
- udrg==
-X-Gm-Message-State: AC+VfDyCzCuw8BEPv3JlwvYHusdKs/VAXbXMBkUWzBoOnqQCpEEoA++p
- QDF5Bsmd7lwAJ1/e8NUEEiGszA==
-X-Google-Smtp-Source: ACHHUZ6CBXLQ5gCKt2seqdiKXKMVQKpM3dyIKRg7+KjCHZbPYn5VcaDPJ7EtiQQUy6Q+kqkjAcgDtw==
-X-Received: by 2002:a5d:544e:0:b0:2f5:c57c:192f with SMTP id
- w14-20020a5d544e000000b002f5c57c192fmr5346414wrv.68.1682721683677; 
- Fri, 28 Apr 2023 15:41:23 -0700 (PDT)
+ bh=5y4hiFQT4Z+EpiHpgNeUbiNxFTBOY+nRx4Ksy7QSVIg=;
+ b=WVkjMXoXXpG9AxE4kSdLGgyM2nCawLrXzBMYy5yXW4DVICZhm18zXblr9DHo/yH7mU
+ gDeynFtrctrZR1vB4kSC8Bz+EfkKkFLWDW9kuLQ4TtsNR50GyPrQhaWwTp2N8CX3WYY/
+ AhpA/WtPlVw8yClOr+KYzxYjcFN05pZ3p1fXFy05KHpB94bB+3ZF98kmWNTJ72qqw5BV
+ HFAYSx1AU5Kt41E8kFrlFtmaC5zOfTiTBDU+LgBcfDlzeztpih9Zc++ca/MHY674juL9
+ X6MR7nmf7AnSeogoZ/w6ywF4R39h7xcHUKGDIKjX9l+CiNwRB9H2c25ITydlHoonlwyy
+ DTPQ==
+X-Gm-Message-State: AC+VfDwuzFRarqLJwW1PHnI9e8jDo7e45L2cjauPa6ZMFt1jvZ0HRpPD
+ YVbm0k9Qsksmn3/BSlH6vqutYQ==
+X-Google-Smtp-Source: ACHHUZ4SvITuM7R7y9sMdyQaNep38ZA2podES4R/x9LpqPOXNhmJVjcUnvKC2vaCHwnu64zglfkBHg==
+X-Received: by 2002:a5d:4d10:0:b0:2ce:a6be:2bd with SMTP id
+ z16-20020a5d4d10000000b002cea6be02bdmr4369780wrt.1.1682722172023; 
+ Fri, 28 Apr 2023 15:49:32 -0700 (PDT)
 Received: from [192.168.192.175] (47.red-88-28-19.dynamicip.rima-tde.net.
  [88.28.19.47]) by smtp.gmail.com with ESMTPSA id
- c13-20020adfe70d000000b002fbaef32231sm22057901wrm.22.2023.04.28.15.41.21
+ r6-20020a05600c458600b003f195d540d9sm21392718wmo.14.2023.04.28.15.49.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Apr 2023 15:41:23 -0700 (PDT)
-Message-ID: <2acdf22e-52d8-64c2-a41e-b55dc30dab17@linaro.org>
-Date: Fri, 28 Apr 2023 23:41:19 +0100
+ Fri, 28 Apr 2023 15:49:31 -0700 (PDT)
+Message-ID: <4d59b4d1-7a36-1fc6-801d-b6348b186739@linaro.org>
+Date: Fri, 28 Apr 2023 23:49:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v11 01/13] target/arm: Move cortex sysregs into a separate
- file
+Subject: Re: [PATCH] softmmu: Tidy dirtylimit_dirty_ring_full_time
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20230426180013.14814-1-farosas@suse.de>
- <20230426180013.14814-2-farosas@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com
+References: <20230428103448.3811208-1-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230426180013.14814-2-farosas@suse.de>
+In-Reply-To: <20230428103448.3811208-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -99,28 +92,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/4/23 20:00, Fabiano Rosas wrote:
-> The file cpu_tcg.c is about to be moved into the tcg/ directory, so
-> move the register definitions into a new file.
+On 28/4/23 12:34, Richard Henderson wrote:
+> Drop inline marker: let compiler decide.
 > 
-> Also move the function declaration to the more appropriate cpregs.h.
+> Change return type to uint64_t: this matches the computation in the
+> return statement and the local variable assignment in the caller.
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Rename local to dirty_ring_size_MB to fix typo.
+> Simplify conversion to MiB via qemu_target_page_bits and right shift.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/arm/cortex-regs.c | 69 ++++++++++++++++++++++++++++++++++++++++
+>   softmmu/dirtylimit.c | 15 ++++++++++-----
+>   1 file changed, 10 insertions(+), 5 deletions(-)
 
-Worth renaming explicitly as cortex-a_regs.c?
 
-Otherwise,
+> -static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
+> +static uint64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
+>   {
+>       static uint64_t max_dirtyrate;
+> -    uint32_t dirty_ring_size = kvm_dirty_ring_size();
+> -    uint64_t dirty_ring_size_meory_MB =
+> -        dirty_ring_size * qemu_target_page_size() >> 20;
+> +    unsigned target_page_bits = qemu_target_page_bits();
+> +    uint64_t dirty_ring_size_MB;
+> +
+> +    /* So far, the largest (non-huge) page size is 64k, i.e. 16 bits. */
+> +    assert(target_page_bits < 20);
+> +
+> +    /* Convert ring size (pages) to MiB (2**20). */
+> +    dirty_ring_size_MB = kvm_dirty_ring_size() >> (20 - target_page_bits);
+>   
+>       if (max_dirtyrate < dirtyrate) {
+>           max_dirtyrate = dirtyrate;
+>       }
+>   
+> -    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
+> +    return dirty_ring_size_MB * 1000000 / max_dirtyrate;
+
+I wondered what was this 1000000 magic number. IIUC this is
+converted to microseconds. We don't have such definition.
+We could use (NANOSECONDS_PER_SECOND / 1000).
+Somehow simpler is to rename dirtylimit_dirty_ring_full_time()
+-> dirtylimit_dirty_ring_full_time_us(). Anyway,
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
->   target/arm/cpregs.h      |  6 ++++
->   target/arm/cpu64.c       |  1 +
->   target/arm/cpu_tcg.c     | 59 ----------------------------------
->   target/arm/internals.h   |  6 ----
->   target/arm/meson.build   |  1 +
->   6 files changed, 77 insertions(+), 65 deletions(-)
->   create mode 100644 target/arm/cortex-regs.c
+>   }
+>   
+>   static inline bool dirtylimit_done(uint64_t quota,
+
 
