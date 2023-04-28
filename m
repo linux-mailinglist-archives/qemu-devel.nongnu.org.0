@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5DF6F146A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E0F6F1461
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:44:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psKe3-0003R4-LB; Fri, 28 Apr 2023 05:44:03 -0400
+	id 1psKeA-0003ZC-Tw; Fri, 28 Apr 2023 05:44:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKe1-0003Qh-9e
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:01 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKe6-0003Rb-0t
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKdz-0007Yz-TM
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:01 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKe4-0007Zc-2m
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682675039;
+ s=mimecast20190719; t=1682675043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uvO69u+7iCd+pwuHsuzCzuuClp9Td+ey/1aZNXKPKaw=;
- b=g6TcWPdycv0CL3+TRVUUyu8GyhNzfFyh6uBsYrlENoTgFSvlU6KIUJQLT/8ElEosLajB9u
- m2PL6Uh1ohvHypg5GJbZBWahHH1uGTLodlYGEV+xaKvMYj50az8IhQ2iO03DWqBFqRsYbT
- hegRAgzbGa7/WMWG7jAYByTi/jhTJcI=
+ bh=XChoz1NxmCDnDkixQUKIQ0886I/dab/bZMOvKB3ZcdI=;
+ b=IzFSpjLDi5m7CMAAvFp5JYDYWeJRfjaTHGF6rehh0BnkRMhRx1Bv1gbiIt1wUvtoWaJRKw
+ q34Ac6ScB9xW9oVoqU9Q6kYgw3bW+K4iP56z7alh6t1AZAuZaT8NWXr+5UpZrKdl+Draz2
+ oyjK1z7vbJ4MWnaFZrI2W1ZGO6yb8k4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-512-Vw5Xr2TnMqeB8fuw3lA_Jg-1; Fri, 28 Apr 2023 05:43:56 -0400
-X-MC-Unique: Vw5Xr2TnMqeB8fuw3lA_Jg-1
+ us-mta-380-kES6YnmLO56rHovBlftC1A-1; Fri, 28 Apr 2023 05:43:57 -0400
+X-MC-Unique: kES6YnmLO56rHovBlftC1A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E575185A78B;
- Fri, 28 Apr 2023 09:43:55 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35461885621;
+ Fri, 28 Apr 2023 09:43:57 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C50F81410F1E;
- Fri, 28 Apr 2023 09:43:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E724B1410F1E;
+ Fri, 28 Apr 2023 09:43:55 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
 Cc: Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 03/13] hw/rdma: Compile target-independent parts of the rdma
- code only once
-Date: Fri, 28 Apr 2023 11:43:36 +0200
-Message-Id: <20230428094346.1292054-4-thuth@redhat.com>
+Subject: [PULL 04/13] hw/rdma: VMW_PVRDMA should depend on VMXNET3_PCI
+Date: Fri, 28 Apr 2023 11:43:37 +0200
+Message-Id: <20230428094346.1292054-5-thuth@redhat.com>
 In-Reply-To: <20230428094346.1292054-1-thuth@redhat.com>
 References: <20230428094346.1292054-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,36 +78,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some files of the rdma code do not depend on any target specific
-macros. Compile these only once to save some time during the build.
+The "pvrdma" device is only usable in conjunction with the "vmxnet3"
+NIC - see the check for TYPE_VMXNET3 in pvrdma_realize().
 
-Message-Id: <20230419114937.667221-1-thuth@redhat.com>
+By adding this dependency, the amount of total files that have to
+be compiled for a configuration with all targets decreases by 64
+files (!), since the rdma code is marked as target specific and thus
+got recompiled for all targets that enable PCI so far.
+
+Message-Id: <20230419111337.651673-1-thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/rdma/meson.build | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/rdma/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/rdma/meson.build b/hw/rdma/meson.build
-index 7325f40c32..fc7917192f 100644
---- a/hw/rdma/meson.build
-+++ b/hw/rdma/meson.build
-@@ -1,10 +1,12 @@
--specific_ss.add(when: 'CONFIG_VMW_PVRDMA', if_true: files(
-+softmmu_ss.add(when: 'CONFIG_VMW_PVRDMA', if_true: files(
-   'rdma.c',
-   'rdma_backend.c',
--  'rdma_rm.c',
-   'rdma_utils.c',
-+  'vmw/pvrdma_qp_ops.c',
-+))
-+specific_ss.add(when: 'CONFIG_VMW_PVRDMA', if_true: files(
-+  'rdma_rm.c',
-   'vmw/pvrdma_cmd.c',
-   'vmw/pvrdma_dev_ring.c',
-   'vmw/pvrdma_main.c',
--  'vmw/pvrdma_qp_ops.c',
- ))
+diff --git a/hw/rdma/Kconfig b/hw/rdma/Kconfig
+index 8e2211288f..840320bdc0 100644
+--- a/hw/rdma/Kconfig
++++ b/hw/rdma/Kconfig
+@@ -1,3 +1,3 @@
+ config VMW_PVRDMA
+     default y if PCI_DEVICES
+-    depends on PVRDMA && PCI && MSI_NONBROKEN
++    depends on PVRDMA && MSI_NONBROKEN && VMXNET3_PCI
 -- 
 2.31.1
 
