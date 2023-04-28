@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BC96F1A85
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 16:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279A16F1A9E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 16:39:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psPA4-0000oN-EE; Fri, 28 Apr 2023 10:33:24 -0400
+	id 1psPDM-00025j-4B; Fri, 28 Apr 2023 10:36:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1psP9z-0000lp-3q; Fri, 28 Apr 2023 10:33:19 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1psP7p-0006oG-7B; Fri, 28 Apr 2023 10:31:08 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 98F312003A;
- Fri, 28 Apr 2023 14:31:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1682692261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5i66iKCqxlGt/eIayUF84GAyyu+iy6Snh4Tu8IVXrTs=;
- b=aMz61qt1hGkZTUk1GMMlbYOQLZb34/kaeJEAQGmu59mXgnfPgqm+8K/FGi9YarRCKKim0d
- dY19VKPr9Cz9UVo+B5Y4uNui0YLrleXRoJ1B3ToUgeJeL/gGiojrAjDhz5ZrRO9//cA6Vl
- DAlQ2g6MZGe9jFteK6PpgP3crX1tHrI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1682692261;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5i66iKCqxlGt/eIayUF84GAyyu+iy6Snh4Tu8IVXrTs=;
- b=fjMmUHpJOJBkf662JLRPVfUq+xRit/iZqZ4GE9DoYB+8VK4hLTp/6jvgWhkdzIhXGR/maF
- 54dxr6UhSlXawHBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 255371390E;
- Fri, 28 Apr 2023 14:31:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qkrxN6TYS2QXQAAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 28 Apr 2023 14:31:00 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>, Narayana Murty N
- <nnmlinux@linux.ibm.com>, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au, groug@kaod.org
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, npiggin@linux.ibm.com,
- vajain21@linux.ibm.com, harshpb@linux.ibm.com, sbhat@linux.ibm.com
-Subject: Re: [PATCH] target: ppc: Correctly initialize HILE in HID-0 for
- book3s processors
-In-Reply-To: <87y1mcfvzo.fsf@vajain21.in.ibm.com>
-References: <20230420145055.10196-1-nnmlinux@linux.ibm.com>
- <87v8hq8lgz.fsf@suse.de> <87y1mcfvzo.fsf@vajain21.in.ibm.com>
-Date: Fri, 28 Apr 2023 11:30:58 -0300
-Message-ID: <87sfckrsd9.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1psPDJ-000248-Oc; Fri, 28 Apr 2023 10:36:45 -0400
+Received: from [159.226.251.80] (helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1psPDF-0008AS-CV; Fri, 28 Apr 2023 10:36:45 -0400
+Received: from localhost.localdomain (unknown [61.165.33.195])
+ by APP-01 (Coremail) with SMTP id qwCowACHj3vq2UtkrB5ZDA--.57839S2;
+ Fri, 28 Apr 2023 22:36:27 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ richard.henderson@linaro.org, wangjunqiang@iscas.ac.cn,
+ lazyparser@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v5 00/13] target/riscv: Fix PMP related problem
+Date: Fri, 28 Apr 2023 22:36:08 +0800
+Message-Id: <20230428143621.142390-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowACHj3vq2UtkrB5ZDA--.57839S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAr48GF4DWw47Zr48Gr45KFg_yoW5uFW5pF
+ WfC345Jrs7trZFqrs3tr17Cr15Ars5WrW7t3WIyw1rA3Wa9F1rCr97Kw109FWUJF95W390
+ kF4jyryv9F4jvaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCY02Avz4vE14v_Xryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+ 0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+ 17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+ C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
+ 6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+ 73UjIFyTuYvjfUO4E_DUUUU
+X-Originating-IP: [61.165.33.195]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 159.226.251.80 (deferred)
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,82 +75,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vaibhav Jain <vaibhav@linux.ibm.com> writes:
+This patchset tries to fix the PMP bypass problem issue https://gitlab.com/qemu-project/qemu/-/issues/1542:
 
-> Hi Fabiano,
->
-> Thanks for looking into this patch and apologies for the delayed reponse.
-> Fabiano Rosas <farosas@suse.de> writes:
->
->> Narayana Murty N <nnmlinux@linux.ibm.com> writes:
->>
->>> On PPC64 the HILE(Hypervisor Interrupt Little Endian) bit in HID-0
->>> register needs to be initialized as per isa 3.0b[1] section
->>> 2.10. This bit gets copied to the MSR_LE when handling interrupts that
->>> are handled in HV mode to establish the Endianess mode of the interrupt
->>> handler.
->>>
->>> Qemu's ppc_interrupts_little_endian() depends on HILE to determine Host
->>> endianness which is then used to determine the endianess of the guest dump.
->>>
->>
->> Not quite. We use the interrupt endianness as a proxy to guest
->> endianness to avoid reading MSR_LE at an inopportune moment when the
->> guest is switching endianness.
-> Agreed
->
->> This is not dependent on host
->> endianness. The HILE check is used when taking a memory dump of a
->> HV-capable machine such as the emulated powernv.
->
-> I think one concern which the patch tries to address is the guest memorydump file
-> generated of a BigEndian(BE) guest on a LittleEndian(LE) host is not readable on
-> the same LE host since 'crash' doesnt support cross endianess
-> dumps. Also even for a LE guest on LE host the memory dumps are marked as BE
-> making it not possible to analyze any guest memory dumps on the host.
->
+TLB will be cached if the matched PMP entry cover the whole page.  However PMP entries with higher priority may cover part of the page (but not match the access address), which means different regions in this page may have different permission rights. So it also cannot be cached (patch 1).
 
-From QEMU's perspective there's no "host" in this equation. We'll
-generate a BE dump for a BE guest and a LE dump for a LE guest. Anything
-different is a bug in QEMU (as the one this patch addresses).
+Writing to pmpaddr didn't trigger tlb flush (patch 3). 
 
-> However setting the HILE based on host endianess of qemu might not be
-> the right way to fix this problem. Based on an off mailing list discussion
-> with Narayana, he is working on another patch which doesnt set HILE
-> based on host endianess. However the problem seems to be stemming from
-> fact that qemu on KVM is using the HILE to set up the endianess of
-> memory-dump elf and since its not setup correctly the memory dumps are
-> in wrong endianess.
->
->> I think the actual issue might be that we're calling
->> ppc_interrupts_little_endian with hv=true for the dump.
->>
-> Yes, that is currently the case with cpu_get_dump_info(). Excerpt from
-> that function below that sets the endianess of the dump:
->
->     if (ppc_interrupts_little_endian(cpu, cpu->env.has_hv_mode)) {
+We set the tlb_size to 1 to make the TLB_INVALID_MASK set, and and the next access will again go through tlb_fill. However, this way will not work in tb_gen_code() => get_page_addr_code_hostp(): the TLB host address will be cached, and the following instructions can use this host address directly which may lead to the bypass of PMP related check (patch 5).
 
-This should probably be looking at cpu->vhyp or MSR_HVB since
-has_hv_mode will not change after we init the cpu.
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-pmp-fix-v5
 
->         info->d_endian = ELFDATA2LSB;
->     } else {
->         info->d_endian = ELFDATA2MSB;
->     }
->
-> for pseries kvm guest cpu->env.has_hv_mode is already set hence
-> ppc_interrupts_little_endian() assumes its running in 'hv' mode. The new
-> patch from Narayana will be addressing this.
->
->>> Currently the HILE bit is never set in the HID0 register even if the
->>> qemu is running in Little-Endian mode. This causes the guest dumps to be
->>> always taken in Big-Endian byte ordering. A guest memory dump of a
->>> Little-Endian guest running on Little-Endian qemu guest fails with the
->>> crash tool as illustrated below:
->>>
->>
->> Could you describe in more detail what is your setup? Specifically
->> whether both guests are running TCG or KVM (info kvm) and the state of
->> the nested-hv capability in QEMU command line.
-> Currently the issue is seen with any pseries KVM guest running on a PowerNV host.
+v5:
+
+Mov the original Patch 6 to Patch 3
+
+add Patch 4 to change the return type of pmp_hart_has_privs() to bool 
+
+add Patch 5 to make RLB/MML/MMWP bits writable only when Smepmp is enabled
+
+add Patch 6 to remove unused paramters in pmp_hart_has_privs_default()
+
+add Patch 7 to flush tlb when MMWP or MML bits are changed
+
+add Patch 8 to update the next rule addr in pmpaddr_csr_write()
+
+add Patch 13 to deny access if access is partially inside the PMP entry
+
+v4:
+
+Update comments for Patch 1, and move partial check code from Patch 2 to Patch 1
+
+Restore log message change in Patch 2
+
+Update commit message and the way to improve the problem in Patch 6
+
+v3:
+
+Ignore disabled PMP entry in pmp_get_tlb_size() in Patch 1
+
+Drop Patch 5, since tb jmp cache have been flushed in tlb_flush, so flush tb seems unnecessary.
+
+Fix commit message problems in Patch 8 (Patch 7 in new patchset)
+
+v2:
+
+Update commit message for patch 1
+
+Add default tlb_size when pmp is diabled or there is no rules and only get the tlb size when translation success in patch 2
+
+Update get_page_addr_code_hostp instead of probe_access_internal to fix the cached host address for instruction fetch in patch 6
+
+Add patch 7 to make the short up really work in pmp_hart_has_privs
+
+Add patch 8 to use pmp_update_rule_addr() and pmp_update_rule_nums() separately
+
+Weiwei Li (13):
+  target/riscv: Update pmp_get_tlb_size()
+  target/riscv: Move pmp_get_tlb_size apart from
+    get_physical_address_pmp
+  target/riscv: Make the short cut really work in pmp_hart_has_privs
+  target/riscv: Change the return type of pmp_hart_has_privs() to bool
+  target/riscv: Make RLB/MML/MMWP bits writable only when Smepmp is
+    enabled
+  target/riscv: Remove unused paramters in pmp_hart_has_privs_default()
+  target/riscv: Flush TLB when MMWP or MML bits are changed
+  target/riscv: Update the next rule addr in pmpaddr_csr_write()
+  target/riscv: Flush TLB when pmpaddr is updated
+  target/riscv: Flush TLB only when pmpcfg/pmpaddr really changes
+  accel/tcg: Uncache the host address for instruction fetch when tlb
+    size < 1
+  target/riscv: Separate pmp_update_rule() in pmpcfg_csr_write
+  target/riscv: Deny access if access is partially inside the PMP entry
+
+ accel/tcg/cputlb.c        |   5 +
+ target/riscv/cpu_helper.c |  27 ++----
+ target/riscv/pmp.c        | 198 ++++++++++++++++++++++----------------
+ target/riscv/pmp.h        |  11 +--
+ 4 files changed, 135 insertions(+), 106 deletions(-)
+
+-- 
+2.25.1
+
 
