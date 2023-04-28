@@ -2,71 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01A16F1564
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F74D6F1571
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:29:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psLJn-0005X6-Ig; Fri, 28 Apr 2023 06:27:11 -0400
+	id 1psLLl-0006Ga-GB; Fri, 28 Apr 2023 06:29:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLJk-0005WM-VG
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:27:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLe-0006GM-Jd
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLJj-00070s-1X
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:27:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLc-0007KN-Rz
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682677625;
+ s=mimecast20190719; t=1682677744;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kssoOXe7tK3Hg0sQVG/+YFUJ9ZPfKy3zfl88ndf8g4U=;
- b=D5kyqvKo2Us1S1C3ajJW2DwFXbxMeE5/gCHiqcsHnphtqBUa1GI+g35+kwWPk3LElM2NPW
- 2MJ7nnKr8i8hTaSFDjCiPl4ubNx5JV7uZ1oeXSAqbVBsiI2okkPzMRfuRQLO1gNznQyBVJ
- kaNI0pGDpw/YWZkr7aAfMDmNu+MTmhw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bir+7Tmbl8j7k7CFv2DSj8BlC7ZH7P38CSkMPy48XjU=;
+ b=JfUnHp6bZS8ZkKyA+e75odkXk5XD/QqaCTYmYcP9c7BllgQs2tuvh5xXgKr5Zh/z+FO1ho
+ Y+BDoR/j6nOzRP6i2o/8EnjGU3dAQ8P7exX+7p4GKj6QjzUsMMp0UHGNMVYzHU/bg0Usrg
+ j1/b96n8jx/zBlsSGZOFkL0hisRErDI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-157-aXVUeiYSMe25K2o-epm7sg-1; Fri, 28 Apr 2023 06:27:02 -0400
-X-MC-Unique: aXVUeiYSMe25K2o-epm7sg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-526-NBwM3ybUM3al7BxCgzfwig-1; Fri, 28 Apr 2023 06:29:02 -0400
+X-MC-Unique: NBwM3ybUM3al7BxCgzfwig-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEE2387B2A3;
- Fri, 28 Apr 2023 10:27:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EB2D29AA388;
+ Fri, 28 Apr 2023 10:29:02 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 88D8C1121315;
- Fri, 28 Apr 2023 10:27:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DC4F40C2064;
+ Fri, 28 Apr 2023 10:29:02 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7764721E6608; Fri, 28 Apr 2023 12:27:00 +0200 (CEST)
+ id 3AFEA21E6608; Fri, 28 Apr 2023 12:29:01 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  eblake@redhat.com,
- kwolf@redhat.com,  hreitz@redhat.com,  pbonzini@redhat.com,
- marcandre.lureau@redhat.com,  arei.gonglei@huawei.com,
- pizhenwei@bytedance.com,  jsnow@redhat.com,  eduardo@habkost.net,
- marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,
- quintela@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
- stefanha@redhat.com,  kraxel@redhat.com,  kkostiuk@redhat.com,
- qemu-block@nongnu.org,  marcandre.lureau@gmail.com,  david@redhat.com
-Subject: Re: [PATCH 17/16] docs/devel/qapi-code-gen: Describe some doc
- markup pitfalls
-References: <20230425064223.820979-1-armbru@redhat.com>
- <20230427095346.1238913-1-armbru@redhat.com>
- <eee8f95c-43eb-b357-d42a-1c479967b97c@yandex-team.ru>
- <87y1mcnyet.fsf@pond.sub.org>
- <542215a2-fa1c-17ff-e41c-c71564b02f75@yandex-team.ru>
-Date: Fri, 28 Apr 2023 12:27:00 +0200
-In-Reply-To: <542215a2-fa1c-17ff-e41c-c71564b02f75@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Fri, 28 Apr 2023 12:44:55 +0300")
-Message-ID: <87edo4nvyj.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org
+Subject: [PULL 00/17] QAPI patches patches for 2023-04-28
+Date: Fri, 28 Apr 2023 12:28:44 +0200
+Message-Id: <20230428102901.1685375-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -90,71 +75,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+The following changes since commit cc5ee50fff9dbac0aac32cd892a7163c7babcca1:
 
-> On 28.04.23 12:34, Markus Armbruster wrote:
->> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
->> 
->>> On 27.04.23 12:53, Markus Armbruster wrote:
->>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>>> ---
->>>>    docs/devel/qapi-code-gen.rst | 53 ++++++++++++++++++++++++++++++++++++
->>>>    1 file changed, 53 insertions(+)
->>>> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
->>>> index d81aac7a19..14983b074c 100644
->>>> --- a/docs/devel/qapi-code-gen.rst
->>>> +++ b/docs/devel/qapi-code-gen.rst
->>>> @@ -1059,6 +1059,59 @@ For example::
->>>>       'returns': ['BlockStats'] }
->>>>      +Markup pitfalls
->>>> +~~~~~~~~~~~~~~~
->>>> +
->>>> +A blank line is required between list items and paragraphs.  Without
->>>> +it, the list may not be recognized, resulting in garbled output.  Good
->>>> +example::
->>>> +
->>>> + # An event's state is modified if:
->>>> + #
->>>> + # - its name matches the @name pattern, and
->>>> + # - if @vcpu is given, the event has the "vcpu" property.
->>>> +
->>>> +Without the blank line this would be a single paragraph.
->>>> +
->>>> +Indentation matters.  Bad example::
->>>> +
->>>> + # @none: None (no memory side cache in this proximity domain,
->>>> + #              or cache associativity unknown)
->>>> +
->>>> +The description is parsed as a definition list with term "None (no
->>>> +memory side cache in this proximity domain," and definition "or cache
->>>> +associativity unknown)".
->>>
->>> May be add good example of indentation as well
->>
->> Patches I'm about to post will fill up this pitfall.  They change the
->> text to:
->>
->>       # @none: None (no memory side cache in this proximity domain,
->>       #              or cache associativity unknown)
->>       #     (since 5.0)
->>      The last line's de-indent is wrong.  The second and subsequent lines
->
-> So you want to drop "The description is parsed as a definition list ..." ?
+  Merge tag 'pull-testing-docs-270423-1' of https://gitlab.com/stsquad/qemu into staging (2023-04-27 16:46:17 +0100)
 
-Yes, because that'll be factually wrong :)
+are available in the Git repository at:
 
-Happy to explain further once the patches are on the list.
+  https://repo.or.cz/qemu/armbru.git tags/pull-qapi-2023-04-28
 
->>      need to line up with each other, like this::
->>
->>       # @none: None (no memory side cache in this proximity domain,
->>       #     or cache associativity unknown)
->>       #     (since 5.0)
->>
->> Good enough?
->
-> Example of good indent is good)
+for you to fetch changes up to e2e9e567f0e23971cac35ba1dee7edb51085b5f7:
 
-Thanks!
+  docs/devel/qapi-code-gen: Describe some doc markup pitfalls (2023-04-28 11:48:34 +0200)
+
+----------------------------------------------------------------
+QAPI patches patches for 2023-04-28
+
+----------------------------------------------------------------
+Markus Armbruster (17):
+      qga/qapi-schema: Tidy up documentation of guest-fsfreeze-status
+      qga/qapi-schema: Fix a misspelled reference
+      qapi: Fix misspelled references
+      qapi: Fix up references to long gone error classes
+      qapi/block-core: Clean up after removal of dirty bitmap @status
+      qapi: @foo should be used to reference, not ``foo``
+      qapi: Tidy up examples
+      qapi: Delete largely misleading "Stability Considerations"
+      qapi: Fix bullet list markup in documentation
+      qapi: Fix unintended definition lists in documentation
+      qga/qapi-schema: Fix member documentation markup
+      qapi: Fix argument documentation markup
+      qapi: Replace ad hoc "since" documentation by member documentation
+      qapi: Fix misspelled section tags in doc comments
+      qapi: Format since information the conventional way: (since X.Y)
+      qapi storage-daemon/qapi: Fix documentation section structure
+      docs/devel/qapi-code-gen: Describe some doc markup pitfalls
+
+ docs/devel/qapi-code-gen.rst         | 62 +++++++++++++++++++++++++--
+ docs/interop/firmware.json           |  6 +--
+ qapi/block-core.json                 | 82 ++++++++++++++++++------------------
+ qapi/block-export.json               |  7 +--
+ qapi/block.json                      |  2 +-
+ qapi/char.json                       |  4 +-
+ qapi/control.json                    |  2 +-
+ qapi/cryptodev.json                  |  4 ++
+ qapi/job.json                        |  4 +-
+ qapi/machine-target.json             |  2 +-
+ qapi/machine.json                    | 30 +++++++------
+ qapi/migration.json                  | 37 ++++++++++------
+ qapi/misc.json                       | 13 +++---
+ qapi/net.json                        | 27 +++++-------
+ qapi/qapi-schema.json                | 24 +----------
+ qapi/qdev.json                       |  2 +-
+ qapi/qom.json                        |  4 +-
+ qapi/rdma.json                       |  2 +-
+ qapi/replay.json                     |  3 ++
+ qapi/run-state.json                  | 11 +++--
+ qapi/stats.json                      |  3 +-
+ qapi/tpm.json                        |  3 +-
+ qapi/trace.json                      |  1 +
+ qapi/ui.json                         | 12 +++---
+ qapi/yank.json                       | 21 ++++-----
+ qga/qapi-schema.json                 | 10 ++---
+ storage-daemon/qapi/qapi-schema.json | 22 +++++++---
+ 27 files changed, 231 insertions(+), 169 deletions(-)
+
+-- 
+2.39.2
 
 
