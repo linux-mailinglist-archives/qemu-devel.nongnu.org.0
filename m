@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828676F1841
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 14:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921CA6F1847
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 14:42:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psNPy-0000bX-S0; Fri, 28 Apr 2023 08:41:42 -0400
+	id 1psNPv-00006k-NF; Fri, 28 Apr 2023 08:41:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1psNP9-0006xO-4d
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:40:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1psNPB-0006zp-5y
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:40:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1psNP6-0000sG-H8
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:40:50 -0400
+ id 1psNP9-0000tM-6c
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:40:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682685646;
+ s=mimecast20190719; t=1682685650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=54Tho65v8m23rzqAlACtxGOorCTnHWrQRKZ7YonfKxs=;
- b=gP+0vncXI4EcTcd4iwWSRQQcoKbNDJ+zzMT7Oi5reV1wip7qbJjU2Xw5aoKrWLAsJb9cXO
- ipB2t6xd2qeoJv30hUeOkB5BxTT2B0YjW8kjKg9kPA4FNLVEKAfVLRinR3y3JrK3mt3XCy
- fEvpjxcToH5VqPIAOnwnjPGee5/vWbU=
+ bh=WiugCxsIb/whw5Nkr0rnohk1ss+BilENnp0eis8gAww=;
+ b=OMGeO1ig7AydIRw3rYWReAdBptDzrigwSEwFNnm2irpjnKRF7TEM8qymUTzw53gxlLN7U8
+ kGhFfYx5ZNxZg6AWoFXdjV7THIpYr0Unbr6KjplAjeaG2F5RlKb4MUz10kCZkyXKKUEOvd
+ xOS0fMJEpaFmf0C5+a6InK52xHXzQRI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-326-KcNXBNcVO_i2IcwLkJlZiw-1; Fri, 28 Apr 2023 08:40:45 -0400
-X-MC-Unique: KcNXBNcVO_i2IcwLkJlZiw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-175-kHpOQMFhNzKzDLzQBifKbQ-1; Fri, 28 Apr 2023 08:40:48 -0400
+X-MC-Unique: kHpOQMFhNzKzDLzQBifKbQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 264D3A0F380;
- Fri, 28 Apr 2023 12:40:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4E14887402;
+ Fri, 28 Apr 2023 12:40:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65E08483EC4;
- Fri, 28 Apr 2023 12:40:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BE801121314;
+ Fri, 28 Apr 2023 12:40:46 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
@@ -58,15 +58,15 @@ Cc: Thomas Huth <thuth@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Sam Li <faithilikerun@gmail.com>
-Subject: [PULL 16/17] virtio-blk: add some trace events for zoned emulation
-Date: Fri, 28 Apr 2023 08:39:53 -0400
-Message-Id: <20230428123954.179035-17-stefanha@redhat.com>
+Subject: [PULL 17/17] docs/zoned-storage:add zoned emulation use case
+Date: Fri, 28 Apr 2023 08:39:54 -0400
+Message-Id: <20230428123954.179035-18-stefanha@redhat.com>
 In-Reply-To: <20230428123954.179035-1-stefanha@redhat.com>
 References: <20230428123954.179035-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -92,102 +92,45 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Sam Li <faithilikerun@gmail.com>
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20230407082528.18841-5-faithilikerun@gmail.com>
----
- hw/block/virtio-blk.c | 12 ++++++++++++
- hw/block/trace-events |  7 +++++++
- 2 files changed, 19 insertions(+)
+Add the documentation about the example of using virtio-blk driver
+to pass the zoned block devices through to the guest.
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index a9d3168770..7a66056c71 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -676,6 +676,7 @@ static void virtio_blk_zone_report_complete(void *opaque, int ret)
-     int64_t nz = data->zone_report_data.nr_zones;
-     int8_t err_status = VIRTIO_BLK_S_OK;
+Signed-off-by: Sam Li <faithilikerun@gmail.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+[Fix rST syntax
+--Stefan]
+Message-Id: <20230407082528.18841-6-faithilikerun@gmail.com>
+---
+ docs/devel/zoned-storage.rst | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/docs/devel/zoned-storage.rst b/docs/devel/zoned-storage.rst
+index da78db2783..e02500c8a3 100644
+--- a/docs/devel/zoned-storage.rst
++++ b/docs/devel/zoned-storage.rst
+@@ -41,3 +41,22 @@ APIs for zoned storage emulation or testing.
+ For example, to test zone_report on a null_blk device using qemu-io is::
  
-+    trace_virtio_blk_zone_report_complete(vdev, req, nz, ret);
-     if (ret) {
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-         goto out;
-@@ -792,6 +793,8 @@ static void virtio_blk_handle_zone_report(VirtIOBlockReq *req,
-     nr_zones = (req->in_len - sizeof(struct virtio_blk_inhdr) -
-                 sizeof(struct virtio_blk_zone_report)) /
-                sizeof(struct virtio_blk_zone_descriptor);
-+    trace_virtio_blk_handle_zone_report(vdev, req,
-+                                        offset >> BDRV_SECTOR_BITS, nr_zones);
- 
-     zone_size = sizeof(BlockZoneDescriptor) * nr_zones;
-     data = g_malloc(sizeof(ZoneCmdData));
-@@ -814,7 +817,9 @@ static void virtio_blk_zone_mgmt_complete(void *opaque, int ret)
- {
-     VirtIOBlockReq *req = opaque;
-     VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-     int8_t err_status = VIRTIO_BLK_S_OK;
-+    trace_virtio_blk_zone_mgmt_complete(vdev, req,ret);
- 
-     if (ret) {
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-@@ -841,6 +846,8 @@ static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp op)
-         /* Entire drive capacity */
-         offset = 0;
-         len = capacity;
-+        trace_virtio_blk_handle_zone_reset_all(vdev, req, 0,
-+                                               bs->total_sectors);
-     } else {
-         if (bs->bl.zone_size > capacity - offset) {
-             /* The zoned device allows the last smaller zone. */
-@@ -848,6 +855,9 @@ static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp op)
-         } else {
-             len = bs->bl.zone_size;
-         }
-+        trace_virtio_blk_handle_zone_mgmt(vdev, req, op,
-+                                          offset >> BDRV_SECTOR_BITS,
-+                                          len >> BDRV_SECTOR_BITS);
-     }
- 
-     if (!check_zoned_request(s, offset, len, false, &err_status)) {
-@@ -888,6 +898,7 @@ static void virtio_blk_zone_append_complete(void *opaque, int ret)
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-         goto out;
-     }
-+    trace_virtio_blk_zone_append_complete(vdev, req, append_sector, ret);
- 
- out:
-     aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-@@ -909,6 +920,7 @@ static int virtio_blk_handle_zone_append(VirtIOBlockReq *req,
-     int64_t offset = virtio_ldq_p(vdev, &req->out.sector) << BDRV_SECTOR_BITS;
-     int64_t len = iov_size(out_iov, out_num);
- 
-+    trace_virtio_blk_handle_zone_append(vdev, req, offset >> BDRV_SECTOR_BITS);
-     if (!check_zoned_request(s, offset, len, true, &err_status)) {
-         goto out;
-     }
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 2c45a62bd5..34be8b9135 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -44,9 +44,16 @@ pflash_write_unknown(const char *name, uint8_t cmd) "%s: unknown command 0x%02x"
- # virtio-blk.c
- virtio_blk_req_complete(void *vdev, void *req, int status) "vdev %p req %p status %d"
- virtio_blk_rw_complete(void *vdev, void *req, int ret) "vdev %p req %p ret %d"
-+virtio_blk_zone_report_complete(void *vdev, void *req, unsigned int nr_zones, int ret) "vdev %p req %p nr_zones %u ret %d"
-+virtio_blk_zone_mgmt_complete(void *vdev, void *req, int ret) "vdev %p req %p ret %d"
-+virtio_blk_zone_append_complete(void *vdev, void *req, int64_t sector, int ret) "vdev %p req %p, append sector 0x%" PRIx64 " ret %d"
- virtio_blk_handle_write(void *vdev, void *req, uint64_t sector, size_t nsectors) "vdev %p req %p sector %"PRIu64" nsectors %zu"
- virtio_blk_handle_read(void *vdev, void *req, uint64_t sector, size_t nsectors) "vdev %p req %p sector %"PRIu64" nsectors %zu"
- virtio_blk_submit_multireq(void *vdev, void *mrb, int start, int num_reqs, uint64_t offset, size_t size, bool is_write) "vdev %p mrb %p start %d num_reqs %d offset %"PRIu64" size %zu is_write %d"
-+virtio_blk_handle_zone_report(void *vdev, void *req, int64_t sector, unsigned int nr_zones) "vdev %p req %p sector 0x%" PRIx64 " nr_zones %u"
-+virtio_blk_handle_zone_mgmt(void *vdev, void *req, uint8_t op, int64_t sector, int64_t len) "vdev %p req %p op 0x%x sector 0x%" PRIx64 " len 0x%" PRIx64 ""
-+virtio_blk_handle_zone_reset_all(void *vdev, void *req, int64_t sector, int64_t len) "vdev %p req %p sector 0x%" PRIx64 " cap 0x%" PRIx64 ""
-+virtio_blk_handle_zone_append(void *vdev, void *req, int64_t sector) "vdev %p req %p, append sector 0x%" PRIx64 ""
- 
- # hd-geometry.c
- hd_geometry_lchs_guess(void *blk, int cyls, int heads, int secs) "blk %p LCHS %d %d %d"
+   $ path/to/qemu-io --image-opts -n driver=host_device,filename=/dev/nullb0 -c "zrp offset nr_zones"
++
++To expose the host's zoned block device through virtio-blk, the command line
++can be (includes the -device parameter)::
++
++  -blockdev node-name=drive0,driver=host_device,filename=/dev/nullb0,cache.direct=on \
++      -device virtio-blk-pci,drive=drive0
++
++Or only use the -drive parameter::
++
++  -driver driver=host_device,file=/dev/nullb0,if=virtio,cache.direct=on
++
++Additionally, QEMU has several ways of supporting zoned storage, including:
++(1) Using virtio-scsi: --device scsi-block allows for the passing through of
++SCSI ZBC devices, enabling the attachment of ZBC or ZAC HDDs to QEMU.
++(2) PCI device pass-through: While NVMe ZNS emulation is available for testing
++purposes, it cannot yet pass through a zoned device from the host. To pass on
++the NVMe ZNS device to the guest, use VFIO PCI pass the entire NVMe PCI adapter
++through to the guest. Likewise, an HDD HBA can be passed on to QEMU all HDDs
++attached to the HBA.
 -- 
 2.40.0
 
