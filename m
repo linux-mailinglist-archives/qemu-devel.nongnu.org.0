@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039ED6F146B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:45:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFDE6F146D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:45:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psKeM-0003q5-TO; Fri, 28 Apr 2023 05:44:22 -0400
+	id 1psKfU-0006qL-Ac; Fri, 28 Apr 2023 05:45:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKeJ-0003nV-FW
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1psKfC-0006Ym-E3; Fri, 28 Apr 2023 05:45:14 -0400
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKeI-0007bV-0C
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682675057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wGUIZEXyqc9DsRVKuagHrvkSytTZjdsLflbLid1tWsA=;
- b=AUZYpZ4uL0Cvgx1yqXMLLhpNuzng9FewRCL+7eE5GWTfe0JAnV0jNoymK0TFDetQQXaTxU
- M0UPEAfmFpe/Bw+4NP7Az0ZZ6aBDzC5Z6JgTd4RUOGN88ANqYOLqz3X050Nnh7+9ljG+lb
- SjnWcWwV/Wk828k28sfzvaUHYVmeMsY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-kFOCYMz3ObuVmulVq5AokA-1; Fri, 28 Apr 2023 05:44:13 -0400
-X-MC-Unique: kFOCYMz3ObuVmulVq5AokA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F73C10504A4;
- Fri, 28 Apr 2023 09:44:13 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBED01410F1C;
- Fri, 28 Apr 2023 09:44:11 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>
-Subject: [PULL 13/13] apic: disable reentrancy detection for apic-msi
-Date: Fri, 28 Apr 2023 11:43:46 +0200
-Message-Id: <20230428094346.1292054-14-thuth@redhat.com>
-In-Reply-To: <20230428094346.1292054-1-thuth@redhat.com>
-References: <20230428094346.1292054-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1psKf9-0007gJ-Gg; Fri, 28 Apr 2023 05:45:14 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id B83346098D;
+ Fri, 28 Apr 2023 12:44:57 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b432::1:18] (unknown
+ [2a02:6b8:b081:b432::1:18])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id tiFg300McuQ0-sJGqZpKj; Fri, 28 Apr 2023 12:44:56 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682675096; bh=5tffh5/Ra+gNY8QfcAV3iJ2JZ5st2OuEW0LQ2x8Mbb8=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=t8lPwNJSLcjbuUIIfC+NcnMlqfRo4sT631aFyyQQCxWN3Dh+crnXWyg+WYfovOBKg
+ i2egZoofSaapGir0HFSuytodGT1VMWAoFrLr7mFacjRYd8Up5Kpc1JzyDR/FYSYX8Q
+ xHr0nIeitYyESh65B7mIqjQn2V6ZqWw6vKz/+zU0=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <542215a2-fa1c-17ff-e41c-c71564b02f75@yandex-team.ru>
+Date: Fri, 28 Apr 2023 12:44:55 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 17/16] docs/devel/qapi-code-gen: Describe some doc markup
+ pitfalls
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com, eblake@redhat.com,
+ kwolf@redhat.com, hreitz@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, arei.gonglei@huawei.com,
+ pizhenwei@bytedance.com, jsnow@redhat.com, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, wangyanan55@huawei.com, quintela@redhat.com,
+ jasowang@redhat.com, yuval.shaia.ml@gmail.com, stefanha@redhat.com,
+ kraxel@redhat.com, kkostiuk@redhat.com, qemu-block@nongnu.org,
+ marcandre.lureau@gmail.com, david@redhat.com
+References: <20230425064223.820979-1-armbru@redhat.com>
+ <20230427095346.1238913-1-armbru@redhat.com>
+ <eee8f95c-43eb-b357-d42a-1c479967b97c@yandex-team.ru>
+ <87y1mcnyet.fsf@pond.sub.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <87y1mcnyet.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,38 +85,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alexander Bulekov <alxndr@bu.edu>
+On 28.04.23 12:34, Markus Armbruster wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+> 
+>> On 27.04.23 12:53, Markus Armbruster wrote:
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
+>>>    docs/devel/qapi-code-gen.rst | 53 ++++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 53 insertions(+)
+>>> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+>>> index d81aac7a19..14983b074c 100644
+>>> --- a/docs/devel/qapi-code-gen.rst
+>>> +++ b/docs/devel/qapi-code-gen.rst
+>>> @@ -1059,6 +1059,59 @@ For example::
+>>>       'returns': ['BlockStats'] }
+>>>      +Markup pitfalls
+>>> +~~~~~~~~~~~~~~~
+>>> +
+>>> +A blank line is required between list items and paragraphs.  Without
+>>> +it, the list may not be recognized, resulting in garbled output.  Good
+>>> +example::
+>>> +
+>>> + # An event's state is modified if:
+>>> + #
+>>> + # - its name matches the @name pattern, and
+>>> + # - if @vcpu is given, the event has the "vcpu" property.
+>>> +
+>>> +Without the blank line this would be a single paragraph.
+>>> +
+>>> +Indentation matters.  Bad example::
+>>> +
+>>> + # @none: None (no memory side cache in this proximity domain,
+>>> + #              or cache associativity unknown)
+>>> +
+>>> +The description is parsed as a definition list with term "None (no
+>>> +memory side cache in this proximity domain," and definition "or cache
+>>> +associativity unknown)".
+>>
+>> May be add good example of indentation as well
+> 
+> Patches I'm about to post will fill up this pitfall.  They change the
+> text to:
+> 
+>       # @none: None (no memory side cache in this proximity domain,
+>       #              or cache associativity unknown)
+>       #     (since 5.0)
+> 
+>      The last line's de-indent is wrong.  The second and subsequent lines
 
-As the code is designed for re-entrant calls to apic-msi, mark apic-msi
-as reentrancy-safe.
+So you want to drop "The description is parsed as a definition list ..." ?
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20230427211013.2994127-9-alxndr@bu.edu>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/intc/apic.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+>      need to line up with each other, like this::
+> 
+>       # @none: None (no memory side cache in this proximity domain,
+>       #     or cache associativity unknown)
+>       #     (since 5.0)
+> 
+> Good enough?
 
-diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-index 20b5a94073..ac3d47d231 100644
---- a/hw/intc/apic.c
-+++ b/hw/intc/apic.c
-@@ -885,6 +885,13 @@ static void apic_realize(DeviceState *dev, Error **errp)
-     memory_region_init_io(&s->io_memory, OBJECT(s), &apic_io_ops, s, "apic-msi",
-                           APIC_SPACE_SIZE);
- 
-+    /*
-+     * apic-msi's apic_mem_write can call into ioapic_eoi_broadcast, which can
-+     * write back to apic-msi. As such mark the apic-msi region re-entrancy
-+     * safe.
-+     */
-+    s->io_memory.disable_reentrancy_guard = true;
-+
-     s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, apic_timer, s);
-     local_apics[s->id] = s;
- 
+Example of good indent is good)
+
 -- 
-2.31.1
+Best regards,
+Vladimir
 
 
