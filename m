@@ -2,84 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA4A6F1CF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 18:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 612886F1D02
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 18:54:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psRLI-0004Vl-0W; Fri, 28 Apr 2023 12:53:08 -0400
+	id 1psRMi-0007nQ-SC; Fri, 28 Apr 2023 12:54:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1psRLE-0004Uc-5T
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:53:04 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1psRLB-0005vl-Cd
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:53:03 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1878f1ebf46so163449fac.1
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 09:53:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1682700777; x=1685292777;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ry93EuiL339cXmTcSwW+O/TAemEHyYi1HmGB8rjIeQg=;
- b=bsyrp98+yhTnfMaIDEAlExYnTQSo2RL4D0dvGwrn+2En3F+e6Ce7fnDrRNXdaQomT9
- YSiXMPd0ERzRhzRzwlWuL/Yu8NO6D3krQTB3hg11+hPidGNpAfmIGLtmVoZyFBDu0U+J
- xBgRE2e/WDTZ5QA7jOc+kqJazrdROxaNmAq43JdUP0AMfPrCWELCi5hqrjHhHjhjNiZA
- tEW/XmPLxHLGHMlorY9ro9S6/l4CthoWlBQX3KjXrELU8Y+otfmVGR2QYKF5QVd/a7QY
- AhyxKX6eylrnu6t1GRYcL+tDSKBCA4S2m+P2BoL49WrN19DdaMcsj5wYVxy6W4w1eDCD
- r/KQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1psRMb-0007mP-5Y
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:54:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1psRMZ-00064h-2O
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:54:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682700865;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=62e71NLiY1HLL/9vUFC43iBSrfn0NMYP47bbSZb1DKg=;
+ b=NYdZiBJzbh8ZSbHQg39xIpwsp40QAWua9eOkcMuX6Vua7vv59Snu3dnNKHC50gLg+SKY5e
+ 7rn0lj/NAunfzJ/wIhiRXRQDU3N5ASm1Y65tX0wg4tLobbOppbQNn8xzPERstM7AHaBbVP
+ 58jUfNyT1bPWp4s4jAeOYgB6G92FGW0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-41-dg6L-zdFOgyL4xqZIqxTLg-1; Fri, 28 Apr 2023 12:54:19 -0400
+X-MC-Unique: dg6L-zdFOgyL4xqZIqxTLg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f195129aa4so54245615e9.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 09:54:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682700777; x=1685292777;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1682700857; x=1685292857;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ry93EuiL339cXmTcSwW+O/TAemEHyYi1HmGB8rjIeQg=;
- b=YYRkZGdOObJYfHi6uWmuKMgbQh/nKvqONlU2o2qRW47y3Dsh6G6rPKvWQaTpMoXQ2d
- oi7unldvi74UOu9OIp6mg7g6DPLef7XlO8Xvbb9C7GB2eKE423DOFSwPOlBEnCtAoKvK
- yZao95Bnt71+bbUnIhKAjepoAuV9Do3+U+CN8KXhqUNld6PbcUJlrKYlmWNM5ReZM+Xc
- juYQiNyxp7CIGMp2cAQiQKFvC6/5NCc8C9sdrgd9eGIg+9x/nSIbKRDl4jnMaYcFIkjO
- 2ln8y8xNBv6BFOXsR0O1A785hqLEYlqwaZqD2s+D1xyEiO9UhXaqtclxLOdy+T1G80qb
- Wz6g==
-X-Gm-Message-State: AC+VfDw5Yj9z78y1iUhpIccGP+vEYvUrvJfu1AZNlrP5BRRb3biT5zk5
- wLZtOIl5vlzMP30TlVpM5qQZg2yGGoh0/W2Hj0ZAWQ==
-X-Google-Smtp-Source: ACHHUZ6DOCEJfRde9M0If+servyTmkcjRv0W6sTcCaXxTAj9yTKo32wf5sIm2jUPlRkAZSw4J4s3Nw==
-X-Received: by 2002:a05:6870:52c5:b0:184:1c47:853d with SMTP id
- p5-20020a05687052c500b001841c47853dmr3014755oak.35.1682700776977; 
- Fri, 28 Apr 2023 09:52:56 -0700 (PDT)
-Received: from mchitale-vm.. ([103.97.165.210])
- by smtp.googlemail.com with ESMTPSA id
- c10-20020a4a4f0a000000b005462a25c4f9sm9665764oob.9.2023.04.28.09.52.51
+ bh=62e71NLiY1HLL/9vUFC43iBSrfn0NMYP47bbSZb1DKg=;
+ b=EtfdHHcxxfA48iQKo4Nk1UlrIquvIzfN5Gl0CWcJcoaHTImbk2H1wXM7VJLnaZnq5R
+ h4zQ1syjXNoyex/UWaRIav0iCPXYtwmr3/1kD/ZyZfaUuNm7uHUxwhJpXKM97m02P+Pz
+ IgMFtxQjUecM0H7qleOFbmcy2N4EfNsQ4xDFH/jvWHHSb+vDDj4kXLOt9MMbAwnt9eBg
+ HVsjdVHsbMAV3YL74cVqACmMZ07By8ewQGzbuvDB8NsfCfWaJZfp8609eBYS3A8SofxF
+ Y0K9CTqv/CH1nBC+LKsBVkbPuntRh0uN8O/BCASFGYQGEUcV+/Vh9O8U6Qro9k7Bw7lT
+ VfYQ==
+X-Gm-Message-State: AC+VfDzZeVCCoDtjeUxirxPokKs+y1mS6ofdlzhhQUL0TISfvzl4VBcL
+ UUQmlAxwvIlRwgoddYV94Qbout31IJ2S0aw68qZMAg/GDpqvCIzMuhWXXO+LxDHiUF9fRxt/Xyn
+ DgXuMHnCtjZnNg6I=
+X-Received: by 2002:a05:600c:299:b0:3f2:50ab:1bba with SMTP id
+ 25-20020a05600c029900b003f250ab1bbamr4661844wmk.19.1682700857352; 
+ Fri, 28 Apr 2023 09:54:17 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4OWTGJIgj9t6Pq8Gtf9EzHDOssNOEU0RBThpvYwpTVJ98nwZE38CtpUCs54taKsvDmfTik/A==
+X-Received: by 2002:a05:600c:299:b0:3f2:50ab:1bba with SMTP id
+ 25-20020a05600c029900b003f250ab1bbamr4661825wmk.19.1682700856997; 
+ Fri, 28 Apr 2023 09:54:16 -0700 (PDT)
+Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
+ [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
+ 21-20020a05600c22d500b003f17131952fsm25075072wmg.29.2023.04.28.09.54.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 09:52:56 -0700 (PDT)
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org,
-	alistair.francis@wdc.com
-Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
- Alistair Francis <alistair23@gmail.com>,
- Daniel Barboza <dbarboza@ventanamicro.com>, liweiwei@iscas.ac.cn,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 4/4] target/riscv: smstateen knobs
-Date: Fri, 28 Apr 2023 22:22:11 +0530
-Message-Id: <20230428165212.2800669-5-mchitale@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230428165212.2800669-1-mchitale@ventanamicro.com>
-References: <20230428165212.2800669-1-mchitale@ventanamicro.com>
+ Fri, 28 Apr 2023 09:54:16 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Fiona Ebner <f.ebner@proxmox.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,  QEMU Developers
+ <qemu-devel@nongnu.org>,  "open list:Block layer core"
+ <qemu-block@nongnu.org>,  Michael Roth <michael.roth@amd.com>,  Fam Zheng
+ <fam@euphon.net>,  Stefan Hajnoczi <stefanha@redhat.com>,  Thomas
+ Lamprecht <t.lamprecht@proxmox.com>,  Peter Xu <peterx@redhat.com>
+Subject: Re: QMP (without OOB) function running in thread different from the
+ main thread as part of aio_poll
+In-Reply-To: <ZEu6lVDVUh8AC6Af@redhat.com> (Kevin Wolf's message of "Fri, 28
+ Apr 2023 14:22:45 +0200")
+References: <877cu7gk1g.fsf@pond.sub.org>
+ <CABgObfapoyrFhY9kna_=D7PJ4yAssTgzY3jxSZD=6v0zCGDcSA@mail.gmail.com>
+ <3ba2f8b9-9818-6601-2247-7b0e20d7ab0d@proxmox.com>
+ <ZEpWd+273aIVZrRV@redhat.com>
+ <515e6a39-8515-b32b-05ce-6d7511779b1b@proxmox.com>
+ <87zg6tbdep.fsf@secure.mitica>
+ <b1402ecd-1288-1ceb-ce58-65fc90636fac@proxmox.com>
+ <87bkj8bg8g.fsf@secure.mitica> <ZEuEIhe86udi38kx@redhat.com>
+ <87354kbdvc.fsf@secure.mitica> <ZEu6lVDVUh8AC6Af@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 28 Apr 2023 18:54:15 +0200
+Message-ID: <87jzxw9cco.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=mchitale@ventanamicro.com; helo=mail-oa1-x2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,42 +110,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add knobs to allow users to enable smstateen and also export it via the
-ISA extension string.
+Kevin Wolf <kwolf@redhat.com> wrote:
+> Am 28.04.2023 um 10:38 hat Juan Quintela geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> wrote:
+>> >> I am perhaps a bit ingenuous here, but it is there a way to convince
+>> >> qemu that snapshot_save_job_bh *HAS* to run on the main thread?
+>> >
+>> > I believe we're talking about a technicality here. I asked another more
+>> > fundamental question that nobody has answered yet:
+>> >
+>> > Why do you think that it's ok to call bdrv_writev_vmstate() without
+>> > holding the BQL?
+>> 
+>> I will say this function starts by bdrv_ (i.e. block layer people) and
+>> endes with _vmstate (i.e. migration people).
+>> 
+>> To be honest, I don't know.  That is why I _supposed_ you have an idea.
+>
+> My idea is that bdrv_*() can only be called when you hold the BQL, or
+> for BlockDriverStates in an iothread the AioContext lock.
+>
+> Apparently dropping the BQL in migration code was introduced in Paolo's
+> commit 9b095037527.
 
-Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Damn.  I reviewed it, so I am as guilty as the author.
+10 years later without problems I will not blame that patch.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index befa64528f..9420cd670e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -119,6 +119,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zhinx, PRIV_VERSION_1_12_0, ext_zhinx),
-     ISA_EXT_DATA_ENTRY(zhinxmin, PRIV_VERSION_1_12_0, ext_zhinxmin),
-     ISA_EXT_DATA_ENTRY(smaia, PRIV_VERSION_1_12_0, ext_smaia),
-+    ISA_EXT_DATA_ENTRY(smstateen, PRIV_VERSION_1_12_0, ext_smstateen),
-     ISA_EXT_DATA_ENTRY(ssaia, PRIV_VERSION_1_12_0, ext_ssaia),
-     ISA_EXT_DATA_ENTRY(sscofpmf, PRIV_VERSION_1_12_0, ext_sscofpmf),
-     ISA_EXT_DATA_ENTRY(sstc, PRIV_VERSION_1_12_0, ext_sstc),
-@@ -1498,8 +1499,8 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
- 
-+    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen, false),
-     DEFINE_PROP_BOOL("svadu", RISCVCPU, cfg.ext_svadu, true),
--
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
--- 
-2.34.1
+I guess we changed something else that broke doing it without the lock.
+
+But no, I still don't have suggestions/ideas.
+
+> I'm not sure what this was supposed to improve in
+> the case of snapshots because the VM is stopped anyway.
+>
+> Would anything bad happen if we removed the BQL unlock/lock section in
+> qemu_savevm_state() again?
+
+Dunno.
+
+For what is worth, I can say that it survives migration-test, but don't
+ask me why/how/...
+
+Fiona, can you check if it fixes your troubles?
+
+Later, Juan.
+
+> Kevin
 
 
