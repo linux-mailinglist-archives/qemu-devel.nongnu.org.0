@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525DB6F1AD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 16:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7158F6F1AD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 16:50:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psPOZ-00063u-UA; Fri, 28 Apr 2023 10:48:23 -0400
+	id 1psPOc-00068F-LZ; Fri, 28 Apr 2023 10:48:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1psPOU-0005zy-Iw; Fri, 28 Apr 2023 10:48:19 -0400
+ id 1psPOV-00062F-Tt; Fri, 28 Apr 2023 10:48:20 -0400
 Received: from imap4.hz.codethink.co.uk ([188.40.203.114])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1psPOR-0002BP-RS; Fri, 28 Apr 2023 10:48:18 -0400
+ id 1psPOR-0002C4-Vc; Fri, 28 Apr 2023 10:48:19 -0400
 Received: from [167.98.27.226] (helo=lawrence-thinkpad.guest.codethink.co.uk)
  by imap4.hz.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
- id 1psPOM-005zz5-03; Fri, 28 Apr 2023 15:48:10 +0100
+ id 1psPOM-005zz5-Je; Fri, 28 Apr 2023 15:48:10 +0100
 From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 To: qemu-devel@nongnu.org
 Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
@@ -26,10 +26,9 @@ Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
  qemu-riscv@nongnu.org, richard.henderson@linaro.org
-Subject: [PATCH v3 07/19] target/riscv: Refactor some of the generic vector
- functionality
-Date: Fri, 28 Apr 2023 15:47:45 +0100
-Message-Id: <20230428144757.57530-8-lawrence.hunter@codethink.co.uk>
+Subject: [PATCH v3 08/19] qemu/bitops.h: Limit rotate amounts
+Date: Fri, 28 Apr 2023 15:47:46 +0100
+Message-Id: <20230428144757.57530-9-lawrence.hunter@codethink.co.uk>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230428144757.57530-1-lawrence.hunter@codethink.co.uk>
 References: <20230428144757.57530-1-lawrence.hunter@codethink.co.uk>
@@ -57,153 +56,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
+From: Dickon Hood <dickon.hood@codethink.co.uk>
 
-Move some macros out of `vector_helper` and into `vector_internals`.
-This ensures they can be used by both vector and vector-crypto helpers
-(latter implemented in proceeding commits).
+Rotates have been fixed up to only allow for reasonable rotate amounts
+(ie, no rotates >7 on an 8b value etc.)  This fixes a problem with riscv
+vector rotate instructions.
 
-Signed-off-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
+Signed-off-by: Dickon Hood <dickon.hood@codethink.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/vector_helper.c    | 42 ------------------------------
- target/riscv/vector_internals.h | 46 +++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+), 42 deletions(-)
+ include/qemu/bitops.h | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 27fefef10ec..a438f5d95e1 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -646,9 +646,6 @@ GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
- #define OP_SUS_H int16_t, uint16_t, int16_t, uint16_t, int16_t
- #define OP_SUS_W int32_t, uint32_t, int32_t, uint32_t, int32_t
- #define OP_SUS_D int64_t, uint64_t, int64_t, uint64_t, int64_t
--#define WOP_UUU_B uint16_t, uint8_t, uint8_t, uint16_t, uint16_t
--#define WOP_UUU_H uint32_t, uint16_t, uint16_t, uint32_t, uint32_t
--#define WOP_UUU_W uint64_t, uint32_t, uint32_t, uint64_t, uint64_t
- #define WOP_SSS_B int16_t, int8_t, int8_t, int16_t, int16_t
- #define WOP_SSS_H int32_t, int16_t, int16_t, int32_t, int32_t
- #define WOP_SSS_W int64_t, int32_t, int32_t, int64_t, int64_t
-@@ -3412,11 +3409,6 @@ GEN_VEXT_VF(vfwnmsac_vf_h, 4)
- GEN_VEXT_VF(vfwnmsac_vf_w, 8)
- 
- /* Vector Floating-Point Square-Root Instruction */
--/* (TD, T2, TX2) */
--#define OP_UU_H uint16_t, uint16_t, uint16_t
--#define OP_UU_W uint32_t, uint32_t, uint32_t
--#define OP_UU_D uint64_t, uint64_t, uint64_t
--
- #define OPFVV1(NAME, TD, T2, TX2, HD, HS2, OP)        \
- static void do_##NAME(void *vd, void *vs2, int i,      \
-         CPURISCVState *env)                            \
-@@ -4109,40 +4101,6 @@ GEN_VEXT_CMP_VF(vmfge_vf_w, uint32_t, H4, vmfge32)
- GEN_VEXT_CMP_VF(vmfge_vf_d, uint64_t, H8, vmfge64)
- 
- /* Vector Floating-Point Classify Instruction */
--#define OPIVV1(NAME, TD, T2, TX2, HD, HS2, OP)         \
--static void do_##NAME(void *vd, void *vs2, int i)      \
--{                                                      \
--    TX2 s2 = *((T2 *)vs2 + HS2(i));                    \
--    *((TD *)vd + HD(i)) = OP(s2);                      \
--}
--
--#define GEN_VEXT_V(NAME, ESZ)                          \
--void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
--                  CPURISCVState *env, uint32_t desc)   \
--{                                                      \
--    uint32_t vm = vext_vm(desc);                       \
--    uint32_t vl = env->vl;                             \
--    uint32_t total_elems =                             \
--        vext_get_total_elems(env, desc, ESZ);          \
--    uint32_t vta = vext_vta(desc);                     \
--    uint32_t vma = vext_vma(desc);                     \
--    uint32_t i;                                        \
--                                                       \
--    for (i = env->vstart; i < vl; i++) {               \
--        if (!vm && !vext_elem_mask(v0, i)) {           \
--            /* set masked-off elements to 1s */        \
--            vext_set_elems_1s(vd, vma, i * ESZ,        \
--                              (i + 1) * ESZ);          \
--            continue;                                  \
--        }                                              \
--        do_##NAME(vd, vs2, i);                         \
--    }                                                  \
--    env->vstart = 0;                                   \
--    /* set tail elements to 1s */                      \
--    vext_set_elems_1s(vd, vta, vl * ESZ,               \
--                      total_elems * ESZ);              \
--}
--
- target_ulong fclass_h(uint64_t frs1)
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 03213ce952c..c443995b3ba 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -218,7 +218,8 @@ static inline unsigned long find_first_zero_bit(const unsigned long *addr,
+  */
+ static inline uint8_t rol8(uint8_t word, unsigned int shift)
  {
-     float16 f = frs1;
-diff --git a/target/riscv/vector_internals.h b/target/riscv/vector_internals.h
-index 749d138bebe..8133111e5f6 100644
---- a/target/riscv/vector_internals.h
-+++ b/target/riscv/vector_internals.h
-@@ -121,12 +121,52 @@ void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
- /* expand macro args before macro */
- #define RVVCALL(macro, ...)  macro(__VA_ARGS__)
- 
-+/* (TD, T2, TX2) */
-+#define OP_UU_B uint8_t, uint8_t, uint8_t
-+#define OP_UU_H uint16_t, uint16_t, uint16_t
-+#define OP_UU_W uint32_t, uint32_t, uint32_t
-+#define OP_UU_D uint64_t, uint64_t, uint64_t
-+
- /* (TD, T1, T2, TX1, TX2) */
- #define OP_UUU_B uint8_t, uint8_t, uint8_t, uint8_t, uint8_t
- #define OP_UUU_H uint16_t, uint16_t, uint16_t, uint16_t, uint16_t
- #define OP_UUU_W uint32_t, uint32_t, uint32_t, uint32_t, uint32_t
- #define OP_UUU_D uint64_t, uint64_t, uint64_t, uint64_t, uint64_t
- 
-+#define OPIVV1(NAME, TD, T2, TX2, HD, HS2, OP)         \
-+static void do_##NAME(void *vd, void *vs2, int i)      \
-+{                                                      \
-+    TX2 s2 = *((T2 *)vs2 + HS2(i));                    \
-+    *((TD *)vd + HD(i)) = OP(s2);                      \
-+}
-+
-+#define GEN_VEXT_V(NAME, ESZ)                          \
-+void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
-+                  CPURISCVState *env, uint32_t desc)   \
-+{                                                      \
-+    uint32_t vm = vext_vm(desc);                       \
-+    uint32_t vl = env->vl;                             \
-+    uint32_t total_elems =                             \
-+        vext_get_total_elems(env, desc, ESZ);          \
-+    uint32_t vta = vext_vta(desc);                     \
-+    uint32_t vma = vext_vma(desc);                     \
-+    uint32_t i;                                        \
-+                                                       \
-+    for (i = env->vstart; i < vl; i++) {               \
-+        if (!vm && !vext_elem_mask(v0, i)) {           \
-+            /* set masked-off elements to 1s */        \
-+            vext_set_elems_1s(vd, vma, i * ESZ,        \
-+                              (i + 1) * ESZ);          \
-+            continue;                                  \
-+        }                                              \
-+        do_##NAME(vd, vs2, i);                         \
-+    }                                                  \
-+    env->vstart = 0;                                   \
-+    /* set tail elements to 1s */                      \
-+    vext_set_elems_1s(vd, vta, vl * ESZ,               \
-+                      total_elems * ESZ);              \
-+}
-+
- /* operation of two vector elements */
- typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
- 
-@@ -179,4 +219,10 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,    \
-                do_##NAME, ESZ);                           \
+-    return (word << shift) | (word >> ((8 - shift) & 7));
++    shift &= 7;
++    return (word << shift) | (word >> (8 - shift));
  }
  
-+/* Three of the widening shortening macros: */
-+/* (TD, T1, T2, TX1, TX2) */
-+#define WOP_UUU_B uint16_t, uint8_t, uint8_t, uint16_t, uint16_t
-+#define WOP_UUU_H uint32_t, uint16_t, uint16_t, uint32_t, uint32_t
-+#define WOP_UUU_W uint64_t, uint32_t, uint32_t, uint64_t, uint64_t
-+
- #endif /* TARGET_RISCV_VECTOR_INTERNALS_H */
+ /**
+@@ -228,7 +229,8 @@ static inline uint8_t rol8(uint8_t word, unsigned int shift)
+  */
+ static inline uint8_t ror8(uint8_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((8 - shift) & 7));
++    shift &= 7;
++    return (word >> shift) | (word << (8 - shift));
+ }
+ 
+ /**
+@@ -238,7 +240,8 @@ static inline uint8_t ror8(uint8_t word, unsigned int shift)
+  */
+ static inline uint16_t rol16(uint16_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((16 - shift) & 15));
++    shift &= 15;
++    return (word << shift) | (word >> (16 - shift));
+ }
+ 
+ /**
+@@ -248,7 +251,8 @@ static inline uint16_t rol16(uint16_t word, unsigned int shift)
+  */
+ static inline uint16_t ror16(uint16_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((16 - shift) & 15));
++    shift &= 15;
++    return (word >> shift) | (word << (16 - shift));
+ }
+ 
+ /**
+@@ -258,7 +262,8 @@ static inline uint16_t ror16(uint16_t word, unsigned int shift)
+  */
+ static inline uint32_t rol32(uint32_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((32 - shift) & 31));
++    shift &= 31;
++    return (word << shift) | (word >> (32 - shift));
+ }
+ 
+ /**
+@@ -268,7 +273,8 @@ static inline uint32_t rol32(uint32_t word, unsigned int shift)
+  */
+ static inline uint32_t ror32(uint32_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((32 - shift) & 31));
++    shift &= 31;
++    return (word >> shift) | (word << (32 - shift));
+ }
+ 
+ /**
+@@ -278,7 +284,8 @@ static inline uint32_t ror32(uint32_t word, unsigned int shift)
+  */
+ static inline uint64_t rol64(uint64_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((64 - shift) & 63));
++    shift &= 63;
++    return (word << shift) | (word >> (64 - shift));
+ }
+ 
+ /**
+@@ -288,7 +295,8 @@ static inline uint64_t rol64(uint64_t word, unsigned int shift)
+  */
+ static inline uint64_t ror64(uint64_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((64 - shift) & 63));
++    shift &= 63;
++    return (word >> shift) | (word << (64 - shift));
+ }
+ 
+ /**
 -- 
 2.40.1
 
