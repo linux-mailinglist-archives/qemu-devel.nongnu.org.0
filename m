@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344086F248A
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B386F248C
 	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:16:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psjTj-0002rK-V1; Sat, 29 Apr 2023 08:15:03 -0400
+	id 1psjU1-0002vb-Ic; Sat, 29 Apr 2023 08:15:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTg-0002qO-Vv
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:01 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTz-0002vJ-Ih
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:19 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTf-0004Dy-FG
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:00 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f196e8e2c6so6862145e9.1
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:14:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTl-0004P4-53
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:19 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-3f1950f5676so6666615e9.3
+ for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682770498; x=1685362498;
+ d=linaro.org; s=google; t=1682770503; x=1685362503;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=u9ZwrAq2Hf+I60n6WR3DEY2/D6+veeHyR3VSd/yrkXM=;
- b=caJaLGU+kosA/mcsqeshHAEXP2hxM58QHunt7mUoP1JXkXImdwSQYFrImGPUWAI0KV
- uyuEmBpe36iEG26piag0Jm+8+CVv1TZaEwN3teikPB3dVo1aWhvPsHyYxBHytr8H+twW
- /H11KHM/WQNRE9F0ZviK8g+H5brut2s0D1IEfavfYXVxMRClvteIevzuf0LhKkfCbzNw
- jS7cGA2Qpvmk3BUadS4HweB7/bbuGiZRafGSj6RnZ4lNrtfHslZ1UKmBmHaqICVgliiF
- R8tLbQaMDvVZpSlXosI7ndJSS0lVpdTPstQj2W7MGqNdZBWonDlJFuZGB7OAubZSCP+V
- OmXg==
+ bh=VO1BNbGTkEMTdoVzghKhSmB8ZcUGBxRmRckP4ykUKLM=;
+ b=dtubBjlEALm2bN47K1q6xKpAcpFdeMCqy9GMSSLG2vHV5S1rpo03dckgoJODveJnl4
+ fn1cyLpI0OkN7HMDtoScspAQJfaijvIQsutdRMCCScsBwRkOGPm7AxqPnftN8DXdtmdh
+ K6bkWmzg3sRyMS+g9EJcN6OrCwQ+z/rgXriykey48WGQ7lYpcYicezW2wVt9+8ZYxcA9
+ b/gzJZD6V/gSLckolsuVtodBdJ4189NXPNx8dSl+EeZhunzhs5K1O+LY6Q25v65Tk+Wi
+ KHS+A5LF+LVnDyi1ilX6qZkQkXjEdRWguDQOvlZOuTIYsLpOS8TbLtOnCdSkTnSsTsRG
+ lOIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682770498; x=1685362498;
+ d=1e100.net; s=20221208; t=1682770503; x=1685362503;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=u9ZwrAq2Hf+I60n6WR3DEY2/D6+veeHyR3VSd/yrkXM=;
- b=AIg5rLQV/0YKj1h7T3YI7dBW3VIJ4Q+8UZ/259ZkOdzQ6LrBq5tnhyizmGnndTA+YM
- +jUBhSul8xEeggEo2vvSOZBjer5bhpSuZ1qKJrXAOHfAncnbX00LBErj31iZ/9gjEAG8
- w9IY912O6YFVOksRRGlQHHqx9fDTioT+7gjTzWGLxA2agUxCdLqwdzSdu3cxh/BfpBF9
- CKdfJYVQ3GjedGbA1O8Pz5okxx0i7mWbGO+st1ZL+nZJpBwkfI3v0V809ygqRnZewlpf
- cN088+DQK6LQoax3mGi4V9TE4Uy5jGwJ5i55N20lYMXlqDbqKi76OvqVTQsfC2AJqIH5
- bz4w==
-X-Gm-Message-State: AC+VfDyk82Bz07g+82IeWIjYQLPoK/A27j7ZCKwEGW3Q4RQ2P7jQ/gmg
- 97XqlSqxm3A9s3swbrSpH0+NAg==
-X-Google-Smtp-Source: ACHHUZ7pesskic61rgwyYO4ojZDnY+RGDH/JaNU2X4DLWASCkmxAajsZCNWmD3MhblaxNdSxmjPacg==
-X-Received: by 2002:a05:600c:2212:b0:3f1:73c1:d1ad with SMTP id
- z18-20020a05600c221200b003f173c1d1admr6086807wml.35.1682770498091; 
- Sat, 29 Apr 2023 05:14:58 -0700 (PDT)
+ bh=VO1BNbGTkEMTdoVzghKhSmB8ZcUGBxRmRckP4ykUKLM=;
+ b=TpLYkmAZuJHgGEtrQnMkpD2zN1b0Vcknaw4KOBo9s1CE9Y7rqULyHWJzmuDrS33iuh
+ uK5x/ZA/JAEZkRG/JS2TiXKmeeZZXStOAHgerpW2mGE130llgXxWwcBP+N3bCniyvklT
+ 4NsLAtZ8RrB5eWeFlLGvKr4z7zzleU3MX6h9ofMxRKHt5SgAjE5945/PS9EvL+BBTuYK
+ Rw0SqByMxOatB3KuabGPO/2OclKwlP26ZObvDYliVUOGdI6ns9gWKVsHPfj9HGWzpeEh
+ nsoZqmrg2LyNoNJdl6Tt2H1fjM1qB5YSD0N8pvNpeKodO07/BxtXEEDxiBQok/0F3uMM
+ CPCQ==
+X-Gm-Message-State: AC+VfDwqfpigdKsykLWlWbHQOuOShJtwhxowm+zEsOuIarX6wZWsu9FA
+ SXqw8UttRjnBP7x2dNhEduCTUw==
+X-Google-Smtp-Source: ACHHUZ7lArOTaUkITxAKW8OJ58vv7YPXXgIiDrklhSZXhonFYj0XaYnV/OOoUf+VM93m3BLXNPHxIQ==
+X-Received: by 2002:a05:600c:2155:b0:3f1:733b:8aba with SMTP id
+ v21-20020a05600c215500b003f1733b8abamr6085246wml.35.1682770503744; 
+ Sat, 29 Apr 2023 05:15:03 -0700 (PDT)
 Received: from [192.168.212.175] (7.red-88-29-166.dynamicip.rima-tde.net.
  [88.29.166.7]) by smtp.gmail.com with ESMTPSA id
- 3-20020a05600c22c300b003f31d44f0cbsm6228773wmg.29.2023.04.29.05.14.55
+ d2-20020adffbc2000000b003060c7b5ed6sm1039609wrs.26.2023.04.29.05.15.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Apr 2023 05:14:57 -0700 (PDT)
-Message-ID: <67418868-d8d7-7aee-3065-08b6f6691850@linaro.org>
-Date: Sat, 29 Apr 2023 00:08:40 +0100
+ Sat, 29 Apr 2023 05:15:03 -0700 (PDT)
+Message-ID: <936d403f-1ebd-7239-609f-77ba22647d8b@linaro.org>
+Date: Sat, 29 Apr 2023 00:10:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH] hw/nvram: Avoid unnecessary Xilinx eFuse backstore write
+Subject: Re: [PATCH 06/21] Hexagon (target/hexagon) Remove log_reg_write from
+ op_helper.[ch]
 Content-Language: en-US
-To: Tong Ho <tong.ho@amd.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, alistair@alistair23.me, edgar.iglesias@gmail.comi, 
- frasse.iglesias@gmail.com, peter.maydell@linaro.org
-References: <20230426211607.2054776-1-tong.ho@amd.com>
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, 
+ quic_mathbern@quicinc.com
+References: <20230426004145.1319112-1-tsimpson@quicinc.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230426211607.2054776-1-tong.ho@amd.com>
+In-Reply-To: <20230426004145.1319112-1-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.422, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,17 +94,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/4/23 23:16, Tong Ho wrote:
-> Add a check in the bit-set operation to write the backstore
-> only if the affected bit is 0 before.
+On 26/4/23 02:41, Taylor Simpson wrote:
+> With the overrides added in prior commits, this function is not used
+> Remove references in macros.h
 > 
-> With this in place, there will be no need for callers to
-> do the checking in order to avoid unnecessary writes.
-> 
-> Signed-off-by: Tong Ho <tong.ho@amd.com>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->   hw/nvram/xlnx-efuse.c | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
+>   target/hexagon/macros.h    | 14 --------------
+>   target/hexagon/op_helper.h |  4 ----
+>   target/hexagon/op_helper.c | 17 -----------------
+>   3 files changed, 35 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
