@@ -2,110 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665166F185E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 14:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA84F6F1839
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 14:41:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psNQ4-0000r0-He; Fri, 28 Apr 2023 08:41:48 -0400
+	id 1psNP6-0006mq-Lh; Fri, 28 Apr 2023 08:40:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1psNPo-00084K-5T
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:41:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1psNOj-0006m4-HQ
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:40:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1psNPk-0001CF-JX
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:41:31 -0400
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33SCa7W4003027; Fri, 28 Apr 2023 12:41:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Lzy3Fuyr0n4HxmcHb8BX/FynnXGk+08Agho/XDGy2Jw=;
- b=fFZAQ8CENRCgQo+XqYZpMRhYoyS2QGJ3UEF3sdfxx1rBumoTmFkdZ0HTp8S5wnta3075
- sTOBeqUdWOUU1TbK6JGGUuKz6x9WneFSxS8k5YExcM1+3PfTJ5NDW9+QEQ13Z5l0WB3s
- 9Vto2hUoyYPXLEJwRYBbK6TiYePEXTaiy/52TTdX3DZAhUBtkZnDpfrDI/oUSJRj2axu
- Kvr4FazuFkVo3GyyjkE6wHK6QPGvho6yDfKGeByrGEa1vwJOIXaN0EpfPyn3FiBnrz+u
- Wk8rrS3emF8vyyYD9NXvfPoj4CdtvSQ5xgbdkAbqhjyn/FVf357as1ylBTX/2f2a4lL2 bg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q8e4s0fnr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Apr 2023 12:41:24 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33SCaX8E006683;
- Fri, 28 Apr 2023 12:38:19 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q8e4s0bms-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Apr 2023 12:38:19 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33S5qNir028339;
- Fri, 28 Apr 2023 12:36:58 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3q4776twnt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Apr 2023 12:36:58 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33SCaqxh57082358
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Apr 2023 12:36:52 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6084F2004B;
- Fri, 28 Apr 2023 12:36:52 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F06DF20040;
- Fri, 28 Apr 2023 12:36:51 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.152.224.56])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 28 Apr 2023 12:36:51 +0000 (GMT)
-Date: Fri, 28 Apr 2023 14:36:49 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
- borntraeger@de.ibm.com, frankja@linux.ibm.com, fiuczy@linux.ibm.com,
- pasic@linux.ibm.com, nsg@linux.ibm.com, berrange@redhat.com,
- alex.bennee@linaro.org, armbru@redhat.com
-Subject: Re: [PATCH v6 1/1] util/async-teardown: wire up
- query-command-line-options
-Message-ID: <20230428143649.43057feb@p-imbrenda>
-In-Reply-To: <e3d52859-7613-0a1d-aa15-36e1f92ff8d6@redhat.com>
-References: <20230428111224.37140-1-imbrenda@linux.ibm.com>
- <20230428111224.37140-2-imbrenda@linux.ibm.com>
- <e3d52859-7613-0a1d-aa15-36e1f92ff8d6@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: cORDzPVS9zJ0TONbzgP4htSO4s-BVomW
-X-Proofpoint-ORIG-GUID: WIU7CY-9a3yt_rGYdebYCyg3XRqCdXgZ
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1psNON-0000QI-RA
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:40:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682685600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ng8eWAIIyXfXdpxMmqBynomNwGn34TJbzesREd0EyJ0=;
+ b=AVN/7ml6nda/ijI5cC+lHYeWpzLLSj9+FWEarckeGB7DnqlGxlCmvsCYsGKKYUL/7vuiJd
+ VIgt0ntZhk6z0FpIW0szsqwhdaEAvg2MVmArsCl87rDlX8v3W008kYcrmA8toGgm38Rjes
+ lD5lPgno46mHn0iD8Eod+Hkv8/zHBO8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-125-BPI9S3GhNoCGKkrBkGwlYw-1; Fri, 28 Apr 2023 08:39:57 -0400
+X-MC-Unique: BPI9S3GhNoCGKkrBkGwlYw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E176D280A32C;
+ Fri, 28 Apr 2023 12:39:56 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D6BC400F4D;
+ Fri, 28 Apr 2023 12:39:55 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Julia Suvorova <jusual@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 00/17] Block patches
+Date: Fri, 28 Apr 2023 08:39:37 -0400
+Message-Id: <20230428123954.179035-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_04,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 impostorscore=0
- mlxlogscore=999 phishscore=0 clxscore=1015 spamscore=0 malwarescore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304280102
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,75 +87,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 28 Apr 2023 14:16:42 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+The following changes since commit 05d50ba2d4668d43a835c5a502efdec9b92646e6:
 
-> On 28/04/2023 13.12, Claudio Imbrenda wrote:
-> > Add new -run-with option with an async-teardown=on|off parameter. It is
-> > visible in the output of query-command-line-options QMP command, so it
-> > can be discovered and used by libvirt.
-> > 
-> > The option -async-teardown is now redundant, deprecate it.
-> > 
-> > Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
-> > Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
-> > Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> > ---
-> >   docs/about/deprecated.rst |  5 +++++
-> >   os-posix.c                | 15 +++++++++++++++
-> >   qemu-options.hx           | 34 +++++++++++++++++++++++-----------
-> >   util/async-teardown.c     | 21 +++++++++++++++++++++
-> >   4 files changed, 64 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> > index 1ca9dc33d6..0986db9a86 100644
-> > --- a/docs/about/deprecated.rst
-> > +++ b/docs/about/deprecated.rst
-> > @@ -111,6 +111,11 @@ Use ``-machine acpi=off`` instead.
-> >   The HAXM project has been retired (see https://github.com/intel/haxm#status).
-> >   Use "whpx" (on Windows) or "hvf" (on macOS) instead.
-> >   
-> > +``-async-teardown`` (since 8.1)
-> > +,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-> > +
-> > +Use ``-run-with async-teardown=on`` instead.
-> > +
-> >   
-> >   QEMU Machine Protocol (QMP) commands
-> >   ------------------------------------
-> > diff --git a/os-posix.c b/os-posix.c
-> > index 5adc69f560..117ad2bdc1 100644
-> > --- a/os-posix.c
-> > +++ b/os-posix.c
-> > @@ -36,6 +36,8 @@
-> >   #include "qemu/log.h"
-> >   #include "sysemu/runstate.h"
-> >   #include "qemu/cutils.h"
-> > +#include "qemu/config-file.h"
-> > +#include "qemu/option.h"
-> >   
-> >   #ifdef CONFIG_LINUX
-> >   #include <sys/prctl.h>
-> > @@ -132,6 +134,8 @@ static bool os_parse_runas_uid_gid(const char *optarg)
-> >    */
-> >   int os_parse_cmd_args(int index, const char *optarg)
-> >   {
-> > +    QemuOpts *opts;  
-> 
-> Fails to compile on FreeBSD:
-> 
-> ../src/os-posix.c:137:15: error: unused variable 'opts' 
-> [-Werror,-Wunused-variable]
->      QemuOpts *opts;
->                ^
-> 1 error generated.
-> 
-> Apart from that, the patch looks fine to me.
+  Merge tag 'migration-20230427-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-04-28 08:35:06 +0100)
 
-oops, I'll move the variable inside the ifdef
+are available in the Git repository at:
 
-> 
->   Thomas
-> 
+  https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+
+for you to fetch changes up to d3c760be786571d83d5cea01953e543df4d76f51:
+
+  docs/zoned-storage:add zoned emulation use case (2023-04-28 08:34:07 -0400)
+
+----------------------------------------------------------------
+Pull request
+
+This pull request contains Sam Li's virtio-blk zoned storage work. These
+patches were dropped from my previous block pull request due to CI failures.
+
+----------------------------------------------------------------
+
+Sam Li (17):
+  block/block-common: add zoned device structs
+  block/file-posix: introduce helper functions for sysfs attributes
+  block/block-backend: add block layer APIs resembling Linux
+    ZonedBlockDevice ioctls
+  block/raw-format: add zone operations to pass through requests
+  block: add zoned BlockDriver check to block layer
+  iotests: test new zone operations
+  block: add some trace events for new block layer APIs
+  docs/zoned-storage: add zoned device documentation
+  file-posix: add tracking of the zone write pointers
+  block: introduce zone append write for zoned devices
+  qemu-iotests: test zone append operation
+  block: add some trace events for zone append
+  include: update virtio_blk headers to v6.3-rc1
+  virtio-blk: add zoned storage emulation for zoned devices
+  block: add accounting for zone append operation
+  virtio-blk: add some trace events for zoned emulation
+  docs/zoned-storage:add zoned emulation use case
+
+ docs/devel/index-api.rst                     |   1 +
+ docs/devel/zoned-storage.rst                 |  62 ++
+ qapi/block-core.json                         |  68 +-
+ qapi/block.json                              |   4 +
+ meson.build                                  |   4 +
+ include/block/accounting.h                   |   1 +
+ include/block/block-common.h                 |  57 ++
+ include/block/block-io.h                     |  13 +
+ include/block/block_int-common.h             |  37 +
+ include/block/raw-aio.h                      |   8 +-
+ include/standard-headers/drm/drm_fourcc.h    |  12 +
+ include/standard-headers/linux/ethtool.h     |  48 +-
+ include/standard-headers/linux/fuse.h        |  45 +-
+ include/standard-headers/linux/pci_regs.h    |   1 +
+ include/standard-headers/linux/vhost_types.h |   2 +
+ include/standard-headers/linux/virtio_blk.h  | 105 +++
+ include/sysemu/block-backend-io.h            |  27 +
+ linux-headers/asm-arm64/kvm.h                |   1 +
+ linux-headers/asm-x86/kvm.h                  |  34 +-
+ linux-headers/linux/kvm.h                    |   9 +
+ linux-headers/linux/vfio.h                   |  15 +-
+ linux-headers/linux/vhost.h                  |   8 +
+ block.c                                      |  19 +
+ block/block-backend.c                        | 198 ++++++
+ block/file-posix.c                           | 696 +++++++++++++++++--
+ block/io.c                                   |  68 ++
+ block/io_uring.c                             |   4 +
+ block/linux-aio.c                            |   3 +
+ block/qapi-sysemu.c                          |  11 +
+ block/qapi.c                                 |  18 +
+ block/raw-format.c                           |  26 +
+ hw/block/virtio-blk-common.c                 |   2 +
+ hw/block/virtio-blk.c                        | 405 +++++++++++
+ hw/virtio/virtio-qmp.c                       |   2 +
+ qemu-io-cmds.c                               | 224 ++++++
+ block/trace-events                           |   4 +
+ docs/system/qemu-block-drivers.rst.inc       |   6 +
+ hw/block/trace-events                        |   7 +
+ tests/qemu-iotests/tests/zoned               | 105 +++
+ tests/qemu-iotests/tests/zoned.out           |  69 ++
+ 40 files changed, 2361 insertions(+), 68 deletions(-)
+ create mode 100644 docs/devel/zoned-storage.rst
+ create mode 100755 tests/qemu-iotests/tests/zoned
+ create mode 100644 tests/qemu-iotests/tests/zoned.out
+
+-- 
+2.40.0
 
 
