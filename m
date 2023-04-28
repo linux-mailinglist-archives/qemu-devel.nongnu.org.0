@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817C76F1E9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 21:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7276F1EA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 21:15:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psTWQ-0004wI-UE; Fri, 28 Apr 2023 15:12:46 -0400
+	id 1psTX0-000571-TK; Fri, 28 Apr 2023 15:13:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psTWP-0004w4-Cf
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:45 -0400
+ id 1psTWT-0004yB-8h
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:49 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psTWN-00032B-PT
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:45 -0400
+ id 1psTWO-00032H-H8
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682709162;
+ s=mimecast20190719; t=1682709164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BZNrAx/yY1mGvZnXcB5fz0XHo3uEWqvLNFcOkMtbtbg=;
- b=Mxn5akFM5SsvRDi6JQ/I6/Id0ACEu0P7oWdMeBaLykHT/X3qLHkt9D4fAAb2lJ0bI2T17s
- ErOykNbVST9IOykdR2NP57GcPy6CvY9Yn41OTn3BlsmQoeEqZyNpF36QqgYDUKkmyqnXw2
- wxFLxMUwcU/6aMMuHvsAZN6X7/sfOhQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cqRiOcVsnq1dkPr7YEiysrQqEMeOB41ddSA57KdHrJY=;
+ b=AxHLs/YzfjgaAgaVO50GvhtQRf3LrAzZyHInWcsszq0a2t8eWHbCoGtxPus3OKLFVh8NPy
+ oo2VTFGvYP5XRIgywMnsyuCtZXc67WFE7fu+saj7aLN8O9OzOP5CpO64XZKDXb74arphQ4
+ +1vREh6KabeIR3iFdY4SIpaOBmslBaQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-TE7FmrVZPRmHRkV3Vh9jYQ-1; Fri, 28 Apr 2023 15:12:38 -0400
-X-MC-Unique: TE7FmrVZPRmHRkV3Vh9jYQ-1
+ us-mta-467-z9T1PqOENKWqlOqtgY3HdQ-1; Fri, 28 Apr 2023 15:12:40 -0400
+X-MC-Unique: z9T1PqOENKWqlOqtgY3HdQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E4098314E9;
- Fri, 28 Apr 2023 19:12:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 529EB1C06913;
+ Fri, 28 Apr 2023 19:12:40 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CCDB2166B4F;
- Fri, 28 Apr 2023 19:12:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D33182166B4F;
+ Fri, 28 Apr 2023 19:12:38 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Leonardo Bras <leobras@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- Lukas Straub <lukasstraub2@web.de>
-Subject: [PULL 19/21] ram compress: Assert that the file buffer matches the
- result
-Date: Fri, 28 Apr 2023 21:12:01 +0200
-Message-Id: <20230428191203.39520-20-quintela@redhat.com>
+ Lukas Straub <lukasstraub2@web.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 20/21] ram-compress.c: Make target independent
+Date: Fri, 28 Apr 2023 21:12:02 +0200
+Message-Id: <20230428191203.39520-21-quintela@redhat.com>
 In-Reply-To: <20230428191203.39520-1-quintela@redhat.com>
 References: <20230428191203.39520-1-quintela@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -83,110 +84,103 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-Before this series, "nothing to send" was handled by the file buffer
-being empty. Now it is tracked via param->result.
-
-Assert that the file buffer state matches the result.
+Make ram-compress.c target independent.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/qemu-file.c    | 11 +++++++++++
- migration/qemu-file.h    |  1 +
- migration/ram-compress.c |  5 +++++
- migration/ram.c          |  2 ++
- 4 files changed, 19 insertions(+)
+ migration/meson.build    |  3 ++-
+ migration/ram-compress.c | 17 ++++++++++-------
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index ee04240a21..9c1ef8e3f9 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -887,6 +887,17 @@ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src)
-     return len;
- }
- 
-+/*
-+ * Check if the writable buffer is empty
-+ */
-+
-+bool qemu_file_buffer_empty(QEMUFile *file)
-+{
-+    assert(qemu_file_is_writable(file));
-+
-+    return !file->iovcnt;
-+}
-+
- /*
-  * Get a string whose length is determined by a single preceding byte
-  * A preallocated 256 byte buffer must be passed in.
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index d16cd50448..c2d6086a6e 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -113,6 +113,7 @@ size_t coroutine_mixed_fn qemu_get_buffer_in_place(QEMUFile *f, uint8_t **buf, s
- ssize_t qemu_put_compression_data(QEMUFile *f, z_stream *stream,
-                                   const uint8_t *p, size_t size);
- int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src);
-+bool qemu_file_buffer_empty(QEMUFile *file);
- 
- /*
-  * Note that you can only peek continuous bytes from where the current pointer
+diff --git a/migration/meson.build b/migration/meson.build
+index 2090af8e85..75de868bb7 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -23,6 +23,8 @@ softmmu_ss.add(files(
+   'migration.c',
+   'multifd.c',
+   'multifd-zlib.c',
++  'multifd-zlib.c',
++  'ram-compress.c',
+   'options.c',
+   'postcopy-ram.c',
+   'savevm.c',
+@@ -40,5 +42,4 @@ softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
+ specific_ss.add(when: 'CONFIG_SOFTMMU',
+                 if_true: files('dirtyrate.c',
+                                'ram.c',
+-                               'ram-compress.c',
+                                'target.c'))
 diff --git a/migration/ram-compress.c b/migration/ram-compress.c
-index c25562f12d..3d2a4a6329 100644
+index 3d2a4a6329..06254d8c69 100644
 --- a/migration/ram-compress.c
 +++ b/migration/ram-compress.c
-@@ -194,6 +194,8 @@ static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
+@@ -35,7 +35,8 @@
+ #include "migration.h"
+ #include "options.h"
+ #include "io/channel-null.h"
+-#include "exec/ram_addr.h"
++#include "exec/target_page.h"
++#include "exec/ramblock.h"
+ 
+ CompressionStats compression_counters;
+ 
+@@ -156,7 +157,7 @@ int compress_threads_save_setup(void)
+     qemu_cond_init(&comp_done_cond);
+     qemu_mutex_init(&comp_done_lock);
+     for (i = 0; i < thread_count; i++) {
+-        comp_param[i].originbuf = g_try_malloc(TARGET_PAGE_SIZE);
++        comp_param[i].originbuf = g_try_malloc(qemu_target_page_size());
+         if (!comp_param[i].originbuf) {
+             goto exit;
+         }
+@@ -192,11 +193,12 @@ static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
+                                            uint8_t *source_buf)
+ {
      uint8_t *p = block->host + offset;
++    size_t page_size = qemu_target_page_size();
      int ret;
  
-+    assert(qemu_file_buffer_empty(f));
-+
-     if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
+     assert(qemu_file_buffer_empty(f));
+ 
+-    if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
++    if (buffer_is_zero(p, page_size)) {
          return RES_ZEROPAGE;
      }
-@@ -208,6 +210,7 @@ static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
+ 
+@@ -205,8 +207,8 @@ static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
+      * so that we can catch up the error during compression and
+      * decompression
+      */
+-    memcpy(source_buf, p, TARGET_PAGE_SIZE);
+-    ret = qemu_put_compression_data(f, stream, source_buf, TARGET_PAGE_SIZE);
++    memcpy(source_buf, p, page_size);
++    ret = qemu_put_compression_data(f, stream, source_buf, page_size);
      if (ret < 0) {
          qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
          error_report("compressed data failed!");
-+        qemu_fflush(f);
-         return RES_NONE;
-     }
-     return RES_COMPRESS;
-@@ -239,6 +242,7 @@ void flush_compressed_data(int (send_queued_data(CompressParam *)))
-         if (!comp_param[idx].quit) {
-             CompressParam *param = &comp_param[idx];
-             send_queued_data(param);
-+            assert(qemu_file_buffer_empty(param->file));
-             compress_reset_result(param);
+@@ -336,7 +338,7 @@ static void *do_data_decompress(void *opaque)
+             param->des = 0;
+             qemu_mutex_unlock(&param->mutex);
+ 
+-            pagesize = TARGET_PAGE_SIZE;
++            pagesize = qemu_target_page_size();
+ 
+             ret = qemu_uncompress_data(&param->stream, des, pagesize,
+                                        param->compbuf, len);
+@@ -439,7 +441,8 @@ int compress_threads_load_setup(QEMUFile *f)
+             goto exit;
          }
-         qemu_mutex_unlock(&comp_param[idx].mutex);
-@@ -268,6 +272,7 @@ retry:
-             qemu_mutex_lock(&param->mutex);
-             param->done = false;
-             send_queued_data(param);
-+            assert(qemu_file_buffer_empty(param->file));
-             compress_reset_result(param);
-             set_compress_params(param, block, offset);
  
-diff --git a/migration/ram.c b/migration/ram.c
-index 250cb01099..a5bd943cc6 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1321,11 +1321,13 @@ static int send_queued_data(CompressParam *param)
-     assert(block == pss->last_sent_block);
- 
-     if (param->result == RES_ZEROPAGE) {
-+        assert(qemu_file_buffer_empty(param->file));
-         len += save_page_header(pss, file, block, offset | RAM_SAVE_FLAG_ZERO);
-         qemu_put_byte(file, 0);
-         len += 1;
-         ram_release_page(block->idstr, offset);
-     } else if (param->result == RES_COMPRESS) {
-+        assert(!qemu_file_buffer_empty(param->file));
-         len += save_page_header(pss, file, block,
-                                 offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
-         len += qemu_put_qemu_file(file, param->file);
+-        decomp_param[i].compbuf = g_malloc0(compressBound(TARGET_PAGE_SIZE));
++        size_t compbuf_size = compressBound(qemu_target_page_size());
++        decomp_param[i].compbuf = g_malloc0(compbuf_size);
+         qemu_mutex_init(&decomp_param[i].mutex);
+         qemu_cond_init(&decomp_param[i].cond);
+         decomp_param[i].done = true;
 -- 
 2.40.0
 
