@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D5A6F1355
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 10:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613606F1359
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 10:39:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psJYs-00064B-7m; Fri, 28 Apr 2023 04:34:38 -0400
+	id 1psJck-0000Qs-FJ; Fri, 28 Apr 2023 04:38:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psJYn-00063k-Ab
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 04:34:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1psJce-0000QE-0q
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 04:38:34 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psJYl-000309-L3
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 04:34:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682670869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PmueY/JkvaaAxHxY4uDGMTR/xv1pNhQgFztTvvViGhk=;
- b=UA18PRBIYbNG/gjVSY/uYN21Z7seatUzhEydxVtRn0QdWvhb8GXsskx/52YFDyu956OsPG
- 4zjAOuugoOIeApLREByvQvIoKrIEcMSIuu5v2SyeiVXCvTZi5AkmH47hJl0YqBbinhNXdy
- QptJWbZpgNdp0H1wkEvpCTSn52w8Cso=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-ie0yN1ztMfSv79DlWNHNcA-1; Fri, 28 Apr 2023 04:34:26 -0400
-X-MC-Unique: ie0yN1ztMfSv79DlWNHNcA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDCDE858F09;
- Fri, 28 Apr 2023 08:34:25 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8166A40C6EC4;
- Fri, 28 Apr 2023 08:34:24 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH 2/2] migration: Drop unused parameter for
- migration_tls_client_create()
-Date: Fri, 28 Apr 2023 10:34:21 +0200
-Message-Id: <20230428083421.34701-3-quintela@redhat.com>
-In-Reply-To: <20230428083421.34701-1-quintela@redhat.com>
-References: <20230428083421.34701-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1psJcZ-0003kK-90
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 04:38:30 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id C7DA05E850;
+ Fri, 28 Apr 2023 11:38:19 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b432::1:18] (unknown
+ [2a02:6b8:b081:b432::1:18])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id IcE0F60Oo4Y0-uLJgILiA; Fri, 28 Apr 2023 11:38:19 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1682671099; bh=a/CnEFEpcX6eXCJqLIUPrTmE72hn3P/piu61FJ8IBPE=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=O2PDtDVpZMq9KDeU2isaO4WZN6ocg9Nh8HZeXAylClCUFjqVL+10n9/fwuIjh683a
+ 24qFR6JsAoC4sGgWgoEwKhB2Arl+rVu7JKW28/exdXNb/X7owBdvhPTpKI+LWb/VWt
+ 27GXwfOZrM5i/yRbtVqMdRZJUZqYPBS/qf5VxgXE=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <dfe55207-e289-cd46-29be-f3ee6dfeb9e9@yandex-team.ru>
+Date: Fri, 28 Apr 2023 11:38:18 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/2] migration: Drop unused parameter for
+ migration_tls_get_creds()
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>, Leonardo Bras <leobras@redhat.com>
+References: <20230428083421.34701-1-quintela@redhat.com>
+ <20230428083421.34701-2-quintela@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230428083421.34701-2-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,82 +77,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is not needed since we moved the accessor for tls properties to
-options.c.
+On 28.04.23 11:34, Juan Quintela wrote:
+> It is not needed since we moved the accessor for tls properties to
+> options.c.
+> 
+> Suggested-by: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+> Signed-off-by: Juan Quintela<quintela@redhat.com>
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/multifd.c      | 2 +-
- migration/postcopy-ram.c | 2 +-
- migration/tls.c          | 5 ++---
- migration/tls.h          | 3 +--
- 4 files changed, 5 insertions(+), 7 deletions(-)
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 6a59c03dd2..5019a79ff4 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -823,7 +823,7 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
-     const char *hostname = s->hostname;
-     QIOChannelTLS *tioc;
- 
--    tioc = migration_tls_client_create(s, ioc, hostname, errp);
-+    tioc = migration_tls_client_create(ioc, hostname, errp);
-     if (!tioc) {
-         return;
-     }
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 75aa276bb1..5615ec29eb 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -1632,7 +1632,7 @@ postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
-     }
- 
-     if (migrate_channel_requires_tls_upgrade(ioc)) {
--        tioc = migration_tls_client_create(s, ioc, s->hostname, &local_err);
-+        tioc = migration_tls_client_create(ioc, s->hostname, &local_err);
-         if (!tioc) {
-             goto out;
-         }
-diff --git a/migration/tls.c b/migration/tls.c
-index d4a76cf590..fa03d9136c 100644
---- a/migration/tls.c
-+++ b/migration/tls.c
-@@ -114,8 +114,7 @@ static void migration_tls_outgoing_handshake(QIOTask *task,
-     object_unref(OBJECT(ioc));
- }
- 
--QIOChannelTLS *migration_tls_client_create(MigrationState *s,
--                                           QIOChannel *ioc,
-+QIOChannelTLS *migration_tls_client_create(QIOChannel *ioc,
-                                            const char *hostname,
-                                            Error **errp)
- {
-@@ -141,7 +140,7 @@ void migration_tls_channel_connect(MigrationState *s,
- {
-     QIOChannelTLS *tioc;
- 
--    tioc = migration_tls_client_create(s, ioc, hostname, errp);
-+    tioc = migration_tls_client_create(ioc, hostname, errp);
-     if (!tioc) {
-         return;
-     }
-diff --git a/migration/tls.h b/migration/tls.h
-index 98e23c9b0e..5797d153cb 100644
---- a/migration/tls.h
-+++ b/migration/tls.h
-@@ -28,8 +28,7 @@ void migration_tls_channel_process_incoming(MigrationState *s,
-                                             QIOChannel *ioc,
-                                             Error **errp);
- 
--QIOChannelTLS *migration_tls_client_create(MigrationState *s,
--                                           QIOChannel *ioc,
-+QIOChannelTLS *migration_tls_client_create(QIOChannel *ioc,
-                                            const char *hostname,
-                                            Error **errp);
- 
 -- 
-2.40.0
+Best regards,
+Vladimir
 
 
