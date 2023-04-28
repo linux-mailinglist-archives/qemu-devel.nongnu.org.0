@@ -2,82 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F556F1E23
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 20:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8E76F1EA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 21:14:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psSzA-0005Xu-Jc; Fri, 28 Apr 2023 14:38:24 -0400
+	id 1psTW1-0004VR-Lq; Fri, 28 Apr 2023 15:12:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSz7-0005X0-EO
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:38:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1psTVq-0004UF-Au
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSz4-0004dD-CB
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 14:38:20 -0400
+ id 1psTVn-0002tD-UM
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682707097;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LOGh0lUFieWpa9Yv+vluGGk9yebSZ8Z9UOm8QhfrmBg=;
- b=AnoYeJcJ0L25ePQ49/zE7HJLH3m8I2Dp2CjN1ZFidhuD+CaU//H7dklxWSyQ+F+UqUAeOo
- fRBwYr1zyX2ckN7w7VKFVYKYTjEdX0JRx4kUustag+HHA8GrjVgPVqLIG+wuOEbRcPiAOl
- xen5mBsMjur4UqUL2rT1TD14drMVn0I=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-13-j5k1VBXXPXqYynqNBKElZg-1; Fri, 28 Apr 2023 14:38:15 -0400
-X-MC-Unique: j5k1VBXXPXqYynqNBKElZg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-304991654ceso21509f8f.0
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 11:38:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682707094; x=1685299094;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LOGh0lUFieWpa9Yv+vluGGk9yebSZ8Z9UOm8QhfrmBg=;
- b=Wg7HZoRXh2hz+3ca19zYCvw/Z6Kdrxgoyq9XV2rBdj3ysDWvRHm4T1fu7MZ9LkchlP
- x4YrmQfLTfEp4PaEnCHE624wqMuHeCQm9vIqbrm352XZMdKZaj9vbXHICSs6LkFrAGLE
- IqtkmkEGuQcA8njHPyNF7HWf5ULEGMy+vRunjV4mZH4z89T6AC6bUQ5k77KDV/U+g6MW
- Boe8SxjJ0ua2StjDtZDiXtfQsKCUo2QYoAshhO5VzA/HDADezma9VkOYVfSVc9KzeGdA
- WUXyiIywzo4jrloIY6p4zJIs4D5y8dc+Pgjy+LOl9HUNQ25XNnPQGO/uiwTUkkFbEFk2
- Ogwg==
-X-Gm-Message-State: AC+VfDztZqQMMZwuI4myT8R4B4tMO3rR53o/NA/ewf5jnJTXexj2TqY3
- 8+toJmAfUy3m35nYIAFUwVitlvD1IkcfniXWD/JOHF/DrwncRvJZxMEUHQ0hLsR074u62PNUUHS
- xm9r90tzbIHZLLGc=
-X-Received: by 2002:adf:f346:0:b0:2ef:399c:1051 with SMTP id
- e6-20020adff346000000b002ef399c1051mr4788424wrp.20.1682707094317; 
- Fri, 28 Apr 2023 11:38:14 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6oAfylp749XPph8PoPOkhh/9V6RpnMGJ7TsACxelbOAGlT+Ymq1YM9ojgpiVtbswR+cOHWOA==
-X-Received: by 2002:adf:f346:0:b0:2ef:399c:1051 with SMTP id
- e6-20020adff346000000b002ef399c1051mr4788417wrp.20.1682707093950; 
- Fri, 28 Apr 2023 11:38:13 -0700 (PDT)
-Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
- [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- u6-20020adff886000000b002f7780eee10sm21757591wrp.59.2023.04.28.11.38.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 11:38:13 -0700 (PDT)
+ s=mimecast20190719; t=1682709127;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BoLSiwUNMv0ea47px6OaCQbkkZ9haBIlYvBXOXg6r6I=;
+ b=UEGhx7xowg7v1AbLysGBIxHGv4Iq+r419atihHda/hEJzEehEUNdhjiVqX3vXOQQ4sev9c
+ FC0JCt+HI0FN3H251Ey4SWeatffOsQK9VjygMIwxxGF/+vsfFEm0OIGK3VP/JNetmNkyqn
+ rQ1GJbs+Cb3Wmm+eI+j6njmlGsLTahg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-7Gh8XX4eNJifxKXSdV3lsQ-1; Fri, 28 Apr 2023 15:12:05 -0400
+X-MC-Unique: 7Gh8XX4eNJifxKXSdV3lsQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 777363806628
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 19:12:05 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.193.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 113192166B4F;
+ Fri, 28 Apr 2023 19:12:03 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org,  QEMU Trivial <qemu-trivial@nongnu.org>,  Hyman
- Huang <huangy81@chinatelecom.cn>,  Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH] softmmu: Tidy dirtylimit_dirty_ring_full_time
-In-Reply-To: <be8ccc72-0dfb-ca33-e309-27d51d96a623@redhat.com> (Thomas Huth's
- message of "Fri, 28 Apr 2023 12:57:05 +0200")
-References: <20230428103448.3811208-1-richard.henderson@linaro.org>
- <be8ccc72-0dfb-ca33-e309-27d51d96a623@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 20:38:12 +0200
-Message-ID: <87jzxv6eej.fsf@secure.mitica>
+To: qemu-devel@nongnu.org
+Cc: Leonardo Bras <leobras@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>
+Subject: [PULL 00/21] Migration 20230428 patches
+Date: Fri, 28 Apr 2023 21:11:42 +0200
+Message-Id: <20230428191203.39520-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -98,26 +74,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> wrote:
-> On 28/04/2023 12.34, Richard Henderson wrote:
->> Drop inline marker: let compiler decide.
->> Change return type to uint64_t: this matches the computation in the
->> return statement and the local variable assignment in the caller.
->> Rename local to dirty_ring_size_MB to fix typo.
->> Simplify conversion to MiB via qemu_target_page_bits and right shift.
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+The following changes since commit 05d50ba2d4668d43a835c5a502efdec9b92646e6:
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+  Merge tag 'migration-20230427-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-04-28 08:35:06 +0100)
 
-Not that I expect the amount of bytes in one machine to not fit in
-64bit, but good change.
+are available in the Git repository at:
 
-About the signesdness of variables, I really hate it, specially that
-compiler not help here where arguments, operands and assignment place is
-unsigned.  Sniff.
+  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230428-pull-request
+
+for you to fetch changes up to 05ecac612ec6a4bdb358e68554b4406ac2c8e25a:
+
+  migration: Initialize and cleanup decompression in migration.c (2023-04-28 20:54:53 +0200)
+
+----------------------------------------------------------------
+Migration Pull request (20230429 vintage)
+
+Hi
+
+In this series:
+- compression code cleanup (lukas)
+  nice, nice, nice.
+- drop useless parameters from migration_tls* (juan)
+- first part of remove QEMUFileHooks series (juan)
+
+Please apply.
+
+----------------------------------------------------------------
+
+Juan Quintela (8):
+  multifd: We already account for this packet on the multifd thread
+  migration: Move ram_stats to its own file migration-stats.[ch]
+  migration: Rename ram_counters to mig_stats
+  migration: Rename RAMStats to MigrationAtomicStats
+  migration/rdma: Split the zero page case from acct_update_position
+  migration/rdma: Unfold last user of acct_update_position()
+  migration: Drop unused parameter for migration_tls_get_creds()
+  migration: Drop unused parameter for migration_tls_client_create()
+
+Lukas Straub (13):
+  qtest/migration-test.c: Add tests with compress enabled
+  qtest/migration-test.c: Add postcopy tests with compress enabled
+  ram.c: Let the compress threads return a CompressResult enum
+  ram.c: Dont change param->block in the compress thread
+  ram.c: Reset result after sending queued data
+  ram.c: Do not call save_page_header() from compress threads
+  ram.c: Call update_compress_thread_counts from
+    compress_send_queued_data
+  ram.c: Remove last ram.c dependency from the core compress code
+  ram.c: Move core compression code into its own file
+  ram.c: Move core decompression code into its own file
+  ram compress: Assert that the file buffer matches the result
+  ram-compress.c: Make target independent
+  migration: Initialize and cleanup decompression in migration.c
+
+ migration/meson.build        |   7 +-
+ migration/migration-stats.c  |  17 ++
+ migration/migration-stats.h  |  41 +++
+ migration/migration.c        |  42 ++-
+ migration/multifd.c          |  12 +-
+ migration/postcopy-ram.c     |   2 +-
+ migration/qemu-file.c        |  11 +
+ migration/qemu-file.h        |   1 +
+ migration/ram-compress.c     | 485 ++++++++++++++++++++++++++++++
+ migration/ram-compress.h     |  70 +++++
+ migration/ram.c              | 562 ++++-------------------------------
+ migration/ram.h              |  24 --
+ migration/rdma.c             |   9 +-
+ migration/savevm.c           |   3 +-
+ migration/tls.c              |  15 +-
+ migration/tls.h              |   3 +-
+ tests/qtest/migration-test.c | 126 ++++++++
+ 17 files changed, 870 insertions(+), 560 deletions(-)
+ create mode 100644 migration/migration-stats.c
+ create mode 100644 migration/migration-stats.h
+ create mode 100644 migration/ram-compress.c
+ create mode 100644 migration/ram-compress.h
+
+-- 
+2.40.0
 
 
