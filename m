@@ -2,102 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDEB6F11A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 08:10:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C996F1202
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 08:54:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psHIO-0000bH-3M; Fri, 28 Apr 2023 02:09:28 -0400
+	id 1psHy0-0000Gi-Io; Fri, 28 Apr 2023 02:52:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psHIL-0000at-JU
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 02:09:25 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1psHxy-0000GL-NK
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 02:52:26 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psHIJ-00062h-76
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 02:09:24 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1psHxx-0005Es-44
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 02:52:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682662162;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZjbZxE4rO12xm7v+m3qDdMiuNYSjwbiWUbqg7xa+qVI=;
- b=TsNpYNsQLCzsCN43Btndi07Phj74y6r1VQ2iT8P6MDwFmtqdM1lUHHN6W18VxzrshoJ9xU
- pXVCl3DEbowKBprS9nrdAzpVw0L3mR07zgVgAMRpb2CrK8oUh3EWveOG2iCTKh1mW38SE6
- PctgE5LGTtefx5QI8RIaDPB+9mbXggk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1682664743;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=1OxRGZUgQZoOGVAl8+L4VqgbsU9i8w29upqQh9DhHZw=;
+ b=Wbh8V6mwh70cKQXO5Y8LhFW1uwzH/XFlmO17wzATZ8RR16sFz91Xt5L6Phs20LQ3VVlTkN
+ 442qYrog+NF7p6UAMo+W2B6DEo72fxNKRfG285VDlhkBthYtfeBfOkMuOBHJteDZow5TBb
+ MUxtDauwdiwWX9Vy+Tx+rhfNXuuzke8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-164-ih7snIKyNw-Z56sJU8ZaYw-1; Fri, 28 Apr 2023 02:09:20 -0400
-X-MC-Unique: ih7snIKyNw-Z56sJU8ZaYw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f1745d08b5so36270125e9.1
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 23:09:20 -0700 (PDT)
+ us-mta-44-DY-_MDgwMXm7fTU7eyqGdw-1; Fri, 28 Apr 2023 02:52:21 -0400
+X-MC-Unique: DY-_MDgwMXm7fTU7eyqGdw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f173bd0d1bso60631075e9.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 23:52:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682662159; x=1685254159;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZjbZxE4rO12xm7v+m3qDdMiuNYSjwbiWUbqg7xa+qVI=;
- b=mB0DriyGdxzQDufJxB/TdD81aHVUEe+bcCkG45JldDJrAMsRgAdyuLS6Dxcr1gPedc
- 9gHukluDipqc+Nvac5haWoNF5+uMS1YWsidRgyIby+73nT3MD3VGqWZZO7zeN1H4prhX
- 1W/vF4X1IzmpTf9pdTjpqAUaa2hGgsXPa/nKECXPfzffT0Jx6Nxx1x5CUY+YQGlpZ8bM
- AZbzBJIyinkHXafWLprrONtOuPxS5jD4f2a/zZJc25C4aVmGqcXCbXyO0+jz+QjhLmX8
- 2U1hdCCB0joFbRkGpg4m/YHXNaSqx+9vcN2HaLsEVMn3p2dqYmswdKmqilZJZWpTM8VG
- NRtQ==
-X-Gm-Message-State: AC+VfDwkOJAOfnBHqWRmLmtz2bHx1cDxYtaQhGhnLHBAjkFWXA+bMp39
- BrkKs+RmkXvnKv4k3KdXLlM+RPys6TM9FKtebd5x+2Q/7MHxD2wSmkdl9pGIpKhiOXpeC/pdntO
- Cvb5xPkzsuVRqnX8=
-X-Received: by 2002:a5d:4a0a:0:b0:301:8551:446f with SMTP id
- m10-20020a5d4a0a000000b003018551446fmr3166290wrq.38.1682662159630; 
- Thu, 27 Apr 2023 23:09:19 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5uKQPc2/J6yuMou5PXAUnRiLcaU2cGn304rS/fSrFrYUXCzm1xeM9pzZPGSQkSkJ9/noiGbA==
-X-Received: by 2002:a5d:4a0a:0:b0:301:8551:446f with SMTP id
- m10-20020a5d4a0a000000b003018551446fmr3166266wrq.38.1682662159353; 
- Thu, 27 Apr 2023 23:09:19 -0700 (PDT)
-Received: from [192.168.8.102] (tmo-098-235.customers.d1-online.com.
- [80.187.98.235]) by smtp.gmail.com with ESMTPSA id
- e16-20020a5d5950000000b0030490c8ccafsm8207476wri.52.2023.04.27.23.09.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Apr 2023 23:09:18 -0700 (PDT)
-Message-ID: <2c193be7-542f-ed4c-8a80-ff8b0de186cb@redhat.com>
-Date: Fri, 28 Apr 2023 08:09:16 +0200
+ d=1e100.net; s=20221208; t=1682664740; x=1685256740;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1OxRGZUgQZoOGVAl8+L4VqgbsU9i8w29upqQh9DhHZw=;
+ b=PNSWtrNs5F8NrQB79XN9tRbuyERLRS4w6ANv0yatnrihWJC3B2XIYPFhd3/iQVjeDJ
+ Tmf+OR4RayItk5PyR27tJ5bAzKdYoxE+iGVwZQor1DoUrLxJfQ9ht+6uNsp/3pZS9FpH
+ XWANzY0ZMCdJcSNrBgtGC2Rog+BhJuUbgiELXUKJMTR0NRqmJuw9V2E56bwSy0xByqln
+ is0Ht/5e9o+vdOG/0knFlKCFV3j8wS+9/G2ANSJZhMPr2JsCFC58E4LzzayqFgjrC8i3
+ SUT/hULTg5YOlMV+0cqv4FEemiuFsMmKOGqE70Z5ZaYN7o50dpLI96MCEuCIqU85STjm
+ WiyA==
+X-Gm-Message-State: AC+VfDyTs+M1brUFMSFf5amHkzG3mvH2vVeOXZD85CuIrOr5bb3iR7Tf
+ pgq/lUFZm+Y2Pky1AsIClJb26Z75nRfmBzZVs1FPbIWtV+FVAfU5DdKg/KRmW3WuewA2Qf54pJt
+ MtbdjOJBv+r/YYPk=
+X-Received: by 2002:a05:600c:378e:b0:3f2:549b:3ef2 with SMTP id
+ o14-20020a05600c378e00b003f2549b3ef2mr2815102wmr.17.1682664740208; 
+ Thu, 27 Apr 2023 23:52:20 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7ra//GfnyGKNbSJqANVJF8PgFBYD8pBpbRw7Bcgewp8qzN26ws251kQJMkgxz0VnvRc2+SIQ==
+X-Received: by 2002:a05:600c:378e:b0:3f2:549b:3ef2 with SMTP id
+ o14-20020a05600c378e00b003f2549b3ef2mr2815090wmr.17.1682664739817; 
+ Thu, 27 Apr 2023 23:52:19 -0700 (PDT)
+Received: from redhat.com ([95.62.39.214]) by smtp.gmail.com with ESMTPSA id
+ l14-20020a7bc44e000000b003f195d2f1a9sm18908714wmi.15.2023.04.27.23.52.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Apr 2023 23:52:19 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: "Zhang, Chen" <chen.zhang@intel.com>,  "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>,  "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "michael.roth@amd.com" <michael.roth@amd.com>,  "armbru@redhat.com"
+ <armbru@redhat.com>,  "eblake@redhat.com" <eblake@redhat.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,  "Zhang, Hailiang"
+ <zhanghailiang@xfusion.com>,  "philmd@linaro.org" <philmd@linaro.org>,
+ "thuth@redhat.com" <thuth@redhat.com>,  "berrange@redhat.com"
+ <berrange@redhat.com>,  "marcandre.lureau@redhat.com"
+ <marcandre.lureau@redhat.com>,  "pbonzini@redhat.com"
+ <pbonzini@redhat.com>,  "dave@treblig.org" <dave@treblig.org>,
+ "hreitz@redhat.com" <hreitz@redhat.com>,  "kwolf@redhat.com"
+ <kwolf@redhat.com>,  "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
+Subject: Re: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
+In-Reply-To: <73b38f83-a927-d3d9-c08e-7276f48f013c@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 27 Apr 2023 22:31:32 +0300")
+References: <20230419225232.508121-1-vsementsov@yandex-team.ru>
+ <20230419225232.508121-4-vsementsov@yandex-team.ru>
+ <MWHPR11MB00312BC202A9B93E260F58369B609@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <b9badd90-6d1f-5d1d-72a1-9c357a1fb9b2@yandex-team.ru>
+ <MWHPR11MB0031A7CE9FB5A6E93AD601A79B669@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <73b38f83-a927-d3d9-c08e-7276f48f013c@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 28 Apr 2023 08:52:13 +0200
+Message-ID: <87r0s4bisi.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>
-References: <20230427211013.2994127-1-alxndr@bu.edu>
- <20230427211013.2994127-2-alxndr@bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230427211013.2994127-2-alxndr@bu.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,109 +111,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/04/2023 23.10, Alexander Bulekov wrote:
-> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> This flag is set/checked prior to calling a device's MemoryRegion
-> handlers, and set when device code initiates DMA.  The purpose of this
-> flag is to prevent two types of DMA-based reentrancy issues:
-> 
-> 1.) mmio -> dma -> mmio case
-> 2.) bh -> dma write -> mmio case
-> 
-> These issues have led to problems such as stack-exhaustion and
-> use-after-frees.
-> 
-> Summary of the problem from Peter Maydell:
-> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1282
-> Resolves: CVE-2023-0330
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> ---
->   include/exec/memory.h  |  5 +++++
->   include/hw/qdev-core.h |  7 +++++++
->   softmmu/memory.c       | 16 ++++++++++++++++
->   3 files changed, 28 insertions(+)
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 15ade918ba..e45ce6061f 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -767,6 +767,8 @@ struct MemoryRegion {
->       bool is_iommu;
->       RAMBlock *ram_block;
->       Object *owner;
-> +    /* owner as TYPE_DEVICE. Used for re-entrancy checks in MR access hotpath */
-> +    DeviceState *dev;
->   
->       const MemoryRegionOps *ops;
->       void *opaque;
-> @@ -791,6 +793,9 @@ struct MemoryRegion {
->       unsigned ioeventfd_nb;
->       MemoryRegionIoeventfd *ioeventfds;
->       RamDiscardManager *rdm; /* Only for RAM */
-> +
-> +    /* For devices designed to perform re-entrant IO into their own IO MRs */
-> +    bool disable_reentrancy_guard;
->   };
->   
->   struct IOMMUMemoryRegion {
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index bd50ad5ee1..7623703943 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -162,6 +162,10 @@ struct NamedClockList {
->       QLIST_ENTRY(NamedClockList) node;
->   };
->   
-> +typedef struct {
-> +    bool engaged_in_io;
-> +} MemReentrancyGuard;
-> +
->   /**
->    * DeviceState:
->    * @realized: Indicates whether the device has been fully constructed.
-> @@ -194,6 +198,9 @@ struct DeviceState {
->       int alias_required_for_version;
->       ResettableState reset;
->       GSList *unplug_blockers;
-> +
-> +    /* Is the device currently in mmio/pio/dma? Used to prevent re-entrancy */
-> +    MemReentrancyGuard mem_reentrancy_guard;
->   };
->   
->   struct DeviceListener {
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index b1a6cae6f5..fe23f0e5ce 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -542,6 +542,18 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
->           access_size_max = 4;
->       }
->   
-> +    /* Do not allow more than one simultaneous access to a device's IO Regions */
-> +    if (mr->dev && !mr->disable_reentrancy_guard &&
-> +        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
-> +        if (mr->dev->mem_reentrancy_guard.engaged_in_io) {
-> +            warn_report("Blocked re-entrant IO on "
-> +                    "MemoryRegion: %s at addr: 0x%" HWADDR_PRIX,
-> +                    memory_region_name(mr), addr);
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> On 23.04.23 04:54, Zhang, Chen wrote:
+>> 
+>>> -----Original Message-----
+>>> From: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+>>> Sent: Friday, April 21, 2023 4:36 PM
+>>> To: Zhang, Chen<chen.zhang@intel.com>;qemu-devel@nongnu.org
+>>> Cc:qemu-block@nongnu.org;michael.roth@amd.com;armbru@redhat.com;
+>>> eblake@redhat.com;jasowang@redhat.com;quintela@redhat.com; Zhang,
+>>> Hailiang<zhanghailiang@xfusion.com>;philmd@linaro.org;
+>>> thuth@redhat.com;berrange@redhat.com;marcandre.lureau@redhat.com;
+>>> pbonzini@redhat.com;dave@treblig.org;hreitz@redhat.com;
+>>> kwolf@redhat.com;lizhijian@fujitsu.com
+>>> Subject: Re: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
+>>>
+>>> On 21.04.23 06:02, Zhang, Chen wrote:
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+>>>>> Sent: Thursday, April 20, 2023 6:53 AM
+>>>>> To:qemu-devel@nongnu.org
+>>>>> Cc:qemu-block@nongnu.org;michael.roth@amd.com;
+>>> armbru@redhat.com;
+>>>>> eblake@redhat.com;jasowang@redhat.com;quintela@redhat.com;
+>>> Zhang,
+>>>>> Hailiang<zhanghailiang@xfusion.com>;philmd@linaro.org;
+>>>>> thuth@redhat.com;berrange@redhat.com;
+>>> marcandre.lureau@redhat.com;
+>>>>> pbonzini@redhat.com;dave@treblig.org;hreitz@redhat.com;
+>>>>> kwolf@redhat.com; Zhang, Chen<chen.zhang@intel.com>;
+>>>>> lizhijian@fujitsu.com; Vladimir Sementsov-Ogievskiy
+>>>>> <vsementsov@yandex- team.ru>
+>>>>> Subject: [PATCH v2 3/4] build: move COLO under CONFIG_REPLICATION
+>>>>>
+>>>>> We don't allow to use x-colo capability when replication is not
+>>>>> configured. So, no reason to build COLO when replication is disabled,
+>>>>> it's unusable in this case.
+>>>> Yes, you are right for current status. Because COLO best practices is
+>>> replication + colo live migration + colo proxy.
+>>>> But doesn't mean it has to be done in all scenarios as I explanation in V1.
+>>>> The better way is allow to use x-colo capability firstly, and separate
+>>>> this patch with two config options: --disable-replication  and --disable-x-
+>>> colo.
+>>> But what for? We for sure don't have such scenarios now (COLO without
+>>> replication), as it's not allowed by far 7e934f5b27eee1b0d7 (by you and
+>>> David).
+>>>
+>>> If you think we need such scenario, I think it should be a separate series
+>>> which reverts 7e934f5b27eee1b0d7 and adds corresponding test and
+>>> probably documentation.
+>> In the patch 7e934f5b27eee1b0d7 said it's for current independent disk mode,
+>> And what we talked about before is the shared disk mode.
+>> Rethink about the COLO shared disk mode, this feature still needs some enabling works.
+>> It looks OK for now and separate the build options when enabling COLO shared disk mode.
+>
+> I've started working on this, and now I see, that check in the migrate_caps_check() is not the only place.
+>
+> migration/colo.c has also several abort() points. For example,
+> colo_process_checkpoint will simply abort if CONFIG_REPLICATION not
+> defined.
+>
+> So for sure, current code is not prepared to use COLO with REPLICATION disabled.
+>
+> If this possibility is needed it requires more work. Personally, I
+> don't think that possibility to enable COLO with disabled REPLICATION
+> is really needed and I know nobody who need it, so that seems to be
+> extra work.
 
-Ack, a warn_report make sense here, at least initially, to make sure that 
-people get aware of related problems!
+Whoever does the work to make COLO without REPLICATION work, it can also
+do the aditional work of splitting it.  Changing a configure file is
+going to be the smaller of its problems.
 
-  Thomas
-
+Later, Juan.
 
 
