@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069C46F1DA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628956F1DA9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:53:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psSGF-0001LQ-Qg; Fri, 28 Apr 2023 13:51:59 -0400
+	id 1psSHP-0002TV-C1; Fri, 28 Apr 2023 13:53:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSG5-0001KQ-Vk
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:51:49 -0400
+ id 1psSHN-0002TC-6s
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:53:09 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSG2-0003kR-G2
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:51:48 -0400
+ id 1psSHL-0003wB-RH
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:53:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682704305;
+ s=mimecast20190719; t=1682704387;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=DXdlrqFO/ZytZNlqgsSTU7tzuqGKJCOaJoAckswEO2E=;
- b=YQprp4Vqzhakx8f3IB0GOSE3dcqdv5D5UQi/OLG+OR1lWMSinsjfxzT6ZyTPweKGC9Rtse
- qW9p5TGTfELPtUqf4T0VmfxLHvzEl2JF0yVzsdYmxR2zcEGZGX6MGBpebPCc7cHP9KKx6n
- FP79mncAG2XaIKe4n10ewoseBL0vlj0=
+ bh=y3sg3jQgm38a6bc8tM8vNnQY1Was8/2MJ4jjorrBhQw=;
+ b=czQEGXqgqvVCr5nXiz9/FGhhgL81Y5GtdV0SJbMVuw54I5lmJyla+eCiWW4gnYmUspefWw
+ JLw4LqW/yUVCkt9Jqb/nNCLwJdaehrr5jaY2tCQy41Y28/J1SrRb9fA9uOt6HUSpWG66eA
+ jh8MzCi5DAgUFO5Bc7+OrDsR2LH8BQo=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-592--j6pHKfON-WuX4pk2BEJMA-1; Fri, 28 Apr 2023 13:51:44 -0400
-X-MC-Unique: -j6pHKfON-WuX4pk2BEJMA-1
+ us-mta-486-62Ornt7WMiWhuGXZXA-sfg-1; Fri, 28 Apr 2023 13:53:05 -0400
+X-MC-Unique: 62Ornt7WMiWhuGXZXA-sfg-1
 Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-2f479aeddc4so7740f8f.2
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:51:43 -0700 (PDT)
+ ffacd0b85a97d-2fbb99cb244so7323f8f.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:53:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682704303; x=1685296303;
+ d=1e100.net; s=20221208; t=1682704384; x=1685296384;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DXdlrqFO/ZytZNlqgsSTU7tzuqGKJCOaJoAckswEO2E=;
- b=D7lsqNfUWvHpsZCEFipncTLKECDKMaEJvOuErMWaXXWz17KVI9+DqVc38B4h6swzEy
- uK+vlRCctdftstqA47LBxGePVcRj21McugatF5gs1GxMjJWws5Z0Vbm211El4fuBJbk0
- VJxxz8yK8OUi6lvI6AL/huS/5TmQDmkKzJM4yT+GzEUhzrBRglbVmUVwPE8tPnjTtKLG
- xgSWCW/JcnnI5i+lITjMvZkEdDD6cqEdzKmuiXBc159FgIOqpNM4VI6zhYKn1RCLN7Ek
- QQR/AxpHIftVoBb4iYslN+u9IXvNtJ1mq5HkeJ3QlMIGsBPw9GMVv4vVxWjSogh6PgB8
- gOCg==
-X-Gm-Message-State: AC+VfDw1tfqBa/9NiKI0VNpJKANUeYKF3JU3v/f0e5qBCqUY+cfGT/OT
- EwaI2eviEXhbTZWuiLHgRKM2DtyhC09MXUAr/ZJ3YqIPbLho7XKAZ5ocP9BCk2zQJ/SOEkT+utX
- e304cz5kqok8nTNc=
-X-Received: by 2002:a05:6000:11c5:b0:2fb:600e:55bd with SMTP id
- i5-20020a05600011c500b002fb600e55bdmr4943729wrx.39.1682704302897; 
- Fri, 28 Apr 2023 10:51:42 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6hLPfCIfShpV1u5iinIwkoh5ZgVZzKE7jj63wraY/zo76tSjjfoOmOlgQSiuvuZjUP5z+nag==
-X-Received: by 2002:a05:6000:11c5:b0:2fb:600e:55bd with SMTP id
- i5-20020a05600011c500b002fb600e55bdmr4943715wrx.39.1682704302570; 
- Fri, 28 Apr 2023 10:51:42 -0700 (PDT)
+ bh=y3sg3jQgm38a6bc8tM8vNnQY1Was8/2MJ4jjorrBhQw=;
+ b=bgbtcDLWud196LBv4w28mxlyBwvQMGdJk0h+qRQc9uUlfCbnHNHVfyFhfTiFr5ByQX
+ wfeWRhFGBQwWWe2gRevr8IHnxc9FbP37qeOLr7tW0r5u16e9eFsKiHGTQTktUC33XMNM
+ SILo4r0smpErgX3UZgAGeHL1kPZusQ1pRlVoeULfRQ9Jp11LNWW6K+6UkgwGWSg9IIkW
+ Vx7tptaAP21Z6JyCg0CgsL9Zd/I5OlQxnZDdoyKxGrsNbHSj0K0OMtrxcrPf7x7jkpRE
+ 64Iyx5A/FejJTtnBzasz7M9p2fVem40VPCO+AklKyMU78aERrDHhW04malh3Q46z6m+q
+ kz/g==
+X-Gm-Message-State: AC+VfDzYQ2norITItPWQy8REqjwCV1gUjLwu1yKCukTkuac0scvt/fEJ
+ fbVytcOVUv/Za2DeAogVmZkCaROrB8yeDXUj8C9oa1Q8f2Eba16Qr189v5yi6eJiZUWgBX6exzw
+ T1Fp8GYeSBbL3yDs=
+X-Received: by 2002:adf:f810:0:b0:2c5:5a65:79a0 with SMTP id
+ s16-20020adff810000000b002c55a6579a0mr4858325wrp.53.1682704384262; 
+ Fri, 28 Apr 2023 10:53:04 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5wsQoVR+eFRGNNHP496EK3g+y7nU3hNckXLENO/Ke3UdB3WSU8cozBpoV/9RzTtgiBXZ+qFA==
+X-Received: by 2002:adf:f810:0:b0:2c5:5a65:79a0 with SMTP id
+ s16-20020adff810000000b002c55a6579a0mr4858319wrp.53.1682704383938; 
+ Fri, 28 Apr 2023 10:53:03 -0700 (PDT)
 Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
  [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- d13-20020adfe88d000000b002e55cc69169sm21596225wrm.38.2023.04.28.10.51.41
+ t15-20020adfe44f000000b002f00793bd7asm21566450wrm.27.2023.04.28.10.53.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 10:51:42 -0700 (PDT)
+ Fri, 28 Apr 2023 10:53:03 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
@@ -76,15 +76,15 @@ Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
  pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
  stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
  qemu-block@nongnu.org,  victortoso@redhat.com
-Subject: Re: [PATCH 17/17] qapi: Reformat doc comments to conform to current
- conventions
-In-Reply-To: <20230428105429.1687850-18-armbru@redhat.com> (Markus
- Armbruster's message of "Fri, 28 Apr 2023 12:54:29 +0200")
+Subject: Re: [PATCH 02/17] docs/devel/qapi-code-gen: Turn FIXME admonitions
+ into comments
+In-Reply-To: <20230428105429.1687850-3-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 28 Apr 2023 12:54:14 +0200")
 References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-18-armbru@redhat.com>
+ <20230428105429.1687850-3-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 19:51:41 +0200
-Message-ID: <87o7n799oy.fsf@secure.mitica>
+Date: Fri, 28 Apr 2023 19:53:02 +0200
+Message-ID: <87h6sz99mp.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -113,32 +113,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> Change
+> We have two FIXME notes.  These FIXMEs are for QAPI developers.  They
+> are not useful for QAPI schema developers.  They are marked up as
+> admonitions, which makes them look important in generated HTML.
 >
->     # @name: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
->     #        do eiusmod tempor incididunt ut labore et dolore magna aliqua.
->
-> to
->
->     # @name: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
->     #     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
->
-> See recent commit "qapi: Relax doc string @name: description
-> indentation rules" for rationale.
->
-> Reflow paragraphs to 70 columns width, and consistently use two spaces
-> to separate sentences.
->
-> To check the generated documentation does not change, I compared the
-> generated HTML before and after this commit with "wdiff -3".  Finds no
-> differences.  Comparing with diff is not useful, as the reflown
-> paragraphs are visible there.
+> Turn them into comments.  QAPI developers will still see them (they
+> read and write the .rst).  QAPI schema developers may still see
+> them (if they read the .rst instead of the generated .html), but "this
+> is just for QAPI developers" should be more obvious.
 >
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-I am really trusting your run of wdiff -3 O:-)
-I haven't read the whole diff.
 
 
