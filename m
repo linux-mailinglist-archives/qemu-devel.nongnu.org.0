@@ -2,90 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C687E6F1CD7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 18:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9716F1CDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 18:49:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psRCo-0008Of-T0; Fri, 28 Apr 2023 12:44:22 -0400
+	id 1psRH1-0001CK-Ii; Fri, 28 Apr 2023 12:48:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1psRCm-0008Mj-JO
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:44:20 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
+ id 1psRGq-0001BZ-1e
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:48:33 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1psRCk-0004Av-Kg
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:44:20 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-3f086770a50so69380565e9.2
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 09:44:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
+ id 1psRGn-0004pL-Oo
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:48:31 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id
+ d2e1a72fcca58-64115eef620so13910844b3a.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 09:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682700256; x=1685292256;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OnAd3Ii23EoP2HHnQZe1vmsR2aWFAJb6NjcHM64Cd2g=;
- b=QrfY8wZPmIBCxKKh+4y4GLBZvkBF1VIUpl02jiqewAIx6rpxLF3pejcBZUJQrNXjfN
- sq9g0wgPxpswj1MCv6l3Q4g/fMgWrO7K1Dt8lsDqAPdwmqugY8Srv3kVWbLcJacOey/v
- EY6vbXCm82Qxolx/7a3E4e/l/CF9OwQShO1Z2mo257vf3kY0HPiOXmlVX/g92zODzEoB
- /984ylLslb3h/WqTxI29cRGeArHj8sa6dNZAeN0H922WyKSZFhekrjKS9QapfygcqZ1I
- fRGZgRn26mtylGaZAdMeGWdfOiNTQSX/KOJ7JXN/SpLw2h3c+Dky2HzhYWqSxV8D4Qfo
- rOMA==
+ d=chromium.org; s=google; t=1682700506; x=1685292506;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y3zt4VMlRxuhbqyC4FpwqUcCzS4vqcvfSbOdrHpo2FE=;
+ b=ArZ1bzs9VClJbslLyWvpr+DfraSljnHCHRw2hURUVLw1Gd6EBHiY9pyHtTmEajYRf7
+ 0g271ptr6MMciQcA7EnmM5+lqVUDenV3so8l/sqenCuodY9ohMKcdSd/K7WbTSSlpZwE
+ 9j/+FwVnkXFhhwiiJ3MJS0oInc2csj4StCP04=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682700256; x=1685292256;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=OnAd3Ii23EoP2HHnQZe1vmsR2aWFAJb6NjcHM64Cd2g=;
- b=CyZMVb3iJOy1r/TM/Ny9I/wtNsSUjgyERg5INLTxEDU/6UeHuuQaGwiX3+g8C/ZOzE
- 1efbzg3ptbpO2qs2JkdoftNlCnpDrYrBlSpp7LlxI1SPV53QbphK2thmoYwtAADwZO54
- kcfF53XYoSHb6AxteiqB4b1RpLUDB7Uu7WMjc+3GFzWjT7IXb416W2ECfQnnvRLG2PO/
- 9Ch4bOTsRdzfyxy2unoBvuWScm6wEgEaY0K6TG5z+A8zRhZLWEJT1CeU/tHcLIMlX19F
- 1Fs0049ORWRIm4G2cwj4bpNZa5rypF0rzLVNKDb8qepOYziYcf1h6kZnZVxXgRau8xNA
- OhHA==
-X-Gm-Message-State: AC+VfDzGRHAEsPJMkBugBkjI5bVAJABGumFtJL0xlbbCtrWbHTQC0uEn
- H6FkXod/8lUdiUcjeadwBdRAZw==
-X-Google-Smtp-Source: ACHHUZ4l9w0Q4fOfcH9HCYcfYjdRiZG4iuj5d3QpYY4D+tnA+Mf296FUOaqjAe2Da2BZCpPYNiFakQ==
-X-Received: by 2002:a7b:c391:0:b0:3f1:9391:46c with SMTP id
- s17-20020a7bc391000000b003f19391046cmr4628407wmj.30.1682700255743; 
- Fri, 28 Apr 2023 09:44:15 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20221208; t=1682700506; x=1685292506;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y3zt4VMlRxuhbqyC4FpwqUcCzS4vqcvfSbOdrHpo2FE=;
+ b=drrJB+L87Pcq1p/5Vl+JW4sIYTUkvZOre3oLbQemt5oD4DFc7KXMHpAB1RPd+k72sZ
+ emfR23hjn/zTANt3iRw4dHeyaITgzpcJ5qWV1dhAVlYst2Q17GAJzaRGKytv+L6C5pVU
+ ZUoCH8CBO+Q32f0Qmo8I6gRFhz3oy1B40/iFiu91+xiHAGJxbMbjHOIXyVyrXIfr5R92
+ MYRqjMFedQAgQU3cTrwSrObBY44eSBQKgjWU6AeOZuZn7OsUIS1v92cHfahl9now45Nx
+ /sCJzR2vh84SboagOJvIDXKCF9g2mAUrxeoTIqtSShNrUlCE+PXSxCYXC7aVxH8uKpWL
+ /8dw==
+X-Gm-Message-State: AC+VfDyrku/Gl5a26t6aZguWixg7sPl78oJJBMFypozBVNRpyyOfacit
+ xlkuCDBgcT4OZb9Qc7+HAfsq4w3YSZPIW6Oy8Lo=
+X-Google-Smtp-Source: ACHHUZ5kQLxO8akFmwwBxxLe60mG/6CTXz9ke0ZhYW94mP7aatMPdx/xgSssgwuO/5lBc45A16lAOg==
+X-Received: by 2002:a17:902:e88e:b0:1a1:ca4d:120a with SMTP id
+ w14-20020a170902e88e00b001a1ca4d120amr12209664plg.7.1682700506368; 
+ Fri, 28 Apr 2023 09:48:26 -0700 (PDT)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:a7:2:fdc4:a664:d93b:43db])
  by smtp.gmail.com with ESMTPSA id
- l2-20020a05600c4f0200b003ee74c25f12sm28651059wmq.35.2023.04.28.09.44.14
+ jf19-20020a170903269300b001a2806ae2f7sm13566796plb.83.2023.04.28.09.48.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 09:44:15 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7A6821FFB7;
- Fri, 28 Apr 2023 17:44:14 +0100 (BST)
-References: <20230427154510.1791273-1-alex.bennee@linaro.org>
- <20230427154510.1791273-3-alex.bennee@linaro.org>
- <c5e8ab71-8840-b420-b6b2-cab1efb44ab3@redhat.com>
-User-agent: mu4e 1.11.3; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- richard.henderson@linaro.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo Leal
- <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>, Daniel Henrique
- Barboza <danielhb413@gmail.com>, =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@kaod.org>
-Subject: Re: [PULL 02/18] tests/avocado: use the new snapshots for testing
-Date: Fri, 28 Apr 2023 17:43:56 +0100
-In-reply-to: <c5e8ab71-8840-b420-b6b2-cab1efb44ab3@redhat.com>
-Message-ID: <87a5ysardt.fsf@linaro.org>
+ Fri, 28 Apr 2023 09:48:25 -0700 (PDT)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+X-Google-Original-From: Gurchetan Singh <gurchetansingh@google.com>
+To: qemu-devel@nongnu.org
+Cc: philmd@linaro.org, kraxel@redhat.com, marcandre.lureau@redhat.com,
+ akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com,
+ alex.bennee@linaro.org
+Subject: [PATCH v2 1/5] hw/display/virtio-gpu-virgl: virtio_gpu_gl ->
+ virtio_gpu_virgl
+Date: Fri, 28 Apr 2023 09:48:19 -0700
+Message-Id: <20230428164823.789-1-gurchetansingh@google.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=gurchetansingh@chromium.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,62 +91,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Gurchetan Singh <gurchetansingh@chromium.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+The virtio-gpu GL device has a heavy dependence on virgl.
+Acknowledge this by naming functions accurately.
 
-> On 27/04/2023 17.44, Alex Benn=C3=A9e wrote:
->> The tuxboot images now have a stable snapshot URL so we can enable the
->> checksums and remove the avocado warnings. We will have to update as
->> old snapshots retire but that won't be too frequent.
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Acked-by: Thomas Huth <thuth@redhat.com>
->> Message-Id: <20230424092249.58552-3-alex.bennee@linaro.org>
-> ...
->> @@ -316,7 +387,12 @@ def test_ppc64(self):
->>           :avocado: tags=3Dextradev:driver=3Dspapr-vscsi
->>           :avocado: tags=3Droot:sda
->>           """
->> -        self.common_tuxrun(drive=3D"scsi-hd")
->> +        sums =3D { "rootfs.ext4.zst" :
->> +                 "1d953e81a4379e537fc8e41e05a0a59d9b453eef97aa03d47866c=
-6c45b00bdff",
->> +                 "vmlinux" :
->> +                 "f22a9b9e924174a4c199f4c7e5d91a2339fcfe51c6eafd0907dc3=
-e09b64ab728" }
->> +
->> +        self.common_tuxrun(csums=3Dsums, drive=3D"scsi-hd")
->>         def test_ppc64le(self):
->>           """
->> @@ -329,7 +405,12 @@ def test_ppc64le(self):
->>           :avocado: tags=3Dextradev:driver=3Dspapr-vscsi
->>           :avocado: tags=3Droot:sda
->>           """
->> -        self.common_tuxrun(drive=3D"scsi-hd")
->> +        sums =3D { "rootfs.ext4.zst" :
->> +                 "b442678c93fb8abe1f7d3bfa20556488de6b475c22c8fed363f42=
-cf81a0a3906",
->> +                 "vmlinux" :
->> +                 "979eb61b445a010fb13e2b927126991f8ceef9c590fa2be0996c0=
-0e293e80cf2" }
->> +
->> +        self.common_tuxrun(csums=3Dsums, drive=3D"scsi-hd")
->
->  Hi Alex,
->
-> when I run the manual avocado-cfi-ppc64-s390x test on gitlab, the
-> ppc64 and ppc64le tuxrun tests are now failing for me:
->
-> https://gitlab.com/thuth/qemu/-/jobs/4196177779#L758
->
-> Are they working for you?
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+v1:
+ - (Philippe) virtio_gpu_virglrenderer_reset --> virtio_gpu_virgl_reset_renderer
+v2:
+ - (Akihiko) Fix unnecessary line break
 
-Locally yes. I guess its time to spin up some VMs
+ hw/display/virtio-gpu-gl.c     | 26 +++++++++++++-------------
+ hw/display/virtio-gpu-virgl.c  |  2 +-
+ include/hw/virtio/virtio-gpu.h |  2 +-
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
->
->  Thomas
+diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
+index e06be60dfb..8573043b85 100644
+--- a/hw/display/virtio-gpu-gl.c
++++ b/hw/display/virtio-gpu-gl.c
+@@ -25,9 +25,9 @@
+ 
+ #include <virglrenderer.h>
+ 
+-static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
+-                                             struct virtio_gpu_scanout *s,
+-                                             uint32_t resource_id)
++static void virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
++                               struct virtio_gpu_scanout *s,
++                               uint32_t resource_id)
+ {
+     uint32_t width, height;
+     uint32_t pixels, *data;
+@@ -48,14 +48,14 @@ static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
+     free(data);
+ }
+ 
+-static void virtio_gpu_gl_flushed(VirtIOGPUBase *b)
++static void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
+ {
+     VirtIOGPU *g = VIRTIO_GPU(b);
+ 
+     virtio_gpu_process_cmdq(g);
+ }
+ 
+-static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
++static void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+ {
+     VirtIOGPU *g = VIRTIO_GPU(vdev);
+     VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
+@@ -71,7 +71,7 @@ static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+     }
+     if (gl->renderer_reset) {
+         gl->renderer_reset = false;
+-        virtio_gpu_virgl_reset(g);
++        virtio_gpu_virgl_reset_renderer(g);
+     }
+ 
+     cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
+@@ -87,7 +87,7 @@ static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+     virtio_gpu_virgl_fence_poll(g);
+ }
+ 
+-static void virtio_gpu_gl_reset(VirtIODevice *vdev)
++static void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+ {
+     VirtIOGPU *g = VIRTIO_GPU(vdev);
+     VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
+@@ -104,7 +104,7 @@ static void virtio_gpu_gl_reset(VirtIODevice *vdev)
+     }
+ }
+ 
+-static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
++static void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)
+ {
+     VirtIOGPU *g = VIRTIO_GPU(qdev);
+ 
+@@ -143,13 +143,13 @@ static void virtio_gpu_gl_class_init(ObjectClass *klass, void *data)
+     VirtIOGPUBaseClass *vbc = VIRTIO_GPU_BASE_CLASS(klass);
+     VirtIOGPUClass *vgc = VIRTIO_GPU_CLASS(klass);
+ 
+-    vbc->gl_flushed = virtio_gpu_gl_flushed;
+-    vgc->handle_ctrl = virtio_gpu_gl_handle_ctrl;
++    vbc->gl_flushed = virtio_gpu_virgl_flushed;
++    vgc->handle_ctrl = virtio_gpu_virgl_handle_ctrl;
+     vgc->process_cmd = virtio_gpu_virgl_process_cmd;
+-    vgc->update_cursor_data = virtio_gpu_gl_update_cursor_data;
++    vgc->update_cursor_data = virtio_gpu_virgl_update_cursor;
+ 
+-    vdc->realize = virtio_gpu_gl_device_realize;
+-    vdc->reset = virtio_gpu_gl_reset;
++    vdc->realize = virtio_gpu_virgl_device_realize;
++    vdc->reset = virtio_gpu_virgl_reset;
+     device_class_set_props(dc, virtio_gpu_gl_properties);
+ }
+ 
+diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+index 1c47603d40..ffe4ec7f3d 100644
+--- a/hw/display/virtio-gpu-virgl.c
++++ b/hw/display/virtio-gpu-virgl.c
+@@ -599,7 +599,7 @@ void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g)
+     }
+ }
+ 
+-void virtio_gpu_virgl_reset(VirtIOGPU *g)
++void virtio_gpu_virgl_reset_renderer(VirtIOGPU *g)
+ {
+     virgl_renderer_reset();
+ }
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 2e28507efe..21b0f55bc8 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -281,7 +281,7 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+                                   struct virtio_gpu_ctrl_command *cmd);
+ void virtio_gpu_virgl_fence_poll(VirtIOGPU *g);
+ void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g);
+-void virtio_gpu_virgl_reset(VirtIOGPU *g);
++void virtio_gpu_virgl_reset_renderer(VirtIOGPU *g);
+ int virtio_gpu_virgl_init(VirtIOGPU *g);
+ int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g);
+ 
+-- 
+2.40.1.495.gc816e09b53d-goog
 
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
