@@ -2,103 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50E96F13F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D366F13F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:17:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psKBz-0002uN-Ey; Fri, 28 Apr 2023 05:15:03 -0400
+	id 1psKDM-0003j7-9n; Fri, 28 Apr 2023 05:16:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKBw-0002te-Hw
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:15:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKBu-0002c3-Eg
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:15:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682673297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2AquLZ/AaMvd1+KmvxXevv0cwf3jDacSsTBXKrGuqZI=;
- b=BUtMkalNQK2ivW+1FCsnNHksmpBVPwRg82BCYoMMhA7+1s+hMk7RSSZo0+4Y5mBG4Ap6rn
- RNL2VkCTvY3liCky/uvaguUY20fJyqw4i8kQkh0FnJBlXAUA8D2q+CiQ1zHJ7mmKgF8KbH
- 15rtnmAI+abeM4z0AF8EOlOgObhrkFs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-468-F3cPyILYMraGFL9OJ1yRrQ-1; Fri, 28 Apr 2023 05:14:56 -0400
-X-MC-Unique: F3cPyILYMraGFL9OJ1yRrQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f21e35dc08so25966725e9.2
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 02:14:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1psKDK-0003ik-J3
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:16:26 -0400
+Received: from mail-oo1-xc30.google.com ([2607:f8b0:4864:20::c30])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1psKDI-00031D-Bl
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:16:25 -0400
+Received: by mail-oo1-xc30.google.com with SMTP id
+ 006d021491bc7-541b60e0a7fso5117979eaf.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 02:16:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1682673383; x=1685265383;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xRmg9eVYql2OUqdZlilWVbXF+2u62ji2XGjw2/3sh78=;
+ b=OT8rDwphKxMRg+/FSGGOZJXhFbpw2Vkw8LWe7yZBVGztdVbWXJfBihjxeQNdaH8Qcg
+ MqFX4gXN5DWjbwDDS1XIaLFHvyoH82WWkilA2vw0P9vCVViNQ5U5RAVKL2NvB27kPN8J
+ GgJLczEwN1ihO86u0berLAKkGIoq6dCcNibGTlOl4Dcfp6fNSIinGJG0n6BnEylv9tVf
+ IgaGfTpIPMUrdBdmmhuVx+cISosjJCrok4aTwkNMudR4GL6SdDoPPkAdOWi8vd3LS8td
+ nyw7FNq0KhVLCIgWPcMmYAopEf8WVGkQChEh4cI7/bx58mJ6VtqF1Z1NdBM/pfPYKhmt
+ zL2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682673295; x=1685265295;
+ d=1e100.net; s=20221208; t=1682673383; x=1685265383;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2AquLZ/AaMvd1+KmvxXevv0cwf3jDacSsTBXKrGuqZI=;
- b=aDKDXNMn8Ldsio29J7HFl6afRr5ZWpstJbvUfbg3lprc1niOS4h4NFOt1cnf7o8E5X
- /Xte9WbQwTWhFvHQMvg7oNkMwSZwu0WAyDnLf8/PXsV1U7ENGMkqxfBHF/HCo1bRqBwh
- LjstMnoNG/+7wKM48Lpz2YGbI6bQ+8kqCGdDzuoqUcl0S2w43uqR9QW8AtpioalKNcD1
- 8w5Y9X9+SZqdcLkgH9y/qI6OF92qadrXsZ0OBORyi+ypUUy4hbbwAxwS5cLltG6rnWcI
- aGmEel24QTItppWEq7MCdFNkcm1LbICXPFkjmWoQ//uonyJx9rABC4t+NggDxMncdrD9
- UuUQ==
-X-Gm-Message-State: AC+VfDygru28NPoOJ2xFHLxiaMqzYsCMe45h6nH8KdfNt2nIAbBk8PfB
- Ng3J2JvTtWxc4FQbJ5K1j9KfvZ5ZQ2PDM62Xwu4CmF14CFfNKpcOUEQGDTm73fIgdDSbojRfE4L
- G3gSrzljgZqyw9Gw=
-X-Received: by 2002:a7b:c408:0:b0:3f1:73ce:e1dd with SMTP id
- k8-20020a7bc408000000b003f173cee1ddmr3412499wmi.10.1682673294928; 
- Fri, 28 Apr 2023 02:14:54 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ75tAZDErvA75vej8wpGpdu9wZH+Pu0mRgrM7JiN8SNLmVQB8MRg49unqRgDxBwY1IeF9+uAA==
-X-Received: by 2002:a7b:c408:0:b0:3f1:73ce:e1dd with SMTP id
- k8-20020a7bc408000000b003f173cee1ddmr3412483wmi.10.1682673294560; 
- Fri, 28 Apr 2023 02:14:54 -0700 (PDT)
-Received: from [192.168.8.102] (tmo-098-235.customers.d1-online.com.
- [80.187.98.235]) by smtp.gmail.com with ESMTPSA id
- t14-20020a05600c450e00b003f0a6a1f969sm27412230wmo.46.2023.04.28.02.14.52
+ bh=xRmg9eVYql2OUqdZlilWVbXF+2u62ji2XGjw2/3sh78=;
+ b=AfbtYKB/YLYfhIgP6st8jq5wr54RsS5SGk4rKlMebm8nBJa+Sa99gZSKegtPXxhgo2
+ eop2xmnBLulC5USzkBVRpp6Cip51RL7yluJ1Mb7qdXMX9F2bXYPH0jqQnNMFfrgNFWop
+ W4mcWeNmHNQxJvjE1AUfhr98r4FLGduVydgCfEWh/JSwVJMTFymR9ekcpP3aXHQtTzFC
+ eTAuk/a65N/FBC1bduoQJ0Me3LkVIosF7H5nEJ0fBLBQ/dUnLQz2fMOvTkJTtswAbhS4
+ nvgc8vDel0np4tQXBondeZl+YbzDyBbSiuU5JnSTqJ5QHk9Av2s76O7QhFYUmzyxCmjg
+ jRIQ==
+X-Gm-Message-State: AC+VfDzZkxZNMaWfvHfvtkWu7LhCre/S4OusH3/uHSE45cx5bV+NMMWu
+ pV0JsheJGzya9BydbhGHY/D4hQ==
+X-Google-Smtp-Source: ACHHUZ7Ygpx6uH8Zqv+38I6QnTokMOrKJC0MwcDjijIi73YoSJ1jaFV+3b9RoL7YkxgzVw2fcNNGMA==
+X-Received: by 2002:a4a:df03:0:b0:541:f866:7548 with SMTP id
+ i3-20020a4adf03000000b00541f8667548mr2302649oou.1.1682673382959; 
+ Fri, 28 Apr 2023 02:16:22 -0700 (PDT)
+Received: from [192.168.68.107] ([179.111.98.125])
+ by smtp.gmail.com with ESMTPSA id
+ s26-20020a4ae55a000000b00549efd1fc72sm3620356oot.35.2023.04.28.02.16.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Apr 2023 02:14:53 -0700 (PDT)
-Message-ID: <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
-Date: Fri, 28 Apr 2023 11:14:51 +0200
+ Fri, 28 Apr 2023 02:16:22 -0700 (PDT)
+Message-ID: <9663e1bb-55a3-76f4-5c11-a51c7d8d3fe4@ventanamicro.com>
+Date: Fri, 28 Apr 2023 06:16:18 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] target/riscv/vector_helper.c: make
+ vext_set_tail_elems_1s() debug only
 Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>
-References: <20230427211013.2994127-1-alxndr@bu.edu>
- <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
- <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
- <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+References: <20230427205708.246679-1-dbarboza@ventanamicro.com>
+ <20230427205708.246679-3-dbarboza@ventanamicro.com>
+ <6d48f787-f4ce-e8af-ac2f-a99596c8a012@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <6d48f787-f4ce-e8af-ac2f-a99596c8a012@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c30;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc30.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,112 +98,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/04/2023 11.11, Alexander Bulekov wrote:
-> On 230428 1015, Thomas Huth wrote:
->> On 28/04/2023 10.12, Daniel P. Berrangé wrote:
->>> On Thu, Apr 27, 2023 at 05:10:06PM -0400, Alexander Bulekov wrote:
->>>> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
->>>> This flag is set/checked prior to calling a device's MemoryRegion
->>>> handlers, and set when device code initiates DMA.  The purpose of this
->>>> flag is to prevent two types of DMA-based reentrancy issues:
->>>>
->>>> 1.) mmio -> dma -> mmio case
->>>> 2.) bh -> dma write -> mmio case
->>>>
->>>> These issues have led to problems such as stack-exhaustion and
->>>> use-after-frees.
->>>>
->>>> Summary of the problem from Peter Maydell:
->>>> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
->>>>
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1282
->>>> Resolves: CVE-2023-0330
->>>>
->>>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>    include/exec/memory.h  |  5 +++++
->>>>    include/hw/qdev-core.h |  7 +++++++
->>>>    softmmu/memory.c       | 16 ++++++++++++++++
->>>>    3 files changed, 28 insertions(+)
->>>>
->>>> diff --git a/include/exec/memory.h b/include/exec/memory.h
->>>> index 15ade918ba..e45ce6061f 100644
->>>> --- a/include/exec/memory.h
->>>> +++ b/include/exec/memory.h
->>>> @@ -767,6 +767,8 @@ struct MemoryRegion {
->>>>        bool is_iommu;
->>>>        RAMBlock *ram_block;
->>>>        Object *owner;
->>>> +    /* owner as TYPE_DEVICE. Used for re-entrancy checks in MR access hotpath */
->>>> +    DeviceState *dev;
->>>>        const MemoryRegionOps *ops;
->>>>        void *opaque;
->>>> @@ -791,6 +793,9 @@ struct MemoryRegion {
->>>>        unsigned ioeventfd_nb;
->>>>        MemoryRegionIoeventfd *ioeventfds;
->>>>        RamDiscardManager *rdm; /* Only for RAM */
->>>> +
->>>> +    /* For devices designed to perform re-entrant IO into their own IO MRs */
->>>> +    bool disable_reentrancy_guard;
->>>>    };
->>>>    struct IOMMUMemoryRegion {
->>>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
->>>> index bd50ad5ee1..7623703943 100644
->>>> --- a/include/hw/qdev-core.h
->>>> +++ b/include/hw/qdev-core.h
->>>> @@ -162,6 +162,10 @@ struct NamedClockList {
->>>>        QLIST_ENTRY(NamedClockList) node;
->>>>    };
->>>> +typedef struct {
->>>> +    bool engaged_in_io;
->>>> +} MemReentrancyGuard;
->>>> +
->>>>    /**
->>>>     * DeviceState:
->>>>     * @realized: Indicates whether the device has been fully constructed.
->>>> @@ -194,6 +198,9 @@ struct DeviceState {
->>>>        int alias_required_for_version;
->>>>        ResettableState reset;
->>>>        GSList *unplug_blockers;
->>>> +
->>>> +    /* Is the device currently in mmio/pio/dma? Used to prevent re-entrancy */
->>>> +    MemReentrancyGuard mem_reentrancy_guard;
->>>>    };
->>>>    struct DeviceListener {
->>>> diff --git a/softmmu/memory.c b/softmmu/memory.c
->>>> index b1a6cae6f5..fe23f0e5ce 100644
->>>> --- a/softmmu/memory.c
->>>> +++ b/softmmu/memory.c
->>>> @@ -542,6 +542,18 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
->>>>            access_size_max = 4;
->>>>        }
->>>> +    /* Do not allow more than one simultaneous access to a device's IO Regions */
->>>> +    if (mr->dev && !mr->disable_reentrancy_guard &&
->>>> +        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
->>>> +        if (mr->dev->mem_reentrancy_guard.engaged_in_io) {
->>>> +            warn_report("Blocked re-entrant IO on "
->>>> +                    "MemoryRegion: %s at addr: 0x%" HWADDR_PRIX,
->>>> +                    memory_region_name(mr), addr);
->>>> +            return MEMTX_ACCESS_ERROR;
->>>
->>> If we issue this warn_report on every invalid memory access, is this
->>> going to become a denial of service by flooding logs, or is the
->>> return MEMTX_ACCESS_ERROR, sufficient to ensure this is only printed
->>> *once* in the lifetime of the QEMU process ?
->>
->> Maybe it's better to use warn_report_once() here instead?
+
+
+On 4/27/23 22:22, Weiwei Li wrote:
 > 
-> Sounds good - should I respin the series to change this?
+> On 2023/4/28 04:57, Daniel Henrique Barboza wrote:
+>> Commit 3479a814 ("target/riscv: rvv-1.0: add VMA and VTA") added vma and
+>> vta fields in the vtype register, while also defining that QEMU doesn't
+>> need to have a tail agnostic policy to be compliant with the RVV spec.
+>> It ended up removing all tail handling code as well. Later, commit
+>> 752614ca ("target/riscv: rvv: Add tail agnostic for vector load / store
+>> instructions") reintroduced the tail agnostic fill for vector load/store
+>> instructions only.
+>>
+>> This puts QEMU in a situation where some functions are 1-filling the
+>> tail elements and others don't. This is still a valid implementation,
+>> but the process of 1-filling the tail elements takes valuable emulation
+>> time that can be used doing anything else. If the spec doesn't demand a
+>> specific tail-agostic policy, a proper software wouldn't expect any
+>> policy to be in place. This means that, more often than not, the work
+>> we're doing by 1-filling tail elements is wasted. We would be better of
+>> if vext_set_tail_elems_1s() is removed entirely from the code.
+>>
+>> All this said, there's still a debug value associated with it. So,
+>> instead of removing it, let's gate it with cpu->cfg.debug. This way
+>> software can enable this code if desirable, but for the regular case we
+>> shouldn't waste time with it.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> ---
+>>   target/riscv/vector_helper.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+>> index 8e6c99e573..e0a292ac24 100644
+>> --- a/target/riscv/vector_helper.c
+>> +++ b/target/riscv/vector_helper.c
+>> @@ -272,7 +272,7 @@ static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,
+>>       uint32_t vta = vext_vta(desc);
+>>       int k;
+>> -    if (vta == 0) {
+>> +    if (vta == 0 || !riscv_cpu_cfg(env)->debug)  {
+> 
+> I think this is not correct. 'debug' property is used for debug spec. And this feature is controlled by another property 'rvv_ta_all_1s' .
 
-Not necessary, I've got v10 already queued, I'll fix it up there
+You're right. I wasn't aware that this flag exists:
 
-  Thomas
 
+$ git grep 'rvv_ta_all_1s'
+target/riscv/cpu.c:    DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+target/riscv/cpu.h:    bool rvv_ta_all_1s;
+target/riscv/translate.c:    ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
+target/riscv/translate.c:    ctx->cfg_vta_all_1s = cpu->cfg.rvv_ta_all_1s;
+
+
+
+
+> 
+> By the way, cfg.rvv_ta_all_1s have been ANDed intovta value. So additional check on it  is also unnecessary here.
+
+
+Yes. We can drop this patch then since 'vta' is already accounting for ta_all_1s.
+
+
+Thanks,
+
+Daniel
+
+
+> 
+> Regards,
+> 
+> Weiwei Li
+> 
+>>           return;
+>>       }
+> 
 
