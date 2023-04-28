@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38196F1576
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0256F1589
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 12:31:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psLLu-0006Lu-Vo; Fri, 28 Apr 2023 06:29:24 -0400
+	id 1psLLt-0006Lq-DE; Fri, 28 Apr 2023 06:29:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLm-0006JF-8X
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLj-0006HX-AS
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLh-0007Lf-F9
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psLLg-0007LL-8R
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 06:29:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1682677747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZhIa4o6vu3ldVNj9aSOrJWj7q4xQi/ZI277yY4JEsec=;
- b=cP/XUFq/3iOQSC1z9OwCH0YH0Bx33VYKDDv/mx5FwWJglm/SjQ9HnTSyqSRkr6R69nZGLD
- 1bvBGFvZczAT75hEgC4Iiv1JTIB9dDCVuflvLdanGh66sGUEMPdp4QyFWKj4BxnmcS4zCN
- vc5/ZuDfH4bOo92G+lfoaS5oMzfRiR8=
+ bh=Pnety3g47f9+he1lISlOVI5XLU1L0XYsooptoQOavng=;
+ b=K3GaWO71gt0s/U6NBGECzP4NWTYm2nHE+LgB57dvIRUtWQjunkkYWisJSFr+SvFRnOl0Vu
+ 6hjG3Sihgk1HhbJFJbMvWfPa82wiP3id3BLgH8mZlmghn/gvDpUN7B3+HyLXcAk2JHQcW3
+ fr/AkMN0IANDlkBOMsufA2NhCKG7SaM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-63-ruozlKaYOjaubNQ7_XRemA-1; Fri, 28 Apr 2023 06:29:04 -0400
-X-MC-Unique: ruozlKaYOjaubNQ7_XRemA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-650-_2_vOWXeOgqG-Ua0ADiv4w-1; Fri, 28 Apr 2023 06:29:03 -0400
+X-MC-Unique: _2_vOWXeOgqG-Ua0ADiv4w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8EE26800047;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 757E2858F0E;
  Fri, 28 Apr 2023 10:29:03 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F17F400F4D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54504C16024;
  Fri, 28 Apr 2023 10:29:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 515B821D1660; Fri, 28 Apr 2023 12:29:01 +0200 (CEST)
+ id 53AD221D1661; Fri, 28 Apr 2023 12:29:01 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, Peter Maydell <peter.maydell@linaro.org>,
+Cc: richard.henderson@linaro.org,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 10/17] qapi: Fix unintended definition lists in documentation
-Date: Fri, 28 Apr 2023 12:28:54 +0200
-Message-Id: <20230428102901.1685375-11-armbru@redhat.com>
+Subject: [PULL 11/17] qga/qapi-schema: Fix member documentation markup
+Date: Fri, 28 Apr 2023 12:28:55 +0200
+Message-Id: <20230428102901.1685375-12-armbru@redhat.com>
 In-Reply-To: <20230428102901.1685375-1-armbru@redhat.com>
 References: <20230428102901.1685375-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -80,186 +80,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-rST parses something like
+GuestDiskStatsInfo's member documentation is parsed as ordinary text
+due to missing colons.  The generated documentation shows these
+members as "Not documented".
 
-    first line
-        second line
+The fix is obvious: add the missing colons.
 
-as a definition list item, where "first line" is the term being
-defined by "second line".
-
-This bites us in a couple of places.  Here's one:
-
-    # @bps_max: total throughput limit during bursts,
-    #                     in bytes (Since 1.7)
-
-scripts/qapi/parser.py parses this into an "argument section" with
-name "bps_max" and text
-
-    total throughput limit during bursts,
-	      in bytes (Since 1.7)
-
-docs/sphinx/qapidoc.py duly passes the text to the rST parser, which
-parses it as another definition list.  Comes out as nested
-definitions: term "bps_max: int (optional)" defined as term "total
-throughput limit during bursts," defined as "in bytes (Since 1.7)".
-
-rST truly is the Perl of ASCII-based markups.
-
-Fix by deleting the extra indentation.
-
-Fixes: 26ec4e53f2bf (qapi: Fix indent level on doc comments in json files)
-Fixes: c0ac533b6f97 (qapi: Stop using whitespace for alignment in comments)
-Fixes: 81ad2964e938 (net/vmnet: add vmnet backends to qapi/net)
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20230425064223.820979-11-armbru@redhat.com>
+Message-Id: <20230425064223.820979-12-armbru@redhat.com>
 ---
- qapi/block-core.json | 52 ++++++++++++++++++++++----------------------
- qapi/control.json    |  2 +-
- qapi/machine.json    |  4 ++--
- qapi/net.json        |  2 +-
- 4 files changed, 30 insertions(+), 30 deletions(-)
+ qga/qapi-schema.json | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index a5a5007b28..2382772e17 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -488,41 +488,41 @@
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index bb9bac0655..6a20eeb297 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1553,11 +1553,11 @@
+ ##
+ # @GuestDiskStatsInfo:
  #
- # @image: the info of image used (since: 1.6)
+-# @name disk name
++# @name: disk name
  #
--# @bps_max: total throughput limit during bursts,
--#                     in bytes (Since 1.7)
-+# @bps_max: total throughput limit during bursts, in bytes
-+#           (Since 1.7)
+-# @major major device number of disk
++# @major: major device number of disk
  #
--# @bps_rd_max: read throughput limit during bursts,
--#                        in bytes (Since 1.7)
-+# @bps_rd_max: read throughput limit during bursts, in bytes
-+#              (Since 1.7)
- #
--# @bps_wr_max: write throughput limit during bursts,
--#                        in bytes (Since 1.7)
-+# @bps_wr_max: write throughput limit during bursts, in bytes
-+#              (Since 1.7)
- #
--# @iops_max: total I/O operations per second during bursts,
--#                      in bytes (Since 1.7)
-+# @iops_max: total I/O operations per second during bursts, in bytes
-+#            (Since 1.7)
- #
--# @iops_rd_max: read I/O operations per second during bursts,
--#                         in bytes (Since 1.7)
-+# @iops_rd_max: read I/O operations per second during bursts, in bytes
-+#               (Since 1.7)
- #
--# @iops_wr_max: write I/O operations per second during bursts,
--#                         in bytes (Since 1.7)
-+# @iops_wr_max: write I/O operations per second during bursts, in
-+#               bytes (Since 1.7)
- #
--# @bps_max_length: maximum length of the @bps_max burst
--#                            period, in seconds. (Since 2.6)
-+# @bps_max_length: maximum length of the @bps_max burst period, in
-+#                  seconds. (Since 2.6)
- #
--# @bps_rd_max_length: maximum length of the @bps_rd_max
--#                               burst period, in seconds. (Since 2.6)
-+# @bps_rd_max_length: maximum length of the @bps_rd_max burst period,
-+#                     in seconds. (Since 2.6)
- #
--# @bps_wr_max_length: maximum length of the @bps_wr_max
--#                               burst period, in seconds. (Since 2.6)
-+# @bps_wr_max_length: maximum length of the @bps_wr_max burst period,
-+#                     in seconds. (Since 2.6)
- #
--# @iops_max_length: maximum length of the @iops burst
--#                             period, in seconds. (Since 2.6)
-+# @iops_max_length: maximum length of the @iops burst period, in
-+#                   seconds. (Since 2.6)
- #
--# @iops_rd_max_length: maximum length of the @iops_rd_max
--#                                burst period, in seconds. (Since 2.6)
-+# @iops_rd_max_length: maximum length of the @iops_rd_max burst
-+#                      period, in seconds. (Since 2.6)
- #
--# @iops_wr_max_length: maximum length of the @iops_wr_max
--#                                burst period, in seconds. (Since 2.6)
-+# @iops_wr_max_length: maximum length of the @iops_wr_max burst
-+#                      period, in seconds. (Since 2.6)
- #
- # @iops_size: an I/O size in bytes (Since 1.7)
- #
-@@ -948,7 +948,7 @@
- #                           by the device (Since 4.2)
- #
- # @invalid_rd_operations: The number of invalid read operations
--#                          performed by the device (Since 2.5)
-+#                         performed by the device (Since 2.5)
- #
- # @invalid_wr_operations: The number of invalid write operations
- #                         performed by the device (Since 2.5)
-@@ -3735,7 +3735,7 @@
- # Driver specific block device options for Quorum
- #
- # @blkverify: true if the driver must print content mismatch
--#                  set to false by default
-+#             set to false by default
- #
- # @children: the children block devices to use
- #
-diff --git a/qapi/control.json b/qapi/control.json
-index afca2043af..f83499280a 100644
---- a/qapi/control.json
-+++ b/qapi/control.json
-@@ -195,7 +195,7 @@
- # @id: Name of the monitor
- #
- # @mode: Selects the monitor mode (default: readline in the system
--#           emulator, control in qemu-storage-daemon)
-+#        emulator, control in qemu-storage-daemon)
- #
- # @pretty: Enables pretty printing (QMP only)
- #
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 20541cb319..1a90376f4e 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -457,7 +457,7 @@
- # @nodeid: NUMA node ID (increase by 1 from 0 if omitted)
- #
- # @cpus: VCPUs belonging to this node (assign VCPUS round-robin
--#         if omitted)
-+#        if omitted)
- #
- # @mem: memory size of this node; mutually exclusive with @memdev.
- #       Equally divide total memory among nodes if both @mem and @memdev are
-@@ -690,7 +690,7 @@
- # 5.2.27.5: Table 5-147 of ACPI 6.3 spec.
- #
- # @none: None (no memory side cache in this proximity domain,
--#              or cache associativity unknown)
-+#        or cache associativity unknown)
- #
- # @direct: Direct Mapped
- #
-diff --git a/qapi/net.json b/qapi/net.json
-index 1f1e148f01..ec66b39b70 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -533,7 +533,7 @@
- #               Must be specified along with @start-address and @subnet-mask.
- #
- # @subnet-mask: The IPv4 subnet mask to use on the interface. Must
--#                be specified along with @start-address and @subnet-mask.
-+#               be specified along with @start-address and @subnet-mask.
- #
- # @isolated: Enable isolation for this interface. Interface isolation
- #            ensures that vmnet interface is not able to communicate
+-# @minor minor device number of disk
++# @minor: minor device number of disk
+ ##
+ { 'struct': 'GuestDiskStatsInfo',
+   'data': {'name': 'str',
 -- 
 2.39.2
 
