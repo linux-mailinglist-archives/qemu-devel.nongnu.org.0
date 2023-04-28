@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1996F1DB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 011D66F1DC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 19:59:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psSLi-0004q9-IH; Fri, 28 Apr 2023 13:57:38 -0400
+	id 1psSMs-0005YF-Ej; Fri, 28 Apr 2023 13:58:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSLg-0004on-LJ
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:57:36 -0400
+ id 1psSMn-0005Xv-MN
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:58:45 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psSLd-0004nc-RC
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:57:36 -0400
+ id 1psSMl-00052O-TN
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 13:58:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682704653;
+ s=mimecast20190719; t=1682704723;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ZFspu/IiQvdgJqKpz9hvKYuABAWOMJAV9kCuyDvA3/Q=;
- b=F05w/b/EhQIt2WKUqX+D4mNffT6lZd4Uimf20WAddS9NYY8BzsjTAEC02Ng945sqzjucTk
- JrS/116r6COBPGL0//RjAKZ7zz5YtiABSzoxNbO1GMpEOV4NGNzowl2eLitU8K7vKCz9ZC
- 8+JG/bj1MK/ccA+qQHllhYPANh4ZJ5c=
+ bh=Ss8cHQbcPChXgnYAwjWMkjadoQgC8klLRFhMUhOGLzY=;
+ b=MZMDlHpsxeAdVVle69eKOMAMPqKi75oRGpWOKy2SQSr+W0OS/nPXa9y2v+9xW/7Zso5jY5
+ rHfJebARMmdoQkayBU2fj1g2AgRI9IuL3fC1WqsTaQRLGQ2Wvqyvjqli5mrJJatc8ZVPcE
+ P3KUfreabGV7yTlvuxzN58VWyvqOs1Q=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-672-IP2z-dwdNeqora41Zx40gg-1; Fri, 28 Apr 2023 13:57:31 -0400
-X-MC-Unique: IP2z-dwdNeqora41Zx40gg-1
+ us-mta-54-V77umrDsOqmv9gYBX7i_7Q-1; Fri, 28 Apr 2023 13:58:42 -0400
+X-MC-Unique: V77umrDsOqmv9gYBX7i_7Q-1
 Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-301110f1756so12157f8f.0
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:57:31 -0700 (PDT)
+ ffacd0b85a97d-2fa5d643cd8so4487f8f.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 10:58:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682704650; x=1685296650;
+ d=1e100.net; s=20221208; t=1682704721; x=1685296721;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZFspu/IiQvdgJqKpz9hvKYuABAWOMJAV9kCuyDvA3/Q=;
- b=S5+/jxlFOs/A8TgRmXBT2+mqgeEQ+Ob1ryzz/eMUcTcDk8pS8iwG8ZZptGDwy3CIiy
- KbByK2lUwTBo2IAYgeD1GznxYLp85K+IKc2p7HvwjaQRKQW8b0XAwyPtdDnYRLlK5Vhp
- 3Q6g1A/vxAPVRTh0DnhL2UXnX9i7u1HYa9JH3NX224wf+5vSuI2WUmq0u0mV1VaJOzfk
- SPLSHmRiBj72vC6A1lL77rC/ChVCqoe78+gG7JW2aOESU4nZt24Va4tfyi1BTkngdur7
- yxMYZQZkSgzv7vREYnbro/pxG3igUztdS7kiahjqN5hf1rj7J840B7ggup1SSx3g8TKx
- ZHHw==
-X-Gm-Message-State: AC+VfDwVv7vgMes6Yi4/cVNcaGa62JigKYDiCm40usNEa5mnfztv5IP0
- UyOLpn6FSDt/tbG7PPJf7UK4e/c5QiXnkO183vp9536NNo8T5k5YNHNVRB6PYOvcKDY0J4R+Vjm
- PF5GVLai1zD8Xp8o=
-X-Received: by 2002:a5d:4bcb:0:b0:2d0:33aa:26da with SMTP id
- l11-20020a5d4bcb000000b002d033aa26damr4433587wrt.7.1682704650595; 
- Fri, 28 Apr 2023 10:57:30 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7PcO18xlQjyyVPvitQZgZ5mS9mTzeiH2D9BEPYKWMzHXm/zB8W2jJRv2rgKqC/RPs2Aihk0A==
-X-Received: by 2002:a5d:4bcb:0:b0:2d0:33aa:26da with SMTP id
- l11-20020a5d4bcb000000b002d033aa26damr4433573wrt.7.1682704650334; 
- Fri, 28 Apr 2023 10:57:30 -0700 (PDT)
+ bh=Ss8cHQbcPChXgnYAwjWMkjadoQgC8klLRFhMUhOGLzY=;
+ b=U+Yup+Vps5RtiaYjGFBJgHS1QgXxLtHG6cEc+X7bOjwQWjyVooqcP4ChIygdIhZ7aB
+ tOQSvyoNmQHsSDFLDrGy5RO11+4LhEOEa8PQna7OABMv9iPhfbLeiwRpDZIh691w7wAA
+ V6Jvg3wnk7PnvOIo19PzfsRzENzwZZJ0fJLpgS1Dyf4ABkKAtk69uZvpVTNCYGfKihrJ
+ TXDxKKVn1XeMN8anCRtXSOcU0Ns79Z/X0cBP1T3hTOcWeKJ8adj0MCYui+A2ePdExxzL
+ 5mnxQFDTDJtWpwX8JJ4PpTJy+3v9kS9LYwQeGS9zLDtD+8MB4umDjWiRUVk/kT8z8b9y
+ FuEA==
+X-Gm-Message-State: AC+VfDzQTDaLzv4J6XWtYl+a2T+OrCdR8sx2/kqHQS/keyGpUX38YRY0
+ a6wSmcDIK2odzJZlnQwhytSrZJyXZBPtMYddNpiRfyPmSbbdBqgMeXLjTh3DSY6Jvyc/brLYLLU
+ YqSGYsW5fzpFm4rc=
+X-Received: by 2002:a5d:4e12:0:b0:2ce:a8e9:bb3a with SMTP id
+ p18-20020a5d4e12000000b002cea8e9bb3amr4902231wrt.4.1682704720837; 
+ Fri, 28 Apr 2023 10:58:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4T8LQj92pM548T6TYN4+Zu5umWzFlPeO8qRm5qfsjbMgsudcLR38liNkcRAgmb8jdv5SEbfQ==
+X-Received: by 2002:a5d:4e12:0:b0:2ce:a8e9:bb3a with SMTP id
+ p18-20020a5d4e12000000b002cea8e9bb3amr4902193wrt.4.1682704720569; 
+ Fri, 28 Apr 2023 10:58:40 -0700 (PDT)
 Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
  [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- gw19-20020a05600c851300b003ef5bb63f13sm18691937wmb.10.2023.04.28.10.57.29
+ n17-20020a5d4c51000000b002d6f285c0a2sm21689084wrt.42.2023.04.28.10.58.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 10:57:29 -0700 (PDT)
+ Fri, 28 Apr 2023 10:58:39 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
@@ -76,15 +76,15 @@ Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
  pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
  stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
  qemu-block@nongnu.org,  victortoso@redhat.com
-Subject: Re: [PATCH 05/17] Revert "qapi: BlockExportRemoveMode: move
- comments to TODO"
-In-Reply-To: <20230428105429.1687850-6-armbru@redhat.com> (Markus Armbruster's
- message of "Fri, 28 Apr 2023 12:54:17 +0200")
+Subject: Re: [PATCH 06/17] sphinx/qapidoc: Do not emit TODO sections into
+ user manuals
+In-Reply-To: <20230428105429.1687850-7-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 28 Apr 2023 12:54:18 +0200")
 References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-6-armbru@redhat.com>
+ <20230428105429.1687850-7-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 19:57:28 +0200
-Message-ID: <87354j99fb.fsf@secure.mitica>
+Date: Fri, 28 Apr 2023 19:58:39 +0200
+Message-ID: <87wn1v7usw.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -95,8 +95,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,12 +113,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> This reverts commit 97cd74f77231f3897838f8db32b659d94803e01f.
+> QAPI doc comments are for QMP users: they go into the "QEMU QMP
+> Reference Manual" and the "QEMU Storage Daemon QMP Reference Manual".
 >
-> The next commit will hide TODO: sections.  See there for rationale.
-
-Reviewing with forward pointers has its own challenges O:-)
-
+> The doc comment TODO sections are for somebody else, namely for the
+> people who can do: developers.  Do not emit them into the user
+> manuals.
+>
+> This elides the following TODOs:
+>
+> * SchemaInfoCommand
+>
+>   # TODO: @success-response (currently irrelevant, because it's QGA, not QMP)
+>
+>   This is a note to developers adding introspection to the guest
+>   agent.  It makes no sense to users.
+>
+> * @query-hotpluggable-cpus
+>
+>   # TODO: Better documentation; currently there is none.
+>
+>   This is a reminder for developers.  It doesn't help users.
+>
+> * @device_add
+>
+>   # TODO: This command effectively bypasses QAPI completely due to its
+>   #       "additional arguments" business.  It shouldn't have been added to
+>   #       the schema in this form.  It should be qapified properly, or
+>   #       replaced by a properly qapified command.
+>
+>   Likewise.
+>
+> Eliding them is an improvement.
+>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
