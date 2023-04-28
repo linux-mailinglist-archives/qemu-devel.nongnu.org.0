@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AD06F1269
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 09:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EE96F126D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 09:35:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psIcE-0006Y4-Ck; Fri, 28 Apr 2023 03:34:02 -0400
+	id 1psIdC-0007Eb-Uw; Fri, 28 Apr 2023 03:35:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psIc5-0006Xd-4V
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 03:33:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psIc3-00032X-KK
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 03:33:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682667230;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=iRzaZRtRL7lEqtB5HOi/WtDnFRHORqqQCeoAtjXQPwc=;
- b=L9nFPlDaHbM7GJfMzcVvx8mf7eTh9rSFa//aK8HT2ACsfPI33D2j3LJJzbqQ6uMEOgZw1b
- twGCN2fsv8ztQJpUJ9VQ/CkcKrtPkuGsUuHP1AhPi4xGEyQrWbv8zcJnBrSRSZXgh/XokB
- 7jE6Apde7nRsWQziP2XWiN/JRR+jxhs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-96-vSN4MxFoNyChsVHw0l_JTw-1; Fri, 28 Apr 2023 03:33:49 -0400
-X-MC-Unique: vSN4MxFoNyChsVHw0l_JTw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-2f5382db4d1so3133690f8f.0
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 00:33:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1psId2-0007EG-Bd
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 03:34:52 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1psId0-00036c-6F
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 03:34:51 -0400
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-506bfe81303so16085127a12.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 00:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682667288; x=1685259288;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=U64PUQEadja1ghCiImR9SOBw094EAJVnSJKNs4Fd208=;
+ b=vXnVLSvOaKRn4+1g5IlcxG2Ll6qlqrHx+exb5x83LnAL03B0N3do75Rtcp2NlP0TAL
+ X0pFq4/ITHYCI7wjs4ue8AD6ON+u6CDT/9Qd0DaViT+mnPIJlYMH0VnrhUGAMXwNtspe
+ ufzOWkeCSqgMTCLgGQDb3gg88NYl2sJAIsIE4/D3NR51LSlefCmccLH+tt52yHpjLfQG
+ poUiPkBjJBKTSr+geztyWxEkJH+53uEzJOLcQ/hoWwC0aItPzjoWIbRuD1ED6M7lNxbk
+ BB8Hq92xu1Rv2seeiKE7t4jQLjB1RIvtoT0L9YrYnKNfOhZ2td7rq4nPP5T8IEoE4mdV
+ uDHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682667228; x=1685259228;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iRzaZRtRL7lEqtB5HOi/WtDnFRHORqqQCeoAtjXQPwc=;
- b=Qsegv6ShLkhOBJ0wOhaOLyFfzy3xvKZqefgFwcueYqA3D0gniXy8KohS2t0whXOc13
- xjUtQ2deyJzbnOPnLUshvfPD/G4GUcK/HiZ7vsuFrKkQ18A9lWfn9x0xdr4vmyC9pbcW
- LkPVtw5oZqu8hf/pUirh5IySLf3LGrZmMsWI72nkO9By4qLGPPkAb7vHMGnU/eQ2emPD
- IZmx3fS+bcyL/zjzJVdBIVXtMEPTjjftCLNwYFjq/TKoQ6RwrftVBTiqCc8EO/Ls/fJV
- 11OMoVKuu16MDnPgTBIP/xY50VwfSFdnIUkxYloFw5sB/hQ1Db71Ud2Whj1RTKc4uP+V
- kFbg==
-X-Gm-Message-State: AC+VfDxuXXDOmuJClWEPQ8Hgp6/V/UGgzIjZ4JnOyojOBsgSOvGuor1h
- vnR6bT2KQrF6x2gTPWWyn7QMm4FxZJMzlvtyh7SLgYYoACIpLQwykeyLd4PH6ax/DsyppXO4yuv
- vXfK4yuKKgymoQf4=
-X-Received: by 2002:a5d:620d:0:b0:2f5:3fa1:6226 with SMTP id
- y13-20020a5d620d000000b002f53fa16226mr3066357wru.14.1682667228374; 
- Fri, 28 Apr 2023 00:33:48 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6UFfgjHSt6LWFQQvJH6xaNgDiUrfXba+kkhNzGV0yWntg1WuCXm5ofGSsOXEIXhM8jRzctPg==
-X-Received: by 2002:a5d:620d:0:b0:2f5:3fa1:6226 with SMTP id
- y13-20020a5d620d000000b002f53fa16226mr3066339wru.14.1682667228055; 
- Fri, 28 Apr 2023 00:33:48 -0700 (PDT)
-Received: from redhat.com (static-214-39-62-95.ipcom.comunitel.net.
- [95.62.39.214]) by smtp.gmail.com with ESMTPSA id
- f11-20020adffccb000000b002f90a75b843sm20388491wrs.117.2023.04.28.00.33.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 00:33:47 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  michael.roth@amd.com,
- armbru@redhat.com,  eblake@redhat.com,  jasowang@redhat.com,
- zhanghailiang@xfusion.com,  philmd@linaro.org,  thuth@redhat.com,
- berrange@redhat.com,  marcandre.lureau@redhat.com,  pbonzini@redhat.com,
- dave@treblig.org,  hreitz@redhat.com,  kwolf@redhat.com,
- chen.zhang@intel.com,  lizhijian@fujitsu.com,  lukasstraub2@web.de
-Subject: Re: [PATCH v3 4/4] configure: add --disable-colo-proxy option
-In-Reply-To: <20230427202946.1007276-5-vsementsov@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 27 Apr 2023 23:29:46 +0300")
-References: <20230427202946.1007276-1-vsementsov@yandex-team.ru>
- <20230427202946.1007276-5-vsementsov@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 09:33:46 +0200
-Message-ID: <87ildgbgv9.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1682667288; x=1685259288;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=U64PUQEadja1ghCiImR9SOBw094EAJVnSJKNs4Fd208=;
+ b=WErGlvWiMpp2dp1OPJHz0Gf6OHPEDq5hCsmT3PaUaC3wph9a/aXJ9kjT9LT+NcjL0N
+ WWggLWWX+wSaGhnz5FwA/AsCtPW3AcT4SA1yR2VNR59edt5M/Cih+6K6p/lKfqb+Sgh9
+ Lin1E2FSUFA1+kBRoNXjF5/iS4VgNSz6zasNC9G2gCVA5Y9kQnnV3s/Xisi/M9gS8fla
+ LUacHrqq/+0kCkmmciWnyAT9+WL8EBQsA6qd7auOKUWe991/ybqjjOXZI2Zu2vZ6/9Tx
+ QJLp0Zi9NARTrPg+T42Myn9rUBWYmwmiJ0Ib5BgXZ+89fyQ3vbc3Cc0Q3GRw4RYiraNK
+ q9mg==
+X-Gm-Message-State: AC+VfDx6X9LTZKcpgJGLAr9680NeOYIEyKy+1QsieG8DDta4nX0rlR+A
+ gdnIuw7mSZwOWE6wvFNQ7w4x2uWK+QLEgt5gkJFZYA==
+X-Google-Smtp-Source: ACHHUZ422KUimT7ezB3ZB/1Ckb7S9Lc/whCeKcWnihwBYesV+AXXk2ADUsQkJcrKkkLoGBw0vbwrYw==
+X-Received: by 2002:a17:907:9687:b0:94a:474a:4dd7 with SMTP id
+ hd7-20020a170907968700b0094a474a4dd7mr4018215ejc.60.1682667287738; 
+ Fri, 28 Apr 2023 00:34:47 -0700 (PDT)
+Received: from [172.23.3.19] ([195.167.132.10])
+ by smtp.gmail.com with ESMTPSA id
+ oq27-20020a170906cc9b00b0094f410225c7sm10687657ejb.169.2023.04.28.00.34.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Apr 2023 00:34:47 -0700 (PDT)
+Message-ID: <9a740112-b864-fb3a-2c4b-ba573b1c8ded@linaro.org>
+Date: Fri, 28 Apr 2023 08:34:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 00/18] testing and doc updates
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230427154510.1791273-1-alex.bennee@linaro.org>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230427154510.1791273-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,24 +91,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> Add option to not build filter-mirror, filter-rewriter and
-> colo-compare when they are not needed.
->
-> There could be more agile configuration, for example add separate
-> options for each filter, but that may be done in future on demand. The
-> aim of this patch is to make possible to disable the whole COLO Proxy
-> subsystem.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+On 4/27/23 16:44, Alex Bennée wrote:
+> The following changes since commit 1eb95e1baef852d0971a1dd62a3293cd68f1ec35:
+> 
+>    Merge tag 'migration-20230426-pull-request' ofhttps://gitlab.com/juan.quintela/qemu  into staging (2023-04-27 10:47:14 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/stsquad/qemu.git  tags/pull-testing-docs-270423-1
+> 
+> for you to fetch changes up to ef46ae67ba9a785cf0cce58b5fc5a36ed3c6c7b9:
+> 
+>    docs/style: call out the use of GUARD macros (2023-04-27 14:58:51 +0100)
+> 
+> ----------------------------------------------------------------
+> Testing and documentation updates:
+> 
+>    - bump avocado to 101.0
+>    - use snapshots for tuxrun baseline tests
+>    - add sbda-ref test to avocado
+>    - avoid spurious re-configure in gitlab
+>    - better description of blockdev options
+>    - drop FreeBSD 12 from Cirrus CI
+>    - fix up the ast2[56]00 tests to be more stable
+>    - improve coverage of ppc64 tests in tuxrun baselines
+>    - limit plugin tests to just the generic multiarch binaries
 
-As you have arrived to an agreement about what to do with
-filter-rewriter, the rest of the patch is ok with me.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+r~
 
 
