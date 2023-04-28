@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803386F144E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33966F146C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:45:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psKbo-0002bu-4T; Fri, 28 Apr 2023 05:41:44 -0400
+	id 1psKdx-0003Q7-HU; Fri, 28 Apr 2023 05:43:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psKbj-0002bS-GW
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:41:40 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKdv-0003Pv-P2
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:43:55 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1psKbi-0007JW-3j
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:41:39 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKdu-0007YN-5f
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:43:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682674896;
+ s=mimecast20190719; t=1682675033;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uaYtgnj1E9JP8WLhzfRe8BEE7qzzn/V0CJU6bNrRYOQ=;
- b=eVwMMp41RL9Bgzm5pjk4ByGE5m/HiQPv1dm6BH7oKxMejLmeb0h2BiZp6hWPFK0Rn3oKrW
- /ifX8A1K8rPrFq5SQ7zlXAYo/1IUkcV9+cmv3TMhuBaHpNbsZydfbEFHi6T9+XckL93xkV
- 8tWIYqymAPsb8QJs0qJwyvMcBuLudiQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bk2T1fvr5pGuffGlwaBciK9+kvKF98JW57BiMBFLZc0=;
+ b=XXe5YxiI5CZcGb0keJxlK52zwOwLKs5z3fETVBq5YirAI8xI9uxtVb7hIR6sND1FomPdhq
+ PiVenfiPcHrtsZ64PQ9uyr7/+iCK3p652R3MckzLjDDaawl5ynGcuBW+8bHrqa/zvDS/l/
+ VKR8mvu6Ita4mamWKPhALBf0WGQOP2c=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-184-SXxyKEvRPNejcMsMbPl6AA-1; Fri, 28 Apr 2023 05:41:34 -0400
-X-MC-Unique: SXxyKEvRPNejcMsMbPl6AA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-128-kLlAzyuyMF-2fdReqJv3RQ-1; Fri, 28 Apr 2023 05:43:49 -0400
+X-MC-Unique: kLlAzyuyMF-2fdReqJv3RQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D35893810B02;
- Fri, 28 Apr 2023 09:41:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC70D1121315;
- Fri, 28 Apr 2023 09:41:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A54F421E66EF; Fri, 28 Apr 2023 11:41:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  eblake@redhat.com,
- kwolf@redhat.com,  hreitz@redhat.com,  pbonzini@redhat.com,
- marcandre.lureau@redhat.com,  arei.gonglei@huawei.com,
- pizhenwei@bytedance.com,  jsnow@redhat.com,  eduardo@habkost.net,
- marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,
- quintela@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
- stefanha@redhat.com,  kraxel@redhat.com,  kkostiuk@redhat.com,
- qemu-block@nongnu.org
-Subject: Re: [PATCH 00/16] qapi qga/qapi-schema: Doc fixes
-References: <20230404115912.2829251-1-armbru@redhat.com>
- <5aa56e46-a411-ce0a-58ca-9695c1215a70@yandex-team.ru>
-Date: Fri, 28 Apr 2023 11:41:32 +0200
-In-Reply-To: <5aa56e46-a411-ce0a-58ca-9695c1215a70@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 4 Apr 2023 15:58:06 +0300")
-Message-ID: <87sfckny2b.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 754521C06EDB;
+ Fri, 28 Apr 2023 09:43:49 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A05491410F1E;
+ Fri, 28 Apr 2023 09:43:48 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Richard Henderson <richard.henderson@linaro.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>
+Subject: [PULL 00/13] DMA reentrancy fixes and other misc patches
+Date: Fri, 28 Apr 2023 11:43:33 +0200
+Message-Id: <20230428094346.1292054-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -86,31 +74,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+ Hi Richard!
 
-> On 04.04.23 14:58, Markus Armbruster wrote:
->> It's always nice to get doc fixes into the release, but if it's too
->> late, it's too late.
->> Generated code does not change, except for the last patch, which moves
->> a bit of code without changing it.
->
->
-> I didn't deeply check the details, but looked through and nothing seems wrong to me. Good cleanup!
->
-> all patches:
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+The following changes since commit cc5ee50fff9dbac0aac32cd892a7163c7babcca1:
 
-Thanks!  (Belatedly)
+  Merge tag 'pull-testing-docs-270423-1' of https://gitlab.com/stsquad/qemu into staging (2023-04-27 16:46:17 +0100)
 
-> PS: do you plan some automatic checks in build process to avoid similar style/naming problems in future?
+are available in the Git repository at:
 
-I'm about to post patches that make it somewhat harder to screw up
-indentation (PATCH 10 fixes such screwups).  Harder, not impossible,
-because indentation is meaningful in rST.
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-04-28
 
-I believe the best way to catch argument description screwups is making
-argument descriptions mandatory.  I hope to find time for that.
+for you to fetch changes up to 50795ee051a342c681a9b45671c552fbd6274db8:
 
-Other than that, no promising ideas, I'm afraid.
+  apic: disable reentrancy detection for apic-msi (2023-04-28 11:31:54 +0200)
+
+----------------------------------------------------------------
+* Prevent reentrant DMA accesses by default
+* Only compile hw/rdma code when necessary
+* Fix a potential locking issue in the vhost-user-test
+* Offer more registers in GDB for s390x TCG
+
+----------------------------------------------------------------
+Alexander Bulekov (8):
+      memory: prevent dma-reentracy issues
+      async: Add an optional reentrancy guard to the BH API
+      checkpatch: add qemu_bh_new/aio_bh_new checks
+      hw: replace most qemu_bh_new calls with qemu_bh_new_guarded
+      lsi53c895a: disable reentrancy detection for script RAM
+      bcm2835_property: disable reentrancy detection for iomem
+      raven: disable reentrancy detection for iomem
+      apic: disable reentrancy detection for apic-msi
+
+Ilya Leoshkevich (1):
+      s390x/gdb: Split s390-virt.xml
+
+Paolo Bonzini (1):
+      tests: vhost-user-test: release mutex on protocol violation
+
+Thomas Huth (3):
+      hw/rdma: Remove unused macros PG_DIR_SZ and PG_TBL_SZ
+      hw/rdma: Compile target-independent parts of the rdma code only once
+      hw/rdma: VMW_PVRDMA should depend on VMXNET3_PCI
+
+ docs/devel/multiple-iothreads.txt    |  7 ++++
+ configs/targets/s390x-linux-user.mak |  2 +-
+ configs/targets/s390x-softmmu.mak    |  2 +-
+ hw/ide/ahci_internal.h               |  1 +
+ include/block/aio.h                  | 18 ++++++++--
+ include/exec/memory.h                |  5 +++
+ include/hw/qdev-core.h               |  7 ++++
+ include/qemu/main-loop.h             |  7 ++--
+ hw/9pfs/xen-9p-backend.c             |  5 ++-
+ hw/block/dataplane/virtio-blk.c      |  3 +-
+ hw/block/dataplane/xen-block.c       |  5 +--
+ hw/char/virtio-serial-bus.c          |  3 +-
+ hw/display/qxl.c                     |  9 +++--
+ hw/display/virtio-gpu.c              |  6 ++--
+ hw/ide/ahci.c                        |  3 +-
+ hw/ide/core.c                        |  4 ++-
+ hw/intc/apic.c                       |  7 ++++
+ hw/misc/bcm2835_property.c           |  7 ++++
+ hw/misc/imx_rngc.c                   |  6 ++--
+ hw/misc/macio/mac_dbdma.c            |  2 +-
+ hw/net/virtio-net.c                  |  3 +-
+ hw/nvme/ctrl.c                       |  6 ++--
+ hw/pci-host/raven.c                  |  7 ++++
+ hw/rdma/rdma_rm.c                    |  4 ---
+ hw/scsi/lsi53c895a.c                 |  6 ++++
+ hw/scsi/mptsas.c                     |  3 +-
+ hw/scsi/scsi-bus.c                   |  3 +-
+ hw/scsi/vmw_pvscsi.c                 |  3 +-
+ hw/usb/dev-uas.c                     |  3 +-
+ hw/usb/hcd-dwc2.c                    |  3 +-
+ hw/usb/hcd-ehci.c                    |  3 +-
+ hw/usb/hcd-uhci.c                    |  2 +-
+ hw/usb/host-libusb.c                 |  6 ++--
+ hw/usb/redirect.c                    |  6 ++--
+ hw/usb/xen-usb.c                     |  3 +-
+ hw/virtio/virtio-balloon.c           |  5 +--
+ hw/virtio/virtio-crypto.c            |  3 +-
+ softmmu/memory.c                     | 16 +++++++++
+ target/s390x/gdbstub.c               | 65 +++++++++++++++++++++++++-----------
+ tests/qtest/vhost-user-test.c        |  3 +-
+ tests/unit/ptimer-test-stubs.c       |  3 +-
+ util/async.c                         | 18 +++++++++-
+ util/main-loop.c                     |  6 ++--
+ gdb-xml/s390-virt-kvm.xml            | 14 ++++++++
+ gdb-xml/s390-virt.xml                |  4 ---
+ hw/rdma/Kconfig                      |  2 +-
+ hw/rdma/meson.build                  |  8 +++--
+ scripts/checkpatch.pl                |  8 +++++
+ util/trace-events                    |  1 +
+ 49 files changed, 250 insertions(+), 76 deletions(-)
+ create mode 100644 gdb-xml/s390-virt-kvm.xml
 
 
