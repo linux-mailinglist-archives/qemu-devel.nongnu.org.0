@@ -2,93 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DBE6F198C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 15:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78F96F19B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 15:34:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psOBK-0008Jv-5m; Fri, 28 Apr 2023 09:30:38 -0400
+	id 1psOFN-000746-L7; Fri, 28 Apr 2023 09:34:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1psOBD-0008JE-Rz
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 09:30:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1psOBB-0003Dc-Jo
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 09:30:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682688628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XIMtsYJR1tfcZdixz0Fv1Yi6u3zS8/1bl04KNCXweKM=;
- b=b5nwxxQ3nwscauVSJTzm+8N9K1dDF3vy+9Qy40kABL6bim5pJdu1jKNJ9I9jFX/QqPFnTQ
- g6Wug5UosE4ghfh0jTEe7Je3SdQb8aaMTyfQgzNs9W/N1xYP8K3sPwZb+9CQc3iDI2Q8YV
- CkMzEsZcvYOEexQlUbp05vrFcdX42QE=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-573-dwK76Tv1NXS4BWOAqVGnIg-1; Fri, 28 Apr 2023 09:30:27 -0400
-X-MC-Unique: dwK76Tv1NXS4BWOAqVGnIg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-505b696f254so9891740a12.3
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 06:30:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <3cstLZAcKCmEODENKDXFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--pefoley.bounces.google.com>)
+ id 1psOFK-00073p-F2
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 09:34:46 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3cstLZAcKCmEODENKDXFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--pefoley.bounces.google.com>)
+ id 1psOFI-0003q6-HH
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 09:34:46 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ 3f1490d57ef6-b9a7d92d0f7so3252139276.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 06:34:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1682688883; x=1685280883;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=FyM4MQENczJBd0OSV3w2QAH5w1ffjH5EtyY9BzWXRJ8=;
+ b=sQc6i49h7sJona57Vq+TP0Imykh9lbcMOD6tVarXyC/mllSbNE0n8czhHJvBRRoN6H
+ 7zYJEWvBLiIYduq/+HDmJ7vejOJV4Tc7HM/HYxxA1u3xsch4It9Jzz2mAj1LLYohkiFZ
+ tSXUhFgFnIS+opMBNrBoiaPJXUxcQS/FKQnwhzUce+oLHD5hJtCLvkgOFEaQt4ouUxD0
+ mEpLe+nobTdsmGEeePRCN1u4syU3lFpznSRT2hZVZU5upCdzrPx0UpVrx0QrzisjR8Oj
+ ngTy7Ef4YmKoczFMlwRw9tguzq98r2tXT99gQrds2/j7PXRiom9C2rjoS3xEMoxBmNzP
+ Srcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682688625; x=1685280625;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XIMtsYJR1tfcZdixz0Fv1Yi6u3zS8/1bl04KNCXweKM=;
- b=dYkdNVHAE9KrlnbPskDJgqYf/8hmrdvK/jbaLUkPL2PMpx77JGwD4x/HpR9IGspR7+
- hXQWDBvTe3ksSVTOaVrSTe8hseCvL/3vxOjyKxOh25Chw2t/ke/s00/5V7tIju+PZCwA
- RPCwPZOVnHPVD+87fFF89qMpD3mYvn8/Od8ZPZi0w9pNTtiwzU2vO6hVX4liP4l0HR2r
- MF+gRg9YbCxp2gqC2WFDiIfELyRypm9miCnhdkID42Oe7k3m9jp77RWHjJ/1kFvmme1t
- go58n2Qlm/bWpefnI1vNs4j97Iuley4qP8gqdWpyOeR18zkRy4sTf5ZOyR1exet+TaPG
- 92sw==
-X-Gm-Message-State: AC+VfDyrDS5COOYAp40Ekl8glrHLj7BbUXTaFCPVOoayZkvSlRfM+Vik
- WMC4XBBOPWAIrhNJDuTA7SRO77xMaGxoV9IRdq12aZoAumMfdkNe0Yg4JPylbwQbeKSXbCMkXIw
- HRR1IzLXrfAjpcIkCj1Vo2sm/hRcRf0I=
-X-Received: by 2002:a17:907:930a:b0:94e:dd3f:b650 with SMTP id
- bu10-20020a170907930a00b0094edd3fb650mr4869374ejc.18.1682688625177; 
- Fri, 28 Apr 2023 06:30:25 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5ZTihQvJCn49Z/8EthXiD3Azg4aB1TUhd/hQm8z6lSIvMIbhNjEBRaq8X+8jl1SBQwECG4JC+x0B2H2QBKKb4=
-X-Received: by 2002:a17:907:930a:b0:94e:dd3f:b650 with SMTP id
- bu10-20020a170907930a00b0094edd3fb650mr4869341ejc.18.1682688624887; Fri, 28
- Apr 2023 06:30:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-7-armbru@redhat.com>
-In-Reply-To: <20230428105429.1687850-7-armbru@redhat.com>
-From: Ani Sinha <anisinha@redhat.com>
-Date: Fri, 28 Apr 2023 19:00:13 +0530
-Message-ID: <CAK3XEhNymw+7_mCYvTiSqegXBGE3wEjbSdyELOwTTPfi-c45yA@mail.gmail.com>
-Subject: Re: [PATCH 06/17] sphinx/qapidoc: Do not emit TODO sections into user
- manuals
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, michael.roth@amd.com, peter.maydell@linaro.org, 
- pbonzini@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com, 
- thuth@redhat.com, philmd@linaro.org, mst@redhat.com, imammedo@redhat.com, 
- eblake@redhat.com, kraxel@redhat.com, kwolf@redhat.com, hreitz@redhat.com, 
- arei.gonglei@huawei.com, pizhenwei@bytedance.com, jsnow@redhat.com, 
- vsementsov@yandex-team.ru, eduardo@habkost.net, marcel.apfelbaum@gmail.com, 
- wangyanan55@huawei.com, quintela@redhat.com, peterx@redhat.com, 
- leobras@redhat.com, jasowang@redhat.com, yuval.shaia.ml@gmail.com, 
- pavel.dovgaluk@ispras.ru, jiri@resnulli.us, stefanb@linux.vnet.ibm.com, 
- stefanha@redhat.com, lukasstraub2@web.de, kkostiuk@redhat.com, 
- qemu-block@nongnu.org, victortoso@redhat.com
-Content-Type: multipart/alternative; boundary="000000000000c11e9405fa6579c5"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ d=1e100.net; s=20221208; t=1682688883; x=1685280883;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FyM4MQENczJBd0OSV3w2QAH5w1ffjH5EtyY9BzWXRJ8=;
+ b=QEX49GNLfUNFBuChjPq+byG6hKnLD5Qbzrv+kHNvRY6uQWVkHDZLqAXVn7gQ3GjpQ8
+ 7UXBlT6jw5PVLe902rnjbaP7lM7UHWhAMwv3R3BDzxY0BDq6VEptEKc4xMTInrhiD5/k
+ WvAmYM4cciwNoa30VHxuxj7t7e2iKeCurgxyLpWEDi/BksqYkFx59J6roM+e9yVkRuMt
+ gwm+O4344L3au9qxSlsxF+An4rUy8Sb8TWW7vl7nwK9v63QULVQBUZ1mFM+A6qZYR5ud
+ HNIm0vYxvHkJEYKeYbvUgPo/WclUB5MtIn/2LZngOFx8JAvVbretpeHVnvlflu6XLS4C
+ X5lw==
+X-Gm-Message-State: AC+VfDy73QWDGoavr3SbzSU5tmHGIJ5Xk1/U270PRqe8eYpIh9fVYI/L
+ PS1a3ydC+3EFVnZiXuI7wShZPX57U+BI
+X-Google-Smtp-Source: ACHHUZ63Q0qEtn2pNnXqQdZAmxw1aAmDO0MfIluZpcMLFzR8UALbfN3ZQq+BMrnfiq3Kb0tePU8oDxMTvMvz
+X-Received: from pefoley.res.corp.google.com
+ ([2620:15c:4d:200:18c8:6551:2687:ed69])
+ (user=pefoley job=sendgmr) by 2002:a25:4045:0:b0:b33:531b:3dd4 with SMTP id
+ n66-20020a254045000000b00b33531b3dd4mr1899536yba.1.1682688882929; Fri, 28 Apr
+ 2023 06:34:42 -0700 (PDT)
+Date: Fri, 28 Apr 2023 09:34:31 -0400
+In-Reply-To: <6278798.ENyYtN1ivr@silver>
+Mime-Version: 1.0
+References: <6278798.ENyYtN1ivr@silver>
+X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
+Message-ID: <20230428133431.523924-1-pefoley@google.com>
+Subject: [PATCH v2] Don't require libcap-ng for virtfs support
+From: Peter Foley <pefoley@google.com>
+To: qemu_oss@crudebyte.com, qemu-devel@nongnu.org
+Cc: venture@google.com, Peter Foley <pefoley@google.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ "=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=" <marcandre.lureau@redhat.com>, 
+ "=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?=" <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3cstLZAcKCmEODENKDXFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--pefoley.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,206 +95,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000c11e9405fa6579c5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It's only required for the proxy helper.
 
-On Fri, Apr 28, 2023 at 4:24=E2=80=AFPM Markus Armbruster <armbru@redhat.co=
-m> wrote:
+Add a new option for the proxy helper rather than enabling it
+implicitly.
 
-> QAPI doc comments are for QMP users: they go into the "QEMU QMP
-> Reference Manual" and the "QEMU Storage Daemon QMP Reference Manual".
->
-> The doc comment TODO sections are for somebody else, namely for the
-> people who can do: developers.  Do not emit them into the user
-> manuals.
->
-> This elides the following TODOs:
->
-> * SchemaInfoCommand
->
->   # TODO: @success-response (currently irrelevant, because it's QGA, not
-> QMP)
->
->   This is a note to developers adding introspection to the guest
->   agent.  It makes no sense to users.
->
-> * @query-hotpluggable-cpus
->
->   # TODO: Better documentation; currently there is none.
->
->   This is a reminder for developers.  It doesn't help users.
->
-> * @device_add
->
->   # TODO: This command effectively bypasses QAPI completely due to its
->   #       "additional arguments" business.  It shouldn't have been added =
-to
->   #       the schema in this form.  It should be qapified properly, or
->   #       replaced by a properly qapified command.
->
->   Likewise.
->
-> Eliding them is an improvement.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->
+Change-Id: I95b73fca625529e99d16b0a64e01c65c0c1d43f2
+Signed-off-by: Peter Foley <pefoley@google.com>
+---
+ meson.build                   | 11 ++++++++---
+ meson_options.txt             |  2 ++
+ scripts/meson-buildoptions.sh |  4 ++++
+ 3 files changed, 14 insertions(+), 3 deletions(-)
 
-Reviewed-by: Ani Sinha <anisinha@redhat.com>
-
-
-> ---
->  docs/devel/qapi-code-gen.rst | 5 +++--
->  docs/sphinx/qapidoc.py       | 3 +++
->  2 files changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-> index ff7b74bdb2..6386b58881 100644
-> --- a/docs/devel/qapi-code-gen.rst
-> +++ b/docs/devel/qapi-code-gen.rst
-> @@ -1007,8 +1007,9 @@ A "Since: x.y.z" tagged section lists the release
-> that introduced the
->  definition.
->
->  An "Example" or "Examples" section is automatically rendered entirely
-> -as literal fixed-width text.  In other sections, the text is
-> -formatted, and rST markup can be used.
-> +as literal fixed-width text.  "TODO" sections are not rendered at all
-> +(they are for developers, not users of QMP).  In other sections, the
-> +text is formatted, and rST markup can be used.
->
->  For example::
->
-> diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-> index d791b59492..8f3b9997a1 100644
-> --- a/docs/sphinx/qapidoc.py
-> +++ b/docs/sphinx/qapidoc.py
-> @@ -268,6 +268,9 @@ def _nodes_for_sections(self, doc):
->          """Return list of doctree nodes for additional sections"""
->          nodelist =3D []
->          for section in doc.sections:
-> +            if section.name and section.name =3D=3D 'TODO':
-> +                # Hide TODO: sections
-> +                continue
->              snode =3D self._make_section(section.name)
->              if section.name and section.name.startswith('Example'):
->                  snode +=3D self._nodes_for_example(section.text)
-> --
-> 2.39.2
->
->
-
---000000000000c11e9405fa6579c5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 28, 2023 at 4:24=E2=80=AF=
-PM Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">QAPI doc comments are for QMP users: they go into the &quot;QEMU QMP<br=
->
-Reference Manual&quot; and the &quot;QEMU Storage Daemon QMP Reference Manu=
-al&quot;.<br>
-<br>
-The doc comment TODO sections are for somebody else, namely for the<br>
-people who can do: developers.=C2=A0 Do not emit them into the user<br>
-manuals.<br>
-<br>
-This elides the following TODOs:<br>
-<br>
-* SchemaInfoCommand<br>
-<br>
-=C2=A0 # TODO: @success-response (currently irrelevant, because it&#39;s QG=
-A, not QMP)<br>
-<br>
-=C2=A0 This is a note to developers adding introspection to the guest<br>
-=C2=A0 agent.=C2=A0 It makes no sense to users.<br>
-<br>
-* @query-hotpluggable-cpus<br>
-<br>
-=C2=A0 # TODO: Better documentation; currently there is none.<br>
-<br>
-=C2=A0 This is a reminder for developers.=C2=A0 It doesn&#39;t help users.<=
-br>
-<br>
-* @device_add<br>
-<br>
-=C2=A0 # TODO: This command effectively bypasses QAPI completely due to its=
-<br>
-=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;additional arguments&quot; busines=
-s.=C2=A0 It shouldn&#39;t have been added to<br>
-=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0the schema in this form.=C2=A0 It should=
- be qapified properly, or<br>
-=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0replaced by a properly qapified command.=
-<br>
-<br>
-=C2=A0 Likewise.<br>
-<br>
-Eliding them is an improvement.<br>
-<br>
-Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
-arget=3D"_blank">armbru@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div>Reviewed-by: Ani Sinha &lt;<a href=3D"mailto:anisinha@redhat.com">anisi=
-nha@redhat.com</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
----<br>
-=C2=A0docs/devel/qapi-code-gen.rst | 5 +++--<br>
-=C2=A0docs/sphinx/qapidoc.py=C2=A0 =C2=A0 =C2=A0 =C2=A0| 3 +++<br>
-=C2=A02 files changed, 6 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst<br=
->
-index ff7b74bdb2..6386b58881 100644<br>
---- a/docs/devel/qapi-code-gen.rst<br>
-+++ b/docs/devel/qapi-code-gen.rst<br>
-@@ -1007,8 +1007,9 @@ A &quot;Since: x.y.z&quot; tagged section lists the r=
-elease that introduced the<br>
-=C2=A0definition.<br>
-<br>
-=C2=A0An &quot;Example&quot; or &quot;Examples&quot; section is automatical=
-ly rendered entirely<br>
--as literal fixed-width text.=C2=A0 In other sections, the text is<br>
--formatted, and rST markup can be used.<br>
-+as literal fixed-width text.=C2=A0 &quot;TODO&quot; sections are not rende=
-red at all<br>
-+(they are for developers, not users of QMP).=C2=A0 In other sections, the<=
-br>
-+text is formatted, and rST markup can be used.<br>
-<br>
-=C2=A0For example::<br>
-<br>
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py<br>
-index d791b59492..8f3b9997a1 100644<br>
---- a/docs/sphinx/qapidoc.py<br>
-+++ b/docs/sphinx/qapidoc.py<br>
-@@ -268,6 +268,9 @@ def _nodes_for_sections(self, doc):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Return list of doctree =
-nodes for additional sections&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nodelist =3D []<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for section in doc.sections:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://section.nam=
-e" rel=3D"noreferrer" target=3D"_blank">section.name</a> and <a href=3D"htt=
-p://section.name" rel=3D"noreferrer" target=3D"_blank">section.name</a> =3D=
-=3D &#39;TODO&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Hide TODO: secti=
-ons<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0snode =3D self._make_sectio=
-n(<a href=3D"http://section.name" rel=3D"noreferrer" target=3D"_blank">sect=
-ion.name</a>)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if <a href=3D"http://sectio=
-n.name" rel=3D"noreferrer" target=3D"_blank">section.name</a> and section.n=
-ame.startswith(&#39;Example&#39;):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0snode +=3D se=
-lf._nodes_for_example(section.text)<br>
--- <br>
-2.39.2<br>
-<br>
-</blockquote></div></div>
-
---000000000000c11e9405fa6579c5--
+diff --git a/meson.build b/meson.build
+index c44d05a13f..2f9c671119 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1759,12 +1759,17 @@ have_virtfs = get_option('virtfs') \
+              error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
+     .require(targetos == 'linux' or cc.has_function('pthread_fchdir_np'),
+              error_message: 'virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np') \
+-    .require(targetos == 'darwin' or (libattr.found() and libcap_ng.found()),
+-             error_message: 'virtio-9p (virtfs) on Linux requires libcap-ng-devel and libattr-devel') \
++    .require(targetos == 'darwin' or libattr.found(),
++             error_message: 'virtio-9p (virtfs) on Linux requires libattr-devel') \
+     .disable_auto_if(not have_tools and not have_system) \
+     .allowed()
+ 
+-have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
++have_virtfs_proxy_helper = get_option('virtfs_proxy_helper') \
++    .require(targetos != 'darwin', error_message: 'the virtfs proxy helper is incompatible with macOS') \
++    .require(have_virtfs, error_message: 'the virtfs proxy helper requires that virtfs is enabled') \
++    .disable_auto_if(not have_tools) \
++    .require(libcap_ng.found(), error_message: 'the virtfs proxy helper requires libcap-ng') \
++    .allowed()
+ 
+ if get_option('block_drv_ro_whitelist') == ''
+   config_host_data.set('CONFIG_BDRV_RO_WHITELIST', '')
+diff --git a/meson_options.txt b/meson_options.txt
+index 2471dd02da..908b4b7fd9 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -272,6 +272,8 @@ option('vhost_user_blk_server', type: 'feature', value: 'auto',
+        description: 'build vhost-user-blk server')
+ option('virtfs', type: 'feature', value: 'auto',
+        description: 'virtio-9p support')
++option('virtfs_proxy_helper', type: 'feature', value: 'auto',
++       description: 'virtio-9p proxy helper support')
+ option('libvduse', type: 'feature', value: 'auto',
+        description: 'build VDUSE Library')
+ option('vduse_blk_export', type: 'feature', value: 'auto',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index d4369a3ad8..3bb9dd3504 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -176,6 +176,8 @@ meson_options_help() {
+   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
+   printf "%s\n" '  virglrenderer   virgl rendering support'
+   printf "%s\n" '  virtfs          virtio-9p support'
++  printf "%s\n" '  virtfs-proxy-helper'
++  printf "%s\n" '                  virtio-9p proxy helper support'
+   printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vnc             VNC server'
+   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
+@@ -461,6 +463,8 @@ _meson_option_parse() {
+     --disable-virglrenderer) printf "%s" -Dvirglrenderer=disabled ;;
+     --enable-virtfs) printf "%s" -Dvirtfs=enabled ;;
+     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
++    --enable-virtfs-proxy-helper) printf "%s" -Dvirtfs_proxy_helper=enabled ;;
++    --disable-virtfs-proxy-helper) printf "%s" -Dvirtfs_proxy_helper=disabled ;;
+     --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
+     --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
+     --enable-vnc) printf "%s" -Dvnc=enabled ;;
+-- 
+2.40.1.495.gc816e09b53d-goog
 
 
