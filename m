@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4253D6F146F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:46:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E826F1469
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 11:45:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psKeO-0003yo-3x; Fri, 28 Apr 2023 05:44:24 -0400
+	id 1psKeP-00043E-49; Fri, 28 Apr 2023 05:44:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKeI-0003is-8A
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKeH-0003jH-Sh
  for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:18 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKeF-0007b5-MQ
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1psKeG-0007bD-DJ
  for qemu-devel@nongnu.org; Fri, 28 Apr 2023 05:44:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682675054;
+ s=mimecast20190719; t=1682675055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yX47Kf3s97RcELPUzLROVGmeEF0jq/IGw6qkUYrWSGs=;
- b=IMz+ciPjnoJB3+q9gfW7pRNw9HF99LeblmH7TZ3TQU/uGwoKAx1SV18ouPLDZ5tTe5gYii
- M66jRTBFkvYgsdyn48BKcLYxl5SdJh9JFr2W9uWtX/2SKg/YoKlSchgLFHZiHARWZXmfvj
- ++cSxDggc2r0CL6hzfjADWbfF4WWuuM=
+ bh=FbPjeDO6vsYu84ovSpLwdv+hX/+uCLtMSABu1oR4v8I=;
+ b=B0fdjmTlE5vXnpPF6P5lC8fhcDnRzOTyF3wGtCPV/2fEgoSFLApHEtGXGXVgfApcFQOxzR
+ Lde6JirffY7MMeqNmbIhIPKXamKsAuqZRQ/MlPf25eaA2EkK2FL4Ft5Zw0qv+RBZXarNcC
+ VT7AYV6/fK/9zUJktwDRsJVfanBabSw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-299-Osdc_kZyPjirIb5lxcZbWA-1; Fri, 28 Apr 2023 05:44:09 -0400
-X-MC-Unique: Osdc_kZyPjirIb5lxcZbWA-1
+ us-mta-77-zf8oAUsvMqWmvVi44j93dA-1; Fri, 28 Apr 2023 05:44:10 -0400
+X-MC-Unique: zf8oAUsvMqWmvVi44j93dA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8AD56885620;
- Fri, 28 Apr 2023 09:44:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7CE818E0921;
+ Fri, 28 Apr 2023 09:44:09 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C52D61410F1E;
- Fri, 28 Apr 2023 09:44:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F38281410F1E;
+ Fri, 28 Apr 2023 09:44:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Fiona Ebner <f.ebner@proxmox.com>,
- Darren Kenny <darren.kenny@oracle.com>
-Subject: [PULL 10/13] lsi53c895a: disable reentrancy detection for script RAM
-Date: Fri, 28 Apr 2023 11:43:43 +0200
-Message-Id: <20230428094346.1292054-11-thuth@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>
+Subject: [PULL 11/13] bcm2835_property: disable reentrancy detection for iomem
+Date: Fri, 28 Apr 2023 11:43:44 +0200
+Message-Id: <20230428094346.1292054-12-thuth@redhat.com>
 In-Reply-To: <20230428094346.1292054-1-thuth@redhat.com>
 References: <20230428094346.1292054-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,38 +78,36 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-As the code is designed to use the memory APIs to access the script ram,
-disable reentrancy checks for the pseudo-RAM ram_io MemoryRegion.
+As the code is designed for re-entrant calls from bcm2835_property to
+bcm2835_mbox and back into bcm2835_property, mark iomem as
+reentrancy-safe.
 
-In the future, ram_io may be converted from an IO to a proper RAM MemoryRegion.
-
-Reported-by: Fiona Ebner <f.ebner@proxmox.com>
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20230427211013.2994127-6-alxndr@bu.edu>
+Message-Id: <20230427211013.2994127-7-alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/scsi/lsi53c895a.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/misc/bcm2835_property.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-index af93557a9a..db27872963 100644
---- a/hw/scsi/lsi53c895a.c
-+++ b/hw/scsi/lsi53c895a.c
-@@ -2302,6 +2302,12 @@ static void lsi_scsi_realize(PCIDevice *dev, Error **errp)
-     memory_region_init_io(&s->io_io, OBJECT(s), &lsi_io_ops, s,
-                           "lsi-io", 256);
+diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+index 890ae7bae5..de056ea2df 100644
+--- a/hw/misc/bcm2835_property.c
++++ b/hw/misc/bcm2835_property.c
+@@ -382,6 +382,13 @@ static void bcm2835_property_init(Object *obj)
  
-+    /*
-+     * Since we use the address-space API to interact with ram_io, disable the
-+     * re-entrancy guard.
-+     */
-+    s->ram_io.disable_reentrancy_guard = true;
+     memory_region_init_io(&s->iomem, OBJECT(s), &bcm2835_property_ops, s,
+                           TYPE_BCM2835_PROPERTY, 0x10);
 +
-     address_space_init(&s->pci_io_as, pci_address_space_io(dev), "lsi-pci-io");
-     qdev_init_gpio_out(d, &s->ext_irq, 1);
- 
++    /*
++     * bcm2835_property_ops call into bcm2835_mbox, which in-turn reads from
++     * iomem. As such, mark iomem as re-entracy safe.
++     */
++    s->iomem.disable_reentrancy_guard = true;
++
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
+     sysbus_init_irq(SYS_BUS_DEVICE(s), &s->mbox_irq);
+ }
 -- 
 2.31.1
 
