@@ -2,99 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194A46F1C8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 18:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A2B6F1C8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 18:26:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psQtf-0003qm-9J; Fri, 28 Apr 2023 12:24:35 -0400
+	id 1psQus-0004PT-Pl; Fri, 28 Apr 2023 12:25:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psQtd-0003qb-MJ
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:24:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1psQum-0004MZ-P7
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:25:44 -0400
+Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psQtb-0000wY-II
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:24:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682699070;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ywDSfssUuWEWUt6xBssgAVWL+/XqGdeUJzjnJM9nmQg=;
- b=d0zSoWWuuip9eipiShnP4Rygh8aTSDzLqnCPsDeFiUIo1hX+HfU39p89R36Axl5vdRtL1i
- zq391vkJZXnCoe8fwhNgU53BwPyAqFxNJoW9V5QAnOogSYD3gRo3ppV3nwBonFdd2zEOyl
- wChTVlfE3x+1COs+CKwhKsVeJYR5LHg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-111-ADfmT_XdPHG8ojJlbupYyA-1; Fri, 28 Apr 2023 12:24:22 -0400
-X-MC-Unique: ADfmT_XdPHG8ojJlbupYyA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f1757ebb1eso36416315e9.2
- for <qemu-devel@nongnu.org>; Fri, 28 Apr 2023 09:24:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682699059; x=1685291059;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ywDSfssUuWEWUt6xBssgAVWL+/XqGdeUJzjnJM9nmQg=;
- b=ZpCPUdB+yH8SKqnk8bPHoZHI7bLIMUvMo1nmvdBkg5Txs6MGKCV36Zcpl9ODvpg/Sh
- HupvufsCgW6zHBrJ33d87cDhBTCv4Bb5YLSNJe9qHrJRM6zWtYnc6jah/8p518McT3ie
- VIlsGEdrHaWspXJmzmPDynFUKX6w+wPvPMcWsT6s3j/v5TXTKrHhs0fnK/ky8rElcxhG
- X81tih0Wyly9CsNTZVVz20MLNJq5TUNSn4OzZuLotoL25ZQgXFTUnNS6E9lbz9ZLRulQ
- 12BQVGnypuitK5hTrNS6leAvFFWRbURS671CU5I4AHX1QvWZQ/HSwSzN5eVDF9Igy9aZ
- +ZgA==
-X-Gm-Message-State: AC+VfDzTM4i6NbKc85Y0sQtHbfG1y1Nkm57P5eUVCq/4+o/M9keooIsT
- 74+gePpqlHPk15jUHzSOtm1+qHAV8Q2wrqpUb3lKp0M4qrTwgSiYt/C35I0cLXdYN6iRyfkILxn
- 92C1qE4Y9euYjFZA=
-X-Received: by 2002:a1c:cc0f:0:b0:3f1:718d:a21c with SMTP id
- h15-20020a1ccc0f000000b003f1718da21cmr4572058wmb.31.1682699059162; 
- Fri, 28 Apr 2023 09:24:19 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4+poK/bNEQD8FazyoYe5nUBoUs5NAdqXMX9cJ50QKTkcXJ2bG8dLc+0krBwnK7T1IFIRu3sw==
-X-Received: by 2002:a1c:cc0f:0:b0:3f1:718d:a21c with SMTP id
- h15-20020a1ccc0f000000b003f1718da21cmr4572041wmb.31.1682699058883; 
- Fri, 28 Apr 2023 09:24:18 -0700 (PDT)
-Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
- [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- q17-20020a1cf311000000b003eeb1d6a470sm24742184wmq.13.2023.04.28.09.24.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Apr 2023 09:24:18 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@kaod.org>,  qemu-devel <qemu-devel@nongnu.org>,  Peter Maydell
- <peter.maydell@linaro.org>,  Thomas Huth <thuth@redhat.com>,  Daniel
- Henrique Barboza <danielhb413@gmail.com>,  =?utf-8?Q?Marc-Andr=C3=A9?=
- Lureau <marcandre.lureau@redhat.com>,  =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@redhat.com>,  Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] async: Suppress GCC13 false positive in aio_bh_poll()
-In-Reply-To: <CABgObfY1ZmfRGjVnsQ6NC7jTe_X+Gx4uxW4R048xxaJ3Vdt+9A@mail.gmail.com>
- (Paolo Bonzini's message of "Fri, 28 Apr 2023 16:26:01 +0200")
-References: <20230420202939.1982044-1-clg@kaod.org>
- <87a5ywgkqg.fsf@secure.mitica> <ZEfUq52l/wut8puM@redhat.com>
- <ZEfWAciwsB+t7Crk@redhat.com>
- <CABgObfY1ZmfRGjVnsQ6NC7jTe_X+Gx4uxW4R048xxaJ3Vdt+9A@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 28 Apr 2023 18:24:17 +0200
-Message-ID: <87v8hg9dqm.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1psQuk-0001Fu-Mb
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 12:25:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=h5+f9N77z8PQTo/3LAWem5hTr2PSiJrEF7f8q97lW4w=; b=wOi794lcKqalDzqxUwBlzuo1+A
+ 621ONZdIE9qReJw/MnpvwiAQKNjr8XZnSKoMinMbE9Ll9ujNQ97MBD/2e4Yih2CMIgWh1HOZpYghh
+ 2DcY8XVHtTasCt8+Zn6+Bethg5hcL2H7jxRmaon93mht3AQdZLrJXwPX4R8p2oyo2wsQ=;
+Message-ID: <1e46223e-072b-9180-51aa-49a203ce6de3@rev.ng>
+Date: Fri, 28 Apr 2023 18:25:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v2] Hexagon (target/hexagon) Additional instructions
+ handled by idef-parser
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, philmd@linaro.org, ale@rev.ng,
+ bcain@quicinc.com, quic_mathbern@quicinc.com
+References: <20230426173232.2227787-1-tsimpson@quicinc.com>
+Content-Language: en-US
+Organization: rev.ng
+In-Reply-To: <20230426173232.2227787-1-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,51 +61,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Paolo Bonzini <pbonzini@redhat.com> wrote:
-> Il mar 25 apr 2023, 15:31 Daniel P. Berrang=C3=A9 <berrange@redhat.com> ha
-> scritto:
+
+On 4/26/23 19:32, Taylor Simpson wrote:
+> **** Changes in v2 ****
+> Fix bug in imm_print identified in clang build
 >
->> > > -    BHListSlice slice;
->> > > +    /*
->> > > +     * gcc13 complains about putting a local variable
->> > > +     * in a global list, so put it on the heap.
->> > > +     */
->> > > +    g_autofree BHListSlice *slice =3D g_new(BHListSlice, 1);
->> > >      BHListSlice *s;
->> > >      int ret =3D 0;
->> > >
->> >
->> > This must be a memory leak since you're adding a g_new but not
->> > adding any g_free
->>
->> Sorry, I'm failing to read properly today. It uses g_autofree
->> so there is no leak.
->>
+> Currently, idef-parser skips all floating point instructions.  However,
+> there are some floating point instructions that can be handled.
 >
-> On the other hand, if the pointer to the heap-allocated BHListSlice
-> escaped, this would be a dangling pointer as well=E2=80=94just not the ki=
-nd that
-> the new GCC warning can report.
+> The following instructions are now parsed
+>      F2_sfimm_p
+>      F2_sfimm_n
+>      F2_dfimm_p
+>      F2_dfimm_n
+>      F2_dfmpyll
+>      F2_dfmpylh
+>
+> To make these instructions work, we fix some bugs in parser-helpers.c
+>      gen_rvalue_extend
+>      gen_cast_op
+>      imm_print
+>
+> Test cases added to tests/tcg/hexagon/fpstuff.c
+>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   target/hexagon/idef-parser/parser-helpers.h |  2 +-
+>   target/hexagon/idef-parser/parser-helpers.c | 37 ++++++++++----
+>   tests/tcg/hexagon/fpstuff.c                 | 54 +++++++++++++++++++++
+>   target/hexagon/gen_idef_parser_funcs.py     | 10 +++-
+>   4 files changed, 91 insertions(+), 12 deletions(-)
 
-I don't agree here.
-If with my patch it becomes a dangling pointer because we free it.
-With Cedric patch it is a local variable that gets exited out of the
-function that created it.
+I'm getting a harness failure on
 
-Choose your poison.  One thing is bad and the other is worse.
+     v65_Q6_R_mpy_RR_rnd.c
 
-> So this patch is also doing nothing but shut up the compiler; but it's
-> doing so in an underhanded manner and with a runtime cost, and as such it=
-'s
-> worse than Cedric's patch.
+I'll take a deeper look at this next week.
 
-Ok.  I don't care (enogouh) about this to continue a discussion.. Can we
-get Cedric patch upstream?
+diff:
 
-Thanks, Juan.
+  Intrinsic: ----------- Test Result Summary ---------- Word32 
+Q6_R_mpy_RR_rnd(Word32 Rs, Word32 Rt)
+-40000000 :  Q6_R_mpy_RR_rnd(INT32_MIN,INT32_MIN)
+-1 :  Q6_R_mpy_RR_rnd(-1,INT32_MIN)
+-0 :  Q6_R_mpy_RR_rnd(0,INT32_MIN)
+-0 :  Q6_R_mpy_RR_rnd(1,INT32_MIN)
+-c0000001 :  Q6_R_mpy_RR_rnd(INT32_MAX,INT32_MIN)
+-1 :  Q6_R_mpy_RR_rnd(INT32_MIN,-1)
+-0 :  Q6_R_mpy_RR_rnd(-1,-1)
+-0 :  Q6_R_mpy_RR_rnd(0,-1)
+-0 :  Q6_R_mpy_RR_rnd(1,-1)
+-0 :  Q6_R_mpy_RR_rnd(INT32_MAX,-1)
+-0 :  Q6_R_mpy_RR_rnd(INT32_MIN,0)
+-0 :  Q6_R_mpy_RR_rnd(-1,0)
+-0 :  Q6_R_mpy_RR_rnd(0,0)
+-0 :  Q6_R_mpy_RR_rnd(1,0)
+-0 :  Q6_R_mpy_RR_rnd(INT32_MAX,0)
+-0 :  Q6_R_mpy_RR_rnd(INT32_MIN,1)
+-0 :  Q6_R_mpy_RR_rnd(-1,1)
+-0 :  Q6_R_mpy_RR_rnd(0,1)
+-0 :  Q6_R_mpy_RR_rnd(1,1)
+-0 :  Q6_R_mpy_RR_rnd(INT32_MAX,1)
+-c0000001 :  Q6_R_mpy_RR_rnd(INT32_MIN,INT32_MAX)
+-0 :  Q6_R_mpy_RR_rnd(-1,INT32_MAX)
+-0 :  Q6_R_mpy_RR_rnd(0,INT32_MAX)
+-0 :  Q6_R_mpy_RR_rnd(1,INT32_MAX)
+-3fffffff :  Q6_R_mpy_RR_rnd(INT32_MAX,INT32_MAX)
++3fffffff :  Q6_R_mpy_RR_rnd(INT32_MIN,INT32_MIN)
++0 :  Q6_R_mpy_RR_rnd(-1,INT32_MIN)
++ffffffff :  Q6_R_mpy_RR_rnd(0,INT32_MIN)
++ffffffff :  Q6_R_mpy_RR_rnd(1,INT32_MIN)
++c0000000 :  Q6_R_mpy_RR_rnd(INT32_MAX,INT32_MIN)
++0 :  Q6_R_mpy_RR_rnd(INT32_MIN,-1)
++ffffffff :  Q6_R_mpy_RR_rnd(-1,-1)
++ffffffff :  Q6_R_mpy_RR_rnd(0,-1)
++ffffffff :  Q6_R_mpy_RR_rnd(1,-1)
++ffffffff :  Q6_R_mpy_RR_rnd(INT32_MAX,-1)
++ffffffff :  Q6_R_mpy_RR_rnd(INT32_MIN,0)
++ffffffff :  Q6_R_mpy_RR_rnd(-1,0)
++ffffffff :  Q6_R_mpy_RR_rnd(0,0)
++ffffffff :  Q6_R_mpy_RR_rnd(1,0)
++ffffffff :  Q6_R_mpy_RR_rnd(INT32_MAX,0)
++ffffffff :  Q6_R_mpy_RR_rnd(INT32_MIN,1)
++ffffffff :  Q6_R_mpy_RR_rnd(-1,1)
++ffffffff :  Q6_R_mpy_RR_rnd(0,1)
++ffffffff :  Q6_R_mpy_RR_rnd(1,1)
++ffffffff :  Q6_R_mpy_RR_rnd(INT32_MAX,1)
++c0000000 :  Q6_R_mpy_RR_rnd(INT32_MIN,INT32_MAX)
++ffffffff :  Q6_R_mpy_RR_rnd(-1,INT32_MAX)
++ffffffff :  Q6_R_mpy_RR_rnd(0,INT32_MAX)
++ffffffff :  Q6_R_mpy_RR_rnd(1,INT32_MAX)
++3ffffffe :  Q6_R_mpy_RR_rnd(INT32_MAX,INT32_MAX)
+
+-- 
+Anton Johansson,
+rev.ng Labs Srl.
 
 
