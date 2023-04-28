@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B386F248C
+	by mail.lfdr.de (Postfix) with ESMTPS id 3635B6F248B
 	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:16:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psjU1-0002vb-Ic; Sat, 29 Apr 2023 08:15:26 -0400
+	id 1psjU8-0002xF-LN; Sat, 29 Apr 2023 08:15:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTz-0002vJ-Ih
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:19 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjU0-0002vT-T4
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:20 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTl-0004P4-53
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:19 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3f1950f5676so6666615e9.3
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:15:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTp-0004Qk-Tj
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:20 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f1950f5676so6667135e9.3
+ for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682770503; x=1685362503;
+ d=linaro.org; s=google; t=1682770508; x=1685362508;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=VO1BNbGTkEMTdoVzghKhSmB8ZcUGBxRmRckP4ykUKLM=;
- b=dtubBjlEALm2bN47K1q6xKpAcpFdeMCqy9GMSSLG2vHV5S1rpo03dckgoJODveJnl4
- fn1cyLpI0OkN7HMDtoScspAQJfaijvIQsutdRMCCScsBwRkOGPm7AxqPnftN8DXdtmdh
- K6bkWmzg3sRyMS+g9EJcN6OrCwQ+z/rgXriykey48WGQ7lYpcYicezW2wVt9+8ZYxcA9
- b/gzJZD6V/gSLckolsuVtodBdJ4189NXPNx8dSl+EeZhunzhs5K1O+LY6Q25v65Tk+Wi
- KHS+A5LF+LVnDyi1ilX6qZkQkXjEdRWguDQOvlZOuTIYsLpOS8TbLtOnCdSkTnSsTsRG
- lOIw==
+ bh=nlT1ljjJB8LGWdP0GxfksUDvVBSxenIPVUR0meqd4C8=;
+ b=cfM36Ls7TbOTK6+gPK76b4xJHNNGaEJIQO29c0576s1CoGgTAYz0GQNf2dlVleYnMF
+ Xzs3oOA3+xMVRVrE7zCtlsMfDA+TArnvPJbpKm230LrgWd7sKr69FBPI9J0oIiygImma
+ Nv2rz9K4pwtZ3YlT2FI/vShiiK2syw9ViTrwL0pYlONMNgqmVs2dpYpHALZ472p7CeXe
+ 0V8qHQ2uDdkjGymkDC8vEWOtZDuB1Iz2hwFYkIkwRlyDB+TEt6+kmH9/zeVYFIMyy4J2
+ EMzxws0cx+0PTq7wBwpMDM5FbTM46yikQwAnkm8wYTnIA49Sv/3ZItDFbqPH1W9Hrn3F
+ TF4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682770503; x=1685362503;
+ d=1e100.net; s=20221208; t=1682770508; x=1685362508;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VO1BNbGTkEMTdoVzghKhSmB8ZcUGBxRmRckP4ykUKLM=;
- b=TpLYkmAZuJHgGEtrQnMkpD2zN1b0Vcknaw4KOBo9s1CE9Y7rqULyHWJzmuDrS33iuh
- uK5x/ZA/JAEZkRG/JS2TiXKmeeZZXStOAHgerpW2mGE130llgXxWwcBP+N3bCniyvklT
- 4NsLAtZ8RrB5eWeFlLGvKr4z7zzleU3MX6h9ofMxRKHt5SgAjE5945/PS9EvL+BBTuYK
- Rw0SqByMxOatB3KuabGPO/2OclKwlP26ZObvDYliVUOGdI6ns9gWKVsHPfj9HGWzpeEh
- nsoZqmrg2LyNoNJdl6Tt2H1fjM1qB5YSD0N8pvNpeKodO07/BxtXEEDxiBQok/0F3uMM
- CPCQ==
-X-Gm-Message-State: AC+VfDwqfpigdKsykLWlWbHQOuOShJtwhxowm+zEsOuIarX6wZWsu9FA
- SXqw8UttRjnBP7x2dNhEduCTUw==
-X-Google-Smtp-Source: ACHHUZ7lArOTaUkITxAKW8OJ58vv7YPXXgIiDrklhSZXhonFYj0XaYnV/OOoUf+VM93m3BLXNPHxIQ==
-X-Received: by 2002:a05:600c:2155:b0:3f1:733b:8aba with SMTP id
- v21-20020a05600c215500b003f1733b8abamr6085246wml.35.1682770503744; 
- Sat, 29 Apr 2023 05:15:03 -0700 (PDT)
+ bh=nlT1ljjJB8LGWdP0GxfksUDvVBSxenIPVUR0meqd4C8=;
+ b=JcXpB7TDL8Ez7DtWc8i0+TVUWZEUYLtgSzMs5lTpXSEwTE1Q6s2LV2D2W4ZlKnje59
+ Yo3soeRpnb5VlF/xUFQRT0o+qoH+UYAMtNVKMhEm6pYxRhY4m04Ls7pyGhmrg+BDapLc
+ yoi85xR066KJC8smTJjWyy40y7d4RGGFB3PbS1QszhpG+iWr2+9niKo9RQqOO5qprU2Y
+ e69SYm/r8mby8ujX37O4AwQSYMLxLJipnDx6X4Pj3C1vuT/WjxBU+0g5bDVX2H7MBNTk
+ 61Pki2SI2Yqewv5GrvDAJB2YGDPAf8B2MAtJdAOggb6MHyBmvLU8XmEkkGnT3u8vsPyz
+ 4lFQ==
+X-Gm-Message-State: AC+VfDybDmhglYC61SC53/53u2o9rdg/LwhqQfkieJDamQWscY73IeQP
+ 2DRVrLjOjCJkGryWrWzZm73njGVZPXaQtZbaN2VDkA==
+X-Google-Smtp-Source: ACHHUZ7PCcrF5x1816q3pIPR3rkjBpWnlL4iPzvomJG1rGadbJ9VEh3u1Vn34kCrw0U/sZBQbhxnfw==
+X-Received: by 2002:a05:600c:364f:b0:3f3:1cb7:b2a6 with SMTP id
+ y15-20020a05600c364f00b003f31cb7b2a6mr5141365wmq.6.1682770508571; 
+ Sat, 29 Apr 2023 05:15:08 -0700 (PDT)
 Received: from [192.168.212.175] (7.red-88-29-166.dynamicip.rima-tde.net.
  [88.29.166.7]) by smtp.gmail.com with ESMTPSA id
- d2-20020adffbc2000000b003060c7b5ed6sm1039609wrs.26.2023.04.29.05.15.00
+ ip29-20020a05600ca69d00b003f1712b1402sm30430249wmb.30.2023.04.29.05.15.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Apr 2023 05:15:03 -0700 (PDT)
-Message-ID: <936d403f-1ebd-7239-609f-77ba22647d8b@linaro.org>
-Date: Sat, 29 Apr 2023 00:10:14 +0100
+ Sat, 29 Apr 2023 05:15:08 -0700 (PDT)
+Message-ID: <e2952421-d46e-d6f8-e502-c7fb9af9649d@linaro.org>
+Date: Sat, 29 Apr 2023 00:12:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 06/21] Hexagon (target/hexagon) Remove log_reg_write from
- op_helper.[ch]
+Subject: Re: [PATCH] hw/remote: Fix vfu_cfg trace offset format
 Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, 
- quic_mathbern@quicinc.com
-References: <20230426004145.1319112-1-tsimpson@quicinc.com>
+To: Mattias Nissler <mnissler@rivosinc.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+References: <20230426093518.966397-1-mnissler@rivosinc.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230426004145.1319112-1-tsimpson@quicinc.com>
+In-Reply-To: <20230426093518.966397-1-mnissler@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,16 +93,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/4/23 02:41, Taylor Simpson wrote:
-> With the overrides added in prior commits, this function is not used
-> Remove references in macros.h
+On 26/4/23 11:35, Mattias Nissler wrote:
+> The printed offset value is prefixed with 0x, but was actually printed
+> in decimal. To spare others the confusion, adjust the format specifier
+> to hexadecimal.
 > 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> Signed-off-by: Mattias Nissler <mnissler@rivosinc.com>
 > ---
->   target/hexagon/macros.h    | 14 --------------
->   target/hexagon/op_helper.h |  4 ----
->   target/hexagon/op_helper.c | 17 -----------------
->   3 files changed, 35 deletions(-)
+>   hw/remote/trace-events | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
