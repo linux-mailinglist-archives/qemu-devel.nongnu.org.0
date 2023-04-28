@@ -2,71 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4355F6F1843
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 14:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C916F1867
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 14:44:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psNPW-0007Ko-GI; Fri, 28 Apr 2023 08:41:15 -0400
+	id 1psNRQ-00070B-N1; Fri, 28 Apr 2023 08:43:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1psNP7-0006w3-2N
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:40:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1psNRP-0006zZ-Dy; Fri, 28 Apr 2023 08:43:11 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1psNP4-0000rI-Ey
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 08:40:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682685644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BklFrQDC7Qk41HdzSci3Fu/+jXouhsNPjTWAx1zzOrk=;
- b=BhH3d7CdKPx2/87sZhyCpyJKgvr1V81+Lq+dmsVbJkAnT+i81gVMhMx4WOG0tfir3o0Mw0
- cfUPwZYdickggni9CdpJV7EMQWepWkHwb+KFFeWBbALEt9SHYxEA81OWu4i2XU+9vIxxwT
- Mj1Skhr+nYR0zdZo4vPce2DAb8M3RXg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-04K0GZeUMDevpp2Zf5sYNg-1; Fri, 28 Apr 2023 08:40:40 -0400
-X-MC-Unique: 04K0GZeUMDevpp2Zf5sYNg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DCCB108BDCE;
- Fri, 28 Apr 2023 12:40:40 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95789C15BA0;
- Fri, 28 Apr 2023 12:40:39 +0000 (UTC)
-Date: Fri, 28 Apr 2023 08:40:33 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, dlemoal@kernel.org, dmitry.fomichev@wdc.com,
- Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, hare@suse.de, Fam Zheng <fam@euphon.net>,
- Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH v10 0/4] Add zone append write for zoned device
-Message-ID: <20230428124033.GB179220@fedora>
-References: <20230427172339.3709-1-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1psNRM-0001nn-Ie; Fri, 28 Apr 2023 08:43:11 -0400
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33SCe6kB030161; Fri, 28 Apr 2023 12:42:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ZNnZOlTp/BlAQkVwTgwLSrOWvwaehBqBiD0kbYyoDBE=;
+ b=dEnvR9skf9wL8we2yQUd7vEvwac9eBX63ageW1Mqa6TD0a8kSCgrlknBvBo+3wQAPbgP
+ kzMc+g9dd4o7GMkaKkCK9uVgrBlgnE0OBsWRd4b3hLJyFyFUBpcSJ2KQ2PQJCuMXcbqh
+ wNm4k6yUrqfdrab8maso7yXfVsoRZTvl3isbxae/9EEwMIou/qawFyWhUHqa56PIU2Vu
+ DzbfVpdr8Q3rEj/ea3pXwlh6OKd05SaQyOrvk37hiG+8/ZzMNnRYH63aGoIOJB/ZWXQf
+ LED+XM/hJCnngNZITbZlY18sj/YhwLTQh6xxRM71vXLAayVepW8GyL9jpKFO0Lf8/RcK VA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q8c9jbmcv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 12:42:57 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33SCeAsB031409;
+ Fri, 28 Apr 2023 12:42:57 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q8c9jbm87-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 12:42:57 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33S0bkBV028416;
+ Fri, 28 Apr 2023 12:42:53 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3q46ug3j7n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 12:42:53 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33SCgjYQ30802564
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Apr 2023 12:42:46 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5A7192004F;
+ Fri, 28 Apr 2023 12:42:45 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3B48120040;
+ Fri, 28 Apr 2023 12:42:44 +0000 (GMT)
+Received: from [9.171.23.33] (unknown [9.171.23.33])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Fri, 28 Apr 2023 12:42:44 +0000 (GMT)
+Message-ID: <449ae7ff-d815-e863-1d53-c701ce6c0a18@linux.ibm.com>
+Date: Fri, 28 Apr 2023 14:42:43 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yWxCIgZ1TiI50ZpT"
-Content-Disposition: inline
-In-Reply-To: <20230427172339.3709-1-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v20 03/21] target/s390x/cpu topology: handle STSI(15) and
+ build the SYSIB
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230425161456.21031-1-pmorel@linux.ibm.com>
+ <20230425161456.21031-4-pmorel@linux.ibm.com>
+ <7ce19a3d-7b5a-1449-10c2-ee63c1471537@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <7ce19a3d-7b5a-1449-10c2-ee63c1471537@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: CXZ-QhYHHpYvzqGw0eD_p-z-iwymKmrb
+X-Proofpoint-ORIG-GUID: -RF54hGtHKZqSCQD3iiCsRykKgnHTsFL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-28_04,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=999
+ malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304280102
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,113 +122,119 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---yWxCIgZ1TiI50ZpT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 4/27/23 19:01, Thomas Huth wrote:
+> On 25/04/2023 18.14, Pierre Morel wrote:
+>> On interception of STSI(15.1.x) the System Information Block
+>> (SYSIB) is built from the list of pre-ordered topology entries.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   MAINTAINERS                     |   1 +
+>>   include/hw/s390x/cpu-topology.h |  24 +++
+>>   include/hw/s390x/sclp.h         |   1 +
+>>   target/s390x/cpu.h              |  72 ++++++++
+>>   hw/s390x/cpu-topology.c         |  13 +-
+>>   target/s390x/kvm/cpu_topology.c | 308 ++++++++++++++++++++++++++++++++
+>>   target/s390x/kvm/kvm.c          |   5 +-
+>>   target/s390x/kvm/meson.build    |   3 +-
+>>   8 files changed, 424 insertions(+), 3 deletions(-)
+>>   create mode 100644 target/s390x/kvm/cpu_topology.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index bb7b34d0d8..de9052f753 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1659,6 +1659,7 @@ M: Pierre Morel <pmorel@linux.ibm.com>
+>>   S: Supported
+>>   F: include/hw/s390x/cpu-topology.h
+>>   F: hw/s390x/cpu-topology.c
+>> +F: target/s390x/kvm/cpu_topology.c
+>
+> It's somewhat weird to have one file "cpu-topology.c" (in hw/s390x, 
+> with a dash), and one file cpu_topology.c (in target/s390x, with an 
+> underscore) ... could you come up with a better naming? Maybe call the 
+> new file stsi-topology.c or so?
 
-On Fri, Apr 28, 2023 at 01:23:35AM +0800, Sam Li wrote:
-> This patch series add zone append operation based on the previous
-> zoned device support part. The file-posix driver is modified to
-> add zone append emulation using regular writes.
->=20
-> v9:
-> - address review comments [Stefan]
->   * fix get_zones_wp() for wrong offset index
->   * fix misuses of QEMU_LOCK_GUARD()
->   * free and allocate wps in refresh_limits for now
->=20
-> v8:
-> - address review comments [Stefan]
->   * fix zone_mgmt covering multiple zones case
->   * fix memory leak bug of wps in refresh_limits()
->   * mv BlockZoneWps field from BlockLimits to BlockDriverState
->   * add check_qiov_request() to bdrv_co_zone_append
->=20
-> v7:
-> - address review comments
->   * fix wp assignment [Stefan]
->   * fix reset_all cases, skip R/O & offline zones [Dmitry, Damien]
->   * fix locking on non-zap related cases [Stefan]
->   * cleanups and typos correction
-> - add "zap -p" option to qemuio-cmds [Stefan]
->=20
-> v6:
-> - add small fixes
->=20
-> v5:
-> - fix locking conditions and error handling
-> - drop some trival optimizations
-> - add tracing points for zone append
->=20
-> v4:
-> - fix lock related issues[Damien]
-> - drop all field in zone_mgmt op [Damien]
-> - fix state checks in zong_mgmt command [Damien]
-> - return start sector of wp when issuing zap req [Damien]
->=20
-> v3:
-> - only read wps when it is locked [Damien]
-> - allow last smaller zone case [Damien]
-> - add zone type and state checks in zone_mgmt command [Damien]
-> - fix RESET_ALL related problems
->=20
-> v2:
-> - split patch to two patches for better reviewing
-> - change BlockZoneWps's structure to an array of integers
-> - use only mutex lock on locking conditions of zone wps
-> - coding styles and clean-ups
->=20
-> v1:
-> - introduce zone append write
->=20
-> Sam Li (4):
->   file-posix: add tracking of the zone write pointers
->   block: introduce zone append write for zoned devices
->   qemu-iotests: test zone append operation
->   block: add some trace events for zone append
->=20
->  block/block-backend.c              |  61 ++++++++
->  block/file-posix.c                 | 230 ++++++++++++++++++++++++++++-
->  block/io.c                         |  27 ++++
->  block/io_uring.c                   |   4 +
->  block/linux-aio.c                  |   3 +
->  block/raw-format.c                 |   8 +
->  block/trace-events                 |   2 +
->  include/block/block-common.h       |  14 ++
->  include/block/block-io.h           |   4 +
->  include/block/block_int-common.h   |   8 +
->  include/block/raw-aio.h            |   4 +-
->  include/sysemu/block-backend-io.h  |   9 ++
->  qemu-io-cmds.c                     |  75 ++++++++++
->  tests/qemu-iotests/tests/zoned     |  16 ++
->  tests/qemu-iotests/tests/zoned.out |  16 ++
->  15 files changed, 474 insertions(+), 7 deletions(-)
->=20
-> --=20
-> 2.40.0
->=20
 
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
+If I keep the two files (see answer to your comments on patch 2) then 
+yes I can change it to stsi-topology.c,
 
-Stefan
 
---yWxCIgZ1TiI50ZpT
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index bb7cfb0cab..9f97989bd7 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -561,6 +561,25 @@ typedef struct SysIB_322 {
+>>   } SysIB_322;
+>>   QEMU_BUILD_BUG_ON(sizeof(SysIB_322) != 4096);
+>
+>
+> Maybe add a short comment here what MAG stands for (magnitude fields?)?
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRLvsEACgkQnKSrs4Gr
-c8jXTwf/RHmnk8WFL1tNL6zEPwSNeX3xAf9nxPSw77RI4hWdpmDby86lu4gVItqS
-0HCENQpcsBJCSkoAYGak7p8wbCcJOTGmOqvqWJUlIjfx9bfjdn6l93AuAy5tQwic
-UhiIMt+m+r8YFNC2lK/SaElTynhe+YeNilHh/rXb7vAAE4vKkeY4ZtAtTN2kOSLJ
-/Ek1kSHdWGRn74FxIHVnYlH6gNJos3H8E3S5gxzdzu96t6/EG4QDGLYTx3CB2T/k
-aKXZrYtnN9+tNFZPO2DilQbgtL/ke7wRJpvvyzD/xFtqRBzUqaoh8kVaCakC6JOK
-1blwoV5xuR/yz7nC/t1VuYPJ3SBl4w==
-=4xVv
------END PGP SIGNATURE-----
+Yes, in fact Magnitude bytes.
 
---yWxCIgZ1TiI50ZpT--
 
+>> +#define S390_TOPOLOGY_MAG  6
+>> +#define S390_TOPOLOGY_MAG6 0
+>> +#define S390_TOPOLOGY_MAG5 1
+>> +#define S390_TOPOLOGY_MAG4 2
+>> +#define S390_TOPOLOGY_MAG3 3
+>> +#define S390_TOPOLOGY_MAG2 4
+>> +#define S390_TOPOLOGY_MAG1 5
+>> +/* Configuration topology */
+>> +typedef struct SysIB_151x {
+>> +    uint8_t  reserved0[2];
+>> +    uint16_t length;
+>> +    uint8_t  mag[S390_TOPOLOGY_MAG];
+>> +    uint8_t  reserved1;
+>> +    uint8_t  mnest;
+>> +    uint32_t reserved2;
+>> +    char tle[];
+>> +} SysIB_151x;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+> ...
+>
+>> diff --git a/target/s390x/kvm/cpu_topology.c 
+>> b/target/s390x/kvm/cpu_topology.c
+>> new file mode 100644
+>> index 0000000000..86a286afe2
+>> --- /dev/null
+>> +++ b/target/s390x/kvm/cpu_topology.c
+>> @@ -0,0 +1,308 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>> +/*
+>> + * QEMU S390x CPU Topology
+>> + *
+>> + * Copyright IBM Corp. 2022,2023
+>> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+>> + *
+>> + */
+>> +#include "qemu/osdep.h"
+>> +#include "cpu.h"
+>> +#include "hw/s390x/pv.h"
+>> +#include "hw/sysbus.h"
+>> +#include "hw/s390x/sclp.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>> +
+>> +/**
+>> + * fill_container:
+>> + * @p: The address of the container TLE to fill
+>> + * @level: The level of nesting for this container
+>> + * @id: The container receives a uniq ID inside its own container
+>
+> s/uniq/unique/
+
+
+yes, thanks,
+
+regards,
+
+Pierre
+
+
+>
+>  Thomas
+>
 
