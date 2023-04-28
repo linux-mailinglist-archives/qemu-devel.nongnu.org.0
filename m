@@ -2,81 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C186F1089
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 04:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4246F1124
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 06:55:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psEEL-00056s-PX; Thu, 27 Apr 2023 22:53:05 -0400
+	id 1psG7V-0005Kk-TE; Fri, 28 Apr 2023 00:54:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1psEEK-00056N-8b
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 22:53:04 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1psEEI-0005cU-KI
- for qemu-devel@nongnu.org; Thu, 27 Apr 2023 22:53:04 -0400
-Received: by mail-pf1-x432.google.com with SMTP id
- d2e1a72fcca58-63b4960b015so7251766b3a.3
- for <qemu-devel@nongnu.org>; Thu, 27 Apr 2023 19:53:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1682650381; x=1685242381;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LV+7JElJ2Xmp+gBFLwDwvQU7tYwdJTHOJNNsbADmNr4=;
- b=jgKs70To+RuSsb/xHQpzHwgv+L284oCFp++7vJbKODLi+qqEmZukBobz3GQPF9iFhH
- AInz4VVSGoA+exlD/rPf3sSheKHqzg885cdiXqhCrSou+aePHxvQwjLB/HhFXjdqPHZg
- UeQ0EAHOrucru++JUfTEfgCa+yy0Qg3IE8wio=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682650381; x=1685242381;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LV+7JElJ2Xmp+gBFLwDwvQU7tYwdJTHOJNNsbADmNr4=;
- b=LTKleG/TxE9wRg9FovMHSxgRr5+Gc1VBoYt/0arooBr0iYbTHFR1R36g9jKqoEvFND
- Pgmu7IuHYlqD/cecOvdDB4ARJT6pl0HseDM1O7ZrXHVXimaKdg0AVCGXLUK4185BwOpb
- ZEi4QxyL+gN3BfSciYIAenLE/JJBdqX1yFSDb0XLgJi23VkmKMaKMRjwIltSJEJd/9Vo
- +WyoLRY0LgnMlgtBHIoSJw41OXo/gmhLJuYMLd+bPY64J7xun/+4CoppAnch3srjJMc6
- 9JB2NPItOUOFUYQeq8V+wwuW7oahDR8sRtpCCp/Xcd7vp4uHbdRNF31/UAlxwqbrwqUJ
- V+ww==
-X-Gm-Message-State: AC+VfDwR98l1zVQAU12FMTr3i5SOXN1gsIIpY+3ixFRb3FE6xVqXr0dV
- +4xKc3UACsbyD3Gpk3wwb3qmbjTaK0FQHb7TjJs=
-X-Google-Smtp-Source: ACHHUZ5Dnwc8UFC0cfDHgkGZYt1apqS8rS+XGDFpKcLMnLFhn8j7VsTkWNoKFsmWuPJMx588VXgXTw==
-X-Received: by 2002:a05:6a00:1905:b0:63d:3595:26db with SMTP id
- y5-20020a056a00190500b0063d359526dbmr5322923pfi.23.1682650381062; 
- Thu, 27 Apr 2023 19:53:01 -0700 (PDT)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:a7:2:9f50:6799:fba2:1f53])
- by smtp.gmail.com with ESMTPSA id
- z21-20020a62d115000000b0063d24fcc2b7sm13854437pfg.1.2023.04.27.19.53.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Apr 2023 19:53:00 -0700 (PDT)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-X-Google-Original-From: Gurchetan Singh <gurchetansingh@google.com>
-To: qemu-devel@nongnu.org
-Cc: philmd@linaro.org, david@redhat.com, kraxel@redhat.com,
- marcandre.lureau@redhat.com, akihiko.odaki@gmail.com,
- dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
-Subject: [PATCH 5/5] virtio-gpu: CONTEXT_INIT feature
-Date: Thu, 27 Apr 2023 19:52:51 -0700
-Message-Id: <20230428025251.603-6-gurchetansingh@google.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20230428025251.603-1-gurchetansingh@google.com>
-References: <20230428025251.603-1-gurchetansingh@google.com>
+ (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
+ id 1psG7S-0005KD-Oj; Fri, 28 Apr 2023 00:54:06 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
+ id 1psG7Q-0001ct-Aa; Fri, 28 Apr 2023 00:54:06 -0400
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33S4kJ0o001459; Fri, 28 Apr 2023 04:53:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=Gp4o9hNudj0Hpd5/962ixtwY6k/9yaoLW+D4I356C/U=;
+ b=VcBsO5YCpFJTpED0jlmklagr/QyH7zAUs/fBMfwrbPo8Yf75cdolVF9WZis+XbtYcVO/
+ /96dl1OU4hcTHpKflKUMlxJQm6Lqm/qa/Iw8BaBs4+TYemHv0MzJwsZdKq+CEy1xsk9d
+ NSq8f1heOqoa6MW9vv5kNEGUVSctLUjNTardhcGdZsOJPkqBpHZx/JLEPJ+W7GUsRoUk
+ UFWHa0LrdYQhT+mJgirsHLE9a/RT7JjAjlqCCe6LWY7m/eXBzk5/+GjIQIs6CmnkxTGt
+ KpY0g6IP3iwxXMsDTnkoXSk4nqppixx8X9X0F2p93e0i1gehW902GYIB3gh4QbUcvfHt zQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q870u8mek-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 04:53:47 +0000
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33S4bQxH002239;
+ Fri, 28 Apr 2023 04:53:46 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q870u8mdv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 04:53:46 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33S3tpV7031904;
+ Fri, 28 Apr 2023 04:53:44 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3q4776tqpq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Apr 2023 04:53:44 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 33S4ret045416958
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Apr 2023 04:53:40 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6ED9520043;
+ Fri, 28 Apr 2023 04:53:40 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 25ECD20040;
+ Fri, 28 Apr 2023 04:53:34 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.211.132.94])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with SMTP;
+ Fri, 28 Apr 2023 04:53:33 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
+ Fri, 28 Apr 2023 10:23:31 +0530
+From: Vaibhav Jain <vaibhav@linux.ibm.com>
+To: Fabiano Rosas <farosas@suse.de>, Narayana Murty N
+ <nnmlinux@linux.ibm.com>, danielhb413@gmail.com,
+ clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, npiggin@linux.ibm.com,
+ vajain21@linux.ibm.com, harshpb@linux.ibm.com, sbhat@linux.ibm.com
+Subject: Re: [PATCH] target: ppc: Correctly initialize HILE in HID-0 for
+ book3s processors
+In-Reply-To: <87v8hq8lgz.fsf@suse.de>
+References: <20230420145055.10196-1-nnmlinux@linux.ibm.com>
+ <87v8hq8lgz.fsf@suse.de>
+Date: Fri, 28 Apr 2023 10:23:31 +0530
+Message-ID: <87y1mcfvzo.fsf@vajain21.in.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=gurchetansingh@chromium.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: iLwm8TZOX5kpqjTXGRXknIdQ2TMRapsU
+X-Proofpoint-ORIG-GUID: S_jwxleVeJK-dJMjpDgOC2-iOgvQ7nzV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-28_02,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ mlxlogscore=958 phishscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304280035
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=vaibhav@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,54 +115,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Antonio Caggiano <antonio.caggiano@collabora.com>
 
-The feature can be enabled when a backend wants it.
+Hi Fabiano,
 
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
----
- hw/display/virtio-gpu-base.c   | 3 +++
- include/hw/virtio/virtio-gpu.h | 3 +++
- 2 files changed, 6 insertions(+)
+Thanks for looking into this patch and apologies for the delayed reponse.
+Fabiano Rosas <farosas@suse.de> writes:
 
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index a29f191aa8..6c5f1f327f 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
-     if (virtio_gpu_blob_enabled(g->conf)) {
-         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
-     }
-+    if (virtio_gpu_context_init_enabled(g->conf)) {
-+        features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
-+    }
- 
-     return features;
- }
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index d5808f2ab6..cf24d2e21b 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
-     VIRTIO_GPU_FLAG_EDID_ENABLED,
-     VIRTIO_GPU_FLAG_DMABUF_ENABLED,
-     VIRTIO_GPU_FLAG_BLOB_ENABLED,
-+    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,
- };
- 
- #define virtio_gpu_virgl_enabled(_cfg) \
-@@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
- #define virtio_gpu_blob_enabled(_cfg) \
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
-+#define virtio_gpu_context_init_enabled(_cfg) \
-+    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED))
- 
- struct virtio_gpu_base_conf {
-     uint32_t max_outputs;
+> Narayana Murty N <nnmlinux@linux.ibm.com> writes:
+>
+>> On PPC64 the HILE(Hypervisor Interrupt Little Endian) bit in HID-0
+>> register needs to be initialized as per isa 3.0b[1] section
+>> 2.10. This bit gets copied to the MSR_LE when handling interrupts that
+>> are handled in HV mode to establish the Endianess mode of the interrupt
+>> handler.
+>>
+>> Qemu's ppc_interrupts_little_endian() depends on HILE to determine Host
+>> endianness which is then used to determine the endianess of the guest dump.
+>>
+>
+> Not quite. We use the interrupt endianness as a proxy to guest
+> endianness to avoid reading MSR_LE at an inopportune moment when the
+> guest is switching endianness.
+Agreed
+
+> This is not dependent on host
+> endianness. The HILE check is used when taking a memory dump of a
+> HV-capable machine such as the emulated powernv.
+
+I think one concern which the patch tries to address is the guest memorydump file
+generated of a BigEndian(BE) guest on a LittleEndian(LE) host is not readable on
+the same LE host since 'crash' doesnt support cross endianess
+dumps. Also even for a LE guest on LE host the memory dumps are marked as BE
+making it not possible to analyze any guest memory dumps on the host.
+
+However setting the HILE based on host endianess of qemu might not be
+the right way to fix this problem. Based on an off mailing list discussion
+with Narayana, he is working on another patch which doesnt set HILE
+based on host endianess. However the problem seems to be stemming from
+fact that qemu on KVM is using the HILE to set up the endianess of
+memory-dump elf and since its not setup correctly the memory dumps are
+in wrong endianess.
+
+> I think the actual issue might be that we're calling
+> ppc_interrupts_little_endian with hv=true for the dump.
+>
+Yes, that is currently the case with cpu_get_dump_info(). Excerpt from
+that function below that sets the endianess of the dump:
+
+    if (ppc_interrupts_little_endian(cpu, cpu->env.has_hv_mode)) {
+        info->d_endian = ELFDATA2LSB;
+    } else {
+        info->d_endian = ELFDATA2MSB;
+    }
+
+for pseries kvm guest cpu->env.has_hv_mode is already set hence
+ppc_interrupts_little_endian() assumes its running in 'hv' mode. The new
+patch from Narayana will be addressing this.
+
+>> Currently the HILE bit is never set in the HID0 register even if the
+>> qemu is running in Little-Endian mode. This causes the guest dumps to be
+>> always taken in Big-Endian byte ordering. A guest memory dump of a
+>> Little-Endian guest running on Little-Endian qemu guest fails with the
+>> crash tool as illustrated below:
+>>
+>
+> Could you describe in more detail what is your setup? Specifically
+> whether both guests are running TCG or KVM (info kvm) and the state of
+> the nested-hv capability in QEMU command line.
+Currently the issue is seen with any pseries KVM guest running on a PowerNV host.
+
 -- 
-2.40.1.495.gc816e09b53d-goog
-
+Cheers
+~ Vaibhav
 
