@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE276F1EA2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 21:14:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C396F1EAB
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Apr 2023 21:16:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psTWA-0004kC-EA; Fri, 28 Apr 2023 15:12:30 -0400
+	id 1psTWD-0004kt-2J; Fri, 28 Apr 2023 15:12:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psTW7-0004hg-Uu
+ id 1psTW7-0004hb-T2
  for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:27 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1psTW1-0002vu-UY
- for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:24 -0400
+ id 1psTW1-0002xQ-UR
+ for qemu-devel@nongnu.org; Fri, 28 Apr 2023 15:12:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682709139;
+ s=mimecast20190719; t=1682709140;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l38tWqn5Fu5lrmauLijpLYzD9pCl3Gw0p0V7GhyMam8=;
- b=cgaijLEAhJ99KlI+zAaKnP6YpfwJCQkqqP12pZfzEJ8yShIK367ukCo0Yb1LxtiU+wMNqk
- E8Un4XizGXApudLt94s8KAmv7VKIejrMlz7kwsXlxY/uQMP1y4ddBsIOGViS5g7uPbZT8x
- KrHg/nQ9XAgl2LanotXUyfWxTxv4iAs=
+ bh=bezRbyElX4oDQkDmYg3oZ+p/BWTANa/wf2MhX9HYs/8=;
+ b=GHM2szPECWyTiwZkP4ZhPDM/EucWg+bdiCQf7ZwcQboLSUSyYxeixD3QLlvXToM/t7B+Qk
+ jXHxp/16nKEv1mNEPoBbn0HuZtrjz8mh+TlQ1hZXCIA46JkMx+nV8OX6aBIxDEiWehNKwq
+ baL+C7VylMK4nv8875lLx3Bk3LSjFW8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-Mg7PsS7zPg68PYi-_VxlMg-1; Fri, 28 Apr 2023 15:12:16 -0400
-X-MC-Unique: Mg7PsS7zPg68PYi-_VxlMg-1
+ us-mta-352-nKjCn_dvNTS32UJ9qXZqQQ-1; Fri, 28 Apr 2023 15:12:18 -0400
+X-MC-Unique: nKjCn_dvNTS32UJ9qXZqQQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D48C9185A7A2;
- Fri, 28 Apr 2023 19:12:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E2E7185A790;
+ Fri, 28 Apr 2023 19:12:17 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 71DFA2166B4F;
- Fri, 28 Apr 2023 19:12:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22F7D2166B4F;
+ Fri, 28 Apr 2023 19:12:16 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Leonardo Bras <leobras@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- Lukas Straub <lukasstraub2@web.de>
-Subject: [PULL 06/21] migration/rdma: Unfold last user of
- acct_update_position()
-Date: Fri, 28 Apr 2023 21:11:48 +0200
-Message-Id: <20230428191203.39520-7-quintela@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PULL 07/21] migration: Drop unused parameter for
+ migration_tls_get_creds()
+Date: Fri, 28 Apr 2023 21:11:49 +0200
+Message-Id: <20230428191203.39520-8-quintela@redhat.com>
 In-Reply-To: <20230428191203.39520-1-quintela@redhat.com>
 References: <20230428191203.39520-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -81,61 +81,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
----
- migration/ram.c  | 9 ---------
- migration/ram.h  | 1 -
- migration/rdma.c | 4 +++-
- 3 files changed, 3 insertions(+), 11 deletions(-)
+It is not needed since we moved the accessor for tls properties to
+options.c.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index c249a1f468..7d81c4a39e 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2629,15 +2629,6 @@ static int ram_find_and_save_block(RAMState *rs)
-     return pages;
- }
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+---
+ migration/tls.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+
+diff --git a/migration/tls.c b/migration/tls.c
+index cd29177957..d4a76cf590 100644
+--- a/migration/tls.c
++++ b/migration/tls.c
+@@ -29,9 +29,7 @@
+ #include "trace.h"
  
--void acct_update_position(QEMUFile *f, size_t size)
--{
--    uint64_t pages = size / TARGET_PAGE_SIZE;
--
--    stat64_add(&mig_stats.normal_pages, pages);
--    ram_transferred_add(size);
--    qemu_file_credit_transfer(f, size);
--}
--
- static uint64_t ram_bytes_total_with_ignored(void)
+ static QCryptoTLSCreds *
+-migration_tls_get_creds(MigrationState *s,
+-                        QCryptoTLSCredsEndpoint endpoint,
+-                        Error **errp)
++migration_tls_get_creds(QCryptoTLSCredsEndpoint endpoint, Error **errp)
  {
-     RAMBlock *block;
-diff --git a/migration/ram.h b/migration/ram.h
-index 3804753ca3..6fffbeb5f1 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -53,7 +53,6 @@ void mig_throttle_counter_reset(void);
+     Object *creds;
+     const char *tls_creds = migrate_tls_creds();
+@@ -80,8 +78,7 @@ void migration_tls_channel_process_incoming(MigrationState *s,
+     QCryptoTLSCreds *creds;
+     QIOChannelTLS *tioc;
  
- uint64_t ram_pagesize_summary(void);
- int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
--void acct_update_position(QEMUFile *f, size_t size);
- void ram_postcopy_migrated_memory_release(MigrationState *ms);
- /* For outgoing discard bitmap */
- void ram_postcopy_send_discard_bitmap(MigrationState *ms);
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 7a9b284c3f..7e747b2595 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -2231,7 +2231,9 @@ retry:
+-    creds = migration_tls_get_creds(
+-        s, QCRYPTO_TLS_CREDS_ENDPOINT_SERVER, errp);
++    creds = migration_tls_get_creds(QCRYPTO_TLS_CREDS_ENDPOINT_SERVER, errp);
+     if (!creds) {
+         return;
      }
+@@ -124,8 +121,7 @@ QIOChannelTLS *migration_tls_client_create(MigrationState *s,
+ {
+     QCryptoTLSCreds *creds;
  
-     set_bit(chunk, block->transit_bitmap);
--    acct_update_position(f, sge.length);
-+    stat64_add(&mig_stats.normal_pages, sge.length / qemu_target_page_size());
-+    ram_transferred_add(sge.length);
-+    qemu_file_credit_transfer(f, sge.length);
-     rdma->total_writes++;
- 
-     return 0;
+-    creds = migration_tls_get_creds(
+-        s, QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT, errp);
++    creds = migration_tls_get_creds(QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT, errp);
+     if (!creds) {
+         return NULL;
+     }
 -- 
 2.40.0
 
