@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4571A6F24C0
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 15:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913F26F24D7
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 15:22:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pskDF-0000gW-Pm; Sat, 29 Apr 2023 09:02:05 -0400
+	id 1pskUz-0006F7-6C; Sat, 29 Apr 2023 09:20:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pskDB-0000eh-66
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 09:02:02 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pskD8-0004dA-2X
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 09:02:00 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-2f87c5b4635so719294f8f.1
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 06:01:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682773316; x=1685365316;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KkdIPBlRLJhRWozD1DV3DzaxHqKsbk+9L2y8wj7pxU4=;
- b=yZrWigN8d3+lJ9qztSgEjgYtLMCj55F66i0VSgVJHp/ByxyCZB4jqn8QyY2oiT8oRB
- Ku9wtPZg+Oq1euOopRT4fRLx7xxlekxGVJTtfVL/2Kh8E/H1QWl2UHjO7EeFfdy0usx8
- a+1rNZuNFqnboskgF60Inwf8c3Kh9K4rP+pf3mQJ0DtQ+0LwEQ2PxXvXfAEfQ8lqcDvI
- Q6fvHzVtSl+Cd55XDW+Vxm2c1sL6pXk2tqCMflJsZeF/XH2MEGDDGW2fzlbTc5pQkyBO
- w4MVOYSoE5LC78JziV+JInWCr3P6/sxA3wpCymkK33s6J700MHnj9+ZYV1E0PCx+Bfts
- fnxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682773316; x=1685365316;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KkdIPBlRLJhRWozD1DV3DzaxHqKsbk+9L2y8wj7pxU4=;
- b=LRu9z60WwEDg9CrxO04qMQLM9WBUKfARMx7brz15ZluS4xYXKQ3JBYWTH7SMLAYxde
- /tjNo2DygBLfEKeiWoIFWzuOW42sb8enb1v3JXAQXcR6b4LF/RNhv2okJ50rDeNmsqrz
- +WZnOm8Kcn+3s6PE/9uxDuxi8N5WK1bZpOzjQQvzieIxuoxJQlcCQSTJgInNN0TolugN
- qhKThbu77D5SjJIzmKfCCSs5P1/bjIjR8JGUZ24X+T3/NufhXdafGXEAr/jdiO5uR8z8
- QY5mFfx3mqZmkR1MP3Fl+J+L8b80aYImxAR6gPMKYbD4kc3BBzMGbc7RvK9OMth6aPDI
- e0Fg==
-X-Gm-Message-State: AC+VfDxLbeErL/GJfF9XiGzSyhP13JZXLprX2ixQgIBS460+gDpall3d
- awrzkPiPTcq0gCqRRbkL5T6pNA==
-X-Google-Smtp-Source: ACHHUZ5ExYsCsQoCfD5wrs620G/sxBIe+1s2aLvyIlgMFan1gnKqOyQQqnnlT5CJu0dhOa+U0phjRA==
-X-Received: by 2002:adf:fdc6:0:b0:306:2767:4959 with SMTP id
- i6-20020adffdc6000000b0030627674959mr266986wrs.27.1682773316231; 
- Sat, 29 Apr 2023 06:01:56 -0700 (PDT)
-Received: from [192.168.212.175] (7.red-88-29-166.dynamicip.rima-tde.net.
- [88.29.166.7]) by smtp.gmail.com with ESMTPSA id
- e22-20020a5d5956000000b003012030a0c6sm23503528wri.18.2023.04.29.06.01.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Apr 2023 06:01:55 -0700 (PDT)
-Message-ID: <92b3252a-fd8a-91c6-c90a-3a858fd126fe@linaro.org>
-Date: Sat, 29 Apr 2023 14:01:43 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pskUu-0006Ee-H4
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 09:20:21 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pskUs-0008Ag-Ci
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 09:20:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=hcVHp/MqBrwV+AQ22tTDRGes1ucmsRTCfVefJMw46q4=; b=XZxsE8oh6IthoXJfbpXFkx5uu0
+ zwb/QPwWufPzD1iafaJ7DVylU2TXFWrnePQT0M2wHJhH1R2z6z90xmi/FBf+carhc0+x+kf7yzSHW
+ Jg/sP/Edk4g4IHdnJN6ClITTyCC4a3XzfC8XoZz0/tePOOEIgFRvVe0bHqnhWMrXQ5yInMHdGLrMV
+ YXBYPEbb09o4c9rWMHU7YRZ8eK4NIS+rfi3t2SLtYbUlJIO+fpt1NTCDDGKpDBVvCYkF9Yap2mVV5
+ H5ZysM6Z+e54U74LKJ4DmhuLc4AoETf/hwthn3O9Nbjhu5ie7citN17FXjs6XFzIoYWeGHyvJudko
+ L3t8/JEy6kD1FdX4HKAdA6wGKeo3JfGnz3JcEHsQLELd1lD0ZAaDUYzZojww9UeHoKtmIDFrcKwJw
+ 66F0QWO9Qcl0BuBbTGKnjhY70g3BeQTBpTHCuzY5fIqrJJ02q/1e+q9YNZ+Mnd5mrKTX6cAp3VZAu
+ oMmd9IpwxFRG9nT9QOffKI7Ih2H9KmXovzwlE3CEe8CKCKU6Zfe9aX+m3TouXpKTFh3xtgsea9cTK
+ 3Xl+HgUw1ISXoG57j96Wl+kAcD/DHAyf64RDVGcLluutHrExFwSljB8KQxEbb3hRcEFC4BbOFFjYH
+ 4FDAGoVzmM+9qT5nnCXZkZKwHh9Y8VlqlIBYGnaZo=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] tests/9p: fix potential leak in v9fs_rreaddir()
+Date: Sat, 29 Apr 2023 15:20:12 +0200
+Message-ID: <2011937.24IBG10sf5@silver>
+In-Reply-To: <20230429140430.05b286a1@bahia>
+References: <E1psh5T-0002XN-1C@lizzy.crudebyte.com>
+ <20230429140430.05b286a1@bahia>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v3 06/57] tcg/i386: Generalize multi-part load overlap test
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
- qemu-ppc@nongnu.org, git@xen0n.name, jiaxun.yang@flygoat.com
-References: <20230424054105.1579315-1-richard.henderson@linaro.org>
- <20230424054105.1579315-7-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230424054105.1579315-7-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,61 +67,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/4/23 07:40, Richard Henderson wrote:
-> Test for both base and index; use datahi as a temporary, overwritten
-> by the final load.  Always perform the loads in ascending order, so
-> that any (user-only) fault sees the correct address.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/i386/tcg-target.c.inc | 31 +++++++++++++++----------------
->   1 file changed, 15 insertions(+), 16 deletions(-)
-> 
-> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-> index b986109d77..794d440a9e 100644
-> --- a/tcg/i386/tcg-target.c.inc
-> +++ b/tcg/i386/tcg-target.c.inc
-> @@ -2223,23 +2223,22 @@ static void tcg_out_qemu_ld_direct(TCGContext *s, TCGReg datalo, TCGReg datahi,
->           if (TCG_TARGET_REG_BITS == 64) {
->               tcg_out_modrm_sib_offset(s, movop + P_REXW + seg, datalo,
->                                        base, index, 0, ofs);
-> +            break;
-> +        }
-> +        if (use_movbe) {
-> +            TCGReg t = datalo;
-> +            datalo = datahi;
-> +            datahi = t;
-> +        }
-> +        if (base == datalo || index == datalo) {
-> +            tcg_out_modrm_sib_offset(s, OPC_LEA, datahi, base, index, 0, ofs);
-> +            tcg_out_modrm_offset(s, movop + seg, datalo, datahi, 0);
-> +            tcg_out_modrm_offset(s, movop + seg, datahi, datahi, 4);
+On Saturday, April 29, 2023 2:04:30 PM CEST Greg Kurz wrote:
+> Hi Christian !
 
-LGTM but I'd rather have someone fluent with x86 review this one...
+Hi there, it's been a while! :)
 
->           } else {
-> -            if (use_movbe) {
-> -                TCGReg t = datalo;
-> -                datalo = datahi;
-> -                datahi = t;
-> -            }
-> -            if (base != datalo) {
-> -                tcg_out_modrm_sib_offset(s, movop + seg, datalo,
-> -                                         base, index, 0, ofs);
-> -                tcg_out_modrm_sib_offset(s, movop + seg, datahi,
-> -                                         base, index, 0, ofs + 4);
-> -            } else {
-> -                tcg_out_modrm_sib_offset(s, movop + seg, datahi,
-> -                                         base, index, 0, ofs + 4);
-> -                tcg_out_modrm_sib_offset(s, movop + seg, datalo,
-> -                                         base, index, 0, ofs);
-> -            }
-> +            tcg_out_modrm_sib_offset(s, movop + seg, datalo,
-> +                                     base, index, 0, ofs);
-> +            tcg_out_modrm_sib_offset(s, movop + seg, datahi,
-> +                                     base, index, 0, ofs + 4);
->           }
->           break;
->       default:
+> On Sat, 29 Apr 2023 11:25:33 +0200
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> 
+> > Free allocated directory entries in v9fs_rreaddir() if argument
+> > `entries` was passed as NULL, to avoid a memory leak. It is
+> > explicitly allowed by design for `entries` to be NULL. [1]
+> > 
+> > [1] https://lore.kernel.org/all/1690923.g4PEXVpXuU@silver
+> > 
+> > Reported-by: Coverity (CID 1487558)
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> 
+> Good catch Coverity ! :-)
+
+Yeah, this Coverity report is actually from March and I ignored it so far,
+because the reported leak could never happen with current test code. But Paolo
+brought it up this week, so ...
+
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> 
+> I still have a suggestion. See below.
+> 
+> >  tests/qtest/libqos/virtio-9p-client.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/tests/qtest/libqos/virtio-9p-client.c b/tests/qtest/libqos/virtio-9p-client.c
+> > index e4a368e036..b8adc8d4b9 100644
+> > --- a/tests/qtest/libqos/virtio-9p-client.c
+> > +++ b/tests/qtest/libqos/virtio-9p-client.c
+> > @@ -594,6 +594,8 @@ void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
+> >  {
+> >      uint32_t local_count;
+> >      struct V9fsDirent *e = NULL;
+> > +    /* only used to avoid a leak if entries was NULL */
+> > +    struct V9fsDirent *unused_entries = NULL;
+> >      uint16_t slen;
+> >      uint32_t n = 0;
+> >  
+> > @@ -612,6 +614,8 @@ void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
+> >              e = g_new(struct V9fsDirent, 1);
+> >              if (entries) {
+> >                  *entries = e;
+> > +            } else {
+> > +                unused_entries = e;
+> >              }
+> >          } else {
+> >              e = e->next = g_new(struct V9fsDirent, 1);
+> 
+> This is always allocating and chaining a new entry even
+> though it isn't needed in the entries == NULL case.
+> 
+> > @@ -628,6 +632,7 @@ void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
+> >          *nentries = n;
+> >      }
+> >  
+> > +    v9fs_free_dirents(unused_entries);
+> 
+> This is going to loop again on all entries to free them.
+> 
+> >      v9fs_req_free(req);
+> >  }
+> >  
+> 
+> If this function is to be called one day with an enormous
+> number of entries and entries == NULL case, this might
+> not scale well.
+> 
+> What about only allocating a single entry in this case ?
+> 
+> E.g.
+> 
+> @@ -593,7 +593,7 @@ void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
+>                     struct V9fsDirent **entries)
+>  {
+>      uint32_t local_count;
+> -    struct V9fsDirent *e = NULL;
+> +    g_autofree struct V9fsDirent *e = NULL;
+>      uint16_t slen;
+>      uint32_t n = 0;
+>  
+> @@ -611,10 +611,12 @@ void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
+>          if (!e) {
+>              e = g_new(struct V9fsDirent, 1);
+>              if (entries) {
+> -                *entries = e;
+> +                *entries = g_steal_pointer(e);
+
+g_steal_pointer(e) just sets `e` to NULL and returns its old value, so ...
+
+>              }
+>          } else {
+> -            e = e->next = g_new(struct V9fsDirent, 1);
+> +            if (entries) {
+> +                e = e->next = g_new(struct V9fsDirent, 1);
+> +            }
+
+... this `else` block would never be reached and no list assembled.
+
+>          }
+>          e->next = NULL;
+>          /* qid[13] offset[8] type[1] name[s] */
+
+And even if above's issue was fixed, then it would cause a use-after-free for
+the last element in the list if entries != NULL and caller trying to access
+the last element afterwards. So you would still need a separate g_autofree
+pointer instead of tagging `e` directly, or something like this after loop
+end:
+
+  if (entries)
+    g_steal_pointer(e);
+
+Which would somehow defeat the purpose of using g_autofree though.
+
+I mean, yes this could be addressed, but is it worth it? I don't know. Even
+this reported leak is a purely theoretical one, but I understand if people
+want to silence a warning.
+
+Best regards,
+Christian Schoenebeck
+
 
 
