@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FCB6F2495
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BC76F2492
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:17:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psjVU-00069Y-UL; Sat, 29 Apr 2023 08:16:52 -0400
+	id 1psjVV-0006A6-Ri; Sat, 29 Apr 2023 08:16:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psjVS-00068o-E0
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:16:50 -0400
+ id 1psjVT-00069C-ON
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:16:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psjVQ-0004sw-Rp
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:16:50 -0400
+ id 1psjVS-0004tD-9D
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:16:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682770608;
+ s=mimecast20190719; t=1682770609;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YeUC/1DjrJw6AqrdGMEqztcG44rXewMs3zOdih0CUzU=;
- b=IFacNYagof8qeHMdLO3Xz6FQItVg9zM5tu2VCvwdfytyUWuEBVB0MkJaphlCjPEQfQS8rW
- gtk5c2LZvPcO+cphsFmPclcI3lVvuJIWHZxALNo2oyfPErgPZNlCcos+0swOVQw1xJXOfi
- W0Tj2k6VsBIQANUfTnKh89RnC2i4teo=
+ bh=Y6n25tAvKjm/CgHaYE2Nh9DWMy5VIM9DHEAD/A734ys=;
+ b=gvfQFNM9BlxoH1+G/3+WIdLUAdy4xoxgaHvELIYoScpQTvKiewkyFHzjgNN4v7ZfeLPRiZ
+ vCwLa1nasoqRPSK+c2v8v1vptPlpiaFHxu7Qqb9mI/D+cAoxLMEa6eK4qa/x/BAxppdCCY
+ suZAUmxTD6nl2izKcOBQMzr68DC3Dzc=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-533-b4HksLkmOieNegfFSpz7Nw-1; Sat, 29 Apr 2023 08:16:46 -0400
-X-MC-Unique: b4HksLkmOieNegfFSpz7Nw-1
+ us-mta-247-W3_Xpf0vM8uZBjDZeIGDtw-1; Sat, 29 Apr 2023 08:16:48 -0400
+X-MC-Unique: W3_Xpf0vM8uZBjDZeIGDtw-1
 Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-506a446b97bso864430a12.1
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:16:45 -0700 (PDT)
+ 4fb4d7f45d1cf-5067ce9bf7bso840316a12.2
+ for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:16:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682770604; x=1685362604;
+ d=1e100.net; s=20221208; t=1682770606; x=1685362606;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YeUC/1DjrJw6AqrdGMEqztcG44rXewMs3zOdih0CUzU=;
- b=PbIHx8Kyt2kQQgDKqKnuiUns+84VPos0g7JAOd6PoSB+xkErMvnRAkCRWP9hSNcKif
- PUuiSjdyyghVUuEaYhVVwdno+XLebDosQ9GtF4CTkkrNYk7ZQCIVrqMZj3h1MUbiN+7o
- TyeqhwjA9rC9Z5NcVnIDoc2USsJQLpV1fgZgeebyQ0+AblazqMZdEeUx+aqbYsMWzWlc
- xc4nLRe12zGANF/srBwE3ewKE72RB9f6bl7L2nFDT8wpJok3/rePBtg8lv0018lFemIB
- HP5nOL/ATAORNMpgYXXLMJdntsv7BhNxEjIhSoh4szAXZ/a7PV/Q9Vmjc1rmGs7xpdNf
- RITg==
-X-Gm-Message-State: AC+VfDyR7pNu2A5FLLiHL5VxembAoMg9wibfbOuhDFCVPQVoTorr13w8
- 6NVZ3Z7pKiBC8ftXkS+U/rlpqSvEZbn7Z8HMnL+1tf9naoqzI5tUQgLO+ixvNrdhq5X240IR8nm
- OnYcYvPSA3xJjQPF3bwLw1JCfkJgVbbBCeDqXZEuejUx1s6AMn4o5HmUFPHc1weC37RDVGMPaQs
- g=
-X-Received: by 2002:aa7:d9da:0:b0:50a:1d85:319e with SMTP id
- v26-20020aa7d9da000000b0050a1d85319emr1292043eds.27.1682770604417; 
- Sat, 29 Apr 2023 05:16:44 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5qqm9mxpvYUbiBnvj+XxqNKMAMguvezwsxR3AuKvqpsV8VgGvyA60QKUeXnB/iNQ5szZ5riA==
-X-Received: by 2002:aa7:d9da:0:b0:50a:1d85:319e with SMTP id
- v26-20020aa7d9da000000b0050a1d85319emr1292026eds.27.1682770604074; 
- Sat, 29 Apr 2023 05:16:44 -0700 (PDT)
+ bh=Y6n25tAvKjm/CgHaYE2Nh9DWMy5VIM9DHEAD/A734ys=;
+ b=Et/HqHXpSbbr4bP6190JU/48pSj3AuKXmLQZ3V4H8AF7fzYfXwbf6ansjIfo3Pi+OF
+ 5bGvubbgGDJPIXHLVOPPQEYobEP615cEvHpYkb0wrkVrvDjsI73QSj/Pwlpj5Jw0GfsD
+ ZWV/nGDF/dnBFThSYVrKdBp2R0wrLA5yinsDP6YpBPiVRd6ccgXmhx+EVAAeZqfizvBY
+ fpWTam8AnR6JDVMVSJUtWAQU+KSWtPjxZT2tUaBrRKP+B9HC1OFKBubqVmP3IR3gf4i8
+ N730i1BpffnKz90DWuPIHMy42d3WZv9K/wjWw1nMGMhXLsJq2iWHsyS8/ASociipqvZV
+ W7Gg==
+X-Gm-Message-State: AC+VfDx84ebs2HR3QuwGBiod02uk/IehunUatd223TVR/iW3JWStshno
+ i/zVEocVcDXJndOb+A2Fstz2uJ2TgS78Wm3KRL9XHDPv549qcBpkMiJYDCp5OolBOl7wJwhi6sT
+ iCsk+6oanjIsJ0JqQpDFfFHD86Dvw2PXJ0tB9KywOGVskFzAo/Z/6bljzMA+4FkdrmHAuxyRAEt
+ w=
+X-Received: by 2002:aa7:c2ca:0:b0:506:a48e:6af1 with SMTP id
+ m10-20020aa7c2ca000000b00506a48e6af1mr1232521edp.38.1682770606208; 
+ Sat, 29 Apr 2023 05:16:46 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6EpE84ck5Zrv6ZlludpThDEZ4dGbJIjOzuvMoMNAHnxlVXC9qthTquYhBvCQ3uQ7SmV/EWpA==
+X-Received: by 2002:aa7:c2ca:0:b0:506:a48e:6af1 with SMTP id
+ m10-20020aa7c2ca000000b00506a48e6af1mr1232507edp.38.1682770605888; 
+ Sat, 29 Apr 2023 05:16:45 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- b11-20020a056402138b00b004bd6e3ed196sm10018010edv.86.2023.04.29.05.16.42
+ i21-20020a05640200d500b00501d73cfc86sm10483196edu.9.2023.04.29.05.16.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Apr 2023 05:16:43 -0700 (PDT)
+ Sat, 29 Apr 2023 05:16:45 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Tom Lendacky <thomas.lendacky@amd.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PULL 03/17] i386/sev: Update checks and information related to
- reduced-phys-bits
-Date: Sat, 29 Apr 2023 14:16:22 +0200
-Message-Id: <20230429121636.230934-4-pbonzini@redhat.com>
+Subject: [PULL 04/17] i386/cpu: Update how the EBX register of CPUID
+ 0x8000001F is set
+Date: Sat, 29 Apr 2023 14:16:23 +0200
+Message-Id: <20230429121636.230934-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230429121636.230934-1-pbonzini@redhat.com>
 References: <20230429121636.230934-1-pbonzini@redhat.com>
@@ -104,58 +104,33 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Tom Lendacky <thomas.lendacky@amd.com>
 
-The value of the reduced-phys-bits parameter is propogated to the CPUID
-information exposed to the guest. Update the current validation check to
-account for the size of the CPUID field (6-bits), ensuring the value is
-in the range of 1 to 63.
+Update the setting of CPUID 0x8000001F EBX to clearly document the ranges
+associated with fields being set.
 
-Maintain backward compatibility, to an extent, by allowing a value greater
-than 1 (so that the previously documented value of 5 still works), but not
-allowing anything over 63.
-
-Fixes: d8575c6c02 ("sev/i386: add command to initialize the memory encryption context")
+Fixes: 6cb8f2a663 ("cpu/i386: populate CPUID 0x8000_001F when SEV is active")
 Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <cca5341a95ac73f904e6300f10b04f9c62e4e8ff.1664550870.git.thomas.lendacky@amd.com>
+Message-Id: <5822fd7d02b575121380e1f493a8f6d9eba2b11a.1664550870.git.thomas.lendacky@amd.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/sev.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ target/i386/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 859e06f6ad77..fe2144c0388b 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -932,15 +932,26 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-     host_cpuid(0x8000001F, 0, NULL, &ebx, NULL, NULL);
-     host_cbitpos = ebx & 0x3f;
- 
-+    /*
-+     * The cbitpos value will be placed in bit positions 5:0 of the EBX
-+     * register of CPUID 0x8000001F. No need to verify the range as the
-+     * comparison against the host value accomplishes that.
-+     */
-     if (host_cbitpos != sev->cbitpos) {
-         error_setg(errp, "%s: cbitpos check failed, host '%d' requested '%d'",
-                    __func__, host_cbitpos, sev->cbitpos);
-         goto err;
-     }
- 
--    if (sev->reduced_phys_bits < 1) {
--        error_setg(errp, "%s: reduced_phys_bits check failed, it should be >=1,"
--                   " requested '%d'", __func__, sev->reduced_phys_bits);
-+    /*
-+     * The reduced-phys-bits value will be placed in bit positions 11:6 of
-+     * the EBX register of CPUID 0x8000001F, so verify the supplied value
-+     * is in the range of 1 to 63.
-+     */
-+    if (sev->reduced_phys_bits < 1 || sev->reduced_phys_bits > 63) {
-+        error_setg(errp, "%s: reduced_phys_bits check failed,"
-+                   " it should be in the range of 1 to 63, requested '%d'",
-+                   __func__, sev->reduced_phys_bits);
-         goto err;
-     }
- 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 2e30e348a176..73dd99374abe 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6000,8 +6000,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         if (sev_enabled()) {
+             *eax = 0x2;
+             *eax |= sev_es_enabled() ? 0x8 : 0;
+-            *ebx = sev_get_cbit_position();
+-            *ebx |= sev_get_reduced_phys_bits() << 6;
++            *ebx = sev_get_cbit_position() & 0x3f; /* EBX[5:0] */
++            *ebx |= (sev_get_reduced_phys_bits() & 0x3f) << 6; /* EBX[11:6] */
+         }
+         break;
+     default:
 -- 
 2.40.0
 
