@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3635B6F248B
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:16:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93EEC6F21EA
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 03:19:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psjU8-0002xF-LN; Sat, 29 Apr 2023 08:15:28 -0400
+	id 1psZDp-00071A-FH; Fri, 28 Apr 2023 21:17:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjU0-0002vT-T4
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:20 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1psjTp-0004Qk-Tj
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:15:20 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f1950f5676so6667135e9.3
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682770508; x=1685362508;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=nlT1ljjJB8LGWdP0GxfksUDvVBSxenIPVUR0meqd4C8=;
- b=cfM36Ls7TbOTK6+gPK76b4xJHNNGaEJIQO29c0576s1CoGgTAYz0GQNf2dlVleYnMF
- Xzs3oOA3+xMVRVrE7zCtlsMfDA+TArnvPJbpKm230LrgWd7sKr69FBPI9J0oIiygImma
- Nv2rz9K4pwtZ3YlT2FI/vShiiK2syw9ViTrwL0pYlONMNgqmVs2dpYpHALZ472p7CeXe
- 0V8qHQ2uDdkjGymkDC8vEWOtZDuB1Iz2hwFYkIkwRlyDB+TEt6+kmH9/zeVYFIMyy4J2
- EMzxws0cx+0PTq7wBwpMDM5FbTM46yikQwAnkm8wYTnIA49Sv/3ZItDFbqPH1W9Hrn3F
- TF4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682770508; x=1685362508;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nlT1ljjJB8LGWdP0GxfksUDvVBSxenIPVUR0meqd4C8=;
- b=JcXpB7TDL8Ez7DtWc8i0+TVUWZEUYLtgSzMs5lTpXSEwTE1Q6s2LV2D2W4ZlKnje59
- Yo3soeRpnb5VlF/xUFQRT0o+qoH+UYAMtNVKMhEm6pYxRhY4m04Ls7pyGhmrg+BDapLc
- yoi85xR066KJC8smTJjWyy40y7d4RGGFB3PbS1QszhpG+iWr2+9niKo9RQqOO5qprU2Y
- e69SYm/r8mby8ujX37O4AwQSYMLxLJipnDx6X4Pj3C1vuT/WjxBU+0g5bDVX2H7MBNTk
- 61Pki2SI2Yqewv5GrvDAJB2YGDPAf8B2MAtJdAOggb6MHyBmvLU8XmEkkGnT3u8vsPyz
- 4lFQ==
-X-Gm-Message-State: AC+VfDybDmhglYC61SC53/53u2o9rdg/LwhqQfkieJDamQWscY73IeQP
- 2DRVrLjOjCJkGryWrWzZm73njGVZPXaQtZbaN2VDkA==
-X-Google-Smtp-Source: ACHHUZ7PCcrF5x1816q3pIPR3rkjBpWnlL4iPzvomJG1rGadbJ9VEh3u1Vn34kCrw0U/sZBQbhxnfw==
-X-Received: by 2002:a05:600c:364f:b0:3f3:1cb7:b2a6 with SMTP id
- y15-20020a05600c364f00b003f31cb7b2a6mr5141365wmq.6.1682770508571; 
- Sat, 29 Apr 2023 05:15:08 -0700 (PDT)
-Received: from [192.168.212.175] (7.red-88-29-166.dynamicip.rima-tde.net.
- [88.29.166.7]) by smtp.gmail.com with ESMTPSA id
- ip29-20020a05600ca69d00b003f1712b1402sm30430249wmb.30.2023.04.29.05.15.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Apr 2023 05:15:08 -0700 (PDT)
-Message-ID: <e2952421-d46e-d6f8-e502-c7fb9af9649d@linaro.org>
-Date: Sat, 29 Apr 2023 00:12:12 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1psZDm-00070g-Kl; Fri, 28 Apr 2023 21:17:54 -0400
+Received: from [159.226.251.80] (helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1psZDj-0000f2-ON; Fri, 28 Apr 2023 21:17:54 -0400
+Received: from [192.168.0.120] (unknown [61.165.33.195])
+ by APP-01 (Coremail) with SMTP id qwCowAD3_JwtcExkPxOdDA--.13489S2;
+ Sat, 29 Apr 2023 09:17:33 +0800 (CST)
+Message-ID: <2080f38b-59ad-cb5b-02ee-f78f12a75414@iscas.ac.cn>
+Date: Sat, 29 Apr 2023 09:17:32 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH] hw/remote: Fix vfu_cfg trace offset format
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Cc: liweiwei@iscas.ac.cn, Alistair Francis <alistair23@gmail.com>,
+ Daniel Barboza <dbarboza@ventanamicro.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 2/4] target/riscv: Reuse tb->flags.FS
+To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, alistair.francis@wdc.com
+References: <20230428165212.2800669-1-mchitale@ventanamicro.com>
+ <20230428165212.2800669-3-mchitale@ventanamicro.com>
 Content-Language: en-US
-To: Mattias Nissler <mnissler@rivosinc.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20230426093518.966397-1-mnissler@rivosinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230426093518.966397-1-mnissler@rivosinc.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230428165212.2800669-3-mchitale@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: qwCowAD3_JwtcExkPxOdDA--.13489S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw4xuFWxtrWxKF1xuryDJrb_yoW5WF1kpr
+ Z7Cr4ayFWDJFZrAa1fKF45JF1xur48Cr1fC3Z7Cw18Wrs8Xr95C3srKa43GF4DXFW8uryj
+ kFs0kr1UuF47ZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUva14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+ 6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+ 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkIecxEwVAFwVWkMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
+ 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+ xVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+ 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280
+ aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyT
+ uYvjfUOMKZDUUUU
+X-Originating-IP: [61.165.33.195]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 159.226.251.80 (deferred)
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
+ RCVD_IN_MSPIKE_H2=-0.001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,16 +80,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/4/23 11:35, Mattias Nissler wrote:
-> The printed offset value is prefixed with 0x, but was actually printed
-> in decimal. To spare others the confusion, adjust the format specifier
-> to hexadecimal.
-> 
-> Signed-off-by: Mattias Nissler <mnissler@rivosinc.com>
-> ---
->   hw/remote/trace-events | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+On 2023/4/29 00:52, Mayuresh Chitale wrote:
+> When misa.F is 0 tb->flags.FS field is unused and can be used to save
+> the current state of smstateen0.FCSR check which is needed by the
+> floating point translation routines.
+>
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> ---
+
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+
+Weiwei Li
+
+>   target/riscv/cpu_helper.c |  9 +++++++++
+>   target/riscv/translate.c  | 12 +++++++++++-
+>   2 files changed, 20 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index b68dcfe7b6..126ac221a0 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -119,6 +119,15 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>           vs = MIN(vs, get_field(env->mstatus_hs, MSTATUS_VS));
+>       }
+>   
+> +    /*
+> +     * If misa.F is 0 then the FS field of the tb->flags can be used to pass
+> +     * the current state of the smstateen.FCSR bit which must be checked for
+> +     * in the floating point translation routines.
+> +     */
+> +    if (!riscv_has_ext(env, RVF)) {
+> +        fs = (smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR) == RISCV_EXCP_NONE);
+> +    }
+> +
+>       if (cpu->cfg.debug && !icount_enabled()) {
+>           flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_enabled);
+>       }
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 928da0d3f0..74f624aa62 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -78,6 +78,7 @@ typedef struct DisasContext {
+>       int frm;
+>       RISCVMXL ol;
+>       bool virt_inst_excp;
+> +    bool smstateen_fcsr_ok;
+>       bool virt_enabled;
+>       const RISCVCPUConfig *cfg_ptr;
+>       /* vector extension */
+> @@ -1155,7 +1156,11 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->pc_succ_insn = ctx->base.pc_first;
+>       ctx->priv = FIELD_EX32(tb_flags, TB_FLAGS, PRIV);
+>       ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
+> -    ctx->mstatus_fs = FIELD_EX32(tb_flags, TB_FLAGS, FS);
+> +    if (has_ext(ctx, RVF)) {
+> +        ctx->mstatus_fs = FIELD_EX32(tb_flags, TB_FLAGS, FS);
+> +    } else {
+> +        ctx->mstatus_fs = 0;
+> +    }
+>       ctx->mstatus_vs = FIELD_EX32(tb_flags, TB_FLAGS, VS);
+>       ctx->priv_ver = env->priv_ver;
+>       ctx->virt_enabled = FIELD_EX32(tb_flags, TB_FLAGS, VIRT_ENABLED);
+> @@ -1178,6 +1183,11 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
+>       ctx->zero = tcg_constant_tl(0);
+>       ctx->virt_inst_excp = false;
+> +    if (has_ext(ctx, RVF) || !cpu->cfg.ext_smstateen) {
+> +        ctx->smstateen_fcsr_ok = 1;
+> +    } else {
+> +        ctx->smstateen_fcsr_ok = FIELD_EX32(tb_flags, TB_FLAGS, FS);
+> +    }
+>   }
+>   
+>   static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
 
 
