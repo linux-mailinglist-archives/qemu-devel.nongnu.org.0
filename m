@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBF26F23D4
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 11:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B896F241E
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 12:24:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psgkr-0006TP-MW; Sat, 29 Apr 2023 05:20:33 -0400
+	id 1pshjM-0002bD-5D; Sat, 29 Apr 2023 06:23:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1psgkp-0006Sx-50; Sat, 29 Apr 2023 05:20:31 -0400
-Received: from [159.226.251.80] (helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1psgkm-0002VE-Do; Sat, 29 Apr 2023 05:20:30 -0400
-Received: from [192.168.0.120] (unknown [61.165.33.195])
- by APP-01 (Coremail) with SMTP id qwCowACnrnpN4UxkWLrQDA--.62553S2;
- Sat, 29 Apr 2023 17:20:13 +0800 (CST)
-Message-ID: <dd440013-4eb5-7582-5830-1b161a867535@iscas.ac.cn>
-Date: Sat, 29 Apr 2023 17:20:12 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Cc: liweiwei@iscas.ac.cn, Alistair Francis <alistair23@gmail.com>,
- Daniel Barboza <dbarboza@ventanamicro.com>
-Subject: Re: [PATCH v3 2/4] target/riscv: Reuse tb->flags.FS
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20230428165212.2800669-1-mchitale@ventanamicro.com>
- <20230428165212.2800669-3-mchitale@ventanamicro.com>
- <adad1915-aad9-1f17-0cec-7e5057c15624@linaro.org>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-In-Reply-To: <adad1915-aad9-1f17-0cec-7e5057c15624@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACnrnpN4UxkWLrQDA--.62553S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJF4fJw45ur4rZF48XryxZrb_yoW5tr1rpr
- 1kJr4UAryUJrn7J3WxJr15JryUJr1UJw1UJr18JF1UJr45Jr1jqr1UWr12gF1DJr48Xr1U
- AF1UZr1UZr4UJrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
- 4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
- 67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
- x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
- z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
- DU0xZFpf9x0JU4BT5UUUUU=
-X-Originating-IP: [61.165.33.195]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 159.226.251.80 (deferred)
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+ (Exim 4.90_1)
+ (envelope-from <429af9531f2802072c18c982ceb477db579e2167@lizzy.crudebyte.com>)
+ id 1pshjK-0002b0-TO
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 06:23:02 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <429af9531f2802072c18c982ceb477db579e2167@lizzy.crudebyte.com>)
+ id 1pshjJ-00057y-16
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 06:23:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=IWAKooGvBdVCecmlIZf3+b8K8g8I/jByv36bz0e5teU=; b=O37zP
+ EFWPUEgF4S+UgPiMOx1K3pebqSDaa97s3BeMlyxcO5pKP1egL9iwKgHTA+gz8q2zgBsv92C9Ru6tG
+ 9rU+MbdH+G6cBe6v3hFJgS2ViLUWqjdGCuzBQtZRza/p9BoTIFVaSVVBzCQvG3GSN0/vEt6lgkTYB
+ AAwKWef3v63RgmQ10RF8XpdlxgFw0Vy/SY7e/zwf//FuZxLul2ngreVBZyU7yJzp1Besx2xDHhfEf
+ pmkiCJV2VAujX1s0+eGWonHvnD3xz2+pMwYOGfj1oRYvZiiXNzGgADqDXP7AzfFxullZWbMm1fGxg
+ UgM5wAyaMlN+xwcaI9SlyYB+cCuIA==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Sat, 29 Apr 2023 11:25:33 +0200
+Subject: [PATCH] tests/9p: fix potential leak in v9fs_rreaddir()
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>,
+    Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <E1psh5T-0002XN-1C@lizzy.crudebyte.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=429af9531f2802072c18c982ceb477db579e2167@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
- RCVD_IN_MSPIKE_H2=-0.001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,95 +60,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Free allocated directory entries in v9fs_rreaddir() if argument
+`entries` was passed as NULL, to avoid a memory leak. It is
+explicitly allowed by design for `entries` to be NULL. [1]
 
-On 2023/4/29 16:54, Richard Henderson wrote:
-> On 4/28/23 17:52, Mayuresh Chitale wrote:
->> When misa.F is 0 tb->flags.FS field is unused and can be used to save
->> the current state of smstateen0.FCSR check which is needed by the
->> floating point translation routines.
->>
->> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
->> ---
->>   target/riscv/cpu_helper.c |  9 +++++++++
->>   target/riscv/translate.c  | 12 +++++++++++-
->>   2 files changed, 20 insertions(+), 1 deletion(-)
->>
->> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->> index b68dcfe7b6..126ac221a0 100644
->> --- a/target/riscv/cpu_helper.c
->> +++ b/target/riscv/cpu_helper.c
->> @@ -119,6 +119,15 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, 
->> target_ulong *pc,
->>           vs = MIN(vs, get_field(env->mstatus_hs, MSTATUS_VS));
->>       }
->>   +    /*
->> +     * If misa.F is 0 then the FS field of the tb->flags can be used 
->> to pass
->> +     * the current state of the smstateen.FCSR bit which must be 
->> checked for
->> +     * in the floating point translation routines.
->> +     */
->> +    if (!riscv_has_ext(env, RVF)) {
->> +        fs = (smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR) == 
->> RISCV_EXCP_NONE);
->> +    }
->
-> You have misunderstood my suggestion:
->
->     /* With Zfinx, floating point is enabled/disabled by Smstateen. */
->     if (!riscv_has_ext(env, RVF)) {
->         fs = (smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR)
->               ? EXT_STATUS_DIRTY : EXT_STATUS_DISABLED);
->     }
->
->> +    bool smstateen_fcsr_ok;
->
-> Not needed.
->
->> -    ctx->mstatus_fs = FIELD_EX32(tb_flags, TB_FLAGS, FS);
->> +    if (has_ext(ctx, RVF)) {
->> +        ctx->mstatus_fs = FIELD_EX32(tb_flags, TB_FLAGS, FS);
->> +    } else {
->> +        ctx->mstatus_fs = 0;
->> +    }
->
-> Not needed.
->
-> In patch 3, which should be merged with this, there are no changes to 
-> REQUIRE_ZFINX_OR_F, no additional smstateen_fcsr_check, and 
-> REQUIRE_FPU reduces to
->
-> #define REQUIRE_FPU do {                          \
->     if (ctx->mstatus_fs == EXT_STATUS_DISABLED) { \
->         return false;                             \
->     }                                             \
-> } while (0)
->
-> This makes the DisasContext version of fs be the single gate for 
-> floating point.
-> No extra checks required.
+[1] https://lore.kernel.org/all/1690923.g4PEXVpXuU@silver
 
-Yeah. It's better to merge with REQUIRE_FPU.
+Reported-by: Coverity (CID 1487558)
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/libqos/virtio-9p-client.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-However,  virtual instruction exception will be triggered in VS/VU mode 
-if smstateen check fails, which is different from normal REQUIRE_FPU.
-
-So, we may need to modify REQUIRE_FPU to distinguish them:
-
-#define REQUIRE_FPU do {                          \
-     if (ctx->mstatus_fs == EXT_STATUS_DISABLED) { \
-           ctx->virt_inst_excp = ctx->virt_enabled && 
-ctx->cfg_ptr->ext_zfinx;  \
-           return false;                             \
-     }                                             \
-} while (0)
-
-Regards,
-
-Weiwei Li
-
->
->
-> r~
+diff --git a/tests/qtest/libqos/virtio-9p-client.c b/tests/qtest/libqos/virtio-9p-client.c
+index e4a368e036..b8adc8d4b9 100644
+--- a/tests/qtest/libqos/virtio-9p-client.c
++++ b/tests/qtest/libqos/virtio-9p-client.c
+@@ -594,6 +594,8 @@ void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
+ {
+     uint32_t local_count;
+     struct V9fsDirent *e = NULL;
++    /* only used to avoid a leak if entries was NULL */
++    struct V9fsDirent *unused_entries = NULL;
+     uint16_t slen;
+     uint32_t n = 0;
+ 
+@@ -612,6 +614,8 @@ void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
+             e = g_new(struct V9fsDirent, 1);
+             if (entries) {
+                 *entries = e;
++            } else {
++                unused_entries = e;
+             }
+         } else {
+             e = e->next = g_new(struct V9fsDirent, 1);
+@@ -628,6 +632,7 @@ void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
+         *nentries = n;
+     }
+ 
++    v9fs_free_dirents(unused_entries);
+     v9fs_req_free(req);
+ }
+ 
+-- 
+2.30.2
 
 
