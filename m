@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B806F248F
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EE16F2498
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:18:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psjW2-0007LU-QV; Sat, 29 Apr 2023 08:17:26 -0400
+	id 1psjVz-000737-TY; Sat, 29 Apr 2023 08:17:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psjVq-0006W2-Je
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:17:14 -0400
+ id 1psjVr-0006Y7-Lp
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:17:19 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psjVn-0004xs-TP
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:17:13 -0400
+ id 1psjVp-0004y8-5H
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:17:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682770631;
+ s=mimecast20190719; t=1682770632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t3JYSL71/jrUO57UK1NBG3ZDARVXsuJxlKqthvDRR88=;
- b=J0RGCz0i2964i1wPsCKyF05h7NGStTV7wpKQQ25KKztjNuC+53gNSh/y436kHHwirQey9t
- o/5Ca54wRi9jtLY8xfO37CRogBMGIcxXKlRjhLEGwcpSY3dQemH7f2nBfgVFWiDaMUoKtZ
- agluXxddvK57+kUiSJUoWc0VSvKXmBU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GEcIm3ncOAoTM5gXAT+mpmQYieCKspPnGHdQEd9rYu4=;
+ b=bGLa76nVr9CCPZUnagnM6guaPZvojsyuP9AblWDCWPbG31HoZPPdBuRmAWSS0g3rxcLw/H
+ NIxLwvhPa0bEqu8whG5W6F396WkblZFl+8H8XAYpbSKylE4LRnOgJ87eHWau8RC3XeohG0
+ SSvEKWnen9ZIL8y6A1KeO8r580tWjkw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-571-8MjjKOgvPb22Ir1p0zDsTQ-1; Sat, 29 Apr 2023 08:17:09 -0400
-X-MC-Unique: 8MjjKOgvPb22Ir1p0zDsTQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-505b696f254so641041a12.3
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:17:09 -0700 (PDT)
+ us-mta-255-rgo2YUdEOSOO5CWLDjLRKQ-1; Sat, 29 Apr 2023 08:17:10 -0400
+X-MC-Unique: rgo2YUdEOSOO5CWLDjLRKQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-50b87b70324so445366a12.1
+ for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:17:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682770628; x=1685362628;
+ d=1e100.net; s=20221208; t=1682770629; x=1685362629;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=t3JYSL71/jrUO57UK1NBG3ZDARVXsuJxlKqthvDRR88=;
- b=C/B46dEQrT4McSwgyvE0trgKhys1J4LVji6sADGnlEemFte+gI4ZkRkXgDDUo+OULW
- kzD7eGusnEPZABKisW6DFe0HdTUnp4Man52MXnNxVp5Z5OryilvAatEZiU8YXANcsZTU
- F/z4TuJIKGY02MuDx/bZ11BUFcS3/f6LJ1Nw+wS6e3u2tTBO+5M5x3oxLa4BYPuxMWx9
- 7gOXtRXac1V+qPs3PZmAALOp7fIhtMvtJi9r4JlfzQGaaw2ZwQsJB8al4rf758HBLl3N
- BwbKEb3PAu/LbNWJKscaSLEGxkqx+JNFVaMcMv9DVch8ZtEHP0bbj39QitLHgJ0Ec2Ui
- fBbw==
-X-Gm-Message-State: AC+VfDytTaRDoDns1QfwnB1gT/JPBwyuB206lsjzOxXEMYrW0vEPMcR2
- ESli7Gyp0u7/KP/B+/QCY4qxXfo5xlf3kWx0k0FxZKZQO3xFtiAYVK5W+W2E69KVTFo2iOnW8dN
- 2DGo/Or+l3ABDPzR38yB0XEYPktBCnLKYXKQQRyOLcr7nElXBxToYlYG2g9x8PI0AbATM62x12I
- c=
-X-Received: by 2002:a17:906:7307:b0:958:489f:d050 with SMTP id
- di7-20020a170906730700b00958489fd050mr8126340ejc.43.1682770628042; 
- Sat, 29 Apr 2023 05:17:08 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5yzEOI5ljzWYkfeJr/5QBSPYLZtp6AJk5qEH2cnLWnt/ng1RvcrIo5s+2pTZwpGPvFh5Q+Ow==
-X-Received: by 2002:a17:906:7307:b0:958:489f:d050 with SMTP id
- di7-20020a170906730700b00958489fd050mr8126315ejc.43.1682770627783; 
- Sat, 29 Apr 2023 05:17:07 -0700 (PDT)
+ bh=GEcIm3ncOAoTM5gXAT+mpmQYieCKspPnGHdQEd9rYu4=;
+ b=Ce7a+tfzzsNY1f2HASelMmM9tN7Da/A2F2ZxKDtMcK5P1hI/zbFndeHlfU2oJZOZa4
+ ZmguoCiZamDoOf4a+2FqXNEFGNrQt3SUWg6h8E3RoNuDHE/xU4UT0scXBwjpmQGBL0nu
+ rDrbTja9D2W5GQsdA7t6SaRobFTxBBZmzaN9SAu7gQE4MNBmizgYbiIFPXFjAdFj1FYA
+ 8Ohgg4ahus/JSJlwtzH9tTH7i2F7/dgUW8S7GJdI0kgEeMfUqUA5PbAf1f2Vck5/qIN2
+ enQkX8SYMBPmhSyxz/HVQUGtOvrwoQyA6VWS4597uxh7JFUVr5M1UkEwmWn1vK/sYVj4
+ IJwg==
+X-Gm-Message-State: AC+VfDx12YOs7a4bFICWpcPzMKS9Rvr0rs5MZ5YXJgGZ9I0g3D7321mS
+ 2F68iVuJKZhyQc9fVjcM2tKmq2+nS+SMLtCrgNodhueQi4EJnDgc/FB+s4vWdkfwgMKuJ0wGeEK
+ Y1SqkhrDhiIs0D6vED8R8cTTGEirs7RWBdSNkgzX05e7xDybT/vNssBmAfPeMBDLcDrhgP/GPns
+ w=
+X-Received: by 2002:a17:906:3a8f:b0:953:37d9:282f with SMTP id
+ y15-20020a1709063a8f00b0095337d9282fmr9582129ejd.38.1682770629407; 
+ Sat, 29 Apr 2023 05:17:09 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7dZCdbj2/CUyOAnF1aCo5g7R0qxzOqg5E2KhVoZ5yy4+wF3l/m1Jh9ui9lSjoP1C+0UsUCMA==
+X-Received: by 2002:a17:906:3a8f:b0:953:37d9:282f with SMTP id
+ y15-20020a1709063a8f00b0095337d9282fmr9582117ejd.38.1682770629189; 
+ Sat, 29 Apr 2023 05:17:09 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- jt11-20020a170906ca0b00b00958434d4ecesm9914872ejb.13.2023.04.29.05.17.06
+ l22-20020a170906795600b0094f25ae0821sm12343280ejo.31.2023.04.29.05.17.08
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Apr 2023 05:17:07 -0700 (PDT)
+ Sat, 29 Apr 2023 05:17:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PULL 16/17] async: Suppress GCC13 false positive in aio_bh_poll()
-Date: Sat, 29 Apr 2023 14:16:35 +0200
-Message-Id: <20230429121636.230934-17-pbonzini@redhat.com>
+Subject: [PULL 17/17] cpus-common: stop using mb_set/mb_read
+Date: Sat, 29 Apr 2023 14:16:36 +0200
+Message-Id: <20230429121636.230934-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230429121636.230934-1-pbonzini@redhat.com>
 References: <20230429121636.230934-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
@@ -106,66 +100,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Cédric Le Goater <clg@redhat.com>
+Use a store-release at the end of the work item, and a load-acquire when
+waiting for the item to be completed.  This is the standard message passing
+pattern and is both enough and clearer than mb_read/mb_set.
 
-GCC13 reports an error :
-
-../util/async.c: In function ‘aio_bh_poll’:
-include/qemu/queue.h:303:22: error: storing the address of local variable ‘slice’ in ‘*ctx.bh_slice_list.sqh_last’ [-Werror=dangling-pointer=]
-  303 |     (head)->sqh_last = &(elm)->field.sqe_next;                          \
-      |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-../util/async.c:169:5: note: in expansion of macro ‘QSIMPLEQ_INSERT_TAIL’
-  169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
-      |     ^~~~~~~~~~~~~~~~~~~~
-../util/async.c:161:17: note: ‘slice’ declared here
-  161 |     BHListSlice slice;
-      |                 ^~~~~
-../util/async.c:161:17: note: ‘ctx’ declared here
-
-But the local variable 'slice' is removed from the global context list
-in following loop of the same routine. Add a pragma to silent GCC.
-
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Cédric Le Goater <clg@redhat.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20230420202939.1982044-1-clg@kaod.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/async.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ cpus-common.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/util/async.c b/util/async.c
-index 21016a1ac7c1..856e1a8a337a 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -164,7 +164,21 @@ int aio_bh_poll(AioContext *ctx)
+diff --git a/cpus-common.c b/cpus-common.c
+index b0047e456f93..a53716deb437 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -157,7 +157,7 @@ void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
+     wi.exclusive = false;
  
-     /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue().  */
-     QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
-+
-+    /*
-+     * GCC13 [-Werror=dangling-pointer=] complains that the local variable
-+     * 'slice' is being stored in the global 'ctx->bh_slice_list' but the
-+     * list is emptied before this function returns.
-+     */
-+#if !defined(__clang__)
-+#pragma GCC diagnostic push
-+#pragma GCC diagnostic ignored "-Wpragmas"
-+#pragma GCC diagnostic ignored "-Wdangling-pointer="
-+#endif
-     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
-+#if !defined(__clang__)
-+#pragma GCC diagnostic pop
-+#endif
+     queue_work_on_cpu(cpu, &wi);
+-    while (!qatomic_mb_read(&wi.done)) {
++    while (!qatomic_load_acquire(&wi.done)) {
+         CPUState *self_cpu = current_cpu;
  
-     while ((s = QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
-         QEMUBH *bh;
+         qemu_cond_wait(&qemu_work_cond, mutex);
+@@ -363,7 +363,7 @@ void process_queued_cpu_work(CPUState *cpu)
+         if (wi->free) {
+             g_free(wi);
+         } else {
+-            qatomic_mb_set(&wi->done, true);
++            qatomic_store_release(&wi->done, true);
+         }
+     }
+     qemu_mutex_unlock(&cpu->work_mutex);
 -- 
 2.40.0
 
