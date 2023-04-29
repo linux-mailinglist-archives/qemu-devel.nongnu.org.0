@@ -2,95 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FB46F24B6
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4571A6F24C0
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 15:03:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psjld-00041q-DZ; Sat, 29 Apr 2023 08:33:33 -0400
+	id 1pskDF-0000gW-Pm; Sat, 29 Apr 2023 09:02:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psjlZ-000418-2D
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:33:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psjlW-00087H-MF
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:33:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682771605;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LBHGvAj4TRTOmHr4KPEyjcnJhPWBeukowU+V2sswzqY=;
- b=IDItJTn1wBiWO2AHHnVrwCjJqw8UMYg0/sib7cIvFOF5tL79MgGNSO+9eS+/TLDO7HybfH
- WHCGT5JCdhQahRu3FzMZCCY1Nu34szZg9FVFEFkwIitJKC42EZs/VkXeGttR5v9/yWYAvG
- gCVSXQGQ6o79z7rTZ1xuKsi9ArNFDGg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-26-A17S2hWeOTKUT0tMf-M-5g-1; Sat, 29 Apr 2023 08:33:21 -0400
-X-MC-Unique: A17S2hWeOTKUT0tMf-M-5g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-509e422cfb3so852013a12.3
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:33:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pskDB-0000eh-66
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 09:02:02 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pskD8-0004dA-2X
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 09:02:00 -0400
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-2f87c5b4635so719294f8f.1
+ for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 06:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1682773316; x=1685365316;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KkdIPBlRLJhRWozD1DV3DzaxHqKsbk+9L2y8wj7pxU4=;
+ b=yZrWigN8d3+lJ9qztSgEjgYtLMCj55F66i0VSgVJHp/ByxyCZB4jqn8QyY2oiT8oRB
+ Ku9wtPZg+Oq1euOopRT4fRLx7xxlekxGVJTtfVL/2Kh8E/H1QWl2UHjO7EeFfdy0usx8
+ a+1rNZuNFqnboskgF60Inwf8c3Kh9K4rP+pf3mQJ0DtQ+0LwEQ2PxXvXfAEfQ8lqcDvI
+ Q6fvHzVtSl+Cd55XDW+Vxm2c1sL6pXk2tqCMflJsZeF/XH2MEGDDGW2fzlbTc5pQkyBO
+ w4MVOYSoE5LC78JziV+JInWCr3P6/sxA3wpCymkK33s6J700MHnj9+ZYV1E0PCx+Bfts
+ fnxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682771599; x=1685363599;
+ d=1e100.net; s=20221208; t=1682773316; x=1685365316;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LBHGvAj4TRTOmHr4KPEyjcnJhPWBeukowU+V2sswzqY=;
- b=Y/sPTqNhq2cUIEzaXCTh8w5E1eJ5o/yrtp8ov14veeI9I3OOnCRL7C2JkkDLYzy5RB
- rNSdJDgb/qG+OoH0Eg0bTN4mrd69IIyUsnLlAkP/mOe8vfc35z0uv4ZQ72DWq6O2DzxJ
- /WsnErDX6EKvvDgReXUHr+zqLgRO7AL+IyCRPepPv5ATnsG/xGNBcCymZPvphIk1tDPM
- YBCBV1HGkYoMH7S2XN6AVJM7iky+V15qlVAR0jjeM69R3GauS0tLtG+C3l71riRkDn0l
- I64EoukHeJfYzH8ohZFF3BeebHuNLU5IRUAbphIYh9YFnLMWyKChf0wUaZt9x+fRZj/L
- W2UQ==
-X-Gm-Message-State: AC+VfDwJnQPGTg30Bvyy/2sN6J0UOBIEioqXnxXMDxmBoqqS0VoIeoj+
- 7VPNrjL5PHT9cbdLNnuZbho53mDpp2u/6Z0I7ZMHItOocZTuyF7nWPqfiSfkEowkN2MRali7DDx
- Lv1Dm5psD9lDKcBnckvGybGM=
-X-Received: by 2002:a05:6402:114c:b0:508:4808:b62b with SMTP id
- g12-20020a056402114c00b005084808b62bmr1424604edw.22.1682771599814; 
- Sat, 29 Apr 2023 05:33:19 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6flPy231SvlbtZ8MwAhE6xJAgQlBPuAnTftkkL2iio2Lf2ElHPNp7dTYhwHphL4DLZ+jYCwQ==
-X-Received: by 2002:a05:6402:114c:b0:508:4808:b62b with SMTP id
- g12-20020a056402114c00b005084808b62bmr1424593edw.22.1682771599548; 
- Sat, 29 Apr 2023 05:33:19 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- z15-20020aa7cf8f000000b005067d6b06efsm10062652edx.17.2023.04.29.05.33.18
+ bh=KkdIPBlRLJhRWozD1DV3DzaxHqKsbk+9L2y8wj7pxU4=;
+ b=LRu9z60WwEDg9CrxO04qMQLM9WBUKfARMx7brz15ZluS4xYXKQ3JBYWTH7SMLAYxde
+ /tjNo2DygBLfEKeiWoIFWzuOW42sb8enb1v3JXAQXcR6b4LF/RNhv2okJ50rDeNmsqrz
+ +WZnOm8Kcn+3s6PE/9uxDuxi8N5WK1bZpOzjQQvzieIxuoxJQlcCQSTJgInNN0TolugN
+ qhKThbu77D5SjJIzmKfCCSs5P1/bjIjR8JGUZ24X+T3/NufhXdafGXEAr/jdiO5uR8z8
+ QY5mFfx3mqZmkR1MP3Fl+J+L8b80aYImxAR6gPMKYbD4kc3BBzMGbc7RvK9OMth6aPDI
+ e0Fg==
+X-Gm-Message-State: AC+VfDxLbeErL/GJfF9XiGzSyhP13JZXLprX2ixQgIBS460+gDpall3d
+ awrzkPiPTcq0gCqRRbkL5T6pNA==
+X-Google-Smtp-Source: ACHHUZ5ExYsCsQoCfD5wrs620G/sxBIe+1s2aLvyIlgMFan1gnKqOyQQqnnlT5CJu0dhOa+U0phjRA==
+X-Received: by 2002:adf:fdc6:0:b0:306:2767:4959 with SMTP id
+ i6-20020adffdc6000000b0030627674959mr266986wrs.27.1682773316231; 
+ Sat, 29 Apr 2023 06:01:56 -0700 (PDT)
+Received: from [192.168.212.175] (7.red-88-29-166.dynamicip.rima-tde.net.
+ [88.29.166.7]) by smtp.gmail.com with ESMTPSA id
+ e22-20020a5d5956000000b003012030a0c6sm23503528wri.18.2023.04.29.06.01.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Apr 2023 05:33:19 -0700 (PDT)
-Message-ID: <12c1fa01-9c1d-9af7-71eb-e9103346d0af@redhat.com>
-Date: Sat, 29 Apr 2023 14:33:17 +0200
+ Sat, 29 Apr 2023 06:01:55 -0700 (PDT)
+Message-ID: <92b3252a-fd8a-91c6-c90a-3a858fd126fe@linaro.org>
+Date: Sat, 29 Apr 2023 14:01:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v3] meson: Pass -j option to sphinx
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v3 06/57] tcg/i386: Generalize multi-part load overlap test
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230428150102.13114-1-farosas@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230428150102.13114-1-farosas@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-ppc@nongnu.org, git@xen0n.name, jiaxun.yang@flygoat.com
+References: <20230424054105.1579315-1-richard.henderson@linaro.org>
+ <20230424054105.1579315-7-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230424054105.1579315-7-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,38 +95,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/28/23 17:01, Fabiano Rosas wrote:
-> Also make sure our plugins support parallelism and report it properly
-> to sphinx. Particularly, implement the merge_domaindata method in
-> DBusDomain that is used to merge in data from other subprocesses.
+On 24/4/23 07:40, Richard Henderson wrote:
+> Test for both base and index; use datahi as a temporary, overwritten
+> by the final load.  Always perform the loads in ascending order, so
+> that any (user-only) fault sees the correct address.
 > 
-> before:
->    $ time make man html
->    ...
->    [1/2] Generating docs/QEMU manual with a custom command
->    [2/2] Generating docs/QEMU man pages with a custom command
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/i386/tcg-target.c.inc | 31 +++++++++++++++----------------
+>   1 file changed, 15 insertions(+), 16 deletions(-)
 > 
->    real    0m43.157s
->    user    0m42.642s
->    sys     0m0.576s
-> 
-> after:
->    $ time make man html
->    ...
->    [1/2] Generating docs/QEMU manual with a custom command
->    [2/2] Generating docs/QEMU man pages with a custom command
-> 
->    real    0m25.014s
->    user    0m51.288s
->    sys     0m2.085s
+> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+> index b986109d77..794d440a9e 100644
+> --- a/tcg/i386/tcg-target.c.inc
+> +++ b/tcg/i386/tcg-target.c.inc
+> @@ -2223,23 +2223,22 @@ static void tcg_out_qemu_ld_direct(TCGContext *s, TCGReg datalo, TCGReg datahi,
+>           if (TCG_TARGET_REG_BITS == 64) {
+>               tcg_out_modrm_sib_offset(s, movop + P_REXW + seg, datalo,
+>                                        base, index, 0, ofs);
+> +            break;
+> +        }
+> +        if (use_movbe) {
+> +            TCGReg t = datalo;
+> +            datalo = datahi;
+> +            datahi = t;
+> +        }
+> +        if (base == datalo || index == datalo) {
+> +            tcg_out_modrm_sib_offset(s, OPC_LEA, datahi, base, index, 0, ofs);
+> +            tcg_out_modrm_offset(s, movop + seg, datalo, datahi, 0);
+> +            tcg_out_modrm_offset(s, movop + seg, datahi, datahi, 4);
 
-The 'nproc' fallback will potentially cause twice #CPUs processes to be 
-active, since sphinx will run in parallel with everything else.
+LGTM but I'd rather have someone fluent with x86 review this one...
 
-Is this result with "-j auto", and if so with which computer?  If the 
-speedup is only 2x as it seems to be from the "time" above, I'd rather 
-have "-j 2" only so that sphinx doesn't risk killing the machine...
-
-Paolo
+>           } else {
+> -            if (use_movbe) {
+> -                TCGReg t = datalo;
+> -                datalo = datahi;
+> -                datahi = t;
+> -            }
+> -            if (base != datalo) {
+> -                tcg_out_modrm_sib_offset(s, movop + seg, datalo,
+> -                                         base, index, 0, ofs);
+> -                tcg_out_modrm_sib_offset(s, movop + seg, datahi,
+> -                                         base, index, 0, ofs + 4);
+> -            } else {
+> -                tcg_out_modrm_sib_offset(s, movop + seg, datahi,
+> -                                         base, index, 0, ofs + 4);
+> -                tcg_out_modrm_sib_offset(s, movop + seg, datalo,
+> -                                         base, index, 0, ofs);
+> -            }
+> +            tcg_out_modrm_sib_offset(s, movop + seg, datalo,
+> +                                     base, index, 0, ofs);
+> +            tcg_out_modrm_sib_offset(s, movop + seg, datahi,
+> +                                     base, index, 0, ofs + 4);
+>           }
+>           break;
+>       default:
 
 
