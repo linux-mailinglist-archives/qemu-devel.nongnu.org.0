@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558866F2491
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261BA6F248E
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 14:17:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psjVP-00067W-FN; Sat, 29 Apr 2023 08:16:47 -0400
+	id 1psjVS-00068n-Qf; Sat, 29 Apr 2023 08:16:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psjVO-00067A-1F
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:16:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1psjVQ-000684-Q8
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:16:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1psjVM-0004sU-Dv
- for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:16:45 -0400
+ id 1psjVP-0004sm-7P
+ for qemu-devel@nongnu.org; Sat, 29 Apr 2023 08:16:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682770603;
+ s=mimecast20190719; t=1682770606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rZjfT0cTItj0hs1HOL6CzpkHNiD5S5aMbOQBf2WtlOU=;
- b=gQ/gl6Z2QWHkx2TESowyalhQKpPTDZ/bo6TXmuCYRPiU4F+CY8BQkQnNEt3jKY3/EzHVHG
- DEFlYoMaRQraPoyCJT6TOocGF+7EB5/fbxIcj5aC/tCnEa49r5ef1ILTtt4ze5+CA2v4A8
- mGAuJFNsg4637HIni8nTbbmvRcOMxIw=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=F20gxlV9n4yZCSeO59/h7L5GIiTcNexiSlZxndpWyR8=;
+ b=QADccZQPPiupUUDbK9zMQkqNtQlCzqvAECdcX49xw8Kchl5tKZ7qrs7B61Ut3HmkjiAkVw
+ SAe/ze9KZMzSkDmQwrYY0F5+nd4STwc776csne04k089WlK1rJ+MhYxwQ1Zl7y+YPEhf3i
+ XgNg6/TNUQ6r5KU6KSDrAYfyuWcCwaE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-8-O4uV6ym2MI6EakU6XRZIBw-1; Sat, 29 Apr 2023 08:16:42 -0400
-X-MC-Unique: O4uV6ym2MI6EakU6XRZIBw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94a35b0d4ceso80112966b.3
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:16:42 -0700 (PDT)
+ us-mta-577-AvTMKYYQMU6t1W8vx_s7wg-1; Sat, 29 Apr 2023 08:16:44 -0400
+X-MC-Unique: AvTMKYYQMU6t1W8vx_s7wg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-95f6f291b9aso100082666b.3
+ for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 05:16:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682770600; x=1685362600;
+ d=1e100.net; s=20221208; t=1682770602; x=1685362602;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rZjfT0cTItj0hs1HOL6CzpkHNiD5S5aMbOQBf2WtlOU=;
- b=kaP6N0VB+zxSO/5ef1desxjtXs0Qm+fkuz2YMoUUcHpaXqucfVx5w19uFutK3t7l8z
- 0yxn40TFxxhA8YHyrn5CcfVIawWsGdfhgjK+JgcjY9vd0tW2PYoWkb8W/bkecNfgmV35
- ehU1YKVwjEdXMudMkBcYkYASp9Bb/OwdbVcxv0DeCHSVDBpohUq8/Z0vK1kABt8QNP9A
- ku+wSlZRVQLr1HF1SUMP7DpkxUMKymduCreSJUr8iZ4p60+L9+Q+Ll3IEJZhmZ2e2h9w
- oWKABl7LiDS+JR1pBF5OoyWvO/060Nuzzj435KZ9ij3zv9NILrbTSfKeHEFRZLxN3D31
- +CWw==
-X-Gm-Message-State: AC+VfDw3xzmn1z+cRt10dAgn44TgSXS5UkKwBmNUe1RPP3Jf0VLP8poS
- ru2R7HDecQTARYWoSe9UD9oUeCfhefa4bNzfFwr0jUZ47Kv/2cN3UUVW50kzwpW85nmYpBrKsHD
- ecH9S7pOPfp1JmDDKWa4XZuir97tnZQf2K1T/EPQl8I7o3eYGmgKgXdVy1rNylA1rHb2jrIb5rC
- w=
-X-Received: by 2002:a17:907:da4:b0:959:8cbe:63a5 with SMTP id
- go36-20020a1709070da400b009598cbe63a5mr8111224ejc.44.1682770600504; 
- Sat, 29 Apr 2023 05:16:40 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5zWSqwOGvKrLYiO+4SY+g5UBCEo6DSAZbXm3vMfBrEWxgpIPAU2t4o+JZ1H4zAf+SveBzr5g==
-X-Received: by 2002:a17:907:da4:b0:959:8cbe:63a5 with SMTP id
- go36-20020a1709070da400b009598cbe63a5mr8111200ejc.44.1682770600120; 
- Sat, 29 Apr 2023 05:16:40 -0700 (PDT)
+ bh=F20gxlV9n4yZCSeO59/h7L5GIiTcNexiSlZxndpWyR8=;
+ b=ScjawUTQEOLnGsG8yw9/dJYaoghSNb9NsbNZGw3NVGoOQOr1g9X0wcml9M/4iZkjtr
+ 6RJA9WkU8dfGbKL8vNa6M/d7LoTo/NQ91d2wj7x4N5YOUPz9KahJyXrHjVO1sv0C1tsv
+ zYZwaz3vX/mNj4b8OTT7FPcxi8lKmiSJkXU6dabsdHAZq9m09c0AFvfgsgsNVYuTjT9O
+ O9BDnLAswZjMbRWFqkGv5nnbchneaqvdGNhM7rnZiyhZx/akjqSMcLEJ5aIloCCS8Jof
+ xwndzEOmyBvlTnQ//pdKEUGkIrJcrhUnYcBsIjgjCvUkrmw6tUg1wig5QML7MC17f48x
+ 1RKw==
+X-Gm-Message-State: AC+VfDxppbkZCR9lAWio+Hn4v4RspD0DJn83aJxMQyfmr2FvRvBY7Ux+
+ 9XDVx4DL+23DKDfmQbqnUb+i9U2f0NgdyYCt1p1CYcSw/hkiar6zoRdR4TsrV+ZC0jEVWlC5/7S
+ 9GgXdjSw773RQ4tXHgV1tAAELVYINFhsBT9saQMmYUlFe8mQTHXClheyDFXVnZ+PptzhmBipbUM
+ U=
+X-Received: by 2002:a17:906:ef0d:b0:94e:bc04:c6f6 with SMTP id
+ f13-20020a170906ef0d00b0094ebc04c6f6mr8653998ejs.9.1682770602542; 
+ Sat, 29 Apr 2023 05:16:42 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4/f7boLVsnp6/WNktXUliYzHkxp124VwegmfTr0phXcQD6PV/2dWMUMZKBWhxFnYcTAwkJRw==
+X-Received: by 2002:a17:906:ef0d:b0:94e:bc04:c6f6 with SMTP id
+ f13-20020a170906ef0d00b0094ebc04c6f6mr8653974ejs.9.1682770602181; 
+ Sat, 29 Apr 2023 05:16:42 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- qt2-20020a170906ece200b0094e1344ddfdsm12335263ejb.34.2023.04.29.05.16.39
+ h6-20020aa7c606000000b005068ea7f54dsm10205239edq.96.2023.04.29.05.16.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Apr 2023 05:16:39 -0700 (PDT)
+ Sat, 29 Apr 2023 05:16:41 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Tom Lendacky <thomas.lendacky@amd.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PULL 01/17] qapi,
- i386/sev: Change the reduced-phys-bits value from 5 to 1
-Date: Sat, 29 Apr 2023 14:16:20 +0200
-Message-Id: <20230429121636.230934-2-pbonzini@redhat.com>
+Subject: [PULL 02/17] qemu-options.hx: Update the reduced-phys-bits
+ documentation
+Date: Sat, 29 Apr 2023 14:16:21 +0200
+Message-Id: <20230429121636.230934-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230429121636.230934-1-pbonzini@redhat.com>
 References: <20230429121636.230934-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -105,30 +105,40 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 From: Tom Lendacky <thomas.lendacky@amd.com>
 
 A guest only ever experiences, at most, 1 bit of reduced physical
-addressing. Change the query-sev-capabilities json comment to use 1.
+addressing. Update the documentation to reflect this as well as change
+the example value on the reduced-phys-bits option.
 
-Fixes: 31dd67f684 ("sev/i386: qmp: add query-sev-capabilities command")
+Fixes: a9b4942f48 ("target/i386: add Secure Encrypted Virtualization (SEV) object")
 Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <cb96d8e09154533af4b4e6988469bc0b32390b65.1664550870.git.thomas.lendacky@amd.com>
+Message-Id: <13a62ced1808546c1d398e2025cf85f4c94ae123.1664550870.git.thomas.lendacky@amd.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/misc-target.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qemu-options.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index de9105452377..bf04042f45d9 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -172,7 +172,7 @@
- # -> { "execute": "query-sev-capabilities" }
- # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
- #                  "cpu0-id": "2lvmGwo+...61iEinw==",
--#                  "cbitpos": 47, "reduced-phys-bits": 5}}
-+#                  "cbitpos": 47, "reduced-phys-bits": 1}}
- #
- ##
- { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index b5efa648bad1..42fc90aae473 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -5438,7 +5438,7 @@ SRST
+         physical address space. The ``reduced-phys-bits`` is used to
+         provide the number of bits we loose in physical address space.
+         Similar to C-bit, the value is Host family dependent. On EPYC,
+-        the value should be 5.
++        a guest will lose a maximum of 1 bit, so the value should be 1.
+ 
+         The ``sev-device`` provides the device file to use for
+         communicating with the SEV firmware running inside AMD Secure
+@@ -5473,7 +5473,7 @@ SRST
+ 
+              # |qemu_system_x86| \\
+                  ...... \\
+-                 -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=5 \\
++                 -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1 \\
+                  -machine ...,memory-encryption=sev0 \\
+                  .....
+ 
 -- 
 2.40.0
 
