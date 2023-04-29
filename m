@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A0C6F2678
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 22:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779546F2681
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Apr 2023 23:12:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1psrSm-0000AS-P1; Sat, 29 Apr 2023 16:46:36 -0400
+	id 1psrqc-0003Ie-OV; Sat, 29 Apr 2023 17:11:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1psrSi-00009s-GI; Sat, 29 Apr 2023 16:46:33 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ id 1psrqa-0003I5-Hp; Sat, 29 Apr 2023 17:11:12 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1psrSg-00017W-2L; Sat, 29 Apr 2023 16:46:31 -0400
-Received: by mail-pf1-x430.google.com with SMTP id
- d2e1a72fcca58-63b78b344d5so889546b3a.1; 
- Sat, 29 Apr 2023 13:46:28 -0700 (PDT)
+ id 1psrqX-0005zm-7Q; Sat, 29 Apr 2023 17:11:11 -0400
+Received: by mail-pf1-x436.google.com with SMTP id
+ d2e1a72fcca58-64115eef620so19800991b3a.1; 
+ Sat, 29 Apr 2023 14:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682801187; x=1685393187;
+ d=gmail.com; s=20221208; t=1682802666; x=1685394666;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:sender
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fPB8fJvYt7Y8rjPE/afBzcI9dv7FWa/UHEnlV84T1yA=;
- b=HWuB/3+7AMy5oAxtNWLwR08P/7bYv04e+XLXS3Dh43rLhlP6jnTHtkXzt9Oei8ZIrv
- Bdk2c4sKOyZggDCYD0q6N968u/FDCZYks2LlDsCIi4dyVJETa0zQoUMpq3SUiMEmpsll
- TQvAMCExeR4aK9Baknf/4eSnLg+rs9mEMT+dAdRm34SsUXXh26PX+DDZULhhUwIESEtk
- JALPQDwgB3TyLB/pTPIDl9z3R3TVMi5YOgICBN+/RT0eokE49BTm4WJJ23gFbB503qp/
- s1kyS/sVYBHi0i8oN0OFr86ThDIvScsOVNscVKEdXM6n3EEeunExYfD+l1+wwYvct1F2
- 8Rqw==
+ bh=oNIGn1E4+fN2DwpTx6WCTFSLsCwjbBwwycGBveF1JiU=;
+ b=LfO/mloDXrOyTZknm+8Bw85AlZrAnMDiSGOsOqMpGN9yNm0/tMh9mKO/3sCtvJGr2I
+ 3mKK741E4CGV8bF1nvb2VAlFfwDIougM6bapyRY2xG4Z4BNZgG0YorUmJkwksth6r3mH
+ IedHe7ienyz+0D5tYkKksJBQe5A20SLe7T3nyeT+RdMGAHVCG3YCLEvD4ouxQA4pmiY3
+ TlEWpHzcxRksPJmkoWhynANp42OJ/xAD2rndYlU1ly2tafgrheN3pbm/ziiofUwpyYDl
+ h97+fkCv3FbL2z1SKmpjksSq/4NOj1BI7Z1p1urQfuyyOj5VMuHzbKylh+K1rgGWQKwS
+ WkTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682801187; x=1685393187;
+ d=1e100.net; s=20221208; t=1682802666; x=1685394666;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:sender
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fPB8fJvYt7Y8rjPE/afBzcI9dv7FWa/UHEnlV84T1yA=;
- b=KB+T3uwogUE2slXNixnFBQ9NrJKMPKoo2B//xAMnXcK0AVQi8w3cDVfaJhJowjTlI6
- ZcNywNQRleSgngNBaYX7t7Es17UpsThjv29i0oGgM42uuChQnVTWBPORnLcIqK8QKcgA
- 7TDghE7agyuHk5hjQnuVLD/BqUElmraqqzzPIwOFDjoB4N9zOvGg9mEV7DFDuOPb0LKy
- UAW4AIIkn8sc7+w15w2wwbtFvlbOmbYyBU5a69UarkGvTBEpCw8HF1BffP63Zduw05kl
- 2b9D73ZzrMfvV8BkioBGfe8nwrOZwtoowiv0s0JFriNkZP14KgR7ZLh0z/haedfsfA6g
- rwWw==
-X-Gm-Message-State: AC+VfDzDnSMloWR07aj0CHA5PZc+gwGiMNKf98pmJyLd45iho0zN1pPv
- l11uQeurE68dH52aM5vSW/I=
-X-Google-Smtp-Source: ACHHUZ6fR0tR9YRy+an50idBSVxtoP4Dfb5H9Vf4bOjdOljZmQsU/N22vStfHCaXJMINYKSiNoxa+A==
-X-Received: by 2002:a05:6a00:21cf:b0:63d:2382:4948 with SMTP id
- t15-20020a056a0021cf00b0063d23824948mr14119156pfj.25.1682801186801; 
- Sat, 29 Apr 2023 13:46:26 -0700 (PDT)
+ bh=oNIGn1E4+fN2DwpTx6WCTFSLsCwjbBwwycGBveF1JiU=;
+ b=hCBQTVlZyyUPSiNVXhpW1+LzT+rD6Or/VVJsITD1plu0g1rmgd2GTAq4biNX2i/urn
+ EbcmQi40M/VgTKCFav0VIpa2xZc3OaiWSK8o2ia0iqXhlXZ9xr8oc275xJgcfz1UzyyI
+ TpUBVQS+6zDTM86EfDY6M6c10Qz/dfj+vbOUVgY87V6M8eS4uRnTnTmpWtZviHljTEZe
+ HTE18xWN350uCS9ygMJRD4yR0EJn89D3gEXnyO9z11Q/GG87pI40yXfFHaAKyp12igN4
+ Uz65ZGcxal49JilCvqqxemsZ7Xc2qW5EGdnSF4IvIg2BGxiGRXjwBr7+oEGV9rl/Fi7G
+ Ch5A==
+X-Gm-Message-State: AC+VfDym8w8Hgf31txXCTy1/yRd+7FS/V4Jh6znsjPpcX/trS0UhNwJG
+ zd8Yma35BX7bMshm1GD3H00=
+X-Google-Smtp-Source: ACHHUZ7SMMcJzRN+aGy0xgNLHMV4ESZ8lOA4yzbofbYFic2Xv2f8pQ3gBOaip55CtTqNo92/YlIOeQ==
+X-Received: by 2002:a05:6a00:1d23:b0:63b:8cdc:b38f with SMTP id
+ a35-20020a056a001d2300b0063b8cdcb38fmr14566060pfx.5.1682802666492; 
+ Sat, 29 Apr 2023 14:11:06 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- p10-20020aa79e8a000000b005d22639b577sm17228478pfq.165.2023.04.29.13.46.25
+ p10-20020a62b80a000000b00636c4bd7c8bsm17205990pfe.43.2023.04.29.14.11.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Apr 2023 13:46:26 -0700 (PDT)
-Date: Sat, 29 Apr 2023 13:46:24 -0700
+ Sat, 29 Apr 2023 14:11:05 -0700 (PDT)
+Date: Sat, 29 Apr 2023 14:11:04 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
@@ -63,16 +63,17 @@ Cc: qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
  qemu-block@nongnu.org
 Subject: Re: [PATCH v6 2/3] hw/sd/sdhci: Support big endian SD host
  controller interfaces
-Message-ID: <a85ae94f-69d5-4098-8a48-51a55a9616f4@roeck-us.net>
+Message-ID: <378d019b-e05a-4e7f-b97f-2edbc191889f@roeck-us.net>
 References: <20221101222934.52444-1-philmd@linaro.org>
  <20221101222934.52444-3-philmd@linaro.org>
+ <a85ae94f-69d5-4098-8a48-51a55a9616f4@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221101222934.52444-3-philmd@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=groeck7@gmail.com; helo=mail-pf1-x430.google.com
+In-Reply-To: <a85ae94f-69d5-4098-8a48-51a55a9616f4@roeck-us.net>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=groeck7@gmail.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -97,140 +98,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Sat, Apr 29, 2023 at 01:46:26PM -0700, Guenter Roeck wrote:
+> Hi,
+> 
+> On Tue, Nov 01, 2022 at 11:29:33PM +0100, Philippe Mathieu-Daudé wrote:
+> > Some SDHCI IP can be synthetized in various endianness:
+> > https://github.com/u-boot/u-boot/blob/v2021.04/doc/README.fsl-esdhc
+> > 
+> >  - CONFIG_SYS_FSL_ESDHC_BE
+> > 
+> >    ESDHC IP is in big-endian mode. Accessing ESDHC registers can be
+> >    determined by ESDHC IP's endian mode or processor's endian mode.
+> > 
+> > Our current implementation is little-endian. In order to support
+> > big endianness:
+> > 
+> > - Rename current MemoryRegionOps as sdhci_mmio_le_ops ('le')
+> > - Add an 'endianness' property to SDHCIState (default little endian)
+> > - Set the 'io_ops' field in realize() after checking the property
+> > - Add the sdhci_mmio_be_ops (big-endian) MemoryRegionOps.
+> > 
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
+> With this patch in place (in qemu v8.0), I can no longer boot linux
+> from SD card with sabrelite, mcimx6ul-evk, and mcimx7d-sabre emulations.
+> I get the following persistent errors.
+> 
+> [   12.210101] sdhci-esdhc-imx 2194000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
+> [   12.213222] sdhci-esdhc-imx 2194000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
+> [   12.215072] sdhci-esdhc-imx 2194000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
+> [   12.218766] sdhci-esdhc-imx 2190000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
+> [   12.220441] sdhci-esdhc-imx 2190000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
+> [   12.221542] sdhci-esdhc-imx 2190000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
+> [   12.241544] sdhci-esdhc-imx 2190000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
+> [   12.242608] sdhci-esdhc-imx 2190000.mmc: card clock still not stable in 100us!.
+> 
+> The emulations start to work again after reverting this patch.
+> 
+Cause explained below.
 
-On Tue, Nov 01, 2022 at 11:29:33PM +0100, Philippe Mathieu-Daudé wrote:
-> Some SDHCI IP can be synthetized in various endianness:
-> https://github.com/u-boot/u-boot/blob/v2021.04/doc/README.fsl-esdhc
+> Guenter
 > 
->  - CONFIG_SYS_FSL_ESDHC_BE
-> 
->    ESDHC IP is in big-endian mode. Accessing ESDHC registers can be
->    determined by ESDHC IP's endian mode or processor's endian mode.
-> 
-> Our current implementation is little-endian. In order to support
-> big endianness:
-> 
-> - Rename current MemoryRegionOps as sdhci_mmio_le_ops ('le')
-> - Add an 'endianness' property to SDHCIState (default little endian)
-> - Set the 'io_ops' field in realize() after checking the property
-> - Add the sdhci_mmio_be_ops (big-endian) MemoryRegionOps.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> > ---
+> >  hw/sd/sdhci-internal.h |  1 +
+> >  hw/sd/sdhci.c          | 32 +++++++++++++++++++++++++++++---
+> >  include/hw/sd/sdhci.h  |  1 +
+> >  3 files changed, 31 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
+> > index 964570f8e8..5f3765f12d 100644
+> > --- a/hw/sd/sdhci-internal.h
+> > +++ b/hw/sd/sdhci-internal.h
+> > @@ -308,6 +308,7 @@ extern const VMStateDescription sdhci_vmstate;
+> >  #define SDHC_CAPAB_REG_DEFAULT 0x057834b4
+> >  
+> >  #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
+> > +    DEFINE_PROP_UINT8("endianness", _state, endianness, DEVICE_LITTLE_ENDIAN), \
+> >      DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
+> >      DEFINE_PROP_UINT8("uhs", _state, uhs_mode, UHS_NOT_SUPPORTED), \
+> >      DEFINE_PROP_UINT8("vendor", _state, vendor, SDHCI_VENDOR_NONE), \
+> > diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> > index 22c758ad91..289baa879e 100644
+> > --- a/hw/sd/sdhci.c
+> > +++ b/hw/sd/sdhci.c
+> > @@ -1329,7 +1329,7 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+> >                         value >> shift, value >> shift);
+> >  }
+> >  
+> > -static const MemoryRegionOps sdhci_mmio_ops = {
+> > +static const MemoryRegionOps sdhci_mmio_le_ops = {
+> >      .read = sdhci_read,
+> >      .write = sdhci_write,
+> >      .impl = {
+> > @@ -1344,6 +1344,21 @@ static const MemoryRegionOps sdhci_mmio_ops = {
+> >      .endianness = DEVICE_LITTLE_ENDIAN,
+> >  };
+> >  
+> > +static const MemoryRegionOps sdhci_mmio_be_ops = {
+> > +    .read = sdhci_read,
+> > +    .write = sdhci_write,
+> > +    .impl = {
+> > +        .min_access_size = 4,
+> > +        .max_access_size = 4,
+> > +    },
+> > +    .valid = {
+> > +        .min_access_size = 1,
+> > +        .max_access_size = 4,
+> > +        .unaligned = false
+> > +    },
+> > +    .endianness = DEVICE_BIG_ENDIAN,
+> > +};
+> > +
+> >  static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
+> >  {
+> >      ERRP_GUARD();
+> > @@ -1371,8 +1386,6 @@ void sdhci_initfn(SDHCIState *s)
+> >  
+> >      s->insert_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_raise_insertion_irq, s);
+> >      s->transfer_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_data_transfer, s);
+> > -
+> > -    s->io_ops = &sdhci_mmio_ops;
 
-With this patch in place (in qemu v8.0), I can no longer boot linux
-from SD card with sabrelite, mcimx6ul-evk, and mcimx7d-sabre emulations.
-I get the following persistent errors.
+The reason for initializing io_ops here is that the same driver also
+supports imx_usdhc. That function also sets io_ops to usdhc specific
+io ops. This is now overwritten by ...
 
-[   12.210101] sdhci-esdhc-imx 2194000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
-[   12.213222] sdhci-esdhc-imx 2194000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
-[   12.215072] sdhci-esdhc-imx 2194000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
-[   12.218766] sdhci-esdhc-imx 2190000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
-[   12.220441] sdhci-esdhc-imx 2190000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
-[   12.221542] sdhci-esdhc-imx 2190000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
-[   12.241544] sdhci-esdhc-imx 2190000.mmc: esdhc_wait_for_card_clock_gate_off: card clock still not gate off in 100us!.
-[   12.242608] sdhci-esdhc-imx 2190000.mmc: card clock still not stable in 100us!.
+> >  }
+> >  
+> >  void sdhci_uninitfn(SDHCIState *s)
+> > @@ -1388,10 +1401,23 @@ void sdhci_common_realize(SDHCIState *s, Error **errp)
+> >  {
+> >      ERRP_GUARD();
+> >  
+> > +    switch (s->endianness) {
+> > +    case DEVICE_LITTLE_ENDIAN:
+> > +        s->io_ops = &sdhci_mmio_le_ops;
+> > +        break;
+> > +    case DEVICE_BIG_ENDIAN:
+> > +        s->io_ops = &sdhci_mmio_be_ops;
+> > +        break;
+> > +    default:
+> > +        error_setg(errp, "Incorrect endianness");
+> > +        return;
+> > +    }
+> > +
 
-The emulations start to work again after reverting this patch.
+... this code which runs later and never sets usdhc_mmio_ops.
+Consequently io_ops now points to the wrong ops functions for imx.
 
 Guenter
-
-> ---
->  hw/sd/sdhci-internal.h |  1 +
->  hw/sd/sdhci.c          | 32 +++++++++++++++++++++++++++++---
->  include/hw/sd/sdhci.h  |  1 +
->  3 files changed, 31 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
-> index 964570f8e8..5f3765f12d 100644
-> --- a/hw/sd/sdhci-internal.h
-> +++ b/hw/sd/sdhci-internal.h
-> @@ -308,6 +308,7 @@ extern const VMStateDescription sdhci_vmstate;
->  #define SDHC_CAPAB_REG_DEFAULT 0x057834b4
->  
->  #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
-> +    DEFINE_PROP_UINT8("endianness", _state, endianness, DEVICE_LITTLE_ENDIAN), \
->      DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
->      DEFINE_PROP_UINT8("uhs", _state, uhs_mode, UHS_NOT_SUPPORTED), \
->      DEFINE_PROP_UINT8("vendor", _state, vendor, SDHCI_VENDOR_NONE), \
-> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-> index 22c758ad91..289baa879e 100644
-> --- a/hw/sd/sdhci.c
-> +++ b/hw/sd/sdhci.c
-> @@ -1329,7 +1329,7 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
->                         value >> shift, value >> shift);
->  }
->  
-> -static const MemoryRegionOps sdhci_mmio_ops = {
-> +static const MemoryRegionOps sdhci_mmio_le_ops = {
->      .read = sdhci_read,
->      .write = sdhci_write,
->      .impl = {
-> @@ -1344,6 +1344,21 @@ static const MemoryRegionOps sdhci_mmio_ops = {
->      .endianness = DEVICE_LITTLE_ENDIAN,
->  };
->  
-> +static const MemoryRegionOps sdhci_mmio_be_ops = {
-> +    .read = sdhci_read,
-> +    .write = sdhci_write,
-> +    .impl = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +    .valid = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 4,
-> +        .unaligned = false
-> +    },
-> +    .endianness = DEVICE_BIG_ENDIAN,
-> +};
-> +
->  static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
->  {
->      ERRP_GUARD();
-> @@ -1371,8 +1386,6 @@ void sdhci_initfn(SDHCIState *s)
->  
->      s->insert_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_raise_insertion_irq, s);
->      s->transfer_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_data_transfer, s);
-> -
-> -    s->io_ops = &sdhci_mmio_ops;
->  }
->  
->  void sdhci_uninitfn(SDHCIState *s)
-> @@ -1388,10 +1401,23 @@ void sdhci_common_realize(SDHCIState *s, Error **errp)
->  {
->      ERRP_GUARD();
->  
-> +    switch (s->endianness) {
-> +    case DEVICE_LITTLE_ENDIAN:
-> +        s->io_ops = &sdhci_mmio_le_ops;
-> +        break;
-> +    case DEVICE_BIG_ENDIAN:
-> +        s->io_ops = &sdhci_mmio_be_ops;
-> +        break;
-> +    default:
-> +        error_setg(errp, "Incorrect endianness");
-> +        return;
-> +    }
-> +
->      sdhci_init_readonly_registers(s, errp);
->      if (*errp) {
->          return;
->      }
-> +
->      s->buf_maxsz = sdhci_get_fifolen(s);
->      s->fifo_buffer = g_malloc0(s->buf_maxsz);
->  
-> diff --git a/include/hw/sd/sdhci.h b/include/hw/sd/sdhci.h
-> index 01a64c5442..a989fca3b2 100644
-> --- a/include/hw/sd/sdhci.h
-> +++ b/include/hw/sd/sdhci.h
-> @@ -96,6 +96,7 @@ struct SDHCIState {
->      /* Configurable properties */
->      bool pending_insert_quirk; /* Quirk for Raspberry Pi card insert int */
->      uint32_t quirks;
-> +    uint8_t endianness;
->      uint8_t sd_spec_version;
->      uint8_t uhs_mode;
->      uint8_t vendor;        /* For vendor specific functionality */
 
