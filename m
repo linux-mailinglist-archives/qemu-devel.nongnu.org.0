@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45BA6F2AC6
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Apr 2023 22:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95A96F2AFC
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Apr 2023 23:49:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptE5K-0005l5-1c; Sun, 30 Apr 2023 16:55:54 -0400
+	id 1ptEuO-0006EF-BZ; Sun, 30 Apr 2023 17:48:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1ptE5G-0005kS-1k
- for qemu-devel@nongnu.org; Sun, 30 Apr 2023 16:55:50 -0400
-Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1ptE5D-0005jF-1a
- for qemu-devel@nongnu.org; Sun, 30 Apr 2023 16:55:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
- s=x;
- h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
- In-Reply-To:Message-Id:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=TA6roBXjBVFVbHuoSrXh4NiFT9mXQ34/8vHv93uXV4c=; b=JiEc6NXKKHJ2LKfuyde8fiGfZt
- ksZZ2XGN/pBUU/JaBG4uUJFRMdEDrotG6CXFAeLjD6i92By4cUNApVdbVg5UTUY5mJkoKGAPibuFy
- m5ilSubsdVhwwFRI8slYNGhNBn0UfEbF9RqiTZh0GI+w+C7x/X9S38vADi2wOj7yQyMfVIufbxXww
- A9D2m+Jnz/YWdgFvqeVeL4KMPuuD+ZTrEWHIa0Y+hlAjoloIX5N7VYV314ePixJuOL4ETg624VGaG
- zhh0rc+3fX106aG5UAhfffhkK+VmWpG3DceETjhJc2L5YvAt/0sZRbDmO7v3dSI2UqHYzZ/e0tIjz
- HOeU9jmQ==;
-Received: from [213.115.245.47] (helo=balrog.lkp.se)
- by ns12.inleed.net with esmtpa (Exim 4.96-58-g4e9ed49f8)
- (envelope-from <hc981@poolhem.se>) id 1ptE5B-00EEtN-2B;
- Sun, 30 Apr 2023 22:55:45 +0200
-Date: Sun, 30 Apr 2023 22:55:33 +0200
-From: Henrik Carlqvist <hc981@poolhem.se>
-To: Henrik Carlqvist <hc981@poolhem.se>
-Cc: berrange@redhat.com, mark.cave-ayland@ilande.co.uk, hc1245@poolhem.se,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v6] Emulate dip switch language layout settings on SUN
- keyboard
-Message-Id: <20230430225533.1a57879a.hc981@poolhem.se>
-In-Reply-To: <20230328221608.328ab80f.hc981@poolhem.se>
-References: <167305907804.10652.2746409341903316717-1@git.sr.ht>
- <d2850ef0-d825-bb03-09d4-0d1427cf6577@ilande.co.uk>
- <20230123200937.32eb19eb.hc981@poolhem.se>
- <20230304220754.0c6ae562.hc981@poolhem.se>
- <ZCLzUyiDeKLfQqWT@redhat.com>
- <20230328191958.3e3eb5e4.hc981@poolhem.se>
- <ZCMq/imcAq0ApLQp@redhat.com>
- <20230328221608.328ab80f.hc981@poolhem.se>
-X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Id: henrik@poolhem.se
-Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
- envelope-from=hc981@poolhem.se; helo=mailout12.inleed.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ptEuN-0006E5-4t
+ for qemu-devel@nongnu.org; Sun, 30 Apr 2023 17:48:39 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ptEuK-0000xu-VC
+ for qemu-devel@nongnu.org; Sun, 30 Apr 2023 17:48:38 -0400
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc1612940so1901247a12.2
+ for <qemu-devel@nongnu.org>; Sun, 30 Apr 2023 14:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682891315; x=1685483315;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iqrs242LEPzRPsFAWZHXkzzqZMSp6D7LEEG6Nv8188g=;
+ b=QJHxKJGJ+jG2wVkRLrtW5XPDu/rR3MZt4orON2iK95cvG2rPvUIiDUo7dXijVWVHVV
+ GcGpPXVkpQ8CXPb/TrKPLa0+ets7E4hh39iJlogKQpVGm1ZImErlNFiFc3wx5K47euT0
+ zdeiuOOTaxJgn59PDjye0WgoTAEIFmuNAaqhWaCRHg1R/jz7NNG/uoETKQdM6XksTB8h
+ HEXq/asaViPzGblxqjaTEwBC0f5evV3l0hZ+VQ4ufsBvf8p35W9l/IpR6anAcDmGc48S
+ dELVMCto1IIxgiz5m4+oKIoZXFJwz8ycbnueQHGKPCrOMYwmsscAhrzQXi7YljBV380X
+ 2N+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682891315; x=1685483315;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iqrs242LEPzRPsFAWZHXkzzqZMSp6D7LEEG6Nv8188g=;
+ b=L+73PQAivlu3EEdD8Jl8dASzWXvpfY8IEJaJnoyee8AP4bbK4atecocs+lO+MOm0y7
+ CQ+2iUstsmV9IScBxGY+2Pv06H5nru3r4dIaUYwDzoFCSCwxtMyMQCk9uqM9PdkPDy82
+ aLb0gRcU+ZhjEPuz5FUPwR8FhWx3tskNjhNpxJ00oVj1n73+AwaNNO7janBVb903+2gd
+ 4JJjH4yyqJIikupq4pbpCDmgGv2jZ+lajSELKGSlp5DrUjXEGnTOJbRTDm6zG8nOe109
+ UqXxX0Xbn2fMg9WFBUDgvvI5D/mlrrK12kkhBm1eymtWnhl1JpXEUyiPCOL2Numc6MVW
+ uLEg==
+X-Gm-Message-State: AC+VfDxsnfyKIT/b1QydgouwhZDrIKYfx5bnPMVRfpseAs2dUCqJAOVw
+ zTfszkFkcSGX4HOzJvlnxXj+QfYe7UQ=
+X-Google-Smtp-Source: ACHHUZ7C4CuHPnwBh8wrT/ybxRr8TgzgXcP5finGsNjN4PSaN0BdPJ1BOaKAdv4zuTWGj2ve2pduWQ==
+X-Received: by 2002:aa7:cd90:0:b0:506:7304:15d3 with SMTP id
+ x16-20020aa7cd90000000b00506730415d3mr4988830edv.14.1682891314521; 
+ Sun, 30 Apr 2023 14:48:34 -0700 (PDT)
+Received: from ?IPv6:::1?
+ (p200300faaf258000e055bae1970322b5.dip0.t-ipconnect.de.
+ [2003:fa:af25:8000:e055:bae1:9703:22b5])
+ by smtp.gmail.com with ESMTPSA id
+ d12-20020a50fb0c000000b004bf999f8e57sm11278633edq.19.2023.04.30.14.48.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 30 Apr 2023 14:48:34 -0700 (PDT)
+Date: Sun, 30 Apr 2023 21:48:28 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org, Gurchetan Singh <gurchetansingh@chromium.org>
+CC: philmd@linaro.org, kraxel@redhat.com, marcandre.lureau@redhat.com,
+ akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com,
+ alex.bennee@linaro.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_3/5=5D_hw/display/virtio-gpu-v?=
+ =?US-ASCII?Q?irgl=3A_define_callbacks_in_realize_function?=
+In-Reply-To: <20230428164823.789-3-gurchetansingh@google.com>
+References: <20230428164823.789-1-gurchetansingh@google.com>
+ <20230428164823.789-3-gurchetansingh@google.com>
+Message-ID: <0DAAC63B-0C0F-44C4-B7EB-ACD6C9A36BF1@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,213 +96,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I have now changed the patch to instead of using the -k switch use 
 
--global escc.sunkbd_layout=
 
-to select keyboard layout. It would be nice to somehow document this. Yes, in 
-the monitor, you can type "info qtree" and see something like:
+Am 28=2E April 2023 16:48:21 UTC schrieb Gurchetan Singh <gurchetansingh@c=
+hromium=2Eorg>:
+>From: Gurchetan Singh <gurchetansingh@chromium=2Eorg>
+>
+>This reduces the amount of renderer backend specific needed to
+>be exposed to the GL device=2E  We only need one realize function
+>per renderer backend=2E
+>
+>Signed-off-by: Gurchetan Singh <gurchetansingh@chromium=2Eorg>
+>Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>---
+>v1: - Remove NULL inits (Philippe)
+>    - Use VIRTIO_GPU_BASE where possible (Philippe)
+>v2: - Fix unnecessary line break (Akihiko)
+>
+> hw/display/virtio-gpu-gl=2Ec     | 15 ++++++---------
+> hw/display/virtio-gpu-virgl=2Ec  | 35 ++++++++++++++++++++++++----------
+> include/hw/virtio/virtio-gpu=2Eh |  7 -------
+> 3 files changed, 31 insertions(+), 26 deletions(-)
+>
+>diff --git a/hw/display/virtio-gpu-gl=2Ec b/hw/display/virtio-gpu-gl=2Ec
+>index 2d140e8792=2E=2Ecdc9483e4d 100644
+>--- a/hw/display/virtio-gpu-gl=2Ec
+>+++ b/hw/display/virtio-gpu-gl=2Ec
+>@@ -21,6 +21,11 @@
+> #include "hw/virtio/virtio-gpu-pixman=2Eh"
+> #include "hw/qdev-properties=2Eh"
+>=20
+>+static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp=
+)
+>+{
+>+    virtio_gpu_virgl_device_realize(qdev, errp);
+>+}
+>+
+> static Property virtio_gpu_gl_properties[] =3D {
+>     DEFINE_PROP_BIT("stats", VirtIOGPU, parent_obj=2Econf=2Eflags,
+>                     VIRTIO_GPU_FLAG_STATS_ENABLED, false),
+>@@ -31,16 +36,8 @@ static void virtio_gpu_gl_class_init(ObjectClass *klas=
+s, void *data)
+> {
+>     DeviceClass *dc =3D DEVICE_CLASS(klass);
+>     VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_CLASS(klass);
+>-    VirtIOGPUBaseClass *vbc =3D VIRTIO_GPU_BASE_CLASS(klass);
+>-    VirtIOGPUClass *vgc =3D VIRTIO_GPU_CLASS(klass);
+>-
+>-    vbc->gl_flushed =3D virtio_gpu_virgl_flushed;
+>-    vgc->handle_ctrl =3D virtio_gpu_virgl_handle_ctrl;
+>-    vgc->process_cmd =3D virtio_gpu_virgl_process_cmd;
+>-    vgc->update_cursor_data =3D virtio_gpu_virgl_update_cursor;
+>=20
+>-    vdc->realize =3D virtio_gpu_virgl_device_realize;
+>-    vdc->reset =3D virtio_gpu_virgl_reset;
+>+    vdc->realize =3D virtio_gpu_gl_device_realize;
+>     device_class_set_props(dc, virtio_gpu_gl_properties);
+> }
+>=20
+>diff --git a/hw/display/virtio-gpu-virgl=2Ec b/hw/display/virtio-gpu-virg=
+l=2Ec
+>index 786351446c=2E=2Ed7e01f1c77 100644
+>--- a/hw/display/virtio-gpu-virgl=2Ec
+>+++ b/hw/display/virtio-gpu-virgl=2Ec
+>@@ -401,8 +401,9 @@ static void virgl_cmd_get_capset(VirtIOGPU *g,
+>     g_free(resp);
+> }
+>=20
+>-void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>-                                      struct virtio_gpu_ctrl_command *cm=
+d)
+>+static void
+>+virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>+                             struct virtio_gpu_ctrl_command *cmd)
+> {
+>     VIRTIO_GPU_FILL_CMD(cmd->cmd_hdr);
+>=20
+>@@ -637,7 +638,7 @@ static int virtio_gpu_virgl_get_num_capsets(VirtIOGPU=
+ *g)
+>     return capset2_max_ver ? 2 : 1;
+> }
+>=20
+>-void virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
+>+static void virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
+>                                struct virtio_gpu_scanout *s,
+>                                uint32_t resource_id)
+> {
+>@@ -660,14 +661,14 @@ void virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
+>     free(data);
+> }
+>=20
+>-void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
+>+static void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
+> {
+>     VirtIOGPU *g =3D VIRTIO_GPU(b);
+>=20
+>     virtio_gpu_process_cmdq(g);
+> }
+>=20
+>-void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>+static void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *=
+vq)
+> {
+>     VirtIOGPU *g =3D VIRTIO_GPU(vdev);
+>     VirtIOGPUGL *gl =3D VIRTIO_GPU_GL(vdev);
+>@@ -699,7 +700,7 @@ void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev,=
+ VirtQueue *vq)
+>     virtio_gpu_virgl_fence_poll(g);
+> }
+>=20
+>-void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+>+static void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+> {
+>     VirtIOGPU *g =3D VIRTIO_GPU(vdev);
+>     VirtIOGPUGL *gl =3D VIRTIO_GPU_GL(vdev);
+>@@ -718,7 +719,21 @@ void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+>=20
+> void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)
+> {
+>-    VirtIOGPU *g =3D VIRTIO_GPU(qdev);
+>+    VirtIODevice *vdev =3D VIRTIO_DEVICE(qdev);
+>+    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+>+
+>+    VirtIOGPUBase *bdev =3D VIRTIO_GPU_BASE(qdev);
+>+    VirtIOGPUBaseClass *vbc =3D VIRTIO_GPU_BASE_GET_CLASS(bdev);
+>+
+>+    VirtIOGPU *gpudev =3D VIRTIO_GPU(qdev);
+>+    VirtIOGPUClass *vgc =3D VIRTIO_GPU_GET_CLASS(gpudev);
+>+
+>+    vbc->gl_flushed =3D virtio_gpu_virgl_flushed;
+>+    vgc->handle_ctrl =3D virtio_gpu_virgl_handle_ctrl;
+>+    vgc->process_cmd =3D virtio_gpu_virgl_process_cmd;
+>+    vgc->update_cursor_data =3D virtio_gpu_virgl_update_cursor;
+>+
+>+    vdc->reset =3D virtio_gpu_virgl_reset;
 
-  dev: escc, id ""
-    gpio-out "sysbus-irq" 2
-    frequency = 4915200 (0x4b0000)
-    it_shift = 1 (0x1)
-    bit_swap = false
-    disabled = 0 (0x0)
-    chnBtype = 2 (0x2)
-    chnAtype = 1 (0x1)
-    chrB = ""
-    chrA = ""
-    sunkbd_layout = "43"
-    mmio 0000000071000000/0000000000000008
- 
-but that information is not easy to find and it does not say anything about 
-possible values. What is the best way to document this kind of global 
-parameters?
+A realize method is supposed to modify a single instance only while we're =
+modifying the behavior of whole classes here, i=2Ee=2E will affect every in=
+stance of these classes=2E This goes against QOM design principles and will=
+ therefore be confusing for people who are familiar with QOM in particular =
+and OOP in general=2E I think the code should be cleaned up in a different =
+way if really needed=2E
 
-Please cc me any reply as I am no longer subscribed to the mailing list.
+Best regards,
+Bernhard
 
-best regards Henrik
-
-SUN Type 4, 5 and 5c keyboards have dip switches to choose the language layout 
-of the keyboard. Solaris makes an ioctl to query the value of the dipswitches 
-and uses that value to select keyboard layout. Also the SUN bios like the one 
-in the file ss5.bin uses this value to support at least some keyboard layouts. 
-However, the OpenBIOS provided with qemu is hardcoded to always use an 
-US keyboard layout.
-
-Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
-this patch uses a command line switch like "-global escc.sunkbd_layout=de" to
-select dip switch value. A table is used to lookup values from arguments like:
-
--global escc.sunkbd_layout=fr
--global escc.sunkbd_layout=es
-
-But the patch also accepts numeric dip switch values directly to the -k
-switch:
-
--global escc.sunkbd_layout=0x2b
--global escc.sunkbd_layout=43
-
-Both values above are the same and select swedish keyboard as explained in
-table 3-15 at
-https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
-
-Unless you want to do a full Solaris installation but happen to have
-access to a bios file, the easiest way to test that the patch works is to:
-
-qemu-system-sparc -global escc.sunkbd_layout=sv -bios /path/to/ss5.bin
-
-If you already happen to have a Solaris installation in a qemu disk image
-file you can easily try different keyboard layouts after this patch is
-applied.
-
-Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
----
- hw/char/escc.c         | 81 +++++++++++++++++++++++++++++++++++++++---
- include/hw/char/escc.h |  1 +
- 2 files changed, 78 insertions(+), 4 deletions(-)
-
-diff --git a/hw/char/escc.c b/hw/char/escc.c
-index 17a908c59b..0aac4f0f92 100644
---- a/hw/char/escc.c
-+++ b/hw/char/escc.c
-@@ -31,6 +31,8 @@
- #include "qemu/module.h"
- #include "hw/char/escc.h"
- #include "ui/console.h"
-+
-+#include "qemu/cutils.h"
- #include "trace.h"
- 
- /*
-@@ -190,7 +192,8 @@
- #define R_MISC1I 14
- #define R_EXTINT 15
- 
--static void handle_kbd_command(ESCCChannelState *s, int val);
-+static unsigned char sun_keyboard_layout_dip_switch(const char *keyboard_layout);
-+static void handle_kbd_command(ESCCChannelState *s, int val, ESCCState *k);
- static int serial_can_receive(void *opaque);
- static void serial_receive_byte(ESCCChannelState *s, int ch);
- 
-@@ -657,7 +660,7 @@ static void escc_mem_write(void *opaque, hwaddr addr,
-                  */
-                 qemu_chr_fe_write_all(&s->chr, &s->tx, 1);
-             } else if (s->type == escc_kbd && !s->disabled) {
--                handle_kbd_command(s, val);
-+                handle_kbd_command(s, val, serial);
-             }
-         }
-         s->rregs[R_STATUS] |= STATUS_TXEMPTY; /* Tx buffer empty */
-@@ -846,7 +849,76 @@ static QemuInputHandler sunkbd_handler = {
-     .event = sunkbd_handle_event,
- };
- 
--static void handle_kbd_command(ESCCChannelState *s, int val)
-+static unsigned char sun_keyboard_layout_dip_switch(const char *keyboard_layout)
-+{
-+    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
-+    static unsigned char ret = 0xff;
-+
-+    if ((ret == 0xff) && keyboard_layout) {
-+        int i;
-+        struct layout_values {
-+            const char *lang;
-+            unsigned char dip;
-+        } languages[] =
-+    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards */
-+            {
-+                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
-+                                 /* 0x22 is some other US (US_UNIX5.kt)*/
-+                {"fr",    0x23}, /* France (France5.kt) */
-+                {"da",    0x24}, /* Denmark (Denmark5.kt) */
-+                {"de",    0x25}, /* Germany (Germany5.kt) */
-+                {"it",    0x26}, /* Italy (Italy5.kt) */
-+                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
-+                {"no",    0x28}, /* Norway (Norway.kt) */
-+                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
-+                {"es",    0x2a}, /* Spain (Spain5.kt) */
-+                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
-+                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
-+                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
-+                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
-+                {"ko",    0x2f}, /* Korea (Korea5.kt) */
-+                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
-+                {"ja",    0x31}, /* Japan (Japan5.kt) */
-+                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
-+                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
-+                {"pl",    0x34}, /* Poland (Poland5.kt) */
-+                {"cz",    0x35}, /* Czech (Czech5.kt) */
-+                {"ru",    0x36}, /* Russia (Russia5.kt) */
-+                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
-+                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
-+                {"gr",    0x39}, /* Greece (Greece5.kt) */
-+                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
-+                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
-+                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
-+                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
-+            };
-+
-+        for (i = 0;
-+             i < sizeof(languages) / sizeof(struct layout_values);
-+             i++) {
-+            if (!strcmp(keyboard_layout, languages[i].lang)) {
-+                ret = languages[i].dip;
-+                return ret;
-+            }
-+        }
-+        /* Found no known language code */
-+
-+        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
-+            unsigned int tmp;
-+            /* As a fallback we also accept numeric dip switch value */
-+            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
-+                ret = (unsigned char)tmp;
-+            }
-+        }
-+    }
-+    if (ret == 0xff) {
-+        /* Final fallback if keyboard_layout was not set or recognized */
-+        ret = 0x21; /* en-us layout */
-+    }
-+    return ret;
-+}
-+
-+static void handle_kbd_command(ESCCChannelState *s, int val, ESCCState *k)
- {
-     trace_escc_kbd_command(val);
-     if (s->led_mode) { /* Ignore led byte */
-@@ -867,7 +939,7 @@ static void handle_kbd_command(ESCCChannelState *s, int val)
-     case 0xf:
-         clear_queue(s);
-         put_queue(s, 0xfe);
--        put_queue(s, 0x21); /*  en-us layout */
-+        put_queue(s, sun_keyboard_layout_dip_switch(k->keyboard_layout));
-         break;
-     default:
-         break;
-@@ -976,6 +1048,7 @@ static Property escc_properties[] = {
-     DEFINE_PROP_UINT32("chnAtype",  ESCCState, chn[1].type, 0),
-     DEFINE_PROP_CHR("chrB", ESCCState, chn[0].chr),
-     DEFINE_PROP_CHR("chrA", ESCCState, chn[1].chr),
-+    DEFINE_PROP_STRING("sunkbd_layout", ESCCState, keyboard_layout),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/char/escc.h b/include/hw/char/escc.h
-index 7e9482dee2..2830876a17 100644
---- a/include/hw/char/escc.h
-+++ b/include/hw/char/escc.h
-@@ -56,6 +56,7 @@ struct ESCCState {
-     MemoryRegion mmio;
-     uint32_t disabled;
-     uint32_t frequency;
-+    char *keyboard_layout;
- };
- 
- #endif
--- 
-2.30.4
-
+>=20
+> #if HOST_BIG_ENDIAN
+>     error_setg(errp, "virgl is not supported on bigendian platforms");
+>@@ -736,9 +751,9 @@ void virtio_gpu_virgl_device_realize(DeviceState *qde=
+v, Error **errp)
+>         return;
+>     }
+>=20
+>-    g->parent_obj=2Econf=2Eflags |=3D (1 << VIRTIO_GPU_FLAG_VIRGL_ENABLE=
+D);
+>-    VIRTIO_GPU_BASE(g)->virtio_config=2Enum_capsets =3D
+>-        virtio_gpu_virgl_get_num_capsets(g);
+>+    VIRTIO_GPU_BASE(gpudev)->conf=2Eflags |=3D (1 << VIRTIO_GPU_FLAG_VIR=
+GL_ENABLED);
+>+    VIRTIO_GPU_BASE(gpudev)->virtio_config=2Enum_capsets =3D
+>+        virtio_gpu_virgl_get_num_capsets(gpudev);
+>=20
+>     virtio_gpu_device_realize(qdev, errp);
+> }
+>diff --git a/include/hw/virtio/virtio-gpu=2Eh b/include/hw/virtio/virtio-=
+gpu=2Eh
+>index 89ee133f07=2E=2Ed5808f2ab6 100644
+>--- a/include/hw/virtio/virtio-gpu=2Eh
+>+++ b/include/hw/virtio/virtio-gpu=2Eh
+>@@ -277,13 +277,6 @@ int virtio_gpu_update_dmabuf(VirtIOGPU *g,
+>                              struct virtio_gpu_rect *r);
+>=20
+> /* virtio-gpu-3d=2Ec */
+>-void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>-                                  struct virtio_gpu_ctrl_command *cmd);
+>-void virtio_gpu_virgl_update_cursor(VirtIOGPU *g, struct virtio_gpu_scan=
+out *s,
+>-                                    uint32_t resource_id);
+>-void virtio_gpu_virgl_flushed(VirtIOGPUBase *b);
+>-void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq);
+>-void virtio_gpu_virgl_reset(VirtIODevice *vdev);
+> void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp);
+>=20
+> #endif
 
