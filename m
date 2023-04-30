@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D583F6F27C8
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Apr 2023 08:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4386F27C9
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Apr 2023 08:10:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pt0CK-0006cn-4L; Sun, 30 Apr 2023 02:06:12 -0400
+	id 1pt0Fi-0007ml-Ag; Sun, 30 Apr 2023 02:09:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pt0C7-0006b8-8v
- for qemu-devel@nongnu.org; Sun, 30 Apr 2023 02:05:59 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1pt0Fd-0007mW-Lv
+ for qemu-devel@nongnu.org; Sun, 30 Apr 2023 02:09:39 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pt0C5-0007Tz-GL
- for qemu-devel@nongnu.org; Sun, 30 Apr 2023 02:05:59 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- 98e67ed59e1d1-24dea6d5ce8so601234a91.2
- for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 23:05:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1pt0Fa-0007oy-VT
+ for qemu-devel@nongnu.org; Sun, 30 Apr 2023 02:09:37 -0400
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-63b35789313so997152b3a.3
+ for <qemu-devel@nongnu.org>; Sat, 29 Apr 2023 23:09:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1682834753; x=1685426753;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20221208; t=1682834973; x=1685426973;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5GwuLWXKn3s3pyOZ1JrXhMu8pyGBTdVX9Dq2gUC/ap8=;
- b=ftiwenPHu9bUCoiTSAS5Qhu7VrnfJdZEPqJaO9dUf4HiwSJPgS7iDTslG/PO6nvlHK
- r9I6X7wYjOf/pE1BsN6qGoPXiLlK5D3FfbeNoXAN6LUJwJqKeNzkXkNhzLSlx/I+oqKU
- 1ZTIoEh0WXTVIT5P1GTal74KaeoMFTcrV6XQhxJvMGGpCX+VrLj0LQ855H6J1qw5gL9m
- ps/V1aTzpWmuBaLKBd62bbApQ1TWitOygDGlQn+eovidtBGsJnrezxNEHTO8gLDCqKsW
- hXP19UhFbaS2nKzcmoCUjxTcOVViYGOZGeiWZAWeE3AhYc/NUkYmtsQPrdCKzTz9T5A0
- wH5A==
+ bh=qgsJgymNz3M5eXdmxp9UJkJ9y/X4YE1Vy8lR9rjLoBQ=;
+ b=OaM0DXRsOuIQlCQwkD42ud9tL5FFlrfAJ8iDXSygOsrb7rNsiTdtlOkFrVylpPIdon
+ r8P1ImFgyw2dqFKdGD/kxY4bO86p81CyquscwwMZaqm3pk1e+nPJjQ2xU1NLESlim/VY
+ EfqqxJ0WOkbVMeMqxVFXO4MCkGs3Qogk6xk6oEVrK/D6Kwu9cM3Cg7LAbm/XslCif+V/
+ QQ5Solx+4sGHvGkjARVp+XWUFrMbOA3sOrMU2s5ROPj5BMxbIw/VBFkIraeNUzpF6FMi
+ 3yLVxWHqIAlgPig3cRzfJEVsyI6Hc7X15NRfmJYAyAKe++4kPuOrtSDZg2jrlG93hDrJ
+ isYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682834753; x=1685426753;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1682834973; x=1685426973;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5GwuLWXKn3s3pyOZ1JrXhMu8pyGBTdVX9Dq2gUC/ap8=;
- b=g6Zq7FpD0S9eGHQOou192L1aoqYjcplPrQ6EfeBayTycS5H8xGEXIiRvOlWQjfckpr
- QqcQpvHrtaigDxZP+zjLExxrLI13+IVcZsiwEFk0EISOrJs9QTQIJM/HB8bMJoiCHAtd
- MAckZJ78LoWe3B3bKBvGYaCZFFuv4zJZnlqcYoeI6Vlezo7ldo5uqR0iBnpVkN7gqH4L
- 0j8QARUup1Vohh1uUDRyDkzJGkPmb63+R84cAW8He1hmb9oeGodhSNG8JXUTTTqlb5o8
- hWzIwPb9LSw/f3gGMQwLpf0eMzZkcysRKvYgbNc+JMn6m+mZK+CmjaWJbfg//9RLtJok
- Rb1A==
-X-Gm-Message-State: AC+VfDzkT5zDDNHLjVj7lQnua2YD/hmvjnosKjyPKZn8j0G6gmdYlBnQ
- 0fkU9fwAUINWRpEPK6BPxv8kgA==
-X-Google-Smtp-Source: ACHHUZ50SVEfgszZJw3JQr2yVCPnFy5B1EsM9bbuR8syGAjpmKdV+1MJatSysJvlzofKUKSErrgJ4g==
-X-Received: by 2002:a17:90a:ab88:b0:23f:abfc:5acb with SMTP id
- n8-20020a17090aab8800b0023fabfc5acbmr10562186pjq.18.1682834753628; 
- Sat, 29 Apr 2023 23:05:53 -0700 (PDT)
+ bh=qgsJgymNz3M5eXdmxp9UJkJ9y/X4YE1Vy8lR9rjLoBQ=;
+ b=KKYKkRuuvabu6bAxMDWlqxPKVGJVz+6d7u9eXatzqyUQ+HWreN0kdw1IS7ryxnTPsW
+ +XKD9ka1Zh1DE2uY7v6PfVGSF1pJawImwwtzxjVjIxwAKxX83vgAdA6HQpeZZFAlC42u
+ DpzFwP8sTaLj30faBrnV1jYk/0aU+YSu0qnSTutEjxqhKKD3lvbjLZYnm/0E1JTunZGR
+ yidvdiK9YC1ocuyZMUhYOOFHhaQvuegfT6ETYZXpkuGv1MMi2Ks9xr/Oy8oY4pwIl9qI
+ bRUlPqBkkoEivUkOfLpN6n64P360YAATmCmzs3rRaXWDKv/C6S3swOxEaNF2qaB6vWnx
+ P3KQ==
+X-Gm-Message-State: AC+VfDwnAIMU6Mo76nxl7t9zMSKrGYUR23bsWvvqeYdZoSTKHqCAdsLr
+ bvTu1PCka3lutgbOZ8/xZVo=
+X-Google-Smtp-Source: ACHHUZ6FkO5HALDWGU8KKsypqtahdGuSWiIF0KkdmG06BZKaeft0EMtAZDEbQRqQNYhvGyBdJffDTA==
+X-Received: by 2002:a05:6a00:2e91:b0:63a:8f4c:8be1 with SMTP id
+ fd17-20020a056a002e9100b0063a8f4c8be1mr16106044pfb.10.1682834972873; 
+ Sat, 29 Apr 2023 23:09:32 -0700 (PDT)
 Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
  ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- dt15-20020a17090afa4f00b00233e860f69esm17165756pjb.56.2023.04.29.23.05.51
+ c194-20020a624ecb000000b0062dba4e4706sm17580341pfb.191.2023.04.29.23.09.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Apr 2023 23:05:53 -0700 (PDT)
-Message-ID: <a904ce6c-08e5-e4ed-6250-00940ad73fd4@daynix.com>
-Date: Sun, 30 Apr 2023 15:05:50 +0900
+ Sat, 29 Apr 2023 23:09:32 -0700 (PDT)
+Message-ID: <3d85338e-a2c5-a8d5-9218-99d260b057e5@gmail.com>
+Date: Sun, 30 Apr 2023 15:09:29 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 1/2] igb: RX descriptors handling cleanup
-To: "Tomasz Dzieciol/VIM Integration (NC) /SRPOL/Engineer/Samsung Electronics"
- <t.dzieciol@partner.samsung.com>, qemu-devel@nongnu.org
-Cc: sriram.yagnaraman@est.tech, jasowang@redhat.com, k.kwiecien@samsung.com,
- m.sochacki@samsung.com
-References: <20230427104743.9072-1-t.dzieciol@partner.samsung.com>
- <CGME20230427104750eucas1p1158eee5a37c71cacaea021a7abbd6ace@eucas1p1.samsung.com>
- <20230427104743.9072-2-t.dzieciol@partner.samsung.com>
- <d1eb27dd-1b2e-dca1-2d1e-aa16397c2f15@daynix.com>
- <000001d979d0$23571b90$6a0552b0$@partner.samsung.com>
+Subject: Re: [PATCH v2 1/5] hw/display/virtio-gpu-virgl: virtio_gpu_gl ->
+ virtio_gpu_virgl
 Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <000001d979d0$23571b90$6a0552b0$@partner.samsung.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
+Cc: philmd@linaro.org, kraxel@redhat.com, marcandre.lureau@redhat.com,
+ dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
+References: <20230428164823.789-1-gurchetansingh@google.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20230428164823.789-1-gurchetansingh@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102a;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,22 +97,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/04/28 21:51, Tomasz Dzieciol/VIM Integration (NC) 
-/SRPOL/Engineer/Samsung Electronics wrote:
->> Please don't ignore comments in reviews, and if you have a question with them or you don't agree with them, please write so in a reply. You don't have to post a new version quickly so take time to address all problems pointed out.
+On 2023/04/29 1:48, Gurchetan Singh wrote:
+> From: Gurchetan Singh <gurchetansingh@chromium.org>
 > 
-> I assumed that comments referred only to places pointed in the code and fixed only those places. Sorry about that. I will keep in mind that your comments are more general and fix all the places, where array is passed as parameter.
+> The virtio-gpu GL device has a heavy dependence on virgl.
+> Acknowledge this by naming functions accurately.
 > 
->> Please split up those changes into separate patches.
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+> v1:
+>   - (Philippe) virtio_gpu_virglrenderer_reset --> virtio_gpu_virgl_reset_renderer
+> v2:
+>   - (Akihiko) Fix unnecessary line break
 > 
-> I will extract TCP ACK detection removal and IPv6 extensions traffic detection to separate patches. Those will be small patches in comparison to the rest of cleanup, however those are functional changes.
+>   hw/display/virtio-gpu-gl.c     | 26 +++++++++++++-------------
+>   hw/display/virtio-gpu-virgl.c  |  2 +-
+>   include/hw/virtio/virtio-gpu.h |  2 +-
+>   3 files changed, 15 insertions(+), 15 deletions(-)
 > 
->> Do *not*:
->> - suffix struct name with _st. The convention is not common in QEMU code base, or even e1000e and igb do not always use the suffixes.
->> - use _.
-> 
-> ok, I was looking at E1000E_RingInfo_st, which was added recently with IGB code in commit 3a977deebe6b9a10043182e922f6883924ef21f5 ("Intrdocue igb device emulation").
+> diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
+> index e06be60dfb..8573043b85 100644
+> --- a/hw/display/virtio-gpu-gl.c
+> +++ b/hw/display/virtio-gpu-gl.c
+> @@ -25,9 +25,9 @@
+>   
+>   #include <virglrenderer.h>
+>   
+> -static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
+> -                                             struct virtio_gpu_scanout *s,
+> -                                             uint32_t resource_id)
+> +static void virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
+> +                               struct virtio_gpu_scanout *s,
+> +                               uint32_t resource_id)
 
-It's just copied from e1000e code. Check for e1000e_core.c for history 
-older than that commit.
+Now the last two parameters are misaligned.
+
+>   {
+>       uint32_t width, height;
+>       uint32_t pixels, *data;
+> @@ -48,14 +48,14 @@ static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
+>       free(data);
+>   }
+>   
+> -static void virtio_gpu_gl_flushed(VirtIOGPUBase *b)
+> +static void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
+>   {
+>       VirtIOGPU *g = VIRTIO_GPU(b);
+>   
+>       virtio_gpu_process_cmdq(g);
+>   }
+>   
+> -static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+> +static void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>   {
+>       VirtIOGPU *g = VIRTIO_GPU(vdev);
+>       VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
+> @@ -71,7 +71,7 @@ static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>       }
+>       if (gl->renderer_reset) {
+>           gl->renderer_reset = false;
+> -        virtio_gpu_virgl_reset(g);
+> +        virtio_gpu_virgl_reset_renderer(g);
+>       }
+>   
+>       cmd = virtqueue_pop(vq, sizeof(struct virtio_gpu_ctrl_command));
+> @@ -87,7 +87,7 @@ static void virtio_gpu_gl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>       virtio_gpu_virgl_fence_poll(g);
+>   }
+>   
+> -static void virtio_gpu_gl_reset(VirtIODevice *vdev)
+> +static void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+>   {
+>       VirtIOGPU *g = VIRTIO_GPU(vdev);
+>       VirtIOGPUGL *gl = VIRTIO_GPU_GL(vdev);
+> @@ -104,7 +104,7 @@ static void virtio_gpu_gl_reset(VirtIODevice *vdev)
+>       }
+>   }
+>   
+> -static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
+> +static void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)
+>   {
+>       VirtIOGPU *g = VIRTIO_GPU(qdev);
+>   
+> @@ -143,13 +143,13 @@ static void virtio_gpu_gl_class_init(ObjectClass *klass, void *data)
+>       VirtIOGPUBaseClass *vbc = VIRTIO_GPU_BASE_CLASS(klass);
+>       VirtIOGPUClass *vgc = VIRTIO_GPU_CLASS(klass);
+>   
+> -    vbc->gl_flushed = virtio_gpu_gl_flushed;
+> -    vgc->handle_ctrl = virtio_gpu_gl_handle_ctrl;
+> +    vbc->gl_flushed = virtio_gpu_virgl_flushed;
+> +    vgc->handle_ctrl = virtio_gpu_virgl_handle_ctrl;
+>       vgc->process_cmd = virtio_gpu_virgl_process_cmd;
+> -    vgc->update_cursor_data = virtio_gpu_gl_update_cursor_data;
+> +    vgc->update_cursor_data = virtio_gpu_virgl_update_cursor;
+>   
+> -    vdc->realize = virtio_gpu_gl_device_realize;
+> -    vdc->reset = virtio_gpu_gl_reset;
+> +    vdc->realize = virtio_gpu_virgl_device_realize;
+> +    vdc->reset = virtio_gpu_virgl_reset;
+>       device_class_set_props(dc, virtio_gpu_gl_properties);
+>   }
+>   
+> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+> index 1c47603d40..ffe4ec7f3d 100644
+> --- a/hw/display/virtio-gpu-virgl.c
+> +++ b/hw/display/virtio-gpu-virgl.c
+> @@ -599,7 +599,7 @@ void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g)
+>       }
+>   }
+>   
+> -void virtio_gpu_virgl_reset(VirtIOGPU *g)
+> +void virtio_gpu_virgl_reset_renderer(VirtIOGPU *g)
+>   {
+>       virgl_renderer_reset();
+>   }
+> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+> index 2e28507efe..21b0f55bc8 100644
+> --- a/include/hw/virtio/virtio-gpu.h
+> +++ b/include/hw/virtio/virtio-gpu.h
+> @@ -281,7 +281,7 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>                                     struct virtio_gpu_ctrl_command *cmd);
+>   void virtio_gpu_virgl_fence_poll(VirtIOGPU *g);
+>   void virtio_gpu_virgl_reset_scanout(VirtIOGPU *g);
+> -void virtio_gpu_virgl_reset(VirtIOGPU *g);
+> +void virtio_gpu_virgl_reset_renderer(VirtIOGPU *g);
+>   int virtio_gpu_virgl_init(VirtIOGPU *g);
+>   int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g);
+>   
 
