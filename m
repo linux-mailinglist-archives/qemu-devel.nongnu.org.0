@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074F16F335C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 18:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30EB6F3360
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 18:05:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptVyt-0000Ux-JE; Mon, 01 May 2023 12:02:27 -0400
+	id 1ptW17-00030X-4d; Mon, 01 May 2023 12:04:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptVyL-0000CI-JH
- for qemu-devel@nongnu.org; Mon, 01 May 2023 12:02:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ptW14-0002zp-EV
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 12:04:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptVyJ-000303-Cd
- for qemu-devel@nongnu.org; Mon, 01 May 2023 12:01:52 -0400
+ id 1ptW13-0003Q3-1e
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 12:04:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682956910;
+ s=mimecast20190719; t=1682957079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=H4a4TRiPJmlX4SfND/Ww4f3lfek+b5VcGunIuszGPwg=;
- b=c7BEaOdKxgMY0TdwiWKKM0hZu09MImjRhwC83BILUOy4uQOEoEXagNt6yjFIDC1sxk17U3
- 0dsemGgAW9ms5UzSy7dRayYfpGhq5WBrvz6/isW1Srmt1lIZWBNuxEMfs5vMAldJbnrIZo
- Bxdz5QvRLV+VYE8/QNW+CK8gURYNhjY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CnlNSf5AicnVhdOg5VGU/N9cEIMOZMo8/oAqbuvgwZ4=;
+ b=cUf7mPkl+fwC/IemkG1blmFmBL7sNFvq59flFH5TUvod/hpB+gyCoeEhfNUqYIFFx8h0GG
+ EeOGeQJt5sknmE1riHNuigfXLBha8dWo0+S3xmH1XoU8BVih8nAHxbqffKf7yyqjPYLV7f
+ N+LsWpH8uzMCtMPRqUCq+kDigYnK/k8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-TghNmgmqPdqDa295_JHMIw-1; Mon, 01 May 2023 12:01:40 -0400
-X-MC-Unique: TghNmgmqPdqDa295_JHMIw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-441-WW7_pcCSNp6FcdJ5d_r96A-1; Mon, 01 May 2023 12:03:20 -0400
+X-MC-Unique: WW7_pcCSNp6FcdJ5d_r96A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF07A1C075BD;
- Mon,  1 May 2023 16:01:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 875F6884628;
+ Mon,  1 May 2023 16:02:38 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CF7363F2D;
- Mon,  1 May 2023 16:01:39 +0000 (UTC)
-Date: Mon, 1 May 2023 12:01:37 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0BBE92027043;
+ Mon,  1 May 2023 16:02:34 +0000 (UTC)
+Date: Mon, 1 May 2023 12:02:33 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
 Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
  qemu-devel@nongnu.org
-Subject: Re: [PATCH 08/20] block: .bdrv_open is non-coroutine and unlocked
-Message-ID: <20230501160137.GJ14869@fedora>
+Subject: Re: [PATCH 09/20] nbd: Remove nbd_co_flush() wrapper function
+Message-ID: <20230501160233.GK14869@fedora>
 References: <20230425173158.574203-1-kwolf@redhat.com>
- <20230425173158.574203-9-kwolf@redhat.com>
+ <20230425173158.574203-10-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vggftsAc1OigxgRu"
+ protocol="application/pgp-signature"; boundary="OMSBNPMb41AdF/ji"
 Content-Disposition: inline
-In-Reply-To: <20230425173158.574203-9-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20230425173158.574203-10-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -82,54 +82,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---vggftsAc1OigxgRu
+--OMSBNPMb41AdF/ji
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 25, 2023 at 07:31:46PM +0200, Kevin Wolf wrote:
-> Drivers were a bit confused about whether .bdrv_open can run in a
-> coroutine and whether or not it holds a graph lock.
->=20
-> It cannot keep a graph lock from the caller across the whole function
-> because it both changes the graph (requires a writer lock) and does I/O
-> (requires a reader lock). Therefore, it should take these locks
-> internally as needed.
->=20
-> The functions used to be called in coroutine context during image
-> creation. This was buggy for other reasons, and as of commit 32192301,
-> all block drivers go through no_co_wrappers. So it is not called in
-> coroutine context any more.
->=20
-> Fix qcow2 and qed to work with the correct assumptions: The graph lock
-> needs to be taken internally instead of just assuming it's already
-> there, and the coroutine path is dead code that can be removed.
+On Tue, Apr 25, 2023 at 07:31:47PM +0200, Kevin Wolf wrote:
+> The only thing nbd_co_flush() does is calling nbd_client_co_flush().
+> Just use that function directly in the BlockDriver definitions and
+> remove the wrapper.
 >=20
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  include/block/block_int-common.h |  8 ++++----
->  block.c                          |  6 +++---
->  block/qcow2.c                    | 15 ++++++---------
->  block/qed.c                      | 18 ++++++++----------
->  4 files changed, 21 insertions(+), 26 deletions(-)
+>  block/nbd.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---vggftsAc1OigxgRu
+--OMSBNPMb41AdF/ji
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRP4mEACgkQnKSrs4Gr
-c8g8Dgf9GSoIp/TeqoggUGmEB5xaS7ThttL2zd7x/sGNd9fpJaw0LLYLZcaf1dUA
-3njLo+GSuYMpPgdgb4cOnViP8Z9CvCbn8wmjbZQJWIhxAXAwB7DHhT3brjoRGfQ8
-WNBDHFvnxNzU6+P6/NyyOxnG1S6Ckxw/eE4IcteMbZPqWwDjvrr1SSXsSMYXMNtP
-LEr/oiNw2kXDZlo20V04En84LHLqkbZXg0yWbmD6ImD05yhevDJFFmnw9c7SP7OC
-r6c49xhuJZRyd8E1Q4/Ziil+rhaLy7o1lbNFPkFm6gdllGrYkv+75apTVVoCdx9J
-8UtfJ4WjV40pKqzWbRDdA35y+a4QGg==
-=4b7K
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRP4pkACgkQnKSrs4Gr
+c8gKXAf/XdKE5y9rE1MiEYGbAshn6k4RLrtvGC3uaqzDKzPUITe8wEdbepLSrOpb
+GpfD7xlxZjqjimx8zVWbybaeDCCupV8JQkGbL/ALgbKirmf/nDgGXnkT8IpBpHZr
+5I8c79d6OHaPI3WAwXtP+WOFvAVHIPLzUt/5deHnR513Oo0yaJ55HmG8NAbG1RLs
+Z0iFPHYl5egdcu7wOX4b9wHwrNDseY/0lEDbXz7LiKoppZzuKtrDZ52U/PuEjajm
+bSGM5Y5tPXWcSPoXVUtgAtNS9o1V59iZw4rnxPYTUGdV8DS+e7X+KmlTjJraX+ws
+6XUE7WpYI5AvSKOwyyExwuiD8/DIxg==
+=EapH
 -----END PGP SIGNATURE-----
 
---vggftsAc1OigxgRu--
+--OMSBNPMb41AdF/ji--
 
 
