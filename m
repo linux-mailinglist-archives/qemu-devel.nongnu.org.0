@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85666F333E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074F16F335C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 18:04:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptVrk-0006Iu-CG; Mon, 01 May 2023 11:55:04 -0400
+	id 1ptVyt-0000Ux-JE; Mon, 01 May 2023 12:02:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVri-0006Ig-Iz
- for qemu-devel@nongnu.org; Mon, 01 May 2023 11:55:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.135])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptVyL-0000CI-JH
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 12:02:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVrg-0001jH-J6
- for qemu-devel@nongnu.org; Mon, 01 May 2023 11:55:02 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mnq4Q-1qd1201XY2-00pNUw; Mon, 01 May 2023 17:54:58 +0200
-Message-ID: <911ff422-2d59-89a5-9c75-0f7bc68d61ea@vivier.eu>
-Date: Mon, 1 May 2023 17:54:57 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptVyJ-000303-Cd
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 12:01:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682956910;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=H4a4TRiPJmlX4SfND/Ww4f3lfek+b5VcGunIuszGPwg=;
+ b=c7BEaOdKxgMY0TdwiWKKM0hZu09MImjRhwC83BILUOy4uQOEoEXagNt6yjFIDC1sxk17U3
+ 0dsemGgAW9ms5UzSy7dRayYfpGhq5WBrvz6/isW1Srmt1lIZWBNuxEMfs5vMAldJbnrIZo
+ Bxdz5QvRLV+VYE8/QNW+CK8gURYNhjY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-550-TghNmgmqPdqDa295_JHMIw-1; Mon, 01 May 2023 12:01:40 -0400
+X-MC-Unique: TghNmgmqPdqDa295_JHMIw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF07A1C075BD;
+ Mon,  1 May 2023 16:01:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CF7363F2D;
+ Mon,  1 May 2023 16:01:39 +0000 (UTC)
+Date: Mon, 1 May 2023 12:01:37 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 08/20] block: .bdrv_open is non-coroutine and unlocked
+Message-ID: <20230501160137.GJ14869@fedora>
+References: <20230425173158.574203-1-kwolf@redhat.com>
+ <20230425173158.574203-9-kwolf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 2/2] linux-user: Don't require PROT_READ for mincore
-Content-Language: fr
-To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>, qemu-devel@nongnu.org
-References: <20230422100314.1650-1-thomas@t-8ch.de>
- <20230422100314.1650-3-thomas@t-8ch.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230422100314.1650-3-thomas@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zncQ488RHRdBNhs+50cpLwQNvwouW4Mc1h1rkhOpdQ3TAVPt+UG
- QKn+4vVvZO4d5ruvyqXJasjMm0g0NC90+iUxACiyYLArYfdAyWm/sLTEp1ETQbheKpk0W1x
- 4WiZeBvhPKTIDFWtC9zAYSkcaBC+gq4Mk/neEPOrAjchWy6Z7vJI12QEeKWtFnrgRZHYuLV
- YNOVuX0lSuXiHXYlAo8Mw==
-UI-OutboundReport: notjunk:1;M01:P0:uuQ4agY1y3A=;3FNda017eVCrSs3mB02AEDvUnEt
- ARMSnIDw9WtyyeYAQfUW+j22jqDoMte4G4OdRIt1EDzF1kyVo4IposvGGEYrWd/F+2xi9Pf4E
- 6rnbf+dlnihjc3F1igV7pnjrGSN91u4wahrSBds1Rqy8DU00MRamOMhVC4FOfpYF8c8NKbThj
- F1dx++GE7k/ylH0KiWhksL36EnhFsln7miTWf2265J7t+HS7lCacFRe3+4ls29vhgcmMiJtcR
- gvn07NWkZsAVjF5zRZVSzS66sLzQ8odV/f+cgq++XI4Cbp8+G74J+bPLj048mkT6+A0stokPa
- cDZ6hTo9hCtnrXSztUkBOEe9Oo+Bw2zt7sVpDGAQfM4ucHHIUxw1p07lqYyTOS0iJT0+cdRHi
- h5SeyAnFaLfi99wzDytnDUoUBdWIcPbA8ZkU+U84BlykiSUP7S6K+hJXBBGMPP8AJX2i+JfsO
- znLA8cWJP8Y1+To+h4Obnsx2Sw/b51CIJE1cHM4w9u3pCHz8w1wPyDmqK2/VvOyP+B8K71Mrz
- t/u45qo3r4Dj7mf/aRhnXPYc1olqTAUz46SPOJ3BHiMfPAyFgePSSih/VYZ9Rp8tPBC+5yrjk
- vR/a3J+4IIfzaJ2HbWMESlcsNjgt1iBxNTOsG86qLEwkxYVjpE2WWlZ+VXDy0AX5JxnZgx7/F
- rfbOIH42n/Gg9Kzk2J4NltjUZbLRmkDFy8VdJaItag==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vggftsAc1OigxgRu"
+Content-Disposition: inline
+In-Reply-To: <20230425173158.574203-9-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,47 +81,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 22/04/2023 à 12:03, Thomas Weißschuh a écrit :
-> The kernel does not require PROT_READ for addresses passed to mincore.
-> For example the fincore(1) tool from util-linux uses PROT_NONE and
-> currently does not work under qemu-user.
-> 
-> Example (with fincore(1) from util-linux 2.38):
-> 
-> $ fincore /proc/self/exe
-> RES PAGES  SIZE FILE
-> 24K     6 22.1K /proc/self/exe
-> 
-> $ qemu-x86_64 /usr/bin/fincore /proc/self/exe
-> fincore: failed to do mincore: /proc/self/exe: Cannot allocate memory
-> 
-> With this patch:
-> 
-> $ ./build/qemu-x86_64 /usr/bin/fincore /proc/self/exe
-> RES PAGES  SIZE FILE
-> 24K     6 22.1K /proc/self/exe
-> 
-> Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
+
+--vggftsAc1OigxgRu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 25, 2023 at 07:31:46PM +0200, Kevin Wolf wrote:
+> Drivers were a bit confused about whether .bdrv_open can run in a
+> coroutine and whether or not it holds a graph lock.
+>=20
+> It cannot keep a graph lock from the caller across the whole function
+> because it both changes the graph (requires a writer lock) and does I/O
+> (requires a reader lock). Therefore, it should take these locks
+> internally as needed.
+>=20
+> The functions used to be called in coroutine context during image
+> creation. This was buggy for other reasons, and as of commit 32192301,
+> all block drivers go through no_co_wrappers. So it is not called in
+> coroutine context any more.
+>=20
+> Fix qcow2 and qed to work with the correct assumptions: The graph lock
+> needs to be taken internally instead of just assuming it's already
+> there, and the coroutine path is dead code that can be removed.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->   linux-user/syscall.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 69f740ff98c8..5ec848b459f7 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -11897,7 +11897,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->   #ifdef TARGET_NR_mincore
->       case TARGET_NR_mincore:
->           {
-> -            void *a = lock_user(VERIFY_READ, arg1, arg2, 0);
-> +            void *a = lock_user(VERIFY_NONE, arg1, arg2, 0);
->               if (!a) {
->                   return -TARGET_ENOMEM;
->               }
+>  include/block/block_int-common.h |  8 ++++----
+>  block.c                          |  6 +++---
+>  block/qcow2.c                    | 15 ++++++---------
+>  block/qed.c                      | 18 ++++++++----------
+>  4 files changed, 21 insertions(+), 26 deletions(-)
 
-Applied to my linux-user-for-8.1 branch.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Thanks,
-Laurent
+--vggftsAc1OigxgRu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRP4mEACgkQnKSrs4Gr
+c8g8Dgf9GSoIp/TeqoggUGmEB5xaS7ThttL2zd7x/sGNd9fpJaw0LLYLZcaf1dUA
+3njLo+GSuYMpPgdgb4cOnViP8Z9CvCbn8wmjbZQJWIhxAXAwB7DHhT3brjoRGfQ8
+WNBDHFvnxNzU6+P6/NyyOxnG1S6Ckxw/eE4IcteMbZPqWwDjvrr1SSXsSMYXMNtP
+LEr/oiNw2kXDZlo20V04En84LHLqkbZXg0yWbmD6ImD05yhevDJFFmnw9c7SP7OC
+r6c49xhuJZRyd8E1Q4/Ziil+rhaLy7o1lbNFPkFm6gdllGrYkv+75apTVVoCdx9J
+8UtfJ4WjV40pKqzWbRDdA35y+a4QGg==
+=4b7K
+-----END PGP SIGNATURE-----
+
+--vggftsAc1OigxgRu--
+
 
