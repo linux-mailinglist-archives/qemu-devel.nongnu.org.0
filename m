@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53FAB6F3316
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8346F3326
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:49:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptVeh-0002Lj-JA; Mon, 01 May 2023 11:41:35 -0400
+	id 1ptVl5-0003jk-Oo; Mon, 01 May 2023 11:48:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ptVed-0002L8-Q6; Mon, 01 May 2023 11:41:33 -0400
-Received: from mout.kundenserver.de ([212.227.126.134])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVl3-0003iu-BL
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 11:48:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ptVec-0008AT-Ak; Mon, 01 May 2023 11:41:31 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVl1-0000fk-JC
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 11:48:09 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MG90u-1q3Pg13U3Y-00GVW1; Mon, 01 May 2023 17:41:25 +0200
-Message-ID: <396b251f-08d5-7f9c-b31b-86cfc8184b05@vivier.eu>
-Date: Mon, 1 May 2023 17:41:22 +0200
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MlNcr-1qXoiH3z3N-00lnAb; Mon, 01 May 2023 17:48:05 +0200
+Message-ID: <c0a2207c-9e43-cb0b-51a9-984b2b5df892@vivier.eu>
+Date: Mon, 1 May 2023 17:48:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] linux-user/main: Use list_cpus() instead of cpu_list()
+Subject: Re: [PATCH v2 1/2] linux-user: Add new flag VERIFY_NONE
 Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20230424122126.236586-1-thuth@redhat.com>
+To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>, qemu-devel@nongnu.org
+References: <20230422100314.1650-1-thomas@t-8ch.de>
+ <20230422100314.1650-2-thomas@t-8ch.de>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230424122126.236586-1-thuth@redhat.com>
+In-Reply-To: <20230422100314.1650-2-thomas@t-8ch.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TmzP7j2RxjLuo2FSumpZD1spIgX2tRR4UuHOquv6jcSePtTJCvV
- C1YeanDYat/ODdqMxvNarLZ4NkOAxdAPJplgqW+EzMJ5g6G7I8nj5NxxGRe7ud+FnxeeJ9T
- xiAPpEFs/5z7shGM5KbdiNsN4IhojvR2fh994LW9XwOOSkBGzJDuFqhLfWA7SDCOdME0qeB
- YBJU/Uw280ymqInWhgWxg==
-UI-OutboundReport: notjunk:1;M01:P0:J0rRmYBs2mc=;zMdPIxwzFAaB3iMH8Rtb8tyS4a/
- 3dAUIPrgY9d5MVBpo3BO3cb7PI5GeQkt0g0F4LwiRAx/u8JCypIMiBrzjE4fXq0o9Tkozq55s
- K6bAitlU61HCwyspDuf8MgC8jfmPbyMsY0xSHG8FrK7enmEJw40TSpjgJMjkqhRmoofLOWScR
- g24MBnKYdAS+SBhBrsGaE5bLWeKA6ZQCbK3aGO368cScspXMyf5HHZz/DsSrMOhF9596acPms
- Gv8GVgamesHzJJCODnEozQ1P5DzZ0ZbLqe6+5PvqeX47BSTkHzz0K82JTlCHI6XQfYVvdKB66
- WzfLdjhsPcaMBj0U1NlbX1t1JDrqugin0X/ym0O8b5livX0Z4+ZQ/3g6bRQe3/Gg6i0PNKm93
- mCYj5nKMXyiowjCmISmizU4nA1U6lqnkd2RcKvDSXcfJ0+EtwADDtYhnMjDkZ6htfRjdysicO
- 1FNxMaR25RKscSkajVoFoxpHKkN7W32Vbc+1Inl65HeGocPjTF0XLZ0SSwGf5YlOZHVfuIQSQ
- 49wRLT3AbL6MguzTo7ZES8n3v8nUOC6hLhKzrsfIC20Vg41Y4GxiWu6/8XDvkAXm0jipoKKIT
- DKwceuBw70vUa+3cMzyFASzRFMPoVNI0mF40TpI6qJjOWoTojwbBqjoNynrPy9ar3rgGzp9eT
- wgRQhOZFi11hZFWpba0m2PvZA3Usm1jYfIJt2dM9nw==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:5RBcnobQ2e0IAAiHebfFM9H1+YyV36n7Inr76HX3wMozqdgWDsi
+ DpiCm5SndbXVtJQRxeqNcKB1hpwby3cHEMYe6G92yRLsmgT+PMT51IRKjdleWrGVtO/S7M2
+ JGvBQATmzmYATwkJ+Y5kIvg9a01gCNzJc9xF/QE3tt2qEgpHUr/fgqGwwWwVyhKOz40WJ6t
+ YwYunDZ9zLuvYxZY4eg/w==
+UI-OutboundReport: notjunk:1;M01:P0:FzGvsXvIUDE=;ReRk+XgvFUWFPsSRSPtsUMnjQB0
+ PUgDrScjdyset+fZNOZH0/odcR2IcAmCkD6CUc0Zuwx+j5g7IEHZjRhC8nK2h1HJPz/cfzJvh
+ R2R1pJeu/sK2HQCmMXf9ziMAPUzvvtSVulhX+OHIHckjcOESfg04EXV7ndjUFUGmVPdyj+4pa
+ YjGMj9CnRln8rm3AufMwYAI4bUU8DM5vZqMxkw4bSeO6SCPADH72lt/a2PUIfCilwpuxSOuGj
+ uuyA7FG/Hj6TixfRkav9i1mD5vO5pdnK99OE+Ivbljqu8sIugXqN02rmct1veV9fmOsOU6Mwp
+ 30evzH6NeHYMMjSXsf/WRQsHZKEFvqJ7Mco0BMKf4ivAE6Zbwb6B7aFE/Chh88Dxn+I88f0P5
+ O2A5jx9BNRCRQdEyAo8ouL8YeSL9B6xKdeN6eDFyM5eZJ3eR9NfnQuHPwQR8f/7gadGbzfOyU
+ zGCV9K5or2aEwhAWVWIq9L31nWRkL2reXAnEfHfKA697scPWZ4IVPTn6NEYP9ic/wresr6aPt
+ ppOWSLMDu0O669I/91y43kKoNMSc4wzJBDbJOUN/q4M5aG6IM1Igat3emWPn53RqAEq0xy4WF
+ KqnE7HkLcz9L/0JWTk1eK7RMdGDp1a0Jx828EbLdGHN0RwCAT3t94HnRuMrdK1uzDd6TrXryB
+ 4sP8iIdxugG624nBLJ898IPNudgeSlz7H2iYQtRZeg==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -71,35 +71,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 24/04/2023 à 14:21, Thomas Huth a écrit :
-> This way we can get rid of the if'deffery and the XXX comment
-> here (it's repeated in the list_cpus() function anyway).
+Le 22/04/2023 à 12:03, Thomas Weißschuh a écrit :
+> This can be used to validate that an address range is mapped but without
+> being readable or writable.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> It will be used by an updated implementation of mincore().
+> 
+> Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
 > ---
->   linux-user/main.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
+>   linux-user/qemu.h | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index fe03293516..aece4d9e91 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -359,10 +359,7 @@ static void handle_arg_cpu(const char *arg)
->   {
->       cpu_model = strdup(arg);
->       if (cpu_model == NULL || is_help_option(cpu_model)) {
-> -        /* XXX: implement xxx_cpu_list for targets that still miss it */
-> -#if defined(cpu_list)
-> -        cpu_list();
-> -#endif
-> +        list_cpus();
->           exit(EXIT_FAILURE);
->       }
->   }
+> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+> index e2e93fbd1d5d..92f9f5af41c7 100644
+> --- a/linux-user/qemu.h
+> +++ b/linux-user/qemu.h
+> @@ -168,6 +168,7 @@ abi_long do_brk(abi_ulong new_brk);
+>   
+>   /* user access */
+>   
+> +#define VERIFY_NONE  0
+>   #define VERIFY_READ  PAGE_READ
+>   #define VERIFY_WRITE (PAGE_READ | PAGE_WRITE)
+>   
 
-Applied to my linux-user-for-8.1 branch.
-
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 
