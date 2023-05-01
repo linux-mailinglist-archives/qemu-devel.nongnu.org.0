@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556FB6F3065
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F936F3064
 	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 13:16:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptRUc-0005Ih-KM; Mon, 01 May 2023 07:14:54 -0400
+	id 1ptRUd-0005Ik-GM; Mon, 01 May 2023 07:14:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ricky.zhou@gmail.com>)
- id 1ptRUW-0005ID-9p
- for qemu-devel@nongnu.org; Mon, 01 May 2023 07:14:48 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1ptRUX-0005IL-Lp
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 07:14:49 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ricky.zhou@gmail.com>)
- id 1ptRUU-0001qy-JJ
- for qemu-devel@nongnu.org; Mon, 01 May 2023 07:14:48 -0400
-Received: by mail-pl1-x635.google.com with SMTP id
- d9443c01a7336-1ab05018381so133105ad.2
- for <qemu-devel@nongnu.org>; Mon, 01 May 2023 04:14:45 -0700 (PDT)
+ id 1ptRUV-0001rE-Ls
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 07:14:49 -0400
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-63d2ba63dddso1692784b3a.2
+ for <qemu-devel@nongnu.org>; Mon, 01 May 2023 04:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682939684; x=1685531684;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=latjWEiWH2tnba4koN8glwZlLcdiw5w2n4QIpyRjV7I=;
- b=KSMNcMcSRgA2MND/CZ7hl3i6WC6+LV76mjcJsyWjodXK8R5PbV07vmHC34nJCCk9L1
- d3B/iZ/ZC2XB9u5DSDWEXz5LV6o3+6DMJdEHscsBJWw567UrbOWIp3BxE5VnRfj3RQ7O
- /jRUH2H+E9iSHa3b9USE6VMCipf9x4+5V1A/OQcc+Y0wCL23pryFQaVwxT95eS4bRGzq
- w1aZg+2Xs8eLUXeBh/2wiZf+Ra02XRflSG/1E5TS9DcBUrP7E+d1NfFDgWUBlsRPKCGi
- XGXO6NSJLHdQFwFlm5HuyJXBuH0yvSwdEykcXY8/ZPQZqZlCgM+29biRs5urAKnE46fQ
- hyow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682939684; x=1685531684;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1682939686; x=1685531686;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
  :message-id:reply-to;
- bh=latjWEiWH2tnba4koN8glwZlLcdiw5w2n4QIpyRjV7I=;
- b=E0YyqeNvZs1GhBT8VrByhI3DC/AtK61sYU5bX/fvAvPOFxqcA29Ek5AU82SdSXdmoa
- tXf+6YcJcfnC2AEPX1U5M8qLkQecqqax0rCcoNo7aDdWI7RwDrM5j8QdHU0V1oEsF4Ex
- PFJ5OVzqfAQX9ENxb02TdsXU407HIGJqNWpUq7+YS0wlL8h0XebyafKFGOoL4IsKwOro
- j1z9usNES42cU5mUXz5UkY1IlAPSTsFtM3SKIF3ug9rkL19b16NmQRzV3xKSpMluDb/C
- cByo7zJmtgUbyz2nzAye3JBCMd/+GBiJE3YBLfNQCpUYAmKznzKeaTpcgYny4yldUsoP
- RmOQ==
-X-Gm-Message-State: AC+VfDyDNbgrJ74l1fUfpiM3Tb1BZNw8bR2egv1M9vRkhASC/CjwqYY1
- 4ZGl21+RDFfcAvwqxEBvF73+WeKYClM=
-X-Google-Smtp-Source: ACHHUZ4uuPgwQIWxgLkDIj2bpZWa9Cil091u/jbMCE9FtNFXPcP6+zYosNn3eLzT0x7AY/3ghiEpKg==
-X-Received: by 2002:a17:903:228c:b0:1a6:95c3:74a with SMTP id
- b12-20020a170903228c00b001a695c3074amr16795030plh.17.1682939684405; 
- Mon, 01 May 2023 04:14:44 -0700 (PDT)
+ bh=52EkvQKfeuMgyVPLZ2Vj666RfrR+9Z9OBca7fh74bGg=;
+ b=nH+CIeWN2AdvaAU0tV4daxVtHWfDGy5w8EBW6RaZkdupe846WNLKsvBSyxHqlMTKJw
+ 0TV75nZ/MvO+w/AgOSXB1d9LAITrCTCB1ir8+dSybmKmr0tIvyfpaEO+lz4udJS3xykf
+ Z6y6dsAiXQNXlZybSRz6Zts7e8lMW3rDnAgBtsX/IohcS6u7LSJFqVCZJ8eippaNzuoa
+ QG4GCDK2Cy3idkIeO+ubYG/f4w5Dmm3qNaHYfGSvmRAp3uTfm+47EdK75hIHcc0Nee3I
+ WuR9/tc6jukRXeEX5OtxIblTRE0Sk0GltKj55RIjyGaLT/BfpHREu01SFa0ym7ISF/yG
+ BD8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682939686; x=1685531686;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=52EkvQKfeuMgyVPLZ2Vj666RfrR+9Z9OBca7fh74bGg=;
+ b=KsvPHnIcuo+X354/iq8TG8aunotiGteTtMd64uEdd/yX453dRv8EuXsig8FEg6mItr
+ L0OvOrqGUBITopWiIMXiP9xxMEPBd2iF1b3TTcHsqyrHJYu4cdek6lH1xXLGwYVmA90Z
+ jc7qixCDBc/CJ66qI6GTFuM2nF4qc3xY1OPFgm77L3GrK9vjK0D+rwaMElrAHaxN2O5l
+ 0p6tT5+ZkuyrKds0G9gmAzoLV/hkkCK01/wlIhsUd3piXMxh/xowMUlcPw6ANgxcm+D/
+ pLSJtqXCGFZWWZvDR+W7wIPmX1bwYUPnikDsZk/OBdkZmYthMZxJa7MnhhWNwOLm5xa+
+ rUoQ==
+X-Gm-Message-State: AC+VfDxWldgk8GxFIblv2PaAQf0PWhblkQnyKLLZhaHfo3nzZtmxUDH8
+ PKY6z3XO4O5Pe40BZlzhL+WkK2+EktU=
+X-Google-Smtp-Source: ACHHUZ4/Nwpzl/rDtklhtTbOemH2A/Bk0ZYdQy6zTXwUbu67bxNlggingwZcW7uqYBcXMeqGrRwWww==
+X-Received: by 2002:a17:903:1382:b0:1aa:fd48:f5e2 with SMTP id
+ jx2-20020a170903138200b001aafd48f5e2mr1427563plb.32.1682939685738; 
+ Mon, 01 May 2023 04:14:45 -0700 (PDT)
 Received: from localhost.localdomain (c-98-35-10-58.hsd1.ca.comcast.net.
  [98.35.10.58]) by smtp.gmail.com with ESMTPSA id
- j5-20020a170902c08500b001aafdf8061dsm1043091pld.207.2023.05.01.04.14.43
+ j5-20020a170902c08500b001aafdf8061dsm1043091pld.207.2023.05.01.04.14.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 May 2023 04:14:43 -0700 (PDT)
+ Mon, 01 May 2023 04:14:45 -0700 (PDT)
 From: Ricky Zhou <ricky@rzhou.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, richard.henderson@linaro.org, philmd@linaro.org,
  Ricky Zhou <ricky@rzhou.org>
-Subject: [PATCH v2 1/3] target/i386: Fix and add some comments next to SSE/AVX
+Subject: [PATCH v2 2/3] target/i386: Fix exception classes for SSE/AVX
  instructions.
-Date: Mon,  1 May 2023 04:14:26 -0700
-Message-Id: <20230501111428.95998-1-ricky@rzhou.org>
+Date: Mon,  1 May 2023 04:14:27 -0700
+Message-Id: <20230501111428.95998-2-ricky@rzhou.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230501111428.95998-1-ricky@rzhou.org>
+References: <20230501111428.95998-1-ricky@rzhou.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=ricky.zhou@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=ricky.zhou@gmail.com; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,83 +94,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Adds some comments describing what instructions correspond to decoding
-table entries and fixes some existing comments which named the wrong
-instruction.
+Fix the exception classes for some SSE/AVX instructions to match what is
+documented in the Intel manual.
+
+These changes are expected to have no functional effect on the behavior
+that qemu implements (primarily >= 16-byte memory alignment checks). For
+instance, since qemu does not implement the AC flag, there is no
+difference in behavior between Exception Classes 4 and 5 for
+instructions where the SSE version only takes <16 byte memory operands.
 ---
- target/i386/tcg/decode-new.c.inc | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ target/i386/tcg/decode-new.c.inc | 50 ++++++++++++++++----------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
 diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index 4fdd87750b..1a579451d2 100644
+index 1a579451d2..796ba7cf18 100644
 --- a/target/i386/tcg/decode-new.c.inc
 +++ b/target/i386/tcg/decode-new.c.inc
-@@ -274,9 +274,9 @@ static void decode_0F78(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
+@@ -237,7 +237,7 @@ static void decode_group14(DisasContext *s, CPUX86State *env, X86OpEntry *entry,
+ static void decode_0F6F(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
  {
-     static const X86OpEntry opcodes_0F78[4] = {
+     static const X86OpEntry opcodes_0F6F[4] = {
+-        X86_OP_ENTRY3(MOVDQ,       P,q, None,None, Q,q, vex1 mmx),  /* movq */
++        X86_OP_ENTRY3(MOVDQ,       P,q, None,None, Q,q, vex5 mmx),  /* movq */
+         X86_OP_ENTRY3(MOVDQ,       V,x, None,None, W,x, vex1),      /* movdqa */
+         X86_OP_ENTRY3(MOVDQ,       V,x, None,None, W,x, vex4_unal), /* movdqu */
          {},
--        X86_OP_ENTRY3(EXTRQ_i,       V,x, None,None, I,w,  cpuid(SSE4A)),
-+        X86_OP_ENTRY3(EXTRQ_i,       V,x, None,None, I,w,  cpuid(SSE4A)), /* AMD extension */
+@@ -306,7 +306,7 @@ static void decode_0F7E(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
+ static void decode_0F7F(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
+ {
+     static const X86OpEntry opcodes_0F7F[4] = {
+-        X86_OP_ENTRY3(MOVDQ,       W,x, None,None, V,x, vex1 mmx), /* movq */
++        X86_OP_ENTRY3(MOVDQ,       W,x, None,None, V,x, vex5 mmx), /* movq */
+         X86_OP_ENTRY3(MOVDQ,       W,x, None,None, V,x, vex1), /* movdqa */
+         X86_OP_ENTRY3(MOVDQ,       W,x, None,None, V,x, vex4_unal), /* movdqu */
          {},
--        X86_OP_ENTRY3(INSERTQ_i,     V,x, U,x, I,w,        cpuid(SSE4A)),
-+        X86_OP_ENTRY3(INSERTQ_i,     V,x, U,x, I,w,        cpuid(SSE4A)), /* AMD extension */
+@@ -639,15 +639,15 @@ static void decode_0F10(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
+     static const X86OpEntry opcodes_0F10_reg[4] = {
+         X86_OP_ENTRY3(MOVDQ,   V,x,  None,None, W,x, vex4_unal), /* MOVUPS */
+         X86_OP_ENTRY3(MOVDQ,   V,x,  None,None, W,x, vex4_unal), /* MOVUPD */
+-        X86_OP_ENTRY3(VMOVSS,  V,x,  H,x,       W,x, vex4),
+-        X86_OP_ENTRY3(VMOVLPx, V,x,  H,x,       W,x, vex4), /* MOVSD */
++        X86_OP_ENTRY3(VMOVSS,  V,x,  H,x,       W,x, vex5),
++        X86_OP_ENTRY3(VMOVLPx, V,x,  H,x,       W,x, vex5), /* MOVSD */
      };
-     *entry = *decode_by_prefix(s, opcodes_0F78);
- }
-@@ -284,9 +284,9 @@ static void decode_0F78(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
- static void decode_0F79(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
- {
-     if (s->prefix & PREFIX_REPNZ) {
--        entry->gen = gen_INSERTQ_r;
-+        entry->gen = gen_INSERTQ_r; /* AMD extension */
-     } else if (s->prefix & PREFIX_DATA) {
--        entry->gen = gen_EXTRQ_r;
-+        entry->gen = gen_EXTRQ_r; /* AMD extension */
-     } else {
-         entry->gen = NULL;
+ 
+     static const X86OpEntry opcodes_0F10_mem[4] = {
+         X86_OP_ENTRY3(MOVDQ,      V,x,  None,None, W,x,  vex4_unal), /* MOVUPS */
+         X86_OP_ENTRY3(MOVDQ,      V,x,  None,None, W,x,  vex4_unal), /* MOVUPD */
+-        X86_OP_ENTRY3(VMOVSS_ld,  V,x,  H,x,       M,ss, vex4),
+-        X86_OP_ENTRY3(VMOVSD_ld,  V,x,  H,x,       M,sd, vex4),
++        X86_OP_ENTRY3(VMOVSS_ld,  V,x,  H,x,       M,ss, vex5),
++        X86_OP_ENTRY3(VMOVSD_ld,  V,x,  H,x,       M,sd, vex5),
      };
-@@ -660,15 +660,15 @@ static void decode_0F10(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
- static void decode_0F11(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
- {
+ 
+     if ((get_modrm(s, env) >> 6) == 3) {
+@@ -662,15 +662,15 @@ static void decode_0F11(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
      static const X86OpEntry opcodes_0F11_reg[4] = {
--        X86_OP_ENTRY3(MOVDQ,   W,x,  None,None, V,x, vex4), /* MOVPS */
--        X86_OP_ENTRY3(MOVDQ,   W,x,  None,None, V,x, vex4), /* MOVPD */
-+        X86_OP_ENTRY3(MOVDQ,   W,x,  None,None, V,x, vex4), /* MOVUPS */
-+        X86_OP_ENTRY3(MOVDQ,   W,x,  None,None, V,x, vex4), /* MOVUPD */
-         X86_OP_ENTRY3(VMOVSS,  W,x,  H,x,       V,x, vex4),
-         X86_OP_ENTRY3(VMOVLPx, W,x,  H,x,       V,q, vex4), /* MOVSD */
+         X86_OP_ENTRY3(MOVDQ,   W,x,  None,None, V,x, vex4), /* MOVUPS */
+         X86_OP_ENTRY3(MOVDQ,   W,x,  None,None, V,x, vex4), /* MOVUPD */
+-        X86_OP_ENTRY3(VMOVSS,  W,x,  H,x,       V,x, vex4),
+-        X86_OP_ENTRY3(VMOVLPx, W,x,  H,x,       V,q, vex4), /* MOVSD */
++        X86_OP_ENTRY3(VMOVSS,  W,x,  H,x,       V,x, vex5),
++        X86_OP_ENTRY3(VMOVLPx, W,x,  H,x,       V,q, vex5), /* MOVSD */
      };
  
      static const X86OpEntry opcodes_0F11_mem[4] = {
--        X86_OP_ENTRY3(MOVDQ,      W,x,  None,None, V,x, vex4), /* MOVPS */
--        X86_OP_ENTRY3(MOVDQ,      W,x,  None,None, V,x, vex4), /* MOVPD */
-+        X86_OP_ENTRY3(MOVDQ,      W,x,  None,None, V,x, vex4), /* MOVUPS */
-+        X86_OP_ENTRY3(MOVDQ,      W,x,  None,None, V,x, vex4), /* MOVUPD */
-         X86_OP_ENTRY3(VMOVSS_st,  M,ss, None,None, V,x, vex4),
-         X86_OP_ENTRY3(VMOVLPx_st, M,sd, None,None, V,x, vex4), /* MOVSD */
+         X86_OP_ENTRY3(MOVDQ,      W,x,  None,None, V,x, vex4), /* MOVUPS */
+         X86_OP_ENTRY3(MOVDQ,      W,x,  None,None, V,x, vex4), /* MOVUPD */
+-        X86_OP_ENTRY3(VMOVSS_st,  M,ss, None,None, V,x, vex4),
+-        X86_OP_ENTRY3(VMOVLPx_st, M,sd, None,None, V,x, vex4), /* MOVSD */
++        X86_OP_ENTRY3(VMOVSS_st,  M,ss, None,None, V,x, vex5),
++        X86_OP_ENTRY3(VMOVLPx_st, M,sd, None,None, V,x, vex5), /* MOVSD */
      };
-@@ -839,9 +839,9 @@ static const X86OpEntry opcodes_0F[256] = {
-     [0x17] = X86_OP_ENTRY3(VMOVHPx_st,  M,q, None,None, V,dq, vex4 p_00_66),
+ 
+     if ((get_modrm(s, env) >> 6) == 3) {
+@@ -687,16 +687,16 @@ static void decode_0F12(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
+          * Use dq for operand for compatibility with gen_MOVSD and
+          * to allow VEX128 only.
+          */
+-        X86_OP_ENTRY3(VMOVLPx_ld, V,dq, H,dq,      M,q, vex4), /* MOVLPS */
+-        X86_OP_ENTRY3(VMOVLPx_ld, V,dq, H,dq,      M,q, vex4), /* MOVLPD */
++        X86_OP_ENTRY3(VMOVLPx_ld, V,dq, H,dq,      M,q, vex5), /* MOVLPS */
++        X86_OP_ENTRY3(VMOVLPx_ld, V,dq, H,dq,      M,q, vex5), /* MOVLPD */
+         X86_OP_ENTRY3(VMOVSLDUP,  V,x,  None,None, W,x, vex4 cpuid(SSE3)),
+-        X86_OP_ENTRY3(VMOVDDUP,   V,x,  None,None, WM,q, vex4 cpuid(SSE3)), /* qq if VEX.256 */
++        X86_OP_ENTRY3(VMOVDDUP,   V,x,  None,None, WM,q, vex5 cpuid(SSE3)), /* qq if VEX.256 */
+     };
+     static const X86OpEntry opcodes_0F12_reg[4] = {
+-        X86_OP_ENTRY3(VMOVHLPS,  V,dq, H,dq,       U,dq, vex4),
+-        X86_OP_ENTRY3(VMOVLPx,   W,x,  H,x,        U,q,  vex4), /* MOVLPD */
++        X86_OP_ENTRY3(VMOVHLPS,  V,dq, H,dq,       U,dq, vex7),
++        X86_OP_ENTRY3(VMOVLPx,   W,x,  H,x,        U,q,  vex5), /* MOVLPD */
+         X86_OP_ENTRY3(VMOVSLDUP, V,x,  None,None,  U,x,  vex4 cpuid(SSE3)),
+-        X86_OP_ENTRY3(VMOVDDUP,  V,x,  None,None,  U,x,  vex4 cpuid(SSE3)),
++        X86_OP_ENTRY3(VMOVDDUP,  V,x,  None,None,  U,x,  vex5 cpuid(SSE3)),
+     };
+ 
+     if ((get_modrm(s, env) >> 6) == 3) {
+@@ -716,15 +716,15 @@ static void decode_0F16(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
+          * Operand 1 technically only reads the low 64 bits, but uses dq so that
+          * it is easier to check for op0 == op1 in an endianness-neutral manner.
+          */
+-        X86_OP_ENTRY3(VMOVHPx_ld, V,dq, H,dq,      M,q, vex4), /* MOVHPS */
+-        X86_OP_ENTRY3(VMOVHPx_ld, V,dq, H,dq,      M,q, vex4), /* MOVHPD */
++        X86_OP_ENTRY3(VMOVHPx_ld, V,dq, H,dq,      M,q, vex5), /* MOVHPS */
++        X86_OP_ENTRY3(VMOVHPx_ld, V,dq, H,dq,      M,q, vex5), /* MOVHPD */
+         X86_OP_ENTRY3(VMOVSHDUP,  V,x,  None,None, W,x, vex4 cpuid(SSE3)),
+         {},
+     };
+     static const X86OpEntry opcodes_0F16_reg[4] = {
+         /* Same as above, operand 1 could be Hq if it wasn't for big-endian.  */
+-        X86_OP_ENTRY3(VMOVLHPS,  V,dq, H,dq,      U,q, vex4),
+-        X86_OP_ENTRY3(VMOVHPx,   V,x,  H,x,       U,x, vex4), /* MOVHPD */
++        X86_OP_ENTRY3(VMOVLHPS,  V,dq, H,dq,      U,q, vex7),
++        X86_OP_ENTRY3(VMOVHPx,   V,x,  H,x,       U,x, vex5), /* MOVHPD */
+         X86_OP_ENTRY3(VMOVSHDUP, V,x,  None,None, U,x, vex4 cpuid(SSE3)),
+         {},
+     };
+@@ -813,7 +813,7 @@ static void decode_0FE6(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
+     static const X86OpEntry opcodes_0FE6[4] = {
+         {},
+         X86_OP_ENTRY2(VCVTTPD2DQ,  V,x, W,x,      vex2),
+-        X86_OP_ENTRY2(VCVTDQ2PD,   V,x, W,x,      vex2),
++        X86_OP_ENTRY2(VCVTDQ2PD,   V,x, W,x,      vex5),
+         X86_OP_ENTRY2(VCVTPD2DQ,   V,x, W,x,      vex2),
+     };
+     *entry = *decode_by_prefix(s, opcodes_0FE6);
+@@ -831,12 +831,12 @@ static const X86OpEntry opcodes_0F[256] = {
+     [0x10] = X86_OP_GROUP0(0F10),
+     [0x11] = X86_OP_GROUP0(0F11),
+     [0x12] = X86_OP_GROUP0(0F12),
+-    [0x13] = X86_OP_ENTRY3(VMOVLPx_st,  M,q, None,None, V,q,  vex4 p_00_66),
++    [0x13] = X86_OP_ENTRY3(VMOVLPx_st,  M,q, None,None, V,q,  vex5 p_00_66),
+     [0x14] = X86_OP_ENTRY3(VUNPCKLPx,   V,x, H,x, W,x,        vex4 p_00_66),
+     [0x15] = X86_OP_ENTRY3(VUNPCKHPx,   V,x, H,x, W,x,        vex4 p_00_66),
+     [0x16] = X86_OP_GROUP0(0F16),
+     /* Incorrectly listed as Mq,Vq in the manual */
+-    [0x17] = X86_OP_ENTRY3(VMOVHPx_st,  M,q, None,None, V,dq, vex4 p_00_66),
++    [0x17] = X86_OP_ENTRY3(VMOVHPx_st,  M,q, None,None, V,dq, vex5 p_00_66),
  
      [0x50] = X86_OP_ENTRY3(MOVMSK,     G,y, None,None, U,x, vex7 p_00_66),
--    [0x51] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
--    [0x52] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex4_rep5 p_00_f3),
--    [0x53] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex4_rep5 p_00_f3),
-+    [0x51] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2), /* sqrtps */
-+    [0x52] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex4_rep5 p_00_f3), /* rsqrtps */
-+    [0x53] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex4_rep5 p_00_f3), /* rcpps */
-     [0x54] = X86_OP_ENTRY3(PAND,       V,x, H,x, W,x,  vex4 p_00_66), /* vand */
-     [0x55] = X86_OP_ENTRY3(PANDN,      V,x, H,x, W,x,  vex4 p_00_66), /* vandn */
-     [0x56] = X86_OP_ENTRY3(POR,        V,x, H,x, W,x,  vex4 p_00_66), /* vor */
-@@ -879,7 +879,7 @@ static const X86OpEntry opcodes_0F[256] = {
+     [0x51] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2), /* sqrtps */
+@@ -871,8 +871,8 @@ static const X86OpEntry opcodes_0F[256] = {
+     [0x2B] = X86_OP_GROUP0(0F2B),
+     [0x2C] = X86_OP_GROUP0(0F2C),
+     [0x2D] = X86_OP_GROUP0(0F2D),
+-    [0x2E] = X86_OP_ENTRY3(VUCOMI,     None,None, V,x, W,x,  vex4 p_00_66),
+-    [0x2F] = X86_OP_ENTRY3(VCOMI,      None,None, V,x, W,x,  vex4 p_00_66),
++    [0x2E] = X86_OP_ENTRY3(VUCOMI,     None,None, V,x, W,x,  vex3 p_00_66),
++    [0x2F] = X86_OP_ENTRY3(VCOMI,      None,None, V,x, W,x,  vex3 p_00_66),
  
-     [0x58] = X86_OP_ENTRY3(VADD,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-     [0x59] = X86_OP_ENTRY3(VMUL,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
--    [0x5a] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-+    [0x5a] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2), /* CVTPS2PD */
-     [0x5b] = X86_OP_GROUP0(0F5B),
-     [0x5c] = X86_OP_ENTRY3(VSUB,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-     [0x5d] = X86_OP_ENTRY3(VMIN,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
+     [0x38] = X86_OP_GROUP0(0F38),
+     [0x3a] = X86_OP_GROUP0(0F3A),
 -- 
 2.39.2
 
