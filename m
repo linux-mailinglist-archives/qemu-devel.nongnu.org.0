@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3347D6F38C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 21:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8E76F391A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 22:21:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptZdP-0007lu-3w; Mon, 01 May 2023 15:56:31 -0400
+	id 1pta0M-0004y4-FI; Mon, 01 May 2023 16:20:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptZdN-0007lQ-2u
- for qemu-devel@nongnu.org; Mon, 01 May 2023 15:56:29 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1pta0J-0004xT-R3
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 16:20:11 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptZdJ-00081g-BA
- for qemu-devel@nongnu.org; Mon, 01 May 2023 15:56:28 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f19b9d5358so28458355e9.1
- for <qemu-devel@nongnu.org>; Mon, 01 May 2023 12:56:24 -0700 (PDT)
+ id 1pta0G-0006Ao-TI
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 16:20:11 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f1cfed93e2so28534595e9.3
+ for <qemu-devel@nongnu.org>; Mon, 01 May 2023 13:20:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682970983; x=1685562983;
+ d=linaro.org; s=google; t=1682972405; x=1685564405;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=wv5FhFOIMCDMXLiBaFtFBk9ni6lxBGrmNWp+3EXPojc=;
- b=cJBKw//CBdR2Jvz0JITWnXzjc0ZPMUeA25eWp9sOj3AONqb6U62Cspae/LZWHHHE6z
- apytz6gAH+atr2D6sMC77w83u544VhwkFhZdpJXeU/PbwloN1pveWeKF3wr7s6hLTlIB
- 8zWSFMnOpDs2W33B6dECcbuzdPt9SbkRrMNNHW1JO0oE50OJbwpr/B4ttAXvMdpB78pG
- dVMUrm961tcJXAseaXeUUgws6iepEOMnjle3IiWBXW7hDtc/iaZEfyg7xY9IK7iJBGu1
- PNqVa5B1ODDrpfXFK5er14uWW6S3L/z8aFvTmq/F5e4pqpi0fScWGCk4GIE6NCbuwcUy
- K3Tg==
+ bh=lDI/20T1uPRoTlQGz3PG7IVp1dlrzIcikclK+BNrn4I=;
+ b=sIfdTpfepArE8sU+4NTcy7xOvbZSf/dKemW7L8ciqw+ADmIAIdfVY09A5gWMdcAqIa
+ f8rGwdhE+yELNnHDBZinJXVwAhyeZ00UJYIDJWdY113pLL27ph3TlpNIgVyb9EGPymiL
+ uxMKe7WOwAc13vtMHss0uV5JMzgU2d+zn5g/Olu0rdbxdkYfwYe7RSiuRfeNUDAdxTiL
+ 8GonL3qL1Cmm7tBPpGdY0F9ZE8YcRntMFjMPS545gKIx9R5GlwBWbcsvz/cWkAf/aF/w
+ 9lgfW1ABFrSPSLQQJsnHuhaxOtRal6i2Q7Zi3YxlcUodG59RlYDzpf6Nd8VOXQjAvOeR
+ G40g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682970983; x=1685562983;
+ d=1e100.net; s=20221208; t=1682972405; x=1685564405;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wv5FhFOIMCDMXLiBaFtFBk9ni6lxBGrmNWp+3EXPojc=;
- b=WeBGo1kuYdO/VYlTIHmQ+yqhXxzUefyqpes10L6swnZFZy5LDQj/51zW+KmHaO3dr4
- rh0pAFfJVvwx6He5RSXE2dPlB2br/5FvtciHkK4xxFXjboAKM17IZKd4a7BmiJ+b+o78
- 1HnagpV5k96k9v0YGzdm4dPdo8h8/CpOo6Xh6yL9MZ3ra7kIrP79kHl1AcZsG9YXWZvM
- T0sVxrPCn2CSmvnlLrxSvMWUzikG18cwsyIFCg67OJuAyypo9VyHmtqrkw5SXQHxPw10
- j4gr/eKvtYFkc3M4fiH3SFlJ9E99EyUgjnEEdH9MuhTm+aRDnjA9Ysvn7YQ/ePWCQUJw
- fmjg==
-X-Gm-Message-State: AC+VfDwMV4VTzGS/HQk4xdRxKr+KOHwoeP7iD9PJByayqFrN7Ac6F4Wz
- 68q31/m+r6On+Tm8AUJ1U/kcWw==
-X-Google-Smtp-Source: ACHHUZ6VkHpsRHYu3R43FTk/xWOsrWQdecPeL1n+5NXFVNZFYJXUsbzgbu2fZODQB0RQUSGc9/bXVA==
-X-Received: by 2002:a7b:c3c6:0:b0:3f0:7e63:e034 with SMTP id
- t6-20020a7bc3c6000000b003f07e63e034mr9823499wmj.29.1682970983058; 
- Mon, 01 May 2023 12:56:23 -0700 (PDT)
+ bh=lDI/20T1uPRoTlQGz3PG7IVp1dlrzIcikclK+BNrn4I=;
+ b=Ie/Sq0/OXxuTnq8+oP01xdJFOkHGcXac3py9QdxqZOC4W4zWGsr3x4MA/3pLOxWrfj
+ W3lpV+IRFrIOBOR7SdtqWwIzg99Z0o5yMu4fCKs/TsxoWtO5+mYxkrJjkwtddP///PZW
+ /oZxnCDPheKxBpO9S/+It7YN2WjR9DU+63B5vIaW9gZEIL2LvTojzYm6/XggJpLFzKax
+ V5UAHI1jh4jMx2uwE8sWhQs8Ol7o3Rvhqh7snnsCAk+pHYwpD5Ba0MeIv2l0/cMVmocU
+ xAErdnHUcdp3K9LP+ACguDmgdAiMH8H5NOUVLmF3C1kn7DxUl43dKhvw1MfTmMHQPgTd
+ IuDg==
+X-Gm-Message-State: AC+VfDw8xCoBcDNFhZrdAA1rhJ7q/6IFtpbDPD9yoDjGV2YO83dOCVEA
+ /l6n18iBRJ+op/ea3jrP5ihmLQ==
+X-Google-Smtp-Source: ACHHUZ7GIF5nTiYKf2V07/in+UGAFPHkWwL0e1/1SwgFp/N3K/G6yGN5/97rm7s/+Dk8kHs3SY1QsA==
+X-Received: by 2002:a1c:7502:0:b0:3ee:36f:3485 with SMTP id
+ o2-20020a1c7502000000b003ee036f3485mr11398394wmc.8.1682972404738; 
+ Mon, 01 May 2023 13:20:04 -0700 (PDT)
 Received: from ?IPV6:2a02:c7c:74db:8d00:eca5:8bcb:58d9:c940?
  ([2a02:c7c:74db:8d00:eca5:8bcb:58d9:c940])
  by smtp.gmail.com with ESMTPSA id
- p1-20020a05600c204100b003ef64affec7sm33280761wmg.22.2023.05.01.12.56.22
+ bi26-20020a05600c3d9a00b003eddc6aa5fasm32890364wmb.39.2023.05.01.13.20.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 May 2023 12:56:22 -0700 (PDT)
-Message-ID: <bf1f3982-1848-2623-2d6b-55a249a286bb@linaro.org>
-Date: Mon, 1 May 2023 20:56:21 +0100
+ Mon, 01 May 2023 13:20:04 -0700 (PDT)
+Message-ID: <e9d647a3-c98e-7ab8-9378-74ac2d867a28@linaro.org>
+Date: Mon, 1 May 2023 21:20:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 10/19] qemu/host-utils.h: Add clz and ctz functions for
- lower-bit integers
+Subject: Re: [PATCH v3 09/19] tcg: Add andcs and rotrs tcg gvec ops
 Content-Language: en-US
 To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>, qemu-devel@nongnu.org
 Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
@@ -71,13 +70,13 @@ Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
  alistair.francis@wdc.com, bin.meng@windriver.com, pbonzini@redhat.com,
  philipp.tomsich@vrull.eu, kvm@vger.kernel.org, qemu-riscv@nongnu.org
 References: <20230428144757.57530-1-lawrence.hunter@codethink.co.uk>
- <20230428144757.57530-11-lawrence.hunter@codethink.co.uk>
+ <20230428144757.57530-10-lawrence.hunter@codethink.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230428144757.57530-11-lawrence.hunter@codethink.co.uk>
+In-Reply-To: <20230428144757.57530-10-lawrence.hunter@codethink.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -101,18 +100,49 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/28/23 15:47, Lawrence Hunter wrote:
-> From: Kiran Ostrolenk<kiran.ostrolenk@codethink.co.uk>
+> From: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
 > 
-> This is for use in the RISC-V vclz and vctz instructions (implemented in
-> proceeding commit).
+> This commit adds helper functions and tcg operation definitions for the andcs and rotrs instructions
 > 
-> Signed-off-by: Kiran Ostrolenk<kiran.ostrolenk@codethink.co.uk>
-> Reviewed-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
 > ---
->   include/qemu/host-utils.h | 54 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 54 insertions(+)
+>   accel/tcg/tcg-runtime-gvec.c | 11 +++++++++++
+>   accel/tcg/tcg-runtime.h      |  1 +
+>   include/tcg/tcg-op-gvec.h    |  4 ++++
+>   tcg/tcg-op-gvec.c            | 23 +++++++++++++++++++++++
+>   4 files changed, 39 insertions(+)
 
-Queued to tcg-next.
+Queued to tcg-next as two patches, and with alterations:
+
+> +void tcg_gen_gvec_andcs(unsigned vece, uint32_t dofs, uint32_t aofs,
+> +                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz)
+> +{
+> +    static GVecGen2s g = {
+> +        .fni8 = tcg_gen_andc_i64,
+> +        .fniv = tcg_gen_andc_vec,
+> +        .fno = gen_helper_gvec_andcs,
+> +        .prefer_i64 = TCG_TARGET_REG_BITS == 64,
+> +        .vece = MO_64
+> +    };
+> +
+> +    tcg_gen_dup_i64(vece, c, c);
+> +    tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, c, &g);
+> +}
+
+This needed a temporary.
+
+> +void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
+> +                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
+> +{
+> +    TCGv_i32 tmp = tcg_temp_new_i32();
+> +    tcg_gen_sub_i32(tmp, tcg_constant_i32(1 << (vece + 3)), shift);
+> +    tcg_gen_gvec_rotls(vece, dofs, aofs, tmp, oprsz, maxsz);
+> +}
+
+This needed the rotation count to be masked (32 - 0 == 32 is illegal).
+Simplified as (-shift & mask).
+
 
 r~
+
 
