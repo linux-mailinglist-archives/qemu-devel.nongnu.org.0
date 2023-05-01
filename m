@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5326C6F313C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 14:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B45986F31AC
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 15:58:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptT1U-0008Cg-8K; Mon, 01 May 2023 08:52:56 -0400
+	id 1ptU1T-0001xG-3M; Mon, 01 May 2023 09:56:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
- id 1ptT1R-0008CU-MT
- for qemu-devel@nongnu.org; Mon, 01 May 2023 08:52:54 -0400
-Received: from mail-108-mta156.mxroute.com ([136.175.108.156])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
- id 1ptT1P-0006dV-MZ
- for qemu-devel@nongnu.org; Mon, 01 May 2023 08:52:53 -0400
-Received: from mail-111-mta2.mxroute.com ([136.175.111.2]
- filter006.mxroute.com) (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta156.mxroute.com (ZoneMTA) with ESMTPSA id
- 187d75f723c000becb.003 for <qemu-devel@nongnu.org>
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256);
- Mon, 01 May 2023 12:52:49 +0000
-X-Zone-Loop: 3ce117a16f8bc9e8cc970029344879a656f5388042c1
-X-Originating-IP: [136.175.111.2]
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mkfssion.com; s=x; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=aw8dvNc7CsTSnQcRcbKswxX9BgoVVI2AibHvKhQIugs=; b=K+tidiT531LptoRUeAd5ayiwJ5
- 231tur+3qWnZar9s585U6L3odtfZYerDzb91Osh12CFGoj1FzvzUJoufa1/ib/CAM2QzoZfKB0lbQ
- 3ODx2o8RB2/sOAWgsq2c9aScSayutRtqI7T+cRX3YEqTPxtK7qWY0HBZnHPt/RccwYe74pra1YLeY
- WyyUp2EJQfSEAZlMSFz/qI0Cc9TcKN2iZ2iPLaD/ph93v8X492IHYE2046FoV3glkgt7mh5k+yvGK
- +YvQDuAtXeOLfS3El65VkfBKhxu7l7EcuRVKT5qZMuFQ+RioQPsdWOFx0uGrAPKxowrsLwl+mPctw
- /jzMdtpg==;
-Date: Mon, 1 May 2023 20:52:49 +0800
-From: MkfsSion <mkfssion@mkfssion.com>
-To: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Canokeys.org" <contact@canokeys.org>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/usb/canokey: change license to GPLv2+
-Message-ID: <ZE-2IYTyVSn6Cvqx@MkfsSion-LPC>
-References: <ZE5z+2WbvVpTa82H@Sun>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptU1Q-0001x2-PT
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 09:56:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptU1O-0005Fu-VT
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 09:56:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682949413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k9FPVZXBvvEJzxnZWzquk7gcBi6vOAgI9WxnutBJf5w=;
+ b=AcvhZrw35YyAH363Hfu/Y3RLM5va0+AET2hF3ICYhXU5BkT77Ra7vKmaemoub2k5XpgCwZ
+ IXRCkphGhK6g646fwsi6t7r6zqxuQxdmHMjCVCMzFJiqUa4eItw13mS0abmle68Z2n+yM1
+ 2HcUP/Sm+77OQR1DEcUk8ex3rlSo7wU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-468-oQ_J-_dpOAyTAdM4pBnlng-1; Mon, 01 May 2023 09:56:49 -0400
+X-MC-Unique: oQ_J-_dpOAyTAdM4pBnlng-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 443AC2A59553
+ for <qemu-devel@nongnu.org>; Mon,  1 May 2023 13:56:49 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6C05C15BA0;
+ Mon,  1 May 2023 13:56:48 +0000 (UTC)
+Date: Mon, 1 May 2023 09:56:46 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] test-aio-multithread: do not use mb_read/mb_set for
+ simple flags
+Message-ID: <20230501135646.GA14519@fedora>
+References: <20230428111248.145037-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="n9FLtD1TRjjA49YX"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZE5z+2WbvVpTa82H@Sun>
-X-Authenticated-Id: mkfssion@mkfssion.com
-Received-SPF: pass client-ip=136.175.108.156;
- envelope-from=mkfssion@mkfssion.com; helo=mail-108-mta156.mxroute.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20230428111248.145037-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,47 +79,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Apr 30, 2023 at 09:58:19PM +0800, Hongren (Zenithal) Zheng wrote:
-> Apache license is considered by some to be not compatible
-> with GPLv2+. Since QEMU as combined work is GPLv2-only,
-> these two files should be made compatible.
-> 
-> Reported-by: "Daniel P. Berrangé" <berrange@redhat.com>
-> Link: https://lore.kernel.org/qemu-devel/ZEpKXncC%2Fe6FKRe9@redhat.com/
-> Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
-Acked-by: YuanYang Meng <mkfssion@mkfssion.com>
+
+--n9FLtD1TRjjA49YX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 28, 2023 at 01:12:48PM +0200, Paolo Bonzini wrote:
+> The remaining use of mb_read/mb_set is just to force a thread to exit
+> eventually.  It does not order two memory accesses and therefore can be
+> just read/set.
+>=20
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  hw/usb/canokey.c | 2 +-
->  hw/usb/canokey.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/usb/canokey.c b/hw/usb/canokey.c
-> index bbc5da07b5..b306eeb20e 100644
-> --- a/hw/usb/canokey.c
-> +++ b/hw/usb/canokey.c
-> @@ -4,7 +4,7 @@
->   * Copyright (c) 2021-2022 Canokeys.org <contact@canokeys.org>
->   * Written by Hongren (Zenithal) Zheng <i@zenithal.me>
->   *
-> - * This code is licensed under the Apache-2.0.
-> + * This code is licensed under the GPL v2 or later.
->   */
->  
->  #include "qemu/osdep.h"
-> diff --git a/hw/usb/canokey.h b/hw/usb/canokey.h
-> index 24cf304203..e528889d33 100644
-> --- a/hw/usb/canokey.h
-> +++ b/hw/usb/canokey.h
-> @@ -4,7 +4,7 @@
->   * Copyright (c) 2021-2022 Canokeys.org <contact@canokeys.org>
->   * Written by Hongren (Zenithal) Zheng <i@zenithal.me>
->   *
-> - * This code is licensed under the Apache-2.0.
-> + * This code is licensed under the GPL v2 or later.
->   */
->  
->  #ifndef CANOKEY_H
-> -- 
-> 2.37.2
-> 
+>  tests/unit/test-aio-multithread.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--n9FLtD1TRjjA49YX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRPxR4ACgkQnKSrs4Gr
+c8gWRAf6AupycVBhP0kSPgW1miWa620cVjzbpW5MKXMDsnq3u7ShrLxBrYvFeBST
+8Pw0Kn/kD2fRB+lbuz/dfugY/2+Cyv8xPVmPdnkWU8F3Bey/zZCUsERNUjcegJhN
+BxRQfn9bbaatp5vLTAcFgeQVJr/488YYr19RHGHZRpfIUKTy/fMu03MH2IHPMt2R
+cBwMnlurmLxbuoNIy36RlsaGtuWfrdqxxX9iTQ8/z79He4+T1HCCnxWehY0jz0sJ
+mR6D+rxKaZ7wyS0jwJTbhezfNCPVovfOZqXOyKu47yRkdCAQRyyId/osrYv1yOhI
+7GfISQm74keM9YnS7WpWUO6GEiwUHw==
+=Qivz
+-----END PGP SIGNATURE-----
+
+--n9FLtD1TRjjA49YX--
+
 
