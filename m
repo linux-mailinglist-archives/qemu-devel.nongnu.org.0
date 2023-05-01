@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBEE6F3518
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 19:36:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27746F3549
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 19:56:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptXQM-0003uP-Mg; Mon, 01 May 2023 13:34:54 -0400
+	id 1ptXkC-0000S2-NB; Mon, 01 May 2023 13:55:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptXQK-0003sX-DQ
- for qemu-devel@nongnu.org; Mon, 01 May 2023 13:34:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1ptXkA-0000Qg-JJ
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 13:55:22 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptXQI-0004LO-9A
- for qemu-devel@nongnu.org; Mon, 01 May 2023 13:34:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682962489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=3rMy34jvt18p5CNsognoLBEi4Yq3ShIlYyeJm687QDg=;
- b=SODsUVWWIX9+J/mWRfufMlLsEpB0zTPjBWnvzomlxQbkoBY13dmJ/3u3uIQxzpt2P95MWA
- 1rT87ebMuTM3W7NdpNZ21FNox/d+aiOD+udta2CxhUHhDIR8bfUnQSZHMPv2PTPdyBQIzT
- xJ8fXWMnW5P0j0wFl0DpgYxFFk0CR+c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-360-IRrCZ1jVPImFEWB5b9SXog-1; Mon, 01 May 2023 13:34:46 -0400
-X-MC-Unique: IRrCZ1jVPImFEWB5b9SXog-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 995C810334A4;
- Mon,  1 May 2023 17:34:45 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3EFA51E3;
- Mon,  1 May 2023 17:34:44 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH] block: compile out assert_bdrv_graph_readable() by default
-Date: Mon,  1 May 2023 13:34:43 -0400
-Message-Id: <20230501173443.153062-1-stefanha@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1ptXk7-00082W-Ts
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 13:55:21 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 34C095C00CD;
+ Mon,  1 May 2023 13:55:17 -0400 (EDT)
+Received: from imap42 ([10.202.2.92])
+ by compute1.internal (MEProxy); Mon, 01 May 2023 13:55:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1682963717; x=1683050117; bh=Cv
+ qJqZAxS+zgGflVmmvqb5LBQud8oBtrJpinvi1RCus=; b=gVO8i76U8NwUEtPNHB
+ PqTNejcatAuAD0igspSLealES7hb8COlCM0CORaox99HEwT5HAa8zPs/Jxuo6NOX
+ KRQ8vOGZXE9yU+2oAbTvvGFihnxcZ6touIL9eiNAfJ1y8w2MeIa+U+aw8dI5BE5p
+ SZnTjvzOKDfH3HofJLdbc4hrxvmaGxGWGuX9E3RjW3p4zmH/aCvxMeF2KYfOwyLq
+ j4FAqkPzx9QRduZpZexB1TikCTa13sZm3kWsRziMVt/udmqsYu7rDGjTHYa1Q3uV
+ gH9elg3tlwf7n9fjieCss7DUT9fjur3xAxCHBHQP3RHGfdKUy6xE8XH7lxz84xIv
+ uMHA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1682963717; x=1683050117; bh=CvqJqZAxS+zgG
+ flVmmvqb5LBQud8oBtrJpinvi1RCus=; b=bQqCDRxGDsqrRe0mddNAbviqMc5E4
+ HFhYakU/ZmjT4Wi3qKsJ555fGpFFb/ZG1C792rFOrAdpwcrEHmDXlFr99ux1Mja/
+ 3JsZKFruchEHjckyiAx8ehwSUdzqZyCTHIsiIlVN1oqDaNp8ht5jB63dMereqDH7
+ kh54uj1LZQgQ/1M28l6Ve6jXlxz8OsTSXPtlG6j1LzzkZpfQc84Wdnkqqr5xJ+te
+ 3zv8SSfcGDjzbiVmSXGn2kAO9axM/JjguPUUwkxUA/GD/uXxa8dNVs8SIum1fFfk
+ BPXswlSG1l/7PV6hfimin+Wl6+WNpbxaWVP0vtQ82fx9dqr6h0+9W5rtA==
+X-ME-Sender: <xms:Bf1PZPXHfZjH9uXiGV9_lGyWLFYQX9PsHVnJX5IRjsUb4g0Myq_25Q>
+ <xme:Bf1PZHldBgN-MywOAS_sWaxeYHCGyaQwk4Bufb5Dz7Sinw90Uu4a1qlCKTv05_xv5
+ 0VAFPk7D5wWfUL3fQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvgedguddulecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enfghrlhcuvffnffculdefhedmnecujfgurhepofgfggfkjghffffhvfevufgtsehttder
+ tderredtnecuhfhrohhmpedfffgrnhhivghlucgiuhdfuceougiguhesugiguhhuuhdrgi
+ ihiieqnecuggftrfgrthhtvghrnheptdduheduhfevudeiieekjeduleejffdutdeiffei
+ leejtdduhefhkeehheeuvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
+X-ME-Proxy: <xmx:Bf1PZLbanBIc_QDNaiSVL5MbvIzboZ4QIUZUwbsvy06MOH5byqbuRw>
+ <xmx:Bf1PZKUP9JGnvvnqPelZX_5_cnxiLDv5sPQLNDU_yXDQbgsghPLaSA>
+ <xmx:Bf1PZJmrWCn366MjUCDU1Vtb0Cy-Jn6vt4h3G2mIYMEzaI6pBVTKrw>
+ <xmx:Bf1PZOwy6vdh3w7I2_CeOLcp-unm9ZlXRgQlHdpmNMdbw_Z0uDKWHg>
+Feedback-ID: i6a694271:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id E803EBC007C; Mon,  1 May 2023 13:55:16 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-374-g72c94f7a42-fm-20230417.001-g72c94f7a
+Mime-Version: 1.0
+Message-Id: <fef51adf-70d8-48bc-911b-43d483706bc7@app.fastmail.com>
+In-Reply-To: <CAPMcbCrgXv69jtomStPsUcWPWKc8iYRFochh5gUSyjQ8dFTmUA@mail.gmail.com>
+References: <cover.1679530587.git.dxu@dxuuu.xyz>
+ <9b355e4fe0574022459c0fd94ed30de3b7415011.1679530587.git.dxu@dxuuu.xyz>
+ <ZBwbQCxg+aDuofY+@redhat.com>
+ <4d1cc7a0-54a6-4a7c-87a9-5bc643a0162f@app.fastmail.com>
+ <CAPMcbCrgXv69jtomStPsUcWPWKc8iYRFochh5gUSyjQ8dFTmUA@mail.gmail.com>
+Date: Mon, 01 May 2023 11:54:56 -0600
+From: "Daniel Xu" <dxu@dxuuu.xyz>
+To: "Konstantin Kostiuk" <kkostiuk@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ michael.roth@amd.com,
+ =?UTF-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@gmail.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 2/3] qga: Add `merged` variant to
+ GuestExecCaptureOutputMode
+Content-Type: text/plain
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=dxu@dxuuu.xyz;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,106 +107,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-reader_count() is a performance bottleneck because the global
-aio_context_list_lock mutex causes thread contention. Put this debugging
-assertion behind a new ./configure --enable-debug-graph-lock option and
-disable it by default.
+Hi Konstantin,
 
-The --enable-debug-graph-lock option is also enabled by the more general
---enable-debug option.
+On Mon, Apr 3, 2023, at 8:56 AM, Konstantin Kostiuk wrote:
+> Hi Daniel,
+>
+> I will merge this series after the 8.0 release.
+>
+> Best Regards,
+> Konstantin Kostiuk.
+>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- meson_options.txt             | 2 ++
- configure                     | 1 +
- meson.build                   | 2 ++
- block/graph-lock.c            | 3 +++
- scripts/meson-buildoptions.sh | 4 ++++
- 5 files changed, 12 insertions(+)
+Sorry to bug again, but 8.0 is out now right? Does this need a rebase
+or is it good to go?
 
-diff --git a/meson_options.txt b/meson_options.txt
-index 2471dd02da..0b2dd2d30d 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -311,6 +311,8 @@ option('rng_none', type: 'boolean', value: false,
-        description: 'dummy RNG, avoid using /dev/(u)random and getrandom()')
- option('coroutine_pool', type: 'boolean', value: true,
-        description: 'coroutine freelist (better performance)')
-+option('debug_graph_lock', type: 'boolean', value: false,
-+       description: 'graph lock debugging support')
- option('debug_mutex', type: 'boolean', value: false,
-        description: 'mutex debugging support')
- option('debug_stack_usage', type: 'boolean', value: false,
-diff --git a/configure b/configure
-index 77c03315f8..243e2e0a0d 100755
---- a/configure
-+++ b/configure
-@@ -816,6 +816,7 @@ for opt do
-   --enable-debug)
-       # Enable debugging options that aren't excessively noisy
-       debug_tcg="yes"
-+      meson_option_parse --enable-debug-graph-lock ""
-       meson_option_parse --enable-debug-mutex ""
-       meson_option_add -Doptimization=0
-       fortify_source="no"
-diff --git a/meson.build b/meson.build
-index c44d05a13f..d964e741e7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1956,6 +1956,7 @@ if get_option('debug_stack_usage') and have_coroutine_pool
-   have_coroutine_pool = false
- endif
- config_host_data.set10('CONFIG_COROUTINE_POOL', have_coroutine_pool)
-+config_host_data.set('CONFIG_DEBUG_GRAPH_LOCK', get_option('debug_graph_lock'))
- config_host_data.set('CONFIG_DEBUG_MUTEX', get_option('debug_mutex'))
- config_host_data.set('CONFIG_DEBUG_STACK_USAGE', get_option('debug_stack_usage'))
- config_host_data.set('CONFIG_GPROF', get_option('gprof'))
-@@ -3833,6 +3834,7 @@ summary_info += {'PIE':               get_option('b_pie')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- summary_info += {'malloc trim support': has_malloc_trim}
- summary_info += {'membarrier':        have_membarrier}
-+summary_info += {'debug graph lock':  get_option('debug_graph_lock')}
- summary_info += {'debug stack usage': get_option('debug_stack_usage')}
- summary_info += {'mutex debugging':   get_option('debug_mutex')}
- summary_info += {'memory allocator':  get_option('malloc')}
-diff --git a/block/graph-lock.c b/block/graph-lock.c
-index 639526608f..377884c3a9 100644
---- a/block/graph-lock.c
-+++ b/block/graph-lock.c
-@@ -265,7 +265,10 @@ void bdrv_graph_rdunlock_main_loop(void)
- 
- void assert_bdrv_graph_readable(void)
- {
-+    /* reader_count() is slow due to aio_context_list_lock lock contention */
-+#ifdef CONFIG_DEBUG_GRAPH_LOCK
-     assert(qemu_in_main_thread() || reader_count());
-+#endif
- }
- 
- void assert_bdrv_graph_writable(void)
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index d4369a3ad8..d760ceb1ad 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -22,6 +22,8 @@ meson_options_help() {
-   printf "%s\n" '                           QEMU'
-   printf "%s\n" '  --enable-cfi             Control-Flow Integrity (CFI)'
-   printf "%s\n" '  --enable-cfi-debug       Verbose errors in case of CFI violation'
-+  printf "%s\n" '  --enable-debug-graph-lock'
-+  printf "%s\n" '                           graph lock debugging support'
-   printf "%s\n" '  --enable-debug-mutex     mutex debugging support'
-   printf "%s\n" '  --enable-debug-stack-usage'
-   printf "%s\n" '                           measure coroutine stack usage'
-@@ -249,6 +251,8 @@ _meson_option_parse() {
-     --datadir=*) quote_sh "-Ddatadir=$2" ;;
-     --enable-dbus-display) printf "%s" -Ddbus_display=enabled ;;
-     --disable-dbus-display) printf "%s" -Ddbus_display=disabled ;;
-+    --enable-debug-graph-lock) printf "%s" -Ddebug_graph_lock=true ;;
-+    --disable-debug-graph-lock) printf "%s" -Ddebug_graph_lock=false ;;
-     --enable-debug-mutex) printf "%s" -Ddebug_mutex=true ;;
-     --disable-debug-mutex) printf "%s" -Ddebug_mutex=false ;;
-     --enable-debug-stack-usage) printf "%s" -Ddebug_stack_usage=true ;;
--- 
-2.40.1
+Thanks,
+Daniel
 
+[...]
 
