@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1536F32F5
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE5A6F32F4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:35:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptVYF-0000GZ-4j; Mon, 01 May 2023 11:34:55 -0400
+	id 1ptVY9-0000FY-Jg; Mon, 01 May 2023 11:34:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptVYD-0000Fx-Am
- for qemu-devel@nongnu.org; Mon, 01 May 2023 11:34:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVY8-0000FD-1z
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 11:34:48 -0400
+Received: from mout.kundenserver.de ([212.227.126.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptVYB-0006Or-U5
- for qemu-devel@nongnu.org; Mon, 01 May 2023 11:34:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682955291;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mwuGFDQJWzry6XUPdrDFLG6uTzoN++N+u1EnavUEUCQ=;
- b=Z4bTa5xwlKvJGi+8YVqSJyeWSM5k1HcgD/2f9ghU4+aubBxaEP86aQ7U3FO3kY9PSr8gGd
- Wlo/pZtuS248Qr+hFuh9FXAtzgBMU3oZeeNoWEPuDeU/BEGBb4Rr23hs6UlyeWyf2Wtw71
- 69o3lVs5trECC6cNmoHyoIUVQVTWA1Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-93-cPhiN_apPiiDPVkzI2w05g-1; Mon, 01 May 2023 11:34:45 -0400
-X-MC-Unique: cPhiN_apPiiDPVkzI2w05g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38746A0F3A3;
- Mon,  1 May 2023 15:34:44 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 900162166B26;
- Mon,  1 May 2023 15:34:43 +0000 (UTC)
-Date: Mon, 1 May 2023 11:34:41 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 07/20] graph-lock: Fix GRAPH_RDLOCK_GUARD*() to be reader
- lock
-Message-ID: <20230501153441.GI14869@fedora>
-References: <20230425173158.574203-1-kwolf@redhat.com>
- <20230425173158.574203-8-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVY6-0006ME-9m
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 11:34:47 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MX00X-1pmZgY1Qnx-00XJVJ; Mon, 01 May 2023 17:34:43 +0200
+Message-ID: <4ae0b68b-6c6a-2ed1-c6c2-a228250858e0@vivier.eu>
+Date: Mon, 1 May 2023 17:34:42 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HbTEVWLtuhTbC0hf"
-Content-Disposition: inline
-In-Reply-To: <20230425173158.574203-8-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] linux-user: Add open_tree() syscall
+Content-Language: fr
+To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>, qemu-devel@nongnu.org
+References: <20230424153429.276788-1-thomas@t-8ch.de>
+ <20230424153429.276788-2-thomas@t-8ch.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20230424153429.276788-2-thomas@t-8ch.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:GYV6mgCZR2QWeVFgrbCDrSJwPu73UdR3SRMBQOWhArVpUQWrTw5
+ fVa9Fq32ssARaKYBqF3PsZniaSB/FcteQbTyODRTW6/+PFtEygP3Dzzhy6dM/xoaBm/4Wkn
+ DZ9uNYaRKwN95bOHXQuLtDKK+eOxb1NEwPYBncQJdteRt/Z9QRwsJR9LDqMgtwCStY4wIJd
+ nlAz06DzVdpsEWgnq3Gzg==
+UI-OutboundReport: notjunk:1;M01:P0:1v7BGZpRzA8=;6riAoOh3ZCK87bUOWzUqEs4xSPn
+ pDi8qNHYZ+yh5ocdZioQPUjH3nmE5f9UxG1pqomWnd/4UB9eaqZVPb+0TJmDvNd2gNF20xaJC
+ 3CZL3HgkCGz/nULc+7O6MEesWWXyzwtfwHm3YX6mwayVxAEOwyAkN3UY8YLWKS8GxBfxrcBQ+
+ 4mw5ClAh0vy7aM8O97B9YC5ZkaBR2UZgL8zXV8UbmT+OL9F7c7pIRhaIb1Q07fFZTH/+Tm5Lf
+ n2hjN6/tdCNtpiaMuHyQZ82H8AsGDhZzk/dBzcWY4XBtiQBLL4vioCJw43iI0aOyct9pkIap+
+ FpJXaSga66QEHjGUjcHmd8s5GTpHqtfxDnL6fL6pkmTXj9qSu8E79pm70z5ufAVUtfn8NdeZf
+ ay8y+ftUmHImX3VvqQiXbBtbrc4/IP9wNi1sVebt9LOO0QKsrq4kzvecht4XJs20gIUi+UnEi
+ tNLgTeGKYwjafjB9Yjg+oyR+gmLiu+tjz1yAFzfK0MYATwQtEEI6WDXx6sXYAIFiC4vpAo37m
+ oCFxCgCISm3P1G0WWcQq7Qda/N/WQ29NP5/yeROncM1I1QWm8Hd+c1Bdvme/BopboIW26PaCs
+ j3G3S7vLeRN2nrcr4vVKjNp53U/mORaMirLDhRkc4HL46fWQufTJQapHX73JayEo/vMOu1E7c
+ Z84lpskTWlDgZuMvZSEcnZSDBzzOVm+dF6kiswVeiA==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,61 +71,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---HbTEVWLtuhTbC0hf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 25, 2023 at 07:31:45PM +0200, Kevin Wolf wrote:
-> GRAPH_RDLOCK_GUARD() and GRAPH_RDLOCK_GUARD_MAINLOOP() only take a
-> reader lock for the graph, so the correct annotation for them to use is
-> TSA_ASSERT_SHARED rather than TSA_ASSERT.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Le 24/04/2023 à 17:34, Thomas Weißschuh a écrit :
+> Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
 > ---
->  include/block/graph-lock.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
-> index 7ef391fab3..adaa3ed089 100644
-> --- a/include/block/graph-lock.h
-> +++ b/include/block/graph-lock.h
-> @@ -210,7 +210,7 @@ typedef struct GraphLockable { } GraphLockable;
->   * unlocked. TSA_ASSERT() makes sure that the following calls know that =
-we
+>   linux-user/syscall.c | 26 ++++++++++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 95e370130cee..140bd2c36e0f 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -9166,6 +9166,32 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>               return ret;
+>           }
+>   #endif
+> +#ifdef TARGET_NR_open_tree
+> +    case TARGET_NR_open_tree:
+> +        {
+> +            void *p2;
+> +
+> +            if (!arg2) {
+> +                return -TARGET_EFAULT;
+> +            }
+> +
+> +            p2 = lock_user_string(arg2);
+> +            if (!p2) {
+> +                return -TARGET_EFAULT;
+> +            }
+> +
+> +            int host_flags = arg3 & ~TARGET_O_CLOEXEC;
+> +            if (arg3 & TARGET_O_CLOEXEC) {
+> +                host_flags |= O_CLOEXEC;
+> +            }
+> +
+> +            ret = get_errno(open_tree(arg1, p2, host_flags));
+> +
+> +            unlock_user(p2, arg2, 0);
+> +
+> +            return ret;
+> +        }
+> +#endif
+>   #ifdef TARGET_NR_stime /* not on alpha */
+>       case TARGET_NR_stime:
+>           {
 
-Does this comment need to be updated to TSA_ASSERT_SHARED()?
+Applied to my linux-user-for-8.1 branch.
+(moved the variable declaration to the beginning of the block)
 
->   * hold the lock while unlocking is left unchecked.
->   */
-> -static inline GraphLockable * TSA_ASSERT(graph_lock) TSA_NO_TSA
-> +static inline GraphLockable * TSA_ASSERT_SHARED(graph_lock) TSA_NO_TSA
->  graph_lockable_auto_lock(GraphLockable *x)
->  {
->      bdrv_graph_co_rdlock();
-> @@ -254,7 +254,7 @@ typedef struct GraphLockableMainloop { } GraphLockabl=
-eMainloop;
->   * unlocked. TSA_ASSERT() makes sure that the following calls know that =
-we
-
-Same.
-
---HbTEVWLtuhTbC0hf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRP3BEACgkQnKSrs4Gr
-c8jt7wf9EntnH9pXIK8UxCMuiYZyNw8XNvNTe4bhKL/pfsiPrDdXFjHWZUQ3gJHN
-yx3tmFUCAACGCl0DtzZht/BRiHlH0P+RW808MWcK7vYcoYwAReixoh0Prvy2wCNl
-wX8s85PkzNZL4obN+vk/GyrdJyNTbWQVHVurbVBhq36CYqNoSPuiocLMajXxinUR
-2pW+JspEqKyNbTnu1G2gb8hPXH/u7lpLL9Bmgp3uAHmZJGHlKhD4r7zRvWsM5NWk
-8aQZRY6IXlGOtMpeoiFrDMDCJkYzOC48E/G5vp/V/HmD6uPhWPC7fTsX0lcRGhPH
-jpY/sMTno2qrr49RjypMOxrqyFnrEw==
-=sJua
------END PGP SIGNATURE-----
-
---HbTEVWLtuhTbC0hf--
+Thanks,
+Laurent
 
 
