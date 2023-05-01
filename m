@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBAB6F32AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6756F32B5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:19:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptVFV-0000nE-RO; Mon, 01 May 2023 11:15:34 -0400
+	id 1ptVIe-0001m5-Nz; Mon, 01 May 2023 11:18:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptVFK-0000mr-MP
- for qemu-devel@nongnu.org; Mon, 01 May 2023 11:15:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVIc-0001lv-Pn
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 11:18:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.135])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptVFI-0002hx-DU
- for qemu-devel@nongnu.org; Mon, 01 May 2023 11:15:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682954114;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Iw36/HHOkavxwjRf6SJjOY2TUtGLBOQYqDHMeMyVbas=;
- b=MvopK2tgOOJLXKV0ux1HDysTQA7pYwTVHfKfiteq++TbY5SHlzRnqNK7jietlifCpR5Q65
- Lq6Th7Hd6V8OWPuRW/mav/8IIm81P6BYICrrTutYgbm5LmMIPdtPQAXzJzDIVWB/F9WNCa
- RxicYY7e2yhAqSx7G3FCXDXBu8cAtDg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-1ZIhIugPO5S1XLkU4dZUqA-1; Mon, 01 May 2023 11:15:05 -0400
-X-MC-Unique: 1ZIhIugPO5S1XLkU4dZUqA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A94CA0F393
- for <qemu-devel@nongnu.org>; Mon,  1 May 2023 15:14:51 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CADA492C13;
- Mon,  1 May 2023 15:14:50 +0000 (UTC)
-Date: Mon, 1 May 2023 11:14:48 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] test-aio-multithread: simplify test_multi_co_schedule
-Message-ID: <20230501151448.GB14869@fedora>
-References: <20230428111941.149568-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVIa-0003B4-Rt
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 11:18:46 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MkpKR-1qXGyU1ziR-00mKY0; Mon, 01 May 2023 17:18:41 +0200
+Message-ID: <7b4aa2ed-03bc-fa13-6502-c612010fbebd@vivier.eu>
+Date: Mon, 1 May 2023 17:18:40 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QltaGwwy6HL9dE6e"
-Content-Disposition: inline
-In-Reply-To: <20230428111941.149568-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] linux-user: Add open_tree() syscall
+Content-Language: fr
+To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>, qemu-devel@nongnu.org
+References: <20230424153429.276788-1-thomas@t-8ch.de>
+ <20230424153429.276788-2-thomas@t-8ch.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20230424153429.276788-2-thomas@t-8ch.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:96fR6jLp8nrPJOLZnZ4J+FCP7jdAfHnUJwHFKcgCIwNpFLcmw33
+ VYX8KTYEdixY0MnZva4AF10hoddP94M7Nz90OiBFgAnEEILIuiBxLOriU9tCpOb9MoS+ECq
+ k/490zJrV3OtWZqAwhUK7kFwRJqSCllK63N2oBtbAJATL8Zbo+WUBJwezGhSMcv/asX9Fu0
+ 8fkES8yTmwan9MWM2uY7w==
+UI-OutboundReport: notjunk:1;M01:P0:2+VlZ5/wY7k=;vfEUqPawqve6gXas/bvKzL9oFTl
+ bUk981L1xTKAhY3T7ETorw6dCIXwa2Ek5QCO1F5xUj5Tf1j6M2IqdK1DSFp/zh5hleWG6Ym58
+ j3pr998oB5Ma88j2m1eW6I2Isi8XBh5+2NDZE4piWDt7V6uI64jtGoPv2tvZusVJxzw12k4FQ
+ t86fBGNkMWAjV3ODWAtZKSeBoFu8HI2qAs5D07x8lCb9Gk2uslBSNeuY5kdJytDcV8Enm9RP4
+ lnPkDcqax3nKgotnQxEk+9s8Emssb/c2MXY7RfQdIQeInLFz8HADi6QLVuxgVb48aEBpctuyP
+ g9ac/mWyRl9vO4nGMtjXBHWNQJzg8pIp4gksjPsD/3Fy2LO7iMTR3YT1xJk9PgpPl0LN5fryj
+ EkeAsUGUQocEgwI6ynLfgHOQzRe4FOhYulacgkC/HHhV+A76Gn44QBBccE6k3bk2TULktqArw
+ CSaVBsKLQYuoyCPNa4JHRtZVoF/OU+ibzhJxYyBY2rB5ZgI7GBNqg/PPjzVPXMUAXa5vyLdBt
+ v8xGbw9f25EyPdm1FA3L3hVlwhcJ1qAcLgL51CDEosVrMsIgWwX4mvm1azURSgVDtAxQBKNfH
+ OxqFlnlQC7qFTRhf55FAU8cIQNZQK8KNBERkSnwwTj6aJKscYBlz74OskxL3IHsDNJx/j8Kja
+ z6kymrl3wRf8altlSY7iDSHXMvOVxoYlBOeyMkV7Dg==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,39 +71,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---QltaGwwy6HL9dE6e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Apr 28, 2023 at 01:19:41PM +0200, Paolo Bonzini wrote:
-> Instead of using qatomic_mb_{read,set} mindlessly, just use a per-corouti=
-ne
-> flag that requires no synchronization.
->=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Le 24/04/2023 à 17:34, Thomas Weißschuh a écrit :
+> Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
 > ---
->  tests/unit/test-aio-multithread.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
+>   linux-user/syscall.c | 26 ++++++++++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 95e370130cee..140bd2c36e0f 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -9166,6 +9166,32 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>               return ret;
+>           }
+>   #endif
+> +#ifdef TARGET_NR_open_tree
+> +    case TARGET_NR_open_tree:
+> +        {
+> +            void *p2;
+> +
+> +            if (!arg2) {
+> +                return -TARGET_EFAULT;
+> +            }
+> +
+> +            p2 = lock_user_string(arg2);
+> +            if (!p2) {
+> +                return -TARGET_EFAULT;
+> +            }
+> +
+> +            int host_flags = arg3 & ~TARGET_O_CLOEXEC;
+> +            if (arg3 & TARGET_O_CLOEXEC) {
+> +                host_flags |= O_CLOEXEC;
+> +            }
+> +
+> +            ret = get_errno(open_tree(arg1, p2, host_flags));
+> +
+> +            unlock_user(p2, arg2, 0);
+> +
+> +            return ret;
+> +        }
+> +#endif
+>   #ifdef TARGET_NR_stime /* not on alpha */
+>       case TARGET_NR_stime:
+>           {
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---QltaGwwy6HL9dE6e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRP12gACgkQnKSrs4Gr
-c8jc1Qf/TfkYhIZqbkl6ry/PM/u7i7aFonmn3DRK+Qk730Vpg5ln/Ee6GR3GpKQa
-+iJ4tkosbCspjawDLtzfg4rQgvn/JURh5AZCEYog/Snp4f5qkfXCKBmmnOhSnBC8
-T5AuTkZOGmuezDIStUGKTJxLdNXyjcGl206pebARPcYvERUJ38uc5lXQkHkGkoee
-UbFThcdR/NRKjspGex/SDf+7z0I2XFv2nRkTsrA+qcLKn3EnuEf6c9ztzuWC8pTf
-8L0FkJqEfFx5HbRrp7/LPL75xx03vzC47msZ03DUbHp8BUbO5o3GpzmmBSX6CC+s
-UwkPQWp9g52kR5rsoNBKLy833jLnXw==
-=vJl3
------END PGP SIGNATURE-----
-
---QltaGwwy6HL9dE6e--
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
