@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02BB6F3678
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCD66F3677
 	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 21:05:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptYnt-0000uh-6L; Mon, 01 May 2023 15:03:17 -0400
+	id 1ptYox-0001Zi-Rl; Mon, 01 May 2023 15:04:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptYnq-0000u0-Kq
- for qemu-devel@nongnu.org; Mon, 01 May 2023 15:03:14 -0400
+ id 1ptYov-0001UW-2f
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 15:04:21 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptYno-0004ms-LA
- for qemu-devel@nongnu.org; Mon, 01 May 2023 15:03:13 -0400
+ id 1ptYot-0004vJ-F9
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 15:04:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1682967791;
+ s=mimecast20190719; t=1682967856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kcf1wnISySQJyqm850z69jR6W0V8ccUJ79ybjCRLjrQ=;
- b=QmhTe6nY8y2vgOmyd1Cwkds7kuizcTDl2S50sOr9oyl21LBfoOoCb+XxOKNL0FDUStejdJ
- 6CUhcy2a8dOBIAejlh2C+2D2oe4zYtnVZzyHgLnwkbsJm1EVW4MsQs/WsshdoSl7+PYaf3
- bpeTipnDoJXgqaTU5IST6iu3hkhodmw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=01RYafiJ3B4DoLUmP5HhTU6gUpHRNKYkYjbBB4+n79k=;
+ b=SZudIHFRhKmCIbXBmGw/anXUUYJGfUe8OZHbvzdL52eL7HNT/EVQFQ1GrhppVUhpubQ3Sf
+ R7qcug4M18NjTo4oGqboKIM+6b+UBbIrsZCRJEXounlV/EE+uYNuaYdUFpW1sN9Usw/R4L
+ zXt46nUPlEMNXDp6wQq8Z1Gz7TtImRA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-R62b0ZtEMIuyKUIXLf2AGA-1; Mon, 01 May 2023 15:03:07 -0400
-X-MC-Unique: R62b0ZtEMIuyKUIXLf2AGA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-417-MhdOsfbcNDSeQvF_AsW4yw-1; Mon, 01 May 2023 15:04:13 -0400
+X-MC-Unique: MhdOsfbcNDSeQvF_AsW4yw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 681253850542;
- Mon,  1 May 2023 19:03:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29995185A790;
+ Mon,  1 May 2023 19:04:13 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F175C51E3;
- Mon,  1 May 2023 19:03:06 +0000 (UTC)
-Date: Mon, 1 May 2023 15:03:05 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 812512027045;
+ Mon,  1 May 2023 19:04:12 +0000 (UTC)
+Date: Mon, 1 May 2023 15:04:11 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
 Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
  qemu-devel@nongnu.org
-Subject: Re: [PATCH 13/20] block: Mark bdrv_co_get_allocated_file_size() and
- callers GRAPH_RDLOCK
-Message-ID: <20230501190305.GO14869@fedora>
+Subject: Re: [PATCH 14/20] block: Mark bdrv_co_get_info() and callers
+ GRAPH_RDLOCK
+Message-ID: <20230501190411.GP14869@fedora>
 References: <20230425173158.574203-1-kwolf@redhat.com>
- <20230425173158.574203-14-kwolf@redhat.com>
+ <20230425173158.574203-15-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="i0yefTUaRUwmBE70"
+ protocol="application/pgp-signature"; boundary="RtnBZHXGmTtWqUuZ"
 Content-Disposition: inline
-In-Reply-To: <20230425173158.574203-14-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+In-Reply-To: <20230425173158.574203-15-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -83,38 +83,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---i0yefTUaRUwmBE70
+--RtnBZHXGmTtWqUuZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 25, 2023 at 07:31:51PM +0200, Kevin Wolf wrote:
-> @@ -5778,6 +5779,7 @@ int64_t coroutine_fn bdrv_co_get_allocated_file_size(BlockDriverState *bs)
->  {
->      BlockDriver *drv = bs->drv;
->      IO_CODE();
-> +    assert_bdrv_graph_readable();
+On Tue, Apr 25, 2023 at 07:31:52PM +0200, Kevin Wolf wrote:
+> From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>=20
+> This adds GRAPH_RDLOCK annotations to declare that callers of
+> bdrv_co_get_info() need to hold a reader lock for the graph.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  include/block/block-io.h         |  7 +++++--
+>  include/block/block_int-common.h |  4 ++--
+>  block.c                          |  2 ++
+>  block/crypto.c                   |  2 +-
+>  block/io.c                       | 11 +++++------
+>  block/mirror.c                   |  8 ++++++--
+>  block/raw-format.c               |  2 +-
+>  7 files changed, 22 insertions(+), 14 deletions(-)
 
-Is there a need for runtime assertions in functions already checked by
-TSA?
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-I guess not. Otherwise runtime assertions should have been added in many
-of the other functions marked GRAPH_RDLOCK in this series.
-
---i0yefTUaRUwmBE70
+--RtnBZHXGmTtWqUuZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRQDOkACgkQnKSrs4Gr
-c8hx8QgAsQBXQTkpL+HnwZcU2J+tT+UdG+Ltkfz0ZcjyJE4hBGf+NXfV8UaKpvMr
-fryeHBlxo3c6OiCdYB7fAL3V7VHEz27ysJru30P9TI0sqa1V4GzwpKy56KdQxcmL
-NvFF7uEMsTWOJ8G1iLRGiuLruHej58pie1zX7EZIyLlsVEz4t6o/Ka7naY2+VZoA
-iODLyC7EixGR+xrSypzFqHG4UO/g5u55vahECCXK2NwQ5fN06jBdMVmGLmdOgXkY
-KjYxluzQXyWdWRuheP+Jmlb+VEimxGs0qAkKw24lMC0sry2Fy+6hw+uzHzgpxjwG
-qA1n1hr4lBkNiBbfSrrfY9g3+X6mqg==
-=CnB7
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRQDSoACgkQnKSrs4Gr
+c8hLKgf+IvhKM0Mf30sZh7E7qlEWnj/GqpwSQaMBBHMLJD6mM88sk2WqMVMpah+y
+w2WKPBYY11gUGdzEw7Nyv6DkWmzHjJijwpl6yo0+mgA3AT4hyUyNFW9tSrUpew2m
+8Esaglkz1U15DsOteQm/uThGBr71oyAo9H6P5a7PhebY+CMcFy5xqabIgGy3sbyz
+3oc9fsT+PLdz1zkZ27P4uRlWgfAEFf8lgL6nmDgVhB4g3EsudlO227U2q0u6EtgH
+COmeD0Tb45U2uc+/k5ARu6J6zJq1tvVQeahVdrVKFGwFnf1uQeJM6Yrm20riNuUG
+C2uzkhtMgS0yhwwThrkX+ojSh5+nwQ==
+=e4VI
 -----END PGP SIGNATURE-----
 
---i0yefTUaRUwmBE70--
+--RtnBZHXGmTtWqUuZ--
 
 
