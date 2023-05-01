@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8E76F391A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 22:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7316F391F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 22:27:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pta0M-0004y4-FI; Mon, 01 May 2023 16:20:14 -0400
+	id 1pta5e-0007Hh-Cu; Mon, 01 May 2023 16:25:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pta0J-0004xT-R3
- for qemu-devel@nongnu.org; Mon, 01 May 2023 16:20:11 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pta0G-0006Ao-TI
- for qemu-devel@nongnu.org; Mon, 01 May 2023 16:20:11 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f1cfed93e2so28534595e9.3
- for <qemu-devel@nongnu.org>; Mon, 01 May 2023 13:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1682972405; x=1685564405;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lDI/20T1uPRoTlQGz3PG7IVp1dlrzIcikclK+BNrn4I=;
- b=sIfdTpfepArE8sU+4NTcy7xOvbZSf/dKemW7L8ciqw+ADmIAIdfVY09A5gWMdcAqIa
- f8rGwdhE+yELNnHDBZinJXVwAhyeZ00UJYIDJWdY113pLL27ph3TlpNIgVyb9EGPymiL
- uxMKe7WOwAc13vtMHss0uV5JMzgU2d+zn5g/Olu0rdbxdkYfwYe7RSiuRfeNUDAdxTiL
- 8GonL3qL1Cmm7tBPpGdY0F9ZE8YcRntMFjMPS545gKIx9R5GlwBWbcsvz/cWkAf/aF/w
- 9lgfW1ABFrSPSLQQJsnHuhaxOtRal6i2Q7Zi3YxlcUodG59RlYDzpf6Nd8VOXQjAvOeR
- G40g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682972405; x=1685564405;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lDI/20T1uPRoTlQGz3PG7IVp1dlrzIcikclK+BNrn4I=;
- b=Ie/Sq0/OXxuTnq8+oP01xdJFOkHGcXac3py9QdxqZOC4W4zWGsr3x4MA/3pLOxWrfj
- W3lpV+IRFrIOBOR7SdtqWwIzg99Z0o5yMu4fCKs/TsxoWtO5+mYxkrJjkwtddP///PZW
- /oZxnCDPheKxBpO9S/+It7YN2WjR9DU+63B5vIaW9gZEIL2LvTojzYm6/XggJpLFzKax
- V5UAHI1jh4jMx2uwE8sWhQs8Ol7o3Rvhqh7snnsCAk+pHYwpD5Ba0MeIv2l0/cMVmocU
- xAErdnHUcdp3K9LP+ACguDmgdAiMH8H5NOUVLmF3C1kn7DxUl43dKhvw1MfTmMHQPgTd
- IuDg==
-X-Gm-Message-State: AC+VfDw8xCoBcDNFhZrdAA1rhJ7q/6IFtpbDPD9yoDjGV2YO83dOCVEA
- /l6n18iBRJ+op/ea3jrP5ihmLQ==
-X-Google-Smtp-Source: ACHHUZ7GIF5nTiYKf2V07/in+UGAFPHkWwL0e1/1SwgFp/N3K/G6yGN5/97rm7s/+Dk8kHs3SY1QsA==
-X-Received: by 2002:a1c:7502:0:b0:3ee:36f:3485 with SMTP id
- o2-20020a1c7502000000b003ee036f3485mr11398394wmc.8.1682972404738; 
- Mon, 01 May 2023 13:20:04 -0700 (PDT)
-Received: from ?IPV6:2a02:c7c:74db:8d00:eca5:8bcb:58d9:c940?
- ([2a02:c7c:74db:8d00:eca5:8bcb:58d9:c940])
- by smtp.gmail.com with ESMTPSA id
- bi26-20020a05600c3d9a00b003eddc6aa5fasm32890364wmb.39.2023.05.01.13.20.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 May 2023 13:20:04 -0700 (PDT)
-Message-ID: <e9d647a3-c98e-7ab8-9378-74ac2d867a28@linaro.org>
-Date: Mon, 1 May 2023 21:20:02 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pta5V-0007Fw-Es
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 16:25:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pta5R-0007sB-JG
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 16:25:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682972728;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s8zlBc/Dk1SCrk5ob8WOiIQxpRGh3UVLDfG8ZTu6uoQ=;
+ b=LCzErl/RzGkOfkTeDY3SAD31GeYK06KH+2BPBnfUwpIxxTUnyc3uBA8cxX2WW6e79/HWNc
+ 8vTvsh/3dTyHXfJzhPszp2dgaQ1XtzCF4ZtjuLjcLUMfKI56D+nxbwllGwCv72TtanNF4K
+ lzdL3xMTaWrIG64bpNurN1y+dHYFkOg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-617-7hWlFEIjPAenBcAGVcXOVA-1; Mon, 01 May 2023 16:25:22 -0400
+X-MC-Unique: 7hWlFEIjPAenBcAGVcXOVA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1950E29ABA0E;
+ Mon,  1 May 2023 20:25:22 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 101B2112132E;
+ Mon,  1 May 2023 20:25:20 +0000 (UTC)
+Date: Mon, 1 May 2023 16:25:19 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Greg Kurz <groug@kaod.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH 00/10] tracing: remove dynamic vcpu state
+Message-ID: <20230501202519.GA167911@fedora>
+References: <20230420150009.1675181-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 09/19] tcg: Add andcs and rotrs tcg gvec ops
-Content-Language: en-US
-To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>, qemu-devel@nongnu.org
-Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
- kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, pbonzini@redhat.com,
- philipp.tomsich@vrull.eu, kvm@vger.kernel.org, qemu-riscv@nongnu.org
-References: <20230428144757.57530-1-lawrence.hunter@codethink.co.uk>
- <20230428144757.57530-10-lawrence.hunter@codethink.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230428144757.57530-10-lawrence.hunter@codethink.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rY6NiVg3HQNySdbA"
+Content-Disposition: inline
+In-Reply-To: <20230420150009.1675181-1-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,50 +88,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/28/23 15:47, Lawrence Hunter wrote:
-> From: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-> 
-> This commit adds helper functions and tcg operation definitions for the andcs and rotrs instructions
-> 
-> Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-> ---
->   accel/tcg/tcg-runtime-gvec.c | 11 +++++++++++
->   accel/tcg/tcg-runtime.h      |  1 +
->   include/tcg/tcg-op-gvec.h    |  4 ++++
->   tcg/tcg-op-gvec.c            | 23 +++++++++++++++++++++++
->   4 files changed, 39 insertions(+)
 
-Queued to tcg-next as two patches, and with alterations:
+--rY6NiVg3HQNySdbA
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +void tcg_gen_gvec_andcs(unsigned vece, uint32_t dofs, uint32_t aofs,
-> +                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz)
-> +{
-> +    static GVecGen2s g = {
-> +        .fni8 = tcg_gen_andc_i64,
-> +        .fniv = tcg_gen_andc_vec,
-> +        .fno = gen_helper_gvec_andcs,
-> +        .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-> +        .vece = MO_64
-> +    };
-> +
-> +    tcg_gen_dup_i64(vece, c, c);
-> +    tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, c, &g);
-> +}
+On Thu, Apr 20, 2023 at 03:59:59PM +0100, Alex Benn=E9e wrote:
+> The references dynamic vcpu tracing support was removed when the
+> original TCG trace points where removed. However there was still a
+> legacy of dynamic trace state to track this in cpu.h and extra hash
+> variables to track TBs. While the removed vcpu tracepoints are not in
+> generated code (or helpers) they still bring in a bunch of machinery
+> to manage the state so I've pulled them out. We could just replace
+> them with static trace points which dump vcpu->index as one of their
+> arguments because they don't happen that often.
+>=20
+> While most of the changes are excising bits of the tracing code I've
+> also cleaned up the xxhash function use and simplified the core
+> function to qemu_xxhash6.
+>=20
+> Please review.
+>=20
+> Alex Benn=E9e (10):
+>   *-user: remove the guest_user_syscall tracepoints
+>   trace-events: remove the remaining vcpu trace events
+>   trace: remove vcpu_id from the TraceEvent structure
+>   scripts/qapi: document the tool that generated the file
+>   qapi: make the vcpu parameters deprecated for 8.1
+>   trace: remove code that depends on setting vcpu
+>   trace: remove control-vcpu.h
+>   tcg: remove the final vestiges of dstate
+>   hw/9pfs: use qemu_xxhash4
+>   xxhash: remove qemu_xxhash7
+>=20
+>  qapi/trace.json               |  22 +++----
+>  accel/tcg/tb-hash.h           |   6 +-
+>  include/exec/exec-all.h       |   3 -
+>  include/hw/core/cpu.h         |   5 --
+>  include/qemu/xxhash.h         |  17 ++----
+>  include/user/syscall-trace.h  |   4 --
+>  trace/control-internal.h      |  10 ---
+>  trace/control-vcpu.h          |  63 -------------------
+>  trace/control.h               |  48 ---------------
+>  trace/event-internal.h        |   2 -
+>  accel/tcg/cpu-exec.c          |   7 +--
+>  accel/tcg/tb-maint.c          |   5 +-
+>  accel/tcg/translate-all.c     |   6 --
+>  bsd-user/freebsd/os-syscall.c |   2 -
+>  hw/9pfs/9p.c                  |   4 +-
+>  hw/core/cpu-common.c          |   4 --
+>  stubs/trace-control.c         |  13 ----
+>  trace/control-target.c        | 111 +++-------------------------------
+>  trace/control.c               |  28 ---------
+>  trace/qmp.c                   |  76 +++--------------------
+>  trace/trace-hmp-cmds.c        |  17 +-----
+>  scripts/qapi/gen.py           |   4 +-
+>  scripts/tracetool/format/c.py |   6 --
+>  scripts/tracetool/format/h.py |  16 +----
+>  trace-events                  |  50 ---------------
+>  25 files changed, 43 insertions(+), 486 deletions(-)
+>  delete mode 100644 trace/control-vcpu.h
 
-This needed a temporary.
+Nice job! I'm happy to merge it but will wait for discussion to finish.
 
-> +void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
-> +                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
-> +{
-> +    TCGv_i32 tmp = tcg_temp_new_i32();
-> +    tcg_gen_sub_i32(tmp, tcg_constant_i32(1 << (vece + 3)), shift);
-> +    tcg_gen_gvec_rotls(vece, dofs, aofs, tmp, oprsz, maxsz);
-> +}
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-This needed the rotation count to be masked (32 - 0 == 32 is illegal).
-Simplified as (-shift & mask).
+--rY6NiVg3HQNySdbA
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-r~
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRQIC8ACgkQnKSrs4Gr
+c8iEKggAwu05eB7O4LHXJcY+RvoO7JRL+bsbibOHLbHYKarxyx3D7rAc6gSS2I9Y
++V1Bl3Uly84vMC3EgcW67FNfuW1tq9r44Rt7qnRy8j3RpO1jevbqs22zNk3dh7ti
+GXcVh9hpMqX5GgCfogVyc9lU3Q21HXABuaEownmJfcDd5uxkFXKQFUzwCV+XeFPS
+BAHKkXVr7JJ3fsT6S3Wuvb9XbooNhVHjwrEyMfZqwzN6jYBboVIXkYUUNUhAfvD0
+h2a75gykzUmOHtUyKWuxPgM0J12eMuAU3WKBGEokAaEVreF1eEvuToMTytgvlwao
+YBHHpwUMdvlMnHiDpqjBgbl7BbBgPw==
+=wvuQ
+-----END PGP SIGNATURE-----
+
+--rY6NiVg3HQNySdbA--
 
 
