@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CCE6F32AA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:13:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BBAB6F32AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 May 2023 17:16:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptVD6-0008TR-Gu; Mon, 01 May 2023 11:13:04 -0400
+	id 1ptVFV-0000nE-RO; Mon, 01 May 2023 11:15:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVD3-0008Sf-TD
- for qemu-devel@nongnu.org; Mon, 01 May 2023 11:13:01 -0400
-Received: from mout.kundenserver.de ([212.227.126.135])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptVFK-0000mr-MP
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 11:15:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ptVD1-0002Ka-Gt
- for qemu-devel@nongnu.org; Mon, 01 May 2023 11:13:00 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MQ67s-1pgDVp0Do0-00M3Qm; Mon, 01 May 2023 17:12:57 +0200
-Message-ID: <4c19cf5e-f838-7c37-5a03-ea93bd597624@vivier.eu>
-Date: Mon, 1 May 2023 17:12:56 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptVFI-0002hx-DU
+ for qemu-devel@nongnu.org; Mon, 01 May 2023 11:15:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1682954114;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Iw36/HHOkavxwjRf6SJjOY2TUtGLBOQYqDHMeMyVbas=;
+ b=MvopK2tgOOJLXKV0ux1HDysTQA7pYwTVHfKfiteq++TbY5SHlzRnqNK7jietlifCpR5Q65
+ Lq6Th7Hd6V8OWPuRW/mav/8IIm81P6BYICrrTutYgbm5LmMIPdtPQAXzJzDIVWB/F9WNCa
+ RxicYY7e2yhAqSx7G3FCXDXBu8cAtDg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-1ZIhIugPO5S1XLkU4dZUqA-1; Mon, 01 May 2023 11:15:05 -0400
+X-MC-Unique: 1ZIhIugPO5S1XLkU4dZUqA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A94CA0F393
+ for <qemu-devel@nongnu.org>; Mon,  1 May 2023 15:14:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CADA492C13;
+ Mon,  1 May 2023 15:14:50 +0000 (UTC)
+Date: Mon, 1 May 2023 11:14:48 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] test-aio-multithread: simplify test_multi_co_schedule
+Message-ID: <20230501151448.GB14869@fedora>
+References: <20230428111941.149568-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 1/2] linux-user: Add move_mount() syscall
-Content-Language: fr
-To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>, qemu-devel@nongnu.org
-References: <20230424153429.276788-1-thomas@t-8ch.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230424153429.276788-1-thomas@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nCdpH4TDguvByFzyjqTlYHXMLco5WR9QtNpZ8Zr/D5YzufkduE8
- Pw7/SYkASeF18H+89jYtOA7BzdvveBoMHCCAQAw4wgTA256k/v7iQZ7rZnJsW1thiLpHjlD
- sOA+3qc3DtVEcdhbdKkGsNfdynGCZWuQhMRLENvhQVtsZOXeXs/9LMtTXqOiTlWUpUGGjSR
- u5xREbCjk4U6/+rj7wkbw==
-UI-OutboundReport: notjunk:1;M01:P0:3ewFUHoEDGQ=;L7qz9i7/LGUpAGMxuPHlx3M07dP
- LJ80/DYS4oH7Xg59krj/v14MdVVkVM311YVo4Y+lWEYE06cK4tSA0P7/Xy8GWNy7330ACpVyV
- UpGbAw591Gy1l15w7ZN0XI04N/1JQjvoxfQfBb+62cakf+ralbNfJN9e8B/SA50Yu9rexLndf
- VUmeINk7xnvwWzIsPLZDCzZn3gglm9VWxaZBWEp7Oggu4RgOswLJatNSxlSwE6EIFJxc9Hyem
- D8kwcBME3g+Um0I5NkoTDmgYEH5ZaYtEoDpagThae8r+wcI+nxqpl40XCJaVr2V6k91hB8NNF
- es4WHeIbj+1DDFdZ9tj1AsmJJFnbe6sjlbAS2ZK+3gj7PzmzCT/mAo3aWWaBaShllWmezAijm
- dM5uzyodjyvhmtdNQUWdpNHNu51AXnl2hny6P1sUp9fbtHf0IcaB3WwBMCgFU0WUuPUd8qVkX
- LWIkFsIlQl5adprXYW5mtw1J9LgTFqPGsKE/GIZ7aOYeiDAvIQabBqDlfwJ7KfCZQ+M691pWC
- FGo53QcFZKI6wOtT/HnTTAxoUulMP9XZsPiLJgQyNI6srzLPktCe3VbypziHwFWd5Iw4lnGZw
- /0FuOSvihcbGGOZn/gxYzPBfWia4syur1uwXuLnIG4xnudMpzh2BvBIaEXuKZzMk41Cm43Gsx
- gW4aKtMIsj8BvNUaCgx499r9imjC8UwQJ7fl+WTtpQ==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QltaGwwy6HL9dE6e"
+Content-Disposition: inline
+In-Reply-To: <20230428111941.149568-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,53 +78,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 24/04/2023 à 17:34, Thomas Weißschuh a écrit :
-> Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
-> ---
->   linux-user/syscall.c | 27 +++++++++++++++++++++++++++
->   1 file changed, 27 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 69f740ff98c8..95e370130cee 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -9139,6 +9139,33 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           unlock_user(p, arg1, 0);
->           return ret;
->   #endif
-> +#ifdef TARGET_NR_move_mount
-> +    case TARGET_NR_move_mount:
-> +        {
-> +            void *p2, *p4;
-> +
-> +            if (!arg2 || !arg4) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +
-> +            p2 = lock_user_string(arg2);
-> +            if (!p2) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +
-> +            p4 = lock_user_string(arg4);
-> +            if (!p4) {
-> +                unlock_user(p2, arg2, 0);
-> +                return -TARGET_EFAULT;
-> +            }
-> +            ret = get_errno(move_mount(arg1, p2, arg3, p4, arg5));
-> +
-> +            unlock_user(p2, arg2, 0);
-> +            unlock_user(p4, arg4, 0);
-> +
-> +            return ret;
-> +        }
-> +#endif
->   #ifdef TARGET_NR_stime /* not on alpha */
->       case TARGET_NR_stime:
->           {
-> 
-> base-commit: 81072abf1575b11226b3779af76dc71dfa85ee5d
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+--QltaGwwy6HL9dE6e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 28, 2023 at 01:19:41PM +0200, Paolo Bonzini wrote:
+> Instead of using qatomic_mb_{read,set} mindlessly, just use a per-corouti=
+ne
+> flag that requires no synchronization.
+>=20
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  tests/unit/test-aio-multithread.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--QltaGwwy6HL9dE6e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRP12gACgkQnKSrs4Gr
+c8jc1Qf/TfkYhIZqbkl6ry/PM/u7i7aFonmn3DRK+Qk730Vpg5ln/Ee6GR3GpKQa
++iJ4tkosbCspjawDLtzfg4rQgvn/JURh5AZCEYog/Snp4f5qkfXCKBmmnOhSnBC8
+T5AuTkZOGmuezDIStUGKTJxLdNXyjcGl206pebARPcYvERUJ38uc5lXQkHkGkoee
+UbFThcdR/NRKjspGex/SDf+7z0I2XFv2nRkTsrA+qcLKn3EnuEf6c9ztzuWC8pTf
+8L0FkJqEfFx5HbRrp7/LPL75xx03vzC47msZ03DUbHp8BUbO5o3GpzmmBSX6CC+s
+UwkPQWp9g52kR5rsoNBKLy833jLnXw==
+=vJl3
+-----END PGP SIGNATURE-----
+
+--QltaGwwy6HL9dE6e--
 
 
