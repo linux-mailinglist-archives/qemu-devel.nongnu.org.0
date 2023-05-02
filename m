@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5A86F40F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7A96F40FE
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:19:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptn61-0004jv-RL; Tue, 02 May 2023 06:18:57 -0400
+	id 1ptn67-0004ml-BM; Tue, 02 May 2023 06:19:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ptn5z-0004ji-Pi
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:18:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ptn64-0004l8-S5
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:19:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ptn5y-0000KL-Ap
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:18:55 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ptn5z-0000Kf-5b
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:19:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683022733;
+ s=mimecast20190719; t=1683022734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=E3ouHYDt8h+e4C4Q/9DdOWbhDEa1ulgfHnFppSgNB2Y=;
- b=MbFpjI+rWBjBj6rGPl5GOVetyB0Hf2oaQEuOW+2sXFpZWQy0T09WiIRe3Hl8iSPiZO47R6
- a1zxgUVh9bx1QRVlrdevl+TM+c8cV54gvv/7Qhv8hnsWcShv1yKeHxdF7wWM8QuP78TYN7
- df7WBoVSQ6X/d4rMcQj3VUDn0Iu6Mr8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sdFgf1NbKu+A5/DM+x4xrm7n6SSwRdU07Tpi++x2oqE=;
+ b=WXlTZ0hvtsRmBSE0unSAHC+0Rltjd+gqcJsV8B0LtUsquNygoSLCvHJseRTFP4KcUZNip1
+ AG/PspbM8XIWYhYZ57nBUz7M0fGIAp5kSNr98xmvh0mAgiJzWajGdWyUb8iPhUOyw6pUJD
+ fRTHtJeQPeP7q/3hzcj7NRhefFCTv4M=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-sk2W6h-fMdOabYKQovx-jQ-1; Tue, 02 May 2023 06:18:52 -0400
-X-MC-Unique: sk2W6h-fMdOabYKQovx-jQ-1
+ us-mta-39-hwbUWV2hNcihH5ycteHLww-1; Tue, 02 May 2023 06:18:53 -0400
+X-MC-Unique: hwbUWV2hNcihH5ycteHLww-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0175811E7E;
- Tue,  2 May 2023 10:18:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBFDF87B2A2;
+ Tue,  2 May 2023 10:18:52 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3AA57C15BAD;
- Tue,  2 May 2023 10:18:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DDE7C15BAD;
+ Tue,  2 May 2023 10:18:52 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
 Cc: Alexander Bulekov <alxndr@bu.edu>
-Subject: [PULL 0/3] Various fixes
-Date: Tue,  2 May 2023 12:18:46 +0200
-Message-Id: <20230502101849.1655453-1-thuth@redhat.com>
+Subject: [PULL 1/3] tests/qtest: Disable the spice test of readconfig-test on
+ FreeBSD
+Date: Tue,  2 May 2023 12:18:47 +0200
+Message-Id: <20230502101849.1655453-2-thuth@redhat.com>
+In-Reply-To: <20230502101849.1655453-1-thuth@redhat.com>
+References: <20230502101849.1655453-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -74,38 +78,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
- Hi Richard!
+The spice test is currently hanging on FreeBSD. It likely was
+never working before, since in the past, our configure script
+was failing to detect this feature due to a bug in the spice
+package there (it just got enabled recently by the commit
+https://cgit.freebsd.org/ports/commit/?id=cf16b1c9063351325f0 ).
+To get the CI working again, let's disable the failing test for
+now until someone has enough spare time to debug and fix the real
+underlying problem.
 
-The following changes since commit 7c18f2d663521f1b31b821a13358ce38075eaf7d:
+Message-Id: <20230428151351.1365822-1-thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/readconfig-test.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-04-29 23:07:17 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-05-02
-
-for you to fetch changes up to 7915bd06f25e1803778081161bf6fa10c42dc7cd:
-
-  async: avoid use-after-free on re-entrancy guard (2023-05-02 10:03:26 +0200)
-
-----------------------------------------------------------------
-* Fix the failing FreeBSD job in our CI
-* Run the tpm-tis-i2c-test only if TCG is enabled
-* Fix a use-after-free problem in the new reentracy checking code
-
-----------------------------------------------------------------
-Alexander Bulekov (1):
-      async: avoid use-after-free on re-entrancy guard
-
-Fabiano Rosas (1):
-      tests/qtest: Restrict tpm-tis-i2c-test to CONFIG_TCG
-
-Thomas Huth (1):
-      tests/qtest: Disable the spice test of readconfig-test on FreeBSD
-
- tests/qtest/readconfig-test.c |  6 +++---
- util/async.c                  | 14 ++++++++------
- tests/qtest/meson.build       |  3 ++-
- 3 files changed, 13 insertions(+), 10 deletions(-)
+diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
+index 2160603880..918d45684b 100644
+--- a/tests/qtest/readconfig-test.c
++++ b/tests/qtest/readconfig-test.c
+@@ -86,8 +86,8 @@ static void test_x86_memdev(void)
+     qtest_quit(qts);
+ }
+ 
+-
+-#ifdef CONFIG_SPICE
++/* FIXME: The test is currently broken on FreeBSD */
++#if defined(CONFIG_SPICE) && !defined(__FreeBSD__)
+ static void test_spice_resp(QObject *res)
+ {
+     Visitor *v;
+@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("readconfig/x86/memdev", test_x86_memdev);
+         qtest_add_func("readconfig/x86/ich9-ehci-uhci", test_docs_config_ich9);
+     }
+-#ifdef CONFIG_SPICE
++#if defined(CONFIG_SPICE) && !defined(__FreeBSD__)
+     qtest_add_func("readconfig/spice", test_spice);
+ #endif
+ 
+-- 
+2.31.1
 
 
