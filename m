@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBE16F4297
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E7C6F429A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:22:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pto3j-0000fk-Me; Tue, 02 May 2023 07:20:39 -0400
+	id 1pto3h-0000f9-FE; Tue, 02 May 2023 07:20:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pto3e-0000dW-LX
+ id 1pto3f-0000dc-1y
  for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:35 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pto3c-0003FZ-QE
+ id 1pto3c-0003Fh-Ta
  for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:34 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f19afc4f60so21756245e9.1
+Received: by mail-wr1-x42d.google.com with SMTP id
+ ffacd0b85a97d-2f40b891420so3497727f8f.0
  for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683026428; x=1685618428;
+ d=linaro.org; s=google; t=1683026429; x=1685618429;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aGVAM5f/fVkyzn3zO3fNGB1yt+oMwQWHTxZuqdKZ/tI=;
- b=MMvkvteQQtaDubChUo5EHNTqGPea+2/tARF/OyghVSyZcor4/jTVxpzAarvntgRO0C
- Cb80cAcRUrXer4fXRYOu3UIlA38MEQHa/KiscEP5Boy2O0lF37LOZZw41O565DdxRwhw
- tm29W0TC+WmUliLlcnXLgzfWMCFPkfC9CYDsJ6PtHwtV2c5NhoJ4ULqZUQzEe+Xzok5w
- VpiklY9tgNeGKlbVo8KjTcBO6ShCOR7+hNI4U9V/cP8+fussGJZLusI3EU5KlD6vWdaQ
- 72FYYvwJspEiUTCLyuTjyvLgRtbmVNVtEsl23Tl3yiK1OMm6I5Kk3qbAZrMpAa4mvyLb
- ViMg==
+ bh=wY72rBTCusrC/WPaiwfzmoq60/uULSGfuUcD5/U5TwY=;
+ b=GNsOKbJwpHz7i1wn7ETbd7GGFUV/S7mblkMoHCcZqn9bXV2m4QUav+4mm9AgqmWpq9
+ WQ4byszQtqq1A0eJsVupempRajYkQzj4cnWZcxHgOURR3JGJ5sEpFimoia8UdYTYc6Id
+ N5xz9EzY22Ap2cD98Zod+asI5UM9WhOIbiahxBkgSz0SKAdplfp3gdN1X+kbpNLyehhP
+ g8LBWDatuVEGq3a0kFsaHv3b+L5rPZwFS7/pxGeWJ+z4zUBJJzFW1BGPGi8ZiIN33uVI
+ EQDn5bAyzx2TwQx/hh+Rq5f45zkSq9dxQ1x1Aofy/fo9XUKGaozLG64D8Kr91r1HbGzM
+ aCjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683026428; x=1685618428;
+ d=1e100.net; s=20221208; t=1683026429; x=1685618429;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aGVAM5f/fVkyzn3zO3fNGB1yt+oMwQWHTxZuqdKZ/tI=;
- b=BLuQWl1LYsw+GHRHtpVetuWnfJz0uLJY9EEPeSCEJ/LPAbBKs1rL3yB4PYe+ifBOZt
- yGYY5XGsZkQP3RojF8TkqJ6lavPLZ1+sAzP6ehW2plTLA83pphRr9iWZ9TP56JoVwt9x
- Yn5luitmEeOYv15abeVq72f95BdHFuizeAid14RFVvI8buVKoJJCDXRhf9WDZ5Txqxgx
- ae69eAAsiEjvwUoGpN9QT/Tyw1bwiZAfZ8vdw3UNRx+gNSRW+vbtF3/xiIMF1Iky3a0L
- cB26FzzPlZetkWaihN6fJHfl1M8ItGx9JEk0sfxkVsTMdj+3+0pUqdAqANLiW6Vn0u0K
- OV6A==
-X-Gm-Message-State: AC+VfDyaNH/S+4/YewY/tclmW2u3PbcYbz1Xz9jWz9Av3QKKpiRoRLjB
- Dp0TgZlBEqh9/YEmB7/t5qaO5C33t7qp0K5roaeHzw==
-X-Google-Smtp-Source: ACHHUZ6/a57Uk6tNoLLl1C7nSGuCik5HcUEUGsjY5QsDz3A7CcLPgPXHfht+QlNS0Htq/k0ho5BPRw==
-X-Received: by 2002:a7b:c5c6:0:b0:3f1:9acf:8682 with SMTP id
- n6-20020a7bc5c6000000b003f19acf8682mr11421281wmk.17.1683026428208; 
+ bh=wY72rBTCusrC/WPaiwfzmoq60/uULSGfuUcD5/U5TwY=;
+ b=W4iVX5KDRgh6YMn6AyTuF6QKhAbwih5ZTbOfUVY8BW7Xv5wA66amzP92MpBbzs6Poq
+ 95ozG1ynMkVJaAWUi1yTohmB1ajYYgbkc5LRf6lFEnNY75Hlr6Onts7EV77hJoojyXyh
+ TBh7gZq0cuPtT2NP/bSMerzVHwYVqgR6F+iMoQMVnX5m8Uc2kBqDq9VZXjZOdIMUv+v5
+ 9wOhZk+CGyX7Yf0pk5iUicYvRerx8SV559vO7FMBj0897r9i3JV+GXMC+NIdy2pQX68D
+ q3EUvo1mFfAOe5k28MpqHANZ0LMuspkCfTdvNHwBOX+gx+KjE2XIiZj5eMgvKLn3vbem
+ BCIQ==
+X-Gm-Message-State: AC+VfDysDmZX9Gxj+cfDzch4cp8sg+lyo3HaPQpplGhxrweBp9rRfgWy
+ 78/io8cQogFqdg2BjyUAz4M/PLgEsY+pIeySy/huHQ==
+X-Google-Smtp-Source: ACHHUZ6+ML0T420IJEff4r8IFhQKL7bkLWephK86r0r2GO/KprMzxBt5CeS86WwxqHaBIyeZyD6Now==
+X-Received: by 2002:adf:f212:0:b0:2ef:b4e1:cf59 with SMTP id
+ p18-20020adff212000000b002efb4e1cf59mr10869975wro.58.1683026428907; 
  Tue, 02 May 2023 04:20:28 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a05600c221000b003ee1b2ab9a0sm35182623wml.11.2023.05.02.04.20.27
+ z16-20020a05600c221000b003ee1b2ab9a0sm35182623wml.11.2023.05.02.04.20.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 04:20:27 -0700 (PDT)
+ Tue, 02 May 2023 04:20:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-Subject: [PULL 06/12] tcg: Add tcg_gen_gvec_rotrs
-Date: Tue,  2 May 2023 12:20:17 +0100
-Message-Id: <20230502112023.776823-7-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 07/12] qemu/int128: Re-shuffle Int128Alias members
+Date: Tue,  2 May 2023 12:20:18 +0100
+Message-Id: <20230502112023.776823-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230502112023.776823-1-richard.henderson@linaro.org>
 References: <20230502112023.776823-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,55 +92,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+Clang 14, with --enable-tcg-interpreter errors with
 
-Add tcg expander and helper functions for rotate right
-vector with scalar operand.
+include/qemu/int128.h:487:16: error: alignment of field 'i' (128 bits)
+  does not match the alignment of the first field in transparent union;
+  transparent_union attribute ignored [-Werror,-Wignored-attributes]
+    __int128_t i;
+               ^
+include/qemu/int128.h:486:12: note: alignment of first field is 64 bits
+    Int128 s;
+           ^
+1 error generated.
 
-Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-Message-Id: <20230428144757.57530-10-lawrence.hunter@codethink.co.uk>
-[rth: Split out of larger patch; mask rotation count.]
+By placing the __uint128_t member first, this is avoided.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20230501204625.277361-1-richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op-gvec.h |  2 ++
- tcg/tcg-op-gvec.c         | 11 +++++++++++
- 2 files changed, 13 insertions(+)
+ include/qemu/int128.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index 6d58683171..a8183bfeab 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -371,6 +371,8 @@ void tcg_gen_gvec_sars(unsigned vece, uint32_t dofs, uint32_t aofs,
-                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
- void tcg_gen_gvec_rotls(unsigned vece, uint32_t dofs, uint32_t aofs,
-                         TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
-+void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
-+                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
- 
- /*
-  * Perform vector shift by vector element, modulo the element size.
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 9c14908a46..f51bcaa87b 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -3353,6 +3353,17 @@ void tcg_gen_gvec_rotls(unsigned vece, uint32_t dofs, uint32_t aofs,
-     do_gvec_shifts(vece, dofs, aofs, shift, oprsz, maxsz, &g);
- }
- 
-+void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
-+                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
-+{
-+    TCGv_i32 tmp = tcg_temp_ebb_new_i32();
-+
-+    tcg_gen_neg_i32(tmp, shift);
-+    tcg_gen_andi_i32(tmp, tmp, (8 << vece) - 1);
-+    tcg_gen_gvec_rotls(vece, dofs, aofs, tmp, oprsz, maxsz);
-+    tcg_temp_free_i32(tmp);
-+}
-+
- /*
-  * Expand D = A << (B % element bits)
-  *
+diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+index f62a46b48c..9e46cfaefc 100644
+--- a/include/qemu/int128.h
++++ b/include/qemu/int128.h
+@@ -483,9 +483,9 @@ static inline void bswap128s(Int128 *s)
+  */
+ #ifdef CONFIG_INT128
+ typedef union {
+-    Int128 s;
+-    __int128_t i;
+     __uint128_t u;
++    __int128_t i;
++    Int128 s;
+ } Int128Alias __attribute__((transparent_union));
+ #else
+ typedef Int128 Int128Alias;
 -- 
 2.34.1
 
