@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2106F4650
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 16:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBE36F4652
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 16:48:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptrH4-0005hN-5w; Tue, 02 May 2023 10:46:38 -0400
+	id 1ptrI5-0006VG-5X; Tue, 02 May 2023 10:47:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1ptrH1-0005gm-87; Tue, 02 May 2023 10:46:35 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ptrI3-0006Ur-6G
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 10:47:39 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1ptrGz-0002ht-Nc; Tue, 02 May 2023 10:46:35 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B4D3621E4B;
- Tue,  2 May 2023 14:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683038791; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jpUI0UuBX6RKiAG/eehicu4BO7uQOcgXZAaG0E6DTnI=;
- b=TVrMi58whwxE0KtaYHLL6RjF6hp6GjloaodmogJVBCSQw7+UBfPZHB40l+PnD5gFiFhEXp
- P6jJ00Mgl4PugkS5jEvBBfe/QsOPghrF+Z4kEWfyDkEafvBQ3oBJNh3M5eZVE959fJzMjk
- rrrOAYzWKju0T66Gkzyhec7Ukp6kTnI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683038791;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jpUI0UuBX6RKiAG/eehicu4BO7uQOcgXZAaG0E6DTnI=;
- b=zRMFn8JxTFmpIgnVTN9ES4TbOh9b1HDk7jUqxm+Tna93cto6gIJ38f8xHZvIVn86MRtHv0
- /lcBN/W3Q5D0fcBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3D280139C3;
- Tue,  2 May 2023 14:46:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id e2rdAUciUWTrCgAAMHmgww
- (envelope-from <farosas@suse.de>); Tue, 02 May 2023 14:46:31 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Nicholas Piggin <npiggin@gmail.com>, Harsh Prateek Bora
- <harshpb@linux.ibm.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, danielhb413@gmail.com
-Subject: Re: [PATCH v2 1/4] ppc: spapr: cleanup cr get/store in
- [h_enter|spapr_exit]_nested with helpers.
-In-Reply-To: <CSBVBHXUFNTB.V3R66Q201OGP@wheely>
-References: <20230424144712.1985425-1-harshpb@linux.ibm.com>
- <20230424144712.1985425-2-harshpb@linux.ibm.com>
- <CSBII1VGPEQB.3Q8OP9FELWTC3@wheely>
- <f4810103-78ce-eb5b-4d43-b9268b9aa745@linux.ibm.com>
- <CSBVBHXUFNTB.V3R66Q201OGP@wheely>
-Date: Tue, 02 May 2023 11:46:28 -0300
-Message-ID: <87sfceiyez.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ptrI1-0002rA-7F
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 10:47:38 -0400
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc0117683so5386787a12.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 07:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683038853; x=1685630853;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=sJxJdU3FxhZrh4nkk4zvINrnlB/v2wIbAAdpLApMBO8=;
+ b=YkKyD+dm0wc57B74ZOQ4fsTxnhN1MDXMLche91gbXS9h45LNbBi3n31tW82bGiqOyd
+ SXOzNhyX1t5an4cFTwCsDJ05jruVMvcMZTc9Ny571+Zie10ZfX5NXEfIcMYdqgn6I6RX
+ +nu/t27g97YVHrnLh0n/V3PHarGtl+rfrXV++kQBX4suSzwRYuErS0Eeb0tZ6IGQ3wjA
+ ZeyaPCrZNA+a3z2WktnYiOhUKyEAHs2zpIovRMel0p/c1n3jyME0j1j7fD/KWyG9eotv
+ KvTsLHtoR+blJQwClFutUj2yGwNEnLcWksqiQX7+KaOHze2vr/8ISYHL27VLKeGGNoP0
+ Q9Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683038853; x=1685630853;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sJxJdU3FxhZrh4nkk4zvINrnlB/v2wIbAAdpLApMBO8=;
+ b=FTarEiLF0ywaeUzdbgTHsZK5LsIiingvZgnmny6AGg5oHM69MV3V2780zRT6duqlqK
+ 8cfFmOBMWbpZFnik9SYkXG0XhEXC4wN9dvcVHTcU5pIc6U2Ng1fRJrCBBBxUwxV7xUB1
+ 84uHAYJWmYReYb+aY4JfoCYcMfpMDMveRxv36MzO+HhM8EtgzDSYAO2DibJ+AUdBRShH
+ iR67wMMDfLyW/U3E7uTixENd7qiHlGC+AUzu5s95EIscHo4Lp7A2itVJOFGfAyqQwjm4
+ gujaBstBZ17dBhZ9rf4iZbPDQJcJeo3OOfGOLptcPxVxxyiEwm3nPFfZ32yATcoiQzNJ
+ VG8g==
+X-Gm-Message-State: AC+VfDyZ5f1ptDlLsHmrIS1YRgBKLsF0HN0t2FlcWD0wSMeXVl3H7AjV
+ 9blisA9cuL9fdjpc26ecjejVn++/iwnV62Q+EHGMAQ==
+X-Google-Smtp-Source: ACHHUZ7IGlU3vmdLEq5rXye0bvh1PQbveuIOE9951KD+qu0/hWveV39CoH9dW3DDoZNgwOHCSmmCj/Ar/BQYUwTOB+A=
+X-Received: by 2002:aa7:cd18:0:b0:50b:d5d1:7409 with SMTP id
+ b24-20020aa7cd18000000b0050bd5d17409mr1292535edw.23.1683038853346; Tue, 02
+ May 2023 07:47:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230502121459.2422303-1-peter.maydell@linaro.org>
+ <df8ad122-f0e9-1912-9ef7-8e34c9a4dcb9@linaro.org>
+In-Reply-To: <df8ad122-f0e9-1912-9ef7-8e34c9a4dcb9@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 May 2023 15:47:22 +0100
+Message-ID: <CAFEAcA8sdtA25aL-pHOH5gjWwP4sbh+fCqFcVyuVAJpXL-VPGA@mail.gmail.com>
+Subject: Re: [PULL 00/35] target-arm queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Phil_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,75 +86,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Nicholas Piggin" <npiggin@gmail.com> writes:
+On Tue, 2 May 2023 at 15:09, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 5/2/23 13:14, Peter Maydell wrote:
+> > Hi; here's an arm pullreq. The big bits here are Fabiano's
+> > CONFIG_TCG=n patches and my set that deprecate -singlestep;
+> > other than that there's a collection of smaller bugfixes.
+> >
+> > thanks
+> > -- PMM
+> >
+> > The following changes since commit 7c18f2d663521f1b31b821a13358ce38075eaf7d:
+> >
+> >    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-04-29 23:07:17 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230502-1
+> >
+> > for you to fetch changes up to 0ab99e4252f21550f2c16f859cbcdd3cced9f8bf:
+> >
+> >    hw/net/allwinner-sun8i-emac: Correctly byteswap descriptor fields (2023-05-02 13:10:42 +0100)
+> >
+> > ----------------------------------------------------------------
+> >   * Support building Arm targets with CONFIG_TCG=no (ie KVM only)
+> >   * hw/net: npcm7xx_emc: set MAC in register space
+> >   * hw/arm/bcm2835_property: Implement "get command line" message
+> >   * Deprecate the '-singlestep' command line option in favour of
+> >     '-one-insn-per-tb' and '-accel one-insn-per-tb=on'
+> >   * Deprecate 'singlestep' member of QMP StatusInfo struct
+> >   * docs/about/deprecated.rst: Add "since 7.1" tag to dtb-kaslr-seed deprecation
+> >   * hw/net/msf2-emac: Don't modify descriptor in-place in emac_store_desc()
+> >   * raspi, aspeed: Write bootloader code correctly on big-endian hosts
+> >   * hw/intc/allwinner-a10-pic: Fix bug on big-endian hosts
+> >   * Fix bug in A32 ERET on big-endian hosts that caused guest crash
+> >   * hw/sd/allwinner-sdhost: Correctly byteswap descriptor fields
+> >   * hw/net/allwinner-sun8i-emac: Correctly byteswap descriptor fields
+>
+> The new notcg test is failing:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/4212154869#L3556
 
-> On Tue May 2, 2023 at 3:00 PM AEST, Harsh Prateek Bora wrote:
->>
->>
->> On 5/2/23 10:07, Nicholas Piggin wrote:
->> > On Tue Apr 25, 2023 at 12:47 AM AEST, Harsh Prateek Bora wrote:
->> >> The bits in cr reg are grouped into eight 4-bit fields represented
->> >> by env->crf[8] and the related calculations should be abstracted to
->> >> keep the calling routines simpler to read. This is a step towards
->> >> cleaning up the [h_enter|spapr_exit]_nested calls for better readability.
->> >>
->> >> Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
->> >> Reviewed-by: Fabiano Rosas <farosas@suse.de>
->> >> ---
->> >>   hw/ppc/spapr_hcall.c | 18 ++----------------
->> > 
->> > Could you either convert all callers, or do implementation and
->> > conversion as separate patches. Preference for former if you can
->> > be bothered.
->> > 
->> > save_user_regs(), restore_user_regs(), gdb read/write register * 2,
->> > kvm_arch_get/put_registers, monitor_get_ccr, at a quick glance.
->>
->> Sure, I can include other consumers as well in the patches.
->> I usually prefer separate patches for implementation/conversion but 
->> since the implementation is a small change, I hope either approach is fine.
->
-> Yeah one patch would be fine.
->
->>
->> > 
->> >>   target/ppc/cpu.c     | 17 +++++++++++++++++
->> >>   target/ppc/cpu.h     |  2 ++
->> >>   3 files changed, 21 insertions(+), 16 deletions(-)
->> >>
->> >> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> >> index ec4def62f8..124cee5e53 100644
->> >> --- a/hw/ppc/spapr_hcall.c
->> >> +++ b/hw/ppc/spapr_hcall.c
->> > 
->> > [snip]
->> > 
->> >> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
->> >> index 1a97b41c6b..3b444e58b5 100644
->> >> --- a/target/ppc/cpu.c
->> >> +++ b/target/ppc/cpu.c
->> >> @@ -67,6 +67,23 @@ uint32_t ppc_get_vscr(CPUPPCState *env)
->> >>       return env->vscr | (sat << VSCR_SAT);
->> >>   }
->> >>   
->> >> +void ppc_store_cr(CPUPPCState *env, uint64_t cr)
->> > 
->> > Set is normal counterpart to get. Or load and store, but
->> > I think set and get is probably better.
->> > 
->> Sure, make sense.
->
-> I did say that before realising the other functions there use as
-> much varied and inconsistent terminology as possible, sigh.
->
-> I *think* ppc_get|set_reg() is the best naming. store is used a lot but
-> it means something else too, so set is better. But if you have strong
-> feelings another way I don't mind.
->
+Output: Could not access KVM kernel module: Permission denied
+qemu-system-aarch64: failed to initialize kvm: Permission denied
 
-+1 for get/set
+Looks like the aarch64 runner doesn't have access to /dev/kvm.
+Philippe, that patch was one of yours -- do you want to have
+a look at it?
+("gitlab-ci: Check building KVM-only aarch64 target")
 
-Best to save load/store for the code emulating the actual guest ld/st
-instructions.
+In the meantime I'll respin the pullreq and drop that patch.
 
+thanks
+-- PMM
 
