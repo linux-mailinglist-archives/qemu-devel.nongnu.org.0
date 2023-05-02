@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D886F4BB2
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 22:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355DF6F4BE7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 23:12:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptx4z-0005zM-8P; Tue, 02 May 2023 16:58:33 -0400
+	id 1ptxHX-0000gM-RP; Tue, 02 May 2023 17:11:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ptx4w-0005z0-KJ
- for qemu-devel@nongnu.org; Tue, 02 May 2023 16:58:30 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptxHV-0000fh-M2
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 17:11:29 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ptx4u-0005Ic-S9
- for qemu-devel@nongnu.org; Tue, 02 May 2023 16:58:30 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptxHU-0001DM-2R
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 17:11:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683061108;
+ s=mimecast20190719; t=1683061887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KW7X3V68q1bznLhfBmW7ugoTPi9PgjxARvDncdsRAA8=;
- b=XgUTsI3jb+tIltxGaNUyFlnnsx6HrM7Qo2mefb8eq59LAQJKfdiLM8Sgju79WegXxoPWRi
- yzwD/2Bn8M2c5EdODuvACMldabpjxnCFm99FivPxulkzQvWklKhc68b1kOGFWg8Lg6v49d
- dcEDUCdSPnOzCLEvytVKIggeW3mtIY4=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-132-e2leoMY-MzqnfJaNuEHPcg-1; Tue, 02 May 2023 16:58:26 -0400
-X-MC-Unique: e2leoMY-MzqnfJaNuEHPcg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-61b6f717b6eso788416d6.0
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 13:58:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683061106; x=1685653106;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KW7X3V68q1bznLhfBmW7ugoTPi9PgjxARvDncdsRAA8=;
- b=Y5oKLpJEGi3knarBa7Gky9tCIzyhk9T1iajr0TK2KlCvM9Zjx8r2VpmYF8ihMXUBwb
- 9sdh2Kudur1bok7VOlmBirKGNtrrY57oi1PRzQ2ObLAEwRqqtzv46DX5Z5879wXVrkrg
- 01gtIV4t/yqVqgZI7vIbwafboPb3BSNEz5IpD+ZosvXg9hoTjuLiih3Ex+wUnXEAY2u7
- DA/08Ly76GAuPiwT1b6QNj9rCMfcvnLPFsRXb57OvT5XprK/rxflFFp0qUYYxrG41yxz
- LivLXyWRT/fdIbxxTdxj2VDIuxMLrKEX1eKN14BzOX/DLEBp4HhLuu/vlYPVpPUZ4QsH
- b7FQ==
-X-Gm-Message-State: AC+VfDz5KDpYdZMrOYnTciJrm1tEhkhhG+yVbT1990Wo7FWCz2f5UMFE
- +AUnRU8g7rnOPbANgk52LSsUtT4i6PywwkD0noLmKn4uIZ7fyuXE5X3dEOW6O3DZPrUQKRrKJBP
- dHbWNwVPPZHZk3zI=
-X-Received: by 2002:a05:6214:518e:b0:5f1:31eb:1f0e with SMTP id
- kl14-20020a056214518e00b005f131eb1f0emr5758503qvb.4.1683061106473; 
- Tue, 02 May 2023 13:58:26 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6E5ajTnj7mD2/uqyUlkkGSI1U8yul7agXLg823kTErvpC4GBpL2F7Yc2Zci5B1gS26/3bQgg==
-X-Received: by 2002:a05:6214:518e:b0:5f1:31eb:1f0e with SMTP id
- kl14-20020a056214518e00b005f131eb1f0emr5758492qvb.4.1683061106255; 
- Tue, 02 May 2023 13:58:26 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- t18-20020a0cea32000000b0061b71220644sm251844qvp.19.2023.05.02.13.58.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 13:58:25 -0700 (PDT)
-Date: Tue, 2 May 2023 16:58:24 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, lukasstraub2@web.de, quintela@redhat.com,
- chen.zhang@intel.com, Hailiang Zhang <zhanghailiang@xfusion.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v4 02/10] colo: make colo_checkpoint_notify static and
- provide simpler API
-Message-ID: <ZFF5cMvMbDr9uS5c@x1n>
-References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
- <20230428194928.1426370-3-vsementsov@yandex-team.ru>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fLiHrHWV0rnB9USKDmJvpUPknURVT+Sqoy6N+O8lq7g=;
+ b=UkSo2S47LYCEAHbSjiV5ldeFXR+G5D4oRzaJUapRncLmYa4qqXNk3BCr/pzQQEOt1jbv2g
+ HymKnD9AP/zKJcQ977NW7m+bn2PO3a4ART7Zdma96Xu75lRZcjweicuvHlME9eGsOKLCIy
+ ztO9vVrUlo7erCCWQisrPGyw9YmUydo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-484-b7e17-kMPZWAIysQF9pLCQ-1; Tue, 02 May 2023 17:11:22 -0400
+X-MC-Unique: b7e17-kMPZWAIysQF9pLCQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBE362805582;
+ Tue,  2 May 2023 21:11:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DA982026D25;
+ Tue,  2 May 2023 21:11:21 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Xie Yongji <xieyongji@bytedance.com>, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] block/export: call blk_set_dev_ops(blk, NULL, NULL)
+Date: Tue,  2 May 2023 17:11:19 -0400
+Message-Id: <20230502211119.720647-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230428194928.1426370-3-vsementsov@yandex-team.ru>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -83,7 +60,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,20 +77,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Apr 28, 2023 at 10:49:20PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> colo_checkpoint_notify() is mostly used in colo.c. Outside we use it
-> once when x-checkpoint-delay migration parameter is set. So, let's
-> simplify the external API to only that function - notify COLO that
-> parameter was set. This make external API more robust and hides
-> implementation details from external callers. Also this helps us to
-> make COLO module optional in further patch (i.e. we are going to add
-> possibility not build the COLO module).
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Most export types install BlockDeviceOps pointers. It is easy to forget
+to remove them because that happens automatically via the "drive" qdev
+property in hw/ but not block/export/.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Put blk_set_dev_ops(blk, NULL, NULL) calls in the core export.c code so
+the export types don't need to remember.
 
+This fixes the nbd and vhost-user-blk export types.
+
+Fixes: fd6afc501a01 ("nbd/server: Use drained block ops to quiesce the server")
+Fixes: ca858a5fe94c ("vhost-user-blk-server: notify client about disk resize")
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ block/export/export.c    | 2 ++
+ block/export/vduse-blk.c | 1 -
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/block/export/export.c b/block/export/export.c
+index e3fee60611..62c7c22d45 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -192,6 +192,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+     return exp;
+ 
+ fail:
++    blk_set_dev_ops(exp->blk, NULL, NULL);
+     blk_unref(blk);
+     aio_context_release(ctx);
+     if (exp) {
+@@ -219,6 +220,7 @@ static void blk_exp_delete_bh(void *opaque)
+     assert(exp->refcount == 0);
+     QLIST_REMOVE(exp, next);
+     exp->drv->delete(exp);
++    blk_set_dev_ops(exp->blk, NULL, NULL);
+     blk_unref(exp->blk);
+     qapi_event_send_block_export_deleted(exp->id);
+     g_free(exp->id);
+diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+index f7ae44e3ce..b53ef39da0 100644
+--- a/block/export/vduse-blk.c
++++ b/block/export/vduse-blk.c
+@@ -346,7 +346,6 @@ static void vduse_blk_exp_delete(BlockExport *exp)
+ 
+     blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+                                     vblk_exp);
+-    blk_set_dev_ops(exp->blk, NULL, NULL);
+     ret = vduse_dev_destroy(vblk_exp->dev);
+     if (ret != -EBUSY) {
+         unlink(vblk_exp->recon_file);
 -- 
-Peter Xu
+2.40.1
 
 
