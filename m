@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B186F4C46
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 23:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BA06F4D23
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 00:51:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptxfG-0005FW-KX; Tue, 02 May 2023 17:36:02 -0400
+	id 1ptyoi-0006fH-SY; Tue, 02 May 2023 18:49:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1ptxfC-0005F3-ET
- for qemu-devel@nongnu.org; Tue, 02 May 2023 17:35:58 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1ptxfA-0007Fz-Cf
- for qemu-devel@nongnu.org; Tue, 02 May 2023 17:35:58 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4f00d41df22so276765e87.1
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 14:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683063354; x=1685655354;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zu87AQAqb1Vj1c5MMRl9Zfr99rslOJ9jbOtUtnLrQHA=;
- b=BtjcH8hVwoTA+UeH4dRJiIuhLcz4aOpdNgjbslQ9ERzY3cQnDEM6SOkugUDUpjKPhQ
- 6fggpzWSCPfoCS092Fif8SU/QRMmMw/HopG3JP3+5xs3PYCMkfh0zDloVu9dGwJ1TyaX
- cfJ1VwExkEwvO3RbZpAzAqS+H7s4WVbDVd65WqDpia8Namph5TNtjEmWutCgSgz7E6HK
- Mddk76sE4Bc41+uVtYJQLR7b2vz6vode+gfJGjW1eEwV1vIrCwuK+TnH+gwJK+0odVig
- uOZH4M9+VNq39ZRmvlvG7t8SKlQgRyuGDAEenkFoF8d3ZPOwWsNYFXKAs9I+lr05s9YJ
- d3rw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ptyoU-0006ex-2Z
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 18:49:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ptyoS-0005IF-9j
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 18:49:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683067774;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O309kQs7TgMZ+myas8H6F+51aBgxrmpTeWVmYnDgEZY=;
+ b=A6MmycqGzaPTvH/1PXRxilZ710y5lCGZGPYwFHGGMXN59tB7eOpcdR9T9J6S/blScHZpCM
+ /TnjpTw38RONwMzTabhT4kgYw8tHZctn+oVlxR3pFQG/HF5atYa7A+DTJRmdEUPdxZbRCD
+ HPxhhhmrUUkZS9RswcFNA5yi8XWzniY=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-275-Z9S4ltsqPMe7bS8T63DRyg-1; Tue, 02 May 2023 18:49:33 -0400
+X-MC-Unique: Z9S4ltsqPMe7bS8T63DRyg-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-3ed767b30easo7414441cf.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 15:49:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683063354; x=1685655354;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zu87AQAqb1Vj1c5MMRl9Zfr99rslOJ9jbOtUtnLrQHA=;
- b=I0uwMUbX7Tp9fI8l87OFUja3VA7rT1M4GMkWDsASN95rRj68/iMXsxyFD7SPl+uZkt
- tpNX0F75bwDqb/jnKNCnzrgTrw4wGfopgf3yRAuN3+tVdW1aFqSDg1oNAB6hBqYchGtH
- xWDsSfxp5A/+spSYJJg4ic3SJTs1zN8rEOwoVpnVPOGfGJoFjfTQq6tMB+HKtVfr+goj
- Q5pRyLG5fDCbMvfLgVzMqpf5e+k+kOYsq4OaXjTLV80WG/vv/mvJzh4jEQ6SYC7P/5XB
- I/5q7s5iecV3iMiDeOmd2seotr1cZ7FJ6QMOGzA5UmF37BtWQwvsj7d/2hp0APXOhW1P
- 6/Pg==
-X-Gm-Message-State: AC+VfDznOIOFCzVhP/4L2y2klZaGvHbC49mn2Ha+X+Qi85LPkBr6yRhC
- Uyf9+rE1tJN4QDP+JKRp0FF0pIkiGGskVd0uDMYoWg==
-X-Google-Smtp-Source: ACHHUZ5u761KupNgKMQw9HlLiYcSTOrxsVyQqlu01BcGoTK3ouZEyNjLdBhkj4p2OyvEHSIuyBF/uAz0TXA+a2y6PyM=
-X-Received: by 2002:a2e:7008:0:b0:2a9:fa39:235e with SMTP id
- l8-20020a2e7008000000b002a9fa39235emr5143600ljc.26.1683063354020; Tue, 02 May
- 2023 14:35:54 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683067773; x=1685659773;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=O309kQs7TgMZ+myas8H6F+51aBgxrmpTeWVmYnDgEZY=;
+ b=QzChyzPjixhu8MR0QxQiP/pVnZ26c9pT1G9LNMqtYNpPX6Z62GHq7njrredlVoEYXN
+ Aljytwo7sfOrNd7hpL8+nWF2BLlyzwPx41InZLuqxJu0s2n4rt2D1GpRUlpdy4Oq7tUj
+ zBG8vDn+E64HwHTk4lYRdpC20Q+9m+/3z+xZoDdOfAIBFy1/PreU+cuLnsodIHnXiLFf
+ 2lfOkUm1H01O2fy7I5lxHpld9CO8/I+T0JT/UbpzDmapyoVAbNBa3mgVvvQIXiYdH7Jn
+ RNYMSesa++slVVW3/TKsMXuxcMAsjDVsKlOo9WnNzbV+88IjJ2H2SmZnVptCTZU6wTIV
+ eQSQ==
+X-Gm-Message-State: AC+VfDz2hZVYOuT7XKoD/TUAmbqcoHUMu1oJ/yeb8ph9WlpiLV2RHQwZ
+ p4PIzvGpTirKz0FJbS6ZCY897sRRHPX3Ll6rfXBghHYOAu/JpySGK8iod0+NBseVgjTsKBmFyj+
+ ZZLTwpz+I7a4iDeA=
+X-Received: by 2002:ac8:7f0d:0:b0:3ef:3281:fb5c with SMTP id
+ f13-20020ac87f0d000000b003ef3281fb5cmr6440433qtk.2.1683067772777; 
+ Tue, 02 May 2023 15:49:32 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5TQZduwqqNl9YqA4BnoB9V4kLU37BsCgh+DpX6mBibrzB6DMajgaedg7RPxo2oD1Ga7YmR0w==
+X-Received: by 2002:ac8:7f0d:0:b0:3ef:3281:fb5c with SMTP id
+ f13-20020ac87f0d000000b003ef3281fb5cmr6440402qtk.2.1683067772496; 
+ Tue, 02 May 2023 15:49:32 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ 201-20020a3706d2000000b0074e26158cf2sm7730942qkg.93.2023.05.02.15.49.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 15:49:31 -0700 (PDT)
+Date: Tue, 2 May 2023 18:49:30 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH 0/8] migration: Add precopy initial data capability and
+ VFIO precopy support
+Message-ID: <ZFGTerErJWnWHD6/@x1n>
+References: <20230501140141.11743-1-avihaih@nvidia.com>
 MIME-Version: 1.0
-References: <20230424112147.17083-1-viktor@daynix.com>
- <20230424112147.17083-2-viktor@daynix.com>
- <f169bd76-c638-edd6-a356-4ce69c19debc@redhat.com>
-In-Reply-To: <f169bd76-c638-edd6-a356-4ce69c19debc@redhat.com>
-From: Viktor Prutyanov <viktor@daynix.com>
-Date: Wed, 3 May 2023 00:35:43 +0300
-Message-ID: <CAPv0NP7SpdD7L1QSKKkW+EvZ_qK0NNe+xVTDXGYQzaMi0kos+A@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] pci: add handling of Enable bit in ATS Control
- Register
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com, 
- peterx@redhat.com, david@redhat.com, philmd@linaro.org, qemu-devel@nongnu.org, 
- yan@daynix.com, yuri.benditovich@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::12b;
- envelope-from=viktor@daynix.com; helo=mail-lf1-x12b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230501140141.11743-1-avihaih@nvidia.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,119 +105,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 26, 2023 at 8:32=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
-ote:
->
->
-> =E5=9C=A8 2023/4/24 19:21, Viktor Prutyanov =E5=86=99=E9=81=93:
-> > According to PCIe Address Translation Services specification 5.1.3.,
-> > ATS Control Register has Enable bit to enable/disable ATS.
-> > Add a new field for a trigger function which is called at the Enable
-> > bit change, so that PCIe devices can handle ATS enable/disable.
-> >
-> > Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
-> > ---
-> >   hw/pci/pci.c                |  1 +
-> >   hw/pci/pcie.c               | 21 +++++++++++++++++++++
-> >   include/hw/pci/pci_device.h |  3 +++
-> >   include/hw/pci/pcie.h       |  4 ++++
-> >   4 files changed, 29 insertions(+)
-> >
-> > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> > index 208c16f450..79a47d2589 100644
-> > --- a/hw/pci/pci.c
-> > +++ b/hw/pci/pci.c
-> > @@ -1550,6 +1550,7 @@ void pci_default_write_config(PCIDevice *d, uint3=
-2_t addr, uint32_t val_in, int
-> >       msi_write_config(d, addr, val_in, l);
-> >       msix_write_config(d, addr, val_in, l);
-> >       pcie_sriov_config_write(d, addr, val_in, l);
-> > +    pcie_ats_config_write(d, addr, val_in, l);
-> >   }
-> >
-> >   /***********************************************************/
-> > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> > index 924fdabd15..e0217161e5 100644
-> > --- a/hw/pci/pcie.c
-> > +++ b/hw/pci/pcie.c
-> > @@ -1057,6 +1057,27 @@ void pcie_ats_init(PCIDevice *dev, uint16_t offs=
-et, bool aligned)
-> >       pci_set_word(dev->wmask + dev->exp.ats_cap + PCI_ATS_CTRL, 0x800f=
-);
-> >   }
-> >
-> > +void pcie_ats_config_write(PCIDevice *dev, uint32_t address, uint32_t =
-val,
-> > +                           int len)
-> > +{
-> > +    uint32_t off;
-> > +    uint16_t ats_cap =3D dev->exp.ats_cap;
-> > +
-> > +    if (!ats_cap || address < ats_cap) {
-> > +        return;
-> > +    }
-> > +    off =3D address - ats_cap;
-> > +    if (off >=3D PCI_EXT_CAP_ATS_SIZEOF) {
-> > +        return;
-> > +    }
-> > +
-> > +    if (range_covers_byte(off, len, PCI_ATS_CTRL + 1)) {
->
->
-> Do we really need +1 here?
+On Mon, May 01, 2023 at 05:01:33PM +0300, Avihai Horon wrote:
+> Hello everyone,
 
-The Enable bit is the 15th in the ATS Control Register, so it is in a
-byte next to PCI_ATS_CTRL. Although I'm not sure that this is the
-best way to test this bit.
+Hi, Avihai,
 
-All other comments I tried to take into account in the v2.
+> === Flow of operation ===
+> 
+> To use precopy initial data, the capability must be enabled in the
+> source.
+> 
+> As this capability must be supported also in the destination, a
+> handshake is performed during migration setup. The purpose of the
+> handshake is to notify the destination that precopy initial data is used
+> and to check if it's supported.
+> 
+> The handshake is done in two levels. First, a general handshake is done
+> with the destination migration code to notify that precopy initial data
+> is used. Then, for each migration user in the source that supports
+> precopy initial data, a handshake is done with its counterpart in the
+> destination:
+> If both support it, precopy initial data will be used for them.
+> If source doesn't support it, precopy initial data will not be used for
+> them.
+> If source supports it and destination doesn't, migration will be failed.
+> 
+> Assuming the handshake succeeded, migration starts to send precopy data
+> and as part of it also the initial precopy data. Initial precopy data is
+> just like any other precopy data and as such, migration code is not
+> aware of it. Therefore, it's the responsibility of the migration users
+> (such as VFIO devices) to notify their counterparts in the destination
+> that their initial precopy data has been sent (for example, VFIO
+> migration does it when its initial bytes reach zero).
+> 
+> In the destination, migration code will query each migration user that
+> supports precopy initial data and check if its initial data has been
+> loaded. If initial data has been loaded by all of them, an ACK will be
+> sent to the source which will now be able to complete migration when
+> appropriate.
+
+I can understand why this is useful, what I'm not 100% sure is whether the
+complexity is needed.  The idea seems to be that src never switchover
+unless it receives a READY notification from dst.
+
+I'm imaging below simplified and more general workflow, not sure whether it
+could work for you:
+
+  - Introduce a new cap "switchover-ready", it means whether there'll be a
+    ready event sent from dst -> src for "being ready for switchover"
+
+  - When cap set, a new msg MIG_RP_MSG_SWITCHOVER_READY is defined and
+    handled on src showing that dest is ready for switchover. It'll be sent
+    only if dest is ready for the switchover
+
+  - Introduce a field SaveVMHandlers.explicit_switchover_needed.  For each
+    special device like vfio that would like to participate in the decision
+    making, device can set its explicit_switchover_needed=1.  This field is
+    ignored if the new cap is not set.
+
+  - Dst qemu: when new cap set, remember how many special devices are there
+    requesting explicit switchover (count of SaveVMHandlers that has the
+    bit set during load setup) as switch_over_pending=N.
+
+  - Dst qemu: Once a device thinks its fine to switchover (probably in the
+    load_state() callback), it calls migration_notify_switchover_ready().
+    That decreases switch_over_pending and when it hits zero, one msg
+    MIG_RP_MSG_SWITCHOVER_READY will be sent to src.
+
+Only until READY msg received on src could src switchover the precopy to
+dst.
+
+Then it only needs 1 more field in SaveVMHandlers rather than 3, and only 1
+more msg (dst->src).
+
+This is based on the fact that right now we always set caps on both qemus
+so I suppose it already means either both have or don't have the feature
+(even if one has, not setting the cap means disabled on both).
+
+Would it work for this case and cleaner?
 
 Thanks,
-Viktor Prutyanov
 
->
-> The rest looks good.
->
-> Thanks
->
->
-> > +        if (dev->ats_ctrl_trigger) {
-> > +            dev->ats_ctrl_trigger(dev, !!(val & PCI_ATS_CTRL_ENABLE));
-> > +        }
-> > +    }
-> > +}
-> > +
-> >   /* ACS (Access Control Services) */
-> >   void pcie_acs_init(PCIDevice *dev, uint16_t offset)
-> >   {
-> > diff --git a/include/hw/pci/pci_device.h b/include/hw/pci/pci_device.h
-> > index d3dd0f64b2..2bb1d68f3b 100644
-> > --- a/include/hw/pci/pci_device.h
-> > +++ b/include/hw/pci/pci_device.h
-> > @@ -160,6 +160,9 @@ struct PCIDevice {
-> >       /* ID of standby device in net_failover pair */
-> >       char *failover_pair_id;
-> >       uint32_t acpi_index;
-> > +
-> > +    /* PCI ATS enable/disable trigger */
-> > +    void (*ats_ctrl_trigger)(PCIDevice *dev, bool enable);
-> >   };
-> >
-> >   static inline int pci_intx(PCIDevice *pci_dev)
-> > diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-> > index 798a262a0a..5f2dbd87cf 100644
-> > --- a/include/hw/pci/pcie.h
-> > +++ b/include/hw/pci/pcie.h
-> > @@ -154,4 +154,8 @@ void pcie_cap_slot_unplug_cb(HotplugHandler *hotplu=
-g_dev, DeviceState *dev,
-> >                                Error **errp);
-> >   void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-> >                                        DeviceState *dev, Error **errp);
-> > +
-> > +void pcie_ats_config_write(PCIDevice *dev, uint32_t address, uint32_t =
-val,
-> > +                           int len);
-> > +
-> >   #endif /* QEMU_PCIE_H */
->
+-- 
+Peter Xu
+
 
