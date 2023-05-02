@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC796F499E
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE3F6F499D
 	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 20:21:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptubN-0002Ot-2n; Tue, 02 May 2023 14:19:49 -0400
+	id 1ptucA-0002ae-9z; Tue, 02 May 2023 14:20:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ptubK-0002Ob-T2
- for qemu-devel@nongnu.org; Tue, 02 May 2023 14:19:46 -0400
+ id 1ptuc1-0002Vb-UG
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 14:20:29 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ptubJ-0003GJ-99
- for qemu-devel@nongnu.org; Tue, 02 May 2023 14:19:46 -0400
+ id 1ptuc0-0003dw-48
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 14:20:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683051584;
+ s=mimecast20190719; t=1683051627;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=YEJc4Tq1KlQbHNyuVw5VlyLHjMZgeCM+wJcc8IjR+74=;
- b=KgAWXwn4x2pVkoplj6r6HwVKhP4+hbAJswYwofuJNDEYnGy6jefSby44ccypL/gA8/+GKG
- lKZlXAMPJzZOFEwHYiISKKJTF0UucuXbK0OhpXJvOjihSg8thhqvqW6Esw74xJDymkqFPW
- V4kOjHe0NvLGSiKkTq5hfrlP+pFDOzY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pSXeG57ayncN+5wWcVB6ylM8TVwpamotq6IoQaauIiI=;
+ b=L5bXsDMD7gbvZ6qqyt1Mf7SghBsXDP6GDHjRI4K0UDgNIKcTYJiPbG4tvGn3Xmw0lolh8a
+ dtmvJDp2Z5/QQI5cgd5AhM8o4tVFN+XjHu7sMLuoSfQDylbcsRbkBky8+Rk9xeMaFGfEO7
+ CyCGROJQipn+ZOSuIBB1EpgoNn4zOYY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-326-NnXY0ChBPxaXlzpvYyOdgQ-1; Tue, 02 May 2023 14:19:41 -0400
-X-MC-Unique: NnXY0ChBPxaXlzpvYyOdgQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-30635d18e55so505012f8f.2
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 11:19:40 -0700 (PDT)
+ us-mta-172-i3vVcFbUNL6Kt5Qx5Wtu7w-1; Tue, 02 May 2023 14:20:25 -0400
+X-MC-Unique: i3vVcFbUNL6Kt5Qx5Wtu7w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f348182ffcso5471005e9.3
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 11:20:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683051579; x=1685643579;
+ d=1e100.net; s=20221208; t=1683051624; x=1685643624;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YEJc4Tq1KlQbHNyuVw5VlyLHjMZgeCM+wJcc8IjR+74=;
- b=dediwZeV24kopK1qEznx9Lz9O1zcZ/l4q/G+2GWRpuOOAEHylCQJQFg1BvvbnqTR+I
- Nzv3xDbvgOysSf0IqsASs4WFZT/XJmzHCIGlYqh6d7TejU0p6eDt0npIKHP9xDOYE+Ky
- lTnUfPExoRsctCkJYMQ3OtUhZBZeh4NQaxz0pzSqzdcS2E0B+n3cS6VlcK9qXncYpZcW
- N1WuItA1tdzZazjvmVy/YiKij+ZWculKTWRDKKNdI0hn5dPPE0OI/CYJQZ8i4P6vy/LS
- VU3lig2xU330rlRzQB+6oJRLOzFxI8nHyEJO8n5GcMaZju/0y/zpW/8udV6H0VGAFqWB
- pbhg==
-X-Gm-Message-State: AC+VfDxk4zU5kDxbMTZld7aLgBVrXsoVfXgk7jiEWpIFP6UA5QxzwLcR
- NnVDvtTVE5bj02T2z2rbubYmoZJqSZJxMmVBnoJooFh37GWsWgq9UfYfcC5svX298d0+51mbeF0
- zCpXFBa3QQxUtim0=
-X-Received: by 2002:a5d:6b90:0:b0:2fc:7b62:f459 with SMTP id
- n16-20020a5d6b90000000b002fc7b62f459mr13557543wrx.32.1683051579405; 
- Tue, 02 May 2023 11:19:39 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5khlMFZGUYx2mKmu7agQsYEwCCZiFyv2VEvSlQIJQE44jWKrtDejJTNJPWt59qKLvo+Ky2GA==
-X-Received: by 2002:a5d:6b90:0:b0:2fc:7b62:f459 with SMTP id
- n16-20020a5d6b90000000b002fc7b62f459mr13557532wrx.32.1683051579065; 
- Tue, 02 May 2023 11:19:39 -0700 (PDT)
-Received: from redhat.com ([188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- z10-20020a5d654a000000b002f22c44e974sm31604011wrv.102.2023.05.02.11.19.38
+ bh=pSXeG57ayncN+5wWcVB6ylM8TVwpamotq6IoQaauIiI=;
+ b=iZ5x+wpR0jz+LhihgeRZFxzvgGWeCMcOglS+IJUB/wAGVK3ybqYQpPnRFk6X0D3yt9
+ Sdyj+MKPtjasF6clCHiMAEve3d450VLDbmW3i/OVQkSu4HcTMjwG2iwx+t3CwKhNPiXm
+ VwQGuhr22R/bFshTVqx27FE8rXn0dUgPRG5fCffaz95DRHAHJ8fW5PbHXmOPuwPLlkPB
+ mYNqX61kPwv1tx/YTiOyEMg90SMNbicVInMzMS6K1OOS6qxGD+T1DpydACaAdfa4w9a8
+ gTw6QTSj+cv5g9ABxlTE/MCeemE7VCeC1o0m1RmF8hHlUSeOtA/lMiVpNpQBIvj1K2LH
+ NOMw==
+X-Gm-Message-State: AC+VfDwnRUOFn8Wmi+y6TFdPsDA4IB3V0c6r0pu6V7mg3gDyFY1e3HCr
+ OHU9zS1ut1Oze46mWr0mZTxjMs2WQcgn05OuUX6m++hFnGVju51he3dt+5i7sWqPk8ZUnPeBrq/
+ 1mtPphprxvAE8tNc=
+X-Received: by 2002:a1c:4c0b:0:b0:3f1:82ba:b03f with SMTP id
+ z11-20020a1c4c0b000000b003f182bab03fmr12031873wmf.18.1683051624782; 
+ Tue, 02 May 2023 11:20:24 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6RrpRhxgDnCQYuhUH9gTIxMxNa/fPsTO3wCaD5sn0GAFBtXDktBwS20aMEEyFvMNVrt6s7jw==
+X-Received: by 2002:a1c:4c0b:0:b0:3f1:82ba:b03f with SMTP id
+ z11-20020a1c4c0b000000b003f182bab03fmr12031867wmf.18.1683051624607; 
+ Tue, 02 May 2023 11:20:24 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ j8-20020adff008000000b002f6176cc6desm31649153wro.110.2023.05.02.11.20.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 11:19:38 -0700 (PDT)
+ Tue, 02 May 2023 11:20:24 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Cc: qemu-devel@nongnu.org,  lukasstraub2@web.de,  chen.zhang@intel.com,
  Peter Xu <peterx@redhat.com>,  Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v4 05/10] migration: drop colo_incoming_thread from
- MigrationIncomingState
-In-Reply-To: <20230428194928.1426370-6-vsementsov@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Fri, 28 Apr 2023 22:49:23 +0300")
+Subject: Re: [PATCH v4 06/10] migration: process_incoming_migration_co:
+ simplify code flow around ret
+In-Reply-To: <20230428194928.1426370-7-vsementsov@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Fri, 28 Apr 2023 22:49:24 +0300")
 References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
- <20230428194928.1426370-6-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-7-vsementsov@yandex-team.ru>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Tue, 02 May 2023 20:19:35 +0200
-Message-ID: <877ctqtx3c.fsf@secure.mitica>
+Date: Tue, 02 May 2023 20:20:20 +0200
+Message-ID: <871qjytx23.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -102,9 +103,6 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> have_colo_incoming_thread variable is unused. colo_incoming_thread can
-> be local.
->
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
