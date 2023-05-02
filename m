@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23456F4384
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3C76F4394
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:19:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptoua-0003lW-I6; Tue, 02 May 2023 08:15:16 -0400
+	id 1ptouY-0003kY-0n; Tue, 02 May 2023 08:15:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptouV-0003kA-Kg
+ id 1ptouU-0003jx-Uo
  for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:11 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptouN-0002zl-CS
- for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:11 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f1e2555b5aso23993325e9.0
+ id 1ptouN-0002zo-OZ
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:10 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f1728c2a57so37070605e9.0
  for <qemu-devel@nongnu.org>; Tue, 02 May 2023 05:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683029701; x=1685621701;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=a1T+JdFgle2qar7hfdtcGiZWGi+Z2TGQmR9bm+IBt4A=;
- b=Xa+QtDTfP4QpjKUsYJNRi5ljI8glOBxZJVo/wIxundsIVvpJvevz+FKUoMpj0hjhx3
- F1sf+3UNp9zGOQFKlJIQZxUrK7usNqQb4SBuKvlEyid7OmIvBkkcl/V+1Jt5102JD+7V
- yvHKO+NYjBSEOktAfIr51wWJitrQUCuc1mRSIVcwZjq4SE0fp8di7XO442spx8tFeJu6
- y7T1FlKY/I2Fwz6dRhETmfQYTOmmmmEvUHSxpk3OpSbrGfNQeNnZ0JC/bwnQFVMT8g7f
- 7Dn9kYfDgzUa/Lc4ljHhGfCEEI6rIjkCJ07x0kH2nZq9nCbDTJKywIpWcseYmyPJLLsG
- vwEg==
+ d=linaro.org; s=google; t=1683029702; x=1685621702;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=CCCojPHzYe9gvu9iHG0xBFNnZ/c4qr7acS+DdF4LSn0=;
+ b=sS0FOiJnExOJJ6GncyQ2xFD2PIivFvmWTbJNFigQ0cnMkaexdsfYY5Cwnqb7CmxGDe
+ dc+xKDebot3sSTyXDIffWTFERq3mr7+3IUU2z4gRJhvzpsQtsAR0azqA/eNDVs0Rv5Jk
+ WCB8nV+91vd7aI61lVeIFviCUi4JWFlJYxghXmpXUVswPjhA3/AeAKyGs0eJt8DzkUeA
+ 2f26f2FElya32xd/GXCYb7F0Kwc+sST4JjGcaWyOUhqDCik8thWacN8DuS0kJdJLn7m+
+ ukCCMfZ3FvJCJcwfZrHp7Jo4Mov49r0QEzIfupU382GtMwwKibYiIPDQ+HxB8qAKQ0LL
+ A9fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683029701; x=1685621701;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a1T+JdFgle2qar7hfdtcGiZWGi+Z2TGQmR9bm+IBt4A=;
- b=R/HcdhT7MYJLpWN3tRiT85Lex3M8DfEaIqDFFnqax1Zr57hRnnY1n0fxMDkBFJXtnj
- N1aHTg4iz5ik6VbZW9QGmjcy694di0IRxCz5DfzYWbeR9zbWQYu8AultE4aWlfYx8A1e
- 08jrWAj3UNXu/ATY9hSMAlfx/ZbfVvmGEd4kUe25DcKS6mydxRTSmBwgGBLwmA/EW2FJ
- bWJ3UJYlTYv+0ClhsfuvSVi0La091em0L58x55OkdzJvSeNtOlMwIHeMgBke6pXaZTK4
- bSvuqvJGvsDLtfuCFpIys+TXzI/Xtjme/0ySFRnXEQ1eU/Wi/BCyQhHdqK4mmwR0J1Vv
- SMYA==
-X-Gm-Message-State: AC+VfDzNTnfcklcJMIPcvE3nBc0kMX16ysfOnGnm7eKSqZGiB2ie34Fe
- fj04ApMbPNxc9epF9Abe9Dfl382cCo/ROzptf0Y=
-X-Google-Smtp-Source: ACHHUZ6ZLZG8FOjOmDb6aScroJx6WIszc0rYPTgAMp0qbH4cbvVsQK3aG+ug6Pzi5bLVGPm/wHBrGw==
-X-Received: by 2002:a1c:7404:0:b0:3f1:92aa:4eb8 with SMTP id
- p4-20020a1c7404000000b003f192aa4eb8mr12901014wmc.16.1683029701174; 
+ d=1e100.net; s=20221208; t=1683029702; x=1685621702;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CCCojPHzYe9gvu9iHG0xBFNnZ/c4qr7acS+DdF4LSn0=;
+ b=GTesDtsPWFbXqxLykAHku81Nsv1bwGsDeAaf3+7TN9rLkSvRsUWkqOYcdaJAOZuFNe
+ Q8/JuQJOWLAjN73j4mS3okf4o4NRPPm0M5VP3fuDj3zi4Sxm/uOgdpjZHbWKfoTJCcii
+ vFbMkT52V+d9COfre/9t6XmzNO9pPMeeECPKFWfTHlxm7iEs3HV+4CshExC0qDzI2H6i
+ kDPDnswmS7gMpSIIYZhuvxCJJZziXgNyoA9udYc2UqC3jDENko7i0ddFprR2jd+HxXaG
+ 2dZU2YICEv3SrpA920VpZGe8cdDp4c7gPXa1/xQSZacm1ySrVVH6kI7iKSRzH3pTPefT
+ St4Q==
+X-Gm-Message-State: AC+VfDwDjidDPPDKqzBwIyjjhls8TGVGgptMmE+hJNGphJrzxiuCp2z0
+ 4xIwnhloVBxy2Xh5yvZsgipPSL763UyYke4PYhw=
+X-Google-Smtp-Source: ACHHUZ6/0u1PQVjNa5kyiRxCQK11pSqpvUkCnMvQptua+KNxfFCttpRS0o3auUS60XJX1sNNkhGc1w==
+X-Received: by 2002:a1c:7502:0:b0:3ee:36f:3485 with SMTP id
+ o2-20020a1c7502000000b003ee036f3485mr13006691wmc.8.1683029701622; 
  Tue, 02 May 2023 05:15:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- g10-20020a7bc4ca000000b003f171234a08sm35040330wmk.20.2023.05.02.05.15.00
+ g10-20020a7bc4ca000000b003f171234a08sm35040330wmk.20.2023.05.02.05.15.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 05:15:00 -0700 (PDT)
+ Tue, 02 May 2023 05:15:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/35] target-arm queue
-Date: Tue,  2 May 2023 13:14:24 +0100
-Message-Id: <20230502121459.2422303-1-peter.maydell@linaro.org>
+Subject: [PULL 01/35] target/arm: Move cortex sysregs into a separate file
+Date: Tue,  2 May 2023 13:14:25 +0100
+Message-Id: <20230502121459.2422303-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230502121459.2422303-1-peter.maydell@linaro.org>
+References: <20230502121459.2422303-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,149 +91,230 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi; here's an arm pullreq. The big bits here are Fabiano's
-CONFIG_TCG=n patches and my set that deprecate -singlestep;
-other than that there's a collection of smaller bugfixes.
+From: Fabiano Rosas <farosas@suse.de>
 
-thanks
--- PMM
+The file cpu_tcg.c is about to be moved into the tcg/ directory, so
+move the register definitions into a new file.
 
-The following changes since commit 7c18f2d663521f1b31b821a13358ce38075eaf7d:
+Also move the function declaration to the more appropriate cpregs.h.
 
-  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-04-29 23:07:17 +0100)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230502-1
-
-for you to fetch changes up to 0ab99e4252f21550f2c16f859cbcdd3cced9f8bf:
-
-  hw/net/allwinner-sun8i-emac: Correctly byteswap descriptor fields (2023-05-02 13:10:42 +0100)
-
-----------------------------------------------------------------
- * Support building Arm targets with CONFIG_TCG=no (ie KVM only)
- * hw/net: npcm7xx_emc: set MAC in register space
- * hw/arm/bcm2835_property: Implement "get command line" message
- * Deprecate the '-singlestep' command line option in favour of
-   '-one-insn-per-tb' and '-accel one-insn-per-tb=on'
- * Deprecate 'singlestep' member of QMP StatusInfo struct
- * docs/about/deprecated.rst: Add "since 7.1" tag to dtb-kaslr-seed deprecation
- * hw/net/msf2-emac: Don't modify descriptor in-place in emac_store_desc()
- * raspi, aspeed: Write bootloader code correctly on big-endian hosts
- * hw/intc/allwinner-a10-pic: Fix bug on big-endian hosts
- * Fix bug in A32 ERET on big-endian hosts that caused guest crash
- * hw/sd/allwinner-sdhost: Correctly byteswap descriptor fields
- * hw/net/allwinner-sun8i-emac: Correctly byteswap descriptor fields
-
-----------------------------------------------------------------
-Claudio Fontana (1):
-      target/arm: move cpu_tcg to tcg/cpu32.c
-
-Cédric Le Goater (2):
-      hw/arm/boot: Make write_bootloader() public as arm_write_bootloader()
-      hw/arm/aspeed: Use arm_write_bootloader() to write the bootloader
-
-Daniel Bertalan (1):
-      hw/arm/bcm2835_property: Implement "get command line" message
-
-Fabiano Rosas (11):
-      target/arm: Move cortex sysregs into a separate file
-      target/arm: Remove dead code from cpu_max_set_sve_max_vq
-      target/arm: Extract TCG -cpu max code into a function
-      target/arm: Do not expose all -cpu max features to qtests
-      target/arm: Move 64-bit TCG CPUs into tcg/
-      tests/qtest: Adjust and document query-cpu-model-expansion test for arm
-      tests/qtest: Fix tests when no KVM or TCG are present
-      tests/avocado: Pass parameters to migration test
-      arm/Kconfig: Always select SEMIHOSTING when TCG is present
-      arm/Kconfig: Do not build TCG-only boards on a KVM-only build
-      tests/qtest: Restrict tpm-tis-i2c-test to CONFIG_TCG
-
-Patrick Venture (1):
-      hw/net: npcm7xx_emc: set MAC in register space
-
-Peter Maydell (18):
-      make one-insn-per-tb an accel option
-      softmmu: Don't use 'singlestep' global in QMP and HMP commands
-      accel/tcg: Use one_insn_per_tb global instead of old singlestep global
-      linux-user: Add '-one-insn-per-tb' option equivalent to '-singlestep'
-      bsd-user: Add '-one-insn-per-tb' option equivalent to '-singlestep'
-      Document that -singlestep command line option is deprecated
-      accel/tcg: Report one-insn-per-tb in 'info jit', not 'info status'
-      hmp: Add 'one-insn-per-tb' command equivalent to 'singlestep'
-      qapi/run-state.json: Fix missing newline at end of file
-      qmp: Deprecate 'singlestep' member of StatusInfo
-      docs/about/deprecated.rst: Add "since 7.1" tag to dtb-kaslr-seed deprecation
-      hw/net/msf2-emac: Don't modify descriptor in-place in emac_store_desc()
-      hw/arm/raspi: Use arm_write_bootloader() to write boot code
-      hw/intc/allwinner-a10-pic: Don't use set_bit()/clear_bit()
-      target/arm: Define and use new load_cpu_field_low32()
-      target/arm: Add compile time asserts to load/store_cpu_field macros
-      hw/sd/allwinner-sdhost: Correctly byteswap descriptor fields
-      hw/net/allwinner-sun8i-emac: Correctly byteswap descriptor fields
-
-Philippe Mathieu-Daudé (1):
-      gitlab-ci: Check building KVM-only aarch64 target
-
- docs/about/deprecated.rst                          |  43 +-
- docs/user/main.rst                                 |  14 +-
- configs/devices/aarch64-softmmu/default.mak        |   4 -
- configs/devices/arm-softmmu/default.mak            |  39 --
- qapi/run-state.json                                |  16 +-
- accel/tcg/internal.h                               |   2 +
- include/exec/cpu-common.h                          |   2 -
- include/hw/arm/boot.h                              |  49 ++
- include/hw/misc/bcm2835_property.h                 |   1 +
- include/monitor/hmp.h                              |   2 +-
- target/arm/cpregs.h                                |   6 +
- target/arm/internals.h                             |  10 +-
- target/arm/translate-a32.h                         |  24 +-
- accel/tcg/cpu-exec.c                               |   2 +-
- accel/tcg/monitor.c                                |  14 +
- accel/tcg/tcg-all.c                                |  23 +
- bsd-user/main.c                                    |  14 +-
- hw/arm/aspeed.c                                    |  38 +-
- hw/arm/bcm2835_peripherals.c                       |   2 +
- hw/arm/bcm2836.c                                   |   2 +
- hw/arm/boot.c                                      |  35 +-
- hw/arm/raspi.c                                     |  66 +-
- hw/arm/virt.c                                      |   6 +-
- hw/intc/allwinner-a10-pic.c                        |   7 +-
- hw/misc/bcm2835_property.c                         |  13 +-
- hw/net/allwinner-sun8i-emac.c                      |  22 +-
- hw/net/msf2-emac.c                                 |  16 +-
- hw/net/npcm7xx_emc.c                               |  32 +-
- hw/sd/allwinner-sdhost.c                           |  31 +-
- linux-user/main.c                                  |  18 +-
- softmmu/globals.c                                  |   1 -
- softmmu/runstate-hmp-cmds.c                        |  25 +-
- softmmu/runstate.c                                 |  10 +-
- softmmu/vl.c                                       |  17 +-
- target/arm/cortex-regs.c                           |  69 ++
- target/arm/cpu64.c                                 | 702 +-------------------
- target/arm/{cpu_tcg.c => tcg/cpu32.c}              |  72 +-
- target/arm/tcg/cpu64.c                             | 723 +++++++++++++++++++++
- target/arm/tcg/translate.c                         |   4 +-
- tests/qtest/arm-cpu-features.c                     |  20 +-
- tests/qtest/bios-tables-test.c                     |  11 +-
- tests/qtest/boot-serial-test.c                     |   5 +
- tests/qtest/migration-test.c                       |   9 +-
- tests/qtest/pxe-test.c                             |   8 +-
- tests/qtest/test-hmp.c                             |   1 +
- tests/qtest/vmgenid-test.c                         |   9 +-
- .gitlab-ci.d/crossbuilds.yml                       |  11 +
- .../custom-runners/ubuntu-22.04-aarch64.yml        |   4 -
- hmp-commands.hx                                    |  25 +-
- hw/arm/Kconfig                                     |  43 +-
- qemu-options.hx                                    |  12 +-
- target/arm/Kconfig                                 |   7 +
- target/arm/meson.build                             |   2 +-
- target/arm/tcg/meson.build                         |   2 +
- tcg/tci/README                                     |   2 +-
- tests/avocado/migration.py                         |  83 ++-
- tests/qtest/meson.build                            |   3 +-
- 57 files changed, 1449 insertions(+), 984 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20230426180013.14814-2-farosas@suse.de
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpregs.h      |  6 ++++
+ target/arm/internals.h   |  6 ----
+ target/arm/cortex-regs.c | 69 ++++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu64.c       |  1 +
+ target/arm/cpu_tcg.c     | 59 ----------------------------------
+ target/arm/meson.build   |  1 +
+ 6 files changed, 77 insertions(+), 65 deletions(-)
  create mode 100644 target/arm/cortex-regs.c
- rename target/arm/{cpu_tcg.c => tcg/cpu32.c} (93%)
- create mode 100644 target/arm/tcg/cpu64.c
+
+diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
+index 1ee64e99de8..b04d344a9f4 100644
+--- a/target/arm/cpregs.h
++++ b/target/arm/cpregs.h
+@@ -1071,4 +1071,10 @@ static inline bool arm_cpreg_in_idspace(const ARMCPRegInfo *ri)
+                                       ri->crn, ri->crm);
+ }
+ 
++#ifdef CONFIG_USER_ONLY
++static inline void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu) { }
++#else
++void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu);
++#endif
++
+ #endif /* TARGET_ARM_CPREGS_H */
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index c2c70d5918d..b73c540e7e0 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1376,12 +1376,6 @@ uint32_t arm_v7m_mrs_control(CPUARMState *env, uint32_t secure);
+ uint32_t *arm_v7m_get_sp_ptr(CPUARMState *env, bool secure,
+                              bool threadmode, bool spsel);
+ 
+-#ifdef CONFIG_USER_ONLY
+-static inline void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu) { }
+-#else
+-void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu);
+-#endif
+-
+ bool el_is_in_host(CPUARMState *env, int el);
+ 
+ void aa32_max_features(ARMCPU *cpu);
+diff --git a/target/arm/cortex-regs.c b/target/arm/cortex-regs.c
+new file mode 100644
+index 00000000000..17708480e75
+--- /dev/null
++++ b/target/arm/cortex-regs.c
+@@ -0,0 +1,69 @@
++/*
++ * ARM Cortex-A registers
++ *
++ * This code is licensed under the GNU GPL v2 or later.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "cpregs.h"
++
++
++static uint64_t l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    ARMCPU *cpu = env_archcpu(env);
++
++    /* Number of cores is in [25:24]; otherwise we RAZ */
++    return (cpu->core_count - 1) << 24;
++}
++
++static const ARMCPRegInfo cortex_a72_a57_a53_cp_reginfo[] = {
++    { .name = "L2CTLR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 11, .crm = 0, .opc2 = 2,
++      .access = PL1_RW, .readfn = l2ctlr_read,
++      .writefn = arm_cp_write_ignore },
++    { .name = "L2CTLR",
++      .cp = 15, .opc1 = 1, .crn = 9, .crm = 0, .opc2 = 2,
++      .access = PL1_RW, .readfn = l2ctlr_read,
++      .writefn = arm_cp_write_ignore },
++    { .name = "L2ECTLR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 11, .crm = 0, .opc2 = 3,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "L2ECTLR",
++      .cp = 15, .opc1 = 1, .crn = 9, .crm = 0, .opc2 = 3,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "L2ACTLR", .state = ARM_CP_STATE_BOTH,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 0, .opc2 = 0,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "CPUACTLR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 0,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "CPUACTLR",
++      .cp = 15, .opc1 = 0, .crm = 15,
++      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
++    { .name = "CPUECTLR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 1,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "CPUECTLR",
++      .cp = 15, .opc1 = 1, .crm = 15,
++      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
++    { .name = "CPUMERRSR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 2,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "CPUMERRSR",
++      .cp = 15, .opc1 = 2, .crm = 15,
++      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
++    { .name = "L2MERRSR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 3,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "L2MERRSR",
++      .cp = 15, .opc1 = 3, .crm = 15,
++      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
++};
++
++void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu)
++{
++    define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
++}
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 735ca541634..76891c92883 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -30,6 +30,7 @@
+ #include "qapi/visitor.h"
+ #include "hw/qdev-properties.h"
+ #include "internals.h"
++#include "cpregs.h"
+ 
+ static void aarch64_a35_initfn(Object *obj)
+ {
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 1911d7ec47f..15aa88e40fe 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -93,65 +93,6 @@ void aa32_max_features(ARMCPU *cpu)
+     cpu->isar.id_dfr0 = t;
+ }
+ 
+-#ifndef CONFIG_USER_ONLY
+-static uint64_t l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+-{
+-    ARMCPU *cpu = env_archcpu(env);
+-
+-    /* Number of cores is in [25:24]; otherwise we RAZ */
+-    return (cpu->core_count - 1) << 24;
+-}
+-
+-static const ARMCPRegInfo cortex_a72_a57_a53_cp_reginfo[] = {
+-    { .name = "L2CTLR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 11, .crm = 0, .opc2 = 2,
+-      .access = PL1_RW, .readfn = l2ctlr_read,
+-      .writefn = arm_cp_write_ignore },
+-    { .name = "L2CTLR",
+-      .cp = 15, .opc1 = 1, .crn = 9, .crm = 0, .opc2 = 2,
+-      .access = PL1_RW, .readfn = l2ctlr_read,
+-      .writefn = arm_cp_write_ignore },
+-    { .name = "L2ECTLR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 11, .crm = 0, .opc2 = 3,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "L2ECTLR",
+-      .cp = 15, .opc1 = 1, .crn = 9, .crm = 0, .opc2 = 3,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "L2ACTLR", .state = ARM_CP_STATE_BOTH,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 0, .opc2 = 0,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "CPUACTLR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 0,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "CPUACTLR",
+-      .cp = 15, .opc1 = 0, .crm = 15,
+-      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+-    { .name = "CPUECTLR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 1,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "CPUECTLR",
+-      .cp = 15, .opc1 = 1, .crm = 15,
+-      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+-    { .name = "CPUMERRSR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 2,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "CPUMERRSR",
+-      .cp = 15, .opc1 = 2, .crm = 15,
+-      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+-    { .name = "L2MERRSR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 3,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "L2MERRSR",
+-      .cp = 15, .opc1 = 3, .crm = 15,
+-      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+-};
+-
+-void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu)
+-{
+-    define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
+-}
+-#endif /* !CONFIG_USER_ONLY */
+-
+ /* CPU models. These are not needed for the AArch64 linux-user build. */
+ #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+ 
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 6226098ad56..3469926295c 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -21,6 +21,7 @@ arm_softmmu_ss.add(files(
+   'arch_dump.c',
+   'arm-powerctl.c',
+   'arm-qmp-cmds.c',
++  'cortex-regs.c',
+   'machine.c',
+   'ptw.c',
+ ))
+-- 
+2.34.1
+
 
