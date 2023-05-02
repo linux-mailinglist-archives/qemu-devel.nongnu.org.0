@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BA06F4D23
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 00:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880E86F4D45
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 00:55:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptyoi-0006fH-SY; Tue, 02 May 2023 18:49:52 -0400
+	id 1ptytV-0007h2-2n; Tue, 02 May 2023 18:54:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ptyoU-0006ex-2Z
- for qemu-devel@nongnu.org; Tue, 02 May 2023 18:49:39 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ptytS-0007gp-TY
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 18:54:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ptyoS-0005IF-9j
- for qemu-devel@nongnu.org; Tue, 02 May 2023 18:49:37 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ptytQ-0002Am-G9
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 18:54:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683067774;
+ s=mimecast20190719; t=1683068083;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=O309kQs7TgMZ+myas8H6F+51aBgxrmpTeWVmYnDgEZY=;
- b=A6MmycqGzaPTvH/1PXRxilZ710y5lCGZGPYwFHGGMXN59tB7eOpcdR9T9J6S/blScHZpCM
- /TnjpTw38RONwMzTabhT4kgYw8tHZctn+oVlxR3pFQG/HF5atYa7A+DTJRmdEUPdxZbRCD
- HPxhhhmrUUkZS9RswcFNA5yi8XWzniY=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QQ35PV49n9YC6twCMTvQC3XIaEYQPbWy1XFW5viQX44=;
+ b=iACIPFu6OwTnqSyQZ24mdM5f9tDgZ1jNTQ+mErhf4Tsu/CedLxCWbEsoijH4s3xnxBXwvH
+ cePEf33Dm6z/+hsRDGs3WgMV2/LbfHXLNB6gZrmctjt9QxBGzrxDSsqpix11fWB/9Duj9o
+ 7z6RrD9nFpccBF3mQcRqhcWv8FuxUms=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-275-Z9S4ltsqPMe7bS8T63DRyg-1; Tue, 02 May 2023 18:49:33 -0400
-X-MC-Unique: Z9S4ltsqPMe7bS8T63DRyg-1
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-3ed767b30easo7414441cf.1
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 15:49:33 -0700 (PDT)
+ us-mta-117-uHm3AqlNP1CLuKIabk8Bsg-1; Tue, 02 May 2023 18:54:42 -0400
+X-MC-Unique: uHm3AqlNP1CLuKIabk8Bsg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-3ef2cb3bfbfso12942741cf.0
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 15:54:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683067773; x=1685659773;
+ d=1e100.net; s=20221208; t=1683068081; x=1685660081;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O309kQs7TgMZ+myas8H6F+51aBgxrmpTeWVmYnDgEZY=;
- b=QzChyzPjixhu8MR0QxQiP/pVnZ26c9pT1G9LNMqtYNpPX6Z62GHq7njrredlVoEYXN
- Aljytwo7sfOrNd7hpL8+nWF2BLlyzwPx41InZLuqxJu0s2n4rt2D1GpRUlpdy4Oq7tUj
- zBG8vDn+E64HwHTk4lYRdpC20Q+9m+/3z+xZoDdOfAIBFy1/PreU+cuLnsodIHnXiLFf
- 2lfOkUm1H01O2fy7I5lxHpld9CO8/I+T0JT/UbpzDmapyoVAbNBa3mgVvvQIXiYdH7Jn
- RNYMSesa++slVVW3/TKsMXuxcMAsjDVsKlOo9WnNzbV+88IjJ2H2SmZnVptCTZU6wTIV
- eQSQ==
-X-Gm-Message-State: AC+VfDz2hZVYOuT7XKoD/TUAmbqcoHUMu1oJ/yeb8ph9WlpiLV2RHQwZ
- p4PIzvGpTirKz0FJbS6ZCY897sRRHPX3Ll6rfXBghHYOAu/JpySGK8iod0+NBseVgjTsKBmFyj+
- ZZLTwpz+I7a4iDeA=
-X-Received: by 2002:ac8:7f0d:0:b0:3ef:3281:fb5c with SMTP id
- f13-20020ac87f0d000000b003ef3281fb5cmr6440433qtk.2.1683067772777; 
- Tue, 02 May 2023 15:49:32 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5TQZduwqqNl9YqA4BnoB9V4kLU37BsCgh+DpX6mBibrzB6DMajgaedg7RPxo2oD1Ga7YmR0w==
-X-Received: by 2002:ac8:7f0d:0:b0:3ef:3281:fb5c with SMTP id
- f13-20020ac87f0d000000b003ef3281fb5cmr6440402qtk.2.1683067772496; 
- Tue, 02 May 2023 15:49:32 -0700 (PDT)
+ bh=QQ35PV49n9YC6twCMTvQC3XIaEYQPbWy1XFW5viQX44=;
+ b=DMAHBoTQomwyRFdWgBgvEzfSpwnoVbWKTqGcBs4ifcmsPsZRDJXdsVd+edNmNrMaFj
+ iW9KThc2AyzjTB3yOefK9Ud6XM+PvYtDWvkY+3CWFFZwD0u6ztWDxWzsNCreNEjibAW+
+ /YmtB3n8k1Nth8Zq23yDF7CguAEAhee/Xpqkg1YeG152r4zbjtT5KKte1tckg8UhssnT
+ mrUKysA4YGb9FtfQ6UyhXuzlk4YGVWR14pEljVLcs5+FViYVielVsvRRmKV928/i4j0Y
+ WLbEj1rE/irVLthR/wk1f6FFMtf8JyiWWRheI/MEwK0ilOHQCG6uGnVrtrLbetRGqRFf
+ VfYw==
+X-Gm-Message-State: AC+VfDxsnUO+M5aJboMOcZ0FHaPCrHeM6OVUy9OV5U0lEZQlUOi/Ke84
+ 3xIq5A4JKCw2JMtVzJk53u/x5I2a4Lt5NcD35echdxwaMOQK6BYTbKwYJgpZm0x7Lig0rNzLw5o
+ sGYl5yGZRO21vVi8=
+X-Received: by 2002:a05:622a:30d:b0:3ef:4a8e:cb84 with SMTP id
+ q13-20020a05622a030d00b003ef4a8ecb84mr24262927qtw.2.1683068081497; 
+ Tue, 02 May 2023 15:54:41 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7CavXkezLLyadjbgGLwa6Ekm3ds2sZfsvIkhM0rVlwn5y6POyAmdwvtDGjo6Cm5vDOjQ/XjA==
+X-Received: by 2002:a05:622a:30d:b0:3ef:4a8e:cb84 with SMTP id
+ q13-20020a05622a030d00b003ef4a8ecb84mr24262902qtw.2.1683068081107; 
+ Tue, 02 May 2023 15:54:41 -0700 (PDT)
 Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
  [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- 201-20020a3706d2000000b0074e26158cf2sm7730942qkg.93.2023.05.02.15.49.31
+ t35-20020a05622a182300b003e3895903bfsm10777241qtc.8.2023.05.02.15.54.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 15:49:31 -0700 (PDT)
-Date: Tue, 2 May 2023 18:49:30 -0400
+ Tue, 02 May 2023 15:54:40 -0700 (PDT)
+Date: Tue, 2 May 2023 18:54:38 -0400
 From: Peter Xu <peterx@redhat.com>
 To: Avihai Horon <avihaih@nvidia.com>
 Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
@@ -73,14 +73,14 @@ Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
  Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH 0/8] migration: Add precopy initial data capability and
- VFIO precopy support
-Message-ID: <ZFGTerErJWnWHD6/@x1n>
+Subject: Re: [PATCH 2/8] migration: Add precopy initial data handshake
+Message-ID: <ZFGUriGbwleLEIcm@x1n>
 References: <20230501140141.11743-1-avihaih@nvidia.com>
+ <20230501140141.11743-3-avihaih@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230501140141.11743-1-avihaih@nvidia.com>
+In-Reply-To: <20230501140141.11743-3-avihaih@nvidia.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -105,86 +105,279 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 01, 2023 at 05:01:33PM +0300, Avihai Horon wrote:
-> Hello everyone,
+(I've left high level comment in cover letter, but still some quick
+comments I noticed when reading)
 
-Hi, Avihai,
-
-> === Flow of operation ===
+On Mon, May 01, 2023 at 05:01:35PM +0300, Avihai Horon wrote:
+> Add precopy initial data handshake between source and destination upon
+> migration setup. The purpose of the handshake is to notify the
+> destination that precopy initial data is used and which migration users
+> (i.e., SaveStateEntry) are going to use it.
 > 
-> To use precopy initial data, the capability must be enabled in the
-> source.
-> 
-> As this capability must be supported also in the destination, a
-> handshake is performed during migration setup. The purpose of the
-> handshake is to notify the destination that precopy initial data is used
-> and to check if it's supported.
-> 
-> The handshake is done in two levels. First, a general handshake is done
-> with the destination migration code to notify that precopy initial data
-> is used. Then, for each migration user in the source that supports
-> precopy initial data, a handshake is done with its counterpart in the
+> The handshake is done in two levels. First, a general enable command is
+> sent to notify the destination migration code that precopy initial data
+> is used.
+> Then, for each migration user in the source that supports precopy
+> initial data, an enable command is sent to its counterpart in the
 > destination:
 > If both support it, precopy initial data will be used for them.
 > If source doesn't support it, precopy initial data will not be used for
 > them.
 > If source supports it and destination doesn't, migration will be failed.
 > 
-> Assuming the handshake succeeded, migration starts to send precopy data
-> and as part of it also the initial precopy data. Initial precopy data is
-> just like any other precopy data and as such, migration code is not
-> aware of it. Therefore, it's the responsibility of the migration users
-> (such as VFIO devices) to notify their counterparts in the destination
-> that their initial precopy data has been sent (for example, VFIO
-> migration does it when its initial bytes reach zero).
+> To implement it, a new migration command MIG_CMD_INITIAL_DATA_ENABLE is
+> added, as well as a new SaveVMHandlers handler initial_data_advise.
+> Calling the handler advises the migration user that precopy initial data
+> is used and its return value indicates whether precopy initial data is
+> supported by it.
 > 
-> In the destination, migration code will query each migration user that
-> supports precopy initial data and check if its initial data has been
-> loaded. If initial data has been loaded by all of them, an ACK will be
-> sent to the source which will now be able to complete migration when
-> appropriate.
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> ---
+>  include/migration/register.h |   6 +++
+>  migration/migration.h        |   3 ++
+>  migration/savevm.h           |   1 +
+>  migration/migration.c        |   4 ++
+>  migration/savevm.c           | 102 +++++++++++++++++++++++++++++++++++
+>  migration/trace-events       |   2 +
+>  6 files changed, 118 insertions(+)
+> 
+> diff --git a/include/migration/register.h b/include/migration/register.h
+> index a8dfd8fefd..0a73f3883e 100644
+> --- a/include/migration/register.h
+> +++ b/include/migration/register.h
+> @@ -71,6 +71,12 @@ typedef struct SaveVMHandlers {
+>      int (*load_cleanup)(void *opaque);
+>      /* Called when postcopy migration wants to resume from failure */
+>      int (*resume_prepare)(MigrationState *s, void *opaque);
+> +
+> +    /*
+> +     * Advises that precopy initial data was requested to be enabled. Returns
+> +     * true if it's supported or false otherwise. Called both in src and dest.
+> +     */
+> +    bool (*initial_data_advise)(void *opaque);
+>  } SaveVMHandlers;
+>  
+>  int register_savevm_live(const char *idstr,
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 3a918514e7..4f615e9dbc 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -204,6 +204,9 @@ struct MigrationIncomingState {
+>       * contains valid information.
+>       */
+>      QemuMutex page_request_mutex;
+> +
+> +    /* Indicates whether precopy initial data was enabled and should be used */
+> +    bool initial_data_enabled;
+>  };
+>  
+>  MigrationIncomingState *migration_incoming_get_current(void);
+> diff --git a/migration/savevm.h b/migration/savevm.h
+> index fb636735f0..d47ab4ad18 100644
+> --- a/migration/savevm.h
+> +++ b/migration/savevm.h
+> @@ -58,6 +58,7 @@ void qemu_savevm_send_postcopy_ram_discard(QEMUFile *f, const char *name,
+>                                             uint64_t *start_list,
+>                                             uint64_t *length_list);
+>  void qemu_savevm_send_colo_enable(QEMUFile *f);
+> +void qemu_savevm_send_initial_data_enable(MigrationState *ms, QEMUFile *f);
+>  void qemu_savevm_live_state(QEMUFile *f);
+>  int qemu_save_device_state(QEMUFile *f);
+>  
+> diff --git a/migration/migration.c b/migration/migration.c
+> index abcadbb619..68cdf5b184 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2964,6 +2964,10 @@ static void *migration_thread(void *opaque)
+>          qemu_savevm_send_colo_enable(s->to_dst_file);
+>      }
+>  
+> +    if (migrate_precopy_initial_data()) {
+> +        qemu_savevm_send_initial_data_enable(s, s->to_dst_file);
+> +    }
+> +
+>      qemu_savevm_state_setup(s->to_dst_file);
+>  
+>      qemu_savevm_wait_unplug(s, MIGRATION_STATUS_SETUP,
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index a9181b444b..2740defdf0 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -71,6 +71,13 @@
+>  
+>  const unsigned int postcopy_ram_discard_version;
+>  
+> +typedef struct {
+> +    uint8_t general_enable;
+> +    uint8_t reserved[7];
+> +    uint8_t idstr[256];
+> +    uint32_t instance_id;
+> +} InitialDataInfo;
+> +
+>  /* Subcommands for QEMU_VM_COMMAND */
+>  enum qemu_vm_cmd {
+>      MIG_CMD_INVALID = 0,   /* Must be 0 */
+> @@ -90,6 +97,8 @@ enum qemu_vm_cmd {
+>      MIG_CMD_ENABLE_COLO,       /* Enable COLO */
+>      MIG_CMD_POSTCOPY_RESUME,   /* resume postcopy on dest */
+>      MIG_CMD_RECV_BITMAP,       /* Request for recved bitmap on dst */
+> +
+> +    MIG_CMD_INITIAL_DATA_ENABLE, /* Enable precopy initial data in dest */
+>      MIG_CMD_MAX
+>  };
+>  
+> @@ -109,6 +118,8 @@ static struct mig_cmd_args {
+>      [MIG_CMD_POSTCOPY_RESUME]  = { .len =  0, .name = "POSTCOPY_RESUME" },
+>      [MIG_CMD_PACKAGED]         = { .len =  4, .name = "PACKAGED" },
+>      [MIG_CMD_RECV_BITMAP]      = { .len = -1, .name = "RECV_BITMAP" },
+> +    [MIG_CMD_INITIAL_DATA_ENABLE] = { .len = sizeof(InitialDataInfo),
+> +                                      .name = "INITIAL_DATA_ENABLE" },
+>      [MIG_CMD_MAX]              = { .len = -1, .name = "MAX" },
+>  };
+>  
+> @@ -1036,6 +1047,40 @@ static void qemu_savevm_command_send(QEMUFile *f,
+>      qemu_fflush(f);
+>  }
+>  
+> +void qemu_savevm_send_initial_data_enable(MigrationState *ms, QEMUFile *f)
+> +{
+> +    SaveStateEntry *se;
+> +    InitialDataInfo buf;
+> +
+> +    /* Enable precopy initial data generally in the migration */
+> +    memset(&buf, 0, sizeof(buf));
+> +    buf.general_enable = 1;
+> +    qemu_savevm_command_send(f, MIG_CMD_INITIAL_DATA_ENABLE, sizeof(buf),
+> +                             (uint8_t *)&buf);
+> +    trace_savevm_send_initial_data_enable(buf.general_enable, (char *)buf.idstr,
+> +                                          buf.instance_id);
 
-I can understand why this is useful, what I'm not 100% sure is whether the
-complexity is needed.  The idea seems to be that src never switchover
-unless it receives a READY notification from dst.
+Maybe a generalized helper would be nice here to send one
+MIG_CMD_INITIAL_DATA_ENABLE packet, then it can be used below too.
 
-I'm imaging below simplified and more general workflow, not sure whether it
-could work for you:
+Here instance_id is multi-bytes, we may want to consider endianess.  it
+seems the common way is use big endian over the wire for qemu migration
+msgs.
 
-  - Introduce a new cap "switchover-ready", it means whether there'll be a
-    ready event sent from dst -> src for "being ready for switchover"
-
-  - When cap set, a new msg MIG_RP_MSG_SWITCHOVER_READY is defined and
-    handled on src showing that dest is ready for switchover. It'll be sent
-    only if dest is ready for the switchover
-
-  - Introduce a field SaveVMHandlers.explicit_switchover_needed.  For each
-    special device like vfio that would like to participate in the decision
-    making, device can set its explicit_switchover_needed=1.  This field is
-    ignored if the new cap is not set.
-
-  - Dst qemu: when new cap set, remember how many special devices are there
-    requesting explicit switchover (count of SaveVMHandlers that has the
-    bit set during load setup) as switch_over_pending=N.
-
-  - Dst qemu: Once a device thinks its fine to switchover (probably in the
-    load_state() callback), it calls migration_notify_switchover_ready().
-    That decreases switch_over_pending and when it hits zero, one msg
-    MIG_RP_MSG_SWITCHOVER_READY will be sent to src.
-
-Only until READY msg received on src could src switchover the precopy to
-dst.
-
-Then it only needs 1 more field in SaveVMHandlers rather than 3, and only 1
-more msg (dst->src).
-
-This is based on the fact that right now we always set caps on both qemus
-so I suppose it already means either both have or don't have the feature
-(even if one has, not setting the cap means disabled on both).
-
-Would it work for this case and cleaner?
-
-Thanks,
+> +
+> +    /* Enable precopy initial data for each migration user that supports it */
+> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+> +        if (!se->ops || !se->ops->initial_data_advise) {
+> +            continue;
+> +        }
+> +
+> +        if (!se->ops->initial_data_advise(se->opaque)) {
+> +            continue;
+> +        }
+> +
+> +        memset(&buf, 0, sizeof(buf));
+> +        memcpy(buf.idstr, se->idstr, sizeof(buf.idstr));
+> +        buf.instance_id = se->instance_id;
+> +
+> +        qemu_savevm_command_send(f, MIG_CMD_INITIAL_DATA_ENABLE, sizeof(buf),
+> +                                 (uint8_t *)&buf);
+> +        trace_savevm_send_initial_data_enable(
+> +            buf.general_enable, (char *)buf.idstr, buf.instance_id);
+> +    }
+> +}
+> +
+>  void qemu_savevm_send_colo_enable(QEMUFile *f)
+>  {
+>      trace_savevm_send_colo_enable();
+> @@ -2314,6 +2359,60 @@ static int loadvm_process_enable_colo(MigrationIncomingState *mis)
+>      return ret;
+>  }
+>  
+> +static int loadvm_handle_initial_data_enable(MigrationIncomingState *mis)
+> +{
+> +    InitialDataInfo buf;
+> +    SaveStateEntry *se;
+> +    ssize_t read_size;
+> +
+> +    read_size = qemu_get_buffer(mis->from_src_file, (void *)&buf, sizeof(buf));
+> +    if (read_size != sizeof(buf)) {
+> +        error_report("%s: Could not get data buffer, read_size %ld, len %lu",
+> +                     __func__, read_size, sizeof(buf));
+> +
+> +        return -EIO;
+> +    }
+> +
+> +    /* Enable precopy initial data generally in the migration */
+> +    if (buf.general_enable) {
+> +        mis->initial_data_enabled = true;
+> +        trace_loadvm_handle_initial_data_enable(
+> +            buf.general_enable, (char *)buf.idstr, buf.instance_id);
+> +
+> +        return 0;
+> +    }
+> +
+> +    /* Enable precopy initial data for a specific migration user */
+> +    se = find_se((char *)buf.idstr, buf.instance_id);
+> +    if (!se) {
+> +        error_report("%s: Could not find SaveStateEntry, idstr '%s', "
+> +                     "instance_id %" PRIu32,
+> +                     __func__, buf.idstr, buf.instance_id);
+> +
+> +        return -ENOENT;
+> +    }
+> +
+> +    if (!se->ops || !se->ops->initial_data_advise) {
+> +        error_report("%s: '%s' doesn't have required "
+> +                     "initial_data_advise op",
+> +                     __func__, buf.idstr);
+> +
+> +        return -EOPNOTSUPP;
+> +    }
+> +
+> +    if (!se->ops->initial_data_advise(se->opaque)) {
+> +        error_report("%s: '%s' doesn't support precopy initial data", __func__,
+> +                     buf.idstr);
+> +
+> +        return -EOPNOTSUPP;
+> +    }
+> +
+> +    trace_loadvm_handle_initial_data_enable(buf.general_enable,
+> +                                            (char *)buf.idstr, buf.instance_id);
+> +
+> +    return 0;
+> +}
+> +
+>  /*
+>   * Process an incoming 'QEMU_VM_COMMAND'
+>   * 0           just a normal return
+> @@ -2397,6 +2496,9 @@ static int loadvm_process_command(QEMUFile *f)
+>  
+>      case MIG_CMD_ENABLE_COLO:
+>          return loadvm_process_enable_colo(mis);
+> +
+> +    case MIG_CMD_INITIAL_DATA_ENABLE:
+> +        return loadvm_handle_initial_data_enable(mis);
+>      }
+>  
+>      return 0;
+> diff --git a/migration/trace-events b/migration/trace-events
+> index 92161eeac5..21ae471126 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -23,6 +23,7 @@ loadvm_postcopy_ram_handle_discard_end(void) ""
+>  loadvm_postcopy_ram_handle_discard_header(const char *ramid, uint16_t len) "%s: %ud"
+>  loadvm_process_command(const char *s, uint16_t len) "com=%s len=%d"
+>  loadvm_process_command_ping(uint32_t val) "0x%x"
+> +loadvm_handle_initial_data_enable(uint8_t general_enable, const char *idstr, int instance_id) "general_enable=%u, idstr=%s, instance_id=%u"
+>  postcopy_ram_listen_thread_exit(void) ""
+>  postcopy_ram_listen_thread_start(void) ""
+>  qemu_savevm_send_postcopy_advise(void) ""
+> @@ -38,6 +39,7 @@ savevm_send_postcopy_run(void) ""
+>  savevm_send_postcopy_resume(void) ""
+>  savevm_send_colo_enable(void) ""
+>  savevm_send_recv_bitmap(char *name) "%s"
+> +savevm_send_initial_data_enable(uint8_t general_enable, const char *idstr, int instance_id) "general_enable=%u, idstr=%s, instance_id=%u"
+>  savevm_state_setup(void) ""
+>  savevm_state_resume_prepare(void) ""
+>  savevm_state_header(void) ""
+> -- 
+> 2.26.3
+> 
 
 -- 
 Peter Xu
