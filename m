@@ -2,77 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486B76F468A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 16:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 565166F46C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 17:06:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptrSP-0003I9-4A; Tue, 02 May 2023 10:58:21 -0400
+	id 1ptrZC-0004m8-H7; Tue, 02 May 2023 11:05:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1ptrSE-0003Hr-Ev
- for qemu-devel@nongnu.org; Tue, 02 May 2023 10:58:11 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1ptrSB-00064r-Ok
- for qemu-devel@nongnu.org; Tue, 02 May 2023 10:58:09 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id
- d9443c01a7336-1aaf706768cso19608035ad.0
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 07:58:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1683039485; x=1685631485; 
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=zSKpEcd7K6ttvfOpyVIVfC/WgmmewXnDDPeChMVmZ0I=;
- b=lIVezXF70L7dGQbZhMzjLiRdlSqr+NWc8dmnix1pc+3RbJptzyfzbOOLB1Z+DC9iG3
- +NS8voi7AvOZxFzYeiUbvCDhhCAXUrULnlqigZ4xwCxWoMaPKZr5NWnoqpG4AfYlPg3L
- Onz3wSyIb4BjXy0F35NMt/5TT/YfCXPytHRLs5BZLrEC2xR3kx/rzNaZc3ZHdUk9Mggk
- anJYD2lBU9U7RdEeZeMLwwA0T6znwPrJvpwC1l/Spu6JzY330yQqMyB4k2IWAAgSYcnn
- OsFSakJzopbQASdDJJMnEJYnYkBCNL59e1mXznOVWQmI3J1WbZ0IkY7gIBpbZN6gyJnb
- MJtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683039485; x=1685631485;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zSKpEcd7K6ttvfOpyVIVfC/WgmmewXnDDPeChMVmZ0I=;
- b=VPVyd43W4fcqdeJs4Z5W2G9kh3Vf5+iRbeDNGW8dt8pOLOlKEKa/4jqYxWbGm5qLys
- RcijBxM7m+zzngWuvkN6z0/2wAhotCZO72ZyE6kww/NGt7hZ49qMaHEubl0au0bnxSep
- PqjT/tQirs7DN4EdgvTauYqMdBzdpKaTyykEjc3g0tlZXjkCR5oinxfoXYYJiSx6K2qJ
- pOMjuBXB+H9dQ05NQiya7oVh+IqmIxMVIB/y0R3Hm8nLmBOwWM2Q7J5J0QmuaFdxZqUJ
- nw09OyXwII9ahF79grOKkxsaoTq+kwgIu09NTnXM7NBvPQtFbbZq62IP/lE/c0ojzbQ8
- L79Q==
-X-Gm-Message-State: AC+VfDw5BOm6oPkUfN9ehPxxAu0BXMbnIMIJ9U54jpzeGMSxVA9Ig7sS
- N+LDwMP3Szxuj/xJse7VSfvf5Q==
-X-Google-Smtp-Source: ACHHUZ6HkOVSF5Xziyy0TCYd1VLVJSAkxToVJ0wHFMjyVUupk9lZkZufynbmuLf1yilcGn3wmVn/DQ==
-X-Received: by 2002:a17:903:124b:b0:1a2:8c7e:f315 with SMTP id
- u11-20020a170903124b00b001a28c7ef315mr21079626plh.21.1683039484801; 
- Tue, 02 May 2023 07:58:04 -0700 (PDT)
-Received: from localhost ([135.180.227.0]) by smtp.gmail.com with ESMTPSA id
- n4-20020a170902d2c400b001a5260a6e6csm6124777plc.206.2023.05.02.07.58.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 07:58:03 -0700 (PDT)
-Date: Tue, 02 May 2023 07:58:03 -0700 (PDT)
-X-Google-Original-Date: Tue, 02 May 2023 07:57:58 PDT (-0700)
-Subject: Re: [PATCH] linux-user: Add /proc/cpuinfo handler for RISC-V
-In-Reply-To: <mvm5y9a7srj.fsf@suse.de>
-CC: laurent@vivier.eu, qemu-devel@nongnu.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: schwab@suse.de
-Message-ID: <mhng-387c6a65-31c0-4fcd-bf29-bd798c2a47f6@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=palmer@dabbelt.com; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ptrZ9-0004lr-KG; Tue, 02 May 2023 11:05:19 -0400
+Received: from [200.168.210.66] (helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ptrZ7-0001fp-1a; Tue, 02 May 2023 11:05:18 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 2 May 2023 12:05:12 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 3220A8001D8;
+ Tue,  2 May 2023 12:05:11 -0300 (-03)
+Message-ID: <df06eddb-a04a-483f-f5e4-394e5c9473c7@eldorado.org.br>
+Date: Tue, 2 May 2023 12:05:10 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] tests: tcg: ppc64: Add tests for Vector Extract Mask
+ Instructions
+Content-Language: en-US
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, philmd@linaro.org,
+ richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org
+Cc: john_platts@hotmail.com, qemu-devel@nongnu.org
+References: <168141244011.3026479.13697197743885252330.stgit@ltc-boston1.aus.stglabs.ibm.com>
+ <168141246968.3026479.12755025628496245070.stgit@ltc-boston1.aus.stglabs.ibm.com>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <168141246968.3026479.12755025628496245070.stgit@ltc-boston1.aus.stglabs.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 02 May 2023 15:05:12.0159 (UTC)
+ FILETIME=[7E5086F0:01D97D07]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,75 +66,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 02 May 2023 06:44:00 PDT (-0700), schwab@suse.de wrote:
-> Signed-off-by: Andreas Schwab <schwab@suse.de>
-> ---
->  linux-user/syscall.c | 30 ++++++++++++++++++++++++++++--
->  1 file changed, 28 insertions(+), 2 deletions(-)
->
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 69f740ff98..c72456a34b 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8231,7 +8231,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
->  }
->
->  #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
-> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
-> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
-> +    defined(TARGET_RISCV)
->  static int is_proc(const char *filename, const char *entry)
->  {
->      return strcmp(filename, entry) == 0;
-> @@ -8309,6 +8310,31 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->  }
->  #endif
->
-> +#if defined(TARGET_RISCV)
-> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
-> +{
-> +    int i, num_cpus;
-> +
-> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-> +    for (i = 0; i < num_cpus; i++) {
-> +        dprintf(fd, "processor\t: %d\n", i);
-> +        dprintf(fd, "hart\t\t: %d\n", i);
-> +#if defined(TARGET_RISCV32)
-> +        dprintf(fd, "isa\t\t: rv32imafdc\n");
-> +        dprintf(fd, "mmu\t\t: sv32\n");
-> +#endif
-> +#if defined(TARGET_RISCV64)
-> +        dprintf(fd, "isa\t\t: rv64imafdc\n");
-> +        dprintf(fd, "mmu\t\t: sv57\n");
-
-Unless I'm misunderstanding something, we've got support for both 
-non-sv57 system (via sv* CPU properties) and non-GC systems (also via 
-CPU properties).  Not sure how much userspace cares about that, but at 
-least dropping FD when those instructions aren't emulated by QEMEU seems 
-reasonable.
-
-> +#endif
-> +        dprintf(fd, "mvendorid\t: 0x0\n");
-> +        dprintf(fd, "marchid\t\t: 0x0\n");
-> +        dprintf(fd, "mimpid\t\t: 0x0\n\n");
-> +    }
-> +    return 0;
-> +}
-> +#endif
-> +
->  #if defined(TARGET_M68K)
->  static int open_hardware(CPUArchState *cpu_env, int fd)
->  {
-> @@ -8333,7 +8359,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
->  #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
->          { "/proc/net/route", open_net_route, is_proc },
->  #endif
-> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
-> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
->          { "/proc/cpuinfo", open_cpuinfo, is_proc },
->  #endif
->  #if defined(TARGET_M68K)
-
-Aside from that this looks great.  Thanks for fixing this, it's been a 
-headache for folks for a while.
+DQoNCk9uIDEzLzA0LzIwMjMgMTY6MDEsIFNoaXZhcHJhc2FkIEcgQmhhdCB3cm90ZToNCg0K
+PiBBZGQgdGVzdCBmb3IgdmV4dHJhY3RibSwgdmV4dHJhY3R3bSwgdmV4dHJhY3RkbSBhbmQg
+dmV4dHJhY3RxbQ0KPiBpbnN0cnVjdGlvbnMuIFRlc3Qgd29ya3MgZm9yIGJvdGggcWVtdS1w
+cGM2NCBhbmQgcWVtdS1wcGM2NGxlLg0KPiANCj4gQmFzZWQgb24gdGhlIHRlc3QgY2FzZSB3
+cml0dGVuIGJ5IEpvaG4gUGxhdHRzIHBvc3RlZCBhdCBbMV0NCj4gDQo+IFJlZmVyZW5jZXM6
+DQo+IFsxXTogaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9xZW11Ly0vaXNzdWVz
+LzE1MzYNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEpvaG4gUGxhdHRzIDxqb2huX3BsYXR0c0Bo
+b3RtYWlsLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogU2hpdmFwcmFzYWQgRyBCaGF0IDxzYmhh
+dEBsaW51eC5pYm0uY29tPg0KPiAtLS0NCj4gICB0ZXN0cy90Y2cvcHBjNjQvTWFrZWZpbGUu
+dGFyZ2V0IHwgICAgNiArKysrLQ0KPiAgIHRlc3RzL3RjZy9wcGM2NC92ZWN0b3IuYyAgICAg
+ICAgfCAgIDUwICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiAg
+IDIgZmlsZXMgY2hhbmdlZCwgNTUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiAg
+IGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy90Y2cvcHBjNjQvdmVjdG9yLmMNCj4gDQo+IGRp
+ZmYgLS1naXQgYS90ZXN0cy90Y2cvcHBjNjQvTWFrZWZpbGUudGFyZ2V0IGIvdGVzdHMvdGNn
+L3BwYzY0L01ha2VmaWxlLnRhcmdldA0KPiBpbmRleCBmMDgxZjFjNjgzLi40ZmQ1NDNjZTI4
+IDEwMDY0NA0KPiAtLS0gYS90ZXN0cy90Y2cvcHBjNjQvTWFrZWZpbGUudGFyZ2V0DQo+ICsr
+KyBiL3Rlc3RzL3RjZy9wcGM2NC9NYWtlZmlsZS50YXJnZXQNCj4gQEAgLTIwLDcgKzIwLDcg
+QEAgUFBDNjRfVEVTVFMgKz0gbXRmc2YNCj4gICBQUEM2NF9URVNUUyArPSBtZmZzY2UNCj4g
+DQo+ICAgaWZuZXEgKCQoQ1JPU1NfQ0NfSEFTX1BPV0VSMTApLCkNCj4gLVBQQzY0X1RFU1RT
+ICs9IGJ5dGVfcmV2ZXJzZSBzaGE1MTItdmVjdG9yDQo+ICtQUEM2NF9URVNUUyArPSBieXRl
+X3JldmVyc2Ugc2hhNTEyLXZlY3RvciB2ZWN0b3INCj4gICBlbmRpZg0KPiAgIGJ5dGVfcmV2
+ZXJzZTogQ0ZMQUdTICs9IC1tY3B1PXBvd2VyMTANCj4gICBydW4tYnl0ZV9yZXZlcnNlOiBR
+RU1VX09QVFMrPS1jcHUgUE9XRVIxMA0KPiBAQCAtMzMsNiArMzMsMTAgQEAgc2hhNTEyLXZl
+Y3Rvcjogc2hhNTEyLmMNCj4gICBydW4tc2hhNTEyLXZlY3RvcjogUUVNVV9PUFRTKz0tY3B1
+IFBPV0VSMTANCj4gICBydW4tcGx1Z2luLXNoYTUxMi12ZWN0b3Itd2l0aC0lOiBRRU1VX09Q
+VFMrPS1jcHUgUE9XRVIxMA0KPiANCj4gK3ZlY3RvcjogQ0ZMQUdTICs9IC1tY3B1PXBvd2Vy
+MTANCj4gK3J1bi12ZWN0b3I6IFFFTVVfT1BUUyArPSAtY3B1IFBPV0VSMTANCj4gK3J1bi1w
+bHVnaW4tdmVjdG9yLXdpdGgtJTogUUVNVV9PUFRTICs9IC1jcHUgUE9XRVIxMA0KPiArDQo+
+ICAgUFBDNjRfVEVTVFMgKz0gc2lnbmFsX3NhdmVfcmVzdG9yZV94ZXINCj4gICBQUEM2NF9U
+RVNUUyArPSB4eHNwbHR3DQo+IA0KPiBkaWZmIC0tZ2l0IGEvdGVzdHMvdGNnL3BwYzY0L3Zl
+Y3Rvci5jIGIvdGVzdHMvdGNnL3BwYzY0L3ZlY3Rvci5jDQo+IG5ldyBmaWxlIG1vZGUgMTAw
+NjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAuLjNjYjJiODhjODcNCj4gLS0tIC9kZXYvbnVsbA0K
+PiArKysgYi90ZXN0cy90Y2cvcHBjNjQvdmVjdG9yLmMNCj4gQEAgLTAsMCArMSw1MCBAQA0K
+PiArI2luY2x1ZGUgPGFzc2VydC5oPg0KPiArI2luY2x1ZGUgPHN0ZGludC5oPg0KPiArDQo+
+ICtpbnQgbWFpbih2b2lkKQ0KPiArew0KPiArICAgIHVuc2lnbmVkIGludCByZXN1bHRfd2k7
+DQo+ICsgICAgdmVjdG9yIHVuc2lnbmVkIGNoYXIgdmJjX2JpX3NyYyA9IHsgMHhGRiwgMHhG
+RiwgMCwgMHhGRiwgMHhGRiwgMHhGRiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAweEZGLCAweEZGLCAweEZGLCAweEZGLCAwLCAwLCAwLA0KPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAsIDB4RkYsIDB4RkZ9Ow0K
+PiArICAgIHZlY3RvciB1bnNpZ25lZCBzaG9ydCB2YmNfaGlfc3JjID0geyAweEZGRkYsIDAs
+IDAsIDB4RkZGRiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgMCwgMCwgMHhGRkZGLCAweEZGRkZ9Ow0KPiArICAgIHZlY3RvciB1bnNpZ25lZCBpbnQg
+dmJjX3dpX3NyYyA9IHswLCAwLCAweEZGRkZGRkZGLCAweEZGRkZGRkZGfTsNCj4gKyAgICB2
+ZWN0b3IgdW5zaWduZWQgbG9uZyBsb25nIHZiY19kaV9zcmMgPSB7MHhGRkZGRkZGRkZGRkZG
+RkZGLCAwfTsNCj4gKyAgICB2ZWN0b3IgX191aW50MTI4X3QgdmJjX3FpX3NyYzsNCj4gKw0K
+PiArICAgIGFzbSgidmV4dHJhY3RibSAlMCwgJTEiIDogIj1yIiAocmVzdWx0X3dpKSA6ICJ2
+IiAodmJjX2JpX3NyYykpOw0KPiArI2lmIF9fQllURV9PUkRFUl9fID09IF9fT1JERVJfQklH
+X0VORElBTl9fDQo+ICsgICAgYXNzZXJ0KHJlc3VsdF93aSA9PSAwYjExMDExMTExMTEwMDAw
+MTEpOw0KPiArI2Vsc2UNCj4gKyAgICBhc3NlcnQocmVzdWx0X3dpID09IDBiMTEwMDAwMTEx
+MTExMTAxMSk7DQo+ICsjZW5kaWYNCj4gKw0KPiArICAgIGFzbSgidmV4dHJhY3RobSAlMCwg
+JTEiIDogIj1yIiAocmVzdWx0X3dpKSA6ICJ2IiAodmJjX2hpX3NyYykpOw0KPiArI2lmIF9f
+QllURV9PUkRFUl9fID09IF9fT1JERVJfQklHX0VORElBTl9fDQo+ICsgICAgYXNzZXJ0KHJl
+c3VsdF93aSA9PSAwYjEwMDEwMDExKTsNCj4gKyNlbHNlDQo+ICsgICAgYXNzZXJ0KHJlc3Vs
+dF93aSA9PSAwYjExMDAxMDAxKTsNCj4gKyNlbmRpZg0KPiArDQo+ICsgICAgYXNtKCJ2ZXh0
+cmFjdHdtICUwLCAlMSIgOiAiPXIiIChyZXN1bHRfd2kpIDogInYiICh2YmNfd2lfc3JjKSk7
+DQo+ICsjaWYgX19CWVRFX09SREVSX18gPT0gX19PUkRFUl9CSUdfRU5ESUFOX18NCj4gKyAg
+ICBhc3NlcnQocmVzdWx0X3dpID09IDBiMDAxMSk7DQo+ICsjZWxzZQ0KPiArICAgIGFzc2Vy
+dChyZXN1bHRfd2kgPT0gMGIxMTAwKTsNCj4gKyNlbmRpZg0KPiArDQo+ICsgICAgYXNtKCJ2
+ZXh0cmFjdGRtICUwLCAlMSIgOiAiPXIiIChyZXN1bHRfd2kpIDogInYiICh2YmNfZGlfc3Jj
+KSk7DQo+ICsjaWYgX19CWVRFX09SREVSX18gPT0gX19PUkRFUl9CSUdfRU5ESUFOX18NCj4g
+KyAgICBhc3NlcnQocmVzdWx0X3dpID09IDBiMTApOw0KPiArI2Vsc2UNCj4gKyAgICBhc3Nl
+cnQocmVzdWx0X3dpID09IDBiMDEpOw0KPiArI2VuZGlmDQo+ICsNCj4gKyAgICB2YmNfcWlf
+c3JjWzBdID0gMHgxOw0KPiArICAgIHZiY19xaV9zcmNbMF0gPSB2YmNfcWlfc3JjWzBdIDw8
+IDEyNzsNCj4gKyAgICBhc20oInZleHRyYWN0cW0gJTAsICUxIiA6ICI9ciIgKHJlc3VsdF93
+aSkgOiAidiIgKHZiY19xaV9zcmMpKTsNCj4gKyAgICBhc3NlcnQocmVzdWx0X3dpID09IDBi
+MSk7DQo+ICsNCj4gKyAgICByZXR1cm4gMDsNCj4gK30NCj4gDQo+IA0KDQpSZXZpZXdlZC1i
+eTogTHVjYXMgTWF0ZXVzIENhc3RybyA8bHVjYXMuYXJhdWpvQGVsZG9yYWRvLm9yZy5icj4N
+Ci0tIA0KTHVjYXMgTWF0ZXVzIE0uIEFyYXVqbyBlIENhc3Rybw0KSW5zdGl0dXRvIGRlIFBl
+c3F1aXNhcyBFTERPUkFETw0KPGh0dHBzOi8vd3d3LmVsZG9yYWRvLm9yZy5ici8/dXRtX2Nh
+bXBhaWduPWFzc2luYXR1cmFfZGVfZS1tYWlsJnV0bV9tZWRpdW09ZW1haWwmdXRtX3NvdXJj
+ZT1SRCtTdGF0aW9uPg0KRGVwYXJ0YW1lbnRvIENvbXB1dGHDp8OjbyBFbWJhcmNhZGENCkFu
+YWxpc3RhIGRlIFNvZnR3YXJlIEp1bmlvcg0KQXZpc28gTGVnYWwgLSBEaXNjbGFpbWVyIDxo
+dHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1sPg0K
 
