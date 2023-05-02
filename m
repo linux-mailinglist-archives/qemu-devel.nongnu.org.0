@@ -2,76 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A7D6F48EF
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 19:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21E16F491B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 19:24:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pttWy-0007M7-NX; Tue, 02 May 2023 13:11:12 -0400
+	id 1ptti0-0001LH-28; Tue, 02 May 2023 13:22:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pttWw-0007LW-43; Tue, 02 May 2023 13:11:10 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pttWt-0000Ic-Az; Tue, 02 May 2023 13:11:09 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 58FBF22019;
- Tue,  2 May 2023 17:11:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683047465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v2x9Jn+7IZfHX2l5lIXRjchg57G90iMBytZFuAJ2o+E=;
- b=hAwIHVGTly/kMN6hQifVA0IRTM+UfIrrwH143GEx85fQlApeeJtSE22xtzPIctmUlogLcK
- 63GCulHxK1YegxYJftx81tt1Yl1vL7S5QZuRhVsdhUv6M852t8mB6bhd1ocM9iqAr0Lobg
- sFLOdH5Sj16/2SowCCMupZAs7m3dFJo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683047465;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v2x9Jn+7IZfHX2l5lIXRjchg57G90iMBytZFuAJ2o+E=;
- b=NQ2HkeF0arRc305F3t8XAFhuTiipF5XD1OigU1n7QydX1Sx8COebHp3VNfJzBoCYi4fz8s
- 2nq1KqtzZcTMerCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D85F1139C3;
- Tue,  2 May 2023 17:11:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id C5fjJyhEUWSkVgAAMHmgww
- (envelope-from <farosas@suse.de>); Tue, 02 May 2023 17:11:04 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Philippe =?utf-8?Q?Mathieu?=
- =?utf-8?Q?-Daud=C3=A9?=
- <philmd@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v11 00/13] target/arm: Allow CONFIG_TCG=n builds
-In-Reply-To: <87o7n2itxm.fsf@suse.de>
-References: <20230426180013.14814-1-farosas@suse.de>
- <CAFEAcA_ZVpZzuvZ71NzgweRC5Uti0T_fqG00paqDDe18QP-veQ@mail.gmail.com>
- <CAFEAcA-s6P2Y5nNQMyACeK3+4cuSrFfqqEdFW-BDToy_YXj64g@mail.gmail.com>
- <CAFEAcA-7ci6PRYCOcrPZcGq8x+Wxtx6wwSk1C18cOO=dXOq8Dw@mail.gmail.com>
- <87o7n2itxm.fsf@suse.de>
-Date: Tue, 02 May 2023 14:11:02 -0300
-Message-ID: <87lei6irq1.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1ptthx-0001KZ-Ni; Tue, 02 May 2023 13:22:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1ptthv-0005D8-L2; Tue, 02 May 2023 13:22:33 -0400
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 342HLTfL011588; Tue, 2 May 2023 17:22:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=0Vp9RhcuRtqSZ7grQzXnBkV9Fwe82wsnWbzsb/SU6nk=;
+ b=M+JNCsoGkDlXKxjWRDbcIl56u3Bb6E2Fabo6p+d6ZLxoCUz6FPM1sSW8YrDcvCEL/FuV
+ RqIjVb/zGMkmMVcfEtl5q1n2tgSqUZ0qvO1Cp524TFzUONdds8gnLqA0EkVBB+T2Qwly
+ KyVJ2T4uXyoAdR8uiBkg/3bnG2nLgoysoNZWnTjN4WgndR+oiruKTmi4XuYsgLrWCVx8
+ 5B/GsU4aZJFaZ5OF/yeUH+uN+9Q1TDsFbhzwKD4GKN90F+/9CpaFKFAM23FbgeTnPAXK
+ z+yTbfFxjg26Vu75Lvs/tFwXPf49nsbmjp5lG1c3p1FF25uxG+C/vsQhgafoyd8kvfaG Kg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qb6qv0bbe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 May 2023 17:22:25 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 342HE1Qh008234;
+ Tue, 2 May 2023 17:22:25 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qb6qv0baa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 May 2023 17:22:25 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3424iEtg021182;
+ Tue, 2 May 2023 17:22:22 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3q8tgg1r51-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 May 2023 17:22:22 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 342HMGTo30867856
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 2 May 2023 17:22:16 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B526720043;
+ Tue,  2 May 2023 17:22:16 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 776CE20040;
+ Tue,  2 May 2023 17:22:15 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.2.121]) by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue,  2 May 2023 17:22:15 +0000 (GMT)
+Message-ID: <5f4fa29eaec7269350403b2d1b2b051e6aa59a39.camel@linux.ibm.com>
+Subject: Re: [PATCH v20 03/21] target/s390x/cpu topology: handle STSI(15)
+ and build the SYSIB
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Tue, 02 May 2023 19:22:15 +0200
+In-Reply-To: <20230425161456.21031-4-pmorel@linux.ibm.com>
+References: <20230425161456.21031-1-pmorel@linux.ibm.com>
+ <20230425161456.21031-4-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _CNOp6IbdHxRBq2u0uGyvpHrFjJqLlYW
+X-Proofpoint-ORIG-GUID: hAV8-OrR6W8Efiz8qINWpsnHx1ycu-pD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-02_10,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ priorityscore=1501 adultscore=0 phishscore=0 spamscore=0 suspectscore=0
+ mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305020146
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,74 +118,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fabiano Rosas <farosas@suse.de> writes:
+On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
+> On interception of STSI(15.1.x) the System Information Block
+> (SYSIB) is built from the list of pre-ordered topology entries.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  MAINTAINERS                     |   1 +
+>  include/hw/s390x/cpu-topology.h |  24 +++
+>  include/hw/s390x/sclp.h         |   1 +
+>  target/s390x/cpu.h              |  72 ++++++++
+>  hw/s390x/cpu-topology.c         |  13 +-
+>  target/s390x/kvm/cpu_topology.c | 308 ++++++++++++++++++++++++++++++++
+>  target/s390x/kvm/kvm.c          |   5 +-
+>  target/s390x/kvm/meson.build    |   3 +-
+>  8 files changed, 424 insertions(+), 3 deletions(-)
+>  create mode 100644 target/s390x/kvm/cpu_topology.c
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index bb7b34d0d8..de9052f753 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1659,6 +1659,7 @@ M: Pierre Morel <pmorel@linux.ibm.com>
+>  S: Supported
+>  F: include/hw/s390x/cpu-topology.h
+>  F: hw/s390x/cpu-topology.c
+> +F: target/s390x/kvm/cpu_topology.c
+> =20
+>  X86 Machines
+>  ------------
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topol=
+ogy.h
+> index af36f634e0..87bfeb631e 100644
+> --- a/include/hw/s390x/cpu-topology.h
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -15,9 +15,33 @@
+>=20
+[...]
 
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
->> On Tue, 2 May 2023 at 15:51, Peter Maydell <peter.maydell@linaro.org> wrote:
->>>
->>> On Tue, 2 May 2023 at 10:55, Peter Maydell <peter.maydell@linaro.org> wrote:
->>> >
->>> > On Wed, 26 Apr 2023 at 19:00, Fabiano Rosas <farosas@suse.de> wrote:
->>> > >
->>> > > Hi,
->>> > >
->>> > > Some minor changes:
->>> > >
->>> > > - new patch to move a test under CONFIG_TCG (broken on master);
->>> > > - new patch to document the unsupported CPU test (Philippe);
->>> > > - changed the test skip message when no KVM or TCG are present (Igor).
->>> >
->>> > Applied to target-arm.next; thanks for your persistence in
->>> > working through the many versions of this patchset.
->>>
->>> Update: I had to drop "gitlab-ci: Check building KVM-only aarch64 target"
->>> because it enables a CI job that fails on our aarch64 runner
->>> (because it wants to run tests using KVM but that machine
->>> isn't configured to allow the runner to use KVM).
->>
->> We fixed the runner config, but the CI still fails on that notcg
->> job because it is trying to run tests that explicitly use
->> '-accel tcg':
->> https://gitlab.com/qemu-project/qemu/-/jobs/4212850809#L3595
->>
->> Something is weird here, because we built without TCG support
->> on an aarch64 host but we still got qemu-system-i386
->> and qemu-system-x86_64 binaries, which then don't work
->> and cause the tests to fail...
->>
->
-> Hmm, that's potentially due to Xen. Looks like we need more (!tcg &&
-> !kvm) checks. Let me try to reproduce it.
+> +typedef struct S390TopologyEntry {
+> +    QTAILQ_ENTRY(S390TopologyEntry) next;
+> +    s390_topology_id id;
+> +    uint64_t mask;
+> +} S390TopologyEntry;
+> +
+>  typedef struct S390Topology {
+>      uint8_t *cores_per_socket;
+> +    QTAILQ_HEAD(, S390TopologyEntry) list;
 
-Ah right, the test is skipped on my aarch64 host because I don't have
-genisomage available. So what we need is this:
+Since you recompute the list on every STSI, you no longer need this in here=
+.
+You can create it in insert_stsi_15_1_x.
 
--- >8 --
-From: Fabiano Rosas <farosas@suse.de>
-Date: Tue, 2 May 2023 13:42:14 -0300
-Subject: [PATCH] fixup! tests/qtest: Fix tests when no KVM or TCG are present
+>      CpuTopology *smp;
+> +    bool vertical_polarization;
+>  } S390Topology;
 
----
- tests/qtest/cdrom-test.c | 5 +++++
- 1 file changed, 5 insertions(+)
+[...]
 
-diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-index 26a2400181..09655e6ff0 100644
---- a/tests/qtest/cdrom-test.c
-+++ b/tests/qtest/cdrom-test.c
-@@ -205,6 +205,11 @@ int main(int argc, char **argv)
- 
-     g_test_init(&argc, &argv, NULL);
- 
-+    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
-+        g_test_skip("No KVM or TCG accelerator available");
-+        return 0;
-+    }
-+
-     if (exec_genisoimg(genisocheck)) {
-         /* genisoimage not available - so can't run tests */
-         return g_test_run();
--- 
-2.35.3
+> +/*
+> + * Macro to check that the size of data after increment
+> + * will not get bigger than the size of the SysIB.
+> + */
+> +#define SYSIB_GUARD(data, x) do {       \
+> +        data +=3D x;                      \
+> +        if (data  > sizeof(SysIB)) {    \
+                    ^ two spaces
+
+> +            return 0;                   \
+> +        }                               \
+> +    } while (0)
+> +
+
+[...]
+
+> +/**
+> + * s390_topology_from_cpu:
+> + * @cpu: The S390CPU
+> + *
+> + * Initialize the topology id from the CPU environment.
+> + */
+> +static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
+> +{
+> +    s390_topology_id topology_id =3D {0};
+> +
+> +    topology_id.drawer =3D cpu->env.drawer_id;
+> +    topology_id.book =3D cpu->env.book_id;
+> +    topology_id.socket =3D cpu->env.socket_id;
+> +    topology_id.origin =3D cpu->env.core_id / 64;
+> +    topology_id.type =3D S390_TOPOLOGY_CPU_IFL;
+> +    topology_id.dedicated =3D cpu->env.dedicated;
+> +
+> +    if (s390_topology.vertical_polarization) {
+> +        /*
+> +         * Vertical polarization with dedicated CPU implies
+> +         * vertical high entitlement.
+> +         */
+
+This has already been adjusted or rejected when the entitlement was set.
+
+> +        if (topology_id.dedicated) {
+> +            topology_id.entitlement =3D S390_CPU_ENTITLEMENT_HIGH;
+> +        } else {
+> +            topology_id.entitlement =3D cpu->env.entitlement;
+
+You only need this assignment.
+> +        }
+> +    }
+> +
+> +    return topology_id;
+
+[...]
+
 
