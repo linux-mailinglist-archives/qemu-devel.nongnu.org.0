@@ -2,84 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABAC6F3F7F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 10:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DEC6F3FA9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 10:56:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptlcp-0006vU-73; Tue, 02 May 2023 04:44:43 -0400
+	id 1ptlmV-00005b-Nq; Tue, 02 May 2023 04:54:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ptlcn-0006vC-2j
- for qemu-devel@nongnu.org; Tue, 02 May 2023 04:44:41 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ptlcX-0005Ap-Dq
- for qemu-devel@nongnu.org; Tue, 02 May 2023 04:44:40 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3f18dacd392so20195945e9.0
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 01:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683017058; x=1685609058;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6yBT+jk0zF02dFSjk6ZPky87zfpiIZyKiTNsuhMTZAg=;
- b=m0I4FdUKebdGiixxKuRDc11M0a8hLt++xF4mUPdy8RaiEzSupIdRyf327wr6xhcN5x
- zupIBUksLQtww5Ro+tsR7lO4zUly4FvbS68MhZ77NfkV2cLPnWHnN67XCUDiRrcaRJR1
- 8RkOZlnTnHJuoRnspQPM+xhko7l7qxxPKC8C59og0+NeE1NCtHdJ3O5wPHJGvjGEq3n8
- tMG8hSRSwPuOxe5t8E6VM224CvXTux2wy0DG3HkVV/3CUJ9Wtb6ZghF0nMNkyDlSUzO3
- 5nPE5m9Edbs99mqn0/6YDKkCmcKMl99J3x3exiDqJnGzAXea0PU5Y/jot7sQoxK8I+p5
- JVnA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ptlmT-00005S-Ft
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 04:54:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ptlmR-0001LI-UI
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 04:54:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683017678;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=b7MRvn+36vnRrucFztl/iXQPBBeFdrWe3EVNFU0OdjY=;
+ b=jGEPqQ3+ltvzmlM1Ao1BZypW8sAo93mAdEuXFA02fo/w0YJ4SGlfbDjD04OKdp6qQwIxSN
+ 8nSxOXpT9lkyKaLHnG3CaaWkeyPXHUz4OcCyh7d61cSINwZ2GgMqU1RefwTB2W/UqG2d9T
+ 5/o7srWtsxDoHWumW5R9UWw5f69tGw0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-312-I2wVzpgBOYi1Z5fHH_9RxA-1; Tue, 02 May 2023 04:54:37 -0400
+X-MC-Unique: I2wVzpgBOYi1Z5fHH_9RxA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f25376e3b1so10485555e9.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 01:54:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683017058; x=1685609058;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=6yBT+jk0zF02dFSjk6ZPky87zfpiIZyKiTNsuhMTZAg=;
- b=GtmzynOy0DDUE+CK6mvxkwIL98n9j+h0Cm6N5NHM6e+2VcPNcqFz10qPV0Hs65uHrV
- nSJLDDhbA0Z049VxdkQEWw1C/iGqj9ZLNTr9GdgX02f2Il91Owi863RZaY5K3cFokvox
- S1NrMp1g0mhmJtOn9zOeOeKHuczyFPwyy+EZ0h2E3m6xXCRgBrgWLwrkEFb6dgdDlj4j
- HzBCr7GfB2q7aWLNy/BNPnbYyaTaagH8SZP79ZA3Lf7lfyvCS2pg8yGeIpLFvwK0lu8g
- 1Ri96X6xM2NZekJjp0SgPwJM5aB9lWpiT+pkI8OZj10yjxTA+nmNr3KmeK1v8aATe5Y+
- 7oNw==
-X-Gm-Message-State: AC+VfDyvzi1PxmDXgCiXIagJnMllQTPHGpv3Q8FGJELVF3KSVQ9XEkH6
- 1OiDy7T70yhujNJcZLK4NMPSfSSpvFPl2rxZd0nFow==
-X-Google-Smtp-Source: ACHHUZ7gL8r3Arjw3zNdICq1ZIfWwe5HdC+06QGcTuUQVWadtcVjBrnYo3tzOY7QWwdpqQHTXcwBEw==
-X-Received: by 2002:a7b:cc05:0:b0:3f0:683d:224d with SMTP id
- f5-20020a7bcc05000000b003f0683d224dmr11236391wmh.9.1683017058554; 
- Tue, 02 May 2023 01:44:18 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c444900b003f173be2ccfsm50460748wmn.2.2023.05.02.01.44.17
+ d=1e100.net; s=20221208; t=1683017676; x=1685609676;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b7MRvn+36vnRrucFztl/iXQPBBeFdrWe3EVNFU0OdjY=;
+ b=DMzCcfHzAHBMVr+Foe5uSPHv/beltcnOXMBn39QB1u9bub5y+DAm/GSeoGuGnSHzZW
+ FnH4Luy6Lc9NpjP86pghUE9z0rpWkpHjQuEyE7lQORR6J/hBj4QE2WnUOIeRpFjRxctO
+ klnU1clLAkhXrJkbTL2hfctScHq/K30nFgPRd/NkgrfWwiBlNwJK8ZpAxrDmXYaBZoWe
+ XE+DPc7vjxSC1mUMDawFt8VZzNHaSOCsvjvDGw8FDsjRv4VJ1A3MmPR+/OJDjHhya90t
+ Qb2armiHpKBMVSEffz+t63CPOZCQvOag9eSnUsEPuO9a2ADTx3Ta3f9X5AOU6LIxa9jm
+ 87qw==
+X-Gm-Message-State: AC+VfDxCWYtURHudzSKr7kCG6GfLTc+vMtE9n9SS1CpKUOCOhyWEdUsB
+ 5PsEZ3+Ix5Xf4lTHuWYYPUezW+91vbgOQ8oXCyHZ9z0HHDHLXbcx/eG8OAwykFZwUd3HpmRnqG/
+ eKKmYbiI/rsEyh1s=
+X-Received: by 2002:adf:e9cf:0:b0:306:2aa7:2ed2 with SMTP id
+ l15-20020adfe9cf000000b003062aa72ed2mr4531160wrn.61.1683017675940; 
+ Tue, 02 May 2023 01:54:35 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5lJwsdp+y3J4lTX0yNOTHKpPJy9RVsUO/rkcORPFrEcUGKB6ShBjz/zh6Q80mKUuVFIPH+dQ==
+X-Received: by 2002:adf:e9cf:0:b0:306:2aa7:2ed2 with SMTP id
+ l15-20020adfe9cf000000b003062aa72ed2mr4531143wrn.61.1683017675588; 
+ Tue, 02 May 2023 01:54:35 -0700 (PDT)
+Received: from redhat.com ([2.52.8.43]) by smtp.gmail.com with ESMTPSA id
+ n10-20020a1c720a000000b003edef091b17sm34389793wmc.37.2023.05.02.01.54.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 01:44:18 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6B4D41FFBA;
- Tue,  2 May 2023 09:44:17 +0100 (BST)
-References: <20230501204625.277361-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] qemu/int128: Re-shuffle Int128Alias members
-Date: Tue, 02 May 2023 09:44:11 +0100
-In-reply-to: <20230501204625.277361-1-richard.henderson@linaro.org>
-Message-ID: <87h6svt95r.fsf@linaro.org>
+ Tue, 02 May 2023 01:54:34 -0700 (PDT)
+Date: Tue, 2 May 2023 04:54:30 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, Fan Ni <fan.ni@samsung.com>,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Ira Weiny <ira.weiny@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Dave Jiang <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Mike Maslenkin <mike.maslenkin@gmail.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [RESEND PATCH v6 1/8] hw/pci/aer: Implement PCI_ERR_UNCOR_MASK
+ register
+Message-ID: <20230502045358-mutt-send-email-mst@kernel.org>
+References: <20230302133709.30373-1-Jonathan.Cameron@huawei.com>
+ <20230302133709.30373-2-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230302133709.30373-2-Jonathan.Cameron@huawei.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,28 +106,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Mar 02, 2023 at 01:37:02PM +0000, Jonathan Cameron wrote:
+> This register in AER should be both writeable and should
+> have a default value with a couple of the errors masked
+> including the Uncorrectable Internal Error used by CXL for
+> it's error reporting.
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+OK it does not look like a fix to migration breakage
+is forth coming so I'll revert this patchset for now.
 
-> Clang 14, with --enable-tcg-interpreter errors with
->
-> include/qemu/int128.h:487:16: error: alignment of field 'i' (128 bits)
->   does not match the alignment of the first field in transparent union;
->   transparent_union attribute ignored [-Werror,-Wignored-attributes]
->     __int128_t i;
->                ^
-> include/qemu/int128.h:486:12: note: alignment of first field is 64 bits
->     Int128 s;
->            ^
-> 1 error generated.
->
-> By placing the __uint128_t member first, this is avoided.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+> ---
+>  hw/pci/pcie_aer.c          | 4 ++++
+>  include/hw/pci/pcie_regs.h | 3 +++
+>  2 files changed, 7 insertions(+)
+> 
+> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+> index 9a19be44ae..909e027d99 100644
+> --- a/hw/pci/pcie_aer.c
+> +++ b/hw/pci/pcie_aer.c
+> @@ -112,6 +112,10 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver, uint16_t offset,
+>  
+>      pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
+>                   PCI_ERR_UNC_SUPPORTED);
+> +    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
+> +                 PCI_ERR_UNC_MASK_DEFAULT);
+> +    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
+> +                 PCI_ERR_UNC_SUPPORTED);
+>  
+>      pci_set_long(dev->config + offset + PCI_ERR_UNCOR_SEVER,
+>                   PCI_ERR_UNC_SEVERITY_DEFAULT);
+> diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
+> index 963dc2e170..6ec4785448 100644
+> --- a/include/hw/pci/pcie_regs.h
+> +++ b/include/hw/pci/pcie_regs.h
+> @@ -155,6 +155,9 @@ typedef enum PCIExpLinkWidth {
+>                                           PCI_ERR_UNC_ATOP_EBLOCKED |    \
+>                                           PCI_ERR_UNC_TLP_PRF_BLOCKED)
+>  
+> +#define PCI_ERR_UNC_MASK_DEFAULT        (PCI_ERR_UNC_INTN | \
+> +                                         PCI_ERR_UNC_TLP_PRF_BLOCKED)
+> +
+>  #define PCI_ERR_UNC_SEVERITY_DEFAULT    (PCI_ERR_UNC_DLP |              \
+>                                           PCI_ERR_UNC_SDN |              \
+>                                           PCI_ERR_UNC_FCP |              \
+> -- 
+> 2.37.2
+
 
