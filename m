@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD38A6F3F13
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 10:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC3F6F3F2C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 10:36:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptlLI-00035C-FH; Tue, 02 May 2023 04:26:36 -0400
+	id 1ptlTS-0004Jc-H4; Tue, 02 May 2023 04:35:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ptlLH-00034y-5m
- for qemu-devel@nongnu.org; Tue, 02 May 2023 04:26:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1ptlTP-0004JF-Px
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 04:34:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ptlLE-0003Rw-VD
- for qemu-devel@nongnu.org; Tue, 02 May 2023 04:26:34 -0400
+ id 1ptlTN-0007Wi-58
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 04:34:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683015991;
+ s=mimecast20190719; t=1683016494;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vAdweXM0zaaill/E7zlsvUVsIxZIbqMwUtELMH+lFqY=;
- b=BRQEp+ksugjS97c7mALKfbO0X570gJZMwq5Jp1+pjaKYnsXm9ld+uJ9+EEJHPYtTgEAf3P
- wABY8SD0rgLx6xnuNunSirfJYOnRfIBAlEc0i9j64djFVoP4+RV2ftDZi3ZzXe0c9ytbqP
- 6ookrfS0UZu4Pnb8/ysi0cSfgwBpie8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=dNb05neDA0G7+NZBFrkmlPxF+fbsRCcS+/aUaS79SRQ=;
+ b=GJxdz88ZZ0aPyXRKmXQSYJjG1m13+idCSlS/heG0t0At+xmuefTDAuuQ+XNSEHihvpCLlC
+ FuDW4bVQZCPo3gsAIq3xADZ80BALRML5roEsspZgI2XB0oIKhfD43CALyzS+3HPnL7vfBR
+ EjCeO1TxBERBhxxMmyA9Rr3WUogWxqM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-QK50k3X-PYiFl7hJL63MUg-1; Tue, 02 May 2023 04:26:27 -0400
-X-MC-Unique: QK50k3X-PYiFl7hJL63MUg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-594-igoMNhpYNJGpzgYn-CYVHQ-1; Tue, 02 May 2023 04:34:53 -0400
+X-MC-Unique: igoMNhpYNJGpzgYn-CYVHQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F7E81C3A065;
- Tue,  2 May 2023 08:26:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F4403806709;
+ Tue,  2 May 2023 08:34:53 +0000 (UTC)
 Received: from redhat.com (unknown [10.42.28.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31E8CC15BAD;
- Tue,  2 May 2023 08:26:11 +0000 (UTC)
-Date: Tue, 2 May 2023 09:25:55 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C8C640F2D4B;
+ Tue,  2 May 2023 08:34:48 +0000 (UTC)
+Date: Tue, 2 May 2023 09:34:31 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: MkfsSion <mkfssion@mkfssion.com>
-Cc: "Hongren (Zenithal) Zheng" <i@zenithal.me>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Apache license usage (was Re: [PULL 04/15] hw/usb: Add CanoKey
- Implementation)
-Message-ID: <ZFDJE+8+P6tX4bIy@redhat.com>
-References: <20220614121610.508356-1-kraxel@redhat.com>
- <20220614121610.508356-5-kraxel@redhat.com>
- <ZEpKXncC/e6FKRe9@redhat.com> <ZE5smpiemFJWsMaQ@Sun>
- <ZE-x296xL_dkvM0N@MkfsSion-LPC>
+Subject: Re: [PATCH v3] meson: Pass -j option to sphinx
+Message-ID: <ZFDLF2nPKdvQ1Mho@redhat.com>
+References: <20230428150102.13114-1-farosas@suse.de>
+ <12c1fa01-9c1d-9af7-71eb-e9103346d0af@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZE-x296xL_dkvM0N@MkfsSion-LPC>
+In-Reply-To: <12c1fa01-9c1d-9af7-71eb-e9103346d0af@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -88,98 +83,49 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 01, 2023 at 08:39:42PM +0800, MkfsSion wrote:
-> On Sun, Apr 30, 2023 at 09:26:50PM +0800, Hongren (Zenithal) Zheng wrote:
-> > On Thu, Apr 27, 2023 at 11:11:42AM +0100, Daniel P. Berrangé wrote:
-> > > On Tue, Jun 14, 2022 at 02:15:59PM +0200, Gerd Hoffmann wrote:
-> > > > From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-> > > > 
-> > > > This commit added a new emulated device called CanoKey to QEMU.
-> > > > 
-> > > > CanoKey implements platform independent features in canokey-core
-> > > > https://github.com/canokeys/canokey-core, and leaves the USB implementation
-> > > > to the platform.
-> > > > 
-> > > > In this commit the USB part was implemented in QEMU using QEMU's USB APIs,
-> > > > therefore the emulated CanoKey can communicate with the guest OS using USB.
-> > > > 
-> > > > Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
-> > > > Message-Id: <YoY6Mgph6f6Hc/zI@Sun>
-> > > > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> > > > ---
-> > > >  hw/usb/canokey.h |  69 +++++++++++
-> > > >  hw/usb/canokey.c | 300 +++++++++++++++++++++++++++++++++++++++++++++++
-> > > >  2 files changed, 369 insertions(+)
-> > > >  create mode 100644 hw/usb/canokey.h
-> > > >  create mode 100644 hw/usb/canokey.c
-> > > > 
-> > > > diff --git a/hw/usb/canokey.h b/hw/usb/canokey.h
-> > > > new file mode 100644
-> > > > index 000000000000..24cf30420346
-> > > > --- /dev/null
-> > > > +++ b/hw/usb/canokey.h
-> > > > @@ -0,0 +1,69 @@
-> > > > +/*
-> > > > + * CanoKey QEMU device header.
-> > > > + *
-> > > > + * Copyright (c) 2021-2022 Canokeys.org <contact@canokeys.org>
-> > > > + * Written by Hongren (Zenithal) Zheng <i@zenithal.me>
-> > > > + *
-> > > > + * This code is licensed under the Apache-2.0.
-> > > > + */
-> > > 
-> > > > diff --git a/hw/usb/canokey.c b/hw/usb/canokey.c
-> > > > new file mode 100644
-> > > > index 000000000000..6cb8b7cdb089
-> > > > --- /dev/null
-> > > > +++ b/hw/usb/canokey.c
-> > > > @@ -0,0 +1,300 @@
-> > > > +/*
-> > > > + * CanoKey QEMU device implementation.
-> > > > + *
-> > > > + * Copyright (c) 2021-2022 Canokeys.org <contact@canokeys.org>
-> > > > + * Written by Hongren (Zenithal) Zheng <i@zenithal.me>
-> > > > + *
-> > > > + * This code is licensed under the Apache-2.0.
-> > > > + */
-> > > 
-> > > In the process of auditing licensing in QEMU I found this patch
-> > > adding code that is Apache-2.0 licensed, and as such I don't
-> > > think we should have ever merged the patch as is.
-> > > 
-> > > QEMU as a combined work is GPLv2-only.
-> > > 
-> > > There is disagreement between the Apache foundation and FSF on this
-> > > topic[1], but FSF considered Apache 2.0 to be incompatible with the
-> > > GPL-v2. Fedora licensing follows the same view of Apache being GPLv2
-> > > incompatible.
-> > > 
-> > > More generally I think it is a little dubious to write new devices
-> > > while claiming a license that's different from normal QEMU code
-> > > license. I expect there is inevitably a degree of cut+paste from
-> > > existing QEMU code to handle the device boilerplate code which
-> > > would be sufficient to expect a GPLv2-or-later license to apply.
-> > > 
-> > > The two added files in this commit are the only occurrence of
-> > > Apache licensing in QEMU that I see.
-> > > 
-> > > Hongren, IIUC from the attribution above, you wrote the code but
-> > > Canokeys.org claims copyright. Could you report whether Canokeys.org
-> > > will agree to change the licensing on these files to QEMU's normal
-> > > GPLv2-or-later licensing.
+On Sat, Apr 29, 2023 at 02:33:17PM +0200, Paolo Bonzini wrote:
+> On 4/28/23 17:01, Fabiano Rosas wrote:
+> > Also make sure our plugins support parallelism and report it properly
+> > to sphinx. Particularly, implement the merge_domaindata method in
+> > DBusDomain that is used to merge in data from other subprocesses.
 > > 
-> > I have discussed it internally with canokeys.org and they agreed
-> > to re-license it under GPLv2+
+> > before:
+> >    $ time make man html
+> >    ...
+> >    [1/2] Generating docs/QEMU manual with a custom command
+> >    [2/2] Generating docs/QEMU man pages with a custom command
 > > 
-> > I will send a patch modifying the license.
+> >    real    0m43.157s
+> >    user    0m42.642s
+> >    sys     0m0.576s
 > > 
-> > In the meantime, canokey.c was also modified by
-> > MkfsSion <mkfssion@mkfssion.com>
+> > after:
+> >    $ time make man html
+> >    ...
+> >    [1/2] Generating docs/QEMU manual with a custom command
+> >    [2/2] Generating docs/QEMU man pages with a custom command
 > > 
-> > I've Cc'ed MkfsSion for their attitude on this.
-> Acked-by: YuanYang Meng <mkfssion@mkfssion.com>
+> >    real    0m25.014s
+> >    user    0m51.288s
+> >    sys     0m2.085s
+> 
+> The 'nproc' fallback will potentially cause twice #CPUs processes to be
+> active, since sphinx will run in parallel with everything else.
+> 
+> Is this result with "-j auto", and if so with which computer?  If the
+> speedup is only 2x as it seems to be from the "time" above, I'd rather have
+> "-j 2" only so that sphinx doesn't risk killing the machine...
 
-That's great, thanks to all for the quick response.
+Why would it kill the machine ? If there are two sphinx processes
+concurrent, thus overcomitting available CPUs, the scheduler will
+just end up giving them shorter timeslice OS. Given that the
+sphinx parallelism seems to be very bursty when I monitored it,
+I think having the high CPU counts is justified. The times when
+both sphinx processes need all 8/16/whatever CPUs is relatively
+unlikely to clash for prolonged periods.
+
+What could kill the machine is if the RAM usage was excessive,
+but I would thing we would see that already if it were a problem.
 
 With regards,
 Daniel
