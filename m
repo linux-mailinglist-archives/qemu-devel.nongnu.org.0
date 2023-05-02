@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A63A6F4A74
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 21:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7C56F4A88
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 21:42:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptvqf-0008SY-2b; Tue, 02 May 2023 15:39:41 -0400
+	id 1ptvsD-0000k8-7j; Tue, 02 May 2023 15:41:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ptvqV-0008SE-8X
- for qemu-devel@nongnu.org; Tue, 02 May 2023 15:39:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptvs9-0000jA-Og
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 15:41:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ptvqT-0004EM-JK
- for qemu-devel@nongnu.org; Tue, 02 May 2023 15:39:30 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ptvs7-00061M-RM
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 15:41:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683056368;
+ s=mimecast20190719; t=1683056471;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=myDctQ8+wci50EjzBi/ifVAvY7J7ATZ7U50MIjie44A=;
- b=copTpFcHaxpRnHvhFf1Z/8IZuUf2ZZn9NtiiEIad/e3hLc6vqAXTI9v1fUqLT0EYHGX/ST
- IOsxVVVQMbWG/eyDHAWk8RHfGKttLOJixaUK5rbDCvVDUwWyXXO4yZuytmRf2OnctiYlr2
- 7YZk4heHEg2e4fAOqUKTREQ3v3kFF3M=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-6-9zV9swhuNOqBSCW5x3dxqw-1; Tue, 02 May 2023 15:39:27 -0400
-X-MC-Unique: 9zV9swhuNOqBSCW5x3dxqw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-94e86d83676so530046466b.3
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 12:39:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683056366; x=1685648366;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=myDctQ8+wci50EjzBi/ifVAvY7J7ATZ7U50MIjie44A=;
- b=PbWm3+HkE8F7t2xyrGPHLl2sRudHLR0ViUUqaYtpQl79g1w29W+vK5lDe9k5ysO2m/
- ad2aG6gfBALqJ2GIh5E+WUf5uesPKgAx0681s8jcNRbdbSLLdvUsQEWzYSnKetcBLlbU
- VhuabdztVriAT1casXrqvHPd3GkcLzs0MAFJzDXxLSaHOfyl1bfp32sygBn1/LusogBB
- eGZ/pZuMUDRZHHvU4X+qAFXg52xvTKB1b3xc6F/E6tmPyx4Roe4VFUxWxyOYTqmekGFC
- MPhUyRorDDe/z/yFmcmRchUltEX5iMf7InKB+Ho9xDHppuJsGzMX/MqW8fHOYz7gArEs
- /bEQ==
-X-Gm-Message-State: AC+VfDwX4BEWQtBRqWKMUyE0Ivc2PWyrC1I+XxcUU6EFuvwUr9q+T99r
- J8TPumAhSZj5q5whr6sLo0+Pk7AHjA1XgwwkKdNPidL7MBB3tYF6Vbdr8M4UkQx+F3/elLNVytp
- 2KByLFBCmVxKZvDxRHoIbM3bgEQn23Q8=
-X-Received: by 2002:a17:907:9415:b0:960:ddba:e5c5 with SMTP id
- dk21-20020a170907941500b00960ddbae5c5mr881589ejc.11.1683056366122; 
- Tue, 02 May 2023 12:39:26 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ71IrUviabXw3flD2ixYh6aqYIid8Z4+ODuCfEmyHp3EoDH4rdPaEmq8cLr4L0fg+dlZUrcWbPzDWIrrFvbd0g=
-X-Received: by 2002:a17:907:9415:b0:960:ddba:e5c5 with SMTP id
- dk21-20020a170907941500b00960ddbae5c5mr881575ejc.11.1683056365839; Tue, 02
- May 2023 12:39:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230502105721.1661930-1-thuth@redhat.com>
-In-Reply-To: <20230502105721.1661930-1-thuth@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 2 May 2023 23:39:14 +0400
-Message-ID: <CAMxuvaxKJLvWqjxOtokkTizoaT+F9gT_4jhXtHrj4+g11ZM80Q@mail.gmail.com>
-Subject: Re: [PATCH] tests/avocado/virtio-gpu: Fix the URLs of the
- test_virtio_vga_virgl test
-To: Thomas Huth <thuth@redhat.com>
+ bh=6xENbjVvp+Pts3X84Cy2DsWSBfSYloGA+NzmbgbplRU=;
+ b=fOt5e4RU5TCQFUGbDzQYsMURmBV4TTppPLwFTDXuiOX/1HAeWzGUfAZBXzXiWnCsNNQ+6K
+ ZzSkLnn2K9rjM23rxRBj5B/SGsNXfh3w0WRwxeaPssy8iGjfAXZmMM26l+zMdFxLzhUNlf
+ R+HFjIHQCOB0Hw5mFMP//N1FNQGQAhg=
+Received: from mimecast-mx02.redhat.com (66.187.233.88 [66.187.233.88]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-335-YMLPGPKMO4SxOjhl3dEpxA-1; Tue, 02 May 2023 15:41:01 -0400
+X-MC-Unique: YMLPGPKMO4SxOjhl3dEpxA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E962D85A588;
+ Tue,  2 May 2023 19:40:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E85EC4020960;
+ Tue,  2 May 2023 19:40:47 +0000 (UTC)
+Date: Tue, 2 May 2023 15:40:45 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
 Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d2c30c05fabb18c0"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
+ eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
+Subject: Re: [PATCH v4 06/20] block/export: wait for vhost-user-blk requests
+ when draining
+Message-ID: <20230502194045.GC535070@fedora>
+References: <20230425172716.1033562-1-stefanha@redhat.com>
+ <20230425172716.1033562-7-stefanha@redhat.com>
+ <ZFEve2GfI0TqsItA@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XRuGd9g1z5oS2ell"
+Content-Disposition: inline
+In-Reply-To: <ZFEve2GfI0TqsItA@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,111 +99,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000d2c30c05fabb18c0
-Content-Type: text/plain; charset="UTF-8"
+
+--XRuGd9g1z5oS2ell
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 2, 2023 at 2:57=E2=80=AFPM Thomas Huth <thuth@redhat.com> wrote=
-:
+On Tue, May 02, 2023 at 05:42:51PM +0200, Kevin Wolf wrote:
+> Am 25.04.2023 um 19:27 hat Stefan Hajnoczi geschrieben:
+> > Each vhost-user-blk request runs in a coroutine. When the BlockBackend
+> > enters a drained section we need to enter a quiescent state. Currently
+> > any in-flight requests race with bdrv_drained_begin() because it is
+> > unaware of vhost-user-blk requests.
+> >=20
+> > When blk_co_preadv/pwritev()/etc returns it wakes the
+> > bdrv_drained_begin() thread but vhost-user-blk request processing has
+> > not yet finished. The request coroutine continues executing while the
+> > main loop thread thinks it is in a drained section.
+> >=20
+> > One example where this is unsafe is for blk_set_aio_context() where
+> > bdrv_drained_begin() is called before .aio_context_detached() and
+> > .aio_context_attach(). If request coroutines are still running after
+> > bdrv_drained_begin(), then the AioContext could change underneath them
+> > and they race with new requests processed in the new AioContext. This
+> > could lead to virtqueue corruption, for example.
+> >=20
+> > (This example is theoretical, I came across this while reading the
+> > code and have not tried to reproduce it.)
+> >=20
+> > It's easy to make bdrv_drained_begin() wait for in-flight requests: add
+> > a .drained_poll() callback that checks the VuServer's in-flight counter.
+> > VuServer just needs an API that returns true when there are requests in
+> > flight. The in-flight counter needs to be atomic.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  include/qemu/vhost-user-server.h     |  4 +++-
+> >  block/export/vhost-user-blk-server.c | 16 ++++++++++++++++
+> >  util/vhost-user-server.c             | 14 ++++++++++----
+> >  3 files changed, 29 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/include/qemu/vhost-user-server.h b/include/qemu/vhost-user=
+-server.h
+> > index bc0ac9ddb6..b1c1cda886 100644
+> > --- a/include/qemu/vhost-user-server.h
+> > +++ b/include/qemu/vhost-user-server.h
+> > @@ -40,8 +40,9 @@ typedef struct {
+> >      int max_queues;
+> >      const VuDevIface *vu_iface;
+> > =20
+> > +    unsigned int in_flight; /* atomic */
+> > +
+> >      /* Protected by ctx lock */
+> > -    unsigned int in_flight;
+> >      bool wait_idle;
+> >      VuDev vu_dev;
+> >      QIOChannel *ioc; /* The I/O channel with the client */
+> > @@ -62,6 +63,7 @@ void vhost_user_server_stop(VuServer *server);
+> > =20
+> >  void vhost_user_server_inc_in_flight(VuServer *server);
+> >  void vhost_user_server_dec_in_flight(VuServer *server);
+> > +bool vhost_user_server_has_in_flight(VuServer *server);
+> > =20
+> >  void vhost_user_server_attach_aio_context(VuServer *server, AioContext=
+ *ctx);
+> >  void vhost_user_server_detach_aio_context(VuServer *server);
+> > diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-=
+user-blk-server.c
+> > index 841acb36e3..092b86aae4 100644
+> > --- a/block/export/vhost-user-blk-server.c
+> > +++ b/block/export/vhost-user-blk-server.c
+> > @@ -272,7 +272,20 @@ static void vu_blk_exp_resize(void *opaque)
+> >      vu_config_change_msg(&vexp->vu_server.vu_dev);
+> >  }
+> > =20
+> > +/*
+> > + * Ensures that bdrv_drained_begin() waits until in-flight requests co=
+mplete.
+> > + *
+> > + * Called with vexp->export.ctx acquired.
+> > + */
+> > +static bool vu_blk_drained_poll(void *opaque)
+> > +{
+> > +    VuBlkExport *vexp =3D opaque;
+> > +
+> > +    return vhost_user_server_has_in_flight(&vexp->vu_server);
+> > +}
+> > +
+> >  static const BlockDevOps vu_blk_dev_ops =3D {
+> > +    .drained_poll  =3D vu_blk_drained_poll,
+> >      .resize_cb =3D vu_blk_exp_resize,
+> >  };
+>=20
+> You're adding a new function pointer to an existing BlockDevOps...
+>=20
+> > @@ -314,6 +327,7 @@ static int vu_blk_exp_create(BlockExport *exp, Bloc=
+kExportOptions *opts,
+> >      vu_blk_initialize_config(blk_bs(exp->blk), &vexp->blkcfg,
+> >                               logical_block_size, num_queues);
+> > =20
+> > +    blk_set_dev_ops(exp->blk, &vu_blk_dev_ops, vexp);
+> >      blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_d=
+etach,
+> >                                   vexp);
+> > =20
+> >      blk_set_dev_ops(exp->blk, &vu_blk_dev_ops, vexp);
+>=20
+> ..but still add a second blk_set_dev_ops(). Maybe a bad merge conflict
+> resolution with commit ca858a5fe94?
 
-> The URLs here are not valid anymore - looks like the assets got moved
-> into the pub/archive/ subfolder instead.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
->
+Thanks, I probably didn't have ca858a5fe94 in my tree when writing this
+code.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > @@ -323,6 +337,7 @@ static int vu_blk_exp_create(BlockExport *exp, Bloc=
+kExportOptions *opts,
+> >                                   num_queues, &vu_blk_iface, errp)) {
+> >          blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
+> >                                          blk_aio_detach, vexp);
+> > +        blk_set_dev_ops(exp->blk, NULL, NULL);
+> >          g_free(vexp->handler.serial);
+> >          return -EADDRNOTAVAIL;
+> >      }
+> > @@ -336,6 +351,7 @@ static void vu_blk_exp_delete(BlockExport *exp)
+> > =20
+> >      blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_ai=
+o_detach,
+> >                                      vexp);
+> > +    blk_set_dev_ops(exp->blk, NULL, NULL);
+> >      g_free(vexp->handler.serial);
+> >  }
+>=20
+> These two hunks are then probably already fixes for ca858a5fe94 and
+> should be a separate patch if so.
 
+Sure, I can split them out.
 
-> ---
->  tests/avocado/virtio-gpu.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/avocado/virtio-gpu.py b/tests/avocado/virtio-gpu.py
-> index 2a249a3a2c..e3b58fe799 100644
-> --- a/tests/avocado/virtio-gpu.py
-> +++ b/tests/avocado/virtio-gpu.py
-> @@ -36,13 +36,13 @@ class VirtioGPUx86(QemuSystemTest):
->
->      KERNEL_COMMAND_LINE =3D "printk.time=3D0 console=3DttyS0 rdinit=3D/b=
-in/bash"
->      KERNEL_URL =3D (
-> -        "https://archives.fedoraproject.org/pub/fedora"
-> +        "https://archives.fedoraproject.org/pub/archive/fedora"
->          "/linux/releases/33/Everything/x86_64/os/images"
->          "/pxeboot/vmlinuz"
->      )
->      KERNEL_HASH =3D '1433cfe3f2ffaa44de4ecfb57ec25dc2399cdecf'
->      INITRD_URL =3D (
-> -        "https://archives.fedoraproject.org/pub/fedora"
-> +        "https://archives.fedoraproject.org/pub/archive/fedora"
->          "/linux/releases/33/Everything/x86_64/os/images"
->          "/pxeboot/initrd.img"
->      )
-> --
-> 2.31.1
->
->
+hw/ doesn't need to call blk_set_dev_ops(blk, NULL, NULL) because
+hw/core/qdev-properties-system.c:release_drive() -> blk_detach_dev()
+does it automatically, but block/export does. It's easy to overlook and
+that's probably why ca858a5fe94 didn't include it.
 
---000000000000d2c30c05fabb18c0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> > diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
+> > index 1622f8cfb3..2e6b640050 100644
+> > --- a/util/vhost-user-server.c
+> > +++ b/util/vhost-user-server.c
+> > @@ -78,17 +78,23 @@ static void panic_cb(VuDev *vu_dev, const char *buf)
+> >  void vhost_user_server_inc_in_flight(VuServer *server)
+> >  {
+> >      assert(!server->wait_idle);
+> > -    server->in_flight++;
+> > +    qatomic_inc(&server->in_flight);
+> >  }
+> > =20
+> >  void vhost_user_server_dec_in_flight(VuServer *server)
+> >  {
+> > -    server->in_flight--;
+> > -    if (server->wait_idle && !server->in_flight) {
+> > -        aio_co_wake(server->co_trip);
+> > +    if (qatomic_fetch_dec(&server->in_flight) =3D=3D 1) {
+> > +        if (server->wait_idle) {
+> > +            aio_co_wake(server->co_trip);
+> > +        }
+> >      }
+> >  }
+> > =20
+> > +bool vhost_user_server_has_in_flight(VuServer *server)
+> > +{
+> > +    return qatomic_load_acquire(&server->in_flight) > 0;
+> > +}
+> > +
+>=20
+> Any reason why you left the server->in_flight accesses in
+> vu_client_trip() non-atomic?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 2, 2023 at 2:57=E2=80=AFP=
-M Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The U=
-RLs here are not valid anymore - looks like the assets got moved<br>
-into the pub/archive/ subfolder instead.<br>
-<br>
-Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
-=3D"_blank">thuth@redhat.com</a>&gt;<br></blockquote><div><br></div><div><d=
-iv>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lure=
-au@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0tests/avocado/virtio-gpu.py | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/tests/avocado/virtio-gpu.py b/tests/avocado/virtio-gpu.py<br>
-index 2a249a3a2c..e3b58fe799 100644<br>
---- a/tests/avocado/virtio-gpu.py<br>
-+++ b/tests/avocado/virtio-gpu.py<br>
-@@ -36,13 +36,13 @@ class VirtioGPUx86(QemuSystemTest):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0KERNEL_COMMAND_LINE =3D &quot;printk.time=3D0 console=
-=3DttyS0 rdinit=3D/bin/bash&quot;<br>
-=C2=A0 =C2=A0 =C2=A0KERNEL_URL =3D (<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://archives.fedoraprojec=
-t.org/pub/fedora" rel=3D"noreferrer" target=3D"_blank">https://archives.fed=
-oraproject.org/pub/fedora</a>&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://archives.fedoraprojec=
-t.org/pub/archive/fedora" rel=3D"noreferrer" target=3D"_blank">https://arch=
-ives.fedoraproject.org/pub/archive/fedora</a>&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;/linux/releases/33/Everything/x86_6=
-4/os/images&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;/pxeboot/vmlinuz&quot;<br>
-=C2=A0 =C2=A0 =C2=A0)<br>
-=C2=A0 =C2=A0 =C2=A0KERNEL_HASH =3D &#39;1433cfe3f2ffaa44de4ecfb57ec25dc239=
-9cdecf&#39;<br>
-=C2=A0 =C2=A0 =C2=A0INITRD_URL =3D (<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://archives.fedoraprojec=
-t.org/pub/fedora" rel=3D"noreferrer" target=3D"_blank">https://archives.fed=
-oraproject.org/pub/fedora</a>&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"https://archives.fedoraprojec=
-t.org/pub/archive/fedora" rel=3D"noreferrer" target=3D"_blank">https://arch=
-ives.fedoraproject.org/pub/archive/fedora</a>&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;/linux/releases/33/Everything/x86_6=
-4/os/images&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;/pxeboot/initrd.img&quot;<br>
-=C2=A0 =C2=A0 =C2=A0)<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div></div>
+I don't remember if it was a mistake or if there is a reason why it's
+safe. I'll replace those accesses with calls to
+vhost_user_server_has_in_flight().
 
---000000000000d2c30c05fabb18c0--
+Stefan
+
+--XRuGd9g1z5oS2ell
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRRZz0ACgkQnKSrs4Gr
+c8iEjwgAov+Ozs58HYaiYo0b4VnPoOnAM2QqHXYzmVRN4+5mqvFWNVKufgQMDbSG
+1o1dgDNOCRU1tpOCUbNRYmvJxvYY6QA9Ho7AdLGPZc6jq2CR4LHarr5MP1Py5ktT
+dGAN6GFH3qzsf93j4wEa0HnWax5RvOdFEPxkK2JKgXRA+AesbOLRizK1q2P5p3TH
+6I0SfPnLhlTeosVaQ4mRLkZuXNt5/bTeh54lW/NSLP6IpbBoB082Wqr1JqCwjdVO
+XxBNAMrMB/0oImJNHh9HSqpB2oHlL2FOa/yu++wNeZ1uzHdt7oRDpgwx2mQpMmiT
+/HhN2vFe1XsM621h8uV5aa4HZH7Hiw==
+=UcN5
+-----END PGP SIGNATURE-----
+
+--XRuGd9g1z5oS2ell--
 
 
