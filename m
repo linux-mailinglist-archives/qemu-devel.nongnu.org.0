@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59C46F48D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 19:06:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B936F48EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 19:10:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pttPg-000484-BM; Tue, 02 May 2023 13:03:40 -0400
+	id 1pttUf-0006QI-SR; Tue, 02 May 2023 13:08:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pttPe-00047w-Jm
- for qemu-devel@nongnu.org; Tue, 02 May 2023 13:03:38 -0400
+ id 1pttUc-0006QA-CW
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 13:08:46 -0400
 Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pttPc-0006TN-EO
- for qemu-devel@nongnu.org; Tue, 02 May 2023 13:03:38 -0400
+ id 1pttUa-0008HC-Nt
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 13:08:46 -0400
 Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-50bc0117683so5701200a12.1
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 10:03:35 -0700 (PDT)
+ 4fb4d7f45d1cf-50be0d835aaso92376a12.3
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 10:08:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683047012; x=1685639012;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=etK2EUqyDvngx3ecX4GnWW300M8Ntg4u2ykyJip5KwY=;
- b=vxX/JwaABRqlDtARqpu7Od+tdSf3pSMREtsKDcNq4JTZKUAksDLDNSm8Wq3c7Eajwl
- An+e8XGsIwOG+cHSrtdCOIz788OVzr5fZImBeoj4cJDCq3aSbAQ05lgCNvtHksO/diKV
- DDKMO7ztc7Lw45lEPoeVqO1cRwm+0CkKUZrOUV4Qld9dWkiXJYETLKSvawYEdmSa8Z9C
- uR+JwGohSZxOiNKTdiEWdb8C5eKkVcawO+CM1RUhKaMEXYzv0qopaFKlF/H4WsFi+0L3
- a2CqkosC/jh3nhWaZZ+1nn5XN2udbSQZtWD43wWS6oHjKt88Dzacek+2Y1FUOTAcyJHD
- kdJg==
+ d=linaro.org; s=google; t=1683047323; x=1685639323;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wKq68nL7IZe8CxCPKWRpfsYPAqO/kJptEynBmrLXGno=;
+ b=wJTz2Lb9P2BIcudGgZCX+y+30ZlzVkLjiFwcmaHxkHtJYW7P5L/qYfTAiZ+i4zqgtg
+ 0IlRSg4MA1HAqV+D0ba8Ih+KRJ5IYo8McCdQYaAKLoHJ0c0yM/3QuOL+N3HOsRbmwYwx
+ YUU/sXI+6PaC+TgDxUDSllY3ZQNDycR8MxfDHtYukm8AT+M2ON6OQQ1vFKjobX/XROMj
+ LU2FAObSj+uKhG8pYCmYJCX5Fj6GEMmI/En30Rt2dV3vL3qtYvuJaDb3J756VQ5g+rlh
+ iU74ECh20gV+Mkf64cBgq/6oJ7b7yB7X2hG+wTL4we+cWq1KMC3EYdj26hWTxXZn5xCh
+ tYlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683047012; x=1685639012;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=etK2EUqyDvngx3ecX4GnWW300M8Ntg4u2ykyJip5KwY=;
- b=kMRfsTUpHAU57Bhl19ltO3vuJwh2iYgEPEeu/IiLkTRgiPbufaJlM1PCkxp5185X87
- vbR/D2HNtfk5GMCIChC5DT7x8Zh/wlCW7qQXWyE7aIeQchWvY4pdfmnzc9GgsUinH5LF
- PsTU0EeG9kGhva/C9yQA9ERQ7bW/M4LuMf5YFwBfB7vHM3eKYRdEY7Wn2IyyggDwfbOr
- G+K5SNmw7U9nsJ1wqhDjz1zxINSho1YFCqY5e4SkShvgh7O8Mh781exrYQPTYBguOf/h
- HAb4Fops0ooh8yfbeHtpfDXvlnnsuVQHC3xdFIQiyK2ZBJrsKaO/mkTQBwMcRtOmU9x7
- 8Qzw==
-X-Gm-Message-State: AC+VfDwtd91lBfEQUKngSwm/acdf4vJr1hb59CDuGefyZa6iBj/vC7wx
- WUmxF0ALN1+k+B3bHuA3JztDh/UjcLulNtsQurluVQ==
-X-Google-Smtp-Source: ACHHUZ5nM3fhL6M1N99jjRctT63gljOA+NA0X9aGevljgfpxQ4ZpKQQTg0TWpGdqKn1Nv1T7/pTCS7FTEK38PovygnA=
-X-Received: by 2002:a17:906:fd82:b0:947:335f:5a0d with SMTP id
- xa2-20020a170906fd8200b00947335f5a0dmr602598ejb.62.1683047011876; Tue, 02 May
- 2023 10:03:31 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683047323; x=1685639323;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wKq68nL7IZe8CxCPKWRpfsYPAqO/kJptEynBmrLXGno=;
+ b=OSAvX6t+qhhA27L1yVBwSqOv36JgQ+iHHS6r9+Q9wocBsiBbAOIC6YlT5zaXoC6XiX
+ TTIAWBFEElMHSjDh0OBFXLfr/5B4CIBT75QIO11vZhydiOw0+m1yTz8qmjm3OrItpiwq
+ E5MakBTTYXyeYy1bskFBUfhO5VWwvx+8fs3GYCIw516GKfQECGViRLnUvjf9sHD8LJ2c
+ gdrYpaUm04meSODibWV5raNvxzkq5uH7bqaY/u27gzueBgsDihyVnf38b9S3oZl3dFO9
+ IuhPgnJyPJq6AVC+nQ5fqUIi+oURhB8ZMLOiB8nKpcBzp/nfYtunFcewQkfQ9MDBOYzr
+ a2kw==
+X-Gm-Message-State: AC+VfDzFTXIILamANd1P7u0s4aXEXsPO96yNiq98I6xuX35HAm9gTenI
+ ENw4wQT736C2SgLBpYxHyMUHIoTLBp82LH61+ykfSA==
+X-Google-Smtp-Source: ACHHUZ5ryAaiEYM7YxlTJAHU6zLdkibBxJTqdgb+u5+jyCzwLxskxERr5n7iMCM3uXDn/QRibKS6VOtt1URTw1XYbYQ=
+X-Received: by 2002:a05:6402:44a:b0:504:b511:1a39 with SMTP id
+ p10-20020a056402044a00b00504b5111a39mr8695641edw.12.1683047322896; Tue, 02
+ May 2023 10:08:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1678237635.git.mst@redhat.com>
- <f2b901098e14ad1aaffab82464917b8679499cc5.1678237635.git.mst@redhat.com>
-In-Reply-To: <f2b901098e14ad1aaffab82464917b8679499cc5.1678237635.git.mst@redhat.com>
+References: <20230307182707.2298618-1-dwmw2@infradead.org>
+ <20230307182707.2298618-6-dwmw2@infradead.org>
+In-Reply-To: <20230307182707.2298618-6-dwmw2@infradead.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 May 2023 18:03:20 +0100
-Message-ID: <CAFEAcA-ZKc1Q_rTH4XGNH+wu0cfJ5G2RPpEV=x0pitHNUnbe2w@mail.gmail.com>
-Subject: Re: [PULL 11/73] cryptodev: Support query-stats QMP command
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eric Blake <eblake@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>
+Date: Tue, 2 May 2023 18:08:32 +0100
+Message-ID: <CAFEAcA9gzJGMqsEY5TuNmb74RskgUTMW+XcqGV53n3SsKyVVXg@mail.gmail.com>
+Subject: Re: [PULL 05/27] hw/xen: Watches on XenStore transactions
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>, 
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com, 
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org, 
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::536;
  envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
@@ -90,37 +91,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 8 Mar 2023 at 01:11, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Tue, 7 Mar 2023 at 18:27, David Woodhouse <dwmw2@infradead.org> wrote:
 >
-> From: zhenwei pi <pizhenwei@bytedance.com>
+> From: David Woodhouse <dwmw@amazon.co.uk>
 >
-> Now we can use "query-stats" QMP command to query statistics of
-> crypto devices. (Originally this was designed to show statistics
-> by '{"execute": "query-cryptodev"}'. Daniel Berrang=C3=A9 suggested that
-> querying configuration info by "query-cryptodev", and querying
-> runtime performance info by "query-stats". This makes sense!)
+> Firing watches on the nodes that still exist is relatively easy; just
+> walk the tree and look at the nodes with refcount of one.
+>
+> Firing watches on *deleted* nodes is more fun. We add 'modified_in_tx'
+> and 'deleted_in_tx' flags to each node. Nodes with those flags cannot
+> be shared, as they will always be unique to the transaction in which
+> they were created.
+>
+> When xs_node_walk would need to *create* a node as scaffolding and it
+> encounters a deleted_in_tx node, it can resurrect it simply by clearing
+> its deleted_in_tx flag. If that node originally had any *data*, they're
+> gone, and the modified_in_tx flag will have been set when it was first
+> deleted.
+>
+> We then attempt to send appropriate watches when the transaction is
+> committed, properly delete the deleted_in_tx nodes, and remove the
+> modified_in_tx flag from the others.
+>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Reviewed-by: Paul Durrant <paul@xen.org>
 
-Hi; Coverity points out (CID 1508074) that this change
-introduces a memory leak:
+Hi; Coverity's "is there missing error handling?"
+heuristic fired for a change in this code (CID 1508359):
 
-> +static int cryptodev_backend_stats_query(Object *obj, void *data)
-> +{
-
-> +    entry =3D g_new0(StatsResult, 1);
-> +    entry->provider =3D STATS_PROVIDER_CRYPTODEV;
-> +    entry->qom_path =3D g_strdup(object_get_canonical_path(obj));
-
-object_get_canonical_path() already returns allocated memory
-that the caller should free with g_free(), so we should not
-g_strdup() it (which then leaks that memory).
-
-> +    entry->stats =3D stats_list;
-> +    QAPI_LIST_PREPEND(*stats_results, entry);
+>  static int transaction_commit(XenstoreImplState *s, XsTransaction *tx)
+>  {
+> +    struct walk_op op;
+> +    XsNode **n;
 > +
-> +    return 0;
-> +}
+>      if (s->root_tx != tx->base_tx) {
+>          return EAGAIN;
+>      }
+> @@ -720,10 +861,18 @@ static int transaction_commit(XenstoreImplState *s, XsTransaction *tx)
+>      s->root_tx = tx->tx_id;
+>      s->nr_nodes = tx->nr_nodes;
+>
+> +    init_walk_op(s, &op, XBT_NULL, tx->dom_id, "/", &n);
 
-Would somebody like to send a patch?
+This is the only call to init_walk_op() which ignores its
+return value. Intentional, or missing error handling?
+
+> +    op.deleted_in_tx = false;
+> +    op.mutating = true;
+> +
+>      /*
+> -     * XX: Walk the new root and fire watches on any node which has a
+> +     * Walk the new root and fire watches on any node which has a
+>       * refcount of one (which is therefore unique to this transaction).
+>       */
+> +    if (s->root->children) {
+> +        g_hash_table_foreach_remove(s->root->children, tx_commit_walk, &op);
+> +    }
+> +
+>      return 0;
+>  }
 
 thanks
 -- PMM
