@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C786F43A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689826F438B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:17:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptouY-0003lC-GJ; Tue, 02 May 2023 08:15:14 -0400
+	id 1ptoua-0003lV-I1; Tue, 02 May 2023 08:15:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptouW-0003kU-Jv
+ id 1ptouW-0003kT-J9
  for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:12 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptouO-0002zt-7b
+ id 1ptouO-0002zw-8J
  for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:12 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so166346145e9.0
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-2f7db354092so2255405f8f.2
  for <qemu-devel@nongnu.org>; Tue, 02 May 2023 05:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683029702; x=1685621702;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=TenP9QN04wk7Cs3GRlFWsM87sW34MbN5XiVfw5QurKU=;
- b=yodDQZqO11mBpCsFdbVGaH80QiejTGw434Nwb1IM5KVfiOszb3lJl1+X1y7Z3AeT3a
- 00sezK3ee0/ewX9Em9M5Y/jAYmgtVAjftTAbRFRwbFuAlV9Ib1AeRp81PYHJJ4dNIVQw
- hBeop8YY6q2AGTiB1mabtq2oGRt7+ZBvhik3PQaLsTAwX3bOMCqnHWYFMhWlAxMEGiML
- abFIRLPndLh276x0FzSTbmsAlx2VL5KYs46hswXTI9z/xP0UUENZqpto5fmeq39wX8/n
- xZHcxposmoYEDu7qLGZ1BmZ4xmzs4L7SyIZsJRL8U5+g2mvjcPnEgLWUaHQcGYHKynwF
- g+Qw==
+ :reply-to; bh=VLjSO2tP92uiS72acB9fU4Fq4iGZuuT37nE07/dO9r4=;
+ b=zPQFgk6ZQGrHHQ35ZncgD1OjMCKWVE7LiruFNzSvSECkT1zMnJk0LI0Rpv7ZeNvFUB
+ VX+C4IsYSNihnRtJGLGAaLbPBAaueA3XgCNaIW+bTt2X1TFEox5pvXSwPqbfQYbmxyg6
+ iyN8Ilp4vpP3xEDB5mXzH/huI2zJUJIE3k+SP1YYksbC7BzJBlDMYhukhfcQEKBus8kw
+ Z9ggMsTNbjkoYYn6iW7SGV/9re5Tf3ukCOkRplN2usxj+8icoRjfeFY7qIs5TCeUluj5
+ 6VFM2GIuqLIN8y4sV2hZt3criY8VLoXZHnQw2WzILoyUBQJfHPXq3b9qEWZOnBGjxILo
+ DC7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683029702; x=1685621702;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TenP9QN04wk7Cs3GRlFWsM87sW34MbN5XiVfw5QurKU=;
- b=JwmBkFtxpJXffZRSO5p4wqHCkWgIT4pCrgIQgquuBupQDCbxnbtw4qRm9q5kSnxF+a
- 96zlg3UFx+Rxv3cEi8C8lQL7c04jR+LfC3KevHduYiPcMWuSn8waE2pT+Fu6GMx0N4Ru
- efd3VC5yjpBsbCDyNkEUIGXMxQ/3BUbMOLvpTuOZC8xulT+zlJoNhW7dtchd9m+Xn9m+
- i8YO97GCyhU20ijFyDWTUS6y4sdSAXd25UzEsEMzEG25shxIUPW9DWIZq3N+jfh1Dw6T
- xwwkQAbqrTDQwjkPM2kQyOII6zwjo9PsY+g1XkrK516lPrDKZzHU+kq25L3kYekU4oPC
- pzEA==
-X-Gm-Message-State: AC+VfDy4b4t2OEXzsgDA7THF6XDqZSVLPlJO5q/wCfziZKGINP+flIwB
- ajElHKhWTIYx3ol7nHPscHDsjsTjLPdlTWLKuz8=
-X-Google-Smtp-Source: ACHHUZ53agnKV+zIYd27BlAdsOIqqyl4alR+YFA1gVY1vPB/gQyQY4hH4MxGquzV/0WHAMttdR0ngw==
-X-Received: by 2002:a05:600c:5117:b0:3f1:6fb4:5645 with SMTP id
- o23-20020a05600c511700b003f16fb45645mr15788554wms.1.1683029702090; 
+ bh=VLjSO2tP92uiS72acB9fU4Fq4iGZuuT37nE07/dO9r4=;
+ b=esaFW6hAl67DN5iz8T67uWFkWMowGgIRJIvBCbvUVDCdeqLfDPRZUf0UYWeTD+PAZm
+ /ux5FZvIjX363EJRx20C+W5gGMGLROTg9r9/B2RMWNjrP/IEHIfuQdSUqRuoAMSbxrJx
+ hfJyBrjUTovtYvbYWYF5SAXzX78zfnK2t+q9zAx8c6FfQaVGYNNsEJyZfO6uBYh6QAdj
+ pyiFx98MnQqNnUOW3wYUnbAoJDAF9DDBWNuJlA9KaH8TlVPiqJqAGLnsZNBy24Cz28A9
+ MIpZpPErm/hV4uQho0Fvem1uNVC31Ofi2+UH7cKv6ZvbuVQXe9lhQA9RjYQORpIZw3D4
+ 8idA==
+X-Gm-Message-State: AC+VfDy4ADKgW8sqcR7I4adZUafHP81yQn9sydtn6R0F74lAEYNnKEqz
+ ucfFE99uZxg+A4YS02TjaM1Xp0+JQEZVAYL3nfg=
+X-Google-Smtp-Source: ACHHUZ6OQVee+u7clVBdlgaVhYbwQoBrIuYR9dPYA+2/Gje1rp31oiWRDmLB6564q94nGDcjUEMHkA==
+X-Received: by 2002:adf:ed03:0:b0:2ff:321c:dc8c with SMTP id
+ a3-20020adfed03000000b002ff321cdc8cmr11210823wro.63.1683029702531; 
  Tue, 02 May 2023 05:15:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- g10-20020a7bc4ca000000b003f171234a08sm35040330wmk.20.2023.05.02.05.15.01
+ g10-20020a7bc4ca000000b003f171234a08sm35040330wmk.20.2023.05.02.05.15.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 05:15:01 -0700 (PDT)
+ Tue, 02 May 2023 05:15:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/35] target/arm: Remove dead code from cpu_max_set_sve_max_vq
-Date: Tue,  2 May 2023 13:14:26 +0100
-Message-Id: <20230502121459.2422303-3-peter.maydell@linaro.org>
+Subject: [PULL 03/35] target/arm: Extract TCG -cpu max code into a function
+Date: Tue,  2 May 2023 13:14:27 +0100
+Message-Id: <20230502121459.2422303-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230502121459.2422303-1-peter.maydell@linaro.org>
 References: <20230502121459.2422303-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,37 +93,76 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-The sve-max-vq property has been removed from the -cpu max used with
-KVM, so code under kvm_enabled in cpu_max_set_sve_max_vq is not
-reachable.
+Introduce aarch64_max_tcg_initfn that contains the TCG-only part of
+-cpu max configuration. We'll need that to be able to restrict this
+code to a TCG-only config in the next patches.
 
-Fixes: 0baa21be49 ("target/arm: Make KVM -cpu max exactly like -cpu host")
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Message-id: 20230426180013.14814-3-farosas@suse.de
+Message-id: 20230426180013.14814-4-farosas@suse.de
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu64.c | 6 ------
- 1 file changed, 6 deletions(-)
+ target/arm/cpu64.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 76891c92883..fb5e1b69db4 100644
+index fb5e1b69db4..e9161522b8f 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -336,12 +336,6 @@ static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
-         return;
-     }
+@@ -1178,27 +1178,17 @@ static void aarch64_host_initfn(Object *obj)
+ #endif
+ }
  
--    if (kvm_enabled() && !kvm_arm_sve_supported()) {
--        error_setg(errp, "cannot set sve-max-vq");
--        error_append_hint(errp, "SVE not supported by KVM on this host\n");
+-/* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+- * otherwise, a CPU with as many features enabled as our emulation supports.
+- * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
++/*
++ * -cpu max: a CPU with as many features enabled as our emulation supports.
++ * The version of '-cpu max' for qemu-system-arm is defined in cpu_tcg.c;
+  * this only needs to handle 64 bits.
+  */
+-static void aarch64_max_initfn(Object *obj)
++static void aarch64_max_tcg_initfn(Object *obj)
+ {
+     ARMCPU *cpu = ARM_CPU(obj);
+     uint64_t t;
+     uint32_t u;
+ 
+-    if (kvm_enabled() || hvf_enabled()) {
+-        /* With KVM or HVF, '-cpu max' is identical to '-cpu host' */
+-        aarch64_host_initfn(obj);
 -        return;
 -    }
 -
-     if (max_vq == 0 || max_vq > ARM_MAX_VQ) {
-         error_setg(errp, "unsupported SVE vector length");
-         error_append_hint(errp, "Valid sve-max-vq in range [1-%d]\n",
+-    /* '-cpu max' for TCG: we currently do this as "A57 with extra things" */
+-
+-    aarch64_a57_initfn(obj);
+-
+     /*
+      * Reset MIDR so the guest doesn't mistake our 'max' CPU type for a real
+      * one and try to apply errata workarounds or use impdef features we
+@@ -1367,6 +1357,20 @@ static void aarch64_max_initfn(Object *obj)
+     qdev_property_add_static(DEVICE(obj), &arm_cpu_lpa2_property);
+ }
+ 
++static void aarch64_max_initfn(Object *obj)
++{
++    if (kvm_enabled() || hvf_enabled()) {
++        /* With KVM or HVF, '-cpu max' is identical to '-cpu host' */
++        aarch64_host_initfn(obj);
++        return;
++    }
++
++    /* '-cpu max' for TCG: we currently do this as "A57 with extra things" */
++
++    aarch64_a57_initfn(obj);
++    aarch64_max_tcg_initfn(obj);
++}
++
+ static const ARMCPUInfo aarch64_cpus[] = {
+     { .name = "cortex-a35",         .initfn = aarch64_a35_initfn },
+     { .name = "cortex-a57",         .initfn = aarch64_a57_initfn },
 -- 
 2.34.1
 
