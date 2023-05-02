@@ -2,96 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4CE6F3D3C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 08:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9F86F3D69
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 08:27:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptjH7-0000ZR-48; Tue, 02 May 2023 02:14:09 -0400
+	id 1ptjST-00052I-Ta; Tue, 02 May 2023 02:25:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1ptjGy-0000Xf-Ow; Tue, 02 May 2023 02:14:01 -0400
+ id 1ptjSE-00051o-UZ; Tue, 02 May 2023 02:25:39 -0400
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1ptjGu-0007Kv-Hd; Tue, 02 May 2023 02:14:00 -0400
-Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+ id 1ptjS9-0003FC-Eg; Tue, 02 May 2023 02:25:38 -0400
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34268LUr031222; Tue, 2 May 2023 06:13:51 GMT
+ 3426P6t0021193; Tue, 2 May 2023 06:25:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=ITTIhoK7C6GiTnrDw/rJ/ku1BHLuiMccb+2dIbkZOdY=;
- b=VzbuTrNiqmg5d0UNT1gfRhdh3OWLILuvB+OKOj1hjbOHAuyJGjsLtaSoFqJgCS59Ipm3
- Fz3lpR/tq08W1sZYMnd1uU8dMbAok+dz0La5kw4RZjt8adLH8FH3y4vKciYneNcmA9YB
- F9Kr4XL/FogVLB1Ms3mYqwJllgPA1TPWykRgqKS0d7Jq8Yh0UzGf4nhS3slm88l75N61
- /v0lAQiv0vIdFVBm/cgSHEMe5pY1LXiD/N3qF8I/PPPkKXwtgGRn4xFeLeihQiC6cdZm
- qtGymz9yLAM9PmR6t21JTWpV4HTQI4rj+CzhpKeXbl/xZRlH1l1/DyhgRV4bWDF6kpiu Bg== 
+ bh=+gX9vU70R0RuxmeHgcEKu8gWbAnzRAZGQ5QCZw3dyao=;
+ b=futkk0ip0MQc4d+CLIxZHVR8gc+lC5mlttE9qIgG2gyUfCnBvTVKVn84xSXeFU2pg+DZ
+ YqLN/w2dgq4Er60W5X1HkFI0nM1eVz9IBwpysyLRsIWHZ0x3PDokywn5pd7utt0b/MEW
+ +fTg+7X9o/24xBqzhByc3ISWZzE5Sty0sG1/y53lYHer3RXFey/fj0pFQUBDoDmZkKH+
+ WC6issxaUm8Dt7ofwIXuMngeBL5GoO8gK9vN2mSMb4YdoOYTY7L8Av0M0jLNgSAxXPOP
+ wR6eibdmwaAp+tpTmE5i5DhrXY/gyCt6ejNnxjTlcyufPHYeBORYB9VsFs1LItMBeqLE CA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qat7db7pe-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qauus9s74-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 06:13:50 +0000
-Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34268ntA000494;
- Tue, 2 May 2023 06:13:50 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qat7db7p8-1
+ Tue, 02 May 2023 06:25:26 +0000
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3426OHJT019123;
+ Tue, 2 May 2023 06:25:25 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qauus9s3v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 06:13:50 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3422D1Zg002605;
- Tue, 2 May 2023 06:13:49 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
- by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3q8tv860kx-1
+ Tue, 02 May 2023 06:25:25 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3426K3NT006800;
+ Tue, 2 May 2023 06:25:17 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3q8tv81h0d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 06:13:49 +0000
+ Tue, 02 May 2023 06:25:17 +0000
 Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
  [10.241.53.104])
- by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 3426Dmoc34668986
+ by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 3426PGhb28705116
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 May 2023 06:13:48 GMT
+ Tue, 2 May 2023 06:25:16 GMT
 Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7D39458056;
- Tue,  2 May 2023 06:13:48 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5825D58052;
+ Tue,  2 May 2023 06:25:16 +0000 (GMT)
 Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C317D58067;
- Tue,  2 May 2023 06:13:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 9D05258056;
+ Tue,  2 May 2023 06:25:11 +0000 (GMT)
 Received: from [9.43.49.207] (unknown [9.43.49.207])
  by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  2 May 2023 06:13:43 +0000 (GMT)
-Message-ID: <a00bf0ea-94ce-e20b-f199-4ec3c776f458@linux.ibm.com>
-Date: Tue, 2 May 2023 11:43:41 +0530
+ Tue,  2 May 2023 06:25:11 +0000 (GMT)
+Message-ID: <5e99a0c9-c2e4-23dd-705a-bf87de775ea5@linux.ibm.com>
+Date: Tue, 2 May 2023 11:55:09 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/4] ppc: spapr: cleanup h_enter_nested() with helper
- routines.
+Subject: Re: [PATCH v2 3/4] ppc: spapr: cleanup spapr_exit_nested() with
+ helper routines.
 Content-Language: en-US
 To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
 Cc: qemu-devel@nongnu.org, farosas@suse.de, danielhb413@gmail.com,
  Michael Neuling <mikey@neuling.org>
 References: <20230424144712.1985425-1-harshpb@linux.ibm.com>
- <20230424144712.1985425-3-harshpb@linux.ibm.com>
- <CSBIRIKYBL78.3GGM8KZ1ERZUC@wheely>
+ <20230424144712.1985425-4-harshpb@linux.ibm.com>
+ <CSBJ4MJFZLA3.HEJL52LKZCF7@wheely>
 From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <CSBIRIKYBL78.3GGM8KZ1ERZUC@wheely>
+In-Reply-To: <CSBJ4MJFZLA3.HEJL52LKZCF7@wheely>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: HZHiBeT2xNaGZOCFFWmo9x51TPxLWb2Y
-X-Proofpoint-GUID: KrAX03MQbCemiPRYR5h-x-WSYjpo8R_n
+X-Proofpoint-GUID: 6E7a_K2dOCpHkI_yMquPPMFkqR2eUfvQ
+X-Proofpoint-ORIG-GUID: 2FwcuFqqdl7xDlmczl8ZGtYv3PIN-UoM
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-02_02,2023-04-27_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- clxscore=1011 priorityscore=1501 phishscore=0 malwarescore=0
- lowpriorityscore=0 mlxscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 bulkscore=0
+ suspectscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2305020052
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
@@ -117,165 +117,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Nick,
 
-
-On 5/2/23 10:19, Nicholas Piggin wrote:
+On 5/2/23 10:36, Nicholas Piggin wrote:
 > On Tue Apr 25, 2023 at 12:47 AM AEST, Harsh Prateek Bora wrote:
->> h_enter_nested() currently does a lot of register specific operations
->> which should be abstracted logically to simplify the code for better
->> readability. This patch breaks down relevant blocks into respective
->> helper routines to make use of them for better readability/maintenance.
+>> Currently, in spapr_exit_nested(), it does a lot of register state
+>> restoring from ptregs/hvstate after mapping each of those before
+>> restoring the L1 host state. This patch breaks down those set of ops
+>> to respective helper routines for better code readability/maintenance.
 >>
 >> Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
 >> ---
->>   hw/ppc/spapr_hcall.c | 117 ++++++++++++++++++++++++++++---------------
->>   1 file changed, 78 insertions(+), 39 deletions(-)
+>>   hw/ppc/spapr_hcall.c | 120 ++++++++++++++++++++++++++-----------------
+>>   1 file changed, 72 insertions(+), 48 deletions(-)
 >>
 >> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index 124cee5e53..f24d4b368e 100644
+>> index f24d4b368e..e69634bc22 100644
 >> --- a/hw/ppc/spapr_hcall.c
 >> +++ b/hw/ppc/spapr_hcall.c
->> @@ -1544,6 +1544,81 @@ static target_ulong h_copy_tofrom_guest(PowerPCCPU *cpu,
->>       return H_FUNCTION;
+>> @@ -1719,45 +1719,14 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
+>>       return env->gpr[3];
 >>   }
 >>   
->> +static void restore_hdec_from_hvstate(CPUPPCState *dst,
->> +                                      struct kvmppc_hv_guest_state *hv_state,
->> +                                      target_ulong now)
->> +{
->> +    target_ulong hdec;
->> +
->> +    assert(hv_state);
->> +    hdec = hv_state->hdec_expiry - now;
->> +    cpu_ppc_hdecr_init(dst);
->> +    cpu_ppc_store_hdecr(dst, hdec);
+>> -void spapr_exit_nested(PowerPCCPU *cpu, int excp)
+>> +static void restore_hvstate_from_env(struct kvmppc_hv_guest_state *hvstate,
+>> +                                     CPUPPCState *env, int excp)
+>>   {
+>> -    CPUState *cs = CPU(cpu);
+>> -    CPUPPCState *env = &cpu->env;
+>> -    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+>> -    target_ulong r3_return = env->excp_vectors[excp]; /* hcall return value */
+>> -    target_ulong hv_ptr = spapr_cpu->nested_host_state->gpr[4];
+>> -    target_ulong regs_ptr = spapr_cpu->nested_host_state->gpr[5];
+>> -    struct kvmppc_hv_guest_state *hvstate;
+>> -    struct kvmppc_pt_regs *regs;
+>> -    hwaddr len;
+>> -
+>> -    assert(spapr_cpu->in_nested);
+>> -
+>> -    cpu_ppc_hdecr_exit(env);
+>> -
+>> -    len = sizeof(*hvstate);
+>> -    hvstate = address_space_map(CPU(cpu)->as, hv_ptr, &len, true,
+>> -                                MEMTXATTRS_UNSPECIFIED);
+>> -    if (len != sizeof(*hvstate)) {
+>> -        address_space_unmap(CPU(cpu)->as, hvstate, len, 0, true);
+>> -        r3_return = H_PARAMETER;
+>> -        goto out_restore_l1;
+>> -    }
+>> -
+>>       hvstate->cfar = env->cfar;
+>>       hvstate->lpcr = env->spr[SPR_LPCR];
+>>       hvstate->pcr = env->spr[SPR_PCR];
+>>       hvstate->dpdes = env->spr[SPR_DPDES];
+>>       hvstate->hfscr = env->spr[SPR_HFSCR];
+>> -
+>> -    if (excp == POWERPC_EXCP_HDSI) {
+>> -        hvstate->hdar = env->spr[SPR_HDAR];
+>> -        hvstate->hdsisr = env->spr[SPR_HDSISR];
+>> -        hvstate->asdr = env->spr[SPR_ASDR];
+>> -    } else if (excp == POWERPC_EXCP_HISI) {
+>> -        hvstate->asdr = env->spr[SPR_ASDR];
+>> -    }
+>> -
+>>       /* HEIR should be implemented for HV mode and saved here. */
+>>       hvstate->srr0 = env->spr[SPR_SRR0];
+>>       hvstate->srr1 = env->spr[SPR_SRR1];
+>> @@ -1768,27 +1737,43 @@ void spapr_exit_nested(PowerPCCPU *cpu, int excp)
+>>       hvstate->pidr = env->spr[SPR_BOOKS_PID];
+>>       hvstate->ppr = env->spr[SPR_PPR];
+>>   
+>> -    /* Is it okay to specify write length larger than actual data written? */
+>> -    address_space_unmap(CPU(cpu)->as, hvstate, len, len, true);
+>> +    if (excp == POWERPC_EXCP_HDSI) {
+>> +        hvstate->hdar = env->spr[SPR_HDAR];
+>> +        hvstate->hdsisr = env->spr[SPR_HDSISR];
+>> +        hvstate->asdr = env->spr[SPR_ASDR];
+>> +    } else if (excp == POWERPC_EXCP_HISI) {
+>> +        hvstate->asdr = env->spr[SPR_ASDR];
+>> +    }
 >> +}
->> +
->> +static void restore_lpcr_from_hvstate(PowerPCCPU *cpu,
->> +                                      struct kvmppc_hv_guest_state *hv_state)
->> +{
->> +    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
->> +    CPUPPCState *dst = &cpu->env;
->> +    target_ulong lpcr, lpcr_mask;
->> +
->> +    assert(hv_state);
->> +    lpcr_mask = LPCR_DPFD | LPCR_ILE | LPCR_AIL | LPCR_LD | LPCR_MER;
->> +    lpcr = (dst->spr[SPR_LPCR] & ~lpcr_mask) | (hv_state->lpcr & lpcr_mask);
->> +    lpcr |= LPCR_HR | LPCR_UPRT | LPCR_GTSE | LPCR_HVICE | LPCR_HDICE;
->> +    lpcr &= ~LPCR_LPES0;
->> +    dst->spr[SPR_LPCR] = lpcr & pcc->lpcr_mask;
->> +}
->> +
->> +static void restore_env_from_ptregs(CPUPPCState *env,
->> +                                    struct kvmppc_pt_regs *regs)
->> +{
->> +    assert(env);
->> +    assert(regs);
->> +    assert(sizeof(env->gpr) == sizeof(regs->gpr));
->> +    memcpy(env->gpr, regs->gpr, sizeof(env->gpr));
->> +    env->nip = regs->nip;
->> +    env->msr = regs->msr;
->> +    env->lr = regs->link;
->> +    env->ctr = regs->ctr;
->> +    cpu_write_xer(env, regs->xer);
->> +    ppc_store_cr(env, regs->ccr);
->> +}
->> +
->> +static void restore_env_from_hvstate(CPUPPCState *env,
->> +                                     struct kvmppc_hv_guest_state *hv_state)
->> +{
->> +    assert(env);
->> +    assert(hv_state);
->> +    env->spr[SPR_HFSCR] = hv_state->hfscr;
->> +    /* TCG does not implement DAWR*, CIABR, PURR, SPURR, IC, VTB, HEIR SPRs*/
->> +    env->cfar = hv_state->cfar;
->> +    env->spr[SPR_PCR] = hv_state->pcr;
->> +    env->spr[SPR_DPDES] = hv_state->dpdes;
->> +    env->spr[SPR_SRR0] = hv_state->srr0;
->> +    env->spr[SPR_SRR1] = hv_state->srr1;
->> +    env->spr[SPR_SPRG0] = hv_state->sprg[0];
->> +    env->spr[SPR_SPRG1] = hv_state->sprg[1];
->> +    env->spr[SPR_SPRG2] = hv_state->sprg[2];
->> +    env->spr[SPR_SPRG3] = hv_state->sprg[3];
->> +    env->spr[SPR_BOOKS_PID] = hv_state->pidr;
->> +    env->spr[SPR_PPR] = hv_state->ppr;
->> +}
->> +
->> +static inline void restore_l2_env(PowerPCCPU *cpu,
->> +		                  struct kvmppc_hv_guest_state *hv_state,
->> +				  struct kvmppc_pt_regs *regs,
->> +				  target_ulong now)
+>>   
+>> -    len = sizeof(*regs);
+>> -    regs = address_space_map(CPU(cpu)->as, regs_ptr, &len, true,
+>> +static int map_and_restore_l2_hvstate(PowerPCCPU *cpu, int excp, target_ulong *r3)
 >> +{
 >> +    CPUPPCState *env = &cpu->env;
+>> +    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+>> +    target_ulong hv_ptr = spapr_cpu->nested_host_state->gpr[4];
+>> +    struct kvmppc_hv_guest_state *hvstate;
+>> +    hwaddr len = sizeof(*hvstate);
 >> +
->> +    restore_env_from_ptregs(env, regs);
->> +    restore_env_from_hvstate(env, hv_state);
->> +    restore_lpcr_from_hvstate(cpu, hv_state);
->> +    restore_hdec_from_hvstate(env, hv_state, now);
+>> +    hvstate = address_space_map(CPU(cpu)->as, hv_ptr, &len, true,
+>>                                   MEMTXATTRS_UNSPECIFIED);
+>> -    if (!regs || len != sizeof(*regs)) {
+>> -        address_space_unmap(CPU(cpu)->as, regs, len, 0, true);
+>> -        r3_return = H_P2;
+>> -        goto out_restore_l1;
+>> +    if (len != sizeof(*hvstate)) {
+>> +        address_space_unmap(CPU(cpu)->as, hvstate, len, 0, true);
+>> +        *r3 = H_PARAMETER;
+>> +        return -1;
+>>       }
+>> +    restore_hvstate_from_env(hvstate, env, excp);
+>> +    /* Is it okay to specify write length larger than actual data written? */
+>> +    address_space_unmap(CPU(cpu)->as, hvstate, len, len, true);
+>> +    return 0;
+>> +}
+>>   
+>> +static void restore_ptregs_from_env(struct kvmppc_pt_regs *regs,
+>> +                                    CPUPPCState *env, int excp)
+>> +{
+>> +    hwaddr len;
+>>       len = sizeof(env->gpr);
+>>       assert(len == sizeof(regs->gpr));
+>>       memcpy(regs->gpr, env->gpr, len);
+>> -
+>> -    regs->link = env->lr;
+>> -    regs->ctr = env->ctr;
+>> -    regs->xer = cpu_read_xer(env);
+>> -    regs->ccr = ppc_get_cr(env);
+>> -
+>>       if (excp == POWERPC_EXCP_MCHECK ||
+>>           excp == POWERPC_EXCP_RESET ||
+>>           excp == POWERPC_EXCP_SYSCALL) {
+>> @@ -1798,11 +1783,50 @@ void spapr_exit_nested(PowerPCCPU *cpu, int excp)
+>>           regs->nip = env->spr[SPR_HSRR0];
+>>           regs->msr = env->spr[SPR_HSRR1] & env->msr_mask;
+>>       }
+>> +    regs->link = env->lr;
+>> +    regs->ctr = env->ctr;
+>> +    regs->xer = cpu_read_xer(env);
+>> +    regs->ccr = ppc_get_cr(env);
+>> +}
+>>   
+>> +static int map_and_restore_l2_ptregs(PowerPCCPU *cpu, int excp, target_ulong *r3)
+>> +{
+>> +    CPUPPCState *env = &cpu->env;
+>> +    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+>> +    target_ulong regs_ptr = spapr_cpu->nested_host_state->gpr[5];
+>> +    hwaddr len;
+>> +    struct kvmppc_pt_regs *regs = NULL;
+>> +
+>> +    len = sizeof(*regs);
+>> +    regs = address_space_map(CPU(cpu)->as, regs_ptr, &len, true,
+>> +                             MEMTXATTRS_UNSPECIFIED);
+>> +    if (!regs || len != sizeof(*regs)) {
+>> +        address_space_unmap(CPU(cpu)->as, regs, len, 0, true);
+>> +        *r3 = H_P2;
+>> +        return -1;
+>> +    }
+>> +    restore_ptregs_from_env(regs, env, excp);
+>>       /* Is it okay to specify write length larger than actual data written? */
+>>       address_space_unmap(CPU(cpu)->as, regs, len, len, true);
+>> +    return 0;
 >> +}
 >> +
->>   /*
->>    * When this handler returns, the environment is switched to the L2 guest
->>    * and TCG begins running that. spapr_exit_nested() performs the switch from
->> @@ -1554,14 +1629,12 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
->>                                      target_ulong opcode,
->>                                      target_ulong *args)
->>   {
->> -    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
->>       CPUState *cs = CPU(cpu);
->>       CPUPPCState *env = &cpu->env;
->>       SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
->>       target_ulong hv_ptr = args[0];
->>       target_ulong regs_ptr = args[1];
->> -    target_ulong hdec, now = cpu_ppc_load_tbl(env);
->> -    target_ulong lpcr, lpcr_mask;
->> +    target_ulong now = cpu_ppc_load_tbl(env);
->>       struct kvmppc_hv_guest_state *hvstate;
->>       struct kvmppc_hv_guest_state hv_state;
->>       struct kvmppc_pt_regs *regs;
->> @@ -1607,49 +1680,15 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
->>           return H_P2;
->>       }
->>   
->> -    len = sizeof(env->gpr);
->> -    assert(len == sizeof(regs->gpr));
->> -    memcpy(env->gpr, regs->gpr, len);
->> -
->> -    env->lr = regs->link;
->> -    env->ctr = regs->ctr;
->> -    cpu_write_xer(env, regs->xer);
->> -    ppc_store_cr(env, regs->ccr);
->> -
->> -    env->msr = regs->msr;
->> -    env->nip = regs->nip;
->> +    /* restore L2 env from hv_state and ptregs */
->> +    restore_l2_env(cpu, &hv_state, regs, now);
->>   
->>       address_space_unmap(CPU(cpu)->as, regs, len, len, false);
+>> +void spapr_exit_nested(PowerPCCPU *cpu, int excp)
+>> +{
+>> +    CPUState *cs = CPU(cpu);
+>> +    CPUPPCState *env = &cpu->env;
+>> +    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+>> +    target_ulong r3_return = env->excp_vectors[excp]; /* hcall return value */
+>> +
+>> +    assert(spapr_cpu->in_nested);
+>> +
+>> +    cpu_ppc_hdecr_exit(env);
+>> +
+>> +   if (!map_and_restore_l2_hvstate(cpu, excp, &r3_return)) {
+>> +       map_and_restore_l2_ptregs (cpu, excp, &r3_return);
+>> +   }
 > 
-> I don't agree this improves readability. It also does more with the
-> guest address space mapped, which may not be a big deal is strictly
-> not an improvement.
+> Same for this one really. Enter/exit nested *is* entirely about
+> switching from L1 to L2 environment and back so I'm not seeing
+> where the abstraction is. Just seems more clunky to me.
 > 
-> The comment needn't just repeat what the function says, and it does
-> not actually restore the l2 environment. It sets some registers to
-> L2 values, but it also leaves other state.
+> Abstracting the hcall, error checking, address space mapping and
+> copying etc into one function and the state switch itself into
+> another I could see, but that's now spread across the new functions.
 > 
-> I would like to see this in a larger series if it's going somewhere,
-> but at the moment I'd rather leave it as is.
+> So, not sure about this. I think I'd have to see if it was a
+> precursor to a larger series.
 > 
-While I agree the routine could be named restore_l2_hvstate_ptregs() as 
-more appropriate, I think it still makes sense to have the body of 
-enter/exit routines with as minimum LOC as possible, with the help of 
-minimum helper routines possible. Giving semantics to the set of 
-operations related to ptregs/hvstate register load/store is the first 
-step towards it.
-
-As you have guessed, this is certainly a precursor to another API 
-version that we have been working on (still a WIP), and helps isolating 
-the code flows for backward compatibiility. Having such changes early 
-upstream helps stablising changes which are not a really a API/design 
-change.
+I have responded on your similar comment on 2/4 patch trying to clarify 
+the motivation behind these changes. Hope it gives you a different 
+perspective about the motivation behind this change. Let me know if you 
+still think otherwise or any further patch improvements if needed.
 
 regards,
 Harsh
