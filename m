@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9023A6F4627
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4AA6F4628
 	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 16:38:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptr8H-0002Gt-D6; Tue, 02 May 2023 10:37:33 -0400
+	id 1ptr8i-0002R4-4j; Tue, 02 May 2023 10:38:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <val15032008@mail.ru>)
- id 1ptr8E-0002Gh-5m
- for qemu-devel@nongnu.org; Tue, 02 May 2023 10:37:30 -0400
-Received: from smtp30.i.mail.ru ([95.163.41.71])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <val15032008@mail.ru>)
- id 1ptr8B-0006m4-4X
- for qemu-devel@nongnu.org; Tue, 02 May 2023 10:37:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Message-Id:Content-Type:MIME-Version:Cc:To:From:In-Reply-To:Subject:Date:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=g8NnjT8g41g7Myw0mmdVASWShGUJQ4Fpef6hzmzQwdc=; 
- t=1683038247;x=1683128247; 
- b=1hvUM7RtJo32nZRh4NwcjnCU0n1hAl1/mXAwCs5JqTNLT+ZB649CV7DJK8+bFWmvoCAdNQa6N6Qy1jCBGcRq/R1GdvooOuu8WqCnZce/5/EPKjg0ZPdL3YEg8BhvmIOXJ1dx/BOIYn8YsBur/7yqweh2MaCrOk5XlmnKXmLzbbCdy8s1zk6vJpnTDy9/5E9wc3+T3UkqrU6kkjiyUWRxxc3vWRJE+Bpqy/hIDRd7Ww5SmkqbbvPO2TWJHC4nYFcCzRP6YVMhBsQXjBwj9ksOTJ5X5M4PUgjKmbOy+L/z943fSckWWsVN3k9HKVfyg/ae7H/VqsVz3nwoDyhNVPThSw==;
-Received: by smtp30.i.mail.ru with esmtpa (envelope-from <val15032008@mail.ru>)
- id 1ptr86-001npM-HH; Tue, 02 May 2023 17:37:23 +0300
-SavedFromEmail: val15032008@mail.ru
-Date: Tue, 02 May 2023 17:37:11 +0300
-Subject: Re: Patch for png_save(), QEMU v8.0
-In-Reply-To: <6hqkbi1b7alen721of3thdv8.1683036666264@email.android.com>
-Importance: normal
-From: =?UTF-8?B?0JLQsNC70LXQvdGC0LjQvQ==?= <val15032008@mail.ru>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1ptr8c-0002Qs-9A
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 10:37:54 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1ptr8a-0007Yp-Je
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 10:37:53 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id
+ 6a1803df08f44-5ed99ebe076so40637556d6.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 07:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683038269; x=1685630269;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mvVfVNvdUQ+dsVuQLzLVZgrOBwJbAlAHyxtlDPxYDPI=;
+ b=lMWbI9liklknEyp0AdJfA4fBntRe1FaP0pj28bEYVRNdksesc9BHCIRW52HokmkTNa
+ 207rKs0CEVeHnl/UoakvcCupxqMXBb1fboaptwS7g6SIB5qtTCM3As3PLwDbG2T8bPpx
+ YAry278fCOasg5uNV66jrPXKjxqSFpVqzUdIUVL3N4uTkKyk7l/pQxYi8Y2ih4HBERpp
+ 5lj6j+LX4Ke4vyr1hfbGEuqdLVIvv30gHWy8DztM1aBIMy8zB8HT0quLvLxbyatd5nd9
+ ZarV8fvQ5oyAIu97M2gY+ZZo7tZsUdL5BcuptsiHKrLZq5vCk7MowTw1mCYIvQxvGCjA
+ dKXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683038269; x=1685630269;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mvVfVNvdUQ+dsVuQLzLVZgrOBwJbAlAHyxtlDPxYDPI=;
+ b=SEx2Wn1MChkG/cMD6Zc3vt1OTE/0/qDYKavAN1ac53pOgTjENqXav11bXaN9IcYdTq
+ glWiToxVKcQ9FW9OWGloXVHILEeFemkBZJ1o6sr3X+jfFhxZdFnIv5Ln6uJ0B6IgU9/x
+ jNwku7CIZtKDSp1sG1JsDgBKy/Qbt7G9mJdfqyiPQpqaB26N1e3W5WeKVOSUj1ql7FJ8
+ LdZcOuIcCtgJBcu+Bdj7w3SjpYL38aBYd0MaWuG8yqeGvArYaZNwtPNtsLiygyrA9ws+
+ IXKCpFBCqg+6Ui0jhkhNmc75SQyKebDXRJRegi3UY/9iyA46Wm/zulfgOS/g5sgQzfWc
+ 9Ikg==
+X-Gm-Message-State: AC+VfDyst7X+dAZE4542EQTKUoL9631OWKrfppX08X4CUZ/RMEaFWsvB
+ keUICy+v+nZPsdPOzNH03Br59Ezny9Y=
+X-Google-Smtp-Source: ACHHUZ7zYKwzvzyqRlxFZI4PuMYtfmBEJ9Pyx91MTJn4ENx0QM8Y5we0PQ1VIzxQMHmYfE+nlnND0Q==
+X-Received: by 2002:a05:6214:1d23:b0:5f7:8b31:4548 with SMTP id
+ f3-20020a0562141d2300b005f78b314548mr6214915qvd.4.1683038269491; 
+ Tue, 02 May 2023 07:37:49 -0700 (PDT)
+Received: from pm2-ws13.praxislan02.com
+ (207-172-141-204.s8906.c3-0.slvr-cbr1.lnh-slvr.md.cable.rcncustomer.com.
+ [207.172.141.204]) by smtp.gmail.com with ESMTPSA id
+ l17-20020a0ce511000000b005dd8b9345dbsm2123688qvm.115.2023.05.02.07.37.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 07:37:48 -0700 (PDT)
+From: Jason Andryuk <jandryuk@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Jason Andryuk <jandryuk@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ xen-devel@lists.xenproject.org (open list:X86 Xen CPUs)
+Subject: [PATCH] 9pfs/xen: Fix segfault on shutdown
+Date: Tue,  2 May 2023 10:37:22 -0400
+Message-Id: <20230502143722.15613-1-jandryuk@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="--_com.samsung.android.email_654380543580540"
-Message-Id: <E1ptr86-001npM-HH.val15032008-mail-ru@smtp30.i.mail.ru>
-Authentication-Results: smtp30.i.mail.ru;
- auth=pass smtp.auth=val15032008@mail.ru
- smtp.mailfrom=val15032008@mail.ru
-X-Mailru-Src: smtp
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD9F572AEF33F1BC585282B95A99157D032FB41EDBBF23D2E37182A05F538085040A93D6AA5340A3FCB64285AAFE2FDC477B4E36569300924258AF9F661B6CC769B
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE707BCAA832FAF0FF2C2099A533E45F2D0395957E7521B51C2CFCAF695D4D8E9FCEA1F7E6F0F101C6778DA827A17800CE7A3589DC202DD7369EA1F7E6F0F101C6723150C8DA25C47586E58E00D9D99D84E1BDDB23E98D2D38B6F1F7B995052D5CE458E57319102FA14CF51ADFF749F124320879F7C8C5043D14489FFFB0AA5F4BF176DF2183F8FC7C0C3028DD3BA98ABD38941B15DA834481FA18204E546F3947C4AB4081B6A6C2E07F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637545B104AF56618B9389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F7900637253A7DFA90630998D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE78F84DE33370BE923EC76A7562686271ED91E3A1F190DE8FD2E808ACE2090B5E14AD6D5ED66289B5278DA827A17800CE76631511D42670FFE2EB15956EA79C166A417C69337E82CC275ECD9A6C639B01B78DA827A17800CE7A16EE778CBA46B6B731C566533BA786AA5CC5B56E945C8DA
-X-C1DE0DAB: 0D63561A33F958A571F45C5D82088888CD1EC36567A9BF9E9EC8381A1C12BA23F87CCE6106E1FC07E67D4AC08A07B9B0CE135D2742255B35CB5012B2E24CD356
-X-C8649E89: 1C3962B70DF3F0ADBF74143AD284FC7177DD89D51EBB7742DC8270968E61249B1004E42C50DC4CA955A7F0CF078B5EC49A30900B95165D3414C91BA6844B96CA8D993E9DF1F220CF810B7DC7F2653C69FE0E5B262705EDC5867EAE2171A300D91D7E09C32AA3244C17E7CCE0EDE2BAD0E7F40EDBA3EC5CD63A92A9747B6CC886FACE5A9C96DEB163
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojUsZxtR84vlcyZT8S7T31bA==
-X-Mailru-Sender: 0A26D9779F8DDEAB9A50F86ECA5D886C8925FE6D27030E9D89D87B64CB2710B5B1DD6813DB11145DDE16EA5FADA68296D7A14DD9E34ECE746BE37F7047ADB13350B25633FF12C26C5FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-Received-SPF: pass client-ip=95.163.41.71; envelope-from=val15032008@mail.ru;
- helo=smtp30.i.mail.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=jandryuk@gmail.com; helo=mail-qv1-xf2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,82 +93,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-----_com.samsung.android.email_654380543580540
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+xen_9pfs_free can't use gnttabdev since it is already closed and NULL-ed
+out when free is called.  Do the teardown in _disconnect().  This
+matches the setup done in _connect().
 
-VGhhbmsgeW91IcKgSW5kZWVkLCBJIGhhdmVuJ3QgdG9vayBpbnRvIGFjY291bnQgYmlnLWVuZGlh
-biBob3N0cy7CoChJIHRyaWVkICJQSVhNQU5fQkVfcjhnOGI4IiBhcyBpbiBwcG1fc2F2ZSgpLCBi
-dXQgZGlkbid0IGZpeCBwbmcgaGVhZGVyIGFuZCBnb3QgYnJva2VuIGltYWdlcykuwqDCoFlvdXIg
-cGF0Y2ggc2hvdWxkIGJlIGNvcnJlY3QuwqDCoFRoYW5rIHlvdSB2ZXJ5IG11Y2ghwqBXaXRoIGJl
-c3QgcmVnYXJkcyzCoFZhbGVudGluZS7CoMKgwqDCoAotLS0tLS0tLSDQmNGB0YXQvtC00L3QvtC1
-INGB0L7QvtCx0YnQtdC90LjQtSAtLS0tLS0tLdCe0YI6IFBldGVyIE1heWRlbGwgPHBldGVyLm1h
-eWRlbGxAbGluYXJvLm9yZz4g0JTQsNGC0LA6IDAyLjA1LjIwMjMgIDE2OjU5ICAoR01UKzAzOjAw
-KdCi0LXQvNCwOiBSZTogUGF0Y2ggZm9yIHBuZ19zYXZlKCksIFFFTVUgdjguMCBPbiBUdWUsIDIg
-TWF5IDIwMjMgYXQgMTQ6NDgsINCS0LDQu9C10L3RgtC40L0gdmlhIDxxZW11LWRldmVsQG5vbmdu
-dS5vcmc+IHdyb3RlOj4+IEhlbGxvIT4+IEN1cnJlbnRseSwgcG5nX3NhdmUoKSBpbiAiY29uc29s
-ZS5jIiB1c2VzICJQSVhNQU5fYThyOGc4YjgiIGZvcm1hdCB3aGVuIHNhdmluZyBwbmcuPj4gKCBo
-dHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9ibG9iLzdjMThmMmQ2NjM1MjFm
-MWIzMWI4MjFhMTMzNThjZTM4MDc1ZWFmN2QvdWkvY29uc29sZS5jI0wzMTQgKT4+IEl0IHNob3Vs
-ZCBwcm9iYWJseSB1c2UgIlBJWE1BTl9hOGI4ZzhyOCIgKHJlZDw+Ymx1ZSBleGNoYW5nZWQpLj4g
-V2l0aG91dCBpdCBJJ20gZ2V0dGluZyBQTkdzIHdpdGggYmx1ZSBhbmQgcmVkIGNoYW5uZWxzIHN3
-YXBwZWQgKFFFTVUgOC4wLCBxZW11LXN5c3RlbS14ODZfNjQsIEFybTY0IGhvc3QsIGxpYnBuZyAx
-LjYuMzkpLkFoLCBJIHdhcyBqdXN0IHdvcmtpbmcgb24gdGhpcyB0aGlzIGFmdGVybm9vbiAoaXQg
-d2FzIHJlcG9ydGVkbGFzdCB3ZWVrIGFzIGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3Qv
-cWVtdS8tL2lzc3Vlcy8xNjIyIClhbmQganVzdCBzZW50IGEgcGF0Y2ggYSBtaW51dGUgYmVmb3Jl
-IEkgcmVhZCB0aGlzIGVtYWlsIDotKUkgdGhpbmsgeW91ciBwYXRjaCBvbmx5IGZpeGVzIHRoaXMg
-cHJvYmxlbSBmb3IgbGl0dGxlLWVuZGlhbmhvc3RzIGFuZCBsZWF2ZXMgYmlnLWVuZGlhbiBob3N0
-cyBzdGlsbCB3aXRoIHRoZSB3cm9uZ3BpeGVsLWRhdGEgb3JkZXIuWW91IGNhbiBzZWUgbXkgdmVy
-c2lvbiBvZiB0aGUgcGF0Y2ggaGVyZTpodHRwczovL3BhdGNoZXcub3JnL1FFTVUvMjAyMzA1MDIx
-MzU1NDguMjQ1MTMwOS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy90aGFua3MtLSBQTU0=
+trace-events are also added for the XenDevOps functions.
 
-----_com.samsung.android.email_654380543580540
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+---
+ hw/9pfs/trace-events     |  5 +++++
+ hw/9pfs/xen-9p-backend.c | 36 +++++++++++++++++++++++-------------
+ 2 files changed, 28 insertions(+), 13 deletions(-)
 
-PGh0bWw+PGhlYWQ+PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0
-L2h0bWw7IGNoYXJzZXQ9VVRGLTgiPjwvaGVhZD48Ym9keSBkaXI9ImF1dG8iPlRoYW5rIHlvdSEm
-bmJzcDs8ZGl2IGRpcj0iYXV0byI+SW5kZWVkLCBJIGhhdmVuJ3QgdG9vayBpbnRvIGFjY291bnQg
-YmlnLWVuZGlhbiBob3N0cy4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+KEkgdHJpZWQgIlBJ
-WE1BTl9CRV9yOGc4YjgiIGFzIGluIHBwbV9zYXZlKCksIGJ1dCBkaWRuJ3QgZml4IHBuZyBoZWFk
-ZXIgYW5kIGdvdCBicm9rZW4gaW1hZ2VzKS4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+Jm5i
-c3A7PGJyPjxkaXYgZGlyPSJhdXRvIj5Zb3VyIHBhdGNoIHNob3VsZCBiZSBjb3JyZWN0LiZuYnNw
-OzwvZGl2PjwvZGl2PjxkaXYgZGlyPSJhdXRvIj4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+
-VGhhbmsgeW91IHZlcnkgbXVjaCEmbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+V2l0aCBiZXN0
-IHJlZ2FyZHMsJm5ic3A7PC9kaXY+PGRpdiBkaXI9ImF1dG8iPlZhbGVudGluZS4mbmJzcDs8L2Rp
-dj48ZGl2IGRpcj0iYXV0byI+Jm5ic3A7PC9kaXY+PGRpdiBkaXI9ImF1dG8iPiZuYnNwOzwvZGl2
-PjxkaXYgZGlyPSJhdXRvIj4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+PGJyPjwvZGl2Pjxk
-aXY+PGJyPjwvZGl2PjxkaXYgYWxpZ249ImxlZnQiIGRpcj0iYXV0byIgc3R5bGU9ImZvbnQtc2l6
-ZToxMDAlO2NvbG9yOiMwMDAwMDAiPjxkaXY+LS0tLS0tLS0g0JjRgdGF0L7QtNC90L7QtSDRgdC+
-0L7QsdGJ0LXQvdC40LUgLS0tLS0tLS08L2Rpdj48ZGl2PtCe0YI6IFBldGVyIE1heWRlbGwgJmx0
-O3BldGVyLm1heWRlbGxAbGluYXJvLm9yZyZndDsgPC9kaXY+PGRpdj7QlNCw0YLQsDogMDIuMDUu
-MjAyMyAgMTY6NTkgIChHTVQrMDM6MDApPC9kaXY+PGRpdj7QotC10LzQsDogUmU6IFBhdGNoIGZv
-ciBwbmdfc2F2ZSgpLCBRRU1VIHY4LjAgPC9kaXY+PGRpdj48YnI+PC9kaXY+PC9kaXY+T24gVHVl
-LCAyIE1heSAyMDIzIGF0IDE0OjQ4LCDQktCw0LvQtdC90YLQuNC9IHZpYSAmbHQ7cWVtdS1kZXZl
-bEBub25nbnUub3JnJmd0OyB3cm90ZTo8YnIgZGlyPSJhdXRvIj4mZ3Q7PGJyIGRpcj0iYXV0byI+
-Jmd0OyBIZWxsbyE8YnIgZGlyPSJhdXRvIj4mZ3Q7PGJyIGRpcj0iYXV0byI+Jmd0OyBDdXJyZW50
-bHksIHBuZ19zYXZlKCkgaW4gImNvbnNvbGUuYyIgdXNlcyAiUElYTUFOX2E4cjhnOGI4IiBmb3Jt
-YXQgd2hlbiBzYXZpbmcgcG5nLjxiciBkaXI9ImF1dG8iPiZndDs8YnIgZGlyPSJhdXRvIj4mZ3Q7
-ICggaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9xZW11Ly0vYmxvYi83YzE4ZjJkNjYz
-NTIxZjFiMzFiODIxYTEzMzU4Y2UzODA3NWVhZjdkL3VpL2NvbnNvbGUuYyNMMzE0ICk8YnIgZGly
-PSJhdXRvIj4mZ3Q7PGJyIGRpcj0iYXV0byI+Jmd0OyBJdCBzaG91bGQgcHJvYmFibHkgdXNlICJQ
-SVhNQU5fYThiOGc4cjgiIChyZWQmbHQ7Jmd0O2JsdWUgZXhjaGFuZ2VkKS48YnIgZGlyPSJhdXRv
-Ij4mZ3Q7IFdpdGhvdXQgaXQgSSdtIGdldHRpbmcgUE5HcyB3aXRoIGJsdWUgYW5kIHJlZCBjaGFu
-bmVscyBzd2FwcGVkIChRRU1VIDguMCwgcWVtdS1zeXN0ZW0teDg2XzY0LCBBcm02NCBob3N0LCBs
-aWJwbmcgMS42LjM5KS48YnIgZGlyPSJhdXRvIj48YnIgZGlyPSJhdXRvIj5BaCwgSSB3YXMganVz
-dCB3b3JraW5nIG9uIHRoaXMgdGhpcyBhZnRlcm5vb24gKGl0IHdhcyByZXBvcnRlZDxiciBkaXI9
-ImF1dG8iPmxhc3Qgd2VlayBhcyBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUv
-LS9pc3N1ZXMvMTYyMiApPGJyIGRpcj0iYXV0byI+YW5kIGp1c3Qgc2VudCBhIHBhdGNoIGEgbWlu
-dXRlIGJlZm9yZSBJIHJlYWQgdGhpcyBlbWFpbCA6LSk8YnIgZGlyPSJhdXRvIj48YnIgZGlyPSJh
-dXRvIj5JIHRoaW5rIHlvdXIgcGF0Y2ggb25seSBmaXhlcyB0aGlzIHByb2JsZW0gZm9yIGxpdHRs
-ZS1lbmRpYW48YnIgZGlyPSJhdXRvIj5ob3N0cyBhbmQgbGVhdmVzIGJpZy1lbmRpYW4gaG9zdHMg
-c3RpbGwgd2l0aCB0aGUgd3Jvbmc8YnIgZGlyPSJhdXRvIj5waXhlbC1kYXRhIG9yZGVyLjxiciBk
-aXI9ImF1dG8iPjxiciBkaXI9ImF1dG8iPllvdSBjYW4gc2VlIG15IHZlcnNpb24gb2YgdGhlIHBh
-dGNoIGhlcmU6PGJyIGRpcj0iYXV0byI+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VLzIwMjMwNTAy
-MTM1NTQ4LjI0NTEzMDktMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcvPGJyIGRpcj0iYXV0byI+
-PGJyIGRpcj0iYXV0byI+dGhhbmtzPGJyIGRpcj0iYXV0byI+LS0gUE1NPGJyIGRpcj0iYXV0byI+
-PC9ib2R5PjwvaHRtbD4=
-
-----_com.samsung.android.email_654380543580540--
+diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
+index 6c77966c0b..7b5b0b5a48 100644
+--- a/hw/9pfs/trace-events
++++ b/hw/9pfs/trace-events
+@@ -48,3 +48,8 @@ v9fs_readlink(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+ v9fs_readlink_return(uint16_t tag, uint8_t id, char* target) "tag %d id %d name %s"
+ v9fs_setattr(uint16_t tag, uint8_t id, int32_t fid, int32_t valid, int32_t mode, int32_t uid, int32_t gid, int64_t size, int64_t atime_sec, int64_t mtime_sec) "tag %u id %u fid %d iattr={valid %d mode %d uid %d gid %d size %"PRId64" atime=%"PRId64" mtime=%"PRId64" }"
+ v9fs_setattr_return(uint16_t tag, uint8_t id) "tag %u id %u"
++
++xen_9pfs_alloc(char *name) "name %s"
++xen_9pfs_connect(char *name) "name %s"
++xen_9pfs_disconnect(char *name) "name %s"
++xen_9pfs_free(char *name) "name %s"
+diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+index 0e266c552b..c646a0b3d1 100644
+--- a/hw/9pfs/xen-9p-backend.c
++++ b/hw/9pfs/xen-9p-backend.c
+@@ -25,6 +25,8 @@
+ #include "qemu/iov.h"
+ #include "fsdev/qemu-fsdev.h"
+ 
++#include "trace.h"
++
+ #define VERSIONS "1"
+ #define MAX_RINGS 8
+ #define MAX_RING_ORDER 9
+@@ -337,6 +339,8 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
+     Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
+     int i;
+ 
++    trace_xen_9pfs_disconnect(xendev->name);
++
+     for (i = 0; i < xen_9pdev->num_rings; i++) {
+         if (xen_9pdev->rings[i].evtchndev != NULL) {
+             qemu_set_fd_handler(qemu_xen_evtchn_fd(xen_9pdev->rings[i].evtchndev),
+@@ -345,40 +349,42 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
+                                    xen_9pdev->rings[i].local_port);
+             xen_9pdev->rings[i].evtchndev = NULL;
+         }
+-    }
+-}
+-
+-static int xen_9pfs_free(struct XenLegacyDevice *xendev)
+-{
+-    Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
+-    int i;
+-
+-    if (xen_9pdev->rings[0].evtchndev != NULL) {
+-        xen_9pfs_disconnect(xendev);
+-    }
+-
+-    for (i = 0; i < xen_9pdev->num_rings; i++) {
+         if (xen_9pdev->rings[i].data != NULL) {
+             xen_be_unmap_grant_refs(&xen_9pdev->xendev,
+                                     xen_9pdev->rings[i].data,
+                                     xen_9pdev->rings[i].intf->ref,
+                                     (1 << xen_9pdev->rings[i].ring_order));
++            xen_9pdev->rings[i].data = NULL;
+         }
+         if (xen_9pdev->rings[i].intf != NULL) {
+             xen_be_unmap_grant_ref(&xen_9pdev->xendev,
+                                    xen_9pdev->rings[i].intf,
+                                    xen_9pdev->rings[i].ref);
++            xen_9pdev->rings[i].intf = NULL;
+         }
+         if (xen_9pdev->rings[i].bh != NULL) {
+             qemu_bh_delete(xen_9pdev->rings[i].bh);
++            xen_9pdev->rings[i].bh = NULL;
+         }
+     }
+ 
+     g_free(xen_9pdev->id);
++    xen_9pdev->id = NULL;
+     g_free(xen_9pdev->tag);
++    xen_9pdev->tag = NULL;
+     g_free(xen_9pdev->path);
++    xen_9pdev->path = NULL;
+     g_free(xen_9pdev->security_model);
++    xen_9pdev->security_model = NULL;
+     g_free(xen_9pdev->rings);
++    xen_9pdev->rings = NULL;
++    return;
++}
++
++static int xen_9pfs_free(struct XenLegacyDevice *xendev)
++{
++    trace_xen_9pfs_free(xendev->name);
++
+     return 0;
+ }
+ 
+@@ -390,6 +396,8 @@ static int xen_9pfs_connect(struct XenLegacyDevice *xendev)
+     V9fsState *s = &xen_9pdev->state;
+     QemuOpts *fsdev;
+ 
++    trace_xen_9pfs_connect(xendev->name);
++
+     if (xenstore_read_fe_int(&xen_9pdev->xendev, "num-rings",
+                              &xen_9pdev->num_rings) == -1 ||
+         xen_9pdev->num_rings > MAX_RINGS || xen_9pdev->num_rings < 1) {
+@@ -499,6 +507,8 @@ out:
+ 
+ static void xen_9pfs_alloc(struct XenLegacyDevice *xendev)
+ {
++    trace_xen_9pfs_alloc(xendev->name);
++
+     xenstore_write_be_str(xendev, "versions", VERSIONS);
+     xenstore_write_be_int(xendev, "max-rings", MAX_RINGS);
+     xenstore_write_be_int(xendev, "max-ring-page-order", MAX_RING_ORDER);
+-- 
+2.40.1
 
 
