@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439106F42C8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366476F42DC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:33:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptoAF-0002Dv-No; Tue, 02 May 2023 07:27:23 -0400
+	id 1ptoEq-0003e5-MS; Tue, 02 May 2023 07:32:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptoAC-0002DR-9q
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:27:20 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1ptoEo-0003dh-P1
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:32:06 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptoAA-0005up-Fm
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:27:19 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f19a7f9424so35864805e9.2
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:27:17 -0700 (PDT)
+ id 1ptoEn-0001dP-7I
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:32:06 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f1e2555b5aso23517205e9.0
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683026836; x=1685618836;
+ d=linaro.org; s=google; t=1683027123; x=1685619123;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=NsayxzKy/RyIeoLNcn+o6YxMBMjitP1LJXdDm+9c9zw=;
- b=IfF/O6zC0uKOOhaxZevx28cGQ0t5F3nb6tfELvDEuAv4Ho+uJW/SKpo8GRT5kp2ipU
- xjEYoo6oe+XYSY9fjo7ZGztVtu1sAhXQttJHeDubVmCXEdx/U9Fvf5o0+yCXCsVBE0Bl
- YZpTpYVIivQUBbB4viIJQ3/1oxMa3PJ6k+pTVMrKjjmCUf3DbHcPI3HcbIOTKg72A9RG
- vqh50Tu2Ei/T/Ipa3d2VzCxXZ1TPsYmnMuTvhdkl6a1O6QbAADNkNVharORgEnmSMrga
- 5rSn4VaykotpVQRotHcG03hXyVEIy2SoGKG+bWeDIlrkzM266PxkQ8osacdc60fzTyep
- EE+w==
+ bh=2udM7iT2FK/xKY6scpis0aY8W3CKijk9hrNehfmY+b4=;
+ b=L9a/845RNZ2P2uXDb8WOfz8tVd6yv5Dm30DdAUrJhu6BHhzKZwvCYG62LOmtItibWF
+ RibVP8DTjxxr2aoY8B5atIXi1D0oPmU4DKuJSWlo31xlwYAkD8zPSs+QmVWFbqOyZ9lv
+ PWCyPANioCDBO4ur1DWdeYy5Gd1vR2aD6Hu7/COf2H8JsCmo6f19bWbeRekEbpIj8GbI
+ cSx3p3VT+XNBECm+4PwGcSNq3ifRze6UAQSYaG3aloHzGmjvb0o0HZz9+LetVQ9wvdhj
+ kqIa5GBxMSuw2gW8TQCxhPjGgzMz8DeB1StwP0qrdly+K7TElLCsrBaZ57X/2JZlH77d
+ cmew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683026836; x=1685618836;
+ d=1e100.net; s=20221208; t=1683027123; x=1685619123;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NsayxzKy/RyIeoLNcn+o6YxMBMjitP1LJXdDm+9c9zw=;
- b=SnbcNOvFjdhWj4B+l25OoX1Ke8D6fsMcZ/an0e7fnie6etOwdjX4IsNzvK4f3pSGsj
- teMz0gA95mD5yEDQKxC7pVrw6Lf8aAlbvq8YzixGYwtTsNb31ua7vaCBNEeBQmECcBUm
- 1HPNmvLBz5ZKEu/SJDG1FFRL8MTq4Ew+KjMP/6rcW33z7bUOKnTTsCHYS84Znu1v1fc0
- JvP+xywziZguqFn+iSj8tLgznQJaEJ7StmVCLLR/R4XHj3xFP0sCZ/Skp3D/CyNmv3KA
- 5YIAafRFkv1rBavxXR1UoXM6XDIoQ3gTz92nK1a5l9Iiep3UxewguqdZS69YhwNyy/JH
- uTTg==
-X-Gm-Message-State: AC+VfDyKJnUWtVn1dIcpBZwKlaVQy1JL17p4IuergPKoE0zIIKoKz5qB
- vyNrbO7yU6ZuW9oIu2MI2ArE+w==
-X-Google-Smtp-Source: ACHHUZ7or5DBLdeIYckUdS/BPaSulrcDTUNlqpkHUvD1wvclCb/16UHB4oXbJqxmoGkAqXINNge4uQ==
-X-Received: by 2002:a7b:c7d4:0:b0:3f1:6fb3:ffcc with SMTP id
- z20-20020a7bc7d4000000b003f16fb3ffccmr12628005wmk.22.1683026835891; 
- Tue, 02 May 2023 04:27:15 -0700 (PDT)
+ bh=2udM7iT2FK/xKY6scpis0aY8W3CKijk9hrNehfmY+b4=;
+ b=kd6VKvdLL48KLwtbsz8kMvU1khzOuUxJoX1EOMTP5hcWRj2Gs8A7gjhUYdRY3C0fKZ
+ jzAvKbUhFO+DwTpAM92ixnWJW+C2hc1AQnCLvVbbU/K1ZSFVKQBoRLMUb6IEAnpkY/o0
+ c3T9qrFep/eJLysyrDu49e59gsZMC8t/gjZDr77X9Fea2wMoppANd3m5DzA5kb2jhW+k
+ Tozkfm1S8S1wg7qr7wRVvJ+10HpJu7nZry5bWZM2LIId1+dp3O5R9Yuqq5BGG7Ftyjkk
+ rRMu1tRM36V6z8jkUYSQfA+80iO10a2VCr+R/jDEysHsByJJRiC72/Fiv29moSZWrkQk
+ N/Bw==
+X-Gm-Message-State: AC+VfDyN3PMdZcFPL6IqyiGN6/bdn1iMbGoTrTDdSAtD1Ye1cHEqkyk5
+ 3tP5wo5l+JXBuSHWrfj1Ds2NBg==
+X-Google-Smtp-Source: ACHHUZ5pkhxlg/Qm4klnh5IieNsEmho/mBWndSGXjRzounKuhmZ0DSuLs/MARrcYAWz28eLgK7S+sg==
+X-Received: by 2002:a05:6000:136f:b0:2f0:e287:1fbc with SMTP id
+ q15-20020a056000136f00b002f0e2871fbcmr12300259wrz.11.1683027123438; 
+ Tue, 02 May 2023 04:32:03 -0700 (PDT)
 Received: from ?IPV6:2a02:c7c:74db:8d00:ad29:f02c:48a2:269c?
  ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
  by smtp.gmail.com with ESMTPSA id
- n17-20020a5d4c51000000b002d6f285c0a2sm30741205wrt.42.2023.05.02.04.27.14
+ b1-20020adfee81000000b002ca864b807csm31087589wro.0.2023.05.02.04.32.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 May 2023 04:27:15 -0700 (PDT)
-Message-ID: <7d71b26f-3c5d-1588-6cb2-f6043b03b0bf@linaro.org>
-Date: Tue, 2 May 2023 12:27:13 +0100
+ Tue, 02 May 2023 04:32:03 -0700 (PDT)
+Message-ID: <b06d5e5f-468e-f923-2184-b3776d3892be@linaro.org>
+Date: Tue, 2 May 2023 12:32:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH RFC v2 5/9] target/loongarch: Implement kvm_arch_init
- function
+Subject: Re: [PATCH RFC v2 6/9] target/loongarch: Implement kvm_arch_init_vcpu
 Content-Language: en-US
 To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
 Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -71,13 +70,13 @@ Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, maobibo@loongson.cn, philmd@linaro.org,
  peter.maydell@linaro.org
 References: <20230427072645.3368102-1-zhaotianrui@loongson.cn>
- <20230427072645.3368102-6-zhaotianrui@loongson.cn>
+ <20230427072645.3368102-7-zhaotianrui@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230427072645.3368102-6-zhaotianrui@loongson.cn>
+In-Reply-To: <20230427072645.3368102-7-zhaotianrui@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -101,15 +100,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/27/23 08:26, Tianrui Zhao wrote:
-> Implement the kvm_arch_init of loongarch, in the function, the
-> KVM_CAP_MP_STATE cap is checked by kvm ioctl.
-> 
-> Signed-off-by: Tianrui Zhao<zhaotianrui@loongson.cn>
-> ---
->   target/loongarch/kvm.c | 1 +
->   1 file changed, 1 insertion(+)
+> +static void kvm_loongarch_vm_stage_change(void *opaque, bool running,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Typo:                           state
+
+> +    uint64_t counter_value;
+
+I know naming is hard, but this is so generic it is difficult to determine what it does. 
+Perhaps kvm_state_counter?  A comment would also be helpful, even with a renaming.
+
 
 r~
 
