@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8876F47F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 18:07:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51E66F4805
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 18:10:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptsXC-0001kF-VX; Tue, 02 May 2023 12:07:22 -0400
+	id 1ptsZ1-0002r7-4t; Tue, 02 May 2023 12:09:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptsX9-0001jW-Qw
- for qemu-devel@nongnu.org; Tue, 02 May 2023 12:07:20 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptsYe-0002kx-V7
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 12:08:54 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptsX8-0008Th-4b
- for qemu-devel@nongnu.org; Tue, 02 May 2023 12:07:19 -0400
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-50b383222f7so5292524a12.3
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 09:07:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptsYb-0000XM-Ca
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 12:08:52 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f1738d0d4cso24622845e9.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 09:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683043636; x=1685635636;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rPdQXw/fq4j47T9RvnrT5HtF67OlhxtSoj8vnvwsf4U=;
- b=ZytMXUKiMkhBbWSBzzO8fL2RXS0hgY1QpN7unfu1p735kVxzJLII24/VUPiV+oFG6P
- uyyBug4WgOTISuBAVvc0DNvfaHpbsqggYez74e4X3ffuQIPdMvcv3WBJuABIv0agZ5P+
- h3TnkSIAOKsgXbbtOqRM0zrH93LfMbqUBksf+wFb7+7l/QV/3Tyj99RXml14ekFQzZYr
- NUuLsMJD49iUiHAJvevaQ7ewowDhocWNHGJbYIXILkJlBLDbsyDAOH8laDTSbKhtjOHi
- h6gZ02q6hLVeExS8KQg8/jigFciIg5dvU+Dz6HNJzr68b3ySe2802wppDhjfPirGbj07
- qatg==
+ d=linaro.org; s=google; t=1683043727; x=1685635727;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=X3WXzLiHJtDEm33a2wp7z9oTb4paZOhrhmwflz0UmDI=;
+ b=gQotSBXSVfUEbteEDsLngeF0ZDp0XJdgiXWtd5qUg5vbfFN6AF8nWICvh1mNo1q/rS
+ 23oyJL0r0GxE7+PTkbRlmVkyfMWg/gLRZFhS+yTi+KylH6viMAR5A8hCSBFqo5cJsU/h
+ 8nnzYJUcHCaRxOC63767aWq3vKvCTgeLt883+5KAmyxy6D6p09Q1WjtHOt9jvCw/NMqI
+ jeVARZjhDSnauCL5xBYjL6J2iS81oomwfKYoCOsCI2XPkwtb+lIPUpIK/fkEAUI8Ri3S
+ Rveu441H5beBPT9khfELOnSN7lEnttDhjNRxlrLfdpPVfzHFahmQ0uDg0FI+xhEixoT/
+ 3DTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683043636; x=1685635636;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1683043727; x=1685635727;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rPdQXw/fq4j47T9RvnrT5HtF67OlhxtSoj8vnvwsf4U=;
- b=WzXL9H8BHikz4E9vgb48tLiLkvTo080TzdbQgGUnNwqNFQzT/rPQKXi55IIduf5BEO
- N0vHzwiQBRUSrHf5f/+G7sMZiOckrFnrE7g4eUBlxe81nujk+aZdrraoInGmkEQ9sQdS
- lwXY4C5jTtkHkGSbQFopx1R6GKydtnRMS5NfbvQpjM8uVaRSUBQEZi37Sx4zY5h9VbAD
- joLw8BLjKbiSiUtCfXYtZGhr/Tmfx5dgxwGsw5KW0cznnWjXe/sYQvmC1Mpp3D9OJbLN
- FT+HxzuzufM6tN005hoGuF9SxS+WZ00+ua8AmDY4T0d2JEKk5HfkdVGE/aEtyLrKqyB1
- 2bow==
-X-Gm-Message-State: AC+VfDzDQNm73+HqLU21Q3r6jY+cp+RPImorhT7kGHIww0MRpQlned+E
- KEDX/x65Ge4zteUplJL5ovHI+QPAyNlkdkZEXNpGKA==
-X-Google-Smtp-Source: ACHHUZ7JzyMTWfF7fY2sU/0wP8hSU5gPNGrpjyc68+eWLV8NY46UVMkpEu5xqTN2NXY29ls3nbgj/FEpJkbhw0I6P58=
-X-Received: by 2002:a05:6402:517a:b0:50b:c896:12eb with SMTP id
- d26-20020a056402517a00b0050bc89612ebmr4885194ede.31.1683043636081; Tue, 02
- May 2023 09:07:16 -0700 (PDT)
+ bh=X3WXzLiHJtDEm33a2wp7z9oTb4paZOhrhmwflz0UmDI=;
+ b=iYnM7+kEg+rI5nGgnQnaHkX5yboYU/MdE+JlndGOsd+6N9+xquxCjD79ecPmptR5iY
+ x6Rncu7iuAgPNc+/tyhEMv3LhWWmSmNrtLjLVDXzaMil3vG2y7GSi07XbAGh0getUVBo
+ GlU+wy+/wGoGnoz4GtN4mb5aWc9f+La4rADQFutgmz9shFWP7sQcQzG6zsBD0sdawllB
+ NYEIbEsWTPM4GeEBz1/DXAk49oVja5BisW0yMiIi+vDFo9+1QgpJ+E/ojwiaqkGDTtcd
+ CYiw1U80CNAA7kAmNm3zKk8Z4mFYKXHCRFQWjdQOImk5VQqaaSLg7RPrL1s64AAXBqon
+ Djug==
+X-Gm-Message-State: AC+VfDxyWVGmfH2zkHCjAq7tx4rKDOcYfuYDghL8zMWWleVkIJqYo8CF
+ kXRUsvMRmDHs1lhuRVF9TPxKEMiiTq0jnPkzKccsqw==
+X-Google-Smtp-Source: ACHHUZ4IzrZ6dbLGpfndXlz+7s1uxWwcpZUYcks+LPDXPSwGyakFpg5ouGCqrEdg/hgC9JssNcr2qQ==
+X-Received: by 2002:a05:6000:510:b0:2f1:d17f:cf95 with SMTP id
+ a16-20020a056000051000b002f1d17fcf95mr12961299wrf.12.1683043727633; 
+ Tue, 02 May 2023 09:08:47 -0700 (PDT)
+Received: from stoup.Home ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
+ by smtp.gmail.com with ESMTPSA id
+ v16-20020a05600c471000b003ede3f5c81fsm39918471wmo.41.2023.05.02.09.08.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 09:08:47 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: philmd@linaro.org, jiaxun.yang@flygoat.com, crwulff@gmail.com,
+ marex@denx.de, ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk
+Subject: [PATCH 00/16] tcg: Remove TARGET_ALIGNED_ONLY
+Date: Tue,  2 May 2023 17:08:30 +0100
+Message-Id: <20230502160846.1289975-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230426180013.14814-1-farosas@suse.de>
- <CAFEAcA_ZVpZzuvZ71NzgweRC5Uti0T_fqG00paqDDe18QP-veQ@mail.gmail.com>
- <CAFEAcA-s6P2Y5nNQMyACeK3+4cuSrFfqqEdFW-BDToy_YXj64g@mail.gmail.com>
-In-Reply-To: <CAFEAcA-s6P2Y5nNQMyACeK3+4cuSrFfqqEdFW-BDToy_YXj64g@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 May 2023 17:07:05 +0100
-Message-ID: <CAFEAcA-7ci6PRYCOcrPZcGq8x+Wxtx6wwSk1C18cOO=dXOq8Dw@mail.gmail.com>
-Subject: Re: [PATCH v11 00/13] target/arm: Allow CONFIG_TCG=n builds
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,37 +89,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2 May 2023 at 15:51, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 2 May 2023 at 10:55, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Wed, 26 Apr 2023 at 19:00, Fabiano Rosas <farosas@suse.de> wrote:
-> > >
-> > > Hi,
-> > >
-> > > Some minor changes:
-> > >
-> > > - new patch to move a test under CONFIG_TCG (broken on master);
-> > > - new patch to document the unsupported CPU test (Philippe);
-> > > - changed the test skip message when no KVM or TCG are present (Igor).
-> >
-> > Applied to target-arm.next; thanks for your persistence in
-> > working through the many versions of this patchset.
->
-> Update: I had to drop "gitlab-ci: Check building KVM-only aarch64 target"
-> because it enables a CI job that fails on our aarch64 runner
-> (because it wants to run tests using KVM but that machine
-> isn't configured to allow the runner to use KVM).
+Based-on: 20230502135741.1158035-1-richard.henderson@linaro.org
+("[PATCH 0/9] tcg: Remove compatability helpers for qemu ld/st")
 
-We fixed the runner config, but the CI still fails on that notcg
-job because it is trying to run tests that explicitly use
-'-accel tcg':
-https://gitlab.com/qemu-project/qemu/-/jobs/4212850809#L3595
+Add MO_ALIGN where required, so that we may remove TARGET_ALIGNED_ONLY.
+This is required for building tcg once, because we cannot have multiple
+definitions of MO_ALIGN and MO_UNALN.
 
-Something is weird here, because we built without TCG support
-on an aarch64 host but we still got qemu-system-i386
-and qemu-system-x86_64 binaries, which then don't work
-and cause the tests to fail...
 
--- PMM
+r~
+
+
+Richard Henderson (16):
+  target/alpha: Use MO_ALIGN for system UNALIGN()
+  target/alpha: Use MO_ALIGN where required
+  target/alpha: Remove TARGET_ALIGNED_ONLY
+  target/hppa: Use MO_ALIGN for system UNALIGN()
+  target/hppa: Remove TARGET_ALIGNED_ONLY
+  target/mips: Add MO_ALIGN to gen_llwp, gen_scwp
+  target/mips: Add missing default_tcg_memop_mask
+  target/mips: Use MO_ALIGN instead of 0
+  target/mips: Remove TARGET_ALIGNED_ONLY
+  target/nios2: Remove TARGET_ALIGNED_ONLY
+  target/sh4: Use MO_ALIGN where required
+  target/sh4: Remove TARGET_ALIGNED_ONLY
+  target/sparc: Use MO_ALIGN where required
+  target/sparc: Use cpu_ld*_code_mmu
+  target/sparc: Remove TARGET_ALIGNED_ONLY
+  tcg: Remove TARGET_ALIGNED_ONLY
+
+ configs/targets/alpha-linux-user.mak       |   1 -
+ configs/targets/alpha-softmmu.mak          |   1 -
+ configs/targets/hppa-linux-user.mak        |   1 -
+ configs/targets/hppa-softmmu.mak           |   1 -
+ configs/targets/mips-linux-user.mak        |   1 -
+ configs/targets/mips-softmmu.mak           |   1 -
+ configs/targets/mips64-linux-user.mak      |   1 -
+ configs/targets/mips64-softmmu.mak         |   1 -
+ configs/targets/mips64el-linux-user.mak    |   1 -
+ configs/targets/mips64el-softmmu.mak       |   1 -
+ configs/targets/mipsel-linux-user.mak      |   1 -
+ configs/targets/mipsel-softmmu.mak         |   1 -
+ configs/targets/mipsn32-linux-user.mak     |   1 -
+ configs/targets/mipsn32el-linux-user.mak   |   1 -
+ configs/targets/nios2-softmmu.mak          |   1 -
+ configs/targets/sh4-linux-user.mak         |   1 -
+ configs/targets/sh4-softmmu.mak            |   1 -
+ configs/targets/sh4eb-linux-user.mak       |   1 -
+ configs/targets/sh4eb-softmmu.mak          |   1 -
+ configs/targets/sparc-linux-user.mak       |   1 -
+ configs/targets/sparc-softmmu.mak          |   1 -
+ configs/targets/sparc32plus-linux-user.mak |   1 -
+ configs/targets/sparc64-linux-user.mak     |   1 -
+ configs/targets/sparc64-softmmu.mak        |   1 -
+ include/exec/memop.h                       |  13 +--
+ include/exec/poison.h                      |   1 -
+ target/alpha/translate.c                   |  38 ++++----
+ target/hppa/translate.c                    |   2 +-
+ target/mips/tcg/mxu_translate.c            |   3 +-
+ target/nios2/translate.c                   |  10 ++
+ target/sh4/translate.c                     | 102 +++++++++++++--------
+ target/sparc/ldst_helper.c                 |  10 +-
+ target/sparc/translate.c                   |  66 ++++++-------
+ tcg/tcg.c                                  |   5 -
+ target/mips/tcg/micromips_translate.c.inc  |  24 +++--
+ target/mips/tcg/mips16e_translate.c.inc    |  18 ++--
+ target/mips/tcg/nanomips_translate.c.inc   |  32 +++----
+ 37 files changed, 186 insertions(+), 162 deletions(-)
+
+-- 
+2.34.1
+
 
