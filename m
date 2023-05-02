@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EFF6F3CC4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 06:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE54C6F3CCF
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 06:51:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pthlf-000089-I1; Tue, 02 May 2023 00:37:35 -0400
+	id 1pthxY-00020u-Cz; Tue, 02 May 2023 00:49:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pthld-00007v-Qf; Tue, 02 May 2023 00:37:33 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pthxU-00020D-Ra; Tue, 02 May 2023 00:49:48 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pthlb-0002g0-Kd; Tue, 02 May 2023 00:37:33 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id
- d9443c01a7336-1ab01bf474aso9914715ad.1; 
- Mon, 01 May 2023 21:37:28 -0700 (PDT)
+ id 1pthxS-00088D-Qm; Tue, 02 May 2023 00:49:48 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id
+ d2e1a72fcca58-64115eef620so31800404b3a.1; 
+ Mon, 01 May 2023 21:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683002243; x=1685594243;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
+ d=gmail.com; s=20221208; t=1683002984; x=1685594984;
+ h=in-reply-to:references:from:subject:cc:to:message-id:date
  :content-transfer-encoding:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nbpUWJRO3DRROPQ4vxvhArHff4T9HPu++L4OfHhhbFc=;
- b=dUjNlfgLT9IV2s6zJCG6Uj/nvK7l71pfyGhc0F/CXFZZxlkit7o0x15uAISk/ru35d
- 7qsYfZ9wErE7cPnpvBjvFtnLmRVbDBbwOrjgvaMxmcsLvQZmvOBJEQa6WtjzxmcjOtd8
- 4qs1VYWI2VjT89CbB2AvhEegl4dKtoTRE/iv4Qa06LGukcENojHdJHuBwCtpgRPc+6oj
- dHdto6AV0VatBjAws5mMa/0ZoeEDwBLvCRObSs1yLbANMtTf7m2cZp63wGUeimXlE9yn
- 1iXff/qsGCPwOeycd2YyQd+Pqwu400BKW0PhucErB6qbSDBkbMMkuipOKg8WxpDKDe9j
- ZYLQ==
+ bh=MifQdYUg1G/ADtq6QFsZ8PZXTX0qMXWSO/bOUdJU1P0=;
+ b=YJkdIDqlmpBZgL20t2bMlRihM77zWcTXR4DruRJbFuDMjfrhijIff9/8n9sL4pvUhY
+ KduIMllUH9b1LVHGrK9urrZaYxwfuF4w9GvFBoqMIPQyr/TaG4sap1nvmoExyguO8C9n
+ MZ5Oijtd5bsZrTN1pXMHPrBI1Bdob9CpkbEK9BqZSW1toXA87r2cX6U6SY1MTlx9542O
+ ppVQwyAEXRkKl12/iTJbW7Zs5W59SZeNAWItp/v2TaS9pZ2w8IW6SDG8B6phNQgCXxR9
+ KjvRTMvciJTCt3PKjln5KBGq4BwUJEZrkWRda/4kalNfj/aGYe37ATZfqv/q/zH/HfLF
+ cL7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683002243; x=1685594243;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
+ d=1e100.net; s=20221208; t=1683002984; x=1685594984;
+ h=in-reply-to:references:from:subject:cc:to:message-id:date
  :content-transfer-encoding:mime-version:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=nbpUWJRO3DRROPQ4vxvhArHff4T9HPu++L4OfHhhbFc=;
- b=ZCrCjhfX3bGDIrfggz4XEjju4d1MZnJ4/mIeOJv/R0fwYoJ32vi5qxvSgV0opCihgB
- 6Uv4DUxVS31jtXH0HjYwfychXssDYcUa48xGtdz2tMF7I6ZtewO6g7P1+KWfRpPX/snh
- C+gxE52py4Jtib8IA5DNW+7jWavyx4djtVMQjPj5MGjQr7CZCq+D6bSVXVDw1R1/sQcR
- 2Is6t8VkRYg1NmsCXQArQ5MRACFNx2oOHq++mc9ZfVPmjW49Eg7dg1I/hwqMGwI5C0dG
- 1QFZBt/WzDUpVkRt+h6CR2q1ee+ZhJkfD+hcMkDpB+53vLfnZprVtfsdfVDue7PF37Dj
- LtRg==
-X-Gm-Message-State: AC+VfDw1+6OyR+u5HB5m7VKS2HGfPAQ0g/Q8ECzcqcbwNE5ZXTa8pDqp
- 1/ImKqgmrFkB9LN5kJnP8BM=
-X-Google-Smtp-Source: ACHHUZ7ojgnIabK7EkFcSYB0f8y8N6cQY1G2XvYpUXqP0acr+96UB/w41huZUKb81ISyEgLeu8ga1Q==
-X-Received: by 2002:a17:902:d2c7:b0:1ab:581:839e with SMTP id
- n7-20020a170902d2c700b001ab0581839emr2803550plc.65.1683002243177; 
- Mon, 01 May 2023 21:37:23 -0700 (PDT)
+ bh=MifQdYUg1G/ADtq6QFsZ8PZXTX0qMXWSO/bOUdJU1P0=;
+ b=SXfIfpYZBvfql4okUDr54HLlM8kRY5IWI3H2v3wpNkFuflwB6aRuF9VL38VV8OnzKu
+ NaE5F5Tov4Vdh+BgeTlVWJcYYAysdYMy84wSQwHfA3OSlGPOrFkFkjSNsncCRunLFhxB
+ pC57bYTWIDiu4Sc/aYsYhTqTwykC+Xk0IJ4zbl6QqYkcHEkLrTYIVIUcCM1ent8FoMwz
+ uj6BJ+P10MepRswYlj59eN/qGiuUITmUFLxg40p+vT9wllMGsLaiSKctHhSyntS4RMFN
+ nEBBpzOMvFA3WPcU7zI6DVnFmYzrzn13ahBoY1I2hW8tzhMrRGMadVkcAkRn+5PsdO/9
+ 9OHA==
+X-Gm-Message-State: AC+VfDzxGoAvu5ATtsvwYAONyoNaVnslDc/Lr8nxhADcYt8mV/XpHJt7
+ bRKhm0imViD2dKb55X05v0A=
+X-Google-Smtp-Source: ACHHUZ4MzdfIYY+VT2TbrLQ88vG8AGCsh9GbI4iGWOgJ7tdeXxRPHeaIVh7HC/yNwc5LS7vINYB0QQ==
+X-Received: by 2002:a05:6a00:c8e:b0:63b:8da4:352e with SMTP id
+ a14-20020a056a000c8e00b0063b8da4352emr30292149pfv.1.1683002983632; 
+ Mon, 01 May 2023 21:49:43 -0700 (PDT)
 Received: from localhost (118-208-214-188.tpgi.com.au. [118.208.214.188])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a170902a40d00b001a687c505e6sm18626178plq.232.2023.05.01.21.37.19
+ c14-20020a62f84e000000b0063b6d68f4bcsm20604918pfm.41.2023.05.01.21.49.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 May 2023 21:37:22 -0700 (PDT)
+ Mon, 01 May 2023 21:49:42 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 02 May 2023 14:37:16 +1000
-Message-Id: <CSBII1VGPEQB.3Q8OP9FELWTC3@wheely>
-Cc: <qemu-devel@nongnu.org>, <farosas@suse.de>, <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 1/4] ppc: spapr: cleanup cr get/store in
- [h_enter|spapr_exit]_nested with helpers.
-From: "Nicholas Piggin" <npiggin@gmail.com>
+Date: Tue, 02 May 2023 14:49:38 +1000
+Message-Id: <CSBIRIKYBL78.3GGM8KZ1ERZUC@wheely>
 To: "Harsh Prateek Bora" <harshpb@linux.ibm.com>, <qemu-ppc@nongnu.org>
+Cc: <qemu-devel@nongnu.org>, <farosas@suse.de>, <danielhb413@gmail.com>
+Subject: Re: [PATCH v2 2/4] ppc: spapr: cleanup h_enter_nested() with helper
+ routines.
+From: "Nicholas Piggin" <npiggin@gmail.com>
 X-Mailer: aerc 0.14.0
 References: <20230424144712.1985425-1-harshpb@linux.ibm.com>
- <20230424144712.1985425-2-harshpb@linux.ibm.com>
-In-Reply-To: <20230424144712.1985425-2-harshpb@linux.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=npiggin@gmail.com; helo=mail-pl1-x62a.google.com
+ <20230424144712.1985425-3-harshpb@linux.ibm.com>
+In-Reply-To: <20230424144712.1985425-3-harshpb@linux.ibm.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,88 +93,159 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Tue Apr 25, 2023 at 12:47 AM AEST, Harsh Prateek Bora wrote:
-> The bits in cr reg are grouped into eight 4-bit fields represented
-> by env->crf[8] and the related calculations should be abstracted to
-> keep the calling routines simpler to read. This is a step towards
-> cleaning up the [h_enter|spapr_exit]_nested calls for better readability.
+> h_enter_nested() currently does a lot of register specific operations
+> which should be abstracted logically to simplify the code for better
+> readability. This patch breaks down relevant blocks into respective
+> helper routines to make use of them for better readability/maintenance.
 >
 > Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
-> Reviewed-by: Fabiano Rosas <farosas@suse.de>
 > ---
->  hw/ppc/spapr_hcall.c | 18 ++----------------
-
-Could you either convert all callers, or do implementation and
-conversion as separate patches. Preference for former if you can
-be bothered.
-
-save_user_regs(), restore_user_regs(), gdb read/write register * 2,
-kvm_arch_get/put_registers, monitor_get_ccr, at a quick glance.
-
->  target/ppc/cpu.c     | 17 +++++++++++++++++
->  target/ppc/cpu.h     |  2 ++
->  3 files changed, 21 insertions(+), 16 deletions(-)
+>  hw/ppc/spapr_hcall.c | 117 ++++++++++++++++++++++++++++---------------
+>  1 file changed, 78 insertions(+), 39 deletions(-)
 >
 > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index ec4def62f8..124cee5e53 100644
+> index 124cee5e53..f24d4b368e 100644
 > --- a/hw/ppc/spapr_hcall.c
 > +++ b/hw/ppc/spapr_hcall.c
-
-[snip]
-
-> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-> index 1a97b41c6b..3b444e58b5 100644
-> --- a/target/ppc/cpu.c
-> +++ b/target/ppc/cpu.c
-> @@ -67,6 +67,23 @@ uint32_t ppc_get_vscr(CPUPPCState *env)
->      return env->vscr | (sat << VSCR_SAT);
+> @@ -1544,6 +1544,81 @@ static target_ulong h_copy_tofrom_guest(PowerPCCPU=
+ *cpu,
+>      return H_FUNCTION;
 >  }
 > =20
-> +void ppc_store_cr(CPUPPCState *env, uint64_t cr)
+> +static void restore_hdec_from_hvstate(CPUPPCState *dst,
+> +                                      struct kvmppc_hv_guest_state *hv_s=
+tate,
+> +                                      target_ulong now)
+> +{
+> +    target_ulong hdec;
+> +
+> +    assert(hv_state);
+> +    hdec =3D hv_state->hdec_expiry - now;
+> +    cpu_ppc_hdecr_init(dst);
+> +    cpu_ppc_store_hdecr(dst, hdec);
+> +}
+> +
+> +static void restore_lpcr_from_hvstate(PowerPCCPU *cpu,
+> +                                      struct kvmppc_hv_guest_state *hv_s=
+tate)
+> +{
+> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> +    CPUPPCState *dst =3D &cpu->env;
+> +    target_ulong lpcr, lpcr_mask;
+> +
+> +    assert(hv_state);
+> +    lpcr_mask =3D LPCR_DPFD | LPCR_ILE | LPCR_AIL | LPCR_LD | LPCR_MER;
+> +    lpcr =3D (dst->spr[SPR_LPCR] & ~lpcr_mask) | (hv_state->lpcr & lpcr_=
+mask);
+> +    lpcr |=3D LPCR_HR | LPCR_UPRT | LPCR_GTSE | LPCR_HVICE | LPCR_HDICE;
+> +    lpcr &=3D ~LPCR_LPES0;
+> +    dst->spr[SPR_LPCR] =3D lpcr & pcc->lpcr_mask;
+> +}
+> +
+> +static void restore_env_from_ptregs(CPUPPCState *env,
+> +                                    struct kvmppc_pt_regs *regs)
+> +{
+> +    assert(env);
+> +    assert(regs);
+> +    assert(sizeof(env->gpr) =3D=3D sizeof(regs->gpr));
+> +    memcpy(env->gpr, regs->gpr, sizeof(env->gpr));
+> +    env->nip =3D regs->nip;
+> +    env->msr =3D regs->msr;
+> +    env->lr =3D regs->link;
+> +    env->ctr =3D regs->ctr;
+> +    cpu_write_xer(env, regs->xer);
+> +    ppc_store_cr(env, regs->ccr);
+> +}
+> +
+> +static void restore_env_from_hvstate(CPUPPCState *env,
+> +                                     struct kvmppc_hv_guest_state *hv_st=
+ate)
+> +{
+> +    assert(env);
+> +    assert(hv_state);
+> +    env->spr[SPR_HFSCR] =3D hv_state->hfscr;
+> +    /* TCG does not implement DAWR*, CIABR, PURR, SPURR, IC, VTB, HEIR S=
+PRs*/
+> +    env->cfar =3D hv_state->cfar;
+> +    env->spr[SPR_PCR] =3D hv_state->pcr;
+> +    env->spr[SPR_DPDES] =3D hv_state->dpdes;
+> +    env->spr[SPR_SRR0] =3D hv_state->srr0;
+> +    env->spr[SPR_SRR1] =3D hv_state->srr1;
+> +    env->spr[SPR_SPRG0] =3D hv_state->sprg[0];
+> +    env->spr[SPR_SPRG1] =3D hv_state->sprg[1];
+> +    env->spr[SPR_SPRG2] =3D hv_state->sprg[2];
+> +    env->spr[SPR_SPRG3] =3D hv_state->sprg[3];
+> +    env->spr[SPR_BOOKS_PID] =3D hv_state->pidr;
+> +    env->spr[SPR_PPR] =3D hv_state->ppr;
+> +}
+> +
+> +static inline void restore_l2_env(PowerPCCPU *cpu,
+> +		                  struct kvmppc_hv_guest_state *hv_state,
+> +				  struct kvmppc_pt_regs *regs,
+> +				  target_ulong now)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +
+> +    restore_env_from_ptregs(env, regs);
+> +    restore_env_from_hvstate(env, hv_state);
+> +    restore_lpcr_from_hvstate(cpu, hv_state);
+> +    restore_hdec_from_hvstate(env, hv_state, now);
+> +}
+> +
+>  /*
+>   * When this handler returns, the environment is switched to the L2 gues=
+t
+>   * and TCG begins running that. spapr_exit_nested() performs the switch =
+from
+> @@ -1554,14 +1629,12 @@ static target_ulong h_enter_nested(PowerPCCPU *cp=
+u,
+>                                     target_ulong opcode,
+>                                     target_ulong *args)
+>  {
+> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+>      CPUState *cs =3D CPU(cpu);
+>      CPUPPCState *env =3D &cpu->env;
+>      SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+>      target_ulong hv_ptr =3D args[0];
+>      target_ulong regs_ptr =3D args[1];
+> -    target_ulong hdec, now =3D cpu_ppc_load_tbl(env);
+> -    target_ulong lpcr, lpcr_mask;
+> +    target_ulong now =3D cpu_ppc_load_tbl(env);
+>      struct kvmppc_hv_guest_state *hvstate;
+>      struct kvmppc_hv_guest_state hv_state;
+>      struct kvmppc_pt_regs *regs;
+> @@ -1607,49 +1680,15 @@ static target_ulong h_enter_nested(PowerPCCPU *cp=
+u,
+>          return H_P2;
+>      }
+> =20
+> -    len =3D sizeof(env->gpr);
+> -    assert(len =3D=3D sizeof(regs->gpr));
+> -    memcpy(env->gpr, regs->gpr, len);
+> -
+> -    env->lr =3D regs->link;
+> -    env->ctr =3D regs->ctr;
+> -    cpu_write_xer(env, regs->xer);
+> -    ppc_store_cr(env, regs->ccr);
+> -
+> -    env->msr =3D regs->msr;
+> -    env->nip =3D regs->nip;
+> +    /* restore L2 env from hv_state and ptregs */
+> +    restore_l2_env(cpu, &hv_state, regs, now);
+> =20
+>      address_space_unmap(CPU(cpu)->as, regs, len, len, false);
 
-Set is normal counterpart to get. Or load and store, but
-I think set and get is probably better.
+I don't agree this improves readability. It also does more with the
+guest address space mapped, which may not be a big deal is strictly
+not an improvement.
 
-Good refactoring though, it shouldn't be open-coded everywhere.
+The comment needn't just repeat what the function says, and it does
+not actually restore the l2 environment. It sets some registers to
+L2 values, but it also leaves other state.
+
+I would like to see this in a larger series if it's going somewhere,
+but at the moment I'd rather leave it as is.
 
 Thanks,
 Nick
-
-> +{
-> +    for (int i =3D 7; i >=3D 0; i--) {
-> +        env->crf[i] =3D cr & 15;
-> +        cr >>=3D 4;
-> +    }
-> +}
-> +
-> +uint64_t ppc_get_cr(CPUPPCState *env)
-> +{
-> +    uint64_t cr =3D 0;
-> +    for (int i =3D 0; i < 8; i++) {
-> +        cr |=3D (env->crf[i] & 15) << (4 * (7 - i));
-> +    }
-> +    return cr;
-> +}
-> +
->  /* GDBstub can read and write MSR... */
->  void ppc_store_msr(CPUPPCState *env, target_ulong value)
->  {
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 557d736dab..b4c21459f1 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -2773,6 +2773,8 @@ void dump_mmu(CPUPPCState *env);
->  void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int le=
-n);
->  void ppc_store_vscr(CPUPPCState *env, uint32_t vscr);
->  uint32_t ppc_get_vscr(CPUPPCState *env);
-> +void ppc_store_cr(CPUPPCState *env, uint64_t cr);
-> +uint64_t ppc_get_cr(CPUPPCState *env);
-> =20
->  /***********************************************************************=
-******/
->  /* Power management enable checks                                       =
-     */
-> --=20
-> 2.31.1
-
 
