@@ -2,87 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F926F3E3F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 09:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997156F3E74
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 09:39:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptkAc-0003wk-IP; Tue, 02 May 2023 03:11:30 -0400
+	id 1ptka0-0000Kb-DQ; Tue, 02 May 2023 03:37:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ptkAV-0003uw-0X
- for qemu-devel@nongnu.org; Tue, 02 May 2023 03:11:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1ptkZv-0000KH-Ae; Tue, 02 May 2023 03:37:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ptkAS-0005gM-Lj
- for qemu-devel@nongnu.org; Tue, 02 May 2023 03:11:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683011477;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=aIzcxIGiUAbG+hbyLWP6TfnE8GkEDS652SHDLMmxRjo=;
- b=SFPZv1uU61Ypuek1x0abqHwDVWpRiEuWBpFx9en1m7NLzvq9IX0KsZnUH+kecK7f8hobzL
- 5+P6ihssQxRlhIp4asgiQG0YRYsV2dTaV5q7aN9H8baOjovPnd/v3V982235Tru4jA22lv
- 8yId/GOExG/cnhC+dz/0ZJth1rjhE2k=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-330-MCzvP11APGKrZLdkfgBJrA-1; Tue, 02 May 2023 03:11:15 -0400
-X-MC-Unique: MCzvP11APGKrZLdkfgBJrA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f315735edeso96398735e9.1
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 00:11:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683011473; x=1685603473;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aIzcxIGiUAbG+hbyLWP6TfnE8GkEDS652SHDLMmxRjo=;
- b=SmoFL91FXONEqGddirSe2MN9BnnG/y8hA6Cw9gSjlLmThKPgANTLwY95BZZYTdgmzU
- vEGNFG0n9aZVjeHm5sZ9sk5oT4vCXwIrlzfof2bc+MFOQJyW9JAvUuqFAA0b0qYnyESy
- au84f+EkEM5TMo8uVSa12zX3A4gF1OwEakY4MXeJoptVyJ2s/14Bwg4+41tCk9b6JIeQ
- Z0bhSEmJaVY/Io2+bcDE1o+lSiV9+Q0ncBJ+hSwvzpWzEnP5N1CHvT+6sr7jmlKswC3V
- HR5g7GZDOO+A6jl3PRy1ipRzA2IC5Wi03zcz0WGc4kk3Zq9FYKptkoS5938na27TfI1Q
- PCQw==
-X-Gm-Message-State: AC+VfDw3LlYLvvqm21w9sxvRz4xEigpQ9E0shx/okkioMuAVAq00LxU6
- R88ZRl9YK1KtzqmYe7DuEk+IRrHS5epBR7W2deB0FeMVlTMT90a2Mbs7c085y649CG18jxPwTNR
- CYDtBeJbAQlYp4e0=
-X-Received: by 2002:adf:e550:0:b0:304:7bbf:7c1e with SMTP id
- z16-20020adfe550000000b003047bbf7c1emr15143413wrm.4.1683011473765; 
- Tue, 02 May 2023 00:11:13 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ63gOU+XRPLVzT1Uk6K3pcEgfXBTC5r2HHnZxUS6Mf8WepASubZGbkJ87bEJ2ANQg2STbMf/Q==
-X-Received: by 2002:adf:e550:0:b0:304:7bbf:7c1e with SMTP id
- z16-20020adfe550000000b003047bbf7c1emr15143397wrm.4.1683011473482; 
- Tue, 02 May 2023 00:11:13 -0700 (PDT)
-Received: from redhat.com ([188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- m18-20020adffa12000000b003047297a5e8sm23350137wrr.54.2023.05.02.00.11.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 00:11:12 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org,  peterx@redhat.com,  leobras@redhat.com,
- pbonzini@redhat.com
-Subject: Re: [PATCH] migration/xbzrle: Use __attribute__((target)) for avx512
-In-Reply-To: <20230501210555.289806-1-richard.henderson@linaro.org> (Richard
- Henderson's message of "Mon, 1 May 2023 22:05:55 +0100")
-References: <20230501210555.289806-1-richard.henderson@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Tue, 02 May 2023 09:11:09 +0200
-Message-ID: <87fs8fus1e.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1ptkZt-0008Ci-89; Tue, 02 May 2023 03:37:39 -0400
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3427a1aq019603; Tue, 2 May 2023 07:37:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=rfDaEj4359DZFTNuwneR2RW9xyr+c+TvExL1aWEcDU4=;
+ b=UMAnvTed68w8V6ruNCtmW57RdWTSKQ+YzWX98cEdb6W6ioY6a7w/E5TVoRGSu01tXxxQ
+ o1hQKjU6HvN3dzsHmdaIfRqUpr8o5l3EVJ2+ha/+kS3FoEPp9gKoCjIsqg4+7Dih7AYX
+ nK95hzn0ML6CZUou6706vXSf/wDOCxI9mlV5Z1FwiJUs643uvt7f2DIIoJaqH2DrSIbX
+ 4OA6ZoUqiKe2GaD5XfNP3qvAk8naJ0uZsoS2vhFH6Mk88B+gk0RJV4nxme7U83iRbu4F
+ RhugmqjO4PRXrnsTIX2XvjEn2Te4DwxsgPYK4s537Hsi7lvUEkksETkLkSoQD+NikrVX 1g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qawsk9764-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 May 2023 07:37:28 +0000
+Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3427ZtJX019350;
+ Tue, 2 May 2023 07:36:58 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qawsk96c8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 May 2023 07:36:58 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34275PFH008631;
+ Tue, 2 May 2023 07:36:36 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3q8tv81tm5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 May 2023 07:36:36 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
+ [10.241.53.104])
+ by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 3427aZjg18612530
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 2 May 2023 07:36:35 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0C79D5805D;
+ Tue,  2 May 2023 07:36:35 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0199358067;
+ Tue,  2 May 2023 07:36:31 +0000 (GMT)
+Received: from [9.43.49.207] (unknown [9.43.49.207])
+ by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Tue,  2 May 2023 07:36:30 +0000 (GMT)
+Message-ID: <93e4ab27-d635-1e74-f20b-31a23cf4807e@linux.ibm.com>
+Date: Tue, 2 May 2023 13:06:29 +0530
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/4] ppc: spapr: cleanup h_enter_nested() with helper
+ routines.
+Content-Language: en-US
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, farosas@suse.de, danielhb413@gmail.com,
+ Michael Neuling <mikey@neuling.org>
+References: <20230424144712.1985425-1-harshpb@linux.ibm.com>
+ <20230424144712.1985425-3-harshpb@linux.ibm.com>
+ <CSBIRIKYBL78.3GGM8KZ1ERZUC@wheely>
+ <a00bf0ea-94ce-e20b-f199-4ec3c776f458@linux.ibm.com>
+ <CSBL4SMP6M1W.SF2HQGVUNSBA@wheely>
+From: Harsh Prateek Bora <harshpb@linux.ibm.com>
+In-Reply-To: <CSBL4SMP6M1W.SF2HQGVUNSBA@wheely>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: pskVYqVRQebuk-eLzB9oovuFViDIcoFD
+X-Proofpoint-GUID: FpdIEc7xnDf0wU1_RnKLMXAo_Um6lz5M
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-02_04,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 mlxlogscore=753 impostorscore=0 mlxscore=0 phishscore=0
+ suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305020066
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,17 +116,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Richard Henderson <richard.henderson@linaro.org> wrote:
-> Use the attribute, which is supported by clang, instead of
-> the #pragma, which is not supported and, for some reason,
-> also not detected by the meson probe, so we fail by -Werror.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 
+On 5/2/23 12:11, Nicholas Piggin wrote:
+> On Tue May 2, 2023 at 4:13 PM AEST, Harsh Prateek Bora wrote:
+>> On 5/2/23 10:19, Nicholas Piggin wrote:
+>>> On Tue Apr 25, 2023 at 12:47 AM AEST, Harsh Prateek Bora wrote:
+>>>> @@ -1607,49 +1680,15 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
+>>>>            return H_P2;
+>>>>        }
+>>>>    
+>>>> -    len = sizeof(env->gpr);
+>>>> -    assert(len == sizeof(regs->gpr));
+>>>> -    memcpy(env->gpr, regs->gpr, len);
+>>>> -
+>>>> -    env->lr = regs->link;
+>>>> -    env->ctr = regs->ctr;
+>>>> -    cpu_write_xer(env, regs->xer);
+>>>> -    ppc_store_cr(env, regs->ccr);
+>>>> -
+>>>> -    env->msr = regs->msr;
+>>>> -    env->nip = regs->nip;
+>>>> +    /* restore L2 env from hv_state and ptregs */
+>>>> +    restore_l2_env(cpu, &hv_state, regs, now);
+>>>>    
+>>>>        address_space_unmap(CPU(cpu)->as, regs, len, len, false);
+>>>
+>>> I don't agree this improves readability. It also does more with the
+>>> guest address space mapped, which may not be a big deal is strictly
+>>> not an improvement.
+>>>
+>>> The comment needn't just repeat what the function says, and it does
+>>> not actually restore the l2 environment. It sets some registers to
+>>> L2 values, but it also leaves other state.
+>>>
+>>> I would like to see this in a larger series if it's going somewhere,
+>>> but at the moment I'd rather leave it as is.
+>>>
+>> While I agree the routine could be named restore_l2_hvstate_ptregs() as
+>> more appropriate, I think it still makes sense to have the body of
+>> enter/exit routines with as minimum LOC as possible, with the help of
+>> minimum helper routines possible.
+> 
+> I don't think that's a good goal. The entirity of entering and exiting
+> from a nested guest is 279 lines including comments and no more than
+> one level of control flow. It's tricky code and has worts, but not
+> because the number of lines.
+> 
+Yes, It's a tricky code, and this patch was an attempt to simplify the 
+tricky-ness by giving names to set of related ops with helper routines.
+
+>> Giving semantics to the set of
+>> operations related to ptregs/hvstate register load/store is the first
+>> step towards it.
+> 
+> Those structures are entirely the domain of the hcall API though, so
+> if anything belongs in the handler functions it is the handling of
+> those IMO.
+> 
+Absolutely, ideally we would want to contain everything inside the 
+handler, but if a logical name could be given to a set of related ops 
+(ptregs/hvstate specific), that certainly helps the reader to look into 
+bigger picture at first and then get into specific details as needed.
+
+>> As you have guessed, this is certainly a precursor to another API
+>> version that we have been working on (still a WIP), and helps isolating
+>> the code flows for backward compatibiility. Having such changes early
+>> upstream helps stablising changes which are not a really a API/design
+>> change.
+> 
+> Right. Some more abstracting could certainly make sense here, I just
+> think at this point we need to see the bigger picture.
+
+I think I am fine holding the cleanup for enter/exit nested for now 
+until we bring the next set of API changes upstream, as that will 
+provide a better context to the value these changes would bring along.
+
+Meanwhile, I shall address your comments on 1/4 and post a v3.
+Thanks for all your review inputs.
+
+regards,
+Harsh
+> 
+> Thanks,
+> Nick
+> 
 
