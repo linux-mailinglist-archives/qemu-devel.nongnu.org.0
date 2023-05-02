@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9306F4718
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 17:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69A56F472C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 17:28:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptrtJ-0003gv-He; Tue, 02 May 2023 11:26:09 -0400
+	id 1ptrvC-0004nQ-IG; Tue, 02 May 2023 11:28:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1ptrtG-0003gS-61
- for qemu-devel@nongnu.org; Tue, 02 May 2023 11:26:06 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1ptrtB-0007iW-DG
- for qemu-devel@nongnu.org; Tue, 02 May 2023 11:26:05 -0400
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 342F9w8S001789; Tue, 2 May 2023 15:25:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=45c00sBq3mgnErMYNjdtI+Y/R6K3KhTdEd4bqU3Uvz8=;
- b=kSAsntMdHEpsS3Ffgkvpn0BhCBOJsQ5vboq06J6Z4C0kHiEbZvTzATlU5xsbV0ZWm0sF
- CuVM9xiHUMM9QmF5RUrtIdlCYdqUet8IGBEdYRvhOg/+/LQ0KgYkRfuUlkEniMckkFbD
- JA+pSuSUW4ziQPK4Kb9Hf9LWumalUQBr1kcMHqZuOxx5Ya5e04hEHCaUrX7GvvVBE3in
- 4rW7XTqKJzRXDC+mAekxv5kyZMH0QJ6ubEPaX8YTcYmDAy9ZdRIbTvEXcrkDjh1m/qPX
- DzyoSBFeOSYunBfdnOcIaBwVZ07epQ7pkDzZF5rK42VEfFjqS8QTLm6dphZal+/BYg+W aQ== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qb4aat3yv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 15:25:38 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3421vwMH021473;
- Tue, 2 May 2023 15:25:36 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3q8tv6sp5t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 15:25:36 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 342FPXI824248706
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 May 2023 15:25:33 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1162520040;
- Tue,  2 May 2023 15:25:33 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF49D20043;
- Tue,  2 May 2023 15:25:31 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.109.209.189])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  2 May 2023 15:25:31 +0000 (GMT)
-Subject: [PATCH] softfloat: Fix the incorrect computation in float32_exp2()
-From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-To: aurelien@aurel32.net, peter.maydell@linaro.org, alex.bennee@linaro.org
-Cc: qemu-devel@nongnu.org, vaibhav@linux.ibm.com, sbhat@linux.ibm.com
-Date: Tue, 02 May 2023 20:55:30 +0530
-Message-ID: <168304110865.537992.13059030916325018670.stgit@localhost.localdomain>
-User-Agent: StGit/1.5
-Content-Type: text/plain; charset="utf-8"
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: WMS9fO-n4mKOzX1MQPMvaTrFtjAgp9cq
-X-Proofpoint-ORIG-GUID: WMS9fO-n4mKOzX1MQPMvaTrFtjAgp9cq
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ptrvA-0004mu-4t
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 11:28:04 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ptrv5-0008KG-QQ
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 11:28:03 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f19b9d5358so39703555e9.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 08:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683041274; x=1685633274;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5d03YR8DaCuNiHMQHUFK3NbQq45SZ5bbruRCwDt6rk0=;
+ b=jrdyAZG8cDSG8UqsvpzmT8f8OpquHd9goAoS4AhNn5swxpOCsN2H8s9uAyZp04eopM
+ DxLbqTnqR6jlAcUQwVcXSbbwJEBluVZPL8VpeyyM28NvnhEEF697Oh3ClxjIAtKGmwDC
+ cFKpzMNI6mg1gKZPJdGAEIC93RKLAeXdJknYCLDdnmc/hsISTvsWbi2g5Pf+KKwCHhRZ
+ YVr4FoYFLAs6hMd0s0Gh/5pgXr+nfmVeetb2KuIIC2dsS8fB+FWFVNGsb/+NbTdKQkJF
+ nLXT0RMoo4raFJo9AJlgi3pnYCQzGJlBvGYvM53+duofKL5p4BMx0LFhkaGsIN3cJxIy
+ edeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683041274; x=1685633274;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=5d03YR8DaCuNiHMQHUFK3NbQq45SZ5bbruRCwDt6rk0=;
+ b=bBpZQl6h8FcLqtmd+0SRDD+MonmdHB8dyOe9DSuRcUOER1CrNdmZtGmqx8VXO85TsM
+ RhjKIYb5YuUV0Lq9nKqRZYjSUryIMtva+ecB66YQWQtYm/N53e+qbGf6rhjkL9YjM118
+ NboppQvNfuamKsf2XJP7pvGgSPzxbvbR/jbPdBcHdxsspxZEGvY6OR8fq4TbQC8oxJJD
+ PF3zrma2bT03QoQwPFbyixS0H8+tLdJRHuyQdMcapVTK4QfKLee2ogX4IbZvjXokCcfZ
+ T20FjqnK4XKPSWOA4X2Wdp4obG/Yqc+aHR8ktkPdH4Xn7qNE198jwpFRkTMCWWaSdNQh
+ S85A==
+X-Gm-Message-State: AC+VfDwfeyWw0w5hwEy7874ZY6xhjCOP3QlNmTGkSecHNwfoGVIMRCZh
+ IHSBf5U4Jm6kqesl1AoLIplVaxfmz6EgDXrJKTwGRw==
+X-Google-Smtp-Source: ACHHUZ4MES/byXDudLBIwC2DtVH3cHa40AUHJIesIleLG93oJK8f4meIrgCrsUK66Eusz60+gA3huA==
+X-Received: by 2002:a7b:cb85:0:b0:3f1:7136:dd45 with SMTP id
+ m5-20020a7bcb85000000b003f17136dd45mr12393906wmi.30.1683041274309; 
+ Tue, 02 May 2023 08:27:54 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ 16-20020a05600c021000b003f339b2d06fsm7428351wmi.4.2023.05.02.08.27.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 08:27:54 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 58B6B1FFBA;
+ Tue,  2 May 2023 16:27:53 +0100 (BST)
+References: <20230208192654.8854-1-farosas@suse.de>
+User-agent: mu4e 1.11.4; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 00/10] Kconfig vs. default devices
+Date: Tue, 02 May 2023 16:26:56 +0100
+In-reply-to: <20230208192654.8854-1-farosas@suse.de>
+Message-ID: <87bkj2u51i.fsf@linaro.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-02_09,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0 mlxscore=0
- phishscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999
- suspectscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2305020128
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=sbhat@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,52 +95,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The float32_exp2() is computing wrong exponent of 2.
-For example, with the following set of values {0.1, 2.0, 2.0, -1.0},
-the expected output would be {1.071773, 4.000000, 4.000000, 0.500000}.
-Instead, the function is computing {1.119102, 3.382044, 3.382044, -0.191022}
 
-Looking at the code, the float32_exp2() attempts to do this
+Fabiano Rosas <farosas@suse.de> writes:
 
-                  2     3     4     5           n
-  x        x     x     x     x     x           x
- e  = 1 + --- + --- + --- + --- + --- + ... + --- + ...
-           1!    2!    3!    4!    5!          n!
+> v2:
+> Applying the feedback received, all small tweaks.
+>
+> Patch 6 still needs consensus on whether to apply the fix to Kconfig
+> or elsewhere. Link to the previous version:
+> https://lore.kernel.org/r/461ba038-31bf-49c4-758b-94ece36f136f@redhat.com
+>
+> changelog:
+>
+> - patch 1: moved isa-parallel to a build time check like the other
+>            patches;
+> - patch 3: tweaked commit message;
+> - patch 7: removed the default from XLNX_USB_SUBSYS.
 
-But because of the 'typo'/bug it ends up doing
+I've queued the ARM tweaks to testing/next where I can add a test for it
+in the end. I'll leave the x86 stuff for discussion of the more complete
+solution that avoids hacky downstream patching.
 
- x        x     x     x     x     x           x
-e  = 1 + --- + --- + --- + --- + --- + ... + --- + ...
-          1!    2!    3!    4!    5!          n!
-
-This is because instead of the xnp which holds the numerator,
-parts_muladd is using the xp which is just 'x'. The commit '572c4d862ff2'
-refactored this function, and it seems mistakenly using xp instead of xnp.
-
-The patches fixes this possible typo.
-
-Fixes: 572c4d862ff2 "softfloat: Convert float32_exp2 to FloatParts"
-Partially-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1623
-Reported-By: Luca Barbato (https://gitlab.com/lu-zero)
-Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Signed-off-by: Vaibhav Jain <vaibhat@linux.ibm.com>
----
- fpu/softfloat.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index c7454c3eb1a..108f9cb224a 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -5135,7 +5135,7 @@ float32 float32_exp2(float32 a, float_status *status)
-     float64_unpack_canonical(&rp, float64_one, status);
-     for (i = 0 ; i < 15 ; i++) {
-         float64_unpack_canonical(&tp, float32_exp2_coefficients[i], status);
--        rp = *parts_muladd(&tp, &xp, &rp, 0, status);
-+        rp = *parts_muladd(&tp, &xnp, &rp, 0, status);
-         xnp = *parts_mul(&xnp, &xp, status);
-     }
-
-
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
