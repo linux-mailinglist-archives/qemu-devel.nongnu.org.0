@@ -2,107 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21E16F491B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 19:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC796F499E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 20:21:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptti0-0001LH-28; Tue, 02 May 2023 13:22:36 -0400
+	id 1ptubN-0002Ot-2n; Tue, 02 May 2023 14:19:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1ptthx-0001KZ-Ni; Tue, 02 May 2023 13:22:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ptubK-0002Ob-T2
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 14:19:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1ptthv-0005D8-L2; Tue, 02 May 2023 13:22:33 -0400
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 342HLTfL011588; Tue, 2 May 2023 17:22:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=0Vp9RhcuRtqSZ7grQzXnBkV9Fwe82wsnWbzsb/SU6nk=;
- b=M+JNCsoGkDlXKxjWRDbcIl56u3Bb6E2Fabo6p+d6ZLxoCUz6FPM1sSW8YrDcvCEL/FuV
- RqIjVb/zGMkmMVcfEtl5q1n2tgSqUZ0qvO1Cp524TFzUONdds8gnLqA0EkVBB+T2Qwly
- KyVJ2T4uXyoAdR8uiBkg/3bnG2nLgoysoNZWnTjN4WgndR+oiruKTmi4XuYsgLrWCVx8
- 5B/GsU4aZJFaZ5OF/yeUH+uN+9Q1TDsFbhzwKD4GKN90F+/9CpaFKFAM23FbgeTnPAXK
- z+yTbfFxjg26Vu75Lvs/tFwXPf49nsbmjp5lG1c3p1FF25uxG+C/vsQhgafoyd8kvfaG Kg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qb6qv0bbe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 17:22:25 +0000
-Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 342HE1Qh008234;
- Tue, 2 May 2023 17:22:25 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qb6qv0baa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 17:22:25 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3424iEtg021182;
- Tue, 2 May 2023 17:22:22 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3q8tgg1r51-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 17:22:22 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 342HMGTo30867856
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 May 2023 17:22:16 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B526720043;
- Tue,  2 May 2023 17:22:16 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 776CE20040;
- Tue,  2 May 2023 17:22:15 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.2.121]) by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  2 May 2023 17:22:15 +0000 (GMT)
-Message-ID: <5f4fa29eaec7269350403b2d1b2b051e6aa59a39.camel@linux.ibm.com>
-Subject: Re: [PATCH v20 03/21] target/s390x/cpu topology: handle STSI(15)
- and build the SYSIB
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Tue, 02 May 2023 19:22:15 +0200
-In-Reply-To: <20230425161456.21031-4-pmorel@linux.ibm.com>
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-4-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ptubJ-0003GJ-99
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 14:19:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683051584;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=YEJc4Tq1KlQbHNyuVw5VlyLHjMZgeCM+wJcc8IjR+74=;
+ b=KgAWXwn4x2pVkoplj6r6HwVKhP4+hbAJswYwofuJNDEYnGy6jefSby44ccypL/gA8/+GKG
+ lKZlXAMPJzZOFEwHYiISKKJTF0UucuXbK0OhpXJvOjihSg8thhqvqW6Esw74xJDymkqFPW
+ V4kOjHe0NvLGSiKkTq5hfrlP+pFDOzY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-326-NnXY0ChBPxaXlzpvYyOdgQ-1; Tue, 02 May 2023 14:19:41 -0400
+X-MC-Unique: NnXY0ChBPxaXlzpvYyOdgQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-30635d18e55so505012f8f.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 11:19:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683051579; x=1685643579;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YEJc4Tq1KlQbHNyuVw5VlyLHjMZgeCM+wJcc8IjR+74=;
+ b=dediwZeV24kopK1qEznx9Lz9O1zcZ/l4q/G+2GWRpuOOAEHylCQJQFg1BvvbnqTR+I
+ Nzv3xDbvgOysSf0IqsASs4WFZT/XJmzHCIGlYqh6d7TejU0p6eDt0npIKHP9xDOYE+Ky
+ lTnUfPExoRsctCkJYMQ3OtUhZBZeh4NQaxz0pzSqzdcS2E0B+n3cS6VlcK9qXncYpZcW
+ N1WuItA1tdzZazjvmVy/YiKij+ZWculKTWRDKKNdI0hn5dPPE0OI/CYJQZ8i4P6vy/LS
+ VU3lig2xU330rlRzQB+6oJRLOzFxI8nHyEJO8n5GcMaZju/0y/zpW/8udV6H0VGAFqWB
+ pbhg==
+X-Gm-Message-State: AC+VfDxk4zU5kDxbMTZld7aLgBVrXsoVfXgk7jiEWpIFP6UA5QxzwLcR
+ NnVDvtTVE5bj02T2z2rbubYmoZJqSZJxMmVBnoJooFh37GWsWgq9UfYfcC5svX298d0+51mbeF0
+ zCpXFBa3QQxUtim0=
+X-Received: by 2002:a5d:6b90:0:b0:2fc:7b62:f459 with SMTP id
+ n16-20020a5d6b90000000b002fc7b62f459mr13557543wrx.32.1683051579405; 
+ Tue, 02 May 2023 11:19:39 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5khlMFZGUYx2mKmu7agQsYEwCCZiFyv2VEvSlQIJQE44jWKrtDejJTNJPWt59qKLvo+Ky2GA==
+X-Received: by 2002:a5d:6b90:0:b0:2fc:7b62:f459 with SMTP id
+ n16-20020a5d6b90000000b002fc7b62f459mr13557532wrx.32.1683051579065; 
+ Tue, 02 May 2023 11:19:39 -0700 (PDT)
+Received: from redhat.com ([188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ z10-20020a5d654a000000b002f22c44e974sm31604011wrv.102.2023.05.02.11.19.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 11:19:38 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  lukasstraub2@web.de,  chen.zhang@intel.com,
+ Peter Xu <peterx@redhat.com>,  Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v4 05/10] migration: drop colo_incoming_thread from
+ MigrationIncomingState
+In-Reply-To: <20230428194928.1426370-6-vsementsov@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Fri, 28 Apr 2023 22:49:23 +0300")
+References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-6-vsementsov@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 02 May 2023 20:19:35 +0200
+Message-ID: <877ctqtx3c.fsf@secure.mitica>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _CNOp6IbdHxRBq2u0uGyvpHrFjJqLlYW
-X-Proofpoint-ORIG-GUID: hAV8-OrR6W8Efiz8qINWpsnHx1ycu-pD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-02_10,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- priorityscore=1501 adultscore=0 phishscore=0 spamscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305020146
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,119 +97,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
-> On interception of STSI(15.1.x) the System Information Block
-> (SYSIB) is built from the list of pre-ordered topology entries.
->=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  MAINTAINERS                     |   1 +
->  include/hw/s390x/cpu-topology.h |  24 +++
->  include/hw/s390x/sclp.h         |   1 +
->  target/s390x/cpu.h              |  72 ++++++++
->  hw/s390x/cpu-topology.c         |  13 +-
->  target/s390x/kvm/cpu_topology.c | 308 ++++++++++++++++++++++++++++++++
->  target/s390x/kvm/kvm.c          |   5 +-
->  target/s390x/kvm/meson.build    |   3 +-
->  8 files changed, 424 insertions(+), 3 deletions(-)
->  create mode 100644 target/s390x/kvm/cpu_topology.c
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index bb7b34d0d8..de9052f753 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1659,6 +1659,7 @@ M: Pierre Morel <pmorel@linux.ibm.com>
->  S: Supported
->  F: include/hw/s390x/cpu-topology.h
->  F: hw/s390x/cpu-topology.c
-> +F: target/s390x/kvm/cpu_topology.c
-> =20
->  X86 Machines
->  ------------
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topol=
-ogy.h
-> index af36f634e0..87bfeb631e 100644
-> --- a/include/hw/s390x/cpu-topology.h
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -15,9 +15,33 @@
->=20
-[...]
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> have_colo_incoming_thread variable is unused. colo_incoming_thread can
+> be local.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-> +typedef struct S390TopologyEntry {
-> +    QTAILQ_ENTRY(S390TopologyEntry) next;
-> +    s390_topology_id id;
-> +    uint64_t mask;
-> +} S390TopologyEntry;
-> +
->  typedef struct S390Topology {
->      uint8_t *cores_per_socket;
-> +    QTAILQ_HEAD(, S390TopologyEntry) list;
-
-Since you recompute the list on every STSI, you no longer need this in here=
-.
-You can create it in insert_stsi_15_1_x.
-
->      CpuTopology *smp;
-> +    bool vertical_polarization;
->  } S390Topology;
-
-[...]
-
-> +/*
-> + * Macro to check that the size of data after increment
-> + * will not get bigger than the size of the SysIB.
-> + */
-> +#define SYSIB_GUARD(data, x) do {       \
-> +        data +=3D x;                      \
-> +        if (data  > sizeof(SysIB)) {    \
-                    ^ two spaces
-
-> +            return 0;                   \
-> +        }                               \
-> +    } while (0)
-> +
-
-[...]
-
-> +/**
-> + * s390_topology_from_cpu:
-> + * @cpu: The S390CPU
-> + *
-> + * Initialize the topology id from the CPU environment.
-> + */
-> +static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
-> +{
-> +    s390_topology_id topology_id =3D {0};
-> +
-> +    topology_id.drawer =3D cpu->env.drawer_id;
-> +    topology_id.book =3D cpu->env.book_id;
-> +    topology_id.socket =3D cpu->env.socket_id;
-> +    topology_id.origin =3D cpu->env.core_id / 64;
-> +    topology_id.type =3D S390_TOPOLOGY_CPU_IFL;
-> +    topology_id.dedicated =3D cpu->env.dedicated;
-> +
-> +    if (s390_topology.vertical_polarization) {
-> +        /*
-> +         * Vertical polarization with dedicated CPU implies
-> +         * vertical high entitlement.
-> +         */
-
-This has already been adjusted or rejected when the entitlement was set.
-
-> +        if (topology_id.dedicated) {
-> +            topology_id.entitlement =3D S390_CPU_ENTITLEMENT_HIGH;
-> +        } else {
-> +            topology_id.entitlement =3D cpu->env.entitlement;
-
-You only need this assignment.
-> +        }
-> +    }
-> +
-> +    return topology_id;
-
-[...]
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
