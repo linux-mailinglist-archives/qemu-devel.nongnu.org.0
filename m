@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5656F4013
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 11:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04106F401B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 11:26:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptmFP-00054C-5u; Tue, 02 May 2023 05:24:35 -0400
+	id 1ptmFR-00054v-MO; Tue, 02 May 2023 05:24:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ptmFN-000541-Ma
- for qemu-devel@nongnu.org; Tue, 02 May 2023 05:24:33 -0400
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ptmFP-00054E-Kb
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 05:24:35 -0400
 Received: from mr85p00im-ztdg06021701.me.com ([17.58.23.196])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ptmFL-00043G-Ge
- for qemu-devel@nongnu.org; Tue, 02 May 2023 05:24:32 -0400
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ptmFN-00043S-R0
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 05:24:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1683019470; bh=H1YUNZrIgSCfpd1j0RXperPCMm9oMS4OPMj6tkEAW4k=;
+ t=1683019472; bh=sCL7u+UhJwxQZ2a/xWumax2lo1QYXCfoz8z/0fdBaZ8=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=Bti6yar0baBXEj5skF52jL7tfqBjHiajrAWx02apRaDO/IIn02jI5LP0Rih7WcIhl
- fbCXJt/eipgti7w5NLoCXCqPtbAfkXpjbJDlk1k3AkrM5DdR8xF8ow1Nu8WDM0se0p
- Qr3l6Pmv9rg9HN1z0Hm20v0U4dxgoOmEM1Q5aacbaceKxGobpVhRKCAQtYCUHH+L9u
- nDOd7dqVcb/ktHQOrPJeCCBEd4kyfhhkSCX7mSJ4zEjFwiuIZzs3u4U3NM+pEVm8H7
- MeKC50u/fcRKzeU58A4NRyCwPYn9leAycvf5NocC3y4mYMW5EKMEHPRwAPbaoTQDqN
- nBbiFzCzHQU0w==
+ b=FTAl+tPK4P0ramwQFZwbusQwXhPoxk4grDje5/HI9eIRPihpNc9mFk68j4hWTjUHE
+ Ho89FOv3ro06x1fOGQOfJeLHYGmt/Qb2+cYjgxXLKWhtYxokqhZnEgViKBiXaIQo9h
+ Xsnzr6cSKiXG0Wa0e/FB+ll5dxTfIoxDiKypkP8N2/6yvLpNMTOxXmCvX5oawAYy/g
+ bpQhuowQ4i5G8sn2dt4QEuOtcAR2DTmb0MSPWhPE2QUPm9Y3acIAA5h4GdK3BKXRvu
+ y6r50bUK5gSvma/g36djKWVuLljSFXZHx/B2o74Vx9Jvgk7iT4OiBA0stlYLxodd2F
+ 01jvbUGoiC7uw==
 Received: from localhost.localdomain (mr38p00im-dlb-asmtp-mailmevip.me.com
  [17.57.152.18])
- by mr85p00im-ztdg06021701.me.com (Postfix) with ESMTPSA id 022EF2633830;
- Tue,  2 May 2023 09:23:58 +0000 (UTC)
+ by mr85p00im-ztdg06021701.me.com (Postfix) with ESMTPSA id 7237E26337D1;
+ Tue,  2 May 2023 09:24:31 +0000 (UTC)
 From: Mads Ynddal <mads@ynddal.dk>
 To: qemu-devel@nongnu.org
 Cc: Cleber Rosa <crosa@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  John Snow <jsnow@redhat.com>, Mads Ynddal <mads@ynddal.dk>,
  Mads Ynddal <m.ynddal@samsung.com>
-Subject: [PATCH v2 06/12] simpletrace: Simplify construction of tracing methods
-Date: Tue,  2 May 2023 11:23:33 +0200
-Message-Id: <20230502092339.27341-7-mads@ynddal.dk>
+Subject: [PATCH v2 07/12] simpletrace: Improved error handling on struct unpack
+Date: Tue,  2 May 2023 11:23:34 +0200
+Message-Id: <20230502092339.27341-8-mads@ynddal.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230502092339.27341-1-mads@ynddal.dk>
 References: <20230502092339.27341-1-mads@ynddal.dk>
@@ -68,146 +68,96 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Mads Ynddal <m.ynddal@samsung.com>
 
-By moving the dynamic argument construction to keyword-arguments,
-we can remove all of the specialized handling, and streamline it.
-If a tracing method wants to access these, they can define the
-kwargs, or ignore it be placing `**kwargs` at the end of the
-function's arguments list.
+A failed call to `read_header` wouldn't be handled the same for the two
+different code paths (one path would try to use `None` as a list).
+Changed to raise exception to be handled centrally. This also allows for
+easier unpacking, as errors has been filtered out.
 
 Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
 ---
- scripts/simpletrace.py | 84 ++++++++++++++++--------------------------
- 1 file changed, 32 insertions(+), 52 deletions(-)
+ scripts/simpletrace.py | 41 ++++++++++++++++-------------------------
+ 1 file changed, 16 insertions(+), 25 deletions(-)
 
 diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
-index 10ca093046..f6b40d56f6 100755
+index f6b40d56f6..e77cb2469c 100755
 --- a/scripts/simpletrace.py
 +++ b/scripts/simpletrace.py
-@@ -131,16 +131,25 @@ class Analyzer:
-     If a method matching a trace event name exists, it is invoked to process
-     that trace record.  Otherwise the catchall() method is invoked.
+@@ -30,26 +30,24 @@ def read_header(fobj, hfmt):
+     hlen = struct.calcsize(hfmt)
+     hdr = fobj.read(hlen)
+     if len(hdr) != hlen:
+-        return None
++        raise ValueError('Error reading header. Wrong filetype provided?')
+     return struct.unpack(hfmt, hdr)
  
-+    The methods are called with a set of keyword-arguments. These can be ignored
-+    using `**kwargs` or defined like any keyword-argument.
+ def get_record(event_mapping, event_id_to_name, rechdr, fobj):
+     """Deserialize a trace record from a file into a tuple
+        (name, timestamp, pid, arg1, ..., arg6)."""
+-    if rechdr is None:
+-        return None
+-    if rechdr[0] != dropped_event_id:
+-        event_id = rechdr[0]
++    event_id, timestamp_ns, length, pid = rechdr
++    if event_id != dropped_event_id:
+         name = event_id_to_name[event_id]
+-        rec = (name, rechdr[1], rechdr[3])
+         try:
+             event = event_mapping[name]
+         except KeyError as e:
+-            sys.stderr.write('%s event is logged but is not declared ' \
++            sys.stderr.write(f'{e} event is logged but is not declared ' \
+                              'in the trace events file, try using ' \
+-                             'trace-events-all instead.\n' % str(e))
++                             'trace-events-all instead.\n')
+             sys.exit(1)
+ 
++        rec = (name, timestamp_ns, pid)
+         for type, name in event.args:
+             if is_string(type):
+                 l = fobj.read(4)
+@@ -60,9 +58,8 @@ def get_record(event_mapping, event_id_to_name, rechdr, fobj):
+                 (value,) = struct.unpack('=Q', fobj.read(8))
+                 rec = rec + (value,)
+     else:
+-        rec = ("dropped", rechdr[1], rechdr[3])
+-        (value,) = struct.unpack('=Q', fobj.read(8))
+-        rec = rec + (value,)
++        (dropped_count,) = struct.unpack('=Q', fobj.read(8))
++        rec = ("dropped", timestamp_ns, pid, dropped_count)
+     return rec
+ 
+ def get_mapping(fobj):
+@@ -79,22 +76,16 @@ def read_record(event_mapping, event_id_to_name, fobj):
+ 
+ def read_trace_header(fobj):
+     """Read and verify trace file header"""
+-    header = read_header(fobj, log_header_fmt)
+-    if header is None:
+-        raise ValueError('Not a valid trace file!')
+-    if header[0] != header_event_id:
+-        raise ValueError('Not a valid trace file, header id %d != %d' %
+-                         (header[0], header_event_id))
+-    if header[1] != header_magic:
+-        raise ValueError('Not a valid trace file, header magic %d != %d' %
+-                         (header[1], header_magic))
+-
+-    log_version = header[2]
++    _header_event_id, _header_magic, log_version = read_header(fobj, log_header_fmt)
++    if _header_event_id != header_event_id:
++        raise ValueError(f'Not a valid trace file, header id {_header_event_id} != {header_event_id}')
++    if _header_magic != header_magic:
++        raise ValueError(f'Not a valid trace file, header magic {_header_magic} != {header_magic}')
 +
-+    The following keyword-arguments are available:
-+        event: Event object of current trace
-+        event_id: The id of the event in the current trace file
-+        timestamp_ns: The timestamp in nanoseconds of the trace
-+        pid: The process id recorded for the given trace
-+
-     Example:
-     The following method handles the runstate_set(int new_state) trace event::
+     if log_version not in [0, 2, 3, 4]:
+-        raise ValueError('Unknown version of tracelog format!')
++        raise ValueError(f'Unknown version {log_version} of tracelog format!')
+     if log_version != 4:
+-        raise ValueError('Log format %d not supported with this QEMU release!'
+-                         % log_version)
++        raise ValueError(f'Log format {log_version} not supported with this QEMU release!')
  
--      def runstate_set(self, new_state):
-+      def runstate_set(self, new_state, **kwargs):
-           ...
- 
--    The method can also take a timestamp argument before the trace event
--    arguments::
-+    The method can also explicitly take a timestamp keyword-argument with the
-+    trace event arguments::
- 
--      def runstate_set(self, timestamp, new_state):
-+      def runstate_set(self, new_state, *, timestamp, **kwargs):
-           ...
- 
-     Timestamps have the uint64_t type and are in nanoseconds.
-@@ -148,7 +157,7 @@ def runstate_set(self, timestamp, new_state):
-     The pid can be included in addition to the timestamp and is useful when
-     dealing with traces from multiple processes::
- 
--      def runstate_set(self, timestamp, pid, new_state):
-+      def runstate_set(self, new_state, *, timestamp, pid, **kwargs):
-           ...
-     """
- 
-@@ -156,7 +165,7 @@ def __enter__(self):
-         """Called at the start of the trace."""
-         return self
- 
--    def catchall(self, event, rec):
-+    def catchall(self, *rec_args, event, timestamp_ns, pid, event_id):
-         """Called if no specific method for processing a trace event has been found."""
-         pass
- 
-@@ -189,34 +198,11 @@ def process(events, log, analyzer_class, read_header=True):
-         for event_id, event in enumerate(events):
-             event_id_to_name[event_id] = event.name
- 
--    def build_fn(analyzer, event):
--        if isinstance(event, str):
--            return analyzer.catchall
--
--        fn = getattr(analyzer, event.name, None)
--        if fn is None:
--            return analyzer.catchall
--
--        event_argcount = len(event.args)
--        fn_argcount = len(inspect.getfullargspec(fn)[0]) - 1
--        if fn_argcount == event_argcount + 1:
--            # Include timestamp as first argument
--            return lambda _, rec: fn(*(rec[1:2] + rec[3:3 + event_argcount]))
--        elif fn_argcount == event_argcount + 2:
--            # Include timestamp and pid
--            return lambda _, rec: fn(*rec[1:3 + event_argcount])
--        else:
--            # Just arguments, no timestamp or pid
--            return lambda _, rec: fn(*rec[3:3 + event_argcount])
--
-     with analyzer_class() as analyzer:
--        fn_cache = {}
--        for rec in read_trace_records(event_mapping, event_id_to_name, log):
--            event_num = rec[0]
--            event = event_mapping[event_num]
--            if event_num not in fn_cache:
--                fn_cache[event_num] = build_fn(analyzer, event)
--            fn_cache[event_num](event, rec)
-+        for event_id, timestamp_ns, record_pid, *rec_args in read_trace_records(event_mapping, event_id_to_name, log):
-+            event = event_mapping[event_id]
-+            fn = getattr(analyzer, event.name, analyzer.catchall)
-+            fn(*rec_args, event=event, event_id=event_id, timestamp_ns=timestamp_ns, pid=record_pid)
- 
- 
- def run(analyzer):
-@@ -240,24 +226,18 @@ def run(analyzer):
- if __name__ == '__main__':
-     class Formatter(Analyzer):
-         def __init__(self):
--            self.last_timestamp = None
--
--        def catchall(self, event, rec):
--            timestamp = rec[1]
--            if self.last_timestamp is None:
--                self.last_timestamp = timestamp
--            delta_ns = timestamp - self.last_timestamp
--            self.last_timestamp = timestamp
--
--            fields = [event.name, '%0.3f' % (delta_ns / 1000.0),
--                      'pid=%d' % rec[2]]
--            i = 3
--            for type, name in event.args:
--                if is_string(type):
--                    fields.append('%s=%s' % (name, rec[i]))
--                else:
--                    fields.append('%s=0x%x' % (name, rec[i]))
--                i += 1
--            print(' '.join(fields))
-+            self.last_timestamp_ns = None
-+
-+        def catchall(self, *rec_args, event, timestamp_ns, pid, event_id):
-+            if self.last_timestamp_ns is None:
-+                self.last_timestamp_ns = timestamp_ns
-+            delta_ns = timestamp_ns - self.last_timestamp_ns
-+            self.last_timestamp_ns = timestamp_ns
-+
-+            fields = [
-+                f'{name}={r}' if is_string(type) else f'{name}=0x{r:x}'
-+                for r, (type, name) in zip(rec_args, event.args)
-+            ]
-+            print(f'{event.name} {delta_ns / 1000:0.3f} {pid=} ' + ' '.join(fields))
- 
-     run(Formatter())
+ def read_trace_records(event_mapping, event_id_to_name, fobj):
+     """Deserialize trace records from a file, yielding record tuples (event_num, timestamp, pid, arg1, ..., arg6).
 -- 
 2.38.1
 
