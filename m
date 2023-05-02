@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B676F4818
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 18:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606F06F4842
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 18:23:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptsbn-0004m8-Ak; Tue, 02 May 2023 12:12:07 -0400
+	id 1ptsky-0007Ff-FE; Tue, 02 May 2023 12:21:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptsbh-0004kw-0t
- for qemu-devel@nongnu.org; Tue, 02 May 2023 12:12:01 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptsbb-0002Az-6G
- for qemu-devel@nongnu.org; Tue, 02 May 2023 12:12:00 -0400
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-956eacbe651so805793266b.3
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 09:11:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683043909; x=1685635909;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LprwXtVwFSGcGun4/bwMCVjX1R9MCpd/Hpmv+3jmq18=;
- b=FVw/amibW0/saDpimMef0Q7d35/PTHrtm/UrrDV6K4bnaSXMiJxAWuDCr0/X+ZJo0B
- ufrGebO6GmKP2iueAnJb/yEYdhSoRw7r0GPxa8fXBD0dz6tNxnql3H0666wrp1K/PRWl
- tnaaPhR66fYstYhoTzn/BHeTgIwAHAHYXmukF6wDABB5WcaneQQ00EPWh/BbVS/j8WJ4
- 8/F5ncrgZizp40t2bgzbL9qIE0dxG3DTHQdsErm58ls9ahPPQi/zfxQMNDOi9nce7Gs/
- uT1z6Fsxbd7KAbmbnd4kmKVJOhJtqArwdKvJTU8EZcNsD7hqt3boe4ZCBXT0jl2n3zcC
- O9uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683043909; x=1685635909;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LprwXtVwFSGcGun4/bwMCVjX1R9MCpd/Hpmv+3jmq18=;
- b=bNSDHpnmOrJXepWbQz1fE/MndtVInIOw+Nbm3wgPA85T7FYfweLZF+lhB1KvCJAzkM
- 62sdQnT+ufLXIlm6Le97e3INkxBEbVArwvxabaiZ7TqueC7oB2UwRGbyn0hSLMo6J+/X
- REXmh+KKty4wPC624YNd6ySHdnuLrQcpcAkGrxMsiae/uDCq7imggIVuDOFImE8UnlVz
- +CM85OPYr3MjKc+FujY4ckrKjnIHxdLhceTWQn+fxTxBgVjoRfH9HOs1XygSkOaThtUh
- DhFkafkAr/2j7hugJqUbCxqmQXrjCAdzAdCQCxRKM2SeY74dsiPcRNS2RRPS6boNY9PT
- ECsQ==
-X-Gm-Message-State: AC+VfDxytnkbegFz73+9QprYh57gTzataisavo4sQLlu6eqIq6BsEikN
- GljWGJflpdcVoNEsOJEtdRxeCxb2H3kNBb+ULU1uFHPLC4AONfSs
-X-Google-Smtp-Source: ACHHUZ5q2cN66Fr/se//EIEoqDC5MN7XZzzJljdR1Oc2WApWv1M7HGxt8y6WHpto5dDk3HNRzsmwNan5NrhQ0xwYgOg=
-X-Received: by 2002:a17:906:dacd:b0:94f:1c90:cb70 with SMTP id
- xi13-20020a170906dacd00b0094f1c90cb70mr385681ejb.66.1683043909377; Tue, 02
- May 2023 09:11:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ptskv-0007ER-G6
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 12:21:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ptskt-0006kn-Pf
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 12:21:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683044490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=veAM1yxiNJOFHsx6/inor+jTVAWMkCyEti4maPSbfwU=;
+ b=GvWuG76/BJfvvqcyPpvdY8HQIqsHpKQA6WpfN4zl2+PIrpmohDt91R1+c3lM4Mqo3gIDoQ
+ fqaioTkvkf0HQG9S1tmccAfOVOEmHTaAxrNtsf2Ip3pA8bxTPYdTv0n6Y4BEEUG60kBi+s
+ KbUpCLAa9NDf+mC2CamMTqBaGc2bUSM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-248-XFbx3vdZP5Ky0DHbFh4gXA-1; Tue, 02 May 2023 12:21:28 -0400
+X-MC-Unique: XFbx3vdZP5Ky0DHbFh4gXA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C753C2807D63;
+ Tue,  2 May 2023 16:21:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2BA563F4A;
+ Tue,  2 May 2023 16:21:21 +0000 (UTC)
+Date: Tue, 2 May 2023 18:21:20 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
+ eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
+Subject: Re: [PATCH v4 10/20] block: drain from main loop thread in
+ bdrv_co_yield_to_drain()
+Message-ID: <ZFE4gFFXnu+FSk35@redhat.com>
+References: <20230425172716.1033562-1-stefanha@redhat.com>
+ <20230425172716.1033562-11-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20230425193146.2106111-1-richard.henderson@linaro.org>
-In-Reply-To: <20230425193146.2106111-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 May 2023 17:11:38 +0100
-Message-ID: <CAFEAcA-R5uNg19c7VfvJ5bzZWLhkcUUwmucHwe8ZeJYMQ-vCeg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/57] tcg: Improve atomicity support
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-s390x@nongnu.org, 
- qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, git@xen0n.name, 
- jiaxun.yang@flygoat.com, philmd@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425172716.1033562-11-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,27 +95,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 25 Apr 2023 at 20:32, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> v1: https://lore.kernel.org/qemu-devel/20221118094754.242910-1-richard.henderson@linaro.org/
-> v2: https://lore.kernel.org/qemu-devel/20230216025739.1211680-1-richard.henderson@linaro.org/
->
-> Based-on: 20230424054105.1579315-1-richard.henderson@linaro.org
-> ("[PATCH v3 00/57] tcg: Simplify calls to load/store helpers")
->
-> The main objective here is to support Arm FEAT_LSE2, which says that any
-> single memory access that does not cross a 16-byte boundary is atomic.
-> This is the MO_ATOM_WITHIN16 control.
->
-> While I'm touching all of this, a secondary objective is to handle the
-> atomicity of the IBM machines.  Both Power and s390x treat misaligned
-> accesses as atomic on the lsb of the pointer.  For instance, an 8-byte
-> access at ptr % 8 == 4 will appear as two atomic 4-byte accesses, and
-> ptr % 4 == 2 will appear as four 3-byte accesses.
+Am 25.04.2023 um 19:27 hat Stefan Hajnoczi geschrieben:
+> For simplicity, always run BlockDevOps .drained_begin/end/poll()
+> callbacks in the main loop thread. This makes it easier to implement the
+> callbacks and avoids extra locks.
+> 
+> Move the function pointer declarations from the I/O Code section to the
+> Global State section in block-backend-common.h.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-I hope you mean "four 2-byte accesses", although I'm never
-quite sure how odd s390x can get :-)
+If we're updating function pointers, we should probably update them in
+BdrvChildClass and BlockDriver, too.
 
--- PMM
+This means that a non-coroutine caller can't run in an iothread, not
+even the home iothread of the BlockDriverState. (I'm not sure if it was
+allowed previously. I don't think we're actually doing this, but in
+theory it could have worked.) Maybe put a GLOBAL_STATE_CODE() after
+handling the bdrv_co_yield_to_drain() case? Or would that look too odd?
+
+    IO_OR_GS_CODE();
+
+    if (qemu_in_coroutine()) {
+        bdrv_co_yield_to_drain(bs, true, parent, poll);
+        return;
+    }
+
+    GLOBAL_STATE_CODE();
+
+Kevin
+
 
