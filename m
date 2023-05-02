@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322856F429F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82116F4293
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:21:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pto3e-0000cz-4e; Tue, 02 May 2023 07:20:34 -0400
+	id 1pto3f-0000dX-9I; Tue, 02 May 2023 07:20:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pto3c-0000cK-Om
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:32 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pto3d-0000cU-0w
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:33 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pto3Z-0003D0-Gn
+ id 1pto3a-0003DB-5e
  for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:32 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so164142545e9.0
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:20:28 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f199696149so22194655e9.0
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683026425; x=1685618425;
+ d=linaro.org; s=google; t=1683026426; x=1685618426;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=czFfn3mdhb3cc0K7eXA/dlkeA2fEfLq9sRo8IDRWWf8=;
- b=IRVd2Vwb0TdoBgUwmVtAFHzAS+H/1hph9EcoWK6yXDvJYJ3XoW+q2U80NJksO9bhJd
- DZ6Q4EIQ9HshCyn+5c7S+rbzHu42DWPn3sKzs3PBjpAoPm6k7zOCckN/Ji1MO9ZTiwp+
- nDVRjWnJVoj6sFI3BD+qGmeTIqaZRs9dYaY2EdDGhsu5bw+/iX7MLo5TDmhSmtPgXn/Z
- 0f4Hw1RfpO2gxrXGNWfRLlknJFzIawEsP/8L7Yjlut9sK3hcd2CzCzEtz0mZ6znedNpk
- jtgtBCUmluIqt9fd50XMguUH8e6z9GHY1m95SEarfAkXBCqp8xaGw6sUKPzYn3XX6a92
- Dvsw==
+ bh=lK51qYTnNnXJZN0e/9Jj4Bv1cCHWx7/0IfdphjJpI60=;
+ b=L95KvQ6rBgD+qvawWChW8rAILSp8WVgzuGzmQSyi1Uk6UCsT1LttKIuoHxklZJ+trd
+ xGv+NRi9+5Wa16J1D9k+42+WsvkkjH1jM2/vVxo/vUaq5nPrGMqNCUnUj+jV5c1aiBDr
+ tXzvnm5zY0Bvr4F9v5dQ81Q8uQFGZ3+KE/Rppz9/+3l8AKnBChj+fUa9MFHZpZQdUKJv
+ jlL0I22Qxg92yAqmSeAL1fmvnK274v50nu34aIvIkpaVTGg1A+Mjq5fA1YV94bBVZdQz
+ Ahk9bSN6IOyFNdFPa3IlBmrgFPBVMoyimrk8YX2Ex4LUBFw6IWwM0HrSYYq4c53cYHNf
+ f8MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683026425; x=1685618425;
+ d=1e100.net; s=20221208; t=1683026426; x=1685618426;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=czFfn3mdhb3cc0K7eXA/dlkeA2fEfLq9sRo8IDRWWf8=;
- b=KNfDsEPkgL+JRETsEb2I0toKVVW/hNgvr1YOs8YUuiCP4MmOC9npo1oo3Cnlz/DMLD
- 0Drc6G87x1dCoBdHBO4ym2m8em9wCloa3vrSGJp+mV6Lie/wz0crCNtlLuje/NZ6ykmU
- 1aNOt7z08iJyDQRp5b7vO6C5DB488E1jupuX/IMjXRQ6mH0Xv+Wt825M5HRWmoufQZ54
- VgDoAn5V9Ew17zQtrzJEvJ1oOMtmPhTEur6k54xJXc82pTWkMsSrw+j21dMX641Rgl/g
- GUOFPTXfY7s6kIZAMTsK7cST9uh58bY4pN4dqFlJ5AhI7a7fu2r3arUwv57unfr6LkwJ
- Qf7Q==
-X-Gm-Message-State: AC+VfDwgvs1IW0gQxPuR0nV1jdTbQN/ZcVKyItYH+8m8jgT2eGpzPPfY
- dvknkbkws+AceQ3fw9egZCpXWylJzRpSNRTplT+ltg==
-X-Google-Smtp-Source: ACHHUZ4sAROn5F4sj65B8M1QfnrLHPx5m8Oondb1ARq/4R8UV0JBmWwg10JEPYJbstC2FACkbBCR6w==
-X-Received: by 2002:adf:db4c:0:b0:306:31cb:25fb with SMTP id
- f12-20020adfdb4c000000b0030631cb25fbmr3214433wrj.17.1683026425307; 
- Tue, 02 May 2023 04:20:25 -0700 (PDT)
+ bh=lK51qYTnNnXJZN0e/9Jj4Bv1cCHWx7/0IfdphjJpI60=;
+ b=JX8Czp9EQ3Pfa2TqC8V292zB9K1Ssx6mGdHvqnM32wSVvihZLiaCCCvlpuHcSVgLAr
+ fuJEOy4NJq9mJtpD6wzcQaVhD0hslKj4oQP5U5v90SujzUdEuLt1i2W18cLX9zuGNuxc
+ 886/g4vHSd080VZubsQ7XX03wY16efmAuWZZosCeTkvVu+HN5BZpmYXY4WyF8dSdVaWH
+ FMaUbtbUQ/ZCdXcRl4DViQ4JtU8OyqYzVVwDlyN4wsmxA3HrElK1DOl4P1tPK/llWD0a
+ b2m/dKrv2N30uqDCFX2vY9yplodeGFy/k7RB+2GXxMSOcEBnfWdihTMJhzjGhoHppc2A
+ 8SBw==
+X-Gm-Message-State: AC+VfDwHbu6ECVo+J/dWFatk7eEJfNTrPpF+c5qN7Q1GZ4Bs4qiYqxm2
+ RF1qKhnGrhSwRVRwbYyhPGLpv4d8orW/BDX2J8H6vA==
+X-Google-Smtp-Source: ACHHUZ7EFNhQdLy7GGZmGoTXCdrL8gWL5tCWtZe5oKXfYLlfO5JREu6q8SDntNT23necnF0Ni0NpRA==
+X-Received: by 2002:a1c:7502:0:b0:3ed:af6b:7fb3 with SMTP id
+ o2-20020a1c7502000000b003edaf6b7fb3mr11664221wmc.2.1683026426025; 
+ Tue, 02 May 2023 04:20:26 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a05600c221000b003ee1b2ab9a0sm35182623wml.11.2023.05.02.04.20.24
+ z16-20020a05600c221000b003ee1b2ab9a0sm35182623wml.11.2023.05.02.04.20.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 02 May 2023 04:20:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>
-Subject: [PULL 01/12] softmmu: Tidy dirtylimit_dirty_ring_full_time
-Date: Tue,  2 May 2023 12:20:12 +0100
-Message-Id: <20230502112023.776823-2-richard.henderson@linaro.org>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Subject: [PULL 02/12] accel/tcg: Uncache the host address for instruction
+ fetch when tlb size < 1
+Date: Tue,  2 May 2023 12:20:13 +0100
+Message-Id: <20230502112023.776823-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230502112023.776823-1-richard.henderson@linaro.org>
 References: <20230502112023.776823-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,55 +93,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Drop inline marker: let compiler decide.
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Change return type to uint64_t: this matches the computation in the
-return statement and the local variable assignment in the caller.
+When PMP entry overlap part of the page, we'll set the tlb_size to 1, which
+will make the address in tlb entry set with TLB_INVALID_MASK, and the next
+access will again go through tlb_fill.However, this way will not work in
+tb_gen_code() => get_page_addr_code_hostp(): the TLB host address will be
+cached, and the following instructions can use this host address directly
+which may lead to the bypass of PMP related check.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1542.
 
-Rename local to dirty_ring_size_MB to fix typo.
-Simplify conversion to MiB via qemu_target_page_bits and right shift.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230422130329.23555-6-liweiwei@iscas.ac.cn>
 ---
- softmmu/dirtylimit.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ accel/tcg/cputlb.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 82986c1499..71bf6dc7a4 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -232,18 +232,23 @@ bool dirtylimit_vcpu_index_valid(int cpu_index)
-              cpu_index >= ms->smp.max_cpus);
- }
- 
--static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
-+static uint64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
- {
-     static uint64_t max_dirtyrate;
--    uint32_t dirty_ring_size = kvm_dirty_ring_size();
--    uint64_t dirty_ring_size_meory_MB =
--        dirty_ring_size * qemu_target_page_size() >> 20;
-+    unsigned target_page_bits = qemu_target_page_bits();
-+    uint64_t dirty_ring_size_MB;
-+
-+    /* So far, the largest (non-huge) page size is 64k, i.e. 16 bits. */
-+    assert(target_page_bits < 20);
-+
-+    /* Convert ring size (pages) to MiB (2**20). */
-+    dirty_ring_size_MB = kvm_dirty_ring_size() >> (20 - target_page_bits);
- 
-     if (max_dirtyrate < dirtyrate) {
-         max_dirtyrate = dirtyrate;
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index e984a98dc4..efa0cb67c9 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1696,6 +1696,11 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+     if (p == NULL) {
+         return -1;
      }
- 
--    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
-+    return dirty_ring_size_MB * 1000000 / max_dirtyrate;
- }
- 
- static inline bool dirtylimit_done(uint64_t quota,
++
++    if (full->lg_page_size < TARGET_PAGE_BITS) {
++        return -1;
++    }
++
+     if (hostp) {
+         *hostp = p;
+     }
 -- 
 2.34.1
 
