@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D786B6F45AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 15:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208226F45B1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 16:00:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptqW1-0001De-GQ; Tue, 02 May 2023 09:58:01 -0400
+	id 1ptqXr-0007Eh-Gx; Tue, 02 May 2023 09:59:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptqVu-0001AB-4C
- for qemu-devel@nongnu.org; Tue, 02 May 2023 09:57:54 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ptqXp-0007EJ-1S
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 09:59:53 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptqVs-0003UW-8W
- for qemu-devel@nongnu.org; Tue, 02 May 2023 09:57:53 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f19323259dso37791805e9.3
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 06:57:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ptqXh-0003mf-2P
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 09:59:52 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc4b88998so4672376a12.3
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 06:59:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683035871; x=1685627871;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1683035983; x=1685627983;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=k8+IvNZJMcdLOhL9FxadBq6IK3jqw0ZHg8erBjOx+uw=;
- b=GAlIZT1NgLMja07uXJVppK40zEw2x52ILLazz+iarnn9/C0zBkTLgFrxnCpVY30LF5
- k7IZ9ivmK9ed3maEkyJ/k1aLkbyL407aprK4lnCS/PmeGe0jRUR/6ZSH5IeYSpzsBxhX
- /20zQh1ay4jK33FHRf77NsanM8GUi1/Rr6KaHDybxHKln6V+F/CTWRQFTrkan0FN/vEt
- 1jOdEr10AMse2ObvS0G5TXGVFeWHfjjFwzKHW10h9pIv4MCcC3EvD282KOzNLMsw9DlL
- a4Z+u2J/9HbMK5VjXcInntCkyyR4L8fpqqxhEDE/GwHq7PgJywhMsjnjepy2sgGcoy/l
- T3KA==
+ bh=bl7socQzwmxpElhuKm9ZuXc4R8KVPdgnNU7iWIkJY98=;
+ b=tzGmfvb/A46Gjo3ggIur8em/ixg+/6ralV+G3Gqt9jPiNjvuG7Z7RL2pCWjNnO/8QE
+ LbnFOH99vBlq+e9o7tCP6Ao96/rNv4ZYbY3j/wlCkT/VbIS3NrwUEKIQqjFE0qdBy7Od
+ E+3rkVH+NupE5vbxEZD9Fm5ydFbznBXLIhDEb9KFnz9yC2Ntnmg8nDc2o5GwqlOnyPcP
+ 7LfUVhvJuc54CcXDxPR7TdU0NHbIiqA52VD9stqJCAu431QxH33bCgK2GvMWoZgDRac1
+ +g+z+znnBVXNE7bNwCWXs6OdGwB5PiuO6Cmeb5bKMzjP4Ox9UKQUGsNmJ9JpCQ8s60vX
+ FCPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683035871; x=1685627871;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1683035983; x=1685627983;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=k8+IvNZJMcdLOhL9FxadBq6IK3jqw0ZHg8erBjOx+uw=;
- b=AhlDaMZxyRk7vbTbRSSJxRWHsCrd7bvouLp4+obGY+kBm+yF9ZjvTanxFeJe9N+NAA
- HS1ri5nebw3XrphoM5ARBeyiFizvUxOoaUYap8ilRCymAC/HlVOPJs6ai0lPVS0+O2f9
- DzvOokBgDmNZ9v99BuX1HHa13hvEX2DVGS14HiugmADvFYOQrHtNe88s4U5PGsxWowpO
- XbFn+n78q4n9tPJGD/uVjFpGFsxx7i4RREgj6ck4QFyvawiGKT68U3Qf8KYCWikSVig3
- TagjTmHyrMkqzFbm5my1fULvC0NKxBaWXczOJzG61MFGNHmXd6PlUp7wBOPqmjRvSr5x
- uydA==
-X-Gm-Message-State: AC+VfDx0fKCBq20bdiToGfLyt13Usz9GBUI1nztGlqTJ2jV7k05ZNHRF
- SpOtxDai0KF1Jnw3mZSQxrV2H2KE21MKyR7TgtVMaA==
-X-Google-Smtp-Source: ACHHUZ5/bTdiBYSB0uM+1bGqIdx9UB+Q/nFEJPbYNHhTpMKfN6Cpzm6C5QfhLE8ysHUAtsqzR8pLAw==
-X-Received: by 2002:a1c:7408:0:b0:3f1:8142:43ff with SMTP id
- p8-20020a1c7408000000b003f1814243ffmr12035358wmc.12.1683035870908; 
- Tue, 02 May 2023 06:57:50 -0700 (PDT)
-Received: from stoup.Home ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
- by smtp.gmail.com with ESMTPSA id
- j32-20020a05600c1c2000b003f173987ec2sm39461140wms.22.2023.05.02.06.57.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 06:57:50 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: mrolnik@gmail.com, edgar.iglesias@gmail.com, tsimpson@quicinc.com,
- ale@rev.ng, anjo@rev.ng, laurent@vivier.eu, philmd@linaro.org,
- jiaxun.yang@flygoat.com, david@redhat.com, iii@linux.ibm.com,
- thuth@redhat.com, mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com,
- jcmvbkbc@gmail.com
-Subject: [PATCH 9/9] tcg: Remove compatability helpers for qemu ld/st
-Date: Tue,  2 May 2023 14:57:41 +0100
-Message-Id: <20230502135741.1158035-10-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230502135741.1158035-1-richard.henderson@linaro.org>
-References: <20230502135741.1158035-1-richard.henderson@linaro.org>
+ bh=bl7socQzwmxpElhuKm9ZuXc4R8KVPdgnNU7iWIkJY98=;
+ b=aF0iWr/VbHH+NDfiKqg6nfDdm9PKZGV4pDr3RkFObTQe63A+UcYAVdkwVaG8WmuDSr
+ 6KEXJBCXSiFDhElRsnJxlLo3JcxD75R9PC6HrWuvUiAS1WasT7L1Ip1BVMIg8tjUUkLx
+ sD0xp/7HCe0Asv7KXnX6XVDLq2WpdlDnz3YygViyBfgtF3Fa+tfWVZqSwR3Ru43ioDeS
+ 3sLkivH68xnOIOWmiFmMJfeJK8vIPfdfW0R6h1TTzhDO/EUvgoWXjQRAIOfdLiQgNNOi
+ xpSPP54PYxOfrEFYCxVVmeJ5mzpA/eKggwboymvpGgX0Gw1Hl7LZcT2QnJUZJXMKIa17
+ Bf9w==
+X-Gm-Message-State: AC+VfDx0zbi35tDC2E6Agko0CG4YAiMhA92zwXicXAZR15KV4yLDZcrV
+ cS93LVIiBGL17dFbEQhnxZXaROhbKqaQM8fV+hlENQ==
+X-Google-Smtp-Source: ACHHUZ4PRbOHpZtLVw4YQ7iM7s6Jx8tm/cyubNy2VgUug1XfDx19VCotxgnm4Szoat3rFfrfmqLsujikUplYj9/1OoQ=
+X-Received: by 2002:aa7:c3d9:0:b0:4fe:19cb:4788 with SMTP id
+ l25-20020aa7c3d9000000b004fe19cb4788mr8176714edr.42.1683035982667; Tue, 02
+ May 2023 06:59:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+References: <E1ptqMT-00HAI8-NC.val15032008-mail-ru@smtp44.i.mail.ru>
+In-Reply-To: <E1ptqMT-00HAI8-NC.val15032008-mail-ru@smtp44.i.mail.ru>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 May 2023 14:59:31 +0100
+Message-ID: <CAFEAcA8hSb2RFRN+cTLZb4jLR4gPAsWt1xONAJ4eq3Berdb1gA@mail.gmail.com>
+Subject: Re: Patch for png_save(), QEMU v8.0
+To: =?UTF-8?B?0JLQsNC70LXQvdGC0LjQvQ==?= <val15032008@mail.ru>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,80 +86,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Remove the old interfaces with the implicit MemOp argument.
+On Tue, 2 May 2023 at 14:48, =D0=92=D0=B0=D0=BB=D0=B5=D0=BD=D1=82=D0=B8=D0=
+=BD via <qemu-devel@nongnu.org> wrote:
+>
+> Hello!
+>
+> Currently, png_save() in "console.c" uses "PIXMAN_a8r8g8b8" format when s=
+aving png.
+>
+> ( https://gitlab.com/qemu-project/qemu/-/blob/7c18f2d663521f1b31b821a1335=
+8ce38075eaf7d/ui/console.c#L314 )
+>
+> It should probably use "PIXMAN_a8b8g8r8" (red<>blue exchanged).
+> Without it I'm getting PNGs with blue and red channels swapped (QEMU 8.0,=
+ qemu-system-x86_64, Arm64 host, libpng 1.6.39).
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg-op.h | 55 --------------------------------------------
- 1 file changed, 55 deletions(-)
+Ah, I was just working on this this afternoon (it was reported
+last week as https://gitlab.com/qemu-project/qemu/-/issues/1622 )
+and just sent a patch a minute before I read this email :-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index dff17c7072..4401fa493c 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -841,61 +841,6 @@ void tcg_gen_qemu_st_i64(TCGv_i64, TCGv, TCGArg, MemOp);
- void tcg_gen_qemu_ld_i128(TCGv_i128, TCGv, TCGArg, MemOp);
- void tcg_gen_qemu_st_i128(TCGv_i128, TCGv, TCGArg, MemOp);
- 
--static inline void tcg_gen_qemu_ld8u(TCGv ret, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_UB);
--}
--
--static inline void tcg_gen_qemu_ld8s(TCGv ret, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_SB);
--}
--
--static inline void tcg_gen_qemu_ld16u(TCGv ret, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_TEUW);
--}
--
--static inline void tcg_gen_qemu_ld16s(TCGv ret, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_TESW);
--}
--
--static inline void tcg_gen_qemu_ld32u(TCGv ret, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_TEUL);
--}
--
--static inline void tcg_gen_qemu_ld32s(TCGv ret, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_TESL);
--}
--
--static inline void tcg_gen_qemu_ld64(TCGv_i64 ret, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_ld_i64(ret, addr, mem_index, MO_TEUQ);
--}
--
--static inline void tcg_gen_qemu_st8(TCGv arg, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_st_tl(arg, addr, mem_index, MO_UB);
--}
--
--static inline void tcg_gen_qemu_st16(TCGv arg, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_st_tl(arg, addr, mem_index, MO_TEUW);
--}
--
--static inline void tcg_gen_qemu_st32(TCGv arg, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_st_tl(arg, addr, mem_index, MO_TEUL);
--}
--
--static inline void tcg_gen_qemu_st64(TCGv_i64 arg, TCGv addr, int mem_index)
--{
--    tcg_gen_qemu_st_i64(arg, addr, mem_index, MO_TEUQ);
--}
--
- void tcg_gen_atomic_cmpxchg_i32(TCGv_i32, TCGv, TCGv_i32, TCGv_i32,
-                                 TCGArg, MemOp);
- void tcg_gen_atomic_cmpxchg_i64(TCGv_i64, TCGv, TCGv_i64, TCGv_i64,
--- 
-2.34.1
+I think your patch only fixes this problem for little-endian
+hosts and leaves big-endian hosts still with the wrong
+pixel-data order.
 
+You can see my version of the patch here:
+https://patchew.org/QEMU/20230502135548.2451309-1-peter.maydell@linaro.org/
+
+thanks
+-- PMM
 
