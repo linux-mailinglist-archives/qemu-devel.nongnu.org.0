@@ -2,173 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD196F4797
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 17:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5646F478A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 17:45:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptsGO-0003F9-8Y; Tue, 02 May 2023 11:50:00 -0400
+	id 1pts9k-00084q-2C; Tue, 02 May 2023 11:43:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1ptsGL-0003Ep-Go
- for qemu-devel@nongnu.org; Tue, 02 May 2023 11:49:57 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pts9h-00084Q-Vw
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 11:43:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1ptsGJ-0002Eg-Bh
- for qemu-devel@nongnu.org; Tue, 02 May 2023 11:49:57 -0400
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 342BY83R025296; Tue, 2 May 2023 15:39:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=z261MbY0Q/6lbhQWKQj+mKJ4bXK9zTedBGoEWfK62IE=;
- b=TsQ7VS0UZggStXGNxjiT7G8shq+xO3jhowRYZODdqAis9QhH9ThhoOLXOYTRaZCkKNZ5
- /zZ/I0+/nAGy8XT1WEGZTvOYIre9+4SoccdTpcxuQhvumB4IJScEINjtV3mExQGUg8Bj
- gufhYT8NiGjEDT7q17MVYD0+Pyoy+ESVb2Z9r4/FQxjZ3O+7Pd0dekBMM1S/UQDDQr5Q
- 7jGJmSqlpHn8o4V9l3pL5JjlmyTy9Zcntd1S9SRWvqKCiboxMvEy5eTbouw5L/04CfH8
- KzevYvMoPyQFm/KumYY3HccK2sxrh55y5tIgLEirtNg2diWLXX78EF+N/zJ4IIbh0PaN Gw== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qays510hh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 May 2023 15:39:35 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HFKwxq4QaM76fkTx3QoEqkAhXkFZaLW7gYW7dWo4Rv4HExWXX3hgsogOCNBmfvdedc8uDRkdEHLVCdcJjOpFeYoqxoIxfkE+6hruO91qYzWBdL1vADxArOe+IholYutTA9QhMVOEkEo0kZl4jVmenlo3S3ppn2W4cOpPYOx2jiUCHcQrJLWzLVWhlBIw1NrDkdEUmabWLr6R3LXm3kj1dHkD/bUlrrpqT7Fwq4nBYu2yQ0MIONCSQuytKpWgi2WQU4hUwV9kPNx2+1njFJUUxwEIIlwPYz+kyXrWausA/Jl/ABYKIVDvkmVU8pVlLoNdLQRddb4/l1oMndiEBZHqNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z261MbY0Q/6lbhQWKQj+mKJ4bXK9zTedBGoEWfK62IE=;
- b=Z2drr22yMYf8PRfSPOJ4in5CCkf3Y3j1lXwEWpBt5Qzpz4XkoHm6+PG2dNiyYVi3DGgF0n+MuwuSJFEulS+t2uWk2XOF+WnttBsYKhOHC1WeOlOLKmqfx4MUs7aqCrJlYd5ioUfYvoEBmhsWAOW8UX6r0nl+2IePIRLGgUOBhIrxNkyBWyA6zt1apZm4/H/j4SitZsT3sIWCOuoesDQ1nW70smw89KsoRY01V3dA1tlcNbNjrryJfSbpc+YqKwzbcgbV4ohNt1gCtetiwE9QLnJwyMMmwf9o00c/V37lfXSorLdRJYKArgnXRlZFqHn/8qJumdQ/Powqro1tiOV7yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by BL3PR02MB8115.namprd02.prod.outlook.com
- (2603:10b6:208:35e::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.31; Tue, 2 May
- 2023 15:39:32 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::eb63:d1c0:28de:72f5]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::eb63:d1c0:28de:72f5%8]) with mapi id 15.20.6340.030; Tue, 2 May 2023
- 15:39:31 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "mrolnik@gmail.com" <mrolnik@gmail.com>, "edgar.iglesias@gmail.com"
- <edgar.iglesias@gmail.com>, "ale@rev.ng" <ale@rev.ng>, "anjo@rev.ng"
- <anjo@rev.ng>, "laurent@vivier.eu" <laurent@vivier.eu>, "philmd@linaro.org"
- <philmd@linaro.org>, "jiaxun.yang@flygoat.com" <jiaxun.yang@flygoat.com>,
- "david@redhat.com" <david@redhat.com>, "iii@linux.ibm.com"
- <iii@linux.ibm.com>, "thuth@redhat.com" <thuth@redhat.com>,
- "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
- "atar4qemu@gmail.com" <atar4qemu@gmail.com>, "jcmvbkbc@gmail.com"
- <jcmvbkbc@gmail.com>
-Subject: RE: [PATCH 9/9] tcg: Remove compatability helpers for qemu ld/st
-Thread-Topic: [PATCH 9/9] tcg: Remove compatability helpers for qemu ld/st
-Thread-Index: AQHZfP4gkEWZqxqW4kyBaQHkllCrDq9HHJhA
-Date: Tue, 2 May 2023 15:39:31 +0000
-Message-ID: <SN4PR0201MB8808285D0AD10FD1AF9BF21ADE6F9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20230502135741.1158035-1-richard.henderson@linaro.org>
- <20230502135741.1158035-10-richard.henderson@linaro.org>
-In-Reply-To: <20230502135741.1158035-10-richard.henderson@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|BL3PR02MB8115:EE_
-x-ms-office365-filtering-correlation-id: 54ab1926-0bd9-4e98-28b9-08db4b236c77
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eWNW4IIvelubq+Rc8hNKQDXJREeLExeiddLuvo/rpOZa8/wGSWzkumTTt789Jj5leodJeKGnYqLg5UghM1pnA4dxY4v6dniTRYanq6gB8J6sTgggJcbH8W44wN6VL9OZpzyr0FOV7W4Q+QxqkXSu1n1anA7pa2xM6OZwrPAG/qsiWi8GMc1SclnUUi7H2erEs694yeTbM5N1bL8GvtHZmKRVr+TnmUYQlGD6Bvm9rEgAwg8pFO203VmibWTgN6NXzDZJdoUrdqcLz1SPRZco49ni2C4+RNTNWXO8Nb+Of62n14cedcbQzsyLf7HtY3qvk1IOFQlnrqgd+g/5ZSbZ7onlz3tbP3l69bwRo6J+4VhtGZPGjnxHOK+i4QKl0tIwGYENvlfjny1ft4cSiVSpvnWedzHNxsfntlIevGcg8G5I2OGQvF992tQdGzjvwtJLphOfDfJRHWnpM1bCjZ+8rsqf7LeHb/0QdqHFx+oNBaC+K6k4CL59fEHz3lpxpkIjV91hQy9+Q3vtxDAskvfIbeH4BdIZbBeDZyDZyc8buH/8jWgyj1xaWTEpK1lkKOBD+GbmFDv7702bU92rj0VsN3MitLELmjKB1YC3tPjqp8tbrKZAtNJMao7ZLZqUh/mh
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(366004)(396003)(136003)(346002)(39860400002)(451199021)(53546011)(54906003)(83380400001)(478600001)(7696005)(66476007)(71200400001)(55016003)(26005)(6506007)(9686003)(66556008)(64756008)(66946007)(66446008)(76116006)(316002)(4326008)(110136005)(186003)(7416002)(122000001)(41300700001)(8676002)(5660300002)(52536014)(38070700005)(8936002)(38100700002)(2906002)(33656002)(86362001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?jTYb8u57G/g7AlYIsa8kBu4Y83NLL4TrbuKDQWEnWhk2//5em+vOBeyyI6Qo?=
- =?us-ascii?Q?xLujRDgH4ijvgYGvtYG+s/RwE7f83uhL7lFsn7jXwuM6TEUBffZF8p/g3Bug?=
- =?us-ascii?Q?GSBxeZmSamz9PtfZJFMpR4L7iWvKZiqdFxTstr5to/C/p2Y08XTlPR88Kt1o?=
- =?us-ascii?Q?49zj5ZifRCkfdHYtPRfN4p9ecRmzZNsJr6E9TouT3xyAKJ/4PgU9Juo+j00A?=
- =?us-ascii?Q?vd+VjYB7dGQYME/lOoLmfaBcZvpjQeNwytiV8nUApJRhilOdO1q4gqxVDK1R?=
- =?us-ascii?Q?I5nK9tOZoJpqcGlelKLUv1EyjAKkCQFOLvM/R70RmigtuIwio9OWoWw7Y3a9?=
- =?us-ascii?Q?fIhh1k9OMn2Rbo1ODswmBaeah5sh9YKZTKbY0VJ4Uo8DJtoSKq5gn0lftvV2?=
- =?us-ascii?Q?leLxQvvPghrcFRk/oX+GbPaOsnGVYF0ddAUPGlFnmIQPtIl7yDNril4nxwWy?=
- =?us-ascii?Q?1ZI71Y8FioK3seZuw5JkHiBLK9bb6lBuEkqHGscYAiNg2FUiyeykz9Pn04il?=
- =?us-ascii?Q?0zvGbMrm1aPJReDZ/IyiJXAsDPIr69tGNrAZNUf+RUZR/2iHBwX3BAB1xn6a?=
- =?us-ascii?Q?QnnDe1oWDIbF8YCA7ApA+Eed4dc6T04enzAT+B3VU5CMNO4zzYu2h0NtN1QY?=
- =?us-ascii?Q?4D8vPQi8Dj8MxfgSloKLKItGMioxD6lEv5NqiimcPoSPMF45LYZLoZ8D5X+o?=
- =?us-ascii?Q?LYH4Ag+cD+xrFwJNLzAti1yAZOWDK6VpX3VrQPLiJt4/yB1SjkL9udet0KFg?=
- =?us-ascii?Q?MehpbRXiZYkBzsipCKqxlYKl9TSVyDiQ11KsaATHIvaRk+Pq4wn/3dnVI5H2?=
- =?us-ascii?Q?GuSHUHSrE42pKZHVT13VOezoFT5aAg4bCm67A9T5KKvGOADTn3UDhMkEXwUu?=
- =?us-ascii?Q?GSrOK/K4jqd1GR3R6IXAD7xg53o1bDJ6ELA4XuHtljuT7cdO5KvRKE1/LTWD?=
- =?us-ascii?Q?xoXm8X7CRivm+RR1WJ9coRBf3R/qoW8UUEL1Rj0RO6WbpAd4FyKf6V6UzjCE?=
- =?us-ascii?Q?U3QpPAoQQ9vdh8eKcN/8Ew+VQjh6cARe33bLlSfgKYyI34TbXesnK/ETlYpk?=
- =?us-ascii?Q?qGmoOrBrgO7ifYiyuGNuEO8Zyf+WRBPVy+IG+Rj1DczQgO6kpnnRYpwMP0lq?=
- =?us-ascii?Q?JVP8JQNcYb+JaanCE0w3NeKK5CgV7GHhjFn1hEOjzlwEj39BsKgWSCyYzDs3?=
- =?us-ascii?Q?Dv0NhbXggARnBzDIzu/3vC76AiO9xdzppVnYAIDwA7jEOJ+G1LYl107WtgLb?=
- =?us-ascii?Q?kCrqwL7DtA0fj2qHshsLvRkMXmbFBGG22Xhgt4U3A8lcSq0txSaT6e5b5qKe?=
- =?us-ascii?Q?DWAO8UKUQ9e6MzpnFAo5otTplz3PbwXJQIE0MhB8pusnLvBgJ+txzYGYR5jz?=
- =?us-ascii?Q?nazjOv+ZRFY2zb30wN/iakQykt1nQ8DbXU+zljzyQOpia0ZDmtJhlF2YumUx?=
- =?us-ascii?Q?7BBekmL9Lu0P65rXDF/OZuLL5kt0oeK1eTnylmqz55lA95EqCs1MFiNV2crh?=
- =?us-ascii?Q?217qwjIo+o7DXScyqZwT4JfL8ozLez86VTFFXYMfTTKdeVn21zP9072Ud1bg?=
- =?us-ascii?Q?gkYD1HeHoYaMX0HvokRjgyg/nN8kWjiW6e1bcHLV?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pts9g-0007XM-96
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 11:43:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683042181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xl8B7Hoag5VEXFozvo4Ia9rRJMwFaCM8mAYKxZI+zJE=;
+ b=BF7/GlcHdRmWRANPu3gFbydxQelORZTeHJo9gofW36xmZJUiF2/HuxZfFn6728srGVGeoF
+ diygddfxRJGOjq9KW+GrOqc9n0fOMO10Ey6TwDrx6QEZBIime9UyP+qzaD/Li9ve2vDZ0U
+ F+qAPzgn2dkxMKuuV/GubBgQrclKbCE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-647-kgZznv_pOqGm5hBR5_5Thg-1; Tue, 02 May 2023 11:42:57 -0400
+X-MC-Unique: kgZznv_pOqGm5hBR5_5Thg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24D3FA0F389;
+ Tue,  2 May 2023 15:42:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 71F17404E4AD;
+ Tue,  2 May 2023 15:42:52 +0000 (UTC)
+Date: Tue, 2 May 2023 17:42:51 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
+ eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
+Subject: Re: [PATCH v4 06/20] block/export: wait for vhost-user-blk requests
+ when draining
+Message-ID: <ZFEve2GfI0TqsItA@redhat.com>
+References: <20230425172716.1033562-1-stefanha@redhat.com>
+ <20230425172716.1033562-7-stefanha@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?q3rtgxHB+3z3lXkkaZRjWgB7SB6up7t6zU0nVl93arX5nbrAxP14vHvm2YpH?=
- =?us-ascii?Q?d4ZZzykH4yTbXRh+e8IVL4HCUYhunz837M3lhm90waN02aW0KJCYAy0wyv0y?=
- =?us-ascii?Q?R5o82HNjKPjR52UB/f+DK1bAB5Q7r83GYsunnrkPRZ7fcPkh3214/2g8iZRT?=
- =?us-ascii?Q?DeJeMu6MrnGZSq0ZKcUVBLZaNpwMEsSd6NuQQUOQGfC+b5xZ/ap8mYd3wd9+?=
- =?us-ascii?Q?9E2vDj8Dtt4arLyg6M8hCeg3Y+4RoQLmUTAMexa1kDpWoXszVVSbPJKp/rXt?=
- =?us-ascii?Q?xLz6UYCj8aQqZc23tLbffuXBZ10+8ihBDD4BfeII3gEuZbvcyOBRTJnOJ0WW?=
- =?us-ascii?Q?JfA7zgmM8e4wmC+2L8ayEbR3WRy8+eDQ8uViLfJnO+UcrC7JV9NHt48WUOJ+?=
- =?us-ascii?Q?WfyTj3vSNY3LITVp97NIVPTcQyO7UutAnUg7Jh4gBPnF1wDCOHIW+qpRy5op?=
- =?us-ascii?Q?M7xS2VsmzFt6yyqr0mbyhBtOvMvSySWRM0wAjrXWKYtSng8Y76YVFjiD8DZy?=
- =?us-ascii?Q?TABd4YLEaa3Udiz3BIPrEBcc8G4mX6CF9HumDsKo3+jKOHgXucwavcph/1ig?=
- =?us-ascii?Q?JPPRdTda6ngG4pF296vPyazAhRCYRTWdUggJDxB1A/+OoZUk6FZMEfnD2ixa?=
- =?us-ascii?Q?4+rkIxerHH5vAU3CcYmKmTZWiHNibynvEPiFIc/vgxOJds680fvtBgxo/6UE?=
- =?us-ascii?Q?+zDtfuycnIMKxbnsKag3i5wf3Vdgv4mU6nm+jjkEoPX8O9ZXzybD2Mui/Q+B?=
- =?us-ascii?Q?9tAwTZU/OfZ86UM/3HUTvfYyPBEcUxIlrW3CqFbi6VtQu/lGaOEi82TMyxH6?=
- =?us-ascii?Q?2Guaz9TDputCk4cBUXH7LVYvK7EGk7517C27iQDiLHxisjvyQuHWXSlxihKx?=
- =?us-ascii?Q?XbIFYNfaqHpyRXWyBy989bsJ4dvNmze3dArtmN8t9flSG68z8plEMpsXtNki?=
- =?us-ascii?Q?U5QOpzkIp2I0uZuS8AvS9omYoaEXzOpb1kb192YAJWDt0d940ASN/QCD3rcm?=
- =?us-ascii?Q?hlkL?=
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54ab1926-0bd9-4e98-28b9-08db4b236c77
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2023 15:39:31.8659 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 729JVCicQBrnscVeu2JsSfLDvu5EtqNcHsT19RJ27lTt66dT/mrN286Mo6kRkfoDVyDiCKZNKWWsHz8EHOlf3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR02MB8115
-X-Proofpoint-GUID: JGn0kwE-jZGfcuQGVHWKnTuw-oWFMZxe
-X-Proofpoint-ORIG-GUID: JGn0kwE-jZGfcuQGVHWKnTuw-oWFMZxe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-02_09,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- impostorscore=0 spamscore=0 phishscore=0 malwarescore=0 adultscore=0
- mlxscore=0 mlxlogscore=730 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305020131
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425172716.1033562-7-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -184,105 +96,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-> -----Original Message-----
-> From: Richard Henderson <richard.henderson@linaro.org>
-> Sent: Tuesday, May 2, 2023 8:58 AM
-> To: qemu-devel@nongnu.org
-> Cc: mrolnik@gmail.com; edgar.iglesias@gmail.com; Taylor Simpson
-> <tsimpson@quicinc.com>; ale@rev.ng; anjo@rev.ng; laurent@vivier.eu;
-> philmd@linaro.org; jiaxun.yang@flygoat.com; david@redhat.com;
-> iii@linux.ibm.com; thuth@redhat.com; mark.cave-ayland@ilande.co.uk;
-> atar4qemu@gmail.com; jcmvbkbc@gmail.com
-> Subject: [PATCH 9/9] tcg: Remove compatability helpers for qemu ld/st
->=20
-> Remove the old interfaces with the implicit MemOp argument.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Am 25.04.2023 um 19:27 hat Stefan Hajnoczi geschrieben:
+> Each vhost-user-blk request runs in a coroutine. When the BlockBackend
+> enters a drained section we need to enter a quiescent state. Currently
+> any in-flight requests race with bdrv_drained_begin() because it is
+> unaware of vhost-user-blk requests.
+> 
+> When blk_co_preadv/pwritev()/etc returns it wakes the
+> bdrv_drained_begin() thread but vhost-user-blk request processing has
+> not yet finished. The request coroutine continues executing while the
+> main loop thread thinks it is in a drained section.
+> 
+> One example where this is unsafe is for blk_set_aio_context() where
+> bdrv_drained_begin() is called before .aio_context_detached() and
+> .aio_context_attach(). If request coroutines are still running after
+> bdrv_drained_begin(), then the AioContext could change underneath them
+> and they race with new requests processed in the new AioContext. This
+> could lead to virtqueue corruption, for example.
+> 
+> (This example is theoretical, I came across this while reading the
+> code and have not tried to reproduce it.)
+> 
+> It's easy to make bdrv_drained_begin() wait for in-flight requests: add
+> a .drained_poll() callback that checks the VuServer's in-flight counter.
+> VuServer just needs an API that returns true when there are requests in
+> flight. The in-flight counter needs to be atomic.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  include/tcg/tcg-op.h | 55 --------------------------------------------
->  1 file changed, 55 deletions(-)
->=20
-> diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h index
-> dff17c7072..4401fa493c 100644
-> --- a/include/tcg/tcg-op.h
-> +++ b/include/tcg/tcg-op.h
-> @@ -841,61 +841,6 @@ void tcg_gen_qemu_st_i64(TCGv_i64, TCGv,
-> TCGArg, MemOp);  void tcg_gen_qemu_ld_i128(TCGv_i128, TCGv, TCGArg,
-> MemOp);  void tcg_gen_qemu_st_i128(TCGv_i128, TCGv, TCGArg, MemOp);
->=20
-> -static inline void tcg_gen_qemu_ld8u(TCGv ret, TCGv addr, int mem_index)
-> -{
-> -    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_UB);
-> -}
-> -
-> -static inline void tcg_gen_qemu_ld8s(TCGv ret, TCGv addr, int mem_index)
-> -{
-> -    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_SB);
-> -}
-> -
-> -static inline void tcg_gen_qemu_ld16u(TCGv ret, TCGv addr, int
-> mem_index) -{
-> -    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_TEUW);
-> -}
-> -
-> -static inline void tcg_gen_qemu_ld16s(TCGv ret, TCGv addr, int mem_index=
-)
-> -{
-> -    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_TESW);
-> -}
-> -
-> -static inline void tcg_gen_qemu_ld32u(TCGv ret, TCGv addr, int
-> mem_index) -{
-> -    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_TEUL);
-> -}
-> -
-> -static inline void tcg_gen_qemu_ld32s(TCGv ret, TCGv addr, int mem_index=
-)
-> -{
-> -    tcg_gen_qemu_ld_tl(ret, addr, mem_index, MO_TESL);
-> -}
-> -
-> -static inline void tcg_gen_qemu_ld64(TCGv_i64 ret, TCGv addr, int
-> mem_index) -{
-> -    tcg_gen_qemu_ld_i64(ret, addr, mem_index, MO_TEUQ);
-> -}
-> -
-> -static inline void tcg_gen_qemu_st8(TCGv arg, TCGv addr, int mem_index) =
--
-> {
-> -    tcg_gen_qemu_st_tl(arg, addr, mem_index, MO_UB);
-> -}
-> -
-> -static inline void tcg_gen_qemu_st16(TCGv arg, TCGv addr, int mem_index)
-> -{
-> -    tcg_gen_qemu_st_tl(arg, addr, mem_index, MO_TEUW);
-> -}
-> -
-> -static inline void tcg_gen_qemu_st32(TCGv arg, TCGv addr, int mem_index)
-> -{
-> -    tcg_gen_qemu_st_tl(arg, addr, mem_index, MO_TEUL);
-> -}
-> -
-> -static inline void tcg_gen_qemu_st64(TCGv_i64 arg, TCGv addr, int
-> mem_index) -{
-> -    tcg_gen_qemu_st_i64(arg, addr, mem_index, MO_TEUQ);
-> -}
-> -
->  void tcg_gen_atomic_cmpxchg_i32(TCGv_i32, TCGv, TCGv_i32, TCGv_i32,
->                                  TCGArg, MemOp);  void
-> tcg_gen_atomic_cmpxchg_i64(TCGv_i64, TCGv, TCGv_i64, TCGv_i64,
+>  include/qemu/vhost-user-server.h     |  4 +++-
+>  block/export/vhost-user-blk-server.c | 16 ++++++++++++++++
+>  util/vhost-user-server.c             | 14 ++++++++++----
+>  3 files changed, 29 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/qemu/vhost-user-server.h b/include/qemu/vhost-user-server.h
+> index bc0ac9ddb6..b1c1cda886 100644
+> --- a/include/qemu/vhost-user-server.h
+> +++ b/include/qemu/vhost-user-server.h
+> @@ -40,8 +40,9 @@ typedef struct {
+>      int max_queues;
+>      const VuDevIface *vu_iface;
+>  
+> +    unsigned int in_flight; /* atomic */
+> +
+>      /* Protected by ctx lock */
+> -    unsigned int in_flight;
+>      bool wait_idle;
+>      VuDev vu_dev;
+>      QIOChannel *ioc; /* The I/O channel with the client */
+> @@ -62,6 +63,7 @@ void vhost_user_server_stop(VuServer *server);
+>  
+>  void vhost_user_server_inc_in_flight(VuServer *server);
+>  void vhost_user_server_dec_in_flight(VuServer *server);
+> +bool vhost_user_server_has_in_flight(VuServer *server);
+>  
+>  void vhost_user_server_attach_aio_context(VuServer *server, AioContext *ctx);
+>  void vhost_user_server_detach_aio_context(VuServer *server);
+> diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
+> index 841acb36e3..092b86aae4 100644
+> --- a/block/export/vhost-user-blk-server.c
+> +++ b/block/export/vhost-user-blk-server.c
+> @@ -272,7 +272,20 @@ static void vu_blk_exp_resize(void *opaque)
+>      vu_config_change_msg(&vexp->vu_server.vu_dev);
+>  }
+>  
+> +/*
+> + * Ensures that bdrv_drained_begin() waits until in-flight requests complete.
+> + *
+> + * Called with vexp->export.ctx acquired.
+> + */
+> +static bool vu_blk_drained_poll(void *opaque)
+> +{
+> +    VuBlkExport *vexp = opaque;
+> +
+> +    return vhost_user_server_has_in_flight(&vexp->vu_server);
+> +}
+> +
+>  static const BlockDevOps vu_blk_dev_ops = {
+> +    .drained_poll  = vu_blk_drained_poll,
+>      .resize_cb = vu_blk_exp_resize,
+>  };
 
+You're adding a new function pointer to an existing BlockDevOps...
 
-Is the intent that all loads use tcg_gen_qemu_ld_* and all stores use tcg_g=
-en_qemu_st_*?
+> @@ -314,6 +327,7 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+>      vu_blk_initialize_config(blk_bs(exp->blk), &vexp->blkcfg,
+>                               logical_block_size, num_queues);
+>  
+> +    blk_set_dev_ops(exp->blk, &vu_blk_dev_ops, vexp);
+>      blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+>                                   vexp);
+>  
+>      blk_set_dev_ops(exp->blk, &vu_blk_dev_ops, vexp);
 
-If so, there are other helpers to remove.  For example,
-    tcg_gen_ld32u_i64
-    tcg_gen_st8_i64
+..but still add a second blk_set_dev_ops(). Maybe a bad merge conflict
+resolution with commit ca858a5fe94?
 
-Thanks,
-Taylor
+> @@ -323,6 +337,7 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+>                                   num_queues, &vu_blk_iface, errp)) {
+>          blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
+>                                          blk_aio_detach, vexp);
+> +        blk_set_dev_ops(exp->blk, NULL, NULL);
+>          g_free(vexp->handler.serial);
+>          return -EADDRNOTAVAIL;
+>      }
+> @@ -336,6 +351,7 @@ static void vu_blk_exp_delete(BlockExport *exp)
+>  
+>      blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+>                                      vexp);
+> +    blk_set_dev_ops(exp->blk, NULL, NULL);
+>      g_free(vexp->handler.serial);
+>  }
+
+These two hunks are then probably already fixes for ca858a5fe94 and
+should be a separate patch if so.
+
+> diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
+> index 1622f8cfb3..2e6b640050 100644
+> --- a/util/vhost-user-server.c
+> +++ b/util/vhost-user-server.c
+> @@ -78,17 +78,23 @@ static void panic_cb(VuDev *vu_dev, const char *buf)
+>  void vhost_user_server_inc_in_flight(VuServer *server)
+>  {
+>      assert(!server->wait_idle);
+> -    server->in_flight++;
+> +    qatomic_inc(&server->in_flight);
+>  }
+>  
+>  void vhost_user_server_dec_in_flight(VuServer *server)
+>  {
+> -    server->in_flight--;
+> -    if (server->wait_idle && !server->in_flight) {
+> -        aio_co_wake(server->co_trip);
+> +    if (qatomic_fetch_dec(&server->in_flight) == 1) {
+> +        if (server->wait_idle) {
+> +            aio_co_wake(server->co_trip);
+> +        }
+>      }
+>  }
+>  
+> +bool vhost_user_server_has_in_flight(VuServer *server)
+> +{
+> +    return qatomic_load_acquire(&server->in_flight) > 0;
+> +}
+> +
+
+Any reason why you left the server->in_flight accesses in
+vu_client_trip() non-atomic?
+
+Kevin
 
 
