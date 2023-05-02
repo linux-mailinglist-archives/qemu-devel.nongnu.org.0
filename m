@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446A26F4569
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 15:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1FA76F457F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 15:49:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptqIc-0004MP-Bh; Tue, 02 May 2023 09:44:10 -0400
+	id 1ptqMg-0005az-JR; Tue, 02 May 2023 09:48:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1ptqIZ-0004Lk-Uo
- for qemu-devel@nongnu.org; Tue, 02 May 2023 09:44:08 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1ptqIX-00087u-QZ
- for qemu-devel@nongnu.org; Tue, 02 May 2023 09:44:07 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id BC49821D0D;
- Tue,  2 May 2023 13:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683035040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=lANrWLTi+XM60+2ibqZjJzSjy4xDAX2f7nYs4FCisB8=;
- b=QJMcON/qsIb0L6LiCu0rAqNFY29lt2/GRzUKBIIcdT1iU/mq/m2SnTlVzDW7k6uToxpjQF
- yDr4HU23BTJCMQ6ZSUPFJ5OcIvHoJCAYA/6OEU13STJyH4jn2FYmep07lN1r11cUfJ6H8I
- ML5ftr9ZbNq3GUxbWLbFIFe4YZVL6Pw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683035040;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=lANrWLTi+XM60+2ibqZjJzSjy4xDAX2f7nYs4FCisB8=;
- b=ENrVVb9SYIEwss3evdLLDvCMtad5gq/Ni9zUCVvixoGwIVzFMGhCDXrMcBuWpspQM+1cwR
- 4E79h8GOSNbpznBg==
-Received: from hawking.suse.de (unknown [10.168.4.11])
- by relay2.suse.de (Postfix) with ESMTP id AB1D32C141;
- Tue,  2 May 2023 13:44:00 +0000 (UTC)
-Received: by hawking.suse.de (Postfix, from userid 17005)
- id 884FC4A0372; Tue,  2 May 2023 15:44:00 +0200 (CEST)
-From: Andreas Schwab <schwab@suse.de>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH] linux-user: Add /proc/cpuinfo handler for RISC-V
-CC: qemu-devel@nongnu.org
-X-Yow: I don't believe there really IS a GAS SHORTAGE..  I think it's all
- just a BIG HOAX on the part of the plastic sign salesmen--
- ..  to sell more numbers!!
-Date: Tue, 02 May 2023 15:44:00 +0200
-Message-ID: <mvm5y9a7srj.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ (Exim 4.90_1) (envelope-from <val15032008@mail.ru>)
+ id 1ptqMc-0005am-Ra
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 09:48:18 -0400
+Received: from smtp44.i.mail.ru ([95.163.41.82])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <val15032008@mail.ru>)
+ id 1ptqMa-0000zV-AB
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 09:48:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Message-Id:Content-Type:MIME-Version:To:From:Subject:Date:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=zYsohdUuE+G8BUwhvlZiOOgT2nig/6YSPsIWcppx0f0=; 
+ t=1683035296;x=1683125296; 
+ b=ozQczmUdOX3MJz8eftbrzn5Pc+i1zHR9zxB+h6GDGRp9iEL+R4tdLS7XBYrH6VnIwizUUy1gPCQzSeFEAxUW3bZpR4Zvkub8lZtksP+mlSdmjA8LDuhxzi0BOOd8LrkIeqkisnxTWuPYdYDOK3NK76+j5YXegHs1MQrbAdEa5PQmJeKCRuF6C4DDv/sUj+1myFG4tRivoPQWANEi7vqVJrBARXPH+kvtBP93XEecgMouxFTtez95HdwBBgZrEdg1ssxbSd2pPkwPr8hBJMVTFlujkYv4vnX626qpq5toubFZMDo4UnG2mc9oV8qCjQ4Vgp/6TmQ855SxD3RdUomjBA==;
+Received: by smtp44.i.mail.ru with esmtpa (envelope-from <val15032008@mail.ru>)
+ id 1ptqMT-00HAI8-NC; Tue, 02 May 2023 16:48:10 +0300
+SavedFromEmail: val15032008@mail.ru
+Date: Tue, 02 May 2023 16:48:00 +0300
+Subject: Patch for png_save(), QEMU v8.0
+Importance: normal
+To: qemu-devel@nongnu.org
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=schwab@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/mixed;
+ boundary="--_com.samsung.android.email_624852672126470"
+Message-Id: <E1ptqMT-00HAI8-NC.val15032008-mail-ru@smtp44.i.mail.ru>
+Authentication-Results: smtp44.i.mail.ru;
+ auth=pass smtp.auth=val15032008@mail.ru
+ smtp.mailfrom=val15032008@mail.ru
+X-Mailru-Src: smtp
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD9F572AEF33F1BC58518F88292D2C242B62F96DCF8CA795381182A05F538085040C9E71B75D8C2108ABDDD9FB121CC9984021C05385FCFA44A3241450760841F55
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE761F2E2C91B196E27EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637EF59B520676799BC8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8E759492598B4F9DA4EFC44506B09EC086F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE78A0F7C24A37A3D769FA2833FD35BB23D9E625A9149C048EE0AC5B80A05675ACD2CC0D3CB04F14752D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BCFF48519C1EE79E1A471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC105B7CFE1D613D5E3AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F7900637EC7B922578220031D81D268191BDAD3D3666184CF4C3C14F3FC91FA280E0CE3D1A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FE146BDB823D8AB785E1C53F199C2BB95B5C8C57E37DE458BEDA766A37F9254B7
+X-C1DE0DAB: 0D63561A33F958A5AF1C22F265C988CE16E5D2E2028E52EF70936B8C83D98C57F87CCE6106E1FC07E67D4AC08A07B9B0DB8A315C1FF4794DC79554A2A72441328621D336A7BC284946AD531847A6065AE478A468B35FE767BDAD6C7F3747799A
+X-C8649E89: 1C3962B70DF3F0ADBF74143AD284FC7177DD89D51EBB7742DC8270968E61249B1004E42C50DC4CA955A7F0CF078B5EC49A30900B95165D34AA13E2DDB906786293BFB2255E7F4B2CB6E9A2DB11F26B7F7B239E6772BAF3CA8439BE9C6834E3EE1D7E09C32AA3244CB4FB14B1EBE8FD150F70F2E1E9D0512D95A9E0DC41E9A4CF729B2BEF169E0186
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojUsZxtR84vlfxp804hRZgLw==
+X-Mailru-Sender: 0A26D9779F8DDEAB3FDA9BCC3991C6D9AFFD9A9CBB85D2E3B48584C44B5D0CB90E3566F52D99C81DC1E3555AB67B8B67C77752E0C033A69ED43EDA0029E7C34DC286A2F9E57D1634B4A721A3011E896F
+X-Mras: Ok
+Received-SPF: pass client-ip=95.163.41.82; envelope-from=val15032008@mail.ru;
+ helo=smtp44.i.mail.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,75 +69,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  =?UTF-8?B?0JLQsNC70LXQvdGC0LjQvQ==?= <val15032008@mail.ru>
+From:  =?UTF-8?B?0JLQsNC70LXQvdGC0LjQvQ==?= via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Andreas Schwab <schwab@suse.de>
----
- linux-user/syscall.c | 30 ++++++++++++++++++++++++++++--
- 1 file changed, 28 insertions(+), 2 deletions(-)
+----_com.samsung.android.email_624852672126470
+Content-Type: multipart/alternative; boundary="--_com.samsung.android.email_624852675553391"
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 69f740ff98..c72456a34b 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8231,7 +8231,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
- }
- 
- #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
--    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
-+    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
-+    defined(TARGET_RISCV)
- static int is_proc(const char *filename, const char *entry)
- {
-     return strcmp(filename, entry) == 0;
-@@ -8309,6 +8310,31 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- }
- #endif
- 
-+#if defined(TARGET_RISCV)
-+static int open_cpuinfo(CPUArchState *cpu_env, int fd)
-+{
-+    int i, num_cpus;
-+
-+    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-+    for (i = 0; i < num_cpus; i++) {
-+        dprintf(fd, "processor\t: %d\n", i);
-+        dprintf(fd, "hart\t\t: %d\n", i);
-+#if defined(TARGET_RISCV32)
-+        dprintf(fd, "isa\t\t: rv32imafdc\n");
-+        dprintf(fd, "mmu\t\t: sv32\n");
-+#endif
-+#if defined(TARGET_RISCV64)
-+        dprintf(fd, "isa\t\t: rv64imafdc\n");
-+        dprintf(fd, "mmu\t\t: sv57\n");
-+#endif
-+        dprintf(fd, "mvendorid\t: 0x0\n");
-+        dprintf(fd, "marchid\t\t: 0x0\n");
-+        dprintf(fd, "mimpid\t\t: 0x0\n\n");
-+    }
-+    return 0;
-+}
-+#endif
-+
- #if defined(TARGET_M68K)
- static int open_hardware(CPUArchState *cpu_env, int fd)
- {
-@@ -8333,7 +8359,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
- #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
-         { "/proc/net/route", open_net_route, is_proc },
- #endif
--#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
-+#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
-         { "/proc/cpuinfo", open_cpuinfo, is_proc },
- #endif
- #if defined(TARGET_M68K)
--- 
-2.40.1
+----_com.samsung.android.email_624852675553391
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
+SGVsbG8hwqDCoEN1cnJlbnRseSwgcG5nX3NhdmUoKSBpbiAiY29uc29sZS5jIiB1c2VzICJQSVhN
+QU5fYThyOGc4YjgiIGZvcm1hdCB3aGVuIHNhdmluZyBwbmcuwqDCoCggaHR0cHM6Ly9naXRsYWIu
+Y29tL3FlbXUtcHJvamVjdC9xZW11Ly0vYmxvYi83YzE4ZjJkNjYzNTIxZjFiMzFiODIxYTEzMzU4
+Y2UzODA3NWVhZjdkL3VpL2NvbnNvbGUuYyNMMzE0ICnCoMKgSXQgc2hvdWxkIHByb2JhYmx5IHVz
+ZSAiUElYTUFOX2E4YjhnOHI4IiAocmVkPD5ibHVlIGV4Y2hhbmdlZCkuwqBXaXRob3V0IGl0IEkn
+bSBnZXR0aW5nIFBOR3Mgd2l0aCBibHVlIGFuZCByZWQgY2hhbm5lbHMgc3dhcHBlZCAoUUVNVSA4
+LjAsIHFlbXUtc3lzdGVtLXg4Nl82NCwgQXJtNjQgaG9zdCwgbGlicG5nIDEuNi4zOSkuwqDCoFN0
+ZXBzIHRvIHJlcHJvZHVjZTogaW4gUUVNVSA4LjAgY29uc29sZSBleGVjdXRlICJzY3JlZW5kdW1w
+IC9wYXRoL3RvL3NjcmVlbnNob3QucG5nIC1mIHBuZyIuwqDCoFRoZSBwYXRjaCBpcyBpbiBhdHRh
+Y2htZW50LsKgV2l0aCBiZXN0IHJlZ2FyZHMswqBWYWxlbnRpbmUu
 
--- 
-Andreas Schwab, SUSE Labs, schwab@suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+----_com.samsung.android.email_624852675553391
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+PGh0bWw+PGhlYWQ+PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0
+L2h0bWw7IGNoYXJzZXQ9VVRGLTgiPjwvaGVhZD48Ym9keSBkaXI9ImF1dG8iPkhlbGxvISZuYnNw
+OzxkaXYgZGlyPSJhdXRvIj4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+Q3VycmVudGx5LCBw
+bmdfc2F2ZSgpIGluICJjb25zb2xlLmMiIHVzZXMgIlBJWE1BTl9hOHI4ZzhiOCIgZm9ybWF0IHdo
+ZW4gc2F2aW5nIHBuZy4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+Jm5ic3A7PC9kaXY+PGRp
+diBkaXI9ImF1dG8iPiggaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9xZW11Ly0vYmxv
+Yi83YzE4ZjJkNjYzNTIxZjFiMzFiODIxYTEzMzU4Y2UzODA3NWVhZjdkL3VpL2NvbnNvbGUuYyNM
+MzE0ICkmbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+Jm5ic3A7PC9kaXY+PGRpdiBkaXI9ImF1
+dG8iPkl0IHNob3VsZCBwcm9iYWJseSB1c2UgIlBJWE1BTl9hOGI4ZzhyOCIgKHJlZCZsdDsmZ3Q7
+Ymx1ZSBleGNoYW5nZWQpLiZuYnNwOzwvZGl2PjxkaXYgZGlyPSJhdXRvIj5XaXRob3V0IGl0IEkn
+bSBnZXR0aW5nIFBOR3Mgd2l0aCBibHVlIGFuZCByZWQgY2hhbm5lbHMgc3dhcHBlZCAoUUVNVSA4
+LjAsIHFlbXUtc3lzdGVtLXg4Nl82NCwgQXJtNjQgaG9zdCwgbGlicG5nIDEuNi4zOSkuJm5ic3A7
+PC9kaXY+PGRpdiBkaXI9ImF1dG8iPiZuYnNwOzwvZGl2PjxkaXYgZGlyPSJhdXRvIj5TdGVwcyB0
+byByZXByb2R1Y2U6IGluIFFFTVUgOC4wIGNvbnNvbGUgZXhlY3V0ZSAic2NyZWVuZHVtcCAvcGF0
+aC90by9zY3JlZW5zaG90LnBuZyAtZiBwbmciLiZuYnNwOzwvZGl2PjxkaXYgZGlyPSJhdXRvIj4m
+bmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+VGhlIHBhdGNoIGlzIGluIGF0dGFjaG1lbnQuJm5i
+c3A7PC9kaXY+PGRpdiBkaXI9ImF1dG8iPldpdGggYmVzdCByZWdhcmRzLCZuYnNwOzwvZGl2Pjxk
+aXYgZGlyPSJhdXRvIj5WYWxlbnRpbmUuPC9kaXY+PC9ib2R5PjwvaHRtbD4=
+
+----_com.samsung.android.email_624852675553391--
+
+----_com.samsung.android.email_624852672126470
+Content-Type: text/x-diff; name="800_abgr.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="800_abgr.patch";
+ size=576
+
+ZGlmZiAtcnUgLS1uby1kZXJlZmVyZW5jZSAvdG1wL3FlbXUtOC4wLjAvdWkvY29uc29sZS5jIC4v
+dWkvY29uc29sZS5jCi0tLSAvdG1wL3FlbXUtOC4wLjAvdWkvY29uc29sZS5jCTIwMjMtMDQtMTkg
+MTY6MzE6NDcuMDAwMDAwMDAwICswMDAwCisrKyAuL3VpL2NvbnNvbGUuYwkyMDIzLTA1LTAyIDEy
+OjU5OjAyLjYwMDQ2OTk1MCArMDAwMApAQCAtMzExLDcgKzMxMSw3IEBACiAgICAgcG5nX3N0cnVj
+dCAqcG5nX3B0cjsKICAgICBwbmdfaW5mbyAqaW5mb19wdHI7CiAgICAgZ19hdXRvcHRyKHBpeG1h
+bl9pbWFnZV90KSBsaW5lYnVmID0KLSAgICAgICAgICAgICAgICAgICAgICAgICAgICBxZW11X3Bp
+eG1hbl9saW5lYnVmX2NyZWF0ZShQSVhNQU5fYThyOGc4YjgsIHdpZHRoKTsKKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBxZW11X3BpeG1hbl9saW5lYnVmX2NyZWF0ZShQSVhNQU5fYThiOGc4
+cjgsIHdpZHRoKTsKICAgICB1aW50OF90ICpidWYgPSAodWludDhfdCAqKXBpeG1hbl9pbWFnZV9n
+ZXRfZGF0YShsaW5lYnVmKTsKICAgICBGSUxFICpmID0gZmRvcGVuKGZkLCAid2IiKTsKICAgICBp
+bnQgeTsK
+
+----_com.samsung.android.email_624852672126470--
+
 
