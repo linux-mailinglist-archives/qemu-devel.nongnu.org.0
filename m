@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C716F4396
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1996F4392
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:19:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptovA-00047o-DC; Tue, 02 May 2023 08:15:52 -0400
+	id 1ptovA-00047p-BP; Tue, 02 May 2023 08:15:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptoui-0003oD-6c
- for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:36 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1ptoui-0003oW-Tb
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:34 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptouU-0003Bw-2S
- for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:16 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f1cfed93e2so36863625e9.3
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 05:15:08 -0700 (PDT)
+ id 1ptouU-0003C9-ME
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:18 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-3f315735514so166131485e9.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 05:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683029707; x=1685621707;
+ d=linaro.org; s=google; t=1683029708; x=1685621708;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=a/x/pKjjQ+LLdU/H1JDM3JqQV2lznwc+DzdZ8y/lNHo=;
- b=KKJMgcL1+tg96ke07hPnhNoppZZJy9lNb5p1uaYWBfCpQbqZNMHwjvjRjO0IATlTnL
- JzDjCm2h5MEhfWxi7ZeJthQeZ3xiyjYp2PkSZCNr9mWmM0LlJc3plWutTOXp+j3b+WXk
- vXfje+Psi5cvcCVxKOJ+fJJRWgMosR5DtT53plVASpZxUw1eyBasyEQkDwumB16qpP2d
- pTqInEM+PPHwyifQhmCR28gKstpuoqVUmrvbLLSXaC2P29qsIzpb4ij4C6/H5enSQNGj
- HzfNSQoG1ZLhuFAuE1UsnCpYN+Sec6xzRtJBY/hdo6WUhe5aatdSG0FAvWmNXvKuoUr8
- 0XHw==
+ :reply-to; bh=sbqFrwuPbz1N2vfMZ5MaN8t68A8GmBRAFS33JGd8krI=;
+ b=u3SqDxPZTSqNl7+tySiHX2tkE8rUtXodXyuoYxJSelvBpYrTe0R0m6NBzA7jsN9nPT
+ ZbwUN5zAYuy2yiiQcsz+DN4Mv5COHBFFjwcZQO4SCG9GEyNhPts+Z+WcTQNgCFyKG3Lu
+ uPWEHFJB0bXb9jTFlp8gYARxCfa/ZnUJ0Ki00OFncU6oVQBebZM8kxyhWgZBS0i3spVN
+ 1w/cvr29VQZurDR6csz7ZRw7ikqFu9tlXUgUDeJNd/155AkwrOVXHIOXhIj1BDBhsE6F
+ QqxI/3JaiJV/ewgbcNNxt7IDbIFLYROxxm0g7NyTTJSlPYbzL6+x7Fzr3eEP5rQQiaeP
+ wvzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683029707; x=1685621707;
+ d=1e100.net; s=20221208; t=1683029708; x=1685621708;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a/x/pKjjQ+LLdU/H1JDM3JqQV2lznwc+DzdZ8y/lNHo=;
- b=VPfuyqbQwmcW5WO3z+l/UGs3r0hVpirVfVV8s6LSzEUVk5LVqJvtJ728WFTNZI+yKq
- lBQ4UIAgS1lLqT0F2sfT01+9MbFVQu0O8kwmdsSEnUtRK4cL2uxpypxmwFiPesvBau9y
- qllvQHFAGOnmjKLklewmaM7+Jz7E1KsgusdfnBAtxqmshb1V1GU9/dlJgdd3g5jIoEWJ
- WOkBHrfqBs4DiBneJ7H4qxPTFCGRq5nDbgOx24FHWC4iQh5hCrRCaXS+kfmUMr7wFUvB
- T8vqqveKamzkbiabcSvGAKjuvpwC9HTNkkcU4ba6FobeK4UOgqdXm7zQzyUmP+dWFNfC
- JbyQ==
-X-Gm-Message-State: AC+VfDyx1CbbUtYjCico0XG4yvDWyUebN5Q39Y2WUX5ejD7qvmrl9PXL
- Ma7Ar+kY1Wa8fnpGIk1vn1OnjeXmFTf2BwXKibg=
-X-Google-Smtp-Source: ACHHUZ6/oCgrPhR9F+88HTkX5u19Acp9NPjemdwVLphjakN5dSSwZ7GInfdyABd3R0/GLedz/89CGw==
-X-Received: by 2002:a05:600c:213:b0:3f1:8223:6683 with SMTP id
- 19-20020a05600c021300b003f182236683mr11304212wmi.40.1683029707675; 
- Tue, 02 May 2023 05:15:07 -0700 (PDT)
+ bh=sbqFrwuPbz1N2vfMZ5MaN8t68A8GmBRAFS33JGd8krI=;
+ b=aAmbiHWr8RDd9Aegg5kj6/seGkyf/QVGQGo0IcNQyEDmYxHkl1iRQV5SJ9dAV9XQ3M
+ kx/dDwkvnEhJwHW6vaO6X20JSsoXr3seqyEa8qbEnPnx4TADE2Tff4YeP1PtPb9PdB+P
+ 0jPSNLrQWhkY2LWet2Cwk0cRy2ZTHWYbDCF8+k6E++IDgcCDSEqetSWLk9mY5Powwz4d
+ Nc81ffh6XwBH9Xd+zOQBMSYPAlC5Z+gpIJAwiMKuLTOeE4w/1tWVxsGjzn4JWGtcyoyI
+ lYWeXvwalCOwIpR+vW6rTWCRyhc8/puk2JrKNxKWPXNQIIpv0E1qPgv9h5bg5l1Sqlnd
+ 4oLw==
+X-Gm-Message-State: AC+VfDx540VRuDixpatSP7eBim128Su1ZLJCH4BQH9uqvqb25IizojjB
+ PuwHuy1Z0k5k4Byq/0jGHKKZL2PDUR86VbchiXM=
+X-Google-Smtp-Source: ACHHUZ6PYu7FCVroYQLYIDekC4guw5qzhnH5aEbSZL2F6kF6bx3fj0sAhZBA0j9oSwbO4o0FLF2qOQ==
+X-Received: by 2002:a1c:7702:0:b0:3f1:731e:cdb1 with SMTP id
+ t2-20020a1c7702000000b003f1731ecdb1mr12463935wmi.6.1683029708130; 
+ Tue, 02 May 2023 05:15:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  g10-20020a7bc4ca000000b003f171234a08sm35040330wmk.20.2023.05.02.05.15.07
@@ -58,17 +58,17 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Tue, 02 May 2023 05:15:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/35] hw/net: npcm7xx_emc: set MAC in register space
-Date: Tue,  2 May 2023 13:14:38 +0100
-Message-Id: <20230502121459.2422303-15-peter.maydell@linaro.org>
+Subject: [PULL 15/35] hw/arm/bcm2835_property: Implement "get command line"
+ message
+Date: Tue,  2 May 2023 13:14:39 +0100
+Message-Id: <20230502121459.2422303-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230502121459.2422303-1-peter.maydell@linaro.org>
 References: <20230502121459.2422303-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,93 +91,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Patrick Venture <venture@google.com>
+From: Daniel Bertalan <dani@danielbertalan.dev>
 
-The MAC address set from Qemu wasn't being saved into the register space.
+This query copies the kernel command line into the message buffer. It
+was previously stubbed out to return empty, this commit makes it reflect
+the arguments specified with `-append`.
 
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I observed the following peculiarities on my Pi 3B+:
+- If the buffer is shorter than the string, the response header gives
+  the full length, but no data is actually copied.
+- No NUL terminator is added: even if the buffer is long enough to fit
+  one, the buffer's original contents are preserved past the string's
+  end.
+- The VC firmware adds the following extra parameters beside the
+  user-supplied ones (via /boot/cmdline.txt): `video`, `vc_mem.mem_base`
+  and `vc_mem.mem_size`. This is currently not implemented in qemu.
+
+Signed-off-by: Daniel Bertalan <dani@danielbertalan.dev>
+Message-id: 20230425103250.56653-1-dani@danielbertalan.dev
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: moved variable declaration to top of function]
+[PMM: added comment about NUL and short-buffer behaviour]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/net/npcm7xx_emc.c | 32 +++++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 7 deletions(-)
+ include/hw/misc/bcm2835_property.h |  1 +
+ hw/arm/bcm2835_peripherals.c       |  2 ++
+ hw/arm/bcm2836.c                   |  2 ++
+ hw/arm/raspi.c                     |  2 ++
+ hw/misc/bcm2835_property.c         | 13 ++++++++++++-
+ 5 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/hw/net/npcm7xx_emc.c b/hw/net/npcm7xx_emc.c
-index 7c86bb52e57..8156f701b07 100644
---- a/hw/net/npcm7xx_emc.c
-+++ b/hw/net/npcm7xx_emc.c
-@@ -98,6 +98,8 @@ static const char *emc_reg_name(int regno)
+diff --git a/include/hw/misc/bcm2835_property.h b/include/hw/misc/bcm2835_property.h
+index 712b76b7a32..ba8896610cc 100644
+--- a/include/hw/misc/bcm2835_property.h
++++ b/include/hw/misc/bcm2835_property.h
+@@ -30,6 +30,7 @@ struct BCM2835PropertyState {
+     MACAddr macaddr;
+     uint32_t board_rev;
+     uint32_t addr;
++    char *command_line;
+     bool pending;
+ };
  
- static void emc_reset(NPCM7xxEMCState *emc)
- {
-+    uint32_t value;
-+
-     trace_npcm7xx_emc_reset(emc->emc_num);
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index 3c2a4160cd1..0233038b957 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -90,6 +90,8 @@ static void bcm2835_peripherals_init(Object *obj)
+                             TYPE_BCM2835_PROPERTY);
+     object_property_add_alias(obj, "board-rev", OBJECT(&s->property),
+                               "board-rev");
++    object_property_add_alias(obj, "command-line", OBJECT(&s->property),
++                              "command-line");
  
-     memset(&emc->regs[0], 0, sizeof(emc->regs));
-@@ -112,6 +114,16 @@ static void emc_reset(NPCM7xxEMCState *emc)
- 
-     emc->tx_active = false;
-     emc->rx_active = false;
-+
-+    /* Set the MAC address in the register space. */
-+    value = (emc->conf.macaddr.a[0] << 24) |
-+        (emc->conf.macaddr.a[1] << 16) |
-+        (emc->conf.macaddr.a[2] << 8) |
-+        emc->conf.macaddr.a[3];
-+    emc->regs[REG_CAMM_BASE] = value;
-+
-+    value = (emc->conf.macaddr.a[4] << 24) | (emc->conf.macaddr.a[5] << 16);
-+    emc->regs[REG_CAML_BASE] = value;
+     object_property_add_const_link(OBJECT(&s->property), "fb",
+                                    OBJECT(&s->fb));
+diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+index f894338fc6a..166dc896c09 100644
+--- a/hw/arm/bcm2836.c
++++ b/hw/arm/bcm2836.c
+@@ -55,6 +55,8 @@ static void bcm2836_init(Object *obj)
+                             TYPE_BCM2835_PERIPHERALS);
+     object_property_add_alias(obj, "board-rev", OBJECT(&s->peripherals),
+                               "board-rev");
++    object_property_add_alias(obj, "command-line", OBJECT(&s->peripherals),
++                              "command-line");
+     object_property_add_alias(obj, "vcram-size", OBJECT(&s->peripherals),
+                               "vcram-size");
  }
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 92d068d1f9d..7b9221c9244 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -280,6 +280,8 @@ static void raspi_machine_init(MachineState *machine)
+     object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(machine->ram));
+     object_property_set_int(OBJECT(&s->soc), "board-rev", board_rev,
+                             &error_abort);
++    object_property_set_str(OBJECT(&s->soc), "command-line",
++                            machine->kernel_cmdline, &error_abort);
+     qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
  
- static void npcm7xx_emc_reset(DeviceState *dev)
-@@ -432,13 +444,25 @@ static bool emc_receive_filter1(NPCM7xxEMCState *emc, const uint8_t *buf,
-         }
-     case ETH_PKT_UCAST: {
-         bool matches;
-+        uint32_t value;
-+        struct MACAddr mac;
-         if (emc->regs[REG_CAMCMR] & REG_CAMCMR_AUP) {
-             return true;
-         }
-+
-+        value = emc->regs[REG_CAMM_BASE];
-+        mac.a[0] = value >> 24;
-+        mac.a[1] = value >> 16;
-+        mac.a[2] = value >> 8;
-+        mac.a[3] = value >> 0;
-+        value = emc->regs[REG_CAML_BASE];
-+        mac.a[4] = value >> 24;
-+        mac.a[5] = value >> 16;
-+
-         matches = ((emc->regs[REG_CAMCMR] & REG_CAMCMR_ECMP) &&
-                    /* We only support one CAM register, CAM0. */
-                    (emc->regs[REG_CAMEN] & (1 << 0)) &&
--                   memcmp(buf, emc->conf.macaddr.a, ETH_ALEN) == 0);
-+                   memcmp(buf, mac.a, ETH_ALEN) == 0);
-         if (emc->regs[REG_CAMCMR] & REG_CAMCMR_CCAM) {
-             *fail_reason = "MACADDR matched, comparison complemented";
-             return !matches;
-@@ -661,15 +685,9 @@ static void npcm7xx_emc_write(void *opaque, hwaddr offset,
-         break;
-     case REG_CAMM_BASE + 0:
-         emc->regs[reg] = value;
--        emc->conf.macaddr.a[0] = value >> 24;
--        emc->conf.macaddr.a[1] = value >> 16;
--        emc->conf.macaddr.a[2] = value >> 8;
--        emc->conf.macaddr.a[3] = value >> 0;
-         break;
-     case REG_CAML_BASE + 0:
-         emc->regs[reg] = value;
--        emc->conf.macaddr.a[4] = value >> 24;
--        emc->conf.macaddr.a[5] = value >> 16;
-         break;
-     case REG_MCMDR: {
-         uint32_t prev;
+     /* Create and plug in the SD cards */
+diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+index de056ea2df8..251b3d865d7 100644
+--- a/hw/misc/bcm2835_property.c
++++ b/hw/misc/bcm2835_property.c
+@@ -282,7 +282,17 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
+             break;
+ 
+         case 0x00050001: /* Get command line */
+-            resplen = 0;
++            /*
++             * We follow the firmware behaviour: no NUL terminator is
++             * written to the buffer, and if the buffer is too short
++             * we report the required length in the response header
++             * and copy nothing to the buffer.
++             */
++            resplen = strlen(s->command_line);
++            if (bufsize >= resplen)
++                address_space_write(&s->dma_as, value + 12,
++                                    MEMTXATTRS_UNSPECIFIED, s->command_line,
++                                    resplen);
+             break;
+ 
+         default:
+@@ -420,6 +430,7 @@ static void bcm2835_property_realize(DeviceState *dev, Error **errp)
+ 
+ static Property bcm2835_property_props[] = {
+     DEFINE_PROP_UINT32("board-rev", BCM2835PropertyState, board_rev, 0),
++    DEFINE_PROP_STRING("command-line", BCM2835PropertyState, command_line),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
 -- 
 2.34.1
 
