@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F266F423D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDF76F4240
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:05:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptnmJ-0002In-5e; Tue, 02 May 2023 07:02:39 -0400
+	id 1ptno8-0003eJ-Ke; Tue, 02 May 2023 07:04:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptnlG-0002Ey-Fh
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:01:50 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ id 1ptno2-0003d0-QO
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:04:26 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptnlC-0002YB-Tx
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:01:33 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-3f09b4a156eso23060055e9.3
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:01:28 -0700 (PDT)
+ id 1ptno0-0005sm-Vr
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:04:26 -0400
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-306342d7668so782716f8f.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683025284; x=1685617284;
+ d=linaro.org; s=google; t=1683025459; x=1685617459;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=tDK988EtJlhDmjNL6UBbDMauFcsTOZAKNQmY6wY6/TM=;
- b=qRLo0G62aBnaFbwANKkUx7PHz69353krYSmXX04CHhEnBJTmEVs1dy3LmJgPd5vvyp
- 40ITFp5GwqlZirDIMPSMbEcD9/6wuwI+/BfY1tTfyuuiaClNpgWfUdzdVT9xt3jpOLS1
- 3cV4uSh9xj70toCTPivDkaVwPd4Y/M/5E2gZnUWims4cUFbbjHeAHCkb4xBasXRdTxBL
- az4KOZIA2LRtVMl+OfwVaMfzjK3e6TKVF2yZ9VQXid/kSy9yXPCNwCid/7L9a+76A2Lk
- 1mf+2mnu0JUZdis5zmuJ/5oOjiYMCURwRCi2oBF3X9fnt7lp0gSxnWaeqd/B7rWWIzfJ
- HAmQ==
+ bh=+hjWpb0pMW2nCyTz3f9wKT0AcLqHoErfQAToeTh2JiY=;
+ b=NQjRjFoCVoLyU2madL/Ci07RlLjFG6DjPrv3N3HxwGTt7TmwxKIC1ukihGdSg+vk+N
+ VO8LQf/D2c9sVU2afhuQgGlCYIBEBTE6sq3s70bLZlJIbuxZGeREn1P1tlX6znfcGUoy
+ bQDCCLWXuOJdYHvmZVBUjEIstsV+E0h8/nihqEggeo45z5VJcE5dn/YWfq6EZEteHnhj
+ rkncKdw/LEs4gEbQRDd9QgPKz1CM4CAJfV22pze8GaupausnnnaLyMq6Ah9qQPK/Uof9
+ i0gADxQhX+yKII+0VNHN/lBnguIv1FKdRls7Lbup+jMadynJXsveIy55G8rqX3sr571T
+ whpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683025284; x=1685617284;
+ d=1e100.net; s=20221208; t=1683025459; x=1685617459;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tDK988EtJlhDmjNL6UBbDMauFcsTOZAKNQmY6wY6/TM=;
- b=Mbk6Ms9IYAwLLkBDoXMSuOIzmUo2F6hxCVEHhP91YFLSJoMreCxMGfMkBB/+XZVvOq
- GOPVGnzYrm+aM+mWg8L19A84JeCR1+BfFk4gWGuFcFbKRBJhgA/dxX8eTV2vgM4kDbeW
- Si7B/hoio8FM0CbSSaD9JHsman0LlBZKtfu12ALKeMQ6IfWCFB1oLDLagpHUgSm/FyEq
- XD/+AEreHsXClxEt7aT6LdsVuwBMmeLn2uUpf34u4bZmygXY8KUjuMoQH0Oxsah6OpfC
- s8W4KUKnRMDxjoO5rUUDJ/afiqnIuPF0uPaTyWkapKSm9erT+LxdgK/kZMOmpnQ9obCR
- WW7w==
-X-Gm-Message-State: AC+VfDxFjKsHlq8oSUKwCDwR2C9erL9wMATuFbYbnZtN3Twuxuso9b4s
- NX/qz8DWQrps+9AkMn1BjCedsw==
-X-Google-Smtp-Source: ACHHUZ6gesEZPoPVuCPki3ssQZ2gGq8cUlysVxt4PpLE3b4nGS/aNYEqdkSPjL9Wk2HgQcZUTxj2Jg==
-X-Received: by 2002:a05:600c:b49:b0:3f1:82d8:8fde with SMTP id
- k9-20020a05600c0b4900b003f182d88fdemr12593915wmr.24.1683025283999; 
- Tue, 02 May 2023 04:01:23 -0700 (PDT)
+ bh=+hjWpb0pMW2nCyTz3f9wKT0AcLqHoErfQAToeTh2JiY=;
+ b=kiMYpx2Uwt4ot2aJ4aHk300HfY27tBZPfe+NSNeB43217PuJOQtO0M4Knc3MEAGjHx
+ cZTmCw4zevk3/fPhRrpf55I7HPlyRLdLX0aImFJyzg8Rdb3YF+uhsVejNwEvdt3fI2O1
+ taD4FSBeWrlsC4WQVoQBCV2Cnwz9XbcZowgsYVOmWpNbIvJIQRlXjpfoOirlav21E5Ud
+ dsR6k7akF2pkazF17FDSujCmeC8BwiyJRWpiBq97xZwFKfEgjt2hr9SLHpZVoHRLA0X3
+ T59ehyHkgMDlcpFyRODgVTvAvDFyEeFTy+1l5yMlMfuZw3imhUXW4d5bf854byfesHJG
+ FyDw==
+X-Gm-Message-State: AC+VfDwaBdrgqv5jFiWnxYe47I7iXskgy8PFsMcaDlJTBaGGZxOnvq8/
+ gn5W6d9rp2BquL3e0R3+8oFZfg==
+X-Google-Smtp-Source: ACHHUZ5LhFClrKCQb5kVRCBTX4aoJ4VRCEkJLsUzYo0foTrnW08haSIrJrrYsiBBTg1IcwNy//Qj9A==
+X-Received: by 2002:a5d:4a50:0:b0:2fe:c8b5:b5d5 with SMTP id
+ v16-20020a5d4a50000000b002fec8b5b5d5mr11280182wrs.2.1683025458915; 
+ Tue, 02 May 2023 04:04:18 -0700 (PDT)
 Received: from ?IPV6:2a02:c7c:74db:8d00:ad29:f02c:48a2:269c?
  ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c4f1200b003f07ef4e3e0sm49592872wmq.0.2023.05.02.04.01.23
+ b5-20020a056000054500b002e5ff05765esm31001750wrf.73.2023.05.02.04.04.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 May 2023 04:01:23 -0700 (PDT)
-Message-ID: <56514099-ff90-c035-dc8f-5fcd4d153ffc@linaro.org>
-Date: Tue, 2 May 2023 12:01:21 +0100
+ Tue, 02 May 2023 04:04:18 -0700 (PDT)
+Message-ID: <cccd2658-26fa-ca9f-68f7-9704eb095c99@linaro.org>
+Date: Tue, 2 May 2023 12:04:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH RFC v2 2/9] target/loongarch: Define some kvm_arch
- interfaces
+Subject: Re: [PATCH RFC v2 3/9] target/loongarch: Supplement vcpu env initial
+ when vcpu reset
 Content-Language: en-US
 To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
 Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -71,13 +71,13 @@ Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, maobibo@loongson.cn, philmd@linaro.org,
  peter.maydell@linaro.org
 References: <20230427072645.3368102-1-zhaotianrui@loongson.cn>
- <20230427072645.3368102-3-zhaotianrui@loongson.cn>
+ <20230427072645.3368102-4-zhaotianrui@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230427072645.3368102-3-zhaotianrui@loongson.cn>
+In-Reply-To: <20230427072645.3368102-4-zhaotianrui@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -101,19 +101,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/27/23 08:26, Tianrui Zhao wrote:
-> Define some functions in target/loongarch/kvm.c, such as
-> kvm_arch_put_registers, kvm_arch_get_registers and
-> kvm_arch_handle_exit, etc. which are needed by kvm/kvm-all.c.
-> Now the most functions has no content and they will be
-> implemented in the next patches.
+> Supplement vcpu env initial when vcpu reset, including
+> init vcpu mp_state value to KVM_MP_STATE_RUNNABLE and
+> init vcpu CSR_CPUID,CSR_TID to cpu->cpu_index.
 > 
 > Signed-off-by: Tianrui Zhao<zhaotianrui@loongson.cn>
 > ---
->   target/loongarch/kvm.c | 126 +++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 126 insertions(+)
->   create mode 100644 target/loongarch/kvm.c
+>   target/loongarch/cpu.c | 3 +++
+>   target/loongarch/cpu.h | 2 ++
+>   2 files changed, 5 insertions(+)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Why do you need KVM_MP_STATE_RUNNABLE in loongarch/cpu.c, outside of kvm.c?
+For Arm, we test the architectural power state of the cpu.
+
 
 r~
 
