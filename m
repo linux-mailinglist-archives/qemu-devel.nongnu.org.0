@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BDA6F47C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 17:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875976F47F1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 18:06:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptsIh-0004Dr-3H; Tue, 02 May 2023 11:52:23 -0400
+	id 1ptsUh-0000cU-7f; Tue, 02 May 2023 12:04:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptsIf-0004Dj-GZ
- for qemu-devel@nongnu.org; Tue, 02 May 2023 11:52:21 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptsId-0003JL-LY
- for qemu-devel@nongnu.org; Tue, 02 May 2023 11:52:21 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f19a80a330so24700525e9.2
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 08:52:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683042735; x=1685634735;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YbrD/W8jBAcWJDmWhpMcbQp9B3Xl/RbJsTTN3GNYDCM=;
- b=kPzF5sENHbNysNMyY4NECd4Pn0noARZqoRjUiv5WGMmttPPzaHs+kFGY4dVnWvuH6H
- M3mmZonp8XsuHF3G9Xn7Mp7NdDtmDmlo1K4NYFu1bnNLDi/0E8VAoK+zLe2FrcXlixX/
- KF/wAu6ZMpf9YUcXMPdUHMeybUJZZcbx2/TqSf0CwyUb7adfAUAKwbBj9NvdiFZvAGVb
- ctJnaLUec4ThPgThr9tKdkm9e1Y17Gg2bhmRKRc1EdthBI9YGcrLce8myug3THv7Uy4X
- cA6tNG4PniNJQkM6KAyQEJFnGds6IFVsGFrByd78EEBUoZhuWHOfRnY04osjU9GGBbS8
- MJqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683042735; x=1685634735;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YbrD/W8jBAcWJDmWhpMcbQp9B3Xl/RbJsTTN3GNYDCM=;
- b=USIhiXwsVi3JhUi9vNKicE/yIiAP+kdK1ISIvMvAEDnomHgGjqjTDm5BwjRXYrrVnK
- icQyLjXmDroFdpTQR8Bur/aTE9CkfoOwGWC3v+WdElww8LOBIOMpzjdXxC43akJ5EXh2
- DQpnQXP/ukkb4kdQpW3xVWGk9hWIzyr4OjVA+GIsEdBCbiSSfmlGNwGciqaiAorTe5D6
- 7pKibpbtxsZg/Z4p9Tnw35OpzqF8nBFw2dEQZppIB4XLjlPrGw8RIV8XyFkuAqPczSCI
- Vs7dPm0H/z4itGmBbLcAh1ELzoH9HU5BUltWWSiSSE6+hDC8mijqBudXiDyBM/Z4xf/h
- iHoA==
-X-Gm-Message-State: AC+VfDx+FmxxqyJwpP6/nAFq79QDlkF3K4J6/Agm3jeJFf9PWTMTvwPA
- GOZsrKEI+DKsiroM8EMHiu8zEW6mwqMFtZXJbfyG3A==
-X-Google-Smtp-Source: ACHHUZ5Lbh/hvi4B9p4Psu/jyKttWmlLlWwQzmV4IPKF2WcjP6WXaHqPNFiHNtyPHQGX5CWcL25Lqg==
-X-Received: by 2002:a05:600c:ac8:b0:3f1:819d:d050 with SMTP id
- c8-20020a05600c0ac800b003f1819dd050mr11818096wmr.37.1683042735140; 
- Tue, 02 May 2023 08:52:15 -0700 (PDT)
-Received: from ?IPV6:2a02:c7c:74db:8d00:ad29:f02c:48a2:269c?
- ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
- by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c444900b003f173be2ccfsm52004152wmn.2.2023.05.02.08.52.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 May 2023 08:52:14 -0700 (PDT)
-Message-ID: <4141b7a3-b288-7431-918f-959a3d97f526@linaro.org>
-Date: Tue, 2 May 2023 16:52:13 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ptsUZ-0000aZ-SB
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 12:04:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ptsUX-0007k2-NF
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 12:04:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683043476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ErZ2aQ2HUcNIqx2OSDpVI+Y5PzprxF1vRVAtic0RH4k=;
+ b=EgkcipQjNz4YPm2gSa1mi88Ay8gP+OaCYderdbuazMZvrv5e6e0o1UXy4P8GSWvo03TXRm
+ Euqy6BYSHb1d+syBjtYYno32mfBCuQQRXXjDTr/kXIJWu0TkMiGu8kFF0squJIAdcRc1D9
+ VO1E1uPzrIZreMZyPgHCd01XRsL5q7A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-199-NtVPAAg0PAGoLecNFhMJ8Q-1; Tue, 02 May 2023 12:04:32 -0400
+X-MC-Unique: NtVPAAg0PAGoLecNFhMJ8Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 506A218E5380;
+ Tue,  2 May 2023 16:04:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 77F2C1410F24;
+ Tue,  2 May 2023 16:04:25 +0000 (UTC)
+Date: Tue, 2 May 2023 18:04:24 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
+ eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
+Subject: Re: [PATCH v4 07/20] block/export: stop using is_external in
+ vhost-user-blk server
+Message-ID: <ZFE0iFnbr2ey0A7X@redhat.com>
+References: <20230425172716.1033562-1-stefanha@redhat.com>
+ <20230425172716.1033562-8-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: proposed schedule for 8.1 release
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA_=Zp9YBcJDsCZ-UoMUyjBoG8XMkgfjS3_iGX9hWzM0=Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_=Zp9YBcJDsCZ-UoMUyjBoG8XMkgfjS3_iGX9hWzM0=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425172716.1033562-8-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,28 +95,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/2/23 15:44, Peter Maydell wrote:
-> Hi; I figured we could put some dates into the proposed 8.1
-> schedule. Here's a starter:
+Am 25.04.2023 um 19:27 hat Stefan Hajnoczi geschrieben:
+> vhost-user activity must be suspended during bdrv_drained_begin/end().
+> This prevents new requests from interfering with whatever is happening
+> in the drained section.
 > 
-> 2023-07-11 Soft feature freeze
-> 2023-07-18 Hard feature freeze. Tag rc0
-> 2023-07-25 Tag rc1
-> 2023-08-01 Tag rc2
-> 2023-08-08 Tag rc3
-> 2023-08-15 Release; or tag rc4 if needed
-> 2023-08-22 Release if we needed an rc4
+> Previously this was done using aio_set_fd_handler()'s is_external
+> argument. In a multi-queue block layer world the aio_disable_external()
+> API cannot be used since multiple AioContext may be processing I/O, not
+> just one.
 > 
-> (dates picked largely to ensure that we don't slip into
-> September)
+> Switch to BlockDevOps->drained_begin/end() callbacks.
 > 
-> Richard, you're doing merges, so the most important
-> question is whether this works for you :-)
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  block/export/vhost-user-blk-server.c | 43 ++++++++++++++--------------
+>  util/vhost-user-server.c             | 10 +++----
+>  2 files changed, 26 insertions(+), 27 deletions(-)
+> 
+> diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
+> index 092b86aae4..d20f69cd74 100644
+> --- a/block/export/vhost-user-blk-server.c
+> +++ b/block/export/vhost-user-blk-server.c
+> @@ -208,22 +208,6 @@ static const VuDevIface vu_blk_iface = {
+>      .process_msg           = vu_blk_process_msg,
+>  };
+>  
+> -static void blk_aio_attached(AioContext *ctx, void *opaque)
+> -{
+> -    VuBlkExport *vexp = opaque;
+> -
+> -    vexp->export.ctx = ctx;
+> -    vhost_user_server_attach_aio_context(&vexp->vu_server, ctx);
+> -}
+> -
+> -static void blk_aio_detach(void *opaque)
+> -{
+> -    VuBlkExport *vexp = opaque;
+> -
+> -    vhost_user_server_detach_aio_context(&vexp->vu_server);
+> -    vexp->export.ctx = NULL;
+> -}
 
-Looks reasonable.  I have some holiday scheduled between rc0 and rc1, but I'm sure we can 
-work that out.
+So for changing the AioContext, we now rely on the fact that the node to
+be changed is always drained, so the drain callbacks implicitly cover
+this case, too?
 
+>  static void
+>  vu_blk_initialize_config(BlockDriverState *bs,
+>                           struct virtio_blk_config *config,
+> @@ -272,6 +256,25 @@ static void vu_blk_exp_resize(void *opaque)
+>      vu_config_change_msg(&vexp->vu_server.vu_dev);
+>  }
+>  
+> +/* Called with vexp->export.ctx acquired */
+> +static void vu_blk_drained_begin(void *opaque)
+> +{
+> +    VuBlkExport *vexp = opaque;
+> +
+> +    vhost_user_server_detach_aio_context(&vexp->vu_server);
+> +}
 
-r~
+Compared to the old code, we're losing the vexp->export.ctx = NULL. This
+is correct at this point because after drained_begin we still keep
+processing requests until we arrive at a quiescent state.
+
+However, if we detach the AioContext because we're deleting the
+iothread, won't we end up with a dangling pointer in vexp->export.ctx?
+Or can we be certain that nothing interesting happens before drained_end
+updates it with a new valid pointer again?
+
+Kevin
 
 
