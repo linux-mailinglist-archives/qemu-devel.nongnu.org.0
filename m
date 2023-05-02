@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E7C6F429A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFEA66F429B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:22:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pto3h-0000f9-FE; Tue, 02 May 2023 07:20:37 -0400
+	id 1pto3m-0000h7-2Q; Tue, 02 May 2023 07:20:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pto3f-0000dc-1y
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:35 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1pto3g-0000es-EO
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:36 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pto3c-0003Fh-Ta
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:34 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-2f40b891420so3497727f8f.0
+ id 1pto3d-0003Fn-7U
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:36 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f193ca059bso21556665e9.3
  for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683026429; x=1685618429;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wY72rBTCusrC/WPaiwfzmoq60/uULSGfuUcD5/U5TwY=;
- b=GNsOKbJwpHz7i1wn7ETbd7GGFUV/S7mblkMoHCcZqn9bXV2m4QUav+4mm9AgqmWpq9
- WQ4byszQtqq1A0eJsVupempRajYkQzj4cnWZcxHgOURR3JGJ5sEpFimoia8UdYTYc6Id
- N5xz9EzY22Ap2cD98Zod+asI5UM9WhOIbiahxBkgSz0SKAdplfp3gdN1X+kbpNLyehhP
- g8LBWDatuVEGq3a0kFsaHv3b+L5rPZwFS7/pxGeWJ+z4zUBJJzFW1BGPGi8ZiIN33uVI
- EQDn5bAyzx2TwQx/hh+Rq5f45zkSq9dxQ1x1Aofy/fo9XUKGaozLG64D8Kr91r1HbGzM
- aCjA==
+ bh=lj2D2cXdtATJYKpTPKE6VX0lPTFHJNgX6DGhwMqHkxw=;
+ b=WPkKvB2CAMRkFtOdXRXZRQ914DBu4y6s4PSOR7ST92BO7xCLm5Ep4kJ7TKOFieqp5C
+ dmqyKM9mFgQqlG4maT70FsEdnw8Vc/ew0QC10nYsU6C8P4xPze2DmW2OilIFpNg0gDLT
+ JRGA85oihZvJJJ4gdrHT/K+wsM2dWtqGR6irbfuP2aA4+IYtUf5pBksS1+46MoedsXhQ
+ /+rtk6fJ1waMABVRGgE/ngUGgv+Dl5RzcnQjz/F9krqeXVkNDj6XRdSS2WpipPqdUFA8
+ bdU+Beu9D1zjziU41tx/IAWRKf8+aqsdp/ajGOiggsix+lG7VgSbX1DK0HF/EvSHqvAe
+ 7Hsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683026429; x=1685618429;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wY72rBTCusrC/WPaiwfzmoq60/uULSGfuUcD5/U5TwY=;
- b=W4iVX5KDRgh6YMn6AyTuF6QKhAbwih5ZTbOfUVY8BW7Xv5wA66amzP92MpBbzs6Poq
- 95ozG1ynMkVJaAWUi1yTohmB1ajYYgbkc5LRf6lFEnNY75Hlr6Onts7EV77hJoojyXyh
- TBh7gZq0cuPtT2NP/bSMerzVHwYVqgR6F+iMoQMVnX5m8Uc2kBqDq9VZXjZOdIMUv+v5
- 9wOhZk+CGyX7Yf0pk5iUicYvRerx8SV559vO7FMBj0897r9i3JV+GXMC+NIdy2pQX68D
- q3EUvo1mFfAOe5k28MpqHANZ0LMuspkCfTdvNHwBOX+gx+KjE2XIiZj5eMgvKLn3vbem
- BCIQ==
-X-Gm-Message-State: AC+VfDysDmZX9Gxj+cfDzch4cp8sg+lyo3HaPQpplGhxrweBp9rRfgWy
- 78/io8cQogFqdg2BjyUAz4M/PLgEsY+pIeySy/huHQ==
-X-Google-Smtp-Source: ACHHUZ6+ML0T420IJEff4r8IFhQKL7bkLWephK86r0r2GO/KprMzxBt5CeS86WwxqHaBIyeZyD6Now==
-X-Received: by 2002:adf:f212:0:b0:2ef:b4e1:cf59 with SMTP id
- p18-20020adff212000000b002efb4e1cf59mr10869975wro.58.1683026428907; 
- Tue, 02 May 2023 04:20:28 -0700 (PDT)
+ bh=lj2D2cXdtATJYKpTPKE6VX0lPTFHJNgX6DGhwMqHkxw=;
+ b=AOamun6WY1xSTLMnPXpnrRJxJ/+D2o4e+GF6kLTospwN8tNOgbeMN89pqn6iyxP3k4
+ o6vw/F5H23W49UL90Maa4PI67ho8O9h3z6RrJVqjOMAb8JDR+YplIwJ5AE6MCxEcai7O
+ u6gMnOesambmfhqT830Ly6EFni0uQyvP+6cW8ZpV+7wzlalhFBY4FIoMEgVT7k0FbUSA
+ Bq6gTnqwAbrsM5Mv0obXSLV/3mRiDuPiUja5rGM+Rfc55Kpw6LPbVUHgDfDQFLYoa/ge
+ N1PqMjukw3HI+v+zV3LcokxtTmuxn7eJ3YBXErHR4euZy1N3lgYFvj6wYZCL02IhvHh0
+ vSLA==
+X-Gm-Message-State: AC+VfDz03AGq/ZZNKig67joWN8U/ruB3UWhDAKUrLyAYo2Jq1WjEvQMj
+ 97yQa2kKhzYr41XLlHa/twGlBWfMy/GU+pOdcvJBIw==
+X-Google-Smtp-Source: ACHHUZ5VeVs270UCyNIbMOhwM2DpQ89c2bk6o5orHpjkMIJQCsEJpbFdnZd9qIx/bONGnYTXu9/6zQ==
+X-Received: by 2002:a05:600c:3797:b0:3f1:82c6:2d80 with SMTP id
+ o23-20020a05600c379700b003f182c62d80mr11937607wmr.5.1683026429400; 
+ Tue, 02 May 2023 04:20:29 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
  by smtp.gmail.com with ESMTPSA id
  z16-20020a05600c221000b003ee1b2ab9a0sm35182623wml.11.2023.05.02.04.20.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 04:20:28 -0700 (PDT)
+ Tue, 02 May 2023 04:20:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 07/12] qemu/int128: Re-shuffle Int128Alias members
-Date: Tue,  2 May 2023 12:20:18 +0100
-Message-Id: <20230502112023.776823-8-richard.henderson@linaro.org>
+Cc: Juan Quintela <quintela@redhat.com>
+Subject: [PULL 08/12] migration/xbzrle: Use __attribute__((target)) for avx512
+Date: Tue,  2 May 2023 12:20:19 +0100
+Message-Id: <20230502112023.776823-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230502112023.776823-1-richard.henderson@linaro.org>
 References: <20230502112023.776823-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,43 +91,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Clang 14, with --enable-tcg-interpreter errors with
-
-include/qemu/int128.h:487:16: error: alignment of field 'i' (128 bits)
-  does not match the alignment of the first field in transparent union;
-  transparent_union attribute ignored [-Werror,-Wignored-attributes]
-    __int128_t i;
-               ^
-include/qemu/int128.h:486:12: note: alignment of first field is 64 bits
-    Int128 s;
-           ^
-1 error generated.
-
-By placing the __uint128_t member first, this is avoided.
+Use the attribute, which is supported by clang, instead of
+the #pragma, which is not supported and, for some reason,
+also not detected by the meson probe, so we fail by -Werror.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230501204625.277361-1-richard.henderson@linaro.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20230501210555.289806-1-richard.henderson@linaro.org>
 ---
- include/qemu/int128.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meson.build        | 5 +----
+ migration/xbzrle.c | 9 ++++-----
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index f62a46b48c..9e46cfaefc 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -483,9 +483,9 @@ static inline void bswap128s(Int128 *s)
-  */
- #ifdef CONFIG_INT128
- typedef union {
--    Int128 s;
--    __int128_t i;
-     __uint128_t u;
-+    __int128_t i;
-+    Int128 s;
- } Int128Alias __attribute__((transparent_union));
- #else
- typedef Int128 Int128Alias;
+diff --git a/meson.build b/meson.build
+index c44d05a13f..77d42898c8 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2370,12 +2370,9 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
+ config_host_data.set('CONFIG_AVX512BW_OPT', get_option('avx512bw') \
+   .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX512BW') \
+   .require(cc.links('''
+-    #pragma GCC push_options
+-    #pragma GCC target("avx512bw")
+     #include <cpuid.h>
+     #include <immintrin.h>
+-    static int bar(void *a) {
+-
++    static int __attribute__((target("avx512bw"))) bar(void *a) {
+       __m512i *x = a;
+       __m512i res= _mm512_abs_epi8(*x);
+       return res[1];
+diff --git a/migration/xbzrle.c b/migration/xbzrle.c
+index c6f8b20917..258e4959c9 100644
+--- a/migration/xbzrle.c
++++ b/migration/xbzrle.c
+@@ -177,11 +177,11 @@ int xbzrle_decode_buffer(uint8_t *src, int slen, uint8_t *dst, int dlen)
+ }
+ 
+ #if defined(CONFIG_AVX512BW_OPT)
+-#pragma GCC push_options
+-#pragma GCC target("avx512bw")
+ #include <immintrin.h>
+-int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
+-                             uint8_t *dst, int dlen)
++
++int __attribute__((target("avx512bw")))
++xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
++                            uint8_t *dst, int dlen)
+ {
+     uint32_t zrun_len = 0, nzrun_len = 0;
+     int d = 0, i = 0, num = 0;
+@@ -296,5 +296,4 @@ int xbzrle_encode_buffer_avx512(uint8_t *old_buf, uint8_t *new_buf, int slen,
+     }
+     return d;
+ }
+-#pragma GCC pop_options
+ #endif
 -- 
 2.34.1
 
