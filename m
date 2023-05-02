@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EE16F416B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:23:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCF96F4172
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:23:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptn9g-0008Qf-OQ; Tue, 02 May 2023 06:22:44 -0400
+	id 1ptnAU-0000fj-TR; Tue, 02 May 2023 06:23:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptn9f-0008PX-4F
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:22:43 -0400
+ id 1ptnAS-0000fQ-U8
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:23:32 -0400
 Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptn9d-0002ex-CX
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:22:42 -0400
+ id 1ptnAR-0002pi-DZ
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:23:32 -0400
 Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-50bd2d7ba74so4260740a12.1
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 03:22:40 -0700 (PDT)
+ 4fb4d7f45d1cf-50bc25f0c7dso4940418a12.3
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 03:23:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683022959; x=1685614959;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wROztpAR5kVw2WNQ6v2T+CLkXs+5ZH3oTikkmtqGwT0=;
- b=l06RT0eXBRvWmB7Im4yNj032Vb/qTVy0x0ka/xfP7TMU4CDtkkH9spekvqDPGqO+hA
- GsR9KNBhg6NVYSNxp6FE6HfePeRdNWZxX3dl0ueOE4zjffrdl2vULgkGv7+cLYs9nH5I
- Ta9VblSTTsBmV+F2lsKI9iJSMOPYdkWcdAUio5hqGg245ZVZWkTz2QZ64dF0DFGkxCuT
- By+FTB4PicZ6NKY2gQgGf+SQNUABu7nLrFgJ7gOBJu/yL7/VMTO69smoTwflhvHenlzm
- uFCAQlPzDwzKIRZD5OW5RqwIZnv0jIhDSYpHTPQP3wM6YNHZwoLrEV6+YvZ2lUzRK6d8
- S86w==
+ d=linaro.org; s=google; t=1683023009; x=1685615009;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QwiVVt3oLppkZq39EYDxEi/7t+3LdE7OOzcJj34YbjY=;
+ b=ErnH3cMbvl5K+3BvZLfaX09WUN6/Q+whe0k39ElO2OiE5YmuUvYkWGuPOenvj0OJuM
+ xHzut1bgZ5qTzWp+k2Wnp3mtG8cc5L3Gqind1ZkPZzLNGJwMWlYXwzgD3ZZPvju+9co4
+ mIxyzw4IsOXNORsggCAIb+TGR931YYOTTPx7TmvW+ohr3DUA6v7ZOf7ViDPWoKN0NCIL
+ l80UHJmxqVU5v7k9f+2Urqk3gdc06mv3oxi5ff5nV+olf7T/cij7oel8romy8ogloRpu
+ 5fCThYtEJqE0l7W+9pV/yvH2gywnOM7ziU47fDfsNzGJCJSsM3I3cH9ttM+a1F3Zfcyy
+ V+oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683022959; x=1685614959;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wROztpAR5kVw2WNQ6v2T+CLkXs+5ZH3oTikkmtqGwT0=;
- b=PA6tHfrk/x+Jtx6woNZhk4KUMaXymeKV1HxoojwE9WnOgu6hcujy1JAQec070FWcXE
- i81/W8jcjn8SlS7g2Ht5WKvI/iKe7J+4+FyWD22KO0uu/kCdO4BadSta79ZGz+UVcy6R
- edOeC5lNCdHbKFyh+jHNym8gSVyg+V6XVujxVlwIA01vq7qLTaBgCmyFYN5xJtsSrqSG
- L+H+V0v6rg/on5rk+oirwHieLf/fYm2WdsOiGX2Rlb6sXVdO3UALzrhFlLGIK9YEA8IE
- +Vj5vtz4CqGejaoEkSrO4XtcUR0XQUkZyBUI5s/aQosdoH20QHoqEF6ailLW2e9zY2iw
- 9ziA==
-X-Gm-Message-State: AC+VfDzSBKtwDbkSFV1mxLaZi1fk9Swyo7RDVD36UgqS58+qcPSPUzsD
- jy2gS9jcHWW+cbY9n3AjbgJnxdQserClDBau9/PZq4oVN0rcvQmR
-X-Google-Smtp-Source: ACHHUZ61Ti/sNiocmUKN7RcE6iqdDKLvyQFEP7AE2gHPog5VH8+sa3v/Rg8tIPC1Xd8Qu7BeRpUICeQ0dB1QJ6R4sw4=
-X-Received: by 2002:a05:6402:1e90:b0:4ea:a9b0:a518 with SMTP id
- f16-20020a0564021e9000b004eaa9b0a518mr9027522edf.17.1683022959294; Tue, 02
- May 2023 03:22:39 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683023009; x=1685615009;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QwiVVt3oLppkZq39EYDxEi/7t+3LdE7OOzcJj34YbjY=;
+ b=CemxcVA8a3oIsnFLSF2B1oMoWI3iyQzaHhVBFhRqsN/DDcmNQB6NfmMZ9CIHYaB3Py
+ ZAJPQMCciy+vXI/w2k5YstHgC5RKPFEpCnSkXE7PNEbDmGBOQ9cXbX55MRjo3NlYmOsl
+ tf+wwz02dlbUUwC4rvfdFpZA68PeS3yJcJt2UwdSQw2DnWgaQPHFo2mPHpW42+Y5lmGU
+ 2ZjOPGFLxWreNFLyPCAbhn01uXddJNG6KAYtAtQ8jffTcJJggLkLlbxzb3tuVa5QoC87
+ ZHLhiups938GY33twOsh9gm1Og1sa5LA75BKBZp50mNZwdC2zkZTcbbfIrwtT+bJ/1GP
+ lWTA==
+X-Gm-Message-State: AC+VfDyjaerqhELwFOTwiHT9LsANfpq/y2NQ8C+AeyQlbFhGJ7gweHtn
+ K/k0ac0mpHI2GPsTLg1xOGjiLFmvkI4JOscPujYIZ3LAqd6BDQyq
+X-Google-Smtp-Source: ACHHUZ47PC+lJbdA0+gzPxzA0bWyLARO8ioH/wmJcky0CkJzaPmHOd+bAIlFhdKuioQCR5akhZAFUiEmIRndh4IHdYU=
+X-Received: by 2002:aa7:c758:0:b0:50b:c3a0:40e5 with SMTP id
+ c24-20020aa7c758000000b0050bc3a040e5mr5930456eds.21.1683023009640; Tue, 02
+ May 2023 03:23:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230417164041.684562-1-peter.maydell@linaro.org>
-In-Reply-To: <20230417164041.684562-1-peter.maydell@linaro.org>
+References: <20230420122256.1023709-1-peter.maydell@linaro.org>
+In-Reply-To: <20230420122256.1023709-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 May 2023 11:22:28 +0100
-Message-ID: <CAFEAcA-gWH62VjOsQ1LJnLBZ7d94u1R78ESdGvF+jukRQvoY8g@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] Deprecate/rename singlestep command line option, 
- monitor interfaces
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@bsdimp.com>, 
- Kyle Evans <kevans@freebsd.org>, libvir-list@redhat.com, 
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Eric Blake <eblake@redhat.com>
+Date: Tue, 2 May 2023 11:23:18 +0100
+Message-ID: <CAFEAcA_ZDg6AQjA2TMptS5On1-n2Lt+EsniKTZH4KhZbKeCR8Q@mail.gmail.com>
+Subject: Re: [PATCH] docs/about/deprecated.rst: Add "since 7.1" tag to
+ dtb-kaslr-seed deprecation
+To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::534;
  envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
@@ -89,23 +83,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 17 Apr 2023 at 17:40, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Thu, 20 Apr 2023 at 13:22, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> The command line option '-singlestep' and its HMP equivalent
-> the 'singlestep' command are very confusingly named, because
-> they have nothing to do with single-stepping the guest (either
-> via the gdb stub or by emulation of guest CPU architectural
-> debug facilities). What they actually do is put TCG into a
-> mode where it puts only one guest instruction into each
-> translation block. This is useful for some circumstances
-> such as when you want the -d debug logging to be easier to
-> interpret, or if you have a finicky guest binary that wants
-> to see interrupts delivered at something other than the end
-> of a basic block.
+> In commit 5242876f37ca we deprecated the dtb-kaslr-seed property of
+> the virt board, but forgot the "since n.n" tag in the documentation
+> of this in deprecated.rst.
+>
+> This deprecation note first appeared in the 7.1 release, so
+> retrospectively add the correct "since 7.1" annotation to it.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> My mistake, since I added the deprecation.rst text to that commit.
 
-I'm going to take this series via target-arm.next since
-I'm doing a pullreq anyway.
 
-thanks
+
+Applied to target-arm.next, thanks.
+
 -- PMM
 
