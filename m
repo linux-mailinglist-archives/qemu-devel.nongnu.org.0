@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416626F4388
+	by mail.lfdr.de (Postfix) with ESMTPS id 256D56F4387
 	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:16:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptovh-0004ou-PJ; Tue, 02 May 2023 08:16:25 -0400
+	id 1ptov7-0003uO-Se; Tue, 02 May 2023 08:15:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptoun-0003qO-B1
+ id 1ptoun-0003qP-BL
  for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:36 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptoug-0003FE-Dd
+ id 1ptoui-0003FK-Ae
  for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:26 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f09b4a1527so38398575e9.0
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 05:15:16 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f178da219bso35873585e9.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 05:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683029716; x=1685621716;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3rPSogG4MrvVCG0zuAlajnVlpabyYpYIusrY/Xyt5hs=;
- b=kbJrjik0wH7W8QX+zUSm1ZFCzPtbp+vCb17iqai5AGTdVhBH4s4JO8JSJP+NtA4dkz
- UrJQD08W2W4uMqk9ikttKR18UpXhK4QA5SjpBEW7Rn/F8ezpfq5CvUqhnYjuR8Jf0dIs
- VWluHkjUPYPsDPhLrPUw1v25rGI1zAvLUbrKlspwTWBBERg9KhE0kAhemhqxvpOEMtCw
- M/WiJNaD3Bc+GazbJMjE6cw7BY5s6FnKEGTQ6wpqyvLddorVArceyQaC4wJUAcwfO/eZ
- 7RGNFybtWq/mhhPVaLjgrVKdkkXkrLnNno5IvZXn+BAUYBjguN6bXc95HmWWXIDnrE3e
- eXaQ==
+ :reply-to; bh=+hHFosEz8hVgcMXzEdjy3NeSzoqselMzKD6ykELAmag=;
+ b=ArRazfTibcVYnvJftaVeTir7jwgNYKn7BnBpINrOb9g9iHKr+dlJhP1PmBrbDtcwPF
+ QDio4Imowdswd5ZecMY1fQWEPw7Ou6NYTcvlMtJ2jE+3Ee3zg6wOKc2ZwiAO8SogUCYS
+ cxAlwarOkLboAM70qm5ZdIQsk0fju1cjqUJlEAMjXKhbBUqCXsp5isrISi9u14LDdYtI
+ 6yVtknVkaczt2EKxURdMzGIvt++qf/BGX7PmLzlDdZE3AQUVgVHpyegCTvApZBUxU0Ie
+ H4hCGrWLEFbyBYzyWKSjQmtsrCUyQoRGW2umXoG3peiueI6dovPdJtMze2CX7iNxBLtp
+ oAzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683029716; x=1685621716;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3rPSogG4MrvVCG0zuAlajnVlpabyYpYIusrY/Xyt5hs=;
- b=iFduSfVAKRZKVOsjR685wLh6/d9U7ZsHxeOXxQpLA8mBvHSCt/XLrZeoe0rqTLm3zi
- blRIRRVimuy5P0pFVrudru0dCWHunGAp7IQYwNZcASKxrF3miNRsdVlJKavdlxLfYLq4
- zlMWhufacFzy+REcantZsKqUFJTJt5VG2Z1T6P1MfaEDuiNG3vPVPeLEwc5FIwMx9+Ok
- ms0QlsIn+cG16tmAk5PIVfWn0lRY08Sjc5AIX9Rba2Dd7R+/z+8VM0kC8i9HTF777Sf+
- m7KVGo86LNmTvn9eIOHT8mNeEplKeFovHWE5hccROSnSptlInUP7Z2kk3tFOhUuZ4woy
- 6o1Q==
-X-Gm-Message-State: AC+VfDwMNKo4QHd/27jC+kC4Ipf66w4qp/Y87JBbMlT6C9BdUAK5Dkco
- Q28kBgmKZ2bCv5YxehfpsJ2hIfsuxgf5CoOqJ4c=
-X-Google-Smtp-Source: ACHHUZ6mNK6p//efKl5d0ongvKpAEkxdL2UDvvkb4S0n2GAoox6pNreGVZRClaJ+RwayiTtIA04JHQ==
-X-Received: by 2002:a7b:cc94:0:b0:3f1:69cc:475b with SMTP id
- p20-20020a7bcc94000000b003f169cc475bmr12859241wma.36.1683029715864; 
- Tue, 02 May 2023 05:15:15 -0700 (PDT)
+ bh=+hHFosEz8hVgcMXzEdjy3NeSzoqselMzKD6ykELAmag=;
+ b=FeLVRI5YYbK8CIyWd+cq7nlSTP91pzhxw6aztF0o74Nbmrx9fwOuKi+4IXXADSblbL
+ uSvHKXX4mM7Mq+RvnYpn6T0DQHmgJ4a2s/5nQ9cjrdLVoxUAVUTL2QuyezPYSXaZ5fRc
+ szg/oHi9RyK1DdZpymbC8rNb7MYT+LMxxCDA0iZFV1Py77nDsI3a2EOEvlka5kOU87Wo
+ hrfqgzzYDQQUDHWIP8RA/QZbfaEmoD4fwE5rElZRh653xsnF+cZ6KlFn9y1rMtQQJDSP
+ ykA7M/OydHMPf1zPwL+wMyDSaWEECYebbkOQw8SdYZvwvNobIzs29b4Zlxp7exOji+FB
+ zVUA==
+X-Gm-Message-State: AC+VfDxf0e8xqCCTOe8Mk6xv/HSEdCwF0+vu0Jh/P0unoL2GovEKEJSn
+ gT32C+YL1KTyLjQHFXbW24fB4gTGc1nREHQYtZw=
+X-Google-Smtp-Source: ACHHUZ7wi4Ev/UTfu83JBTb9kL/ZT/oIi20b5izqRndEEzWUJYK2R852LbLhDgFORtcVEbTDtvIIiA==
+X-Received: by 2002:a7b:c5da:0:b0:3f1:72d4:b271 with SMTP id
+ n26-20020a7bc5da000000b003f172d4b271mr13682573wmk.3.1683029716268; 
+ Tue, 02 May 2023 05:15:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  g10-20020a7bc4ca000000b003f171234a08sm35040330wmk.20.2023.05.02.05.15.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 05:15:15 -0700 (PDT)
+ Tue, 02 May 2023 05:15:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/35] target/arm: Add compile time asserts to
- load/store_cpu_field macros
-Date: Tue,  2 May 2023 13:14:57 +0100
-Message-Id: <20230502121459.2422303-34-peter.maydell@linaro.org>
+Subject: [PULL 34/35] hw/sd/allwinner-sdhost: Correctly byteswap descriptor
+ fields
+Date: Tue,  2 May 2023 13:14:58 +0100
+Message-Id: <20230502121459.2422303-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230502121459.2422303-1-peter.maydell@linaro.org>
 References: <20230502121459.2422303-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,53 +92,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add some compile-time asserts to the load_cpu_field() and store_cpu_field()
-macros that the struct field being accessed is the expected size. This
-lets us catch cases where we incorrectly tried to do a 32-bit load
-from a 64-bit struct field.
+In allwinner_sdhost_process_desc() we just read directly from
+guest memory into a host TransferDescriptor struct and back.
+This only works on little-endian hosts. Abstract the reading
+and writing of descriptors into functions that handle the
+byte-swapping so that TransferDescriptor structs as seen by
+the rest of the code are always in host-order.
 
+This fixes a failure of one of the avocado tests on s390.
+
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230424153909.1419369-3-peter.maydell@linaro.org
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20230424165053.1428857-2-peter.maydell@linaro.org
 ---
- target/arm/translate-a32.h | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ hw/sd/allwinner-sdhost.c | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-index 99eea85fa86..48a15379d22 100644
---- a/target/arm/translate-a32.h
-+++ b/target/arm/translate-a32.h
-@@ -59,7 +59,12 @@ static inline TCGv_i32 load_cpu_offset(int offset)
-     return tmp;
+diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
+index 51e5e908307..92a0f42708d 100644
+--- a/hw/sd/allwinner-sdhost.c
++++ b/hw/sd/allwinner-sdhost.c
+@@ -302,6 +302,30 @@ static void allwinner_sdhost_auto_stop(AwSdHostState *s)
+     }
  }
  
--#define load_cpu_field(name) load_cpu_offset(offsetof(CPUARMState, name))
-+/* Load from a 32-bit field to a TCGv_i32 */
-+#define load_cpu_field(name)                                            \
-+    ({                                                                  \
-+        QEMU_BUILD_BUG_ON(sizeof_field(CPUARMState, name) != 4);        \
-+        load_cpu_offset(offsetof(CPUARMState, name));                   \
-+    })
++static void read_descriptor(AwSdHostState *s, hwaddr desc_addr,
++                            TransferDescriptor *desc)
++{
++    uint32_t desc_words[4];
++    dma_memory_read(&s->dma_as, desc_addr, &desc_words, sizeof(desc_words),
++                    MEMTXATTRS_UNSPECIFIED);
++    desc->status = le32_to_cpu(desc_words[0]);
++    desc->size = le32_to_cpu(desc_words[1]);
++    desc->addr = le32_to_cpu(desc_words[2]);
++    desc->next = le32_to_cpu(desc_words[3]);
++}
++
++static void write_descriptor(AwSdHostState *s, hwaddr desc_addr,
++                             const TransferDescriptor *desc)
++{
++    uint32_t desc_words[4];
++    desc_words[0] = cpu_to_le32(desc->status);
++    desc_words[1] = cpu_to_le32(desc->size);
++    desc_words[2] = cpu_to_le32(desc->addr);
++    desc_words[3] = cpu_to_le32(desc->next);
++    dma_memory_write(&s->dma_as, desc_addr, &desc_words, sizeof(desc_words),
++                     MEMTXATTRS_UNSPECIFIED);
++}
++
+ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
+                                               hwaddr desc_addr,
+                                               TransferDescriptor *desc,
+@@ -312,9 +336,7 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
+     uint32_t num_bytes = max_bytes;
+     uint8_t buf[1024];
  
- /* Load from the low half of a 64-bit field to a TCGv_i32 */
- #define load_cpu_field_low32(name)                                      \
-@@ -70,9 +75,13 @@ static inline TCGv_i32 load_cpu_offset(int offset)
+-    /* Read descriptor */
+-    dma_memory_read(&s->dma_as, desc_addr, desc, sizeof(*desc),
+-                    MEMTXATTRS_UNSPECIFIED);
++    read_descriptor(s, desc_addr, desc);
+     if (desc->size == 0) {
+         desc->size = klass->max_desc_size;
+     } else if (desc->size > klass->max_desc_size) {
+@@ -356,8 +378,7 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
  
- void store_cpu_offset(TCGv_i32 var, int offset, int size);
+     /* Clear hold flag and flush descriptor */
+     desc->status &= ~DESC_STATUS_HOLD;
+-    dma_memory_write(&s->dma_as, desc_addr, desc, sizeof(*desc),
+-                     MEMTXATTRS_UNSPECIFIED);
++    write_descriptor(s, desc_addr, desc);
  
--#define store_cpu_field(var, name)                              \
--    store_cpu_offset(var, offsetof(CPUARMState, name),          \
--                     sizeof_field(CPUARMState, name))
-+#define store_cpu_field(val, name)                                      \
-+    ({                                                                  \
-+        QEMU_BUILD_BUG_ON(sizeof_field(CPUARMState, name) != 4          \
-+                          && sizeof_field(CPUARMState, name) != 1);     \
-+        store_cpu_offset(val, offsetof(CPUARMState, name),              \
-+                         sizeof_field(CPUARMState, name));              \
-+    })
- 
- #define store_cpu_field_constant(val, name) \
-     store_cpu_field(tcg_constant_i32(val), name)
+     return num_done;
+ }
 -- 
 2.34.1
 
