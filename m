@@ -2,81 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884F46F4066
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 11:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F686F4075
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 11:55:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptmdp-0002NQ-Bk; Tue, 02 May 2023 05:49:49 -0400
+	id 1ptmiD-00044a-Vo; Tue, 02 May 2023 05:54:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ptmdn-0002ND-B9
- for qemu-devel@nongnu.org; Tue, 02 May 2023 05:49:47 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ptmiC-00044R-9I
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 05:54:20 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ptmdl-0006Fd-Es
- for qemu-devel@nongnu.org; Tue, 02 May 2023 05:49:47 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ptmiA-0007vX-8n
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 05:54:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683020984;
+ s=mimecast20190719; t=1683021256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oQ9SfutrwM7EWlrfn6Fu5b4nnXjrf7Cg3l39RnsHw/k=;
- b=DpkyWIftB8CRZcqJxB1W5KeVtU5RP8cf4M3WaHGwofve8YqIYCfXJ79DPWEkboaY3O1msp
- 0XQArhrusMKk9N8Y9FEiogOKnj/I6NUq1dky7oyl2/eoR9ajFYU95jpWZfJ6y5XwilrvBC
- e1d+Nay07HjCJrIglJlDilDpZrj9HYQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-43-PbP4hAH5Md6ZzTFzdYqMiA-1; Tue, 02 May 2023 05:49:43 -0400
-X-MC-Unique: PbP4hAH5Md6ZzTFzdYqMiA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f171d38db3so21828905e9.0
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 02:49:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683020982; x=1685612982;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oQ9SfutrwM7EWlrfn6Fu5b4nnXjrf7Cg3l39RnsHw/k=;
- b=HFCbxPPATy3jDRw43RpPFvTCJxunEqe/kwH8yNZi88JdTn/TrGT2aT8PnPuLaQblsm
- NHvw8jFkQ/x3orGWpbbMXbAr6eSH6tW8zCqEXTsPkrKHiYpntegaxJnO8TnWDCj6MjHr
- BdLhaJd9HnUk/YFGaQtCfjo6B9cZWuPB/vnEtX0eVdmexWMoCs0TPDUEAj5Jb8OoGnUR
- VjfNGe2AA7n5xRWKmfbh1Qd/wK0YuacUnqX7RgR8tnbYvxmvd3am0xfiuSSg+0xqGfoo
- 1oPHX8xz/ivzrmHlaYXmCgR5npS1GO20vuoy5Sw8+Pp7Iz4BAYxLXTsCM+G6JVd8dyrt
- kfdw==
-X-Gm-Message-State: AC+VfDzIUMKFRx4ze9QDIPhZcznpxvK95qJbmNVHKXdBGR+gqAovfZrE
- 2SybQ/b7HfnBOVU3zsliebnC6kxQ0z/2RT2lvjIzmHmGXoIQ5NHaz0py1FNwdYFcFJCEkusxdFs
- 6k0hTm8+2jt517x4=
-X-Received: by 2002:a05:600c:2104:b0:3f2:48dc:5e02 with SMTP id
- u4-20020a05600c210400b003f248dc5e02mr11745789wml.27.1683020982175; 
- Tue, 02 May 2023 02:49:42 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6FH0ekcViFpvw5op9vgi3s2wPuZDr2iLRXyCOVSZatMJXYbsKIs2S3/f99kKa/zx6seycJuA==
-X-Received: by 2002:a05:600c:2104:b0:3f2:48dc:5e02 with SMTP id
- u4-20020a05600c210400b003f248dc5e02mr11745767wml.27.1683020981799; 
- Tue, 02 May 2023 02:49:41 -0700 (PDT)
-Received: from redhat.com ([2.52.8.43]) by smtp.gmail.com with ESMTPSA id
- o3-20020a05600c378300b003ef5f77901dsm34781171wmr.45.2023.05.02.02.49.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 02:49:41 -0700 (PDT)
-Date: Tue, 2 May 2023 05:48:56 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, philmd@linaro.org,
- david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
- den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com,
- dgilbert@redhat.com, quintela@redhat.com, armbru@redhat.com
-Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
-Message-ID: <20230502054519-mutt-send-email-mst@kernel.org>
-References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
- <20230425161434.173022-4-vsementsov@yandex-team.ru>
- <20230426002135-mutt-send-email-mst@kernel.org>
- <bf295d76-9c33-4eca-4b88-2d1a299c8b94@yandex-team.ru>
+ bh=S9991V2fSTC6mvaIvGWYH08xCQm4sIfOOa4zo5BfmUM=;
+ b=KrjdgPDq7dPMhy3tcX4ndXXuEb75t3yUzEplG/9grZ5v03OC8KYG5EhTvmJU1T2IK5o+wF
+ WakLoPuRbyE74HBaPPpNgqKCES6T+O3TQkmDjQ0P/bWnVRWDy+2SUhN3vnARenXw/88X9q
+ j1rWYopxavSyVIdFZTmlZqhotu82GXk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-501-6WrmCXu8P0eqi4TcRoCgXA-1; Tue, 02 May 2023 05:54:15 -0400
+X-MC-Unique: 6WrmCXu8P0eqi4TcRoCgXA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A21F2A5957E;
+ Tue,  2 May 2023 09:54:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59C9FC15BAD;
+ Tue,  2 May 2023 09:54:13 +0000 (UTC)
+Date: Tue, 2 May 2023 11:54:12 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, groug@kaod.org
+Subject: Re: [PATCH v2] migration: Handle block device inactivation failures
+ better
+Message-ID: <ZFDdxEZhnKqHu/pI@redhat.com>
+References: <20230414153358.1452040-1-eblake@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bf295d76-9c33-4eca-4b88-2d1a299c8b94@yandex-team.ru>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20230414153358.1452040-1-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -100,218 +76,174 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 26, 2023 at 11:00:46PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> On 26.04.23 07:43, Michael S. Tsirkin wrote:
-> > On Tue, Apr 25, 2023 at 07:14:34PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > On incoming migration we have the following sequence to load option
-> > > ROM:
-> > > 
-> > > 1. On device realize we do normal load ROM from the file
-> > > 
-> > > 2. Than, on incoming migration we rewrite ROM from the incoming RAM
-> > >     block. If sizes mismatch we fail.
-> > 
-> > let's mention an example error message:
-> >   Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
-> > 
-> > 
-> > > 
-> > > This is not ideal when we migrate to updated distribution: we have to
-> > > keep old ROM files in new distribution and be careful around romfile
-> > > property to load correct ROM file.
-> > 
-> > > Which is loaded actually just to
-> > > allocate the ROM with correct length.
-> > > Note, that romsize property doesn't really help: if we try to specify
-> > > it when default romfile is larger, it fails with something like:
-> > > 
-> > > romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
-> > 
-> > Something I'd like to clarify is that the comment applies to uses where
-> > users/distributions supply their own ROM file.  And lots of
-> > users/distributions seem to have already painted themselves into a
-> > corner by supplying a mix of ROM files of unmatching sizes -
-> > basically they don't understand the detail of live migration,
-> > ROM size interaction with it and with memory layout, etc -
-> > as a very small number of people does.
-> > For example, ubuntu doubled ROM file size by padding their ROMs
-> > with 0xffffffff at some point, breaking migration for all existing machine
-> > types.
-> > 
-> > just a web search for
-> >   Size mismatch: 0000:00:03.0/virtio-net-pci.rom: 0x40000 != 0x80000: Invalid argument
-> > 
-> > will turn up a bunch of confused distros and users.
-> > 
-> > 
-> > > 
-> > > Let's just ignore ROM file when romsize is specified and we are in
-> > > incoming migration state. In other words, we need only to preallocate
-> > > ROM of specified size, local ROM file is unrelated.
-> > 
-> > 
-> > 
-> > 
-> > > 
-> > > This way:
-> > > 
-> > > If romsize was specified on source, we just use same commandline as on
-> > > source, and migration will work independently of local ROM files on
-> > > target.
-> > > 
-> > > If romsize was not specified on source (and we have mismatching local
-> > > ROM file on target host), we have to specify romsize on target to match
-> > > source romsize. romfile parameter may be kept same as on source or may
-> > > be dropped, the file is not loaded anyway.
-> > > 
-> > > As a bonus we avoid extra reading from ROM file on target.
-> > > 
-> > > Note: when we don't have romsize parameter on source command line and
-> > > need it for target, it may be calculated as aligned up to power of two
-> > > size of ROM file on source (if we know, which file is it) or,
-> > > alternatively it may be retrieved from source QEMU by QMP qom-get
-> > > command, like
-> > > 
-> > >    { "execute": "qom-get",
-> > >      "arguments": {
-> > >        "path": "/machine/peripheral/CARD_ID/virtio-net-pci.rom[0]",
-> > >        "property": "size" } }
-> > > 
-> > > Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> > > ---
-> > >   hw/pci/pci.c | 77 ++++++++++++++++++++++++++++++----------------------
-> > >   1 file changed, 45 insertions(+), 32 deletions(-)
-> > > 
-> > > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> > > index a442f8fce1..e2cab622e4 100644
-> > > --- a/hw/pci/pci.c
-> > > +++ b/hw/pci/pci.c
-> > > @@ -36,6 +36,7 @@
-> > >   #include "migration/vmstate.h"
-> > >   #include "net/net.h"
-> > >   #include "sysemu/numa.h"
-> > > +#include "sysemu/runstate.h"
-> > >   #include "sysemu/sysemu.h"
-> > >   #include "hw/loader.h"
-> > >   #include "qemu/error-report.h"
-> > > @@ -2293,10 +2294,16 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
-> > >   {
-> > >       int64_t size;
-> > >       g_autofree char *path = NULL;
-> > > -    void *ptr;
-> > >       char name[32];
-> > >       const VMStateDescription *vmsd;
-> > > +    /*
-> > > +     * In case of incoming migration ROM will come with migration stream, no
-> > > +     * reason to load the file.  Neither we want to fail if local ROM file
-> > > +     * mismatches with specified romsize.
-> > > +     */
-> > > +    bool load_file = !runstate_check(RUN_STATE_INMIGRATE);
-> > > +
-> > >       if (!pdev->romfile) {
-> > >           return;
-> > >       }
-> > 
-> > CC pbonzini,dgilbert,quintela,armbru : guys, is poking at runstate_check like
-> > this the right way to figure out we are not going to use the
-> > device locally before incoming migration will overwrite ROM contents?
-> 
-> RUN_STATE_INMIGRATE is set in the only one place in qemu_init() when we parse cmdline option -incoming. VM is not running for sure. And starting the VM comes with changing the state. So it's OK.
-> 
-> The possible problem, if we add netcard on target which we didn't have on source. I now checked, this works.. But that doesn't seem correct to add device that was not present on source - how would it work - it's not guaranteed anyway.
+Hi Eric,
 
-You can add it on source too while migration is in progress, no?
+you asked me for a review downstream, but since you would have to bring
+back any problem to upstream anyway, let's discuss it here. For the
+start, let me state that (a) I don't fully understand why this patch
+fixes things and (b) I hate this function. More below.
 
-> > 
-> > > @@ -2329,32 +2336,35 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
-> > >           return;
-> > >       }
-> > > -    path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
-> > > -    if (path == NULL) {
-> > > -        path = g_strdup(pdev->romfile);
-> > > -    }
-> > > +    if (load_file || pdev->romsize == -1) {
-> > > +        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
-> > > +        if (path == NULL) {
-> > > +            path = g_strdup(pdev->romfile);
-> > > +        }
-> > > -    size = get_image_size(path);
-> > > -    if (size < 0) {
-> > > -        error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
-> > > -        return;
-> > > -    } else if (size == 0) {
-> > > -        error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
-> > > -        return;
-> > > -    } else if (size > 2 * GiB) {
-> > > -        error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
-> > > -                   pdev->romfile);
-> > > -        return;
-> > > -    }
-> > > -    if (pdev->romsize != -1) {
-> > > -        if (size > pdev->romsize) {
-> > > -            error_setg(errp, "romfile \"%s\" (%u bytes) "
-> > > -                       "is too large for ROM size %u",
-> > > -                       pdev->romfile, (uint32_t)size, pdev->romsize);
-> > > +        size = get_image_size(path);
-> > > +        if (size < 0) {
-> > > +            error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
-> > > +            return;
-> > > +        } else if (size == 0) {
-> > > +            error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
-> > > +            return;
-> > > +        } else if (size > 2 * GiB) {
-> > > +            error_setg(errp,
-> > > +                       "romfile \"%s\" too large (size cannot exceed 2 GiB)",
-> > > +                       pdev->romfile);
-> > >               return;
-> > >           }
-> > > -    } else {
-> > > -        pdev->romsize = pow2ceil(size);
-> > > +        if (pdev->romsize != -1) {
-> > > +            if (size > pdev->romsize) {
-> > > +                error_setg(errp, "romfile \"%s\" (%u bytes) "
-> > > +                           "is too large for ROM size %u",
-> > > +                           pdev->romfile, (uint32_t)size, pdev->romsize);
-> > > +                return;
-> > > +            }
-> > > +        } else {
-> > > +            pdev->romsize = pow2ceil(size);
-> > > +        }
-> > >       }
-> > >       vmsd = qdev_get_vmsd(DEVICE(pdev));
-> > > @@ -2365,15 +2375,18 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
-> > >       memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize,
-> > >                              &error_fatal);
-> > > -    ptr = memory_region_get_ram_ptr(&pdev->rom);
-> > > -    if (load_image_size(path, ptr, size) < 0) {
-> > > -        error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
-> > > -        return;
-> > > -    }
-> > > +    if (load_file) {
-> > > +        void *ptr = memory_region_get_ram_ptr(&pdev->rom);
-> > > -    if (is_default_rom) {
-> > > -        /* Only the default rom images will be patched (if needed). */
-> > > -        pci_patch_ids(pdev, ptr, size);
-> > > +        if (load_image_size(path, ptr, size) < 0) {
-> > > +            error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
-> > > +            return;
-> > > +        }
-> > > +
-> > > +        if (is_default_rom) {
-> > > +            /* Only the default rom images will be patched (if needed). */
-> > > +            pci_patch_ids(pdev, ptr, size);
-> > > +        }
-> > >       }
-> > 
-> > it kind of feels weird to ignore
+Am 14.04.2023 um 17:33 hat Eric Blake geschrieben:
+> Consider what happens when performing a migration between two host
+> machines connected to an NFS server serving multiple block devices to
+> the guest, when the NFS server becomes unavailable.  The migration
+> attempts to inactivate all block devices on the source (a necessary
+> step before the destination can take over); but if the NFS server is
+> non-responsive, the attempt to inactivate can itself fail.  When that
+> happens, the destination fails to get the migrated guest (good,
+> because the source wasn't able to flush everything properly):
 > 
-> What do you mean we should not ignore?
+>   (qemu) qemu-kvm: load of migration failed: Input/output error
 > 
+> at which point, our only hope for the guest is for the source to take
+> back control.  With the current code base, the host outputs a message, but then appears to resume:
 > 
+>   (qemu) qemu-kvm: qemu_savevm_state_complete_precopy_non_iterable: bdrv_inactivate_all() failed (-1)
 > 
-> -- 
-> Best regards,
-> Vladimir
+>   (src qemu)info status
+>    VM status: running
+> 
+> but a second migration attempt now asserts:
+> 
+>   (src qemu) qemu-kvm: ../block.c:6738: int bdrv_inactivate_recurse(BlockDriverState *): Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed.
+> 
+> Whether the guest is recoverable on the source after the first failure
+> is debatable, but what we do not want is to have qemu itself fail due
+> to an assertion.  It looks like the problem is as follows:
+> 
+> In migration.c:migration_completion(), the source sets 'inactivate' to
+> true (since COLO is not enabled), then tries
+> savevm.c:qemu_savevm_state_complete_precopy() with a request to
+> inactivate block devices.  In turn, this calls
+> block.c:bdrv_inactivate_all(), which fails when flushing runs up
+> against the non-responsive NFS server.  With savevm failing, we are
+> now left in a state where some, but not all, of the block devices have
+> been inactivated; but migration_completion() then jumps to 'fail'
+> rather than 'fail_invalidate' and skips an attempt to reclaim those
+> those disks by calling bdrv_activate_all().  Even if we do attempt to
+> reclaim disks, we aren't taking note of failure there, either.
+
+Why do we even jump to 'fail'? In other words, should 'fail_inactivate'
+really be called 'fail' and everything should jump there?
+
+Greg added the 'fail_inactivate' label in fe904ea8242, but the commit
+message doesn't seem to tell why he left one goto. I see no reason why
+we wouldn't want to reactivate in this case, too. Maybe it's just for
+the colo case?
+
+> Thus, we have reached a state where the migration engine has forgotten
+> all state about whether a block device is inactive, because we did not
+> set s->block_inactive in enough places; so migration allows the source
+> to reach vm_start() and resume execution, violating the block layer
+> invariant that the guest CPUs should not be restarted while a device
+> is inactive.  Note that the code in migration.c:migrate_fd_cancel()
+> will also try to reactivate all block devices if s->block_inactive was
+> set, but because we failed to set that flag after the first failure,
+> the source assumes it has reclaimed all devices, even though it still
+> has remaining inactivated devices and does not try again.  Normally,
+> qmp_cont() will also try to reactivate all disks (or correctly fail if
+> the disks are not reclaimable because NFS is not yet back up), but the
+> auto-resumption of the source after a migration failure does not go
+> through qmp_cont().  And because we have left the block layer in an
+> inconsistent state with devices still inactivated, the later migration
+> attempt is hitting the assertion failure.
+> 
+> Since it is important to not resume the source with inactive disks,
+> this patch marks s->block_inactive before attempting inactivation,
+> rather than after succeeding, in order to prevent any vm_start() until
+> it has successfully reactivated all devices.
+
+Here's the part that I don't understand: Even if you set
+s->block_inactive, where do we actually use this value and reactivate
+the image?
+
+The only reader of the field is migrate_fd_cancel(), which is only
+called by migration_cancel() (a very small wrapper, it's a mystery why
+this exists when it's the only caller). migration_cancel() in turn is
+called in very few places:
+
+* qmp_migrate_cancel: In our case, migration fails by itself, it's not
+  cancelled from QMP. So this is not where we're coming from.
+
+* ram_mig_ram_block_resized: This one is an internal error during
+  migration, but what we're seeing is not related to RAM at all. So this
+  isn't where we're coming from either.
+
+* migration_shutdown: Only called while shutting down QEMU. Doesn't look
+  like our case either.
+
+So while this patch fixes some state inconsistencies, how is it fixing
+anything for the reported bug when this state is never used in the
+relevant places?
+
+(That I don't understand the fix is what blocks my downstream review.
+The rest of my points are really only for upstream anyway.)
+
+> See also https://bugzilla.redhat.com/show_bug.cgi?id=2058982
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> ---
+> 
+> v2: Set s->block_inactive sooner [Juan]
+> ---
+>  migration/migration.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index bda47891933..cb0d42c0610 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3444,13 +3444,11 @@ static void migration_completion(MigrationState *s)
+>                                              MIGRATION_STATUS_DEVICE);
+>              }
+>              if (ret >= 0) {
+> +                s->block_inactive = inactivate;
+>                  qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
+>                  ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
+>                                                           inactivate);
+>              }
+> -            if (inactivate && ret >= 0) {
+> -                s->block_inactive = true;
+> -            }
+
+This part of the code has now really become unintuitive. After commit
+f07fa4cbf0b we had perfectly intuitive code:
+
+    ret = bdrv_inactivate_all();
+    if (ret >= 0) {
+        s->block_inactive = true;
+    }
+
+Since then, the bdrv_inactivate_all() call has been moved to
+qemu_savevm_state_complete_precopy_non_iterable(), and now you changed
+the order because even on failure, we could end up with some inactivated
+nodes. I'm not arguing that either was a bad change, but the assignment
+to s->block_inactive looks really random now.
+
+I think this desperately needs a comment.
+
+>          }
+>          qemu_mutex_unlock_iothread();
+> 
+> @@ -3522,6 +3520,7 @@ fail_invalidate:
+>          bdrv_activate_all(&local_err);
+>          if (local_err) {
+>              error_report_err(local_err);
+> +            s->block_inactive = true;
+
+bdrv_activate_all() never inactivates a node that was active before. So
+it seems that this line only ever comes into play if s->block_inactive
+was incorrect before.
+
+I feel what we should do here is only try to activate if
+s->block_inactive was set above, and then have a single 'fail' label
+that always runs the re-activation code.
+
+>          } else {
+>              s->block_inactive = false;
+>          }
+
+Kevin
 
 
