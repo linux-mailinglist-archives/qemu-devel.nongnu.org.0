@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0F66F4B39
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 22:18:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210C96F4B3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 22:18:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptwQn-00014w-Ny; Tue, 02 May 2023 16:17:01 -0400
+	id 1ptwSB-0001lH-6a; Tue, 02 May 2023 16:18:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ptwQl-00014o-Hv
- for qemu-devel@nongnu.org; Tue, 02 May 2023 16:16:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ptwQg-0001jz-EE
- for qemu-devel@nongnu.org; Tue, 02 May 2023 16:16:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683058612;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ztwOvZQfdQIURJuSK/EAV3uuTzKRto7zvMNwgzjTaXo=;
- b=XPat55SxyUkLiFzLJLAtZNLJupBx8xJvW9BN2ruA8QeX5ik6QZU1Hx/u4w1zJ5eXvqcZsd
- 1EcV69vWWXpGsDR+FN/PeRCCeG6ODc+DawLR4fKty2Ua/eghXgiRu3n2se2aQb0iCCW1px
- 1nmvfoSzd+FrjBqOzmc+cWYqSM8f738=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-Rsm_SqJqNfSJJoeSR5G7_w-1; Tue, 02 May 2023 16:16:49 -0400
-X-MC-Unique: Rsm_SqJqNfSJJoeSR5G7_w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01B93A0F396;
- Tue,  2 May 2023 20:16:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D8B2463F4A;
- Tue,  2 May 2023 20:16:47 +0000 (UTC)
-Date: Tue, 2 May 2023 15:16:46 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com, groug@kaod.org
-Subject: Re: [PATCH v2] migration: Handle block device inactivation failures
- better
-Message-ID: <2jjynfiufgveztebqvzjl7ub5jaimnvle7iqcuet5zaqufdo7f@jcfuveekyxtj>
-References: <20230414153358.1452040-1-eblake@redhat.com>
- <ZFDdxEZhnKqHu/pI@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptwS9-0001l7-GC
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 16:18:25 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptwS7-00020I-OU
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 16:18:25 -0400
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-30639daee76so797848f8f.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 13:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683058700; x=1685650700;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GKKjWxmUfJat17opiEK5bVzsyD7FAFzu17pLU34fGsM=;
+ b=bBjJXIXeGEO7Zx8/LwaMVDjwu3i+M5/YuYLurqg/DSvFQm46drtlULkraoZQzPnn7n
+ eTWaENUqeC0NR3B5UOOho5B+Csxg2j75ocVUqGveksDCssL+JxGTCWNvU7TQkrcFmLqa
+ uJA+SdMWoxFlY9VED2O7cj2F0OB58GzXidlKjSPpW2xhokPtw2yDU+kePMFdpfQgC5Uw
+ CGdN7hR3/wfB765Rt/fKwQk7Q7iKD5oye6oTFX2pQwGbWufaJfaKz1uQdEmiTcwwr43D
+ OSUqQ/KhKW1s8LZEYvCvriYZGuStbHGShV/bj/ikGVck/xQx0I22ZjBAnsL8s5bINphP
+ y6IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683058700; x=1685650700;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GKKjWxmUfJat17opiEK5bVzsyD7FAFzu17pLU34fGsM=;
+ b=g5JTfJhwY3FTNm8OsbdVwMWG0qKe/3+59S0VruYPnxspytqFhZMQcE9pIqIVo6KKhT
+ Zlk/BTMDRktS7jg8zdvHTbTnwG1VB6BJ45FE9kNY2dQuioGudVeInovlw7srBpZY76jp
+ WCXmnww/1BsAAJa8d5LK9CjDCUeL/UeVTUJY42kXtrGRaa77N+qUoGQ4lCKt+Ai3wuDS
+ d5d0KxY8A/quoE0IHllA4gBH9PzgPRCQrGjwPM8kQDlTCOwJWB4ApeGaNWAsD+3FounJ
+ 6GCCSoB9toxWxdDRDXXJneOrVqBex2AIiPnV6EEP7xHSEgGtBqb7EVd7GGdYV1WIuqdz
+ sGrg==
+X-Gm-Message-State: AC+VfDzj2CDCwOn1RIvR2lQ0BbflVJdz4V9iUfuIzy4L01vXBXWQEFYL
+ pRWS7s0zY1rKuAZvfdt5NKSlAUGCzSJkxGi5tIN9Ew==
+X-Google-Smtp-Source: ACHHUZ4Z5j8jAGpJXiqjb/KcGjP4OQwbCLBQiSSYK7zlx3502nVp4XN4oaNCMqe1av8JY32nvPUJ0Q==
+X-Received: by 2002:adf:fa42:0:b0:306:2713:8088 with SMTP id
+ y2-20020adffa42000000b0030627138088mr8172361wrr.25.1683058700038; 
+ Tue, 02 May 2023 13:18:20 -0700 (PDT)
+Received: from stoup.Home ([2a02:c7c:74db:8d00:5063:9fcd:f6cc:e52d])
+ by smtp.gmail.com with ESMTPSA id
+ p10-20020a5d48ca000000b003047dc162f7sm22479765wrs.67.2023.05.02.13.18.19
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 13:18:19 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/12] tcg patch queue
+Date: Tue,  2 May 2023 21:18:17 +0100
+Message-Id: <20230502201818.1726224-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZFDdxEZhnKqHu/pI@redhat.com>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,225 +88,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, May 02, 2023 at 11:54:12AM +0200, Kevin Wolf wrote:
-> Hi Eric,
-> 
-> you asked me for a review downstream, but since you would have to bring
-> back any problem to upstream anyway, let's discuss it here. For the
-> start, let me state that (a) I don't fully understand why this patch
-> fixes things and (b) I hate this function. More below.
+The following changes since commit c586691e676214eb7edf6a468e84e7ce3b314d43:
 
-Sadly, I also fall into (a) I don't know if this patch fully fixes
-things, or if we're playing whack-a-mole and another bug is still
-lurking, and (b) the control flow is indeed horrendous, where I'm also
-not sure if I'm fully understanding how migration is supposed to be
-working.
+  Merge tag 'pull-target-arm-20230502-2' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-05-02 16:38:29 +0100)
 
-> 
-> Am 14.04.2023 um 17:33 hat Eric Blake geschrieben:
-> > Consider what happens when performing a migration between two host
-> > machines connected to an NFS server serving multiple block devices to
-> > the guest, when the NFS server becomes unavailable.  The migration
-> > attempts to inactivate all block devices on the source (a necessary
-> > step before the destination can take over); but if the NFS server is
-> > non-responsive, the attempt to inactivate can itself fail.  When that
-> > happens, the destination fails to get the migrated guest (good,
-> > because the source wasn't able to flush everything properly):
-> > 
-> >   (qemu) qemu-kvm: load of migration failed: Input/output error
-> > 
-> > at which point, our only hope for the guest is for the source to take
-> > back control.  With the current code base, the host outputs a message, but then appears to resume:
-> > 
-> >   (qemu) qemu-kvm: qemu_savevm_state_complete_precopy_non_iterable: bdrv_inactivate_all() failed (-1)
-> > 
-> >   (src qemu)info status
-> >    VM status: running
-> > 
-> > but a second migration attempt now asserts:
-> > 
-> >   (src qemu) qemu-kvm: ../block.c:6738: int bdrv_inactivate_recurse(BlockDriverState *): Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed.
-> > 
-> > Whether the guest is recoverable on the source after the first failure
-> > is debatable, but what we do not want is to have qemu itself fail due
-> > to an assertion.  It looks like the problem is as follows:
-> > 
-> > In migration.c:migration_completion(), the source sets 'inactivate' to
-> > true (since COLO is not enabled), then tries
-> > savevm.c:qemu_savevm_state_complete_precopy() with a request to
-> > inactivate block devices.  In turn, this calls
-> > block.c:bdrv_inactivate_all(), which fails when flushing runs up
-> > against the non-responsive NFS server.  With savevm failing, we are
-> > now left in a state where some, but not all, of the block devices have
-> > been inactivated; but migration_completion() then jumps to 'fail'
-> > rather than 'fail_invalidate' and skips an attempt to reclaim those
-> > those disks by calling bdrv_activate_all().  Even if we do attempt to
-> > reclaim disks, we aren't taking note of failure there, either.
-> 
-> Why do we even jump to 'fail'? In other words, should 'fail_inactivate'
-> really be called 'fail' and everything should jump there?
-> 
-> Greg added the 'fail_inactivate' label in fe904ea8242, but the commit
-> message doesn't seem to tell why he left one goto. I see no reason why
-> we wouldn't want to reactivate in this case, too. Maybe it's just for
-> the colo case?
+are available in the Git repository at:
 
-At the time of fe904ea8, all actions done by fail_invalidate: were
-guarded by a mere
- if (s->state == MIGRATION_STATUS_ACTIVE)
-Later, in 6039dd5b1c the guard was expanded to
- if (s->state == MIGRATION_STATUS_ACTIVE || s->state == MIGRATION_STATUS_DEVICE)
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230502-2
 
-But reading the rest of the function (at either those prior commit
-points, or at the present), I'm inclined to agree that all remaining
-'goto fail' either happened at a point where s->state cannot match in
-the first place (so consolidating labels is harmless), or is the ONE
-place after we already checked s->state == MIGRATION_STATUS_ACTIVE or
-just changed s->state to MIGRATION_STATUS_DEVICE, and our failure
-could be from one of vm_stop_force_state(RUN_STATE_FINISH_MIGRATE)
-(nothing to reactivate, as we haven't inactivated yet),
-migration_maybe_pause() (where we change state, but still haven't
-inactivated), or from qemu_savevm_state_complete_precopy() (where
-'goto fail' does skip out on the reactivation, so consolidating the
-labels would make sense to me, although at the time I wrote the patch,
-I was too afraid to change the code that drastically).
+for you to fetch changes up to 129f1f9ee7df77d367d961b3c25353612d33cd83:
 
-Are we sure that bdrv_activate_all() is safe to call no matter what?
-We already know that a request to inactivate when something is already
-inactive asserts, but a request to activate something that is already
-active is generally a no-op.  If so, I'm tending to agree with you
-that having a single label where we ALWAYS attempt reactivation after
-failure makes sense.
+  tcg: Introduce tcg_out_movext2 (2023-05-02 13:05:45 -0700)
 
-I'll post another patch along those lines.
+----------------------------------------------------------------
+Misc tcg-related patch queue.
 
-> 
-> > Thus, we have reached a state where the migration engine has forgotten
-> > all state about whether a block device is inactive, because we did not
-> > set s->block_inactive in enough places; so migration allows the source
-> > to reach vm_start() and resume execution, violating the block layer
-> > invariant that the guest CPUs should not be restarted while a device
-> > is inactive.  Note that the code in migration.c:migrate_fd_cancel()
-> > will also try to reactivate all block devices if s->block_inactive was
-> > set, but because we failed to set that flag after the first failure,
-> > the source assumes it has reclaimed all devices, even though it still
-> > has remaining inactivated devices and does not try again.  Normally,
-> > qmp_cont() will also try to reactivate all disks (or correctly fail if
-> > the disks are not reclaimable because NFS is not yet back up), but the
-> > auto-resumption of the source after a migration failure does not go
-> > through qmp_cont().  And because we have left the block layer in an
-> > inconsistent state with devices still inactivated, the later migration
-> > attempt is hitting the assertion failure.
-> > 
-> > Since it is important to not resume the source with inactive disks,
-> > this patch marks s->block_inactive before attempting inactivation,
-> > rather than after succeeding, in order to prevent any vm_start() until
-> > it has successfully reactivated all devices.
-> 
-> Here's the part that I don't understand: Even if you set
-> s->block_inactive, where do we actually use this value and reactivate
-> the image?
-> 
-> The only reader of the field is migrate_fd_cancel(), which is only
-> called by migration_cancel() (a very small wrapper, it's a mystery why
-> this exists when it's the only caller). migration_cancel() in turn is
-> called in very few places:
-> 
-> * qmp_migrate_cancel: In our case, migration fails by itself, it's not
->   cancelled from QMP. So this is not where we're coming from.
-> 
-> * ram_mig_ram_block_resized: This one is an internal error during
->   migration, but what we're seeing is not related to RAM at all. So this
->   isn't where we're coming from either.
-> 
-> * migration_shutdown: Only called while shutting down QEMU. Doesn't look
->   like our case either.
-> 
-> So while this patch fixes some state inconsistencies, how is it fixing
-> anything for the reported bug when this state is never used in the
-> relevant places?
-> 
-> (That I don't understand the fix is what blocks my downstream review.
-> The rest of my points are really only for upstream anyway.)
+v2: Update bitops.h rotate patch.
 
-I may get to respin the downstream patch based on my upcoming upstream
-patch...
+----------------------------------------------------------------
+Dickon Hood (1):
+      qemu/bitops.h: Limit rotate amounts
 
-> 
-> > See also https://bugzilla.redhat.com/show_bug.cgi?id=2058982
-> > 
-> > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > 
-> > ---
-> > 
-> > v2: Set s->block_inactive sooner [Juan]
-> > ---
-> >  migration/migration.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index bda47891933..cb0d42c0610 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -3444,13 +3444,11 @@ static void migration_completion(MigrationState *s)
-> >                                              MIGRATION_STATUS_DEVICE);
-> >              }
-> >              if (ret >= 0) {
-> > +                s->block_inactive = inactivate;
-> >                  qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
-> >                  ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
-> >                                                           inactivate);
-> >              }
-> > -            if (inactivate && ret >= 0) {
-> > -                s->block_inactive = true;
-> > -            }
-> 
-> This part of the code has now really become unintuitive. After commit
-> f07fa4cbf0b we had perfectly intuitive code:
-> 
->     ret = bdrv_inactivate_all();
->     if (ret >= 0) {
->         s->block_inactive = true;
->     }
-> 
-> Since then, the bdrv_inactivate_all() call has been moved to
-> qemu_savevm_state_complete_precopy_non_iterable(), and now you changed
-> the order because even on failure, we could end up with some inactivated
-> nodes. I'm not arguing that either was a bad change, but the assignment
-> to s->block_inactive looks really random now.
-> 
-> I think this desperately needs a comment.
+Kiran Ostrolenk (1):
+      qemu/host-utils.h: Add clz and ctz functions for lower-bit integers
 
-Sure, I can add it.
+Nazar Kazakov (2):
+      tcg: Add tcg_gen_gvec_andcs
+      tcg: Add tcg_gen_gvec_rotrs
 
-> 
-> >          }
-> >          qemu_mutex_unlock_iothread();
-> > 
-> > @@ -3522,6 +3520,7 @@ fail_invalidate:
-> >          bdrv_activate_all(&local_err);
-> >          if (local_err) {
-> >              error_report_err(local_err);
-> > +            s->block_inactive = true;
-> 
-> bdrv_activate_all() never inactivates a node that was active before. So
-> it seems that this line only ever comes into play if s->block_inactive
-> was incorrect before.
-> 
-> I feel what we should do here is only try to activate if
-> s->block_inactive was set above, and then have a single 'fail' label
-> that always runs the re-activation code.
-> 
-> >          } else {
-> >              s->block_inactive = false;
-> >          }
-> 
-> Kevin
-> 
+Richard Henderson (7):
+      softmmu: Tidy dirtylimit_dirty_ring_full_time
+      qemu/int128: Re-shuffle Int128Alias members
+      migration/xbzrle: Use __attribute__((target)) for avx512
+      accel/tcg: Add cpu_ld*_code_mmu
+      tcg/loongarch64: Conditionalize tcg_out_exts_i32_i64
+      tcg/mips: Conditionalize tcg_out_exts_i32_i64
+      tcg: Introduce tcg_out_movext2
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Weiwei Li (1):
+      accel/tcg: Uncache the host address for instruction fetch when tlb size < 1
 
+ meson.build                      |  5 +--
+ accel/tcg/tcg-runtime.h          |  1 +
+ include/exec/cpu_ldst.h          |  9 ++++++
+ include/qemu/bitops.h            | 16 +++++-----
+ include/qemu/host-utils.h        | 54 +++++++++++++++++++++++++++++++
+ include/qemu/int128.h            |  4 +--
+ include/tcg/tcg-op-gvec.h        |  4 +++
+ accel/tcg/cputlb.c               | 53 ++++++++++++++++++++++++++++++
+ accel/tcg/tcg-runtime-gvec.c     | 11 +++++++
+ accel/tcg/user-exec.c            | 58 +++++++++++++++++++++++++++++++++
+ migration/xbzrle.c               |  9 +++---
+ softmmu/dirtylimit.c             | 15 ++++++---
+ tcg/tcg-op-gvec.c                | 28 ++++++++++++++++
+ tcg/tcg.c                        | 69 +++++++++++++++++++++++++++++++++++++---
+ tcg/arm/tcg-target.c.inc         | 44 +++++++++++--------------
+ tcg/i386/tcg-target.c.inc        | 19 +++++------
+ tcg/loongarch64/tcg-target.c.inc |  4 ++-
+ tcg/mips/tcg-target.c.inc        |  4 ++-
+ 18 files changed, 339 insertions(+), 68 deletions(-)
 
