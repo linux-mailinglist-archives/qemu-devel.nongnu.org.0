@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B69C6F43C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:24:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 010E46F4395
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:20:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptoux-0003uD-W6; Tue, 02 May 2023 08:15:41 -0400
+	id 1ptov9-00043f-NK; Tue, 02 May 2023 08:15:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptouZ-0003le-Jw
- for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:16 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1ptoub-0003ml-4d
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:18 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptouT-0003Bf-NG
- for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:15 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3f196e8e2c6so36661075e9.1
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 05:15:07 -0700 (PDT)
+ id 1ptouT-0003Bh-QE
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 08:15:16 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f19b9d5358so36975025e9.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 05:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683029707; x=1685621707;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=pxJ9Pd58XttwOnYQn4nBja9BTng05lJ88RbzD5RmaRg=;
- b=REqkO0RiRhKBKFHgKalpSW6/4E+BYYPP56UoHQIiS/O81z/7xt33bk0vidmEg5xn6g
- /igVs+euA3APTuJarUefYNq2rF2UPT+f5Wb2qhIoS28emwhLdh/+hyZbFXezemh0rMHe
- XC+/wn56lrxfz7i74kmhOwuGW6B8fMFJ60UllMIHbmp95BxT4CBGsnHbI0Y5bYrbTwLT
- fYpazl5v0ApsRWCGMBq0Rh6Z7TLCt32Uhm9cAC31CUtBzx2gTtzdE9newGBt0vkqdUwF
- zToWXPeM9XJVCy6NiN8pLQt5xAEUity/LekACjw2tAdAoYRV2ioI+xVqvznWDx94/oIy
- fJGw==
+ :reply-to; bh=Hk9R87CvbspxpZBkM2QfZXfK8qeYNuFizeeEiFCp1Do=;
+ b=k+TKXJtDtpS2ijo4WRhaaHtgcs7D4BNwSs+oEzIPK4ptf7aHED3b8k1BI0PWMS/+QD
+ zwhGUP5xhyPFDFlmnhDKXBY7qoXGQRdmkQCAg09eHI45nzN//AydmufYYBTv2W8edexq
+ xoblGshtgAE9f0dxsrseYdT6m4EXDmwvRJEzenb6pSh/jh3L3Lx5GH4bF4GgIRDOex1u
+ oYnvjRFftYcxBw3Vi8B2A/tuAzmQRdFkoNuD8M5e4Im4vK8Qxhnx/wyF5YuXeXTNSypg
+ 6tv2FYqqYjN2JNNg1rz9Z7Q+idcMUEU9r0DK8OueS1GCaT3hVJTHtTbdxYXOTqUdpsfv
+ Mz9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683029707; x=1685621707;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pxJ9Pd58XttwOnYQn4nBja9BTng05lJ88RbzD5RmaRg=;
- b=Q68+cgprjzZ2P2PTgGUVPeVUrRs4S6q9H2AHgUmzfqRxeLVsc791JM0JzHJfr+l8/5
- d32AftObBEgrCEn0KBhIz3pWKaaGqZn1QyVC8jQleHpd8wiNSwj9/SghcmLopZMoK4jT
- I/JRN2eX9LgAYgGzAJtYD87OZUh2+k7Ym0iZHxnPWzYaXZ/Rp6bUE3MtmipecR6fFce7
- kxcgKfV5w3riblUX6kv1GSY/udwS3+CbbJ0CLllgJwz9fyn2LHYXRa72yo6k4bsJY02y
- vIZY7LBJveLmD6OtW/gxDtfdCVL1tyN6ADsdIqly0MO/wqXDopw/sg9Q6rbZwfLrXb3x
- jrQg==
-X-Gm-Message-State: AC+VfDyqt0zG9svVKCfpAN6JztXrQdG8KBEoT5vecxzkYQV6VYJEwdB6
- 099jukOrHdtLTqtA5SSK1P3JgeEX6lNFxVTiFeI=
-X-Google-Smtp-Source: ACHHUZ5vbB84ZZ88gBodmrhMkoMy4NWbTCD37KpCE1k5N9qvQBfIF+EMoFfcIyB+Y5nEn7TtXqnmmw==
-X-Received: by 2002:a1c:7910:0:b0:3ed:276d:81a4 with SMTP id
- l16-20020a1c7910000000b003ed276d81a4mr12236771wme.32.1683029706742; 
- Tue, 02 May 2023 05:15:06 -0700 (PDT)
+ bh=Hk9R87CvbspxpZBkM2QfZXfK8qeYNuFizeeEiFCp1Do=;
+ b=UT+XRw9Jcf6RnIpE4mCGtYkYSM0vWcg8drFvq3E1p2pRmPxvyEpBAzspsdmdmIgeG/
+ NN62HDzufjBxydCwAmMpboBnNC1GIC8hL+SFSWl4/ri58TeWc//kiuvbrNYi4VDXH5Sd
+ 5wMLizQVlkMNoYpnJAC9mT0VNOg9q/5VqIvUnhGCfZYnn1alGlkJ6VnhpdEUofSCEXcs
+ 3HSDuKBr2/O5mXPtOjdKM3CJmll1II6dWP8U0sA9EaqvIg5AQY6HuSOwACtkIyzLpjN7
+ acpCDJ8XUAhm13ESd0To0oJgTpgl3X+XtoqaA7o4KTF3swvh9ytnJ/ykBseIN1otx5zh
+ O/YQ==
+X-Gm-Message-State: AC+VfDzLYDIZcjEZNuFx0H8qs0loVFGjJ6jwbbH55bF8Mh64HsCEGFgL
+ OCSClrWMICAhlsKL9P2+IY/OVjDGcMvuaALCoDQ=
+X-Google-Smtp-Source: ACHHUZ4PyzLS1jYH1q9IL8YUChVlqKF/+3IgdKfzm5k4mAY3Xbwtjonz9hke+m86+diRBoMXHQ0Qtg==
+X-Received: by 2002:a05:600c:3783:b0:3f1:7277:ea6 with SMTP id
+ o3-20020a05600c378300b003f172770ea6mr12054731wmr.31.1683029707238; 
+ Tue, 02 May 2023 05:15:07 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  g10-20020a7bc4ca000000b003f171234a08sm35040330wmk.20.2023.05.02.05.15.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 05:15:06 -0700 (PDT)
+ Tue, 02 May 2023 05:15:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/35] tests/qtest: Restrict tpm-tis-i2c-test to CONFIG_TCG
-Date: Tue,  2 May 2023 13:14:36 +0100
-Message-Id: <20230502121459.2422303-13-peter.maydell@linaro.org>
+Subject: [PULL 13/35] gitlab-ci: Check building KVM-only aarch64 target
+Date: Tue,  2 May 2023 13:14:37 +0100
+Message-Id: <20230502121459.2422303-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230502121459.2422303-1-peter.maydell@linaro.org>
 References: <20230502121459.2422303-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,33 +91,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fabiano Rosas <farosas@suse.de>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-The test set -accel tcg, so restrict it to when TCG is present.
+Add a manual new job to cross-build the aarch64 target with
+only the KVM accelerator enabled (in particular, no TCG).
 
+Re-enable running the similar job on the project Aarch64
+custom runner.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230426180013.14814-13-farosas@suse.de
+Message-id: 20230426180013.14814-14-farosas@suse.de
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .gitlab-ci.d/crossbuilds.yml                         | 11 +++++++++++
+ .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml |  4 ----
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index cfc66ade6f6..48cd35b5b20 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -213,7 +213,8 @@ qtests_aarch64 = \
-     ['tpm-tis-device-test', 'tpm-tis-device-swtpm-test'] : []) +                                         \
-   (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_RASPI') ? ['bcm2835-dma-test'] : []) +  \
--  (config_all_devices.has_key('CONFIG_TPM_TIS_I2C') ? ['tpm-tis-i2c-test'] : []) + \
-+  (config_all.has_key('CONFIG_TCG') and                                            \
-+   config_all_devices.has_key('CONFIG_TPM_TIS_I2C') ? ['tpm-tis-i2c-test'] : []) + \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 61b8ac86ee3..da787ea9bf4 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -196,3 +196,14 @@ cross-arm64-xen-only:
+     IMAGE: debian-arm64-cross
+     ACCEL: xen
+     EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
++
++# Similar job is run by qemu-project's custom runner by default
++cross-arm64-kvm-only:
++  extends: .cross_accel_build_job
++  needs:
++    job: arm64-debian-cross-container
++  variables:
++    QEMU_JOB_OPTIONAL: 1
++    IMAGE: debian-arm64-cross
++    ACCEL: kvm
++    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-xen --without-default-devices
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+index 13e14a0f879..c61be46b82c 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+@@ -115,11 +115,7 @@ ubuntu-22.04-aarch64-notcg:
+  - aarch64
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+-   when: manual
+-   allow_failure: true
+  - if: "$AARCH64_RUNNER_AVAILABLE"
+-   when: manual
+-   allow_failure: true
+  script:
+  - mkdir build
+  - cd build
 -- 
 2.34.1
 
