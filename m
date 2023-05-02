@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E4F6F4018
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 11:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553946F401A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 11:25:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptmFb-0005OR-Kz; Tue, 02 May 2023 05:24:47 -0400
+	id 1ptmFf-0005Qj-Bh; Tue, 02 May 2023 05:24:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ptmFZ-0005Iq-5J
- for qemu-devel@nongnu.org; Tue, 02 May 2023 05:24:45 -0400
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ptmFb-0005PV-8Z
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 05:24:47 -0400
 Received: from mr85p00im-ztdg06021701.me.com ([17.58.23.196])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ptmFX-00044U-IK
- for qemu-devel@nongnu.org; Tue, 02 May 2023 05:24:44 -0400
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1ptmFZ-000462-OG
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 05:24:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1683019482; bh=0TM9Xz67OYngDEuTQ62kPsInUQpx3kaf2lzF824GJ1Y=;
+ t=1683019484; bh=cL7THDsuZqmjFuNeLwSxxRPGd6LzrqdPHNp18DKJuT0=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=ey5TFeHAWdB3RBwJDadJ62+sNvJ8ckchSdq5ZyRQNITYg34lnaNrMn5qa+CDFMt9M
- JbT3TVZXtL85kb77USZR0FEsvk3/07alzkFRKvOlXePNY3OTzeNOYswg84efzqdErc
- uEx+5gCNQIMG+bsWnDJX6OxCCuVL/aB/u3FyqEMKXWPN7Zm0TzGmUR9heE5UsNffVL
- z9kCA/fQ38eVcD9uD2SLWq1Xxt181EpWMLpNbqqowEpMvzYYikcKTtKsgQrhWoXMjv
- ep00v1mvmNOSJ3ZQu+wY2yKhmepnq90hBn1JuI0aWa6H2p58CZt7HgLe3L7xWzRxti
- giOv8FqV/XzkA==
+ b=I4VW+Wc6uKDEBZCUFGDKfDhQ6u3tEJQDk4R6tGVOX/G/qMbu8whxlNxHNdWUGKWE2
+ XXd7IZSQH3zEVcX05cVlqc8wEMMErIOk4qHYQkWn0EL8hNSPf9FUTLH/a710t7BE5h
+ 5ysRto+L5LiwH6jvj1WJ2YULrYy4Vg6F8/Q2KxIz3T9NjYkX20FK/m6ovJax0Bt7C8
+ yAd95s7dPhrCQ/ipq1sSmt/697fuaVaXNJLnQDcFmFrsZcz6CNo1MHnzlCsmwcKu2x
+ zi4qTMaYrQFrpvBZqChjgsSlT4GdmajBF5d11Bwc5SnVM07rh6hAt5Yc5OLtq2L/ig
+ aJ0Se0b7cZrxg==
 Received: from localhost.localdomain (mr38p00im-dlb-asmtp-mailmevip.me.com
  [17.57.152.18])
- by mr85p00im-ztdg06021701.me.com (Postfix) with ESMTPSA id 128CE2633AF2;
- Tue,  2 May 2023 09:24:40 +0000 (UTC)
+ by mr85p00im-ztdg06021701.me.com (Postfix) with ESMTPSA id 2BB482633AA1;
+ Tue,  2 May 2023 09:24:43 +0000 (UTC)
 From: Mads Ynddal <mads@ynddal.dk>
 To: qemu-devel@nongnu.org
 Cc: Cleber Rosa <crosa@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  John Snow <jsnow@redhat.com>, Mads Ynddal <mads@ynddal.dk>,
  Mads Ynddal <m.ynddal@samsung.com>
-Subject: [PATCH v2 11/12] scripts/analyse-locks-simpletrace.py: changed
- iteritems() to items()
-Date: Tue,  2 May 2023 11:23:38 +0200
-Message-Id: <20230502092339.27341-12-mads@ynddal.dk>
+Subject: [PATCH v2 12/12] scripts/analyse-locks-simpletrace.py: reflect
+ changes to process in simpletrace.py
+Date: Tue,  2 May 2023 11:23:39 +0200
+Message-Id: <20230502092339.27341-13-mads@ynddal.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230502092339.27341-1-mads@ynddal.dk>
 References: <20230502092339.27341-1-mads@ynddal.dk>
@@ -69,27 +69,29 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Mads Ynddal <m.ynddal@samsung.com>
 
-Python 3 removed `dict.iteritems()` in favor of `dict.items()`. This
-means the script curerntly doesn't work on Python 3.
+The signature of `process` in simpletrace.py has changed to not take
+filepaths as the two first arguments, but rather a file-like object. We
+change the code here to reflect that.
 
 Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
 ---
- scripts/analyse-locks-simpletrace.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/analyse-locks-simpletrace.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/analyse-locks-simpletrace.py b/scripts/analyse-locks-simpletrace.py
-index 63c11f4fce..d650dd7140 100755
+index d650dd7140..235fae2ba2 100755
 --- a/scripts/analyse-locks-simpletrace.py
 +++ b/scripts/analyse-locks-simpletrace.py
-@@ -75,7 +75,7 @@ def get_args():
-            (analyser.locks, analyser.locked, analyser.unlocks))
+@@ -69,7 +69,8 @@ def get_args():
  
-     # Now dump the individual lock stats
--    for key, val in sorted(analyser.mutex_records.iteritems(),
-+    for key, val in sorted(analyser.mutex_records.items(),
-                            key=lambda k_v: k_v[1]["locks"]):
-         print ("Lock: %#x locks: %d, locked: %d, unlocked: %d" %
-                (key, val["locks"], val["locked"], val["unlocked"]))
+     # Gather data from the trace
+     analyser = MutexAnalyser()
+-    simpletrace.process(args.events, args.tracefile, analyser)
++    with open(args.events, 'r') as events, open(args.tracefile, 'rb') as tracefile:
++        simpletrace.process(events, tracefile, analyser)
+ 
+     print ("Total locks: %d, locked: %d, unlocked: %d" %
+            (analyser.locks, analyser.locked, analyser.unlocks))
 -- 
 2.38.1
 
