@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C03B6F418C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B284C6F4191
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:28:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptnCz-0001hf-AR; Tue, 02 May 2023 06:26:09 -0400
+	id 1ptnEy-0003Bs-1P; Tue, 02 May 2023 06:28:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptnCk-0001Zr-01
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:25:54 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ id 1ptnEv-0003BB-JL
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:28:09 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptnCe-0004ot-JR
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:25:53 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-50bc040c7b8so4309447a12.2
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 03:25:45 -0700 (PDT)
+ id 1ptnEt-0007fd-L0
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:28:09 -0400
+Received: by mail-ej1-x631.google.com with SMTP id
+ a640c23a62f3a-94f32588c13so608972566b.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 03:28:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683023144; x=1685615144;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/klol4QyrvvNYDBJIEPwaAk4DlWI6hoWLAWM4Qd4maU=;
- b=MfCJIJFvGBiX9Iid2k6i8PM5gGYZklApd6LzfVNdNdZByZ3Gyf/ZpHt28+IZ/Df8Vr
- ydSgwspik7lM9EtZ1le2pFK63vFLnbZouCjF9XBQ/Wu64yOiD78+F0itgH7N24AwfwEX
- lMc2ueV4kKm2RvC+aYCCQ9H+orzpL/O3zVxHL4HkDVNfg/PYo672o34OugjtQQEPp/Q0
- aIgdwlyi4yBF7IQ8ealDTrtyWdpyZ0Db7PniMdqkUM9W2X13UHVdcwOIA3/hiLunncdo
- MjH0GcPyiZhCrfwx5i3bFBJc2Xq02oyw7gI9KPSiDz19QPDgwWENJfz8XwhnEWzrEdMd
- CdKQ==
+ d=linaro.org; s=google; t=1683023285; x=1685615285;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uiFYtbbu+GJ8DAgMrIDX9dXz6hNz43k0g5kkPTV8j7Y=;
+ b=l9rWETmGWOlDw2FvJEN9742JEq7yiucozsWqoFQwKI3he1LAvAdc1NSU6oxvDyRTBo
+ uWGfxvOnxYzMSCAvT0TZdUxyJVYlaVqM4rwOV93Zv94frJUEdzimeLKoeZAOHA1wejhA
+ VBAjdPgt2cV6xEr27bsMU7ixEtvXGx6+ORagPHfftWb/yMEF9mhXQ7nhEE0a+GzE5yqL
+ td6izUYb6rsJS5JmnU3+N6PygmpIBG1qv9R2WJUaN3WWVmVAkKa/oojktEjftPLV0v02
+ 3FVUo9Pebd2hcdkhcMTLS1tsozEII4Kth1kSs2B3VRPdKn6/VuymBVAVt2P1vuELs/0m
+ AFEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683023144; x=1685615144;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/klol4QyrvvNYDBJIEPwaAk4DlWI6hoWLAWM4Qd4maU=;
- b=CD5xGnEREP3g/dtFy9GPC1fF+Y53zuCPJ6wmzlQlZX7XGY+bH0bsn+nb+cwtdzEVpo
- ivGQyJZnAb2MMveB9fzj/QIZ0DDVR4/kro5M5NZIbVbtL3HkXjOzJ+r274nWNL3ne70S
- n9ZkVN47cnoilH/ucD7Zj0dddT9lGnE+j4EyHUhAuIq99saocvaf7XmKk5fNfwj6eqT2
- HN7c94LDaXPpR6Nj38PargPl2Rtuvh7gqq9+KlZpO+vxLVkl/X1PTR1XohUQbNSUdsyt
- M0qQA4+5OrdNdgeHJcsk4EZM1aV1Ex6uHRSKLhqPlVhI2728WAoRd5/ojo3i1in4u+Ry
- ukvw==
-X-Gm-Message-State: AC+VfDwAWNXzjGZGZMiWtTU5stpZsXS8CLkalRpnfMbUbWoWeR0bpyM3
- 3B1gcBA8y6SF4KbglQGRM3Naikwvgk/vseick9Jhag==
-X-Google-Smtp-Source: ACHHUZ66BtGUWhSZfJLNS4XEjTiBA9LgLriy4nsqdlHU7U99WQ28XrQHp/SQxfQR2wTQgDnsIygRWrg2cA8xfDrV0w0=
-X-Received: by 2002:aa7:cc88:0:b0:508:3f08:ea0f with SMTP id
- p8-20020aa7cc88000000b005083f08ea0fmr8768210edt.28.1683023144444; Tue, 02 May
- 2023 03:25:44 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683023285; x=1685615285;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uiFYtbbu+GJ8DAgMrIDX9dXz6hNz43k0g5kkPTV8j7Y=;
+ b=a9B/EB1UbPoNxCx3CeCJj0dZIK3L5Z7Wh0e3UMs6gIfBpEIjCH/3xT5dUODodp6Yuy
+ cvk6Vx4va/1nByYT86aHFNTW620Qi6/d37YqWHl5VO/ce8T3xCkDlkPUBw5kxCpr6agd
+ 1GmLK6Jz9CF/P4LcZTDCUNpDA57jGXqY9VuQRA7Dywg1Peh1p6y1O8B83VUODpmwzK/p
+ KgtI+vj8s+PlQORhoCqDykmHlu8zXxkuxVBCA7SoU7x00X1dEbJ1iT6St2rx02HxNcTU
+ PiSeVi4ThO1mrDI3uIzoXPs5r096pG9Tcz0Q8MYlgiZDbp7ULZXM+zXNeTkt4VbrF0/8
+ Oxdw==
+X-Gm-Message-State: AC+VfDzc4VfPDT6lZ8IJZUUNybj4nq51pbv0V6+o8rf3KThgzTr6fVNS
+ l74Clt5AckRDiAOrOctDpRsXxLiW7B7OIDU2nDMgvA==
+X-Google-Smtp-Source: ACHHUZ5Djva6pyMD2VD1MgfdxOcN0gT72OnBHliXTto3ISX0cZYA41TrBFlMcKysWqdg2iz18S7PoecnTPP5WFbQ1Bs=
+X-Received: by 2002:a17:907:9693:b0:961:be96:b0e7 with SMTP id
+ hd19-20020a170907969300b00961be96b0e7mr3884770ejc.48.1683023285420; Tue, 02
+ May 2023 03:28:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230424151919.1333299-1-peter.maydell@linaro.org>
- <a38b1bbd-1c46-3ea6-d7c1-f77e414bb6bf@redhat.com>
-In-Reply-To: <a38b1bbd-1c46-3ea6-d7c1-f77e414bb6bf@redhat.com>
+References: <20230424152717.1333930-1-peter.maydell@linaro.org>
+In-Reply-To: <20230424152717.1333930-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 May 2023 11:25:33 +0100
-Message-ID: <CAFEAcA_Py1CA0Fijs5BEc5pbYGbm98ijonDYO8015zRyFYk0pA@mail.gmail.com>
-Subject: Re: [PATCH] hw/net/msf2-emac: Don't modify descriptor in-place in
- emac_store_desc()
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org, 
- Jason Wang <jasowang@redhat.com>
+Date: Tue, 2 May 2023 11:27:54 +0100
+Message-ID: <CAFEAcA8Pmk5U5BWD61mWNo=X_SLX9P_1sfuOwKFPT8rCp0CDHA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] hw/arm: Fix raspi,
+ aspeed bootloaders on big-endian hosts
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-stable@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,51 +90,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 24 Apr 2023 at 17:27, Thomas Huth <thuth@redhat.com> wrote:
+On Mon, 24 Apr 2023 at 16:27, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
 >
-> On 24/04/2023 17.19, Peter Maydell wrote:
-> > The msf2-emac ethernet controller has functions emac_load_desc() and
-> > emac_store_desc() which read and write the in-memory descriptor
-> > blocks and handle conversion between guest and host endianness.
-> >
-> > As currently written, emac_store_desc() does the endianness
-> > conversion in-place; this means that it effectively consumes the
-> > input EmacDesc struct, because on a big-endian host the fields will
-> > be overwritten with the little-endian versions of their values.
-> > Unfortunately, in all the callsites the code continues to access
-> > fields in the EmacDesc struct after it has called emac_store_desc()
-> > -- specifically, it looks at the d.next field.
-> >
-> > The effect of this is that on a big-endian host networking doesn't
-> > work because the address of the next descriptor is corrupted.
-> >
-> > We could fix this by making the callsite avoid using the struct; but
-> > it's more robust to have emac_store_desc() leave its input alone.
-> >
-> > (emac_load_desc() also does an in-place conversion, but here this is
-> > fine, because the function is supposed to be initializing the
-> > struct.)
-> >
-> > Cc: qemu-stable@nongnu.org
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > This is one of a number of issues that prevent 'make check-avocado'
-> > working for arm targets on a big-endian host...
-> >
-> >   hw/net/msf2-emac.c | 14 +++++++++-----
-> >   1 file changed, 9 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/hw/net/msf2-emac.c b/hw/net/msf2-emac.c
-> > index 7ccd3e51427..34c1f768db0 100644
-> > --- a/hw/net/msf2-emac.c
-> > +++ b/hw/net/msf2-emac.c
-> > @@ -120,12 +120,16 @@ static void emac_load_desc(MSF2EmacState *s, EmacDesc *d, hwaddr desc)
-> >
-> >   static void emac_store_desc(MSF2EmacState *s, EmacDesc *d, hwaddr desc)
+> Both the raspi and aspeed boards load their secondary CPU bootloader
+> code in a way that only works on little-endian hosts. This patchset
+> fixes that by making them both use the write_bootloader() function
+> in boot.c, which gets endianness-handling right.
 >
-> You could likely also add a "const" to "EmacDesc *d" now.
+> Patches 1 and 2 are essentially a patch from C=C3=A9dric from a few
+> months ago:
+> https://patchew.org/QEMU/20230119123449.531826-1-clg@kaod.org/20230119123=
+449.531826-9-clg@kaod.org/
+> I've split it into two patches and tweaked it a bit.
+>
+> These fixes let us run the avocado tests for these boards on
+> big-endian hosts.
 
-Yep; applied to target-arm.next with that change added.
+
+
+Applied to target-arm.next, thanks.
 
 -- PMM
 
