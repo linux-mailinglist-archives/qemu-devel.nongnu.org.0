@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210C96F4B3A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 22:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76016F4B3B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 22:19:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptwSB-0001lH-6a; Tue, 02 May 2023 16:18:27 -0400
+	id 1ptwSD-0001lh-G2; Tue, 02 May 2023 16:18:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptwS9-0001l7-GC
- for qemu-devel@nongnu.org; Tue, 02 May 2023 16:18:25 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ id 1ptwSB-0001lZ-QW
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 16:18:27 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ptwS7-00020I-OU
- for qemu-devel@nongnu.org; Tue, 02 May 2023 16:18:25 -0400
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-30639daee76so797848f8f.1
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 13:18:21 -0700 (PDT)
+ id 1ptwS7-00020h-RQ
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 16:18:26 -0400
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-2f86ee42669so4115496f8f.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 13:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683058700; x=1685650700;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=GKKjWxmUfJat17opiEK5bVzsyD7FAFzu17pLU34fGsM=;
- b=bBjJXIXeGEO7Zx8/LwaMVDjwu3i+M5/YuYLurqg/DSvFQm46drtlULkraoZQzPnn7n
- eTWaENUqeC0NR3B5UOOho5B+Csxg2j75ocVUqGveksDCssL+JxGTCWNvU7TQkrcFmLqa
- uJA+SdMWoxFlY9VED2O7cj2F0OB58GzXidlKjSPpW2xhokPtw2yDU+kePMFdpfQgC5Uw
- CGdN7hR3/wfB765Rt/fKwQk7Q7iKD5oye6oTFX2pQwGbWufaJfaKz1uQdEmiTcwwr43D
- OSUqQ/KhKW1s8LZEYvCvriYZGuStbHGShV/bj/ikGVck/xQx0I22ZjBAnsL8s5bINphP
- y6IA==
+ d=linaro.org; s=google; t=1683058701; x=1685650701;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sHD+an6UfWZ0XLceVMFjyWss2u45aTs/eoux4nlvX4c=;
+ b=hs08mGWu10kRjrWa7GTj8nCvYLayMLMIcwhjXG/q69cvvh/sDasFuZufq9vUYlYkqb
+ u1bGIwkOot/w7m4rXvtY8DKnIDBhJq60FBdtOCxQHfQDgyJ6JyciQRPReQyq583zDbj1
+ eC5e24g8Bz4ApIKuotl6ISxMl7Ze9QfYAJSkw0TulnUA3PNOLmOjg9nWDSRmiVCGfyvY
+ 7fF21i6oN7t9x6oailrXTE9ERNtrMO1iln+X3p3Ez/3Mn77Ur4eftAIt4zlcxwDSzrDw
+ uLjAHcK5hWimeiMOO+7HsJp97Ri1os/FhSnFOxce6P9fF+YWufioF/hrLfHQZjRyofaS
+ OVHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683058700; x=1685650700;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GKKjWxmUfJat17opiEK5bVzsyD7FAFzu17pLU34fGsM=;
- b=g5JTfJhwY3FTNm8OsbdVwMWG0qKe/3+59S0VruYPnxspytqFhZMQcE9pIqIVo6KKhT
- Zlk/BTMDRktS7jg8zdvHTbTnwG1VB6BJ45FE9kNY2dQuioGudVeInovlw7srBpZY76jp
- WCXmnww/1BsAAJa8d5LK9CjDCUeL/UeVTUJY42kXtrGRaa77N+qUoGQ4lCKt+Ai3wuDS
- d5d0KxY8A/quoE0IHllA4gBH9PzgPRCQrGjwPM8kQDlTCOwJWB4ApeGaNWAsD+3FounJ
- 6GCCSoB9toxWxdDRDXXJneOrVqBex2AIiPnV6EEP7xHSEgGtBqb7EVd7GGdYV1WIuqdz
- sGrg==
-X-Gm-Message-State: AC+VfDzj2CDCwOn1RIvR2lQ0BbflVJdz4V9iUfuIzy4L01vXBXWQEFYL
- pRWS7s0zY1rKuAZvfdt5NKSlAUGCzSJkxGi5tIN9Ew==
-X-Google-Smtp-Source: ACHHUZ4Z5j8jAGpJXiqjb/KcGjP4OQwbCLBQiSSYK7zlx3502nVp4XN4oaNCMqe1av8JY32nvPUJ0Q==
-X-Received: by 2002:adf:fa42:0:b0:306:2713:8088 with SMTP id
- y2-20020adffa42000000b0030627138088mr8172361wrr.25.1683058700038; 
+ d=1e100.net; s=20221208; t=1683058701; x=1685650701;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sHD+an6UfWZ0XLceVMFjyWss2u45aTs/eoux4nlvX4c=;
+ b=kb3A10Nbn8U19F5v3/Evm1dieAExy1pIVcrtip5zKvJ0lJcYlvb+4Wo5zdpEVjrPXc
+ tyoAD+ewFDK0LHK7kZhG8aCrANJxZQKHbbsRioyDrMP/Rw8YBHQStcf2aa3GV34BLSeW
+ xnfbYzaGcokza62Vwm8v1iONMVmW1bqvBTOmwZxk5wlYZXW4iY8wRXnVLDdhUiiLn9Y/
+ rewd2IZt3Wl1VRI4VUM4jyUVF4I5McHE42BhIyMTjdZdXK68wTA0l/rADXSzhFbvdWC2
+ dx5P7eJRjBqwWVzRh/uX3kRe6yMNsctJqtT69K6arIHvCHzg9KAVHqHcaG3r5SqOErvp
+ Lxfg==
+X-Gm-Message-State: AC+VfDwRkgZDhqX5YUxCqKGSN51kvkGQK8r7exS03eWnfZohXsDvI1/m
+ FYMf6PVVByFzgLoF6AE83wR4bcajpi+SPbG38kVPcA==
+X-Google-Smtp-Source: ACHHUZ4Ta4EvV+R3bXysdRDS66o4qMlEwWzQYuhl9pUe2b4ygKqZLuLzC6qNXGFjepgP+WSfKxTR/A==
+X-Received: by 2002:a05:6000:108d:b0:306:32fa:6750 with SMTP id
+ y13-20020a056000108d00b0030632fa6750mr3792540wrw.33.1683058700919; 
  Tue, 02 May 2023 13:18:20 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:5063:9fcd:f6cc:e52d])
  by smtp.gmail.com with ESMTPSA id
- p10-20020a5d48ca000000b003047dc162f7sm22479765wrs.67.2023.05.02.13.18.19
- for <qemu-devel@nongnu.org>
+ p10-20020a5d48ca000000b003047dc162f7sm22479765wrs.67.2023.05.02.13.18.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 13:18:19 -0700 (PDT)
+ Tue, 02 May 2023 13:18:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/12] tcg patch queue
-Date: Tue,  2 May 2023 21:18:17 +0100
-Message-Id: <20230502201818.1726224-1-richard.henderson@linaro.org>
+Cc: Dickon Hood <dickon.hood@codethink.co.uk>
+Subject: [PULL v2 03/12] qemu/bitops.h: Limit rotate amounts
+Date: Tue,  2 May 2023 21:18:18 +0100
+Message-Id: <20230502201818.1726224-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230502201818.1726224-1-richard.henderson@linaro.org>
+References: <20230502201818.1726224-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,63 +91,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit c586691e676214eb7edf6a468e84e7ce3b314d43:
+From: Dickon Hood <dickon.hood@codethink.co.uk>
 
-  Merge tag 'pull-target-arm-20230502-2' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-05-02 16:38:29 +0100)
+Rotates have been fixed up to only allow for reasonable rotate amounts
+(ie, no rotates >7 on an 8b value etc.)  This fixes a problem with riscv
+vector rotate instructions.
 
-are available in the Git repository at:
+Signed-off-by: Dickon Hood <dickon.hood@codethink.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230428144757.57530-9-lawrence.hunter@codethink.co.uk>
+[rth: Mask shifts in both directions.]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/bitops.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230502-2
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 03213ce952..cb3526d1f4 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -218,7 +218,7 @@ static inline unsigned long find_first_zero_bit(const unsigned long *addr,
+  */
+ static inline uint8_t rol8(uint8_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((8 - shift) & 7));
++    return (word << (shift & 7)) | (word >> (-shift & 7));
+ }
+ 
+ /**
+@@ -228,7 +228,7 @@ static inline uint8_t rol8(uint8_t word, unsigned int shift)
+  */
+ static inline uint8_t ror8(uint8_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((8 - shift) & 7));
++    return (word >> (shift & 7)) | (word << (-shift & 7));
+ }
+ 
+ /**
+@@ -238,7 +238,7 @@ static inline uint8_t ror8(uint8_t word, unsigned int shift)
+  */
+ static inline uint16_t rol16(uint16_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((16 - shift) & 15));
++    return (word << (shift & 15)) | (word >> (-shift & 15));
+ }
+ 
+ /**
+@@ -248,7 +248,7 @@ static inline uint16_t rol16(uint16_t word, unsigned int shift)
+  */
+ static inline uint16_t ror16(uint16_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((16 - shift) & 15));
++    return (word >> (shift & 15)) | (word << (-shift & 15));
+ }
+ 
+ /**
+@@ -258,7 +258,7 @@ static inline uint16_t ror16(uint16_t word, unsigned int shift)
+  */
+ static inline uint32_t rol32(uint32_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((32 - shift) & 31));
++    return (word << (shift & 31)) | (word >> (-shift & 31));
+ }
+ 
+ /**
+@@ -268,7 +268,7 @@ static inline uint32_t rol32(uint32_t word, unsigned int shift)
+  */
+ static inline uint32_t ror32(uint32_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((32 - shift) & 31));
++    return (word >> (shift & 31)) | (word << (-shift & 31));
+ }
+ 
+ /**
+@@ -278,7 +278,7 @@ static inline uint32_t ror32(uint32_t word, unsigned int shift)
+  */
+ static inline uint64_t rol64(uint64_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((64 - shift) & 63));
++    return (word << (shift & 63)) | (word >> (-shift & 63));
+ }
+ 
+ /**
+@@ -288,7 +288,7 @@ static inline uint64_t rol64(uint64_t word, unsigned int shift)
+  */
+ static inline uint64_t ror64(uint64_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((64 - shift) & 63));
++    return (word >> (shift & 63)) | (word << (-shift & 63));
+ }
+ 
+ /**
+-- 
+2.34.1
 
-for you to fetch changes up to 129f1f9ee7df77d367d961b3c25353612d33cd83:
-
-  tcg: Introduce tcg_out_movext2 (2023-05-02 13:05:45 -0700)
-
-----------------------------------------------------------------
-Misc tcg-related patch queue.
-
-v2: Update bitops.h rotate patch.
-
-----------------------------------------------------------------
-Dickon Hood (1):
-      qemu/bitops.h: Limit rotate amounts
-
-Kiran Ostrolenk (1):
-      qemu/host-utils.h: Add clz and ctz functions for lower-bit integers
-
-Nazar Kazakov (2):
-      tcg: Add tcg_gen_gvec_andcs
-      tcg: Add tcg_gen_gvec_rotrs
-
-Richard Henderson (7):
-      softmmu: Tidy dirtylimit_dirty_ring_full_time
-      qemu/int128: Re-shuffle Int128Alias members
-      migration/xbzrle: Use __attribute__((target)) for avx512
-      accel/tcg: Add cpu_ld*_code_mmu
-      tcg/loongarch64: Conditionalize tcg_out_exts_i32_i64
-      tcg/mips: Conditionalize tcg_out_exts_i32_i64
-      tcg: Introduce tcg_out_movext2
-
-Weiwei Li (1):
-      accel/tcg: Uncache the host address for instruction fetch when tlb size < 1
-
- meson.build                      |  5 +--
- accel/tcg/tcg-runtime.h          |  1 +
- include/exec/cpu_ldst.h          |  9 ++++++
- include/qemu/bitops.h            | 16 +++++-----
- include/qemu/host-utils.h        | 54 +++++++++++++++++++++++++++++++
- include/qemu/int128.h            |  4 +--
- include/tcg/tcg-op-gvec.h        |  4 +++
- accel/tcg/cputlb.c               | 53 ++++++++++++++++++++++++++++++
- accel/tcg/tcg-runtime-gvec.c     | 11 +++++++
- accel/tcg/user-exec.c            | 58 +++++++++++++++++++++++++++++++++
- migration/xbzrle.c               |  9 +++---
- softmmu/dirtylimit.c             | 15 ++++++---
- tcg/tcg-op-gvec.c                | 28 ++++++++++++++++
- tcg/tcg.c                        | 69 +++++++++++++++++++++++++++++++++++++---
- tcg/arm/tcg-target.c.inc         | 44 +++++++++++--------------
- tcg/i386/tcg-target.c.inc        | 19 +++++------
- tcg/loongarch64/tcg-target.c.inc |  4 ++-
- tcg/mips/tcg-target.c.inc        |  4 ++-
- 18 files changed, 339 insertions(+), 68 deletions(-)
 
