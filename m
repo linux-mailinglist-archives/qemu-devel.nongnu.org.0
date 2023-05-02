@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A336F40D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BD36F40E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:16:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptn1G-0001um-Ma; Tue, 02 May 2023 06:14:02 -0400
+	id 1ptn3K-0002th-UU; Tue, 02 May 2023 06:16:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ptn1D-0001uO-Cl
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:14:00 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ptn1A-0006pP-OZ
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:13:59 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 466DB60055;
- Tue,  2 May 2023 13:13:49 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b43b::1:1a] (unknown
- [2a02:6b8:b081:b43b::1:1a])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id lDKKKR0MhOs0-yS13cKAs; Tue, 02 May 2023 13:13:48 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1683022428; bh=pSi72qgTLOr7y+lZyI9uP7L6l0uZHZA2Z7+wB5VAk5g=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=LtLL3UkayPK67I1EV8wc5gSSc73ew4EZpln7dIdqvoiX8H5KjJAMRPxHzQuVfJMvd
- U5YcMon9rqJ7NR6c1KMZotIYjSyz6Z5P5mp5SKL597gnuyPwOGm1ELbtbVj/omtddH
- 1cycQ8b3IBL3yJQKZh6R1FqBOg4E9/TC9SV0OW+o=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <7fa37044-07bd-245a-8129-8779b9d2805b@yandex-team.ru>
-Date: Tue, 2 May 2023 13:13:47 +0300
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ptn3H-0002tN-Ee
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:16:08 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ptn3F-0007VI-QS
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:16:07 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcc565280so1894509a12.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 03:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683022563; x=1685614563;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kn53eJL3e1UJEfOoWFZDWg2D8EXb59vpIm1IxJ5T4Lo=;
+ b=us4YAqew9SDAvsv1Xu92GSzAUwddaul/n9MhlVRS7EvxvvJ06wAOhZ4mYaqNyovYu7
+ LWY1imnT2ZbB8S76B3vsbF8wRpQMiaL6tOUSP1hfgXqyX9HcPs39ydlWHUe0OzjWDsOe
+ OWbCwP06ZqXf/kEnRXJYY27MAIlNkkRXJAcHJFSnmqF4d8MA4XH+7XB7AwPtUQM7WZMY
+ LBPCbKGJw4hmcS9KbvhilbgjE2F/8T7nWJLX46n6bhUMhnB97apW9gQ9TnFbEKiA5ZQy
+ iT/KiHEM11BpfHYrNoWbhZqLU3jMy/vn36je+gqJ/HhKE5YwYDqWjeK4bdnFESDVgKhT
+ c3lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683022563; x=1685614563;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kn53eJL3e1UJEfOoWFZDWg2D8EXb59vpIm1IxJ5T4Lo=;
+ b=BKq1N/Jsbmw8CsK5mE2irrkUR0UlhhMSmo1ALTVjxS/7B8s+d1iqAWnRdijQjooxhW
+ eyyvjxCMY3VJf65GWJEndTfuTXVZPc5SdwQGD7G5hSoOcKdGQYk1PtvbefYlfwdqptVY
+ 4DePqNV0LNJMdqqyjVFZMMaFUezoSWFW5N784/u5tzDFJ14q09b4qeMfAm1F7E6lVjgu
+ 1+MA6dhvnltLBR/LgwuqMEyP+8yrY3ZzlJ8s+19H/tDi0efneYOW/bA+1YOKMFnI+ylL
+ Nn7eWwU4K1a+QRCzXE3ObdHIxD3X8le4rJuLh5MwaLVauhWNwBMedkljo3qTrgQt90BL
+ gMsg==
+X-Gm-Message-State: AC+VfDwQVtmPMcHmb/x6maNa2F4AkoEANGv5FO4U2D3wN5bTdqbLVZtL
+ QklhIJNpuFoaa5KLeGS2uF4faHgYlFKKD8xGj1tjQw==
+X-Google-Smtp-Source: ACHHUZ5C6mQ8Hh9yldQG6mvJ0BnUNq3lLv6c9Buo8+kj6mrapVtKZaDgNn7S/gfsTifckfaD2s5UW6higcrIp9IyTt0=
+X-Received: by 2002:a05:6402:150c:b0:504:aae4:a034 with SMTP id
+ f12-20020a056402150c00b00504aae4a034mr8369336edw.31.1683022563547; Tue, 02
+ May 2023 03:16:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
-Content-Language: en-US
-To: quintela@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, philmd@linaro.org,
- david@redhat.com, peterx@redhat.com, pbonzini@redhat.com,
- den-plotnikov@yandex-team.ru, lersek@redhat.com, kraxel@redhat.com,
- dgilbert@redhat.com, armbru@redhat.com
-References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
- <20230425161434.173022-4-vsementsov@yandex-team.ru>
- <20230426002135-mutt-send-email-mst@kernel.org>
- <bf295d76-9c33-4eca-4b88-2d1a299c8b94@yandex-team.ru>
- <20230502054519-mutt-send-email-mst@kernel.org>
- <875y9bujol.fsf@secure.mitica>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <875y9bujol.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+References: <20230425103250.56653-1-dani@danielbertalan.dev>
+In-Reply-To: <20230425103250.56653-1-dani@danielbertalan.dev>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 May 2023 11:15:52 +0100
+Message-ID: <CAFEAcA9vHxxNGp4SC9AYnqCmLZ-a87MeD7Uq6no8n2Vxy9gi_w@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/bcm2835_property: Implement "get command line"
+ message
+To: Daniel Bertalan <dani@danielbertalan.dev>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,63 +86,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02.05.23 13:11, Juan Quintela wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
->>>> CC pbonzini,dgilbert,quintela,armbru : guys, is poking at runstate_check like
->>>> this the right way to figure out we are not going to use the
->>>> device locally before incoming migration will overwrite ROM contents?
->>>
->>> RUN_STATE_INMIGRATE is set in the only one place in qemu_init() when
->>> we parse cmdline option -incoming. VM is not running for sure. And
->>> starting the VM comes with changing the state. So it's OK.
->>>
->>> The possible problem, if we add netcard on target which we didn't
->>> have on source. I now checked, this works.. But that doesn't seem
->>> correct to add device that was not present on source - how would it
->>> work - it's not guaranteed anyway.
->>
->> You can add it on source too while migration is in progress, no?
-> 
-> DeviceState *qdev_device_add_from_qdict(const QDict *opts,
->                                          bool from_json, Error **errp)
-> {
->      ....
->      if (!migration_is_idle()) {
->          error_setg(errp, "device_add not allowed while migrating");
->          return NULL;
->      }
-> 
-> It should be similar for unplug.
-> 
-> We only support hotplug for some devices during migration, and we
-> shouldn't need any.
-> 
-> What I think he means is that you can add a device on the command line
-> on destination that don't exist on the source machine, and that will
-> confuse things.
+On Tue, 25 Apr 2023 at 11:34, Daniel Bertalan <dani@danielbertalan.dev> wrote:
+>
+> This query copies the kernel command line into the message buffer. It
+> was previously stubbed out to return empty, this commit makes it reflect
+> the arguments specified with `-append`.
+>
+> I observed the following peculiarities on my Pi 3B+:
+> - If the buffer is shorter than the string, the response header gives
+>   the full length, but no data is actually copied.
+> - No NUL terminator is added: even if the buffer is long enough to fit
+>   one, the buffer's original contents are preserved past the string's
+>   end.
+> - The VC firmware adds the following extra parameters beside the
+>   user-supplied ones (via /boot/cmdline.txt): `video`, `vc_mem.mem_base`
+>   and `vc_mem.mem_size`. This is currently not implemented in qemu.
 
-Yes, that what I mean
+Are there any particularly interesting bits of guest software
+that try to read this property ?
 
-> 
-> In that case, I would say that the problem is that you are doing
-> something not supported.  You are expected that when you run migration
-> you use the same command line that on source, module whatever
-> hot[un]plug operations you have done before migration.
+I added a brief comment to the code about the no-NUL-terminator
+and short-buffer handling so that future readers of the code
+don't have to refer back to the commit message:
++            /*
++             * We follow the firmware behaviour: no NUL terminator is
++             * written to the buffer, and if the buffer is too short
++             * we report the required length in the response header
++             * and copy nothing to the buffer.
++             */
 
-Agree
+and have applied this to target-arm.next; thanks.
 
-> 
-> Anything else is not supported.
-> And for instance, if you are using libvirt, it will do the right thing.
-> 
-> Later, Juan.
-> 
-
-Thanks!
-
--- 
-Best regards,
-Vladimir
-
+-- PMM
 
