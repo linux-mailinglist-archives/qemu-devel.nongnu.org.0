@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1330E6F41F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F20F6F41FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 12:51:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptnUW-0005gN-56; Tue, 02 May 2023 06:44:16 -0400
+	id 1ptnae-0006kb-NU; Tue, 02 May 2023 06:50:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptnUQ-0005fU-28
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:44:11 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptnad-0006kM-Ey
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:50:35 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ptnUN-0004Pe-Cd
- for qemu-devel@nongnu.org; Tue, 02 May 2023 06:44:08 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-94f0dd117dcso612815566b.3
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 03:44:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptnab-0006SG-TP
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 06:50:35 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-2f6401ce8f8so2180750f8f.3
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 03:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683024246; x=1685616246;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=frTW/9pU0unhnt5M7rbEYbDEq9e8rrOIq0ujF9oM7d4=;
- b=ReUV1juYC10ioIoBMIhn8nuNc2VcNxIMJfARfYJDzyFsW4ahvYv+giM7x0lnRhejl8
- sWbyAaVhjHXvQF+lnAPXYB4xO5yhtct6dQcMmRUKMPyAuy8CLndXL0GUWSRc8IYmMd/J
- Kr6vd5U9bo6Fb4U6w2MA9ecNLZkz/v+Qw9QdCn6Ec4r8ojflgE8KCN1VzQvy8ltsjIBM
- Kgj1vosD+doJYqXsiKOoz48rXu+gx/KbUkmNDGbij1HtFvC8/4ShLHAIh16hmMAfrNuQ
- NLZCbk3zlRtSq+u1ktPDY9UHDWdrFY9hCDCyYI/wreox5yGUrWwRgnMIjQfieXXOBaXT
- c43A==
+ d=linaro.org; s=google; t=1683024631; x=1685616631;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4g0muGBynH3jPeppO3ovACuWM9a3srxUm4nwY74N5sA=;
+ b=aa3sagP87h3WCo1p238cM0A3GU23JoZdsOyaaVabM8Idw6Xxm5IEOFtkR7wJ3E95ww
+ Mk/IN7NEL/o+yQ5MAefyaEiBisHZknYNhCtksUjXDHjAPLkytb1LTuNeLcH0Eu07Vkke
+ g9SlKZgQW11YWmKhwsatvrs/2i7EB6SAYqlp/wwW/1h1ig8X6pscJloP/kwH7wtsFlph
+ ibTczOuQ2CpYRHDs4XuhxxRkPEFiKhyiEk1hgqoQiPYMd+tTmOKQiTT4//NPMo8pO7a3
+ RQ+mKol/zJ3V0TnzmVH8rhboeQmrGypL/UYWvMpWgVwV2AG3+O8zwmyRYR1US3mEkleJ
+ Y9gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683024246; x=1685616246;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=frTW/9pU0unhnt5M7rbEYbDEq9e8rrOIq0ujF9oM7d4=;
- b=BHB1cnpdGBs84mNFv9ntHJamp5IKYaOojTjARuTHFQMmXcrit/yKP//+QU3u5JSEpH
- p22m0/YTFUrqA0RGIZ1WGQdugoS8fHKsLFa8dK3iZmWiw06j/L3XzG+ootztcoujSnIS
- WXhC5tOua41kQ18GtaIMEp4215sIHSAzFER+4yZ0c6EfcXgdKL2QtxbigZ4zym3J+e1c
- TK9LrjmVNYvaKDDRhVqanVFR0bQp6u2r7564IO9Gy0+zJZuQZU5VyEGEQCiEoyJPYKuh
- luf/2ZG9p6jVTwj8DWrqkbI9zFCxsleEAtXD9/TSoJ2KU2DdbMFpFrvA+eHwwynO0jxC
- HVjQ==
-X-Gm-Message-State: AC+VfDy4j97M+WFeeYtYWG4t5Eyxoc2rkPNeLh3tTB6M3BtNl6h/NSr9
- Qq9MPE2uiUf2CeK/7miSIKWB7d3inAL6fMKHNEULOQ==
-X-Google-Smtp-Source: ACHHUZ7k2aNyh5ivUasjVQWOaiMjQN+0WhyOwEshdkxZAtYiWgTuWYj/Y1qf3R2tcLjJnwgUqmZWqx0tqhdvdCF2b/w=
-X-Received: by 2002:a17:906:fd8b:b0:94f:32ed:637e with SMTP id
- xa11-20020a170906fd8b00b0094f32ed637emr15079954ejb.59.1683024245717; Tue, 02
- May 2023 03:44:05 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683024631; x=1685616631;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4g0muGBynH3jPeppO3ovACuWM9a3srxUm4nwY74N5sA=;
+ b=Py8Z8KuLdQC6hg3adHeZ/tjc7FRRUGPkj8QTmbgOZmiqENL0gyq68gDs3/ll95kiLr
+ skmMTqSQWfDWhXDnG6EyBiYFC++q2rOxEeQ9KnnLos1fc+EYaW8bB5Ut3/RqE26v3GGJ
+ N7E8BkmJI5Ez+3D5Ex2Cn5Vn3T+kcf+TYchT8UdCXw0Q4gxQFEAJ4a2aYBwgfbDAPJeU
+ mpQ9XUwU1pzh4yjIpW/zJqQRUupCaQw2yMqTpYCGQ64md02I0fTVEN9gEQM2fLvugF3X
+ rjVE7AcNpyasnKFtkNOFo5pUzKB/xs1CLKgEUznntpeQ6kCKSYo1EmQ2Et9uKuvzneP5
+ PWdg==
+X-Gm-Message-State: AC+VfDwJacqGAFnvXLtls9qlpkfR/UzyLF5DIr9tvyn6xQaP0QH2Ue4E
+ 6IxjbmHveAVEDaMYtw5Spsktcw==
+X-Google-Smtp-Source: ACHHUZ5ZlXThyqjsq+nVcbs2yoTjwcobZGxL5M9Nrd53wcUk0v5ppNykjHLZx0Evj89F4ywykh7qAw==
+X-Received: by 2002:a5d:4103:0:b0:306:2db9:cc30 with SMTP id
+ l3-20020a5d4103000000b003062db9cc30mr3690898wrp.13.1683024631299; 
+ Tue, 02 May 2023 03:50:31 -0700 (PDT)
+Received: from ?IPV6:2a02:c7c:74db:8d00:ad29:f02c:48a2:269c?
+ ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
+ by smtp.gmail.com with ESMTPSA id
+ a7-20020adfdd07000000b003062db9cc21sm4907100wrm.92.2023.05.02.03.50.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 May 2023 03:50:30 -0700 (PDT)
+Message-ID: <f6a17341-7c12-82cc-9d4b-650745a1c9de@linaro.org>
+Date: Tue, 2 May 2023 11:50:29 +0100
 MIME-Version: 1.0
-References: <20230428191203.39520-1-quintela@redhat.com>
- <5f76c54c-b300-8597-1b4e-fd29b3603d35@linaro.org>
- <87jzxrt3u7.fsf@secure.mitica>
-In-Reply-To: <87jzxrt3u7.fsf@secure.mitica>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 May 2023 11:43:54 +0100
-Message-ID: <CAFEAcA_G734ap+L-YfLt5Pd65VXFm2xcx_SFwD_ke8B7pcQGbQ@mail.gmail.com>
-Subject: Re: [PULL 00/21] Migration 20230428 patches
-To: quintela@redhat.com
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
- Leonardo Bras <leobras@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Xu <peterx@redhat.com>, 
- Lukas Straub <lukasstraub2@web.de>, "Daniel P. Berrange" <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/2] tcg: ppc64: Fix mask generation for vextractdm
+Content-Language: en-US
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, philmd@linaro.org,
+ danielhb413@gmail.com, lucas.araujo@eldorado.org.br, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org
+Cc: john_platts@hotmail.com, qemu-devel@nongnu.org
+References: <168141244011.3026479.13697197743885252330.stgit@ltc-boston1.aus.stglabs.ibm.com>
+ <168141245022.3026479.1619179446205380588.stgit@ltc-boston1.aus.stglabs.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <168141245022.3026479.1619179446205380588.stgit@ltc-boston1.aus.stglabs.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,27 +98,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2 May 2023 at 11:39, Juan Quintela <quintela@redhat.com> wrote:
-> Richard, once that we are here, one of the problem that we are having is
-> that the test is exiting with an abort, so we have no clue what is
-> happening.  Is there a way to get a backtrace, or at least the number
+On 4/13/23 20:01, Shivaprasad G Bhat wrote:
+> In function do_extractm() the mask is calculated as
+> dup_const(1 << (element_width - 1)). '1' being signed int
+> works fine for MO_8,16,32. For MO_64, on PPC64 host
+> this ends up becoming 0 on compilation. The vextractdm
+> uses MO_64, and it ends up having mask as 0.
+> 
+> Explicitly use 1ULL instead of signed int 1 like its
+> used everywhere else.
+> 
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> ---
+>   target/ppc/translate/vmx-impl.c.inc |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+> index 112233b541..c8712dd7d8 100644
+> --- a/target/ppc/translate/vmx-impl.c.inc
+> +++ b/target/ppc/translate/vmx-impl.c.inc
+> @@ -2058,7 +2058,7 @@ static bool trans_VEXPANDQM(DisasContext *ctx, arg_VX_tb *a)
+>   static bool do_vextractm(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
+>   {
+>       const uint64_t elem_width = 8 << vece, elem_count_half = 8 >> vece,
+> -                   mask = dup_const(vece, 1 << (elem_width - 1));
+> +                   mask = dup_const(vece, 1ULL << (elem_width - 1));
 
-This has been consistently an issue with the migration tests.
-As the owner of the tests, if they are not providing you with
-the level of detail that you need to diagnose failures, I
-think that is something that is in your court to address:
-the CI system is always going to only be able to provide
-you with what your tests are outputting to the logs.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-For the specific case of backtraces from assertion failures,
-I think Dan was looking at whether we could put something
-together for that. It won't help with segfaults and the like, though.
-
-You should be able to at least get the number of the subtest out of
-the logs (either directly in the logs of the job, or else
-from the more detailed log file that gets stored as a
-job artefact in most cases).
-
-thanks
--- PMM
+r~
 
