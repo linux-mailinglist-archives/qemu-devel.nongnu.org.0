@@ -2,87 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F6D6F48B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 18:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59C46F48D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 19:06:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pttFV-0001ld-4k; Tue, 02 May 2023 12:53:09 -0400
+	id 1pttPg-000484-BM; Tue, 02 May 2023 13:03:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pttFS-0001lN-V4
- for qemu-devel@nongnu.org; Tue, 02 May 2023 12:53:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pttFR-0003MC-5a
- for qemu-devel@nongnu.org; Tue, 02 May 2023 12:53:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683046383;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B402eSepN7fPqT+HgoUbPdthjGzMjGAJUUOhw/IQq0k=;
- b=JcOAziSUBRiu8+4q8AEIueO5cuPHNmF4oVFcO6ucWQpWLpmySIV/4M9jP+8X0U2xgBkFjb
- ZB4/CSkwe7vItJ2mZzoOyFawxmuOPE2Ln34rnn78Ssk7ho7VdP6ZqVrbLf2ADD6Tqu1dhK
- ia49AUd9iyFtGUzCK14sm+XDCEnGp1U=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-547--v7CnaDiN426A7Sydm0yjg-1; Tue, 02 May 2023 12:53:02 -0400
-X-MC-Unique: -v7CnaDiN426A7Sydm0yjg-1
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-3ed767b30easo6863021cf.1
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 09:53:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683046381; x=1685638381;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pttPe-00047w-Jm
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 13:03:38 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pttPc-0006TN-EO
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 13:03:38 -0400
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc0117683so5701200a12.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 10:03:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683047012; x=1685639012;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=B402eSepN7fPqT+HgoUbPdthjGzMjGAJUUOhw/IQq0k=;
- b=LQw5UOowZL93r+MGxRUSxPEBmKQp1nUpO1fgnIDPfnSiNGFzEoUZzNqScfJsuzSz01
- mDzjMI67q85Nw4prJ458+Oka/TBbaTp1/xtcXGdCCxg1s2botO2ervHBda0RxD+cmOh/
- 1m4g9Rsb9biMYX6m+Fy3I7otJOovJGqFzCYYVlrxLhV87k2vdRP0YY8gsJxiWdrLqJGA
- hze9hwhB3Xt2/j/Nfq84Z1wOJyInyvRu/zjB8F+34ZrEgQfPhKLs2351HCUa4Dy1jelY
- YDau7xJtNxPGlMi5Vq6Q3ve62Yvf6dt9nCQ7q9tpNDOxo35jGIt/2pkNpF2WaOY4pTAG
- utUw==
-X-Gm-Message-State: AC+VfDyR6dvpqZEIgTMWgXem6RKNN3fi25ajflW3MhDnAGVJLRxDj9JW
- QQNXqPIVNoA3BG68dR3RrWjBrJBNQQyOZMK7q5YlWQ/ko5fTdQCvlkysmn8v5EH6lt5VjE9kT8G
- TrR0P1yjgnKFGXxqNNX0lnLE=
-X-Received: by 2002:a05:622a:180f:b0:3ef:3dc3:4a3e with SMTP id
- t15-20020a05622a180f00b003ef3dc34a3emr5151819qtc.0.1683046381182; 
- Tue, 02 May 2023 09:53:01 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4dwDYer7YD0T5L6/IM7aVRiT09OEpGUB+cC454teUAoyzslVrjO98M6zj/5kLpMjJw/7ZWew==
-X-Received: by 2002:a05:622a:180f:b0:3ef:3dc3:4a3e with SMTP id
- t15-20020a05622a180f00b003ef3dc34a3emr5151797qtc.0.1683046380840; 
- Tue, 02 May 2023 09:53:00 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- w29-20020ac84d1d000000b003e4ee0f5234sm10563895qtv.87.2023.05.02.09.52.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 09:52:59 -0700 (PDT)
-Date: Tue, 2 May 2023 12:52:58 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, lukasstraub2@web.de, quintela@redhat.com,
- chen.zhang@intel.com, Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v4 06/10] migration: process_incoming_migration_co:
- simplify code flow around ret
-Message-ID: <ZFE/6ngcldly95Jr@x1n>
-References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
- <20230428194928.1426370-7-vsementsov@yandex-team.ru>
+ bh=etK2EUqyDvngx3ecX4GnWW300M8Ntg4u2ykyJip5KwY=;
+ b=vxX/JwaABRqlDtARqpu7Od+tdSf3pSMREtsKDcNq4JTZKUAksDLDNSm8Wq3c7Eajwl
+ An+e8XGsIwOG+cHSrtdCOIz788OVzr5fZImBeoj4cJDCq3aSbAQ05lgCNvtHksO/diKV
+ DDKMO7ztc7Lw45lEPoeVqO1cRwm+0CkKUZrOUV4Qld9dWkiXJYETLKSvawYEdmSa8Z9C
+ uR+JwGohSZxOiNKTdiEWdb8C5eKkVcawO+CM1RUhKaMEXYzv0qopaFKlF/H4WsFi+0L3
+ a2CqkosC/jh3nhWaZZ+1nn5XN2udbSQZtWD43wWS6oHjKt88Dzacek+2Y1FUOTAcyJHD
+ kdJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683047012; x=1685639012;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=etK2EUqyDvngx3ecX4GnWW300M8Ntg4u2ykyJip5KwY=;
+ b=kMRfsTUpHAU57Bhl19ltO3vuJwh2iYgEPEeu/IiLkTRgiPbufaJlM1PCkxp5185X87
+ vbR/D2HNtfk5GMCIChC5DT7x8Zh/wlCW7qQXWyE7aIeQchWvY4pdfmnzc9GgsUinH5LF
+ PsTU0EeG9kGhva/C9yQA9ERQ7bW/M4LuMf5YFwBfB7vHM3eKYRdEY7Wn2IyyggDwfbOr
+ G+K5SNmw7U9nsJ1wqhDjz1zxINSho1YFCqY5e4SkShvgh7O8Mh781exrYQPTYBguOf/h
+ HAb4Fops0ooh8yfbeHtpfDXvlnnsuVQHC3xdFIQiyK2ZBJrsKaO/mkTQBwMcRtOmU9x7
+ 8Qzw==
+X-Gm-Message-State: AC+VfDwtd91lBfEQUKngSwm/acdf4vJr1hb59CDuGefyZa6iBj/vC7wx
+ WUmxF0ALN1+k+B3bHuA3JztDh/UjcLulNtsQurluVQ==
+X-Google-Smtp-Source: ACHHUZ5nM3fhL6M1N99jjRctT63gljOA+NA0X9aGevljgfpxQ4ZpKQQTg0TWpGdqKn1Nv1T7/pTCS7FTEK38PovygnA=
+X-Received: by 2002:a17:906:fd82:b0:947:335f:5a0d with SMTP id
+ xa2-20020a170906fd8200b00947335f5a0dmr602598ejb.62.1683047011876; Tue, 02 May
+ 2023 10:03:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230428194928.1426370-7-vsementsov@yandex-team.ru>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <cover.1678237635.git.mst@redhat.com>
+ <f2b901098e14ad1aaffab82464917b8679499cc5.1678237635.git.mst@redhat.com>
+In-Reply-To: <f2b901098e14ad1aaffab82464917b8679499cc5.1678237635.git.mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 May 2023 18:03:20 +0100
+Message-ID: <CAFEAcA-ZKc1Q_rTH4XGNH+wu0cfJ5G2RPpEV=x0pitHNUnbe2w@mail.gmail.com>
+Subject: Re: [PULL 11/73] cryptodev: Support query-stats QMP command
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eric Blake <eblake@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,12 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Apr 28, 2023 at 10:49:24PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+On Wed, 8 Mar 2023 at 01:11, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> From: zhenwei pi <pizhenwei@bytedance.com>
+>
+> Now we can use "query-stats" QMP command to query statistics of
+> crypto devices. (Originally this was designed to show statistics
+> by '{"execute": "query-cryptodev"}'. Daniel Berrang=C3=A9 suggested that
+> querying configuration info by "query-cryptodev", and querying
+> runtime performance info by "query-stats". This makes sense!)
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Hi; Coverity points out (CID 1508074) that this change
+introduces a memory leak:
 
--- 
-Peter Xu
+> +static int cryptodev_backend_stats_query(Object *obj, void *data)
+> +{
 
+> +    entry =3D g_new0(StatsResult, 1);
+> +    entry->provider =3D STATS_PROVIDER_CRYPTODEV;
+> +    entry->qom_path =3D g_strdup(object_get_canonical_path(obj));
+
+object_get_canonical_path() already returns allocated memory
+that the caller should free with g_free(), so we should not
+g_strdup() it (which then leaks that memory).
+
+> +    entry->stats =3D stats_list;
+> +    QAPI_LIST_PREPEND(*stats_results, entry);
+> +
+> +    return 0;
+> +}
+
+Would somebody like to send a patch?
+
+thanks
+-- PMM
 
