@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBC86F43E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75326F443F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 14:50:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptp9C-0002bo-B0; Tue, 02 May 2023 08:30:22 -0400
+	id 1ptpRf-00027O-0i; Tue, 02 May 2023 08:49:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ptp97-0002bO-LR; Tue, 02 May 2023 08:30:17 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1ptpRc-000271-6q; Tue, 02 May 2023 08:49:24 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ptp93-00017m-GW; Tue, 02 May 2023 08:30:17 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.128])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 289DF204B0;
- Tue,  2 May 2023 12:30:08 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 2 May
- 2023 14:30:06 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-109S00366b78b0a-27e0-4a41-96fb-e948b135a5d0,
- E090D36E4DC625C434D5D892E9869795142AB5A1) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7940b2d6-8b72-18e8-83a6-de3f122e416e@kaod.org>
-Date: Tue, 2 May 2023 14:30:05 +0200
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1ptpRV-0002RP-W8; Tue, 02 May 2023 08:49:23 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 2EDC146EF4;
+ Tue,  2 May 2023 14:49:10 +0200 (CEST)
+Message-ID: <ae2385f9-770f-d101-4cf0-96e30a3e85d4@proxmox.com>
+Date: Tue, 2 May 2023 14:49:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v20 02/21] s390x/cpu topology: add topology entries on CPU
- hotplug
+Subject: Re: QMP (without OOB) function running in thread different from the
+ main thread as part of aio_poll
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
- <berrange@redhat.com>
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-3-pmorel@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230425161456.21031-3-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: quintela@redhat.com, Kevin Wolf <kwolf@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Michael Roth <michael.roth@amd.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>, Peter Xu <peterx@redhat.com>
+References: <877cu7gk1g.fsf@pond.sub.org>
+ <CABgObfapoyrFhY9kna_=D7PJ4yAssTgzY3jxSZD=6v0zCGDcSA@mail.gmail.com>
+ <3ba2f8b9-9818-6601-2247-7b0e20d7ab0d@proxmox.com>
+ <ZEpWd+273aIVZrRV@redhat.com>
+ <515e6a39-8515-b32b-05ce-6d7511779b1b@proxmox.com>
+ <87zg6tbdep.fsf@secure.mitica>
+ <b1402ecd-1288-1ceb-ce58-65fc90636fac@proxmox.com>
+ <87bkj8bg8g.fsf@secure.mitica> <ZEuEIhe86udi38kx@redhat.com>
+ <87354kbdvc.fsf@secure.mitica> <ZEu6lVDVUh8AC6Af@redhat.com>
+ <87jzxw9cco.fsf@secure.mitica>
+ <df3b995e-884c-8e3c-e0cf-b720ff4fff56@proxmox.com>
+ <31757c45-695d-4408-468c-c2de560aff9c@proxmox.com>
+ <87r0rzt408.fsf@secure.mitica>
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <87r0rzt408.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: dea70006-99a5-4826-a619-161abf994892
-X-Ovh-Tracer-Id: 166351712654887891
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfedviedghedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtledpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnshhgsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvgh
- gvrhdrkhgvrhhnvghlrdhorhhgpdhfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,457 +74,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/25/23 18:14, Pierre Morel wrote:
-> The topology information are attributes of the CPU and are
-> specified during the CPU device creation.
+Am 02.05.23 um 12:35 schrieb Juan Quintela:
+> Fiona Ebner <f.ebner@proxmox.com> wrote:
+>> Am 02.05.23 um 12:03 schrieb Fiona Ebner:
+>>> Am 28.04.23 um 18:54 schrieb Juan Quintela:
+>>>> Kevin Wolf <kwolf@redhat.com> wrote:
+>>>>> Am 28.04.2023 um 10:38 hat Juan Quintela geschrieben:
+>>>>>> Kevin Wolf <kwolf@redhat.com> wrote:
+>>>>>>>> I am perhaps a bit ingenuous here, but it is there a way to convince
+>>>>>>>> qemu that snapshot_save_job_bh *HAS* to run on the main thread?
+>>>>>>>
+>>>>>>> I believe we're talking about a technicality here. I asked another more
+>>>>>>> fundamental question that nobody has answered yet:
+>>>>>>>
+>>>>>>> Why do you think that it's ok to call bdrv_writev_vmstate() without
+>>>>>>> holding the BQL?
+>>>>>>
+>>>>>> I will say this function starts by bdrv_ (i.e. block layer people) and
+>>>>>> endes with _vmstate (i.e. migration people).
+>>>>>>
+>>>>>> To be honest, I don't know.  That is why I _supposed_ you have an idea.
+>>>>>
+>>>>> My idea is that bdrv_*() can only be called when you hold the BQL, or
+>>>>> for BlockDriverStates in an iothread the AioContext lock.
+>>>>>
+>>>>> Apparently dropping the BQL in migration code was introduced in Paolo's
+>>>>> commit 9b095037527.
+>>>>
+>>>> Damn.  I reviewed it, so I am as guilty as the author.
+>>>> 10 years later without problems I will not blame that patch.
+>>>>
+>>>> I guess we changed something else that broke doing it without the lock.
+>>>>
+>>>> But no, I still don't have suggestions/ideas.
+>>>>
+>>>
+>>> I do feel like the issue might be very difficult to trigger under normal
+>>> circumstances. Depending on the configuration and what you do in the
+>>> guest, aio_poll in a vCPU thread does not happen often and I imagine
+>>> snapshot-save is also not a super frequent operation for most people. It
+>>> still takes me a while to trigger the issue by issuing lots of pflash
+>>> writes and running snapshot-save in a loop, I'd guess about 30-60
+>>> snapshots. Another reason might be that generated co-wrappers were less
+>>> common in the past?
+>>>
+>>>>> I'm not sure what this was supposed to improve in
+>>>>> the case of snapshots because the VM is stopped anyway.
+>>>
+>>> Is it? Quoting Juan:> d- snapshots are a completely different beast,
+>>> that don't really stop
+>>>>    the guest in the same way at that point, and sometimes it shows in
+>>>>    this subtle details.
+>>>
+>>>>> Would anything bad happen if we removed the BQL unlock/lock section in
+>>>>> qemu_savevm_state() again?
+>>>>
+>>>> Dunno.
+>>>>
+>>>> For what is worth, I can say that it survives migration-test, but don't
+>>>> ask me why/how/...
+>>>>
+>>>> Fiona, can you check if it fixes your troubles?
+>>>>
+>>>
+>>> Just removing the single section in qemu_savevm_state() breaks even the
+>>> case where snapshot_save_job_bh() is executed in the main thread,
+>>> because ram_init_bitmaps() will call qemu_mutex_lock_iothread_impl()
+>>> which asserts that it's not already locked.
+>>>
+>>> Also removing the lock/unlock pair in ram_init_bitmaps() seems to work. 
+>>
+>> Well, after a few more attempts, I got a new failure (running with the
+>> two changes mentioned above), but it seems to happen later and, at a
+>> first glance, doesn't seem to be related to the lock anymore:
 > 
-> On hot plug we:
-> - calculate the default values for the topology for drawers,
->    books and sockets in the case they are not specified.
-> - verify the CPU attributes
-> - check that we have still room on the desired socket
+> Can you revert the whole commit:
 > 
-> The possibility to insert a CPU in a mask is dependent on the
-> number of cores allowed in a socket, a book or a drawer, the
-> checking is done during the hot plug of the CPU to have an
-> immediate answer.
+> commmit 9b0950375277467fd74a9075624477ae43b9bb22
+> Author: Paolo Bonzini <pbonzini@redhat.com>
+> Date:   Fri Feb 22 17:36:28 2013 +0100
 > 
-> If the complete topology is not specified, the core is added
-> in the physical topology based on its core ID and it gets
-> defaults values for the modifier attributes.
-> 
-> This way, starting QEMU without specifying the topology can
-> still get some advantage of the CPU topology.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   MAINTAINERS                     |   6 +
->   include/hw/s390x/cpu-topology.h |  55 +++++++
->   hw/s390x/cpu-topology.c         | 259 ++++++++++++++++++++++++++++++++
->   hw/s390x/s390-virtio-ccw.c      |  22 ++-
->   hw/s390x/meson.build            |   1 +
->   5 files changed, 341 insertions(+), 2 deletions(-)
->   create mode 100644 include/hw/s390x/cpu-topology.h
->   create mode 100644 hw/s390x/cpu-topology.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5340de0515..bb7b34d0d8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1654,6 +1654,12 @@ F: hw/s390x/event-facility.c
->   F: hw/s390x/sclp*.c
->   L: qemu-s390x@nongnu.org
->   
-> +S390 CPU topology
-> +M: Pierre Morel <pmorel@linux.ibm.com>
-> +S: Supported
-> +F: include/hw/s390x/cpu-topology.h
-> +F: hw/s390x/cpu-topology.c
-> +
->   X86 Machines
->   ------------
->   PC
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-> new file mode 100644
-> index 0000000000..af36f634e0
-> --- /dev/null
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -0,0 +1,55 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022,2023
-> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-> + *
-> + */
-> +#ifndef HW_S390X_CPU_TOPOLOGY_H
-> +#define HW_S390X_CPU_TOPOLOGY_H
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +
-> +#include "qemu/queue.h"
-> +#include "hw/boards.h"
-> +#include "qapi/qapi-types-machine-target.h"
-> +
-> +typedef struct S390Topology {
-> +    uint8_t *cores_per_socket;
-> +    CpuTopology *smp;
-> +} S390Topology;
-> +
-> +#ifdef CONFIG_KVM
-> +bool s390_has_topology(void);
-> +void s390_topology_setup_cpu(MachineState *ms, S390CPU *cpu, Error **errp);
-> +#else
-> +static inline bool s390_has_topology(void)
-> +{
-> +       return false;
-> +}
-> +static inline void s390_topology_setup_cpu(MachineState *ms,
-> +                                           S390CPU *cpu,
-> +                                           Error **errp) {}
-> +#endif
-> +
-> +extern S390Topology s390_topology;
-> +
-> +static inline int s390_std_socket(int n, CpuTopology *smp)
-> +{
-> +    return (n / smp->cores) % smp->sockets;
-> +}
-> +
-> +static inline int s390_std_book(int n, CpuTopology *smp)
-> +{
-> +    return (n / (smp->cores * smp->sockets)) % smp->books;
-> +}
-> +
-> +static inline int s390_std_drawer(int n, CpuTopology *smp)
-> +{
-> +    return (n / (smp->cores * smp->sockets * smp->books)) % smp->drawers;
-> +}
-> +
-> +#endif /* CONFIG_USER_ONLY */
-> +
-> +#endif
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> new file mode 100644
-> index 0000000000..471e0e7292
-> --- /dev/null
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -0,0 +1,259 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022,2023
-> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/boards.h"
-> +#include "qemu/typedefs.h"
-> +#include "target/s390x/cpu.h"
-> +#include "hw/s390x/s390-virtio-ccw.h"
-> +#include "hw/s390x/cpu-topology.h"
-> +
-> +/*
-> + * s390_topology is used to keep the topology information.
-> + * .cores_per_socket: tracks information on the count of cores
-> + *                    per socket.
-> + * .smp: keeps track of the machine topology.
-> + *
-> + */
-> +S390Topology s390_topology = {
-> +    /* will be initialized after the cpu model is realized */
-> +    .cores_per_socket = NULL,
-> +    .smp = NULL,
-> +};
-> +
-> +/**
-> + * s390_socket_nb:
-> + * @cpu: s390x CPU
-> + *
-> + * Returns the socket number used inside the cores_per_socket array
-> + * for a topology tree entry
-> + */
-> +static int __s390_socket_nb(int drawer_id, int book_id, int socket_id)
-> +{
-> +    return (drawer_id * s390_topology.smp->books + book_id) *
-> +           s390_topology.smp->sockets + socket_id;
-> +}
-> +
-> +/**
-> + * s390_socket_nb:
-> + * @cpu: s390x CPU
-> + *
-> + * Returns the socket number used inside the cores_per_socket array
-> + * for a cpu.
-> + */
-> +static int s390_socket_nb(S390CPU *cpu)
-> +{
-> +    return __s390_socket_nb(cpu->env.drawer_id, cpu->env.book_id,
-> +                            cpu->env.socket_id);
-> +}
-> +
-> +/**
-> + * s390_has_topology:
-> + *
-> + * Return value: if the topology is supported by the machine.
-> + */
-> +bool s390_has_topology(void)
-> +{
-> +    return false;
-> +}
-> +
-> +/**
-> + * s390_topology_init:
-> + * @ms: the machine state where the machine topology is defined
-> + *
-> + * Keep track of the machine topology.
-> + *
-> + * Allocate an array to keep the count of cores per socket.
-> + * The index of the array starts at socket 0 from book 0 and
-> + * drawer 0 up to the maximum allowed by the machine topology.
-> + */
-> +static void s390_topology_init(MachineState *ms)
-> +{
-> +    CpuTopology *smp = &ms->smp;
-> +
-> +    s390_topology.smp = smp;
+>     migration: run setup callbacks out of big lock
 
-I am not sure the 'smp' shortcut is necessary. 'MachineState *ms' is
-always available where 'CpuTopology *smp' is used. so it could be
-computed from a local variable AFAICT. It would reduce the risk of
-'smp' being NULL in some (future) code path.
+Unfortunately, there were just too many changes. git revert won't even
+detect the renamed files (e.g. migration.c -> migration/migration.c) for
+me. I tried to revert manually, but I noticed another issue. A full
+revert would also mean that migration holds the BQL around the
+qemu_savevm_state_setup() call. But if we don't want that, we can't
+remove the qemu_mutex_lock_iothread() call in ram_init_bitmaps() (and
+similar for block_save_setup()), because migration relies on that. I
+guess we could make the lock+unlock calls conditional, depending on
+whether the BQL is already held, but it doesn't seem too nice either.
 
-Thanks,
+> 
+> Because we are again at:
+>>
+>>> Thread 21 "CPU 0/KVM" received signal SIGABRT, Aborted.
+>>> [Switching to Thread 0x7fd291ffb700 (LWP 136620)]
+>>> __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+>>> 50	../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
+>>> (gdb) bt
+>>> #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+>>> #1  0x00007fd2b8b3e537 in __GI_abort () at abort.c:79
+>>> #2 0x00007fd2b8b3e40f in __assert_fail_base (fmt=0x7fd2b8cb66a8
+>>> "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n",
+>>> assertion=0x557e0ebb7193 "!n->vhost_started", file=0x557e0ebb65f0
+>>> "../hw/net/virtio-net.c", line=3811, function=<optimized out>) at
+>>> assert.c:92
+>>> #3 0x00007fd2b8b4d662 in __GI___assert_fail
+>>> (assertion=0x557e0ebb7193 "!n->vhost_started", file=0x557e0ebb65f0
+>>> "../hw/net/virtio-net.c", line=3811, function=0x557e0ebb7740
+>>> <__PRETTY_FUNCTION__.3> "virtio_net_pre_save") at assert.c:101
+>>> #4  0x0000557e0e6c21c9 in virtio_net_pre_save (opaque=0x557e12c480b0) at ../hw/net/virtio-net.c:3811
+>>> #5 0x0000557e0e4f63ee in vmstate_save_state_v (f=0x7fd28442f730,
+>>> vmsd=0x557e0efb53c0 <vmstate_virtio_net>, opaque=0x557e12c480b0,
+>>> vmdesc=0x7fd2840978e0, version_id=11) at ../migration/vmstate.c:330
+>>> #6 0x0000557e0e4f6390 in vmstate_save_state (f=0x7fd28442f730,
+>>> vmsd=0x557e0efb53c0 <vmstate_virtio_net>, opaque=0x557e12c480b0,
+>>> vmdesc_id=0x7fd2840978e0) at ../migration/vmstate.c:318
+>>> #7 0x0000557e0e51c80a in vmstate_save (f=0x7fd28442f730,
+>>> se=0x557e12c4c430, vmdesc=0x7fd2840978e0) at
+>>> ../migration/savevm.c:1000
+>>> #8 0x0000557e0e51d942 in
+>>> qemu_savevm_state_complete_precopy_non_iterable (f=0x7fd28442f730,
+>>> in_postcopy=false, inactivate_disks=false) at
+>>> ../migration/savevm.c:1463
+>>> #9 0x0000557e0e51db33 in qemu_savevm_state_complete_precopy
+>>> (f=0x7fd28442f730, iterable_only=false, inactivate_disks=false) at
+>>> ../migration/savevm.c:1529
+>>> #10 0x0000557e0e51df3d in qemu_savevm_state (f=0x7fd28442f730, errp=0x7fd28425e1f8) at ../migration/savevm.c:1635
+>>> #11 0x0000557e0e520548 in save_snapshot (name=0x7fd28425e2b0
+>>> "snap0", overwrite=false, vmstate=0x7fd284479c20 "scsi0",
+>>> has_devices=true, devices=0x7fd284097920, errp=0x7fd28425e1f8) at
+>>> ../migration/savevm.c:2952
+>>> #12 0x0000557e0e520f9b in snapshot_save_job_bh (opaque=0x7fd28425e130) at ../migration/savevm.c:3251
+> 
+> Here we are
+> aio_bh_call()
+> 
+> ends calling snapshot_save_job_bh, and it didn't end well.
+> 
+> It appears that there is not an easy way to warantee that snapshot code
+> is only run on the main io thread, so my only other suggestion right now
+> is that you check snapshot_save_job_bh() and see if it ever happens on a
+> non-vcpu thread when you get the test to run correctly.
 
-C.
+Sorry, I'm not sure what you mean by "when you get the test to run
+correctly". Yes, the assertion from above only happened in a vCPU thread
+for me.
 
-> +    s390_topology.cores_per_socket = g_new0(uint8_t, smp->sockets *
-> +                                            smp->books * smp->drawers);
-> +}
-> +
-> +/**
-> + * s390_topology_cpu_default:
-> + * @cpu: pointer to a S390CPU
-> + * @errp: Error pointer
-> + *
-> + * Setup the default topology if no attributes are already set.
-> + * Passing a CPU with some, but not all, attributes set is considered
-> + * an error.
-> + *
-> + * The function calculates the (drawer_id, book_id, socket_id)
-> + * topology by filling the cores starting from the first socket
-> + * (0, 0, 0) up to the last (smp->drawers, smp->books, smp->sockets).
-> + *
-> + * CPU type and dedication have defaults values set in the
-> + * s390x_cpu_properties, entitlement must be adjust depending on the
-> + * dedication.
-> + *
-> + * Returns false if it is impossible to setup a default topology
-> + * true otherwise.
-> + */
-> +static bool s390_topology_cpu_default(S390CPU *cpu, Error **errp)
-> +{
-> +    CpuTopology *smp = s390_topology.smp;
-> +    CPUS390XState *env = &cpu->env;
-> +
-> +    /* All geometry topology attributes must be set or all unset */
-> +    if ((env->socket_id < 0 || env->book_id < 0 || env->drawer_id < 0) &&
-> +        (env->socket_id >= 0 || env->book_id >= 0 || env->drawer_id >= 0)) {
-> +        error_setg(errp,
-> +                   "Please define all or none of the topology geometry attributes");
-> +        return false;
-> +    }
-> +
-> +    /* Check if one of the geometry topology is unset */
-> +    if (env->socket_id < 0) {
-> +        /* Calculate default geometry topology attributes */
-> +        env->socket_id = s390_std_socket(env->core_id, smp);
-> +        env->book_id = s390_std_book(env->core_id, smp);
-> +        env->drawer_id = s390_std_drawer(env->core_id, smp);
-> +    }
-> +
-> +    /*
-> +     * When the user specifies the entitlement as 'auto' on the command line,
-> +     * qemu will set the entitlement as:
-> +     * Medium when the CPU is not dedicated.
-> +     * High when dedicated is true.
-> +     */
-> +    if (env->entitlement == S390_CPU_ENTITLEMENT_AUTO) {
-> +        if (env->dedicated) {
-> +            env->entitlement = S390_CPU_ENTITLEMENT_HIGH;
-> +        } else {
-> +            env->entitlement = S390_CPU_ENTITLEMENT_MEDIUM;
-> +        }
-> +    }
-> +    return true;
-> +}
-> +
-> +/**
-> + * s390_topology_check:
-> + * @socket_id: socket to check
-> + * @book_id: book to check
-> + * @drawer_id: drawer to check
-> + * @entitlement: entitlement to check
-> + * @dedicated: dedication to check
-> + * @errp: Error pointer
-> + *
-> + * The function checks if the topology
-> + * attributes fits inside the system topology.
-> + *
-> + * Returns false if the specified topology does not match with
-> + * the machine topology.
-> + */
-> +static bool s390_topology_check(uint16_t socket_id, uint16_t book_id,
-> +                                uint16_t drawer_id, uint16_t entitlement,
-> +                                bool dedicated, Error **errp)
-> +{
-> +    CpuTopology *smp = s390_topology.smp;
-> +    ERRP_GUARD();
-> +
-> +    if (socket_id >= smp->sockets) {
-> +        error_setg(errp, "Unavailable socket: %d", socket_id);
-> +        return false;
-> +    }
-> +    if (book_id >= smp->books) {
-> +        error_setg(errp, "Unavailable book: %d", book_id);
-> +        return false;
-> +    }
-> +    if (drawer_id >= smp->drawers) {
-> +        error_setg(errp, "Unavailable drawer: %d", drawer_id);
-> +        return false;
-> +    }
-> +    if (entitlement >= S390_CPU_ENTITLEMENT__MAX) {
-> +        error_setg(errp, "Unknown entitlement: %d", entitlement);
-> +        return false;
-> +    }
-> +    if (dedicated && (entitlement == S390_CPU_ENTITLEMENT_LOW ||
-> +                      entitlement == S390_CPU_ENTITLEMENT_MEDIUM)) {
-> +        error_setg(errp, "A dedicated cpu implies high entitlement");
-> +        return false;
-> +    }
-> +    return true;
-> +}
-> +
-> +/**
-> + * s390_update_cpu_props:
-> + * @ms: the machine state
-> + * @cpu: the CPU for which to update the properties from the environment.
-> + *
-> + */
-> +static void s390_update_cpu_props(MachineState *ms, S390CPU *cpu)
-> +{
-> +    CpuInstanceProperties *props;
-> +
-> +    props = &ms->possible_cpus->cpus[cpu->env.core_id].props;
-> +
-> +    props->socket_id = cpu->env.socket_id;
-> +    props->book_id = cpu->env.book_id;
-> +    props->drawer_id = cpu->env.drawer_id;
-> +}
-> +
-> +/**
-> + * s390_topology_setup_cpu:
-> + * @ms: MachineState used to initialize the topology structure on
-> + *      first call.
-> + * @cpu: the new S390CPU to insert in the topology structure
-> + * @errp: the error pointer
-> + *
-> + * Called from CPU Hotplug to check and setup the CPU attributes
-> + * before the CPU is inserted in the topology.
-> + * There is no need to update the MTCR explicitely here because it
-> + * will be updated by KVM on creation of the new CPU.
-> + */
-> +void s390_topology_setup_cpu(MachineState *ms, S390CPU *cpu, Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +    int entry;
-> +
-> +    /*
-> +     * We do not want to initialize the topology if the cpu model
-> +     * does not support topology, consequently, we have to wait for
-> +     * the first CPU to be realized, which realizes the CPU model
-> +     * to initialize the topology structures.
-> +     *
-> +     * s390_topology_setup_cpu() is called from the cpu hotplug.
-> +     */
-> +    if (!s390_topology.cores_per_socket) {
-> +        s390_topology_init(ms);
-> +    }
-> +
-> +    if (!s390_topology_cpu_default(cpu, errp)) {
-> +        return;
-> +    }
-> +
-> +    if (!s390_topology_check(cpu->env.socket_id, cpu->env.book_id,
-> +                             cpu->env.drawer_id, cpu->env.entitlement,
-> +                             cpu->env.dedicated, errp)) {
-> +        return;
-> +    }
-> +
-> +    /* Do we still have space in the socket */
-> +    entry = s390_socket_nb(cpu);
-> +    if (s390_topology.cores_per_socket[entry] >= s390_topology.smp->cores) {
-> +        error_setg(errp, "No more space on this socket");
-> +        return;
-> +    }
-> +
-> +    /* Update the count of cores in sockets */
-> +    s390_topology.cores_per_socket[entry] += 1;
-> +
-> +    /* topology tree is reflected in props */
-> +    s390_update_cpu_props(ms, cpu);
-> +}
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 1a9bcda8b6..9df60ac447 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -45,6 +45,7 @@
->   #include "hw/s390x/pv.h"
->   #include "migration/blocker.h"
->   #include "qapi/visitor.h"
-> +#include "hw/s390x/cpu-topology.h"
->   
->   static Error *pv_mig_blocker;
->   
-> @@ -311,10 +312,18 @@ static void s390_cpu_plug(HotplugHandler *hotplug_dev,
->   {
->       MachineState *ms = MACHINE(hotplug_dev);
->       S390CPU *cpu = S390_CPU(dev);
-> +    ERRP_GUARD();
->   
->       g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
->       ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
->   
-> +    if (s390_has_topology()) {
-> +        s390_topology_setup_cpu(ms, cpu, errp);
-> +        if (*errp) {
-> +            return;
-> +        }
-> +    }
-> +
->       if (dev->hotplugged) {
->           raise_irq_cpu_hotplug();
->       }
-> @@ -554,11 +563,20 @@ static const CPUArchIdList *s390_possible_cpu_arch_ids(MachineState *ms)
->                                     sizeof(CPUArchId) * max_cpus);
->       ms->possible_cpus->len = max_cpus;
->       for (i = 0; i < ms->possible_cpus->len; i++) {
-> +        CpuInstanceProperties *props = &ms->possible_cpus->cpus[i].props;
-> +
->           ms->possible_cpus->cpus[i].type = ms->cpu_type;
->           ms->possible_cpus->cpus[i].vcpus_count = 1;
->           ms->possible_cpus->cpus[i].arch_id = i;
-> -        ms->possible_cpus->cpus[i].props.has_core_id = true;
-> -        ms->possible_cpus->cpus[i].props.core_id = i;
-> +
-> +        props->has_core_id = true;
-> +        props->core_id = i;
-> +        props->has_socket_id = true;
-> +        props->socket_id = s390_std_socket(i, &ms->smp);
-> +        props->has_book_id = true;
-> +        props->book_id = s390_std_book(i, &ms->smp);
-> +        props->has_drawer_id = true;
-> +        props->drawer_id = s390_std_drawer(i, &ms->smp);
->       }
->   
->       return ms->possible_cpus;
-> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-> index f291016fee..58dfbdff4f 100644
-> --- a/hw/s390x/meson.build
-> +++ b/hw/s390x/meson.build
-> @@ -24,6 +24,7 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
->     's390-stattrib-kvm.c',
->     'pv.c',
->     's390-pci-kvm.c',
-> +  'cpu-topology.c',
->   ))
->   s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
->     'tod-tcg.c',
+While save_snapshot() calls vm_stop(RUN_STATE_SAVE_VM), I guess it's
+because of the following?
+
+> int vm_stop(RunState state)
+> {
+>     if (qemu_in_vcpu_thread()) {
+>         qemu_system_vmstop_request_prepare();
+>         qemu_system_vmstop_request(state);
+>         /*
+>          * FIXME: should not return to device code in case
+>          * vm_stop() has been requested.
+>          */
+>         cpu_stop_current();
+>         return 0;
+>     }
+> 
+>     return do_vm_stop(state, true);
+> }
+
+Would rescheduling snapshot_save_job_bh() until it runs in the main
+thread be an option?
+
+But Kevin said:
+
+> My idea is that bdrv_*() can only be called when you hold the BQL, or
+> for BlockDriverStates in an iothread the AioContext lock
+
+So IIUC, having snapshot code keep dropping the BQL during setup would
+still not be fully correct even if we ensure that snapshot code only
+runs in the main thread. But when doing qemu_mutex_unlock_iothread() in
+the main thread, qemu_get_current_aio_context() still returns the main
+thread's AioContext (it returns 0x0 when the same thing is done in the
+vCPU thread), so is it fine after all?
+
+Another alternative would be to check in the QIOChannelBlock
+implementation if we require the main thread's AioContext and acquire
+the BQL before calling the bdrv_*_vmstate() functions? But that seems
+rather ugly too.
+
+Best Regards,
+Fiona
 
 
