@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239456F4619
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 16:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9023A6F4627
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 16:38:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptqxp-0008Lc-Qq; Tue, 02 May 2023 10:26:45 -0400
+	id 1ptr8H-0002Gt-D6; Tue, 02 May 2023 10:37:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ptqxo-0008LT-RI
- for qemu-devel@nongnu.org; Tue, 02 May 2023 10:26:44 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ptqxn-0001ym-BU
- for qemu-devel@nongnu.org; Tue, 02 May 2023 10:26:44 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so171883355e9.0
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 07:26:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683037601; x=1685629601;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+4rpDjVqJxE6EndUGNQbAZShG0UQGteV/P1OOcKBuE0=;
- b=mUO6VGk9iXeCiXd4T2//sP4r8jTrYzvcSnlrxcykw5iJ4yVO/LV194LXn4cszIbpz8
- 5HN/mZT1U/ptq1V+CRncuzmZBs5+x9O2/l99iVniF3GQM4U/ljgVIC3K0buhyWA62gor
- TlvwPHEqoQFPGh3FM2VEtKoLG39XKfXgm2L+8/IJWdcs0LYcgkTqDxLqASCb25DNbje7
- k5jIySqe23dk6gNyifjcw3QsLWDX9iAkwmq+mcugxo2USXaxtzZC6g0sbYuEghjO/UsX
- zc9o8FsKZqX9MHeNq3J2cCxwHZ831T29Wf1uSDyviWkHMKoXMHu1VxS3qJhjvE81fN87
- bDKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683037601; x=1685629601;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+4rpDjVqJxE6EndUGNQbAZShG0UQGteV/P1OOcKBuE0=;
- b=Ys9jZzxDv18Y5TvZ4DhhzXQydN3iOX/OLwMXAlLAfy3m8/SwPoKFDTJWgjm1ZcLCMI
- aDZnP3t3GHBAu5nO57ts32YP8fCaCxy9i3GR01gRz3c7WmWB3OcXazFQqa5IkMVG/rEu
- jJzntUinTgDQpw6u12eyLEURwV2eyV2ua3QGJ2GzJ91TFhNp6ZPLEEnKySdtXwukXJHg
- 79dneuwsU2OAyPjBlY03sIdGsSSY+o2vFcvj9Ml91MeGCTXFdIh8Yn+KNx40x2pHRHpv
- WSGF0P6OgJDVu21YtqZGKimRug8QfcTr/8kIw7l5gUk11bOccaleVudnTPnwuFyaPCpg
- xJ6g==
-X-Gm-Message-State: AC+VfDzw3yIEtRZM9FdYcsy24stBcC+sP/xDlWGYdT1HffI01RRRZMIe
- SaQQbTcobpqLoFUhmDjaTgZK9Q==
-X-Google-Smtp-Source: ACHHUZ6I4LIvbGrBfyYCF0git2PuzhghqLfbL9R1zOL4zu1MDTlQ+veSXZLa70NeDpSLP0OABV2lGQ==
-X-Received: by 2002:a05:600c:4706:b0:3f3:284d:8cec with SMTP id
- v6-20020a05600c470600b003f3284d8cecmr10949027wmo.2.1683037601503; 
- Tue, 02 May 2023 07:26:41 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- ip29-20020a05600ca69d00b003f1712b1402sm38991411wmb.30.2023.05.02.07.26.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 07:26:41 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 93E5C1FFBA;
- Tue,  2 May 2023 15:26:40 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [RFC PATCH] docs: document breakpoint and watchpoint support
-Date: Tue,  2 May 2023 15:26:14 +0100
-Message-Id: <20230502142614.1075131-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <val15032008@mail.ru>)
+ id 1ptr8E-0002Gh-5m
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 10:37:30 -0400
+Received: from smtp30.i.mail.ru ([95.163.41.71])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <val15032008@mail.ru>)
+ id 1ptr8B-0006m4-4X
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 10:37:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Message-Id:Content-Type:MIME-Version:Cc:To:From:In-Reply-To:Subject:Date:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=g8NnjT8g41g7Myw0mmdVASWShGUJQ4Fpef6hzmzQwdc=; 
+ t=1683038247;x=1683128247; 
+ b=1hvUM7RtJo32nZRh4NwcjnCU0n1hAl1/mXAwCs5JqTNLT+ZB649CV7DJK8+bFWmvoCAdNQa6N6Qy1jCBGcRq/R1GdvooOuu8WqCnZce/5/EPKjg0ZPdL3YEg8BhvmIOXJ1dx/BOIYn8YsBur/7yqweh2MaCrOk5XlmnKXmLzbbCdy8s1zk6vJpnTDy9/5E9wc3+T3UkqrU6kkjiyUWRxxc3vWRJE+Bpqy/hIDRd7Ww5SmkqbbvPO2TWJHC4nYFcCzRP6YVMhBsQXjBwj9ksOTJ5X5M4PUgjKmbOy+L/z943fSckWWsVN3k9HKVfyg/ae7H/VqsVz3nwoDyhNVPThSw==;
+Received: by smtp30.i.mail.ru with esmtpa (envelope-from <val15032008@mail.ru>)
+ id 1ptr86-001npM-HH; Tue, 02 May 2023 17:37:23 +0300
+SavedFromEmail: val15032008@mail.ru
+Date: Tue, 02 May 2023 17:37:11 +0300
+Subject: Re: Patch for png_save(), QEMU v8.0
+In-Reply-To: <6hqkbi1b7alen721of3thdv8.1683036666264@email.android.com>
+Importance: normal
+From: =?UTF-8?B?0JLQsNC70LXQvdGC0LjQvQ==?= <val15032008@mail.ru>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/alternative;
+ boundary="--_com.samsung.android.email_654380543580540"
+Message-Id: <E1ptr86-001npM-HH.val15032008-mail-ru@smtp30.i.mail.ru>
+Authentication-Results: smtp30.i.mail.ru;
+ auth=pass smtp.auth=val15032008@mail.ru
+ smtp.mailfrom=val15032008@mail.ru
+X-Mailru-Src: smtp
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD9F572AEF33F1BC585282B95A99157D032FB41EDBBF23D2E37182A05F538085040A93D6AA5340A3FCB64285AAFE2FDC477B4E36569300924258AF9F661B6CC769B
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE707BCAA832FAF0FF2C2099A533E45F2D0395957E7521B51C2CFCAF695D4D8E9FCEA1F7E6F0F101C6778DA827A17800CE7A3589DC202DD7369EA1F7E6F0F101C6723150C8DA25C47586E58E00D9D99D84E1BDDB23E98D2D38B6F1F7B995052D5CE458E57319102FA14CF51ADFF749F124320879F7C8C5043D14489FFFB0AA5F4BF176DF2183F8FC7C0C3028DD3BA98ABD38941B15DA834481FA18204E546F3947C4AB4081B6A6C2E07F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637545B104AF56618B9389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F7900637253A7DFA90630998D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE78F84DE33370BE923EC76A7562686271ED91E3A1F190DE8FD2E808ACE2090B5E14AD6D5ED66289B5278DA827A17800CE76631511D42670FFE2EB15956EA79C166A417C69337E82CC275ECD9A6C639B01B78DA827A17800CE7A16EE778CBA46B6B731C566533BA786AA5CC5B56E945C8DA
+X-C1DE0DAB: 0D63561A33F958A571F45C5D82088888CD1EC36567A9BF9E9EC8381A1C12BA23F87CCE6106E1FC07E67D4AC08A07B9B0CE135D2742255B35CB5012B2E24CD356
+X-C8649E89: 1C3962B70DF3F0ADBF74143AD284FC7177DD89D51EBB7742DC8270968E61249B1004E42C50DC4CA955A7F0CF078B5EC49A30900B95165D3414C91BA6844B96CA8D993E9DF1F220CF810B7DC7F2653C69FE0E5B262705EDC5867EAE2171A300D91D7E09C32AA3244C17E7CCE0EDE2BAD0E7F40EDBA3EC5CD63A92A9747B6CC886FACE5A9C96DEB163
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojUsZxtR84vlcyZT8S7T31bA==
+X-Mailru-Sender: 0A26D9779F8DDEAB9A50F86ECA5D886C8925FE6D27030E9D89D87B64CB2710B5B1DD6813DB11145DDE16EA5FADA68296D7A14DD9E34ECE746BE37F7047ADB13350B25633FF12C26C5FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=95.163.41.71; envelope-from=val15032008@mail.ru;
+ helo=smtp30.i.mail.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,48 +75,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This varies by accelerator. Also mention the modern bear-trap that is
-ASLR.
+----_com.samsung.android.email_654380543580540
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- docs/system/gdb.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+VGhhbmsgeW91IcKgSW5kZWVkLCBJIGhhdmVuJ3QgdG9vayBpbnRvIGFjY291bnQgYmlnLWVuZGlh
+biBob3N0cy7CoChJIHRyaWVkICJQSVhNQU5fQkVfcjhnOGI4IiBhcyBpbiBwcG1fc2F2ZSgpLCBi
+dXQgZGlkbid0IGZpeCBwbmcgaGVhZGVyIGFuZCBnb3QgYnJva2VuIGltYWdlcykuwqDCoFlvdXIg
+cGF0Y2ggc2hvdWxkIGJlIGNvcnJlY3QuwqDCoFRoYW5rIHlvdSB2ZXJ5IG11Y2ghwqBXaXRoIGJl
+c3QgcmVnYXJkcyzCoFZhbGVudGluZS7CoMKgwqDCoAotLS0tLS0tLSDQmNGB0YXQvtC00L3QvtC1
+INGB0L7QvtCx0YnQtdC90LjQtSAtLS0tLS0tLdCe0YI6IFBldGVyIE1heWRlbGwgPHBldGVyLm1h
+eWRlbGxAbGluYXJvLm9yZz4g0JTQsNGC0LA6IDAyLjA1LjIwMjMgIDE2OjU5ICAoR01UKzAzOjAw
+KdCi0LXQvNCwOiBSZTogUGF0Y2ggZm9yIHBuZ19zYXZlKCksIFFFTVUgdjguMCBPbiBUdWUsIDIg
+TWF5IDIwMjMgYXQgMTQ6NDgsINCS0LDQu9C10L3RgtC40L0gdmlhIDxxZW11LWRldmVsQG5vbmdu
+dS5vcmc+IHdyb3RlOj4+IEhlbGxvIT4+IEN1cnJlbnRseSwgcG5nX3NhdmUoKSBpbiAiY29uc29s
+ZS5jIiB1c2VzICJQSVhNQU5fYThyOGc4YjgiIGZvcm1hdCB3aGVuIHNhdmluZyBwbmcuPj4gKCBo
+dHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9ibG9iLzdjMThmMmQ2NjM1MjFm
+MWIzMWI4MjFhMTMzNThjZTM4MDc1ZWFmN2QvdWkvY29uc29sZS5jI0wzMTQgKT4+IEl0IHNob3Vs
+ZCBwcm9iYWJseSB1c2UgIlBJWE1BTl9hOGI4ZzhyOCIgKHJlZDw+Ymx1ZSBleGNoYW5nZWQpLj4g
+V2l0aG91dCBpdCBJJ20gZ2V0dGluZyBQTkdzIHdpdGggYmx1ZSBhbmQgcmVkIGNoYW5uZWxzIHN3
+YXBwZWQgKFFFTVUgOC4wLCBxZW11LXN5c3RlbS14ODZfNjQsIEFybTY0IGhvc3QsIGxpYnBuZyAx
+LjYuMzkpLkFoLCBJIHdhcyBqdXN0IHdvcmtpbmcgb24gdGhpcyB0aGlzIGFmdGVybm9vbiAoaXQg
+d2FzIHJlcG9ydGVkbGFzdCB3ZWVrIGFzIGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3Qv
+cWVtdS8tL2lzc3Vlcy8xNjIyIClhbmQganVzdCBzZW50IGEgcGF0Y2ggYSBtaW51dGUgYmVmb3Jl
+IEkgcmVhZCB0aGlzIGVtYWlsIDotKUkgdGhpbmsgeW91ciBwYXRjaCBvbmx5IGZpeGVzIHRoaXMg
+cHJvYmxlbSBmb3IgbGl0dGxlLWVuZGlhbmhvc3RzIGFuZCBsZWF2ZXMgYmlnLWVuZGlhbiBob3N0
+cyBzdGlsbCB3aXRoIHRoZSB3cm9uZ3BpeGVsLWRhdGEgb3JkZXIuWW91IGNhbiBzZWUgbXkgdmVy
+c2lvbiBvZiB0aGUgcGF0Y2ggaGVyZTpodHRwczovL3BhdGNoZXcub3JnL1FFTVUvMjAyMzA1MDIx
+MzU1NDguMjQ1MTMwOS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy90aGFua3MtLSBQTU0=
 
-diff --git a/docs/system/gdb.rst b/docs/system/gdb.rst
-index 453eb73f6c..7d3718deef 100644
---- a/docs/system/gdb.rst
-+++ b/docs/system/gdb.rst
-@@ -46,6 +46,28 @@ Here are some useful tips in order to use gdb on system code:
- 3. Use ``set architecture i8086`` to dump 16 bit code. Then use
-    ``x/10i $cs*16+$eip`` to dump the code at the PC position.
- 
-+Breakpoint and Watchpoint support
-+=================================
-+
-+While GDB can always fall back to inserting breakpoints into memory
-+(if writable) other features are very much dependent on support of the
-+accelerator. For TCG system emulation we advertise an infinite number
-+of hardware assisted breakpoints and watchpoints. For other
-+accelerators it will depend on if support has been added (see
-+supports_guest_debug and related hooks in AccelOpsClass).
-+
-+As TCG cannot track all memory accesses in user-mode there is no
-+support for watchpoints.
-+
-+Relocating code
-+---------------
-+
-+On modern kernels confusion can be caused by code being relocated by
-+features such as address space layout randomisation. To avoid
-+confusion when debugging such things you either need to update gdb's
-+view of where things are in memory or perhaps more trivially disable
-+ASLR when booting the system.
-+
- Debugging multicore machines
- ============================
- 
--- 
-2.39.2
+----_com.samsung.android.email_654380543580540
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+PGh0bWw+PGhlYWQ+PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0
+L2h0bWw7IGNoYXJzZXQ9VVRGLTgiPjwvaGVhZD48Ym9keSBkaXI9ImF1dG8iPlRoYW5rIHlvdSEm
+bmJzcDs8ZGl2IGRpcj0iYXV0byI+SW5kZWVkLCBJIGhhdmVuJ3QgdG9vayBpbnRvIGFjY291bnQg
+YmlnLWVuZGlhbiBob3N0cy4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+KEkgdHJpZWQgIlBJ
+WE1BTl9CRV9yOGc4YjgiIGFzIGluIHBwbV9zYXZlKCksIGJ1dCBkaWRuJ3QgZml4IHBuZyBoZWFk
+ZXIgYW5kIGdvdCBicm9rZW4gaW1hZ2VzKS4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+Jm5i
+c3A7PGJyPjxkaXYgZGlyPSJhdXRvIj5Zb3VyIHBhdGNoIHNob3VsZCBiZSBjb3JyZWN0LiZuYnNw
+OzwvZGl2PjwvZGl2PjxkaXYgZGlyPSJhdXRvIj4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+
+VGhhbmsgeW91IHZlcnkgbXVjaCEmbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+V2l0aCBiZXN0
+IHJlZ2FyZHMsJm5ic3A7PC9kaXY+PGRpdiBkaXI9ImF1dG8iPlZhbGVudGluZS4mbmJzcDs8L2Rp
+dj48ZGl2IGRpcj0iYXV0byI+Jm5ic3A7PC9kaXY+PGRpdiBkaXI9ImF1dG8iPiZuYnNwOzwvZGl2
+PjxkaXYgZGlyPSJhdXRvIj4mbmJzcDs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+PGJyPjwvZGl2Pjxk
+aXY+PGJyPjwvZGl2PjxkaXYgYWxpZ249ImxlZnQiIGRpcj0iYXV0byIgc3R5bGU9ImZvbnQtc2l6
+ZToxMDAlO2NvbG9yOiMwMDAwMDAiPjxkaXY+LS0tLS0tLS0g0JjRgdGF0L7QtNC90L7QtSDRgdC+
+0L7QsdGJ0LXQvdC40LUgLS0tLS0tLS08L2Rpdj48ZGl2PtCe0YI6IFBldGVyIE1heWRlbGwgJmx0
+O3BldGVyLm1heWRlbGxAbGluYXJvLm9yZyZndDsgPC9kaXY+PGRpdj7QlNCw0YLQsDogMDIuMDUu
+MjAyMyAgMTY6NTkgIChHTVQrMDM6MDApPC9kaXY+PGRpdj7QotC10LzQsDogUmU6IFBhdGNoIGZv
+ciBwbmdfc2F2ZSgpLCBRRU1VIHY4LjAgPC9kaXY+PGRpdj48YnI+PC9kaXY+PC9kaXY+T24gVHVl
+LCAyIE1heSAyMDIzIGF0IDE0OjQ4LCDQktCw0LvQtdC90YLQuNC9IHZpYSAmbHQ7cWVtdS1kZXZl
+bEBub25nbnUub3JnJmd0OyB3cm90ZTo8YnIgZGlyPSJhdXRvIj4mZ3Q7PGJyIGRpcj0iYXV0byI+
+Jmd0OyBIZWxsbyE8YnIgZGlyPSJhdXRvIj4mZ3Q7PGJyIGRpcj0iYXV0byI+Jmd0OyBDdXJyZW50
+bHksIHBuZ19zYXZlKCkgaW4gImNvbnNvbGUuYyIgdXNlcyAiUElYTUFOX2E4cjhnOGI4IiBmb3Jt
+YXQgd2hlbiBzYXZpbmcgcG5nLjxiciBkaXI9ImF1dG8iPiZndDs8YnIgZGlyPSJhdXRvIj4mZ3Q7
+ICggaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9xZW11Ly0vYmxvYi83YzE4ZjJkNjYz
+NTIxZjFiMzFiODIxYTEzMzU4Y2UzODA3NWVhZjdkL3VpL2NvbnNvbGUuYyNMMzE0ICk8YnIgZGly
+PSJhdXRvIj4mZ3Q7PGJyIGRpcj0iYXV0byI+Jmd0OyBJdCBzaG91bGQgcHJvYmFibHkgdXNlICJQ
+SVhNQU5fYThiOGc4cjgiIChyZWQmbHQ7Jmd0O2JsdWUgZXhjaGFuZ2VkKS48YnIgZGlyPSJhdXRv
+Ij4mZ3Q7IFdpdGhvdXQgaXQgSSdtIGdldHRpbmcgUE5HcyB3aXRoIGJsdWUgYW5kIHJlZCBjaGFu
+bmVscyBzd2FwcGVkIChRRU1VIDguMCwgcWVtdS1zeXN0ZW0teDg2XzY0LCBBcm02NCBob3N0LCBs
+aWJwbmcgMS42LjM5KS48YnIgZGlyPSJhdXRvIj48YnIgZGlyPSJhdXRvIj5BaCwgSSB3YXMganVz
+dCB3b3JraW5nIG9uIHRoaXMgdGhpcyBhZnRlcm5vb24gKGl0IHdhcyByZXBvcnRlZDxiciBkaXI9
+ImF1dG8iPmxhc3Qgd2VlayBhcyBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUv
+LS9pc3N1ZXMvMTYyMiApPGJyIGRpcj0iYXV0byI+YW5kIGp1c3Qgc2VudCBhIHBhdGNoIGEgbWlu
+dXRlIGJlZm9yZSBJIHJlYWQgdGhpcyBlbWFpbCA6LSk8YnIgZGlyPSJhdXRvIj48YnIgZGlyPSJh
+dXRvIj5JIHRoaW5rIHlvdXIgcGF0Y2ggb25seSBmaXhlcyB0aGlzIHByb2JsZW0gZm9yIGxpdHRs
+ZS1lbmRpYW48YnIgZGlyPSJhdXRvIj5ob3N0cyBhbmQgbGVhdmVzIGJpZy1lbmRpYW4gaG9zdHMg
+c3RpbGwgd2l0aCB0aGUgd3Jvbmc8YnIgZGlyPSJhdXRvIj5waXhlbC1kYXRhIG9yZGVyLjxiciBk
+aXI9ImF1dG8iPjxiciBkaXI9ImF1dG8iPllvdSBjYW4gc2VlIG15IHZlcnNpb24gb2YgdGhlIHBh
+dGNoIGhlcmU6PGJyIGRpcj0iYXV0byI+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VLzIwMjMwNTAy
+MTM1NTQ4LjI0NTEzMDktMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcvPGJyIGRpcj0iYXV0byI+
+PGJyIGRpcj0iYXV0byI+dGhhbmtzPGJyIGRpcj0iYXV0byI+LS0gUE1NPGJyIGRpcj0iYXV0byI+
+PC9ib2R5PjwvaHRtbD4=
+
+----_com.samsung.android.email_654380543580540--
 
 
