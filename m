@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7C56F4A88
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 21:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1106F4A89
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 21:43:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptvsD-0000k8-7j; Tue, 02 May 2023 15:41:17 -0400
+	id 1ptvsa-0000vU-S0; Tue, 02 May 2023 15:41:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptvs9-0000jA-Og
- for qemu-devel@nongnu.org; Tue, 02 May 2023 15:41:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptvs7-00061M-RM
- for qemu-devel@nongnu.org; Tue, 02 May 2023 15:41:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683056471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6xENbjVvp+Pts3X84Cy2DsWSBfSYloGA+NzmbgbplRU=;
- b=fOt5e4RU5TCQFUGbDzQYsMURmBV4TTppPLwFTDXuiOX/1HAeWzGUfAZBXzXiWnCsNNQ+6K
- ZzSkLnn2K9rjM23rxRBj5B/SGsNXfh3w0WRwxeaPssy8iGjfAXZmMM26l+zMdFxLzhUNlf
- R+HFjIHQCOB0Hw5mFMP//N1FNQGQAhg=
-Received: from mimecast-mx02.redhat.com (66.187.233.88 [66.187.233.88]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-YMLPGPKMO4SxOjhl3dEpxA-1; Tue, 02 May 2023 15:41:01 -0400
-X-MC-Unique: YMLPGPKMO4SxOjhl3dEpxA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E962D85A588;
- Tue,  2 May 2023 19:40:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E85EC4020960;
- Tue,  2 May 2023 19:40:47 +0000 (UTC)
-Date: Tue, 2 May 2023 15:40:45 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
- eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
-Subject: Re: [PATCH v4 06/20] block/export: wait for vhost-user-blk requests
- when draining
-Message-ID: <20230502194045.GC535070@fedora>
-References: <20230425172716.1033562-1-stefanha@redhat.com>
- <20230425172716.1033562-7-stefanha@redhat.com>
- <ZFEve2GfI0TqsItA@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptvsX-0000sw-HU
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 15:41:38 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptvsV-00068N-8Y
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 15:41:37 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-3f19afc4f60so26613225e9.1
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 12:41:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683056493; x=1685648493;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=J9/8+ye7mjDQY5cW/Vai8ejtuoCb69ymRumEfh7030U=;
+ b=opLPIrW554MXdoD9SGRcjpuysAaYlBjh3mK/Hn/+aa2a6Ycx9GlRdsS8gvQYfwhifC
+ DqVj1qyDvFzctyeQJGaxzCjR1B9MJmpzZ7Lke1Pmkd6ohihlnjDsiA+tahZPJxiEK/Gi
+ 1wota56GkiNT45PNqEvBcTS30Jmryr8IOC9lJ/wZn/B7LYwhZ8zm2BFVUOm+8TBwoB7i
+ 8YFZWsgAqOINLRY6whI5rk+gA/5HP+LsHnlmB/JiPNa5zr7es087C2OS5Kmq6cDR0ps2
+ ReF3S94I4NzbRv4rb4O/bM4sFJV6N/Iyhf9XUiXG8UdXhR6r+MRoweQGy5oC7OBUntK4
+ kyjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683056493; x=1685648493;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J9/8+ye7mjDQY5cW/Vai8ejtuoCb69ymRumEfh7030U=;
+ b=QC9/R+YohLiZtR8RQlff5Q87KXvxWo11yBwF4JqoLNmI4Bt1Rr/FapIa4CgET0I5eI
+ ZemddCcMFkYJG/IPv5FCxAI5JwN7TcdIe7aYwcB7h4iu3yT0kl2USauDkDpwMNBW3hvq
+ Imk661bUhoS0Dsk1TiludDLn1Nkm4qy32RD2Npj5yKhrEvRtIlv0sSoLgvtJLrYUiTbH
+ ufaiGL7vyAuJWv9+CsqJeQ13L96S5rqu+WTLLpa6x+i56gabZTxRqBbR9DALHCY27EMP
+ r8WnZEsKMUKIj/mzbW+rj0MqKf/Bm+fg+Jsx6Ca5PNOKfw9lCg18slvuA3E/r+N+snWB
+ 6z1g==
+X-Gm-Message-State: AC+VfDysds+2S4ldzUAYm8o0RJJVHjb9A1O2ns6UDoz+xwLiU7sWGzkr
+ qfQfrXEjUeWc+qnx4PQbh6AYSA==
+X-Google-Smtp-Source: ACHHUZ4WkVCeDS4yXzg6yj4VY+U+SPrUKEgCOqu5WCZaGnC1UokaUKZc/1/HDDMfOpKIQtEBve7s6A==
+X-Received: by 2002:a1c:f607:0:b0:3f1:91fc:564 with SMTP id
+ w7-20020a1cf607000000b003f191fc0564mr12753140wmc.7.1683056493130; 
+ Tue, 02 May 2023 12:41:33 -0700 (PDT)
+Received: from ?IPV6:2a02:c7c:74db:8d00:ad29:f02c:48a2:269c?
+ ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
+ by smtp.gmail.com with ESMTPSA id
+ t14-20020a05600c450e00b003f0a6a1f969sm40301482wmo.46.2023.05.02.12.41.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 May 2023 12:41:32 -0700 (PDT)
+Message-ID: <670af6f3-003f-bbc8-4a88-4622a17b485b@linaro.org>
+Date: Tue, 2 May 2023 20:41:31 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XRuGd9g1z5oS2ell"
-Content-Disposition: inline
-In-Reply-To: <ZFEve2GfI0TqsItA@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] softfloat: Fix the incorrect computation in float32_exp2()
+Content-Language: en-US
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, aurelien@aurel32.net,
+ peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org, vaibhav@linux.ibm.com
+References: <168304110865.537992.13059030916325018670.stgit@localhost.localdomain>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <168304110865.537992.13059030916325018670.stgit@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,200 +96,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 5/2/23 16:25, Shivaprasad G Bhat wrote:
+> The float32_exp2() is computing wrong exponent of 2.
+> For example, with the following set of values {0.1, 2.0, 2.0, -1.0},
+> the expected output would be {1.071773, 4.000000, 4.000000, 0.500000}.
+> Instead, the function is computing {1.119102, 3.382044, 3.382044, -0.191022}
+> 
+> Looking at the code, the float32_exp2() attempts to do this
+> 
+>                    2     3     4     5           n
+>    x        x     x     x     x     x           x
+>   e  = 1 + --- + --- + --- + --- + --- + ... + --- + ...
+>             1!    2!    3!    4!    5!          n!
+> 
+> But because of the 'typo'/bug it ends up doing
+> 
+>   x        x     x     x     x     x           x
+> e  = 1 + --- + --- + --- + --- + --- + ... + --- + ...
+>            1!    2!    3!    4!    5!          n!
+> 
+> This is because instead of the xnp which holds the numerator,
+> parts_muladd is using the xp which is just 'x'. The commit '572c4d862ff2'
+> refactored this function, and it seems mistakenly using xp instead of xnp.
+> 
+> The patches fixes this possible typo.
+> 
+> Fixes: 572c4d862ff2 "softfloat: Convert float32_exp2 to FloatParts"
+> Partially-Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1623
+> Reported-By: Luca Barbato (https://gitlab.com/lu-zero)
+> Signed-off-by: Shivaprasad G Bhat<sbhat@linux.ibm.com>
+> Signed-off-by: Vaibhav Jain<vaibhat@linux.ibm.com>
+> ---
+>   fpu/softfloat.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
---XRuGd9g1z5oS2ell
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Whoops.  Good catch.
 
-On Tue, May 02, 2023 at 05:42:51PM +0200, Kevin Wolf wrote:
-> Am 25.04.2023 um 19:27 hat Stefan Hajnoczi geschrieben:
-> > Each vhost-user-blk request runs in a coroutine. When the BlockBackend
-> > enters a drained section we need to enter a quiescent state. Currently
-> > any in-flight requests race with bdrv_drained_begin() because it is
-> > unaware of vhost-user-blk requests.
-> >=20
-> > When blk_co_preadv/pwritev()/etc returns it wakes the
-> > bdrv_drained_begin() thread but vhost-user-blk request processing has
-> > not yet finished. The request coroutine continues executing while the
-> > main loop thread thinks it is in a drained section.
-> >=20
-> > One example where this is unsafe is for blk_set_aio_context() where
-> > bdrv_drained_begin() is called before .aio_context_detached() and
-> > .aio_context_attach(). If request coroutines are still running after
-> > bdrv_drained_begin(), then the AioContext could change underneath them
-> > and they race with new requests processed in the new AioContext. This
-> > could lead to virtqueue corruption, for example.
-> >=20
-> > (This example is theoretical, I came across this while reading the
-> > code and have not tried to reproduce it.)
-> >=20
-> > It's easy to make bdrv_drained_begin() wait for in-flight requests: add
-> > a .drained_poll() callback that checks the VuServer's in-flight counter.
-> > VuServer just needs an API that returns true when there are requests in
-> > flight. The in-flight counter needs to be atomic.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  include/qemu/vhost-user-server.h     |  4 +++-
-> >  block/export/vhost-user-blk-server.c | 16 ++++++++++++++++
-> >  util/vhost-user-server.c             | 14 ++++++++++----
-> >  3 files changed, 29 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/include/qemu/vhost-user-server.h b/include/qemu/vhost-user=
--server.h
-> > index bc0ac9ddb6..b1c1cda886 100644
-> > --- a/include/qemu/vhost-user-server.h
-> > +++ b/include/qemu/vhost-user-server.h
-> > @@ -40,8 +40,9 @@ typedef struct {
-> >      int max_queues;
-> >      const VuDevIface *vu_iface;
-> > =20
-> > +    unsigned int in_flight; /* atomic */
-> > +
-> >      /* Protected by ctx lock */
-> > -    unsigned int in_flight;
-> >      bool wait_idle;
-> >      VuDev vu_dev;
-> >      QIOChannel *ioc; /* The I/O channel with the client */
-> > @@ -62,6 +63,7 @@ void vhost_user_server_stop(VuServer *server);
-> > =20
-> >  void vhost_user_server_inc_in_flight(VuServer *server);
-> >  void vhost_user_server_dec_in_flight(VuServer *server);
-> > +bool vhost_user_server_has_in_flight(VuServer *server);
-> > =20
-> >  void vhost_user_server_attach_aio_context(VuServer *server, AioContext=
- *ctx);
-> >  void vhost_user_server_detach_aio_context(VuServer *server);
-> > diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-=
-user-blk-server.c
-> > index 841acb36e3..092b86aae4 100644
-> > --- a/block/export/vhost-user-blk-server.c
-> > +++ b/block/export/vhost-user-blk-server.c
-> > @@ -272,7 +272,20 @@ static void vu_blk_exp_resize(void *opaque)
-> >      vu_config_change_msg(&vexp->vu_server.vu_dev);
-> >  }
-> > =20
-> > +/*
-> > + * Ensures that bdrv_drained_begin() waits until in-flight requests co=
-mplete.
-> > + *
-> > + * Called with vexp->export.ctx acquired.
-> > + */
-> > +static bool vu_blk_drained_poll(void *opaque)
-> > +{
-> > +    VuBlkExport *vexp =3D opaque;
-> > +
-> > +    return vhost_user_server_has_in_flight(&vexp->vu_server);
-> > +}
-> > +
-> >  static const BlockDevOps vu_blk_dev_ops =3D {
-> > +    .drained_poll  =3D vu_blk_drained_poll,
-> >      .resize_cb =3D vu_blk_exp_resize,
-> >  };
->=20
-> You're adding a new function pointer to an existing BlockDevOps...
->=20
-> > @@ -314,6 +327,7 @@ static int vu_blk_exp_create(BlockExport *exp, Bloc=
-kExportOptions *opts,
-> >      vu_blk_initialize_config(blk_bs(exp->blk), &vexp->blkcfg,
-> >                               logical_block_size, num_queues);
-> > =20
-> > +    blk_set_dev_ops(exp->blk, &vu_blk_dev_ops, vexp);
-> >      blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_d=
-etach,
-> >                                   vexp);
-> > =20
-> >      blk_set_dev_ops(exp->blk, &vu_blk_dev_ops, vexp);
->=20
-> ..but still add a second blk_set_dev_ops(). Maybe a bad merge conflict
-> resolution with commit ca858a5fe94?
-
-Thanks, I probably didn't have ca858a5fe94 in my tree when writing this
-code.
-
-> > @@ -323,6 +337,7 @@ static int vu_blk_exp_create(BlockExport *exp, Bloc=
-kExportOptions *opts,
-> >                                   num_queues, &vu_blk_iface, errp)) {
-> >          blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
-> >                                          blk_aio_detach, vexp);
-> > +        blk_set_dev_ops(exp->blk, NULL, NULL);
-> >          g_free(vexp->handler.serial);
-> >          return -EADDRNOTAVAIL;
-> >      }
-> > @@ -336,6 +351,7 @@ static void vu_blk_exp_delete(BlockExport *exp)
-> > =20
-> >      blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_ai=
-o_detach,
-> >                                      vexp);
-> > +    blk_set_dev_ops(exp->blk, NULL, NULL);
-> >      g_free(vexp->handler.serial);
-> >  }
->=20
-> These two hunks are then probably already fixes for ca858a5fe94 and
-> should be a separate patch if so.
-
-Sure, I can split them out.
-
-hw/ doesn't need to call blk_set_dev_ops(blk, NULL, NULL) because
-hw/core/qdev-properties-system.c:release_drive() -> blk_detach_dev()
-does it automatically, but block/export does. It's easy to overlook and
-that's probably why ca858a5fe94 didn't include it.
-
-> > diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
-> > index 1622f8cfb3..2e6b640050 100644
-> > --- a/util/vhost-user-server.c
-> > +++ b/util/vhost-user-server.c
-> > @@ -78,17 +78,23 @@ static void panic_cb(VuDev *vu_dev, const char *buf)
-> >  void vhost_user_server_inc_in_flight(VuServer *server)
-> >  {
-> >      assert(!server->wait_idle);
-> > -    server->in_flight++;
-> > +    qatomic_inc(&server->in_flight);
-> >  }
-> > =20
-> >  void vhost_user_server_dec_in_flight(VuServer *server)
-> >  {
-> > -    server->in_flight--;
-> > -    if (server->wait_idle && !server->in_flight) {
-> > -        aio_co_wake(server->co_trip);
-> > +    if (qatomic_fetch_dec(&server->in_flight) =3D=3D 1) {
-> > +        if (server->wait_idle) {
-> > +            aio_co_wake(server->co_trip);
-> > +        }
-> >      }
-> >  }
-> > =20
-> > +bool vhost_user_server_has_in_flight(VuServer *server)
-> > +{
-> > +    return qatomic_load_acquire(&server->in_flight) > 0;
-> > +}
-> > +
->=20
-> Any reason why you left the server->in_flight accesses in
-> vu_client_trip() non-atomic?
-
-I don't remember if it was a mistake or if there is a reason why it's
-safe. I'll replace those accesses with calls to
-vhost_user_server_has_in_flight().
-
-Stefan
-
---XRuGd9g1z5oS2ell
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRRZz0ACgkQnKSrs4Gr
-c8iEjwgAov+Ozs58HYaiYo0b4VnPoOnAM2QqHXYzmVRN4+5mqvFWNVKufgQMDbSG
-1o1dgDNOCRU1tpOCUbNRYmvJxvYY6QA9Ho7AdLGPZc6jq2CR4LHarr5MP1Py5ktT
-dGAN6GFH3qzsf93j4wEa0HnWax5RvOdFEPxkK2JKgXRA+AesbOLRizK1q2P5p3TH
-6I0SfPnLhlTeosVaQ4mRLkZuXNt5/bTeh54lW/NSLP6IpbBoB082Wqr1JqCwjdVO
-XxBNAMrMB/0oImJNHh9HSqpB2oHlL2FOa/yu++wNeZ1uzHdt7oRDpgwx2mQpMmiT
-/HhN2vFe1XsM621h8uV5aa4HZH7Hiw==
-=UcN5
------END PGP SIGNATURE-----
-
---XRuGd9g1z5oS2ell--
-
+r~
 
