@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AC36F49FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 20:57:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B07FF6F49FF
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 20:58:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptvB0-0004PE-V4; Tue, 02 May 2023 14:56:39 -0400
+	id 1ptvCB-00052X-Ra; Tue, 02 May 2023 14:57:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptvAy-0004OX-QE
- for qemu-devel@nongnu.org; Tue, 02 May 2023 14:56:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ptvAv-0001yC-Ck
- for qemu-devel@nongnu.org; Tue, 02 May 2023 14:56:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683053792;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JvqiB11pwfyb9mMlyyPXLE6NQZxd1luK1o/19K1fqnk=;
- b=Jl4gsC1KlQMRK0juJOoLPeJbdKQyXa0ar5TmsH51hUb7c8IzyFWx7oVpcQ7KsZ9fLU7e1y
- FFDf3I/nseYyoInDjLMk+EgL4IQGvKr/69RhcjVt0ePFUCGVC9phJK8ASvlRD0ivqxXZWi
- yTiPIzIo+9+GB2mMV5BEfCF3edfSXxs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-hz_-_nNRNHKLUa7zat10Kw-1; Tue, 02 May 2023 14:56:28 -0400
-X-MC-Unique: hz_-_nNRNHKLUa7zat10Kw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF841811E7C;
- Tue,  2 May 2023 18:56:27 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A29F492B03;
- Tue,  2 May 2023 18:56:26 +0000 (UTC)
-Date: Tue, 2 May 2023 14:56:24 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
- eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Hanna Reitz <hreitz@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Daniil Tatianin <d-tatianin@yandex-team.ru>
-Subject: Re: [PATCH v4 03/20] virtio-scsi: avoid race between unplug and
- transport event
-Message-ID: <20230502185624.GA535070@fedora>
-References: <20230425172716.1033562-1-stefanha@redhat.com>
- <20230425172716.1033562-4-stefanha@redhat.com>
- <ZFEqEkG4ktn9bBFN@redhat.com>
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1ptvCA-00052A-6i
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 14:57:50 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1ptvC8-0002Ar-Hs
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 14:57:49 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f19ab994ccso43565745e9.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 11:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683053866; x=1685645866;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vndw2eMh0yfeEeXEe2QijYmw64Ibmm18Jr5KHQSTkwg=;
+ b=H9JVvHpr+Gi2tcJxdtd8JJHc9P8Y+17r53kYZugJOTq+EKNUxyseK/+8IGwzFpHr66
+ d22LpCsiGMSN8AIpfbxyqxoIlmbe+sepAlSgwsxPillKpVLA8EGC5dAHw3IMXFxwxejR
+ TlyklhHEbYcGSdqzI2iAunPcEO+SVg5CuK3t64BcDDM+vT0A1YH+7vclzgScXmdxms7a
+ Thd7bBATAznUBvPH37I0Dm0vijtnBshcBOf4L9uruSP9EJcX7VzAlG4GidORmNLRjd/W
+ 6O7yyIhFs1gwYpjIsym1LLaaYSrasypIDV+E3nt8ArbR4ITjGl0GGvzdGdI0iot2E9ID
+ oKrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683053866; x=1685645866;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vndw2eMh0yfeEeXEe2QijYmw64Ibmm18Jr5KHQSTkwg=;
+ b=PBvi8kjQUkrWa0WQSatCWaYR54/99RM8GixNbqTCUz42625BU5gytxcTUWtDmC87H8
+ prbEbbdrJXPwUABOtd/vDpdM5bdL7SOd79RGAFxLUxOA8m+XKpTkyR8nMFnT29spJh0Q
+ SLDHw+m9BHcorQ8XopzNvh1qVU3rqwYkub1HiVP9syObMrd51mlLDgm9NOIYIA9NkT/f
+ hAUzsFugr/iybg1Dyg1GwTI65piZkdOy4NTxCR+ohpm1gJYbohMgjVSXT9cqlkv0NFsz
+ b//v+lQXTvxNfDT6ADQAtJaNkL00TeL51bp6yheOA1M3uHJ9yq6wHhURlSdM514KW0yC
+ AmKA==
+X-Gm-Message-State: AC+VfDxYcilIhHO+Bin7s//oaOhrCtu/0VSxkG1KvPkQ8zcqoAx1yL/T
+ 9Cvpefp7EyGSEAJHq1kIkpjpNXVw0Bs=
+X-Google-Smtp-Source: ACHHUZ4bFRE/maZDnUvlfnh/XXES59TIPwoq77XHt5oMAJNW12K8SOgtfm+cHErCYc9Kyxz0jyhBKw==
+X-Received: by 2002:a05:600c:2046:b0:3f1:9503:4db0 with SMTP id
+ p6-20020a05600c204600b003f195034db0mr13098687wmg.13.1683053865722; 
+ Tue, 02 May 2023 11:57:45 -0700 (PDT)
+Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net.
+ [86.9.131.95]) by smtp.gmail.com with ESMTPSA id
+ w9-20020a5d6089000000b0030633152664sm4002354wrt.87.2023.05.02.11.57.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 11:57:44 -0700 (PDT)
+From: Stafford Horne <shorne@gmail.com>
+To: QEMU Development <qemu-devel@nongnu.org>
+Cc: Linux OpenRISC <linux-openrisc@vger.kernel.org>,
+ Stafford Horne <shorne@gmail.com>
+Subject: [PATCH 0/3] OpenRISC updates for user space FPU
+Date: Tue,  2 May 2023 19:57:28 +0100
+Message-Id: <20230502185731.3543420-1-shorne@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Qd9ljEEGWct7+HKe"
-Content-Disposition: inline
-In-Reply-To: <ZFEqEkG4ktn9bBFN@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=shorne@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,89 +87,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This series adds support for the FPU related architecture changes defined in
+architecture spec revision v1.4.
 
---Qd9ljEEGWct7+HKe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ - https://openrisc.io/revisions/r1.4
 
-On Tue, May 02, 2023 at 05:19:46PM +0200, Kevin Wolf wrote:
-> Am 25.04.2023 um 19:26 hat Stefan Hajnoczi geschrieben:
-> > Only report a transport reset event to the guest after the SCSIDevice
-> > has been unrealized by qdev_simple_device_unplug_cb().
-> >=20
-> > qdev_simple_device_unplug_cb() sets the SCSIDevice's qdev.realized field
-> > to false so that scsi_device_find/get() no longer see it.
-> >=20
-> > scsi_target_emulate_report_luns() also needs to be updated to filter out
-> > SCSIDevices that are unrealized.
-> >=20
-> > These changes ensure that the guest driver does not see the SCSIDevice
-> > that's being unplugged if it responds very quickly to the transport
-> > reset event.
-> >=20
-> > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Reviewed-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> > @@ -1082,6 +1073,15 @@ static void virtio_scsi_hotunplug(HotplugHandler=
- *hotplug_dev, DeviceState *dev,
-> >          blk_set_aio_context(sd->conf.blk, qemu_get_aio_context(), NULL=
-);
-> >          virtio_scsi_release(s);
-> >      }
-> > +
-> > +    if (virtio_vdev_has_feature(vdev, VIRTIO_SCSI_F_HOTPLUG)) {
-> > +        virtio_scsi_acquire(s);
-> > +        virtio_scsi_push_event(s, sd,
-> > +                               VIRTIO_SCSI_T_TRANSPORT_RESET,
-> > +                               VIRTIO_SCSI_EVT_RESET_REMOVED);
-> > +        scsi_bus_set_ua(&s->bus, SENSE_CODE(REPORTED_LUNS_CHANGED));
-> > +        virtio_scsi_release(s);
-> > +    }
-> >  }
->=20
-> s, sd and s->bus are all unrealized at this point, whereas before this
-> patch they were still realized. I couldn't find any practical problem
-> with it, but it made me nervous enough that I thought I should comment
-> on it at least.
->=20
-> Should we maybe have documentation on these functions that says that
-> they accept unrealized objects as their parameters?
+In summary the architecture changes are:
 
-s is the VirtIOSCSI controller, not the SCSIDevice that is being
-unplugged. The VirtIOSCSI controller is still realized.
+ - Change FPCSR SPR permissions to allow for reading and writing from user
+   space.
+ - Clarify that FPU underflow detection is done by detecting tininess before
+   rounding.
 
-s->bus is the VirtIOSCSI controller's bus, it is still realized.
+Previous to this series FPCSR reads and writes from user-mode in QEMU would
+throw an illegal argument exception.  The proper behavior should have been to
+treat these operations as no-ops as the cpu implementations do.  As mentioned
+series changes FPCSR read/write to follow the spec.
 
-You are right that the SCSIDevice (sd) has been unrealized at this
-point:
-- sd->conf.blk is safe because qdev properties stay alive the
-  Object is deleted, but I'm not sure we should rely on that.
-- virti_scsi_push_event(.., sd, ...) is questionable because the LUN
-  that's fetched from sd no longer belongs to the unplugged SCSIDevice.
+The series has been tested with the FPU support added in glibc test suite and
+all math tests are passing.
 
-How about I change the code to fetch sd->conf.blk and the LUN before
-unplugging?
+Stafford Horne (3):
+  target/openrisc: Allow fpcsr access in user mode
+  target/openrisc: Set PC to cpu state on FPU exception
+  target/openrisc: Setup FPU for detecting tininess before rounding
 
-Stefan
+ target/openrisc/cpu.c        |  5 +++
+ target/openrisc/fpu_helper.c |  4 ++
+ target/openrisc/sys_helper.c | 45 +++++++++++++++++-----
+ target/openrisc/translate.c  | 72 ++++++++++++++++--------------------
+ 4 files changed, 76 insertions(+), 50 deletions(-)
 
---Qd9ljEEGWct7+HKe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRRXNgACgkQnKSrs4Gr
-c8ipsAf+MYIOWS+2lk+xRt3nEDpVri7B1MaNSrlKDWSw2vK6J34jE0bGdHF3I5kZ
-cS6XFEpcK0BRYes0zRpFZyksJFYS1033b2up4HGodKOJp34ahYy7Vg4yNrov6pzO
-pZHJAEeEkK0FrHHJkho15qjoOykxt4bib6RzUFN+EdKo3KGQzk1dEyh8fzPEm40x
-CwNN7D/FJAOOM3CpgsHLUGu6EvOBlfGkd8kS7It3qOD+/BeLFHKDiLBaU5w/IXtA
-WmgFKnZiOEsMQIEIFgcg+m/YrlomPy0kRPFFSFNn7/5yCmhLCU5WNY/1sTiM3LEi
-20aCYTqXQJt5E6c1jk1x21IACc9qRA==
-=PP5I
------END PGP SIGNATURE-----
-
---Qd9ljEEGWct7+HKe--
+-- 
+2.39.1
 
 
