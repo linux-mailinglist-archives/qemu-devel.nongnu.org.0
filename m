@@ -2,93 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D4F6F42C7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439106F42C8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:27:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pto9q-0001lK-Ag; Tue, 02 May 2023 07:26:58 -0400
+	id 1ptoAF-0002Dv-No; Tue, 02 May 2023 07:27:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pto9o-0001lC-Mu
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:26:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pto9m-0005ps-I5
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:26:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683026813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jedsS8JKIMupMkZYMv8Ut/nYhvUVvkUu8MiQSqe9o2s=;
- b=Iqk3Zlz3tsCROqYJEKQI/x4xc5U48ZtwuwWjf3/8Hw2IkBt0MNwCYn02UaNYpVj08nBEtl
- mB8qB+k3fofAyJCA91GKGmr5y3InnFpyGYIJfhFsGJ2XjzQTBLBAerURYoSX9VYUqINzE3
- lhpbIqHN8bAxnvimRZZxRaOWHNQRB1E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-252-lhLg6k7LNs6PXlMbKcrOXw-1; Tue, 02 May 2023 07:26:50 -0400
-X-MC-Unique: lhLg6k7LNs6PXlMbKcrOXw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f1757ebb1eso10775615e9.2
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:26:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptoAC-0002DR-9q
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:27:20 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ptoAA-0005up-Fm
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:27:19 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f19a7f9424so35864805e9.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:27:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683026836; x=1685618836;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NsayxzKy/RyIeoLNcn+o6YxMBMjitP1LJXdDm+9c9zw=;
+ b=IfF/O6zC0uKOOhaxZevx28cGQ0t5F3nb6tfELvDEuAv4Ho+uJW/SKpo8GRT5kp2ipU
+ xjEYoo6oe+XYSY9fjo7ZGztVtu1sAhXQttJHeDubVmCXEdx/U9Fvf5o0+yCXCsVBE0Bl
+ YZpTpYVIivQUBbB4viIJQ3/1oxMa3PJ6k+pTVMrKjjmCUf3DbHcPI3HcbIOTKg72A9RG
+ vqh50Tu2Ei/T/Ipa3d2VzCxXZ1TPsYmnMuTvhdkl6a1O6QbAADNkNVharORgEnmSMrga
+ 5rSn4VaykotpVQRotHcG03hXyVEIy2SoGKG+bWeDIlrkzM266PxkQ8osacdc60fzTyep
+ EE+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683026809; x=1685618809;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jedsS8JKIMupMkZYMv8Ut/nYhvUVvkUu8MiQSqe9o2s=;
- b=O24QGnoaH3E5WSzMjXYJF7nx+CIhT5eH7bg8vBkjNh7+FP5fELrP/LIzci2/ovKWkg
- 3pxE9ZGJJcRK+FuCNzDw/OcfST1YH5zDp8VGXL6YL41GaCmEi0QDiTxHLNysffc727E6
- gjl/sruHR0FsJleNJXr0j0iCHj/Qa6m/Drlcsac5rBYeQUdELvq67JDihGC8agk88Dy4
- TLHKyIkzWUmAH4yjthgWS2JA4pIG3/3nFuFMITcr0X04Rx/svXrHKtbvZ/CrJ71d2k5l
- RWefWAy/QbcOAA4r4/TCkSBIMk4URxOHqyYeKXHlcJ99b65AH5aR3oiALDaqypjt/AKk
- s4kQ==
-X-Gm-Message-State: AC+VfDxDtnBVveguN5LvKW3AUkiYkGX60eiaTq9ICf3mcRfsLhBeklfS
- pHdd09oG2BgKJfmViWGS/NOGjXT9jh3HMBRNZjDoU0otNqXVGQFXzrDyj9eNY2slZUfciG/ivcq
- JzQARGlPTsMSxT9c=
-X-Received: by 2002:a1c:f20b:0:b0:3f3:1299:5625 with SMTP id
- s11-20020a1cf20b000000b003f312995625mr11866635wmc.30.1683026809021; 
- Tue, 02 May 2023 04:26:49 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5oQUY4ir/b7dyVwHyTXhgNw2impEOlE4WI4QgPe0PGNqWEysNQubXc7pVl54kwZEf63Eqfdw==
-X-Received: by 2002:a1c:f20b:0:b0:3f3:1299:5625 with SMTP id
- s11-20020a1cf20b000000b003f312995625mr11866616wmc.30.1683026808719; 
- Tue, 02 May 2023 04:26:48 -0700 (PDT)
-Received: from redhat.com ([185.234.71.33]) by smtp.gmail.com with ESMTPSA id
- w9-20020a05600c474900b003f17e37ce60sm38869179wmo.47.2023.05.02.04.26.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 04:26:48 -0700 (PDT)
-Date: Tue, 2 May 2023 07:26:43 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
- philmd@linaro.org, david@redhat.com, peterx@redhat.com,
- pbonzini@redhat.com, den-plotnikov@yandex-team.ru,
- lersek@redhat.com, kraxel@redhat.com, dgilbert@redhat.com,
- armbru@redhat.com
-Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
-Message-ID: <20230502072501-mutt-send-email-mst@kernel.org>
-References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
- <20230425161434.173022-4-vsementsov@yandex-team.ru>
- <20230426002135-mutt-send-email-mst@kernel.org>
- <bf295d76-9c33-4eca-4b88-2d1a299c8b94@yandex-team.ru>
- <20230502054519-mutt-send-email-mst@kernel.org>
- <875y9bujol.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1683026836; x=1685618836;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NsayxzKy/RyIeoLNcn+o6YxMBMjitP1LJXdDm+9c9zw=;
+ b=SnbcNOvFjdhWj4B+l25OoX1Ke8D6fsMcZ/an0e7fnie6etOwdjX4IsNzvK4f3pSGsj
+ teMz0gA95mD5yEDQKxC7pVrw6Lf8aAlbvq8YzixGYwtTsNb31ua7vaCBNEeBQmECcBUm
+ 1HPNmvLBz5ZKEu/SJDG1FFRL8MTq4Ew+KjMP/6rcW33z7bUOKnTTsCHYS84Znu1v1fc0
+ JvP+xywziZguqFn+iSj8tLgznQJaEJ7StmVCLLR/R4XHj3xFP0sCZ/Skp3D/CyNmv3KA
+ 5YIAafRFkv1rBavxXR1UoXM6XDIoQ3gTz92nK1a5l9Iiep3UxewguqdZS69YhwNyy/JH
+ uTTg==
+X-Gm-Message-State: AC+VfDyKJnUWtVn1dIcpBZwKlaVQy1JL17p4IuergPKoE0zIIKoKz5qB
+ vyNrbO7yU6ZuW9oIu2MI2ArE+w==
+X-Google-Smtp-Source: ACHHUZ7or5DBLdeIYckUdS/BPaSulrcDTUNlqpkHUvD1wvclCb/16UHB4oXbJqxmoGkAqXINNge4uQ==
+X-Received: by 2002:a7b:c7d4:0:b0:3f1:6fb3:ffcc with SMTP id
+ z20-20020a7bc7d4000000b003f16fb3ffccmr12628005wmk.22.1683026835891; 
+ Tue, 02 May 2023 04:27:15 -0700 (PDT)
+Received: from ?IPV6:2a02:c7c:74db:8d00:ad29:f02c:48a2:269c?
+ ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
+ by smtp.gmail.com with ESMTPSA id
+ n17-20020a5d4c51000000b002d6f285c0a2sm30741205wrt.42.2023.05.02.04.27.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 May 2023 04:27:15 -0700 (PDT)
+Message-ID: <7d71b26f-3c5d-1588-6cb2-f6043b03b0bf@linaro.org>
+Date: Tue, 2 May 2023 12:27:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875y9bujol.fsf@secure.mitica>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH RFC v2 5/9] target/loongarch: Implement kvm_arch_init
+ function
+Content-Language: en-US
+To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ gaosong@loongson.cn, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, maobibo@loongson.cn, philmd@linaro.org,
+ peter.maydell@linaro.org
+References: <20230427072645.3368102-1-zhaotianrui@loongson.cn>
+ <20230427072645.3368102-6-zhaotianrui@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230427072645.3368102-6-zhaotianrui@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,55 +100,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, May 02, 2023 at 12:11:38PM +0200, Juan Quintela wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 4/27/23 08:26, Tianrui Zhao wrote:
+> Implement the kvm_arch_init of loongarch, in the function, the
+> KVM_CAP_MP_STATE cap is checked by kvm ioctl.
 > 
-> >> > CC pbonzini,dgilbert,quintela,armbru : guys, is poking at runstate_check like
-> >> > this the right way to figure out we are not going to use the
-> >> > device locally before incoming migration will overwrite ROM contents?
-> >> 
-> >> RUN_STATE_INMIGRATE is set in the only one place in qemu_init() when
-> >> we parse cmdline option -incoming. VM is not running for sure. And
-> >> starting the VM comes with changing the state. So it's OK.
-> >> 
-> >> The possible problem, if we add netcard on target which we didn't
-> >> have on source. I now checked, this works.. But that doesn't seem
-> >> correct to add device that was not present on source - how would it
-> >> work - it's not guaranteed anyway.
-> >
-> > You can add it on source too while migration is in progress, no?
-> 
-> DeviceState *qdev_device_add_from_qdict(const QDict *opts,
->                                         bool from_json, Error **errp)
-> {
->     ....
->     if (!migration_is_idle()) {
->         error_setg(errp, "device_add not allowed while migrating");
->         return NULL;
->     }
-> 
-> It should be similar for unplug.
-> 
-> We only support hotplug for some devices during migration, and we
-> shouldn't need any.
-> 
-> What I think he means is that you can add a device on the command line
-> on destination that don't exist on the source machine, and that will
-> confuse things.
-> 
-> In that case, I would say that the problem is that you are doing
-> something not supported.  You are expected that when you run migration
-> you use the same command line that on source, module whatever
-> hot[un]plug operations you have done before migration.
-> 
-> Anything else is not supported.
-> And for instance, if you are using libvirt, it will do the right thing.
-> 
-> Later, Juan.
+> Signed-off-by: Tianrui Zhao<zhaotianrui@loongson.cn>
+> ---
+>   target/loongarch/kvm.c | 1 +
+>   1 file changed, 1 insertion(+)
 
-OK, so you ack this patch?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-MST
-
+r~
 
