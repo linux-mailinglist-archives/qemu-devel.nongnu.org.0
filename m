@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EF96F457E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 15:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2646F459D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 15:57:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ptqMq-0005cc-2G; Tue, 02 May 2023 09:48:32 -0400
+	id 1ptqU0-0000Fl-Dq; Tue, 02 May 2023 09:55:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ptqMn-0005cM-Vr
- for qemu-devel@nongnu.org; Tue, 02 May 2023 09:48:29 -0400
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ptqMm-00015U-0o
- for qemu-devel@nongnu.org; Tue, 02 May 2023 09:48:29 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.108])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E5D16211B3;
- Tue,  2 May 2023 13:48:23 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 2 May
- 2023 15:48:22 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-109S003748a7f8c-e69b-4ee6-a460-0fa02d316ab8,
- E090D36E4DC625C434D5D892E9869795142AB5A1) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <00455f95-b2e2-2e3d-aeb4-e806418f1f46@kaod.org>
-Date: Tue, 2 May 2023 15:48:21 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ptqTx-0000F2-Ui
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 09:55:53 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ptqTw-00037H-6Z
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 09:55:53 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f19a80a330so23313035e9.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 06:55:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683035750; x=1685627750;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+zLPJoePh+WgFj8dLn/J1noNQP1KAN6O873azoX70Vs=;
+ b=NL+qWRV7S3Y1ei4RuaNZc6WuSdeDmMDItklnRKjxUfzBiZRvyqeU6mhXYNcDzRHymM
+ 5GofJE2+AKb2sa662GRKXmfAXNdy83thOTP9J9sJArN0It+UzqpbAKF5MEP4mRtK+3jl
+ T2lo82OtEx8WL4j+SSSSVVhA1T4v8r4qbmMKYM8cQ8mdHXEpopaE3H13KK96R3XJKC41
+ KcoIuyaPRa7s1+ys2fQ9mJDHTCUnKjDLY07Oit5voa4EILEgbgN5t9eYSm2+enVoUe8n
+ 2+uN4qKCI6pYxOLvkvTo/u98o4mBwFZzd8gSgmQRkqVgd7zibKB3EwKRDFWeOpB5u5dp
+ IFOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683035750; x=1685627750;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+zLPJoePh+WgFj8dLn/J1noNQP1KAN6O873azoX70Vs=;
+ b=FM4GlVFcDhcbwhtw4I1qBYi/OW4lpTklLnMiiJtKdlzLslvE/jmRfYw/or6cQ57k+G
+ OZkNXtZPXneS4ViWz2QZrqrZivwfIyu7Yk4o7Cy66TcZB0ZIegMbXHskhjL+optzNlgD
+ f2WLq3M7Rc0/PFnbLzprTIUZPiwAdoagpDA4TvKWAM5cxP+xunApxr6j1BOpBT/wiMyE
+ +PW54U9oZ6iWIvLpQeLYtlFQTT/Bjmr2+GMoz/I4ujhk7lcmmHTb8PhZDGmUY/qdlvZ/
+ FCGQVbvs4nPLxDHn0AiEx1OnSzjZk46xr07COeLZryzM/Yb4+eXaTAIXY/cMY8AdcOz3
+ r7dw==
+X-Gm-Message-State: AC+VfDy7kMsvl2OKQNivQfyzo8ugOluruhHLurSZOUMeKP3jjJIS+bT1
+ xd0PU0YadkBzvY98gKEjYyFlgXbzD0Iu/SmNarc=
+X-Google-Smtp-Source: ACHHUZ4i/6Z8MpGXqacrU4SfT1yG24lHn3lYJngh/s9x6bf+bvjUKPGwKUTHTuPEaKam3eC2vDEdjw==
+X-Received: by 2002:a1c:ed0e:0:b0:3f1:800f:cc61 with SMTP id
+ l14-20020a1ced0e000000b003f1800fcc61mr12132073wmh.13.1683035750524; 
+ Tue, 02 May 2023 06:55:50 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ o2-20020a05600c4fc200b003f1738e64c0sm39277008wmq.20.2023.05.02.06.55.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 May 2023 06:55:50 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-stable@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Kshitij Suri <kshitij.suri@nutanix.com>
+Subject: [PATCH] ui: Fix pixel colour channel order for PNG screenshots
+Date: Tue,  2 May 2023 14:55:48 +0100
+Message-Id: <20230502135548.2451309-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v20 01/21] s390x/cpu topology: add s390 specifics to CPU
- topology
-Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
- <berrange@redhat.com>
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-2-pmorel@linux.ibm.com>
- <0e575143-573f-9363-d8dc-103bb819d15b@kaod.org>
-In-Reply-To: <0e575143-573f-9363-d8dc-103bb819d15b@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: dd42d1c5-36d7-447a-911f-1bbfc9586c04
-X-Ovh-Tracer-Id: 1488158203183205331
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfedviedgjedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffhvfevfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegveegudfffeeigfdvteeukeefleetgeekgfefudekuedvjeduleeftdeihfdtffenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtledpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnshhgsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvgh
- gvrhdrkhgvrhhnvghlrdhorhhgpdhfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,46 +90,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/2/23 14:05, Cédric Le Goater wrote:
-> On 4/25/23 18:14, Pierre Morel wrote:
->> S390 adds two new SMP levels, drawers and books to the CPU
->> topology.
->> The S390 CPU have specific topology features like dedication
->> and entitlement to give to the guest indications on the host
->> vCPUs scheduling and help the guest take the best decisions
->> on the scheduling of threads on the vCPUs.
->>
->> Let us provide the SMP properties with books and drawers levels
->> and S390 CPU with dedication and entitlement,
-> 
-> I think CpuS390Entitlement should be introduced in a separate patch and
-> only under target/s390x/cpu.c. It is machine specific and doesn't belong
-> to the machine common definitions.
-> 
-> 'books' and 'drawers' could also be considered z-specific but High End
-> POWER systems (16s) have similar topology concepts, at least for drawers :
-> a group of 4 sockets. So let's keep it that way.
-> 
-> 
-> This problably means you will have to rework the get/set property handlers
-> with strcmp() or simply copy the generated lookup struct :
-> 
-> const QEnumLookup CpuS390Entitlement_lookup = {
->      .array = (const char *const[]) {
->          [S390_CPU_ENTITLEMENT_AUTO] = "auto",
->          [S390_CPU_ENTITLEMENT_LOW] = "low",
->          [S390_CPU_ENTITLEMENT_MEDIUM] = "medium",
->          [S390_CPU_ENTITLEMENT_HIGH] = "high",
->      },
->      .size = S390_CPU_ENTITLEMENT__MAX
-> };
-> 
-> It should be fine.
+When we take a PNG screenshot the ordering of the colour channels in
+the data is not correct, resulting in the image having weird
+colouring compared to the actual display.  (Specifically, on a
+little-endian host the blue and red channels are swapped; on
+big-endian everything is wrong.)
 
-The enum is required by the set-cpu-topology QMP command in patch 8.
-Forget my comment, it would require too much changes in your series
-to introduce CPU Entitlement independently.
+This happens because the pixman idea of the pixel data and the libpng
+idea differ.  PIXMAN_a9r8g8b8 defines that pixels are 32-bit values,
+with A in bits 24-31, R in bits 16-23, G in bits 8-15 and B in bits
+0-7.  This means that on little-endian systems the bytes in memory
+are
+   B G R A
+and on big-endian systems they are
+   A R G B
 
-C.
+libpng, on the other hand, thinks of pixels as being a series of
+values for each channel, so its format PNG_COLOR_TYPE_RGB_ALPHA
+always wants bytes in the order
+   R G B A
+
+This isn't the same as the pixman order for either big or little
+endian hosts.
+
+The alpha channel is also unnecessary bulk in the output PNG file,
+because there is no alpha information in a screenshot.
+
+To handle the endianness issue, we already define in ui/qemu-pixman.h
+various PIXMAN_BE_* and PIXMAN_LE_* values that give consistent
+byte-order pixel channel formats.  So we can use PIXMAN_BE_r8g8b8 and
+PNG_COLOR_TYPE_RGB, which both have an in-memory byte order of
+    R G B
+and 3 bytes per pixel.
+
+(PPM format screenshots get this right; they already use the
+PIXMAN_BE_r8g8b8 format.)
+
+Cc: qemu-stable@nongnu.org
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1622
+Fixes: 9a0a119a382867 ("Added parameter to take screenshot with screendump as PNG")
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Disclaimer: I don't have a BE system that I have convenient
+graphics output from that I can use to test the screenshot
+format there.
+---
+ ui/console.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ui/console.c b/ui/console.c
+index 6e8a3cdc62d..e173731e205 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -311,7 +311,7 @@ static bool png_save(int fd, pixman_image_t *image, Error **errp)
+     png_struct *png_ptr;
+     png_info *info_ptr;
+     g_autoptr(pixman_image_t) linebuf =
+-                            qemu_pixman_linebuf_create(PIXMAN_a8r8g8b8, width);
++        qemu_pixman_linebuf_create(PIXMAN_BE_r8g8b8, width);
+     uint8_t *buf = (uint8_t *)pixman_image_get_data(linebuf);
+     FILE *f = fdopen(fd, "wb");
+     int y;
+@@ -341,7 +341,7 @@ static bool png_save(int fd, pixman_image_t *image, Error **errp)
+     png_init_io(png_ptr, f);
+ 
+     png_set_IHDR(png_ptr, info_ptr, width, height, 8,
+-                 PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
++                 PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE,
+                  PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+ 
+     png_write_info(png_ptr, info_ptr);
+-- 
+2.34.1
 
 
