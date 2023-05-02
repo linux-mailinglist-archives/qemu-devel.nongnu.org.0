@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82116F4293
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B020A6F4298
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 May 2023 13:22:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pto3f-0000dX-9I; Tue, 02 May 2023 07:20:35 -0400
+	id 1pto3e-0000dT-QC; Tue, 02 May 2023 07:20:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pto3d-0000cU-0w
- for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:33 -0400
+ id 1pto3c-0000cQ-Uy
+ for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:32 -0400
 Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pto3a-0003DB-5e
+ id 1pto3a-0003Db-94
  for qemu-devel@nongnu.org; Tue, 02 May 2023 07:20:32 -0400
 Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f199696149so22194655e9.0
+ 5b1f17b1804b1-3f1958d3a53so35981365e9.0
  for <qemu-devel@nongnu.org>; Tue, 02 May 2023 04:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683026426; x=1685618426;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lK51qYTnNnXJZN0e/9Jj4Bv1cCHWx7/0IfdphjJpI60=;
- b=L95KvQ6rBgD+qvawWChW8rAILSp8WVgzuGzmQSyi1Uk6UCsT1LttKIuoHxklZJ+trd
- xGv+NRi9+5Wa16J1D9k+42+WsvkkjH1jM2/vVxo/vUaq5nPrGMqNCUnUj+jV5c1aiBDr
- tXzvnm5zY0Bvr4F9v5dQ81Q8uQFGZ3+KE/Rppz9/+3l8AKnBChj+fUa9MFHZpZQdUKJv
- jlL0I22Qxg92yAqmSeAL1fmvnK274v50nu34aIvIkpaVTGg1A+Mjq5fA1YV94bBVZdQz
- Ahk9bSN6IOyFNdFPa3IlBmrgFPBVMoyimrk8YX2Ex4LUBFw6IWwM0HrSYYq4c53cYHNf
- f8MQ==
+ bh=LwU44caHLzwnuUU4efWp0isf3CaogQy6f09UO9nNvLc=;
+ b=g2vsofwH8NtgVeI3htnKYu44AJsoo6vEdonGNkS386QGcFuSVIBbC0ENos6QPXwC3n
+ pdgETZiU77uoLnSvatm/jUqNe0XZI9dGC7oowi6wOgNZsrcPgfMUGnQAAFc3jctQZ2pd
+ DISXjY34wA3wpAMTXcBiV+l3ITFnsRdVOialB+Ccpu0TcgqCV2jHkOpSQG8GixJDik6t
+ wSl6k0LSFFdxFitutpWyvxoOjP2uRuiu01kZ+MG+jUx+QraArKogs8GlUgwcRev/laAm
+ 9e1osmqvCgFE4YVRPOJ624OUD2yUtGWq2g4I9qCSXdgEjnWVv1cSx5N5Yw4VvuOGZTMB
+ ioBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683026426; x=1685618426;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lK51qYTnNnXJZN0e/9Jj4Bv1cCHWx7/0IfdphjJpI60=;
- b=JX8Czp9EQ3Pfa2TqC8V292zB9K1Ssx6mGdHvqnM32wSVvihZLiaCCCvlpuHcSVgLAr
- fuJEOy4NJq9mJtpD6wzcQaVhD0hslKj4oQP5U5v90SujzUdEuLt1i2W18cLX9zuGNuxc
- 886/g4vHSd080VZubsQ7XX03wY16efmAuWZZosCeTkvVu+HN5BZpmYXY4WyF8dSdVaWH
- FMaUbtbUQ/ZCdXcRl4DViQ4JtU8OyqYzVVwDlyN4wsmxA3HrElK1DOl4P1tPK/llWD0a
- b2m/dKrv2N30uqDCFX2vY9yplodeGFy/k7RB+2GXxMSOcEBnfWdihTMJhzjGhoHppc2A
- 8SBw==
-X-Gm-Message-State: AC+VfDwHbu6ECVo+J/dWFatk7eEJfNTrPpF+c5qN7Q1GZ4Bs4qiYqxm2
- RF1qKhnGrhSwRVRwbYyhPGLpv4d8orW/BDX2J8H6vA==
-X-Google-Smtp-Source: ACHHUZ7EFNhQdLy7GGZmGoTXCdrL8gWL5tCWtZe5oKXfYLlfO5JREu6q8SDntNT23necnF0Ni0NpRA==
-X-Received: by 2002:a1c:7502:0:b0:3ed:af6b:7fb3 with SMTP id
- o2-20020a1c7502000000b003edaf6b7fb3mr11664221wmc.2.1683026426025; 
+ bh=LwU44caHLzwnuUU4efWp0isf3CaogQy6f09UO9nNvLc=;
+ b=P1sYNuXxxYNrK8ymGo6uw7jtnLGoq407fDkYy6+dSXfo9OaUWD++QOd7ZA51Tuwg7b
+ JvLiY6bJTayuYgsrenV0klglqZlhGN/hwJWMH/65fIMpRRw+bugzb6fFM4Yu/Y8d6ABM
+ HsNH4a//oUvsoAM8+2BygOEPBIS/kLsJBOYGvgZeCuYicO0b75Sssse8V/1FYLzN1L/p
+ Xyf81O0MJ1CHvTEi93HepLhyWnLifRnNlEdvyUh2sJErZ83Spkw0jVAcKP+mPeNjqgPE
+ x7Qt2euUSCK/jQVNADfPe/uGkFceBPEScthOEnEbdOgiDYSyfkBgogbltd8VnSFNl2Td
+ z0Iw==
+X-Gm-Message-State: AC+VfDzlvgXDhjRans2r9mPr8neGJxpjTjr1dGcNzF+/vPfdRiY+NKPk
+ NW56Ym3hzKwLYIYD/dC+yP3MLba0OSo7A9uyOJ4WvA==
+X-Google-Smtp-Source: ACHHUZ7yquLRotG6/K7zPIWqzoZ224JMyEsxqUBdej0MpaZnyBeJbqge629rk/CbqYI3/s2cURkx3g==
+X-Received: by 2002:a05:600c:378e:b0:3f2:549b:3ef2 with SMTP id
+ o14-20020a05600c378e00b003f2549b3ef2mr11501957wmr.17.1683026426622; 
  Tue, 02 May 2023 04:20:26 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:ad29:f02c:48a2:269c])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a05600c221000b003ee1b2ab9a0sm35182623wml.11.2023.05.02.04.20.25
+ z16-20020a05600c221000b003ee1b2ab9a0sm35182623wml.11.2023.05.02.04.20.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 04:20:25 -0700 (PDT)
+ Tue, 02 May 2023 04:20:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>, Junqiang Wang <wangjunqiang@iscas.ac.cn>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [PULL 02/12] accel/tcg: Uncache the host address for instruction
- fetch when tlb size < 1
-Date: Tue,  2 May 2023 12:20:13 +0100
-Message-Id: <20230502112023.776823-3-richard.henderson@linaro.org>
+Cc: Dickon Hood <dickon.hood@codethink.co.uk>
+Subject: [PULL 03/12] qemu/bitops.h: Limit rotate amounts
+Date: Tue,  2 May 2023 12:20:14 +0100
+Message-Id: <20230502112023.776823-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230502112023.776823-1-richard.henderson@linaro.org>
 References: <20230502112023.776823-1-richard.henderson@linaro.org>
@@ -93,41 +91,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Weiwei Li <liweiwei@iscas.ac.cn>
+From: Dickon Hood <dickon.hood@codethink.co.uk>
 
-When PMP entry overlap part of the page, we'll set the tlb_size to 1, which
-will make the address in tlb entry set with TLB_INVALID_MASK, and the next
-access will again go through tlb_fill.However, this way will not work in
-tb_gen_code() => get_page_addr_code_hostp(): the TLB host address will be
-cached, and the following instructions can use this host address directly
-which may lead to the bypass of PMP related check.
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1542.
+Rotates have been fixed up to only allow for reasonable rotate amounts
+(ie, no rotates >7 on an 8b value etc.)  This fixes a problem with riscv
+vector rotate instructions.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Signed-off-by: Dickon Hood <dickon.hood@codethink.co.uk>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230422130329.23555-6-liweiwei@iscas.ac.cn>
+Message-Id: <20230428144757.57530-9-lawrence.hunter@codethink.co.uk>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/qemu/bitops.h | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index e984a98dc4..efa0cb67c9 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1696,6 +1696,11 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-     if (p == NULL) {
-         return -1;
-     }
-+
-+    if (full->lg_page_size < TARGET_PAGE_BITS) {
-+        return -1;
-+    }
-+
-     if (hostp) {
-         *hostp = p;
-     }
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 03213ce952..c443995b3b 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -218,7 +218,8 @@ static inline unsigned long find_first_zero_bit(const unsigned long *addr,
+  */
+ static inline uint8_t rol8(uint8_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((8 - shift) & 7));
++    shift &= 7;
++    return (word << shift) | (word >> (8 - shift));
+ }
+ 
+ /**
+@@ -228,7 +229,8 @@ static inline uint8_t rol8(uint8_t word, unsigned int shift)
+  */
+ static inline uint8_t ror8(uint8_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((8 - shift) & 7));
++    shift &= 7;
++    return (word >> shift) | (word << (8 - shift));
+ }
+ 
+ /**
+@@ -238,7 +240,8 @@ static inline uint8_t ror8(uint8_t word, unsigned int shift)
+  */
+ static inline uint16_t rol16(uint16_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((16 - shift) & 15));
++    shift &= 15;
++    return (word << shift) | (word >> (16 - shift));
+ }
+ 
+ /**
+@@ -248,7 +251,8 @@ static inline uint16_t rol16(uint16_t word, unsigned int shift)
+  */
+ static inline uint16_t ror16(uint16_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((16 - shift) & 15));
++    shift &= 15;
++    return (word >> shift) | (word << (16 - shift));
+ }
+ 
+ /**
+@@ -258,7 +262,8 @@ static inline uint16_t ror16(uint16_t word, unsigned int shift)
+  */
+ static inline uint32_t rol32(uint32_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((32 - shift) & 31));
++    shift &= 31;
++    return (word << shift) | (word >> (32 - shift));
+ }
+ 
+ /**
+@@ -268,7 +273,8 @@ static inline uint32_t rol32(uint32_t word, unsigned int shift)
+  */
+ static inline uint32_t ror32(uint32_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((32 - shift) & 31));
++    shift &= 31;
++    return (word >> shift) | (word << (32 - shift));
+ }
+ 
+ /**
+@@ -278,7 +284,8 @@ static inline uint32_t ror32(uint32_t word, unsigned int shift)
+  */
+ static inline uint64_t rol64(uint64_t word, unsigned int shift)
+ {
+-    return (word << shift) | (word >> ((64 - shift) & 63));
++    shift &= 63;
++    return (word << shift) | (word >> (64 - shift));
+ }
+ 
+ /**
+@@ -288,7 +295,8 @@ static inline uint64_t rol64(uint64_t word, unsigned int shift)
+  */
+ static inline uint64_t ror64(uint64_t word, unsigned int shift)
+ {
+-    return (word >> shift) | (word << ((64 - shift) & 63));
++    shift &= 63;
++    return (word >> shift) | (word << (64 - shift));
+ }
+ 
+ /**
 -- 
 2.34.1
 
