@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159B06F5152
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E136F50E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:13:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6dt-0004bO-K8; Wed, 03 May 2023 03:11:13 -0400
+	id 1pu6di-0003io-0D; Wed, 03 May 2023 03:11:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6dL-0002qQ-Nu
+ id 1pu6dL-0002qP-Mb
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:46 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6dF-00071j-RT
+ id 1pu6dF-000720-Qb
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:38 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f4000ec71dso102065e9.2
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f4000ec71dso102175e9.2
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:10:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683097829; x=1685689829;
+ d=linaro.org; s=google; t=1683097830; x=1685689830;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RIuPmH6ahEdkBPNFgC0JloIF81VLEbIJTekYJKef9xw=;
- b=fUHKKZ7be5qnEq91nqyhWSgouAz52BFbY184+vHS6J4hS4RU4WZaTjhKg8pgzgMP4D
- p6I6QBFp3siRsAZMbONpV2jivSNiLPgyRGdCE2SnDA5kZURdh3KcVt4Q0MzcqV5svZnE
- bVS5TzEdB8WcLFo1GBgpEedbjTOVN3HPY6NW2MCgcAdzaX6QdmcqVsmyfwtCsVCEej4z
- Bytv2/AXH2kTTxAv8QkWDBL+VGYF/LYwewMtolCalnyNMEhZJn+uzhbITN5HMSSflnBA
- EFwC+I2W76pL+H5XiVND2Alw7IF2DUKaQlqn/qen00lPRQFdwsaDagJIPq9xD4iAbYOw
- 5+jA==
+ bh=ml1dYN+0ocahvRRJROPmQB5pqTLfE2AuSNUfwF2mFh4=;
+ b=Cbap4TH6dsr8ok1n7INwlJqpkcBV955R8zccU9z6DmiHHMsVI5BS0sDDMmmCSzjAuv
+ W04XImevlf9hVXvlajHYaOxnEvXmHyaCydk/Dd6pk2OXQSI0bvQZd1AFUebjFrJI+ejS
+ 5dJngeFP1fZCXxobrXc7a0H2Uha3gx0k/Heutdc+OParUGkfDiQ740riOy/ankCRg6Sc
+ UJv3zWjUIU/KqPNfUieZdtpIg5PeX1nGBQNoO9hDI6FSYD7DbMn+I1LSn9ndB3iJ2Qrk
+ pgympACo+yobu4fYb1vUwNj0xrXnTn5LqF2OKZmhN1h3WHsaJYYyXjCDY1Z/Pl3hF4Tm
+ cXeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683097829; x=1685689829;
+ d=1e100.net; s=20221208; t=1683097830; x=1685689830;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RIuPmH6ahEdkBPNFgC0JloIF81VLEbIJTekYJKef9xw=;
- b=UcGfqSgooUEDJa4X4T8DOooTDbIAl08IMQ9h6IcYjVdJvT3gWJjZZ6/O4f86vDFhL2
- 4pCRcNbkD5AfMF56fzTUEztLRbM4jKkVmxomAwn+VFdOZwS0crAlRq7kVTyxut8uPvSj
- AWx+w1VQltqrrWAUwXVVvHaEfiKitm2SF54Y3Eg4VBs8vUi3jsXsQhXTpYfhIplXVYNs
- y9lmiQL8Tnyg6EnChYkIhGpI/9Z9HEHV0wbQfX4YXrZXLJ9sCOyXSIe8PH3HzpT3r3DG
- DCdL3PtrRVjJMUH9b9VokQFi72H9ScgJ4LQ8ICiidGe9hQ6CEJxA5XWZ1SSN3D9NFQWU
- mOTA==
-X-Gm-Message-State: AC+VfDwFVAbZ37q3UszNE67ETN49NXDtsJe/bFGyU6eiu8dc4v0UGjsE
- JkQuOu8KH0OwCYnmau/i2ZVUeeiB9tIGksijkpJFAA==
-X-Google-Smtp-Source: ACHHUZ5nAK4gVBHMZztTmfml3dlXK91LnwWsXTQ+sG4/OcWjBpXC7/RNHidKn7BLQr4cefMal4CksQ==
-X-Received: by 2002:a05:600c:21cb:b0:3f2:73a:32fc with SMTP id
- x11-20020a05600c21cb00b003f2073a32fcmr13859787wmj.32.1683097829155; 
+ bh=ml1dYN+0ocahvRRJROPmQB5pqTLfE2AuSNUfwF2mFh4=;
+ b=Jv4ACvGVppd7uh7kPLycexGkRLyY7iqc173WO519idqOilblHmEab8ny6qmVYC5/oZ
+ ysKxBBi6zBKjBpoNgjuzSwarJbrB0bgxjFab8cVWj0bJBjsKitoQC7mw1hvT5vjC6+bg
+ nj/C863iclzuaQ9GkPgMDEi4hU3s1x7Kvg/X79sWz9uu59VbZakgMOEhHKStMcQSAAOx
+ 0bVvRzwTVHnc26lDUS15e6u26Bzrs8JUwtSRQbZ5DgtYBOsi4JvijSjeUhpva4KTf5uh
+ hNQoRANlz0Yo0apunemrvCqNa016G1o8z69hT9R+yEfL63qNG3mUJAswV1CY4ZF7mkRp
+ jN4g==
+X-Gm-Message-State: AC+VfDyHODjm8fI6kX2BhZwzyhZQ+OJ2LTSsDwR8DjHcZ/CFRKAw9Pez
+ yULL+G9iBaIyLC3Q81EP6mT7vQbQHVQfzXbmz1ih8g==
+X-Google-Smtp-Source: ACHHUZ6SOtyN8g6EHm89zMDUjjC/7KOW1Spv50Anlc05HK5F9wiL0NIMP11QZmBWGgjADCVdTbFJsA==
+X-Received: by 2002:a1c:6a18:0:b0:3f1:7372:f98f with SMTP id
+ f24-20020a1c6a18000000b003f17372f98fmr13373219wmc.41.1683097829891; 
  Wed, 03 May 2023 00:10:29 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c444900b003f173be2ccfsm54223673wmn.2.2023.05.03.00.10.28
+ v9-20020a05600c444900b003f173be2ccfsm54223673wmn.2.2023.05.03.00.10.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:10:28 -0700 (PDT)
+ Wed, 03 May 2023 00:10:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: git@xen0n.name, gaosong@loongson.cn, philmd@linaro.org,
  qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v4 41/57] tcg: Support TCG_TYPE_I128 in tcg_out_{ld,
- st}_helper_{args, ret}
-Date: Wed,  3 May 2023 08:06:40 +0100
-Message-Id: <20230503070656.1746170-42-richard.henderson@linaro.org>
+Subject: [PATCH v4 42/57] tcg: Introduce atom_and_align_for_opc
+Date: Wed,  3 May 2023 08:06:41 +0100
+Message-Id: <20230503070656.1746170-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503070656.1746170-1-richard.henderson@linaro.org>
 References: <20230503070656.1746170-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,275 +92,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Examine MemOp for atomicity and alignment, adjusting alignment
+as required to implement atomicity on the host.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 174 ++++++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 148 insertions(+), 26 deletions(-)
+ tcg/tcg.c | 69 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index b0e30a55ca..3905d3041c 100644
+index 3905d3041c..2422da64ac 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -206,6 +206,7 @@ static void * const qemu_ld_helpers[MO_SSIZE + 1] __attribute__((unused)) = {
-     [MO_UQ] = helper_ldq_mmu,
- #if TCG_TARGET_REG_BITS == 64
-     [MO_SL] = helper_ldsl_mmu,
-+    [MO_128] = helper_ld16_mmu,
+@@ -220,6 +220,11 @@ static void * const qemu_st_helpers[MO_SIZE + 1] __attribute__((unused)) = {
  #endif
  };
  
-@@ -214,6 +215,9 @@ static void * const qemu_st_helpers[MO_SIZE + 1] __attribute__((unused)) = {
-     [MO_16] = helper_stw_mmu,
-     [MO_32] = helper_stl_mmu,
-     [MO_64] = helper_stq_mmu,
-+#if TCG_TARGET_REG_BITS == 64
-+    [MO_128] = helper_st16_mmu,
-+#endif
- };
- 
++static MemOp atom_and_align_for_opc(TCGContext *s, MemOp *p_atom_a,
++                                    MemOp *p_atom_u, MemOp opc,
++                                    MemOp host_atom, bool allow_two_ops)
++    __attribute__((unused));
++
  TCGContext tcg_init_ctx;
-@@ -773,6 +777,15 @@ static TCGHelperInfo info_helper_ld64_mmu = {
-               | dh_typemask(ptr, 4)  /* uintptr_t ra */
- };
+ __thread TCGContext *tcg_ctx;
  
-+static TCGHelperInfo info_helper_ld128_mmu = {
-+    .flags = TCG_CALL_NO_WG,
-+    .typemask = dh_typemask(i128, 0) /* return Int128 */
-+              | dh_typemask(env, 1)
-+              | dh_typemask(tl, 2)   /* target_ulong addr */
-+              | dh_typemask(i32, 3)  /* unsigned oi */
-+              | dh_typemask(ptr, 4)  /* uintptr_t ra */
-+};
-+
- static TCGHelperInfo info_helper_st32_mmu = {
-     .flags = TCG_CALL_NO_WG,
-     .typemask = dh_typemask(void, 0)
-@@ -793,6 +806,16 @@ static TCGHelperInfo info_helper_st64_mmu = {
-               | dh_typemask(ptr, 5)  /* uintptr_t ra */
- };
- 
-+static TCGHelperInfo info_helper_st128_mmu = {
-+    .flags = TCG_CALL_NO_WG,
-+    .typemask = dh_typemask(void, 0)
-+              | dh_typemask(env, 1)
-+              | dh_typemask(tl, 2)   /* target_ulong addr */
-+              | dh_typemask(i128, 3) /* Int128 data */
-+              | dh_typemask(i32, 4)  /* unsigned oi */
-+              | dh_typemask(ptr, 5)  /* uintptr_t ra */
-+};
-+
- #ifdef CONFIG_TCG_INTERPRETER
- static ffi_type *typecode_to_ffi(int argmask)
- {
-@@ -1206,8 +1229,10 @@ static void tcg_context_init(unsigned max_cpus)
- 
-     init_call_layout(&info_helper_ld32_mmu);
-     init_call_layout(&info_helper_ld64_mmu);
-+    init_call_layout(&info_helper_ld128_mmu);
-     init_call_layout(&info_helper_st32_mmu);
-     init_call_layout(&info_helper_st64_mmu);
-+    init_call_layout(&info_helper_st128_mmu);
- 
- #ifdef CONFIG_TCG_INTERPRETER
-     init_ffi_layouts();
-@@ -5361,6 +5386,9 @@ static void tcg_out_ld_helper_args(TCGContext *s, const TCGLabelQemuLdst *ldst,
-     case MO_64:
-         info = &info_helper_ld64_mmu;
-         break;
-+    case MO_128:
-+        info = &info_helper_ld128_mmu;
-+        break;
-     default:
-         g_assert_not_reached();
+@@ -5123,6 +5128,70 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
      }
-@@ -5375,8 +5403,33 @@ static void tcg_out_ld_helper_args(TCGContext *s, const TCGLabelQemuLdst *ldst,
+ }
  
-     tcg_out_helper_load_slots(s, nmov, mov, parm);
- 
--    /* No special attention for 32 and 64-bit return values. */
--    tcg_debug_assert(info->out_kind == TCG_CALL_RET_NORMAL);
-+    switch (info->out_kind) {
-+    case TCG_CALL_RET_NORMAL:
-+    case TCG_CALL_RET_BY_VEC:
-+        break;
-+    case TCG_CALL_RET_BY_REF:
-+        /*
-+         * The return reference is in the first argument slot.
-+         * We need memory in which to return: re-use the top of stack.
-+         */
-+        {
-+            int ofs_slot0 = arg_slot_stk_ofs(0);
++/*
++ * Return the alignment and atomicity to use for the inline fast path
++ * for the given memory operation.  The alignment may be larger than
++ * that specified in @opc, and the correct alignment will be diagnosed
++ * by the slow path helper.
++ */
++static MemOp atom_and_align_for_opc(TCGContext *s, MemOp *p_atom_a,
++                                    MemOp *p_atom_u, MemOp opc,
++                                    MemOp host_atom, bool allow_two_ops)
++{
++    MemOp align = get_alignment_bits(opc);
++    MemOp atom, atmax, atmin, size = opc & MO_SIZE;
 +
-+            if (arg_slot_reg_p(0)) {
-+                tcg_out_addi_ptr(s, tcg_target_call_iarg_regs[0],
-+                                 TCG_REG_CALL_STACK, ofs_slot0);
-+            } else {
-+                tcg_debug_assert(parm->ntmp != 0);
-+                tcg_out_addi_ptr(s, parm->tmp[0],
-+                                 TCG_REG_CALL_STACK, ofs_slot0);
-+                tcg_out_st(s, TCG_TYPE_PTR, parm->tmp[0],
-+                           TCG_REG_CALL_STACK, ofs_slot0);
-+            }
-+        }
++    /* When serialized, no further atomicity required.  */
++    if (s->gen_tb->cflags & CF_PARALLEL) {
++        atom = opc & MO_ATOM_MASK;
++    } else {
++        atom = MO_ATOM_NONE;
++    }
++
++    atmax = opc & MO_ATMAX_MASK;
++    if (atmax == MO_ATMAX_SIZE) {
++        atmax = size;
++    } else {
++        atmax = atmax >> MO_ATMAX_SHIFT;
++    }
++
++    switch (atom) {
++    case MO_ATOM_NONE:
++        /* The operation requires no specific atomicity. */
++        atmax = atmin = MO_8;
++        break;
++    case MO_ATOM_IFALIGN:
++        /* If unaligned, the subobjects are bytes. */
++        atmin = MO_8;
++        break;
++    case MO_ATOM_WITHIN16:
++        /* If unaligned, there are subobjects if atmax < size. */
++        atmin = (atmax < size ? atmax : MO_8);
++        atmax = size;
++        break;
++    case MO_ATOM_SUBALIGN:
++        /* If unaligned but not odd, there are subobjects up to atmax - 1. */
++        atmin = (atmax == MO_8 ? MO_8 : atmax - 1);
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
- 
-     tcg_out_helper_load_common_args(s, ldst, parm, info, next_arg);
- }
-@@ -5385,11 +5438,18 @@ static void tcg_out_ld_helper_ret(TCGContext *s, const TCGLabelQemuLdst *ldst,
-                                   bool load_sign,
-                                   const TCGLdstHelperParam *parm)
- {
-+    MemOp mop = get_memop(ldst->oi);
-     TCGMovExtend mov[2];
-+    int ofs_slot0;
- 
--    if (ldst->type <= TCG_TYPE_REG) {
--        MemOp mop = get_memop(ldst->oi);
-+    switch (ldst->type) {
-+    case TCG_TYPE_I64:
-+        if (TCG_TARGET_REG_BITS == 32) {
-+            break;
-+        }
-+        /* fall through */
- 
-+    case TCG_TYPE_I32:
-         mov[0].dst = ldst->datalo_reg;
-         mov[0].src = tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, 0);
-         mov[0].dst_type = ldst->type;
-@@ -5415,25 +5475,49 @@ static void tcg_out_ld_helper_ret(TCGContext *s, const TCGLabelQemuLdst *ldst,
-             mov[0].src_ext = mop & MO_SSIZE;
-         }
-         tcg_out_movext1(s, mov);
--    } else {
--        assert(TCG_TARGET_REG_BITS == 32);
-+        return;
- 
--        mov[0].dst = ldst->datalo_reg;
--        mov[0].src =
--            tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, HOST_BIG_ENDIAN);
--        mov[0].dst_type = TCG_TYPE_I32;
--        mov[0].src_type = TCG_TYPE_I32;
--        mov[0].src_ext = MO_32;
-+    case TCG_TYPE_I128:
-+        tcg_debug_assert(TCG_TARGET_REG_BITS == 64);
-+        ofs_slot0 = arg_slot_stk_ofs(0);
-+        switch (TCG_TARGET_CALL_RET_I128) {
-+        case TCG_CALL_RET_NORMAL:
-+            break;
-+        case TCG_CALL_RET_BY_VEC:
-+            tcg_out_st(s, TCG_TYPE_V128,
-+                       tcg_target_call_oarg_reg(TCG_CALL_RET_BY_VEC, 0),
-+                       TCG_REG_CALL_STACK, ofs_slot0);
-+            /* fall through */
-+        case TCG_CALL_RET_BY_REF:
-+            tcg_out_ld(s, TCG_TYPE_I64, ldst->datalo_reg,
-+                       TCG_REG_CALL_STACK, ofs_slot0 + 8 * HOST_BIG_ENDIAN);
-+            tcg_out_ld(s, TCG_TYPE_I64, ldst->datahi_reg,
-+                       TCG_REG_CALL_STACK, ofs_slot0 + 8 * !HOST_BIG_ENDIAN);
-+            return;
-+        default:
-+            g_assert_not_reached();
-+        }
-+        break;
- 
--        mov[1].dst = ldst->datahi_reg;
--        mov[1].src =
--            tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, !HOST_BIG_ENDIAN);
--        mov[1].dst_type = TCG_TYPE_REG;
--        mov[1].src_type = TCG_TYPE_REG;
--        mov[1].src_ext = MO_32;
--
--        tcg_out_movext2(s, mov, mov + 1, parm->ntmp ? parm->tmp[0] : -1);
-+    default:
-+        g_assert_not_reached();
-     }
 +
-+    mov[0].dst = ldst->datalo_reg;
-+    mov[0].src =
-+        tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, HOST_BIG_ENDIAN);
-+    mov[0].dst_type = TCG_TYPE_I32;
-+    mov[0].src_type = TCG_TYPE_I32;
-+    mov[0].src_ext = TCG_TARGET_REG_BITS == 32 ? MO_32 : MO_64;
-+
-+    mov[1].dst = ldst->datahi_reg;
-+    mov[1].src =
-+        tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, !HOST_BIG_ENDIAN);
-+    mov[1].dst_type = TCG_TYPE_REG;
-+    mov[1].src_type = TCG_TYPE_REG;
-+    mov[1].src_ext = TCG_TARGET_REG_BITS == 32 ? MO_32 : MO_64;
-+
-+    tcg_out_movext2(s, mov, mov + 1, parm->ntmp ? parm->tmp[0] : -1);
- }
- 
- static void tcg_out_st_helper_args(TCGContext *s, const TCGLabelQemuLdst *ldst,
-@@ -5457,6 +5541,10 @@ static void tcg_out_st_helper_args(TCGContext *s, const TCGLabelQemuLdst *ldst,
-         info = &info_helper_st64_mmu;
-         data_type = TCG_TYPE_I64;
-         break;
-+    case MO_128:
-+        info = &info_helper_st128_mmu;
-+        data_type = TCG_TYPE_I128;
-+        break;
-     default:
-         g_assert_not_reached();
-     }
-@@ -5474,13 +5562,47 @@ static void tcg_out_st_helper_args(TCGContext *s, const TCGLabelQemuLdst *ldst,
- 
-     /* Handle data argument. */
-     loc = &info->in[next_arg];
--    n = tcg_out_helper_add_mov(mov + nmov, loc, data_type, ldst->type,
--                               ldst->datalo_reg, ldst->datahi_reg);
--    next_arg += n;
--    nmov += n;
--    tcg_debug_assert(nmov <= ARRAY_SIZE(mov));
-+    switch (loc->kind) {
-+    case TCG_CALL_ARG_NORMAL:
-+    case TCG_CALL_ARG_EXTEND_U:
-+    case TCG_CALL_ARG_EXTEND_S:
-+        n = tcg_out_helper_add_mov(mov + nmov, loc, data_type, ldst->type,
-+                                   ldst->datalo_reg, ldst->datahi_reg);
-+        next_arg += n;
-+        nmov += n;
-+        tcg_out_helper_load_slots(s, nmov, mov, parm);
-+        break;
-+
-+    case TCG_CALL_ARG_BY_REF:
-+        tcg_debug_assert(TCG_TARGET_REG_BITS == 64);
-+        tcg_debug_assert(data_type == TCG_TYPE_I128);
-+        tcg_out_st(s, TCG_TYPE_I64,
-+                   HOST_BIG_ENDIAN ? ldst->datahi_reg : ldst->datalo_reg,
-+                   TCG_REG_CALL_STACK, arg_slot_stk_ofs(loc[0].ref_slot));
-+        tcg_out_st(s, TCG_TYPE_I64,
-+                   HOST_BIG_ENDIAN ? ldst->datalo_reg : ldst->datahi_reg,
-+                   TCG_REG_CALL_STACK, arg_slot_stk_ofs(loc[1].ref_slot));
-+
-+        tcg_out_helper_load_slots(s, nmov, mov, parm);
-+
-+        if (arg_slot_reg_p(loc->arg_slot)) {
-+            tcg_out_addi_ptr(s, tcg_target_call_iarg_regs[loc->arg_slot],
-+                             TCG_REG_CALL_STACK,
-+                             arg_slot_stk_ofs(loc->ref_slot));
-+        } else {
-+            tcg_debug_assert(parm->ntmp != 0);
-+            tcg_out_addi_ptr(s, parm->tmp[0], TCG_REG_CALL_STACK,
-+                             arg_slot_stk_ofs(loc->ref_slot));
-+            tcg_out_st(s, TCG_TYPE_PTR, parm->tmp[0],
-+                       TCG_REG_CALL_STACK, arg_slot_stk_ofs(loc->arg_slot));
-+        }
-+        next_arg += 2;
-+        break;
-+
-+    default:
-+        g_assert_not_reached();
++    /*
++     * If there are subobjects, and the host model does not match, then we
++     * need to raise the initial alignment check.  If the backend is prepared
++     * to double-check alignment and issue two half size ops, we need not
++     * raise initial alignment beyond half.
++     */
++    if (atmin > MO_8 && host_atom != atom) {
++        align = MAX(align, size - allow_two_ops);
 +    }
- 
--    tcg_out_helper_load_slots(s, nmov, mov, parm);
-     tcg_out_helper_load_common_args(s, ldst, parm, info, next_arg);
- }
- 
++
++    *p_atom_a = atmax;
++    *p_atom_u = atmin;
++    return align;
++}
++
+ /*
+  * Similarly for qemu_ld/st slow path helpers.
+  * We must re-implement tcg_gen_callN and tcg_reg_alloc_call simultaneously,
 -- 
 2.34.1
 
