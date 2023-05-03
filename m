@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF146F51E7
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F78D6F5151
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:26:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6pD-0007VK-Vy; Wed, 03 May 2023 03:22:56 -0400
+	id 1pu6pH-0007fO-PZ; Wed, 03 May 2023 03:22:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6ow-0006pc-Qr
+ id 1pu6ow-0006pa-LJ
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:40 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6oq-0007Ho-Kc
+ id 1pu6oq-0007Hz-Ij
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:36 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f3331f928cso29309595e9.2
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:22:29 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f315735514so11205215e9.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683098548; x=1685690548;
+ d=linaro.org; s=google; t=1683098549; x=1685690549;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=v864RASdJk2+TV6BcRdJw1gHj5yuuHp35GCtp67gBJY=;
- b=ZaQMttBQfCk37A48HiPlmmDiJolbFbydtIfHrE0KtJxCEjgDezXhG4ouMXMqzUCiNB
- LimzWqLDlqQDMIOFgROX+HOrjT4FNmPAm1/hx5GsmY1DssXzZEYU/AIifrrMgQXK66wp
- mCEAiZ+z5tjb/JwDDgVfhFLmPEyoVWXmOkoLj5NRK5EaDAW9yadHSG0MGhacoWhzgTfw
- S+APY96DRwsExPM1HtVoKgR2DTJpOzlnNO7eVOEs2xhSnoDHTkl47QOCVwA5KTWeWgA4
- XJVWR3qQyd5vfGizoeMC/dUZUVzREYMxfYU9dek4+qYWx8YdYe20ve7x9f/YTBr9pnzr
- axDw==
+ bh=Ee+/tZtVXx1HapVlpwz6x03LyQaqO+PtTzdE1w9ii1A=;
+ b=gpQ7EwwArrpyfhojdgVqW0S9LiVfU4mJGdNzDFgFkYeM5uf6Hi4fm0DIBV+b7qOo58
+ zBw56dddspOdtTzpGWih80HH1ck8yNQWu6rSPhj7kfRlrzaHPGyFsPyKno1PEh5TzqoM
+ YdWyKmG3CAUQS21Ek50nCUyTF+OfKe51/RTDjEh5wq861La8b7pChPHhl8kZKbhVu3vm
+ ADvOYFBix819I0WMX2qcSM6zP8BwWULR4OxwFSczjjzVHTXXd5VhAr80Ynxz10NkrCli
+ VEAMSkPHTjeclYQTsfk2sfY40D01Vp8ESaX+JgthcMSWxPWhr5wJg7/OPci7T4cpgnfl
+ cGeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683098548; x=1685690548;
+ d=1e100.net; s=20221208; t=1683098549; x=1685690549;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=v864RASdJk2+TV6BcRdJw1gHj5yuuHp35GCtp67gBJY=;
- b=SNZYO+P/BogT6qOAMICpatkAr7jhHzOKriZ5dL8r/yinC4wP4dbw4Cu/3YH++4IcTh
- EOrwTMFMDh4B5JEP9uKy0cOdYnGZ67nvRCB1w3SG2rafdkjchWWDP09aXkBsdk20tEkA
- TIM67fM4n8z40KkKbezRTOjVAyujZS/oxY91QTvNoRSGM5tS4k0tFHclDiLpd4BaUFB9
- +J/cIjOOZ4AA1m0Lfwk2AZ+JRMKZ80sIMdh6JMHNJsKCAg2vkMDl2Y5Nqsoy0TnHBpuA
- ZJIFCtRPmLpony7jqjxfdk2wNVscLIntrqi8lICNNExvxNpyYV4Uy8TJzaG+ufgyUX7C
- bIgw==
-X-Gm-Message-State: AC+VfDxUTE0WSc6lXxk+xD1cRVsW75R/FHRFgn/+oGbWEjoNfVP27Pnb
- BOjLFFvHsCTpC7cgHcwplujPe/sAM1PKdIiUpRutng==
-X-Google-Smtp-Source: ACHHUZ4b011uyJsyK9UrTdEr+IBpWpYkuqNJMZQVYOjCfBseHr0BvnRcQmUVgMadcG1Dj0xT/QnH8g==
-X-Received: by 2002:a05:600c:22c9:b0:3f1:745c:7de2 with SMTP id
- 9-20020a05600c22c900b003f1745c7de2mr13965236wmg.5.1683098548263; 
- Wed, 03 May 2023 00:22:28 -0700 (PDT)
+ bh=Ee+/tZtVXx1HapVlpwz6x03LyQaqO+PtTzdE1w9ii1A=;
+ b=Sq3ear6FCohOX9YfqGU+PM4+ngyuiZWexiHtr+lCdNbN24Zj0fjLXH0DWcoamr8F9p
+ gvBKKEIpofQ+Tmx9opWZB5J9rfCEsMojdW75lMVop/vr51qa9TX/zJLiRUcrzNMGTGrq
+ H+5l3uDqha62slrTnwJ0WpPPRsAIn8pDTULUiGf/59yQioVw5/74Ft299gpuqqMiua8S
+ NffzQlAI6/szxw31nCb76qWaF8mRzc0M3fl9PwGV0YAfmOVwPQTw19oKebgUQA6iPnjd
+ JGZzZAyQYebF3v7TyaGPC2rF6mzvnEv7aFj82jdrD3ugXxMvWbuhmFUHM3bHo4vDT2CD
+ Tehg==
+X-Gm-Message-State: AC+VfDwbgMwwtyptZQyM9vKqzVe8fHF3IrQ2DZkPnsQf+jC6KwA36t5R
+ 7K+jhlMIckZGhkV6aGnrfjk269SIEzqxlZq1y+gJxg==
+X-Google-Smtp-Source: ACHHUZ6Lsj0yr1+4Iz0R7c+3eHuPMrLquqFsxQk2bMCFny61gA1FWAP580LsLwyfmT7UvwHjkuJChg==
+X-Received: by 2002:a1c:c916:0:b0:3f1:71d3:8ddf with SMTP id
+ f22-20020a1cc916000000b003f171d38ddfmr634444wmb.14.1683098549049; 
+ Wed, 03 May 2023 00:22:29 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- t4-20020a7bc3c4000000b003f1745c7df3sm962789wmj.23.2023.05.03.00.22.27
+ t4-20020a7bc3c4000000b003f1745c7df3sm962789wmj.23.2023.05.03.00.22.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:22:27 -0700 (PDT)
+ Wed, 03 May 2023 00:22:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, anjo@rev.ng
-Subject: [PATCH 04/84] tcg: Widen helper_{ld,st}_i128 addresses to uint64_t
-Date: Wed,  3 May 2023 08:20:53 +0100
-Message-Id: <20230503072221.1746802-9-richard.henderson@linaro.org>
+ wangyanan55@huawei.com, anjo@rev.ng,
+ Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+Subject: [PULL v2 05/12] tcg: Add tcg_gen_gvec_andcs
+Date: Wed,  3 May 2023 08:20:54 +0100
+Message-Id: <20230503072221.1746802-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072221.1746802-1-richard.henderson@linaro.org>
 References: <20230503072221.1746802-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,128 +93,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Always pass the target address as uint64_t.
+From: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
 
+Add tcg expander and helper functions for and-compliment
+vector with scalar operand.
+
+Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+Message-Id: <20230428144757.57530-10-lawrence.hunter@codethink.co.uk>
+[rth: Split out of larger patch.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tcg-runtime.h |  4 ++--
- accel/tcg/cputlb.c      |  5 ++---
- accel/tcg/user-exec.c   |  5 ++---
- tcg/tcg-op-ldst.c       | 26 ++++++++++++++++++++++++--
- 4 files changed, 30 insertions(+), 10 deletions(-)
+ accel/tcg/tcg-runtime.h      |  1 +
+ include/tcg/tcg-op-gvec.h    |  2 ++
+ accel/tcg/tcg-runtime-gvec.c | 11 +++++++++++
+ tcg/tcg-op-gvec.c            | 17 +++++++++++++++++
+ 4 files changed, 31 insertions(+)
 
 diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
-index d9adc646c1..0e6c5f55fd 100644
+index e141a6ab24..b8e6421c8a 100644
 --- a/accel/tcg/tcg-runtime.h
 +++ b/accel/tcg/tcg-runtime.h
-@@ -39,8 +39,8 @@ DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_FLAGS_3(memset, TCG_CALL_NO_RWG, ptr, ptr, int, ptr)
- #endif /* IN_HELPER_PROTO */
+@@ -217,6 +217,7 @@ DEF_HELPER_FLAGS_4(gvec_nor, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_eqv, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
  
--DEF_HELPER_FLAGS_3(ld_i128, TCG_CALL_NO_WG, i128, env, tl, i32)
--DEF_HELPER_FLAGS_4(st_i128, TCG_CALL_NO_WG, void, env, tl, i128, i32)
-+DEF_HELPER_FLAGS_3(ld_i128, TCG_CALL_NO_WG, i128, env, i64, i32)
-+DEF_HELPER_FLAGS_4(st_i128, TCG_CALL_NO_WG, void, env, i64, i128, i32)
+ DEF_HELPER_FLAGS_4(gvec_ands, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
++DEF_HELPER_FLAGS_4(gvec_andcs, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+ DEF_HELPER_FLAGS_4(gvec_xors, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+ DEF_HELPER_FLAGS_4(gvec_ors, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
  
- DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
-                    i32, env, tl, i32, i32, i32)
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index b594401267..e494404a0d 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -2541,7 +2541,7 @@ Int128 helper_ld16_mmu(CPUArchState *env, uint64_t addr,
-     return do_ld16_mmu(env, addr, oi, retaddr);
- }
+diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
+index 28cafbcc5c..6d58683171 100644
+--- a/include/tcg/tcg-op-gvec.h
++++ b/include/tcg/tcg-op-gvec.h
+@@ -330,6 +330,8 @@ void tcg_gen_gvec_ori(unsigned vece, uint32_t dofs, uint32_t aofs,
  
--Int128 helper_ld_i128(CPUArchState *env, target_ulong addr, uint32_t oi)
-+Int128 helper_ld_i128(CPUArchState *env, uint64_t addr, uint32_t oi)
- {
-     return helper_ld16_mmu(env, addr, oi, GETPC());
- }
-@@ -3006,8 +3006,7 @@ void helper_st16_mmu(CPUArchState *env, uint64_t addr, Int128 val,
-     do_st16_mmu(env, addr, val, oi, retaddr);
- }
- 
--void helper_st_i128(CPUArchState *env, target_ulong addr, Int128 val,
--                    MemOpIdx oi)
-+void helper_st_i128(CPUArchState *env, uint64_t addr, Int128 val, MemOpIdx oi)
- {
-     helper_st16_mmu(env, addr, val, oi, GETPC());
- }
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 9a7afb6f78..36ad8284a5 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -1136,7 +1136,7 @@ Int128 helper_ld16_mmu(CPUArchState *env, uint64_t addr,
-     return ret;
+ void tcg_gen_gvec_ands(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_andcs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+ void tcg_gen_gvec_xors(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+ void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, uint32_t aofs,
+diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
+index ac7d28c251..97399493d5 100644
+--- a/accel/tcg/tcg-runtime-gvec.c
++++ b/accel/tcg/tcg-runtime-gvec.c
+@@ -550,6 +550,17 @@ void HELPER(gvec_ands)(void *d, void *a, uint64_t b, uint32_t desc)
+     clear_high(d, oprsz, desc);
  }
  
--Int128 helper_ld_i128(CPUArchState *env, target_ulong addr, MemOpIdx oi)
-+Int128 helper_ld_i128(CPUArchState *env, uint64_t addr, MemOpIdx oi)
- {
-     return helper_ld16_mmu(env, addr, oi, GETPC());
- }
-@@ -1343,8 +1343,7 @@ void helper_st16_mmu(CPUArchState *env, uint64_t addr, Int128 val,
-     do_st16_he_mmu(env, addr, val, mop, ra);
- }
- 
--void helper_st_i128(CPUArchState *env, target_ulong addr,
--                    Int128 val, MemOpIdx oi)
-+void helper_st_i128(CPUArchState *env, uint64_t addr, Int128 val, MemOpIdx oi)
- {
-     helper_st16_mmu(env, addr, val, oi, GETPC());
- }
-diff --git a/tcg/tcg-op-ldst.c b/tcg/tcg-op-ldst.c
-index a3beede2f4..0010afb1a1 100644
---- a/tcg/tcg-op-ldst.c
-+++ b/tcg/tcg-op-ldst.c
-@@ -404,6 +404,24 @@ static void canonicalize_memop_i128_as_i64(MemOp ret[2], MemOp orig)
- #define tcg_temp_ebb_new  tcg_temp_ebb_new_i32
- #endif
- 
-+static TCGv_i64 maybe_extend_addr64(TCGv addr)
++void HELPER(gvec_andcs)(void *d, void *a, uint64_t b, uint32_t desc)
 +{
-+#if TARGET_LONG_BITS == 32
-+    TCGv_i64 a64 = tcg_temp_ebb_new_i64();
-+    tcg_gen_extu_i32_i64(a64, addr);
-+    return a64;
-+#else
-+    return addr;
-+#endif
++    intptr_t oprsz = simd_oprsz(desc);
++    intptr_t i;
++
++    for (i = 0; i < oprsz; i += sizeof(uint64_t)) {
++        *(uint64_t *)(d + i) = *(uint64_t *)(a + i) & ~b;
++    }
++    clear_high(d, oprsz, desc);
 +}
 +
-+static void maybe_free_addr64(TCGv_i64 a64)
+ void HELPER(gvec_xors)(void *d, void *a, uint64_t b, uint32_t desc)
+ {
+     intptr_t oprsz = simd_oprsz(desc);
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 047a832f44..9c14908a46 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -2761,6 +2761,23 @@ void tcg_gen_gvec_andi(unsigned vece, uint32_t dofs, uint32_t aofs,
+     tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, tmp, &gop_ands);
+ }
+ 
++void tcg_gen_gvec_andcs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz)
 +{
-+#if TARGET_LONG_BITS == 32
-+    tcg_temp_free_i64(a64);
-+#endif
++    static GVecGen2s g = {
++        .fni8 = tcg_gen_andc_i64,
++        .fniv = tcg_gen_andc_vec,
++        .fno = gen_helper_gvec_andcs,
++        .prefer_i64 = TCG_TARGET_REG_BITS == 64,
++        .vece = MO_64
++    };
++
++    TCGv_i64 tmp = tcg_temp_ebb_new_i64();
++    tcg_gen_dup_i64(vece, tmp, c);
++    tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, c, &g);
++    tcg_temp_free_i64(tmp);
 +}
 +
- void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
- {
-     const MemOpIdx oi = make_memop_idx(memop, idx);
-@@ -478,7 +496,9 @@ void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
-             tcg_gen_bswap64_i64(y, y);
-         }
-     } else {
--        gen_helper_ld_i128(val, cpu_env, addr, tcg_constant_i32(oi));
-+        TCGv_i64 a64 = maybe_extend_addr64(addr);
-+        gen_helper_ld_i128(val, cpu_env, a64, tcg_constant_i32(oi));
-+        maybe_free_addr64(a64);
-     }
- 
-     plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
-@@ -558,7 +578,9 @@ void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
-         }
-         tcg_temp_free(addr_p8);
-     } else {
--        gen_helper_st_i128(cpu_env, addr, val, tcg_constant_i32(oi));
-+        TCGv_i64 a64 = maybe_extend_addr64(addr);
-+        gen_helper_st_i128(cpu_env, a64, val, tcg_constant_i32(oi));
-+        maybe_free_addr64(a64);
-     }
- 
-     plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
+ static const GVecGen2s gop_xors = {
+     .fni8 = tcg_gen_xor_i64,
+     .fniv = tcg_gen_xor_vec,
 -- 
 2.34.1
 
