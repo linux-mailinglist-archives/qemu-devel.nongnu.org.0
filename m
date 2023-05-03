@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1EB6F543F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A646F545D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:17:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8Xi-0003qL-6N; Wed, 03 May 2023 05:12:58 -0400
+	id 1pu8Xm-0004Ee-Lv; Wed, 03 May 2023 05:13:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xc-0003jr-G5
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:56 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ id 1pu8Xh-0003qY-An
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:57 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8XY-0005r8-I7
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:51 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-3f4000ec71dso1029065e9.2
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:47 -0700 (PDT)
+ id 1pu8XZ-0005rN-UZ
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:57 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-3f315735514so14865255e9.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683105166; x=1685697166;
+ d=linaro.org; s=google; t=1683105167; x=1685697167;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pBDt9csZMEMzirr1KFUgqo8hIPC/BF3NBiFIeY/i+7A=;
- b=kZFEoTSAqv1IoBok+05SHwQEmlr3LgLKYoucIaBAAnxIOjwsvkiDV2ilaFT06MZBbK
- 7TmK5rCWmSwQCU/WpyDg7EiXCh/FflYkL9oDLi5jwBt4600yZg0rvuMy8kbxgLBmfy94
- 0xvDG93b8HCliuaguu5NF+X8qjvsOTT4kr6ifG4F7ZTuWF2UbyrN/xC6lw4/v0P0AkM3
- 8oHb8ILQs8cBiDdzox11Z9QUTjBIeA3R1fwgeG8q6nPe6mgJvHUNMg9IrNId3KvUJfxm
- DSyKrpJoXXV6m4xwbeG4LRjxEu8AtGn0z9V7Bbd7yJSTzK3pb+nmStPV4PX4s5hGSHe+
- fK8g==
+ bh=C3lCzFefD4c64bE6al6V8o2voUIucp9QMyCoP1My2wo=;
+ b=m7P95diAKx3RwvY3MuY2qjVhwOX2cjDmTCnpmWwXekQzMWds6JYZ/sJ5aWh90KS48t
+ /VtT4T/Iq4b0F6IzXrQJlYMjoY7EvtHoNd6NggvNAxiQ44Ebz96ZzeglRiermpLjiC0/
+ G6E2gD8yjBItzgBph8q7RMgT1nEFn6mRzTY4a1pREC/6nW8V/Gz6/QnvqSkxGMxMXT/K
+ LQIGKpyhoyKpW8Vmfg2xH9wSnBqC15Xg0AXEmhrQPqlawu2avVsj7+PTazwFu+6E2mqR
+ 97L67oP1eAnbseDrn0hre7hu/wiashOtWi4DWrogwMOlZMQPzAs2FbD7vRfxxrBKSu/5
+ v3QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683105166; x=1685697166;
+ d=1e100.net; s=20221208; t=1683105167; x=1685697167;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pBDt9csZMEMzirr1KFUgqo8hIPC/BF3NBiFIeY/i+7A=;
- b=Yny4UBz++NKqLM1fbUpkpkoT8QxtKFHE8NUNWsxW6i0nuhMA9WDIScbUnR3wfW24uT
- 0J0/L0qgkfgqpMdLY0NcP0nDXMU2sMiVPbAKN5OPoS7MiXPJoxiQ4gRAI/Kc9fgSacY3
- yy7QaIxoCFwoxYXHrLlCABZ2Cwa5pJpn6yEDkuvRXvBBnjNXfUW1sVlkCw//ebtv6eUr
- JH6Bfg3XArDvZYFnfkkxVU2yJEwoo0cBG7pDaQlhKMNoWReSbOtnTGgQBr6eiRNTPyG6
- +nCnOGIw8OjVNR4v8PTe4IEg0YP9GWt7PJWRpt8pbuVzQdpW+FbuscXjUQJDkSkQ0TdF
- iBWQ==
-X-Gm-Message-State: AC+VfDzZ1WC0WfW1Y4M1fQ3kNYSjK9nayTE5SFMjM5lHgVqeHQ/DoXj8
- 41wTyyoXzpi/y9PgqTduvjVFSQ==
-X-Google-Smtp-Source: ACHHUZ7JbnRhISvCWJPx7sthSzT75lrwjvQcYFIY6n4CfjPZric+NfuKKyzbljIM/KJhH2lCh8uhZw==
-X-Received: by 2002:a05:600c:2051:b0:3ed:ea48:cd92 with SMTP id
- p17-20020a05600c205100b003edea48cd92mr14798725wmg.15.1683105166493; 
- Wed, 03 May 2023 02:12:46 -0700 (PDT)
+ bh=C3lCzFefD4c64bE6al6V8o2voUIucp9QMyCoP1My2wo=;
+ b=es+BCUb1Na6lPwJyGDCOPpDkRNIk8kBX9MCi69iFBFb5LV/bMSif+axK5qmNAVFYte
+ CYy+FgnXmUSGLfzFvGNbWuV0h9qWjNptIbFzB7WVxJJvZ2t43NE5rbMsMhtei4d0PrRg
+ kHdHJGchifVo0goYtnyQE+OEyIBarNk1zI5uTzjIpMXD29ESc+ltC4jyrPMlps9fGP2u
+ vRL+gpwD8EhmF5bs1I2nzmDOoKE/7fs4JCZTcvJJPItBJK4IKhTSLLwZHPBh0kyyt8VA
+ Isv4XquTor/N+qyDznNBXE5Io1uw9/ohn2TvsMw5P+ufQJ1L+1y0DkVgERr5hOclD5tC
+ 2x5Q==
+X-Gm-Message-State: AC+VfDzwl8EmzIGVAa9pnzCwuC0NGjPY1zssO7XFtpmSXE7n9GCPYJ8+
+ /Yl8EF+pzpXm4Z6NBXUEbR3d/g==
+X-Google-Smtp-Source: ACHHUZ72bqVLp/pk0XQ+2u8vFz9zKhcNYWfQgzNYkagXKxWa+INexrxTEG0y8GItt14E5AtLeNlu8A==
+X-Received: by 2002:a5d:570d:0:b0:2f0:583:44be with SMTP id
+ a13-20020a5d570d000000b002f0058344bemr1019811wrv.0.1683105167267; 
+ Wed, 03 May 2023 02:12:47 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z19-20020a7bc7d3000000b003edef091b17sm1252710wmk.37.2023.05.03.02.12.45
+ k9-20020a5d6e89000000b0030629536e64sm9382356wrz.30.2023.05.03.02.12.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 03 May 2023 02:12:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3DF351FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id 5784A1FFBD;
  Wed,  3 May 2023 10:12:45 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -90,24 +90,24 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 02/22] tests/docker: bump the xtensa base to debian:11-slim
-Date: Wed,  3 May 2023 10:12:24 +0100
-Message-Id: <20230503091244.1450613-3-alex.bennee@linaro.org>
+Subject: [PATCH 03/22] docs: document breakpoint and watchpoint support
+Date: Wed,  3 May 2023 10:12:25 +0100
+Message-Id: <20230503091244.1450613-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091244.1450613-1-alex.bennee@linaro.org>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,29 +123,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stretch is going out of support so things like security updates will
-fail. As the toolchain itself is binary it hopefully won't mind the
-underlying OS being updated.
+This varies by accelerator. Also mention the modern bear trap that is
+ASLR.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reported-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/docker/dockerfiles/debian-xtensa-cross.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/system/gdb.rst | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-index 082b50da19..72c25d63d9 100644
---- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
-+++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-@@ -5,7 +5,7 @@
- # using a prebuilt toolchains for Xtensa cores from:
- # https://github.com/foss-xtensa/toolchain/releases
- #
--FROM docker.io/library/debian:stretch-slim
-+FROM docker.io/library/debian:11-slim
+diff --git a/docs/system/gdb.rst b/docs/system/gdb.rst
+index 453eb73f6c..7d3718deef 100644
+--- a/docs/system/gdb.rst
++++ b/docs/system/gdb.rst
+@@ -46,6 +46,28 @@ Here are some useful tips in order to use gdb on system code:
+ 3. Use ``set architecture i8086`` to dump 16 bit code. Then use
+    ``x/10i $cs*16+$eip`` to dump the code at the PC position.
  
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
++Breakpoint and Watchpoint support
++=================================
++
++While GDB can always fall back to inserting breakpoints into memory
++(if writable) other features are very much dependent on support of the
++accelerator. For TCG system emulation we advertise an infinite number
++of hardware assisted breakpoints and watchpoints. For other
++accelerators it will depend on if support has been added (see
++supports_guest_debug and related hooks in AccelOpsClass).
++
++As TCG cannot track all memory accesses in user-mode there is no
++support for watchpoints.
++
++Relocating code
++---------------
++
++On modern kernels confusion can be caused by code being relocated by
++features such as address space layout randomisation. To avoid
++confusion when debugging such things you either need to update gdb's
++view of where things are in memory or perhaps more trivially disable
++ASLR when booting the system.
++
+ Debugging multicore machines
+ ============================
+ 
 -- 
 2.39.2
 
