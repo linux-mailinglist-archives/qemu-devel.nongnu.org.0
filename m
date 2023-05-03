@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18FA6F5892
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C016F589B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:09:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puCDO-0006Bk-Aj; Wed, 03 May 2023 09:08:14 -0400
+	id 1puCE9-0006wT-Ir; Wed, 03 May 2023 09:09:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3tVxSZAcKCuARGHQNGaIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--pefoley.bounces.google.com>)
- id 1puCDL-0006BL-Px
- for qemu-devel@nongnu.org; Wed, 03 May 2023 09:08:11 -0400
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3tVxSZAcKCuARGHQNGaIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--pefoley.bounces.google.com>)
- id 1puCDI-0003E3-UK
- for qemu-devel@nongnu.org; Wed, 03 May 2023 09:08:11 -0400
-Received: by mail-yb1-xb49.google.com with SMTP id
- 3f1490d57ef6-b9a6eeea78cso4151052276.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 06:08:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1683119287; x=1685711287;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=fz/3gQx00TK02gTN/E33JK+KOh0DuYLLcbPt7JE5lyY=;
- b=bAMX3HAp52TYuL6jH0oJNEOf9/QcwfL1+ym1LHKSASaUyozEj9FMfhmh7JCYVOFaXR
- kW9m8y7bTiwHokiI4gyModAqkQZfd5q6FF+gGlG2FM1T6UykJAQyR/7KSyw+IiMLp/OI
- 7IjD57Kbhz1s5mEqyYHrquDKOWh0KwlpJ1FRTX5KjMuBTXH5NtyaPKL7UJcCpt5PNDw+
- h9XWFaFIYfr9Eu6BLRgQZxLhvnVS9uYSYrAG/oltI4HcGsoSDIUXHA8zlGXkCQKzQc0O
- DTzXY5t/HSTRcYC/HDj/N70lIMDW3XiMwPbj+qsnA/cQVHFXgeGk5RIfzS9FVYWE9Vl3
- HQxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683119287; x=1685711287;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fz/3gQx00TK02gTN/E33JK+KOh0DuYLLcbPt7JE5lyY=;
- b=JBvvFWHY8FsPsKr9w9dlnBh3sOe7cUsOB0tH4KqL5n2egmVAS74imn2NqS2LMydS0y
- nOvc/10ix8+ZFAnySrGydBgwYc9uD9Wz4Q1WN2hndo6MJJ5nr5ebwj8NjhuaBe0JVeih
- DtOUiWktWDaIHUZNByAUe5TH5ULXw3+aQce2O1dMT1u228iCS06av9IrjxEFUh9m6MQT
- UJ3ZiE/o2iAsfvaI5/tsMkAbLrnrQHzjWNusJryGUYYuU/P9llo4taANG7ZzEp+M3fQv
- d5hj1PU34KUf+xm01b8h85UlRTzDep0dilk3S/Sox5PoZeeY4cunO1TT8CJd51O8s+X2
- tq7A==
-X-Gm-Message-State: AC+VfDx/5pnUhAm+yetmc3gRGK5BjrSpOb8tbYSTgZzX6vVssHm0cGaf
- gz8YKHbLCtTcI+sWxb2m7EVh7QmPhXSa
-X-Google-Smtp-Source: ACHHUZ5VdpXY1u8KAW+mGI7Xxvn6uhGsuXPTcXRJ4hhpVWu4GC9S0Zr/gRciwr1GNo3KPQMYhHcYTNAoR+lL
-X-Received: from pefoley.res.corp.google.com
- ([2620:15c:4d:200:a5fd:d553:d964:f74f])
- (user=pefoley job=sendgmr) by 2002:a05:690c:3709:b0:55a:5e16:af7e with SMTP
- id fv9-20020a05690c370900b0055a5e16af7emr1402758ywb.2.1683119285556; Wed, 03
- May 2023 06:08:05 -0700 (PDT)
-Date: Wed,  3 May 2023 09:07:56 -0400
-In-Reply-To: <5706940.3l9IZQ4Y0r@silver>
-Mime-Version: 1.0
-References: <5706940.3l9IZQ4Y0r@silver>
-X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
-Message-ID: <20230503130757.863824-1-pefoley@google.com>
-Subject: [PATCH v3] Don't require libcap-ng for virtfs support
-From: Peter Foley <pefoley@google.com>
-To: qemu_oss@crudebyte.com, qemu-devel@nongnu.org
-Cc: venture@google.com, Peter Foley <pefoley@google.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, 
- "=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=" <marcandre.lureau@redhat.com>, 
- "=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?=" <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=3tVxSZAcKCuARGHQNGaIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--pefoley.bounces.google.com;
- helo=mail-yb1-xb49.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puCE6-0006vs-JN
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:08:59 -0400
+Received: from rev.ng ([5.9.113.41])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puCE4-0003N8-HS
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:08:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=FL0JsrieTbmfasnsFGDNy0Jv8fdr7OUCtLlj0A/Rh9U=; b=S0+FXMiW7ax95a7AbJ3JwfLuDt
+ 72qQZMeBxTQ2qeGyvc3xyvXHVResRbAsyfBt3B9nBsMC65Or+ebS2fhsU0fNraGexy9XI+BN545hw
+ q9UQmBoAc6MsBlJn54wj/xFpapb/FD1fQheAaFGiQJpk+UDgBOm6eaXPkjAyRwjfG5hc=;
+Message-ID: <b93063d6-3162-db59-5a16-3613cceadec0@rev.ng>
+Date: Wed, 3 May 2023 15:08:41 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 4/9] target/m68k: Finish conversion to
+ tcg_gen_qemu_{ld,st}_*
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: mrolnik@gmail.com, edgar.iglesias@gmail.com, tsimpson@quicinc.com,
+ ale@rev.ng, laurent@vivier.eu, philmd@linaro.org, jiaxun.yang@flygoat.com,
+ david@redhat.com, iii@linux.ibm.com, thuth@redhat.com,
+ mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com, jcmvbkbc@gmail.com
+References: <20230502135741.1158035-1-richard.henderson@linaro.org>
+ <20230502135741.1158035-5-richard.henderson@linaro.org>
+Content-Language: en-US
+Organization: rev.ng
+In-Reply-To: <20230502135741.1158035-5-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,91 +64,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It's only required for the proxy helper.
 
-Add a new option for the proxy helper rather than enabling it
-implicitly.
+On 5/2/23 15:57, Richard Henderson wrote:
+> Convert away from the old interface with the implicit
+> MemOp argument.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/m68k/translate.c | 76 ++++++++++++++---------------------------
+>   1 file changed, 25 insertions(+), 51 deletions(-)
+>
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index 422f4652f1..744eb3748b 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+> @@ -304,23 +304,14 @@ static inline void gen_addr_fault(DisasContext *s)
+>   static inline TCGv gen_load(DisasContext *s, int opsize, TCGv addr,
+>                               int sign, int index)
+>   {
+> -    TCGv tmp;
+> -    tmp = tcg_temp_new_i32();
+> -    switch(opsize) {
+> +    TCGv tmp = tcg_temp_new_i32();
+> +
+> +    switch (opsize) {
+>       case OS_BYTE:
+> -        if (sign)
+> -            tcg_gen_qemu_ld8s(tmp, addr, index);
+> -        else
+> -            tcg_gen_qemu_ld8u(tmp, addr, index);
+> -        break;
+>       case OS_WORD:
+> -        if (sign)
+> -            tcg_gen_qemu_ld16s(tmp, addr, index);
+> -        else
+> -            tcg_gen_qemu_ld16u(tmp, addr, index);
+> -        break;
+>       case OS_LONG:
+> -        tcg_gen_qemu_ld32u(tmp, addr, index);
+> +        tcg_gen_qemu_ld_tl(tmp, addr, index,
+> +                           opsize | (sign ? MO_SIGN : 0) | MO_TE);
+>           break;
+>       default:
+>           g_assert_not_reached();
+> @@ -332,15 +323,11 @@ static inline TCGv gen_load(DisasContext *s, int opsize, TCGv addr,
+>   static inline void gen_store(DisasContext *s, int opsize, TCGv addr, TCGv val,
+>                                int index)
+>   {
+> -    switch(opsize) {
+> +    switch (opsize) {
+>       case OS_BYTE:
+> -        tcg_gen_qemu_st8(val, addr, index);
+> -        break;
+>       case OS_WORD:
+> -        tcg_gen_qemu_st16(val, addr, index);
+> -        break;
+>       case OS_LONG:
+> -        tcg_gen_qemu_st32(val, addr, index);
+> +        tcg_gen_qemu_st_tl(val, addr, index, opsize | MO_TE);
+>           break;
+>       default:
+>           g_assert_not_reached();
+> @@ -971,23 +958,16 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
+>       tmp = tcg_temp_new();
+>       switch (opsize) {
+>       case OS_BYTE:
+> -        tcg_gen_qemu_ld8s(tmp, addr, index);
+> -        gen_helper_exts32(cpu_env, fp, tmp);
+> -        break;
+>       case OS_WORD:
+> -        tcg_gen_qemu_ld16s(tmp, addr, index);
+> -        gen_helper_exts32(cpu_env, fp, tmp);
+> -        break;
+> -    case OS_LONG:
 
-Change-Id: I95b73fca625529e99d16b0a64e01c65c0c1d43f2
-Signed-off-by: Peter Foley <pefoley@google.com>
----
- meson.build                   | 12 +++++++++---
- meson_options.txt             |  2 ++
- scripts/meson-buildoptions.sh |  4 ++++
- 3 files changed, 15 insertions(+), 3 deletions(-)
+Accidental label removal?
 
-diff --git a/meson.build b/meson.build
-index 77d42898c8..a46bc67cdb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1759,12 +1759,17 @@ have_virtfs = get_option('virtfs') \
-              error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
-     .require(targetos == 'linux' or cc.has_function('pthread_fchdir_np'),
-              error_message: 'virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np') \
--    .require(targetos == 'darwin' or (libattr.found() and libcap_ng.found()),
--             error_message: 'virtio-9p (virtfs) on Linux requires libcap-ng-devel and libattr-devel') \
-+    .require(targetos == 'darwin' or libattr.found(),
-+             error_message: 'virtio-9p (virtfs) on Linux requires libattr-devel') \
-     .disable_auto_if(not have_tools and not have_system) \
-     .allowed()
- 
--have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
-+have_virtfs_proxy_helper = get_option('virtfs_proxy_helper') \
-+    .require(targetos != 'darwin', error_message: 'the virtfs proxy helper is incompatible with macOS') \
-+    .require(have_virtfs, error_message: 'the virtfs proxy helper requires that virtfs is enabled') \
-+    .disable_auto_if(not have_tools) \
-+    .require(libcap_ng.found(), error_message: 'the virtfs proxy helper requires libcap-ng') \
-+    .allowed()
- 
- if get_option('block_drv_ro_whitelist') == ''
-   config_host_data.set('CONFIG_BDRV_RO_WHITELIST', '')
-@@ -3911,6 +3916,7 @@ if have_block
-   summary_info += {'Block whitelist (ro)': get_option('block_drv_ro_whitelist')}
-   summary_info += {'Use block whitelist in tools': get_option('block_drv_whitelist_in_tools')}
-   summary_info += {'VirtFS support':    have_virtfs}
-+  summary_info += {'VirtFS Proxy Helper support': have_virtfs_proxy_helper}
-   summary_info += {'Live block migration': config_host_data.get('CONFIG_LIVE_BLOCK_MIGRATION')}
-   summary_info += {'replication support': config_host_data.get('CONFIG_REPLICATION')}
-   summary_info += {'bochs support':     get_option('bochs').allowed()}
-diff --git a/meson_options.txt b/meson_options.txt
-index 2471dd02da..908b4b7fd9 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -272,6 +272,8 @@ option('vhost_user_blk_server', type: 'feature', value: 'auto',
-        description: 'build vhost-user-blk server')
- option('virtfs', type: 'feature', value: 'auto',
-        description: 'virtio-9p support')
-+option('virtfs_proxy_helper', type: 'feature', value: 'auto',
-+       description: 'virtio-9p proxy helper support')
- option('libvduse', type: 'feature', value: 'auto',
-        description: 'build VDUSE Library')
- option('vduse_blk_export', type: 'feature', value: 'auto',
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index d4369a3ad8..3bb9dd3504 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -176,6 +176,8 @@ meson_options_help() {
-   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
-   printf "%s\n" '  virglrenderer   virgl rendering support'
-   printf "%s\n" '  virtfs          virtio-9p support'
-+  printf "%s\n" '  virtfs-proxy-helper'
-+  printf "%s\n" '                  virtio-9p proxy helper support'
-   printf "%s\n" '  vmnet           vmnet.framework network backend support'
-   printf "%s\n" '  vnc             VNC server'
-   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
-@@ -461,6 +463,8 @@ _meson_option_parse() {
-     --disable-virglrenderer) printf "%s" -Dvirglrenderer=disabled ;;
-     --enable-virtfs) printf "%s" -Dvirtfs=enabled ;;
-     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
-+    --enable-virtfs-proxy-helper) printf "%s" -Dvirtfs_proxy_helper=enabled ;;
-+    --disable-virtfs-proxy-helper) printf "%s" -Dvirtfs_proxy_helper=disabled ;;
-     --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
-     --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
-     --enable-vnc) printf "%s" -Dvnc=enabled ;;
--- 
-2.40.1.521.gf1e218fcd8-goog
+
+> -        tcg_gen_qemu_ld32u(tmp, addr, index);
+> +        tcg_gen_qemu_ld_tl(tmp, addr, index, opsize | MO_SIGN | MO_TE);
+>           gen_helper_exts32(cpu_env, fp, tmp);
+>           break;
+>       case OS_SINGLE:
+> -        tcg_gen_qemu_ld32u(tmp, addr, index);
+> +        tcg_gen_qemu_ld_tl(tmp, addr, index, MO_TEUL);
+>           gen_helper_extf32(cpu_env, fp, tmp);
+>           break;
+>       case OS_DOUBLE:
+> -        tcg_gen_qemu_ld64(t64, addr, index);
+> +        tcg_gen_qemu_ld_i64(t64, addr, index, MO_TEUQ);
+>           gen_helper_extf64(cpu_env, fp, t64);
+>           break;
+>       case OS_EXTENDED:
+> @@ -995,11 +975,11 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
+>               gen_exception(s, s->base.pc_next, EXCP_FP_UNIMP);
+>               break;
+>           }
+> -        tcg_gen_qemu_ld32u(tmp, addr, index);
+> +        tcg_gen_qemu_ld_i32(tmp, addr, index, MO_TEUL);
+
+tcg_gen_qemu_ld_tl
+
+
+>           tcg_gen_shri_i32(tmp, tmp, 16);
+>           tcg_gen_st16_i32(tmp, fp, offsetof(FPReg, l.upper));
+>           tcg_gen_addi_i32(tmp, addr, 4);
+> -        tcg_gen_qemu_ld64(t64, tmp, index);
+> +        tcg_gen_qemu_ld_i64(t64, tmp, index, MO_TEUQ);
+>           tcg_gen_st_i64(t64, fp, offsetof(FPReg, l.lower));
+>           break;
+>       case OS_PACKED:
+> @@ -1024,24 +1004,18 @@ static void gen_store_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
+>       tmp = tcg_temp_new();
+>       switch (opsize) {
+>       case OS_BYTE:
+> -        gen_helper_reds32(tmp, cpu_env, fp);
+> -        tcg_gen_qemu_st8(tmp, addr, index);
+> -        break;
+>       case OS_WORD:
+> -        gen_helper_reds32(tmp, cpu_env, fp);
+> -        tcg_gen_qemu_st16(tmp, addr, index);
+> -        break;
+>       case OS_LONG:
+>           gen_helper_reds32(tmp, cpu_env, fp);
+> -        tcg_gen_qemu_st32(tmp, addr, index);
+> +        tcg_gen_qemu_st_tl(tmp, addr, index, opsize | MO_TE);
+>           break;
+>       case OS_SINGLE:
+>           gen_helper_redf32(tmp, cpu_env, fp);
+> -        tcg_gen_qemu_st32(tmp, addr, index);
+> +        tcg_gen_qemu_st_tl(tmp, addr, index, MO_TEUL);
+>           break;
+>       case OS_DOUBLE:
+>           gen_helper_redf64(t64, cpu_env, fp);
+> -        tcg_gen_qemu_st64(t64, addr, index);
+> +        tcg_gen_qemu_st_i64(t64, addr, index, MO_TEUQ);
+>           break;
+>       case OS_EXTENDED:
+>           if (m68k_feature(s->env, M68K_FEATURE_CF_FPU)) {
+> @@ -1050,10 +1024,10 @@ static void gen_store_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
+>           }
+>           tcg_gen_ld16u_i32(tmp, fp, offsetof(FPReg, l.upper));
+>           tcg_gen_shli_i32(tmp, tmp, 16);
+> -        tcg_gen_qemu_st32(tmp, addr, index);
+> +        tcg_gen_qemu_st_i32(tmp, addr, index, MO_TEUL);
+
+tcg_gen_qemu_st_tl
+
+
+>           tcg_gen_addi_i32(tmp, addr, 4);
+>           tcg_gen_ld_i64(t64, fp, offsetof(FPReg, l.lower));
+> -        tcg_gen_qemu_st64(t64, tmp, index);
+> +        tcg_gen_qemu_st_i64(t64, tmp, index, MO_TEUQ);
+>           break;
+>       case OS_PACKED:
+>           /*
+> @@ -2079,14 +2053,14 @@ DISAS_INSN(movep)
+>       if (insn & 0x80) {
+>           for ( ; i > 0 ; i--) {
+>               tcg_gen_shri_i32(dbuf, reg, (i - 1) * 8);
+> -            tcg_gen_qemu_st8(dbuf, abuf, IS_USER(s));
+> +            tcg_gen_qemu_st_i32(dbuf, abuf, IS_USER(s), MO_UB);
+
+tcg_gen_qemu_st_tl
+
+
+Otherwise:
+
+Reviewed-by: Anton Johansson <anjo@rev.ng>
 
 
