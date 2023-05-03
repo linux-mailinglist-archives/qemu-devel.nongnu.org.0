@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64136F588C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18FA6F5892
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:08:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puCBV-00058G-FN; Wed, 03 May 2023 09:06:17 -0400
+	id 1puCDO-0006Bk-Aj; Wed, 03 May 2023 09:08:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1puCBL-000569-WF
- for qemu-devel@nongnu.org; Wed, 03 May 2023 09:06:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1puCBH-0002eH-Te
- for qemu-devel@nongnu.org; Wed, 03 May 2023 09:06:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683119163;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Phu2rUngwbJv3O5WPwObndw41FS7BwEFsVdpGZ12G2o=;
- b=MjA20ljRzl3jfPkuzyrEiCNfJLcmHX/6jllIzT490eNt2wn9EfbF9ct9YQSFlt2X0MyVTZ
- 9a6mweYEbJ5dp/PimhVeyFCFWBOJ6//VGgHlnnyafyNtWDQLk696kSaLrDqeBGrs2P1Tp1
- wkZfWXvflCgv1uuFEiEYnGsr30sofGs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-PTV4Sh6-PaqKGLOW2cNEKg-1; Wed, 03 May 2023 09:05:59 -0400
-X-MC-Unique: PTV4Sh6-PaqKGLOW2cNEKg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92E9A885627;
- Wed,  3 May 2023 13:05:58 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C56C2026D16;
- Wed,  3 May 2023 13:05:57 +0000 (UTC)
-Date: Wed, 3 May 2023 09:05:50 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
- eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Hanna Reitz <hreitz@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Zhengui Li <lizhengui@huawei.com>,
- Daniil Tatianin <d-tatianin@yandex-team.ru>
-Subject: Re: [PATCH v4 04/20] virtio-scsi: stop using aio_disable_external()
- during unplug
-Message-ID: <20230503130550.GA757667@fedora>
-References: <20230425172716.1033562-1-stefanha@redhat.com>
- <20230425172716.1033562-5-stefanha@redhat.com>
- <ZEvWv8dF78Jpb6CQ@redhat.com> <20230501150934.GA14869@fedora>
- <ZFEN+KY8JViTDtv/@redhat.com> <20230502200243.GD535070@fedora>
- <ZFJIQW6RpndfCcXR@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SX9dxWjHVceQRg4J"
-Content-Disposition: inline
-In-Reply-To: <ZFJIQW6RpndfCcXR@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ (Exim 4.90_1) (envelope-from
+ <3tVxSZAcKCuARGHQNGaIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--pefoley.bounces.google.com>)
+ id 1puCDL-0006BL-Px
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:08:11 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3tVxSZAcKCuARGHQNGaIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--pefoley.bounces.google.com>)
+ id 1puCDI-0003E3-UK
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:08:11 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id
+ 3f1490d57ef6-b9a6eeea78cso4151052276.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 06:08:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1683119287; x=1685711287;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fz/3gQx00TK02gTN/E33JK+KOh0DuYLLcbPt7JE5lyY=;
+ b=bAMX3HAp52TYuL6jH0oJNEOf9/QcwfL1+ym1LHKSASaUyozEj9FMfhmh7JCYVOFaXR
+ kW9m8y7bTiwHokiI4gyModAqkQZfd5q6FF+gGlG2FM1T6UykJAQyR/7KSyw+IiMLp/OI
+ 7IjD57Kbhz1s5mEqyYHrquDKOWh0KwlpJ1FRTX5KjMuBTXH5NtyaPKL7UJcCpt5PNDw+
+ h9XWFaFIYfr9Eu6BLRgQZxLhvnVS9uYSYrAG/oltI4HcGsoSDIUXHA8zlGXkCQKzQc0O
+ DTzXY5t/HSTRcYC/HDj/N70lIMDW3XiMwPbj+qsnA/cQVHFXgeGk5RIfzS9FVYWE9Vl3
+ HQxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683119287; x=1685711287;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fz/3gQx00TK02gTN/E33JK+KOh0DuYLLcbPt7JE5lyY=;
+ b=JBvvFWHY8FsPsKr9w9dlnBh3sOe7cUsOB0tH4KqL5n2egmVAS74imn2NqS2LMydS0y
+ nOvc/10ix8+ZFAnySrGydBgwYc9uD9Wz4Q1WN2hndo6MJJ5nr5ebwj8NjhuaBe0JVeih
+ DtOUiWktWDaIHUZNByAUe5TH5ULXw3+aQce2O1dMT1u228iCS06av9IrjxEFUh9m6MQT
+ UJ3ZiE/o2iAsfvaI5/tsMkAbLrnrQHzjWNusJryGUYYuU/P9llo4taANG7ZzEp+M3fQv
+ d5hj1PU34KUf+xm01b8h85UlRTzDep0dilk3S/Sox5PoZeeY4cunO1TT8CJd51O8s+X2
+ tq7A==
+X-Gm-Message-State: AC+VfDx/5pnUhAm+yetmc3gRGK5BjrSpOb8tbYSTgZzX6vVssHm0cGaf
+ gz8YKHbLCtTcI+sWxb2m7EVh7QmPhXSa
+X-Google-Smtp-Source: ACHHUZ5VdpXY1u8KAW+mGI7Xxvn6uhGsuXPTcXRJ4hhpVWu4GC9S0Zr/gRciwr1GNo3KPQMYhHcYTNAoR+lL
+X-Received: from pefoley.res.corp.google.com
+ ([2620:15c:4d:200:a5fd:d553:d964:f74f])
+ (user=pefoley job=sendgmr) by 2002:a05:690c:3709:b0:55a:5e16:af7e with SMTP
+ id fv9-20020a05690c370900b0055a5e16af7emr1402758ywb.2.1683119285556; Wed, 03
+ May 2023 06:08:05 -0700 (PDT)
+Date: Wed,  3 May 2023 09:07:56 -0400
+In-Reply-To: <5706940.3l9IZQ4Y0r@silver>
+Mime-Version: 1.0
+References: <5706940.3l9IZQ4Y0r@silver>
+X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
+Message-ID: <20230503130757.863824-1-pefoley@google.com>
+Subject: [PATCH v3] Don't require libcap-ng for virtfs support
+From: Peter Foley <pefoley@google.com>
+To: qemu_oss@crudebyte.com, qemu-devel@nongnu.org
+Cc: venture@google.com, Peter Foley <pefoley@google.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ "=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=" <marcandre.lureau@redhat.com>, 
+ "=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?=" <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3tVxSZAcKCuARGHQNGaIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--pefoley.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,206 +95,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+It's only required for the proxy helper.
 
---SX9dxWjHVceQRg4J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a new option for the proxy helper rather than enabling it
+implicitly.
 
-On Wed, May 03, 2023 at 01:40:49PM +0200, Kevin Wolf wrote:
-> Am 02.05.2023 um 22:02 hat Stefan Hajnoczi geschrieben:
-> > On Tue, May 02, 2023 at 03:19:52PM +0200, Kevin Wolf wrote:
-> > > Am 01.05.2023 um 17:09 hat Stefan Hajnoczi geschrieben:
-> > > > On Fri, Apr 28, 2023 at 04:22:55PM +0200, Kevin Wolf wrote:
-> > > > > Am 25.04.2023 um 19:27 hat Stefan Hajnoczi geschrieben:
-> > > > > > This patch is part of an effort to remove the aio_disable_exter=
-nal()
-> > > > > > API because it does not fit in a multi-queue block layer world =
-where
-> > > > > > many AioContexts may be submitting requests to the same disk.
-> > > > > >=20
-> > > > > > The SCSI emulation code is already in good shape to stop using
-> > > > > > aio_disable_external(). It was only used by commit 9c5aad84da1c
-> > > > > > ("virtio-scsi: fixed virtio_scsi_ctx_check failed when detachin=
-g scsi
-> > > > > > disk") to ensure that virtio_scsi_hotunplug() works while the g=
-uest
-> > > > > > driver is submitting I/O.
-> > > > > >=20
-> > > > > > Ensure virtio_scsi_hotunplug() is safe as follows:
-> > > > > >=20
-> > > > > > 1. qdev_simple_device_unplug_cb() -> qdev_unrealize() ->
-> > > > > >    device_set_realized() calls qatomic_set(&dev->realized, fals=
-e) so
-> > > > > >    that future scsi_device_get() calls return NULL because they=
- exclude
-> > > > > >    SCSIDevices with realized=3Dfalse.
-> > > > > >=20
-> > > > > >    That means virtio-scsi will reject new I/O requests to this
-> > > > > >    SCSIDevice with VIRTIO_SCSI_S_BAD_TARGET even while
-> > > > > >    virtio_scsi_hotunplug() is still executing. We are protected=
- against
-> > > > > >    new requests!
-> > > > > >=20
-> > > > > > 2. Add a call to scsi_device_purge_requests() from scsi_unreali=
-ze() so
-> > > > > >    that in-flight requests are cancelled synchronously. This en=
-sures
-> > > > > >    that no in-flight requests remain once qdev_simple_device_un=
-plug_cb()
-> > > > > >    returns.
-> > > > > >=20
-> > > > > > Thanks to these two conditions we don't need aio_disable_extern=
-al()
-> > > > > > anymore.
-> > > > > >=20
-> > > > > > Cc: Zhengui Li <lizhengui@huawei.com>
-> > > > > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > > Reviewed-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
-> > > > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > >=20
-> > > > > qemu-iotests 040 starts failing for me after this patch, with wha=
-t looks
-> > > > > like a use-after-free error of some kind.
-> > > > >=20
-> > > > > (gdb) bt
-> > > > > #0  0x000055b6e3e1f31c in job_type (job=3D0xe3e3e3e3e3e3e3e3) at =
-=2E./job.c:238
-> > > > > #1  0x000055b6e3e1cee5 in is_block_job (job=3D0xe3e3e3e3e3e3e3e3)=
- at ../blockjob.c:41
-> > > > > #2  0x000055b6e3e1ce7d in block_job_next_locked (bjob=3D0x55b6e72=
-b7570) at ../blockjob.c:54
-> > > > > #3  0x000055b6e3df6370 in blockdev_mark_auto_del (blk=3D0x55b6e74=
-af0a0) at ../blockdev.c:157
-> > > > > #4  0x000055b6e393e23b in scsi_qdev_unrealize (qdev=3D0x55b6e7c04=
-d40) at ../hw/scsi/scsi-bus.c:303
-> > > > > #5  0x000055b6e3db0d0e in device_set_realized (obj=3D0x55b6e7c04d=
-40, value=3Dfalse, errp=3D0x55b6e497c918 <error_abort>) at ../hw/core/qdev.=
-c:599
-> > > > > #6  0x000055b6e3dba36e in property_set_bool (obj=3D0x55b6e7c04d40=
-, v=3D0x55b6e7d7f290, name=3D0x55b6e41bd6d8 "realized", opaque=3D0x55b6e724=
-6d20, errp=3D0x55b6e497c918 <error_abort>)
-> > > > >     at ../qom/object.c:2285
-> > > > > #7  0x000055b6e3db7e65 in object_property_set (obj=3D0x55b6e7c04d=
-40, name=3D0x55b6e41bd6d8 "realized", v=3D0x55b6e7d7f290, errp=3D0x55b6e497=
-c918 <error_abort>) at ../qom/object.c:1420
-> > > > > #8  0x000055b6e3dbd84a in object_property_set_qobject (obj=3D0x55=
-b6e7c04d40, name=3D0x55b6e41bd6d8 "realized", value=3D0x55b6e74c1890, errp=
-=3D0x55b6e497c918 <error_abort>)
-> > > > >     at ../qom/qom-qobject.c:28
-> > > > > #9  0x000055b6e3db8570 in object_property_set_bool (obj=3D0x55b6e=
-7c04d40, name=3D0x55b6e41bd6d8 "realized", value=3Dfalse, errp=3D0x55b6e497=
-c918 <error_abort>) at ../qom/object.c:1489
-> > > > > #10 0x000055b6e3daf2b5 in qdev_unrealize (dev=3D0x55b6e7c04d40) a=
-t ../hw/core/qdev.c:306
-> > > > > #11 0x000055b6e3db509d in qdev_simple_device_unplug_cb (hotplug_d=
-ev=3D0x55b6e81c3630, dev=3D0x55b6e7c04d40, errp=3D0x7ffec5519200) at ../hw/=
-core/qdev-hotplug.c:72
-> > > > > #12 0x000055b6e3c520f9 in virtio_scsi_hotunplug (hotplug_dev=3D0x=
-55b6e81c3630, dev=3D0x55b6e7c04d40, errp=3D0x7ffec5519200) at ../hw/scsi/vi=
-rtio-scsi.c:1065
-> > > > > #13 0x000055b6e3db4dec in hotplug_handler_unplug (plug_handler=3D=
-0x55b6e81c3630, plugged_dev=3D0x55b6e7c04d40, errp=3D0x7ffec5519200) at ../=
-hw/core/hotplug.c:56
-> > > > > #14 0x000055b6e3a28f84 in qdev_unplug (dev=3D0x55b6e7c04d40, errp=
-=3D0x7ffec55192e0) at ../softmmu/qdev-monitor.c:935
-> > > > > #15 0x000055b6e3a290fa in qmp_device_del (id=3D0x55b6e74c1760 "sc=
-si0", errp=3D0x7ffec55192e0) at ../softmmu/qdev-monitor.c:955
-> > > > > #16 0x000055b6e3fb0a5f in qmp_marshal_device_del (args=3D0x7f61cc=
-005eb0, ret=3D0x7f61d5a8ae38, errp=3D0x7f61d5a8ae40) at qapi/qapi-commands-=
-qdev.c:114
-> > > > > #17 0x000055b6e3fd52e1 in do_qmp_dispatch_bh (opaque=3D0x7f61d5a8=
-ae08) at ../qapi/qmp-dispatch.c:128
-> > > > > #18 0x000055b6e4007b9e in aio_bh_call (bh=3D0x55b6e7dea730) at ..=
-/util/async.c:155
-> > > > > #19 0x000055b6e4007d2e in aio_bh_poll (ctx=3D0x55b6e72447c0) at .=
-=2E/util/async.c:184
-> > > > > #20 0x000055b6e3fe3b45 in aio_dispatch (ctx=3D0x55b6e72447c0) at =
-=2E./util/aio-posix.c:421
-> > > > > #21 0x000055b6e4009544 in aio_ctx_dispatch (source=3D0x55b6e72447=
-c0, callback=3D0x0, user_data=3D0x0) at ../util/async.c:326
-> > > > > #22 0x00007f61ddc14c7f in g_main_dispatch (context=3D0x55b6e7244b=
-20) at ../glib/gmain.c:3454
-> > > > > #23 g_main_context_dispatch (context=3D0x55b6e7244b20) at ../glib=
-/gmain.c:4172
-> > > > > #24 0x000055b6e400a7e8 in glib_pollfds_poll () at ../util/main-lo=
-op.c:290
-> > > > > #25 0x000055b6e400a0c2 in os_host_main_loop_wait (timeout=3D0) at=
- ../util/main-loop.c:313
-> > > > > #26 0x000055b6e4009fa2 in main_loop_wait (nonblocking=3D0) at ../=
-util/main-loop.c:592
-> > > > > #27 0x000055b6e3a3047b in qemu_main_loop () at ../softmmu/runstat=
-e.c:731
-> > > > > #28 0x000055b6e3dab27d in qemu_default_main () at ../softmmu/main=
-=2Ec:37
-> > > > > #29 0x000055b6e3dab2b8 in main (argc=3D24, argv=3D0x7ffec55196a8)=
- at ../softmmu/main.c:48
-> > > > > (gdb) p jobs
-> > > > > $4 =3D {lh_first =3D 0x0}
-> > > >=20
-> > > > I wasn't able to reproduce this with gcc 13.1.1 or clang 16.0.1:
-> > > >=20
-> > > >   $ tests/qemu-iotests/check -qcow2 040
-> > > >=20
-> > > > Any suggestions on how to reproduce the issue?
-> > >=20
-> > > It happens consistently for me with the same command line, both with =
-gcc
-> > > and clang.
-> > >=20
-> > > gcc (GCC) 12.2.1 20221121 (Red Hat 12.2.1-4)
-> > > clang version 15.0.7 (Fedora 15.0.7-2.fc37)
-> > >=20
-> > > Maybe there is a semantic merge conflict? I have applied the series on
-> > > top of master (05d50ba2d4) and my block branch (88f81f7bc8).
-> >=20
-> > I can't find 88f81f7bc8 but rebased on repo.or.cz/qemu/kevin.git block
-> > (4514dac7f2e9) and the test passes here.
-> >=20
-> > I rebased on qemu.git/master (05d50ba2d4) and it also passes.
-> >=20
-> > Please let me know if the following tree (a0ff680a72f6) works on your
-> > machine:
-> > https://gitlab.com/stefanha/qemu/-/tree/remove-aio_disable_external
->=20
-> Fails in the same way.
->=20
-> So I tried to debug this myself now. The problem is that iterating the
-> jobs in blockdev_mark_auto_del() is incorrect: job_cancel_locked()
-> frees the job and then block_job_next_locked() is a use after free.
->=20
-> It also drops job_mutex temporarily and polls, so even switching to a
-> *_FOREACH_SAFE style loop won't fix this. I guess we have to restart
-> the whole search from the start after a job_cancel_locked() because the
-> list might look very different after the call.
->=20
-> Now, of course, how this is related to your patch and why it doesn't
-> trigger before it, is still less than clear. What I found out is that
-> adding the scsi_device_purge_requests() is enough to crash it. Maybe
-> it's related to the blk_drain() inside of it. That the job finishes
-> earlier during the unplug now or something like that.
->=20
-> Anyway, changing blockdev_mark_auto_del() fixes it. I'll send a patch.
+Change-Id: I95b73fca625529e99d16b0a64e01c65c0c1d43f2
+Signed-off-by: Peter Foley <pefoley@google.com>
+---
+ meson.build                   | 12 +++++++++---
+ meson_options.txt             |  2 ++
+ scripts/meson-buildoptions.sh |  4 ++++
+ 3 files changed, 15 insertions(+), 3 deletions(-)
 
-Thanks, and sorry for taking your time with debugging it!
-
-Stefan
-
---SX9dxWjHVceQRg4J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRSXC4ACgkQnKSrs4Gr
-c8i74Qf6AklkO6aWrRBz6XAZ8dK/EiYL1W+TDr0RyrsU7nCVkvdlyP7AlGvIyjcs
-YrK8FIjM+cjgHKnMkRqFBMn0xVQMrnSNZ2cLDZaVY4DlgVlmYmmt0RNnQWlftAuc
-UJkymWg5dZV6hw/TI7ku1+pRnZRx32fxLiMIn+R1tkD8+OX+JMeN7WG3cAhvpPUI
-m24TcHXZrqNO0kV4qXoM4GJNkDkYLaF1pXQ4MsZpPHcr8Zzhyn+5vlVmo+FEp7iX
-ozXdMSGcA+fQ3yUGEIUISvZMrc3f8aIfaV29gti8Sj+ekULPGAS9It/2ZJuZTRos
-Rbou/5fwuiQX6myLLQCGj7HQuwlZ+g==
-=GY3E
------END PGP SIGNATURE-----
-
---SX9dxWjHVceQRg4J--
+diff --git a/meson.build b/meson.build
+index 77d42898c8..a46bc67cdb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1759,12 +1759,17 @@ have_virtfs = get_option('virtfs') \
+              error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
+     .require(targetos == 'linux' or cc.has_function('pthread_fchdir_np'),
+              error_message: 'virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np') \
+-    .require(targetos == 'darwin' or (libattr.found() and libcap_ng.found()),
+-             error_message: 'virtio-9p (virtfs) on Linux requires libcap-ng-devel and libattr-devel') \
++    .require(targetos == 'darwin' or libattr.found(),
++             error_message: 'virtio-9p (virtfs) on Linux requires libattr-devel') \
+     .disable_auto_if(not have_tools and not have_system) \
+     .allowed()
+ 
+-have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
++have_virtfs_proxy_helper = get_option('virtfs_proxy_helper') \
++    .require(targetos != 'darwin', error_message: 'the virtfs proxy helper is incompatible with macOS') \
++    .require(have_virtfs, error_message: 'the virtfs proxy helper requires that virtfs is enabled') \
++    .disable_auto_if(not have_tools) \
++    .require(libcap_ng.found(), error_message: 'the virtfs proxy helper requires libcap-ng') \
++    .allowed()
+ 
+ if get_option('block_drv_ro_whitelist') == ''
+   config_host_data.set('CONFIG_BDRV_RO_WHITELIST', '')
+@@ -3911,6 +3916,7 @@ if have_block
+   summary_info += {'Block whitelist (ro)': get_option('block_drv_ro_whitelist')}
+   summary_info += {'Use block whitelist in tools': get_option('block_drv_whitelist_in_tools')}
+   summary_info += {'VirtFS support':    have_virtfs}
++  summary_info += {'VirtFS Proxy Helper support': have_virtfs_proxy_helper}
+   summary_info += {'Live block migration': config_host_data.get('CONFIG_LIVE_BLOCK_MIGRATION')}
+   summary_info += {'replication support': config_host_data.get('CONFIG_REPLICATION')}
+   summary_info += {'bochs support':     get_option('bochs').allowed()}
+diff --git a/meson_options.txt b/meson_options.txt
+index 2471dd02da..908b4b7fd9 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -272,6 +272,8 @@ option('vhost_user_blk_server', type: 'feature', value: 'auto',
+        description: 'build vhost-user-blk server')
+ option('virtfs', type: 'feature', value: 'auto',
+        description: 'virtio-9p support')
++option('virtfs_proxy_helper', type: 'feature', value: 'auto',
++       description: 'virtio-9p proxy helper support')
+ option('libvduse', type: 'feature', value: 'auto',
+        description: 'build VDUSE Library')
+ option('vduse_blk_export', type: 'feature', value: 'auto',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index d4369a3ad8..3bb9dd3504 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -176,6 +176,8 @@ meson_options_help() {
+   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
+   printf "%s\n" '  virglrenderer   virgl rendering support'
+   printf "%s\n" '  virtfs          virtio-9p support'
++  printf "%s\n" '  virtfs-proxy-helper'
++  printf "%s\n" '                  virtio-9p proxy helper support'
+   printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vnc             VNC server'
+   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
+@@ -461,6 +463,8 @@ _meson_option_parse() {
+     --disable-virglrenderer) printf "%s" -Dvirglrenderer=disabled ;;
+     --enable-virtfs) printf "%s" -Dvirtfs=enabled ;;
+     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
++    --enable-virtfs-proxy-helper) printf "%s" -Dvirtfs_proxy_helper=enabled ;;
++    --disable-virtfs-proxy-helper) printf "%s" -Dvirtfs_proxy_helper=disabled ;;
+     --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
+     --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
+     --enable-vnc) printf "%s" -Dvnc=enabled ;;
+-- 
+2.40.1.521.gf1e218fcd8-goog
 
 
