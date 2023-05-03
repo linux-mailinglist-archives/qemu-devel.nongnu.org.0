@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC3B6F510E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DB56F51C3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:35:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6e8-0006GU-Mf; Wed, 03 May 2023 03:11:28 -0400
+	id 1pu6pR-0008CN-4c; Wed, 03 May 2023 03:23:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6dc-0003Ci-U6
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:57 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1pu6oq-0006pB-QN
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:40 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6dO-00078w-Az
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:56 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3f182d745deso46370865e9.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:10:41 -0700 (PDT)
+ id 1pu6oj-0007Gs-1s
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:29 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f4000ec6ecso267945e9.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683097840; x=1685689840;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=255MRdCL5yMgAYzZU5GCo8Mz4wWBTy7IHHcpHB/YBDg=;
- b=voxBZquz2WjiUL9ELh60U6XFTPy1nC/vo1GkLUu9ZYIo4GIwnonM+fznkUTQTmFAVO
- K55wEf4Glv9ibzeJwGIvyMjPaTBnr2Kn5wjBjh6q8ygh7L4fRcIp3ESpZTy+4lI8IexF
- zLGiZjn926asiWzwQ4GOn45P18RblERAfPtBJay/HPIhLSrNLIUxIj+skVVmtwY96inv
- zgnC/ZQpcPpF7+gX1C/zPkwIbncpLk4Q1gR3P/3WMmUZtZxQI3y1bf587+QZCzd8omTt
- Zk2eKwa6WUgl80/Yam9DHlGqZ0N4whPd/o5zRN/joyXbhtg8UbmtexieD7WSqe3REGeD
- mRuA==
+ d=linaro.org; s=google; t=1683098542; x=1685690542;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2s1wakyxvtnmdANdaVf1g367gGiqC5iSkTJ0auZJcgo=;
+ b=cPsug/zvqGcPfUuqBlkGXkQZJXBMvdUlgelyUfEu4Bv3175wFrLBK3F66zhA0nwLQY
+ w5X1jx2DRJL8yF7urn8Qv2UrBWwBdp79AG+HFIZPdRAdh9uYfz8WKoDSyKaad4T75Y7J
+ MbnByR5/7YgdNaM6Pfmc8ksrBTLXGa95u+K5RoGFIwdca6zUpbSL/s8KY2Jw1pxY82yx
+ A3jslhKa1hh2AiTSpyvx1Zj660Ws7umUypISkvOHxbTVWl6l8Ju6FsAVbO4c8Pa3PYNd
+ gEni0b11O4rjXQxeGDmoS0MNne21FXjju8OXZr5OME6SXS5mTqLCOEHZClfOypFRXOgv
+ aJRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683097840; x=1685689840;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=255MRdCL5yMgAYzZU5GCo8Mz4wWBTy7IHHcpHB/YBDg=;
- b=UWEN2mOgwZlO5jyA9rnWJfwbOhntDtSxkE86Gtw2ALnv+vLQmTUp8PwZSMGFdOUwfo
- dGjp1El3H8F8+Lncv1Vesq/GbxAzAcAEx8cczCt9Id2rQ4dcdmR002PJeyrWLZSVghax
- hseUc8TuK7eRXPOwhca6vG0Hwhk4Ic2wehiuuIMzbxGOsNLta6t47p9GZL3YwfkwbQ5B
- ITOrzPvm/ZVd9r6pa9WKcM5uemvBp8EPxjWZXm64rxqmR2hQz40iT7dA1ITh+bbh0AER
- N362R+6UfoTbzB4+I2b8nk53tddgM154XUPmefv2HBwKKqVv+14NIUGdgU+9MterZlOr
- dYow==
-X-Gm-Message-State: AC+VfDwV8VjVUsUHC/7bsdJ/WSRxKdJVeD+DnYAInaY/BMgukyVZi80T
- HXj/0OLw7Bps2avKZSJjTULEuEfZO2piFRCc4tK3gg==
-X-Google-Smtp-Source: ACHHUZ54bi8Riw1DJHH8pAeSXM+jgiGpLtYL2WBppHtsNhw//vHa9wWD1bsQVJYcswcQkAon9FNmeg==
-X-Received: by 2002:a7b:ca56:0:b0:3f1:6ec5:3105 with SMTP id
- m22-20020a7bca56000000b003f16ec53105mr13735864wml.20.1683097840701; 
- Wed, 03 May 2023 00:10:40 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683098542; x=1685690542;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2s1wakyxvtnmdANdaVf1g367gGiqC5iSkTJ0auZJcgo=;
+ b=Ej5HSveo2uXmNtS21hOyfqu2TjbDdjBhfppD8gJ2E7MmFpo5QLTo/5ickxa4t3vN0Q
+ Id0QGZKn+WczIRRdmw+q9p/ZUK9R4Aeft8I+xld55m62uroJvqVBewNtA0LyHbSJHkuL
+ CP472AI1buHkypoZtdmdrg+2kq44g7s0K34Ipqmop0HvhGbw28jamRLqL9UVSBhrBRAr
+ M3CLnhVbFI3qfJGudJeI9GBkSEMpkW8hPqzCkpdxNmoQGQ1s/AGd5PAkNBqJW+kr5wKe
+ ypwrjjoc3fAWW4UO2FwNV7Rh3Qd3gB/lVGYkLhd7Dp0SIA3oCgzqGN9Qd5fLQ8dUGm3z
+ BvcQ==
+X-Gm-Message-State: AC+VfDzQDZsXrPFIpbxelsm6nbhLOl2NkvCWBhTVmVwlCZPbmx9xtUCk
+ clppEoTq34p/E6pU4ASL/Lj33RWOxZtZ7upeh+XNXQ==
+X-Google-Smtp-Source: ACHHUZ6sZEbeWIcQ2oVn+I4Pyo6zFXSAPCIOp5OhGo44HWqsGaPUZgjEHx1jQf5TswDLmtwnXixqUg==
+X-Received: by 2002:a7b:cc1a:0:b0:3f1:969f:c9d0 with SMTP id
+ f26-20020a7bcc1a000000b003f1969fc9d0mr13711207wmh.4.1683098542411; 
+ Wed, 03 May 2023 00:22:22 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c444900b003f173be2ccfsm54223673wmn.2.2023.05.03.00.10.40
+ t4-20020a7bc3c4000000b003f1745c7df3sm962789wmj.23.2023.05.03.00.22.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:10:40 -0700 (PDT)
+ Wed, 03 May 2023 00:22:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: git@xen0n.name, gaosong@loongson.cn, philmd@linaro.org,
- qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v4 57/57] tcg/s390x: Support 128-bit load/store
-Date: Wed,  3 May 2023 08:06:56 +0100
-Message-Id: <20230503070656.1746170-58-richard.henderson@linaro.org>
+Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
+ wangyanan55@huawei.com, anjo@rev.ng
+Subject: [PATCH 00/84] tcg: Build once for system, once for user
+Date: Wed,  3 May 2023 08:20:45 +0100
+Message-Id: <20230503072221.1746802-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230503070656.1746170-1-richard.henderson@linaro.org>
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,195 +90,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use LPQ/STPQ when 16-byte atomicity is required.
-Note that these instructions require 16-byte alignment.
+Based-on: 20230503070656.1746170-1-richard.henderson@linaro.org
+("[PATCH v4 00/57] tcg: Improve atomicity support")
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/s390x/tcg-target-con-set.h |   2 +
- tcg/s390x/tcg-target.h         |   2 +-
- tcg/s390x/tcg-target.c.inc     | 100 ++++++++++++++++++++++++++++++++-
- 3 files changed, 102 insertions(+), 2 deletions(-)
+and also
 
-diff --git a/tcg/s390x/tcg-target-con-set.h b/tcg/s390x/tcg-target-con-set.h
-index ecc079bb6d..cbad91b2b5 100644
---- a/tcg/s390x/tcg-target-con-set.h
-+++ b/tcg/s390x/tcg-target-con-set.h
-@@ -14,6 +14,7 @@ C_O0_I2(r, r)
- C_O0_I2(r, ri)
- C_O0_I2(r, rA)
- C_O0_I2(v, r)
-+C_O0_I3(o, m, r)
- C_O1_I1(r, r)
- C_O1_I1(v, r)
- C_O1_I1(v, v)
-@@ -36,6 +37,7 @@ C_O1_I2(v, v, v)
- C_O1_I3(v, v, v, v)
- C_O1_I4(r, r, ri, rI, r)
- C_O1_I4(r, r, rA, rI, r)
-+C_O2_I1(o, m, r)
- C_O2_I2(o, m, 0, r)
- C_O2_I2(o, m, r, r)
- C_O2_I3(o, m, 0, 1, r)
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index 170007bea5..ec96952172 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -140,7 +140,7 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_HAS_muluh_i64      0
- #define TCG_TARGET_HAS_mulsh_i64      0
- 
--#define TCG_TARGET_HAS_qemu_ldst_i128 0
-+#define TCG_TARGET_HAS_qemu_ldst_i128 1
- 
- #define TCG_TARGET_HAS_v64            HAVE_FACILITY(VECTOR)
- #define TCG_TARGET_HAS_v128           HAVE_FACILITY(VECTOR)
-diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index ddd9860a6a..91fecfc51b 100644
---- a/tcg/s390x/tcg-target.c.inc
-+++ b/tcg/s390x/tcg-target.c.inc
-@@ -243,6 +243,7 @@ typedef enum S390Opcode {
-     RXY_LLGF    = 0xe316,
-     RXY_LLGH    = 0xe391,
-     RXY_LMG     = 0xeb04,
-+    RXY_LPQ     = 0xe38f,
-     RXY_LRV     = 0xe31e,
-     RXY_LRVG    = 0xe30f,
-     RXY_LRVH    = 0xe31f,
-@@ -253,6 +254,7 @@ typedef enum S390Opcode {
-     RXY_STG     = 0xe324,
-     RXY_STHY    = 0xe370,
-     RXY_STMG    = 0xeb24,
-+    RXY_STPQ    = 0xe38e,
-     RXY_STRV    = 0xe33e,
-     RXY_STRVG   = 0xe32f,
-     RXY_STRVH   = 0xe33f,
-@@ -1578,7 +1580,19 @@ typedef struct {
- 
- bool tcg_target_has_memory_bswap(MemOp memop)
- {
--    return true;
-+    MemOp atom_a, atom_u;
-+
-+    if ((memop & MO_SIZE) <= MO_64) {
-+        return true;
-+    }
-+
-+    /*
-+     * Reject 16-byte memop with 16-byte atomicity,
-+     * but do allow a pair of 64-bit operations.
-+     */
-+    (void)atom_and_align_for_opc(tcg_ctx, &atom_a, &atom_u, memop,
-+                                 MO_ATOM_IFALIGN, true);
-+    return atom_a <= MO_64;
- }
- 
- static void tcg_out_qemu_ld_direct(TCGContext *s, MemOp opc, TCGReg data,
-@@ -1868,6 +1882,80 @@ static void tcg_out_qemu_st(TCGContext* s, TCGReg data_reg, TCGReg addr_reg,
-     }
- }
- 
-+static void tcg_out_qemu_ldst_i128(TCGContext *s, TCGReg datalo, TCGReg datahi,
-+                                   TCGReg addr_reg, MemOpIdx oi, bool is_ld)
-+{
-+    TCGLabel *l1 = NULL, *l2 = NULL;
-+    TCGLabelQemuLdst *ldst;
-+    HostAddress h;
-+    bool need_bswap;
-+    bool use_pair;
-+    S390Opcode insn;
-+
-+    ldst = prepare_host_addr(s, &h, addr_reg, oi, is_ld);
-+
-+    use_pair = h.atom < MO_128;
-+    need_bswap = get_memop(oi) & MO_BSWAP;
-+
-+    if (!use_pair) {
-+        /*
-+         * Atomicity requires we use LPQ.  If we've already checked for
-+         * 16-byte alignment, that's all we need.  If we arrive with
-+         * lesser alignment, we have determined that less than 16-byte
-+         * alignment can be satisfied with two 8-byte loads.
-+         */
-+        if (h.align < MO_128) {
-+            use_pair = true;
-+            l1 = gen_new_label();
-+            l2 = gen_new_label();
-+
-+            tcg_out_insn(s, RI, TMLL, addr_reg, 15);
-+            tgen_branch(s, 7, l1); /* CC in {1,2,3} */
-+        }
-+
-+        tcg_debug_assert(!need_bswap);
-+        tcg_debug_assert(datalo & 1);
-+        tcg_debug_assert(datahi == datalo - 1);
-+        insn = is_ld ? RXY_LPQ : RXY_STPQ;
-+        tcg_out_insn_RXY(s, insn, datahi, h.base, h.index, h.disp);
-+
-+        if (use_pair) {
-+            tgen_branch(s, S390_CC_ALWAYS, l2);
-+            tcg_out_label(s, l1);
-+        }
-+    }
-+    if (use_pair) {
-+        TCGReg d1, d2;
-+
-+        if (need_bswap) {
-+            d1 = datalo, d2 = datahi;
-+            insn = is_ld ? RXY_LRVG : RXY_STRVG;
-+        } else {
-+            d1 = datahi, d2 = datalo;
-+            insn = is_ld ? RXY_LG : RXY_STG;
-+        }
-+
-+        if (h.base == d1 || h.index == d1) {
-+            tcg_out_insn(s, RXY, LAY, TCG_TMP0, h.base, h.index, h.disp);
-+            h.base = TCG_TMP0;
-+            h.index = TCG_REG_NONE;
-+            h.disp = 0;
-+        }
-+        tcg_out_insn_RXY(s, insn, d1, h.base, h.index, h.disp);
-+        tcg_out_insn_RXY(s, insn, d2, h.base, h.index, h.disp + 8);
-+    }
-+    if (l2) {
-+        tcg_out_label(s, l2);
-+    }
-+
-+    if (ldst) {
-+        ldst->type = TCG_TYPE_I128;
-+        ldst->datalo_reg = datalo;
-+        ldst->datahi_reg = datahi;
-+        ldst->raddr = tcg_splitwx_to_rx(s->code_ptr);
-+    }
-+}
-+
- static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
- {
-     /* Reuse the zeroing that exists for goto_ptr.  */
-@@ -2225,6 +2313,12 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_qemu_st_i64:
-         tcg_out_qemu_st(s, args[0], args[1], args[2], TCG_TYPE_I64);
-         break;
-+    case INDEX_op_qemu_ld_i128:
-+        tcg_out_qemu_ldst_i128(s, args[0], args[1], args[2], args[3], true);
-+        break;
-+    case INDEX_op_qemu_st_i128:
-+        tcg_out_qemu_ldst_i128(s, args[0], args[1], args[2], args[3], false);
-+        break;
- 
-     case INDEX_op_ld16s_i64:
-         tcg_out_mem(s, 0, RXY_LGH, args[0], args[1], TCG_REG_NONE, args[2]);
-@@ -3102,6 +3196,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_qemu_st_i64:
-     case INDEX_op_qemu_st_i32:
-         return C_O0_I2(r, r);
-+    case INDEX_op_qemu_ld_i128:
-+        return C_O2_I1(o, m, r);
-+    case INDEX_op_qemu_st_i128:
-+        return C_O0_I3(o, m, r);
- 
-     case INDEX_op_deposit_i32:
-     case INDEX_op_deposit_i64:
+Based-on: 20230502160846.1289975-1-richard.henderson@linaro.org
+("[PATCH 00/16] tcg: Remove TARGET_ALIGNED_ONLY")
+
+The goal here is only tcg/, leaving accel/tcg/ for future work.
+
+
+r~
+
+
+Richard Henderson (84):
+  tcg: Split out memory ops to tcg-op-ldst.c
+  tcg: Widen gen_insn_data to uint64_t
+  accel/tcg: Widen tcg-ldst.h addresses to uint64_t
+  tcg: Widen helper_{ld,st}_i128 addresses to uint64_t
+  tcg: Widen helper_atomic_* addresses to uint64_t
+  tcg: Widen tcg_gen_code pc_start argument to uint64_t
+  accel/tcg: Merge gen_mem_wrapped with plugin_gen_empty_mem_callback
+  accel/tcg: Merge do_gen_mem_cb into caller
+  tcg: Reduce copies for plugin_gen_mem_callbacks
+  accel/tcg: Widen plugin_gen_empty_mem_callback to i64
+  tcg: Add addr_type to TCGContext
+  tcg: Remove TCGv from tcg_gen_qemu_{ld,st}_*
+  tcg: Remove TCGv from tcg_gen_atomic_*
+  tcg: Split INDEX_op_qemu_{ld,st}* for guest address size
+  tcg/tci: Elimnate TARGET_LONG_BITS, target_ulong
+  tcg/i386: Always enable TCG_TARGET_HAS_extr[lh]_i64_i32
+  tcg/i386: Conditionalize tcg_out_extu_i32_i64
+  tcg/i386: Adjust type of tlb_mask
+  tcg/i386: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg/arm: Remove TARGET_LONG_BITS
+  tcg/aarch64: Remove USE_GUEST_BASE
+  tcg/aarch64: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg/loongarch64: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg/mips: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg/ppc: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg/riscv: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg/s390x: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg/sparc64: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+  tcg: Move TCG_TYPE_TL from tcg.h to tcg-op.h
+  tcg: Add page_bits and page_mask to TCGContext
+  tcg: Add tlb_dyn_max_bits to TCGContext
+  tcg: Widen CPUTLBEntry comparators to 64-bits
+  tcg: Add tlb_fast_offset to TCGContext
+  tcg: Remove TCG_TARGET_TLB_DISPLACEMENT_BITS
+  tcg: Split out tcg/debug-assert.h
+  *: Add missing includes of qemu/error-report.h
+  *: Add missing includes of tcg/debug-assert.h
+  *: Add missing includes of tcg/tcg.h
+  tcg: Split out tcg-target-reg-bits.h
+  target/arm: Fix test of TCG_OVERSIZED_GUEST
+  tcg: Split out tcg/oversized-guest.h
+  tcg: Move TCGv, dup_const_tl definitions to tcg-op.h
+  tcg: Split tcg/tcg-op-common.h from tcg/tcg-op.h
+  target/arm: Include helper-gen.h in translator.h
+  target/hexagon: Include helper-gen.h where needed
+  tcg: Remove outdated comments in helper-head.h
+  tcg: Move TCGHelperInfo and dependencies to tcg/helper-info.h
+  tcg: Pass TCGHelperInfo to tcg_gen_callN
+  tcg: Move temp_idx and tcgv_i32_temp debug out of line
+  tcg: Split tcg_gen_callN
+  tcg: Split helper-gen.h
+  tcg: Split helper-proto.h
+  tcg: Add insn_start_words to TCGContext
+  tcg: Add guest_mo to TCGContext
+  tcg: Move TLB_FLAGS_MASK check out of get_alignment_bits
+  tcg: Split tcg/tcg-op-gvec.h
+  tcg: Remove NO_CPU_IO_DEFS
+  exec-all: Widen tb_page_addr_t for user-only
+  exec-all: Widen TranslationBlock pc and cs_base to 64-bits
+  tcg: Remove DEBUG_DISAS
+  tcg: Remove USE_TCG_OPTIMIZATIONS
+  tcg: Spit out exec/translation-block.h
+  include/exec: Remove CODE_GEN_AVG_BLOCK_SIZE
+  accel/tcg: Move most of gen-icount.h into translator.c
+  accel/tcg: Introduce translator_io_start
+  accel/tcg: Move translator_fake_ldb out of line
+  target/arm: Tidy helpers for translation
+  target/mips: Tidy helpers for translation
+  *: Add missing includes of exec/translation-block.h
+  *: Add missing includes of exec/exec-all.h
+  accel/tcg: Tidy includes for translator.[ch]
+  tcg: Define IN_TCG
+  tcg: Fix PAGE/PROT confusion
+  tcg: Move env defines out of NEED_CPU_H in helper-head.h
+  tcg: Remove target-specific headers from tcg.[ch]
+  plugins: Move plugin_insn_append to translator.c
+  plugins: Drop unused headers from exec/plugin-gen.h
+  disas: Move disas.c to disas/
+  disas: Remove target_ulong from the interface
+  tcg: Split out exec/user/guest-base.h
+  disas: Remove target-specific headers
+  exec/poison: Do not poison CONFIG_SOFTMMU
+  tcg: Build once for system and once for user-only
+
+ accel/tcg/tcg-runtime.h                       |   50 +-
+ include/disas/disas.h                         |   23 +-
+ include/exec/cpu-all.h                        |    8 +-
+ include/exec/cpu-defs.h                       |   50 +-
+ include/exec/cpu_ldst.h                       |   22 +-
+ include/exec/exec-all.h                       |  148 +-
+ include/exec/gen-icount.h                     |   83 --
+ include/exec/helper-gen-common.h              |   17 +
+ include/exec/helper-gen.h                     |   96 +-
+ include/exec/helper-head.h                    |   24 +-
+ include/exec/helper-proto-common.h            |   17 +
+ include/exec/helper-proto.h                   |   72 +-
+ include/exec/helper-tcg.h                     |   75 -
+ include/exec/plugin-gen.h                     |   28 +-
+ include/exec/poison.h                         |    1 -
+ include/exec/tlb-common.h                     |   56 +
+ include/exec/translation-block.h              |  152 ++
+ include/exec/translator.h                     |   24 +-
+ include/exec/user/guest-base.h                |   12 +
+ include/qemu/typedefs.h                       |    1 +
+ include/tcg/debug-assert.h                    |   17 +
+ include/tcg/helper-info.h                     |   64 +
+ include/tcg/insn-start-words.h                |   17 +
+ include/tcg/oversized-guest.h                 |   23 +
+ include/tcg/tcg-ldst.h                        |   26 +-
+ include/tcg/tcg-op-common.h                   |  996 +++++++++++++
+ include/tcg/tcg-op-gvec-common.h              |  426 ++++++
+ include/tcg/tcg-op-gvec.h                     |  444 +-----
+ include/tcg/tcg-op.h                          | 1118 ++-------------
+ include/tcg/tcg-opc.h                         |   41 +-
+ include/tcg/tcg.h                             |  153 +-
+ target/arm/tcg/translate.h                    |    5 +
+ target/mips/tcg/translate.h                   |    5 +-
+ target/ppc/cpu.h                              |    2 -
+ target/sparc/cpu.h                            |    2 -
+ tcg/aarch64/tcg-target-reg-bits.h             |   12 +
+ tcg/aarch64/tcg-target.h                      |    1 -
+ tcg/arm/tcg-target-reg-bits.h                 |   12 +
+ tcg/arm/tcg-target.h                          |    1 -
+ tcg/i386/tcg-target-reg-bits.h                |   16 +
+ tcg/i386/tcg-target.h                         |    9 +-
+ tcg/loongarch64/tcg-target-reg-bits.h         |   21 +
+ tcg/loongarch64/tcg-target.h                  |   11 -
+ tcg/mips/tcg-target-reg-bits.h                |   18 +
+ tcg/mips/tcg-target.h                         |    9 -
+ tcg/ppc/tcg-target-reg-bits.h                 |   16 +
+ tcg/ppc/tcg-target.h                          |    6 -
+ tcg/riscv/tcg-target-reg-bits.h               |   19 +
+ tcg/riscv/tcg-target.h                        |   10 -
+ tcg/s390x/tcg-target-reg-bits.h               |   17 +
+ tcg/s390x/tcg-target.h                        |    1 -
+ tcg/sparc64/tcg-target-reg-bits.h             |   12 +
+ tcg/sparc64/tcg-target.h                      |    1 -
+ tcg/tcg-internal.h                            |   47 +-
+ tcg/tci/tcg-target-reg-bits.h                 |   18 +
+ tcg/tci/tcg-target.h                          |    9 -
+ accel/tcg/cpu-exec.c                          |    4 +-
+ accel/tcg/cputlb.c                            |   43 +-
+ accel/tcg/monitor.c                           |    1 +
+ accel/tcg/perf.c                              |    8 +-
+ accel/tcg/plugin-gen.c                        |   74 +-
+ accel/tcg/tcg-accel-ops-mttcg.c               |    2 +-
+ accel/tcg/tcg-accel-ops-rr.c                  |    2 +-
+ accel/tcg/tcg-all.c                           |    1 +
+ accel/tcg/tcg-runtime-gvec.c                  |    2 +-
+ accel/tcg/tcg-runtime.c                       |    6 +-
+ accel/tcg/translate-all.c                     |   58 +-
+ accel/tcg/translator.c                        |  142 +-
+ accel/tcg/user-exec.c                         |   31 +-
+ disas.c => disas/disas.c                      |   22 +-
+ linux-user/elfload.c                          |    5 +-
+ target/alpha/translate.c                      |   18 +-
+ target/arm/ptw.c                              |    8 +-
+ target/arm/tcg/translate-a64.c                |   38 +-
+ target/arm/tcg/translate-m-nocp.c             |    2 -
+ target/arm/tcg/translate-mve.c                |    4 -
+ target/arm/tcg/translate-neon.c               |    4 -
+ target/arm/tcg/translate-sme.c                |    7 -
+ target/arm/tcg/translate-sve.c                |   11 -
+ target/arm/tcg/translate-vfp.c                |    7 +-
+ target/arm/tcg/translate.c                    |   41 +-
+ target/avr/cpu.c                              |    1 +
+ target/avr/helper.c                           |    1 +
+ target/avr/translate.c                        |    6 +-
+ target/cris/translate.c                       |    8 +-
+ target/hexagon/genptr.c                       |    1 +
+ target/hexagon/translate.c                    |    7 +
+ target/hppa/translate.c                       |   10 +-
+ target/i386/helper.c                          |    3 +
+ target/i386/tcg/translate.c                   |   57 +-
+ target/loongarch/translate.c                  |    6 +-
+ target/m68k/translate.c                       |    5 +-
+ target/microblaze/translate.c                 |    6 +-
+ target/mips/tcg/msa_translate.c               |    3 -
+ target/mips/tcg/mxu_translate.c               |    2 -
+ target/mips/tcg/octeon_translate.c            |    4 +-
+ target/mips/tcg/rel6_translate.c              |    2 -
+ target/mips/tcg/translate.c                   |   53 +-
+ target/mips/tcg/translate_addr_const.c        |    1 -
+ target/mips/tcg/tx79_translate.c              |    4 +-
+ target/mips/tcg/vr54xx_translate.c            |    3 -
+ target/nios2/translate.c                      |    6 +-
+ target/openrisc/sys_helper.c                  |    1 +
+ target/openrisc/translate.c                   |   13 +-
+ target/ppc/translate.c                        |   17 +-
+ target/riscv/cpu_helper.c                     |    1 +
+ target/riscv/translate.c                      |    6 +-
+ target/rx/cpu.c                               |    1 +
+ target/rx/op_helper.c                         |    1 +
+ target/rx/translate.c                         |    7 +-
+ target/s390x/tcg/translate.c                  |   10 +-
+ target/sh4/translate.c                        |    8 +-
+ target/sparc/translate.c                      |   80 +-
+ target/tricore/cpu.c                          |    1 +
+ target/tricore/translate.c                    |    7 +-
+ target/xtensa/translate.c                     |   31 +-
+ tcg/optimize.c                                |   21 +-
+ tcg/region.c                                  |   22 +-
+ tcg/tcg-common.c                              |    2 +
+ tcg/tcg-op-gvec.c                             |    6 +-
+ tcg/tcg-op-ldst.c                             | 1259 +++++++++++++++++
+ tcg/tcg-op-vec.c                              |    4 +-
+ tcg/tcg-op.c                                  |  991 +------------
+ tcg/tcg.c                                     |  359 +++--
+ tcg/tci.c                                     |   96 +-
+ MAINTAINERS                                   |    1 -
+ accel/tcg/atomic_common.c.inc                 |   14 +-
+ disas/meson.build                             |    4 +-
+ include/exec/helper-gen.h.inc                 |  101 ++
+ include/exec/helper-info.c.inc                |   95 ++
+ include/exec/helper-proto.h.inc               |   67 +
+ meson.build                                   |    3 -
+ scripts/make-config-poison.sh                 |    5 +-
+ target/hexagon/idef-parser/idef-parser.y      |    3 +-
+ target/loongarch/insn_trans/trans_extra.c.inc |    4 +-
+ .../insn_trans/trans_privileged.c.inc         |    4 +-
+ target/riscv/insn_trans/trans_rvi.c.inc       |   24 +-
+ tcg/aarch64/tcg-target.c.inc                  |   80 +-
+ tcg/arm/tcg-target.c.inc                      |  115 +-
+ tcg/i386/tcg-target.c.inc                     |  120 +-
+ tcg/loongarch64/tcg-target.c.inc              |   45 +-
+ tcg/meson.build                               |   31 +-
+ tcg/mips/tcg-target.c.inc                     |  112 +-
+ tcg/ppc/tcg-target.c.inc                      |  151 +-
+ tcg/riscv/tcg-target.c.inc                    |   47 +-
+ tcg/s390x/tcg-target.c.inc                    |   62 +-
+ tcg/sparc64/tcg-target.c.inc                  |   48 +-
+ tcg/tci/tcg-target.c.inc                      |   53 +-
+ 148 files changed, 5143 insertions(+), 4284 deletions(-)
+ delete mode 100644 include/exec/gen-icount.h
+ create mode 100644 include/exec/helper-gen-common.h
+ create mode 100644 include/exec/helper-proto-common.h
+ delete mode 100644 include/exec/helper-tcg.h
+ create mode 100644 include/exec/tlb-common.h
+ create mode 100644 include/exec/translation-block.h
+ create mode 100644 include/exec/user/guest-base.h
+ create mode 100644 include/tcg/debug-assert.h
+ create mode 100644 include/tcg/helper-info.h
+ create mode 100644 include/tcg/insn-start-words.h
+ create mode 100644 include/tcg/oversized-guest.h
+ create mode 100644 include/tcg/tcg-op-common.h
+ create mode 100644 include/tcg/tcg-op-gvec-common.h
+ create mode 100644 tcg/aarch64/tcg-target-reg-bits.h
+ create mode 100644 tcg/arm/tcg-target-reg-bits.h
+ create mode 100644 tcg/i386/tcg-target-reg-bits.h
+ create mode 100644 tcg/loongarch64/tcg-target-reg-bits.h
+ create mode 100644 tcg/mips/tcg-target-reg-bits.h
+ create mode 100644 tcg/ppc/tcg-target-reg-bits.h
+ create mode 100644 tcg/riscv/tcg-target-reg-bits.h
+ create mode 100644 tcg/s390x/tcg-target-reg-bits.h
+ create mode 100644 tcg/sparc64/tcg-target-reg-bits.h
+ create mode 100644 tcg/tci/tcg-target-reg-bits.h
+ rename disas.c => disas/disas.c (95%)
+ create mode 100644 tcg/tcg-op-ldst.c
+ create mode 100644 include/exec/helper-gen.h.inc
+ create mode 100644 include/exec/helper-info.c.inc
+ create mode 100644 include/exec/helper-proto.h.inc
+
 -- 
 2.34.1
 
