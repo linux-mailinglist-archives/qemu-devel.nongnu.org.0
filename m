@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44766F54C6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B456F54C7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:32:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8qU-0002JR-Ek; Wed, 03 May 2023 05:32:22 -0400
+	id 1pu8qa-0002KN-Vy; Wed, 03 May 2023 05:32:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pu8qR-0002JH-So
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:32:19 -0400
+ id 1pu8qZ-0002K5-1N
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:32:27 -0400
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pu8qO-0007Vg-Ra
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:32:19 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QBBXq0GJ3z67qJT;
- Wed,  3 May 2023 17:31:39 +0800 (CST)
+ id 1pu8qX-0007YS-75
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:32:26 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QBBTd42y6z6J6nJ;
+ Wed,  3 May 2023 17:28:53 +0800 (CST)
 Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
  (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 3 May
- 2023 10:32:00 +0100
-Date: Wed, 3 May 2023 10:31:59 +0100
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>,
- <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, <qemu-devel@nongnu.org>, 
- Peter Maydell <peter.maydell@linaro.org>, Dave Jiang <dave.jiang@intel.com>,
- Fan Ni <fan.ni@samsung.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Subject: Re: [PULL 61/73] hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
-Message-ID: <20230503103159.000008e5@Huawei.com>
-In-Reply-To: <20230503000825-mutt-send-email-mst@kernel.org>
-References: <cover.1678237635.git.mst@redhat.com>
- <010746ae1db7f52700cb2e2c46eb94f299cfa0d2.1678237635.git.mst@redhat.com>
- <ZEhzaWpNM+NvZCUw@x1n>
- <20230426021019-mutt-send-email-mst@kernel.org>
- <875y9jglfr.fsf@secure.mitica>
- <109bc1e721e009894bf4b1529fe1904afce1e13e.camel@redhat.com>
- <20230503000825-mutt-send-email-mst@kernel.org>
+ 2023 10:32:23 +0100
+Date: Wed, 3 May 2023 10:32:22 +0100
+To: Leonardo Bras <leobras@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>
+CC: Eduardo Habkost <eduardo@habkost.net>, Philippe =?ISO-8859-1?Q?Mathieu?=
+ =?ISO-8859-1?Q?-Daud=E9?= <philmd@linaro.org>, Yanan Wang
+ <wangyanan55@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
+ <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ <qemu-devel@nongnu.org>, <linuxarm@huawei.com>
+Subject: Re: [PATCH v1 1/1] hw/pci: Disable PCI_ERR_UNCOR_MASK register for
+ machine type < 8.0
+Message-ID: <20230503103222.00003a89@Huawei.com>
+In-Reply-To: <20230503002701.854329-1-leobras@redhat.com>
+References: <20230503002701.854329-1-leobras@redhat.com>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -76,108 +72,104 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 00:08:55 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Tue,  2 May 2023 21:27:02 -0300
+Leonardo Bras <leobras@redhat.com> wrote:
 
-> On Tue, May 02, 2023 at 09:32:34PM -0300, Leonardo Br=C3=A1s wrote:
-> > Hello Michael, Juan, Peter,
-> >=20
-> > On Wed, 2023-04-26 at 09:19 +0200, Juan Quintela wrote: =20
-> > > "Michael S. Tsirkin" <mst@redhat.com> wrote: =20
-> > > > On Tue, Apr 25, 2023 at 08:42:17PM -0400, Peter Xu wrote: =20
-> > > > > Hi, Michael, Jonathan,
-> > > > >=20
-> > > > > On Tue, Mar 07, 2023 at 08:13:53PM -0500, Michael S. Tsirkin wrot=
-e:
-> > > > > This breaks the simplest migration from QEMU 8.0->7.2 binaries on=
- all
-> > > > > machine types I think as long as the cap is present, e.g. the def=
-ault
-> > > > > e1000e provided by the default q35 machine can already hit it wit=
-h all
-> > > > > default cmdline:
-> > > > >=20
-> > > > >   ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
-> > > > >=20
-> > > > > 7.2 binary will have empty wmask for PCI_ERR_UNCOR_MASK, meanwhil=
-e I think
-> > > > > it can also see a non-zero value, then the migration will fail at:
-> > > > >=20
-> > > > > vmstate_load 0000:00:02.0/e1000e, e1000e                         =
-                         =20
-> > > > > qemu-7.2: get_pci_config_device: Bad config data: i=3D0x10a read:=
- 40 device: 0 cmask: ff wmask: 0 w1cmask:0
-> > > > > qemu-7.2: Failed to load PCIDevice:config  =20
-> > > > > qemu-7.2: Failed to load e1000e:parent_obj                       =
-                        =20
-> > > > > qemu-7.2: error while loading state for instance 0x0 of device '0=
-000:00:02.0/e1000e'     =20
-> > > > > qemu-7.2: load of migration failed: Invalid argument
-> > > > >=20
-> > > > > We probably at least want to have the default value to be still z=
-ero, and
-> > > > > we'd need to make sure it'll not be modified by the guest, iiuc.
-> > > > >=20
-> > > > > Below oneliner works for me and makes the migration work again:
-> > > > >=20
-> > > > > =3D=3D=3D8<=3D=3D=3D
-> > > > > diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-> > > > > index 103667c368..563a37b79c 100644
-> > > > > --- a/hw/pci/pcie_aer.c
-> > > > > +++ b/hw/pci/pcie_aer.c
-> > > > > @@ -113,7 +113,7 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap=
-_ver, uint16_t offset,
-> > > > >      pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
-> > > > >                   PCI_ERR_UNC_SUPPORTED);
-> > > > >      pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-> > > > > -                 PCI_ERR_UNC_MASK_DEFAULT);
-> > > > > +                 0/*PCI_ERR_UNC_MASK_DEFAULT*/);
-> > > > >      pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-> > > > >                   PCI_ERR_UNC_SUPPORTED);
-> > > > > =3D=3D=3D8<=3D=3D=3D
-> > > > >=20
-> > > > > Anyone could have a look on a solid solution from PCI side?
-> > > > >=20
-> > > > > Copy Juan and Leonardo.
-> > > > >=20
-> > > > > Thanks, =20
-> > > >=20
-> > > > My bad, I forgot about this =F0=9F=A4=A6.
-> > > > So we need a property and tweak it with compat machinery depending =
-on
-> > > > machine type. Jonathan, can you work on this pls?
-> > > > Or I can revert for now to relieve the time pressure,
-> > > > redo the patch at your leasure. =20
-> > >=20
-> > > I agree with Michael here, the best option is adding a new property.
-> > >=20
-> > > Later, Juan.
-> > >  =20
-> >=20
-> > I sent a patch implementing the suggested fix:
-> > https://lore.kernel.org/qemu-devel/20230503002701.854329-1-leobras@redh=
-at.com/T/#u
-> >=20
-> > Please let me know of anything to improve.
-> >=20
-> > Best regards,
-> > Leo =20
->=20
-> Weird, didn't get it for some reason. Pulled it from lore now, thanks!
->=20
+> Since it's implementation on v8.0.0-rc0, having the PCI_ERR_UNCOR_MASK
+> set for machine types < 8.0 will cause migration to fail if the target
+> QEMU version is < 8.0.0 :
+> 
+> qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
+> qemu-system-x86_64: Failed to load PCIDevice:config
+> qemu-system-x86_64: Failed to load e1000e:parent_obj
+> qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'
+> qemu-system-x86_64: load of migration failed: Invalid argument
+> 
+> The above test migrated a 7.2 machine type from QEMU master to QEMU 7.2.0,
+> with this cmdline:
+> 
+> ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
+> 
+> In order to fix this, property x-pcie-err-unc-mask was introduced to
+> control when PCI_ERR_UNCOR_MASK is enabled. This property is enabled by
+> default, but is disabled if machine type <= 7.2.
+> 
+> Fixes: 010746ae1d ("hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register")
+> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-Thanks all. Sorry for lack of reply, crazy week at a conference, so I wasn't
-successfully keeping up with email and still working through backlog.
-Obviously I forgot about migration across versions.  Sorry!
+Thanks Leo, you are a star.
 
-The fix Leo posted looks good to me.  Given in theory a previously loaded
-driver /firmware could have set these all to 0, any driver code should not
-be assuming they take the defaults in the PCI spec.  Might make a difference
-to any testing using errors injected very early (e.g. before drivers load)
-but meh, that's a corner case no one has hit previously so I doubt they eve=
-r will.
+LGTM
 
-Thanks to all involved.
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Jonathan
+> ---
+>  include/hw/pci/pci.h |  2 ++
+>  hw/core/machine.c    |  1 +
+>  hw/pci/pci.c         |  2 ++
+>  hw/pci/pcie_aer.c    | 11 +++++++----
+>  4 files changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 935b4b91b4..e6d0574a29 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -207,6 +207,8 @@ enum {
+>      QEMU_PCIE_EXTCAP_INIT = (1 << QEMU_PCIE_EXTCAP_INIT_BITNR),
+>  #define QEMU_PCIE_CXL_BITNR 10
+>      QEMU_PCIE_CAP_CXL = (1 << QEMU_PCIE_CXL_BITNR),
+> +#define QEMU_PCIE_ERR_UNC_MASK_BITNR 11
+> +    QEMU_PCIE_ERR_UNC_MASK = (1 << QEMU_PCIE_ERR_UNC_MASK_BITNR),
+>  };
+>  
+>  typedef struct PCIINTxRoute {
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 47a34841a5..07f763eb2e 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -48,6 +48,7 @@ GlobalProperty hw_compat_7_2[] = {
+>      { "e1000e", "migrate-timadj", "off" },
+>      { "virtio-mem", "x-early-migration", "false" },
+>      { "migration", "x-preempt-pre-7-2", "true" },
+> +    { TYPE_PCI_DEVICE, "x-pcie-err-unc-mask", "off" },
+>  };
+>  const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+>  
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 8a87ccc8b0..5153ad63d6 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -79,6 +79,8 @@ static Property pci_props[] = {
+>      DEFINE_PROP_STRING("failover_pair_id", PCIDevice,
+>                         failover_pair_id),
+>      DEFINE_PROP_UINT32("acpi-index",  PCIDevice, acpi_index, 0),
+> +    DEFINE_PROP_BIT("x-pcie-err-unc-mask", PCIDevice, cap_present,
+> +                    QEMU_PCIE_ERR_UNC_MASK_BITNR, true),
+>      DEFINE_PROP_END_OF_LIST()
+>  };
+>  
+> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+> index 103667c368..374d593ead 100644
+> --- a/hw/pci/pcie_aer.c
+> +++ b/hw/pci/pcie_aer.c
+> @@ -112,10 +112,13 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver, uint16_t offset,
+>  
+>      pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
+>                   PCI_ERR_UNC_SUPPORTED);
+> -    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
+> -                 PCI_ERR_UNC_MASK_DEFAULT);
+> -    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
+> -                 PCI_ERR_UNC_SUPPORTED);
+> +
+> +    if (dev->cap_present & QEMU_PCIE_ERR_UNC_MASK) {
+> +        pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
+> +                     PCI_ERR_UNC_MASK_DEFAULT);
+> +        pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
+> +                     PCI_ERR_UNC_SUPPORTED);
+> +    }
+>  
+>      pci_set_long(dev->config + offset + PCI_ERR_UNCOR_SEVER,
+>                   PCI_ERR_UNC_SEVERITY_DEFAULT);
+
 
