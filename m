@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49EF6F522B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A136F51F1
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:40:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6to-0005JC-31; Wed, 03 May 2023 03:27:40 -0400
+	id 1pu6tj-000579-Jp; Wed, 03 May 2023 03:27:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6tS-0004PW-UQ
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:19 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1pu6tT-0004Ui-VV
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:20 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6tR-0005bn-0l
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:18 -0400
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-3063b5f32aaso872635f8f.2
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:27:16 -0700 (PDT)
+ id 1pu6tS-0005fW-7A
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:19 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f195b164c4so30168705e9.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683098836; x=1685690836;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AOi9gtk6KXDfIe8VH2DgkX1Z9AQ37ZzD4xifhpb6EwU=;
- b=J6HJnOOo0q/QMg/M7h0v/Qe8Efq7O0WqJ6yPo5Q4tPZaQIf/kvogPtcmAU8YES8x6a
- 1xQuWKzkvWv04wwxbqEPfFCL1PTn6dvRT+6kTHKY5I3FcYcSKGvnGmsjvkTFyXIRj0lk
- ZzZNDJqx+bW7GCccPpzasTFEDJ9sFwlgAwfP7y0pQ6jzWb1tUJt4tJxibRXxJ68GDvhm
- wa+P+b4iCkaBSYWikPelWWUtf0njbF8D2RmdHMM7lCeDghZNo3Nw2LxEBLynBSxsVHEa
- VMeA9uPnEM7idHxzaTqdrzuyHvzclpdTl13REU44T9KQR9O7CxNfZNKPib0V0bLvGJsI
- G5qw==
+ bh=wDxG1Fumi/VCBapDyQzvtsqcUgkmKE+Qvv/KLvwRg5E=;
+ b=Rvd+k0oSgftU0K+4DWUPUc+vF+FFMuqaYvcXByZSAm+NLlThIfEtZ0kgulakP3le3j
+ jmZTdZEl8dMMGBANb0nKHIitpTUo4gwji3pAD353eOTK1+BhG5HKzr3n/2/UP/u8TnRn
+ CMYZkLnHrvc7kn4xB5+5fDddrwvl5Ui0qgAc58TReBFUarb7MNx8t/TJa/C5+Q4iY2fw
+ q0GYr9kJp3Q+AxJAr1qZC0dPV8Fq4mw2NGAv3Yl5FXcY0Ibv90d1YYBT+O1QPn5wBdYX
+ J0l/AutxCQ4di9vrChBkXxrASISNzwgQR46dbzwShEMB34aiRXcakMi0IW9JXZQv72k5
+ zquw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683098836; x=1685690836;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AOi9gtk6KXDfIe8VH2DgkX1Z9AQ37ZzD4xifhpb6EwU=;
- b=awEQrIyvd4SS4vtojgcg/R2lcY7Be/6hYs8epCuAkCxWMke7oa0v7ToJZf71uyOPgf
- Z+p6CPlDhkSphNBCPwWWndXDvJIo/WVe+VdW1dEBmVDRAd52DF3n7iYj5zZNgUzucZq+
- Lp9D2rwSXFLJ9meiXXYCMWK53tNBBtmmDLVduip9i3Q/SYK7D8ZWBbh3iUzdEsKQGfK6
- lj8SxJzohu0uCxPetPAQrLsVZj0/AfP9zEIEQH0Vwd7vUWfVYIcHk6UWBiHeuTGvXQZA
- v4BK6DdeY7MLrqAc7kKtQ8W8LdFSIjtMw4XgPifPd7YSyJnnLW4wIeRGnR/q5vvqV+IL
- 77UQ==
-X-Gm-Message-State: AC+VfDzRxiLYr11KC3z7Gu6kQOKSYf1TWb+peqFcWeTZUthNNESt2l7A
- bREAmULUmFjEKPORO0M8xRKP3oYqI1mFHEVMfvEPHg==
-X-Google-Smtp-Source: ACHHUZ7xCPxCDYs7j+Yswag5U0hzG2Qn5YiO5OgKAY5P0mUeF6Yrr+icV1WGmtn7qicXor6fmg8HcA==
-X-Received: by 2002:adf:f984:0:b0:306:2b83:2d32 with SMTP id
- f4-20020adff984000000b003062b832d32mr7535402wrr.43.1683098836061; 
+ bh=wDxG1Fumi/VCBapDyQzvtsqcUgkmKE+Qvv/KLvwRg5E=;
+ b=iY5/NCjk7hslZBP8T5HGC4Hz1jItUQzeEwPXNb+E9EVBZGPZ7Ejl3F1u5LPq//eyv4
+ 30LvUJ3qzaj1SgebTuKR7WkisbXbI9Dly7CZbQ+1eov8bVAlocUmT3wc6bAMXuiZ2ejo
+ pzcvPg4f1vgZMXSdHG2ZqJ2mguu50QgC56iMrhKKH4JJxS/dnCiZ5GxVtEwaUW3ZPJAR
+ PQYBu2nYjOCtb0aaFzRvrat+tunYAe7MNtKemq73bqqZ5r17Q78cr1uXiCjspxZvGrko
+ 5Th1nsufGhYSBXLxxlL0uxOzd7akR0sXgsLUA/duh/plMOjoofCi/P/FDghoY9frCNam
+ gtlQ==
+X-Gm-Message-State: AC+VfDz7VLnP1khl5NL4Zkhtws5y6Pq4vKFmxHthbXiqIlPZbzb4/u31
+ 7dVAf1yMUu1qYzUAwd2hCwe7QASU2vocsDmQtJ0v4w==
+X-Google-Smtp-Source: ACHHUZ7KLJo6hadBGssXulc5Pg9nNIiefmhZ+Zt48GoqraCj6XnN3BLqSRCakfmWsCvea+tCNp6FVg==
+X-Received: by 2002:a7b:cb8c:0:b0:3ee:6cdf:c357 with SMTP id
+ m12-20020a7bcb8c000000b003ee6cdfc357mr13098956wmi.20.1683098836799; 
  Wed, 03 May 2023 00:27:16 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- t4-20020a7bc3c4000000b003f1745c7df3sm974315wmj.23.2023.05.03.00.27.15
+ t4-20020a7bc3c4000000b003f1745c7df3sm974315wmj.23.2023.05.03.00.27.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:27:15 -0700 (PDT)
+ Wed, 03 May 2023 00:27:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng
-Subject: [PATCH 58/84] tcg: Remove NO_CPU_IO_DEFS
-Date: Wed,  3 May 2023 08:23:05 +0100
-Message-Id: <20230503072331.1747057-59-richard.henderson@linaro.org>
+Subject: [PATCH 59/84] exec-all: Widen tb_page_addr_t for user-only
+Date: Wed,  3 May 2023 08:23:06 +0100
+Message-Id: <20230503072331.1747057-60-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
 References: <20230503072331.1747057-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,89 +92,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From this remove, it's no longer clear what this is attempting
-to protect.  The last time a use of this define was added to
-the source tree, as opposed to merely moved around, was 2008.
-There have been many cleanups since that time and this is
-no longer required for the build to succeed.
+This is a step toward making TranslationBlock agnostic
+to the address size of the guest.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu.h          | 2 --
- target/sparc/cpu.h        | 2 --
- accel/tcg/translate-all.c | 1 -
- tcg/tcg.c                 | 6 ------
- 4 files changed, 11 deletions(-)
+ include/exec/exec-all.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 557d736dab..395b1c1cdf 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1395,7 +1395,6 @@ void ppc_store_msr(CPUPPCState *env, target_ulong value);
- void ppc_cpu_list(void);
- 
- /* Time-base and decrementer management */
--#ifndef NO_CPU_IO_DEFS
- uint64_t cpu_ppc_load_tbl(CPUPPCState *env);
- uint32_t cpu_ppc_load_tbu(CPUPPCState *env);
- void cpu_ppc_store_tbu(CPUPPCState *env, uint32_t value);
-@@ -1436,7 +1435,6 @@ int ppcemb_tlb_check(CPUPPCState *env, ppcemb_tlb_t *tlb,
- hwaddr booke206_tlb_to_page_size(CPUPPCState *env,
-                                         ppcmas_tlb_t *tlb);
- #endif
--#endif
- 
- void ppc_store_fpscr(CPUPPCState *env, target_ulong val);
- void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index fb98843dad..3d090e8278 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -581,7 +581,6 @@ G_NORETURN void sparc_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-                                               uintptr_t retaddr);
- G_NORETURN void cpu_raise_exception_ra(CPUSPARCState *, int, uintptr_t);
- 
--#ifndef NO_CPU_IO_DEFS
- /* cpu_init.c */
- void cpu_sparc_set_id(CPUSPARCState *env, unsigned int cpu);
- void sparc_cpu_list(void);
-@@ -637,7 +636,6 @@ static inline int tlb_compare_context(const SparcTLBEntry *tlb,
-     return compare_masked(context, tlb->tag, MMU_CONTEXT_MASK);
- }
- 
--#endif
- #endif
- 
- /* cpu-exec.c */
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 181f276b18..347768b979 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -19,7 +19,6 @@
- 
- #include "qemu/osdep.h"
- 
--#define NO_CPU_IO_DEFS
- #include "trace.h"
- #include "disas/disas.h"
- #include "exec/exec-all.h"
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 53540e4237..916c143323 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -37,12 +37,6 @@
- #include "qemu/cacheflush.h"
- #include "qemu/cacheinfo.h"
- #include "qemu/timer.h"
--
--/* Note: the long term plan is to reduce the dependencies on the QEMU
--   CPU definitions. Currently they are used for qemu_ld/st
--   instructions */
--#define NO_CPU_IO_DEFS
--
- #include "exec/exec-all.h"
- #include "exec/tlb-common.h"
- #include "tcg/tcg-op-common.h"
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index ecded1f112..8c8526d9f8 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -34,8 +34,8 @@
+    addresses in userspace mode.  Define tb_page_addr_t to be an appropriate
+    type.  */
+ #if defined(CONFIG_USER_ONLY)
+-typedef abi_ulong tb_page_addr_t;
+-#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
++typedef vaddr tb_page_addr_t;
++#define TB_PAGE_ADDR_FMT "%" VADDR_PRIx
+ #else
+ typedef ram_addr_t tb_page_addr_t;
+ #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
 -- 
 2.34.1
 
