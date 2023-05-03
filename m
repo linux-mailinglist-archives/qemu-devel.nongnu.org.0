@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2F86F5212
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01466F519D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:32:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6tm-0005Eb-9F; Wed, 03 May 2023 03:27:38 -0400
+	id 1pu6ti-00054N-6U; Wed, 03 May 2023 03:27:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6tS-0004PV-VE
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:19 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1pu6tV-0004bN-Oa
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:21 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6tQ-0005eo-7G
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:17 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f18335a870so29320815e9.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:27:15 -0700 (PDT)
+ id 1pu6tR-0005f7-4j
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:21 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3f4000ec6ecso314125e9.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683098834; x=1685690834;
+ d=linaro.org; s=google; t=1683098835; x=1685690835;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XT0knKquCjoNxaSuoAp369zpPbH7Z8eil9lQND/fecA=;
- b=OZD2dFooDbe3E5OsbVXLiGyO4qiRTJifGrFEpqq8WQAE+etrByz2oHMB6vSurhMqOe
- kwtj+nrG5hIRpOp0HFG1Guh9jJ+yOqHRFluXgwiZ/xl60PWI8kee47hBV3ZdvFOTLJlY
- YFnGrI18ObLvl3ETmek5GTqtayxnbSz1TJuOtcJxd7geTBlad8sr3A31CD1TcxaceOnH
- jULQiHJ8jb6mCXb4uY65uZugARQDW12K3MJJ8Hmruux3mPOCdYtzraWUuYr3/VI51Dbz
- 0QNqAnPrR8FjOZhvhuHrbPsDxZOxLwxm15c/Szd7iEDj+kmAc0GS2SI3VY6CvRS16AMd
- oo9A==
+ bh=xLxyYSdoAT/V2nwQqAf/ew1zY58jY8stWGFlvcTxHG4=;
+ b=DoLAnd3bIyMYUGHljqkgqbmAU0+5KW+INLPDP5uN/I9PZDB5CWAfYlAxRtnl6fJQbb
+ x9lG5WinOWEi7CoAG7+kMn2wo6oJ40/AYZFWNhjrrE6i7UXDCf5v0asfz46U2mqfAD2K
+ D7CVAoK3/L181g+OCcK0YRMSoaDVIBLtqAtyacjBUSqBkjSzUWoS3keiP6hmZV1E9BjW
+ fboKKyGlycrvPxihvOhAMJMkQFtgcq0FhIfSVb10dDSqouFvP/6X4foXLX1ClAdZPSfs
+ r66wkPS5QOC6979NcjKJvTHdYZKrTtaaaGG/4C5ZhLQyfh5dhP9FZcknQuor9LY0mQ8y
+ mPKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683098834; x=1685690834;
+ d=1e100.net; s=20221208; t=1683098835; x=1685690835;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XT0knKquCjoNxaSuoAp369zpPbH7Z8eil9lQND/fecA=;
- b=WMd9oh5Uw6RWZEX6474HOQkcaK218wa9l3Gum+tMi6ZgKE8tqYtjPUjDzXHVu3kkRN
- FCN/2KsfGvbRgg8wDbN9vnZclmeKyKoDBS/xFdeHCakF17/VruUsb7mLFQm+z7yLjt0e
- qOxtyKDr1jJ89L+xFCR2kAze9PXdS22ntiKKvMHJqFUW1DbTG3FWVslEuQyNaxAoQ/f5
- 76BqC429VCwITG5Q6AqtS5uwtpxgkFs9HjOeSzL3jqTUy3rCikzv1ep2gbEy3PZXUsoG
- be7pAmwOq1udOnxU6DIbcLt364Fe3MAY+7A/uot6fi60mdF1sqf21NvR2ngnyXeCnEcx
- ID1w==
-X-Gm-Message-State: AC+VfDxjQfKbqybm3nqxGLtZ49GA1deTAZhVwa6t51ftAGTWWgRMGil7
- kd+e+a5N2XFjZmmfCQqZfgu4jhxJDzA+Jo88lm9wPg==
-X-Google-Smtp-Source: ACHHUZ6mRepMkOW6zgrxo47yxLqcrGcm/acOB0ychGzfZEXMosHj7jw60Hu26OgQSd5To9cuEuh9+Q==
-X-Received: by 2002:a1c:7405:0:b0:3f1:7129:6b25 with SMTP id
- p5-20020a1c7405000000b003f171296b25mr13508300wmc.18.1683098834667; 
- Wed, 03 May 2023 00:27:14 -0700 (PDT)
+ bh=xLxyYSdoAT/V2nwQqAf/ew1zY58jY8stWGFlvcTxHG4=;
+ b=aOrrItaOVPBbBWrehZJN9TQA1cSYlDcfsAPgM3g1b8oS7jh/nhTlOF1ufjTgfgo7Mo
+ 2Ip8wBzWJgTPjRmqJQkThRJ7Q00O5NQxYXdiLGZCIUfR45wBK4K6jCzvC3gsZYCvRe9c
+ 3P4+rappctKP79ZOW1slX93k4QExlqVqxewN/G72XWEY7xYcCzhklQ15bBx+htmlOh0C
+ wdZUlOJERxNgwHIhyZxc8QLfvO9vmmkFjW/3KsPIx+rcCK2OQtn6QdrQ00NRASCVtoXh
+ TLyRIWMRG6KjKcUBOpqudUpXsPvxxnsR6ZzajTut495kQUUT4kBCxgNJyOlk9b6U3IA5
+ 2xOw==
+X-Gm-Message-State: AC+VfDyFW8YvKdmRRWgE1PVvJxQlntmmq9ddiJ65o2+6YF1XtS+EpHaZ
+ OeiHWIK1sejzuFJN8SabDCl5oiKUlmnB98ZM9jDd6w==
+X-Google-Smtp-Source: ACHHUZ4VIoBNG7g2hMdGqXYonMRFujOYE47S4SDlTwYJIjFlgVchiK96nVLsyyZLwuxolRp5OmfL4g==
+X-Received: by 2002:a05:6000:50f:b0:2f6:9bc4:76f1 with SMTP id
+ a15-20020a056000050f00b002f69bc476f1mr14147468wrf.1.1683098835356; 
+ Wed, 03 May 2023 00:27:15 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
  t4-20020a7bc3c4000000b003f1745c7df3sm974315wmj.23.2023.05.03.00.27.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:27:14 -0700 (PDT)
+ Wed, 03 May 2023 00:27:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng
-Subject: [PATCH 56/84] tcg: Move TLB_FLAGS_MASK check out of get_alignment_bits
-Date: Wed,  3 May 2023 08:23:03 +0100
-Message-Id: <20230503072331.1747057-57-richard.henderson@linaro.org>
+Subject: [PATCH 57/84] tcg: Split tcg/tcg-op-gvec.h
+Date: Wed,  3 May 2023 08:23:04 +0100
+Message-Id: <20230503072331.1747057-58-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
 References: <20230503072331.1747057-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,93 +92,940 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The replacement isn't ideal, as the raw count of bits
-is not easily synced with exec/cpu-all.h, but it does
-remove from tcg.h the target dependency on TARGET_PAGE_BITS_MIN
-which is built into TLB_FLAGS_MASK.
+Create tcg/tcg-op-gvec-common.h, moving everything that does not
+concern TARGET_LONG_BITS.  Adjust tcg-op-gvec.c to use the new header.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h |  3 +++
- include/tcg/tcg.h      |  4 ----
- tcg/tcg-op-ldst.c      | 18 ++++++++++++++++--
- 3 files changed, 19 insertions(+), 6 deletions(-)
+ include/tcg/tcg-op-gvec-common.h | 426 +++++++++++++++++++++++++++++
+ include/tcg/tcg-op-gvec.h        | 444 +------------------------------
+ tcg/tcg-op-gvec.c                |   2 +-
+ 3 files changed, 437 insertions(+), 435 deletions(-)
+ create mode 100644 include/tcg/tcg-op-gvec-common.h
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index ad824fee52..95b9947e20 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -317,6 +317,9 @@ CPUArchState *cpu_copy(CPUArchState *env);
-  *
-  * Use TARGET_PAGE_BITS_MIN so that these bits are constant
-  * when TARGET_PAGE_BITS_VARY is in effect.
+diff --git a/include/tcg/tcg-op-gvec-common.h b/include/tcg/tcg-op-gvec-common.h
+new file mode 100644
+index 0000000000..e2683d487f
+--- /dev/null
++++ b/include/tcg/tcg-op-gvec-common.h
+@@ -0,0 +1,426 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Target independent generic vector operation expansion
 + *
-+ * The count, if not the placement of these bits is known
-+ * to tcg/tcg-op-ldst.c, check_max_alignment().
-  */
- /* Zero if TLB entry is valid.  */
- #define TLB_INVALID_MASK    (1 << (TARGET_PAGE_BITS_MIN - 1))
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 24e8cd65ef..1af6cd5ad4 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -305,10 +305,6 @@ static inline unsigned get_alignment_bits(MemOp memop)
-         /* A specific alignment requirement.  */
-         a = a >> MO_ASHIFT;
-     }
--#if defined(CONFIG_SOFTMMU)
--    /* The requested alignment cannot overlap the TLB flags.  */
--    tcg_debug_assert((TLB_FLAGS_MASK & ((1 << a) - 1)) == 0);
--#endif
-     return a;
- }
- 
-diff --git a/tcg/tcg-op-ldst.c b/tcg/tcg-op-ldst.c
-index 9eef859c97..c962a2aa17 100644
---- a/tcg/tcg-op-ldst.c
-+++ b/tcg/tcg-op-ldst.c
-@@ -32,11 +32,23 @@
- #include "tcg-internal.h"
- 
- 
--static inline MemOp tcg_canonicalize_memop(MemOp op, bool is64, bool st)
-+static void check_max_alignment(unsigned a_bits)
-+{
-+#if defined(CONFIG_SOFTMMU)
++ * Copyright (c) 2018 Linaro
++ */
++
++#ifndef TCG_TCG_OP_GVEC_COMMON_H
++#define TCG_TCG_OP_GVEC_COMMON_H
++
++/*
++ * "Generic" vectors.  All operands are given as offsets from ENV,
++ * and therefore cannot also be allocated via tcg_global_mem_new_*.
++ * OPRSZ is the byte size of the vector upon which the operation is performed.
++ * MAXSZ is the byte size of the full vector; bytes beyond OPSZ are cleared.
++ *
++ * All sizes must be 8 or any multiple of 16.
++ * When OPRSZ is 8, the alignment may be 8, otherwise must be 16.
++ * Operands may completely, but not partially, overlap.
++ */
++
++/* Expand a call to a gvec-style helper, with pointers to two vector
++   operands, and a descriptor (see tcg-gvec-desc.h).  */
++typedef void gen_helper_gvec_2(TCGv_ptr, TCGv_ptr, TCGv_i32);
++void tcg_gen_gvec_2_ool(uint32_t dofs, uint32_t aofs,
++                        uint32_t oprsz, uint32_t maxsz, int32_t data,
++                        gen_helper_gvec_2 *fn);
++
++/* Similarly, passing an extra data value.  */
++typedef void gen_helper_gvec_2i(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv_i32);
++void tcg_gen_gvec_2i_ool(uint32_t dofs, uint32_t aofs, TCGv_i64 c,
++                         uint32_t oprsz, uint32_t maxsz, int32_t data,
++                         gen_helper_gvec_2i *fn);
++
++/* Similarly, passing an extra pointer (e.g. env or float_status).  */
++typedef void gen_helper_gvec_2_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32);
++void tcg_gen_gvec_2_ptr(uint32_t dofs, uint32_t aofs,
++                        TCGv_ptr ptr, uint32_t oprsz, uint32_t maxsz,
++                        int32_t data, gen_helper_gvec_2_ptr *fn);
++
++/* Similarly, with three vector operands.  */
++typedef void gen_helper_gvec_3(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32);
++void tcg_gen_gvec_3_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
++                        uint32_t oprsz, uint32_t maxsz, int32_t data,
++                        gen_helper_gvec_3 *fn);
++
++/* Similarly, with four vector operands.  */
++typedef void gen_helper_gvec_4(TCGv_ptr, TCGv_ptr, TCGv_ptr,
++                               TCGv_ptr, TCGv_i32);
++void tcg_gen_gvec_4_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
++                        uint32_t cofs, uint32_t oprsz, uint32_t maxsz,
++                        int32_t data, gen_helper_gvec_4 *fn);
++
++/* Similarly, with five vector operands.  */
++typedef void gen_helper_gvec_5(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr,
++                               TCGv_ptr, TCGv_i32);
++void tcg_gen_gvec_5_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
++                        uint32_t cofs, uint32_t xofs, uint32_t oprsz,
++                        uint32_t maxsz, int32_t data, gen_helper_gvec_5 *fn);
++
++typedef void gen_helper_gvec_3_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr,
++                                   TCGv_ptr, TCGv_i32);
++void tcg_gen_gvec_3_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
++                        TCGv_ptr ptr, uint32_t oprsz, uint32_t maxsz,
++                        int32_t data, gen_helper_gvec_3_ptr *fn);
++
++typedef void gen_helper_gvec_4_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr,
++                                   TCGv_ptr, TCGv_ptr, TCGv_i32);
++void tcg_gen_gvec_4_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
++                        uint32_t cofs, TCGv_ptr ptr, uint32_t oprsz,
++                        uint32_t maxsz, int32_t data,
++                        gen_helper_gvec_4_ptr *fn);
++
++typedef void gen_helper_gvec_5_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr,
++                                   TCGv_ptr, TCGv_ptr, TCGv_i32);
++void tcg_gen_gvec_5_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
++                        uint32_t cofs, uint32_t eofs, TCGv_ptr ptr,
++                        uint32_t oprsz, uint32_t maxsz, int32_t data,
++                        gen_helper_gvec_5_ptr *fn);
++
++/* Expand a gvec operation.  Either inline or out-of-line depending on
++   the actual vector size and the operations supported by the host.  */
++typedef struct {
++    /* Expand inline as a 64-bit or 32-bit integer.
++       Only one of these will be non-NULL.  */
++    void (*fni8)(TCGv_i64, TCGv_i64);
++    void (*fni4)(TCGv_i32, TCGv_i32);
++    /* Expand inline with a host vector type.  */
++    void (*fniv)(unsigned, TCGv_vec, TCGv_vec);
++    /* Expand out-of-line helper w/descriptor.  */
++    gen_helper_gvec_2 *fno;
++    /* The optional opcodes, if any, utilized by .fniv.  */
++    const TCGOpcode *opt_opc;
++    /* The data argument to the out-of-line helper.  */
++    int32_t data;
++    /* The vector element size, if applicable.  */
++    uint8_t vece;
++    /* Prefer i64 to v64.  */
++    bool prefer_i64;
++    /* Load dest as a 2nd source operand.  */
++    bool load_dest;
++} GVecGen2;
++
++typedef struct {
++    /* Expand inline as a 64-bit or 32-bit integer.
++       Only one of these will be non-NULL.  */
++    void (*fni8)(TCGv_i64, TCGv_i64, int64_t);
++    void (*fni4)(TCGv_i32, TCGv_i32, int32_t);
++    /* Expand inline with a host vector type.  */
++    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, int64_t);
++    /* Expand out-of-line helper w/descriptor, data in descriptor.  */
++    gen_helper_gvec_2 *fno;
++    /* Expand out-of-line helper w/descriptor, data as argument.  */
++    gen_helper_gvec_2i *fnoi;
++    /* The optional opcodes, if any, utilized by .fniv.  */
++    const TCGOpcode *opt_opc;
++    /* The vector element size, if applicable.  */
++    uint8_t vece;
++    /* Prefer i64 to v64.  */
++    bool prefer_i64;
++    /* Load dest as a 3rd source operand.  */
++    bool load_dest;
++} GVecGen2i;
++
++typedef struct {
++    /* Expand inline as a 64-bit or 32-bit integer.
++       Only one of these will be non-NULL.  */
++    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64);
++    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32);
++    /* Expand inline with a host vector type.  */
++    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec);
++    /* Expand out-of-line helper w/descriptor.  */
++    gen_helper_gvec_2i *fno;
++    /* The optional opcodes, if any, utilized by .fniv.  */
++    const TCGOpcode *opt_opc;
++    /* The data argument to the out-of-line helper.  */
++    uint32_t data;
++    /* The vector element size, if applicable.  */
++    uint8_t vece;
++    /* Prefer i64 to v64.  */
++    bool prefer_i64;
++    /* Load scalar as 1st source operand.  */
++    bool scalar_first;
++} GVecGen2s;
++
++typedef struct {
++    /* Expand inline as a 64-bit or 32-bit integer.
++       Only one of these will be non-NULL.  */
++    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64);
++    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32);
++    /* Expand inline with a host vector type.  */
++    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec);
++    /* Expand out-of-line helper w/descriptor.  */
++    gen_helper_gvec_3 *fno;
++    /* The optional opcodes, if any, utilized by .fniv.  */
++    const TCGOpcode *opt_opc;
++    /* The data argument to the out-of-line helper.  */
++    int32_t data;
++    /* The vector element size, if applicable.  */
++    uint8_t vece;
++    /* Prefer i64 to v64.  */
++    bool prefer_i64;
++    /* Load dest as a 3rd source operand.  */
++    bool load_dest;
++} GVecGen3;
++
++typedef struct {
 +    /*
-+     * The requested alignment cannot overlap the TLB flags.
-+     * FIXME: Must keep the count up-to-date with "exec/cpu-all.h".
++     * Expand inline as a 64-bit or 32-bit integer. Only one of these will be
++     * non-NULL.
 +     */
-+    tcg_debug_assert(a_bits + 6 <= tcg_ctx->page_bits);
++    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64, int64_t);
++    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32, int32_t);
++    /* Expand inline with a host vector type.  */
++    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec, int64_t);
++    /* Expand out-of-line helper w/descriptor, data in descriptor.  */
++    gen_helper_gvec_3 *fno;
++    /* The optional opcodes, if any, utilized by .fniv.  */
++    const TCGOpcode *opt_opc;
++    /* The vector element size, if applicable.  */
++    uint8_t vece;
++    /* Prefer i64 to v64.  */
++    bool prefer_i64;
++    /* Load dest as a 3rd source operand.  */
++    bool load_dest;
++} GVecGen3i;
++
++typedef struct {
++    /* Expand inline as a 64-bit or 32-bit integer.
++       Only one of these will be non-NULL.  */
++    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64);
++    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32);
++    /* Expand inline with a host vector type.  */
++    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec, TCGv_vec);
++    /* Expand out-of-line helper w/descriptor.  */
++    gen_helper_gvec_4 *fno;
++    /* The optional opcodes, if any, utilized by .fniv.  */
++    const TCGOpcode *opt_opc;
++    /* The data argument to the out-of-line helper.  */
++    int32_t data;
++    /* The vector element size, if applicable.  */
++    uint8_t vece;
++    /* Prefer i64 to v64.  */
++    bool prefer_i64;
++    /* Write aofs as a 2nd dest operand.  */
++    bool write_aofs;
++} GVecGen4;
++
++typedef struct {
++    /*
++     * Expand inline as a 64-bit or 32-bit integer. Only one of these will be
++     * non-NULL.
++     */
++    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64, int64_t);
++    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32, int32_t);
++    /* Expand inline with a host vector type.  */
++    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec, TCGv_vec, int64_t);
++    /* Expand out-of-line helper w/descriptor, data in descriptor.  */
++    gen_helper_gvec_4 *fno;
++    /* The optional opcodes, if any, utilized by .fniv.  */
++    const TCGOpcode *opt_opc;
++    /* The vector element size, if applicable.  */
++    uint8_t vece;
++    /* Prefer i64 to v64.  */
++    bool prefer_i64;
++} GVecGen4i;
++
++void tcg_gen_gvec_2(uint32_t dofs, uint32_t aofs,
++                    uint32_t oprsz, uint32_t maxsz, const GVecGen2 *);
++void tcg_gen_gvec_2i(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
++                     uint32_t maxsz, int64_t c, const GVecGen2i *);
++void tcg_gen_gvec_2s(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
++                     uint32_t maxsz, TCGv_i64 c, const GVecGen2s *);
++void tcg_gen_gvec_3(uint32_t dofs, uint32_t aofs, uint32_t bofs,
++                    uint32_t oprsz, uint32_t maxsz, const GVecGen3 *);
++void tcg_gen_gvec_3i(uint32_t dofs, uint32_t aofs, uint32_t bofs,
++                     uint32_t oprsz, uint32_t maxsz, int64_t c,
++                     const GVecGen3i *);
++void tcg_gen_gvec_4(uint32_t dofs, uint32_t aofs, uint32_t bofs, uint32_t cofs,
++                    uint32_t oprsz, uint32_t maxsz, const GVecGen4 *);
++void tcg_gen_gvec_4i(uint32_t dofs, uint32_t aofs, uint32_t bofs, uint32_t cofs,
++                     uint32_t oprsz, uint32_t maxsz, int64_t c,
++                     const GVecGen4i *);
++
++/* Expand a specific vector operation.  */
++
++void tcg_gen_gvec_mov(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_not(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_neg(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_abs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_add(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_sub(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_mul(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_addi(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       int64_t c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_muli(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       int64_t c, uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_adds(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_subs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_muls(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
++
++/* Saturated arithmetic.  */
++void tcg_gen_gvec_ssadd(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_sssub(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_usadd(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_ussub(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++
++/* Min/max.  */
++void tcg_gen_gvec_smin(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_umin(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_smax(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_umax(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_and(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_or(unsigned vece, uint32_t dofs, uint32_t aofs,
++                     uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_xor(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_andc(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_orc(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_nand(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_nor(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_eqv(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_andi(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       int64_t c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_xori(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       int64_t c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_ori(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      int64_t c, uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_ands(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_andcs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_xors(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, uint32_t aofs,
++                      TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
++                          uint32_t s, uint32_t m);
++void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t s,
++                          uint32_t m, uint64_t imm);
++void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
++                          uint32_t m, TCGv_i32);
++void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
++                          uint32_t m, TCGv_i64);
++
++void tcg_gen_gvec_shli(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       int64_t shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_shri(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       int64_t shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_sari(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       int64_t shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_rotli(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        int64_t shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_rotri(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        int64_t shift, uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_shls(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_shrs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_sars(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_rotls(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
++
++/*
++ * Perform vector shift by vector element, modulo the element size.
++ * E.g.  D[i] = A[i] << (B[i] % (8 << vece)).
++ */
++void tcg_gen_gvec_shlv(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_shrv(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_sarv(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_rotlv(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_rotrv(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++
++void tcg_gen_gvec_cmp(TCGCond cond, unsigned vece, uint32_t dofs,
++                      uint32_t aofs, uint32_t bofs,
++                      uint32_t oprsz, uint32_t maxsz);
++
++/*
++ * Perform vector bit select: d = (b & a) | (c & ~a).
++ */
++void tcg_gen_gvec_bitsel(unsigned vece, uint32_t dofs, uint32_t aofs,
++                         uint32_t bofs, uint32_t cofs,
++                         uint32_t oprsz, uint32_t maxsz);
++
++/*
++ * 64-bit vector operations.  Use these when the register has been allocated
++ * with tcg_global_mem_new_i64, and so we cannot also address it via pointer.
++ * OPRSZ = MAXSZ = 8.
++ */
++
++void tcg_gen_vec_neg8_i64(TCGv_i64 d, TCGv_i64 a);
++void tcg_gen_vec_neg16_i64(TCGv_i64 d, TCGv_i64 a);
++void tcg_gen_vec_neg32_i64(TCGv_i64 d, TCGv_i64 a);
++
++void tcg_gen_vec_add8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
++void tcg_gen_vec_add16_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
++void tcg_gen_vec_add32_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
++
++void tcg_gen_vec_sub8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
++void tcg_gen_vec_sub16_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
++void tcg_gen_vec_sub32_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
++
++void tcg_gen_vec_shl8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
++void tcg_gen_vec_shl16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
++void tcg_gen_vec_shr8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
++void tcg_gen_vec_shr16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
++void tcg_gen_vec_sar8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
++void tcg_gen_vec_sar16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
++void tcg_gen_vec_rotl8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c);
++void tcg_gen_vec_rotl16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c);
++
++/* 32-bit vector operations. */
++void tcg_gen_vec_add8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
++void tcg_gen_vec_add16_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
++
++void tcg_gen_vec_sub8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
++void tcg_gen_vec_sub16_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
++
++void tcg_gen_vec_shl8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
++void tcg_gen_vec_shl16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
++void tcg_gen_vec_shr8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
++void tcg_gen_vec_shr16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
++void tcg_gen_vec_sar8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
++void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
++
 +#endif
-+}
-+
-+static MemOp tcg_canonicalize_memop(MemOp op, bool is64, bool st)
- {
--    /* Trigger the asserts within as early as possible.  */
-     unsigned a_bits = get_alignment_bits(op);
+diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
+index a8183bfeab..b0a81ad4bf 100644
+--- a/include/tcg/tcg-op-gvec.h
++++ b/include/tcg/tcg-op-gvec.h
+@@ -1,447 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
+ /*
+- * Generic vector operation expansion
++ * Target dependent generic vector operation expansion
+  *
+  * Copyright (c) 2018 Linaro
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
  
-+    check_max_alignment(a_bits);
-+
-     /* Prefer MO_ALIGN+MO_XX over MO_ALIGN_XX+MO_XX */
-     if (a_bits == (op & MO_SIZE)) {
-         op = (op & ~MO_AMASK) | MO_ALIGN;
-@@ -502,6 +514,7 @@ static void tcg_gen_qemu_ld_i128_int(TCGv_i128 val, TCGTemp *addr,
-     TCGv_i64 ext_addr = NULL;
-     TCGOpcode opc;
+ #ifndef TCG_TCG_OP_GVEC_H
+ #define TCG_TCG_OP_GVEC_H
  
-+    check_max_alignment(get_alignment_bits(memop));
-     tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+-/*
+- * "Generic" vectors.  All operands are given as offsets from ENV,
+- * and therefore cannot also be allocated via tcg_global_mem_new_*.
+- * OPRSZ is the byte size of the vector upon which the operation is performed.
+- * MAXSZ is the byte size of the full vector; bytes beyond OPSZ are cleared.
+- *
+- * All sizes must be 8 or any multiple of 16.
+- * When OPRSZ is 8, the alignment may be 8, otherwise must be 16.
+- * Operands may completely, but not partially, overlap.
+- */
++#include "tcg/tcg-op-gvec-common.h"
  
-     /* TODO: For now, force 32-bit hosts to use the helper. */
-@@ -612,6 +625,7 @@ static void tcg_gen_qemu_st_i128_int(TCGv_i128 val, TCGTemp *addr,
-     TCGv_i64 ext_addr = NULL;
-     TCGOpcode opc;
+-/* Expand a call to a gvec-style helper, with pointers to two vector
+-   operands, and a descriptor (see tcg-gvec-desc.h).  */
+-typedef void gen_helper_gvec_2(TCGv_ptr, TCGv_ptr, TCGv_i32);
+-void tcg_gen_gvec_2_ool(uint32_t dofs, uint32_t aofs,
+-                        uint32_t oprsz, uint32_t maxsz, int32_t data,
+-                        gen_helper_gvec_2 *fn);
+-
+-/* Similarly, passing an extra data value.  */
+-typedef void gen_helper_gvec_2i(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv_i32);
+-void tcg_gen_gvec_2i_ool(uint32_t dofs, uint32_t aofs, TCGv_i64 c,
+-                         uint32_t oprsz, uint32_t maxsz, int32_t data,
+-                         gen_helper_gvec_2i *fn);
+-
+-/* Similarly, passing an extra pointer (e.g. env or float_status).  */
+-typedef void gen_helper_gvec_2_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32);
+-void tcg_gen_gvec_2_ptr(uint32_t dofs, uint32_t aofs,
+-                        TCGv_ptr ptr, uint32_t oprsz, uint32_t maxsz,
+-                        int32_t data, gen_helper_gvec_2_ptr *fn);
+-
+-/* Similarly, with three vector operands.  */
+-typedef void gen_helper_gvec_3(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32);
+-void tcg_gen_gvec_3_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+-                        uint32_t oprsz, uint32_t maxsz, int32_t data,
+-                        gen_helper_gvec_3 *fn);
+-
+-/* Similarly, with four vector operands.  */
+-typedef void gen_helper_gvec_4(TCGv_ptr, TCGv_ptr, TCGv_ptr,
+-                               TCGv_ptr, TCGv_i32);
+-void tcg_gen_gvec_4_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+-                        uint32_t cofs, uint32_t oprsz, uint32_t maxsz,
+-                        int32_t data, gen_helper_gvec_4 *fn);
+-
+-/* Similarly, with five vector operands.  */
+-typedef void gen_helper_gvec_5(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr,
+-                               TCGv_ptr, TCGv_i32);
+-void tcg_gen_gvec_5_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+-                        uint32_t cofs, uint32_t xofs, uint32_t oprsz,
+-                        uint32_t maxsz, int32_t data, gen_helper_gvec_5 *fn);
+-
+-typedef void gen_helper_gvec_3_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr,
+-                                   TCGv_ptr, TCGv_i32);
+-void tcg_gen_gvec_3_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+-                        TCGv_ptr ptr, uint32_t oprsz, uint32_t maxsz,
+-                        int32_t data, gen_helper_gvec_3_ptr *fn);
+-
+-typedef void gen_helper_gvec_4_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr,
+-                                   TCGv_ptr, TCGv_ptr, TCGv_i32);
+-void tcg_gen_gvec_4_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+-                        uint32_t cofs, TCGv_ptr ptr, uint32_t oprsz,
+-                        uint32_t maxsz, int32_t data,
+-                        gen_helper_gvec_4_ptr *fn);
+-
+-typedef void gen_helper_gvec_5_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr,
+-                                   TCGv_ptr, TCGv_ptr, TCGv_i32);
+-void tcg_gen_gvec_5_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+-                        uint32_t cofs, uint32_t eofs, TCGv_ptr ptr,
+-                        uint32_t oprsz, uint32_t maxsz, int32_t data,
+-                        gen_helper_gvec_5_ptr *fn);
+-
+-/* Expand a gvec operation.  Either inline or out-of-line depending on
+-   the actual vector size and the operations supported by the host.  */
+-typedef struct {
+-    /* Expand inline as a 64-bit or 32-bit integer.
+-       Only one of these will be non-NULL.  */
+-    void (*fni8)(TCGv_i64, TCGv_i64);
+-    void (*fni4)(TCGv_i32, TCGv_i32);
+-    /* Expand inline with a host vector type.  */
+-    void (*fniv)(unsigned, TCGv_vec, TCGv_vec);
+-    /* Expand out-of-line helper w/descriptor.  */
+-    gen_helper_gvec_2 *fno;
+-    /* The optional opcodes, if any, utilized by .fniv.  */
+-    const TCGOpcode *opt_opc;
+-    /* The data argument to the out-of-line helper.  */
+-    int32_t data;
+-    /* The vector element size, if applicable.  */
+-    uint8_t vece;
+-    /* Prefer i64 to v64.  */
+-    bool prefer_i64;
+-    /* Load dest as a 2nd source operand.  */
+-    bool load_dest;
+-} GVecGen2;
+-
+-typedef struct {
+-    /* Expand inline as a 64-bit or 32-bit integer.
+-       Only one of these will be non-NULL.  */
+-    void (*fni8)(TCGv_i64, TCGv_i64, int64_t);
+-    void (*fni4)(TCGv_i32, TCGv_i32, int32_t);
+-    /* Expand inline with a host vector type.  */
+-    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, int64_t);
+-    /* Expand out-of-line helper w/descriptor, data in descriptor.  */
+-    gen_helper_gvec_2 *fno;
+-    /* Expand out-of-line helper w/descriptor, data as argument.  */
+-    gen_helper_gvec_2i *fnoi;
+-    /* The optional opcodes, if any, utilized by .fniv.  */
+-    const TCGOpcode *opt_opc;
+-    /* The vector element size, if applicable.  */
+-    uint8_t vece;
+-    /* Prefer i64 to v64.  */
+-    bool prefer_i64;
+-    /* Load dest as a 3rd source operand.  */
+-    bool load_dest;
+-} GVecGen2i;
+-
+-typedef struct {
+-    /* Expand inline as a 64-bit or 32-bit integer.
+-       Only one of these will be non-NULL.  */
+-    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64);
+-    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32);
+-    /* Expand inline with a host vector type.  */
+-    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec);
+-    /* Expand out-of-line helper w/descriptor.  */
+-    gen_helper_gvec_2i *fno;
+-    /* The optional opcodes, if any, utilized by .fniv.  */
+-    const TCGOpcode *opt_opc;
+-    /* The data argument to the out-of-line helper.  */
+-    uint32_t data;
+-    /* The vector element size, if applicable.  */
+-    uint8_t vece;
+-    /* Prefer i64 to v64.  */
+-    bool prefer_i64;
+-    /* Load scalar as 1st source operand.  */
+-    bool scalar_first;
+-} GVecGen2s;
+-
+-typedef struct {
+-    /* Expand inline as a 64-bit or 32-bit integer.
+-       Only one of these will be non-NULL.  */
+-    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64);
+-    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32);
+-    /* Expand inline with a host vector type.  */
+-    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec);
+-    /* Expand out-of-line helper w/descriptor.  */
+-    gen_helper_gvec_3 *fno;
+-    /* The optional opcodes, if any, utilized by .fniv.  */
+-    const TCGOpcode *opt_opc;
+-    /* The data argument to the out-of-line helper.  */
+-    int32_t data;
+-    /* The vector element size, if applicable.  */
+-    uint8_t vece;
+-    /* Prefer i64 to v64.  */
+-    bool prefer_i64;
+-    /* Load dest as a 3rd source operand.  */
+-    bool load_dest;
+-} GVecGen3;
+-
+-typedef struct {
+-    /*
+-     * Expand inline as a 64-bit or 32-bit integer. Only one of these will be
+-     * non-NULL.
+-     */
+-    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64, int64_t);
+-    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32, int32_t);
+-    /* Expand inline with a host vector type.  */
+-    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec, int64_t);
+-    /* Expand out-of-line helper w/descriptor, data in descriptor.  */
+-    gen_helper_gvec_3 *fno;
+-    /* The optional opcodes, if any, utilized by .fniv.  */
+-    const TCGOpcode *opt_opc;
+-    /* The vector element size, if applicable.  */
+-    uint8_t vece;
+-    /* Prefer i64 to v64.  */
+-    bool prefer_i64;
+-    /* Load dest as a 3rd source operand.  */
+-    bool load_dest;
+-} GVecGen3i;
+-
+-typedef struct {
+-    /* Expand inline as a 64-bit or 32-bit integer.
+-       Only one of these will be non-NULL.  */
+-    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64);
+-    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32);
+-    /* Expand inline with a host vector type.  */
+-    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec, TCGv_vec);
+-    /* Expand out-of-line helper w/descriptor.  */
+-    gen_helper_gvec_4 *fno;
+-    /* The optional opcodes, if any, utilized by .fniv.  */
+-    const TCGOpcode *opt_opc;
+-    /* The data argument to the out-of-line helper.  */
+-    int32_t data;
+-    /* The vector element size, if applicable.  */
+-    uint8_t vece;
+-    /* Prefer i64 to v64.  */
+-    bool prefer_i64;
+-    /* Write aofs as a 2nd dest operand.  */
+-    bool write_aofs;
+-} GVecGen4;
+-
+-typedef struct {
+-    /*
+-     * Expand inline as a 64-bit or 32-bit integer. Only one of these will be
+-     * non-NULL.
+-     */
+-    void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64, int64_t);
+-    void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32, int32_t);
+-    /* Expand inline with a host vector type.  */
+-    void (*fniv)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec, TCGv_vec, int64_t);
+-    /* Expand out-of-line helper w/descriptor, data in descriptor.  */
+-    gen_helper_gvec_4 *fno;
+-    /* The optional opcodes, if any, utilized by .fniv.  */
+-    const TCGOpcode *opt_opc;
+-    /* The vector element size, if applicable.  */
+-    uint8_t vece;
+-    /* Prefer i64 to v64.  */
+-    bool prefer_i64;
+-} GVecGen4i;
+-
+-void tcg_gen_gvec_2(uint32_t dofs, uint32_t aofs,
+-                    uint32_t oprsz, uint32_t maxsz, const GVecGen2 *);
+-void tcg_gen_gvec_2i(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
+-                     uint32_t maxsz, int64_t c, const GVecGen2i *);
+-void tcg_gen_gvec_2s(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
+-                     uint32_t maxsz, TCGv_i64 c, const GVecGen2s *);
+-void tcg_gen_gvec_3(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+-                    uint32_t oprsz, uint32_t maxsz, const GVecGen3 *);
+-void tcg_gen_gvec_3i(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+-                     uint32_t oprsz, uint32_t maxsz, int64_t c,
+-                     const GVecGen3i *);
+-void tcg_gen_gvec_4(uint32_t dofs, uint32_t aofs, uint32_t bofs, uint32_t cofs,
+-                    uint32_t oprsz, uint32_t maxsz, const GVecGen4 *);
+-void tcg_gen_gvec_4i(uint32_t dofs, uint32_t aofs, uint32_t bofs, uint32_t cofs,
+-                     uint32_t oprsz, uint32_t maxsz, int64_t c,
+-                     const GVecGen4i *);
+-
+-/* Expand a specific vector operation.  */
+-
+-void tcg_gen_gvec_mov(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_not(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_neg(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_abs(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_add(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_sub(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_mul(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_addi(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       int64_t c, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_muli(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       int64_t c, uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_adds(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_subs(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_muls(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+-
+-/* Saturated arithmetic.  */
+-void tcg_gen_gvec_ssadd(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_sssub(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_usadd(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_ussub(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-
+-/* Min/max.  */
+-void tcg_gen_gvec_smin(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_umin(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_smax(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_umax(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_and(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_or(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                     uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_xor(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_andc(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_orc(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_nand(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_nor(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_eqv(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_andi(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       int64_t c, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_xori(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       int64_t c, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_ori(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      int64_t c, uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_ands(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_andcs(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_xors(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                      TCGv_i64 c, uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                          uint32_t s, uint32_t m);
+-void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t s,
+-                          uint32_t m, uint64_t imm);
+-void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
+-                          uint32_t m, TCGv_i32);
+-void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
+-                          uint32_t m, TCGv_i64);
+-
+-#if TARGET_LONG_BITS == 64
+-# define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i64
+-#else
+-# define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i32
++#ifndef TARGET_LONG_BITS
++#error must include QEMU headers
+ #endif
  
-+    check_max_alignment(get_alignment_bits(memop));
-     tcg_gen_req_mo(TCG_MO_ST_LD | TCG_MO_ST_ST);
+-void tcg_gen_gvec_shli(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       int64_t shift, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_shri(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       int64_t shift, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_sari(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       int64_t shift, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_rotli(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        int64_t shift, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_rotri(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        int64_t shift, uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_shls(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_shrs(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_sars(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_rotls(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
+-
+-/*
+- * Perform vector shift by vector element, modulo the element size.
+- * E.g.  D[i] = A[i] << (B[i] % (8 << vece)).
+- */
+-void tcg_gen_gvec_shlv(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_shrv(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_sarv(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_rotlv(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-void tcg_gen_gvec_rotrv(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+-
+-void tcg_gen_gvec_cmp(TCGCond cond, unsigned vece, uint32_t dofs,
+-                      uint32_t aofs, uint32_t bofs,
+-                      uint32_t oprsz, uint32_t maxsz);
+-
+-/*
+- * Perform vector bit select: d = (b & a) | (c & ~a).
+- */
+-void tcg_gen_gvec_bitsel(unsigned vece, uint32_t dofs, uint32_t aofs,
+-                         uint32_t bofs, uint32_t cofs,
+-                         uint32_t oprsz, uint32_t maxsz);
+-
+-/*
+- * 64-bit vector operations.  Use these when the register has been allocated
+- * with tcg_global_mem_new_i64, and so we cannot also address it via pointer.
+- * OPRSZ = MAXSZ = 8.
+- */
+-
+-void tcg_gen_vec_neg8_i64(TCGv_i64 d, TCGv_i64 a);
+-void tcg_gen_vec_neg16_i64(TCGv_i64 d, TCGv_i64 a);
+-void tcg_gen_vec_neg32_i64(TCGv_i64 d, TCGv_i64 a);
+-
+-void tcg_gen_vec_add8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+-void tcg_gen_vec_add16_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+-void tcg_gen_vec_add32_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+-
+-void tcg_gen_vec_sub8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+-void tcg_gen_vec_sub16_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+-void tcg_gen_vec_sub32_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+-
+-void tcg_gen_vec_shl8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
+-void tcg_gen_vec_shl16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
+-void tcg_gen_vec_shr8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
+-void tcg_gen_vec_shr16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
+-void tcg_gen_vec_sar8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
+-void tcg_gen_vec_sar16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t);
+-void tcg_gen_vec_rotl8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c);
+-void tcg_gen_vec_rotl16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c);
+-
+-/* 32-bit vector operations. */
+-void tcg_gen_vec_add8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
+-void tcg_gen_vec_add16_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
+-
+-void tcg_gen_vec_sub8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
+-void tcg_gen_vec_sub16_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
+-
+-void tcg_gen_vec_shl8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+-void tcg_gen_vec_shl16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+-void tcg_gen_vec_shr8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+-void tcg_gen_vec_shr16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+-void tcg_gen_vec_sar8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+-void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+-
+ #if TARGET_LONG_BITS == 64
++#define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i64
+ #define tcg_gen_vec_add8_tl  tcg_gen_vec_add8_i64
+ #define tcg_gen_vec_sub8_tl  tcg_gen_vec_sub8_i64
+ #define tcg_gen_vec_add16_tl tcg_gen_vec_add16_i64
+@@ -454,8 +28,8 @@ void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+ #define tcg_gen_vec_shl16i_tl tcg_gen_vec_shl16i_i64
+ #define tcg_gen_vec_shr16i_tl tcg_gen_vec_shr16i_i64
+ #define tcg_gen_vec_sar16i_tl tcg_gen_vec_sar16i_i64
+-
+-#else
++#elif TARGET_LONG_BITS == 32
++#define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i32
+ #define tcg_gen_vec_add8_tl  tcg_gen_vec_add8_i32
+ #define tcg_gen_vec_sub8_tl  tcg_gen_vec_sub8_i32
+ #define tcg_gen_vec_add16_tl tcg_gen_vec_add16_i32
+@@ -468,6 +42,8 @@ void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+ #define tcg_gen_vec_shl16i_tl tcg_gen_vec_shl16i_i32
+ #define tcg_gen_vec_shr16i_tl tcg_gen_vec_shr16i_i32
+ #define tcg_gen_vec_sar16i_tl tcg_gen_vec_sar16i_i32
++#else
++# error
+ #endif
  
-     /* TODO: For now, force 32-bit hosts to use the helper. */
+ #endif
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 7a9599e49e..95a588d6d2 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -21,7 +21,7 @@
+ #include "tcg/tcg.h"
+ #include "tcg/tcg-temp-internal.h"
+ #include "tcg/tcg-op-common.h"
+-#include "tcg/tcg-op-gvec.h"
++#include "tcg/tcg-op-gvec-common.h"
+ #include "tcg/tcg-gvec-desc.h"
+ 
+ #define MAX_UNROLL  4
 -- 
 2.34.1
 
